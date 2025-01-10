@@ -2,89 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E39AA09B97
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 20:09:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A714A09BA9
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 20:16:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2569610F17D;
-	Fri, 10 Jan 2025 19:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C71610E0B8;
+	Fri, 10 Jan 2025 19:15:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ehR+YC5v";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HgGQTahj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E2F010F17D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 19:09:30 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- 5b1f17b1804b1-436a39e4891so17915695e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 11:09:30 -0800 (PST)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2240E10E0B8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 19:15:57 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-385ddcfc97bso2083327f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 11:15:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1736536169; x=1737140969; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1736536495; x=1737141295; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=eyJ5eiXroJK4j6h3F0s2W75qJ+U9VZ21kGelR0QUn3o=;
- b=ehR+YC5vf6tMx/TwDi6BfaHDhTjFioNvB0ZvnV+rLAbQL874PjQTA3PaCd8jAx6T+i
- vYX5jhKQys7AdpEqzCETWBJrr3KZ3xKAkJ0n69QOpNNFClEzUaGz4SgB/weoBG4VA0AQ
- 6jn9Kk/RWkqZb2wHammuglWOBxVoOjVh2ZkgM=
+ bh=V3N1ZpPns7Fa3RgTx3yqPY+qQKBkZdqHUlqSJD/Jo2c=;
+ b=HgGQTahjetO4c6d0MwdXqkWtO2LYTJLlDEVPAPrYAbCI3+F8sdvzrM/LUqGWBvrW+k
+ yzRYQDctNJBHFe0mn0WqA6Icith9fZicFAhyrk8vCNhnjiM8u+PJI54nazn/V293T9Go
+ 5zXwvduSAAd99r8O70DzEgJz4MI/pnLY19sn4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736536169; x=1737140969;
+ d=1e100.net; s=20230601; t=1736536495; x=1737141295;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=eyJ5eiXroJK4j6h3F0s2W75qJ+U9VZ21kGelR0QUn3o=;
- b=U8cmr3SF/9LWck36zd3JaMrXclbj2EIRmHqJRL0nQNZY6/R0tJNKuNJq8wpaO7Vw5i
- mxoIbCK07kLFxrT5q2WXlFC9TGrrdioyazDnMuWoYBSAeqSobCt7EMDJdZVq52A+cDZn
- pVM9rWGrqm8IErfswz+8/5j/pU+TvGJROO2xQHVyYIOstbBxauFVEWg+QCFOh96k53wv
- Sv5NwldxQhtBUeu+qeLmcz/XrXH6Y+hblhZGaqPLvbmKg8XLka8gTl/5v2r/PWhwmw2S
- TlDrfD2bY8Afr5HWXXgDoDP32i2fX2av/1IMFTdRbDWg5oddgdnDdo6dgXaJhqXdCXg2
- eiSA==
+ bh=V3N1ZpPns7Fa3RgTx3yqPY+qQKBkZdqHUlqSJD/Jo2c=;
+ b=HByVuno2SfQRbYDTtk16zx0TGd0W3cs+37eL0fYXzDU/HOR9c13jm77DO/0RpPfIQ6
+ cr9yyy5UQ/3Dw3O6xJRPZzgSMQbqs4mvTWrDSiFTr9YCOG3ByUS4Y942vKn0QQAS+74q
+ rAWjuE2AQUUvR3d7GVanckg5fVwuYmHKTCyeyUsW127IXPYtvLXVLHpWKFqUD5XUyYCl
+ G16nM3+aCesl4o0+ay9U4QEElj56EX/PGGbEBx9oZX+ZZW3uc+3TPh3W0bzB4fgkfbgT
+ VNXfOcIke5rLR1w7hsKZByDLuneTsETFkyaH0y/3no7beecKKamDKqJNdSrjVx9b28NW
+ qPFQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWAbADoIf5m1V3NFndjID6TtxOzsiNBxyINkkXlK5udJkOvrIVt0jaqMSnftsqK9K61bjMXDYx4o08=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVTB/FoLa598HFDmUObRMZBZ2YLaQvFLwfwxT8YaHRjCKp/zoP
- NeUyEOJpwdAWs2SYKJUQJQ4o5lMeNk7lpiOrAmH6eyQ0octxg/xEM1AEJPDkRoA=
-X-Gm-Gg: ASbGncuezDDhODJEXKkcq5UwN+MbAT8DFcqLyvL4tOD5xlEWCu3la+2CgNAvtbftRS0
- aFS9gLF6Yh6JtjZlhXVB3nsT7wH/AekwviDb0B5Ku3u9+/jxQb0KIFKq3E+Hg+CeM7+l81kiNGM
- Piv7TRIpKip2rOkzqizaWQiBmfi4mo6MRIgSdO81Rp08wce77SnhH5UJMzRiga6FkQHyEeAi86d
- E+NIL6QCkCu9t60suXVGt7opbigsIHi02GuMbFXJIe1eUGsfILX3OI9c0N1W8MUNbq4
-X-Google-Smtp-Source: AGHT+IESstA3yi/1o1L1e+4jR93NIDVw3DtsLUVc6spJm46bIzp4VP+3eNV/05SPBmNsCf7HOT1r3g==
-X-Received: by 2002:a05:600c:1da0:b0:434:a923:9310 with SMTP id
- 5b1f17b1804b1-436e26a1b4amr119174085e9.15.1736536168767; 
- Fri, 10 Jan 2025 11:09:28 -0800 (PST)
+ AJvYcCUdGp5ddnDzOpo156pZ24TILDpv6841XvHOGEtZh69AuOkaNP7XOW5AtCMRUpBpFRw/4uHhtyYaBpc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzzkg6rCk02168G9vaaugFXKym7JUwQ4cBiAGTGo2qJFsMzm50l
+ QJB2OTwujwv8wZJQWoBVdIFFBV95Fna5DzPKYdL4uRdDAgQJrLxmKMFTk7yrD5w=
+X-Gm-Gg: ASbGncvuZTAguijTxP/gM0nzATFrsJ2pswaonwpBHQh8sw60fjzPe8+iTKcvM7D0gJH
+ MJnlhYOtUkdrbDcpQtPMAkr7bv+jM1pRYMNRASka+Ihct2bHiCELxIcvgzS/Nek96qxI+wn6X/X
+ K+nE2Dmu2e2U56aV06sWPnM8agcOQ2I0dRWVC1H5WpdS1zoRWkiiQD7XoXCbuf02mQuiTPc8M5z
+ 5MUlQf83hq2ILTZkATRB0FRmtvB/lQhjUTKdUAKKNQrsYopUxWgVXhTwWd+G7YRqiYz
+X-Google-Smtp-Source: AGHT+IGpAQzwoCEWiyaBm2Fgw1qyx4SVekZ56ijnemjvDpcbQLvVGNzltGT+tZigi3rj/YN39Zblmg==
+X-Received: by 2002:a05:6000:1acb:b0:385:edd1:2249 with SMTP id
+ ffacd0b85a97d-38a87316a81mr10630205f8f.50.1736536495151; 
+ Fri, 10 Jan 2025 11:14:55 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2ddcb5bsm96729625e9.23.2025.01.10.11.09.27
+ ffacd0b85a97d-38a8e4b80b2sm5188388f8f.80.2025.01.10.11.14.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2025 11:09:27 -0800 (PST)
-Date: Fri, 10 Jan 2025 20:09:26 +0100
+ Fri, 10 Jan 2025 11:14:54 -0800 (PST)
+Date: Fri, 10 Jan 2025 20:14:52 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Daniel Stone <daniel@fooishbar.org>
-Cc: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
  DRI Development <dri-devel@lists.freedesktop.org>,
  Pekka Paalanen <pekka.paalanen@collabora.com>,
- Manasi Navare <navaremanasi@google.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Clark <robdclark@gmail.com>, Simon Ser <contact@emersion.fr>,
+ Manasi Navare <navaremanasi@google.com>,
+ Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Simona Vetter <simona.vetter@intel.com>
 Subject: Re: [PATCH] drm/atomic: clarify the rules around
  drm_atomic_state->allow_modeset
-Message-ID: <Z4FwZvkZxK8U3i61@phenom.ffwll.local>
-References: <20231010170746.617366-1-daniel.vetter@ffwll.ch>
- <20231011092051.640422-1-daniel.vetter@ffwll.ch>
- <edea5e48-2723-49ea-ad03-8cd3d9aa53b3@suse.de>
- <Z360aeAkou2OXMCg@phenom.ffwll.local>
- <f82df11f-97c4-4b6c-a139-90e20e0f2eb0@mailbox.org>
- <CAPj87rPQZk3uDu_Grmzyy_eK1ksoQSbtZorHM0unZE6vU0BVBw@mail.gmail.com>
+Message-ID: <Z4FxrNT2Ty1JRF9U@phenom.ffwll.local>
+References: <20250108172417.160831-1-simona.vetter@ffwll.ch>
+ <zvcs4tcizuel4ggpwd6coxesx7pcivtuoskwaa3cuvxmtmqigv@f4pj5y5ojt4m>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPj87rPQZk3uDu_Grmzyy_eK1ksoQSbtZorHM0unZE6vU0BVBw@mail.gmail.com>
+In-Reply-To: <zvcs4tcizuel4ggpwd6coxesx7pcivtuoskwaa3cuvxmtmqigv@f4pj5y5ojt4m>
 X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -101,29 +98,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2025 at 03:45:53PM +0000, Daniel Stone wrote:
-> Hi,
+On Wed, Jan 08, 2025 at 08:34:28PM +0200, Dmitry Baryshkov wrote:
+> On Wed, Jan 08, 2025 at 06:24:16PM +0100, Simona Vetter wrote:
+> > msm is automagically upgrading normal commits to full modesets, and
+> > that's a big no-no:
+> > 
+> > - for one this results in full on->off->on transitions on all these
+> >   crtc, at least if you're using the usual helpers. Which seems to be
+> >   the case, and is breaking uapi
+> > 
+> > - further even if the ctm change itself would not result in flicker,
+> >   this can hide modesets for other reasons. Which again breaks the
+> >   uapi
+> > 
+> > v2: I forgot the case of adding unrelated crtc state. Add that case
+> > and link to the existing kerneldoc explainers. This has come up in an
+> > irc discussion with Manasi and Ville about intel's bigjoiner mode.
+> > Also cc everyone involved in the msm irc discussion, more people
+> > joined after I sent out v1.
+> > 
+> > v3: Wording polish from Pekka and Thomas
+> > 
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: Manasi Navare <navaremanasi@google.com>
+> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Signed-off-by: Simona Vetter <simona.vetter@intel.com>
+> > Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > ---
+> >  include/drm/drm_atomic.h | 23 +++++++++++++++++++++--
+> >  1 file changed, 21 insertions(+), 2 deletions(-)
+> > 
 > 
-> On Thu, 9 Jan 2025 at 15:30, Michel Dänzer <michel.daenzer@mailbox.org> wrote:
-> > On 2025-01-08 18:22, Simona Vetter wrote:
-> > > Maybe I'm wrong, but my understanding is that English generally doesn't do
-> > > compound words connected with dashes, you just line them up with spaces.
-> >
-> > I hope you don't mind me jumping in, three native German speakers
-> > discussing English grammar is merrier than just two. :)
-> >
-> > FWIW, LWN writes compound words with spaces when used as nouns ("code
-> > in user space"), with dashes when used as adjectives ("user-space
-> > code"). I don't know if this is an official / general rule, I'm using
-> > it as a guideline though.
-> 
-> To the extent that Australian counts as native English: yes, that's
-> exactly the rule.
+> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-TIL, thanks a lot.
-
-Pretty sure we never got around to this rule, and I had close to a decade
-of English lessons. The one about commas I do remember from school though.
+Applied to drm-misc-next, thanks for pinging me about this one.
 -Sima
 -- 
 Simona Vetter
