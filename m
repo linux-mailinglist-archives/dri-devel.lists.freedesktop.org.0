@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4480EA08640
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 05:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D775A0869E
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 06:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE1D10EF88;
-	Fri, 10 Jan 2025 04:41:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F4A10EFAC;
+	Fri, 10 Jan 2025 05:40:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="irI1pxD8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uf3xfszF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 268FF10E4D7
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 04:41:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736484096; x=1768020096;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=DGxK73eBcrHkAal0dgjD2vhuA/aOg+rpM5xwCq1ezTA=;
- b=irI1pxD8WKQCdkwR9S19/plGe3fK5yS1XYrTjQ5r5HWzWWQKDX6odNXQ
- 0W/NH8y7LEHm10PEfuDlxSlGiSThVTTcafEyNoyGtu2kwLhGOFsQpHH8c
- LQmCXkVakx0ByikMKGnsjPuI5sLWWhIhm49n7SvPAVoet5+ILAxtxrSrd
- rYedWoMGJGFHz0GB2/QPRas/0vArvdAWsck1HRP2S05RSIHAhAJ+gnjUZ
- A8YprDkz4NkwiSdR8TAnQhsX0H5gpS5n8kuNbcrJTGnPo66hnCqXSPAyq
- CZ6Ug3osuLL+X1hXRZyI96LQueLgiiOFYpiHynZ+XyisHYnhfrHIoWqkz Q==;
-X-CSE-ConnectionGUID: OdRsI8moReaVdZNZRnTIYA==
-X-CSE-MsgGUID: 25qwgg9BSdulqSXfLHz8gA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36877906"
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; d="scan'208";a="36877906"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 20:41:36 -0800
-X-CSE-ConnectionGUID: K//gjLLKTECj0XWVemmntw==
-X-CSE-MsgGUID: n72tzvFxTvOIbtm23glOzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; d="scan'208";a="108539760"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by fmviesa004.fm.intel.com with ESMTP; 09 Jan 2025 20:41:30 -0800
-Date: Fri, 10 Jan 2025 00:40:28 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <20250107142719.179636-9-yilun.xu@linux.intel.com>
- <20250108133026.GQ5556@nvidia.com>
- <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
- <20250109144051.GX5556@nvidia.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BDE710EF9F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 05:39:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6903DA40482;
+ Fri, 10 Jan 2025 05:38:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 895C1C4CED6;
+ Fri, 10 Jan 2025 05:39:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736487595;
+ bh=VKVoKeBszJaQBYp+1nP1v5nM4InY/X3cRLrD0IhuQow=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=uf3xfszFagXNyWvFS501Rb8G4Fx4zi7/UQcb/+rZOHyCdEV0Bmt/UMMLf2qM1V5YA
+ SqQYB6fROb56BQxC2Enn15QzQ2R3TwfLdu5lsqcAY5YU57x+sIdF+0ZWmd6IebmoCQ
+ G8L6jAWx2Fil1+qRZKd7a/3yJVqCNvJ/0eqfpYFUr7Mku5K5Gx0rR8XB+CWjrUrkvP
+ mJrfH9DnI+6EKruSrxWvqi0D+rkX9+Efypjl1f0bk6RTJuDMq7maKem2TZJsG+axZU
+ iDu0QU6XGhfcGVIyifvEblSCpnhky9y1DjiOAPgegfpKOr+E1NdhkXO2MaTQw3lO6I
+ TI48F+5uyp1eg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 750AEE77188;
+ Fri, 10 Jan 2025 05:39:55 +0000 (UTC)
+From: Ao Xu via B4 Relay <devnull+ao.xu.amlogic.com@kernel.org>
+Subject: [PATCH 00/11] Subject: [PATCH 00/11] Add DRM support for Amlogic
+ S4
+Date: Fri, 10 Jan 2025 13:39:50 +0800
+Message-Id: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250109144051.GX5556@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKaygGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDQ0MD3ZSiXN1iE91kS7NkC4ukVFOjVBMloOKCotS0zAqwQdGxtbUAfIW
+ dnlgAAAA=
+X-Change-ID: 20250110-drm-s4-c96c88be52e4
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Ao Xu <ao.xu@amlogic.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736487593; l=2879;
+ i=ao.xu@amlogic.com; s=20250103; h=from:subject:message-id;
+ bh=VKVoKeBszJaQBYp+1nP1v5nM4InY/X3cRLrD0IhuQow=;
+ b=F3Mz88aVHJb35MqlLV7mcSGlYoAXJTxGxcX3PBI2E5jRY346NpbBCGN3qyXahNHofIwyZU18U
+ dAo+IgFzxxrA0N4OsXeTdBgstJaxB7XTuHVW16NAqF25UNM4ttlpbOs
+X-Developer-Key: i=ao.xu@amlogic.com; a=ed25519;
+ pk=c0TSXrwQuL4EhPVf3lJ676U27ax2yfFTqmRoseP/fA8=
+X-Endpoint-Received: by B4 Relay for ao.xu@amlogic.com/20250103 with
+ auth_id=308
+X-Original-From: Ao Xu <ao.xu@amlogic.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,87 +81,62 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: ao.xu@amlogic.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2025 at 10:40:51AM -0400, Jason Gunthorpe wrote:
-> On Thu, Jan 09, 2025 at 12:57:58AM +0800, Xu Yilun wrote:
-> > On Wed, Jan 08, 2025 at 09:30:26AM -0400, Jason Gunthorpe wrote:
-> > > On Tue, Jan 07, 2025 at 10:27:15PM +0800, Xu Yilun wrote:
-> > > > Add a flag for ioctl(VFIO_DEVICE_BIND_IOMMUFD) to mark a device as
-> > > > for private assignment. For these private assigned devices, disallow
-> > > > host accessing their MMIO resources.
-> > > 
-> > > Why? Shouldn't the VMM simply not call mmap? Why does the kernel have
-> > > to enforce this?
-> > 
-> > MM.. maybe I should not say 'host', instead 'userspace'.
-> > 
-> > I think the kernel part VMM (KVM) has the responsibility to enforce the
-> > correct behavior of the userspace part VMM (QEMU). QEMU has no way to
-> > touch private memory/MMIO intentionally or accidently. IIUC that's one
-> > of the initiative guest_memfd is introduced for private memory. Private
-> > MMIO follows.
-> 
-> Okay, but then why is it a flag like that? I'm expecting a much
+This patch series adds DRM support for the Amlogic S4-series SoCs.
+Compared to the Amlogic G12-series, the S4-series introduces the following changes:
 
-This flag is a prerequisite for setting up TDI, or part of the
-requirement to make a "TDI capable" assigned device. It prevents the
-userspace mapping at the first place, even as a shared device.
+1 The S4-series splits the HIU into three separate components: `sys_ctrl`, `pwr_ctrl`, and `clk_ctrl`.
+  As a result, VENC and VCLK drivers are updated with S4-specific compatible strings to accommodate these changes.
+2 The S4-series secures access to HDMITX DWC and TOP registers,
+  requiring modifications to the driver to handle this new access method.
+3 The register addresses for the video1 and video2 planes have been updated in the S4 hardware,
+  and the DRM driver has been adapted accordingly.
+4 The OSD, VIU, and VPP components remain unchanged and are consistent with the G12-series.
 
-We want the device firstly appear as a shared device in CoCo-VM, then
-do TDI setup (via a tsm verb "bind"). This late bind approach avoids
-changing the CoCo VM startup routine. In contrast, early bind would
-easily be broken, especially if bios is not aware of the TDI rule.
+Signed-off-by: Ao Xu <ao.xu@amlogic.com>
+---
+Ao Xu (11):
+      dt-bindings: display: meson-dw-hdmi: Add compatible for S4 HDMI controller
+      dt-bindings: display: meson-vpu: Add compatible for S4 display controller
+      drm: meson: add S4 compatible for DRM driver
+      drm: meson: add primary and overlay plane support for S4
+      drm: meson: update VIU and VPP support for S4
+      drm: meson: add meson_dw_hdmi support for S4
+      drm: meson: change api call parameter
+      drm: meson: add hdmitx vmode timing support for S4
+      drm: meson: add vpu clk setting for S4
+      drm: meson: add CVBS support for S4
+      arm64: dts: amlogic: s4: add DRM support [1/1]
 
-So then we face with the shared <-> private device conversion in CoCo VM,
-and in turn shared <-> private MMIO conversion. MMIO region has only one
-physical backend so it is a bit like in-place conversion which is
-complicated. I wanna simply the MMIO conversion routine based on the fact
-that VMM never needs to access assigned MMIO for feature emulation, so
-always disallow userspace MMIO mapping during the whole lifecycle. That's
-why the flag is introduced.
+ .../bindings/display/amlogic,meson-dw-hdmi.yaml    |    1 +
+ .../bindings/display/amlogic,meson-vpu.yaml        |   48 +-
+ .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     |   39 +
+ arch/arm64/boot/dts/amlogic/meson-s4.dtsi          |  121 +++
+ drivers/gpu/drm/meson/meson_crtc.c                 |   90 +-
+ drivers/gpu/drm/meson/meson_drv.c                  |  127 ++-
+ drivers/gpu/drm/meson/meson_drv.h                  |    6 +
+ drivers/gpu/drm/meson/meson_dw_hdmi.c              |  244 ++++-
+ drivers/gpu/drm/meson/meson_dw_hdmi.h              |  126 +++
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |   10 +
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |   19 +-
+ drivers/gpu/drm/meson/meson_overlay.c              |    7 +-
+ drivers/gpu/drm/meson/meson_plane.c                |   24 +-
+ drivers/gpu/drm/meson/meson_registers.h            |   17 +
+ drivers/gpu/drm/meson/meson_vclk.c                 | 1018 ++++++++++++++------
+ drivers/gpu/drm/meson/meson_venc.c                 |  346 ++++++-
+ drivers/gpu/drm/meson/meson_venc.h                 |    4 +-
+ drivers/gpu/drm/meson/meson_viu.c                  |    9 +-
+ drivers/gpu/drm/meson/meson_vpp.c                  |   12 +-
+ 19 files changed, 1865 insertions(+), 403 deletions(-)
+---
+base-commit: 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+change-id: 20250110-drm-s4-c96c88be52e4
 
-Patch 6 has similar discription.
+Best regards,
+-- 
+Ao Xu <ao.xu@amlogic.com>
 
-> broader system here to make the VFIO device into a confidential device
-> (like setup the TDI) where we'd have to enforce the private things,
 
-I plan to introduce a new VFIO ioctl to setup the TDI.
-
-> communicate with some secure world to assign it, and so on.
-
-Yes, the new VFIO ioctl will communicate with PCI TSM.
-
-> 
-> I want to see a fuller solution to the CC problem in VFIO before we
-
-MM.. I have something but need more preparation. Whether send out or
-make a public repo, I'll discuss with internal.
-
-> can be sure what is the correct UAPI. In other words, make the
-> VFIO device into a CC device should also prevent mmaping it and so on.
-
-My idea is prevent mmaping first, then allow VFIO device into CC dev (TDI).
-
-> 
-> So, I would take this out and defer VFIO enforcment to a series which
-> does fuller CC enablement of VFIO.
-> 
-> The precursor work should just be avoiding requiring a VMA when
-> installing VFIO MMIO into the KVM and IOMMU stage 2 mappings. Ie by
-> using a FD to get the CPU pfns into iommufd and kvm as you are
-> showing.
-> 
-> This works just fine for non-CC devices anyhow and is the necessary
-
-Yes. It carries out the idea of "KVM maps MMIO resources without firstly
-mapping into the host" even for normal VM. That's why I think it could
-be an independent patchset.
-
-Thanks,
-Yilun
-
-> building block for making a TDI interface in VFIO.
-> 
-> Jason
