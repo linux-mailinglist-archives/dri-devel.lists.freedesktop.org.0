@@ -2,79 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5885A094B0
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 16:10:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C7EA095D9
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 16:37:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2A5D10E079;
-	Fri, 10 Jan 2025 15:10:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD03C10F109;
+	Fri, 10 Jan 2025 15:37:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iSNF4kms";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IO/BUphE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B50A10E079
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 15:10:13 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- 98e67ed59e1d1-2efdaa02378so434278a91.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 07:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736521813; x=1737126613; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wYu/QsXJ3Aj0d/CqiNpY2ZrC9vW9CYVwtqN9pet4dDM=;
- b=iSNF4kms86x9yvFA6P2fGV69CwSSHCZho9b5CZro/glT+Fj20tV34qjPBNytpemZCq
- Cu5vRN7pg4RCicyzMIRginTRlQ4NlmZd1dkcxHmsIJh06lcDbwIQ23CucKa++mYN88QA
- yJD/605ThDSKJ4Nda/v4x/j0zO8OhOUfM98LA11dO2A7n9AEF4beBAJc6Y5dQCHRNb2+
- JUvqYx27N/kzJips++sN+jGjfgtScDhWM7byMvflDglMhokedWiNBwQvlPbHnRSdiGp1
- vsJhzJMNBEWD7Axwe8uQhtjiEUOYfwyKc4eAY2uuHJkx7uLxkBdtxeKFaTEK365Vb0Kb
- JAdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736521813; x=1737126613;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wYu/QsXJ3Aj0d/CqiNpY2ZrC9vW9CYVwtqN9pet4dDM=;
- b=kJubIRv/du+czUz9QR2Naq+12Pq5KdSvdQTH5oAr99XVY8+ic0xhqy5CpzsIRwPVRA
- Bs5Z/K9e5hzCdqdq0o8m6suLqrsi4D7uQBtS8cS5v9lL/fIONNFRGR/hcxaYGyvTz5zz
- PZn02vX2m2fkwYJFr9cN0wb7isfyZdBhvfigI+EHb0FaWrKi/DumTo8srIBtS7SEHiYX
- b2R9DXEjDWuimo7cBxw8nskifX4K/1s7WNtkwvLYFrZ0T7td45ZgyDq1dtlYLBCOC5+f
- y72TDla/Nrh34DFGxGLNn4KkEi7T+lXqo9Mq/PhqNIMr+K8CxdaZP+bYg0L/rHbfM6EJ
- 10jw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW0gpwkDX9UjUVrqtpKtJvFlRDPZjY/QeZlCgXsFoXagiFoGDpeW/gr1SHE0C7QGZrYp1A4r4HyYCY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUqWjGe6+OD8sVQ2h741oHp9zhjzPH1MP8fcY2THzcdUIqR8kv
- N+m8GOyi15TMeAjNiEEItkCw5n1sL2ydthxcqsYQRS5fSeDmDxXwameCONXBWGDU5xs/ajiq8zp
- GnjcRzpR2iSJBYP37I0lhEL9ihP7M1g==
-X-Gm-Gg: ASbGncuDnk2PxCBKJ13M9QJ7QTU1usS6e7aXNGlHEUlyJGLG7AtdniTY7luZ7T2wUlg
- GwmYj2oefH5ZZkE76ozGtgitYDSq0rmS+yhsduA==
-X-Google-Smtp-Source: AGHT+IHewMCG/2aznsolgRCjgYdyYEB7qAFMqYaJPNge29MR1SKe0VHTMFjdHk0nnNg1CPERb/t8YTHozQcqg/0fbik=
-X-Received: by 2002:a17:90b:2811:b0:2ee:cbc9:d50b with SMTP id
- 98e67ed59e1d1-2f5490ac695mr6263166a91.4.1736521813015; Fri, 10 Jan 2025
- 07:10:13 -0800 (PST)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8717310F109
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 15:37:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1ABDAA42526;
+ Fri, 10 Jan 2025 15:35:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12DD9C4CED6;
+ Fri, 10 Jan 2025 15:37:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736523435;
+ bh=t/DCLtxTAMc6j2jDTGiXPzE5QLvYDxwka7Xtc0lpisQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IO/BUphEXrds0kt8ktdN0EDh4YXbN7rr/hC1yO0J37SC1Gf5SF1IInMlU2ChMaG9n
+ jyi516GoF+AEOuts7KPRJgOJ3Vt01PRePBb8m7AByK7bvvSLzbNKRvpDBhlkjBSRm6
+ a2bnT4yA9HcMpovdLCe06Gw/aabyimLWOWzKjwMW+hJLZ+O0fz+PMLcpwpSY9X/dJC
+ i8ap8sl4v64+KuA4NfQ+aJs20O2vDqHf0OCOsiTQz/XJvPM4fijMfHtSkr2EU9B/nl
+ 5LpRTtflSz9orIksuejhxc0WaQsM7L4I9eP9bmEg6Wx8tDFw3ClpH8Mh8RD0Uxa2fA
+ 6myCtPjBgNLxQ==
+Date: Fri, 10 Jan 2025 09:37:14 -0600
+From: Rob Herring <robh@kernel.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, derek.foreman@collabora.com,
+ detlev.casanova@collabora.com, daniel@fooishbar.org,
+ sebastian.reichel@collabora.com, Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v10 10/11] dt-bindings: display: vop2: Add rk3576 support
+Message-ID: <20250110153714.GA2912633-robh@kernel.org>
+References: <20250110100832.27551-1-andyshrk@163.com>
+ <20250110100832.27551-11-andyshrk@163.com>
 MIME-Version: 1.0
-References: <20250107140240.325899-1-philipp.reisner@linbit.com>
- <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
- <CADnq5_PAG662SODmS8cSg7jcyh8ZQRgcWMtgjx5RZbuUE7j3Og@mail.gmail.com>
- <6a17b4f1-5b5b-4226-b3c3-4dfa3f3c3811@amd.com>
- <CADGDV=Vfnqmdn9Hdo9e3Av66NeZD1j1iijsEnP8Dqwakey5epA@mail.gmail.com>
- <3c47ea32-eeb3-47f1-a626-5868457469ab@amd.com>
- <CADGDV=UCd3d93NtppetkrgG+pE-0EoxxXQMwjgiZPbvRBStKiw@mail.gmail.com>
- <3c6e53ae-6998-47f8-ae37-9e68553ad918@amd.com>
-In-Reply-To: <3c6e53ae-6998-47f8-ae37-9e68553ad918@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Fri, 10 Jan 2025 10:10:01 -0500
-X-Gm-Features: AbW1kvYJj8V2XNY_N0Qs2tIUtngVK4pSkcRxGkSIzkqJpoDDHYY1ak20O_RCXBU
-Message-ID: <CADnq5_Md7XWOHSru-0gR8xys3nwG4whSng-LcxafG3SiC8G0qw@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Philipp Reisner <philipp.reisner@linbit.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250110100832.27551-11-andyshrk@163.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,71 +63,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 9:48=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 10.01.25 um 15:32 schrieb Philipp Reisner:
-> > [...]
-> >> Take a look at those messages right before the crash:
-> >>
-> >> J=C3=A4n 10 07:58:14 ryzen9 kernel: [drm] scheduler comp_1.2.1 is not =
-ready,
-> >> skipping
-> >> J=C3=A4n 10 07:58:14 ryzen9 kernel: [drm] scheduler comp_1.3.1 is not =
-ready,
-> >> skipping
-> >>
-> >> That is basically a 100% certain confirm that an application tries to
-> >> use the device before before those compute queues are resumed.
-> >>
-> >> Can I have a full dmesg? Maybe the resume is canceled or aborted for
-> >> some reason.
-> >>
-> > Yes, of course. I have made the files available here:
-> > https://drive.google.com/drive/folders/1W3M3bFEl0ZVv2rnqvmbveDFZBhc84BN=
-a
->
-> Ah! That suddenly makes much more sense.
->
-> Here is the root cause:
->
-> [111313.897796] amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_helper
-> [amdgpu]] *ERROR* ring comp_1.1.0 test failed (-110)
-> [111314.135761] amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_helper
-> [amdgpu]] *ERROR* ring comp_1.2.0 test failed (-110)
-> [111314.373786] amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_helper
-> [amdgpu]] *ERROR* ring comp_1.0.1 test failed (-110)
-> [111314.611722] amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_helper
-> [amdgpu]] *ERROR* ring comp_1.1.1 test failed (-110)
-> [111314.849647] amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_helper
-> [amdgpu]] *ERROR* ring comp_1.2.1 test failed (-110)
-> [111315.087658] amdgpu 0000:29:00.0: [drm:amdgpu_ring_test_helper
-> [amdgpu]] *ERROR* ring comp_1.3.1 test failed (-110)
-> [111315.207293] [drm] UVD and UVD ENC initialized successfully.
-> [111315.308270] [drm] VCE initialized successfully.
-> [111315.447494] PM: resume devices took 2.306 seconds
-> [111315.447865] OOM killer enabled.
->
-> I'm surprised that this works at all. For some reason the graphics queue
-> works, but the compute queues fail to resume.
->
-> @Alex what do we do about that? We could return an error when not all
-> rings come up again after resume, but that will probably result in a
-> number of complains.
+On Fri, Jan 10, 2025 at 06:08:25PM +0800, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> Add vop found on rk3576, the main difference between rk3576 and the
+> previous vop is that each VP has its own interrupt line.
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> 
+> ---
+> 
+> Changes in v10:
+> - Move interrupt-names back to top level
+> - Add constraint of interrupts for all platform
+> - Add constraint for all grf phandles
+> - Reorder some properties
+> 
+> Changes in v9:
+> - Drop 'vop-' prefix of interrupt-names.
+> - Add blank line between DT properties
+> - Remove list interrupt-names in top level
+> 
+> Changes in v8:
+> - Fix dt_binding_check errors
+> - ordered by soc name
+> - Link to the previous version:
+>   https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+> 
+> Changes in v4:
+> - describe constraint SOC by SOC, as interrupts of rk3576 is very
+>   different from others
+> - Drop Krzysztof's Reviewed-by, as this version changed a lot.
+> 
+> Changes in v3:
+> - ordered by soc name
+> - Add description for newly added interrupt
+> 
+> Changes in v2:
+> - Add dt bindings
+> 
+>  .../display/rockchip/rockchip-vop2.yaml       | 101 +++++++++++++++---
+>  1 file changed, 87 insertions(+), 14 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> index 2531726af306..3bae71142018 100644
+> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
+> @@ -14,12 +14,14 @@ description:
+>  maintainers:
+>    - Sandy Huang <hjc@rock-chips.com>
+>    - Heiko Stuebner <heiko@sntech.de>
+> +  - Andy Yan <andyshrk@163.com>
+>  
+>  properties:
+>    compatible:
+>      enum:
+>        - rockchip,rk3566-vop
+>        - rockchip,rk3568-vop
+> +      - rockchip,rk3576-vop
+>        - rockchip,rk3588-vop
+>  
+>    reg:
+> @@ -37,10 +39,21 @@ properties:
+>        - const: gamma-lut
+>  
+>    interrupts:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 4
+>      description:
+> -      The VOP interrupt is shared by several interrupt sources, such as
+> -      frame start (VSYNC), line flag and other status interrupts.
+> +      For VOP version under rk3576, the interrupt is shared by several interrupt
+> +      sources, such as frame start (VSYNC), line flag and other interrupt status.
+> +      For VOP version from rk3576 there is a system interrupt for bus error, and
+> +      every video port has it's independent interrupts for vsync and other video
+> +      port related error interrupts.
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: sys
+> +      - const: vp0
+> +      - const: vp1
+> +      - const: vp2
+>  
+>    # See compatible-specific constraints below.
+>    clocks:
+> @@ -120,43 +133,102 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: rockchip,rk3588-vop
+> +            enum:
+> +              - rockchip,rk3566-vop
+> +              - rockchip,rk3568-vop
+>      then:
+>        properties:
+>          clocks:
+> -          minItems: 7
+> +          minItems: 5
+> +
+>          clock-names:
+> -          minItems: 7
+> +          minItems: 5
+> +
+> +        interrupts:
+> +          minItems: 1
+> +          maxItems: 1
+> +
+> +        interrupt-names: false
+>  
+>          ports:
+>            required:
+>              - port@0
+>              - port@1
+>              - port@2
+> -            - port@3
+> +
+> +        rockchip,vo1-grf: false
+> +        rockchip,vop-grf: false
+> +        rockchip,pmu: false
+>  
+>        required:
+>          - rockchip,grf
+> -        - rockchip,vo1-grf
+> -        - rockchip,vop-grf
+> -        - rockchip,pmu
+>  
+> -    else:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - rockchip,rk3576-vop
+> +    then:
+>        properties:
+> +        clocks:
+> +          minItems: 5
+> +
+> +        clock-names:
+> +          minItems: 5
+> +
+> +        interrupts:
+> +          minItems: 4
+> +          maxItems: 4
 
-Maybe return an error if all of the rings of a particular type fail,
-but if only some do, we should be able to deal with that.  We
-currently set up 8 compute rings.  We probably don't need that many.
-Maybe just two (high and low priority).
+max is already 4, so drop.
 
-Alex
+> +
+> +        interrupt-names:
+> +          minItems: 4
+> +          maxItems: 4
 
->
-> Regards,
-> Christian.
->
->
-> >
-> > best regards,
-> >   Philipp
->
+same here.
+
+> +
+> +        ports:
+> +          required:
+> +            - port@0
+> +            - port@1
+> +            - port@2
+> +
+>          rockchip,vo1-grf: false
+>          rockchip,vop-grf: false
+> -        rockchip,pmu: false
+>  
+> +      required:
+> +        - rockchip,grf
+> +        - rockchip,pmu
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: rockchip,rk3588-vop
+> +    then:
+> +      properties:
+>          clocks:
+> -          maxItems: 5
+> +          minItems: 7
+> +
+>          clock-names:
+> -          maxItems: 5
+> +          minItems: 7
+> +
+> +        interrupts:
+> +          minItems: 1
+
+min is already 1, so drop.
+
+> +          maxItems: 1
+> +
+> +        interrupt-names: false
+>  
+>          ports:
+>            required:
+>              - port@0
+>              - port@1
+>              - port@2
+> +            - port@3
+> +
+> +      required:
+> +        - rockchip,grf
+> +        - rockchip,vo1-grf
+> +        - rockchip,vop-grf
+> +        - rockchip,pmu
+>  
+>  additionalProperties: false
+>  
+> @@ -184,6 +256,7 @@ examples:
+>                                "dclk_vp1",
+>                                "dclk_vp2";
+>                  power-domains = <&power RK3568_PD_VO>;
+> +                rockchip,grf = <&grf>;
+>                  iommus = <&vop_mmu>;
+>                  vop_out: ports {
+>                      #address-cells = <1>;
+> -- 
+> 2.34.1
+> 
