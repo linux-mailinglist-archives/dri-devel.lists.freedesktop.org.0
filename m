@@ -2,95 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09E9A08530
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 03:10:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04647A0853F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 03:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A99D10EF70;
-	Fri, 10 Jan 2025 02:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5334010EF72;
+	Fri, 10 Jan 2025 02:14:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RGvHc/oF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ymScgQ4F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0E2610EF72
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:10:27 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-3003d7ca01cso14602191fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 18:10:27 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF5E10EF72
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:14:40 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6832so1692079e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 18:14:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736475026; x=1737079826; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=HuF+PDTZLa51ksUbL9ys8lpiPzQDblZtDnsaGpEQ4Pk=;
- b=RGvHc/oFWa1KkLB1aiRoso2r67BMUpFwNcNsHP8CRq5vQkvJrs66+d1324tZyT1hUe
- LVBJcbu8/vsZq08+SdK0/bWLk3r+QFj6S2OhSaGNGMLE3HYnAGsoGJKF19AjywZvFnEH
- OuPkiTWp7C7fB0C/4LcfoDsm6CDpkGT3f9XJRnBcblbtM4kC0uq5KmrGtqx/aD7A6ANI
- XBOPxA47hq1+V6+1l8REmYhXk8OZ9ZA3HzPzrJPOaLUXlANBUl4R0AAN1S85yNJnF4RK
- Jshusr0Ra2GHeyJXkf0aRnnZ1UVdOVH/ieZPGiWKTc7+392kk6KS8kp+GnDqmM/WV/n5
- tPzw==
+ d=linaro.org; s=google; t=1736475219; x=1737080019; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=t8KPjbyifDvDKbKMYEfAkENYg9SQ3/Y9IcyMqzOO7K0=;
+ b=ymScgQ4FRw85easgIQut3DwYbPx9QJvo1sqFgGVmjef+MWF4TJ1hooc9DXrAJaSs3t
+ wv8EJCy5TArapMXU2iYusQyuxswt+Q/LKXQnGVjU05OJH2Jb3AJPbsr+p+uz/w+/IOxj
+ 8Sso9P1IakCa7qrsI3Hh1315mq+GYR+IqXMapB+w/cTf4H6sR5RG+K5JQ+tLnoVMxSiK
+ VeonQcHUKuJzO/AZCD/2CEIQcWOGoQzuCi6z5I+jfSU6Xa0tpbMzz+zAserl6IZt1Mko
+ xkJ73Fi+5NN+cF8lSjomGwrnromxOxKog76CKE8LDIMcXTSuUzvisv8jo5VxbehHAx8b
+ vnTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736475026; x=1737079826;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HuF+PDTZLa51ksUbL9ys8lpiPzQDblZtDnsaGpEQ4Pk=;
- b=G5aKP4PVVrGT40sQZK09tBW57jSCaKYa7Az/+YWgC5Zz5bnFtlrt8zul9Kl1POpMDv
- 2u6xjBQDKE9FG6o4Hq2LzlGhJe1MVYzvqDKfLBADUdD0mIKWizi2YzZE6D4gFs8pDcMB
- vKaki+3nF4alB3YUHZ3zMjp8168hmP93wTwXLbY9VxU6zdErHI04jNTCapL1RrYc34BG
- gAE9j0axSLFo19xUStojWvSln5cncgswadOnqdNmSGY6pNKkC77+7OPEWlMOdP+r9fYY
- OZv2Q0wQMZQvDU3BZNrfEyGA3dbqNbKugOHd4HpLYbw5lC8uCqZ3TFjacyeatbwpXbQ8
- 3STA==
+ d=1e100.net; s=20230601; t=1736475219; x=1737080019;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=t8KPjbyifDvDKbKMYEfAkENYg9SQ3/Y9IcyMqzOO7K0=;
+ b=nBZzvMJ2+YF7j37UKnSWaZFflc4OPZxPOfJGUdnDHg1UF6+vCn4tGm0Wypy/PttuI3
+ VN9/q9m9wX7Q1j4DfC+D+mf+bkxrPcneM1Y6FnyM5Vh1J3XY6Uzx7NSZEfoKf9Oy2ImL
+ Cuub19ii2OA8Vhr/V7RtMX19PuS9gp1cDWjx6ODsB25Yue5Xj2QmEK1/Dj04Xe7EHlTE
+ IMkrzbGY6gC7+xY6o/BseCij8Mt/I6YYWdRS59+2A9oJX1iwV+3K458BPf9ceG+pqKrp
+ WH7it5QQsQtQBgVA28dDKH62ZdEIqNOlJCCNOX6Nw3+yJ2vW4p//RpYl6qEnK3ASGkNB
+ CeGg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUS9V+XM4rnEREhm8rtZhe1kqWHGDke5QcKwPs0+sAW7CRV9UqYihxqGIXcRuW+wvmIGuLZ4HXuF5Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzjWZ6WUuCTd0rzxsI6RTzS2HI7pn2RYsrwHP28yEw/Jddf+CGk
- tDCAaZEKDSqsRU+KV/RGg/fQmeEvnHp7LZMPw61RWLqXOTtgZvWgX+QjI6rwyJc=
-X-Gm-Gg: ASbGncvYNC+QgiMn+eyMKy0EF3xs7nzRMKLBIQglsVd2oOzCLbESy9dQHe3e7eMtBkL
- hHTQJonDvE7CBpeFp6keSnwhRQdeh8HX2YsVyo8fYKgItloc42jiJQKMCK8rK5q27utNXbvJBMA
- LK6nIllVkQ1G/vGUFtI7LW3yePbomJZVsB3dhyrMFPDLGM9KDrm+ib7nJWkwN8B47fnF1tyB3Hi
- cIg+B8Wvd5PbqURjpOSBmLK/6EPkqkmyrHO+oOG9fKQKz6SYDQFSPALZfvvBNMYxDvT1G6F1n1U
- LcdH+ChcUl9hjTxmcjzB09bzufkq0zympAZe
-X-Google-Smtp-Source: AGHT+IHIdXNP0uDJYI6s6RzE9hHm7Ve5TI47ub1eVeneAydvG48x9Ku9A8XERv0pX/THyzQY39IZ4g==
-X-Received: by 2002:a2e:a544:0:b0:302:3c78:4e17 with SMTP id
- 38308e7fff4ca-305f45ce4dcmr27587431fa.29.1736475025879; 
- Thu, 09 Jan 2025 18:10:25 -0800 (PST)
+ AJvYcCWpwfn/Tngg2Ssqu7SDJqeOJ+TBlto8yTF5x8cXdfeO6tcKQxQsjwlyhg8LTYB0rrvnFc63m2OsIjI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyk6qLhIPc6lDZP3ppdhAQPcelCzdDYw889h5PzRDorvDqAq1iU
+ 44Aelvn6l8tnOxopLjvXC086q4mCq0doSNAUkZaXa36KB5u5XwNCs5Q5avnKt/I=
+X-Gm-Gg: ASbGncvoAXQ9O4Ity68R7tkI2Rz/f9SsWIQ3Z5W/BYsCDmN+xxoTkiII/W04FJN8oTc
+ ra6bpCEzZ+8wyWi01v0s7Faxl08rXs/nFBBnr1QkKqUXjJCfAkhc6CxpEqlQnDprtZTTKa0+R6u
+ 8L0K+soYxxAt3Df9RHMbLFyYLiAhnaxmHpqohXgYFhJw2vgkDxwfpCNhyMhY5kcE4pgpNkzQ99q
+ CkUFzRiZSn/1ijy7q/GYvC2RqWTIJBCuqItmrBKrJdwsILgXOUIfWqJPxeu9d07UbgD04IiKZs8
+ 7OAQJ2odYub6Lo8OpqpOuTNJGJzv8mIZYMMn
+X-Google-Smtp-Source: AGHT+IHJpq1ke3MZ+3ZV34/mQVln/7Ae9AgP50GplGmUo8NLVGDnk1v0+gf5P8ERr2h7wnT27mdZgA==
+X-Received: by 2002:a05:6512:31c9:b0:542:7217:361a with SMTP id
+ 2adb3069b0e04-542845af299mr2767121e87.10.1736475218708; 
+ Thu, 09 Jan 2025 18:13:38 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-305ff1ec57csm3442351fa.104.2025.01.09.18.10.23
+ 2adb3069b0e04-5428bec0659sm368077e87.185.2025.01.09.18.13.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 18:10:24 -0800 (PST)
-Date: Fri, 10 Jan 2025 04:10:22 +0200
+ Thu, 09 Jan 2025 18:13:37 -0800 (PST)
+Date: Fri, 10 Jan 2025 04:13:34 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, quic_abhinavk@quicinc.com, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- quic_ebharadw@quicinc.com, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Rob Clark <robdclark@chromium.org>, 
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH v4 15/25] drm/msm/dpu: Add CWB to msm_display_topology
-Message-ID: <657hmty7qisg74pugmgxz4y4idze65ddozm25vnizcavqsubov@fk56ijbl23uv>
-References: <20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com>
- <20241216-concurrent-wb-v4-15-fe220297a7f0@quicinc.com>
- <ki35rornnos35r3fzg5yyqzxnqua3dyfb6ewq2aefrh4u74vfi@opdnf44ntten>
- <4069bd6a-c37f-4dbe-bbd6-5b333ee54ad8@quicinc.com>
- <a4akor2liqafta53zeev22x2pkqwzo5szwidr2ruzdvttvze5h@jtio3jue7ez3>
- <e47b33e6-142d-42d6-8ae9-f2d2c7793d18@quicinc.com>
- <wheu3izj3pit6k3cmslpyegunmrcryy65y5eu432nec2y2aor6@kda3xnujhtnm>
- <0b741278-7c81-406b-bd28-e0cb9252e459@quicinc.com>
- <CAA8EJpogbq+iU-PA_ZXkTzU-1+MLaeLUaXWt_D+hTYnJ5_26Ew@mail.gmail.com>
- <fbba6424-f831-4cc5-8ed7-f508722c86bd@quicinc.com>
+To: Hermes.Wu@ite.com.tw
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ simona@ffwll.ch, angelogioacchino.delregno@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org
+Subject: Re: [PATCH v3] drm/bridge: it6505: fix HDCP V match check is not
+ performed correctly
+Message-ID: <o5g7js2ysodvev2bcmeqndq656qhauu5tgdrkwrwv3go2wf7z4@y3ae3routohb>
+References: <20250109-fix-hdcp-v-comp-v3-1-1258edb249ab@ite.com.tw>
+ <ofpb7annntdpa7lwdscozaftvmuuat47juwn55x3p2osjsei52@bjitidem3g7d>
+ <71b5a3243edc4765a4529d1254d7b7bc@ite.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <fbba6424-f831-4cc5-8ed7-f508722c86bd@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <71b5a3243edc4765a4529d1254d7b7bc@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,206 +98,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2025 at 05:50:16PM -0800, Jessica Zhang wrote:
+On Fri, Jan 10, 2025 at 02:00:35AM +0000, Hermes.Wu@ite.com.tw wrote:
+> hi
 > 
 > 
-> On 1/9/2025 5:42 PM, Dmitry Baryshkov wrote:
-> > On Fri, 10 Jan 2025 at 02:30, Jessica Zhang <quic_jesszhan@quicinc.com> wrote:
-> > > 
-> > > 
-> > > 
-> > > On 1/9/2025 4:00 PM, Dmitry Baryshkov wrote:
-> > > > On Thu, Jan 09, 2025 at 02:34:44PM -0800, Jessica Zhang wrote:
-> > > > > 
-> > > > > 
-> > > > > On 1/3/2025 10:16 AM, Dmitry Baryshkov wrote:
-> > > > > > On Fri, Jan 03, 2025 at 10:03:35AM -0800, Jessica Zhang wrote:
-> > > > > > > 
-> > > > > > > 
-> > > > > > > On 12/19/2024 9:03 PM, Dmitry Baryshkov wrote:
-> > > > > > > > On Mon, Dec 16, 2024 at 04:43:26PM -0800, Jessica Zhang wrote:
-> > > > > > > > > Add the cwb_enabled flag to msm_display topology and adjust the toplogy
-> > > > > > > > > to account for concurrent writeback
-> > > > > > > > 
-> > > > > > > > Why?
-> > > > > > > 
-> > > > > > > Hi Dmitry,
-> > > > > > > 
-> > > > > > > This flag is necessary to specify that CWB mux(es) need to be assigned for
-> > > > > > > the given reqeusted topology.
-> > > > > > 
-> > > > > > Why is necessary? Please rephrase your statement (we need foo bar, so do
-> > > > > > baz).
-> > > > > 
-> > > > > Ack, what do you think of rephrasing the commit msg to this:
-> > > > > 
-> > > > > ```
-> > > > > Add support for adjusting topology based on if concurrent writeback is
-> > > > > enabled.
-> > > > > 
-> > > > > Currently, the topology is calculated based on the assumption that the user
-> > > > > cannot request real-time and writeback simultaneously. For example, the
-> > > > > number of LMs and CTLs are currently based off the number of phys encoders
-> > > > > under the assumption there will be at least 1 LM/CTL per phys encoder.
-> > > > > 
-> > > > > This will not hold true for concurrent writeback as 2 phys encoders (1
-> > > > > real-time and 1 writeback) can be driven by 1 LM/CTL when concurrent
-> > > > > writeback is enabled.
-> > > > > 
-> > > > > To account for this, add a cwb_enabled flag and only adjust the number of
-> > > > > CTL/LMs needed by a given topology based on the number of phys encoders only
-> > > > > if CWB is not enabled.
-> > > > > 
-> > > > > ```
-> > > > > 
-> > > > > > 
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > > > > > > > > ---
-> > > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 11 ++++++++++-
-> > > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c   | 10 ++++++++--
-> > > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h   |  2 ++
-> > > > > > > > >      3 files changed, 20 insertions(+), 3 deletions(-)
-> > > > > > > > > 
-> > > > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > > > > index b4bfded3d53025853cee112ca598533ece290318..b063c8fe4c0594772d84401fa56c9c21afc0ad18 100644
-> > > > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > > > > > > > > @@ -1198,6 +1198,8 @@ static struct msm_display_topology dpu_crtc_get_topology(
-> > > > > > > > >                   dpu_encoder_update_topology(drm_enc, &topology, crtc_state->state,
-> > > > > > > > >                                               &crtc_state->adjusted_mode);
-> > > > > > > > > +        topology.cwb_enabled = drm_crtc_in_clone_mode(crtc_state);
-> > > > > > > > > +
-> > > > > > > > >           /*
-> > > > > > > > >            * Datapath topology selection
-> > > > > > > > >            *
-> > > > > > > > > @@ -1209,9 +1211,16 @@ static struct msm_display_topology dpu_crtc_get_topology(
-> > > > > > > > >            * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
-> > > > > > > > >            *
-> > > > > > > > >            * Add dspps to the reservation requirements if ctm is requested
-> > > > > > > > > +         *
-> > > > > > > > > +         * Only hardcode num_lm to 2 for cases where num_intf == 2 and CWB is not
-> > > > > > > > > +         * enabled. This is because in cases where CWB is enabled, num_intf will
-> > > > > > > > > +         * count both the WB and real-time phys encoders.
-> > > > > > > > > +         *
-> > > > > > > > > +         * For non-DSC CWB usecases, have the num_lm be decided by the
-> > > > > > > > > +         * (mode->hdisplay > MAX_HDISPLAY_SPLIT) check.
-> > > > > > > > >            */
-> > > > > > > > > -        if (topology.num_intf == 2)
-> > > > > > > > > +        if (topology.num_intf == 2 && !topology.cwb_enabled)
-> > > > > > > > >                   topology.num_lm = 2;
-> > > > > > > > >           else if (topology.num_dsc == 2)
-> > > > > > > > >                   topology.num_lm = 2;
-> > > > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > > > > > > > > index b763ef19f4c60ae8a35df6a6ffb19e8411bc63f8..85adaf256b2c705d2d7df378b6ffc0e578f52bc3 100644
-> > > > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > > > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-> > > > > > > > > @@ -382,8 +382,14 @@ static int _dpu_rm_reserve_ctls(
-> > > > > > > > >           int i = 0, j, num_ctls;
-> > > > > > > > >           bool needs_split_display;
-> > > > > > > > > -        /* each hw_intf needs its own hw_ctrl to program its control path */
-> > > > > > > > > -        num_ctls = top->num_intf;
-> > > > > > > > > +        /*
-> > > > > > > > > +         * For non-CWB mode, each hw_intf needs its own hw_ctl to program its
-> > > > > > > > > +         * control path. Hardcode num_ctls to 1 if CWB is enabled
-> > > > > > > > > +         */
-> > > > > > > > 
-> > > > > > > > Why?
-> > > > > > > 
-> > > > > > > This is because num_intf is based on the number of phys_encs. Since in the
-> > > > > > > CWB case, the WB and real-time encoders will be driven by the same CTL. I
-> > > > > > > can add this to the comment doc.
-> > > > > > 
-> > > > > > Why are they driven by the same CTL? Is it also the case for platforms
-> > > > > > before DPU 5.x?
-> > > > > 
-> > > > > This is because the WB and real-time path for a given topology would be
-> > > > > driven by the same data path so the same CTL should enable the real-time and
-> > > > > WB active bits.
-> > > > > 
-> > > > > This is the same for pre-DPU 5.x.
-> > > > 
-> > > > But pre-5.x platforms didn't have ACTIVE_CTL, so they should be using
-> > > > separte CTL for each of the physical encoders.
-> > > 
-> > > For pre-DPU 5.x, enabling CWB would mean configuring the registers under
-> > > both the WB and MODE_SEL_* cases here [1]
+> -----Original Message-----
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 
+> Sent: Thursday, January 9, 2025 9:09 PM
+> To: Hermes Wu (吳佳宏) <Hermes.Wu@ite.com.tw>
+> Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Pet Weng (翁玉芬) <Pet.Weng@ite.com.tw>; Kenneth Hung (洪家倫) <Kenneth.Hung@ite.com.tw>; treapking@chromium.org
+> Subject: Re: [PATCH v3] drm/bridge: it6505: fix HDCP V match check is not performed correctly
+> 
+> On Thu, Jan 09, 2025 at 02:40:08PM +0800, Hermes Wu via B4 Relay wrote:
+> > From: Hermes Wu <Hermes.wu@ite.com.tw>
 > > 
-> > But do we still have to use a single CTL or would we use two different
-> > CTLs, one for the main output and one for WB?
+> > The loop of V compare is expected to iterate for 5 times which compare 
+> > V array form av[0][] to av[4][].
+> > It should check loop counter reach the last statement "i == 5"
+> > before return true
+> > 
+> > Fixes: 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V 
+> > matching")
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >Excuse me, where did you get that from?? I didn't r-b it (yet).
 > 
-> We would have to enable both WB and the real-time output on the same CTL
+> Sorry,
+> 
+> I think I just missing understanding about this tag.
+> I thought it should add if someone give advice to a path.
+> 
+> So I add it before you r-b it,
 
-Thanks for the confirmation. Then the text your wrote above should be
-mostly okay. Please drop the first ("Add support...") sentence and s/can
-be driven by/must be driven by/ .
+Okay. Please don't add extra tags in future.
+
+The patch itself is:
+
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
 
 > 
+> > Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> > ---
+> > Changes in v3:
+> > - The V value compare loop from i = 0 to i = 4 and shall exit with i == 5 
+> >   if all V element matches
+> > - Link to v2: 
+> > https://lore.kernel.org/r/20250109-fix-hdcp-v-comp-v2-1-7dce0a59523f@i
+> > te.com.tw
 > > 
-> > > 
-> > > [1]
-> > > https://elixir.bootlin.com/linux/v6.12.6/source/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c#L588
-> > > 
-> > > > 
-> > > > > 
-> > > > > > 
-> > > > > > > 
-> > > > > > > Thanks,
-> > > > > > > 
-> > > > > > > Jessica Zhang
-> > > > > > > 
-> > > > > > > > 
-> > > > > > > > > +        if (top->cwb_enabled)
-> > > > > > > > > +                num_ctls = 1;
-> > > > > > > > > +        else
-> > > > > > > > > +                num_ctls = top->num_intf;
-> > > > > > > > >           needs_split_display = _dpu_rm_needs_split_display(top);
-> > > > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> > > > > > > > > index b061dfdab52e04ab7d777e912a30173273cb3db7..12db21a2403ec6930894c36a58e898c5d94c2568 100644
-> > > > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> > > > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h
-> > > > > > > > > @@ -46,6 +46,7 @@ struct dpu_rm {
-> > > > > > > > >       * @num_dspp:     number of dspp blocks used
-> > > > > > > > >       * @num_dsc:      number of Display Stream Compression (DSC) blocks used
-> > > > > > > > >       * @needs_cdm:    indicates whether cdm block is needed for this display topology
-> > > > > > > > > + * @cwb_enabled:  indicates whether CWB is enabled for this display topology
-> > > > > > > > >       */
-> > > > > > > > >      struct msm_display_topology {
-> > > > > > > > >           u32 num_lm;
-> > > > > > > > > @@ -53,6 +54,7 @@ struct msm_display_topology {
-> > > > > > > > >           u32 num_dspp;
-> > > > > > > > >           u32 num_dsc;
-> > > > > > > > >           bool needs_cdm;
-> > > > > > > > > +        bool cwb_enabled;
-> > > > > > > > >      };
-> > > > > > > > >      int dpu_rm_init(struct drm_device *dev,
-> > > > > > > > > 
-> > > > > > > > > --
-> > > > > > > > > 2.34.1
-> > > > > > > > > 
-> > > > > > > > 
-> > > > > > > > --
-> > > > > > > > With best wishes
-> > > > > > > > Dmitry
-> > > > > > > 
-> > > > > > 
-> > > > > > --
-> > > > > > With best wishes
-> > > > > > Dmitry
-> > > > > 
-> > > > 
-> > > > --
-> > > > With best wishes
-> > > > Dmitry
-> > > 
+> > Changes in v2:
+> > - pull the check of statment "i" out of V value check loop
+> > - Link to v1: 
+> > https://lore.kernel.org/r/20250108-fix-hdcp-v-comp-v1-1-9404811825cd@i
+> > te.com.tw
+> > ---
+> >  drivers/gpu/drm/bridge/ite-it6505.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
 > > 
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
+> >--
+> >With best wishes
+> >Dmitry
 > 
+> Br.
+> Hermes
 
 -- 
 With best wishes
