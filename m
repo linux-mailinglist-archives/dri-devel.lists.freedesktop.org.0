@@ -2,86 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A68A08D99
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:13:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49DC0A08DFD
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:29:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADAD810F06A;
-	Fri, 10 Jan 2025 10:13:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D95010F05C;
+	Fri, 10 Jan 2025 10:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cpkNnPcC";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xF4ntAKP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
- [IPv6:2a00:1450:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F03910F062
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 10:13:05 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id
- 5b1f17b1804b1-4363ae65100so19971165e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:13:05 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4672810F05C
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 10:29:03 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4361e89b6daso14167445e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:29:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736503984; x=1737108784; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736504882; x=1737109682; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=QOUzYhTzRbU2PZyaCr9aEEOmHEzU4GQv9eiFuMaGvrQ=;
- b=cpkNnPcCmur3cAybnPMcrMRhyC4yK3aqWWearbVIWL/YzaiTv0rjvYkFRWF+jK0LCS
- 3azEjt/KBd3c3jZD9HT0gfMi6U9rGHmQ3DzQ2xFmQRMwRBCHCTWN3QizHQaWjHPETbdG
- 51oruBvs5SiCiAcymRdaJ3LG/tvPGLTdjpEUWPGrTlurk//4r+rviKvD5AQDGMzTJ3OM
- n8ei051B5tBxbGFwy6obM58xR8R9GjNWr+7v4XkKBWLkJCDeRwbF6uKx57CYsbDGGjdf
- s9shHb8KHU3oBjjT/kfF//cZPDg+pK+CsjZ7w6EKsxsCjkDKD3DLUufP4NMPmjZ+B7RI
- hZCg==
+ :reply-to; bh=zCZielNEvwAThRhgDFA5SYEJEbjFNG70f0hqIs6TOIk=;
+ b=xF4ntAKPijpJgereT5elceVPNy0LtdYua57JaWoabfPT1v8y1kBUtGLS2qq0Cokg3v
+ YoNLH/pKusgxqqWOgn2LQf0JimZIPsxqK5NheQvQIlLRk7BpIa60V0KTUat1FXIco0a6
+ 6GLUK3f/bfnOHg9voKYGdCo5qurRTvZCY4FLjLh4f7x/KgKakqw5DxIwQ2SOOFIhjJzA
+ q7hSUsM6MKzmaHnVyyN/vIjSAZ3rMn5vU2xaMtXhx1Ki9bFBw2hi/kt664Cux92dlegF
+ wp+Rq9JRsHbjCtjQOOokfZXJaD/CQLnyxjtL1MwsiVIJL/peNqxvY+XJaSYq94iQ2C7q
+ IajA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736503984; x=1737108784;
+ d=1e100.net; s=20230601; t=1736504882; x=1737109682;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=QOUzYhTzRbU2PZyaCr9aEEOmHEzU4GQv9eiFuMaGvrQ=;
- b=veK3Z/V5vyDzlQolAQzRSHsDkXQeCCCygLJnYg6jebFOWJO70cP0aJZAlYdlWi30z2
- 2H8Lclk1mUceurvqK/kzb7Chs1YIdGh8N8O4GTC49WafSF9GmBH0zVX84DWKMpmvizx+
- Fy6mfDZFUWlcSMKl189vSObuRQVav5i99rKkIYyN2UOKbL1WB2HAno8yaVKUcIYxBDC4
- q1koli5Z/Ax5IPTvAFBkK16SknoYXWK/GG096p+hrteugBkM4Ek7mqu/oKCKcRDAPET3
- mvyB3Q991AM5ok6s5YJOxW1qAlH+770oWz+CfT+H0Yz7PJ85EvsAOM1OcsYA9ntX4x60
- 9JQw==
+ bh=zCZielNEvwAThRhgDFA5SYEJEbjFNG70f0hqIs6TOIk=;
+ b=WVHHZ7oCIgE8S86GkgBb9/pMVONn+YZR+Ujt3ZNOVYQCI3hwEGu52yYXmW7T/RLpg7
+ VdMEUzjN8brgZJJn9QQgmrybfacmTZby4UEkoSb5Y9XNWzdCKTbnA3wYCKh/pnGhZF+T
+ S+28WgeCXsfNRG3TsWYu5PhX8S1RN816JQUK954jeiIWclqvp0LCM4Rxlfd3bJ12/fxA
+ LjWDKtdDgmQgo7AhLTzDs/Z+D3fwraZ23YqWRLnuvirU/WApz3SC4DVJjSWdGtyvNVrV
+ BB3By3NDKB3yYoUg0LTpwTd4oGaCYi6K+U9yqcOUye7nQzCDYuRvfubZJCaIIep3XIDN
+ xCTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWvMeXss3cKiCnBY9fPWytobhp0fk66vZdXtP45bFvXWMvZIjkjpMu20HxudQT5QkoOgZu5k28VNuA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMndr7sx81ayNTl28W1ZdTk+dJ8ufiAPOGWrB2BlXq0e6+9YB7
- n2uHiYGMLqSnQSUH1L7XuDCTZ/Vci2yLthmImNIItmm0giY8S7+0lJNUKgeDb38=
-X-Gm-Gg: ASbGnctRuOaVRiZv/QPQf0rlnebQ8yjvI/dt2IfLOQfKLZtBLCBQDqQfRMy/noxYfx6
- 7AADLI5lOxnNYO5aU8jctfCz34aorXtSNzEeReOGr5Hct2dPbceiMsygD8hAL8IKT1cnmOM/Vrf
- DncjE4zGjJmIilau3/1tXvSXI5kWiTERJxQeBj+3D5yHPcuCDZawmLLPohxsoBOLRWbS8qWVFTK
- o9ZDAKj9OI/7FFhzmphH4nW8ds56cAPru4r/FU04xtjNR9x7bzaqMl5rL57gKNsYMYqrETXYBNz
- GE22zrnlA6yb5E7oEcuwFNrvEU7i37CXCg==
-X-Google-Smtp-Source: AGHT+IH14VgpNAHxLDfw+eb1nzA4fydxlf+fdVrPXOSjYG/N+CGyBX4YnPcgAjL/ozrdB+dQhWcohA==
-X-Received: by 2002:a05:600c:46d2:b0:434:a1d3:a321 with SMTP id
- 5b1f17b1804b1-436e2679db4mr91257665e9.3.1736503983816; 
- Fri, 10 Jan 2025 02:13:03 -0800 (PST)
+ AJvYcCWOoul54O+1lNLOVP0OQJHzrD2NAi5fAZkRV5p/dpJpZndZnTheh1Y54D2rZOCUsJ1RLGKhTWrBFu8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywvf1Nnnu3Q+gtH78bDpItxcr/gQV2xxCWbV3lPis65ezQTiV/y
+ 9trFgb4/C0zi2+ju2As2CCnkTcQv46F3wbAk6Z8HfYsUzmNpDVx6agpAzekADUk=
+X-Gm-Gg: ASbGncuJrn+O2Gc5jfMXzEMBmpNqTvS+cW2V4bBLlrw4NTCnvKoBiVXve0/+L+zMjoM
+ ge0PYMgadULIabneX0Qruw6kOw4+KtfjJjZDq8p27nxTnTZkVEb2P/SbwhQpk4B53IEx7CM7Xb6
+ kzSZlDUEk8G4ylsm+nCVUIv75We/hv6sDcts6R9Sbp1Hi82xxrD/+e6G7pMjAkOAQ5ZNQdMUgmW
+ PEzh59NSV6qNdjpLQ//4O//9C2lOnYjDx0YFBnIgEeBm7qlbmPGXfyDU0ZBudoH+WgWqiE75uKp
+ RxFT2hI9MEDubKRqnie0buA4ljidXEwKIw==
+X-Google-Smtp-Source: AGHT+IEWAXtoc4FGVRRCMGfOgQC8SKcUrndf6I8V5q8jJHswm7GhrgjZeArKBtXkaCCPoLUoyga6rg==
+X-Received: by 2002:a05:6000:4023:b0:385:f7a3:fed1 with SMTP id
+ ffacd0b85a97d-38a87336e53mr8841883f8f.44.1736504881887; 
+ Fri, 10 Jan 2025 02:28:01 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:982:cbb0:bf4e:5758:59ef:deb8?
  ([2a01:e0a:982:cbb0:bf4e:5758:59ef:deb8])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e9dc895esm47221015e9.13.2025.01.10.02.13.02
+ ffacd0b85a97d-38a8e38d008sm4274465f8f.59.2025.01.10.02.28.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 10 Jan 2025 02:13:03 -0800 (PST)
-Message-ID: <bca7f65c-cdb8-48be-a800-2c36aeeeb8e3@linaro.org>
-Date: Fri, 10 Jan 2025 11:13:02 +0100
+ Fri, 10 Jan 2025 02:28:01 -0800 (PST)
+Message-ID: <abad21b8-fb2b-4014-9e00-a4abcbc39c22@linaro.org>
+Date: Fri, 10 Jan 2025 11:28:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/2] Revert "drm/meson: vclk: fix calculation of 59.94
- fractional rates"
-To: Christian Hewitt <christianshewitt@gmail.com>,
+Subject: Re: [PATCH] drm/panel-edp: Add Starry 116KHD024006
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: Stephen Boyd <swboyd@chromium.org>, David Airlie <airlied@gmail.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-References: <20250110074458.3624094-1-christianshewitt@gmail.com>
- <20250110074458.3624094-2-christianshewitt@gmail.com>
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+References: <20250109142853.1.Ibcc3009933fd19507cc9c713ad0c99c7a9e4fe17@changeid>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -108,7 +102,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250110074458.3624094-2-christianshewitt@gmail.com>
+In-Reply-To: <20250109142853.1.Ibcc3009933fd19507cc9c713ad0c99c7a9e4fe17@changeid>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -127,48 +121,49 @@ Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/01/2025 08:44, Christian Hewitt wrote:
-> This reverts commit bfbc68e4d8695497f858a45a142665e22a512ea3.
+On 09/01/2025 23:28, Douglas Anderson wrote:
+> We have a few reports of sc7180-trogdor-pompom devices that have a
+> panel in them that IDs as STA 0x0004 and has the following raw EDID:
 > 
-> The patch does permit the offending YUV420 @ 59.94 phy_freq and
-> vclk_freq mode to match in calculations. It also results in all
-> fractional rates being unavailable for use. This was unintended
-> and requires the patch to be reverted.
+>    00 ff ff ff ff ff ff 00  4e 81 04 00 00 00 00 00
+>    10 20 01 04 a5 1a 0e 78  0a dc dd 96 5b 5b 91 28
+>    1f 52 54 00 00 00 01 01  01 01 01 01 01 01 01 01
+>    01 01 01 01 01 01 8e 1c  56 a0 50 00 1e 30 28 20
+>    55 00 00 90 10 00 00 18  00 00 00 00 00 00 00 00
+>    00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00
+>    00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 fe
+>    00 31 31 36 4b 48 44 30  32 34 30 30 36 0a 00 e6
 > 
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+> We've been unable to locate a datasheet for this panel and our partner
+> has not been responsive, but all Starry eDP datasheets that we can
+> find agree on the same timing (delay_100_500_e200) so it should be
+> safe to use that here instead of the super conservative timings. We'll
+> still go a little extra conservative and allow `hpd_absent` of 200
+> instead of 100 because that won't add any real-world delay in most
+> cases.
+> 
+> We'll associate the string from the EDID ("116KHD024006") with this
+> panel. Given that the ID is the suspicious value of 0x0004 it seems
+> likely that Starry doesn't always update their IDs but the string will
+> still work to differentiate if we ever need to in the future.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
->   drivers/gpu/drm/meson/meson_vclk.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/meson/meson_vclk.c b/drivers/gpu/drm/meson/meson_vclk.c
-> index 2a942dc6a6dc..2a82119eb58e 100644
-> --- a/drivers/gpu/drm/meson/meson_vclk.c
-> +++ b/drivers/gpu/drm/meson/meson_vclk.c
-> @@ -790,13 +790,13 @@ meson_vclk_vic_supported_freq(struct meson_drm *priv, unsigned int phy_freq,
->   				 FREQ_1000_1001(params[i].pixel_freq));
->   		DRM_DEBUG_DRIVER("i = %d phy_freq = %d alt = %d\n",
->   				 i, params[i].phy_freq,
-> -				 FREQ_1000_1001(params[i].phy_freq/1000)*1000);
-> +				 FREQ_1000_1001(params[i].phy_freq/10)*10);
->   		/* Match strict frequency */
->   		if (phy_freq == params[i].phy_freq &&
->   		    vclk_freq == params[i].vclk_freq)
->   			return MODE_OK;
->   		/* Match 1000/1001 variant */
-> -		if (phy_freq == (FREQ_1000_1001(params[i].phy_freq/1000)*1000) &&
-> +		if (phy_freq == (FREQ_1000_1001(params[i].phy_freq/10)*10) &&
->   		    vclk_freq == FREQ_1000_1001(params[i].vclk_freq))
->   			return MODE_OK;
->   	}
-> @@ -1070,7 +1070,7 @@ void meson_vclk_setup(struct meson_drm *priv, unsigned int target,
+>   drivers/gpu/drm/panel/panel-edp.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+> index f8511fe5fb0d..b0315d3ba00a 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1993,6 +1993,7 @@ static const struct edp_panel_entry edp_panels[] = {
+>   	EDP_PANEL_ENTRY('S', 'H', 'P', 0x154c, &delay_200_500_p2e100, "LQ116M1JW10"),
+>   	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1593, &delay_200_500_p2e100, "LQ134N1"),
 >   
->   	for (freq = 0 ; params[freq].pixel_freq ; ++freq) {
->   		if ((phy_freq == params[freq].phy_freq ||
-> -		     phy_freq == FREQ_1000_1001(params[freq].phy_freq/1000)*1000) &&
-> +		     phy_freq == FREQ_1000_1001(params[freq].phy_freq/10)*10) &&
->   		    (vclk_freq == params[freq].vclk_freq ||
->   		     vclk_freq == FREQ_1000_1001(params[freq].vclk_freq))) {
->   			if (vclk_freq != params[freq].vclk_freq)
+> +	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0004, &delay_200_500_e200, "116KHD024006"),
+>   	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
+>   
+>   	{ /* sentinal */ }
 
-I wonder if a Fixes is also required here
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
