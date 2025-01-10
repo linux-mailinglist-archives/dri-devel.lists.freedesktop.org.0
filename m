@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AADFA08EEB
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 12:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F754A08EF4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 12:15:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAD6410E056;
-	Fri, 10 Jan 2025 11:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D375010F083;
+	Fri, 10 Jan 2025 11:14:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="UNUDvMjX";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E3w6zSr2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FB2910E056
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 11:13:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA69310E4F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 11:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
@@ -22,28 +22,27 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
  In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=qlaO7xSorsp0kw0r8nkABq3JTIDGrEz8ZtZZ4+W17qM=; b=UNUDvMjXhNj/zMNTuWVncWQGOw
- Wx8dv/BDnEZYiiYPsAMWEVQpsuXg2vRICqqUq0xDr7j8zyhbSZmu7woyQJ1g70KZC7XZsCuhj7Uwe
- 0v93x/Hv+FY7/7K5On/DUtyCaDgarCWrXWrrXRr8kvUpRkG8scCVv2rE8CuLkzJZgNB9YsUkqV1zi
- dIjx48EhzzGyZHLcHTmDJmhgOmwiTeBc1QMe1FLwNbMQOr3A1112TnfA4wPaqATptuSJGr3P7maOt
- bTI0FzH067wvF9pZo/ZOOjCIxu8ZSvDU31Q9Y3jQKjD2umOs806B6A9Jz10pKtUOhYadg1gLhKIor
- rjuI19qw==;
+ bh=JR3qg8roNPa1r4OHOvGTJw/zOE29GW/7Nvx132GrPZ0=; b=E3w6zSr25msb6mlKNti/l8+i5I
+ qfbwYqVLtifV2h0LC7m1bSqLhSlpUcBCu70nmon6s40OE0dscX78tPCNfQQYqF8AujahLe9swoscY
+ ZYjoKIrlBVOpJ5EjMtSSkwGeIADqXSpjCF6jJBMQ2frUKe46jUnGCJrfeWHRRf0tthSr4Ax8abDYB
+ DJ+v3w6nZ0iaE0iD1As8sfR46MEYko4WvcUKFiVEYVYOTYruIlA62OKX9bf+c7iRu0xsbq7XpME9B
+ tPesFMExo85VbjeLQZE7jcIzHPsxwGB06AKCJ3Z7Um8/LblyHdB5yx2EEvRovutnji3CsDIrItaGt
+ 2vb9MELw==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tWCww-00DvkP-Rz; Fri, 10 Jan 2025 12:13:10 +0100
+ id 1tWCyc-00Dvn1-SM; Fri, 10 Jan 2025 12:14:54 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Danilo Krummrich <dakr@redhat.com>,
  Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Matt Coster <matt.coster@imgtec.com>
-Subject: [PATCH] drm/sched: Delete unused update_job_credits
-Date: Fri, 10 Jan 2025 11:13:01 +0000
-Message-ID: <20250110111301.76909-1-tvrtko.ursulin@igalia.com>
+ Philipp Stanner <pstanner@redhat.com>, stable@vger.kernel.org
+Subject: [PATCH] drm/sched: Remove job submit/free race when using unordered
+ workqueues
+Date: Fri, 10 Jan 2025 11:14:52 +0000
+Message-ID: <20250110111452.76976-1-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -63,77 +62,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No driver is using the update_job_credits() schduler vfunc
-so lets remove it.
+After commit f7fe64ad0f22 ("drm/sched: Split free_job into own work item")
+and with drivers who use the unordered workqueue sched_jobs can be freed
+in parallel as soon as the complete_all(&entity->entity_idle) is called.
+This makes all dereferencing in the lower part of the worker unsafe so
+lets fix it by moving the complete_all() call to after the worker is done
+touching the job.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Fixes: f7fe64ad0f22 ("drm/sched: Split free_job into own work item")
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Danilo Krummrich <dakr@redhat.com>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <pstanner@redhat.com>
-Acked-by: Danilo Krummrich <dakr@kernel.org>
-Acked-by: Boris Brezillon <boris.brezillon@collabora.com>
-Acked-by: Matt Coster <matt.coster@imgtec.com>
+Cc: <stable@vger.kernel.org> # v6.8+
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 13 -------------
- include/drm/gpu_scheduler.h            | 13 -------------
- 2 files changed, 26 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 57da84908752..81d69c2ff6ab 100644
+index 57da84908752..f0d02c061c23 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -64,12 +64,6 @@
-  * credit limit, the job won't be executed. Instead, the scheduler will wait
-  * until the credit count has decreased enough to not overflow its credit limit.
-  * This implies waiting for previously executed jobs.
-- *
-- * Optionally, drivers may register a callback (update_job_credits) provided by
-- * struct drm_sched_backend_ops to update the job's credits dynamically. The
-- * scheduler executes this callback every time the scheduler considers a job for
-- * execution and subsequently checks whether the job fits the scheduler's credit
-- * limit.
-  */
+@@ -1188,7 +1188,6 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 		container_of(w, struct drm_gpu_scheduler, work_run_job);
+ 	struct drm_sched_entity *entity;
+ 	struct dma_fence *fence;
+-	struct drm_sched_fence *s_fence;
+ 	struct drm_sched_job *sched_job;
+ 	int r;
  
- #include <linux/wait.h>
-@@ -133,13 +127,6 @@ static bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
- 	if (!s_job)
- 		return false;
+@@ -1207,15 +1206,12 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 		return;
+ 	}
  
--	if (sched->ops->update_job_credits) {
--		s_job->credits = sched->ops->update_job_credits(s_job);
+-	s_fence = sched_job->s_fence;
 -
--		drm_WARN(sched, !s_job->credits,
--			 "Jobs with zero credits bypass job-flow control.\n");
--	}
--
- 	/* If a job exceeds the credit limit, truncate it to the credit limit
- 	 * itself to guarantee forward progress.
- 	 */
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 95e17504e46a..e2e6af8849c6 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -476,19 +476,6 @@ struct drm_sched_backend_ops {
-          * and it's time to clean it up.
- 	 */
- 	void (*free_job)(struct drm_sched_job *sched_job);
--
--	/**
--	 * @update_job_credits: Called when the scheduler is considering this
--	 * job for execution.
--	 *
--	 * This callback returns the number of credits the job would take if
--	 * pushed to the hardware. Drivers may use this to dynamically update
--	 * the job's credit count. For instance, deduct the number of credits
--	 * for already signalled native fences.
--	 *
--	 * This callback is optional.
--	 */
--	u32 (*update_job_credits)(struct drm_sched_job *sched_job);
- };
+ 	atomic_add(sched_job->credits, &sched->credit_count);
+ 	drm_sched_job_begin(sched_job);
  
- /**
+ 	trace_drm_run_job(sched_job, entity);
+ 	fence = sched->ops->run_job(sched_job);
+-	complete_all(&entity->entity_idle);
+-	drm_sched_fence_scheduled(s_fence, fence);
++	drm_sched_fence_scheduled(sched_job->s_fence, fence);
+ 
+ 	if (!IS_ERR_OR_NULL(fence)) {
+ 		/* Drop for original kref_init of the fence */
+@@ -1232,6 +1228,7 @@ static void drm_sched_run_job_work(struct work_struct *w)
+ 				   PTR_ERR(fence) : 0);
+ 	}
+ 
++	complete_all(&entity->entity_idle);
+ 	wake_up(&sched->job_scheduled);
+ 	drm_sched_run_job_queue(sched);
+ }
 -- 
 2.47.1
 
