@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5562A09144
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 13:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28248A0915B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 14:01:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82FCD10F09E;
-	Fri, 10 Jan 2025 12:58:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F027F10F0A7;
+	Fri, 10 Jan 2025 13:01:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c/rJhxP/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="O2YEowuu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A55F10F09E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 12:58:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECA2E10F0A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 13:01:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id AEA515C05FC;
- Fri, 10 Jan 2025 12:57:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 201BFC4CED6;
- Fri, 10 Jan 2025 12:58:18 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5D3D45C2E18;
+ Fri, 10 Jan 2025 13:00:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD11C4CEE1;
+ Fri, 10 Jan 2025 13:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736513907;
- bh=XZt40d7lk7aYWQUmstyqSQy2fHiY4SGEmmPx9wjkcQI=;
+ s=k20201202; t=1736514081;
+ bh=3SaG2X4A14Z+aNuM4b3tAa4QmuX6xnPyFTL3KYwz/EM=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=c/rJhxP/U7eXuHD3g5AFaGBrh7lsXeeKdZrlyyKVO/VGKPCMUtbBM3TJWaaRdLDQx
- 4ntfAn+yUcGvx4JsZTu4Atr9xNGWVZ6WkQWvjP6kzZKuDOZsGpd/uQiEAZPPk1wzpe
- jB54evtZQMdty3JhUXMbhr07U/9hmm+bg/BT+karWIu6Cb2h3WzpoIdYcuW6iK3myf
- Us3cb3MGaFSeW12GpOILmZxHO7qibXVgbGkDOc75S/cJB/B9tOlKfk2FbZwPj8z2Se
- DVKLsxJCmbgRW6pb30mjjF1pC07vk85n/ejVskSsQIppX7RzuY3hKhbrS0Mnv2MDfF
- VPdJQiGjpA2mw==
-Message-ID: <0499ee04-0fcc-42e1-aab8-3cb8daa88c88@kernel.org>
-Date: Fri, 10 Jan 2025 13:58:16 +0100
+ b=O2YEowuu4ljUMKW6FkFVFPRc6Rtb57pnQa669pPo0D1cbzn/j5khTAzTU/nK6gGb1
+ XRN2vQ9g2cY9AIjL+rL8O3wk5HtAAddCxXN692Oa+Hj4VyuWcnqr3ApvLRCX9DsfBw
+ qWpHjPbqy/GAB18g+KuyL2qEZh5/pV7FmFAcLx5i4FH47Rcn9EC5zjFq5XJr2n4Sko
+ zCu3EKiL9w9CaZI1e2WvK/8dWsG1AaRNBcOtjBkfs4O467VZWlR5lQi03QaLcT1nbg
+ 0Arxq701wg5Fdsm0h41S29XIGnxVW3SF0twXjpS4nvCg4ddo8O1lIB50OPb/IjYXo9
+ ft16TPVsw5tYQ==
+Message-ID: <abadfae8-56f7-499c-83ff-7d79e3fe1f52@kernel.org>
+Date: Fri, 10 Jan 2025 14:01:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] dt-bindings: arm: mediatek: mmsys: add compatible
- for MT8196
+Subject: Re: [PATCH 03/12] dt-bindings: display: mediatek: add EXDMA yaml for
+ MT8196
 To: "paul-pl.chen" <paul-pl.chen@mediatek.com>, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, chunkuang.hu@kernel.org,
  angelogioacchino.delregno@collabora.com
@@ -48,7 +48,7 @@ Cc: matthias.bgg@gmail.com, p.zabel@pengutronix.de,
  linux-arm-kernel@lists.infradead.org,
  Project_Global_Chrome_Upstream_Group@mediatek.com
 References: <20250110123835.2719824-1-paul-pl.chen@mediatek.com>
- <20250110123835.2719824-2-paul-pl.chen@mediatek.com>
+ <20250110123835.2719824-4-paul-pl.chen@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -94,7 +94,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250110123835.2719824-2-paul-pl.chen@mediatek.com>
+In-Reply-To: <20250110123835.2719824-4-paul-pl.chen@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,17 +115,100 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 10/01/2025 13:33, paul-pl.chen wrote:
 > From: "Paul-pl.Chen" <paul-pl.chen@mediatek.com>
 > 
-> Add compatible for mmsys yaml of MT8196
+> Add mediatek,exdma.yaml to support EXDMA for MT8196.
 > 
 > Signed-off-by: Paul-pl.Chen <paul-pl.chen@mediatek.com>
+> ---
+> The header used in examples:
+> #include <dt-bindings/clock/mt8196-clk.h>
+> #include <dt-bindings/power/mt8196-power.h>
+> are not upstreamed yet.
+
+Which makes this untestable and unmergeable.
+
+This cannot be accepted. Fix your dependencies or decouple from them.
+
+> It will be sent by related owner soon.
+
+Still this won't build and won't be possible to apply.
+
+> ---
+>  .../display/mediatek/mediatek,exdma.yaml      | 77 +++++++++++++++++++
+>  1 file changed, 77 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,exdma.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,exdma.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,exdma.yaml
+> new file mode 100644
+> index 000000000000..385f5549dfaa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,exdma.yaml
+
+Filename matching compatible.
+
+Why is this in display? DMA goes to dma.
+
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,exdma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: MediaTek EXDMA
+> +
+> +maintainers:
+> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +description:
+> +  The MediaTek display overlap extended DMA engine, namely OVL_EXDMA or EXDMA,
+> +  primarily functions as a DMA engine for reading data from DRAM with various
+> +  DRAM footprints and data formats. For input sources in certain color formats
+> +  and color domains, OVL_EXDMA also includes a color transfer function
+> +  to process pixels into a consistent color domain.
+> +
+
+Missing ref to dma schemas.
+
+> +properties:
+> +  compatible:
+> +    const: mediatek,mt8196-exdma
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: EXDMA Clock
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  mediatek,larb:
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+
+Why array? And isn't the property named mediatek,larbs?
 
 
-This is a wide pattern now in Mediatek: login name is used as family
-name. Repeating the same comment to every Mediatek employee is a bit
-tedious, so maybe you could fix it internally?
-
-Create some guideline for your colleagues so you won't repeat the same
-things over and over?
-
+> +    maxItems: 1
+> +    items:
+> +      maxItems: 1
+> +    description: |
+> +      A phandle to the local arbiters node in the current SoCs.
+> +      Refer to bindings/memory-controllers/mediatek,smi-larb.yaml.
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  '#dma-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - power-domains
+> +  - mediatek,larb
+> +  - iommus
 Best regards,
 Krzysztof
