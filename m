@@ -2,154 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 045C3A08C9A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 10:45:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222C8A08CB0
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 10:47:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05FE310F02F;
-	Fri, 10 Jan 2025 09:45:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD0C10F03D;
+	Fri, 10 Jan 2025 09:47:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PjBuGP34";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WwcSDaul";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2049.outbound.protection.outlook.com [40.107.243.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0628210F02F;
- Fri, 10 Jan 2025 09:45:46 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on20617.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:200a::617])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A422010F038;
+ Fri, 10 Jan 2025 09:47:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a5Xn7nkR5A/BzY3SEtAYoVrCTNWZ0kOL323a4yaNbx7tIy+bmJRXmeOWGr3cuWnOTxEGKSPcTsD/cWNo+i6DPNRjKFbvLYSZ36YvJfKOLBwjRwjZKS3Z0KG8R5vONnO5e7PttXOMHrNH+EbOk2/ejVeY3+BjNuvwQJWln0U8W8w9ljsoIJvYj9ASK1HBL1QkJNvpk4ScvrZdKsXKAL8zslrnJeSDFp89uA9elTx8c9ipNLKTt8ma6jJLg0zkE5XlBjClVhNB9oFp34/RQOCAVUjU7ZB1TcjVS3opdY+2Hh0JmtrihVEy5ArTidYlVkXdJikqTlXfOfGWDQX9A0e6bQ==
+ b=UAmOUNyLamwGqm1CpZDtjDd6RjU0tr3Lp4c3anU6vn/tNR4lyuHqg6INQjgDYnmxHao15p68CEjv6G++6F3ZGidh6Qunivl+LLHGw1QhSC/ZWzgrUDtnGIYKXCPIKrvnz1fsflD3gyVg2KHaoeOyzj8kCywjA0kX2YxdL29LUz0QFjtkPUHdkGWUlf9iTl++84ydD/nDBfk+BvgnSZF8DyVeiPkRWh1WD+gxJbjGlpuo3nuDVK2tZyWbwFV7C3Hpvl6XFlum6TMTX++yXVyTlYuqkRHPN2J7+PjH+eozcV9lHpG4qibaj2deTc/0+/hulEliiMEA99Q3Fk/FVO01Dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rpzs/x3/FtqQ2diVa5mNqGZ0njfNLk5sZZxOmVDWgdU=;
- b=aCzsEeFcJznmiQwXJX+lyT0/2gJhCKkSF9uggHHBi2WdVmCXCWqxeLOEUfabBexAnE6TVUyd1j01dTd0VRFENcFu6M+6lvk+dlDxKeOri3RSOPOlg/3+V8zli9mdfNF7oqiRJ9WkUggHVUo/yXUio8VHBxFJCVLGMzC3N/iZMklRvlPULwATJfIGjyoFWgZYzyI8mte0Fx9nfdFQLu/v5QRLXw8sBUM0YxL7JxxM0z7P+Ng5BAv/QmCb7u43RRasCU9gnnpK5BQRBnKdkXdm4TCfEA3HLunyVnFywlDusQFHkdh6+f2+W9gh41/KH2k9RZlokmaDYYY5ProiS7/7Tg==
+ bh=GPws4JWh6nnLhrPB0Yk95nT9LGs2MsIGrH6+8QM/IdM=;
+ b=WTkXxgbn9JEPWCz12baPRDUE1pLebCIRQWpSxpUNWwEz7wG8Xbz8mTfT16gLE7KEV9HPs2gtU3C1nE76UyeVe1Kb204aFRk61fTQ9YWuRAWc0YEntDpqnU50FckU72sibEJpuQrnkiDuSD3U/CUpTr97WABoXyC0Mwk86MRSvYRYug8gVjBY5TlosXE0lzVSAGUjSiEr/jTTt7XHhz8NQWn6gOBgj1biXqABPj+Tdt4JbmUaHKyaf+XD8OAZTbobUPqy7Q+ViT35TG1NfeILdIOleJRBtX54OvgGhHO59R4KBbOldInWK6/M3efxCRZXJ3zNiwC7Sm7e/RAp2XM2RA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rpzs/x3/FtqQ2diVa5mNqGZ0njfNLk5sZZxOmVDWgdU=;
- b=PjBuGP34TE2dXuzc/GlcdI9hCGBT9/Wyb6PA9gtgn7L3IGxHtNedRWcT1u8MecyYhgYzQfajU5yOFdeydB/izmhNp3Ri4P0MvAND1VnKmpxhLWuPy8f/KVvqSnIX6Twh0N2eQP210fqdJ8uVH7dxbe8xabGQg68ER3sSFLTNRg0=
+ bh=GPws4JWh6nnLhrPB0Yk95nT9LGs2MsIGrH6+8QM/IdM=;
+ b=WwcSDaulaNPNNHwGWOy10hP36mbkGKM3VpX/agcUE6dUUi1OjATdIKJnRECoBN7KGA4wqISnmeiBLzvx5hF+d8XSpzsOFwCST5z0F5VLEpsKefuJQTrpdfKXPVp3k9wdPQek5gihMss7tV+X2LMTZGJAWkIfOODwsTvoY559cTo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYYPR12MB8731.namprd12.prod.outlook.com (2603:10b6:930:ba::21)
+ by CY5PR12MB6347.namprd12.prod.outlook.com (2603:10b6:930:20::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Fri, 10 Jan
- 2025 09:45:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.11; Fri, 10 Jan
+ 2025 09:47:38 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8335.010; Fri, 10 Jan 2025
- 09:45:44 +0000
-Message-ID: <c2e7b35a-4dc4-4b9e-9589-0457b2318dec@amd.com>
-Date: Fri, 10 Jan 2025 10:45:38 +0100
+ 09:47:38 +0000
+Message-ID: <d1f431f6-559f-4ca8-8cf2-b97fcbd2f5dd@amd.com>
+Date: Fri, 10 Jan 2025 10:47:33 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 3/9] drm/ttm/pool: Restructure the pool allocation code
+Subject: Re: [PATCH v15 0/9] TTM shrinker helpers and xe buffer object shrinker
 To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Paulo Zanoni <paulo.r.zanoni@intel.com>, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona.vetter@ffwll.ch>
 References: <20241217145852.37342-1-thomas.hellstrom@linux.intel.com>
- <20241217145852.37342-4-thomas.hellstrom@linux.intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20241217145852.37342-4-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20241217145852.37342-1-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0058.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f0::14) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR5P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f0::12) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8731:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10e6e265-290a-4000-d609-08dd315b8d45
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6347:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb8ae190-6b0d-4fdc-72f4-08dd315bd182
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SmthYTFWNk90d1U3S3UrL0FTaTZpNTdRb09wMCtFdFFYaFlLZnkrRDhNUFFp?=
- =?utf-8?B?aldscHFQZG5qRUNEbGxWak5iR3FtRllXejlkR3lWSXpzUGwxOFhOaG4wR0Jp?=
- =?utf-8?B?M3VwUTJnaldhVU8zV0FTcDZvWUN2UHRuSXNSbXFHZEZTSTBGVStNaWo4Vno5?=
- =?utf-8?B?c0I5ZWJTaS9qMmNMcDlSUnhlMkZiekJJSi9qVzJ5M0p2YTVQSlQzUkNRQ3Jx?=
- =?utf-8?B?YjlhUmh3UCtMb3dMNWtmUkc1cml2QWJoOVV5THVlaFFTWVQvU2FCL0k4YVkz?=
- =?utf-8?B?bE9FYTBqWSs2MHAzVCtla2EvQVhSU21sempBU1ZhSXVKWmNrQXdjcVBmamo0?=
- =?utf-8?B?OStGMFBTczRaUmlpQkhqN3hFMzRRbUtBUCtEUElNUUhFVi9HckRybU9CVlpY?=
- =?utf-8?B?dEZ3WFZGQ2xVWi9GUzF3SFFqM2RVeWg0bTY0UDgvMXVES0xRTlowYXRhcTJ6?=
- =?utf-8?B?aDEvVm9UMWwvdFRaODF0YkxHTEo2ZGV5VEFadFRFNXF6b1UyRmcxcW5YYmo2?=
- =?utf-8?B?RkJ3a0RWdzZQRExhZlRNcFcxbkZqOVNpUExJVzFsQTE1VXVucTRhMGJYbEg3?=
- =?utf-8?B?cXVrdVpxV0hNc0NQdUJoNkYwNEtZODhIcjAvbllKN2ptNlY3Q01wZHZEVkd0?=
- =?utf-8?B?d0k1eURZVzFOdlFTOWYwaFZDZ3B4V3lOSXdxWjk1U0tlcmU3ampuRzh1QXcx?=
- =?utf-8?B?UUtJSCtGc3V3eGNjNlBKNGJkTlh0aGpLKzBJeDJGSEFFUFJ4KzBQWFJMdzRU?=
- =?utf-8?B?WkpMYjdpQXVBOXEvZXlIWjRVUXl1ZWsrNDV5NWNIeXF5V3JHcEtDM3g3RXBR?=
- =?utf-8?B?bnlmL251bWV6WnN5dFM0UWlNOERXb0tLcHNuSi9kUnh6MEJ5bjZQbS9ETkZV?=
- =?utf-8?B?RDNLRHhsY09pdTFZVGJkZUVZVTBmSGtnWlh0UHVMbnJYV2lVaDQyTjJwZmdy?=
- =?utf-8?B?dldjWEVnWElWWXRwRE5kaDBaOUkvR1d3d0M2ODNLYnhBSktxVXByeDBKaGEx?=
- =?utf-8?B?UjVqUGZoMjhoVXZSZC9hT1ZlOVY1aENuYmUzRkJZeEtKV09kNks4eFlTZm1P?=
- =?utf-8?B?b293Q0F4SUdtMGtTSkZTRStrN1lBbng4NVBLNEplTFVqYnNtODNXOW9GUGpC?=
- =?utf-8?B?ZVRMMk51dGM0N1FnM256RGtibjhqZzl0VjZqSWR1Y3YrYlVHZ1ZtUTRYcnF6?=
- =?utf-8?B?ZnlJMGhXNUZVbEY3V0xQeGpVRkJGUVV4ZHVpMHo2dHg3QUpZNWhRVjAyK1p5?=
- =?utf-8?B?dFRwZ0RTS0JhVzdCMDZoNlVWYmlTM3YvUE1ta0NZc3VGWG5nc1V0K3YzQnVw?=
- =?utf-8?B?NFZQcE9Qb1JFWkpxNWFEckliNTlIMnQ0ZVFsSmdjMXN3N2tJRlhtZCtGV2JI?=
- =?utf-8?B?SlpXcmdzYkJCK3dmRzMycGJBMEVubmhvUitRZG8vYi9iREo1a2RIc0UyLzVw?=
- =?utf-8?B?TEFMc3lBYmRBWWp6Vm5QMUxHTVdaNDVDTHdwYTdDVzBsYTRoZk9yRVRHM0lS?=
- =?utf-8?B?VkxiUkdRWUpNekZPKytzeHMxb05DaVczcVJaOXRmc3dzZUZBZHlHWUdXeExF?=
- =?utf-8?B?dU40dzZYei94OWJXL3kwZkt2WmNxb3hyemIzZHo5NVJZYnRoN3lXSE1hMC9R?=
- =?utf-8?B?NFNxbTVPdndjak80elBwWUFNSXBYMzkvQTN3K3BxN1JzaCtDdS9yVWpXbmhr?=
- =?utf-8?B?Tm5xcDg2bHJCdy9lYTlKUnYxSWxlQks4dnk4ZVJabnBreFVJY29IYlhzaEVQ?=
- =?utf-8?B?S0NSeVhPS2NzK3VKVSsrREtNT0hWRjVxa2VSZ0lweURNbkRxb1BXNnRTQUF3?=
- =?utf-8?B?M1hDQjJ3S2NiU3F1MmtUR1Jtc09TZk5QTldOcFdWZStwWC9JekVpY2lJaDd2?=
- =?utf-8?Q?+MhwPsmG4O7DW?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QWY4dnNlTGRjVExmR1FodElPVnJ4YXZzMkRFbjY0M0k2SkZqMEs3d0hBdXBO?=
+ =?utf-8?B?cElpYUN3QmROenI0NHFBdU4wYUNIeFFzTUhMS3hReVdhMHN6VHZvQnJXU2hn?=
+ =?utf-8?B?Zm96WnFzZnVSeDJHVWpYTzhKc3plNyt6WHNUaUF5Z2dPNEN2UWVSUWl4dGNz?=
+ =?utf-8?B?VmpINStUcFdlOE1CVzlTMjRHVVp3Q1pIbnFGenBDTXFza1VkcVhLMllDNjQr?=
+ =?utf-8?B?eHcvN3FScEN1Vzd6SUVDWk52N1p2RTBYT0ptSTdlTHhqcDg2b2tmMTI4eVEz?=
+ =?utf-8?B?NzdraXNXUEpBeW1iUG8yMllnUXh4cE13ZE1aU2dmbHd3c2JXZkNKSGlpZ2Mw?=
+ =?utf-8?B?dzg5aWV5a0kyZVdONkgvcnlSa3F3eTFvUWVQTVVMWDJQWWNueFNkRWxJV2xV?=
+ =?utf-8?B?T0VMYTRrY2lNNTFZU2RyQ2VBbStBN0RzL1dNcUU4Zk9ZcEtCc1pTZ3o1bG5l?=
+ =?utf-8?B?b2FlUEQrTTBlelJnN2ljdElsMDlsdzQ2c3c4TmVyd3lwUlpFZStaWXhUZFJN?=
+ =?utf-8?B?ODlsM3o0SUdRUFFiVm1jMlB4QlNSS1ZyZGljNERhNXlzUnFZMzZPREd2d04z?=
+ =?utf-8?B?TnozNDY2T2IxS21hZnVTL29oWWp3SGs1d0hhOTlNZDI5L3QvZmhseWxsWVlB?=
+ =?utf-8?B?Q3JWSW01Y1hsek9mNDZSNmVEMkUxNDJ3b0FFbjZDZjZMQkk1MzEySE9zaHlD?=
+ =?utf-8?B?bFd0emE3bmNWUjlYQm1HcUdWMW5LNFY1WlBzbFo0M2VuMW10TTdiNEE1Y1VK?=
+ =?utf-8?B?b3ZwbGZwSmhSVWxkZUkxbThBS1lXZVJKUmpWajgwMHRxV1pUdHB5SVBIeURu?=
+ =?utf-8?B?MGJzcDBmVDc5a1lsR1RpdXBzUU8yZ21tZk1qcWxuczRKVCtkSjZIaFlCQWIv?=
+ =?utf-8?B?VGRUZHhoOHFhYm9BcnRjb0xReExDUnBJN2dkV244Q1luRml4M2tJM0FydVJ6?=
+ =?utf-8?B?anl1WXdwRUZ2TmllSFdxVWszUzFDUjlPSU94aU5COWxsSEVXYmxnanVTNTNS?=
+ =?utf-8?B?aEJpTW5lOFdJY2JJY3JBZVF6ZDF5NS80VkpEeE9FbDNRWVYrVzNSSDBacitT?=
+ =?utf-8?B?WGVINjhwZnJpaHZFOUFaOElSMFVKMFFHL3hYdnRpLzN5Vk4vdk91MkloSW1O?=
+ =?utf-8?B?VlRJRkdYdzI1dHA3ZlZtUUVvQmM5WU1sK0xJVW93STV0Nkx6eUVWb1hibnNS?=
+ =?utf-8?B?THdZSFlOWkFRbnk5OENxUExsZEdtQWRhMEhjdXBVSnVzV3M2M2NHSzNPYnVp?=
+ =?utf-8?B?TWFQNXEwaXAxL1hzWHFqN3I4UlZLNmxZbUNaUVB1bzVvRi9qUTExZTM4amdE?=
+ =?utf-8?B?UmJNaFdiY2ZZeHhRNkE5N2hjaXYwVmFIT0FOc2tMdGNyenJhZUlNWVRoK2U2?=
+ =?utf-8?B?Q1VDc0JaTTQzdUdhcDBxWDlkSDZ5V1VtNnZpTDQ2UHBsNDJlcHhqdXVERmNG?=
+ =?utf-8?B?OW00RnZlZzhNS3l0ZzUxL2E4VW15RGp5ZlFDa0Y2ci9KNWg0cUhXQkJoZlRs?=
+ =?utf-8?B?NjFnbUx2Tk9PVlhhdlRjRW5rRmgrTEw2U09SalVaLzBBUnkxOGp6QXhpdThH?=
+ =?utf-8?B?Y1hhc09qQ2lpRUlxdjFzdVp1OUMyNUZCeEZuNE1aZEZRMk53VHFxV2NHTjVz?=
+ =?utf-8?B?MmtaTkhiQXEvQkpEVFFQeGxjUXl3cmJtdEZxdlF2SXVxQTljSEIyTUFyQi93?=
+ =?utf-8?B?Z3lidjBTVzNUazNLa2hqcGhFZS9raXFmMkEvTjcvOU1Bd09nMUpoaWVIdjds?=
+ =?utf-8?B?RzdCa0dwVnAxc0doOURjdjBDYWJvL0RCWFlIeG5DTmYveUN2Z1RVNUMvVURp?=
+ =?utf-8?B?SnFUemk2WlVQYzZGNDRKUT09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWFpeW54a28zWWRwUHFaNGtjZldRTTBUUW1Fdm14YlFha2Y5ejVacnRyZDR3?=
- =?utf-8?B?QjhBdC9ONU9EQVJKV2ZpNWhlWE8rUEs4TGdlcEYxZVRYRUthWnVqYzhZYkEz?=
- =?utf-8?B?TGFrUzEyVklteXdLbHJuS3VEVkRFazAxYjBNcXFzSGtDd3dBd3ptZ2VZYmVy?=
- =?utf-8?B?UHhmd1dsQlZUT1ZuajJabkU3YXFiWEdIS1paeHpyN0M5SE4rVTN4QUF6U0wy?=
- =?utf-8?B?K2wwMGNZN0ZWZGFoUjh3WGpBS0lJc2FSdnJOYmF1NUZrVXZMdFZYcnB1M20z?=
- =?utf-8?B?Zlg2Zk93OGh1ckZncjd2d1gzYnpSWXVZTjBIell1RWZTbG03TkQwYkFuRldu?=
- =?utf-8?B?UjN4K1VMMWZhTTNnV1FwZzlENGFLcGVOS3ZCWkZNOVptYXppYkRvdk1ZY1Ft?=
- =?utf-8?B?V0dEV2Q4NFF0Z3lZUzNNVHZRbG43NFp3QmxObDdaY1lxam43L2lCaXhCK1FD?=
- =?utf-8?B?TjJCV0J2UXBqSG1rRFNjb2F1elpMMWN5YWNUU3JIV3hrNDMxZlIzbWY2TzR4?=
- =?utf-8?B?ZThmNHBUeHZxcXZCL0FwN09WMS9nczU2QVhSUkVoT2dKNlNuT1BTZWZEM1FX?=
- =?utf-8?B?TDJGaSsrUVpXcXN4OStPNm50Tm5pbEVmSUdTVkU3Q0Rtd3dGcExLeE5tQWFR?=
- =?utf-8?B?VlFtUEt2VzlzZGorYUVGQjgxbWRRVzhpTzUyeFpjM2lMVkdKMzI2dDNLeTNX?=
- =?utf-8?B?dFVlVE1LOURiNVR1bVBSUUpuKy9TTW5mYkJUUUg1TmpxM09yNVBpWlB4dCt1?=
- =?utf-8?B?REFEQzJEUzhiR2I1WkNIY3JJeEZ3VHZmUEl4MzJrUWRoREtwYkcreHVGbFVJ?=
- =?utf-8?B?RTRPQjhTTW9DYkUzMlVZRjIxZWdMcGJrU2NUeDRsRDUvZ0RIbElIUUVITTMy?=
- =?utf-8?B?dUNtejh0ZGNzNzUxZVdjem02NGlmKzc4aC9TZ0NQWE5hVkVNS1NWbStYUVJ5?=
- =?utf-8?B?cDNCODJmR21WY1U4TDNPSjZCU3VrVEZraFZKSUU5K05vblVBclZHTVB0eUdZ?=
- =?utf-8?B?VUxUMzlyVHJIeE1Walg2bm5EZ04yM2hVcEhQWjN1bFVJV0pKZ1R1SWU1ZjlU?=
- =?utf-8?B?dlVmZWVrMUJhUzBrRkVVU1RhbE5UK0hLcUNoTDBPanlHd0pFRFJJSDRjRE51?=
- =?utf-8?B?d0xuTTh2UjlHTVpMWUxOa3QyTkZoZHhNQndmUU9rNmhBbGdFZmRZNFgyZmx5?=
- =?utf-8?B?U2N2VzJwTXR0V1VuU0JpSFNnbTdWMnIxNFFHUE1rTXJiUGt6VFg3Qy9vUHA3?=
- =?utf-8?B?STlsdWtkY05uTGQvYVcwZWpQMStwTTN3S09OcWducndkOVlZK3FESm10UmtD?=
- =?utf-8?B?RXhrSWwzaDFmZEEvN3pBWmo1aTNqSFdPaVRyTjQwSDNqa2p5Rzk4c3NBQ1RQ?=
- =?utf-8?B?bGF3YTdKT3V4UytEdTNod3ZyZmJXbGFINitwdzJYOWp5M3FEZVZQbno1cEph?=
- =?utf-8?B?eVh4OENYbVIwUFMxNGF2cXM4TGtvUzROdXFiWkxXRDE0N1dRcFVBdGJmVlUz?=
- =?utf-8?B?VDJWUU82YVVqVFFsSHhxY0VZRktFSDh5TndjWWwzbXRrbytDV3FIRVJxelpR?=
- =?utf-8?B?OEd5RFRYU3RxSVFGbUUxMTMyMVVNL1dBd3Flckh1aGtiU3J5aUZEUDhRcDZ0?=
- =?utf-8?B?dDd0OFAxYjFUZ0tQWVo5aEdDRkZqSWRzbmRzZzRXT2lKZDMwOUxJWEU1NUFD?=
- =?utf-8?B?c0t0d3NsNkFlejcvTU84d3FxVmRTTEdxdU83UDdNdmJybDdoWjZBNFVsVzl3?=
- =?utf-8?B?YXg0ZGZGT2o1V3NQQ2EwYUZyLzVkQ1VLVVM3VzlETXd5MVRTVnRZY0srOWlF?=
- =?utf-8?B?UC9XUXJjUUVXSUZ5eE1pTTBUS09jV1ZuVjIveE9UUkhiRERJZWdoeVI1RW9p?=
- =?utf-8?B?WEVjUlZjMmJSWGJSKzEydzJjSlgvOUZEQ0syMFFxSjJLK0oyOU11NFNsVW5t?=
- =?utf-8?B?QWo4dytNNSs1ZmtNVmJsM2VuZ2srYkNNblN3Z1k3TzZ0WXFCVnJra05LTFFt?=
- =?utf-8?B?N2VrT2p3R2hjVlg5NmJRVkJRRWIraFllWDVFSkpxQWFrTDBRTEMrc21pc3RQ?=
- =?utf-8?B?MG16M0NiTkRiVVB2emRmWklEQVUwRTk0NzF0LytZcDBzd1JjYm5mNkx0U2lt?=
- =?utf-8?Q?SM+jULLlCOv4RCGOp3Px58cwS?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eXByY3hCb0JKL0Z1TnJXTmEyc1h4NExRcStxcERTTE96NTVOVktXSTdRTjcv?=
+ =?utf-8?B?S0RrNW9aVU1oNExaTGU3NTd3RGFteVpzL1VacTNTN2hIUE5vR3pkS3BlTDhW?=
+ =?utf-8?B?S1Evd1lnVTBCUjlLUFB3VSt3bVIwbjkxZlVNRkh4QytoUUlSTlgzWXJuQnRG?=
+ =?utf-8?B?WkVjQklYVDg5cEhUcG9QeVBOVnZYdUttRmpnenQrMFFNUkFGRGowc2Frczkx?=
+ =?utf-8?B?UGVoUXJhT2dCakdZb1czRTN3dFVwLzBNT1lWbVc0d2ZYMGMvNzZrWVpSZkRE?=
+ =?utf-8?B?czBFNlJMYVB0c21ldnNFKythdmJXV1Fpdi9UZEExWVRxMjhXOEJ5RUNyOXU3?=
+ =?utf-8?B?MjBydzFiRkNiMDBjWU9OTW0vNkU2b2FQZXk4YTZGaGpMbmJRbUJOeE5WMHFt?=
+ =?utf-8?B?alhQWnVnSERGM280UVI5NGoxQ2dSbHl3R0IvWXR6NzdCWFV2UWpWd0trNFAy?=
+ =?utf-8?B?aDNldnN5bSt5R2p3emsvNmdXRmNVcEFTT212VHhOVWdoMUFBWWVYbjdEZ3Nr?=
+ =?utf-8?B?Y2d1WFY2c3FHNVpxeWJjNEViRUpmTFpiTmpXS0xMMkRjb1l6V3RzU2tXWklm?=
+ =?utf-8?B?SmxMUjhPM3N3RDY1cjlqRnJ5NVZIcUlHR1E0SmViYUx0b0NQeGhtQmZjcVht?=
+ =?utf-8?B?VjB5WWx2MGNvS2NEQlN5WUNxaTc3S2luVWQ3U0RzQWw5dlpTZ05JN0FoQi9I?=
+ =?utf-8?B?VS9pOGw3ZjhBK3FKZDZPNjAyRFdFY0FGQUVObDhHd2pPd1JTNE90RTYvTHhs?=
+ =?utf-8?B?TTdySFJhZDNVNnBzMS9JWlMrYmZDUXU3VndXbXZnY3AzNEVFU01oNUV6TXAz?=
+ =?utf-8?B?RnJEMDZ5dDlvakNRaU1EUElDU3Q2NU1BdzV5SXd4TWx6MnhXNjhVUjlkYnZ4?=
+ =?utf-8?B?QUY2VzFHdWtwNUdQTHdqazB0amNHMi9UYStNTlpDQTRLWU5qYW9PSGZYVk1o?=
+ =?utf-8?B?akdWajB2TC8zM0hBMXgrWnhBbUZmSnNNVFlVdytrWFNWdWNSVXcyQjd3cDMz?=
+ =?utf-8?B?UlVqMVk5OGI4SjJHN2NXd0dxODhTeFdlejVGRFRLUXYwUFZWYkl6TDZUc2tM?=
+ =?utf-8?B?Z2ZlSWhQcGZXM0RvRnJGc0lyZlFxSGdPa0YzQ2hOSlFET3RpUXdDSWxjM0NR?=
+ =?utf-8?B?TzZlb1dySndnRlRobHdnT09Wc3BZYkQxK3l3VHJVTXh6cFp0NlhSUHlPWkpD?=
+ =?utf-8?B?cEYxMlo5VjFpVlNwL2lVTlVXdFpCK3B5QloyS21jeWhDVllYckpzK2pMb2Y4?=
+ =?utf-8?B?U1FBZFdlalFQNWpkWGl3RXJoY3pGMys0dXJyZ2hoalE3a3dSUEduWjBSellJ?=
+ =?utf-8?B?SVY5bUpNMWhhc0xBZ0FweDlWWnJFb0dvb3FRQ01UdERxbGFOeXBMazV3cWFL?=
+ =?utf-8?B?bVpSOGNmUW1FQ0tlQjRDazBoT2pLNzJyU3ZPSG9NUGRpTnJBMEc2YVV5N01o?=
+ =?utf-8?B?SkhLSkp1NWh1bHZSL284ZzcrSU5mZE1MWnpRNEpDQ1VqMGtVTlg0YVdlMkgw?=
+ =?utf-8?B?M3JadkMyMlMrc0V4R042YXpiRWYyd0lIalNtZUptZGtTd0kvbFJsenZRYkhs?=
+ =?utf-8?B?RlpsYXVKdm0xUE44dUhPVzZBQXlpQjdMQWI5UFdNYTdubzJ3QmNjU2pJTkFO?=
+ =?utf-8?B?ZjNITHZMV0RYcVdWK0hmaXlyWHFhUmF5Z3hrOEVWRERueElKU2RMbXhzTmpM?=
+ =?utf-8?B?eGg3MDlESDVsVVdjRk5sS2ZnTlVUOWU4eWhCcXR6bHB5TmVHUUtZUy9nNmVv?=
+ =?utf-8?B?bEdkc3ZXc1RmM09IUXQ0YklTdzJkcUZuaGEvb0t1bGhIZFF3Mi9reWU1U2Uv?=
+ =?utf-8?B?SUhVSzZjK2V6SzNBSXlONVZXSUhyaVRZTG9SekxSbG1GSUlNeXNnNWc2YkI2?=
+ =?utf-8?B?Y0lFcWE5NVVjb0lTdTAzZW9rUU9FekFra0hWaFRZQ1FyNnc5MWJCd25BcDNR?=
+ =?utf-8?B?eE82TnN0UGtUeVZqWlM0cFdONVhQWWdELy9ySGlpeGg0RjhZOFI1LzcybXBl?=
+ =?utf-8?B?YXZISHdSS0M5YjMyTktkQ0gveWRYZ0pMK1JHWGpvVDlHb1FKeW9SR0tVYnZ4?=
+ =?utf-8?B?MTFpbkVLKysxSWpLWngxRytPUVhEYlNYY2RuMUtzTnMrMFIzV2FHenFzbWhH?=
+ =?utf-8?Q?/YFW/2xNl60T8WhLtQFuh1px7?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10e6e265-290a-4000-d609-08dd315b8d45
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb8ae190-6b0d-4fdc-72f4-08dd315bd182
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2025 09:45:43.9620 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2025 09:47:38.4497 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fhFh2CpbN1qmy8c4jicvHD4OMjV5iToEx46jfEuw7u+3JOEdzmZEDQap76IN5uIY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8731
+X-MS-Exchange-CrossTenant-UserPrincipalName: UjUjhPtsq4iJKps8SNtwUOGROaewVAA8idVUbdVQPZbhzDMyxk22uOQvkXGxtbTQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6347
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,306 +164,180 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Any objections that I push patch #1 and #3 to drm-misc-next?
+
+They are general cleanups anyway and this way we have them out of the way.
+
+Regards,
+Christian.
+
 Am 17.12.24 um 15:58 schrieb Thomas Hellström:
-> Simplify the pool allocation code somewhat by merging loop arguments
-> used by multiple functions together in a struct and simplifying the
-> loop. Also add documentation.
-> This hopefully makes the behaviour of the allocation loop
-> simplier to understand, but above all paves the way for upcoming
-> restore-while-allocating functionality.
+> This series implements TTM shrinker / eviction helpers and an xe bo
+> shrinker. It builds on a previous series, *and obsoletes that one*.
 >
-> There are no functional changes, but the "allow_pools" bool
-> introduced to keep current functionality could be removed as a
-> follow up, which would enable using write-back cached pools when
-> allocating memory for other caching modes, rather than to resort
-> to allocating from the system directly.
+> https://lore.kernel.org/linux-mm/b7491378-defd-4f1c-31e2-29e4c77e2d67@amd.com/T/
+>
+> Where the comment about layering
+> https://lore.kernel.org/linux-mm/b7491378-defd-4f1c-31e2-29e4c77e2d67@amd.com/T/#ma918844aa8a6efe8768fdcda0c6590d5c93850c9
+>
+> now addressed, and this version also implements shmem objects for backup
+> rather than direct swap-cache insertions, which was used in the previuos
+> series. It turns out that with per-page backup / shrinking, shmem objects
+> appears to work just as well as direct swap-cache insertions with the
+> added benefit that was introduced in the previous TTM shrinker series to
+> avoid running out of swap entries isn't really needed.
+>
+> The series earlier consisted of a LRU traversal part and the current part.
+> The LRU traversal part is merged, but is still mentioned in the history
+> below.
+>
+> Patch 1 balances ttm_resource_cursor_fini() with an init function. It
+> makes patch 5 more straightforward.
+>
+> Patch 2 introduces a backup implemententaion.
+>
+> Patch 3 reworks the structure of ttm_pool_alloc in preparation for patch 4.
+>
+> Patch 4 introduces functionality in the ttm_pool code for page-by-page shrinking
+> and recovery. It avoids having to temporarily allocate a huge amount of
+> memory to be able to shrink a buffer object. It also introduces the
+> possibility to immediately write-back pages if needed.
+>
+> Patch 5 Adds a simple error injection to the above code to help increase
+> test coverage.
+>
+> Patch 6 Implements a macro for LRU iteration.
+>
+> Patch 7 Introduces driver-facing helpers for shrinking.
+>
+> Patch 8 Implements the xe bo shrinker.
+>
+> Patch 9 Increases (removes) the XE_PL_TT watermark.
+>
+> v2:
+> - Squash obsolete revision history in the patch commit messages.
+> - Fix a couple of review comments by Christian
+> - Don't store the mem_type in the TTM managers but in the
+>    resource cursor.
+> - Rename introduced TTM *back_up* function names to *backup*
+> - Add ttm pool recovery fault injection.
+> - Shrinker xe kunit test
+> - Various bugfixes
+>
+> v3:
+> - Address some review comments from Matthew Brost and Christian König.
+> - Use the restartable LRU walk for TTM swapping and eviction.
+> - Provide a POC drm_exec locking implementation for exhaustive
+>    eviction. (Christian König).
+>
+> v4:
+> - Remove the RFC exhaustive eviction part. While the path to exhaustive
+>    eviction is pretty clear and demonstrated in v3, there is still some
+>    drm_exec work that needs to be agreed and implemented.
+> - Add shrinker power management. On some hw we need to wake when shrinking.
+> - Fix the lru walker helper for -EALREADY errors.
+> - Add drm/xe: Increase the XE_PL_TT watermark.
+>
+> v5:
+> - Update also TTM kunit tests
+> - Handle ghost- and zombie objects in the shrinker.
+> - A couple of compile- and UAF fixes reported by Kernel Build Robot and
+>    Dan Carpenter.
+>
+> v6:
+> - Address review comments from Matthew Brost on the
+>    restartable LRU traversal path.
+>
+> v7:
+> - Split out TTM restartable LRU traversal path and merge that.
+> - Adapt the review comments on that series.
+>
+> v8:
+> - Address review comments from Matthew Brost as detailed in the
+>    respective patches.
+>
+> v9:
+> - Rebase and fix compilation errors
+>
+> v10:
+> - Use a LRU iteration macro rather than a function with a callback.
+> - Rebasing and cleanups
+> - Address some additional review comments from Matt Brost.
+> - Drop the shrinker selftest. It was already merged as a swapout
+>    self-test.
+>
+> v11:
+> - Move more core interaction to additional TTM helpers.
+> - Don't back up without __GFP_FS, and don't start writeback without __GFP_IO.
+> - Rebase.
+>
+> v12:
+> - Fix an indentation flaw.
+> - Rebase
+>
+> v13:
+> - Remove the backup base-class, and use direct calls for ttm_backup
+>    (Christian König).
+> - Rebase on the ttm_backup changes.
+> - Move shrunken bos from the LRU list to the unevictable list.
+> - Provide an accessor function with sanity checks to set the
+> - ttm_tt::backup field.
+> - Update documentation.
+>
+> v14:
+> - Update documentation of ttm_backup_bytes_avail().
+> - Work around converting between struct file * and struct ttm-backup *.
+> - Don't set up backup for imported buffers.
 >
 > v15:
-> - Introduce this patch to simplify the upcoming patch that introduces
->    restore while allocating.
+> - ttm_backup return value change. (Christian König)
+> - ttm_pool restore/alloc implementation rework (Christian König)
+> - Documentation update.
+> - Remove cond_resched (Christian König)
 >
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-> ---
->   drivers/gpu/drm/ttm/ttm_pool.c | 183 +++++++++++++++++++--------------
->   1 file changed, 108 insertions(+), 75 deletions(-)
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
 >
-> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index 8504dbe19c1a..c9eba76d5143 100644
-> --- a/drivers/gpu/drm/ttm/ttm_pool.c
-> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -58,6 +58,23 @@ struct ttm_pool_dma {
->   	unsigned long vaddr;
->   };
->   
-> +/**
-> + * struct ttm_pool_alloc_state - Current state of the tt page allocation process
-> + * @pages: Pointer to the next tt page pointer to populate.
-> + * @caching_divide: Pointer to the first page pointer whose page has a staged but
-> + * not committed caching transition from write-back to @tt_caching.
-> + * @dma_addr: Pointer to the next tt dma_address entry to populate if any.
-> + * @remaining_pages: Remaining pages to populate.
-> + * @tt_caching: The requested cpu-caching for the pages allocated.
-> + */
-> +struct ttm_pool_alloc_state {
-> +	struct page **pages;
-> +	struct page **caching_divide;
-> +	dma_addr_t *dma_addr;
-> +	pgoff_t remaining_pages;
-> +	enum ttm_caching tt_caching;
-> +};
-> +
->   static unsigned long page_pool_size;
->   
->   MODULE_PARM_DESC(page_pool_size, "Number of pages in the WC/UC/DMA pool");
-> @@ -160,25 +177,25 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
->   	kfree(dma);
->   }
->   
-> -/* Apply a new caching to an array of pages */
-> -static int ttm_pool_apply_caching(struct page **first, struct page **last,
-> -				  enum ttm_caching caching)
-> +/* Apply any cpu-caching deferred during page allocation */
-> +static int ttm_pool_apply_caching(struct ttm_pool_alloc_state *alloc)
->   {
->   #ifdef CONFIG_X86
-> -	unsigned int num_pages = last - first;
-> +	unsigned int num_pages = alloc->pages - alloc->caching_divide;
->   
->   	if (!num_pages)
->   		return 0;
->   
-> -	switch (caching) {
-> +	switch (alloc->tt_caching) {
->   	case ttm_cached:
->   		break;
->   	case ttm_write_combined:
-> -		return set_pages_array_wc(first, num_pages);
-> +		return set_pages_array_wc(alloc->caching_divide, num_pages);
->   	case ttm_uncached:
-> -		return set_pages_array_uc(first, num_pages);
-> +		return set_pages_array_uc(alloc->caching_divide, num_pages);
->   	}
->   #endif
-> +	alloc->caching_divide = alloc->pages;
->   	return 0;
->   }
->   
-> @@ -354,24 +371,41 @@ static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
->   	return p->private;
->   }
->   
-> -/* Called when we got a page, either from a pool or newly allocated */
-> +/*
-> + * Called when we got a page, either from a pool or newly allocated.
-> + * if needed, dma map the page and populate the dma address array.
-> + * Populate the page address array.
-> + * If the caching is consistent, update any deferred caching. Otherwise
-> + * stage this page for an upcoming deferred caching update.
-> + */
->   static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
-> -				   struct page *p, dma_addr_t **dma_addr,
-> -				   unsigned long *num_pages,
-> -				   struct page ***pages)
-> +				   struct page *p, enum ttm_caching page_caching,
-> +				   struct ttm_pool_alloc_state *alloc)
->   {
-> -	unsigned int i;
-> -	int r;
-> +	pgoff_t i, nr = 1UL << order;
-> +	bool caching_consistent;
-> +	int r = 0;
-> +
-> +	caching_consistent = (page_caching == alloc->tt_caching) || PageHighMem(p);
-> +
-> +	if (caching_consistent) {
-> +		r = ttm_pool_apply_caching(alloc);
-> +		if (r)
-> +			return r;
-> +	}
->   
-> -	if (*dma_addr) {
-> -		r = ttm_pool_map(pool, order, p, dma_addr);
-> +	if (alloc->dma_addr) {
-> +		r = ttm_pool_map(pool, order, p, &alloc->dma_addr);
->   		if (r)
->   			return r;
->   	}
->   
-> -	*num_pages -= 1 << order;
-> -	for (i = 1 << order; i; --i, ++(*pages), ++p)
-> -		**pages = p;
-> +	alloc->remaining_pages -= nr;
-> +	for (i = 0; i < nr; ++i)
-> +		*alloc->pages++ = p++;
-> +
-> +	if (caching_consistent)
-> +		alloc->caching_divide = alloc->pages;
->   
->   	return 0;
->   }
-> @@ -413,6 +447,26 @@ static void ttm_pool_free_range(struct ttm_pool *pool, struct ttm_tt *tt,
->   	}
->   }
->   
-> +static void ttm_pool_alloc_state_init(const struct ttm_tt *tt,
-> +				      struct ttm_pool_alloc_state *alloc)
-> +{
-> +	alloc->pages = tt->pages;
-> +	alloc->caching_divide = tt->pages;
-> +	alloc->dma_addr = tt->dma_address;
-> +	alloc->remaining_pages = tt->num_pages;
-> +	alloc->tt_caching = tt->caching;
-> +}
-> +
-> +/*
-> + * Find a suitable allocation order based on highest desired order
-> + * and number of remaining pages
-> + */
-> +static unsigned int ttm_pool_alloc_find_order(unsigned int highest,
-> +					      const struct ttm_pool_alloc_state *alloc)
-> +{
-> +	return min_t(unsigned int, highest, __fls(alloc->remaining_pages));
-> +}
-> +
->   /**
->    * ttm_pool_alloc - Fill a ttm_tt object
->    *
-> @@ -428,19 +482,19 @@ static void ttm_pool_free_range(struct ttm_pool *pool, struct ttm_tt *tt,
->   int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->   		   struct ttm_operation_ctx *ctx)
->   {
-> -	pgoff_t num_pages = tt->num_pages;
-> -	dma_addr_t *dma_addr = tt->dma_address;
-> -	struct page **caching = tt->pages;
-> -	struct page **pages = tt->pages;
-> +	struct ttm_pool_alloc_state alloc;
->   	enum ttm_caching page_caching;
->   	gfp_t gfp_flags = GFP_USER;
->   	pgoff_t caching_divide;
->   	unsigned int order;
-> +	bool allow_pools;
->   	struct page *p;
->   	int r;
->   
-> -	WARN_ON(!num_pages || ttm_tt_is_populated(tt));
-> -	WARN_ON(dma_addr && !pool->dev);
-> +	ttm_pool_alloc_state_init(tt, &alloc);
-> +
-> +	WARN_ON(!alloc.remaining_pages || ttm_tt_is_populated(tt));
-> +	WARN_ON(alloc.dma_addr && !pool->dev);
->   
->   	if (tt->page_flags & TTM_TT_FLAG_ZERO_ALLOC)
->   		gfp_flags |= __GFP_ZERO;
-> @@ -453,67 +507,46 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->   	else
->   		gfp_flags |= GFP_HIGHUSER;
->   
-> -	for (order = min_t(unsigned int, MAX_PAGE_ORDER, __fls(num_pages));
-> -	     num_pages;
-> -	     order = min_t(unsigned int, order, __fls(num_pages))) {
-> +	page_caching = tt->caching;
-> +	allow_pools = true;
-> +	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, &alloc);
-> +	     alloc.remaining_pages;
-> +	     order = ttm_pool_alloc_find_order(order, &alloc)) {
->   		struct ttm_pool_type *pt;
->   
-> -		page_caching = tt->caching;
-> -		pt = ttm_pool_select_type(pool, tt->caching, order);
-> -		p = pt ? ttm_pool_type_take(pt) : NULL;
-> -		if (p) {
-> -			r = ttm_pool_apply_caching(caching, pages,
-> -						   tt->caching);
-> -			if (r)
-> -				goto error_free_page;
-> -
-> -			caching = pages;
-> -			do {
-> -				r = ttm_pool_page_allocated(pool, order, p,
-> -							    &dma_addr,
-> -							    &num_pages,
-> -							    &pages);
-> -				if (r)
-> -					goto error_free_page;
-> -
-> -				caching = pages;
-> -				if (num_pages < (1 << order))
-> -					break;
-> -
-> -				p = ttm_pool_type_take(pt);
-> -			} while (p);
-> -		}
-> -
-> -		page_caching = ttm_cached;
-> -		while (num_pages >= (1 << order) &&
-> -		       (p = ttm_pool_alloc_page(pool, gfp_flags, order))) {
-> -
-> -			if (PageHighMem(p)) {
-> -				r = ttm_pool_apply_caching(caching, pages,
-> -							   tt->caching);
-> -				if (r)
-> -					goto error_free_page;
-> -				caching = pages;
-> -			}
-> -			r = ttm_pool_page_allocated(pool, order, p, &dma_addr,
-> -						    &num_pages, &pages);
-> -			if (r)
-> -				goto error_free_page;
-> -			if (PageHighMem(p))
-> -				caching = pages;
-> +		/* First, try to allocate a page from a pool if one exists. */
-> +		p = NULL;
-> +		pt = ttm_pool_select_type(pool, page_caching, order);
-> +		if (pt && allow_pools)
-> +			p = ttm_pool_type_take(pt);
-> +		/*
-> +		 * If that fails or previously failed, allocate from system.
-> +		 * Note that this also disallows additional pool allocations using
-> +		 * write-back cached pools of the same order. Consider removing
-> +		 * that behaviour.
-> +		 */
-> +		if (!p) {
-> +			page_caching = ttm_cached;
-> +			allow_pools = false;
-> +			p = ttm_pool_alloc_page(pool, gfp_flags, order);
->   		}
-> -
-> +		/* If that fails, lower the order if possible and retry. */
->   		if (!p) {
->   			if (order) {
->   				--order;
-> +				page_caching = tt->caching;
-> +				allow_pools = true;
->   				continue;
->   			}
->   			r = -ENOMEM;
->   			goto error_free_all;
->   		}
-> +		r = ttm_pool_page_allocated(pool, order, p, page_caching, &alloc);
-> +		if (r)
-> +			goto error_free_page;
->   	}
->   
-> -	r = ttm_pool_apply_caching(caching, pages, tt->caching);
-> +	r = ttm_pool_apply_caching(&alloc);
->   	if (r)
->   		goto error_free_all;
->   
-> @@ -523,10 +556,10 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->   	ttm_pool_free_page(pool, page_caching, order, p);
->   
->   error_free_all:
-> -	num_pages = tt->num_pages - num_pages;
-> -	caching_divide = caching - tt->pages;
-> +	caching_divide = alloc.caching_divide - tt->pages;
->   	ttm_pool_free_range(pool, tt, tt->caching, 0, caching_divide);
-> -	ttm_pool_free_range(pool, tt, ttm_cached, caching_divide, num_pages);
-> +	ttm_pool_free_range(pool, tt, ttm_cached, caching_divide,
-> +			    tt->num_pages - alloc.remaining_pages);
->   
->   	return r;
->   }
+> Thomas Hellström (9):
+>    drm/ttm: Balance ttm_resource_cursor_init() and
+>      ttm_resource_cursor_fini()
+>    drm/ttm: Provide a shmem backup implementation
+>    drm/ttm/pool: Restructure the pool allocation code
+>    drm/ttm/pool, drm/ttm/tt: Provide a helper to shrink pages
+>    drm/ttm: Use fault-injection to test error paths
+>    drm/ttm: Add a macro to perform LRU iteration
+>    drm/ttm: Add helpers for shrinking
+>    drm/xe: Add a shrinker for xe bos
+>    drm/xe: Increase the XE_PL_TT watermark
+>
+>   drivers/gpu/drm/ttm/Makefile         |   2 +-
+>   drivers/gpu/drm/ttm/ttm_backup.c     | 207 ++++++++
+>   drivers/gpu/drm/ttm/ttm_bo.c         |   3 +-
+>   drivers/gpu/drm/ttm/ttm_bo_util.c    | 250 +++++++++-
+>   drivers/gpu/drm/ttm/ttm_pool.c       | 718 +++++++++++++++++++++++----
+>   drivers/gpu/drm/ttm/ttm_resource.c   |  35 +-
+>   drivers/gpu/drm/ttm/ttm_tt.c         |  83 ++++
+>   drivers/gpu/drm/xe/Makefile          |   1 +
+>   drivers/gpu/drm/xe/tests/xe_bo.c     |   6 +-
+>   drivers/gpu/drm/xe/xe_bo.c           | 202 +++++++-
+>   drivers/gpu/drm/xe/xe_bo.h           |  36 ++
+>   drivers/gpu/drm/xe/xe_device.c       |   8 +
+>   drivers/gpu/drm/xe/xe_device_types.h |   2 +
+>   drivers/gpu/drm/xe/xe_shrinker.c     | 258 ++++++++++
+>   drivers/gpu/drm/xe/xe_shrinker.h     |  18 +
+>   drivers/gpu/drm/xe/xe_ttm_sys_mgr.c  |   3 +-
+>   include/drm/ttm/ttm_backup.h         |  74 +++
+>   include/drm/ttm/ttm_bo.h             |  93 ++++
+>   include/drm/ttm/ttm_pool.h           |   8 +
+>   include/drm/ttm/ttm_resource.h       |  11 +-
+>   include/drm/ttm/ttm_tt.h             |  69 ++-
+>   21 files changed, 1935 insertions(+), 152 deletions(-)
+>   create mode 100644 drivers/gpu/drm/ttm/ttm_backup.c
+>   create mode 100644 drivers/gpu/drm/xe/xe_shrinker.c
+>   create mode 100644 drivers/gpu/drm/xe/xe_shrinker.h
+>   create mode 100644 include/drm/ttm/ttm_backup.h
+>
 
