@@ -2,65 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0940CA0895F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 08:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F705A08962
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 08:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62D3F10EFF6;
-	Fri, 10 Jan 2025 07:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0CFF10EFFA;
+	Fri, 10 Jan 2025 07:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xhidj8xh";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j0vToTG2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 747BE10EFF8;
- Fri, 10 Jan 2025 07:47:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736495254; x=1768031254;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=z3U7S8oADWyc3HBC83TzL41/Y1BQTyDmhJTg7zCRlvA=;
- b=Xhidj8xhxpQu/k4U5Y/7A8L+prJs6bn9d5C0JnTzMoUT262QUgPRhGHm
- tmSUrTqjXhAWw/0pvOEydQZgDmww79W/hAB3RIVa3WSS2VHIR1fFbi1Tz
- UzeAAb51YgS+c+j0bUZAfZH/kI/BeBk5Gj/gUMasyVF5UxhGv5zbjKZSV
- 2yQ9reVIjtCLpRoiNzebQPRVgGGPYYtUkrEypILoOqYgVQYrUwLzHGfna
- njmXtwbWCSmhm0pTxLLdh9q2mHDHN2ADeUNgEQQ5ALkaNwvrGDfrADQmv
- UcXRdlO9bxteiU/jhDwHgfuaovDMW2yvZFabaqA6uC1TBHpfWgULU0GiC w==;
-X-CSE-ConnectionGUID: lCGwr7P0SAix52Fsv+L1qw==
-X-CSE-MsgGUID: oioYQrfOSg6TdxKemHx7Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="37012516"
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; d="scan'208";a="37012516"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 23:47:34 -0800
-X-CSE-ConnectionGUID: E+TtP7rLSdOwFS41z4V4DA==
-X-CSE-MsgGUID: wPmrHsxJQOCK/imvcwo/PA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; d="scan'208";a="103845167"
-Received: from psantos-mobl1.ger.corp.intel.com (HELO [10.246.21.18])
- ([10.246.21.18])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jan 2025 23:47:32 -0800
-Message-ID: <732d1d7a-23fb-4d8d-bd91-10b3c6c6d285@linux.intel.com>
-Date: Fri, 10 Jan 2025 08:47:29 +0100
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF32910EFFA
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 07:48:46 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id
+ ffacd0b85a97d-385e0d47720so122790f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 23:48:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736495325; x=1737100125; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=f3HgF2rjfLZjHLpI0+IwIRqlrnqNDQ6nm19mXOYOUjY=;
+ b=j0vToTG2Go2ihPGOb1BSNKMW0UyQxoq+3v6ejZeeC/FsCuPTNEHxn/hiP8955UA2l5
+ M0d2gG4FXtTLoBAKZEmI25roXbCyBkYGNNbI0gUogBSKGnOsnw670JbNOkwuyQyAdgHd
+ ooIHXy4X8UQvr53965HOs64IJ4Zcz0az/POy7jSxYqCNMSuVXAEQpsgUYwmdYj56MAxj
+ opQWctVHJRwW6b+Jb+xzrcWJRax4EE4Z8wywU+0emMG9YPjsaQIpTIm44qhldwxpbp8G
+ tMSyRZiub3uOPA6S5GHRjfelxT3yVosft8OPPOT+7+tDpGKk2E5L08xCk+GBkdt65j8k
+ K63g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736495325; x=1737100125;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f3HgF2rjfLZjHLpI0+IwIRqlrnqNDQ6nm19mXOYOUjY=;
+ b=ZLLnO0AvQYTLnc0G2rgxmQm8ScTq3Jv9hQLh8LUANB0nwMoo9aGto2qKYmy0P9yi0x
+ zff2QNmLRMP9RipLzK6Kb0UqSNX65Qrnx9zFds3t189IvmY6NpfiSjGI6KtSqia16/cC
+ SHrUR+hfDGuAa8kFMcwlF/AOebveuE2DnIIeZCMRtV1SiDEJsgDc8sRiRi3vJ7dIrvSn
+ 9mwwqDkKUT4uC3HHfsAs22fgUObWWG7HagOudYAIi2ICg8BPw205ygc+InzxWF9A8WKo
+ iy0e9znxBl1ZxyWSPw3VD/5k7eQ2PGXri9/Se/9DO3RuRsRVnHrGp0xiWaFN8+svC+Ta
+ vPUw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUuU6a9tK+CdjDv4EoVZKklAwIE5QrUI7co/Lx9FgNrZz/ue79c0fVqGaygYy9StuEuKI1gsfH2DeE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw91ZjWWwvA4EHAN5hx4RazCm9MAuZ1jqhRCEK5gifevEc8o95e
+ VFvk4VLCdzHUWAewAKQpsq/gW5FB0sfKjamh3PQqMZUe/ZMGFQK6TmKb7jKSsQM=
+X-Gm-Gg: ASbGncsNpotjCLKtKM4iEdt3w5t3lai/VTFUloDdE2RqQExc6iyic77lrY1sncJ1SxK
+ P2+hTIWDhvv/EGuQoXEVgOMmpQhPttl0JoSJ3IFQXLMkZMVcPTHCaYfigCiTxzSCbP1LIW5Y2fh
+ HfS4To80FDjqNcvt+jFqjmjhVuC08/+PwPZc9QtpnHcBJxGpgORSmU81B7r0U6ofzjSTfLMNe5x
+ d2s0sj72yihcRg3qGXtw5RDEzMB3wKeBU7gfR+NCwUt4TgpWKaIVtYZs4lwTow4yxw56bIRdFoC
+X-Google-Smtp-Source: AGHT+IEElU4Vuit1Ap+kSW5DGrn7fsVqX1i9PgpIc5fGkSurilI2rdOFlmRYwB9wM3nj28bc730/0Q==
+X-Received: by 2002:a05:6000:1f88:b0:385:ee59:44f3 with SMTP id
+ ffacd0b85a97d-38a872d2d94mr3354172f8f.3.1736495325172; 
+ Thu, 09 Jan 2025 23:48:45 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.165])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a8e38f176sm3870395f8f.63.2025.01.09.23.48.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 09 Jan 2025 23:48:44 -0800 (PST)
+Message-ID: <8ccf63bb-810a-47e2-bf93-4bf9317fe050@linaro.org>
+Date: Fri, 10 Jan 2025 08:48:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/i915: Add VM_DONTEXPAND to exported buffers
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com,
- rodrigo.vivi@intel.com, tursulin@ursulin.net, karol.wachowski@intel.com,
- tomasz.rusinowicz@intel.com
-References: <20250108105346.240103-1-jacek.lawrynowicz@linux.intel.com>
- <173642283773.28201.13348625605034220367@jlahtine-mobl.ger.corp.intel.com>
+Subject: Re: [PATCH RFC 10/11] drm/msm/mdss: Add support for SM8750
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Srini Kandagatla <srinivas.kandagatla@linaro.org>
+References: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
+ <20250109-b4-sm8750-display-v1-10-b3f15faf4c97@linaro.org>
+ <kn7gsm4nnp372t56ocbzkv6uw7o3ww2qel7jlcwvgxsugdk46w@d34hujbcswcw>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <173642283773.28201.13348625605034220367@jlahtine-mobl.ger.corp.intel.com>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <kn7gsm4nnp372t56ocbzkv6uw7o3ww2qel7jlcwvgxsugdk46w@d34hujbcswcw>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,155 +148,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Sure, the test does the following:
-1. Create a Vulkan buffer using VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_=
-INFO and VK_EXTERNAL_MEMORY_HANDLE_TYPE_DMA_BUF_BIT_EXT
-2. Get Vulkan buffer FD using vkGetMemoryFdKHR()
-3. Import the Vulcan buffer to intel_vpu using DRM_IOCTL_PRIME_FD_TO_HAND=
-LE
-4. Call mmap() on the imported buffer
-
-Seems like there was no use case for importing and mmaping buffers from i=
-915.
-The key factor here is that i915 buffer has to imported by other device t=
-hat uses GEM.
-
-Regards,
-Jacek
-
-On 1/9/2025 12:40 PM, Joonas Lahtinen wrote:
-> Hi,
->=20
-> Could you elaborate a bit more on which testcase or usecase this pops u=
-p with?
->=20
-> The check has been in place since 2019 so quite surprising that it's
-> only popping up now.
->=20
-> Regards, Joonas
->=20
-> Quoting Jacek Lawrynowicz (2025-01-08 12:53:46)
->> drm_gem_mmap_obj() expects VM_DONTEXPAND flag to be set after mmap
->> callback is executed. Set this flag at the end of i915_gem_dmabuf_mmap=
-()
->> to prevent WARN on mmap in buffers imported from i915 e.g.,
+On 09/01/2025 23:39, Dmitry Baryshkov wrote:
+> On Thu, Jan 09, 2025 at 02:08:37PM +0100, Krzysztof Kozlowski wrote:
+>> Add support for the Qualcomm SM8750 platform.
 >>
->> [  283.623215] WARNING: CPU: 1 PID: 12693 at drivers/gpu/drm/drm_gem.c=
-:1087 drm_gem_mmap_obj+0x196/0x1c0
->> [  283.623221] Modules linked in: intel_vpu(OE) cmac nls_utf8 cifs cif=
-s_arc4 nls_ucs2_utils cifs_md4 netfs overlay nls_iso8859_1 binfmt_misc in=
-tel_uncore_frequency intel_uncore_frequency_common x86_pkg_temp_thermal i=
-ntel_powerclamp intel_rapl_msr coretemp rapl intel_cstate kvm_intel wmi_b=
-mof input_leds kvm processor_thermal_device_pci processor_thermal_device =
-processor_thermal_wt_hint processor_thermal_rfim processor_thermal_rapl i=
-ntel_rapl_common processor_thermal_wt_req intel_vsec processor_thermal_st=
-c processor_thermal_power_floor igen6_edac processor_thermal_mbox pac1934=
- industrialio int3403_thermal int340x_thermal_zone intel_pmc_core int3400=
-_thermal pmt_telemetry intel_hid pmt_class acpi_thermal_rel sparse_keymap=
- acpi_tad acpi_pad efi_pstore autofs4 btrfs blake2b_generic raid10 raid45=
-6 async_raid6_recov async_memcpy async_pq async_xor async_tx xor raid6_pq=
- libcrc32c raid1 raid0 xe drm_ttm_helper drm_suballoc_helper drm_gpuvm dr=
-m_exec hid_sensor_custom hid_sensor_hub intel_ishtp_hid hid_generic usbhi=
-d hid i915
->> [  283.623254]  crct10dif_pclmul i2c_algo_bit crc32_pclmul drm_buddy g=
-hash_clmulni_intel ttm sha512_ssse3 sha256_ssse3 e1000e drm_display_helpe=
-r nvme sha1_ssse3 intel_lpss_pci thunderbolt intel_ish_ipc intel_lpss vmd=
- intel_ishtp idma64 nvme_core drm_kms_helper video wmi pinctrl_meteorlake=
- backlight pinctrl_intel aesni_intel crypto_simd cryptd [last unloaded: i=
-ntel_vpu(OE)]
->> [  283.623267] CPU: 1 UID: 0 PID: 12693 Comm: npu-kmd-test Tainted: G =
-    U     OE      6.12.0-performance-20241122-11972534541 #1 f86ee8132c28=
-3cf158e9fd89cc84f4adeb3b79b7
->> [  283.623269] Tainted: [U]=3DUSER, [O]=3DOOT_MODULE, [E]=3DUNSIGNED_M=
-ODULE
->> [  283.623270] Hardware name: Intel Corporation Meteor Lake Client Pla=
-tform/MTL-P DDR5 SODIMM SBS RVP, BIOS MTLPFWI1.R00.4122.D21.2408281317 08=
-/28/2024
->> [  283.623271] RIP: 0010:drm_gem_mmap_obj+0x196/0x1c0
->> [  283.623273] Code: 49 8b 94 24 40 01 00 00 48 8b 12 48 85 d2 74 31 8=
-9 45 ec 4c 89 e7 ff d2 0f 1f 00 8b 45 ec e9 f8 fe ff ff 0f 0b e9 54 ff ff=
- ff <0f> 0b e9 ea fe ff ff b8 ea ff ff ff 31 d2 31 f6 31 ff c3 cc cc cc
->> [  283.623274] RSP: 0018:ffffc90004103b20 EFLAGS: 00010246
->> [  283.623275] RAX: 0000000000000000 RBX: ffff888313ebafd0 RCX: 000000=
-0000000000
->> [  283.623276] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 000000=
-0000000000
->> [  283.623276] RBP: ffffc90004103b38 R08: 0000000000000000 R09: ffffc9=
-0004103bd8
->> [  283.623277] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88=
-8108b95400
->> [  283.623277] R13: ffff888108b95400 R14: ffff88815ee50000 R15: ffff88=
-830133b000
->> [  283.623278] FS:  00007fcbf9063740(0000) GS:ffff88846fe40000(0000) k=
-nlGS:0000000000000000
->> [  283.623279] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [  283.623280] CR2: 00007fcbeb15d460 CR3: 00000001076a2002 CR4: 000000=
-0000f72ef0
->> [  283.623280] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 000000=
-0000000000
->> [  283.623281] DR3: 0000000000000000 DR6: 00000000ffff07f0 DR7: 000000=
-0000000400
->> [  283.623281] PKRU: 55555554
->> [  283.623282] Call Trace:
->> [  283.623283]  <TASK>
->> [  283.623285]  ? show_regs+0x75/0x90
->> [  283.623289]  ? __warn+0x91/0x150
->> [  283.623291]  ? drm_gem_mmap_obj+0x196/0x1c0
->> [  283.623292]  ? report_bug+0x1af/0x1c0
->> [  283.623295]  ? handle_bug+0x6e/0xb0
->> [  283.623297]  ? exc_invalid_op+0x1d/0x90
->> [  283.623298]  ? asm_exc_invalid_op+0x1f/0x30
->> [  283.623302]  ? drm_gem_mmap_obj+0x196/0x1c0
->> [  283.623304]  drm_gem_mmap+0x125/0x200
->> [  283.623305]  __mmap_region+0x7bc/0xc30
->> [  283.623310]  mmap_region+0x96/0xd0
->> [  283.623311]  do_mmap+0x526/0x650
->> [  283.623313]  vm_mmap_pgoff+0xec/0x1c0
->> [  283.623315]  ? __count_memcg_events+0x89/0x160
->> [  283.623317]  ksys_mmap_pgoff+0x175/0x230
->> [  283.623318]  __x64_sys_mmap+0x37/0x70
->> [  283.623320]  x64_sys_call+0x1c1d/0x2790
->> [  283.623322]  do_syscall_64+0x62/0x180
->> [  283.623324]  entry_SYSCALL_64_after_hwframe+0x71/0x79
->> [  283.623325] RIP: 0033:0x7fcbf8b1ea27
->> [  283.623327] Code: 00 00 00 89 ef e8 59 ae ff ff eb e4 e8 42 7b 01 0=
-0 66 90 f3 0f 1e fa 41 89 ca 41 f7 c1 ff 0f 00 00 75 10 b8 09 00 00 00 0f=
- 05 <48> 3d 00 f0 ff ff 77 21 c3 48 8b 05 d9 b3 0f 00 64 c7 00 16 00 00
->> [  283.623328] RSP: 002b:00007fff157ded78 EFLAGS: 00000246 ORIG_RAX: 0=
-000000000000009
->> [  283.623329] RAX: ffffffffffffffda RBX: 00007fff157dedf0 RCX: 00007f=
-cbf8b1ea27
->> [  283.623330] RDX: 0000000000000003 RSI: 0000000000002000 RDI: 000000=
-0000000000
->> [  283.623330] RBP: 00007fff157def80 R08: 0000000000000004 R09: 000000=
-010418a000
->> [  283.623331] R10: 0000000000000001 R11: 0000000000000246 R12: 00007f=
-ff157dee70
->> [  283.623331] R13: 0000644e2fb203f8 R14: 00007fff157deef0 R15: 00007f=
-ff157deeb0
->> [  283.623333]  </TASK>
->> [  283.623333] ---[ end trace 0000000000000000 ]---
->>
->> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 >> ---
->>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c | 1 +
->>  1 file changed, 1 insertion(+)
+>>  drivers/gpu/drm/msm/msm_mdss.c | 33 +++++++++++++++++++++++++++++++++
+>>  drivers/gpu/drm/msm/msm_mdss.h |  1 +
+>>  2 files changed, 34 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/=
-drm/i915/gem/i915_gem_dmabuf.c
->> index 9473050ac8425..809018265e36f 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> @@ -110,6 +110,7 @@ static int i915_gem_dmabuf_mmap(struct dma_buf *dm=
-a_buf, struct vm_area_struct *
->>         if (ret)
->>                 return ret;
->> =20
->> +       vm_flags_set(vma, VM_DONTEXPAND);
->>         vma_set_file(vma, obj->base.filp);
->> =20
->>         return 0;
->> --=20
->> 2.45.1
->>
+>> diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+>> index dcb49fd30402b80edd2cb5971f95a78eaad6081f..3f00eb6de3a9d2bee7637c6f516efff78b7d872b 100644
+>> --- a/drivers/gpu/drm/msm/msm_mdss.c
+>> +++ b/drivers/gpu/drm/msm/msm_mdss.c
+>> @@ -222,6 +222,24 @@ static void msm_mdss_setup_ubwc_dec_40(struct msm_mdss *msm_mdss)
+>>  	}
+>>  }
+>>  
+>> +static void msm_mdss_setup_ubwc_dec_50(struct msm_mdss *msm_mdss)
+>> +{
+>> +	const struct msm_mdss_data *data = msm_mdss->mdss_data;
+>> +	u32 value = MDSS_UBWC_STATIC_UBWC_SWIZZLE(data->ubwc_swizzle) |
+>> +		    MDSS_UBWC_STATIC_HIGHEST_BANK_BIT(data->highest_bank_bit);
+>> +
+>> +	if (data->ubwc_bank_spread)
+>> +		value |= MDSS_UBWC_STATIC_UBWC_BANK_SPREAD;
+>> +
+>> +	if (data->macrotile_mode)
+>> +		value |= MDSS_UBWC_STATIC_MACROTILE_MODE;
+>> +
+>> +	writel_relaxed(value, msm_mdss->mmio + REG_MDSS_UBWC_STATIC);
+>> +
+>> +	writel_relaxed(4, msm_mdss->mmio + REG_MDSS_UBWC_CTRL_2);
+>> +	writel_relaxed(1, msm_mdss->mmio + REG_MDSS_UBWC_PREDICTION_MODE);
+> 
+> Nit: this probably can be folded into the msm_mdss_setup_ubwc_dec_40(),
+> but I would not require it.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+That was my initial try, but the resulting code was getting big with all
+the if-then.
+
+Best regards,
+Krzysztof
