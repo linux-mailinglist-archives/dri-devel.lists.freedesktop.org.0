@@ -2,56 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F0AA09EAF
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 00:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0911BA09ED3
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 00:49:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBFDB10E531;
-	Fri, 10 Jan 2025 23:25:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E63CF10E537;
+	Fri, 10 Jan 2025 23:49:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RsvghP2v";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="hdw9U/kk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 848E910E530;
- Fri, 10 Jan 2025 23:25:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736551531; x=1768087531;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=73DVhYqjPsQoMXCCh5DgWO8asUbHf82s0fpMqXUrSIk=;
- b=RsvghP2vnNVfLSWFmZT0rnjC6a/piiwnyO5RrsfcjoPQ8H3AyQLfiX5E
- UERN6g5UPXQgGXQ9U9kax+fa9FH8k+3iHQWFhnuv1d0sDjrtg8/nvgo8t
- BWD2Ngw9XIqBYtKBaYI7vX0s+ZJDDYdzaDD4OGKewPur62m6412u2/K7N
- unoD3hA2qmIDq55xIIjWLG4Wipfa6LEltwcISvgQxSQ83AWyEc+S6sDxu
- sLnx0DOhj2Zczrcd0L1NA7fdgboRkiqZjmiFmP4OJyt5bIKvMbtx5hIru
- YrKpdoa7VcQFmFkWTkXotZerBC0snNTL4JW7GPvH2bignSZzDL0/aE6hq A==;
-X-CSE-ConnectionGUID: e3KAznQhTQ6dzB1LqTDOTQ==
-X-CSE-MsgGUID: 1BgrelLQQ0C1xGcCMY8dUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="39673254"
-X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; d="scan'208";a="39673254"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2025 15:25:30 -0800
-X-CSE-ConnectionGUID: M/dUFxsQRBaZPUZLbXD6xw==
-X-CSE-MsgGUID: uUtejYDZRMSXyNp5OhmHYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; d="scan'208";a="108875849"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.39.141])
- by orviesa004.jf.intel.com with ESMTP; 10 Jan 2025 15:25:31 -0800
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH v2] drm/i915/slpc: Add sysfs for SLPC power profiles
-Date: Fri, 10 Jan 2025 15:21:51 -0800
-Message-Id: <20250110232151.2844865-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.38.1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18FB510E537;
+ Fri, 10 Jan 2025 23:49:31 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50ACLdhl004169;
+ Fri, 10 Jan 2025 23:49:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ wOW5DZE9OvzHtdvzo/3MzWG6BtNVAbntSLGDRWCyHfk=; b=hdw9U/kkA1JIoCAw
+ F4ro31VPBu5ovshb/kf/Zf05xRXzmUVOLVrL5aFMr51QGeJzobLxNQxTwb/8WxI3
+ az8ns8kql0bVqP2U5p1tExBUoJJZmiCa0w+9CH/wwcXIcUUb3IHnelI6dM6T/wT9
+ cvGeTlTEy2q70BEw4PCzTrVoyeHiS0EkxJvTEXIssxRiz2R5xpqN/k+o+d8oHxps
+ tcQpwB2mbmt7ZOSa5+SJat3l78mhDX4U7bIP6aTE0iFvfbA8ZmpDi5ZNQsMLyqKk
+ 9qlYf7aBSwsu9CfDYixLgGFb/UuIiS23f53CfeYMlieM2EcHT1yjzW5gSQwDQNOS
+ 9T963g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4433g0skt2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Jan 2025 23:49:26 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50ANnPux028425
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 10 Jan 2025 23:49:25 GMT
+Received: from [10.110.107.205] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 10 Jan
+ 2025 15:49:24 -0800
+Message-ID: <a17204c1-6eb5-4ce4-a302-c5f582055037@quicinc.com>
+Date: Fri, 10 Jan 2025 15:49:23 -0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/9] drm/msm/dpu: make fix_core_ab_vote consistent with
+ fix_core_ib_vote
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
+ <20250106-dpu-perf-rework-v4-4-00b248349476@linaro.org>
+ <35a22251-c348-4bb7-905c-e24032100a00@quicinc.com>
+ <sklr3ryu35xmoejkmbu35d3jxsg2clk3whmzslxtzcbcb3gjy4@bmcivlzkxqa3>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <sklr3ryu35xmoejkmbu35d3jxsg2clk3whmzslxtzcbcb3gjy4@bmcivlzkxqa3>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: kw1kz0Rg3dyR1nWBE7W9for26EMU3WHL
+X-Proofpoint-ORIG-GUID: kw1kz0Rg3dyR1nWBE7W9for26EMU3WHL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 spamscore=0 clxscore=1015 malwarescore=0 phishscore=0
+ mlxscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
+ suspectscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2501100183
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,256 +97,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Default SLPC power profile is Base(0). Power Saving mode(1)
-has conservative up/down thresholds and is suitable for use with
-apps that typically need to be power efficient.
 
-Selected power profile will be displayed in this format-
 
-$ cat slpc_power_profile
+On 1/9/2025 6:02 PM, Dmitry Baryshkov wrote:
+> On Thu, Jan 09, 2025 at 05:40:23PM -0800, Abhinav Kumar wrote:
+>>
+>>
+>> On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
+>>> The fix_core_ab_vote is an average bandwidth value, used for bandwidth
+>>> overrides in several cases. However there is an internal inconsistency:
+>>> fix_core_ib_vote is defined in KBps, while fix_core_ab_vote is defined
+>>> in Bps.
+>>>
+>>> Fix that by changing the type of the variable to u32 and using * 1000ULL
+>>> multiplier when setting up the dpu_core_perf_params::bw_ctl value.
+>>>
+>>
+>> Actually after looking at this, I have another question.
+>>
+>> How did you conclude that fix_core_ib_vote is in KBps?
+>>
+>> min_dram_ib is in KBps in the catalog but how is fix_core_ib_vote?
+>>
+>> It depends on the interpretation perhaps. If the debugfs was supposed to
+>> operate under the expectation that the provided value will be pre-multiplied
+>> by 1000 and given then that explains why it was not multiplied again.
+>>
+>> And I cross-checked some of the internal usages of the debugfs, the values
+>> provided to it were in Bps and not KBps.
+> 
+> Well... As you wrote min_dram_ib is in KBps. So, by comparing the next
+> two lines, fix_core_ib_vote should also be in kBps, as there is no
+> premultiplier:
+> 
+>                  perf->max_per_pipe_ib = core_perf->fix_core_ib_vote;
+> [...]
+>                  perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+> 
+> And then, as a proof, perf->max_per_pipe_ib is passed to icc_set_bw()
+> without any modifications:
+> 
+>                  icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
+> 
 
-  [base]    power_saving
+Understood max_per_pipe_ib. But then by the same logic, fix_core_ab_vote 
+is always in Bps and not in KBps because bw_ctl is in Bps.
 
-$ echo power_saving > slpc_power_profile
-$ cat slpc_power_profile
+Is it really a discrepancy that fix_core_ib_vote is defined in KBps, 
+while fix_core_ab_vote is defined in Bps because they are just following 
+the units in which bw_ctl and max_per_pipe_ib were defined in resp.
 
-  base    [power_saving]
-
-v2: Disable waitboost in power saving profile and updated sysfs
-format and add some kernel doc for SLPC (Rodrigo)
-
-Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 47 +++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.c           |  4 ++
- .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h |  5 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 60 +++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  1 +
- .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  3 +
- 6 files changed, 120 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-index d7784650e4d9..83a7cc7dfbc8 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-@@ -464,6 +464,45 @@ static ssize_t slpc_ignore_eff_freq_store(struct kobject *kobj,
- 	return err ?: count;
- }
- 
-+static ssize_t slpc_power_profile_show(struct kobject *kobj,
-+				       struct kobj_attribute *attr,
-+				       char *buff)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
-+
-+	switch (slpc->power_profile) {
-+	case SLPC_POWER_PROFILES_BASE:
-+		return sysfs_emit(buff, "[%s]    %s\n", "base", "power_saving");
-+	case SLPC_POWER_PROFILES_POWER_SAVING:
-+		return sysfs_emit(buff, "%s    [%s]\n", "base", "power_saving");
-+	}
-+
-+	return sysfs_emit(buff, "%u\n", slpc->power_profile);
-+}
-+
-+static ssize_t slpc_power_profile_store(struct kobject *kobj,
-+					struct kobj_attribute *attr,
-+					const char *buff, size_t count)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
-+	char power_saving[] = "power_saving";
-+	char base[] = "base";
-+	int err;
-+	u32 val;
-+
-+	if (!strncmp(buff, power_saving, sizeof(power_saving) - 1))
-+		val = SLPC_POWER_PROFILES_POWER_SAVING;
-+	else if (!strncmp(buff, base, sizeof(base) - 1))
-+		val = SLPC_POWER_PROFILES_BASE;
-+	else
-+		return -EINVAL;
-+
-+	err = intel_guc_slpc_set_power_profile(slpc, val);
-+	return err ?: count;
-+}
-+
- struct intel_gt_bool_throttle_attr {
- 	struct attribute attr;
- 	ssize_t (*show)(struct kobject *kobj, struct kobj_attribute *attr,
-@@ -668,6 +707,7 @@ INTEL_GT_ATTR_RO(media_RP0_freq_mhz);
- INTEL_GT_ATTR_RO(media_RPn_freq_mhz);
- 
- INTEL_GT_ATTR_RW(slpc_ignore_eff_freq);
-+INTEL_GT_ATTR_RW(slpc_power_profile);
- 
- static const struct attribute *media_perf_power_attrs[] = {
- 	&attr_media_freq_factor.attr,
-@@ -864,6 +904,13 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
- 			gt_warn(gt, "failed to create ignore_eff_freq sysfs (%pe)", ERR_PTR(ret));
- 	}
- 
-+	if (intel_uc_uses_guc_slpc(&gt->uc)) {
-+		ret = sysfs_create_file(kobj, &attr_slpc_power_profile.attr);
-+		if (ret)
-+			gt_warn(gt, "failed to create slpc_power_profile sysfs (%pe)",
-+				    ERR_PTR(ret));
-+	}
-+
- 	if (i915_mmio_reg_valid(intel_gt_perf_limit_reasons_reg(gt))) {
- 		ret = sysfs_create_files(kobj, throttle_reason_attrs);
- 		if (ret)
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index fa304ea088e4..2cfaedb04876 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -1025,6 +1025,10 @@ void intel_rps_boost(struct i915_request *rq)
- 		if (rps_uses_slpc(rps)) {
- 			slpc = rps_to_slpc(rps);
- 
-+			/* Waitboost should not be done with power saving profile */
-+			if (slpc->power_profile == SLPC_POWER_PROFILES_POWER_SAVING)
-+				return;
-+
- 			if (slpc->min_freq_softlimit >= slpc->boost_freq)
- 				return;
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
-index c34674e797c6..6de87ae5669e 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
-@@ -228,6 +228,11 @@ struct slpc_optimized_strategies {
- 
- #define SLPC_OPTIMIZED_STRATEGY_COMPUTE		REG_BIT(0)
- 
-+enum slpc_power_profiles {
-+	SLPC_POWER_PROFILES_BASE = 0x0,
-+	SLPC_POWER_PROFILES_POWER_SAVING = 0x1
-+};
-+
- /**
-  * DOC: SLPC H2G MESSAGE FORMAT
-  *
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 706fffca698b..bee78467d4a3 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -15,6 +15,29 @@
- #include "gt/intel_gt_regs.h"
- #include "gt/intel_rps.h"
- 
-+/**
-+ * DOC: SLPC - Dynamic Frequency management
-+ *
-+ * Single Loop Power Control is a GuC based algorithm which manages
-+ * GT frequency based on how KMD initializes its parameters. SLPC is
-+ * almost completely in control after initialization except for the
-+ * waitboost scenario.
-+ *
-+ * KMD uses concept of waitboost to ramp frequency up to RP0 when
-+ * there are pending submissions. The addition of power profiles adds
-+ * another level of control to these mechanisms. When we choose the power
-+ * saving profile, SLPC will use conservative thresholds to ramp frequency,
-+ * thus saving power. KMD will disable waitboosts when this happens to aid
-+ * further power savings. The user has some level of control through sysfs
-+ * where min/max frequencies can be altered and the use of efficient freq
-+ * can be modified as well.
-+ *
-+ * Another form of frequency control happens through per context hints.
-+ * A context can be marked as low latency during creation. That will ensure
-+ * that SLPC uses an aggressive frequency ramp when that context is active.
-+ *
-+ */
-+
- static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
- {
- 	return container_of(slpc, struct intel_guc, slpc);
-@@ -265,6 +288,8 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
- 	slpc->num_boosts = 0;
- 	slpc->media_ratio_mode = SLPC_MEDIA_RATIO_MODE_DYNAMIC_CONTROL;
- 
-+	slpc->power_profile = SLPC_POWER_PROFILES_BASE;
-+
- 	mutex_init(&slpc->lock);
- 	INIT_WORK(&slpc->boost_work, slpc_boost_work);
- 
-@@ -567,6 +592,34 @@ int intel_guc_slpc_set_media_ratio_mode(struct intel_guc_slpc *slpc, u32 val)
- 	return ret;
- }
- 
-+int intel_guc_slpc_set_power_profile(struct intel_guc_slpc *slpc, u32 val)
-+{
-+	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-+	intel_wakeref_t wakeref;
-+	int ret = 0;
-+
-+	if (val > SLPC_POWER_PROFILES_POWER_SAVING)
-+		return -EINVAL;
-+
-+	mutex_lock(&slpc->lock);
-+	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
-+
-+	ret = slpc_set_param(slpc,
-+			     SLPC_PARAM_POWER_PROFILE,
-+			     val);
-+	if (ret)
-+		guc_err(slpc_to_guc(slpc),
-+			"Failed to set power profile to %d: %pe\n",
-+			 val, ERR_PTR(ret));
-+	else
-+		slpc->power_profile = val;
-+
-+	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
-+	mutex_unlock(&slpc->lock);
-+
-+	return ret;
-+}
-+
- void intel_guc_pm_intrmsk_enable(struct intel_gt *gt)
- {
- 	u32 pm_intrmsk_mbz = 0;
-@@ -728,6 +781,13 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
- 	/* Enable SLPC Optimized Strategy for compute */
- 	intel_guc_slpc_set_strategy(slpc, SLPC_OPTIMIZED_STRATEGY_COMPUTE);
- 
-+	/* Set cached value of power_profile */
-+	ret = intel_guc_slpc_set_power_profile(slpc, slpc->power_profile);
-+	if (unlikely(ret)) {
-+		guc_probe_error(guc, "Failed to set SLPC power profile: %pe\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-index 1cb5fd44f05c..fc9f761b4372 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-@@ -46,5 +46,6 @@ void intel_guc_slpc_boost(struct intel_guc_slpc *slpc);
- void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc);
- int intel_guc_slpc_set_ignore_eff_freq(struct intel_guc_slpc *slpc, bool val);
- int intel_guc_slpc_set_strategy(struct intel_guc_slpc *slpc, u32 val);
-+int intel_guc_slpc_set_power_profile(struct intel_guc_slpc *slpc, u32 val);
- 
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-index a88651331497..83673b10ac4e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-@@ -33,6 +33,9 @@ struct intel_guc_slpc {
- 	u32 max_freq_softlimit;
- 	bool ignore_eff_freq;
- 
-+	/* Base or power saving */
-+	u32 power_profile;
-+
- 	/* cached media ratio mode */
- 	u32 media_ratio_mode;
- 
--- 
-2.38.1
-
+> 
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 4 ++--
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h | 2 +-
+>>>    2 files changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>>> index 7263ab63a692554cd51a7fd91bd6250330179240..7cabc8f26908cfd2dbbffebd7c70fc37d9159733 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>>> @@ -125,7 +125,7 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
+>>>    		perf->max_per_pipe_ib = 0;
+>>>    		perf->core_clk_rate = 0;
+>>>    	} else if (core_perf->perf_tune.mode == DPU_PERF_MODE_FIXED) {
+>>> -		perf->bw_ctl = core_perf->fix_core_ab_vote;
+>>> +		perf->bw_ctl = core_perf->fix_core_ab_vote * 1000ULL;
+>>>    		perf->max_per_pipe_ib = core_perf->fix_core_ib_vote;
+>>>    		perf->core_clk_rate = core_perf->fix_core_clk_rate;
+>>>    	} else {
+>>> @@ -479,7 +479,7 @@ int dpu_core_perf_debugfs_init(struct dpu_kms *dpu_kms, struct dentry *parent)
+>>>    			&perf->fix_core_clk_rate);
+>>>    	debugfs_create_u32("fix_core_ib_vote", 0600, entry,
+>>>    			&perf->fix_core_ib_vote);
+>>> -	debugfs_create_u64("fix_core_ab_vote", 0600, entry,
+>>> +	debugfs_create_u32("fix_core_ab_vote", 0600, entry,
+>>>    			&perf->fix_core_ab_vote);
+>>>    	return 0;
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+>>> index ca4595b4ec217697849af02446b23ed0857a0295..5e07119c14c6a9ed3413d0eaddbd93df5cc3f79d 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+>>> @@ -51,7 +51,7 @@ struct dpu_core_perf {
+>>>    	u32 enable_bw_release;
+>>>    	u64 fix_core_clk_rate;
+>>>    	u32 fix_core_ib_vote;
+>>> -	u64 fix_core_ab_vote;
+>>> +	u32 fix_core_ab_vote;
+>>>    };
+>>>    int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
+>>>
+> 
