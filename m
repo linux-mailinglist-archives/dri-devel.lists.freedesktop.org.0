@@ -2,87 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04647A0853F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 03:14:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88C93A08554
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 03:29:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5334010EF72;
-	Fri, 10 Jan 2025 02:14:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A86010EF73;
+	Fri, 10 Jan 2025 02:29:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ymScgQ4F";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ll/mYVIU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EF5E10EF72
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:14:40 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-53f22fd6832so1692079e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 18:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736475219; x=1737080019; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=t8KPjbyifDvDKbKMYEfAkENYg9SQ3/Y9IcyMqzOO7K0=;
- b=ymScgQ4FRw85easgIQut3DwYbPx9QJvo1sqFgGVmjef+MWF4TJ1hooc9DXrAJaSs3t
- wv8EJCy5TArapMXU2iYusQyuxswt+Q/LKXQnGVjU05OJH2Jb3AJPbsr+p+uz/w+/IOxj
- 8Sso9P1IakCa7qrsI3Hh1315mq+GYR+IqXMapB+w/cTf4H6sR5RG+K5JQ+tLnoVMxSiK
- VeonQcHUKuJzO/AZCD/2CEIQcWOGoQzuCi6z5I+jfSU6Xa0tpbMzz+zAserl6IZt1Mko
- xkJ73Fi+5NN+cF8lSjomGwrnromxOxKog76CKE8LDIMcXTSuUzvisv8jo5VxbehHAx8b
- vnTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736475219; x=1737080019;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=t8KPjbyifDvDKbKMYEfAkENYg9SQ3/Y9IcyMqzOO7K0=;
- b=nBZzvMJ2+YF7j37UKnSWaZFflc4OPZxPOfJGUdnDHg1UF6+vCn4tGm0Wypy/PttuI3
- VN9/q9m9wX7Q1j4DfC+D+mf+bkxrPcneM1Y6FnyM5Vh1J3XY6Uzx7NSZEfoKf9Oy2ImL
- Cuub19ii2OA8Vhr/V7RtMX19PuS9gp1cDWjx6ODsB25Yue5Xj2QmEK1/Dj04Xe7EHlTE
- IMkrzbGY6gC7+xY6o/BseCij8Mt/I6YYWdRS59+2A9oJX1iwV+3K458BPf9ceG+pqKrp
- WH7it5QQsQtQBgVA28dDKH62ZdEIqNOlJCCNOX6Nw3+yJ2vW4p//RpYl6qEnK3ASGkNB
- CeGg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWpwfn/Tngg2Ssqu7SDJqeOJ+TBlto8yTF5x8cXdfeO6tcKQxQsjwlyhg8LTYB0rrvnFc63m2OsIjI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyk6qLhIPc6lDZP3ppdhAQPcelCzdDYw889h5PzRDorvDqAq1iU
- 44Aelvn6l8tnOxopLjvXC086q4mCq0doSNAUkZaXa36KB5u5XwNCs5Q5avnKt/I=
-X-Gm-Gg: ASbGncvoAXQ9O4Ity68R7tkI2Rz/f9SsWIQ3Z5W/BYsCDmN+xxoTkiII/W04FJN8oTc
- ra6bpCEzZ+8wyWi01v0s7Faxl08rXs/nFBBnr1QkKqUXjJCfAkhc6CxpEqlQnDprtZTTKa0+R6u
- 8L0K+soYxxAt3Df9RHMbLFyYLiAhnaxmHpqohXgYFhJw2vgkDxwfpCNhyMhY5kcE4pgpNkzQ99q
- CkUFzRiZSn/1ijy7q/GYvC2RqWTIJBCuqItmrBKrJdwsILgXOUIfWqJPxeu9d07UbgD04IiKZs8
- 7OAQJ2odYub6Lo8OpqpOuTNJGJzv8mIZYMMn
-X-Google-Smtp-Source: AGHT+IHJpq1ke3MZ+3ZV34/mQVln/7Ae9AgP50GplGmUo8NLVGDnk1v0+gf5P8ERr2h7wnT27mdZgA==
-X-Received: by 2002:a05:6512:31c9:b0:542:7217:361a with SMTP id
- 2adb3069b0e04-542845af299mr2767121e87.10.1736475218708; 
- Thu, 09 Jan 2025 18:13:38 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bec0659sm368077e87.185.2025.01.09.18.13.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Jan 2025 18:13:37 -0800 (PST)
-Date: Fri, 10 Jan 2025 04:13:34 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Hermes.Wu@ite.com.tw
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- simona@ffwll.ch, angelogioacchino.delregno@collabora.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org
-Subject: Re: [PATCH v3] drm/bridge: it6505: fix HDCP V match check is not
- performed correctly
-Message-ID: <o5g7js2ysodvev2bcmeqndq656qhauu5tgdrkwrwv3go2wf7z4@y3ae3routohb>
-References: <20250109-fix-hdcp-v-comp-v3-1-1258edb249ab@ite.com.tw>
- <ofpb7annntdpa7lwdscozaftvmuuat47juwn55x3p2osjsei52@bjitidem3g7d>
- <71b5a3243edc4765a4529d1254d7b7bc@ite.com.tw>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE8A10EF73;
+ Fri, 10 Jan 2025 02:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736476162; x=1768012162;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2e4NUqNMR+8tCxvxRNqVHQBg8ursswlcpfpui8hI55Y=;
+ b=ll/mYVIUwe2dw9+y5X4ZEjWb8Aqe3k/L8dswbDgY+VW/b9+A+w79ZYhV
+ zERMVUp+sw91kTNvPDETgeHf1g803AI9rRWSHGQ+5ZSH1eTUX2ldFbMpk
+ JtXHujF0qEfDQ+yz00KekzaD/H6L+R+WfsMYBq1a6PWW9/OyTwX/AejRY
+ p9r8Am4fTFfsSy2O5FeUQHaMDaVW1ZBWH/eWQ683ZTHRWvE36KpwamP+N
+ 2Le3r3r7Xk1oHzZccoSmVgYodb8cFL8bhfG2vmszjqqK7CrsoQJd9X0lR
+ kWpRor5ul1hbohQ+U18o5H0d58PKpGXli40DtqZ8rXjU9NJ7mb+Deu++F Q==;
+X-CSE-ConnectionGUID: IegklJgbTtugI+v0C7rhnA==
+X-CSE-MsgGUID: CTpHtjCVSHCCN9pe1/IQeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36048677"
+X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="36048677"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jan 2025 18:29:21 -0800
+X-CSE-ConnectionGUID: EkNBlxT7TLyDNjhJQz77lw==
+X-CSE-MsgGUID: SYhPZIY+Rfa6UT2NCmfu3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,302,1728975600"; d="scan'208";a="103405332"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 09 Jan 2025 18:29:20 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tW4lx-000IQL-2K;
+ Fri, 10 Jan 2025 02:29:17 +0000
+Date: Fri, 10 Jan 2025 10:28:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, nouveau@lists.freedesktop.org,
+ dakr@kernel.org
+Subject: Re: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
+Message-ID: <202501101033.wlEjeZwK-lkp@intel.com>
+References: <20250109005553.623947-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <71b5a3243edc4765a4529d1254d7b7bc@ite.com.tw>
+In-Reply-To: <20250109005553.623947-1-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,71 +70,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 02:00:35AM +0000, Hermes.Wu@ite.com.tw wrote:
-> hi
-> 
-> 
-> -----Original Message-----
-> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 
-> Sent: Thursday, January 9, 2025 9:09 PM
-> To: Hermes Wu (吳佳宏) <Hermes.Wu@ite.com.tw>
-> Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Pet Weng (翁玉芬) <Pet.Weng@ite.com.tw>; Kenneth Hung (洪家倫) <Kenneth.Hung@ite.com.tw>; treapking@chromium.org
-> Subject: Re: [PATCH v3] drm/bridge: it6505: fix HDCP V match check is not performed correctly
-> 
-> On Thu, Jan 09, 2025 at 02:40:08PM +0800, Hermes Wu via B4 Relay wrote:
-> > From: Hermes Wu <Hermes.wu@ite.com.tw>
-> > 
-> > The loop of V compare is expected to iterate for 5 times which compare 
-> > V array form av[0][] to av[4][].
-> > It should check loop counter reach the last statement "i == 5"
-> > before return true
-> > 
-> > Fixes: 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V 
-> > matching")
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >Excuse me, where did you get that from?? I didn't r-b it (yet).
-> 
-> Sorry,
-> 
-> I think I just missing understanding about this tag.
-> I thought it should add if someone give advice to a path.
-> 
-> So I add it before you r-b it,
+Hi Dave,
 
-Okay. Please don't add extra tags in future.
+kernel test robot noticed the following build errors:
 
-The patch itself is:
+[auto build test ERROR on linus/master]
+[also build test ERROR on drm-misc/drm-misc-next drm-tip/drm-tip v6.13-rc6 next-20250109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/nouveau-fence-handle-cross-device-fences-properly-v3/20250109-085805
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250109005553.623947-1-airlied%40gmail.com
+patch subject: [PATCH] nouveau/fence: handle cross device fences properly. (v3)
+config: loongarch-randconfig-002-20250110 (https://download.01.org/0day-ci/archive/20250110/202501101033.wlEjeZwK-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101033.wlEjeZwK-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501101033.wlEjeZwK-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/nouveau/nouveau_fence.c: In function 'nouveau_fence_sync':
+>> drivers/gpu/drm/nouveau/nouveau_fence.c:394:53: error: 'struct nouveau_channel' has no member named 'drm'
+     394 |                                 local = prev && prev->drm == chan->drm;
+         |                                                     ^~
+   drivers/gpu/drm/nouveau/nouveau_fence.c:394:66: error: 'struct nouveau_channel' has no member named 'drm'
+     394 |                                 local = prev && prev->drm == chan->drm;
+         |                                                                  ^~
 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+vim +394 drivers/gpu/drm/nouveau/nouveau_fence.c
 
-
-> 
-> > Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
-> > ---
-> > Changes in v3:
-> > - The V value compare loop from i = 0 to i = 4 and shall exit with i == 5 
-> >   if all V element matches
-> > - Link to v2: 
-> > https://lore.kernel.org/r/20250109-fix-hdcp-v-comp-v2-1-7dce0a59523f@i
-> > te.com.tw
-> > 
-> > Changes in v2:
-> > - pull the check of statment "i" out of V value check loop
-> > - Link to v1: 
-> > https://lore.kernel.org/r/20250108-fix-hdcp-v-comp-v1-1-9404811825cd@i
-> > te.com.tw
-> > ---
-> >  drivers/gpu/drm/bridge/ite-it6505.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> >--
-> >With best wishes
-> >Dmitry
-> 
-> Br.
-> Hermes
+   356	
+   357	int
+   358	nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
+   359			   bool exclusive, bool intr)
+   360	{
+   361		struct nouveau_fence_chan *fctx = chan->fence;
+   362		struct dma_resv *resv = nvbo->bo.base.resv;
+   363		int i, ret;
+   364	
+   365		ret = dma_resv_reserve_fences(resv, 1);
+   366		if (ret)
+   367			return ret;
+   368	
+   369		/* Waiting for the writes first causes performance regressions
+   370		 * under some circumstances. So manually wait for the reads first.
+   371		 */
+   372		for (i = 0; i < 2; ++i) {
+   373			struct dma_resv_iter cursor;
+   374			struct dma_fence *fence;
+   375	
+   376			dma_resv_for_each_fence(&cursor, resv,
+   377						dma_resv_usage_rw(exclusive),
+   378						fence) {
+   379				enum dma_resv_usage usage;
+   380				struct nouveau_fence *f;
+   381	
+   382				usage = dma_resv_iter_usage(&cursor);
+   383				if (i == 0 && usage == DMA_RESV_USAGE_WRITE)
+   384					continue;
+   385	
+   386				f = nouveau_local_fence(fence, chan->cli->drm);
+   387				if (f) {
+   388					struct nouveau_channel *prev;
+   389					bool must_wait = true;
+   390					bool local;
+   391	
+   392					rcu_read_lock();
+   393					prev = rcu_dereference(f->channel);
+ > 394					local = prev && prev->drm == chan->drm;
+   395					if (local && (prev == chan ||
+   396						      fctx->sync(f, prev, chan) == 0))
+   397						must_wait = false;
+   398					rcu_read_unlock();
+   399					if (!must_wait)
+   400						continue;
+   401				}
+   402	
+   403				ret = dma_fence_wait(fence, intr);
+   404				if (ret)
+   405					return ret;
+   406			}
+   407		}
+   408	
+   409		return 0;
+   410	}
+   411	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
