@@ -2,152 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA489A091F7
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 14:31:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A15A091FB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 14:31:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB9F10E042;
-	Fri, 10 Jan 2025 13:30:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64C8910F0CF;
+	Fri, 10 Jan 2025 13:31:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="T7cE6+as";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="73X+XmBo";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T7cE6+as";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="73X+XmBo";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="i7x66SDH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5F9510E05F;
- Fri, 10 Jan 2025 13:30:57 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 61D3221173;
- Fri, 10 Jan 2025 13:30:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736515856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
- b=T7cE6+as5UgYLF0bXB5jDtXiUOTB8vL2wO3ekCJ1/PBTVH6BqvcF6I3CCclHQ1PlPBVXXd
- jtHOz5yEnmYeFLhy33iCHayZnd61SXjQus/GDFLsc+sJOHqDlqjwwN1TDRpA/7fVJ4r6jd
- idcCzDg2yQgv5vUMsJflc+eE+53PnOM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736515856;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
- b=73X+XmBoc1OYK+tz7wmvzjSwbtEeFDSpLq2pch9FpdzleO2KfbpO5EY/JErgjPKHSnVnNb
- tA9D6u/HFk6n3MBA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=T7cE6+as;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=73X+XmBo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736515856; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
- b=T7cE6+as5UgYLF0bXB5jDtXiUOTB8vL2wO3ekCJ1/PBTVH6BqvcF6I3CCclHQ1PlPBVXXd
- jtHOz5yEnmYeFLhy33iCHayZnd61SXjQus/GDFLsc+sJOHqDlqjwwN1TDRpA/7fVJ4r6jd
- idcCzDg2yQgv5vUMsJflc+eE+53PnOM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736515856;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8YON2GiGTJcck3RKIC3vWLlZwPJMNbfkzQoWEpUZLhA=;
- b=73X+XmBoc1OYK+tz7wmvzjSwbtEeFDSpLq2pch9FpdzleO2KfbpO5EY/JErgjPKHSnVnNb
- tA9D6u/HFk6n3MBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E49EC13763;
- Fri, 10 Jan 2025 13:30:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id I3F6Ng8hgWdHYAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 10 Jan 2025 13:30:55 +0000
-Message-ID: <29dcf748-c571-4c91-92b7-481be5a43ff5@suse.de>
-Date: Fri, 10 Jan 2025 14:30:55 +0100
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
+ [IPv6:2a00:1450:4864:20::32a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D2D10E4FF
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 13:31:22 +0000 (UTC)
+Received: by mail-wm1-x32a.google.com with SMTP id
+ 5b1f17b1804b1-4361c705434so15511805e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 05:31:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736515881; x=1737120681;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gOb4dYM1XeOQNmpz4gbuJFETpHF0usdU2GeAkqe7Bjs=;
+ b=i7x66SDHjf9UItCcKXeAurGlhSvHcjv3OR1VLLgDDCLiVmbAlpS6q47mBV9EzFmMYD
+ pxUiv8DbVQOCMdktFgsuSamhlvDeUU7qk/zRcxpLIdfZ3ZG9451W3By7h/fB1gR2TiD1
+ ed9t54yq7pLuKicCKr8iA/3Ixv9TwZrfnqV4DSytqcDOLaTfvmskWS0PgCtd7wZKUxhk
+ ySWKTFv8ebVR3wBSFXRRtdHApVX4d9Hg3PKGMhpVNcwESBxSTCRGD9pBlXcukvX6pdpq
+ /5M6TQCisJL6cbwKToSihqWa7Q9bdzZl/cWgyPJhnF02UsMBm9rWLC7tanbA/2twBS+8
+ x8Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736515881; x=1737120681;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=gOb4dYM1XeOQNmpz4gbuJFETpHF0usdU2GeAkqe7Bjs=;
+ b=A6q1m9sI+0UzDWyJcxiokevX8PeZry+mSsu0PQgtrzQOWCRqR/VCceLxbNckRwDuOz
+ W06APZbDSCoBy80m63N0c3dGKbpZi7jlQjD1p8JVKzfN1lSXHPb0Q+HlYB2uQJ1LHqRE
+ DNVaEt/+T04idOZD0mkDr++oWt2OmAzCfkZDATWgFXRd06GwX8XHJTVLK3C0bNUQsJnr
+ SVbObEPSF5yaGXCZNsA4pxECXl7VkCIY5j6myAi9Z0bRQhzxEkU68WOu37djNF10OaB6
+ duIiZjLNItmS+SeUzZFkWMPWh0H2Zvtth8Ft6YpFv24m++uI7Kt6R1NUdqvdH7SkJMMw
+ G/LQ==
+X-Gm-Message-State: AOJu0Yz2M7g7fyF1/wQAP5w37S0N+bUKOSqRPIc4MyXC8mbkNHNqCPsr
+ MivyHjBzEIVl9attlhLRl5KHDbL5uhQyhPJJtdvyVP1kqojgHJOM5U7oJ/zpOtQ=
+X-Gm-Gg: ASbGnctaINxgidFHS5dn4wLpl54a8mLY20GqHVjVJshRK/Mw8AJTlcHAU5H8ttl8Kqx
+ YJdoDvdN7C7m2x1s5w3X/4Hp0/kfkkTAB0bp3n8jLAJpAbBJGhLH4mLF5/aAdyvpHdzkxuHf7An
+ HJnipUQL7sLLyZ5uaM/vj7m0bj6kHWaw+194uH8Fp7Y/XBmHBuqU9GCTAVtV9Q0IJ3LQ/oLCoHP
+ XYnoh7dD32DooH8M0NaHbpuSMEBytVm4gipKWRd+fS/pf9awvqswwRF+s8s
+X-Google-Smtp-Source: AGHT+IHgSDYD+oLBXez7p6Gm0Z9SWiWVmD2PPaCg5Lo8JetzTzttPSXxYsdjGCYoiYqxFKM0JSsVsQ==
+X-Received: by 2002:a5d:47c4:0:b0:385:ed16:c8b with SMTP id
+ ffacd0b85a97d-38a87309d20mr11317257f8f.23.1736515881130; 
+ Fri, 10 Jan 2025 05:31:21 -0800 (PST)
+Received: from [127.0.1.1] ([2a01:e0a:5ee:79d0:2555:edac:4d05:947d])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-38a8e38c990sm4598193f8f.56.2025.01.10.05.31.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Jan 2025 05:31:20 -0800 (PST)
+From: amergnat@baylibre.com
+Subject: [PATCH v7 0/6] Add display support for the MT8365-EVK board
+Date: Fri, 10 Jan 2025 14:31:10 +0100
+Message-Id: <20231023-display-support-v7-0-6703f3e26831@baylibre.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] drm: enforce rules for
- drm_atomic_helper_check_modeset()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>,
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Archit Taneja <architt@codeaurora.org>, Rajesh Yadav
- <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
-References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
- <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
- <t7ga7l7hi5y634hc6sklp6mzae3jfqs66nkalviojrzrgez3kf@b4h4ue6fdj7j>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <t7ga7l7hi5y634hc6sklp6mzae3jfqs66nkalviojrzrgez3kf@b4h4ue6fdj7j>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 61D3221173
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- ASN(0.00)[asn:25478, ipnet:::/0, country:RU]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[20]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,gmail.com,ffwll.ch,quicinc.com,poorly.run,somainline.org,codeaurora.org,cosmicpenguin.net,lists.freedesktop.org,vger.kernel.org];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,suse.de:mid,suse.de:dkim];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB4hgWcC/4XPTW7DIBAF4KtErEsFDBCSVe8RdcHPUCOltgWuF
+ Svy3QtZVq5YsHgjzfeGJymYExZyPT1JxjWVNI01nN9OxA92/EKaQs1EMAG8PhpSme92o+Vnnqe
+ 8UK8lNw4YSn4hdcvZgtRlO/qh7S1YFt7mc8aYHq+m22fNQyrLlLdX8crb9P+OlVNGlTeaYVAew
+ H04u92Ty/jup2/SuFV0CFEJAI/GaOmEOB8Q0CGgXQFgTAQMII+ukB1CVgKDEei4NtHxA0J1CNU
+ +cmEqcpTOgDogdIfQlfDaRhlBRhnMH2Lf91+2AikpGAIAAA==
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Alexandre Mergnat <amergnat@baylibre.com>, 
+ Fabien Parent <fparent@baylibre.com>
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4825; i=amergnat@baylibre.com; 
+ h=from:subject:message-id;
+ bh=/0JXe0fwWtlGrtBrYJBc+5+8TOE60mCncIXc9dv8OUc=; 
+ b=owEBbQKS/ZANAwAKAStGSZ1+MdRFAcsmYgBngSEnsrSlHb849yrVjHRbuAtAZoecmTQBJGX5G7lh
+ KH2cSzyJAjMEAAEKAB0WIQQjG17X8+qqcA5g/osrRkmdfjHURQUCZ4EhJwAKCRArRkmdfjHURUfzEA
+ CYv/Zza/8usW8Ij+qBfzlFEhg6kMzJ65XY/77heiRT4LAzc6eqMzNpN1g7ZEkpjGaql0584Po1m8oT
+ anLSFwqw0IFJsrunAyXirWg/RKY7Ytdi9aheiAysFdD8u6QpzTkDpMp77K6OoD6/MhGSdDJa+v4ZAG
+ zFYCmZqyWIV8dALLIdC7HSC8O06RjoJuxJ07G7nFeQ9JfsZ7AfXtFnj6mp0BnHpX5uSKKgbR+U0nxN
+ 7KFMRXrqcx+rKW5tJIrp2JQrx3SV8Jxqbt+XMzXuCR8RS+ElXyzqcemGMNpSkDVpOAHGnJd+kaFbFC
+ v5BEetLS9PTdj7dlPBrBhJxZdmLGa/ysWLKB8HmQkjpfXTz425crctcXVFCvyaZhS7W5SMHpPPBH02
+ jXRYoTbbkSKCMk2jzipwHLPbKvQcLtJZJtsRRdppXSk0TS5XFaLyYroAd9wzL30QNTD8Z8+KRMmRZG
+ 2Zpej/jcyGbPYscyv9PpsIHbzrDthvJJIV+zPxxhJ9z5HcukLyFBAxYTewBbTyrW5o9t+AAjGFih1b
+ uTSFaxtDb3hm0Uv/UmxYftDo47pY7POhbTjcvIMMcFFEi48qp4WFcUzvisI+zTwG8SorDTC9XY6Hvi
+ vCvsmYlfUmf3fEKzfxouAz0PwuuxSw5gu0d14weZfqf4s9OiMIt/2kRI9fQw==
+X-Developer-Key: i=amergnat@baylibre.com; a=openpgp;
+ fpr=231B5ED7F3EAAA700E60FE8B2B46499D7E31D445
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,109 +119,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+The purpose of this series is to add the display support for the mt8365-evk.
 
+This is the list of HWs / IPs support added:
+- Connectors (HW):
+  - HDMI
+  - MIPI DSI (Mobile Industry Processor Interface Display Serial Interface)
+- HDMI bridge (it66121)
+- DSI pannel (startek,kd070fhfid015)
+- SoC display blocks (IP):
+  - OVL0 (Overlay)
+  - RDMA0 (Data Path Read DMA)
+  - Color0
+  - CCorr0 (Color Correction)
+  - AAL0 (Adaptive Ambient Light)
+  - GAMMA0
+  - Dither0
+  - DSI0 (Display Serial Interface)
+  - RDMA1 (Data Path Read DMA)
+  - DPI0 (Display Parallel Interface)
 
-Am 10.01.25 um 00:57 schrieb Dmitry Baryshkov:
-> On Thu, Jan 09, 2025 at 02:53:16PM +0100, Thomas Zimmermann wrote:
->> Hi
->>
->>
->> Am 22.12.24 um 06:00 schrieb Dmitry Baryshkov:
->>> As pointed out by Simona, the drm_atomic_helper_check_modeset() and
->>> drm_atomic_helper_check() require the former function is rerun if the
->>> driver's callbacks modify crtc_state->mode_changed. MSM is one of the
->>> drivers which failed to follow this requirement.
->> I'm concerned about the implications of this series. How does a driver
->> upgrade from simple pageflip to full modeset if necessary? The solution in
->> msm appears to be to run the related test before drm_atomic_helper_check().
->> (Right?)
->>
->> My corner case is in mgag200, which has to reprogram the PLL if the color
->> mode changes. So it sets mode_changed to true in the primary plane's
->> atomic_check. [1] This works in practice because the plane checks run before
->> the CRTC checks. So the CRTC code will do the correct thing. Reprogramming
->> the PLL means to disable the display at some point. So it comes down to a
->> full modeset.
->>
->> You mention that drm_atomic_helper_check() needs to rerun if mode_changed
->> flips. Would it be possible to implement this instead within the helper?
-> I think this should be a driver's decision. For MSM it was easier to
-> move the mode_changed changes and to isolate that before calling into
-> the drm_atomic_helper_check_modeset() code. Other drivers might prefer
-> to rerun the helper.
+The Mediatek DSI, DPI and DRM drivers are also improved.
 
-Is it legal to do something like
+The series is rebased on top of Angelo's series [1] to
+use the OF graphs support.
 
-int atomic_check(state)
-{
-   ret = drm_atomic_helper_check(state)
-   if (state->dirty_needs_modeset)
-     ret = drm_atomic_helper_check(state)
-   return ret;
-}
+Regards,
+Alex
 
-within the driver ? It appears that the atomic helpers warn then.
+Signed-off-by: Alexandre Mergnat <amergnat@baylibre.com>
+---
+Changes in v7:
+- Improve defconfig commit description
+- Add comment in the DTS about pins clash with ethernet and HDMI (DPI0)
+- Link to v6: https://lore.kernel.org/r/20231023-display-support-v6-0-c6af4f34f4d8@baylibre.com
 
-Best regards
-Thomas
+Changes in v6:
+- Fix DPI binding: remove the duplicated property (power-domains).
+- Squash defconfig commit.
+- Fix the property order in the DTS.
+- Link to v5: https://lore.kernel.org/r/20231023-display-support-v5-0-3905f1e4b835@baylibre.com
 
->
->> Best regards
->> Thomas
->>
->> [1] https://elixir.bootlin.com/linux/v6.12/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L493
->>
->>> As suggested by Simona, implement generic code to verify that the
->>> drivers abide to those requirement and rework MSM driver to follow that
->>> restrictions.
->>>
->>> There are no dependencies between core and MSM parts, so they can go
->>> separately via corresponding trees.
->>>
->>> Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
->>> Link: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
->>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>> Dmitry Baryshkov (6):
->>>         drm/atomic-helper: document drm_atomic_helper_check() restrictions
->>>         drm/atomic: prepare to check that drivers follow restrictions for needs_modeset
->>>         drm/msm/dpu: don't use active in atomic_check()
->>>         drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
->>>         drm/msm/dpu: simplify dpu_encoder_get_topology() interface
->>>         drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
->>>
->>>    drivers/gpu/drm/drm_atomic.c                |  3 +
->>>    drivers/gpu/drm/drm_atomic_helper.c         | 86 ++++++++++++++++++++++++++---
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 --
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 82 +++++++++++++++++----------
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++
->>>    drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++
->>>    drivers/gpu/drm/msm/msm_atomic.c            | 13 ++++-
->>>    drivers/gpu/drm/msm/msm_kms.h               |  7 +++
->>>    include/drm/drm_atomic.h                    | 10 ++++
->>>    9 files changed, 192 insertions(+), 43 deletions(-)
->>> ---
->>> base-commit: b72747fdde637ebf52e181671bf6f41cd773b3e1
->>> change-id: 20241222-drm-dirty-modeset-88079bd27ae6
->>>
->>> Best regards,
->> -- 
->> --
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstrasse 146, 90461 Nuernberg, Germany
->> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->> HRB 36809 (AG Nuernberg)
->>
+Changes in v5:
+- Patch merged, then removed from the series:
+  - dt-bindings: display: mediatek: rdma: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: ovl: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: gamma: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: dpi: add compatible for MT8365
+  - dt-bindings: display: mediatek: dsi: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: dither: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: color: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: ccorr: add compatible for MT8365 SoC
+  - dt-bindings: display: mediatek: aal: add compatible for MT8365 SoC
+- Enable STARTEK KD070FHFID015 panel in the defconfig.
+- Rebase on top of 6.13-rc6.
+- Link to v4: https://lore.kernel.org/all/20231023-display-support-v4-0-ed82eb168fb1@baylibre.com
 
+Changes in v4:
+- Patch merged, then removed from the series:
+  - dt-bindings: display: mediatek: dpi: add power-domains property
+  - dt-bindings: pwm: mediatek,pwm-disp: add compatible for mt8365 SoC
+  - clk: mediatek: mt8365-mm: fix DPI0 parent
+- Remove mediatek,mt8365-dpi compatible from mtk_drm_drv.c because it
+  use the mt8192's data. It's a miss.
+- Add MT8365 OF graphs support, remove the hardcoded display path and
+  rebase on top of Angelo's series [1].
+- Link to v3: https://lore.kernel.org/r/20231023-display-support-v3-0-53388f3ed34b@baylibre.com
+
+Changes in v3:
+- Drop "drm/mediatek: add mt8365 dpi support" because it's the same
+  config as mt8192 SoC
+- Drop "dt-bindings: pwm: mediatek,pwm-disp: add power-domains property"
+  because an equivalent patch has been merge already.
+- Add DPI clock fix in a separate commit.
+- Improve DTS(I) readability.
+- Link to v2: https://lore.kernel.org/r/20231023-display-support-v2-0-33ce8864b227@baylibre.com
+
+Changes in v2:
+- s/binding/compatible/ in commit messages/titles.
+- Improve commit messages as Conor suggest.
+- pwm-disp: Set power domain property for MT8365. This one is optionnal
+  and can be used for other SoC.
+- Fix mediatek,dsi.yaml issue.
+- Remove the extra clock in the DPI node/driver and fix the dpi clock
+  parenting to be consistent with the DPI clock assignement.
+- Link to v1: https://lore.kernel.org/r/20231023-display-support-v1-0-5c860ed5c33b@baylibre.com
+
+[1] https://lore.kernel.org/lkml/20240516081104.83458-1-angelogioacchino.delregno@collabora.com/
+
+---
+Alexandre Mergnat (4):
+      drm/mediatek: dsi: Improves the DSI lane setup robustness
+      arm64: defconfig: enable display support for mt8365-evk
+      arm64: dts: mediatek: add display blocks support for the MT8365 SoC
+      arm64: dts: mediatek: add display support for mt8365-evk
+
+Fabien Parent (2):
+      dt-bindings: display: mediatek: dpi: add power-domains example
+      drm/mediatek: add MT8365 SoC support
+
+ .../bindings/display/mediatek/mediatek,dpi.yaml    |   2 +
+ arch/arm64/boot/dts/mediatek/mt8365-evk.dts        | 245 ++++++++++++++-
+ arch/arm64/boot/dts/mediatek/mt8365.dtsi           | 336 +++++++++++++++++++++
+ arch/arm64/configs/defconfig                       |   2 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c             |   8 +
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |   2 +
+ 6 files changed, 594 insertions(+), 1 deletion(-)
+---
+base-commit: 9d89551994a430b50c4fffcb1e617a057fa76e20
+change-id: 20231023-display-support-c6418b30e419
+
+Best regards,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Alexandre Mergnat <amergnat@baylibre.com>
 
