@@ -2,83 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64BC0A08E90
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E294A08EB3
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 11:58:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4899510F068;
-	Fri, 10 Jan 2025 10:53:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 989B110F070;
+	Fri, 10 Jan 2025 10:58:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BEQy6Pp/";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mfDiYJXu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B9F10F068
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 10:53:43 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id
- d9443c01a7336-21619108a6bso31337855ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 02:53:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736506423; x=1737111223; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=V6D+Duy2KSB23Y0Rvwa3w0ojen1q7SpzhhAe7Fua6DI=;
- b=BEQy6Pp/v+V9qpZ4lbSTDG1HV8ytBGhkyI3XDJ84RwvObpSE/d7dRESal63e527k0a
- 56ERnJroXPw7J9Uw82OZbI7xi50U0lnWKJz+IUT1pj5kIGJV+jTMGLcl+UyuuKYpbga0
- GT+bML9uAYHKWjzr/IJLnyWOCq2sgm0gOvzF6mk/wk7aNywKzcG/o5vcVXwTZJYSOrC+
- AOqKaKN2/3trS5QlC/ePDEY3Rk0+YVY0egSrrzWMhAGV/h494/WpWCHvFhSJpMi06+fr
- TMCVc7Rlh58alf/LwGj7uODv2fFtlmFOs5+LG+zcL0G7LEN4QvZ6Z011NIE6KLkIvzxY
- BYeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736506423; x=1737111223;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=V6D+Duy2KSB23Y0Rvwa3w0ojen1q7SpzhhAe7Fua6DI=;
- b=n+uD1hvV5ha/H5F3mwIDwc/AHHJ1NktgFdmPjfV6ojFhYVAr1gRwX/kYejytkcTQxO
- A6yCTcvLqkc7lEHcmeIey1KLmOCFDu5buaVTOkG/G4mOqyttS7Trq3t2gzuGETCc2Xi0
- jjQ5hrmQEIHKFpayOKFtgm6izKdtp9lS2agA6e4J3Ov9roKt5IoIYOP4RLtC0kAFfFn2
- NguSNolBu06m1N96uSd6v/YNKEGboHA0ZsbpvPg4DHh0ZECQ6muKCWBQMWduqJmiUn4S
- 8qAWKho7VmuOZJdFnvAedQRhXqe+LM7uZlnj1pW+IQdOVO8tqyCyjoDONh6R/b9Ttckv
- Y7Og==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWsbHhQkETG5ARuv5alOZg+84xxePWnODxgRms1/ZBQNIPlP15GS5vgDi+5zkBt2BMnMXk/zriM50c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5wWVKqdXN0zZVgUcu70K5b5sxcCPeVfLuuRwu8u+Bf9RkeXV9
- u7Tb4lh2GBQz9XoPppS47vYj9yim2KW4pjBW6nZitjxh9xraqzk1NmaAPNul
-X-Gm-Gg: ASbGncvaQ90dVRRYwkzrdSi/3hG7BiuV/U64q8HyAKDnR6KX2Hnj3P6z449FeJjRYwt
- 4Vw/FUtImsTmDEhUAMKOl8yU+vbtQImO8Wij84c1ISXzmzSvqlX7imnOPhB1zakYiesy3DEbnbL
- g+tT6+740fV/bvqTy0aFpceprTF7RAkGiSVU9kVsptp/dz/sFNOY/PQicytJooLLVLpkMo3GQOv
- GfVyQVu1sIuUnOoOXtnnaNNW6065Q4kR8rqecSfdwcDL7Gau42rCr6ciQ==
-X-Google-Smtp-Source: AGHT+IEXc3zedWc5CeLrQUkadcVEzJk8eqcEuyttO1WR8DTZLahGcQx2U529vW48eyEGuwRsZNX9tw==
-X-Received: by 2002:a05:6a00:2c86:b0:71e:e4f:3e58 with SMTP id
- d2e1a72fcca58-72d21fbcf06mr14713527b3a.17.1736506423154; 
- Fri, 10 Jan 2025 02:53:43 -0800 (PST)
-Received: from nick-mbp.. ([59.188.211.160])
- by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-72d406a57dcsm1333403b3a.170.2025.01.10.02.53.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Jan 2025 02:53:42 -0800 (PST)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Nick Chan <towinchenmi@gmail.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org
-Subject: [PATCH v5 3/3] MAINTAINERS: Add entries for Apple DWI backlight
- controller
-Date: Fri, 10 Jan 2025 18:52:06 +0800
-Message-ID: <20250110105304.71142-4-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250110105304.71142-1-towinchenmi@gmail.com>
-References: <20250110105304.71142-1-towinchenmi@gmail.com>
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF4CD10F070
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 10:58:29 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id BCD341C0005;
+ Fri, 10 Jan 2025 10:58:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1736506707;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iP0T2q4tU7B7N3TVY1oYdB+gv51bfdkKfL8uFYzMvBU=;
+ b=mfDiYJXuc4O4Dw9f4EtCAg5t4sVt2sC6nStKLOKhTJtkwamhqfFEHeqLMuipKfNVdWRIVo
+ R1FLIbP1pSbS9NBOnjbIyHubUclEyvA+RRKg9/RFvCiDmJ+t3biMVKdJyD0sw2VZRypJ7x
+ NzBFfAMWWFlgQ6d7v9iPqagyb1C4i2XNU6IDdkxnTFG8VjXbbxDexXRvuAaSIS3blTS966
+ Jnw4wK9ZjGKluQv0nUbeM3I0vG5Qb+JRoqqtGMB0Lc9rGOfPeZUJ9GSkHiwtUf8vPZVgoC
+ J69IEJDPNwOLu5c1/q7o1s7cwol0oFTK5uwJynkj3YHMAVRGgyB/kUYltbsruQ==
+Date: Fri, 10 Jan 2025 11:58:19 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
+ =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
+ Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+Message-ID: <20250110115819.55bc887b@booty>
+In-Reply-To: <20250102130149.5784c09b@booty>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
+ <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
+ <20250102130149.5784c09b@booty>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,34 +79,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MAINTAINERS entries for the driver.
+Hi Dmitry,
 
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+On Thu, 2 Jan 2025 13:01:49 +0100
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 910305c11e8a..67ad74f987c8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2196,6 +2196,7 @@ F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
- F:	Documentation/devicetree/bindings/iommu/apple,dart.yaml
- F:	Documentation/devicetree/bindings/iommu/apple,sart.yaml
-+F:	Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
- F:	Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
- F:	Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
- F:	Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -2221,6 +2222,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/video/backlight/apple_dwi_bl.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
+> > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > index f8b4fb8357659018ec0db65374ee5d05330639ae..c4d1563fd32019efde523dfc0863be044c05a826 100644
+> > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> > > @@ -1705,6 +1705,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+> > >  	struct device *dev = dsi->dev;
+> > >  	struct device_node *np = dev->of_node;
+> > >  	struct device_node *remote;
+> > > +	struct drm_bridge *out_bridge;
+> > >  	struct drm_panel *panel;
+> > >  	int ret;
+> > >  
+> > > @@ -1740,21 +1741,23 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+> > >  
+> > >  	panel = of_drm_find_panel(remote);
+> > >  	if (!IS_ERR(panel)) {
+> > > -		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > > +		out_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > >  	} else {
+> > > -		dsi->out_bridge = of_drm_find_bridge(remote);
+> > > -		if (!dsi->out_bridge)
+> > > -			dsi->out_bridge = ERR_PTR(-EINVAL);
+> > > +		out_bridge = of_drm_find_bridge(remote);
+> > > +		if (!out_bridge)
+> > > +			out_bridge = ERR_PTR(-EINVAL);
+> > >  	}    
+> > 
+> > While looking at this patch, I think we should migrate the driver to
+> > drm_of_find_panel_or_bridge().  
+> 
+> Indeed, the code here is duplicating drm_of_find_panel_or_bridge(). I'm
+> going to convert it.
+
+Or maybe not. A similar work has been attempted in the past [0] and
+then reverted. There are many subtleties one would need to take care of
+before getting this right, I don't think opening this other can of
+worms in the middle of the bridge refcounting work makes sense.
+
+[0] https://patchwork.freedesktop.org/patch/482751/
+
+Luca
+
 -- 
-2.47.1
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
