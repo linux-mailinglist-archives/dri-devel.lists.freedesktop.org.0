@@ -2,75 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA0E6A08907
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 08:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF39A0890D
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 08:38:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9D810E4E9;
-	Fri, 10 Jan 2025 07:38:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E0210F009;
+	Fri, 10 Jan 2025 07:38:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linbit-com.20230601.gappssmtp.com header.i=@linbit-com.20230601.gappssmtp.com header.b="ltA0YEXZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="q6ePQjo8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5B7C10E4E9
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 07:37:58 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id
- 3f1490d57ef6-e399e904940so2662025276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Jan 2025 23:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linbit-com.20230601.gappssmtp.com; s=20230601; t=1736494678; x=1737099478;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+qzWT5wH5s+fKNGwrFbhAw4D9NGqeijkLtAUV3eA9AA=;
- b=ltA0YEXZZdcfbPlXJrKoqJiEFcA6jHTjtIICbzdTNiwVNpLBV28Z7XU21iogm8X2Fn
- 9LrKCxBn8Qt31p1Vo3fMFsfruWFr7ZOCVpVtLlzBCEYWULslouMnDLY07Wjmnbm4vi4B
- qPoqZAR8PP3FxSVmqS+88CgtwOlyAm8UWiJAneKnfZk5NcpMGi7gqPLTFLAbJx/RiRkp
- brf4bdUCWQ8hr9zLhlbmR4vveGJnD1FJ6o95ImcWT1SDFiaZqzpjSclefcFeRYd7xQkQ
- owSipNPrJX51/fWT1hFAYI6E6bsaLzp01nPL12ciA/jQiotj8/9PvhJ4qAW3y/h9v5Vw
- lgFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736494678; x=1737099478;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=+qzWT5wH5s+fKNGwrFbhAw4D9NGqeijkLtAUV3eA9AA=;
- b=ma4RUG4nClKr0rrobJzwb+d8u0YVE40lDD4S7sU9HBfWP8c6653zkQjJlroEzlMvKN
- DVxV9iZr+cC+xplS17v8pKfh0ru8mQ0O3b/8NEphxxC9IPtLU8D2lGKqOyGdv1lfayDg
- N/HtKLOdVs1rrZo0GED8Cjukb/hOcsULgj6Tq0gIbllmdBZolyDXJ1OppkuUACV1UVco
- cVuHjZkUmiXWNN2gQMiNfxSyN64galB62uWHGcOQw0Jea3hvra4wxuEOFCb0DaegjajL
- 4J+MLzpe95uowh7Yi9mmPlW1t4XisxuFa1Fqw/pGY3r+VSVH0UsTBy/DHRN4AZof+6s7
- Kv/Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWhImSnngxnGS1oH5HhhSG4eLh65GdzmOs/bWEmpI09t3pgz71b/DX+ugJsSsfJAm7jir1qanZIZVM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywi4OPeBIhDC2yjQHKDtMDkWqVflGzDFfwp1SrVyr4jybO8LQ9t
- bTCbhvxKJJ2tzoxIDzo9OSmc9JxY/05tybRguaI9Y4loCP0itfZwvwR8yNbbnvAx+hptC9tpCDK
- XiDM5Yr9BCIWRVUk1wbxTJc9wOt1NfOQdZspr1A==
-X-Gm-Gg: ASbGncuvOD2s1WDyYkWsB++6LFbpobrQJqwPnVvbv3zhDf3yZiNTxXQSjUxcAD9Rb7m
- uFwWyL8sD76TgCE2mGTcgknqX1gPozJdjrwXhL+U=
-X-Google-Smtp-Source: AGHT+IE4h31zS1tWbmuL/MJgMEZgLzygC8WxDsJ9pPMV7jLLm5nGtoeOJUYodepPGtr2IHoUeZSdrqwsTGrCkBey3QM=
-X-Received: by 2002:a05:6902:12cd:b0:e57:2f23:84f1 with SMTP id
- 3f1490d57ef6-e572f2385bcmr252727276.20.1736494677778; Thu, 09 Jan 2025
- 23:37:57 -0800 (PST)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE5E10EFFF
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 07:38:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 055E0A419CC;
+ Fri, 10 Jan 2025 07:36:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2908EC4CEE0;
+ Fri, 10 Jan 2025 07:38:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736494693;
+ bh=DqiUgrBfB2mIxC6rOUWpzRzt8vBXTPO7YhlHrtsAwYI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=q6ePQjo80FMX+1C2j32EpENhkgM0uWdOG7jYiLnGLhtMAg5r5nqZr4+SVFCxLk2OJ
+ 0v/w7A8R8jT7ggyqZyEoBZD1bmiX8GypWqZWHTqL8GiOA5EvTC0SgFIXyR3bAkx4wE
+ sg6SCSpDiHR3MpSf06paOT6haJQwy95ThqZ9oKdl8xCthQMrzQC9mTGTXqyS9YcXft
+ fY6ze/2m7KT73OazUoW9uJ4x34mQgcXtPTRa8aLa74yC33U285HYUJtzOo+PLlJJEg
+ H0UJGlrxmC0DerLu+qrtDzoF9EWqmEvva63G2Wh0YPFFFdpq9sUR1qcrwlvU9VurXa
+ 72rlY6vX5RWpg==
+Message-ID: <f5859a83-975b-46a3-a33d-ab203efd9e21@kernel.org>
+Date: Fri, 10 Jan 2025 08:38:04 +0100
 MIME-Version: 1.0
-References: <20250107140240.325899-1-philipp.reisner@linbit.com>
- <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
- <CADnq5_PAG662SODmS8cSg7jcyh8ZQRgcWMtgjx5RZbuUE7j3Og@mail.gmail.com>
- <6a17b4f1-5b5b-4226-b3c3-4dfa3f3c3811@amd.com>
-In-Reply-To: <6a17b4f1-5b5b-4226-b3c3-4dfa3f3c3811@amd.com>
-From: Philipp Reisner <philipp.reisner@linbit.com>
-Date: Fri, 10 Jan 2025 08:37:47 +0100
-X-Gm-Features: AbW1kvbBmTnqHjafWuIn-RBWkfm_9kspJHgJia2WxcEKQTUsm2YXdhCItEq1tCo
-Message-ID: <CADGDV=Vfnqmdn9Hdo9e3Av66NeZD1j1iijsEnP8Dqwakey5epA@mail.gmail.com>
-Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Alex Deucher <alexdeucher@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/6] arm64: defconfig: enable display support for
+ mt8365-evk
+To: Alexandre Mergnat <amergnat@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jitao Shi <jitao.shi@mediatek.com>, CK Hu <ck.hu@mediatek.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20231023-display-support-v6-0-c6af4f34f4d8@baylibre.com>
+ <20231023-display-support-v6-4-c6af4f34f4d8@baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <20231023-display-support-v6-4-c6af4f34f4d8@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,61 +116,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[...]
-> > Could this be due to amdgpu setting sched->ready when the rings are
-> > finished initializing from long ago rather than when the scheduler has
-> > been armed?
->
-> Yes and that is absolutely intentional.
->
-> Either the driver is not done with it's resume yet, or it has already
-> started it's suspend handler. So the scheduler backends are not started
-> and so the ready flag is false.
->
-> But some userspace application still tries to submit work.
->
-> If we would now wait for this work to finish we would deadlock, so
-> crashing on the NULL pointer deref is actually the less worse outcome.
->
-> Christian.
+On 09/01/2025 11:37, Alexandre Mergnat wrote:
+> Enable the DRM HDMI connector support.
+> Enable the MIPI-DSI display Startek KD070FHFID015 panel.
 
-Hi Christian,
+Why? It was in previous commit, now its missing.
 
-Today in the morning, when I woke up my workstation, I was greeted
-with a black screen, on which I still could move my mouse pointer. The
-OOPS happens at resume time, not at suspend time:
-
-...
-J=C3=A4n 10 07:58:14 ryzen9 kernel: [drm] scheduler comp_1.2.1 is not ready=
-, skipping
-J=C3=A4n 10 07:58:14 ryzen9 kernel: [drm] scheduler comp_1.3.1 is not ready=
-, skipping
-J=C3=A4n 10 07:58:14 ryzen9 kernel: BUG: kernel NULL pointer dereference,
-address: 0000000000000008
-J=C3=A4n 10 07:58:14 ryzen9 kernel: #PF: supervisor read access in kernel m=
-ode
-J=C3=A4n 10 07:58:14 ryzen9 kernel: #PF: error_code(0x0000) - not-present p=
-age
-J=C3=A4n 10 07:58:14 ryzen9 kernel: PGD 0 P4D 0
-J=C3=A4n 10 07:58:14 ryzen9 kernel: Oops: Oops: 0000 [#2] PREEMPT SMP NOPTI
-J=C3=A4n 10 07:58:14 ryzen9 kernel: CPU: 2 UID: 1001 PID: 4961 Comm:
-chrome:cs0 Tainted: G      D    OE      6.12.5-200.fc41.x86_64 #1
-J=C3=A4n 10 07:58:14 ryzen9 kernel: Tainted: [D]=3DDIE, [O]=3DOOT_MODULE,
-[E]=3DUNSIGNED_MODULE
-J=C3=A4n 10 07:58:14 ryzen9 kernel: Hardware name: Micro-Star International
-Co., Ltd. MS-7A38/B450M PRO-VDH MAX (MS-7A38), BIOS B.B0 02/03/2021
-J=C3=A4n 10 07:58:14 ryzen9 kernel: RIP: 0010:drm_sched_job_arm+0x23/0x60 [=
-gpu_sched]
-J=C3=A4n 10 07:58:14 ryzen9 kernel: Code: 90 90 90 90 90 90 90 f3 0f 1e fa
-0f 1f 44 00 00 55 53 48 8b 6f 60 48 85 ed 74 3f 48 89 fb 48 89 ef e8
-e1 38 00 00 48 8b 45 10 <48> 8b 50 08 48 89 53 18 8b 45 24 89 43 5c b8
-01 00 00 00 f0 48 0f
-J=C3=A4n 10 07:58:14 ryzen9 kernel: RSP: 0018:ffffa52510cf7758 EFLAGS: 0001=
-0206
-...
-
-Can we conclude that "the driver is not yet ready with it's resume"?
-Can you point me to where I could add instrumentation code to dig deeper?
-
-Thanks,
- Philipp
+Best regards,
+Krzysztof
