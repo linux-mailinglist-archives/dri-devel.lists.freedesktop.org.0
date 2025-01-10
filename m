@@ -2,64 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8829DA09C70
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 21:29:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777B7A09C86
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Jan 2025 21:38:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0239710E03E;
-	Fri, 10 Jan 2025 20:29:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 977FA10E023;
+	Fri, 10 Jan 2025 20:38:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z58KNZma";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="qmPjGyw1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBFFF10E03E
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 20:29:32 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-aaf3c3c104fso411145166b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 12:29:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736540911; x=1737145711; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=nbsjCb3u66mpBVZchgSydQ2hBJPJoIC3s+2MGX9rIQc=;
- b=Z58KNZmaa97WmKpdpx4Zbw4w7k7yOc5IFngruUKkltBc+VthJb+AJsmS37tSCc713E
- im/9bnu99pFKF75Z6Lf6+I52x+9VHTwwNVgyL2YbxIt9b06a45TRPK6Y6Xx8dqkkvQak
- 3jfqqaFBbeVxh5iCTZ1EsHgGwAEPZAdfHiVgL7VTBlSJywxQsbCGOGS31F/fUtXT0EeW
- jSGFlVQqIsvdx1QwBgo3Ui0UHk82sHw15FUzGhRgcm+ULXFfHpPvodcteVftQnmM/XOc
- rFyaOZuw0ccte6UCoF4+cMjjfWq+TRQ1YFr8agoXjfFA98B1lOeEUX/UIHR3RIMTppgx
- qWTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736540911; x=1737145711;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=nbsjCb3u66mpBVZchgSydQ2hBJPJoIC3s+2MGX9rIQc=;
- b=Ywn6ecznQw40LfuQt3mJaDDRXBhoZFfZkpePKy/Sm5ROUZg7h4rSGEhH3yVzZ8wKIx
- wTrd+N6olgPxGYhbqpLGu/FnQybC9HrVPVuVedrMNEWVo4kNJGexZKZjJFV3J+xbiV8p
- TCgTYHPVyiNKGyweVtKK6cQekmQhEG3GATJ2wkp6tXQZZtgehN9H62dS3Tbq84Tq9Q2p
- 8hP/QBXqiqkpjK4qqkrZjiu/qH4XsGfGf34JocunI9J41kOpkbgSvbjkEHOd/SIZhOQf
- aBkXUNHto4skARX7pggkhl7ihZJxZd8SLWrnW3VyuW6bZfmvJy8ZiK6QlHlB6coh6GuS
- nALA==
-X-Gm-Message-State: AOJu0YwDZgDyT88N3aGLAgMKCQznbKNvf0l9pVXLRO7FyT2xQUwwjBm7
- Zad4ZKQgNjcrNJveHC2qHb3j2QhMk54za8JpgDstmw+LRBmq5FPP7neXiKjXmkz/HM2RQZxbQni
- mKUihtFw1HOadKtN/2mgVZsGJ+38=
-X-Gm-Gg: ASbGncv1HV9h+yT9QCsJJ+kXbWLfqxmT2H2qI8JHDbC+AxDvVHCc2jye6bR2d0QjhNg
- DXxAfV+ZsSDoWxh+mVOqoQi1ax8eME0qD6qZw
-X-Google-Smtp-Source: AGHT+IF3Bs7wVY3t6k5Bvls/0ls3kgs7eQNNpLbTid711JOYOycLTj7CanK+J7AmRASOy2WtMW/RX1RP92bZeGdsvOg=
-X-Received: by 2002:a17:906:7950:b0:aaf:4008:5e2d with SMTP id
- a640c23a62f3a-ab2aa3f4439mr1060276166b.0.1736540911097; Fri, 10 Jan 2025
- 12:28:31 -0800 (PST)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2062.outbound.protection.outlook.com [40.107.95.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 368B810E023
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 20:38:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FGUj8KnkFpyPB4tEETeO9UFutJdSJuSc+bnORcVEEUosP8YYjg4SDTOaVJ0LVyaK1YHCq4rFn/Xg9liXgffH0bZFE7vHaoNQGZOqohJh3AkIxrsi3Hwuw0iQZ6w93Juxho4Zhf1v0JYclA4aXOUUByRXEyVXPV+7dysbd4tejcPSxIq4fg88KlL7dV6bEovXJcKZXXjPMpBjZLoMBTtMaKVyM49mVtQmNUawrkefe7T992CxS5A9/UF63XeyhGlmCxbiSoiR4CQ1+Sueq9oCa4bODPzvFpzeRUyby1cnm5YINDxYm4VJ9inT09QgD+YOIfJWutNnJcdxRrpkabFSuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m50YQAmEEbi6CVr6cAF6bJKG0tNOC8rjE1N9CY1ziz0=;
+ b=FczKQiV5BUvF1fatsNkKcttFQFc+hp9KCs1DnHFpCgOzUGMFB/+C4Sd2DazOjA367VXtg5ES80RhPr9U+akaG2/tmnMh1J2aKyqw+EpPlkU+zp/bt+NOPc3jVHiT8GUDqj5c8uQPYKRIL9J5PKA647m1owl2al85wzrPlGcLT/tktD+/FFwib59j/IYZFg5shbxL17wi3Lalw7dd8/gjEwq4tHZxTDZLe896ShdEXQtPageLG6VER7mODJP3JRBh8VQm4bc08GpfZNU1Emxq/c7hfpEufroqM0JKLr2JxmbeNIfbToYFNdQqyiuWilYSKWMl+N5J3pQXk8gstnUrGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m50YQAmEEbi6CVr6cAF6bJKG0tNOC8rjE1N9CY1ziz0=;
+ b=qmPjGyw1YNo+pSSbpNXZRRNCZFyYNlOQJXaQEzjprKN+VnngjXIs85474WGtlpo8s5ge5kRzirt7NwIawy8xGl4usfci7S7V3vm2jN5PaJTXDImT7Vv8RWi5SuWbZwggkwgeOgpqBslkgIsfysBfuxU0KbeqWJm70jW/4lQaOflzGITtCRkdBT+wZSTwq56dKldyO2QpKKbiCQzQcZ/sb3dZZfLDGOWNhRx+KW/jxS6lUwGivsad2CIhxFbj7UqXGTkFYb3SMszKCrOv9D4FnLolzg55jNu+rZKJ+0zupa8jyRr+qO42XX9jcQ9EkQ/qj+7Eg/L438lCfOYrTJssUg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by SJ0PR12MB6966.namprd12.prod.outlook.com (2603:10b6:a03:449::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.11; Fri, 10 Jan
+ 2025 20:38:40 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8314.015; Fri, 10 Jan 2025
+ 20:38:39 +0000
+Date: Fri, 10 Jan 2025 16:38:38 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+ alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+ linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <20250110203838.GL5556@nvidia.com>
+References: <20250108132358.GP5556@nvidia.com>
+ <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com>
+ <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+ <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+ <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+ <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
+ <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
+X-ClientProxiedBy: MN2PR07CA0016.namprd07.prod.outlook.com
+ (2603:10b6:208:1a0::26) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 11 Jan 2025 06:28:19 +1000
-X-Gm-Features: AbW1kva9lgReT8jJ0RmBZy_2c5iOkh262OPNZck2UlWvBblfSotW3SFU2J6zTec
-Message-ID: <CAPM=9twk2XVFSgSqQy_PTQZagPJ0V-G6jpgoFcLnCUvzu_0Y8Q@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.13-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SJ0PR12MB6966:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9aec9c20-c5e6-4e5e-7fa1-08dd31b6c3e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?zVmcAMMd6AC92pHp8oh1XXwyifiOBPD3fLeYpvSTKUWxk7MB8w+XzeAVqGAU?=
+ =?us-ascii?Q?UoF7KuiRoBJ/5lDbAf3MDVQCNwR5uQ0D6eSjaO76bN+jFBsqfQ8krqCAg5lF?=
+ =?us-ascii?Q?DXyNBUN33gFopBJKznXhXdgqkRXXhUz+HD1RJhmMq9Y/yEOO6KaNYdWQtUcY?=
+ =?us-ascii?Q?4d6ZY/Xi5XXbyj4HLFe7zN7HdcqPnS5INia1osjFhHk+P11pe730IW86BBSj?=
+ =?us-ascii?Q?nZl2iKVESD/sHQdFZ1o0x4pfLuayeKoVdgtCmh/M2uA24ZH34mACuyuWGNjW?=
+ =?us-ascii?Q?57bZ9DpNNzEFduisszeoCJh2F/WDj6/lE/Mqz+cqIv/+Bcem0f7M3OSVgvYC?=
+ =?us-ascii?Q?whxnRB9IBAeOau4UjJrxYFaK4khwLFBeEL78ew3tvqBq5v8FP5kdeggBC3Tl?=
+ =?us-ascii?Q?pJ285rG5223Nru5K3ukkt8ZvXz6/xoWagrQJ+ppU9Obq5ae9nwwo7wYoVCIs?=
+ =?us-ascii?Q?oGcPkwS9q8dmyGYKLDBL8NW7B4OozH/p4NZ8y52nhWP6bxmcG64+eGnP6ZpX?=
+ =?us-ascii?Q?cyRKqTFPqxbCc29bU329H0eFq0RE/3PCLKp6Y8cPd+jTigmXU6nVxdlK4kor?=
+ =?us-ascii?Q?SKvDFKHA6Yy01UAAXKs5E5yxnOVWjxSFVvuK7o9/sAVqv6bdF5b0iCdbJRRP?=
+ =?us-ascii?Q?sC3QxO7x9+TYWfdKtEkPmvV48cJnLn/VUpKquE0CkkmtPJJNP4K4Ly3ezhrc?=
+ =?us-ascii?Q?OzTlvNkjatsZLN6xJANkbnJmqGDvnAyAlIIUNS3B3W5jrcu+fcBZ/sLTPPBN?=
+ =?us-ascii?Q?dv9k1ibEv+IhCrJeExVQdgjzngA3JP6I+/ywKANxpKGumSZFs+8YyeeGLrJ3?=
+ =?us-ascii?Q?JrTomEzl6D85Vs8eEN2iZalM/OaG9eH7oBKOagYcP6h4yl8EWvd9J8mqaLuO?=
+ =?us-ascii?Q?QzKb0/0TbhEInCdnnjAAFNlUvmTQ7LBdR13cDr/S4a87kpfmFG7iedV1mNj9?=
+ =?us-ascii?Q?lFgsMdETewKKXqnuAcSieOWYW3iEHI8NXBk4WjSgPgdvWwqlAl07LF6IR3sa?=
+ =?us-ascii?Q?WoffJmpKO/C0q6tfajAMQy1DgrP+qUrMDjQeCVTRv2M0PStcQGCmoC1klHue?=
+ =?us-ascii?Q?LJtrgHlVhMnU8CQFak8yMtWWiTVcmhblPLtCzYMzOpEE6Ybf5UfEN39tjeRU?=
+ =?us-ascii?Q?omkbBmC+jHrMr3FRS2M04zlwUwaLezDlvIP/rTJO4nRZqR0ggJDEwXFELRvu?=
+ =?us-ascii?Q?oT57c+9Aus051Io68wQR6YQqyEl9X9HfUX4UpHV4GNsKcoWfI7RfYf2Jfq9k?=
+ =?us-ascii?Q?ro2abELw+bLUtI6TktYUSjpGg2So0tj6OcTVv3QJ4T8+6QoaQtIoFMt/6p7G?=
+ =?us-ascii?Q?jkFTHT4P0oAHQMRjCd5l/bkbI0lJE4sSEb+ZCfr9LCl3dF7JfjnM2jsN20Br?=
+ =?us-ascii?Q?AUufESJw1XpHGIC6MmiauYgZnernVzUeC29ICJGAOlir5GPJmWTnL9eB1pb5?=
+ =?us-ascii?Q?ZJ+nmYpYYjI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5jJJU+pNBAkb8tCrMXmu8bSKevXogkcJWi7p/c9Azwe8FqCH5rAyz18mIo0y?=
+ =?us-ascii?Q?BeuBSyHpxqDYLT+IfNGYf0hlPN5aHC5jhfTJX9BGz5u9p+MnEUbwGspyEwr+?=
+ =?us-ascii?Q?4in7DFlh3LZEUnMncgUfAXvn1dkEOOamFop0LUOxCPwSvblC6JdPNwCfdBDy?=
+ =?us-ascii?Q?HS+O5PIr77YIO6e9S2yMI7QukCmd+AAaEmswokBs5wAhUQirfJ+ZuksQTKpS?=
+ =?us-ascii?Q?owpmhF1806cxBdFmYl8n92mnAG7xemqb+RrDyzOm3XTAnAO8RegS5gfHIvFr?=
+ =?us-ascii?Q?wqWPN/6QSjFv/EwzDqXlRXtzAirrb5hFcYOaCOD70ks9oUS59js6x14p/hUY?=
+ =?us-ascii?Q?yyTv5XsWpccUFUBs1Ianp9NdWiqFj29LxQGSbJ8bNsQXx4Fr7Rk9Fqo/eGWg?=
+ =?us-ascii?Q?tBlLDC10fs+6V4YTWvO9ARDmREs24rVC5q2drXR0Bi75tEmFBP6m2rjR1H3B?=
+ =?us-ascii?Q?5mhOLCF3JzHp7QMS2guuXyu8D6ttJleZPS5cVNjs1gwvuYfyYOdzQbROCwtP?=
+ =?us-ascii?Q?Jf52WJAzCkie1elIosmJL68LrbgxUzZBCj9MoFRauMGjjGt7s/huIjJcppl8?=
+ =?us-ascii?Q?LGNSjFn32EeQtDQk3NNW23uS1VYPeL4h0UHV4fdTjlH2REmTTriu6VZZGc6A?=
+ =?us-ascii?Q?E36qjHk51FBLizQ9yV/pCS3G/JsduoqIPGl2mROV+CaWU8IWBEW6f/8434iI?=
+ =?us-ascii?Q?lxDX815Wp4kfq2wXdhzJ3uC7MD530lavAIfo/Lj9X60e4MZaAzkLJE+P4lmX?=
+ =?us-ascii?Q?lFEvSycr6Y4Sf85qJydZFzLo3k8YXUE+Z4wQOS2qyoGYK18xCIS+2jsusUsX?=
+ =?us-ascii?Q?em38WWX4QCHG0+PTDAgPB7XM2Qa0PmAvTf6vFqNGFq90K4YAl4/LNKNkfR2L?=
+ =?us-ascii?Q?iYadB+xhBRS5nMWbx+Y6mWGTNEiM/ca7SnBayrPEft3gdTtRcy5XMUsuS5G6?=
+ =?us-ascii?Q?TpXjAceUZj+pqqpW5C3Cy87iGFH7zG0SbrsBQ1ziMDauqYeTGihbmgy5Ncz2?=
+ =?us-ascii?Q?GQCEkvi5OukQ0ZMpCMbhM/pTzrusqZUdADAD0gk0ablqgUHOXR07myPoyv+D?=
+ =?us-ascii?Q?Qh9n9Mo9ST6toxs9EEhRWZRSoOwjpRIqX9S+6IBfVLnah0agO9mdk8UZtDl3?=
+ =?us-ascii?Q?rKCdWLeSHqozpeqSzYnrcTNCl9Uo18rSsbzHP+M/rNtw8D+p3N9pBSinDBMA?=
+ =?us-ascii?Q?uLJf7TsmfNPI7uKt68rxS4w1MVB1vc7c45nala4SNh9U0dAfDH3QTvpvnrE9?=
+ =?us-ascii?Q?j4aYBF433dn0w8ndcRIIn38v9pgbxe5qNPRSgQ0xGDDD75jnQ7J6OmKYvVy7?=
+ =?us-ascii?Q?OZdcjumd9kI4qoWnzCUG4eVleMqPzAFbaahIhoSuk8hlYYJv/YE6K9f3SZhl?=
+ =?us-ascii?Q?fuxpWfgRdZrYov+3TWrt39AfzXJUyjsQcRw+WK4W86yIcnxevqGVX2g1RfVt?=
+ =?us-ascii?Q?7uYohOoizAxJeZpn5JXMMa3/DzdNO1VL4iMVeHDMIjT/umKCHlu24Zi2Y1WR?=
+ =?us-ascii?Q?T920bTp3PzwmZPk9FdmqmBXFnEP7+F7MLe/FIlN9ZzvuaHVncNY+o+aPmgME?=
+ =?us-ascii?Q?Cr6+vj7RstDW+QwTIqY9rigj03VkRMPpA4dqZXBU?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9aec9c20-c5e6-4e5e-7fa1-08dd31b6c3e4
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2025 20:38:39.8194 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9fKZSPwrK0rseqazA2XkqLeJ4ogZW/eYgD6ke8E64UEJN6G1VxM7LfuNPyzOS4UX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6966
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,210 +163,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Fri, Jan 10, 2025 at 08:34:55PM +0100, Simona Vetter wrote:
 
-Regular weekly fixes, this has the usual amdgpu/xe/i915 bits. There is
-a bigger bunch of mediatek patches that I considered not including at
-this stage, but all the changes (except for one were obvious small
-fixes, and the rotation one is a few lines, and I suppose will help
-someone have their screen up the right way), I decided to include it
-since I expect it got slowed down by holidays etc, and it's not that
-mainstream a hw platform.
+> So if I'm getting this right, what you need from a functional pov is a
+> dma_buf_tdx_mmap? Because due to tdx restrictions, the normal dma_buf_mmap
+> is not going to work I guess?
 
-It looks like I might be travelling for merge window, so I'll see
-about sending PR in advance next week,
+Don't want something TDX specific!
 
-Dave.
+There is a general desire, and CC is one, but there are other
+motivations like performance, to stop using VMAs and mmaps as a way to
+exchanage memory between two entities. Instead we want to use FDs.
 
-drm-fixes-2025-01-11:
-drm fixes for 6.13-rc7
+We now have memfd and guestmemfd that are usable with
+memfd_pin_folios() - this covers pinnable CPU memory.
 
-i915:
-- Revert "drm/i915/hdcp: Don't enable HDCP1.4 directly from check_link"
+And for a long time we had DMABUF which is for all the other wild
+stuff, and it supports movable memory too.
 
-amdgpu:
-- Display interrupt fixes
-- Fix display max surface mismatches
-- Fix divide error in DM plane scale calcs
-- Display divide by 0 checks in dml helpers
-- SMU 13 AD/DC interrrupt handling fix
-- Fix locking around buddy trim handling
+So, the normal DMABUF semantics with reservation locking and move
+notifiers seem workable to me here. They are broadly similar enough to
+the mmu notifier locking that they can serve the same job of updating
+page tables.
 
-amdkfd:
-- Fix page fault with shader debugger enabled
-- Fix eviction fence wq handling
+> Also another thing that's a bit tricky is that kvm kinda has a 3rd dma-buf
+> memory model:
+> - permanently pinned dma-buf, they never move
+> - dynamic dma-buf, they move through ->move_notify and importers can remap
+> - revocable dma-buf, which thus far only exist for pci mmio resources
 
-xe:
-- Avoid a NULL ptr deref when wedging
-- Fix power gate sequence on DG1
+I would like to see the importers be able to discover which one is
+going to be used, because we have RDMA cases where we can support 1
+and 3 but not 2.
 
-mediatek:
-- Revert "drm/mediatek: dsi: Correct calculation formula of PHY Timing"
-- Set private->all_drm_private[i]->drm to NULL if mtk_drm_bind returns err
-- Move mtk_crtc_finish_page_flip() to ddp_cmdq_cb()
-- Only touch DISP_REG_OVL_PITCH_MSB if AFBC is supported
-- Add support for 180-degree rotation in the display driver
-- Stop selecting foreign drivers
-- Revert "drm/mediatek: Switch to for_each_child_of_node_scoped()"
-- Fix YCbCr422 color format issue for DP
-- Fix mode valid issue for dp
-- dp: Reference common DAI properties
-- dsi: Add registers to pdata to fix MT8186/MT8188
-- Remove unneeded semicolon
-- Add return value check when reading DPCD
-- Initialize pointer in mtk_drm_of_ddp_path_build_one()
-The following changes since commit 9d89551994a430b50c4fffcb1e617a057fa76e20:
+revocable doesn't require page faulting as it is a terminal condition.
 
-  Linux 6.13-rc6 (2025-01-05 14:13:40 -0800)
+> Since we're leaning even more on that 3rd model I'm wondering whether we
+> should make it something official. Because the existing dynamic importers
+> do very much assume that re-acquiring the memory after move_notify will
+> work. But for the revocable use-case the entire point is that it will
+> never work.
 
-are available in the Git repository at:
+> I feel like that's a concept we need to make explicit, so that dynamic
+> importers can reject such memory if necessary.
 
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-01-11
+It strikes me as strange that HW can do page faulting, so it can
+support #2, but it can't handle a non-present fault?
 
-for you to fetch changes up to fddb4fd91a955636baa451fe82ad0266f55c7ede:
+> So yeah there's a bunch of tricky lifetime questions that need to be
+> sorted out with proper design I think, and the current "let's just use pfn
+> directly" proposal hides them all under the rug. 
 
-  Merge tag 'mediatek-drm-fixes-20250104' of
-https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
-into drm-fixes (2025-01-10 16:57:59 +1000)
+I don't think these two things are connected. The lifetime model that
+KVM needs to work with the EPT, and that VFIO needs for it's MMIO,
+definately should be reviewed and evaluated.
 
-----------------------------------------------------------------
-drm fixes for 6.13-rc7
+But it is completely orthogonal to allowing iommufd and kvm to access
+the CPU PFN to use in their mapping flows, instead of the
+dma_addr_t.
 
-i915:
-- Revert "drm/i915/hdcp: Don't enable HDCP1.4 directly from check_link"
+What I want to get to is a replacement for scatter list in DMABUF that
+is an array of arrays, roughly like:
 
-amdgpu:
-- Display interrupt fixes
-- Fix display max surface mismatches
-- Fix divide error in DM plane scale calcs
-- Display divide by 0 checks in dml helpers
-- SMU 13 AD/DC interrrupt handling fix
-- Fix locking around buddy trim handling
+  struct memory_chunks {
+      struct memory_p2p_provider *provider;
+      struct bio_vec addrs[];
+  };
+  int (*dmabuf_get_memory)(struct memory_chunks **chunks, size_t *num_chunks);
 
-amdkfd:
-- Fix page fault with shader debugger enabled
-- Fix eviction fence wq handling
+This can represent all forms of memory: P2P, private, CPU, etc and
+would be efficient with the new DMA API.
 
-xe:
-- Avoid a NULL ptr deref when wedging
-- Fix power gate sequence on DG1
+This is similar to the structure BIO has, and it composes nicely with
+a future pin_user_pages() and memfd_pin_folios().
 
-mediatek:
-- Revert "drm/mediatek: dsi: Correct calculation formula of PHY Timing"
-- Set private->all_drm_private[i]->drm to NULL if mtk_drm_bind returns err
-- Move mtk_crtc_finish_page_flip() to ddp_cmdq_cb()
-- Only touch DISP_REG_OVL_PITCH_MSB if AFBC is supported
-- Add support for 180-degree rotation in the display driver
-- Stop selecting foreign drivers
-- Revert "drm/mediatek: Switch to for_each_child_of_node_scoped()"
-- Fix YCbCr422 color format issue for DP
-- Fix mode valid issue for dp
-- dp: Reference common DAI properties
-- dsi: Add registers to pdata to fix MT8186/MT8188
-- Remove unneeded semicolon
-- Add return value check when reading DPCD
-- Initialize pointer in mtk_drm_of_ddp_path_build_one()
-
-----------------------------------------------------------------
-Alex Hung (1):
-      drm/amd/display: Remove unnecessary amdgpu_irq_get/put
-
-AngeloGioacchino Del Regno (2):
-      drm/mediatek: mtk_dsi: Add registers to pdata to fix MT8186/MT8188
-      drm/mediatek: Initialize pointer in mtk_drm_of_ddp_path_build_one()
-
-Arnd Bergmann (1):
-      drm/mediatek: stop selecting foreign drivers
-
-Arunpravin Paneer Selvam (1):
-      drm/amdgpu: Add a lock when accessing the buddy trim function
-
-Chun-Kuang Hu (3):
-      Revert "drm/mediatek: dsi: Correct calculation formula of PHY Timing"
-      Revert "drm/mediatek: Switch to for_each_child_of_node_scoped()"
-      drm/mediatek: Remove unneeded semicolon
-
-Daniel Golle (1):
-      drm/mediatek: Only touch DISP_REG_OVL_PITCH_MSB if AFBC is supported
-
-Dave Airlie (4):
-      Merge tag 'drm-intel-fixes-2025-01-08' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.13-2025-01-09' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-01-09' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-      Merge tag 'mediatek-drm-fixes-20250104' of
-https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
-into drm-fixes
-
-Fei Shao (1):
-      dt-bindings: display: mediatek: dp: Reference common DAI properties
-
-Guoqing Jiang (1):
-      drm/mediatek: Set private->all_drm_private[i]->drm to NULL if
-mtk_drm_bind returns err
-
-Jason-JH.Lin (2):
-      drm/mediatek: Move mtk_crtc_finish_page_flip() to ddp_cmdq_cb()
-      drm/mediatek: Add support for 180-degree rotation in the display driver
-
-Jesse.zhang@amd.com (1):
-      drm/amdkfd: fixed page fault when enable MES shader debugger
-
-Kun Liu (1):
-      drm/amd/pm:  fix BUG: scheduling while atomic
-
-Liankun Yang (3):
-      drm/mediatek: Fix YCbCr422 color format issue for DP
-      drm/mediatek: Fix mode valid issue for dp
-      drm/mediatek: Add return value check when reading DPCD
-
-Lucas De Marchi (1):
-      drm/xe: Fix tlb invalidation when wedging
-
-Melissa Wen (3):
-      drm/amd/display: fix page fault due to max surface definition mismatch
-      drm/amd/display: increase MAX_SURFACES to the value supported by hw
-      drm/amd/display: fix divide error in DM plane scale calcs
-
-Rodrigo Vivi (1):
-      drm/xe/dg1: Fix power gate sequence.
-
-Roman Li (1):
-      drm/amd/display: Add check for granularity in dml ceil/floor helpers
-
-Suraj Kandpal (1):
-      Revert "drm/i915/hdcp: Don't enable HDCP1.4 directly from check_link"
-
-Zhu Lingshan (1):
-      drm/amdkfd: wq_release signals dma_fence only when available
-
- .../bindings/display/mediatek/mediatek,dp.yaml     | 19 +++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c       |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_debug.c             | 17 ++++++
- drivers/gpu/drm/amd/amdkfd/kfd_process.c           |  3 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 35 +----------
- drivers/gpu/drm/amd/display/dc/core/dc.c           |  2 +-
- drivers/gpu/drm/amd/display/dc/core/dc_state.c     |  8 +--
- drivers/gpu/drm/amd/display/dc/dc.h                |  4 +-
- drivers/gpu/drm/amd/display/dc/dc_stream.h         |  2 +-
- drivers/gpu/drm/amd/display/dc/dc_types.h          |  1 -
- .../gpu/drm/amd/display/dc/dml/dml_inline_defs.h   |  8 +++
- .../drm/amd/display/dc/dml2/dml2_mall_phantom.c    |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |  2 +
- drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0.c     | 12 ++--
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.c   |  1 +
- .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.c   |  1 +
- drivers/gpu/drm/i915/display/intel_hdcp.c          | 12 +++-
- drivers/gpu/drm/mediatek/Kconfig                   |  5 --
- drivers/gpu/drm/mediatek/mtk_crtc.c                | 25 ++++++--
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            | 69 ++++++++++++----------
- drivers/gpu/drm/mediatek/mtk_dp.c                  | 46 +++++++++------
- drivers/gpu/drm/mediatek/mtk_drm_drv.c             | 13 ++--
- drivers/gpu/drm/mediatek/mtk_dsi.c                 | 49 +++++++++------
- drivers/gpu/drm/xe/xe_gt.c                         |  8 +--
- drivers/gpu/drm/xe/xe_gt_idle.c                    | 10 ++--
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c        |  4 +-
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h        |  3 +-
- 27 files changed, 214 insertions(+), 149 deletions(-)
+Jason
