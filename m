@@ -2,87 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D8EA0A3C9
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 14:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0E6A0A448
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 15:47:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B285010E0E7;
-	Sat, 11 Jan 2025 13:10:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE7AE10E5A0;
+	Sat, 11 Jan 2025 14:47:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U2t0ZZtb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FLwjobUA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 177D410E07E
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 13:10:03 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-300479ca5c6so24825001fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 05:10:02 -0800 (PST)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com
+ [209.85.210.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF0010E206;
+ Sat, 11 Jan 2025 14:47:39 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id
+ 46e09a7af769-71e3005916aso588157a34.2; 
+ Sat, 11 Jan 2025 06:47:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736600941; x=1737205741; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Qx1wyBpWYHJu++PDsnhtF5U0w2Z7xCP50OWt1HUfTZY=;
- b=U2t0ZZtbO7+oTua8LjPV/J3cXB8mabvQ0laduRPPGCkg0x5tSIJG8WLz9vgABteA+r
- v54rLbegNTCkK6Esl+LdK3kllNz9XNCLsSiUwDVfbtSvjvMBqpZjBMvNdvx/DTksmr/c
- 8CG850XTloR+mHe7D2iBDQgfrA+YGxl/5qFx2GmDh4dTuZo5FOIXsanNl2hR9hEtSIxx
- o8TC0yHnSzPi/9AhYP7wYqWBvZmIruN2IDd2NMT932Y9QtMlk/t8QhtZaHYyFfuP8szs
- PxJZkljU2jSGs7bjpJZYZyP92a4GqrtNMVq9IIw8hj21SNqpfvTcx16k4AjSbYMXS4Yi
- 2XXg==
+ d=gmail.com; s=20230601; t=1736606798; x=1737211598; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jp5U5y+e8zwr6ox9F7HQoNaTrbe9Mw1FMXpkxXDixdg=;
+ b=FLwjobUAGOlBpF8zUB/01gV6ibMd2mk2owl+BIjc1ILVqnnYiGroewsVA0rgmDKmiY
+ zURRttHoCnBf6WW3CrLuYjsgCpnaHSiY6n33pFpscGkbUyzm6R6vGuDrcY4RjF7Ly2Lz
+ QV8/vHiRt4Eaxhi0pYiUTWmNdRZEDxmYG2gMWfrsFyTYz0huAFe2cNA+OGQvoKEWWbSk
+ dov58f3U8ZO4YItEp2+vjwUjv57VngsfaGPmLrNorHTaVu/QritQkne3fOUlZqql9raO
+ WhDwNMS38xxHUTO9whPQHzTxbZXtGIufQiHXBiMh8gBIwUVDAEhkc+LbLh5x3YxnQsq4
+ AIOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736600941; x=1737205741;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Qx1wyBpWYHJu++PDsnhtF5U0w2Z7xCP50OWt1HUfTZY=;
- b=dNpR1DgfKS+SRGV7xmroHeAeA7Z04VzRFXPBC62KniqlkIj2iApYIl96wApAJqQ/l8
- HvE3sgnktMun75yZKIdmlFASKefSVklbYV6qNAcqv21vZg96y6LZSdoxiK9L4PDUktNL
- MNsNeXZZTc9KLny2xqHkXg5crvD6UOuOGSvIyZCo1TQ+LMEm7xH4nRybeYsOV7aNA8Ma
- Qa3bGr6Ms/p5nu33bxifc9jjVfz+jbhJU72YwcD5Fg7lvjk75iNI/HvQXknTgjCk0pfp
- b1j/Kl2Wxmw/9nTlZeT8paDSEwGqau2k+/pmb0TRdeGX7JxZp6NflO+SSp1X4gaYEB8a
- P/wA==
+ d=1e100.net; s=20230601; t=1736606798; x=1737211598;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jp5U5y+e8zwr6ox9F7HQoNaTrbe9Mw1FMXpkxXDixdg=;
+ b=Yiw0T3iEyWJBOoGxJQB5iXYoZNEkftrLRB+EMb8knfumzD98PCtRxcqaslO11z80ij
+ mphPRZ/R1gtYO6GaDe8vFO3XpMRXpz4z9JYokU7ND9+g3bl4lBXvAwxmxEDTj/TpNJwl
+ ztZMBOagCrh76+MIXT/1fbYgN/7MyRGiKUdcxknFd6MdyUyXXhwbiBCJiBexvZzls4WU
+ sw0eRhQHY+EZ3jifmBJ0GUztUhsDvUPREHZvIyb3BJs+FVS0QyuBcsBBs5Usf1dguslW
+ t332rRMld6pXmNngszYAbRhAPCSosELZWipeVGVlY0zKKBwwtb/QI4Kk6oAPK6WkBrO2
+ 7xwg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXzl01oZoFwe5QLYn8w8Wd4a7F9IQc4cSETKLBlRZmxIdoYbJxP7JQo+w6QYqYG5fSEm5k83Q2NEx0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwtZFU2/5hbWRb0udJaFEENDozoRjOOBy9G0nYWsZ/aEfgYHDOq
- jjEN7zjaKk5fHasGdr/SpT4IIXnLh0FrEusm1z44HedFXm7PqzgGuba4oOaI/EM=
-X-Gm-Gg: ASbGnctYUsJHT7qwj/x43BzPYKCGfgdnCIcEua6L/DeCP3A8sUBTFy0aQznI2d+ZOjg
- wiL+8cmqbUJ5yniVhzAr4bOXnXj+XQfEPcDl6xHu65HRRLO/+9mS91gkJfoMQtadltj2xMzFa1Q
- 6m3XRlM0P0OHfF4BS4HQJYwy6nEs2zlUzYNCsplgkZQVHboycIPKEFZ6gfF7ROcLC9ymhauWmJ8
- cBuFY4gAKWKaA8b2URsjCNa6JLuVoEbmzLdCiYK8/yCqIahpLYCjP1CxTkfqQTu5PYHjAqQOezI
- Tn1NR+gffShs4xVF5RIRr+ae
-X-Google-Smtp-Source: AGHT+IET3fM2KyzPq5qZrZvi3XK0YobTnnm/AX8Pu0nvU0MJZHQlXUZxi9ueffT+lleeGgmRDlOzLw==
-X-Received: by 2002:a2e:be8a:0:b0:302:1b18:2bfa with SMTP id
- 38308e7fff4ca-305f45b25e8mr51230021fa.23.1736600941149; 
- Sat, 11 Jan 2025 05:09:01 -0800 (PST)
-Received: from [127.0.0.1] (85-76-141-224-nat.elisa-mobile.fi. [85.76.141.224])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-305ff0f9d82sm8254421fa.65.2025.01.11.05.08.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 11 Jan 2025 05:08:59 -0800 (PST)
-Date: Sat, 11 Jan 2025 15:08:58 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Simona Vetter <simona.vetter@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v4_4/9=5D_drm/msm/dpu=3A_make_fix=5Fco?=
- =?US-ASCII?Q?re=5Fab=5Fvote_consistent_with_fix=5Fcore=5Fib=5Fvote?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <a17204c1-6eb5-4ce4-a302-c5f582055037@quicinc.com>
-References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
- <20250106-dpu-perf-rework-v4-4-00b248349476@linaro.org>
- <35a22251-c348-4bb7-905c-e24032100a00@quicinc.com>
- <sklr3ryu35xmoejkmbu35d3jxsg2clk3whmzslxtzcbcb3gjy4@bmcivlzkxqa3>
- <a17204c1-6eb5-4ce4-a302-c5f582055037@quicinc.com>
-Message-ID: <0B5D10CF-35CE-4CF5-9105-5ACCC04EB94B@linaro.org>
+ AJvYcCUljfhE4B6ivn6Koei+AWECGUqOjo1Il9lvWlGLnQDd2HzPw8omy11nvMcOgMjIfr7uuKjMAymiTh8=@lists.freedesktop.org,
+ AJvYcCUtI/iXnKz4xC5V2gvLJ65w1ezzJuQKgCvLTfAZwRP+6zO/pKOg5PG3GLkU3K94l5F4MnlDbKIm8Z+vL41UEg==@lists.freedesktop.org,
+ AJvYcCVLT+C1Ln/cUmWM9YZqcqKreAMzJoej0FNVlJvbGxYBtpPSdPEOgeuocXo/qaaEiLQE36A+zLVjFZZg@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz79pELeMFt7WalfRP2isHAIJQhtkHnAUMATNhwP1F/l8HmRIcr
+ Da785yp8fmjmP3jp4YuRF67e1GdnvDXcqaPh2DgDKq2/fitWP7Pq5Of+r189SS86N7TTZLE81H2
+ TN0WtQX7Gx6TJqzISdUynjySz49Q=
+X-Gm-Gg: ASbGnctwLWbKwEbrXG797PVgVZXAuznbwW757bUcuLqQmjmwTphpWM7/tyOokcLLOzQ
+ 34vXEkNmx/fZvokC/+TdmOfBKXSPajEVl/ylY
+X-Google-Smtp-Source: AGHT+IGzeuLLaubbwhpUioR0zRZXONKE5UMQyXeBY955LXeXLQqVkmoMX572/QfoLvEnA7t10ibLg8CyFn78Yk7e7cI=
+X-Received: by 2002:a05:6871:2084:b0:29e:4578:5f74 with SMTP id
+ 586e51a60fabf-2aa0665bd45mr8307720fac.4.1736606798434; Sat, 11 Jan 2025
+ 06:46:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20241222002043.173080-1-linux@treblig.org>
+ <Z2dcZfW8eNMnxT0v@gallifrey>
+ <Z3uGjO36tfhQsnfp@dell-wzy> <Z4A7QDtTrU6w2Yhv@intel.com>
+ <877c73j64o.fsf@intel.com> <Z4IA6XtXX-e0Du-6@dell-wzy>
+In-Reply-To: <Z4IA6XtXX-e0Du-6@dell-wzy>
+From: Zhi Wang <zhi.wang.linux@gmail.com>
+Date: Sat, 11 Jan 2025 16:46:26 +0200
+X-Gm-Features: AbW1kvYzh9lWYSrsuWnwL3vob-gj7oObd820ZhS3KLmgvqkKvtDuNZJ8vfdV6AI
+Message-ID: <CAN=xO47iZmQv=6AtrK4ouY7vyU8YV0RRR2VD3HLP2cCTxLTJGA@mail.gmail.com>
+Subject: Re: GVT-g status (was: Re: [PATCH 0/3] drm/i915/gvt: Deadcoding)
+To: Zhenyu Wang <zhenyuw.linux@gmail.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, zhiyuan.lv@intel.com,
+ james.y.wu@intel.com, 
+ kevin.tian@intel.com, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ "Dr. David Alan Gilbert" <linux@treblig.org>, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, 
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Content-Type: multipart/alternative; boundary="00000000000055d934062b6f47d7"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,121 +92,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11 January 2025 01:49:23 EET, Abhinav Kumar <quic_abhinavk@quicinc=2Ecom=
+--00000000000055d934062b6f47d7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+I am fine with that as well.
+
+Zhenyu Wang <zhenyuw.linux@gmail.com> =E4=BA=8E 2025=E5=B9=B41=E6=9C=8811=
+=E6=97=A5=E5=91=A8=E5=85=AD =E4=B8=8A=E5=8D=887:26=E5=86=99=E9=81=93=EF=BC=
+=9A
+
+> On Fri, Jan 10, 2025 at 12:49:27PM +0200, Jani Nikula wrote:
+> > On Thu, 09 Jan 2025, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+> > > On Mon, Jan 06, 2025 at 04:30:20PM +0900, Zhenyu Wang wrote:
+> > >> On Sun, Dec 22, 2024 at 12:25:09AM +0000, Dr. David Alan Gilbert
 > wrote:
+> > >> > Note: zhenyuw@linux.intel.com's address bounces:
+> > >> >
+> > >>
+> > >> yeah, I've left Intel so can't use that box any more, looks Rodrigo
+> hasn't
+> > >> queue up my address change patch yet. Rodrigo?
+> > >
+> > > pushed to drm-intel-next now, although I was assuming this to come
+> > > on a gvt pull request...
+> > >
+> > > what about this patch here? coming in a PR or should I take this
+> > > directly at drm-intel-next as well?
+> >
+> > AFAICT the last gvt-next pull request was more than two years ago and
+> > gvt-fixes slightly less than one year ago.
+> >
+> > There's a single cleanup commit in gvt-next applied two years ago for
+> > which there hasn't been a pull request.
+> >
+> > The GVT github page [1] says, "This repository has been archived by the
+> > owner on Oct 3, 2024. It is now read-only." The intel-gvt-dev mailing
+> > list [2] appears to be mostly spam.
+> >
+> > Seems to me something like this would be appropriate:
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 1c3eab5d2b1a..161206fdaf05 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11557,11 +11557,10 @@ F:  drivers/gpio/gpio-tangier.h
+> >  INTEL GVT-g DRIVERS (Intel GPU Virtualization)
+> >  M:   Zhenyu Wang <zhenyuw.linux@gmail.com>
+> >  M:   Zhi Wang <zhi.wang.linux@gmail.com>
+> > -L:   intel-gvt-dev@lists.freedesktop.org
+> >  L:   intel-gfx@lists.freedesktop.org
+> > -S:   Supported
+> > +S:   Maintained
+> >  W:   https://github.com/intel/gvt-linux/wiki
+> > -T:   git https://github.com/intel/gvt-linux.git
+> > +T:   git https://gitlab.freedesktop.org/drm/i915/kernel.git
+> >  F:   drivers/gpu/drm/i915/gvt/
+> >
 >
+> Looks fine with me.
 >
->On 1/9/2025 6:02 PM, Dmitry Baryshkov wrote:
->> On Thu, Jan 09, 2025 at 05:40:23PM -0800, Abhinav Kumar wrote:
->>>=20
->>>=20
->>> On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
->>>> The fix_core_ab_vote is an average bandwidth value, used for bandwidt=
-h
->>>> overrides in several cases=2E However there is an internal inconsiste=
-ncy:
->>>> fix_core_ib_vote is defined in KBps, while fix_core_ab_vote is define=
-d
->>>> in Bps=2E
->>>>=20
->>>> Fix that by changing the type of the variable to u32 and using * 1000=
-ULL
->>>> multiplier when setting up the dpu_core_perf_params::bw_ctl value=2E
->>>>=20
->>>=20
->>> Actually after looking at this, I have another question=2E
->>>=20
->>> How did you conclude that fix_core_ib_vote is in KBps?
->>>=20
->>> min_dram_ib is in KBps in the catalog but how is fix_core_ib_vote?
->>>=20
->>> It depends on the interpretation perhaps=2E If the debugfs was suppose=
-d to
->>> operate under the expectation that the provided value will be pre-mult=
-iplied
->>> by 1000 and given then that explains why it was not multiplied again=
-=2E
->>>=20
->>> And I cross-checked some of the internal usages of the debugfs, the va=
-lues
->>> provided to it were in Bps and not KBps=2E
->>=20
->> Well=2E=2E=2E As you wrote min_dram_ib is in KBps=2E So, by comparing t=
-he next
->> two lines, fix_core_ib_vote should also be in kBps, as there is no
->> premultiplier:
->>=20
->>                  perf->max_per_pipe_ib =3D core_perf->fix_core_ib_vote;
->> [=2E=2E=2E]
->>                  perf->max_per_pipe_ib =3D perf_cfg->min_dram_ib;
->>=20
->> And then, as a proof, perf->max_per_pipe_ib is passed to icc_set_bw()
->> without any modifications:
->>=20
->>                  icc_set_bw(kms->path[i], avg_bw, perf=2Emax_per_pipe_i=
-b);
->>=20
+> Acked-by: Zhenyu Wang <zhenyuw.linux@gmail.com>
 >
->Understood max_per_pipe_ib=2E But then by the same logic, fix_core_ab_vot=
-e is always in Bps and not in KBps because bw_ctl is in Bps=2E
+> >  INTEL HID EVENT DRIVER
+> >
+> > But I don't think it would be far from the truth to have "S: Odd Fixes"
+> > either. And the extreme would be to just remove the whole maintainers
+> > entry and have it fall back to the i915 entry.
+> >
+> > Thoughts?
+> >
 >
->Is it really a discrepancy that fix_core_ib_vote is defined in KBps, whil=
-e fix_core_ab_vote is defined in Bps because they are just following the un=
-its in which bw_ctl and max_per_pipe_ib were defined in resp=2E
+> When I left Intel, I have raised similar question to manager or related
+> people to see their ideas on how to keep GVT-g maintenance work for
+> upstream,
+> but I didn't get real answers before my last day at Intel...So still cc
+> some
+> intel gvt related people to double confirm.
+>
+> For me, it's fine to remove the maintainer entry maybe only keep as
+> reviewer?
+>
+> Thanks to raise up this issue, Jani!
+>
 
-Yes=2E They come in pair, as a part of the user interface=2E If one is in =
-Bps and another one in KBps, it is very easy to forget that and misinterpre=
-t them or to make a mistake while programming them=2E Not to mention that t=
-he threshold files, which are related to AB, are in KBps=2E
+--00000000000055d934062b6f47d7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->
->>=20
->>>> Signed-off-by: Dmitry Baryshkov <dmitry=2Ebaryshkov@linaro=2Eorg>
->>>> ---
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Ec | 4 ++--
->>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Eh | 2 +-
->>>>    2 files changed, 3 insertions(+), 3 deletions(-)
->>>>=20
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Ec b/driver=
-s/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Ec
->>>> index 7263ab63a692554cd51a7fd91bd6250330179240=2E=2E7cabc8f26908cfd2d=
-bbffebd7c70fc37d9159733 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Ec
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Ec
->>>> @@ -125,7 +125,7 @@ static void _dpu_core_perf_calc_crtc(const struct=
- dpu_core_perf *core_perf,
->>>>    		perf->max_per_pipe_ib =3D 0;
->>>>    		perf->core_clk_rate =3D 0;
->>>>    	} else if (core_perf->perf_tune=2Emode =3D=3D DPU_PERF_MODE_FIXED=
-) {
->>>> -		perf->bw_ctl =3D core_perf->fix_core_ab_vote;
->>>> +		perf->bw_ctl =3D core_perf->fix_core_ab_vote * 1000ULL;
->>>>    		perf->max_per_pipe_ib =3D core_perf->fix_core_ib_vote;
->>>>    		perf->core_clk_rate =3D core_perf->fix_core_clk_rate;
->>>>    	} else {
->>>> @@ -479,7 +479,7 @@ int dpu_core_perf_debugfs_init(struct dpu_kms *dp=
-u_kms, struct dentry *parent)
->>>>    			&perf->fix_core_clk_rate);
->>>>    	debugfs_create_u32("fix_core_ib_vote", 0600, entry,
->>>>    			&perf->fix_core_ib_vote);
->>>> -	debugfs_create_u64("fix_core_ab_vote", 0600, entry,
->>>> +	debugfs_create_u32("fix_core_ab_vote", 0600, entry,
->>>>    			&perf->fix_core_ab_vote);
->>>>    	return 0;
->>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Eh b/driver=
-s/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Eh
->>>> index ca4595b4ec217697849af02446b23ed0857a0295=2E=2E5e07119c14c6a9ed3=
-413d0eaddbd93df5cc3f79d 100644
->>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Eh
->>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf=2Eh
->>>> @@ -51,7 +51,7 @@ struct dpu_core_perf {
->>>>    	u32 enable_bw_release;
->>>>    	u64 fix_core_clk_rate;
->>>>    	u32 fix_core_ib_vote;
->>>> -	u64 fix_core_ab_vote;
->>>> +	u32 fix_core_ab_vote;
->>>>    };
->>>>    int dpu_core_perf_crtc_check(struct drm_crtc *crtc,
->>>>=20
->>=20
+<p dir=3D"ltr">I am fine with that as well. </p>
+<br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=
+=3D"gmail_attr">Zhenyu Wang &lt;<a href=3D"mailto:zhenyuw.linux@gmail.com">=
+zhenyuw.linux@gmail.com</a>&gt; =E4=BA=8E 2025=E5=B9=B41=E6=9C=8811=E6=97=
+=A5=E5=91=A8=E5=85=AD =E4=B8=8A=E5=8D=887:26=E5=86=99=E9=81=93=EF=BC=9A<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">On Fri, Jan 10, 2025 at 12:49:27PM +02=
+00, Jani Nikula wrote:<br>
+&gt; On Thu, 09 Jan 2025, Rodrigo Vivi &lt;<a href=3D"mailto:rodrigo.vivi@i=
+ntel.com" target=3D"_blank" rel=3D"noreferrer">rodrigo.vivi@intel.com</a>&g=
+t; wrote:<br>
+&gt; &gt; On Mon, Jan 06, 2025 at 04:30:20PM +0900, Zhenyu Wang wrote:<br>
+&gt; &gt;&gt; On Sun, Dec 22, 2024 at 12:25:09AM +0000, Dr. David Alan Gilb=
+ert wrote:<br>
+&gt; &gt;&gt; &gt; Note: <a href=3D"mailto:zhenyuw@linux.intel.com" target=
+=3D"_blank" rel=3D"noreferrer">zhenyuw@linux.intel.com</a>&#39;s address bo=
+unces:<br>
+&gt; &gt;&gt; &gt; <br>
+&gt; &gt;&gt; <br>
+&gt; &gt;&gt; yeah, I&#39;ve left Intel so can&#39;t use that box any more,=
+ looks Rodrigo hasn&#39;t<br>
+&gt; &gt;&gt; queue up my address change patch yet. Rodrigo?<br>
+&gt; &gt;<br>
+&gt; &gt; pushed to drm-intel-next now, although I was assuming this to com=
+e<br>
+&gt; &gt; on a gvt pull request...<br>
+&gt; &gt;<br>
+&gt; &gt; what about this patch here? coming in a PR or should I take this<=
+br>
+&gt; &gt; directly at drm-intel-next as well?<br>
+&gt; <br>
+&gt; AFAICT the last gvt-next pull request was more than two years ago and<=
+br>
+&gt; gvt-fixes slightly less than one year ago.<br>
+&gt; <br>
+&gt; There&#39;s a single cleanup commit in gvt-next applied two years ago =
+for<br>
+&gt; which there hasn&#39;t been a pull request.<br>
+&gt; <br>
+&gt; The GVT github page [1] says, &quot;This repository has been archived =
+by the<br>
+&gt; owner on Oct 3, 2024. It is now read-only.&quot; The intel-gvt-dev mai=
+ling<br>
+&gt; list [2] appears to be mostly spam.<br>
+&gt; <br>
+&gt; Seems to me something like this would be appropriate:<br>
+&gt; <br>
+&gt; diff --git a/MAINTAINERS b/MAINTAINERS<br>
+&gt; index 1c3eab5d2b1a..161206fdaf05 100644<br>
+&gt; --- a/MAINTAINERS<br>
+&gt; +++ b/MAINTAINERS<br>
+&gt; @@ -11557,11 +11557,10 @@ F:=C2=A0 drivers/gpio/gpio-tangier.h<br>
+&gt;=C2=A0 INTEL GVT-g DRIVERS (Intel GPU Virtualization)<br>
+&gt;=C2=A0 M:=C2=A0 =C2=A0Zhenyu Wang &lt;<a href=3D"mailto:zhenyuw.linux@g=
+mail.com" target=3D"_blank" rel=3D"noreferrer">zhenyuw.linux@gmail.com</a>&=
+gt;<br>
+&gt;=C2=A0 M:=C2=A0 =C2=A0Zhi Wang &lt;<a href=3D"mailto:zhi.wang.linux@gma=
+il.com" target=3D"_blank" rel=3D"noreferrer">zhi.wang.linux@gmail.com</a>&g=
+t;<br>
+&gt; -L:=C2=A0 =C2=A0<a href=3D"mailto:intel-gvt-dev@lists.freedesktop.org"=
+ target=3D"_blank" rel=3D"noreferrer">intel-gvt-dev@lists.freedesktop.org</=
+a><br>
+&gt;=C2=A0 L:=C2=A0 =C2=A0<a href=3D"mailto:intel-gfx@lists.freedesktop.org=
+" target=3D"_blank" rel=3D"noreferrer">intel-gfx@lists.freedesktop.org</a><=
+br>
+&gt; -S:=C2=A0 =C2=A0Supported<br>
+&gt; +S:=C2=A0 =C2=A0Maintained<br>
+&gt;=C2=A0 W:=C2=A0 =C2=A0<a href=3D"https://github.com/intel/gvt-linux/wik=
+i" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/intel=
+/gvt-linux/wiki</a><br>
+&gt; -T:=C2=A0 =C2=A0git <a href=3D"https://github.com/intel/gvt-linux.git"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/intel/g=
+vt-linux.git</a><br>
+&gt; +T:=C2=A0 =C2=A0git <a href=3D"https://gitlab.freedesktop.org/drm/i915=
+/kernel.git" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab=
+.freedesktop.org/drm/i915/kernel.git</a><br>
+&gt;=C2=A0 F:=C2=A0 =C2=A0drivers/gpu/drm/i915/gvt/<br>
+&gt;<br>
+<br>
+Looks fine with me.<br>
+<br>
+Acked-by: Zhenyu Wang &lt;<a href=3D"mailto:zhenyuw.linux@gmail.com" target=
+=3D"_blank" rel=3D"noreferrer">zhenyuw.linux@gmail.com</a>&gt;<br>
+<br>
+&gt;=C2=A0 INTEL HID EVENT DRIVER<br>
+&gt; <br>
+&gt; But I don&#39;t think it would be far from the truth to have &quot;S: =
+Odd Fixes&quot;<br>
+&gt; either. And the extreme would be to just remove the whole maintainers<=
+br>
+&gt; entry and have it fall back to the i915 entry.<br>
+&gt; <br>
+&gt; Thoughts?<br>
+&gt;<br>
+<br>
+When I left Intel, I have raised similar question to manager or related<br>
+people to see their ideas on how to keep GVT-g maintenance work for upstrea=
+m,<br>
+but I didn&#39;t get real answers before my last day at Intel...So still cc=
+ some<br>
+intel gvt related people to double confirm.<br>
+<br>
+For me, it&#39;s fine to remove the maintainer entry maybe only keep as rev=
+iewer?<br>
+<br>
+Thanks to raise up this issue, Jani! <br>
+</blockquote></div>
 
+--00000000000055d934062b6f47d7--
