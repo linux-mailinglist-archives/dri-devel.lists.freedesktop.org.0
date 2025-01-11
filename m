@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA97A0A59D
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 20:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B0DA0A5A0
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 20:28:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAB3110E27F;
-	Sat, 11 Jan 2025 19:28:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CF9910E2D5;
+	Sat, 11 Jan 2025 19:28:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="C3pfOkd9";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="qg9F0R+O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com
- [95.215.58.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A5D610E27F
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 19:28:16 +0000 (UTC)
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com
+ [95.215.58.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A443610E2D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 19:28:21 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736623695;
+ t=1736623700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ixIKGU67rGiI2aggAIaKoazwKpaND5w9e/fcwHARS4=;
- b=C3pfOkd96xF5/ANw99DJw4lHXwwfI2DYqzyuHd3O8iti1wdHj3qwNW34OVpg3CHVmlqg7G
- 08nntGlLLqIBSnZ/VprrZUyWnvT/l3Ioy/HmrXvrQKQ4Y4QfOZw8Oo5FCn+vgmnjlIRdpV
- oDz/QHmZVZUIcMKOr2Gr7DsvLtJwqKs=
+ bh=TRRFpFMmsJb7/2rSvXMnUy5bCkv+dT3l3IumZAQezV8=;
+ b=qg9F0R+OQeVAGrxBY/aLfAqrPExILycQKDQIYuatTbtxRMlUsv6HY3JAa2lq60uEXIrpUs
+ sCW8+vGXpZHa/uwEUS4hbD5SmyxRKAWC0r28fq4YymaawrSjY5dPlV3QBmysq/0rsPGvmX
+ v/JnJkdbCLm/eQUjHw9GbjvwoiXWtmE=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -45,10 +45,10 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v6 06/12] drm/bridge: cdns-dsi: Check return value when
- getting default PHY config
-Date: Sun, 12 Jan 2025 00:57:32 +0530
-Message-Id: <20250111192738.308889-7-aradhya.bhatia@linux.dev>
+Subject: [PATCH v6 07/12] drm/bridge: cdns-dsi: Wait for Clk and Data Lanes to
+ be ready
+Date: Sun, 12 Jan 2025 00:57:33 +0530
+Message-Id: <20250111192738.308889-8-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
 References: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -71,36 +71,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-Check for the return value of the phy_mipi_dphy_get_default_config()
-call, and incase of an error, return back the same.
+Once the DSI Link and DSI Phy are initialized, the code needs to wait
+for Clk and Data Lanes to be ready, before continuing configuration.
+This is in accordance with the DSI Start-up procedure, found in the
+Technical Reference Manual of Texas Instrument's J721E SoC[0] which
+houses this DSI TX controller.
 
-Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+If the previous bridge (or crtc/encoder) are configured pre-maturely,
+the input signal FIFO gets corrupt. This introduces a color-shift on the
+display.
+
+Allow the driver to wait for the clk and data lanes to get ready during
+DSI enable.
+
+[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
+     TRM Link: http://www.ti.com/lit/pdf/spruil1
+
+Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
+Tested-by: Dominik Haller <d.haller@phytec.de>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 9c743fde2861..6b051e91b71c 100644
+index 6b051e91b71c..bb180165ac4f 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -575,9 +575,11 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
- 	if (ret)
- 		return ret;
+@@ -767,7 +767,7 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+ 	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
+ 	unsigned long tx_byte_period;
+ 	struct cdns_dsi_cfg dsi_cfg;
+-	u32 tmp, reg_wakeup, div;
++	u32 tmp, reg_wakeup, div, status;
+ 	int nlanes;
  
--	phy_mipi_dphy_get_default_config(mode_clock * 1000,
--					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
--					 nlanes, phy_cfg);
-+	ret = phy_mipi_dphy_get_default_config(mode_clock * 1000,
-+					       mipi_dsi_pixel_format_to_bpp(output->dev->format),
-+					       nlanes, phy_cfg);
-+	if (ret)
-+		return ret;
+ 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+@@ -784,6 +784,19 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
+ 	cdns_dsi_init_link(dsi);
+ 	cdns_dsi_hs_init(dsi);
  
- 	ret = cdns_dsi_adjust_phy_config(dsi, dsi_cfg, phy_cfg, mode, mode_valid_check);
- 	if (ret)
++	/*
++	 * Now that the DSI Link and DSI Phy are initialized,
++	 * wait for the CLK and Data Lanes to be ready.
++	 */
++	tmp = CLK_LANE_RDY;
++	for (int i = 0; i < nlanes; i++)
++		tmp |= DATA_LANE_RDY(i);
++
++	if (readl_poll_timeout(dsi->regs + MCTL_MAIN_STS, status,
++			       (tmp == (status & tmp)), 100, 500000))
++		dev_err(dsi->base.dev,
++			"Timed Out: DSI-DPhy Clock and Data Lanes not ready.\n");
++
+ 	writel(HBP_LEN(dsi_cfg.hbp) | HSA_LEN(dsi_cfg.hsa),
+ 	       dsi->regs + VID_HSIZE1);
+ 	writel(HFP_LEN(dsi_cfg.hfp) | HACT_LEN(dsi_cfg.hact),
 -- 
 2.34.1
 
