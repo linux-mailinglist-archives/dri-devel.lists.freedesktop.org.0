@@ -2,48 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D1BA0A13E
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 07:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A325A0A156
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 07:41:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92E3610E149;
-	Sat, 11 Jan 2025 06:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E1DC10E1B1;
+	Sat, 11 Jan 2025 06:41:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="YC3GXqfu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="inum5wc+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB5D10E149
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 06:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=keQKezqLMlgI0F2Gf8geZjcFPxGFWtcxjcMyhGJtpIw=; b=YC3GXqfuSt9hUAIngNDH2updEj
- p5cWffFKDssAJZXzvvyD+aFr1beQUGOyrYuUYluQVjj0rZnK1YuFhxIZH41EXcFtxQGDifu2HrDHC
- GXy0Y8F/6aFqR1r6etSMRgkRZg44T0PfyIrvVppQ3FFXYSGA8zTOmATOdaF1f8NW/1NcCJ89crrh5
- UmcnIvdu4ydkAy/C3f9VCjjKXu4x2DkA9ydiakd11wrSLqHIsowecMSin1g6JrjOUNFFOsYgLvyd6
- Nrj4sBDYSl1RU9IORT27LG6zqhDDMP9TKGEJyPdJCqTa3fbyYCz0dWqP2EHyWTqKNNvMDywrhaG5D
- GvLr/bew==;
-Received: from [50.53.2.24] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
- id 1tWUz3-00000000HAM-2Zjw; Sat, 11 Jan 2025 06:28:33 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC6610E1B1
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 06:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736577670; x=1768113670;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=HdKyHxggIQYtQM8D7g0jk2NHrHn+fD9Taizzo5G8HcU=;
+ b=inum5wc+lDK0IwmH/EuPPJ+dRU6sBMUcGyMoTVJtHW7tXd7GferQ+ihT
+ Ny9daZgjWzV+X0KwcI57G7GO3eC17etetA3d1zlhaysC0/2pX9ml9Dti5
+ nz5DdMWLZvHmxOpWmOsJR61xBRz3EPLtfZeJNzZA1qnYJYijCCMq+Q6l6
+ dcD7ni/K2EkbVmuV8hkUuzFcXY4Qez5PDKuLaqOT+akmO9TtQJQKqsPsb
+ YDUsXIuwO+efCMrBFJpMyOimmkvzGw78Q9aPmLGHl+kNoLVT6YnbLD5hJ
+ gKY/A4IyBb92DRw5AegyuEO+NZpWYIAmIgeNcvmyW7bFqcwoG6XrLuKrS Q==;
+X-CSE-ConnectionGUID: iIYdw7eeQYubZqaQhTSzBA==
+X-CSE-MsgGUID: Vo23aYIIQaOqmZWGUSy5YA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="62251528"
+X-IronPort-AV: E=Sophos;i="6.12,306,1728975600"; d="scan'208";a="62251528"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2025 22:41:09 -0800
+X-CSE-ConnectionGUID: KFeE8qvWSK6up/z+Ktgo8A==
+X-CSE-MsgGUID: dtAxG4+LTHiYIXjPvV1chg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="108564311"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa005.fm.intel.com with ESMTP; 10 Jan 2025 22:41:05 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tWVB9-000KIR-1m;
+ Sat, 11 Jan 2025 06:41:03 +0000
+Date: Sat, 11 Jan 2025 14:40:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ao Xu via B4 Relay <devnull+ao.xu.amlogic.com@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH] drm/panthor: fix all mmu kernel-doc comments
-Date: Fri, 10 Jan 2025 22:28:32 -0800
-Message-ID: <20250111062832.910495-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.47.1
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Ao Xu <ao.xu@amlogic.com>
+Subject: Re: [PATCH 03/11] drm: meson: add S4 compatible for DRM driver
+Message-ID: <202501111433.iVcR3vZY-lkp@intel.com>
+References: <20250110-drm-s4-v1-3-cbc2d5edaae8@amlogic.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250110-drm-s4-v1-3-cbc2d5edaae8@amlogic.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,262 +81,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the correct format for all kernel-doc comments.
-Use structname.membername for named structs.
-Don't precede function names in kernel-doc with '@' sign.
-Use the correct function parameter names in kernel-doc comments.
+Hi Ao,
 
-This fixes around 80 kernel-doc warnings.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
----
- drivers/gpu/drm/panthor/panthor_mmu.c |   71 ++++++++++++------------
- 1 file changed, 37 insertions(+), 34 deletions(-)
+[auto build test ERROR on 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab]
 
---- linux-next-20250108.orig/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ linux-next-20250108/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -53,26 +53,27 @@ struct panthor_mmu {
- 	/** @irq: The MMU irq. */
- 	struct panthor_irq irq;
- 
--	/** @as: Address space related fields.
-+	/**
-+	 * @as: Address space related fields.
- 	 *
- 	 * The GPU has a limited number of address spaces (AS) slots, forcing
- 	 * us to re-assign them to re-assign slots on-demand.
- 	 */
- 	struct {
--		/** @slots_lock: Lock protecting access to all other AS fields. */
-+		/** @as.slots_lock: Lock protecting access to all other AS fields. */
- 		struct mutex slots_lock;
- 
--		/** @alloc_mask: Bitmask encoding the allocated slots. */
-+		/** @as.alloc_mask: Bitmask encoding the allocated slots. */
- 		unsigned long alloc_mask;
- 
--		/** @faulty_mask: Bitmask encoding the faulty slots. */
-+		/** @as.faulty_mask: Bitmask encoding the faulty slots. */
- 		unsigned long faulty_mask;
- 
--		/** @slots: VMs currently bound to the AS slots. */
-+		/** @as.slots: VMs currently bound to the AS slots. */
- 		struct panthor_as_slot slots[MAX_AS_SLOTS];
- 
- 		/**
--		 * @lru_list: List of least recently used VMs.
-+		 * @as.lru_list: List of least recently used VMs.
- 		 *
- 		 * We use this list to pick a VM to evict when all slots are
- 		 * used.
-@@ -87,16 +88,16 @@ struct panthor_mmu {
- 
- 	/** @vm: VMs management fields */
- 	struct {
--		/** @lock: Lock protecting access to list. */
-+		/** @vm.lock: Lock protecting access to list. */
- 		struct mutex lock;
- 
--		/** @list: List containing all VMs. */
-+		/** @vm.list: List containing all VMs. */
- 		struct list_head list;
- 
--		/** @reset_in_progress: True if a reset is in progress. */
-+		/** @vm.reset_in_progress: True if a reset is in progress. */
- 		bool reset_in_progress;
- 
--		/** @wq: Workqueue used for the VM_BIND queues. */
-+		/** @vm.wq: Workqueue used for the VM_BIND queues. */
- 		struct workqueue_struct *wq;
- 	} vm;
- };
-@@ -143,14 +144,14 @@ struct panthor_vma {
- struct panthor_vm_op_ctx {
- 	/** @rsvd_page_tables: Pages reserved for the MMU page table update. */
- 	struct {
--		/** @count: Number of pages reserved. */
-+		/** @rsvd_page_tables.count: Number of pages reserved. */
- 		u32 count;
- 
--		/** @ptr: Point to the first unused page in the @pages table. */
-+		/** @rsvd_page_tables.ptr: Point to the first unused page in the @pages table. */
- 		u32 ptr;
- 
- 		/**
--		 * @page: Array of pages that can be used for an MMU page table update.
-+		 * @rsvd_page_tables.pages: Array of pages that can be used for an MMU page table update.
- 		 *
- 		 * After an VM operation, there might be free pages left in this array.
- 		 * They should be returned to the pt_cache as part of the op_ctx cleanup.
-@@ -172,10 +173,10 @@ struct panthor_vm_op_ctx {
- 
- 	/** @va: Virtual range targeted by the VM operation. */
- 	struct {
--		/** @addr: Start address. */
-+		/** @va.addr: Start address. */
- 		u64 addr;
- 
--		/** @range: Range size. */
-+		/** @va.range: Range size. */
- 		u64 range;
- 	} va;
- 
-@@ -195,14 +196,14 @@ struct panthor_vm_op_ctx {
- 
- 	/** @map: Fields specific to a map operation. */
- 	struct {
--		/** @vm_bo: Buffer object to map. */
-+		/** @map.vm_bo: Buffer object to map. */
- 		struct drm_gpuvm_bo *vm_bo;
- 
--		/** @bo_offset: Offset in the buffer object. */
-+		/** @map.bo_offset: Offset in the buffer object. */
- 		u64 bo_offset;
- 
- 		/**
--		 * @sgt: sg-table pointing to pages backing the GEM object.
-+		 * @map.sgt: sg-table pointing to pages backing the GEM object.
- 		 *
- 		 * This is gathered at job creation time, such that we don't have
- 		 * to allocate in ::run_job().
-@@ -210,7 +211,7 @@ struct panthor_vm_op_ctx {
- 		struct sg_table *sgt;
- 
- 		/**
--		 * @new_vma: The new VMA object that will be inserted to the VA tree.
-+		 * @map.new_vma: The new VMA object that will be inserted to the VA tree.
- 		 */
- 		struct panthor_vma *new_vma;
- 	} map;
-@@ -304,27 +305,27 @@ struct panthor_vm {
- 
- 	/** @kernel_auto_va: Automatic VA-range for kernel BOs. */
- 	struct {
--		/** @start: Start of the automatic VA-range for kernel BOs. */
-+		/** @kernel_auto_va.start: Start of the automatic VA-range for kernel BOs. */
- 		u64 start;
- 
--		/** @size: Size of the automatic VA-range for kernel BOs. */
-+		/** @kernel_auto_va.size: Size of the automatic VA-range for kernel BOs. */
- 		u64 end;
- 	} kernel_auto_va;
- 
- 	/** @as: Address space related fields. */
- 	struct {
- 		/**
--		 * @id: ID of the address space this VM is bound to.
-+		 * @as.id: ID of the address space this VM is bound to.
- 		 *
- 		 * A value of -1 means the VM is inactive/not bound.
- 		 */
- 		int id;
- 
--		/** @active_cnt: Number of active users of this VM. */
-+		/** @as.active_cnt: Number of active users of this VM. */
- 		refcount_t active_cnt;
- 
- 		/**
--		 * @lru_node: Used to instead the VM in the panthor_mmu::as::lru_list.
-+		 * @as.lru_node: Used to instead the VM in the panthor_mmu::as::lru_list.
- 		 *
- 		 * Active VMs should not be inserted in the LRU list.
- 		 */
-@@ -336,13 +337,13 @@ struct panthor_vm {
- 	 */
- 	struct {
- 		/**
--		 * @pool: The heap pool attached to this VM.
-+		 * @heaps.pool: The heap pool attached to this VM.
- 		 *
- 		 * Will stay NULL until someone creates a heap context on this VM.
- 		 */
- 		struct panthor_heap_pool *pool;
- 
--		/** @lock: Lock used to protect access to @pool. */
-+		/** @heaps.lock: Lock used to protect access to @pool. */
- 		struct mutex lock;
- 	} heaps;
- 
-@@ -408,7 +409,7 @@ struct panthor_vm_bind_job {
- 	struct panthor_vm_op_ctx ctx;
- };
- 
--/**
-+/*
-  * @pt_cache: Cache used to allocate MMU page tables.
-  *
-  * The pre-allocation pattern forces us to over-allocate to plan for
-@@ -478,7 +479,7 @@ static void *alloc_pt(void *cookie, size
- }
- 
- /**
-- * @free_pt() - Custom page table free function
-+ * free_pt() - Custom page table free function
-  * @cookie: Cookie passed at page table allocation time.
-  * @data: Page table to free.
-  * @size: Size of the page table. This size should be fixed,
-@@ -697,7 +698,7 @@ static void panthor_vm_release_as_locked
- 
- /**
-  * panthor_vm_active() - Flag a VM as active
-- * @VM: VM to flag as active.
-+ * @vm: VM to flag as active.
-  *
-  * Assigns an address space to a VM so it can be used by the GPU/MCU.
-  *
-@@ -801,7 +802,7 @@ out_dev_exit:
- 
- /**
-  * panthor_vm_idle() - Flag a VM idle
-- * @VM: VM to flag as idle.
-+ * @vm: VM to flag as idle.
-  *
-  * When we know the GPU is done with the VM (no more jobs to process),
-  * we can relinquish the AS slot attached to this VM, if any.
-@@ -1017,7 +1018,7 @@ static int flags_to_prot(u32 flags)
- 
- /**
-  * panthor_vm_alloc_va() - Allocate a region in the auto-va space
-- * @VM: VM to allocate a region on.
-+ * @vm: VM to allocate a region on.
-  * @va: start of the VA range. Can be PANTHOR_VM_KERNEL_AUTO_VA if the user
-  * wants the VA to be automatically allocated from the auto-VA range.
-  * @size: size of the VA range.
-@@ -1063,7 +1064,7 @@ panthor_vm_alloc_va(struct panthor_vm *v
- 
- /**
-  * panthor_vm_free_va() - Free a region allocated with panthor_vm_alloc_va()
-- * @VM: VM to free the region on.
-+ * @vm: VM to free the region on.
-  * @va_node: Memory node representing the region to free.
-  */
- void panthor_vm_free_va(struct panthor_vm *vm, struct drm_mm_node *va_node)
-@@ -1492,9 +1493,9 @@ panthor_vm_create_check_args(const struc
- 
- /**
-  * panthor_vm_pool_create_vm() - Create a VM
-+ * @ptdev: The panthor device
-  * @pool: The VM to create this VM on.
-- * @kernel_va_start: Start of the region reserved for kernel objects.
-- * @kernel_va_range: Size of the region reserved for kernel objects.
-+ * @args: VM creation args.
-  *
-  * Return: a positive VM ID on success, a negative error code otherwise.
-  */
-@@ -1558,6 +1559,8 @@ static void panthor_vm_destroy(struct pa
-  *
-  * The VM resources are freed when the last reference on the VM object is
-  * dropped.
-+ *
-+ * Return: %0 for success, negative errno value for failure
-  */
- int panthor_vm_pool_destroy_vm(struct panthor_vm_pool *pool, u32 handle)
- {
+url:    https://github.com/intel-lab-lkp/linux/commits/Ao-Xu-via-B4-Relay/dt-bindings-display-meson-dw-hdmi-Add-compatible-for-S4-HDMI-controller/20250110-134113
+base:   6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+patch link:    https://lore.kernel.org/r/20250110-drm-s4-v1-3-cbc2d5edaae8%40amlogic.com
+patch subject: [PATCH 03/11] drm: meson: add S4 compatible for DRM driver
+config: csky-randconfig-002-20250111 (https://download.01.org/0day-ci/archive/20250111/202501111433.iVcR3vZY-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501111433.iVcR3vZY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501111433.iVcR3vZY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/sys_soc.h:9,
+                    from drivers/gpu/drm/meson/meson_drv.c:16:
+   drivers/gpu/drm/meson/meson_drv.c: In function 'meson_drv_pm_suspend':
+>> include/drm/drm_print.h:588:42: error: 'struct device' has no member named 'dev'; did you mean 'devt'?
+     588 |         dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+         |                                          ^~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/drm/drm_print.h:588:9: note: in expansion of macro 'dev_err'
+     588 |         dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+         |         ^~~~
+   include/drm/drm_print.h:601:9: note: in expansion of macro '__drm_printk'
+     601 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/meson/meson_drv.c:541:17: note: in expansion of macro 'drm_err'
+     541 |                 drm_err(dev, "suspend error: %d", ret);
+         |                 ^~~~~~~
+--
+   In file included from include/linux/device.h:15,
+                    from include/linux/sys_soc.h:9,
+                    from meson_drv.c:16:
+   meson_drv.c: In function 'meson_drv_pm_suspend':
+>> include/drm/drm_print.h:588:42: error: 'struct device' has no member named 'dev'; did you mean 'devt'?
+     588 |         dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+         |                                          ^~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   include/drm/drm_print.h:588:9: note: in expansion of macro 'dev_err'
+     588 |         dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+         |         ^~~~
+   include/drm/drm_print.h:601:9: note: in expansion of macro '__drm_printk'
+     601 |         __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   meson_drv.c:541:17: note: in expansion of macro 'drm_err'
+     541 |                 drm_err(dev, "suspend error: %d", ret);
+         |                 ^~~~~~~
+
+
+vim +588 include/drm/drm_print.h
+
+e820f52577b14c Jim Cromie            2022-09-11  548  
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  549  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  550   * DRM_DEV_DEBUG() - Debug output for generic drm code
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  551   *
+306589856399e1 Douglas Anderson      2021-09-21  552   * NOTE: this is deprecated in favor of drm_dbg_core().
+306589856399e1 Douglas Anderson      2021-09-21  553   *
+091756bbb1a961 Haneen Mohammed       2017-10-17  554   * @dev: device pointer
+091756bbb1a961 Haneen Mohammed       2017-10-17  555   * @fmt: printf() like format string.
+02c9656b2f0d69 Haneen Mohammed       2017-10-17  556   */
+db87086492581c Joe Perches           2018-03-16  557  #define DRM_DEV_DEBUG(dev, fmt, ...)					\
+db87086492581c Joe Perches           2018-03-16  558  	drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  559  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  560   * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  561   *
+306589856399e1 Douglas Anderson      2021-09-21  562   * NOTE: this is deprecated in favor of drm_dbg() or dev_dbg().
+306589856399e1 Douglas Anderson      2021-09-21  563   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  564   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  565   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  566   */
+db87086492581c Joe Perches           2018-03-16  567  #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  568  	drm_dev_dbg(dev, DRM_UT_DRIVER,	fmt, ##__VA_ARGS__)
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  569  /**
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  570   * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  571   *
+306589856399e1 Douglas Anderson      2021-09-21  572   * NOTE: this is deprecated in favor of drm_dbg_kms().
+306589856399e1 Douglas Anderson      2021-09-21  573   *
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  574   * @dev: device pointer
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  575   * @fmt: printf() like format string.
+b52817e9de06a3 Mauro Carvalho Chehab 2020-10-27  576   */
+db87086492581c Joe Perches           2018-03-16  577  #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)				\
+db87086492581c Joe Perches           2018-03-16  578  	drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
+a18b21929453af Lyude Paul            2018-07-16  579  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  580  /*
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  581   * struct drm_device based logging
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  582   *
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  583   * Prefer drm_device based logging over device or prink based logging.
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  584   */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  585  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  586  /* Helper for struct drm_device based logging. */
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  587  #define __drm_printk(drm, level, type, fmt, ...)			\
+e04d24c4e8062b Luben Tuikov          2023-11-16 @588  	dev_##level##type((drm) ? (drm)->dev : NULL, "[drm] " fmt, ##__VA_ARGS__)
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  589  
+fb6c7ab8718eb2 Jani Nikula           2019-12-10  590  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
