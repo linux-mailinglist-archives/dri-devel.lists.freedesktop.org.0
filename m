@@ -2,71 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54F7A0A47B
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 16:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E93A0A59F
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 20:28:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 886E010E1F9;
-	Sat, 11 Jan 2025 15:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B9C10E28C;
+	Sat, 11 Jan 2025 19:28:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kP5aa05/";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="QZbcqcXZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F142A10E1F9
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 15:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736610556; x=1768146556;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=I13GjTQ/bEvxNSkVaRmA8TbxVYEsI+KUb/3rMftBa1w=;
- b=kP5aa05/+oOC70dpBPxjExgVw2Z0WfsXpg4iXw9/THOv4c0fy8Wqttms
- FpoqNprn8prk0vsQiC7OvDsagBA1583YHvYjMrsuSeN5fZN97i+0HcWJF
- 163FUZP7AQCHxfO6SLbcV+aWIuhcJKAZp1wvlujimZDcxxEeZdkHJUXIg
- XwKOoaD+wVs/2sP5zVS7Ltm9phOPk0FYfEYIm+nt52yJ6sFq0Uw8LzcBY
- TnVtBucYkxsgvpSPo8Q3U55X7iYG/dQpl2Bs6gxRSjg9YaDfMUToi8uSz
- aAowotGrj5eCslD8w3fu2KHNjQ/O+7+ULBwKdEd/jz04nFvOFddQAEzHe w==;
-X-CSE-ConnectionGUID: fCJOlUwfQl6mL+jx1dJ+wg==
-X-CSE-MsgGUID: bwLXP4PGQNWNryd/GmZAkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="36174430"
-X-IronPort-AV: E=Sophos;i="6.12,307,1728975600"; d="scan'208";a="36174430"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jan 2025 07:49:15 -0800
-X-CSE-ConnectionGUID: qX0nMsRYREGTB/bib2eOkw==
-X-CSE-MsgGUID: FcNHmfEXSp6HC708tUJ8qQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="134900487"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by fmviesa001.fm.intel.com with ESMTP; 11 Jan 2025 07:49:10 -0800
-Date: Sat, 11 Jan 2025 11:48:06 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <20250107142719.179636-9-yilun.xu@linux.intel.com>
- <20250108133026.GQ5556@nvidia.com>
- <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
- <20250109144051.GX5556@nvidia.com>
- <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
- <20250110133116.GF5556@nvidia.com>
+Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
+ [95.215.58.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DCEC10E28C
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 19:28:20 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1736623667;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ewz+zyCMkgruA8A/WJ6Em+ZGsuJgLEppZRTx6mcTf74=;
+ b=QZbcqcXZ4I8iQKsCaJtZm0B96klKmwFVEWrJdDxm2qzucw1YUGXeNA9akOK7E2NEhG89XS
+ KUNj/VZQ1MAl/KSoERlcpdoyyBFc5zW9mOGxrlItTLHujC4BPL2tOudS91fjaakfDQHZXL
+ dKlXwo92fNmhWooJ2s8vg3epqpEhkqQ=
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Subject: [PATCH v6 00/12] drm/bridge: cdns-dsi: Fix the color-shift issue
+Date: Sun, 12 Jan 2025 00:57:26 +0530
+Message-Id: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110133116.GF5556@nvidia.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,55 +65,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 09:31:16AM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 10, 2025 at 12:40:28AM +0800, Xu Yilun wrote:
-> 
-> > So then we face with the shared <-> private device conversion in CoCo VM,
-> > and in turn shared <-> private MMIO conversion. MMIO region has only one
-> > physical backend so it is a bit like in-place conversion which is
-> > complicated. I wanna simply the MMIO conversion routine based on the fact
-> > that VMM never needs to access assigned MMIO for feature emulation, so
-> > always disallow userspace MMIO mapping during the whole lifecycle. That's
-> > why the flag is introduced.
-> 
-> The VMM can simply not map it if for these cases. As part of the TDI
-> flow the kernel can validate it is not mapped.
+Hello all,
 
-That's a good point. I can try on that.
+This series provides some crucial fixes and improvements for the Cadence's DSI
+TX (cdns-dsi) controller found commonly in Texas Instruments' J7 family of SoCs
+as well as in Sitara AM62P and AM62L SoCs.
 
->  
-> > > can be sure what is the correct UAPI. In other words, make the
-> > > VFIO device into a CC device should also prevent mmaping it and so on.
-> > 
-> > My idea is prevent mmaping first, then allow VFIO device into CC dev (TDI).
-> 
-> I think you need to start the TDI process much earlier. Some arches
-> are going to need work to prepare the TDI before the VM is started.
+Along with that, this series aims to fix the color-shift issue that has been
+going on with the DSI controller. This controller requires to be enabled before
+the previous entity enables its stream[0]. It's a strict requirement which, if
+not followed, causes the colors to "shift" on the display. The fix happens in
+2 steps.
 
-Could you elaborate more on that? AFAICS Intel & AMD are all good on
-"late bind", but not sure for other architectures. This relates to the
-definition of TSM verbs and is the right time we collect the needs for
-Dan's series.
+    1. The bridge pre_enable calls have been shifted before the crtc_enable and
+       the bridge post_disable calls have been shifted after the crtc_disable.
+       This has been done as per the definition of bridge pre_enable.
 
-> 
-> The other issue here is that Intel is somewhat different from others
-> and when we build uapi for TDI it has to accommodate everyone.
+       "The display pipe (i.e. clocks and timing signals) feeding this bridge
+       will not yet be running when this callback is called".
 
-Sure, this is the aim for PCI TSM core, and VFIO as a PCI TSM user
-should not be TDX awared.
+       Since CRTC is also a source feeding the bridge, it should not be enabled
+       before the bridges in the pipeline are pre_enabled.
 
-> 
-> > Yes. It carries out the idea of "KVM maps MMIO resources without firstly
-> > mapping into the host" even for normal VM. That's why I think it could
-> > be an independent patchset.
-> 
-> Yes, just remove this patch and other TDI focused stuff. Just
-> infrastructure to move to FD based mapping instead of VMA.
+       The sequence of enable after this patch will look like:
 
-Yes.
+	        bridge[n]_pre_enable
+	        ...
+	        bridge[1]_pre_enable
+
+	        crtc_enable
+	        encoder_enable
+
+	        bridge[1]_enable
+	        ...
+	        bridge[n]_enable
+
+       and vice-versa for the bridge chain disable sequence.
+
+
+    2. The cdns-dsi enable / disable sequences have now been moved to pre_enable
+       and post_disable sequences. This is the only way to have cdns-dsi drivers
+       be up and ready before the previous entity is enables its streaming.
+
+The DSI also spec requires the Clock and Data Lanes be ready before the DSI TX
+enables its stream[0]. A patch has been added to make the code wait for that to
+happen. Going ahead with further DSI (and DSS configuration), while the lanes
+are not ready, has been found to be another reason for shift in colors.
+
+These patches have been tested with J721E based BeagleboneAI64 along with a
+RaspberryPi 7" DSI panel. The extra patches can be found in the
+"next_dsi-v6_5-test_NEW" branch of my github fork[1] for anyone who would like
+to test them.
+
+
+* Important note about the authorship of patches *
+
+All the patches in the previous revisions of this series, as well as a majority
+of this revision too have been authored when I owned a "ti.com" based email id,
+i.e. <a-bhatia1@ti.com>. This email id is not in use anymore, and all the work
+done later has been part of my personal work. Since the original patches were
+authored using TI's email id, I have maintained the original authorships as they
+are, as well as their sign offs.
+
+I have further added another another sign off that uses my current (and
+personal) email id, the one that is being used to send this revision,
+i.e. <aradhya.bhatia@linux.dev>.
 
 Thanks,
-Yilun
+Aradhya
 
-> 
-> Jason
+
+[0]: Section 12.6.5.7.3: "Start-up Procedure" [For DSI TX controller]
+     in TDA4VM Technical Reference Manual https://www.ti.com/lit/zip/spruil1
+
+[1]: https://github.com/aradhya07/linux-ab/tree/next_dsi-v6_5-test_NEW
+
+
+Change Log:
+  - Changes in v6:
+    - Reword patch 3 to better explain the fixes around phy de-init.
+    - Fix the Lane ready timeout condition in patch 7.
+    - Fix the dsi _bridge_atomic_check() implementation by adding a new
+      bridge state structure in patch 10.
+    - Rework and combine patches v5:11/13 and v5:12/13 to v6:11/12.
+    - Generate the patches of these series using the "patience" algorithm.
+      Note: All patches, except v6:11/12, *do not* differ from their default
+      (greedy) algorithm variants.
+      For patch 11, the patience algorithm significantly improves the readability.
+    - Rename and move the Bridge enable/disable enums from public to private
+      in patch 11.
+    - Add R-b tags of Tomi Valkeinen in patch 6, and Dmitry Baryshkov in patch 2.
+
+  - Changes in v5:
+    - Fix subject and description in patch 1/13.
+    - Add patch to check the return value of
+      phy_mipi_dphy_get_default_config() (patch: 6/13).
+    - Change the Clk and Data Lane ready timeout from forever to 5s.
+    - Print an error instead of calling WARN_ON_ONCE in patch 7/13.
+    - Drop patch v4-07/11: "drm/bridge: cdns-dsi: Reset the DCS write FIFO".
+      There has been some inconsistencies found with this patch upon further
+      testing. This patch was being used to enable a DSI panel based on ILITEK
+      ILI9881C bridge. This will be debugged separately.
+    - Add patch to move the DSI mode check from _atomic_enable() to
+      _atomic_check() (patch: 10/13).
+    - Split patch v4-10/11 into 2 patches - 11/13 and 12/13.
+      Patch 11/13 separates out the Encoder-Bridge operations into a helper
+      function *without* changing the logic. Patch 12/13 then changes the order
+      of the encoder-bridge operations as was intended in the original patch.
+    - Add detailed comment for patch 13/13.
+    - Add Tomi Valkeinen's R-b in patches 1, 2, 4, 5, 7, 8, 9, 13.
+
+  - Changes in v4:
+    - Add new patch, "drm/bridge: cdns-dsi: Move to devm_drm_of_get_bridge()",
+      to update to an auto-managed way of finding next bridge in the chain.
+    - Drop patch "drm/bridge: cdns-dsi: Fix the phy_initialized variable" and
+      add "drm/bridge: cdns-dsi: Fix Phy _init() and _exit()" that properly
+      de-initializes the Phy and maintains the initialization state.
+    - Reword patch "drm/bridge: cdns-dsi: Reset the DCS write FIFO" to explain
+      the HW concerns better.
+    - Add R-b tag from Dmitry Baryshkov for patches 1/11 and 8/11.
+
+  - Changes in v3:
+    - Reword the commit message for patch "drm/bridge: cdns-dsi: Fix OF node
+      pointer".
+    - Add a new helper API to figure out DSI host input pixel format
+      in patch "drm/mipi-dsi: Add helper to find input format".
+    - Use a common function for bridge pre-enable and enable, and bridge disable
+      and post-disable, to avoid code duplication.
+    - Add T-b tag from Dominik Haller in patch 5/10. (Missed to add it in v2).
+    - Add R-b tag from Dmitry Baryshkov for patch 8/10.
+
+  - Changes in v2:
+    - Drop patch "drm/tidss: Add CRTC mode_fixup"
+    - Split patch "drm/bridge: cdns-dsi: Fix minor bugs" into 4 separate ones
+    - Drop support for early_enable/late_disable APIs and instead re-order the
+      pre_enable / post_disable APIs to be called before / after crtc_enable /
+      crtc_disable.
+    - Drop support for early_enable/late_disable in cdns-dsi and use
+      pre_enable/post_disable APIs instead to do bridge enable/disable.
+
+
+Previous versions:
+
+v1: https://lore.kernel.org/all/20240511153051.1355825-1-a-bhatia1@ti.com/
+v2: https://lore.kernel.org/all/20240530093621.1925863-1-a-bhatia1@ti.com/
+v3: https://lore.kernel.org/all/20240617105311.1587489-1-a-bhatia1@ti.com/
+v4: https://lore.kernel.org/all/20240622110929.3115714-1-a-bhatia1@ti.com/
+v5: https://lore.kernel.org/all/20241019195411.266860-1-aradhya.bhatia@linux.dev/
+
+Aradhya Bhatia (12):
+  drm/bridge: cdns-dsi: Fix connecting to next bridge
+  drm/bridge: cdns-dsi: Move to devm_drm_of_get_bridge()
+  drm/bridge: cdns-dsi: Fix phy de-init and flag it so
+  drm/bridge: cdns-dsi: Fix the link and phy init order
+  drm/bridge: cdns-dsi: Fix the clock variable for mode_valid()
+  drm/bridge: cdns-dsi: Check return value when getting default PHY
+    config
+  drm/bridge: cdns-dsi: Wait for Clk and Data Lanes to be ready
+  drm/mipi-dsi: Add helper to find input format
+  drm/bridge: cdns-dsi: Support atomic bridge APIs
+  drm/bridge: cdns-dsi: Move DSI mode check to _atomic_check()
+  drm/atomic-helper: Re-order bridge chain pre-enable and post-disable
+  drm/bridge: cdns-dsi: Use pre_enable/post_disable to enable/disable
+
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 222 ++++++++++---
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |   3 +-
+ drivers/gpu/drm/drm_atomic_helper.c           | 300 +++++++++++-------
+ drivers/gpu/drm/drm_mipi_dsi.c                |  37 +++
+ include/drm/drm_mipi_dsi.h                    |   1 +
+ 5 files changed, 390 insertions(+), 173 deletions(-)
+
+
+base-commit: 2b88851f583d3c4e40bcd40cfe1965241ec229dd
+-- 
+2.34.1
+
