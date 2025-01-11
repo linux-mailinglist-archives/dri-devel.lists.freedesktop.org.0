@@ -2,62 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4032A0A108
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 06:37:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54D1BA0A13E
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 07:28:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4514410E568;
-	Sat, 11 Jan 2025 05:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92E3610E149;
+	Sat, 11 Jan 2025 06:28:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OHu376Q0";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="YC3GXqfu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE38710E568
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 05:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736573863; x=1768109863;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=EC5ZtdDf919YwZHLSAdTGFFADZkWpmIfAf/WH2mSvDs=;
- b=OHu376Q0SKEVM/uPIDj7u3OYrCFKnK+/LhdatU1JAdjpxx4KA6GsYRGP
- N+0NcsRrLWyjGxwaGLxaq9WyAS8j3JkQ5iBfxzc/QSgquZ5FFlpM1CB1w
- Vi09KCcuFyvKmXukCrL7SkI7H6r3bk56oexgHM9CI16PZbRd7mzftRoPT
- +tOj2m7wMM74nVbgGJqXkCrLfa43nYGeEPngBBYx0vrXP1dLPcFl+h0Kh
- AaaZ7PbzZV1qLR0En6QAq4gP6ujknysEMaBl591O+E4vZ6YICeYtSdkoD
- tQ1yf28ymvK4z8NsGhR0m+qLTqvqznMOzahXg12oi9K5kmzDPIQyHSHTI g==;
-X-CSE-ConnectionGUID: /EXgGkyfSBKDXeNnlXpvmQ==
-X-CSE-MsgGUID: yO2m/xaTQtOtiMpmTSgpkQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="40812600"
-X-IronPort-AV: E=Sophos;i="6.12,306,1728975600"; d="scan'208";a="40812600"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jan 2025 21:37:42 -0800
-X-CSE-ConnectionGUID: PD9T2rrDQEyQHjLBMmYLQw==
-X-CSE-MsgGUID: YLW8Q7gBSXqqDbIjCNtrHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="134824901"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
- by fmviesa001.fm.intel.com with ESMTP; 10 Jan 2025 21:37:40 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tWUBm-000KEp-0N;
- Sat, 11 Jan 2025 05:37:38 +0000
-Date: Sat, 11 Jan 2025 13:37:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lyude@redhat.com,
- harry.wentland@amd.com, imre.deak@intel.com,
- ville.syrjala@linux.intel.com, Wayne Lin <Wayne.Lin@amd.com>,
- Harry Wentland <hwentlan@amd.com>
-Subject: Re: [Patch v3 2/2] drm/dp_mst: Add helper to get port number at
- specific LCT from RAD
-Message-ID: <202501111348.e6ctjYKj-lkp@intel.com>
-References: <20250110023618.66401-3-Wayne.Lin@amd.com>
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:3::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB5D10E149
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 06:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=keQKezqLMlgI0F2Gf8geZjcFPxGFWtcxjcMyhGJtpIw=; b=YC3GXqfuSt9hUAIngNDH2updEj
+ p5cWffFKDssAJZXzvvyD+aFr1beQUGOyrYuUYluQVjj0rZnK1YuFhxIZH41EXcFtxQGDifu2HrDHC
+ GXy0Y8F/6aFqR1r6etSMRgkRZg44T0PfyIrvVppQ3FFXYSGA8zTOmATOdaF1f8NW/1NcCJ89crrh5
+ UmcnIvdu4ydkAy/C3f9VCjjKXu4x2DkA9ydiakd11wrSLqHIsowecMSin1g6JrjOUNFFOsYgLvyd6
+ Nrj4sBDYSl1RU9IORT27LG6zqhDDMP9TKGEJyPdJCqTa3fbyYCz0dWqP2EHyWTqKNNvMDywrhaG5D
+ GvLr/bew==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+ id 1tWUz3-00000000HAM-2Zjw; Sat, 11 Jan 2025 06:28:33 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH] drm/panthor: fix all mmu kernel-doc comments
+Date: Fri, 10 Jan 2025 22:28:32 -0800
+Message-ID: <20250111062832.910495-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110023618.66401-3-Wayne.Lin@amd.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,138 +59,262 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Wayne,
+Use the correct format for all kernel-doc comments.
+Use structname.membername for named structs.
+Don't precede function names in kernel-doc with '@' sign.
+Use the correct function parameter names in kernel-doc comments.
 
-kernel test robot noticed the following build errors:
+This fixes around 80 kernel-doc warnings.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next linus/master v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+---
+ drivers/gpu/drm/panthor/panthor_mmu.c |   71 ++++++++++++------------
+ 1 file changed, 37 insertions(+), 34 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wayne-Lin/drm-dp_mst-Fix-drm-RAD-print/20250110-103837
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20250110023618.66401-3-Wayne.Lin%40amd.com
-patch subject: [Patch v3 2/2] drm/dp_mst: Add helper to get port number at specific LCT from RAD
-config: hexagon-randconfig-001-20250111 (https://download.01.org/0day-ci/archive/20250111/202501111348.e6ctjYKj-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501111348.e6ctjYKj-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501111348.e6ctjYKj-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/display/drm_dp_mst_topology.c:201:67: error: passing 'const u8 *' (aka 'const unsigned char *') to parameter of type 'u8 *' (aka 'unsigned char *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     201 |                 unpacked_rad[i] = drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
-         |                                                                                 ^~~
-   drivers/gpu/drm/display/drm_dp_mst_topology.c:179:52: note: passing argument to parameter 'rad' here
-     179 | drm_dp_mst_get_ufp_num_at_lct_from_rad(u8 lct, u8 *rad)
-         |                                                    ^
-   7 warnings and 1 error generated.
-
-
-vim +201 drivers/gpu/drm/display/drm_dp_mst_topology.c
-
-   193	
-   194	static int
-   195	drm_dp_mst_rad_to_str(const u8 rad[8], u8 lct, char *out, size_t len)
-   196	{
-   197		int i;
-   198		u8 unpacked_rad[16] = {};
-   199	
-   200		for (i = 0; i < lct; i++)
- > 201			unpacked_rad[i] = drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
-   202	
-   203		/* TODO: Eventually add something to printk so we can format the rad
-   204		 * like this: 1.2.3
-   205		 */
-   206		return snprintf(out, len, "%*phC", lct, unpacked_rad);
-   207	}
-   208	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- linux-next-20250108.orig/drivers/gpu/drm/panthor/panthor_mmu.c
++++ linux-next-20250108/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -53,26 +53,27 @@ struct panthor_mmu {
+ 	/** @irq: The MMU irq. */
+ 	struct panthor_irq irq;
+ 
+-	/** @as: Address space related fields.
++	/**
++	 * @as: Address space related fields.
+ 	 *
+ 	 * The GPU has a limited number of address spaces (AS) slots, forcing
+ 	 * us to re-assign them to re-assign slots on-demand.
+ 	 */
+ 	struct {
+-		/** @slots_lock: Lock protecting access to all other AS fields. */
++		/** @as.slots_lock: Lock protecting access to all other AS fields. */
+ 		struct mutex slots_lock;
+ 
+-		/** @alloc_mask: Bitmask encoding the allocated slots. */
++		/** @as.alloc_mask: Bitmask encoding the allocated slots. */
+ 		unsigned long alloc_mask;
+ 
+-		/** @faulty_mask: Bitmask encoding the faulty slots. */
++		/** @as.faulty_mask: Bitmask encoding the faulty slots. */
+ 		unsigned long faulty_mask;
+ 
+-		/** @slots: VMs currently bound to the AS slots. */
++		/** @as.slots: VMs currently bound to the AS slots. */
+ 		struct panthor_as_slot slots[MAX_AS_SLOTS];
+ 
+ 		/**
+-		 * @lru_list: List of least recently used VMs.
++		 * @as.lru_list: List of least recently used VMs.
+ 		 *
+ 		 * We use this list to pick a VM to evict when all slots are
+ 		 * used.
+@@ -87,16 +88,16 @@ struct panthor_mmu {
+ 
+ 	/** @vm: VMs management fields */
+ 	struct {
+-		/** @lock: Lock protecting access to list. */
++		/** @vm.lock: Lock protecting access to list. */
+ 		struct mutex lock;
+ 
+-		/** @list: List containing all VMs. */
++		/** @vm.list: List containing all VMs. */
+ 		struct list_head list;
+ 
+-		/** @reset_in_progress: True if a reset is in progress. */
++		/** @vm.reset_in_progress: True if a reset is in progress. */
+ 		bool reset_in_progress;
+ 
+-		/** @wq: Workqueue used for the VM_BIND queues. */
++		/** @vm.wq: Workqueue used for the VM_BIND queues. */
+ 		struct workqueue_struct *wq;
+ 	} vm;
+ };
+@@ -143,14 +144,14 @@ struct panthor_vma {
+ struct panthor_vm_op_ctx {
+ 	/** @rsvd_page_tables: Pages reserved for the MMU page table update. */
+ 	struct {
+-		/** @count: Number of pages reserved. */
++		/** @rsvd_page_tables.count: Number of pages reserved. */
+ 		u32 count;
+ 
+-		/** @ptr: Point to the first unused page in the @pages table. */
++		/** @rsvd_page_tables.ptr: Point to the first unused page in the @pages table. */
+ 		u32 ptr;
+ 
+ 		/**
+-		 * @page: Array of pages that can be used for an MMU page table update.
++		 * @rsvd_page_tables.pages: Array of pages that can be used for an MMU page table update.
+ 		 *
+ 		 * After an VM operation, there might be free pages left in this array.
+ 		 * They should be returned to the pt_cache as part of the op_ctx cleanup.
+@@ -172,10 +173,10 @@ struct panthor_vm_op_ctx {
+ 
+ 	/** @va: Virtual range targeted by the VM operation. */
+ 	struct {
+-		/** @addr: Start address. */
++		/** @va.addr: Start address. */
+ 		u64 addr;
+ 
+-		/** @range: Range size. */
++		/** @va.range: Range size. */
+ 		u64 range;
+ 	} va;
+ 
+@@ -195,14 +196,14 @@ struct panthor_vm_op_ctx {
+ 
+ 	/** @map: Fields specific to a map operation. */
+ 	struct {
+-		/** @vm_bo: Buffer object to map. */
++		/** @map.vm_bo: Buffer object to map. */
+ 		struct drm_gpuvm_bo *vm_bo;
+ 
+-		/** @bo_offset: Offset in the buffer object. */
++		/** @map.bo_offset: Offset in the buffer object. */
+ 		u64 bo_offset;
+ 
+ 		/**
+-		 * @sgt: sg-table pointing to pages backing the GEM object.
++		 * @map.sgt: sg-table pointing to pages backing the GEM object.
+ 		 *
+ 		 * This is gathered at job creation time, such that we don't have
+ 		 * to allocate in ::run_job().
+@@ -210,7 +211,7 @@ struct panthor_vm_op_ctx {
+ 		struct sg_table *sgt;
+ 
+ 		/**
+-		 * @new_vma: The new VMA object that will be inserted to the VA tree.
++		 * @map.new_vma: The new VMA object that will be inserted to the VA tree.
+ 		 */
+ 		struct panthor_vma *new_vma;
+ 	} map;
+@@ -304,27 +305,27 @@ struct panthor_vm {
+ 
+ 	/** @kernel_auto_va: Automatic VA-range for kernel BOs. */
+ 	struct {
+-		/** @start: Start of the automatic VA-range for kernel BOs. */
++		/** @kernel_auto_va.start: Start of the automatic VA-range for kernel BOs. */
+ 		u64 start;
+ 
+-		/** @size: Size of the automatic VA-range for kernel BOs. */
++		/** @kernel_auto_va.size: Size of the automatic VA-range for kernel BOs. */
+ 		u64 end;
+ 	} kernel_auto_va;
+ 
+ 	/** @as: Address space related fields. */
+ 	struct {
+ 		/**
+-		 * @id: ID of the address space this VM is bound to.
++		 * @as.id: ID of the address space this VM is bound to.
+ 		 *
+ 		 * A value of -1 means the VM is inactive/not bound.
+ 		 */
+ 		int id;
+ 
+-		/** @active_cnt: Number of active users of this VM. */
++		/** @as.active_cnt: Number of active users of this VM. */
+ 		refcount_t active_cnt;
+ 
+ 		/**
+-		 * @lru_node: Used to instead the VM in the panthor_mmu::as::lru_list.
++		 * @as.lru_node: Used to instead the VM in the panthor_mmu::as::lru_list.
+ 		 *
+ 		 * Active VMs should not be inserted in the LRU list.
+ 		 */
+@@ -336,13 +337,13 @@ struct panthor_vm {
+ 	 */
+ 	struct {
+ 		/**
+-		 * @pool: The heap pool attached to this VM.
++		 * @heaps.pool: The heap pool attached to this VM.
+ 		 *
+ 		 * Will stay NULL until someone creates a heap context on this VM.
+ 		 */
+ 		struct panthor_heap_pool *pool;
+ 
+-		/** @lock: Lock used to protect access to @pool. */
++		/** @heaps.lock: Lock used to protect access to @pool. */
+ 		struct mutex lock;
+ 	} heaps;
+ 
+@@ -408,7 +409,7 @@ struct panthor_vm_bind_job {
+ 	struct panthor_vm_op_ctx ctx;
+ };
+ 
+-/**
++/*
+  * @pt_cache: Cache used to allocate MMU page tables.
+  *
+  * The pre-allocation pattern forces us to over-allocate to plan for
+@@ -478,7 +479,7 @@ static void *alloc_pt(void *cookie, size
+ }
+ 
+ /**
+- * @free_pt() - Custom page table free function
++ * free_pt() - Custom page table free function
+  * @cookie: Cookie passed at page table allocation time.
+  * @data: Page table to free.
+  * @size: Size of the page table. This size should be fixed,
+@@ -697,7 +698,7 @@ static void panthor_vm_release_as_locked
+ 
+ /**
+  * panthor_vm_active() - Flag a VM as active
+- * @VM: VM to flag as active.
++ * @vm: VM to flag as active.
+  *
+  * Assigns an address space to a VM so it can be used by the GPU/MCU.
+  *
+@@ -801,7 +802,7 @@ out_dev_exit:
+ 
+ /**
+  * panthor_vm_idle() - Flag a VM idle
+- * @VM: VM to flag as idle.
++ * @vm: VM to flag as idle.
+  *
+  * When we know the GPU is done with the VM (no more jobs to process),
+  * we can relinquish the AS slot attached to this VM, if any.
+@@ -1017,7 +1018,7 @@ static int flags_to_prot(u32 flags)
+ 
+ /**
+  * panthor_vm_alloc_va() - Allocate a region in the auto-va space
+- * @VM: VM to allocate a region on.
++ * @vm: VM to allocate a region on.
+  * @va: start of the VA range. Can be PANTHOR_VM_KERNEL_AUTO_VA if the user
+  * wants the VA to be automatically allocated from the auto-VA range.
+  * @size: size of the VA range.
+@@ -1063,7 +1064,7 @@ panthor_vm_alloc_va(struct panthor_vm *v
+ 
+ /**
+  * panthor_vm_free_va() - Free a region allocated with panthor_vm_alloc_va()
+- * @VM: VM to free the region on.
++ * @vm: VM to free the region on.
+  * @va_node: Memory node representing the region to free.
+  */
+ void panthor_vm_free_va(struct panthor_vm *vm, struct drm_mm_node *va_node)
+@@ -1492,9 +1493,9 @@ panthor_vm_create_check_args(const struc
+ 
+ /**
+  * panthor_vm_pool_create_vm() - Create a VM
++ * @ptdev: The panthor device
+  * @pool: The VM to create this VM on.
+- * @kernel_va_start: Start of the region reserved for kernel objects.
+- * @kernel_va_range: Size of the region reserved for kernel objects.
++ * @args: VM creation args.
+  *
+  * Return: a positive VM ID on success, a negative error code otherwise.
+  */
+@@ -1558,6 +1559,8 @@ static void panthor_vm_destroy(struct pa
+  *
+  * The VM resources are freed when the last reference on the VM object is
+  * dropped.
++ *
++ * Return: %0 for success, negative errno value for failure
+  */
+ int panthor_vm_pool_destroy_vm(struct panthor_vm_pool *pool, u32 handle)
+ {
