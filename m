@@ -2,93 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDC6A09EC6
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 00:38:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4032A0A108
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 06:37:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18D2410E15B;
-	Fri, 10 Jan 2025 23:38:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4514410E568;
+	Sat, 11 Jan 2025 05:37:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=maxima.ru header.i=@maxima.ru header.b="Bmasmyqm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OHu376Q0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C23FF10E15B
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Jan 2025 23:38:36 +0000 (UTC)
-Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
- by ksmg01.maxima.ru (Postfix) with ESMTP id DD47DC0009;
- Sat, 11 Jan 2025 02:38:33 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru DD47DC0009
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
- t=1736552313; bh=GmaAwylkbZObqLfu3xpFEaMhMB1R64yqjc4keSGeo1Q=;
- h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
- b=BmasmyqmwwHzeNQwBIr/tBTs+krXXWfBUY/la3AyKtY/OZvdR3Nxo3YHzMTi+4vYC
- cy60stoPXzuQEf0jZEDYOxhD1aHyjpnI+GB+NFCPKz0UpDTN6nByuNd3/aCOu8yRiM
- 07bYo9sCLaYMX1lmYPI60jw4GRKEqNZO4EBZzTSEzRzry1MvuDQXYymcTYXDFxIa90
- sko1YT0c4lrV7BYYOs/yPftLRe5nKpGCIUeWZ4+o3CIrEWol2Un2UnAj6Iw/gVxfP5
- AhlQAQvulhOpE8Djyqn0WbWsuj80w/vicCFOftSiv22iMylL450sPtMaCc7XiF8xv+
- YYWosdUOPr/Fg==
-Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.maxima.ru",
- Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
- by ksmg01.maxima.ru (Postfix) with ESMTPS;
- Sat, 11 Jan 2025 02:38:33 +0300 (MSK)
-Received: from localhost (5.1.49.10) by mmail-p-exch01.mt.ru (81.200.124.61)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Sat, 11 Jan
- 2025 02:38:31 +0300
-Date: Sat, 11 Jan 2025 04:37:53 +0000
-From: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- <syzbot+9a8f87865d5e2e8ef57f@syzkaller.appspotmail.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matt Roper
- <matthew.d.roper@intel.com>, Michel =?UTF-8?B?RMOkbnplcg==?=
- <michel.daenzer@amd.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>,
- <stable@vger.kernel.org>
-Subject: Re: [PATCH] drm/vblank: fix misuse of drm_WARN in
- drm_wait_one_vblank()
-Message-ID: <20250111043753.b4407fcd52413ca37ed80ce9@maxima.ru>
-In-Reply-To: <Z4Fy04u7RjaZIsqI@phenom.ffwll.local>
-References: <20250110164914.15013-1-v.shevtsov@maxima.ru>
- <Z4Fy04u7RjaZIsqI@phenom.ffwll.local>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64--netbsd)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE38710E568
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 05:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736573863; x=1768109863;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=EC5ZtdDf919YwZHLSAdTGFFADZkWpmIfAf/WH2mSvDs=;
+ b=OHu376Q0SKEVM/uPIDj7u3OYrCFKnK+/LhdatU1JAdjpxx4KA6GsYRGP
+ N+0NcsRrLWyjGxwaGLxaq9WyAS8j3JkQ5iBfxzc/QSgquZ5FFlpM1CB1w
+ Vi09KCcuFyvKmXukCrL7SkI7H6r3bk56oexgHM9CI16PZbRd7mzftRoPT
+ +tOj2m7wMM74nVbgGJqXkCrLfa43nYGeEPngBBYx0vrXP1dLPcFl+h0Kh
+ AaaZ7PbzZV1qLR0En6QAq4gP6ujknysEMaBl591O+E4vZ6YICeYtSdkoD
+ tQ1yf28ymvK4z8NsGhR0m+qLTqvqznMOzahXg12oi9K5kmzDPIQyHSHTI g==;
+X-CSE-ConnectionGUID: /EXgGkyfSBKDXeNnlXpvmQ==
+X-CSE-MsgGUID: yO2m/xaTQtOtiMpmTSgpkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="40812600"
+X-IronPort-AV: E=Sophos;i="6.12,306,1728975600"; d="scan'208";a="40812600"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jan 2025 21:37:42 -0800
+X-CSE-ConnectionGUID: PD9T2rrDQEyQHjLBMmYLQw==
+X-CSE-MsgGUID: YLW8Q7gBSXqqDbIjCNtrHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="134824901"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa001.fm.intel.com with ESMTP; 10 Jan 2025 21:37:40 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tWUBm-000KEp-0N;
+ Sat, 11 Jan 2025 05:37:38 +0000
+Date: Sat, 11 Jan 2025 13:37:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wayne Lin <Wayne.Lin@amd.com>, dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, lyude@redhat.com,
+ harry.wentland@amd.com, imre.deak@intel.com,
+ ville.syrjala@linux.intel.com, Wayne Lin <Wayne.Lin@amd.com>,
+ Harry Wentland <hwentlan@amd.com>
+Subject: Re: [Patch v3 2/2] drm/dp_mst: Add helper to get port number at
+ specific LCT from RAD
+Message-ID: <202501111348.e6ctjYKj-lkp@intel.com>
+References: <20250110023618.66401-3-Wayne.Lin@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [5.1.49.10]
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
- (81.200.124.61)
-X-KSMG-AntiPhishing: NotDetected, bases: 2025/01/10 22:20:00
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;
- spf=none smtp.mailfrom=mt-integration.ru; dkim=none
-X-KSMG-AntiSpam-Envelope-From: v.shevtsov@mt-integration.ru
-X-KSMG-AntiSpam-Info: LuaCore: 49 0.3.49
- 28b3b64a43732373258a371bd1554adb2caa23cb, {rep_avail},
- {Tracking_phishing_log_reg_80_90}, {Tracking_smtp_not_equal_from},
- {Tracking_redir_with_at}, {Tracking_uf_ne_domains},
- {Tracking_from_domain_doesnt_match_to},
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; mt-integration.ru:7.1.1;
- lore.kernel.org:7.1.1; ksmg01.maxima.ru:7.1.1; maxima.ru:7.1.1;
- 127.0.0.199:7.1.2;
- 81.200.124.61:7.1.2, {Tracking_smtp_domain_mismatch},
- {Tracking_smtp_domain_2level_mismatch}, FromAlignment: n, ApMailHostAddress:
- 81.200.124.61
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 190270 [Jan 10 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.7
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310,
- bases: 2025/01/10 22:04:00 #26969692
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2025/01/10 22:19:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250110023618.66401-3-Wayne.Lin@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,38 +73,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Jan 2025 20:19:47 +0100
-Simona Vetter <simona.vetter@ffwll.ch> wrote:
+Hi Wayne,
 
-> Hm, unless a drivers vblank handling code is extremely fun, there should
-> be absolutely no memory allocations or user copies in there at all. Hence
-> I think you're papering over a real bug here. The vblank itself should be
-> purely a free-wheeling hrtimer, if those stop we have serious kernel bug
-> at our hands.
-> 
-> Which wouldn't be a big surprise, because we've fixed a _lot_ of bugs in
-> vkms' vblank and page flip code, it's surprisingly tricky.
-> 
-> Iow, what kind of memory allocation is holding up vkms vblanks?
-> 
-> Cheers, Sima
-> 
+kernel test robot noticed the following build errors:
 
-I don't think this is because of memory allocation. As far as I can see
-there is no memory allocation in vblanks handling. Okay, there is a kzalloc()
-call in vkms_atomic_crtc_reset() without checking a pointer but this is
-not the root cause of this issue. My first thought was that somehow a
-vblank might not be successfully processed by drm_crtc_handle_vblank() in
-vkms_vblank_simulate() function which always returns HRTIMER_RESTART even
-if a vblank handling failed. But this hypothesis was not confirmed -
-all vblanks are fine. The hrtimers in vkms have a hardcoded framedur
-value of 16ms and what I can see is that the fault injection creates
-some delays by unwinding the call stack when it simulates an allocation
-failure and this caused the hrtimers to lag. This what I was able to
-investigate while I was debugging the kernel in the gdb.
+[auto build test ERROR on drm/drm-next]
+[also build test ERROR on drm-exynos/exynos-drm-next linus/master v6.13-rc6 next-20250110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-A similar issue was being discussed in
-https://lore.kernel.org/linux-kernel//0000000000009cd8d505bd545452@google.com/T/
+url:    https://github.com/intel-lab-lkp/linux/commits/Wayne-Lin/drm-dp_mst-Fix-drm-RAD-print/20250110-103837
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20250110023618.66401-3-Wayne.Lin%40amd.com
+patch subject: [Patch v3 2/2] drm/dp_mst: Add helper to get port number at specific LCT from RAD
+config: hexagon-randconfig-001-20250111 (https://download.01.org/0day-ci/archive/20250111/202501111348.e6ctjYKj-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501111348.e6ctjYKj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501111348.e6ctjYKj-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/gpu/drm/display/drm_dp_mst_topology.c:26:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/display/drm_dp_mst_topology.c:201:67: error: passing 'const u8 *' (aka 'const unsigned char *') to parameter of type 'u8 *' (aka 'unsigned char *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     201 |                 unpacked_rad[i] = drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
+         |                                                                                 ^~~
+   drivers/gpu/drm/display/drm_dp_mst_topology.c:179:52: note: passing argument to parameter 'rad' here
+     179 | drm_dp_mst_get_ufp_num_at_lct_from_rad(u8 lct, u8 *rad)
+         |                                                    ^
+   7 warnings and 1 error generated.
+
+
+vim +201 drivers/gpu/drm/display/drm_dp_mst_topology.c
+
+   193	
+   194	static int
+   195	drm_dp_mst_rad_to_str(const u8 rad[8], u8 lct, char *out, size_t len)
+   196	{
+   197		int i;
+   198		u8 unpacked_rad[16] = {};
+   199	
+   200		for (i = 0; i < lct; i++)
+ > 201			unpacked_rad[i] = drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
+   202	
+   203		/* TODO: Eventually add something to printk so we can format the rad
+   204		 * like this: 1.2.3
+   205		 */
+   206		return snprintf(out, len, "%*phC", lct, unpacked_rad);
+   207	}
+   208	
 
 -- 
-Vitaliy Shevtsov <v.shevtsov@maxima.ru>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
