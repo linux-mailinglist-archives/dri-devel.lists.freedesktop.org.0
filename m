@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77350A0A5A3
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 20:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF891A0A5A5
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Jan 2025 20:28:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90D610E2CD;
-	Sat, 11 Jan 2025 19:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5390A10E2D0;
+	Sat, 11 Jan 2025 19:28:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="NTWRY0SC";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Suoxjt63";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com
- [95.215.58.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0BB110E2CD
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 19:28:30 +0000 (UTC)
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E209B10E2D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Jan 2025 19:28:35 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736623709;
+ t=1736623714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xsJ0b+dJmzK0j+hBUtG72oyVwyP3Vy93QPzgaILYiAo=;
- b=NTWRY0SChcISjoDuNdmpufDYgCuG35rJWPZWeF8GpRpMqaH/a3ODf7jczWgV29IvfHBwgK
- wmaSVlQRZOpCTBt3Kk3D2zADioZAefEBZANTLxjbZ/JOt5eZjzktzNmEv6fwY/PhDAh+A6
- lI68fVfXHXGvf9iJabrucSWhN9tft+w=
+ bh=tHrDh2bqwnz4Hr0mA77hopU9CSd3qvTEYXOwip7SMds=;
+ b=Suoxjt63KUi8nbIkFLHLPKsLSCkrm3+rsRLHb8LXMqgGi9EsMwMX8SgtXEzhVBODlc2HG3
+ Gop1w50LHBXsL9OQuXo7uQOY2A8f6lo/iRj91YmmrJcTX7OYdaRvV1kQmbsO+6AsrOTOlj
+ uUUkNY++BMlb4vtVbe3+DHvkxMIMdCs=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -45,9 +45,10 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v6 09/12] drm/bridge: cdns-dsi: Support atomic bridge APIs
-Date: Sun, 12 Jan 2025 00:57:35 +0530
-Message-Id: <20250111192738.308889-10-aradhya.bhatia@linux.dev>
+Subject: [PATCH v6 10/12] drm/bridge: cdns-dsi: Move DSI mode check to
+ _atomic_check()
+Date: Sun, 12 Jan 2025 00:57:36 +0530
+Message-Id: <20250111192738.308889-11-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
 References: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -70,115 +71,166 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-Change the existing (and deprecated) bridge hooks, to the bridge
-atomic APIs.
+At present, the DSI mode configuration check happens during the
+_atomic_enable() phase, which is not really the best place for this.
+Moreover, if the mode is not valid, the driver gives a warning and
+continues the hardware configuration.
 
-Add drm helpers for duplicate_state, destroy_state, and bridge_reset
-bridge hooks.
+Move the DSI mode configuration check to _atomic_check() instead, which
+can properly report back any invalid mode, before the _enable phase even
+begins.
 
-Further add support for the input format negotiation hook.
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 51 ++++++++++++++++---
- 1 file changed, 43 insertions(+), 8 deletions(-)
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 87 +++++++++++++++++--
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  1 +
+ 2 files changed, 83 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index bb180165ac4f..acef2171719b 100644
+index acef2171719b..b6de0cbba9c2 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -658,7 +658,8 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
- }
+@@ -425,6 +425,17 @@
+ #define DSI_NULL_FRAME_OVERHEAD		6
+ #define DSI_EOT_PKT_SIZE		4
  
--static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
-+					   struct drm_bridge_state *old_bridge_state)
++struct cdns_dsi_bridge_state {
++	struct drm_bridge_state base;
++	struct cdns_dsi_cfg dsi_cfg;
++};
++
++static inline struct cdns_dsi_bridge_state *
++to_cdns_dsi_bridge_state(struct drm_bridge_state *bridge_state)
++{
++	return container_of(bridge_state, struct cdns_dsi_bridge_state, base);
++}
++
+ static inline struct cdns_dsi *input_to_dsi(struct cdns_dsi_input *input)
  {
+ 	return container_of(input, struct cdns_dsi, input);
+@@ -766,6 +777,9 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
  	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
  	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -682,7 +683,8 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
- 	pm_runtime_put(dsi->base.dev);
- }
+ 	struct cdns_dsi_output *output = &dsi->output;
++	struct drm_atomic_state *state = old_bridge_state->base.state;
++	struct cdns_dsi_bridge_state *dsi_state;
++	struct drm_bridge_state *new_bridge_state;
+ 	struct drm_display_mode *mode;
+ 	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
+ 	unsigned long tx_byte_period;
+@@ -776,14 +790,19 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+ 		return;
  
--static void cdns_dsi_bridge_post_disable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+						struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -758,7 +760,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
- 	dsi->link_initialized = true;
- }
++	new_bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
++	if (WARN_ON(!new_bridge_state))
++		return;
++
++	dsi_state = to_cdns_dsi_bridge_state(new_bridge_state);
++	dsi_cfg = dsi_state->dsi_cfg;
++
+ 	if (dsi->platform_ops && dsi->platform_ops->enable)
+ 		dsi->platform_ops->enable(dsi);
  
--static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
-+					  struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -911,7 +914,8 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
- 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
- }
+ 	mode = &bridge->encoder->crtc->state->adjusted_mode;
+ 	nlanes = output->dev->lanes;
  
--static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					      struct drm_bridge_state *old_bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
-@@ -923,13 +927,44 @@ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
+-	WARN_ON_ONCE(cdns_dsi_check_conf(dsi, mode, &dsi_cfg, false));
+-
+ 	cdns_dsi_init_link(dsi);
  	cdns_dsi_hs_init(dsi);
+ 
+@@ -954,6 +973,63 @@ static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+ 	return input_fmts;
  }
  
-+static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
-+					       struct drm_bridge_state *bridge_state,
-+					       struct drm_crtc_state *crtc_state,
-+					       struct drm_connector_state *conn_state,
-+					       u32 output_fmt,
-+					       unsigned int *num_input_fmts)
++static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
++					struct drm_bridge_state *bridge_state,
++					struct drm_crtc_state *crtc_state,
++					struct drm_connector_state *conn_state)
 +{
 +	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
 +	struct cdns_dsi *dsi = input_to_dsi(input);
-+	struct cdns_dsi_output *output = &dsi->output;
-+	u32 *input_fmts;
++	struct cdns_dsi_bridge_state *dsi_state = to_cdns_dsi_bridge_state(bridge_state);
++	struct drm_display_mode *mode = &crtc_state->mode;
++	struct cdns_dsi_cfg *dsi_cfg = &dsi_state->dsi_cfg;
 +
-+	*num_input_fmts = 0;
++	return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
++}
 +
-+	input_fmts = kzalloc(sizeof(*input_fmts), GFP_KERNEL);
-+	if (!input_fmts)
++static struct drm_bridge_state *
++cdns_dsi_bridge_atomic_duplicate_state(struct drm_bridge *bridge)
++{
++	struct cdns_dsi_bridge_state *dsi_state;
++
++	if (WARN_ON(!bridge->base.state))
 +		return NULL;
 +
-+	input_fmts[0] = drm_mipi_dsi_get_input_bus_fmt(output->dev->format);
-+	if (!input_fmts[0])
++	dsi_state = kzalloc(sizeof(*dsi_state), GFP_KERNEL);
++	if (!dsi_state)
 +		return NULL;
 +
-+	*num_input_fmts = 1;
++	__drm_atomic_helper_bridge_duplicate_state(bridge, &dsi_state->base);
 +
-+	return input_fmts;
++	return &dsi_state->base;
++}
++
++static void
++cdns_dsi_bridge_atomic_destroy_state(struct drm_bridge *bridge,
++				     struct drm_bridge_state *state)
++{
++	struct cdns_dsi_bridge_state *dsi_state;
++
++	dsi_state = to_cdns_dsi_bridge_state(state);
++
++	kfree(dsi_state);
++}
++
++static struct drm_bridge_state *
++cdns_dsi_bridge_atomic_reset(struct drm_bridge *bridge)
++{
++	struct cdns_dsi_bridge_state *dsi_state;
++
++	dsi_state = kzalloc(sizeof(*dsi_state), GFP_KERNEL);
++	if (!dsi_state)
++		return NULL;
++
++	memset(dsi_state, 0, sizeof(*dsi_state));
++	dsi_state->base.bridge = bridge;
++
++	return &dsi_state->base;
 +}
 +
  static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
  	.attach = cdns_dsi_bridge_attach,
  	.mode_valid = cdns_dsi_bridge_mode_valid,
--	.disable = cdns_dsi_bridge_disable,
--	.pre_enable = cdns_dsi_bridge_pre_enable,
--	.enable = cdns_dsi_bridge_enable,
--	.post_disable = cdns_dsi_bridge_post_disable,
-+	.atomic_disable = cdns_dsi_bridge_atomic_disable,
-+	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
-+	.atomic_enable = cdns_dsi_bridge_atomic_enable,
-+	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts = cdns_dsi_bridge_get_input_bus_fmts,
+@@ -961,9 +1037,10 @@ static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+ 	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
+ 	.atomic_enable = cdns_dsi_bridge_atomic_enable,
+ 	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
+-	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+-	.atomic_reset = drm_atomic_helper_bridge_reset,
++	.atomic_check = cdns_dsi_bridge_atomic_check,
++	.atomic_duplicate_state = cdns_dsi_bridge_atomic_duplicate_state,
++	.atomic_destroy_state = cdns_dsi_bridge_atomic_destroy_state,
++	.atomic_reset = cdns_dsi_bridge_atomic_reset,
+ 	.atomic_get_input_bus_fmts = cdns_dsi_bridge_get_input_bus_fmts,
  };
  
- static int cdns_dsi_attach(struct mipi_dsi_host *host,
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+index 5db5dbbbcaad..b785df45bc59 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+@@ -77,6 +77,7 @@ struct cdns_dsi {
+ 	bool link_initialized;
+ 	bool phy_initialized;
+ 	struct phy *dphy;
++	struct cdns_dsi_cfg dsi_cfg;
+ };
+ 
+ #endif /* !__CDNS_DSI_H__ */
 -- 
 2.34.1
 
