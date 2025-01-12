@@ -2,47 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E38A0A8A6
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2025 12:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE239A0A9C8
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2025 14:43:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E75110E23F;
-	Sun, 12 Jan 2025 11:39:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA7E710E24B;
+	Sun, 12 Jan 2025 13:43:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QHvQyr2n";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ITIz29fB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A79F10E23F
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2025 11:39:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6152AA400E0;
- Sun, 12 Jan 2025 11:37:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF090C4CEDF;
- Sun, 12 Jan 2025 11:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1736681987;
- bh=8IypaYh4K3zDyThWiWzbqnXIzxzIHhRJYQ+yKKDwBMo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QHvQyr2nQuZB7Y+XV1BgTLNwnI02J26Y5Z6ucPbNg47uEQc4YTHrCHnH8r9Qw9Q6K
- FtaO66hbdg31keJvideJ5NrIgC4rfcO4qc9E7un+sKedYKeiCjxex4AWd2ffcmDXi9
- Tut/N5xgMjkt93WL5hgzHP69jzVu+f/jt3OJ8moo=
-Date: Sun, 12 Jan 2025 12:39:43 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Cc: stable@vger.kernel.org, ashutosh.dixit@intel.com,
- dri-devel@lists.freedesktop.org
-Subject: AAARRRGGGHHH!!!! (was Re: [PATCH 6.12.y] xe/oa: Fix query mode of
- operation for OAR/OAC)
-Message-ID: <2025011215-agreeing-bonfire-97ae@gregkh>
-References: <2025010650-tuesday-motivate-5cbb@gregkh>
- <20250110205341.199539-1-umesh.nerlige.ramappa@intel.com>
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 508F510E24B;
+ Sun, 12 Jan 2025 13:43:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+ :Subject; bh=GBw/kTc50JMCdL9NraUxTr2TqlNGdHlCJYiN4J/1AHo=; b=ITIz29fBjXiKUzVk
+ XVN7N8JFH0gA2YyY+KeeyPgLLQYb3mMvljJWc0lymDxYZC0h870pe+BIiyvXazBqbGp/BtvhasASL
+ ThuIbJm62mnA4vGurNZ8//c+V5ZHN+3pQFzc03iZGbPKxPDW+fZB73T+kjbY4O3jcIHXF6FdQdNVP
+ 5Mg+9GVqnaFCdV2JY8nk1nvgsMRYXzAtC/H4EmWxm3TTlFSVJc6L97WoRmRcUEf47wh0On6GfabRf
+ KarInBA7f6OgFq/7Gz/YHNa3VdeYTFWYJqaH3rxl+ifutBP+2PQofLWYEWEQDqS1U7MKrLmbtR6Po
+ QdWnA+iBuBgGKfdwNg==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+ by mx.treblig.org with esmtp (Exim 4.96)
+ (envelope-from <linux@treblig.org>) id 1tWyDA-009jBX-29;
+ Sun, 12 Jan 2025 13:41:04 +0000
+From: linux@treblig.org
+To: Felix.Kuehling@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com
+Cc: airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] drm/amdkfd: Remove unused functions
+Date: Sun, 12 Jan 2025 13:41:03 +0000
+Message-ID: <20250112134103.72081-1-linux@treblig.org>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250110205341.199539-1-umesh.nerlige.ramappa@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,53 +55,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 12:53:41PM -0800, Umesh Nerlige Ramappa wrote:
-> commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16 upstream
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-<snip>
+kfd_device_by_pci_dev(), kfd_get_pasid_limit() and kfd_set_pasid_limit()
+have been unused since 2023's
+commit c99a2e7ae291 ("drm/amdkfd: drop IOMMUv2 support")
 
-> Fixes: 8135f1c09dd2 ("drm/xe/oa: Don't reset OAC_CONTEXT_ENABLE on OA stream close")
-> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com> # commit 1
-> Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> Cc: stable@vger.kernel.org # 6.12+
-> Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20241220171919.571528-2-umesh.nerlige.ramappa@intel.com
-> (cherry picked from commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16)
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> (cherry picked from commit f0ed39830e6064d62f9c5393505677a26569bb56)
+Remove them.
 
-Oh I see what you all did here.
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_pasid.c    | 24 -----------------------
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h     |  3 ---
+ drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 18 -----------------
+ 3 files changed, 45 deletions(-)
 
-I give up.  You all need to stop it with the duplicated git commit ids
-all over the place.  It's a major pain and hassle all the time and is
-something that NO OTHER subsystem does.
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_pasid.c b/drivers/gpu/drm/amd/amdkfd/kfd_pasid.c
+index e3b250918f39..8896426e0556 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_pasid.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_pasid.c
+@@ -28,30 +28,6 @@
+ static unsigned int pasid_bits = 16;
+ static bool pasids_allocated; /* = false */
+ 
+-bool kfd_set_pasid_limit(unsigned int new_limit)
+-{
+-	if (new_limit < 2)
+-		return false;
+-
+-	if (new_limit < (1U << pasid_bits)) {
+-		if (pasids_allocated)
+-			/* We've already allocated user PASIDs, too late to
+-			 * change the limit
+-			 */
+-			return false;
+-
+-		while (new_limit < (1U << pasid_bits))
+-			pasid_bits--;
+-	}
+-
+-	return true;
+-}
+-
+-unsigned int kfd_get_pasid_limit(void)
+-{
+-	return 1U << pasid_bits;
+-}
+-
+ u32 kfd_pasid_alloc(void)
+ {
+ 	int r = amdgpu_pasid_alloc(pasid_bits);
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+index 9e5ca0b93b2a..0b5979b29bbc 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
+@@ -1086,8 +1086,6 @@ struct kfd_process *kfd_lookup_process_by_pid(struct pid *pid);
+ /* PASIDs */
+ int kfd_pasid_init(void);
+ void kfd_pasid_exit(void);
+-bool kfd_set_pasid_limit(unsigned int new_limit);
+-unsigned int kfd_get_pasid_limit(void);
+ u32 kfd_pasid_alloc(void);
+ void kfd_pasid_free(u32 pasid);
+ 
+@@ -1137,7 +1135,6 @@ struct kfd_topology_device *kfd_topology_device_by_proximity_domain_no_lock(
+ 						uint32_t proximity_domain);
+ struct kfd_topology_device *kfd_topology_device_by_id(uint32_t gpu_id);
+ struct kfd_node *kfd_device_by_id(uint32_t gpu_id);
+-struct kfd_node *kfd_device_by_pci_dev(const struct pci_dev *pdev);
+ static inline bool kfd_irq_is_from_node(struct kfd_node *node, uint32_t node_id,
+ 					uint32_t vmid)
+ {
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+index 9476e30d6baa..a9bc9ab7e31d 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+@@ -108,24 +108,6 @@ struct kfd_node *kfd_device_by_id(uint32_t gpu_id)
+ 	return top_dev->gpu;
+ }
+ 
+-struct kfd_node *kfd_device_by_pci_dev(const struct pci_dev *pdev)
+-{
+-	struct kfd_topology_device *top_dev;
+-	struct kfd_node *device = NULL;
+-
+-	down_read(&topology_lock);
+-
+-	list_for_each_entry(top_dev, &topology_device_list, list)
+-		if (top_dev->gpu && top_dev->gpu->adev->pdev == pdev) {
+-			device = top_dev->gpu;
+-			break;
+-		}
+-
+-	up_read(&topology_lock);
+-
+-	return device;
+-}
+-
+ /* Called with write topology_lock acquired */
+ static void kfd_release_topology_device(struct kfd_topology_device *dev)
+ {
+-- 
+2.47.1
 
-Yes, I know that DRM is special and unique and running at a zillion
-times faster with more maintainers than any other subsystem and really,
-it's bigger than the rest of the kernel combined, but hey, we ALL are a
-common project here.  If each different subsystem decided to have their
-own crazy workflows like this, we'd be in a world of hurt.  Right now
-it's just you all that is causing this world of hurt, no one else, so
-I'll complain to you.
-
-We have commits that end up looking like they go back in time that are
-backported to stable releases BEFORE they end up in Linus's tree and
-future releases.  This causes major havoc and I get complaints from
-external people when they see this as obviously, it makes no sense at
-all.
-
-And it easily breaks tools that tries to track where backports went and
-if they are needed elsewhere, which ends up missing things because of
-this crazy workflow.  So in the end, it's really only hurting YOUR
-subsystem because of this.
-
-And yes, there is a simple way to fix this, DO NOT TAG COMMITS THAT ARE
-DUPLICATES AS FOR STABLE.  Don't know why you all don't do that, would
-save a world of hurt.
-
-I'm tired of it, please, just stop.  I am _this_ close to just ignoring
-ALL DRM patches for stable trees...
-
-greg k-h
