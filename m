@@ -2,51 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65517A0ABCF
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2025 21:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2ACEA0ABD6
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Jan 2025 21:44:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4094510E1B6;
-	Sun, 12 Jan 2025 20:44:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C11D710E261;
+	Sun, 12 Jan 2025 20:44:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IoBMzj/7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LxZBOvln";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D093F10E1B6
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAE0710E1FA
  for <dri-devel@lists.freedesktop.org>; Sun, 12 Jan 2025 20:44:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D2CFB5C439F;
+ by dfw.source.kernel.org (Postfix) with ESMTP id D5D605C43AA;
  Sun, 12 Jan 2025 20:43:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 38527C4CEDF;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 43DEFC4CEE3;
  Sun, 12 Jan 2025 20:43:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1736714639;
- bh=aSXypBQ4M4GEZW3R7qstW6YXcVlzlDqvGf92lCWFtXA=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=IoBMzj/7Vpz+Cp1AE1jX2a2UilXkfhl+9xZuWV50pwUI71yYEsRaDgMHsmJQUSe1Q
- MLFWS8h2T5xNVdW+LwvUg7L23KpLRqLc1zZ/gGk+3tCI6LRC1Jrc6CEUalV0W3io4R
- 5Aw+dV651OaPK0xZxNJYaBePmyo/Sguag9MEfM2yEa1rVsOk1XJmICvfYP8OdgwLr0
- +LI/VDQttHmsQXchn7+hjz8xWVs/nRkg6LRiEzjvO18XXdSSFuMqxEYDT+tXpZRk7+
- BYpzkzsX3iDBuqzz+MA+gWQwJ5f+kmq4EPmrP+QtM6c08BKslTO8BxRZqoZcoZbq36
- ZbkQ3q6RCyWXA==
+ bh=WBrSErQMzfWPCF5h74vrUfu8w96wHnlkQey5D/+BBMY=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=LxZBOvln48brBUEaVVzcORGZys54d/KTZvVgUvm2lhLk+Jger/G+98qH6bLV37sjs
+ As10i2tRuQMm/451TG9AwPEKnJus2XY1StTMsmTS9niC3YeO5XrePoZF72v/hgiRo1
+ wSVv7aO2vQeYTUteLjPJwhCWYFXmCVrMi+jZpBoEV4SBy0Y5mEkEU7MgC7L1ZZ7k5Z
+ bxS91k0ZA5/l68FcqQZoY9rI2SL3gQns0LxYOhwnAx/P5aPH+GxFXJ10EDkiS8FInD
+ NNE5fr9R7uiMZYlUzN8p2gLaWIsUP0VNJSS82GU9BTrTl2mVqcfEnkcYzmAkN4yTlp
+ 9hVnRmajk8FeA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 22880E77188;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 34110E7719F;
  Sun, 12 Jan 2025 20:43:59 +0000 (UTC)
 From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Subject: [PATCH v3 0/5] Driver for pre-DCP apple display controller.
-Date: Sun, 12 Jan 2025 21:43:47 +0100
-Message-Id: <20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com>
+Date: Sun, 12 Jan 2025 21:43:48 +0100
+Subject: [PATCH v3 1/5] dt-bindings: display: Add Apple pre-DCP display
+ controller
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIMphGcC/2WMywrCMBBFf6XM2kherY0r/0NchGTaDtgHiQSl5
- N9Nu5CCy3O556wQMRBGuFYrBEwUaZ4KqFMFbrBTj4x8YZBcaiGkZtYvPoxM1p1D5X1rLwLKeQn
- Y0XsP3R+FB4qvOXz2bhLb+pdIgnGmhBG+xQa1sbd+tPQ8u3mELZHkUWt+miyaM1y3tVKN4+ao5
- Zy/9YZBwtMAAAA=
-X-Change-ID: 20241124-adpdrm-25fce3dd8a71
+Message-Id: <20250112-adpdrm-v3-1-c674dc19fa7f@gmail.com>
+References: <20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com>
+In-Reply-To: <20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -58,14 +55,13 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alyssa Ross <hi@alyssa.is>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Janne Grunau <j@jannau.net>, Nick Chan <towinchenmi@gmail.com>
+ Alyssa Ross <hi@alyssa.is>, Sasha Finkelstein <fnkl.kernel@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736714637; l=2197;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736714637; l=7143;
  i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=aSXypBQ4M4GEZW3R7qstW6YXcVlzlDqvGf92lCWFtXA=;
- b=0ES7EgYhRigv+ZjTrUSeVVUQfqHEAOH6+eytjDGYMLKzgXd+ysLojOO+92rvHsbNPQJBQFvqU
- MEJhK7tmE36BCmmWbRwjwyhSjAvgCUnu8CN+JMXF7Yd8ek6rf6g0PL6
+ bh=5vdKdNHnK6LNHwjFiK0f3l2jH/l1B1N8KQT2Vbt2NHM=;
+ b=h1g5rExM5bLzwa1E0w0TmsFHtJLy/yyxbXl5PydQBsO5Lo3/886pt4Vy445qe3OIMvA2KwbPt
+ ak8GXTHH0lZDiNev09fQ1B/H8MSwsZq3enA1U2lGQa/8fOqAZ4nWm+g
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
@@ -87,52 +83,263 @@ Reply-To: fnkl.kernel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-This patch series adds support for a secondary display controller
-present on Apple M1/M2 chips and used to drive the display of the
-"touchbar" touch panel present on those. 
+Add bindings for a secondary display controller present on certain
+Apple laptops.
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 ---
-Changes in v3:
-- Fixed building as module after splitting out mipi block
-- Addressing the review feedback.
-- Link to v2: https://lore.kernel.org/r/20241126-adpdrm-v2-0-c90485336c09@gmail.com
+ .../display/apple,h7-display-pipe-mipi.yaml        | 79 +++++++++++++++++++
+ .../bindings/display/apple,h7-display-pipe.yaml    | 88 ++++++++++++++++++++++
+ .../bindings/display/panel/apple,summit.yaml       | 58 ++++++++++++++
+ 3 files changed, 225 insertions(+)
 
-Changes in v2:
-- Addressing the review feedback.
-- Split out the mipi part of the display controller into a separate device
-- Link to v1: https://lore.kernel.org/r/20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com
+diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..b898c472962a2aec2aed6870e29b94f0ad356bd3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.yaml
+@@ -0,0 +1,79 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/apple,h7-display-pipe-mipi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple pre-DCP display controller MIPI interface
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description:
++  The MIPI controller part of the pre-DCP Apple display controller
++
++allOf:
++  - $ref: dsi-controller.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t8112-display-pipe-mipi
++          - apple,t8103-display-pipe-mipi
++      - const: apple,h7-display-pipe-mipi
++
++  reg:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input port. Always connected to the primary controller
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Output MIPI DSI port to the panel
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - reg
++  - ports
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    dsi@228200000 {
++        compatible = "apple,t8103-display-pipe-mipi", "apple,h7-display-pipe-mipi";
++        reg = <0x28200000 0xc000>;
++        power-domains = <&ps_dispdfr_mipi>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                #address-cells = <1>;
++                #size-cells = <0>;
++            };
++
++            port@1 {
++                reg = <1>;
++                #address-cells = <1>;
++                #size-cells = <0>;
++            };
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..dc07edccb437b221ea9772b9356e1896326aa7da
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
+@@ -0,0 +1,88 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/apple,h7-display-pipe.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple pre-DCP display controller
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description:
++  A secondary display controller used to drive the "touchbar" on
++  certain Apple laptops.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t8112-display-pipe
++          - apple,t8103-display-pipe
++      - const: apple,h7-display-pipe
++
++  reg:
++    maxItems: 2
++
++  reg-names:
++    items:
++      - const: be
++        description: Primary register block, controls planes and blending
++      - const: fe
++        description:
++          Contains other configuration registers like interrupt
++          and FIFO control
++
++  power-domains:
++    description:
++      Phandles to pmgr entries that are needed for this controller to turn on.
++      Aside from that, their specific functions are unknown
++    maxItems: 2
++
++  interrupts:
++    maxItems: 2
++
++  interrupt-names:
++    items:
++      - const: be
++        description: Unknown function
++      - const: fe
++        description: Primary interrupt. Vsync events are reported via it
++
++  iommus:
++    maxItems: 1
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description: Output port. Always connected to apple,h7-display-pipe-mipi
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/apple-aic.h>
++    display-pipe@28200000 {
++        compatible = "apple,t8103-display-pipe", "apple,h7-display-pipe";
++        reg = <0x28200000 0xc000>,
++              <0x28400000 0x4000>;
++        reg-names = "be", "fe";
++        power-domains = <&ps_dispdfr_fe>, <&ps_dispdfr_be>;
++        interrupt-parent = <&aic>;
++        interrupts = <AIC_IRQ 502 IRQ_TYPE_LEVEL_HIGH>,
++                     <AIC_IRQ 506 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "be", "fe";
++        iommus = <&displaydfr_dart 0>;
++
++        port {
++            dfr_adp_out_mipi: endpoint {
++                remote-endpoint = <&dfr_mipi_in_adp>;
++            };
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/display/panel/apple,summit.yaml b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..f081755325e97ad58b831893b84082cc10f8d5e3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+@@ -0,0 +1,58 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/apple,summit.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple "Summit" display panel
++
++maintainers:
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description:
++  An OLED panel used as a touchbar on certain Apple laptops.
++  Contains a backlight device, which controls brightness of the panel itself.
++  The backlight common properties are included for this reason
++
++allOf:
++  - $ref: panel-common.yaml#
++  - $ref: /schemas/leds/backlight/common.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,j293-summit
++          - apple,j493-summit
++      - const: apple,summit
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - max-brightness
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "apple,j293-summit", "apple,summit";
++            reg = <0>;
++            max-brightness = <255>;
++
++            port {
++                endpoint {
++                    remote-endpoint = <&dfr_bridge_out>;
++                };
++            };
++        };
++    };
++...
 
----
-Sasha Finkelstein (5):
-      dt-bindings: display: Add Apple pre-DCP display controller
-      drm: adp: Add Apple Display Pipe driver
-      drm: panel: Add a panel driver for the Summit display
-      arm64: dts: apple: Add touchbar screen nodes
-      MAINTAINERS: Add entries for touchbar display driver
-
- .../display/apple,h7-display-pipe-mipi.yaml        |  79 +++
- .../bindings/display/apple,h7-display-pipe.yaml    |  88 +++
- .../bindings/display/panel/apple,summit.yaml       |  58 ++
- MAINTAINERS                                        |   5 +
- arch/arm64/boot/dts/apple/t8103-j293.dts           |  31 ++
- arch/arm64/boot/dts/apple/t8103.dtsi               |  60 +++
- arch/arm64/boot/dts/apple/t8112-j493.dts           |  31 ++
- arch/arm64/boot/dts/apple/t8112.dtsi               |  61 +++
- drivers/gpu/drm/Kconfig                            |   2 +
- drivers/gpu/drm/Makefile                           |   1 +
- drivers/gpu/drm/adp/Kconfig                        |  16 +
- drivers/gpu/drm/adp/Makefile                       |   5 +
- drivers/gpu/drm/adp/adp-mipi.c                     | 251 +++++++++
- drivers/gpu/drm/adp/adp_drv.c                      | 594 +++++++++++++++++++++
- drivers/gpu/drm/panel/Kconfig                      |   9 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-summit.c               | 132 +++++
- 17 files changed, 1424 insertions(+)
----
-base-commit: b62cef9a5c673f1b8083159f5dc03c1c5daced2f
-change-id: 20241124-adpdrm-25fce3dd8a71
+-- 
+2.48.0
 
 
