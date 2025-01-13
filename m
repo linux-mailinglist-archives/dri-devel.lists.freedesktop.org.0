@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23865A0BF60
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 18:56:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E0DA0BF90
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 19:08:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBAC10E773;
-	Mon, 13 Jan 2025 17:56:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEADF10E77F;
+	Mon, 13 Jan 2025 18:08:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="Z2RDJfWt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="FObDngWY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C61110E768;
- Mon, 13 Jan 2025 17:55:58 +0000 (UTC)
+Received: from mail-10627.protonmail.ch (mail-10627.protonmail.ch
+ [79.135.106.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1FDFF10E780
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 18:08:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1736790956; x=1737050156;
- bh=00oohxG2ENBD620y2NzHy9am+xwx4Uev5Yp6+OeKEoQ=;
+ s=protonmail; t=1736791716; x=1737050916;
+ bh=FfBgOmNfQPC+tl/cV9rGq9cV65PoWh1uMa1V3V+L/DY=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=Z2RDJfWtzg9K5L08PeJ8rmJllJ1XjpfPJd6MfZKofo+Fcd2qHe1b3IeuHFaoaQc+Y
- zJdMumpV7cgV3m9d59BqjxU1vNPw3wJiEw5H5NyI+Fy5be+qtlKKTaEGGwZtLu8//v
- Ev9pSsNXpEXp43f9ayaEa2LLvjlH3698UKewxyqzBK5La7DElNcsyviUUXQPx3HwUf
- 9FegyzdfSv79TX3hxENzbWdaM7yRAbpAmczpOvjYP9wOqqlAiu4kKBzJnanm3qo7vP
- NL6VjTEHE0sh+AsPII2mG7c/3azQBM+G/acnemmzXt8ZTFT8M0wAKM0znDbz7Ugsxv
- TbecYvLsOAFPg==
-Date: Mon, 13 Jan 2025 17:55:50 +0000
+ b=FObDngWY/DMHtfCCSJyQOYj5AIQcYZPD3nSSvbKIsBnnYqvoulY389ufnGvR7dWXg
+ YU8bzGWMZ6AoS1ScsluFBWz5N2mS8uc3JNSB0YwFf6ogn8k68YOoi/vH4C5DbcBw3h
+ +hcpMeI5aMJihlYl4wKxHhmU+KXq1rK4Ptr0k1QXP3YWFWkw5NhINC/RR1FSJiLVFY
+ UlRSzTL+VubZUYR+tMGroyCiRwOZET27/ldAWBVmdnWbAxJPTupHi2TXLD2SxYnQTk
+ l/0Y/M6vhpgaaVIPxuqzI0xkTkuulhnsKlORLPsDl4ZqbEmyaSFUHwGRtZIHAZWNG2
+ Su/xh7Pyqx0Gg==
+Date: Mon, 13 Jan 2025 18:08:30 +0000
 To: Alex Hung <alex.hung@amd.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
-Subject: Re: [V7 11/45] drm/colorop: Add atomic state print for drm_colorop
-Message-ID: <1zmGFMUcBfgfEUAEkLVnwzcj1RfRjRDxKySH440YYL_wFCch3KdHQwPSw88tmKpeRB4oqWElJOfnurOTR24hWLEG847ec4PNN5NsVPCKWYo=@emersion.fr>
-In-Reply-To: <20241220043410.416867-12-alex.hung@amd.com>
+Subject: Re: [V7 12/45] drm/plane: Add COLOR PIPELINE property
+Message-ID: <q-fYAOq_DOAPI26SCzlowl13g2bPey2xHgeQt_KXXQbgy1E8bEs0mEo4CuoiLEcEi_GCvZa_Xew437XEsMfhqJvjSK5AhgatnACVNym1mhk=@emersion.fr>
+In-Reply-To: <20241220043410.416867-13-alex.hung@amd.com>
 References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-12-alex.hung@amd.com>
+ <20241220043410.416867-13-alex.hung@amd.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 9ac866638b5b58edfe72e9fd30ea44c0a0bb43cc
+X-Pm-Message-ID: 876d45e4d8a0dcefe09c9b62fbddb24f6e564bcd
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -57,16 +58,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> +static void drm_atomic_colorop_print_state(struct drm_printer *p,
-> +=09=09const struct drm_colorop_state *state)
+> +int
+> +drm_atomic_add_affected_colorops(struct drm_atomic_state *state,
+> +=09=09=09=09 struct drm_plane *plane)
 > +{
-> +=09struct drm_colorop *colorop =3D state->colorop;
+> +=09struct drm_colorop *colorop;
+> +=09struct drm_colorop_state *colorop_state;
 > +
-> +=09drm_printf(p, "colorop[%u]:\n", colorop->base.id);
-> +=09drm_printf(p, "\ttype=3D%s\n", drm_get_colorop_type_name(colorop->typ=
-e));
-> +=09drm_printf(p, "\tbypass=3D%u\n", state->bypass);
-> +=09drm_printf(p, "\tcurve_1d_type=3D%s\n", drm_get_colorop_curve_1d_type=
-_name(state->curve_1d_type));
+> +=09WARN_ON(!drm_atomic_get_new_plane_state(state, plane));
+> +
+> +=09drm_dbg_atomic(plane->dev,
+> +=09=09       "Adding all current colorops for [plane:%d:%s] to %p\n",
+> +=09=09       plane->base.id, plane->name, state);
 
-Could we only print this field if the type is 1D_CURVE?
+Nit: we use upper-case "[PLANE:%d:%s]" when pretty-printing.
+
+> +#define MAX_COLOR_PIPELINES 5
+
+Is this kind of arbitrary, or is there a real reason behind this?
+
+This is not strictly the max number of color pipelines, since a driver can
+create more. This is the max number of choices for the COLOR_PIPELINE prope=
+rty.
+Should this be renamed to e.g. MAX_COLOR_PIPLINE_PROP_ENTRIES?
+
+> +/**
+> + * drm_plane_create_color_pipeline_property - create a new color pipelin=
+e
+> + * property
+> + *
+> + * @plane: drm plane
+> + * @pipelines: list of pipelines
+> + * @num_pipelines: number of pipelines
+> + *
+> + * Create the COLOR_PIPELINE plane property to specific color pipelines =
+on
+> + * the plane.
+> + *
+> + * RETURNS:
+> + * Zero for success or -errno
+> + */
+> +int drm_plane_create_color_pipeline_property(struct drm_plane *plane,
+> +=09=09=09=09=09     struct drm_prop_enum_list *pipelines,
+
+Nit: this argument can be const.
+
+> +=09=09=09=09=09     int num_pipelines)
+> +{
+> +=09struct drm_prop_enum_list all_pipelines[MAX_COLOR_PIPELINES];
+> +=09int len =3D 0;
+> +=09int i;
+> +=09struct drm_property *prop;
+> +
+> +=09if (num_pipelines > (MAX_COLOR_PIPELINES - 1))
+> +=09=09return -EINVAL;
+
+Probably this should be a drm_WARN_ON?
