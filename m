@@ -2,140 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5996A0B270
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77EF7A0B272
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:14:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7C710E42F;
-	Mon, 13 Jan 2025 09:11:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED3C310E43F;
+	Mon, 13 Jan 2025 09:13:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="SOvRpLFj";
+	dkim=pass (1024-bit key; unprotected) header.d=mysnt.onmicrosoft.com header.i=@mysnt.onmicrosoft.com header.b="idqLowgK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on20623.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2009::623])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA4B10E42F
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:11:15 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05on2091.outbound.protection.outlook.com [40.107.21.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C907110E43F
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:13:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uW5iBkZFcvJVFV/Tv4KSKtxzSXeMnoDUqNR2fQw4/oPSZR78DyEQZ13ZMtuSN5+d52Kf8BO88teyxlWL160BdLeZ0wpaO2BBGE9XsgqYhxy37qEKlM2byF6H+Sw7y/3NPahHie80Pyq6bLX//PYksbMuETnRdJczCgHylHCWjwz/TQDrwr0a8CuvOpzJls5sHUMkECu+JLCyp0mwSz0lkfKoqM6p55JrRoGz0unjYrAfJhzXhBVDCv4VpCBJMA95lVcIusG1pj+hZ7ZOF4R1yWkHIald6vV/zHp0CZfc9c3Ejh7aLG9rGj4FVTqyMgVwlLsuOOMB0RHVae5DqejidQ==
+ b=YWW1j/h8p+JY28OD4Z+Oj9c7mX3k73LHPsWZ38yX14OqZuMkwdeSFUPaywW9PQVeXTiXAxYZIZdC05XS2TK6Cr4kwrJ40/en3aIycwh5UOa9Av0CUL3mTEE7jQDpycKeqgSuR5RTW2P9PwOKgRVOPA8/iGVfOZRW/F6E5ZGqR9SiUtQDxADU3EX0sMm7IEhxlKShCW0uhCqKepcbdIn/x94SPUq92Yh8zjrU96V6zpis0xJDjHeuArC5eXoI7byHnzHtR4ZTZPvz1vb04CmaPIsqKLp+8DRkZknjQEOOoKPEVQCzzHAzkBrzjTnsiuwpcm1a0QaF5+zA4Txcjb7a2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0V835ecDdvxJ7eYVX5Hms+masuQ4g+vtnobLBzdFjoc=;
- b=RFhvjI0czMdc0fxx61S9VTjnNNebD9XSdJfnCLfOgzs73CSoKSkjZcRUHGYCCjm4UV+uX7ZXIL2EJZV9KjNWqmxlGYn1+y1/SX6fI5harndDolt9z4sPq2ziN23TsQJi6kQ8XCQQfe730ilQFyQ3bUupWb7uihph0yf7cGteMvtKG01brBtPpTAwcUT3LeizZ94s3qFReB2HBz3mmD0cIrCZr2iO7rVxsitgWXP0wIhl2HqqBKohHJS+8F5LF36lT7lx21UpreI+qNuNPFFNb42EVPIMeeW0ms4o5pnLX+e+R3WfT31Xz/NLhfoAsQ8Y7pYisitoWkIpZuEvNQBL+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=loJyIte5to3ds//hf6AqYkp8c1Pignl2NTtSL4wRa2w=;
+ b=lT0rXmwLYqDmMAFidLeuXgyogfvSP2btFF21py0aJ/ZTBCmS5P4fk3bfr7FkTqdjuuYLdfVS15kSbiP88dPWMehziNTQfx+SIdr1+8lRp3B/NiErbZ4BSy4Qh+oQ7hz9MHNaaJmoJ7LdYrTBSncHTjyJT5E0tbeWjOqCyrlDE3ZMt0JNr8WloZ+J2+WmmTISV+XHBxntLZSkbMBvjWAZagEppqTtouV+4rGo7NcTHZD7izzos0C+rxNLDZ9hWHQgFZmMCC9ukXiI7D9uPb2U8T3BtiRBwRspqddf+xnGE1eQqpoZ/M1jFpDYymexvleR2OWjxjid9L9ccAfbN7dnBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
+ dkim=pass header.d=kontron.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mysnt.onmicrosoft.com; 
+ s=selector2-mysnt-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0V835ecDdvxJ7eYVX5Hms+masuQ4g+vtnobLBzdFjoc=;
- b=SOvRpLFjpPtqwILebvuOPX5AFOBwmgjZS28fV8fhDQb+SFLV+SGlrsi9dB8Rr//LmHdy9fsEqhgGN3nB2mZZxb2pJPVKe1E19WqNpuxBqkWLqklvbRQo/aNOp7XCq8flNleFnvUHNDAUR0rSnVS3cycPcnPuXZelsyFO2t9lRBQ=
-Received: from DM6PR14CA0042.namprd14.prod.outlook.com (2603:10b6:5:18f::19)
- by IA1PR12MB7517.namprd12.prod.outlook.com (2603:10b6:208:41a::19) with
+ bh=loJyIte5to3ds//hf6AqYkp8c1Pignl2NTtSL4wRa2w=;
+ b=idqLowgKiCLle6YkP31t3A5hdCP2DCyeA54w19syS3zWgFHVq1yufm+IqYB+3pRi1pNPRC5SS3WaJEYTlYLkqEujo1mukx7JevXN+GTY4XXA9z8V0p0qbtTlmF/waH4AdSbQKd7mDyOwGjcN0HZOTsHJWQtDDMgE9S5Ff5Y3Lno=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kontron.de;
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:263::10)
+ by DB9PR10MB8073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:4f0::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Mon, 13 Jan
- 2025 09:11:12 +0000
-Received: from DS3PEPF000099DB.namprd04.prod.outlook.com
- (2603:10b6:5:18f:cafe::c0) by DM6PR14CA0042.outlook.office365.com
- (2603:10b6:5:18f::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.17 via Frontend Transport; Mon,
- 13 Jan 2025 09:11:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- DS3PEPF000099DB.mail.protection.outlook.com (10.167.17.197) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8356.11 via Frontend Transport; Mon, 13 Jan 2025 09:11:11 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 13 Jan
- 2025 03:11:11 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 13 Jan
- 2025 03:11:10 -0600
-Received: from localhost.localdomain (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 13 Jan 2025 03:11:08 -0600
-From: Wayne Lin <Wayne.Lin@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: <lyude@redhat.com>, <imre.deak@intel.com>,
- <ville.syrjala@linux.intel.com>, <hwentlan@amd.com>, Wayne Lin
- <Wayne.Lin@amd.com>
-Subject: [PATCH v4 2/2] drm/dp_mst: Add helper to get port number at specific
- LCT from RAD
-Date: Mon, 13 Jan 2025 17:11:00 +0800
-Message-ID: <20250113091100.3314533-3-Wayne.Lin@amd.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20250113091100.3314533-1-Wayne.Lin@amd.com>
-References: <20250113091100.3314533-1-Wayne.Lin@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.10; Mon, 13 Jan
+ 2025 09:13:53 +0000
+Received: from PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b854:7611:1533:2a19]) by PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b854:7611:1533:2a19%6]) with mapi id 15.20.8356.009; Mon, 13 Jan 2025
+ 09:13:53 +0000
+Message-ID: <939e023f-2d64-41e6-9aca-025e19daba83@kontron.de>
+Date: Mon, 13 Jan 2025 10:13:52 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] drm/bridge: imx8mp-hdmi-tx: switch to bridge
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marek Vasut <marex@denx.de>
+Cc: Ying Liu <victor.liu@nxp.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Robert Foss <rfoss@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Stefan Agner <stefan@agner.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "imx@lists.linux.dev" <imx@lists.linux.dev>,
+ "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+References: <20241224014701.253490-1-marex@denx.de>
+ <nehmmkv22ortkw6ngzlhjqo7emxsptt2dzoulln5ili52uswfp@h3acrwrad2y5>
+ <75dc6f74-f828-49ac-8bf6-41fd4e197855@denx.de>
+ <AM7PR04MB704688150ACD5D209290246A98092@AM7PR04MB7046.eurprd04.prod.outlook.com>
+ <85d87cf5-26cd-4d71-b9ec-71d5e16d4e0b@denx.de>
+ <z5so7ce7ufjrf4h7owoupimvo7qhdhqpd6ov7cjq4yoqvcmitg@2gdo2c222hfp>
+Content-Language: en-US, de-DE
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+In-Reply-To: <z5so7ce7ufjrf4h7owoupimvo7qhdhqpd6ov7cjq4yoqvcmitg@2gdo2c222hfp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR5P281CA0043.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f3::14) To PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:263::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-Received-SPF: None (SATLEXMB05.amd.com: Wayne.Lin@amd.com does not designate
- permitted sender hosts)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099DB:EE_|IA1PR12MB7517:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4bc5a40-fe14-412f-29df-08dd33b2399f
+X-MS-TrafficTypeDiagnostic: PA4PR10MB5681:EE_|DB9PR10MB8073:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7906b6c1-c7f3-48cc-21c9-08dd33b29995
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|1800799024|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cFljY2EvRXkzLzVocndaWTQ1ZzZLZ3pGK2dpM1AwV0JGcmd1VU1vUHBYTmRm?=
- =?utf-8?B?QXRoYmU4SU55UjRueW9JSmVxclJ4eUVSQm9EVHVaUWp1ODJ0RnR2SHYvWWZh?=
- =?utf-8?B?ZVl1ZVdrV2tMdTF5cEpNVmdlYUZObWtwTktmb2dQZUJKejB3WFdsRnBsUkxG?=
- =?utf-8?B?WjkxT0Q5b0wxRFVRRlMyd2NwNVIxUDM2cFlTd1V1Rm52VUh3S2RBdDBxY0Nm?=
- =?utf-8?B?NWtBODBuQlFLUyt1L2lFeXlYYU5ENzJBYkdtcDFsTlVBQVlYSm9taXpaclJG?=
- =?utf-8?B?Q1E4dGxMeWVFc3B3bDZuU0hrOXZBWG1FR3RyRUwvUTdEY1BSQzhxYWFSSzh1?=
- =?utf-8?B?UUg0YWQrMFFTNmhkY3QwS3lrbzNZMHV6Vm5hcFRSaFFMVDVrZHJ3aGtFN3Y0?=
- =?utf-8?B?cGFQNm56Ris0NS9va0JoMUxMSndrVUlDT0hVYW5jcUhwOEtabFJRZ2xYQXN5?=
- =?utf-8?B?NXpZTzhkK2pLRUZNa1kvTXZPZzhsQ0JHZUtxTncrSUR0bzFGZWs1Y3BiTERa?=
- =?utf-8?B?YXRTWitxVDhMbmVWRHdEeVFzUkxrcmZFeERzSDhFNE1DdUdEQzltSitpVmRa?=
- =?utf-8?B?ZnhVSHpub2FEM0JnMFdlZkFiOFp5UDVCT0RoU3pIS0hzYVV0Vi85N3hwNkdZ?=
- =?utf-8?B?Mi9QdU44Y2NrRXdSMnJFYlNEUW5ndE1BNzJ5Q0VXZndDazRSMldRM3Q3TWw4?=
- =?utf-8?B?K0NocEJuMVgycHRWcS8zUGg5UjhqYiswemJOVzRGd2x0bkxGMlBBRDg2cDFr?=
- =?utf-8?B?a1JnTE5vTXJLaDMyQ3BvUTE5MFplZVljbkZYeUViTzFkOU1jemNyWWR6TGJw?=
- =?utf-8?B?VEZ2Zm1TYm1sd3FNY0lPUDZuQStycXljV0hyZWY4U2pGSmt2Z0Nna2pxdkFG?=
- =?utf-8?B?YVlMMU0vZzRkN2JPZzdnakt0MlF1QUhWMDFiOThwWlJMWTAvMWpybGlLWjVy?=
- =?utf-8?B?dVpBSS9GY0ZHdUttM0xHY080eVlwc3dTTGZMTGJSU3VHZ0dkUC9qcFBLMUhO?=
- =?utf-8?B?aXpLdDNxT1dKS2I0eDlCcGx1WlN1YTBKRTU5TXArRHlpV1ZKTVlpY0ZMZXJl?=
- =?utf-8?B?V2Z0UFNLWUNjWUdNUTRLYlB6dzhod0xNMGJKQ0tDbzFySkdZTkQ1QlI5ZTl3?=
- =?utf-8?B?NkU1MWFVN0pIa1k3K0RPTHJwK3dSNTBiK3NTeGpWbHJIUWRQQ1FwWjEzZG5r?=
- =?utf-8?B?N0NUT1ZnWjc0U0NaMHRXMHF3SjR0OFZsS2tZRXJBRURTZkNWeERnMmphZ0w4?=
- =?utf-8?B?WElLOWx4V2ZJSGVkZVR0bVpxOWgrTnV5L3RMYnY5cE5ad1h1SUt4bW45YWxT?=
- =?utf-8?B?U0U0bWJ0ZTlHUytRaGNvMkxjWkJFOGl0cEJJZW9RRUd2N0t0L09HWUZ2S3k3?=
- =?utf-8?B?bWRIZnR3RjdseTVKTjdoZXNEWkgvenA4RDlGOWdYdUNiS25COS91Q0lreUVJ?=
- =?utf-8?B?VlNiMURBQzZ5V0hNa002VGx4d3RGWnNwT294YTRrWlg1eTVDUzRndzc3SVhF?=
- =?utf-8?B?VE9MejV0dWpUL05sWmxvR3liY0N0M2Mvczh5QnFyaEdiWEs0RDZRaExSRWg1?=
- =?utf-8?B?dEd0UHd0RXkxTkZ5ZnZLWE5JTnhkTnpyZ01sRVRVc2NvVU9WMDg2a3dEYVJ5?=
- =?utf-8?B?UUdSajBiVGJPcFgxaFpjOGZySFVzOGRRZ241YXc5TCtUTDZ1L2pEOEpvRGxO?=
- =?utf-8?B?dG1MMHBBbTRpLzI2ZmZZV21xbGF2dzBDZlpKVyttN2h5dDBuOTNJcG13Y2ly?=
- =?utf-8?B?dGxnQXNPSFduYk9Rcmd1bUQyalVQMXZlMW5WNU1mQUJPNVA4TzlsRWxTWjdq?=
- =?utf-8?B?c3FFejlvTWNCNzZUMjhVSHhad1VCTUFBNE1VQ1ZoQ0FLMTFaWFI0TWpZdEVl?=
- =?utf-8?B?ekgySjU1MCtkOFE2c0tPSWdWNUlHaGdwUVR0V2tCL3M5OTMvUUVGMEtRMHI1?=
- =?utf-8?B?dStuN1JmclZGQzlQaUp1QkEvSWFDRTF1dENZdXJ3d1VPUVlJMlNyM3VVcnlJ?=
- =?utf-8?Q?yR+z4q1LtqfX6C+DKYv3Fzoy3FsWB4=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 09:11:11.9312 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4bc5a40-fe14-412f-29df-08dd33b2399f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099DB.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7517
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SEFUYkw2cTVrVS9lTEYxM1pDNDVZQUszUW1idVZHK3A0U01iYlNmU3Rwb00y?=
+ =?utf-8?B?RXFvbVllUkFLdnVqSGRxdWp1WUdxT01BMlVVNUtCY1NuZ3VEaTE5K0F0cUZQ?=
+ =?utf-8?B?dk1nakVlMEgrdEFQdVM2T1R4dmRjdmdaUmFMc2hEUFV2V2R4aWJ3THA5L3FJ?=
+ =?utf-8?B?UUZyV3JqVERBc1dSSTZ6c2J6bDd1aGw3NDlvclJCMkZyL294SDltbmlYQ1pn?=
+ =?utf-8?B?YjhZSFlydVg1dHB0MVFla3BTbEJlSHdtNHd3dDZaYWxRNjlrbjZsL1VBWFpG?=
+ =?utf-8?B?bWp3VG1sVUFqK1JvU1VHMkRxV3kwZkRBbDNFcXlVZ2d0SFFzSi9QZkFjbTJh?=
+ =?utf-8?B?OVRRLzhkcURzVVI1NTNFek1zZEFvK2dSRml3MVZMSWVYQUU1elVMbXJOd2ZU?=
+ =?utf-8?B?bkYvN01OdzhJUllsdUJGUzEwdlZRZUNhN2NURWVEMzByT3ZhTFJCbXdzcXB6?=
+ =?utf-8?B?M0QyZ3BnQkxRSVliYVFJTVlsV0hta1h2WkxlNzFBNFcrY2JqRyswWDV5dFhF?=
+ =?utf-8?B?NFgrc0dMWmdFWVFiTXYyamN5ZHMvS2JHZWFEVzB0STYwWnllQU14cGFNb0lj?=
+ =?utf-8?B?WGhrNE0vTzg5a1UzUnZkalJIOUtkR2dkTmpBaUJCakE5TVAwRGRzV1NoUm1E?=
+ =?utf-8?B?cUlxYUpDbEdyRkpIaFBveHAzaWtJeTFUZWhBRWNwTnZUTEZzNFVEblNJajFN?=
+ =?utf-8?B?ejA3OCsxQkxlQ2dGdm1weWJ5ZTZ5bkk5UmNnWmk2YU5reTFoM1NBZnEybndl?=
+ =?utf-8?B?MnBLWCtVY2o0aHpXaTV0TGYzRHJjNVZJNmM3STlTUnJ5cHBqNUptZ0xVOUNt?=
+ =?utf-8?B?ZGxnVEVPNU5BMTJQYVNMMDFmR1ZTUXNYcHR1YlNUMEJuQXJJRnFXZFFYNXk5?=
+ =?utf-8?B?cjVFTERENnBiTmdmTEtkbmV2RmE5bGdFT0R6S0pqR3NWNVIzMUpsaWNldG5o?=
+ =?utf-8?B?M3dxdU51OGRvTEN5RXd4Tk9hYzdCNDM4ZmFWbFc1bjdoT3NQNjduSERjS05w?=
+ =?utf-8?B?UGpUNTFiRWR2djB3MGovaExHSW5lNk5SMHlrcTQ3WmZVUm1ZZlpKUUw0TWM4?=
+ =?utf-8?B?cnZiZ1JHVTdFbFp5VDdJSENJb0xXK3F1eU52Y0gxRkV3Z1FTdUZxZENoL2dj?=
+ =?utf-8?B?SW1OeXpmT040WWhhalVxT3FJdHh1cnlOQ0hOUlJ2Q09lcDF4UkNuMkxjUFZB?=
+ =?utf-8?B?UWhuTnZrM2NOOXorMWZiTTUrT01NYTN4ajVxYzlZV1YwczNTazZxNzYvM1pH?=
+ =?utf-8?B?bUdyYXlHSmRQa1JDRTJhUHNzRWFBNXZNb01RY1FIM0xnV2tZa2RxMU1iN3Ru?=
+ =?utf-8?B?Um1YYUEzNnJoamRwdzBVSUhGNC83NUFxTjFyL3VveHd5TXM4MVR3YzB3WWw5?=
+ =?utf-8?B?QTR0dkpwMFc1Q0pJSmNlaUZiL0xvdTdZRWs2eDNoZ0ovYlZocTVVWHZxUWo3?=
+ =?utf-8?B?VWJNS3NjOGRjNTkySHRXTERidGV3VDJ0VUI1L0hVWXFJOWRMK2dWV2dFeUZP?=
+ =?utf-8?B?UkJXaFNZbDY1RVNUeUxVaTNlaWFVaXU2L2pUU290UG5KSGFxekNvUmFMUWJF?=
+ =?utf-8?B?Y2FqN0Z2TURFSVRTMmx0TlZ1cFQ0OThPZHkvY01lbU5rakV6U0pPbWVIS2Zh?=
+ =?utf-8?B?WmtvTk52UGdza2RhTE04ditTZ1BKdXAvVFpveTZ5cVo2dkJOOGNUcU5ReEJK?=
+ =?utf-8?B?T2NPbUFDMUpDcTBUbmVBL0xqY2lubHdkb2dEMHpHd0RFbk5kakpoYXNVanU2?=
+ =?utf-8?B?cERKNmdKMmZLUVFBN0NBWGJBOE96bkp2N09BYWZFRFFiK3RRa2RYdnI5ZFg5?=
+ =?utf-8?B?SkdvNk9SNElzYWJTTFNteDRqa2pnOHRRVG4wUXJZZTB1NXhWT1lCK2s2RXBF?=
+ =?utf-8?Q?jPWOFRQsdrt2Q?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YlRNSXNiSHNrSTduc0pzbHdDcjFsZXpoak1qelRremMyZFRpckZGUVdyY2o5?=
+ =?utf-8?B?S29POWkxNEJmOWtNeFl6TWt2R1JzdkZZWk1ySXZ3K253angxYS96THFBSmhL?=
+ =?utf-8?B?cklFMDZiMTQwZEYzK1h2S0cyRUx4TlZWWURJWE0zUG9UVGY1Z2ViOTNoeUlz?=
+ =?utf-8?B?TjM3SWF2ZWVubk4vMWJUV2ZrMjB5TW1vblQyOHJXWlc3NjNSekZSTTlMbHRq?=
+ =?utf-8?B?NVYvSElwdTBMK3lQMThjNFdTMEhrQTQ5U3BLc2gzT2ZvcXpDblRMcS91Q3ZQ?=
+ =?utf-8?B?MnVTWFFDemNHaWVoVnZDUDZyYVlNUGE2RXNhaGZpMjgwS2U3ZUQrY0RWZ3F3?=
+ =?utf-8?B?N3lWRjZUR09ZVThDd1NPMnNUd3gxZ1lmbTArM3o5cUNFZ1I1RFB2WCtxOW8v?=
+ =?utf-8?B?ek95Zmk5MzJ5bXBqS3V0NmZpcW9zTXZ0cUNnSlVhNjVlK3JVVHVSeGFWTUFo?=
+ =?utf-8?B?YVlic1VVREhHUVZ6SlNhVjZWZmRKaHM2aks4S3JEMEFLQTBYQTgzZlFqY1I1?=
+ =?utf-8?B?RGp0NGVxOGp2bHlIRjRGTmJMVW1KTjgxSWUyN24xSnFKS3BDakRXSW93MmRy?=
+ =?utf-8?B?Q3BwR3k0WGp4Y1NWb1NpMHVrdmpJam1BQTVhV3luTTdQaEtUemNhOU1Gc1NO?=
+ =?utf-8?B?a3A0UVhUN2lZWHJ2akRIa0NwK0JPcWs3c2ZXVE5waVV0VGxQblRxVDVrVzJW?=
+ =?utf-8?B?bEozZUtFU0E0SHJMSlh4UlFuWmNpeklOZEkyZCs0dEI4aFRzd3ZGaFRUczln?=
+ =?utf-8?B?Y2drZmFaYTFnKzRXa3ZhaHo4M1p1RkY2SVNXTEFBMlUwVC9lNENvL3M4MzdM?=
+ =?utf-8?B?b2NGNVJWamFoZUYxZE9nZmF0THVLZWZIM1dtTXp5YlFMMnN5b05DcFRSNnVs?=
+ =?utf-8?B?R0pSUG1KK1Z1UlZyTWhxTWdzNnpFVThKRjdCSkh2SFQ3ZkZjMUp2RFJJK2d5?=
+ =?utf-8?B?Q2NuL3h4aWhPa2pycVk5dHllRmFGUmRONC9QOU9JcVNXN2dMRjhPelR3ZnV0?=
+ =?utf-8?B?QTZCOHlUS1pPWDA4cCt6N3ZwR1Zla3Z4QkJQeDl3ZURZUEUzaTZmT01aaExB?=
+ =?utf-8?B?MDZ4S0hGZHVuOG5CR3RWK2JNbFBCNWdDZFhnQWJja3lHbmsxV0YvaUFBMWpB?=
+ =?utf-8?B?Zm9pMkhuNFhveEZhU2w2dHRWaU54eTlOc3g0aGdXYW1qSGQrdDhDSGl5blJj?=
+ =?utf-8?B?elZRZjB4MHRYbnJNQlNEMzR2RjVPWmJ5T0h4YmJYMjNNRkdHOXBkcWkxdWxG?=
+ =?utf-8?B?aDRqMXZXSVlncnZWQmsyYmUvalVVeEdERzEyelRoTEZtVzlhTTZFZEF2MFgz?=
+ =?utf-8?B?Q0xXVVo3MDRYb1hvY0ZnRGxRSHVJYThraVFiaWg5dytGRU5rdWwvZzRyc3JI?=
+ =?utf-8?B?dGEvVmZrSWxPOE5nZHY2cjA5OTZGWWtxTlQva2k2YzEwNzVpRmV1S2o3VVdi?=
+ =?utf-8?B?SkNaY0QvcHJaRGNnSTBYdms0eFU4VDJXSlgySHQvQ2UrY1BDc1haOFNjQjlp?=
+ =?utf-8?B?WWNEWkNJR0lRejEyVTNOcW5NY0R4a2lyQlBFM3ZoWXZNVFZOMUVCaXcyeEZF?=
+ =?utf-8?B?TERoN2EyV3dSa3NNWWZZZ1p2bFJHS1dBeWpGa0E1dGlhWkdWcWZlMlMyZU9v?=
+ =?utf-8?B?aGNSY3I0Ti81ZUlJSHdLQ0h6bHNQNXlMcGdMNlJ2V1dTU3Rzb0ZRUHN1RFNB?=
+ =?utf-8?B?UHZhb0dzaFpWeEZHOHlSaGRDd2trakRYZ2lnNnNxTTEzaUlMS2hsbFB3Ni9w?=
+ =?utf-8?B?b1JhVnpNY1pyRktJMkZnY3NyY3M2aHdjVzFwcHNZUjZyblZaQWszZEVkMzZI?=
+ =?utf-8?B?TUkvY0JNTEcxbnE2ZFB1a05xalUyR0h3SkYycHpUS3doUTlUNDFlT2RFVmlJ?=
+ =?utf-8?B?NFg3RWhRSEd1YjZaTnNXNTJzY3RKRVhUcU1tVjFMdW5WdWNISTRBNEdVYktx?=
+ =?utf-8?B?NTM5dzQ2YlpreDdmNWxFZ0RpQVdqZ01QcU1nQlFDdy9YOTR4MXQ5Q0N0VElX?=
+ =?utf-8?B?S0VxZlZFdXlPZWhTUmFSVXBnQnhodkFCUmJ0a3V1OCtzemdFZFIzcVhCeXdO?=
+ =?utf-8?B?TGRxUUlxbzh5QXNTYWtaRzdJVkhLM0wwemxsMHQ3bFdEZjVMcW96UlR5eERP?=
+ =?utf-8?B?bmdXb0l4cWtVRklvamRmdklmbklNQmNEUE5ZWHJUd01VVlpkWlZaTUhRaGdn?=
+ =?utf-8?B?TlE9PQ==?=
+X-OriginatorOrg: kontron.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7906b6c1-c7f3-48cc-21c9-08dd33b29995
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR10MB5681.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 09:13:53.1801 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 46jKYoK8ODyNDvyvUsn/qb/eJ6rpXC88j00j9dlU/iNM3amSCg4Tu5osKBrzMW44n+maFn+xPC+qNbAL7N854dyCAUi1ZKLYIXne8RES6Ac=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB8073
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,81 +182,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a helper drm_dp_mst_get_ufp_num_at_lct_from_rad() to extract the up
-facing port number at specific link count from the RAD. Use the added
-helper in drm_dp_mst_rad_to_str() & drm_dp_get_mst_branch_device() to
-unify the implementation.
+On 31.12.24 12:48 AM, Dmitry Baryshkov wrote:
+> On Mon, Dec 30, 2024 at 10:44:25PM +0100, Marek Vasut wrote:
+>> On 12/30/24 8:04 AM, Ying Liu wrote:
+>>> On 12/26/2024, Marek Vasut wrote:
+>>>> On 12/24/24 5:21 AM, Dmitry Baryshkov wrote:
+>>>>> On Tue, Dec 24, 2024 at 02:46:14AM +0100, Marek Vasut wrote:
+>>>>>> The dw-hdmi output_port is set to 1 in order to look for a connector
+>>>>>> next bridge in order to get DRM_BRIDGE_ATTACH_NO_CONNECTOR
+>>>> working.
+>>>>>> The output_port set to 1 makes the DW HDMI driver core look up the
+>>>>>> next bridge in DT, where the next bridge is often the hdmi-connector .
+>>>>>>
+>>>>>> Similar to 0af5e0b41110 ("drm/meson: encoder_hdmi: switch to bridge
+>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR")
+>>>>>>
+>>>>>> Signed-off-by: Marek Vasut <marex@denx.de>
+>>>>>> ---
+>>>>>> Cc: Andrzej Hajda <andrzej.hajda@intel.com>
+>>>>>> Cc: David Airlie <airlied@gmail.com>
+>>>>>> Cc: Fabio Estevam <festevam@gmail.com>
+>>>>>> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>>>>> Cc: Jonas Karlman <jonas@kwiboo.se>
+>>>>>> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+>>>>>> Cc: Liu Ying <victor.liu@nxp.com>
+>>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>>>>> Cc: Maxime Ripard <mripard@kernel.org>
+>>>>>> Cc: Neil Armstrong <neil.armstrong@linaro.org>
+>>>>>> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+>>>>>> Cc: Robert Foss <rfoss@kernel.org>
+>>>>>> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+>>>>>> Cc: Shawn Guo <shawnguo@kernel.org>
+>>>>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>>>>> Cc: Stefan Agner <stefan@agner.ch>
+>>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>>>> Cc: dri-devel@lists.freedesktop.org
+>>>>>> Cc: imx@lists.linux.dev
+>>>>>> Cc: linux-arm-kernel@lists.infradead.org
+>>>>>> ---
+>>>>>> V2: No change
+>>>>>> ---
+>>>>>>    drivers/gpu/drm/bridge/imx/Kconfig          | 1 +
+>>>>>>    drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c | 1 +
+>>>>>>    2 files changed, 2 insertions(+)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig
+>>>> b/drivers/gpu/drm/bridge/imx/Kconfig
+>>>>>> index 9a480c6abb856..d8e9fbf75edbb 100644
+>>>>>> --- a/drivers/gpu/drm/bridge/imx/Kconfig
+>>>>>> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
+>>>>>> @@ -27,6 +27,7 @@ config DRM_IMX8MP_DW_HDMI_BRIDGE
+>>>>>>    config DRM_IMX8MP_HDMI_PVI
+>>>>>>    	tristate "Freescale i.MX8MP HDMI PVI bridge support"
+>>>>>>    	depends on OF
+>>>>>> +	select DRM_DISPLAY_CONNECTOR
+>>>>>>    	help
+>>>>>>    	  Choose this to enable support for the internal HDMI TX Parallel
+>>>>>>    	  Video Interface found on the Freescale i.MX8MP SoC.
+>>>>>> diff --git a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>>>> b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>>>>>> index 1e7a789ec2890..4ebae5ad072ad 100644
+>>>>>> --- a/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>>>>>> +++ b/drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+>>>>>> @@ -101,6 +101,7 @@ static int imx8mp_dw_hdmi_probe(struct
+>>>> platform_device *pdev)
+>>>>>>    	plat_data->phy_name = "SAMSUNG HDMI TX PHY";
+>>>>>>    	plat_data->priv_data = hdmi;
+>>>>>>    	plat_data->phy_force_vendor = true;
+>>>>>> +	plat_data->output_port = 1;
+>>>>>
+>>>>> Quoting my feedback to a similar Liu's patch:
+>>>>>
+>>>>> This will break compatibility with older DT files, which don't have
+>>>>> output port. I think you need to add output_port_optional flag to
+>>>>> dw_hdmi_plat_data and still return 0 from dw_hdmi_parse_dt() if the flag
+>>>>> is set, but there is no remote node.
+>>>> Looking at the upstream imx8mp*dts , the oldest commit which adds HDMI
+>>>> support is commit:
+>>>>
+>>>> 3e67a1ddd56d ("arm64: dts: imx8mp: Enable HDMI on
+>>>> TQMa8MPxL/MBa8MPxL")
+>>>>
+>>>> That already contains the HDMI connector node. Every follow up addition
+>>>> of HDMI to another device has been a copy of the same commit, with
+>>>> connector, so I think it is safe to say, no upstream DT is going to be
+>>>> broken by this change. Do we care about hypothetical downstream DTs
+>>>> which may be missing the connector ?
+>>>
+>>> These have no HDMI connector nodes:
+>>> arch/arm64/boot/dts/freescale/imx8mp-aristainetos3a-som-v1.dtsi
+>>> arch/arm64/boot/dts/freescale/imx8mp-kontron-bl-osm-s.dts
+>>> arch/arm64/boot/dts/freescale/imx8mp-kontron-smarc-eval-carrier.dts
+>>> arch/arm64/boot/dts/freescale/imx8mp-msc-sm2s-ep1.dts
+>> Huh, I missed those, thanks.
+>>
+>> Would it be OK with you to fix those DTs up and add the missing connector,
+>> rather than introduce some optional port workaround for them ?
+> 
+> I can't say for iMX8 particularly, but usually we try to keep backwards
+> compatibility, as DT can be coming from device vendors. So, I'd say, we
+> need both, the fixed DTS and the workaround.
 
-V2:
-- Adjust the code format (Lyude)
+FWIW, personally for the Kontron devicetrees mentioned above, I'm okay
+with adding the connector node and break compatibility. Those
+devicetrees have been added recently and I forgot to include the
+connector node.
 
-V3:
-- Ajust parameter "rad" of drm_dp_mst_get_ufp_num_at_lct_from_rad() to
-be constant (Kernel test robot)
-
-Cc: Imre Deak <imre.deak@intel.com>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Harry Wentland <hwentlan@amd.com>
-Cc: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Lyude Paul <lyude@redhat.com>
-Signed-off-by: Wayne Lin <Wayne.Lin@amd.com>
----
- drivers/gpu/drm/display/drm_dp_mst_topology.c | 29 +++++++++++++------
- 1 file changed, 20 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-index 271a00b81264..e79f4b76ec2b 100644
---- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
-+++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
-@@ -171,18 +171,30 @@ static const char *drm_dp_mst_sideband_tx_state_str(int state)
- 	return sideband_reason_str[state];
- }
- 
-+static inline u8
-+drm_dp_mst_get_ufp_num_at_lct_from_rad(u8 lct, const u8 *rad)
-+{
-+	int idx = (lct / 2) - 1;
-+	int shift = (lct % 2) ? 0 : 4;
-+	u8 ufp_num;
-+
-+	/* mst_primary, it's rad is unset*/
-+	if (lct == 1)
-+		return 0;
-+
-+	ufp_num = (rad[idx] >> shift) & 0xf;
-+
-+	return ufp_num;
-+}
-+
- static int
- drm_dp_mst_rad_to_str(const u8 rad[8], u8 lct, char *out, size_t len)
- {
- 	int i;
- 	u8 unpacked_rad[16] = {};
- 
--	for (i = 1; i < lct; i++) {
--		if (i % 2)
--			unpacked_rad[i] = rad[(i - 1) / 2] >> 4;
--		else
--			unpacked_rad[i] = rad[(i - 1) / 2] & 0xF;
--	}
-+	for (i = 0; i < lct; i++)
-+		unpacked_rad[i] = drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
- 
- 	/* TODO: Eventually add something to printk so we can format the rad
- 	 * like this: 1.2.3
-@@ -2544,9 +2556,8 @@ static struct drm_dp_mst_branch *drm_dp_get_mst_branch_device(struct drm_dp_mst_
- 	if (!mstb)
- 		goto out;
- 
--	for (i = 0; i < lct - 1; i++) {
--		int shift = (i % 2) ? 0 : 4;
--		int port_num = (rad[i / 2] >> shift) & 0xf;
-+	for (i = 1; i < lct; i++) {
-+		int port_num = drm_dp_mst_get_ufp_num_at_lct_from_rad(i + 1, rad);
- 
- 		list_for_each_entry(port, &mstb->ports, next) {
- 			if (port->port_num == port_num) {
--- 
-2.37.3
-
+Of course I can only speak for myself and for Kontron, not for others.
