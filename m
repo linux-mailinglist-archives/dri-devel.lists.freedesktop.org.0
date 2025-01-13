@@ -2,57 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E321DA0B671
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 13:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF21A0B69B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 13:19:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A533D10E661;
-	Mon, 13 Jan 2025 12:13:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2491710E662;
+	Mon, 13 Jan 2025 12:19:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nuLdq5Nm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HexdmL0A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74BF410E657
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 12:13:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736770391;
- bh=7mSkffdXqq8EFA8EUzl/xt+T6ken0cn5qrMnTzg2iwk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nuLdq5NmG2wvmFUUfKToOYvQH4Yy3j8ErnHZB3oyIFXBrLeqRF4NAxDpq69HADsXk
- dItFVsaKZ//uPjw0gK+A+jGSf3zLRXZMP5PDYSQKv+mTiPAo0owESJ6xQfw2wRVjbR
- Wfh4ubDTo5tG1dtHWYvz7MPnblCoiXN7tX8OMKcw1RZbmhCXtCKLIib56DYOYAybUO
- TRrCvd5Ip+2rGaQGn/TMtkEJyHP2xtk/+BNBJd4U9OK1bYBPdv420sDaQPowFbdAEX
- FrnB18ncmVvDEbXqU1SGelu2ZPtuBONL4yP+IXnhYZfO5mud+/3hlzAfgtvyZPiK+Z
- 5zGKwERULdvLg==
-Received: from [192.168.1.90] (unknown [82.76.59.196])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A37C617E0D9D;
- Mon, 13 Jan 2025 13:13:10 +0100 (CET)
-Message-ID: <78046727-0d2a-4ada-b75c-ec2e80e1f560@collabora.com>
-Date: Mon, 13 Jan 2025 14:13:10 +0200
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14A7710E662
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 12:19:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B17E85C3EFF;
+ Mon, 13 Jan 2025 12:18:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C396EC4CEDD;
+ Mon, 13 Jan 2025 12:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736770756;
+ bh=YqdktbBo+5ZgVspVWNNkMAMs40aG+J2NhoLDvxlVHQY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HexdmL0AAD+9dt9UBdbGYelsBKMT/RJZEsk8gE+HwCup7olVaUPV4Jz28/PS0uldP
+ UBIbWdRKw/0/AAaYeO9Mqh5ANQyhL1EC7cH1AX1vkGnBlHAmJlyoNy94lTJIcF6JqV
+ WxgDZ3jgCHJHb2iB/uFrw3bJf5eycpkaxdJVzEs11PDg2wz2Fj1J+8zmM9GAK0MS3R
+ aL9K/jVVSh0u5OkFu3YxSH2MW0rmOuLhQdcRdeveAN/XtFSia12IWxR4luHm3TCBSI
+ SxH5P16qXl6fBQGKEbrZ/S1xYWMF0ZMt1yqmm4fsTm/+lcND7eIpuI99JrNr6oHTAy
+ 4rQU1Um7GN0WA==
+From: Philipp Stanner <phasta@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Yosry Ahmed <yosryahmed@google.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 1/2] MAINTAINERS: Update DRM GPU Scheduler section
+Date: Mon, 13 Jan 2025 13:18:50 +0100
+Message-ID: <20250113121851.31382-1-phasta@kernel.org>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/display: hdmi: Do not read EDID on disconnected
- connectors
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250111-hdmi-conn-edid-read-fix-v1-1-d68361624380@collabora.com>
- <20250113-piquant-lizard-of-strength-ee5760@houat>
- <aed7387e-196a-4819-b24e-788c925e1dee@collabora.com>
- <CAA8EJpqzGZx0PdPKZMEwf3iv9pfb+Cr6Mrjt+p21rUwN-RiNvQ@mail.gmail.com>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <CAA8EJpqzGZx0PdPKZMEwf3iv9pfb+Cr6Mrjt+p21rUwN-RiNvQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,49 +61,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/13/25 2:06 PM, Dmitry Baryshkov wrote:
-> On Mon, 13 Jan 2025 at 14:00, Cristian Ciocaltea
-> <cristian.ciocaltea@collabora.com> wrote:
->>
->> Hi Maxime,
->>
->> On 1/13/25 11:35 AM, Maxime Ripard wrote:
->>> On Sat, Jan 11, 2025 at 12:04:09AM +0200, Cristian Ciocaltea wrote:
->>>> The recently introduced hotplug event handler in the HDMI Connector
->>>> framework attempts to unconditionally read the EDID data, leading to a
->>>> bunch of non-harmful, yet quite annoying DDC/I2C related errors being
->>>> reported.
->>>>
->>>> Ensure the operation is performed only for connectors having the status
->>>> connected or unknown.
->>>>
->>>> Fixes: ab716b74dc9d ("drm/display/hdmi: implement hotplug functions")
->>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>> ---
->>>>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
->>>>  1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->>>> index 2691e8b3e480131ac6e4e4b74b24947be55694bd..8e4b30e09b53b84cfd36199d56db3221a00085b0 100644
->>>> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->>>> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->>>> @@ -786,8 +786,10 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
->>>>      const struct drm_edid *drm_edid;
->>>>
->>>>      if (status == connector_status_disconnected) {
->>>> +            drm_edid_connector_update(connector, NULL);
->>>
->>> Why is this needed? It's not mentionned in your commit log.
->>
->> The original implementation has it after reading the EDID, but I'm not
->> sure if we need the explicit reset in this case.
->>
->> I was going to submit a new revision switching the order, as Dmitry
->> suggested, or should we simply drop it?
-> 
-> If the EDID is not available, it needs to be reset.
+Luben has not been active and has not responded to mails since summer
+2024. Remove him from MAINTAINERS and add an entry in CREDITS.
 
-Thanks for the confirmation - I will mention this in the commit description.
+Philipp has a new email address and an ACK to commit work time to the
+scheduler. Thus, set the state to 'Supported'.
 
-Regards,
-Cristian
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+ CREDITS     | 4 ++++
+ MAINTAINERS | 5 ++---
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/CREDITS b/CREDITS
+index cda68f04d5f1..1593ada4209c 100644
+--- a/CREDITS
++++ b/CREDITS
+@@ -3948,6 +3948,10 @@ S: 1 Amherst Street
+ S: Cambridge, Massachusetts 02139
+ S: USA
+ 
++N: Luben Tuikov
++E: Luben Tuikov <ltuikov89@gmail.com>
++D: Maintainer of the DRM GPU Scheduler
++
+ N: Simmule Turner
+ E: sturner@tele-tv.com
+ D: Added swapping to filesystem
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a87ddad78e26..fa288ef20c59 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7888,12 +7888,11 @@ F:	Documentation/gpu/zynqmp.rst
+ F:	drivers/gpu/drm/xlnx/
+ 
+ DRM GPU SCHEDULER
+-M:	Luben Tuikov <ltuikov89@gmail.com>
+ M:	Matthew Brost <matthew.brost@intel.com>
+ M:	Danilo Krummrich <dakr@kernel.org>
+-M:	Philipp Stanner <pstanner@redhat.com>
++M:	Philipp Stanner <phasta@kernel.org>
+ L:	dri-devel@lists.freedesktop.org
+-S:	Maintained
++S:	Supported
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/scheduler/
+ F:	include/drm/gpu_scheduler.h
+-- 
+2.47.1
+
