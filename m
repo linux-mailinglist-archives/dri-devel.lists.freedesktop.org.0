@@ -2,90 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8315A0BDB0
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 17:37:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879BDA0BDEE
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 17:48:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 529F610E71F;
-	Mon, 13 Jan 2025 16:37:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0701210E730;
+	Mon, 13 Jan 2025 16:48:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="apABHokL";
+	dkim=permerror (0-bit key) header.d=sapience.com header.i=@sapience.com header.b="ICdZ5kYC";
+	dkim=pass (2048-bit key; secure) header.d=sapience.com header.i=@sapience.com header.b="md32p62r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6793B10E721
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 16:37:53 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id
- 2adb3069b0e04-540254357c8so4102220e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 08:37:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1736786270; x=1737391070;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ggfsWvKVeX6voblu5KcqCZc4YpC78LY+7yJBPT00S+g=;
- b=apABHokLUQhSjfDTKxg82ZMcI/sR+BTqgFf2yLGESuSLxXdCIwOy7S1wFJyxGybmhR
- W04vXz+P4vidstqf1gHek3+jS6H7NJp3HdJxz3Qx0+NfHrk55QGsUk1fm0uNnxZt2Xhf
- gtjdEroVH0wdh99zQpjXDTgjbxLu+ap8KAYug=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736786270; x=1737391070;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ggfsWvKVeX6voblu5KcqCZc4YpC78LY+7yJBPT00S+g=;
- b=wXdvZfRo4xVqoDlYOOIwhJcwY0KjoFHaI98iqUTTnlhKCBdoDlGlTA6RNWq8SWjfCK
- Um73BBvbWLK5ucPukFLJz1Rm3rVpZKSKYdFTlAiOAAfb5yVIQbZoT7yKJIQBMqJeWlqo
- CsODoHOdYoWw61buJAXLTExOhjC3Se7+Z/x/MUKJQTAxsiLN+w+cxxt1QnzfVxiO7vf+
- qc/NyVicQziQiuOjyGLTUnzanlU5OK66eOBDZx564nRmjxfLnSZ9S5YYaRg6Z5QifHRi
- ysCkOrroZi6v/UNDFMs7vfBijmtKL1WStQ5F7LgSI6ZcuX8XAPgtYCFL3TCEtq04c2sV
- KAwQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXlF4qhdYpfHBIZkgXa4gA1gqRXabRyF7yxTkN8reUelFMBlZn1qARyMsyX+QzHvrRhqZBkHCVtAb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzvVHIcHpQujd1Os5HM8dbHetxsYM1iorkOmb+MZHm9QejxJu2B
- 1QaS7KBW1CT1UQDwJukYo52nnBSCjeF0eOhMmmjHfx5e//73N1R3dIGHyBxO5HAqQpznuBecZdO
- l2Q==
-X-Gm-Gg: ASbGnctpF2PSLy9zle1wCqZEAHvyzhna8zpB9pblXaClII/uJDD47hJNJqqrYwCVvq+
- 7rbLQrsQaJATEQCp0EMx5ucNXLz/GgRlJGXbyVL8fv8R79fFYUuY4a6OFv88Rz3YttGnj+ImjWr
- LVcw9s6SOXcN2GckILFz7bdBT9vqxvR2NQc2b7SfrfsM6q1DFrETdQtPIH/8+E95WbcNL4zGGt/
- 7Tpf+k8/vrOFeoL39pMWsgokA7MCU2OMx2LCTZ/3If7dHYxPFMfDHhX8sm8Hv1dvfPTJ8rq7z1L
- GCDqiwy40m0Asg3cqIoZMfOi
-X-Google-Smtp-Source: AGHT+IGaVAFRJBG046i15zreKYz7eIwHtH4ugh9O766E+s5Rht11Q6NpTgz/t8j1nGDqA5Y7FFMZKw==
-X-Received: by 2002:a05:6512:1281:b0:540:3561:666f with SMTP id
- 2adb3069b0e04-54284526e49mr7082123e87.20.1736786270448; 
- Mon, 13 Jan 2025 08:37:50 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com.
- [209.85.208.182]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bea6778sm1417422e87.131.2025.01.13.08.37.46
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2025 08:37:46 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-30613037309so18775331fa.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 08:37:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7IGDaivMVFlDQZozVuRAIWMUuSuDFZAKXkNiNYDIMeTun62I1e5MrsUUFEfNDZJCVbnfiPUrQja0=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:2109:b0:300:3e1c:b8b1 with SMTP id
- 38308e7fff4ca-305f45da72dmr92093451fa.18.1736786266119; Mon, 13 Jan 2025
- 08:37:46 -0800 (PST)
+Received: from s1.sapience.com (s1.sapience.com [72.84.236.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5C4010E72E;
+ Mon, 13 Jan 2025 16:48:30 +0000 (UTC)
+Authentication-Results: dkim-srvy7; dkim=pass (Good ed25519-sha256 
+ signature) header.d=sapience.com header.i=@sapience.com 
+ header.a=ed25519-sha256; dkim=pass (Good 2048 bit rsa-sha256 signature) 
+ header.d=sapience.com header.i=@sapience.com header.a=rsa-sha256
+Received: from srv8.sapience.com (srv8.sapience.com [x.x.x.x])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (secp384r1) server-digest SHA384)
+ (No client certificate requested)
+ by s1.sapience.com (Postfix) with ESMTPS id A510D480A41;
+ Mon, 13 Jan 2025 11:48:29 -0500 (EST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-ed25519-220413; t=1736786909;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=u/YC2T5rfqWAbWfWzUHFz42ptWsYmEPR92N33rWxDU0=;
+ b=ICdZ5kYCWccA3K3n6LxQi7qbHyuSiA0NGpqmAgptrUmeBJCA/nkD8Bv6Xh3qpZiY6WVYl
+ CQpeIMBlBf0DCJwDg==
+ARC-Seal: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412; t=1736786909; 
+ cv=none;
+ b=AOYSOxEQC6ZVQfOe7U47CLTo285X5F2m8Uz9j+oiBm27Ajc6cRLzYh1f7b37GFU+FKgkt9zBZj/7lwrzsbLnoforxkyuSRYxZu1QEDMmHamkG8aW1KAzCZjo0wUNNTW/LaPQUbOTFHVRGKrnvgYTzPuSX7SUGLzHPaDEHBUBuqL6ObcAcauCgtn/TmHY1WaRQgPmXNz4u8DdLNjbsUTSAAQZNC5jqrKJviXG2b1pEalpY+KRhjSnnKMT6iJiHlWc+tSDbCUYK8gaDqPHmyyYS8q5VHoiaJwOQUUb4EsHMrfvOfx/DBMj4wiHskl3zglhJKDEIVD7JcwbZt/efH8yOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; d=sapience.com; s=arc6-rsa-220412;
+ t=1736786909; c=relaxed/simple;
+ bh=gXKgdTWxfvNgx24T2zV+JaE5rsZk1jTeEGclnt7mWsw=;
+ h=DKIM-Signature:DKIM-Signature:Message-ID:Subject:From:To:Cc:Date:
+ In-Reply-To:References:Autocrypt:Content-Type:User-Agent:
+ MIME-Version;
+ b=RzyrnPbxPvbYnFlmlN7NfEZHkVK5GJn0EycLC1F7yu3u0Mv3yox0o7AVfaQ5SNvo0Qs9WZjhb+saXN0bKkiufxrH+i8OFDGPVOKCBdL9Pu0+T7QAiw/9sVV6VYaoQg2vsCBegSI61OVBJvEeA7CGW5hMoO5NF2r7NCdEZEM5qW9lRPAtztUXn2+WZ4oeW9ClJ6s5KrIe94JJzAGIuZscEmxsiOoH1pEc+HZcmakFvFft+6rkHFY/yaNceb38ugL/UGEVINFjgSreF7TrU/AdWyBneras5TAkAiE0p2SYV8FNmO0S6GHL/NVHjid0kRRXHNSdfYlKMM8C6CCV5dLh4w==
+ARC-Authentication-Results: i=1; arc-srv8.sapience.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sapience.com;
+ i=@sapience.com; q=dns/txt; s=dk-rsa-220413; t=1736786909;
+ h=message-id : subject : from : to : cc : date : in-reply-to :
+ references : content-type : mime-version : from;
+ bh=u/YC2T5rfqWAbWfWzUHFz42ptWsYmEPR92N33rWxDU0=;
+ b=md32p62rxgVOFtmUnLVggYBN0rA6F8vjQ3Z/yiKUmdXwoTG5P2hwO4RefON/IwwEqLvvV
+ x2j+2fCZKaWtvTJTzC1Iob9BBV+0IGou1ccuo4HWhjXESD8Ny3IUzzvyvQ2+GrO3O48ygRZ
+ 6teFsEhO+G9b95hRasdxuAWBHjWWvNs3p+W+upNirlNZYxxc5+URWSF+vPAfYZU7x8+5WVW
+ rX3CCxdI9Y7DYEn9+aqF+s9CPxG0A+D3EXYrYajJBjuEeFiQQmuaheZWF9FcWamJ9VmRbkS
+ xI2Lq5fmUI99v1VGtDjzNEYn3mke3zZ7RhwcCyC0Y4hPRKQRYVTwqsTx/YbQ==
+Received: from lap7.sapience.com (lap7w.sapience.com [x.x.x.x])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1)
+ server-digest SHA384) (No client certificate requested)
+ by srv8.sapience.com (Postfix) with ESMTPS id 6CC52280050;
+ Mon, 13 Jan 2025 11:48:29 -0500 (EST)
+Message-ID: <1c418b7b67b1e75bed5068a86165939648bd1952.camel@sapience.com>
+Subject: Re: [REGRESSION] Re: 6.13-rc1 graphics fail -> resolved
+From: Genes Lists <lists@sapience.com>
+To: Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: regressions@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
+ rodrigo.vivi@intel.com, airlied@gmail.com, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Mon, 13 Jan 2025 11:48:28 -0500
+In-Reply-To: <53757618ad585771809d0b37915c4d97fab06fdb.camel@sapience.com>
+References: <3b097dddd7095bccabe6791b90899c689f271a35.camel@sapience.com>
+ <Z07Mg2_6y2MW22qV@intel.com>
+ <7db24095f935d874fae466853b0984103f97b40f.camel@sapience.com>
+ <dd13efc9b3fe3e3acd599ca91b714fa92f6cb9a8.camel@sapience.com>
+ <53757618ad585771809d0b37915c4d97fab06fdb.camel@sapience.com>
+Autocrypt: addr=lists@sapience.com; prefer-encrypt=mutual;
+ keydata=mDMEXSY9GRYJKwYBBAHaRw8BAQdAwzFfmp+m0ldl2vgmbtPC/XN7/k5vscpADq3BmRy5R
+ 7y0LU1haWwgTGlzdHMgKEwwIDIwMTkwNzEwKSA8bGlzdHNAc2FwaWVuY2UuY29tPoiWBBMWCAA+Ah
+ sBBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEE5YMoUxcbEgQOvOMKc+dlCv6PxQAFAmPJfooFCRl
+ vRHEACgkQc+dlCv6PxQAc/wEA/Dbmg91DOGXll0OW1GKaZQGQDl7fHibMOKRGC6X/emoA+wQR5FIz
+ BnV/PrXbao8LS/h0tSkeXgPsYxrzvfZInIAC
+Content-Type: multipart/signed; micalg="pgp-sha384";
+ protocol="application/pgp-signature"; boundary="=-lcoIbt6gV8L3KOHuxPSh"
+User-Agent: Evolution 3.54.3 
 MIME-Version: 1.0
-References: <20241227101913.1711071-1-yelangyan@huaqin.corp-partner.google.com>
- <CA++9cvomH1ozs_wyHWN=wKadXThZwMj29r=6tjEe_MRnXTqWkg@mail.gmail.com>
-In-Reply-To: <CA++9cvomH1ozs_wyHWN=wKadXThZwMj29r=6tjEe_MRnXTqWkg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 13 Jan 2025 08:37:34 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=X9FpixqAJbxjhuAe2qt4L-OmOgtY6tSOqB6i12vzVLLw@mail.gmail.com>
-X-Gm-Features: AbW1kvaltej-AXRtZ0ta47kQaaGiE5d8KJkxsWxmQe6QVguu_yF5pHi3jdeIDLU
-Message-ID: <CAD=FV=X9FpixqAJbxjhuAe2qt4L-OmOgtY6tSOqB6i12vzVLLw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add CSW MNB601LS1-3
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,43 +100,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Mon, Jan 13, 2025 at 1:43=E2=80=AFAM Langyan Ye
-<yelangyan@huaqin.corp-partner.google.com> wrote:
->
-> ---------- Forwarded message ---------
-> From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> Date: Fri, Dec 27, 2024 at 6:19=E2=80=AFPM
-> Subject: [PATCH] drm/panel-edp: Add CSW MNB601LS1-3
-> To: <dianders@chromium.org>, <neil.armstrong@linaro.org>, <quic_jesszhan@=
-quicinc.com>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <t=
-zimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, <dri-devel@lis=
-ts.freedesktop.org>, <linux-kernel@vger.kernel.org>
-> Cc: <dianders@google.com>, Langyan Ye <yelangyan@huaqin.corp-partner.goog=
-le.com>
->
->
-> Add support for the CSW MNB601LS1-3, pleace the EDID here for
-> subsequent reference.
->
-> 00 ff ff ff ff ff ff 00 0e 77 03 11 00 00 00 00
-> 00 22 01 04 95 1a 0e 78 03 a1 35 9b 5e 58 91 25
-> 1c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 09 1e 56 dc 50 00 28 30 30 20
-> 36 00 00 90 10 00 00 1a 00 00 00 fd 00 28 3c 30
-> 30 08 01 0a 20 20 20 20 20 20 00 00 00 fe 00 43
-> 53 4f 54 20 54 39 0a 20 20 20 20 20 00 00 00 fe
-> 00 4d 4e 42 36 30 31 4c 53 31 2d 33 0a 20 00 32
->
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+--=-lcoIbt6gV8L3KOHuxPSh
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+On Sat, 2025-01-04 at 06:06 -0500, Genes Lists wrote:
+> On Fri, 2024-12-13 at 07:14 -0500, Genes Lists wrote:
+> > On Tue, 2024-12-03 at 06:34 -0500, Genes Lists wrote:
+> > > On Tue, 2024-12-03 at 11:16 +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > > > ...
+> > >=20
+> > > > Probably https://gitlab.freedesktop.org/drm/i915/kernel/-
+> > > > /issues/13057
+> > > >=20
+> > > Very helpful.
+> > >=20
+> > > I tested your patch set on Linus' tree commit
+> > > cdd30ebb1b9f36159d66f088b61aee264e649d7a :
+> > >=20
+> > > =C2=A0 =C2=A0=C2=A0https://patchwork.freedesktop.org/series/141911/
+> > >=20
+> > > and confirm that this fixes the problem=C2=A0
+> > >=20
+> > > Thank you.
+> > >=20
+> > >=20
+> >=20
+> > Just a CC to regressions list for tracking.
+> >=20
+> > First report here:=C2=A0
+> > https://lore.kernel.org/lkml/3b097dddd7095bccabe6791b90899c689f271a
+> > 35.c
+> > amel@sapience.com/
+> >=20
+> > Fixed by patch set as noted above, but not yet in mainline or
+> > linux-
+> > next.
+> >=20
+> > Thank you again Ville for quickly coming up with a fix.
+> >=20
+>=20
+> Follow up to check on where things stand with getting the fix into
+> mainline?=C2=A0
+>=20
+> Obviously it would be really good to get this fixed before 6.13 gets
+> released.
+>=20
+> Thanks and happy 2025!
+>=20
+>=20
 
-Pushed to drm-misc-next:
+Update -=C2=A0I no longer see this problem.
 
-[1/1] drm/panel-edp: Add CSW MNB601LS1-3
-      commit: 29e93d0a04b6c546a2557486029219e5f6146e65
+Quick test (meaning I booted machine once) using:
+
+   linux 6.13-rc7  (previously 6.13-rc1=20
+   mesa 24.3.3     (previously 24.3.0)
+
+Works fine.
+
+I note that the patches
+(https://patchwork.freedesktop.org/series/141911/) are not in the this
+kernel. i.e. the file drivers/gpu/drm/i915/display/intel_fb.c still has
+around line 1694 or so:
+
+  if (IS_ALIGNED(fb->base.offsets[i], PAGE_SIZE))
+
+whereas the patch changes PAGE_SIZE to 64.
+
+I have not yet tracked down what has changed but wanted to report back,
+since 6.13 is not far off.
+
+Could it be other kernel patches or perhaps changes in mesa itself?
+Thanks for resolving it.=C2=A0
+
+I will continue to test and report back if I see anything different.
+
+gene
+
+--=20
+Gene
+
+
+--=-lcoIbt6gV8L3KOHuxPSh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYJAB0WIQRByXNdQO2KDRJ2iXo5BdB0L6Ze2wUCZ4VD3AAKCRA5BdB0L6Ze
+29+GAQDqPq9U47rna6xu60to4v/XS1tldIke6T8g/P6VrP/Z7wEA/jugeRZfnyyA
+W2WxhZXWWc13GR0Vx9ySBlvrwgTy/A0=
+=qiFq
+-----END PGP SIGNATURE-----
+
+--=-lcoIbt6gV8L3KOHuxPSh--
