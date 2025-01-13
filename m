@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF21A0B69B
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 13:19:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F668A0B69C
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 13:19:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2491710E662;
-	Mon, 13 Jan 2025 12:19:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA38D10E666;
+	Mon, 13 Jan 2025 12:19:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HexdmL0A";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eizZpvEl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14A7710E662
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 12:19:17 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 398BF10E666
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 12:19:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B17E85C3EFF;
- Mon, 13 Jan 2025 12:18:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C396EC4CEDD;
- Mon, 13 Jan 2025 12:19:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D629F5C564F;
+ Mon, 13 Jan 2025 12:18:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA9A1C4CED6;
+ Mon, 13 Jan 2025 12:19:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736770756;
- bh=YqdktbBo+5ZgVspVWNNkMAMs40aG+J2NhoLDvxlVHQY=;
- h=From:To:Cc:Subject:Date:From;
- b=HexdmL0AAD+9dt9UBdbGYelsBKMT/RJZEsk8gE+HwCup7olVaUPV4Jz28/PS0uldP
- UBIbWdRKw/0/AAaYeO9Mqh5ANQyhL1EC7cH1AX1vkGnBlHAmJlyoNy94lTJIcF6JqV
- WxgDZ3jgCHJHb2iB/uFrw3bJf5eycpkaxdJVzEs11PDg2wz2Fj1J+8zmM9GAK0MS3R
- aL9K/jVVSh0u5OkFu3YxSH2MW0rmOuLhQdcRdeveAN/XtFSia12IWxR4luHm3TCBSI
- SxH5P16qXl6fBQGKEbrZ/S1xYWMF0ZMt1yqmm4fsTm/+lcND7eIpuI99JrNr6oHTAy
- 4rQU1Um7GN0WA==
+ s=k20201202; t=1736770759;
+ bh=F9fL/h+H387nru6m+oeMnAd4l+e1bTwumZ90iIseEC4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=eizZpvElYFgzKJJ9GM/FCYK8iQBEoYj81xHyxOdUEGZmC60HQ9fJKvALeUh/h5LkW
+ Ckz2TqlJNovcaYq1tBa7hyW9k7zdl6pHbd0uvYzIcsyzUMDtUWgfiIV8BKQWH8MXS+
+ AnQGB4ngYNdvgb2xTxy1QvTp4OUzB4KRw8cuh0al6vPaTZxVyJhlJHkW+Yv38o0g76
+ 52ssg/osTmkPH3kuPflCXcsYw81BlLulnAC9vQBRjj/UzWjdGn2bL2cLKnk93VstbZ
+ ZL0wLTSjZVswE5Go463601VHCk+aquDnYZsT1NpKVJ6xr+HYCo05tDBXx0B3w0U6MG
+ NyOAEy8lIRkwQ==
 From: Philipp Stanner <phasta@kernel.org>
 To: Jakub Kicinski <kuba@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
@@ -39,12 +38,17 @@ To: Jakub Kicinski <kuba@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Michael Ellerman <mpe@ellerman.id.au>, Yosry Ahmed <yosryahmed@google.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Philipp Stanner <phasta@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH 1/2] MAINTAINERS: Update DRM GPU Scheduler section
-Date: Mon, 13 Jan 2025 13:18:50 +0100
-Message-ID: <20250113121851.31382-1-phasta@kernel.org>
+ Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 2/2] MAINTAINERS: Add DRM GPU Scheduler reviewer
+Date: Mon, 13 Jan 2025 13:18:51 +0100
+Message-ID: <20250113121851.31382-2-phasta@kernel.org>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250113121851.31382-1-phasta@kernel.org>
+References: <20250113121851.31382-1-phasta@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,54 +65,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Luben has not been active and has not responded to mails since summer
-2024. Remove him from MAINTAINERS and add an entry in CREDITS.
-
-Philipp has a new email address and an ACK to commit work time to the
-scheduler. Thus, set the state to 'Supported'.
+Christian König is the original author of much of the scheduler's code
+and, thus, well suited to do reviews.
 
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- CREDITS     | 4 ++++
- MAINTAINERS | 5 ++---
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/CREDITS b/CREDITS
-index cda68f04d5f1..1593ada4209c 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -3948,6 +3948,10 @@ S: 1 Amherst Street
- S: Cambridge, Massachusetts 02139
- S: USA
- 
-+N: Luben Tuikov
-+E: Luben Tuikov <ltuikov89@gmail.com>
-+D: Maintainer of the DRM GPU Scheduler
-+
- N: Simmule Turner
- E: sturner@tele-tv.com
- D: Added swapping to filesystem
 diff --git a/MAINTAINERS b/MAINTAINERS
-index a87ddad78e26..fa288ef20c59 100644
+index fa288ef20c59..f70e69bfc0c7 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -7888,12 +7888,11 @@ F:	Documentation/gpu/zynqmp.rst
- F:	drivers/gpu/drm/xlnx/
- 
- DRM GPU SCHEDULER
--M:	Luben Tuikov <ltuikov89@gmail.com>
+@@ -7891,6 +7891,7 @@ DRM GPU SCHEDULER
  M:	Matthew Brost <matthew.brost@intel.com>
  M:	Danilo Krummrich <dakr@kernel.org>
--M:	Philipp Stanner <pstanner@redhat.com>
-+M:	Philipp Stanner <phasta@kernel.org>
+ M:	Philipp Stanner <phasta@kernel.org>
++R:	Christian König <ckoenig.leichtzumerken@gmail.com>
  L:	dri-devel@lists.freedesktop.org
--S:	Maintained
-+S:	Supported
+ S:	Supported
  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/scheduler/
- F:	include/drm/gpu_scheduler.h
 -- 
 2.47.1
 
