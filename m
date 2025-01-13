@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2AF0A0B82E
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 14:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A0FA0B82F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 14:31:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F1D10E688;
-	Mon, 13 Jan 2025 13:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA3B210E685;
+	Mon, 13 Jan 2025 13:31:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zd+ICLPL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="doHLN4Rl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC68E10E688;
- Mon, 13 Jan 2025 13:31:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB7A310E685;
+ Mon, 13 Jan 2025 13:31:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736775070; x=1768311070;
+ t=1736775085; x=1768311085;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6lg1blOounFHBdTC/qCOhvdJYsSUPYUUFVjDjRUcGe8=;
- b=Zd+ICLPLNMsUZAtXpafhr96ZcKt68P9+yQ83B8trAbpFSl2TiaGaqorU
- rJne7L1PbTMtXzbHvajbRD2FWVSQthekf99lDfnKM5In0E3iEVcI0k4ah
- 9WN/sXmcrygS1GZBpOAPbIjXRV8wq2VGC9o6j5lDbhdxc0TenhNtTl5vI
- I4TKRE0b0cWfb1j0jnlh1w2vJxeli5Oxxhm1YDGTJzJBjywHv651bEplU
- r703BTc73H0UIMJs3xfXM+21q5+ubLz788wSILFgLVhMDut8vzeZgsSTF
- mpidzlvZcpEF2NnU8QAk8tNgpMUooQMQpGV21voLfwlSFrW6e2xeCNSTM w==;
-X-CSE-ConnectionGUID: qyBcxFZTTb214CyORV5CHg==
-X-CSE-MsgGUID: vR/VYL4zS/CHxdLNeL+jFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40976185"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="40976185"
+ bh=2EpgXsnZKtFdEKmFB4ugPI9M5QuZ3Ls5yODFufgZaJY=;
+ b=doHLN4Rl3i/PUxl5YTRBA1LDQo+P0SampGUjvfbRhvAle4gHffkOMSO7
+ Fl1PDCGaaHrXcNV5QH6mJ967DHYMKVPm9h2qxD4meaavi8ezlr2EdLXf+
+ +cmR1JisGP1MK6OpSvteGZ+7pa4F8jJG58q785LABh1uVh4AU57junDbR
+ lzg94WPL+IkddIyaayvJrOWtDkulJwPwvhprDOdfNGGfz3BLKfOa3Zly+
+ zrjsnhiOM8Zdc16lXFQjNw6Ki8p5IJULpi6iFHHTxweIZxZFYPvDTZlVl
+ Ss+3ri6JZa2FUJnZswM+7Z6MUwqAAf190fH3OUzvFuScaE5Cc+XWA7o19 A==;
+X-CSE-ConnectionGUID: nflwS5g2SKWEHF8M59HyqQ==
+X-CSE-MsgGUID: Ucp5gvzfSNaZx7fHtyO6sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40976199"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="40976199"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2025 05:31:09 -0800
-X-CSE-ConnectionGUID: oD6fucdkSnqzTdHPSBowAw==
-X-CSE-MsgGUID: RqIZnKZ3SgmX9ifH2mZzzQ==
+ 13 Jan 2025 05:31:25 -0800
+X-CSE-ConnectionGUID: W1iCXJ7bSl+p2MvYuUjxjQ==
+X-CSE-MsgGUID: 9irlC6pCTSGTNVSiqyAOPg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="104655010"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="104655077"
 Received: from unknown (HELO mkuoppal-desk.fi.intel.com) ([10.237.72.193])
  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2025 05:31:07 -0800
+ 13 Jan 2025 05:31:23 -0800
 From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
@@ -48,12 +48,13 @@ Cc: dri-devel@lists.freedesktop.org,
  Matthew Brost <matthew.brost@intel.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Dominik Grzegorzek <dominik.grzegorzek@intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
  Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH 13/27] mm: export access_remote_vm symbol for debugger use
-Date: Mon, 13 Jan 2025 15:32:11 +0200
-Message-ID: <20250113133212.374165-1-mika.kuoppala@linux.intel.com>
+Subject: [PATCH 14/27] drm/xe/eudebug: userptr vm access pread/pwrite
+Date: Mon, 13 Jan 2025 15:32:31 +0200
+Message-ID: <20250113133231.374242-1-mika.kuoppala@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <b3145cc1cb5470e00070136add75159e07bbad3a.camel@linux.intel.com>
 References: <b3145cc1cb5470e00070136add75159e07bbad3a.camel@linux.intel.com>
@@ -75,39 +76,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Export access_remote_vm as GPL symbol to allow debuggers (eudebug)
-to access and modify memory in target VMs by tracking VM_BIND
-operations. While access_process_vm() is already exported, it would
-require maintaining task references in the debugger.
+Implement debugger vm access for userptrs.
 
-Since the mm reference is already present in the userptr's mm notifier
-implementation, exporting access_remote_vm allows that existing reference
-to be used directly without needing to obtain and maintain additional
-task references just for memory access.
+When userptr bind is done, mmu notifier is added by core xe.
+Later when debugger wants to access the target memory, this
+notifier can be used as it carries the struct mm of target.
+
+Implement userptr vm access, for debugger pread/pwrite
+using notifier mm passed to access_remote_vm().
+
+This is based on suggestions from Thomas, Joonas and Simona.
+
+v2: need to add offset into vma (Dominik)
+v3: use exported access_remote_vm (Thomas)
 
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Dominik Grzegorzek <dominik.grzegorzek@intel.com>
 Cc: Christian König <christian.koenig@amd.com>
 Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
 Cc: Simona Vetter <simona@ffwll.ch>
 Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 ---
- mm/memory.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/xe/xe_eudebug.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 398c031be9ba..9b7c71c83db5 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -6690,6 +6690,7 @@ int access_remote_vm(struct mm_struct *mm, unsigned long addr,
- {
- 	return __access_remote_vm(mm, addr, buf, len, gup_flags);
- }
-+EXPORT_SYMBOL_GPL(access_remote_vm);
+diff --git a/drivers/gpu/drm/xe/xe_eudebug.c b/drivers/gpu/drm/xe/xe_eudebug.c
+index 210d9eeab1a7..25f18aa5447b 100644
+--- a/drivers/gpu/drm/xe/xe_eudebug.c
++++ b/drivers/gpu/drm/xe/xe_eudebug.c
+@@ -3077,6 +3077,27 @@ static int xe_eudebug_vma_access(struct xe_vma *vma,
  
- /*
-  * Access another process' address space.
+ 		xe_bo_put(bo);
+ 
++		return ret;
++	} else if (xe_vma_is_userptr(vma)) {
++		struct xe_userptr *userptr = &to_userptr_vma(vma)->userptr;
++		struct xe_vm *vm = xe_vma_vm(vma);
++		struct mm_struct *mm = NULL;
++		int ret;
++
++		down_read(&vm->userptr.notifier_lock);
++		if (mmget_not_zero(userptr->notifier.mm))
++			mm = userptr->notifier.mm;
++		up_read(&vm->userptr.notifier_lock);
++
++		if (!mm)
++			return -EFAULT;
++
++		ret = access_remote_vm(mm,
++				       xe_vma_userptr(vma) + offset_in_vma,
++				       buf, bytes,
++				       write ? FOLL_WRITE : 0);
++		mmput(mm);
++
+ 		return ret;
+ 	}
+ 
 -- 
 2.43.0
 
