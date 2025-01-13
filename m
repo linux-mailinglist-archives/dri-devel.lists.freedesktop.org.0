@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B082A0B1E9
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 09:59:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B6AA0B1F5
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:00:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AC8410E5C3;
-	Mon, 13 Jan 2025 08:59:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0E2710E5CB;
+	Mon, 13 Jan 2025 09:00:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iF3rsECn";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="SstlwXNc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 725F510E5CB
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 08:59:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C76405C26EA;
- Mon, 13 Jan 2025 08:58:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F7ABC4CED6;
- Mon, 13 Jan 2025 08:59:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736758742;
- bh=2wJJM13zlSd944RH/1F0Bz3tql/OxPThH7169R04jPw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iF3rsECnnNXnLPj/o91djAfP13GvTUDHa2aK3jynTdpWUxaFsoHt+YYpkPFr2bKhE
- paaaxfqSUYRyNmmn5DgXeZlS7H1ClTLKP+oyDF+5GGDc2WsJ1et8+uLlDwJA6dc8Yh
- iBKHhWS8W7njrgoB4rmdN/Dy6jnx/scMlCusFopJtOhRwT7LIC432I46q+uA2e4VTT
- IygCnhmFDWjW+tC5D5GmeULFnqs4qDnkJIkQqQYXJQsOvzLw5ublYsF1jTSODgkwbC
- 9BDvIfgqmUwktgiixLRMuCPn3STy19yGn/+3RanXIrVLiaNUHa+N7JZ6x5ru221kEl
- e3ah5b52n3SCg==
-Date: Mon, 13 Jan 2025 09:58:59 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
-Subject: Re: [PATCH v3 1/5] dt-bindings: display: Add Apple pre-DCP display
- controller
-Message-ID: <7rr3fja4rxjbdmgpdqaid5fybiu6uctpbvp24ujv5drfmeiowf@u4pkhzyhy3pd>
-References: <20250112-adpdrm-v3-0-c674dc19fa7f@gmail.com>
- <20250112-adpdrm-v3-1-c674dc19fa7f@gmail.com>
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DF9AD10E5CB
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=suvcj
+ 2YqmKj4ZuCEBei8QvBTqaDNr0b4MgUqN6wdBIQ=; b=SstlwXNcymJ/tkhvGwZZz
+ GwWpJnAVaHsW74owXOGtnU5qYH/dRg65FoOKtWHryYwMDS62/lFrQ6E3cET0ZTrd
+ 3vQo4MNiJ2dde8lpWalvD90DXAw7MiD4oXm+vBGgbhuZ8PN6E3bCAJvv/1bOyrob
+ 4UXhT7u8CU9NaTqgql31CU=
+Received: from ProDesk.. (unknown [])
+ by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id
+ _____wDHkgsO1oRnBT4NFw--.41521S2; 
+ Mon, 13 Jan 2025 17:00:03 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: dianders@chromium.org
+Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, neil.armstrong@linaro.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Andy Yan <andyshrk@163.com>
+Subject: [PATCH] drm/panel-edp: Add BOE NV140FHM-N4Z panel entry
+Date: Mon, 13 Jan 2025 16:59:54 +0800
+Message-ID: <20250113085956.2150207-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250112-adpdrm-v3-1-c674dc19fa7f@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDHkgsO1oRnBT4NFw--.41521S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrykCr4UJw1xAw45Cr4DArb_yoW8Gw4kpF
+ Wktry7uay8Z3WxK397A3Z8JF4UAan2vayIgF4vkFWkZF17GF17t34kArW5Jw4Fqry5Ja47
+ Krn7Jr17tw4UAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRQyCdUUUUU=
+X-Originating-IP: [103.29.142.67]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBfTXmeEzjvblgAAsp
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,117 +59,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 12, 2025 at 09:43:48PM +0100, Sasha Finkelstein wrote:
- +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Input port. Always connected to the primary controller
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Output MIPI DSI port to the panel
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - ports
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    dsi@228200000 {
-> +        compatible = "apple,t8103-display-pipe-mipi", "apple,h7-display-pipe-mipi";
-> +        reg = <0x28200000 0xc000>;
+Add an eDP panel entry for BOE NV140FHM-N4Z.
 
-This looks not matching unit address.
+No datasheet found for this panel.
 
-> +        power-domains = <&ps_dispdfr_mipi>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
+edid:
+00 ff ff ff ff ff ff 00 09 e5 09 0b 00 00 00 00
+01 20 01 04 a5 1f 11 78 03 9b 75 99 5b 5d 8f 2a
+23 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 c8 37 80 cc 70 38 28 40 6c 30
+aa 00 35 ae 10 00 00 1a 00 00 00 fd 00 30 3c 43
+43 8f 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
+4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
+00 4e 56 31 34 30 46 48 4d 2d 4e 34 5a 0a 00 35
 
-Make the example complete, so you will see that address/size cells are
-unnecessary here or, if you really have more than one endpoint, they are
-supposed to be here.
+Signed-off-by: Andy Yan <andyshrk@163.com>
+---
 
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..dc07edccb437b221ea9772b9356e1896326aa7da
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/apple,h7-display-pipe.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple pre-DCP display controller
-> +
-> +maintainers:
-> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-> +
-> +description:
-> +  A secondary display controller used to drive the "touchbar" on
-> +  certain Apple laptops.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - apple,t8112-display-pipe
-> +          - apple,t8103-display-pipe
-> +      - const: apple,h7-display-pipe
-> +
-> +  reg:
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: be
-> +        description: Primary register block, controls planes and blendinga
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Description goes to 'reg:' field, just like I asked last time.
-
-> +      - const: fe
-> +        description:
-> +          Contains other configuration registers like interrupt
-> +          and FIFO control
-> +
-> +  power-domains:
-> +    description:
-> +      Phandles to pmgr entries that are needed for this controller to turn on.
-> +      Aside from that, their specific functions are unknown
-> +    maxItems: 2
-> +
-> +  interrupts:
-
-Same comments as before - list and describe the items.
-
-Best regards,
-Krzysztof
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 94a46241dece..a3402b76aa3e 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1909,6 +1909,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_p2e200, "NV140FHM-NZ"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b66, &delay_200_500_e80, "NE140WUM-N6G"),
+-- 
+2.43.0
 
