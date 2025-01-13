@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E1BA0B7A8
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 14:05:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4D6A0B7AB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 14:07:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09AE510E0AB;
-	Mon, 13 Jan 2025 13:05:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9D3B10E675;
+	Mon, 13 Jan 2025 13:07:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jNA7iF19";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oqPMj3W8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E10EF10E0AB
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 13:05:47 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- 5b1f17b1804b1-436284cdbe0so5665395e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 05:05:47 -0800 (PST)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54BC210E675
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 13:07:08 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-4363298fff2so3872225e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 05:07:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736773546; x=1737378346; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736773627; x=1737378427; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=kWJosQxppl/LButOmLsCXsOURqYTt3fhYwtWT4WdU2Y=;
- b=jNA7iF19F8zfbWOV8jvT6lecOpxaP3nIpFpTPPXjkG0mVKz9FB0FF2Atqyljy+In66
- 0KQ6GBteMYlbFLZwakJAClfyLlKOQgZoTAV0z5q8UDEzyfr/mJ+dkn36WCGka+6FVDDU
- 8trcOuMBMJ+Z9OU+z1vcerq62WdDu1rouDw3dwkuMmaQOX3TK1+86QGNHTPZwVVX4p28
- fYy6FA4pgScZlS8iOnP5At1hrcZ0c3ZCKd/v6BnlrRCkVYORiT1yQqMmYRJTSVNjyFzM
- ntHh6pwwuHeX52OXolAoRaK9l0PVne7LBKE2A8O+wlPShVijgm6DZmKQM7S0e/GreStJ
- oCTQ==
+ bh=2XbjvOHgX6cEaqQor2rPngcF665AthpQbidXcULPyXE=;
+ b=oqPMj3W8x4Aemjvk8B2jEf0s+RaAhs2MMPXKflUYOX6heAVOWM8DVKcYxstg1xNTpF
+ KMavCq9tXwyzqznMTrTExbLmuc0MTnKEE/DZnGomonQpioZYYhYHUP27CB0jUgUcByF8
+ Ap1mjtXP+VnEeUHNG+qiexJkT6eQKxwZ+UC2jyMVcH2vJkaQFe9pplv6HZQyN2GHbk9T
+ WWvYt0lqcWwoSpfROXBrRB0SKpXiHUejoCHXok7EtzWA2uWjrg6QFX4VK7OQhpmvKJpa
+ wFBgzUEBiwgT9O59N6rP6x0Jw0F7TgoY07XoDO01D/jHSmdcXDqbHAkIyFM42RXRNyQ9
+ zDUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736773546; x=1737378346;
+ d=1e100.net; s=20230601; t=1736773627; x=1737378427;
  h=content-transfer-encoding:in-reply-to:autocrypt:content-language
  :from:references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kWJosQxppl/LButOmLsCXsOURqYTt3fhYwtWT4WdU2Y=;
- b=tVn7Dxi82VEDwXgXw73JNevdNJqdbAnGqf4v3zjSPCbAX5R2+2zCwubZufQp/Bp10z
- FKLhH+PUGSWrc0STUUY82fzOIqTI423/bFwUhjZQe3XNZLoZlqPABrFWn5Q3FB8l7sC+
- 4EHOseeO1mrnvF0HSY3t8494Gf+8zVoYP/9t0HBOlyHgfr5g7vVXV2QQWWlTjxLlYhbx
- HDMo4+/C2kE+IIExnJUnROi7AobjO5n/4aFz2evzqrcReE+VsQrHSrQ3DGtQjVM5YQWj
- 5jWTSoeFZ/gHtPK8LzImqUlQ0qrAkU3TtsBZEhMXp9T1jnuCDtICqExfqzg+BmuxXTa9
- IQ6w==
+ bh=2XbjvOHgX6cEaqQor2rPngcF665AthpQbidXcULPyXE=;
+ b=lUQ5T6LmHNSfLw60DEpldgkM/r0ZFZjKt/D1wJoEI5VZcj4an4Da3gT0zZpqX6i6EU
+ td+m+Y4+B+CqSmZkgVQsnWt8CfOTlQwj+uPJ2LpIBRZ8/Ri1KSp+xat1U57Af7jKu7/9
+ qRjMv2Lofzi3SLfNHieaCOvojONEXByMNSB3O4R4gfKG32UYA4qRw9ehyf7f3qgGe01R
+ wj2lWephIZQBRhVTyM2i0fEpxqr/T6eU0Onf3eGXVi86N1jwD7mOD+N2wkeIsR8HzmxM
+ pZVGmLeziapDWUW1/i9iL57UL/LdIe8aENYa9u0MjTGCSDNHFgWH0ntUGZfHPBqQHtmz
+ v/Sg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXjqOoGZny/3fC4Hu9jh1cRoAADwhj1FcCrDRjFYFGBtiBjzk/nw8So4vVTWX2cgqd+ijFLwcjymBE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyjxdjTuhN9am3Y2HiK2A5PY5v9Aq9iaMGaP6nGl63vnHwF/ikM
- EkhaA3zBcvJqmyM4I2caRhsUuI/gwGkQ6wEFpWWuqWh5IvceRhxLqhpuST7fCCs=
-X-Gm-Gg: ASbGncsG+fsuWIT2pw4jAqVHpneCqKsXpGhEGI4BKwk93q50SOeuNNTeglecURgbXGM
- 6jPEsa72ZD0K7Df/Cspc7+/oeGBMOcFSL7vXwSQgIttrtu3XtE8NF76j5UO+hnn/f24t1gbgTKl
- VkZ75QeYeZ+GfVhPmXj4F1sYr1GCs8UpLOyJKZu+VUdUtHvHC8UnhFtVesKNOc0v7vLHZuKbMz/
- weNZNiO+CYdbxnSe5MCzES9s0af1a0w/dpPXB8S5KoqPmsXQorbGigFmVxMediFgiSNePljKK4G
-X-Google-Smtp-Source: AGHT+IFQoL1eqWZUzLXO8xn5aiYWFXQjNuPE/7Kefiqj01sIwoayBrPT0tSc64kY0x+XJrkSFZxmQg==
-X-Received: by 2002:a05:600c:1d07:b0:436:1902:23b5 with SMTP id
- 5b1f17b1804b1-436e26f4abbmr73098815e9.4.1736773546344; 
- Mon, 13 Jan 2025 05:05:46 -0800 (PST)
+ AJvYcCWVYNtxol4Emq3pZ3IPDXFGG/lz/A+FhWPxSLI7l7Kbaa8JD7XylaJJ1RCAZPJ8HJbkldYgSDy8tSE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywz3/ylJNGJpFo4YjWkr4Yi3BbdpD0Pqplhx1Urbwz+KZIwZhyu
+ mrrgtMedE2Ig2yepkz4qwOa5PC65TJ2KtivPhk0dxMjrJuhl9/yMTMXRV3rVZgw=
+X-Gm-Gg: ASbGncu9XQOWZcyCpjShVw1Wwu/S+fZUyq4dcJv7bBifuiXLRf7G016DoTlfTuQOoiS
+ jku16El7EDM3TYWz7Y6M5/nflAElX5FowfEYkWWWwuNsWW2UpyNYj/N14T7fISxI/nq+NOWrU0v
+ 90sM7Y5CvnjDUgT2kwb0J2/4vrYTAmORFZjuXW657OssRsQ9N4khk6ugyU3LI3rBCfDBJHjRiH6
+ /cm+r+YpveBxzSz0fPQWV6ApR5iERBmAeAHxymWvxjacI/sOLIj9QuMUyMEZu6PT4Z0ir0B26OM
+X-Google-Smtp-Source: AGHT+IFiS18jgHH9bOldeMosMuJrC0O44MTlecZH01J7dg1Y0bV9+S1yOTILTG51FUOyHKtLpcBIJg==
+X-Received: by 2002:a05:600c:3c97:b0:42c:b55f:f4f with SMTP id
+ 5b1f17b1804b1-436e2713e51mr80617645e9.6.1736773626697; 
+ Mon, 13 Jan 2025 05:07:06 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.223.165])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2da66d9sm179163385e9.1.2025.01.13.05.05.44
+ 5b1f17b1804b1-436e9dc8802sm141839725e9.10.2025.01.13.05.07.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2025 05:05:45 -0800 (PST)
-Message-ID: <fef6b198-d916-4b71-86ed-0cbdd55cb3c4@linaro.org>
-Date: Mon, 13 Jan 2025 14:05:43 +0100
+ Mon, 13 Jan 2025 05:07:06 -0800 (PST)
+Message-ID: <59f8a02e-a716-40a8-bf73-111ad2a7af79@linaro.org>
+Date: Mon, 13 Jan 2025 14:07:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/mediatek/hdmi: Use
- syscon_regmap_lookup_by_phandle_args
+Subject: Re: [PATCH 2/2] drm/mediatek/hdmi: Simplify with dev_err_probe
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
@@ -73,7 +72,8 @@ To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20250112134708.46100-1-krzysztof.kozlowski@linaro.org>
- <516d16e3-6fc6-49ba-a0ce-f451b65a6c1a@collabora.com>
+ <20250112134708.46100-2-krzysztof.kozlowski@linaro.org>
+ <ef0baed6-54d2-4f1f-9a4a-769ec09a069f@collabora.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -120,7 +120,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <516d16e3-6fc6-49ba-a0ce-f451b65a6c1a@collabora.com>
+In-Reply-To: <ef0baed6-54d2-4f1f-9a4a-769ec09a069f@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -140,26 +140,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 13/01/2025 13:41, AngeloGioacchino Del Regno wrote:
 > Il 12/01/25 14:47, Krzysztof Kozlowski ha scritto:
->> Use syscon_regmap_lookup_by_phandle_args() which is a wrapper over
->> syscon_regmap_lookup_by_phandle() combined with getting the syscon
->> argument.  Except simpler code this annotates within one line that given
->> phandle has arguments, so grepping for code would be easier.
->>
->> There is also no real benefit in printing errors on missing syscon
->> argument, because this is done just too late: runtime check on
->> static/build-time data.  Dtschema and Devicetree bindings offer the
->> static/build-time check for this already.
+>> Use dev_err_probe() to make error code and deferred probe handling
+>> simpler.
 >>
 > 
-> I agree with this change but can you please rebase it over [1]?
-> 
-> The same code got migrated to mtk_hdmi_common.c instead :-)
+> That's already done in [1] so you can drop this commit.
 > 
 > [1]: 
 > https://lore.kernel.org/r/20250108112744.64686-1-angelogioacchino.delregno@collabora.com
-My is 2-patch cleanup, your is 34 patch rework and new features with
-existing build reports, so rebase is not reasonable. It would make this
-2-patch cleanup wait for many cycles.
+> 
+Eh, this was first in v3 in the middle of Dec, so why you cannot get it
+merged first? Creating such 34-behemoths causes simple cleanups to
+unnecessarily wait.
 
 Best regards,
 Krzysztof
