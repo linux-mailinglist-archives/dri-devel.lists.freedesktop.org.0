@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39DDAA0BC49
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 16:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9D3A0BC55
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 16:44:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4F5110E6E5;
-	Mon, 13 Jan 2025 15:42:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9FD10E6E6;
+	Mon, 13 Jan 2025 15:44:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="BNqboy7d";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Nlz5vOJ8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com
- [95.215.58.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7061D10E6E5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:42:54 +0000 (UTC)
-Message-ID: <c552b800-b3d5-477c-b7f8-53761e40ea36@linux.dev>
+Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com
+ [95.215.58.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A62B310E6E6
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:44:41 +0000 (UTC)
+Message-ID: <c939bbf4-2cde-4897-8ccd-b8d2420fa9b8@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736782942;
+ t=1736783050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q+onY5bWJ3UEue2WR6kGb2y8tSjvnXFzhPBeSezdlb0=;
- b=BNqboy7dUqLPiEtmuCOiHGNuELeEfFbytP2xKd+JiAWjx6Ys+SZq2GQVEAF4LDFjzC844n
- +EkLYo5tCKwHUagkV34Rh2aMQdI5cU1vQptj3Nydnu2ZkFT3Iek2JIA435sDcucQiRR56c
- zO0xakgHYlb7ZI6Tr3o0TLx1abkkEDA=
-Date: Mon, 13 Jan 2025 21:12:02 +0530
+ bh=Phc0agFb9IGS06byHBV7HOmGEG8Ax1qwKhDEggT62bI=;
+ b=Nlz5vOJ8zE7NeizUi4cNzdyq3VcgQGaV+RlxIKCMswKwryJcWflchQ0SixW67SVnI71cUP
+ 4M6BQCMtBb7i0lgJFN8wj5QBH+Av4oIHiGFKxzpTz0VWvfFSV8JfkMVp20+BID2Gr0zgHl
+ NXFhziocZ+sb7TSb4GJ+3l/JDi/e6wY=
+Date: Mon, 13 Jan 2025 21:14:02 +0530
 MIME-Version: 1.0
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: Re: [PATCH v6 05/12] drm/bridge: cdns-dsi: Fix the clock variable for
- mode_valid()
+Subject: Re: [PATCH v6 10/12] drm/bridge: cdns-dsi: Move DSI mode check to
+ _atomic_check()
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -49,10 +49,10 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>
 References: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
- <20250111192738.308889-6-aradhya.bhatia@linux.dev>
- <urkosp5w2ush3br6xvxx3vpxvkea4tmaeas3vvlcb54ofknjat@tnievb37sfx4>
+ <20250111192738.308889-11-aradhya.bhatia@linux.dev>
+ <nlrgtmnbkfupr5h7rawogrzw3lqi7hqmyq2d3u2wew7ojx7phn@6kw7vcz2yjny>
 Content-Language: en-US
-In-Reply-To: <urkosp5w2ush3br6xvxx3vpxvkea4tmaeas3vvlcb54ofknjat@tnievb37sfx4>
+In-Reply-To: <nlrgtmnbkfupr5h7rawogrzw3lqi7hqmyq2d3u2wew7ojx7phn@6kw7vcz2yjny>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -72,59 +72,50 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 1/13/25 15:10, Dmitry Baryshkov wrote:
-> On Sun, Jan 12, 2025 at 12:57:31AM +0530, Aradhya Bhatia wrote:
+
+On 1/13/25 14:43, Dmitry Baryshkov wrote:
+> On Sun, Jan 12, 2025 at 12:57:36AM +0530, Aradhya Bhatia wrote:
 >> From: Aradhya Bhatia <a-bhatia1@ti.com>
 >>
->> Allow the D-Phy config checks to use mode->clock instead of
->> mode->crtc_clock during mode_valid checks, like everywhere else in the
->> driver.
+>> At present, the DSI mode configuration check happens during the
+>> _atomic_enable() phase, which is not really the best place for this.
+>> Moreover, if the mode is not valid, the driver gives a warning and
+>> continues the hardware configuration.
+>>
+>> Move the DSI mode configuration check to _atomic_check() instead, which
+>> can properly report back any invalid mode, before the _enable phase even
+>> begins.
+>>
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+>> ---
+>>  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 87 +++++++++++++++++--
+>>  .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  1 +
+>>  2 files changed, 83 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+>> index 5db5dbbbcaad..b785df45bc59 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+>> @@ -77,6 +77,7 @@ struct cdns_dsi {
+>>  	bool link_initialized;
+>>  	bool phy_initialized;
+>>  	struct phy *dphy;
+>> +	struct cdns_dsi_cfg dsi_cfg;
 > 
-> Please describe why, not what.
+> Is this still something necessary / useful? I think the point was to
+> move dsi_cfg to the state, while this is a non-state struct.
 
-It is unclear why the rest of the code uses mode->crtc_* parameters at
-all during the non mode validation phase.
-
-But during that phase, the crtc_* parameters are not generated
-(duplicated in this case) from the regular ones, and so the validation
-fails. The patch prevents that from happening by streamlining with
-other instances.
-
-I will update the commit text with this.
+No, this isn't necessary. This is a stray piece of code. Looks like I
+missed it. Thank you! I will drop this in the next revision.
 
 Regards
 Aradhya
 
 > 
->>
->> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
->> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
->> ---
->>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->> index 3b3c45df1399..9c743fde2861 100644
->> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->> @@ -568,13 +568,14 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
->>  	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
->>  	unsigned long dsi_hss_hsa_hse_hbp;
->>  	unsigned int nlanes = output->dev->lanes;
->> +	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
->>  	int ret;
+>>  };
 >>  
->>  	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
->>  	if (ret)
->>  		return ret;
->>  
->> -	phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
->> +	phy_mipi_dphy_get_default_config(mode_clock * 1000,
->>  					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
->>  					 nlanes, phy_cfg);
->>  
+>>  #endif /* !__CDNS_DSI_H__ */
 >> -- 
 >> 2.34.1
 >>
