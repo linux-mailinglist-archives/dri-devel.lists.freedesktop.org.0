@@ -2,56 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D39AA0B794
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 13:59:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E1BA0B7A8
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 14:05:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0DA10E670;
-	Mon, 13 Jan 2025 12:59:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09AE510E0AB;
+	Mon, 13 Jan 2025 13:05:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JSBO9DDY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jNA7iF19";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A064810E0AB
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 12:59:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=dx4wI0/nruDLvsEGiHsvbkhmPZoEdhtyg20aWaO/HKI=; b=JSBO9DDY9n8VyQhaqw4tUQ6gnw
- GlvUKgDb9fvADMYEeiH9mmyP0T8wiT6BKR9lPP5Uo4nQ2RxE9zkMzm/KRpOSBE+WJZkgg43CsN4LU
- MA/biO3m4wrhkbMCQaYV7ODNplWH7P+xppo2cD2ZHCGUlFsRt6cPEARwBV7OtcbKJ5LAjpVjdG+cs
- /KLNA3aT2Z5nGIPdoi5kH4hejPVzR/driBg80+61Nl29EcUENQNSTdueZ8Lf9/dYPHX8KwlNotrMS
- txFFAc8uU0OSs3ztFRBjBbKbbnu2o77li+I2ZiQBJNwyywzX49tgT67bLZyvWDAao9YDjIN+nucGg
- GCQFSh/A==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tXK24-00FBET-8P; Mon, 13 Jan 2025 13:59:04 +0100
-Message-ID: <8fc2af49-7fd1-4553-866f-db9d4da6c970@igalia.com>
-Date: Mon, 13 Jan 2025 12:59:03 +0000
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E10EF10E0AB
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 13:05:47 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-436284cdbe0so5665395e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 05:05:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736773546; x=1737378346; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kWJosQxppl/LButOmLsCXsOURqYTt3fhYwtWT4WdU2Y=;
+ b=jNA7iF19F8zfbWOV8jvT6lecOpxaP3nIpFpTPPXjkG0mVKz9FB0FF2Atqyljy+In66
+ 0KQ6GBteMYlbFLZwakJAClfyLlKOQgZoTAV0z5q8UDEzyfr/mJ+dkn36WCGka+6FVDDU
+ 8trcOuMBMJ+Z9OU+z1vcerq62WdDu1rouDw3dwkuMmaQOX3TK1+86QGNHTPZwVVX4p28
+ fYy6FA4pgScZlS8iOnP5At1hrcZ0c3ZCKd/v6BnlrRCkVYORiT1yQqMmYRJTSVNjyFzM
+ ntHh6pwwuHeX52OXolAoRaK9l0PVne7LBKE2A8O+wlPShVijgm6DZmKQM7S0e/GreStJ
+ oCTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736773546; x=1737378346;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kWJosQxppl/LButOmLsCXsOURqYTt3fhYwtWT4WdU2Y=;
+ b=tVn7Dxi82VEDwXgXw73JNevdNJqdbAnGqf4v3zjSPCbAX5R2+2zCwubZufQp/Bp10z
+ FKLhH+PUGSWrc0STUUY82fzOIqTI423/bFwUhjZQe3XNZLoZlqPABrFWn5Q3FB8l7sC+
+ 4EHOseeO1mrnvF0HSY3t8494Gf+8zVoYP/9t0HBOlyHgfr5g7vVXV2QQWWlTjxLlYhbx
+ HDMo4+/C2kE+IIExnJUnROi7AobjO5n/4aFz2evzqrcReE+VsQrHSrQ3DGtQjVM5YQWj
+ 5jWTSoeFZ/gHtPK8LzImqUlQ0qrAkU3TtsBZEhMXp9T1jnuCDtICqExfqzg+BmuxXTa9
+ IQ6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXjqOoGZny/3fC4Hu9jh1cRoAADwhj1FcCrDRjFYFGBtiBjzk/nw8So4vVTWX2cgqd+ijFLwcjymBE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyjxdjTuhN9am3Y2HiK2A5PY5v9Aq9iaMGaP6nGl63vnHwF/ikM
+ EkhaA3zBcvJqmyM4I2caRhsUuI/gwGkQ6wEFpWWuqWh5IvceRhxLqhpuST7fCCs=
+X-Gm-Gg: ASbGncsG+fsuWIT2pw4jAqVHpneCqKsXpGhEGI4BKwk93q50SOeuNNTeglecURgbXGM
+ 6jPEsa72ZD0K7Df/Cspc7+/oeGBMOcFSL7vXwSQgIttrtu3XtE8NF76j5UO+hnn/f24t1gbgTKl
+ VkZ75QeYeZ+GfVhPmXj4F1sYr1GCs8UpLOyJKZu+VUdUtHvHC8UnhFtVesKNOc0v7vLHZuKbMz/
+ weNZNiO+CYdbxnSe5MCzES9s0af1a0w/dpPXB8S5KoqPmsXQorbGigFmVxMediFgiSNePljKK4G
+X-Google-Smtp-Source: AGHT+IFQoL1eqWZUzLXO8xn5aiYWFXQjNuPE/7Kefiqj01sIwoayBrPT0tSc64kY0x+XJrkSFZxmQg==
+X-Received: by 2002:a05:600c:1d07:b0:436:1902:23b5 with SMTP id
+ 5b1f17b1804b1-436e26f4abbmr73098815e9.4.1736773546344; 
+ Mon, 13 Jan 2025 05:05:46 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.165])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-436e2da66d9sm179163385e9.1.2025.01.13.05.05.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 13 Jan 2025 05:05:45 -0800 (PST)
+Message-ID: <fef6b198-d916-4b71-86ed-0cbdd55cb3c4@linaro.org>
+Date: Mon, 13 Jan 2025 14:05:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Danilo Krummrich <dakr@redhat.com>, Tvrtko Ursulin <tursulin@igalia.com>, 
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Philipp Stanner <pstanner@redhat.com>
-References: <20241230165259.95855-1-tursulin@igalia.com>
- <Z3433G3-_aIMqJbt@pollux> <f7c333dd-6c6e-43ad-8879-8e9ccc374f5c@igalia.com>
- <Z36udQs86Mn1-T5p@pollux> <e611e9ee-3809-4370-8402-e7c324812bb1@igalia.com>
- <Z4AqiSBnJshH0PRU@lstrano-desk.jf.intel.com>
- <10052b1d-647d-40c8-a69a-ebea4d9aff99@igalia.com>
- <Z4FYog4kkECZSgjk@lstrano-desk.jf.intel.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <Z4FYog4kkECZSgjk@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 1/2] drm/mediatek/hdmi: Use
+ syscon_regmap_lookup_by_phandle_args
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20250112134708.46100-1-krzysztof.kozlowski@linaro.org>
+ <516d16e3-6fc6-49ba-a0ce-f451b65a6c1a@collabora.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <516d16e3-6fc6-49ba-a0ce-f451b65a6c1a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,138 +138,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 10/01/2025 17:28, Matthew Brost wrote:
-> On Fri, Jan 10, 2025 at 09:16:44AM +0000, Tvrtko Ursulin wrote:
+On 13/01/2025 13:41, AngeloGioacchino Del Regno wrote:
+> Il 12/01/25 14:47, Krzysztof Kozlowski ha scritto:
+>> Use syscon_regmap_lookup_by_phandle_args() which is a wrapper over
+>> syscon_regmap_lookup_by_phandle() combined with getting the syscon
+>> argument.  Except simpler code this annotates within one line that given
+>> phandle has arguments, so grepping for code would be easier.
 >>
->> On 09/01/2025 19:59, Matthew Brost wrote:
->>> On Wed, Jan 08, 2025 at 06:55:16PM +0000, Tvrtko Ursulin wrote:
->>>>
->>>> On 08/01/2025 16:57, Danilo Krummrich wrote:
->>>>> On Wed, Jan 08, 2025 at 03:13:39PM +0000, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 08/01/2025 08:31, Danilo Krummrich wrote:
->>>>>>> On Mon, Dec 30, 2024 at 04:52:45PM +0000, Tvrtko Ursulin wrote:
->>>>>>>> From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>>>>
->>>>>>> "Deadline scheduler and other ideas"
->>>>>>>
->>>>>>> There's a few patches that could be sent outside the scope of this series, e.g.
->>>>>>> the first one.
->>>>>>>
->>>>>>> I think it would make sense to do so.
->>>>>>
->>>>>> For now I'll keep them at the head of this RFC and as they get acked or
->>>>>> r-b-ed I can easily send them standalone or re-ordered. Until then having
->>>>>> the series separate would make the RFC not standalone.
->>>>>>
->>>>>>>> <tldr>
->>>>>>>> Replacing FIFO with a flavour of deadline driven scheduling and removing round-
->>>>>>>> robin. Connecting the scheduler with dma-fence deadlines. First draft and
->>>>>>>> testing by different drivers and feedback would be nice. I was only able to test
->>>>>>>> it with amdgpu. Other drivers may not even compile.
->>>>>>>
->>>>>>> What are the results from your tests with amdgpu? Do you have some measurements?
->>>>>>
->>>>>> We already covered this in the thread with Philipp to a degree. Tl;dr; the
->>>>>> main idea is whether we simplify the code and at least not regress.
->>>>>>
->>>>>> I don't expect improvements on the amdgpu side with the workloads like games
->>>>>> and benchmarks. I did not measure anything significant apart that priorities
->>>>>> seem to work with the run queues removed.
->>>>>
->>>>> I appreaciate the effort, and generally I like the idea, but I also must admit
->>>>> that this isn't the most convincing motiviation for such an integral change
->>>>> (especially the "at least not regress" part).
->>>>
->>>> It is challenging yes. But for completeness the full context of what you
->>>> quoted (if you also read my replies to Philipp) was *if* we can shrink the
->>>> code base, add some fairness to FIFO, *and* not regress then those three
->>>> added together would IMHO not be bad. We shouldn't be scared to touch it
->>>> because only touching it you can truly understand the gotchas which any
->>>> amount of kerneldoc will not help with.
->>>>> I'd still like to encourage you to send the small cleanups separately, get them
->>>>> in soon and leave the deadline scheduler as a separate RFC.
->>>>>
->>>>> Meanwhile, Philipp is working on getting documentation straight and digging into
->>>>> all the FIXMEs of the scheduler getting to a cleaner baseline. And with your
->>>>> cleanups you're already helping with that.
->>>>>
->>>>> For now, I'd prefer to leave the deadline scheduler stuff for when things are a
->>>>> bit more settled and / or drivers declare the need.
->>>>
->>>> I just sent v2:
->>>>
->>>> About motivation for the documenting efforts:
->>>>
->>>>    13 files changed, 424 insertions(+), 576 deletions(-)
->>>>
->>>> Fewer lines to document. ;)
->>>>
->>>> On a serious note, I ordered the series (mostly*) so you can read it in
->>>> order and for patches/ideas you like please say and I can extract and send
->>>> separately if you want. I am reluctant to extract things beforehand, before
->>>> knowing which ones people will like and so far there is only one with acks.
->>>>
->>>> *)
->>>> Mostly because perhaps "drm/sched: Queue all free credits in one worker
->>>> invocation" could be interesting to move before the most.
->>>>
->>>
->>> I looked into this. When I originally changed the scheduler from a
->>> kthread to a worker, I designed it the way your patch implements it:
->>> looping in the worker until credits run out or no jobs are available.
->>>
->>> If I recall correctly, the feedback from Christian (or Luben?) was to
->>> rely on the work queue's requeuing mechanism to submit more than one
->>> job. From a latency perspective, there might be a small benefit, but
->>> it's more likely that if you queue two jobs back-to-back, even when
->>> relying on the work queue's rescheduling, the first job will still be
->>> running on the hardware, nullifying any potential latency improvement.
->>>
->>>   From a fairness perspective, multiplexing across multiple work queues
->>> one job at a time makes a bit more sense, in my opinion.
+>> There is also no real benefit in printing errors on missing syscon
+>> argument, because this is done just too late: runtime check on
+>> static/build-time data.  Dtschema and Devicetree bindings offer the
+>> static/build-time check for this already.
 >>
->> You mean multiplexing across multiple _entities_? Because work queue is only
 > 
-> No, I mean if you have multiple schedulers (work queues) with jobs that
-> are to run dequeuing a job a time per scheduler would let the core work
-> queue scheduling give a level of fairness.
-
-That doesn't work in the current implementation because entity->rq (ie. 
-picked scheduler) cannot change when jobs are queued.
-
->> one. That it unchanged with my patch. Ie. it is not changing to pick jobs
->> from a single entity but still picks a job at a time from the top entity.
->> And top entity can change as jobs are popped. What remains is the question
->> of why burn CPU cycles and do it in a roundabout way if it is very easy to
->> do it directly and at the same time avoid that unconditional final wakeup
->> when queues are empty.
+> I agree with this change but can you please rebase it over [1]?
 > 
-> Like I said, I had this way initially but the feedback I recieved was to
-> dequeue 1 job at time and kick the work queue to reschedule itself.
-> Unless everyone opinion has changed, I don't think this is change we
-> should make.
+> The same code got migrated to mtk_hdmi_common.c instead :-)
 > 
-> Here are the some references...
-> 
-> [1] https://patchwork.freedesktop.org/patch/530652/?series=116055&rev=1
-> [2] https://patchwork.freedesktop.org/patch/575874/?series=129143&rev=1
-> [3] https://patchwork.freedesktop.org/patch/576334/?series=129286&rev=1
+> [1]: 
+> https://lore.kernel.org/r/20250108112744.64686-1-angelogioacchino.delregno@collabora.com
+My is 2-patch cleanup, your is 34 patch rework and new features with
+existing build reports, so rebase is not reasonable. It would make this
+2-patch cleanup wait for many cycles.
 
-Thanks. Aside that the referenced discussion were also about fixing some 
-regressions, on the topic of the high level design I spotted two arguments.
-
-One was about the supposed need to "interleave" one-at-a-time run work 
-and the same for free work. I don't see why would that be the case and 
-besides it is already not universally true when unordered workqueues are 
-used.
-
-Second was to bail soone(-er) is scheduler is paused. That's a good 
-point and I added it to my local version.
-
-In summary it feels this area should be clarified further.
-
-Regards,
-
-Tvrtko
+Best regards,
+Krzysztof
