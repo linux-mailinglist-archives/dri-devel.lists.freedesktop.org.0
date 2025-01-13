@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94F8A0BFC2
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 19:26:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B06A0BFC1
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 19:26:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E78B110E798;
-	Mon, 13 Jan 2025 18:26:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9BC810E158;
+	Mon, 13 Jan 2025 18:26:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="gArjOceQ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="u9ZjlhNo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2A4010E158
+ (mail-bn8nam12on2053.outbound.protection.outlook.com [40.107.237.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA3410E158
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 18:26:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IH67FMdPpDaI43rTqixqmD4QF7sF/kPlUP7PqWWM60/9ecT9AqAb0QYn+Ies8jXOXo8G9sc+500gfvFdoWyidramOXhWjU/2/ZGnIgrToXyEPdRympH+STO5FGytQV9fb0XE1tRNC+tpag31MG7ktB0+50zcxh7Ap9fEwYTkqUil1PfZgs6UGvGD9iySoAvwc2Fm7O9/8tzWMUKxPFhbyqAUq2adHOQQW8ggHHIE6LBrYknBoYJtLdEIYuZpoHdUy4evWQdI9lN4tSrApmaZ/PJKR+UcBBSDIWtUzsbV7X/4whQBZ0Cev4+sCxjl6CYep7fh1UMkW3ptl8iLnIDjGg==
+ b=N9PkyUnjrv5t0+qc9ibjnaDs10Vfe4o80zIF5LcPBCPpSalB5AtTz5rW3tztHf5axmHFYq/lXiCQ4Er7h85P3NJEcx9V9Yh8nFbojR4sDGHaJPeeudwyfso5fk6dZzfPS/xyeJtUDd9XcwUyngI6+/cToUgxNHEubEQsaVCQ3j67yCl8Ri7a5aFYmesg9grz0Y3rfq4mwELC5/MxnFgPBcc0ey096HhAQlSEBgVKAGI8Mg4MTACDJNbilHf55kGqX9SVbaKkVHntbB2n1Z6eMaY5tjW5RAYUlm0/9F5Kd1ta5qfCnRojjcIxM1N46L4rXz/ZGkv9SRtPzmVVfi0/1w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z1TvOwt+RPTmUZY3hYa+/gp/flE0Cb8qyQOpDSG9wgo=;
- b=jQy1/wisoialFP0dtgeOSCd8yG/r4BaM44AdBwnXdeUSAF8T7N2EBbXkEXZEsji05xGVB9dgTKlxsGBjCPU32kEViIu+9mEzyn1DDwyWQy/BVYLGlTHewr0MXNX7DwRQcXhp729nXwPqDxkJSkJCr/LByoF7+kFPzrYyD01FTCCAH31ney3EaIVjHYGbqVxnD4ib9B+v+lPTTDJuE/f0VS1cI6Be/K5oRMUOQS9ftXKauBCRezCh4sCcGOgGHQJmDIcGgyMS4Ya3m8oGesqaexzeExCDEMRGRX2xwC74mIh/+DlQ6xoc2foVrrmn6miMYe8YEpybdb4uRwSGcQBb3Q==
+ bh=85L+MCcsavCICfQdjrZEH5q8o+VxRoYTHfwWqKTzEOc=;
+ b=qRND0vSTiU3aZweKYwuD68tpIQqZBqz39HUu19eCqIDsF7Z9YmUK7Igcc+AShrhse6dSo9B0d4EIvK+VYTkozuX2pSVtQbs8CZps73rQslC5Cp+pF5TPQ240OSiEj+kykmR57aBQWAralJc84vTokiT/8FiH8xD8fh1rCpCs+MbcyAnjoR2yr4MxlM+x3ORcmC/m3Da+wp6DWUOaM/rDK8DCTv0untodQrVsVpv6p0Ndu/UuoSmlSx8vrSzfwgr0c/D4m+2MIU3AxdogAJiRQkRpZjkMvyXyVWzZq+7zVfa5e2SXYpX29tkWkXXYefmkRPy7CxJFbvsp8NwjyHYhCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z1TvOwt+RPTmUZY3hYa+/gp/flE0Cb8qyQOpDSG9wgo=;
- b=gArjOceQH0GPCKoD69BSE6GbdupXnYLD1+FcUHdYjQ+Oq+ssoia43hAwKtuk6g2mLgS0hXR8co64dSYsfjY9iX9u9ZPQRf2jVkyIJbtubVmB3YtQm5XV1TrPf/jox9zHXu5CU2VUAR4KZuNsBCwLjbxEeWUNY1aA89EgtJCkSbk=
-Received: from CH0P221CA0001.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:11c::27)
- by MW4PR12MB6849.namprd12.prod.outlook.com (2603:10b6:303:20d::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Mon, 13 Jan
- 2025 18:26:25 +0000
+ bh=85L+MCcsavCICfQdjrZEH5q8o+VxRoYTHfwWqKTzEOc=;
+ b=u9ZjlhNofGsn5mrf2xGoOqJN1v4Om4QOfkTXHVzimJJthVDwcf+zNMUU/QV1VQpGAJthZgTAUqFtTKFv6vyeSu79JMuAcOqRREFMz75zdbIOOn37S9KqhY1lDRnQaIUlqSQ5CwcBNbQU1H6tjf0JW+Q7SgzAVgUN6cg202cfj/s=
+Received: from CH0P221CA0003.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:11c::7)
+ by DS7PR12MB6096.namprd12.prod.outlook.com (2603:10b6:8:9b::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8335.18; Mon, 13 Jan 2025 18:26:25 +0000
 Received: from CH1PEPF0000AD75.namprd04.prod.outlook.com
- (2603:10b6:610:11c:cafe::3d) by CH0P221CA0001.outlook.office365.com
- (2603:10b6:610:11c::27) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:610:11c:cafe::c9) by CH0P221CA0003.outlook.office365.com
+ (2603:10b6:610:11c::7) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.18 via Frontend Transport; Mon,
- 13 Jan 2025 18:26:24 +0000
+ 13 Jan 2025 18:26:25 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,78 +49,81 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB03.amd.com (165.204.84.17) by
  CH1PEPF0000AD75.mail.protection.outlook.com (10.167.244.54) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8356.11 via Frontend Transport; Mon, 13 Jan 2025 18:26:24 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
+ 15.20.8356.11 via Frontend Transport; Mon, 13 Jan 2025 18:26:25 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 13 Jan
+ 2025 12:26:25 -0600
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 13 Jan
  2025 12:26:24 -0600
 Received: from xsjlizhih51.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 13 Jan 2025 12:26:23 -0600
+ Transport; Mon, 13 Jan 2025 12:26:24 -0600
 From: Lizhi Hou <lizhi.hou@amd.com>
 To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
  <dri-devel@lists.freedesktop.org>
 CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
  <min.ma@amd.com>, <max.zhen@amd.com>, <sonal.santan@amd.com>,
- <king.tam@amd.com>, <mario.limonciello@amd.com>, kernel test robot
- <lkp@intel.com>
-Subject: [PATCH 1/2] accel/amdxdna: Remove casting mailbox payload pointer
-Date: Mon, 13 Jan 2025 10:26:16 -0800
-Message-ID: <20250113182617.1256094-1-lizhi.hou@amd.com>
+ <king.tam@amd.com>, <mario.limonciello@amd.com>
+Subject: [PATCH 2/2] accel/amdxdna: Declare sched_ops as static
+Date: Mon, 13 Jan 2025 10:26:17 -0800
+Message-ID: <20250113182617.1256094-2-lizhi.hou@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250113182617.1256094-1-lizhi.hou@amd.com>
+References: <20250113182617.1256094-1-lizhi.hou@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
- permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD75:EE_|MW4PR12MB6849:EE_
-X-MS-Office365-Filtering-Correlation-Id: e75dd726-be7a-4492-7e05-08dd33ffc992
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD75:EE_|DS7PR12MB6096:EE_
+X-MS-Office365-Filtering-Correlation-Id: da0db14f-31f7-43e8-9dec-08dd33ffca34
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|1800799024|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dQIO9H6vL86JQzbIHPa5jxaLWFa7lMle57M9QyvLrPrb+xMRDe0laG9m2O3+?=
- =?us-ascii?Q?4G3KoOOR6vaoap/m/Km08WrAaPjFmFAjn8EcbnaYzkwkYqA4c0MTaMBU+mYl?=
- =?us-ascii?Q?HiQ9649Z+Xf2dPc2LRJdD8trEAF0GKsIAGlad5RVmQCTAqD0MUl8jeG0HTcb?=
- =?us-ascii?Q?u9aBP7ZDX4Uih036cO/ohfWveXUm8gkBNr6707l+UpZr9qTaSzT9IsWftQj9?=
- =?us-ascii?Q?ElX37Lz3gzFKvAHy5yF5MVX74XmoZt8mYuocCQ+8pPnlxrSynGkmVBweLDyi?=
- =?us-ascii?Q?1EgSvUpR24lMXephIG5LZ+9plPcfCLK3W2yK7dcdOnGXRbuksVAPZCzXhYfv?=
- =?us-ascii?Q?xM6BJwEWLEHWbsozbHxWrBguZ/TK286lJsEt03VWWioTUXg2QSet2G91gYfd?=
- =?us-ascii?Q?b0mauJ57o0kXzE3FqhKorDOMo1i6iT+i9+xSgiXHC6ODCfBQGzGCuCyKqC/1?=
- =?us-ascii?Q?KCdmfjU6rt+aIgkC7O22dEDWTHGWF4bIJft+36O13cf/IupuLwCAh9dfc7tf?=
- =?us-ascii?Q?IrnePp2HeqzkpeHe155zl+zywmI+iVKw+IUmXxYX7fskLRA8Jqy+s/CZ1O3m?=
- =?us-ascii?Q?T+H7Z+m0HfRlu385q9ezMLv+sFVd1opstHzCsVjCXbsqX/f/gEkknDzlnjyK?=
- =?us-ascii?Q?Y+ZQu41FOXTVz3smaOcFApsuTT+MPzBFE7Xd0vaU/R10Txduf+ajckoHr35g?=
- =?us-ascii?Q?8x74LuOKCZa0ABXVXuxikfPdc4K2HkCsPgFxQkKaRx46MgX7xaU+/imHtxYl?=
- =?us-ascii?Q?Ex08WOfwvq0TdBGIB7TeTYLWbMIs+Ejy/5F2CxhkYm2gf1jlaF3ksua5/9kq?=
- =?us-ascii?Q?v1uMNZ6imOxD53r7rfvaBcGYJrmFZDE4EbbmSx07iZWnK/TlFgcHy4PEOk/A?=
- =?us-ascii?Q?XKV4IVgDUjdTGzG0hx9/YZaLTOVRqp5kyD0rQb0/PejpifWc1Op4G321Rx1T?=
- =?us-ascii?Q?kUcX0hb+OI9h+sPXD9nVX+1VugxPxtDpxEzngHlM522tvwnctROEhqTJx5bz?=
- =?us-ascii?Q?DuBNgsAwaX3eM9fJHXyn1TAirIQGxSDGHxJv6xg9nh3b3qJOkfCH19CcgJwx?=
- =?us-ascii?Q?D+XrghP+8Z+bhiodcgcwaIStUq03FGHvzFWSwUV9ntZmEXz97/aHJpheg0M8?=
- =?us-ascii?Q?S9kJjKrJNpscuSTmXB1016+ilgCFAnvnOh7TcDxy/kq1WSXRrzh/g8TUKhWl?=
- =?us-ascii?Q?Q/I3yX+MUKU4jotsQ6sF2uBwv8MpNrdnnXKogDaKtJ9Q/3E9ldtrUXsjgJvw?=
- =?us-ascii?Q?7Kw5Q4rYO0W83JfROnJbXEWxtemJ5vONSCqM/L6FRjmkZfqL6g5jLh00ijGx?=
- =?us-ascii?Q?XjysA1kKrZMg+AIy1wN0Y8b2LG8GVvCIMA/nyKWAtIe5KRkI0dDqSO7rrQpl?=
- =?us-ascii?Q?f0Bs5JYAREdE+wNg0V330LmmCAQ7KH5sPuhaXZVd6k66R2JlBc7V7zqrf1nQ?=
- =?us-ascii?Q?PeONTYT8HhYQmawWzS5aCvgdVB7quDGnVMn/ZcpKYwwSj71eRalvFLoqy0Uc?=
- =?us-ascii?Q?MSERvH0RTFpTsd0=3D?=
+ ARA:13230040|36860700013|1800799024|82310400026|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HomxSX1k9nLCVQ1a+b/jLaLcl6oB2zQ8me8a8nxyhrWVOopls4hrGE9uSww4?=
+ =?us-ascii?Q?Cc4lGLuf/DNlsGEdIH0sLywBLVD70VlhE/YOQj+1iKQwVyfE/R2ctc6V41Ms?=
+ =?us-ascii?Q?xTvz4a23EyayGqjUOtqkCMKR0kznDEmScoW15F5y6qK/TW4BQgNKQ7d4rP19?=
+ =?us-ascii?Q?uhKzW4fdrj9ge1hMgX3XTEdmXdyIoCJ42ete+Bqw0yvTwCceC8bQO99eTAP8?=
+ =?us-ascii?Q?BKCsyHSvQ+D9a1laeX0r2ycbrWK51bnQTxP5Ae9yhpZ+ozrTNFYQjBivEFGe?=
+ =?us-ascii?Q?CvNOjlXz5bhylvsbQ86ia6iEhdsIyNc/i325V4rhVBvbrVMNZfNtPDQhTgio?=
+ =?us-ascii?Q?5PFZ80rcSxYCyGNiJOrwDfImyC7vSYtVRjpy2MnjkVILiKRRKVwl+b/V/nYA?=
+ =?us-ascii?Q?sTVOWDgMsnfoGI8F8x7rEQKgmcLVNqQH9Nsm8oAzCbm0JwVf8YH0dEDqn0S4?=
+ =?us-ascii?Q?iWBhpcMRvXchzTPpfy1o95TKuFUurIqyT7Ahteyvlfp4ja1I/0XhoQNAUksD?=
+ =?us-ascii?Q?0rmEEabenk9772SqSRgLnSaoNHi5NP7OrJxo2f8mfgHLidj2jR6ofQmYs+Cu?=
+ =?us-ascii?Q?J/7IctDc0y/CbYtdtb5Kq90RFV62TRpGXQLS5CWBYgjZA8p+PUWaweAmYMtB?=
+ =?us-ascii?Q?S2cfZeVvQkvUXKO0vZ9IZiIIOi6KHoisaw2e1X9UcWTr9EG6T8MM+IVrC0QC?=
+ =?us-ascii?Q?EPuXehhfb7GoRtq/Wxxg9MTFTaltbvrpTIRZXQkPqYE1E2sT8hwQabw4IIa7?=
+ =?us-ascii?Q?QwrfdfzbEoH0OjpcriyvncZyeRwkdSoVhE5DoEeTi4ggUDUup89+JZUnBC/f?=
+ =?us-ascii?Q?Y6gQDi3WcY//KJslkJ/Vf551ShUYalRD+BXalq1cWbBkEPEcDIN/lJ2W5uOq?=
+ =?us-ascii?Q?cLIeNycodJYBL1CigHeVIo3MfVpsEPAy8DuG6rzcsQlf79xPKWS0amm5HzE2?=
+ =?us-ascii?Q?00g4BKLnoK9/fIvjFgYJzzB4uIPC2UxNjmfRtnsKUYEYXsrB9iZG9HOoshn9?=
+ =?us-ascii?Q?r8/esBeyl5mxTEr97bsQYpbRZKO51LWUN29fx8lQwEkzOJECEBIKv3lxg/tt?=
+ =?us-ascii?Q?M6CPWyjr52BgjDlqt9PCaVXo4Nh9DfnBuavja0vsMk32jx/unH6wD8ZnT0Lx?=
+ =?us-ascii?Q?KnEuAniSr8+qBh+eYiEYmOM0cMXZtaw8La7gglXBQpOBjEPOC7O6oXY3kkdv?=
+ =?us-ascii?Q?+y/JM2FOP6g/KK5Q78OnsN6vtlC7xDtAQTYPQ/4aJGRTp+s1yOW5ylEzh4uJ?=
+ =?us-ascii?Q?tslwzT0hReyoOoGzuAzP92qjBX3vQ8XaXEQ2znJgEdeMxczH1G1/69cQH+uf?=
+ =?us-ascii?Q?qjzttxesVZJNQ7srIGzrx6Pn6+DqqwF9+adxpMzQQCMruETrILuxpcEVcnjZ?=
+ =?us-ascii?Q?gdTNaJq8K7Ly1rubbBosN4mH/M/qBioHyQEx8xg+TLS1JezCKwc2XeANa2kM?=
+ =?us-ascii?Q?NTo5Eu3Ro25hDvnQPuT9XOATUr4Q20IYUj+QN+se1xt5WAyvDavZ0X6/uW/3?=
+ =?us-ascii?Q?jzcxmj0D5Kjk/+4=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 18:26:24.7039 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e75dd726-be7a-4492-7e05-08dd33ffc992
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 18:26:25.7820 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da0db14f-31f7-43e8-9dec-08dd33ffca34
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB03.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000AD75.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6849
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,288 +139,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The mailbox payload pointer is void __iomem *. Casting it to u32 * is
-incorrect and causes sparse warning.
-  cast removes address space '__iomem' of expression
+Fix sparse warning:
+  symbol 'sched_ops' was not declared. Should it be static?
 
-Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501130921.ktqwsMLH-lkp@intel.com/
+Fixes: aac243092b70 ("accel/amdxdna: Add command execution")
 Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
- drivers/accel/amdxdna/aie2_ctx.c              | 22 +++++++++----------
- drivers/accel/amdxdna/aie2_error.c            |  8 +++----
- drivers/accel/amdxdna/aie2_message.c          | 10 ++++-----
- drivers/accel/amdxdna/aie2_pci.h              | 10 ++++-----
- drivers/accel/amdxdna/amdxdna_mailbox.c       |  6 ++---
- drivers/accel/amdxdna/amdxdna_mailbox.h       |  2 +-
- .../accel/amdxdna/amdxdna_mailbox_helper.c    |  6 ++---
- .../accel/amdxdna/amdxdna_mailbox_helper.h    |  2 +-
- 8 files changed, 32 insertions(+), 34 deletions(-)
+ drivers/accel/amdxdna/aie2_ctx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
-index 5f43db02b240..5c69ae3c40f8 100644
+index 5c69ae3c40f8..2799729801f6 100644
 --- a/drivers/accel/amdxdna/aie2_ctx.c
 +++ b/drivers/accel/amdxdna/aie2_ctx.c
-@@ -185,7 +185,7 @@ aie2_sched_notify(struct amdxdna_sched_job *job)
+@@ -361,7 +361,7 @@ aie2_sched_job_timedout(struct drm_sched_job *sched_job)
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
  }
  
- static int
--aie2_sched_resp_handler(void *handle, const u32 *data, size_t size)
-+aie2_sched_resp_handler(void *handle, void __iomem *data, size_t size)
- {
- 	struct amdxdna_sched_job *job = handle;
- 	struct amdxdna_gem_obj *cmd_abo;
-@@ -203,7 +203,7 @@ aie2_sched_resp_handler(void *handle, const u32 *data, size_t size)
- 		goto out;
- 	}
- 
--	status = *data;
-+	status = readl(data);
- 	XDNA_DBG(job->hwctx->client->xdna, "Resp status 0x%x", status);
- 	if (status == AIE2_STATUS_SUCCESS)
- 		amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_COMPLETED);
-@@ -216,7 +216,7 @@ aie2_sched_resp_handler(void *handle, const u32 *data, size_t size)
- }
- 
- static int
--aie2_sched_nocmd_resp_handler(void *handle, const u32 *data, size_t size)
-+aie2_sched_nocmd_resp_handler(void *handle, void __iomem *data, size_t size)
- {
- 	struct amdxdna_sched_job *job = handle;
- 	u32 ret = 0;
-@@ -230,7 +230,7 @@ aie2_sched_nocmd_resp_handler(void *handle, const u32 *data, size_t size)
- 		goto out;
- 	}
- 
--	status = *data;
-+	status = readl(data);
- 	XDNA_DBG(job->hwctx->client->xdna, "Resp status 0x%x", status);
- 
- out:
-@@ -239,14 +239,14 @@ aie2_sched_nocmd_resp_handler(void *handle, const u32 *data, size_t size)
- }
- 
- static int
--aie2_sched_cmdlist_resp_handler(void *handle, const u32 *data, size_t size)
-+aie2_sched_cmdlist_resp_handler(void *handle, void __iomem *data, size_t size)
- {
- 	struct amdxdna_sched_job *job = handle;
- 	struct amdxdna_gem_obj *cmd_abo;
--	struct cmd_chain_resp *resp;
- 	struct amdxdna_dev *xdna;
- 	u32 fail_cmd_status;
- 	u32 fail_cmd_idx;
-+	u32 cmd_status;
- 	u32 ret = 0;
- 
- 	cmd_abo = job->cmd_bo;
-@@ -256,17 +256,17 @@ aie2_sched_cmdlist_resp_handler(void *handle, const u32 *data, size_t size)
- 		goto out;
- 	}
- 
--	resp = (struct cmd_chain_resp *)data;
-+	cmd_status = readl(data + offsetof(struct cmd_chain_resp, status));
- 	xdna = job->hwctx->client->xdna;
--	XDNA_DBG(xdna, "Status 0x%x", resp->status);
--	if (resp->status == AIE2_STATUS_SUCCESS) {
-+	XDNA_DBG(xdna, "Status 0x%x", cmd_status);
-+	if (cmd_status == AIE2_STATUS_SUCCESS) {
- 		amdxdna_cmd_set_state(cmd_abo, ERT_CMD_STATE_COMPLETED);
- 		goto out;
- 	}
- 
- 	/* Slow path to handle error, read from ringbuf on BAR */
--	fail_cmd_idx = resp->fail_cmd_idx;
--	fail_cmd_status = resp->fail_cmd_status;
-+	fail_cmd_idx = readl(data + offsetof(struct cmd_chain_resp, fail_cmd_idx));
-+	fail_cmd_status = readl(data + offsetof(struct cmd_chain_resp, fail_cmd_status));
- 	XDNA_DBG(xdna, "Failed cmd idx %d, status 0x%x",
- 		 fail_cmd_idx, fail_cmd_status);
- 
-diff --git a/drivers/accel/amdxdna/aie2_error.c b/drivers/accel/amdxdna/aie2_error.c
-index b1defaa8513b..5ee905632a39 100644
---- a/drivers/accel/amdxdna/aie2_error.c
-+++ b/drivers/accel/amdxdna/aie2_error.c
-@@ -209,16 +209,14 @@ static u32 aie2_error_backtrack(struct amdxdna_dev_hdl *ndev, void *err_info, u3
- 	return err_col;
- }
- 
--static int aie2_error_async_cb(void *handle, const u32 *data, size_t size)
-+static int aie2_error_async_cb(void *handle, void __iomem *data, size_t size)
- {
--	struct async_event_msg_resp *resp;
- 	struct async_event *e = handle;
- 
- 	if (data) {
--		resp = (struct async_event_msg_resp *)data;
--		e->resp.type = resp->type;
-+		e->resp.type = readl(data + offsetof(struct async_event_msg_resp, type));
- 		wmb(); /* Update status in the end, so that no lock for here */
--		e->resp.status = resp->status;
-+		e->resp.status = readl(data + offsetof(struct async_event_msg_resp, status));
- 	}
- 	queue_work(e->wq, &e->work);
- 	return 0;
-diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index 9e2c9a44f76a..bf4219e32cc1 100644
---- a/drivers/accel/amdxdna/aie2_message.c
-+++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -356,7 +356,7 @@ int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf,
- }
- 
- int aie2_register_asyn_event_msg(struct amdxdna_dev_hdl *ndev, dma_addr_t addr, u32 size,
--				 void *handle, int (*cb)(void*, const u32 *, size_t))
-+				 void *handle, int (*cb)(void*, void __iomem *, size_t))
- {
- 	struct async_event_msg_req req = { 0 };
- 	struct xdna_mailbox_msg msg = {
-@@ -435,7 +435,7 @@ int aie2_config_cu(struct amdxdna_hwctx *hwctx)
- }
- 
- int aie2_execbuf(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
--		 int (*notify_cb)(void *, const u32 *, size_t))
-+		 int (*notify_cb)(void *, void __iomem *, size_t))
- {
- 	struct mailbox_channel *chann = hwctx->priv->mbox_chann;
- 	struct amdxdna_dev *xdna = hwctx->client->xdna;
-@@ -640,7 +640,7 @@ aie2_cmd_op_to_msg_op(u32 op)
- 
- int aie2_cmdlist_multi_execbuf(struct amdxdna_hwctx *hwctx,
- 			       struct amdxdna_sched_job *job,
--			       int (*notify_cb)(void *, const u32 *, size_t))
-+			       int (*notify_cb)(void *, void __iomem *, size_t))
- {
- 	struct amdxdna_gem_obj *cmdbuf_abo = aie2_cmdlist_get_cmd_buf(job);
- 	struct mailbox_channel *chann = hwctx->priv->mbox_chann;
-@@ -705,7 +705,7 @@ int aie2_cmdlist_multi_execbuf(struct amdxdna_hwctx *hwctx,
- 
- int aie2_cmdlist_single_execbuf(struct amdxdna_hwctx *hwctx,
- 				struct amdxdna_sched_job *job,
--				int (*notify_cb)(void *, const u32 *, size_t))
-+				int (*notify_cb)(void *, void __iomem *, size_t))
- {
- 	struct amdxdna_gem_obj *cmdbuf_abo = aie2_cmdlist_get_cmd_buf(job);
- 	struct mailbox_channel *chann = hwctx->priv->mbox_chann;
-@@ -740,7 +740,7 @@ int aie2_cmdlist_single_execbuf(struct amdxdna_hwctx *hwctx,
- }
- 
- int aie2_sync_bo(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
--		 int (*notify_cb)(void *, const u32 *, size_t))
-+		 int (*notify_cb)(void *, void __iomem *, size_t))
- {
- 	struct mailbox_channel *chann = hwctx->priv->mbox_chann;
- 	struct amdxdna_gem_obj *abo = to_xdna_obj(job->bos[0]);
-diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-index f2d95531ddc2..385914840eaa 100644
---- a/drivers/accel/amdxdna/aie2_pci.h
-+++ b/drivers/accel/amdxdna/aie2_pci.h
-@@ -271,18 +271,18 @@ int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwc
- int aie2_map_host_buf(struct amdxdna_dev_hdl *ndev, u32 context_id, u64 addr, u64 size);
- int aie2_query_status(struct amdxdna_dev_hdl *ndev, char __user *buf, u32 size, u32 *cols_filled);
- int aie2_register_asyn_event_msg(struct amdxdna_dev_hdl *ndev, dma_addr_t addr, u32 size,
--				 void *handle, int (*cb)(void*, const u32 *, size_t));
-+				 void *handle, int (*cb)(void*, void __iomem *, size_t));
- int aie2_config_cu(struct amdxdna_hwctx *hwctx);
- int aie2_execbuf(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
--		 int (*notify_cb)(void *, const u32 *, size_t));
-+		 int (*notify_cb)(void *, void __iomem *, size_t));
- int aie2_cmdlist_single_execbuf(struct amdxdna_hwctx *hwctx,
- 				struct amdxdna_sched_job *job,
--				int (*notify_cb)(void *, const u32 *, size_t));
-+				int (*notify_cb)(void *, void __iomem *, size_t));
- int aie2_cmdlist_multi_execbuf(struct amdxdna_hwctx *hwctx,
- 			       struct amdxdna_sched_job *job,
--			       int (*notify_cb)(void *, const u32 *, size_t));
-+			       int (*notify_cb)(void *, void __iomem *, size_t));
- int aie2_sync_bo(struct amdxdna_hwctx *hwctx, struct amdxdna_sched_job *job,
--		 int (*notify_cb)(void *, const u32 *, size_t));
-+		 int (*notify_cb)(void *, void __iomem *, size_t));
- 
- /* aie2_hwctx.c */
- int aie2_hwctx_init(struct amdxdna_hwctx *hwctx);
-diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
-index 814b16bb1953..de7bf0fb4594 100644
---- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-+++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-@@ -90,7 +90,7 @@ struct mailbox_pkg {
- 
- struct mailbox_msg {
- 	void			*handle;
--	int			(*notify_cb)(void *handle, const u32 *data, size_t size);
-+	int			(*notify_cb)(void *handle, void __iomem *data, size_t size);
- 	size_t			pkg_size; /* package size in bytes */
- 	struct mailbox_pkg	pkg;
- };
-@@ -243,7 +243,7 @@ mailbox_send_msg(struct mailbox_channel *mb_chann, struct mailbox_msg *mb_msg)
- 
- static int
- mailbox_get_resp(struct mailbox_channel *mb_chann, struct xdna_msg_header *header,
--		 void *data)
-+		 void __iomem *data)
- {
- 	struct mailbox_msg *mb_msg;
- 	int msg_id;
-@@ -331,7 +331,7 @@ static int mailbox_get_msg(struct mailbox_channel *mb_chann)
- 	memcpy_fromio((u32 *)&header + 1, read_addr, rest);
- 	read_addr += rest;
- 
--	ret = mailbox_get_resp(mb_chann, &header, (u32 *)read_addr);
-+	ret = mailbox_get_resp(mb_chann, &header, read_addr);
- 
- 	mailbox_set_headptr(mb_chann, head + msg_size);
- 	/* After update head, it can equal to ringbuf_size. This is expected. */
-diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.h b/drivers/accel/amdxdna/amdxdna_mailbox.h
-index 57954c303bdd..ea367f2fb738 100644
---- a/drivers/accel/amdxdna/amdxdna_mailbox.h
-+++ b/drivers/accel/amdxdna/amdxdna_mailbox.h
-@@ -25,7 +25,7 @@ struct mailbox_channel;
- struct xdna_mailbox_msg {
- 	u32		opcode;
- 	void		*handle;
--	int		(*notify_cb)(void *handle, const u32 *data, size_t size);
-+	int		(*notify_cb)(void *handle, void __iomem *data, size_t size);
- 	u8		*send_data;
- 	size_t		send_size;
- };
-diff --git a/drivers/accel/amdxdna/amdxdna_mailbox_helper.c b/drivers/accel/amdxdna/amdxdna_mailbox_helper.c
-index 5139a9c96a91..6d0c24513476 100644
---- a/drivers/accel/amdxdna/amdxdna_mailbox_helper.c
-+++ b/drivers/accel/amdxdna/amdxdna_mailbox_helper.c
-@@ -16,7 +16,7 @@
- #include "amdxdna_mailbox_helper.h"
- #include "amdxdna_pci_drv.h"
- 
--int xdna_msg_cb(void *handle, const u32 *data, size_t size)
-+int xdna_msg_cb(void *handle, void __iomem *data, size_t size)
- {
- 	struct xdna_notify *cb_arg = handle;
- 	int ret;
-@@ -29,9 +29,9 @@ int xdna_msg_cb(void *handle, const u32 *data, size_t size)
- 		goto out;
- 	}
- 
-+	memcpy_fromio(cb_arg->data, data, cb_arg->size);
- 	print_hex_dump_debug("resp data: ", DUMP_PREFIX_OFFSET,
--			     16, 4, data, cb_arg->size, true);
--	memcpy(cb_arg->data, data, cb_arg->size);
-+			     16, 4, cb_arg->data, cb_arg->size, true);
- out:
- 	ret = cb_arg->error;
- 	complete(&cb_arg->comp);
-diff --git a/drivers/accel/amdxdna/amdxdna_mailbox_helper.h b/drivers/accel/amdxdna/amdxdna_mailbox_helper.h
-index 23e1317b79fe..710ff8873d61 100644
---- a/drivers/accel/amdxdna/amdxdna_mailbox_helper.h
-+++ b/drivers/accel/amdxdna/amdxdna_mailbox_helper.h
-@@ -35,7 +35,7 @@ struct xdna_notify {
- 		.notify_cb = xdna_msg_cb,				\
- 	}
- 
--int xdna_msg_cb(void *handle, const u32 *data, size_t size);
-+int xdna_msg_cb(void *handle, void __iomem *data, size_t size);
- int xdna_send_msg_wait(struct amdxdna_dev *xdna, struct mailbox_channel *chann,
- 		       struct xdna_mailbox_msg *msg);
- 
+-const struct drm_sched_backend_ops sched_ops = {
++static const struct drm_sched_backend_ops sched_ops = {
+ 	.run_job = aie2_sched_job_run,
+ 	.free_job = aie2_sched_job_free,
+ 	.timedout_job = aie2_sched_job_timedout,
 -- 
 2.34.1
 
