@@ -2,73 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20C2A101E9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:21:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9645CA10220
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:34:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03F4610E876;
-	Tue, 14 Jan 2025 08:21:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C583910E879;
+	Tue, 14 Jan 2025 08:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jE+YwIxA";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="TsnYEBL4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFD6910E360
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:21:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736842915; x=1768378915;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=YFJKCb0jqMAhlwNKuT95tl8Htv3gL4ALSvmG3zHbfqM=;
- b=jE+YwIxA2nOhW+W9BCs4jSJhqopYxRk4B67+LzoVqAGAZH8a/J4J1vRu
- c0mN6CRT8yOcpGfLVty90jA9IW2pbBKaIrkh5ZZY5wKwvu6RnrXvtx0np
- o3lycRhHKOjg7JktovKkjtydHlHdURcNdpfHgwSQEh0aVp+6VThQiS6eS
- ITs2kDSfjXQjGKoB1gLJwMqK3bKmEk9YQ6qhfB0LYxZZzAyupuh+zy+gh
- e/wcO/R1h6tgTVN8Lvtwq2maymOfPuVsAfn8SuSRpN+6vqefDaFOspTp2
- QcjqEKms8bK6NlnWMUVsGUosNQCssMTczyho9FB6GbR+kqlyD165UYxCF w==;
-X-CSE-ConnectionGUID: VpTm/nIiQV6R3gdiuyuBLA==
-X-CSE-MsgGUID: 1uyvpP/vRmuCwga3RLOR5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40893904"
-X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; d="scan'208";a="40893904"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2025 00:21:54 -0800
-X-CSE-ConnectionGUID: 4bgDJI7lSkCxurHBiLu3JA==
-X-CSE-MsgGUID: O/PUG0G3R9COCkCPxJ2Amg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="105610990"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa008.jf.intel.com with ESMTP; 14 Jan 2025 00:21:49 -0800
-Date: Tue, 18 Jun 2024 07:28:43 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
- <20250107142719.179636-9-yilun.xu@linux.intel.com>
- <20250108133026.GQ5556@nvidia.com>
- <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050>
- <20250109144051.GX5556@nvidia.com>
- <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
- <20250110133116.GF5556@nvidia.com>
- <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050>
- <20250113164935.GP5556@nvidia.com>
+X-Greylist: delayed 588 seconds by postgrey-1.36 at gabe;
+ Mon, 13 Jan 2025 12:38:37 UTC
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E85C810E09C
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 12:38:37 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4YWs4Y4zNTz9spv;
+ Mon, 13 Jan 2025 13:28:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1736771325; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2x7hi0zLbU3c7JkoUFAYjrKB6N8BcXDRVLitPOp7FCI=;
+ b=TsnYEBL48OJJiWHeqv2BGTINjtJPacNqzB4v5OOqqKKsXOMz9v9sWNpmCUU/kecrJH6JpI
+ wxh1ZOrm5Qm02KMjG5q5oDyt+LRJd3/mZeMI8cfTba6KPWtAA3bWLlGFiToh2g/M2GMA4X
+ Ntf3M8oHZ58rOSIQ0I61CWCyV1BqIot47yUVlGyDgdm4b3pKFUyeKH1lNS1xb0CddrMc8y
+ 2xsJFFcJLQCPVxYL1oXTwt4hbunPMNEXGMKGc0F0rb6A4AapNK+78c3OofKjXMhmQkvQwx
+ 2b4t0WYfmEuDt6hDload8fsq6XT4KaIewL10NbiroJRqup7oNydAMC/KltUILA==
+Message-ID: <5d4a4c342ee3cb56643b54c419c5b77776bd8793.camel@mailbox.org>
+Subject: Re: [PATCH 2/2] MAINTAINERS: Add DRM GPU Scheduler reviewer
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>, Michael Ellerman
+ <mpe@ellerman.id.au>, Yosry Ahmed <yosryahmed@google.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Matthew
+ Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>
+Date: Mon, 13 Jan 2025 13:28:40 +0100
+In-Reply-To: <ddf0d156-fa3f-4923-b894-8627ed3aa937@amd.com>
+References: <20250113121851.31382-1-phasta@kernel.org>
+ <20250113121851.31382-2-phasta@kernel.org>
+ <ddf0d156-fa3f-4923-b894-8627ed3aa937@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250113164935.GP5556@nvidia.com>
+X-MBO-RS-META: rbrtmwgqo6angmyum3hnutunbjsfc7kq
+X-MBO-RS-ID: ead7c6e966ea17aa241
+X-Mailman-Approved-At: Tue, 14 Jan 2025 08:33:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,70 +70,43 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2025 at 12:49:35PM -0400, Jason Gunthorpe wrote:
-> On Sat, Jan 11, 2025 at 11:48:06AM +0800, Xu Yilun wrote:
-> 
-> > > > > can be sure what is the correct UAPI. In other words, make the
-> > > > > VFIO device into a CC device should also prevent mmaping it and so on.
-> > > > 
-> > > > My idea is prevent mmaping first, then allow VFIO device into CC dev (TDI).
-> > > 
-> > > I think you need to start the TDI process much earlier. Some arches
-> > > are going to need work to prepare the TDI before the VM is started.
-> > 
-> > Could you elaborate more on that? AFAICS Intel & AMD are all good on
-> > "late bind", but not sure for other architectures.
-> 
-> I'm not sure about this, the topic has been confused a bit, and people
-> often seem to  misunderstand what the full scenario actually is. :\
+On Mon, 2025-01-13 at 13:24 +0100, Christian K=C3=B6nig wrote:
+> Am 13.01.25 um 13:18 schrieb Philipp Stanner:
+> > Christian K=C3=B6nig is the original author of much of the scheduler's
+> > code
+> > and, thus, well suited to do reviews.
+> >=20
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Cc: Danilo Krummrich <dakr@kernel.org>
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>=20
+> *sigh* Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-Yes, it is in early stage and open to discuss.
+https://y.yarn.co/d597fb6a-9584-4d78-a901-0bbe786d87ba_text.gif
 
-> 
-> What I'm talking abou there is that you will tell the secure world to
-> create vPCI function that has the potential to be secure "TDI run"
-> down the road. The VM will decide when it reaches the run state. This
+:)
 
-Yes.
+>=20
+> > ---
+> > =C2=A0 MAINTAINERS | 1 +
+> > =C2=A0 1 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index fa288ef20c59..f70e69bfc0c7 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -7891,6 +7891,7 @@ DRM GPU SCHEDULER
+> > =C2=A0 M:	Matthew Brost <matthew.brost@intel.com>
+> > =C2=A0 M:	Danilo Krummrich <dakr@kernel.org>
+> > =C2=A0 M:	Philipp Stanner <phasta@kernel.org>
+> > +R:	Christian K=C3=B6nig <ckoenig.leichtzumerken@gmail.com>
+> > =C2=A0 L:	dri-devel@lists.freedesktop.org
+> > =C2=A0 S:	Supported
+> > =C2=A0 T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>=20
 
-> is needed so the secure world can prepare anything it needs prior to
-> starting the VM.
-
-OK. From Dan's patchset there are some touch point for vendor tsm
-drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
-
-Maybe we could move to Dan's thread for discussion.
-
-https://lore.kernel.org/linux-coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-xfh.jf.intel.com/
-
-> Setting up secure vIOMMU emulation, for instance. I
-
-I think this could be done at VM late bind time.
-
-> expect ARM will need this, I'd be surprised if AMD actually doesn't in
-> the full scenario with secure viommu.
-
-AFAICS, AMD needs secure viommu.
-
-> 
-> It should not be a surprise to the secure world after the VM has
-> started that suddenly it learns about a vPCI function that wants to be
-
-With some pre-VM stage touch point, it wouldn't be all of a sudden.
-
-> secure. This should all be pre-arranged as possible before starting
-
-But our current implementation is not to prepare as much as possible,
-but only necessary, so most of the secure work for vPCI function is done
-at late bind time.
-
-Thank,
-Yilun
-
-> the VM, even if alot of steps happen after the VM starts running (or
-> maybe don't happen at all).
-> 
-> Jason
