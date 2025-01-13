@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699DEA0B455
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 11:18:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E46A0B465
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 11:20:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F60110E291;
-	Mon, 13 Jan 2025 10:18:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E09010E046;
+	Mon, 13 Jan 2025 10:20:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F9aqWR9f";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EjhOTYmm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7693710E046;
- Mon, 13 Jan 2025 10:17:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3058610E046
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 10:20:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1B3685C4CCA;
- Mon, 13 Jan 2025 10:17:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3759C4CED6;
- Mon, 13 Jan 2025 10:17:54 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C63305C54A4;
+ Mon, 13 Jan 2025 10:19:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52BC9C4CED6;
+ Mon, 13 Jan 2025 10:20:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736763478;
- bh=mReMEICzRw+0m0DEjJ0DZMWlcFfpkmbkNSz/MeRD4tg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=F9aqWR9f0isUe3iRtEp64bcoEleiEqmcdZv6tHWCoF6K/SBhiPLYOKuDX2TYuTBny
- KRkIPRKbGmP8BxgaZDtthR6sp3YrNmHDns0s8mjD/t8/E4WQo1r7H9gvDu7poBLSS3
- tqIAEUbSXIhHgepe/KRG+ZFjPQ5u9tXusb+T/kA67f7I/oyEWqeAQL2jY6geDojpFn
- XwY3kXYURTejANmSfzJhD9VVXyKiZWZ0B8eGyoSqi4FZ4bNSy8GTBHTxV7Gw5D0zvl
- QgwZ9IeKtku92j4eHGJOTx2hSHBBiK0vxvdoOFj1yqVx9vTVKPFaETR8fryHqscJjW
- 1sJJtkQD1ZQ/g==
-Date: Mon, 13 Jan 2025 12:17:49 +0200
-From: Zhi Wang <zhiwang@kernel.org>
-To: Zhenyu Wang <zhenyuw.linux@gmail.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, zhiyuan.lv@intel.com,
- james.y.wu@intel.com, kevin.tian@intel.com, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
- zhi.wang.linux@gmail.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Lucas De
- Marchi <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Subject: Re: GVT-g status (was: Re: [PATCH 0/3] drm/i915/gvt: Deadcoding)
-Message-ID: <20250113121749.00006dec.zhiwang@kernel.org>
-In-Reply-To: <Z4IA6XtXX-e0Du-6@dell-wzy>
-References: <20241222002043.173080-1-linux@treblig.org>
- <Z2dcZfW8eNMnxT0v@gallifrey> <Z3uGjO36tfhQsnfp@dell-wzy>
- <Z4A7QDtTrU6w2Yhv@intel.com> <877c73j64o.fsf@intel.com>
- <Z4IA6XtXX-e0Du-6@dell-wzy>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.34; x86_64-w64-mingw32)
+ s=k20201202; t=1736763621;
+ bh=16oofN4qwhzS8LEeINjrgxH2C44aM93J8ktG1xFg7rA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EjhOTYmmAyPKO3heeoShuA3AMFeWLhQUGVciofToWvEHui+pjQ7m3I9clR35Xq9Gv
+ rnuV0FhvIwwudrw6LO+bq/HwScqvX6/tPh9aPSHZur5gzNVvbuK5uNmKhGNB3S9/VN
+ 2MRu9XuePYtU/ZYUJ6imghbfvirJp5E+TK2PvasOS7oYkTTFdXj78bDzhdCCEIFPb/
+ u6UZCIhzAYPWgCu6pYzNVufXzdG8I8sS1sObrXOy5kim7nG0pD8z+RyePBmdRR0e2s
+ Qp4m67p74emtJ0kXqLYNXSSBXnUxy4xHqeJ8rF/xktcPTBGFbxbPUDD34xWgqyTAYb
+ ZM42jz0w4H0vA==
+Date: Mon, 13 Jan 2025 11:20:15 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 2/3] drm/sched: Adjust outdated docu for run_job()
+Message-ID: <Z4To3x2dCGEi6hJX@pollux>
+References: <20250109133710.39404-2-phasta@kernel.org>
+ <20250109133710.39404-5-phasta@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250109133710.39404-5-phasta@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,82 +68,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 11 Jan 2025 14:26:01 +0900
-Zhenyu Wang <zhenyuw.linux@gmail.com> wrote:
+On Thu, Jan 09, 2025 at 02:37:11PM +0100, Philipp Stanner wrote:
+> The documentation for drm_sched_backend_ops.run_job() mentions a certain
+> function called drm_sched_job_recovery(). This function does not exist.
+> What's actually meant is drm_sched_resubmit_jobs(), which is by now also
+> deprecated.
+> 
+> Remove the mention of the deprecated function.
+> 
+> Discourage the behavior of drm_sched_backend_ops.run_job() being called
+> multiple times for the same job.
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+>  include/drm/gpu_scheduler.h | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index d5cd2a78f27c..c4e65f9f7f22 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -421,9 +421,12 @@ struct drm_sched_backend_ops {
+>  
+>  	/**
+>  	 * @run_job: Called to execute the job once all of the dependencies
+> -	 * have been resolved. This may be called multiple times, if
+> -	 * timedout_job() has happened and drm_sched_job_recovery() decides to
+> -	 * try it again.
+> +	 * have been resolved.
+> +	 *
+> +	 * The deprecated drm_sched_resubmit_jobs() (called from
+> +	 * drm_sched_backend_ops.timedout_job()) can invoke this again with the
+> +	 * same parameters. Doing this is strongly discouraged because it
 
-> On Fri, Jan 10, 2025 at 12:49:27PM +0200, Jani Nikula wrote:
-> > On Thu, 09 Jan 2025, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> > > On Mon, Jan 06, 2025 at 04:30:20PM +0900, Zhenyu Wang wrote:
-> > >> On Sun, Dec 22, 2024 at 12:25:09AM +0000, Dr. David Alan Gilbert
-> > >> wrote:
-> > >> > Note: zhenyuw@linux.intel.com's address bounces:
-> > >> > 
-> > >> 
-> > >> yeah, I've left Intel so can't use that box any more, looks
-> > >> Rodrigo hasn't queue up my address change patch yet. Rodrigo?
-> > >
-> > > pushed to drm-intel-next now, although I was assuming this to come
-> > > on a gvt pull request...
-> > >
-> > > what about this patch here? coming in a PR or should I take this
-> > > directly at drm-intel-next as well?
-> > 
-> > AFAICT the last gvt-next pull request was more than two years ago
-> > and gvt-fixes slightly less than one year ago.
-> > 
-> > There's a single cleanup commit in gvt-next applied two years ago
-> > for which there hasn't been a pull request.
-> > 
-> > The GVT github page [1] says, "This repository has been archived by
-> > the owner on Oct 3, 2024. It is now read-only." The intel-gvt-dev
-> > mailing list [2] appears to be mostly spam.
-> > 
-> > Seems to me something like this would be appropriate:
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 1c3eab5d2b1a..161206fdaf05 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11557,11 +11557,10 @@ F:	drivers/gpio/gpio-tangier.h
-> >  INTEL GVT-g DRIVERS (Intel GPU Virtualization)
-> >  M:	Zhenyu Wang <zhenyuw.linux@gmail.com>
-> >  M:	Zhi Wang <zhi.wang.linux@gmail.com>
-> > -L:	intel-gvt-dev@lists.freedesktop.org
-> >  L:	intel-gfx@lists.freedesktop.org
-> > -S:	Supported
-> > +S:	Maintained
-> >  W:	https://github.com/intel/gvt-linux/wiki
-> > -T:	git https://github.com/intel/gvt-linux.git
-> > +T:	git https://gitlab.freedesktop.org/drm/i915/kernel.git
-> >  F:	drivers/gpu/drm/i915/gvt/
-> >
-> 
-> Looks fine with me.
-> 
-> Acked-by: Zhenyu Wang <zhenyuw.linux@gmail.com>
-> 
-> >  INTEL HID EVENT DRIVER
-> > 
-> > But I don't think it would be far from the truth to have "S: Odd
-> > Fixes" either. And the extreme would be to just remove the whole
-> > maintainers entry and have it fall back to the i915 entry.
-> > 
-> > Thoughts?
-> >
-> 
-> When I left Intel, I have raised similar question to manager or
-> related people to see their ideas on how to keep GVT-g maintenance
-> work for upstream, but I didn't get real answers before my last day
-> at Intel...So still cc some intel gvt related people to double
-> confirm.
-> 
-> For me, it's fine to remove the maintainer entry maybe only keep as
-> reviewer?
-> 
-> Thanks to raise up this issue, Jani! 
-> 
+Maybe "invoke this again for the same job"?
 
-Works for me as well. I am mostly doing this as a hobby on my Skylake
-desktop in my spare time.
+> +	 * violates dma_fence rules.
 
-Z.
+Does it? AFAIU it puts certain expectations on the driver, before a driver can
+call this function, which likely leads to the driver to violate dma_fence rules,
+right?
+
+Maybe we should also list the exact rules that are (likely to be) violated to
+allow drivers to fix it at their end more easily.
+
+>  	 *
+>  	 * @sched_job: the job to run
+>  	 *
+> -- 
+> 2.47.1
+> 
