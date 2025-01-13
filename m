@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22346A0C38D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 22:20:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44422A0C38F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 22:21:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 227ED10E4CC;
-	Mon, 13 Jan 2025 21:20:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8F5510E7D0;
+	Mon, 13 Jan 2025 21:21:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OlOJtNus";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="I/bSd0/b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3361110E4CC
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 21:20:45 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54252789365so5643449e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 13:20:45 -0800 (PST)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57F0710E7D0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 21:21:11 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-5401c52000fso4060862e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 13:21:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736803183; x=1737407983; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736803210; x=1737408010; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=auolGcBUcHd/JEoGxGiZs9F7L7UJFnvDf2yzuAyYqU4=;
- b=OlOJtNuswoE3B12Yui/7wmUmVptva9Y1OG5pR39Ni/ZlHuetywhzA52Z9kG4Yf6GdJ
- h6q43bVm7C4BIWhUHnKrWTc1ojmT8+YVjUWRT2OIoBSScZqeHFbpUwBj/n1ZhhLTQWwG
- t7JokaUrnCPOz6JPqDkPMn4dQ4acjBeEJcsMVEKsucRv3n1gUe4aGNb94RnCu89gfDnX
- F1JkgPB2DD4lBs9xE8ZfAutl9C2+I6yrxvv+boguFSagPabs6KTomNfivY8tcpnhAMml
- EB4QFJyEhoXrKL4RKTnz07LObSGBOMF+qPPhFexfoxBoJqRjLB41eBPXzHtGJ4xCDKAa
- Ks7w==
+ bh=ex/N+A8TE0rVtTf4oLEMfavqRK5XwiOtT6Gdk+tgQgc=;
+ b=I/bSd0/bHpnJ6+xgupDBPh8AtVNP7INACTfk4JBSVq2a+ywveUGnuYY4zPWPqr1hV1
+ Raqj1I+rnZ64Q6VfZlVK5C4fRvhtqvuYFC4zS4ewaq7Vcl4e8E5qEjsrF8IXJj9JYAPA
+ 4EZXCs7nI8OJ7PUM7g3HjQEKzeR2zY+ROrlGvfa618pPbkGmc884Q4gjH6rwbzeQJ2vG
+ 08UTF8Z/FbJ3OtjW8gmMVSqM+Z/ZkPapXVf3Bu2j/1YpuR94fPavCp3tVsqzXTu28Lwk
+ c7ur3SPtGvInEPUUzJsfJxGAZVGo+DZRrrHocMF/PO5GKvf0Jm/I3Ipx4gRAqh7h7iBO
+ h1PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736803183; x=1737407983;
+ d=1e100.net; s=20230601; t=1736803210; x=1737408010;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=auolGcBUcHd/JEoGxGiZs9F7L7UJFnvDf2yzuAyYqU4=;
- b=RTx7DjnmswuYaQ7qKLOmMfLQYvo+eRW18buzhfuEqMUTS4oIuD8DvNrq1aB14f0RX3
- p9Jm1tXnFEo0Ww37VcxTdhuS5qZTgmyVshWqONqiM4YqcQEUMjYrXgD6HCVi6oZ6eqAx
- lUiiFE2mFBozCEN2oivasBo9YhfdFZhmteTvLZl/BKv5r/6tfIXEh6CGGUAGd2rkNufY
- cKXP9BDoPX38Gb9OQCT3WWuAyx9V3xXJmo1+Il0++/P6Pfz8hJGJqfSzPavOFXvYJJ73
- hJl8lRaNXRtIw5GzpeSJePgqn08PfjUMxke6kDBYHiNCAbxdZ0OOqSmk8F06H0jfhc44
- P2kQ==
+ bh=ex/N+A8TE0rVtTf4oLEMfavqRK5XwiOtT6Gdk+tgQgc=;
+ b=DvY7yFiy+MtvO3gEkisvDUILKtdmWk+Dge472EpkwgZRFD4ufv8BzqVkOfG3ltEjJW
+ 8JwczJ72vXr++CKcH5LBRPsUrRw/7tK2uTYyLXkNG5Tn1RYQcaQsbVaOAHHQ66GgZvxR
+ NkafpDoaUPErYU3iikprzVn0yb1yEAPoDZLBn07MWZSuX5PpwSvJ8fYu9GU/MpUwgPC7
+ RP2azuG3jUCuE971YPvlS5ZNgxpUG0ws3l3w0XJyETTA18cM+zgh9JTkIjbrJtt6a6Jv
+ LW4C1iTjphj5VAELHEom1ThGqxIQz+OOAV/U8zXiUtyoHCywk0duB98UCVyj2HP7qDnx
+ IOEg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4mLyJU8mzZCiK3ylA8DR5eTqcvT80n3ACxWj8LUakzBR9jOzgjZL4WdqKXle7TdTqnpz/PIOaNYA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyJ5A3X+iQMynov1/O7on02BcaSTjxIBTxqZ8gwMZwRLKXem3p1
- yWIATgEiksKrONj98N3P3Hbmfy5jvYzzdF6q02+m6eM9jvwDgcn084zXC8fxvc8=
-X-Gm-Gg: ASbGncvTmRAEbaFzX723Z/vpcN1RwGJPbImwE3G5+g+TF79mg4BeXAPpcMYptNJviCZ
- 1nbv6DuppnPjy1z8KldPWMqxDmm8vmGGXrA8/133VCrvEKZdq4Kbs2Frr9VA9Zep9xEAbyPgwk7
- 7xAab7gwt+PQGP2uXxx7qfl/kLkT2Iph3U/DkdExh1pZOuBp+aVVAzMlve8jlOAqtR72t5GYkvL
- a95OHEr4yYiQV/TzXsdxU8RTij5U1mH1VpFKPhu3YKWJyNS9H2wvCuh4rt5pI+GH0XnE77KyBvd
- PcmkHGXt7g3oGjk8qhF9hb+X0WlptGO3cSa2
-X-Google-Smtp-Source: AGHT+IG4HNf2OdrQtEVEMxchWQ4BRVPCf9mNemEPXu6SiyokvYgvf/Pf55zSaTnCvvZ+Tt2RSZT45g==
-X-Received: by 2002:a05:6512:31d6:b0:540:1b41:c75f with SMTP id
- 2adb3069b0e04-542845bf4acmr7764693e87.16.1736803183428; 
- Mon, 13 Jan 2025 13:19:43 -0800 (PST)
+ AJvYcCVrgyMMg+/3gR14rUvyQmhVpwTKk4R6BmaPQndSHboFTYAgprwmXwfHNp1B6mIz8MPt3IlE+aQv7+0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzl0zQnfQdOA90bwXM3sdM118kaOfyqQGGLqb75FVQur8G0J4Ja
+ qwjGIB14gat8vfy/iAmhJeFWea0q/fAllM8tXzWcvFWUGNNP9flHDkA6z+DRmn8=
+X-Gm-Gg: ASbGncuG1steTzD/FdxG9yO/MCUfksDan0+lPs/P1dHrTfAR09FyXUa1maohp8wF4N6
+ Md3Es5HDuXq3bjIEDykImI5fKj4GM3zMcdmmto34FTG/gDRUr+gT5jw0EIMkdcG5sm0uMH8YzQ7
+ lzOvDWiYOpQQFdRnFWZ/P2tnEspeM5wh1zacfTGiOzyUsiWPlvTf2SV3nfCCl6KPU7UAFVxx4Po
+ OCf6BsjJzz2jUm0SYCe1Js8+taPiRmQsX68lqSJDwhYpSSyZs9VRv+xjOpB8wMBgkpuliMFq7Oy
+ 1Elov9zYTllLOGJ3SSOcrnnhT5SvDE9lN/aJ
+X-Google-Smtp-Source: AGHT+IFM0q5YT+lkYOXNZ8RCxceT74oC4eO/zNqvfxZeawUDOMC24AW4RgxFVCzMsA7HFvJbHE994w==
+X-Received: by 2002:a05:6512:10c9:b0:540:2257:22ab with SMTP id
+ 2adb3069b0e04-542845d7fd0mr6626790e87.27.1736803209434; 
+ Mon, 13 Jan 2025 13:20:09 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bec0643sm1486547e87.187.2025.01.13.13.19.41
+ 2adb3069b0e04-5428bec2157sm1444012e87.213.2025.01.13.13.20.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2025 13:19:42 -0800 (PST)
-Date: Mon, 13 Jan 2025 23:19:40 +0200
+ Mon, 13 Jan 2025 13:20:08 -0800 (PST)
+Date: Mon, 13 Jan 2025 23:20:05 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
@@ -79,17 +79,17 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Jayesh Choudhary <j-choudhary@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>, 
  Linux Kernel List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 03/12] drm/bridge: cdns-dsi: Fix phy de-init and flag
- it so
-Message-ID: <eosysems4evgucm4cprcntufi7w6wwhhpm6cai6wls5f75ugvy@k4v2suh376w6>
+Subject: Re: [PATCH v6 05/12] drm/bridge: cdns-dsi: Fix the clock variable
+ for mode_valid()
+Message-ID: <haqi67z7i6lleb3i7b2ksqkq2gyag26fev4gj3sqtds6qtqrzd@k25h6jive5f5>
 References: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
- <20250111192738.308889-4-aradhya.bhatia@linux.dev>
- <dqmzdxhgnabfq6zzbd424ajfd734gza5aitmk5bfswff52d76r@2swxl627az3d>
- <79fc67a5-ac2a-48e2-b3ae-b96b6c29191e@linux.dev>
+ <20250111192738.308889-6-aradhya.bhatia@linux.dev>
+ <urkosp5w2ush3br6xvxx3vpxvkea4tmaeas3vvlcb54ofknjat@tnievb37sfx4>
+ <c552b800-b3d5-477c-b7f8-53761e40ea36@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <79fc67a5-ac2a-48e2-b3ae-b96b6c29191e@linux.dev>
+In-Reply-To: <c552b800-b3d5-477c-b7f8-53761e40ea36@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,62 +105,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2025 at 09:09:11PM +0530, Aradhya Bhatia wrote:
-> Thank you for reviewing the patches, Dmitry.
+On Mon, Jan 13, 2025 at 09:12:02PM +0530, Aradhya Bhatia wrote:
 > 
 > On 1/13/25 15:10, Dmitry Baryshkov wrote:
-> > On Sun, Jan 12, 2025 at 12:57:29AM +0530, Aradhya Bhatia wrote:
+> > On Sun, Jan 12, 2025 at 12:57:31AM +0530, Aradhya Bhatia wrote:
 > >> From: Aradhya Bhatia <a-bhatia1@ti.com>
 > >>
-> >> The driver code doesn't have a de-initialization path as yet, and so it
-> >> does not clear the phy_initialized flag while suspending. This is a
-> >> problem because after resume the driver looks at this flag to determine
-> >> if a Phy re-initialization is required or not. It is in fact required
-> >> because the hardware is resuming from a suspend, but the driver does not
-> >> carry out any re-initialization causing the D-Phy to not work at all.
-> >>
-> >> Add the counterpart of phy_power_on(), that is phy_power_off() from the
-> >> _bridge_disable() and clear the flags so that the Phy can be initialized
-> >> again when required.
-> >>
-> >> Move the Phy initialization from _bridge_enable() to _resume(), and
-> >> de-initialize during the _suspend() - so that the phy_{init, exit}()
-> >> take place once every resume/suspend cycle.
+> >> Allow the D-Phy config checks to use mode->clock instead of
+> >> mode->crtc_clock during mode_valid checks, like everywhere else in the
+> >> driver.
 > > 
-> > Is it okay to call phy_init() before writing MCTL_DPHY_CFG0 ?
+> > Please describe why, not what.
 > 
-> The phy_init() is a no-op when we look at the D-Phy driver, which does
-> not implement the _init() hook at all. So, in this case, all phy_init()
-> call ever manages to do is book-keeping. Book-keeping that isn't
-> required to be done every time we do a bridge enable/disable.
-> But despite the no-op nature of the call, I guess it would still not
-> make sense to call it before the reset assert done in MCTL_DPHY_CFG0.
-
-Yes, please.
-
-> Instead of moving it to resume(), I can keep phy_init() as is, and add
-> phy_exit() in the bridge disable path, instead of the suspend path.
+> It is unclear why the rest of the code uses mode->crtc_* parameters at
+> all during the non mode validation phase.
 > 
+> But during that phase, the crtc_* parameters are not generated
+> (duplicated in this case) from the regular ones, and so the validation
+> fails. The patch prevents that from happening by streamlining with
+> other instances.
+> 
+> I will update the commit text with this.
+
+SGTM
+
 > 
 > Regards
 > Aradhya
 > 
 > > 
 > >>
-
-> >> The order of calls still remains the same. phy_init() needs to be called
-> >> before phy_power_on() - which happens still. What this patch changes is
-> >> the frequency of the phy_init() call. Instead of it being called once
-> >> every bridge enable/disable cycle, it is now being called once every
-> >> resume/suspend cycle. This move has been considered safe after numerous
-> >> tests with the hardware.
-> >>
 > >> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+> >> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > >> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > >> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 > >> ---
-> >>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 ++++++++--
-> >>  1 file changed, 8 insertions(+), 2 deletions(-)
+> >>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> >> index 3b3c45df1399..9c743fde2861 100644
+> >> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> >> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> >> @@ -568,13 +568,14 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+> >>  	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
+> >>  	unsigned long dsi_hss_hsa_hse_hbp;
+> >>  	unsigned int nlanes = output->dev->lanes;
+> >> +	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
+> >>  	int ret;
+> >>  
+> >>  	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
+> >>  	if (ret)
+> >>  		return ret;
+> >>  
+> >> -	phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
+> >> +	phy_mipi_dphy_get_default_config(mode_clock * 1000,
+> >>  					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
+> >>  					 nlanes, phy_cfg);
+> >>  
+> >> -- 
+> >> 2.34.1
+> >>
 > > 
 
 -- 
