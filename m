@@ -2,92 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2430FA0B179
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 09:43:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53A55A0B19A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 09:46:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42CEE10E5B3;
-	Mon, 13 Jan 2025 08:43:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Xs+WvjW0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03FE810E5CA;
+	Mon, 13 Jan 2025 08:46:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E005B10E5B3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 08:43:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736757806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=//d5wi9/EdmI+fVVzxJHzPhIlbwreeTF/f4oDiSFxCE=;
- b=Xs+WvjW09QevcAbtEQdqTQvKopo/kUp6QFgcPFxUEK/vYwwxNCEmUd/D23jJYtyaVE64RW
- R8TesvhJcOMdN4dr8jojoJM6oINA8qkug2Zo21xpOg+Z1/9wtk3FWFY4dpokTggrktjSXt
- s1bKuuImVcQG6JrI7qJ94kZ1C8deJcY=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-576-DEpYAQ5zMvSwGEwbVlP74w-1; Mon, 13 Jan 2025 03:43:23 -0500
-X-MC-Unique: DEpYAQ5zMvSwGEwbVlP74w-1
-X-Mimecast-MFC-AGG-ID: DEpYAQ5zMvSwGEwbVlP74w
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-216728b170cso76400205ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 00:43:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736757802; x=1737362602;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=//d5wi9/EdmI+fVVzxJHzPhIlbwreeTF/f4oDiSFxCE=;
- b=uBZdPxTj4QkhwiLhhm5iSuQsHM1Y8T2qlk4czTQwBU/bWgDnukvoDCukFSwaW5Qv8z
- AGi++x98A9OlZFB681uNFl1qAclkeqTws2ucrVHGkLH6Hlcv3SPkEUwgdgIaG+v5CI4a
- bFdKP/g4sDnKVIFrf0dSaPLt5pP50QM6/yQsqgN5l89WF1TSzIXIgQProDZSW56sXtGy
- NBfQINJDchVpYnQnpmi3+Jhbs38Jqxq28OIg3PS5wroGMrP5KGfuFzqGekmaGLhibtck
- yWsM7En9xWu+FaKtrnpr3yD8rBWKiMF8qcYh2A0NSeFcuIqVT4TxVO7Jp5A/JqZO8akg
- odQQ==
-X-Gm-Message-State: AOJu0YxcUWADeijR24Af8eZ4JWh2xJ6/RNjP0Y53GlhsIadgDrFizR2E
- 1H6yt/18CH6hugnRotrxILhHXLvQSCocNrub36NI1ROimFsIzLo3WCVSy0hDnAspX/Jjoaq1lgr
- bzgqaNxQ+rg0JgxuT2SJdQ7WJjXh+zJHyIbCwCOO3bSz6qS6HPdayMLXdXbB3wsjz4w==
-X-Gm-Gg: ASbGncvp+herk9zTK83iY8djdaC5baVeJwtQkVahiep/MpEVSAIgWZSFvHm9t11QbFN
- XghXK/sR/WtO66Jr1gWu3VwWN+kLvEGfVHyrDykiQwbX8VJ/RNEnq0Vu52ZfMpxx3k7DpXGCNod
- cMjcHpmepqdDFSWHXBEcBsb9mHZ311yNE6uGEf9K8dMX9W2Z7t2pCZnAR1ucH6XLLgJYGYi+VTV
- Dxuy7171Ue1Wdzc4a232ZN6h+D7zai6tZhfa7kxwJ6cQxolHmoKtADmJ5I88lOjOTUtnOnymgEq
- sABAaxk=
-X-Received: by 2002:a17:902:f70f:b0:216:2a36:5b2a with SMTP id
- d9443c01a7336-21a83fcc890mr310103925ad.47.1736757802060; 
- Mon, 13 Jan 2025 00:43:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IET7vlOZMmOlKp79sXTHWskQAC0dSlxlxxL5k3Rks0LDtj7tszxra4guuOgbVOVGjZY/gcMAg==
-X-Received: by 2002:a17:902:f70f:b0:216:2a36:5b2a with SMTP id
- d9443c01a7336-21a83fcc890mr310103685ad.47.1736757801731; 
- Mon, 13 Jan 2025 00:43:21 -0800 (PST)
-Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-21a9f22ef8fsm48838635ad.198.2025.01.13.00.43.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2025 00:43:21 -0800 (PST)
-Message-ID: <582e10673bb749f18ebf8a18f46ca573df396576.camel@redhat.com>
-Subject: Re: [PATCH] drm/sched: Fix amdgpu crash upon suspend/resume
-From: Philipp Stanner <pstanner@redhat.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
- Reisner <philipp.reisner@linbit.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Simona
- Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>, Philipp
- Stanner <phasta@kernel.org>
-Date: Mon, 13 Jan 2025 09:43:12 +0100
-In-Reply-To: <eb5f3198-7625-40f4-bc23-cac969664e85@amd.com>
-References: <20250107140240.325899-1-philipp.reisner@linbit.com>
- <942c02f2-6496-4406-a73b-941d096aadfb@amd.com>
- <CADGDV=U_7CdkdEiLX9kj9yHsXhwb5zP_eGXpwmrj20cmgzMAtA@mail.gmail.com>
- <eb5f3198-7625-40f4-bc23-cac969664e85@amd.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EB4F210E5C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 08:46:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB0631424;
+ Mon, 13 Jan 2025 00:47:07 -0800 (PST)
+Received: from [10.57.5.249] (unknown [10.57.5.249])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD4D33F673;
+ Mon, 13 Jan 2025 00:46:37 -0800 (PST)
+Message-ID: <c54e64d9-55de-49fe-9e6d-f6c358a41034@arm.com>
+Date: Mon, 13 Jan 2025 08:46:36 +0000
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: TUAco38JFZtR9A-iZPVMQSIbvcmnU6VSqlSSq0EkeI8_1736757802
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: fix all mmu kernel-doc comments
+To: Randy Dunlap <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250111062832.910495-1-rdunlap@infradead.org>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250111062832.910495-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,122 +50,272 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+cc Danilo
-+cc myself
+On 11/01/2025 06:28, Randy Dunlap wrote:
+> Use the correct format for all kernel-doc comments.
+> Use structname.membername for named structs.
+> Don't precede function names in kernel-doc with '@' sign.
+> Use the correct function parameter names in kernel-doc comments.
+> 
+> This fixes around 80 kernel-doc warnings.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
 
-On Wed, 2025-01-08 at 09:19 +0100, Christian K=C3=B6nig wrote:
-> Am 07.01.25 um 16:21 schrieb Philipp Reisner:
-> > [...]
-> > > > The OOPS happens because the rq member of entity is NULL in
-> > > > drm_sched_job_arm() after the call to
-> > > > drm_sched_entity_select_rq().
-> > > >=20
-> > > > In drm_sched_entity_select_rq(), the code considers that
-> > > > drb_sched_pick_best() might return a NULL value. When NULL, it
-> > > > assigns
-> > > > NULL to entity->rq even if it had a non-NULL value before.
-> > > >=20
-> > > > drm_sched_job_arm() does not deal with entities having a rq of
-> > > > NULL.
-> > > >=20
-> > > > Fix this by leaving the entity on the engine it was instead of
-> > > > assigning a NULL to its run queue member.
-> > > Well that is clearly not the correct approach to fixing this. So
-> > > clearly
-> > > a NAK from my side.
-> > >=20
-> > > The real question is why is amdgpu_cs_ioctl() called when all of
-> > > userspace should be frozen?
-> > >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > Could the OOPS happen at resume time? Might it be that the kernel
-> > activates user-space
-> > before all the components of the GPU finished their wakeup?
-> >=20
-> > Maybe drm_sched_pick_best() returns NULL since no scheduler is
-> > ready yet?
->=20
-> Yeah that is exactly what I meant. It looks like either the suspend
-> or=20
-> the resume order is somehow messed up.
->=20
-> In other words either some application tries to submit GPU work while
-> it=20
-> should already been stopped, or it tries to submit GPU work before it
-> is=20
-> started.
->=20
-> > Apart from whether amdgpu_cs_ioctl() should run at this point, I
-> > still think the
-> > suggested change improves the code. drm_sched_pick_best() can
-> > return NULL.
-> > drm_sched_entity_select_rq() can handle the NULL (partially).
-> >=20
-> > drm_sched_job_arm() crashes on an entity that has rq set to NULL.
->=20
-> Which is actually not the worst outcome :)
->=20
-> With your patch applied we don't immediately crash any more in the=20
-> submission path, but the whole system could then later deadlock
-> because=20
-> the core memory management waits for a GPU submission which never
-> returns.
->=20
-> That is an even worse situation because you then can't pinpoint any
-> more=20
-> where that is coming from.
->=20
-> > The handling of NULL values is half-baked.
-> >=20
-> > In my opinion, you should define if drm_sched_pick_best() may put a
-> > NULL into
-> > rq. If your answer is yes, it might put a NULL there; then, there
-> > should be a
-> > BUG_ON(!entity->rq) after the invocation of
-> > drm_sched_entity_select_rq().
-> > If your answer is no, the BUG_ON() should be in
-> > drm_sched_pick_best().
->=20
-> Yeah good point.
->=20
-> We might not want a BUG_ON(), that is only justified when we prevent=20
-> further damage (e.g. random data corruption or similar).
->=20
-> I suggest using a WARN(!shed, "Submission without activated
-> sheduler!").=20
-> This way the system has at least a chance of survival should the=20
-> scheduler become ready later on.
->=20
-> On the other hand the BUG_ON() or the NULL pointer deref should only=20
-> kill the application thread which is submitting something before the=20
-> driver is resumed. So that might help to pinpoint where the actually=20
-> issue is.
+Thanks for doing this - it's been on my TODO list to take a look at
+this, and I know we've got more issues in other files.
 
-As I see it the BUG_ON() would just be a more pretty NULL pointer
-deref. If we agree that this is effectively a misuse of the scheduler
-API we probably want to add it to make it more pretty, though?
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-@Philipp:
-BTW, I only just discovered this thread by coincidence. Please use
-get_maintainer. The scheduler currently has 4 maintainers, and none of
-them is on CC.
+I'll push this to drm-misc-next.
 
-Danke,
-P.
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > That helps guys with zero domain knowledge, like me, to figure out
-> > how
-> > this is all
-> > supposed to work.
-> >=20
-> > best regards,
-> > =C2=A0 Philipp
->=20
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c |   71 ++++++++++++------------
+>  1 file changed, 37 insertions(+), 34 deletions(-)
+> 
+> --- linux-next-20250108.orig/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ linux-next-20250108/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -53,26 +53,27 @@ struct panthor_mmu {
+>  	/** @irq: The MMU irq. */
+>  	struct panthor_irq irq;
+>  
+> -	/** @as: Address space related fields.
+> +	/**
+> +	 * @as: Address space related fields.
+>  	 *
+>  	 * The GPU has a limited number of address spaces (AS) slots, forcing
+>  	 * us to re-assign them to re-assign slots on-demand.
+>  	 */
+>  	struct {
+> -		/** @slots_lock: Lock protecting access to all other AS fields. */
+> +		/** @as.slots_lock: Lock protecting access to all other AS fields. */
+>  		struct mutex slots_lock;
+>  
+> -		/** @alloc_mask: Bitmask encoding the allocated slots. */
+> +		/** @as.alloc_mask: Bitmask encoding the allocated slots. */
+>  		unsigned long alloc_mask;
+>  
+> -		/** @faulty_mask: Bitmask encoding the faulty slots. */
+> +		/** @as.faulty_mask: Bitmask encoding the faulty slots. */
+>  		unsigned long faulty_mask;
+>  
+> -		/** @slots: VMs currently bound to the AS slots. */
+> +		/** @as.slots: VMs currently bound to the AS slots. */
+>  		struct panthor_as_slot slots[MAX_AS_SLOTS];
+>  
+>  		/**
+> -		 * @lru_list: List of least recently used VMs.
+> +		 * @as.lru_list: List of least recently used VMs.
+>  		 *
+>  		 * We use this list to pick a VM to evict when all slots are
+>  		 * used.
+> @@ -87,16 +88,16 @@ struct panthor_mmu {
+>  
+>  	/** @vm: VMs management fields */
+>  	struct {
+> -		/** @lock: Lock protecting access to list. */
+> +		/** @vm.lock: Lock protecting access to list. */
+>  		struct mutex lock;
+>  
+> -		/** @list: List containing all VMs. */
+> +		/** @vm.list: List containing all VMs. */
+>  		struct list_head list;
+>  
+> -		/** @reset_in_progress: True if a reset is in progress. */
+> +		/** @vm.reset_in_progress: True if a reset is in progress. */
+>  		bool reset_in_progress;
+>  
+> -		/** @wq: Workqueue used for the VM_BIND queues. */
+> +		/** @vm.wq: Workqueue used for the VM_BIND queues. */
+>  		struct workqueue_struct *wq;
+>  	} vm;
+>  };
+> @@ -143,14 +144,14 @@ struct panthor_vma {
+>  struct panthor_vm_op_ctx {
+>  	/** @rsvd_page_tables: Pages reserved for the MMU page table update. */
+>  	struct {
+> -		/** @count: Number of pages reserved. */
+> +		/** @rsvd_page_tables.count: Number of pages reserved. */
+>  		u32 count;
+>  
+> -		/** @ptr: Point to the first unused page in the @pages table. */
+> +		/** @rsvd_page_tables.ptr: Point to the first unused page in the @pages table. */
+>  		u32 ptr;
+>  
+>  		/**
+> -		 * @page: Array of pages that can be used for an MMU page table update.
+> +		 * @rsvd_page_tables.pages: Array of pages that can be used for an MMU page table update.
+>  		 *
+>  		 * After an VM operation, there might be free pages left in this array.
+>  		 * They should be returned to the pt_cache as part of the op_ctx cleanup.
+> @@ -172,10 +173,10 @@ struct panthor_vm_op_ctx {
+>  
+>  	/** @va: Virtual range targeted by the VM operation. */
+>  	struct {
+> -		/** @addr: Start address. */
+> +		/** @va.addr: Start address. */
+>  		u64 addr;
+>  
+> -		/** @range: Range size. */
+> +		/** @va.range: Range size. */
+>  		u64 range;
+>  	} va;
+>  
+> @@ -195,14 +196,14 @@ struct panthor_vm_op_ctx {
+>  
+>  	/** @map: Fields specific to a map operation. */
+>  	struct {
+> -		/** @vm_bo: Buffer object to map. */
+> +		/** @map.vm_bo: Buffer object to map. */
+>  		struct drm_gpuvm_bo *vm_bo;
+>  
+> -		/** @bo_offset: Offset in the buffer object. */
+> +		/** @map.bo_offset: Offset in the buffer object. */
+>  		u64 bo_offset;
+>  
+>  		/**
+> -		 * @sgt: sg-table pointing to pages backing the GEM object.
+> +		 * @map.sgt: sg-table pointing to pages backing the GEM object.
+>  		 *
+>  		 * This is gathered at job creation time, such that we don't have
+>  		 * to allocate in ::run_job().
+> @@ -210,7 +211,7 @@ struct panthor_vm_op_ctx {
+>  		struct sg_table *sgt;
+>  
+>  		/**
+> -		 * @new_vma: The new VMA object that will be inserted to the VA tree.
+> +		 * @map.new_vma: The new VMA object that will be inserted to the VA tree.
+>  		 */
+>  		struct panthor_vma *new_vma;
+>  	} map;
+> @@ -304,27 +305,27 @@ struct panthor_vm {
+>  
+>  	/** @kernel_auto_va: Automatic VA-range for kernel BOs. */
+>  	struct {
+> -		/** @start: Start of the automatic VA-range for kernel BOs. */
+> +		/** @kernel_auto_va.start: Start of the automatic VA-range for kernel BOs. */
+>  		u64 start;
+>  
+> -		/** @size: Size of the automatic VA-range for kernel BOs. */
+> +		/** @kernel_auto_va.size: Size of the automatic VA-range for kernel BOs. */
+>  		u64 end;
+>  	} kernel_auto_va;
+>  
+>  	/** @as: Address space related fields. */
+>  	struct {
+>  		/**
+> -		 * @id: ID of the address space this VM is bound to.
+> +		 * @as.id: ID of the address space this VM is bound to.
+>  		 *
+>  		 * A value of -1 means the VM is inactive/not bound.
+>  		 */
+>  		int id;
+>  
+> -		/** @active_cnt: Number of active users of this VM. */
+> +		/** @as.active_cnt: Number of active users of this VM. */
+>  		refcount_t active_cnt;
+>  
+>  		/**
+> -		 * @lru_node: Used to instead the VM in the panthor_mmu::as::lru_list.
+> +		 * @as.lru_node: Used to instead the VM in the panthor_mmu::as::lru_list.
+>  		 *
+>  		 * Active VMs should not be inserted in the LRU list.
+>  		 */
+> @@ -336,13 +337,13 @@ struct panthor_vm {
+>  	 */
+>  	struct {
+>  		/**
+> -		 * @pool: The heap pool attached to this VM.
+> +		 * @heaps.pool: The heap pool attached to this VM.
+>  		 *
+>  		 * Will stay NULL until someone creates a heap context on this VM.
+>  		 */
+>  		struct panthor_heap_pool *pool;
+>  
+> -		/** @lock: Lock used to protect access to @pool. */
+> +		/** @heaps.lock: Lock used to protect access to @pool. */
+>  		struct mutex lock;
+>  	} heaps;
+>  
+> @@ -408,7 +409,7 @@ struct panthor_vm_bind_job {
+>  	struct panthor_vm_op_ctx ctx;
+>  };
+>  
+> -/**
+> +/*
+>   * @pt_cache: Cache used to allocate MMU page tables.
+>   *
+>   * The pre-allocation pattern forces us to over-allocate to plan for
+> @@ -478,7 +479,7 @@ static void *alloc_pt(void *cookie, size
+>  }
+>  
+>  /**
+> - * @free_pt() - Custom page table free function
+> + * free_pt() - Custom page table free function
+>   * @cookie: Cookie passed at page table allocation time.
+>   * @data: Page table to free.
+>   * @size: Size of the page table. This size should be fixed,
+> @@ -697,7 +698,7 @@ static void panthor_vm_release_as_locked
+>  
+>  /**
+>   * panthor_vm_active() - Flag a VM as active
+> - * @VM: VM to flag as active.
+> + * @vm: VM to flag as active.
+>   *
+>   * Assigns an address space to a VM so it can be used by the GPU/MCU.
+>   *
+> @@ -801,7 +802,7 @@ out_dev_exit:
+>  
+>  /**
+>   * panthor_vm_idle() - Flag a VM idle
+> - * @VM: VM to flag as idle.
+> + * @vm: VM to flag as idle.
+>   *
+>   * When we know the GPU is done with the VM (no more jobs to process),
+>   * we can relinquish the AS slot attached to this VM, if any.
+> @@ -1017,7 +1018,7 @@ static int flags_to_prot(u32 flags)
+>  
+>  /**
+>   * panthor_vm_alloc_va() - Allocate a region in the auto-va space
+> - * @VM: VM to allocate a region on.
+> + * @vm: VM to allocate a region on.
+>   * @va: start of the VA range. Can be PANTHOR_VM_KERNEL_AUTO_VA if the user
+>   * wants the VA to be automatically allocated from the auto-VA range.
+>   * @size: size of the VA range.
+> @@ -1063,7 +1064,7 @@ panthor_vm_alloc_va(struct panthor_vm *v
+>  
+>  /**
+>   * panthor_vm_free_va() - Free a region allocated with panthor_vm_alloc_va()
+> - * @VM: VM to free the region on.
+> + * @vm: VM to free the region on.
+>   * @va_node: Memory node representing the region to free.
+>   */
+>  void panthor_vm_free_va(struct panthor_vm *vm, struct drm_mm_node *va_node)
+> @@ -1492,9 +1493,9 @@ panthor_vm_create_check_args(const struc
+>  
+>  /**
+>   * panthor_vm_pool_create_vm() - Create a VM
+> + * @ptdev: The panthor device
+>   * @pool: The VM to create this VM on.
+> - * @kernel_va_start: Start of the region reserved for kernel objects.
+> - * @kernel_va_range: Size of the region reserved for kernel objects.
+> + * @args: VM creation args.
+>   *
+>   * Return: a positive VM ID on success, a negative error code otherwise.
+>   */
+> @@ -1558,6 +1559,8 @@ static void panthor_vm_destroy(struct pa
+>   *
+>   * The VM resources are freed when the last reference on the VM object is
+>   * dropped.
+> + *
+> + * Return: %0 for success, negative errno value for failure
+>   */
+>  int panthor_vm_pool_destroy_vm(struct panthor_vm_pool *pool, u32 handle)
+>  {
 
