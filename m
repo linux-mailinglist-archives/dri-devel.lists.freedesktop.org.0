@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A04A0BC79
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 16:47:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39DDAA0BC49
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 16:42:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E93BF10E6E9;
-	Mon, 13 Jan 2025 15:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F5110E6E5;
+	Mon, 13 Jan 2025 15:42:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="j+9TEcVx";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="BNqboy7d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 492 seconds by postgrey-1.36 at gabe;
- Mon, 13 Jan 2025 15:47:36 UTC
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FC9010E6E9
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:47:36 +0000 (UTC)
-Message-ID: <79fc67a5-ac2a-48e2-b3ae-b96b6c29191e@linux.dev>
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com
+ [95.215.58.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7061D10E6E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:42:54 +0000 (UTC)
+Message-ID: <c552b800-b3d5-477c-b7f8-53761e40ea36@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736782760;
+ t=1736782942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MGvG/Yi9xh4ppTUb/m1qTWmSdT6LKdkk3jorzGjjGzY=;
- b=j+9TEcVx84J/zKIt9w9O2gF4sn5QKSBovGoK/KBhmxnWvkcdxaBOu4uaM9n42gCvy7yWeq
- oqflZDPnK5bLx2qAi4ISXLe23ESuDR0qCmawWSK+ekFhlbXZXi6QmmXZHyaEJwBrnjA+wM
- /hSwkUtuPGB7/qi9s1apXFNZZbc/wRc=
-Date: Mon, 13 Jan 2025 21:09:11 +0530
+ bh=q+onY5bWJ3UEue2WR6kGb2y8tSjvnXFzhPBeSezdlb0=;
+ b=BNqboy7dUqLPiEtmuCOiHGNuELeEfFbytP2xKd+JiAWjx6Ys+SZq2GQVEAF4LDFjzC844n
+ +EkLYo5tCKwHUagkV34Rh2aMQdI5cU1vQptj3Nydnu2ZkFT3Iek2JIA435sDcucQiRR56c
+ zO0xakgHYlb7ZI6Tr3o0TLx1abkkEDA=
+Date: Mon, 13 Jan 2025 21:12:02 +0530
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 03/12] drm/bridge: cdns-dsi: Fix phy de-init and flag
- it so
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Subject: Re: [PATCH v6 05/12] drm/bridge: cdns-dsi: Fix the clock variable for
+ mode_valid()
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -48,13 +49,10 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>
 References: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
- <20250111192738.308889-4-aradhya.bhatia@linux.dev>
- <dqmzdxhgnabfq6zzbd424ajfd734gza5aitmk5bfswff52d76r@2swxl627az3d>
+ <20250111192738.308889-6-aradhya.bhatia@linux.dev>
+ <urkosp5w2ush3br6xvxx3vpxvkea4tmaeas3vvlcb54ofknjat@tnievb37sfx4>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <dqmzdxhgnabfq6zzbd424ajfd734gza5aitmk5bfswff52d76r@2swxl627az3d>
+In-Reply-To: <urkosp5w2ush3br6xvxx3vpxvkea4tmaeas3vvlcb54ofknjat@tnievb37sfx4>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
@@ -73,57 +71,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thank you for reviewing the patches, Dmitry.
 
 On 1/13/25 15:10, Dmitry Baryshkov wrote:
-> On Sun, Jan 12, 2025 at 12:57:29AM +0530, Aradhya Bhatia wrote:
+> On Sun, Jan 12, 2025 at 12:57:31AM +0530, Aradhya Bhatia wrote:
 >> From: Aradhya Bhatia <a-bhatia1@ti.com>
 >>
->> The driver code doesn't have a de-initialization path as yet, and so it
->> does not clear the phy_initialized flag while suspending. This is a
->> problem because after resume the driver looks at this flag to determine
->> if a Phy re-initialization is required or not. It is in fact required
->> because the hardware is resuming from a suspend, but the driver does not
->> carry out any re-initialization causing the D-Phy to not work at all.
->>
->> Add the counterpart of phy_power_on(), that is phy_power_off() from the
->> _bridge_disable() and clear the flags so that the Phy can be initialized
->> again when required.
->>
->> Move the Phy initialization from _bridge_enable() to _resume(), and
->> de-initialize during the _suspend() - so that the phy_{init, exit}()
->> take place once every resume/suspend cycle.
+>> Allow the D-Phy config checks to use mode->clock instead of
+>> mode->crtc_clock during mode_valid checks, like everywhere else in the
+>> driver.
 > 
-> Is it okay to call phy_init() before writing MCTL_DPHY_CFG0 ?
+> Please describe why, not what.
 
-The phy_init() is a no-op when we look at the D-Phy driver, which does
-not implement the _init() hook at all. So, in this case, all phy_init()
-call ever manages to do is book-keeping. Book-keeping that isn't
-required to be done every time we do a bridge enable/disable.
+It is unclear why the rest of the code uses mode->crtc_* parameters at
+all during the non mode validation phase.
 
-But despite the no-op nature of the call, I guess it would still not
-make sense to call it before the reset assert done in MCTL_DPHY_CFG0.
+But during that phase, the crtc_* parameters are not generated
+(duplicated in this case) from the regular ones, and so the validation
+fails. The patch prevents that from happening by streamlining with
+other instances.
 
-Instead of moving it to resume(), I can keep phy_init() as is, and add
-phy_exit() in the bridge disable path, instead of the suspend path.
-
+I will update the commit text with this.
 
 Regards
 Aradhya
 
 > 
 >>
->> The order of calls still remains the same. phy_init() needs to be called
->> before phy_power_on() - which happens still. What this patch changes is
->> the frequency of the phy_init() call. Instead of it being called once
->> every bridge enable/disable cycle, it is now being called once every
->> resume/suspend cycle. This move has been considered safe after numerous
->> tests with the hardware.
->>
 >> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 >> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 >> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 >> ---
->>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 10 ++++++++--
->>  1 file changed, 8 insertions(+), 2 deletions(-)
+>>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> index 3b3c45df1399..9c743fde2861 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> @@ -568,13 +568,14 @@ static int cdns_dsi_check_conf(struct cdns_dsi *dsi,
+>>  	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
+>>  	unsigned long dsi_hss_hsa_hse_hbp;
+>>  	unsigned int nlanes = output->dev->lanes;
+>> +	int mode_clock = (mode_valid_check ? mode->clock : mode->crtc_clock);
+>>  	int ret;
+>>  
+>>  	ret = cdns_dsi_mode2cfg(dsi, mode, dsi_cfg, mode_valid_check);
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> -	phy_mipi_dphy_get_default_config(mode->crtc_clock * 1000,
+>> +	phy_mipi_dphy_get_default_config(mode_clock * 1000,
+>>  					 mipi_dsi_pixel_format_to_bpp(output->dev->format),
+>>  					 nlanes, phy_cfg);
+>>  
+>> -- 
+>> 2.34.1
+>>
 > 
