@@ -2,74 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1959A0BE32
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 18:00:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6062A0BE56
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 18:09:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C82D910E73A;
-	Mon, 13 Jan 2025 17:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B0510E741;
+	Mon, 13 Jan 2025 17:09:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AhGl0lSL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oAG6UWF7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 393CC10E733;
- Mon, 13 Jan 2025 17:00:30 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- 98e67ed59e1d1-2ee94a2d8d0so950284a91.2; 
- Mon, 13 Jan 2025 09:00:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736787630; x=1737392430; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PbCZdzZQB8fOgM5lm3EVuRvwh/5DKW/szxC/ujNMdug=;
- b=AhGl0lSLYIs1K5pQvegQ/ggmbHVX1SAd1FbeLPgFQndefxeGbAicp4Yd+k3q6Z3+u0
- GG6RbzxErzjrY7g54U00Alx9drZY9/tgth/KC6plmfJu9myau72ICKrZcX8PDqsmu/uF
- kraZjNiptgEVhwqRduZgRZRg5Bz82X19nzWg3iKskYgAddHedY+VLuwCw0GU5jcis+ht
- DfBvhDGPE0XBNxnb2T9QM7AmbhC+u/AvgxcjB/WB3sb9dBxdyVYNEWIoIQFsaEHUZ7BO
- fGsf10rfZdQI8gN7BcQSmb59lQAYg7Qm6Y4BNCPpYbu+lGUmSpA4vp+xHeJlavMAC9kk
- eoiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736787630; x=1737392430;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PbCZdzZQB8fOgM5lm3EVuRvwh/5DKW/szxC/ujNMdug=;
- b=MkFvoG3oo7lLLGcnkb+G41QOTaoLM0m9B8ne5bw3nEWm8qLbpdZhP1NbvT0Bi/nV41
- iwMrvqUgewP4WJ49QAXmtLvkyxrTkZCF/oS4iFNlHMMn7uoMGtYN+qdnV385OhDS1pRV
- LExyTTrCyDkMyXeAnmiGxVgPIkj69D33K9n0XHpaM4HCvY2yBgdnGXy6fvxFTFIaGrYX
- MCj/tqzCKZjFA0/tGi0RligifQSauU6DrfOY/y0mFuixLFU2LXiuBmkTiDkZjc8q6HoL
- 9nYsPQ8zEtiBTOYwta00vxTcbr43E7qSf/DjaK1+MrCV4r5CD/PFnhP9fRVO28wQbfyx
- KY6w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVRV4eyw98DvARfTRnovFFUT1FmUv56oB/SO18wWm49RON0z0bBaIm6JGo5eOf+7TU60jcQypXn@lists.freedesktop.org,
- AJvYcCWr5bvjQLj2Ipi+5dEva9XDkJkVyFK/ugw8XHoSu3xoPWiE4telWeGqbYifrHXGTxwIUrYYBm5+bfOE@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzvT0Ae+UJrrIX98JLYJXUegk55klIAydmMBetuUo/TLG7HCHOH
- kqFk1xA56vTaBSDaOXtBIv19yvYT9Qt3YgPDY2JSPgL/0jLocuLKoswCjUhgpMGh/N3Adbgmjvj
- 8sDaeNVvF8hgeASgWpIJf2333K+lvHw==
-X-Gm-Gg: ASbGnctVuYaHzaprrKjx7/LAoPsdvD4SWnEXvhQ9A6eySBEcrAuka2GVHZQmg4yMZt+
- hC8MLpqIdzA5mIuVXX3Dpdn8Un6fCMR/csz2guw==
-X-Google-Smtp-Source: AGHT+IFBfOrslAMlo9J6W9grm47b3hcHW7H2w5I5rWuqurqPDRwmUKCccmufyMFPYfJDVTLs5Y3aOGMChBuGCtU9CIE=
-X-Received: by 2002:a17:90a:d645:b0:2f4:f7f8:f70b with SMTP id
- 98e67ed59e1d1-2f5490fafb1mr12280361a91.5.1736787629456; Mon, 13 Jan 2025
- 09:00:29 -0800 (PST)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44D4E10E741
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 17:09:13 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 099B61C000D;
+ Mon, 13 Jan 2025 17:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1736788151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xeK4ybvTc0aT9fu2l4Odc4MItpznwrSqWdmIurvT5jI=;
+ b=oAG6UWF7fHRO4VXkj1Mw6gWcz4tqR+MURyMzJZ4HLxlff8wy8ayepdx16QgkAfCl3WvScm
+ tXG8W1D99E0tR/slPKU4xGcp+Z7Ux+2Ni4JIqFgR7zuruxebR8dMmhiexiWVxaMufJsP7D
+ /uJQDfpSaAh7SXacDRUOf90vxZTaRUZaiKpkHcTUKuuKJm/mIlfDrehtXEt2tjNaIttP4o
+ XLWZImhLA+VEEkaEoAngo9cxP+YFvH/YZ9FdzMRHThaHQm3w6DW+7hmn6qjDQrgB0oH7A8
+ 7vFnDiD4iy4HrqD2Hw6MiPuhHG+7NQI0JIos0HHisdE0SYgxeJumY0V8rQ7A3A==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v7 0/7] drm/vkms: Switch all vkms object to DRM managed objects
+Date: Mon, 13 Jan 2025 18:09:01 +0100
+Message-Id: <20250113-google-vkms-managed-v7-0-4f81d1893e0b@bootlin.com>
 MIME-Version: 1.0
-References: <20250112134103.72081-1-linux@treblig.org>
-In-Reply-To: <20250112134103.72081-1-linux@treblig.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 13 Jan 2025 12:00:18 -0500
-X-Gm-Features: AbW1kvZufvjWWQRieZ02twwrQaygQOkpqrBifoPH_-7W1kFXo627zREr6GxyUZ0
-Message-ID: <CADnq5_PBFGnTwfCqMQRTa+uD+mrXmSrAjC_5Gp9VLbwr8tkuzg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdkfd: Remove unused functions
-To: linux@treblig.org
-Cc: Felix.Kuehling@amd.com, alexander.deucher@amd.com, 
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com, 
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAK1IhWcC/3XQ3U6EMBAF4FchvbbaTv9gr3wP40Whs2zjlipFs
+ mbDu1vYKEbYu06T8/VMryRh7zGRQ3ElPY4++djlwTwUpDnZrkXqXZ4JMJBMAadtjO0Z6fgWEg2
+ 2sy06Ki02VSU1t8aQnHzv8egvi/ryept7/PjM+HC7JLVNSJsYgh8OhesDDT41Tz8H2uFlIHPy5
+ NMQ+6+l3siX6NKk5HK3ycgpo8bWZV1WwDkTz3WMw9l3j/mxRRzhjwJmX4GsHGXOS6WExXqriFW
+ pOOwrYu5iWOm0daDBbRX5q3DG2b4is4KOSashM7izkVoVDne6qKxwW2smmcBKs62iVwXEnS56V
+ lRjnFaN0+Lfv0zT9A2NLH26UAIAAA==
+X-Change-ID: 20240521-google-vkms-managed-4aec99461a77
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
+ seanpaul@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3956;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=rBpz8DpQMPrfunB8FYT/56fa5yAGFi6jKRWISgq4hNk=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnhUizsFA2DVMCRycKM33CYjDLdYUuZckV6Whz/
+ vNnZNQW8S6JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ4VIswAKCRAgrS7GWxAs
+ 4s1lD/9OkyCvwptT5kDps9cf9XGyiFm0+8bOyAeu+l4MOXR/IbMYKaRUdS9OOx4PAVwZioniuXV
+ /R0Ebge7vAgKUxJC4+AYChRYcoCGgxEphEckrHmsOAgngDCZT5rr3dmZwBX4vJM+Svcg/LFhsI7
+ w2mp1vCs/EqowDNd9GKRvWbimKbo2Cd4RNlk3Gji/ZhCyY9/QejSdZVW3c9cp1XIubIcs4/vHgK
+ SdQ/p80qeooVDa6x38YbWF99nmn1YSPBfWDsVFatPLq20X0S50j5+11Ocrt7YWkncOw43Q2xNKG
+ yC68IwecpNMeaMY+e34mV/kk4J824fmtzPVB+xb0rItOv395pja6+XAZpW4MB+5gOd8fJdxT3jT
+ a7AbmIynBnOhcjLOIZhCcy4WzU7eXYGLn6mnB35ocr+2AutIxXU4yQaJyZIxCe7jFD+/kWbXmcm
+ CP7GXSTMFf/qKorH/TSqpQZXnQm9hJ2fZRoyMZ509MterOx9Xk9KtDYAwOwlJIPsIHORN04oVOT
+ PiIWxD230MvnBWVjnmsGtKCZZrO/XqTe2p6dcY6WcZGzJ3wd2RdNTIDCvxOCEDoV/Y1LggPci+e
+ 3+AOdPeozbhd/fUg20R5p2cqGbYvH74yyA/2q0qLtjaUCOxZsMUqtiiCN3XIQjKM0qABVfisOzP
+ WPkLCFjZnLe4mQg==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,121 +92,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+To simplify the memory managment, this series replace all manual drm
+object managment by drm-managed one. This way the VKMS code don't have to
+manage it directly and the DRM core will handle the object destruction.
 
-Alex
+No functional changes are intended in this series.
 
-On Sun, Jan 12, 2025 at 9:39=E2=80=AFAM <linux@treblig.org> wrote:
->
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
->
-> kfd_device_by_pci_dev(), kfd_get_pasid_limit() and kfd_set_pasid_limit()
-> have been unused since 2023's
-> commit c99a2e7ae291 ("drm/amdkfd: drop IOMMUv2 support")
->
-> Remove them.
->
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_pasid.c    | 24 -----------------------
->  drivers/gpu/drm/amd/amdkfd/kfd_priv.h     |  3 ---
->  drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 18 -----------------
->  3 files changed, 45 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_pasid.c b/drivers/gpu/drm/amd=
-/amdkfd/kfd_pasid.c
-> index e3b250918f39..8896426e0556 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_pasid.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_pasid.c
-> @@ -28,30 +28,6 @@
->  static unsigned int pasid_bits =3D 16;
->  static bool pasids_allocated; /* =3D false */
->
-> -bool kfd_set_pasid_limit(unsigned int new_limit)
-> -{
-> -       if (new_limit < 2)
-> -               return false;
-> -
-> -       if (new_limit < (1U << pasid_bits)) {
-> -               if (pasids_allocated)
-> -                       /* We've already allocated user PASIDs, too late =
-to
-> -                        * change the limit
-> -                        */
-> -                       return false;
-> -
-> -               while (new_limit < (1U << pasid_bits))
-> -                       pasid_bits--;
-> -       }
-> -
-> -       return true;
-> -}
-> -
-> -unsigned int kfd_get_pasid_limit(void)
-> -{
-> -       return 1U << pasid_bits;
-> -}
-> -
->  u32 kfd_pasid_alloc(void)
->  {
->         int r =3D amdgpu_pasid_alloc(pasid_bits);
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h b/drivers/gpu/drm/amd/=
-amdkfd/kfd_priv.h
-> index 9e5ca0b93b2a..0b5979b29bbc 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_priv.h
-> @@ -1086,8 +1086,6 @@ struct kfd_process *kfd_lookup_process_by_pid(struc=
-t pid *pid);
->  /* PASIDs */
->  int kfd_pasid_init(void);
->  void kfd_pasid_exit(void);
-> -bool kfd_set_pasid_limit(unsigned int new_limit);
-> -unsigned int kfd_get_pasid_limit(void);
->  u32 kfd_pasid_alloc(void);
->  void kfd_pasid_free(u32 pasid);
->
-> @@ -1137,7 +1135,6 @@ struct kfd_topology_device *kfd_topology_device_by_=
-proximity_domain_no_lock(
->                                                 uint32_t proximity_domain=
-);
->  struct kfd_topology_device *kfd_topology_device_by_id(uint32_t gpu_id);
->  struct kfd_node *kfd_device_by_id(uint32_t gpu_id);
-> -struct kfd_node *kfd_device_by_pci_dev(const struct pci_dev *pdev);
->  static inline bool kfd_irq_is_from_node(struct kfd_node *node, uint32_t =
-node_id,
->                                         uint32_t vmid)
->  {
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/=
-amd/amdkfd/kfd_topology.c
-> index 9476e30d6baa..a9bc9ab7e31d 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> @@ -108,24 +108,6 @@ struct kfd_node *kfd_device_by_id(uint32_t gpu_id)
->         return top_dev->gpu;
->  }
->
-> -struct kfd_node *kfd_device_by_pci_dev(const struct pci_dev *pdev)
-> -{
-> -       struct kfd_topology_device *top_dev;
-> -       struct kfd_node *device =3D NULL;
-> -
-> -       down_read(&topology_lock);
-> -
-> -       list_for_each_entry(top_dev, &topology_device_list, list)
-> -               if (top_dev->gpu && top_dev->gpu->adev->pdev =3D=3D pdev)=
- {
-> -                       device =3D top_dev->gpu;
-> -                       break;
-> -               }
-> -
-> -       up_read(&topology_lock);
-> -
-> -       return device;
-> -}
-> -
->  /* Called with write topology_lock acquired */
->  static void kfd_release_topology_device(struct kfd_topology_device *dev)
->  {
-> --
-> 2.47.1
->
+PATCH 1/7: Migrate connector managment to drmm
+PATCH 2/7: Migrate encoder managment to drmm
+PATCH 3/7: Migrate connector management to drm
+PATCH 4/7: Create a helper to initialize drm_writeback_connector (common
+           part between drmm and normal variants)
+PATCH 5/7: Ensure the proper clean of drm_writeback_connector after a
+           failure during init
+PATCH 6/7: Create the drmm initialization for drm_writeback_connector
+PATCH 7/7: Migrate writeback connector management to drm
+
+For the drmm_writeback helpers, you can find some discussions here [3].
+
+[3]:https://lore.kernel.org/all/20240906-writeback-drmm-v1-1-01ede328182c@bootlin.com/
+
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v7:
+- Add Reviewed-by
+- Merge PATCH 4/8 and 5/8 as the function were statics
+- PATCH 6/7: Remove optional parameter for encoder
+- PATCH 7/7: Create dedicated encoder for vkms writeback connector
+- Removed useless cleanup in PATCH 6/8
+- Link to v6: https://lore.kernel.org/r/20241230-google-vkms-managed-v6-0-15c7d65cd63b@bootlin.com
+
+Changes in v6:
+- Added R-by
+- Splited the drmm_writeback_connector init in multiple commits + rework 
+  how it is done. This time it should not change the behavior of existing 
+  drivers
+- Link to v5: https://lore.kernel.org/r/20241122-google-vkms-managed-v5-0-1ab60403e960@bootlin.com
+
+Changes in v5:
+- Rebased on drm-misc-next
+- Link to v4: https://lore.kernel.org/r/20241010-google-vkms-managed-v4-0-ed04a62ad2e3@bootlin.com
+
+Changes in v4:
+- No changes for the managed part
+- Add the patch to introduce drmm_writeback helpers
+- Link to v3: https://lore.kernel.org/r/20240912-google-vkms-managed-v3-0-7708d6ad262d@bootlin.com
+
+Changes in v3:
+- As suggested by Maxime, split the managed and the dynamic allocation
+  parts in different series
+- To reduce the diff in this series, extract the "remove crtc index" part,
+  see https://lore.kernel.org/all/20240906-vkms-remove-index-v1-1-3cfedd8ccb2f@bootlin.com/
+- Link to v2: https://lore.kernel.org/r/20240827-google-vkms-managed-v2-0-f41104553aeb@bootlin.com
+
+Changes in v2:
+- Applied comments from José
+- Extract the rename vkms_output -> vkms_crtc to avoid useless changes in
+  the last commit
+- Extract the rename to_vkms_crtc_state to
+  drm_crtc_state_to_vkms_crtc_state to avoid useless changes in last
+  commit
+- Extract the drm_mode_crtc_set_gamma_size result check in its own commit
+- Rebased on drm-misc/drm-misc-next
+- Link to v1: https://lore.kernel.org/r/20240814-google-vkms-managed-v1-0-7ab8b8921103@bootlin.com
+
+---
+Louis Chauvet (7):
+      drm/vkms: Switch to managed for connector
+      drm/vkms: Switch to managed for encoder
+      drm/vkms: Switch to managed for crtc
+      drm: writeback: Create an helper for drm_writeback_connector initialization
+      drm: writeback: Add missing cleanup in case of initialization failure
+      drm: writeback: Create drmm variants for drm_writeback_connector initialization
+      drm/vkms: Switch to managed for writeback connector
+
+ drivers/gpu/drm/drm_writeback.c       | 185 +++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/vkms/vkms_crtc.c      |  14 +++
+ drivers/gpu/drm/vkms/vkms_drv.c       |   9 --
+ drivers/gpu/drm/vkms/vkms_drv.h       |   3 +-
+ drivers/gpu/drm/vkms/vkms_output.c    |  26 ++---
+ drivers/gpu/drm/vkms/vkms_writeback.c |  21 ++--
+ include/drm/drm_writeback.h           |   6 ++
+ 7 files changed, 201 insertions(+), 63 deletions(-)
+---
+base-commit: f8a2397baf041a5cee408b082334bb09c7e161df
+change-id: 20240521-google-vkms-managed-4aec99461a77
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
