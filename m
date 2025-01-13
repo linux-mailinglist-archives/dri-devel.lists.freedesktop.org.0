@@ -2,45 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14C2A0BF53
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 18:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23865A0BF60
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 18:56:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC45510E766;
-	Mon, 13 Jan 2025 17:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBAC10E773;
+	Mon, 13 Jan 2025 17:56:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="MHUqaJ7e";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="Z2RDJfWt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 35390 seconds by postgrey-1.36 at gabe;
- Mon, 13 Jan 2025 17:54:14 UTC
-Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74AAA10E75C;
- Mon, 13 Jan 2025 17:54:14 +0000 (UTC)
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C61110E768;
+ Mon, 13 Jan 2025 17:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1736790849; x=1737050049;
- bh=wIAdXpOHVH+eIAYsSAK460HlK14I3mdw2LRKlhpihUY=;
+ s=protonmail; t=1736790956; x=1737050156;
+ bh=00oohxG2ENBD620y2NzHy9am+xwx4Uev5Yp6+OeKEoQ=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=MHUqaJ7e4bJqxxc5zQL9i2ie9+kD8ZAXGqTK12Eyu+2lXgiAxXPiOBrSrjZMXw8uh
- l/2Ka5k1p2XmFtKKoJzWMWb4MbOwkHtm+MRExF0V/FzXUQaZlFAqUh9d9GFj9NyeYs
- 8WziWuDEPb0Hl5BFTkV62P6Ad5ljYKXYJvEAOKKxs8kp2CuaaItgdw/8fPUX1qB2Xd
- hzuy4j4omaKB5j0oal9XmhoeGNhoX6eASR9MtqfHI+VtAHAtyWuL+xKrOVs8Z+84PY
- PsAV8kzBjZHLbekoeiq16EHGLphBvwtPwrRq/e60BNcVnCDw6pt3mThXnekabfk62T
- gVljeKr5TNj3g==
-Date: Mon, 13 Jan 2025 17:54:03 +0000
+ b=Z2RDJfWtzg9K5L08PeJ8rmJllJ1XjpfPJd6MfZKofo+Fcd2qHe1b3IeuHFaoaQc+Y
+ zJdMumpV7cgV3m9d59BqjxU1vNPw3wJiEw5H5NyI+Fy5be+qtlKKTaEGGwZtLu8//v
+ Ev9pSsNXpEXp43f9ayaEa2LLvjlH3698UKewxyqzBK5La7DElNcsyviUUXQPx3HwUf
+ 9FegyzdfSv79TX3hxENzbWdaM7yRAbpAmczpOvjYP9wOqqlAiu4kKBzJnanm3qo7vP
+ NL6VjTEHE0sh+AsPII2mG7c/3azQBM+G/acnemmzXt8ZTFT8M0wAKM0znDbz7Ugsxv
+ TbecYvLsOAFPg==
+Date: Mon, 13 Jan 2025 17:55:50 +0000
 To: Alex Hung <alex.hung@amd.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
-Subject: Re: [V7 10/45] drm/colorop: Add NEXT property
-Message-ID: <hcaZ4ajZCirbuHqNhPXDazl7dn71rmBstMMeLn-Z0c90FgxKYGWSn_lNoe6BJCtYf6xMA9NHznA4_Q3M7dN-303eU0_EX_cRaOp_-vwG40s=@emersion.fr>
-In-Reply-To: <20241220043410.416867-11-alex.hung@amd.com>
+Subject: Re: [V7 11/45] drm/colorop: Add atomic state print for drm_colorop
+Message-ID: <1zmGFMUcBfgfEUAEkLVnwzcj1RfRjRDxKySH440YYL_wFCch3KdHQwPSw88tmKpeRB4oqWElJOfnurOTR24hWLEG847ec4PNN5NsVPCKWYo=@emersion.fr>
+In-Reply-To: <20241220043410.416867-12-alex.hung@amd.com>
 References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-11-alex.hung@amd.com>
+ <20241220043410.416867-12-alex.hung@amd.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: b5c7b3c7f83da49e1a4a97fd1bba47a68d253fc5
+X-Pm-Message-ID: 9ac866638b5b58edfe72e9fd30ea44c0a0bb43cc
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -59,14 +57,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> +void drm_colorop_set_next_property(struct drm_colorop *colorop, struct d=
-rm_colorop *next)
+> +static void drm_atomic_colorop_print_state(struct drm_printer *p,
+> +=09=09const struct drm_colorop_state *state)
 > +{
-> +=09if (!colorop->next_property)
-> +=09=09return;
+> +=09struct drm_colorop *colorop =3D state->colorop;
+> +
+> +=09drm_printf(p, "colorop[%u]:\n", colorop->base.id);
+> +=09drm_printf(p, "\ttype=3D%s\n", drm_get_colorop_type_name(colorop->typ=
+e));
+> +=09drm_printf(p, "\tbypass=3D%u\n", state->bypass);
+> +=09drm_printf(p, "\tcurve_1d_type=3D%s\n", drm_get_colorop_curve_1d_type=
+_name(state->curve_1d_type));
 
-Why is this early return necessary? Shouldn't this field be always
-populated?
-
-Even if that's not the case, I don't think silently ignoring the
-call is a good idea.
+Could we only print this field if the type is 1D_CURVE?
