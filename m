@@ -2,48 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B6AA0B1F5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:00:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C078A0B202
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:00:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0E2710E5CB;
-	Mon, 13 Jan 2025 09:00:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA1010E5D4;
+	Mon, 13 Jan 2025 09:00:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="SstlwXNc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MhjTL5TE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id DF9AD10E5CB
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=suvcj
- 2YqmKj4ZuCEBei8QvBTqaDNr0b4MgUqN6wdBIQ=; b=SstlwXNcymJ/tkhvGwZZz
- GwWpJnAVaHsW74owXOGtnU5qYH/dRg65FoOKtWHryYwMDS62/lFrQ6E3cET0ZTrd
- 3vQo4MNiJ2dde8lpWalvD90DXAw7MiD4oXm+vBGgbhuZ8PN6E3bCAJvv/1bOyrob
- 4UXhT7u8CU9NaTqgql31CU=
-Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id
- _____wDHkgsO1oRnBT4NFw--.41521S2; 
- Mon, 13 Jan 2025 17:00:03 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: dianders@chromium.org
-Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, neil.armstrong@linaro.org, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Andy Yan <andyshrk@163.com>
-Subject: [PATCH] drm/panel-edp: Add BOE NV140FHM-N4Z panel entry
-Date: Mon, 13 Jan 2025 16:59:54 +0800
-Message-ID: <20250113085956.2150207-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D098610E5D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:00:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7DEA2A40C9F;
+ Mon, 13 Jan 2025 08:58:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18DF7C4CED6;
+ Mon, 13 Jan 2025 09:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736758847;
+ bh=WGND+Kt2iTU8ZkNU/BNRqLkhos9nsQ7ach+fUhEF3VQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MhjTL5TE6MAtZj0jh74GZ1QOXZtFXygDPL/ssmbURTmo+m1YzqGHDZPKp7m//hwj+
+ 97MeRJZZJ95JFfKIYywD6M2jujsvewtecuk4cJ4k77gYC9LjDof17sEeG+LAvOPuq3
+ cMFCFc8/n2tQdHoO05NramcES15opNZijtuujt1RxuPo/UkXmtpK0k+Sq1/0wfnX7H
+ rh8mqPZEM6yJCQYk6bgr1vOVNms74rfMm7VxC+/hlNOZoLHhhXwp3xfiSPkMZyJVzN
+ IOdLbcEBqWnwZenTxTlLhaMpPt6LSDkGlGnN/rtb37YQp3l0a34rIswumWaLZzB2bJ
+ 5xa8UB6JoZNCQ==
+Date: Mon, 13 Jan 2025 10:00:44 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ dri-devel@lists.freedesktop.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v4 0/4] Fix ycbcr_420_allowed inconsistency for HDMI
+ bridges
+Message-ID: <20250113-greedy-sawfly-of-temperance-1a87c7@houat>
+References: <20241224-bridge-conn-fmt-prio-v4-0-a9ceb5671379@collabora.com>
+ <f432ddfb896acf0dc91eb0e7f974a97e@kernel.org>
+ <fvwc3jpwizqp5b7nzoiik3dlokyhy6zvhjzwnx4dxe4ock5t3o@pcmfq2tzmyek>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDHkgsO1oRnBT4NFw--.41521S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrykCr4UJw1xAw45Cr4DArb_yoW8Gw4kpF
- Wktry7uay8Z3WxK397A3Z8JF4UAan2vayIgF4vkFWkZF17GF17t34kArW5Jw4Fqry5Ja47
- Krn7Jr17tw4UAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRQyCdUUUUU=
-X-Originating-IP: [103.29.142.67]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBfTXmeEzjvblgAAsp
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="bvglb33dj3pfyf24"
+Content-Disposition: inline
+In-Reply-To: <fvwc3jpwizqp5b7nzoiik3dlokyhy6zvhjzwnx4dxe4ock5t3o@pcmfq2tzmyek>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,38 +68,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an eDP panel entry for BOE NV140FHM-N4Z.
 
-No datasheet found for this panel.
+--bvglb33dj3pfyf24
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/4] Fix ycbcr_420_allowed inconsistency for HDMI
+ bridges
+MIME-Version: 1.0
 
-edid:
-00 ff ff ff ff ff ff 00 09 e5 09 0b 00 00 00 00
-01 20 01 04 a5 1f 11 78 03 9b 75 99 5b 5d 8f 2a
-23 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 c8 37 80 cc 70 38 28 40 6c 30
-aa 00 35 ae 10 00 00 1a 00 00 00 fd 00 30 3c 43
-43 8f 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
-4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
-00 4e 56 31 34 30 46 48 4d 2d 4e 34 5a 0a 00 35
+On Tue, Jan 07, 2025 at 01:36:59PM +0200, Dmitry Baryshkov wrote:
+> On Mon, Jan 06, 2025 at 02:55:52PM +0000, Maxime Ripard wrote:
+> > On Tue, 24 Dec 2024 20:22:40 +0200, Cristian Ciocaltea wrote:
+> > > Bridges with DRM_BRIDGE_OP_HDMI set in drm_bridge->ops are expected to
+> > > rely on drm_bridge->supported_formats to advertise the supported
+> > > colorspaces, including HDMI_COLORSPACE_YUV420.
+> > >=20
+> > > However, when drm_bridge_connector gets initialised, only
+> > >=20
+> > > [ ... ]
+> >=20
+> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
+>=20
+> Thanks!
+>=20
+> I thought about picking up those patches, but then I deciced to ask you
+> first. I think first two patches should go to drm-next-fixes? Or just
+> drm-fixes? While the last two patches look kike a drm-next material.
 
-Signed-off-by: Andy Yan <andyshrk@163.com>
----
+Everything can go in drm-misc-fixes imo.
 
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+Maxime
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 94a46241dece..a3402b76aa3e 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1909,6 +1909,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_p2e200, "NV140FHM-NZ"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b66, &delay_200_500_e80, "NE140WUM-N6G"),
--- 
-2.43.0
+--bvglb33dj3pfyf24
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4TWNgAKCRAnX84Zoj2+
+dlLCAYDkUQ0XOXqK3XBHuPnxuLhZHcIGijkMTwLraAMGGIYvwc7lSgbtET1aiU1E
+YFECVbIBgLvchNKieF6oq3Gh8AX8rOd9kbCWl/ztVIPCqXyAMwbzgUF/8bEQNBfT
+u6MDxNsx2w==
+=dxnB
+-----END PGP SIGNATURE-----
+
+--bvglb33dj3pfyf24--
