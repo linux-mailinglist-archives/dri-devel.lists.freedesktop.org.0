@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B77CA0B41C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 11:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28647A0B425
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 11:09:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83E1810E625;
-	Mon, 13 Jan 2025 10:08:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D7BF10E622;
+	Mon, 13 Jan 2025 10:09:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I1m50Btb";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K7tOPXWD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E563710E626
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 10:08:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98FD610E628
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 10:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736762911;
+ s=mimecast20190719; t=1736762994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=w9g1LslBk3KnkNcF/p4M2vlNVEzNEkixwrIJc+UAHcc=;
- b=I1m50BtbnHJ6lW0fiz9TdQNYA2nNklMFwW/M0cB7kkqqzJF12cNV5K8L1+V3jO8HFFlFAC
- dJpP1+HXDJ9OxZYjZ7rxkjapadayVbXGW2mWk6QWsNaPwTHcQ1BdR0qcAxGm1vgQUuK8Oa
- s0SySFaxODheEKqe5pZFEGIdknP0CO0=
+ bh=UgUwpDhKMZgZxc1OL57CQ0iiOYpTsrgXRg+FEB3T4QQ=;
+ b=K7tOPXWD/kdPx3XgjXpApqR+q4xFJVjkml+RiRd8PnQ+iOClpAcLa0Jr7Ns2f/ff/X8g73
+ jm3x5HM2e9MuzETcZlJNRWmJXiYRrvz0KgnDhKFHLQ4Tnm6HJg27kX3fH1T8RkUdFZS9m1
+ YnNaBhPb4bz6WTonmcUMnVQGXSPIzLA=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-410-SbWoXMzcO9COuGGg42O6fA-1; Mon, 13 Jan 2025 05:08:30 -0500
-X-MC-Unique: SbWoXMzcO9COuGGg42O6fA-1
-X-Mimecast-MFC-AGG-ID: SbWoXMzcO9COuGGg42O6fA
+ us-mta-640-eRReytOwMBeaWQOaha6jbw-1; Mon, 13 Jan 2025 05:09:51 -0500
+X-MC-Unique: eRReytOwMBeaWQOaha6jbw-1
+X-Mimecast-MFC-AGG-ID: eRReytOwMBeaWQOaha6jbw
 Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3862f3ccf4fso1438873f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 02:08:29 -0800 (PST)
+ ffacd0b85a97d-386333ea577so1484898f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 02:09:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736762909; x=1737367709;
+ d=1e100.net; s=20230601; t=1736762990; x=1737367790;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=w9g1LslBk3KnkNcF/p4M2vlNVEzNEkixwrIJc+UAHcc=;
- b=wciwUMycsPtUpeaxosuuCK4sN8RyCTBw36EYSCCDYkG8k3i7q4aqo52N4SGAV0wJ/t
- wTmjJgNDbH7dpUi1bvYSy37Hk5D6zZ+5bPWJznR0H/sD2OJVlOX2W3U9HUJQsZnC3Tb3
- 103HuesVXsHzJZ0vz9t39r6YsdFCv46/gZzxc9AC4dHdWcP93V9Yxb+BqNSbG8AYjXcl
- qw6qsZ/7C7OGHImgEHO41r+p4T0QxIZB422s/T9D2IGfQnIq+9h7wwHTtidSKJqKN+r9
- Hw0xt19PtLIJiaKPTOgKWQoXu/WaEHTkCQZrahMYuyZDkTLINhw8Jq71CKIhtjUpeAjZ
- v7Iw==
+ bh=UgUwpDhKMZgZxc1OL57CQ0iiOYpTsrgXRg+FEB3T4QQ=;
+ b=m+REH+42rYRsAAmtGmvGr7o1AvwNZZ0kTKQ1NNYm90LDTYW6U4AHPsiZsr8voKOn3q
+ xF0+rGipIb3SAEsMk0n+CzcVh82gX80X3xDl3fXyNIvJWtS/55lHpBeY07UfJ8HjEtJ5
+ sZo7zdjiYshL1IsHCgwgEWW0qDPQsZRZbzNRB3Vx0GVktABDygQxgJ+NVTI2kLN8AHVK
+ lkJ5jks9JarxmCxGEcw0+CngjSS0ncF7d2lVJN2BgKMybdHoD943YNcJzrXFKrfqjRNY
+ 4EBHnfJYZ2HAgryttrHQVqpAnznnT9CI2LdufbEqxGEtyWM7muRBaPaKxY1pKGNLYxbl
+ pAgw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKGpzRq9itp2Xm85nBNXy4jtGSqgcbBXzGH0FKrC76LEiSTVSqoyECF/14deogNjBCUvqwssvK7tM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGpU7T0nfJaRyk3f6YQrNxVsZ0XWfRkTQzxoIwy6aY/kVmT+Cv
- 1GBahLpfMVHKbqHlcSMrByHC1gHYeNUEKT/A8ba0QF1hVlM9HKJZicT9SHHdghJkkJk4tv+crEj
- CKj23u4yJAWkxUuPqVrktd170JZXLXU5MzDj/RziD6kwWZkeAMWAnJzNnPx5GS+DQIw==
-X-Gm-Gg: ASbGncvjQ9PkfFBVOhuFDzmJKXJQeZLv9YFMlxQbSpoKGgg6HTzm+47PyiEwirYoSlD
- cAA4DT7QKkwEfViSuja51vo11dh7fw2BJNMDTftUvYfS8/K/Fz+4rlRupVByieUDVpXJawSj8kf
- IXDefD6BBOGIQKsnKBg3+ywbI3/uA76syUTEqahWz1fKbRhPLLxVXKQBSQw7R3dD8fInDpxOEV0
- 1cxfmz0XHEPh8+6FD/QpIbT1+RZ6kUFYeeFrM+HpD6cei2N5A/6HE6PnkzhhKqiyEXE7NCkQSaj
- Tc9+I7vjwp+ps4s=
-X-Received: by 2002:adf:ab0c:0:b0:38a:8888:c0ef with SMTP id
- ffacd0b85a97d-38a8888c2eemr11512939f8f.52.1736762908851; 
- Mon, 13 Jan 2025 02:08:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGZaJWGDGSA+V3h2fBword2TX3it3Iw21VUBChJlSgVAPvtBC3cixWVuRKOu8C8idzCDyAMpQ==
-X-Received: by 2002:adf:ab0c:0:b0:38a:8888:c0ef with SMTP id
- ffacd0b85a97d-38a8888c2eemr11512915f8f.52.1736762908489; 
- Mon, 13 Jan 2025 02:08:28 -0800 (PST)
+ AJvYcCWjGoXlW/E7so9ZmJiM34S+3XVm+xvw6QVucNOezKLFB4p3Uz4ZGV5pE8rTn8eahz/0W37iWijp/X0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyn+wDrBtsA/YUbnmUQCfJur3prPu9ou3Nl7+h9EuSCVVYmZ282
+ qK0507UGlYg6Bnrg0yIHxhOF3OvnGSWdVNnMAWCOrVRwO83Zvhf8Un9AIJiSmpTep5xrghiMI1G
+ aosdWP/seemmvV6CJ0JCj+X6kMA5rBr3Yh3+gWOlgxy5JIJpfwuNl5u2x2jfr4D/2zA==
+X-Gm-Gg: ASbGncuhR8Xle93Xm46VuP7WVznkFX1fNHtulGc2IaFrNtKHRo+76D8yaviDXGupfwJ
+ /O0ZvZsIQkHNbURvvIWRrRF9DZBpaz2Lda1S+OO2yqv+txrXf33e/0lHoQNL2CnFO4TY+wVrrIn
+ 8Yq6vhwOi3iJfoQhW2cfc5Y9/LHxmJ5jftHF161EQnN1j2GoG6bEjIwqrm1FFt5mwr7fC6PF/Wl
+ HzQsu9a+AXfiCaYGfetSi9Z6M387DPvrOh9FHz8ZXjHxyoMP79Fg8zQo3ayq9mtSzupPXNBf1Zo
+ oBZs6Tb3GhMic0s=
+X-Received: by 2002:a05:6000:401f:b0:386:3328:6106 with SMTP id
+ ffacd0b85a97d-38a872f6193mr19495406f8f.35.1736762990563; 
+ Mon, 13 Jan 2025 02:09:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGf8PBG4ERoXmyIOlZpCoTnexxxB9ssDJClNK3ARcXYvdyIb4rTKdDCq1vGjVkp/guTo3l0EA==
+X-Received: by 2002:a05:6000:401f:b0:386:3328:6106 with SMTP id
+ ffacd0b85a97d-38a872f6193mr19495362f8f.35.1736762990214; 
+ Mon, 13 Jan 2025 02:09:50 -0800 (PST)
 Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
  ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-436e2da6271sm172066975e9.9.2025.01.13.02.08.26
+ ffacd0b85a97d-38a8e3834fbsm11618939f8f.26.2025.01.13.02.09.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Jan 2025 02:08:27 -0800 (PST)
-Message-ID: <1ba00ad0-bb75-476d-a0cc-e3e6029774be@redhat.com>
-Date: Mon, 13 Jan 2025 11:08:25 +0100
+ Mon, 13 Jan 2025 02:09:49 -0800 (PST)
+Message-ID: <04667170-d5bc-4f56-a5c7-5b08a518f2e8@redhat.com>
+Date: Mon, 13 Jan 2025 11:09:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] mm/vmscan: Use PG_dropbehind instead of PG_reclaim in
- shrink_folio_list()
+Subject: Re: [PATCH 7/8] mm/mglru: Check PG_dropcache instead of PG_reclaim in
+ lru_gen_folio_seq()
 To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
  Andrew Morton <akpm@linux-foundation.org>,
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>
@@ -101,7 +101,7 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
  linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org
 References: <20250113093453.1932083-1-kirill.shutemov@linux.intel.com>
- <20250113093453.1932083-7-kirill.shutemov@linux.intel.com>
+ <20250113093453.1932083-8-kirill.shutemov@linux.intel.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -148,9 +148,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20250113093453.1932083-7-kirill.shutemov@linux.intel.com>
+In-Reply-To: <20250113093453.1932083-8-kirill.shutemov@linux.intel.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: LsnpKrrPgwCL6ZQkxOaBUEbZapfh9lgOhqaSa9oRNsI_1736762909
+X-Mimecast-MFC-PROC-ID: ioNABxLiRgxKCshsasDyc5bqKcskgI8zIPTeJrLuhsY_1736762991
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -171,24 +171,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 13.01.25 10:34, Kirill A. Shutemov wrote:
-> The recently introduced PG_dropbehind allows for freeing folios
-> immediately after writeback. Unlike PG_reclaim, it does not need vmscan
-> to be involved to get the folio freed.
-> 
-> Instead of using folio_set_reclaim(), use folio_set_dropbehind() in
-> shrink_folio_list().
-> 
-> It is safe to leave PG_dropbehind on the folio if, for some reason
-> (bug?), the folio is not in a writeback state after ->writepage().
-> In these cases, the kernel had to clear PG_reclaim as it shared a page
-> flag bit with PG_readahead.
-> 
-> Also use PG_dropbehind instead PG_reclaim to detect I/O congestion.
-> 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> ---
+> Kernel sets PG_dropcache instead of PG_reclaim everywhere. Check
+> PG_dropcache in lru_gen_folio_seq().
+
+Subject and description PG_dropcache->PG_dropbehind
+
+Apart from that LGTM
 
 Acked-by: David Hildenbrand <david@redhat.com>
+
 
 -- 
 Cheers,
