@@ -2,92 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A437A0B274
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F79A0B284
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:16:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0038C10E287;
-	Mon, 13 Jan 2025 09:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 661CF10E454;
+	Mon, 13 Jan 2025 09:16:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YBwkJ/mN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="m9DYNWA3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E254010E287
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:15:03 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-53e384e3481so3683812e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 01:15:03 -0800 (PST)
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD0E710E5CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:16:36 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id
+ 38308e7fff4ca-30036310158so31635861fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 01:16:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736759642; x=1737364442; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736759795; x=1737364595; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=G7zevUVnqlC8W5c2GXcUG82lpkwBeaGm4InCCD835UA=;
- b=YBwkJ/mNb7ten6CXCBX6dBkm/uxCwfkeTMzaFxAuOMq9WQuwKemypVaevL0q71NRUh
- s70AVTeX7zEStR+k5ch8LBYUtloD9L95JYwl4JnMuZIgbkIWPgOU1CQsFEUFchknaKWJ
- /iYWHNe6iG5grraJaaBqO2y2VY5/QblN6dJE00Trh7mktaXZoRs4Wk0ctKgxZF2SycvT
- LlEnSNFVsJuluqecIBNaC7gbZot7xZgjhg5Zip/Rv13slb8nJOQhaiuS7cUbE2FsutyC
- pE9e5D5e4WcKW+svtIzYa7G0ro7MkIK/f3ofxJTG6oVWbOHV015knlKnidk7CrBECB23
- Vz6g==
+ bh=YB6pdNSdvkS8YOBvFf87bQaTfCC2fNkB8oJYu3+8Cgg=;
+ b=m9DYNWA3sMdkN7A3Q0eN7WY8hIneU+mVeygHYPF79DjGg6KxbEA+cg7udFypkXTuk6
+ bdpPUrn/jLtFUxHdkP4u/Rk8KKgBlSyr/qnai/s1KzDuxFqPy4xAWLTBL+sX5gnQNNxh
+ bI75stME2frBLduqDT5TRLOp6Tz/aZ7idRngGJan+whQXYsk0SPHhBtF+Z+5LlUYGOQr
+ LMEfr6XEtzMTZal85c8luredr8GDHcRfG1x9FDX72GbNIAIRoA7qA53VVFeB3fklYbpL
+ MjXukreYKtE8ZtWDjeR/S1iFLuNRuxUUVLOWqerfJkZ5eAPQyaLk6LBXtcTClFYu/tpE
+ +6Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736759642; x=1737364442;
+ d=1e100.net; s=20230601; t=1736759795; x=1737364595;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=G7zevUVnqlC8W5c2GXcUG82lpkwBeaGm4InCCD835UA=;
- b=lHgPyoVPjEcCqY0VUBm/iMXnM/gjeL1yqCIoiVfuAtscCdBWlOkWWww76aul/LPcXh
- Rjjwnvnb7VKqkvVqeVff486Deu7mUhyuR9nwmu3eLLTbzLCNHm8eciaCGxtCOrtEP4HG
- U6Mi6JYPEZOidt6/yES8hnlNdkCcqBGLVB4yE+BK/tDu2unub9HTwBZlmx+YEQU3DrjJ
- +WdCUPhy+0TmtHcbHLveuIoInCSIowaytKDCoWsokCh0kZgR8mAo0rzHhklr6u2RD605
- Y31M4Qkkf3HVQdcFpEKkB0aqwwaYSGi3eVYXzb+pHX0pu5TT915fIH3+USSShTue493u
- 69Hg==
+ bh=YB6pdNSdvkS8YOBvFf87bQaTfCC2fNkB8oJYu3+8Cgg=;
+ b=LcfS11KWRudsCxHwP4dl88Je8jcG8jEtx5IiL18bMzDbCZBl925hMLh06I7VkfZlvh
+ bv9NquUV7XxXT7I6XjChQ5Q3UlvKKsHPYJj7Yxnn57WNVa5n88gpABm/FfcoaoT/xiAG
+ pbHUjX9ESc4/FQ9lFsgxzSWLtYpOFYTVCP74jFOCt6mSehsonka+oWbBfskf0JDCyMFW
+ fi9LJUirPiBRQdSjy3JNyBVfhKVQ870WSK1zCl8lLxgY/vSITbuJbIcU6WAqCQXL6cgq
+ nONGKX6yQCfaaT16kRY1LiWqOC7iBdH1/L058oGIYLWG/56h7eIyWcC/oWcp0LHhuxcS
+ sDhw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURBr8sP0ZRTz1MO9yPX2zuuLyhZtoD1BjX2aSlnsl3gUDMc3M5lhei6kA7YbG7m1Kx6yy9nx5IVb8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz02JH0JOt4VX+CmMbmvEAehbGmFtdXGHD9KbuXDsSE8m7lvpwT
- RDCBdjjplYYqmfaxA3rNcpf12OlPbYmMY9Dsz6x7RqaEh76EiU0to7yiXQeoz8A=
-X-Gm-Gg: ASbGncvha/i7kooO1ES/CuaN6KdqnNOHc6oxkYRs5q9fkjmeJY6D21hXr2LgEx4y8Fl
- qNL83FSyvHtqv7ewzLAjFjhdg8DRs+/mHGzHTSCi+RkKyqbLd4B0piyAcTvGwf9e3hVQXvni58g
- 1WIh5TsBupE+qTd58XgVfVxCxK5Mdy0R23ph32xWQdV7pJm9+bjbtPKdx5FNfuuMZx1T5kDYXnX
- 3VmKRqciaomZjqp9OGMT8Aa+LYkulTnBVdfAtGOBnrXB98GicDh00/E4h+aMOfBXLlINaYA4esa
- cGEagQAdNan2rwniBgzMfk977nA5PfLyJjCK
-X-Google-Smtp-Source: AGHT+IFeSolc9gamahGRHJFufvovi869gL5qzcLOE0t0Mu5l18gRKubMbm8rCogmbF8aatQGtXrFLw==
-X-Received: by 2002:a05:6512:3c9c:b0:542:28e3:2156 with SMTP id
- 2adb3069b0e04-542845d2081mr5628933e87.25.1736759642276; 
- Mon, 13 Jan 2025 01:14:02 -0800 (PST)
+ AJvYcCV8c/U9c3+yz4W8Z0xb+Td0JwLVbigM3D8Hwmzei/W0T+vDfak+s+EpFRmmJDSnzY85aiuGq5El0lU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw47wOa+Djy/4zY4D6SpJIDmcx+0+aWNB1Z6yGbX7LX0QU1haI4
+ yFr1lB4CMMHpWgvDpRcEuLa77qf0AUlP26OVJMtx0W42YnfkX7Rd7I8qkOsyNGY=
+X-Gm-Gg: ASbGncuI0wgaa7JgtwsNvYQKTxtCjK1OjErY8etJ44xR65kU34Hb2QgNLgeaSakrDp+
+ wogRy7Pu0hJ6o7npPVU14KEl1bblKQCcF32I2gaZl60kPME+I8yVoPmR2gP9fPzCdH84hCJYQyc
+ Xp9KG9irsgbA2ArX601eATDOKMdVCNVsNz198pUf8HxmhGu1JTTH5Tru6whjMPpwF6NfXWP7w9k
+ a/A7yJ6eLqLF9+x2qAY8+29flU4Ph9GtSq8/VMw7itm3Ruv55reJ7Et3V5o8BpwubNy9sYPmkOk
+ HeKtMJ5DA16dqSIKp6qQBqsW9U1Q4aDQUb3x
+X-Google-Smtp-Source: AGHT+IHpKyOtdKCWYirB/X94nnRJMK7VwXXOP10bzDaQC1FmckQwfW0mXd0EBOgBKKD5vjxlB+ZbeA==
+X-Received: by 2002:a2e:be8b:0:b0:302:40ee:4c2e with SMTP id
+ 38308e7fff4ca-305f4530b49mr59810211fa.2.1736759795143; 
+ Mon, 13 Jan 2025 01:16:35 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bea6bddsm1277171e87.120.2025.01.13.01.14.00
+ 38308e7fff4ca-305ff0ad150sm14297331fa.14.2025.01.13.01.16.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2025 01:14:01 -0800 (PST)
-Date: Mon, 13 Jan 2025 11:13:59 +0200
+ Mon, 13 Jan 2025 01:16:33 -0800 (PST)
+Date: Mon, 13 Jan 2025 11:16:32 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Nishanth Menon <nm@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, 
- Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>, 
- Linux Kernel List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 10/12] drm/bridge: cdns-dsi: Move DSI mode check to
- _atomic_check()
-Message-ID: <nlrgtmnbkfupr5h7rawogrzw3lqi7hqmyq2d3u2wew7ojx7phn@6kw7vcz2yjny>
-References: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
- <20250111192738.308889-11-aradhya.bhatia@linux.dev>
+ kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/display: hdmi: Do not read EDID on disconnected
+ connectors
+Message-ID: <2df6xkxqpljeowlqad6s5pxujefx6iw2a2caqlgljrgpmxlqqz@lark6bpzexca>
+References: <20250111-hdmi-conn-edid-read-fix-v1-1-d68361624380@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250111192738.308889-11-aradhya.bhatia@linux.dev>
+In-Reply-To: <20250111-hdmi-conn-edid-read-fix-v1-1-d68361624380@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,43 +92,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 12, 2025 at 12:57:36AM +0530, Aradhya Bhatia wrote:
-> From: Aradhya Bhatia <a-bhatia1@ti.com>
+On Sat, Jan 11, 2025 at 12:04:09AM +0200, Cristian Ciocaltea wrote:
+> The recently introduced hotplug event handler in the HDMI Connector
+> framework attempts to unconditionally read the EDID data, leading to a
+> bunch of non-harmful, yet quite annoying DDC/I2C related errors being
+> reported.
 > 
-> At present, the DSI mode configuration check happens during the
-> _atomic_enable() phase, which is not really the best place for this.
-> Moreover, if the mode is not valid, the driver gives a warning and
-> continues the hardware configuration.
+> Ensure the operation is performed only for connectors having the status
+> connected or unknown.
 > 
-> Move the DSI mode configuration check to _atomic_check() instead, which
-> can properly report back any invalid mode, before the _enable phase even
-> begins.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+> Fixes: ab716b74dc9d ("drm/display/hdmi: implement hotplug functions")
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 > ---
->  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 87 +++++++++++++++++--
->  .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  1 +
->  2 files changed, 83 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-> index 5db5dbbbcaad..b785df45bc59 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-> @@ -77,6 +77,7 @@ struct cdns_dsi {
->  	bool link_initialized;
->  	bool phy_initialized;
->  	struct phy *dphy;
-> +	struct cdns_dsi_cfg dsi_cfg;
-
-Is this still something necessary / useful? I think the point was to
-move dsi_cfg to the state, while this is a non-state struct.
-
->  };
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> index 2691e8b3e480131ac6e4e4b74b24947be55694bd..8e4b30e09b53b84cfd36199d56db3221a00085b0 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -786,8 +786,10 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
+>  	const struct drm_edid *drm_edid;
 >  
->  #endif /* !__CDNS_DSI_H__ */
-> -- 
-> 2.34.1
+>  	if (status == connector_status_disconnected) {
+> +		drm_edid_connector_update(connector, NULL);
+>  		// TODO: also handle CEC and scramber, HDMI sink disconnected.
+>  		drm_connector_hdmi_audio_plugged_notify(connector, false);
+> +		return;
+
+I think, it should be other way around: plugged_notify before
+drm_edid_connector_update(). At least that would follow current logic of
+the function.
+
+>  	}
+>  
+>  	if (connector->hdmi.funcs->read_edid)
+> 
+> ---
+> base-commit: 1854df7087be70ad54e24b2e308d7558ebea9f27
+> change-id: 20250110-hdmi-conn-edid-read-fix-178513c2b7ea
 > 
 
 -- 
