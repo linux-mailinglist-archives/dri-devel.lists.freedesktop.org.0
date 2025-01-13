@@ -2,60 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9D3A0BC55
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 16:44:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E017A0BC7B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 16:47:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C9FD10E6E6;
-	Mon, 13 Jan 2025 15:44:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 826AF10E6EF;
+	Mon, 13 Jan 2025 15:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Nlz5vOJ8";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ty75acya";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com
- [95.215.58.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A62B310E6E6
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:44:41 +0000 (UTC)
-Message-ID: <c939bbf4-2cde-4897-8ccd-b8d2420fa9b8@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736783050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Phc0agFb9IGS06byHBV7HOmGEG8Ax1qwKhDEggT62bI=;
- b=Nlz5vOJ8zE7NeizUi4cNzdyq3VcgQGaV+RlxIKCMswKwryJcWflchQ0SixW67SVnI71cUP
- 4M6BQCMtBb7i0lgJFN8wj5QBH+Av4oIHiGFKxzpTz0VWvfFSV8JfkMVp20+BID2Gr0zgHl
- NXFhziocZ+sb7TSb4GJ+3l/JDi/e6wY=
-Date: Mon, 13 Jan 2025 21:14:02 +0530
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37EF310E6EF
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=uosi0zQK/hSh96tx/tUEPhM7NYwuW5h6GwNxrk35paw=; b=Ty75acya4MervbPO4xVkubqmdP
+ Gzk5b+I0g6iOyB0it77+bjHvnzCdXI+u4biHlm8AVHQk9TIT3dIECuU6DwKfEe85WpGO00DJ4tQ+Q
+ 9U9wYM5KjbfdpKel0lfM57xk2JTz2B4KJiG48a35DRwMPlG1IY12uzdSR1eDxUFPCU9JjZk1Jt0ai
+ 8+motikZqKUzpq5ykDLElk3egnOffik1qM7FhIMMxAjt997AbQC0hf6ieRNvK6AggfTSow6KpI9Pf
+ OhUGAbWyUWsijyZ9uwkz2/CEsOQIDDPFfJognd6zhNsII/8dnjG6gO4cSW7vKafBR5PpSc5vOQSny
+ 2siSZUdg==;
+Received: from [187.36.213.55] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA512__CHACHA20_POLY1305:256)
+ (Exim) id 1tXMfM-00FEpb-Tx; Mon, 13 Jan 2025 16:47:49 +0100
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ Chema Casanova <jmcasanova@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Subject: [PATCH 1/2] drm/v3d: Ensure job pointer is set to NULL after job
+ completion
+Date: Mon, 13 Jan 2025 12:47:40 -0300
+Message-Id: <20250113154741.67520-1-mcanal@igalia.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 MIME-Version: 1.0
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: Re: [PATCH v6 10/12] drm/bridge: cdns-dsi: Move DSI mode check to
- _atomic_check()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
-References: <20250111192738.308889-1-aradhya.bhatia@linux.dev>
- <20250111192738.308889-11-aradhya.bhatia@linux.dev>
- <nlrgtmnbkfupr5h7rawogrzw3lqi7hqmyq2d3u2wew7ojx7phn@6kw7vcz2yjny>
-Content-Language: en-US
-In-Reply-To: <nlrgtmnbkfupr5h7rawogrzw3lqi7hqmyq2d3u2wew7ojx7phn@6kw7vcz2yjny>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +60,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+After a job completes, the corresponding pointer in the device must
+be set to NULL. Failing to do so triggers a warning when unloading
+the driver, as it appears the job is still active. To prevent this,
+assign the job pointer to NULL after completing the job and signaling
+the fence, indicating the job has finished.
 
+Fixes: 14d1d1908696 ("drm/v3d: Remove the bad signaled() implementation")
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+---
+ drivers/gpu/drm/v3d/v3d_irq.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-On 1/13/25 14:43, Dmitry Baryshkov wrote:
-> On Sun, Jan 12, 2025 at 12:57:36AM +0530, Aradhya Bhatia wrote:
->> From: Aradhya Bhatia <a-bhatia1@ti.com>
->>
->> At present, the DSI mode configuration check happens during the
->> _atomic_enable() phase, which is not really the best place for this.
->> Moreover, if the mode is not valid, the driver gives a warning and
->> continues the hardware configuration.
->>
->> Move the DSI mode configuration check to _atomic_check() instead, which
->> can properly report back any invalid mode, before the _enable phase even
->> begins.
->>
->> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
->> ---
->>  .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 87 +++++++++++++++++--
->>  .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  1 +
->>  2 files changed, 83 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
->> index 5db5dbbbcaad..b785df45bc59 100644
->> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
->> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
->> @@ -77,6 +77,7 @@ struct cdns_dsi {
->>  	bool link_initialized;
->>  	bool phy_initialized;
->>  	struct phy *dphy;
->> +	struct cdns_dsi_cfg dsi_cfg;
-> 
-> Is this still something necessary / useful? I think the point was to
-> move dsi_cfg to the state, while this is a non-state struct.
+diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
+index 20bf33702c3c..da203045df9b 100644
+--- a/drivers/gpu/drm/v3d/v3d_irq.c
++++ b/drivers/gpu/drm/v3d/v3d_irq.c
+@@ -108,6 +108,7 @@ v3d_irq(int irq, void *arg)
+ 		v3d_job_update_stats(&v3d->bin_job->base, V3D_BIN);
+ 		trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
++		v3d->bin_job = NULL;
+ 		status = IRQ_HANDLED;
+ 	}
+ 
+@@ -118,6 +119,7 @@ v3d_irq(int irq, void *arg)
+ 		v3d_job_update_stats(&v3d->render_job->base, V3D_RENDER);
+ 		trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
++		v3d->render_job = NULL;
+ 		status = IRQ_HANDLED;
+ 	}
+ 
+@@ -128,6 +130,7 @@ v3d_irq(int irq, void *arg)
+ 		v3d_job_update_stats(&v3d->csd_job->base, V3D_CSD);
+ 		trace_v3d_csd_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
++		v3d->csd_job = NULL;
+ 		status = IRQ_HANDLED;
+ 	}
+ 
+@@ -165,6 +168,7 @@ v3d_hub_irq(int irq, void *arg)
+ 		v3d_job_update_stats(&v3d->tfu_job->base, V3D_TFU);
+ 		trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
+ 		dma_fence_signal(&fence->base);
++		v3d->tfu_job = NULL;
+ 		status = IRQ_HANDLED;
+ 	}
+ 
+-- 
+2.39.5 (Apple Git-154)
 
-No, this isn't necessary. This is a stray piece of code. Looks like I
-missed it. Thank you! I will drop this in the next revision.
-
-Regards
-Aradhya
-
-> 
->>  };
->>  
->>  #endif /* !__CDNS_DSI_H__ */
->> -- 
->> 2.34.1
->>
-> 
