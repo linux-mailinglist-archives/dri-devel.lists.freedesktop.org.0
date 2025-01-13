@@ -2,74 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12707A0C5EF
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 00:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A0B0A0C5FD
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 00:57:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 589C110E80B;
-	Mon, 13 Jan 2025 23:54:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6881010E80D;
+	Mon, 13 Jan 2025 23:57:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Kt/yqpUd";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="MCsJE5VZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED62610E80B
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 23:54:01 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF44C10E80D
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 23:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736812441;
+ s=mimecast20190719; t=1736812650;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0s3jvkXL3J1NYR9kjtfeU5w1tA5GXHd/ur4B+uyHTYg=;
- b=Kt/yqpUdJMYQMpFgflSqQeR3Gzrllu676344hX1AH0ogk66ZdMT/SdWcmjjdYoNxdR4k98
- AFjFsyO/UCk/Wc4mbg4ZjBk4KT5EbyUOKAOxMS/QTN8oprdEDqLBA1S/oZK0i4bbGHtYgZ
- iY1KkLUKLm0v/WUg4lJwIbyC4sjBHR4=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mmzlmAYQDbaYnHCEKRQa5ooCUue11mQHDsUORSpx37Q=;
+ b=MCsJE5VZvo2G8+m7BkTxYbqMvkJXoGyN9x02SDBP/0QkZz+QHZqSUXjtZpJ+570QGT3lYG
+ aQUSem8JVqPCZ1T/RoXXW0RtWiaZf9RXOJfEGWNP7jUJTH2B2eovI6BqHwcOm99QYSgcNP
+ 3H8WT7DXjZuG4pkKx3C+82khckO7erc=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-204-By9GRW0uMli7kREsMsVN0Q-1; Mon, 13 Jan 2025 18:53:59 -0500
-X-MC-Unique: By9GRW0uMli7kREsMsVN0Q-1
-X-Mimecast-MFC-AGG-ID: By9GRW0uMli7kREsMsVN0Q
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7b6e9fb0436so1395700585a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:53:59 -0800 (PST)
+ us-mta-5-8vuevyLvO4Splh2nWgC24A-1; Mon, 13 Jan 2025 18:57:28 -0500
+X-MC-Unique: 8vuevyLvO4Splh2nWgC24A-1
+X-Mimecast-MFC-AGG-ID: 8vuevyLvO4Splh2nWgC24A
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7b6ebe1ab63so1229795285a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 15:57:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736812439; x=1737417239;
+ d=1e100.net; s=20230601; t=1736812648; x=1737417448;
  h=mime-version:user-agent:content-transfer-encoding:organization
  :references:in-reply-to:date:cc:to:from:subject:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0s3jvkXL3J1NYR9kjtfeU5w1tA5GXHd/ur4B+uyHTYg=;
- b=mxIQMu+rob5r2ZPxEWIwOsqKkcGL5JChYWOGLSJC+ebV9VFLrrax/wR3ASIMJtrjH3
- px48K/BdVs0pKyC2Hkn7F7A3C87a4KpFRUQrNjPf1HqkGLjVeGzEgCGoCgKXQNZqbrMH
- Chjhfmnbh889IQruZSfiFHnUPgf79VeArMG9R/MBOJDpcJ2wDK+w0nZUGDvBy5tbS2R/
- Zqih8qc3twPaIVFzO9kckwdh5pnKhaKlseolu7Xtlf43OAhp9QfBdVING69+jL4Nv9s7
- XDydUd9pDG3YbB5KTKI1hI+xgr8z6Ur90IAi92qlOWOdNTjMW0wgwDFtJbAlJ9T+mM7k
- hSZg==
-X-Gm-Message-State: AOJu0Yz+yIqtGEOrxSS8ypG6RS9uYvLUlKUZo3BNmbv2rLIB3E4I59tx
- g92XjgXVo9wbmJ3dbbLieXkBYvsRcGBbGYpN5o/Yt8DwPAju9XDdTC1v/N4RsneGoAhskK5HmW+
- 8NPeHQTOCtkWRA+tlG4GzY+DbIq9qyREJ3/YN/+cTHA/9caV3ZCi5nkw8lUd7e0X57A==
-X-Gm-Gg: ASbGncsYt2FF9XaEUPmjSxvj4ITvIAHaZdPJ4wpWKwPfNA8Uc1bggd4+evmIWqMTA/p
- VkMwOjrhvDajHm4ovc4uJmUXlDtzGef4+Y4zQ0XgjJZIxlgefSy842JQjeK2k3kSbWJ5VNCrvya
- +6InWjQxxqetG4c6/erey27SXs87wWd4b17TSPaaDgiIcCXnM05cplPSM3ACkvN/o8w5y17nyPE
- 0CAUpRdgeBML4VcBxduWsSLJuKh60PTE1KXxQJHXrxgHmKJaJ3l2qgfB3fXcFOhAGBVJ9XOMDu+
- 4NrZ9CMwedqciHU20mpp2hJNXYU=
-X-Received: by 2002:a05:620a:2a0f:b0:7b6:ecaa:9633 with SMTP id
- af79cd13be357-7bcd9729fa7mr3956240285a.7.1736812438794; 
- Mon, 13 Jan 2025 15:53:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEuImAQ1XXv+MOMxpXODigGFZu1zdTlFQGLjqTfFLjR9qyEnf0/r7wvnNPds9SPzHkVbvex3g==
-X-Received: by 2002:a05:620a:2a0f:b0:7b6:ecaa:9633 with SMTP id
- af79cd13be357-7bcd9729fa7mr3956236685a.7.1736812438462; 
- Mon, 13 Jan 2025 15:53:58 -0800 (PST)
+ bh=mmzlmAYQDbaYnHCEKRQa5ooCUue11mQHDsUORSpx37Q=;
+ b=Lh4wizDKZlxZN+0LOhI+by/eWSXbynJzSLadxQZTXp4DZyXGJIUzJlqfmIVZGC1UWj
+ aL70FYK9Es5V9Ug7IwGJ27CfstKOv2qjJQKRx1KQtD6Jvi9H9aGUkinypXnSryVGX6HU
+ u1tSQZ79axXCJjAQUdWaAc+pE+PCSi3e9l2h1qdg8EiT/kVy8z04nNMUu7TnaCKMPmcf
+ PllyWsw2nEleZINyv/JZF7a7NyrhnBsb0+gT5GR2+/IBocgDgXdDH7dty1EsK1dGESNu
+ 1HhyJXNt9QoKAJV6XardNo45/ZcDeFykwtKlbxSAsveGUP3wSIe58Rvk7VbkhcAzozrN
+ TSqg==
+X-Gm-Message-State: AOJu0YxCME26kYGjp8NPbxsQU/eiimbRRJ0/BlvfMeh8rkiqhOSZJZw0
+ N0ArL+wlewOgvRr/Yf8AbIIi0xISVUmJ0/PSch6F6+cZvULIwGygbzogDzEcxmXKCH9gk8pmHtX
+ 5iH9WNEDyOnow4bQj0oiPL/1n57ttr9/9NqGdsW60JEFDZLG8IWAXmJ2ybtUTIvwVJg==
+X-Gm-Gg: ASbGncuZYXHY2cbuxbaTHE3B5I1xQLb2aC/3TGY8eYpzfGsSigaNDamdzhH2EPYc1R/
+ kdhqtw5hugAmxPk3GruPd/0ycK8TYFRfE/Z/IzykOAgEg4GQDuBxrWyB96tUZAbta+uAPRK8gEo
+ 72yrKqKzFrCPS7R3Wu8pc4y3D/yABxluzC586HCl7zzsDpCcGsu70ML2cAdEHkFw6dUvVH7WR6Q
+ xLAa1jD25v5irTop2hQGPy2+26gwsNVxB8ETyQI22jwLtgM/fU7uwt5XBdDOV+oZ5s0lyCcqOIy
+ Rmt5VDrYIkoSNaiH4QRlFoMY8I0=
+X-Received: by 2002:a05:620a:5d8e:b0:7bd:bafc:32a8 with SMTP id
+ af79cd13be357-7bdbafc35d3mr985341285a.24.1736812648436; 
+ Mon, 13 Jan 2025 15:57:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGZ4yzz8tQiGfGPcss6eaK0wqSBP1yjUalrX6t53Tf7hH3xN8W77zMYEknciX6xn8Jr4LX3TA==
+X-Received: by 2002:a05:620a:5d8e:b0:7bd:bafc:32a8 with SMTP id
+ af79cd13be357-7bdbafc35d3mr985338485a.24.1736812648096; 
+ Mon, 13 Jan 2025 15:57:28 -0800 (PST)
 Received: from ?IPv6:2600:4040:5c4c:a000:e00f:8b38:a80e:5592?
  ([2600:4040:5c4c:a000:e00f:8b38:a80e:5592])
  by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6dfade73406sm46804506d6.78.2025.01.13.15.53.57
+ af79cd13be357-7bce323967fsm548286785a.19.2025.01.13.15.57.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2025 15:53:57 -0800 (PST)
-Message-ID: <803ffda9ffcae034237bf2cdb2a04a7f8693a674.camel@redhat.com>
-Subject: Re: [WIP RFC v2 22/35] rust: drm/kms: Add DriverPlane::atomic_update()
+ Mon, 13 Jan 2025 15:57:27 -0800 (PST)
+Message-ID: <697716119af55f806b24678343abb320261802c0.camel@redhat.com>
+Subject: Re: [WIP RFC v2 26/35] WIP: rust: drm/kms: Add
+ RawPlaneState::atomic_helper_check()
 From: Lyude Paul <lyude@redhat.com>
 To: Daniel Almeida <daniel.almeida@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Asahi
@@ -82,16 +83,16 @@ Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Asahi
  <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, Alice
  Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,  open list
  <linux-kernel@vger.kernel.org>
-Date: Mon, 13 Jan 2025 18:53:56 -0500
-In-Reply-To: <E4022636-D8A6-4B03-8EF0-E9E3177E760A@collabora.com>
+Date: Mon, 13 Jan 2025 18:57:25 -0500
+In-Reply-To: <7148C7F5-6412-44CB-B92A-4ABAE4A4D5C3@collabora.com>
 References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-23-lyude@redhat.com>
- <E4022636-D8A6-4B03-8EF0-E9E3177E760A@collabora.com>
+ <20240930233257.1189730-27-lyude@redhat.com>
+ <7148C7F5-6412-44CB-B92A-4ABAE4A4D5C3@collabora.com>
 Organization: Red Hat Inc.
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: PM_2UNHuUay0wES8xvCdOcqEev6RKgCMVCIzm540yxQ_1736812439
+X-Mimecast-MFC-PROC-ID: j0lL_rlYpx6WEDUBhigVWtrNXX_N6N7I8Q1p21rPAA8_1736812648
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -110,114 +111,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2024-11-28 at 10:51 -0300, Daniel Almeida wrote:
+On Thu, 2024-11-28 at 11:04 -0300, Daniel Almeida wrote:
+> Hi Lyude,
 >=20
 > > On 30 Sep 2024, at 20:10, Lyude Paul <lyude@redhat.com> wrote:
 > >=20
-> > A mandatory trait method used for implementing DRM's atomic plane updat=
-e
-> > callback.
+> > Add a binding for drm_atomic_helper_check_plane_state(). Since we want =
+to
+> > make sure that the user is passing in the new state for a Crtc instead =
+of
+> > an old state, we explicitly ask for a reference to a BorrowedCrtcState.
+> >=20
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> >=20
+> > ---
+> >=20
+> > TODO:
+> > * Add support for scaling options
+>=20
+> Can / should this be a separate commit? This would allow this one to go i=
+n earlier.
+
+It could be but I don't have any implementation of this yet, which is why i=
+t's
+mentioned as a todo.
+
+>=20
 > >=20
 > > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > > ---
-> > rust/kernel/drm/kms/plane.rs | 39 +++++++++++++++++++++++++++++++++++-
-> > 1 file changed, 38 insertions(+), 1 deletion(-)
+> > rust/kernel/drm/kms/plane.rs | 25 +++++++++++++++++++++++++
+> > 1 file changed, 25 insertions(+)
 > >=20
 > > diff --git a/rust/kernel/drm/kms/plane.rs b/rust/kernel/drm/kms/plane.r=
 s
-> > index d6e11a65cc101..506ed5ced1270 100644
+> > index 4d16d53179fca..cd5167e6441f1 100644
 > > --- a/rust/kernel/drm/kms/plane.rs
 > > +++ b/rust/kernel/drm/kms/plane.rs
-> > @@ -75,7 +75,7 @@ pub trait DriverPlane: Send + Sync + Sized {
-> >             begin_fb_access: None, // TODO: someday?
-> >             end_fb_access: None, // TODO: someday?
-> >             atomic_check: None,
-> > -            atomic_update: None,
-> > +            atomic_update: if Self::HAS_ATOMIC_UPDATE { Some(atomic_up=
-date_callback::<Self>) } else { None },
-> >             atomic_enable: None, // TODO
-> >             atomic_disable: None, // TODO
-> >             atomic_async_check: None, // TODO
-> > @@ -103,6 +103,21 @@ pub trait DriverPlane: Send + Sync + Sized {
-> >     ///
-> >     /// Drivers may use this to instantiate their [`DriverPlane`] objec=
-t.
-> >     fn new(device: &Device<Self::Driver>, args: Self::Args) -> impl Pin=
-Init<Self, Error>;
+> > @@ -496,6 +496,31 @@ fn crtc<'a, 'b: 'a>(&'a self) -> Option<&'b Opaque=
+Crtc<<Self::Plane as ModeObjec
+> >         // SAFETY: This cast is guaranteed safe by `OpaqueCrtc`s invari=
+ants.
+> >         NonNull::new(self.as_raw().crtc).map(|c| unsafe { OpaqueCrtc::f=
+rom_raw(c.as_ptr()) })
+> >     }
 > > +
-> > +    /// The optional [`drm_plane_helper_funcs.atomic_update`] hook for=
- this plane.
-> > +    ///
-> > +    /// Drivers may use this to customize the atomic update phase of t=
-heir [`Plane`] objects. If not
-> > +    /// specified, this function is a no-op.
-> > +    ///
-> > +    /// [`drm_plane_helper_funcs.atomic_update`]: srctree/include/drm/=
-drm_modeset_helper_vtables.h
-> > +    fn atomic_update(
-> > +        plane: &Plane<Self>,
-> > +        new_state: BorrowedPlaneState<'_, PlaneState<Self::State>>,
-> > +        old_state: &PlaneState<Self::State>,
-> > +        state: &AtomicStateMutator<Self::Driver>
-> > +    ) {
-> > +        build_error::build_error("This should not be reachable")
+> > +    /// Run the atomic check helper for this plane and the given CRTC =
+state
+> > +    fn atomic_helper_check<S>(
+> > +        &mut self,
+> > +        crtc_state: &BorrowedCrtcState<'_, S>,
+> > +        can_position: bool,
+> > +        can_update_disabled: bool
+> > +    ) -> Result
+>=20
+> Some docs on the arguments would be nice IMHO. Things like `can_position`=
+ and `can_update_disabled`
+> seem a bit opaque.
+>=20
+
+I'm curious if you have any idea whether we can link back to kernel docs in
+rust? We have pretty extensive documentation written up on almost all of th=
+is
+already, I just have no idea how to incorporate it on the rust side.
+
+> > +    where
+> > +        S: FromRawCrtcState,
+> > +        S::Crtc: AsRawCrtc<Driver =3D <Self::Plane as ModeObject>::Dri=
+ver>
+> > +    {
+> > +        // SAFETY: We're passing the mutable reference from `self.as_r=
+aw_mut()` directly to DRM,
+> > +        // which is safe.
+> > +        to_result(unsafe {
+> > +            bindings::drm_atomic_helper_check_plane_state(
+> > +                self.as_raw_mut(),
+> > +                crtc_state.as_raw(),
+> > +                bindings::DRM_PLANE_NO_SCALING as _, // TODO: add para=
+meters for scaling
+> > +                bindings::DRM_PLANE_NO_SCALING as _,
+>=20
+> No scaling means that you can only select the display=E2=80=99s highest r=
+esolution?
+
+No, I believe (correct me if I'm wrong here chat) that this is about plane
+scaling rather than resolution. A lot of display hardware has the ability t=
+o
+do hardware-scaling of individual display planes, so that the input
+framebuffer for a plane can be larger than the actual display plane that's =
+on-
+screen.
+
+>=20
+> > +                can_position,
+> > +                can_update_disabled
+> > +            )
+> > +        })
 > > +    }
->=20
-> One more comment. If this is mandatory, why not omit this default here to=
- get the compiler to enforce
-> the implementation of this fn by drivers?=20
-
-This was just a mistake on my part. tl;dr atomic_update is not used by some
-super basic drivers but currently the DRM core breaks without it specified.=
- I
-suggested that maybe we consider it to be optional (and made it optional he=
-re
-in my branch at one point), but the case I just mentioned while not unheard=
- of
-is unusual enough that upstream decided it wasn't worth it. So I need to do
-what you said and drop the default implementation here.
-
->=20
 > > }
+> > impl<T: AsRawPlaneState + ?Sized> RawPlaneState for T {}
 > >=20
-> > /// The generated C vtable for a [`DriverPlane`].
-> > @@ -757,3 +772,25 @@ fn deref_mut(&mut self) -> &mut Self::Target {
-> >     // - The cast to `drm_plane_state` is safe via `PlaneState`s type i=
-nvariants.
-> >     unsafe { bindings::__drm_atomic_helper_plane_reset(plane, Box::into=
-_raw(new).cast()) };
-> > }
-> > +
-> > +unsafe extern "C" fn atomic_update_callback<T: DriverPlane>(
-> > +    plane: *mut bindings::drm_plane,
-> > +    state: *mut bindings::drm_atomic_state,
-> > +) {
-> > +    // SAFETY:
-> > +    // * We're guaranteed `plane` is of type `Plane<T>` via type invar=
-iants.
-> > +    // * We're guaranteed by DRM that `plane` is pointing to a valid i=
-nitialized state.
-> > +    let plane =3D unsafe { Plane::from_raw(plane) };
-> > +
-> > +    // SAFETY: DRM guarantees `state` points to a valid `drm_atomic_st=
-ate`
-> > +    let state =3D unsafe { AtomicStateMutator::new(NonNull::new_unchec=
-ked(state)) };
-> > +
-> > +    // SAFETY: Since we are in the atomic update callback, we're guara=
-nteed by DRM that both the old
-> > +    // and new atomic state are present within `state`
-> > +    let (old_state, new_state) =3D unsafe {(
-> > +        state.get_old_plane_state(plane).unwrap_unchecked(),
-> > +        state.get_new_plane_state(plane).unwrap_unchecked(),
-> > +    )};
-> > +
-> > +    T::atomic_update(plane, new_state, old_state, &state);
-> > +}
 > > --=20
 > > 2.46.1
 > >=20
-> >=20
+>=20
+> Barring the comment above about the docs, this looks good.
 >=20
 > =E2=80=94 Daniel
 >=20
