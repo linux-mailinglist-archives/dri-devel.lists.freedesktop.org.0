@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98569A0BA86
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 15:53:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1383A0BA74
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 15:53:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE73D10E6BE;
-	Mon, 13 Jan 2025 14:53:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 108D710E42A;
+	Mon, 13 Jan 2025 14:53:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UjLyGuAE";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="l696MmhD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BA4B10E6BE
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 14:53:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDC6F10E6B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 14:53:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736779993;
- bh=RNWJUSizF5rQD/eeXWuW2FSlygMlwq9QCxXSRVJ6M6g=;
+ s=mail; t=1736779994;
+ bh=9kOtEXm03vIhlFmSQDgGMXPOuJMWf8LRw+vSYi8aVAI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UjLyGuAEbsdQHXS8SzIRMg6R8q4+jE3pS3Dm2g4afswy25FMIbZqRppejEx7baq6D
- VVI6vNJwmRhEiqOeUzb8xesXYaZYK/G6NuQntvb3mIRig58hrM6Meux0HQgo4nrRWl
- bZDrx7TNYWk1T+d6Su5u/F6VythxFBhjKp+HOU3nioVHlvZ/K4P+nymMcQ0BzbkAin
- YZUJdT7Yz4YGg/1JwghFKwJ6etkai1JsAztXj7ZXUu9haOihRoROgUgls+gfGX1wur
- RHAN8kJuvuM5idqBFEG3VZUzu/kDWFNoR44WYxK0oErwFkYqGRXwyxWTAI4w91mMyN
- B7r8nQtZ4pFcQ==
+ b=l696MmhDOHVIc1f0wyA3kisSNyrx+LcNSbByqHTDSkOda+56WD+lfuXNKQxopXepw
+ R2wIYE3xqWB0z0INpBRBXpZ5fzd3Hq2gbg9N9DYW/lDO0PsHrhqOiOPUzmivL4GX8k
+ KdtBhYg5BcBlt2AKTrUgR91pHpFslcOe73olW/aRwCjuv5R5/RZjfSEqEyvzbaTVMO
+ zaYBhzs67edGvFtH6UM+pc86GT6xFrpo/U8aFrqyFOhMVhG8lauCbZWrTOOjVtPAIJ
+ T4iKdGxNih1/xvqt4jVNgF4mo1vSbMzU16jtjg8ER4o81vOLwO3N8/L5onCZYL11Mc
+ tjgVSF7+bZ88w==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BC78E17E0D9D;
- Mon, 13 Jan 2025 15:53:11 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3CAD717E0F6B;
+ Mon, 13 Jan 2025 15:53:13 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -46,10 +46,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
  jason-jh.lin@mediatek.com
-Subject: [PATCH v5 24/34] drm/mediatek: mtk_hdmi: Use devm managed version of
- drm_bridge_add
-Date: Mon, 13 Jan 2025 15:52:22 +0100
-Message-ID: <20250113145232.227674-25-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v5 25/34] drm/mediatek: mtk_hdmi: Remove ifdef for
+ CONFIG_PM_SLEEP
+Date: Mon, 13 Jan 2025 15:52:23 +0100
+Message-ID: <20250113145232.227674-26-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20250113145232.227674-1-angelogioacchino.delregno@collabora.com>
 References: <20250113145232.227674-1-angelogioacchino.delregno@collabora.com>
@@ -70,47 +70,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify the probe/remove functions by using devm_drm_bridge_add()
-as now there is no more need to manually remove the bridge.
+Since the SIMPLE_DEV_PM_OPS macro and the pm pointer are anyway
+defined when CONFIG_PM_SLEEP is not set, remove the ifdef for it
+and indicate that the mtk_hdmi_{remove,suspend} functions may be
+unused (as they are, in case PM support is not built-in).
 
-Reviewed-by: CK Hu <ck.hu@mediatek.com>
+While at it, to improve readability, also compress the
+SIMPLE_DEV_PM_OPS declaration as it even fits in less
+than 80 columns.
+
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_hdmi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_hdmi.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 4345c91e92e7..0ec3bfe528f8 100644
+index 0ec3bfe528f8..f6b463aaba47 100644
 --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1672,14 +1672,15 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	hdmi->bridge.vendor = "MediaTek";
- 	hdmi->bridge.product = "On-Chip HDMI";
--	drm_bridge_add(&hdmi->bridge);
-+
-+	ret = devm_drm_bridge_add(dev, &hdmi->bridge);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to add bridge\n");
- 
- 	ret = mtk_hdmi_clk_enable_audio(hdmi);
--	if (ret) {
--		drm_bridge_remove(&hdmi->bridge);
-+	if (ret)
- 		return dev_err_probe(dev, ret,
- 				     "Failed to enable audio clocks\n");
--	}
- 
- 	return 0;
- }
-@@ -1688,7 +1689,6 @@ static void mtk_hdmi_remove(struct platform_device *pdev)
- {
- 	struct mtk_hdmi *hdmi = platform_get_drvdata(pdev);
- 
--	drm_bridge_remove(&hdmi->bridge);
+@@ -1692,8 +1692,7 @@ static void mtk_hdmi_remove(struct platform_device *pdev)
  	mtk_hdmi_clk_disable_audio(hdmi);
  }
  
+-#ifdef CONFIG_PM_SLEEP
+-static int mtk_hdmi_suspend(struct device *dev)
++static __maybe_unused int mtk_hdmi_suspend(struct device *dev)
+ {
+ 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+ 
+@@ -1702,7 +1701,7 @@ static int mtk_hdmi_suspend(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int mtk_hdmi_resume(struct device *dev)
++static __maybe_unused int mtk_hdmi_resume(struct device *dev)
+ {
+ 	struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+ 	int ret = 0;
+@@ -1715,9 +1714,8 @@ static int mtk_hdmi_resume(struct device *dev)
+ 
+ 	return 0;
+ }
+-#endif
+-static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops,
+-			 mtk_hdmi_suspend, mtk_hdmi_resume);
++
++static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops, mtk_hdmi_suspend, mtk_hdmi_resume);
+ 
+ static const struct mtk_hdmi_conf mtk_hdmi_conf_mt2701 = {
+ 	.tz_disabled = true,
 -- 
 2.47.0
 
