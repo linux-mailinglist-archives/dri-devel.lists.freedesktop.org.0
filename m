@@ -2,54 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DB2A0B4A5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 11:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A9EA0B4A6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 11:34:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88F2A10E64D;
-	Mon, 13 Jan 2025 10:33:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B10D10E655;
+	Mon, 13 Jan 2025 10:34:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lhIcVCke";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Bs74zLte";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6243110E66E
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 10:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=WAOvdIdJb6cgjKD8mQDK8EN3L0kqDtomvZnj4efRpO0=; b=lhIcVCkebc7qN9flGLJtd/6o+7
- leFR/zjZ6TazgPLOZemfGbk3xHqSNtHepnIuc/MFzXgFJiSrSaEGnhD9xPf3wFpxT8gnRBisq/2Cc
- tErC1TEk6dClHUg3rRXPzq7GR5bSQ7D8ntEMpjSeBkO7seitXUygJQAYzfDMzdzlS2ZLCwFnX4Z+J
- 4hQ0ByOt+3FBY2Sc2YS9Q1h94WvbZXcd4gj6MbMMVDKoRi2Hp9moPAI+psbptwOuSHtyb/fdipgaF
- pS+z+hLVqnfZRrm6AvD04m0+M/ZDTeWFwGJv3buOlmbvYlDvTg4X4yGAJNGIs/D7Xn58KD2OL76Mc
- uHFa5MZw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tXHlU-00F8jM-Hv; Mon, 13 Jan 2025 11:33:48 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>
-Subject: [PATCH 2/2] drm/imagination: Use the drm_sched_job_has_dependency
- helper
-Date: Mon, 13 Jan 2025 10:33:41 +0000
-Message-ID: <20250113103341.43914-2-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250113103341.43914-1-tvrtko.ursulin@igalia.com>
-References: <20250113103341.43914-1-tvrtko.ursulin@igalia.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BEF10E656;
+ Mon, 13 Jan 2025 10:34:07 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50D05kgv005352;
+ Mon, 13 Jan 2025 10:34:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ldQRIcsVIMjjxgYK+/m802+h1fO+Vvd6t/ES47sOUiY=; b=Bs74zLtesIXHMEsq
+ ffFCCXqxQ7HeJNfMPODbUypLL1e9f2jyfZyOCvlOZkZ9reQIdtAIwFdEQtKenR2+
+ aOSy5jqgTh3CoS6jccsWSlYlNL8nDpjV6UpC5QDw+TUuM5CLS0TVnZYVY3qylqxr
+ 0dcD/0LwM43wu86XEb2CKA1z46Y4WeZ+z7haggarJYQ6bNw45clKnRj/UEc+dAk3
+ n2+DltCpBORqSIoCYBlCk2YCmOvJCn+Fi75yZFIefMHygvbSHdRlFuB/ySlX+d/4
+ GS5XxQP9QzNhtTxbu9n2dpr/Lr3qNXIJVZdrcZFu3jC+FIXcRGyYVU65PhUv1L6G
+ 8Fci/Q==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 444r01s9te-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Jan 2025 10:34:03 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50DAY3sn005605
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 13 Jan 2025 10:34:03 GMT
+Received: from [10.216.0.66] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 13 Jan
+ 2025 02:33:58 -0800
+Message-ID: <82a53f0a-be0a-4725-9ef9-6ee5388722e1@quicinc.com>
+Date: Mon, 13 Jan 2025 16:03:55 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm: Avoid rounding up to one jiffy
+To: Rob Clark <robdclark@gmail.com>, <dri-devel@lists.freedesktop.org>
+CC: <freedreno@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, "Rob
+ Clark" <robdclark@chromium.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, open list
+ <linux-kernel@vger.kernel.org>
+References: <20250109230734.8111-1-robdclark@gmail.com>
+From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20250109230734.8111-1-robdclark@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: spo3_wecWs-6_qfpDzIohe-2-2MKWf1N
+X-Proofpoint-ORIG-GUID: spo3_wecWs-6_qfpDzIohe-2-2MKWf1N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
+ mlxlogscore=999 impostorscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501130089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,51 +94,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of manually peeking into the DRM scheduler implementation details
-lets use the previously added helper.
+On 1/10/2025 4:37 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> If userspace is trying to achieve a timeout of zero, let 'em have it.
+> Only round up if the timeout is greater than zero.
+> 
+> Fixes: 4969bccd5f4e ("drm/msm: Avoid rounding down to zero jiffies")
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/msm/msm_drv.h | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index fee31680a6d5..451d258b9827 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -537,16 +537,14 @@ static inline int align_pitch(int width, int bpp)
+>  static inline unsigned long timeout_to_jiffies(const ktime_t *timeout)
+>  {
+>  	ktime_t now = ktime_get();
+> -	s64 remaining_jiffies;
+>  
+> -	if (ktime_compare(*timeout, now) < 0) {
+> -		remaining_jiffies = 0;
+> +	if (ktime_compare(*timeout, now) <= 0) {
+> +		return 0;
+>  	} else {
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <pstanner@redhat.com>
-Cc: Frank Binns <frank.binns@imgtec.com>
-Cc: Matt Coster <matt.coster@imgtec.com>
-Reviewed-by: Matt Coster <matt.coster@imgtec.com>
----
- drivers/gpu/drm/imagination/pvr_job.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+For readability, we can now remove 'else' block and de-nest rest of the
+code.
 
-diff --git a/drivers/gpu/drm/imagination/pvr_job.c b/drivers/gpu/drm/imagination/pvr_job.c
-index 618503a212a7..1cdb3cfd058d 100644
---- a/drivers/gpu/drm/imagination/pvr_job.c
-+++ b/drivers/gpu/drm/imagination/pvr_job.c
-@@ -597,8 +597,6 @@ update_job_resvs_for_each(struct pvr_job_data *job_data, u32 job_count)
- static bool can_combine_jobs(struct pvr_job *a, struct pvr_job *b)
- {
- 	struct pvr_job *geom_job = a, *frag_job = b;
--	struct dma_fence *fence;
--	unsigned long index;
- 
- 	/* Geometry and fragment jobs can be combined if they are queued to the
- 	 * same context and targeting the same HWRT.
-@@ -609,13 +607,9 @@ static bool can_combine_jobs(struct pvr_job *a, struct pvr_job *b)
- 	    a->hwrt != b->hwrt)
- 		return false;
- 
--	xa_for_each(&frag_job->base.dependencies, index, fence) {
--		/* We combine when we see an explicit geom -> frag dep. */
--		if (&geom_job->base.s_fence->scheduled == fence)
--			return true;
--	}
--
--	return false;
-+	/* We combine when we see an explicit geom -> frag dep. */
-+	return drm_sched_job_has_dependency(&frag_job->base,
-+					    &geom_job->base.s_fence->scheduled);
- }
- 
- static struct dma_fence *
--- 
-2.47.1
+-Akhil
+
+>  		ktime_t rem = ktime_sub(*timeout, now);
+> -		remaining_jiffies = ktime_divns(rem, NSEC_PER_SEC / HZ);
+> +		s64 remaining_jiffies = ktime_divns(rem, NSEC_PER_SEC / HZ);
+> +		return clamp(remaining_jiffies, 1LL, (s64)INT_MAX);
+>  	}
+> -
+> -	return clamp(remaining_jiffies, 1LL, (s64)INT_MAX);
+>  }
+>  
+>  /* Driver helpers */
 
