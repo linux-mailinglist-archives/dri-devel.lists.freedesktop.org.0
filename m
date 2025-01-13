@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9880A0AE86
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 05:50:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748D5A0AE96
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 06:03:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 846BB10E3FA;
-	Mon, 13 Jan 2025 04:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 627A910E400;
+	Mon, 13 Jan 2025 05:03:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="D82L6QuV";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="V2gBNrQn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1CE10E3E2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 04:50:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B8A10E400
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 05:03:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1736743793;
- bh=fQr+58xnM3oJy/HYq042b8flRj12HzL2Ipg6OlCRmkY=;
+ s=201702; t=1736744608;
+ bh=yMYUVdKiQc1gQZ7Tf3KQn3ZaPzIwNokYINqh23B5kCg=;
  h=Date:From:To:Cc:Subject:From;
- b=D82L6QuVpPrOmpYlkVMbql/UCzimdTU1vPoGUYaW4Q2N4UGuGnTGabEZdoLChP76h
- wNvqHGV3ZdL0664DVkQArXhXLJsBjeM47r68fy9wFNlhz3KVdYfbncIvpZlvkw6qaK
- QoyI5y+bGwUUI8B+ITqpAL9/bGlgSLm/IY9GzHS3U+LGsxOWdQjxN7T9AJxotCBBTW
- 4pAzCKFvPFUeAPAa4nTFSkw2DCohj2bs640X+S29ObTgXjpSMafF7NlL2lUlQW75CX
- jPEyxPIokBfvBOuYjdqAN1ejmi8JQ6Zdn35lJCezpuXtS/taWmgI6ejQpUWeyguSNW
- MDGBx0ntSQVwQ==
+ b=V2gBNrQnkTyapQtehlXahvjneOO0x1vHRuyHa/qFN2eFtz9en5UWWMT0Kz+KXSHNe
+ yl6W1eZUfRXiGlZwKienJ1tXqzHT0rLeKEj4OFPO3RhVfR1rBl2BO5AJTh+RA2fuhO
+ dzOGgF3ArBW2d3W029iowAyYBRMQF4P9vNQ2tNvrjD2E1+3PDuFO1s7fFIyj4CSpJA
+ KQh/woAIY+V7yE0oRzx9CFCa725XEFsP0XAEOF/qS1whaIycMqxtDvY/1B37S0kZW6
+ SzeqQWkDXcIdDwNZBZ+oaHg0x5CQRypRwNL9Wea8+LpFOQ3KT4LdgxsmPre25rqnuR
+ /TIx4IV4uBGaw==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4YWfv55DHXz4wdF;
- Mon, 13 Jan 2025 15:49:53 +1100 (AEDT)
-Date: Mon, 13 Jan 2025 15:50:00 +1100
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4YWgBm0dgbz4wvb;
+ Mon, 13 Jan 2025 16:03:28 +1100 (AEDT)
+Date: Mon, 13 Jan 2025 16:03:34 +1100
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Dave Airlie <airlied@redhat.com>, DRI <dri-devel@lists.freedesktop.org>
 Cc: Friedrich Vock <friedrich.vock@gmx.de>, Maarten Lankhorst
  <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, Linux Kernel
  Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
  <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm tree
-Message-ID: <20250113155000.4a99e7b0@canb.auug.org.au>
+Subject: linux-next: build warnings after merge of the drm tree
+Message-ID: <20250113160334.1f09f881@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jPZdqc6wwK3jDdABfZRnDx7";
+Content-Type: multipart/signed; boundary="Sig_/Hutv5y9_DgXrsftH63naBGD";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,7 +58,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/jPZdqc6wwK3jDdABfZRnDx7
+--Sig_/Hutv5y9_DgXrsftH63naBGD
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
@@ -67,8 +67,14 @@ Hi all,
 After merging the drm tree, today's linux-next build (htmldocs) produced
 this warning:
 
-Documentation/gpu/drm-compute.rst: WARNING: document isn't included in any =
-toctree
+kernel/cgroup/dmem.c:300: warning: Excess function parameter 'dev' descript=
+ion in 'dmem_cgroup_state_evict_valuable'
+kernel/cgroup/dmem.c:300: warning: Excess function parameter 'index' descri=
+ption in 'dmem_cgroup_state_evict_valuable'
+kernel/cgroup/dmem.c:635: warning: Function parameter or struct member 'reg=
+ion' not described in 'dmem_cgroup_try_charge'
+kernel/cgroup/dmem.c:635: warning: Excess function parameter 'dev' descript=
+ion in 'dmem_cgroup_try_charge'
 
 Introduced by commit
 
@@ -78,20 +84,20 @@ Introduced by commit
 Cheers,
 Stephen Rothwell
 
---Sig_/jPZdqc6wwK3jDdABfZRnDx7
+--Sig_/Hutv5y9_DgXrsftH63naBGD
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmeEm3gACgkQAVBC80lX
-0Gw7WAf9G3VI2OIiny6CEEKf5PU0q3Pi7VyTnPdw+1Zq0xUVpHy6rANZDow3P1Ki
-o/Dm48IktlZKdkhlz+VKf+k375M+3HTzyDhEp+Yx0FCPpGG2fWTAAgi9QWx9ailO
-IG24CDUCK5ldiUPVyCIfyuIBopuXmpo1w4JVGJnfvQh6LziJoDha/2f0oBRR3527
-OyCCK/mZR0bmEInwig5tFNLavGdrvpAe0LCskKd2XZ4FcLbux1L6vbAR3pWNvqIr
-UhQGQv/7IdSAvDSE6+X5GVjjR3bk6NR1VA4uI0EJ6rYCiq94xWYcEjr7xvJxKiBX
-F0QGMCNwN3E40queVClNK07YaTaxUw==
-=l76E
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmeEnqYACgkQAVBC80lX
+0Gz3dQf+J8bDaYxs9MuSCBgwHQoq74a5xncmyg24Py7N5srX+HbQ8Uxd5aaCTEO2
+IOr8r8sCPdumLKNe4wV+W7yVrwukV8xpC2+j7lCzjB1axTXezbSU72XmAGavUKhy
+8YZNIMlPIgSH6sc1O3+v6Fdmk4ytrxpoW3CIaJfNTsR3PA7QT0g41Mz1jIwlwjCu
+Ou227nF2CmLJ8UfpZzcs6Mbf7t69rENsxHBScp5WAkxvIW3BrIPS4ATu8n3PAR/z
+JxH47ejDzn4KQjNKO540D9Vy3NIL6UauK83vJ+Wm+FD+hHRrMxKEdlJzLMh6vk1f
+Lo9z47Uq7DQMQP6TXKfuHc2Gm0Iu/w==
+=oIX1
 -----END PGP SIGNATURE-----
 
---Sig_/jPZdqc6wwK3jDdABfZRnDx7--
+--Sig_/Hutv5y9_DgXrsftH63naBGD--
