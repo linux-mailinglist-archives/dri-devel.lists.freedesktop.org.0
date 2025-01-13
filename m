@@ -2,75 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AE7A0B437
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 11:11:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FB73A0B26D
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:11:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBF4910E633;
-	Mon, 13 Jan 2025 10:11:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44A6F10E266;
+	Mon, 13 Jan 2025 09:11:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O0zPJRTN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="L17F0aYY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59D2710E632
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 10:11:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736763113; x=1768299113;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=1V0smjfm6liFtFPXdzXRpp1hcMphdhXOdaciBJTxc3k=;
- b=O0zPJRTNxraCEZrGaAHXbs+64PRrD6dgH35gVUTROm5w3OlOQSkXoNvA
- xo0dRmNrSSCihGPo/SXgplyImFJABvVMnJWQ0NIg7Amyy5yg+6nP+N2w2
- rOiDqRvH2bche1j9iJ6oKaxwyvtP+WpIDZe2yiWVrXd40+CEnYPKwlO8t
- 3kFBxc3iS/meX3Ln64DQMAsutd5o7NUSbszUPyR9PONZZnoIvc2T3DVG3
- wvxvIewtz327/WpgHaC/TN+Z5vsvCZQAjCa3MA66c92W0ebnPdbK9m0Yi
- Ob2zACnMqD1lr3wmai8uGQB5kQxD1Ap3dvIVGjMMDnFQyQ80LJK+50ria g==;
-X-CSE-ConnectionGUID: rJxKR6eSS+u/tF5Ez3Aftw==
-X-CSE-MsgGUID: wekp484nSrSAqPMhpBlxEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="47680439"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="47680439"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2025 02:11:52 -0800
-X-CSE-ConnectionGUID: e1W5JBnaQKeKiTmx3Y+QPg==
-X-CSE-MsgGUID: iL1mS6fgQq2TTbSbHA6WqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="104509323"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by orviesa006.jf.intel.com with ESMTP; 13 Jan 2025 02:11:47 -0800
-Date: Mon, 13 Jan 2025 06:10:40 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <Z4Q94E6JvWrhvCyq@yilunxu-OptiPlex-7050>
-References: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
- <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com>
- <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
- <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
- <20250110203838.GL5556@nvidia.com>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E93A10E1D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:11:07 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-53e3a227b82so3488107e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 01:11:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736759405; x=1737364205; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2m7BqFyPTCb5l2+wQfuOnNqekkEOfPARePQKvpZbjSw=;
+ b=L17F0aYYDYRZSKUM1FxA4zGqsUev+YCdic9hAuZOnTHOjypGO+OPBig9Xz+xTsO2d7
+ Eunb/92JcGljiqG7LFZ7xdXYee4PcAa2sR2NBt5Mloca+quogexKqujiDCWWhh21uJqT
+ 7/zKHfFDMBRedJtrYWj9hIgXHkzHPW7Sgonwe3AOdL3wBDftFn7ppOdPmmU/L7X9YpQE
+ T2nK6yQzaRMKqCR554rP9x6DgOsiI0acBS433BeyJob1xXBf3TJtjpAhSfKpvV+99O+e
+ Y6lOvnLUyvRuctlzfaFECY8lfA+lxxuy4uNC9K9OTBNYgSChGMxYJnGXzuF6fFIvipYl
+ BRMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736759405; x=1737364205;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2m7BqFyPTCb5l2+wQfuOnNqekkEOfPARePQKvpZbjSw=;
+ b=oAdXRfW9Bp9+KsdRkSSJgBWomZskFISZpCoDVyuo50DSLmXDAoQo5oWjFgI/Q6PBcW
+ PDDt+UCKsfBjNN2OAWrjR8iy2HYIPGrG8QQyLSRZrXSnkCi2KMOAzGyPgvXM0kPVhqAL
+ ekFmppMIdD/CzSUFveu2oYMtLeehYJVNA2xZkf/kqdnK/BIHsNApUCzAq2LlseF0UYnx
+ SgusJ6R9MAuhAQk/7o3mZF3e4hv1QiyPp9vx71rbfxCmhoMO3ODJtUYT9JxBG1fwsMWu
+ AAMLZFSBwHk/RJzfu6NfqrLGVF1DwI7VR1ej58IJFpqkl3nylE22UzV3LazcVVz/QdcU
+ J/tg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWnPXzNTKEfe/AdEr5Ehz0vNTcZi5tfYcIf3QEKG7OV+/GU7pTR4/FLS/a9gVno3hEz+atb2Siet+o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHnAPJ4STcNbRxYGh1+3wj+4bD/3DLjr1kdMXCV9os11rR/DkL
+ 6raMoOlMH64c5ymJ2v6nKK06Cl2754CHc9LTumZFhAyIsRd8hyVcsZbarmFuN1U=
+X-Gm-Gg: ASbGnct+Ujg0YFTc7b+CNR1NNPhLP/Q33NDh2QE3a3Dofor5ZpZLTk3MxvkM2UbvsCt
+ tWlMibeuf1pKacmRcgUHXVfwwKQUcWAtxADk21WOKm/3NM0FDcSz963qLvC+Go9bssVt68Gm+TT
+ O3gvJAb9J2pVoavKezEngQbBIScaE/6vC7grKdL9j9l4DU8bdgRYvaMUktSahmjGY8rYAxC2zQu
+ Ziyn6uzc8q1/UR/DWbeF+KPuyon0ReBn7SYPdZMTAOVz51MEVq8hPiSXlkGaHP/U/U1looTvikt
+ CVxY9zpFQHRy/eeowFRFVw7UFRa6PbUovdK2
+X-Google-Smtp-Source: AGHT+IGw4VY/Y6W8zkOKJuAFr5OCeGQE4lHsOJ/tJKFeVu0YC0sUMWeW67o9DovWrzDT+skDY5PJJw==
+X-Received: by 2002:a05:6512:3f12:b0:540:3566:5397 with SMTP id
+ 2adb3069b0e04-542845b70d4mr6410811e87.22.1736759405308; 
+ Mon, 13 Jan 2025 01:10:05 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428be5492bsm1294955e87.104.2025.01.13.01.10.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Jan 2025 01:10:04 -0800 (PST)
+Date: Mon, 13 Jan 2025 11:10:01 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, 
+ andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
+ kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v1 0/6] Add eDP mode support for Rockchip Samsung HDPTX PHY
+Message-ID: <ezoduel3qz5ihlhekry26cb7ace3bm4xmzsfrsqvbodtcl3gjq@xxo75h7uozei>
+References: <20250112090714.1564158-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110203838.GL5556@nvidia.com>
+In-Reply-To: <20250112090714.1564158-1-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,111 +95,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 04:38:38PM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 10, 2025 at 08:34:55PM +0100, Simona Vetter wrote:
-> 
-> > So if I'm getting this right, what you need from a functional pov is a
-> > dma_buf_tdx_mmap? Because due to tdx restrictions, the normal dma_buf_mmap
+On Sun, Jan 12, 2025 at 05:07:08PM +0800, Damon Ding wrote:
+> Picked from:
+> https://patchwork.kernel.org/project/linux-rockchip/list/?series=923593
 
-I'm not sure if the word 'mmap' is proper here.
-
-It is kind of like the mapping from (FD+offset) to backend memory,
-which is directly provided by memory provider, rather than via VMA
-and cpu page table.  Basically VMA & cpu page table are for host to
-access the memory, but VMM/host doesn't access most of the guest
-memory, so why must build them.
-
-> > is not going to work I guess?
-> 
-> Don't want something TDX specific!
-> 
-> There is a general desire, and CC is one, but there are other
-> motivations like performance, to stop using VMAs and mmaps as a way to
-> exchanage memory between two entities. Instead we want to use FDs.
-
-Exactly.
+Then it should have been v6, not v1.
 
 > 
-> We now have memfd and guestmemfd that are usable with
-> memfd_pin_folios() - this covers pinnable CPU memory.
+> These patchs have been tested with a 1536x2048p60 eDP panel on
+> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+> on RK3588 EVB1 board.
 > 
-> And for a long time we had DMABUF which is for all the other wild
-> stuff, and it supports movable memory too.
+> Damon Ding (6):
+>   phy: phy-rockchip-samsung-hdptx: Swap the definitions of LCPLL_REF and
+>     ROPLL_REF
+>   phy: phy-rockchip-samsung-hdptx: Supplement some register names with
+>     their full version
+>   phy: phy-rockchip-samsung-hdptx: Add the '_MASK' suffix to all
+>     registers
+>   phy: phy-rockchip-samsung-hdptx: Add eDP mode support for RK3588
+>   dt-bindings: display: rockchip: Fix label name of hdptxphy for RK3588
+>     HDMI TX Controller
+>   arm64: dts: rockchip: Fix label name of hdptxphy for RK3588
 > 
-> So, the normal DMABUF semantics with reservation locking and move
-> notifiers seem workable to me here. They are broadly similar enough to
-> the mmu notifier locking that they can serve the same job of updating
-> page tables.
+>  .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |   2 +-
+>  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   4 +-
+>  .../dts/rockchip/rk3588-coolpi-cm5-evb.dts    |   2 +-
+>  .../rockchip/rk3588-coolpi-cm5-genbook.dts    |   2 +-
+>  .../boot/dts/rockchip/rk3588-evb1-v10.dts     |   2 +-
+>  .../rk3588-friendlyelec-cm3588-nas.dts        |   2 +-
+>  .../arm64/boot/dts/rockchip/rk3588-jaguar.dts |   2 +-
+>  .../boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |   2 +-
+>  .../dts/rockchip/rk3588-orangepi-5-plus.dts   |   2 +-
+>  .../boot/dts/rockchip/rk3588-rock-5b.dts      |   2 +-
+>  .../boot/dts/rockchip/rk3588-tiger-haikou.dts |   2 +-
+>  .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   2 +-
+>  .../dts/rockchip/rk3588s-indiedroid-nova.dts  |   2 +-
+>  .../boot/dts/rockchip/rk3588s-nanopi-r6.dtsi  |   2 +-
+>  .../boot/dts/rockchip/rk3588s-odroid-m2.dts   |   2 +-
+>  .../boot/dts/rockchip/rk3588s-orangepi-5.dtsi |   2 +-
+>  .../boot/dts/rockchip/rk3588s-rock-5a.dts     |   2 +-
+>  .../boot/dts/rockchip/rk3588s-rock-5c.dts     |   2 +-
+>  .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 971 +++++++++++++++++-
+>  19 files changed, 934 insertions(+), 75 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
 
-Yes. With this new sharing model, the lifecycle of the shared memory/pfn/Page
-is directly controlled by dma-buf exporter, not by CPU mapping. So I also
-think reservation lock & move_notify works well for lifecycle control,
-no conflict (nothing to do) with follow_pfn() & mmu_notifier.
-
-> 
-> > Also another thing that's a bit tricky is that kvm kinda has a 3rd dma-buf
-> > memory model:
-> > - permanently pinned dma-buf, they never move
-> > - dynamic dma-buf, they move through ->move_notify and importers can remap
-> > - revocable dma-buf, which thus far only exist for pci mmio resources
-> 
-> I would like to see the importers be able to discover which one is
-> going to be used, because we have RDMA cases where we can support 1
-> and 3 but not 2.
-> 
-> revocable doesn't require page faulting as it is a terminal condition.
-> 
-> > Since we're leaning even more on that 3rd model I'm wondering whether we
-> > should make it something official. Because the existing dynamic importers
-> > do very much assume that re-acquiring the memory after move_notify will
-> > work. But for the revocable use-case the entire point is that it will
-> > never work.
-> 
-> > I feel like that's a concept we need to make explicit, so that dynamic
-> > importers can reject such memory if necessary.
-> 
-> It strikes me as strange that HW can do page faulting, so it can
-> support #2, but it can't handle a non-present fault?
-> 
-> > So yeah there's a bunch of tricky lifetime questions that need to be
-> > sorted out with proper design I think, and the current "let's just use pfn
-> > directly" proposal hides them all under the rug. 
-> 
-> I don't think these two things are connected. The lifetime model that
-> KVM needs to work with the EPT, and that VFIO needs for it's MMIO,
-> definately should be reviewed and evaluated.
-> 
-> But it is completely orthogonal to allowing iommufd and kvm to access
-> the CPU PFN to use in their mapping flows, instead of the
-> dma_addr_t.
-> 
-> What I want to get to is a replacement for scatter list in DMABUF that
-> is an array of arrays, roughly like:
-> 
->   struct memory_chunks {
->       struct memory_p2p_provider *provider;
->       struct bio_vec addrs[];
->   };
->   int (*dmabuf_get_memory)(struct memory_chunks **chunks, size_t *num_chunks);
-
-Maybe we need to specify which object the API is operating on,
-struct dma_buf, or struct dma_buf_attachment, or a new attachment.
-
-I think:
-
-  int (*dmabuf_get_memory)(struct dma_buf_attachment *attach, struct memory_chunks **chunks, size_t *num_chunks);
-
-works, but maybe a new attachment is conceptually more clear to
-importers and harder to abuse?
-
-Thanks,
-Yilun
-
-> 
-> This can represent all forms of memory: P2P, private, CPU, etc and
-> would be efficient with the new DMA API.
-> 
-> This is similar to the structure BIO has, and it composes nicely with
-> a future pin_user_pages() and memfd_pin_folios().
-> 
-> Jason
+-- 
+With best wishes
+Dmitry
