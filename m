@@ -2,36 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B262A0B5BE
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 12:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E14B8A0B5DF
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 12:39:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA17B10E294;
-	Mon, 13 Jan 2025 11:31:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4630B10E295;
+	Mon, 13 Jan 2025 11:39:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i5LgTsAC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AE5A110E294
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 11:31:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7848B1424;
- Mon, 13 Jan 2025 03:31:50 -0800 (PST)
-Received: from [10.57.5.249] (unknown [10.57.5.249])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 997883F66E;
- Mon, 13 Jan 2025 03:31:20 -0800 (PST)
-Message-ID: <0fab3378-4b73-47e8-a4b5-c64bcd4c0e2a@arm.com>
-Date: Mon, 13 Jan 2025 11:31:18 +0000
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF0810E295
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 11:39:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1736768343;
+ bh=vhD6tgVLRLRbfL34BndPBb0FfJdqEdhMUU11dYraRG8=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=i5LgTsACFNwW3lxjCBjVh5hVbsiTCIpJxf+TP21V4kIBASq2pHui057KvbLok3uaG
+ h7GjLVKPIT6yNEQ7VcKZaS6ZaSArJN5TREhYN56PD9vUAskCeF4qtChoEiEJT8QFjv
+ OHOJRitB+lGaD5KW0HBRP7yW7gRHM4ey7yZ9THBDfOs9BLjUkDAFmDa6rWcBTf9CAM
+ ac5Zc6+chezUsbFx4k+k4P3HqO/+fQIToKyuPP/Ge1iW3/0smTEtXenkAZ5ehJQxhw
+ JQbVexaY+w1gGpuhRybkDx3Balsfcg2I94Zdp7iZqw2ofFjtQ05bjYn2mCQfIbd5yJ
+ j8ZKnF/2W/law==
+Received: from [192.168.1.90] (unknown [82.76.59.196])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CF5B517E0D72;
+ Mon, 13 Jan 2025 12:39:02 +0100 (CET)
+Message-ID: <9faebd93-1c82-49e2-87f2-2928a016b044@collabora.com>
+Date: Mon, 13 Jan 2025 13:39:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix a race between the reset and suspend path
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Christopher Healy <healych@amazon.com>,
- kernel@collabora.com
-References: <20241217092457.1582053-1-boris.brezillon@collabora.com>
-Content-Language: en-GB
-From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20241217092457.1582053-1-boris.brezillon@collabora.com>
+Subject: Re: [PATCH] drm/display: hdmi: Do not read EDID on disconnected
+ connectors
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250111-hdmi-conn-edid-read-fix-v1-1-d68361624380@collabora.com>
+ <2df6xkxqpljeowlqad6s5pxujefx6iw2a2caqlgljrgpmxlqqz@lark6bpzexca>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Content-Language: en-US
+In-Reply-To: <2df6xkxqpljeowlqad6s5pxujefx6iw2a2caqlgljrgpmxlqqz@lark6bpzexca>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,71 +66,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/12/2024 09:24, Boris Brezillon wrote:
-> If a reset is scheduled when the suspend happens, we drop the
-> reset-pending info on the floor assuming the resume will fix things,
-> but the resume logic might try a fast reset. If we're lucky, the
-> fast reset fails and we fallback to a slow reset, but if the FW was
-> corrupted in a way that makes it partially functional (it boots but
-> doesn't quite do what it's expected to do), we won't notice immediately
-> that things are not working correctly, leading to a new reset further
-> down the road.
+Hi Dmitry,
+
+On 1/13/25 11:16 AM, Dmitry Baryshkov wrote:
+> On Sat, Jan 11, 2025 at 12:04:09AM +0200, Cristian Ciocaltea wrote:
+>> The recently introduced hotplug event handler in the HDMI Connector
+>> framework attempts to unconditionally read the EDID data, leading to a
+>> bunch of non-harmful, yet quite annoying DDC/I2C related errors being
+>> reported.
+>>
+>> Ensure the operation is performed only for connectors having the status
+>> connected or unknown.
+>>
+>> Fixes: ab716b74dc9d ("drm/display/hdmi: implement hotplug functions")
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> index 2691e8b3e480131ac6e4e4b74b24947be55694bd..8e4b30e09b53b84cfd36199d56db3221a00085b0 100644
+>> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> @@ -786,8 +786,10 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
+>>  	const struct drm_edid *drm_edid;
+>>  
+>>  	if (status == connector_status_disconnected) {
+>> +		drm_edid_connector_update(connector, NULL);
+>>  		// TODO: also handle CEC and scramber, HDMI sink disconnected.
+>>  		drm_connector_hdmi_audio_plugged_notify(connector, false);
+>> +		return;
 > 
-> Fixes: 5fe909cae118 ("drm/panthor: Add the device logical block")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> I think, it should be other way around: plugged_notify before
+> drm_edid_connector_update(). At least that would follow current logic of
+> the function.
 
-Pushed to drm-misc-next
+Yeah, I wasn't really sure about the order here. Will get this fixed in v2.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 22 ++++++++++++----------
->  1 file changed, 12 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 2c817e65e6be..3285ac42d2cd 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -128,14 +128,11 @@ static void panthor_device_reset_work(struct work_struct *work)
->  	struct panthor_device *ptdev = container_of(work, struct panthor_device, reset.work);
->  	int ret = 0, cookie;
->  
-> -	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE) {
-> -		/*
-> -		 * No need for a reset as the device has been (or will be)
-> -		 * powered down
-> -		 */
-> -		atomic_set(&ptdev->reset.pending, 0);
-> +	/* If the device is entering suspend, we don't reset. A slow reset will
-> +	 * be forced at resume time instead.
-> +	 */
-> +	if (atomic_read(&ptdev->pm.state) != PANTHOR_DEVICE_PM_STATE_ACTIVE)
->  		return;
-> -	}
->  
->  	if (!drm_dev_enter(&ptdev->base, &cookie))
->  		return;
-> @@ -473,6 +470,14 @@ int panthor_device_resume(struct device *dev)
->  
->  	if (panthor_device_is_initialized(ptdev) &&
->  	    drm_dev_enter(&ptdev->base, &cookie)) {
-> +		/* If there was a reset pending at the time we suspended the
-> +		 * device, we force a slow reset.
-> +		 */
-> +		if (atomic_read(&ptdev->reset.pending)) {
-> +			ptdev->reset.fast = false;
-> +			atomic_set(&ptdev->reset.pending, 0);
-> +		}
-> +
->  		ret = panthor_device_resume_hw_components(ptdev);
->  		if (ret && ptdev->reset.fast) {
->  			drm_err(&ptdev->base, "Fast reset failed, trying a slow reset");
-> @@ -489,9 +494,6 @@ int panthor_device_resume(struct device *dev)
->  			goto err_suspend_devfreq;
->  	}
->  
-> -	if (atomic_read(&ptdev->reset.pending))
-> -		queue_work(ptdev->reset.wq, &ptdev->reset.work);
-> -
->  	/* Clear all IOMEM mappings pointing to this device after we've
->  	 * resumed. This way the fake mappings pointing to the dummy pages
->  	 * are removed and the real iomem mapping will be restored on next
-
+Thanks,
+Cristian
