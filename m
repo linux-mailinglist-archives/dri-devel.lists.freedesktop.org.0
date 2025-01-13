@@ -2,55 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14B8A0B5DF
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 12:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66060A0B5E0
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 12:40:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4630B10E295;
-	Mon, 13 Jan 2025 11:39:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D771E10E43A;
+	Mon, 13 Jan 2025 11:40:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i5LgTsAC";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="A+P5xow2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBF0810E295
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 11:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736768343;
- bh=vhD6tgVLRLRbfL34BndPBb0FfJdqEdhMUU11dYraRG8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=i5LgTsACFNwW3lxjCBjVh5hVbsiTCIpJxf+TP21V4kIBASq2pHui057KvbLok3uaG
- h7GjLVKPIT6yNEQ7VcKZaS6ZaSArJN5TREhYN56PD9vUAskCeF4qtChoEiEJT8QFjv
- OHOJRitB+lGaD5KW0HBRP7yW7gRHM4ey7yZ9THBDfOs9BLjUkDAFmDa6rWcBTf9CAM
- ac5Zc6+chezUsbFx4k+k4P3HqO/+fQIToKyuPP/Ge1iW3/0smTEtXenkAZ5ehJQxhw
- JQbVexaY+w1gGpuhRybkDx3Balsfcg2I94Zdp7iZqw2ofFjtQ05bjYn2mCQfIbd5yJ
- j8ZKnF/2W/law==
-Received: from [192.168.1.90] (unknown [82.76.59.196])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CF5B517E0D72;
- Mon, 13 Jan 2025 12:39:02 +0100 (CET)
-Message-ID: <9faebd93-1c82-49e2-87f2-2928a016b044@collabora.com>
-Date: Mon, 13 Jan 2025 13:39:02 +0200
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D6CB10E43A
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 11:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=R6KYH+0PFl1ShEDjuwHrUO57SeWSiwFgRdB7qcEZIQA=; b=A+P5xow2Xqiev5Pq1cx59NeoF9
+ lxycksUSXEK67sM7m71vmP0pJ2GRr3bhMQkkM52kzxjhf5DXZR/CQZyesxP6Lea0UeiB4XHP3WFye
+ yeBXNl6EoB1Gk6YzwBcTsNAquVT1f3n24IlW5MiAFGoxZFsZ/eG5nKzx4Kz4dvm9/vXx4X/2wP4Uy
+ c0iTab3OEZeEh00kc/mXMulfc9Dy17ZrhoEs44Jy5UWo0/fyuaTS52ogphjCo3DZNqIMW/0iY/3dN
+ 1i85LVIspuQsMon1Txj66fIZWne0c+ebp6DCE2n2/2Vwi5JprgqHOM/CFbxah/vPiLuJvcxOFcYLn
+ YJNkfASw==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tXIni-00F9wI-EH; Mon, 13 Jan 2025 12:40:10 +0100
+Message-ID: <760bfbe5-958f-49dc-b454-a0daa82952f1@igalia.com>
+Date: Mon, 13 Jan 2025 11:40:09 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/display: hdmi: Do not read EDID on disconnected
- connectors
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250111-hdmi-conn-edid-read-fix-v1-1-d68361624380@collabora.com>
- <2df6xkxqpljeowlqad6s5pxujefx6iw2a2caqlgljrgpmxlqqz@lark6bpzexca>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <2df6xkxqpljeowlqad6s5pxujefx6iw2a2caqlgljrgpmxlqqz@lark6bpzexca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Philipp Stanner <pstanner@redhat.com>, Tvrtko Ursulin <tursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20241230165259.95855-1-tursulin@igalia.com>
+ <31842e821032305e5be7a8dcc3e13593fd09da20.camel@redhat.com>
+ <99c7ccf4-a85f-4a11-912f-78f8d5a57516@igalia.com>
+ <c4c62ea9-86c0-43c1-99b0-08af7b3bd71a@amd.com>
+ <a202cc5b-13f5-4454-b32d-e2b5dcac85e9@mailbox.org>
+ <690b5b62-78e4-48cb-a572-90d11b9b4ed6@igalia.com>
+ <8f65b016-af77-4f15-b8c6-ffc30cc8157b@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <8f65b016-af77-4f15-b8c6-ffc30cc8157b@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,42 +70,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
 
-On 1/13/25 11:16 AM, Dmitry Baryshkov wrote:
-> On Sat, Jan 11, 2025 at 12:04:09AM +0200, Cristian Ciocaltea wrote:
->> The recently introduced hotplug event handler in the HDMI Connector
->> framework attempts to unconditionally read the EDID data, leading to a
->> bunch of non-harmful, yet quite annoying DDC/I2C related errors being
->> reported.
+On 10/01/2025 09:14, Michel Dänzer wrote:
+> On 2025-01-09 17:55, Tvrtko Ursulin wrote:
+>> On 09/01/2025 15:08, Michel Dänzer wrote:
+>>> On 2025-01-03 13:31, Christian König wrote:
+>>>> Am 03.01.25 um 13:02 schrieb Tvrtko Ursulin:
+>>>>>>>
+>>>>>>> One big question is whether round-robin can really be removed. Does
+>>>>>>> anyone use
+>>>>>>> it, rely on it, or what are even use cases where it is much better
+>>>>>>> than FIFO.
+>>>>>>
+>>>>>> So AFAICS Round Robin is not used anymore by anyone. And my
+>>>>>> understanding indeed is, too, that there is not really any use-case
+>>>>>> where one would like anything except for FIFO.
+>>>>>>
+>>>>>> Looking at 977d97f18b5b ("drm/scheduler: Set the FIFO scheduling policy
+>>>>>> as the default"), it seems to me that RR just was easy to implement and
+>>>>>> it had the disadvantage of systems under high load cause the oldest job
+>>>>>> to be starved to death, which is why FIFO was introduced.
+>>>>>>
+>>>>>> So my guess would be that RR just is a relict.
+>>>>>>
+>>>>>> If we agree on that, then we could remove RR in any case, and the
+>>>>>> subsequent question would be whether FIFO should be replaced with
+>>>>>> deadline (or: if there should be FIFO *and* deadline?), wouldn't it?
+>>>>>
+>>>>> I am unsure about RR but I agree what is the second part of the question.
+>>>>
+>>>> Well we came up with FIFO because we found that RR performed quite badly when you have a huge number of submitting applications.
+>>>>
+>>>> E.g. one of our cloud test cases ran 100 instances of a single game and the worst response time improved massively by switching from RR to FIFO.
+>>>>
+>>>> Different priorities on the other hand were originally invented to make sure the kernel has precedence over userspace. But later we also exposed the priorities to userspace which results in the problem that higher priority queues can starve low priority ones.
+>>>
+>>> FWIW, that can't explain why RR worked better in the scenario I described in https://gitlab.freedesktop.org/drm/amd/-/issues/2516#note_2119750, Xwayland uses normal GPU scheduling priority, just like the game.
+>>>
+>>>
+>>>> That's the other reason why I said that RR should probably be removed and FIFO changed in a way that the priority is basically just a bonus to the score used for sorting the FIFO. I haven't taken a deeper look yet, but I think that this is more or less what this patch set here does.
+>>>
+>>> FWIW, people are saying RR works better than FIFO for some gaming scenarios even with current Xwayland, which shouldn't do any GPU copies for presentation of fullscreen windows. There seem to be other interactions which work better with RR than FIFO from the user PoV. If RR is to be removed, I'd recommend making sure deadline works at least as well as RR for those.
+>>>
+>>>
+>>>> What FIFO is still missing compared to RR is some sort of fairness between queues. E.g. a queues which hasn't submitted something in a while might get a bonus for their submissions compared to a queue which submits stuff all the time (or something like that).
+>>>
+>>> The lack of that could indeed explain the scenario above, if the game submits its GPU job for frame n+1 before Xwayland submits its GPU job for presenting frame n.
 >>
->> Ensure the operation is performed only for connectors having the status
->> connected or unknown.
+>> I would be keen to experiment with this. There is that last patch in v2 of my series which scales the deadlines based on queue depth. So for a client which submits two frames it could be enough (in principle, not the actually posted version) to push out the deadline at qd=2 so a client which never breaks qd=1 can reliably overtake it.
 >>
->> Fixes: ab716b74dc9d ("drm/display/hdmi: implement hotplug functions")
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->> index 2691e8b3e480131ac6e4e4b74b24947be55694bd..8e4b30e09b53b84cfd36199d56db3221a00085b0 100644
->> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->> @@ -786,8 +786,10 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
->>  	const struct drm_edid *drm_edid;
->>  
->>  	if (status == connector_status_disconnected) {
->> +		drm_edid_connector_update(connector, NULL);
->>  		// TODO: also handle CEC and scramber, HDMI sink disconnected.
->>  		drm_connector_hdmi_audio_plugged_notify(connector, false);
->> +		return;
+>> What would really be great if you could suggest me as easy to set up as possible test case with objective measuring criteria. And it would have to run on AMD. Quake II RTX under XWayland as the GitLab issue suggest or there is more to it? Does it has to be GNOME?
 > 
-> I think, it should be other way around: plugged_notify before
-> drm_edid_connector_update(). At least that would follow current logic of
-> the function.
+> Don't think it has to be.
+> 
+>> Any way to run it programmatically and get a performance number out?
+> 
+> This could be tricky, since the game itself reports the same frame rate in both cases. You'd have to compare the frame times in the compositor instead.
 
-Yeah, I wasn't really sure about the order here. Will get this fixed in v2.
+So missed frames in the compositor?
 
-Thanks,
-Cristian
+> Also, the issue might no longer be reproducible in this particular scenario with current Xwayland, because it should no longer do any GPU copies for presentation but just forward the client buffers to the compositor.
+Do you have an idea how could we find out more about that what you said: 
+"people are saying RR works better than FIFO for some gaming scenarios 
+even with current Xwayland, which shouldn't do any GPU copies for 
+presentation of fullscreen windows"?
+
+Regards,
+
+Tvrtko
