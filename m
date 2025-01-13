@@ -2,97 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3097A0B39D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C1FA0B3A6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 10:54:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F20E610E607;
-	Mon, 13 Jan 2025 09:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38E510E5F9;
+	Mon, 13 Jan 2025 09:54:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LJWBsjiP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nAdOoCqr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC72210E607
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 09:53:52 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id
- 2adb3069b0e04-5401c68b89eso4434057e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 01:53:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736762031; x=1737366831; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=tYam0PHNUR63LLlWlH1Vtdfw12t5C9h1Tb67zYZaKyw=;
- b=LJWBsjiP9vIa7qAC7+7oQd2wSV8Vx4UfffpL8y3P4HjDDa/HfGzRonHhOJVXzQiV7F
- z39jv+cCJCsXnSeciSaZ2Ib/ma/fnA+1mcEJOW0WFjCu07CSDpBAzZxAl9vmqlygLkwb
- CxRdc1YuNtlw8WNukJxa0S8dMdy9kU22e9+jFWOyGPfnAkhbsvSDU1jyvFduT86On1Za
- l7YiXUmdk4BdToO8IqXyag+nufpWZrCKoiLyz5eC/+tGB6OHMx6AVhIFFZ41kjIWezVn
- xbU5zj3xIe+eX/sVZoC0xdmPvg8EkIFvleVq7TNklJNxxTit5ZqeFE3UvmOzAMqU18wQ
- YdhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736762031; x=1737366831;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tYam0PHNUR63LLlWlH1Vtdfw12t5C9h1Tb67zYZaKyw=;
- b=TN1nAkNTfsqWaoACy1TRwmg0HLA6G9cLox9WQyHnZwKuGjR3xGWq3Pej4kFQ8kyIzt
- rzxPEaqrqcsVpAIgtsB4cpOppn2NenCkYEkCpZ0l0hQ4SdcMVyM2zFBJlnodsg3cZ6Je
- TCDxVHK5bFigld365aqOjJD/R3hOUCDjQIu8F1m14a87uVV8e63TsQc3REPXECLajwn5
- fFQJs/IG+PshzCHNjUp/nh/UWeSsR0Xc3DUb7Vb4kWgQjIjiewuSo3wBS+aDmQDTBa7H
- VHd40mVBeOeq1oOXJ3p7mGKtFZcmjT0sKhxWJxrDDm77OfKPGlhvwXDlUbXrckoxjBNi
- x79A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOQ3KVUay294PUQOt3ofbIxB3sYEkVLHG0VoOFDXzXWcxS4UDpoVM/60NE1Ql8kp7RT5dfTw2K0os=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxlAd5ymdWrvUKxs5xAc3II0tDZ6que8RPCLd6swjdzKc6oy5UO
- eVAqjzgcG3CxHXbR0Bieo4ViUrsNgVhYo/g/FGNrc9GT3acvqN7Vqk4KWk3Eo2I=
-X-Gm-Gg: ASbGnctmGfsgwp3SBpnfhTqkBWTH/EGwyN/O1/NRDNzfE+c7bDK11MbS+dOKYie2u7Y
- eKIdB7je4WYa8Hbzo0uSi3RCzdQBrKsvp4szdEWesXMXFrQ3tN+J8qjoNEPNE/e7uJsl3tiDWO9
- z4U+a0g4bIdvI3EzUM/UZ41MgZ8r31bCIzYokb7+a2igp9TU4NHPuTeh7YTGw9km8iUWXBsE55y
- OPqd0k+HJK52gQXMyHu3nGaQ+0T3MKtkAysFDmd9y6sGQlNhqKaXtcWBEORv4AQ
-X-Google-Smtp-Source: AGHT+IEgZgMT6aGcz1FkeuACFwbNLj4TxthV4kSPiuMJ/6t2E3WuFNbC0Qw+Px78twvyB2hiXv5GzQ==
-X-Received: by 2002:a05:6512:318b:b0:542:23b2:8010 with SMTP id
- 2adb3069b0e04-5428a68a3e5mr4531967e87.23.1736762031085; 
- Mon, 13 Jan 2025 01:53:51 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bea6a67sm1287085e87.167.2025.01.13.01.53.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Jan 2025 01:53:49 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Mon, 13 Jan 2025 11:53:46 +0200
-Subject: [PATCH v3 3/3] drm/i2c: move TDA998x driver under
- drivers/gpu/drm/bridge
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7247910E5FF;
+ Mon, 13 Jan 2025 09:54:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736762077; x=1768298077;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=gbK/cu5glTV45iLDZP7MwBsqpFz+CZrqOiGrq42c+XY=;
+ b=nAdOoCqrcJ0Co1qeXJ4B1ZbEE0F+6xlUYpuqFv6b/2yMWT/VObD5gXGw
+ Jq2k2prP7m8P2J+enjGzweRe3k0g/4CPWuqee5mt0wlxpTXX1YhSRxvAd
+ eZo/JXAeBGLPxpVDMbEZWh2j6sYUZ9+nEZD0ELjH7V6t8mZAQKaBtAb9L
+ vnuMCho7+WPlOSKzGEaAe5MbZa4tjLaPcXCTPNMXqeNzB6uOM0DFr/BS6
+ 9NOL7ZjTSjzq0yrhPkbZCZP8G+vWmos066QdUSlB8WLZCJ3wegY1Kkf7m
+ UW14J1Ivwst83v58ua2/LCQknOH9Zk8BLvslmJLx5cqaUgu7N0k4Hx156 Q==;
+X-CSE-ConnectionGUID: xBjHkE3kTcOS2ICKGNAazA==
+X-CSE-MsgGUID: +DESoMXLQ7i7haT1NmJsaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="62389480"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="62389480"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jan 2025 01:54:37 -0800
+X-CSE-ConnectionGUID: 20cDzkstQSysFOnXYWR1zg==
+X-CSE-MsgGUID: SP9PtZLTSVqaZT2zmIhYfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="104592433"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 13 Jan 2025 01:54:37 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Mon, 13 Jan 2025 01:54:36 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Mon, 13 Jan 2025 01:54:36 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 13 Jan 2025 01:54:36 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GlevWDVMrBjaq6wbzbYRgdVqeGP72S+Do4A1U9zdi+0KbpzrH04zUkhCN7fIrq+zT6IJVmGHOpWST6n5ti4hDilqi7ZPzybYnEKXhOXcuDtx2NKPQ0/W4gYkXwCeI2Ml2spsXsqrYwSDoPA5i5mEaAxrjZjK3+8kIVr7KRUWG3pEKLpLGozsJI5s7lQChc0KDuFbuV5PGEZh+YvB2UM8xmG0kZNvT/c8XrcDjfTuJJt02Zr7X69ZbrtZGoP+RElBi8t/7FKODisNxh0Q2BPhslc4/Uiqt7MEvgkTueZuCgG9G+6ad292p/3Mk6gQtl7ZaUY7Ln58Om8znxPZvV8d1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gdtc+JDn1gqJTMdMuDgD4Mo6MnUe1fzfajxq/7+l57U=;
+ b=fGltMZXtKQRZgG9u7quJNZJ7ncIvXl8ZLpL+LaOXLfckpSC91j6jKlYlRtDkkyD3wLV/ZNsz/EYhuUkMsHGdb5MayvJB16NThxsUjA4YotdwINgjhdj42KzpV3BrONiTsu4hqtpN+vUeFSa9lvqyoMdp68/FvwpaTNW8pNgXEmfn/lV1lGbY5l8+D2/jw+we8OswTCr8ZCIH/52oWOBglQ3oebH85WcCx71Ts5v+U9PGY7/sDnSTqOzemKONZkJCls48RiWaV10in42b3EJDFEx1Un36XhcPG9yEurAXr/5FO2YJqganwKjjshiEPdodhXeNz1RpI7+haky8eh8xqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com (2603:10b6:303:6c::15)
+ by PH7PR11MB7480.namprd11.prod.outlook.com (2603:10b6:510:268::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.13; Mon, 13 Jan
+ 2025 09:54:34 +0000
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::4610:6d6c:9af6:2548]) by CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::4610:6d6c:9af6:2548%4]) with mapi id 15.20.8335.017; Mon, 13 Jan 2025
+ 09:54:34 +0000
+Date: Mon, 13 Jan 2025 09:54:26 +0000
+From: Krzysztof Karas <krzysztof.karas@intel.com>
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH] drm/i915/gt: Replace kmap with its safer kmap_local_page
+ counterpart
+Message-ID: <5u3wlllxlvu6hddynpsee76f6pap7mwuys5axravyr5aqf6abq@genmarmlntv3>
+"Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316"
+References: <20250110100155.506796-1-andi.shyti@linux.intel.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250113-drm-move-tda998x-v3-3-214e0682a5e4@linaro.org>
-References: <20250113-drm-move-tda998x-v3-0-214e0682a5e4@linaro.org>
-In-Reply-To: <20250113-drm-move-tda998x-v3-0-214e0682a5e4@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Liviu Dudau <liviu.dudau@arm.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, Hans Verkuil <hverkuil@xs4all.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4689;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Ic17kfBFEswigerUPPyAWbVpLAW5I7CJRGIoF3f2Cz4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnhOKqewzGoygP5cg0eoYvM91fAPhTv299hcS1p
- OK4U+10NraJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ4TiqgAKCRCLPIo+Aiko
- 1ZINCACp1RNdlKNHD1se30iTWT5n30rRxiyxYCZcqKUjC5TLJQ5gmkz2sv+HltGnP/RxTLTdp41
- 0WvWsU9C0PO7X/KXxRUzP1A7Dzwll13s0kxmMDJf1+tbBMQgiLBKqbeZNSjKgIeTzZAQg5+v94n
- MSiG2ONdyWD0JY/dxl3rSRWCLNRZnE9J7mCnXoe7LRtBDBF+vL7j4sVkKenzUbB4dbXixGaqdz5
- JLtz6MEnjtW7susXlaSx+L6bHYP7SPIfuzCfs6WnHn+QqKMFG7byaSskl5rEL4LWOvbHU7E3lpx
- K69eJ4UwN9AlE3ZYk3oeWu82lrvS/ESmhG2XKt9FoLalcI93
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Disposition: inline
+In-Reply-To: <20250110100155.506796-1-andi.shyti@linux.intel.com>
+X-ClientProxiedBy: DUZPR01CA0176.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b3::12) To CO1PR11MB5057.namprd11.prod.outlook.com
+ (2603:10b6:303:6c::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5057:EE_|PH7PR11MB7480:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6c64041a-84d7-4ab3-f03e-08dd33b8485a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UllXMk1zU0Q3dUlLRHAvYmVCai9FQ2tBR3NUejdaWVJuc01HR0RpQkNESXk2?=
+ =?utf-8?B?RVNjaC9LSFNvdE14MU1Lb2lrUkZPYUZETWg2OVJTTytzYTE4eEZuODdDOWNw?=
+ =?utf-8?B?cmp4cUxsQXlOaExGSnF4dHJoMzJRNVhKQ2dQcDZyTk9vWmxoL01nWHRRZEhP?=
+ =?utf-8?B?Z2QxQ0Fpbjg1YVdBdnlyanB2OHoxTlZteHBpcks5WE5GTS96WCtoNTkxWVpm?=
+ =?utf-8?B?a3I4dHRKMEg0RGd0MmdsNGtkVTZuNkt0aVhLNTV6MnFLc2kzT1lDS2FmMHBs?=
+ =?utf-8?B?VklUV1NhdHBuakFaNEdvRE5LSlRJYk9lcVVUTVl5bXB4MU9jQzlXUWp3NHM3?=
+ =?utf-8?B?ZDRPaXA1clBwblBGdjhtYk85a1JQdVVjWDZpSEhKM0RXSitIRlJHcnpERlI2?=
+ =?utf-8?B?c3ZQSHdGRVpiWTU0UW12Q3ZXZ3RIQm9oc3VNUnhIN1dGdHlPeGFZNXAzdnNL?=
+ =?utf-8?B?RTNldmMzWWlnTWlINEY4cDhqVXZLQ0JiS2lXK1ZsaFVqaUlCR2lWdzExSmpN?=
+ =?utf-8?B?bVZmRVV1UnpPeXRFUmlOdFZlczM1bXRIN2YvNDBBYlJZMFJRVXRWTmJVeC9K?=
+ =?utf-8?B?anh1dG1TaWNGSVJzaXJtM29JZDVMTEdDWnlldFlJYU5lRmZqZjNybjdJNzBm?=
+ =?utf-8?B?QW5GVzM3ZVY2QlQxQlpUMXhzUnJzaTRCanFKemI3K21RdmgvWUdJamhlNVNh?=
+ =?utf-8?B?WElEV1lOSXF6Nk82UTltd1htWUZCSllYRkFXQjZBM1VLRXp2SUc2SWxydWhP?=
+ =?utf-8?B?cG9YbEVyUDVBN3lhdDFCcHFIZnBSNFZrdDRXMW94OExqUUIreHlRQXZmQlZt?=
+ =?utf-8?B?M3daY0FZRGVSOWhzSW91SnBha05oNkE3MTNGSW5nVDdvZG5pcWNzbGgrVncz?=
+ =?utf-8?B?U3d6TUo0b3M1aXFheG4xbWFVLzFlK25RK0V6MVFlRzZaV0kvTnlkSFRZcFJp?=
+ =?utf-8?B?N0RYNEg4WUN1Q1puZGdOY1JQY1F5dW5XVlFNRWVDY1pJUklMTnBCbk85NWM0?=
+ =?utf-8?B?Z3Zldk03d1VZWDJuV21LZ2s2aTJTTDN6OUNsUTNuS0ZWdVp5cnF5YmtHTFBj?=
+ =?utf-8?B?eWU5RS95OU5CVGcvUnlMdmUram5DaUM1RkZDWUw4MUNFRTBrbHV0VXovSGdr?=
+ =?utf-8?B?WGFqeW9HZWh0ZTNtQ202eDNUV2JTYk5oeDlrVitDa0NvT1VRcWtiU2lZY1pz?=
+ =?utf-8?B?amYrSWwydUJ6TEdsbmIyWFI5SlE1VFZRSGYzeWtYWEFiNmRDZy9IRDlZeHV3?=
+ =?utf-8?B?SU5UcHQyYW10SVBhcENTVXkvdUxMWWRVb245Tk5tcDZ5M3E0UzRKOVVuYUlV?=
+ =?utf-8?B?VzlSMUJXZ3hnTXBGa3d6NVRDUGRSdUJoV2Z5ZDIwVTIzTlZ1ZHhzSW9IWVd2?=
+ =?utf-8?B?SnJ5Y3Fub1BzekRFTjN4N2dVT3ZQdk1ZcmY4Y2dyS3g4dWxzZk9lZURscklz?=
+ =?utf-8?B?RmRKN3ovcXZhMjF1VnpxcXdkZ3dOVExsaHU2M1IxQ3dXYUhRaEYvS3dLNFU1?=
+ =?utf-8?B?cjEzeEcxVytMalJWTythU2VjQWpWak9SV1FYMVZEQUhhdkcyVW9iU0lPVFpL?=
+ =?utf-8?B?TWhjSlhBS2U1WUVNeVFrZkU2S0RBelhmN2ZyZ2xJMHNVQUs0bTNYM1M0aHN4?=
+ =?utf-8?B?blVrVUVpeExZNm03U0pIS0hLSXk0M081SnFVZUtQMVNlZFJTZmErL3NXTmh2?=
+ =?utf-8?B?MXBVcG9YZHUwNHVvQ2ZHWDdOMzd4ZFo4RHJRVDUxc2JabXFVRSsrVUJnMmlU?=
+ =?utf-8?B?UGxCNU85a0JJd0cxeWFXMVBhTEM4OXpkMnRCYzFsT0hOMFQxT2xVSDQvNkhW?=
+ =?utf-8?B?ZDkxSm1mZVZlREVWMWQzM1pIQ096YXBIc0JtQmpVVHJzcnA3b2dEdnRyZEh0?=
+ =?utf-8?Q?Wq13tt8Q421zC?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB5057.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VmJvYzRobXo4RGhvVlFYQ01EVmFXRnM0bGFTQklpWG9YdmNyeWxtVS9nL1U1?=
+ =?utf-8?B?Qm42cFcyQnBCdXVPQUpkV0dFZ0F5MmpyZjNDQi9JREwwQXg2VWtLSk8zQ1Ur?=
+ =?utf-8?B?c01WdTRCcmVIcmM2dTVRelNpYXFCa3FtbUc5Wlo2UGdYVDlMVmVuclFMTnF2?=
+ =?utf-8?B?V2RvQ0J4VTJ4aXFGWnE0NUl1bFIzT2xEdHBwS0dPb001WFV3czZhNHdSclVT?=
+ =?utf-8?B?a2gwMEk3UjRKMXJ6Tm41MWgrbno1K1ljQ1gzdDlGSC9rY1I4K2ZkbzUwdWFB?=
+ =?utf-8?B?VDhYZmZCMjhReVU4YXZobkdvMEEzZkhQdEcrMnYxRlN3NTJFUzdNc29sOXMw?=
+ =?utf-8?B?Uks1UzVoN1ZxT1lrazRoZy9XeWx1QUFyRTlNNDQ1bGR5dGlyWklFQzN4NUpq?=
+ =?utf-8?B?SW1hck1YQ2tFckJ5VTVoSkdkNlErU3kzTW5KemdaUENCMDVKSU9CUlZ1WWlz?=
+ =?utf-8?B?ck0zVXh6czdqRUNUUkFWZ0N3dlpPMUhTbk4wM09Zd04vYjFMc1FCcEJOcXpx?=
+ =?utf-8?B?eDRqQWhUV1o5WWxpTmNSZGk0ZVlORitxMUR4Qy9mNnBZcGtTS2VYK05nWTNl?=
+ =?utf-8?B?N0FON3kxZVowNTFuYnpnWU04T3p3bU9WTHZUS25uSEpqaXp0ejdzTjRBMTFx?=
+ =?utf-8?B?blBFUlBjbmZvUEdpbGlNc0pPK0RjVURhRWoyWE5uekxCdExFMlRqMllKZjNn?=
+ =?utf-8?B?ckF6OU0yQ3Rna0FOSmlXMGNQbVJ0SzRIdUNJaXRjM01TemVYUXB4YytDS29p?=
+ =?utf-8?B?MUU1R0JnbWQvZU96S0JRRTEyMkRJdW42Z3hYRFJRdmtiM1FIcS9xS3hHRW5W?=
+ =?utf-8?B?QzVBYUtwWkNHdU14a2pEc3F1YlorSDAwQTFKYVpLd1hyNGtMMytwTVB3WkRO?=
+ =?utf-8?B?WTJjL01yczFWKzMzdEI2R2RuV1V4RFdRbGhCa1p2TFE3KzhuTXk2enB4MmE4?=
+ =?utf-8?B?TDFlZ1ljbkJJR3Y0Q2E2OUZOWlVzQ1JVRFhJS0NWQ01pSXJuMlFMWE5hbWV6?=
+ =?utf-8?B?dkFGYXhWZnVmRnl3aVl3eGYvVzV5eHJ3NFYwa3VqQkxmMUorTEU3NWFGWjZo?=
+ =?utf-8?B?eFRUd0RRT3NHcjVQcFlvYW9vZEgyMHNYb1JFTmNkRWZEQVFNSDV4SXVsdkk1?=
+ =?utf-8?B?bDY2aXNHVVV5RDVEK0NkcDZ4RnNXbENLMkRNYk5aY01KWVZBTVU5VzJyYkp4?=
+ =?utf-8?B?TzBSU25Rbk42ZTZXallBTDBTV0wzbCtrUjNyenJvWkxCVVZRRmE5dWZjbWZ0?=
+ =?utf-8?B?VDVYVjBMMXBBeUVOd2JJSExYZHRSN2RwTitOZVJNYUFKNmdEQ0dxYk5UQ1dB?=
+ =?utf-8?B?NE1QemtReEdHSmFkMkQvb0xwTlBPS25QV3FmUlNLOGxmY1ByWkVRVm5FMUVD?=
+ =?utf-8?B?WGV4VGNObk4xNklFNmNESzVaa3pBWmtTMXF6QzNJK3pwR0RtQnNqenlmSGxX?=
+ =?utf-8?B?bms0R1JPdzFQanBPVFhuZjFEbWFqaTZ4aFlYRkNLZWJocmt0Y3d0ZUNvcGlV?=
+ =?utf-8?B?V2tKd004bjh1U0dWZVlBdTdQVmtKamdOejE0NkpWRnNQbGlmSlJ0K0FBVHY3?=
+ =?utf-8?B?T1I5QnRzVTNRT2tZY1FyMk12Z1dIdWw3U3RxamJmSGE2dnQwaG5McW5HN1VY?=
+ =?utf-8?B?dDRaamNkR1B2VTVieC9nWUpQcWtWVnpXUDBUaDJ0ZytIazdXRjlJUlVEd2pP?=
+ =?utf-8?B?eVFrZkd6c1I3MzFDSTVONmVHbXNkSDZRVWg3NUpWUkVOQkxNdm45cHhac1hH?=
+ =?utf-8?B?Y2J5eURlMllpd2ZXQzRwclROYURZYUJPeFNlcmY2NGtSYkVjUzRkajBWZXBB?=
+ =?utf-8?B?cGRpUDVPRjIzT2FWVEp2NlVyblV5ZzJnNDRVckZycm9uelpVaWUrOTRwRG9w?=
+ =?utf-8?B?M0Nsb1BTQS92VDBZZjAwSFlvSW5nR0svU2c1dkdqbld0TzZyQzZac3NkNlM5?=
+ =?utf-8?B?QjYwOXZENHFmK0FnRnl5Z2pUYWR3UzlWRHQxbHdIQldtVmRNWEozdGpJVzRq?=
+ =?utf-8?B?MXFJemZWeXA5Mm1qTy9PSmNnQ25Ta3BVeitsYktpNEpZZXBQZUkySkhDenVG?=
+ =?utf-8?B?K2lxZXNNQXhDbmxhd0drZDdrVXNjanlQN3dLa25LWmk4M1NKVVZpY1VaNi81?=
+ =?utf-8?B?d1o0dC9LNmdOMXc5MjlOZCt2T0o2aVRRaEFWbGtGNUhhQXpQcUVSSThTaDcz?=
+ =?utf-8?B?ckE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6c64041a-84d7-4ab3-f03e-08dd33b8485a
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5057.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 09:54:34.0213 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 53GP5sQgS82T4MmvjmtuuM79hSMi76Y4x19pU2rNO0JFWnKo+wU9rafpKJh9ql667vM9OqFRcgG3JYfyCEsVSX2k+EJTeEWX1XbT9SakKJA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7480
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,117 +196,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TDA998x is the HDMI bridge driver, incorporating drm_connector and
-optional drm_encoder (created via the component bind API by the TICLDC
-and HDLCD drivers). Thus it should be residing together with the other
-DRM bridge drivers under drivers/gpu/drm/bridge/.
+Hi Andi,
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
-Acked-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- MAINTAINERS                                   |  2 +-
- drivers/gpu/drm/arm/Kconfig                   |  1 +
- drivers/gpu/drm/bridge/Kconfig                |  8 ++++++++
- drivers/gpu/drm/bridge/Makefile               |  4 ++++
- drivers/gpu/drm/{i2c => bridge}/tda998x_drv.c |  0
- drivers/gpu/drm/i2c/Kconfig                   | 13 -------------
- drivers/gpu/drm/i2c/Makefile                  |  3 ---
- 7 files changed, 14 insertions(+), 17 deletions(-)
+On 2025-01-10 at 11:01:55 +0100, Andi Shyti wrote:
+> kmap_local_page(), unlike kmap(), performs a contextualized
+> mapping of pages. This means the pages are mapped locally to the
+> thread that created them, making them invisible outside the
+> thread and safer to use.
+> 
+> Replace kmap() and kunmap() with kmap_local_page() and
+> kunmap_local() counterparts for improved safety.
+> 
+> Signed-off-by: Andi Shyti <andi.shyti@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/shmem_utils.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/shmem_utils.c b/drivers/gpu/drm/i915/gt/shmem_utils.c
+> index bb696b29ee2c..365c4b8b04f4 100644
+> --- a/drivers/gpu/drm/i915/gt/shmem_utils.c
+> +++ b/drivers/gpu/drm/i915/gt/shmem_utils.c
+> @@ -108,7 +108,7 @@ static int __shmem_rw(struct file *file, loff_t off,
+>  		if (IS_ERR(page))
+>  			return PTR_ERR(page);
+>  
+> -		vaddr = kmap(page);
+> +		vaddr = kmap_local_page(page);
+>  		if (write) {
+>  			memcpy(vaddr + offset_in_page(off), ptr, this);
+>  			set_page_dirty(page);
+> @@ -116,7 +116,7 @@ static int __shmem_rw(struct file *file, loff_t off,
+>  			memcpy(ptr, vaddr + offset_in_page(off), this);
+>  		}
+>  		mark_page_accessed(page);
+> -		kunmap(page);
+> +		kunmap_local(vaddr);
+>  		put_page(page);
+>  
+>  		len -= this;
+> @@ -143,11 +143,11 @@ int shmem_read_to_iosys_map(struct file *file, loff_t off,
+>  		if (IS_ERR(page))
+>  			return PTR_ERR(page);
+>  
+> -		vaddr = kmap(page);
+> +		vaddr = kmap_local_page(page);
+>  		iosys_map_memcpy_to(map, map_off, vaddr + offset_in_page(off),
+>  				    this);
+>  		mark_page_accessed(page);
+> -		kunmap(page);
+> +		kunmap_local(vaddr);
+>  		put_page(page);
+>  
+>  		len -= this;
+> -- 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 223eb6bfd0579768c246dcc51831048627fb8d02..7a15fb49c2905dcba7bc08f03abe12bd7f493f84 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17045,7 +17045,7 @@ M:	Russell King <linux@armlinux.org.uk>
- S:	Maintained
- T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-devel
- T:	git git://git.armlinux.org.uk/~rmk/linux-arm.git drm-tda998x-fixes
--F:	drivers/gpu/drm/i2c/tda998x_drv.c
-+F:	drivers/gpu/drm/bridge/tda998x_drv.c
- F:	include/dt-bindings/display/tda998x.h
- K:	"nxp,tda998x"
- 
-diff --git a/drivers/gpu/drm/arm/Kconfig b/drivers/gpu/drm/arm/Kconfig
-index c901ac00c0c3a8f356bd53d97305c6b39b3e6662..ed3ed617c6884876368c8bd072c53f1b710df443 100644
---- a/drivers/gpu/drm/arm/Kconfig
-+++ b/drivers/gpu/drm/arm/Kconfig
-@@ -9,6 +9,7 @@ config DRM_HDLCD
- 	select DRM_CLIENT_SELECTION
- 	select DRM_KMS_HELPER
- 	select DRM_GEM_DMA_HELPER
-+	select DRM_BRIDGE # for TDA998x
- 	help
- 	  Choose this option if you have an ARM High Definition Colour LCD
- 	  controller.
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index 6b4664d91faa80f096ac6a0548ed342e802ae68b..d20f1646dac27898ecb7599a9a06663357dcca14 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -90,6 +90,14 @@ config DRM_FSL_LDB
- 	help
- 	  Support for i.MX8MP DPI-to-LVDS on-SoC encoder.
- 
-+config DRM_I2C_NXP_TDA998X
-+       tristate "NXP Semiconductors TDA998X HDMI encoder"
-+       default m if DRM_TILCDC
-+       select CEC_CORE if CEC_NOTIFIER
-+       select SND_SOC_HDMI_CODEC if SND_SOC
-+       help
-+         Support for NXP Semiconductors TDA998X HDMI encoders.
-+
- config DRM_ITE_IT6263
- 	tristate "ITE IT6263 LVDS/HDMI bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index 97304b429a530c108dcbff906965cda091b0a7a2..245e8a27e3fc525ffe02103e4436c71313f55d9a 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -6,6 +6,10 @@ obj-$(CONFIG_DRM_CHRONTEL_CH7033) += chrontel-ch7033.o
- obj-$(CONFIG_DRM_CROS_EC_ANX7688) += cros-ec-anx7688.o
- obj-$(CONFIG_DRM_DISPLAY_CONNECTOR) += display-connector.o
- obj-$(CONFIG_DRM_FSL_LDB) += fsl-ldb.o
-+
-+tda998x-y := tda998x_drv.o
-+obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
-+
- obj-$(CONFIG_DRM_ITE_IT6263) += ite-it6263.o
- obj-$(CONFIG_DRM_ITE_IT6505) += ite-it6505.o
- obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
-diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/bridge/tda998x_drv.c
-similarity index 100%
-rename from drivers/gpu/drm/i2c/tda998x_drv.c
-rename to drivers/gpu/drm/bridge/tda998x_drv.c
-diff --git a/drivers/gpu/drm/i2c/Kconfig b/drivers/gpu/drm/i2c/Kconfig
-deleted file mode 100644
-index 1aa2a0bf5cc183b4ce92fc4f7eb61fd0065250d1..0000000000000000000000000000000000000000
---- a/drivers/gpu/drm/i2c/Kconfig
-+++ /dev/null
-@@ -1,13 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--menu "I2C encoder or helper chips"
--     depends on DRM && DRM_KMS_HELPER && I2C
--
--config DRM_I2C_NXP_TDA998X
--	tristate "NXP Semiconductors TDA998X HDMI encoder"
--	default m if DRM_TILCDC
--	select CEC_CORE if CEC_NOTIFIER
--	select SND_SOC_HDMI_CODEC if SND_SOC
--	help
--	  Support for NXP Semiconductors TDA998X HDMI encoders.
--
--endmenu
-diff --git a/drivers/gpu/drm/i2c/Makefile b/drivers/gpu/drm/i2c/Makefile
-deleted file mode 100644
-index 45791fbfae983eecf58565109cf8eecb6431643b..0000000000000000000000000000000000000000
---- a/drivers/gpu/drm/i2c/Makefile
-+++ /dev/null
-@@ -1,3 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0
--tda998x-y := tda998x_drv.o
--obj-$(CONFIG_DRM_I2C_NXP_TDA998X) += tda998x.o
+Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
 
--- 
-2.39.5
-
+Krzysztof
+> 
