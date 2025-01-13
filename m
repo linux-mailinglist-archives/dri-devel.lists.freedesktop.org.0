@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C59A0BD02
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 17:12:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1E2A0BD1A
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Jan 2025 17:19:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C27810E126;
-	Mon, 13 Jan 2025 16:12:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF94210E02F;
+	Mon, 13 Jan 2025 16:18:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="mkMacR7f";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="NMT0LmBD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3C4C10E126
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 16:12:22 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id
- 6a1803df08f44-6dd0d09215aso35864826d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 08:12:22 -0800 (PST)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com
+ [209.85.219.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4125710E198
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 16:18:58 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id
+ 6a1803df08f44-6d8a3e99e32so38548566d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Jan 2025 08:18:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1736784682; x=1737389482;
+ d=google.com; s=20230601; t=1736785077; x=1737389877;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0nln6xuSTTaoMOsjO/bzAdYR40fjFobKxVXqk79yIRg=;
- b=mkMacR7fGD+ZuPdJfJhk+6Np65ffwqly4ZKEWFHbZ3Z2lY1cR+Y0OXlNkaSHO1XMTR
- 9tJDIWSOq4D8z1mVgyCnkKEtSHz+aVg54ipcqygsCOKRVIpT+AJu/xDE/8gVivh8+10+
- x5aJnlU2b2kNm2Ls5ezn4Hs0m0m3X999n9Mx4zq1MG6+B167zw39jRxGKUUBPB90FyWE
- XH7Mqb8HvDW1Zjx8IA4/4mcSe2jmVO0RDOcBtNTo6tvnnCoxJ71XyiWiXMU3LSI67ej6
- rTogxDMXOtU91VN2EMeZtA+jEMANolS5/fcn05VIIvdqN8mZfvJ/4YxPrG2AzawfC5M+
- Lcqw==
+ bh=jfzu8LVinRmTffQRsvj5JwYAQma905XvC7kwPgp95yk=;
+ b=NMT0LmBDF1+qTES1ljrWD6/dDHmWRR0eSf8gundeEGBASvViO6G4wicpR18VuE0isK
+ 2PBZlXZiEJowT9OEfBa1hSBcCM/HIgsic8jEiH6V5j6ee4ohPdBygdNDfvxITHFCljaU
+ i/QN5hfaxHePLcCXhQ5N+mAcP9f0C2Q0ZcCLEoucB0Wvry8/l6+S8XziHACjTaVSGsfO
+ rTqspHJJa2fa2iGPOhr+HCmOSGUXe7qaOhSADjIsbzjJ5RIsWBJuQfAxiPfCDSgh8bD/
+ dhZ7IxXYpAaMxBckZTGuSo+1enVJyEIQfrG5pHqHiTXqUWnSUq8CKKiQ76nwwNjXIuH1
+ pUSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736784682; x=1737389482;
+ d=1e100.net; s=20230601; t=1736785077; x=1737389877;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0nln6xuSTTaoMOsjO/bzAdYR40fjFobKxVXqk79yIRg=;
- b=VxIFjKbRI9wb3iJiJMgdVRVKxfjq57LRH0xwjgcsbUSwrwuPxuCghReCYAfLV2xR6N
- w+8kzeBHBcb1+kpCzzTbA0dsNGXbcR6xzlficFgH2OLeHTCto4mw+pUoFpa2ljfJZd9s
- kmWrg0AF0UQ7K2wDQF7iz/dNlf/3rAajYVR4Zl5ZJkJJF1D/JgC34ElsyBRlsPtE8oaM
- aTCrgfjl3Z/fUBuiyeD/L6ruB7J8asXpnlz9qTfZtUkvkZkposLCrk5lnkAMVgC2y/U4
- rlns/RNtqxKC1ZL/zvsjM/89rqQkJo1GYU6iNVp2o9htU6CK3YU0ykq2PrI2+ZGKuIM3
- Gq3g==
+ bh=jfzu8LVinRmTffQRsvj5JwYAQma905XvC7kwPgp95yk=;
+ b=GP9XGh90cGY8IUV/rrtU+LtPZrqlfQKpLnVmI9YeDHtEuq7Vp9vfamdLAqIETZmfPp
+ J6G6ApBQTCLaccvfaoI0EvK0CI9zALZNpiFjmNYMLEn/25M4r6oL0KTbLATKBvYmkHOA
+ RurZUBJdjS6GWMo+Dbs+3kTVHwQeGTNekC367o4U1myt09ZKBUHMzkfxYC7JPmpR/WKE
+ s0E2iAiJtxkbOcrbQgqmCwZym5YzrZVmqVGzaNL0mzTsuLOClHMGmFWXwrWmlHsMHlJg
+ tHUEpmx1pHVia9AeUq0G/IN/7ja3L0thhpxjKcvmb2+Fg9rKqwm8hrP7HNeObygqvAoQ
+ gjdQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOEUL+RHgXnNA+O65gwzaeGp4ziimoZzCFJbRw++Bo3C3I7TUmRf3x0wFRIqzYPb/HQpFciNmZOg8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxhkxWAb4MGTRM26fRAFpv/E1NpAefcwzKSzruB2l7I8HKChXDb
- enOdmdMSYjr+cMJg+7hiW1EvpGqwLAEkTzTuSvx+NwPGy9kka59r/VKX+0rm1vFIKe7GSnTL+Lq
- lWC2dWI/ylrLjFSmUxwH/yY1hm7fftu2T2zzL
-X-Gm-Gg: ASbGncu9/PTRFqfWWvxNqRnZSE9K6QZoE9acRrNQRQF6jjGenkubY5oTpMPLsqxUHUz
- l6+GLxAXTNXjL+n4O8mLrPgSUD1AJao4ur9g=
-X-Google-Smtp-Source: AGHT+IEZHimf0erqHl9P9hdsVm///MN8stQzn+Oj7UFKcLM1rFbaFHquGnXMlUQnxJqTuDGwgck+ox3NI5bhvjgf1ZE=
-X-Received: by 2002:ad4:5ca5:0:b0:6d4:25c4:e77d with SMTP id
- 6a1803df08f44-6df9b2ddad5mr358474696d6.34.1736784681463; Mon, 13 Jan 2025
- 08:11:21 -0800 (PST)
+ AJvYcCWKM85glUvhrMUUBGN4ZV+sdBHkEe0fAcfXLbs2BFtFGsqkkAlTQOCx2+WCWNL2XPGq1AmiyoxgwJo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwBTrTQnDeS5OEuilWMRBNBAnPZVBa55RCq/cJvsDtqmZfmgtqk
+ c4Xx3ICrHjlgvb5ohkyIvGDE9kDalguMYwGQi93+4WyZaLqxjd6/biO6Bk2jrWzB8iGyzMi+Ln0
+ +zvB5Tt2lPC0NNUe8jGzIdJL6peY0VSwLBg0L
+X-Gm-Gg: ASbGncshUk/MrotNLOGbbxSFpCWIxHiLx5VoHvGsm5IZeSinTDQpuQJ40biQmyX8nqe
+ CM886KqOjfgXx5YW0rm+54GqB6Iza7s/fdv8=
+X-Google-Smtp-Source: AGHT+IFDY+ySlB1nZMJq9PlTNDL8qUtu0AiaG+WzwFjnrE/ylu2IG3nFGi1mN1AYrMM9NBOj0s/u+5iNgQWpIVWK82E=
+X-Received: by 2002:a05:6214:20ce:b0:6d8:812e:1fd0 with SMTP id
+ 6a1803df08f44-6df9b1da95amr320133376d6.15.1736785077170; Mon, 13 Jan 2025
+ 08:17:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20250113093453.1932083-1-kirill.shutemov@linux.intel.com>
- <20250113093453.1932083-4-kirill.shutemov@linux.intel.com>
-In-Reply-To: <20250113093453.1932083-4-kirill.shutemov@linux.intel.com>
+ <20250113093453.1932083-5-kirill.shutemov@linux.intel.com>
+In-Reply-To: <20250113093453.1932083-5-kirill.shutemov@linux.intel.com>
 From: Yosry Ahmed <yosryahmed@google.com>
-Date: Mon, 13 Jan 2025 08:10:45 -0800
-X-Gm-Features: AbW1kvYVFjw-APVc_AtsFocTeHs3A7WI3FQm934n3hdXUG8p6Ploc_paz3DXv-A
-Message-ID: <CAJD7tkYfh=K1FV2NPFD5P0+Td66PtoMRHAkAcwUJcRwYDKLZjQ@mail.gmail.com>
-Subject: Re: [PATCH 3/8] mm/zswap: Use PG_dropbehind instead of PG_reclaim
+Date: Mon, 13 Jan 2025 08:17:20 -0800
+X-Gm-Features: AbW1kvZz7xe4mjGEEdN13LDK63_d9mSHRFPhCcbgv5eQRi5YXclVXjASqcr-k6E
+Message-ID: <CAJD7tkYH8KO8NLJY564PRAmW-mtMfDCMTECGKyYyVAf+JtTcRA@mail.gmail.com>
+Subject: Re: [PATCH 4/8] mm/swap: Use PG_dropbehind instead of PG_reclaim
 To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -113,33 +113,40 @@ On Mon, Jan 13, 2025 at 1:35=E2=80=AFAM Kirill A. Shutemov
 > to be involved to get the folio freed.
 >
 > Instead of using folio_set_reclaim(), use folio_set_dropbehind() in
-> zswap_writeback_entry().
+> lru_deactivate_file().
 >
 > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-
-Acked-by: Yosry Ahmed <yosryahmed@google.com>
-
 > ---
->  mm/zswap.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  mm/swap.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 >
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 167ae641379f..c20bad0b0978 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -1096,8 +1096,8 @@ static int zswap_writeback_entry(struct zswap_entry=
- *entry,
->         /* folio is up to date */
->         folio_mark_uptodate(folio);
+> diff --git a/mm/swap.c b/mm/swap.c
+> index fc8281ef4241..4eb33b4804a8 100644
+> --- a/mm/swap.c
+> +++ b/mm/swap.c
+> @@ -562,14 +562,8 @@ static void lru_deactivate_file(struct lruvec *lruve=
+c, struct folio *folio)
+>         folio_clear_referenced(folio);
 >
-> -       /* move it to the tail of the inactive list after end_writeback *=
-/
-> -       folio_set_reclaim(folio);
-> +       /* free the folio after writeback */
-> +       folio_set_dropbehind(folio);
->
->         /* start writeback */
->         __swap_writepage(folio, &wbc);
-> --
-> 2.45.2
->
+>         if (folio_test_writeback(folio) || folio_test_dirty(folio)) {
+> -               /*
+> -                * Setting the reclaim flag could race with
+> -                * folio_end_writeback() and confuse readahead.  But the
+> -                * race window is _really_ small and  it's not a critical
+> -                * problem.
+> -                */
+>                 lruvec_add_folio(lruvec, folio);
+> -               folio_set_reclaim(folio);
+> +               folio_set_dropbehind(folio);
+>         } else {
+>                 /*
+>                  * The folio's writeback ended while it was in the batch.
+
+Now there's a difference in behavior here depending on whether or not
+the folio is under writeback (or will be written back soon). If it is,
+we set PG_dropbehind to get it freed right after, but if writeback has
+already ended we put it on the tail of the LRU to be freed later.
+
+It's a bit counterintuitive to me that folios with pending writeback
+get freed faster than folios that completed their writeback already.
+Am I missing something?
