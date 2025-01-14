@@ -2,82 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB49BA10B9B
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 17:00:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F00A10B9F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 17:00:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3331510E3C4;
-	Tue, 14 Jan 2025 16:00:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NIRlGCYm";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A132E10E12A;
+	Tue, 14 Jan 2025 16:00:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3661E10E3C4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 16:00:11 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EA2aXu005882;
- Tue, 14 Jan 2025 16:00:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- GlxbwQMSLSHcp59/RMr1PPnMv1hYFNjw2lB6/yaqYSo=; b=NIRlGCYmyqlQLUhL
- Vkko5oWNSv6QDcR7KPhI/oN1FRtR7XVUwu3lmZSmprf09uzi0+/4tB0I0gc3+PJG
- eyg4SelvwPTl80fh//jUxEoBOM9rNoVWRTx8SsrgY/FdmaktrJ6CcbaYfOqKSjxj
- 2DeIdZD/U3BZMCsdh8JJhnwLedd5/BlbJM+uLCRfgTsFJ4AHFcdzgtw2JNcfbrSq
- CQEWJpeildaULg/JmocD/6T30NCD1pX55e6aMuD+WvLjUMGuCqFr7hELEwBq66vF
- Rf/9rIQqjOemEFZA+YepVtMy7OvdfMuyzi/xUbctdIxGXsTplxS5O4W4CIFeVWhH
- yW32kA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445ntx8rmr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jan 2025 16:00:06 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50EG05HP008524
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 14 Jan 2025 16:00:05 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 Jan
- 2025 08:00:04 -0800
-Message-ID: <342c63d4-19f5-5ea2-d4e6-02ef5785a87e@quicinc.com>
-Date: Tue, 14 Jan 2025 09:00:04 -0700
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 97A0B10E12A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 16:00:53 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68F4C11FB;
+ Tue, 14 Jan 2025 08:01:21 -0800 (PST)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A3A23F673;
+ Tue, 14 Jan 2025 08:00:48 -0800 (PST)
+Date: Tue, 14 Jan 2025 16:00:45 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Parthiban Nallathambi <parthiban@linumiz.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin
+ Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Linus
+ Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>, Kishon
+ Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH RESEND 10/22] pinctrl: sunxi: add missed lvds pins for
+ a100/a133
+Message-ID: <20250114160045.2baacdaa@donnerap.manchester.arm.com>
+In-Reply-To: <20241227-a133-display-support-v1-10-abad35b3579c@linumiz.com>
+References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
+ <20241227-a133-display-support-v1-10-abad35b3579c@linumiz.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH] MAINTAINERS: Update intel_vpu maintainer list
-Content-Language: en-US
-To: Oded Gabbay <ogabbay@kernel.org>, Stanislaw Gruszka
- <stanislaw.gruszka@linux.intel.com>
-CC: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>, <oded.gabbay@gmail.com>,
- <maciej.falkowski@linux.intel.com>
-References: <20250114084436.1326127-1-jacek.lawrynowicz@linux.intel.com>
- <Z4YnqBXfJAc7Xmsy@linux.intel.com> <Z4YpTYzGGDzNFyCU@Oded-ga-LPT.>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <Z4YpTYzGGDzNFyCU@Oded-ga-LPT.>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: 8f1BUThL9-_tETRI01Q8hCNsP7bwhFdH
-X-Proofpoint-GUID: 8f1BUThL9-_tETRI01Q8hCNsP7bwhFdH
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0
- suspectscore=0 spamscore=0 clxscore=1011 bulkscore=0 mlxscore=0
- impostorscore=0 mlxlogscore=904 priorityscore=1501 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501140125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,13 +63,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/14/2025 2:07 AM, Oded Gabbay wrote:
-> On Tue, Jan 14, 2025 at 10:00:24AM +0100, Stanislaw Gruszka wrote:
->> On Tue, Jan 14, 2025 at 09:44:36AM +0100, Jacek Lawrynowicz wrote:
->>> Slawek moved to another project and Maciej will be replacing him.
->>>
->>> Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
->> Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-> Reviewed-by: Oded Gabbay <ogabbay@kernel.org>
+On Fri, 27 Dec 2024 18:30:59 +0530
+Parthiban Nallathambi <parthiban@linumiz.com> wrote:
 
-Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Hi,
+
+since LinusW wants to pull this already, I gave it a look, despite this
+series being not complete.
+
+> lvds, lcd, dsi all shares the same GPIO D bank and lvds0
+> data 3 lines and lvds1 pins are missed, add them.
+> 
+> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+> ---
+>  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> index df90c75fb3c5..b97de80ae2f3 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
+> @@ -256,72 +256,84 @@ static const struct sunxi_desc_pin a100_pins[] = {
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D12 */
+> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* D3P */
+
+I initially stumbled upon those first two pins being from lvds0, with the
+other 8 pins missing for this interface, but then realised that those are
+on portD, and we already describe them in this table (above). So those two
+were missing all the time.
+
+So having compared these lines to the A133 user manual, I can now say that
+they are all correct:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Linus, in contrast to what I originally thought, this patch *is* fine, so
+feel free to keep it in your tree.
+Sorry for the noise!
+
+Cheers,
+Andre
+
+>  		  SUNXI_FUNCTION(0x4, "dsi0"),		/* DP3 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 8)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 9),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D13 */
+> +		  SUNXI_FUNCTION(0x3, "lvds0"),		/* D3N */
+>  		  SUNXI_FUNCTION(0x4, "dsi0"),		/* DM3 */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 9)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 10),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D14 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D0P */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* CS */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 10)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 11),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D15 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D0N */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* CLK */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 11)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 12),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D18 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D1P */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* MOSI */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 12)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 13),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D19 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D1N */
+>  		  SUNXI_FUNCTION(0x4, "spi1"),		/* MISO */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 13)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 14),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D20 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D2P */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* TX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 14)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D21 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D2N */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* RX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 15)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 16),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D22 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* CKP */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* RTS */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 16)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 17),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* D23 */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* CKN */
+>  		  SUNXI_FUNCTION(0x4, "uart3"),		/* CTS */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 17)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 18),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* CLK */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D3P */
+>  		  SUNXI_FUNCTION(0x4, "uart4"),		/* TX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 18)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 19),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd0"),		/* DE */
+> +		  SUNXI_FUNCTION(0x3, "lvds1"),		/* D3N */
+>  		  SUNXI_FUNCTION(0x4, "uart4"),		/* RX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 2, 19)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 20),
+> 
+
