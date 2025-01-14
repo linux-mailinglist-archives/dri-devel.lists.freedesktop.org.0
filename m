@@ -2,174 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA14A10C0E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 17:17:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C53FA10C55
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 17:33:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9160710E3C5;
-	Tue, 14 Jan 2025 16:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6F7E89264;
+	Tue, 14 Jan 2025 16:33:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eqtTJVzG";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="m/Xx5zPE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 182D610E3DC
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 16:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736871422; x=1768407422;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=I08ztUwedBYE7Sp4rm7LcfxmEj7sWCYbjN+9oEamEpQ=;
- b=eqtTJVzGGV54fkZYFmUzXBHnv47b6bgGWrr6d7tfvHi3TKY6q3vpCJaP
- UbbvocqMqToGxNLHdi0YTVhPGjccUx/D1oU2tL3DEVu+eh95qE4EIwxeG
- 28JGGMWH6OmplPUl8nGXg0hEve+RRy1yil7UOWWs+aVvUL31Pme4E+Rhi
- /hdS9Ag+stQay+I9dMlReIGScLNQ14mh/UZP4Z6yREpIREGC6DR4h/+NQ
- dJjzqqGTcewvGZQBQk3+RW8T9hUqY5+ec41CbvCQOm9/m5/3T5Eys/hih
- UROIL/+SXkYIb5Dg2t+wrRHOTy3y+eKfCRT7LH0BZMKr78qBXIzW18e9w g==;
-X-CSE-ConnectionGUID: 532NA6tfRAOufQnu0z0Jiw==
-X-CSE-MsgGUID: zWsg+3mATgan/TfyaFCCzg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="59659412"
-X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; d="scan'208";a="59659412"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2025 08:17:01 -0800
-X-CSE-ConnectionGUID: VGmZPL19SPOIpjyzD+xDYA==
-X-CSE-MsgGUID: mE4wVoYdRx6B78CDbGegyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; d="scan'208";a="105362229"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 14 Jan 2025 08:16:59 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 14 Jan 2025 08:16:58 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Tue, 14 Jan 2025 08:16:58 -0800
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.43) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 14 Jan 2025 08:16:58 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qENhqYyzfU8rVEwKZwqN9NqsgyHqeJWMTNL4TgvyJ0vEK6xEC5aG7NjRY7oCaC6g5p/nRVELb2UQkuuW5AcUp0JDxXT2XE80LpzJDPIB9UrORA1J9Rlj4cPxAE1M1Q2tmE1m8bQIw+mK/L5BMTZXlsCEDNq2XRguKc6zsrD94x0Tykmivbcridom57k/fhO5T4nvlCTJB6DGZY9Z2TPzmTJofoZ4ZCK+4tCrPG1cx7W3BBZOuduIPcJIcaX+tl8MIzQxhJuNrbbgftHsazqyyugJ33UXorwOseI7+yQU4dn8HF+3LPOwYk4+gMGCJrkM/1DqVXFhpaZt5EtiTzkqoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3ZFfCgBc9POTk5cRWkCZXgTHy2XOvPxOihJIyuNeNWA=;
- b=MfCm8cFZ42DS5vsmvcP7LEvVi5ROQbViXyZHPPGmVOfkjywQtvxIlQIL3U2FLTxd24CjfddP5OYEw9K54ftEulX/cnpp5SQNqP4/QozeCRBZrr08fJgcYD+DtmO+HIBeSAzNczpEshKgR4mXxZXa/MaPG/YygMlpf/JDLiFzd9LX7oDo7v1Iv32HcpYyz77mheq3cKLIhq7IKiZToDy0uOFwRW4Xf9BR00/0gscAj61RIN/cyYiAeSRqGPaGCiZ5a7MothMWaQ6NahUco7BoOwOei00slDK0ULg3V3LTXDRLBfyqV4gkIlMRouZBOLUMpyEpC3VVADNbCiDQIQKVuA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MW4PR11MB8290.namprd11.prod.outlook.com (2603:10b6:303:20f::21)
- by IA0PR11MB7209.namprd11.prod.outlook.com (2603:10b6:208:441::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
- 2025 16:16:55 +0000
-Received: from MW4PR11MB8290.namprd11.prod.outlook.com
- ([fe80::4a98:509:3b05:29b4]) by MW4PR11MB8290.namprd11.prod.outlook.com
- ([fe80::4a98:509:3b05:29b4%5]) with mapi id 15.20.8335.017; Tue, 14 Jan 2025
- 16:16:55 +0000
-Date: Tue, 14 Jan 2025 11:16:50 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] drm/bridge: fix documentation for the
- hdmi_audio_prepare() callback
-Message-ID: <Z4aN8jQvqowYCqR6@intel.com>
-References: <20250107-drm-bridge-fix-docs-v1-1-84e539e6f348@linaro.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250107-drm-bridge-fix-docs-v1-1-84e539e6f348@linaro.org>
-X-ClientProxiedBy: MW4PR04CA0222.namprd04.prod.outlook.com
- (2603:10b6:303:87::17) To MW4PR11MB8290.namprd11.prod.outlook.com
- (2603:10b6:303:20f::21)
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com
+ [91.218.175.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBDE889264
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 16:33:22 +0000 (UTC)
+Message-ID: <6f7bafba-9b40-491f-bf6b-00094840089c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1736872395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Ojil1oI08n7TnuyhgGkQyWcip5MZyN6QJJ93Wot6AA=;
+ b=m/Xx5zPEI6pKC+vyLqDbJPGVCr/PZuFs1E9SFykJydhzO6hYCzYpxXugrX4exCppJbNj1B
+ C7VInTSn1SP1zewtDqxF+s7duUCaG0eu1BhQ3FehZpv/Q1BKm7vu+0ravF8hm/L5phU+c/
+ XLUpYmyC2K0w7UK7va0NEydL6gjg8F4=
+Date: Tue, 14 Jan 2025 22:02:57 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB8290:EE_|IA0PR11MB7209:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4cb4c823-ab37-49f2-0f44-08dd34b6dccc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|1800799024|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DCd6IbYLp7Y+JwkxmzTxtooQVATJaqjhQt2/gkiOjgLctox0W+9duKmE1rGv?=
- =?us-ascii?Q?jSQmc1cfp1kRL/w41GIiqhE0q+cfCcVKToDRb/svTEsjYczclpXJozfax+3h?=
- =?us-ascii?Q?3qx59GHhOduDu7MbPFqAdzIxkcMKSiIVhVzyb0rQFWJ0dgnbaSrLjwD+9mlf?=
- =?us-ascii?Q?WiQmCi2bPldOy6ovU9v0dtep7llNFxp5F+ATZ/nl5kpPhbS8PfnpQbvn3Q5q?=
- =?us-ascii?Q?9dyi59BpvjUIZi6gQ1Rn57O5tTg0j4hJ0uWUh4UhW3k5Ryim5dH6hwb+VSPe?=
- =?us-ascii?Q?aqdlZGGkwyHgqLmbsSWjoFN1A39MWSArnltVK6sDz8WGDP6CMn668cBbVHqN?=
- =?us-ascii?Q?TxkpNdJQKL6Ng8VG/BbBr0w0ClrgyUdOveDhK8b3lay2lULkpEhylEfFYV/A?=
- =?us-ascii?Q?TkQhzB4nx86Nh3oUMOrjfuDKds7oUEFTVlhVxj4R/k/mKWr1iY1zTEaQBkyn?=
- =?us-ascii?Q?0ItbkrSs4JaxOEuhGs9hf3lk9RpGNY3986EkT1sz2AqZMlJaKUfAu8S55DNr?=
- =?us-ascii?Q?ShcoMrKcl5i0YzmQXCn2MRzj6uY40OnEodjHOIu3DBmn+6gIoMmDF4kUUK6O?=
- =?us-ascii?Q?QrK/zgviSwNLTLqbtPzl7uPKcy4dHCQYOAK7NDxjoYdH/l/vDckAULE7X50K?=
- =?us-ascii?Q?tcIAtowvRv4JtKAu34YTGubb7uph+foIvup6641kXOA1pbIMGFTTBb4V4K1o?=
- =?us-ascii?Q?SNXspJxQ+nCqC/bqZ/SQBHDtQyd+lrZUOJdFUU1BHQbKG+m1YpvNSmGnB2N7?=
- =?us-ascii?Q?u+yLlBwAplAKIwgNmurS6cUIqIxP9W1PhQYhGEMaPproYlLQpXCrb25d0Dcr?=
- =?us-ascii?Q?JMyVK45kt+JnZeKSPvs1lwUjMXPE/UDE3XkUxte4f7B0kbGZprtBuM11xUXK?=
- =?us-ascii?Q?AcrDcjQO5fUJv07kPFONppsI6NOxJU9+Z2AvxoIKZmjXjuIDzxfrHE4+5Ulv?=
- =?us-ascii?Q?TTEIGZoNiOJmo7lXIjCmc3CR0FhRkbQ2aYMItHAE2bdAnv9tE0Ie1qPZlKGx?=
- =?us-ascii?Q?XalbOxqcrcIG+oEteiy5F9ipjIvl8dhh05IH+3yMpWiMWpyGgr+Fueak5UQa?=
- =?us-ascii?Q?v/iwY4HoOc4ijN8DvMGEAbfXhepA85jr+1RLqbSzZQqhBPEFPyJvghayQvvR?=
- =?us-ascii?Q?FDw/fZE2BPCNwnqikJFNmKhNQPTIJUaxR/G5wEKaYOxEwB1MUGJK8O2OV2LS?=
- =?us-ascii?Q?K+EhKYcXbQjUQusukRFpD2RjzG7oixWDn1C0O2o51zygJlYokwdPY3fMc0iL?=
- =?us-ascii?Q?05bnYZG/vO1IBez8oabh1UvaYK4I7/psTPMzO8+zfd12/fPpFCsVxHehcV+e?=
- =?us-ascii?Q?bpZVS7kVIMWp/bSiyEHC+Xr2S6U+QQZTmWzI2gkQ9R0qr/2Yx4cHDGHHAZOk?=
- =?us-ascii?Q?CeO3/LsjEasXrDnc9XlnAIlYZ2+D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR11MB8290.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(1800799024)(376014)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5oNIM8Fj/ozNsdUtqojRiIJMBwRI/NWcdepqSGSCR0vLCXqMydhsaXnG/s0c?=
- =?us-ascii?Q?3DIiFiL+6nbM6DJuqQ7t6lPf6ic80Fk50kQQgAW5sCo8vaMRGtqEyztlW4lf?=
- =?us-ascii?Q?qIj28rDe9XTmF3cSbnZ0Pd1Wdf5TMD9QUTmrm9/tzh3SQjSkFl/0S2G+kvJW?=
- =?us-ascii?Q?ECisonTwUkjhv7WqI2+iSGBs/3e83rxa28CPFdfFWqkeysn83W6pIIu6mBFa?=
- =?us-ascii?Q?f9+tB4mKI5ihU0jXf55fd6hX+RYdPg8nHckSRuuJpP+cVDP0VsXupiIRQZpg?=
- =?us-ascii?Q?kBLv11obvL/5Lyc+pfInfQYbwQAJE/GqxOL9Gl5iAoUxHQfhORvhoID9tvIZ?=
- =?us-ascii?Q?TAzJ48Fm5aQllbhYI8fyrZe2NZDbvWFNzfB+C0kmc4Qp3cLUJ8t6ZzgWmBDq?=
- =?us-ascii?Q?jNWZaTLCHxcfhQl2HyQXyDTUXwQ+tqrm1lgeOyK9KOB81BIHNRqIIMyF1Uew?=
- =?us-ascii?Q?VppCFgnv0ce6ehGnejCg/bmuge8CtmpTYtEVLUSD9qZtbxAly0PCbW/N2oHI?=
- =?us-ascii?Q?mwr3kzBBeSRHDnfhJRCtSWN4fgf6z/GvOaTed1V5Q9zysBgyYi6oV8EVUB4v?=
- =?us-ascii?Q?cNd5niF7o4e36ywq1wcdT778/cnQy6xwcdQXfjAntXV53xVOoeHAylRIMUZE?=
- =?us-ascii?Q?IU4MiGUNsaYBLS50Lqgnp16mJs0CxPQt09py+rStcgUwyjd/6hi7tcC5vlfZ?=
- =?us-ascii?Q?ygjQWp7yy1NPJM2O23RLHzq4Yw12meRggMLF4dpezjfQlVbGxjg0w7lFFwDL?=
- =?us-ascii?Q?w0WE5qL85WO2fnqMaRC5ov/1S7lK9iCcwLs2fDmwe+2b+w5NkbePqv8mshKb?=
- =?us-ascii?Q?MkMl2Tygq/WIAqO/JKOH499M13M/A5TZav3y7/9uEXwqWwJazu2Iz2V++WXu?=
- =?us-ascii?Q?JzTnL7wbtHODpdzE4t/entzpUgtJ4aYkEySn/bylJ3WUQ5fg0ZlmkpyaONd/?=
- =?us-ascii?Q?wkkmCxe4NabxDnHJR+gImIHWDXWdK4NbS+qrHWASHDIwAs4fw/6RrgflgZ0p?=
- =?us-ascii?Q?PKrj0O06L47FdZjWrxZgAWJDqQupbb8MBCTbdoNFvFJYFb34TX+lPis/OquA?=
- =?us-ascii?Q?IpN03Y0TOVJQpXOkD98+c02GCbDWWSCvmdBS/oJxobY+QRqMlUtAYff8I4U9?=
- =?us-ascii?Q?fWGPOyRROTfO+P0Tpf7YBTTKS3TBrFg1ZgQl7YFXD7d7OGPdoHuWkgljMRpl?=
- =?us-ascii?Q?64CfLycfaQLxUNj4FYc2RxeXQPsWPehFUIuvZQm6yt/emDOA9HnEvyZ9Sq5a?=
- =?us-ascii?Q?7VN0XbVKAEscCc/xq/n++k1ySISvEqbeFgHaRp0w9Huorw8+98G7FqHzoiEi?=
- =?us-ascii?Q?7znobCXOUVYoDaZG06dGVlMA7wn4sjLs+pwojrd/VQvgEGcXZGBoDXKdFKer?=
- =?us-ascii?Q?LikUrGqjFdECkRk0aQbeFCUVZ6oWfar3vjheme2tFJX1a6ZZm3emyb0mscEo?=
- =?us-ascii?Q?jV4D3hTTNShBvjU+Kaa3sNCEcTYvII55hCY057pRwsFJUbFjjZqnSTLHQj9b?=
- =?us-ascii?Q?+kDKZbu7qJkv5r25awqXN2Pqiq8KDArFSES5u7hNiioyPG/kj5s7NwxqwLha?=
- =?us-ascii?Q?+lZpBa3JErYnpb+HBOzk6Ai39hobK1umOl44KRtBkvv36zrq+0kbRRLddPSg?=
- =?us-ascii?Q?HQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cb4c823-ab37-49f2-0f44-08dd34b6dccc
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB8290.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 16:16:55.3055 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Vv5cu44ZzohOkysC8bjjRW6OxGepl1b4KWLS4XF6f40EyFqlkBR3dK9WTiBwIVIcl4+GhyBm4QobnYjkwNWbeA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7209
-X-OriginatorOrg: intel.com
+Subject: Re: [PATCH v7 03/12] drm/bridge: cdns-dsi: Fix phy de-init and flag
+ it so
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
+ <20250114055626.18816-4-aradhya.bhatia@linux.dev>
+ <84ca02de-9788-4e16-bf24-1651bd365ebd@ideasonboard.com>
+ <7cfc1561-a229-43e7-b4bf-23ad258733c6@linux.dev>
+ <0e0ee18e-28f6-4c57-a47d-cd7ace84fa70@ideasonboard.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <0e0ee18e-28f6-4c57-a47d-cd7ace84fa70@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,41 +73,220 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 07, 2025 at 12:06:39PM +0200, Dmitry Baryshkov wrote:
-> Fix c&p error and change linuxdoc comment for the hdmi_audio_prepare()
-> callback from drm_bridge_funcs to mention the callback name instead of
-> the original prepare() callback.
-> 
-> Fixes: 0beba3f9d366 ("drm/bridge: connector: add support for HDMI codec framework")
+Hi,
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+On 1/14/25 20:50, Tomi Valkeinen wrote:
+> Hi,
+>=20
+> On 14/01/2025 16:44, Aradhya Bhatia wrote:
+>> Hi Tomi,
+>>
+>> On 1/14/25 18:00, Tomi Valkeinen wrote:
+>>> Hi,
+>>>
+>>> On 14/01/2025 07:56, Aradhya Bhatia wrote:
+>>>> From: Aradhya Bhatia <a-bhatia1@ti.com>
+>>>>
+>>>> The driver code doesn't have a Phy de-initialization path as yet,
+>>>> and so
+>>>> it does not clear the phy_initialized flag while suspending. This is=
+ a
+>>>> problem because after resume the driver looks at this flag to determ=
+ine
+>>>> if a Phy re-initialization is required or not. It is in fact require=
+d
+>>>> because the hardware is resuming from a suspend, but the driver does=
 
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20250106174645.463927e0@canb.auug.org.au/
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  include/drm/drm_bridge.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 4b84faf14e368310dd20aa964e8178ec80aa6fa7..496dbbd2ad7edff7f091adfbe62de1e33ef0cf07 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -691,7 +691,7 @@ struct drm_bridge_funcs {
->  				  struct drm_bridge *bridge);
->  
->  	/**
-> -	 * @prepare:
-> +	 * @hdmi_audio_prepare:
->  	 * Configures HDMI-encoder for audio stream. Can be called multiple
->  	 * times for each setup. Mandatory if HDMI audio is enabled in the
->  	 * bridge's configuration.
-> 
-> ---
-> base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
-> change-id: 20250107-drm-bridge-fix-docs-f9931636e335
-> 
-> Best regards,
-> -- 
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
+>>>> not
+>>>> carry out any re-initialization causing the D-Phy to not work at all=
+=2E
+>>>>
+>>>> Call the counterparts of phy_init() and phy_power_on(), that are
+>>>> phy_exit() and phy_power_off(), from _bridge_disable(), and clear th=
+e
+>>>> flags so that the Phy can be initialized again when required.
+>>>>
+>>>> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+>>>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>>>> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+>>>> ---
+>>>> =C2=A0=C2=A0 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 6 ++++=
++-
+>>>> =C2=A0=C2=A0 1 file changed, 5 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>>> b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>>> index 056583e81155..039c5eb7fb66 100644
+>>>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>>>> @@ -672,6 +672,11 @@ static void cdns_dsi_bridge_disable(struct
+>>>> drm_bridge *bridge)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dsi->platform_ops && dsi->p=
+latform_ops->disable)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dsi->pl=
+atform_ops->disable(dsi);
+>>>> =C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0 dsi->phy_initialized =3D false;
+>>>> +=C2=A0=C2=A0=C2=A0 dsi->link_initialized =3D false;
+>>>> +=C2=A0=C2=A0=C2=A0 phy_power_off(dsi->dphy);
+>>>> +=C2=A0=C2=A0=C2=A0 phy_exit(dsi->dphy);
+>>>> +
+>>>
+>>> The phy related lines are counterparts to what's done in
+>>> cdns_dsi_hs_init(), right? Maybe add cdns_dsi_hs_uninit(),
+>>>
+>>> But is the phy_initialized even needed? phy_initialized() is called f=
+rom
+>>> cdns_dsi_bridge_enable() and cdns_dsi_bridge_pre_enable(). Won't the
+>>> call in cdns_dsi_bridge_enable() be always skipped, as
+>>> cdns_dsi_bridge_pre_enable() already set phy_initialized?
+>>
+>> Yes, that is how the behavior has been. The initialization calls insid=
+e
+>> the _bridge_enable() end-up getting skipped.
+>>
+>> My first thought after reading your comments was to remove the init
+>> calls entirely from the _bridge_pre_enable(), and drop the
+>> phy_initialized flag too, and let _bridge_enable() only handle the ini=
+t.
+>=20
+> Isn't that the wrong way around? If currently bridge_pre_enable enables=
+
+> the phy, your suggestion above would change that. I would think keeping=
+
+> the init calls in bridge_pre_enable, and drop from bridge_enable.
+>=20
+>> The _bridge_enable() will anyway get renamed to _bridge_pre_enable(),
+>> while the existing _bridge_pre_enable() will get dropped, by the last
+>> patch of this series.
+>=20
+> Ok, but you can't do a fix that'll only be right after some future patc=
+h
+> does more changes =3D).
+
+Yeah, that would be wrong. =3D)
+
+>=20
+>> But since this patch is intended as a fix, it will get applied to
+>> previous versions while that last patch of the series won't... and the=
+n
+>=20
+> Speaking of which, I think you should cc: stable for the ones that
+> should be applied to earlier kernels. And it would be good to have all
+> such patches first in the series, to decrease any dependencies.
+
+Will do!
+
+>=20
+>> we may end up having init calls only from _bridge_enable() for the old=
+er
+>> versions.
+>> Also, given all the fixes in the series, there is a possibility that a=
+n
+>> older-version of the driver might become functional (except for the
+>> color shift issue).
+>>
+>> My question then is, would it be a cause for concern if all the init
+>> calls are handled from the _bridge_enable() only?
+>=20
+> I'm not sure I follow here. Don't we want the init calls to happen in
+> the pre_enable phase, both before and after the sequence change (patch =
+12)?
+>=20
+
+It is, now. For that brief period, I was considering to keep them only
+in _bridge_enable().
+
+> But generally speaking, yes, it's good to keep fixes simple, and do
+> cleanups later on top. Keeping that in mind, maybe this current patch i=
+s
+> fine as it is. Although... if the init is done in pre_enable, shouldn't=
+
+> the deinit be done in post_disable?
+
+Yes, I will move the deinit to _bridge_post_disable().
+
+
+So, if we keep the fix limited to deinit in _bridge_post_disable(), then
+the cleanup would involve dropping the init calls from _bridge_enable().
+And then the patch-12 would do 3 things -
+
+	1. Drop older _bridge_pre_enable()
+	2. Rename old _bridge_enable() to _bridge_pre_enable()
+	3. Since the _old_ _bridge_enable() has the calls dropped in the
+	   cleanup patch, add those calls again in the _new_
+	   _bridge_pre_enable() (which are really the same function
+	   bodies).
+
+Do you think we can instead skip the cleanup patch, as well as #3 from
+patch-12?
+
+Fun fact: We already have patch-4 which fixes the order of init calls in
+_bridge_enable()! =3D)
+
+>=20
+>> (one of the potential concerns detailed below)
+>>
+>>>
+>>> Same question for cdns_dsi_init_link(), although that's also called f=
+rom
+>>> cdns_dsi_transfer(), so we probably need dsi->link_initialized.
+>>>
+>>
+>> Don't you think we'd need the phy to also be initialized for the DCS
+>> command to work?
+>=20
+> I'm sure we do. But the driver doesn't do that currently, does it? Whic=
+h
+> I did find a bit odd, but I'm not familiar with the HW.
+>=20
+> However, my comment was related to calling cdns_dsi_init_link() in both=
+
+> cdns_dsi_bridge_enable and cdns_dsi_bridge_pre_enable functions. In thi=
+s
+> case the call in the cdns_dsi_bridge_enable function is a no-op, simila=
+r
+> to calling cdns_dsi_hs_init().
+>=20
+> But, if changed, that's also a cleanup, so maybe better keep away from
+> fix patches.
+>=20
+>> Usually, since DSI is among the initial bridges to get pre_enabled, th=
+e
+>> Link and Phy are both initialized by the time cdns_dsi_transfer() is
+>> called. So, even if cdns_dsi_transfer() doesn't call for
+>> cdns_dsi_hs_init(), it is able to work fine.
+>>
+>> If DCS commands do indeed require the cdns_dsi_hs_init(), then shiftin=
+g
+>> it to _bridge_enable() (like I suggested above) would be problematic
+>> without fixing it here.
+>=20
+> I don't know what how the HW works, but we definitely need PHY to send
+> DCS commands. But we don't necessarily need HS mode, LP works fine
+> (usually). It's just not clear to me what exactly cdns_dsi_hs_init() an=
+d
+> cdns_dsi_init_link() do. What is "link"? Looks like cdns_dsi_init_link
+> is doing some PHY stuff, which is kind of strange thing to do, as
+> phy_init() and phy_power_on() are only done later.
+
+That is where my confusion is too. A quick look into the TRM didn't
+help me with distinctions either.
+
+>=20
+> In any case, yes, the cdns_dsi_transfer() has to make sure we have LP/H=
+S
+> working. So indeed it might mean calling both functions. This is,
+> however, perhaps a different topic, best left out of this series.
+>=20
+
+Alright. Since it is decided to keep the init calls in
+_bridge_pre_enable(), cdns_dsi_transfer() is not going to be affected
+any more than it already is, and we won't be breaking anything new.
+
+I guess there can be some trial and error done to find whether
+cdns_dsi_transfer() is really dependent on cdns_dsi_hs_init() -
+but yes, let's keep that out of this series' scope.
+
+
+Regards
+Aradhya
