@@ -2,81 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2A0A1020A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF07A10222
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:34:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08C6C10E360;
-	Tue, 14 Jan 2025 08:30:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55D6B10E35C;
+	Tue, 14 Jan 2025 08:34:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CFgyCgX1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S5/JHLs0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51ED310E360;
- Tue, 14 Jan 2025 08:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736843455; x=1768379455;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=d76ZuYXYGd5MhYXwKrUOaL/NFOW9yG6blep811EcGeg=;
- b=CFgyCgX16mwWlhGyfMpK3ByL7XgQN+9XpmFGjyVWnQf/9jFy/+ei+mHg
- +6vsYfHnXxT66Vmy7pNHxmhafPkXy2QYT/5ldBvhpTXfvszZSSjIt3xHq
- EIdIFHW0i8oneTIIcjiN16qALeguS79OwTdcl64aAo5TXauZSym8p8fBR
- QMQ5uLusJGsooY/QilHzw67ES2Bdh69Jl2lLYTAdwLlQAdyHsaTPnOs3P
- SvYZUZSp1xTi4rIjcVTr5ExAKnh1hFWESb9VT8nk43DwWuwRntzJE1uUq
- 5tuQefcKTygKEd96Sft9ggemIuYfFHfPEVov4Ebit9DEteNhF9h+8tJ5w A==;
-X-CSE-ConnectionGUID: sl3R1yiPTra0UE+rf0MqMg==
-X-CSE-MsgGUID: LE8DykJgSySIMR6cpNDrvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37241816"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="37241816"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jan 2025 00:30:54 -0800
-X-CSE-ConnectionGUID: OGS8UdzDSvmjat/Rleu/Tg==
-X-CSE-MsgGUID: Yr9g/hOpTTeh7GM4krWnuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="109880457"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa005.jf.intel.com with ESMTP; 14 Jan 2025 00:30:47 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1000)
- id B879339C; Tue, 14 Jan 2025 10:30:45 +0200 (EET)
-Date: Tue, 14 Jan 2025 10:30:45 +0200
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Jens Axboe <axboe@kernel.dk>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chengming Zhou <chengming.zhou@linux.dev>, 
- Christian Brauner <brauner@kernel.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Dan Carpenter <dan.carpenter@linaro.org>, David Airlie <airlied@gmail.com>, 
- David Hildenbrand <david@redhat.com>, Hao Ge <gehao@kylinos.cn>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Josef Bacik <josef@toxicpanda.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Miklos Szeredi <miklos@szeredi.hu>, Nhat Pham <nphamcs@gmail.com>, 
- Oscar Salvador <osalvador@suse.de>, Ran Xiaokai <ran.xiaokai@zte.com.cn>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
- Steven Rostedt <rostedt@goodmis.org>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Vlastimil Babka <vbabka@suse.cz>, Yosry Ahmed <yosryahmed@google.com>,
- Yu Zhao <yuzhao@google.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/8] mm: Remove PG_reclaim
-Message-ID: <vpy2hikqvw3qrncjdlxp6uonpmbueoulhqipdkac7tav4t7m2s@3ebncdtepyv6>
-References: <20250113093453.1932083-1-kirill.shutemov@linux.intel.com>
- <20250113093453.1932083-9-kirill.shutemov@linux.intel.com>
- <Z4UxK_bsFD7TtL1l@casper.infradead.org>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A53910E35C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:34:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5F926A40C0D;
+ Tue, 14 Jan 2025 08:33:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E66C4CEDD;
+ Tue, 14 Jan 2025 08:34:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736843693;
+ bh=7dSaHofpJxvwalwOQnG7xDr2/PjqZEbK15g2hNfAOPE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S5/JHLs0tLYVTXW2+/GOcfyg/MgCXjTJtv5XEpLDO8pbytrOJoWA2JvY/JcyGzHr2
+ ThDl6r2KRZJtxxjafyDbJ67e4z5+DZ8zcERqNIlZnmAWkIx2G5Xppod5MpUB85jzAO
+ TxgLvhWvgs3wFP3mKlwaHLLbM131pPND3aDpTIftc9LqNM6P+O8UoQCwerQ6bfrN+w
+ VNU+plAKpLdQ6HB0NSunZbCao7m59cJDoOjMVw07CnA0OsJUVOVaFoHf+rdc4WGDXu
+ 96nF7IFGGYoE6U8r+mbL21URPht4k7W5svIZqm425fh5I2XIY0u1ejdwXKXvGGOgVU
+ RZT4QXljBwj3w==
+Date: Tue, 14 Jan 2025 09:34:49 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Guido =?utf-8?Q?G=C3=BAnther?= <agx@sigxcpu.org>, 
+ Robert Chiras <robert.chiras@nxp.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ imx@lists.linux.dev
+Subject: Re: [PATCH v2 1/1] dt-bindings: display: nwl-dsi: Allow 'data-lanes'
+ property for port@1
+Message-ID: <c5y6mocsd77wj5lah6n47vtteqc5ekcrbdod6z5vtcnxhleudw@kfhpyoiylqqp>
+References: <20250110161733.2515332-1-Frank.Li@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z4UxK_bsFD7TtL1l@casper.infradead.org>
+In-Reply-To: <20250110161733.2515332-1-Frank.Li@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,63 +73,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2025 at 03:28:43PM +0000, Matthew Wilcox wrote:
-> On Mon, Jan 13, 2025 at 11:34:53AM +0200, Kirill A. Shutemov wrote:
-> > diff --git a/mm/migrate.c b/mm/migrate.c
-> > index caadbe393aa2..beba72da5e33 100644
-> > --- a/mm/migrate.c
-> > +++ b/mm/migrate.c
-> > @@ -686,6 +686,8 @@ void folio_migrate_flags(struct folio *newfolio, struct folio *folio)
-> >  		folio_set_young(newfolio);
-> >  	if (folio_test_idle(folio))
-> >  		folio_set_idle(newfolio);
-> > +	if (folio_test_readahead(folio))
-> > +		folio_set_readahead(newfolio);
-> >  
-> >  	folio_migrate_refs(newfolio, folio);
-> >  	/*
+On Fri, Jan 10, 2025 at 11:17:32AM -0500, Frank Li wrote:
+> This controller support scalable data lanes from 1 to 4. Add the
+> 'data-lanes' property to configure the number of MIPI display panel lanes
+> selected for boards.
 > 
-> Not a problem with this patch ... but aren't we missing a
-> test_dropbehind / set_dropbehind pair in this function?  Or are we
-> prohibited from migrating a folio with the dropbehind flag set
-> somewhere?
-
-Hm. Good catch.
-
-We might want to drop clean dropbehind pages instead migrating them.
-
-But I am not sure about dirty ones. With slow backing storage it might be
-better for the system to migrate them instead of keeping them in the old
-place for potentially long time.
-
-Any opinions?
-
-> > +++ b/mm/swap.c
-> > @@ -221,22 +221,6 @@ static void lru_move_tail(struct lruvec *lruvec, struct folio *folio)
-> >  	__count_vm_events(PGROTATED, folio_nr_pages(folio));
-> >  }
-> >  
-> > -/*
-> > - * Writeback is about to end against a folio which has been marked for
-> > - * immediate reclaim.  If it still appears to be reclaimable, move it
-> > - * to the tail of the inactive list.
-> > - *
-> > - * folio_rotate_reclaimable() must disable IRQs, to prevent nasty races.
-> > - */
-> > -void folio_rotate_reclaimable(struct folio *folio)
-> > -{
-> > -	if (folio_test_locked(folio) || folio_test_dirty(folio) ||
-> > -	    folio_test_unevictable(folio))
-> > -		return;
-> > -
-> > -	folio_batch_add_and_move(folio, lru_move_tail, true);
-> > -}
+> Change $ref of port@1 from 'port' to 'port-base' and add 'endpoint'
+> property referencing video-interfaces.yaml. Allow 'data-lanes' values
+> 1, 2, 3, and 4 for port@1.
 > 
-> I think this is the last caller of lru_move_tail(), which means we can
-> get rid of fbatches->lru_move_tail and the local_lock that protects it.
-> Or did I miss something?
+> Fix below CHECK_DTB warnings:
+> arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb:
+>  dsi@30a00000: ports:port@1:endpoint: Unevaluated properties are not allowed ('data-lanes' was unexpected)
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Change from v1 to v2
+> - Add the reason why need 'data-lanes' property in commit message.
+> ---
+>  .../bindings/display/bridge/nwl-dsi.yaml       | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
 
-I see lru_move_tail() being used by lru_add_drain_cpu().
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Best regards,
+Krzysztof
+
