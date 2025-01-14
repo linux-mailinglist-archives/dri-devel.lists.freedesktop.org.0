@@ -2,96 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FED3A10CF0
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:03:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04446A10DCA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:31:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 891DE10E401;
-	Tue, 14 Jan 2025 17:03:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB0710E3FD;
+	Tue, 14 Jan 2025 17:31:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="FopKS7t7";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="L+Mn8MLe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75A7E10E401
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:03:30 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-7be49f6b331so81126085a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 09:03:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1736874149; x=1737478949;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5pwRPv3AC50iLCk2Zf2oVFdf10HsOLZLViQlkbWzupw=;
- b=FopKS7t7YhIYYUWyqptnWzGTXQVPWirZhvjBC11mfNSxtk50baQu7s1vWWSD1W95Rc
- +gW1NYQqxd0MCboHvAwvTq5F/ODHvIoOHtFKiEzVfvZ+4r28N8ctQS2jukviCOWdvJJF
- Old2sFOr1pnCo/uqMRQgOX9TYKob135PmHJupB7UfBo6frjZ6VWMGd48CtheZ8eaN+y1
- TcSuK48C78aY9XRf6g1ndLjMHs8GmJ1S6mbmPxDtsoFLI1ri2ooZ9DX+us2nwnnh9IA1
- DzzYxMVCwH2PuXQ4wQK09OZkdum6q6HcGBSxK9zpRQX11+MHFEUJFl6pV4P4m89QkKA4
- Wbwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736874149; x=1737478949;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5pwRPv3AC50iLCk2Zf2oVFdf10HsOLZLViQlkbWzupw=;
- b=glIMS88In8v3Duc4Qk2eHDz4vI5l70qIpx6NqA9MfxBt6NCA8XZbNDZD/faT0Phc6j
- UwTruJoAulmrY4MoDSXySk3gI/oApj2vg2Hol+Cdxq5SJSTYv66/L0avnrilyuZ1FMmC
- qAMWSkZIf2YiHzXAjEJsIliX5D/pEKZ0vLggl9wMZJGi7eaoFMiIIz6DMDID/ByzylDt
- RESEaHb8LZ9i4cij4GEMITf5nplRiCcORc1Crm+nVm7ndyXAaq52DmOBw+jG2BQQmoum
- CCcAqsRXMgPMmjm+j+5fyozI/Bigb4wG4JQULx7rs52Erro8jlmdnpBHV2XR5e/uZcsy
- dpkg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWKi00QJgOMwmX2OSXvybgyo+sT2qsHuePm1f8t+KFfnepAc8Wh3NDi2GCbiDe3/OWe8P3nfI58KrI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxiDx88CYdhLVg0p6TkLJwj9CgwKIiiDIHqR9DpsChiqrMJJXI/
- sIRBQgfkcS5lgm/CBEWnBaThmGGoljE3P3565088yDH3YbvgiUch+oTdWuC05cr+mjmlMkn8FvZ
- BKM/k6+hBHvSZCjvTU0Vy+LC+qHVJKAiSQHI6
-X-Gm-Gg: ASbGncspuP24/d2FZwnYrSgkDwOQJVY64PdqxQVUF+Gm1ceYX5cHUIQgBacUxSKdrbG
- KQRb0dQuLgeIJkfuzcbh2X2cd/Z5O2tqUrhZrrXRGY2rL0P1bRa3wJxvomLTGUX3eaRtLFJQ=
-X-Google-Smtp-Source: AGHT+IEmCebGY2XiXiMSHiPH6lyzErlM2sxmSzBWB4EBYHNDzzHKKbPlbhF+bpXyENdSkK3zvR6V00VYB1KaeeKmh74=
-X-Received: by 2002:a05:620a:244d:b0:7b7:142d:53b8 with SMTP id
- af79cd13be357-7bcd97c97e1mr4649151185a.53.1736874149139; Tue, 14 Jan 2025
- 09:02:29 -0800 (PST)
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE20610E408
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:31:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=vK4b5hmfFQg90bKf5c35DlRbGDFITMqw3G3MDy4quhw=; b=L+Mn8MLeKAqlc3Yy3KOe4L8g73
+ WZimn4WgzcyM0muig8nFU9U7oZoRkZXYu9gfUshX0xsVcSpeM4ltf2FunIveIcvBkcL4sE330nOwn
+ hvOAQ/fa++zhoCC/Ba8nng+m8vgBLpcuD0b0h4jKnwM5+Xw7bOcS3Fenvvak5uFcZWKHHEnYicAPJ
+ dxqxsWtuX9MGUxNhvXFC75M5LBKbQgyJnOhE9CTzWI29oezpyCTks6eVjB7SeyeMG9nOId+vK7d3f
+ hodL28z6NCAwZsOcVs1TT+N+1yXW9B5ibz6l6Gx5a5Gcdn0Q39dgbEL8wy2ysiy1L/GxhvyXvGjT+
+ X7liPiYA==;
+Received: from i53875b2c.versanet.de ([83.135.91.44] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tXkkJ-0005Ki-N1; Tue, 14 Jan 2025 18:30:31 +0100
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Chris Hofstaedtler <zeha@debian.org>, andy.yan@rock-chips.com,
+ Guochun Huang <hero.huang@rock-chips.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ quentin.schulz@cherry.de, Heiko Stuebner <heiko.stuebner@cherry.de>,
+ Daniel Semkowicz <dse@thaumatec.com>, Dmitry Yashin <dmt.yashin@gmail.com>
+Subject: Re: [PATCH v4 1/3] drm/bridge/synopsys: Add MIPI DSI2 host controller
+ bridge
+Date: Tue, 14 Jan 2025 18:30:30 +0100
+Message-ID: <3556284.QJadu78ljV@diego>
+In-Reply-To: <Z3IDh0TOAKqaovz2@per.namespace.at>
+References: <20241209231021.2180582-1-heiko@sntech.de>
+ <20241209231021.2180582-2-heiko@sntech.de>
+ <Z3IDh0TOAKqaovz2@per.namespace.at>
 MIME-Version: 1.0
-References: <20250113093453.1932083-1-kirill.shutemov@linux.intel.com>
- <20250113093453.1932083-9-kirill.shutemov@linux.intel.com>
- <Z4UxK_bsFD7TtL1l@casper.infradead.org>
- <vpy2hikqvw3qrncjdlxp6uonpmbueoulhqipdkac7tav4t7m2s@3ebncdtepyv6>
-In-Reply-To: <vpy2hikqvw3qrncjdlxp6uonpmbueoulhqipdkac7tav4t7m2s@3ebncdtepyv6>
-From: Yu Zhao <yuzhao@google.com>
-Date: Tue, 14 Jan 2025 10:01:52 -0700
-X-Gm-Features: AbW1kvYQkyXZbUdcH1QNEYpQQw7S18-Qu-i6iGpqw5vVBDdyuuTWt_dBq2WlT1M
-Message-ID: <CAOUHufY+BViSYS14tfN8EOhuE05KneG2syHhVCyFPppkmDH=aQ@mail.gmail.com>
-Subject: Re: [PATCH 8/8] mm: Remove PG_reclaim
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Matthew Wilcox <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- Jens Axboe <axboe@kernel.dk>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chengming Zhou <chengming.zhou@linux.dev>, 
- Christian Brauner <brauner@kernel.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>, 
- Dan Carpenter <dan.carpenter@linaro.org>, David Airlie <airlied@gmail.com>, 
- David Hildenbrand <david@redhat.com>, Hao Ge <gehao@kylinos.cn>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Josef Bacik <josef@toxicpanda.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Miklos Szeredi <miklos@szeredi.hu>, Nhat Pham <nphamcs@gmail.com>, 
- Oscar Salvador <osalvador@suse.de>, Ran Xiaokai <ran.xiaokai@zte.com.cn>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
- Steven Rostedt <rostedt@goodmis.org>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Vlastimil Babka <vbabka@suse.cz>, Yosry Ahmed <yosryahmed@google.com>,
- intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- linux-trace-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,71 +71,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2025 at 1:30=E2=80=AFAM Kirill A. Shutemov
-<kirill.shutemov@linux.intel.com> wrote:
->
-> On Mon, Jan 13, 2025 at 03:28:43PM +0000, Matthew Wilcox wrote:
-> > On Mon, Jan 13, 2025 at 11:34:53AM +0200, Kirill A. Shutemov wrote:
-> > > diff --git a/mm/migrate.c b/mm/migrate.c
-> > > index caadbe393aa2..beba72da5e33 100644
-> > > --- a/mm/migrate.c
-> > > +++ b/mm/migrate.c
-> > > @@ -686,6 +686,8 @@ void folio_migrate_flags(struct folio *newfolio, =
-struct folio *folio)
-> > >             folio_set_young(newfolio);
-> > >     if (folio_test_idle(folio))
-> > >             folio_set_idle(newfolio);
-> > > +   if (folio_test_readahead(folio))
-> > > +           folio_set_readahead(newfolio);
-> > >
-> > >     folio_migrate_refs(newfolio, folio);
-> > >     /*
-> >
-> > Not a problem with this patch ... but aren't we missing a
-> > test_dropbehind / set_dropbehind pair in this function?  Or are we
-> > prohibited from migrating a folio with the dropbehind flag set
-> > somewhere?
->
-> Hm. Good catch.
->
-> We might want to drop clean dropbehind pages instead migrating them.
->
-> But I am not sure about dirty ones. With slow backing storage it might be
-> better for the system to migrate them instead of keeping them in the old
-> place for potentially long time.
->
-> Any opinions?
->
-> > > +++ b/mm/swap.c
-> > > @@ -221,22 +221,6 @@ static void lru_move_tail(struct lruvec *lruvec,=
- struct folio *folio)
-> > >     __count_vm_events(PGROTATED, folio_nr_pages(folio));
-> > >  }
-> > >
-> > > -/*
-> > > - * Writeback is about to end against a folio which has been marked f=
-or
-> > > - * immediate reclaim.  If it still appears to be reclaimable, move i=
-t
-> > > - * to the tail of the inactive list.
-> > > - *
-> > > - * folio_rotate_reclaimable() must disable IRQs, to prevent nasty ra=
-ces.
-> > > - */
-> > > -void folio_rotate_reclaimable(struct folio *folio)
-> > > -{
-> > > -   if (folio_test_locked(folio) || folio_test_dirty(folio) ||
-> > > -       folio_test_unevictable(folio))
-> > > -           return;
-> > > -
-> > > -   folio_batch_add_and_move(folio, lru_move_tail, true);
-> > > -}
-> >
-> > I think this is the last caller of lru_move_tail(), which means we can
-> > get rid of fbatches->lru_move_tail and the local_lock that protects it.
-> > Or did I miss something?
->
-> I see lru_move_tail() being used by lru_add_drain_cpu().
+Hi Chris,
 
-That can be deleted too, since you've already removed the producer to
-fbatches->lru_move_tail.
+Am Montag, 30. Dezember 2024, 03:20:55 CET schrieb Chris Hofstaedtler:
+> On Tue, Dec 10, 2024 at 12:10:19AM +0100, Heiko Stuebner wrote:
+> > From: Heiko Stuebner <heiko.stuebner@cherry.de>
+> > 
+> > Add a Synopsys Designware MIPI DSI host DRM bridge driver for their
+> > DSI2 host controller, based on the Rockchip version from the driver
+> > rockchip/dw-mipi-dsi2.c in their vendor-kernel with phy & bridge APIs.
+> > 
+> > While the driver is heavily modelled after the previous IP, the register
+> > set of this DSI2 controller is completely different and there are also
+> > additional properties like the variable-width phy interface.
+> > 
+> > Tested-by: Daniel Semkowicz <dse@thaumatec.com>
+> > Tested-by: Dmitry Yashin <dmt.yashin@gmail.com>
+> > Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> > Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
+> [..]
+> > +static void dw_mipi_dsi2_set_vid_mode(struct dw_mipi_dsi2 *dsi2)
+> > +{
+> > +	u32 val = 0, mode;
+> > +	int ret;
+> > +
+> > +	if (dsi2->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP)
+> > +		val |= BLK_HFP_HS_EN;
+> > +
+> > +	if (dsi2->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HBP)
+> > +		val |= BLK_HBP_HS_EN;
+> > +
+> > +	if (dsi2->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HSA)
+> > +		val |= BLK_HSA_HS_EN;
+> 
+> For all three of these: is setting an ENable bit the right thing to
+> turn features *off*?
+
+first of all, thanks a lot for noticing this discrepancy :-) .
+
+Looking at the documentation, all 3 of those hw-bits are described as
+  "Enables filling the H.. period with blanking packets. ..."
+
+where the MIPI_DSI_VIDEO_MODE_NO_* flags are described as
+  "disable hfront-porch/... area"
+
+
+So yes, I _think_ "disable front-porch" would _should_ result in
+"don't fill the period with blanking packets", but am not fully sure.
+
+I've run the two boards I have with inverting the checks as sounds
+sensible right now, aka doing:
+	if (!(dsi2->mode_flags & MIPI_DSI_MODE_VIDEO_NO_HFP))
+etc and both displays I have ran just fine.
+
+As the driver was originally part of a vendor-kernel based on 5.10, which
+I think was before the _NO addition from [0] it could be caused by a
+misread of the flags that were named differently back then.
+
+
+So yes, switching things around does sound like the right thing to do.
+
+
+Heiko
+
+[0] https://lore.kernel.org/all/20210629074703.v2.1.I629b2366a6591410359c7fcf6d385b474b705ca2@changeid/
+
+
+
