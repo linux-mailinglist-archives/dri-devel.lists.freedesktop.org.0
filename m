@@ -2,51 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0E1A10E1F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47657A10E33
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:51:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72CDA10E3F7;
-	Tue, 14 Jan 2025 17:48:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CDD410E44B;
+	Tue, 14 Jan 2025 17:51:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RR5ANG8W";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="CUqL47F6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8724410E3F7
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:48:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 89E6DA4190A;
- Tue, 14 Jan 2025 17:46:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F322AC4CEDD;
- Tue, 14 Jan 2025 17:48:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736876901;
- bh=ReEvutLUNBrKUqbYwUgL4AaEgaDl+0Mo8nAOAWGVGQk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RR5ANG8WOfVOM8zc7wSfqgfR/XxhjJyde/DAAb1oi5hOHP59HsLCEkJlxLT9sfYqo
- 6fL+kvvzAYTSV0zwx1OGskkvxGFrP80jPH3iJHDPy9yIx2kbvE0leO2utqRI0eA5dR
- ujfBlFocuM2lIrsSN8LyTenzmYvT6JiN8GEGJII16FAki+xF8u9JPlSq4nTC+kgX/r
- 8nx9KIeVFf2+PjEIal8zZE0OjVst8T9jxvt67KX/ikhioVT6ReuplIo20ebIMatko4
- axqWWbw4tZu8pdfYvsG472M2tX6+zVDnb72c4lBA/tu9JNSlxY5zU2SObKpOeIQYFG
- 4hu9D7yyQWSVA==
-Date: Tue, 14 Jan 2025 18:48:18 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Liu Ying <victor.liu@nxp.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dmitry.baryshkov@linaro.org
-Subject: Re: [PATCH v2 2/2] drm/tests: hdmi: Add connector disablement test
-Message-ID: <20250114-voracious-melodic-partridge-60aebd@houat>
-References: <20250110084821.3239518-1-victor.liu@nxp.com>
- <20250110084821.3239518-3-victor.liu@nxp.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0B0C10E44B
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:51:26 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-436326dcb1cso41459235e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 09:51:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736877025; x=1737481825;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:user-agent
+ :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=r7kyhS+AN7mALzi6gxFmcRFltHcX9PkTUE9xxZswSTo=;
+ b=CUqL47F6D+4EVXCWCOqDQG7qOxvaJ1HxVB7utv3AUJb7XsmPHWSRlKUkmvxP0wHiGn
+ wDdPLXp0kQOEzJ0tCeAWgHn24xZlrODhEDHMJMoGzJxavqBxYU7kaKuEdZr75UfoaSGl
+ mrTipYTDOqX7lGUxCmV0dj89BiKjdyAW+1GOGNLhQv1JLCE4FOZMHQyi/YxbKdXkAd3O
+ aOWnZZG9EMZS6J0dSUr4xq8FpQ7NpMGlhWgsS1D0h/9jjDmk7GvjqVSdJCNEM3/h8R+C
+ ermCtr/BK4ieYGLqWwwdNiQF+qQUe89e9cAkZNs4nPkZmzsF3Nvsczh9Vyz2SckZ6v6H
+ OOMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736877025; x=1737481825;
+ h=content-transfer-encoding:mime-version:message-id:date:user-agent
+ :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=r7kyhS+AN7mALzi6gxFmcRFltHcX9PkTUE9xxZswSTo=;
+ b=UWp1cV+mbKLalogvUTFPsQilFIkckQtcWyiQtlm9LsOR8b3kPKfqwg8W44vxKgMjzN
+ 3sVjpEuiI+aeBNTB3qB6p1qkuu1JXUYlPUKR3RUH92EZ6VBPqfnJGVj5cD76QLgMdEcv
+ BdwI90JbWVlFAOy3OQ9806eNVO4XOxCqjAShd3oYrqzZzjyKfXCmTuR4/KfZ4gZK/us/
+ Mi1ywnxkYz/qaBtPpySXaRxE8mTStVGqQ1HujYClcbamdRhC1pi7rkywIw7hRTfbzZaT
+ GcG8xjrNIOblOQTFfUfwexTRrQp77HzTmu9LmKLxKmlkA9Ph4Qm6H0kAXQYyQJgG2SiS
+ NOoA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVhUyC4o4VG2IW4mChLMWFOPnltMS3erelcAlqgI5Kk1Msfna61pnkMSn3p7v14QhjCdElSn92BuPM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw+fC3EHF3O6s1Cf6qJwl6e0t8RyiUoScLMCUsxav1d03zmNTHM
+ MYEnWGJqUjC2BwbN16lD1idz0Lq0kMnGAMNjJouRJQZ1ERW63odh95ug0oKmW+NCxbZEA8Vhebx
+ L
+X-Gm-Gg: ASbGnctUMeqDTFJLdQLd760krpZJiiVdmSHzfhemtsKSFxjLprCAc5UtTzSNiYYOAy2
+ WEWrcpz9JkuC/y7W8u3RH1GWcafvO/drZXUKZZofN7vPovFqMhDtasnNqkTL7jeLNU3AI2L6e9L
+ d+2KE2DsWngHnkcTmHq1/qNoblE6Eiqyiu8YNoS9s0rrBXM7sZML+qVVmQqH6cXJIYHR7NeEU6O
+ nlZXKJ+j2F/9jhQORNoaq8M2BPKAiShQ1tVI4bJQjPchL6LWfV6FHHP
+X-Google-Smtp-Source: AGHT+IGniaS5vKpw5UThOug4qTnk81tkkU2MITchcBy/hQw5sKSXoGOKno5PQ4PZG23+YM4eJ9Ctww==
+X-Received: by 2002:a05:6000:1547:b0:386:391e:bc75 with SMTP id
+ ffacd0b85a97d-38a872debb2mr24343563f8f.16.1736877025045; 
+ Tue, 14 Jan 2025 09:50:25 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:317c:3d93:b7d4:96cd])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38a8e4c23dcsm15192221f8f.101.2025.01.14.09.50.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jan 2025 09:50:24 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: ao.xu@amlogic.com,  Neil Armstrong <neil.armstrong@linaro.org>,  Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>,  David
+ Airlie <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor
+ Dooley <conor+dt@kernel.org>,  Kevin Hilman <khilman@baylibre.com>,
+ dri-devel@lists.freedesktop.org,  linux-amlogic@lists.infradead.org,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Subject: [PATCH 00/11] Add DRM support for
+ Amlogic S4
+In-Reply-To: <CAFBinCDG2in4ZZAp2LXnz8bgiZoPL3G_c9+aCo9+Ort2W-tFCA@mail.gmail.com>
+ (Martin Blumenstingl's message of "Sun, 12 Jan 2025 23:44:52 +0100")
+References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
+ <CAFBinCDG2in4ZZAp2LXnz8bgiZoPL3G_c9+aCo9+Ort2W-tFCA@mail.gmail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Tue, 14 Jan 2025 18:50:23 +0100
+Message-ID: <1jwmex5lpc.fsf@starbuckisacylon.baylibre.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="nn6bgf2xstftnujg"
-Content-Disposition: inline
-In-Reply-To: <20250110084821.3239518-3-victor.liu@nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,116 +100,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sun 12 Jan 2025 at 23:44, Martin Blumenstingl <martin.blumenstingl@googl=
+email.com> wrote:
 
---nn6bgf2xstftnujg
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 2/2] drm/tests: hdmi: Add connector disablement test
-MIME-Version: 1.0
+> Hello,
+>
+> On Fri, Jan 10, 2025 at 6:39=E2=80=AFAM Ao Xu via B4 Relay
+> <devnull+ao.xu.amlogic.com@kernel.org> wrote:
+>>
+>> This patch series adds DRM support for the Amlogic S4-series SoCs.
+>> Compared to the Amlogic G12-series, the S4-series introduces the followi=
+ng changes:
+> Thanks for your patches. With this mail I'll try to summarize my
+> understanding of the situation with the drm/meson driver as I'm not
+> sure how familiar you are with previous discussions.
+>
+>> 1 The S4-series splits the HIU into three separate components: `sys_ctrl=
+`, `pwr_ctrl`, and `clk_ctrl`.
+>>   As a result, VENC and VCLK drivers are updated with S4-specific compat=
+ible strings to accommodate these changes.
+> Jerome has already commented on patch 3/11 that this mixes in too many
+> IP blocks into one driver.
+> This is not a new situation, the existing code is doing exactly the same.
+>
+> Jerome has previously sent a series which started "an effort to remove
+> the use HHI syscon" [0] from the drm/meson hdmi driver.
+> In the same mail he further notes: "[the patchset] stops short of
+> making any controversial DT changes. To decouple the HDMI
+> phy driver and main DRM driver, allowing the PHY to get hold of its
+> registers, I believe a DT ABI break is inevitable. Ideally the
+> register region of the PHY within the HHI should provided, not the
+> whole HHI. That's pain for another day ..."
+>
+> For now I'm assuming you're familiar with device-tree ABI.
+> If not then please let us know so we can elaborate further on this.
+>
+> My own notes for meson_dw_hdmi.c are:
+> - we should not program HHI_HDMI_CLK_CNTL directly but go through CCF
+> (common clock framework) instead (we should already have the driver
+> for this in place)
+> - we should not program HHI_MEM_PD_REG0 directly but go through the
+> genpd/pmdomain framework (we should already have the driver for this
+> in place)
+> - for the HDMI PHY registers: on Meson8/8b/8m2 (those were 32-bit SoCs
+> in case you're not familiar with them, they predate GXBB/GXL/...) I
+> wrote a PHY driver (which is already upstream:
+> drivers/phy/amlogic/phy-meson8-hdmi-tx.c) as that made most sense to
+> me
+>
+> Then there's meson_venc.c which has two writes to HHI_GCLK_MPEG2.
+> I think those should go through CCF instead of directly accessing this re=
+gister.
+>
+> Also there's the VDAC registers in meson_encoder_cvbs.c:
+> I think Neil suggested at one point to make it a PHY driver. I even
+> started working on this (if you're curious: see [0] and [1]).
+> DT ABI backwards compatibility is also a concern here.
+>
+> And finally there's the video clock tree programming in meson_vclk.c.
+> My understanding here is that video PLL settings are very sensitive
+> and require fine-tuning according to the desired output clock.
+> Since it's a bunch of clocks I'd say that direct programming of the
+> clock registers should be avoided and we need to go through CCF as
+> well.
+> But to me those register values are all magic (as I am not aware of
+> any documentation that's available to me which describes how to
+> determine the correct PLL register values - otherside the standard
+> en/m/n/frac/lock and reset bits).
+>
+> I'm not saying that all of my thoughts are correct and immediately
+> need to be put into code.
+> Think of them more as an explanation to Jerome's reaction.
+>
+> I think what we need next is a discussion on how to move forward with
+> device-tree ABI for new SoCs.
+> Neil, Jerome: I'd like to hear your feedback on this.
 
-On Fri, Jan 10, 2025 at 04:48:21PM +0800, Liu Ying wrote:
-> Atomic check should succeed when disabling a connector. Add a test
-> case drm_test_check_disabling_connector() to make sure of this.
->=20
-> Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> ---
-> v2:
-> * New patch to add the test case. (Dmitry)
->=20
->  .../drm/tests/drm_hdmi_state_helper_test.c    | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers=
-/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> index c3b693bb966f..8f7a39c9a1bb 100644
-> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-> @@ -1568,6 +1568,57 @@ static void drm_test_check_output_bpc_format_displ=
-ay_8bpc_only(struct kunit *tes
->  	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_R=
-GB);
->  }
-> =20
-> +/* Test that atomic check succeeds when disabling a connector. */
-> +static void drm_test_check_disabling_connector(struct kunit *test)
-> +{
-> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
-> +	struct drm_modeset_acquire_ctx *ctx;
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_crtc_state *crtc_state;
-> +	struct drm_atomic_state *state;
-> +	struct drm_display_mode *preferred;
-> +	struct drm_connector *conn;
-> +	struct drm_device *drm;
-> +	struct drm_crtc *crtc;
-> +	int ret;
-> +
-> +	priv =3D drm_kunit_helper_connector_hdmi_init(test,
-> +						    BIT(HDMI_COLORSPACE_RGB),
-> +						    8);
-> +	KUNIT_ASSERT_NOT_NULL(test, priv);
-> +
-> +	ctx =3D drm_kunit_helper_acquire_ctx_alloc(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-> +
-> +	conn =3D &priv->connector;
-> +	preferred =3D find_preferred_mode(conn);
-> +	KUNIT_ASSERT_NOT_NULL(test, preferred);
-> +
-> +	drm =3D &priv->drm;
-> +	crtc =3D priv->crtc;
-> +	ret =3D light_up_connector(test, drm, crtc, conn, preferred, ctx);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	state =3D drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-> +
-> +	crtc_state =3D drm_atomic_get_crtc_state(state, crtc);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
-> +
-> +	crtc_state->active =3D false;
-> +	ret =3D drm_atomic_set_mode_for_crtc(crtc_state, NULL);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +
-> +	conn_state =3D drm_atomic_get_connector_state(state, conn);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
-> +
-> +	ret =3D drm_atomic_set_crtc_for_connector(conn_state, NULL);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +
-> +	ret =3D drm_atomic_check_only(state);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +}
-> +
->  static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] =
-=3D {
->  	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode),
->  	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode_vic_1),
-> @@ -1605,6 +1656,7 @@ static struct kunit_case drm_atomic_helper_connecto=
-r_hdmi_check_tests[] =3D {
->  	 * picked up aside from changing the BPC or mode which would
->  	 * already trigger a mode change.
->  	 */
-> +	KUNIT_CASE(drm_test_check_disabling_connector),
+I completely agree with your description of the problem, that and
+Krzysztof's remark on patch 6. This is not new with this series indeed,
+so it does not introduce new problems really but it compounds the
+existing ones.
 
-I've changed slightly that test name (s/disabling/disable/) to make it
-consistent with the rest when applying, and ordered it alphabetically.
-Thanks!
+Addressing those issues, if we want to, will get more difficult as more
+support is added for sure.
 
-Maxime
+>
+>> 2 The S4-series secures access to HDMITX DWC and TOP registers,
+>>   requiring modifications to the driver to handle this new access method.
 
---nn6bgf2xstftnujg
-Content-Type: application/pgp-signature; name="signature.asc"
+Regmap buses are made for those cases where the registers are the same,
+but accessed differently. There is an example in the patchset referenced by
+Martin, to handle GXL and G12 diff.
 
------BEGIN PGP SIGNATURE-----
+> This info should go into patch 1/11 to explain why the g12a compatible
+> string cannot be used as fallback.
+>
+>
+> Best regards,
+> Martin
+>
+>
+> [0] https://github.com/xdarklight/linux/commit/36e698edc25dc698a0d57b729a=
+7a4587fafc0987
+> [1] https://github.com/xdarklight/linux/commit/824b792fdbd2d3c0b71b21e110=
+5eca0aaad8daa6
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4ajYgAKCRAnX84Zoj2+
-dlKcAX4yYBJRr1MygPbb1tTv3FnEIhsIDeA8CXtTVPYu0zrgUxVZKPt5E0lFMslK
-f+WbU30BgLsW9m8Ez4uH+lBAsNtVHpTOVco/40WqSKVULimx0N4cJBHy9OPdYNpU
-lp+d+UgDJA==
-=5uFn
------END PGP SIGNATURE-----
-
---nn6bgf2xstftnujg--
+--=20
+Jerome
