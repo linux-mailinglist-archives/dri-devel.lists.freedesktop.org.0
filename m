@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80D50A10894
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C03CEA108AC
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:10:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C20CD10E33D;
-	Tue, 14 Jan 2025 14:08:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C09810E34D;
+	Tue, 14 Jan 2025 14:10:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="LcLlkdTN";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Zxla4t30";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36CFF10E33D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:08:07 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-5d3e8f64d5dso10720502a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 06:08:07 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0BA010E34D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:10:09 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-5d41848901bso3266828a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 06:10:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1736863626; x=1737468426; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1736863748; x=1737468548; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+7CRjcReh8NIdWRngt8DgdN3TjJdEKoOSckXLArb4m0=;
- b=LcLlkdTNhZI3ccynup1/AXerw0CSZSEgsnifZxnnV7oPceTWnQ9kcmHGGHzT5dOzcI
- jxMRkugYpFblKRSR4x+s4xZWwER9R1mMuZ3Wuc8myh7iA7FeQJSPJpWDT4ViGLM9/Meq
- Lk172f5KxIvkfHAQICkAsj4wS1UW1v4LLwH7E=
+ bh=7vDqJ9NMu/r0r+NXcq/0T6HVbVrP3UqrgiFeKqk5VaI=;
+ b=Zxla4t30+zhUMMMvJYbLUv1l7zVGAhqXmVSvu/DisdHMlntzGztn8LLCRKw73fZdgK
+ GL+VMG6R0beYaG3nE7tziiF4otd0tFNk99XNtcwWnhAA7X9aLfie+KGzXu0WPxFy10pn
+ yJpaY4W+kMPcKHk8tC9KsTPy2NQYsRjVsC7Nc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736863626; x=1737468426;
+ d=1e100.net; s=20230601; t=1736863748; x=1737468548;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:mail-followup-to:message-id:subject:cc:to
  :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+7CRjcReh8NIdWRngt8DgdN3TjJdEKoOSckXLArb4m0=;
- b=Fem8E4ucxPX//mOQMJcoLNTKg0hGiX2bnC0aCUWie0fVgfbf/NSyo0Fi2H4zRFQO9m
- LVsiCWq0WF9/FBp7+YeX+LCTnOzi6S9zzHl2OUxy5N8DrWJ35HSyZu1bh0UGLjizhHuP
- ryHwoCT50FZLaBwD6NZYo/gd/8X0sNa2nbvx5WwesNuizSNVVFkI92atLICUEUh08jOW
- Q7IlkMfT6DPpcrSZrw4RMRJtMbFP222S+2ZgMEdFggAq4Zc7DhhUiZeC4tAllNCaRuyu
- 9JKIy4gDQGWvtZ+2r1dKTqujIHAohhGmGeMWg3uhL064DcKIKchnN93jjtIbZBq34unX
- n84Q==
+ bh=7vDqJ9NMu/r0r+NXcq/0T6HVbVrP3UqrgiFeKqk5VaI=;
+ b=ZkrExFPqx/PdD1L2RSPvfxLebI5dYqAjnaveuy2WDCUnYKlt2n4jZ0cskMSIA0Xnw3
+ N7R340bACbsqgg4KxvTDiFU+SoQuBDGc3zIhlM8umvq6QywbGl8xG28Z6I7Xzh4kXzEO
+ qCIX1xJ+AX2b4b6DK95zofrklCHL10rIRoZuX7BNLfFQTbud8BVCu4K4MwPCRBMejL03
+ VV+gE/f4ubPsRwTvETgFP3BYxAP78gj207V52UWqTWrwzhn6qkGecrQ1ZDZtmhdLVGmj
+ AOV91vl2CvWVGCJMRz0oZEnxsyMhkHuuU5RBEs7BrVx9ByvDClvtng+D9ZkXZXw3sF54
+ 3iZA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUiZciltZ4V2yRqP1Id0WR0FXepPpiTqivVRlRfc8soC2Ypkh9RwEiU/UHdFI29r+395HjiogqjzZo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRNsaIUBnixUvYB+s+zuobFRWNK+sFl990akt6UJG+25abVZL/
- yrY/mWKEHVzBd01MQ6P6GykVZImMx53Al+q0gtWwQejgrCCUsu3uAxIVT+rvb0Q=
-X-Gm-Gg: ASbGncs3JAlCSYCLZc6oV5pvgJtADTVtKELQYN/nvw6saSVxutKiJGfEtee9vPllb7d
- JvL4Ce96wwUtZokfCsosJ2FoppJQecPZiwBLuKEVvhM/c+pGm2jSxEDy2o3i2vAAd3z4IYsPaDD
- pQ0oBJB3XWf9vUia6RPbzxdNxHnld9fOlUy2hORCdomvysimWsUGBa07h1vTNN5/MRXGIk0bFe3
- vFRgGCnggvwucX6fosoYJGB/iBTeIAyOioJchnynd3OOG0blLl9DNvakhDgZJVPPF2z
-X-Google-Smtp-Source: AGHT+IFy4kGdVTmf+45q5y49aDuVrx6rKLXZKo5LSoO1aj/yPWs+40zEv7CJ+3yaQD3RTT0eIIKdwA==
-X-Received: by 2002:a05:6402:5251:b0:5d0:cd85:a0fe with SMTP id
- 4fb4d7f45d1cf-5d972e4ede8mr23253704a12.25.1736863625516; 
- Tue, 14 Jan 2025 06:07:05 -0800 (PST)
+ AJvYcCUO5DvRXLKzaBtKxJ4TAVf2GeZap6VzoPtTkHMIUydccEwR7hoyp6xZV7Iih59yats/Z18ZHVCbKGk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywgj/us5F7nOVgJsxkh8DNn0xCeeWOF0Ta2y2zclVullFlAvqYi
+ XvbEW5fUboJV6g4rCAeOEvZwnIw+ott1hpkuAp1uO7xQUE8xMECqN68R/iYdyyrhCLULsvUqA1+
+ B
+X-Gm-Gg: ASbGnctv4KkEk0bXUUJAPwsETqBEw6PSqXQTymUx8IDDBRERr+4pHm9GcYtjLnUH2bo
+ zIz0LWYAraGh424dOSehXEL8KTn/jNnmZe6CM/1SHN1IWgWRCRlDu9GEWFJJ9H31FuUBq16eEu3
+ EdQry5My2rKVxADEnr2cOdA3cAJrqVZTufTuIB7o3TggqJ7YSKibjtHZ4bGveIJtfX7ttEV6KGd
+ SvnFd4BU8DXGDXx/Xfs3xgKscAJAVAZgu5VNOC5b+QqO/zvj460WkqzhEpKxdeg9jlq
+X-Google-Smtp-Source: AGHT+IFLk8+QLtyvsPdgJCKcFVAgEkhOizvQd0U8Xtntf17guLhksPzufyyc87Y6/XMNeu1iKvgwOw==
+X-Received: by 2002:a05:6402:3506:b0:5d9:3118:d0b8 with SMTP id
+ 4fb4d7f45d1cf-5d98a27dc65mr18823920a12.8.1736863748073; 
+ Tue, 14 Jan 2025 06:09:08 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5d9903c3211sm6330002a12.38.2025.01.14.06.07.04
+ 4fb4d7f45d1cf-5d99046d7e3sm6053976a12.60.2025.01.14.06.09.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2025 06:07:05 -0800 (PST)
-Date: Tue, 14 Jan 2025 15:07:03 +0100
+ Tue, 14 Jan 2025 06:09:07 -0800 (PST)
+Date: Tue, 14 Jan 2025 15:09:04 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Lyude Paul <lyude@redhat.com>
 Cc: Daniel Almeida <daniel.almeida@collabora.com>,
@@ -74,9 +75,8 @@ Cc: Daniel Almeida <daniel.almeida@collabora.com>,
  Andreas Hindborg <a.hindborg@samsung.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  open list <linux-kernel@vger.kernel.org>
-Subject: Re: [WIP RFC v2 26/35] WIP: rust: drm/kms: Add
- RawPlaneState::atomic_helper_check()
-Message-ID: <Z4Zvh3u_5_Olb5Pl@phenom.ffwll.local>
+Subject: Re: [WIP RFC v2 28/35] rust: drm/kms: Add RawPlane::framebuffer()
+Message-ID: <Z4ZwALFW7JKceAbj@phenom.ffwll.local>
 Mail-Followup-To: Lyude Paul <lyude@redhat.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
@@ -93,14 +93,14 @@ Mail-Followup-To: Lyude Paul <lyude@redhat.com>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
  open list <linux-kernel@vger.kernel.org>
 References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-27-lyude@redhat.com>
- <7148C7F5-6412-44CB-B92A-4ABAE4A4D5C3@collabora.com>
- <697716119af55f806b24678343abb320261802c0.camel@redhat.com>
+ <20240930233257.1189730-29-lyude@redhat.com>
+ <ABEE04BD-5136-4F83-A46D-62595D1D3B9B@collabora.com>
+ <9610a92438629dc6976dc40cd54d4f8e907d23c1.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <697716119af55f806b24678343abb320261802c0.camel@redhat.com>
+In-Reply-To: <9610a92438629dc6976dc40cd54d4f8e907d23c1.camel@redhat.com>
 X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,97 +117,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2025 at 06:57:25PM -0500, Lyude Paul wrote:
-> On Thu, 2024-11-28 at 11:04 -0300, Daniel Almeida wrote:
+On Mon, Jan 13, 2025 at 07:03:48PM -0500, Lyude Paul wrote:
+> On Thu, 2024-11-28 at 11:29 -0300, Daniel Almeida wrote:
 > > Hi Lyude,
 > > 
 > > > On 30 Sep 2024, at 20:10, Lyude Paul <lyude@redhat.com> wrote:
 > > > 
-> > > Add a binding for drm_atomic_helper_check_plane_state(). Since we want to
-> > > make sure that the user is passing in the new state for a Crtc instead of
-> > > an old state, we explicitly ask for a reference to a BorrowedCrtcState.
-> > > 
-> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > 
-> > > ---
-> > > 
-> > > TODO:
-> > > * Add support for scaling options
+> > > Returns the Framebuffer currently assigned in an atomic plane state.
 > > 
-> > Can / should this be a separate commit? This would allow this one to go in earlier.
+> > A bit unrelated to this patch, but can you have more than one framebuffer active? 
 > 
-> It could be but I don't have any implementation of this yet, which is why it's
-> mentioned as a todo.
-> 
-> > 
-> > > 
-> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > ---
-> > > rust/kernel/drm/kms/plane.rs | 25 +++++++++++++++++++++++++
-> > > 1 file changed, 25 insertions(+)
-> > > 
-> > > diff --git a/rust/kernel/drm/kms/plane.rs b/rust/kernel/drm/kms/plane.rs
-> > > index 4d16d53179fca..cd5167e6441f1 100644
-> > > --- a/rust/kernel/drm/kms/plane.rs
-> > > +++ b/rust/kernel/drm/kms/plane.rs
-> > > @@ -496,6 +496,31 @@ fn crtc<'a, 'b: 'a>(&'a self) -> Option<&'b OpaqueCrtc<<Self::Plane as ModeObjec
-> > >         // SAFETY: This cast is guaranteed safe by `OpaqueCrtc`s invariants.
-> > >         NonNull::new(self.as_raw().crtc).map(|c| unsafe { OpaqueCrtc::from_raw(c.as_ptr()) })
-> > >     }
-> > > +
-> > > +    /// Run the atomic check helper for this plane and the given CRTC state
-> > > +    fn atomic_helper_check<S>(
-> > > +        &mut self,
-> > > +        crtc_state: &BorrowedCrtcState<'_, S>,
-> > > +        can_position: bool,
-> > > +        can_update_disabled: bool
-> > > +    ) -> Result
-> > 
-> > Some docs on the arguments would be nice IMHO. Things like `can_position` and `can_update_disabled`
-> > seem a bit opaque.
-> > 
-> 
-> I'm curious if you have any idea whether we can link back to kernel docs in
-> rust? We have pretty extensive documentation written up on almost all of this
-> already, I just have no idea how to incorporate it on the rust side.
-> 
-> > > +    where
-> > > +        S: FromRawCrtcState,
-> > > +        S::Crtc: AsRawCrtc<Driver = <Self::Plane as ModeObject>::Driver>
-> > > +    {
-> > > +        // SAFETY: We're passing the mutable reference from `self.as_raw_mut()` directly to DRM,
-> > > +        // which is safe.
-> > > +        to_result(unsafe {
-> > > +            bindings::drm_atomic_helper_check_plane_state(
-> > > +                self.as_raw_mut(),
-> > > +                crtc_state.as_raw(),
-> > > +                bindings::DRM_PLANE_NO_SCALING as _, // TODO: add parameters for scaling
-> > > +                bindings::DRM_PLANE_NO_SCALING as _,
-> > 
-> > No scaling means that you can only select the display’s highest resolution?
-> 
-> No, I believe (correct me if I'm wrong here chat) that this is about plane
-> scaling rather than resolution. A lot of display hardware has the ability to
-> do hardware-scaling of individual display planes, so that the input
-> framebuffer for a plane can be larger than the actual display plane that's on-
-> screen.
+> Not on a single display plane, but you can have multiple display planes active
+> on the same CRTC that each have their own framebuffer. Also, some framebuffers
+> can have more than a single buffer object attached to them (for stuff like
+> stereoscopic displays).
 
-Yeah that's correct. I think for all these it'd be really good if we can
-tightly link the rust and C side docs, because we're already struggling to
-exactly define the semantics of these on the C side in just one place. It
-gets even more fun for those properties/settings that are also exposed as
-part of the uapi to userspace.
-
-On the C side I'm just using excessive amounts of kerneldoc links to
-hopefully tie it all together enough.
+You can also have multiple planes scanning out the same framebuffer (but
+not necessarily the same part of it if the src rectangle is different).
 -Sima
 
+
 > 
 > > 
-> > > +                can_position,
-> > > +                can_update_disabled
-> > > +            )
-> > > +        })
+> > i.e.: for things like overlays, etc
+> 
+> JFYI an overlay is basically just a type of display plane, but has limitations
+> a universal display plane doesn't have. You see it mostly on older hardware,
+> where I think the common usecase was to do video decoding and isolate it to a
+> single display plane to lower the resource usage of actually compositing the
+> resulting video onto the display.
+> 
+> > 
+> > > 
+> > > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > > ---
+> > > rust/kernel/drm/kms/plane.rs | 8 ++++++++
+> > > 1 file changed, 8 insertions(+)
+> > > 
+> > > diff --git a/rust/kernel/drm/kms/plane.rs b/rust/kernel/drm/kms/plane.rs
+> > > index cd5167e6441f1..15efa53fda8d3 100644
+> > > --- a/rust/kernel/drm/kms/plane.rs
+> > > +++ b/rust/kernel/drm/kms/plane.rs
+> > > @@ -31,6 +31,7 @@
+> > >     StaticModeObject,
+> > >     atomic::*,
+> > >     crtc::*,
+> > > +    framebuffer::*,
+> > > };
+> > > 
+> > > /// The main trait for implementing the [`struct drm_plane`] API for [`Plane`]
+> > > @@ -521,6 +522,13 @@ fn atomic_helper_check<S>(
+> > >             )
+> > >         })
+> > >     }
+> > > +
+> > > +    /// Return the framebuffer currently set for this plane state
+> > > +    #[inline]
+> > > +    fn framebuffer(&self) -> Option<&Framebuffer<<Self::Plane as ModeObject>::Driver>> {
+> > > +        // SAFETY: The layout of Framebuffer<T> is identical to `fb`
+> > > +        unsafe { self.as_raw().fb.as_ref().map(|fb| Framebuffer::from_raw(fb)) }
 > > > +    }
 > > > }
 > > > impl<T: AsRawPlaneState + ?Sized> RawPlaneState for T {}
@@ -215,8 +183,9 @@ hopefully tie it all together enough.
 > > > -- 
 > > > 2.46.1
 > > > 
+> > > 
 > > 
-> > Barring the comment above about the docs, this looks good.
+> > LGTM
 > > 
 > > — Daniel
 > > 
