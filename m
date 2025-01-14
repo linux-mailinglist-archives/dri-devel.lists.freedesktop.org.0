@@ -2,52 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D40CCA11290
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 21:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB8CA112E0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 22:18:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46FED10E483;
-	Tue, 14 Jan 2025 20:55:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC3D110E118;
+	Tue, 14 Jan 2025 21:18:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cveDJWLQ";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="eM/3aYWX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB8D10E13A
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 20:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wfl7K50NBRSqc1aRNuzQJ654C0aYXe2/QFZLOkWQTr8=; b=cveDJWLQRU8moDd0/u8T8Va57Q
- U9m78XTnYhZLUAETxK4gFGAWZLLtU7s4JeO2De1xuibOaQAl8SeovOtfENnUWdQGGM1PVyYMa8qkp
- l8B3iG2FdiqQqvKJz59QlhsVJeMWmuMmyXoBgf3NKY154HbjtRdar1t4wTPqBi+h1YALJtGdUXpch
- fdvVGvQQEN3K4807oWHx5CUkPJr1GS7NygrzNYHM8BnISERqZ6DHb5oUh3D+9axTlrqOBC+OM5EC4
- 7on/dkSSLiKemZWiBe7qARSa+fNCI0SuCSLItjVB8S0x4nfZvIUxXTc2F9VkJaaiPEcBUISFDNQNx
- X5fGDUIQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tXnwy-00FoCc-K0; Tue, 14 Jan 2025 21:55:48 +0100
-Message-ID: <6bab08e0-4d2a-48b5-93fd-e31bedeb0dbe@igalia.com>
-Date: Tue, 14 Jan 2025 17:55:44 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8C5310E13D;
+ Tue, 14 Jan 2025 21:18:31 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EGjpcu016814;
+ Tue, 14 Jan 2025 21:18:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ nIuGKSKEAxJad4LjtkKOVKWikVz4Y92Oo5z5SWrdCrk=; b=eM/3aYWXoVzrj3Hx
+ gaw2Qf6KkjtTgbds33DdRboU7UjzX+FClnviQmqlF87S060V9Qu4XSdsVRvEduQl
+ ckWub3zVA+jYOjfRBbYw4MO/KhlvNuVIjOrrFXQ1fp++B2DyJP53oC3ThI3l26lh
+ 8hJdxoQxgA2iBSjTZAoBRurfECsUjgMpcr2I5mUu1tGYiiL5IfbH+Y5TCxFPJ51C
+ UGGcTtyBKYxG2liSh6vvBTsT5DKeoyPRJPpzccb6gnTykbmHhsfFGjAvkGWEllj+
+ cHMSyt0zIne/1t7KW/FkIfmjDgQTvlbuqasupSC5M9spoJE282yD/NQdCymxzCIO
+ A6oCfA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445uqu0m4y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jan 2025 21:18:28 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50ELIRLB016847
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 14 Jan 2025 21:18:27 GMT
+Received: from [10.71.108.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 Jan
+ 2025 13:18:27 -0800
+Message-ID: <8e6b6940-d155-4ab7-bdd6-a67e9506218a@quicinc.com>
+Date: Tue, 14 Jan 2025 13:18:26 -0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/v3d: Ensure job pointer is set to NULL after job
- completion
-To: Chema Casanova <jmcasanova@igalia.com>, Melissa Wen <mwen@igalia.com>,
- Iago Toral <itoral@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250113154741.67520-1-mcanal@igalia.com>
- <3fc574d2-00d5-4c22-933c-8db7ed201465@igalia.com>
+Subject: Re: [PATCH v4 7/9] drm/msm/dpu: handle perf mode in
+ _dpu_core_perf_crtc_update_bus()
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
+ Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>
+References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
+ <20250106-dpu-perf-rework-v4-7-00b248349476@linaro.org>
+ <459422c9-c272-4389-9b05-487a0148a082@quicinc.com>
+ <ab4wkauem3xb65wh3h22bcyzlpx26rrmsicrdlewomn55ykpqi@tggrsmb6qcmf>
 Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <3fc574d2-00d5-4c22-933c-8db7ed201465@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <ab4wkauem3xb65wh3h22bcyzlpx26rrmsicrdlewomn55ykpqi@tggrsmb6qcmf>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 1Lc9HkmqJyGmjYrsBqfgi860fpiETWf1
+X-Proofpoint-ORIG-GUID: 1Lc9HkmqJyGmjYrsBqfgi860fpiETWf1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-14_07,2025-01-13_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 spamscore=0 clxscore=1015
+ phishscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501140160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,81 +97,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chema,
 
-Thanks for the review!
 
-On 13/01/25 16:26, Chema Casanova wrote:
-> El 13/1/25 a las 16:47, Maíra Canal escribió:
->> After a job completes, the corresponding pointer in the device must
->> be set to NULL. Failing to do so triggers a warning when unloading
->> the driver, as it appears the job is still active. To prevent this,
->> assign the job pointer to NULL after completing the job and signaling
->> the fence, indicating the job has finished.
+On 1/14/2025 3:10 AM, Dmitry Baryshkov wrote:
+> On Mon, Jan 13, 2025 at 07:38:16PM -0800, Abhinav Kumar wrote:
 >>
->> Fixes: 14d1d1908696 ("drm/v3d: Remove the bad signaled() implementation")
-> 
-> Just a question, should we add next commit to the Fixes tag:
-> 
-> Fixes: 79d94360d50f ("drm/v3d: wait for all jobs to finish before 
-> unregistering")
-
-I believe it is better to have the older reference, as it will ease the
-backport to kernels older than 79d94360d50f.
-
-I just applied the patch to misc/kernel.git (drm-misc-fixes).
-
-Best Regards,
-- Maíra
-
-> 
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   drivers/gpu/drm/v3d/v3d_irq.c | 4 ++++
->>   1 file changed, 4 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/ 
->> v3d_irq.c
->> index 20bf33702c3c..da203045df9b 100644
->> --- a/drivers/gpu/drm/v3d/v3d_irq.c
->> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
->> @@ -108,6 +108,7 @@ v3d_irq(int irq, void *arg)
->>           v3d_job_update_stats(&v3d->bin_job->base, V3D_BIN);
->>           trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
->>           dma_fence_signal(&fence->base);
->> +        v3d->bin_job = NULL;
->>           status = IRQ_HANDLED;
->>       }
->> @@ -118,6 +119,7 @@ v3d_irq(int irq, void *arg)
->>           v3d_job_update_stats(&v3d->render_job->base, V3D_RENDER);
->>           trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
->>           dma_fence_signal(&fence->base);
->> +        v3d->render_job = NULL;
->>           status = IRQ_HANDLED;
->>       }
->> @@ -128,6 +130,7 @@ v3d_irq(int irq, void *arg)
->>           v3d_job_update_stats(&v3d->csd_job->base, V3D_CSD);
->>           trace_v3d_csd_irq(&v3d->drm, fence->seqno);
->>           dma_fence_signal(&fence->base);
->> +        v3d->csd_job = NULL;
->>           status = IRQ_HANDLED;
->>       }
->> @@ -165,6 +168,7 @@ v3d_hub_irq(int irq, void *arg)
->>           v3d_job_update_stats(&v3d->tfu_job->base, V3D_TFU);
->>           trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
->>           dma_fence_signal(&fence->base);
->> +        v3d->tfu_job = NULL;
->>           status = IRQ_HANDLED;
->>       }
+>> On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
+>>> Move perf mode handling for the bandwidth to
+>>> _dpu_core_perf_crtc_update_bus() rather than overriding per-CRTC data
+>>> and then aggregating known values.
+>>>
+>>> Note, this changes the fix_core_ab_vote. Previously it would be
+>>> multiplied per the CRTC number, now it will be used directly for
+>>> interconnect voting. This better reflects user requirements in the case
+>>> of different resolutions being set on different CRTCs: instead of using
+>>> the same bandwidth for each CRTC (which is incorrect) user can now
+>>> calculate overall bandwidth required by all outputs and use that value.
+>>>
+>>
+>> There are two things this change is doing:
+>>
+>> 1) Dropping the core_clk_rate setting because its already handled inside
+>> _dpu_core_perf_get_core_clk_rate() and hence dpu_core_perf_crtc_update()
+>> will still work.
+>>
+>> and
+>>
+>> 2) Then this part of moving the ab/ib setting to
+>> _dpu_core_perf_crtc_update_bus().
+>>
+>> Can we split this into two changes so that its clear that dropping
+>> core_clk_rate setting in this change will not cause an issue.
 > 
-> With or without my previous comment this is:
-> 
-> Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
-> 
-> Thanks for fixing this so fast.
-> 
-> Regards,
-> 
-> Chema
+> Ack
 > 
 
+Actually I think this is incorrect.
+
+If the user puts in an incorrect value beyond the bounds, earlier the 
+code will reject that by failing the in _dpu_core_perf_calc_crtc().
+
+Now, if we move it to _dpu_core_perf_crtc_update_bus(), this is beyond 
+the check phase so incorrect values cannot be rejected.
+
+So we will still need to preserve overriding the values in 
+_dpu_core_perf_calc_crtc().
+
+>>
+>>
+>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>> ---
+>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 40 +++++++++++++--------------
+>>>    1 file changed, 19 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>>> index 70f43e8359caee2082f2ca9944a17a6a20aa3d49..7ff3405c6867556a8dc776783b91f1da6c86ef3f 100644
+>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+>>> @@ -118,22 +118,9 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
+>>>    		return;
+>>>    	}
+>>> -	memset(perf, 0, sizeof(struct dpu_core_perf_params));
+>>> -
+>>> -	if (core_perf->perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
+>>> -		perf->bw_ctl = 0;
+>>> -		perf->max_per_pipe_ib = 0;
+>>> -		perf->core_clk_rate = 0;
+>>> -	} else if (core_perf->perf_tune.mode == DPU_PERF_MODE_FIXED) {
+>>> -		perf->bw_ctl = core_perf->fix_core_ab_vote * 1000ULL;
+>>> -		perf->max_per_pipe_ib = core_perf->fix_core_ib_vote;
+>>> -		perf->core_clk_rate = core_perf->fix_core_clk_rate;
+>>> -	} else {
+>>> -		perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+>>> -		perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+>>> -		perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+>>> -	}
+>>> -
+>>> +	perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+>>> +	perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+>>> +	perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+>>>    	DRM_DEBUG_ATOMIC(
+>>>    		"crtc=%d clk_rate=%llu core_ib=%u core_ab=%u\n",
+>>>    			crtc->base.id, perf->core_clk_rate,
+>>> @@ -222,18 +209,29 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+>>>    {
+>>>    	struct dpu_core_perf_params perf = { 0 };
+>>>    	int i, ret = 0;
+>>> -	u64 avg_bw;
+>>> +	u32 avg_bw;
+>>> +	u32 peak_bw;
+>>>    	if (!kms->num_paths)
+>>>    		return 0;
+>>> -	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+>>> +	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
+>>> +		avg_bw = 0;
+>>> +		peak_bw = 0;
+>>> +	} else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED) {
+>>> +		avg_bw = kms->perf.fix_core_ab_vote;
+>>> +		peak_bw = kms->perf.fix_core_ib_vote;
+>>> +	} else {
+>>> +		dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+>>> +
+>>> +		avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
+>>> +		peak_bw = perf.max_per_pipe_ib;
+>>> +	}
+>>> -	avg_bw = perf.bw_ctl;
+>>> -	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+>>> +	avg_bw /= kms->num_paths;
+>>>    	for (i = 0; i < kms->num_paths; i++)
+>>> -		icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
+>>> +		icc_set_bw(kms->path[i], avg_bw, peak_bw);
+>>>    	return ret;
+>>>    }
+>>>
+> 
