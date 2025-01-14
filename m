@@ -2,113 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A974EA10B08
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 16:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 535E8A10B15
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 16:39:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE2D10E087;
-	Tue, 14 Jan 2025 15:38:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32CD10E3AF;
+	Tue, 14 Jan 2025 15:39:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="eRvVhma+";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="FA78eag5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8AF10E087
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 15:38:50 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-a9e44654ae3so906730466b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 07:38:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1736869129; x=1737473929; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ODMaixCykybFpyXfXOh5SU/u+pXNOEmZVe97XLIWj0s=;
- b=eRvVhma+MK7MUzrXd+5gFVOf6/Xz2AnsNUHo6L2YkCl5TIfgsLd7XzDKrhnCuuUwRV
- DhNe9+zcVX6uUnCXONqQUzZLQ1yk25a5q5S0gEltc78T1G9dNMcyY9YqS6KEKB6KyIux
- 2Fm5mQwSa2/hxLiWaT6m37CjXHEGV4uk7Hqds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736869129; x=1737473929;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ODMaixCykybFpyXfXOh5SU/u+pXNOEmZVe97XLIWj0s=;
- b=wS9zecPLogN2VUtLj1IRAbap2Csvxp/qCK4WxFhVRfEq/VysHJPJnqgsIJiN4Eg8Mj
- GAbpsxtpIAdtfpbtY9lWOuEAfMg/apA83UZ1H93liHLp3IxrFm2eDUcnzzBZwJ0udm8Y
- txT0/YnwdTFbr4rFZQiisOIir+Qpk6xImxNcFdqB/9jQ/bNrEdWJSjnMBhLRs3zo03UX
- GxZNZ6na7bdmmD6irLcRhMe5OZ/I0+2JSQ2R0Aa2nmTBHtNLGh3Xs4LdYbwU+oLkAbqb
- 2xyWN4hYy/BQFlf+H45RrEvXZOAJkU/vHWgq9THsb3/Fd2PMEQx9l626J1ZOCdTyLf+3
- gcGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZX7ldBOrTRKErBNZVW+Xoahc9TuwD6akbt4cL8+g2zg5WGvPUSu66rjvp5tpQgyyurjid8MrETYI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz1BdNprhwWodXwTsprVZRJGzWYCsvRxaTUQVH9OjQQGOPf/EAk
- Vbo6L6FZZ3WEqrda8CFc4V4gXYhY5Eufr09CtqF+SGj+A0LXhklZhTr65tmB+yU=
-X-Gm-Gg: ASbGnctIrc83f9x/cVF2aUPWQeKr304VV+bzbFdUU34l8bbVd32TiV+nSr5yH3kLPpQ
- gRM4pumULTFordnr77r6aZLzBOZfvFqGf0l+Cp7AAUIPQcIQIQzPsy+EAD89peIC/N+8FodmuMA
- EdHFMuYv9DvT1hMsoaswSPWKiEIKPNZILXzwHFHpRgXeMSF0yzgeJtUkkG4pznGclMsJ7ZrQ1k/
- Gm5lCPzBtHV3h4Am6e8SaiCryvEdj/N5GC3v+6jpVX9lE5w00ofbvMuQlMt3ZI3CtI5
-X-Google-Smtp-Source: AGHT+IFKC0qtMfswjkUHdUbLXJ8Fzz/7FK60lz5r/sV1+p/qljFpLildKmIql5dlVsd79+eSBlA+SA==
-X-Received: by 2002:a17:907:3e9f:b0:aae:bd4c:22c0 with SMTP id
- a640c23a62f3a-ab2ab70aeccmr2271121566b.19.1736869129214; 
- Tue, 14 Jan 2025 07:38:49 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ab2c905cd8asm641773166b.7.2025.01.14.07.38.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2025 07:38:48 -0800 (PST)
-Date: Tue, 14 Jan 2025 16:38:46 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Lyude Paul <lyude@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com,
- cjia@nvidia.com, jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@redhat.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [WIP RFC v2 33/35] WIP: rust: drm/kms: Add VblankSupport
-Message-ID: <Z4aFBhzyBrq48aib@phenom.ffwll.local>
-Mail-Followup-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Lyude Paul <lyude@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com,
- cjia@nvidia.com, jhubbard@nvidia.com,
- Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@redhat.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-34-lyude@redhat.com>
- <FD0FB134-5FFD-419A-9B66-85ED2EB6554A@collabora.com>
- <d35e7f02b1d123fad8d4aefa494d0e83424c6e96.camel@redhat.com>
- <Z4ZzkBDCryk-NKPg@phenom.ffwll.local>
- <CANiq72=M3=0rcTfQS9Gch8NeNyrpXb91t-z-gDBSDO8V-Bh5gQ@mail.gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F0F10E3AF
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 15:39:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1736869171; x=1737473971; i=friedrich.vock@gmx.de;
+ bh=1wKjG+3sQeQ4jISNLomfGkq1QxEvNFSzRfxfd3bvLwU=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+ MIME-Version:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=FA78eag52dOOlcuQuC3JTB09KIhjB1bIhaMaKkMX+fmtV8RC5ZxLg+buKua6QyR7
+ NLGuKCdWqf8p7RmGL9sVKB7HBAMvrPmwDnzMchQPkYCB7+65qsjeExYXmShffcNB4
+ b8Rz08F512bpwut73cxSO3VH6x5ell2gcDpCyMvzHelBEWkLbpLaURoTGO/X7HmJP
+ 7ksJG8pgoG5OBt2dFlo550aIh4qecZLU7jcMpaOrAxK4NVQzV0K/1cki9hvVZZ8aV
+ no1LKDYTRwtNOo80qhWPQYruUoWUR6vx/vMwXRLl0X3tdvp+3QHqguPKTaTWdZX9Y
+ /ZDIIegGYAGj7NHVJw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost.localdomain ([109.91.201.165]) by mail.gmx.net
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1Mjj87-1t99tQ1r7j-00m0Lw; Tue, 14 Jan 2025 16:39:31 +0100
+From: Friedrich Vock <friedrich.vock@gmx.de>
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
+Cc: Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>,
+ dri-devel@lists.freedesktop.org, cgroups@vger.kernel.org
+Subject: [PATCH] cgroup/dmem: Don't clobber pool in
+ dmem_cgroup_calculate_protection
+Date: Tue, 14 Jan 2025 16:39:12 +0100
+Message-ID: <20250114153912.278909-1-friedrich.vock@gmx.de>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=M3=0rcTfQS9Gch8NeNyrpXb91t-z-gDBSDO8V-Bh5gQ@mail.gmail.com>
-X-Operating-System: Linux phenom 6.12.3-amd64 
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:9eNm08SBRIT30oeEmduXTjEw8ODPxSpix++4CFBr3M2+LUkQCCg
+ dAljsqzeS/+y2gGp2T1lzYCcqh8ZIHSSi748O5Mlsr5PM/qdXqKutrNaDK+nJ89x3LBZDwH
+ JZso78K0dGLQqItjjrIWLzbES/lzXFjsx9Vj5JvwmhPGdaN9ovocwTEBPTpUqrh6gkGRnkF
+ kW5A7X+xel91defoZGpxA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:5q0PkIyEVDY=;bwP5siTbyqtBDN/Qt3OVsVqlagv
+ 2+X010RJvu7CaC82FRDNU9TfyTtJFiXaEhEmTQHId8d6AOonC4FNEmhPr5VhG/85veDfBmcdU
+ AHH6HBC996qQ0xEOQozB66pJf0kTat7BSD4UgM8op5+7b6vmWliZTvBXmvU+MOJaWLUC+S3el
+ yAzMzpfxbD+evCyf9bbJ4OVdhNOjeTqaKHe8Wsfxhykj/9jTO4r2cPBU9F1H05pxS/GAkI5SK
+ 7coQyEouHlFr4uftFcNnPpR6gxO4MqJBCWk75AwfkF/3HvkG915EtUtBFychU8lqPFItPhOQY
+ IVDXAif1CtaZ9zqWRdbpeveFhT3bZX1j7MH8RG14ze4WoPOSdtEOCl9jjlzQoi6YORvDW+8GA
+ s/K/WnntiPCfJ97yvFhNQqu9JnER7Rp2sdAH1sTYHR1Ezyln3U8V2XpGHHi77rackDYf+qJhf
+ jvEhiU9333/PnUaHX7Ik+he+Z+VbtpQxPrajAWq0QLFYlVmPiFkyyNqElRXLhj5oJOV3OVi1f
+ RgknNNMddzn4yjWJKaAwCrq++fZByhfbuhscb5Yf0UyPC50TFq5JDjJEeHq0rnzwG3/sQ7G2A
+ YqjLTYVaLdJtw4nynVKKT/QB+YPPzuqEL4hou24M3v5d0UL+BHDEjniSnW9sXqYUxj0gzAiXs
+ QrZV+1745JfowGvPpWR1uWzD6BHrPyVcCyeOVrd4pYjOTOFzPry9WlV5r6QzDLu/HI1rd+Z8z
+ xZk7xLfn+5rwgfOjnN/OxT67xBY5b0oUiMgw6xmtDHTk8CpCqiY9hDLt6oIkWZ/OMEyz87CzM
+ mZoI63GgjfyAM4dHMoOc5so5748wNGTmaEyeqpaUT4FBv1Shin6enHpvt+rSi2e7VFiFrizwq
+ +fe0mJ5DjGtbFofq5L127hZP46BkhyYtZN5FG19QRguH+FS8qYSgUCScTayDZsj7gUGRkNyc/
+ S2kyIJEmI540dKuK/iWT6c4mK2LJ8y0xjQP4lWfCxEL2Ei7uE65GFQlRNgSk2ODUZjP3OCh62
+ /ql9dEJDMnP7OpcsyeXRiM6n04OGNgDR/eCa97FC6/VbCGYZKLnB5HPCPhFW976HylOHHKld0
+ P9UKRiERuZAGOn8GJOI1JpOhZZO9OyrpafQMUCqDGZTWBn2E0QUaf32S1kjs1+4KsqC+IcWkO
+ My+mFL/ZcjT3lgvryCc/GvEMY6uAJ/luWn/jvdfwTLA==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,58 +83,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2025 at 04:04:41PM +0100, Miguel Ojeda wrote:
-> On Tue, Jan 14, 2025 at 3:24 PM Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> >
-> > Feels like trying to replicate docs in rust might be dangerous, because if
-> > we have to keep really detailed and nuanced docs around in two places we
-> > will fail.
-> >
-> > Imo would be better to just explain how this maps to the C side and link
-> > to that for full docs? Or somehow include that, but then all the
-> > hyperlinks need to work from the C side kerneldoc or it's again
-> > incomplete.
-> 
-> Yeah, if things would be duplicated (in a way that does not add much
-> value, e.g. things that do not require linking to many Rust-side
-> things or does not use the examples KUnit support etc.), then I would
-> say it is best to do it in a single place.
-> 
-> To do that, we already support the `srctree/` links that can point to
-> files (and in rust.docs.kernel.org get rendered to git.kernel.org). To
-> point to rendered docs instead of files, for the time being the best
-> so far is to link to docs.kernel.org directly.
-> 
-> Then, what I proposed to upstream Rust is to have a feature that would
-> give us a way to have a bibliography/map of links that could be used
-> similarly to the existing intradoc-links in Rust docs. That way,
-> projects could write something like [`struct my_struct`] and you would
-> automatically get a link to the suitable URL to the C item, or
-> something like [`ref:interleaved_replies`] to get a link to the
-> Documentation/ rST reference and so on. It would also help to have
-> common links without having to repeat them everywhere. With that in
-> place, we could replace the docs.kernel.org links (though that
-> requires rendering the docs, and we heard from at least someone that
-> didn't want that at all...).
+If the current css doesn't contain any pool that is a descendant of
+the "pool" (i.e. when found_descendant =3D=3D false), then "pool" will
+point to some unrelated pool. If the current css has a child, we'll
+overwrite parent_pool with this unrelated pool on the next iteration.
 
-Yeah I think something like [`struct my_struct`] in the rust doc to link
-to the C side would be best. Dropping full url is kinda nasty, because it
-also makes navigating the source code itself harder. And I fairly often
-read the kerneldoc in the sources itself, not the rendered form. But
-that's maybe more a developer/maintainer use-case, since generally when I
-read docs it's to make sure they still match the code, so best when that's
-all close together.
+Fix this by overwriting "pool" only if it actually is a descendant of
+parent_pool, and setting it to NULL otherwise. Also, skip traversing
+subtrees if pool =3D=3D NULL to avoid overwriting parent_pool (and because
+it's pointless).
 
-> Then we can also work on the other direction somehow, e.g. sharing a
-> way to render docs properly for both C and Rust. I would like to work
-> on some of that after the build system stuff.
+Fixes: b168ed458 ("kernel/cgroup: Add "dmem" memory accounting cgroup")
+Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
+=2D--
+ kernel/cgroup/dmem.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-Hm I guess the other direction might apply for when we implement helpers
-in rust that C drivers are expected to use, like the qr code generator we
-now have. I think at least medium term most of our referencing needs will
-go from rustdoc to kerneldoc though, and not the other direction.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
+index 52736ef0ccf25..10d37df5d50f6 100644
+=2D-- a/kernel/cgroup/dmem.c
++++ b/kernel/cgroup/dmem.c
+@@ -222,8 +222,7 @@ dmem_cgroup_calculate_protection(struct dmem_cgroup_po=
+ol_state *limit_pool,
+ 	struct page_counter *climit;
+ 	struct cgroup_subsys_state *css, *next_css;
+ 	struct dmemcg_state *dmemcg_iter;
+-	struct dmem_cgroup_pool_state *pool, *parent_pool;
+-	bool found_descendant;
++	struct dmem_cgroup_pool_state *pool, *candidate_pool, *parent_pool;
+
+ 	climit =3D &limit_pool->cnt;
+
+@@ -241,7 +240,13 @@ dmem_cgroup_calculate_protection(struct dmem_cgroup_p=
+ool_state *limit_pool,
+ 	 */
+ 	while (pool !=3D test_pool) {
+ 		next_css =3D css_next_child(NULL, css);
+-		if (next_css) {
++		/*
++		 * pool is NULL when the current css does not contain a
++		 * pool of the type we're interested in. In that case, it's
++		 * impossible that any child css contains a relevant pool, so
++		 * skip the subtree entirely and move on to the next sibling.
++		 */
++		if (next_css && pool) {
+ 			parent_pool =3D pool;
+ 		} else {
+ 			while (css !=3D &limit_pool->cs->css) {
+@@ -260,16 +265,16 @@ dmem_cgroup_calculate_protection(struct dmem_cgroup_=
+pool_state *limit_pool,
+ 		}
+ 		css =3D next_css;
+
+-		found_descendant =3D false;
+ 		dmemcg_iter =3D container_of(css, struct dmemcg_state, css);
+
+-		list_for_each_entry_rcu(pool, &dmemcg_iter->pools, css_node) {
+-			if (pool_parent(pool) =3D=3D parent_pool) {
+-				found_descendant =3D true;
++		pool =3D NULL;
++		list_for_each_entry_rcu(candidate_pool, &dmemcg_iter->pools, css_node) =
+{
++			if (pool_parent(candidate_pool) =3D=3D parent_pool) {
++				pool =3D candidate_pool;
+ 				break;
+ 			}
+ 		}
+-		if (!found_descendant)
++		if (!pool)
+ 			continue;
+
+ 		page_counter_calculate_protection(
+=2D-
+2.48.0
+
