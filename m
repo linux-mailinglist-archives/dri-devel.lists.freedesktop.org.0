@@ -2,152 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7CAA10DCB
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0F9A10DD5
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:32:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA56D10E408;
-	Tue, 14 Jan 2025 17:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F6110E40D;
+	Tue, 14 Jan 2025 17:32:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="rdLuGh0Q";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="GNrp05jh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2046.outbound.protection.outlook.com [40.107.212.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A31A310E408
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:31:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HQcVfjDiauhuDDCxXCsk2lpGIK4n8/QASQHVKjdfE5VgMC8sjsKAg3EGlmGDjLeBip2Lsc06hkcG2U8iS7sh0BTUcvxYXIJwBhmT9lTnSRNi0c7PA+ZhPad6ieRBYYFt3YHzENqDlWVcv6w03KbZGe8WcY4GBm4P/+UQg6Dfubg+YXYoOQtJ3r3CXt7Gozp3A14rB8IQeErGX/DRGDEUu9jWyt15qFq4eAUkCrUcZynRkGorBGwJ6ihj381XqFb7Nm3BEwhAcgtcugp8sW1bZrTsYm2Y9zSGCTA1tFwDJknzJxGs2KIMzUrwiOjRjW0uoHzExjpyiGO60XVnyCiO6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wwPXVop7yZOoYa/6nTb1Si4es1VE81yC65xUpTFdGqw=;
- b=OzMt36SqMqtZ56mPzWYOIXrKBeBICCl+EE9dkx+780jDlmQ9GyRNivargJUzUXOL71G0bGbCL5pcC8VioCShgg2fp64lIdhD6+IYhDlju6ChBD8TIuaFXBk3DU9BVLUxterPlkx6Y/SuRg2KINDFOursVKWiLMninGFDSay3aK6F+PyIACksx7k333ErtfN8RYWfSUAMYqnLnZJcgdO/Qbl6poUEWh4l0D7oBfcEOb9Vspl5OTrwDViXnO8JvJosq5jBEJtCleGzrEhq1Unsd92TrZgKqEm25wFw+/2fdwMORTn/lb3hYPwhwCZu+o47ZsoaxLU5YQwok1sV+cnZyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wwPXVop7yZOoYa/6nTb1Si4es1VE81yC65xUpTFdGqw=;
- b=rdLuGh0QwUKNs/U391sKewNYTrHAoczH9ns3FKazfXUxze6aY6MteHhYMsPwmEI8NCfqqWhByYvaG3qSqF4H/JxbiQapjDd32w8Pe9tSDveavQQCc9ZRu7HUvM3G0k2BdeB3eNecTsfIoqbS70zpbS4iDVTB23utoWqqQ1WM79NTK0dgqXQUkgAsf6AAhZElLLvlvth5KdDjf2Jwo2edDdiDzrEIuzOtLIotBe3iIUJr6QM0ZkW/nq76XWAHeG4AezLoy9FjzrbM4nqYZai50b9peZRGJOoV+IzBe51V98eOqAoyfSzuUtNAiKuOoPbeu9HzPxalLbeN5zhga2pyrQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by BL3PR12MB6595.namprd12.prod.outlook.com (2603:10b6:208:38e::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
- 2025 17:31:04 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8335.017; Tue, 14 Jan 2025
- 17:31:04 +0000
-Date: Tue, 14 Jan 2025 13:31:03 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <20250114173103.GE5556@nvidia.com>
-References: <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com>
- <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
- <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
- <20250110203838.GL5556@nvidia.com>
- <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B46110E40D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:32:30 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-aaf0f1adef8so1216296066b.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 09:32:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1736875889; x=1737480689; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=l+t+O4kXNvzNulYskbcr1Hqf6WMft5z4Yng45ms/3No=;
+ b=GNrp05jhCquK3RYHno/vmkW46OB8d3BvW/NF3l0I16Q1U6HFQ2mjOZh+kmomn+PhZN
+ FnJhKzDvTRSZ9bWRvhslmWTISZIhjAJs8fPC0dBYY4SSwhJ1vJ7S1WogXDZvKUZfBWa+
+ YrsaCv6S79DjR11IQxYXsJJlz/Cwo6eOukgHA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736875889; x=1737480689;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=l+t+O4kXNvzNulYskbcr1Hqf6WMft5z4Yng45ms/3No=;
+ b=by2h+pCNayN3XRvuLZQIgIuwfuvKhVxzCmRSOtAO1Io/FHii0xjuF8yQkSV8WlsWTB
+ vxp4842AMS/Pc30dyCLdNWWosv58RvA7fovMPv2k1Zxkr36Fzq1dlDUpgvyfeadQU6KI
+ ZMjD582qpSkBBVah1mX0q0DCRktt0n165gokRZxhAkk1nIRBFkOkHSeV7EKc4FkoSyqB
+ EJrFX5NJe+Q9swLI98ZoHFOxiNaHG5YSq05ttdqTsWuEkioGnVokK5PSamQpNgrvjQgw
+ TdnVtBtP4L8BqnwtgHabMAuZ3v4Co1K/aY0lONcE0TBevd4fqQwjvL7mlLd6O++sfNJY
+ 2klA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDVCiMkjxdv5oDLisOm2rGXOA0XgJ3kR8rmY0iypku4mHCoGH6B0I1BEfx79affwPaCdhZFxinnD0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxMHhOcUUbt+3zonQAh+KzqtvcR9PrMDOZ3eMIJKTSjGAAQ5+00
+ Yg1jUwWZxVfcHayVNnMahkiZ+3Y2ZXwi4Px6citJZEzsD9QfOg7aaYMJgQQj7qI=
+X-Gm-Gg: ASbGncu86cpubx7PF/rlroUGs51/jM/IjVBPHWz1J7I8iznWAZ3MwqfaC31mY7rTocq
+ t49tKHV+KZCcxkGZKNxhrcDks5H3zLzxF3GUUVuzMSe/890KLCQQ0Xy3RDEM7b7EzG7o7Alpy4S
+ 8iiKm3TFUYtrKSRjp+hicm+oS9m1KBtE3RU2vppHvbIw++aucGE+8acsJ/RaQh+ckJcNPKLFsow
+ 1AW31baeWmhZNfWlwhbuc9q2r6GIFVZiEyFSTHF/K4mro3dP0vxZne9EIUWuQKp5f2g
+X-Google-Smtp-Source: AGHT+IEGoBDIAgYJBWrIFzFgdgMonC8p8M2XuZgFYsuIxX1JE2o2qpu4KNnmUX+avPDlgC6gqCFjhg==
+X-Received: by 2002:a17:907:6093:b0:ab3:47ca:2ece with SMTP id
+ a640c23a62f3a-ab347ca9c1cmr86818366b.8.1736875888913; 
+ Tue, 14 Jan 2025 09:31:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ab2c95b1d53sm649888466b.152.2025.01.14.09.31.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jan 2025 09:31:28 -0800 (PST)
+Date: Tue, 14 Jan 2025 18:31:26 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ stable@vger.kernel.org, ashutosh.dixit@intel.com,
+ dri-devel@lists.freedesktop.org
+Subject: Re: AAARRRGGGHHH!!!! (was Re: [PATCH 6.12.y] xe/oa: Fix query mode
+ of operation for OAR/OAC)
+Message-ID: <Z4afbuFN1uc3zhOt@phenom.ffwll.local>
+References: <20250110205341.199539-1-umesh.nerlige.ramappa@intel.com>
+ <2025011215-agreeing-bonfire-97ae@gregkh>
+ <CAPM=9txn1x5A7xt+9YQ+nvLaQ3ycekC1Oj4J2PUpWCJwyQEL9w@mail.gmail.com>
+ <CAPM=9twogjmTCc=UHBYkPPkrdHfm0PJ9VDoOg+X2jWZbdjVBww@mail.gmail.com>
+ <2025011247-spoilage-hamster-28b2@gregkh>
+ <CAPM=9tx1cFzhaZNz=gQOmP9Q0KEK5fMKZYSc-P0xA_f2sxoZ9w@mail.gmail.com>
+ <2025011352-fox-wrangle-4d3f@gregkh>
+ <CAPM=9tzkJ=dn2gq7GcvtN_C95ZzxwC7XMMXHBrwF6Ez6fYfU=g@mail.gmail.com>
+ <Z4Z8rQKR2QEaWNyI@phenom.ffwll.local> <Z4aIGvAmMld_uztJ@lappy>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
-X-ClientProxiedBy: MN0PR02CA0016.namprd02.prod.outlook.com
- (2603:10b6:208:530::14) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|BL3PR12MB6595:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9c4e0af-fe6a-405b-9044-08dd34c138d8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XNt4fLehHId82BQXADJXY5MO7x5KJx2kFPGK2TRPewYznR9+z1WdloyFufSw?=
- =?us-ascii?Q?2OwB2+t2ZLeOa5WrEEq++uPG8/ZjZvt0ieHp6gnxmkAa1FA7q1zxPg1QE1d8?=
- =?us-ascii?Q?cBQHVosv1fmmY9U0P6R/vVSl5sRkQOfDFBAOgbRUmBcv/oBfB2Z2SF+b8FQG?=
- =?us-ascii?Q?RqdIhKl+LPfDuU9aefWGYoH8pw+VqwdCynYnCN5dhRn/HluqcpHKbH8+ZVa+?=
- =?us-ascii?Q?M5ITPVe6BcfGqggFTEH4yfDoaAywkH9+0+2rzxgmzNdk18lequwApPxqiOy9?=
- =?us-ascii?Q?J+tCtdaiGggqLiJ+yDhbnMf95yl7XcaWVve8xXq9/mHixcPV6HMB4Tz7dB+p?=
- =?us-ascii?Q?WlRHKdtvLSvTrgVtBmvNaxIL5sKxp2TfaXYGQjWk6gWmNAsE92VAifpO5dwi?=
- =?us-ascii?Q?8sZM5dCsAsNUXqsA8ulEPRw0uzCkiJRg7nPNL2mWB7bw6XHpo754yWcB4JJZ?=
- =?us-ascii?Q?eYPtCmE+MBLJrbNezkUrMYzrZ8MK3kxiGqQ7+dFvhukH7wSwADBVqde2RSbr?=
- =?us-ascii?Q?JgF2lyo3Dbtl/bYz5eHP52thQHszjJ627zRd7dFdPrsauUj8Hbaydz/L/dq3?=
- =?us-ascii?Q?fXBFJgj7LMbpTbCbBj7x+xlz0uuJSXywFpMEes3E02x3H3SrrFJl1q0CKlP5?=
- =?us-ascii?Q?GSId/j1hRdZ30q2sM+GOTuGdlDPV+9SJdeuapDpyqq9Pe/wJ/nruUprayZFI?=
- =?us-ascii?Q?UaV2Gv8fkNA2SM9IPRdjv3pxPSiieRPpgIyPjfYvkjI35xOTgkHDCDgYPLIz?=
- =?us-ascii?Q?Y2DDOlaZNtFylVDzZ+YB15V1AuLOoi4lmzQ7mUHAjZ2l0DF0oake7+GrcmMs?=
- =?us-ascii?Q?pvDhFxdgEMOx/Td66yRNTyxLvgV8q+w2usGciMKaF2YGqzRqN10tldvZBi/K?=
- =?us-ascii?Q?kE7zuD35dbQt5qO/Ol2sQX6KrPT6itcO/ig8CWOFUY0OhAbEknOvMPQoWy2+?=
- =?us-ascii?Q?cZDn+2LB/rC2bgcAddUZ7RLDkWCVeSfe6OUU383THQPuF8KyRZCIlA3IMSEm?=
- =?us-ascii?Q?aJ3v2FHkASnoAOw4reXga5j/9COQSXRlEaKna+KagpqIwdQcDbrkR8/ujlVi?=
- =?us-ascii?Q?zOTclYdA3PK9z+jl30ExFKwLvH3YWrEFZZSmJklibocM18oprwIpx9JsVVq3?=
- =?us-ascii?Q?NfcuCsWhgys/4DHopb77Cn6ARt3z0LklhIYDfO2t+XRSAiPP1k1JXmul9bAF?=
- =?us-ascii?Q?xJC7sPXoAYZP3OQWOrLgIpngW61ru3U70CUe4bc/DKHDA8Bz6rhaPfI0YxEw?=
- =?us-ascii?Q?eaZEpRt19hyJlEehhoayGS1F7iy7UBKiFOi4ZiM92Pks2J+q4om8IbCY5emx?=
- =?us-ascii?Q?+lnP7WOt2sMfv2XOqKllf6v4NmcU63YDrJ8UtPrOAcKm4NTu2YeRL/6O7QL4?=
- =?us-ascii?Q?U6Iq9bH97zukRMfXWQX+go0/2/yc1ILGouxn05TIP7ZN5lOS7t7od/6skbx3?=
- =?us-ascii?Q?1HLTHRD8RjI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4Gw9k2OyGF3acFkHI3B8Cq6AFJHBd8k9DOVB/9ixUvvzO2pirryZRl7T2dit?=
- =?us-ascii?Q?mroI1bS9IFR8LFuWP11q4UTKchTHBOL/rMc6z1VK7/C/LSyS595lljuG1M0X?=
- =?us-ascii?Q?rcYVusFLqhz68DUltin/u9HJGuzhmsoq3HKTyuDFdgMqc1pRKEIKgbA1zCYl?=
- =?us-ascii?Q?8ydU+ePyjP95J5VxAQyUZCpk8iuvV6WA+CwPaI/L4jZi6/SnQYE1oFKc6+S4?=
- =?us-ascii?Q?dFabyzKXytjgWxsARWPiaZ+x0LAt0TIcWlspIGHnEra+GCrePYV73sLUILFu?=
- =?us-ascii?Q?e2O1zr5FX9V4HL7MwNfBmNdIllySpQGRsPjKMkNlEk/8mEx+7+rxCbHZ5TLb?=
- =?us-ascii?Q?tQiZrdoTQebQ7bVh1wxoKcgThdX+kpsBa5yyJrioXXiCVpd69VqigBsNHkxh?=
- =?us-ascii?Q?s9ZDgUkiTqpHE1w7eeoFtNOPG42Rr5OGFEZWJZGSZaCa44GB8DHCeFVqzunP?=
- =?us-ascii?Q?8DZKrAITduMWt6z1i4xqUg7DBmKeYPPoUqNFs3cS9iZ6JtqtMVQeiFQoN36O?=
- =?us-ascii?Q?u6rm2wI9240vEp8tlzWens5XAGjE7ygqhygcO/CIeZl5ZoZMEgMWu72JLk+/?=
- =?us-ascii?Q?H0eHplHOP8vdPUd9pBmgFe1sATKo+Nt/yc1uMHCbZ5QIfLR9f9DlRjx28AYH?=
- =?us-ascii?Q?kBzTpLbPeG2ySSPJCOFb3d/Rgg5CkHjUCwvEMXjVzeXzx3/gkKFGt7YbSaND?=
- =?us-ascii?Q?LPwsSc2NXQv/KQgGNJOuZDFwXLXZr933EqctveL3ZuYKAqtKMWm3sqSrNQIe?=
- =?us-ascii?Q?mQmb7sHCIqafabcD4lZwWVE1HevDR3jxmrumPE61tq0LLbmFRd8LAEJ2RgpU?=
- =?us-ascii?Q?PgyOGRrruoYRjWOrxIflrUPoPicahjgZ8viDJ0c1cWl5tDuAed/4iiPiQsEq?=
- =?us-ascii?Q?GoTdr/Ln/UD49KWT+H5sX/ioF6OqxqGh2+GrsMfZxs8BPpDzlObolvwv6nyc?=
- =?us-ascii?Q?3VNR/bv3xiPZ1IOOtpOlhOIErgJ0faMx62f4Uf002mrYB5c7V4TRY6johvoV?=
- =?us-ascii?Q?bVwH57/2xRlSeC7U0owXOnEHy47Dpl+Y7p2nbWcWzFlPTa2E9Qv1iacBpJyK?=
- =?us-ascii?Q?xlJYpXV7NjzKaMmbQy/AxW293F9gJCKagU17CV8JfIM7moN9NAc1Q3t9c5oq?=
- =?us-ascii?Q?SrfOaXrOsAYSdp7RCbk2WhGlXsCtoDKRGuydfYxreCiukLDP5GJA9ZwBTOBt?=
- =?us-ascii?Q?TFpTQFwlX9hhc8vmqRkMlQMPoWjtVj5SZVe8FywJqgLc2CLKMByEVDBh+9VU?=
- =?us-ascii?Q?9CizvHyo1aimHOG/WU41iBl6Bnt5wyB4SRPljOVZMns6Hy2K+zHlEcD4/Jn8?=
- =?us-ascii?Q?FOB3UJH8gNunjG5+oq1vWunIGs7MKK2Ni5cPxH3sA1iO4LYjGfPQmr9bxhfn?=
- =?us-ascii?Q?eqiuIHyt//ZumCSGeKQ/GPZsTlPXGhj1ePFgWgyFd0pp/i/IIRKkSzDhvDG1?=
- =?us-ascii?Q?R3oAArLS3ztkl5vx9ieE84lVqWB9NqTnTsBriLrLx4GVO0GIy42/0/qFqhe2?=
- =?us-ascii?Q?TmU0rt2xeK53WBmLCJabBnWNRbqWhz1W2Wvw0EGxnLHZkz8wL/gPXxseLohl?=
- =?us-ascii?Q?JF9odQZjv9/SFekbTlba32Q3oAwEe/7YU1jJxXVk?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9c4e0af-fe6a-405b-9044-08dd34c138d8
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 17:31:04.5955 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j9CFajaXP4oh2gxVEtjK8vdlsZ+CCARgwVUclBHdwKwr2sUJlOQTQOWp1v96qqYP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6595
+In-Reply-To: <Z4aIGvAmMld_uztJ@lappy>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,95 +96,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2025 at 03:44:04PM +0100, Simona Vetter wrote:
-
-> E.g. if a compositor gets a dma-buf it assumes that by just binding that
-> it will not risk gpu context destruction (unless you're out of memory and
-> everything is on fire anyway, and it's ok to die). But if a nasty client
-> app supplies a revocable dma-buf, then it can shot down the higher
-> priviledged compositor gpu workload with precision. Which is not great, so
-> maybe existing dynamic gpu importers should reject revocable dma-buf.
-> That's at least what I had in mind as a potential issue.
-
-I see, so it is not that they can't handle a non-present fault it is
-just that the non-present effectively turns into a crash of the
-context and you want to avoid the crash. It makes sense to me to
-negotiate this as part of the API.
-
-> > This is similar to the structure BIO has, and it composes nicely with
-> > a future pin_user_pages() and memfd_pin_folios().
+On Tue, Jan 14, 2025 at 10:51:54AM -0500, Sasha Levin wrote:
+> On Tue, Jan 14, 2025 at 04:03:09PM +0100, Simona Vetter wrote:
+> > On Tue, Jan 14, 2025 at 11:01:34AM +1000, Dave Airlie wrote:
+> > > > > > We create a "web" when we backport commits, and mark things for "Fixes:"
+> > > > > > When we get those ids wrong because you all have duplicate commits for
+> > > > > > the same thing, everything breaks.
+> > > > > >
+> > > > > > > I just don't get what the ABI the tools expect is, and why everyone is
+> > > > > > > writing bespoke tools and getting it wrong, then blaming us for not
+> > > > > > > conforming. Fix the tools or write new ones when you realise the
+> > > > > > > situation is more complex than your initial ideas.
+> > > > > >
+> > > > > > All I want to see and care about is:
+> > > > > >
+> > > > > >  - for a stable commit, the id that the commit is in Linus's tree.
+> > > > > >  - for a Fixes: tag, the id that matches the commit in Linus's tree AND
+> > > > > >    the commit that got backported to stable trees.
+> > > > > >
+> > > > > > That's it, that's the whole "ABI".  The issue is that you all, for any
+> > > > > > number of commits, have 2 unique ids for any single commit and how are
+> > > > > > we supposed to figure that mess out...
+> > > > >
+> > > > > Pretty sure we've explained how a few times now, not sure we can do much more.
+> > > >
+> > > > And the same for me.
+> > > >
+> > > > > If you see a commit with a cherry-pick link in it and don't have any
+> > > > > sight on that commit in Linus's tree, ignore the cherry-pick link in
+> > > > > it, assume it's a future placeholder for that commit id. You could if
+> > > > > you wanted to store that info somewhere, but there shouldn't be a
+> > > > > need.
+> > > >
+> > > > Ok, this is "fine", I can live with it.  BUT that's not the real issue
+> > > > (and your own developers get confused by this, again, look at the
+> > > > original email that started this all, they used an invalid git id to
+> > > > send to us thinking that was the correct id to use.)
+> > > 
+> > > I'm going to go back and look at the one you pointed out as I'm
+> > > missing the issue with it, I thought it was due to a future ID being
+> > > used.
+> > 
+> > I think the issue is that with the cherry-picking we do, we don't update
+> > the Fixes: or Reverts: lines, so those still point at the og commit in
+> > -next, while the cherry-picked commit is in -fixes.
+> > 
+> > The fix for that (which our own cherry-pick scripts implement iirc) is to
+> > keep track of the cherry-picks (which is why we add that line) and treat
+> > them as aliases.
+> > 
+> > So if you have a Fixes: $sha1 pointing at -next, then if you do a
+> > full-text commit message search for (cherry picked from $sha1), you should
+> > be able to find it.
+> > 
+> > We could try to do that lookup with the cherry-pick scripts, but a lot of
+> > folks hand-roll these, so it's lossy at best. Plus you already have to
+> > keep track of aliases anyway since you're cherry-picking to stable, so I
+> > was assuming that this shouldn't cause additional issues.
+> > 
+> > The other part is that if you already have a cherry picked from $sha1 in
+> > your history, even if it wasn't done with stable cherry-pick, then you
+> > don't have to cherry-pick again. These should be easy to filter out.
+> > 
+> > But maybe I'm also not understanding what the issue is, I guess would need
+> > to look at a specific example.
+> > 
+> > > > > When future tools are analysing things, they will see the patch from
+> > > > > the merge window, the cherry-picked patches in the fixes tree, and
+> > > > > stable will reference the fixes, and the fixes patch will reference
+> > > > > the merge window one?
+> > > >
+> > > >
+> > > > > but I think when we cherry-pick patches from -next that fix
+> > > > > other patches from -next maybe the fixes lines should be reworked to
+> > > > > reference the previous Linus tree timeline not the future one. not
+> > > > > 100% sure this happens? Sima might know more.
+> > > >
+> > > > Please fix this up, if you all can.  That is the issue here.  And again,
+> > > > same for reverts.
+> > > >
+> > > > I think between the two, this is causing many fixes and reverts to go
+> > > > unresolved in the stable trees.
+> > > >
+> > > > > Now previously I think we'd be requested to remove the cherry-picks
+> > > > > from the -fixes commits as they were referencing things not in Linus'
+> > > > > tree, we said it was a bad idea, I think we did it anyways, we got
+> > > > > shouted at, we put it back, we get shouted that we are referencing
+> > > > > commits that aren't in Linus tree. Either the link is useful
+> > > > > information and we just assume cherry-picks of something we can't see
+> > > > > are a future placeholder and ignore it until it shows up in our
+> > > > > timeline.
+> > > >
+> > > > I still think it's lunacy to have a "cherry pick" commit refer to a
+> > > > commit that is NOT IN THE TREE YET and shows up in history as "IN THE
+> > > > FUTURE".  But hey, that's just me.
+> > > >
+> > > > Why do you have these markings at all?  Who are they helping?  Me?
+> > > > Someone else?
+> > > 
+> > > They are for helping you. Again if the commit that goes into -next is immutable,
+> > > there is no way for it to reference the commit that goes into -fixes
+> > > ahead of it.
+> > > 
+> > > The commit in -fixes needs to add the link to the future commit in
+> > > -next, that link is the cherry-pick statement.
+> > > 
+> > > When you get the future commit into the stable queue, you look for the
+> > > commit id in stable history as a cherry-pick and drop it if it's
+> > > already there.
+> > > 
+> > > I can't see any other way to do this, the future commit id is a
+> > > placeholder in Linus/stable tree, the commit is immutable and 99.99%
+> > > of the time it will arrive at some future point in time.
+> > > 
+> > > I'm open to how you would make this work that isn't lunacy, but I
+> > > can't really see a way since git commits are immutable.
+> > 
+> > Yeah the (cherry picked from $sha1) with a sha1 that's in -next and almost
+> > always shows up in Linus' tree in the future shouldn't be an issue. That
+> > part really is required for driver teams to manage their flows.
+> > 
+> > > > > I think we could ask to not merge things into -next with stable cc'ed
+> > > > > but I think that will result in a loss of valuable fixes esp for
+> > > > > backporters.
+> > > >
+> > > > Again, it's the Fixes and Reverts id referencing that is all messed up
+> > > > here.  That needs to be resolved.  If it takes you all the effort to
+> > > > make up a special "stable tree only" branch/series/whatever, I'm all for
+> > > > it, but as it is now, what you all are doing is NOT working for me at
+> > > > all.
+> > > 
+> > > I'll have to see if anyone is willing to consider pulling this sort of
+> > > feat off, it's not a small task, and it would have to be 99% automated
+> > > I think to be not too burdensome.
+> > 
+> > It's not that hard to script, dim cherry-pick already does it. It's the
+> > part where we need to guarantee that we never ever let one slip through
+> > didn't get this treatment of replacing the sha1.
+> > 
+> > The even more insideous one is when people rebase their -next or -fixes
+> > trees, since then the sha1 will really never ever show up. Which is why
+> > we're telling people to not mess with git history at all and instead
+> > cherry-pick. It's the lesser pain.
 > 
-> Since you mention pin here, I think that's another aspect of the revocable
-> vs dynamic question. Dynamic buffers are expected to sometimes just move
-> around for no reason, and importers must be able to cope.
+> But this does happen with cherry picks... A few examples from what I saw
+> with drivers/gpu/drm/ and -stable:
+> 
+> 5a507b7d2be1 ("drm/mst: Fix NULL pointer dereference at
+> drm_dp_add_payload_part2") which landed as 8a0a7b98d4b6 ("drm/mst: Fix
+> NULL pointer dereference at drm_dp_add_payload_part2") rather than
+> 4545614c1d8da.
 
-Yes, and we have importers that can tolerate dynamic and those that
-can't. Though those that can't tolerate it can often implement revoke.
+This one also landed through Alex' tree, and before he switched over to
+cherry-pick -x and not trying to fix things up with rebasing. Because in
+theory rebasing bugfixes out of -next into -fixes avoids all that trouble,
+in practice it just causes a reliably even bigger mess.
 
-I view your list as a cascade:
- 1) Fully pinned can never be changed so long as the attach is present
- 2) Fully pinned, but can be revoked. Revoked is a fatal condition and
-    the importer is allowed to experience an error
- 3) Fully dynamic and always present. Support for move, and
-    restartable fault, is required
+> e89afb51f97a ("drm/vmwgfx: Fix a 64bit regression on svga3") which
+> landed as c2aaa37dc18f ("drm/vmwgfx: Fix a 64bit regression on svga3")
+> rather than 873601687598.
 
-Today in RDMA we ask the exporter if it is 1 or 3 and allow different
-things. I've seen the GPU side start to offer 1 more often as it has
-significant performance wins.
+This one is from 2021. Iirc it's the case that motivated us to improve the
+commiter documentation and make it clear that only maintainers should do
+cherry-picks. Occasionally people don't know and screw up.
 
-> For recovable exporters/importers I'd expect that movement is not
-> happening, meaning it's pinned until the single terminal revocation. And
-> maybe I read the kvm stuff wrong, but it reads more like the latter to me
-> when crawling through the pfn code.
+> a829f033e966 ("drm/i915: Wedge the GPU if command parser setup fails")
+> which indicates it's a cherry-pick, but I couldn't find the equivalent
+> commit landing at any point later on.
 
-kvm should be fully faultable and it should be able handle move. It
-handles move today using the mmu notifiers after all.
+This one was a maintainer action by Dave and me, where we went in and
+rebased an entire -next tree. Also from 2021, even more exceptional than
+the "committer cherry-picked themselves and screwed up".
 
-kvm would need to interact with the dmabuf reservations on its page
-fault path.
+I'm not saying that the cherry-pick model with committers is error free.
+Not at all. It's just in my experience substantially less error prone than
+anything else, it's simply the less shit option.
 
-iommufd cannot be faultable and it would only support revoke. For VFIO
-revoke would not be fully terminal as VFIO can unrevoke too
-(sigh).  If we make revoke special I'd like to eventually include
-unrevoke for this reason.
+Roughly the options are:
 
-> Once we have the lifetime rules nailed then there's the other issue of how
-> to describe the memory, and my take for that is that once the dma-api has
-> a clear answer we'll just blindly adopt that one and done.
+- rebase trees to not have duplicated commits. Breaks the committer model,
+  pretty much guarantees that you have commit references to absolutely
+  nowhere at all in practice because people butcher rebases all the time.
+  Also pisses off Linus with unecessary rebases that don't reflect actual
+  development history.
 
-This is what I hope, we are not there yet, first Leon's series needs
-to get merged then we can start on making the DMA API P2P safe without
-any struct page. From there it should be clear what direction things
-go in.
+  Plus we'd insta run out of maintainers in drm if we do this.
 
-DMABUF would return pfns annotated with whatever matches the DMA API,
-and the importer would be able to inspect the PFNs to learn
-information like their P2Pness, CPU mappability or whatever.
+  I think this is also what Alex tried to do until very recently.
 
-I'm pushing for the extra struct, and Christoph has been thinking
-about searching a maple tree on the PFN. We need to see what works best.
+- cherry-pick, but pretend it didn't happen. This means either people
+  perfectly fix up all tags (see above, doesn't happen in practice) or you
+  need to do title based guessing games. Plus you need to do title-based
+  guessing games with the duplicates anyway.
 
-> And currently with either dynamic attachments and dma_addr_t or through
-> fishing the pfn from the cpu pagetables there's some very clearly defined
-> lifetime and locking rules (which kvm might get wrong, I've seen some
-> discussions fly by where it wasn't doing a perfect job with reflecting pte
-> changes, but that was about access attributes iirc). 
+- cherry-pick -x. You can actually handle this one with scripts and no
+  human shouting. Unless people forgot to use -x or screwed up something
+  else (which is why we have a script and docs). Which does happene, but
+  the two examples you've found for that flow are from 2021. There should
+  also be some that are more recent.
 
-Wouldn't surprise me, mmu notifiers are very complex all around. We've
-had bugs already where the mm doesn't signal the notifiers at the
-right points.
+- we give up on stable for drm.
 
-> If we add something
-> new, we need clear rules and not just "here's the kvm code that uses it".
-> That's how we've done dma-buf at first, and it was a terrible mess of
-> mismatched expecations.
+Cheers, Sima
 
-Yes, that would be wrong. It should be self defined within dmabuf and
-kvm should adopt to it, move semantics and all.
+> Or the following 3 commits:
+> 
+> 0811b9e4530d ("drm/amd/display: Add HUBP surface flip interrupt
+> handler") which has a stable tag, and no cherry-pick line.
+> 
+> 4ded1ec8d1b3 ("drm/amd/display: Add HUBP surface flip interrupt
+> handler") which is a different code change than the previous commit, and
+> a completely different commit message, no stable tag, and no cherry-pick
+> line.
+> 
+> 7af87fc1ba13 ("drm/amd/display: Add HUBP surface flip interrupt
+> handler") which has the same code change as above, and it has the same
+> commit message as 4ded1ec8d1b3 but with an added stable tag, and again -
+> no cherry-pick line.
+> 
+> -- 
+> Thanks,
+> Sasha
 
-My general desire is to move all of RDMA's MR process away from
-scatterlist and work using only the new DMA API. This will save *huge*
-amounts of memory in common workloads and be the basis for non-struct
-page DMA support, including P2P.
-
-Jason
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
