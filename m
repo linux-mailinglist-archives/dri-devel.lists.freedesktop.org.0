@@ -2,57 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A593A10E87
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:58:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335F3A10E8F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:58:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DE510E45A;
-	Tue, 14 Jan 2025 17:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABCC210E45F;
+	Tue, 14 Jan 2025 17:58:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RIcucp9f";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="APj3TrXP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15C7810E45A
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:58:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736877483;
- bh=uI2jVIEACIwlosWoUvhmG7oLqSycVp5dzwis05sLrgA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=RIcucp9fVig/9IImlRPr4sRX3wo2aY+6LozDOjzlcSyZOAp/djc8C0WTeZ6WYgCE6
- JpDWmBWfNxLoJINSb3y80BOHRx874GykXOLatXdWinT+vimuCBBqb1oIpNNPw9JLrK
- RxjAI+pV81VMtRDl1+0aV2jMuRvXoalosm2/YdqR5ObVzP2WRpoC/3cLkGquO8OqWV
- tQbJIZAR3VRNj56qEVBLQWhnChbKkWolDc/n9boX5YBsfYjhCo9xA5QzcNtDPDp/0t
- Vz/VEEr7TsndzUHtvW0x4SaIsYvZTKUr8jSP2vGOj/Lc4AR0Y7Zne0TKsryVTlDFeb
- tMfoekKKEGcJQ==
-Received: from [192.168.1.90] (unknown [82.76.59.196])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 122F917E0CD2;
- Tue, 14 Jan 2025 18:58:03 +0100 (CET)
-Message-ID: <81d36d57-7661-410b-b5e9-bd7af44686f0@collabora.com>
-Date: Tue, 14 Jan 2025 19:58:01 +0200
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
+ [IPv6:2607:f8b0:4864:20::f2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6B3610E45F
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:58:29 +0000 (UTC)
+Received: by mail-qv1-xf2e.google.com with SMTP id
+ 6a1803df08f44-6d8f99cb0d9so41051416d6.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 09:58:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1736877509; x=1737482309;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9LXHsEntU5Ys95uVCIF8Zmb9U409KBpBciIBNlMO0m0=;
+ b=APj3TrXP6ITSi1GObrL3ZYz2FkBuhDWwS/kvoQ3lLAt/JjeXsNtKHjsR+V6pQa1yZ9
+ rOhwROkFaudB9P+yXpSaJYuFZtAANM+Qf7QDRcltO2BlkhejVSxoD3pbXk6OysCHWCoo
+ KrgRDQoG4iXzcsw12yhgQlh3IhJUuTqe7O8RzP4YHvyzOSYPYIvoxjEz0WBh8hnffcMJ
+ aLTIv9fhFr1V0SVQ22WtL0xUG2hERxVUjEcM5lOhgrdA1yeDUOXoI5o6+iC0E8OJA61c
+ M4FyO+6NNmCaynQ9zuwdqza6qQLcj6E8D6kK/uLWzUg+1yc9goNDkpfwrM0JYqQiN/IM
+ A1dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736877509; x=1737482309;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9LXHsEntU5Ys95uVCIF8Zmb9U409KBpBciIBNlMO0m0=;
+ b=GsdrSJggiZJchxhyhFQTjxtuycJXPHBGaiMs8x2prINb7Owgn2Qz/xgd8upq1GpULS
+ 4b9Sgbw+yCpL1ludT4sMDDsC8ZTmh1CPqvEQS+udrlxP/FiYYgu8MuKohnunp5f9cM4b
+ uNLG2xhsjubTbmB1zTnh3w33v6PP7Vs3iQxHnF+fAPkCN0QRbwGM0nh0qtVastv2+Z6A
+ TBrTCdv0xLB1Y5UgftjDLwNOsBAiY+dOXr6lYzhp6bzTvLiNQRK68HLarB4GyfgZLU3w
+ lADm9SFAFK/cOTYbyIuC30wzmpXTWL8MIkkPeCW9J8simkysP2sz1NoHAVEB4AdzHUfd
+ JZPQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVP1d0M+W17ngJGFbDexVTQv1Bg7N5BmGRCa2Cn44OaD5QJpw15K6+jS7rLWRDkPX+fh6hjDHXuFc4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy7QZBGPTRPGE5kyi0ZgdQlxiZrT9/ff8nL51d2zfAy1tUtWIVm
+ XFheoPF8r6LrJspCWHpOHjvEhdo/VUOm38qzn35iemyLfA9p1tWQF7GLUXJhVW+iGrhg2cqmlzr
+ Y3vnjYXJkKdYboIiI3UNbS8UoXTNRtOAhvznUeQ==
+X-Gm-Gg: ASbGncsFSGmynft7dYw+dP/nI0oFBZUIm2MFxdpvFZToaeJQwJigEz6HH7qKm87dnai
+ S/yO4Hyl6wo19kdqihLixUR6vSXZ8UVatdDh1
+X-Google-Smtp-Source: AGHT+IEWqpgKCTT/9ls0xmYdMPLOJRlFRN/Cz/iKnMnCoFc3cNEYBMkPMq7s1kBd0eoxzbWOzz7PqXH22Wfsdrp9eCY=
+X-Received: by 2002:a05:6214:8111:b0:6e1:7223:19a9 with SMTP id
+ 6a1803df08f44-6e172231a99mr111298526d6.24.1736877508679; Tue, 14 Jan 2025
+ 09:58:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/tests: hdmi: Add connector's CRTC deactivation
- tests
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250109-hdmi-conn-null-mode-v2-0-9eeaf1109547@collabora.com>
- <20250109-hdmi-conn-null-mode-v2-2-9eeaf1109547@collabora.com>
- <20250114-silky-nippy-woodlouse-0f6d4a@houat>
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250114-silky-nippy-woodlouse-0f6d4a@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
+ <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
+ <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
+ <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
+ <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
+ <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
+ <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
+ <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
+ <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
+ <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
+ <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
+In-Reply-To: <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Tue, 14 Jan 2025 17:58:16 +0000
+X-Gm-Features: AbW1kva4ALOA0LOORdEv_TRtbfcne3GOqf3wkUfOV14MfYux7kBg8wr6Hf20vFk
+Message-ID: <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
+ alignment
+To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Cc: James Jones <jajones@nvidia.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ Brian Starkey <brian.starkey@arm.com>,
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,209 +99,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi,
 
-On 1/14/25 7:41 PM, Maxime Ripard wrote:
-> Hi,
-> 
-> On Thu, Jan 09, 2025 at 12:03:40AM +0200, Cristian Ciocaltea wrote:
->> Following up a fixed bug in drm_atomic_helper_connector_hdmi_check(),
->> discovered while unloading a DRM module, add a couple of tests to make
->> sure the helper will not exhibit any abnormal behaviour for use cases
->> that involve shutting down the connector's CRTC.
->>
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 173 +++++++++++++++++++++
->>  1 file changed, 173 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> index c3b693bb966f1f8b04066d19f520bfa4bf11c23d..98187ecee5d77b5f758af29f4c4bfddbd1f658fd 100644
->> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
->> @@ -1568,6 +1568,177 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
->>  	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
->>  }
->>  
->> +/*
->> + * Test that if we deactivate connector's CRTC, we trigger a mode change
->> + * on that CRTC, along with setting {connectors|active}_changed.
->> + */
->> +static void drm_test_check_crtc_deactivate_mode_changed(struct kunit *test)
->> +{
->> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
->> +	struct drm_modeset_acquire_ctx *ctx;
->> +	struct drm_connector_state *old_conn_state;
->> +	struct drm_connector_state *new_conn_state;
->> +	struct drm_crtc_state *old_crtc_state;
->> +	struct drm_crtc_state *new_crtc_state;
->> +	struct drm_atomic_state *state;
->> +	struct drm_display_mode *preferred;
->> +	struct drm_connector *conn;
->> +	struct drm_device *drm;
->> +	struct drm_crtc *crtc;
->> +	int ret;
->> +
->> +	priv = drm_kunit_helper_connector_hdmi_init(test,
->> +						    BIT(HDMI_COLORSPACE_RGB),
->> +						    8);
->> +	KUNIT_ASSERT_NOT_NULL(test, priv);
->> +
->> +	conn = &priv->connector;
->> +	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
->> +
->> +	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
->> +
->> +	preferred = find_preferred_mode(conn);
->> +	KUNIT_ASSERT_NOT_NULL(test, preferred);
->> +
->> +	drm = &priv->drm;
->> +	crtc = priv->crtc;
->> +	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
->> +
->> +	new_conn_state = drm_atomic_get_connector_state(state, conn);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
->> +
->> +	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
->> +
->> +	new_crtc_state = drm_atomic_get_crtc_state(state, crtc);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
->> +
->> +	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_crtc_state);
->> +
->> +	ret = drm_atomic_set_mode_for_crtc(new_crtc_state, NULL);
->> +	KUNIT_EXPECT_EQ(test, ret, 0);
->> +	KUNIT_ASSERT_NE(test, old_crtc_state->enable, new_crtc_state->enable);
->> +
->> +	new_crtc_state->active = false;
->> +	KUNIT_ASSERT_NE(test, old_crtc_state->active, new_crtc_state->active);
->> +
->> +	ret = drm_atomic_set_crtc_for_connector(new_conn_state, NULL);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	KUNIT_ASSERT_PTR_NE(test, old_conn_state->crtc, new_conn_state->crtc);
->> +
->> +	ret = drm_atomic_check_only(state);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
->> +	KUNIT_EXPECT_TRUE(test, new_crtc_state->mode_changed);
->> +	KUNIT_EXPECT_TRUE(test, new_crtc_state->connectors_changed);
->> +	KUNIT_EXPECT_TRUE(test, new_crtc_state->active_changed);
->> +}
-> 
-> This one looks good to me
-> 
->> +/*
->> + * Test that if we deactivate connector's CRTC, while changing the max
->> + * bpc property to a different value, will not have any effect on the
->> + * output bpc property. However, we still trigger a mode change on that
->> + * CRTC, along with setting {connectors|active}_changed.
->> + */
->> +static void drm_test_check_crtc_deactivate_output_bpc_not_changed(struct kunit *test)
->> +{
->> +	struct drm_atomic_helper_connector_hdmi_priv *priv;
->> +	struct drm_modeset_acquire_ctx *ctx;
->> +	struct drm_connector_state *old_conn_state;
->> +	struct drm_connector_state *new_conn_state;
->> +	struct drm_crtc_state *old_crtc_state;
->> +	struct drm_crtc_state *new_crtc_state;
->> +	struct drm_atomic_state *state;
->> +	struct drm_display_mode *preferred;
->> +	struct drm_connector *conn;
->> +	struct drm_device *drm;
->> +	struct drm_crtc *crtc;
->> +	int ret;
->> +
->> +	priv = drm_kunit_helper_connector_hdmi_init(test,
->> +						    BIT(HDMI_COLORSPACE_RGB),
->> +						    10);
->> +	KUNIT_ASSERT_NOT_NULL(test, priv);
->> +
->> +	conn = &priv->connector;
->> +	ret = set_connector_edid(test, conn,
->> +				 test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz,
->> +				 ARRAY_SIZE(test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz));
->> +	KUNIT_ASSERT_GT(test, ret, 0);
->> +
->> +	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
->> +
->> +	preferred = find_preferred_mode(conn);
->> +	KUNIT_ASSERT_NOT_NULL(test, preferred);
->> +
->> +	drm = &priv->drm;
->> +	crtc = priv->crtc;
->> +	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
->> +
->> +	new_conn_state = drm_atomic_get_connector_state(state, conn);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
->> +
->> +	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
->> +
->> +	new_conn_state->max_requested_bpc = 8;
->> +
->> +	KUNIT_ASSERT_NE(test,
->> +			old_conn_state->max_requested_bpc,
->> +			new_conn_state->max_requested_bpc);
->> +
->> +	new_crtc_state = drm_atomic_get_crtc_state(state, crtc);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
->> +
->> +	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_crtc_state);
->> +
->> +	ret = drm_atomic_set_mode_for_crtc(new_crtc_state, NULL);
->> +	KUNIT_EXPECT_EQ(test, ret, 0);
->> +	KUNIT_ASSERT_NE(test, old_crtc_state->enable, new_crtc_state->enable);
->> +
->> +	new_crtc_state->active = false;
->> +	KUNIT_ASSERT_NE(test, old_crtc_state->active, new_crtc_state->active);
->> +
->> +	ret = drm_atomic_set_crtc_for_connector(new_conn_state, NULL);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	KUNIT_ASSERT_PTR_NE(test, old_conn_state->crtc, new_conn_state->crtc);
->> +
->> +	ret = drm_atomic_check_only(state);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
->> +
->> +	new_conn_state = drm_atomic_get_new_connector_state(state, conn);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
->> +
->> +	KUNIT_EXPECT_EQ(test,
->> +			old_conn_state->hdmi.output_bpc,
->> +			new_conn_state->hdmi.output_bpc);
->> +
->> +	new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
->> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
->> +	KUNIT_EXPECT_TRUE(test, new_crtc_state->mode_changed);
->> +	KUNIT_EXPECT_TRUE(test, new_crtc_state->connectors_changed);
->> +	KUNIT_EXPECT_TRUE(test, new_crtc_state->active_changed);
->> +}
->> +
-> 
-> However, it's not clear to me why changing bpc should change anything,
-> or why it's worth testing?
+On Tue, 14 Jan 2025 at 09:38, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wrot=
+e:
+> I would keep the existing modifier interfaces, API extensions, and expect=
+ations the same as today for simplicity.
 
-I suppose I may have gone a little too far with all this testing :-) 
-Will drop and send v3.
+Well yes, not just for simplicity, but because everything stops
+working if you don't.
 
-Thanks for reviewing,
-Cristian
+> The new linear modifier definition (proposal) will have these fields:
+>    5 bits for log2 pitch alignment in bytes
+>    5 bits for log2 height alignment in rows
+>    5 bits for log2 offset alignment in bytes
+>    5 bits for log2 minimum pitch in bytes
+>    5 bits for log2 minimum (2D) image size in bytes
+>
+> The pitch and the image size in bytes are no longer arbitrary values. The=
+y are fixed values computed from {width, height, bpp, modifier} as follows:
+>    aligned_width =3D align(width * bpp / 8, 1 << log2_pitch_alignment);
+>    aligned_height =3D align(height, 1 << log2_height_alignment);
+>    pitch =3D max(1 << log2_minimum_pitch, aligned_width);
+>    image_size =3D max(1 << log2_minimum_image_size, pitch * aligned_heigh=
+t);
+>
+>
+> The modifier defines the layout exactly and non-ambiguously. Overaligning=
+ the pitch or height is not supported. Only the offset alignment has some f=
+reedom regarding placement. Drivers can expose whatever they want within th=
+at definition, even exposing only 1 linear modifier is OK. Then, you can lo=
+ok at modifiers of other drivers if you want to find commonalities.
+
+I don't see how this squares with the first statement.
+
+AMD hardware is the only hardware I know of which doesn't support
+overaligning. Say (not hypothetically) we have a GPU and a display
+controller which have a minimum pitch alignment of 32 bytes, no
+minimum height alignment, minimum 32-byte offset alignment, minimum
+pitch of 32 bytes, and minimum image size of 32 bytes.
+
+To be maximally compatible, we'd have to expose 28 (pitch align) * 32
+(height align) * 28 (offset align) * 28 (min pitch) * 28 (min size) =3D=3D
+19668992 individual modifiers when queried, which is 150MB per format
+just to store the list of modifiers.
+
+> DRM_FORMAT_MOD_LINEAR needs to go because it prevents apps from detecting=
+ whether 2 devices have 0 compatible memory layouts, which is a useful thin=
+g to know.
+
+I get the point, but again, we have the exact same problem today with
+placement, i.e. some devices require buffers to be in or not be in
+VRAM or GTT or sysram for some uses, and some devices require physical
+contiguity. Solving that problem would require an additional 4 bits,
+which brings us to 2.3GB of modifiers per format with the current
+scheme. Not super viable.
+
+The design for the allocator - communicating constraints ('pitch must
+be exactly aligned to the next 256-byte boundary', 'pitch must be a
+multiple of 32 bytes', 'buffer must be physically contiguous', etc)
+separately from the chosen layout - would seem to fit this much
+better. And since there doesn't seem to be a tractable solution we can
+jam into the single 'intersect multiple sets of uint64s' API, we might
+as well go through typing that out.
+
+Cheers,
+Daniel
