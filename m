@@ -2,94 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF11A1038D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 11:02:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A16FA10386
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 11:00:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7A7C10E05A;
-	Tue, 14 Jan 2025 10:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0506610E00A;
+	Tue, 14 Jan 2025 10:00:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bN7HVe8P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P8I56x3g";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GOm01msO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0D4pMjW6";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XS/jC6bZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F3F010E05A;
- Tue, 14 Jan 2025 10:02:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C64992116E;
- Tue, 14 Jan 2025 10:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736848945; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bwCeXOJvfil2xzPuZSmpO3SwkXvCyVPrzXWCShqoEGY=;
- b=bN7HVe8PAbsl56Ih8T4gA1LACLHbj6YzVgpkR2miEM327WMgQvXc6Vq6MQqTMqlZFeoKHZ
- LJinVLwPUYdjaGZLqUzJiO+K4Q/BNThwfBNd5mBAmwT3mxNhvU3MG5J1AwuSaFrOtzxuSv
- LH95cPsGe1dLQbCCBMJKXy1QFSKKmVU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736848945;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bwCeXOJvfil2xzPuZSmpO3SwkXvCyVPrzXWCShqoEGY=;
- b=P8I56x3gIctv92YkPfWJMKkUoVyBQX9if+CNi2s2ysfJtd4Y6Mej3wCxsveq2gEEuirLgE
- IxnIDxx8plJqKwDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736848944; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bwCeXOJvfil2xzPuZSmpO3SwkXvCyVPrzXWCShqoEGY=;
- b=GOm01msOgLczl08XHD6iU/Y4G/YKmF/jyzC/s9fnf8HiGJSRBxKJbsl1NpwUi4Dq90XouX
- DwqmDTTeIB804Wd1OJuQ8LJw/gv4IW10k7D9mghNH69r0NZyasgY4Hj3b5D72j10EdgYKw
- TMxPrLKdPzF7kDwQlaso2NF7YK7KiqY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736848944;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=bwCeXOJvfil2xzPuZSmpO3SwkXvCyVPrzXWCShqoEGY=;
- b=0D4pMjW6pZVntYApXC1fRFUOg/eUaJ65/z4CwCfyD+NV54RAyL9DvUQWAVf8bp9r0RAM1A
- sLmf0ovwsmv29wDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A9E7139CB;
- Tue, 14 Jan 2025 10:02:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZRNqIDA2hmerBAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 14 Jan 2025 10:02:24 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kherbst@redhat.com, lyude@redhat.com, dakr@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH] drm/nouveau: Do not override forced connector status
-Date: Tue, 14 Jan 2025 10:57:25 +0100
-Message-ID: <20250114100214.195386-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.47.1
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
+ [IPv6:2607:f8b0:4864:20::b2b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24FA210E00A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 10:00:54 +0000 (UTC)
+Received: by mail-yb1-xb2b.google.com with SMTP id
+ 3f1490d57ef6-e4930eca0d4so7675901276.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 02:00:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736848853; x=1737453653; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=zWOy0FR11Ww9vPXXYRtiZR0MXnoxIhe7Rlp3oaSMe0o=;
+ b=XS/jC6bZL+M37kcJ7KVqPu3GeoOVKHZR3l7Oh3gsRUpePQJvHV4Zj9w8GrSWLEpBSe
+ tJHQq/xn1bIwWGHn54io7p/2SkWOZGgeAdgCnQ/2ZxCYHVCFBvXpNPzs88oZmKZgx+J8
+ oy73Tam/UFYow9hSJ3Dk/c2hymCsU0kaVGOC+lwKevgQTuv2Zc+Fz19pKJxJerAhxVzx
+ YQmx8WjY4//f9xiyZnNrH4HrkkVcRweFPwGBfEt+otXQ0aerT/+XlZxBmqVM9tuSeJu3
+ RqehHNF9/b4MXI/L8ZmdtpsFdzGDBGNN7hOP8cu08zjYW6l6mvk9xwgt6iTo8wcH/S8s
+ DQDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736848853; x=1737453653;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zWOy0FR11Ww9vPXXYRtiZR0MXnoxIhe7Rlp3oaSMe0o=;
+ b=AEZrq6Qch5/LCPYqrxAkI6zmG8y6o/uO4TGwNfKR0JEkKJyKzQwu5HBlQkBxn5HTZf
+ vho9rZ19CbQ+LzGBHUicrVTAeS7gKhd19guxONfmLjFkQ76uTCWidAB8d0bXhMmFxzyR
+ C7HDj/55k2tAqxwOhytuzx6NXTG1OtRKkz/Tef4+RtILYKyltZtVuqXcjH5Q2eBZyGwM
+ OPRXpGh5qxYz6py4+IXe2VqHREsJK4dXocPU5lydjE7SGhmZIDCzh5YjRIhO3CNK+w81
+ kQc0UdbXgj8SwsEsUEi/wFp0C9y/AhgLKl7+LcDfEGgD20bG6pmaD4zMdD+l/E+ZM/Gy
+ sAAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUWCSqY2lLclC9AEnN1KabnbiXxodFJHG2v/KylpYKrVSirZlNSiRDJuita86S4xYnShNVGicSxBOU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXvaIM1zt5G8lbWWCgrzK1+waKmu23WMoLAZeblkECxZEb54ci
+ iRetmapXHcptXld9SwQ45pvGDMOZm8Wk3QxXTVQHa9Y/w9N9IzL1bkc8c9p8fukv48yF68JKwR7
+ ctTyPOkplkIsf74mr+GTdehshe2tUJMEO7BSXRA==
+X-Gm-Gg: ASbGncsI4vsWNoa6uZchRPBTlyigVMPzIv5GhU2lE48eUKE59OHEorHLBuw3C10WKgD
+ wB9oYb+YLKridf0UP0zZJlQWL93UySs6Z71vdD0twYYqutMA8sisZitokyLWzccrYN4RERA==
+X-Google-Smtp-Source: AGHT+IF4wP/wzyfnOnwOTA26chuSzZpOuq04s/LPV2Ds23nxlvigRRrAhav3w7FnByCkwW8F4IVHPh28usUdiKj24SY=
+X-Received: by 2002:a25:1ec4:0:b0:e38:a031:bbd3 with SMTP id
+ 3f1490d57ef6-e54ee212481mr14127208276.39.1736848853117; Tue, 14 Jan 2025
+ 02:00:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
- FREEMAIL_TO(0.00)[redhat.com,kernel.org,gmail.com,ffwll.ch];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[8]; FUZZY_BLOCKED(0.00)[rspamd.com];
- TO_DN_SOME(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Level: 
+References: <20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com>
+ <20250113-mdssdt_qcs8300-v3-3-6c8e93459600@quicinc.com>
+ <lyv4bopv3zw62qll5cjjx46ejdjjmssvhabdxj2uq23mcmwqpb@lld6hynsiwfe>
+In-Reply-To: <lyv4bopv3zw62qll5cjjx46ejdjjmssvhabdxj2uq23mcmwqpb@lld6hynsiwfe>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 14 Jan 2025 12:00:42 +0200
+X-Gm-Features: AbW1kvbmJDFUCdKe5fDxImchUIrbs_EWdal_GJUHhskaFb5gnzYKEg5u3ybPka8
+Message-ID: <CAA8EJppUEB-c5LbWN5dJoRh+6+nNFH3G9h_uwbuTo=B8kp_9oA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] dt-bindings: display/msm: Document MDSS on QCS8300
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,31 +95,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Keep user-forced connector status even if it cannot be programmed. Same
-behavior as for the rest of the drivers.
+On Tue, 14 Jan 2025 at 09:57, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> On Mon, Jan 13, 2025 at 04:03:10PM +0800, Yongxing Mou wrote:
+> > +patternProperties:
+> > +  "^display-controller@[0-9a-f]+$":
+> > +    type: object
+> > +    additionalProperties: true
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        items:
+> > +          - const: qcom,qcs8300-dpu
+> > +          - const: qcom,sa8775p-dpu
+> > +
+> > +  "^displayport-controller@[0-9a-f]+$":
+> > +    type: object
+> > +    additionalProperties: true
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        items:
+> > +          - const: qcom,qcs8300-dp
+> > +          - const: qcom,sm8650-dp
+>
+> Parts of qcs8300 display are compatible with sa8775p, other parts with
+> sm8650. That's odd or even not correct. Assuming it is actually correct,
+> it deserves explanation in commit msg.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
-This patch is in preparation of
-https://patchwork.freedesktop.org/series/139879/. The series improves
-internal handling of the connector status. That first requires fixes in
-several drivers; including nouveau.
----
- drivers/gpu/drm/nouveau/nouveau_connector.c | 1 -
- 1 file changed, 1 deletion(-)
+It seems to be correct. These are two different IP blocks with
+different modifications. QCS8300's DP configuration matches the SM8650
+([1]), though the DPU is the same as the one on the SA8775P platform.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-index 6fb9719d721f7..1b10c6c12f468 100644
---- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-@@ -775,7 +775,6 @@ nouveau_connector_force(struct drm_connector *connector)
- 	if (!nv_encoder) {
- 		NV_ERROR(drm, "can't find encoder to force %s on!\n",
- 			 connector->name);
--		connector->status = connector_status_disconnected;
- 		return;
- 	}
- 
+[1] https://lore.kernel.org/dri-devel/411626da-7563-48fb-ac7c-94f06e73e4b8@quicinc.com/
+
+
 -- 
-2.47.1
-
+With best wishes
+Dmitry
