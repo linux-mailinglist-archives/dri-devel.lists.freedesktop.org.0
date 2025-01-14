@@ -2,62 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF07A10222
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:34:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F91DA10254
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:44:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55D6B10E35C;
-	Tue, 14 Jan 2025 08:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5544D10E894;
+	Tue, 14 Jan 2025 08:44:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S5/JHLs0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OVtyWAIj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A53910E35C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:34:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5F926A40C0D;
- Tue, 14 Jan 2025 08:33:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E66C4CEDD;
- Tue, 14 Jan 2025 08:34:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736843693;
- bh=7dSaHofpJxvwalwOQnG7xDr2/PjqZEbK15g2hNfAOPE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S5/JHLs0tLYVTXW2+/GOcfyg/MgCXjTJtv5XEpLDO8pbytrOJoWA2JvY/JcyGzHr2
- ThDl6r2KRZJtxxjafyDbJ67e4z5+DZ8zcERqNIlZnmAWkIx2G5Xppod5MpUB85jzAO
- TxgLvhWvgs3wFP3mKlwaHLLbM131pPND3aDpTIftc9LqNM6P+O8UoQCwerQ6bfrN+w
- VNU+plAKpLdQ6HB0NSunZbCao7m59cJDoOjMVw07CnA0OsJUVOVaFoHf+rdc4WGDXu
- 96nF7IFGGYoE6U8r+mbL21URPht4k7W5svIZqm425fh5I2XIY0u1ejdwXKXvGGOgVU
- RZT4QXljBwj3w==
-Date: Tue, 14 Jan 2025 09:34:49 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>,
- Guido =?utf-8?Q?G=C3=BAnther?= <agx@sigxcpu.org>, 
- Robert Chiras <robert.chiras@nxp.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- imx@lists.linux.dev
-Subject: Re: [PATCH v2 1/1] dt-bindings: display: nwl-dsi: Allow 'data-lanes'
- property for port@1
-Message-ID: <c5y6mocsd77wj5lah6n47vtteqc5ekcrbdod6z5vtcnxhleudw@kfhpyoiylqqp>
-References: <20250110161733.2515332-1-Frank.Li@nxp.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A9310E891
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:44:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736844282; x=1768380282;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=eg5nn/MSO+W8f7Ra6u7c2R3KW/EKyTFD0HX57IztWII=;
+ b=OVtyWAIjcNGriQHIeqSBLqxmxjtykqR+kihZn+PDxlpwa7DXikrZH2AU
+ cEbaDsfg4fLXelfUzjTwKaGbIwY3pguxN71PYFLv30/TzbjFuq9GwvDim
+ ZU91hPAfKjmzIP/fU8QvAzrbDAy5PYDJrNhBkPHNW7XesCkHV63Pf/qid
+ R8k63pLqf2/ghoWd0mG4de5I8syFVjrLjmHqyP4OJgFXR0NfQzZ0LbJft
+ jEWxtw+hXRq+fJuAHTqGjW9MUrdo9yg55/5H1+loHxXhsh4jd9M+QDF1A
+ 13Yc+5PQ/soxx4Gt+DoZwtbZ0UCHIC42n+rkE2Hlv7AZS/DnHrDp7r/9f g==;
+X-CSE-ConnectionGUID: ZHNyC2SfTf+4kt2UKan9zQ==
+X-CSE-MsgGUID: fzkt2gHIT/W0Uq2albhFIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="47711152"
+X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; d="scan'208";a="47711152"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2025 00:44:41 -0800
+X-CSE-ConnectionGUID: uaipeVcWTIKXwO9ATXtfGQ==
+X-CSE-MsgGUID: CO+dWltcT3+ySJhJggSFhQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="109748169"
+Received: from jlawryno.igk.intel.com ([10.91.220.59])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2025 00:44:39 -0800
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
+ stanislaw.gruszka@linux.intel.com, maciej.falkowski@linux.intel.com,
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Subject: [PATCH] MAINTAINERS: Update intel_vpu maintainer list
+Date: Tue, 14 Jan 2025 09:44:36 +0100
+Message-ID: <20250114084436.1326127-1-jacek.lawrynowicz@linux.intel.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250110161733.2515332-1-Frank.Li@nxp.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,29 +67,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 11:17:32AM -0500, Frank Li wrote:
-> This controller support scalable data lanes from 1 to 4. Add the
-> 'data-lanes' property to configure the number of MIPI display panel lanes
-> selected for boards.
-> 
-> Change $ref of port@1 from 'port' to 'port-base' and add 'endpoint'
-> property referencing video-interfaces.yaml. Allow 'data-lanes' values
-> 1, 2, 3, and 4 for port@1.
-> 
-> Fix below CHECK_DTB warnings:
-> arch/arm64/boot/dts/freescale/imx8mq-tqma8mq-mba8mx-lvds-tm070jvhg33.dtb:
->  dsi@30a00000: ports:port@1:endpoint: Unevaluated properties are not allowed ('data-lanes' was unexpected)
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> Change from v1 to v2
-> - Add the reason why need 'data-lanes' property in commit message.
-> ---
->  .../bindings/display/bridge/nwl-dsi.yaml       | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
+Slawek moved to another project and Maciej will be replacing him.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 33fe500bf3ae6..8f2a266a6c404 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7054,7 +7054,7 @@ F:	include/linux/power/smartreflex.h
+ 
+ DRM ACCEL DRIVERS FOR INTEL VPU
+ M:	Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+-M:	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
++M:	Maciej Falkowski <maciej.falkowski@linux.intel.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+-- 
+2.45.1
 
