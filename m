@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B4EA10096
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 06:56:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF700A10097
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 06:57:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A155F10E866;
-	Tue, 14 Jan 2025 05:56:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BE0110E867;
+	Tue, 14 Jan 2025 05:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="MZZ19EsA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="IxmezzX4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
- [91.218.175.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3356010E866
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 05:56:56 +0000 (UTC)
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::ab])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D44A10E867
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 05:57:00 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736834214;
+ t=1736834218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pTQNYNRsRTDPvLebMCe+3PXGgkJKRcAnZQYe/nMlLjQ=;
- b=MZZ19EsAR+5c82l7aPeZDyIWDjVFjHX/OM8v04HZr/KRTkyGP22NKkxo3IFmHNk7LliWlV
- kOnCn/TPDlPPRGD93so7+zF9Tv4zAFQ1WQ4H5zXjcvN37hrSqK1XXPcotmu2xOZPYbeu/Z
- laod2owNyJomSoyXR7MpkiEcN1PXaE4=
+ bh=UH2zGmcA5HXp21+So6ChmmD6SFUtGHmJj7f4jX4RLU4=;
+ b=IxmezzX4XGWW0CG796RKhKRF/gOG2OVLgtc0CJK3NaKT6XdKqaRic0z8OAHmR9CyMUQrfQ
+ JJ7YgoKdqYwdVS5D+wxTZ/dH/hDLv+LCbVsTd0QZ+fBFBeYOKHXuOZaIz04CdxMqC729km
+ F2A6XjVynMQYknqUm30qdH5+P2ynDOc=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -45,10 +45,9 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v7 02/12] drm/bridge: cdns-dsi: Move to
- devm_drm_of_get_bridge()
-Date: Tue, 14 Jan 2025 11:26:16 +0530
-Message-Id: <20250114055626.18816-3-aradhya.bhatia@linux.dev>
+Subject: [PATCH v7 03/12] drm/bridge: cdns-dsi: Fix phy de-init and flag it so
+Date: Tue, 14 Jan 2025 11:26:17 +0530
+Message-Id: <20250114055626.18816-4-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
 References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -71,105 +70,48 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-Instead of manually finding the next bridge/panel, and maintaining the
-panel-bridge (in-case the next entity is a panel), switch to using the
-automatically managing devm_drm_of_get_bridge() API.
+The driver code doesn't have a Phy de-initialization path as yet, and so
+it does not clear the phy_initialized flag while suspending. This is a
+problem because after resume the driver looks at this flag to determine
+if a Phy re-initialization is required or not. It is in fact required
+because the hardware is resuming from a suspend, but the driver does not
+carry out any re-initialization causing the D-Phy to not work at all.
 
-Drop the drm_panel support completely from the driver while at it.
+Call the counterparts of phy_init() and phy_power_on(), that are
+phy_exit() and phy_power_off(), from _bridge_disable(), and clear the
+flags so that the Phy can be initialized again when required.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 28 ++-----------------
- .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  2 --
- 2 files changed, 3 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 2f897ea5e80a..056583e81155 100644
+index 056583e81155..039c5eb7fb66 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -920,8 +920,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
- 	struct cdns_dsi_output *output = &dsi->output;
- 	struct cdns_dsi_input *input = &dsi->input;
- 	struct drm_bridge *bridge;
--	struct drm_panel *panel;
--	struct device_node *np;
- 	int ret;
+@@ -672,6 +672,11 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
+ 	if (dsi->platform_ops && dsi->platform_ops->disable)
+ 		dsi->platform_ops->disable(dsi);
  
- 	/*
-@@ -939,26 +937,10 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
- 	/*
- 	 * The host <-> device link might be described using an OF-graph
- 	 * representation, in this case we extract the device of_node from
--	 * this representation, otherwise we use dsidev->dev.of_node which
--	 * should have been filled by the core.
-+	 * this representation.
- 	 */
--	np = of_graph_get_remote_node(dsi->base.dev->of_node, DSI_OUTPUT_PORT,
--				      dev->channel);
--	if (!np)
--		np = of_node_get(dev->dev.of_node);
--
--	panel = of_drm_find_panel(np);
--	if (!IS_ERR(panel)) {
--		bridge = drm_panel_bridge_add_typed(panel,
--						    DRM_MODE_CONNECTOR_DSI);
--	} else {
--		bridge = of_drm_find_bridge(np);
--		if (!bridge)
--			bridge = ERR_PTR(-EINVAL);
--	}
--
--	of_node_put(np);
--
-+	bridge = devm_drm_of_get_bridge(dsi->base.dev, dsi->base.dev->of_node,
-+					DSI_OUTPUT_PORT, dev->channel);
- 	if (IS_ERR(bridge)) {
- 		ret = PTR_ERR(bridge);
- 		dev_err(host->dev, "failed to add DSI device %s (err = %d)",
-@@ -968,7 +950,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
++	dsi->phy_initialized = false;
++	dsi->link_initialized = false;
++	phy_power_off(dsi->dphy);
++	phy_exit(dsi->dphy);
++
+ 	pm_runtime_put(dsi->base.dev);
+ }
  
- 	output->dev = dev;
- 	output->bridge = bridge;
--	output->panel = panel;
- 
- 	/*
- 	 * The DSI output has been properly configured, we can now safely
-@@ -984,12 +965,9 @@ static int cdns_dsi_detach(struct mipi_dsi_host *host,
- 			   struct mipi_dsi_device *dev)
- {
- 	struct cdns_dsi *dsi = to_cdns_dsi(host);
--	struct cdns_dsi_output *output = &dsi->output;
- 	struct cdns_dsi_input *input = &dsi->input;
- 
- 	drm_bridge_remove(&input->bridge);
--	if (output->panel)
--		drm_panel_bridge_remove(output->bridge);
- 
+@@ -1130,7 +1135,6 @@ static int __maybe_unused cdns_dsi_suspend(struct device *dev)
+ 	clk_disable_unprepare(dsi->dsi_sys_clk);
+ 	clk_disable_unprepare(dsi->dsi_p_clk);
+ 	reset_control_assert(dsi->dsi_p_rst);
+-	dsi->link_initialized = false;
  	return 0;
  }
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-index ca7ea2da635c..5db5dbbbcaad 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
-@@ -10,7 +10,6 @@
  
- #include <drm/drm_bridge.h>
- #include <drm/drm_mipi_dsi.h>
--#include <drm/drm_panel.h>
- 
- #include <linux/bits.h>
- #include <linux/completion.h>
-@@ -21,7 +20,6 @@ struct reset_control;
- 
- struct cdns_dsi_output {
- 	struct mipi_dsi_device *dev;
--	struct drm_panel *panel;
- 	struct drm_bridge *bridge;
- 	union phy_configure_opts phy_opts;
- };
 -- 
 2.34.1
 
