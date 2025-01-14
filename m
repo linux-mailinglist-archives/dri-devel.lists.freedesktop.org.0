@@ -2,64 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FC1A10CB9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 17:53:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FED3A10CF0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:03:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E56310E3EE;
-	Tue, 14 Jan 2025 16:53:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 891DE10E401;
+	Tue, 14 Jan 2025 17:03:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="bk80hWTs";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="FopKS7t7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com
- [IPv6:2001:41d0:1004:224b::ba])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6A2210E3EE
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 16:53:00 +0000 (UTC)
-Message-ID: <c257c80e-c449-4750-b822-94f1d1bd8a57@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1736873578;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5VyXoQKxUrpax9SvM9G5/PJBAbAgUuAfOj1RuNdblDc=;
- b=bk80hWTsnBMcwcqztokimJkzKlxkuPB0BeAD6meFt6cODXl66+iG98JL8Ot5iL+g+jDh4b
- IZtBsj7p4I7gQdJuYJpMGLo9sWFY110zc6O0r6YtKgYpH3TpSwsm3kiRKEWUYDk6qIpGPK
- IVrE1pDEW5JuzUE2WORGB8II1ojkSPs=
-Date: Tue, 14 Jan 2025 22:22:51 +0530
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75A7E10E401
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:03:30 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-7be49f6b331so81126085a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 09:03:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1736874149; x=1737478949;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5pwRPv3AC50iLCk2Zf2oVFdf10HsOLZLViQlkbWzupw=;
+ b=FopKS7t7YhIYYUWyqptnWzGTXQVPWirZhvjBC11mfNSxtk50baQu7s1vWWSD1W95Rc
+ +gW1NYQqxd0MCboHvAwvTq5F/ODHvIoOHtFKiEzVfvZ+4r28N8ctQS2jukviCOWdvJJF
+ Old2sFOr1pnCo/uqMRQgOX9TYKob135PmHJupB7UfBo6frjZ6VWMGd48CtheZ8eaN+y1
+ TcSuK48C78aY9XRf6g1ndLjMHs8GmJ1S6mbmPxDtsoFLI1ri2ooZ9DX+us2nwnnh9IA1
+ DzzYxMVCwH2PuXQ4wQK09OZkdum6q6HcGBSxK9zpRQX11+MHFEUJFl6pV4P4m89QkKA4
+ Wbwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736874149; x=1737478949;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5pwRPv3AC50iLCk2Zf2oVFdf10HsOLZLViQlkbWzupw=;
+ b=glIMS88In8v3Duc4Qk2eHDz4vI5l70qIpx6NqA9MfxBt6NCA8XZbNDZD/faT0Phc6j
+ UwTruJoAulmrY4MoDSXySk3gI/oApj2vg2Hol+Cdxq5SJSTYv66/L0avnrilyuZ1FMmC
+ qAMWSkZIf2YiHzXAjEJsIliX5D/pEKZ0vLggl9wMZJGi7eaoFMiIIz6DMDID/ByzylDt
+ RESEaHb8LZ9i4cij4GEMITf5nplRiCcORc1Crm+nVm7ndyXAaq52DmOBw+jG2BQQmoum
+ CCcAqsRXMgPMmjm+j+5fyozI/Bigb4wG4JQULx7rs52Erro8jlmdnpBHV2XR5e/uZcsy
+ dpkg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKi00QJgOMwmX2OSXvybgyo+sT2qsHuePm1f8t+KFfnepAc8Wh3NDi2GCbiDe3/OWe8P3nfI58KrI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiDx88CYdhLVg0p6TkLJwj9CgwKIiiDIHqR9DpsChiqrMJJXI/
+ sIRBQgfkcS5lgm/CBEWnBaThmGGoljE3P3565088yDH3YbvgiUch+oTdWuC05cr+mjmlMkn8FvZ
+ BKM/k6+hBHvSZCjvTU0Vy+LC+qHVJKAiSQHI6
+X-Gm-Gg: ASbGncspuP24/d2FZwnYrSgkDwOQJVY64PdqxQVUF+Gm1ceYX5cHUIQgBacUxSKdrbG
+ KQRb0dQuLgeIJkfuzcbh2X2cd/Z5O2tqUrhZrrXRGY2rL0P1bRa3wJxvomLTGUX3eaRtLFJQ=
+X-Google-Smtp-Source: AGHT+IEmCebGY2XiXiMSHiPH6lyzErlM2sxmSzBWB4EBYHNDzzHKKbPlbhF+bpXyENdSkK3zvR6V00VYB1KaeeKmh74=
+X-Received: by 2002:a05:620a:244d:b0:7b7:142d:53b8 with SMTP id
+ af79cd13be357-7bcd97c97e1mr4649151185a.53.1736874149139; Tue, 14 Jan 2025
+ 09:02:29 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH v7 11/12] drm/atomic-helper: Re-order bridge chain
- pre-enable and post-disable
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>,
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>,
- Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
-References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
- <20250114055626.18816-12-aradhya.bhatia@linux.dev>
- <psce5mzs5kyw76pkb75lmxliddph6b7yob6nunmxy4ne7g7zin@axa67tkcgr5j>
- <4518320e-4699-4026-adbe-b28514bde544@ideasonboard.com>
- <4d2bf1a9-37d8-4f9e-b855-b372179258f2@linux.dev>
- <20250114-hypersonic-amiable-seagull-2d9f8d@houat>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <20250114-hypersonic-amiable-seagull-2d9f8d@houat>
-Content-Type: text/plain; charset=UTF-8
+References: <20250113093453.1932083-1-kirill.shutemov@linux.intel.com>
+ <20250113093453.1932083-9-kirill.shutemov@linux.intel.com>
+ <Z4UxK_bsFD7TtL1l@casper.infradead.org>
+ <vpy2hikqvw3qrncjdlxp6uonpmbueoulhqipdkac7tav4t7m2s@3ebncdtepyv6>
+In-Reply-To: <vpy2hikqvw3qrncjdlxp6uonpmbueoulhqipdkac7tav4t7m2s@3ebncdtepyv6>
+From: Yu Zhao <yuzhao@google.com>
+Date: Tue, 14 Jan 2025 10:01:52 -0700
+X-Gm-Features: AbW1kvYQkyXZbUdcH1QNEYpQQw7S18-Qu-i6iGpqw5vVBDdyuuTWt_dBq2WlT1M
+Message-ID: <CAOUHufY+BViSYS14tfN8EOhuE05KneG2syHhVCyFPppkmDH=aQ@mail.gmail.com>
+Subject: Re: [PATCH 8/8] mm: Remove PG_reclaim
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Matthew Wilcox <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Jens Axboe <axboe@kernel.dk>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chengming Zhou <chengming.zhou@linux.dev>, 
+ Christian Brauner <brauner@kernel.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, David Airlie <airlied@gmail.com>, 
+ David Hildenbrand <david@redhat.com>, Hao Ge <gehao@kylinos.cn>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Josef Bacik <josef@toxicpanda.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Nhat Pham <nphamcs@gmail.com>, 
+ Oscar Salvador <osalvador@suse.de>, Ran Xiaokai <ran.xiaokai@zte.com.cn>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
+ Steven Rostedt <rostedt@goodmis.org>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Vlastimil Babka <vbabka@suse.cz>, Yosry Ahmed <yosryahmed@google.com>,
+ intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-trace-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,115 +107,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/14/25 22:13, Maxime Ripard wrote:
-> On Tue, Jan 14, 2025 at 10:05:56PM +0530, Aradhya Bhatia wrote:
->>
->>
->> On 1/14/25 18:34, Tomi Valkeinen wrote:
->>> Hi,
->>>
->>> On 14/01/2025 13:24, Dmitry Baryshkov wrote:
->>>> On Tue, Jan 14, 2025 at 11:26:25AM +0530, Aradhya Bhatia wrote:
->>>>> Move the bridge pre_enable call before crtc enable, and the bridge
->>>>> post_disable call after the crtc disable.
->>>>>
->>>>> The sequence of enable after this patch will look like:
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[n]_pre_enable
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0...
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[1]_pre_enable
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0crtc_enable
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0encoder_enable
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[1]_enable
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0...
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[n]_enable
->>>>>
->>>>> And, the disable sequence for the display pipeline will look like:
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[n]_disable
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0...
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[1]_disable
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0encoder_disable
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0crtc_disable
->>>>>
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[1]_post_disable
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0...
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0bridge[n]_post_disable
->>>>>
->>>>> The definition of bridge pre_enable hook says that,
->>>>> "The display pipe (i.e. clocks and timing signals) feeding this bri=
-dge
->>>>> will not yet be running when this callback is called".
->>>>>
->>>>> Since CRTC is also a source feeding the bridge, it should not be en=
-abled
->>>>> before the bridges in the pipeline are pre_enabled. Fix that by
->>>>> re-ordering the sequence of bridge pre_enable and bridge post_disab=
-le.
->>>>
->>>> The patch contains both refactoring of the corresponding functions a=
-nd
->>>> changing of the order. Please split it into two separate commits.
->>>>
->>>>>
->>>>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
->>>>> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
->>>>> ---
->>>>> =C2=A0 drivers/gpu/drm/drm_atomic_helper.c | 300 +++++++++++++++++-=
-----------
->>>>> =C2=A0 1 file changed, 181 insertions(+), 119 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c
->>>>> b/drivers/gpu/drm/drm_atomic_helper.c
->>>>> index 5186d2114a50..ad6290a4a528 100644
->>>>> --- a/drivers/gpu/drm/drm_atomic_helper.c
->>>>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->>>>> @@ -74,6 +74,12 @@
->>>>> =C2=A0=C2=A0 * also shares the &struct drm_plane_helper_funcs funct=
-ion table
->>>>> with the plane
->>>>> =C2=A0=C2=A0 * helpers.
->>>>> =C2=A0=C2=A0 */
->>>>> +
->>>>> +enum bridge_chain_operation_type {
->>>>> +=C2=A0=C2=A0=C2=A0 DRM_BRIDGE_PRE_ENABLE_OR_POST_DISABLE,
->>>>> +=C2=A0=C2=A0=C2=A0 DRM_BRIDGE_ENABLE_OR_DISABLE,
->>>>> +};
->>>>> +
->>>>
->>>> I have mixed feelings towards this approach. I doubt that it actuall=
-y
->>>> helps. Would you mind replacing it with just 'bool pre_enable' / 'bo=
-ol
->>>> post_disable' arguments?
->>>
->>> If my memory serves, I suggested the enum. I don't like it too much
->>> either. But neither do I like the boolean that much, as this is not a=
-
->>> yes/no, on/off case... Then again, maybe boolean is fine here, as the=
-
->>> "off" case is the "normal/default" case so it's still ok-ish.
->>>
->>> But this doesn't matter much, I think. It's internal, and can be
->>> trivially adjusted later.
->>>
->>
->> Alright! I will drop the enum reference entirely, and just use the
->> booleans.
->=20
-> Whatever you do, I think that we're at a point where the bridge chain
-> traversal is complicated enough that we'll want to have tests for all
-> cases.
+On Tue, Jan 14, 2025 at 1:30=E2=80=AFAM Kirill A. Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
 >
+> On Mon, Jan 13, 2025 at 03:28:43PM +0000, Matthew Wilcox wrote:
+> > On Mon, Jan 13, 2025 at 11:34:53AM +0200, Kirill A. Shutemov wrote:
+> > > diff --git a/mm/migrate.c b/mm/migrate.c
+> > > index caadbe393aa2..beba72da5e33 100644
+> > > --- a/mm/migrate.c
+> > > +++ b/mm/migrate.c
+> > > @@ -686,6 +686,8 @@ void folio_migrate_flags(struct folio *newfolio, =
+struct folio *folio)
+> > >             folio_set_young(newfolio);
+> > >     if (folio_test_idle(folio))
+> > >             folio_set_idle(newfolio);
+> > > +   if (folio_test_readahead(folio))
+> > > +           folio_set_readahead(newfolio);
+> > >
+> > >     folio_migrate_refs(newfolio, folio);
+> > >     /*
+> >
+> > Not a problem with this patch ... but aren't we missing a
+> > test_dropbehind / set_dropbehind pair in this function?  Or are we
+> > prohibited from migrating a folio with the dropbehind flag set
+> > somewhere?
+>
+> Hm. Good catch.
+>
+> We might want to drop clean dropbehind pages instead migrating them.
+>
+> But I am not sure about dirty ones. With slow backing storage it might be
+> better for the system to migrate them instead of keeping them in the old
+> place for potentially long time.
+>
+> Any opinions?
+>
+> > > +++ b/mm/swap.c
+> > > @@ -221,22 +221,6 @@ static void lru_move_tail(struct lruvec *lruvec,=
+ struct folio *folio)
+> > >     __count_vm_events(PGROTATED, folio_nr_pages(folio));
+> > >  }
+> > >
+> > > -/*
+> > > - * Writeback is about to end against a folio which has been marked f=
+or
+> > > - * immediate reclaim.  If it still appears to be reclaimable, move i=
+t
+> > > - * to the tail of the inactive list.
+> > > - *
+> > > - * folio_rotate_reclaimable() must disable IRQs, to prevent nasty ra=
+ces.
+> > > - */
+> > > -void folio_rotate_reclaimable(struct folio *folio)
+> > > -{
+> > > -   if (folio_test_locked(folio) || folio_test_dirty(folio) ||
+> > > -       folio_test_unevictable(folio))
+> > > -           return;
+> > > -
+> > > -   folio_batch_add_and_move(folio, lru_move_tail, true);
+> > > -}
+> >
+> > I think this is the last caller of lru_move_tail(), which means we can
+> > get rid of fbatches->lru_move_tail and the local_lock that protects it.
+> > Or did I miss something?
+>
+> I see lru_move_tail() being used by lru_add_drain_cpu().
 
-I don't think I follow. Which all cases are you referring to?
-
-
-Regards
-Aradhya
-
+That can be deleted too, since you've already removed the producer to
+fbatches->lru_move_tail.
