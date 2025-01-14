@@ -2,106 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68B7BA1099E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 009BBA109A6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:45:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCD9910E36C;
-	Tue, 14 Jan 2025 14:44:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7328610E36D;
+	Tue, 14 Jan 2025 14:45:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Cagok+yK";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="EfztuKp1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
- [IPv6:2a00:1450:4864:20::629])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD21810E36C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:44:08 +0000 (UTC)
-Received: by mail-ej1-x629.google.com with SMTP id
- a640c23a62f3a-aae81f4fdc4so1059104766b.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 06:44:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1736865847; x=1737470647; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ATFNgMzaw3+odlncdmVbwQjWHseefp7b7ULkUB6sipQ=;
- b=Cagok+yKfU5c3rGPuRBYbpWlQH1OKGJOLWIljB5sD/B5i23EneCaetwtqtayRwt1Na
- 9XM2/ixl7R/zKH0ak0J8jx/z0nSTO3n5Pig3m2QMtU+SIlOTTbmbviauz3/FXplH3+FK
- n8WsE20RcJKPCcRy8ZbufNuId18k4rESdPkXQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736865847; x=1737470647;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ATFNgMzaw3+odlncdmVbwQjWHseefp7b7ULkUB6sipQ=;
- b=lGS9WKXoA78rTOv/KhaQtUnP8V3UqdCZBYB4mTHcCeMw/5IxaXp0kFgQmE9svQ1H9c
- EviED4iux0UCIPEFRQpOEV7V+QQV2FV0Stidhg/FCtZgIOF+fBBQJpn5pulxdYDruQk1
- 6CZQkgLHbT5eyumk3ONJwOJEvKFegWZjL6k4NT1gpChtHiViKDlGdmJOMla9njwsBZL7
- Yzdwm1AE/UJ6T/22Z6kQ4Fd4eybn/GZWIdn5SNUg0ex5P3fH7eTDSdr1JLX6m6pnwGZv
- D0GtfVPz1lJLm30BT+ooAQjk1/JL3SevWo/FkuLdITLQtykZ+bJ8elovrbm//UTzjPov
- VOHQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUa6tE51eNsw95lfO7gy+iOEsJn59tAxfbRPNOGoi4wJg9C9Wl2LsxdVhKEjIVBH1iLMOGFfXojARs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7l6+bXaBlhd6uBeWfelWY8wYni88oagdAMIsI4oJJlF896IBc
- S+Ckok0UX+5pyDdGivBT+frbIc4eYCpf/HNvAiwJHl/gHmNqXuG8bIXi4YnCQ+s=
-X-Gm-Gg: ASbGnctjDQzzGVg47cP99Emq1RNfeFjB91la1cKwIsaO6yNZQYqGNKDuzrpJGj4YKMC
- l3nlX9zwj04VyCcHNE7vK7j1xvLYKLV0ZBCMY/Gm1DawWYIMywe1uUx2lIbR/E/nqxlDGsBjggw
- e8PN+5h2A7lswElRGm5q0+FXMKEFjMpDNHEnEwbL0Gom6sM7SrM5QKw1DMlrv4gh1Hsfe1/4EBE
- YLf9GTGv39GxgYqUgGfXPxKpiMKNbX70fMZZGGU2FqVLKKl72GagTNxmhU+r3DEmXLi
-X-Google-Smtp-Source: AGHT+IGAg6SbQyvl4hHoMLWiihnCnk4YJMHgw8ibbt0hblBqr0eHOCrKPtQvQh7P/3PbA4F//m55Iw==
-X-Received: by 2002:a17:907:a48:b0:ab2:c1e2:1da9 with SMTP id
- a640c23a62f3a-ab2c1e22977mr2341583266b.51.1736865847270; 
- Tue, 14 Jan 2025 06:44:07 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ab2c95b2181sm636633966b.162.2025.01.14.06.44.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2025 06:44:06 -0800 (PST)
-Date: Tue, 14 Jan 2025 15:44:04 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
- Xu Yilun <yilun.xu@linux.intel.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
- linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
- lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-References: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
- <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com>
- <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
- <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
- <20250110203838.GL5556@nvidia.com>
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com
+ [IPv6:2001:41d0:1004:224b::b3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3F810E36D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:45:19 +0000 (UTC)
+Message-ID: <7cfc1561-a229-43e7-b4bf-23ad258733c6@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1736865913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4CrvmDa8toY6AtXmfQcY5xCeVasEYj7Vun/mLN9MlgA=;
+ b=EfztuKp1ntwUnlufMXKtuuB8SJNwbKnJAvyCrW0ceAZBZRRNa3wQ9v4eLvZK7o6+GUIf0F
+ VtR+PXC19U4RDYYDT5WgwFhMMvNnMqYB+BxfgW1w5GMHvdsH9RHYipVX15aus1QER0xyDu
+ FNAX/RrgTPRl8ck5oK5ylz7xfa+rAag=
+Date: Tue, 14 Jan 2025 20:14:54 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110203838.GL5556@nvidia.com>
-X-Operating-System: Linux phenom 6.12.3-amd64 
+Subject: Re: [PATCH v7 03/12] drm/bridge: cdns-dsi: Fix phy de-init and flag
+ it so
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
+ <20250114055626.18816-4-aradhya.bhatia@linux.dev>
+ <84ca02de-9788-4e16-bf24-1651bd365ebd@ideasonboard.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <84ca02de-9788-4e16-bf24-1651bd365ebd@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,124 +71,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 04:38:38PM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 10, 2025 at 08:34:55PM +0100, Simona Vetter wrote:
-> 
-> > So if I'm getting this right, what you need from a functional pov is a
-> > dma_buf_tdx_mmap? Because due to tdx restrictions, the normal dma_buf_mmap
-> > is not going to work I guess?
-> 
-> Don't want something TDX specific!
-> 
-> There is a general desire, and CC is one, but there are other
-> motivations like performance, to stop using VMAs and mmaps as a way to
-> exchanage memory between two entities. Instead we want to use FDs.
-> 
-> We now have memfd and guestmemfd that are usable with
-> memfd_pin_folios() - this covers pinnable CPU memory.
-> 
-> And for a long time we had DMABUF which is for all the other wild
-> stuff, and it supports movable memory too.
-> 
-> So, the normal DMABUF semantics with reservation locking and move
-> notifiers seem workable to me here. They are broadly similar enough to
-> the mmu notifier locking that they can serve the same job of updating
-> page tables.
+Hi Tomi,
 
-Yeah raw pfn is fine with me too. It might come with more "might not work
-on this dma-buf" restrictions, but I can't think of a practical one right
-now.
+On 1/14/25 18:00, Tomi Valkeinen wrote:
+> Hi,
+>=20
+> On 14/01/2025 07:56, Aradhya Bhatia wrote:
+>> From: Aradhya Bhatia <a-bhatia1@ti.com>
+>>
+>> The driver code doesn't have a Phy de-initialization path as yet, and =
+so
+>> it does not clear the phy_initialized flag while suspending. This is a=
 
-> > Also another thing that's a bit tricky is that kvm kinda has a 3rd dma-buf
-> > memory model:
-> > - permanently pinned dma-buf, they never move
-> > - dynamic dma-buf, they move through ->move_notify and importers can remap
-> > - revocable dma-buf, which thus far only exist for pci mmio resources
-> 
-> I would like to see the importers be able to discover which one is
-> going to be used, because we have RDMA cases where we can support 1
-> and 3 but not 2.
-> 
-> revocable doesn't require page faulting as it is a terminal condition.
+>> problem because after resume the driver looks at this flag to determin=
+e
+>> if a Phy re-initialization is required or not. It is in fact required
+>> because the hardware is resuming from a suspend, but the driver does n=
+ot
+>> carry out any re-initialization causing the D-Phy to not work at all.
+>>
+>> Call the counterparts of phy_init() and phy_power_on(), that are
+>> phy_exit() and phy_power_off(), from _bridge_disable(), and clear the
+>> flags so that the Phy can be initialized again when required.
+>>
+>> Fixes: fced5a364dee ("drm/bridge: cdns: Convert to phy framework")
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+>> ---
+>> =C2=A0 drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 6 +++++-
+>> =C2=A0 1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> index 056583e81155..039c5eb7fb66 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+>> @@ -672,6 +672,11 @@ static void cdns_dsi_bridge_disable(struct
+>> drm_bridge *bridge)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (dsi->platform_ops && dsi->platform_=
+ops->disable)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dsi->platform_o=
+ps->disable(dsi);
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0 dsi->phy_initialized =3D false;
+>> +=C2=A0=C2=A0=C2=A0 dsi->link_initialized =3D false;
+>> +=C2=A0=C2=A0=C2=A0 phy_power_off(dsi->dphy);
+>> +=C2=A0=C2=A0=C2=A0 phy_exit(dsi->dphy);
+>> +
+>=20
+> The phy related lines are counterparts to what's done in
+> cdns_dsi_hs_init(), right? Maybe add cdns_dsi_hs_uninit(),
+>=20
+> But is the phy_initialized even needed? phy_initialized() is called fro=
+m
+> cdns_dsi_bridge_enable() and cdns_dsi_bridge_pre_enable(). Won't the
+> call in cdns_dsi_bridge_enable() be always skipped, as
+> cdns_dsi_bridge_pre_enable() already set phy_initialized?
 
-Yeah this is why I think we should separate the dynamic from the revocable
-use-cases clearly, because mixing them is going to result in issues.
+Yes, that is how the behavior has been. The initialization calls inside
+the _bridge_enable() end-up getting skipped.
 
-> > Since we're leaning even more on that 3rd model I'm wondering whether we
-> > should make it something official. Because the existing dynamic importers
-> > do very much assume that re-acquiring the memory after move_notify will
-> > work. But for the revocable use-case the entire point is that it will
-> > never work.
-> 
-> > I feel like that's a concept we need to make explicit, so that dynamic
-> > importers can reject such memory if necessary.
-> 
-> It strikes me as strange that HW can do page faulting, so it can
-> support #2, but it can't handle a non-present fault?
+My first thought after reading your comments was to remove the init
+calls entirely from the _bridge_pre_enable(), and drop the
+phy_initialized flag too, and let _bridge_enable() only handle the init.
+The _bridge_enable() will anyway get renamed to _bridge_pre_enable(),
+while the existing _bridge_pre_enable() will get dropped, by the last
+patch of this series.
 
-I guess it's not a kernel issue, but userspace might want to know whether
-this dma-buf could potentially nuke the entire gpu context. Because that's
-what you get when we can't patch up a fault, which is the difference
-between a recovable dma-buf and a dynamic dma-buf.
+But since this patch is intended as a fix, it will get applied to
+previous versions while that last patch of the series won't... and then
+we may end up having init calls only from _bridge_enable() for the older
+versions.
+Also, given all the fixes in the series, there is a possibility that an
+older-version of the driver might become functional (except for the
+color shift issue).
 
-E.g. if a compositor gets a dma-buf it assumes that by just binding that
-it will not risk gpu context destruction (unless you're out of memory and
-everything is on fire anyway, and it's ok to die). But if a nasty client
-app supplies a revocable dma-buf, then it can shot down the higher
-priviledged compositor gpu workload with precision. Which is not great, so
-maybe existing dynamic gpu importers should reject revocable dma-buf.
-That's at least what I had in mind as a potential issue.
+My question then is, would it be a cause for concern if all the init
+calls are handled from the _bridge_enable() only?
 
-> > So yeah there's a bunch of tricky lifetime questions that need to be
-> > sorted out with proper design I think, and the current "let's just use pfn
-> > directly" proposal hides them all under the rug. 
-> 
-> I don't think these two things are connected. The lifetime model that
-> KVM needs to work with the EPT, and that VFIO needs for it's MMIO,
-> definately should be reviewed and evaluated.
-> 
-> But it is completely orthogonal to allowing iommufd and kvm to access
-> the CPU PFN to use in their mapping flows, instead of the
-> dma_addr_t.
-> 
-> What I want to get to is a replacement for scatter list in DMABUF that
-> is an array of arrays, roughly like:
-> 
->   struct memory_chunks {
->       struct memory_p2p_provider *provider;
->       struct bio_vec addrs[];
->   };
->   int (*dmabuf_get_memory)(struct memory_chunks **chunks, size_t *num_chunks);
-> 
-> This can represent all forms of memory: P2P, private, CPU, etc and
-> would be efficient with the new DMA API.
-> 
-> This is similar to the structure BIO has, and it composes nicely with
-> a future pin_user_pages() and memfd_pin_folios().
+(one of the potential concerns detailed below)
 
-Since you mention pin here, I think that's another aspect of the revocable
-vs dynamic question. Dynamic buffers are expected to sometimes just move
-around for no reason, and importers must be able to cope.
+>=20
+> Same question for cdns_dsi_init_link(), although that's also called fro=
+m
+> cdns_dsi_transfer(), so we probably need dsi->link_initialized.
+>=20
 
-For recovable exporters/importers I'd expect that movement is not
-happening, meaning it's pinned until the single terminal revocation. And
-maybe I read the kvm stuff wrong, but it reads more like the latter to me
-when crawling through the pfn code.
+Don't you think we'd need the phy to also be initialized for the DCS
+command to work?
 
-Once we have the lifetime rules nailed then there's the other issue of how
-to describe the memory, and my take for that is that once the dma-api has
-a clear answer we'll just blindly adopt that one and done.
+Usually, since DSI is among the initial bridges to get pre_enabled, the
+Link and Phy are both initialized by the time cdns_dsi_transfer() is
+called. So, even if cdns_dsi_transfer() doesn't call for
+cdns_dsi_hs_init(), it is able to work fine.
 
-And currently with either dynamic attachments and dma_addr_t or through
-fishing the pfn from the cpu pagetables there's some very clearly defined
-lifetime and locking rules (which kvm might get wrong, I've seen some
-discussions fly by where it wasn't doing a perfect job with reflecting pte
-changes, but that was about access attributes iirc). If we add something
-new, we need clear rules and not just "here's the kvm code that uses it".
-That's how we've done dma-buf at first, and it was a terrible mess of
-mismatched expecations.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+If DCS commands do indeed require the cdns_dsi_hs_init(), then shifting
+it to _bridge_enable() (like I suggested above) would be problematic
+without fixing it here.
+
+
+Regards
+Aradhya
+
+>=20
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pm_runtime_put(dsi->base.dev);
+>> =C2=A0 }
+>> =C2=A0 @@ -1130,7 +1135,6 @@ static int __maybe_unused
+>> cdns_dsi_suspend(struct device *dev)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_disable_unprepare(dsi->dsi_sys_clk)=
+;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clk_disable_unprepare(dsi->dsi_p_clk);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reset_control_assert(dsi->dsi_p_rst);
+>> -=C2=A0=C2=A0=C2=A0 dsi->link_initialized =3D false;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> =C2=A0=20
+>=20
