@@ -2,66 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A7CA10C8E
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 17:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1069BA10C93
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 17:45:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2AF410E010;
-	Tue, 14 Jan 2025 16:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9442C10E38F;
+	Tue, 14 Jan 2025 16:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kSRTHb6k";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Z9I1hme6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEA1A10E010
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 16:43:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EC449A418BD;
- Tue, 14 Jan 2025 16:41:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39128C4CEDD;
- Tue, 14 Jan 2025 16:43:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736872989;
- bh=Wxrr8MzmIgzc3LZ8ucJjauFZHGuWbnWzhBk89J+5b/o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kSRTHb6kwjJI9cS5qVPKxZyM5UhoJmd+mWjQf50YaXXXpeaa3Mg0A9AumoIwwUWL1
- yCIDMqiHwdXBm4hsvrd2vywGAdaXgfUFsDl6Sbrl4LpSsy5rz3XSt7iZovTP5RTxET
- OBD3rcyPsSSzwSkeLgUqraVViKVu1f3lcM2bi5UuUjJzMepY+hDgladYhvYqhJ2Whi
- ddZ18dXBwYzMZs/z1qAgXrqKEUDB3mbahNNtnsV+FdomdC5AZRKBOJpDLWlbMEZWMT
- /kjWatC+JStwZkOe31ai357uWOHCvFBVH/OX/7SbJXEkbWEJfXu17Jv+B+fjKbe7+2
- MfHFDeFdY/SHg==
-Date: Tue, 14 Jan 2025 17:43:06 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Nishanth Menon <nm@ti.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
- Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, 
- Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>, 
- Linux Kernel List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 11/12] drm/atomic-helper: Re-order bridge chain
- pre-enable and post-disable
-Message-ID: <20250114-hypersonic-amiable-seagull-2d9f8d@houat>
-References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
- <20250114055626.18816-12-aradhya.bhatia@linux.dev>
- <psce5mzs5kyw76pkb75lmxliddph6b7yob6nunmxy4ne7g7zin@axa67tkcgr5j>
- <4518320e-4699-4026-adbe-b28514bde544@ideasonboard.com>
- <4d2bf1a9-37d8-4f9e-b855-b372179258f2@linux.dev>
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD9F10E3EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 16:45:00 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id
+ 38308e7fff4ca-30225b2586cso61682281fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:44:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1736873096; x=1737477896;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6Rhf5Q0PvplmYAXP+OjxhPE8wqzzFNL3gHIBGS42sTM=;
+ b=Z9I1hme6/4x4KHPaisQDYIhEnX5JWSPDU+/KQT50i+aKLnAW6QFFfJ5LI9BrSA+uTZ
+ dUsJbyzo6kWlXywMfPz9tC8uLqNmmzLHKYCkae5cozfjjkh7SimT2jXR1+jiF+EoIlxI
+ sIbET2MEY5hh4jvBko08Uc07po+2TQHNwNHyA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736873096; x=1737477896;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6Rhf5Q0PvplmYAXP+OjxhPE8wqzzFNL3gHIBGS42sTM=;
+ b=oUI8uFmmWmBqc5FeGBo+0updkUqPcixEehX/8YY7hB4qrJUIbXY8/QMzEksWgdiwC+
+ Ksr5j88a+etMr21IWRCkzqg4niYTuOHYcVo+KHMvVMInhFFbJtsJ4sBBIKQxWAFI1xZM
+ flKS6zUTuXsv3zK1DoHIkP25VKgd6w2+0Ul9TgQeDYiAS1UofE87vZqIVs/0nw2lwWsB
+ wLN6RnEH066b3ScFkgfTuQdm0ts9Mxqwa8ra1M2K+7Lz2Xs0MoEaFgeD1Hmr6i9NkrZV
+ pWXQCZk2YwLdV5DT3YfOYJQ2VXG4e0ME7A6pPXaWVHD9MUiCfFtPgmsR9DOIHy9yU/Vs
+ oJiw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVdsrme4E0Emv4G54B/cP9v1n4XXKigpFe06V5kKAOI8FLzscFRcQaqlIgYt08e0V6TLkCH+l9ulO8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yylcf51acrY2arHH/dAU+01v0BC8O0xmNTZ4Bp/PSrSjSjCkvHP
+ KwZIVfnRaxeeZxkEmjfRcxkPW49P/zMI/NUjnNrWL+zpZ4WH2vjd8qstCq/XOlzlacoVbHwdfYh
+ e7lZh
+X-Gm-Gg: ASbGnculkLDRJx0VfPe3yWOiFUbX5LULIwCzs2OkHzDshy7L8Q6TBgVoJOIpv0gwlu/
+ OD/M2IrpMJhzBP6RkVprKaredZsLIPBDDLcG9aNalROb86y4x2P1RoEahv6uRgmo2s4HzN5BpIf
+ hYs43NlthuL5fvryPoP+wHMCOrCijQrshfcqhHuqPNGJc4B3PM9FZe7QRRun4kxRbf4TbuT6w9Z
+ EOM0gB6VB6gSkyWBOnll5JLHgaW/W1cPJ7BzW2aKrdXOEFBw7KIgl0SNbRPo3rirnTir+m9ccpV
+ WuwnezTvaa+AQA8iA8S0jh6p
+X-Google-Smtp-Source: AGHT+IHgOQTinSYkF3Ynoj16l3nuImR3vsuBHsy7yed8Lsvf96nAU+yeAJerJZSowu5nWNO6c6nA1A==
+X-Received: by 2002:a05:6512:2391:b0:540:2fe6:6a3c with SMTP id
+ 2adb3069b0e04-5428a5775dcmr8121199e87.0.1736873096407; 
+ Tue, 14 Jan 2025 08:44:56 -0800 (PST)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com.
+ [209.85.208.171]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428becae9esm1743254e87.232.2025.01.14.08.44.54
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Jan 2025 08:44:55 -0800 (PST)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-30219437e63so62296781fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:44:54 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWk6BIAQJfEUU/1lPhPsrJgfwOrVN8R8e6gGMghIY8QfI/4wlLG1L+LQQFajzmEcnCWNXrHmH2Crzg=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:2391:b0:540:2fe6:6a3c with SMTP id
+ 2adb3069b0e04-5428a5775dcmr8121151e87.0.1736873093549; Tue, 14 Jan 2025
+ 08:44:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="uydoytvsz2kxjpgk"
-Content-Disposition: inline
-In-Reply-To: <4d2bf1a9-37d8-4f9e-b855-b372179258f2@linux.dev>
+References: <20250113085956.2150207-1-andyshrk@163.com>
+ <34a1058f.9829.1945f2b448c.Coremail.andyshrk@163.com>
+ <341c653.7fa6.194640f0f37.Coremail.andyshrk@163.com>
+In-Reply-To: <341c653.7fa6.194640f0f37.Coremail.andyshrk@163.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 14 Jan 2025 08:44:41 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
+X-Gm-Features: AbW1kvampitepN_q8Ct06ykQC2d9XxVa0ppgZ5JU78BlYAwIuwapvkOR0kwrX5Y
+Message-ID: <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
+Subject: Re: Re:[PATCH] drm/panel-edp: Add BOE NV140FHM-N4Z panel entry
+To: Andy Yan <andyshrk@163.com>
+Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, neil.armstrong@linaro.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,121 +101,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
---uydoytvsz2kxjpgk
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 11/12] drm/atomic-helper: Re-order bridge chain
- pre-enable and post-disable
-MIME-Version: 1.0
+On Tue, Jan 14, 2025 at 1:05=E2=80=AFAM Andy Yan <andyshrk@163.com> wrote:
+>
+>
+> Hi All,
+>
+> At 2025-01-13 18:17:38, "Andy Yan" <andyshrk@163.com> wrote:
+> >
+> >Sorry, please don't merge this patch. after further testing,
+> >I found that there are still some changce, it can't read edid.
+>
+> It turns out that we need set hpd-reliable-delay-ms =3D 120 in dts to ens=
+ure
+> the right time to access edid.
 
-On Tue, Jan 14, 2025 at 10:05:56PM +0530, Aradhya Bhatia wrote:
->=20
->=20
-> On 1/14/25 18:34, Tomi Valkeinen wrote:
-> > Hi,
-> >=20
-> > On 14/01/2025 13:24, Dmitry Baryshkov wrote:
-> >> On Tue, Jan 14, 2025 at 11:26:25AM +0530, Aradhya Bhatia wrote:
-> >>> Move the bridge pre_enable call before crtc enable, and the bridge
-> >>> post_disable call after the crtc disable.
-> >>>
-> >>> The sequence of enable after this patch will look like:
-> >>>
-> >>> =A0=A0=A0=A0bridge[n]_pre_enable
-> >>> =A0=A0=A0=A0...
-> >>> =A0=A0=A0=A0bridge[1]_pre_enable
-> >>>
-> >>> =A0=A0=A0=A0crtc_enable
-> >>> =A0=A0=A0=A0encoder_enable
-> >>>
-> >>> =A0=A0=A0=A0bridge[1]_enable
-> >>> =A0=A0=A0=A0...
-> >>> =A0=A0=A0=A0bridge[n]_enable
-> >>>
-> >>> And, the disable sequence for the display pipeline will look like:
-> >>>
-> >>> =A0=A0=A0=A0bridge[n]_disable
-> >>> =A0=A0=A0=A0...
-> >>> =A0=A0=A0=A0bridge[1]_disable
-> >>>
-> >>> =A0=A0=A0=A0encoder_disable
-> >>> =A0=A0=A0=A0crtc_disable
-> >>>
-> >>> =A0=A0=A0=A0bridge[1]_post_disable
-> >>> =A0=A0=A0=A0...
-> >>> =A0=A0=A0=A0bridge[n]_post_disable
-> >>>
-> >>> The definition of bridge pre_enable hook says that,
-> >>> "The display pipe (i.e. clocks and timing signals) feeding this bridge
-> >>> will not yet be running when this callback is called".
-> >>>
-> >>> Since CRTC is also a source feeding the bridge, it should not be enab=
-led
-> >>> before the bridges in the pipeline are pre_enabled. Fix that by
-> >>> re-ordering the sequence of bridge pre_enable and bridge post_disable.
+That seems awfully high and feels likely to be a problem with your
+board design and not the panel. Are you sure HPD is even hooked up
+properly on your board? Maybe you're missing a pullup/pulldown config
+somewhere? Would it be better to just specify "no-hpd" and get the
+full "HPD absent" delay?
+
+
+> So the patch is ok, it is ready for review.
+>
+> >
+> >At 2025-01-13 16:59:54, "Andy Yan" <andyshrk@163.com> wrote:
+> >>Add an eDP panel entry for BOE NV140FHM-N4Z.
 > >>
-> >> The patch contains both refactoring of the corresponding functions and
-> >> changing of the order. Please split it into two separate commits.
+> >>No datasheet found for this panel.
+
+I seem to be able to find a datasheet for something that calls itself
+NV140FHM-N4Z, but it might be a different HW version since it has a
+different ID. In my datasheet, though, "prepare_to_enable" should be
+80 for this panel, not 200. That matches another nearby panel
+"NV140WUM-N41". Are you sure you need 200?
+
+
+> >>edid:
+> >>00 ff ff ff ff ff ff 00 09 e5 09 0b 00 00 00 00
+> >>01 20 01 04 a5 1f 11 78 03 9b 75 99 5b 5d 8f 2a
+> >>23 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> >>01 01 01 01 01 01 c8 37 80 cc 70 38 28 40 6c 30
+> >>aa 00 35 ae 10 00 00 1a 00 00 00 fd 00 30 3c 43
+> >>43 8f 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
+> >>4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
+> >>00 4e 56 31 34 30 46 48 4d 2d 4e 34 5a 0a 00 35
 > >>
-> >>>
-> >>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> >>> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> >>> ---
-> >>> =A0 drivers/gpu/drm/drm_atomic_helper.c | 300 +++++++++++++++++------=
------
-> >>> =A0 1 file changed, 181 insertions(+), 119 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/drm_atomic_helper.c
-> >>> b/drivers/gpu/drm/drm_atomic_helper.c
-> >>> index 5186d2114a50..ad6290a4a528 100644
-> >>> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> >>> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> >>> @@ -74,6 +74,12 @@
-> >>> =A0=A0 * also shares the &struct drm_plane_helper_funcs function table
-> >>> with the plane
-> >>> =A0=A0 * helpers.
-> >>> =A0=A0 */
-> >>> +
-> >>> +enum bridge_chain_operation_type {
-> >>> +=A0=A0=A0 DRM_BRIDGE_PRE_ENABLE_OR_POST_DISABLE,
-> >>> +=A0=A0=A0 DRM_BRIDGE_ENABLE_OR_DISABLE,
-> >>> +};
-> >>> +
+> >>Signed-off-by: Andy Yan <andyshrk@163.com>
+> >>---
 > >>
-> >> I have mixed feelings towards this approach. I doubt that it actually
-> >> helps. Would you mind replacing it with just 'bool pre_enable' / 'bool
-> >> post_disable' arguments?
-> >=20
-> > If my memory serves, I suggested the enum. I don't like it too much
-> > either. But neither do I like the boolean that much, as this is not a
-> > yes/no, on/off case... Then again, maybe boolean is fine here, as the
-> > "off" case is the "normal/default" case so it's still ok-ish.
-> >=20
-> > But this doesn't matter much, I think. It's internal, and can be
-> > trivially adjusted later.
-> >=20
->=20
-> Alright! I will drop the enum reference entirely, and just use the
-> booleans.
+> >> drivers/gpu/drm/panel/panel-edp.c | 1 +
+> >> 1 file changed, 1 insertion(+)
 
-Whatever you do, I think that we're at a point where the bridge chain
-traversal is complicated enough that we'll want to have tests for all
-cases.
+FWIW it's good that Thomas replied to your patch, since that was the
+only thing that showed up in my inbox. Your initial patch showed up as
+spam for me. :( Not sure why, though...
 
-Maxime
 
---uydoytvsz2kxjpgk
-Content-Type: application/pgp-signature; name="signature.asc"
+> >>diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/=
+panel-edp.c
+> >>index 94a46241dece..a3402b76aa3e 100644
+> >>--- a/drivers/gpu/drm/panel/panel-edp.c
+> >>+++ b/drivers/gpu/drm/panel/panel-edp.c
+> >>@@ -1909,6 +1909,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+> >>      EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116=
+WHM-N4C"),
+> >>      EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, =
+"NV140WUM-N41"),
+> >>      EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122=
+WUM-N41"),
+> >>+     EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_p2e200,=
+ "NV140FHM-NZ"),
+> >>      EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV14=
+0FHM-T09"),
 
------BEGIN PGP SIGNATURE-----
+This is mis-sorted. 0xb09 should be _before_ 0x0b34. I'll often fix
+this up when applying (though it's more work for me), but since I had
+a question above about delay_200_500_e50_p2e200 vs.
+delay_200_500_e50_p2e80 maybe you can answer and also send a v2 with
+the sort order fixed.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4aUFgAKCRAnX84Zoj2+
-dnqAAYC0ScSpdOu5aG5eiiaY3iG/orovXWY6fGpDr9VJMPpj671el+lI73x5bPOq
-zNO50dcBfA0Q9Mq/caczRg7drjjxnfr1oIR98TZArOF3uBH6NqNfPYX4E4YYIqXn
-zx9fBFClSw==
-=/VQu
------END PGP SIGNATURE-----
-
---uydoytvsz2kxjpgk--
+-Doug
