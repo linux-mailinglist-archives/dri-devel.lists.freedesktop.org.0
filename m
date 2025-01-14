@@ -2,49 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167EFA106C9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 13:38:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61098A1070E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 13:47:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F5710E100;
-	Tue, 14 Jan 2025 12:38:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 106E210E29C;
+	Tue, 14 Jan 2025 12:47:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marcan.st header.i=@marcan.st header.b="csH9S9x4";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q2/R/dys";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 352 seconds by postgrey-1.36 at gabe;
- Tue, 14 Jan 2025 12:38:08 UTC
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6141110E100
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 12:38:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: marcan@marcan.st)
- by mail.marcansoft.com (Postfix) with ESMTPSA id 661CD3FB5D;
- Tue, 14 Jan 2025 12:32:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
- t=1736857935; bh=MBaRwmy2V+eKGISjTuRyij6MDBcFzFVPGd7nNHXyEn0=;
- h=Date:From:To:Subject;
- b=csH9S9x4zc2ljEtzpJMGjLGqrg61MBcXDNlquNyPCvpUoJAHqriXGvqW7GGLfrcWJ
- Gj3GjqbuvFS5Wc3mIxthHTJ4v6BWP8iJm1czVWWkUbe+6yco6UmBTj0LjbbPM75rAe
- 8Fo26SAILqFph8ZpKWCd9Cnsv+s8as0uxHLKxMnrTFV9NuMdN99pXgaCtpuQK17OgI
- R+nRJ+v1qFX2inkrkTiewWIoD4EQZOCQ3fLXEjBGzkTQIvsWbHaSTfC/Vi52x7RzJs
- i5QL405uK8/Y5l5N8aVpE3VmD/uCJUH/GkpajFKuEcWv9Se4Xc6ZyisQYFpdhRZg0w
- 93PDDALHgU/PQ==
-Message-ID: <fda8b831-1ffc-4087-8e7b-d97779b3ecc5@marcan.st>
-Date: Tue, 14 Jan 2025 21:32:11 +0900
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E98B10E29D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 12:47:39 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F0BC842;
+ Tue, 14 Jan 2025 13:46:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1736858801;
+ bh=nVSv+rX5UueUCjtenjscVHStT3IISW9iDsjH0cez6CI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=q2/R/dysCroOeHu4lTYBWkF6jBuNA8M8z0aAO81gBZBhhQIHVszutewGDYROOrPMn
+ +paA82j4z1Ge+Farj3NpCjGIcoEGdxnavPVKVAI7nsv5YMWLyTyfQzxOLlMSXmtWaM
+ 9WLGctgRGZAc69xc2Q2U0XXP56w9G3SYrgg55hp0=
+Message-ID: <5e5cd09b-a292-4af7-a124-4eced94e1bdf@ideasonboard.com>
+Date: Tue, 14 Jan 2025 14:47:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v7 10/12] drm/bridge: cdns-dsi: Move DSI mode check to
+ _atomic_check()
+To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
+ <20250114055626.18816-11-aradhya.bhatia@linux.dev>
 Content-Language: en-US
-To: devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux-usb@vger.kernel.org, linux-embedded@vger.kernel.org,
- Asahi Linux <asahi@lists.linux.dev>, linux-arm-kernel@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Subject: Unified Type C PHYs and top-level port management
-Content-Type: text/plain; charset=UTF-8
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250114055626.18816-11-aradhya.bhatia@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,161 +112,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+Hi,
 
-We're implementing Type C port support for Apple systems and we're
-running into impedance mismatches with the existing Linux subsystems. I
-want to throw a quick overview of the problem here and see if we can
-come up with solutions.
+On 14/01/2025 07:56, Aradhya Bhatia wrote:
+> From: Aradhya Bhatia <a-bhatia1@ti.com>
+> 
+> At present, the DSI mode configuration check happens during the
+> _atomic_enable() phase, which is not really the best place for this.
+> Moreover, if the mode is not valid, the driver gives a warning and
+> continues the hardware configuration.
+> 
+> Move the DSI mode configuration check to _atomic_check() instead, which
+> can properly report back any invalid mode, before the _enable phase even
+> begins.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+> ---
+>   .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 87 +++++++++++++++++--
+>   1 file changed, 82 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index b8db984ea9fa..d60254e1270c 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -425,6 +425,17 @@
+>   #define DSI_NULL_FRAME_OVERHEAD		6
+>   #define DSI_EOT_PKT_SIZE		4
+>   
+> +struct cdns_dsi_bridge_state {
+> +	struct drm_bridge_state base;
+> +	struct cdns_dsi_cfg dsi_cfg;
+> +};
+> +
+> +static inline struct cdns_dsi_bridge_state *
+> +to_cdns_dsi_bridge_state(struct drm_bridge_state *bridge_state)
+> +{
+> +	return container_of(bridge_state, struct cdns_dsi_bridge_state, base);
+> +}
+> +
+>   static inline struct cdns_dsi *input_to_dsi(struct cdns_dsi_input *input)
+>   {
+>   	return container_of(input, struct cdns_dsi, input);
+> @@ -768,6 +779,9 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+>   	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+>   	struct cdns_dsi *dsi = input_to_dsi(input);
+>   	struct cdns_dsi_output *output = &dsi->output;
+> +	struct drm_atomic_state *state = old_bridge_state->base.state;
+> +	struct cdns_dsi_bridge_state *dsi_state;
+> +	struct drm_bridge_state *new_bridge_state;
+>   	struct drm_display_mode *mode;
+>   	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
+>   	unsigned long tx_byte_period;
+> @@ -778,14 +792,19 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+>   	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+>   		return;
+>   
+> +	new_bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
+> +	if (WARN_ON(!new_bridge_state))
+> +		return;
+> +
+> +	dsi_state = to_cdns_dsi_bridge_state(new_bridge_state);
+> +	dsi_cfg = dsi_state->dsi_cfg;
+> +
+>   	if (dsi->platform_ops && dsi->platform_ops->enable)
+>   		dsi->platform_ops->enable(dsi);
+>   
+>   	mode = &bridge->encoder->crtc->state->adjusted_mode;
+>   	nlanes = output->dev->lanes;
+>   
+> -	WARN_ON_ONCE(cdns_dsi_check_conf(dsi, mode, &dsi_cfg, false));
+> -
+>   	cdns_dsi_init_link(dsi);
+>   	cdns_dsi_hs_init(dsi);
+>   
+> @@ -956,6 +975,63 @@ static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+>   	return input_fmts;
+>   }
+>   
+> +static int cdns_dsi_bridge_atomic_check(struct drm_bridge *bridge,
+> +					struct drm_bridge_state *bridge_state,
+> +					struct drm_crtc_state *crtc_state,
+> +					struct drm_connector_state *conn_state)
+> +{
+> +	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+> +	struct cdns_dsi *dsi = input_to_dsi(input);
+> +	struct cdns_dsi_bridge_state *dsi_state = to_cdns_dsi_bridge_state(bridge_state);
+> +	struct drm_display_mode *mode = &crtc_state->mode;
 
-The short version is that Linux has a pile of (sub)subsystems that deal
-with multiple aspects of coordinating Type C port behavior:
+const
 
-- USB role switch
-- USB host
-- USB gadget
-- Type C mux
-- Type C PD
-- DRM/etc for DisplayPort
-- USB4/Thunderbolt (not even going there yet)
-- Individual PHYs for everything
+> +	struct cdns_dsi_cfg *dsi_cfg = &dsi_state->dsi_cfg;
+> +
+> +	return cdns_dsi_check_conf(dsi, mode, dsi_cfg, false);
+> +}
+> +
+> +static struct drm_bridge_state *
+> +cdns_dsi_bridge_atomic_duplicate_state(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_dsi_bridge_state *dsi_state;
+> +
+> +	if (WARN_ON(!bridge->base.state))
+> +		return NULL;
+> +
+> +	dsi_state = kzalloc(sizeof(*dsi_state), GFP_KERNEL);
+> +	if (!dsi_state)
+> +		return NULL;
+> +
+> +	__drm_atomic_helper_bridge_duplicate_state(bridge, &dsi_state->base);
 
-This evolved from, and is largely designed for, systems built from
-discrete components (separate USB3 controller, DP controller, external
-mux, PD stuff, etc.)
+Hmm, if I'm not mistaken, you should copy the private state here 
+(cdns_dsi_cfg).
 
-What we actually on Apple systems is:
+> +	return &dsi_state->base;
+> +}
+> +
+> +static void
+> +cdns_dsi_bridge_atomic_destroy_state(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *state)
+> +{
+> +	struct cdns_dsi_bridge_state *dsi_state;
+> +
+> +	dsi_state = to_cdns_dsi_bridge_state(state);
+> +
+> +	kfree(dsi_state);
+> +}
+> +
+> +static struct drm_bridge_state *
+> +cdns_dsi_bridge_atomic_reset(struct drm_bridge *bridge)
+> +{
+> +	struct cdns_dsi_bridge_state *dsi_state;
+> +
+> +	dsi_state = kzalloc(sizeof(*dsi_state), GFP_KERNEL);
+> +	if (!dsi_state)
+> +		return NULL;
+> +
+> +	memset(dsi_state, 0, sizeof(*dsi_state));
+> +	dsi_state->base.bridge = bridge;
+> +
+> +	return &dsi_state->base;
+> +}
+> +
+>   static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+>   	.attach = cdns_dsi_bridge_attach,
+>   	.mode_valid = cdns_dsi_bridge_mode_valid,
+> @@ -963,9 +1039,10 @@ static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+>   	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
+>   	.atomic_enable = cdns_dsi_bridge_atomic_enable,
+>   	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
+> -	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> -	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_check = cdns_dsi_bridge_atomic_check,
+> +	.atomic_duplicate_state = cdns_dsi_bridge_atomic_duplicate_state,
+> +	.atomic_destroy_state = cdns_dsi_bridge_atomic_destroy_state,
+> +	.atomic_reset = cdns_dsi_bridge_atomic_reset,
+>   	.atomic_get_input_bus_fmts = cdns_dsi_bridge_get_input_bus_fmts,
+>   };
+>   
 
-- An external I2C USB-PD controller that handles the entire PD protocol
-and negotiation autonomously. We don't even get to pick the altmode, it
-does all the policy on its own and there is no override (we looked).
-- USB3/4/DP retimer and eUSB2 level shifter chips (not muxes) that are
-managed by the external USB-PD controller over I2C, invisible to Linux.
-- A single, unified, shared PHY (atcphy) that handles *everything*:
-USB2, USB3, DP, USB4/TBT, depending on configuration. It presents
-discrete interfaces to the DP, TBT, and USB controllers behind it.
-- A dwc3 controller per unified PHY, with host and device modes. Its
-USB3 PIPE interface can be switched (via registers in the PHY side, not
-the dwc3 side) between a dummy PHY, the USB3 PHY, or a virtual PHY that
-does USB4 tunneling.
-- A set of display controllers that are separate from the ports/PHYs
-- A DisplayPort router that can pair a display controller with a given
-unified PHY's physical DisplayPort interface, or one of two tunnels over
-TBT/USB4. The display controllers are n:m matched to the ports, they are
-not 1:1 (there may be fewer display controllers than ports).
-- The whole TBT/USB4 PCIe stuff which winds up in a PCIe root port
-controller per port/PHY (not going to consider this for now, leaving
-that for later).
+Other than the two small comments:
 
-The current approach we have is a mess. The tipd driver (which manages
-the PD controller) directly does the role switching and mux calls. The
-role switching triggers dwc3 to asynchronously switch modes. Meanwhile
-the mux calls end up at our PHY driver which tries to reconfigure
-everything for the given lane mode. But since PHY configuration also has
-to negotiate with dwc3, it also acts as a PHY for that (two, actually,
-USB2 and USB3). However, the callbacks from dwc3 are all over the place,
-and we end up having to do things like handle USB3 configuration from
-the USB2 PHY callbacks because that happens to be the correct timing to
-make it work. Meanwhile DRM/DisplayPort is its own thing that is mostly
-asynchronous to everything else, only reacting to HPD, and we haven't
-even gotten to the dynamic assignment of display controllers to ports
-yet (that's a story for another day).
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-To give an example of one of the quirks: Thanks to the USB-IF's
-amazingly braindead stateful and non-self-synchronizing eUSB2 protocol,
-we need to fully reset the dwc3 controller every time there is a hotplug
-event on the port from the PD controller. Otherwise USB2 breaks, since
-the PD controller will reset the eUSB2 level shifter on unplug and dwc3
-and the paired eUSB2 PHY can't recover from that without a full reset.
-
-A further complication is we do not have documentation for any of this.
-The PHY setup is all reverse engineered. That means all we can do is
-replicate the same register operations that macOS does, and then we have
-to *guess* how to fit it into Linux, and what can be moved around or
-reordered or not. There is no way to know if any given Linux
-implementation is correct and reliably configures the PHY, other than
-trial and error, unless we can exactly replicate what macOS does (which
-is infeasible in Linux today because the cross-driver sync points aren't
-in the same places, e.g. dwc3 and its phy callbacks do not match the
-interleaving of PHY register writes and dwc3 register writes in macOS).
-
-This is never going to be reliable, robust, or maintainable with the
-current approach. Even just getting it to work at all is a frustrating
-mess, where fixing one thing breaks another (e.g. if the dwc3 role
-switch happens first, that runs in a workqueue, and ends up racing with
-phy reconfig. We found out our current code was working by accident due
-to some msleep() calls in dwc3. And of course, hotplug is all kinds of
-racy and broken.). The sequencing requirements make this whole approach
-using different subsystems for different things without central
-coordination a nightmare, especially with hotplug involved and devices
-that like to switch their altmode negotiation rapidly on connect cycles.
-It all ends up depending of subtle implementation details of each part,
-and if anything changes, everything breaks.
-
-What we really want is a top-level, vendor-specific coordinator that
-*synchronously* (in a single logical thread) handles all
-hotplug/modeswitch operations for a single port, driving state
-transitions for all the other drivers. I.e. something that can:
-
-- Receive a data role/status change from tipd (this includes *all* port
-mode including data role, altmode config, etc.). This can be
-asynchronous/queued relative to tipd, but all config changes must be
-processed in sequence as a single queue.
-- Deconfigure the previous mode for consumers, e.g. shutting
-down/resetting dwc3 if required, unsetting HPD for the DisplayPort side
-so it knows to shut that side down, etc.
-- Change the unified PHY configuration for the new mode (this may
-require knowledge of everything about the port state including data
-role, not just altmode/mux state)
-- Start up the consumers again
-- React to PHY callbacks from the consumers to further drive PHY state
-changes (some things need to happen in a specific sequence or at request
-from dwc3 or the display controller firmware, and we may have to add
-extra callbacks for some points somehow, which doesn't fit well with the
-current PHY subsystem which is more rigid about operations...)
-
-Right now, I don't see any way this would fit into the existing
-subsystems well. The closest thing I can come up with, and what I will
-do to get by at least for the time being, is to:
-
-- Get rid of the asynchronous dwc3 role switching, making it synchronous
-(optionally if needed to not break other users)
-- Add a queue to tipd so it can handle state changes asynchronously from
-the actual PD protocol (and without blocking i2c bus interrupt handling
-so other ports can operate in parallel), but all state changes are
-handled sequentially without any overlap, and the ordering is carefully
-controlled (Connect: mux call first, then USB role switch, then
-DisplayPort HPD. Disconnect: DisplayPort HPD, then USB role switch, then
-mux call. There may be other complex cases for mode changes while
-already connected, this won't be fun.).
-- Put most of the PHY policy in the atcphy driver (which is all of a
-reset driver for dwc3, mux driver, and all the phys). This includes ugly
-things like deferring state changes while dwc3 is active in some cases.
-- On the DP/display side, we haven't implemented this yet, but in the
-future the single "apple,display-subsystem" driver (which actually
-provides the top-level DRM device for all the underlying discrete
-display controllers, and is already its own virtual device in the DT)
-will present virtual ports for the different PHYs, and handle the
-muxing/assignment between them and the display controllers on its side
-(there is potentially complex policy here too, since not all display
-controllers are equal and there may be a need to reassign a display for
-a lower-spec screen to a lower-spec display controller to free up a
-higher-spec controller for a higher-spec screen, but we need a
-controller assigned to a port to even read EDID to figure that out, so
-it's going to be messy).
-
-But I'm not happy at all with the weird, load-bearing intermingling of
-tipd/atcphy/dwc3 there. There's bound to be places where the
-abstractions leak and we end up with more and more horrible workarounds,
-or layering violations.
-
-A further question is how all this should be represented in the device
-tree. That might drive the software architecture to a point, or vice versa.
-
-Any ideas?
-
-Some further reading here:
-https://social.treehouse.systems/@marcan/113821266231103150
-
-- Hector
+  Tomi
 
