@@ -2,50 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44296A104D9
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 12:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02672A1050D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 12:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A786710E124;
-	Tue, 14 Jan 2025 11:00:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDB6810E13C;
+	Tue, 14 Jan 2025 11:10:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="cEI/VMhD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nURctGN1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7901110E13C
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 10:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=afHFN/G4JOkRg7ZyLsUZgmQtRF+Ck+shJH1gU/auRbw=; b=cEI/VMhDta4hUq/iUJVo7JkS1j
- ndJGfXvEuykcdq+x2y4MFEjfu6CA97oLbpZuEMO6cITn0pMhXkNKtmdpulg15cxTgseEQ00M7EaNE
- Dy1FxQFin2Vlp3oEDJbmZPPrSvX9jvUjrKDoIf9eQ0wBUJNM4yYgHa2E8vamLMrUxcXK9UbQ09+jL
- WZiqyYby6lf5ErruPBgux1FGcFzWx87eCsLKHWVdPiBzXV9W13u6aLrFHwXW9Ar/rtesE/M+K31Ew
- aUi6TPo15XcTuqtSYcjXDE79IaVPAWiLclxxOu7k3OdA+gHF/w/Zq9OL3s5Lpg3kUicR0kRItTV1D
- P919B3Og==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tXeeL-00FbtW-LQ; Tue, 14 Jan 2025 11:59:57 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <pstanner@redhat.com>
-Subject: [PATCH] drm/sched: Avoid double re-lock on the job free path
-Date: Tue, 14 Jan 2025 10:59:54 +0000
-Message-ID: <20250114105954.64847-1-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.47.1
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADF8F10E16D
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 11:10:29 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-53f757134cdso5334349e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 03:10:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736852968; x=1737457768; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=lSEEVDHkJF+59l08MDf/HdvOaR7SqGhIx6AtZQIytfk=;
+ b=nURctGN1dT+Q82TkfjNxJf52oy1TEIKQajEIifENsy5Cwc8ecWI3e0g74F2iA1Sa/C
+ kQ4qJF+dEclyHvl55GovtdalS18GN6daols6XVWpRsgQ9s6aWnhwYuYXUVfvloWVykel
+ NR74ZKtgbzaVrHyEhctPjypvZS5JA0XM8a3t/bD8RBdiiTj+V+2nCgEozzp7Osi4z6Aa
+ PHbpv5n27fRCO0NytYaRyaYh29PRIAYcZ2ciBpFnsnsmZCfb415aVYs0XQDCw660Ngfa
+ 34y5/On75y5wOkLieZ+LVnrBeZoPTqa3Jkkq5oeOW9fQJKuUMQJ/TAtZDjCkxKltpMix
+ i4cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736852968; x=1737457768;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lSEEVDHkJF+59l08MDf/HdvOaR7SqGhIx6AtZQIytfk=;
+ b=GSFKXVmxLS5J2Tt9OfESEEcEJ2Bp8Mjc95+Rn2ISLZEJuzTxHCJbXBHmWFpeJWdY/O
+ hpnVS6jUYVUMTCol1JtTq/LhCqzs8hVYLpju5mlBVjALbwScnHIEWBW4Y1Fpp0kH7zke
+ hasWmcCgtvD2UGiv+GuzoovZJsL+mw8nBsveOGrAkZDGO2jlqo8jluSfIol261L9rIR6
+ H5W9ZJP4iwxRC0hsvPxZUz3G9GtTmGtAK7bbxcDGAZ8LRYA+Dat8D5WueaVkVhPJAxgK
+ PWhT5g4a0hP6wfm5+h8QeRn2z7gFEi5d0JcEGwzklRd13bRy6RPjXwhykFF3Sxy4ziYC
+ aPag==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXK4vdc2o4FshN95MC4/KMvEMypPkFtw0Z5KCz4OgBA47mCPPOrDDMwNX8hEzDuzZ8MoBwGHf4AtoM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy3Sc+HyiblvRaeBE+/D/YmUjOBOQI3XGs/5ZbirrFaitytw4W8
+ nODOP6c9aW0ehOYv0Di8F1ayzyDO+fvF/9TgrmFLlXOzpjY657TIzK0gqfr42sI=
+X-Gm-Gg: ASbGncu0n9ZwN3Hj5SmYvq2pF6mzzmMsXM7nz98ArkbgvYorc8UPIFcnh1JV84+lzqH
+ ZyVV7HLvSh1eiGN31K4Ohru5xi+0YPDfOHRTIgyI0PQ6M9C3wrCuo+JOZB8thrdeONGW/zkMh6e
+ 9nmx81qUW/VM+lR9Yl76z8op1Pu5ugFFcJSPOUhPpUDFqExxEHjFTrjpVH51B6KH699VASpEbEN
+ ypsfOYDJ9YPO5d+r3OZoMeEFpCTfDpvLIOYgmYp4dWxVzUWpskdip1silLsR1auHvz5x7ULnGlh
+ r+pbe7ek73b8QxczxK8LUqLr7wgdIiYLUeY3
+X-Google-Smtp-Source: AGHT+IGsHdnrR/PD2l0aAbVi6WVa0Zza137alj0eWph9uI3wb2zRUaR8X1MT+Wuu41m9TUTAYoQAtw==
+X-Received: by 2002:a05:6512:4024:b0:540:3566:5760 with SMTP id
+ 2adb3069b0e04-542847f9ea2mr7548782e87.35.1736852967850; 
+ Tue, 14 Jan 2025 03:09:27 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428be49943sm1652662e87.25.2025.01.14.03.09.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jan 2025 03:09:27 -0800 (PST)
+Date: Tue, 14 Jan 2025 13:09:24 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Yongxing Mou <quic_yongmou@quicinc.com>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH v3 3/4] dt-bindings: display/msm: Document MDSS on QCS8300
+Message-ID: <rx5jyaehsgdw5cluyjtrn5yvxnd2uemdde5jbvq2dq3dirr2ak@hkegxop7tiew>
+References: <20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com>
+ <20250113-mdssdt_qcs8300-v3-3-6c8e93459600@quicinc.com>
+ <lyv4bopv3zw62qll5cjjx46ejdjjmssvhabdxj2uq23mcmwqpb@lld6hynsiwfe>
+ <CAA8EJppUEB-c5LbWN5dJoRh+6+nNFH3G9h_uwbuTo=B8kp_9oA@mail.gmail.com>
+ <bda8dd18-3bed-427a-bd19-9cb011256c93@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bda8dd18-3bed-427a-bd19-9cb011256c93@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,104 +105,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the job free work item will lock sched->job_list_lock first time
-to see if there are any jobs, free a single job, and then lock again to
-decide whether to re-queue itself if there are more finished jobs.
+On Tue, Jan 14, 2025 at 11:11:23AM +0100, Krzysztof Kozlowski wrote:
+> On 14/01/2025 11:00, Dmitry Baryshkov wrote:
+> > On Tue, 14 Jan 2025 at 09:57, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >>
+> >> On Mon, Jan 13, 2025 at 04:03:10PM +0800, Yongxing Mou wrote:
+> >>> +patternProperties:
+> >>> +  "^display-controller@[0-9a-f]+$":
+> >>> +    type: object
+> >>> +    additionalProperties: true
+> >>> +
+> >>> +    properties:
+> >>> +      compatible:
+> >>> +        items:
+> >>> +          - const: qcom,qcs8300-dpu
+> >>> +          - const: qcom,sa8775p-dpu
+> >>> +
+> >>> +  "^displayport-controller@[0-9a-f]+$":
+> >>> +    type: object
+> >>> +    additionalProperties: true
+> >>> +
+> >>> +    properties:
+> >>> +      compatible:
+> >>> +        items:
+> >>> +          - const: qcom,qcs8300-dp
+> >>> +          - const: qcom,sm8650-dp
+> >>
+> >> Parts of qcs8300 display are compatible with sa8775p, other parts with
+> >> sm8650. That's odd or even not correct. Assuming it is actually correct,
+> >> it deserves explanation in commit msg.
+> > 
+> > It seems to be correct. These are two different IP blocks with
+> > different modifications. QCS8300's DP configuration matches the SM8650
+> > ([1]), though the DPU is the same as the one on the SA8775P platform.
+> > 
+> > [1] https://lore.kernel.org/dri-devel/411626da-7563-48fb-ac7c-94f06e73e4b8@quicinc.com/
+> 
+> That's the driver, so you claim that qcs8300, which is a sa8775p, is not
+> compatible with sa8775p because of current driver code? You see the
+> contradiction? sa8775p is not compatible with sa8775p because of current
+> driver patch?
 
-Since drm_sched_get_finished_job() even already looks at the second job in
-the queue we can simply make it return its presence to the caller.
+I think you are slightly confused with different similar QCS SKUs here.
+QCS9100 is sa8775p. QCS8300 is a lighter version of it.
 
-That way the caller does not need to lock the list again only to peek into
-the same job.
+> 
+> I don't think it is correct, but let's repeat: if you think otherwise,
+> this should be explain in commit msg.
+> 
+> Best regards,
+> Krzysztof
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@redhat.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <pstanner@redhat.com>
----
- drivers/gpu/drm/scheduler/sched_main.c | 32 +++++++++-----------------
- 1 file changed, 11 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 2d3d71e053a6..363e9f272a1b 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -383,22 +383,6 @@ static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
- 		queue_work(sched->submit_wq, &sched->work_free_job);
- }
- 
--/**
-- * drm_sched_run_free_queue - enqueue free-job work if ready
-- * @sched: scheduler instance
-- */
--static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
--{
--	struct drm_sched_job *job;
--
--	spin_lock(&sched->job_list_lock);
--	job = list_first_entry_or_null(&sched->pending_list,
--				       struct drm_sched_job, list);
--	if (job && dma_fence_is_signaled(&job->s_fence->finished))
--		__drm_sched_run_free_queue(sched);
--	spin_unlock(&sched->job_list_lock);
--}
--
- /**
-  * drm_sched_job_done - complete a job
-  * @s_job: pointer to the job which is done
-@@ -1078,12 +1062,13 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
-  * drm_sched_get_finished_job - fetch the next finished job to be destroyed
-  *
-  * @sched: scheduler instance
-+ * @have_more: are there more finished jobs on the list
-  *
-  * Returns the next finished job from the pending list (if there is one)
-  * ready for it to be destroyed.
-  */
- static struct drm_sched_job *
--drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
-+drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool *have_more)
- {
- 	struct drm_sched_job *job, *next;
- 
-@@ -1101,14 +1086,16 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
- 		/* make the scheduled timestamp more accurate */
- 		next = list_first_entry_or_null(&sched->pending_list,
- 						typeof(*next), list);
--
- 		if (next) {
-+			*have_more = dma_fence_is_signaled(&next->s_fence->finished);
- 			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
- 				     &next->s_fence->scheduled.flags))
- 				next->s_fence->scheduled.timestamp =
- 					dma_fence_timestamp(&job->s_fence->finished);
- 			/* start TO timer for next job */
- 			drm_sched_start_timeout(sched);
-+		} else {
-+			*have_more = false;
- 		}
- 	} else {
- 		job = NULL;
-@@ -1165,12 +1152,15 @@ static void drm_sched_free_job_work(struct work_struct *w)
- 	struct drm_gpu_scheduler *sched =
- 		container_of(w, struct drm_gpu_scheduler, work_free_job);
- 	struct drm_sched_job *job;
-+	bool have_more;
- 
--	job = drm_sched_get_finished_job(sched);
--	if (job)
-+	job = drm_sched_get_finished_job(sched, &have_more);
-+	if (job) {
- 		sched->ops->free_job(job);
-+		if (have_more)
-+			__drm_sched_run_free_queue(sched);
-+	}
- 
--	drm_sched_run_free_queue(sched);
- 	drm_sched_run_job_queue(sched);
- }
- 
 -- 
-2.47.1
-
+With best wishes
+Dmitry
