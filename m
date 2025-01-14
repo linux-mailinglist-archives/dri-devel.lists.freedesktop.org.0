@@ -2,71 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3C8A11087
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 19:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB54A110CF
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 20:06:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1B1110E00F;
-	Tue, 14 Jan 2025 18:54:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDAE10E472;
+	Tue, 14 Jan 2025 19:06:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Rf8cKf/R";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="VGdbMy7J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5850B10E00F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 18:54:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1736880885; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Vu7dm0Pqhw/DvBodd+NlCYczAyiEFIhExmhZ3n6Rmz8HStPmkPkdpyRz/IkrWd5PUND2aOS2du3BCXfRLAYkZVJympPQ6g4MMb4MsNf68Xo51Hz62rkvVjCbJAzY5WqexbFvwUI7x1nZFqKlrSCOeW57eIcEU3tLWeKfQmk2DXY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1736880885;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=BP6ACPWzR0HHfSMZ3A0N5PyNz00Y3I8W1FyQtBvKDzU=; 
- b=QpK4ymkT6p5gQkmlcOr/akflrb949NdHK0IQJZ2uAFgkF2c/SOrOOwQ3gcIut6rQleuQZLdexykxRtC2MT3W0I3x/yZJ4be3J4vKwOCgMlHpybjDbQxvc8WfBp41eOqAydr4FOTkwqL+OlDN3gTh5kmzG8ho5I1yfd/rph33qsQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736880884; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=BP6ACPWzR0HHfSMZ3A0N5PyNz00Y3I8W1FyQtBvKDzU=;
- b=Rf8cKf/RbPV7ruhwWNpLdu+zXPNhKPpdBNEu0JUpZEAQbavnsT2P2XvyNZ91FuSs
- jKJKci5pceF9Zjh0oqp00oFYRJ8+SLLsP7Pz4WNKh9YdgeivXRgcpWC52xtanv1XxYE
- BvhlPR231/gEWzZfSfC89Lo+XW5K/AgLQ7jmbmO4=
-Received: by mx.zohomail.com with SMTPS id 17368808822481008.5050880846019;
- Tue, 14 Jan 2025 10:54:42 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
-Subject: Re: [WIP RFC v2 01/35] WIP: rust/drm: Add fourcc bindings
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <e09d76bcbcad70f23cbd863f75a985bb220717ab.camel@redhat.com>
-Date: Tue, 14 Jan 2025 15:54:24 -0300
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
- mcanal@igalia.com, airlied@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@samsung.com>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@redhat.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0AABF976-BE2C-4A6E-9EC9-AD4F63807E6D@collabora.com>
-References: <20240930233257.1189730-1-lyude@redhat.com>
- <20240930233257.1189730-2-lyude@redhat.com>
- <5A7B3FCB-0A97-4818-9AE4-A1911EA55B90@collabora.com>
- <e09d76bcbcad70f23cbd863f75a985bb220717ab.camel@redhat.com>
-To: Lyude Paul <lyude@redhat.com>
-X-Mailer: Apple Mail (2.3826.300.87.4.3)
-X-ZohoMailClient: External
+Received: from mail-io1-xd49.google.com (mail-io1-xd49.google.com
+ [IPv6:2607:f8b0:4864:20::d49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECD110E474
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 19:06:02 +0000 (UTC)
+Received: by mail-io1-xd49.google.com with SMTP id
+ ca18e2360f4ac-847500c9b9aso890324839f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 11:06:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1736881562; x=1737486362;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=HkXEGKaHS4Wap2DZ8mnEQl68mT1GrP1ybYkz9IG2DCI=;
+ b=VGdbMy7J36fvRHr+fqEtXXDxjkvkwmMprA7OGhmWfREoROrBUmQNvLnnFhSq0d6/Wt
+ 54VcD945Emmnlngczn+TTd3D4Pb5z64OD3ywfsA+1omi68la/hLEJV62mHZ9LK634Nqr
+ Nn5ibqYoqGISxUPDlpGIEBWbu7Ph6RqoHDeka9d4EluOaRAZoGBtUIl9HTuJHNLIYZkZ
+ vt01CZsS0gULpSr8Tu4a20GOwqOOlkH2AhTgB/s3S5qeqhZW9jV8WQI0z+spkpujU2hq
+ M1qT2a9ctStLNtv6TKwMEjH3s7NDpq8hbQGVHrhvvKvpDoh6F1RFv130GyHsN4FYNTdC
+ CXWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736881562; x=1737486362;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HkXEGKaHS4Wap2DZ8mnEQl68mT1GrP1ybYkz9IG2DCI=;
+ b=QfgZizx2BkhISTayfYSEeDVsValAJ96HvXzDXfMvYR1yBhi2HYvDJcGld3UFf5jrmu
+ +8ZFe3ZjueefjYdyTVuALDiw2nkE54FKI7t8fCBULMOspmwMTAP6ZIgVUezGc9n5g4QB
+ uWCUairRE/GxWoed/rUqf8jk29YL1I7FipfPpbVomFWU6Za2IvlP2l9R0Rmq2VEIWc9J
+ OdiUqMTncAFsjdn6C1RW3hOxrpSd9OlE7pvMAfg8wWyBCKhBIhAcvWJMzQ7B/Xxx319b
+ ww/VXrD//53FphHM3nQcW3/0B2gcJnxzyyfNpajOVGVUtQqPiY/3gxhEwizxZvtQsYkR
+ sT4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWt7BuM5sPVzr/vFxnNfE4K4DUVYlcJdJXRs/YAh1tSVYELfXYKKYZS/lfomvs2ecsANGjjbEp1Izs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMhC9b5CE/C8p5yXGP4k0r+1c9Hgt6ZDeDfekmXqVpz3O1kEsl
+ 4HP/c8jbWgcCfu8S89tcFLz1NgjkDezhCD8R3exNwzB1M1yj4EVWwoSEADb2mYbNiPUKrDjz/ou
+ 7eJJzLw==
+X-Google-Smtp-Source: AGHT+IGsJrvqYTmQtcrvuuvJ/hwbkz3SgyMuWS0FYMxwQMuh4GEdylWBFKZU6jZSnevp4MEMxg8IfOTNclDW
+X-Received: from ior15.prod.google.com ([2002:a05:6602:a00f:b0:83b:744f:7224])
+ (user=jdenose job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6602:3a09:b0:83a:b500:3513
+ with SMTP id ca18e2360f4ac-84ce00a3e64mr2584711439f.8.1736881562194; Tue, 14
+ Jan 2025 11:06:02 -0800 (PST)
+Date: Tue, 14 Jan 2025 19:05:55 +0000
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.0.rc2.279.g1de40edade-goog
+Message-ID: <20250114190554.1.Ia17111747d0450169dbe902e5d7ef25912a9338e@changeid>
+Subject: [PATCH] drm/i915/display: Add skip link check quirk
+From: Jonathan Denose <jdenose@google.com>
+To: LKML <linux-kernel@vger.kernel.ogr>
+Cc: intel-gfx@lists.freedesktop.org, jani.nikula@linux.intel.com, 
+ rodrigo.vivi@intel.com, Jonathan Denose <jdenose@google.com>, 
+ David Airlie <airlied@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,119 +83,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude,
+The display on the Advantech UTC124G3PWWW0E-ES worked fine until commit
+"drm/i915/dp: Recheck link state after modeset" was introduced. After
+this commit the display flickers intermittently as the driver code
+initiates the delayed link recheck in an infinite loop.
 
->>>=20
->>> +impl FormatInfo {
->>> +    // SAFETY: `ptr` must point to a valid instance of a =
-`bindings::drm_format_info`
->>> +    pub(super) unsafe fn from_raw<'a>(ptr: *const =
-bindings::drm_format_info) -> &'a Self {
->>=20
->> I think FormatInfoRef would be more appropriate, since you seem to be =
-creating a reference type (IIUC)
->> for a type that can also be owned.
->>=20
->> This would be more in line with the GEM [1] patch, for example.
->>=20
->> In other words, using `Ref` here will allow for both an owned =
-`FormatInfo` and a `FormatInfoRef<=E2=80=98_>`.
->>=20
->> I am not sure about the role of lifetime =E2=80=98a here. If you =
-wanted to tie the lifetime of &Self to that of the pointer,
->> this does not do it, specially considering that pointers do not have =
-lifetimes associated with them.
->>=20
->>> +        // SAFETY: Our data layout is identical
->>> +        unsafe { &*ptr.cast() }
->>=20
->> It=E2=80=99s hard to know what is going on with both the reborrow and =
-the cast in the same statement.
->>=20
->> I am assuming that cast() is transforming to *Self, and the reborrow =
-to &Self.
->>=20
->> To be honest, I dislike this approach. My suggestion here is to =
-rework it to be similar to, e.g., what
->> Alice did here for `ShrinkControl` [2].
->=20
-> Interesting. I did understand this wouldn't be tying the reference to =
-any
-> lifetime more specific then "is alive for the duration of the function =
-this
-> was called in" - which in pretty much all the cases we would be using =
-this
-> function in would be good enough to ensure safety.
->=20
-> I guess though I'm curious what precisely is the point of having =
-another type
-> instead of a reference would be? It seems like if we were to add a =
-function in
-> the future for something that needed a reference to a `FormatInfo`, =
-that
-> having to cast from `FormatInfo` to `FormatInfoRef` would be a bit =
-confusing
-> when you now have both `&FormatInfo` and `FormatInfoRef`.
+To resolve this issue for the Advantech device, add a quirk to skip over
+the delayed link recheck.
 
-I=E2=80=99ve realized since then that there=E2=80=99s more code using =
-the same pattern as you did,
-so it appears that it=E2=80=99s found acceptance in the rest of the =
-community. Thus,
-I retract what I said earlier.
+Signed-off-by: Jonathan Denose <jdenose@google.com>
+---
 
-The `unsafe { &*ptr.cast() }` construct seems to be widely used too, so =
-that is also
-not a problem for me anymore
+ drivers/gpu/drm/i915/display/intel_dp_link_training.c | 4 +++-
+ drivers/gpu/drm/i915/display/intel_quirks.c           | 8 ++++++++
+ drivers/gpu/drm/i915/display/intel_quirks.h           | 1 +
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
->=20
->>=20
->> +/// This struct is used to pass information from page reclaim to the =
-shrinkers.
->> +///
->> +/// # Invariants
->> +///
->> +/// `ptr` has exclusive access to a valid `struct shrink_control`.
->> +pub struct ShrinkControl<'a> {
->> + ptr: NonNull<bindings::shrink_control>,
->> + _phantom: PhantomData<&'a bindings::shrink_control>,
->> +}
->> +
->> +impl<'a> ShrinkControl<'a> {
->> + /// Create a `ShrinkControl` from a raw pointer.
->> + ///
->> + /// # Safety
->> + ///
->> + /// The pointer should point at a valid `shrink_control` for the =
-duration of 'a.
->> + pub unsafe fn from_raw(ptr: *mut bindings::shrink_control) -> Self =
-{
->> + Self {
->> + // SAFETY: Caller promises that this pointer is valid.
->> + ptr: unsafe { NonNull::new_unchecked(ptr) },
->> + _phantom: PhantomData,
->> + }
->> + }
->>=20
->> Notice the use of PhantomData in her patch.
-
-Some people have complained about introducing arbitrary smart pointers =
-like
-I suggested, so let=E2=80=99s drop this idea.
-=20
->>=20
->> By the way, Alice, I wonder if we can just use Opaque here?
->=20
-> FWIW: I think the reason I didn't use Opaque is because it didn't =
-really seem
-> necessary. AFAICT the lifetime of drm_format_info follows rust's data =
-aliasing
-> rules: it's only ever mutated before pointers to it are stored =
-elsewhere, thus
-> holding a plain reference to it should be perfectly safe.
-
-Do use Opaque though, it=E2=80=99s repr(transparent) and will make your =
-code more similar
-to what we already have upstream.
-
-=E2=80=94 Daniel
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+index 397cc4ebae526..7804ad38b00cd 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+@@ -32,6 +32,7 @@
+ #include "intel_encoder.h"
+ #include "intel_hotplug.h"
+ #include "intel_panel.h"
++#include "intel_quirks.h"
+ 
+ #define LT_MSG_PREFIX			"[CONNECTOR:%d:%s][ENCODER:%d:%s][%s] "
+ #define LT_MSG_ARGS(_intel_dp, _dp_phy)	(_intel_dp)->attached_connector->base.base.id, \
+@@ -1622,7 +1623,8 @@ void intel_dp_start_link_train(struct intel_atomic_state *state,
+ 		lt_dbg(intel_dp, DP_PHY_DPRX, "Forcing link training failure\n");
+ 	} else if (passed) {
+ 		intel_dp->link.seq_train_failures = 0;
+-		intel_encoder_link_check_queue_work(encoder, 2000);
++		if (!intel_has_quirk(display, QUIRK_SKIP_LINK_CHECK))
++			intel_encoder_link_check_queue_work(encoder, 2000);
+ 		return;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
+index 28f497ae785bb..d472a5f21f8b9 100644
+--- a/drivers/gpu/drm/i915/display/intel_quirks.c
++++ b/drivers/gpu/drm/i915/display/intel_quirks.c
+@@ -78,6 +78,12 @@ static void quirk_fw_sync_len(struct intel_dp *intel_dp)
+ 	drm_info(display->drm, "Applying Fast Wake sync pulse count quirk\n");
+ }
+ 
++static void quirk_skip_link_check(struct intel_display *display)
++{
++	intel_set_quirk(display, QUIRK_SKIP_LINK_CHECK);
++	drm_info(display->drm, "Applying skip link check quirk\n");
++}
++
+ struct intel_quirk {
+ 	int device;
+ 	int subsystem_vendor;
+@@ -229,6 +235,8 @@ static struct intel_quirk intel_quirks[] = {
+ 	{ 0x3184, 0x1019, 0xa94d, quirk_increase_ddi_disabled_time },
+ 	/* HP Notebook - 14-r206nv */
+ 	{ 0x0f31, 0x103c, 0x220f, quirk_invert_brightness },
++	/* Advantech UTC124G3PWWW0E-ES */
++	{0x5a85, 0x8086, 0x2212, quirk_skip_link_check},
+ };
+ 
+ static const struct intel_dpcd_quirk intel_dpcd_quirks[] = {
+diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
+index cafdebda75354..9e8f2816a4fba 100644
+--- a/drivers/gpu/drm/i915/display/intel_quirks.h
++++ b/drivers/gpu/drm/i915/display/intel_quirks.h
+@@ -20,6 +20,7 @@ enum intel_quirk_id {
+ 	QUIRK_LVDS_SSC_DISABLE,
+ 	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
+ 	QUIRK_FW_SYNC_LEN,
++	QUIRK_SKIP_LINK_CHECK,
+ };
+ 
+ void intel_init_quirks(struct intel_display *display);
+-- 
+2.48.0.rc2.279.g1de40edade-goog
 
