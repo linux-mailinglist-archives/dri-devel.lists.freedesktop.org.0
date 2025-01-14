@@ -2,88 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335F3A10E8F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 18:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42D3A10EC8
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 19:01:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABCC210E45F;
-	Tue, 14 Jan 2025 17:58:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22C3F10E460;
+	Tue, 14 Jan 2025 18:01:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="APj3TrXP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Khv/Exdn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
- [IPv6:2607:f8b0:4864:20::f2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6B3610E45F
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 17:58:29 +0000 (UTC)
-Received: by mail-qv1-xf2e.google.com with SMTP id
- 6a1803df08f44-6d8f99cb0d9so41051416d6.0
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 09:58:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1736877509; x=1737482309;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9LXHsEntU5Ys95uVCIF8Zmb9U409KBpBciIBNlMO0m0=;
- b=APj3TrXP6ITSi1GObrL3ZYz2FkBuhDWwS/kvoQ3lLAt/JjeXsNtKHjsR+V6pQa1yZ9
- rOhwROkFaudB9P+yXpSaJYuFZtAANM+Qf7QDRcltO2BlkhejVSxoD3pbXk6OysCHWCoo
- KrgRDQoG4iXzcsw12yhgQlh3IhJUuTqe7O8RzP4YHvyzOSYPYIvoxjEz0WBh8hnffcMJ
- aLTIv9fhFr1V0SVQ22WtL0xUG2hERxVUjEcM5lOhgrdA1yeDUOXoI5o6+iC0E8OJA61c
- M4FyO+6NNmCaynQ9zuwdqza6qQLcj6E8D6kK/uLWzUg+1yc9goNDkpfwrM0JYqQiN/IM
- A1dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736877509; x=1737482309;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9LXHsEntU5Ys95uVCIF8Zmb9U409KBpBciIBNlMO0m0=;
- b=GsdrSJggiZJchxhyhFQTjxtuycJXPHBGaiMs8x2prINb7Owgn2Qz/xgd8upq1GpULS
- 4b9Sgbw+yCpL1ludT4sMDDsC8ZTmh1CPqvEQS+udrlxP/FiYYgu8MuKohnunp5f9cM4b
- uNLG2xhsjubTbmB1zTnh3w33v6PP7Vs3iQxHnF+fAPkCN0QRbwGM0nh0qtVastv2+Z6A
- TBrTCdv0xLB1Y5UgftjDLwNOsBAiY+dOXr6lYzhp6bzTvLiNQRK68HLarB4GyfgZLU3w
- lADm9SFAFK/cOTYbyIuC30wzmpXTWL8MIkkPeCW9J8simkysP2sz1NoHAVEB4AdzHUfd
- JZPQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVP1d0M+W17ngJGFbDexVTQv1Bg7N5BmGRCa2Cn44OaD5QJpw15K6+jS7rLWRDkPX+fh6hjDHXuFc4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7QZBGPTRPGE5kyi0ZgdQlxiZrT9/ff8nL51d2zfAy1tUtWIVm
- XFheoPF8r6LrJspCWHpOHjvEhdo/VUOm38qzn35iemyLfA9p1tWQF7GLUXJhVW+iGrhg2cqmlzr
- Y3vnjYXJkKdYboIiI3UNbS8UoXTNRtOAhvznUeQ==
-X-Gm-Gg: ASbGncsFSGmynft7dYw+dP/nI0oFBZUIm2MFxdpvFZToaeJQwJigEz6HH7qKm87dnai
- S/yO4Hyl6wo19kdqihLixUR6vSXZ8UVatdDh1
-X-Google-Smtp-Source: AGHT+IEWqpgKCTT/9ls0xmYdMPLOJRlFRN/Cz/iKnMnCoFc3cNEYBMkPMq7s1kBd0eoxzbWOzz7PqXH22Wfsdrp9eCY=
-X-Received: by 2002:a05:6214:8111:b0:6e1:7223:19a9 with SMTP id
- 6a1803df08f44-6e172231a99mr111298526d6.24.1736877508679; Tue, 14 Jan 2025
- 09:58:28 -0800 (PST)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 734BA10E460;
+ Tue, 14 Jan 2025 18:01:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 77D94A41A63;
+ Tue, 14 Jan 2025 17:59:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E16D0C4CEDD;
+ Tue, 14 Jan 2025 18:01:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1736877672;
+ bh=xGnt9QTMfNKV1OFFfTQWPhTcVBgpSWwX7LndHQqnEro=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Khv/ExdnHJ+AEA3NMRhpXuge75QH8lnhotTCn9IUVYpuCYbPb9o5f1yyqbr/8qH7r
+ nfUDhOQyv5OU5Pd5OOE4FxvmKbgQS3T9AbmxrH2HQaQduV554cRtikSool+9Sqaxqw
+ hrNd6Vnp0sgBrtAH0f29KdvonNKmg0GJPvXUTkm4JzCmvIR4oKKYiX5QglQ3CLyw0R
+ NvpYQceTLVan1wgCF5qfCICTIay6uYu9R48WwGb9C4jSjrSvwsHsiMaTaKlGSRtZ3l
+ 3cXQv8tBDyy3qSQwWAxg/SaUMfda+tdO+TAqDW9eBhqo66KsU3iNur2GskbgXea6G1
+ U7lClyAGCmf9w==
+Date: Tue, 14 Jan 2025 19:01:09 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Maarten Lankhorst <dev@lankhorst.se>, linux-kernel@vger.kernel.org, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Tejun Heo <tj@kernel.org>, 
+ Zefan Li <lizefan.x@bytedance.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Andrew Morton <akpm@linux-foundation.org>,
+ Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org, 
+ linux-mm@kvack.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting
+ cgroup
+Message-ID: <20250114-awesome-earthworm-of-camouflage-5bdd5b@houat>
+References: <20241204134410.1161769-2-dev@lankhorst.se>
+ <20241204143112.1250983-1-dev@lankhorst.se>
+ <CAMuHMdUmPfahsnZwx2iB5yfh8rjjW25LNcnYujNBgcKotUXBNg@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
- <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
- <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
- <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
- <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
- <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
- <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
- <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
- <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
- <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
- <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
-In-Reply-To: <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Tue, 14 Jan 2025 17:58:16 +0000
-X-Gm-Features: AbW1kva4ALOA0LOORdEv_TRtbfcne3GOqf3wkUfOV14MfYux7kBg8wr6Hf20vFk
-Message-ID: <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Cc: James Jones <jajones@nvidia.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
- Brian Starkey <brian.starkey@arm.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="6yxrd253xm54q4ba"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUmPfahsnZwx2iB5yfh8rjjW25LNcnYujNBgcKotUXBNg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,69 +66,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Tue, 14 Jan 2025 at 09:38, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wrot=
-e:
-> I would keep the existing modifier interfaces, API extensions, and expect=
-ations the same as today for simplicity.
+--6yxrd253xm54q4ba
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2.1 1/1] kernel/cgroup: Add "dmem" memory accounting
+ cgroup
+MIME-Version: 1.0
 
-Well yes, not just for simplicity, but because everything stops
-working if you don't.
+Hi Geert,
 
-> The new linear modifier definition (proposal) will have these fields:
->    5 bits for log2 pitch alignment in bytes
->    5 bits for log2 height alignment in rows
->    5 bits for log2 offset alignment in bytes
->    5 bits for log2 minimum pitch in bytes
->    5 bits for log2 minimum (2D) image size in bytes
->
-> The pitch and the image size in bytes are no longer arbitrary values. The=
-y are fixed values computed from {width, height, bpp, modifier} as follows:
->    aligned_width =3D align(width * bpp / 8, 1 << log2_pitch_alignment);
->    aligned_height =3D align(height, 1 << log2_height_alignment);
->    pitch =3D max(1 << log2_minimum_pitch, aligned_width);
->    image_size =3D max(1 << log2_minimum_image_size, pitch * aligned_heigh=
-t);
->
->
-> The modifier defines the layout exactly and non-ambiguously. Overaligning=
- the pitch or height is not supported. Only the offset alignment has some f=
-reedom regarding placement. Drivers can expose whatever they want within th=
-at definition, even exposing only 1 linear modifier is OK. Then, you can lo=
-ok at modifiers of other drivers if you want to find commonalities.
+On Tue, Jan 14, 2025 at 11:16:43AM +0100, Geert Uytterhoeven wrote:
+> Hi Maarten,
+>=20
+> On Wed, Dec 4, 2024 at 3:32=E2=80=AFPM Maarten Lankhorst <dev@lankhorst.s=
+e> wrote:
+> > This code is based on the RDMA and misc cgroup initially, but now
+> > uses page_counter. It uses the same min/low/max semantics as the memory
+> > cgroup as a result.
+> >
+> > There's a small mismatch as TTM uses u64, and page_counter long pages.
+> > In practice it's not a problem. 32-bits systems don't really come with
+> > >=3D4GB cards and as long as we're consistently wrong with units, it's
+> > fine. The device page size may not be in the same units as kernel page
+> > size, and each region might also have a different page size (VRAM vs GA=
+RT
+> > for example).
+> >
+> > The interface is simple:
+> > - Call dmem_cgroup_register_region()
+> > - Use dmem_cgroup_try_charge to check if you can allocate a chunk of me=
+mory,
+> >   use dmem_cgroup__uncharge when freeing it. This may return an error c=
+ode,
+> >   or -EAGAIN when the cgroup limit is reached. In that case a reference
+> >   to the limiting pool is returned.
+> > - The limiting cs can be used as compare function for
+> >   dmem_cgroup_state_evict_valuable.
+> > - After having evicted enough, drop reference to limiting cs with
+> >   dmem_cgroup_pool_state_put.
+> >
+> > This API allows you to limit device resources with cgroups.
+> > You can see the supported cards in /sys/fs/cgroup/dmem.capacity
+> > You need to echo +dmem to cgroup.subtree_control, and then you can
+> > partition device memory.
+> >
+> > Co-developed-by: Friedrich Vock <friedrich.vock@gmx.de>
+> > Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
+> > Co-developed-by: Maxime Ripard <mripard@kernel.org>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+>=20
+> Thanks for your patch, which is now commit b168ed458ddecc17
+> ("kernel/cgroup: Add "dmem" memory accounting cgroup") in drm/drm-next.
+>=20
+> > --- a/init/Kconfig
+> > +++ b/init/Kconfig
+> > @@ -1128,6 +1128,7 @@ config CGROUP_PIDS
+> >
+> >  config CGROUP_RDMA
+> >         bool "RDMA controller"
+> > +       select PAGE_COUNTER
+>=20
+> This change looks unrelated?
+>=20
+> Oh, reading your response to the build error, this should have been below?
 
-I don't see how this squares with the first statement.
+Indeed, good catch.
 
-AMD hardware is the only hardware I know of which doesn't support
-overaligning. Say (not hypothetically) we have a GPU and a display
-controller which have a minimum pitch alignment of 32 bytes, no
-minimum height alignment, minimum 32-byte offset alignment, minimum
-pitch of 32 bytes, and minimum image size of 32 bytes.
+> >         help
+> >           Provides enforcement of RDMA resources defined by IB stack.
+> >           It is fairly easy for consumers to exhaust RDMA resources, wh=
+ich
+> > @@ -1136,6 +1137,15 @@ config CGROUP_RDMA
+> >           Attaching processes with active RDMA resources to the cgroup
+> >           hierarchy is allowed even if can cross the hierarchy's limit.
+> >
+> > +config CGROUP_DMEM
+> > +       bool "Device memory controller (DMEM)"
+> > +       help
+> > +         The DMEM controller allows compatible devices to restrict dev=
+ice
+> > +         memory usage based on the cgroup hierarchy.
+> > +
+> > +         As an example, it allows you to restrict VRAM usage for appli=
+cations
+> > +         in the DRM subsystem.
+> > +
+>=20
+> Do you envision other users than DRM?
+> Perhaps this should depend on DRM for now?
 
-To be maximally compatible, we'd have to expose 28 (pitch align) * 32
-(height align) * 28 (offset align) * 28 (min pitch) * 28 (min size) =3D=3D
-19668992 individual modifiers when queried, which is 150MB per format
-just to store the list of modifiers.
+dma-buf heaps and v4l2 support are in progress right now.
 
-> DRM_FORMAT_MOD_LINEAR needs to go because it prevents apps from detecting=
- whether 2 devices have 0 compatible memory layouts, which is a useful thin=
-g to know.
+Maxime
 
-I get the point, but again, we have the exact same problem today with
-placement, i.e. some devices require buffers to be in or not be in
-VRAM or GTT or sysram for some uses, and some devices require physical
-contiguity. Solving that problem would require an additional 4 bits,
-which brings us to 2.3GB of modifiers per format with the current
-scheme. Not super viable.
+--6yxrd253xm54q4ba
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The design for the allocator - communicating constraints ('pitch must
-be exactly aligned to the next 256-byte boundary', 'pitch must be a
-multiple of 32 bytes', 'buffer must be physically contiguous', etc)
-separately from the chosen layout - would seem to fit this much
-better. And since there doesn't seem to be a tractable solution we can
-jam into the single 'intersect multiple sets of uint64s' API, we might
-as well go through typing that out.
+-----BEGIN PGP SIGNATURE-----
 
-Cheers,
-Daniel
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4amZQAKCRAnX84Zoj2+
+dgjDAX0W4SqGxbW7Q7IklK0znNvkntNHh6K1lujA0gPteaqWh799ZIBjzxh/cgs0
+P3bf5LEBgMEug4QbiLG8y8uDai/9qY2bChSMIdsxk2qfhycBLAechk/7OoRr7az/
+5VlQrByP9Q==
+=mx8q
+-----END PGP SIGNATURE-----
+
+--6yxrd253xm54q4ba--
