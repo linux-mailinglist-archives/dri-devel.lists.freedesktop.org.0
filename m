@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19DCCA10408
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 11:28:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4FCEA1041E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 11:30:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B7610E0B5;
-	Tue, 14 Jan 2025 10:28:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4A010E0EC;
+	Tue, 14 Jan 2025 10:30:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FcFs9pi2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ayXAyqyQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC8EA10E0B5;
- Tue, 14 Jan 2025 10:28:30 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5962810E0EB;
+ Tue, 14 Jan 2025 10:30:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9185E5C5494;
- Tue, 14 Jan 2025 10:27:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68CF2C4CEDD;
- Tue, 14 Jan 2025 10:28:26 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3ABA6A4128D;
+ Tue, 14 Jan 2025 10:28:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5538EC4CEE0;
+ Tue, 14 Jan 2025 10:30:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736850510;
- bh=7Xyvx//W34AHc/Tw5+ZODJKJ33wqtJEz+tKkVSYS2Ks=;
+ s=k20201202; t=1736850643;
+ bh=NbKSyZrW2Ui/qgfJyWHVYimqqLraJi8440l91xsjWSg=;
  h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=FcFs9pi2nMWTOxMWtMLn7dqmdv/nJ4k4CoCBF5Uu7qrY87egjQ5CUeJZ2U0q1PaC3
- ZcTzA50GF7P6qYAx3gpk9hHNdSIlSBWyRozhjk7u9y05VYGyuoN/Kpdt5bcnje3Zj1
- EpkAOFAC6qcwXQt39TJin+jSpCkgQPOmcg25QT43iuMpBx7l01Gaa1OWgxEnKEXlLe
- EwdPTMzyJ+nXCPlBbiPNsbPdQRoZoxfxWSm2Hd3G4tdu64WhchJ52MbiM4Q9JM1hHl
- 13fspuTs/UEoqrObtXl6Ya3FbK9OlGeWxdTemzbcflLX6GG+hMDzjkHCUFd+EOwjrL
- Bwf4YidlTzpqg==
+ b=ayXAyqyQUYKhas6Imkubjm+n5ma2juX4PLJGpyX3qBUJ4KSaH+etsESFTGvT5vy96
+ euftuqZCd/EXti479Rj2C1HqXuGBHnZ295G4WFTwPUAyjxIh9VjrO4tPCKau+TUs2n
+ s1ACxx7gLmhtJDc1+J1ybc1mgufufNgJS5ENDpzmcpBJQQr0bTkxTwEeB9K4ASyHfm
+ I5yafHRsjEnD65Smggz+pOJDgf9zIXeyqH2K9/p6ykE3TUD2Om//xZup4RpngJAW5g
+ we3jOB3wqqu1YjhCxX9ON2p7GZtg6PZi5c4/pFgbCSV0FTCukQHvUaFVxuNwMj+4U7
+ cwlsXilSSpGxA==
 From: Carlos Maiolino <cem@kernel.org>
 To: Alex Deucher <alexander.deucher@amd.com>, 
  Victor Skvortsov <victor.skvortsov@amd.com>, amd-gfx@lists.freedesktop.org, 
@@ -38,16 +38,17 @@ To: Alex Deucher <alexander.deucher@amd.com>,
  Mirsad Todorovac <mtodorovac69@gmail.com>
 Cc: =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, "Darrick J. Wong" <djwong@kernel.org>, 
- Chandan Babu R <chandanbabu@kernel.org>, Dave Chinner <dchinner@redhat.com>, 
- linux-xfs@vger.kernel.org
-In-Reply-To: <20241217225811.2437150-4-mtodorovac69@gmail.com>
+ Simona Vetter <simona@ffwll.ch>, Zhigang Luo <Zhigang.Luo@amd.com>, 
+ Hawking Zhang <Hawking.Zhang@amd.com>, Lijo Lazar <lijo.lazar@amd.com>, 
+ Yunxiang Li <Yunxiang.Li@amd.com>, Jack Xiao <Jack.Xiao@amd.com>, 
+ Vignesh Chander <Vignesh.Chander@amd.com>, 
+ Danijel Slivka <danijel.slivka@amd.com>
+In-Reply-To: <20241217225811.2437150-2-mtodorovac69@gmail.com>
 References: <20241217225811.2437150-2-mtodorovac69@gmail.com>
- <20241217225811.2437150-4-mtodorovac69@gmail.com>
-Subject: Re: [PATCH v1 2/3] xfs/libxfs: replace kmalloc() and memcpy() with
+Subject: Re: [PATCH v1 1/3] drm/admgpu: replace kmalloc() and memcpy() with
  kmemdup()
-Message-Id: <173685050606.121023.15880715609147802061.b4-ty@kernel.org>
-Date: Tue, 14 Jan 2025 11:28:26 +0100
+Message-Id: <173685063900.121209.12260311689704122686.b4-ty@kernel.org>
+Date: Tue, 14 Jan 2025 11:30:39 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -67,26 +68,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Dec 2024 23:58:12 +0100, Mirsad Todorovac wrote:
-> The source static analysis tool gave the following advice:
+On Tue, 17 Dec 2024 23:58:10 +0100, Mirsad Todorovac wrote:
+> The static analyser tool gave the following advice:
 > 
-> ./fs/xfs/libxfs/xfs_dir2.c:382:15-22: WARNING opportunity for kmemdup
+> ./drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:1266:7-14: WARNING opportunity for kmemdup
 > 
->  → 382         args->value = kmalloc(len,
->    383                          GFP_KERNEL | __GFP_NOLOCKDEP | __GFP_RETRY_MAYFAIL);
->    384         if (!args->value)
->    385                 return -ENOMEM;
->    386
->  → 387         memcpy(args->value, name, len);
->    388         args->valuelen = len;
->    389         return -EEXIST;
+>  → 1266         tmp = kmalloc(used_size, GFP_KERNEL);
+>    1267         if (!tmp)
+>    1268                 return -ENOMEM;
+>    1269
+>  → 1270         memcpy(tmp, &host_telemetry->body.error_count, used_size);
 > 
 > [...]
 
 Applied to for-next, thanks!
 
+[1/3] drm/admgpu: replace kmalloc() and memcpy() with kmemdup()
+      (no commit info)
 [2/3] xfs/libxfs: replace kmalloc() and memcpy() with kmemdup()
       commit: 9d9b72472631262b35157f1a650f066c0e11c2bb
+[3/3] btrfs: replace kmalloc() and memcpy() with kmemdup()
+      (no commit info)
 
 Best regards,
 -- 
