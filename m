@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9447A10FB6
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 19:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53EB0A10FAE
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 19:17:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C68BD10E464;
-	Tue, 14 Jan 2025 18:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C34F10E471;
+	Tue, 14 Jan 2025 18:17:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DfJgUMri";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="O2g0FZip";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8999410E04A
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 18:17:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60E3D10E46A
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 18:17:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1736878633;
- bh=5CKTYzeFI9xVT6Gfp9lhBqTUfnNdcMGy8htgqm9SI44=;
+ s=mail; t=1736878634;
+ bh=+l9zb4hoh+tVTykJo0VS3bVUA00OYLvGyHXEer002NU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=DfJgUMript4kQu01HustOE0qTEFY9P2sazYBZaS+JjeqMNgYmm7KB/C0I6KYWN3NR
- SLKtAofInEFaf7mLg176/tganHSbnRvGuzGDL9bUg8eoEePFRhwBcbjDgrb/D8iN6m
- sinQihzGPHZlMAsRp1OqibzayH3156zDqtglVuiqdzQAzcVQm0u+q64KbOBiZZOcZ/
- +RoyT+/TcNcSDDln9faIm2wZuP33c7h5f9zYSLpJfPg5zOeBdkv59kvy6Jqgm4WyvB
- jlhxvWGTFt0+V0wGjVB//JTG6YARTO00F/UjLyqMkEqp9s7BdpYRkQ3exPv9wCPeEU
- GNUb8+XzaJ3jw==
+ b=O2g0FZipMJOuIqTyfJJo6gqDd2CgJf2YuaoVK5OC/qN0PGfnxYMlxArDg36xNOLv6
+ k1qCt091ArKVef/vbRj+aAnHPqS3gLXO+AxGakBzODM78AdXJK1eRLv+8Ybt7ayZdY
+ D/jx/n+VM3fVO0xm0UXxIjgOcfYdaL+raQXgoGc6SXIc419XEThxEGA48LyRVJHvzd
+ OgcZzlYPtIN7J/cUxQpcI/ViL73WhhpWXHi74JgahvOuqH/4Qf8SimXX0z+29JFn34
+ sFkJLSNQ4GpzqvnurMOcDQmArJo6BHH1qoOUXvDEepwemwNViUx8yfY2xRCGMc7jGI
+ Gltb0DL8jlxuw==
 Received: from localhost (unknown [82.76.59.196])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1335D17E0DD3;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id DD5F417E0E64;
  Tue, 14 Jan 2025 19:17:13 +0100 (CET)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 14 Jan 2025 20:16:56 +0200
-Subject: [PATCH v3 1/2] drm/connector: hdmi: Handle NULL display mode in
- state check helper
+Date: Tue, 14 Jan 2025 20:16:57 +0200
+Subject: [PATCH v3 2/2] drm/tests: hdmi: Add connector's CRTC deactivation test
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250114-hdmi-conn-null-mode-v3-1-16bca91e11b0@collabora.com>
+Message-Id: <20250114-hdmi-conn-null-mode-v3-2-16bca91e11b0@collabora.com>
 References: <20250114-hdmi-conn-null-mode-v3-0-16bca91e11b0@collabora.com>
 In-Reply-To: <20250114-hdmi-conn-null-mode-v3-0-16bca91e11b0@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -49,8 +48,7 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,57 +65,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_connector_hdmi_check() helper makes use of
-connector_state_get_mode() to obtain a drm_display_mode pointer, but it
-doesn't validate it, which may lead to a NULL pointer dereference in
-some cases, i.e. unloading a DRM module:
+Following up a fixed bug in drm_atomic_helper_connector_hdmi_check(),
+discovered while unloading a DRM module, add a test to make sure the
+helper will not exhibit any abnormal behaviour for use cases that
+involve shutting down the connector's CRTC.
 
-[ 1002.910414] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-[...]
-[ 1002.923833] Hardware name: Radxa ROCK 5B (DT)
-[ 1002.924819] pc : drm_match_cea_mode+0x30/0x280 [drm]
-[ 1002.925318] lr : hdmi_try_format_bpc+0x7c/0x580 [drm_display_helper]
-[...]
-[ 1002.932411] Call trace:
-[ 1002.932626]  drm_match_cea_mode+0x30/0x280 [drm] (P)
-[ 1002.933120]  hdmi_try_format_bpc+0x7c/0x580 [drm_display_helper]
-[ 1002.933662]  drm_atomic_helper_connector_hdmi_check+0x10c/0x478 [drm_display_helper]
-[ 1002.934355]  drm_bridge_connector_atomic_check+0x20/0x40 [drm_display_helper]
-[ 1002.934993]  drm_atomic_helper_check_modeset+0x698/0xd28 [drm_kms_helper]
-[ 1002.935607]  drm_atomic_helper_check+0x28/0xb8 [drm_kms_helper]
-[ 1002.936143]  drm_atomic_check_only+0x794/0x988 [drm]
-[ 1002.936635]  drm_atomic_commit+0x60/0xe0 [drm]
-[ 1002.937082]  drm_atomic_helper_disable_all+0x184/0x218 [drm_kms_helper]
-[ 1002.937678]  drm_atomic_helper_shutdown+0x90/0x150 [drm_kms_helper]
-[ 1002.938243]  rockchip_drm_unbind+0x38/0x80 [rockchipdrm]
-[ 1002.938720]  component_master_del+0xac/0xf8
-[ 1002.939089]  rockchip_drm_platform_remove+0x34/0x78 [rockchipdrm]
-[...]
-
-Add the missing NULL check before passing the mode pointer further.
-
-Fixes: f035f4097f1e ("drm/connector: hdmi: Calculate TMDS character rate")
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 76 ++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index cfc2aaee1da08a103cbf933c891d5cc31b0886a8..e4d4fce6ab59d37067327d3e6da235c9a5a45b42 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -503,6 +503,9 @@ int drm_atomic_helper_connector_hdmi_check(struct drm_connector *connector,
- 		connector_state_get_mode(new_conn_state);
- 	int ret;
+diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+index c3b693bb966f1f8b04066d19f520bfa4bf11c23d..e6e79da200c4e81699c6e159a1bb2725004baf96 100644
+--- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+@@ -1568,6 +1568,81 @@ static void drm_test_check_output_bpc_format_display_8bpc_only(struct kunit *tes
+ 	KUNIT_EXPECT_EQ(test, conn_state->hdmi.output_format, HDMI_COLORSPACE_RGB);
+ }
  
-+	if (!mode)
-+		return 0;
++/*
++ * Test that if we deactivate connector's CRTC, we trigger a mode change
++ * on that CRTC, along with setting {connectors|active}_changed.
++ */
++static void drm_test_check_crtc_deactivate_mode_changed(struct kunit *test)
++{
++	struct drm_atomic_helper_connector_hdmi_priv *priv;
++	struct drm_modeset_acquire_ctx *ctx;
++	struct drm_connector_state *old_conn_state;
++	struct drm_connector_state *new_conn_state;
++	struct drm_crtc_state *old_crtc_state;
++	struct drm_crtc_state *new_crtc_state;
++	struct drm_atomic_state *state;
++	struct drm_display_mode *preferred;
++	struct drm_connector *conn;
++	struct drm_device *drm;
++	struct drm_crtc *crtc;
++	int ret;
 +
- 	new_conn_state->hdmi.is_limited_range = hdmi_is_limited_range(connector, new_conn_state);
- 
- 	ret = hdmi_compute_config(connector, new_conn_state, mode);
++	priv = drm_kunit_helper_connector_hdmi_init(test,
++						    BIT(HDMI_COLORSPACE_RGB),
++						    8);
++	KUNIT_ASSERT_NOT_NULL(test, priv);
++
++	conn = &priv->connector;
++	KUNIT_ASSERT_TRUE(test, conn->display_info.is_hdmi);
++
++	ctx = drm_kunit_helper_acquire_ctx_alloc(test);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
++
++	preferred = find_preferred_mode(conn);
++	KUNIT_ASSERT_NOT_NULL(test, preferred);
++
++	drm = &priv->drm;
++	crtc = priv->crtc;
++	ret = light_up_connector(test, drm, crtc, conn, preferred, ctx);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
++
++	new_conn_state = drm_atomic_get_connector_state(state, conn);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
++
++	old_conn_state = drm_atomic_get_old_connector_state(state, conn);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_conn_state);
++
++	new_crtc_state = drm_atomic_get_crtc_state(state, crtc);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
++
++	old_crtc_state = drm_atomic_get_old_crtc_state(state, crtc);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, old_crtc_state);
++
++	ret = drm_atomic_set_mode_for_crtc(new_crtc_state, NULL);
++	KUNIT_EXPECT_EQ(test, ret, 0);
++	KUNIT_ASSERT_NE(test, old_crtc_state->enable, new_crtc_state->enable);
++
++	new_crtc_state->active = false;
++	KUNIT_ASSERT_NE(test, old_crtc_state->active, new_crtc_state->active);
++
++	ret = drm_atomic_set_crtc_for_connector(new_conn_state, NULL);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	KUNIT_ASSERT_PTR_NE(test, old_conn_state->crtc, new_conn_state->crtc);
++
++	ret = drm_atomic_check_only(state);
++	KUNIT_ASSERT_EQ(test, ret, 0);
++
++	new_crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_crtc_state);
++	KUNIT_EXPECT_TRUE(test, new_crtc_state->mode_changed);
++	KUNIT_EXPECT_TRUE(test, new_crtc_state->connectors_changed);
++	KUNIT_EXPECT_TRUE(test, new_crtc_state->active_changed);
++}
++
+ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
+ 	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode),
+ 	KUNIT_CASE(drm_test_check_broadcast_rgb_auto_cea_mode_vic_1),
+@@ -1596,6 +1671,7 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
+ 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_8bpc),
+ 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_10bpc),
+ 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_12bpc),
++	KUNIT_CASE(drm_test_check_crtc_deactivate_mode_changed),
+ 	/*
+ 	 * TODO: We should have tests to check that a change in the
+ 	 * format triggers a CRTC mode change just like we do for the
 
 -- 
 2.47.1
