@@ -2,61 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFA8BA10195
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 08:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED8BA101FB
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 09:27:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6AE510E35B;
-	Tue, 14 Jan 2025 07:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C259210E04D;
+	Tue, 14 Jan 2025 08:27:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UoSLtcyo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IfQyC7X5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A803310E33D;
- Tue, 14 Jan 2025 07:57:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A4CFF5C56E1;
- Tue, 14 Jan 2025 07:56:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F08EC4CEDD;
- Tue, 14 Jan 2025 07:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736841427;
- bh=ZloWZNduwAPjDvbGadMXp2gP8vQf1XX1e+wOh0WKm7o=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UoSLtcyoyKBgQ0ahEo0MIpQJ5CIHFw61HjTFG2rLHJKe/RQ8eqfVGEEbT9uBFIQ1Y
- f1UuX4Bzdl4DPrVun1gYmxjAwRxBWMiBeT+/6EU8QlZZx8r3iolZazKFa92DeE1guA
- XWw5iy9Ixx9Pv2Rhn1LmOjLDlZquKEnx6CZsVC/TPTQZuyZ+D0r/7PAj84UaWciOjH
- 0TihPtxkTLaTjhSLbKkV3m4B7UUknwEo9o1a8rURDRXsSfA4z+pdWtCrzSp5kOXjMJ
- wK+C/MaUZpVPOUEQwo5ekuY2uVCMbkUyTVg0iUMCsf/POPIhoWog6Ug1v3RNUa7V1v
- Qt6jRxWMgcsOA==
-Date: Tue, 14 Jan 2025 08:57:04 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v3 3/4] dt-bindings: display/msm: Document MDSS on QCS8300
-Message-ID: <lyv4bopv3zw62qll5cjjx46ejdjjmssvhabdxj2uq23mcmwqpb@lld6hynsiwfe>
-References: <20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com>
- <20250113-mdssdt_qcs8300-v3-3-6c8e93459600@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1FB810E102
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 08:27:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736843221; x=1768379221;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=APCJFUvNGNLvoHSnXBtSiamzFzPiWWqOvvKstFwnrpk=;
+ b=IfQyC7X5xej4R03Z8Wic40eVnTkrAJgx1hkJkqQ55ftHxK5QmY9VAi8I
+ kMijc0Dp7roDn/AmfHKKdkKNI+RMkWwm/ilVsvyNm9FxvrjsgNthtNFQH
+ xdvIHNNQ64I4AmI1rrY9ykOHA7GHWQ43pY9Cked1/v9y+EnOzWbAURxrl
+ 8EQe7saaIeKSKpP1cy7jsdB73HYAWdVUJwgsTB9maBfSCKbcN+1DJ39uu
+ lNAVVTR1Jt0Ba3pajJdBI8Rx6wiD4BTboZ5Qw16Y5rW8blOzMb/eziGKH
+ hkS4rOCcsoX3OmA641xuizzjevIxdhdJHQMqgdNg+DL1CMcqXVTLi2s3M w==;
+X-CSE-ConnectionGUID: 3KwYBjnpTjaxCril97TmKw==
+X-CSE-MsgGUID: ZDL0jTElTrys3xsV9fqlXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="47795085"
+X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; d="scan'208";a="47795085"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2025 00:27:00 -0800
+X-CSE-ConnectionGUID: Kv42k/ZLTHqTWFtg98E6GA==
+X-CSE-MsgGUID: T/EkgjJfRq6SCJUSNGacrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; d="scan'208";a="104562849"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jan 2025 00:26:56 -0800
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>
+Subject: [PATCH] drm/virtio: Don't return error if virtio-gpu PCI dev is not
+ found
+Date: Mon, 13 Jan 2025 23:57:59 -0800
+Message-ID: <20250114075759.2616551-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250113-mdssdt_qcs8300-v3-3-6c8e93459600@quicinc.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,32 +70,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2025 at 04:03:10PM +0800, Yongxing Mou wrote:
-> +patternProperties:
-> +  "^display-controller@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        items:
-> +          - const: qcom,qcs8300-dpu
-> +          - const: qcom,sa8775p-dpu
-> +
-> +  "^displayport-controller@[0-9a-f]+$":
-> +    type: object
-> +    additionalProperties: true
-> +
-> +    properties:
-> +      compatible:
-> +        items:
-> +          - const: qcom,qcs8300-dp
-> +          - const: qcom,sm8650-dp
+While fixing a shared VGA resource ownership issue, commit 5dd8b536bb
+("drm/virtio: Lock the VGA resources during initialization") wrongly
+assumed that there is always a PCI device associated with virtio-gpu
+and it would return error if this device is not found during init.
 
-Parts of qcs8300 display are compatible with sa8775p, other parts with
-sm8650. That's odd or even not correct. Assuming it is actually correct,
-it deserves explanation in commit msg.
+This is incorrect, as virtio-gpu can be operated in MMIO mode (M68K)
+where a PCI device would probably not be created for it. Therefore,
+fix this issue by not erroring out if the associated PCI device is
+not found during initialization.
 
-Best regards,
-Krzysztof
+Fixes: 5dd8b536bb ("drm/virtio: Lock the VGA resources during initialization")
+Suggested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: Chia-I Wu <olvaffe@gmail.com>
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index d4309dba557b..2d88e390feb4 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -173,23 +173,24 @@ static int __init virtio_gpu_driver_init(void)
+ 	pdev = pci_get_device(PCI_VENDOR_ID_REDHAT_QUMRANET,
+ 			      PCI_DEVICE_ID_VIRTIO_GPU,
+ 			      NULL);
+-	if (!pdev)
+-		return -ENODEV;
+-
+-	if (pci_is_vga(pdev)) {
++	if (pdev && pci_is_vga(pdev)) {
+ 		ret = vga_get_interruptible(pdev,
+ 			VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM);
+-		if (ret)
+-			goto error;
++		if (ret) {
++			pci_dev_put(pdev);
++			return ret;
++		}
+ 	}
+ 
+ 	ret = register_virtio_driver(&virtio_gpu_driver);
+ 
+-	if (pci_is_vga(pdev))
+-		vga_put(pdev, VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM);
++	if (pdev) {
++		if (pci_is_vga(pdev))
++			vga_put(pdev,
++				VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM);
+ 
+-error:
+-	pci_dev_put(pdev);
++		pci_dev_put(pdev);
++	}
+ 
+ 	return ret;
+ }
+-- 
+2.47.1
 
