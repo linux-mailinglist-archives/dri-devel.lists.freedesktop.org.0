@@ -2,141 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D8CA1092D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15F3A10941
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:28:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08E0510E080;
-	Tue, 14 Jan 2025 14:25:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87F1A10E359;
+	Tue, 14 Jan 2025 14:28:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Raaz/AOM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jMO47/hz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GEfaz/GA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EXPxqfcy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nLJnpNDp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3882610E080
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:25:06 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DF4E91F37C;
- Tue, 14 Jan 2025 14:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736864704; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+DcI7//BhbBLiAqaoRZptUSWpY++WrtvjT6jPw6lGDs=;
- b=Raaz/AOM/Xq/cgH2MWhr7ndnq3fcLzEQGcIzcpHYf1RKuj1LwwvuF3vVYIRGXZo00WNG4I
- PnT8200K5t5utoYegNaCRnGJlE5StMXgmQp61LDq6oHC0IJn2uDAm7UC/h8wzPO/pdS8wr
- Lib6ybu3B5cKjywyINgGIA3T2Bebn4A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736864704;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+DcI7//BhbBLiAqaoRZptUSWpY++WrtvjT6jPw6lGDs=;
- b=jMO47/hzy61nweU3504XnwAZTfWcB96SPfSsX0XG1BLVCUsKb1yqwjlG5IErDo21TlC161
- LNjHdjCaIhoXXLDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1736864703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+DcI7//BhbBLiAqaoRZptUSWpY++WrtvjT6jPw6lGDs=;
- b=GEfaz/GA82oQhEWNmDox3FQVlLiTwvBrei0wr8uctkdayScAwQ3MDSe0F1IZbW6Sz3LQY8
- fFPSRanpGA6zAJojBBV1Q4qdC8XLPZEUScsTtg+WUEwLdpfKxLlp0wJwALVzawMPJseY+d
- PxHAUQQMxO9zkSoRAeeU+R5miUwogKQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1736864703;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+DcI7//BhbBLiAqaoRZptUSWpY++WrtvjT6jPw6lGDs=;
- b=EXPxqfcyQr2wORv4sX/RlLfT+UMBdmVVtvbV6Ylb31w1aVmAMzLh92Ba1PAqIqX0MkYS6x
- nraDc8nVK2ZoXmBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B2121384C;
- Tue, 14 Jan 2025 14:25:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id VwqAFL9zhmd/XAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 14 Jan 2025 14:25:03 +0000
-Message-ID: <fd940912-44b1-4009-988b-8b6d3e52f88f@suse.de>
-Date: Tue, 14 Jan 2025 15:25:02 +0100
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 879B710E151;
+ Tue, 14 Jan 2025 14:28:11 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ 98e67ed59e1d1-2f2f5e91393so1177563a91.0; 
+ Tue, 14 Jan 2025 06:28:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1736864891; x=1737469691; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CG/xNl2Z4epFXNaU8D9vC9qN5aFhxLo8PdyZZURJRhY=;
+ b=nLJnpNDp4ZMZ8m3lV/XGBnjNcF4OUPAw/1Nm8IyTiSYdApAnvcao0uhjIOYdvMghmj
+ nU7kzFL9ZCfUms0eWBFkJs9C96M4a7vWyPcYdB4qH2+zafEnj5n1VGGpscMXDmewDTY4
+ KlP/Lx6tHOza986rk9w53f4H+JcQct0tRRix+1LoP2edBdl6C1GXwRkNj64sX1luHkP/
+ /pxh0O1/pIMXqm7fvG9KD8miSfybRDKqeiHeykYN7rKYReOyyuUyPmZ6EYD9i84LjOVS
+ AG9WBPxF0jU7DkL+Z9o/FMDQxdX80EZZPfo8LgQnBTjdz7Mz/X5GSCUuWrkkX3+tgbDr
+ ridQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736864891; x=1737469691;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CG/xNl2Z4epFXNaU8D9vC9qN5aFhxLo8PdyZZURJRhY=;
+ b=YThIB0qebq7/Fmx1w6uacstqsKxxvkgNu+43ccSQohIiZADAV2p7Vjk+mHUV0PjkwW
+ BlNKACCcUatbwRA+iShz73AlsMnMQqTmPbqnTlf01aPPOk/tab/fwsD6jCoIQUAt4fw6
+ c+w55v5fuycXskLcr56gltgspEeae0qYZntvK2dMhXDV8yn1ZN6FLdBb9mXGZQKI1MD/
+ 8zesc/qsBmygi7lfvF+nAmbmZYJ89pjaCbtcLCBb7ILeCgWFzJ3RoTAHXog66IDT3WrB
+ dvwQFiwyHHdIokF2f5XbdElOd4kmsRJFIr4APy299ngTq/rimCH7IW/0NchHKQTfpxzW
+ 5N/g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXpwF+roLFmL+UAUXLnuXCmIdeK/9vMCao5D2+ygkQK7GRzEn4zIT/fRTCVGtblyD/L5Y/YcmJb@lists.freedesktop.org,
+ AJvYcCXxz2d+QeAgWeAYD2zJhkY2ITN8Ygd5tmdZCQBe0Gz4y2xeVXHBNlUa6yRPkF37tjxXRXI7jhHLQAXe@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9CGxYwzGjzhNGsr3mftQhO360VdxDlSdXCHOi7MyeZislBtxL
+ HUrNnDLW8mq5rageMB4NpnohBPEpDKcb+P6526/26/0T9ChZC29AEH1OGrKTa3w5EW4WGrhIoIt
+ xqlTR3MFNIbJxuG1FDQEj9ExB+tQ=
+X-Gm-Gg: ASbGncvLuFTNthgOODUn4m0RSPWoj3TgTOtEUltimr3ZGIh15QbcFdNKVyO503qswYI
+ /Mr3tmaMC02O3ihzBL2VEONpCJQvFID2moL8FJw==
+X-Google-Smtp-Source: AGHT+IGK+wHrTTbYov1lCaHhsKfIqhkDYrJCTh0/tpbQJZ8ZCuajlKt2a5miu35VbOkdceWOJ1KmqTXuVEpdzbAqZ/A=
+X-Received: by 2002:a17:90a:da88:b0:2ee:f440:bb93 with SMTP id
+ 98e67ed59e1d1-2f548f2449fmr12900899a91.4.1736864890933; Tue, 14 Jan 2025
+ 06:28:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/8] drm/managed: Add DRM-managed
- alloc_ordered_workqueue
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com
-References: <20250114-google-vkms-managed-v8-0-da4254aa3dd5@bootlin.com>
- <20250114-google-vkms-managed-v8-3-da4254aa3dd5@bootlin.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250114-google-vkms-managed-v8-3-da4254aa3dd5@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[bootlin.com,gmail.com,riseup.net,linux.intel.com,kernel.org,ffwll.ch];
- TAGGED_RCPT(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_TWELVE(0.00)[18]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- URIBL_BLOCKED(0.00)[bootlin.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
- RCVD_COUNT_TWO(0.00)[2]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,bootlin.com:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+References: <20241217225811.2437150-2-mtodorovac69@gmail.com>
+ <173685063900.121209.12260311689704122686.b4-ty@kernel.org>
+In-Reply-To: <173685063900.121209.12260311689704122686.b4-ty@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 14 Jan 2025 09:27:59 -0500
+X-Gm-Features: AbW1kvZRoI9rzQB480vAVsFweEq2xRErf6W7c3Ns6vjuZnxILg2Nh15Mx5uaQeA
+Message-ID: <CADnq5_PDSe3U=LWF_dBA=iSvX+4Cv3t66ELiNi=s3uh2W_q9Ww@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] drm/admgpu: replace kmalloc() and memcpy() with
+ kmemdup()
+To: Carlos Maiolino <cem@kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Victor Skvortsov <victor.skvortsov@amd.com>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Mirsad Todorovac <mtodorovac69@gmail.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Zhigang Luo <Zhigang.Luo@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>,
+ Jack Xiao <Jack.Xiao@amd.com>, Vignesh Chander <Vignesh.Chander@amd.com>,
+ Danijel Slivka <danijel.slivka@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,88 +94,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-
-Am 14.01.25 um 15:05 schrieb Louis Chauvet:
-> Add drmm_alloc_ordered_workqueue(), a helper that provides managed ordered
-> workqueue cleanup. The workqueue will be destroyed with the final
-> reference of the DRM device.
+On Tue, Jan 14, 2025 at 5:37=E2=80=AFAM Carlos Maiolino <cem@kernel.org> wr=
+ote:
 >
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> On Tue, 17 Dec 2024 23:58:10 +0100, Mirsad Todorovac wrote:
+> > The static analyser tool gave the following advice:
+> >
+> > ./drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:1266:7-14: WARNING opportuni=
+ty for kmemdup
+> >
+> >  =E2=86=92 1266         tmp =3D kmalloc(used_size, GFP_KERNEL);
+> >    1267         if (!tmp)
+> >    1268                 return -ENOMEM;
+> >    1269
+> >  =E2=86=92 1270         memcpy(tmp, &host_telemetry->body.error_count, =
+used_size);
+> >
+> > [...]
 >
-> ---
+> Applied to for-next, thanks!
+
+FWIW, I already picked up the amdgpu patch for drm-next on Dec 18th.
+
+Alex
+
 >
-> Hi Thomas,
+> [1/3] drm/admgpu: replace kmalloc() and memcpy() with kmemdup()
+>       (no commit info)
+> [2/3] xfs/libxfs: replace kmalloc() and memcpy() with kmemdup()
+>       commit: 9d9b72472631262b35157f1a650f066c0e11c2bb
+> [3/3] btrfs: replace kmalloc() and memcpy() with kmemdup()
+>       (no commit info)
 >
-> I noted that you wanted to mark this as Reviewed, but as this was not
-> the complete patch, I prefered to have a confirmation before merging the
-> patch.
+> Best regards,
+> --
+> Carlos Maiolino <cem@kernel.org>
 >
-> Thanks for your time,
-> Louis Chauvet
-> ---
->   drivers/gpu/drm/drm_managed.c |  8 ++++++++
->   include/drm/drm_managed.h     | 12 ++++++++++++
->   2 files changed, 20 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> index 79ce86a5bd67a7201f5d60550a12364f2628e0ec..1589c28410f23b5a1e93dd1638420b3ae5c4b854 100644
-> --- a/drivers/gpu/drm/drm_managed.c
-> +++ b/drivers/gpu/drm/drm_managed.c
-> @@ -310,3 +310,11 @@ void __drmm_mutex_release(struct drm_device *dev, void *res)
->   	mutex_destroy(lock);
->   }
->   EXPORT_SYMBOL(__drmm_mutex_release);
-> +
-> +void __drmm_destroy_workqueue(struct drm_device *device, void *res)
-> +{
-> +	struct workqueue_struct *wq = res;
-> +
-> +	destroy_workqueue(wq);
-> +}
-> +EXPORT_SYMBOL(__drmm_destroy_workqueue);
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index f547b09ca0239dd7c4fb734038bae4438321395c..96d9b0e811675fe66d5d48f02b17bc7de2ac437e 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -127,4 +127,16 @@ void __drmm_mutex_release(struct drm_device *dev, void *res);
->   	drmm_add_action_or_reset(dev, __drmm_mutex_release, lock);	     \
->   })									     \
->   
-> +void __drmm_destroy_workqueue(struct drm_device *device, void *wq);
-
-A comment on the naming. This is the release helper for the workqueue. 
-Rather call it __drm_workqueue_release(). The current name sounds like 
-it is a drmm wrapper around destroy_workqueue(), which it isn't.
-
-Apart from that,
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
-> +
-> +#define drmm_alloc_ordered_workqueue(dev, fmt, flags, args...)					\
-> +	({											\
-> +		struct workqueue_struct *wq = alloc_ordered_workqueue(fmt, flags, ##args);	\
-> +		wq ? ({										\
-> +			int ret = drmm_add_action_or_reset(dev, __drmm_destroy_workqueue, wq);	\
-> +			ret ? ERR_PTR(ret) : wq;						\
-> +		}) :										\
-> +			wq;									\
-> +	})
-> +
->   #endif
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
