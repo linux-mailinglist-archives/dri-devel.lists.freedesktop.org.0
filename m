@@ -2,59 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E885A10ACE
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 16:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BC1A10AEC
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 16:33:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C546010E3AE;
-	Tue, 14 Jan 2025 15:29:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91A3810E399;
+	Tue, 14 Jan 2025 15:33:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R9+LAwAJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MtuuT7Nt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F22AC10E3C3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 15:29:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA1ED10E398;
+ Tue, 14 Jan 2025 15:33:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4E9985C4AD4;
- Tue, 14 Jan 2025 15:28:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F3DC4CEDD;
- Tue, 14 Jan 2025 15:29:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 543885C57AF;
+ Tue, 14 Jan 2025 15:32:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769C3C4CEDD;
+ Tue, 14 Jan 2025 15:33:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736868549;
- bh=YujoeKLtzNulBp1gJbyYPBd6Dn6Pd+3vsagHF6PjR6o=;
+ s=k20201202; t=1736868809;
+ bh=IqB1kGiq4RQ8Magdnvbyx2VkX6/ppsKFiGIxGCa6plI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R9+LAwAJ/1KKI0vdAcQf/rJfu/n2pAsMKGNz9guDyl4VRbngrsd/kthID9UB0fCCZ
- N51nWWCZO6d5eMLu9muzgw3P4K5+pLZCjhME3uCQvF1dhuQvImLpZGiOplvqPC4iEV
- YXQavUvXQtTr1OB/VA72rG1sC2wZRosYKekOmybyxcOwzU8Op2hk46khinR0OKuH3R
- 7NmJ+kQFiuroKhrvJvwUpoX1HYRUb9BbIWSeXYpUrPCoV+cuInlDWN4oXS7gPdEIG6
- 5P12fhENatfBefUNrsi6TJWWnAyN8eGEpl/pJsvtnsdTMRnl/6Yr9CibLxiH7e3PBl
- GAzMp7tqv/AdA==
-Date: Tue, 14 Jan 2025 16:29:06 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, nicolejadeyee@google.com
-Subject: Re: [PATCH v8 3/8] drm/managed: Add DRM-managed
- alloc_ordered_workqueue
-Message-ID: <20250114-spectral-beetle-of-dignity-986943@houat>
-References: <20250114-google-vkms-managed-v8-0-da4254aa3dd5@bootlin.com>
- <20250114-google-vkms-managed-v8-3-da4254aa3dd5@bootlin.com>
+ b=MtuuT7NtFu+PQ9wwOLqKMMIhCd5Mk/3dL/WdoUkGZlcyyd/Cy0vSULdCURK+Sw60/
+ s476QuPBTMfl1zik6B8WgzBcvWibDwdPXu2da8mpig6PPeLr0t/JMgho37TwFcfkTg
+ LIWDqjEEPT6HITaMp8PH2Mvk1NZrsHWAWnHGzipttNgRg86D17gM4dWk2tytEV1yMY
+ woeliS9KCC7Yb+lCN+kFNwH/pcvRBrC9ogbyPtTRt4IAScnzPb097AIKImkZbrImyF
+ 6N+j04AEZFHP/302ub78qOrDQFoBMhqSCd5fkT5l7eXSJmn7cZtNmR+80JsmjPGqyj
+ Dk7eFD3xzuG4A==
+Date: Tue, 14 Jan 2025 16:33:22 +0100
+From: Carlos Maiolino <cem@kernel.org>
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>, 
+ Victor Skvortsov <victor.skvortsov@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Mirsad Todorovac <mtodorovac69@gmail.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Zhigang Luo <Zhigang.Luo@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>,
+ Jack Xiao <Jack.Xiao@amd.com>, Vignesh Chander <Vignesh.Chander@amd.com>,
+ Danijel Slivka <danijel.slivka@amd.com>
+Subject: Re: [PATCH v1 1/3] drm/admgpu: replace kmalloc() and memcpy() with
+ kmemdup()
+Message-ID: <i66hmugg7dxs5ncmtky6whqyhg6tsn2mo7ai2xixye357r3sbs@etgmlalph3nw>
+References: <20241217225811.2437150-2-mtodorovac69@gmail.com>
+ <173685063900.121209.12260311689704122686.b4-ty@kernel.org>
+ <CADnq5_PDSe3U=LWF_dBA=iSvX+4Cv3t66ELiNi=s3uh2W_q9Ww@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="gqrnpphgud2tjpoi"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250114-google-vkms-managed-v8-3-da4254aa3dd5@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADnq5_PDSe3U=LWF_dBA=iSvX+4Cv3t66ELiNi=s3uh2W_q9Ww@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,95 +71,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 14, 2025 at 09:27:59AM -0500, Alex Deucher wrote:
+> On Tue, Jan 14, 2025 at 5:37 AM Carlos Maiolino <cem@kernel.org> wrote:
+> >
+> > On Tue, 17 Dec 2024 23:58:10 +0100, Mirsad Todorovac wrote:
+> > > The static analyser tool gave the following advice:
+> > >
+> > > ./drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c:1266:7-14: WARNING opportunity for kmemdup
+> > >
+> > >  → 1266         tmp = kmalloc(used_size, GFP_KERNEL);
+> > >    1267         if (!tmp)
+> > >    1268                 return -ENOMEM;
+> > >    1269
+> > >  → 1270         memcpy(tmp, &host_telemetry->body.error_count, used_size);
+> > >
+> > > [...]
+> >
+> > Applied to for-next, thanks!
+> 
+> FWIW, I already picked up the amdgpu patch for drm-next on Dec 18th.
+> 
 
---gqrnpphgud2tjpoi
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 3/8] drm/managed: Add DRM-managed
- alloc_ordered_workqueue
-MIME-Version: 1.0
+b4 seems to have ignored that I pulled only the xfs bits :)
 
-On Tue, Jan 14, 2025 at 03:05:45PM +0100, Louis Chauvet wrote:
-> Add drmm_alloc_ordered_workqueue(), a helper that provides managed ordered
-> workqueue cleanup. The workqueue will be destroyed with the final
-> reference of the DRM device.
->=20
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->=20
-> ---
->=20
-> Hi Thomas,
->=20
-> I noted that you wanted to mark this as Reviewed, but as this was not
-> the complete patch, I prefered to have a confirmation before merging the
-> patch.
->=20
-> Thanks for your time,
-> Louis Chauvet
-> ---
->  drivers/gpu/drm/drm_managed.c |  8 ++++++++
->  include/drm/drm_managed.h     | 12 ++++++++++++
->  2 files changed, 20 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_managed.c b/drivers/gpu/drm/drm_managed.c
-> index 79ce86a5bd67a7201f5d60550a12364f2628e0ec..1589c28410f23b5a1e93dd163=
-8420b3ae5c4b854 100644
-> --- a/drivers/gpu/drm/drm_managed.c
-> +++ b/drivers/gpu/drm/drm_managed.c
-> @@ -310,3 +310,11 @@ void __drmm_mutex_release(struct drm_device *dev, vo=
-id *res)
->  	mutex_destroy(lock);
->  }
->  EXPORT_SYMBOL(__drmm_mutex_release);
-> +
-> +void __drmm_destroy_workqueue(struct drm_device *device, void *res)
-> +{
-> +	struct workqueue_struct *wq =3D res;
-> +
-> +	destroy_workqueue(wq);
-> +}
-> +EXPORT_SYMBOL(__drmm_destroy_workqueue);
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index f547b09ca0239dd7c4fb734038bae4438321395c..96d9b0e811675fe66d5d48f02=
-b17bc7de2ac437e 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -127,4 +127,16 @@ void __drmm_mutex_release(struct drm_device *dev, vo=
-id *res);
->  	drmm_add_action_or_reset(dev, __drmm_mutex_release, lock);	     \
->  })									     \
-> =20
-> +void __drmm_destroy_workqueue(struct drm_device *device, void *wq);
-> +
-> +#define drmm_alloc_ordered_workqueue(dev, fmt, flags, args...)					\
-> +	({											\
-> +		struct workqueue_struct *wq =3D alloc_ordered_workqueue(fmt, flags, ##=
-args);	\
-> +		wq ? ({										\
-> +			int ret =3D drmm_add_action_or_reset(dev, __drmm_destroy_workqueue, w=
-q);	\
-> +			ret ? ERR_PTR(ret) : wq;						\
-> +		}) :										\
-> +			wq;									\
-> +	})
-> +
->  #endif
+Thanks for the heads up Alex.
 
-Is there a reason to do a macro and not a proper function?
-
-Maxime
-
---gqrnpphgud2tjpoi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4aCwgAKCRAnX84Zoj2+
-diWaAXsEs6N5J2t0JLcALGkYRsKKvUN3FDrThjLNM1Ba1tExT/nWVKd4II2c1+FI
-xoF7FdMBewTlpVkf2LCL4kk0X4Cgn/5Psn4kIlB2s2hs6nM5Oauddpx4kafZwvtL
-VOp8JeE5EA==
-=FFrs
------END PGP SIGNATURE-----
-
---gqrnpphgud2tjpoi--
+> Alex
+> 
+> >
+> > [1/3] drm/admgpu: replace kmalloc() and memcpy() with kmemdup()
+> >       (no commit info)
+> > [2/3] xfs/libxfs: replace kmalloc() and memcpy() with kmemdup()
+> >       commit: 9d9b72472631262b35157f1a650f066c0e11c2bb
+> > [3/3] btrfs: replace kmalloc() and memcpy() with kmemdup()
+> >       (no commit info)
+> >
+> > Best regards,
+> > --
+> > Carlos Maiolino <cem@kernel.org>
+> >
