@@ -2,126 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05D9A1099A
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:43:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B7BA1099E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:44:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AFDA10E36B;
-	Tue, 14 Jan 2025 14:43:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCD9910E36C;
+	Tue, 14 Jan 2025 14:44:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X7qk9ZD2";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Cagok+yK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD44410E36B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:43:51 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id
- ffacd0b85a97d-3862c78536bso303081f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 06:43:51 -0800 (PST)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com
+ [IPv6:2a00:1450:4864:20::629])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD21810E36C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:44:08 +0000 (UTC)
+Received: by mail-ej1-x629.google.com with SMTP id
+ a640c23a62f3a-aae81f4fdc4so1059104766b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 06:44:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736865830; x=1737470630; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=zmVgAqwpleZB6pp1+6CDvtK8CAUdTfhLfFqUVd0G6lM=;
- b=X7qk9ZD23tMM3f9Ua79nsRYNMjW4se4tiaCvn1xGSffF3gox8TM19uEq6i23psY90N
- Tb5Wmdug2ePvJCFzPnWuYALpBdyJ2n8FMILTzMHMLa/Hm//xCfLHhXEAUQsbvihbQcTJ
- vGlAObc1zjqvRvBy04FCNlkz9159sqnm4W8a9stuMyx2P2C8YsgUyEIEpU4rnBrUX+Hs
- W8vTYw+6ITu7TM4sFPbBbxLqi9DEEYHcWqdL/WWqBEnWrNSFX85jURwYMzF2OBTMSv3m
- oYAv4Wyc5kPitas/B7sdcNn7bGOuDuCm/rM3YrpioNEfGWeZT2w6ssPbTu75Lm6N9Uhe
- FqRQ==
+ d=ffwll.ch; s=google; t=1736865847; x=1737470647; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ATFNgMzaw3+odlncdmVbwQjWHseefp7b7ULkUB6sipQ=;
+ b=Cagok+yKfU5c3rGPuRBYbpWlQH1OKGJOLWIljB5sD/B5i23EneCaetwtqtayRwt1Na
+ 9XM2/ixl7R/zKH0ak0J8jx/z0nSTO3n5Pig3m2QMtU+SIlOTTbmbviauz3/FXplH3+FK
+ n8WsE20RcJKPCcRy8ZbufNuId18k4rESdPkXQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736865830; x=1737470630;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zmVgAqwpleZB6pp1+6CDvtK8CAUdTfhLfFqUVd0G6lM=;
- b=vTO8KujiLsVeqUkiYKVtx5EtycdygeGkQT5YQDREWALNdBi/dILs+p7ys2m8FCpmRf
- 7w5kX+W082DSUSjvRejBkA3zqyVRnj1JTxJity864nF+kJAM/LizAw6ACUVkB9fzTxaz
- wJYxESfqlxxEdKcwNRoIOSFGBqxp09TeMCoBQdKzmqMSopB2XmrZubDeXRz6W2u4CeJl
- 98/ayJkAatPq20z47umm3BXtShJXIHuHsUQ3AU9nPUIDIPox5r2G5wGk1qJmYaOVzk2p
- OsqAKg2EZmFdy577x6lg7Da6kqKKJ50RcvZMcegheBo0HLlqJ9hFlzGr076dHnAGIsAC
- irCQ==
+ d=1e100.net; s=20230601; t=1736865847; x=1737470647;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ATFNgMzaw3+odlncdmVbwQjWHseefp7b7ULkUB6sipQ=;
+ b=lGS9WKXoA78rTOv/KhaQtUnP8V3UqdCZBYB4mTHcCeMw/5IxaXp0kFgQmE9svQ1H9c
+ EviED4iux0UCIPEFRQpOEV7V+QQV2FV0Stidhg/FCtZgIOF+fBBQJpn5pulxdYDruQk1
+ 6CZQkgLHbT5eyumk3ONJwOJEvKFegWZjL6k4NT1gpChtHiViKDlGdmJOMla9njwsBZL7
+ Yzdwm1AE/UJ6T/22Z6kQ4Fd4eybn/GZWIdn5SNUg0ex5P3fH7eTDSdr1JLX6m6pnwGZv
+ D0GtfVPz1lJLm30BT+ooAQjk1/JL3SevWo/FkuLdITLQtykZ+bJ8elovrbm//UTzjPov
+ VOHQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWX2OvwCiUHc8G3m6nmRPKFHSHmDz56J/cVJ8BXB7v8KtqVyg8kgmF2pt8//juy7YAszxqV23Xce44=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyayU7F1FwobQeyh3wFyaq5QGpFjMcGMxu4mHVGv4e40ZPk1+e+
- bTCEfbGVc5WAXrlFm9HcGPdDh8b8YPawFcmnA6mpMGDiQNzxm7FMzFxcNCeLzfc=
-X-Gm-Gg: ASbGncuwTZXdctcrJe6HvXLXMSYROKHLc0pr3FLc8y0UBh1OUUhfZiEY5oQrTObcFEh
- H+C7hKDXRXUrg7CYmulAoFdyv3tD8uukYLxIlLFfqXl0zZ/Sr5mHTtVpd6FAX5KpptQJvrUytlF
- PAeC5FcZtwxohv2j2WntAXDCw9OhGmvIzxu/sjFjGXBT/EX84CizyXAqm58+sDAVlu5anan/XF4
- hD81R/2iGw8J8osF3prawdKiWhVTPzkDhRQc5mAzPJdI+qiLFleFtLpEjBSOJa4xser56ei1Jf+
-X-Google-Smtp-Source: AGHT+IGsnoqHMcWktSOZPQqvd28iN0YmRihdDITJqjMYdK4KveTM0SjKIdWKPJnVqOXaQSAn+AiUtw==
-X-Received: by 2002:a5d:47c4:0:b0:385:dc3b:da71 with SMTP id
- ffacd0b85a97d-38a872e5facmr9946739f8f.8.1736865828871; 
- Tue, 14 Jan 2025 06:43:48 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.165])
+ AJvYcCUa6tE51eNsw95lfO7gy+iOEsJn59tAxfbRPNOGoi4wJg9C9Wl2LsxdVhKEjIVBH1iLMOGFfXojARs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx7l6+bXaBlhd6uBeWfelWY8wYni88oagdAMIsI4oJJlF896IBc
+ S+Ckok0UX+5pyDdGivBT+frbIc4eYCpf/HNvAiwJHl/gHmNqXuG8bIXi4YnCQ+s=
+X-Gm-Gg: ASbGnctjDQzzGVg47cP99Emq1RNfeFjB91la1cKwIsaO6yNZQYqGNKDuzrpJGj4YKMC
+ l3nlX9zwj04VyCcHNE7vK7j1xvLYKLV0ZBCMY/Gm1DawWYIMywe1uUx2lIbR/E/nqxlDGsBjggw
+ e8PN+5h2A7lswElRGm5q0+FXMKEFjMpDNHEnEwbL0Gom6sM7SrM5QKw1DMlrv4gh1Hsfe1/4EBE
+ YLf9GTGv39GxgYqUgGfXPxKpiMKNbX70fMZZGGU2FqVLKKl72GagTNxmhU+r3DEmXLi
+X-Google-Smtp-Source: AGHT+IGAg6SbQyvl4hHoMLWiihnCnk4YJMHgw8ibbt0hblBqr0eHOCrKPtQvQh7P/3PbA4F//m55Iw==
+X-Received: by 2002:a17:907:a48:b0:ab2:c1e2:1da9 with SMTP id
+ a640c23a62f3a-ab2c1e22977mr2341583266b.51.1736865847270; 
+ Tue, 14 Jan 2025 06:44:07 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a8e4b80b2sm14829023f8f.80.2025.01.14.06.43.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Jan 2025 06:43:48 -0800 (PST)
-Message-ID: <d0fdf2c5-402d-49c1-a524-76943a24ecda@linaro.org>
-Date: Tue, 14 Jan 2025 15:43:46 +0100
+ a640c23a62f3a-ab2c95b2181sm636633966b.162.2025.01.14.06.44.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jan 2025 06:44:06 -0800 (PST)
+Date: Tue, 14 Jan 2025 15:44:04 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+ alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+ linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+ Xu Yilun <yilun.xu@linux.intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, Leon Romanovsky <leonro@nvidia.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, pbonzini@redhat.com, seanjc@google.com,
+ alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, aik@amd.com, yilun.xu@intel.com,
+ linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lukas@wunner.de, yan.y.zhao@intel.com, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+References: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com>
+ <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+ <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+ <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+ <Z38FCOPE7WPprYhx@yilunxu-OptiPlex-7050>
+ <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
+ <20250110203838.GL5556@nvidia.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/omap/dss: Use syscon_regmap_lookup_by_phandle_args
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250112134656.46069-1-krzysztof.kozlowski@linaro.org>
- <9b54bb98-0d96-4c48-9500-4e754889d795@ideasonboard.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <9b54bb98-0d96-4c48-9500-4e754889d795@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250110203838.GL5556@nvidia.com>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,66 +117,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/01/2025 15:23, Tomi Valkeinen wrote:
-> Hi,
+On Fri, Jan 10, 2025 at 04:38:38PM -0400, Jason Gunthorpe wrote:
+> On Fri, Jan 10, 2025 at 08:34:55PM +0100, Simona Vetter wrote:
 > 
-> On 12/01/2025 15:46, Krzysztof Kozlowski wrote:
->> Use syscon_regmap_lookup_by_phandle_args() which is a wrapper over
->> syscon_regmap_lookup_by_phandle() combined with getting the syscon
->> argument.  Except simpler code this annotates within one line that given
->> phandle has arguments, so grepping for code would be easier.
->>
->> There is also no real benefit in printing errors on missing syscon
->> argument, because this is done just too late: runtime check on
->> static/build-time data.  Dtschema and Devicetree bindings offer the
->> static/build-time check for this already.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>   drivers/gpu/drm/omapdrm/dss/dss.c | 14 ++++----------
->>   1 file changed, 4 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
->> index 7b2df3185de4..692df747e2ae 100644
->> --- a/drivers/gpu/drm/omapdrm/dss/dss.c
->> +++ b/drivers/gpu/drm/omapdrm/dss/dss.c
->> @@ -1236,21 +1236,15 @@ static int dss_video_pll_probe(struct dss_device *dss)
->>   	if (!np)
->>   		return 0;
->>   
->> -	if (of_property_read_bool(np, "syscon-pll-ctrl")) {
->> -		dss->syscon_pll_ctrl = syscon_regmap_lookup_by_phandle(np,
->> -			"syscon-pll-ctrl");
->> +	if (of_property_present(np, "syscon-pll-ctrl")) {
+> > So if I'm getting this right, what you need from a functional pov is a
+> > dma_buf_tdx_mmap? Because due to tdx restrictions, the normal dma_buf_mmap
+> > is not going to work I guess?
+> 
+> Don't want something TDX specific!
+> 
+> There is a general desire, and CC is one, but there are other
+> motivations like performance, to stop using VMAs and mmaps as a way to
+> exchanage memory between two entities. Instead we want to use FDs.
+> 
+> We now have memfd and guestmemfd that are usable with
+> memfd_pin_folios() - this covers pinnable CPU memory.
+> 
+> And for a long time we had DMABUF which is for all the other wild
+> stuff, and it supports movable memory too.
+> 
+> So, the normal DMABUF semantics with reservation locking and move
+> notifiers seem workable to me here. They are broadly similar enough to
+> the mmu notifier locking that they can serve the same job of updating
+> page tables.
 
-I see now that I combined two changes I wanted to split. This should be
-a separate commit.
+Yeah raw pfn is fine with me too. It might come with more "might not work
+on this dma-buf" restrictions, but I can't think of a practical one right
+now.
 
->> +		dss->syscon_pll_ctrl =
->> +			syscon_regmap_lookup_by_phandle_args(np, "syscon-pll-ctrl",
->> +							     1, &dss->syscon_pll_ctrl_offset);
->>   		if (IS_ERR(dss->syscon_pll_ctrl)) {
->>   			dev_err(&pdev->dev,
->>   				"failed to get syscon-pll-ctrl regmap\n");
->>   			return PTR_ERR(dss->syscon_pll_ctrl);
->>   		}
->> -
->> -		if (of_property_read_u32_index(np, "syscon-pll-ctrl", 1,
->> -				&dss->syscon_pll_ctrl_offset)) {
->> -			dev_err(&pdev->dev,
->> -				"failed to get syscon-pll-ctrl offset\n");
->> -			return -EINVAL;
->> -		}
->>   	}
->>   
->>   	pll_regulator = devm_regulator_get(&pdev->dev, "vdda_video");
+> > Also another thing that's a bit tricky is that kvm kinda has a 3rd dma-buf
+> > memory model:
+> > - permanently pinned dma-buf, they never move
+> > - dynamic dma-buf, they move through ->move_notify and importers can remap
+> > - revocable dma-buf, which thus far only exist for pci mmio resources
 > 
-> Looks reasonable to me. Tested on dra76 evm.
+> I would like to see the importers be able to discover which one is
+> going to be used, because we have RDMA cases where we can support 1
+> and 3 but not 2.
 > 
-> I can push this to drm-misc-next later if I see no other comments.
-> 
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Let me send a v2 with your tag.
+> revocable doesn't require page faulting as it is a terminal condition.
 
-Best regards,
-Krzysztof
+Yeah this is why I think we should separate the dynamic from the revocable
+use-cases clearly, because mixing them is going to result in issues.
+
+> > Since we're leaning even more on that 3rd model I'm wondering whether we
+> > should make it something official. Because the existing dynamic importers
+> > do very much assume that re-acquiring the memory after move_notify will
+> > work. But for the revocable use-case the entire point is that it will
+> > never work.
+> 
+> > I feel like that's a concept we need to make explicit, so that dynamic
+> > importers can reject such memory if necessary.
+> 
+> It strikes me as strange that HW can do page faulting, so it can
+> support #2, but it can't handle a non-present fault?
+
+I guess it's not a kernel issue, but userspace might want to know whether
+this dma-buf could potentially nuke the entire gpu context. Because that's
+what you get when we can't patch up a fault, which is the difference
+between a recovable dma-buf and a dynamic dma-buf.
+
+E.g. if a compositor gets a dma-buf it assumes that by just binding that
+it will not risk gpu context destruction (unless you're out of memory and
+everything is on fire anyway, and it's ok to die). But if a nasty client
+app supplies a revocable dma-buf, then it can shot down the higher
+priviledged compositor gpu workload with precision. Which is not great, so
+maybe existing dynamic gpu importers should reject revocable dma-buf.
+That's at least what I had in mind as a potential issue.
+
+> > So yeah there's a bunch of tricky lifetime questions that need to be
+> > sorted out with proper design I think, and the current "let's just use pfn
+> > directly" proposal hides them all under the rug. 
+> 
+> I don't think these two things are connected. The lifetime model that
+> KVM needs to work with the EPT, and that VFIO needs for it's MMIO,
+> definately should be reviewed and evaluated.
+> 
+> But it is completely orthogonal to allowing iommufd and kvm to access
+> the CPU PFN to use in their mapping flows, instead of the
+> dma_addr_t.
+> 
+> What I want to get to is a replacement for scatter list in DMABUF that
+> is an array of arrays, roughly like:
+> 
+>   struct memory_chunks {
+>       struct memory_p2p_provider *provider;
+>       struct bio_vec addrs[];
+>   };
+>   int (*dmabuf_get_memory)(struct memory_chunks **chunks, size_t *num_chunks);
+> 
+> This can represent all forms of memory: P2P, private, CPU, etc and
+> would be efficient with the new DMA API.
+> 
+> This is similar to the structure BIO has, and it composes nicely with
+> a future pin_user_pages() and memfd_pin_folios().
+
+Since you mention pin here, I think that's another aspect of the revocable
+vs dynamic question. Dynamic buffers are expected to sometimes just move
+around for no reason, and importers must be able to cope.
+
+For recovable exporters/importers I'd expect that movement is not
+happening, meaning it's pinned until the single terminal revocation. And
+maybe I read the kvm stuff wrong, but it reads more like the latter to me
+when crawling through the pfn code.
+
+Once we have the lifetime rules nailed then there's the other issue of how
+to describe the memory, and my take for that is that once the dma-api has
+a clear answer we'll just blindly adopt that one and done.
+
+And currently with either dynamic attachments and dma_addr_t or through
+fishing the pfn from the cpu pagetables there's some very clearly defined
+lifetime and locking rules (which kvm might get wrong, I've seen some
+discussions fly by where it wasn't doing a perfect job with reflecting pte
+changes, but that was about access attributes iirc). If we add something
+new, we need clear rules and not just "here's the kvm code that uses it".
+That's how we've done dma-buf at first, and it was a terrible mess of
+mismatched expecations.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
