@@ -2,81 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA32A109A8
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 975BDA109FA
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Jan 2025 15:54:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9C2410E370;
-	Tue, 14 Jan 2025 14:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D49810E2C9;
+	Tue, 14 Jan 2025 14:54:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ArLYPNP+";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XVgH7TTD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7018A10E370
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:45:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id ED674A416A3;
- Tue, 14 Jan 2025 14:43:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D8DC4CEE3;
- Tue, 14 Jan 2025 14:45:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736865932;
- bh=njLUbHodj+PkFFJbOpBXMJe/dUHzlPds6g689ssKjDA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ArLYPNP+SZ3jG9EoUmQe5FLLdIDakxwq6Q7RuSD32e73BsYYGiP0HGskwiYISsVk/
- A4cN4oaepryylm2zcdyZvwXYmrLXtLEkSjmh3sypogzbKV5dGowGgn5utBYogoeqCQ
- gGkaQY0DleA1JU9QhyMp3KQpXRHFHLHLiauaOSxLBjUzjflCEWHxRDD1Tr5JejWzfB
- rDcIoXWLIpb1nRBKBBEyfnD3XWjNbkCB8L9qbqxDEpYrpu5k96LEAYFBhQj/kso8Re
- cSId/vsSLtV+VWwQndcoz6njFJXIniqcEvPmIAynpF235AZiTHCOJKUOH9gpbPBxqK
- RiYjQh2gbztFQ==
-Date: Tue, 14 Jan 2025 14:45:22 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+ [209.85.208.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B27410E2C9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 14:54:28 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id
+ 4fb4d7f45d1cf-5d8c1950da7so9597287a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 06:54:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1736866407; x=1737471207; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uCOirKrbiLq6y9/fTWwoYFEfBlT6E37Uzm1BFuWRYpk=;
+ b=XVgH7TTDtb1+apO7ykYyxYRzASnwiTv/A9muv2W2Veyh5gf9QqbefkmjJ3A35oxbPC
+ 7nk01jnCQ+O7PDACvfuP2oHg77pB4P4xzxUHgOTV++psQjy0sbLhkChdpgE2CVRlKA9W
+ V18MkGhmcerowC8OniPEPf94S1xrPK/k55cLw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736866407; x=1737471207;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uCOirKrbiLq6y9/fTWwoYFEfBlT6E37Uzm1BFuWRYpk=;
+ b=rmbN6LMqtVE1V2NH+BbZDMrmOGMkwIK9YcPNjO3EWMTHXVwLJD3CQOTqPu2JpSYdyZ
+ CcpcMUWuHz+eQDT5ucauuBTT0TxkS22+D0r0LxBbH6jQP4irDrzr5UXAFC/sUR7HAe6+
+ C2hnTH3EI5bkSJ1RB98UX/D2KuPvXX+VeS7SHTeKUpiMYU24bCWxwmQW0gI/5WKQTHWQ
+ 0WMcgv5pyz7xtAfqqEA9I3nIdhOoy2VJDVdzNur1i0r0VUQWTEPruv3Zm7k5tvU662Cl
+ 0t2WZLus+R2jljAF+FITybHMUluJJVNGvl0nc2K7pev+bjcgIcsA68/vaAxl9O4lrghj
+ p33w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4TFKnUe1ncymyO5C/77YAYbXjPUKZ68cFLvA/Xt6WBZobAke3+XYlW1mGghEdeIvcI2gasoJ2zYw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw7YBDstULl9iy6fNs+6XCPWCc5ouTar4n/KH4aXKonoqQFWPwq
+ oOhhegzzGIC2om7VXusE+LBIZOLn+ZVXaF+0xs5IqcXGsRjsBfqrvKwd5uIn0o8=
+X-Gm-Gg: ASbGncuKaaHx6TiR6JOl9zm0r7BTeZ5SBuI/7Gkbfv4UXZIMjlD9JsPDlfeyDxCPt8l
+ A2UepWA4KjTds6W4ZkJs9BPbEFeM2cRJe5o0+fDByIdPgURNyeirTHOiKB3J5x8V0E+WAIx5fGz
+ GSzFo4vZVqxEMOUya4djhjjN6s89+tl2FYQ9x6KB8R3HfzL5RWWNjMZ8qCMuL3iyNTSQVjWJ6Os
+ hZoNxXOxRB0KQfidyTFjAb+5X/0YMjaQOAWfnt10xbp8k9jnTHi43eWoCBNMdYmF/Op
+X-Google-Smtp-Source: AGHT+IGU5TeEIBzEzAJgPNdJpH0ZZG3GI0EgSnrHTpDU5BnPdVxQTtaLSXu5JWn4mssCRDLIZPb7+A==
+X-Received: by 2002:a17:906:7950:b0:aa6:7933:8b2f with SMTP id
+ a640c23a62f3a-ab2ab16a302mr2076682066b.9.1736866406854; 
+ Tue, 14 Jan 2025 06:53:26 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-5d9903c3328sm6354448a12.50.2025.01.14.06.53.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Jan 2025 06:53:26 -0800 (PST)
+Date: Tue, 14 Jan 2025 15:53:23 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Phong LE <ple@baylibre.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Russell King <linux@armlinux.org.uk>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: Re: (subset) [PATCH v10 00/10] drm: add DRM HDMI Codec framework
-Message-ID: <078e2d2f-3bd1-47ed-b6f8-60f6913fdce9@sirena.org.uk>
-References: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
- <173680655387.149204.17517246537828613856.b4-ty@kernel.org>
- <CAA8EJprDaOTEOYf5JHC7UYwqRn2vXUH9FT==HjZg1QNfDMmBcA@mail.gmail.com>
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ cgroups@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 1/4] cgroup/dmem: Select PAGE_COUNTER
+Message-ID: <Z4Z6Y5Xy5m4wMu_l@phenom.ffwll.local>
+References: <20250113092608.1349287-1-mripard@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="nKWVI6A6JSkBavZP"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA8EJprDaOTEOYf5JHC7UYwqRn2vXUH9FT==HjZg1QNfDMmBcA@mail.gmail.com>
-X-Cookie: Sauron is alive in Argentina!
+In-Reply-To: <20250113092608.1349287-1-mripard@kernel.org>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,40 +90,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 13, 2025 at 10:26:05AM +0100, Maxime Ripard wrote:
+> The dmem cgroup the page counting API implemented behing the
+> PAGE_COUNTER kconfig option. However, it doesn't select it, resulting in
+> potential build breakages. Select PAGE_COUNTER.
+> 
+> Fixes: b168ed458dde ("kernel/cgroup: Add "dmem" memory accounting cgroup")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202501111330.3VuUx8vf-lkp@intel.com/
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
---nKWVI6A6JSkBavZP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-On Tue, Jan 14, 2025 at 03:45:15AM +0200, Dmitry Baryshkov wrote:
-> On Tue, 14 Jan 2025 at 00:16, Mark Brown <broonie@kernel.org> wrote:
+> ---
+>  init/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 61f50cafa815..5e5328506138 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1137,10 +1137,11 @@ config CGROUP_RDMA
+>  	  Attaching processes with active RDMA resources to the cgroup
+>  	  hierarchy is allowed even if can cross the hierarchy's limit.
+>  
+>  config CGROUP_DMEM
+>  	bool "Device memory controller (DMEM)"
+> +	select PAGE_COUNTER
+>  	help
+>  	  The DMEM controller allows compatible devices to restrict device
+>  	  memory usage based on the cgroup hierarchy.
+>  
+>  	  As an example, it allows you to restrict VRAM usage for applications
+> -- 
+> 2.47.1
+> 
 
-> > [01/10] ASoC: hdmi-codec: pass data to get_dai_id too
-> >         commit: a8e792d3f0bbecb87ab05e9592cadf0b178ab952
-> > [02/10] ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
-> >         commit: 5b0779ae13de345b405a67c71cbb63705cadb295
-
-> Mark, they had your Acks, so they were picked into drm-misc-next.
-> Would that be a problem?
-
-No, the reason I applied them was because I was getting fed up of the
-resends and figured it would be easier to just apply the patches so they
-were in -rc1 and could be dropped.  I'll have missed any mail about this
-being applied due to the drm: header.
-
---nKWVI6A6JSkBavZP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeGeIIACgkQJNaLcl1U
-h9BABAf/Rpl0QApU53vHkXku439fvk1W2JlcIkEhtO9wlYIsly+z2mnUMkCOSX4i
-JLpb+GVB0L2TJAF1Y3HQ0ESBC6JzV7JzQiUqBkOTZEOQIXLdCu40xDg5coebNiS4
-sw5DHqMiE7q3rAcXPCkkACdE+o+7S6CuIKgnMXuvMBcNUlNCcmbDEei/z3aSihs+
-A/02s7UlSruEVd5UZv84abvqrMTVq963YEtAnbufnFJ/+xmJzqxzreVWOOMZFG3v
-EmzqBpCq91RmV1JJ8gJe6RnmIfKn2PjesCresNQhoIQecqVkff5nZFIxu77C2vVF
-UlobtBVzPrmFG8C//RkIpQUHCptnCQ==
-=oDw/
------END PGP SIGNATURE-----
-
---nKWVI6A6JSkBavZP--
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
