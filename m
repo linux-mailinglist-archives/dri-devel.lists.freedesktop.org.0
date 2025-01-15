@@ -2,79 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26113A12C09
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 20:55:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC46A12C22
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 20:59:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BD1B10E101;
-	Wed, 15 Jan 2025 19:55:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D886610E060;
+	Wed, 15 Jan 2025 19:59:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HIACCKFx";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Lr934DBR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
- [IPv6:2a00:1450:4864:20::22c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A282210E7D7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 19:55:14 +0000 (UTC)
-Received: by mail-lj1-x22c.google.com with SMTP id
- 38308e7fff4ca-30613802a6bso1945161fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 11:55:14 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C37510E060
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 19:59:40 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6832so188752e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 11:59:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736970913; x=1737575713; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736971179; x=1737575979; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=XJN5ebK7OW6iLbSLx/FF2q1Eia/Ds1oU8HSyiubQ6Ok=;
- b=HIACCKFx0/WqtoVQ2ypRp+jjJ3/ZRw8akvso2aKL1VBeeInbSeAyFqQnbAFeKV2J6/
- aGveGwnIxXWCpwLkF1Szse1kYO0BUmDbyE+Gos2W0/nPNIgcqg6Dpb+q63fjzoMZw29j
- 8YlnZDMcX+1xv8gDr5dC4GfVGNhQvFqAg87rJUA06wrBy9jkJbQWVAVa9B/w8PYOGdNG
- lsfCDgHNlEMXl5BJXXtrQEKENhk85+oLj9hxShwLRJb18/1nuw6AyWonmyPBUMnRdVGT
- BtaLOHtAPqappikecYAksEZW1AY/gNTV7B8oltU0EAn2m6BhxEk0FHt+bkCq4872oTRo
- kV7Q==
+ bh=x37MGVTi+7LLCYAbiXmT4g42J1cDZJlwMsnlJFXjsC8=;
+ b=Lr934DBRSkFtuY6wujOt9iUKComXCnS3hBMlVQmO/LHWU0LWw6qktpu+mytry3mvgQ
+ d3ruOukSvJZcm54yyYXoFdanm+l5u+6emlCMX6a1TuLdnXsUf4MgLOXm2C5cB7i65jWZ
+ KTRwyD9szkwsu8nVuPk7LS5xr3uGXk6wBSDdfU4VHec7Ms3L7l/jDqDl/ZAXhSzEmZCh
+ A90atuwtAJUFCfKki8lIXgI37Q7tU47C+zgIFzskpXinY2uIuD/E3vh1ZUAG++eC7YzD
+ /BqvtWzL+9vXcMzLBsomDdxnRZRd+KyAmDNFbHRpOG0eZJkHbos1Z5nfF3iyydR653Kl
+ 1aOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736970913; x=1737575713;
+ d=1e100.net; s=20230601; t=1736971179; x=1737575979;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XJN5ebK7OW6iLbSLx/FF2q1Eia/Ds1oU8HSyiubQ6Ok=;
- b=g8/9JNcwkHlDuuUgsXAlVzqySZIpMQy+E7xw+mSnLyPQ+ma/18z5FYU4Lw3a7Ol/1J
- lx/kwLxLWtoBrBRl0RmJGEH4ciUn33+MsjsiBmhbBtcQkgm3OLcsEklom+dpAERcwPDF
- Hu4bY5uQlxI3Mnc/71eNIM6ck1YhasuoFe5rZTFVUvJ9LBwBA7/fGpNU6inqcJx9JegK
- HqmT7JYV9TSYNKzJXxQEL09PKJGD1iDI7vRYjwYgl8zCApPeifgr0UNPwQ/aYKC/3jOH
- aMimmnAVGGh565vhjKFSGkkGbuOqivH/H5qW4DlcKhx3t3nEzk5xOBUuvMYp4tE0joXk
- P6QA==
-X-Gm-Message-State: AOJu0YzUKisA97dpE2PabFImKUaRoaCujv4loUdQPrTWp7Pm7wDg7dtJ
- 400oYLyBMUyJl84/SW4R5MWHpoot4bBrTWkQuw8PKHyJ1SsNQ3m0KYJMcbvXotw=
-X-Gm-Gg: ASbGncviwS+YtILkBPjupALue0v5taO1IcD/SLIPXqHD9NMmCQrqBZYy4BgNW8hVS8L
- bL7Hx5wyxd4SGGhJCCrmF1uiErWJq3IWTPpGqPbBfWQc1/A0BGfsCxWzkqRq4wwNLzIGgor61fp
- jO8l2cuxdpc3BoS5bn5lv0rBmdl/9oitxzBsynGzwtOFLdwdJl8fHHaA1L2/LUOhDMvW5ubRvPP
- d/PRcJwzV8SzSlH6h+38bBr6qn0v8updxCKft+i5EHpkdCWF9NUSQ3fE/kJe9ZE4YtfK1WP/2Rk
- NHAtP1C52c7eWKdi7qr51jMqn142TpkcIeJy
-X-Google-Smtp-Source: AGHT+IE0ugKkahzj0cfMJc+PsKKs96j5zkj6kkBcy/JRIV0NpqT2n3Lkf/N25YLPDxacK3DZ04wl7w==
-X-Received: by 2002:a05:651c:2223:b0:2ff:a7c1:8c2e with SMTP id
- 38308e7fff4ca-305f45f56a7mr107029291fa.28.1736970912660; 
- Wed, 15 Jan 2025 11:55:12 -0800 (PST)
+ bh=x37MGVTi+7LLCYAbiXmT4g42J1cDZJlwMsnlJFXjsC8=;
+ b=Cy/oqi0Y0kkOzBe82xNzoHAQWzhABfwD5QmsCsP8XAPIzZpJu8Fj4qBRlqyBHGgBD6
+ goam+gnAcyhDeulCiJXAGKPpAegfumyHBe34hzspYwB3TMjY9+9cKpX1tqyuRplMBUsZ
+ SdVtMBKC8ou+QgAftRUjOMdEjyNQxjwQPIcs/2jS/F9Ex2glGiYcO+cVoRSaQQw5FRKV
+ n8zmZ6gWECfZZQaOjMN8GGsXRzWO5yP9scUECfy5XCwTXLUocxgO+1qgpiz12YmtiIaQ
+ ZpBGBwi6SRJLKouZ6biX4OjNO3HmSB0m9ySbnhg6ydooSA1S8HaNLknjPrJFrLaBFxjv
+ 6/2w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBZejmWLtJXd7crWLunDVqtTz6OiaUsvqlceY/w/iUINCsGMewQWbHvakun2Og4oK5mBPKItftVyo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4U+GfiTwKSFPpkdRcWiQI9YOg9xX9jbZ28Y2uankgUljSG4/a
+ H0nbHJ/rCp9FzaUeB8ZimfxJl6221TojJ+qGeeScrK1u0PIW/tgSgl5zY5vgSek=
+X-Gm-Gg: ASbGnctjz60EasSO0hHMeoCXlmVmiITeUgja+eAXh/0xvM1Z6dRv98OgjiJ9ygjvMnU
+ OqlqSYEPKVEk3ARy4pAAn5w6xDnM3B8aBW5mguCYjAaAYzY41xWk/RAeg0/WRhfy+KRpZPqi5Xk
+ Ck0bgNHQEN/0c+EIpurG1M3G2jbahu6GymNLLFB65MJu0IwRUiDgiJ4DH0sZaMB0znUClCKAeTd
+ PjXMJIrO0hpV/TsiEpvI5Zutm2j5cSnjPTvAj5Gw0ZXJw+UKUSWBlfSbuBGnP0CC2KGPCPaLnX3
+ kAuSh/94M+m+roQ5VvKDWgs96Rhqa6GYv/C6
+X-Google-Smtp-Source: AGHT+IEgsaKsijQtzxn7rCfFidNVZj0/9WmlBcq9snlTFjWsJkPsdGTXxyCiCkpWSsFsl61eUySb8g==
+X-Received: by 2002:a05:6512:1055:b0:542:91a5:1d5c with SMTP id
+ 2adb3069b0e04-54291a51db8mr6711480e87.8.1736971179233; 
+ Wed, 15 Jan 2025 11:59:39 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-305ff1c7a9esm22963101fa.73.2025.01.15.11.55.11
+ 2adb3069b0e04-5428be499fcsm2104336e87.8.2025.01.15.11.59.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2025 11:55:11 -0800 (PST)
-Date: Wed, 15 Jan 2025 21:55:10 +0200
+ Wed, 15 Jan 2025 11:59:37 -0800 (PST)
+Date: Wed, 15 Jan 2025 21:59:35 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Arun R Murthy <arun.r.murthy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, suraj.kandpal@intel.com, uma.shankar@intel.com,
- Importedfromf20241218-dpst-v7-0-81bfe7d08c2d@intel.com,
- 20240705091333.328322-1-mohammed.thasleem@intel.com
-Subject: Re: [PATCH v7 02/14] drm: Define ImageEnhancemenT LUT structures
- exposed to user
-Message-ID: <i6j3zi5tlnyk2eonmpa5h5qitwgzs2nuzrvsasde3dci6a4ngl@qhbtsjbhq6xr>
-References: <20250110-dpst-v7-0-605cb0271162@intel.com>
- <20250110-dpst-v7-2-605cb0271162@intel.com>
+To: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] drm/msm/adreno: Add speedbin support for X1-85
+Message-ID: <enykcipequ4xjykcjbkpnmtlclrbbmkhncj7fx3zy4sgmo3h4n@y3k7xgjscpfc>
+References: <20250109-x1e-speedbin-b4-v1-0-009e812b7f2a@quicinc.com>
+ <20250109-x1e-speedbin-b4-v1-1-009e812b7f2a@quicinc.com>
+ <356986fa-e66c-4e78-ab92-2593b037ab9a@oss.qualcomm.com>
+ <837602a7-bbd5-4436-ab9f-2b101bdcaac2@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250110-dpst-v7-2-605cb0271162@intel.com>
+In-Reply-To: <837602a7-bbd5-4436-ab9f-2b101bdcaac2@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,124 +102,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 01:15:30AM +0530, Arun R Murthy wrote:
-> ImageEnhancemenT(IET) hardware interpolates the LUT value to generate
-> the enhanced output image. LUT takes an input value, outputs a new
-> value based on the data within the LUT. 1D LUT can remap individual
-> input values to new output values based on the LUT sample. LUT can be
-> interpolated by the hardware by multiple modes Ex: Direct Lookup LUT,
-> Multiplicative LUT etc
-> The list of supported mode by hardware along with the format(exponent
-> mantissa) is exposed to user by the iet_lut_caps property. Maximum
-> format being 8.24 i.e 8 exponent and 24 mantissa.
-> For illustration a hardware supporting 1.9 format denotes this as
-> 0x10001FF. In order to know the exponent do a bitwise AND with
-> 0xF000000. The LUT value to be provided by user would be a 10bit value
-> with 1 bit integer and 9 bit fractional value.
+On Thu, Jan 16, 2025 at 01:07:17AM +0530, Akhil P Oommen wrote:
+> On 1/9/2025 7:27 PM, Konrad Dybcio wrote:
+> > On 8.01.2025 11:42 PM, Akhil P Oommen wrote:
+> >> Adreno X1-85 has an additional bit which is at a non-contiguous
+> >> location in qfprom. Add support for this new "hi" bit along with
+> >> the speedbin mappings.
+> >> ---
+> >>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  5 +++++
+> >>  drivers/gpu/drm/msm/adreno/adreno_gpu.c   | 15 ++++++++++++++-
+> >>  2 files changed, 19 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> >> index 0c560e84ad5a53bb4e8a49ba4e153ce9cf33f7ae..e2261f50aabc6a2f931d810f3637dfdba5695f43 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> >> @@ -1412,6 +1412,11 @@ static const struct adreno_info a7xx_gpus[] = {
+> >>  			.gmu_cgc_mode = 0x00020202,
+> >>  		},
+> >>  		.address_space_size = SZ_256G,
+> >> +		.speedbins = ADRENO_SPEEDBINS(
+> >> +			{ 0,   0 },
+> >> +			{ 263, 1 },
+> >> +			{ 315, 0 },
+> >> +		),
+> >>  		.preempt_record_size = 4192 * SZ_1K,
+> >>  	}, {
+> >>  		.chip_ids = ADRENO_CHIP_IDS(0x43051401), /* "C520v2" */
+> >> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> >> index 75f5367e73caace4648491b041f80b7c4d26bf89..7b31379eff444cf3f8ed0dcfd23c14920c13ee9d 100644
+> >> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> >> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+> >> @@ -1078,7 +1078,20 @@ void adreno_gpu_ocmem_cleanup(struct adreno_ocmem *adreno_ocmem)
+> >>  
+> >>  int adreno_read_speedbin(struct device *dev, u32 *speedbin)
+> >>  {
+> >> -	return nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
+> >> +	u32 hi_bits = 0;
+> >> +	int ret;
+> >> +
+> >> +	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin", speedbin);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	/* Some chipsets have MSB bits (BIT(8) and above) at a non-contiguous location */
+> >> +	ret = nvmem_cell_read_variable_le_u32(dev, "speed_bin_hi", &hi_bits);
+> >> +	if (ret != -ENOENT)
+> >> +		return ret;
+> >> +
+> >> +	*speedbin |= (hi_bits << 8);
+> > 
+> > Now that we're overwriting speedbin, we should probably have some checks in
+> > order to make sure somebody passing a too-wide cell to one of these won't
+> > result in cripplingly-untraceable value corruption
+> > 
+> > I guess we could just introduce nvmem_cell_read_variable_le_u8() and call it
+> > a day?
 > 
-> Multiple formats can be supported, hence pointer is used over here.
-> User can then provide the LUT with any one of the supported modes in
-> any of the supported formats.
-> The entries in the LUT can vary depending on the hardware capability
-> with max being 255. This will also be exposed as iet_lut_caps so user
-> can generate a LUT with the specified entries.
+> X1E is an outlier here, because this was fixed from the next chipset
+> onward. For newer chipsets, we can use just the "speed_bin" node, which
+> represents a contiguous 9 bits. So, just do a "WARN_ON(fls(speedbin) >
+> 8)" here?
+
+Or extend nvmem core to support non-contiguous fields.
+
 > 
-> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> ---
->  include/uapi/drm/drm_mode.h | 50 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
+> -Akhil.
 > 
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 7a7039381142bb5dba269bdaec42c18be34e2d05..056c2efef1589848034afc0089f1838c2547bcf8 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -1367,6 +1367,17 @@ struct drm_mode_closefb {
->   */
->  #define DRM_MODE_HISTOGRAM_HSV_MAX_RGB			(1 << 0)
->  
-> +/* LUT values are points on exponential graph with x axis and y-axis y=f(x) */
-
-Huh?
-
-> +#define DRM_MODE_IET_LOOKUP_LUT				(1 << 0)
-
-Again, what is the reason for a shift? Can these values be OR'd?
-
-> +/*
-> + * LUT values, points on negative exponential graph with x-axis and y-axis
-> + * y = y/x so upon multiplying x, y is obtained, hence multiplicative. The
-
-Can't parse this sentence.
-
-> + * format of LUT can at max be 8.24(8integer 24 fractional) represented by
-> + * u32. Depending on the hardware capability and exponent mantissa can be
-> + * chosen.
-
-What does that mean? How is it choosen?
-
-> + */
-> +#define DRM_MODE_IET_MULTIPLICATIVE			(1 << 1)
-> +
->  /**
->   * struct drm_histogram_caps
->   *
-> @@ -1414,6 +1425,45 @@ struct drm_histogram {
->  	__u32 nr_elements;
->  };
->  
-> +/**
-> + * struct drm_iet_caps
-> + *
-> + * @iet_mode: pixel factor enhancement modes defined in the above macros
-> + * @iet_sample_format: holds the address of an array of u32 LUT sample formats
-> + *		       depending on the hardware capability. Max being 8.24
-> + *		       Doing a bitwise AND will get the present sample.
-> + *		       Ex: for 1 integer 9 fraction AND with 0x10001FF
-
-?? Can hardware support 16.16? 32.0?
-
-> + * @nr_iet_sample_formats: number of iet_sample_formsts supported by the
-> + *			   hardware
-> + * @nr_iet_lut_entries: number of LUT entries
-> + */
-> +struct drm_iet_caps {
-> +	__u8 iet_mode;
-> +	u64 iet_sample_format;
-> +	__u32 nr_iet_sample_formats;
-> +	__u32 nr_iet_lut_entries;
-> +};
-> +
-> +/**
-> + * struct drm_iet_1dlut_sample
-
-Is it supposed to be used with DRM_MODE_IET_MULTIPLICATIVE only? Or is
-it supposed to be used with DRM_MODE_IET_LOOKUP_LUT? In the latter case
-what should be the iet_format value?
-
-> + * @iet_mode: image enhancement mode, this will also convey the channel.
-> + * @iet_format: LUT exponent and mantissa format, max being 8.24
-> + * @data_ptr: pointer to the array of values which is of type u32.
-> + *	      1 channel: 10 bit corrected value and remaining bits are reserved.
-> + *	      multi channel: pointer to struct drm_color_lut
-> + * @nr_elements: number of entries pointed by the data @data_ptr
-> + * @reserved: reserved for future use
-> + * @reserved1: reserved for future use
-> + */
-> +struct drm_iet_1dlut_sample {
-> +	__u8 iet_mode;
-> +	__u32 iet_format;
-> +	__u64 data_ptr;
-> +	__u32 nr_elements;
-> +	__u32 reserved;
-> +	__u32 reserved1;
-> +};
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
-> 
-> -- 
-> 2.25.1
+> > 
+> > Konrad
 > 
 
 -- 
