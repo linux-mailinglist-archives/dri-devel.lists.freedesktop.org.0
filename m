@@ -2,61 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E90AA12680
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:50:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 216BBA126BF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 16:01:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7234A10E70A;
-	Wed, 15 Jan 2025 14:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4B8410E05B;
+	Wed, 15 Jan 2025 15:01:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="er1ESIUB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J4SemOwZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10EAD10E771;
- Wed, 15 Jan 2025 14:50:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=v9AOha7q2BJbDk7BeY+078h2l+NwyfesTO2SoUQ4E04=; b=er1ESIUBCLVWJwp0oQt77R0Nj2
- C8cxMCFU+t15t9Z7VdYGNbw/RIKptNBhFQve9yTYl+Q28Wb4kOm8Ad6qRL3Fe6PumS4c5/0pWRpaZ
- EIWVng6jt0PrScSnFdknYzigLptwcJfPLhJiAmIYnSDuh70G+Hb6rEaGJ+pY1SKdyyX0kbb5MOuUq
- FTy2epzwjWOxU8HyBR5iDo1iyq1blYb48xnlHDUTYcL2pYdRU9pcrSyElMXOBL2a8jdiR6nVVY0QE
- XnMA3WyJR4QBN5lzqWBqe2GEBtEjqN37nr5PS9Go8HdWqiVY/BFSYUjdhLJBs1E0EXLITHmqe+vO+
- XHMZWS4Q==;
-Received: from [177.139.21.57] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tY4iS-00G7VC-UT; Wed, 15 Jan 2025 15:49:57 +0100
-Message-ID: <7676d80e-2310-47db-86fd-5711f7f19b89@igalia.com>
-Date: Wed, 15 Jan 2025 11:49:50 -0300
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com
+ [209.85.216.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 739BB10E05B;
+ Wed, 15 Jan 2025 15:01:08 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id
+ 98e67ed59e1d1-2ef05d0ef18so1419716a91.0; 
+ Wed, 15 Jan 2025 07:01:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1736953208; x=1737558008; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oJNN+yIAbJ7FQhP5e1dcdow/Ss7cUXshCz1OUzIShrw=;
+ b=J4SemOwZfYSmG5EjjFJkuLbBc3Ewt/MgAf47yrBwxHEXZtc7ODWTiAutDFV8IV4Fkb
+ kajKRqy20K9AZEPrvLseOdvNpBAD6eLykfjOIsP9xQv6WsSD9G6ok0RdmFVs9EMxk/3a
+ 4qcZRBMPpdEvRw5pgVpPQNtTOgLeK2kV0KgShwa26VQ6tAULmledvLoi6+b95ZWScAdb
+ Zn+qPLtsLIyjmvXPz8ZooSUEBgm7kk7Wl9fjpwR5I4H4StgDOSs5CQimpM5zKAZKAVEM
+ Qnmhg2ZcLBlVk0jNPWBXoPlNdaA4alNz6L9DPx+pPeS+PelmXQw2OZuFAGnmYlERwIMo
+ ip7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736953208; x=1737558008;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oJNN+yIAbJ7FQhP5e1dcdow/Ss7cUXshCz1OUzIShrw=;
+ b=g7U/ez0KvduVYocIRHHajL1SJe7oxOfFxbjLj+CW6uctldtKEDD7alzYQeHNdd2uoZ
+ X+aeG/UqGMCd4fiKVrcChqVck5wWevZAIglH2Q1sVFiJCYwUq18i5ooEyGJtW6nss/Jw
+ rC575Fzj7Jl+gi/DoX5GCN0aVd1SpNiau5S6jtAA5lu690d7tJfSUv+SWn+V900QdpoL
+ RvkakEF6kpo9mbN6VG+V4dqV0ZIh2Uc/ppy31Wt+dp9ZzGbDrRDpujJ9d0RZBe0FhUIn
+ FqJJP1k6kHlKojIC1KjPqgj4U3aGPfMiV3750pbIShM+Inv4+9BZqRaCtbnSrw1ntXrr
+ liDQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUhaYntNTrOP/ilhTKbHBZ8CYl7zp1e+cO3rvgfyvUgmnj2xWpP1UgZuc2ZE+7eVSoDtn/GcmGF@lists.freedesktop.org,
+ AJvYcCVC+ZSflOdbP3c6WYDEP8pBf8tZI/0519/tUFQ+DMw4zaD8FKBNTmruB+aDmWd3ylVMKLfcuzRzw84T@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYabyk4n1WGD2yghFk3QabvktOPNmOlv1ui77bsdYmt8HyaniX
+ euGGFPjBMzfJqOtrIhJ4zVMYFcoHGsBoscXlWvf5i5qwNnBJ2XxMqGo621s9BkkKLSUuRqfWWYU
+ 1e6NgNhcqzDiPT5vM0hglU8dINMS4zQ==
+X-Gm-Gg: ASbGncuj2xrAp8uG/JDTkG8LtusVBIANIgEZw6GsLEK+Ik47LZ2WQnu6CC5OwLtqmha
+ dmE75ILu6Vo0GeM1ojuJhUXAPlLrPD2q4LIzLbQ==
+X-Google-Smtp-Source: AGHT+IFr7+OOHfJRndFGnKOHv47itbOd5fZmj4mkPaTAVgkZpPIEyEf6hdx/C48x6sLxu6ybP54hOConvjPiXuJhOeM=
+X-Received: by 2002:a17:90b:2811:b0:2ee:cbc9:d50b with SMTP id
+ 98e67ed59e1d1-2f5490ac695mr16375331a91.4.1736953207787; Wed, 15 Jan 2025
+ 07:00:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 2/2] drm/amdgpu: Enable async flip on overlay planes
-To: Harry Wentland <harry.wentland@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Simona Vetter <simona@ffwll.ch>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, Simon Ser
- <contact@emersion.fr>, dmitry.baryshkov@linaro.org,
- Xinhui Pan <Xinhui.Pan@amd.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Xaver Hugl <xaver.hugl@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Daniel Stone <daniel@fooishbar.org>, dri-devel@lists.freedesktop.org,
- joshua@froggi.es, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Leo Li <sunpeng.li@amd.com>, ville.syrjala@linux.intel.com
-References: <20241212-tonyk-async_flip-v11-0-14379434be70@igalia.com>
- <20241212-tonyk-async_flip-v11-2-14379434be70@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20241212-tonyk-async_flip-v11-2-14379434be70@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250115113552.297307-1-colin.i.king@gmail.com>
+In-Reply-To: <20250115113552.297307-1-colin.i.king@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 15 Jan 2025 09:59:55 -0500
+X-Gm-Features: AbW1kvZGmglu8dFsb44hdBkRoz1ygvAcPx6pHw7z_ZcBWTQupYD9YyxpbJX4y2w
+Message-ID: <CADnq5_PQGZuL5g5w87-HCqKAL+76WN=iso45UvnVu4GGww1Veg@mail.gmail.com>
+Subject: Re: [PATCH][next] drm/amd/display: remove extraneous ;
+ after statements
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>, 
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,52 +89,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Harry,
+Applied.  thanks!
 
-Gentle ping on this one :)
+Alex
 
-Em 12/12/2024 16:19, André Almeida escreveu:
-> amdgpu can handle async flips on overlay planes, so allow it for atomic
-> async checks.
-> 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+On Wed, Jan 15, 2025 at 7:02=E2=80=AFAM Colin Ian King <colin.i.king@gmail.=
+com> wrote:
+>
+> There are a couple of statements with two following semicolons, replace
+> these with just one semicolon.
+>
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 > ---
->   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index 495e3cd70426db0182cb2811bc6d5d09f52f8a4b..2792d393157beec12d6e96843c43158c03f16027 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -1260,22 +1260,25 @@ static int amdgpu_dm_plane_atomic_check(struct drm_plane *plane,
->   }
->   
->   static int amdgpu_dm_plane_atomic_async_check(struct drm_plane *plane,
-> -					      struct drm_atomic_state *state)
-> +					      struct drm_atomic_state *state, bool flip)
->   {
->   	struct drm_crtc_state *new_crtc_state;
->   	struct drm_plane_state *new_plane_state;
->   	struct dm_crtc_state *dm_new_crtc_state;
->   
-> -	/* Only support async updates on cursor planes. */
-> -	if (plane->type != DRM_PLANE_TYPE_CURSOR)
-> +	if (flip) {
-> +		if (plane->type != DRM_PLANE_TYPE_OVERLAY)
-> +			return -EINVAL;
-> +	} else if (plane->type != DRM_PLANE_TYPE_CURSOR)
->   		return -EINVAL;
->   
->   	new_plane_state = drm_atomic_get_new_plane_state(state, plane);
->   	new_crtc_state = drm_atomic_get_new_crtc_state(state, new_plane_state->crtc);
->   	dm_new_crtc_state = to_dm_crtc_state(new_crtc_state);
->   	/* Reject overlay cursors for now*/
-> -	if (dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE)
-> +	if (!flip && dm_new_crtc_state->cursor_mode == DM_CURSOR_OVERLAY_MODE) {
->   		return -EINVAL;
-> +	}
->   
->   	return 0;
->   }
-> 
-
+>  .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c        | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2=
+_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_cor=
+e/dml2_core_dcn4_calcs.c
+> index c4dbf27abaf8..1a0a08823ed9 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
+cn4_calcs.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_d=
+cn4_calcs.c
+> @@ -3894,8 +3894,8 @@ static void CalculateSwathAndDETConfiguration(struc=
+t dml2_core_internal_scratch
+>                         p->SwathHeightC[k] =3D MaximumSwathHeightC[k] / 2=
+;
+>                         RoundedUpSwathSizeBytesY[k] =3D p->full_swath_byt=
+es_l[k] / 2;
+>                         RoundedUpSwathSizeBytesC[k] =3D p->full_swath_byt=
+es_c[k] / 2;
+> -                       p->request_size_bytes_luma[k] =3D ((p->BytePerPix=
+Y[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_descri=
+ptors[k].composition.rotation_angle)) ? 128 : 64;;
+> -                       p->request_size_bytes_chroma[k] =3D ((p->BytePerP=
+ixC[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_desc=
+riptors[k].composition.rotation_angle)) ? 128 : 64;;
+> +                       p->request_size_bytes_luma[k] =3D ((p->BytePerPix=
+Y[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_descri=
+ptors[k].composition.rotation_angle)) ? 128 : 64;
+> +                       p->request_size_bytes_chroma[k] =3D ((p->BytePerP=
+ixC[k] =3D=3D 2) =3D=3D dml_is_vertical_rotation(p->display_cfg->plane_desc=
+riptors[k].composition.rotation_angle)) ? 128 : 64;
+>                 }
+>
+>                 if (p->SwathHeightC[k] =3D=3D 0)
+> --
+> 2.47.1
+>
