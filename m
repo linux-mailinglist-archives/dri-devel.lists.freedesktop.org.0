@@ -2,64 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AC9A12671
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FDD2A1267B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:49:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84F0E10E712;
-	Wed, 15 Jan 2025 14:47:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XRGAQtz+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1279310E764;
+	Wed, 15 Jan 2025 14:49:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCD3C10E712
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:47:24 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4YY82z2Bqjz9sdN;
- Wed, 15 Jan 2025 15:46:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1736952411;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4B364nc4zhZ6thA4ILmR4L8pk/4MIprAwHXB9BQydBw=;
- b=XRGAQtz+/rhHbtdR8wpFUT7NeVwrxnncmdEc++Caq7Mfu1x6Mz/AuDzryRAzacndjcuN0/
- iI1Ezefzwte1Ww+mtXHtu4+j13pjISW+OhMVDp51L0LJ5uRSbfaGz7vKtPh5AwixuF2s9A
- fBtt7wvlS8yaiECSOekQUV5MgFvwBeEwcXU8CY1VD2NYd1jQiw2IZsD2A9qrQ+62h7xNaZ
- 64Ybwq3hMDmfbUxucB3NC0S8/3C+qRJh27wcSEgFFffyE/f9Rss49Wv41wNyrUIQSZwDEf
- 4PYt/WtTc85RYktQ5BtsMQ0Rh2Nj40jwUWoxQeIgWICI0TeJo2KExht5NiF0mg==
-Message-ID: <6a90952b-200e-4f99-8312-b2184a9d6448@mailbox.org>
-Date: Wed, 15 Jan 2025 15:46:48 +0100
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC38910E778
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:49:48 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id
+ a1e0cc1a2514c-85c4e74e2baso1477341241.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 06:49:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736952587; x=1737557387;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jb3WMc7I3EjeyDChxpxmp2z3Ge1ULEmUo6kS7KQbLBs=;
+ b=oovwAKyuHhO8U4yKigoIfBicb/fcw/oRwwBR33bqo6iAkIBsgh0MUK95BOvrLPHVIL
+ OyeBwYzzYqIpcxFwyt73ZvTmtVPmyu+2goUqSS6CZy9W3lb5P4BgSqeaKnKBgVqT8tdP
+ WodnEBBi7oLRh9nrjeLuFU2CR3OVDCt9W0MMuRtl0/g0h6yeG8jYVzhyJi3cAp0Xg1O+
+ h696aVRxnSvbPbFrtXuk1RByB1KX7mKHs0KXAmPoJcJxh1xk1hWEgUo2SEngJRSjL7XN
+ KdESd+3Wx8Eai8UK6zb6pKcXgMiG4+7E6mnhD/taA06ZIQ3EoB/iq4e1KTOhaVvuKBx6
+ UIEQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXYf3d0ppXf0qvML+8JfULWb56kBkIRAh+pFEUApZSzEHuoriBIUOuFtgTZdhccxixfNqg8Z+SmvTI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxCR39bJsgcksNdYMiVzTQNooGpm2b8DAJ+/ITGDrVd55yQyumM
+ 2q+5aogPC7lAxY2/TPmjCSOHOTrrs25J0SlUsA2VF6QosJ1JLm18OmgndKnHtfU=
+X-Gm-Gg: ASbGncu9uWoSgfX78lBzxejYP9Lw+qGbyqihDPDH0R9ls/Goc49GOICO14uF2wK6LE4
+ YTof225zSbO236RuJ/zGwsESvSUgsx4D+RqfiVSv9/pbn/jhFVnkGgBGZOjFmdePopPnuDbUHCI
+ WwzNhitvPheVWPLBk39G8mO5WKCF+IoFxPIOnmsmTAJySQ1qgsrMCbJQEUsf3vXpKIq6sgVFueg
+ UjfK8h77Fu8K6Svy4dnILg+Jh+Z//6DPSf68UPfTDjuGAw1BvU5J2NPgp4XUP6ppIv8MMEtpeTM
+ Dg+T/+7nf02dE9yWzQI=
+X-Google-Smtp-Source: AGHT+IEnMbYEWPSzK7w3sQS2x03r6QdsQcJBzi98SIAibFnKmqQaynLgIfy0W/UDV5hxX42Q3lCiHQ==
+X-Received: by 2002:a05:6102:e10:b0:4af:c519:4e7f with SMTP id
+ ada2fe7eead31-4b3d10485b5mr23328428137.18.1736952587249; 
+ Wed, 15 Jan 2025 06:49:47 -0800 (PST)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com.
+ [209.85.217.44]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-8623154b562sm5748336241.25.2025.01.15.06.49.46
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jan 2025 06:49:46 -0800 (PST)
+Received: by mail-vs1-f44.google.com with SMTP id
+ ada2fe7eead31-4b24d969db1so1805330137.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 06:49:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVbmVKBOMmFTDvGJ/3fOa3NsiYTwP2wp9kTRgUkwHvIwt523wIH+E/Heqq+2CvKElytQxhws49IFmk=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:b09:b0:4b2:cca7:7d51 with SMTP id
+ ada2fe7eead31-4b3d10482d8mr26088574137.19.1736952586805; Wed, 15 Jan 2025
+ 06:49:46 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Philipp Stanner <pstanner@redhat.com>, Tvrtko Ursulin <tursulin@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20241230165259.95855-1-tursulin@igalia.com>
- <31842e821032305e5be7a8dcc3e13593fd09da20.camel@redhat.com>
- <99c7ccf4-a85f-4a11-912f-78f8d5a57516@igalia.com>
- <c4c62ea9-86c0-43c1-99b0-08af7b3bd71a@amd.com>
- <a202cc5b-13f5-4454-b32d-e2b5dcac85e9@mailbox.org>
- <690b5b62-78e4-48cb-a572-90d11b9b4ed6@igalia.com>
- <8f65b016-af77-4f15-b8c6-ffc30cc8157b@mailbox.org>
- <760bfbe5-958f-49dc-b454-a0daa82952f1@igalia.com>
- <ec68066d-460c-4d8e-ab8b-67acdfa973cf@mailbox.org>
- <d157226c-0512-48c4-82d6-4f4c70ec08f1@igalia.com>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <d157226c-0512-48c4-82d6-4f4c70ec08f1@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: p5qoeyhuwmro9fj3ak3jsctxp5yifc1y
-X-MBO-RS-ID: 90729c938ce7d31297d
+References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
+ <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
+ <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
+ <b7b8cdde-c189-4b9f-8423-c8ab4797b2f0@ideasonboard.com>
+ <CAMuHMdVnDBt9QbR2bPdKHWgQ7i-OYYJ14ndc270z-hejY=bUdA@mail.gmail.com>
+ <6b084e2c-100f-4563-8797-9fd6c862ed0c@ideasonboard.com>
+ <CAMuHMdX8EeKnV8et81i3UdOexhO3Ry5TTKqp18OvCpJpWT2CtQ@mail.gmail.com>
+ <0b0decd1-6f19-424a-84e5-fc71dceb983c@ideasonboard.com>
+ <CAMuHMdXrdV4YRo1nMCVMTga=M+16GT8GkWe+Rk1DkgDZ=abGag@mail.gmail.com>
+ <0004c685-b8c6-4df1-acb4-7c80a9d3255e@ideasonboard.com>
+In-Reply-To: <0004c685-b8c6-4df1-acb4-7c80a9d3255e@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Jan 2025 15:49:35 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUSqiwGynNTCs7eVcr5EL4Toud90AVRb=85egWfDAc6Ew@mail.gmail.com>
+X-Gm-Features: AbW1kvZ8qLbNDg2ifMBzJCr-rfWERpWGg5o-Lh1utJkoLEP54a_Q-fpkYR4VlV4
+Message-ID: <CAMuHMdUSqiwGynNTCs7eVcr5EL4Toud90AVRb=85egWfDAc6Ew@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] drm/fourcc: Add DRM_FORMAT_Y10_LE32
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,55 +101,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-01-15 14:38, Tvrtko Ursulin wrote:
-> On 13/01/2025 15:29, Michel Dänzer wrote:
->> On 2025-01-13 12:40, Tvrtko Ursulin wrote:
->>> On 10/01/2025 09:14, Michel Dänzer wrote:
->>>> On 2025-01-09 17:55, Tvrtko Ursulin wrote:
->>>>> On 09/01/2025 15:08, Michel Dänzer wrote:
->>>>>> On 2025-01-03 13:31, Christian König wrote:
->>>>>>
->>>>>>> What FIFO is still missing compared to RR is some sort of fairness between queues. E.g. a queues which hasn't submitted something in a while might get a bonus for their submissions compared to a queue which submits stuff all the time (or something like that).
->>>>>>
->>>>>> The lack of that could indeed explain the scenario above, if the game submits its GPU job for frame n+1 before Xwayland submits its GPU job for presenting frame n.
->>>>>
->>>>> I would be keen to experiment with this. There is that last patch in v2 of my series which scales the deadlines based on queue depth. So for a client which submits two frames it could be enough (in principle, not the actually posted version) to push out the deadline at qd=2 so a client which never breaks qd=1 can reliably overtake it.
->>>>>
->>>>> What would really be great if you could suggest me as easy to set up as possible test case with objective measuring criteria. And it would have to run on AMD. Quake II RTX under XWayland as the GitLab issue suggest or there is more to it? Does it has to be GNOME?
->>>>
->>>> Don't think it has to be.
->>>>
->>>>> Any way to run it programmatically and get a performance number out?
->>>>
->>>> This could be tricky, since the game itself reports the same frame rate in both cases. You'd have to compare the frame times in the compositor instead.
->>>
->>> So missed frames in the compositor?
->>
->> Rather in Xwayland, the compositor is where it's visible to the user.
-> 
-> How would you suggest to instrument this, or what debug/logs to enable to see it?
->>>> Also, the issue might no longer be reproducible in this particular scenario with current Xwayland, because it should no longer do any GPU copies for presentation but just forward the client buffers to the compositor.
->>> Do you have an idea how could we find out more about that what you said: "people are saying RR works better than FIFO for some gaming scenarios even with current Xwayland, which shouldn't do any GPU copies for presentation of fullscreen windows"?
->>
->> Other than asking affected users for more information, not offhand.
-> 
-> Could you find out more?
+Hi Tomi,
 
-Sorry, I don't have any particular personal interest or stake in this. I'm just pointing out that "FIFO is better than RR" isn't universally true.
+On Wed, Jan 15, 2025 at 3:34=E2=80=AFPM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> On 15/01/2025 16:08, Geert Uytterhoeven wrote:
+> > On Wed, Jan 15, 2025 at 2:46=E2=80=AFPM Tomi Valkeinen
+> > <tomi.valkeinen@ideasonboard.com> wrote:
+> >> On 15/01/2025 14:52, Geert Uytterhoeven wrote:
+> >>> On Wed, Jan 15, 2025 at 1:42=E2=80=AFPM Tomi Valkeinen
+> >>> <tomi.valkeinen@ideasonboard.com> wrote:
+> >>>> On 15/01/2025 14:33, Geert Uytterhoeven wrote:
+> >>>>> On Wed, Jan 15, 2025 at 12:11=E2=80=AFPM Tomi Valkeinen
+> >>>>> <tomi.valkeinen@ideasonboard.com> wrote:
+> >>>>>> On 15/01/2025 12:33, Geert Uytterhoeven wrote:
+> >>>>>>> On Wed, Jan 15, 2025 at 10:04=E2=80=AFAM Tomi Valkeinen
+> >>>>>>> <tomi.valkeinen@ideasonboard.com> wrote:
+> >>>>>>>> Add Y10_LE32, a 10 bit greyscale format, with 3 pixels packed in=
+to
+> >>>>>>>> 32-bit container.
 
-Reaching out to affected users on https://gitlab.freedesktop.org/drm/amd/-/issues/2516 would seem like a possible start.
+> Well, this is all somewhat beside the point. So is "_Y10_32" (or
+> "_R10_32" if we use R) fine?
+
+IAARDD[*], but "10_32" makes me think it stores one 10-bit pixel in a
+32-bit word (i.e. a 32-bit variant of R10). So [YR]PA4 would be better.
+
+[*] I am a rookie DRM developer...
 
 
-> I currently don't have an idea how, with direct scanout ie. single rendering client, FIFO vs RR would make a difference.
+Gr{oetje,eeting}s,
 
-I saw one user mentioning they have "many background tasks", maybe some of those are using the GPU as well.
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> Btw what is the situation with context priority and compositors? Are they requesting high or sticking with the defaults?
-
-Requesting high. (Not that it makes much difference in practice if higher-priority jobs can't preempt lower-priority ones already in flight, as is the case with amdgpu without user-mode queues)
-
-
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
