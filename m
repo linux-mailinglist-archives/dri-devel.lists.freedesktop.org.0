@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CEDAA11B3B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 08:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B40A11B5B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 08:57:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1472910E4E7;
-	Wed, 15 Jan 2025 07:48:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0E7010E501;
+	Wed, 15 Jan 2025 07:57:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="ll42RC+k";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="LqTxqpYZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-10624.protonmail.ch (mail-10624.protonmail.ch
- [79.135.106.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75DE210E4E7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 07:48:12 +0000 (UTC)
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCC7610E4FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 07:56:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1736927290; x=1737186490;
- bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
+ s=protonmail2; t=1736927817; x=1737187017;
+ bh=dna1hELyton754vR7XwkrxCfNyJJW6bkChVCmzi9QEc=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=ll42RC+ksYZq2Nh4RQ+KQfHDlEQyZpRu7XttVotsyXyqw4eo7TtoUm/OJMa3dlBnB
- xFwt98BB5qTUsPtyEjCbwfWG/q/hRMZpgGC8r2t+q8kGmKg7QPmky/eermqcTL9CDy
- 7EGqyj48rXOfmpe14y8Ksb6QQcpIgmgnhfOdYgPm5uxSGA/8EUbGjUXNXIGbmi2YGK
- oceqAsm/JfzHAUXpz/Bnmp62MYpzGvUbEMUqV30/o+OmmAEXWVuUCd4eJiBBAbG0mZ
- oMksQJt2CrFVE5dh6wdG0wx9ztPRM5k5yg4gtuBRpN62VxeQE43yLATeMU/wAHQS3/
- XCutZtRaoWDYw==
-Date: Wed, 15 Jan 2025 07:48:05 +0000
+ b=LqTxqpYZk/w/xyanth4lARSk2/mjeZjH/vtwWJL69ggVgsSbPSlcgcvFi8Rg1rqF6
+ S7oGa+BgIHmjN8ZIBhBeSH7ynhVHctlbA3mK1N9HkKKMO+CJnybr71Fpa4fZ0ONHFU
+ Ac0laPzj62P4RNadmkbw6mE1qi6xDw0vyDqw7yOvYjGDQ3JcbF3SbN/7TOGK7lUmoh
+ R6h30lTyq/XoPh3a7YXMh+cmpGVU2KRuXjlNIKaHxpd6xaSZcJDOXymr9P8RA/MSJr
+ mJO5HHMhHK25SH11kc0o6Ep8aaGzk2G0IdD3aaW6PDpAgHosj+Tsc2EmiY8EapUZgZ
+ /3FYA0XGzoYTw==
+Date: Wed, 15 Jan 2025 07:56:52 +0000
 To: Alex Hung <alex.hung@amd.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
-Subject: Re: [V7 22/45] drm/colorop: define a new macro
- for_each_new_colorop_in_state
-Message-ID: <drEh59KcXyzvxNqtuglIyUDfoTOccIXX8krbikTRq2WywGShfP1oTamQTT3NBZJ0wx7tJJzET-Q_eGv149OVo52_q5XnFKOj_u9_2n_3Kf8=@emersion.fr>
-In-Reply-To: <20241220043410.416867-23-alex.hung@amd.com>
+Subject: Re: [V7 23/45] drm/amd/display: Ignore deprecated props when
+ plane_color_pipeline set
+Message-ID: <jvy2Hqze-awB760FG1skr9viS1MfGpXrAOrJiwgHdtEQ_4eB4cLVMCzL-2zax_-kG8ZtLWrVxQ3vscFfN2jHU09AvlBPhN7ax_u7hTGKTyw=@emersion.fr>
+In-Reply-To: <20241220043410.416867-24-alex.hung@amd.com>
 References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-23-alex.hung@amd.com>
+ <20241220043410.416867-24-alex.hung@amd.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 1c8a6ba182f0bbec58a78427fa616c029a100036
+X-Pm-Message-ID: fa6aa2ab867ecd8a3c38a4f37e6fffd4b8bb7d00
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -59,4 +58,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Simon Ser <contact@emersion.fr>
+Is this "ignore" something we could do at the core DRM level, instead
+of doing it in all drivers? e.g. by silently ignoring user-space requests
+to set the property?
+
+It sounds like this codepath still resets the colorspace to sRGB, which
+is later overwritten by colorops pulled in the atomic state anyways.
