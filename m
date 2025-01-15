@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA21FA12D02
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 21:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80706A12D03
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 21:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 267AD10E7E0;
-	Wed, 15 Jan 2025 20:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C096A10E7E1;
+	Wed, 15 Jan 2025 20:53:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Jxi+qKPc";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="x73qBOuG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
- [209.85.217.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDD2E10E7DE
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 20:53:04 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id
- ada2fe7eead31-4afe7429d37so25432137.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 12:53:04 -0800 (PST)
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com
+ [IPv6:2607:f8b0:4864:20::e33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0165F10E7E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 20:53:13 +0000 (UTC)
+Received: by mail-vs1-xe33.google.com with SMTP id
+ ada2fe7eead31-4afe7429d37so25644137.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 12:53:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1736974324; x=1737579124;
+ d=google.com; s=20230601; t=1736974393; x=1737579193;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wpDHiR0bXsDBwMbTlH1GqxYsn52KOd85vJTdbko6Ftk=;
- b=Jxi+qKPcvjop8a+6h4X0y2ZtvMdPya197eb8T7F/76iZ9SWxapzyFQ9HSZyQMKgCQ/
- FvpyS+OrZmpUJhE67LDEN8B3B5kxrS4Zt0Kba1LjI58pi7To/+z3N6R8VHoMuGM9SVb2
- m6o+VaZt6yO97pnXaauCsRnEEgHf4tn3kMgXx0BAX8GhOOrfgyIvbbX2plY7SqYKWsCi
- b4/RbALXLWAc5EY/DORDXVCtEgY/12Xu55ohfOAQ0JTmE+6ZHEYO/QixHVoz4GX28A9I
- wcGUi2lJMWzQhAw72cWYVGJqbYVOOKhCmi3yrichdl9PwVSPdf4gq4pcZx4eSULW+5iP
- 3k1w==
+ bh=VdXo8lbXht5SZgkZQ04ipp/CMqgcMbj1MEn0xWqPJMs=;
+ b=x73qBOuGeVGv/j/KEnrGoRf6nwkWpeSQUTrjRhBf6aVfUCBaplPqtCCcOZAx4JRE4v
+ 1d9WHbVS0Ibqyv1cklKbbfSxCyWuyp2ai46kwJLxTyYgnbzoPFbqWWxIThrmByvj2bw0
+ L+9FU70S+hAMDgMKiKp3KEDPFWLC8l4prDRweHck8d6OMK6wxKSFiGnqFpmpVTKLAKT2
+ 1IONzYK/lUd4U6XwYlOiJlIbjXhwDpVq9RgeL6iYAe0AtB1E4oqiP7PKf/mneImiBzy/
+ 7BygLnB/rYjMULq1EMjrGtbSyRaaWGp1CYK3NUSSuodvj1GT/Owx5eTG/LzXVHowtQ9+
+ KTdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736974324; x=1737579124;
+ d=1e100.net; s=20230601; t=1736974393; x=1737579193;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wpDHiR0bXsDBwMbTlH1GqxYsn52KOd85vJTdbko6Ftk=;
- b=YIVGJPEYlFClHYQ1LY5eaIyluqa4LfPyIbDN6E89gZEGxsKqzct45VhOv6cXi4yiU0
- WzobjIPFbi9OolrN3i2o3DjyxW2cNjAPOyZHtfD4KPlUPzFQU4mmmtHeWAABz91Cnvp2
- 5bDO25sK/hdm0GjGU6vlsUT844SwnLoQFahah4OolMBYVK2YYlD09sGTp94LgmDjBNHD
- jexEGWO9HnOP7BGowfkavgn4FvJt8DBk4etsqNOCpz2n6p47EHrWxFgzjJIR47bLG4mV
- yNeWpZb6+ZLFCESkeVkbu1onCOytzZGPO0I+5yaaOK4pEI+4BxBQky/PjEne6ofvacN0
- Rq7A==
+ bh=VdXo8lbXht5SZgkZQ04ipp/CMqgcMbj1MEn0xWqPJMs=;
+ b=T3fTBIW4HUQJhJyJaOx4XdjYzeeQ0jbUSOJyrX0BZ9/JcIgMizi+xa3sgH4Xu2Vx82
+ FF4pCKrmnywMP9WQ/nO6wBVkeoYOM3G+OvAlkPlsqpafb2ItqKjsBHY2NQIsuI1Bu9Bl
+ ybiwu02skJm1BAH80JMdADYSURxZ7PG9t6xBSXogArtRykZsE3bH5WliD6UW0O2+GXaw
+ rn9wbtMxKN/ZFH9jJmD5Z+pACuFVlgrZa9XEgYBQAjHKzHi8eA4u1OxNlN9qiYCfzIx9
+ +OifdIoCYGaPmtFhil403mRpts0XC347y4LuW0X+E4lL7Zjv8FCO9zTsN7CXdYtjF/qp
+ akaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXot1iSRVzpNMV2Zq3UpAnZwEHQA2vYLmZBHByL0m+TUSxV5Ci8RSZi9+Hqcp2WYzq4rCTM7Mgbc5I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyYpt73fQOK62oeopBEsNDx2nPKEGfuQePQLD4QjAFW0dz7GssC
- Q4AGSJV2Kfq4CQABWRCnW3vBI/b2H8524Eu/+bYSyYKXTLChvdsmw1TYpL1btu9WWIJzUKqOhUn
- pJCAw+moM6fxb/sjH98q0ueo0ZaonTFPA08zq
-X-Gm-Gg: ASbGncs7At74k0nktW7RtCumuy3OUVH6g2Mpc4/2QAHYVFV44xfwx60vyykcdSI06Lp
- r/1PXqNp0j/pd8fGbOgnhAM1rP82sdSYGU+RQUF4jenKv7Kj2H/B3CvoWxRoITaqg81Ae
-X-Google-Smtp-Source: AGHT+IHGJFSTuM3b37+opctt2tHn7VfsuBf4+beVaoaeJuq2++z1RLzVhsDuXLrd9Ee3ASMK9Iz4XTd2JqH50R6dmnc=
-X-Received: by 2002:a05:6102:b06:b0:4af:adf8:523f with SMTP id
- ada2fe7eead31-4b3d0f97294mr22811598137.9.1736974323734; Wed, 15 Jan 2025
- 12:52:03 -0800 (PST)
+ AJvYcCVzEVWSu3/uL79EO2p6b+WGBRY9zv8bqZRR4FlVaB/LdmSitkCHLfmTX+Zkymu6IGFi9UNtSU2E2D8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxAEgB+sKTv1ESGEaZEgFThP4h78MFQ2IQ14obXA2Mqnn4/KAUv
+ u5wGkezv8GXWc9/Mb6wGxqFWTjxcKgZPAAmszZeQwaQN+0Wumvb3wqifnORyjoIw1t1OMq+i46Q
+ uM+I5KDVSCScce8qudKv0eQFs9wraTlHlXRxy
+X-Gm-Gg: ASbGncvUrK1ptWddEsrtzj8woNY1VrEEhvINGsywX5bpVQvyVFm6z5bOb+VVTKVIJzY
+ PcFSiSLKldP+VqOmdWRfFwgXeX8MAa8Kyc81XC8j5GLXnELl8DhfOKzizCajs+EsRPKyg
+X-Google-Smtp-Source: AGHT+IE7UsauDDLDB3PU6I85iW+57wTMyoC2RI6ZhjsNUrio1gBO9Rw8foY1mGOBbUURNkj3/A70Nc+YgN9e75p3kqQ=
+X-Received: by 2002:a05:6102:ccb:b0:4b6:20a5:776 with SMTP id
+ ada2fe7eead31-4b620a50949mr21061479137.17.1736974392789; Wed, 15 Jan 2025
+ 12:53:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20250115093135.3288234-1-kirill.shutemov@linux.intel.com>
- <20250115093135.3288234-10-kirill.shutemov@linux.intel.com>
-In-Reply-To: <20250115093135.3288234-10-kirill.shutemov@linux.intel.com>
+ <20250115093135.3288234-12-kirill.shutemov@linux.intel.com>
+In-Reply-To: <20250115093135.3288234-12-kirill.shutemov@linux.intel.com>
 From: Yu Zhao <yuzhao@google.com>
-Date: Wed, 15 Jan 2025 13:51:27 -0700
-X-Gm-Features: AbW1kvYv76oC6MvIVQyrimg9-wYM-36QWhw54pvoHz-UApVxWVH0m4ZuWq7_GXQ
-Message-ID: <CAOUHufbet0=S=9e06jMeoSPef3GzoFm2V-k_NJYbdq2yJe6LRA@mail.gmail.com>
-Subject: Re: [PATCHv2 09/11] mm: Remove PG_reclaim
+Date: Wed, 15 Jan 2025 13:52:36 -0700
+X-Gm-Features: AbW1kvZLvuakft1NqA0r5gmvnmIH6WfLrEQ0-PFFagHKXbdONcPPwciIY5N5R1w
+Message-ID: <CAOUHufa8FZY0tQ8Camv7mHN9tWPYLxcpjt5rFTDLg+NwYULOQQ@mail.gmail.com>
+Subject: Re: [PATCHv2 11/11] mm: Rename PG_dropbehind to PG_reclaim
 To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, 
  "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
@@ -108,10 +108,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Jan 15, 2025 at 2:32=E2=80=AFAM Kirill A. Shutemov
 <kirill.shutemov@linux.intel.com> wrote:
 >
-> Nobody sets the flag anymore.
+> Now as PG_reclaim is gone, its name can be reclaimed for better
+> use :)
 >
-> Remove the PG_reclaim, making PG_readhead exclusive user of the page
-> flag bit.
+> Rename PG_dropbehind to PG_reclaim and rename all helpers around it.
 >
 > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
