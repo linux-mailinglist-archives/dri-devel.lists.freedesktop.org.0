@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6A5A12D3D
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 22:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCEBA12D3F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 22:06:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1217E10E808;
-	Wed, 15 Jan 2025 21:06:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB52D10E80C;
+	Wed, 15 Jan 2025 21:06:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pV+sqXoD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ViWP2XFO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86DC410E80C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 21:06:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5684810E810
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 21:06:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 341FF5C007A;
- Wed, 15 Jan 2025 21:06:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561F0C4CED1;
- Wed, 15 Jan 2025 21:06:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0F65D5C5E72;
+ Wed, 15 Jan 2025 21:06:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 075AEC4CED1;
+ Wed, 15 Jan 2025 21:06:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736975212;
- bh=4rng1/FXPgrbijYp0baw2dWK17v5rUUL8Bb9KbH4Svs=;
+ s=k20201202; t=1736975215;
+ bh=IFyKqYW5kHErE1g3zqtG1lE+48aizUrsrSVZsplb+88=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=pV+sqXoDB15iLdZf1llE4DgWAHabsi0WDr/x7Gv34uBpFWBsfikghmoKlI1Vc5fUB
- 9mV/HynzH7zDB6p5r4a0nAxVmXK1PPr+a9TDzCkcXIcVCajRGPBqeJ0/KVZ50CT+DT
- 4S8qokCABwQaPUxoFZuH4q5lkNfatPLOOeiIFqHpDPbsUUh2q06TNW+nV9X4uDp01Q
- 3/qU3lIczX9m8wem6T731zWjyaHkHk1sK+Ju+9Z9PcBQQM37oeBEK8iYk/QgxVHsMr
- ZHo4j0hxlchqbyBV7RQurcvYYM2Guwq29BOLvlcP4GnVU84S9JPfNBlezj96nSpbI3
- Z17RWfS5gx05A==
+ b=ViWP2XFOSZIy71cyqnNaXxpksuVvC3WszqizJsdRSwArAyedVNvA/rg9WmtmoSYtm
+ PfsmiWGZx3S1Y2KoTEt13xyJczZyuirxgUkSVI+akQ6SNboZkBxp1F+KDNUhm0t41d
+ K7JLCMVOXvBXOwXs6PMxzk4/1JrQ7Z5TdREleSXOs/YVD9bDl6ylQe1hNLxQ6IN0wP
+ yb3Fkl/k3BRTdjCpdr3JdVj1jjKnsLhngkCjqiV54Ctu4vIulpC+1G6JE7R4VrqI8s
+ P2Gpoha96R3BQtKE80akwHILXs0tAwwT676mMNAlqvix6zNB64YIojakwwjMeEpE0x
+ xqQ8Sn6DsxiiQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 Jan 2025 22:05:33 +0100
-Subject: [PATCH 26/29] drm/bridge: cdns-csi: Switch to atomic helpers
+Date: Wed, 15 Jan 2025 22:05:34 +0100
+Subject: [PATCH 27/29] drm/bridge: tc358775: Switch to atomic commit
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250115-bridge-connector-v1-26-9a2fecd886a6@kernel.org>
+Message-Id: <20250115-bridge-connector-v1-27-9a2fecd886a6@kernel.org>
 References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
 In-Reply-To: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,12 +50,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4145; i=mripard@kernel.org;
- h=from:subject:message-id; bh=4rng1/FXPgrbijYp0baw2dWK17v5rUUL8Bb9KbH4Svs=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOkdygpT7SINg+zWPHMwWi9RFtpXU/13R8HkJvNbbXWMm
- udCz+Z3TGVhEOZkkBVTZHkiE3Z6efviKgf7lT9g5rAygQxh4OIUgInkKjHWp+/Pnt/irL+Nq7tL
- pG3vDX3HFVIG98qfXYzW5uGcu9gppC6ya2VSGcufBzuTuqUOzH/PWJ8X07pMmoEliSumPuk3w49
- UqQuqOs+4L5x5KsNs86j68uKkV0cM4+Y1fZL4diOMITBfFwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3798; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=IFyKqYW5kHErE1g3zqtG1lE+48aizUrsrSVZsplb+88=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOkdyoqvkxK+5Gi9s/tu+GTW1nOP34gyX7p1f/qVZLPiW
+ Ym9HwI7OqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEckwZ62yTj19ONXNbNOHd
+ 1KmJi1O7t7xZfCLH9JLBz6yP7+dGPv7DE39z0s91PuYhF14cOP9M7wNjfc2KpAQz56AlYssOHeh
+ fcPjaveu7jl44Uph9MfXoXKPIF7lz1DOn/1z868RJ8btO+tpL3wAA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,7 +73,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Cadence DSI driver follows the drm_encoder->crtc pointer that is
+The tc358775 driver follows the drm_encoder->crtc pointer that is
 deprecated and shouldn't be used by atomic drivers.
 
 This was due to the fact that we did't have any other alternative to
@@ -83,101 +83,98 @@ deprecated pointer usage.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/bridge/tc358775.c | 32 +++++++++++---------------------
+ 1 file changed, 11 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index c7a0247e06adf3e532f830363b3422a8058513ef..aab4959a6f80c3502f717e0881eef30a2c7d1f18 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -653,11 +653,12 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
- 		return MODE_BAD;
- 
- 	return MODE_OK;
- }
- 
--static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
-+					   struct drm_bridge_state *bridge_state)
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index 0b4efaca6d682320b76ce09ed41824ae7f84ca2d..8f8ed8dc033daf001fc188d919fb38918673bd72 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -285,11 +285,12 @@ struct tc_data {
+ static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
  {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
- 	u32 val;
- 
-@@ -673,11 +674,12 @@ static void cdns_dsi_bridge_disable(struct drm_bridge *bridge)
- 		dsi->platform_ops->disable(dsi);
- 
- 	pm_runtime_put(dsi->base.dev);
+ 	return container_of(b, struct tc_data, bridge);
  }
  
--static void cdns_dsi_bridge_post_disable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+						struct drm_bridge_state *bridge_state)
+-static void tc_bridge_pre_enable(struct drm_bridge *bridge)
++static void tc_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++					struct drm_bridge_state *bridge_state)
  {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 	struct device *dev = &tc->dsi->dev;
+ 	int ret;
  
- 	pm_runtime_put(dsi->base.dev);
-@@ -750,11 +752,12 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
- 	writel(val, dsi->regs + MCTL_MAIN_EN);
+@@ -308,11 +309,12 @@ static void tc_bridge_pre_enable(struct drm_bridge *bridge)
  
- 	dsi->link_initialized = true;
+ 	gpiod_set_value(tc->reset_gpio, 0);
+ 	usleep_range(10, 20);
  }
  
--static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+-static void tc_bridge_post_disable(struct drm_bridge *bridge)
++static void tc_bridge_atomic_post_disable(struct drm_bridge *bridge,
 +					  struct drm_bridge_state *bridge_state)
  {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
- 	struct cdns_dsi_output *output = &dsi->output;
- 	struct drm_display_mode *mode;
-@@ -768,11 +771,11 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
- 		return;
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 	struct device *dev = &tc->dsi->dev;
+ 	int ret;
  
- 	if (dsi->platform_ops && dsi->platform_ops->enable)
- 		dsi->platform_ops->enable(dsi);
+@@ -367,34 +369,22 @@ static void d2l_write(struct i2c_client *i2c, u16 addr, u32 val)
+ 	if (ret < 0)
+ 		dev_err(&i2c->dev, "Error %d writing to subaddress 0x%x\n",
+ 			ret, addr);
+ }
+ 
+-/* helper function to access bus_formats */
+-static struct drm_connector *get_connector(struct drm_encoder *encoder)
+-{
+-	struct drm_device *dev = encoder->dev;
+-	struct drm_connector *connector;
+-
+-	list_for_each_entry(connector, &dev->mode_config.connector_list, head)
+-		if (connector->encoder == encoder)
+-			return connector;
+-
+-	return NULL;
+-}
+-
+-static void tc_bridge_enable(struct drm_bridge *bridge)
++static void tc_bridge_atomic_enable(struct drm_bridge *bridge,
++				    struct drm_bridge_state *bridge_state)
+ {
+ 	struct tc_data *tc = bridge_to_tc(bridge);
+ 	u32 hback_porch, hsync_len, hfront_porch, hactive, htime1, htime2;
+ 	u32 vback_porch, vsync_len, vfront_porch, vactive, vtime1, vtime2;
+ 	u32 val = 0;
+ 	u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
+ 	struct drm_display_mode *mode;
+-	struct drm_connector *connector = get_connector(bridge->encoder);
++	struct drm_connector *connector = bridge_state->connector;
  
 -	mode = &bridge->encoder->crtc->state->adjusted_mode;
 +	mode = &bridge_state->crtc->state->adjusted_mode;
- 	nlanes = output->dev->lanes;
  
- 	WARN_ON_ONCE(cdns_dsi_check_conf(dsi, mode, &dsi_cfg, false));
- 
- 	cdns_dsi_hs_init(dsi);
-@@ -890,11 +893,12 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
- 
- 	tmp = readl(dsi->regs + MCTL_MAIN_EN) | IF_EN(input->id);
- 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
+ 	hback_porch = mode->htotal - mode->hsync_end;
+ 	hsync_len  = mode->hsync_end - mode->hsync_start;
+ 	vback_porch = mode->vtotal - mode->vsync_end;
+ 	vsync_len  = mode->vsync_end - mode->vsync_start;
+@@ -599,14 +589,14 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
+ 				 &tc->bridge, flags);
  }
  
--static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
-+static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					      struct drm_bridge_state *bridge_state)
- {
- 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
- 	struct cdns_dsi *dsi = input_to_dsi(input);
- 
- 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
-@@ -905,14 +909,14 @@ static void cdns_dsi_bridge_pre_enable(struct drm_bridge *bridge)
- }
- 
- static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
- 	.attach = cdns_dsi_bridge_attach,
- 	.mode_valid = cdns_dsi_bridge_mode_valid,
--	.disable = cdns_dsi_bridge_disable,
--	.pre_enable = cdns_dsi_bridge_pre_enable,
--	.enable = cdns_dsi_bridge_enable,
--	.post_disable = cdns_dsi_bridge_post_disable,
-+	.atomic_disable = cdns_dsi_bridge_atomic_disable,
-+	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
-+	.atomic_enable = cdns_dsi_bridge_atomic_enable,
-+	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
+ static const struct drm_bridge_funcs tc_bridge_funcs = {
+ 	.attach = tc_bridge_attach,
+-	.pre_enable = tc_bridge_pre_enable,
+-	.enable = tc_bridge_enable,
++	.atomic_pre_enable = tc_bridge_atomic_pre_enable,
++	.atomic_enable = tc_bridge_atomic_enable,
+ 	.mode_valid = tc_mode_valid,
+-	.post_disable = tc_bridge_post_disable,
++	.atomic_post_disable = tc_bridge_atomic_post_disable,
  };
  
- static int cdns_dsi_attach(struct mipi_dsi_host *host,
- 			   struct mipi_dsi_device *dev)
+ static int tc_attach_host(struct tc_data *tc)
  {
+ 	struct device *dev = &tc->i2c->dev;
 
 -- 
 2.47.1
