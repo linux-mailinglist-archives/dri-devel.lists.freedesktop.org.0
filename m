@@ -2,55 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FFCA1237B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 13:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6639A12393
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 13:11:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1C210E611;
-	Wed, 15 Jan 2025 12:06:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C32BE10E600;
+	Wed, 15 Jan 2025 12:11:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hIJC7ZXP";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F2GSJ095";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C414310E611;
- Wed, 15 Jan 2025 12:06:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5256B10E600
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 12:11:42 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 72820526;
- Wed, 15 Jan 2025 13:05:27 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B0FF526;
+ Wed, 15 Jan 2025 13:10:42 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736942728;
- bh=FuDytT435iHRivsE/G04kLqYkdgsyGU+ZJ0WGc8aFpo=;
+ s=mail; t=1736943043;
+ bh=UJTkBSL59nkg3ZPsDW9CPBhEJtzlUh3WXK7gkW/lYuE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hIJC7ZXPZtRflk6LODVFXfISeh41qkSpg6phZpn+jJNh/hs7pxM5vBSXBXByWBzS8
- LX7kPPllqXqVJXAFomHjs+y2IACUieKV5ZLUGSlreuMdvgLHTwTHVy0dYbnXKnxipV
- qOeqzpf4NDSnnVcvegNZjPfUH6Ys4KcU5utGuoQo=
-Message-ID: <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
-Date: Wed, 15 Jan 2025 14:06:22 +0200
+ b=F2GSJ095yFJ4qh84HTpqnlRnoXhCQQU7gJ7Z8smpm4JOU5XJW88fYMgLnKr7VlRWR
+ Zt0NCEpef0a4SE2S5NeGgYZ98HzA2rdRr70W8giq9y+pJRY/Fr3HxOnX/yNYqx/G2+
+ YqYRPqs4VyeTI5Ra5/BoRMh4ak9eSqig+Debaqqs=
+Message-ID: <968b8fc2-cc8a-4531-bf24-3c4aceda28c2@ideasonboard.com>
+Date: Wed, 15 Jan 2025 14:11:38 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+Subject: Re: [PATCH v2 00/10] drm: Add new pixel formats for Xilinx Zynqmp
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andy Yan <andyshrk@163.com>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
- <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
- <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Sean Anderson <sean.anderson@linux.dev>
+References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
+ <r6mwhzcrab75ireqdqm335ayzf6n6nqnytmdnpuhlgcqkiudz5@alqr5ep5ub7m>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -96,7 +89,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
+In-Reply-To: <r6mwhzcrab75ireqdqm335ayzf6n6nqnytmdnpuhlgcqkiudz5@alqr5ep5ub7m>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -116,79 +109,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 15/01/2025 13:37, Thomas Zimmermann wrote:
-> Hi
-> 
-> 
-> Am 15.01.25 um 11:58 schrieb Tomi Valkeinen:
-> [...]
->>> These are all good points. Did you read my discussion with Andy on 
->>> patch 2? I think it resolves all the points you have. The current 
->>> CREATE_DUMB 
+On 15/01/2025 13:13, Dmitry Baryshkov wrote:
+> On Wed, Jan 15, 2025 at 11:03:29AM +0200, Tomi Valkeinen wrote:
+>> Add new DRM pixel formats and add support for those in the Xilinx zynqmp
+>> display driver.
 >>
->> I had missed the discussion, and, indeed, the patch you attached fixes 
->> the problem on Xilinx.
-> 
-> Great. Thanks for testing.
-> 
+>> All of these formats are already supported in upstream gstreamer, except
+>> in the gstreamer kmssink, which obviously cannot support the formats
+>> without kernel having the formats.
 >>
->>> ioctl is unsuited for anything but the simple RGB formats. The bpp 
+>> Xilinx has support for these formats in their BSP kernel, and Xilinx has
+>> a branch here, adding the support to gstreamer kmssink:
 >>
->> It's a bit difficult to use, but is it really unsuited? bitsperpixel, 
->> width and height do give an exact pitch and size, do they not? It does 
->> require the userspace to handle the subsampling and planes, though, so 
->> far from perfect.
-> 
-> The bpp value sets the number of bits per pixel; except for bpp==15 
-> (XRGB1555), where it sets the color depth. OR bpp is the color depth; 
-> except for bpp==32 (XRGB8888), where it is the number of bits per pixel. 
-> It's therefore best to interpret it like a color-mode enum.
-
-Ah, right... That's horrible =).
-
-And I assume it's not really possible to define the bpp to mean bits per 
-pixel, except for a few special cases like 15?
-
-Why do we even really care about color depth here? We're just allocating 
-memory. Doesn't DIV_ROUND_UP(args->bpp, SZ_8) work fine for XRGB1555 too?
-
->> So, I'm all for a new ioctl, but I don't right away see why the 
->> current ioctl couldn't be used. Which makes me wonder about the 
->> drm_warn() in your patch, and the "userspace throws in arbitrary 
->> values for bpp and relies on the kernel to figure it out". Maybe I'm 
->> missing something here.
-> 
-> I was unsure about the drm_warn() as well. It's not really wrong to have 
-> odd bpp values, but handing in an unknown bpp value might point to a 
-> user-space error. At least there should be a drm_dbg().
-> 
+>> https://github.com/Xilinx/gst-plugins-bad.git xlnx-rebase-v1.18.5
 >>
->>> parameter is not very precise. The solution would be a new ioctl call 
->>> that receives the DRM format and returns a buffer for each individual 
->>> plane.
+>> New formats added:
 >>
->> Yes, I think that makes sense. That's a long road, though =). So my 
->> question is, is CREATE_DUMB really unsuitable for other than simple 
->> RGB formats, or can it be suitable if we just define how the userspace 
->> should use it for multiplanar, subsampled formats?
+>> DRM_FORMAT_Y8
+>> - 8-bit Y-only
+>> - fourcc: "GREY"
+>> - gstreamer: GRAY8
+>>
+>> DRM_FORMAT_Y10_LE32
+>> - 10-bit Y-only
+>> - fourcc: "YPA4"
+>> - gstreamer: GRAY10_LE32
+>>
+>> DRM_FORMAT_XV15
+>> - Like NV12, but with 10-bit components
+>> - fourcc: "XV15"
+>> - gstreamer: NV12_10LE32
+>>
+>> DRM_FORMAT_XV20
+>> - Like NV16, but with 10-bit components
+>> - fourcc: "XV20"
+>> - gstreamer: NV16_10LE32
+>>
+>> DRM_FORMAT_X403
+>> - 10-bit 4:4:4
+>> - fourcc: "X403"
+>> - gstreamer: Y444_10LE32
 > 
-> That would duplicate format and hardware information in user-space. Some 
+> Could you possibly add support for those formats to the modetest util?
 
-But we already have that, don't we? We have drivers and userspace that 
-support, say, NV12 via dumb buffers. But (correct me if I'm wrong) we 
-don't document how CREATE_DUMB has to be used to allocate multiplanar 
-subsampled buffers, so the userspace devs have to "guess".
+Yes, I can do that.
 
-> hardware might have odd per-plane limitations that only the driver knows 
-> about. For example, there's another discussion on dri-devel about pitch- 
-> alignment requirements of DRM_FORMAT_MOD_LINEAR on various hardware. 
-> That affects dumb buffers as well. I don't think that there's an 
-> immediate need for a CREATE_DUMB2, but it seems worth to keep in mind.
-
-Yes, the current CREATE_DUMB can't cover all the hardware. We do need 
-CREATE_DUMB2, sooner or later. I just hope we can define and document a 
-set of rules that allows using CREATE_DUMB for the cases where it 
-sensibly works (and is already being used).
+I was mainly using https://github.com/tomba/pykms for testing, and 
+sometimes gstreamer. Adding support to modetest is (hopefully) not too 
+complex (the XV15 and XV20 are a bit annoying formats).
 
   Tomi
 
