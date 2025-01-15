@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C188EA11B6B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 09:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 759ADA11B76
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 09:04:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2568D10E503;
-	Wed, 15 Jan 2025 08:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70BC510E51E;
+	Wed, 15 Jan 2025 08:04:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="dBPMEmMH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="EyeLe8h2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-4317.proton.ch (mail-4317.proton.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E9AC10E509;
- Wed, 15 Jan 2025 08:00:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74B9710E515;
+ Wed, 15 Jan 2025 08:04:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1736928054; x=1737187254;
- bh=QOyGdvIzEttBxr0XLkvfbW/own8ubnqC/+iy68qmYPg=;
+ s=protonmail2; t=1736928259; x=1737187459;
+ bh=Z5inlJxMurSHYB3t8b1zfq8d2EdlQvI9ZmCDh+UPX1k=;
  h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
  Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
  Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
- b=dBPMEmMHO9ObpVFyMtimJU5vUT66t3pFnePK1fJEaV6VZG/Kw3dmPb8MD/NltHPzd
- klArqjHROKUZ/23Vvp0/JIfdRkEVvey23LzsjB2HyRniXgYdxoRERjz+D/smh2V16E
- eaw6EX60ZVxQmczcNtdNo/gHc66KGmhQyM15fj4gbwrNrdTJ//Eqj7RJvGxR+RTDBV
- ziorqdSFN18E3sBdOAE13U5onDo5yvWDYemWykRyaeyNFN6WXJpTfgwuC9xhCZuZ1M
- KMxir/vTpHuz/Nu3OZD18mNcy+q/PaeqLeTCCZ/jpksINrSf5tMWG/ydqllR9dN0JL
- pl6FgBkn7FLLA==
-Date: Wed, 15 Jan 2025 08:00:49 +0000
+ b=EyeLe8h2MU7CzWUfpwvdiapl3ITKmY+Lr5fB0oUuNimyl7K79f78vTWG45L5379Ue
+ FhOiswrjGEo9gmUOGWPopF9s5k9GEB1mvaNwJJZFbouLvmAmUJrMDhgpIpDQwoQjQ7
+ oPjfYdv3051gqVPK4pxo5PiSinw1s6ejOiTHzEUGEqFRDEducdWmrFXFqNz7u4vmIW
+ eByli6hNQQBN5ddWGwFIA1dWGbOPOxktHuIsI1BhTnnauXmUNGagOU/tWSZZlV8WWb
+ KfmUZ8Q2NfbJBQWR6ToQsphJdoFNRXfhvyye3E2NoI59Oh4eHCNJdNTUwvshz9g3Hl
+ Uzbhat/0je+Dw==
+Date: Wed, 15 Jan 2025 08:04:16 +0000
 To: Alex Hung <alex.hung@amd.com>
 From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
-Subject: Re: [V7 29/45] drm/colorop: Add PQ 125 EOTF and its inverse
-Message-ID: <owMi7HF_zONkAALlmHM6WhUNrOAyMbEYyjD7We0OGgWht2Tgj7o4OSByObPiwf8lZ0qwyy80r8kuf3pTea1ayGXzSua0oZc5OtydzYkF-M0=@emersion.fr>
-In-Reply-To: <20241220043410.416867-30-alex.hung@amd.com>
+Subject: Re: [V7 31/45] drm/colorop: add BT2020/BT709 OETF and Inverse OETF
+Message-ID: <VuB1bzC8-OmJkpsruFPIliNJDtjPACOabarfYceRZtyBwlToiOYx1ury1sjz3qa0FtHLUKR6z0m5tFVo-rkX_vL9g5XfIK7TiT-yMhKV8nQ=@emersion.fr>
+In-Reply-To: <20241220043410.416867-32-alex.hung@amd.com>
 References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-30-alex.hung@amd.com>
+ <20241220043410.416867-32-alex.hung@amd.com>
 Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: 18837b27710c2d4ae598117e46c738f2f03412bf
+X-Pm-Message-ID: e18ecf66cfad279fdac21232ace434d1efb63a31
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -57,11 +57,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Is this 125 magic number something we can expect other hardware to
-implement as well?
+> The BT.709 and BT.2020 OETFs are the same, the only difference
+> being that the BT.2020 variant is defined with more precision
+> for 10 and 12-bit per color encodings.
 
-Could AMD use the HDR multiplier or another block to behave as if
-the multiplier didn't exist?
+Just to make sure, the spec defines this precision, correct? It's
+not an AMD-specific thing?
 
-Note, I am no HDR expert. Maybe others have a better idea whether this
-makes sense or not.
+> Both are used as encoding functions for video content, and are
+> therefore defined as OETF (opto-electronic transfer function)
+> instead of as EOTF (electro-optical transfer function).
+
+Ah, and IIRC the OETF is not the mathematical inverse of the EOTF,
+right? So it makes sense to have separate entries for EOTF and OETF
+and their mathematical inverses.
+
+Again, I am no HDR expert.
