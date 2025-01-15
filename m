@@ -2,107 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 403AAA125D7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095C3A12604
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64F6510E6E4;
-	Wed, 15 Jan 2025 14:20:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37DB010E6EE;
+	Wed, 15 Jan 2025 14:29:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FNEnqs8p";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="CUFwEgXJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4C110E044;
- Wed, 15 Jan 2025 14:20:25 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15D16526;
- Wed, 15 Jan 2025 15:19:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736950766;
- bh=7qiyO+wfBrEyDk/AoXCj+nFogFQS7ryzGCzAqhdWb38=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=FNEnqs8pIxmzmXTlNZ5aoLcVlgUYO4x7tjA2Y+EpzVZYLe4hGm7k1eU8rP1U9FwYK
- RPx9CD1DBq9txbEDtdRq2erdoqbqnEGp7lnsvla38haKmYWSWUKigfw6gmUqEA/ioo
- GsAPA1Hr9rXNsFdn2I8B1WzDBAcDit9zy8TZ7Wrw=
-Message-ID: <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
-Date: Wed, 15 Jan 2025 16:20:19 +0200
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2053.outbound.protection.outlook.com [40.107.244.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB2910E6EE
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:29:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hx46jazMSM1PxLxjDFq3CJlrRDP8qZ8YP3i9kXoN0KAvWzrdsB6A3UcQOoB38zsHveIMWHaPmpp2WVoJ0nFkqmymR1H5OxBvZZZ5mid35eGA596g4IcvKJGgyhNs3Fb4jjRXHtAB26hX56davpv5JrCd4ldRIF4B/lSfMZlroPrzvu+PDOZPiln2OiQZFObbE1fQ0YP1PuIpAUnaql2HXZQktcL4QNgSk9pIne6fzpAxyevSpOjI2ZdzjgUPE592GrO2/CgcYsH3VhQEHPBPyVjjqurupY08hYVFJD82InVG+W97B5qFdZQyPtd33HYqFSqfkO/Qvk+zTMOEmjAZig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k+/zLLVLWpM5wM7TYxKoAMqF1Yav8W4/HFSM+V3OWNw=;
+ b=OjPZFwVFKxqZcsyQV2f5bvQ0pocE9aygXNl3uAMq7Urgt3bIWspoP4B2waDFyw5qsaTvCTTbNWqLtljiBHK3jFHteU8AKaN33QF3hiVCWxcXiTN5wBlRNrZpvo945SkmU/jElJHOIrIUqZxh95c7WJ+NfzMzKAcgW5GiArGXzLqzJtdiMlGeQO8lrcW37NAGLBsuv4ap6eON0jP4YvWST1pmjin0h09pyLWUEWToD9Z/jxBWcRg1HCPhdRr/WVhbfBs8DrE9BcvtlBwa05g1nhraQYa+3cXs7yujJNBQ4+XchBWgGcZYXCtRAETD7nWdm5jL3wPK8mhzswXEMFKY5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k+/zLLVLWpM5wM7TYxKoAMqF1Yav8W4/HFSM+V3OWNw=;
+ b=CUFwEgXJzONS9zqYiEVFnF+VuoCI13LyyEr7JZ1NdCRptcx/04RcYjWjss5HYgXwEL8d571SfkFvGjfooyvxsQna3QSnlYckJTXtuAAX4zBqDHwmKBfIq12XT4HW0ibs/H2HasUNCBgGlXIighQxNLn7KE8MeGJlVswdCbDS0TI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS7PR12MB5982.namprd12.prod.outlook.com (2603:10b6:8:7d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Wed, 15 Jan
+ 2025 14:29:43 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
+ 14:29:43 +0000
+Content-Type: multipart/alternative;
+ boundary="------------09QfNbJYdkE6QQCeininRsXJ"
+Message-ID: <c86cfee1-063a-4972-a343-ea0eff2141c9@amd.com>
+Date: Wed, 15 Jan 2025 15:29:34 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andy Yan <andyshrk@163.com>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
- <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
- <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
- <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
- <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
- <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
- <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+References: <20250108162227.GT5556@nvidia.com>
+ <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+ <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+ <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+ <c823f70c-9b70-441c-b046-71058c315857@amd.com>
+ <20250110205454.GM5556@nvidia.com>
+ <d213eee7-0501-4a63-9dfe-b431408c4c37@amd.com>
+ <20250115133821.GO5556@nvidia.com>
+ <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
+ <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
+ <20250115141458.GP5556@nvidia.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250115141458.GP5556@nvidia.com>
+X-ClientProxiedBy: FR2P281CA0052.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB5982:EE_
+X-MS-Office365-Filtering-Correlation-Id: d137535f-cf6b-4077-3298-08dd35710d79
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|8096899003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MFQ4SVBQT3JNR3ZLV2hSdHZRMXIyblkrY3cySnNvMTNwMnVXTTA4bXpyUXRv?=
+ =?utf-8?B?YmpCRldqMXlWTkVuZUtUcEUweGZhdDhyYWNCV1NkcFYrTWk2eEhiVCtKS2Nr?=
+ =?utf-8?B?OVoxK2NOOTJPY0VnWndoNFZmK3lQVC83WkpZNllWL09PS0puaVFvVnB2SW1a?=
+ =?utf-8?B?a1J6K0UxSmdwcnFmTkRHaWpZSitIYlg2dXVsa1dCRk0zVEdPOFVyeG5oRWNn?=
+ =?utf-8?B?U1cyVWlQNWhmNDRobmlBelk5WFNyZUZ1Y1llMnl3Rm8va2RBSlZwRXIvbklW?=
+ =?utf-8?B?T0JJa2dxbUR5RHh6bmRvT2xNZzEzcGRqWEF4RG1aRHQ4dFVZSW56c3lpN3dH?=
+ =?utf-8?B?bU1WTU5aclR4b3IwbGF2aER5NGsyK0t3dWt3SzhYWGFGK2VHUjE5dUFzUnR3?=
+ =?utf-8?B?SStUbkJYbnJ5UEdHKytGaVNRKzlzV3Q3dEhxZGlIbFhuZXhVRWw1OGptV0VI?=
+ =?utf-8?B?dnF2UHRLblM5Sk0xYUNwbGVxSjNNK1gvOHYvcnFVT0NxQ0x5K1dIR1ROWjB2?=
+ =?utf-8?B?azZ2ck5SdCt6Y1JZZlpja0orNjNzT0MwR2FDR3JjMjRhY1dhU3RxUjRYN2Fh?=
+ =?utf-8?B?dnUvODBzaHNWV1hNRVEwV0dlWEIwejBGS3ZCRFliT2pVazIrb0tWbEg1T2Rw?=
+ =?utf-8?B?TmNvWjNKVjAvN2pObEozYkxSQktpaDdIVmltUElqTlQ1eGxxRXc2OE5jRzZm?=
+ =?utf-8?B?QmNhRHF2dnNIc3hSZFd0V1ZlcTVJQXp5WFE2Mitoc1ZTV2lCSUt6eXpPUWlq?=
+ =?utf-8?B?bkJ1YVdEUUlzbkpkL2NjdkFYbGp1N3ZIY20xNWtVZVZwWTNFYkY1Q0pGRHZU?=
+ =?utf-8?B?Y1VPT21oRERDUTEzTHZUeStLaXg3SDdFN01RQURJU2tWNFBqbHViZFNoVlBI?=
+ =?utf-8?B?L2c1cHArMmZtQktqcEZIZEMrZXRsMnc2VitRYkExQVRMLzlmamsvUmllS0Rh?=
+ =?utf-8?B?RGlBTG0xcUVqK3JnRktTaDNHc1lIY2F1cEdMR1JGWFBuREw2bnl5VHI5blQ1?=
+ =?utf-8?B?V202Y25rYVRGQml1OWhZL1JwdHA3K0RQWWloWGlFeUhpcXJ4VEVIcVdPZnZz?=
+ =?utf-8?B?Z0ZSVmhrSFg2bDdxSGwweXlvejB2QzF5cDlJdWNLYlJxNUpMOEh4MjZIVnlq?=
+ =?utf-8?B?dDBxOUQyT2k3RXNaRUJLdW04cWcrSDhwUjA0SEtka2FGSTY2UjRjZ091Q1ky?=
+ =?utf-8?B?cjllR3dwcmR4RUhOdldtajlRZ0c3NThrOEJJREw0OUszeDZnazZxNlhhZjhT?=
+ =?utf-8?B?M1Nkd1JjZXhac1J3Y2IwMjB5UDVCV3YvMDhuK1UwZVNMZWt3L2hYMTdtODNG?=
+ =?utf-8?B?a1F5TDI5Y3ZkVTc1RTlMb1pQeUFDdk82dVpzV0VYNXl2dzNMbjNILzc4SGRi?=
+ =?utf-8?B?YTBseGtmaklXNlQ2bUxqMUZxSXA4QXZYTmxQYkdIbGZtZ1dFNE8wZ1Y4WVl0?=
+ =?utf-8?B?SGl0b2dJSStkbldvTmVIMTkrNlZuM0dtTDdNM2NSZW9sY0FtYWdlbnpNaHFT?=
+ =?utf-8?B?QUUyOXRScDUyMnh5V0pDS1V0S0g1WUJOVk0rK3F6QUdob0hzRE1tRzlQbXVn?=
+ =?utf-8?B?SEcxbVMzRkdiNGtpZGg2Zm1KekNzVHFMVkFYc0hDR2JXTWprYW9YeDFubDJt?=
+ =?utf-8?B?eFdJYTM4ZlBwQ2tyNEZ5UXVHTFVMZ054WW0relBFcTZ1LzNWM3JYREtYOEdC?=
+ =?utf-8?B?TkJUR2JvcnViVmtSR0pCY0dkNkZDRkpwc3ExRFZBWEVXRllYNEFub3NMdmMw?=
+ =?utf-8?B?S3R4WWw3Ujk3V3ZwV3pZM0prZ0pHWjVaK0tvK2JtL0RTdi85S1VYTWQyTDI5?=
+ =?utf-8?B?eng5UmlLZVd1Yzh5emRqQ1M3K0U1RTlMV3FJOWFrdUZtL0lHeTcyU2VmbGh0?=
+ =?utf-8?Q?CkdTdwYU6GHi1?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(8096899003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VFN3K1NNb1lCQXJNMmhENlBUYVFsaWYxS3huQUFHMFAzYktva3hUc0JOdFR2?=
+ =?utf-8?B?Y3ZhVThpTlV2OFRwMThadjVpQisyVEF3cTlmb2l6SGU2MlU0aEZUT2NwY1FS?=
+ =?utf-8?B?eXExb0huZlVNcjBRdFRkcmhQN2dsRittYWdJSzFMZHo4YnBiL2pSaWNFU0gy?=
+ =?utf-8?B?VXJMYmxwLzZlYWJWaEVpV21zZGRNU2hLVGRtWlp4UU5tUUtrR1VEck9kWWhy?=
+ =?utf-8?B?aWo1OHRpbjRwWlZuM1hHRzg1MTFCZnRKYzNIZHRjQkpXWFdtQVJQaTZpRFNs?=
+ =?utf-8?B?c3FPYnNES3NDZFlnSlB5dVQvei9WQkhkV3o3Uzd3a3FIeXI1SUJQd0tRN2pL?=
+ =?utf-8?B?cjlicERBTDI0engvZ3dQZnRmd3V5bWswbGl3UXBaOFVKdTY4TDZSRlVzL1VN?=
+ =?utf-8?B?Z1V4Nm04TzdlQWNqZS9KLzZ5NzRXNVpNVzJVNmIxMk5kWnA3b0FUaVFmQjAv?=
+ =?utf-8?B?SlI2U0ZUL2RheVpreU9GbkVkMlF4bzhFMlJxa3F1d0JvajUvZE1wS1FEUDZx?=
+ =?utf-8?B?NzB5bUFEVzhGNzYyVUNGWWZnMmo1QjlaNjlBMXJzTFREMkg0U2pucVdieTJ6?=
+ =?utf-8?B?M3AzKzdsSlYxTFZVclNITlEzbDZlYVFpSjJIM2RabElWRWdHL1BTNHlacjhv?=
+ =?utf-8?B?UktuK2ZmUmtlVlp3eEJJeHFnVXFTRmdGUWx1VmU0bUc3MnVIRUhySDRNUnF0?=
+ =?utf-8?B?SEo0Nk9QRm51VXUwNTRCcDdTVFdGMEIwNVh5SDlpanFjNjY0TDJGWVJZd29Q?=
+ =?utf-8?B?dHVqYXg0RXJ0azRXVlRmNVpWby9vN2xGOEgvTEZ0cFAyYU1GZ0kxSDdSdnBP?=
+ =?utf-8?B?SjlkTjA4dmlDY01aS1ZQbEFhSU54Yk95T1U0SzlRUmVzSjg5YWhxdnFsRUtD?=
+ =?utf-8?B?WjIzS0RBeTZsUUQxb09ZcXpCdTljY3RONU9KU3dPZHgvMFNBd0NVblNSQnNY?=
+ =?utf-8?B?MHUxWjZxV3pVS2ZzMWpQSGVnSWtMS3p3RnQzenRoMXJrTm9aMVVrb3VDeStC?=
+ =?utf-8?B?NXRlMUI1THkzbG1xY1hWRytBdW9TSjVaVS9IcmRXVGtnbTdLK3BuSWJ0T2Qy?=
+ =?utf-8?B?ci9NL3lYRFRwOWZzdytscThvWHBDMGZJOE4xUkZENkV0eDVsQ3lteDFuVUpz?=
+ =?utf-8?B?d1h3V3dSM0JLL0ZtenJNYVZHVmRaZjJmN01HOXBNUys3MFA0SFMwNEFBaU01?=
+ =?utf-8?B?cGpWTXdSY1lSdlVPdXJ5ckFXeHd0RXMxTHdPYm1ZNFVNTU5HYzUwbXdta0x0?=
+ =?utf-8?B?cFJyalV4eVpXUkpjWlNpU3FJMWIzMExXemxOL2RXRk1KOXpRMmFvUTdPSXoy?=
+ =?utf-8?B?NSswbWJma2NyUmNrRytYamNHSkdLL3NrS1NjNERTWlU1YUdmanBLR21qQjVp?=
+ =?utf-8?B?TS9pRmZ3SXBNeHpRLzMvVHhyOFJ2b0l2cU5ycmdaRXBiejdPL0lqMXRSa1FE?=
+ =?utf-8?B?d2RKVHltZCtyVHhYSWhsc0FPazBRd1pLcUhZcU9CN0ZSWG5UaXVVaUUvd0hH?=
+ =?utf-8?B?Qkc4Y29zQkpyS1NrM0pmWWtqVHhvVzl4Q2JJOHZwZ2l4dmRMYXJyMkROUWRx?=
+ =?utf-8?B?R0Q1bjZqdXNYV0FJR05hakNuRUtxYVVpZDd1eEhIQ3VLQnE0MSs3Z0xQV0hH?=
+ =?utf-8?B?V3c5allqZkNhL1pqQVFydmZtZk1Rb0xRaUNzbjlxU3lSUkM5THd1TVhSRW0z?=
+ =?utf-8?B?UHhDamtZMjdHR2lJc0gxTWJ1dDRZRXVLMitudFZlWVdQQ3Mwb0oxOTY2Y1lN?=
+ =?utf-8?B?WjJST3pFMzMyenE2TVN5NWVPVjhuMEN0V2dlK2NXNmhOTmdFcGZiQnMvbGxi?=
+ =?utf-8?B?bSswL1FzSzI2MFNWaUZUc3RFK09BZlkrcXBxQUlJZkt6bnRqQXlyUDFicW1J?=
+ =?utf-8?B?T0Q2N0JrcWxDNDV1WFFLeitXZHFtVHlTYTd4Z2g3N1YyYXUyb0lPLzdhL2Jo?=
+ =?utf-8?B?cXNKRlZoK1l1bC91bkRzclUvNUw2OGJLRDVaRGFuNzlhR1plaXNhL0ZqNTlP?=
+ =?utf-8?B?aVNWVTNHV2M1M2JUSU9sSUVmMURaa0x3aEdkRk1EVVJNdTR4TCtpc0tmeEs1?=
+ =?utf-8?B?dVNYUEZyQXVpbkZMZk1vUnBGVWtSdG1OK29lcE1jQ0psMjA5RWFYY3VMZGh2?=
+ =?utf-8?Q?31sIvOrsMUq83DYbKxcI1QF8k?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d137535f-cf6b-4077-3298-08dd35710d79
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 14:29:43.2663 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X9ynNfgy7djp8VhzLrIO1shjLnvS3tc5T7AZdb9FoWSrG6u+3eTMNS7THNeZNkVQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5982
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,72 +182,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/01/2025 15:45, Thomas Zimmermann wrote:
-> Hi
-> 
-> 
-> Am 15.01.25 um 14:33 schrieb Tomi Valkeinen:
-> [...]
->>> Yeah, there are constrains in the scanline and buffer alignments and 
->>> orientation. And if we say that bpp==12 means NV12, it will be a 
->>> problem for all other cases where bpp==12 makes sense.
->>
->> I feel I still don't quite understand. Can't we define and document 
->> CREATE_DUMB like this:
->>
->> If (bpp < 8 || is_power_of_two(bpp))
->>     bpp means bitsperpixel
->>     pitch is args->width * args->bpp / 8, aligned up to driver- 
->> specific-align
->> else
->>     bpp is a legacy parameter, and we deal with it case by case.
->>     list the cases and what they mean
->>
->> And describe that when allocating subsampled buffers, the caller must 
->> adjust the width and height accordingly. And that the bpp and width 
->> can also refer to pixel groups.
->>
->> Or if the currently existing code prevents the above for 16 and 32 
->> bpps, how about defining that any non-RGB or not-simple buffer has to 
->> be allocated with bpp=8, and the userspace has to align the pitch 
->> correctly according to the format and platform's hw restrictions?
-> 
-> What if a hardware requires certain per-format alignments? Or requires 
-> certain alignments for each plane? Or only supports tile modes? Or has 
-> strict limits on the maximum buffer size?
-> 
-> It is not possible to encode all this in a simple 32-bit value. So user- 
-> space code has to be aware of all this and tweak bpp-based allocation to 
-> make it work. Obviously you can use the current UAPI for your use case. 
-> It's just not optimal or future proof.
+--------------09QfNbJYdkE6QQCeininRsXJ
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-No disagreement there, we need CREATE_DUMB2.
+Am 15.01.25 um 15:14 schrieb Jason Gunthorpe:
+> On Wed, Jan 15, 2025 at 02:46:56PM +0100, Christian König wrote:
+> [SNIP]
+>>> Yeah, but it's private to the exporter. And a very fundamental rule of
+>>> DMA-buf is that the exporter is the one in control of things.
+> I've said a few times now, I don't think we can build the kind of
+> buffer sharing framework we need to solve all the problems with this
+> philosophy. It is also inefficient with the new DMA API.
+>
+> I think it is backwards looking and we need to move forwards with
+> fixing the fundamental API issues which motivated that design.
 
-My point is that we have the current UAPI, and we have userspace using 
-it, but we don't have clear rules what the ioctl does with specific 
-parameters, and we don't document how it has to be used.
+And that's what I clearly see completely different.
 
-Perhaps the situation is bad, and all we can really say is that 
-CREATE_DUMB only works for use with simple RGB formats, and the behavior 
-for all other formats is platform specific. But I think even that would 
-be valuable in the UAPI docs.
+Those rules are not something we cam up with because of some limitation 
+of the DMA-API, but rather from experience working with different device 
+driver and especially their developers.
 
-Thinking about this, I wonder if this change is good for omapdrm or 
-xilinx (probably other platforms too that support non-simple non-RGB 
-formats via dumb buffers): without this patch, in both drivers, the 
-pitch calculations just take the bpp as bit-per-pixels, align it up, and 
-that's it.
+Applying and enforcing those restrictions is absolutely mandatory must 
+have for extending DMA-buf.
 
-With this patch we end up using drm_driver_color_mode_format(), and 
-aligning buffers according to RGB formats figured out via heuristics. It 
-does happen to work, for the formats I tested, but it sounds like 
-something that might easily not work, as it's doing adjustments based on 
-wrong format.
+>>> So for example it is illegal for an importer to setup CPU mappings to a
+>>> buffer. That's why we have dma_buf_mmap() which redirects mmap()
+>>> requests from the importer to the exporter.
+> Like this, in a future no-scatter list world I would want to make this
+> safe. The importer will have enough information to know if CPU
+> mappings exist and are safe to use under what conditions.
+>
+> There is no reason the importer should not be able to CPU access
+> memory that is HW permitted to be CPU accessible.
+>
+> If the importer needs CPU access and the exporter cannot provide it
+> then the attachment simply fails.
+>
+> Saying CPU access is banned 100% of the time is not a helpful position
+> when we have use cases that need it.
 
-Should we have another version of drm_mode_size_dumb() which just 
-calculates using the bpp, without the drm_driver_color_mode_format() 
-path? Or does the drm_driver_color_mode_format() path provide some value 
-for the drivers that do not currently do anything similar?
+That approach is an absolutely no-go from my side.
 
-  Tomi
+We have fully intentionally implemented the restriction that importers 
+can't CPU access DMA-buf for both kernel and userspace without going 
+through the exporter because of design requirements and a lot of 
+negative experience with exactly this approach.
 
+This is not something which is discuss-able in any way possible.
+
+>>> As far as I can see that is really not an use case which fits DMA-buf in
+>>> any way.
+> I really don't want to make a dmabuf2 - everyone would have to
+> implement it, including all the GPU drivers if they want to work with
+> RDMA. I don't think this makes any sense compared to incrementally
+> evolving dmabuf with more optional capabilities.
+
+The point is that a dmabuf2 would most likely be rejected as well or 
+otherwise run into the same issues we have seen before.
+
+>>>>> That sounds more something for the TEE driver instead of anything DMA-buf
+>>>>> should be dealing with.
+>>>> Has nothing to do with TEE.
+>>> Why?
+> The Linux TEE framework is not used as part of confidential compute.
+>
+> CC already has guest memfd for holding it's private CPU memory.
+
+Where is that coming from and how it is used?
+
+> This is about confidential MMIO memory.
+
+Who is the exporter and who is the importer of the DMA-buf in this use case?
+
+> This is also not just about the KVM side, the VM side also has issues
+> with DMABUF and CC - only co-operating devices can interact with the
+> VM side "encrypted" memory and there needs to be a negotiation as part
+> of all buffer setup what the mutual capability is. :\ swiotlb hides
+> some of this some times, but confidential P2P is currently unsolved.
+
+Yes and it is documented by now how that is supposed to happen with DMA-buf.
+
+As far as I can see there is not much new approach here.
+
+Regards,
+Christian.
+
+>
+> Jason
+
+--------------09QfNbJYdkE6QQCeininRsXJ
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 15.01.25 um 15:14 schrieb Jason Gunthorpe:<br>
+    <blockquote type="cite" cite="mid:20250115141458.GP5556@nvidia.com">
+      <pre class="moz-quote-pre" wrap="">On Wed, Jan 15, 2025 at 02:46:56PM +0100, Christian König wrote:
+</pre>
+      [SNIP]<br>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Yeah, but it's private to the exporter. And a very fundamental rule of
+DMA-buf is that the exporter is the one in control of things.
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I've said a few times now, I don't think we can build the kind of
+buffer sharing framework we need to solve all the problems with this
+philosophy. It is also inefficient with the new DMA API.
+
+I think it is backwards looking and we need to move forwards with
+fixing the fundamental API issues which motivated that design.</pre>
+    </blockquote>
+    <br>
+    And that's what I clearly see completely different.<br>
+    <br>
+    Those rules are not something we cam up with because of some
+    limitation of the DMA-API, but rather from experience working with
+    different device driver and especially their developers.<br>
+    <br>
+    Applying and enforcing those restrictions is absolutely mandatory
+    must have for extending DMA-buf.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:20250115141458.GP5556@nvidia.com">
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">So for example it is illegal for an importer to setup CPU mappings to a
+buffer. That's why we have dma_buf_mmap() which redirects mmap()
+requests from the importer to the exporter.
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Like this, in a future no-scatter list world I would want to make this
+safe. The importer will have enough information to know if CPU
+mappings exist and are safe to use under what conditions.
+
+There is no reason the importer should not be able to CPU access
+memory that is HW permitted to be CPU accessible.
+
+If the importer needs CPU access and the exporter cannot provide it
+then the attachment simply fails.
+
+Saying CPU access is banned 100% of the time is not a helpful position
+when we have use cases that need it.</pre>
+    </blockquote>
+    <br>
+    That approach is an absolutely no-go from my side.<br>
+    <br>
+    We have fully intentionally implemented the restriction that
+    importers can't CPU access DMA-buf for both kernel and userspace
+    without going through the exporter because of design requirements
+    and a lot of negative experience with exactly this approach.<br>
+    <br>
+    This is not something which is discuss-able in any way possible.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:20250115141458.GP5556@nvidia.com">
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">As far as I can see that is really not an use case which fits DMA-buf in
+any way.
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+I really don't want to make a dmabuf2 - everyone would have to
+implement it, including all the GPU drivers if they want to work with
+RDMA. I don't think this makes any sense compared to incrementally
+evolving dmabuf with more optional capabilities.</pre>
+    </blockquote>
+    <br>
+    The point is that a dmabuf2 would most likely be rejected as well or
+    otherwise run into the same issues we have seen before.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:20250115141458.GP5556@nvidia.com">
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <pre class="moz-quote-pre" wrap="">That sounds more something for the TEE driver instead of anything DMA-buf
+should be dealing with.
+</pre>
+            </blockquote>
+            <pre class="moz-quote-pre" wrap="">Has nothing to do with TEE.
+</pre>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">
+Why?
+</pre>
+        </blockquote>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+The Linux TEE framework is not used as part of confidential compute.
+
+CC already has guest memfd for holding it's private CPU memory.</pre>
+    </blockquote>
+    <br>
+    Where is that coming from and how it is used?<br>
+    <br>
+    <blockquote type="cite" cite="mid:20250115141458.GP5556@nvidia.com">
+      <pre class="moz-quote-pre" wrap="">This is about confidential MMIO memory.</pre>
+    </blockquote>
+    <br>
+    Who is the exporter and who is the importer of the DMA-buf in this
+    use case?<br>
+    <br>
+    <blockquote type="cite" cite="mid:20250115141458.GP5556@nvidia.com">
+      <pre class="moz-quote-pre" wrap="">This is also not just about the KVM side, the VM side also has issues
+with DMABUF and CC - only co-operating devices can interact with the
+VM side &quot;encrypted&quot; memory and there needs to be a negotiation as part
+of all buffer setup what the mutual capability is. :\ swiotlb hides
+some of this some times, but confidential P2P is currently unsolved.</pre>
+    </blockquote>
+    <br>
+    Yes and it is documented by now how that is supposed to happen with
+    DMA-buf.<br>
+    <br>
+    As far as I can see there is not much new approach here.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:20250115141458.GP5556@nvidia.com">
+      <pre class="moz-quote-pre" wrap="">
+
+Jason
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------09QfNbJYdkE6QQCeininRsXJ--
