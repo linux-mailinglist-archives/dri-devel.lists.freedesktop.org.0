@@ -2,91 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E22A12279
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 12:23:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8DAA122AB
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 12:37:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DFC410E5E5;
-	Wed, 15 Jan 2025 11:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F2B10E3AD;
+	Wed, 15 Jan 2025 11:36:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PNjfUYrX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Qy8Fxbnb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC3DB10E61C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 11:23:16 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-3061513d353so37716431fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 03:23:16 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D5B310E056;
+ Wed, 15 Jan 2025 11:36:58 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4363dc916ceso4477595e9.0; 
+ Wed, 15 Jan 2025 03:36:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736940135; x=1737544935; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4mhub1WX6NRFjMXtQbcreIaC8K21PQR5uxWQxNvn/uQ=;
- b=PNjfUYrXtUDnCf/yqz5MHEKacbMG785gMn4r05+w/sRy+VsKFn1AfdiE2q/7PqLeDO
- qv8uL76Tk/e8QYvAhPPH9iqjQLcwpM2CqRYe1ugKHPdirFxuF2lTG1xo8bv0XzbTVvKt
- VddTDX0flTBqz1Y4MrOU9tk4LNf3ROk2oYSjziJyhpmDWqpySrKPMb90jP0PX1LeiEfI
- sRYNz+lnbVqsFrN1IFkorZm/x0yAE+fzl2T7ohaPOHxp5/GpmGgC+16k17ulD7i2wUzA
- JgXut/JgPPwMJHQXPQVRkNQY3cPIvBZSlBX5WPA2GajLza1NPTdT/qh+gr83zGD7rWqf
- txeg==
+ d=gmail.com; s=20230601; t=1736940957; x=1737545757; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=zRvh6fMAdyPOi5lt24tLnCWVAigh759btngcaiFvNUw=;
+ b=Qy8FxbnbRk+Fe795b1MinB+9vBWwAIHkpyqKiB0+lVRH5yKdV9A8Iz3V7QtyQb767Q
+ oRStmHMg6Dd5hrR82wCZRHRuxLmBNN6mH1+tPyLNT3WBWvrlSquCElGO0HD6v3x58eok
+ yw51X0a/aHtYjpYZOoP+IecEhq3bTQbohrz8U3beB0whXgE0i/y7ixQE5W4ti4o1g+zz
+ /GoWUTngjDeMtP2mfRcXdWeWxiIx9N5ZOJPJK+X4YVB6S7IcYrUT6X84UmHvVKoWthlZ
+ eTPfqO/DGNPglxIb5kjEn/ZvZ+pH5D7t4wDGwPLlVQcznZmuvluBkaoUNS71INbqK2BC
+ WXRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736940135; x=1737544935;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4mhub1WX6NRFjMXtQbcreIaC8K21PQR5uxWQxNvn/uQ=;
- b=JzzLIFDoXXF1Ezp2JDaGjtC+1LMXKlr+Jx+9qvhp6WpZUvw6fjD0aRmTUH1OPd8CQ6
- sPoFoPGhevJXEsD9QXStP88tjnKUZzmvu8o66wHlA88NwDLVRE0CpMuewzxiD11ukfzv
- 9dmrMD7gvzknn59Kvw6nnt46Puglw7OdkKZkQEAX4HUtygAj1IcEDAl32NWWLDgMZD0g
- RGzsSOFRTrXfMY6S7GCLYfgAqrdVWKblc0GtJ7dMD1cMYqvwtCSZq8OOb1Zw7ZGDVNpO
- k7QWnPePV/gRtYSCnE8UcLJ6t4pdSWKE7v4lsyNmZMvcayLYtQIUZoP7IjItUy/kmwZe
- u3vQ==
+ d=1e100.net; s=20230601; t=1736940957; x=1737545757;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=zRvh6fMAdyPOi5lt24tLnCWVAigh759btngcaiFvNUw=;
+ b=IOy897yPCZ7+1LnlwrX3thrgAx5sU0Q/CrgyJRZAuptUG8MWxX702EVE/UE2el98yE
+ yBsJW0RLTk5PSW0AaGhBreh2Jc6VGxLgoMFSxayrqpAX7GsERyIaH1sLjB/KlZCYnqAo
+ e+5r9TRaVPA/9cyeZzEg4WG70LPoZJv5aPBQXMYLv+5l8RABFfAMDp3f3HC2uSnIiF6m
+ iMWBVrnbHktIse/lfz58yMS2tD2IYLnSn8FlySOzwLFh8KM7p68WBX8R+PvXphF0QANG
+ ywSYVNv/5KGaNBv+PbOGHqOjed7cfwjcrhUd6HU+Z9iM43/2Iroxx+pyjQvuGCBQxoMJ
+ KOhg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUD3mFDoyYceMhM0wfSZnXnH3/Fx91HumToPiOi95KD3R7112clGhqklY5svKbeLcGq+UVbhsk1K0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXE0h2FvX6X3mThuIlMECVWDYrxB5VW2ax1ca4D88ux3StJAcZ
- /fvOlDd4rUtyERDP3RxRDTc11fZ1BJcZsrAp2rcH3+KPYuqwh4PwZBU77PSUUYooGt6aRsVNhfV
- ELIS31nNcGYMgEbu0yu/03Us5SER9I9X8uJiEpQ==
-X-Gm-Gg: ASbGnctMA8WX0ZyNQuLZwPoJ+IDDBiGdXSDFue/vomkPcrJ4ASfiZtuGKsxHpH+xbJP
- vJXEA7n3hUB6Ni667jD9n6b1b4SkJdhnQ7erevg==
-X-Google-Smtp-Source: AGHT+IFi9OUFsDG/HwAOWZDy5wxB1IFMes6uWrSDrSs8fqZfUq6g94ydbqgtsgXawPRPPFqiHwnnVYJjpekX/j3mPrc=
-X-Received: by 2002:a05:651c:2124:b0:300:15f1:cd5c with SMTP id
- 38308e7fff4ca-305f45cccbfmr89843831fa.17.1736940135230; Wed, 15 Jan 2025
- 03:22:15 -0800 (PST)
+ AJvYcCWiDVoniRqNlBhmglWio1PdgNNaLDfhqsEIGZm1TTwaL1Mn1hS0gePGPzU5BavWc4/qHUbLjxp+HUN/@lists.freedesktop.org,
+ AJvYcCXKVMezoyz5a425aORx2EqRU12jfNiazw97uLGswPxVORLBjlFb14uGYlCAH/hW8X+/e4eMU9YU@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywy9feCHu3WuClJLmvwph5jLDS8sy55RDwTQB0VCVzGhPICZVCX
+ xRHioBqqPw8h4idee7US8itfWc4ZeNjX80zHOvIIFMUuAWr2/B0X
+X-Gm-Gg: ASbGnctYLjBqM7B5d8wXrNypz4B72cu9+gW3QvSRF7JZ2Ep2HlNNC5V+nZm+5mmc/qf
+ V1f1O5pZMfWfolZz/bb9ZnDVZSmGV5wPuyprZGq9IYyXjnbsKCpIvAvVCw1Jgc4b1fDF4WEJrHX
+ ABiC0LyXOrlT7Db0cr4RruVP22MMlD6Nt1foLo7XNZxr7ON34XNxgwqsEmqI4w5FPFh7g2Pxaxd
+ /PFPZbP9GzP3R5kaTAMkZ5UMH27KtRMFdT1vs5Wj82xx4A2SBBZ1OmuqQ==
+X-Google-Smtp-Source: AGHT+IFYFB9Ou4f27iNI8oZssCfOJqnX6hcFH/loMJvx+kQqlMotWMHRayuUpQMW8k1E+3lZnGIW2g==
+X-Received: by 2002:a5d:5f91:0:b0:386:3afc:14a7 with SMTP id
+ ffacd0b85a97d-38a8b0c7177mr20606160f8f.7.1736940956666; 
+ Wed, 15 Jan 2025 03:35:56 -0800 (PST)
+Received: from localhost ([194.120.133.72]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-437c74e6511sm20188625e9.38.2025.01.15.03.35.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jan 2025 03:35:56 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/amd/display: remove extraneous ; after statements
+Date: Wed, 15 Jan 2025 11:35:52 +0000
+Message-ID: <20250115113552.297307-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-References: <20241227-a133-display-support-v1-0-abad35b3579c@linumiz.com>
- <20241227-a133-display-support-v1-10-abad35b3579c@linumiz.com>
- <20250114160045.2baacdaa@donnerap.manchester.arm.com>
-In-Reply-To: <20250114160045.2baacdaa@donnerap.manchester.arm.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Jan 2025 12:22:03 +0100
-X-Gm-Features: AbW1kvZR9tBuaRtZ7bNclb8qOifwSWdiMNHG0XPYW6GVaemjAImZEkZB8O3eBOg
-Message-ID: <CACRpkdbZYFaTHoOAy7DYpaV77Tf31H4bF179OrperU6UGys2ew@mail.gmail.com>
-Subject: Re: [PATCH RESEND 10/22] pinctrl: sunxi: add missed lvds pins for
- a100/a133
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Parthiban Nallathambi <parthiban@linumiz.com>,
- Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,15 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2025 at 5:00=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
+There are a couple of statements with two following semicolons, replace
+these with just one semicolon.
 
-> Linus, in contrast to what I originally thought, this patch *is* fine, so
-> feel free to keep it in your tree.
-> Sorry for the noise!
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ .../dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Phew thanks Andre, I would have pulled it out otherwise so it's no
-big deal, I'm just happy about active maintainers!
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+index c4dbf27abaf8..1a0a08823ed9 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
+@@ -3894,8 +3894,8 @@ static void CalculateSwathAndDETConfiguration(struct dml2_core_internal_scratch
+ 			p->SwathHeightC[k] = MaximumSwathHeightC[k] / 2;
+ 			RoundedUpSwathSizeBytesY[k] = p->full_swath_bytes_l[k] / 2;
+ 			RoundedUpSwathSizeBytesC[k] = p->full_swath_bytes_c[k] / 2;
+-			p->request_size_bytes_luma[k] = ((p->BytePerPixY[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;;
+-			p->request_size_bytes_chroma[k] = ((p->BytePerPixC[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;;
++			p->request_size_bytes_luma[k] = ((p->BytePerPixY[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;
++			p->request_size_bytes_chroma[k] = ((p->BytePerPixC[k] == 2) == dml_is_vertical_rotation(p->display_cfg->plane_descriptors[k].composition.rotation_angle)) ? 128 : 64;
+ 		}
+ 
+ 		if (p->SwathHeightC[k] == 0)
+-- 
+2.47.1
 
-Yours,
-Linus Walleij
