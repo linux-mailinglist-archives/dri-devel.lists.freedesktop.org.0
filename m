@@ -2,61 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861B0A124EF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 14:38:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26AA4A12521
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 14:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01C9710E699;
-	Wed, 15 Jan 2025 13:38:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 816C910E698;
+	Wed, 15 Jan 2025 13:45:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="A0KhE3rI";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aqyuT2iY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB0610E698
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 13:38:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=BcT+goNThMRgE2PX1KqyjiTou2dYOlH6zKFXciEicWA=; b=A0KhE3rIbcDH1+HhjALkUeYXo3
- sKVA3MunVNFA+Oe/0OWH/sVvGIzaL1iTi6BsZBd/ez99xabw/yXJJGHbp8jeJpte0EOuYnFOy6gZP
- y6J91i7LjWPQuteVjRp7bJz8biwUbKBXtr37p3ftfLaKy8kvOI1q7614GGLA3VvQYSDd0KM7nNXGF
- c60u1wJf/Y+XY5wgCEHmef5sbZlkp3DY1PEveime1Hv+gU0j9ujRKYyBNz4sXl78CcxyS8KcS/gxy
- MOYfFT/VgnnXw48bCnTMLkERYPOSQif/7K2DI4JajwhVLpTZurvnfz0xuBFGmBynWbqB7d2yiGa87
- ieMgLvpw==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tY3bQ-00G5ns-O2; Wed, 15 Jan 2025 14:38:36 +0100
-Message-ID: <d157226c-0512-48c4-82d6-4f4c70ec08f1@igalia.com>
-Date: Wed, 15 Jan 2025 13:38:35 +0000
-MIME-Version: 1.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on20609.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:2009::609])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1BC10E698
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 13:45:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fv9YDJs3imkBrjqXv4Pxb0FbYqYrKoWyqlqVnerTo2If9NTnKulwpvuv0or7p9GSLtMytod5jg/JfK6C4j5xJkc9+6JE4687EinvrxhL8cQvZ/emAuNTyc7VKz2jRehplhtjUb1Th7Dy0SiH5S/bIoHzUBKBb1fpq0Ga5QG8SO1bYoYRUjLvZjQFt+ElCiI2OAjyNzXrWn91etyrmZJiDXl7fxUCEU5kWf/wvSqJ3bZUX4IntRovhU4/swFAVueluN91kxzl0DhV3cXcXo01Nyn+yxsrSQ0LCpnNsukLgC69sX/w+niQVPyeO/alXHfbJvnmEUwPpinKOEdPifVNew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DxAwCZ87IOnmEZornajrcjbam0tMX8Ku6ZkisETplbk=;
+ b=cPtJ6216i83shk2KYoG7k3oSMVQh4JI0rg7ZJ5QnHr5fb1Plon5acbK15cFNqMZN5LbT6Nvgjxm6gIqpih7YxVyZyQ9FDG+OiFjmGU64/lAbwocb0Rwk1JvDHMzkEEEF21u/x2qBZLhNNKZsPRf9HwrjE7PFBjrzbh6e+oeVS1yqy/p0up6x7owCtjW04KXQVT3uG2gS0Gb+8bvIq/rkuP7C/lH/nL/HdHUGSX3Fb1PZR3GXPkf4S2fBTBPi/IPKglw1rsPs0gAkn6OaYkn3IgNnWkvyyR6qCjtu7dkarx+2oC7aolIL1eEp+KYbs1J8LtQuq5IlbpEkmi+gm5Uukg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DxAwCZ87IOnmEZornajrcjbam0tMX8Ku6ZkisETplbk=;
+ b=aqyuT2iYGMwehv1C8GKEwRJYE/bzary9EYVFzXduhqe8i3nyQ/jtqNQ29qHYXu5rbwLVeXgmYDjHdVBAzm72Q1d5Vj5ett28t5NEftnyiTc3zRQC58x+FPlF4F9AppMpH8i3r7PTY34aqpsLc3yIvGc4x4AyScmKNNNya7EnzaA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN0PR12MB5740.namprd12.prod.outlook.com (2603:10b6:208:373::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
+ 2025 13:45:24 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
+ 13:45:24 +0000
+Content-Type: multipart/alternative;
+ boundary="------------Avi86ny3nb5z5eKoNn0oqdnl"
+Message-ID: <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
+Date: Wed, 15 Jan 2025 14:45:16 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Philipp Stanner <pstanner@redhat.com>, Tvrtko Ursulin <tursulin@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20241230165259.95855-1-tursulin@igalia.com>
- <31842e821032305e5be7a8dcc3e13593fd09da20.camel@redhat.com>
- <99c7ccf4-a85f-4a11-912f-78f8d5a57516@igalia.com>
- <c4c62ea9-86c0-43c1-99b0-08af7b3bd71a@amd.com>
- <a202cc5b-13f5-4454-b32d-e2b5dcac85e9@mailbox.org>
- <690b5b62-78e4-48cb-a572-90d11b9b4ed6@igalia.com>
- <8f65b016-af77-4f15-b8c6-ffc30cc8157b@mailbox.org>
- <760bfbe5-958f-49dc-b454-a0daa82952f1@igalia.com>
- <ec68066d-460c-4d8e-ab8b-67acdfa973cf@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <ec68066d-460c-4d8e-ab8b-67acdfa973cf@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+References: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
+ <20250108145843.GR5556@nvidia.com>
+ <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
+ <20250108162227.GT5556@nvidia.com> <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
+ <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
+ <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
+ <c823f70c-9b70-441c-b046-71058c315857@amd.com>
+ <20250110205454.GM5556@nvidia.com>
+ <d213eee7-0501-4a63-9dfe-b431408c4c37@amd.com>
+ <20250115133821.GO5556@nvidia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250115133821.GO5556@nvidia.com>
+X-ClientProxiedBy: FR5P281CA0049.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f0::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB5740:EE_
+X-MS-Office365-Filtering-Correlation-Id: 764cc6d2-1224-4f84-f74b-08dd356adcab
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|8096899003; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L01vQ1poNUJLc3BRcTNUMVhwbVA0T1oxNlBqTnRqMm9rb2tJSFVoUGcwOWJk?=
+ =?utf-8?B?ZEVyRWEya051RXpKWkFYUmhOWEkwaVI5L0hwRHFFZUV1NERtNzRvVkZaQTZU?=
+ =?utf-8?B?czlPRTBFTGxoclRCTGZ3NS93ZEZBNjZxOG9YM09YYld4dFU4ZTRZbWFMMWd1?=
+ =?utf-8?B?UlFvU0syWG1majdNQ0NIK1Y4Vm1BU1NlYlBBYjJOdnJyenFwYm84dTUybm5Q?=
+ =?utf-8?B?SjdiSUhQaS91d0QvTThtTFJrUVhjQmhJOW95MDNuWjlKS095a1hTTmZRUTJz?=
+ =?utf-8?B?SitYLzhuTGxGekJ6NERtQTYrWklJM0EzaC9hQVlYbUd1VHkrL0hMVGZDb3ZG?=
+ =?utf-8?B?eVZWTFp2RE5NRTNsUThVWnZxVU1rQURkbzZvMU01UmtraFRJekdKWEJ2eGhQ?=
+ =?utf-8?B?ZkFqSnE0TjVBOXphdkFXeThZM0NxZllXTThWQWF0VHBPTFRvWU9JdTBpVlRh?=
+ =?utf-8?B?VVVmeGVjUXNLQm05R2VIeUlBbk5YVWI4QXU5RHZ4RDB3eFhlY1RsOGJtMjlu?=
+ =?utf-8?B?K3BoMnJqVnQvdW9vSE9RSStka2RVTVFYd1NGRE1CY1BuemFLM25zMG8wQitC?=
+ =?utf-8?B?QitvVHBMeHFCZlArWTBCS3Y2MlFrK2JtU1Jva3V1c1NZcmU0WUR1Qi9XZzFw?=
+ =?utf-8?B?dmdEVHZxVkVTRjNOcDVzZG1qRnl5ZVdIQXR6VmJxeGFWWEtjSGNGYlIzYjY1?=
+ =?utf-8?B?bTNDTkNTTzBKNVdVSExCVjRqQVVyb25MUUs5bm16YkNrbnhlOStzU0o2ZmVD?=
+ =?utf-8?B?cU1Tb2N3cFVub2YrNEZnaEROdit3ckJwRTBRdCsyd0dIbng0N2VQNUdJMVBi?=
+ =?utf-8?B?dVZuVHVLNWtUSm5Od0IyMlNQa0hqU0lkMkZRa1hDZThBMmFpZWUxcUV0OFpJ?=
+ =?utf-8?B?a0VsLy9qV2cwRVRNd1RHSWplSngyVGZ5MWhoVUNLZ1hQMktVYjlNWXZKWVVt?=
+ =?utf-8?B?cURqeTBVanQvZ3FiUmRoOGhSOHZGRm1nVWI1TnVWNk5HZDR5azcvTm96bEF5?=
+ =?utf-8?B?ampXQklTK0NiOHMydEw5VUFLK0Rpc3pZRk1uOVMyK2tQdGpaWXcxYUlSTDcx?=
+ =?utf-8?B?TUoycWtGVkl0bC9rYnVpVUdzdGJFcUNPdml0UGdteW5hcm1HeG4rYjZ4WStP?=
+ =?utf-8?B?aS9Kckd5b3FWeSs1bXVLVTZPY2NiM1pybWFzRmZTdmdCRHlrZkZrbHpHL1Q4?=
+ =?utf-8?B?Sll2VmExUVpQbmFhRlBDSW5OSVkyL0JsQjV0dWs5czd2eEdTZHAxM0g3WGVT?=
+ =?utf-8?B?N0ZrZ29LeVovWmt0NnBoU1IwTVYwaVZ6RXU5QStSc0hycTZpQVNxVzdPelRQ?=
+ =?utf-8?B?ZW5pTStwdUpxa2pXcy9nTXRqaG9WNHZWaWk0NDZ1NGVQV3Azd1o5UUlpMTlK?=
+ =?utf-8?B?WUlkMUxUUWNiUHlqekRMY1NLaTJtSlhramlkRXZUaEV3bmIvSk9jRVZyaUpn?=
+ =?utf-8?B?MUl2TzN1ZFptV1RWRTJOVjNxbFRHeDUzaWp0RW5Ba1hZenVlWHZsWWJoRmlY?=
+ =?utf-8?B?ZTU4dlpaczI0NFN5ZTg5TTJoUElDNEcyWjl6ZDdCSVJJQmt6dTRtQ2xTOVBh?=
+ =?utf-8?B?YnNSUjh4QmhoK3dnQ0V2d0syQWxuUlpxKzRXZnhVMmhWQmxoZXJQaVJhWDVE?=
+ =?utf-8?B?QXVZRWRDckRkQzl4T001dFl4Q2tMckdWb3BSL3RBNDlQL0dVNWFLUFVGRTJN?=
+ =?utf-8?B?UktJaEpEckhud1hKRENmeTRLTVJJd3lHclladmJsbmJoSlFTZkJmak8vakpM?=
+ =?utf-8?B?WCtmWWxzTE1MY2kweWlLeGRiRHI1T2Rjc3JxVytGT2c1d3cyR2ZhQ2ZEZHJC?=
+ =?utf-8?B?WDVXUEs1cVFqM2xwRDBUQzhzbjc5ZkFGM1RWTjRhSEtHV2RVL0RtenRIWDBR?=
+ =?utf-8?Q?CJIuA5O3rfxVE?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(8096899003); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU5YU1E0S2xqMHpEdnM4akppWm9RckpsdCs0cEVqSklaQ2cyYUE1RngvL3dH?=
+ =?utf-8?B?RlVsbllsTW1LSitlSmMvNEZPemlBTUVDS2RHbzRIOEJkaStwclB1QlVKOTcv?=
+ =?utf-8?B?U3VlbEZPQjNvaDJucEFkRGtPd1VyaUFBRHZSR2NiTzFpVjlMSVBaOEJIcG94?=
+ =?utf-8?B?QWcwOVcvUUpxUi9UY0krWFB5bGdSMitvWVlJT01OMC9SZUVTUjJpaS9Gb0gy?=
+ =?utf-8?B?b0dKS25iay8yOWQramdOUFhRTUtydW4wYVdFVC9JQUpLdUxlaHFaaDdlUGRD?=
+ =?utf-8?B?VzlIU3FhQ2owZnBQaElKaDJwNzVLM2xsZTd3cEFmNXVLTFlGTzliRTV0Nm44?=
+ =?utf-8?B?Wk1vekZUc0NwZ2JZUGl3Y3lKRnZsSldFN1pKRUxiMW9iazBMTWo5UThBbXl0?=
+ =?utf-8?B?Ynd5dHNlKzZtK25WM0U5N0Q2bGo3eVhYTW4rRnVORWhGZ3JUQXBQSWQ4aExC?=
+ =?utf-8?B?dldPS3VLWjFxTm5SRitoM3owNTFwQmluOWRaczRQTWtGVXRiNGJCV3c0aVh5?=
+ =?utf-8?B?MFNZKzBLSHIwVmRER3hCUk9kU2NlcTJIMy9TYXZZVGRZcHhUZkd4NnpPTnRO?=
+ =?utf-8?B?ZVR4WG01NzRJZ3RITmxQNVcwWVkwcUlwYXptK3pra0R5MVRwK0t5Nm0rbCtJ?=
+ =?utf-8?B?U0xrUU1ldVhWV1JQYXI3OUZPbTlPT0dIcTJVTWNKSWlUYXVDMStiRDQvbkhD?=
+ =?utf-8?B?ZVlFSmZ6c3UvdmMvZ255VmZidWkxbjFKOER4Zm1lMFFqcDZ2cFZpajdGdWRV?=
+ =?utf-8?B?cGlxeVE3bVU2NTJpdUhQVTlRMWFXNkx6czgxSEVrYlNDN05QWkNraWZ3eHFQ?=
+ =?utf-8?B?WTA5T3Z3aWNXZk15OE4zMWw3WXZnenJCbUNuZktEMHloam5sL1VFUGgrMFE2?=
+ =?utf-8?B?SDhJZDMwek9TRlM4eGF6Wkt4SEtwRDh4RHlnOWJrSlNYSVBtYk4rTitCWVp0?=
+ =?utf-8?B?K0Y5cnJVRm5wTnoxcEJ6WXpHMkphZXM0QnorUEwyTkcwclJSUEdnZ0E0MDE5?=
+ =?utf-8?B?RjAwUkFsWS9uNGZlZEU5d0ZSUEMrYmNhRjFyK0xFcEV6dEtoRVVEa3RFR0hE?=
+ =?utf-8?B?c0xxUldNMWVKSmthSStYaVZDRStWNDZLZHpMWTRETkpIblU5T2ZzYWMrb0Vv?=
+ =?utf-8?B?RGM5TnhPOENxMDRwaDNLRy9PeXRnc2xzUXk3R0dWM1ZhNCt6bytlZnJ0a1Ru?=
+ =?utf-8?B?THcrM3FUMkl0U1lJcGMxK0t0WlBJcy9SRDhHS0JTcjM0VE1mb1JwVW56bnFG?=
+ =?utf-8?B?aEgzcldSRzN6a2U2eGx0Q0gwQ214cUUyWnJrdllWY0dHaW9haXhmMW5mWDRE?=
+ =?utf-8?B?Mi9UT0prMkJrTzRxSGwzVFRvL2Z0WmtvNURPNWZsNll1R2wzbk5rekRWTkEx?=
+ =?utf-8?B?TE1EQzZ4OHJ4ZFkxMDV6R3dHcCtJcWloS3dFK0RDaVV5dk82Q2ZDOE5PK1JX?=
+ =?utf-8?B?Tm0yK0NQYXlsOWt5eVJLZVJRbXBLeStkM2Fjd0JjOXQ0VXA4bHVCcEFuZ0RO?=
+ =?utf-8?B?UTc4Y01RTkpDS0RKK2RkVHFUTjRPN1hRYXhHQlJteWFOL3M1dVladU9GN05R?=
+ =?utf-8?B?V2hHKzVkMkE0Z2g3YTdxQkdNeS9rc0g2YlYwMTdoeFNXNU5xRExjcGluNXhX?=
+ =?utf-8?B?RGZ0MVU3OUl1SnovN0o1eTVINjVYa2lSK1ZmNkFTU0lsSXlqRFZISmxJak9C?=
+ =?utf-8?B?SWR4REk3Smp2cWRUZUNxZzBacmJ6bDFmaHh1M3JlNG1PSmd5NE9qWXc3TXNz?=
+ =?utf-8?B?dGtIQU80UlBiMExVL042RWZUMzB3eERXbGFtaUhVKzZnZHgvZzhybHVWN3Rn?=
+ =?utf-8?B?SThhYk9lRHMwYThDaVpaaEdyNUIxTDJTNEJMZU5CZXlQNGs3MDB6ZEVyTmZv?=
+ =?utf-8?B?TVRxNDQzak4ya2h5UE5md3crZzJqRkFOQkpLN1ZJckJKSFVzYW9sa1gzdjFi?=
+ =?utf-8?B?RElYZTRHbUp0aElsL0UzVUNsMkN5eFE1ekZ1WDNOR3psNllZaUZabGMrdFNy?=
+ =?utf-8?B?WFJLMExZM2N5bFlnMVFYR21tVmNnUmVkbnNUWkZxWVJORGphODFrSy9EakYw?=
+ =?utf-8?B?bys3b0lyWXBWMC9mQ0lJdGF6eG9LWTllU0djSUVNMklPdmlyMXdyaWRMRVV1?=
+ =?utf-8?Q?CgreerbU2vFy0InoKCEfkZcnD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 764cc6d2-1224-4f84-f74b-08dd356adcab
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 13:45:24.3081 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W30Z/SLH4cJOkkLLdNu6ED9ZLBgwmzp7V9oFTrAf2C1mApjT2zFUTTOm+RsrBq+B
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5740
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,54 +182,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--------------Avi86ny3nb5z5eKoNn0oqdnl
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 13/01/2025 15:29, Michel Dänzer wrote:
-> On 2025-01-13 12:40, Tvrtko Ursulin wrote:
->> On 10/01/2025 09:14, Michel Dänzer wrote:
->>> On 2025-01-09 17:55, Tvrtko Ursulin wrote:
->>>> On 09/01/2025 15:08, Michel Dänzer wrote:
->>>>> On 2025-01-03 13:31, Christian König wrote:
->>>>>
->>>>>> What FIFO is still missing compared to RR is some sort of fairness between queues. E.g. a queues which hasn't submitted something in a while might get a bonus for their submissions compared to a queue which submits stuff all the time (or something like that).
->>>>>
->>>>> The lack of that could indeed explain the scenario above, if the game submits its GPU job for frame n+1 before Xwayland submits its GPU job for presenting frame n.
->>>>
->>>> I would be keen to experiment with this. There is that last patch in v2 of my series which scales the deadlines based on queue depth. So for a client which submits two frames it could be enough (in principle, not the actually posted version) to push out the deadline at qd=2 so a client which never breaks qd=1 can reliably overtake it.
->>>>
->>>> What would really be great if you could suggest me as easy to set up as possible test case with objective measuring criteria. And it would have to run on AMD. Quake II RTX under XWayland as the GitLab issue suggest or there is more to it? Does it has to be GNOME?
+Am 15.01.25 um 14:38 schrieb Jason Gunthorpe:
+> On Wed, Jan 15, 2025 at 10:38:00AM +0100, Christian König wrote:
+>> Am 10.01.25 um 21:54 schrieb Jason Gunthorpe:
+>>> [SNIP]
+>>>>> I don't fully understand your use case, but I think it's quite likely
+>>>>> that we already have that working.
+>>> In Intel CC systems you cannot mmap secure memory or the system will
+>>> take a machine check.
 >>>
->>> Don't think it has to be.
+>>> You have to convey secure memory inside a FD entirely within the
+>>> kernel so that only an importer that understands how to handle secure
+>>> memory (such as KVM) is using it to avoid machine checking.
 >>>
->>>> Any way to run it programmatically and get a performance number out?
+>>> The patch series here should be thought of as the first part of this,
+>>> allowing PFNs to flow without VMAs. IMHO the second part of preventing
+>>> machine checks is not complete.
 >>>
->>> This could be tricky, since the game itself reports the same frame rate in both cases. You'd have to compare the frame times in the compositor instead.
->>
->> So missed frames in the compositor?
-> 
-> Rather in Xwayland, the compositor is where it's visible to the user.
+>>> In the approach I have been talking about the secure memory would be
+>>> represented by a p2p_provider structure that is incompatible with
+>>> everything else. For instance importers that can only do DMA would
+>>> simply cleanly fail when presented with this memory.
+>> That's a rather interesting use case, but not something I consider fitting
+>> for the DMA-buf interface.
+> To recast the problem statement, it is basically the same as your
+> device private interconnects. There are certain devices that
+> understand how to use this memory, and if they work together they can
+> access it.
+>   
+>> See DMA-buf in meant to be used between drivers to allow DMA access on
+>> shared buffers.
+> They are shared, just not with everyone :)
+>   
+>> What you try to do here instead is to give memory in the form of a file
+>> descriptor to a client VM to do things like CPU mapping and giving it to
+>> drivers to do DMA etc...
+> How is this paragraph different from the first? It is a shared buffer
+> that we want real DMA and CPU "DMA" access to. It is "private" so
+> things that don't understand the interconnect rules cannot access it.
 
-How would you suggest to instrument this, or what debug/logs to enable 
-to see it?
->>> Also, the issue might no longer be reproducible in this particular scenario with current Xwayland, because it should no longer do any GPU copies for presentation but just forward the client buffers to the compositor.
->> Do you have an idea how could we find out more about that what you said: "people are saying RR works better than FIFO for some gaming scenarios even with current Xwayland, which shouldn't do any GPU copies for presentation of fullscreen windows"?
-> 
-> Other than asking affected users for more information, not offhand.
+Yeah, but it's private to the exporter. And a very fundamental rule of 
+DMA-buf is that the exporter is the one in control of things.
 
-Could you find out more?
+So for example it is illegal for an importer to setup CPU mappings to a 
+buffer. That's why we have dma_buf_mmap() which redirects mmap() 
+requests from the importer to the exporter.
 
-I currently don't have an idea how, with direct scanout ie. single 
-rendering client, FIFO vs RR would make a difference.
+In your use case here the importer wants to be in control and do things 
+like both CPU as well as DMA mappings.
 
-For scenarios where copying is involved, experimenting/tweaking the 
-frontend/DRM scheduler is not trivial. In the sense that for some 
-approaches involving looking at the submission queue depth, such I 
-mentioned before, it would require non-trivial refactoring. Which does 
-not seem to be popular. And the resulting change in behaviour would be 
-driver dependant too.
+As far as I can see that is really not an use case which fits DMA-buf in 
+any way.
 
-Btw what is the situation with context priority and compositors? Are 
-they requesting high or sticking with the defaults?
+>> That sounds more something for the TEE driver instead of anything DMA-buf
+>> should be dealing with.
+> Has nothing to do with TEE.
+
+Why?
 
 Regards,
+Christian.
 
-Tvrtko
+>
+> Jason
+
+--------------Avi86ny3nb5z5eKoNn0oqdnl
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 15.01.25 um 14:38 schrieb Jason Gunthorpe:<br>
+    <blockquote type="cite" cite="mid:20250115133821.GO5556@nvidia.com">
+      <pre class="moz-quote-pre" wrap="">On Wed, Jan 15, 2025 at 10:38:00AM +0100, Christian König wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">Am 10.01.25 um 21:54 schrieb Jason Gunthorpe:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">[SNIP]
+</pre>
+          <blockquote type="cite">
+            <blockquote type="cite">
+              <pre class="moz-quote-pre" wrap="">I don't fully understand your use case, but I think it's quite likely
+that we already have that working.
+</pre>
+            </blockquote>
+          </blockquote>
+          <pre class="moz-quote-pre" wrap="">In Intel CC systems you cannot mmap secure memory or the system will
+take a machine check.
+
+You have to convey secure memory inside a FD entirely within the
+kernel so that only an importer that understands how to handle secure
+memory (such as KVM) is using it to avoid machine checking.
+
+The patch series here should be thought of as the first part of this,
+allowing PFNs to flow without VMAs. IMHO the second part of preventing
+machine checks is not complete.
+
+In the approach I have been talking about the secure memory would be
+represented by a p2p_provider structure that is incompatible with
+everything else. For instance importers that can only do DMA would
+simply cleanly fail when presented with this memory.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+That's a rather interesting use case, but not something I consider fitting
+for the DMA-buf interface.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+To recast the problem statement, it is basically the same as your
+device private interconnects. There are certain devices that
+understand how to use this memory, and if they work together they can
+access it.
+ 
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">See DMA-buf in meant to be used between drivers to allow DMA access on
+shared buffers.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+They are shared, just not with everyone :)
+ 
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">What you try to do here instead is to give memory in the form of a file
+descriptor to a client VM to do things like CPU mapping and giving it to
+drivers to do DMA etc...
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+How is this paragraph different from the first? It is a shared buffer
+that we want real DMA and CPU &quot;DMA&quot; access to. It is &quot;private&quot; so
+things that don't understand the interconnect rules cannot access it.</pre>
+    </blockquote>
+    <br>
+    Yeah, but it's private to the exporter. And a very fundamental rule
+    of DMA-buf is that the exporter is the one in control of things.<br>
+    <br>
+    So for example it is illegal for an importer to setup CPU mappings
+    to a buffer. That's why we have dma_buf_mmap() which redirects
+    mmap() requests from the importer to the exporter.<br>
+    <br>
+    In your use case here the importer wants to be in control and do
+    things like both CPU as well as DMA mappings.<br>
+    <br>
+    As far as I can see that is really not an use case which fits
+    DMA-buf in any way.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:20250115133821.GO5556@nvidia.com">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">That sounds more something for the TEE driver instead of anything DMA-buf
+should be dealing with.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+Has nothing to do with TEE.</pre>
+    </blockquote>
+    <br>
+    Why?<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:20250115133821.GO5556@nvidia.com">
+      <pre class="moz-quote-pre" wrap="">
+
+Jason
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------Avi86ny3nb5z5eKoNn0oqdnl--
