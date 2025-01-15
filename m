@@ -2,96 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD49A12231
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 12:13:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4399CA12238
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 12:13:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC08910E5DB;
-	Wed, 15 Jan 2025 11:12:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9BB210E5E3;
+	Wed, 15 Jan 2025 11:13:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hha11TRW";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Thd6ruTl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 819AC10E5DB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 11:12:58 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E7344AD;
- Wed, 15 Jan 2025 12:11:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736939519;
- bh=kObbrxjliZtOR3xfmSNN6n5lEiuI5gMBVSXSAoB8qE4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hha11TRW1HbGOWWKl54J9R4Ms2eKVkhzXUWjetuOY7Q6wmecoKIt4qxDmLd/Rcfbh
- 4C9llHIcjyQO20t8BcP9Dp32fulgVOpdhRCq8AwVgKRiWmDiR2XNM+dit4Cj0IfuPB
- CNZNhMalxnaLC2b/vL7sSQCXQmrSjCIr62EGQrjo=
-Message-ID: <a782e7c1-76e5-48c4-89f1-2aa4baa77236@ideasonboard.com>
-Date: Wed, 15 Jan 2025 13:12:54 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/10] drm/fourcc: Add DRM_FORMAT_Y8
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4592710E5E3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 11:13:54 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-54298ec925bso4397909e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 03:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736939632; x=1737544432; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Av0rjEk4K1UrBkuc3slj27PyoP59w6tr+UnsldrkkKE=;
+ b=Thd6ruTlNdJaS345Seb+TUPcklO1B5ZpQJMThWdKwZ0f1zAFDNR1oMzf9FeJ1CqNK8
+ x7d5kZiBHCbdm2OMOnuouJmyyXtCqNsNHsGsRsMtLKzXFmov0pwRD0rNUH8USzJ0EXAs
+ 2MMahVrpPuTNhEszhJqpwnf3iltgqoqXbg66dZgEsZKdc/QrZasvoqjp2rMP4gHG3zTX
+ HTECIra5+1bgdqTH2YtUDSmeDvhpIUNolSaRQap2RoLvstuOklYv8VVGgD56oDOatVkP
+ MRCOowIIu+feoDjC52mcQvBJXqll1ooX86pLRd6FjxdTj2XQZEW2cuK6v6kmvO9Lrb7e
+ TLtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736939632; x=1737544432;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Av0rjEk4K1UrBkuc3slj27PyoP59w6tr+UnsldrkkKE=;
+ b=hqtDifhzoctuk0yK9zYahB32FCch1R7LFuMnqPPb8KVwNDw+kXDcjetCSDKqjFMMbV
+ g1Js3+2jx4Er/Dz5ZgfhP4BtEYbinzKX5vFPWbEh4Ogmd7l5DpNos0zuYYgJusD5KVOy
+ 46PDScXh3FZxzzweq6vxzD2TXKRuD7ph1WrVOXt6wjckStyv2qZejD2nrv4Y4pVjn0wZ
+ dCr8jix8VI82GWJsp6453c/a9TQdqANS/BoJ1bSfi0nehPd+itZCd/UnJTQSGm1Qb2uu
+ +WYVbBZLAZyo6Hl01JFDFA7DR5hyW1ml0uEpQwaPvb6lcWnJJN90Ff3oERjGtfV87Mif
+ 1RDg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6COk1fSRNS4Qw48FfQASii35VOHr8K1nFxMn5UWzoVdEd5NZeBYZIe6VlMjADrnH6x97+MfZ5U2A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLl6W+inwUDPXZeHZi+UqXqwEBMlMn3otIMhQ7WRGko+GcvOU5
+ 4EikVy4UnU0EHP1pLK3BtBu7SWX7f3KdtPw4WtED+Xm1aiq5LB5MW6zPXaq1gIM=
+X-Gm-Gg: ASbGncu17bI4Pv6i9/5/bYn11UMwBpQ28nMCqgM5cEir2CICmJaEGb0SHv+ntUAf8GE
+ QWR2DMaPmJnhjcxaxZwUl4foz86hselJwc76FQo1/wyR3CQYGeWY2HfteQXgZ0vIAIjX+qaH1d8
+ YBa0Mm+xm8roZhILy+/LCNsAJnjO7nOJjfMFj0smmljPNgNjRuZGtFqvuR0aO6AppdIWcbK2q5+
+ zkqQbdzjG72k7UhiobByNZD3tG2FFmsIUYT2Q9MrSyo0awPUQGecZBnYYiuGZMGyTKddz8/1bCF
+ VKb/a8LxB4fbYLjmbweKU/SVXwVz5zxqHQgz
+X-Google-Smtp-Source: AGHT+IH0d/mqqFG8l0nVwVIfYL0lorLg9/b/9Bo50ztfLEBMz3O/VEgCt0rLyvdS4QgL0qaCmUx0IQ==
+X-Received: by 2002:a05:6512:3196:b0:540:357a:4aa3 with SMTP id
+ 2adb3069b0e04-542845d1878mr6129056e87.28.1736939632489; 
+ Wed, 15 Jan 2025 03:13:52 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428bea669dsm2009355e87.164.2025.01.15.03.13.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jan 2025 03:13:52 -0800 (PST)
+Date: Wed, 15 Jan 2025 13:13:49 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>, 
  Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ Michal Simek <michal.simek@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Sean Anderson <sean.anderson@linux.dev>
+Subject: Re: [PATCH v2 00/10] drm: Add new pixel formats for Xilinx Zynqmp
+Message-ID: <r6mwhzcrab75ireqdqm335ayzf6n6nqnytmdnpuhlgcqkiudz5@alqr5ep5ub7m>
 References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
- <20250115-xilinx-formats-v2-3-160327ca652a@ideasonboard.com>
- <CAMuHMdUMEEuCcmzvet=9sfYzn2_XtSkTgvpHkYz+RALCzHDzfg@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
- wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
- Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
- eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
- LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
- G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
- DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
- 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
- rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
- Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
- aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
- ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
- PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
- VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
- 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
- uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
- R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
- sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
- Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
- PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
- dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
- qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
- hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
- DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
- KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
- 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
- xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
- UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
- /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
- 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
- 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
- mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
- 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
- suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
- xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
- m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
- CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
- CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
- 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
- ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
- yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
- 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <CAMuHMdUMEEuCcmzvet=9sfYzn2_XtSkTgvpHkYz+RALCzHDzfg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,39 +95,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Jan 15, 2025 at 11:03:29AM +0200, Tomi Valkeinen wrote:
+> Add new DRM pixel formats and add support for those in the Xilinx zynqmp
+> display driver.
+> 
+> All of these formats are already supported in upstream gstreamer, except
+> in the gstreamer kmssink, which obviously cannot support the formats
+> without kernel having the formats.
+> 
+> Xilinx has support for these formats in their BSP kernel, and Xilinx has
+> a branch here, adding the support to gstreamer kmssink:
+> 
+> https://github.com/Xilinx/gst-plugins-bad.git xlnx-rebase-v1.18.5
+> 
+> New formats added:
+> 
+> DRM_FORMAT_Y8
+> - 8-bit Y-only
+> - fourcc: "GREY"
+> - gstreamer: GRAY8
+> 
+> DRM_FORMAT_Y10_LE32
+> - 10-bit Y-only
+> - fourcc: "YPA4"
+> - gstreamer: GRAY10_LE32
+> 
+> DRM_FORMAT_XV15
+> - Like NV12, but with 10-bit components
+> - fourcc: "XV15"
+> - gstreamer: NV12_10LE32
+> 
+> DRM_FORMAT_XV20
+> - Like NV16, but with 10-bit components
+> - fourcc: "XV20"
+> - gstreamer: NV16_10LE32
+> 
+> DRM_FORMAT_X403
+> - 10-bit 4:4:4
+> - fourcc: "X403"
+> - gstreamer: Y444_10LE32
 
-On 15/01/2025 12:30, Geert Uytterhoeven wrote:
-> Hi Tomi,
-> 
-> On Wed, Jan 15, 2025 at 10:04 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->> Add greyscale Y8 format.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> 
-> Thanks for your patch!
-> 
->> --- a/include/uapi/drm/drm_fourcc.h
->> +++ b/include/uapi/drm/drm_fourcc.h
->> @@ -405,6 +405,9 @@ extern "C" {
->>   #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
->>   #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
->>
->> +/* Greyscale formats */
->> +
->> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
-> 
-> I don't think you need this. We already have:
-> 
->      /* 8 bpp Red (direct relationship between channel value and brightness) */
->      #define DRM_FORMAT_R8           fourcc_code('R', '8', ' ', ' ') /*
-> [7:0] R */
-> 
-> See also commit 8aba4d30520ed656 ("drm/fourcc: Clarify the meaning of
-> single-channel "red"").
+Could you possibly add support for those formats to the modetest util?
 
-Yes, I discuss this topic in the cover letter.
+> 
+> Some notes:
+> 
+> I know the 8-bit greyscale format has been discussed before, and the
+> guidance was to use DRM_FORMAT_R8. While I'm not totally against that, I
+> would argue that adding DRM_FORMAT_Y8 makes sense, as: 1) we can mark it
+> as 'is_yuv' in the drm_format_info, 2) we can have the same fourcc as in
+> v4l2, 3) it makes more sense for the user to use Y8/GREY format instead
+> of R8.
+> 
+> Also, if we go with DRM_FORMAT_R8, then I think it would make sense to
+> also add the 10-bit grayscale version as R10, instead of Y10, and it
+> would also have to have 'is_yuv' false, and I feel that would just
+> create even more confusion.
+> 
+> I have made some adjustments to the formats compared to the Xilinx's
+> branch. E.g. The DRM_FORMAT_Y10_LE32 format in Xilinx's kmssink uses
+> fourcc "Y10 ", and DRM_FORMAT_Y10. I didn't like those, as the format is
+> a packed format, three 10-bit pixels in a 32-bit container, and I think
+> Y10 means a 10-bit pixel in a 16-bit container.
+> 
+> Generally speaking, if someone has good ideas for the format define
+> names or fourccs, speak up, as it's not easy to invent good names =).
+> That said, keeping them the same as in the Xilinx trees will, of course,
+> be slightly easier for the users of Xilinx platforms.
+> 
+> There's also a bit unrelated path on top, fixing the missing max dma
+> seegment size in the zynqmp driver which I encountered while testing
+> these.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+> Changes in v2:
+> - I noticed V4L2 already has fourcc Y10P, referring to MIPI-style packed
+>   Y10 format. So I changed Y10_LE32 fourcc to YPA4. If logic has any
+>   relevance here, P means packed, A means 10, 4 means "in 4 bytes".
+> - Added tags to "Fix max dma segment size" patch
+> - Updated description for "Add warning for bad bpp"
+> - Link to v1: https://lore.kernel.org/r/20241204-xilinx-formats-v1-0-0bf2c5147db1@ideasonboard.com
+> 
+> ---
+> Tomi Valkeinen (10):
+>       drm/fourcc: Add warning for bad bpp
+>       drm/fourcc: Add DRM_FORMAT_XV15/XV20
+>       drm/fourcc: Add DRM_FORMAT_Y8
+>       drm/fourcc: Add DRM_FORMAT_Y10_LE32
+>       drm/fourcc: Add DRM_FORMAT_X403
+>       drm: xlnx: zynqmp: Use drm helpers when calculating buffer sizes
+>       drm: xlnx: zynqmp: Add support for XV15 & XV20
+>       drm: xlnx: zynqmp: Add support for Y8 and Y10_LE32
+>       drm: xlnx: zynqmp: Add support for X403
+>       drm: xlnx: zynqmp: Fix max dma segment size
+> 
+>  drivers/gpu/drm/drm_fourcc.c        | 24 ++++++++++++++++++
+>  drivers/gpu/drm/xlnx/zynqmp_disp.c  | 49 ++++++++++++++++++++++++++++++++++---
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c |  2 ++
+>  include/uapi/drm/drm_fourcc.h       | 20 +++++++++++++++
+>  4 files changed, 91 insertions(+), 4 deletions(-)
+> ---
+> base-commit: adc218676eef25575469234709c2d87185ca223a
+> change-id: 20241120-xilinx-formats-f71901621833
+> 
+> Best regards,
+> -- 
+> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
 
-  Tomi
-
+-- 
+With best wishes
+Dmitry
