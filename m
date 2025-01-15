@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFB3A11841
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 05:06:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E87C3A1187F
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 05:29:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5078510E4B6;
-	Wed, 15 Jan 2025 04:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D9AA10E4BB;
+	Wed, 15 Jan 2025 04:29:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cVZO4FM7";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VxIuCsq9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
- [209.85.210.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B31410E4B3;
- Wed, 15 Jan 2025 04:06:39 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id
- 46e09a7af769-71e2ddb6fc1so375516a34.3; 
- Tue, 14 Jan 2025 20:06:39 -0800 (PST)
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
+ [209.85.167.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA9A110E4B7;
+ Wed, 15 Jan 2025 04:29:04 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id
+ 5614622812f47-3ebbde05f6bso245403b6e.2; 
+ Tue, 14 Jan 2025 20:29:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1736913938; x=1737518738; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1736915284; x=1737520084; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=VNlMIWi0gY/hfVQr64EfXRiIAdvNPqESu2NexPnqTZI=;
- b=cVZO4FM7OTghsfRsuwtR6vCBd8/xj+KVfnczWQe23RnV/23CPrBHazSZ6R0YP6Kq2e
- DCL2bWa3zraY7S1vaV0igtNdFKB3GAd1Q20DAZyPntPmigFC3dGsYKpsU79gJSRc1h3N
- PeE0G0BLwG4YV1jzRJkMy/Ch80uH07mnEbUoIANczSBPqqpl/UcML2bxc8ZO96GyB+UU
- fjLNv8VXYVPmEBF02FD/Y5whk4kwhlkfJyOd1ERsOn3UCXQ6i/X1ph3v24h7lNE910pH
- DU8+/2nw/sDvAG97UIbmfr/7WzWfXD6304HTUEfihctNnGQWOmGaFhU67vWha7HCgX1u
- zqSA==
+ bh=+It6nH5oT1SexjKXk/YXqd5YTz3VL0m/ksXGroOAMDE=;
+ b=VxIuCsq97p+gbJl4DC0+B2RTucUE7zF5t04RdESyL9WCsnfWqBGG9QxEWSEEaEKpBS
+ KpGsQmQp/NMCqYw2O6bOvjSqrhlEafYcw2jjm8x+HZRIoGfyh6LtOdyFbNajtW73Ylu5
+ 46SeZSxVMMd1LSU5mmXCExwHRSvHenWXFDdWGk0WYKawW27l1JqRkf39qKZZ0vTi23jT
+ eTlGngtoei6xYaLo4tvv43Q0nR+hLTQ4jHxHYaVhJ1GZ2+ikREDFtUaNmiFp/njhlalI
+ dlaHHK+nX8NpwF00HeJR9MY1ViMKJRgGHgH8MWZccL4gUKW76uoAdh1UD5ZDdNasnUaZ
+ ygig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736913938; x=1737518738;
+ d=1e100.net; s=20230601; t=1736915284; x=1737520084;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=VNlMIWi0gY/hfVQr64EfXRiIAdvNPqESu2NexPnqTZI=;
- b=vAMZppsTnhmzMfEHj6omwgKxq5rOMFyC5LmqXV6Q9mgHui98Wg2FqA/vQg9GNXhcIp
- xctV5obevKxWGNOVmeq3seyKpbMVK4tqf99ZqEmLOtemecwpZkAhsvpHyWybPJdYNFbQ
- ITty5zxjPV9R7zDct6IMPftvyQaMKaGfUlW8oWVd3pGgVuRytcalZETQbToaFSGi5rCY
- E+XxLoXvUVCu9CoIa37lrumioz5KD5XMcbubNb5Ft2wmoaJEz0y/j2OM+/mcXbGQP8hm
- sNPm172qzpSUcSXShRpHkc4H7XVuYbb8ro1sszzoH9UwEldoPzaajlpw6itHIpvVuGuW
- 0zlQ==
+ bh=+It6nH5oT1SexjKXk/YXqd5YTz3VL0m/ksXGroOAMDE=;
+ b=q80lZcc2ET7eYGIiESYOVem4GVYN+ULk7x2j+EB+bmNMu6qfFPlyraNykOUk72NCfK
+ T0OMJr78T+ocZK6JI6WCsewykwq8H7yntPauHyGPHGofzZNqlbo6c2UGKzNdUSPsZq5q
+ Qa2YKrFyx1S0gdvRY3FLATKm74NL5+ObdVR7HHBhcroq4ahjLfY441+0QptpguNMvumh
+ /5KE9eTZ1Z3FlvpyFkOtkztW6YX+L7/RZdSeaDHm4wSyWsYVdLrOxFeBexjdpDNOBSgK
+ /nCMkVnaNj3HE6fELGrQKZkBu8Kq70IpwxuNv9+IyB2GFzGlm6rwPxDybzzHr1esXc1f
+ Qu9Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6DVxANM11BUuzAhMOtoGPGCha4wqq99wtz9QItSxUav5eBt3snNcFTyk3X2P4LA3XXuYp1MCw@lists.freedesktop.org,
- AJvYcCVyOGrcrmbi4aW8R4VSthOEKSp51ovVjpLD3tLQ/M4lAdV8aks8+801neI4t+EzNuqVkt8NfIxOu4Ct@lists.freedesktop.org,
- AJvYcCXiJrTeN8vIwKHYsgbQkslcgRM05EI1hPpz088nrQQyH2cDDMrHSEysvoHV/zvtk4D1BKbx3tCKD38=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUUX4Tvh+j2eMq/KiT/yh0KZwPakGMsYKMG3mQgwHvk9XRuh4p
- PGtJd9DBtxs/mN7X5VDe3kQk28mmpDK/B68iHZX+lhegWboitsUuPotOkfPJKT/DFNH/a7/q+QV
- 1NurgVUQLM8/LazvTFgQ4LvPSLRI=
-X-Gm-Gg: ASbGncuJikvICO2N8dAJX+bJlhLDs9pY9ZukQxcG0vCfZcSDpzbu8nx1tjlPGkI6dkH
- kuCmndW8uSfq8lOJbCpiA16jjA4Fa7s/ghx8Osd+Z
-X-Google-Smtp-Source: AGHT+IEtAB9S4YUX9ue1Ah5uC59BOBmr7VbVt+m1q9kChuaAY02RhjE+jWafBN4rMjBoFpVCbXuKenzWHy2ppt8ivW0=
-X-Received: by 2002:a05:6808:1c05:b0:3eb:8a9a:2c02 with SMTP id
- 5614622812f47-3ef2ed44f98mr6743619b6e.6.1736913938530; Tue, 14 Jan 2025
- 20:05:38 -0800 (PST)
+ AJvYcCVszIq2ei7upI5EK1Ql+Y7mKF14Zn9kFhmsZX67HQsAfVnrALeK6T2lcLNQ+foV7T2TDiJ0xX6A@lists.freedesktop.org,
+ AJvYcCX6q92gyMtTCCSGLhfWVRbUEamQypYn8jQdogSDi7Bzybd6RRnyrx0Bri+YgijFHBihw929CiL7jjOJ@lists.freedesktop.org,
+ AJvYcCXvAM39d66eMN/2VsZOgDb4cF3DQFGaSs8AtPn89bMILbpdzVfFqNgFRY9EbtisI9/P+1GosihOrck=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyB+MEsBkMCEABiafpGwx197TcUpXeye3JI/eDnkWN13MPA/kT/
+ IUbmc0l+9CZI+y4/I1nkfAEgb3Yf1T9gpQI4CBN2aMqE2Amf7odNHwQBmvLs9kvuNAQjaCBElPF
+ othkX4pHDRyniB4ezIbe54ijyfCc=
+X-Gm-Gg: ASbGncsX8oPA+rslMXoSuIGeyzmMDubzx9b84WyCLv02VwhXt6BmCXSmqJird+7Rom9
+ oyvB2pTUkJlxQ0XSwIh4QToVr5ufjX5IInGm7XvXf
+X-Google-Smtp-Source: AGHT+IESH3Yd09VxhUifraxf+mykDqpbbxjz5oxF2QYkDnrA3wFcJHSazzNj8oxdY1XsAMeiX+AKPn3FGQNO6LvIGr8=
+X-Received: by 2002:a05:6808:2129:b0:3eb:834f:7769 with SMTP id
+ 5614622812f47-3ef2ebbb10bmr6489464b6e.2.1736915283947; Tue, 14 Jan 2025
+ 20:28:03 -0800 (PST)
 MIME-Version: 1.0
 References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
  <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
@@ -67,23 +67,23 @@ References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
  <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
  <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
  <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
- <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
-In-Reply-To: <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
+ <19466180208.28b9.76a0d8c26856b44b62c020e2e9d89f6d@gfxstrand.net>
+In-Reply-To: <19466180208.28b9.76a0d8c26856b44b62c020e2e9d89f6d@gfxstrand.net>
 From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Tue, 14 Jan 2025 23:05:02 -0500
-X-Gm-Features: AbW1kvaAD-Kqgx7Y-SxVT7ib0Lmm3tX-CJebiKiBVNHZGc1GrjRUKdTgD4gagkw
-Message-ID: <CAAxE2A6ghBK2VTLkNXgk1c61UG1ZQAzWQ4q=wO-OShAUC9eRmQ@mail.gmail.com>
+Date: Tue, 14 Jan 2025 23:27:27 -0500
+X-Gm-Features: AbW1kvarXoZuHfr7hYWjXgVVH7hjT_kuQu76j2zvPRhNbbQsCkE59jYZx5nCbkY
+Message-ID: <CAAxE2A7CQWkN_UohysSJEmD7xjNRFZ5dPuANk4G0EkzKpGVj+Q@mail.gmail.com>
 Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
  alignment
-To: Daniel Stone <daniel@fooishbar.org>
+To: Faith Ekstrand <faith@gfxstrand.net>
 Cc: James Jones <jajones@nvidia.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
- Brian Starkey <brian.starkey@arm.com>,
+ Daniel Stone <daniel@fooishbar.org>, Brian Starkey <brian.starkey@arm.com>,
  =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
  dri-devel <dri-devel@lists.freedesktop.org>, 
  amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
  ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/alternative; boundary="0000000000004fc923062bb6caee"
+Content-Type: multipart/alternative; boundary="0000000000008139a7062bb71a54"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,184 +99,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000004fc923062bb6caee
+--0000000000008139a7062bb71a54
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2025 at 12:58=E2=80=AFPM Daniel Stone <daniel@fooishbar.org=
+On Tue, Jan 14, 2025 at 1:34=E2=80=AFPM Faith Ekstrand <faith@gfxstrand.net=
 > wrote:
 
-> Hi,
+> On January 14, 2025 03:39:45 Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wro=
+te:
 >
-> On Tue, 14 Jan 2025 at 09:38, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wr=
-ote:
-> > I would keep the existing modifier interfaces, API extensions, and
-> expectations the same as today for simplicity.
+>> I would keep the existing modifier interfaces, API extensions, and
+>> expectations the same as today for simplicity.
+>>
+>> The new linear modifier definition (proposal) will have these fields:
+>>    5 bits for log2 pitch alignment in bytes
+>>    5 bits for log2 height alignment in rows
+>>    5 bits for log2 offset alignment in bytes
+>>    5 bits for log2 minimum pitch in bytes
+>>    5 bits for log2 minimum (2D) image size in bytes
+>>
 >
-> Well yes, not just for simplicity, but because everything stops
-> working if you don't.
+> I'm not strictly opposed to adding a new modifier or two but this seems
+> massively over-designed. First off, no one uses anything but simple 2D
+> images for WSI and BOs are allocated in units of 4k pages so 2, 4, and 5
+> can go. If we assume pitch alignment and offset alignment are the same (a=
+nd
+> offset is almost always 0 anyway), 3 can go.
 >
-> > The new linear modifier definition (proposal) will have these fields:
-> >    5 bits for log2 pitch alignment in bytes
-> >    5 bits for log2 height alignment in rows
-> >    5 bits for log2 offset alignment in bytes
-> >    5 bits for log2 minimum pitch in bytes
-> >    5 bits for log2 minimum (2D) image size in bytes
-> >
-> > The pitch and the image size in bytes are no longer arbitrary values.
-> They are fixed values computed from {width, height, bpp, modifier} as
-> follows:
-> >    aligned_width =3D align(width * bpp / 8, 1 << log2_pitch_alignment);
-> >    aligned_height =3D align(height, 1 << log2_height_alignment);
-> >    pitch =3D max(1 << log2_minimum_pitch, aligned_width);
-> >    image_size =3D max(1 << log2_minimum_image_size, pitch *
-> aligned_height);
-> >
-> >
-> > The modifier defines the layout exactly and non-ambiguously.
-> Overaligning the pitch or height is not supported. Only the offset
-> alignment has some freedom regarding placement. Drivers can expose whatev=
-er
-> they want within that definition, even exposing only 1 linear modifier is
-> OK. Then, you can look at modifiers of other drivers if you want to find
-> commonalities.
+> Even with that, I'm struggling to see how useful this is. My understandin=
+g
+> is that you're trying to solve a problem where you need an exact 64-byte
+> alignment for some AMD scanout stuff. That's not even possible to support
+> on Nvidia (minimum alignment is 128B) so practically you're looking at on=
+e
+> modifier that's shared between AMD and Intel. Why can't we just add an AM=
+D
+> modifier, make Intel support it, and move on?
 >
-> I don't see how this squares with the first statement.
->
-> AMD hardware is the only hardware I know of which doesn't support
-> overaligning. Say (not hypothetically) we have a GPU and a display
-> controller which have a minimum pitch alignment of 32 bytes, no
-> minimum height alignment, minimum 32-byte offset alignment, minimum
-> pitch of 32 bytes, and minimum image size of 32 bytes.
->
-> To be maximally compatible, we'd have to expose 28 (pitch align) * 32
-> (height align) * 28 (offset align) * 28 (min pitch) * 28 (min size) =3D=
-=3D
-> 19668992 individual modifiers when queried, which is 150MB per format
-> just to store the list of modifiers.
+> Otherwise we're massively exploding the modifier space for... Why? Intel
+> will have to advertise basically all of them. Nvidia will advertise most =
+of
+> them. AMD will advertise something. And now apps have tens of thousands o=
+f
+> modifiers to sort through when we could have just added one and solved th=
+e
+> problem.
 >
 
-Maximum compatibility is not required nor expected.
+I don't think I'm being understood. See my reply to Daniel. There is no
+exploding of anything. It's the same thing we have today for vendor
+modifiers - lots of fields with lots of possible values, but only a few
+values are used.
 
-In your case, only 1 linear modifier would be added for that driver, which
-is:
-log2 pitch alignment =3D 5
-log2 height alignment =3D 0
-log2 offset alignment =3D 5
-log2 minimum pitch =3D 5
-log2 minimum image size =3D 5
-
-Then if, and only if, compatibility with other devices is desired, the
-driver developer could look at drivers of those other devices and determine
-which other linear modifiers to add. Ideally it would be just 1, so there
-would be a total of 2.
-
-
->
-> > DRM_FORMAT_MOD_LINEAR needs to go because it prevents apps from
-> detecting whether 2 devices have 0 compatible memory layouts, which is a
-> useful thing to know.
->
-> I get the point, but again, we have the exact same problem today with
-> placement, i.e. some devices require buffers to be in or not be in
-> VRAM or GTT or sysram for some uses, and some devices require physical
-> contiguity. Solving that problem would require an additional 4 bits,
-> which brings us to 2.3GB of modifiers per format with the current
-> scheme. Not super viable.
->
-
-Userspace doesn't determine placement. The kernel memory management can
-move buffers between heaps to accommodate sharing between devices as
-needed. This is a problem in which userspace has no say.
+It's most likely under-designed, but it exactly solves the problem. The
+minimum requirement for every modifier is that it must exactly identify a
+memory layout. Saying that we just need a pitch alignment of 256B (that's
+the AMD one) is not enough. Height alignment and image size alignment are
+required to make sure that the next plane doesn't start in the padding area
+because it can be overwritten randomly OR it can be read and cause a page
+fault if the full padding isn't allocated. Offset alignment is also
+required for multi plane images. If you want all allocators to allocate
+NV12 equally, the 5 fields are required.
 
 Marek
 
---0000000000004fc923062bb6caee
+--0000000000008139a7062bb71a54
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Jan 14, 2025 at 12:58=E2=80=AFPM Dani=
-el Stone &lt;<a href=3D"mailto:daniel@fooishbar.org">daniel@fooishbar.org</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi=
-,<br>
-<br>
-On Tue, 14 Jan 2025 at 09:38, Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:m=
-araeo@gmail.com" target=3D"_blank">maraeo@gmail.com</a>&gt; wrote:<br>
-&gt; I would keep the existing modifier interfaces, API extensions, and exp=
-ectations the same as today for simplicity.<br>
-<br>
-Well yes, not just for simplicity, but because everything stops<br>
-working if you don&#39;t.<br>
-<br>
-&gt; The new linear modifier definition (proposal) will have these fields:<=
-br>
-&gt;=C2=A0 =C2=A0 5 bits for log2 pitch alignment in bytes<br>
-&gt;=C2=A0 =C2=A0 5 bits for log2 height alignment in rows<br>
-&gt;=C2=A0 =C2=A0 5 bits for log2 offset alignment in bytes<br>
-&gt;=C2=A0 =C2=A0 5 bits for log2 minimum pitch in bytes<br>
-&gt;=C2=A0 =C2=A0 5 bits for log2 minimum (2D) image size in bytes<br>
-&gt;<br>
-&gt; The pitch and the image size in bytes are no longer arbitrary values. =
-They are fixed values computed from {width, height, bpp, modifier} as follo=
-ws:<br>
-&gt;=C2=A0 =C2=A0 aligned_width =3D align(width * bpp / 8, 1 &lt;&lt; log2_=
-pitch_alignment);<br>
-&gt;=C2=A0 =C2=A0 aligned_height =3D align(height, 1 &lt;&lt; log2_height_a=
-lignment);<br>
-&gt;=C2=A0 =C2=A0 pitch =3D max(1 &lt;&lt; log2_minimum_pitch, aligned_widt=
-h);<br>
-&gt;=C2=A0 =C2=A0 image_size =3D max(1 &lt;&lt; log2_minimum_image_size, pi=
-tch * aligned_height);<br>
-&gt;<br>
-&gt;<br>
-&gt; The modifier defines the layout exactly and non-ambiguously. Overalign=
-ing the pitch or height is not supported. Only the offset alignment has som=
-e freedom regarding placement. Drivers can expose whatever they want within=
- that definition, even exposing only 1 linear modifier is OK. Then, you can=
- look at modifiers of other drivers if you want to find commonalities.<br>
-<br>
-I don&#39;t see how this squares with the first statement.<br>
-<br>
-AMD hardware is the only hardware I know of which doesn&#39;t support<br>
-overaligning. Say (not hypothetically) we have a GPU and a display<br>
-controller which have a minimum pitch alignment of 32 bytes, no<br>
-minimum height alignment, minimum 32-byte offset alignment, minimum<br>
-pitch of 32 bytes, and minimum image size of 32 bytes.<br>
-<br>
-To be maximally compatible, we&#39;d have to expose 28 (pitch align) * 32<b=
-r>
-(height align) * 28 (offset align) * 28 (min pitch) * 28 (min size) =3D=3D<=
-br>
-19668992 individual modifiers when queried, which is 150MB per format<br>
-just to store the list of modifiers.<br></blockquote><div><br></div><div>Ma=
-ximum compatibility is not required nor expected.<br></div><div><br></div><=
-div>In your case, only 1 linear modifier would be added for that driver, wh=
-ich is:</div><div>log2 pitch alignment =3D 5</div><div>log2 height alignmen=
-t =3D 0</div><div>log2 offset alignment =3D 5</div><div>log2 minimum pitch =
-=3D 5</div><div>log2 minimum image size =3D 5</div><div><br></div><div>Then=
- if, and only if, compatibility with other devices is desired, the driver d=
-eveloper could look at drivers of those other devices and determine which o=
-ther linear modifiers to add. Ideally it would be just 1, so there would be=
- a total of 2.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-<br>
-&gt; DRM_FORMAT_MOD_LINEAR needs to go because it prevents apps from detect=
-ing whether 2 devices have 0 compatible memory layouts, which is a useful t=
-hing to know.<br>
-<br>
-I get the point, but again, we have the exact same problem today with<br>
-placement, i.e. some devices require buffers to be in or not be in<br>
-VRAM or GTT or sysram for some uses, and some devices require physical<br>
-contiguity. Solving that problem would require an additional 4 bits,<br>
-which brings us to 2.3GB of modifiers per format with the current<br>
-scheme. Not super viable.<br></blockquote><div><br></div><div>Userspace doe=
-sn&#39;t determine placement. The kernel memory management can move buffers=
- between heaps to accommodate sharing between devices as needed. This is a =
-problem in which userspace has no say.<br></div></div><div class=3D"gmail_q=
-uote gmail_quote_container"><br></div><div class=3D"gmail_quote gmail_quote=
-_container">Marek<br></div></div>
+=3D"ltr" class=3D"gmail_attr">On Tue, Jan 14, 2025 at 1:34=E2=80=AFPM Faith=
+ Ekstrand &lt;<a href=3D"mailto:faith@gfxstrand.net">faith@gfxstrand.net</a=
+>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><u>=
+</u>
 
---0000000000004fc923062bb6caee--
+<div>
+<div dir=3D"auto">
+<div dir=3D"auto"><span style=3D"font-size:10pt">On January 14, 2025 03:39:=
+45 Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mailto:maraeo@gmail.com" target=3D"=
+_blank">maraeo@gmail.com</a>&gt; wrote:</span></div><div id=3D"m_-147009351=
+912632687aqm-original" style=3D"color:black"><div><div style=3D"color:black=
+">
+<blockquote type=3D"cite" class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.75ex;border-left:1px solid rgb(128,128,128);padding-left:0.75ex">
+<div dir=3D"ltr"><div>I would keep the existing modifier interfaces, API ex=
+tensions, and expectations the same as today for simplicity.</div><div><br>=
+</div><div><div>The new linear modifier definition (proposal) will have the=
+se fields:</div><div>=C2=A0=C2=A0 5 bits for log2 pitch alignment in bytes<=
+/div><div>=C2=A0=C2=A0 5 bits for log2 height alignment in rows<br></div><d=
+iv>=C2=A0=C2=A0 5 bits for log2 offset alignment in bytes</div><div><div>=
+=C2=A0=C2=A0 5 bits for log2 minimum pitch in bytes<br></div><div><div>=C2=
+=A0=C2=A0 5 bits for log2 minimum (2D) image size in bytes</div></div></div=
+></div></div></blockquote></div></div></div><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">I&#39;m not strictly opposed to adding a new modifier or two=
+ but this seems massively over-designed. First off, no one uses anything bu=
+t simple 2D images for WSI and BOs are allocated in units of 4k pages so 2,=
+ 4, and 5 can go. If we assume pitch alignment and offset alignment are the=
+ same (and offset is almost always 0 anyway), 3 can go.</div><div dir=3D"au=
+to"><br></div><div dir=3D"auto">Even with that, I&#39;m struggling to see h=
+ow useful this is. My understanding is that you&#39;re trying to solve a pr=
+oblem where you need an exact 64-byte alignment for some AMD scanout stuff.=
+ That&#39;s not even possible to support on Nvidia (minimum alignment is 12=
+8B) so practically you&#39;re looking at one modifier that&#39;s shared bet=
+ween AMD and Intel. Why can&#39;t we just add an AMD modifier, make Intel s=
+upport it, and move on?=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Otherwise we&#39;re massively exploding the modifier space for... Why=
+? Intel will have to advertise basically all of them. Nvidia will advertise=
+ most of them. AMD will advertise something. And now apps have tens of thou=
+sands of modifiers to sort through when we could have just added one and so=
+lved the problem.</div></div></div></blockquote><div></div><div><br></div><=
+div></div>I don&#39;t think I&#39;m being understood. See my reply to Danie=
+l. There is no exploding of anything. It&#39;s the same thing we have today=
+ for vendor modifiers - lots of fields with lots of possible values, but on=
+ly a few values are used.<br></div><div class=3D"gmail_quote gmail_quote_co=
+ntainer"><br></div><div class=3D"gmail_quote gmail_quote_container">It&#39;=
+s most likely under-designed, but it exactly solves the problem. The minimu=
+m requirement for every modifier is that it must exactly identify a memory =
+layout. Saying that we just need a pitch alignment of 256B (that&#39;s the =
+AMD one) is not enough. Height alignment and image size alignment are requi=
+red to make sure that the next plane doesn&#39;t start in the padding area =
+because it can be overwritten randomly OR it can be read and cause a page f=
+ault if the full padding isn&#39;t allocated. Offset alignment is also requ=
+ired for multi plane images. If you want all allocators to allocate NV12 eq=
+ually, the 5 fields are required.</div><div class=3D"gmail_quote gmail_quot=
+e_container"><br></div><div class=3D"gmail_quote gmail_quote_container">Mar=
+ek<br></div></div>
+
+--0000000000008139a7062bb71a54--
