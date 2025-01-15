@@ -2,91 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99511A1211C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6513A121A0
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:58:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B26F10E050;
-	Wed, 15 Jan 2025 10:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFF1710E5C0;
+	Wed, 15 Jan 2025 10:58:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pFzr+MBj";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lzo3SM0J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
- [209.85.167.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4097E10E050
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 10:53:22 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id
- 2adb3069b0e04-5401be44b58so6608123e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736938341; x=1737543141; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Pe/eBfFEXTtaUJSGQddUyoy4TU9vZhAttfqc4jZ26Q0=;
- b=pFzr+MBj6GXLDc6XZyjhRR3lK6sQ+Tqd5H+uoeWEHLHiUN1qZAAHfEbYCN7fQr34/Q
- UCYEjVvJxpa2hIPbulNmQZWl+mxMr9Bv8pQUYI2c165BX5ymG+Z6ggGWqYgY/zCKQsMk
- SO+Yed7/1kKSiMx9ad4vumsDXJxItmPcz4LoDPLe3/z6TO1+/qDWQF41Wn03QGJDv1Pu
- mvCLaA8ydQBbNCMOokaYuQfdWi0VRg2crVwRcLJeiLA5KOIJHRe0+p3X8H2i6fLxCOKw
- qQeXQaCX5YJStMx2ojalZ/E/NM3d1FWt2qIHurhlwRb/3zLq4IzCopaBicGqm1nfwD0R
- y3Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736938341; x=1737543141;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Pe/eBfFEXTtaUJSGQddUyoy4TU9vZhAttfqc4jZ26Q0=;
- b=vWe0F02iyXJRQnZy7eZMTfH39uiw6qlmaG444H56aFcaJ07ZRA2dSIou/YAYT3YtEI
- BWkxOe9I/zev12AMtSuZ5dDc6/3K4jFmUhnFXSWt8mBGgWi8N2FVHPpsosINr7Sbiozx
- KE7NfWQiUWco0AeFHIA3Emr7c6y0jPpgiG1cyvwVsT5NOYLZof7EYxfBASzM6m4I9ABX
- xoI3FxQyRMdUPfDUuvE+k+m861KTSZI3CwKp+m06o99zLDVvCFp2t+ny9C489u8BYA2p
- EqdM1VyuEgBSYznzNh4OJ7rWagu75lks18pzmrxw7eyqLHp8588+d2kcMTk6WMcv9PcO
- Frqg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZL8dGisijzjfdIgAFX+s861bObRf4zGqJvKSM4E28eWBt5T2lATmQ4Hs3ObmOa0ILB5ToR1A1WKk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzJ6rzQEZM3sKFvSq0E1+0dUC9I9b8Ql+IcmmbMzjWt5lk37YHk
- Ad3x6TjPbBens+cYvmmiWGZWVQyxvh/75i00n8i5ttlU25FjxcVt2VRaYb8993o=
-X-Gm-Gg: ASbGnctA3KZGRTJyIMl6wUf24+lUEpd+y3JJBYxfn6u7/mr1HX2QBP2QE6a4gl84zgo
- ZJOQJmqDTikvPd5I8X/u5nyNJw7DKMj3M/wTs9m1S8V8sW1DqspBmkYWWpvR16bYVBtGsqu/TG7
- KFmfdqZi4HEF1llwZsbYKz+V3OLrFHZZSVeNPZViRT4maWp8kQDxlIBYY8wWDqI8z+yBEYoxZfP
- xQkfo02LsoKUtza0TenHS18/S2+DvrQakZIj9DV5uAVAMp6wyHl1i4gCwrDfSDWbUmewSwSWE6w
- iUDgm+MdIB+7GiLabwgMVGhY2K2k/QBXZnK+
-X-Google-Smtp-Source: AGHT+IHeKdiQSnCENW2p/w1cSkoj9QJFoIKOkLbHmvFxXqBqc894Ujkrox/BKO+Ug0RQedpSMn3Lyg==
-X-Received: by 2002:a05:6512:158f:b0:542:28a9:dcbf with SMTP id
- 2adb3069b0e04-542845bac70mr8509007e87.23.1736938340583; 
- Wed, 15 Jan 2025 02:52:20 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-542988bc730sm1278012e87.252.2025.01.15.02.52.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2025 02:52:20 -0800 (PST)
-Date: Wed, 15 Jan 2025 12:52:17 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC/RFT 2/9] drm/display: add CEC helpers code
-Message-ID: <mdabdkkdofrwbgs3rxk4iez2yxk4u6hdaxbxyqvi6quxdlm3kx@yc63rpibgwpt>
-References: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
- <20241225-drm-hdmi-connector-cec-v1-2-b80380c67221@linaro.org>
- <20250107-psychedelic-earthworm-of-action-cf5ceb@houat>
- <CAA8EJppxnVuVL9LH1Ars0=SKBM1L05Z5KwA_z1_+=dBugfrL-g@mail.gmail.com>
- <20250114-wandering-curly-manul-67ced4@houat>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC6410E4F0;
+ Wed, 15 Jan 2025 10:58:54 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E93E4AD;
+ Wed, 15 Jan 2025 11:57:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1736938675;
+ bh=PHvyrlfL90DWijiSoft7XP7rReZoqz0LHMvPolG3eVc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lzo3SM0Jh0gt3jMLAaQUsepDmw7eYUBnlka5hbbPJnOVGveG2GsivekYsCC/wVcWM
+ Fpv1tfAAWSv7Wahb71B2n7RvzSXmVxJHOI1MGlNmaSR3eC23tKmnhwmEeri17hRi+x
+ h9NpTRQ9X4CPbC+pYA0xfkGmK5O2KaoBdQa05y/Q=
+Message-ID: <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
+Date: Wed, 15 Jan 2025 12:58:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250114-wandering-curly-manul-67ced4@houat>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andy Yan <andyshrk@163.com>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-26-tzimmermann@suse.de>
+ <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
+ <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,108 +112,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2025 at 04:45:09PM +0100, Maxime Ripard wrote:
-> On Tue, Jan 07, 2025 at 06:18:07PM +0200, Dmitry Baryshkov wrote:
-> > On Tue, 7 Jan 2025 at 16:32, Maxime Ripard <mripard@kernel.org> wrote:
-> > >
-> > > On Wed, Dec 25, 2024 at 01:10:10AM +0200, Dmitry Baryshkov wrote:
-> > > > Add generic CEC helpers to be used by HDMI drivers. Both notifier and
-> > > > and adapter are supported for registration. Once registered, the driver
-> > > > can call common set of functions to update physical address, to
-> > > > invalidate it or to unregister CEC data.
-> > > >
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > ---
-> > > >  drivers/gpu/drm/display/Kconfig               |   5 +
-> > > >  drivers/gpu/drm/display/Makefile              |   2 +
-> > > >  drivers/gpu/drm/display/drm_hdmi_cec_helper.c | 145 ++++++++++++++++++++++++++
-> > > >  include/drm/display/drm_hdmi_cec_helper.h     |  38 +++++++
-> > > >  4 files changed, 190 insertions(+)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
-> > > > index 8d22b7627d41f7bc015decf24ae02a05bc00f055..49da9b768acf3e5f84f2cefae4bb042cfd57a50c 100644
-> > > > --- a/drivers/gpu/drm/display/Kconfig
-> > > > +++ b/drivers/gpu/drm/display/Kconfig
-> > > > @@ -82,6 +82,11 @@ config DRM_DISPLAY_HDMI_AUDIO_HELPER
-> > > >         DRM display helpers for HDMI Audio functionality (generic HDMI Codec
-> > > >         implementation).
-> > > >
-> > > > +config DRM_DISPLAY_HDMI_CEC_HELPER
-> > > > +     bool
-> > > > +     help
-> > > > +       DRM display helpers for HDMI CEC implementation.
-> > > > +
-> > > >  config DRM_DISPLAY_HDMI_HELPER
-> > > >       bool
-> > > >       help
-> > > > diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
-> > > > index b17879b957d5401721396e247fa346387cf6c48a..2cd078e2b81c1a9e6b336c4187b444bcb8a50e51 100644
-> > > > --- a/drivers/gpu/drm/display/Makefile
-> > > > +++ b/drivers/gpu/drm/display/Makefile
-> > > > @@ -16,6 +16,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DSC_HELPER) += \
-> > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
-> > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_AUDIO_HELPER) += \
-> > > >       drm_hdmi_audio_helper.o
-> > > > +drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_CEC_HELPER) += \
-> > > > +     drm_hdmi_cec_helper.o
-> > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
-> > > >       drm_hdmi_helper.o \
-> > > >       drm_scdc_helper.o
-> > > > diff --git a/drivers/gpu/drm/display/drm_hdmi_cec_helper.c b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
-> > > > new file mode 100644
-> > > > index 0000000000000000000000000000000000000000..2a3832e68232fa3b839a3c7457b2013779cada86
-> > > > --- /dev/null
-> > > > +++ b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
-> > > > @@ -0,0 +1,145 @@
-> > > > +// SPDX-License-Identifier: MIT
-> > > > +/*
-> > > > + * Copyright (c) 2024 Linaro Ltd
-> > > > + */
-> > > > +
-> > > > +#include <drm/drm_bridge.h>
-> > > > +#include <drm/drm_connector.h>
-> > > > +#include <drm/display/drm_hdmi_cec_helper.h>
-> > > > +
-> > > > +#include <linux/mutex.h>
-> > > > +
-> > > > +#include <media/cec.h>
-> > > > +#include <media/cec-notifier.h>
-> > > > +
-> > > > +static void drm_connector_hdmi_cec_adapter_unregister(struct drm_connector *connector)
-> > > > +{
-> > > > +     cec_unregister_adapter(connector->cec.adapter);
-> > > > +     connector->cec.adapter = NULL;
-> > > > +     connector->cec.unregister = NULL;
-> > > > +}
-> > > > +
-> > > > +int drm_connector_hdmi_cec_adapter_register(struct drm_connector *connector,
-> > > > +                                         const struct cec_adap_ops *ops,
-> > > > +                                         const char *name,
-> > > > +                                         u8 available_las,
-> > > > +                                         int (*init_cec)(struct drm_connector *connector),
-> > > > +                                         void (*uninit_cec)(struct drm_connector *connector),
-> > > > +                                         struct device *dev)
-> > >
-> > > We're missing a documentation here. Why do we need drivers to pass both
-> > > a set of cec_adap_ops and a bunch of extra functions? Shouldn't we make
-> > > this a single structure like we did for audio?
-> > 
-> > Also might be an option, I didn't want to add extra wrappers in the
-> > first place, but I can add them.
-> > 
-> > >
-> > > Also, to remain consistent, we should call that function drm_connector_hdmi_cec_register
-> > 
-> > I wanted to point out the _adapter_ part, because we also have
-> > whatever_cec_notifier_register() and at some point we might also get
-> > whatever_cec_pin_register() if we wrap sun4i implementation too.
+Hi,
+
+On 15/01/2025 12:26, Thomas Zimmermann wrote:
+> Hi
 > 
-> I think we can get away with drm_connector_hdmi_cec_register,
-> drm_connector_hdmi_cec_pin_register (or bitbanged, or polled, or gpio,
-> or whatever), and drm_connector_hdmi_cec_notifier_register
+> 
+> Am 15.01.25 um 11:13 schrieb Tomi Valkeinen:
+>> Hi!
+>>
+>> On 09/01/2025 16:57, Thomas Zimmermann wrote:
+>>> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
+>>> buffer size. Align the pitch according to hardware requirements.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>> ---
+>>>   drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
+>>>   1 file changed, 5 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/ 
+>>> xlnx/zynqmp_kms.c
+>>> index b47463473472..7ea0cd4f71d3 100644
+>>> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+>>> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+>>> @@ -19,6 +19,7 @@
+>>>   #include <drm/drm_crtc.h>
+>>>   #include <drm/drm_device.h>
+>>>   #include <drm/drm_drv.h>
+>>> +#include <drm/drm_dumb_buffers.h>
+>>>   #include <drm/drm_encoder.h>
+>>>   #include <drm/drm_fbdev_dma.h>
+>>>   #include <drm/drm_fourcc.h>
+>>> @@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct 
+>>> drm_file *file_priv,
+>>>                       struct drm_mode_create_dumb *args)
+>>>   {
+>>>       struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
+>>> -    unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+>>> +    int ret;
+>>>         /* Enforce the alignment constraints of the DMA engine. */
+>>> -    args->pitch = ALIGN(pitch, dpsub->dma_align);
+>>> +    ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
+>>> +    if (ret)
+>>> +        return ret;
+>>>         return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
+>>>   }
+>>
+>> I have some trouble with this one.
+>>
+>> I have sent a series to add some pixel formats:
+>>
+>> https://lore.kernel.org/all/20250115-xilinx-formats- 
+>> v2-0-160327ca652a@ideasonboard.com/
+>>
+>> Let's look at XV15. It's similar to NV12, but 10 bits per component, 
+>> and some packing and padding.
+>>
+>> First plane: 3 pixels in a 32 bit group
+>> Second plane: 3 pixels in a 64 bit group, 2x2 subsampled
+>>
+>> So, on average, a pixel on the first plane takes 32 / 3 = 10.666... 
+>> bits on a line. That's not a usable number for the 
+>> DRM_IOCTL_MODE_CREATE_DUMB ioctl.
+>>
+>> What I did was to use the pixel group size as "bpp" for 
+>> DRM_IOCTL_MODE_CREATE_DUMB. So, e.g., for 720 x 576:
+>>
+>> Stride for first plane: 720 * (32 / 3) / 8 = 960 bytes
+>> Stride for second plane: 720 / 2 * (64 / 3) / 8 = 960 bytes
+>>
+>> First plane: 720 / 3 = 240 pixel groups
+>> Second plane: 720 / 2 / 3 = 120 pixel groups
+>>
+>> So I allocated the two planes with:
+>> 240 x 576 with 32 bitspp
+>> 120 x 288 with 64 bitspp
+>>
+>> This worked, and if I look at the DRM_IOCTL_MODE_CREATE_DUMB in the 
+>> docs, I can't right away see anything there that says my tactic was 
+>> not allowed.
+>>
+>> The above doesn't work anymore with this patch, as the code calls 
+>> drm_driver_color_mode_format(), which fails for 64 bitspp. It feels a 
+>> bit odd that DRM_IOCTL_MODE_CREATE_DUMB will try to guess the RGB 
+>> fourcc for a dumb buffer allocation.
+>>
+>> So, what to do here? Am I doing something silly? What's the correct 
+>> way to allocate the buffers for XV15? Should I just use 32 bitspp for 
+>> the plane 2 too, and double the width (this works)?
+>>
+>> Is DRM_IOCTL_MODE_CREATE_DUMB only meant for simple RGB formats? The 
+>> xilinx driver can, of course, just not use drm_mode_size_dumb(). But 
+>> if so, I guess the limitations of drm_mode_size_dumb() should be 
+>> documented.
+>>
+>> Do we need a new dumb-alloc ioctl that takes the format and plane 
+>> number as parameters? Or alternatively a simpler dumb-alloc that 
+>> doesn't have width and bpp, but instead takes a stride and height as 
+>> parameters? I think those would be easier for the userspace to use, 
+>> instead of trying to adjust the parameters to be suitable for the kernel.
+> 
+> These are all good points. Did you read my discussion with Andy on patch 
+> 2? I think it resolves all the points you have. The current CREATE_DUMB 
 
-Ack
+I had missed the discussion, and, indeed, the patch you attached fixes 
+the problem on Xilinx.
 
--- 
-With best wishes
-Dmitry
+> ioctl is unsuited for anything but the simple RGB formats. The bpp 
+
+It's a bit difficult to use, but is it really unsuited? bitsperpixel, 
+width and height do give an exact pitch and size, do they not? It does 
+require the userspace to handle the subsampling and planes, though, so 
+far from perfect.
+
+So, I'm all for a new ioctl, but I don't right away see why the current 
+ioctl couldn't be used. Which makes me wonder about the drm_warn() in 
+your patch, and the "userspace throws in arbitrary values for bpp and 
+relies on the kernel to figure it out". Maybe I'm missing something here.
+
+> parameter is not very precise. The solution would be a new ioctl call 
+> that receives the DRM format and returns a buffer for each individual 
+> plane.
+
+Yes, I think that makes sense. That's a long road, though =). So my 
+question is, is CREATE_DUMB really unsuitable for other than simple RGB 
+formats, or can it be suitable if we just define how the userspace 
+should use it for multiplanar, subsampled formats?
+
+  Tomi
+
