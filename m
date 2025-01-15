@@ -2,89 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF64A1153F
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 00:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928F1A11640
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 01:53:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D48510E396;
-	Tue, 14 Jan 2025 23:19:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8889E10E496;
+	Wed, 15 Jan 2025 00:53:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ShNJIVOP";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="er66LOrt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B70D310E396
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 23:19:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1736896775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vEH78C4VpeJFY/2kdzUK4Z+Gvb2+CGFwdUUzW6v1srY=;
- b=ShNJIVOPrWP4Kx6TDQV3Hq4o/5rVKgXVHX6FlMC8bn0WD9ynD05gcoY0uwGm7NY0k8M6aw
- wPuAcatSje74rrIgkfQdRxq9w5MMKZ9EkVGBS2LjSusKHSN2064rID1smSiBFVqy8deC3x
- 7foY6qygZVotEE9tSmdtkZ76q6aqdCs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-Ofw_OIYlPRG7fpXmMI1ZRg-1; Tue, 14 Jan 2025 18:19:33 -0500
-X-MC-Unique: Ofw_OIYlPRG7fpXmMI1ZRg-1
-X-Mimecast-MFC-AGG-ID: Ofw_OIYlPRG7fpXmMI1ZRg
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-4362b9c1641so28516375e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Jan 2025 15:19:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736896772; x=1737501572;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vEH78C4VpeJFY/2kdzUK4Z+Gvb2+CGFwdUUzW6v1srY=;
- b=ZnB+1fLUPEAtcQP/ahW1vQ/e+0ctjGIZQX50+UBs0CkEUPDVy7zX+UxsM8Ok2RZvP0
- AmZYzQRBVFR2eMiJ5E/1fMR6+Sm923vd8Ra59Odhq3X0vit+xeXB2XUflUDRY85wCmtL
- iRjOyL7bCNfQZi8t4uACM/tQnXy//v64A2rdEblJgx05zC+Y40oKWgQSaOlGtzHwiQuc
- zk/4DyEzWOOA2XGLn3cjhMBd7DtW0Dqa26ULT/CkLXxeWNrugabFemjUyW1TqCNONMQX
- Q2nUUbMJz9elmWlN3tY/tgLee7AuzSkTqJpzq8DfJHLspBIYUaxSY9dGN4YR8KLwJXbc
- 5QkQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVBBszbQ+kyX4jZTiH+ySQty2V1I2Q56VODLX12dahGOyxSuK/UvNM6rVh2mtKuJGhx8kuecTyW4Sw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx/TR/ilRPB7f9rpS+9zVHhqeCAqXvgvFJLAPA6BZCs7qD0WwMq
- 2nurBjhDgcHnKs73BMYIF3d1yg4hwUi4VkLHcQhiWV1uc9M8NS7xodUKrJXuUCv7nTYBWoTwt0g
- plJM2a86qGhR3i0VM6yBuPSaE4BKUvgo+Qj86ezxKlUWeQ5XcACRV3w0gfWMQxzJHKQ==
-X-Gm-Gg: ASbGncubTqZZbrusf530h2V4Y/Xdl3dtYUc87sWi0pWxcT3TT7IN/y/3qCHm9TJIvyo
- S6P+NQfYoYy7rjVCBMTfcUk+7rFnqPbEh79/RhX4CKXu0f6YI3Wu5Bzq2WeA8YZ3DbS5j8jlUjG
- ZWv0jaS6ODX0yQ5kFYuIktS5EmRrYvhALzDwCndohQrlu9Lt+voR7FUnFsksJuGgLeymXFDEFx7
- T0K78FK9Wr7mXfLoJhK3xkskLsaIp4hsQSQgQXIyFRAFktn6+vDsRlMl7EwlJyIjSDoIqgH/fVZ
- wH4qjPkz4hs+y0LrfVM183KVuiqbE4bR6izWzFQ=
-X-Received: by 2002:a05:600c:3505:b0:434:a7b6:10e9 with SMTP id
- 5b1f17b1804b1-436e26a9045mr259532885e9.17.1736896772613; 
- Tue, 14 Jan 2025 15:19:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHWz6ammZEBbT/nuGvY3Rz/ahY09xIAHiCyZ9AgrNGDygX+MT179mirdv9eYOPWOGlEdRYU/A==
-X-Received: by 2002:a05:600c:3505:b0:434:a7b6:10e9 with SMTP id
- 5b1f17b1804b1-436e26a9045mr259532695e9.17.1736896772231; 
- Tue, 14 Jan 2025 15:19:32 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-437c7499b28sm2526785e9.8.2025.01.14.15.19.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Jan 2025 15:19:30 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: John Keeping <jkeeping@inmusicbrands.com>
-Cc: John Keeping <jkeeping@inmusicbrands.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/ssd130x: ensure ssd132x pitch is correct
-In-Reply-To: <20250113152752.3369731-4-jkeeping@inmusicbrands.com>
-References: <20250113152752.3369731-1-jkeeping@inmusicbrands.com>
- <20250113152752.3369731-4-jkeeping@inmusicbrands.com>
-Date: Wed, 15 Jan 2025 00:19:28 +0100
-Message-ID: <87seplvv9b.fsf@minerva.mail-host-address-is-not-set>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1243510E491;
+ Wed, 15 Jan 2025 00:53:19 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EGjSCa027410;
+ Wed, 15 Jan 2025 00:53:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ q1aaMtfue3Erfim9hTrFJ3g3HIRgzpfT8EkW2qZOzt4=; b=er66LOrtVRh7cKJM
+ wxzoKuBCQVe5rC2jFcurFOZCDN2sL4j8l6CnRZ42QGm4sVljOMdSYE6NTg9odlBp
+ RT6qx81hGHLrasMaf66z+C+nVj+bWfsJnR0Enxcu6NdvK5Ytbzn/nWVrkoMEBiEW
+ rw5wwGf+ATOdshWOIJ72CsZp+Xo1YtOYL6Mfv1TdD8Z3gWZwdfHCX1fVR/mwdgwt
+ X7N6q4IZlUHpG/9VCyFRO8LEUwFgAwzIfl75a+TS/v/ylwZWDUCKRPbpN3ZSNF73
+ pEePlPWk04hDd37GGZ7I+3RSa2e9H2be8Auq72jLvIptUj4gSHpkF1RXmE/Cxx50
+ 3ixhOw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445uqsgyp1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jan 2025 00:53:12 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50F0rBjU021808
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 15 Jan 2025 00:53:11 GMT
+Received: from [10.71.108.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 Jan
+ 2025 16:53:11 -0800
+Message-ID: <0fcc05ba-a126-4214-8a3d-9586cd5e8d88@quicinc.com>
+Date: Tue, 14 Jan 2025 16:53:10 -0800
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: E8Gr6RQhUaqAgo8TwCskimLDYKxAXK7ohQ-SJxgadnQ_1736896773
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 9/9] drm/msm/dpu: drop
+ dpu_core_perf_params::max_per_pipe_ib
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, Stephen
+ Boyd <swboyd@chromium.org>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, Konrad Dybcio <konradybcio@kernel.org>
+References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
+ <20250106-dpu-perf-rework-v4-9-00b248349476@linaro.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250106-dpu-perf-rework-v4-9-00b248349476@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: EnwGwqZyAl0pFTQde28354SdCY84uKpx
+X-Proofpoint-ORIG-GUID: EnwGwqZyAl0pFTQde28354SdCY84uKpx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-14_09,2025-01-13_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0
+ bulkscore=0 mlxscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ adultscore=0 suspectscore=0 malwarescore=0 priorityscore=1501
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501150004
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,55 +94,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-John Keeping <jkeeping@inmusicbrands.com> writes:
 
-> The bounding rectangle is adjusted to ensure it aligns to
-> SSD132X_SEGMENT_WIDTH, which may adjust the pitch.  Calcuate the pitch
 
-Calculate
-
-> after alighting the left and right edge.
->
-
-aligning
-
-> Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
+On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
+> The max_per_pipe_ib is a constant across all CRTCs and is read from the
+> catalog. The override value is also applied at the
+> _dpu_core_perf_crtc_update_bus() time. Drop corresponding calculations
+> and read the value directly at icc_set_bw() time.
+> 
+> Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/solomon/ssd130x.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
-> index 64f1123080996..38f31c3624062 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.c
-> +++ b/drivers/gpu/drm/solomon/ssd130x.c
-> @@ -1037,7 +1037,7 @@ static int ssd132x_fb_blit_rect(struct drm_framebuffer *fb,
->  				struct drm_format_conv_state *fmtcnv_state)
->  {
->  	struct ssd130x_device *ssd130x = drm_to_ssd130x(fb->dev);
-> -	unsigned int dst_pitch = drm_rect_width(rect);
-> +	unsigned int dst_pitch;
->  	struct iosys_map dst;
->  	int ret = 0;
->  
-> @@ -1046,6 +1046,8 @@ static int ssd132x_fb_blit_rect(struct drm_framebuffer *fb,
->  	rect->x2 = min_t(unsigned int, round_up(rect->x2, SSD132X_SEGMENT_WIDTH),
->  			 ssd130x->width);
->  
-> +	dst_pitch = drm_rect_width(rect);
-> +
->  	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
->  	if (ret)
->  		return ret;
-> -- 
-> 2.47.1
->
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 16 ++++------------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  2 --
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  2 --
+>   3 files changed, 4 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> index 913eb4c01abe10c1ed84215fbbee50abd69e9317..62dab5883513dc570076da5a64e32e502dd4320b 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> @@ -105,12 +105,10 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
+>   	}
+>   
+>   	perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+> -	perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+>   	perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+>   	DRM_DEBUG_ATOMIC(
+> -		"crtc=%d clk_rate=%llu core_ib=%u core_ab=%u\n",
+> +		"crtc=%d clk_rate=%llu core_ab=%u\n",
+>   			crtc->base.id, perf->core_clk_rate,
+> -			perf->max_per_pipe_ib,
+>   			(u32)DIV_ROUND_UP_ULL(perf->bw_ctl, 1000));
+>   }
+>   
+> @@ -126,9 +124,6 @@ static void dpu_core_perf_aggregate(struct drm_device *ddev,
+>   		    curr_client_type == dpu_crtc_get_client_type(tmp_crtc)) {
+>   			dpu_cstate = to_dpu_crtc_state(tmp_crtc->state);
+>   
+> -			perf->max_per_pipe_ib = max(perf->max_per_pipe_ib,
+> -						    dpu_cstate->new_perf.max_per_pipe_ib);
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+During the enabled cases, this is fine since even if one crtc is 
+enabled, its going to use the same value.
 
--- 
-Best regards,
+During disable to enable and enable to disable transitions, we do need 
+to make it 0 right?
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+OR if its already being made 0, we need to make sure it gets updated by 
+forcing update_bus to true?
 
+Is this part being handled by this block dpu_core_perf_crtc_update()?
+
+         } else {
+                 DRM_DEBUG_ATOMIC("crtc=%d disable\n", crtc->base.id);
+                 memset(old, 0, sizeof(*old));
+                 update_bus = true;
+                 update_clk = true;
+         }
+
+Please confirm this, I am fine with this change otherwise.
+
+> -
+>   			perf->bw_ctl += dpu_cstate->new_perf.bw_ctl;
+>   
+>   			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu\n",
+> @@ -204,7 +199,7 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+>   	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+>   
+>   	avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
+> -	peak_bw = perf.max_per_pipe_ib;
+> +	peak_bw = kms->catalog->perf->min_dram_ib;
+>   
+>   	if (kms->perf.fix_core_ab_vote)
+>   		avg_bw = kms->perf.fix_core_ab_vote;
+> @@ -315,15 +310,12 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+>   		 * 2. new bandwidth vote - "ab or ib vote" is lower
+>   		 *    than current vote at end of commit or stop.
+>   		 */
+> -		if ((params_changed && ((new->bw_ctl > old->bw_ctl) ||
+> -			(new->max_per_pipe_ib > old->max_per_pipe_ib)))	||
+> -			(!params_changed && ((new->bw_ctl < old->bw_ctl) ||
+> -			(new->max_per_pipe_ib < old->max_per_pipe_ib)))) {
+> +		if ((params_changed && new->bw_ctl > old->bw_ctl) ||
+> +		    (!params_changed && new->bw_ctl < old->bw_ctl)) {
+>   			DRM_DEBUG_ATOMIC("crtc=%d p=%d new_bw=%llu,old_bw=%llu\n",
+>   				crtc->base.id, params_changed,
+>   				new->bw_ctl, old->bw_ctl);
+>   			old->bw_ctl = new->bw_ctl;
+> -			old->max_per_pipe_ib = new->max_per_pipe_ib;
+>   			update_bus = true;
+>   		}
+>   
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> index 9d8516ca32d162b1e277ec88067e5c21abeb2017..863a6fc1f30c21cf2030a30be5fe62b024b3b820 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
+> @@ -14,12 +14,10 @@
+>   
+>   /**
+>    * struct dpu_core_perf_params - definition of performance parameters
+> - * @max_per_pipe_ib: maximum instantaneous bandwidth request
+>    * @bw_ctl: arbitrated bandwidth request
+>    * @core_clk_rate: core clock rate request
+>    */
+>   struct dpu_core_perf_params {
+> -	u32 max_per_pipe_ib;
+>   	u64 bw_ctl;
+>   	u64 core_clk_rate;
+>   };
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> index ac3c6c5ad1cec3856f0eff2ed71153d3c2dc279e..cc240d3c7faa89254a575237634d0d0fa8f04f73 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> @@ -1488,8 +1488,6 @@ static int dpu_crtc_debugfs_state_show(struct seq_file *s, void *v)
+>   			dpu_crtc->cur_perf.core_clk_rate);
+>   	seq_printf(s, "bw_ctl: %uk\n",
+>   		   (u32)DIV_ROUND_UP_ULL(dpu_crtc->cur_perf.bw_ctl, 1000));
+> -	seq_printf(s, "max_per_pipe_ib: %u\n",
+> -				dpu_crtc->cur_perf.max_per_pipe_ib);
+>   
+>   	return 0;
+>   }
+> 
