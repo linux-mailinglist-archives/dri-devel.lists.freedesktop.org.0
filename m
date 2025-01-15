@@ -2,53 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC891A11E65
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 10:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE2CA11EA9
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 10:56:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA1E10E4EE;
-	Wed, 15 Jan 2025 09:46:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A6D410E5AD;
+	Wed, 15 Jan 2025 09:56:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="CJyn/8Dt";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rup4ZTWO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KlpMRZEp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rup4ZTWO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KlpMRZEp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1288410E4EE
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 09:46:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=j45rGLkLgoUeyM5Fm4pWiCglSnPWpfDAJDIcLJ2jHEQ=; b=C
- Jyn/8Dtu/YW60tDnXlRN/2SCo54Pv7N+Ixz+37Nqdu8cF8KZujBvdgdiUSAOCm8z
- vFBRLR7DCDZAODZFk6Y4ZUpOJrKKPk6UfyfLlAlND3GsjxhXGMlrw6EqI+FKdeGC
- D8YmZBgIAgQhh8eauExj9gA+jHw76tpi186LUE6AUM=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-117 (Coremail) ; Wed, 15 Jan 2025 17:45:37 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Wed, 15 Jan 2025 17:45:37 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Doug Anderson" <dianders@chromium.org>
-Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, neil.armstrong@linaro.org, tzimmermann@suse.de, 
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F85710E5AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 09:56:27 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8E4562122A;
+ Wed, 15 Jan 2025 09:55:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736934955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=weD20aehtOjo/bZftakV2RdUJ+MSvWHGdrEZIJAk29w=;
+ b=rup4ZTWOd+qLCGeOgLUQHWA+oyUzPPWwSF48XoVUf9gxBqi3F6pFWJSFskPWazAzVMNAML
+ IGAgXUHMSSCY3OXuO2Qvm9LKPPQWxoqpWNJDIJIfpx4uhpEPoqlpxz9j919AGnISxYFWJ7
+ xxgtImfG0O3zm4UExp1I85X4HGrsrZY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736934955;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=weD20aehtOjo/bZftakV2RdUJ+MSvWHGdrEZIJAk29w=;
+ b=KlpMRZEprZ4RF62gB3mQivxxXlUledsAnFFsZzBWPqlebAijOLEAKm1KVzdTYRYSUWCllw
+ Qz9TfzNJy8Pmc0DA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736934955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=weD20aehtOjo/bZftakV2RdUJ+MSvWHGdrEZIJAk29w=;
+ b=rup4ZTWOd+qLCGeOgLUQHWA+oyUzPPWwSF48XoVUf9gxBqi3F6pFWJSFskPWazAzVMNAML
+ IGAgXUHMSSCY3OXuO2Qvm9LKPPQWxoqpWNJDIJIfpx4uhpEPoqlpxz9j919AGnISxYFWJ7
+ xxgtImfG0O3zm4UExp1I85X4HGrsrZY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736934955;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=weD20aehtOjo/bZftakV2RdUJ+MSvWHGdrEZIJAk29w=;
+ b=KlpMRZEprZ4RF62gB3mQivxxXlUledsAnFFsZzBWPqlebAijOLEAKm1KVzdTYRYSUWCllw
+ Qz9TfzNJy8Pmc0DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57196139CB;
+ Wed, 15 Jan 2025 09:55:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CYbgEyuGh2fDHwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 15 Jan 2025 09:55:55 +0000
+Message-ID: <fcc31ba7-a514-4bfa-9590-8a8c2fe538e7@suse.de>
+Date: Wed, 15 Jan 2025 10:55:54 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panel-edp: Add BOE NV140FHM-N4Z panel entry
+To: Doug Anderson <dianders@chromium.org>, Andy Yan <andyshrk@163.com>
+Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, neil.armstrong@linaro.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re:Re: Re:[PATCH] drm/panel-edp: Add BOE NV140FHM-N4Z panel entry
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
 References: <20250113085956.2150207-1-andyshrk@163.com>
  <34a1058f.9829.1945f2b448c.Coremail.andyshrk@163.com>
  <341c653.7fa6.194640f0f37.Coremail.andyshrk@163.com>
  <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
-X-NTES-SC: AL_Qu2YBPWYu0so4SiaY+lS/DNQ2YpmHKvs4olgqcQkZd0qqTHPyz4QZ0BuLUbI3d4CGI0eR17X31t020v2V4xA
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <1302120.8c5b.194695aad26.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: dSgvCgD3P2bBg4dnrOBXAA--.35323W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqRnVXmeHeqbdXAABsH
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[chromium.org,163.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[8]; MIME_TRACE(0.00)[0:+];
+ MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[163.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,65 +144,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhpIERvdWcsCgrlnKggMjAyNS0wMS0xNSAwMDo0NDo0Me+8jCJEb3VnIEFuZGVyc29uIiA8ZGlh
-bmRlcnNAY2hyb21pdW0ub3JnPiDlhpnpgZPvvJoKPkhpLAo+Cj5PbiBUdWUsIEphbiAxNCwgMjAy
-NSBhdCAxOjA14oCvQU0gQW5keSBZYW4gPGFuZHlzaHJrQDE2My5jb20+IHdyb3RlOgo+Pgo+Pgo+
-PiBIaSBBbGwsCj4+Cj4+IEF0IDIwMjUtMDEtMTMgMTg6MTc6MzgsICJBbmR5IFlhbiIgPGFuZHlz
-aHJrQDE2My5jb20+IHdyb3RlOgo+PiA+Cj4+ID5Tb3JyeSwgcGxlYXNlIGRvbid0IG1lcmdlIHRo
-aXMgcGF0Y2guIGFmdGVyIGZ1cnRoZXIgdGVzdGluZywKPj4gPkkgZm91bmQgdGhhdCB0aGVyZSBh
-cmUgc3RpbGwgc29tZSBjaGFuZ2NlLCBpdCBjYW4ndCByZWFkIGVkaWQuCj4+Cj4+IEl0IHR1cm5z
-IG91dCB0aGF0IHdlIG5lZWQgc2V0IGhwZC1yZWxpYWJsZS1kZWxheS1tcyA9IDEyMCBpbiBkdHMg
-dG8gZW5zdXJlCj4+IHRoZSByaWdodCB0aW1lIHRvIGFjY2VzcyBlZGlkLgo+Cj5UaGF0IHNlZW1z
-IGF3ZnVsbHkgaGlnaCBhbmQgZmVlbHMgbGlrZWx5IHRvIGJlIGEgcHJvYmxlbSB3aXRoIHlvdXIK
-PmJvYXJkIGRlc2lnbiBhbmQgbm90IHRoZSBwYW5lbC4gQXJlIHlvdSBzdXJlIEhQRCBpcyBldmVu
-IGhvb2tlZCB1cAo+cHJvcGVybHkgb24geW91ciBib2FyZD8gTWF5YmUgeW91J3JlIG1pc3Npbmcg
-YSBwdWxsdXAvcHVsbGRvd24gY29uZmlnCj5zb21ld2hlcmU/IFdvdWxkIGl0IGJlIGJldHRlciB0
-byBqdXN0IHNwZWNpZnkgIm5vLWhwZCIgYW5kIGdldCB0aGUKPmZ1bGwgIkhQRCBhYnNlbnQiIGRl
-bGF5Pwo+CgpZZXMsIHlvdSBhcmUgcmlnaHQsIGFmdGVyIGNoZWNraW5nIHRoZSBzY2hlbWF0aWMs
-IEkgZm91bmQgdGhhdCB0aGUgSERQIGluZGVlZCBkb2VzIG5vdApob29rZWQgdXAgb24gdGhlIGJv
-YXJkLiAKCkkgZG8gbW9yZSB0ZXN0cyB3aXRoIGhwZC1yZWxpYWJsZS1kZWxheS1tcyB0byBhIHNo
-b3J0IHZhbHVlLCBGcm9tIHRoZSBjdXJyZW50IHRlc3RzLCB0aGlzCnZhbHVlIGNhbiBiZSBzZXQg
-YmVsb3cgMTAsIGV2ZW4gbG93ZXIsIGJ1dCBJIG5lZWQgdG8gZG8gbW9yZSB0ZXN0cyB0byBjb25m
-aXJtIGhvdyBsb3cKaXQgY2FuIGFjdHVhbGx5IGJlIHNldOOAggoKVGhhbmsgeW91LgoKPgo+PiBT
-byB0aGUgcGF0Y2ggaXMgb2ssIGl0IGlzIHJlYWR5IGZvciByZXZpZXcuCj4+Cj4+ID4KPj4gPkF0
-IDIwMjUtMDEtMTMgMTY6NTk6NTQsICJBbmR5IFlhbiIgPGFuZHlzaHJrQDE2My5jb20+IHdyb3Rl
-Ogo+PiA+PkFkZCBhbiBlRFAgcGFuZWwgZW50cnkgZm9yIEJPRSBOVjE0MEZITS1ONFouCj4+ID4+
-Cj4+ID4+Tm8gZGF0YXNoZWV0IGZvdW5kIGZvciB0aGlzIHBhbmVsLgo+Cj5JIHNlZW0gdG8gYmUg
-YWJsZSB0byBmaW5kIGEgZGF0YXNoZWV0IGZvciBzb21ldGhpbmcgdGhhdCBjYWxscyBpdHNlbGYK
-Pk5WMTQwRkhNLU40WiwgYnV0IGl0IG1pZ2h0IGJlIGEgZGlmZmVyZW50IEhXIHZlcnNpb24gc2lu
-Y2UgaXQgaGFzIGEKPmRpZmZlcmVudCBJRC4gSW4gbXkgZGF0YXNoZWV0LCB0aG91Z2gsICJwcmVw
-YXJlX3RvX2VuYWJsZSIgc2hvdWxkIGJlCj44MCBmb3IgdGhpcyBwYW5lbCwgbm90IDIwMC4gVGhh
-dCBtYXRjaGVzIGFub3RoZXIgbmVhcmJ5IHBhbmVsCj4iTlYxNDBXVU0tTjQxIi4gQXJlIHlvdSBz
-dXJlIHlvdSBuZWVkIDIwMD8KPgo+Cj4+ID4+ZWRpZDoKPj4gPj4wMCBmZiBmZiBmZiBmZiBmZiBm
-ZiAwMCAwOSBlNSAwOSAwYiAwMCAwMCAwMCAwMAo+PiA+PjAxIDIwIDAxIDA0IGE1IDFmIDExIDc4
-IDAzIDliIDc1IDk5IDViIDVkIDhmIDJhCj4+ID4+MjMgNTAgNTQgMDAgMDAgMDAgMDEgMDEgMDEg
-MDEgMDEgMDEgMDEgMDEgMDEgMDEKPj4gPj4wMSAwMSAwMSAwMSAwMSAwMSBjOCAzNyA4MCBjYyA3
-MCAzOCAyOCA0MCA2YyAzMAo+PiA+PmFhIDAwIDM1IGFlIDEwIDAwIDAwIDFhIDAwIDAwIDAwIGZk
-IDAwIDMwIDNjIDQzCj4+ID4+NDMgOGYgMDEgMGEgMjAgMjAgMjAgMjAgMjAgMjAgMDAgMDAgMDAg
-ZmUgMDAgNDIKPj4gPj40ZiA0NSAyMCA0OCA0NiAwYSAyMCAyMCAyMCAyMCAyMCAyMCAwMCAwMCAw
-MCBmZQo+PiA+PjAwIDRlIDU2IDMxIDM0IDMwIDQ2IDQ4IDRkIDJkIDRlIDM0IDVhIDBhIDAwIDM1
-Cj4+ID4+Cj4+ID4+U2lnbmVkLW9mZi1ieTogQW5keSBZYW4gPGFuZHlzaHJrQDE2My5jb20+Cj4+
-ID4+LS0tCj4+ID4+Cj4+ID4+IGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1lZHAuYyB8IDEg
-Kwo+PiA+PiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPgo+RldJVyBpdCdzIGdvb2Qg
-dGhhdCBUaG9tYXMgcmVwbGllZCB0byB5b3VyIHBhdGNoLCBzaW5jZSB0aGF0IHdhcyB0aGUKPm9u
-bHkgdGhpbmcgdGhhdCBzaG93ZWQgdXAgaW4gbXkgaW5ib3guIFlvdXIgaW5pdGlhbCBwYXRjaCBz
-aG93ZWQgdXAgYXMKPnNwYW0gZm9yIG1lLiA6KCBOb3Qgc3VyZSB3aHksIHRob3VnaC4uLgo+Cj4K
-Pj4gPj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWVkcC5jIGIvZHJp
-dmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWVkcC5jCj4+ID4+aW5kZXggOTRhNDYyNDFkZWNlLi5h
-MzQwMmI3NmFhM2UgMTAwNjQ0Cj4+ID4+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVs
-LWVkcC5jCj4+ID4+KysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWVkcC5jCj4+ID4+
-QEAgLTE5MDksNiArMTkwOSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZWRwX3BhbmVsX2VudHJ5
-IGVkcF9wYW5lbHNbXSA9IHsKPj4gPj4gICAgICBFRFBfUEFORUxfRU5UUlkoJ0InLCAnTycsICdF
-JywgMHgwYWM1LCAmZGVsYXlfMjAwXzUwMF9lNTAsICJOVjExNldITS1ONEMiKSwKPj4gPj4gICAg
-ICBFRFBfUEFORUxfRU5UUlkoJ0InLCAnTycsICdFJywgMHgwYWU4LCAmZGVsYXlfMjAwXzUwMF9l
-NTBfcDJlODAsICJOVjE0MFdVTS1ONDEiKSwKPj4gPj4gICAgICBFRFBfUEFORUxfRU5UUlkoJ0In
-LCAnTycsICdFJywgMHgwYjM0LCAmZGVsYXlfMjAwXzUwMF9lODAsICJOVjEyMldVTS1ONDEiKSwK
-Pj4gPj4rICAgICBFRFBfUEFORUxfRU5UUlkoJ0InLCAnTycsICdFJywgMHgwYjA5LCAmZGVsYXlf
-MjAwXzUwMF9lNTBfcDJlMjAwLCAiTlYxNDBGSE0tTloiKSwKPj4gPj4gICAgICBFRFBfUEFORUxf
-RU5UUlkoJ0InLCAnTycsICdFJywgMHgwYjQzLCAmZGVsYXlfMjAwXzUwMF9lMjAwLCAiTlYxNDBG
-SE0tVDA5IiksCj4KPlRoaXMgaXMgbWlzLXNvcnRlZC4gMHhiMDkgc2hvdWxkIGJlIF9iZWZvcmVf
-IDB4MGIzNC4gSSdsbCBvZnRlbiBmaXgKPnRoaXMgdXAgd2hlbiBhcHBseWluZyAodGhvdWdoIGl0
-J3MgbW9yZSB3b3JrIGZvciBtZSksIGJ1dCBzaW5jZSBJIGhhZAo+YSBxdWVzdGlvbiBhYm92ZSBh
-Ym91dCBkZWxheV8yMDBfNTAwX2U1MF9wMmUyMDAgdnMuCj5kZWxheV8yMDBfNTAwX2U1MF9wMmU4
-MCBtYXliZSB5b3UgY2FuIGFuc3dlciBhbmQgYWxzbyBzZW5kIGEgdjIgd2l0aAo+dGhlIHNvcnQg
-b3JkZXIgZml4ZWQuCj4KPi1Eb3VnCg==
+Hi
+
+
+Am 14.01.25 um 17:44 schrieb Doug Anderson:
+>
+> FWIW it's good that Thomas replied to your patch, since that was the
+> only thing that showed up in my inbox. Your initial patch showed up as
+> spam for me. :( Not sure why, though...
+
+FTR, my R-b was for the code itself. I did not verify if the values are 
+meaningful/correct.
+
+Best regards
+Thomas
+
+>
+>
+>>>> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+>>>> index 94a46241dece..a3402b76aa3e 100644
+>>>> --- a/drivers/gpu/drm/panel/panel-edp.c
+>>>> +++ b/drivers/gpu/drm/panel/panel-edp.c
+>>>> @@ -1909,6 +1909,7 @@ static const struct edp_panel_entry edp_panels[] = {
+>>>>       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
+>>>>       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
+>>>>       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
+>>>> +     EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_p2e200, "NV140FHM-NZ"),
+>>>>       EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
+> This is mis-sorted. 0xb09 should be _before_ 0x0b34. I'll often fix
+> this up when applying (though it's more work for me), but since I had
+> a question above about delay_200_500_e50_p2e200 vs.
+> delay_200_500_e50_p2e80 maybe you can answer and also send a v2 with
+> the sort order fixed.
+>
+> -Doug
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
