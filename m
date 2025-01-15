@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665B3A12D36
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 22:06:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD82A12D37
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 22:06:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F97410E7FC;
-	Wed, 15 Jan 2025 21:06:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D2A10E800;
+	Wed, 15 Jan 2025 21:06:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ac+Eoaqa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aQRGmgoX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA2A10E800
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 21:06:37 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F22410E800
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 21:06:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 76E225C5E9C;
- Wed, 15 Jan 2025 21:05:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AF5FC4CED1;
- Wed, 15 Jan 2025 21:06:36 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D5C3EA41377;
+ Wed, 15 Jan 2025 21:04:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C751C4CEE3;
+ Wed, 15 Jan 2025 21:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736975197;
- bh=JlNpKq0AqEF+LIgcS78N6Jf/PshBRGdHw/rz3bhUe7g=;
+ s=k20201202; t=1736975199;
+ bh=sDDX/oiMtlwEuDb5DiMZpd8llHRvToc5ZvV7Y0vSefE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Ac+EoaqaOcamWhz3k5jOYDPP8RGEt1ahxxAZXzaEC5MCl8qlehQSzx+pI27svQUKn
- p0VxKC6QzR3qRrm5xXVzHh2s57pG7rNmrRsQJ28a4WNdXDFbK4of0iP59YwazSwTQ3
- l9C5k9QZ+qhDyW0VAE+RqS/nY+BU/2THunDNZYqd9SKXxFR4mINPYUHyz44/fD23+q
- T4LNg3YGDs0vFqsKf07vnC1I2CLZCBgjud0O7S2P4Q+1RiYbeXbXKkL008INsDyJyc
- KejMN9bDQGM1zh44VaXuBSmSyV66GX6HVwcqDuVKxv+HP9dNJ18nmYxOnBl3eAHCUv
- Bue2KcnpS42sA==
+ b=aQRGmgoXtOob3SAB5VN3V4zbRNadt2qCPZFhp9Y9t0KNtX16gTitwhGAHiryeK+Mt
+ hObV5WVLr6DOfOqzVlrQ2PKL3Jo3sal+LATk8eTRCzo9dijQCKwy+FQNWJlplEIABu
+ b2fpcwB6Yu2+vAGlklz5POgvUTZzwfOK5x7YFpdmlYtgpfTiEb3K0Bmclcw+pYffVP
+ zES3xkVZXaTGDk6TDZkar4E3C3YAJ5fIE99pMRHGD556BXo/c1/cGA6ahQ1si+rfW4
+ ue2YqgKUzc5BbEAiqNPcW0L36GaW0g2f5AAvKWfyr7pw1s+v5NuGH+NsQczdGqU832
+ O+iOehWHyFKfQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 Jan 2025 22:05:27 +0100
-Subject: [PATCH 20/29] drm/atomic-helper: Change parameter name of
- drm_atomic_helper_commit_cleanup_done()
+Date: Wed, 15 Jan 2025 22:05:28 +0100
+Subject: [PATCH 21/29] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_wait_for_flip_done()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250115-bridge-connector-v1-20-9a2fecd886a6@kernel.org>
+Message-Id: <20250115-bridge-connector-v1-21-9a2fecd886a6@kernel.org>
 References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
 In-Reply-To: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +51,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3045; i=mripard@kernel.org;
- h=from:subject:message-id; bh=JlNpKq0AqEF+LIgcS78N6Jf/PshBRGdHw/rz3bhUe7g=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOkdynLW95u89EVuNYV/fJybfo1PYRXnrRPxa5MVdm472
- HovKJ6xYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEzk33LGOt3mGNFvpUW8yQEf
- fpyTsLU+Ff1j75nwq1ukxc7d33SqMD2L/azLm8/1DAoxfy2DXv97wdgwceoepyJnhV5Rl8v/dOb
- KioiJbLz+a91MhZ3M/7wzJZ+FbnXxi/QQeWTLvFH3pXvu3eUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2600; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=sDDX/oiMtlwEuDb5DiMZpd8llHRvToc5ZvV7Y0vSefE=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOkdynL+RmJma9lFoo90X639eFjE4HVdy/W8lI0fgh2fH
+ Pv/7nR/x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZgI90/GhsU71zG3XrlomjNT
+ fLu9e/HhB2d8U0N1G7yeT53E3ne38un/vyVBWnx3uy9O2MObfjWPjbGG1zBxtVXD7rJegV7tm5J
+ pl37u4nRs2zLnX8vm/uNLdxi3mkuEvNkS2ySz88Nrx0/9BfMA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,83 +74,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_wait_for_dependencies() is the final part of a commit
-and signals it completion. It takes the drm_atomic_state being committed
-as a parameter.
+drm_atomic_helper_wait_for_flip_done() will wait for pages flips on all
+CRTCs affected by a given commit. It takes the drm_atomic_state being
+committed as a parameter.
 
 However, that parameter name is called (and documented) as old_state,
 which is pretty confusing. Let's rename that variable as state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 000ae2d4ded286458ee386e34336d650907a8073..baa32b10c4a08252b736927fedd36c3fccbe6020 100644
+index baa32b10c4a08252b736927fedd36c3fccbe6020..cb24e590a39f80c0cc5feb8b6a9a4fd41a651211 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -2541,36 +2541,36 @@ void drm_atomic_helper_commit_hw_done(struct drm_atomic_state *state)
- 		/* backend must have consumed any event by now */
- 		WARN_ON(new_crtc_state->event);
- 		complete_all(&commit->hw_done);
- 	}
- 
--	if (old_state->fake_commit) {
--		complete_all(&old_state->fake_commit->hw_done);
--		complete_all(&old_state->fake_commit->flip_done);
-+	if (state->fake_commit) {
-+		complete_all(&state->fake_commit->hw_done);
-+		complete_all(&state->fake_commit->flip_done);
- 	}
- }
- EXPORT_SYMBOL(drm_atomic_helper_commit_hw_done);
+@@ -1716,11 +1716,11 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+ EXPORT_SYMBOL(drm_atomic_helper_wait_for_vblanks);
  
  /**
-  * drm_atomic_helper_commit_cleanup_done - signal completion of commit
+  * drm_atomic_helper_wait_for_flip_done - wait for all page flips to be done
+  * @dev: DRM device
 - * @old_state: atomic state object with old state structures
 + * @state: atomic state object being committed
   *
-- * This signals completion of the atomic update @old_state, including any
-+ * This signals completion of the atomic update @state, including any
-  * cleanup work. If used, it must be called right before calling
-  * drm_atomic_state_put().
+  * Helper to, after atomic commit, wait for page flips on all affected
+  * crtcs (ie. before cleaning up old framebuffers using
+  * drm_atomic_helper_cleanup_planes()). Compared to
+  * drm_atomic_helper_wait_for_vblanks() this waits for the completion on all
+@@ -1729,32 +1729,32 @@ EXPORT_SYMBOL(drm_atomic_helper_wait_for_vblanks);
   *
-  * This is part of the atomic helper support for nonblocking commits, see
-  * drm_atomic_helper_setup_commit() for an overview.
+  * This requires that drivers use the nonblocking commit tracking support
+  * initialized using drm_atomic_helper_setup_commit().
   */
--void drm_atomic_helper_commit_cleanup_done(struct drm_atomic_state *old_state)
-+void drm_atomic_helper_commit_cleanup_done(struct drm_atomic_state *state)
+ void drm_atomic_helper_wait_for_flip_done(struct drm_device *dev,
+-					  struct drm_atomic_state *old_state)
++					  struct drm_atomic_state *state)
  {
  	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state;
- 	struct drm_crtc_commit *commit;
  	int i;
  
--	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
-+	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
- 		commit = old_crtc_state->commit;
- 		if (WARN_ON(!commit))
+ 	for (i = 0; i < dev->mode_config.num_crtc; i++) {
+-		struct drm_crtc_commit *commit = old_state->crtcs[i].commit;
++		struct drm_crtc_commit *commit = state->crtcs[i].commit;
+ 		int ret;
+ 
+-		crtc = old_state->crtcs[i].ptr;
++		crtc = state->crtcs[i].ptr;
+ 
+ 		if (!crtc || !commit)
  			continue;
  
- 		complete_all(&commit->cleanup_done);
-@@ -2579,13 +2579,13 @@ void drm_atomic_helper_commit_cleanup_done(struct drm_atomic_state *old_state)
- 		spin_lock(&crtc->commit_lock);
- 		list_del(&commit->commit_entry);
- 		spin_unlock(&crtc->commit_lock);
+ 		ret = wait_for_completion_timeout(&commit->flip_done, 10 * HZ);
+ 		if (ret == 0)
+ 			drm_err(dev, "[CRTC:%d:%s] flip_done timed out\n",
+ 				crtc->base.id, crtc->name);
  	}
  
--	if (old_state->fake_commit) {
--		complete_all(&old_state->fake_commit->cleanup_done);
--		WARN_ON(!try_wait_for_completion(&old_state->fake_commit->hw_done));
-+	if (state->fake_commit) {
-+		complete_all(&state->fake_commit->cleanup_done);
-+		WARN_ON(!try_wait_for_completion(&state->fake_commit->hw_done));
- 	}
+-	if (old_state->fake_commit)
+-		complete_all(&old_state->fake_commit->flip_done);
++	if (state->fake_commit)
++		complete_all(&state->fake_commit->flip_done);
  }
- EXPORT_SYMBOL(drm_atomic_helper_commit_cleanup_done);
+ EXPORT_SYMBOL(drm_atomic_helper_wait_for_flip_done);
  
  /**
+  * drm_atomic_helper_commit_tail - commit atomic update to hardware
 
 -- 
 2.47.1
