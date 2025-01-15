@@ -2,59 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80924A1299A
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 18:18:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC999A12A08
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 18:40:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9CAB10E07B;
-	Wed, 15 Jan 2025 17:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0388410E098;
+	Wed, 15 Jan 2025 17:40:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eSopfV5O";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="ny2nd8ek";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E00B10E07B
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 17:18:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D060EA407F4;
- Wed, 15 Jan 2025 17:16:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60EA2C4CED1;
- Wed, 15 Jan 2025 17:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736961497;
- bh=Opc70KPaMpCETIvcrSgDpc441Njxjw4Y92P7a86TPCQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eSopfV5OrjgHZYal+iEowIfiaZhIDtKkB5h6d84l3RpdILQ7WRbsEyZqNCXuMd+eG
- svBEm0n02jFZiJ4PQ0mL5r8LtflHJ89WCf1Bz/5/xOQBuvJhqTnj4gqsEZTYmU9+KS
- kDE6Jj2u+lokSMqRQi2soYjkqE+1elp+mJGjFPqHUPTW6bhWJUxepUEjI+FWqjSaEt
- ty50RIhvO4t4PyLLs2sECd0JacA0ef+oR4DJ5aasj3vaMDLqAbXu6R8qDI+L3WQMj3
- VDZCP2svI+Sq2mYBBrvEdqL77B4cAOOG3xAfvAH/HjdevQut2iMv2Uh8XinpXYAE/6
- 8BiN99ngmbk9A==
-Date: Wed, 15 Jan 2025 12:18:13 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Dave Airlie <airlied@gmail.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- stable@vger.kernel.org, ashutosh.dixit@intel.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: AAARRRGGGHHH!!!! (was Re: [PATCH 6.12.y] xe/oa: Fix query mode
- of operation for OAR/OAC)
-Message-ID: <Z4ft1fFjbwy0EF-X@lappy>
-References: <2025011247-spoilage-hamster-28b2@gregkh>
- <CAPM=9tx1cFzhaZNz=gQOmP9Q0KEK5fMKZYSc-P0xA_f2sxoZ9w@mail.gmail.com>
- <2025011352-fox-wrangle-4d3f@gregkh>
- <CAPM=9tzkJ=dn2gq7GcvtN_C95ZzxwC7XMMXHBrwF6Ez6fYfU=g@mail.gmail.com>
- <Z4Z8rQKR2QEaWNyI@phenom.ffwll.local> <Z4aIGvAmMld_uztJ@lappy>
- <Z4afbuFN1uc3zhOt@phenom.ffwll.local>
- <Z4d6406b82Pu1PRV@phenom.ffwll.local>
- <2025011503-algorithm-composed-3b81@gregkh>
- <Z4eY4rv8ygi9dRbz@phenom.ffwll.local>
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5D910E097
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 17:40:36 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-542af38ecd6so67183e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 09:40:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1736962834; x=1737567634;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Mz73g5TcvrvBHPsdJaagdGFSpXGt17yEX2lFAO6eWS8=;
+ b=ny2nd8ek7yGGuCXj8WWuPWCwTWmMO8E7HIpS2ko40bRXxcx1OSsEZPu00sIi9hsHXx
+ D9huQW+uqLi+Hq6vsUH+CmA00kY4PdsRXzkzRehqTdCa6JNvUli8bF9PuKEMDLO2fF+X
+ YOVWX6GZMy/oiKhmxVH8o/KXb7Rwo5p+3QDFI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736962834; x=1737567634;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Mz73g5TcvrvBHPsdJaagdGFSpXGt17yEX2lFAO6eWS8=;
+ b=Mm2NG+N9SJTjkEdLHD7+5kPomkraiGqhoJIlkkW37+Y6c5MEzGUpfMP1pEvh57zwUm
+ Dgn3kZyrq6HS97E25BZd9DKqnx1Wn6FewXiCAAvLYzi3pKGdDzEfbXKqiuwpEwLEItd3
+ u0ooCrgtEGlgg/u4ElZzG/Z2PYwIfYRoMORHgTquRbjuA0PCpa2UWy8SYIbw+ZnAm+ov
+ DbV4WJ+lCrYngG8FUKJDoQmRVtprwrcZU7O3IKgM+GBORu1yWfaEUL3I9+tfT8QbWndl
+ HuP0J6LyQqbqrLDtZlOBHHXCM/aGC+hLUexR80XcLp51L5pU199Trhd2N8IatqRxHb/p
+ 4eog==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXCkmm2hz7p6hTNH5AnMxWCE/AyGyy3fXvwU4xawxLhHGfFhdgZsWqDem0nwSvjJvs/hlU7bsMgGaA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxePZ98nedfr4cXcz95kdAVrDGiqhFS9irE5t0S81TrmaEy1lVS
+ Fo6OG7Fk4s4R4KHlytYNS3Ce/iFwjggfN6pwtsj5TqB/lz1omxzVutiwv2c4FBUiiVEYqx4OC4T
+ sDQ==
+X-Gm-Gg: ASbGncsOae6sFKDuaGyMF4RYCBXTBxnF2U/u6P1ohf/eRDMxs+IdtWf97CB7kIrHq28
+ f74d+loG+PT0NiI5sIiP4o6hkV8d0/i3+apqwQ+dmRIeZvvhTN0X+1DPW7MgL21/YlCn3fk/p0O
+ KrWWtw7LnxAduL21wXNOBgtKy9iYGwQKhEzyUMh5BX1xeoKNKf7J7bX4TeRjx//XnOe3t4nQIcg
+ nXuEiI6pz81hLzX/drE7zfB8bdPM74gWBZ6DJES4m2NBpUM2jPIMJQvt1vgARyq3E3R7IWhcToN
+ ouBISZ9MtwRAh3qG3/Qi/pMH
+X-Google-Smtp-Source: AGHT+IH75WBDXf0LR/YQdeOhzj9nm7qALCEkP7ODEc66/6PEDaiTZhM2pyGY+g+4GsCNuZ/itqpQCQ==
+X-Received: by 2002:a05:6512:3192:b0:53e:335e:7756 with SMTP id
+ 2adb3069b0e04-54284815d10mr9259669e87.46.1736962833878; 
+ Wed, 15 Jan 2025 09:40:33 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com.
+ [209.85.208.177]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54298287db5sm1391024e87.130.2025.01.15.09.40.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jan 2025 09:40:32 -0800 (PST)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-3047818ac17so316461fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 09:40:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWM+rTErUUAY4CQuQ1Sg/V2SQ95zJYaWv+SjcNT/sLuAyHlY7XFo84Od4dlxwPcVEeDfCHA2oZv+oQ=@lists.freedesktop.org
+X-Received: by 2002:a05:651c:1595:b0:306:f7b:20b with SMTP id
+ 38308e7fff4ca-3060f7b02b1mr73624081fa.24.1736962831693; Wed, 15 Jan 2025
+ 09:40:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z4eY4rv8ygi9dRbz@phenom.ffwll.local>
+References: <20250113085956.2150207-1-andyshrk@163.com>
+ <34a1058f.9829.1945f2b448c.Coremail.andyshrk@163.com>
+ <341c653.7fa6.194640f0f37.Coremail.andyshrk@163.com>
+ <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
+ <1302120.8c5b.194695aad26.Coremail.andyshrk@163.com>
+In-Reply-To: <1302120.8c5b.194695aad26.Coremail.andyshrk@163.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 15 Jan 2025 09:40:20 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XU6Jij=ddAcq3F=VjP=Ls6DxSQ8VY6o+QHXHmagAkUFg@mail.gmail.com>
+X-Gm-Features: AbW1kvanDvNK5NFQ7b3yVQObEHyCYHBBYizwfFzgb-yspK76t1_loCCzdCm4Huk
+Message-ID: <CAD=FV=XU6Jij=ddAcq3F=VjP=Ls6DxSQ8VY6o+QHXHmagAkUFg@mail.gmail.com>
+Subject: Re: Re: Re:[PATCH] drm/panel-edp: Add BOE NV140FHM-N4Z panel entry
+To: Andy Yan <andyshrk@163.com>
+Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, neil.armstrong@linaro.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,106 +103,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2025 at 12:15:46PM +0100, Simona Vetter wrote:
->On Wed, Jan 15, 2025 at 10:38:34AM +0100, Greg KH wrote:
->So my understanding is that you got confused by this:
+Hi,
+
+On Wed, Jan 15, 2025 at 1:45=E2=80=AFAM Andy Yan <andyshrk@163.com> wrote:
 >
->> commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16 upstream
 >
->$ git log --grep="(cherry picked from commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16)" --since="6 month ago"   --pretty=oneline
->f0ed39830e6064d62f9c5393505677a26569bb56
+> Hi Doug,
 >
->And yes f0ed39830e6064d62f9c5393505677a26569bb56 is the commit you care
->about for stable backport and cve tracking purposes, because it's the one
->in v6.13-rc6.
+> =E5=9C=A8 2025-01-15 00:44:41=EF=BC=8C"Doug Anderson" <dianders@chromium.=
+org> =E5=86=99=E9=81=93=EF=BC=9A
+> >Hi,
+> >
+> >On Tue, Jan 14, 2025 at 1:05=E2=80=AFAM Andy Yan <andyshrk@163.com> wrot=
+e:
+> >>
+> >>
+> >> Hi All,
+> >>
+> >> At 2025-01-13 18:17:38, "Andy Yan" <andyshrk@163.com> wrote:
+> >> >
+> >> >Sorry, please don't merge this patch. after further testing,
+> >> >I found that there are still some changce, it can't read edid.
+> >>
+> >> It turns out that we need set hpd-reliable-delay-ms =3D 120 in dts to =
+ensure
+> >> the right time to access edid.
+> >
+> >That seems awfully high and feels likely to be a problem with your
+> >board design and not the panel. Are you sure HPD is even hooked up
+> >properly on your board? Maybe you're missing a pullup/pulldown config
+> >somewhere? Would it be better to just specify "no-hpd" and get the
+> >full "HPD absent" delay?
+> >
 >
->And the thing is, Sasha's bot found that one too:
+> Yes, you are right, after checking the schematic, I found that the HDP in=
+deed does not
+> hooked up on the board.
 >
->https://lore.kernel.org/all/20250110164811-61a12d6905bb8676@stable.kernel.org/
->
->Except Sasha's bot plays guessing games, the above git log query is exact.
+> I do more tests with hpd-reliable-delay-ms to a short value, From the cur=
+rent tests, this
+> value can be set below 10, even lower, but I need to do more tests to con=
+firm how low
+> it can actually be set=E3=80=82
 
-Cool, can we test it out? I'll try and pick a recent commit (2024).
+If HPD isn't hooked up on your board then I would suggest using the
+"no-hpd" + "hpd-absent-delay-ms" instead of "hpd-reliable-delay-ms".
+That more accurately describes your hardware. I'd personally pick "200
+ms" for your "hpd-absent-delay-ms" unless you know for sure that all
+the panels you might hook up have less or more. 200 ms is very common
+for the max HPD time.
 
-Let's assume that I'm looking at the v6.10 git tree before 50aec9665e0b
-("drm/xe: Use ordered WQ for G2H handler") made it upstream ("git
-checkout v6.10" will do the trick), and I get a backport request that
-says:
-
-	commit 50aec9665e0babd62b9eee4e613d9a1ef8d2b7de upstream
-
-I run my trusty script that says "50aec9665e0b isn't real, grep for
-cherry picked from line!". My trusty script runs the query you've
-provided:
-
-$ git log --grep="(cherry picked from commit 50aec9665e0babd62b9eee4e613d9a1ef8d2b7de)" --since="6 month ago"   --pretty=oneline
-2d9c72f676e6f79a021b74c6c1c88235e7d5b722 drm/xe: Use ordered WQ for G2H handler
-c002bfe644a29ba600c571f2abba13a155a12dcd drm/xe: Use ordered WQ for G2H handler
-
-Which commit do I pick? Note that they are slightly different from
-eachother, and c002bfe644 landed in v6.9 while 2d9c72f676 landed in
-v6.10.
-
->Like I tried to explain in my reply to Sasha somewhere else in this thread
->it really only takes two things:
->- drm maintainers consistently add cherry picked from lines anytime we
->  cherry-pick
->- you adjust your script to go hunt for the cherry pick alias if you get a
->  sha1 that makes no sense, so that you can put in the right sha1. And if
->  you do that for any sha1 you find (whether upstream references, Fixes:
->  or Reverts or stable candidate commits or whatever really), it will sort
->  out all the things we've been shouting about for years now.
-
-We still have holes here... For example, this backport claims to:
-
-	Fixes: 8135f1c09dd2 ("drm/xe/oa: Don't reset OAC_CONTEXT_ENABLE on OA stream close")
-
-But 8135f1c09dd2 is a cherry-pick:
-
-	(cherry picked from commit 0c8650b09a365f4a31fca1d1d1e9d99c56071128)
-
-In the future, if we get a new patch that says:
-
-	Fixes: 0c8650b09a36 ("drm/xe/oa: Don't reset OAC_CONTEXT_ENABLE on OA stream close")
-
-By your logic, our scripts will look at it and say "0c8650b09a36 is a
-real commit, but it's not in linux-6.12.y so there's no need to backport
-the fix".
-
-Which is the wrong thing to do, because we have 8135f1c09dd2 in
-linux-6.12.y.
-
-So no, this isn't a simple trace-the-cherry-pick-tags exercise.
-
->  Automatically, without human intervention, because it's just a git
->  oneliner.
-
-So look at the backport in question which started this thread. The
-backporter ends up with:
-
-"""
-[...]
-
-commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16 upstream
-
-[...]
-
-Fixes: 8135f1c09dd2 ("drm/xe/oa: Don't reset OAC_CONTEXT_ENABLE on OA stream close")
-Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com> # commit 1
-Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Cc: stable@vger.kernel.org # 6.12+
-Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241220171919.571528-2-umesh.nerlige.ramappa@intel.com
-(cherry picked from commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16)
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-(cherry picked from commit f0ed39830e6064d62f9c5393505677a26569bb56)
-
-"""
-
-Where most of the git IDs in it are invalid right now :)
-
--- 
-Thanks,
-Sasha
+-Doug
