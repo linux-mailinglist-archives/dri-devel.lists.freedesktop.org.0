@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A66A11C3B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 09:41:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E9E5A11C48
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 09:43:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D6310E56A;
-	Wed, 15 Jan 2025 08:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF0F510E4E9;
+	Wed, 15 Jan 2025 08:43:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PjIjPJuQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dlfzgOMg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A753D10E56A
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 08:41:55 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-30613802a04so40211961fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 00:41:55 -0800 (PST)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0093910E566
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 08:43:29 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-54263b52b5aso6605588e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 00:43:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736930514; x=1737535314; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736930548; x=1737535348; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TdXKX+DElTWdQSe1iA/sdCzGpS4cDFP9391dO93DZTs=;
- b=PjIjPJuQpLADkyTrXYqu23FhHfVzEBMZZkO2Pdk+G8xzlbiLmiXW812hEmuf76Lsqq
- aztvPxDMCIDbVrP8sAdoUokwYeD/FsrVx/K+CjlsXS4/raG3HlumMuxOTgPeHTj4IDxL
- 59l3YsP6FO++2yvrG2+jIsg+5wT7SIFIAkPwQ4QnfAtno5PBJAWReL3uZB0PqknbqL/b
- NgUTD7nnGrfz56Ev7HwdeEtZZQQvJmLOO31LVPaK/y3Evji8AiNJTz7Dv8LCd6KZhSBy
- xCMaO9cfnS+9VQ13hZ8hmeNoDQJNqkzTcRk/dNUsCdPwXZyn/EHyCUBEOW9JL07aD/Kz
- Y5ZQ==
+ bh=lZk/iR/++ahrsJFkMAeCydXncYIA/yDJCJs2b060X04=;
+ b=dlfzgOMgOPZxITpLlG8/dI+0fxN+CjjqglluTfJKyTSktXee/J4qQ0IA4owetcnbRE
+ Q9e2fYcZcmatcjN7K4tmyqQ6+saxwfXVUQMRTS27DfRAVntjhdve7gs/s9OJ3js0NZgG
+ VMk6awY6vJAQbRtPYIWPTVBaxpY1huUBkpYCeUlN9wcXzK4ZWbpU9ns/rtGXJ9GhO7pz
+ zTZk7eX2O0BCHBueq2VHhHhKU/I2md29B46UJW8NetcyKvy7KqyiMLcnnWvh7+dLfPYg
+ JEVnAa2o2VW+32bXNfoDJgakNCccbD2n/mN9KZoW+iiUnGJTS4jdw3QAEqLuCMdoxkF4
+ fNng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736930514; x=1737535314;
+ d=1e100.net; s=20230601; t=1736930548; x=1737535348;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TdXKX+DElTWdQSe1iA/sdCzGpS4cDFP9391dO93DZTs=;
- b=cu1gxs4lk23/ymWbwI+taUeu4qfRKkgq/tj9RT6GSQkyD7DtmfzArGNWOOQeJUWaAp
- heETUtWEeKVt3tWzzIhdBkdrdWPR/ZhCXnN/mbzX9BKwEtarg+EJfdaQGDKrbG+g7iqQ
- mxsiz+XFS7Lbm0EMXm7tC6M07EXnNqFLBqMoQGUp4d8EGcWNm2GcJtfhIWwFEpN/5PQG
- f5yN6oggj3wf1kA76GWaukbPTg3y11YD4pDirSSkj1qqfVoLFWT/7sIUHfPCYJiljhOi
- 3eMWfpDAp/WpIfvQAsnL4d75IzHEb0FeaiTQ8+rWPnz6342TMIYL2NIlIsUaETmLuZrx
- 3qbw==
+ bh=lZk/iR/++ahrsJFkMAeCydXncYIA/yDJCJs2b060X04=;
+ b=J+QfpATPzXOPC3Dc7m8016ahCLgU8l1m5ag/OyqDYvtXB23+Ij7qD4q0mU6Waet5uq
+ BOW79/C1b0JsxBtVJUbZP3wpkHn/Qj5b6vOMrQOf7OuYlUcGNb6iDYYoLS3FsaUyVjuv
+ Y0FgB7LNq7DEScI7tYIzhB/hBgw5ezMDjNsrRknsWLwk0BUGktvJOwQrsTjS3/7O4jEO
+ hrO/Vg+LQ1eAN2NPV/9nR25jcQbO9wDXAYVcocsNwVPOoWtuTko0MSe2OCI1IO30NeQ9
+ zvmib5P7EUXT1ZPPI5hIEcoP/1R91GxfEgU/scJRIGPCVe34rZuDsamY6d84VbrFBMOn
+ c+UQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXIXIDKYkE2HZPKozv4mi5RCe/iwGiR0vHKmr/R0ScOhDdOtH+STyOq32iaPZyarKIedcrO6kL5op8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6kupaejS09vzfKBBB8Hnp1t1BXPouJcGDe99A5/8TbsZkYlzh
- NyIfsOpG0q4OjS+b/v5K3WTiBhQuQi06PrJW6SCC/VkbdlPbqJM8a9+ZweHlids=
-X-Gm-Gg: ASbGncu2l8HBZjiXJF0SrgGYVgvpsysGblouhUEKDHa/TY32W5UWpMPlVN8s09uaad0
- Hv91EfH6rDUf9N37pOfmIlGtgME6I4KB3GZ7R2yAHKFTyJTjNWVw0TudN5zC43GE9jhJLO9+kq/
- mFkZN6P+YlE7OsoCfPMecuRg4t2uilfAyKZ+DL38LVdqRfRjTivt+bWT/KTbvWOkVHSnJD4It0V
- QsPIa2nXd72xkbx0AIesTl2vZhzFR8G3MVCPDrwJG5Uc/Mny9gAaU3j6w2NfEwnuKtoeV8mTmA+
- oRPZNfVyztoYx/Ae0kAMIWizLTwMHLx0t9L2
-X-Google-Smtp-Source: AGHT+IFepbkE4RMrmQ34QSMlcth3dnNyGKbzaxJER2+6cB4YSdoaV02zFA/hFD1vHxGGwE7iVc6AQQ==
-X-Received: by 2002:a2e:be8a:0:b0:302:1b18:2bfa with SMTP id
- 38308e7fff4ca-305f45b25e8mr98179571fa.23.1736930513860; 
- Wed, 15 Jan 2025 00:41:53 -0800 (PST)
+ AJvYcCXUF/dMAsKhQgCmSp/t3M16gLh71EglBzLxRS9l5IR65ME1ky/2PPASOTlI1Q7Avkx6x20dqnSP9Us=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJfhNUy7IFkZrN7UaW7/uFts1chiNgcnUTsRqSfaFSgKYe+YvW
+ Prq43OIolyNWA/mInmSdUFwLj2w6T290G1Z/jzpuqKUwyy0iEPtD4mVjdFvScvE=
+X-Gm-Gg: ASbGncsRjtx96CgKjQ9kGfa13rVqGSq4pg6UgZq2yt+9cWeJu8yU2kpii1O0FL/Q06H
+ XFkLyrcqcZJ0/CB+WRt8Oc18eRjBFVtQn6MCsXG9UFVANU71kRKK78Ks3ZM044A3cIPwQ7B68Vu
+ +K/XuPOvFsXKODUFxihAcU0injtYz5usNFQnfWBmQ+OWY6dqQw9ch3BCmCiQCHbgF9UBZhhHbPF
+ /FcPj1XHKwIBsOLBD2FlVPxvSk9JewV/W6/EZs3y8jnal8C9SzbNRgQJIcvR8Vpen7DARgeoGsx
+ 6nrAXM0MJ2sBf341QRBclo8pcFjbSyNhAMLY
+X-Google-Smtp-Source: AGHT+IHxu2bWsq5LOpgqWeFg+x5QNIImak2VP0xFnPhyWJs6nSmCqpRMYEK49XiKqJfZCWCXlCW9lw==
+X-Received: by 2002:a05:6512:a8e:b0:542:2990:722e with SMTP id
+ 2adb3069b0e04-542845ba7b6mr9152754e87.15.1736930548306; 
+ Wed, 15 Jan 2025 00:42:28 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-305ff0f6aa9sm20818371fa.57.2025.01.15.00.41.51
+ 38308e7fff4ca-305ff1c7bd4sm20361321fa.80.2025.01.15.00.42.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2025 00:41:52 -0800 (PST)
-Date: Wed, 15 Jan 2025 10:41:50 +0200
+ Wed, 15 Jan 2025 00:42:27 -0800 (PST)
+Date: Wed, 15 Jan 2025 10:42:24 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
@@ -69,16 +69,17 @@ Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  David Airlie <airlied@gmail.com>, 
  Stephen Boyd <swboyd@chromium.org>, Simona Vetter <simona.vetter@ffwll.ch>, 
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v4 8/9] drm/msm/dpu: rework core_perf debugfs overrides
-Message-ID: <2qhm7oqpbgyoghpj3txjpmb4q3tmxd23cvrdqxicw3lpmwfcwg@m5mn5flvovmp>
+ freedreno@lists.freedesktop.org, Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH v4 9/9] drm/msm/dpu: drop
+ dpu_core_perf_params::max_per_pipe_ib
+Message-ID: <5wmq4j2wh4eflsqanfladxh3wnbqcmxfezvxfs6kwmfu4iw5mi@rnemw3o52qkx>
 References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
- <20250106-dpu-perf-rework-v4-8-00b248349476@linaro.org>
- <86152d89-cf42-4e2f-a188-c401de9d47df@quicinc.com>
+ <20250106-dpu-perf-rework-v4-9-00b248349476@linaro.org>
+ <0fcc05ba-a126-4214-8a3d-9586cd5e8d88@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <86152d89-cf42-4e2f-a188-c401de9d47df@quicinc.com>
+In-Reply-To: <0fcc05ba-a126-4214-8a3d-9586cd5e8d88@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,206 +95,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 14, 2025 at 02:02:54PM -0800, Abhinav Kumar wrote:
+On Tue, Jan 14, 2025 at 04:53:10PM -0800, Abhinav Kumar wrote:
 > 
 > 
 > On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
-> > Currently debugfs provides separate 'modes' to override calculated
-> > MDP_CLK rate and interconnect bandwidth votes. Change that to allow
-> > overriding individual values (e.g. one can override just clock or just
-> > average bandwidth vote). The maximum values allowed for those entries by
-> > the platform can be read from the 'max_core_ab' and 'max_core_clk_rate'
-> > files in debugfs.
+> > The max_per_pipe_ib is a constant across all CRTCs and is read from the
+> > catalog. The override value is also applied at the
+> > _dpu_core_perf_crtc_update_bus() time. Drop corresponding calculations
+> > and read the value directly at icc_set_bw() time.
 > > 
-> 
-> Apart from the concern I highlighted in the previous patch, the only issue I
-> have with this is that, this went from a one step process of using the
-> "mode" this has become a two step one.
-> 
-> There were essentially two modes we are talking about - "fixed" and
-> "minimum"
-> 
-> With respect to "fixed" this is totally fine because this is preserving that
-> functionality because to be able to set the fixed mode the end user must
-> know what values they want to try anyway.
-> 
-> With respect to "minimum" mode, is where this approach is not that great.
-> The end users of this can be non-display developers too such as our QA teams
-> who might want to perform a first level of triage on the issues and route it
-> accordingly. This is especially true for underruns and some performance lags
-> as well.
-> 
-> If you really dont like the term "modes", to preserve the "minimum" mode,
-> how about just using a bool debugfs like "max_perf_params" which internally
-> maxes out the max MDP clock and ab/ib params.
-
-That's what I'm trying to avoid - having an extra debugfs file which
-overrides other files. It is much easier to work if there is no need to
-switch modes, it is easy to overlook it. I think it should be fine to
-use `cat max_foo > fix_foo` to override each of the params. After
-renaming the threshold_high to max_core_ab the names of the debugfs
-files match.
-
-> 
+> > Suggested-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 87 +++------------------------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h | 10 ---
-> >   2 files changed, 9 insertions(+), 88 deletions(-)
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 16 ++++------------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h |  2 --
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      |  2 --
+> >   3 files changed, 4 insertions(+), 16 deletions(-)
 > > 
 > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> > index 7ff3405c6867556a8dc776783b91f1da6c86ef3f..913eb4c01abe10c1ed84215fbbee50abd69e9317 100644
+> > index 913eb4c01abe10c1ed84215fbbee50abd69e9317..62dab5883513dc570076da5a64e32e502dd4320b 100644
 > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
 > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
-> > @@ -17,20 +17,6 @@
-> >   #include "dpu_crtc.h"
-> >   #include "dpu_core_perf.h"
-> > -/**
-> > - * enum dpu_perf_mode - performance tuning mode
-> > - * @DPU_PERF_MODE_NORMAL: performance controlled by user mode client
-> > - * @DPU_PERF_MODE_MINIMUM: performance bounded by minimum setting
-> > - * @DPU_PERF_MODE_FIXED: performance bounded by fixed setting
-> > - * @DPU_PERF_MODE_MAX: maximum value, used for error checking
-> > - */
-> > -enum dpu_perf_mode {
-> > -	DPU_PERF_MODE_NORMAL,
-> > -	DPU_PERF_MODE_MINIMUM,
-> > -	DPU_PERF_MODE_FIXED,
-> > -	DPU_PERF_MODE_MAX
-> > -};
+> > @@ -105,12 +105,10 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
+> >   	}
+> >   	perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+> > -	perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+> >   	perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+> >   	DRM_DEBUG_ATOMIC(
+> > -		"crtc=%d clk_rate=%llu core_ib=%u core_ab=%u\n",
+> > +		"crtc=%d clk_rate=%llu core_ab=%u\n",
+> >   			crtc->base.id, perf->core_clk_rate,
+> > -			perf->max_per_pipe_ib,
+> >   			(u32)DIV_ROUND_UP_ULL(perf->bw_ctl, 1000));
+> >   }
+> > @@ -126,9 +124,6 @@ static void dpu_core_perf_aggregate(struct drm_device *ddev,
+> >   		    curr_client_type == dpu_crtc_get_client_type(tmp_crtc)) {
+> >   			dpu_cstate = to_dpu_crtc_state(tmp_crtc->state);
+> > -			perf->max_per_pipe_ib = max(perf->max_per_pipe_ib,
+> > -						    dpu_cstate->new_perf.max_per_pipe_ib);
+> 
+> During the enabled cases, this is fine since even if one crtc is enabled,
+> its going to use the same value.
+> 
+> During disable to enable and enable to disable transitions, we do need to
+> make it 0 right?
+
+Good point, I will check that later.
+
+> 
+> OR if its already being made 0, we need to make sure it gets updated by
+> forcing update_bus to true?
+> 
+> Is this part being handled by this block dpu_core_perf_crtc_update()?
+> 
+>         } else {
+>                 DRM_DEBUG_ATOMIC("crtc=%d disable\n", crtc->base.id);
+>                 memset(old, 0, sizeof(*old));
+>                 update_bus = true;
+>                 update_clk = true;
+>         }
+> 
+> Please confirm this, I am fine with this change otherwise.
+> 
 > > -
-> >   /**
-> >    * _dpu_core_perf_calc_bw() - to calculate BW per crtc
-> >    * @perf_cfg: performance configuration
-> > @@ -215,18 +201,16 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
-> >   	if (!kms->num_paths)
-> >   		return 0;
-> > -	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
-> > -		avg_bw = 0;
-> > -		peak_bw = 0;
-> > -	} else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED) {
-> > +	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
-> > +
-> > +	avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
-> > +	peak_bw = perf.max_per_pipe_ib;
-> > +
-> > +	if (kms->perf.fix_core_ab_vote)
+> >   			perf->bw_ctl += dpu_cstate->new_perf.bw_ctl;
+> >   			DRM_DEBUG_ATOMIC("crtc=%d bw=%llu\n",
+> > @@ -204,7 +199,7 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+> >   	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+> >   	avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
+> > -	peak_bw = perf.max_per_pipe_ib;
+> > +	peak_bw = kms->catalog->perf->min_dram_ib;
+> >   	if (kms->perf.fix_core_ab_vote)
 > >   		avg_bw = kms->perf.fix_core_ab_vote;
-> > -		peak_bw = kms->perf.fix_core_ib_vote;
-> > -	} else {
-> > -		dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
-> > -		avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
-> > -		peak_bw = perf.max_per_pipe_ib;
-> > -	}
-> > +	if (kms->perf.fix_core_ib_vote)
-> > +		peak_bw = kms->perf.fix_core_ib_vote;
-> >   	avg_bw /= kms->num_paths;
-> > @@ -275,12 +259,9 @@ static u64 _dpu_core_perf_get_core_clk_rate(struct dpu_kms *kms)
-> >   	struct drm_crtc *crtc;
-> >   	struct dpu_crtc_state *dpu_cstate;
-> > -	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED)
-> > +	if (kms->perf.fix_core_clk_rate)
-> >   		return kms->perf.fix_core_clk_rate;
-> > -	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM)
-> > -		return kms->perf.max_core_clk_rate;
-> > -
-> >   	clk_rate = 0;
-> >   	drm_for_each_crtc(crtc, kms->dev) {
-> >   		if (crtc->enabled) {
-> > @@ -396,54 +377,6 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
-> >   #ifdef CONFIG_DEBUG_FS
-> > -static ssize_t _dpu_core_perf_mode_write(struct file *file,
-> > -		    const char __user *user_buf, size_t count, loff_t *ppos)
-> > -{
-> > -	struct dpu_core_perf *perf = file->private_data;
-> > -	u32 perf_mode = 0;
-> > -	int ret;
-> > -
-> > -	ret = kstrtouint_from_user(user_buf, count, 0, &perf_mode);
-> > -	if (ret)
-> > -		return ret;
-> > -
-> > -	if (perf_mode >= DPU_PERF_MODE_MAX)
-> > -		return -EINVAL;
-> > -
-> > -	if (perf_mode == DPU_PERF_MODE_FIXED) {
-> > -		DRM_INFO("fix performance mode\n");
-> > -	} else if (perf_mode == DPU_PERF_MODE_MINIMUM) {
-> > -		/* run the driver with max clk and BW vote */
-> > -		DRM_INFO("minimum performance mode\n");
-> > -	} else if (perf_mode == DPU_PERF_MODE_NORMAL) {
-> > -		/* reset the perf tune params to 0 */
-> > -		DRM_INFO("normal performance mode\n");
-> > -	}
-> > -	perf->perf_tune.mode = perf_mode;
-> > -
-> > -	return count;
-> > -}
-> > -
-> > -static ssize_t _dpu_core_perf_mode_read(struct file *file,
-> > -			char __user *buff, size_t count, loff_t *ppos)
-> > -{
-> > -	struct dpu_core_perf *perf = file->private_data;
-> > -	int len;
-> > -	char buf[128];
-> > -
-> > -	len = scnprintf(buf, sizeof(buf),
-> > -			"mode %d\n",
-> > -			perf->perf_tune.mode);
-> > -
-> > -	return simple_read_from_buffer(buff, count, ppos, buf, len);
-> > -}
-> > -
-> > -static const struct file_operations dpu_core_perf_mode_fops = {
-> > -	.open = simple_open,
-> > -	.read = _dpu_core_perf_mode_read,
-> > -	.write = _dpu_core_perf_mode_write,
-> > -};
-> > -
-> >   /**
-> >    * dpu_core_perf_debugfs_init - initialize debugfs for core performance context
-> >    * @dpu_kms: Pointer to the dpu_kms struct
-> > @@ -472,8 +405,6 @@ int dpu_core_perf_debugfs_init(struct dpu_kms *dpu_kms, struct dentry *parent)
-> >   			(u32 *)&perf->perf_cfg->min_llcc_ib);
-> >   	debugfs_create_u32("min_dram_ib", 0400, entry,
-> >   			(u32 *)&perf->perf_cfg->min_dram_ib);
-> > -	debugfs_create_file("perf_mode", 0600, entry,
-> > -			(u32 *)perf, &dpu_core_perf_mode_fops);
-> >   	debugfs_create_u64("fix_core_clk_rate", 0600, entry,
-> >   			&perf->fix_core_clk_rate);
-> >   	debugfs_create_u32("fix_core_ib_vote", 0600, entry,
+> > @@ -315,15 +310,12 @@ int dpu_core_perf_crtc_update(struct drm_crtc *crtc,
+> >   		 * 2. new bandwidth vote - "ab or ib vote" is lower
+> >   		 *    than current vote at end of commit or stop.
+> >   		 */
+> > -		if ((params_changed && ((new->bw_ctl > old->bw_ctl) ||
+> > -			(new->max_per_pipe_ib > old->max_per_pipe_ib)))	||
+> > -			(!params_changed && ((new->bw_ctl < old->bw_ctl) ||
+> > -			(new->max_per_pipe_ib < old->max_per_pipe_ib)))) {
+> > +		if ((params_changed && new->bw_ctl > old->bw_ctl) ||
+> > +		    (!params_changed && new->bw_ctl < old->bw_ctl)) {
+> >   			DRM_DEBUG_ATOMIC("crtc=%d p=%d new_bw=%llu,old_bw=%llu\n",
+> >   				crtc->base.id, params_changed,
+> >   				new->bw_ctl, old->bw_ctl);
+> >   			old->bw_ctl = new->bw_ctl;
+> > -			old->max_per_pipe_ib = new->max_per_pipe_ib;
+> >   			update_bus = true;
+> >   		}
 > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> > index 5e07119c14c6a9ed3413d0eaddbd93df5cc3f79d..9d8516ca32d162b1e277ec88067e5c21abeb2017 100644
+> > index 9d8516ca32d162b1e277ec88067e5c21abeb2017..863a6fc1f30c21cf2030a30be5fe62b024b3b820 100644
 > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
 > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.h
-> > @@ -24,20 +24,11 @@ struct dpu_core_perf_params {
+> > @@ -14,12 +14,10 @@
+> >   /**
+> >    * struct dpu_core_perf_params - definition of performance parameters
+> > - * @max_per_pipe_ib: maximum instantaneous bandwidth request
+> >    * @bw_ctl: arbitrated bandwidth request
+> >    * @core_clk_rate: core clock rate request
+> >    */
+> >   struct dpu_core_perf_params {
+> > -	u32 max_per_pipe_ib;
+> >   	u64 bw_ctl;
 > >   	u64 core_clk_rate;
 > >   };
-> > -/**
-> > - * struct dpu_core_perf_tune - definition of performance tuning control
-> > - * @mode: performance mode
-> > - */
-> > -struct dpu_core_perf_tune {
-> > -	u32 mode;
-> > -};
-> > -
-> >   /**
-> >    * struct dpu_core_perf - definition of core performance context
-> >    * @perf_cfg: Platform-specific performance configuration
-> >    * @core_clk_rate: current core clock rate
-> >    * @max_core_clk_rate: maximum allowable core clock rate
-> > - * @perf_tune: debug control for performance tuning
-> >    * @enable_bw_release: debug control for bandwidth release
-> >    * @fix_core_clk_rate: fixed core clock request in Hz used in mode 2
-> >    * @fix_core_ib_vote: fixed core ib vote in bps used in mode 2
-> > @@ -47,7 +38,6 @@ struct dpu_core_perf {
-> >   	const struct dpu_perf_cfg *perf_cfg;
-> >   	u64 core_clk_rate;
-> >   	u64 max_core_clk_rate;
-> > -	struct dpu_core_perf_tune perf_tune;
-> >   	u32 enable_bw_release;
-> >   	u64 fix_core_clk_rate;
-> >   	u32 fix_core_ib_vote;
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > index ac3c6c5ad1cec3856f0eff2ed71153d3c2dc279e..cc240d3c7faa89254a575237634d0d0fa8f04f73 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+> > @@ -1488,8 +1488,6 @@ static int dpu_crtc_debugfs_state_show(struct seq_file *s, void *v)
+> >   			dpu_crtc->cur_perf.core_clk_rate);
+> >   	seq_printf(s, "bw_ctl: %uk\n",
+> >   		   (u32)DIV_ROUND_UP_ULL(dpu_crtc->cur_perf.bw_ctl, 1000));
+> > -	seq_printf(s, "max_per_pipe_ib: %u\n",
+> > -				dpu_crtc->cur_perf.max_per_pipe_ib);
+> >   	return 0;
+> >   }
 > > 
 
 -- 
