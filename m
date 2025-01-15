@@ -2,169 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F50A125AE
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:15:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403AAA125D7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:20:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD1FC10E6E7;
-	Wed, 15 Jan 2025 14:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64F6510E6E4;
+	Wed, 15 Jan 2025 14:20:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="VFBdmVbh";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FNEnqs8p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2061f.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2418::61f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E62810E703
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:15:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TQ0W/xGYYIFtIE1UKlSEISKQ8sEdaH0Q8aiGgQZxOIGTM85S6oFh8gnIRrYGnXNLJGDzp5G9AEV976hhUqCjSdwgXoTuIiboS9QkV8QxSjdcdTiH5Q4xG6yFcsNen8RgPE1ukII3R8CggbNIrZ0GhJTEoz9AxnS6lNvQxLOJOfOcYfb22hWopMNxKLYPDe1B8v+5M1qsomnL2oC6wYuob34eBB1ml4YNkrDDSIceQ6+kCy1I3Fd8uXD6eyjKw7fMPDp1woXAxHKOxOleLiEzIebawD1v2cvMyI107XyZJAvapa4aJ7cQ9w3DcWjriV0SCR8FV1EdODDMlb8tUVUYZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tlQzxA2USeT4qXtO7eO9DkUIBt1uSJNLFj1LgepSxVY=;
- b=uM0EJcszpgk/fYQ+4d/SjfHdGNk+k+MDrqEHNiiSm/YeZx+oK0RsnYB/CpmPY2JfkrxsL48KmipNG9BUIRLxOeZCvtAg07ULinmxJ+5ziNoREdZU5XjijKf1xjLVpZGcjk2Bga1kzJFcuoHWljwj/8ceGSdyFapPaT2CHLXSa+5/vjX8sHWAa4OgDtrvkAdnNNY1MY1UBNzwRy+oplKTMTxMzpnpImma+V9RKqa3UNx+SuyjxdzFzDd6UdqA4pwmcIip97v/wSTxUtcGyXNig8qKX3brO3KhL71weEJQX6he03ZOV2uNGNm8SX6zbjg0kb2JhCioI//VRGCN7ftH0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tlQzxA2USeT4qXtO7eO9DkUIBt1uSJNLFj1LgepSxVY=;
- b=VFBdmVbhLrf0bhrP0QCkVifWGPjQFwYBHa0M0omyZ3pjKs6dfmZ5omv+dKBta2UPOglP7ppHdc3hJKx/LsqOACjQ0wcwoSRByItG6jpgMRiLx2EsQ7qigkxvV38aBT1O045tvu2uaR2A5HbY+L1eijHDc1+7cHHCfWyc4fVBHhXcx9BJtTQN1gneA9KFkJhQVLjPL+OH8R8y8l7qAHCmNYSecTCx8nLiuWunCVFin7vavoZ5yk7sn0aaxj/snmPPQiY6nUeQLQeSemPOfXhlM0TBJ3vcWVwzLRmEvp8LymfzgaUbmxbS0t40ayhguHrmBb6VeKleZ/N28O/J+yeaqA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB6908.namprd12.prod.outlook.com (2603:10b6:510:1ba::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Wed, 15 Jan
- 2025 14:14:59 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8335.017; Wed, 15 Jan 2025
- 14:14:59 +0000
-Date: Wed, 15 Jan 2025 10:14:58 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
- Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <20250115141458.GP5556@nvidia.com>
-References: <20250108162227.GT5556@nvidia.com>
- <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <c823f70c-9b70-441c-b046-71058c315857@amd.com>
- <20250110205454.GM5556@nvidia.com>
- <d213eee7-0501-4a63-9dfe-b431408c4c37@amd.com>
- <20250115133821.GO5556@nvidia.com>
- <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
- <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
-X-ClientProxiedBy: BN9PR03CA0844.namprd03.prod.outlook.com
- (2603:10b6:408:13d::9) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C4C110E044;
+ Wed, 15 Jan 2025 14:20:25 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15D16526;
+ Wed, 15 Jan 2025 15:19:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1736950766;
+ bh=7qiyO+wfBrEyDk/AoXCj+nFogFQS7ryzGCzAqhdWb38=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FNEnqs8pIxmzmXTlNZ5aoLcVlgUYO4x7tjA2Y+EpzVZYLe4hGm7k1eU8rP1U9FwYK
+ RPx9CD1DBq9txbEDtdRq2erdoqbqnEGp7lnsvla38haKmYWSWUKigfw6gmUqEA/ioo
+ GsAPA1Hr9rXNsFdn2I8B1WzDBAcDit9zy8TZ7Wrw=
+Message-ID: <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
+Date: Wed, 15 Jan 2025 16:20:19 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB6908:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ff05721-7c8b-4d24-73ca-08dd356efe97
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QldHbzJzRTVLcXl4cjN6d1J0NkVDdUMzS0d4bHhrbWI2ejBmT0cybHRNNk5w?=
- =?utf-8?B?SUMvWXlzMjE2L28wZERzdnhROHFlZVU1STJLYXZoTDJHckFCUXJZZ0w4U2NP?=
- =?utf-8?B?MjRyRDBlQ1BhdEFQWGw3L09yZzU3MTBodXZDejFtNS94T29YZDdjNzgxL1Y4?=
- =?utf-8?B?aVAzcWJoeDdhQWRpcm1SQjd0TDJhSExWZDVsZ3g4bHpZamsyMU10QnUwUmZr?=
- =?utf-8?B?bzh0Sy9MWWNLdG1SQURPR0gvV2lxbW5jVzN4M3p1YnIwcE9DRXFCbkNQeGlX?=
- =?utf-8?B?NzdvNHAvNGkrcFVDdUJVSGlSUHJRcEVvSnlBQitQU3hRZDFoQVdKUGZXcGlz?=
- =?utf-8?B?cjJPL21XZmZaMW5oV1U2QlpSU0RtU05SUlpZeDh4aHprdDUybEEzQTJrOUda?=
- =?utf-8?B?VTN5TlZOR1FKT2lDN3dxY2FMcEJTNExUVy9WU0N3T1hRVUFKSXVEQVRpWG9Z?=
- =?utf-8?B?aEI2UnYzd3Q3RGtCR01KcCtXNTBYZk1ESVhyYlhPMkUrN202MEJzOHRaMFE4?=
- =?utf-8?B?RDdzblgrbE83d00yaEk2VjJGZlZXeGNGeHZleVI3NnZHQmM3TW1lZW1XbjNu?=
- =?utf-8?B?VGdrcitDckxwTXBSdHN5bzlIZG5jaytvK3VuRmFMMTl3Wk9aS3dzbThHeXJU?=
- =?utf-8?B?SEw4RTJSdDM3cSsraHBaTVRoQXhVaUFXVHpMSjZMZnorNStMdlZGaDBaRlZh?=
- =?utf-8?B?dWxLbGxNQllza2VHRWRaT2FPWTUzL2xpekZaeFlMc0o3VXIrcVBQN3hoa3o5?=
- =?utf-8?B?VUk0MGpORkFETnJ4TFFCRXJNTGtabmlYR2NqTm1jNzRwNnl2NEw1dnlzUFVK?=
- =?utf-8?B?dENlbGZuLzg1NkZLUlppcWZoQW5CeGs5Y1NTTVhSWVljUEhPNDF6WVdXRmFq?=
- =?utf-8?B?cDVvbkxDRDZGMFpOdEFqamU3aUJjZHJEREZEbTZWZ09FUkovb0ZGdXNGRXhV?=
- =?utf-8?B?RENoTlNkT2lvTC8zYkp5U2doK2VIeHhpTUVpUjZyN1o2Z1pIb09CbUg2aUxz?=
- =?utf-8?B?SCt5a3hOYktUdGtyQUdlVE1YOHRnZk1HRkg1OTY3cm9SMkFTV2p1VTR1em43?=
- =?utf-8?B?YjY1Ny84YUJMaTJVWDlsV1ZYbWVKVWRGaTJSNW56OVhNTy93MmRqampEWU5I?=
- =?utf-8?B?OTJpQkwrbUsweWdXY2FQT0NyeUNHemIrWm5HZ2lRYWlZSVYwQTBqTS9pdEJo?=
- =?utf-8?B?blNQdUJTSGNVakhoVnVpQzJUanU0U3cwOVlaR1lPMlpUVTNERXhsckNFK3pO?=
- =?utf-8?B?ZE8zeUtaQjc3THRhajVsbTl6ZTZhOU0yMGpTTWpNZmxvb1l5akJHQlpNQlhu?=
- =?utf-8?B?dTVmbHlnZlJGL2VRdnR3NXRCcFZTY3hGZFVnVWVSU1cwWmpZWVBBak5jUDhi?=
- =?utf-8?B?NkNzUVRjeTN4NUtCZ0d4M0RNanEzcHRPMnpDL09aVHQ1Qkw0dFh4YkFSQllw?=
- =?utf-8?B?NGVXMGJ5NXZFYU83eEZqR3hnemVTSGJ2V045MjVUeFBObDB5M3ZOMlBYeEh3?=
- =?utf-8?B?SlZIUTVQU0RFRDJiaUNOWEwxVTNoWGV5UFBoYlNQVUxURjJ5T2E5SEZRL25R?=
- =?utf-8?B?dWRpNTU3YVNlaXBzYTRjWFNTK1U1b3pManVrdklUNW9RNnBBYkprQURVT1g1?=
- =?utf-8?B?VXJrcTNqZjkrVHJieHBnbFBLM1I3RkdxZ0p5bUNjMStHR0ZCdTRUSXFFYkc0?=
- =?utf-8?B?V28wWkxKU013ZlpmRU1WMHc3MEhhQUcyRjJVWGxCYk1jUFFIRnN3VG42cWRI?=
- =?utf-8?B?VDV3S2lRRzNEVzVIbVJsQ09OSnltN3BUQUE3Z3h3WnV2bG9BeDUzS1FPOWs2?=
- =?utf-8?B?UmNtOEJXZzNyZUJRNGgrczVHVmVKYlJrMjEzWFBXZGxBSmdTK2ZnaFhqdE8y?=
- =?utf-8?Q?3RLZg5Bgum3Pj?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dnZ3TFc3L28zbzZGTHR2OEg2TStka0RnUVBQZG9YQ0JtOXRGNktLSkNuaW8w?=
- =?utf-8?B?TkFKZnZTWS9VT2wrN2Vtcnl1UjlXMU9GL3hFQ2JUNEZEUy9LKzcwMU9tbXBM?=
- =?utf-8?B?aCtuNXlzM0psQTE4TlltN2lHaGc3UkQyQ3FCNWpWR2pVOUw0UnladkVCQm9s?=
- =?utf-8?B?dW9aMGpWeTBuV3M2Q2twR0RaZ3ZINHdHdE9YTjNKTjFkcklKM2JvSHVpZFJD?=
- =?utf-8?B?K0NZMWlUWFA0TTVJMFdhY1RHanV6VWJ3cjlxWlhpdllZZ0NycnRtSDd2QnIz?=
- =?utf-8?B?dE1MdXBvSGZ0aUJPcDgzZzZSRktZR3pMcXFXcUttMGwwSElIVWhVcDY5dUI3?=
- =?utf-8?B?RmpIeHdJVGZ6S20vc0JTMjVlMlpyMi9MaTE4Rm1qdFJycE91NWFnUHIrdzBq?=
- =?utf-8?B?enNBV25rRUh4YWN1NTg5ckNtVzZHbC9XRXdsMU9zMmIzTStld21Ha0V1c2ZR?=
- =?utf-8?B?UWh4YTNXUzd4S3VHVnk0Rkxhd1JNaUJOOE40dUxvbnpvRGh4UTVsSjJqQ0t3?=
- =?utf-8?B?WS9pb2hlQ0VrOU9WMTRrZy9qSGU5NkZCamJpZFczcW1TcG1yeGY5QlE4Zmt0?=
- =?utf-8?B?RDZieUFoNEdEWHJWVlpPWGM4MHkrY3RaK2xtdWhJV3JwZGh4RWxDNlpxdjgw?=
- =?utf-8?B?Y1l4WHllVDZyV2dSTmdkbzVxMjBWbVdLNm5hWVNWSHpvZ0VTNGRnNTQ1VFpL?=
- =?utf-8?B?UFFtdzhJZzlzZmM3TXFWM2E0ZGQvZ24vUG1uazVxZDdnbWRMV2s0N2JiM0Jy?=
- =?utf-8?B?dWt2N3lQWHRiVDJ1dVFuV1JsUFhCUDN0aGgwRTNjTlFQTmRVMUFuM2JjMk9V?=
- =?utf-8?B?ZnZBZ1paSXlwNlllMXUzZHA5NE1WeU1qbksrbUZSbGRGcFY0VnhtTVR2ankr?=
- =?utf-8?B?bG0vbmhWNDhWdGVmc2dnUEJ3Tjd0OVVrUlhjYUM0Z0tveTB3Y2pwMmlMa0FB?=
- =?utf-8?B?RENDMytIckdPR0RrL2ZUaU1hTVFPN3N3aW1aZ0FGTkVyMXB4UmdlRXZrK0gz?=
- =?utf-8?B?N1Q1UzVJVWd1QlpqaW5YMmlrekl6T2NtQkRFVS9UL0g1NXA1RGg1RVJxOXdy?=
- =?utf-8?B?a0xtdkFSeHkzUko4TXVpdjhxQjlGSVRVM3dhRFEyeElwQmFpT1UvSUdpZHdk?=
- =?utf-8?B?UGUxQnJlWEJiQUROMWVabjFFaXYyb2diWFFtb21GejVua2Z6T3puVC94dDlF?=
- =?utf-8?B?WncvWFhiTzRPcHVONUdHME1XRG9PaDRzeHpla2lPSjdQTkZpMEdLYTBKVjhh?=
- =?utf-8?B?QWxORVNBN3NYUUhEcWJ0cjllcDI5UUp2Z1ptdHVLUU1sQWFGMmw0V0dCNVV4?=
- =?utf-8?B?bkN1b3d5TVdTSndVU3FKMnVSRFdFNlRhQkRrVVhESTBSd2piREo2dDgybnNr?=
- =?utf-8?B?Njg4RkRKSEFlMjFGL05VZ093R2l5M1VZeE5LeitSZHgzNlUwdVpKaExESGow?=
- =?utf-8?B?VUc2SU1idkNKeVZHc202KzgwbjVyL2RJeHhhcjR1WjAzU0hETEVXN3l1RFIx?=
- =?utf-8?B?eXZiRGFXN09YVmZBeDVrenZEUy9TbkRubnhVM1pzcnNGNlJtZWRSOUIxUWpk?=
- =?utf-8?B?azRpUi9pODNQbnFPcHhwVEkzay9oc2hCNXdtNGhtQmJzNU9SVm4rend6cVU1?=
- =?utf-8?B?T2lGQ1VqSVF0TzdTK1p4SndhZEpFU3B4NlBaUGNVdjNQeFZrMUo3NmV1QXBH?=
- =?utf-8?B?WU45MFRmcTd0UVAxSVI4bCtmUjRiTDVBOW5OcFUrRGt4dk96bzRjZXpDcHFu?=
- =?utf-8?B?Q01UZzRyckdOd1FBU200bVU3dHRPbTJRYmVwUFg3LzVlY1JzdlZqcnpwUlow?=
- =?utf-8?B?SVAxanJDc0ZnQ3cxaW5jM1IwWXdFVkxKZjRvMkN6Z1hFMGRLWUpVbTZhQ2hH?=
- =?utf-8?B?UWVCcFRUSU5GMnV1dTNtQlg5RUlaT0tjcUZOeHN5TGZmTlJscXFvVkN6dlFP?=
- =?utf-8?B?NDVqMnBLSnRETU1iUXp0anJ0WjRVRXpVNGxEcTM5UG91cERud0hPaC84MnBR?=
- =?utf-8?B?cUtZdXFvVE5QVExkNmFiYUhhOUN3WmxRTUxzZDNkZHBDUzFhSUg5emh5VTY5?=
- =?utf-8?B?TkNlSWZEaVh3QVZuTWl0V0xuMld3SUV3VFAvTWFFS1k2N0t3ZnM5U3lvTVJy?=
- =?utf-8?Q?rQ69bSn6k3F11dAfwM0sVF581?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ff05721-7c8b-4d24-73ca-08dd356efe97
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 14:14:59.2254 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ALyH9hnAqAWVyxW5DPWt6PKuvOorLDFfcAqQNh0TGopT//JaNlliyGQ+nDN6RMPQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6908
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andy Yan <andyshrk@163.com>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-26-tzimmermann@suse.de>
+ <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
+ <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+ <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
+ <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
+ <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
+ <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
+ <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
+ <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,64 +118,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2025 at 02:46:56PM +0100, Christian König wrote:
-> Explicitly replying as text mail once more.
+On 15/01/2025 15:45, Thomas Zimmermann wrote:
+> Hi
 > 
-> I just love the AMD mails servers :(
+> 
+> Am 15.01.25 um 14:33 schrieb Tomi Valkeinen:
+> [...]
+>>> Yeah, there are constrains in the scanline and buffer alignments and 
+>>> orientation. And if we say that bpp==12 means NV12, it will be a 
+>>> problem for all other cases where bpp==12 makes sense.
+>>
+>> I feel I still don't quite understand. Can't we define and document 
+>> CREATE_DUMB like this:
+>>
+>> If (bpp < 8 || is_power_of_two(bpp))
+>>     bpp means bitsperpixel
+>>     pitch is args->width * args->bpp / 8, aligned up to driver- 
+>> specific-align
+>> else
+>>     bpp is a legacy parameter, and we deal with it case by case.
+>>     list the cases and what they mean
+>>
+>> And describe that when allocating subsampled buffers, the caller must 
+>> adjust the width and height accordingly. And that the bpp and width 
+>> can also refer to pixel groups.
+>>
+>> Or if the currently existing code prevents the above for 16 and 32 
+>> bpps, how about defining that any non-RGB or not-simple buffer has to 
+>> be allocated with bpp=8, and the userspace has to align the pitch 
+>> correctly according to the format and platform's hw restrictions?
+> 
+> What if a hardware requires certain per-format alignments? Or requires 
+> certain alignments for each plane? Or only supports tile modes? Or has 
+> strict limits on the maximum buffer size?
+> 
+> It is not possible to encode all this in a simple 32-bit value. So user- 
+> space code has to be aware of all this and tweak bpp-based allocation to 
+> make it work. Obviously you can use the current UAPI for your use case. 
+> It's just not optimal or future proof.
 
-:( This is hard
+No disagreement there, we need CREATE_DUMB2.
 
-> > Yeah, but it's private to the exporter. And a very fundamental rule of
-> > DMA-buf is that the exporter is the one in control of things.
+My point is that we have the current UAPI, and we have userspace using 
+it, but we don't have clear rules what the ioctl does with specific 
+parameters, and we don't document how it has to be used.
 
-I've said a few times now, I don't think we can build the kind of
-buffer sharing framework we need to solve all the problems with this
-philosophy. It is also inefficient with the new DMA API.
+Perhaps the situation is bad, and all we can really say is that 
+CREATE_DUMB only works for use with simple RGB formats, and the behavior 
+for all other formats is platform specific. But I think even that would 
+be valuable in the UAPI docs.
 
-I think it is backwards looking and we need to move forwards with
-fixing the fundamental API issues which motivated that design.
+Thinking about this, I wonder if this change is good for omapdrm or 
+xilinx (probably other platforms too that support non-simple non-RGB 
+formats via dumb buffers): without this patch, in both drivers, the 
+pitch calculations just take the bpp as bit-per-pixels, align it up, and 
+that's it.
 
-> > So for example it is illegal for an importer to setup CPU mappings to a
-> > buffer. That's why we have dma_buf_mmap() which redirects mmap()
-> > requests from the importer to the exporter.
+With this patch we end up using drm_driver_color_mode_format(), and 
+aligning buffers according to RGB formats figured out via heuristics. It 
+does happen to work, for the formats I tested, but it sounds like 
+something that might easily not work, as it's doing adjustments based on 
+wrong format.
 
-Like this, in a future no-scatter list world I would want to make this
-safe. The importer will have enough information to know if CPU
-mappings exist and are safe to use under what conditions.
+Should we have another version of drm_mode_size_dumb() which just 
+calculates using the bpp, without the drm_driver_color_mode_format() 
+path? Or does the drm_driver_color_mode_format() path provide some value 
+for the drivers that do not currently do anything similar?
 
-There is no reason the importer should not be able to CPU access
-memory that is HW permitted to be CPU accessible.
+  Tomi
 
-If the importer needs CPU access and the exporter cannot provide it
-then the attachment simply fails.
-
-Saying CPU access is banned 100% of the time is not a helpful position
-when we have use cases that need it.
-
-> > As far as I can see that is really not an use case which fits DMA-buf in
-> > any way.
-
-I really don't want to make a dmabuf2 - everyone would have to
-implement it, including all the GPU drivers if they want to work with
-RDMA. I don't think this makes any sense compared to incrementally
-evolving dmabuf with more optional capabilities.
-
-> > > > That sounds more something for the TEE driver instead of anything DMA-buf
-> > > > should be dealing with.
-> > > Has nothing to do with TEE.
-> > 
-> > Why?
-
-The Linux TEE framework is not used as part of confidential compute.
-
-CC already has guest memfd for holding it's private CPU memory.
-
-This is about confidential MMIO memory.
-
-This is also not just about the KVM side, the VM side also has issues
-with DMABUF and CC - only co-operating devices can interact with the
-VM side "encrypted" memory and there needs to be a negotiation as part
-of all buffer setup what the mutual capability is. :\ swiotlb hides
-some of this some times, but confidential P2P is currently unsolved.
-
-Jason
