@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BE6A12225
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 12:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD49A12231
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 12:13:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 690A910E5E6;
-	Wed, 15 Jan 2025 11:11:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC08910E5DB;
+	Wed, 15 Jan 2025 11:12:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gtaZJRXs";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hha11TRW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C5D610E5DB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 11:11:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 819AC10E5DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 11:12:58 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC0E14AD;
- Wed, 15 Jan 2025 12:10:58 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E7344AD;
+ Wed, 15 Jan 2025 12:11:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736939459;
- bh=kWmByKKrK7Xu9tnl8VAbPLeyhynqUtnjbWqA4h0alJs=;
+ s=mail; t=1736939519;
+ bh=kObbrxjliZtOR3xfmSNN6n5lEiuI5gMBVSXSAoB8qE4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gtaZJRXs97FXDg/PCerue2t0zj4wrZoJyYrlBEsFvl7jH+tpcvZdAmngIR5StL3It
- P0kchAOQGf7MoV2yqF49j0UNkZu7TI1Ut5y3/0NK0Dn9k7rKWITZaUa+eMMx3fs6qD
- HQUKMdvbzkPM7oEXas47W92aA9IgOH3Wkfr9cgpw=
-Message-ID: <b7b8cdde-c189-4b9f-8423-c8ab4797b2f0@ideasonboard.com>
-Date: Wed, 15 Jan 2025 13:11:53 +0200
+ b=hha11TRW1HbGOWWKl54J9R4Ms2eKVkhzXUWjetuOY7Q6wmecoKIt4qxDmLd/Rcfbh
+ 4C9llHIcjyQO20t8BcP9Dp32fulgVOpdhRCq8AwVgKRiWmDiR2XNM+dit4Cj0IfuPB
+ CNZNhMalxnaLC2b/vL7sSQCXQmrSjCIr62EGQrjo=
+Message-ID: <a782e7c1-76e5-48c4-89f1-2aa4baa77236@ideasonboard.com>
+Date: Wed, 15 Jan 2025 13:12:54 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/10] drm/fourcc: Add DRM_FORMAT_Y10_LE32
+Subject: Re: [PATCH v2 03/10] drm/fourcc: Add DRM_FORMAT_Y8
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Vishal Sagar <vishal.sagar@amd.com>,
  Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
@@ -42,8 +42,8 @@ Cc: Vishal Sagar <vishal.sagar@amd.com>,
  Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
- <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
- <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
+ <20250115-xilinx-formats-v2-3-160327ca652a@ideasonboard.com>
+ <CAMuHMdUMEEuCcmzvet=9sfYzn2_XtSkTgvpHkYz+RALCzHDzfg@mail.gmail.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -89,7 +89,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUMEEuCcmzvet=9sfYzn2_XtSkTgvpHkYz+RALCzHDzfg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,13 +109,12 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 15/01/2025 12:33, Geert Uytterhoeven wrote:
+On 15/01/2025 12:30, Geert Uytterhoeven wrote:
 > Hi Tomi,
 > 
 > On Wed, Jan 15, 2025 at 10:04 AM Tomi Valkeinen
 > <tomi.valkeinen@ideasonboard.com> wrote:
->> Add Y10_LE32, a 10 bit greyscale format, with 3 pixels packed into
->> 32-bit container.
+>> Add greyscale Y8 format.
 >>
 >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > 
@@ -123,30 +122,24 @@ On 15/01/2025 12:33, Geert Uytterhoeven wrote:
 > 
 >> --- a/include/uapi/drm/drm_fourcc.h
 >> +++ b/include/uapi/drm/drm_fourcc.h
->> @@ -408,6 +408,7 @@ extern "C" {
->>   /* Greyscale formats */
+>> @@ -405,6 +405,9 @@ extern "C" {
+>>   #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4') /* non-subsampled Cb (1) and Cr (2) planes */
+>>   #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4') /* non-subsampled Cr (1) and Cb (2) planes */
 >>
->>   #define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
->> +#define DRM_FORMAT_Y10_LE32    fourcc_code('Y', 'P', 'A', '4')  /* [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian */
+>> +/* Greyscale formats */
+>> +
+>> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
 > 
-> R10_LE32? Or R10_PA4?
-
-Can we discuss the "R" vs "Y" question under the cover letter? There's 
-some more context about it in there.
-
-I took the "LE32" from Gstreamer's format. Maybe it's a bit pointless.
-
-I don't know if it makes sense to add the fourcc to the DRM format name. 
-The fourcc is very limited. Rather, we could, say, have 
-DRM_FORMAT_Y10_PACKED_32 (or "R", if you insist =).
-
+> I don't think you need this. We already have:
 > 
-> Does LE32 have a meaning?  My first guess just reading the subject
-> was wrong ("little endian  32-bit" ;-)
+>      /* 8 bpp Red (direct relationship between channel value and brightness) */
+>      #define DRM_FORMAT_R8           fourcc_code('R', '8', ' ', ' ') /*
+> [7:0] R */
+> 
+> See also commit 8aba4d30520ed656 ("drm/fourcc: Clarify the meaning of
+> single-channel "red"").
 
-I'm not sure I follow. It's little-endian. The pixel group/unit is a 
-32-bit number, where the leftmost pixel on the screen is in bits 9-0, 
-and the padding is in bits 31-30, and stored in memory as little-endian.
+Yes, I discuss this topic in the cover letter.
 
   Tomi
 
