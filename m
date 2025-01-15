@@ -2,105 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6C7A11BAD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 09:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C0FA11BE8
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 09:28:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31A2810E534;
-	Wed, 15 Jan 2025 08:17:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31F3E10E55F;
+	Wed, 15 Jan 2025 08:28:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vliRiFV0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="y/ym9Nx3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB4E10E534
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 08:17:24 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08144E1;
- Wed, 15 Jan 2025 09:16:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736928985;
- bh=plcwRbYKIFnu/C1XI5aLJbYgbdyfbkXUR4F5NSlVdEw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=vliRiFV07pOiTuS1yRTACR0t7pGT8GfmcuZQsvejSYn8y8VqDHfDjtElTJUf5EJiy
- oB4N5qYs+iRSw6/rN+kxjJT1lH6/iGLGeKnb778k2o5R4aKm1W6n8CYd/SOz+m1hJm
- X4+Gtl7fXtKNC1WXIX0pgmQRCg1qnDAA4CESWhrk=
-Message-ID: <0157aa47-9901-4f3d-b238-5b0ebeba78be@ideasonboard.com>
-Date: Wed, 15 Jan 2025 10:17:16 +0200
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+ [209.85.208.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 129D110E561
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 08:28:07 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id
+ 38308e7fff4ca-30229d5b229so56082941fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 00:28:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736929625; x=1737534425; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pZ4HRx7SsZZko5M+0b/vJqN2qjluOm4gJzYYS2wUfjU=;
+ b=y/ym9Nx3iT3YrlXLviCxE03sy0wtCS3gtz98Dto1d+HE9I4V++xuoYcYvwW8mCheER
+ NzECf3mogPkDIXEwbiAn35L/EyIMF55Kgo5o/nzRx9sH16Lwt31L196YGwbpGOSclFJn
+ K5wujbq9N8yNb1w3xQRwcrQXMUGmKuotH8yP9wTBmFII2RLCucvctTM49TqcW/XeyqRC
+ o/8vi/B0PCH/1jXr22X7Hx09SkZv5P2mhA8i8DhbqbGCfOWRzXz3CqPxs/Xt5nFBc241
+ yHCmXWtufvhTtg6664jRNA9OK/tfvj+0NdX6e710inkGAkCoSJurGz0L7uRj1NO39HbF
+ IbJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736929625; x=1737534425;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pZ4HRx7SsZZko5M+0b/vJqN2qjluOm4gJzYYS2wUfjU=;
+ b=IX1z5QBku+V+w05oXM24bTuFf24gQdeXcTroQHiYLrexTgRQ2/TSD8u5tgVtRgnqVO
+ kQtO6Fs9S/Q5op1vC2c0WyCPHohPIqjvNSgIgAoeOlPla92ghXXZnXZGE4F9yxcJyQnS
+ 72I7/hNa/aGoHhKmVTZMIPBumgn5IIGZibx7aXr0F8MVTda5jOq2FB9LcNKd9V5VK7lz
+ xWSuNrsxOUQy+HrVWVg/09A9sU6igdMMsF5g//g68Oqhwg6GXSW/TWrmKi02hnea22yk
+ oRiHt+r1fOCv5Y8/KmYK3UHki2LYNwdGKPPDjKI7u6Jbs15PRBh2bDlgT80uLOes+EPQ
+ Oa7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUU4CvRXLqvX/CiZpqdbX5hAN4Tb72MAyrTCgMOZ/KdF+h3Av2iuqJrg2pjLnmcBgGK9SzIRA6EFKA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz29taG/acqOkWehm1oi1VDMzg4okH4Ujro+SjdvRrMfftHoHBC
+ i6fzrZrJqzf8ojEt7EMnk9vdYhaxEPKgdIpg/l/MWBJNrdBWWyv5T+D2dshsiVc=
+X-Gm-Gg: ASbGncu1lpFcIFko3YG3+5+YSyQ+fEYItWKAEVFjMR5fNn139N1ksS89AFp7OgzFRDY
+ GhGtE2YXQvzdwrQ3OAOPsWxIi3AhxlYxwpglY5iq9fGaaG20sH5+9ooamMDzsvJNLoxYuijz5eq
+ QJhO6VQNe8OLUQtyw5mcr2bf6S2egNS961Yl3O1rxdMwvj/Ymy+5me8Kh/Bqs8PYBab1JlnIOzZ
+ jeWqyqy2yCJkQp7EE+VmeBjRJE3eNkATDXRvthzuVCg5hpXCY3SSxmAzl7Y+MZyStlNoA4D73D1
+ DdSUx9aNdcBLZ2uXEUCgqmH2sDOitFt3nzTR
+X-Google-Smtp-Source: AGHT+IEa4wTdMIRF+GsL7h99ddXXaeUlR6bj66KVo6XSmN4DdnMNkhI7iraI/KfJn24NcdFDQUy/Zw==
+X-Received: by 2002:a2e:bc1b:0:b0:302:2320:dc81 with SMTP id
+ 38308e7fff4ca-305f4626035mr86805911fa.29.1736929625271; 
+ Wed, 15 Jan 2025 00:27:05 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-305ff0cf1f8sm21006251fa.27.2025.01.15.00.27.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jan 2025 00:27:04 -0800 (PST)
+Date: Wed, 15 Jan 2025 10:27:01 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Stephen Boyd <swboyd@chromium.org>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v4 7/9] drm/msm/dpu: handle perf mode in
+ _dpu_core_perf_crtc_update_bus()
+Message-ID: <4quxgv6n35np7fm7iqx5bw5xnkz7gxabh3ix5rexcq5nir5k7i@xi33w2wyj7om>
+References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
+ <20250106-dpu-perf-rework-v4-7-00b248349476@linaro.org>
+ <459422c9-c272-4389-9b05-487a0148a082@quicinc.com>
+ <ab4wkauem3xb65wh3h22bcyzlpx26rrmsicrdlewomn55ykpqi@tggrsmb6qcmf>
+ <8e6b6940-d155-4ab7-bdd6-a67e9506218a@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 03/12] drm/bridge: cdns-dsi: Fix phy de-init and flag
- it so
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
- <20250114055626.18816-4-aradhya.bhatia@linux.dev>
- <84ca02de-9788-4e16-bf24-1651bd365ebd@ideasonboard.com>
- <7cfc1561-a229-43e7-b4bf-23ad258733c6@linux.dev>
- <0e0ee18e-28f6-4c57-a47d-cd7ace84fa70@ideasonboard.com>
- <6f7bafba-9b40-491f-bf6b-00094840089c@linux.dev>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <6f7bafba-9b40-491f-bf6b-00094840089c@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8e6b6940-d155-4ab7-bdd6-a67e9506218a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,54 +97,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 14/01/2025 18:32, Aradhya Bhatia wrote:
-
->> But generally speaking, yes, it's good to keep fixes simple, and do
->> cleanups later on top. Keeping that in mind, maybe this current patch is
->> fine as it is. Although... if the init is done in pre_enable, shouldn't
->> the deinit be done in post_disable?
-> 
-> Yes, I will move the deinit to _bridge_post_disable().
+On Tue, Jan 14, 2025 at 01:18:26PM -0800, Abhinav Kumar wrote:
 > 
 > 
-> So, if we keep the fix limited to deinit in _bridge_post_disable(), then
-> the cleanup would involve dropping the init calls from _bridge_enable().
-> And then the patch-12 would do 3 things -
+> On 1/14/2025 3:10 AM, Dmitry Baryshkov wrote:
+> > On Mon, Jan 13, 2025 at 07:38:16PM -0800, Abhinav Kumar wrote:
+> > > 
+> > > 
+> > > On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
+> > > > Move perf mode handling for the bandwidth to
+> > > > _dpu_core_perf_crtc_update_bus() rather than overriding per-CRTC data
+> > > > and then aggregating known values.
+> > > > 
+> > > > Note, this changes the fix_core_ab_vote. Previously it would be
+> > > > multiplied per the CRTC number, now it will be used directly for
+> > > > interconnect voting. This better reflects user requirements in the case
+> > > > of different resolutions being set on different CRTCs: instead of using
+> > > > the same bandwidth for each CRTC (which is incorrect) user can now
+> > > > calculate overall bandwidth required by all outputs and use that value.
+> > > > 
+> > > 
+> > > There are two things this change is doing:
+> > > 
+> > > 1) Dropping the core_clk_rate setting because its already handled inside
+> > > _dpu_core_perf_get_core_clk_rate() and hence dpu_core_perf_crtc_update()
+> > > will still work.
+> > > 
+> > > and
+> > > 
+> > > 2) Then this part of moving the ab/ib setting to
+> > > _dpu_core_perf_crtc_update_bus().
+> > > 
+> > > Can we split this into two changes so that its clear that dropping
+> > > core_clk_rate setting in this change will not cause an issue.
+> > 
+> > Ack
+> > 
 > 
-> 	1. Drop older _bridge_pre_enable()
-> 	2. Rename old _bridge_enable() to _bridge_pre_enable()
-> 	3. Since the _old_ _bridge_enable() has the calls dropped in the
-> 	   cleanup patch, add those calls again in the _new_
-> 	   _bridge_pre_enable() (which are really the same function
-> 	   bodies).
+> Actually I think this is incorrect.
+> 
+> If the user puts in an incorrect value beyond the bounds, earlier the code
+> will reject that by failing the in _dpu_core_perf_calc_crtc().
 
-I would think patch-12 differently: it doesn't do what you list above, 
-but rather combines the current pre_enable() and enable() into a new 
-pre_enable().
+This function doesn't perform any validation nor returns an error code.
+Probably you've meant some other function.
 
-> Do you think we can instead skip the cleanup patch, as well as #3 from
-> patch-12?
+> 
+> Now, if we move it to _dpu_core_perf_crtc_update_bus(), this is beyond the
+> check phase so incorrect values cannot be rejected.
+> 
+> So we will still need to preserve overriding the values in
+> _dpu_core_perf_calc_crtc().
+> 
+> > > 
+> > > 
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >    drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 40 +++++++++++++--------------
+> > > >    1 file changed, 19 insertions(+), 21 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> > > > index 70f43e8359caee2082f2ca9944a17a6a20aa3d49..7ff3405c6867556a8dc776783b91f1da6c86ef3f 100644
+> > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> > > > @@ -118,22 +118,9 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
+> > > >    		return;
+> > > >    	}
+> > > > -	memset(perf, 0, sizeof(struct dpu_core_perf_params));
+> > > > -
+> > > > -	if (core_perf->perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
+> > > > -		perf->bw_ctl = 0;
+> > > > -		perf->max_per_pipe_ib = 0;
+> > > > -		perf->core_clk_rate = 0;
+> > > > -	} else if (core_perf->perf_tune.mode == DPU_PERF_MODE_FIXED) {
+> > > > -		perf->bw_ctl = core_perf->fix_core_ab_vote * 1000ULL;
+> > > > -		perf->max_per_pipe_ib = core_perf->fix_core_ib_vote;
+> > > > -		perf->core_clk_rate = core_perf->fix_core_clk_rate;
+> > > > -	} else {
+> > > > -		perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+> > > > -		perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+> > > > -		perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+> > > > -	}
+> > > > -
+> > > > +	perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+> > > > +	perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+> > > > +	perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+> > > >    	DRM_DEBUG_ATOMIC(
+> > > >    		"crtc=%d clk_rate=%llu core_ib=%u core_ab=%u\n",
+> > > >    			crtc->base.id, perf->core_clk_rate,
+> > > > @@ -222,18 +209,29 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+> > > >    {
+> > > >    	struct dpu_core_perf_params perf = { 0 };
+> > > >    	int i, ret = 0;
+> > > > -	u64 avg_bw;
+> > > > +	u32 avg_bw;
+> > > > +	u32 peak_bw;
+> > > >    	if (!kms->num_paths)
+> > > >    		return 0;
+> > > > -	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+> > > > +	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
+> > > > +		avg_bw = 0;
+> > > > +		peak_bw = 0;
+> > > > +	} else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED) {
+> > > > +		avg_bw = kms->perf.fix_core_ab_vote;
+> > > > +		peak_bw = kms->perf.fix_core_ib_vote;
+> > > > +	} else {
+> > > > +		dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+> > > > +
+> > > > +		avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
+> > > > +		peak_bw = perf.max_per_pipe_ib;
+> > > > +	}
+> > > > -	avg_bw = perf.bw_ctl;
+> > > > -	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+> > > > +	avg_bw /= kms->num_paths;
+> > > >    	for (i = 0; i < kms->num_paths; i++)
+> > > > -		icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
+> > > > +		icc_set_bw(kms->path[i], avg_bw, peak_bw);
+> > > >    	return ret;
+> > > >    }
+> > > > 
+> > 
 
-Yes, I think the cleanup patch can just be dropped. It's not really 
-relevant.
-
-> Fun fact: We already have patch-4 which fixes the order of init calls in
-> _bridge_enable()! =)
-
-Right. And I guess that fix doesn't fix anything in practice, as those 
-init calls are no-ops in the bridge_enable()...
-
-It's a bit difficult to make meaningful fixes when things are so badly 
-messed up =).
-
-So, maybe try to arrange the series so that the obvious "makes-sense" 
-fixes for stable are in the beginning. So... patches 1, 3, 5? And then 
-work towards the patch 12.
-
-And I'll try to not nit-pick too much, so that we can actually get this 
-series merged, and then later do the cleanups on top =).
-
-  Tomi
-
+-- 
+With best wishes
+Dmitry
