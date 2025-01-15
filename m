@@ -2,61 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F20A11D01
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 10:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13742A11D06
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 10:11:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 545CE10E59D;
-	Wed, 15 Jan 2025 09:10:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4720E10E584;
+	Wed, 15 Jan 2025 09:11:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WI5H/qYk";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kXkwuapY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C40810E594;
- Wed, 15 Jan 2025 09:10:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1736932243; x=1768468243;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=LQ8N3YQmtMLxUG2gVPGVGYyiTiSbBwkQQTJ1XWIfTlk=;
- b=WI5H/qYkrUbcqRJRlCwJ1KrZfYs5TLJyXR0Gl1uB+z6yMXdrARJjxska
- lZl/m6cCxOXO0SpxpWoskQb7SC5MCNdrRNbOYPDZxeQKPUy7F5ntDG193
- GsA5JgxNKpQ50ftWD6M+adNNWxK7vyIzGOGN9qtawsR+4bamGKFbaHLdq
- ZEMrZhgsiAojW2pC7LqKZ3QxY0l8IYzOnL755sLZ9C8liX2lqkblBRQTk
- yx5ySTUegn/Gy4ToXGsB7E+MhAQlikEl9NGUXMVUC/SpvDCrkU7q1mso5
- sm5o3PFtKFuvQ2x9690/8xLAqblvBRNfyBQJ554Y5AsdCpNqORskIzxt4 A==;
-X-CSE-ConnectionGUID: 1KiPRnt8TyKefE0Gz9j2sA==
-X-CSE-MsgGUID: uej3a0GoT6uabk8cSHyDnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37137043"
-X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; d="scan'208";a="37137043"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2025 01:10:42 -0800
-X-CSE-ConnectionGUID: zYYReisPQ7KqFtgfoh/RVw==
-X-CSE-MsgGUID: lgt5M4RhQPGdo67SKOukFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,316,1728975600"; d="scan'208";a="110038856"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.54])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2025 01:10:38 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jonathan Denose <jdenose@google.com>, LKML <linux-kernel@vger.kernel.org>
-Cc: rodrigo.vivi@intel.com, intel-gfx@lists.freedesktop.org, Jonathan Denose
- <jdenose@google.com>, David Airlie <airlied@gmail.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko
- Ursulin <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, imre.deak@intel.com
-Subject: Re: [PATCH] drm/i915/display: Add skip link check quirk
-In-Reply-To: <20250114190709.1.Ia17111747d0450169dbe902e5d7ef25912a9338e@changeid>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250114190709.1.Ia17111747d0450169dbe902e5d7ef25912a9338e@changeid>
-Date: Wed, 15 Jan 2025 11:10:35 +0200
-Message-ID: <87a5bsh27o.fsf@intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA32A10E584
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 09:11:04 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id E6004A419C4;
+ Wed, 15 Jan 2025 09:09:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FB9FC4CEDF;
+ Wed, 15 Jan 2025 09:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1736932263;
+ bh=nWMxkXit2DGaZifVgwlAuHrDVVsAZQbVzqfiXv8H0Go=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kXkwuapYlF7QCY6JOIonHyW2I6Ny6fdMmkwSkPoJDY1FDqrSNsnzn49F1wGxwOG1S
+ Iqlet5os8CxibcrL5BdkP8aSr7r3mmERGkbFzNmu1INgSQKxy9ib9ZhJaL1E5Qqtn4
+ U2bb7ZPEtgRffeCX8hJymBP4vSiB8P5y8lqEZ5DM=
+Date: Wed, 15 Jan 2025 10:11:00 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Dave Airlie <airlied@gmail.com>,
+ Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
+ stable@vger.kernel.org, ashutosh.dixit@intel.com,
+ dri-devel@lists.freedesktop.org
+Subject: Re: AAARRRGGGHHH!!!! (was Re: [PATCH 6.12.y] xe/oa: Fix query mode
+ of operation for OAR/OAC)
+Message-ID: <2025011551-volatile-turbofan-52ab@gregkh>
+References: <2025010650-tuesday-motivate-5cbb@gregkh>
+ <20250110205341.199539-1-umesh.nerlige.ramappa@intel.com>
+ <2025011215-agreeing-bonfire-97ae@gregkh>
+ <CAPM=9txHupDKRShZLe8FA2kJwov-ScDASqJouUdxbMZ3X=U1-Q@mail.gmail.com>
+ <871px5iwbx.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <871px5iwbx.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,102 +62,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Jan 2025, Jonathan Denose <jdenose@google.com> wrote:
-> The display on the Advantech UTC124G3PWWW0E-ES worked fine until commit
-> "drm/i915/dp: Recheck link state after modeset" was introduced. After
-> this commit the display flickers intermittently as the driver code
-> initiates the delayed link recheck in an infinite loop.
->
-> To resolve this issue for the Advantech device, add a quirk to skip over
-> the delayed link recheck.
+On Tue, Jan 14, 2025 at 11:22:26AM +0200, Jani Nikula wrote:
+> On Tue, 14 Jan 2025, Dave Airlie <airlied@gmail.com> wrote:
+> > On Sun, 12 Jan 2025 at 22:19, Greg KH <gregkh@linuxfoundation.org> wrote:
+> >>
+> >> On Fri, Jan 10, 2025 at 12:53:41PM -0800, Umesh Nerlige Ramappa wrote:
+> >> > commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16 upstream
+> >>
+> >> <snip>
+> >>
+> >> > Fixes: 8135f1c09dd2 ("drm/xe/oa: Don't reset OAC_CONTEXT_ENABLE on OA stream close")
+> >> > Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+> >> > Reviewed-by: Matthew Brost <matthew.brost@intel.com> # commit 1
+> >> > Reviewed-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> >> > Cc: stable@vger.kernel.org # 6.12+
+> >> > Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> >> > Signed-off-by: Ashutosh Dixit <ashutosh.dixit@intel.com>
+> >> > Link: https://patchwork.freedesktop.org/patch/msgid/20241220171919.571528-2-umesh.nerlige.ramappa@intel.com
+> >> > (cherry picked from commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16)
+> >> > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> >>
+> >> Oh I see what you all did here.
+> >>
+> >> I give up.  You all need to stop it with the duplicated git commit ids
+> >> all over the place.  It's a major pain and hassle all the time and is
+> >> something that NO OTHER subsystem does.
+> >
+> > Let me try and work out what you think is the problem with this
+> > particular commit as I read your email and I don't get it.
+> >
+> > This commit is in drm-next as  55039832f98c7e05f1cf9e0d8c12b2490abd0f16
+> > and says Fixes: 8135f1c09dd2 ("drm/xe/oa: Don't reset
+> > OAC_CONTEXT_ENABLE on OA stream close)
+> >
+> > It was pulled into drm-fixes a second time as a cherry-pick from next
+> > as f0ed39830e6064d62f9c5393505677a26569bb56
+> > (cherry picked from commit 55039832f98c7e05f1cf9e0d8c12b2490abd0f16)
+> >
+> > Now the commit it Fixes: 8135f1c09dd2 is also at
+> > 0c8650b09a365f4a31fca1d1d1e9d99c56071128
+> >
+> > Now the above thing you wrote is your cherry-picked commit for stable?
+> > since I don't see
+> > (cherry picked from commit f0ed39830e6064d62f9c5393505677a26569bb56)
+> > in my tree anywhere.
+> 
+> The automatic cherry-pick for 6.12 stable failed, and Umesh provided the
+> manually cherry-picked patch for it, apparently using -x in the process,
+> adding the second cherry-pick annotation. The duplicate annotation
+> hasn't been merged to any tree, it's not part of the process, it's just
+> what happened with this manual stable backport. I think it would be wise
+> to ignore that part of the whole discussion. It's really not that
+> relevant.
 
-It would be better to try to get at the root cause first, instead of
-blindly skipping required parts. The code's complicated enough without
-quirks, and removing them afterwards is very difficult.
+On the contrary, this commit shows the whole problem very well.  It is
+trivial for people to get confused, the author submitted a backport of a
+commit that is NOT in Linus's tree because they got an email telling of
+a failure and didn't use the correct id because they looked in the
+drm-next branch, NOT in Linus's branch.
 
-Please file a bug according to [1], and attach full dmesg with debugs
-enabled.
+Which is why I flagged it, as the commit id used here was not a valid
+one at this point in time.  Yes, after -rc1 it would be valid, but
+again, totally confusing.
 
-Cc: Imre
+You all are seeing confusion with this development model.  That's the
+issue.  Whether or not it's intentional, that's the result.  And because
+of it, I am telling you all, the kernel is less secure as it allows us
+all to get confused and mis backports and drop fixes incorrectly.
 
-BR,
-Jani.
+So either you all change the process, or just live with it and the
+consequences of having total confusion at times and grumpy stable
+developers because of it, and less secure users due to missed bug and
+security fixes.
 
-
-
-[1] https://drm.pages.freedesktop.org/intel-docs/how-to-file-i915-bugs.html
-
-
-
->
-> Signed-off-by: Jonathan Denose <jdenose@google.com>
-> ---
->
->  drivers/gpu/drm/i915/display/intel_dp_link_training.c | 4 +++-
->  drivers/gpu/drm/i915/display/intel_quirks.c           | 8 ++++++++
->  drivers/gpu/drm/i915/display/intel_quirks.h           | 1 +
->  3 files changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> index 397cc4ebae526..7804ad38b00cd 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> @@ -32,6 +32,7 @@
->  #include "intel_encoder.h"
->  #include "intel_hotplug.h"
->  #include "intel_panel.h"
-> +#include "intel_quirks.h"
->  
->  #define LT_MSG_PREFIX			"[CONNECTOR:%d:%s][ENCODER:%d:%s][%s] "
->  #define LT_MSG_ARGS(_intel_dp, _dp_phy)	(_intel_dp)->attached_connector->base.base.id, \
-> @@ -1622,7 +1623,8 @@ void intel_dp_start_link_train(struct intel_atomic_state *state,
->  		lt_dbg(intel_dp, DP_PHY_DPRX, "Forcing link training failure\n");
->  	} else if (passed) {
->  		intel_dp->link.seq_train_failures = 0;
-> -		intel_encoder_link_check_queue_work(encoder, 2000);
-> +		if (!intel_has_quirk(display, QUIRK_SKIP_LINK_CHECK))
-> +			intel_encoder_link_check_queue_work(encoder, 2000);
->  		return;
->  	}
->  
-> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.c b/drivers/gpu/drm/i915/display/intel_quirks.c
-> index 28f497ae785bb..d472a5f21f8b9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_quirks.c
-> +++ b/drivers/gpu/drm/i915/display/intel_quirks.c
-> @@ -78,6 +78,12 @@ static void quirk_fw_sync_len(struct intel_dp *intel_dp)
->  	drm_info(display->drm, "Applying Fast Wake sync pulse count quirk\n");
->  }
->  
-> +static void quirk_skip_link_check(struct intel_display *display)
-> +{
-> +	intel_set_quirk(display, QUIRK_SKIP_LINK_CHECK);
-> +	drm_info(display->drm, "Applying skip link check quirk\n");
-> +}
-> +
->  struct intel_quirk {
->  	int device;
->  	int subsystem_vendor;
-> @@ -229,6 +235,8 @@ static struct intel_quirk intel_quirks[] = {
->  	{ 0x3184, 0x1019, 0xa94d, quirk_increase_ddi_disabled_time },
->  	/* HP Notebook - 14-r206nv */
->  	{ 0x0f31, 0x103c, 0x220f, quirk_invert_brightness },
-> +	/* Advantech UTC124G3PWWW0E-ES */
-> +	{0x5a85, 0x8086, 0x2212, quirk_skip_link_check},
->  };
->  
->  static const struct intel_dpcd_quirk intel_dpcd_quirks[] = {
-> diff --git a/drivers/gpu/drm/i915/display/intel_quirks.h b/drivers/gpu/drm/i915/display/intel_quirks.h
-> index cafdebda75354..9e8f2816a4fba 100644
-> --- a/drivers/gpu/drm/i915/display/intel_quirks.h
-> +++ b/drivers/gpu/drm/i915/display/intel_quirks.h
-> @@ -20,6 +20,7 @@ enum intel_quirk_id {
->  	QUIRK_LVDS_SSC_DISABLE,
->  	QUIRK_NO_PPS_BACKLIGHT_POWER_HOOK,
->  	QUIRK_FW_SYNC_LEN,
-> +	QUIRK_SKIP_LINK_CHECK,
->  };
->  
->  void intel_init_quirks(struct intel_display *display);
-
--- 
-Jani Nikula, Intel
+greg k-h
