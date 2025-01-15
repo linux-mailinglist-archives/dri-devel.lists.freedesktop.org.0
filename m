@@ -2,98 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E74FA11F02
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:13:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BB0A11F0C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:15:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E83010E4ED;
-	Wed, 15 Jan 2025 10:13:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C26FD10E5A5;
+	Wed, 15 Jan 2025 10:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pmR2bdAL";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="JxIcmMVr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC7B110E183;
- Wed, 15 Jan 2025 10:13:54 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A30BD22E;
- Wed, 15 Jan 2025 11:12:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736935975;
- bh=A0uT2PZu2vMEF9l8RixHcuD7XJQCUpNHinaQ0kfDHhA=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pmR2bdALx1oQyukLslwEK4I+DzAJ+sQ7jabs2IStX4+lbodFhHRKpbzD2TbgjeFIq
- wvGaKkMawbqcDlftYcVj6Xwl5RO6AMISn5ADly0zRVsc0cmRz82fdiURAcZKwFjw2x
- puw3h1fl2vbnDQxZ0v1561h2shhHO4y1sRLg8SKI=
-Message-ID: <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
-Date: Wed, 15 Jan 2025 12:13:48 +0200
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A4B2610E5AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 10:15:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+ Message-ID; bh=N1awunrREe1iTsyR+k/Vz7XeHYRk6gO7XqsAuqS2c3U=; b=J
+ xIcmMVrU2S0qs67dxfllFhU2Acdy5rV1dXyyyOWZ0+xsf8u4BRSAVd7xK8AVeJ0V
+ 72JIxhY0IKvdVGtny34i2+xEVbqQLEz+o++jZnVtakYEI6NY+piP5Uup7cbZV1of
+ hj7tpFe8AjxzzgkMnuNScavmLJkIp6DCA4xJWypsYE=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-117 (Coremail) ; Wed, 15 Jan 2025 18:15:00 +0800
+ (CST)
+X-Originating-IP: [58.22.7.114]
+Date: Wed, 15 Jan 2025 18:15:00 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Doug Anderson" <dianders@chromium.org>
+Cc: quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, neil.armstrong@linaro.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re:Re: Re:[PATCH] drm/panel-edp: Add BOE NV140FHM-N4Z panel entry
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
+References: <20250113085956.2150207-1-andyshrk@163.com>
+ <34a1058f.9829.1945f2b448c.Coremail.andyshrk@163.com>
+ <341c653.7fa6.194640f0f37.Coremail.andyshrk@163.com>
+ <CAD=FV=VdtA+4AsdoKeig4hheS0CX9d9wk7+ksi0_TC-R6px2UQ@mail.gmail.com>
+X-NTES-SC: AL_Qu2YBPWYuUkr5ieYbOlS/DNQ2YpmHKvs4olgqcQkZd0qqTHPyz4QZ0BuLUbI3d52CRC7nP6lkym9jxYxyozw
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250109150310.219442-26-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Message-ID: <224024ea.917c.19469759369.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: dSgvCgDXf5mkiodnD+hXAA--.34987W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQXVXmeHhRd8SAACsj
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,98 +64,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi!
-
-On 09/01/2025 16:57, Thomas Zimmermann wrote:
-> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
-> buffer size. Align the pitch according to hardware requirements.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->   drivers/gpu/drm/xlnx/zynqmp_kms.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> index b47463473472..7ea0cd4f71d3 100644
-> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
-> @@ -19,6 +19,7 @@
->   #include <drm/drm_crtc.h>
->   #include <drm/drm_device.h>
->   #include <drm/drm_drv.h>
-> +#include <drm/drm_dumb_buffers.h>
->   #include <drm/drm_encoder.h>
->   #include <drm/drm_fbdev_dma.h>
->   #include <drm/drm_fourcc.h>
-> @@ -363,10 +364,12 @@ static int zynqmp_dpsub_dumb_create(struct drm_file *file_priv,
->   				    struct drm_mode_create_dumb *args)
->   {
->   	struct zynqmp_dpsub *dpsub = to_zynqmp_dpsub(drm);
-> -	unsigned int pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
-> +	int ret;
->   
->   	/* Enforce the alignment constraints of the DMA engine. */
-> -	args->pitch = ALIGN(pitch, dpsub->dma_align);
-> +	ret = drm_mode_size_dumb(drm, args, dpsub->dma_align, 0);
-> +	if (ret)
-> +		return ret;
->   
->   	return drm_gem_dma_dumb_create_internal(file_priv, drm, args);
->   }
-
-I have some trouble with this one.
-
-I have sent a series to add some pixel formats:
-
-https://lore.kernel.org/all/20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com/
-
-Let's look at XV15. It's similar to NV12, but 10 bits per component, and 
-some packing and padding.
-
-First plane: 3 pixels in a 32 bit group
-Second plane: 3 pixels in a 64 bit group, 2x2 subsampled
-
-So, on average, a pixel on the first plane takes 32 / 3 = 10.666... bits 
-on a line. That's not a usable number for the DRM_IOCTL_MODE_CREATE_DUMB 
-ioctl.
-
-What I did was to use the pixel group size as "bpp" for 
-DRM_IOCTL_MODE_CREATE_DUMB. So, e.g., for 720 x 576:
-
-Stride for first plane: 720 * (32 / 3) / 8 = 960 bytes
-Stride for second plane: 720 / 2 * (64 / 3) / 8 = 960 bytes
-
-First plane: 720 / 3 = 240 pixel groups
-Second plane: 720 / 2 / 3 = 120 pixel groups
-
-So I allocated the two planes with:
-240 x 576 with 32 bitspp
-120 x 288 with 64 bitspp
-
-This worked, and if I look at the DRM_IOCTL_MODE_CREATE_DUMB in the 
-docs, I can't right away see anything there that says my tactic was not 
-allowed.
-
-The above doesn't work anymore with this patch, as the code calls 
-drm_driver_color_mode_format(), which fails for 64 bitspp. It feels a 
-bit odd that DRM_IOCTL_MODE_CREATE_DUMB will try to guess the RGB fourcc 
-for a dumb buffer allocation.
-
-So, what to do here? Am I doing something silly? What's the correct way 
-to allocate the buffers for XV15? Should I just use 32 bitspp for the 
-plane 2 too, and double the width (this works)?
-
-Is DRM_IOCTL_MODE_CREATE_DUMB only meant for simple RGB formats? The 
-xilinx driver can, of course, just not use drm_mode_size_dumb(). But if 
-so, I guess the limitations of drm_mode_size_dumb() should be documented.
-
-Do we need a new dumb-alloc ioctl that takes the format and plane number 
-as parameters? Or alternatively a simpler dumb-alloc that doesn't have 
-width and bpp, but instead takes a stride and height as parameters? I 
-think those would be easier for the userspace to use, instead of trying 
-to adjust the parameters to be suitable for the kernel.
-
-  Tomi
-
+CkhpIERvdWcsCgrlnKggMjAyNS0wMS0xNSAwMDo0NDo0Me+8jCJEb3VnIEFuZGVyc29uIiA8ZGlh
+bmRlcnNAY2hyb21pdW0ub3JnPiDlhpnpgZPvvJoKPkhpLAo+Cj5PbiBUdWUsIEphbiAxNCwgMjAy
+NSBhdCAxOjA14oCvQU0gQW5keSBZYW4gPGFuZHlzaHJrQDE2My5jb20+IHdyb3RlOgo+Pgo+Pgo+
+PiBIaSBBbGwsCj4+Cj4+IEF0IDIwMjUtMDEtMTMgMTg6MTc6MzgsICJBbmR5IFlhbiIgPGFuZHlz
+aHJrQDE2My5jb20+IHdyb3RlOgo+PiA+Cj4+ID5Tb3JyeSwgcGxlYXNlIGRvbid0IG1lcmdlIHRo
+aXMgcGF0Y2guIGFmdGVyIGZ1cnRoZXIgdGVzdGluZywKPj4gPkkgZm91bmQgdGhhdCB0aGVyZSBh
+cmUgc3RpbGwgc29tZSBjaGFuZ2NlLCBpdCBjYW4ndCByZWFkIGVkaWQuCj4+Cj4+IEl0IHR1cm5z
+IG91dCB0aGF0IHdlIG5lZWQgc2V0IGhwZC1yZWxpYWJsZS1kZWxheS1tcyA9IDEyMCBpbiBkdHMg
+dG8gZW5zdXJlCj4+IHRoZSByaWdodCB0aW1lIHRvIGFjY2VzcyBlZGlkLgo+Cj5UaGF0IHNlZW1z
+IGF3ZnVsbHkgaGlnaCBhbmQgZmVlbHMgbGlrZWx5IHRvIGJlIGEgcHJvYmxlbSB3aXRoIHlvdXIK
+PmJvYXJkIGRlc2lnbiBhbmQgbm90IHRoZSBwYW5lbC4gQXJlIHlvdSBzdXJlIEhQRCBpcyBldmVu
+IGhvb2tlZCB1cAo+cHJvcGVybHkgb24geW91ciBib2FyZD8gTWF5YmUgeW91J3JlIG1pc3Npbmcg
+YSBwdWxsdXAvcHVsbGRvd24gY29uZmlnCj5zb21ld2hlcmU/IFdvdWxkIGl0IGJlIGJldHRlciB0
+byBqdXN0IHNwZWNpZnkgIm5vLWhwZCIgYW5kIGdldCB0aGUKPmZ1bGwgIkhQRCBhYnNlbnQiIGRl
+bGF5Pwo+Cj4KPj4gU28gdGhlIHBhdGNoIGlzIG9rLCBpdCBpcyByZWFkeSBmb3IgcmV2aWV3Lgo+
+Pgo+PiA+Cj4+ID5BdCAyMDI1LTAxLTEzIDE2OjU5OjU0LCAiQW5keSBZYW4iIDxhbmR5c2hya0Ax
+NjMuY29tPiB3cm90ZToKPj4gPj5BZGQgYW4gZURQIHBhbmVsIGVudHJ5IGZvciBCT0UgTlYxNDBG
+SE0tTjRaLgo+PiA+Pgo+PiA+Pk5vIGRhdGFzaGVldCBmb3VuZCBmb3IgdGhpcyBwYW5lbC4KPgo+
+SSBzZWVtIHRvIGJlIGFibGUgdG8gZmluZCBhIGRhdGFzaGVldCBmb3Igc29tZXRoaW5nIHRoYXQg
+Y2FsbHMgaXRzZWxmCj5OVjE0MEZITS1ONFosIGJ1dCBpdCBtaWdodCBiZSBhIGRpZmZlcmVudCBI
+VyB2ZXJzaW9uIHNpbmNlIGl0IGhhcyBhCj5kaWZmZXJlbnQgSUQuIEluIG15IGRhdGFzaGVldCwg
+dGhvdWdoLCAicHJlcGFyZV90b19lbmFibGUiIHNob3VsZCBiZQo+ODAgZm9yIHRoaXMgcGFuZWws
+IG5vdCAyMDAuIFRoYXQgbWF0Y2hlcyBhbm90aGVyIG5lYXJieSBwYW5lbAo+Ik5WMTQwV1VNLU40
+MSIuIEFyZSB5b3Ugc3VyZSB5b3UgbmVlZCAyMDA/CgpJIGFtIG5vdCBzdXJlIGFib3V0IHRoYXQg
+dmFsdWUsIApJIHNlYXJjaGVkIG9uIHRoZSBpbnRlcm5ldCwgYW5kIGNhbid0IGZpbmQgYSBkYXRh
+c2hlZXQgbWF0Y2ggQk9FIE5WMTQwRkhNLU5aCkkgc2V0IHRoaXMgdmFsdWUgYWNjb3JkaW5nOiBO
+VjE0MEZITS1ONDEsIGFuZCB0aGVuIGRvIG1hbnkgdGVzdHMgdG8gc2VlIGlmIGl0IGhhcwphbnkg
+cHJvYmxlbS4KCmh0dHA6Ly93d3cudGZpbm5vLmNvbS9QSUMvUElDLzIwMjE1MTIxNjI4NDQwLnBk
+ZgoKWyAgICAzLjAyMTcwMF0gcGFuZWwtc2ltcGxlLWRwLWF1eCBhdXgtZmRlZDAwMDAuZWRwOiBE
+ZXRlY3RlZCBCT0UgTlYxNDBGSE0tTlogKDB4MGIwOSkKCgoKPgo+Cj4+ID4+ZWRpZDoKPj4gPj4w
+MCBmZiBmZiBmZiBmZiBmZiBmZiAwMCAwOSBlNSAwOSAwYiAwMCAwMCAwMCAwMAo+PiA+PjAxIDIw
+IDAxIDA0IGE1IDFmIDExIDc4IDAzIDliIDc1IDk5IDViIDVkIDhmIDJhCj4+ID4+MjMgNTAgNTQg
+MDAgMDAgMDAgMDEgMDEgMDEgMDEgMDEgMDEgMDEgMDEgMDEgMDEKPj4gPj4wMSAwMSAwMSAwMSAw
+MSAwMSBjOCAzNyA4MCBjYyA3MCAzOCAyOCA0MCA2YyAzMAo+PiA+PmFhIDAwIDM1IGFlIDEwIDAw
+IDAwIDFhIDAwIDAwIDAwIGZkIDAwIDMwIDNjIDQzCj4+ID4+NDMgOGYgMDEgMGEgMjAgMjAgMjAg
+MjAgMjAgMjAgMDAgMDAgMDAgZmUgMDAgNDIKPj4gPj40ZiA0NSAyMCA0OCA0NiAwYSAyMCAyMCAy
+MCAyMCAyMCAyMCAwMCAwMCAwMCBmZQo+PiA+PjAwIDRlIDU2IDMxIDM0IDMwIDQ2IDQ4IDRkIDJk
+IDRlIDM0IDVhIDBhIDAwIDM1Cj4+ID4+Cj4+ID4+U2lnbmVkLW9mZi1ieTogQW5keSBZYW4gPGFu
+ZHlzaHJrQDE2My5jb20+Cj4+ID4+LS0tCj4+ID4+Cj4+ID4+IGRyaXZlcnMvZ3B1L2RybS9wYW5l
+bC9wYW5lbC1lZHAuYyB8IDEgKwo+PiA+PiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykK
+Pgo+RldJVyBpdCdzIGdvb2QgdGhhdCBUaG9tYXMgcmVwbGllZCB0byB5b3VyIHBhdGNoLCBzaW5j
+ZSB0aGF0IHdhcyB0aGUKPm9ubHkgdGhpbmcgdGhhdCBzaG93ZWQgdXAgaW4gbXkgaW5ib3guIFlv
+dXIgaW5pdGlhbCBwYXRjaCBzaG93ZWQgdXAgYXMKPnNwYW0gZm9yIG1lLiA6KCBOb3Qgc3VyZSB3
+aHksIHRob3VnaC4uLgo+Cj4KPj4gPj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3BhbmVs
+L3BhbmVsLWVkcC5jIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWVkcC5jCj4+ID4+aW5k
+ZXggOTRhNDYyNDFkZWNlLi5hMzQwMmI3NmFhM2UgMTAwNjQ0Cj4+ID4+LS0tIGEvZHJpdmVycy9n
+cHUvZHJtL3BhbmVsL3BhbmVsLWVkcC5jCj4+ID4+KysrIGIvZHJpdmVycy9ncHUvZHJtL3BhbmVs
+L3BhbmVsLWVkcC5jCj4+ID4+QEAgLTE5MDksNiArMTkwOSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgZWRwX3BhbmVsX2VudHJ5IGVkcF9wYW5lbHNbXSA9IHsKPj4gPj4gICAgICBFRFBfUEFORUxf
+RU5UUlkoJ0InLCAnTycsICdFJywgMHgwYWM1LCAmZGVsYXlfMjAwXzUwMF9lNTAsICJOVjExNldI
+TS1ONEMiKSwKPj4gPj4gICAgICBFRFBfUEFORUxfRU5UUlkoJ0InLCAnTycsICdFJywgMHgwYWU4
+LCAmZGVsYXlfMjAwXzUwMF9lNTBfcDJlODAsICJOVjE0MFdVTS1ONDEiKSwKPj4gPj4gICAgICBF
+RFBfUEFORUxfRU5UUlkoJ0InLCAnTycsICdFJywgMHgwYjM0LCAmZGVsYXlfMjAwXzUwMF9lODAs
+ICJOVjEyMldVTS1ONDEiKSwKPj4gPj4rICAgICBFRFBfUEFORUxfRU5UUlkoJ0InLCAnTycsICdF
+JywgMHgwYjA5LCAmZGVsYXlfMjAwXzUwMF9lNTBfcDJlMjAwLCAiTlYxNDBGSE0tTloiKSwKPj4g
+Pj4gICAgICBFRFBfUEFORUxfRU5UUlkoJ0InLCAnTycsICdFJywgMHgwYjQzLCAmZGVsYXlfMjAw
+XzUwMF9lMjAwLCAiTlYxNDBGSE0tVDA5IiksCj4KPlRoaXMgaXMgbWlzLXNvcnRlZC4gMHhiMDkg
+c2hvdWxkIGJlIF9iZWZvcmVfIDB4MGIzNC4gSSdsbCBvZnRlbiBmaXgKPnRoaXMgdXAgd2hlbiBh
+cHBseWluZyAodGhvdWdoIGl0J3MgbW9yZSB3b3JrIGZvciBtZSksIGJ1dCBzaW5jZSBJIGhhZAo+
+YSBxdWVzdGlvbiBhYm92ZSBhYm91dCBkZWxheV8yMDBfNTAwX2U1MF9wMmUyMDAgdnMuCj5kZWxh
+eV8yMDBfNTAwX2U1MF9wMmU4MCBtYXliZSB5b3UgY2FuIGFuc3dlciBhbmQgYWxzbyBzZW5kIGEg
+djIgd2l0aAo+dGhlIHNvcnQgb3JkZXIgZml4ZWQuCj4KPi1Eb3VnCg==
