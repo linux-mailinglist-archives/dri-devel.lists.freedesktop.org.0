@@ -2,90 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E167A12616
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AC9A12671
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:47:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0D0810E700;
-	Wed, 15 Jan 2025 14:34:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84F0E10E712;
+	Wed, 15 Jan 2025 14:47:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="O4g749Sj";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XRGAQtz+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
- [IPv6:2607:f8b0:4864:20::f34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36FB10E700
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:34:38 +0000 (UTC)
-Received: by mail-qv1-xf34.google.com with SMTP id
- 6a1803df08f44-6d89a727a19so9128646d6.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 06:34:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1736951678; x=1737556478;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wgpCbUXuk0fjx7PlpFBa3YSbnvvXmj+DNx/eEdB8F5M=;
- b=O4g749SjtyerKr7EPw+zPQwu+AILrPNMVGq7ELv6hUdJVx4deOL31ateAd+NMM6mIK
- t0VtPk5B7weSxoVj0mU/TGaUwUTVS3myRwT/YQAr1QLPfA0hF7FDQjmUxM9sC3n4LR3k
- x2II4LCVVCXNjjV++vThZyIx9hANm3H6lHHLQ9yXIBCpMChZ8+kPROx+PmtQCatgSUba
- 1Dtae+GgmC31y0M4GEvNTguvjBLlJON/+GHeCp21AVCoQsGGBlA3YWHgaoJ8BPm8eAE0
- LIHC74D0vq7YyEgw2P+kT+7WhCvX4D1vDDXBCxc0RiQs02oosInt+qchgm+IAN8+zkV8
- jJfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736951678; x=1737556478;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wgpCbUXuk0fjx7PlpFBa3YSbnvvXmj+DNx/eEdB8F5M=;
- b=mAFAGTVtyUpJYfiO/ztfigBs29Nvc2nq/c7Abp1lb621136QGtgpnbxHMCOrpGgPwk
- Mp5Nfp6lZ+o1KbwpvOUgErYKWstJs3mPLrXv3Ks5WtrYoFaN3x+GxKJPyXLf4VXpO41Z
- LBEjCyFU4y0vxyi4bSeyAXxm3p3Gcl2hoc8aX/DjYb7RlODnMXG3KGdPi1GJS70UpFcG
- Owghsp7d4GvMitGeLS5uo4TAthsehbp3L50zYqJbGD7/FwpyjA/jwYHgdwUUgweBIAr9
- VC6MDLsdJeQTf7ORgMEmDaUDUaBWxk5TWag34mBBKkbvy9h9t+7nygyKxMZ6fLqCulQk
- ah2A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVs3FlF+wySbrBl6+AC1pibwoOsecm8bp4uZzGxjeq70WELLWUfP9LwYhQcrNUGr8YnfT7gXAOl/QM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxgkMjS6ZGBk4W8E7n9Rd98XoN1WzSqV5M7U6ZCRThuLuw3kG53
- DisuFqJgkW/jVdsmmFqBc5mFVyCDZ8kcBwWnSLGuPCwhZuwF8DEVEcfTjMRGtfzRkvtyimyhKU0
- yW78kpZBFrs2R4mFGUK1oGVi09lhmFh/ilA7C8g==
-X-Gm-Gg: ASbGncs7fgLKANqprcslIupgoYRx2jtwnzid//E0XtEO3sCv4TS/1pEOMzsxHRC40VR
- bmEuuvdw26WV3pjtQeQQy+jaeVLjEXfAAc8M=
-X-Google-Smtp-Source: AGHT+IFPz9fbMcvhhyZZGYYuWLUwXCRTy8s+kBCbi69J2hIRU1+TB7begqOpM0+xy1s6GqB+nx1X6ZJAR0totDSXOwo=
-X-Received: by 2002:a05:6214:486:b0:6d8:e7c9:ffa0 with SMTP id
- 6a1803df08f44-6e192c73ef5mr43851476d6.19.1736951677902; Wed, 15 Jan 2025
- 06:34:37 -0800 (PST)
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCD3C10E712
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:47:24 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4YY82z2Bqjz9sdN;
+ Wed, 15 Jan 2025 15:46:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1736952411;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4B364nc4zhZ6thA4ILmR4L8pk/4MIprAwHXB9BQydBw=;
+ b=XRGAQtz+/rhHbtdR8wpFUT7NeVwrxnncmdEc++Caq7Mfu1x6Mz/AuDzryRAzacndjcuN0/
+ iI1Ezefzwte1Ww+mtXHtu4+j13pjISW+OhMVDp51L0LJ5uRSbfaGz7vKtPh5AwixuF2s9A
+ fBtt7wvlS8yaiECSOekQUV5MgFvwBeEwcXU8CY1VD2NYd1jQiw2IZsD2A9qrQ+62h7xNaZ
+ 64Ybwq3hMDmfbUxucB3NC0S8/3C+qRJh27wcSEgFFffyE/f9Rss49Wv41wNyrUIQSZwDEf
+ 4PYt/WtTc85RYktQ5BtsMQ0Rh2Nj40jwUWoxQeIgWICI0TeJo2KExht5NiF0mg==
+Message-ID: <6a90952b-200e-4f99-8312-b2184a9d6448@mailbox.org>
+Date: Wed, 15 Jan 2025 15:46:48 +0100
 MIME-Version: 1.0
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
- <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
- <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
- <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
- <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
- <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
- <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
- <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
-In-Reply-To: <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 15 Jan 2025 14:34:26 +0000
-X-Gm-Features: AbW1kvZOqZIfsgr5MQqIuf1jKNJtcUmkb-2ddanRpBEhDxEw_Wl931RGN2rzkA8
-Message-ID: <CAPj87rOn=RQ615zyaEdFT2ADfPztU7+heVi0G34Rdg-=QO1cCw@mail.gmail.com>
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev, 
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andy Yan <andyshrk@163.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC 00/14] Deadline scheduler and other ideas
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Philipp Stanner <pstanner@redhat.com>, Tvrtko Ursulin <tursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20241230165259.95855-1-tursulin@igalia.com>
+ <31842e821032305e5be7a8dcc3e13593fd09da20.camel@redhat.com>
+ <99c7ccf4-a85f-4a11-912f-78f8d5a57516@igalia.com>
+ <c4c62ea9-86c0-43c1-99b0-08af7b3bd71a@amd.com>
+ <a202cc5b-13f5-4454-b32d-e2b5dcac85e9@mailbox.org>
+ <690b5b62-78e4-48cb-a572-90d11b9b4ed6@igalia.com>
+ <8f65b016-af77-4f15-b8c6-ffc30cc8157b@mailbox.org>
+ <760bfbe5-958f-49dc-b454-a0daa82952f1@igalia.com>
+ <ec68066d-460c-4d8e-ab8b-67acdfa973cf@mailbox.org>
+ <d157226c-0512-48c4-82d6-4f4c70ec08f1@igalia.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <d157226c-0512-48c4-82d6-4f4c70ec08f1@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: p5qoeyhuwmro9fj3ak3jsctxp5yifc1y
+X-MBO-RS-ID: 90729c938ce7d31297d
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,28 +75,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Jan 2025 at 14:20, Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
-> No disagreement there, we need CREATE_DUMB2.
->
-> My point is that we have the current UAPI, and we have userspace using
-> it, but we don't have clear rules what the ioctl does with specific
-> parameters, and we don't document how it has to be used.
->
-> Perhaps the situation is bad, and all we can really say is that
-> CREATE_DUMB only works for use with simple RGB formats, and the behavior
-> for all other formats is platform specific. But I think even that would
-> be valuable in the UAPI docs.
+On 2025-01-15 14:38, Tvrtko Ursulin wrote:
+> On 13/01/2025 15:29, Michel Dänzer wrote:
+>> On 2025-01-13 12:40, Tvrtko Ursulin wrote:
+>>> On 10/01/2025 09:14, Michel Dänzer wrote:
+>>>> On 2025-01-09 17:55, Tvrtko Ursulin wrote:
+>>>>> On 09/01/2025 15:08, Michel Dänzer wrote:
+>>>>>> On 2025-01-03 13:31, Christian König wrote:
+>>>>>>
+>>>>>>> What FIFO is still missing compared to RR is some sort of fairness between queues. E.g. a queues which hasn't submitted something in a while might get a bonus for their submissions compared to a queue which submits stuff all the time (or something like that).
+>>>>>>
+>>>>>> The lack of that could indeed explain the scenario above, if the game submits its GPU job for frame n+1 before Xwayland submits its GPU job for presenting frame n.
+>>>>>
+>>>>> I would be keen to experiment with this. There is that last patch in v2 of my series which scales the deadlines based on queue depth. So for a client which submits two frames it could be enough (in principle, not the actually posted version) to push out the deadline at qd=2 so a client which never breaks qd=1 can reliably overtake it.
+>>>>>
+>>>>> What would really be great if you could suggest me as easy to set up as possible test case with objective measuring criteria. And it would have to run on AMD. Quake II RTX under XWayland as the GitLab issue suggest or there is more to it? Does it has to be GNOME?
+>>>>
+>>>> Don't think it has to be.
+>>>>
+>>>>> Any way to run it programmatically and get a performance number out?
+>>>>
+>>>> This could be tricky, since the game itself reports the same frame rate in both cases. You'd have to compare the frame times in the compositor instead.
+>>>
+>>> So missed frames in the compositor?
+>>
+>> Rather in Xwayland, the compositor is where it's visible to the user.
+> 
+> How would you suggest to instrument this, or what debug/logs to enable to see it?
+>>>> Also, the issue might no longer be reproducible in this particular scenario with current Xwayland, because it should no longer do any GPU copies for presentation but just forward the client buffers to the compositor.
+>>> Do you have an idea how could we find out more about that what you said: "people are saying RR works better than FIFO for some gaming scenarios even with current Xwayland, which shouldn't do any GPU copies for presentation of fullscreen windows"?
+>>
+>> Other than asking affected users for more information, not offhand.
+> 
+> Could you find out more?
 
-Yeah, CREATE_DUMB only works for use with simple RGB formats in a
-linear layout. Not monochrome or YUV or tiled or displayed rotated or
-whatever.
+Sorry, I don't have any particular personal interest or stake in this. I'm just pointing out that "FIFO is better than RR" isn't universally true.
 
-If it happens to accidentally work for other uses, that's fine, but
-it's not generically reliable for anything other than simple linear
-RGB. It's intended to let you do splash screens, consoles, recovery
-password entries, and software-rendered compositors if you really
-want. Anything more than that isn't 'dumb'.
+Reaching out to affected users on https://gitlab.freedesktop.org/drm/amd/-/issues/2516 would seem like a possible start.
 
-Cheers,
-Daniel
+
+> I currently don't have an idea how, with direct scanout ie. single rendering client, FIFO vs RR would make a difference.
+
+I saw one user mentioning they have "many background tasks", maybe some of those are using the GPU as well.
+
+
+> Btw what is the situation with context priority and compositors? Are they requesting high or sticking with the defaults?
+
+Requesting high. (Not that it makes much difference in practice if higher-priority jobs can't preempt lower-priority ones already in flight, as is the case with amdgpu without user-mode queues)
+
+
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
