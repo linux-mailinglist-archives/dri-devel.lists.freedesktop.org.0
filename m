@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF2BA11F6E
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52643A11F97
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:33:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E1CB10E5BB;
-	Wed, 15 Jan 2025 10:30:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA90E10E5BC;
+	Wed, 15 Jan 2025 10:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com
- [209.85.222.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC4EA10E5BB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 10:30:41 +0000 (UTC)
-Received: by mail-ua1-f42.google.com with SMTP id
- a1e0cc1a2514c-85c559ed230so1512289241.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:30:41 -0800 (PST)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+ [209.85.217.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 376E410E5BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 10:33:37 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id
+ ada2fe7eead31-4b10dd44c8bso2060838137.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:33:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736937039; x=1737541839;
+ d=1e100.net; s=20230601; t=1736937214; x=1737542014;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fFz9PasHUXW73JJSPpGUZLnbjAFldUmvO6Eocb/wDHE=;
- b=Uf5SAOCQI4ptNMwT0kwXx/FlHevoHsJh/f6Coar0jngE/mg+ZhmmfWE49pEztMO7Sh
- 2XNxGdPoIvRUjQpkAXBi0SibJrqi9nIlTqoxlAYvVGPloMvXiVlDYjKglzoLeoSOeBet
- Lyl2g53AnmMUCiAnEumAJztfRggfPpuu2MjS0ByC8f1YH9EhxYlvLNbiCQm7WZwFDhY/
- aDHYB77ahjptweXOb44DGXlWhRkR7C33wuOwxrqbaGdveWb4sv+rQR3Ww3lMM1Wgl1T+
- BM9p6gEHU7+Ffv1IDYq9WxyHt0oXg2GXNIGkFlfdjNP3vvmGJVdnyQnaDYPJFb6uPbNE
- /zUQ==
+ bh=zL/VhawMqdkK0mqwrQDIuo0f3MoKOJdYdsbaS2CXGCQ=;
+ b=G1TlUQ+4F8p7yg4kfN3zF9iYz6ERnYj0Pl3Dnsm50XSofm3QsSq8s4mbitXfSrQZKm
+ 2i/8vsFtAYRKqEWFLv1FKgeFgp8TlQspUTOm05DoszKdq/I1oIcrgZwzwRKJPCRzM0Fd
+ SOTj5axjF1UE6mct7bPfAMEnrGbiFwNiJNCLjswB7z5HjhVsPArGmN3+tvFwk3Ajha9+
+ eCGfc9guWQaeShhAF5k7DFl38vSZZ72qEkvVkVJknAXyTKuziqF3HU8QE5FdMoRbEqyP
+ zJNoBby72qQIcHMhFrLhk172yYGxlErlAaeaUmcEhVQaB9uVhiwN0yY2TCVLvJQLjqAh
+ g3Cw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXg1sV4GgJv+Nez7N5LwdwMXbeHLA02sf0mWGHrQPS+xIQ+tg8LKhwvqPHZUnEusy3/nghZGxQtOTI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YySs8PNa54TLXxO2WpvBPgp93DAusucPkNrgq9F68z1ktuhksTo
- IVOB4ryh+FizFGotwLEG5krzcJZ/sBmhv0TX5ZDxB/c8WRQJl2qXO797MOjg
-X-Gm-Gg: ASbGncsoP+QAOuqnWts7im9RJnmmWnYeq6j4SRmlztos7dCyeFqFYZPM1RSDArdIVNF
- LzGLez0zTyuj0iHqhjZ+MIVnYZCvjeRmSCdTk45QFVQZKd7neYIJUqgoCLlDOhSgLUK+auJyEIV
- TCLRxfP6mGwnGBm/+/p9wYJKEtov3J8GvoyMz45mFFpGFSHXlZ1QAEnODB8DpzGcMpyTbp1MnOz
- j2if4x3bIxNm1gnYxqgqbKdCcEmfp/SNFEJ7m+3og0PwEDI/VGMXO4TsXnD2WABXZP57xW45V2j
- MsREXbGwh4detfWad5rvRmY=
-X-Google-Smtp-Source: AGHT+IGtb0Jhgyh8tCPmnyuFw+t6MJQQjuDPOnyDkvufuPtHwTOQZe2bx5ZUDZAyxZdzST1SRCbD3g==
-X-Received: by 2002:a05:6102:418f:b0:4af:e99e:b41b with SMTP id
- ada2fe7eead31-4b3d104ad80mr27316693137.19.1736937039196; 
- Wed, 15 Jan 2025 02:30:39 -0800 (PST)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com.
- [209.85.221.180]) by smtp.gmail.com with ESMTPSA id
- ada2fe7eead31-4b60916f9e4sm5022254137.20.2025.01.15.02.30.38
+ AJvYcCXK/J4ZVgSdTdTGlRbI1FYO6GxIUC7xDawI1hH7AuRnEOKQcb78QweV9TVZvG1C5nxKyGqoJsfpdMA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGMKkGzBU59GCNx/SwyO+KFj4NhZiBN4DaYg1IroyTxdgHVMMI
+ B8v26plIVt0KakSU6k4JSu97XdkDD5qlXf4kZxtI+2/0i23oN1OhXbWynkQT
+X-Gm-Gg: ASbGncskpRVW23uTwxwaLsiVmU0Q+d79crXKHm0iguOpm5D5wXDoe6aZxIWAgGzNHXQ
+ hhPAB6FgPfimn14RvxpT2Szx4wfn65FQKf2LrnqM8pzi3xKfnXFzEDYq6oWxHRmTy5IBLQXVpvI
+ TJQQyOiT4XvcpXNUMwuzaWj2QgSh+Q9w3ELEH/FIQ077KyGgbJ6hzYnlUkaSV7mAiT6Ew3WGZvG
+ NQ4bGeNL8wOWWF0UnptLDPnBRoer8JvQtzNMzHQq5uwNdWIX4YjnM2LRRisX6DgJVkH0wcQXIRk
+ P8ajRQuohpD0EEVTVaw=
+X-Google-Smtp-Source: AGHT+IHtSSTUgW7SUnvpXjYfpy1eliuAymIHD3bvtyGNsxf7AZ1zCQXvwYLbYcWmWNzVhvmjrkZUFQ==
+X-Received: by 2002:a05:6102:a49:b0:4af:f1fb:1c36 with SMTP id
+ ada2fe7eead31-4b3d0f9484emr24938006137.8.1736937213980; 
+ Wed, 15 Jan 2025 02:33:33 -0800 (PST)
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com.
+ [209.85.217.43]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-862315790c3sm5697359241.31.2025.01.15.02.33.32
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jan 2025 02:30:38 -0800 (PST)
-Received: by mail-vk1-f180.google.com with SMTP id
- 71dfb90a1353d-51c8460328dso2214295e0c.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:30:38 -0800 (PST)
+ Wed, 15 Jan 2025 02:33:33 -0800 (PST)
+Received: by mail-vs1-f43.google.com with SMTP id
+ ada2fe7eead31-4b24d969db1so1738398137.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:33:32 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCV6BWQ506r/hY2uAB+7+WiO75OeP4o5gHAvlfFWAb0byiFcJe9Es5MOGyrJkxdalBwG/GgFA3u5PgM=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:41a1:b0:4b6:3d72:5c28 with SMTP id
- ada2fe7eead31-4b63d726a44mr11631291137.18.1736937038252; Wed, 15 Jan 2025
- 02:30:38 -0800 (PST)
+ AJvYcCUd1r53JtuuETz7oAYrCXj8R/jD14wqbBz/umiFDDzlesZaXC2efqZ3EUIk6nRUtlxa4Fn8nt6lr1w=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:b09:b0:4b2:cca7:7d51 with SMTP id
+ ada2fe7eead31-4b3d10482d8mr25112112137.19.1736937212681; Wed, 15 Jan 2025
+ 02:33:32 -0800 (PST)
 MIME-Version: 1.0
 References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
- <20250115-xilinx-formats-v2-3-160327ca652a@ideasonboard.com>
-In-Reply-To: <20250115-xilinx-formats-v2-3-160327ca652a@ideasonboard.com>
+ <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
+In-Reply-To: <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 15 Jan 2025 11:30:26 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUMEEuCcmzvet=9sfYzn2_XtSkTgvpHkYz+RALCzHDzfg@mail.gmail.com>
-X-Gm-Features: AbW1kvaABBYHZ4mYsO-unZqxZKnHe3EW4XQryVGulktTLq2QtVWgYecDsS4wN9Q
-Message-ID: <CAMuHMdUMEEuCcmzvet=9sfYzn2_XtSkTgvpHkYz+RALCzHDzfg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] drm/fourcc: Add DRM_FORMAT_Y8
+Date: Wed, 15 Jan 2025 11:33:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
+X-Gm-Features: AbW1kvb1Mw4yh70skw6jyTVk4uvwGUIHSALmg8qZGE_Zuk6TjwfomZ94w4ClmYw
+Message-ID: <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] drm/fourcc: Add DRM_FORMAT_Y10_LE32
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Vishal Sagar <vishal.sagar@amd.com>,
  Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
@@ -97,7 +97,8 @@ Hi Tomi,
 
 On Wed, Jan 15, 2025 at 10:04=E2=80=AFAM Tomi Valkeinen
 <tomi.valkeinen@ideasonboard.com> wrote:
-> Add greyscale Y8 format.
+> Add Y10_LE32, a 10 bit greyscale format, with 3 pixels packed into
+> 32-bit container.
 >
 > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
@@ -105,26 +106,18 @@ Thanks for your patch!
 
 > --- a/include/uapi/drm/drm_fourcc.h
 > +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -405,6 +405,9 @@ extern "C" {
->  #define DRM_FORMAT_YUV444      fourcc_code('Y', 'U', '2', '4') /* non-su=
-bsampled Cb (1) and Cr (2) planes */
->  #define DRM_FORMAT_YVU444      fourcc_code('Y', 'V', '2', '4') /* non-su=
-bsampled Cr (1) and Cb (2) planes */
+> @@ -408,6 +408,7 @@ extern "C" {
+>  /* Greyscale formats */
 >
-> +/* Greyscale formats */
-> +
-> +#define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit=
+>  #define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit=
  Y-only */
+> +#define DRM_FORMAT_Y10_LE32    fourcc_code('Y', 'P', 'A', '4')  /* [31:0=
+] x:Y2:Y1:Y0 2:10:10:10 little endian */
 
-I don't think you need this. We already have:
+R10_LE32? Or R10_PA4?
 
-    /* 8 bpp Red (direct relationship between channel value and brightness)=
- */
-    #define DRM_FORMAT_R8           fourcc_code('R', '8', ' ', ' ') /*
-[7:0] R */
-
-See also commit 8aba4d30520ed656 ("drm/fourcc: Clarify the meaning of
-single-channel "red"").
+Does LE32 have a meaning?  My first guess just reading the subject
+was wrong ("little endian  32-bit" ;-)
 
 Gr{oetje,eeting}s,
 
