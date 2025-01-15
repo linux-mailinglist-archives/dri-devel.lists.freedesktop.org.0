@@ -2,88 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA5CA123AE
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 13:20:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7610A123C9
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 13:33:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6358C10E64A;
-	Wed, 15 Jan 2025 12:20:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="jpuLxiCz";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D22310E656;
+	Wed, 15 Jan 2025 12:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com
- [IPv6:2607:f8b0:4864:20::f2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1216B10E64C
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 12:20:20 +0000 (UTC)
-Received: by mail-qv1-xf2e.google.com with SMTP id
- 6a1803df08f44-6d896be3992so43817776d6.1
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 04:20:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1736943619; x=1737548419;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nAB9wiU4nf/DepdyNjk7NO70CuLQ2ZcDafrtyDQ7E4c=;
- b=jpuLxiCz2kxIQDUClw5s0KuKkUxn8aoicUBy0TkEUlAUIOICYlwTXP6zX0P5GSHSkK
- AXu/sVg98KMXzy1zmpZpsEtNxUNyzpVqMlio4oVV7S0686DDeIPYyMQ4B6Sr2IWfyr7D
- 6daUFPUvHAPatcqqsUyfq4fZo2MJKJ/OhxS8jKbTJsdwoV+hf7q9ILjG3NoiidGzdvbf
- tSHb/hmst3h55i9XAKGEntdu90vE3ZKAKVr9CVQjkW+DzfzbM1hvUOwM8KIgW6KnF1kA
- afmyHrdSqVnA9aln61JZ+5iLuPX+W800UiwDIfK1AazerNXcnlLHNP+GMS7h+pvP7soH
- dF2A==
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+ [209.85.217.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6933A10E656
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 12:33:31 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id
+ ada2fe7eead31-4afde39e360so2111881137.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 04:33:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736943619; x=1737548419;
+ d=1e100.net; s=20230601; t=1736944408; x=1737549208;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nAB9wiU4nf/DepdyNjk7NO70CuLQ2ZcDafrtyDQ7E4c=;
- b=PnDZcxuwRrhshGJk9NUE3y0IJ5lFyhYEe7UhPeKHlCYE1F+p7uUnKxoTucHdw1gxZd
- a/KRDV1du3bfegICVPZMu/A3shNUW+rGVOt4zkxZIvQgfUdSGeg2BkPqXl4DOw653/yR
- DT1E+74i0fj2mo7K+/ueNnJyMonHDzgwfexhIDkzpbb3BmDJd1IdzTOi1nSUDkG/E2P6
- hsYNHYxRG6QdYSh39K+j+8L6pGdUFSrfBxrDNSxY6N1DOzoBjIiUYI19PTOEM3Q/tNoi
- Vkvihwg9YrydcHKZnOk/feDRnKHMzTB2Ipk4CEx6sPbW5unZIocA0oizexa2+LBkuZL5
- KJJQ==
+ bh=N5rKFsU0SvYKs5cu/0lV6coepdrfbvxbzd7PCYDdbKU=;
+ b=i3QGuPSmf72edGm9M+FzVwWrhF3gx1xtDRsRV2HwgU1r75et/MDl4VGUwX+tdAWGzx
+ magbKPTKA8eWrOZfdwRrN1QCC2XW8yGbcExP0/QRZGRhA0ETkbf9TX1/ptfYy244IuD+
+ 5VfoHcVTXk01mLbbuvcgtT0Eem9qicVhOp8gaP7sDR5FyJwh1lSyNR0vuiiGisTc/BhP
+ R0oHCJpawIHXT6TExf7Q4GkvCOfCuM/q45YkmQL97vn12qMHxRKS47rnbqGNpULrVC4P
+ 3lIBz9FBH2CHd48lCkERTXOxfMZPWDb9xm7Q9GByCFFBmOKdv4Y49VDt20bYaDmqjeV7
+ Gv3A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWfJkjUQCC1AzSd4uCJrvAh+y0UVG6YGe35FRJs/O1UJ68gobwnInZFwVuhz8l9Bv41Mu6jbiTzDKw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxyQl4JkyHTht7Q9MTgLXzHwWD6VaGZQZ87TBbq48P4zQstmdw7
- riNe+jdL5i/p5YTQ2bak+2JekKU6p/XJTZ2Fu9aGUca/xMHyWiueoZKv0s+ek+1u3kU/zZt1UNJ
- Kwd+nCGCWL7MTNtVJvNUkxt9+ADquB/pVUkoX4A==
-X-Gm-Gg: ASbGncsouEI+oeHQtNKgbgUo9eUz5TrT2tOBqErXsbS7usNd2JLcZ7QLpIGZ5TExVFE
- geaY3zBRAHflYGN65zOjeNl880xQH8+ZsgDk=
-X-Google-Smtp-Source: AGHT+IH++MvvbPX1N6C4BsVMZdJuPpHeIHlRVGwK/q1DLnsCFWiUlolSn7pCijM10VWaG92QHVc57ip1CChWurmFgfw=
-X-Received: by 2002:a05:6214:242f:b0:6d8:a5da:3aba with SMTP id
- 6a1803df08f44-6df9b221686mr478026176d6.20.1736943618918; Wed, 15 Jan 2025
- 04:20:18 -0800 (PST)
+ AJvYcCWV0JODWiWCZu1YADj2xSanNA+zhM5AIz9Cz8xZmxVHjmIVe8l+P7gTGVrf66TwwoGo8DVrOUzda/c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx2a4RWAg1jpa89oyiQ0v0BEhKtiAXGoDyz248WqWH6s+G9TfHX
+ oi4xzHMOE/IHIyVmtO+ZDOxLlSaWWgkTqI71V4gfEq957oK8UX4DhiH2LGRk
+X-Gm-Gg: ASbGnctexz9rl0Y7ZPxjZwwnAOvk6did7Ce/K1EytZ/ewfcTBhuzwre30e1Uq5Tw+ex
+ keUGkOkkaN1kcliJ9gfEQbIQw83IZxPpK4N1i7DazW2oLxk92W63ArqRJHf+JolSP1113vWJsWk
+ yn+/9BsQNC7l/8BQ6duYmKLn9rrdFVno8kiplCgVA4GxXaWcJufi9OcRpi7Z4+fFhEvCNzHB9yS
+ 84YK8Lycxeg8HkSMcm6BU84SVIIUeFBu5c6fPNJXML8SF+24BDXC8sMtH2KHoTcmTAjWz2cM9n+
+ QkyIccUcnzp7ie+OlwM=
+X-Google-Smtp-Source: AGHT+IGTj4Xf+hyATPFjAR1uL83XMJ6tfUPa4Fs8R3msYny13pQvULW2/aigynLox9c4RWqs0rO+kQ==
+X-Received: by 2002:a05:6122:50b:b0:518:81aa:899b with SMTP id
+ 71dfb90a1353d-51c6c46b315mr22730547e0c.6.1736944408034; 
+ Wed, 15 Jan 2025 04:33:28 -0800 (PST)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com.
+ [209.85.217.50]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-51c7fc0128fsm4252586e0c.31.2025.01.15.04.33.27
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Jan 2025 04:33:27 -0800 (PST)
+Received: by mail-vs1-f50.google.com with SMTP id
+ ada2fe7eead31-4afefc876c6so2293835137.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 04:33:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrnkFhhPRVX9RWgapE/xlPY6moI0EfI9GmwTrku4EPynz8HL++2o/PaXpokWV7GlEjGh7IuBWhPWU=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:509f:b0:4b2:bc6b:c845 with SMTP id
+ ada2fe7eead31-4b3d0d763b1mr22291479137.6.1736944406736; Wed, 15 Jan 2025
+ 04:33:26 -0800 (PST)
 MIME-Version: 1.0
-References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
- <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
- <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
- <h26quuebhpxwkc3fl4vtfteoqyvingnddgxbnzptfnxfg6xgkd@kkkmeqwplomv>
- <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
- <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
- <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
- <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
- <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
- <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
- <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
- <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
- <CAAxE2A6ghBK2VTLkNXgk1c61UG1ZQAzWQ4q=wO-OShAUC9eRmQ@mail.gmail.com>
-In-Reply-To: <CAAxE2A6ghBK2VTLkNXgk1c61UG1ZQAzWQ4q=wO-OShAUC9eRmQ@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 15 Jan 2025 12:20:07 +0000
-X-Gm-Features: AbW1kvZypYUDzjEI4tFk9DCbDQL9wznW1ZpJeL0bmA-05bm7WepfcCFdFzlZvFM
-Message-ID: <CAPj87rNFy7GLAjjxDYGLN-f8M0F7yMX6PED94O4kBJ=pwtPVyA@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Cc: James Jones <jajones@nvidia.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
- Brian Starkey <brian.starkey@arm.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
+ <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
+ <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
+ <b7b8cdde-c189-4b9f-8423-c8ab4797b2f0@ideasonboard.com>
+In-Reply-To: <b7b8cdde-c189-4b9f-8423-c8ab4797b2f0@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Jan 2025 13:33:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVnDBt9QbR2bPdKHWgQ7i-OYYJ14ndc270z-hejY=bUdA@mail.gmail.com>
+X-Gm-Features: AbW1kvaXtImmdtBVMPEGdxHLwOK_WCSPE2-SMyqu_xlnmeKkjXxXBTI8xgoUL6Q
+Message-ID: <CAMuHMdVnDBt9QbR2bPdKHWgQ7i-OYYJ14ndc270z-hejY=bUdA@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] drm/fourcc: Add DRM_FORMAT_Y10_LE32
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -101,107 +95,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Jan 2025 at 04:05, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> wrot=
-e:
-> On Tue, Jan 14, 2025 at 12:58=E2=80=AFPM Daniel Stone <daniel@fooishbar.o=
-rg> wrote:
->> AMD hardware is the only hardware I know of which doesn't support
->> overaligning. Say (not hypothetically) we have a GPU and a display
->> controller which have a minimum pitch alignment of 32 bytes, no
->> minimum height alignment, minimum 32-byte offset alignment, minimum
->> pitch of 32 bytes, and minimum image size of 32 bytes.
->>
->> To be maximally compatible, we'd have to expose 28 (pitch align) * 32
->> (height align) * 28 (offset align) * 28 (min pitch) * 28 (min size) =3D=
-=3D
->> 19668992 individual modifiers when queried, which is 150MB per format
->> just to store the list of modifiers.
+Hi Tomi,
+
+On Wed, Jan 15, 2025 at 12:11=E2=80=AFPM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> On 15/01/2025 12:33, Geert Uytterhoeven wrote:
+> > On Wed, Jan 15, 2025 at 10:04=E2=80=AFAM Tomi Valkeinen
+> > <tomi.valkeinen@ideasonboard.com> wrote:
+> >> Add Y10_LE32, a 10 bit greyscale format, with 3 pixels packed into
+> >> 32-bit container.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >
+> > Thanks for your patch!
+> >
+> >> --- a/include/uapi/drm/drm_fourcc.h
+> >> +++ b/include/uapi/drm/drm_fourcc.h
+> >> @@ -408,6 +408,7 @@ extern "C" {
+> >>   /* Greyscale formats */
+> >>
+> >>   #define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8=
+-bit Y-only */
+> >> +#define DRM_FORMAT_Y10_LE32    fourcc_code('Y', 'P', 'A', '4')  /* [3=
+1:0] x:Y2:Y1:Y0 2:10:10:10 little endian */
+> >
+> > R10_LE32? Or R10_PA4?
 >
-> Maximum compatibility is not required nor expected.
+> Can we discuss the "R" vs "Y" question under the cover letter? There's
+> some more context about it in there.
+
+Sorry, hadn't read the cover letter. I got attracted by "Y8" and "Y10".
+
+> I took the "LE32" from Gstreamer's format. Maybe it's a bit pointless.
 >
-> In your case, only 1 linear modifier would be added for that driver, whic=
-h is: [5 / 0 / 5 / 5 / 5]
+> I don't know if it makes sense to add the fourcc to the DRM format name.
+> The fourcc is very limited. Rather, we could, say, have
+> DRM_FORMAT_Y10_PACKED_32 (or "R", if you insist =3D).
 >
-> Then if, and only if, compatibility with other devices is desired, the dr=
-iver developer could look at drivers of those other devices and determine w=
-hich other linear modifiers to add. Ideally it would be just 1, so there wo=
-uld be a total of 2.
-
-Mali (actually two DRM drivers and sort of three Mesa drivers) can be
-paired with any one of 11 KMS drivers (really 12 given that one is a
-very independent subdriver), and something like 20 different codecs
-(at least 12 different vendors; I didn't bother counting the actual
-subdrivers which are all quite different). The VeriSilicon Hantro G2
-codec driver is shipped by five (that we know of) vendors who all have
-their own KMS drivers. One of those is in the Rockchip RK3588, which
-(don't ask me why) ships six different codec blocks, with three
-different drivers, from two different vendors - that's before you even
-get to things like the ISP and NPU which really need to be sharing
-buffers properly without copies.
-
-So yeah, working widely without having to encode specific knowledge
-everywhere isn't a nice-to-have, it's a hard baseline requirement.
-
->> > DRM_FORMAT_MOD_LINEAR needs to go because it prevents apps from detect=
-ing whether 2 devices have 0 compatible memory layouts, which is a useful t=
-hing to know.
->>
->> I get the point, but again, we have the exact same problem today with
->> placement, i.e. some devices require buffers to be in or not be in
->> VRAM or GTT or sysram for some uses, and some devices require physical
->> contiguity. Solving that problem would require an additional 4 bits,
->> which brings us to 2.3GB of modifiers per format with the current
->> scheme. Not super viable.
+> > Does LE32 have a meaning?  My first guess just reading the subject
+> > was wrong ("little endian  32-bit" ;-)
 >
-> Userspace doesn't determine placement. The kernel memory management can m=
-ove buffers between heaps to accommodate sharing between devices as needed.=
- This is a problem in which userspace has no say.
+> I'm not sure I follow. It's little-endian. The pixel group/unit is a
+> 32-bit number, where the leftmost pixel on the screen is in bits 9-0,
+> and the padding is in bits 31-30, and stored in memory as little-endian.
 
-It really does though!
+Ah, the "LE" applies to the pixels inside each word.
 
-None of these devices use TTM with placement moves, and doing that
-isn't a fix either. Embedded systems have so low memory bandwidth that
-the difference between choosing the wrong placement and moving it
-later vs. having the right placement to begin with is the difference
-between 'this does not work' and 'great, I can ship this'. Which is
-great if you're a consultancy trying to get paid, but tbh I'd rather
-work on more interesting things.
+DRM formats stored in memory are always little-endian, unless the
+DRM_FORMAT_BIG_ENDIAN bit is set, which is what I was hinting
+at...
 
-So yeah, userspace does very much choose the placement. On most
-drivers, this is either by 'knowing' which device to allocate from, or
-passing a flag to your allocation ioctl. For newer drivers though,
-there's the dma-heap allocation mechanism which is now upstream and
-the blessed path, for which userspace needs to explicitly know the
-desired placement (and must, because fixing it up later is a
-non-starter).
+Gr{oetje,eeting}s,
 
-Given that we need to keep LINEAR ~forever for ABI reasons, and
-because there's no reasonably workable alternative, let's abandon the
-idea of abandoning LINEAR, and try to work with out-of-band signalling
-instead.
+                        Geert
 
-One idea is to actually pursue the allocator idea and express this
-properly through constraints. I'd be super in favour of this,
-unsurprisingly, because it allows us to solve a whole pile of other
-problems, rather than the extremely narrow AMD/Intel interop case.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Another idea for the out-of-band signalling would be to add
-information-only modifiers, like
-DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_EQ(256), or
-DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_GE(32). But then that doesn't really
-work at all with how people actually use modifiers: as the doc
-describes, userspace takes and intersects the declared modifier lists
-and passes the result through. The intersection of LINEAR+EQ256 and
-LINEAR+GE32 is LINEAR, so a userspace that follows the rules will just
-drop the hints on the floor and pick whatever linear allocation it
-feels like.
-
-I think I've just talked myself into the position that passing
-allocator constraints together with modifiers is the only way to
-actually solve this problem, at least without creating the sort of
-technical debt that meant we spent years fixing up implicit/explicit
-modifier interactions when it really should've just been adding a
-!)@*(#$ u64 next to the u32.
-
-Cheers,
-Daniel
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
