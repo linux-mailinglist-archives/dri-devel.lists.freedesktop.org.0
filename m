@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD82A12D37
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 22:06:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB3DA12D39
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 22:06:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D2A10E800;
-	Wed, 15 Jan 2025 21:06:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B60310E803;
+	Wed, 15 Jan 2025 21:06:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aQRGmgoX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e087VOMQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org
  [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F22410E800
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 21:06:40 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3979A10E801
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 21:06:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id D5C3EA41377;
- Wed, 15 Jan 2025 21:04:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C751C4CEE3;
- Wed, 15 Jan 2025 21:06:39 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6F8B2A42528;
+ Wed, 15 Jan 2025 21:04:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE68C4CED1;
+ Wed, 15 Jan 2025 21:06:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1736975199;
- bh=sDDX/oiMtlwEuDb5DiMZpd8llHRvToc5ZvV7Y0vSefE=;
+ s=k20201202; t=1736975202;
+ bh=ehJPr/l/FwO7pkSiqq2hk3A9URL1NN3vlOmlGJYM1jY=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=aQRGmgoXtOob3SAB5VN3V4zbRNadt2qCPZFhp9Y9t0KNtX16gTitwhGAHiryeK+Mt
- hObV5WVLr6DOfOqzVlrQ2PKL3Jo3sal+LATk8eTRCzo9dijQCKwy+FQNWJlplEIABu
- b2fpcwB6Yu2+vAGlklz5POgvUTZzwfOK5x7YFpdmlYtgpfTiEb3K0Bmclcw+pYffVP
- zES3xkVZXaTGDk6TDZkar4E3C3YAJ5fIE99pMRHGD556BXo/c1/cGA6ahQ1si+rfW4
- ue2YqgKUzc5BbEAiqNPcW0L36GaW0g2f5AAvKWfyr7pw1s+v5NuGH+NsQczdGqU832
- O+iOehWHyFKfQ==
+ b=e087VOMQBtFNI6g2por7/hTrQj5ETw0OsoWIsjhBaZudNgEYZlDZkECZr+KYUJ34b
+ LLtfWKJy6W0f3yuZRkv3Xa0LlCcsrMfjSS9CJ2q4WHdxRDSRd2/X1r7J1hXlIBjrnm
+ Fv1MpDwx3xc88WOijwYwZJVDcEIBfwBcdDMoSCm2lhUuN69bWC/7K8tlO+TdASn1UM
+ nusyWIYM9xPJ2PJ4U6ImuIhdEf9ium2EFZeU+I//TfM30z9lAKH03uxcQwqrDbBkKZ
+ FzZdWlNysf78OtxWnrNbBrRN6rsJfGMIXGxw+LEElCgKmhgwAxgE5aBFals12hhz96
+ 1Z8AqWfyIpHPQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 15 Jan 2025 22:05:28 +0100
-Subject: [PATCH 21/29] drm/atomic-helper: Change parameter name of
- drm_atomic_helper_wait_for_flip_done()
+Date: Wed, 15 Jan 2025 22:05:29 +0100
+Subject: [PATCH 22/29] drm/bridge: Rename atomic hooks parameters to drop
+ old prefix
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250115-bridge-connector-v1-21-9a2fecd886a6@kernel.org>
+Message-Id: <20250115-bridge-connector-v1-22-9a2fecd886a6@kernel.org>
 References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
 In-Reply-To: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -51,12 +51,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2600; i=mripard@kernel.org;
- h=from:subject:message-id; bh=sDDX/oiMtlwEuDb5DiMZpd8llHRvToc5ZvV7Y0vSefE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOkdynL+RmJma9lFoo90X639eFjE4HVdy/W8lI0fgh2fH
- Pv/7nR/x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZgI90/GhsU71zG3XrlomjNT
- fLu9e/HhB2d8U0N1G7yeT53E3ne38un/vyVBWnx3uy9O2MObfjWPjbGG1zBxtVXD7rJegV7tm5J
- pl37u4nRs2zLnX8vm/uNLdxi3mkuEvNkS2ySz88Nrx0/9BfMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2433; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=ehJPr/l/FwO7pkSiqq2hk3A9URL1NN3vlOmlGJYM1jY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOkdynLq2UnGsl3KX8LflGpu/rrzZck8/nV9tz31U15c2
+ 9Ove7moYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEykko+x4ZmO+I3onb3LPr3R
+ rbt91qbCwC7h0o2l73v/q5hxPX5hri/O0XZdyfin/GZ5mRMOemumM9Yn9DaGnVjxYtafVP5ls+/
+ 9Up7trZdo9iuo8U/E3ItPPzbn9eVtu++9aNan+2rZvunWnJcA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,73 +74,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_wait_for_flip_done() will wait for pages flips on all
-CRTCs affected by a given commit. It takes the drm_atomic_state being
-committed as a parameter.
+All the bridge atomic hooks were using the old_bridge_state name for
+their drm_bridge_state parameter. However, this state is the current
+state being committed for all of them, which ends up being confusing.
 
-However, that parameter name is called (and documented) as old_state,
-which is pretty confusing. Let's rename that variable as state.
+Let's rename it to bridge_state for all of them.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/drm/drm_bridge.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index baa32b10c4a08252b736927fedd36c3fccbe6020..cb24e590a39f80c0cc5feb8b6a9a4fd41a651211 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1716,11 +1716,11 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
- EXPORT_SYMBOL(drm_atomic_helper_wait_for_vblanks);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 4b84faf14e368310dd20aa964e8178ec80aa6fa7..8e18130be8bb85fc2463917dde9bf1d281934184 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -303,11 +303,11 @@ struct drm_bridge_funcs {
+ 	 * there is one) when this callback is called.
+ 	 *
+ 	 * The @atomic_pre_enable callback is optional.
+ 	 */
+ 	void (*atomic_pre_enable)(struct drm_bridge *bridge,
+-				  struct drm_bridge_state *old_bridge_state);
++				  struct drm_bridge_state *bridge_state);
  
- /**
-  * drm_atomic_helper_wait_for_flip_done - wait for all page flips to be done
-  * @dev: DRM device
-- * @old_state: atomic state object with old state structures
-+ * @state: atomic state object being committed
-  *
-  * Helper to, after atomic commit, wait for page flips on all affected
-  * crtcs (ie. before cleaning up old framebuffers using
-  * drm_atomic_helper_cleanup_planes()). Compared to
-  * drm_atomic_helper_wait_for_vblanks() this waits for the completion on all
-@@ -1729,32 +1729,32 @@ EXPORT_SYMBOL(drm_atomic_helper_wait_for_vblanks);
-  *
-  * This requires that drivers use the nonblocking commit tracking support
-  * initialized using drm_atomic_helper_setup_commit().
-  */
- void drm_atomic_helper_wait_for_flip_done(struct drm_device *dev,
--					  struct drm_atomic_state *old_state)
-+					  struct drm_atomic_state *state)
- {
- 	struct drm_crtc *crtc;
- 	int i;
+ 	/**
+ 	 * @atomic_enable:
+ 	 *
+ 	 * This callback should enable the bridge. It is called right after
+@@ -323,11 +323,11 @@ struct drm_bridge_funcs {
+ 	 * chain if there is one.
+ 	 *
+ 	 * The @atomic_enable callback is optional.
+ 	 */
+ 	void (*atomic_enable)(struct drm_bridge *bridge,
+-			      struct drm_bridge_state *old_bridge_state);
++			      struct drm_bridge_state *bridge_state);
+ 	/**
+ 	 * @atomic_disable:
+ 	 *
+ 	 * This callback should disable the bridge. It is called right before
+ 	 * the preceding element in the display pipe is disabled. If the
+@@ -340,11 +340,11 @@ struct drm_bridge_funcs {
+ 	 * signals) feeding it is still running when this callback is called.
+ 	 *
+ 	 * The @atomic_disable callback is optional.
+ 	 */
+ 	void (*atomic_disable)(struct drm_bridge *bridge,
+-			       struct drm_bridge_state *old_bridge_state);
++			       struct drm_bridge_state *bridge_state);
  
- 	for (i = 0; i < dev->mode_config.num_crtc; i++) {
--		struct drm_crtc_commit *commit = old_state->crtcs[i].commit;
-+		struct drm_crtc_commit *commit = state->crtcs[i].commit;
- 		int ret;
+ 	/**
+ 	 * @atomic_post_disable:
+ 	 *
+ 	 * This callback should disable the bridge. It is called right after the
+@@ -359,11 +359,11 @@ struct drm_bridge_funcs {
+ 	 * called.
+ 	 *
+ 	 * The @atomic_post_disable callback is optional.
+ 	 */
+ 	void (*atomic_post_disable)(struct drm_bridge *bridge,
+-				    struct drm_bridge_state *old_bridge_state);
++				    struct drm_bridge_state *bridge_state);
  
--		crtc = old_state->crtcs[i].ptr;
-+		crtc = state->crtcs[i].ptr;
- 
- 		if (!crtc || !commit)
- 			continue;
- 
- 		ret = wait_for_completion_timeout(&commit->flip_done, 10 * HZ);
- 		if (ret == 0)
- 			drm_err(dev, "[CRTC:%d:%s] flip_done timed out\n",
- 				crtc->base.id, crtc->name);
- 	}
- 
--	if (old_state->fake_commit)
--		complete_all(&old_state->fake_commit->flip_done);
-+	if (state->fake_commit)
-+		complete_all(&state->fake_commit->flip_done);
- }
- EXPORT_SYMBOL(drm_atomic_helper_wait_for_flip_done);
- 
- /**
-  * drm_atomic_helper_commit_tail - commit atomic update to hardware
+ 	/**
+ 	 * @atomic_duplicate_state:
+ 	 *
+ 	 * Duplicate the current bridge state object (which is guaranteed to be
 
 -- 
 2.47.1
