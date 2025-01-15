@@ -2,82 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52643A11F97
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99511A1211C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 11:53:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA90E10E5BC;
-	Wed, 15 Jan 2025 10:33:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B26F10E050;
+	Wed, 15 Jan 2025 10:53:23 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pFzr+MBj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
- [209.85.217.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 376E410E5BC
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 10:33:37 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id
- ada2fe7eead31-4b10dd44c8bso2060838137.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:33:37 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4097E10E050
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 10:53:22 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-5401be44b58so6608123e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:53:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736938341; x=1737543141; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pe/eBfFEXTtaUJSGQddUyoy4TU9vZhAttfqc4jZ26Q0=;
+ b=pFzr+MBj6GXLDc6XZyjhRR3lK6sQ+Tqd5H+uoeWEHLHiUN1qZAAHfEbYCN7fQr34/Q
+ UCYEjVvJxpa2hIPbulNmQZWl+mxMr9Bv8pQUYI2c165BX5ymG+Z6ggGWqYgY/zCKQsMk
+ SO+Yed7/1kKSiMx9ad4vumsDXJxItmPcz4LoDPLe3/z6TO1+/qDWQF41Wn03QGJDv1Pu
+ mvCLaA8ydQBbNCMOokaYuQfdWi0VRg2crVwRcLJeiLA5KOIJHRe0+p3X8H2i6fLxCOKw
+ qQeXQaCX5YJStMx2ojalZ/E/NM3d1FWt2qIHurhlwRb/3zLq4IzCopaBicGqm1nfwD0R
+ y3Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736937214; x=1737542014;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zL/VhawMqdkK0mqwrQDIuo0f3MoKOJdYdsbaS2CXGCQ=;
- b=G1TlUQ+4F8p7yg4kfN3zF9iYz6ERnYj0Pl3Dnsm50XSofm3QsSq8s4mbitXfSrQZKm
- 2i/8vsFtAYRKqEWFLv1FKgeFgp8TlQspUTOm05DoszKdq/I1oIcrgZwzwRKJPCRzM0Fd
- SOTj5axjF1UE6mct7bPfAMEnrGbiFwNiJNCLjswB7z5HjhVsPArGmN3+tvFwk3Ajha9+
- eCGfc9guWQaeShhAF5k7DFl38vSZZ72qEkvVkVJknAXyTKuziqF3HU8QE5FdMoRbEqyP
- zJNoBby72qQIcHMhFrLhk172yYGxlErlAaeaUmcEhVQaB9uVhiwN0yY2TCVLvJQLjqAh
- g3Cw==
+ d=1e100.net; s=20230601; t=1736938341; x=1737543141;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Pe/eBfFEXTtaUJSGQddUyoy4TU9vZhAttfqc4jZ26Q0=;
+ b=vWe0F02iyXJRQnZy7eZMTfH39uiw6qlmaG444H56aFcaJ07ZRA2dSIou/YAYT3YtEI
+ BWkxOe9I/zev12AMtSuZ5dDc6/3K4jFmUhnFXSWt8mBGgWi8N2FVHPpsosINr7Sbiozx
+ KE7NfWQiUWco0AeFHIA3Emr7c6y0jPpgiG1cyvwVsT5NOYLZof7EYxfBASzM6m4I9ABX
+ xoI3FxQyRMdUPfDUuvE+k+m861KTSZI3CwKp+m06o99zLDVvCFp2t+ny9C489u8BYA2p
+ EqdM1VyuEgBSYznzNh4OJ7rWagu75lks18pzmrxw7eyqLHp8588+d2kcMTk6WMcv9PcO
+ Frqg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXK/J4ZVgSdTdTGlRbI1FYO6GxIUC7xDawI1hH7AuRnEOKQcb78QweV9TVZvG1C5nxKyGqoJsfpdMA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGMKkGzBU59GCNx/SwyO+KFj4NhZiBN4DaYg1IroyTxdgHVMMI
- B8v26plIVt0KakSU6k4JSu97XdkDD5qlXf4kZxtI+2/0i23oN1OhXbWynkQT
-X-Gm-Gg: ASbGncskpRVW23uTwxwaLsiVmU0Q+d79crXKHm0iguOpm5D5wXDoe6aZxIWAgGzNHXQ
- hhPAB6FgPfimn14RvxpT2Szx4wfn65FQKf2LrnqM8pzi3xKfnXFzEDYq6oWxHRmTy5IBLQXVpvI
- TJQQyOiT4XvcpXNUMwuzaWj2QgSh+Q9w3ELEH/FIQ077KyGgbJ6hzYnlUkaSV7mAiT6Ew3WGZvG
- NQ4bGeNL8wOWWF0UnptLDPnBRoer8JvQtzNMzHQq5uwNdWIX4YjnM2LRRisX6DgJVkH0wcQXIRk
- P8ajRQuohpD0EEVTVaw=
-X-Google-Smtp-Source: AGHT+IHtSSTUgW7SUnvpXjYfpy1eliuAymIHD3bvtyGNsxf7AZ1zCQXvwYLbYcWmWNzVhvmjrkZUFQ==
-X-Received: by 2002:a05:6102:a49:b0:4af:f1fb:1c36 with SMTP id
- ada2fe7eead31-4b3d0f9484emr24938006137.8.1736937213980; 
- Wed, 15 Jan 2025 02:33:33 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com.
- [209.85.217.43]) by smtp.gmail.com with ESMTPSA id
- a1e0cc1a2514c-862315790c3sm5697359241.31.2025.01.15.02.33.32
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Jan 2025 02:33:33 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id
- ada2fe7eead31-4b24d969db1so1738398137.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 02:33:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUd1r53JtuuETz7oAYrCXj8R/jD14wqbBz/umiFDDzlesZaXC2efqZ3EUIk6nRUtlxa4Fn8nt6lr1w=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:b09:b0:4b2:cca7:7d51 with SMTP id
- ada2fe7eead31-4b3d10482d8mr25112112137.19.1736937212681; Wed, 15 Jan 2025
- 02:33:32 -0800 (PST)
+ AJvYcCVZL8dGisijzjfdIgAFX+s861bObRf4zGqJvKSM4E28eWBt5T2lATmQ4Hs3ObmOa0ILB5ToR1A1WKk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzJ6rzQEZM3sKFvSq0E1+0dUC9I9b8Ql+IcmmbMzjWt5lk37YHk
+ Ad3x6TjPbBens+cYvmmiWGZWVQyxvh/75i00n8i5ttlU25FjxcVt2VRaYb8993o=
+X-Gm-Gg: ASbGnctA3KZGRTJyIMl6wUf24+lUEpd+y3JJBYxfn6u7/mr1HX2QBP2QE6a4gl84zgo
+ ZJOQJmqDTikvPd5I8X/u5nyNJw7DKMj3M/wTs9m1S8V8sW1DqspBmkYWWpvR16bYVBtGsqu/TG7
+ KFmfdqZi4HEF1llwZsbYKz+V3OLrFHZZSVeNPZViRT4maWp8kQDxlIBYY8wWDqI8z+yBEYoxZfP
+ xQkfo02LsoKUtza0TenHS18/S2+DvrQakZIj9DV5uAVAMp6wyHl1i4gCwrDfSDWbUmewSwSWE6w
+ iUDgm+MdIB+7GiLabwgMVGhY2K2k/QBXZnK+
+X-Google-Smtp-Source: AGHT+IHeKdiQSnCENW2p/w1cSkoj9QJFoIKOkLbHmvFxXqBqc894Ujkrox/BKO+Ug0RQedpSMn3Lyg==
+X-Received: by 2002:a05:6512:158f:b0:542:28a9:dcbf with SMTP id
+ 2adb3069b0e04-542845bac70mr8509007e87.23.1736938340583; 
+ Wed, 15 Jan 2025 02:52:20 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-542988bc730sm1278012e87.252.2025.01.15.02.52.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jan 2025 02:52:20 -0800 (PST)
+Date: Wed, 15 Jan 2025 12:52:17 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC/RFT 2/9] drm/display: add CEC helpers code
+Message-ID: <mdabdkkdofrwbgs3rxk4iez2yxk4u6hdaxbxyqvi6quxdlm3kx@yc63rpibgwpt>
+References: <20241225-drm-hdmi-connector-cec-v1-0-b80380c67221@linaro.org>
+ <20241225-drm-hdmi-connector-cec-v1-2-b80380c67221@linaro.org>
+ <20250107-psychedelic-earthworm-of-action-cf5ceb@houat>
+ <CAA8EJppxnVuVL9LH1Ars0=SKBM1L05Z5KwA_z1_+=dBugfrL-g@mail.gmail.com>
+ <20250114-wandering-curly-manul-67ced4@houat>
 MIME-Version: 1.0
-References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
- <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
-In-Reply-To: <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 15 Jan 2025 11:33:21 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
-X-Gm-Features: AbW1kvb1Mw4yh70skw6jyTVk4uvwGUIHSALmg8qZGE_Zuk6TjwfomZ94w4ClmYw
-Message-ID: <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/10] drm/fourcc: Add DRM_FORMAT_Y10_LE32
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250114-wandering-curly-manul-67ced4@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,42 +102,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+On Tue, Jan 14, 2025 at 04:45:09PM +0100, Maxime Ripard wrote:
+> On Tue, Jan 07, 2025 at 06:18:07PM +0200, Dmitry Baryshkov wrote:
+> > On Tue, 7 Jan 2025 at 16:32, Maxime Ripard <mripard@kernel.org> wrote:
+> > >
+> > > On Wed, Dec 25, 2024 at 01:10:10AM +0200, Dmitry Baryshkov wrote:
+> > > > Add generic CEC helpers to be used by HDMI drivers. Both notifier and
+> > > > and adapter are supported for registration. Once registered, the driver
+> > > > can call common set of functions to update physical address, to
+> > > > invalidate it or to unregister CEC data.
+> > > >
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >  drivers/gpu/drm/display/Kconfig               |   5 +
+> > > >  drivers/gpu/drm/display/Makefile              |   2 +
+> > > >  drivers/gpu/drm/display/drm_hdmi_cec_helper.c | 145 ++++++++++++++++++++++++++
+> > > >  include/drm/display/drm_hdmi_cec_helper.h     |  38 +++++++
+> > > >  4 files changed, 190 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+> > > > index 8d22b7627d41f7bc015decf24ae02a05bc00f055..49da9b768acf3e5f84f2cefae4bb042cfd57a50c 100644
+> > > > --- a/drivers/gpu/drm/display/Kconfig
+> > > > +++ b/drivers/gpu/drm/display/Kconfig
+> > > > @@ -82,6 +82,11 @@ config DRM_DISPLAY_HDMI_AUDIO_HELPER
+> > > >         DRM display helpers for HDMI Audio functionality (generic HDMI Codec
+> > > >         implementation).
+> > > >
+> > > > +config DRM_DISPLAY_HDMI_CEC_HELPER
+> > > > +     bool
+> > > > +     help
+> > > > +       DRM display helpers for HDMI CEC implementation.
+> > > > +
+> > > >  config DRM_DISPLAY_HDMI_HELPER
+> > > >       bool
+> > > >       help
+> > > > diff --git a/drivers/gpu/drm/display/Makefile b/drivers/gpu/drm/display/Makefile
+> > > > index b17879b957d5401721396e247fa346387cf6c48a..2cd078e2b81c1a9e6b336c4187b444bcb8a50e51 100644
+> > > > --- a/drivers/gpu/drm/display/Makefile
+> > > > +++ b/drivers/gpu/drm/display/Makefile
+> > > > @@ -16,6 +16,8 @@ drm_display_helper-$(CONFIG_DRM_DISPLAY_DSC_HELPER) += \
+> > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDCP_HELPER) += drm_hdcp_helper.o
+> > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_AUDIO_HELPER) += \
+> > > >       drm_hdmi_audio_helper.o
+> > > > +drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_CEC_HELPER) += \
+> > > > +     drm_hdmi_cec_helper.o
+> > > >  drm_display_helper-$(CONFIG_DRM_DISPLAY_HDMI_HELPER) += \
+> > > >       drm_hdmi_helper.o \
+> > > >       drm_scdc_helper.o
+> > > > diff --git a/drivers/gpu/drm/display/drm_hdmi_cec_helper.c b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
+> > > > new file mode 100644
+> > > > index 0000000000000000000000000000000000000000..2a3832e68232fa3b839a3c7457b2013779cada86
+> > > > --- /dev/null
+> > > > +++ b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
+> > > > @@ -0,0 +1,145 @@
+> > > > +// SPDX-License-Identifier: MIT
+> > > > +/*
+> > > > + * Copyright (c) 2024 Linaro Ltd
+> > > > + */
+> > > > +
+> > > > +#include <drm/drm_bridge.h>
+> > > > +#include <drm/drm_connector.h>
+> > > > +#include <drm/display/drm_hdmi_cec_helper.h>
+> > > > +
+> > > > +#include <linux/mutex.h>
+> > > > +
+> > > > +#include <media/cec.h>
+> > > > +#include <media/cec-notifier.h>
+> > > > +
+> > > > +static void drm_connector_hdmi_cec_adapter_unregister(struct drm_connector *connector)
+> > > > +{
+> > > > +     cec_unregister_adapter(connector->cec.adapter);
+> > > > +     connector->cec.adapter = NULL;
+> > > > +     connector->cec.unregister = NULL;
+> > > > +}
+> > > > +
+> > > > +int drm_connector_hdmi_cec_adapter_register(struct drm_connector *connector,
+> > > > +                                         const struct cec_adap_ops *ops,
+> > > > +                                         const char *name,
+> > > > +                                         u8 available_las,
+> > > > +                                         int (*init_cec)(struct drm_connector *connector),
+> > > > +                                         void (*uninit_cec)(struct drm_connector *connector),
+> > > > +                                         struct device *dev)
+> > >
+> > > We're missing a documentation here. Why do we need drivers to pass both
+> > > a set of cec_adap_ops and a bunch of extra functions? Shouldn't we make
+> > > this a single structure like we did for audio?
+> > 
+> > Also might be an option, I didn't want to add extra wrappers in the
+> > first place, but I can add them.
+> > 
+> > >
+> > > Also, to remain consistent, we should call that function drm_connector_hdmi_cec_register
+> > 
+> > I wanted to point out the _adapter_ part, because we also have
+> > whatever_cec_notifier_register() and at some point we might also get
+> > whatever_cec_pin_register() if we wrap sun4i implementation too.
+> 
+> I think we can get away with drm_connector_hdmi_cec_register,
+> drm_connector_hdmi_cec_pin_register (or bitbanged, or polled, or gpio,
+> or whatever), and drm_connector_hdmi_cec_notifier_register
 
-On Wed, Jan 15, 2025 at 10:04=E2=80=AFAM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
-> Add Y10_LE32, a 10 bit greyscale format, with 3 pixels packed into
-> 32-bit container.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Ack
 
-Thanks for your patch!
-
-> --- a/include/uapi/drm/drm_fourcc.h
-> +++ b/include/uapi/drm/drm_fourcc.h
-> @@ -408,6 +408,7 @@ extern "C" {
->  /* Greyscale formats */
->
->  #define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit=
- Y-only */
-> +#define DRM_FORMAT_Y10_LE32    fourcc_code('Y', 'P', 'A', '4')  /* [31:0=
-] x:Y2:Y1:Y0 2:10:10:10 little endian */
-
-R10_LE32? Or R10_PA4?
-
-Does LE32 have a meaning?  My first guess just reading the subject
-was wrong ("little endian  32-bit" ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+With best wishes
+Dmitry
