@@ -2,102 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE689A12612
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:34:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E167A12616
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 15:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71D4F10E6F6;
-	Wed, 15 Jan 2025 14:34:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0D0810E700;
+	Wed, 15 Jan 2025 14:34:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QnVZ92kt";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="O4g749Sj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA9210E6F6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:34:15 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EDDC526;
- Wed, 15 Jan 2025 15:33:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1736951595;
- bh=+BwkqpgMdP4nryge8XAwlr3ocnpSp93kPfK5dvvQhJ0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=QnVZ92ktu9XV19uGghR+pXIGNZHKmpNfERPTx2PF0SFcdW2V4R70TgSYAhSJVQzgk
- ilP1mAtlbiYM18tY7IHgyLvryoIIAW2bhlY+EQurqMEtd/FPj/iEHsI2HATgodbh3a
- 76PagALDfywQFrskQsb5P96lsmEx5hyKdm8Uh7BM=
-Message-ID: <0004c685-b8c6-4df1-acb4-7c80a9d3255e@ideasonboard.com>
-Date: Wed, 15 Jan 2025 16:34:09 +0200
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C36FB10E700
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 14:34:38 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id
+ 6a1803df08f44-6d89a727a19so9128646d6.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 06:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fooishbar.org; s=google; t=1736951678; x=1737556478;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=wgpCbUXuk0fjx7PlpFBa3YSbnvvXmj+DNx/eEdB8F5M=;
+ b=O4g749SjtyerKr7EPw+zPQwu+AILrPNMVGq7ELv6hUdJVx4deOL31ateAd+NMM6mIK
+ t0VtPk5B7weSxoVj0mU/TGaUwUTVS3myRwT/YQAr1QLPfA0hF7FDQjmUxM9sC3n4LR3k
+ x2II4LCVVCXNjjV++vThZyIx9hANm3H6lHHLQ9yXIBCpMChZ8+kPROx+PmtQCatgSUba
+ 1Dtae+GgmC31y0M4GEvNTguvjBLlJON/+GHeCp21AVCoQsGGBlA3YWHgaoJ8BPm8eAE0
+ LIHC74D0vq7YyEgw2P+kT+7WhCvX4D1vDDXBCxc0RiQs02oosInt+qchgm+IAN8+zkV8
+ jJfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736951678; x=1737556478;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wgpCbUXuk0fjx7PlpFBa3YSbnvvXmj+DNx/eEdB8F5M=;
+ b=mAFAGTVtyUpJYfiO/ztfigBs29Nvc2nq/c7Abp1lb621136QGtgpnbxHMCOrpGgPwk
+ Mp5Nfp6lZ+o1KbwpvOUgErYKWstJs3mPLrXv3Ks5WtrYoFaN3x+GxKJPyXLf4VXpO41Z
+ LBEjCyFU4y0vxyi4bSeyAXxm3p3Gcl2hoc8aX/DjYb7RlODnMXG3KGdPi1GJS70UpFcG
+ Owghsp7d4GvMitGeLS5uo4TAthsehbp3L50zYqJbGD7/FwpyjA/jwYHgdwUUgweBIAr9
+ VC6MDLsdJeQTf7ORgMEmDaUDUaBWxk5TWag34mBBKkbvy9h9t+7nygyKxMZ6fLqCulQk
+ ah2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVs3FlF+wySbrBl6+AC1pibwoOsecm8bp4uZzGxjeq70WELLWUfP9LwYhQcrNUGr8YnfT7gXAOl/QM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxgkMjS6ZGBk4W8E7n9Rd98XoN1WzSqV5M7U6ZCRThuLuw3kG53
+ DisuFqJgkW/jVdsmmFqBc5mFVyCDZ8kcBwWnSLGuPCwhZuwF8DEVEcfTjMRGtfzRkvtyimyhKU0
+ yW78kpZBFrs2R4mFGUK1oGVi09lhmFh/ilA7C8g==
+X-Gm-Gg: ASbGncs7fgLKANqprcslIupgoYRx2jtwnzid//E0XtEO3sCv4TS/1pEOMzsxHRC40VR
+ bmEuuvdw26WV3pjtQeQQy+jaeVLjEXfAAc8M=
+X-Google-Smtp-Source: AGHT+IFPz9fbMcvhhyZZGYYuWLUwXCRTy8s+kBCbi69J2hIRU1+TB7begqOpM0+xy1s6GqB+nx1X6ZJAR0totDSXOwo=
+X-Received: by 2002:a05:6214:486:b0:6d8:e7c9:ffa0 with SMTP id
+ 6a1803df08f44-6e192c73ef5mr43851476d6.19.1736951677902; Wed, 15 Jan 2025
+ 06:34:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/10] drm/fourcc: Add DRM_FORMAT_Y10_LE32
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Vishal Sagar <vishal.sagar@amd.com>,
- Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-26-tzimmermann@suse.de>
+ <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
+ <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+ <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
+ <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
+ <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
+ <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
+ <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
+ <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
+ <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
+In-Reply-To: <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Wed, 15 Jan 2025 14:34:26 +0000
+X-Gm-Features: AbW1kvZOqZIfsgr5MQqIuf1jKNJtcUmkb-2ddanRpBEhDxEw_Wl931RGN2rzkA8
+Message-ID: <CAPj87rOn=RQ615zyaEdFT2ADfPztU7+heVi0G34Rdg-=QO1cCw@mail.gmail.com>
+Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev, 
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org, 
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com>
- <20250115-xilinx-formats-v2-4-160327ca652a@ideasonboard.com>
- <CAMuHMdXwsdP3_3b_OWFZ8J=kuNCga0h5Vo+wR0fdquQjZNuzEw@mail.gmail.com>
- <b7b8cdde-c189-4b9f-8423-c8ab4797b2f0@ideasonboard.com>
- <CAMuHMdVnDBt9QbR2bPdKHWgQ7i-OYYJ14ndc270z-hejY=bUdA@mail.gmail.com>
- <6b084e2c-100f-4563-8797-9fd6c862ed0c@ideasonboard.com>
- <CAMuHMdX8EeKnV8et81i3UdOexhO3Ry5TTKqp18OvCpJpWT2CtQ@mail.gmail.com>
- <0b0decd1-6f19-424a-84e5-fc71dceb983c@ideasonboard.com>
- <CAMuHMdXrdV4YRo1nMCVMTga=M+16GT8GkWe+Rk1DkgDZ=abGag@mail.gmail.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAMuHMdXrdV4YRo1nMCVMTga=M+16GT8GkWe+Rk1DkgDZ=abGag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Andy Yan <andyshrk@163.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,112 +101,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/01/2025 16:08, Geert Uytterhoeven wrote:
-> Hi Tomi,
-> 
-> On Wed, Jan 15, 2025 at 2:46 PM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->> On 15/01/2025 14:52, Geert Uytterhoeven wrote:
->>> On Wed, Jan 15, 2025 at 1:42 PM Tomi Valkeinen
->>> <tomi.valkeinen@ideasonboard.com> wrote:
->>>> On 15/01/2025 14:33, Geert Uytterhoeven wrote:
->>>>> On Wed, Jan 15, 2025 at 12:11 PM Tomi Valkeinen
->>>>> <tomi.valkeinen@ideasonboard.com> wrote:
->>>>>> On 15/01/2025 12:33, Geert Uytterhoeven wrote:
->>>>>>> On Wed, Jan 15, 2025 at 10:04 AM Tomi Valkeinen
->>>>>>> <tomi.valkeinen@ideasonboard.com> wrote:
->>>>>>>> Add Y10_LE32, a 10 bit greyscale format, with 3 pixels packed into
->>>>>>>> 32-bit container.
->>>>>>>>
->>>>>>>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>>>>>
->>>>>>> Thanks for your patch!
->>>>>>>
->>>>>>>> --- a/include/uapi/drm/drm_fourcc.h
->>>>>>>> +++ b/include/uapi/drm/drm_fourcc.h
->>>>>>>> @@ -408,6 +408,7 @@ extern "C" {
->>>>>>>>      /* Greyscale formats */
->>>>>>>>
->>>>>>>>      #define DRM_FORMAT_Y8          fourcc_code('G', 'R', 'E', 'Y')  /* 8-bit Y-only */
->>>>>>>> +#define DRM_FORMAT_Y10_LE32    fourcc_code('Y', 'P', 'A', '4')  /* [31:0] x:Y2:Y1:Y0 2:10:10:10 little endian */
->>>>>>>
->>>>>>> R10_LE32? Or R10_PA4?
->>>>>>
->>>>>> Can we discuss the "R" vs "Y" question under the cover letter? There's
->>>>>> some more context about it in there.
->>>>>
->>>>> Sorry, hadn't read the cover letter. I got attracted by "Y8" and "Y10".
->>>>>
->>>>>> I took the "LE32" from Gstreamer's format. Maybe it's a bit pointless.
->>>>>>
->>>>>> I don't know if it makes sense to add the fourcc to the DRM format name.
->>>>>> The fourcc is very limited. Rather, we could, say, have
->>>>>> DRM_FORMAT_Y10_PACKED_32 (or "R", if you insist =).
->>>>>>
->>>>>>> Does LE32 have a meaning?  My first guess just reading the subject
->>>>>>> was wrong ("little endian  32-bit" ;-)
->>>>>>
->>>>>> I'm not sure I follow. It's little-endian. The pixel group/unit is a
->>>>>> 32-bit number, where the leftmost pixel on the screen is in bits 9-0,
->>>>>> and the padding is in bits 31-30, and stored in memory as little-endian.
->>>>>
->>>>> Ah, the "LE" applies to the pixels inside each word.
->>>>
->>>> No, to the 32-bit container.
->>>>
->>>>> DRM formats stored in memory are always little-endian, unless the
->>>>> DRM_FORMAT_BIG_ENDIAN bit is set, which is what I was hinting
->>>>> at...
->>>>
->>>> Indeed you're right. The "LE" is pointless. So back to the bike-shedding
->>>> about the name =).
->>>
->>> As the order inside the container is Y2:Y1:Y0, it _is_ little endian.
->>> Cfr.
->>>
->>> #define DRM_FORMAT_YUYV  fourcc_code('Y', 'U', 'Y', 'V') /* [31:0]
->>> Cr0:Y1:Cb0:Y0 8:8:8:8 little endian */
->>
->> Hmm, I see. I hadn't thought LE in that context, but I think it makes
->> sense when there are multiple pixels in one container. So the "little
->> endian" above would refer to the order of Y1 and Y0. So is Y1 the
->> least-significant-pixel? =)
-> 
-> No, Y0 is the least-significant member of the container, which
-> corresponds to the first pixel ("little end first").
+On Wed, 15 Jan 2025 at 14:20, Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
+> No disagreement there, we need CREATE_DUMB2.
+>
+> My point is that we have the current UAPI, and we have userspace using
+> it, but we don't have clear rules what the ioctl does with specific
+> parameters, and we don't document how it has to be used.
+>
+> Perhaps the situation is bad, and all we can really say is that
+> CREATE_DUMB only works for use with simple RGB formats, and the behavior
+> for all other formats is platform specific. But I think even that would
+> be valuable in the UAPI docs.
 
-In the number 0x1234, 0x34 is the least-significant byte, and stored 
-first in memory in little endian.
+Yeah, CREATE_DUMB only works for use with simple RGB formats in a
+linear layout. Not monochrome or YUV or tiled or displayed rotated or
+whatever.
 
-So, similarly, with Y0:Y1, Y1 is stored first in little-endian order, so 
-it's the least-significant-pixel =).
+If it happens to accidentally work for other uses, that's fine, but
+it's not generically reliable for anything other than simple linear
+RGB. It's intended to let you do splash screens, consoles, recovery
+password entries, and software-rendered compositors if you really
+want. Anything more than that isn't 'dumb'.
 
->> But, say, in
->>
->> #define DRM_FORMAT_RG88         fourcc_code('R', 'G', '8', '8') /* [15:0] R:G
->> 8:8 little endian */
->>
->> the "little endian" refers to the 16-bit value itself? Which is not
->> necessary, as the default assumption is little endian.
-> 
-> I think so.
-> 
->> In any case, when considering your latest point... "LE" in the name
->> makes sense? But with a quick look I didn't find any formats that would
->> have "big endian pixel order", so maybe we can just assume little endian
->> pixel order too.
-> 
-> [CDR][124] have. See the descriptions of the commits that introduced
-> them for the rationale behind this:
-> 
-> b92db7e4fe740daa drm/fourcc: Add DRM_FORMAT_D[1248]
-> d093100b425df6fe drm/fourcc: Add DRM_FORMAT_R[124]
-> e5bd7e3e4a68f0be drm/fourcc: Add DRM_FORMAT_C[124]
-
-Ah, I see. But they don't call the pixel ordering "big endian".
-
-Well, this is all somewhat beside the point. So is "_Y10_32" (or 
-"_R10_32" if we use R) fine?
-
-  Tomi
-
+Cheers,
+Daniel
