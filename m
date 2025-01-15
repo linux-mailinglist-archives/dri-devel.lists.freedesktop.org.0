@@ -2,171 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AA4A12521
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 14:45:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D2EA12527
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Jan 2025 14:45:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 816C910E698;
-	Wed, 15 Jan 2025 13:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1815810E6A7;
+	Wed, 15 Jan 2025 13:45:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="aqyuT2iY";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="TFLFJF3X";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qSe023yu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TFLFJF3X";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qSe023yu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on20609.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2009::609])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F1BC10E698
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 13:45:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fv9YDJs3imkBrjqXv4Pxb0FbYqYrKoWyqlqVnerTo2If9NTnKulwpvuv0or7p9GSLtMytod5jg/JfK6C4j5xJkc9+6JE4687EinvrxhL8cQvZ/emAuNTyc7VKz2jRehplhtjUb1Th7Dy0SiH5S/bIoHzUBKBb1fpq0Ga5QG8SO1bYoYRUjLvZjQFt+ElCiI2OAjyNzXrWn91etyrmZJiDXl7fxUCEU5kWf/wvSqJ3bZUX4IntRovhU4/swFAVueluN91kxzl0DhV3cXcXo01Nyn+yxsrSQ0LCpnNsukLgC69sX/w+niQVPyeO/alXHfbJvnmEUwPpinKOEdPifVNew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DxAwCZ87IOnmEZornajrcjbam0tMX8Ku6ZkisETplbk=;
- b=cPtJ6216i83shk2KYoG7k3oSMVQh4JI0rg7ZJ5QnHr5fb1Plon5acbK15cFNqMZN5LbT6Nvgjxm6gIqpih7YxVyZyQ9FDG+OiFjmGU64/lAbwocb0Rwk1JvDHMzkEEEF21u/x2qBZLhNNKZsPRf9HwrjE7PFBjrzbh6e+oeVS1yqy/p0up6x7owCtjW04KXQVT3uG2gS0Gb+8bvIq/rkuP7C/lH/nL/HdHUGSX3Fb1PZR3GXPkf4S2fBTBPi/IPKglw1rsPs0gAkn6OaYkn3IgNnWkvyyR6qCjtu7dkarx+2oC7aolIL1eEp+KYbs1J8LtQuq5IlbpEkmi+gm5Uukg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DxAwCZ87IOnmEZornajrcjbam0tMX8Ku6ZkisETplbk=;
- b=aqyuT2iYGMwehv1C8GKEwRJYE/bzary9EYVFzXduhqe8i3nyQ/jtqNQ29qHYXu5rbwLVeXgmYDjHdVBAzm72Q1d5Vj5ett28t5NEftnyiTc3zRQC58x+FPlF4F9AppMpH8i3r7PTY34aqpsLc3yIvGc4x4AyScmKNNNya7EnzaA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB5740.namprd12.prod.outlook.com (2603:10b6:208:373::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
- 2025 13:45:24 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 13:45:24 +0000
-Content-Type: multipart/alternative;
- boundary="------------Avi86ny3nb5z5eKoNn0oqdnl"
-Message-ID: <f6c2524f-5ef5-4c2c-a464-a7b195e0bf6c@amd.com>
-Date: Wed, 15 Jan 2025 14:45:16 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
- Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-References: <f3748173-2bbc-43fa-b62e-72e778999764@amd.com>
- <20250108145843.GR5556@nvidia.com>
- <5a858e00-6fea-4a7a-93be-f23b66e00835@amd.com>
- <20250108162227.GT5556@nvidia.com> <Z37HpvHAfB0g9OQ-@phenom.ffwll.local>
- <Z37QaIDUgiygLh74@yilunxu-OptiPlex-7050>
- <58e97916-e6fd-41ef-84b4-bbf53ed0e8e4@amd.com>
- <c823f70c-9b70-441c-b046-71058c315857@amd.com>
- <20250110205454.GM5556@nvidia.com>
- <d213eee7-0501-4a63-9dfe-b431408c4c37@amd.com>
- <20250115133821.GO5556@nvidia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250115133821.GO5556@nvidia.com>
-X-ClientProxiedBy: FR5P281CA0049.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f0::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8351910E6A7;
+ Wed, 15 Jan 2025 13:45:54 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 49A6821249;
+ Wed, 15 Jan 2025 13:45:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736948753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RYyfSaVw6g5xMH+JMHghdrGYmdnvDx9Zhz3pv4DK3Xw=;
+ b=TFLFJF3XySI2ZDMNWqLtnYi9I2CkKelN5grA2a/4kQ0P1TqzT7tSXr4h7/8Ne+Qn4kV+7e
+ tAGkQWxCqwepai1cL8InSYizan9Cfu381FxyhQuTclpqleEGeeZqfcFFnvdBZ7J8flDV0C
+ llifefl5Ww7OTjsLlhec4er0F+GluGU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736948753;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RYyfSaVw6g5xMH+JMHghdrGYmdnvDx9Zhz3pv4DK3Xw=;
+ b=qSe023yuize08pZVM2Q7kCwRc6uXGuV4ZJmU+N6SFdTO1SX53lQO+DbJQKBt7UwMutw4m7
+ wijvbfZ3D9R6vCBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TFLFJF3X;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qSe023yu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1736948753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RYyfSaVw6g5xMH+JMHghdrGYmdnvDx9Zhz3pv4DK3Xw=;
+ b=TFLFJF3XySI2ZDMNWqLtnYi9I2CkKelN5grA2a/4kQ0P1TqzT7tSXr4h7/8Ne+Qn4kV+7e
+ tAGkQWxCqwepai1cL8InSYizan9Cfu381FxyhQuTclpqleEGeeZqfcFFnvdBZ7J8flDV0C
+ llifefl5Ww7OTjsLlhec4er0F+GluGU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1736948753;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=RYyfSaVw6g5xMH+JMHghdrGYmdnvDx9Zhz3pv4DK3Xw=;
+ b=qSe023yuize08pZVM2Q7kCwRc6uXGuV4ZJmU+N6SFdTO1SX53lQO+DbJQKBt7UwMutw4m7
+ wijvbfZ3D9R6vCBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C332E139CB;
+ Wed, 15 Jan 2025 13:45:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ctv9LRC8h2cUZgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 15 Jan 2025 13:45:52 +0000
+Message-ID: <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
+Date: Wed, 15 Jan 2025 14:45:51 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB5740:EE_
-X-MS-Office365-Filtering-Correlation-Id: 764cc6d2-1224-4f84-f74b-08dd356adcab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|8096899003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L01vQ1poNUJLc3BRcTNUMVhwbVA0T1oxNlBqTnRqMm9rb2tJSFVoUGcwOWJk?=
- =?utf-8?B?ZEVyRWEya051RXpKWkFYUmhOWEkwaVI5L0hwRHFFZUV1NERtNzRvVkZaQTZU?=
- =?utf-8?B?czlPRTBFTGxoclRCTGZ3NS93ZEZBNjZxOG9YM09YYld4dFU4ZTRZbWFMMWd1?=
- =?utf-8?B?UlFvU0syWG1majdNQ0NIK1Y4Vm1BU1NlYlBBYjJOdnJyenFwYm84dTUybm5Q?=
- =?utf-8?B?SjdiSUhQaS91d0QvTThtTFJrUVhjQmhJOW95MDNuWjlKS095a1hTTmZRUTJz?=
- =?utf-8?B?SitYLzhuTGxGekJ6NERtQTYrWklJM0EzaC9hQVlYbUd1VHkrL0hMVGZDb3ZG?=
- =?utf-8?B?eVZWTFp2RE5NRTNsUThVWnZxVU1rQURkbzZvMU01UmtraFRJekdKWEJ2eGhQ?=
- =?utf-8?B?ZkFqSnE0TjVBOXphdkFXeThZM0NxZllXTThWQWF0VHBPTFRvWU9JdTBpVlRh?=
- =?utf-8?B?VVVmeGVjUXNLQm05R2VIeUlBbk5YVWI4QXU5RHZ4RDB3eFhlY1RsOGJtMjlu?=
- =?utf-8?B?K3BoMnJqVnQvdW9vSE9RSStka2RVTVFYd1NGRE1CY1BuemFLM25zMG8wQitC?=
- =?utf-8?B?QitvVHBMeHFCZlArWTBCS3Y2MlFrK2JtU1Jva3V1c1NZcmU0WUR1Qi9XZzFw?=
- =?utf-8?B?dmdEVHZxVkVTRjNOcDVzZG1qRnl5ZVdIQXR6VmJxeGFWWEtjSGNGYlIzYjY1?=
- =?utf-8?B?bTNDTkNTTzBKNVdVSExCVjRqQVVyb25MUUs5bm16YkNrbnhlOStzU0o2ZmVD?=
- =?utf-8?B?cU1Tb2N3cFVub2YrNEZnaEROdit3ckJwRTBRdCsyd0dIbng0N2VQNUdJMVBi?=
- =?utf-8?B?dVZuVHVLNWtUSm5Od0IyMlNQa0hqU0lkMkZRa1hDZThBMmFpZWUxcUV0OFpJ?=
- =?utf-8?B?a0VsLy9qV2cwRVRNd1RHSWplSngyVGZ5MWhoVUNLZ1hQMktVYjlNWXZKWVVt?=
- =?utf-8?B?cURqeTBVanQvZ3FiUmRoOGhSOHZGRm1nVWI1TnVWNk5HZDR5azcvTm96bEF5?=
- =?utf-8?B?ampXQklTK0NiOHMydEw5VUFLK0Rpc3pZRk1uOVMyK2tQdGpaWXcxYUlSTDcx?=
- =?utf-8?B?TUoycWtGVkl0bC9rYnVpVUdzdGJFcUNPdml0UGdteW5hcm1HeG4rYjZ4WStP?=
- =?utf-8?B?aS9Kckd5b3FWeSs1bXVLVTZPY2NiM1pybWFzRmZTdmdCRHlrZkZrbHpHL1Q4?=
- =?utf-8?B?Sll2VmExUVpQbmFhRlBDSW5OSVkyL0JsQjV0dWs5czd2eEdTZHAxM0g3WGVT?=
- =?utf-8?B?N0ZrZ29LeVovWmt0NnBoU1IwTVYwaVZ6RXU5QStSc0hycTZpQVNxVzdPelRQ?=
- =?utf-8?B?ZW5pTStwdUpxa2pXcy9nTXRqaG9WNHZWaWk0NDZ1NGVQV3Azd1o5UUlpMTlK?=
- =?utf-8?B?WUlkMUxUUWNiUHlqekRMY1NLaTJtSlhramlkRXZUaEV3bmIvSk9jRVZyaUpn?=
- =?utf-8?B?MUl2TzN1ZFptV1RWRTJOVjNxbFRHeDUzaWp0RW5Ba1hZenVlWHZsWWJoRmlY?=
- =?utf-8?B?ZTU4dlpaczI0NFN5ZTg5TTJoUElDNEcyWjl6ZDdCSVJJQmt6dTRtQ2xTOVBh?=
- =?utf-8?B?YnNSUjh4QmhoK3dnQ0V2d0syQWxuUlpxKzRXZnhVMmhWQmxoZXJQaVJhWDVE?=
- =?utf-8?B?QXVZRWRDckRkQzl4T001dFl4Q2tMckdWb3BSL3RBNDlQL0dVNWFLUFVGRTJN?=
- =?utf-8?B?UktJaEpEckhud1hKRENmeTRLTVJJd3lHclladmJsbmJoSlFTZkJmak8vakpM?=
- =?utf-8?B?WCtmWWxzTE1MY2kweWlLeGRiRHI1T2Rjc3JxVytGT2c1d3cyR2ZhQ2ZEZHJC?=
- =?utf-8?B?WDVXUEs1cVFqM2xwRDBUQzhzbjc5ZkFGM1RWTjRhSEtHV2RVL0RtenRIWDBR?=
- =?utf-8?Q?CJIuA5O3rfxVE?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(8096899003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU5YU1E0S2xqMHpEdnM4akppWm9RckpsdCs0cEVqSklaQ2cyYUE1RngvL3dH?=
- =?utf-8?B?RlVsbllsTW1LSitlSmMvNEZPemlBTUVDS2RHbzRIOEJkaStwclB1QlVKOTcv?=
- =?utf-8?B?U3VlbEZPQjNvaDJucEFkRGtPd1VyaUFBRHZSR2NiTzFpVjlMSVBaOEJIcG94?=
- =?utf-8?B?QWcwOVcvUUpxUi9UY0krWFB5bGdSMitvWVlJT01OMC9SZUVTUjJpaS9Gb0gy?=
- =?utf-8?B?b0dKS25iay8yOWQramdOUFhRTUtydW4wYVdFVC9JQUpLdUxlaHFaaDdlUGRD?=
- =?utf-8?B?VzlIU3FhQ2owZnBQaElKaDJwNzVLM2xsZTd3cEFmNXVLTFlGTzliRTV0Nm44?=
- =?utf-8?B?Wk1vekZUc0NwZ2JZUGl3Y3lKRnZsSldFN1pKRUxiMW9iazBMTWo5UThBbXl0?=
- =?utf-8?B?Ynd5dHNlKzZtK25WM0U5N0Q2bGo3eVhYTW4rRnVORWhGZ3JUQXBQSWQ4aExC?=
- =?utf-8?B?dldPS3VLWjFxTm5SRitoM3owNTFwQmluOWRaczRQTWtGVXRiNGJCV3c0aVh5?=
- =?utf-8?B?MFNZKzBLSHIwVmRER3hCUk9kU2NlcTJIMy9TYXZZVGRZcHhUZkd4NnpPTnRO?=
- =?utf-8?B?ZVR4WG01NzRJZ3RITmxQNVcwWVkwcUlwYXptK3pra0R5MVRwK0t5Nm0rbCtJ?=
- =?utf-8?B?U0xrUU1ldVhWV1JQYXI3OUZPbTlPT0dIcTJVTWNKSWlUYXVDMStiRDQvbkhD?=
- =?utf-8?B?ZVlFSmZ6c3UvdmMvZ255VmZidWkxbjFKOER4Zm1lMFFqcDZ2cFZpajdGdWRV?=
- =?utf-8?B?cGlxeVE3bVU2NTJpdUhQVTlRMWFXNkx6czgxSEVrYlNDN05QWkNraWZ3eHFQ?=
- =?utf-8?B?WTA5T3Z3aWNXZk15OE4zMWw3WXZnenJCbUNuZktEMHloam5sL1VFUGgrMFE2?=
- =?utf-8?B?SDhJZDMwek9TRlM4eGF6Wkt4SEtwRDh4RHlnOWJrSlNYSVBtYk4rTitCWVp0?=
- =?utf-8?B?K0Y5cnJVRm5wTnoxcEJ6WXpHMkphZXM0QnorUEwyTkcwclJSUEdnZ0E0MDE5?=
- =?utf-8?B?RjAwUkFsWS9uNGZlZEU5d0ZSUEMrYmNhRjFyK0xFcEV6dEtoRVVEa3RFR0hE?=
- =?utf-8?B?c0xxUldNMWVKSmthSStYaVZDRStWNDZLZHpMWTRETkpIblU5T2ZzYWMrb0Vv?=
- =?utf-8?B?RGM5TnhPOENxMDRwaDNLRy9PeXRnc2xzUXk3R0dWM1ZhNCt6bytlZnJ0a1Ru?=
- =?utf-8?B?THcrM3FUMkl0U1lJcGMxK0t0WlBJcy9SRDhHS0JTcjM0VE1mb1JwVW56bnFG?=
- =?utf-8?B?aEgzcldSRzN6a2U2eGx0Q0gwQ214cUUyWnJrdllWY0dHaW9haXhmMW5mWDRE?=
- =?utf-8?B?Mi9UT0prMkJrTzRxSGwzVFRvL2Z0WmtvNURPNWZsNll1R2wzbk5rekRWTkEx?=
- =?utf-8?B?TE1EQzZ4OHJ4ZFkxMDV6R3dHcCtJcWloS3dFK0RDaVV5dk82Q2ZDOE5PK1JX?=
- =?utf-8?B?Tm0yK0NQYXlsOWt5eVJLZVJRbXBLeStkM2Fjd0JjOXQ0VXA4bHVCcEFuZ0RO?=
- =?utf-8?B?UTc4Y01RTkpDS0RKK2RkVHFUTjRPN1hRYXhHQlJteWFOL3M1dVladU9GN05R?=
- =?utf-8?B?V2hHKzVkMkE0Z2g3YTdxQkdNeS9rc0g2YlYwMTdoeFNXNU5xRExjcGluNXhX?=
- =?utf-8?B?RGZ0MVU3OUl1SnovN0o1eTVINjVYa2lSK1ZmNkFTU0lsSXlqRFZISmxJak9C?=
- =?utf-8?B?SWR4REk3Smp2cWRUZUNxZzBacmJ6bDFmaHh1M3JlNG1PSmd5NE9qWXc3TXNz?=
- =?utf-8?B?dGtIQU80UlBiMExVL042RWZUMzB3eERXbGFtaUhVKzZnZHgvZzhybHVWN3Rn?=
- =?utf-8?B?SThhYk9lRHMwYThDaVpaaEdyNUIxTDJTNEJMZU5CZXlQNGs3MDB6ZEVyTmZv?=
- =?utf-8?B?TVRxNDQzak4ya2h5UE5md3crZzJqRkFOQkpLN1ZJckJKSFVzYW9sa1gzdjFi?=
- =?utf-8?B?RElYZTRHbUp0aElsL0UzVUNsMkN5eFE1ekZ1WDNOR3psNllZaUZabGMrdFNy?=
- =?utf-8?B?WFJLMExZM2N5bFlnMVFYR21tVmNnUmVkbnNUWkZxWVJORGphODFrSy9EakYw?=
- =?utf-8?B?bys3b0lyWXBWMC9mQ0lJdGF6eG9LWTllU0djSUVNMklPdmlyMXdyaWRMRVV1?=
- =?utf-8?Q?CgreerbU2vFy0InoKCEfkZcnD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 764cc6d2-1224-4f84-f74b-08dd356adcab
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 13:45:24.3081 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W30Z/SLH4cJOkkLLdNu6ED9ZLBgwmzp7V9oFTrAf2C1mApjT2zFUTTOm+RsrBq+B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5740
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andy Yan <andyshrk@163.com>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-26-tzimmermann@suse.de>
+ <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
+ <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+ <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
+ <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
+ <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
+ <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
+ <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 49A6821249
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[21];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; MID_RHS_MATCH_FROM(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,lists.xenproject.org,ideasonboard.com,163.com];
+ RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,187 +173,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------Avi86ny3nb5z5eKoNn0oqdnl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi
 
-Am 15.01.25 um 14:38 schrieb Jason Gunthorpe:
-> On Wed, Jan 15, 2025 at 10:38:00AM +0100, Christian König wrote:
->> Am 10.01.25 um 21:54 schrieb Jason Gunthorpe:
->>> [SNIP]
->>>>> I don't fully understand your use case, but I think it's quite likely
->>>>> that we already have that working.
->>> In Intel CC systems you cannot mmap secure memory or the system will
->>> take a machine check.
->>>
->>> You have to convey secure memory inside a FD entirely within the
->>> kernel so that only an importer that understands how to handle secure
->>> memory (such as KVM) is using it to avoid machine checking.
->>>
->>> The patch series here should be thought of as the first part of this,
->>> allowing PFNs to flow without VMAs. IMHO the second part of preventing
->>> machine checks is not complete.
->>>
->>> In the approach I have been talking about the secure memory would be
->>> represented by a p2p_provider structure that is incompatible with
->>> everything else. For instance importers that can only do DMA would
->>> simply cleanly fail when presented with this memory.
->> That's a rather interesting use case, but not something I consider fitting
->> for the DMA-buf interface.
-> To recast the problem statement, it is basically the same as your
-> device private interconnects. There are certain devices that
-> understand how to use this memory, and if they work together they can
-> access it.
->   
->> See DMA-buf in meant to be used between drivers to allow DMA access on
->> shared buffers.
-> They are shared, just not with everyone :)
->   
->> What you try to do here instead is to give memory in the form of a file
->> descriptor to a client VM to do things like CPU mapping and giving it to
->> drivers to do DMA etc...
-> How is this paragraph different from the first? It is a shared buffer
-> that we want real DMA and CPU "DMA" access to. It is "private" so
-> things that don't understand the interconnect rules cannot access it.
 
-Yeah, but it's private to the exporter. And a very fundamental rule of 
-DMA-buf is that the exporter is the one in control of things.
+Am 15.01.25 um 14:33 schrieb Tomi Valkeinen:
+[...]
+>> Yeah, there are constrains in the scanline and buffer alignments and 
+>> orientation. And if we say that bpp==12 means NV12, it will be a 
+>> problem for all other cases where bpp==12 makes sense.
+>
+> I feel I still don't quite understand. Can't we define and document 
+> CREATE_DUMB like this:
+>
+> If (bpp < 8 || is_power_of_two(bpp))
+>     bpp means bitsperpixel
+>     pitch is args->width * args->bpp / 8, aligned up to 
+> driver-specific-align
+> else
+>     bpp is a legacy parameter, and we deal with it case by case.
+>     list the cases and what they mean
+>
+> And describe that when allocating subsampled buffers, the caller must 
+> adjust the width and height accordingly. And that the bpp and width 
+> can also refer to pixel groups.
+>
+> Or if the currently existing code prevents the above for 16 and 32 
+> bpps, how about defining that any non-RGB or not-simple buffer has to 
+> be allocated with bpp=8, and the userspace has to align the pitch 
+> correctly according to the format and platform's hw restrictions?
 
-So for example it is illegal for an importer to setup CPU mappings to a 
-buffer. That's why we have dma_buf_mmap() which redirects mmap() 
-requests from the importer to the exporter.
+What if a hardware requires certain per-format alignments? Or requires 
+certain alignments for each plane? Or only supports tile modes? Or has 
+strict limits on the maximum buffer size?
 
-In your use case here the importer wants to be in control and do things 
-like both CPU as well as DMA mappings.
+It is not possible to encode all this in a simple 32-bit value. So 
+user-space code has to be aware of all this and tweak bpp-based 
+allocation to make it work. Obviously you can use the current UAPI for 
+your use case. It's just not optimal or future proof.
 
-As far as I can see that is really not an use case which fits DMA-buf in 
-any way.
-
->> That sounds more something for the TEE driver instead of anything DMA-buf
->> should be dealing with.
-> Has nothing to do with TEE.
-
-Why?
-
-Regards,
-Christian.
+Best regards
+Thomas
 
 >
-> Jason
+>
+>  Tomi
+>
 
---------------Avi86ny3nb5z5eKoNn0oqdnl
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Am 15.01.25 um 14:38 schrieb Jason Gunthorpe:<br>
-    <blockquote type="cite" cite="mid:20250115133821.GO5556@nvidia.com">
-      <pre class="moz-quote-pre" wrap="">On Wed, Jan 15, 2025 at 10:38:00AM +0100, Christian König wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Am 10.01.25 um 21:54 schrieb Jason Gunthorpe:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">[SNIP]
-</pre>
-          <blockquote type="cite">
-            <blockquote type="cite">
-              <pre class="moz-quote-pre" wrap="">I don't fully understand your use case, but I think it's quite likely
-that we already have that working.
-</pre>
-            </blockquote>
-          </blockquote>
-          <pre class="moz-quote-pre" wrap="">In Intel CC systems you cannot mmap secure memory or the system will
-take a machine check.
-
-You have to convey secure memory inside a FD entirely within the
-kernel so that only an importer that understands how to handle secure
-memory (such as KVM) is using it to avoid machine checking.
-
-The patch series here should be thought of as the first part of this,
-allowing PFNs to flow without VMAs. IMHO the second part of preventing
-machine checks is not complete.
-
-In the approach I have been talking about the secure memory would be
-represented by a p2p_provider structure that is incompatible with
-everything else. For instance importers that can only do DMA would
-simply cleanly fail when presented with this memory.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-That's a rather interesting use case, but not something I consider fitting
-for the DMA-buf interface.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-To recast the problem statement, it is basically the same as your
-device private interconnects. There are certain devices that
-understand how to use this memory, and if they work together they can
-access it.
- 
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">See DMA-buf in meant to be used between drivers to allow DMA access on
-shared buffers.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-They are shared, just not with everyone :)
- 
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">What you try to do here instead is to give memory in the form of a file
-descriptor to a client VM to do things like CPU mapping and giving it to
-drivers to do DMA etc...
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-How is this paragraph different from the first? It is a shared buffer
-that we want real DMA and CPU &quot;DMA&quot; access to. It is &quot;private&quot; so
-things that don't understand the interconnect rules cannot access it.</pre>
-    </blockquote>
-    <br>
-    Yeah, but it's private to the exporter. And a very fundamental rule
-    of DMA-buf is that the exporter is the one in control of things.<br>
-    <br>
-    So for example it is illegal for an importer to setup CPU mappings
-    to a buffer. That's why we have dma_buf_mmap() which redirects
-    mmap() requests from the importer to the exporter.<br>
-    <br>
-    In your use case here the importer wants to be in control and do
-    things like both CPU as well as DMA mappings.<br>
-    <br>
-    As far as I can see that is really not an use case which fits
-    DMA-buf in any way.<br>
-    <br>
-    <span style="white-space: pre-wrap">
-</span>
-    <blockquote type="cite" cite="mid:20250115133821.GO5556@nvidia.com">
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">That sounds more something for the TEE driver instead of anything DMA-buf
-should be dealing with.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Has nothing to do with TEE.</pre>
-    </blockquote>
-    <br>
-    Why?<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <blockquote type="cite" cite="mid:20250115133821.GO5556@nvidia.com">
-      <pre class="moz-quote-pre" wrap="">
-
-Jason
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------Avi86ny3nb5z5eKoNn0oqdnl--
