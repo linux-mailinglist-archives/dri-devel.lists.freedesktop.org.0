@@ -2,87 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C72A9A13E59
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 16:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9358A13E4E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 16:54:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DACC710E9B7;
-	Thu, 16 Jan 2025 15:55:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EE0C10E9B5;
+	Thu, 16 Jan 2025 15:54:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WtTaPVly";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MOZaZMo2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68FD510E9B7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 15:55:02 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-38a88ba968aso1069032f8f.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 07:55:02 -0800 (PST)
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2061F10E9B5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 15:54:53 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-385f06d0c8eso651115f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 07:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737042841; x=1737647641; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=y6d0AIUCANmrxg6EkzbtG7EaPw/qbwR7hp+uthpgvFE=;
- b=WtTaPVlyTZL1uvWQmpnH9eyj2VT2reN7/hBkrr71jODm0Hfc8Py4HP+2LZIQJpAxj4
- iLIggQmQ2ZQhFJKmKxjQuP3fmu958nCfN8DjF4/m9CKPd5YH4I3EwgrtOtkZPtYkn6b6
- /ol7jUuwcfw13fEwC7Wn0+TK3JATL3c43uDxzkek4tMSpnNbj2z1B/VIhRbHKpXCHiuQ
- EsLTfCIG3HbbCTMkdPwc41S1XF7o56+gHbPunGSHklK+fJiC2WK/bJ3ta5fLj5p0bQL4
- OverFDb6gIM/xz8pScjhBI+AocyHFEhgvDql/+33yUB2qfHlnzTiTYMx0Mx0S6NiByyG
- i+YQ==
+ d=gmail.com; s=20230601; t=1737042891; x=1737647691; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lsIy1hwmOo/E5E4bQodyMN+5T0LtN8lt/FWTPRJwl3E=;
+ b=MOZaZMo2dH892ZSDmZYEJOygel5NW6tGaw/NquBHyPjCPT00VxRl/FuEPgVDfQAbPe
+ FA5Rkr85oicgc2A19F7JxdBiy5VyyYqAcibHLmi23NBCYEseC5O4hRNC8p3bwNHWsX/4
+ 4rqqZ6LKsTlyuqD4IlOFlpHEX6LUqqn1kNosBr2ZI4wISfWryKFLGcxx61O6eDyxvsUd
+ dY5c1zCXd9PsDbg6Fhcoeod0Ot9H50bQxG7c9IoJiaqo139viYi/gjj57qQ3/9+L8HNY
+ S0k5g8tE+O60n7MGq1KgM1c8UC0edUAXs9+8E0YRidE7TqkQUEBO/LKbG8E2d4xyBPGt
+ Zxtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737042841; x=1737647641;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=y6d0AIUCANmrxg6EkzbtG7EaPw/qbwR7hp+uthpgvFE=;
- b=qta+VT2A6G7Yz9wFclMnGKszbqIpmzMJOKif2rL1iWirqXMPeKZMvB/TdQmSBTYBCJ
- 1WfhOVyyZyYkkbobDZQEravJoaUXLBdTXnu6kECnc4BeiOSWqnWZnaoVslFMu1WnBqRi
- zYn+PFq2yFydbzw7Ujf1ak4ZycHmFjPcw3luEBKXQ4JCZp8sMK7neqmY3t1lyoinCnsa
- N3Lz/mD9XIuuGLpo3qnvh5u/TT+ncLiVWwYv0H2l9Sp3BvDZcjsCSZu4N7rmr9MJLouM
- wJG0gvQEMfundfBShW3LMRcAld8TdLPfJaqad/r0m9M7OJkTBFvm0lCTbMI6muDIjupl
- xzyQ==
-X-Gm-Message-State: AOJu0YzwYetu+FyAN7jODkUizW9gxZbG7TEzW3OorztIEWwFt+GeBvY5
- NcMhuWP/93TrKSksOwgwdUikNgU/Rlt3FScmHbm3lBm3agOR14NY
-X-Gm-Gg: ASbGncuOqXde8p8qKYTtttntqs7SGYBvdLGn7sKfQ651T1wpuwILtC6/fi6eb0Ry8w+
- Zcjne8SOCp3i7dijfahfFAcjU91YHVzkmP5cVTm4iie1O/cR8wh1VyAPJkA0DKTtQTX6VXTm0OB
- H2sidHU1sbokQ+kuMnaEiqP6RKn+SjaWIfy8GKxrpM6K9ufEoVx6RTHQQJ7+0LfZ1eYCOZgrYvH
- DLHYeGV89y40xFDpNiE3idSH2WnSFOKglKYfU26C++/HQRtUF/ojio=
-X-Google-Smtp-Source: AGHT+IGriCgwafyapYW3f3+L6LKps1+fxUAv0OQOzclfLTVqCL+rQ8MW9tc6ovrRSNXOXuy1lO/Niw==
-X-Received: by 2002:a05:6000:18a4:b0:38a:9fdb:7307 with SMTP id
- ffacd0b85a97d-38a9fdb750amr21326769f8f.43.1737042840763; 
- Thu, 16 Jan 2025 07:54:00 -0800 (PST)
-Received: from fedora ([94.73.34.116]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38bf32755f0sm186116f8f.76.2025.01.16.07.53.59
+ d=1e100.net; s=20230601; t=1737042891; x=1737647691;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=lsIy1hwmOo/E5E4bQodyMN+5T0LtN8lt/FWTPRJwl3E=;
+ b=AWNj0l4/Fy0vbPwVXgJImAxG+QX3U/+0IS0lVI5+1XvXR0eFVMD72pXL6Me8j6aHig
+ jmfaenRQF5bTg2rLbrEG7o3vCXF7MEe52nayR4WZRjHuOLfEyVoWkJvO2+ztdtyoV/mm
+ KkqkUgj+LeB5gPvXcyCfxez41Ijz8VJ+vp+RkGbzsNSNaWcAyrFp/ZbUJDjpR79p2DBT
+ spine6Rm0UMhK9aEUvEkqkJ0Z4zf8Z+GlSIFABlvBq3MmlqSuymPertsZElrAaB4aLL1
+ B4II+qkZSWQFnGKXMah5tjCqHsTQXrj6HNhACOoK9NL23k0v1v+9G3yIhW2aJf9D8vOw
+ d9+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUdn+eh8JizbPYUIovVb0LRpLnnY9mPuJnLh5QHZhVHq4L18TXZ9TTRtwTPNf8hueuKZsnOOZ+TRfQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx2fVWx9ds6f+dAJMicefcIdDz6jMIewG3ud6OQ9R1DlDNsjR4x
+ z7XPhJUyJcmFHieQkRimPu8LMY8I9jk1aGLItrmsADpyRCkTmlCL
+X-Gm-Gg: ASbGncstLfgqCQK7Tnt1BPRRa/GdRXM1vhhYB7eJvY55OIyPiOv2ghgzaPcWUAR9A0k
+ m/nW+mzPT4KiAZZ44WGQ/wipHjbRyxCrlwPyJIaUo7FV8OmpQQRm9a+8lyxiUu20OjewmQ8xqAA
+ /+KBGW23FtM4qJE/Bw3ExCylYnVPdWwk1786ZKGH/EfCdj+MRj0eDZoZeLKKIg6zZ7MyZx6Cg5X
+ IdBXoVKIKx+oKMSiWhulrB+uHHJyD11gWJ6+mTkPbcBOIq4zL0vGqaWIg==
+X-Google-Smtp-Source: AGHT+IFiwv9j0YjjKuCRjEMarnyqoxBeR54uC4o8HVB2+kJRsjIqAm+8OIc9//IXvsApwoAwjdVFog==
+X-Received: by 2002:a05:6000:178a:b0:38a:4184:1529 with SMTP id
+ ffacd0b85a97d-38a872d2aa5mr23704329f8f.12.1737042891492; 
+ Thu, 16 Jan 2025 07:54:51 -0800 (PST)
+Received: from fedora.. ([94.73.34.116]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-437c16c4c12sm43533845e9.3.2025.01.16.07.54.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2025 07:54:00 -0800 (PST)
-Date: Thu, 16 Jan 2025 16:53:57 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com,
- Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v7 7/7] drm/vkms: Switch to managed for writeback connector
-Message-ID: <Z4krlfWDSAC3X54g@fedora>
-References: <20250113-google-vkms-managed-v7-0-4f81d1893e0b@bootlin.com>
- <20250113-google-vkms-managed-v7-7-4f81d1893e0b@bootlin.com>
- <Z4VJY03TZlgzn3ib@louis-chauvet-laptop>
+ Thu, 16 Jan 2025 07:54:50 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: louis.chauvet@bootlin.com
+Cc: airlied@gmail.com, arthurgrillo@riseup.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ jeremie.dautheribes@bootlin.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ mcanal@igalia.com, melissa.srw@gmail.com, miquel.raynal@bootlin.com,
+ mripard@kernel.org, nicolejadeyee@google.com,
+ rodrigosiqueiramelo@gmail.com, seanpaul@google.com, simona.vetter@ffwll.ch,
+ simona@ffwll.ch, thomas.petazzoni@bootlin.com, tzimmermann@suse.de,
+ =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v8 1/8] drm/vkms: Switch to managed for connector
+Date: Thu, 16 Jan 2025 16:54:44 +0100
+Message-ID: <20250116155446.3461-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250114-google-vkms-managed-v8-1-da4254aa3dd5@bootlin.com>
+References: <20250114-google-vkms-managed-v8-1-da4254aa3dd5@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z4VJY03TZlgzn3ib@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,117 +94,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 13, 2025 at 06:12:03PM +0100, Louis Chauvet wrote:
-> On 13/01/25 - 18:09, Louis Chauvet wrote:
-> > The current VKMS driver uses non-managed function to create
-> > writeback connectors. It is not an issue yet, but in order
-> > to support multiple devices easily, convert this code to
-> > use drm and device managed helpers.
-> > 
-> > Reviewed-by: JosÈ ExpÛsito <jose.exposito89@gmail.com>
+> The current VKMS driver uses non-managed function to create connectors. It
+> is not an issue yet, but in order to support multiple devices easily,
+> convert this code to use drm and device managed helpers.
 > 
-> Hi,
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Reviewed-by: Ma√≠ra Canal <mcanal@igalia.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+
+Reviewed-by: Jos√© Exp√≥sito <jose.exposito89@gmail.com>
+
+Thanks!
+
+> ---
+>  drivers/gpu/drm/vkms/vkms_output.c | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
 > 
-> Sorry JosÈ, I forgot to remove your Reviewed-by, the changes made here are 
-> not trivials. Can I keep it or do you have any comments ?
-
-Hi Louis,
-
-No problem, feel free to keep it. I had a look to v8 and its looking
-great, sending a few review-by to that version.
-
-I'll try to rebase my branch and run all the automated tests I have
-been writen just in case they catch a bug.
-
-Best wishes,
-Jose
- 
-> Sorry,
-> Louis Chauvet
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 8f4bd5aef087b459d37d0cbbf90fe0145090917a..570823ecb28f589e6323036590ec05a2f633bc9b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -3,11 +3,11 @@
+>  #include "vkms_drv.h"
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_managed.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+>  static const struct drm_connector_funcs vkms_connector_funcs = {
+>  	.fill_modes = drm_helper_probe_single_connector_modes,
+> -	.destroy = drm_connector_cleanup,
+>  	.reset = drm_atomic_helper_connector_reset,
+>  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+>  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> @@ -75,8 +75,8 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>  		}
+>  	}
+>  
+> -	ret = drm_connector_init(dev, connector, &vkms_connector_funcs,
+> -				 DRM_MODE_CONNECTOR_VIRTUAL);
+> +	ret = drmm_connector_init(dev, connector, &vkms_connector_funcs,
+> +				  DRM_MODE_CONNECTOR_VIRTUAL, NULL);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to init connector\n");
+>  		return ret;
+> @@ -88,7 +88,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>  			       DRM_MODE_ENCODER_VIRTUAL, NULL);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to init encoder\n");
+> -		goto err_encoder;
+> +		return ret;
+>  	}
+>  	encoder->possible_crtcs = drm_crtc_mask(crtc);
+>  
+> @@ -110,9 +110,5 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>  
+>  err_attach:
+>  	drm_encoder_cleanup(encoder);
+> -
+> -err_encoder:
+> -	drm_connector_cleanup(connector);
+> -
+>  	return ret;
+>  }
 > 
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > ---
-> >  drivers/gpu/drm/vkms/vkms_drv.h       |  3 ++-
-> >  drivers/gpu/drm/vkms/vkms_output.c    |  2 +-
-> >  drivers/gpu/drm/vkms/vkms_writeback.c | 21 +++++++++++++--------
-> >  3 files changed, 16 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-> > index 00541eff3d1b0aa4b374fb94c8fe34932df31509..46ac36aebb27ce8d9018224735007c1b3fe7d0a5 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> > @@ -179,6 +179,7 @@ struct vkms_output {
-> >  	struct drm_encoder encoder;
-> >  	struct drm_connector connector;
-> >  	struct drm_writeback_connector wb_connector;
-> > +	struct drm_encoder wb_encoder;
-> >  	struct hrtimer vblank_hrtimer;
-> >  	ktime_t period_ns;
-> >  	struct workqueue_struct *composer_workq;
-> > @@ -275,6 +276,6 @@ void vkms_set_composer(struct vkms_output *out, bool enabled);
-> >  void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer *src_buffer, int y);
-> >  
-> >  /* Writeback */
-> > -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev);
-> > +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, struct drm_crtc *crtc);
-> >  
-> >  #endif /* _VKMS_DRV_H_ */
-> > diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> > index ab9affa75b66ce9f00fe025052439405206144ec..de817e2794860f9071a71b3631460691e0d73a85 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_output.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> > @@ -95,7 +95,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
-> >  	}
-> >  
-> >  	if (vkmsdev->config->writeback) {
-> > -		writeback = vkms_enable_writeback_connector(vkmsdev);
-> > +		writeback = vkms_enable_writeback_connector(vkmsdev, crtc);
-> >  		if (writeback)
-> >  			DRM_ERROR("Failed to init writeback connector\n");
-> >  	}
-> > diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> > index 79918b44fedd7ae2451d1d530fc6d5aabf2d99a3..981975c2b0a0c75e4a3aceca2a965f5876ae0a8f 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> > @@ -24,7 +24,6 @@ static const u32 vkms_wb_formats[] = {
-> >  
-> >  static const struct drm_connector_funcs vkms_wb_connector_funcs = {
-> >  	.fill_modes = drm_helper_probe_single_connector_modes,
-> > -	.destroy = drm_connector_cleanup,
-> >  	.reset = drm_atomic_helper_connector_reset,
-> >  	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-> >  	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-> > @@ -163,16 +162,22 @@ static const struct drm_connector_helper_funcs vkms_wb_conn_helper_funcs = {
-> >  	.atomic_check = vkms_wb_atomic_check,
-> >  };
-> >  
-> > -int vkms_enable_writeback_connector(struct vkms_device *vkmsdev)
-> > +int vkms_enable_writeback_connector(struct vkms_device *vkmsdev, struct drm_crtc *crtc)
-> >  {
-> >  	struct drm_writeback_connector *wb = &vkmsdev->output.wb_connector;
-> > +	int ret;
-> > +
-> > +	ret = drmm_encoder_init(&vkmsdev->drm, &vkmsdev->output.wb_encoder,
-> > +				NULL, DRM_MODE_ENCODER_VIRTUAL, NULL);
-> > +	if (ret)
-> > +		return ret;
-> > +	vkmsdev->output.wb_encoder.possible_crtcs |= drm_crtc_mask(crtc);
-> >  
-> >  	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
-> >  
-> > -	return drm_writeback_connector_init(&vkmsdev->drm, wb,
-> > -					    &vkms_wb_connector_funcs,
-> > -					    NULL,
-> > -					    vkms_wb_formats,
-> > -					    ARRAY_SIZE(vkms_wb_formats),
-> > -					    1);
-> > +	return drmm_writeback_connector_init(&vkmsdev->drm, wb,
-> > +					     &vkms_wb_connector_funcs,
-> > +					     &vkmsdev->output.wb_encoder,
-> > +					     vkms_wb_formats,
-> > +					     ARRAY_SIZE(vkms_wb_formats));
-> >  }
-> > 
-> > -- 
-> > 2.47.1
-> > 
