@@ -2,211 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBD8A130E5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 02:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 351C4A130F6
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 02:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F07210E553;
-	Thu, 16 Jan 2025 01:45:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3963010E181;
+	Thu, 16 Jan 2025 01:56:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="WOs/Esxg";
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="i60Ab9/3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FYcKf7Ns";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4E1310E553
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:45:48 +0000 (UTC)
-X-UUID: 986ff096d3ab11efbd192953cf12861f-20250116
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
- bh=Q20pSBILwU94IulSBaE3aIP1CkvkjIxd+IPx2xX4dQ8=; 
- b=WOs/Esxgl8PjnIoofg8aNiASPOqAvgJGtLk0UXf4fPM+0i56fR1SAyd7z9M+wZpUxi6LhnqZi04ml4ZKD+ansQOax4+wOUCmAj/GdMzHBCNNEPLsiUCOEGDRO0pnAKhII6EzdIrDkIOUnjL+T0BRfAxZL6ZA7p5xPxxpOC/Rrow=;
-X-CID-CACHE: Type:Local,Time:202501160945+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46, REQID:1c598043-0e9e-43b7-b86f-889007c9ea68, IP:0,
- U
- RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:0
-X-CID-META: VersionHash:60aa074, CLOUDID:18b51a85-0f10-4f52-bb41-91703793d3e4,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
- EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
- A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 986ff096d3ab11efbd192953cf12861f-20250116
-Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
- mailgw02.mediatek.com (envelope-from <ck.hu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1576635937; Thu, 16 Jan 2025 09:45:42 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4FEC10E181;
+ Thu, 16 Jan 2025 01:56:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1736992601; x=1768528601;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=J4hDD0zLiBSUtMKxMsV6IUuf/DVXcB0C3oAC0iz8qec=;
+ b=FYcKf7Ns25BWhDlgRaUPaMgOfvx0Q/d0L6xG9iOcFUwsqF3HWoe4O8DS
+ LKzwc+drxGNy+JOLziER6b/z6tn9R+1LcZUK8pSMdlVGWyLrsEu7ZJkV7
+ 4P19IVdb+rtInPavVZTqRbdKGz4PTInPJyGKwexSlXKXdAA3N58j8UUZz
+ TS07wcryTXEteZQT9+quX1Zcfx4zOLnMxA4xrHWygLQHBsILAtP3+Nl7p
+ g6L4n4Eo+IMLaue8U3mINFw2fdEFDuIZf997S2VOEKnED3FQ0b67KGcT6
+ 0QqZ/dSqc8gt7Roso3ZgIgbIe7JoU+Q6yeGbV/TFBLpbd+GJQcTJm9Fkk Q==;
+X-CSE-ConnectionGUID: krCoiQWZR1SL4UoIk+jnsQ==
+X-CSE-MsgGUID: kek+qShmS9OXXinsUqy1XA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="37047316"
+X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; d="scan'208";a="37047316"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2025 17:56:40 -0800
+X-CSE-ConnectionGUID: F3ghi8wZR9O+ofbd9O0n/g==
+X-CSE-MsgGUID: cfEQuomQRCS1dPlnWcxBYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; d="scan'208";a="105480161"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 15 Jan 2025 17:56:39 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 15 Jan 2025 17:56:39 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 15 Jan 2025 17:56:39 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Thu, 16 Jan 2025 09:45:40 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP
- Server id
- 15.2.1258.28 via Frontend Transport; Thu, 16 Jan 2025 09:45:40 +0800
+ 15.1.2507.44; Wed, 15 Jan 2025 17:56:38 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SFDOagtfHypNMqQebyuslpkC2fCgLkR1StFmHL+mthbZ1b34zZ0+gWQ8+Y4kGn5xBeg8jIFf+QidGjiMOxE6h988ul8g8wJJ5g8e9M0vyXmSctkRWSDFA0EjKI9kfjzSaA5rt3UtGbV0d8zHsqcGIm3ROXNXbpBorwg0VQyDIqI0cLDvB1dE2HqTSxHh+YoWQsdH08kpiydBF9zAuwZ9/JTC/c11jyNxT2lLvWw/JLp12VrkvTcHnjfBfdN0nKhdlKECNypbz8tnEB/pVewRfbO1GsHZkHmkwTtLCi60S7oyM4Vy72J+V50dKLV/LAyqi+s6okpcZJ+0kpYMqd3EuA==
+ b=Q5++/3x7WucjjikyUdLNbf+SuNUE/HsoY9Lgkj26bMwjZb3Hr6L/GBhKFEYR+7uJLd8zm865p1UE5Q2HInAuT9AQElNVwmG6t2pt1VJhqU7lUOBEedDBeG5i0PYmiEihG0sJpCq3meZubLuYTyxwVLPa5dkA/2E55oPOf5dZc7mBhzixYBlLFs852TO3oU22xdhKM7bNswL6CsxHxfWE+RhkN577f1T7qK6qVlg8gE2VjOrv894b40SQPTkG19YtSEwURrYMif5QHa3Nb6HH0yxLgA1ux50T/cRTnlVax0yR2t7cZV4KwQukIccbTr/Qpv28N3jRfmAn5vzvBfJOAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tSfL0idn2muhR8tsHFO91+bvYkeWfV2USxiFBqFIHP8=;
- b=D40493XkaHqXNxRCFEk7QI8cjeH3+jOKX2ghIxtjRiNiWx2KCx52CGgvVQQweKGUsLW6HnZgSy5h5aP9hwWT9Ra2Vp8ojj7pIysDb/l0n3c4guk6PbE8mjI9heiU4dzmtT7Do0T/MdEl5+DBaOrOcqTwup4YAiq9HVsaaVtF6TALwq5bHwlnmQuXfKcvj8J6qcmMMg/Ly+s+dRO0hvSz4YITOogFdVuBcwwkPdLwOW0dms2hwgc0snYsCoS/dagIMmcrkB8LYTKETCFsFF5C7Ieqd+jvWkub2Q5wXMdGzt+P6Nhgkvibu7QHmJkLgvAHPdQNZwTVMOWwpBlMGwYbjQ==
+ bh=PfhjBQqyO5CHIrNN310AWk/fC3SRu8L1TvrmxDMmW/k=;
+ b=x6Svihoi0W5zOyL9zYStPuTY3VTJeIclpHsnhPp4dX5D1NubSdhE79vrpmwlIaiaETa8KWlPWUvDIDXFBxMX0vFPC2AAQy4xWJE5LNfWF77KMA+MmaHWnYhUMbZ0gbGnH1o9oF6cO5ZPmJUkYIIecFrDyYQBaUBuI6euogKbZxWIeIoKQMvJ9rklInLOUiwlZ+OsAJV7mYfZvdVPUmkNmAzKVqQUvoReq31smfFy88LqdgB8mWt32F3rKyCaQZ0yhQGnaLe3XkxAWla3DsQN9VUtfM9BzAaoTa9uBNYF9zNRD1LqBZjFJIf60Mr4ZSpwZ7JAKtlvBZqS0Cg6Uf584A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tSfL0idn2muhR8tsHFO91+bvYkeWfV2USxiFBqFIHP8=;
- b=i60Ab9/31edERUPOqostmx9pn69D6z2u6XgpNw08uYNUHiu4jyHfD4SzeAB3jiN1US466rm4xeB/uzUmdbH2tg5chPhFLAmKDrKJEpjYAaZSO15ZS2pf8JiBjbkBU29eVGT46BuJy0Kkb48AOgfot8xso4APKDe3udAJ3MCXd68=
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
- by SI2PR03MB6590.apcprd03.prod.outlook.com (2603:1096:4:1e2::13) with
- Microsoft SMTP Server (version=TLS1_2,
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH8PR11MB7046.namprd11.prod.outlook.com (2603:10b6:510:216::5)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Thu, 16 Jan
- 2025 01:45:36 +0000
-Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
- ([fe80::9ce6:1e85:c4a7:2a54%6]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
- 01:45:33 +0000
-From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-To: "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, =?utf-8?B?UGF1bC1wbCBDaGVuICjpmbPmn4/pnJYp?=
- <Paul-pl.Chen@mediatek.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-CC: "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "treapking@chromium.org" <treapking@chromium.org>,
- =?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- =?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- =?utf-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
- <Xiandong.Wang@mediatek.com>, "linux-mediatek@lists.infradead.org"
- <linux-mediatek@lists.infradead.org>,
- =?utf-8?B?U3VubnkgU2hlbiAo5rKI5aeN5aeNKQ==?= <Sunny.Shen@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- =?utf-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 08/12] drm/mediatek: add EXDMA support for MT8196
-Thread-Topic: [PATCH 08/12] drm/mediatek: add EXDMA support for MT8196
-Thread-Index: AQHbY17n1MDSJJbk8EyTw+G3YouNKbMYqeoA
-Date: Thu, 16 Jan 2025 01:45:33 +0000
-Message-ID: <df7472540cd546ed9ee0c2fb3e10c666b442a68e.camel@mediatek.com>
-References: <20250110123835.2719824-1-paul-pl.chen@mediatek.com>
- <20250110123835.2719824-10-paul-pl.chen@mediatek.com>
-In-Reply-To: <20250110123835.2719824-10-paul-pl.chen@mediatek.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SI2PR03MB6590:EE_
-x-ms-office365-filtering-correlation-id: b73b0324-089a-45d1-4e80-08dd35cf7794
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|7416014|376014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?RCtRN01ibURIcU80Ky8rSDRFemlzYjQyN2UveVZHbFgrYmdFbXdRYitxVThG?=
- =?utf-8?B?T1ovVVpPQ2FrSDhoTlpuQmREQm5YbWZLTWRhSUQwS1llYU1OaXUwL3pGQUpR?=
- =?utf-8?B?RWdCN1FLMk5TZDU2d1hrZE5UanhVQkd3RUlGeDFQajgyWDRzSzIvaFBNeW5X?=
- =?utf-8?B?VW5SY1g4OTMzeFVMVStQbGZSakhCcHBucGxJa0ZVdmtHWXZEWDBnam55cFpR?=
- =?utf-8?B?KzhVSmVGUFNUQ2JDcnNNbUlXNmpQaU1JVGpaY0xjcFhpWXpmcVdXSHJKVGpP?=
- =?utf-8?B?ekJpVzZHWVBaVUQrTXJ4Z3MxZDdkVUNtYWQvdlEvM0R3TFJJNDdVemxGR3Nz?=
- =?utf-8?B?SlQ1N3RJM2prVWZQeXd4RHZNNEZMZzNNMjFBRENJeGhWVndldFE2ZG5TU1dX?=
- =?utf-8?B?STNnaHlxOERjU3RuZmlPRUZ2L0hkU21hanVHUVBDUnRLYkY3YjQzdmVaeEFs?=
- =?utf-8?B?ZGhtRndTWlEwRnhmQ0V3dlgyd3pQOGVyVDBWcmVRN1hOZCt5UGdNWTJWOFcz?=
- =?utf-8?B?dnRyaXVKd1d5dWdRQldEZS9PcDRuMzhXbEZCM29MZG1Gb09ZTm50R0g0Y243?=
- =?utf-8?B?ZmpZVXg5Z0pKRk92MDRYRCtHbHVYc2dXbldndE9uUXBXWTNjWG9JMy9odkly?=
- =?utf-8?B?cWdKNWVOWW1RWHY5bkdOaGl0ZTRkS2ZHY0J2RitTS1kwaEdSTFh0clZPWlQ4?=
- =?utf-8?B?TTU5c0FrSkc1VzNXeWZkbmN3emFBa0NGa2JvQWdXMmt2MDJCT09hMHpoL3BW?=
- =?utf-8?B?SytoK2drNnl1UEx0bUxnQTl4Z3FKKzBkYUdPYWhoV05WNFFpMkhzNzNtL3RN?=
- =?utf-8?B?d25KWjFYRGV1T01SWVE2bmVCUVI0MzJFSGtPaG1GdS8wSEZKanNNSUVuSVpi?=
- =?utf-8?B?R3ZVNFVlV21WeFNwMHM4NUN4Z3k1VVNXWFUrVTFPNS9qaWpHUnY1OHlZdnBF?=
- =?utf-8?B?UFhYczJ4Z2EzNi9ZcjFrbHRZZVNIVUs3Wnl5RW1hSGtKUjhqQVJtZWdOb3gw?=
- =?utf-8?B?eU93QlBRY3NwZVViY05SelZySFdnT0hMQm9ld01NejRWRnpGcytsMWR2clNL?=
- =?utf-8?B?cHB2ZWFkS0pRWWlzUmxFZWtYWk1xZUcyeXJDcFRudGtkQTlFMmVDUVdqcnBF?=
- =?utf-8?B?c3l0cXhJYU9QTm9FOE9CQndsYW5Db0xhYW5tbWlMUFNlUzFwWFIzaENZRXNZ?=
- =?utf-8?B?NXo0R01BL2ZDS212bnZtNkdyMHdoSU9YRFpDazJVbkJpSWlRVHQwUmx6M0dM?=
- =?utf-8?B?Q1RzSGVuZjM3NDUwaDBLOHFwQkJVUys5Q01kSnJxNjJENERqOEVMakFEVEFB?=
- =?utf-8?B?RGpsekJLTHlUTzI0WkdBOG1vdHdhYzdNWFhKY1BWN28xcC96bGRFM2R2eW5L?=
- =?utf-8?B?bkpzSlk5a21UU0VvN3ZzOG54Z3kwUDk4LzMxZTZ3RDRGbVhud0s3SExKR29M?=
- =?utf-8?B?UHdxa2lrUFJUdzBtQnF1a2l4WWZvUVR5TDVBbE1iQ1lFc2cyUkRYUXFGS1FS?=
- =?utf-8?B?bFdaRVh1eW1nYS91MU9KV2hTS1Z6NXFVQTJSQTdnV3U3RUg2YlR6emNheTAv?=
- =?utf-8?B?WTk4c1BYWUVMR01aQ2hLVEVQeHAxNFUrUGRnOHB6L3dsb2dvaDViellnbCtF?=
- =?utf-8?B?NXNGbzc1NTRPZ1JwcWZtQ0tiR0lhblovMUtid2MwZFNpMUQrdGFyWXBmbFIw?=
- =?utf-8?B?UHduU0JKRHFDWm5RenRqTnlhYm8yU0J5T1pvUTFST1d3UFZnNGhxQlg4b0c5?=
- =?utf-8?B?RWh3Qldaam55OVM1MTdGdW9KN2c4YXFPUnVFd3NvZUY0QmUybDJrMWV1SHR0?=
- =?utf-8?B?WWtmaUR3a011RUVNeHRiQ1JEUnQxNDlaOVMyUFlKNXNYRTFTSlJDUUgraEQ0?=
- =?utf-8?B?cytYVU13YVM1dWxqOFY4NncvUVRTSlRjbURabGZ2ZUtGRkZVMmZmUjFQMVBi?=
- =?utf-8?Q?vP3P2HyAHUD1djIv4QLpEG7llVxPX1Gz?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eWdmaCtVa0tUTWYwSzl0ekVUdW5qdUwzWEpXR3h2NHQrRVl1bk0wVit6eUQ1?=
- =?utf-8?B?Tm5abGxKa2ZWNlNyaVkzRTJEY2dWaDNiRXVmaDFFMVpIOFNFMmNWSExOeWYw?=
- =?utf-8?B?RVB5LzVaU0ZFZDBqN2x2SE1KZXZLWmd4Z0drbjZIMGt0ZS9ldVNKbFNacWxi?=
- =?utf-8?B?Z0ZETEdIR3JOYzVyTVhmWk4rU2Zja3R4cnJUSXFudFh1WW0xRmlrTVFhdjdB?=
- =?utf-8?B?UjRYR1diN0huWDRONEdOLzFWMUZyUUNQK1p4bDdNUExXZEtLaGdvOUxQR1hv?=
- =?utf-8?B?WXRxWXFQK01iT1RyQ0NJaC9hNWY2eUt1YTJYci80T2dmdWhFbnh1eE1KOGcr?=
- =?utf-8?B?cXB0alFlWlBGWTkrZ2NDUXhOVzBhWEpsSWtrQzFlcEFEQTRzUVAwUDVIbERh?=
- =?utf-8?B?dUdjeFFWd2V4US9HeVV2VUFUcU50UEVCQklQNDJTZDFNekNTNEVPT2w3Z1RH?=
- =?utf-8?B?WlNsUVJ1RzRiQWFYTEF6cTVHT2xoUEJCSnJabnl6Y2JIaWZ3ZTlGdjhQMmNL?=
- =?utf-8?B?bCtxL0ZqUUFrL2l5cU1TMERoSkZRVCt0VC8rVnFleXo2aDhlcDl3S21iSVFD?=
- =?utf-8?B?R0VsSHpoRmhMbys0cHUrS21vQ1p2R2IrRlgyallQQjNiVFdCeG81UTBjbXBv?=
- =?utf-8?B?RXl4bGl4UVI1SDIvUmlmS0h6TDF5dS96eVYwVUNTVnJMTmMza1NOQWkrazdx?=
- =?utf-8?B?bzFaOHpFRHdyeVJRS0w0MFpUanRCb3pSV241S21DbWo3M1lqWmZVTTR2amZM?=
- =?utf-8?B?M0JFbWVSUWNMbk5GbE9Zc3g5MThhWFhOYUdpV3UyTkRLazlqblpmTi9mTmdl?=
- =?utf-8?B?NTlTbHNnK0NLN0NCWnF5a0YwYyt1WEkwTityWlNtOEsxZDl2VUhmUE9RY2xn?=
- =?utf-8?B?Uk5KRWJmUmhiUEQzcDI2RVhMbkRJVG5hZkNGTmp2SUhSU2VuK1hlNkxlUWFF?=
- =?utf-8?B?eTJIcVJxNXowd3V2MEwxR3JUV1NhYURkZkwwRmprdVBESkVUT0V6eTF5RHFz?=
- =?utf-8?B?TlFjcTRiZHVPZWRaS1NkNHBwQ1NveTRvRlFvV1VMeXJqZHZLN2pkZ2czcm9l?=
- =?utf-8?B?cFpGNGhzMVRaU1MrZGthUVN6TjVGbjU0SEdDVmxnYWc2WjRRc3NzdHZ3Vksz?=
- =?utf-8?B?RWxUTlNtQjdiV2dZZ3pIa3hFZFdRZExCWHFjZ085Qjl5cHU5ZVBzMVBVa3pt?=
- =?utf-8?B?SldqVUZGMVQyK3YvQnh2eU5BUDhkRXRadkNjTER5ajVlbEJVaGRXWEdtaC9O?=
- =?utf-8?B?cUtOVG1JVWltRWRWUG1OeE8wa3k4Z215MzhweHhRSnpXUHdGUzlXOUtXWTJr?=
- =?utf-8?B?M3B3aHBIS1c0akJKWU12Q1V5Y0F3WEVEeDJBeDRjNHdjVVVlRXkwSDJpeXM5?=
- =?utf-8?B?RUYvWUY5ZG9Jay9TSFdIOFRhT1FkRXBBaVFBbVdPTHBSQitnMnpvYThEOW5S?=
- =?utf-8?B?TmNiZlRWeTdVdGc1SWZzMHlYODY2RGpUREFJUTFQbUdUYVRjbkhUU296VHpz?=
- =?utf-8?B?M1ZvUXZCd2tSd1VyOVM4aWw5dWEwMW5OenRqVktuMGJhN3Z6by9XTW9wU1JV?=
- =?utf-8?B?czB4MXUvMndXd1ZVMHpOMWc2WkNERnBSSzUwVExkUHRUSXl1ZmZGUjBtSlAw?=
- =?utf-8?B?QzJDYjhWNnVqYnFXZU82WWRXRDh4VGNXTWxvOFF3NW01dXhjTW5ndENMM0Vy?=
- =?utf-8?B?NEw2OERMZ0syWW1Cbmw0ZUs5TVNTNFRyZDNQekUwYURsZzN0Z0VybFdkdTFX?=
- =?utf-8?B?NW1DVEJuU0l4WU5Va3g1L3BZcElXK2YzaDdqNlBwY0hqWVQ1RW81ZU1QZ24x?=
- =?utf-8?B?RURwZjM4Wi8rTWxxNjBpYjRQL2pYWEFsUnNYUXZVVzB4Q2drMHBRVWJGUHE4?=
- =?utf-8?B?eWc4L0xWVUx4T1BpcmJYMFljTmdueTZsTTRzZGROUDhab1BCVXlUcjFTT0lI?=
- =?utf-8?B?WnJaTDBiMnBtWkJMMmN6bFQrL2JTUlUrV1d2c20rNGtIR1pCQVB3bXRFWlNL?=
- =?utf-8?B?NmJMdXZSOTEreWRLNDRoQVRXdnFIczJPWmJDdUQ3MzU5REFTdUV2MjZOQVpo?=
- =?utf-8?B?VzdlUllaV3NPRmdnclU3NTBOakJ1Rnc5MTRMMHpvaDZYaXdtbmQ1Rlk3dlVK?=
- =?utf-8?Q?lOwQnaD7AHG/rtusMOQ3qVYCU?=
-Content-ID: <F8E20F0C85475343AA0EF59333544FA8@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ 2025 01:56:36 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%4]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
+ 01:56:36 +0000
+Date: Wed, 15 Jan 2025 17:57:28 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Somalapuram Amaranath
+ <Amaranath.Somalapuram@amd.com>, <dri-devel@lists.freedesktop.org>, "Paulo
+ Zanoni" <paulo.r.zanoni@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v15 4/9] drm/ttm/pool, drm/ttm/tt: Provide a helper to
+ shrink pages
+Message-ID: <Z4hniP6TdhBgVV+V@lstrano-desk.jf.intel.com>
+References: <20241217145852.37342-1-thomas.hellstrom@linux.intel.com>
+ <20241217145852.37342-5-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241217145852.37342-5-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: BYAPR05CA0092.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::33) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH8PR11MB7046:EE_
+X-MS-Office365-Filtering-Correlation-Id: 800e6df7-7ce7-4a86-785a-08dd35d10227
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?sEJH+f73sr1Mwu7O2XOAa3OjKHDWFyfNuYzZt5GxDgFVCGUV+DMu0nuB6/?=
+ =?iso-8859-1?Q?lAAMX8q7zDdUyzQt0TlSHLbLYhEhKW1uYM+CGel/44jDy+VMOsjKEjZygo?=
+ =?iso-8859-1?Q?ewWENVaK5JvBGwT2p64PT4KcbqZobUXW9vNAWZ4YyVZaRwXrvLjQWyr9w9?=
+ =?iso-8859-1?Q?Y+nMzV2C5BjDtB0tjpoNDL1OH+Rpv26P0j0WW5kEaw8166C1cPclu2Y9v8?=
+ =?iso-8859-1?Q?BesK9s/BqoG86Z0UO/Na9HhebkNUQvdABMfmxVEmCyfjyHMTO0myd9sdjy?=
+ =?iso-8859-1?Q?6nOY9ma1aGu/XiCWfI6wQZtcbcZbCggMgVQVEW2XyMfVMluqQEhbQZ4iqd?=
+ =?iso-8859-1?Q?eJrGYUifLBVK0Sjp5udIkMNujfLA/Es0skHyjKXjllcPKyYHooVpO/xrhi?=
+ =?iso-8859-1?Q?xF55KDtDtYqQGhrXQRI4UgmcvT8Y6aVc7auUx9ZSvPcPRWs38Zc/SiAXYj?=
+ =?iso-8859-1?Q?aWwnBgpuSoNIsalAwehEmcuMF8FjhkNpdLTqDhfJ4+dLk2No7s9Y0Qlx8+?=
+ =?iso-8859-1?Q?5jBnoHT60t4NOiOF5Wt0+PHsfXT1JcbLheiihpzw5QKuCiyN/KY3pBkaVT?=
+ =?iso-8859-1?Q?rCXF6AzAf+wJo8Er20eeKFRuqQ+0aakG/4/Ok+gK536pgwjqJEgtgjtD8X?=
+ =?iso-8859-1?Q?zkIA2Q0/MF94/MIPwszm4TblBfjDS/nppKs7XkYsTysXZRcjSJKZnobe59?=
+ =?iso-8859-1?Q?pwyLutNbzCT8eQQEWvPmAyk7VISpRo+0Tr2qnT/8n+I68qiNIY7uiomw5d?=
+ =?iso-8859-1?Q?dFZiZwdtnDwyBQhU9naknobyAoWAdHpNzzzswY+lv5PlO+kbZwnm6zWEMr?=
+ =?iso-8859-1?Q?D1bkgDcPmXZJYzNjF9gnM8AwTS0gOTaTGg7owg3o2hOFXBfT8breQN1/M1?=
+ =?iso-8859-1?Q?ltgraj/seC6rwkajzmqHB/YKckygHYwEQPMxIfE/rJpjcac4cKvjMYPJvQ?=
+ =?iso-8859-1?Q?91MG0CouN8aPjy1/uG4gLdBAOYV4rvvc3Mx/kqBJw9kqvINRyH4U+s27Td?=
+ =?iso-8859-1?Q?SfSCGvkts4ig3Udrn85YDFXbSkvR2n6/jFPglklXTc5+/BpRoHR08pZYrS?=
+ =?iso-8859-1?Q?TxJ8NcE9IX/5sd6DJw9mWzqubdMfsfGA5eGzWeG7pZ0O6s9ulp32iXz+wy?=
+ =?iso-8859-1?Q?CKY9zqBP312JG4ROuVmaO++nn03sXLIWhMGBIg5OuKaEiGjWCZb6eN1RTw?=
+ =?iso-8859-1?Q?Z7L62BSkxlFxBiT0smItDsC5B5G9pFX/ZGQBmdFa6SvGUuc1Dru5Qa1Gcy?=
+ =?iso-8859-1?Q?MgHBGNlhpSrk8PWM1k3XLNcMmX77xcbPXdBroy3QvlSgIeI+D2krqfvr/S?=
+ =?iso-8859-1?Q?bJUZ1+av+EaEWlzoezz+zcnw7Pj5uuLLsLeS+lmSeBywOKWK9f9Bl2TZOe?=
+ =?iso-8859-1?Q?ptMfqq5qd9WL7kgqGBuOdkg4m5rPcSOpdTCHq1KpiU1O9ht0SIKC6e3wkW?=
+ =?iso-8859-1?Q?c9JRqYdWvjbpQW4u?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?LQ2YsXbSB7KQkFQbANu7q/ip3S5noJOmyzlCvPXp3Ep7uu72MDi7sgc5BO?=
+ =?iso-8859-1?Q?2mLslONc8XBHtk0LZsqr/ZLNx+9gRH5zVJcyOwjBfyMoHxigIXzy8mSPbp?=
+ =?iso-8859-1?Q?awFJ6L7QWw2zBmaNG5xh0QEnKKDPfNEthjZ01csKy45ksCGkkmI4R+m02x?=
+ =?iso-8859-1?Q?OH6qySlilT9PiMSrjb2LHA/vPVCPJ7Y7Hbw8hicgV5fD6ZD1YgTp4uL0H0?=
+ =?iso-8859-1?Q?lC67nXRPTXKBbyEF0iP23zeOBGHuswzQdUpJbbZ394xCwJgfouPS2pdV4s?=
+ =?iso-8859-1?Q?vV1oIChDDqKgSM5DAP0+tfN6WJdRJfW4uERjfWcqp8msraFkJ6wPET50OK?=
+ =?iso-8859-1?Q?vvX5GZEgE2VeATDWmMxET1PU/JaOHE/y1oKT8n6NlCspqc4U5gEvmUyK+p?=
+ =?iso-8859-1?Q?ujB7aOKOmVjg8rCSZKnAxd2PCdVD5rb+zRP3agES6INkoUTSCAG9k0i8A8?=
+ =?iso-8859-1?Q?5ylYoxue4mabf9SBKVQJpDSKscw8XVVUENmi3gpCGxqNVGfwHilntMKTNL?=
+ =?iso-8859-1?Q?V3WFKupxnup/2+V/Fl9lN+anl1tlLbxIn1RfI3lPRp2iK+yfTWXss9Xlca?=
+ =?iso-8859-1?Q?RHbkslR5hbl0MH5vOCpVKnBXz91UXzoyFlQ4dKEqHWNbu5GIbeQ+slr6vq?=
+ =?iso-8859-1?Q?91KWbyU6z+i5OR+jzieCOHuvsFJ2zpmEo2QtbkSXIcApjdlBlNnSi7yD+5?=
+ =?iso-8859-1?Q?WSFfIC7oGodLlZEIEIxJ2NLDfqGilB6hwC8qL2flnfyaGHEBR9fo+1J+cO?=
+ =?iso-8859-1?Q?S9iO4xsT3AO3Lx9ZFU2Q27LHYYhjPXF60pA3sDQkDOGMAp3TOabDMiDLP5?=
+ =?iso-8859-1?Q?CGlYwh9pYQvYvFND1VJecyJvN3pQwPnhaD+f7DUg4FrtbNauVVSolOKamO?=
+ =?iso-8859-1?Q?Vksy4YzBtqo3083QWPs+XIRqD8S9wMQ/RTbW94Tq3J5M06hOWrvqz2GNa6?=
+ =?iso-8859-1?Q?pvnBynE+05pyt5YapdiHiBlgUBOSNYYUB1TIU51p0f62DmtoEt+UBQ09V9?=
+ =?iso-8859-1?Q?PmaSQM5bEQRhCUQrjECmjeSYv4POXMlo8VhxtU3rZK1/Xu2MXgHf2EuZ+c?=
+ =?iso-8859-1?Q?LjyI290ljVAArhE9XVvimCOeb2rqYf0HmgYP6wr/caBdn1wb/qtNLQxpFb?=
+ =?iso-8859-1?Q?w+SncNVD/v5CulGwq2GvHemNdCtKo+25qBOCNQvhF2+g4PRpc7/BoEu7mp?=
+ =?iso-8859-1?Q?xSlvN0EA2n7EBJ9bX6UTvYpLfNb7cTkgSQrSDzdZzm1nai0VfHj7W3xtmb?=
+ =?iso-8859-1?Q?E5VwbX5Q9ftZ33OKsyhQ5DRdMw64MokqtEnyYmB1ylCiRSSNEooku/zh79?=
+ =?iso-8859-1?Q?Rvs6aPhXNjlnjxImhMlmo8jPMbs42EgkkBoeVARsHWv4tUHbMWFiZ6EUx2?=
+ =?iso-8859-1?Q?0n2hBbQekL3nbEZIWV1rBh+y5Ll+R8WdIKtPtkk/0ghZjIsHVBtyjLBr8g?=
+ =?iso-8859-1?Q?oiEQnXs+OL74mChEVTvzyLjk77v2nrqq26dhQPu3qjLp2cYxc6N1bdeUwX?=
+ =?iso-8859-1?Q?jiqIOZtQIUaAq8Y47OCbJCy/sPbA+TeGQaGQA6+zuqdnltzT97I1SGL4tK?=
+ =?iso-8859-1?Q?VKq0O+T5dJwcOBdLu/AKO3BmiLU42tC+8VCbxMW4NXqxcIBVpOKJFxLplR?=
+ =?iso-8859-1?Q?FAzskbSrkApVSQtmU+iKb1Q5bnU1DLpbLRYnAXMKTXhPJnI74zBelJow?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 800e6df7-7ce7-4a86-785a-08dd35d10227
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b73b0324-089a-45d1-4e80-08dd35cf7794
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2025 01:45:33.7055 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I5RwkozB6Xb0ogdXySkPjut7PwicVOMqrjA5jLiIXJGRYaJk1OOFixHTm8u3kwMkqLM8qJCQAjHiR1UfZNaF4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR03MB6590
-Content-Type: multipart/alternative;
- boundary="__=_Part_Boundary_003_999760903.67562340"
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 01:56:35.8969 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ioyd51WUbRGMINNOr8/LMZootGQ8yIPK1mXCzWqIiDSSY1Nw+FfGpcFBbYijrjnMVHbHg8GOVwKfnYL3FAE1Aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB7046
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -222,514 +183,996 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---__=_Part_Boundary_003_999760903.67562340
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+On Tue, Dec 17, 2024 at 03:58:47PM +0100, Thomas Hellström wrote:
+> Provide a helper to shrink ttm_tt page-vectors on a per-page
+> basis. A ttm_backup backend could then in theory get away with
+> allocating a single temporary page for each struct ttm_tt.
+> 
+> This is accomplished by splitting larger pages before trying to
+> back them up.
+> 
+> In the future we could allow ttm_backup to handle backing up
+> large pages as well, but currently there's no benefit in
+> doing that, since the shmem backup backend would have to
+> split those anyway to avoid allocating too much temporary
+> memory, and if the backend instead inserts pages into the
+> swap-cache, those are split on reclaim by the core.
+> 
+> Due to potential backup- and recover errors, allow partially swapped
+> out struct ttm_tt's, although mark them as swapped out stopping them
+> from being swapped out a second time. More details in the ttm_pool.c
+> DOC section.
+> 
+> v2:
+> - A couple of cleanups and error fixes in ttm_pool_back_up_tt.
+> - s/back_up/backup/
+> - Add a writeback parameter to the exported interface.
+> v8:
+> - Use a struct for flags for readability (Matt Brost)
+> - Address misc other review comments (Matt Brost)
+> v9:
+> - Update the kerneldoc for the ttm_tt::backup field.
+> v10:
+> - Rebase.
+> v13:
+> - Rebase on ttm_backup interface change. Update kerneldoc.
+> - Rebase and adjust ttm_tt_is_swapped().
+> v15:
+> - Rebase on ttm_backup return value change.
+> - Rebase on previous restructuring of ttm_pool_alloc()
+> - Rework the ttm_pool backup interface (Christian König)
+> - Remove cond_resched() (Christian König)
+> - Get rid of the need to allocate an intermediate page array
+>   when restoring a multi-order page (Christian König)
+> - Update documentation.
+> 
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
 
-SGksIFBhdWw6CgoKwqAKCgpPbiBGcmksIDIwMjUtMDEtMTAgYXQgMjA6MzQgKzA4MDAscGF1bC1w
-bC5jaGVuIHdyb3RlOgo+IAo+ID4gRnJvbTogIk5hbmN5LkxpbiIgPG5hbmN5LmxpbkBtZWRpYXRl
-ay5jb20+Cj4gCj4gPiAKPiAKPiA+IEVYRE1BIGlzIGEgRE1BIGVuZ2luZSBmb3IgcmVhZGluZyBk
-YXRhIGZyb20gRFJBTSB3aXRoCj4gCj4gPiB2YXJpb3VzIERSQU0gZm9vdHByaW50cyBhbmQgZGF0
-YSBmb3JtYXRzLiBGb3IgaW5wdXQKPiAKPiA+IHNvdXJjZXMgaW4gY2VydGFpbiBjb2xvciBmb3Jt
-YXRzIGFuZCBjb2xvciBkb21haW5zLAo+IAo+ID4gRVhETUEgYWxzbyBpbmNsdWRlcyBhIGNvbG9y
-IHRyYW5zZmVyIGZ1bmN0aW9uIHRvCj4gCj4gPiBwcm9jZXNzIHBpeGVscyBpbnRvIGEgY29uc2lz
-dGVudCBjb2xvciBkb21haW4uCj4gCj4gPiAKPiAKPiA+IFNpZ25lZC1vZmYtYnk6IE5hbmN5Lkxp
-biA8bmFuY3kubGluQG1lZGlhdGVrLmNvbT4KPiAKPiA+IFNpZ25lZC1vZmYtYnk6IFBhdWwtcGwu
-Q2hlbiA8cGF1bC1wbC5jaGVuQG1lZGlhdGVrLmNvbT4KPiAKPiA+IC0tLQo+IAo+IMKgCj4gCj4g
-W3NuaXBdCj4gCj4gwqAKPiAKPiA+ICsjZGVmaW5lIERJU1BfUkVHX09WTF9MMF9DTFJGTVTCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgwNTAKPiAKPiA+ICsjZGVm
-aW5lIE9WTF9DT05fRkxEX0NMUkZNVMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIEdFTk1BU0soMywgMCkKPiAKPiA+ICsjZGVmaW5lIE9WTF9DT05fQ0xS
-Rk1UX01BTsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IEJJVCg0KQo+IAo+ID4gKyNkZWZpbmUgT1ZMX0NPTl9GTERfQ0xSRk1UX05CwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgR0VOTUFTSyg5LCA4KQo+IAo+ID4gKyNk
-ZWZpbmUgT1ZMX0NPTl9DTFJGTVRfTkJfMTBfQklUwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgQklUKDgpCj4gCj4gPiArI2RlZmluZSBPVkxfQ09OX0JZVEVfU1dBUMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQklUKDE2KQo+
-IAo+ID4gKyNkZWZpbmUgT1ZMX0NPTl9SR0JfU1dBUMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBCSVQoMTcpCj4gCj4gPiArI2RlZmluZSBPVkxf
-Q09OX0NMUkZNVF9SR0I1NjXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAweDAwMAo+IAo+ID4gKyNkZWZpbmUgT1ZMX0NPTl9DTFJGTVRfQkdSODg4wqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgwMDEKPiAKPiA+ICsjZGVmaW5l
-IE9WTF9DT05fQ0xSRk1UX0JHUkE4ODg4wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgwMDIKPiAKPiA+ICsjZGVmaW5lIE9WTF9DT05fQ0xS
-Rk1UX0FCR1JCODg4OMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4MDAz
-Cj4gCj4gPiArI2RlZmluZSBPVkxfQ09OX0NMUkZNVF9VWVZZwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDB4MDA0Cj4gCj4gPiArI2RlZmluZSBPVkxfQ09O
-X0NMUkZNVF9ZVVlWwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIDB4MDA1Cj4gCj4gPiArI2RlZmluZSBPVkxfQ09OX0NMUkZNVF9CR1I1NjXCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoMHgwMDAgfCBPVkxfQ09OX0JZVEVf
-U1dBUCkKPiAKPiA+ICsjZGVmaW5lIE9WTF9DT05fQ0xSRk1UX1JHQjg4OMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgweDAwMSB8IE9WTF9DT05fQllURV9TV0FQ
-KQo+IAo+ID4gKyNkZWZpbmUgT1ZMX0NPTl9DTFJGTVRfUkdCQTg4ODjCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoMHgwMDIgfCBPVkxfQ09O
-X0JZVEVfU1dBUCkKPiAKPiA+ICsjZGVmaW5lIE9WTF9DT05fQ0xSRk1UX0FSR0I4ODg4wqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKDB4MDAz
-IHwgT1ZMX0NPTl9CWVRFX1NXQVApCj4gCj4gPiArI2RlZmluZSBPVkxfQ09OX0NMUkZNVF9WWVVZ
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgweDAwNCB8
-IE9WTF9DT05fQllURV9TV0FQKQo+IAo+ID4gKyNkZWZpbmUgT1ZMX0NPTl9DTFJGTVRfWVZZVcKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoMHgwMDUgfCBP
-VkxfQ09OX0JZVEVfU1dBUCkKPiAKPiA+ICsjZGVmaW5lIE9WTF9DT05fQ0xSRk1UX1BCR1JBODg4
-OMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICgweDAwMyB8IE9WTF9DT05f
-Q0xSRk1UX01BTikKPiAKPiA+ICsjZGVmaW5lIE9WTF9DT05fQ0xSRk1UX1BBUkdCODg4OMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgwqAgKE9WTF9DT05fQ0xSRk1UX1BCR1JBODg4OCB8IFwKPiAKPiA+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgT1ZMX0NPTl9C
-WVRFX1NXQVApCj4gCj4gPiArI2RlZmluZSBPVkxfQ09OX0NMUkZNVF9QUkdCQTg4ODjCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIMKgIChPVkxfQ09OX0NMUkZNVF9QQkdSQTg4ODggfCBcCj4gCj4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE9WTF9DT05fUkdC
-X1NXQVApCj4gCj4gPiArI2RlZmluZSBPVkxfQ09OX0NMUkZNVF9QQUJHUjg4ODjCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIMKgIChPVkxfQ09OX0NMUkZNVF9QQkdSQTg4ODggfCBcCj4gCj4gPiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE9WTF9DT05fUkdCX1NX
-QVAgfCBcCj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIE9WTF9DT05fQllURV9TV0FQKQo+IAo+IMKgCj4gCj4gVGhlIGNvbG9yIGZvcm1hdCBkZWZp
-bml0aW9uIGlzIGlkZW50aWNhbCB3aXRoIG92bCBkcml2ZXIuIFRyeSB0byBtZXJnZSB0aGVtLgo+
-IAo+IMKgCj4gCj4gPiArI2RlZmluZSBESVNQX1JFR19PVkxfUkRNQTBfQ1RSTMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgxMDAKPiAKPiA+ICsjZGVmaW5lIERJU1Bf
-UkRNQTBfRU7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgQklUKDApCj4gCj4gPiArI2RlZmluZSBESVNQX1JFR19PVkxfUkRNQV9CVVJT
-VF9DT04xwqDCoMKgwqDCoMKgwqAgMHgxZjQKPiAKPiA+ICsjZGVmaW5lIERJU1BfUkRNQV9CVVJT
-VF9DT04xX0JVUlNUMTZfRU7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IEJJVCgyOCkKPiAKPiA+ICsjZGVmaW5lIERJU1BfUkRNQV9CVVJTVF9DT04xX0REUl9FTsKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEJJVCgzMCkKPiAKPiA+ICsjZGVmaW5lIERJU1Bf
-UkRNQV9CVVJTVF9DT04xX0REUl9BQ0tfRU7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIEJJVCgzMSkKPiAKPiA+ICsjZGVmaW5lIERJU1BfUkVHX09WTF9EVU1NWV9SRUfC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgMHgyMDAKPiAKPiA+ICsj
-ZGVmaW5lIERJU1BfT1ZMX0VYVF9ERFJfRU5fT1BUwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgQklUKDIpCj4gCj4gPiArI2RlZmluZSBESVNQ
-X09WTF9GT1JDRV9FWFRfRERSX0VOwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IEJJVCgzKQo+IAo+ID4gKyNkZWZpbmUgRElTUF9SRUdfT1ZMX0dEUkRZX1BSRMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAweDIwOAo+IAo+IMKgCj4gCj4gW3NuaXBd
-Cj4gCj4gwqAKPiAKPiA+ICsKPiAKPiA+ICtzdGF0aWMgY29uc3QgdTMyIGZvcm1hdHNbXSA9IHsK
-PiAKPiDCoAo+IAo+IFRoaXMgYXJyYXkgaXMgaWRlbnRpY2FsIHdpdGggbXQ4MTk1X2Zvcm1hdHNb
-XSwgdHJ5IHRvIG1lcmdlIHRoZW0uCj4gCj4gwqAKPiAKPiA+ICvCoMKgwqDCoMKgIERSTV9GT1JN
-QVRfWFJHQjg4ODgsCj4gCj4gPiArwqDCoMKgwqDCoCBEUk1fRk9STUFUX0FSR0I4ODg4LAo+IAo+
-ID4gK8KgwqDCoMKgwqAgRFJNX0ZPUk1BVF9CR1JYODg4OCwKPiAKPiA+ICvCoMKgwqDCoMKgIERS
-TV9GT1JNQVRfQkdSQTg4ODgsCj4gCj4gPiArwqDCoMKgwqDCoCBEUk1fRk9STUFUX0FCR1I4ODg4
-LAo+IAo+ID4gK8KgwqDCoMKgwqAgRFJNX0ZPUk1BVF9YQkdSODg4OCwKPiAKPiA+ICvCoMKgwqDC
-oMKgIERSTV9GT1JNQVRfUkdCWDg4ODgsCj4gCj4gPiArwqDCoMKgwqDCoCBEUk1fRk9STUFUX1JH
-QkE4ODg4LAo+IAo+ID4gK8KgwqDCoMKgwqAgRFJNX0ZPUk1BVF9SR0I4ODgsCj4gCj4gPiArwqDC
-oMKgwqDCoCBEUk1fRk9STUFUX0JHUjg4OCwKPiAKPiA+ICvCoMKgwqDCoMKgIERSTV9GT1JNQVRf
-UkdCNTY1LAo+IAo+ID4gK8KgwqDCoMKgwqAgRFJNX0ZPUk1BVF9VWVZZLAo+IAo+ID4gK8KgwqDC
-oMKgwqAgRFJNX0ZPUk1BVF9ZVVlWLAo+IAo+ID4gK8KgwqDCoMKgwqAgRFJNX0ZPUk1BVF9YUkdC
-MjEwMTAxMCwKPiAKPiA+ICvCoMKgwqDCoMKgIERSTV9GT1JNQVRfQVJHQjIxMDEwMTAsCj4gCj4g
-PiArwqDCoMKgwqDCoCBEUk1fRk9STUFUX1JHQlgxMDEwMTAyLAo+IAo+ID4gK8KgwqDCoMKgwqAg
-RFJNX0ZPUk1BVF9SR0JBMTAxMDEwMiwKPiAKPiA+ICvCoMKgwqDCoMKgIERSTV9GT1JNQVRfWEJH
-UjIxMDEwMTAsCj4gCj4gPiArwqDCoMKgwqDCoCBEUk1fRk9STUFUX0FCR1IyMTAxMDEwLAo+IAo+
-ID4gK8KgwqDCoMKgwqAgRFJNX0ZPUk1BVF9CR1JYMTAxMDEwMiwKPiAKPiA+ICvCoMKgwqDCoMKg
-IERSTV9GT1JNQVRfQkdSQTEwMTAxMDIsCj4gCj4gPiArfTsKPiAKPiA+ICsKPiAKPiDCoAo+IAo+
-IFtzbmlwXQo+IAo+IMKgCj4gCj4gPiArCj4gCj4gPiArc3RhdGljIHVuc2lnbmVkIGludCBtdGtf
-ZGlzcF9leGRtYV9mbXRfY29udmVydCh1bnNpZ25lZCBpbnQgZm10LCB1bnNpZ25lZCBpbnQgYmxl
-bmRfbW9kZSkKPiAKPiDCoAo+IAo+IFRoaXMgZnVuY3Rpb24gaXMgYWxtb3N0IHRoZSBzYW1lIGFz
-IG10a19vdmxfZm10X2NvbnZlcnQoKSwgdHJ5IHRvIG1lcmdlIHRoZW0uCj4gCj4gwqAKPiAKPiBS
-ZWdhcmRzLAo+IAo+IENLCj4gCj4gwqAKPiAKPiA+ICt7Cj4gCj4gPiArwqDCoMKgwqDCoCAvKgo+
-IAo+ID4gK8KgwqDCoMKgwqAgICogRFJNX0ZPUk1BVDogYml0IDMyLT4wLCBPVkxfRk1UOiBiaXQg
-MC0+MzIsCj4gCj4gPiArwqDCoMKgwqDCoCAgKiBzbyBEUk1fRk9STUFUX1JHQjg4OCA9IE9WTF9D
-T05fQ0xSRk1UX0JHUjg4OAo+IAo+ID4gK8KgwqDCoMKgwqAgICovCj4gCj4gPiArwqDCoMKgwqDC
-oCBzd2l0Y2ggKGZtdCkgewo+IAo+ID4gK8KgwqDCoMKgwqAgZGVmYXVsdDoKPiAKPiA+ICvCoMKg
-wqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9CR1I1NjU6Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgcmV0dXJuIE9WTF9DT05fQ0xSRk1UX1JHQjU2NTsKPiAKPiA+ICvCoMKgwqDCoMKg
-IGNhc2UgRFJNX0ZPUk1BVF9SR0I1NjU6Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgcmV0dXJuIE9WTF9DT05fQ0xSRk1UX0JHUjU2NTsKPiAKPiA+ICvCoMKgwqDCoMKgIGNhc2Ug
-RFJNX0ZPUk1BVF9SR0I4ODg6Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0
-dXJuIE9WTF9DT05fQ0xSRk1UX0JHUjg4ODsKPiAKPiA+ICvCoMKgwqDCoMKgIGNhc2UgRFJNX0ZP
-Uk1BVF9CR1I4ODg6Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIE9W
-TF9DT05fQ0xSRk1UX1JHQjg4ODsKPiAKPiA+ICvCoMKgwqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9S
-R0JYODg4ODoKPiAKPiA+ICvCoMKgwqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9SR0JBODg4ODoKPiAK
-PiA+ICvCoMKgwqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9SR0JBMTAxMDEwMjoKPiAKPiA+ICvCoMKg
-wqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9SR0JYMTAxMDEwMjoKPiAKPiA+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCByZXR1cm4gKChibGVuZF9tb2RlID09IERSTV9NT0RFX0JMRU5EX1BSRU1V
-TFRJKSA/Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IE9WTF9DT05fQ0xSRk1UX1BBQkdSODg4OCA6IE9WTF9DT05fQ0xSRk1UX0FCR1JCODg4OCkgfAo+
-IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAoaXNfMTBi
-aXRfcmdiKGZtdCkgPyBPVkxfQ09OX0NMUkZNVF9OQl8xMF9CSVQgOiAwKTsKPiAKPiA+ICvCoMKg
-wqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9CR1JYODg4ODoKPiAKPiA+ICvCoMKgwqDCoMKgIGNhc2Ug
-RFJNX0ZPUk1BVF9CR1JBODg4ODoKPiAKPiA+ICvCoMKgwqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9C
-R1JBMTAxMDEwMjoKPiAKPiA+ICvCoMKgwqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9CR1JYMTAxMDEw
-MjoKPiAKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gKChibGVuZF9tb2Rl
-ID09IERSTV9NT0RFX0JMRU5EX1BSRU1VTFRJKSA/Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE9WTF9DT05fQ0xSRk1UX1BBUkdCODg4OCA6IE9WTF9D
-T05fQ0xSRk1UX0FSR0I4ODg4KSB8Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIChpc18xMGJpdF9yZ2IoZm10KSA/IE9WTF9DT05fQ0xSRk1UX05CXzEw
-X0JJVCA6IDApOwo+IAo+ID4gK8KgwqDCoMKgwqAgY2FzZSBEUk1fRk9STUFUX1hSR0I4ODg4Ogo+
-IAo+ID4gK8KgwqDCoMKgwqAgY2FzZSBEUk1fRk9STUFUX0FSR0I4ODg4Ogo+IAo+ID4gK8KgwqDC
-oMKgwqAgY2FzZSBEUk1fRk9STUFUX0FSR0IyMTAxMDEwOgo+IAo+ID4gK8KgwqDCoMKgwqAgY2Fz
-ZSBEUk1fRk9STUFUX1hSR0IyMTAxMDEwOgo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHJldHVybiAoKGJsZW5kX21vZGUgPT0gRFJNX01PREVfQkxFTkRfUFJFTVVMVEkpID8KPiAK
-PiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgT1ZMX0NPTl9D
-TFJGTVRfUEJHUkE4ODg4IDogT1ZMX0NPTl9DTFJGTVRfQkdSQTg4ODgpIHwKPiAKPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKGlzXzEwYml0X3JnYihmbXQp
-ID8gT1ZMX0NPTl9DTFJGTVRfTkJfMTBfQklUIDogMCk7Cj4gCj4gPiArwqDCoMKgwqDCoCBjYXNl
-IERSTV9GT1JNQVRfWEJHUjg4ODg6Cj4gCj4gPiArwqDCoMKgwqDCoCBjYXNlIERSTV9GT1JNQVRf
-QUJHUjg4ODg6Cj4gCj4gPiArwqDCoMKgwqDCoCBjYXNlIERSTV9GT1JNQVRfQUJHUjIxMDEwMTA6
-Cj4gCj4gPiArwqDCoMKgwqDCoCBjYXNlIERSTV9GT1JNQVRfWEJHUjIxMDEwMTA6Cj4gCj4gPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuICgoYmxlbmRfbW9kZSA9PSBEUk1fTU9E
-RV9CTEVORF9QUkVNVUxUSSkgPwo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBPVkxfQ09OX0NMUkZNVF9QUkdCQTg4ODggOiBPVkxfQ09OX0NMUkZNVF9S
-R0JBODg4OCkgfAo+IAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAoaXNfMTBiaXRfcmdiKGZtdCkgPyBPVkxfQ09OX0NMUkZNVF9OQl8xMF9CSVQgOiAwKTsK
-PiAKPiA+ICvCoMKgwqDCoMKgIGNhc2UgRFJNX0ZPUk1BVF9VWVZZOgo+IAo+ID4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBPVkxfQ09OX0NMUkZNVF9VWVZZOwo+IAo+ID4gK8Kg
-wqDCoMKgwqAgY2FzZSBEUk1fRk9STUFUX1lVWVY6Cj4gCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgcmV0dXJuIE9WTF9DT05fQ0xSRk1UX1lVWVY7Cj4gCj4gPiArwqDCoMKgwqDCoCB9
-Cj4gCj4gPiArfQo+IAo+ID4gKwo+IAoKCgoKwqAK
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
---__=_Part_Boundary_003_999760903.67562340
-Content-Type: text/html;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-
-PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtQYXVsOgoKCiYjMTYwOwoKCk9uJiMzMjtG
-cmksJiMzMjsyMDI1LTAxLTEwJiMzMjthdCYjMzI7MjA6MzQmIzMyOyswODAwLHBhdWwtcGwuY2hl
-biYjMzI7d3JvdGU6CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjtGcm9tOiYjMzI7JnF1b3Q7
-TmFuY3kuTGluJnF1b3Q7JiMzMjsmbHQ7bmFuY3kubGluQG1lZGlhdGVrLmNvbSZndDsKJmd0OyYj
-MzI7CiZndDsmIzMyOyZndDsmIzMyOwomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7RVhETUEm
-IzMyO2lzJiMzMjthJiMzMjtETUEmIzMyO2VuZ2luZSYjMzI7Zm9yJiMzMjtyZWFkaW5nJiMzMjtk
-YXRhJiMzMjtmcm9tJiMzMjtEUkFNJiMzMjt3aXRoCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMz
-Mjt2YXJpb3VzJiMzMjtEUkFNJiMzMjtmb290cHJpbnRzJiMzMjthbmQmIzMyO2RhdGEmIzMyO2Zv
-cm1hdHMuJiMzMjtGb3ImIzMyO2lucHV0CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjtzb3Vy
-Y2VzJiMzMjtpbiYjMzI7Y2VydGFpbiYjMzI7Y29sb3ImIzMyO2Zvcm1hdHMmIzMyO2FuZCYjMzI7
-Y29sb3ImIzMyO2RvbWFpbnMsCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjtFWERNQSYjMzI7
-YWxzbyYjMzI7aW5jbHVkZXMmIzMyO2EmIzMyO2NvbG9yJiMzMjt0cmFuc2ZlciYjMzI7ZnVuY3Rp
-b24mIzMyO3RvCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjtwcm9jZXNzJiMzMjtwaXhlbHMm
-IzMyO2ludG8mIzMyO2EmIzMyO2NvbnNpc3RlbnQmIzMyO2NvbG9yJiMzMjtkb21haW4uCiZndDsm
-IzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyO1NpZ25l
-ZC1vZmYtYnk6JiMzMjtOYW5jeS5MaW4mIzMyOyZsdDtuYW5jeS5saW5AbWVkaWF0ZWsuY29tJmd0
-OwomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO1BhdWwtcGwu
-Q2hlbiYjMzI7Jmx0O3BhdWwtcGwuY2hlbkBtZWRpYXRlay5jb20mZ3Q7CiZndDsmIzMyOwomZ3Q7
-JiMzMjsmZ3Q7JiMzMjstLS0KJmd0OyYjMzI7CiZndDsmIzMyOyYjMTYwOwomZ3Q7JiMzMjsKJmd0
-OyYjMzI7W3NuaXBdCiZndDsmIzMyOwomZ3Q7JiMzMjsmIzE2MDsKJmd0OyYjMzI7CiZndDsmIzMy
-OyZndDsmIzMyOysjZGVmaW5lJiMzMjtESVNQX1JFR19PVkxfTDBfQ0xSRk1UJiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMzMjsweDA1MAomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9D
-T05fRkxEX0NMUkZNVCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7R0VO
-TUFTSygzLCYjMzI7MCkKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtP
-VkxfQ09OX0NMUkZNVF9NQU4mIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMy
-O0JJVCg0KQomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9DT05f
-RkxEX0NMUkZNVF9OQiYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7R0VOTUFTSyg5LCYjMzI7OCkKJmd0
-OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtPVkxfQ09OX0NMUkZNVF9OQl8x
-MF9CSVQmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzMyO0JJVCg4KQomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMy
-O09WTF9DT05fQllURV9TV0FQJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMzMjtCSVQoMTYpCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7
-T1ZMX0NPTl9SR0JfU1dBUCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMzI7QklUKDE3KQomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUm
-IzMyO09WTF9DT05fQ0xSRk1UX1JHQjU2NSYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7MHgwMDAKJmd0
-OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtPVkxfQ09OX0NMUkZNVF9CR1I4
-ODgmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyOzB4MDAxCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMz
-MjsrI2RlZmluZSYjMzI7T1ZMX0NPTl9DTFJGTVRfQkdSQTg4ODgmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyOzB4MDAyCiZndDsmIzMyOwom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7T1ZMX0NPTl9DTFJGTVRfQUJHUkI4ODg4JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMz
-MjsweDAwMwomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9DT05f
-Q0xSRk1UX1VZVlkmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyOzB4MDA0CiZndDsm
-IzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7T1ZMX0NPTl9DTFJGTVRfWVVZViYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7MHgwMDUKJmd0OyYjMzI7CiZndDsmIzMy
-OyZndDsmIzMyOysjZGVmaW5lJiMzMjtPVkxfQ09OX0NMUkZNVF9CR1I1NjUmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzMyOygweDAwMCYjMzI7fCYjMzI7T1ZMX0NPTl9CWVRFX1NXQVApCiZndDsmIzMyOwom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7T1ZMX0NPTl9DTFJGTVRfUkdCODg4JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMzMjsoMHgwMDEmIzMyO3wmIzMyO09WTF9DT05fQllURV9TV0FQKQomZ3Q7
-JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9DT05fQ0xSRk1UX1JHQkE4
-ODg4JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMzMjsoMHgwMDImIzMyO3wmIzMyO09WTF9DT05fQllURV9TV0FQKQomZ3Q7JiMzMjsKJmd0OyYj
-MzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9DT05fQ0xSRk1UX0FSR0I4ODg4JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjsoMHgwMDMm
-IzMyO3wmIzMyO09WTF9DT05fQllURV9TV0FQKQomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7
-KyNkZWZpbmUmIzMyO09WTF9DT05fQ0xSRk1UX1ZZVVkmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzMyOygweDAwNCYjMzI7fCYjMzI7T1ZMX0NPTl9CWVRFX1NXQVApCiZndDsmIzMyOwom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7T1ZMX0NPTl9DTFJGTVRfWVZZVSYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7KDB4MDA1JiMzMjt8JiMzMjtPVkxfQ09OX0JZVEVf
-U1dBUCkKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtPVkxfQ09OX0NM
-UkZNVF9QQkdSQTg4ODgmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzMyOygweDAwMyYjMzI7fCYjMzI7T1ZMX0NPTl9DTFJGTVRfTUFOKQom
-Z3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9DT05fQ0xSRk1UX1BB
-UkdCODg4OCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMzI7JiMxNjA7JiMzMjsoT1ZMX0NPTl9DTFJGTVRfUEJHUkE4ODg4
-JiMzMjt8JiMzMjsmIzkyOwomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMzI7T1ZMX0NPTl9CWVRFX1NXQVApCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7
-JiMzMjsrI2RlZmluZSYjMzI7T1ZMX0NPTl9DTFJGTVRfUFJHQkE4ODg4JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjsm
-IzE2MDsmIzMyOyhPVkxfQ09OX0NMUkZNVF9QQkdSQTg4ODgmIzMyO3wmIzMyOyYjOTI7CiZndDsm
-IzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtPVkxfQ09O
-X1JHQl9TV0FQKQomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO09WTF9D
-T05fQ0xSRk1UX1BBQkdSODg4OCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7JiMxNjA7JiMzMjsoT1ZMX0NPTl9DTFJG
-TVRfUEJHUkE4ODg4JiMzMjt8JiMzMjsmIzkyOwomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7
-KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7T1ZMX0NPTl9SR0JfU1dBUCYjMzI7fCYjMzI7JiM5
-MjsKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMy
-O09WTF9DT05fQllURV9TV0FQKQomZ3Q7JiMzMjsKJmd0OyYjMzI7JiMxNjA7CiZndDsmIzMyOwom
-Z3Q7JiMzMjtUaGUmIzMyO2NvbG9yJiMzMjtmb3JtYXQmIzMyO2RlZmluaXRpb24mIzMyO2lzJiMz
-MjtpZGVudGljYWwmIzMyO3dpdGgmIzMyO292bCYjMzI7ZHJpdmVyLiYjMzI7VHJ5JiMzMjt0byYj
-MzI7bWVyZ2UmIzMyO3RoZW0uCiZndDsmIzMyOwomZ3Q7JiMzMjsmIzE2MDsKJmd0OyYjMzI7CiZn
-dDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtESVNQX1JFR19PVkxfUkRNQTBfQ1RSTCYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMzI7MHgxMDAKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtESVNQ
-X1JETUEwX0VOJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtCSVQoMCkKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMy
-OysjZGVmaW5lJiMzMjtESVNQX1JFR19PVkxfUkRNQV9CVVJTVF9DT04xJiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjsweDFmNAomZ3Q7JiMzMjsKJmd0OyYjMzI7
-Jmd0OyYjMzI7KyNkZWZpbmUmIzMyO0RJU1BfUkRNQV9CVVJTVF9DT04xX0JVUlNUMTZfRU4mIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzMyO0JJVCgyOCkKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5lJiMzMjtE
-SVNQX1JETUFfQlVSU1RfQ09OMV9ERFJfRU4mIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzMyO0JJVCgzMCkKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysjZGVmaW5l
-JiMzMjtESVNQX1JETUFfQlVSU1RfQ09OMV9ERFJfQUNLX0VOJiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtCSVQoMzEpCiZn
-dDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7RElTUF9SRUdfT1ZMX0RVTU1Z
-X1JFRyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMzI7MHgyMDAKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysj
-ZGVmaW5lJiMzMjtESVNQX09WTF9FWFRfRERSX0VOX09QVCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7QklUKDIpCiZndDsmIzMyOwomZ3Q7
-JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7RElTUF9PVkxfRk9SQ0VfRVhUX0REUl9FTiYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7QklUKDMp
-CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrI2RlZmluZSYjMzI7RElTUF9SRUdfT1ZMX0dE
-UkRZX1BSRCYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7MHgyMDgKJmd0OyYjMzI7CiZndDsmIzMyOyYjMTYwOwom
-Z3Q7JiMzMjsKJmd0OyYjMzI7W3NuaXBdCiZndDsmIzMyOwomZ3Q7JiMzMjsmIzE2MDsKJmd0OyYj
-MzI7CiZndDsmIzMyOyZndDsmIzMyOysKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOytzdGF0
-aWMmIzMyO2NvbnN0JiMzMjt1MzImIzMyO2Zvcm1hdHNbXSYjMzI7PSYjMzI7ewomZ3Q7JiMzMjsK
-Jmd0OyYjMzI7JiMxNjA7CiZndDsmIzMyOwomZ3Q7JiMzMjtUaGlzJiMzMjthcnJheSYjMzI7aXMm
-IzMyO2lkZW50aWNhbCYjMzI7d2l0aCYjMzI7bXQ4MTk1X2Zvcm1hdHNbXSwmIzMyO3RyeSYjMzI7
-dG8mIzMyO21lcmdlJiMzMjt0aGVtLgomZ3Q7JiMzMjsKJmd0OyYjMzI7JiMxNjA7CiZndDsmIzMy
-OwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtE
-Uk1fRk9STUFUX1hSR0I4ODg4LAomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7RFJNX0ZPUk1BVF9BUkdCODg4OCwKJmd0OyYjMzI7
-CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO0RS
-TV9GT1JNQVRfQkdSWDg4ODgsCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtEUk1fRk9STUFUX0JHUkE4ODg4LAomZ3Q7JiMzMjsK
-Jmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7RFJN
-X0ZPUk1BVF9BQkdSODg4OCwKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO0RSTV9GT1JNQVRfWEJHUjg4ODgsCiZndDsmIzMyOwom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtEUk1f
-Rk9STUFUX1JHQlg4ODg4LAomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7RFJNX0ZPUk1BVF9SR0JBODg4OCwKJmd0OyYjMzI7CiZn
-dDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO0RSTV9G
-T1JNQVRfUkdCODg4LAomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMzI7RFJNX0ZPUk1BVF9CR1I4ODgsCiZndDsmIzMyOwomZ3Q7JiMz
-MjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtEUk1fRk9STUFU
-X1JHQjU2NSwKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzMyO0RSTV9GT1JNQVRfVVlWWSwKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsm
-IzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO0RSTV9GT1JNQVRfWVVZViwK
-Jmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzMyO0RSTV9GT1JNQVRfWFJHQjIxMDEwMTAsCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMz
-MjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtEUk1fRk9STUFUX0FSR0IyMTAx
-MDEwLAomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMzI7RFJNX0ZPUk1BVF9SR0JYMTAxMDEwMiwKJmd0OyYjMzI7CiZndDsmIzMyOyZn
-dDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO0RSTV9GT1JNQVRfUkdC
-QTEwMTAxMDIsCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMzMjtEUk1fRk9STUFUX1hCR1IyMTAxMDEwLAomZ3Q7JiMzMjsKJmd0OyYj
-MzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7RFJNX0ZPUk1B
-VF9BQkdSMjEwMTAxMCwKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzMyO0RSTV9GT1JNQVRfQkdSWDEwMTAxMDIsCiZndDsmIzMyOwom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtEUk1f
-Rk9STUFUX0JHUkExMDEwMTAyLAomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7K307CiZndDsm
-IzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrCiZndDsmIzMyOwomZ3Q7JiMzMjsmIzE2MDsKJmd0OyYj
-MzI7CiZndDsmIzMyO1tzbmlwXQomZ3Q7JiMzMjsKJmd0OyYjMzI7JiMxNjA7CiZndDsmIzMyOwom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsrCiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrc3RhdGljJiMz
-Mjt1bnNpZ25lZCYjMzI7aW50JiMzMjttdGtfZGlzcF9leGRtYV9mbXRfY29udmVydCh1bnNpZ25l
-ZCYjMzI7aW50JiMzMjtmbXQsJiMzMjt1bnNpZ25lZCYjMzI7aW50JiMzMjtibGVuZF9tb2RlKQom
-Z3Q7JiMzMjsKJmd0OyYjMzI7JiMxNjA7CiZndDsmIzMyOwomZ3Q7JiMzMjtUaGlzJiMzMjtmdW5j
-dGlvbiYjMzI7aXMmIzMyO2FsbW9zdCYjMzI7dGhlJiMzMjtzYW1lJiMzMjthcyYjMzI7bXRrX292
-bF9mbXRfY29udmVydCgpLCYjMzI7dHJ5JiMzMjt0byYjMzI7bWVyZ2UmIzMyO3RoZW0uCiZndDsm
-IzMyOwomZ3Q7JiMzMjsmIzE2MDsKJmd0OyYjMzI7CiZndDsmIzMyO1JlZ2FyZHMsCiZndDsmIzMy
-OwomZ3Q7JiMzMjtDSwomZ3Q7JiMzMjsKJmd0OyYjMzI7JiMxNjA7CiZndDsmIzMyOwomZ3Q7JiMz
-MjsmZ3Q7JiMzMjsrewomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMzI7LyoKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyOyYjMzI7KiYjMzI7RFJNX0ZPUk1BVDomIzMy
-O2JpdCYjMzI7MzItJmd0OzAsJiMzMjtPVkxfRk1UOiYjMzI7Yml0JiMzMjswLSZndDszMiwKJmd0
-OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzMyOyYjMzI7KiYjMzI7c28mIzMyO0RSTV9GT1JNQVRfUkdCODg4JiMzMjs9JiMzMjtPVkxfQ09O
-X0NMUkZNVF9CR1I4ODgKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzMyOyYjMzI7Ki8KJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMy
-OysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3N3aXRjaCYjMzI7KGZtdCkmIzMy
-O3sKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzMyO2RlZmF1bHQ6CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtjYXNlJiMzMjtEUk1fRk9STUFUX0JHUjU2NToKJmd0
-OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3JldHVy
-biYjMzI7T1ZMX0NPTl9DTFJGTVRfUkdCNTY1OwomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7
-KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7Y2FzZSYjMzI7RFJNX0ZPUk1BVF9S
-R0I1NjU6CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMzMjtyZXR1cm4mIzMyO09WTF9DT05fQ0xSRk1UX0JHUjU2NTsKJmd0OyYjMzI7CiZndDsmIzMy
-OyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO2Nhc2UmIzMyO0RS
-TV9GT1JNQVRfUkdCODg4OgomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMzI7cmV0dXJuJiMzMjtPVkxfQ09OX0NMUkZNVF9CR1I4ODg7CiZndDsmIzMy
-OwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtj
-YXNlJiMzMjtEUk1fRk9STUFUX0JHUjg4ODoKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3JldHVybiYjMzI7T1ZMX0NPTl9DTFJGTVRfUkdCODg4
-OwomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMzI7Y2FzZSYjMzI7RFJNX0ZPUk1BVF9SR0JYODg4ODoKJmd0OyYjMzI7CiZndDsmIzMy
-OyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO2Nhc2UmIzMyO0RS
-TV9GT1JNQVRfUkdCQTg4ODg6CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtjYXNlJiMzMjtEUk1fRk9STUFUX1JHQkExMDEwMTAy
-OgomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMzI7Y2FzZSYjMzI7RFJNX0ZPUk1BVF9SR0JYMTAxMDEwMjoKJmd0OyYjMzI7CiZndDsm
-IzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3JldHVybiYjMzI7KChibGVu
-ZF9tb2RlJiMzMjs9PSYjMzI7RFJNX01PREVfQkxFTkRfUFJFTVVMVEkpJiMzMjsmIzYzOwomZ3Q7
-JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7T1ZMX0NPTl9DTFJGTVRf
-UEFCR1I4ODg4JiMzMjs6JiMzMjtPVkxfQ09OX0NMUkZNVF9BQkdSQjg4ODgpJiMzMjt8CiZndDsm
-IzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjsoaXNfMTBiaXRfcmdiKGZt
-dCkmIzMyOyYjNjM7JiMzMjtPVkxfQ09OX0NMUkZNVF9OQl8xMF9CSVQmIzMyOzomIzMyOzApOwom
-Z3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMzI7Y2FzZSYjMzI7RFJNX0ZPUk1BVF9CR1JYODg4ODoKJmd0OyYjMzI7CiZndDsmIzMyOyZn
-dDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO2Nhc2UmIzMyO0RSTV9G
-T1JNQVRfQkdSQTg4ODg6CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtjYXNlJiMzMjtEUk1fRk9STUFUX0JHUkExMDEwMTAyOgom
-Z3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMzI7Y2FzZSYjMzI7RFJNX0ZPUk1BVF9CR1JYMTAxMDEwMjoKJmd0OyYjMzI7CiZndDsmIzMy
-OyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO3JldHVybiYjMzI7KChibGVuZF9t
-b2RlJiMzMjs9PSYjMzI7RFJNX01PREVfQkxFTkRfUFJFTVVMVEkpJiMzMjsmIzYzOwomZ3Q7JiMz
-MjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7T1ZMX0NPTl9DTFJGTVRfUEFS
-R0I4ODg4JiMzMjs6JiMzMjtPVkxfQ09OX0NMUkZNVF9BUkdCODg4OCkmIzMyO3wKJmd0OyYjMzI7
-CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyOyhpc18xMGJpdF9yZ2IoZm10KSYj
-MzI7JiM2MzsmIzMyO09WTF9DT05fQ0xSRk1UX05CXzEwX0JJVCYjMzI7OiYjMzI7MCk7CiZndDsm
-IzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMz
-MjtjYXNlJiMzMjtEUk1fRk9STUFUX1hSR0I4ODg4OgomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYj
-MzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7Y2FzZSYjMzI7RFJNX0ZPUk1B
-VF9BUkdCODg4ODoKJmd0OyYjMzI7CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzMyO2Nhc2UmIzMyO0RSTV9GT1JNQVRfQVJHQjIxMDEwMTA6CiZndDsm
-IzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMz
-MjtjYXNlJiMzMjtEUk1fRk9STUFUX1hSR0IyMTAxMDEwOgomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0
-OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7cmV0dXJuJiMzMjsoKGJsZW5kX21vZGUm
-IzMyOz09JiMzMjtEUk1fTU9ERV9CTEVORF9QUkVNVUxUSSkmIzMyOyYjNjM7CiZndDsmIzMyOwom
-Z3Q7JiMzMjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtPVkxfQ09OX0NMUkZNVF9QQkdSQTg4
-ODgmIzMyOzomIzMyO09WTF9DT05fQ0xSRk1UX0JHUkE4ODg4KSYjMzI7fAomZ3Q7JiMzMjsKJmd0
-OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7KGlzXzEwYml0X3JnYihmbXQpJiMzMjsm
-IzYzOyYjMzI7T1ZMX0NPTl9DTFJGTVRfTkJfMTBfQklUJiMzMjs6JiMzMjswKTsKJmd0OyYjMzI7
-CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO2Nh
-c2UmIzMyO0RSTV9GT1JNQVRfWEJHUjg4ODg6CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMzMjsr
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtjYXNlJiMzMjtEUk1fRk9STUFUX0FC
-R1I4ODg4OgomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMzI7Y2FzZSYjMzI7RFJNX0ZPUk1BVF9BQkdSMjEwMTAxMDoKJmd0OyYjMzI7
-CiZndDsmIzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO2Nh
-c2UmIzMyO0RSTV9GT1JNQVRfWEJHUjIxMDEwMTA6CiZndDsmIzMyOwomZ3Q7JiMzMjsmZ3Q7JiMz
-MjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjtyZXR1cm4mIzMyOygoYmxlbmRfbW9kZSYjMzI7
-PT0mIzMyO0RSTV9NT0RFX0JMRU5EX1BSRU1VTFRJKSYjMzI7JiM2MzsKJmd0OyYjMzI7CiZndDsm
-IzMyOyZndDsmIzMyOysmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzMyO09WTF9DT05fQ0xSRk1UX1BSR0JBODg4OCYj
-MzI7OiYjMzI7T1ZMX0NPTl9DTFJGTVRfUkdCQTg4ODgpJiMzMjt8CiZndDsmIzMyOwomZ3Q7JiMz
-MjsmZ3Q7JiMzMjsrJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMzMjsoaXNfMTBiaXRfcmdiKGZtdCkmIzMyOyYjNjM7
-JiMzMjtPVkxfQ09OX0NMUkZNVF9OQl8xMF9CSVQmIzMyOzomIzMyOzApOwomZ3Q7JiMzMjsKJmd0
-OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7Y2FzZSYj
-MzI7RFJNX0ZPUk1BVF9VWVZZOgomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMzI7cmV0dXJuJiMzMjtPVkxfQ09OX0NMUkZNVF9VWVZZOwomZ3Q7JiMz
-MjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7
-Y2FzZSYjMzI7RFJNX0ZPUk1BVF9ZVVlWOgomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMzI7cmV0dXJuJiMzMjtPVkxfQ09OX0NMUkZNVF9ZVVlWOwom
-Z3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7KyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMzI7fQomZ3Q7JiMzMjsKJmd0OyYjMzI7Jmd0OyYjMzI7K30KJmd0OyYjMzI7CiZndDsmIzMy
-OyZndDsmIzMyOysKJmd0OyYjMzI7CgoKCgomIzE2MDsKDQo8L3ByZT4NCjwvcD48L2JvZHk+PC9o
-dG1sPjwhLS10eXBlOnRleHQtLT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBD
-b25maWRlbnRpYWxpdHkgTm90aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRp
-b24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRh
-Y2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9y
-IG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3Mu
-IEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCBy
-ZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmlu
-dGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMg
-DQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJv
-aGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVk
-IHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVj
-ZWl2ZWQgdGhpcyBlLW1haWwgaW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmlt
-bWVkaWF0ZWx5IChieSByZXBseWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFs
-bCBjb3BpZXMgb2YgDQp0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJv
-bSB5b3VyIHN5c3RlbSwgYW5kIGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBl
-LW1haWwgdG8gYW55IG90aGVyIHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
-
---__=_Part_Boundary_003_999760903.67562340--
-
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> ---
+>  drivers/gpu/drm/ttm/ttm_pool.c | 554 +++++++++++++++++++++++++++++----
+>  drivers/gpu/drm/ttm/ttm_tt.c   |  54 ++++
+>  include/drm/ttm/ttm_pool.h     |   8 +
+>  include/drm/ttm/ttm_tt.h       |  67 +++-
+>  4 files changed, 629 insertions(+), 54 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index c9eba76d5143..ffb7abf52bab 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -41,6 +41,7 @@
+>  #include <asm/set_memory.h>
+>  #endif
+>  
+> +#include <drm/ttm/ttm_backup.h>
+>  #include <drm/ttm/ttm_pool.h>
+>  #include <drm/ttm/ttm_tt.h>
+>  #include <drm/ttm/ttm_bo.h>
+> @@ -75,6 +76,35 @@ struct ttm_pool_alloc_state {
+>  	enum ttm_caching tt_caching;
+>  };
+>  
+> +/**
+> + * struct ttm_pool_tt_restore - State representing restore from backup
+> + * @pool: The pool used for page allocation while restoring.
+> + * @snapshot_alloc: A snapshot of the most recent struct ttm_pool_alloc_state.
+> + * @alloced_page: Pointer to the page most recently allocated from a pool or system.
+> + * @first_dma: The dma address corresponding to @alloced_page if dma_mapping
+> + * is requested.
+> + * @alloced_pages: The number of allocated pages present in the struct ttm_tt
+> + * page vector from this restore session.
+> + * @restored_pages: The number of 4K pages restored for @alloced_page (which
+> + * is typically a multi-order page).
+> + * @page_caching: The struct ttm_tt requested caching
+> + * @order: The order of @alloced_page.
+> + *
+> + * Recovery from backup might fail when we've recovered less than the
+> + * full ttm_tt. In order not to loose any data (yet), keep information
+> + * around that allows us to restart a failed ttm backup recovery.
+> + */
+> +struct ttm_pool_tt_restore {
+> +	struct ttm_pool *pool;
+> +	struct ttm_pool_alloc_state snapshot_alloc;
+> +	struct page *alloced_page;
+> +	dma_addr_t first_dma;
+> +	pgoff_t alloced_pages;
+> +	pgoff_t restored_pages;
+> +	enum ttm_caching page_caching;
+> +	unsigned int order;
+> +};
+> +
+>  static unsigned long page_pool_size;
+>  
+>  MODULE_PARM_DESC(page_pool_size, "Number of pages in the WC/UC/DMA pool");
+> @@ -199,12 +229,11 @@ static int ttm_pool_apply_caching(struct ttm_pool_alloc_state *alloc)
+>  	return 0;
+>  }
+>  
+> -/* Map pages of 1 << order size and fill the DMA address array  */
+> +/* DMA Map pages of 1 << order size and return the resulting dma_address. */
+>  static int ttm_pool_map(struct ttm_pool *pool, unsigned int order,
+> -			struct page *p, dma_addr_t **dma_addr)
+> +			struct page *p, dma_addr_t *dma_addr)
+>  {
+>  	dma_addr_t addr;
+> -	unsigned int i;
+>  
+>  	if (pool->use_dma_alloc) {
+>  		struct ttm_pool_dma *dma = (void *)p->private;
+> @@ -218,10 +247,7 @@ static int ttm_pool_map(struct ttm_pool *pool, unsigned int order,
+>  			return -EFAULT;
+>  	}
+>  
+> -	for (i = 1 << order; i ; --i) {
+> -		*(*dma_addr)++ = addr;
+> -		addr += PAGE_SIZE;
+> -	}
+> +	*dma_addr = addr;
+>  
+>  	return 0;
+>  }
+> @@ -371,6 +397,190 @@ static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+>  	return p->private;
+>  }
+>  
+> +/*
+> + * Split larger pages so that we can free each PAGE_SIZE page as soon
+> + * as it has been backed up, in order to avoid memory pressure during
+> + * reclaim.
+> + */
+> +static void ttm_pool_split_for_swap(struct ttm_pool *pool, struct page *p)
+> +{
+> +	unsigned int order = ttm_pool_page_order(pool, p);
+> +	pgoff_t nr;
+> +
+> +	if (!order)
+> +		return;
+> +
+> +	split_page(p, order);
+> +	nr = 1UL << order;
+> +	while (nr--)
+> +		(p++)->private = 0;
+> +}
+> +
+> +/**
+> + * DOC: Partial backup and restoration of a struct ttm_tt.
+> + *
+> + * Swapout using ttm_backup_backup_page() and swapin using
+> + * ttm_backup_copy_page() may fail.
+> + * The former most likely due to lack of swap-space or memory, the latter due
+> + * to lack of memory or because of signal interruption during waits.
+> + *
+> + * Backup failure is easily handled by using a ttm_tt pages vector that holds
+> + * both backup handles and page pointers. This has to be taken into account when
+> + * restoring such a ttm_tt from backup, and when freeing it while backed up.
+> + * When restoring, for simplicity, new pages are actually allocated from the
+> + * pool and the contents of any old pages are copied in and then the old pages
+> + * are released.
+> + *
+> + * For restoration failures, the struct ttm_pool_tt_restore holds sufficient state
+> + * to be able to resume an interrupted restore, and that structure is freed once
+> + * the restoration is complete. If the struct ttm_tt is destroyed while there
+> + * is a valid struct ttm_pool_tt_restore attached, that is also properly taken
+> + * care of.
+> + */
+> +
+> +/* Is restore ongoing for the currently allocated page? */
+> +static bool ttm_pool_restore_valid(const struct ttm_pool_tt_restore *restore)
+> +{
+> +	return restore && restore->restored_pages < (1 << restore->order);
+> +}
+> +
+> +/* DMA unmap and free a multi-order page, either to the relevant pool or to system. */
+> +static pgoff_t ttm_pool_unmap_and_free(struct ttm_pool *pool, struct page *page,
+> +				       const dma_addr_t *dma_addr, enum ttm_caching caching)
+> +{
+> +	struct ttm_pool_type *pt = NULL;
+> +	unsigned int order;
+> +	pgoff_t nr;
+> +
+> +	if (pool) {
+> +		order = ttm_pool_page_order(pool, page);
+> +		nr = (1UL << order);
+> +		if (dma_addr)
+> +			ttm_pool_unmap(pool, *dma_addr, nr);
+> +
+> +		pt = ttm_pool_select_type(pool, caching, order);
+> +	} else {
+> +		order = page->private;
+> +		nr = (1UL << order);
+> +	}
+> +
+> +	if (pt)
+> +		ttm_pool_type_give(pt, page);
+> +	else
+> +		ttm_pool_free_page(pool, caching, order, page);
+> +
+> +	return nr;
+> +}
+> +
+> +/* Populate the page-array using the most recent allocated multi-order page. */
+> +static void ttm_pool_allocated_page_commit(struct page *allocated,
+> +					   dma_addr_t first_dma,
+> +					   struct ttm_pool_alloc_state *alloc,
+> +					   pgoff_t nr)
+> +{
+> +	pgoff_t i;
+> +
+> +	for (i = 0; i < nr; ++i)
+> +		*alloc->pages++ = allocated++;
+> +
+> +	alloc->remaining_pages -= nr;
+> +
+> +	if (!alloc->dma_addr)
+> +		return;
+> +
+> +	for (i = 0; i < nr; ++i) {
+> +		*alloc->dma_addr++ = first_dma;
+> +		first_dma += PAGE_SIZE;
+> +	}
+> +}
+> +
+> +/*
+> + * When restoring, restore backed-up content to the newly allocated page and
+> + * if successful, populate the page-table and dma-address arrays.
+> + */
+> +static int ttm_pool_restore_commit(struct ttm_pool_tt_restore *restore,
+> +				   struct ttm_backup *backup,
+> +				   const struct ttm_operation_ctx *ctx,
+> +				   struct ttm_pool_alloc_state *alloc)
+> +
+> +{
+> +	pgoff_t i, nr = 1UL << restore->order;
+> +	struct page **first_page = alloc->pages;
+> +	struct page *p;
+> +	int ret = 0;
+> +
+> +	for (i = restore->restored_pages; i < nr; ++i) {
+> +		p = first_page[i];
+> +		if (ttm_backup_page_ptr_is_handle(p)) {
+> +			unsigned long handle = ttm_backup_page_ptr_to_handle(p);
+> +
+> +			if (handle == 0) {
+> +				restore->restored_pages++;
+> +				continue;
+> +			}
+> +
+> +			ret = ttm_backup_copy_page(backup, restore->alloced_page + i,
+> +						   handle, ctx->interruptible);
+> +			if (ret)
+> +				break;
+> +
+> +			ttm_backup_drop(backup, handle);
+> +		} else if (p) {
+> +			/*
+> +			 * We could probably avoid splitting the old page
+> +			 * using clever logic, but ATM we don't care, as
+> +			 * we prioritize releasing memory ASAP. Note that
+> +			 * here, the old retained page is always write-back
+> +			 * cached.
+> +			 */
+> +			ttm_pool_split_for_swap(restore->pool, p);
+> +			copy_highpage(restore->alloced_page + i, p);
+> +			__free_pages(p, 0);
+> +		}
+> +
+> +		restore->restored_pages++;
+> +		first_page[i] = ttm_backup_handle_to_page_ptr(0);
+> +	}
+> +
+> +	if (ret) {
+> +		if (!restore->restored_pages) {
+> +			dma_addr_t *dma_addr = alloc->dma_addr ? &restore->first_dma : NULL;
+> +
+> +			ttm_pool_unmap_and_free(restore->pool, restore->alloced_page,
+> +						dma_addr, restore->page_caching);
+> +			restore->restored_pages = nr;
+> +		}
+> +		return ret;
+> +	}
+> +
+> +	ttm_pool_allocated_page_commit(restore->alloced_page, restore->first_dma,
+> +				       alloc, nr);
+> +	if (restore->page_caching == alloc->tt_caching || PageHighMem(restore->alloced_page))
+> +		alloc->caching_divide = alloc->pages;
+> +	restore->snapshot_alloc = *alloc;
+> +	restore->alloced_pages += nr;
+> +
+> +	return 0;
+> +}
+> +
+> +/* If restoring, save information needed for ttm_pool_restore_commit(). */
+> +static void
+> +ttm_pool_page_allocated_restore(struct ttm_pool *pool, unsigned int order,
+> +				struct page *p,
+> +				enum ttm_caching page_caching,
+> +				dma_addr_t first_dma,
+> +				struct ttm_pool_tt_restore *restore,
+> +				const struct ttm_pool_alloc_state *alloc)
+> +{
+> +	restore->pool = pool;
+> +	restore->order = order;
+> +	restore->restored_pages = 0;
+> +	restore->page_caching = page_caching;
+> +	restore->first_dma = first_dma;
+> +	restore->alloced_page = p;
+> +	restore->snapshot_alloc = *alloc;
+> +}
+> +
+>  /*
+>   * Called when we got a page, either from a pool or newly allocated.
+>   * if needed, dma map the page and populate the dma address array.
+> @@ -380,10 +590,11 @@ static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+>   */
+>  static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
+>  				   struct page *p, enum ttm_caching page_caching,
+> -				   struct ttm_pool_alloc_state *alloc)
+> +				   struct ttm_pool_alloc_state *alloc,
+> +				   struct ttm_pool_tt_restore *restore)
+>  {
+> -	pgoff_t i, nr = 1UL << order;
+>  	bool caching_consistent;
+> +	dma_addr_t first_dma;
+>  	int r = 0;
+>  
+>  	caching_consistent = (page_caching == alloc->tt_caching) || PageHighMem(p);
+> @@ -395,17 +606,20 @@ static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
+>  	}
+>  
+>  	if (alloc->dma_addr) {
+> -		r = ttm_pool_map(pool, order, p, &alloc->dma_addr);
+> +		r = ttm_pool_map(pool, order, p, &first_dma);
+>  		if (r)
+>  			return r;
+>  	}
+>  
+> -	alloc->remaining_pages -= nr;
+> -	for (i = 0; i < nr; ++i)
+> -		*alloc->pages++ = p++;
+> +	if (restore) {
+> +		ttm_pool_page_allocated_restore(pool, order, p, page_caching,
+> +						first_dma, restore, alloc);
+> +	} else {
+> +		ttm_pool_allocated_page_commit(p, first_dma, alloc, 1UL << order);
+>  
+> -	if (caching_consistent)
+> -		alloc->caching_divide = alloc->pages;
+> +		if (caching_consistent)
+> +			alloc->caching_divide = alloc->pages;
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -428,22 +642,24 @@ static void ttm_pool_free_range(struct ttm_pool *pool, struct ttm_tt *tt,
+>  				pgoff_t start_page, pgoff_t end_page)
+>  {
+>  	struct page **pages = &tt->pages[start_page];
+> -	unsigned int order;
+> +	struct ttm_backup *backup = tt->backup;
+>  	pgoff_t i, nr;
+>  
+>  	for (i = start_page; i < end_page; i += nr, pages += nr) {
+> -		struct ttm_pool_type *pt = NULL;
+> +		struct page *p = *pages;
+>  
+> -		order = ttm_pool_page_order(pool, *pages);
+> -		nr = (1UL << order);
+> -		if (tt->dma_address)
+> -			ttm_pool_unmap(pool, tt->dma_address[i], nr);
+> +		nr = 1;
+> +		if (ttm_backup_page_ptr_is_handle(p)) {
+> +			unsigned long handle = ttm_backup_page_ptr_to_handle(p);
+>  
+> -		pt = ttm_pool_select_type(pool, caching, order);
+> -		if (pt)
+> -			ttm_pool_type_give(pt, *pages);
+> -		else
+> -			ttm_pool_free_page(pool, caching, order, *pages);
+> +			if (handle != 0)
+> +				ttm_backup_drop(backup, handle);
+> +		} else if (p) {
+> +			dma_addr_t *dma_addr = tt->dma_address ?
+> +				tt->dma_address + i : NULL;
+> +
+> +			nr = ttm_pool_unmap_and_free(pool, p, dma_addr, caching);
+> +		}
+>  	}
+>  }
+>  
+> @@ -467,22 +683,11 @@ static unsigned int ttm_pool_alloc_find_order(unsigned int highest,
+>  	return min_t(unsigned int, highest, __fls(alloc->remaining_pages));
+>  }
+>  
+> -/**
+> - * ttm_pool_alloc - Fill a ttm_tt object
+> - *
+> - * @pool: ttm_pool to use
+> - * @tt: ttm_tt object to fill
+> - * @ctx: operation context
+> - *
+> - * Fill the ttm_tt object with pages and also make sure to DMA map them when
+> - * necessary.
+> - *
+> - * Returns: 0 on successe, negative error code otherwise.
+> - */
+> -int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> -		   struct ttm_operation_ctx *ctx)
+> +static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +			    const struct ttm_operation_ctx *ctx,
+> +			    struct ttm_pool_alloc_state *alloc,
+> +			    struct ttm_pool_tt_restore *restore)
+>  {
+> -	struct ttm_pool_alloc_state alloc;
+>  	enum ttm_caching page_caching;
+>  	gfp_t gfp_flags = GFP_USER;
+>  	pgoff_t caching_divide;
+> @@ -491,10 +696,8 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  	struct page *p;
+>  	int r;
+>  
+> -	ttm_pool_alloc_state_init(tt, &alloc);
+> -
+> -	WARN_ON(!alloc.remaining_pages || ttm_tt_is_populated(tt));
+> -	WARN_ON(alloc.dma_addr && !pool->dev);
+> +	WARN_ON(!alloc->remaining_pages || ttm_tt_is_populated(tt));
+> +	WARN_ON(alloc->dma_addr && !pool->dev);
+>  
+>  	if (tt->page_flags & TTM_TT_FLAG_ZERO_ALLOC)
+>  		gfp_flags |= __GFP_ZERO;
+> @@ -509,9 +712,9 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  
+>  	page_caching = tt->caching;
+>  	allow_pools = true;
+> -	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, &alloc);
+> -	     alloc.remaining_pages;
+> -	     order = ttm_pool_alloc_find_order(order, &alloc)) {
+> +	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
+> +	     alloc->remaining_pages;
+> +	     order = ttm_pool_alloc_find_order(order, alloc)) {
+>  		struct ttm_pool_type *pt;
+>  
+>  		/* First, try to allocate a page from a pool if one exists. */
+> @@ -541,30 +744,120 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  			r = -ENOMEM;
+>  			goto error_free_all;
+>  		}
+> -		r = ttm_pool_page_allocated(pool, order, p, page_caching, &alloc);
+> +		r = ttm_pool_page_allocated(pool, order, p, page_caching, alloc,
+> +					    restore);
+>  		if (r)
+>  			goto error_free_page;
+> +
+> +		if (ttm_pool_restore_valid(restore)) {
+> +			r = ttm_pool_restore_commit(restore, tt->backup, ctx, alloc);
+> +			if (r)
+> +				goto error_free_all;
+> +		}
+>  	}
+>  
+> -	r = ttm_pool_apply_caching(&alloc);
+> +	r = ttm_pool_apply_caching(alloc);
+>  	if (r)
+>  		goto error_free_all;
+>  
+> +	kfree(tt->restore);
+> +	tt->restore = NULL;
+> +
+>  	return 0;
+>  
+>  error_free_page:
+>  	ttm_pool_free_page(pool, page_caching, order, p);
+>  
+>  error_free_all:
+> -	caching_divide = alloc.caching_divide - tt->pages;
+> +	if (tt->restore)
+> +		return r;
+> +
+> +	caching_divide = alloc->caching_divide - tt->pages;
+>  	ttm_pool_free_range(pool, tt, tt->caching, 0, caching_divide);
+>  	ttm_pool_free_range(pool, tt, ttm_cached, caching_divide,
+> -			    tt->num_pages - alloc.remaining_pages);
+> +			    tt->num_pages - alloc->remaining_pages);
+>  
+>  	return r;
+>  }
+> +
+> +/**
+> + * ttm_pool_alloc - Fill a ttm_tt object
+> + *
+> + * @pool: ttm_pool to use
+> + * @tt: ttm_tt object to fill
+> + * @ctx: operation context
+> + *
+> + * Fill the ttm_tt object with pages and also make sure to DMA map them when
+> + * necessary.
+> + *
+> + * Returns: 0 on successe, negative error code otherwise.
+> + */
+> +int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +		   struct ttm_operation_ctx *ctx)
+> +{
+> +	struct ttm_pool_alloc_state alloc;
+> +
+> +	if (WARN_ON(ttm_tt_is_backed_up(tt)))
+> +		return -EINVAL;
+> +
+> +	ttm_pool_alloc_state_init(tt, &alloc);
+> +
+> +	return __ttm_pool_alloc(pool, tt, ctx, &alloc, NULL);
+> +}
+>  EXPORT_SYMBOL(ttm_pool_alloc);
+>  
+> +/**
+> + * ttm_pool_restore_and_alloc - Fill a ttm_tt, restoring previously backed-up
+> + * content.
+> + *
+> + * @pool: ttm_pool to use
+> + * @tt: ttm_tt object to fill
+> + * @ctx: operation context
+> + *
+> + * Fill the ttm_tt object with pages and also make sure to DMA map them when
+> + * necessary. Read in backed-up content.
+> + *
+> + * Returns: 0 on successe, negative error code otherwise.
+> + */
+> +int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +			       const struct ttm_operation_ctx *ctx)
+> +{
+> +	struct ttm_pool_alloc_state alloc;
+> +
+> +	if (WARN_ON(!ttm_tt_is_backed_up(tt)))
+> +		return -EINVAL;
+> +
+> +	if (!tt->restore) {
+> +		gfp_t gfp = GFP_KERNEL | __GFP_NOWARN;
+> +
+> +		ttm_pool_alloc_state_init(tt, &alloc);
+> +		if (ctx->gfp_retry_mayfail)
+> +			gfp |= __GFP_RETRY_MAYFAIL;
+> +
+> +		tt->restore = kzalloc(sizeof(*tt->restore), gfp);
+> +		if (!tt->restore)
+> +			return -ENOMEM;
+> +
+> +		tt->restore->snapshot_alloc = alloc;
+> +		tt->restore->pool = pool;
+> +		tt->restore->restored_pages = 1;
+> +	} else {
+> +		struct ttm_pool_tt_restore *restore = tt->restore;
+> +		int ret;
+> +
+> +		alloc = restore->snapshot_alloc;
+> +		if (ttm_pool_restore_valid(tt->restore)) {
+> +			ret = ttm_pool_restore_commit(restore, tt->backup, ctx, &alloc);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +		if (!alloc.remaining_pages)
+> +			return 0;
+> +	}
+> +
+> +	return __ttm_pool_alloc(pool, tt, ctx, &alloc, tt->restore);
+> +}
+> +
+>  /**
+>   * ttm_pool_free - Free the backing pages from a ttm_tt object
+>   *
+> @@ -582,6 +875,163 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
+>  }
+>  EXPORT_SYMBOL(ttm_pool_free);
+>  
+> +/**
+> + * ttm_pool_drop_backed_up() - Release content of a swapped-out struct ttm_tt
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Release handles with associated content or any remaining pages of
+> + * a backed-up struct ttm_tt.
+> + */
+> +void ttm_pool_drop_backed_up(struct ttm_tt *tt)
+> +{
+> +	struct ttm_pool_tt_restore *restore;
+> +	pgoff_t start_page = 0;
+> +
+> +	WARN_ON(!ttm_tt_is_backed_up(tt));
+> +
+> +	restore = tt->restore;
+> +
+> +	/*
+> +	 * Unmap and free any uncommitted restore page.
+> +	 * any tt page-array backup entries already read back has
+> +	 * been cleared already
+> +	 */
+> +	if (ttm_pool_restore_valid(restore)) {
+> +		dma_addr_t *dma_addr = tt->dma_address ? &restore->first_dma : NULL;
+> +
+> +		ttm_pool_unmap_and_free(restore->pool, restore->alloced_page,
+> +					dma_addr, restore->page_caching);
+> +		restore->restored_pages = 1UL << restore->order;
+> +	}
+> +
+> +	/*
+> +	 * If a restore is ongoing, part of the tt pages may have a
+> +	 * caching different than writeback.
+> +	 */
+> +	if (restore) {
+> +		pgoff_t mid = restore->snapshot_alloc.caching_divide - tt->pages;
+> +
+> +		start_page = restore->alloced_pages;
+> +		WARN_ON(mid > start_page);
+> +		/* Pages that might be dma-mapped and non-cached */
+> +		ttm_pool_free_range(restore->pool, tt, tt->caching,
+> +				    0, mid);
+> +		/* Pages that might be dma-mapped but cached */
+> +		ttm_pool_free_range(restore->pool, tt, ttm_cached,
+> +				    mid, restore->alloced_pages);
+> +		kfree(restore);
+> +		tt->restore = NULL;
+> +	}
+> +
+> +	ttm_pool_free_range(NULL, tt, ttm_cached, start_page, tt->num_pages);
+> +}
+> +
+> +/**
+> + * ttm_pool_backup() - Back up or purge a struct ttm_tt
+> + * @pool: The pool used when allocating the struct ttm_tt.
+> + * @tt: The struct ttm_tt.
+> + * @flags: Flags to govern the backup behaviour.
+> + *
+> + * Back up or purge a struct ttm_tt. If @purge is true, then
+> + * all pages will be freed directly to the system rather than to the pool
+> + * they were allocated from, making the function behave similarly to
+> + * ttm_pool_free(). If @purge is false the pages will be backed up instead,
+> + * exchanged for handles.
+> + * A subsequent call to ttm_pool_restore_and_alloc() will then read back the content and
+> + * a subsequent call to ttm_pool_drop_backed_up() will drop it.
+> + * If backup of a page fails for whatever reason, @ttm will still be
+> + * partially backed up, retaining those pages for which backup fails.
+> + * In that case, this function can be retried, possibly after freeing up
+> + * memory resources.
+> + *
+> + * Return: Number of pages actually backed up or freed, or negative
+> + * error code on error.
+> + */
+> +long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+> +		     const struct ttm_backup_flags *flags)
+> +{
+> +	struct ttm_backup *backup = tt->backup;
+> +	struct page *page;
+> +	unsigned long handle;
+> +	gfp_t alloc_gfp;
+> +	gfp_t gfp;
+> +	int ret = 0;
+> +	pgoff_t shrunken = 0;
+> +	pgoff_t i, num_pages;
+> +
+> +	if (WARN_ON(ttm_tt_is_backed_up(tt)))
+> +		return -EINVAL;
+> +
+> +	if ((!ttm_backup_bytes_avail() && !flags->purge) ||
+> +	    pool->use_dma_alloc || ttm_tt_is_backed_up(tt))
+> +		return -EBUSY;
+> +
+> +#ifdef CONFIG_X86
+> +	/* Anything returned to the system needs to be cached. */
+> +	if (tt->caching != ttm_cached)
+> +		set_pages_array_wb(tt->pages, tt->num_pages);
+> +#endif
+> +
+> +	if (tt->dma_address || flags->purge) {
+> +		for (i = 0; i < tt->num_pages; i += num_pages) {
+> +			unsigned int order;
+> +
+> +			page = tt->pages[i];
+> +			if (unlikely(!page)) {
+> +				num_pages = 1;
+> +				continue;
+> +			}
+> +
+> +			order = ttm_pool_page_order(pool, page);
+> +			num_pages = 1UL << order;
+> +			if (tt->dma_address)
+> +				ttm_pool_unmap(pool, tt->dma_address[i],
+> +					       num_pages);
+> +			if (flags->purge) {
+> +				shrunken += num_pages;
+> +				page->private = 0;
+> +				__free_pages(page, order);
+> +				memset(tt->pages + i, 0,
+> +				       num_pages * sizeof(*tt->pages));
+> +			}
+> +		}
+> +	}
+> +
+> +	if (flags->purge)
+> +		return shrunken;
+> +
+> +	if (pool->use_dma32)
+> +		gfp = GFP_DMA32;
+> +	else
+> +		gfp = GFP_HIGHUSER;
+> +
+> +	alloc_gfp = GFP_KERNEL | __GFP_HIGH | __GFP_NOWARN | __GFP_RETRY_MAYFAIL;
+> +
+> +	for (i = 0; i < tt->num_pages; ++i) {
+> +		s64 shandle;
+> +
+> +		page = tt->pages[i];
+> +		if (unlikely(!page))
+> +			continue;
+> +
+> +		ttm_pool_split_for_swap(pool, page);
+> +
+> +		shandle = ttm_backup_backup_page(backup, page, flags->writeback, i,
+> +						 gfp, alloc_gfp);
+> +		if (shandle < 0) {
+> +			/* We allow partially shrunken tts */
+> +			ret = shandle;
+> +			break;
+> +		}
+> +		handle = shandle;
+> +		tt->pages[i] = ttm_backup_handle_to_page_ptr(handle);
+> +		put_page(page);
+> +		shrunken++;
+> +	}
+> +
+> +	return shrunken ? shrunken : ret;
+> +}
+> +
+>  /**
+>   * ttm_pool_init - Initialize a pool
+>   *
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 3baf215eca23..00b7c28f2329 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -40,6 +40,7 @@
+>  #include <drm/drm_cache.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_util.h>
+> +#include <drm/ttm/ttm_backup.h>
+>  #include <drm/ttm/ttm_bo.h>
+>  #include <drm/ttm/ttm_tt.h>
+>  
+> @@ -158,6 +159,8 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+>  	ttm->swap_storage = NULL;
+>  	ttm->sg = bo->sg;
+>  	ttm->caching = caching;
+> +	ttm->restore = NULL;
+> +	ttm->backup = NULL;
+>  }
+>  
+>  int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> @@ -182,6 +185,13 @@ void ttm_tt_fini(struct ttm_tt *ttm)
+>  		fput(ttm->swap_storage);
+>  	ttm->swap_storage = NULL;
+>  
+> +	if (ttm_tt_is_backed_up(ttm))
+> +		ttm_pool_drop_backed_up(ttm);
+> +	if (ttm->backup) {
+> +		ttm_backup_fini(ttm->backup);
+> +		ttm->backup = NULL;
+> +	}
+> +
+>  	if (ttm->pages)
+>  		kvfree(ttm->pages);
+>  	else
+> @@ -253,6 +263,49 @@ int ttm_tt_swapin(struct ttm_tt *ttm)
+>  }
+>  EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapin);
+>  
+> +/**
+> + * ttm_tt_backup() - Helper to back up a struct ttm_tt.
+> + * @bdev: The TTM device.
+> + * @tt: The struct ttm_tt.
+> + * @flags: Flags that govern the backup behaviour.
+> + *
+> + * Update the page accounting and call ttm_pool_shrink_tt to free pages
+> + * or back them up.
+> + *
+> + * Return: Number of pages freed or swapped out, or negative error code on
+> + * error.
+> + */
+> +long ttm_tt_backup(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_backup_flags flags)
+> +{
+> +	long ret;
+> +
+> +	if (WARN_ON(IS_ERR_OR_NULL(tt->backup)))
+> +		return 0;
+> +
+> +	ret = ttm_pool_backup(&bdev->pool, tt, &flags);
+> +	if (ret > 0) {
+> +		tt->page_flags &= ~TTM_TT_FLAG_PRIV_POPULATED;
+> +		tt->page_flags |= TTM_TT_FLAG_BACKED_UP;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +int ttm_tt_restore(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_operation_ctx *ctx)
+> +{
+> +	int ret = ttm_pool_restore_and_alloc(&bdev->pool, tt, ctx);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	tt->page_flags &= ~TTM_TT_FLAG_BACKED_UP;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(ttm_tt_restore);
+> +
+>  /**
+>   * ttm_tt_swapout - swap out tt object
+>   *
+> @@ -348,6 +401,7 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>  		goto error;
+>  
+>  	ttm->page_flags |= TTM_TT_FLAG_PRIV_POPULATED;
+> +	ttm->page_flags &= ~TTM_TT_FLAG_BACKED_UP;
+>  	if (unlikely(ttm->page_flags & TTM_TT_FLAG_SWAPPED)) {
+>  		ret = ttm_tt_swapin(ttm);
+>  		if (unlikely(ret != 0)) {
+> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> index 160d954a261e..54cd34a6e4c0 100644
+> --- a/include/drm/ttm/ttm_pool.h
+> +++ b/include/drm/ttm/ttm_pool.h
+> @@ -33,6 +33,7 @@
+>  
+>  struct device;
+>  struct seq_file;
+> +struct ttm_backup_flags;
+>  struct ttm_operation_ctx;
+>  struct ttm_pool;
+>  struct ttm_tt;
+> @@ -89,6 +90,13 @@ void ttm_pool_fini(struct ttm_pool *pool);
+>  
+>  int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m);
+>  
+> +void ttm_pool_drop_backed_up(struct ttm_tt *tt);
+> +
+> +long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *ttm,
+> +		     const struct ttm_backup_flags *flags);
+> +int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +			       const struct ttm_operation_ctx *ctx);
+> +
+>  int ttm_pool_mgr_init(unsigned long num_pages);
+>  void ttm_pool_mgr_fini(void);
+>  
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index 991edafdb2dd..c736c01ac2ca 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -32,11 +32,13 @@
+>  #include <drm/ttm/ttm_caching.h>
+>  #include <drm/ttm/ttm_kmap_iter.h>
+>  
+> +struct ttm_backup;
+>  struct ttm_device;
+>  struct ttm_tt;
+>  struct ttm_resource;
+>  struct ttm_buffer_object;
+>  struct ttm_operation_ctx;
+> +struct ttm_pool_tt_restore;
+>  
+>  /**
+>   * struct ttm_tt - This is a structure holding the pages, caching- and aperture
+> @@ -85,17 +87,22 @@ struct ttm_tt {
+>  	 * fault handling abuses the DMA api a bit and dma_map_attrs can't be
+>  	 * used to assure pgprot always matches.
+>  	 *
+> +	 * TTM_TT_FLAG_BACKED_UP: TTM internal only. This is set if the
+> +	 * struct ttm_tt has been (possibly partially) backed up.
+> +	 *
+>  	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
+>  	 * set by TTM after ttm_tt_populate() has successfully returned, and is
+>  	 * then unset when TTM calls ttm_tt_unpopulate().
+> +	 *
+>  	 */
+>  #define TTM_TT_FLAG_SWAPPED		BIT(0)
+>  #define TTM_TT_FLAG_ZERO_ALLOC		BIT(1)
+>  #define TTM_TT_FLAG_EXTERNAL		BIT(2)
+>  #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
+>  #define TTM_TT_FLAG_DECRYPTED		BIT(4)
+> +#define TTM_TT_FLAG_BACKED_UP	        BIT(5)
+>  
+> -#define TTM_TT_FLAG_PRIV_POPULATED	BIT(5)
+> +#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
+>  	uint32_t page_flags;
+>  	/** @num_pages: Number of pages in the page array. */
+>  	uint32_t num_pages;
+> @@ -105,11 +112,20 @@ struct ttm_tt {
+>  	dma_addr_t *dma_address;
+>  	/** @swap_storage: Pointer to shmem struct file for swap storage. */
+>  	struct file *swap_storage;
+> +	/**
+> +	 * @backup: Pointer to backup struct for backed up tts.
+> +	 * Could be unified with @swap_storage. Meanwhile, the driver's
+> +	 * ttm_tt_create() callback is responsible for assigning
+> +	 * this field.
+> +	 */
+> +	struct ttm_backup *backup;
+>  	/**
+>  	 * @caching: The current caching state of the pages, see enum
+>  	 * ttm_caching.
+>  	 */
+>  	enum ttm_caching caching;
+> +	/** @restore: Partial restoration from backup state. TTM private */
+> +	struct ttm_pool_tt_restore *restore;
+>  };
+>  
+>  /**
+> @@ -129,9 +145,38 @@ static inline bool ttm_tt_is_populated(struct ttm_tt *tt)
+>  	return tt->page_flags & TTM_TT_FLAG_PRIV_POPULATED;
+>  }
+>  
+> +/**
+> + * ttm_tt_is_swapped() - Whether the ttm_tt is swapped out or backed up
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Return: true if swapped or backed up, false otherwise.
+> + */
+>  static inline bool ttm_tt_is_swapped(const struct ttm_tt *tt)
+>  {
+> -	return tt->page_flags & TTM_TT_FLAG_SWAPPED;
+> +	return tt->page_flags & (TTM_TT_FLAG_SWAPPED | TTM_TT_FLAG_BACKED_UP);
+> +}
+> +
+> +/**
+> + * ttm_tt_is_backed_up() - Whether the ttm_tt backed up
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Return: true if swapped or backed up, false otherwise.
+> + */
+> +static inline bool ttm_tt_is_backed_up(const struct ttm_tt *tt)
+> +{
+> +	return tt->page_flags & TTM_TT_FLAG_BACKED_UP;
+> +}
+> +
+> +/**
+> + * ttm_tt_clear_backed_up() - Clear the ttm_tt backed-up status
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Drivers can use this functionto clear the backed-up status,
+> + * for example before destroying or re-validating a purged tt.
+> + */
+> +static inline void ttm_tt_clear_backed_up(struct ttm_tt *tt)
+> +{
+> +	tt->page_flags &= ~TTM_TT_FLAG_BACKED_UP;
+>  }
+>  
+>  /**
+> @@ -235,6 +280,24 @@ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages);
+>  struct ttm_kmap_iter *ttm_kmap_iter_tt_init(struct ttm_kmap_iter_tt *iter_tt,
+>  					    struct ttm_tt *tt);
+>  unsigned long ttm_tt_pages_limit(void);
+> +
+> +/**
+> + * struct ttm_backup_flags - Flags to govern backup behaviour.
+> + * @purge: Free pages without backing up. Bypass pools.
+> + * @writeback: Attempt to copy contents directly to swap space, even
+> + * if that means blocking on writes to external memory.
+> + */
+> +struct ttm_backup_flags {
+> +	u32 purge : 1;
+> +	u32 writeback : 1;
+> +};
+> +
+> +long ttm_tt_backup(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_backup_flags flags);
+> +
+> +int ttm_tt_restore(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_operation_ctx *ctx);
+> +
+>  #if IS_ENABLED(CONFIG_AGP)
+>  #include <linux/agp_backend.h>
+>  
+> -- 
+> 2.47.1
+> 
