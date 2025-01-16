@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3BC6A141DB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 19:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 049C7A14261
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 20:37:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1646410E21A;
-	Thu, 16 Jan 2025 18:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA30D10E227;
+	Thu, 16 Jan 2025 19:37:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cbi+4I67";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Z77PzqVs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3F9510E257
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 18:52:41 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id
- 3f1490d57ef6-e53a91756e5so2480936276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 10:52:41 -0800 (PST)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1472D10E227
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 19:37:31 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-aaf3c3c104fso256622566b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 11:37:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737053561; x=1737658361; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1737056189; x=1737660989; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=epUccpjDGRE9EuJbLES1VkaNPQIRZSalTXoKeOQ8Ry8=;
- b=cbi+4I675dv5GnYra4hkP9q/syBNJQV37QSVK69dh2gg2j89Q1/mJdrLB3k6B1r0F7
- Xxfe0gPTakEcbQQz7WTpGczepSR0fmWyIJ9XMU2nvAxSHZxVlC0XZxUJgChcfBrhxuYG
- Hrxk0dBNRsLIESiug9unXNksV7u3PiOw8CX8CIts7SuL7q+m3e+44hUvP8Gk4a7TZLzE
- ErnGpKfpDU3+LiliK6b4dsN776ZocKlIl1Ml3cNc+oV67kdaxMNeOGV8RFbNplT5p27w
- BinTQFLO1Firaq1i8Oh7/9Mw1GWiyfSwE5BteD9toF9ovUQtEX+Bkg/q0ALOXUriuDN0
- NlgQ==
+ bh=UGMOysBI5e/dqO6GmDq+xFiu0iPMHmZNzcFnIWT7kd8=;
+ b=Z77PzqVs5ws9nCkW9wLChqjzIpbQBp2HgpngHWP2MGBfaTYruPOzEO+MO2Uz0Gu92R
+ gpJlMAjeu3yFoflBXhyI7U+k+DjCN0eOrPUz/Gu3ElXMEz54Z4baaJPb8I/awy8H3u5I
+ 39YCKKZoiZr9IlVuwrONRGQqtx77UPR6UJQzGw6KUtzZrIp0pnnnQ69g/dqBBpUWszSI
+ j5WMIcpHeu6xgridUFli3B+/hZUXYlAa8a0uLsIDLAU/9X5o0pK+QmoweFohzCgb+kut
+ cU+rsG24SSKDXtF08inQwJAoQjY9SVGrln7x1lRtEO8Ikir/jAYv25R/LfVGFND1pHRa
+ J9wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737053561; x=1737658361;
+ d=1e100.net; s=20230601; t=1737056189; x=1737660989;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=epUccpjDGRE9EuJbLES1VkaNPQIRZSalTXoKeOQ8Ry8=;
- b=XPrgztx6YWgGCMICRVMyzRYU5N7osa2+Qc89Ur6VRlGWaucG+7RRWzWMMtHHlSA8y1
- M7R8pN6sM8pAtXg6dP2Y+myUbFHh4WxZKbeUsbAqWf2XMrWzsTW8GjpIf5HBC1PzLAJC
- lq5JqNqitlrNSxcCZCfAgWSWhalS/UozBQaD9vnLCtitwlMXPb9FcQ3Kx3sIukNnQhpn
- UNMOHlCcjdHVZd2nKGI0AQ00uTi9BQcND4Y+GxMVhRnBMXQP9Pz0sKvtPGRL9GIHQPb3
- gX2QrkwLFF3A/5k0iJFkDpkoXqN+P4R7Z12At/c3DTfgVfheG9vDUClbC3Sh8n6UB5Ev
- bzvQ==
+ bh=UGMOysBI5e/dqO6GmDq+xFiu0iPMHmZNzcFnIWT7kd8=;
+ b=Ku3CzmTZti1xU6+CRgYKBNPB5a2HK3NTuhYndnn/nFOeh+eQYK94pi9xM4pe//Eo4A
+ TO8inuH7B4ZomUZrMZe3+l7A3sIn5vnn2HW+12vxrhWr/Q86oQo1FqzlD2jeMoiDQuH7
+ U3P8Gahm8awmwkDMhsJZARfBkRla8lN2V9wnquMETQAdiVxbYMGV7Z8QLTqpPwXwqcnu
+ 8tLT2KOGpPOqX4fW4l6b6vwJxp4sIEREq2EB/GX1YoVkNKWrFNDp9KG+z2JJ7089A0KT
+ gPBCaLpuX/vcj2m5DFGxI2inZ2W5/UQZePTUfZD4t/wvPCri/OeyC1UgwwKcBMOiSP6W
+ FBew==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU6Hq6/Xf+ovUb91z10J5Id+PWhzEEtxMOV0nHaC7FqNoWTSe7+h+ZiocuhcsYwpMv10jaQNkIxGdI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwHlPh+lB59YQzDNRlIorp3wRkBXDAzvmpNS3vg5ZzTYwwJnawY
- NTMrrbzsEAyzM9zu0cfWp24Z9hICsIqnX8XbwGtVz/OcXZTtZm0NUrJ8/If7TVyez48da0SgMis
- VRExkvHB3BH9JLvMnm5HRh3pjnGI=
-X-Gm-Gg: ASbGnctgEr4VIVHyAKE4msgcdvey1lI3UhC/GGGKvyEzJmpvX5Hq3Kkdq/J665RFfSJ
- MobS4tvVe4/P0ZtogQkZbyE4EUdFVbEEP+SehmTc=
-X-Google-Smtp-Source: AGHT+IG/5CjKhXh96Nk+XB/+aMWTA4imIkKzPQiupTR0gI1gGVjVyFbBQFaeqBYVq9D6f+2cUD0dR0X8JEvKu0ia5Qg=
-X-Received: by 2002:a05:6902:a09:b0:e57:31f1:9722 with SMTP id
- 3f1490d57ef6-e5731f1a429mr22183513276.29.1737053560928; Thu, 16 Jan 2025
- 10:52:40 -0800 (PST)
+ AJvYcCVtfc9RUbh2oCJ9TbfhjaucjTNAbIcoWooSfhIQwLpfGHoZ1afOLSzM6EcstkZQ8UjtCQOaNyTBIHs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiqcrhqeFszBg0MKzsUL/4SLiY2+nHkEefoDR0Un4W0UR/lnaA
+ OXUV41YEA7HEO2o6xSRsplR5amM/nsLiRmsg0x5qVVOa7p/Vca2hTgijL0HAag0RcR+rUmxONcn
+ QyFbfK/uhvHPCCJnQmO86J3xp8d0=
+X-Gm-Gg: ASbGnctQEQ+17ohvYJ7yn9x584gjJBcL7UxCaM2yYH+TlZPqGjKYdBzjjon3vq3qkrQ
+ 5KmVQBxXs9atu/KcKUb2H2nAgwtG0QadkIfXz
+X-Google-Smtp-Source: AGHT+IH5odnZRmfmV6g5Z35ysaKoE6pg/vE/w8ce1P+6+gQinioIXMmBZxIjKCtVIVMbh5DUBMR5kSEsXgqVKSWNTcw=
+X-Received: by 2002:a17:907:1c91:b0:aaf:c27e:12e7 with SMTP id
+ a640c23a62f3a-ab38b15ce17mr7822366b.23.1737056189248; Thu, 16 Jan 2025
+ 11:36:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com>
- <20250114-adpdrm-v4-2-e9b5260a39f1@gmail.com>
- <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
-In-Reply-To: <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Thu, 16 Jan 2025 19:52:30 +0100
-X-Gm-Features: AbW1kvbipHKJwElTaiGLwN0S5Fv6wP5xVACM8b4oZ-wh_e88VZ8Pe5kxngHqc80
-Message-ID: <CAMT+MTT+_ER+mFP1yUY+L-47-sZfNmtHUp09rqpPG174OKMJKA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>,
- Janne Grunau <j@jannau.net>
+References: <20250113121851.31382-1-phasta@kernel.org>
+In-Reply-To: <20250113121851.31382-1-phasta@kernel.org>
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 17 Jan 2025 05:36:17 +1000
+X-Gm-Features: AbW1kva_iWW0utxV_qOPpHVrU-Y1WRMs9pQUAVgQIowivUBJkQdRNNjPAUjcF9U
+Message-ID: <CAPM=9tzLvLmPkHYMzAfUfShavvAd+9E+CHaaydu39ru6bkYh2A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] MAINTAINERS: Update DRM GPU Scheduler section
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, 
+ Yosry Ahmed <yosryahmed@google.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>, 
+ Danilo Krummrich <dakr@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,33 +86,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Jan 2025 at 11:21, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-> > +     ret = drm_simple_encoder_init(drm, &adp->encoder, DRM_MODE_ENCODER_DSI);
+On Mon, 13 Jan 2025 at 22:19, Philipp Stanner <phasta@kernel.org> wrote:
 >
-> This is being deprecated, please use drm_encoder_init() /
-> drmm_encoder_init() instead.
-
-I seem to be unable to find any documentation or a mailing list post
-to this effect. If you are referring to this patchset:
-https://patchwork.kernel.org/project/linux-samsung-soc/patch/20200313201744.19773-3-sam@ravnborg.org/
-according to my understanding, it has not been applied.
-In this case, the simple encoder api provides all functionality i need,
-and a replacement would just be a simple encoder, except copied and pasted
-into this driver.
-
-> > +static void adp_remove(struct platform_device *pdev)
-> > +{
-> > +     struct device *dev = &pdev->dev;
-> > +     struct drm_device *drm = dev_get_drvdata(dev);
-> > +     struct adp_drv_private *adp = to_adp(drm);
-> > +
-> > +     adp_disable_vblank(adp);
+> Luben has not been active and has not responded to mails since summer
+> 2024. Remove him from MAINTAINERS and add an entry in CREDITS.
 >
-> Isn't it being helped by the DRM itself? Anyway, I'd suggest moving it
-> after DRM device unregistration and shutdown.
+> Philipp has a new email address and an ACK to commit work time to the
+> scheduler. Thus, set the state to 'Supported'.
+>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
 
-Not sure i follow, as this call disables generation of vblank interrupts,
-shouldn't it be done before all drm structures are torn down, to prevent
-the interrupt handler from potentially operating on objects that are in
-an invalid state?
+Reviewed-by: Dave Airlie <airlied@redhat.com>
+
+for both, drop them into next I suppose at this point.
+
+>  CREDITS     | 4 ++++
+>  MAINTAINERS | 5 ++---
+>  2 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/CREDITS b/CREDITS
+> index cda68f04d5f1..1593ada4209c 100644
+> --- a/CREDITS
+> +++ b/CREDITS
+> @@ -3948,6 +3948,10 @@ S: 1 Amherst Street
+>  S: Cambridge, Massachusetts 02139
+>  S: USA
+>
+> +N: Luben Tuikov
+> +E: Luben Tuikov <ltuikov89@gmail.com>
+> +D: Maintainer of the DRM GPU Scheduler
+> +
+>  N: Simmule Turner
+>  E: sturner@tele-tv.com
+>  D: Added swapping to filesystem
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a87ddad78e26..fa288ef20c59 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7888,12 +7888,11 @@ F:      Documentation/gpu/zynqmp.rst
+>  F:     drivers/gpu/drm/xlnx/
+>
+>  DRM GPU SCHEDULER
+> -M:     Luben Tuikov <ltuikov89@gmail.com>
+>  M:     Matthew Brost <matthew.brost@intel.com>
+>  M:     Danilo Krummrich <dakr@kernel.org>
+> -M:     Philipp Stanner <pstanner@redhat.com>
+> +M:     Philipp Stanner <phasta@kernel.org>
+>  L:     dri-devel@lists.freedesktop.org
+> -S:     Maintained
+> +S:     Supported
+>  T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:     drivers/gpu/drm/scheduler/
+>  F:     include/drm/gpu_scheduler.h
+> --
+> 2.47.1
+>
+>
