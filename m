@@ -2,86 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98278A13B04
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 14:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500EEA13B1B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 14:48:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72C5710E972;
-	Thu, 16 Jan 2025 13:40:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C25A910E97A;
+	Thu, 16 Jan 2025 13:48:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jnpf4Ba+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="j2HiOhOZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5729310E974
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 13:40:07 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-53f22fd6887so886889e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 05:40:07 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75C6410E97A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 13:48:28 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-4364a37a1d7so8697015e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 05:48:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737034746; x=1737639546; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=VteJJx4VGuw0ltu0wQifkv086gnyuIyWiED0Wc5BNNg=;
- b=jnpf4Ba+5eX5A5RuRNZiaqS1x8HilTvDpMWOQtY1Ad1dl7NMowhe8PeXZY39D+fyXY
- c31+et1edFMXQJyk8WpDo25FFlzAw15WPfi4mK2xRq57Jw1ah58dcWy0JONM7+UVLQEK
- J6ANHleHVRzuP9rROebmUoaGLU69wwSP+qgQqbyoNF/y50Pf4q1GuXNQ3+Qr/1QnxGH/
- jA3noHo1BMaDcVUqqtqCbSojqaEuhuaEb+tASvFfNebV6BMiaIdMnuR21RJPaiXOJRML
- cHDQPi6LTOaPjf39sqThS3QgkBewv3fQZVKYxc/Ng+Mpfp+XjDt71KxANpeKdO08Voig
- IxUg==
+ d=linaro.org; s=google; t=1737035247; x=1737640047; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=XV0ypA+ConBNXrSgc6FhhVnY1kemZc5wMJWK62MyCuU=;
+ b=j2HiOhOZq8clOKfxFYbrPTfh2GdZGkEqOHU0r3G/GZ7ZF7R4ussYYeOhN35SYDDW0b
+ 3nCf70ZBpD+mhs4ROjC4fus4oGir1SvKtGV7efJTME69sFjmc5J72w7ZQpRPfp1q1Dx4
+ 18G/3O7lO5kH727f2uk+F1a9UbjLT3JBtgeXbPh4zFR9BupviwPu0ad75QLXKcdYU/Xq
+ E12EpdwElCOV7RtXF3cIo7/3tv8sBLZuv2Ftgup9Onwo5GCFQaKBAj+i1VMA1+9mi1wK
+ vorO2ccqHmDlOWS+2gqhqQX0kTHT9nKSV9heOqLG3kKx4jC1Hfd4BzeJx1dxdaREKGEb
+ 6I0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737034746; x=1737639546;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VteJJx4VGuw0ltu0wQifkv086gnyuIyWiED0Wc5BNNg=;
- b=jdw2hNqY9VBdzkLHKKPNeDCfGBfiHVeXklXVVAEqsyW7Ssva8NFW8Is/KYILDqKz16
- p6F9ZqTP+14yX19YKNv1N9ppy0kM/1I2cF/z1rYW9jCqhVg9t//JM7UtOt62WIARKVTJ
- A7TZ8rjRxtZXhoKnIRY7EyD1aUVtodkvvNQ7LX5jFfFInRAXo+WqFBxeDOx19zOAqXG7
- 8Kl8SNAEXi9J4l4KmKABvr45kA15zqotV7fMt8XVfNBBVfeBiJLWM1slHiVukMYPLaa0
- LKk1VP078udOav+o+9YdJNfWGCw18LIdca5XyG8L/Fjysi1TY/Yg1AgQBy7eWJAybYDa
- 1UXA==
-X-Gm-Message-State: AOJu0Yy4Ca+hoDGHsl/GGJLm6r+XuP1T+LNtvaIBB0LOHHkOm0iaGUxY
- B0lQV9QzcjdZZiZ4+Z5IZU3np1Lx6P9qAFuLAmo7tsgZ0hdoqA5GkBwC1smzkTI=
-X-Gm-Gg: ASbGncuXpeIJqWz7gEvZE5ag3G+A2qApmRSBBFFOqA0McyP4fztKWau0DPaC9Vdixx9
- R/nqH1fZHSQCl6KzTL2Zch4MI20W/CpDl3TWksGIb6pj38NyL6smOw5aiXaGaxOze/CGb60mpG5
- IKys9/K+xuKbGkkUNilegoOnqhT+gBrtxbr/hoIictrqAmNMfGgehpNE2d5vPGrtGsNEFIB4dpn
- t7QKYKUv5x12ay+oJff8N/xX9EEaoda8/6sv25kkMhI4WaXBieS+llWawnWUm7LXsZ2EG7G1NGe
- GNbpV7D0Nf9wO3lf2hZIW7bo8WeVA4jJJ68R
-X-Google-Smtp-Source: AGHT+IE659wAmLhaDjEjv7Xvwm2qobkOfxpsGV1Lxrtg5uzKjfkE1pEHqIzIwLc5DjjVw/NbHrzKVA==
-X-Received: by 2002:a05:6512:3daa:b0:542:297f:4f69 with SMTP id
- 2adb3069b0e04-5428480191emr11187577e87.41.1737034745616; 
- Thu, 16 Jan 2025 05:39:05 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ d=1e100.net; s=20230601; t=1737035247; x=1737640047;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=XV0ypA+ConBNXrSgc6FhhVnY1kemZc5wMJWK62MyCuU=;
+ b=Ip57da9LxJ8S/VEipJ70KOnbCvDmciyqdsvm0E9CZKjjcWkmWVbzXZbtlWuqge2P33
+ vuMEXO070KranXncBUbXZxwC3Pswz4LLwE+iOSswW5l958oDT9WGDElJMQTN2vypPxtq
+ M5jgK6PPYNg52jaXJIxj5jDCMPPKsc8aPsOGRef3P6S5YpyyRNdUI9RT2LwFis1WIfvS
+ PhtTFg2vaqiZuaButngPl+zEgbzKHfwlklrA6baqxtZgLfxVfuzbpYAbQB43BmRELCuH
+ Cj3KkQ4Wf5UDkt1WT4K7OUepBX+1Nl1bZ+o29S8EgZWra6ERhddD41EUGR2+OEfNxGil
+ TAbA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjNJ2WC1M9Ra2nqatKadZzrQpzUoR6/rd8NapY6m/HUyJBt8y2EPllNvyItFyTtUJ9jIIo5DKH53U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxD9ID0s/NwvUwzdy5izPQo/T5sGt5Zi28xYOv0AKUsVPlR6rSh
+ 9BiZOWtYVKLGKZJ2JBG6svSIOxUZJ9qNJMVs5+Ms7f+QPfS/GRKE28CTvhai/ho=
+X-Gm-Gg: ASbGncvAPjLgewxjzZ/bURKcvp3kdCs+hIsNFvGvrNsZ5QwRoUwQ7+8+RCN4sPzoDnT
+ nr4K4Vl00vRkBTZZZ94PF+c1szqlunDEo7eTXnsS1aDMvXneAhZDgY8LRj+Rvm5f6tiXS09JyUe
+ fMYvIeyB47Ucvb8lGMo8lYkhqtMh/Hp8HdF3Tldb9gRDDNvwRdk2nAY0gKlph1s2Cc6LaFPtl0s
+ l2MiXq/X5oZa1RftyXcNYN2pF9K0iyvgCFo8u0WqibJO5FUSd/MMwD/1m0VVOXKs0ffy4a0K+4J
+ 1+n1UPBprUdfgPDey4unEGd1C2rzoQ+UbA==
+X-Google-Smtp-Source: AGHT+IG5+gXyBEzdGuSpFXAc0h6h49px0KgsF9Bknfqn75YMip2uvq0CueBHRdw892UGfvsWIrZrng==
+X-Received: by 2002:a05:600c:1e09:b0:436:e751:e445 with SMTP id
+ 5b1f17b1804b1-436e751e61fmr323605555e9.5.1737035246887; 
+ Thu, 16 Jan 2025 05:47:26 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4adf:8d3f:1419:e65d?
+ ([2a01:e0a:982:cbb0:4adf:8d3f:1419:e65d])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bea6862sm2374798e87.147.2025.01.16.05.39.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2025 05:39:04 -0800 (PST)
-Date: Thu, 16 Jan 2025 15:39:01 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: "Murthy, Arun R" <arun.r.murthy@intel.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Kandpal,
- Suraj" <suraj.kandpal@intel.com>, 
- "Shankar, Uma" <uma.shankar@intel.com>, "Bhattacharjee,
- Susanta" <susanta.bhattacharjee@intel.com>
-Subject: Re: [PATCH v7 01/14] drm: Define histogram structures exposed to user
-Message-ID: <sc52glzpdohjxjexpwayyud4mlbtygx5l4wuziw5oibqv674sf@6x2iohnm32e6>
-References: <20250110-dpst-v7-0-605cb0271162@intel.com>
- <20250110-dpst-v7-1-605cb0271162@intel.com>
- <kwklrd2zjovabsa537jwg3bpqilvhfmxxyr4exmqbi2b35uxej@mhequ6ttibsd>
- <IA0PR11MB73079537444DAA9596F0A837BA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
- <CAA8EJpojDKtcG=amuwT7B+iaU_A9EwcvpkyyQ8nupKtsF_79gg@mail.gmail.com>
- <IA0PR11MB73070AE8FD9EAF5E47A56A96BA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
- <yyn35zkvqfajyyata2kuwfswfzjf3oqv4hzq5pc5rw7o2sporu@vsybecmh54ow>
- <IA0PR11MB73076D2B950535216961E209BA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
+ 5b1f17b1804b1-437c74d8cddsm60268335e9.30.2025.01.16.05.47.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Jan 2025 05:47:26 -0800 (PST)
+Message-ID: <2ce0b8fe-6ae6-40a3-b357-1965dcd0cdfd@linaro.org>
+Date: Thu, 16 Jan 2025 14:47:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA0PR11MB73076D2B950535216961E209BA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v1 1/2] drm/panel: boe-tv101wum-nl6: support for
+ kingdisplay-kd110n11-51ie MIPI-DSI panel
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
+ quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250116130609.3011530-1-yelangyan@huaqin.corp-partner.google.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250116130609.3011530-1-yelangyan@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,98 +116,167 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2025 at 01:33:43PM +0000, Murthy, Arun R wrote:
-> > On Thu, Jan 16, 2025 at 12:33:20PM +0000, Murthy, Arun R wrote:
-> > > > > > On Fri, Jan 10, 2025 at 01:15:29AM +0530, Arun R Murthy wrote:
-> > > > > > > Display Histogram is an array of bins and can be generated in
-> > > > > > > many ways referred to as modes.
-> > > > > > > Ex: HSV max(RGB), Wighted RGB etc.
-> > > > > > >
-> > > > > > > Understanding the histogram data format(Ex: HSV max(RGB))
-> > > > > > > Histogram is just the pixel count.
-> > > > > > > For a maximum resolution of 10k (10240 x 4320 = 44236800)
-> > > > > > > 25 bits should be sufficient to represent this along with a
-> > > > > > > buffer of
-> > > > > > > 7 bits(future use) u32 is being considered.
-> > > > > > > max(RGB) can be 255 i.e 0xFF 8 bit, considering the most
-> > > > > > > significant 5 bits, hence 32 bins.
-> > > > > > > Below mentioned algorithm illustrates the histogram generation
-> > > > > > > in hardware.
-> > > > > > >
-> > > > > > > hist[32] = {0};
-> > > > > > > for (i = 0; i < resolution; i++) {
-> > > > > > >     bin = max(RGB[i]);
-> > > > > > >     bin = bin >> 3; /* consider the most significant bits */
-> > > > > > >     hist[bin]++;
-> > > > > > > }
-> > > > > > > If the entire image is Red color then max(255,0,0) is 255 so
-> > > > > > > the pixel count of each pixels will be placed in the last bin.
-> > > > > > > Hence except hist[31] all other bins will have a value zero.
-> > > > > > > Generated histogram in this case would be hist[32] =
-> > > > > > > {0,0,....44236800}
-> > > > > > >
-> > > > > > > Description of the structures, properties defined are
-> > > > > > > documented in the header file include/uapi/drm/drm_mode.h
-> > > > > > >
-> > > > > > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
-> > > > > > > ---
-> > > > > > >  include/uapi/drm/drm_mode.h | 59
-> > > > > > > +++++++++++++++++++++++++++++++++++++++++++++
-> > > > > > >  1 file changed, 59 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/include/uapi/drm/drm_mode.h
-> > > > > > > b/include/uapi/drm/drm_mode.h index
-> > > > > > >
-> > > > > >
-> > > >
-> > c082810c08a8b234ef2672ecf54fc8c05ddc2bd3..7a7039381142bb5dba269bda
-> > > > > > ec42
-> > > > > > > c18be34e2d05 100644
-> > > > > > > --- a/include/uapi/drm/drm_mode.h
-> > > > > > > +++ b/include/uapi/drm/drm_mode.h
-> > > > > > > @@ -1355,6 +1355,65 @@ struct drm_mode_closefb {
-> > > > > > >     __u32 pad;
-> > > > > > >  };
-> > > > > > >
-> > > > > > > +/*
-> > > > > > > + * Maximum resolution at present 10k, 10240x4320 = 44236800
-> > > > > > > + * can be denoted in 25bits. With an additional 7 bits in
-> > > > > > > +buffer each bin
-> > > > > > > + * can be a u32 value.
-> > > > > > > + * Maximum value of max(RGB) is 255, so max 255 bins.
-> > > > > >
-> > > > > > HDR planes have higher max value for a component.
-> > > > > > Likewise even in an RGB24 case there are 256 possible values.
-> > > > > > It's not clear why
-> > > > > > 0 gets excluded.
-> > > > > >
-> > > > > This applies to only SDR and excludes HDR.
-> > > >
-> > > > Why?
-> > > >
-> > > We are limiting to only SDR. HDR includes a broad range of color and
-> > > finer details, which essentially means its an enhanced image.
-> > > We are trying to enhance the image quality of SDR with the support of
-> > histogram.
-> > 
-> > You are defining generic API. It might be broader than your existing usecase.
-> > Please consider supporting HDR too.
-> > 
-> HDR image enhancement is very much complex including multiple stages such as image tone mapping and image denoising.
-> Here for SDR planes, image enhancement is done by playing around the contrast and color.
-> Maybe at this stage we can focus on SDR and can take this HDR at the next stage.
-
-If you define max(colour) to be 255, then you can not expand it later.
-The API will have 8 bits for colour information everywhere.
-
+On 16/01/2025 14:06, Langyan Ye wrote:
+> The kingdisplay-kd110n11-51ie is a 10.95" TFT panel.
+> which fits in nicely with the existing panel-boe-tv101wum-nl6 driver.
+>  From the datasheet, MIPI needs to keep the LP11 state before the
+> lcm_reset pin is pulled high, so increase lp11_before_reset flag.
 > 
-> Thanks and Regards,
-> Arun R Murthy
-> -------------------- 
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>   .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 122 ++++++++++++++++++
+>   1 file changed, 122 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> index 3e5b0d8636d0..72fa0f6a5cb6 100644
+> --- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> +++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
+> @@ -1309,6 +1309,97 @@ static int starry_qfh032011_53g_init(struct boe_panel *boe)
+>   	return 0;
+>   };
+>   
+> +static int kingdisplay_kd110n11_51ie_init(struct boe_panel *boe)
+> +{
+> +	struct mipi_dsi_multi_context ctx = { .dsi = boe->dsi };
+> +
+> +	msleep(50);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x83, 0x10, 0x21, 0x55, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD9, 0xD1);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x2C, 0xB3, 0xB3, 0x31, 0xF1, 0x33, 0xE0, 0x54,
+> +		0x36, 0x36, 0x3A, 0x3A, 0x32, 0x8B, 0x11, 0xE5, 0x98);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xD9);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x8B, 0x33);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB2, 0x00, 0x47, 0xB0, 0x80, 0x00, 0x2C, 0x80, 0x3C,
+> +		0x9F, 0x22, 0x20, 0x00, 0x00, 0x98, 0x51);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB4, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64, 0x40, 0x84,
+> +		0x64, 0x84, 0x01, 0x9D, 0x01, 0x02, 0x01, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBC, 0x1B, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBE, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBF, 0xFC, 0xC4, 0x80, 0x9C, 0x36, 0x00, 0x0D, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC0, 0x32, 0x32, 0x22, 0x11, 0x22, 0xA0, 0x31, 0x08,
+> +		0xF5, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCC);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC7, 0x80);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC6);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC8, 0x97);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC9, 0x00, 0x1E, 0x13, 0x88, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x08, 0x13, 0x07, 0x00, 0x0F, 0x36);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCC, 0x02, 0x03, 0x44);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD1, 0x07, 0x06, 0x00, 0x02, 0x04, 0x2C, 0xFF);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x06, 0x00, 0x00, 0x00, 0x40, 0x04, 0x08, 0x04,
+> +		0x08, 0x37, 0x07, 0x44, 0x37, 0x2B, 0x2B, 0x03, 0x03, 0x32,
+> +		0x10, 0x22, 0x00, 0x25, 0x32, 0x10, 0x29, 0x00, 0x29, 0x32,
+> +		0x10, 0x08, 0x00, 0x08, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD5, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+> +		0x18, 0x18, 0x07, 0x06, 0x07, 0x06, 0x05, 0x04, 0x05, 0x04,
+> +		0x03, 0x02, 0x03, 0x02, 0x01, 0x00, 0x01, 0x00, 0x18, 0x18,
+> +		0x25, 0x24, 0x25, 0x24, 0x1F, 0x1F, 0x1F, 0x1F, 0x1E, 0x1E,
+> +		0x1E, 0x1E, 0x20, 0x20, 0x20, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x0A, 0x2A, 0xAA, 0x8A, 0xAA, 0xA0, 0x0A, 0x2A,
+> +		0xAA, 0x8A, 0xAA, 0xA0);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0xE0, 0x10, 0x10, 0x0D, 0x1E, 0x9D, 0x02, 0x52,
+> +		0x9D, 0x14, 0x14);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x01, 0x7F, 0x11, 0xFD);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC5);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x4F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x86);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD2, 0x64);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC5);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x0A, 0x2A, 0xAA, 0x8A, 0xAA, 0xA0, 0x0A, 0x2A,
+> +		0xAA, 0x8A, 0xAA, 0xA0, 0x05, 0x15, 0x55, 0x45, 0x55, 0x50,
+> +		0x05, 0x15, 0x55, 0x45, 0x55, 0x50);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0x02, 0x00, 0x24, 0x01, 0x7E, 0x0F, 0x7C, 0x10,
+> +		0xA0, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x03, 0x07, 0x00, 0x10, 0x7B);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x0F, 0x3F, 0xFF, 0xCF, 0xFF, 0xF0, 0x0F, 0x3F,
+> +		0xFF, 0xCF, 0xFF, 0xF0);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0xFE, 0x01, 0xFE, 0x01, 0xFE, 0x01, 0x00, 0x00,
+> +		0x00, 0x23, 0x00, 0x23, 0x81, 0x02, 0x40, 0x00, 0x20, 0x9D,
+> +		0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB2, 0x66, 0x81);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC6);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB4, 0x03, 0xFF, 0xF8);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x0A, 0x2A, 0xAA, 0x8A, 0xAA, 0xA0, 0x0A, 0x2A,
+> +		0xAA, 0x8A, 0xAA, 0xA0, 0x0F, 0x2A, 0xAA, 0x8A, 0xAA, 0xF0,
+> +		0x0F, 0x2A, 0xAA, 0x8A, 0xAA, 0xF0, 0x0A, 0x2A, 0xAA, 0x8A,
+> +		0xAA, 0xA0, 0x0A, 0x2A, 0xAA, 0x8A, 0xAA, 0xA0);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x00, 0x00, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
+> +
+> +	mipi_dsi_msleep(&ctx, 120);
+> +
+> +	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
+> +
+> +	mipi_dsi_msleep(&ctx, 20);
+> +
+> +	return 0;
+> +}
+> +
+>   static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
+>   {
+>   	return container_of(panel, struct boe_panel, base);
+> @@ -1642,6 +1733,34 @@ static const struct panel_desc starry_qfh032011_53g_desc = {
+>   	.lp11_before_reset = true,
+>   };
+>   
+> +static const struct drm_display_mode kingdisplay_kd110n11_51ie_default_mode = {
+> +	.clock = (1200 + 124 + 80 + 80) * (1920 + 88 + 8 + 38) * 60 / 1000,
+> +	.hdisplay = 1200,
+> +	.hsync_start = 1200 + 124,
+> +	.hsync_end = 1200 + 124 + 80,
+> +	.htotal = 1200 + 124 + 80 + 80,
+> +	.vdisplay = 1920,
+> +	.vsync_start = 1920 + 88,
+> +	.vsync_end = 1920 + 88 + 8,
+> +	.vtotal = 1920 + 88 + 8 + 38,
+> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +};
+> +
+> +static const struct panel_desc kingdisplay_kd110n11_51ie_desc = {
+> +	.modes = &kingdisplay_kd110n11_51ie_default_mode,
+> +	.bpc = 8,
+> +	.size = {
+> +		.width_mm = 147,
+> +		.height_mm = 235,
+> +	},
+> +	.lanes = 4,
+> +	.format = MIPI_DSI_FMT_RGB888,
+> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+> +		      MIPI_DSI_MODE_LPM,
+> +	.init = kingdisplay_kd110n11_51ie_init,
+> +	.lp11_before_reset = true,
+> +};
+> +
+>   static int boe_panel_get_modes(struct drm_panel *panel,
+>   			       struct drm_connector *connector)
+>   {
+> @@ -1807,6 +1926,9 @@ static const struct of_device_id boe_of_match[] = {
+>   	{ .compatible = "starry,2081101qfh032011-53g",
+>   	  .data = &starry_qfh032011_53g_desc
+>   	},
+> +	{ .compatible = "kingdisplay,kd110n11-51ie",
+> +	  .data = &kingdisplay_kd110n11_51ie_desc
+> +	},
+>   	{ /* sentinel */ }
+>   };
+>   MODULE_DEVICE_TABLE(of, boe_of_match);
 
--- 
-With best wishes
-Dmitry
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
