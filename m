@@ -2,78 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B54A13A6E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 14:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B4CA13A98
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 14:13:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 463E910E59B;
-	Thu, 16 Jan 2025 13:06:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 024C710E964;
+	Thu, 16 Jan 2025 13:13:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="k8EOxu/G";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="J848hTDV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E7CD10E597
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 13:06:40 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id
- d9443c01a7336-2167141dfa1so15813925ad.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 05:06:40 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC7B810E95F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 13:13:15 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-53ff1f7caaeso1061536e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 05:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1737032800; x=1737637600; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=6vsu01DL5YXruSfsNC0w4FgwMrAXarB2x6Q2xxx/MZ8=;
- b=k8EOxu/GzROydzut0mA5mcRR+41r8rsda6ZJ2I6QXEMALkqBfcfTNQNQfwFWsFTcD1
- yfnHcr6EVH9PUGfqQuaFSa5XgpoIVjo6f9bat1GqG4MHiFaB62LDnkp8Idx2pJ1fFLMA
- vjZSHucPrfFviHXVUWF05LYQK+AM1zIeMYdK9wOtcK68UHTqF09tHQtpph2It64mNS20
- elY21JTd7HixKJRCtt8Ym7jqvM3iBfwlVDhiEGRuh0Vx4s4ztjzLZW7RskPbpKM496lh
- 2pkrGLurTJLye2lvaeGM7bQY+RPyKG7oSEoQ1t2B86aG/Cb+glUluYGXvkmrFF8/4DA3
- xorw==
+ d=linaro.org; s=google; t=1737033134; x=1737637934; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=h7ncLon1TjtOkO7Jtfuh3RQuT+tEFbDDlX3FlP1aHWo=;
+ b=J848hTDVP33eDquSXZR4z4/7EwV9C4S0q/EJPEfoqQ1NR56WnH2tbnBQyK5hDKO4Hh
+ JCx3K9FIzIDbc2XwZYP/5damv0LjB0XQNcRlikUDKkzcmWmIti7B56m0My8HEU/xUgqs
+ vQr1YQvjYuSwKFsgcxvA9a15e/XFFcSQ4BSArBrYhkXu9NY6JsfT/tP3YWmv6eYBqlI7
+ IWdjLkWZETpymj5AU7xUtwtJkYMaPoKBEQjZzGxc8uQJ6bFn5S3Vnl8d34O9yEYi/lnr
+ 5NTTueDEjcpbQtn2jDb+W77opPqdR703uGzIB9KA0Qvu7Yi6W0ycWaKGBpk+xIHxeKV2
+ Hdyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737032800; x=1737637600;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=6vsu01DL5YXruSfsNC0w4FgwMrAXarB2x6Q2xxx/MZ8=;
- b=bacXFQoWX4eq8zKhCEZEiU51zJqTXc8kB1Pc9KabCvNmVi/dI+g6HB4B1P/sDHTIys
- 1bfwDGVfPxo6oo4g7D4y1V8AS496GWSuDbaG8FOMJMlWP4SMStqdu5Vf49Ru/MBjiDBD
- B4+F1c1OUPR1TZ/dTQNwy6x3IXKGh+6xHAuCxMJD1xQsGHsw8HU0/FrFx61pIniAc86o
- EZpv81cgAAAU6IF7MJVwJjq65fBWUvgRepVbJ/XL+VBsvIGDwMbVI41ZpDwy+MWH48qF
- 0xxkMMTpxwP2eX3cpmLA1PRz1Li/OCaJHLcdzBE084yINdZU4BAiiZxm0Ou3hYeZRVkU
- Bgaw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWAMQJRSc/YUp0P8S1Tolul/JMVXhftSihX0zciw3FjuiVMdYyapRHGPak/YAXVvPTu4aREZxbzHPk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwLVLyExXBl/cRmsHo71r7N0fyxvYsQBK4rkuG21R5MH7rzPqrY
- zEqfrtcLKxHB8sa37sRV0HMIBm+XFSbpQR8VwUihzSJA1bpyeaOqOgMdXiBtzdE=
-X-Gm-Gg: ASbGncut4KJHQOzv7Emo8PQ9krYK03eTfrrpjj9jpgjix2lB1LjUyRjxMcLFfQdZLOT
- egJyil1RpddTaOCyJs5vAYbUgDj1LzAdRSpIVUm99mWRy8TaqazCdWwgLIGI9FCRH6qOspxZidP
- Aelz6BRg1Aw7iHo1lvdBhwCQTm8sPExCGYs2imx3dzKypWFSrG3g8Ty2SFB2c00hcBLjtX/79Ui
- XSk1bo+LRbw2jrXmTZM1L5I0YXn7Ls2XXTWwXZ/ONNGtCQP6+Qej/uPxBiWHvfwAK0Lb15o+6+y
- 0k3EY7p9oSmT547FDKgULxG4fRvY
-X-Google-Smtp-Source: AGHT+IGsW6PJR5j9gbErZG7gnmuGoFL5DYwHSF0N2YANSYXssMyRrcE2VB6uPHafZX0gIKNWXPopaA==
-X-Received: by 2002:a17:902:ecce:b0:215:a303:24e9 with SMTP id
- d9443c01a7336-21bf0b7698emr102585775ad.3.1737032800062; 
- Thu, 16 Jan 2025 05:06:40 -0800 (PST)
-Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
+ d=1e100.net; s=20230601; t=1737033134; x=1737637934;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=h7ncLon1TjtOkO7Jtfuh3RQuT+tEFbDDlX3FlP1aHWo=;
+ b=irMH1Rh3AARwOqZ/ZdJU49Sdoc9ITyV1AIB+J2Xo53dtmQJhmC6+1H6uLEuLVOCSXp
+ nOr4pR5EH17XiQeZfBwhDk6EMsyWbQh4n1WKR+Lg0v4nBqIjHxGh1vgJMOt1lDTkYKzH
+ TLr8+LaDkcI9XjkW6ftQIk5m36M9/pwqy3qj7mryD3Y61RbhZbW4nWOxw0CozZKD6ZiV
+ cWMOE+1m2UWGKtsnTpWyPHtMzL5zd0D/06gHMffy2WxdTmCpAJ+8GE7kK7m9Pa9492kA
+ 2guh/Tquug8zh8zbJPlK1zQxml0nRH5sjzR2yVFOGfB5vUzwz2WRLyJJ5QtZry8JnAhd
+ xmjw==
+X-Gm-Message-State: AOJu0Yy8c9Q8BCAD0NqBeE2xNxgYXKjoAdghPSDtpZYJlj0faSmlbfF5
+ bsN7GjTt51v9gzYSVYozOhcPFPKwoohbPLZgUzpz0Ywyu6hPF6rSg2864Hy07eo=
+X-Gm-Gg: ASbGncuv5qrfA0p/p3hhz/ic/+p9JM8aEkak7ZR1f9BhKx0nKTbPvsV5kPkhT3wtiOr
+ 4Jg9e7kCpv5DefBIBIbuexbtvW/u53aC182tvfkrTfaLbVetaUBwY56NplSR0fXNNEJxOimQ01u
+ ULwckORDdWgQ9Ha+OlBoxn8vSWj2Riqez4kK2lou/gGF6O8YQOgCiEuyb28JCZEWGZYYwwMWC5+
+ XWP0vIL9CpHNPPtzkN7HJZVB51QPQ38Sa4Y4zTh+ABMhsoV5EDnDYWzocw6G7cm9oVc+mqPKxSX
+ n/wR++uaol6juNq3AE8kJPN3RDgbPpOldT/m
+X-Google-Smtp-Source: AGHT+IEpXMThqRec54vTBqA0y7vQZbmyuXWzxn2oKQjjbQlRhMvvxIERX9Cq1PEOWtqoz3n5WqcZDA==
+X-Received: by 2002:a05:6512:3c98:b0:53e:389d:8ce4 with SMTP id
+ 2adb3069b0e04-54284577f93mr11880082e87.34.1737033133824; 
+ Thu, 16 Jan 2025 05:12:13 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-21a9f25a583sm99153525ad.244.2025.01.16.05.06.37
+ 2adb3069b0e04-5428be4994esm2313389e87.40.2025.01.16.05.12.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2025 05:06:39 -0800 (PST)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH v1 2/2] drm/panel: boe-tv101wum-nl6: support for
- starry-2082109qfh040022-50e MIPI-DSI panel
-Date: Thu, 16 Jan 2025 21:06:33 +0800
-Message-Id: <20250116130633.3012433-1-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
+ Thu, 16 Jan 2025 05:12:12 -0800 (PST)
+Date: Thu, 16 Jan 2025 15:12:10 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Kandpal,
+ Suraj" <suraj.kandpal@intel.com>, 
+ "Shankar, Uma" <uma.shankar@intel.com>, "Bhattacharjee,
+ Susanta" <susanta.bhattacharjee@intel.com>
+Subject: Re: [PATCH v7 02/14] drm: Define ImageEnhancemenT LUT structures
+ exposed to user
+Message-ID: <6fiprampyjzkkyofaavdpe4dgeoomwahtwkh2dsclxegz4u472@irq2yelghle5>
+References: <20250110-dpst-v7-0-605cb0271162@intel.com>
+ <20250110-dpst-v7-2-605cb0271162@intel.com>
+ <i6j3zi5tlnyk2eonmpa5h5qitwgzs2nuzrvsasde3dci6a4ngl@qhbtsjbhq6xr>
+ <IA0PR11MB73075A89DAA5BF7D783125EEBA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
+ <CAA8EJprDgcyZTgz9QX0X51sC=F6ogXsMkDLfbSypH1kSm5hJzg@mail.gmail.com>
+ <IA0PR11MB73072FF4CF32A40E670CD9CEBA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <IA0PR11MB73072FF4CF32A40E670CD9CEBA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,189 +98,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The starry-2082109qfh040022-50e is a 10.95" TFT panel.
-which fits in nicely with the existing panel-boe-tv101wum-nl6 driver.
-From the datasheet, MIPI needs to keep the LP11 state before the
-lcm_reset pin is pulled high, so increase lp11_before_reset flag.
+On Thu, Jan 16, 2025 at 12:33:30PM +0000, Murthy, Arun R wrote:
+> > > > On Fri, Jan 10, 2025 at 01:15:30AM +0530, Arun R Murthy wrote:
+> > > > > ImageEnhancemenT(IET) hardware interpolates the LUT value to
+> > > > > generate the enhanced output image. LUT takes an input value,
+> > > > > outputs a new value based on the data within the LUT. 1D LUT can
+> > > > > remap individual input values to new output values based on the
+> > > > > LUT sample. LUT can be interpolated by the hardware by multiple
+> > > > > modes Ex: Direct Lookup LUT, Multiplicative LUT etc The list of
+> > > > > supported mode by hardware along with the format(exponent
+> > > > > mantissa) is exposed to user by the iet_lut_caps property. Maximum
+> > > > > format being 8.24 i.e 8 exponent and 24 mantissa.
+> > > > > For illustration a hardware supporting 1.9 format denotes this as
+> > > > > 0x10001FF. In order to know the exponent do a bitwise AND with
+> > > > > 0xF000000. The LUT value to be provided by user would be a 10bit
+> > > > > value with 1 bit integer and 9 bit fractional value.
+> > > > >
+> > > > > Multiple formats can be supported, hence pointer is used over here.
+> > > > > User can then provide the LUT with any one of the supported modes
+> > > > > in any of the supported formats.
+> > > > > The entries in the LUT can vary depending on the hardware
+> > > > > capability with max being 255. This will also be exposed as
+> > > > > iet_lut_caps so user can generate a LUT with the specified entries.
+> > > > >
+> > > > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> > > > > ---
+> > > > >  include/uapi/drm/drm_mode.h | 50
+> > > > > +++++++++++++++++++++++++++++++++++++++++++++
+> > > > >  1 file changed, 50 insertions(+)
+> > > > >
+> > > > > diff --git a/include/uapi/drm/drm_mode.h
+> > > > > b/include/uapi/drm/drm_mode.h index
+> > > > >
+> > > >
+> > 7a7039381142bb5dba269bdaec42c18be34e2d05..056c2efef1589848034afc00
+> > > > 89f1
+> > > > > 838c2547bcf8 100644
+> > > > > --- a/include/uapi/drm/drm_mode.h
+> > > > > +++ b/include/uapi/drm/drm_mode.h
+> > > > > @@ -1367,6 +1367,17 @@ struct drm_mode_closefb {
+> > > > >   */
+> > > > >  #define DRM_MODE_HISTOGRAM_HSV_MAX_RGB                     (1 <<
+> > > > 0)
+> > > > >
+> > > > > +/* LUT values are points on exponential graph with x axis and
+> > > > > +y-axis
+> > > > > +y=f(x) */
+> > > >
+> > > > Huh?
+> > > >
+> > > This f(x) can be the algorithm defined  by the user space algorithm to
+> > > generate the lookup table. Generation of the LUT value is left to the user
+> > space algorithm.
+> > > When this LUT table is passed to the hardware its just signifies how
+> > > hardware should use this table to get the LUT value. In this mode it's a direct
+> > lookup table.
+> > 
+> > Your documentation should be describing what is expected from the userspace.
+> > What is y, x and f(x)? How is it being used?
+> > 
+> Sure will add the above explanation in the patch documentation.
+> 
+> > >
+> > > > > +#define DRM_MODE_IET_LOOKUP_LUT                            (1 <<
+> > > > 0)
+> > > >
+> > > > Again, what is the reason for a shift? Can these values be OR'd?
+> > > >
+> > > Yes can be OR'd values as well.
+> > > Let me know if this has to be changed?
+> > > Just chose bitwise shift to denote the multiple modes.
+> > 
+> > What does it mean if drm_iet_1dlut_sample.iet_mode contains OR of two
+> > values?
+> > 
+> iet_mode in struct drm_iet_caps can be OR of two such modes,
+> which means that the hardware supports both of the modes.
+> Drm_iet_1dlut_sample.iet_mode tells the hardware which iet 
+> mode is used in generating the LUT value. Because hardware 
+> will have to interpret the LUT value based on the mode.
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
----
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 148 ++++++++++++++++++
- 1 file changed, 148 insertions(+)
+Yes. That's why I asked about the drm_iet_1dlut_sample.iet_mode, not the
+caps. It makes no sense to allow ORing several modes there. So the list
+of modes should be a simple enum and caps should use BIT(val).
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 72fa0f6a5cb6..d45321cece55 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1400,6 +1400,123 @@ static int kingdisplay_kd110n11_51ie_init(struct boe_panel *boe)
- 	return 0;
- }
- 
-+static int starry_2082109qfh040022_50e_init(struct boe_panel *boe)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = boe->dsi };
-+
-+	msleep(50);
-+
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x83, 0x10, 0x21, 0x55, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD9, 0xD1);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x2C, 0xB5, 0xB5, 0x31, 0xF1, 0x33, 0xC3, 0x57,
-+		0x36, 0x36, 0x36, 0x36, 0x1A, 0x8B, 0x11, 0x65, 0x00, 0x88, 0xFA, 0xFF, 0xFF,
-+		0x8F, 0xFF, 0x08, 0x3C, 0x33);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB2, 0x00, 0x47, 0xB0, 0x80, 0x00, 0x22, 0x70, 0x3C,
-+		0xA1, 0x22, 0x00, 0x00, 0x00, 0x88, 0xF4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB4, 0x14, 0x16, 0x14, 0x50, 0x14, 0x50, 0x0D, 0x6A,
-+		0x0D, 0x6A, 0x01, 0x9E);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB6, 0x34, 0x34, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB8, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCD);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x84);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBC, 0x1B, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBE, 0x20);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBF, 0xFC, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC0, 0x38, 0x38, 0x22, 0x11, 0x33, 0xA0, 0x61, 0x08,
-+		0xF5, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCC);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC7, 0x80);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC6);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC8, 0x97);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC9, 0x00, 0x1E, 0x30, 0xD4, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x08, 0x13, 0x07, 0x00, 0x0F, 0x16);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCC, 0x02, 0x03, 0x44);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD0, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD1, 0x37, 0x06, 0x00, 0x02, 0x04, 0x2C, 0xFF);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x3B, 0x03, 0x73, 0x3B, 0x21, 0x21, 0x03, 0x03, 0x98, 0x10, 0x1D, 0x00,
-+		0x1D, 0x32, 0x17, 0xA1, 0x07, 0xA1, 0x43, 0x17, 0xA6, 0x07, 0xA6, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD5, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x40, 0x40,
-+		0x18, 0x18, 0x18, 0x18, 0x2A, 0x2B, 0x1F, 0x1F, 0x1E, 0x1E, 0x24, 0x25, 0x26,
-+		0x27, 0x28, 0x29, 0x2A, 0x2B, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-+		0x08, 0x09, 0x0A, 0x0B, 0x20, 0x21, 0x18, 0x18, 0x18, 0x18);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x02, 0xAA, 0xEA, 0xAA, 0xAA, 0x00, 0x02, 0xAA,
-+		0xEA, 0xAA, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0x07, 0x10, 0x10, 0x2A, 0x32, 0x9F, 0x01, 0x5A,
-+		0x91, 0x14, 0x14, 0x00, 0x00, 0x00, 0x00, 0x12, 0x05, 0x02, 0x02, 0x10, 0x33,
-+		0x02, 0x04, 0x18, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x01, 0x7F, 0x11, 0xFD);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x86);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD2, 0x3D);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC5);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x00, 0x00, 0x00, 0x80, 0x80, 0x0C, 0xA1);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x03, 0xFF,
-+		0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0x02, 0x00, 0x2D, 0x01, 0x7F, 0x0F, 0x7C, 0x10,
-+		0xA0, 0x00, 0x00, 0x77, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBF, 0xF2);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x02, 0x00, 0x00, 0x10, 0x58);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD2, 0x0A, 0x0A, 0x05, 0x03, 0x0A, 0x0A, 0x01, 0x03,
-+		0x01, 0x01, 0x05, 0x0E);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCC);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x03, 0x1F, 0xE0, 0x11, 0x70);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0xAB, 0xFF, 0xFF, 0xFF, 0xFF, 0xA0, 0xAB, 0xFF,
-+		0xFF, 0xFF, 0xFF, 0xA0);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0xFE, 0x01, 0xFE, 0x01, 0xFE, 0x01, 0x00, 0x00,
-+		0x00, 0x03, 0x00, 0x03, 0x81, 0x02, 0x40, 0x00, 0x20, 0x9E, 0x02, 0x01, 0x00,
-+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC6);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB4, 0x03, 0xFF, 0xF8);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0xAA, 0xAB, 0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xAB,
-+		0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xBF, 0xFF, 0xFF, 0xFE, 0xA0, 0xAA, 0xBF, 0xFF,
-+		0xFF, 0xFE, 0xA0, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xA0, 0xAA, 0xAA, 0xAA, 0xAA,
-+		0xAA, 0xA0);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE1, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x96);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC5);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x4F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCC);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x84);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x00, 0x00, 0x00, 0x00);
-+
-+	msleep(110);
-+
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
-+
-+	mipi_dsi_msleep(&ctx, 120);
-+
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
-+
-+	mipi_dsi_msleep(&ctx, 20);
-+
-+	return 0;
-+}
-+
- static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
- {
- 	return container_of(panel, struct boe_panel, base);
-@@ -1761,6 +1878,34 @@ static const struct panel_desc kingdisplay_kd110n11_51ie_desc = {
- 	.lp11_before_reset = true,
- };
- 
-+static const struct drm_display_mode starry_2082109qfh040022_50e_default_mode = {
-+	.clock = (1200 + 160 + 66 + 120) * (1920 + 115 + 8 + 28) * 60 / 1000,
-+	.hdisplay = 1200,
-+	.hsync_start = 1200 + 160,
-+	.hsync_end = 1200 + 160 + 66,
-+	.htotal = 1200 + 160 + 66 + 120,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 115,
-+	.vsync_end = 1920 + 115 + 8,
-+	.vtotal = 1920 + 115 + 8 + 28,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct panel_desc starry_2082109qfh040022_50e_desc = {
-+	.modes = &starry_2082109qfh040022_50e_default_mode,
-+	.bpc = 8,
-+	.size = {
-+		.width_mm = 147,
-+		.height_mm = 235,
-+	},
-+	.lanes = 4,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		      MIPI_DSI_MODE_LPM,
-+	.init = starry_2082109qfh040022_50e_init,
-+	.lp11_before_reset = true,
-+};
-+
- static int boe_panel_get_modes(struct drm_panel *panel,
- 			       struct drm_connector *connector)
- {
-@@ -1929,6 +2074,9 @@ static const struct of_device_id boe_of_match[] = {
- 	{ .compatible = "kingdisplay,kd110n11-51ie",
- 	  .data = &kingdisplay_kd110n11_51ie_desc
- 	},
-+	{ .compatible = "starry,2082109qfh040022-50e",
-+	  .data = &starry_2082109qfh040022_50e_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, boe_of_match);
+> 
+> > >
+> > > > > +/*
+> > > > > + * LUT values, points on negative exponential graph with x-axis
+> > > > > +and y-axis
+> > > > > + * Y = y/x so upon multiplying x, y is obtained, hence
+> > > > > +multiplicative. The
+> > > >
+> > > > Can't parse this sentence.
+> > > >
+> > > We need x and y points in the exponential graph.
+> > > For retrieving the value Y on the graph the value passed by the user
+> > > is in the format y/x In order to get the Y points on the graph the value has to
+> > be multiplied by x.
+> > > This is a floating point value when compared with an integer value
+> > > with the direct lookup mode.
+> > 
+> > Again, what are x and y? Bin indices? Pixel counts? Number of CPUs in the
+> > current generation?
+> > 
+> It depends on the mode for direct lookup both x and y are pixels and for
+> multiplicative mode X co-ordinate is proportional to the pixel value and
+> the Y co-ordinate is the multiplier factor, i.e X-axis in pixels and Y-axis 
+> is OutPixel/InPixel
+
+Please expand the description. An engineer, who has no Intel
+documentation, should be able to understand your description.
+
+> > > > > + * format of LUT can at max be 8.24(8integer 24 fractional)
+> > > > > + represented by
+> > > > > + * u32. Depending on the hardware capability and exponent
+> > > > > + mantissa can be
+> > > > > + * chosen.
+> > > >
+> > > > What does that mean? How is it choosen?
+> > > >
+> > > The max value that these kind of 1DLUT can be is 8.24
+> > 
+> > Why?
+> > 
+> 32bit is the container and within this if we choose 16.16 then it doesn’t
+> make sense to boost the pixel by 2^16
+> Hence set aside 8 bit for integer 2^8  thereby boosting the pixel by 255
+> and that’s a huge boost factor.
+> Remaining 24 bits out of the container 32 is fractional value. This is the
+> optimal value for implementing in the hardware as well as per the
+> hardware design.
+
+Generic API means that there is no particular hardware design. However
+the rest of the description makes sense. Please add it to the commit
+message.
+
+> 
+> > > Hardware design can choose anything within this range. This depends on
+> > > the accuracy required by hardware keeping in mind the hardware cost
+> > > for implementation.
+> > > Just a precision for 32bit value.
+> > >
+> > > > > + */
+> > > > > +#define DRM_MODE_IET_MULTIPLICATIVE                        (1 << 1)
+> > > > > +
+> > > > >  /**
+> > > > >   * struct drm_histogram_caps
+> > > > >   *
+> > > > > @@ -1414,6 +1425,45 @@ struct drm_histogram {
+> > > > >     __u32 nr_elements;
+> > > > >  };
+> > > > >
+> > > > > +/**
+> > > > > + * struct drm_iet_caps
+> > > > > + *
+> > > > > + * @iet_mode: pixel factor enhancement modes defined in the above
+> > > > > +macros
+> > > > > + * @iet_sample_format: holds the address of an array of u32 LUT
+> > > > > +sample
+> > > > formats
+> > > > > + *                depending on the hardware capability. Max being 8.24
+> > > > > + *                Doing a bitwise AND will get the present sample.
+> > > > > + *                Ex: for 1 integer 9 fraction AND with 0x10001FF
+> > > >
+> > > > ?? Can hardware support 16.16? 32.0?
+> > > >
+> > > No, for a 1D LUT maximum floating number can be 8.24
+> > 
+> > Why? Is it a limitation of the Intel hardware or just a random API choice?
+> > 
+> As explained above this an optimal value yielding to a huge boost factor of
+> 255.99. This is as per the hardware design.
+> 
+> > > Hence hardware will have to adhere to anything within this range.
+> > >
+> > > > > + * @nr_iet_sample_formats: number of iet_sample_formsts supported
+> > > > > + by
+> > > > the
+> > > > > + *                    hardware
+> > > > > + * @nr_iet_lut_entries: number of LUT entries  */ struct
+> > > > > +drm_iet_caps {
+> > > > > +   __u8 iet_mode;
+> > > > > +   u64 iet_sample_format;
+> > > > > +   __u32 nr_iet_sample_formats;
+> > > > > +   __u32 nr_iet_lut_entries;
+> > > > > +};
+> > > > > +
+> > > > > +/**
+> > > > > + * struct drm_iet_1dlut_sample
+> > > >
+> > > > Is it supposed to be used with DRM_MODE_IET_MULTIPLICATIVE only? Or
+> > > > is it supposed to be used with DRM_MODE_IET_LOOKUP_LUT? In the
+> > > > latter case what should be the iet_format value?
+> > > >
+> > > The struct iet_1dlut_sample will be used for all the IET modes i.e
+> > > direct lookup and multiplicative.
+> > > The element iet_sample_format will not be applicable for direct
+> > > lookup. This will be used for multiplicative and the value what it can
+> > > hold for multiplicative is mentioned in the above description.
+> > > I missed adding this info in the description, will add it in the next version.
+> > 
+> > And some other formats will also require additional data. This multi-format
+> > structure sounds bad from my POV.
+> > 
+> Will try generalize this structure across the modes.
+> Its only for direct lookup mode we will not need any iet_sample_format.
+> For other modes such as multiplicative, additive etc we will need to mention
+> the iet_sample_format.
+
+There might be other modes which require more data.
+
+> Top view of this LUT is just a lookup table which says for a particular pixel
+> value in the LUT table, what is the output value and this output value
+> is the pixel value that is replaced in the incoming image.
+> Now generation of this LUT can be done different methods referred to as
+> modes over here.
+> So one variable to mention the type of mode and other to specify the
+> internal details of the selected mode.
+> Will reframe accordingly.
+> 
+> Thanks and Regards,
+> Arun R Murthy
+> --------------------
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
