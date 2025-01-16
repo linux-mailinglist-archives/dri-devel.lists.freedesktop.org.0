@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E147A13C25
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679E4A13C2E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3286310E986;
-	Thu, 16 Jan 2025 14:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4A7F10E987;
+	Thu, 16 Jan 2025 14:27:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pLHqYxaw";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hnpwB10o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8115510E986
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 14:26:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 861AF10E987
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 14:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1737037601;
- bh=8yu7sHlF0L2J8I4QtITvucR3TWX1vtVwIa4uOowDQX4=;
+ s=mail; t=1737037602;
+ bh=D8xwpyjZ9J6n0Ug0JC0bsR09ktmpfFbgojqTtTCsimw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=pLHqYxawEFfhX//hlffTWDVb7MVEpmZ/efsoPvfHKmJvNrl3vxBKcMISazpjPR3Us
- HqsEEJUgMKDb75jTxdiCHLsu0u8SJOYPFZSr2sRQTOBx13EbcJrNExhKTTpYl6bt5P
- j9S4+VQQ8tTRaj+bAK+lWvawQsPitQrxrmDsOCdxE6HOpr4ZRg+knvvBBquyjzgS3B
- er2pcaF9kBojGN8NeEj7uv3J5Dib4MGFdUvR2LTxwpvA2ukJADg+NBQzmwCa8DWAhJ
- t1Jnm8JxAgvRJBVS6WTIhfa6JHHLwn3WDA9uES1tifR0OIER+d+N6vR9bn+1VhslRZ
- WWRyQR6JuRB+Q==
+ b=hnpwB10oFf10vvLPJDnp6Gz4aUoMbk4CIFL0k8EvYZokpj6RanPPBEqLaZIC9/IK1
+ 3UkAYje3mnjX/6a1nS402vBdQNYaq8oZA9YpCN6kJlXUYqa4IgsANj9QNGyulWarqW
+ ABCijlzf/EBtwJswRmx87W6hg9n0eItv4hDh5oU4Sw2UUPa2FHtCxWg2P3VB8e/HO9
+ APG1VktnX41csm8W3VnI6i0D/rrqeBl5gL3buKcDGREbIK4qRO0l61gzTAhoLMkyCI
+ sUqp4YrKF35hDtyp8bbLpmNF5vcsGYjiK+rpp7ZOb0MfdsdFehO0MXGrLoB4XTQ9kZ
+ 1SEudfD6TVJ0w==
 Received: from fedora.home (lfbn-tou-1-1147-231.w90-76.abo.wanadoo.fr
  [90.76.208.231])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: laeyraud)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 25B6317E0E57;
- Thu, 16 Jan 2025 15:26:40 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4B16717E0F75;
+ Thu, 16 Jan 2025 15:26:41 +0100 (CET)
 From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Date: Thu, 16 Jan 2025 15:25:57 +0100
-Subject: [PATCH 1/3] dt-bindings: gpu: mali-bifrost: Add compatible for
- MT8370 SoC
+Date: Thu, 16 Jan 2025 15:25:58 +0100
+Subject: [PATCH 2/3] drm/panfrost: Add support for Mali on the MT8370 SoC
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250116-mt8370-enable-gpu-v1-1-0a6b78e925c8@collabora.com>
+Message-Id: <20250116-mt8370-enable-gpu-v1-2-0a6b78e925c8@collabora.com>
 References: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
 In-Reply-To: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -57,11 +56,11 @@ Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
  Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737037598; l=1275;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737037598; l=1890;
  i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
- bh=8yu7sHlF0L2J8I4QtITvucR3TWX1vtVwIa4uOowDQX4=;
- b=yCw5VTaylfzCb8NuJETVRnUii/5h0PZCc+oIK4nytALD7sRByWwT1c+T0voQUD2vP6aoKaqjJ
- 4L4zJ1vzc0xCBu4mNjJODTuS0pt7OAeDyD7f9srBcqUFqCDnfALiHJW
+ bh=D8xwpyjZ9J6n0Ug0JC0bsR09ktmpfFbgojqTtTCsimw=;
+ b=envH7p+Ko8PBRZPwLmK+n7lslwoc9tRVDfNeh8MfNhxSq9NM8LDTJPC1M78qLRu/tXxGEjkYr
+ 30TByGzgJdrByZ+ThSm+C3aKd/ovnZiAB9zjLt/YyrknCUuG2bGQvKi
 X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
  pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,36 +79,43 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This commit adds a compatible for the MediaTek MT8370 SoC, with an
-integrated ARM Mali G57 MC2 GPU (Valhall-JM, dual core).
+integrated ARM Mali G57 MC2 GPU (Valhall-JM, dual core), and adds
+platform data using the same supplies and the same power domain lists
+as MT8186 (one regulator, two power domains).
 
 Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
 ---
- Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-index 735c7f06c24e632ab738d062f15378f754c8adaf..6f6211950bb495fa6bfcdfe8d1e27e5ce7aeeae0 100644
---- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-+++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-@@ -37,6 +37,7 @@ properties:
-           - enum:
-               - mediatek,mt8188-mali
-               - mediatek,mt8192-mali
-+              - mediatek,mt8370-mali
-           - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision is fully discoverable
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 0f3935556ac761adcd80197d87e8e478df436fd5..1d51b64ed0f0660cc95263a289d5dad204540cfd 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -837,6 +837,15 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
+ 	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+ };
  
-   reg:
-@@ -217,7 +218,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: mediatek,mt8186-mali
-+            enum:
-+              - mediatek,mt8186-mali
-+              - mediatek,mt8370-mali
-     then:
-       properties:
-         power-domains:
++/* MT8370 uses the same power domains and power supplies as MT8186 */
++static const struct panfrost_compatible mediatek_mt8370_data = {
++	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
++	.supply_names = mediatek_mt8183_b_supplies,
++	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
++	.pm_domain_names = mediatek_mt8186_pm_domains,
++	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
++};
++
+ static const struct of_device_id dt_match[] = {
+ 	/* Set first to probe before the generic compatibles */
+ 	{ .compatible = "amlogic,meson-gxm-mali",
+@@ -859,6 +868,7 @@ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
+ 	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+ 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
++	{ .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, dt_match);
 
 -- 
 2.48.0
