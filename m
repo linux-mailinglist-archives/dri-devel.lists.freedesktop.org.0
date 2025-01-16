@@ -2,51 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BE6A13C82
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:41:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0718CA13C90
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:45:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7256710E998;
-	Thu, 16 Jan 2025 14:40:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60C1310E99B;
+	Thu, 16 Jan 2025 14:45:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Iam3uS7j";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="b61jF3pp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD7A10E993;
- Thu, 16 Jan 2025 14:40:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5B789A41BC9;
- Thu, 16 Jan 2025 14:39:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5A84C4CED6;
- Thu, 16 Jan 2025 14:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737038455;
- bh=FZlOafbMVTA45sxqfM2NthYjknMNgjVBiAHaGQgAIWE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Iam3uS7jmaS6mMveHumo+vd+ZHke+TolZzhz+MpIrOEbLY5RghhcPaO8NCYKTYaK9
- nmQLSr6054w+DxWFFdJr8GqZTb3VAMKEWhipgnATfyk/eStegfAFUHovSjfKdv6BSj
- 4q8CBksgXLprHMRzc8W42hkp2rFZ1cEFkAy5gnWD8N3XY/wmdL1hoValAqQe8pfL1V
- u78cyIFrHnO/kdEEMJ+AM1EeV2p01THdV89G+td39f9yZMgRLg6/P08BdwMLE/lVFL
- eaRF6xGKS63dnRBc/voundMFd+rWO7D+DGtLhiQH7Pdf/TkaPWhxZsGDgV9OrdLQil
- aTJxDjghekdIg==
-Date: Thu, 16 Jan 2025 07:40:49 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: chaitanya.dhere@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
- ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- llvm@lists.linux.dev
-Subject: Re: [PATCH] drm/amd/display: mark static functions noinline_for_stack
-Message-ID: <20250116144049.GA1810277@ax162>
-References: <20250109053504.2998728-1-tzungbi@kernel.org>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39BAD10E99B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 14:45:46 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-215740b7fb8so154315ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 06:45:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1737038686; x=1737643486;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fFNytPPiitHlVHl+HkGjmB556sKdLARUIEHKJrTigjQ=;
+ b=b61jF3ppsGvk3wPRSeyFtdSyR3P8HBXBtDn2N4Eqhkcp9eFpvli8W9ksezroYp0FpD
+ ceXpImCYu3SGpS05tHoRatGwPBWDd6nhL6OVPK3wyhf8XNN71cQ8+Keq1Ijs1CukmxLN
+ M6dmnueNCSf4/jlJOyLVtRJYvT9QmfNkMUSiMRXKFEE2+uWgvRw24G2VNFBfDBSMxuMp
+ HTowI0Y96zgWlrLn+abUlGzBlyqh3KYEkpRaPtph/5GENSGYTDiF9fQ4JkzIQ2IWa9qJ
+ PpjrZsmIqO0fcKkVWb2cOIGogNXWP27Qum46qQWjOVIwmCUmEpQdyS5sW38BJahY4LSl
+ ys3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737038686; x=1737643486;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fFNytPPiitHlVHl+HkGjmB556sKdLARUIEHKJrTigjQ=;
+ b=Gzt33aZhpg+0nbHZuOTf7qrmpJ/PJ9mXoidRfboMsz02zNh95hj69RBIk3ZNShJ1kI
+ 3A767rn/PO3X0hmNZ+4lyGruqMjNFFn/+/G9yNwnnJeAWha1kZ9mfa4ota2LrBKtDkrv
+ tgDEmoC4Amdl1R4n94C8cq7pCEc6iaIawVx5YwAcknEooneoF1Sce6dSqLymHCj7W22i
+ LCbewLDFzpmTgd0UkXJqq4ATJHYXuQohRUX1uuuY+uUy0eDUCdLRnC262oE0FbEpZwiP
+ g0ubkRK35XIYmf/bHHDTXNgFbmNEFMCQL5Zb1ZhoWOoX7tKJNTOHkNWBe+kaDdE/lvnp
+ rJ9g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXYuMhFRoRflFXHQP1Vf1yhbIIdV43bthDGiQ1pPPBbEPr4a6DTWK8wmRcSsBVlxaYKPKekixmMjlg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDP1x3nxzMJtCb1TKg7jEn/zrt0kPozE/qSe7az/RUm87X6xY/
+ PaKn7OjUg/eHyirk1arS9u6XKbt8BA4jUSFv5gnSYb2j3kYtnkIMr5l2xtbBjD5B2RV5SCo4Cpe
+ G1PfFF3btcmJdxYaIVEW6aRuS/jYbJLBF4gOM
+X-Gm-Gg: ASbGnctyUVeyZrVqxWttDQnJD7Tdu3Lb6Ic0Ri0IF8LtqLLf8buCxHzMlFYFkm3YCEZ
+ X014xyc4WUozDpgMHCsJxy9igfXtXOQtV2OHL
+X-Google-Smtp-Source: AGHT+IG4g/UbPISOIEq8mVUKkoa89d5fmhz43L448oOuZ3x9c7dGca05HPH7fXpzv8rKMb4E+SADeWwsXVig5/rG7TA=
+X-Received: by 2002:a17:903:443:b0:21b:b3c4:7e0a with SMTP id
+ d9443c01a7336-21c165a4395mr2124635ad.13.1737038685631; Thu, 16 Jan 2025
+ 06:44:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250109053504.2998728-1-tzungbi@kernel.org>
+References: <20250116135636.410164-1-bgeffon@google.com>
+ <Z4kWms-eFWxddspp@intel.com>
+In-Reply-To: <Z4kWms-eFWxddspp@intel.com>
+From: Brian Geffon <bgeffon@google.com>
+Date: Thu, 16 Jan 2025 09:44:09 -0500
+X-Gm-Features: AbW1kvb1WiV2UgCCDsf7oxDwCL4-NIWcJ3NTDuLruSMvdn5bTul9yGx_wZym68w
+Message-ID: <CADyq12xjHNdOk1udnmzpt5DK9j5EQmjoY8YcXTMetuinAT8+Cg@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915: Fix page cleanup on DMA remap failure
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com, 
+ jani.saarinen@intel.com, tomasz.mistat@intel.com, vidya.srinivas@intel.com, 
+ jani.nikula@linux.intel.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tomasz Figa <tfiga@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,209 +88,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tzung-Bi,
+On Thu, Jan 16, 2025 at 9:24=E2=80=AFAM Ville Syrj=C3=A4l=C3=A4
+<ville.syrjala@linux.intel.com> wrote:
+>
+> On Thu, Jan 16, 2025 at 08:56:36AM -0500, Brian Geffon wrote:
+> > When converting to folios the cleanup path of shmem_get_pages() was
+> > missed. When a DMA remap fails and the max segment size is greater than
+> > PAGE_SIZE it will attempt to retry the remap with a PAGE_SIZEd segment
+> > size. The cleanup code isn't properly using the folio apis and as a
+> > result isn't handling compound pages correctly.
+> >
+> > Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13487
+> > Fixes: 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a foli=
+o_batch")
+> > Signed-off-by: Brian Geffon <bgeffon@google.com>
+> > Suggested-by: Tomasz Figa <tfiga@google.com>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 13 +++++--------
+> >  1 file changed, 5 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/dr=
+m/i915/gem/i915_gem_shmem.c
+> > index fe69f2c8527d..02ddab5bf5c0 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > @@ -37,8 +37,6 @@ void shmem_sg_free_table(struct sg_table *st, struct =
+address_space *mapping,
+> >       struct folio *last =3D NULL;
+> >       struct page *page;
+> >
+> > -     mapping_clear_unevictable(mapping);
+> > -
+>
+> The assymmetry here between the alloc vs. free is a bit annoying.
+> Maybe we can just keep this here?
 
-First of all, thanks for the patch!
+My thought on this was that freeing the sg table is orthogonal to
+making the mapping evictable, and shmem_sg_free_table() can be
+simplified to not even take the mapping as a parameter.
 
-On Thu, Jan 09, 2025 at 05:35:04AM +0000, Tzung-Bi Shih wrote:
-> When compiling allmodconfig (CONFIG_WERROR=y) with clang-19, see the
-> following errors:
-> 
-> .../display/dc/dml2/display_mode_core.c:6268:13: warning: stack frame size (3128) exceeds limit (3072) in 'dml_prefetch_check' [-Wframe-larger-than]
-> .../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7236:13: warning: stack frame size (3256) exceeds limit (3072) in 'dml_core_mode_support' [-Wframe-larger-than]
-> 
-> Mark static functions called by dml_prefetch_check() and
-> dml_core_mode_support() noinline_for_stack to avoid them become huge
-> functions and thus exceed the frame size limit.
-
-So I fixed these particular instances by hiding them when certain
-sanitizers are enabled:
-
-https://gitlab.freedesktop.org/agd5f/linux/-/commit/e4479aecf6581af81bc0908575447878d2a07e01
-
-However, there are still reports of the regular 2048 limit being hit
-with certain configurations such as LTO (the issue number is somewhat
-funny given the situation):
-
-https://github.com/ClangBuiltLinux/linux/issues/2048
-
-So I think it would be a good idea for the AMD folks to consider
-applying this patch as well.
-
-> A way to reproduce:
-> $ git checkout next-20250107
-> $ mkdir build_dir
-> $ export PATH=/tmp/llvm-19.1.6-x86_64/bin:$PATH
-> $ make LLVM=1 O=build_dir allmodconfig
-> $ make LLVM=1 O=build_dir drivers/gpu/drm/ -j
-> 
-> The way how it chose static functions to mark:
-> [0] Unset CONFIG_WERROR in build_dir/.config.
-> To get display_mode_core.o without errors.
-> 
-> [1] Get a function list called by dml_prefetch_check().
-> $ sed -n '6268,6711p' drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c \
->   | sed -n -r 's/.*\W(\w+)\(.*/\1/p' | sort -u >/tmp/syms
-> 
-> [2] Get the non-inline function list.
-> Objdump won't show the symbols if they are inline functions.
-> 
-> $ make LLVM=1 O=build_dir drivers/gpu/drm/ -j
-> $ objdump -d build_dir/.../display_mode_core.o | \
->   ./scripts/checkstack.pl x86_64 0 | \
->   grep -f /tmp/syms | cut -d' ' -f2- >/tmp/orig
-> 
-> [3] Get the full function list.
-> Append "-fno-inline" to `CFLAGS_.../display_mode_core.o` in
-> drivers/gpu/drm/amd/display/dc/dml2/Makefile.
-> 
-> $ make LLVM=1 O=build_dir drivers/gpu/drm/ -j
-> $ objdump -d build_dir/.../display_mode_core.o | \
->   ./scripts/checkstack.pl x86_64 0 | \
->   grep -f /tmp/syms | cut -d' ' -f2- >/tmp/noinline
-> 
-> [4] Get the inline function list.
-> If a symbol only in /tmp/noinline but not in /tmp/orig, it is a good
-> candidate to mark noinline.
-> 
-> $ diff /tmp/orig /tmp/noinline
-> 
-> Chosen functions and their stack sizes:
-> CalculateBandwidthAvailableForImmediateFlip [display_mode_core.o]:144
-> CalculateExtraLatency [display_mode_core.o]:176
-> CalculateTWait [display_mode_core.o]:64
-> CalculateVActiveBandwithSupport [display_mode_core.o]:112
-> set_calculate_prefetch_schedule_params [display_mode_core.o]:48
-> 
-> CheckGlobalPrefetchAdmissibility [dml2_core_dcn4_calcs.o]:544
-> calculate_bandwidth_available [dml2_core_dcn4_calcs.o]:320
-> calculate_vactive_det_fill_latency [dml2_core_dcn4_calcs.o]:272
-> CalculateDCFCLKDeepSleep [dml2_core_dcn4_calcs.o]:208
-> CalculateODMMode [dml2_core_dcn4_calcs.o]:208
-> CalculateOutputLink [dml2_core_dcn4_calcs.o]:176
-> 
-> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
-> ---
->  .../gpu/drm/amd/display/dc/dml2/display_mode_core.c  | 12 ++++++------
->  .../dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c  | 12 ++++++------
->  2 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-> index 35bc917631ae..84a2de9a76d4 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-> @@ -1736,7 +1736,7 @@ static void CalculateBytePerPixelAndBlockSizes(
->  #endif
->  } // CalculateBytePerPixelAndBlockSizes
->  
-> -static dml_float_t CalculateTWait(
-> +static noinline_for_stack dml_float_t CalculateTWait(
->  		dml_uint_t PrefetchMode,
->  		enum dml_use_mall_for_pstate_change_mode UseMALLForPStateChange,
->  		dml_bool_t SynchronizeDRRDisplaysForUCLKPStateChangeFinal,
-> @@ -4458,7 +4458,7 @@ static void CalculateSwathWidth(
->  	}
->  } // CalculateSwathWidth
->  
-> -static  dml_float_t CalculateExtraLatency(
-> +static noinline_for_stack dml_float_t CalculateExtraLatency(
->  		dml_uint_t RoundTripPingLatencyCycles,
->  		dml_uint_t ReorderingBytes,
->  		dml_float_t DCFCLK,
-> @@ -5915,7 +5915,7 @@ static dml_uint_t DSCDelayRequirement(
->  	return DSCDelayRequirement_val;
->  }
->  
-> -static dml_bool_t CalculateVActiveBandwithSupport(dml_uint_t NumberOfActiveSurfaces,
-> +static noinline_for_stack dml_bool_t CalculateVActiveBandwithSupport(dml_uint_t NumberOfActiveSurfaces,
->  										dml_float_t ReturnBW,
->  										dml_bool_t NotUrgentLatencyHiding[],
->  										dml_float_t ReadBandwidthLuma[],
-> @@ -6019,7 +6019,7 @@ static void CalculatePrefetchBandwithSupport(
->  #endif
->  }
->  
-> -static dml_float_t CalculateBandwidthAvailableForImmediateFlip(
-> +static noinline_for_stack dml_float_t CalculateBandwidthAvailableForImmediateFlip(
->  													dml_uint_t NumberOfActiveSurfaces,
->  													dml_float_t ReturnBW,
->  													dml_float_t ReadBandwidthLuma[],
-> @@ -6213,7 +6213,7 @@ static dml_uint_t CalculateMaxVStartup(
->  	return max_vstartup_lines;
->  }
->  
-> -static void set_calculate_prefetch_schedule_params(struct display_mode_lib_st *mode_lib,
-> +static noinline_for_stack void set_calculate_prefetch_schedule_params(struct display_mode_lib_st *mode_lib,
->  						   struct CalculatePrefetchSchedule_params_st *CalculatePrefetchSchedule_params,
->  						   dml_uint_t j,
->  						   dml_uint_t k)
-> @@ -6265,7 +6265,7 @@ static void set_calculate_prefetch_schedule_params(struct display_mode_lib_st *m
->  				CalculatePrefetchSchedule_params->Tno_bw = &mode_lib->ms.Tno_bw[k];
->  }
->  
-> -static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
-> +static noinline_for_stack void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
->  {
->  	struct dml_core_mode_support_locals_st *s = &mode_lib->scratch.dml_core_mode_support_locals;
->  	struct CalculatePrefetchSchedule_params_st *CalculatePrefetchSchedule_params = &mode_lib->scratch.CalculatePrefetchSchedule_params;
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-> index b9ec243cf9ba..7fffca67ca9d 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c
-> @@ -2778,7 +2778,7 @@ static double dml_get_return_bandwidth_available(
->  	return return_bw_mbps;
->  }
->  
-> -static void calculate_bandwidth_available(
-> +static noinline_for_stack void calculate_bandwidth_available(
->  	double avg_bandwidth_available_min[dml2_core_internal_soc_state_max],
->  	double avg_bandwidth_available[dml2_core_internal_soc_state_max][dml2_core_internal_bw_max],
->  	double urg_bandwidth_available_min[dml2_core_internal_soc_state_max], // min between SDP and DRAM
-> @@ -3531,7 +3531,7 @@ static void CalculateUrgentBurstFactor(
->  
->  }
->  
-> -static void CalculateDCFCLKDeepSleep(
-> +static noinline_for_stack void CalculateDCFCLKDeepSleep(
->  	const struct dml2_display_cfg *display_cfg,
->  	unsigned int NumberOfActiveSurfaces,
->  	unsigned int BytePerPixelY[],
-> @@ -4076,7 +4076,7 @@ static bool ValidateODMMode(enum dml2_odm_mode ODMMode,
->  	return true;
->  }
->  
-> -static void CalculateODMMode(
-> +static noinline_for_stack void CalculateODMMode(
->  	unsigned int MaximumPixelsPerLinePerDSCUnit,
->  	unsigned int HActive,
->  	enum dml2_output_format_class OutFormat,
-> @@ -4173,7 +4173,7 @@ static void CalculateODMMode(
->  #endif
->  }
->  
-> -static void CalculateOutputLink(
-> +static noinline_for_stack void CalculateOutputLink(
->  	struct dml2_core_internal_scratch *s,
->  	double PHYCLK,
->  	double PHYCLKD18,
-> @@ -5928,7 +5928,7 @@ static double calculate_impacted_Tsw(unsigned int exclude_plane_idx, unsigned in
->  }
->  
->  // a global check against the aggregate effect of the per plane prefetch schedule
-> -static bool CheckGlobalPrefetchAdmissibility(struct dml2_core_internal_scratch *scratch,
-> +static noinline_for_stack bool CheckGlobalPrefetchAdmissibility(struct dml2_core_internal_scratch *scratch,
->  											 struct dml2_core_calcs_CheckGlobalPrefetchAdmissibility_params *p)
->  {
->  	struct dml2_core_calcs_CheckGlobalPrefetchAdmissibility_locals *s = &scratch->CheckGlobalPrefetchAdmissibility_locals;
-> @@ -6941,7 +6941,7 @@ static void calculate_bytes_to_fetch_required_to_hide_latency(
->  	}
->  }
->  
-> -static void calculate_vactive_det_fill_latency(
-> +static noinline_for_stack void calculate_vactive_det_fill_latency(
->  		const struct dml2_display_cfg *display_cfg,
->  		unsigned int num_active_planes,
->  		unsigned int bytes_required_l[],
-> -- 
-> 2.47.1.613.gc27f4b7a9f-goog
-> 
+>
+> Or if avoiding the ping-pong actually mattes in the gtt prepare
+> error case, then maybe we should rename this guy into
+> __shmem_sg_free_table() without the mapping_clear_unevictable()
+> and wrap it in a higher level shmem_sg_free_table() that does
+> everything?
+>
+> >       folio_batch_init(&fbatch);
+> >       for_each_sgt_page(page, sgt_iter, st) {
+> >               struct folio *folio =3D page_folio(page);
+> > @@ -180,10 +178,10 @@ int shmem_sg_alloc_table(struct drm_i915_private =
+*i915, struct sg_table *st,
+> >       return 0;
+> >  err_sg:
+> >       sg_mark_end(sg);
+> > +     mapping_clear_unevictable(mapping);
+> >       if (sg !=3D st->sgl) {
+> >               shmem_sg_free_table(st, mapping, false, false);
+> >       } else {
+> > -             mapping_clear_unevictable(mapping);
+> >               sg_free_table(st);
+> >       }
+> >
+> > @@ -209,8 +207,6 @@ static int shmem_get_pages(struct drm_i915_gem_obje=
+ct *obj)
+> >       struct address_space *mapping =3D obj->base.filp->f_mapping;
+> >       unsigned int max_segment =3D i915_sg_segment_size(i915->drm.dev);
+> >       struct sg_table *st;
+> > -     struct sgt_iter sgt_iter;
+> > -     struct page *page;
+> >       int ret;
+> >
+> >       /*
+> > @@ -239,9 +235,8 @@ static int shmem_get_pages(struct drm_i915_gem_obje=
+ct *obj)
+> >                * for PAGE_SIZE chunks instead may be helpful.
+> >                */
+> >               if (max_segment > PAGE_SIZE) {
+> > -                     for_each_sgt_page(page, sgt_iter, st)
+> > -                             put_page(page);
+> > -                     sg_free_table(st);
+> > +                     /* Leave the mapping unevictable while we retry *=
+/
+> > +                     shmem_sg_free_table(st, mapping, false, false);
+> >                       kfree(st);
+> >
+> >                       max_segment =3D PAGE_SIZE;
+> > @@ -265,6 +260,7 @@ static int shmem_get_pages(struct drm_i915_gem_obje=
+ct *obj)
+> >       return 0;
+> >
+> >  err_pages:
+> > +     mapping_clear_unevictable(mapping);
+> >       shmem_sg_free_table(st, mapping, false, false);
+> >       /*
+> >        * shmemfs first checks if there is enough memory to allocate the=
+ page
+> > @@ -402,6 +398,7 @@ void i915_gem_object_put_pages_shmem(struct drm_i91=
+5_gem_object *obj, struct sg_
+> >       if (i915_gem_object_needs_bit17_swizzle(obj))
+> >               i915_gem_object_save_bit_17_swizzle(obj, pages);
+> >
+> > +     mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
+> >       shmem_sg_free_table(pages, file_inode(obj->base.filp)->i_mapping,
+> >                           obj->mm.dirty, obj->mm.madv =3D=3D I915_MADV_=
+WILLNEED);
+> >       kfree(pages);
+> > --
+> > 2.48.0.rc2.279.g1de40edade-goog
+>
+> --
+> Ville Syrj=C3=A4l=C3=A4
+> Intel
