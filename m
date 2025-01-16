@@ -2,76 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02387A137B5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 11:21:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BDDA137B8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 11:21:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B390210E929;
-	Thu, 16 Jan 2025 10:21:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF65710E93F;
+	Thu, 16 Jan 2025 10:21:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ZzGhxk7p";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Puei3SMI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06B3A10E929
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 10:21:00 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id
- 3f1490d57ef6-e46ebe19368so1191230276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 02:20:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737022859; x=1737627659; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=g7DkUZUbj/ATaAxon4iCq4sCI+LL6thiT8O47/n2k8g=;
- b=ZzGhxk7pz11pjcplKpmnbyxOdnMza6sW826AgyQ8RSuDSsVGR4E45ttMDlfFP/mSqV
- kEwV/57BAkIHDUoQvGzmiaIpA8N6aRUk9AjNScY8zdeXPhFkHSbwxg5AQe4VAo3sGWl9
- jA2vmjU+AI0gNOvLVX+x6WAduAAKXiEXwbU8FyTZG7U5++lRYhvusFp8/BdqXbRuBJoJ
- 3qoKF40+9BodATRWh2xzGt0Jjl4s4IuWcvM3vuRtcr2Px9TcwubOVHCYoTa9F9yqsEH3
- AJYT3zAiluttuxIelPXXmU5d/BQbHERYaL8bPGgCE8zzs+QgKCGBDosg1k8AJWIOgHjy
- 6vNg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55E5110E93A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 10:21:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1737022895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FkI+kHQuIdgTjteVXi1iO+c/68zVjR4vOto/s1CsYHs=;
+ b=Puei3SMIyttdL7U0ct+vOEugsADR/Li0l+v3KLLga3rLxGk3PmXH7GZcuJbaEYaLzVaBsA
+ +H1P2lJDCrD39RTaQzxVNXjqyYW5jRZ3NBj2uPHTNuiII09nJzhZ9RlI0r4mSh8XlF21xa
+ YbVhag53mtUHFic0K6wGrSF3tEri77k=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-256-71QcOXe2MyyobbVAuAsIHA-1; Thu, 16 Jan 2025 05:21:34 -0500
+X-MC-Unique: 71QcOXe2MyyobbVAuAsIHA-1
+X-Mimecast-MFC-AGG-ID: 71QcOXe2MyyobbVAuAsIHA
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-43673af80a6so4608685e9.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 02:21:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737022859; x=1737627659;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=g7DkUZUbj/ATaAxon4iCq4sCI+LL6thiT8O47/n2k8g=;
- b=pfSgPdY6e3hRuvPePhfb7HjLv6KWjPu/62dGQVs2QQww8szGRIh/wGI1+hEg+LP22j
- 2m6nFCMM75v3PU8ojHrn3waFfW7UlQXYx9VRTPWqled7dw3SOivdsYVYwNOACKaXS46f
- GGOFchVKqmauZcWF8H4OpPtEzviqqzAbTtO6IVC/mepu8mlpDoNWAOCDB9SAlp9Dcz7V
- Xa8Dt92JzDnDEnWlU/jk9tQNJV/kBJ1TkPU2kNj05BB62WvNpwVNTtAR4hg6sM38oH33
- cMcAekzSR18t2xJzGy/O9C3InaMqVmQvj0vSylA0yvCIX06wobTWLHm2VBH4NU/JbOUf
- 3ncw==
+ d=1e100.net; s=20230601; t=1737022893; x=1737627693;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=s0Atk1k5psc/MhNcC16NK0/VPvU/Uol+DZ7S5kp4zt8=;
+ b=FBYNui0fCL5RhgyqLrWa8CjrFf5Mhc2ltM+zZIvl0YrQcO5Vn7NzjazA3ttWkWocN2
+ zUYkQzitxoqogQPufXYkhaI8o+sOrDmk8wcWJjv4i9Dhw7G6g5/AH7ni/73UE44nOw3/
+ WBTH9Rywiq/qLKicaQxMEGSIu3c+6RCTp/AmQ/pkHSJsSoMa1LhtikmiF/QJz1mXnTsl
+ lfanBM4BuUXX4d4kwpWReVHFFbZLokYoejtE9poi2R9IcGKkfxLbQV/5nL1h2nqqjIT/
+ ydVTZt59ofnOPMKJnfFFRYgmE/Ry9GDnkoYq9/JfUZg769mH9N8h3UKC95t6k+JEsx3s
+ Mh4w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfGvugcFjgmOXTM9ma/FuOMGK1Fm8/X+W45vM3iAzUg/egH+03Ec1egtWciynpidrw86YexvjdNTg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIdDrX6Mea+twGm/W3rrmZvaTsQhXmPkmRY/vEJqh5ZIzrM4yZ
- 2rWlPN8ss5bozLyY0FpXo3JpsNgCzYhQZVDm6QYBLmS0Fw/r38MMj8GC4/2a8tTEn4nkFedtxb8
- FCaTZ8dL/9YDjFmg5FL+GKNgD0HI0RmL6Zl6EKA==
-X-Gm-Gg: ASbGncv3fKJ6LD0MrTY2AQpn8oVJ+MdVaX+MvSM/d6/KiwCJAZVJKgexY1wwvdxrOSj
- sta4aW3Azf5TA38FjrEPEoODiDNZE0V/QKn+qQDNK9ts=
-X-Google-Smtp-Source: AGHT+IGyCMbjXZdTOVnwyorJlpEKK9VZ01ILglYWYTK3rI+DrE1DS4wgQEyFOwdQqzNqzGND2YrsXMopmJEmI3c4WO0=
-X-Received: by 2002:a05:6902:1209:b0:e57:8814:1399 with SMTP id
- 3f1490d57ef6-e5788141813mr6542584276.44.1737022859049; Thu, 16 Jan 2025
- 02:20:59 -0800 (PST)
+ AJvYcCXxNIEgsFGGPziWVYloZ0B9/MLH9+ksm58LXAlijEmsqymU7LlIejZoVx87HC2RLGkvB24VB2FgYqs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+8dUpl+tKKGMBhfVIENcIXqo8Tdh93paDHTDxLI4OlvZ0GEgk
+ bPhTn0/L9g4ce2poPU47S2G1aDlFqnDrLkeKOS5ZZql31jG8OfdMahgrpueGtq/1HSQ9+2aSb8D
+ N4sRV0C29vSyCcxPTcUw/N+TO5IY+NEdSTKA1Lk7r6sVMeVzTplpkX/ntVrg5HTNcuQ==
+X-Gm-Gg: ASbGncvy/UOjONWhE8EUvx/f+d6qYq0toqJmxAJLwBzc4kZhWs1VCKE689mCD0dRTOK
+ AvjyasRr1yuyJMSq/C7EnnS+DZfLowMzpj0HP0BfOR2dWh3fUteQuNpVU/2qXmdTMLHlBIhqmNh
+ 4vf9noyVIVH+OTz3FX4HaUrUpgeXj8Hu+H5zdOZAsXWUybY6F2jOsMUNp0CZCuMKoX6tsDGZ7xG
+ L3BrIBPy2HO1jGv2K8IbUQ7oik8wXXrKhDhgw7ivbVNn4fdqLya+66Cto+D0OfA1HH8fBPtlMIz
+ TnxUckI=
+X-Received: by 2002:a05:600c:348c:b0:435:14d:f61a with SMTP id
+ 5b1f17b1804b1-436e2707c4emr253039195e9.25.1737022892890; 
+ Thu, 16 Jan 2025 02:21:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH8B7eYT68cKugKFj7umaKTvHD+8sl57GHJ/otzn5ILf4VZT+7VpxyghTodAMdEiNMBo/iUog==
+X-Received: by 2002:a05:600c:348c:b0:435:14d:f61a with SMTP id
+ 5b1f17b1804b1-436e2707c4emr253039005e9.25.1737022892550; 
+ Thu, 16 Jan 2025 02:21:32 -0800 (PST)
+Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-437c749a127sm54641705e9.7.2025.01.16.02.21.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2025 02:21:32 -0800 (PST)
+Message-ID: <4e3302537cf45134590c91f8ee7022775057a1c2.camel@redhat.com>
+Subject: Re: [PATCH] drm/sched: Remove weak paused submission checks
+From: Philipp Stanner <pstanner@redhat.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@redhat.com>, Matthew
+ Brost <matthew.brost@intel.com>
+Date: Thu, 16 Jan 2025 11:21:31 +0100
+In-Reply-To: <20250114105942.64832-1-tvrtko.ursulin@igalia.com>
+References: <20250114105942.64832-1-tvrtko.ursulin@igalia.com>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
-References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
- <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-13-74749c6eba33@linaro.org>
- <ohq35qtnnas5oqiqycn3floji3auuvwitdy43geve6nce5xxq4@4gsyikmqbbh3>
-In-Reply-To: <ohq35qtnnas5oqiqycn3floji3auuvwitdy43geve6nce5xxq4@4gsyikmqbbh3>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 16 Jan 2025 18:20:48 +0800
-X-Gm-Features: AbW1kvbPuG7qHikMwfEFiV0M8nqpsgbeobnZt2UlzDMxMzlnc8vtQ4GuZXujalA
-Message-ID: <CABymUCNMe7egDjOfExA8AOqjtkjHHLPspibG6OZMhzHmvn6W+g@mail.gmail.com>
-Subject: Re: [PATCH v4 13/16] drm/msm/dpu: support plane splitting in
- quad-pipe case
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 6wsCZyghx6vwGupup7jd3ofnEG3lKkjjRpLaupXA8ec_1737022893
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,190 +102,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=
-=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 16:14=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, Jan 16, 2025 at 03:26:02PM +0800, Jun Nie wrote:
-> > The content of every half of screen is sent out via one interface in
-> > dual-DSI case. The content for every interface is blended by a LM
-> > pair in quad-pipe case, thus a LM pair should not blend any content
-> > that cross the half of screen in this case. Clip plane into pipes per
-> > left and right half screen ROI if topology is quad pipe case.
-> >
-> > The clipped rectangle on every half of screen will be split further
-> > by half if its width still exceeds limit.
->
-> futher handled by two pipes if its width exceeds a limit for a single
-> pipe.
+On Tue, 2025-01-14 at 10:59 +0000, Tvrtko Ursulin wrote:
+> There is no need to check the boolean in the work item's prologues
+> since
+> the boolean can be set at any later time anyway.
+>=20
+> The helper which pauses submission sets it and synchronously cancels
+> the
+> work and helpers which queue the work check for the flag so all
+> should be
+> good.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Accepted.
->
-> >
-> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  11 +++
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |   2 +
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |   2 +
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   | 138 +++++++++++++++++++-=
---------
-> >  4 files changed, 112 insertions(+), 41 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm=
-/msm/disp/dpu1/dpu_crtc.c
-> > index 5ae640da53fbf..a900220deeb35 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-> > @@ -1361,6 +1361,17 @@ int dpu_crtc_vblank(struct drm_crtc *crtc, bool =
-en)
-> >       return 0;
-> >  }
-> >
-> > +/**
-> > + * dpu_crtc_get_num_lm - Get mixer number in this CRTC pipeline
-> > + * @state: Pointer to drm crtc state object
-> > + */
-> > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state)
-> > +{
-> > +     struct dpu_crtc_state *cstate =3D to_dpu_crtc_state(state);
-> > +
-> > +     return cstate->num_mixers;
-> > +}
-> > +
-> >  #ifdef CONFIG_DEBUG_FS
-> >  static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
-> >  {
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm=
-/msm/disp/dpu1/dpu_crtc.h
-> > index 0b148f3ce0d7a..b14bab2754635 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-> > @@ -264,4 +264,6 @@ static inline enum dpu_crtc_client_type dpu_crtc_ge=
-t_client_type(
-> >
-> >  void dpu_crtc_frame_event_cb(struct drm_crtc *crtc, u32 event);
-> >
-> > +unsigned int dpu_crtc_get_num_lm(const struct drm_crtc_state *state);
-> > +
-> >  #endif /* _DPU_CRTC_H_ */
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h b/drivers/gpu/=
-drm/msm/disp/dpu1/dpu_hw_sspp.h
-> > index 56a0edf2a57c6..39fe338e76691 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h
-> > @@ -145,11 +145,13 @@ struct dpu_hw_pixel_ext {
-> >   *             such as decimation, flip etc to program this field
-> >   * @dest_rect: destination ROI.
-> >   * @rotation: simplified drm rotation hint
-> > + * @valid: notify that this pipe and config is in use
-> >   */
-> >  struct dpu_sw_pipe_cfg {
-> >       struct drm_rect src_rect;
-> >       struct drm_rect dst_rect;
-> >       unsigned int rotation;
-> > +     bool valid;
->
-> Commit message doesn't describe why this is necessary at all. Why isn't
-> it enough to check pipe->sspp as the code has been doing up to this
-> point?
+Ah yes, good catch.
 
-We test non-zero width of r_pipe or check pipe->sspp to decide whether
-to allocate SSPP and go thru the routine for the r_pipe when we have 2
-pipes at most. With 4 pipes, it is a bit complex to handle it this way beca=
-use
-the 2rd and the 4th pipes may be not valid when splitting the plane. A vali=
-d
-flag is more straightforward for later handling.
+Applied to drm-misc-next, thanks.
 
->
-> >  };
-> >
-> >  /**
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/dr=
-m/msm/disp/dpu1/dpu_plane.c
-> > index 3795576e2eedd..4bcd7b1a05c16 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > @@ -831,8 +831,12 @@ static int dpu_plane_atomic_check_nosspp(struct dr=
-m_plane *plane,
-> >       struct dpu_plane_state *pstate =3D to_dpu_plane_state(new_plane_s=
-tate);
-> >       struct dpu_sw_pipe_cfg *pipe_cfg;
-> >       struct dpu_sw_pipe_cfg *r_pipe_cfg;
-> > +     struct dpu_sw_pipe_cfg init_pipe_cfg;
-> >       struct drm_rect fb_rect =3D { 0 };
-> > +     const struct drm_display_mode *mode =3D &crtc_state->adjusted_mod=
-e;
-> >       uint32_t max_linewidth;
-> > +     u32 num_lm;
-> > +     int stage_id, num_stages;
-> >
-> >       min_scale =3D FRAC_16_16(1, MAX_UPSCALE_RATIO);
-> >       max_scale =3D MAX_DOWNSCALE_RATIO << 16;
-> > @@ -855,13 +859,10 @@ static int dpu_plane_atomic_check_nosspp(struct d=
-rm_plane *plane,
-> >               return -EINVAL;
-> >       }
-> >
-> > -     /* move the assignment here, to ease handling to another pairs la=
-ter */
-> > -     pipe_cfg =3D &pstate->pipe_cfg[0];
-> > -     r_pipe_cfg =3D &pstate->pipe_cfg[1];
-> > -     /* state->src is 16.16, src_rect is not */
-> > -     drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
-> > +     num_lm =3D dpu_crtc_get_num_lm(crtc_state);
-> >
-> > -     pipe_cfg->dst_rect =3D new_plane_state->dst;
-> > +     /* state->src is 16.16, src_rect is not */
-> > +     drm_rect_fp_to_int(&init_pipe_cfg.src_rect, &new_plane_state->src=
-);
-> >
-> >       fb_rect.x2 =3D new_plane_state->fb->width;
-> >       fb_rect.y2 =3D new_plane_state->fb->height;
-> > @@ -886,35 +887,93 @@ static int dpu_plane_atomic_check_nosspp(struct d=
-rm_plane *plane,
-> >
-> >       max_linewidth =3D pdpu->catalog->caps->max_linewidth;
-> >
-> > -     drm_rect_rotate(&pipe_cfg->src_rect,
-> > +     drm_rect_rotate(&init_pipe_cfg.src_rect,
-> >                       new_plane_state->fb->width, new_plane_state->fb->=
-height,
-> >                       new_plane_state->rotation);
-> >
-> > -     if ((drm_rect_width(&pipe_cfg->src_rect) > max_linewidth) ||
-> > -          _dpu_plane_calc_clk(&crtc_state->adjusted_mode, pipe_cfg) > =
-max_mdp_clk_rate) {
-> > -             if (drm_rect_width(&pipe_cfg->src_rect) > 2 * max_linewid=
-th) {
-> > -                     DPU_DEBUG_PLANE(pdpu, "invalid src " DRM_RECT_FMT=
- " line:%u\n",
-> > -                                     DRM_RECT_ARG(&pipe_cfg->src_rect)=
-, max_linewidth);
-> > -                     return -E2BIG;
-> > +     /*
-> > +      * We have 1 mixer pair cfg for 1:1:1 and 2:2:1 topology, 2 mixer=
- pair
-> > +      * configs for left and right half screen in case of 4:4:2 topolo=
-gy.
-> > +      * But we may have 2 rect to split wide plane that exceeds limit =
-with 1
-> > +      * config for 2:2:1. So need to handle both wide plane splitting,=
- and
-> > +      * plane on right half for quad-pipe case. Check dest rectangle
->
-> only on the right side?
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <pstanner@redhat.com>
 
-Yeah, below shall be better.
-So need to handle both wide plane splitting, and two halves of screen split=
-ting
-for quad-pipe case.
->
-> > +      * left/right clipping first, then check wide rectangle splitting=
- in
-> > +      * every half next.
-> > +      */
-> > +     num_stages =3D (num_lm + 1) / 2;
->
-> --
-> With best wishes
-> Dmitry
+btw. FYI Danilo and I preferably now use these addresses:
+Danilo Krummrich <dakr@kernel.org>
+Philipp Stanner <phasta@kernel.org>
+
+Danilo's is already in the MAINTAINERS file, mine should follow soon.
+
+Regards
+P.
+
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 6 ------
+> =C2=A01 file changed, 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index 57da84908752..2d3d71e053a6 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1166,9 +1166,6 @@ static void drm_sched_free_job_work(struct
+> work_struct *w)
+> =C2=A0=09=09container_of(w, struct drm_gpu_scheduler,
+> work_free_job);
+> =C2=A0=09struct drm_sched_job *job;
+> =C2=A0
+> -=09if (READ_ONCE(sched->pause_submit))
+> -=09=09return;
+> -
+> =C2=A0=09job =3D drm_sched_get_finished_job(sched);
+> =C2=A0=09if (job)
+> =C2=A0=09=09sched->ops->free_job(job);
+> @@ -1192,9 +1189,6 @@ static void drm_sched_run_job_work(struct
+> work_struct *w)
+> =C2=A0=09struct drm_sched_job *sched_job;
+> =C2=A0=09int r;
+> =C2=A0
+> -=09if (READ_ONCE(sched->pause_submit))
+> -=09=09return;
+> -
+> =C2=A0=09/* Find entity with a ready job */
+> =C2=A0=09entity =3D drm_sched_select_entity(sched);
+> =C2=A0=09if (!entity)
+
