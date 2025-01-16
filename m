@@ -2,78 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE58DA13C12
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11BF9A13C15
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:24:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F179A10E97D;
-	Thu, 16 Jan 2025 14:23:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AFAD10E981;
+	Thu, 16 Jan 2025 14:24:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="smpJYcZs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YSkRXQvJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com
- [209.85.219.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C3E510E97D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 14:23:19 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id
- 3f1490d57ef6-e53c9035003so1577236276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 06:23:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737037338; x=1737642138; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CbuGDZY9OMcPNxDGGBghCFG72kiSYqjW874tNYrUfyE=;
- b=smpJYcZsKbSuyn8aWf0Rm1on+tpiMP6soapjBW65GKbZI9tm96R8o5m6Fsv/1BkunI
- ZgD6uzwFckAUzWcJckuXHExgZbaLxVz47H9Vt4aW4b8sGQJg66HdNyvCXySV22D1m5Oa
- 6qHI6z/cP5Xi4+DE/As/ZGaGK7R1pvL9PxzGh+ii1gMK+lYuBpZCauWJ+EgggLgBOwRA
- rL8VSzBm9sSXl+jDEYt1+J0nJiXV1EBenCxbS/1dsuy8V7BXp8sjIxMD45jD99zgaMMn
- 5Fpggo/4bFHPwU+qPhlFEpLjHHB7zCLxl+HpXX8/UrgpM7CHS+8REbWXvWtZsqwvbf04
- KYhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737037338; x=1737642138;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CbuGDZY9OMcPNxDGGBghCFG72kiSYqjW874tNYrUfyE=;
- b=RBeCGceU9/2QX9kthCTCaCrVCWguEpqx1/z5SpbAi86Rvr2ivSULSe6U5EIqiwO0nd
- 4pQFfSX3m11d9yjmLkAeUjglbZkEfG8OUyMGHn8Vn6kx5Z+qMY0u6nwn75BejNvAcaKi
- Xx4kv6ROzmC3Vu0QjaWed/0RgySr8sr+uNKRVfv/i0y3z7TZMpc/Ut+bko0FEOkDmRLZ
- GvlOtBiqpBtxKTTlw5RGG8syhTNOzxAi4Jh1Y1PPb+DS7r+992nBNBvKbs+/ttxYnRGf
- mE46lRVqvlv6SzHQxISfuRsAPs51s2v6fAGDb4gwkVe4H1DZ/xTZhEXtV9dRFEn5pdSX
- 9Taw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV67LV336kaR41y3wIZI0qAuHb3b0XoYM1wwoNsMcCu53XKFnMPYbZ6y919KADLgv1pNrzSCsC9e5I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzffupPBLuakE2O8QpKtdeSuWPYa6WqXUx7p+3XfRoGHIhXJM9P
- Z5cKFJpxfEjmrRIFi2McQWVfA9PqbOpgl9aYvq0BFJv4srwgNRxUxrLpvvemPU8W2R1/HKaIVs8
- zYaqForceLudVz1vr3qOVEFD2FFptKjo1ABwf4Q==
-X-Gm-Gg: ASbGncvplC+T1YkNSCWQOu1jKRWTwBfR4hTrnQDS76jGQPoX160LzaoCstBQq+TK0g3
- OD0UZvo64pMk56pQKG7nXXfnDFneOIJTP5Ie1OA==
-X-Google-Smtp-Source: AGHT+IHpVHqUtQvPALKWxgEbVerYIcWLhBHU/N9iKLPyTQmVZmgA6sC1QD/jrIZf+QH/2MqpX2ZsNueHigREXGRNnaY=
-X-Received: by 2002:a05:6902:2e0e:b0:e56:c350:5977 with SMTP id
- 3f1490d57ef6-e56c350607emr18592868276.49.1737037338327; Thu, 16 Jan 2025
- 06:22:18 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7021C10E981;
+ Thu, 16 Jan 2025 14:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737037472; x=1768573472;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=MDrViC5PElsL0tyBvK8W754OQAxvDzniKetqRVX4ViI=;
+ b=YSkRXQvJuAUPjKk7Bj70OGu1dguc5TlezOPvrrwacgbd4Qq49paC2Ltp
+ iSfCVGBdBg0SsVCw6Nr6uH8DhQukmY60TGX62N9tg1NJQY4//fz/JtISL
+ Sz41OYs526pRPIikko5+X9AiQAp4/+A8YSEiezUBpqR5OLqodGp+toVlQ
+ fa8TZaxrMGLN+qmuxHy9ThSM5P/TS+xBtX1XVlTU/tpMW+WPuDjPwlWHP
+ ibPDBeODRNG5zMSZ82R6PSu2nnjMDilpC2zlYOzoLXDQg103WYPaswxqM
+ uWJwpM/jmwWRlNV7yKqF7neI0PYuaCXwYa/1zJ4m0X/GcAJHAPSqrRA64 A==;
+X-CSE-ConnectionGUID: 9LZlU1uxR9aGMi31sbVJjg==
+X-CSE-MsgGUID: uyy3pbnxT2iv6m7+wHqPvg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="48424967"
+X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; d="scan'208";a="48424967"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2025 06:24:31 -0800
+X-CSE-ConnectionGUID: bTp4FN4SR+Kmke233hD7HQ==
+X-CSE-MsgGUID: Iu9o2GGrRaCprI5n1vaG2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; d="scan'208";a="105661088"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 16 Jan 2025 06:24:27 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Thu, 16 Jan 2025 16:24:26 +0200
+Date: Thu, 16 Jan 2025 16:24:26 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Brian Geffon <bgeffon@google.com>
+Cc: intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
+ jani.saarinen@intel.com, tomasz.mistat@intel.com,
+ vidya.srinivas@intel.com, jani.nikula@linux.intel.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tomasz Figa <tfiga@google.com>
+Subject: Re: [PATCH] drm/i915: Fix page cleanup on DMA remap failure
+Message-ID: <Z4kWms-eFWxddspp@intel.com>
+References: <20250116135636.410164-1-bgeffon@google.com>
 MIME-Version: 1.0
-References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
- <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-14-74749c6eba33@linaro.org>
- <kqrea3es5bwyofk3p3l26wj2iswvfqadwehusfpj4mssgawdos@wombtx67llyc>
-In-Reply-To: <kqrea3es5bwyofk3p3l26wj2iswvfqadwehusfpj4mssgawdos@wombtx67llyc>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 16 Jan 2025 22:22:07 +0800
-X-Gm-Features: AbW1kvbNYMvnvklmfvw1tMEdJlgZxWihb_2YnyoIX0fWNnPoBLq0Dgu08ZgKo4I
-Message-ID: <CABymUCPn=u8jr_OTFwB-WBjj2nNgBeTyH5b=PvF5vLrDhCxr3Q@mail.gmail.com>
-Subject: Re: [PATCH v4 14/16] drm/msm/dpu: support SSPP assignment for
- quad-pipe case
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250116135636.410164-1-bgeffon@google.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,31 +75,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=
-=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 16:18=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Thu, Jan 16, 2025 at 03:26:03PM +0800, Jun Nie wrote:
-> > Support SSPP assignment for quad-pipe case with unified method.
-> > The first 2 pipes can share a set of mixer config and enable
-> > multi-rect mode if condition is met. It is also the case for
-> > the later 2 pipes.
->
-> Missing problem description.
+On Thu, Jan 16, 2025 at 08:56:36AM -0500, Brian Geffon wrote:
+> When converting to folios the cleanup path of shmem_get_pages() was
+> missed. When a DMA remap fails and the max segment size is greater than
+> PAGE_SIZE it will attempt to retry the remap with a PAGE_SIZEd segment
+> size. The cleanup code isn't properly using the folio apis and as a
+> result isn't handling compound pages correctly.
+> 
+> Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13487
+> Fixes: 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a folio_batch")
+> Signed-off-by: Brian Geffon <bgeffon@google.com>
+> Suggested-by: Tomasz Figa <tfiga@google.com>
+> ---
+>  drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> index fe69f2c8527d..02ddab5bf5c0 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> @@ -37,8 +37,6 @@ void shmem_sg_free_table(struct sg_table *st, struct address_space *mapping,
+>  	struct folio *last = NULL;
+>  	struct page *page;
+>  
+> -	mapping_clear_unevictable(mapping);
+> -
 
-Is this OK?
-    SSPP are assigned for 2 pipes at most with current implementation,
-    while 4 pipes are required in quad-pipe usage case with involving
-    configuration of 2 stages. Assign SSPPs for pipes of a stage in a
-    loop with unified method. The first 2 pipes can shar a set of mixer
-    config and enable multi-rect mode if condition is met. It is also the
-    case for the later 2 pipes.
+The assymmetry here between the alloc vs. free is a bit annoying.
+Maybe we can just keep this here? 
 
->
-> Also, shouldn't this patch come before the previous one?
->
-Yeah, it is reasonable to prepare the assignment capability, then
-enable the plane splitting into 4 pipes. It does not hurt actually
-because quad-pipe is not enabled in data structure side.
-Will reverse the sequence in next version anyway.
+Or if avoiding the ping-pong actually mattes in the gtt prepare
+error case, then maybe we should rename this guy into
+__shmem_sg_free_table() without the mapping_clear_unevictable()
+and wrap it in a higher level shmem_sg_free_table() that does
+everything?
 
-Jun
+>  	folio_batch_init(&fbatch);
+>  	for_each_sgt_page(page, sgt_iter, st) {
+>  		struct folio *folio = page_folio(page);
+> @@ -180,10 +178,10 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
+>  	return 0;
+>  err_sg:
+>  	sg_mark_end(sg);
+> +	mapping_clear_unevictable(mapping);
+>  	if (sg != st->sgl) {
+>  		shmem_sg_free_table(st, mapping, false, false);
+>  	} else {
+> -		mapping_clear_unevictable(mapping);
+>  		sg_free_table(st);
+>  	}
+>  
+> @@ -209,8 +207,6 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+>  	struct address_space *mapping = obj->base.filp->f_mapping;
+>  	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+>  	struct sg_table *st;
+> -	struct sgt_iter sgt_iter;
+> -	struct page *page;
+>  	int ret;
+>  
+>  	/*
+> @@ -239,9 +235,8 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+>  		 * for PAGE_SIZE chunks instead may be helpful.
+>  		 */
+>  		if (max_segment > PAGE_SIZE) {
+> -			for_each_sgt_page(page, sgt_iter, st)
+> -				put_page(page);
+> -			sg_free_table(st);
+> +			/* Leave the mapping unevictable while we retry */
+> +			shmem_sg_free_table(st, mapping, false, false);
+>  			kfree(st);
+>  
+>  			max_segment = PAGE_SIZE;
+> @@ -265,6 +260,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+>  	return 0;
+>  
+>  err_pages:
+> +	mapping_clear_unevictable(mapping);
+>  	shmem_sg_free_table(st, mapping, false, false);
+>  	/*
+>  	 * shmemfs first checks if there is enough memory to allocate the page
+> @@ -402,6 +398,7 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_
+>  	if (i915_gem_object_needs_bit17_swizzle(obj))
+>  		i915_gem_object_save_bit_17_swizzle(obj, pages);
+>  
+> +	mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
+>  	shmem_sg_free_table(pages, file_inode(obj->base.filp)->i_mapping,
+>  			    obj->mm.dirty, obj->mm.madv == I915_MADV_WILLNEED);
+>  	kfree(pages);
+> -- 
+> 2.48.0.rc2.279.g1de40edade-goog
+
+-- 
+Ville Syrjälä
+Intel
