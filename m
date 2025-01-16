@@ -2,90 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB14A1301A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 01:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB56A13020
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 01:43:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F07410E530;
-	Thu, 16 Jan 2025 00:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CB1910E187;
+	Thu, 16 Jan 2025 00:43:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LhNFpZzD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="t54f4/uR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F9510E197;
- Thu, 16 Jan 2025 00:40:44 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50FGqbQU018694;
- Thu, 16 Jan 2025 00:40:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- h1meRf8wD57+V9EdO92kCHnNaOOfnIxmy8gHzIkc9H4=; b=LhNFpZzDtXj/cb8W
- Xm+J+bA4sLUULY4QeRtu9xU0+4jkHwSt6HoBmMqb577RU6ITvy9YJW92COym1ubJ
- 8C1aEk5j69ZnD5f/WO8Qw3mzLmvhprKF/TDjhBBnuZrOLRbXjyyGnw9eWaN5SoNj
- 7dmlX2W0m7wV57oSy/paOpXmMzcs2GDTm+oVMF0aG7nopGeOC2yXDuH9h3Yi8qjq
- gNTWo8hXIVgA9xtnJGnLFCTTr045i9kowFcr6JrLk9v5Vwjt5VCyAqAGgvQ0Zx84
- eEwmjA9fnhIV4T7tcJgUFUkdQsOYjIx1DmYF+Emw9/aMgfR9zDgib+h8dWUI9b2Q
- 4s/2lw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 446gx38wxw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Jan 2025 00:40:41 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50G0eeNm002443
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Jan 2025 00:40:40 GMT
-Received: from [10.71.108.79] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 15 Jan
- 2025 16:40:40 -0800
-Message-ID: <b5a49ad8-02df-4418-911c-91bc57c4d05a@quicinc.com>
-Date: Wed, 15 Jan 2025 16:40:39 -0800
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC37C10E187
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 00:43:42 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id
+ 2adb3069b0e04-5401d3ea5a1so353602e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 16:43:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1736988221; x=1737593021; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=cQ0TPLlJKN1P51GLhGvi0h6ujIY+ObPhqVi/Jqxajdw=;
+ b=t54f4/uR7+En2JPL58DCtb005FbNuM4GDUbBMMypQ/s1P61wHWzLzPvftXMBQNLRm+
+ CZDmb/KPAczSIB3H53aK8i2oqEj81qDOpItG+xI5oWxE2Tzt57Wi7TQsAHjafJWGq1a5
+ UyzTIwH9F9DRambxpa8w+5XR2DK9saOV4tOpJ2T9Vv9prHrv16WrAlmtEKVYa9eWS3jf
+ yBCHAjE1q/50mw1vRhU5P1ygZyp1nH/mZt3QnVewjJ4pWGTYfGMVKtFWfyUaZNXv38xS
+ rdIIxTqlgQ+0F2Q1/j6Q7ZW/65tCf0E4Ai0k0iU9hrLYAeYkOVBzgvu+5P9dCuAjAvGQ
+ OzSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1736988221; x=1737593021;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=cQ0TPLlJKN1P51GLhGvi0h6ujIY+ObPhqVi/Jqxajdw=;
+ b=NCgx5iXn/r/gI+HN35Jhb8NzZMSrI/9p+PdsHRsk7Q+xat+Iu4YFIG0Yjy1Qtyuc4s
+ 4qPzt0qlninCs/5i60WaKQGJoT2UjYEWi5D6cdusJwWktju1cAxoU4Nf8JkdcXFgd11a
+ DFZ5N4Z5fm0Av0A0O1cymJje9znloG03kwSDyA8uXwFKj+mCqF9guoeiX80Yx4Fh1f9+
+ mblLhd8mLDx7cQOxsoycIiWCdBo9Sb4RBbkLqL4HshXd7zNZzRSGwm5HbBCHZ4IuTtKX
+ Z+Kq3cKjpfEwIuQRM0KZ1EZIYVQ49kBP78uBofkuyL72YngjGySpg7qYcpyzwz9pCvVi
+ fagw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUsRwnzg/6bMuDI4GXNGarOrxoeO9Yc7hmaIz822BiZ7PmiyD/b1RJFdVfUPzqO6pUenMj/YEGA0Ek=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxubxgNxmKpsJL5hspWsw1RjjicZ/2iO/r88NEjF18PC0tKxJ2e
+ ocLNm3JTdb3pkgS5tAsxXrgcOdfCfej8NtY1m+7tQujPpnZtlP5Ps6sYSg1humLT+9OegO0NEot
+ z
+X-Gm-Gg: ASbGncs0rlcGbEYp35GZ0WMykPgy++PaI8X75KhnOghBZpwsNpuitoYHNb3WtBKXuET
+ xxGW8DNiQ49HrebDUOP6jUXxAk4ZuU4WSNu3qpWSGFR2LyRWXK2qxQFfvqYahNjznip+SSUHoEA
+ YQ4WZRA1hQRh0zAUCF6i19yE4YFiOcRm56lQrl3C4GRb+Jd13qt3xT+9Kr0afEX+a43BfL0N0/O
+ 1b8ad8KsE6cYvoU8t8iasApj+xVq2PTnyhv7AjY6ulmGGALphbinuIZT1YxEDfA8zv9LThF6ICF
+ VlxlMlqovmUFt8646z7dth/MYVOxgM/C+0fO
+X-Google-Smtp-Source: AGHT+IGSufqOMY6MiDi92IFsAF82d8xmZycjq5iNTl8gAz7pYUqL+WcjDWLOpJd8t4wV+JmrFR+MHw==
+X-Received: by 2002:a05:6512:23a3:b0:540:1d37:e79 with SMTP id
+ 2adb3069b0e04-54284558dbemr8977761e87.27.1736988221082; 
+ Wed, 15 Jan 2025 16:43:41 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428becaf6fsm2121616e87.241.2025.01.15.16.43.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Jan 2025 16:43:39 -0800 (PST)
+Date: Thu, 16 Jan 2025 02:43:37 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 23/29] drm/bridge: Provide a helper to retrieve current
+ bridge state
+Message-ID: <opuc3fhvncg6rb3mtktirytr3jexun344bkaatv46sq3nvx3qm@qn54dhudksw4>
+References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
+ <20250115-bridge-connector-v1-23-9a2fecd886a6@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/9] drm/msm/dpu: handle perf mode in
- _dpu_core_perf_crtc_update_bus()
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>
-References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
- <20250106-dpu-perf-rework-v4-7-00b248349476@linaro.org>
- <459422c9-c272-4389-9b05-487a0148a082@quicinc.com>
- <ab4wkauem3xb65wh3h22bcyzlpx26rrmsicrdlewomn55ykpqi@tggrsmb6qcmf>
- <8e6b6940-d155-4ab7-bdd6-a67e9506218a@quicinc.com>
- <4quxgv6n35np7fm7iqx5bw5xnkz7gxabh3ix5rexcq5nir5k7i@xi33w2wyj7om>
- <72c50442-5624-44ca-a954-64f7ddfa16f9@quicinc.com>
- <mvw34ny5en3dzt5ro6556daiktk6dc2azjotq26755dqscbu3b@fq7rxjqf7fg2>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <mvw34ny5en3dzt5ro6556daiktk6dc2azjotq26755dqscbu3b@fq7rxjqf7fg2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: dCm-AJho5fQTwl6YPhsLVmA_lqROuSpz
-X-Proofpoint-ORIG-GUID: dCm-AJho5fQTwl6YPhsLVmA_lqROuSpz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-15_10,2025-01-15_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxscore=0
- adultscore=0 spamscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999
- impostorscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501160002
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250115-bridge-connector-v1-23-9a2fecd886a6@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,167 +98,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/15/2025 4:32 PM, Dmitry Baryshkov wrote:
-> On Wed, Jan 15, 2025 at 11:41:27AM -0800, Abhinav Kumar wrote:
->>
->>
->> On 1/15/2025 12:27 AM, Dmitry Baryshkov wrote:
->>> On Tue, Jan 14, 2025 at 01:18:26PM -0800, Abhinav Kumar wrote:
->>>>
->>>>
->>>> On 1/14/2025 3:10 AM, Dmitry Baryshkov wrote:
->>>>> On Mon, Jan 13, 2025 at 07:38:16PM -0800, Abhinav Kumar wrote:
->>>>>>
->>>>>>
->>>>>> On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
->>>>>>> Move perf mode handling for the bandwidth to
->>>>>>> _dpu_core_perf_crtc_update_bus() rather than overriding per-CRTC data
->>>>>>> and then aggregating known values.
->>>>>>>
->>>>>>> Note, this changes the fix_core_ab_vote. Previously it would be
->>>>>>> multiplied per the CRTC number, now it will be used directly for
->>>>>>> interconnect voting. This better reflects user requirements in the case
->>>>>>> of different resolutions being set on different CRTCs: instead of using
->>>>>>> the same bandwidth for each CRTC (which is incorrect) user can now
->>>>>>> calculate overall bandwidth required by all outputs and use that value.
->>>>>>>
->>>>>>
->>>>>> There are two things this change is doing:
->>>>>>
->>>>>> 1) Dropping the core_clk_rate setting because its already handled inside
->>>>>> _dpu_core_perf_get_core_clk_rate() and hence dpu_core_perf_crtc_update()
->>>>>> will still work.
->>>>>>
->>>>>> and
->>>>>>
->>>>>> 2) Then this part of moving the ab/ib setting to
->>>>>> _dpu_core_perf_crtc_update_bus().
->>>>>>
->>>>>> Can we split this into two changes so that its clear that dropping
->>>>>> core_clk_rate setting in this change will not cause an issue.
->>>>>
->>>>> Ack
->>>>>
->>>>
->>>> Actually I think this is incorrect.
->>>>
->>>> If the user puts in an incorrect value beyond the bounds, earlier the code
->>>> will reject that by failing the in _dpu_core_perf_calc_crtc().
->>>
->>> This function doesn't perform any validation nor returns an error code.
->>> Probably you've meant some other function.
->>>
->>
->> Sorry, let me explain a little more to complete the flow I am seeing.
->>
->> _dpu_core_perf_calc_crtc() gets called by dpu_core_perf_crtc_check().
->>
->> That one checks against erroneous values.
->>
->>                  if (!threshold) {
->>                          DPU_ERROR("no bandwidth limits specified\n");
->>                          return -E2BIG;
->>                  } else if (bw > threshold) {
->>                          DPU_ERROR("exceeds bandwidth: %ukb > %ukb\n", bw,
->>                                          threshold);
->>                          return -E2BIG;
->>                  }
+On Wed, Jan 15, 2025 at 10:05:30PM +0100, Maxime Ripard wrote:
+> The current bridge state is accessible from the drm_bridge structure,
+> but since it's fairly indirect it's not easy to figure out.
 > 
-> Here we are checking that the selected set of modes doesn't overload
-> defined platform requirements. However I think that it should be
-> possible for the user to attempt to overcome predefined bandwidth
-> limitations in attempt to debug the issue. ICC framework handles that
-> perfectly (and if you check, until the sync_state is reached all BW's
-> are assumed to be UINT_MAX). Maybe I should document it in the commit
-> message that after this commit forced BWs are not a subject to the
-> catalog limitations.
+> Provide a helper to retrieve it.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  include/drm/drm_bridge.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 8e18130be8bb85fc2463917dde9bf1d281934184..95c5037a6335e4c1be511e6c31308202015c7754 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -955,10 +955,27 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>  {
+>  	return NULL;
+>  }
+>  #endif
+>  
+> +/**
+> + * @drm_bridge_get_current_state() - Get the current bridge state
+> + * @bridge: bridge object
+> + *
+> + * RETURNS:
+> + *
+> + * The current bridge state, or NULL if there is none.
+
+Are there any kind of limitations on when and how this function can be
+used? I don't think we can be accessing the state randomly, as the
+framework can change it at some points. E.g. what if the driver uses
+this state from audio or cec callbacks, while the DRM framework performs
+atomic commit and changes / frees the state right concurrently?
+
+> + */
+> +static inline struct drm_bridge_state *
+> +drm_bridge_get_current_state(struct drm_bridge *bridge)
+> +{
+> +	if (!bridge)
+> +		return NULL;
+> +
+> +	return drm_priv_to_bridge_state(bridge->base.state);
+> +}
+> +
+>  /**
+>   * drm_bridge_get_next_bridge() - Get the next bridge in the chain
+>   * @bridge: bridge object
+>   *
+>   * RETURNS:
+> 
+> -- 
+> 2.47.1
 > 
 
-hmmm, yes this was the validation I was referring to.
-
-I didnt get why a user should be allowed to go beyond the platform 
-limits, what purpose does that serve , its not leading to any conclusion 
-or towards the resolution of the issue. With the platform validation not 
-only we are enforcing the limits but also making sure that random values 
-given by the user dont cause more harm than good.
-
->>
->>>>
->>>> Now, if we move it to _dpu_core_perf_crtc_update_bus(), this is beyond the
->>>> check phase so incorrect values cannot be rejected.
->>>>
->>>> So we will still need to preserve overriding the values in
->>>> _dpu_core_perf_calc_crtc().
->>>>
->>>>>>
->>>>>>
->>>>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>>>> ---
->>>>>>>      drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 40 +++++++++++++--------------
->>>>>>>      1 file changed, 19 insertions(+), 21 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->>>>>>> index 70f43e8359caee2082f2ca9944a17a6a20aa3d49..7ff3405c6867556a8dc776783b91f1da6c86ef3f 100644
->>>>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->>>>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
->>>>>>> @@ -118,22 +118,9 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
->>>>>>>      		return;
->>>>>>>      	}
->>>>>>> -	memset(perf, 0, sizeof(struct dpu_core_perf_params));
->>>>>>> -
->>>>>>> -	if (core_perf->perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
->>>>>>> -		perf->bw_ctl = 0;
->>>>>>> -		perf->max_per_pipe_ib = 0;
->>>>>>> -		perf->core_clk_rate = 0;
->>>>>>> -	} else if (core_perf->perf_tune.mode == DPU_PERF_MODE_FIXED) {
->>>>>>> -		perf->bw_ctl = core_perf->fix_core_ab_vote * 1000ULL;
->>>>>>> -		perf->max_per_pipe_ib = core_perf->fix_core_ib_vote;
->>>>>>> -		perf->core_clk_rate = core_perf->fix_core_clk_rate;
->>>>>>> -	} else {
->>>>>>> -		perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
->>>>>>> -		perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
->>>>>>> -		perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
->>>>>>> -	}
->>>>>>> -
->>>>>>> +	perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
->>>>>>> +	perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
->>>>>>> +	perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
->>>>>>>      	DRM_DEBUG_ATOMIC(
->>>>>>>      		"crtc=%d clk_rate=%llu core_ib=%u core_ab=%u\n",
->>>>>>>      			crtc->base.id, perf->core_clk_rate,
->>>>>>> @@ -222,18 +209,29 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
->>>>>>>      {
->>>>>>>      	struct dpu_core_perf_params perf = { 0 };
->>>>>>>      	int i, ret = 0;
->>>>>>> -	u64 avg_bw;
->>>>>>> +	u32 avg_bw;
->>>>>>> +	u32 peak_bw;
->>>>>>>      	if (!kms->num_paths)
->>>>>>>      		return 0;
->>>>>>> -	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
->>>>>>> +	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
->>>>>>> +		avg_bw = 0;
->>>>>>> +		peak_bw = 0;
->>>>>>> +	} else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED) {
->>>>>>> +		avg_bw = kms->perf.fix_core_ab_vote;
->>>>>>> +		peak_bw = kms->perf.fix_core_ib_vote;
->>>>>>> +	} else {
->>>>>>> +		dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
->>>>>>> +
->>>>>>> +		avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
->>>>>>> +		peak_bw = perf.max_per_pipe_ib;
->>>>>>> +	}
->>>>>>> -	avg_bw = perf.bw_ctl;
->>>>>>> -	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
->>>>>>> +	avg_bw /= kms->num_paths;
->>>>>>>      	for (i = 0; i < kms->num_paths; i++)
->>>>>>> -		icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
->>>>>>> +		icc_set_bw(kms->path[i], avg_bw, peak_bw);
->>>>>>>      	return ret;
->>>>>>>      }
->>>>>>>
->>>>>
->>>
-> 
+-- 
+With best wishes
+Dmitry
