@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB499A13901
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 12:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB13CA1390E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 12:34:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0364D10E943;
-	Thu, 16 Jan 2025 11:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB3C10E944;
+	Thu, 16 Jan 2025 11:34:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XS83S7X1";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="UJwarFjS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B860A10E943
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 11:31:55 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id
- ffacd0b85a97d-386329da1d9so433561f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 03:31:55 -0800 (PST)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D135810E944
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 11:34:16 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-43690d4605dso4815445e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 03:34:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1737027114; x=1737631914; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1737027255; x=1737632055; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vnd6sU73jYDmsrBRXokzbmxa4aS7E80YMwt2n/oQ3g0=;
- b=XS83S7X1Y/2wFOqhlKSVm3MJyoDdo0IXacV1itVMcwaFwgb49/+6+L6FbJNiAkVLUR
- 2IedooeTFxl1VQPkNP7G3Ry7Tpau5EmyEcKpdTSjghmQfswfIwA6W0CnS+9+rLx0JHp1
- TJ/CUGojy6tqDJVhVV5bXbJ/wH68N6cfhvEU0=
+ bh=v4MJGnyq9Jr4SltNGHPkGuJ4PxUjxoIzJSXslir8OU0=;
+ b=UJwarFjSP62i4mGESJSETGPd0dukP3d875IiIfIzgPVmaM9AoBaCYXCZ8NHmplG+YD
+ XRdxSxDAEfpPL1jyxryBdy6Uu/ErJruSxaAqSxsxiv1+IPi75/FaH0EFy9dQ7m34I7yn
+ gTIN+uiNxW3IF3XA+3cQDTPjlL1qxqOdoU+XY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737027114; x=1737631914;
+ d=1e100.net; s=20230601; t=1737027255; x=1737632055;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vnd6sU73jYDmsrBRXokzbmxa4aS7E80YMwt2n/oQ3g0=;
- b=owLbXUNvBmD3NqcSUnMehMRJJAILhMgJxM60eFv/RlppaZ5JzInBeDv4Mjw0A69jd6
- biPbwK6Lj+E26erx+Ue+3Wt8bfRC6BdpUcVqYvkuN9BhJGl9qINx6v2oGOadsDkhPhkr
- nolQ9F/Zv6I02J0w65UwQCq2eQcxwpYjz+zp64Q6Bcv+b3liUyNJ/PNVA8fT3iS8xPhs
- bJeXydg59hrQfCNTKXkr8eemPtcLn/Pb4gKHcmW3lwaxcJaHzQLs+jNnxEYXBW1VdugF
- jLsfCMmen86Ugf+LY8dW8yHVneRd61hJoW8K4k/5l6ei9vhkzZjPr/HIQnirr17TBLIn
- 44OA==
+ bh=v4MJGnyq9Jr4SltNGHPkGuJ4PxUjxoIzJSXslir8OU0=;
+ b=K6jmfrG4aIHj8+7BOXiQUmH9cEdMG493ohsT5O4JomqQszpHFLHmfLhDGTl32eeAUB
+ wpDCWNAUxyzViKs0Lq+qfRoZpDM1CRyfNlz83gg22xrhjQJunrJ5GJcTzPATm2xsUL7y
+ /2H9mHblq4xqDgHxxV3gT6uZ1XjFJkeraUNbX8bTaZ2253Dfvvb0kYi6e3PbtTKr+gdN
+ dlTjMvusDC9ou74bYYJSCA7kdwcZ671c3wtpfRBpqQliNSh8VGJWeZXgxiue5DWaxdyk
+ I8+9z3F0qAsw/10t+gTtZfkt9pMAFUs/D9UZ89ZFSNXDWujZLQL3xCne5VuJtDwUiCq1
+ V4/w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX77jwyZZvPiBlrlg+9BOf5pHG6J4I4sOYDVm+tsRTG91g4A2Fmc6DBIayhBClQZPNbhz2Yhvk8RNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnW3SfKo6WIU4Yc8TvJvp8dw+A0rZ2YQgNKbs1hUz+I5jKSXUi
- EptHMmqqEFms8O3bTMXGcKO1tVYQSIWidyZOamdkl8AaWJzKsaaWmMiJ9XGRnaE=
-X-Gm-Gg: ASbGnctpldhlDEQ8CEaewCRRsNjpqUbjVIGnsq2If9SRUn2eswKSUVVK5VSL8aPTsjL
- YaFLubsejv+mIowUiQ7u/ycCp/R0+A96BRZ+kQWqlPVkq3WFY/hJPKparHPAJOnvxEGnLYxDI57
- JWTBl+DWzBCXEOf3ZQTgtUoYENoahkizmhDhSGELJibciVAoUBmeMc5FfoJ+BQi7EAu0CQMz5Uy
- iVVISxwxXVQCQTfNWzURJtuJ2BLouc+EHVXapkOblwJy2lEu2KREffD8iJYoH5sFNuH
-X-Google-Smtp-Source: AGHT+IE8MJdwU7wMyzkJzaEaeAjpV4//EE99bMcQNBFtw2uWo0ACj81i58fz6k6usIbP+ONeTfig4A==
-X-Received: by 2002:a5d:64eb:0:b0:386:41bd:53a3 with SMTP id
- ffacd0b85a97d-38a87310667mr28551284f8f.50.1737027114242; 
- Thu, 16 Jan 2025 03:31:54 -0800 (PST)
+ AJvYcCW8yZigrJ0hULqyWtoXDN+3u4U1NDwQ/3UM6q1pMP/lFaY1r0rayyhj4llv80364pJQMJqM9d67pK8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzg7YEpelLABzJDFWl20TuwGJaCxzVbg1fo9+6D5OGt+IQOic/O
+ DbYcPAQbCkFV943CgZEWxulHimgF2YuAQJZinGW3WLpuiFccI6Awd9QaFLjGG7ffGpqVlpa7LLn
+ j
+X-Gm-Gg: ASbGncuDKRaMfwS8sMIVsH8QARvaF4VyT/7m84xvChS/c+oRm60awhTUo5aIv+nLyE9
+ ZRYmKge29XGXI3rDtGurIu7HJMn47ddMix5DxbFJAm6CvtToBwPbHjDPS8L4CFRUP0rybShjmRR
+ NSOlRaBw5UFfL4PL31NV7sLVjofpWV/bz695KQVidHjRKrMgevYzWq6oL0Gn36cYa6QfEHS8yZr
+ Ucf9RKmrG4xVGFaPu9nq9yjddhDXgoAkIVbodT7wmp70/BXeEsKgaj9dXWny0e2/tAm
+X-Google-Smtp-Source: AGHT+IErj50kwukc85huKkCJYLaART5mT2IODUndO+0Igb2Ypw4ChGIORsEB547GA+IhAvPghnXWOw==
+X-Received: by 2002:a05:600c:5125:b0:434:eb73:b0c0 with SMTP id
+ 5b1f17b1804b1-436e266f994mr334857565e9.5.1737027255152; 
+ Thu, 16 Jan 2025 03:34:15 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a8e384054sm20295886f8f.36.2025.01.16.03.31.53
+ 5b1f17b1804b1-437c7528076sm57644835e9.25.2025.01.16.03.34.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2025 03:31:53 -0800 (PST)
-Date: Thu, 16 Jan 2025 12:31:51 +0100
+ Thu, 16 Jan 2025 03:34:14 -0800 (PST)
+Date: Thu, 16 Jan 2025 12:34:12 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -69,9 +70,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Douglas Anderson <dianders@chromium.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 24/29] drm/bridge: Provide a helper to get the global
- state from a bridge state
-Message-ID: <Z4juJy7kKPbI2BDb@phenom.ffwll.local>
+Subject: Re: [PATCH 22/29] drm/bridge: Rename atomic hooks parameters to drop
+ old prefix
+Message-ID: <Z4jutByAKEF0cPs3@phenom.ffwll.local>
 Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -85,11 +86,11 @@ Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
  Douglas Anderson <dianders@chromium.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
- <20250115-bridge-connector-v1-24-9a2fecd886a6@kernel.org>
+ <20250115-bridge-connector-v1-22-9a2fecd886a6@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115-bridge-connector-v1-24-9a2fecd886a6@kernel.org>
+In-Reply-To: <20250115-bridge-connector-v1-22-9a2fecd886a6@kernel.org>
 X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -106,69 +107,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2025 at 10:05:31PM +0100, Maxime Ripard wrote:
-> We have access to the global drm_atomic_state from a drm_bridge_state,
-> but since it's fairly indirect it's not as obvious as it can be for
-> other KMS entities.
+On Wed, Jan 15, 2025 at 10:05:29PM +0100, Maxime Ripard wrote:
+> All the bridge atomic hooks were using the old_bridge_state name for
+> their drm_bridge_state parameter. However, this state is the current
+> state being committed for all of them, which ends up being confusing.
 > 
-> Provide a helper to make it easier to figure out.
+> Let's rename it to bridge_state for all of them.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  include/drm/drm_atomic.h | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  include/drm/drm_bridge.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
-> index 31ca88deb10d262fb3a3f8e14d2afe24f8410cb1..bd7959ae312c99c0a0034d36378ae44f04f6a374 100644
-> --- a/include/drm/drm_atomic.h
-> +++ b/include/drm/drm_atomic.h
-> @@ -1183,10 +1183,26 @@ static inline struct drm_bridge_state *
->  drm_priv_to_bridge_state(struct drm_private_state *priv)
->  {
->  	return container_of(priv, struct drm_bridge_state, base);
->  }
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 4b84faf14e368310dd20aa964e8178ec80aa6fa7..8e18130be8bb85fc2463917dde9bf1d281934184 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -303,11 +303,11 @@ struct drm_bridge_funcs {
+>  	 * there is one) when this callback is called.
+>  	 *
+>  	 * The @atomic_pre_enable callback is optional.
+>  	 */
+>  	void (*atomic_pre_enable)(struct drm_bridge *bridge,
+> -				  struct drm_bridge_state *old_bridge_state);
+> +				  struct drm_bridge_state *bridge_state);
 >  
-> +/**
-> + * @drm_bridge_state_get_atomic_state() - Get the atomic state from a bridge state
-> + * @bridge_state: bridge state object
-> + *
-> + * RETURNS:
-> + * The global atomic state @bridge_state is a part of, or NULL if there is none.
-> + */
-> +static inline struct drm_atomic_state *
-> +drm_bridge_state_get_atomic_state(struct drm_bridge_state *bridge_state)
+>  	/**
+>  	 * @atomic_enable:
+>  	 *
+>  	 * This callback should enable the bridge. It is called right after
+> @@ -323,11 +323,11 @@ struct drm_bridge_funcs {
+>  	 * chain if there is one.
+>  	 *
+>  	 * The @atomic_enable callback is optional.
+>  	 */
+>  	void (*atomic_enable)(struct drm_bridge *bridge,
+> -			      struct drm_bridge_state *old_bridge_state);
+> +			      struct drm_bridge_state *bridge_state);
 
-So this one is nasty, because we clear out these backpointers once we push
-the states into obj->state (because they can then outlive the
-drm_atomic_state). Which means you can't use this in commit callbacks. Or
-the bridge code has a really bad use-after-free when it doesn't clear out
-these backpointers when we swap in the new states in
-drm_atomic_helper_swap_state().
+Checked this one, and it very clearly passes the old state. Because the
+new state you can get by looking at bridge->state. So this looks very
+wrong.
 
-The better pattern is to just ditch passing individual states to callbacks
-and just pass the entire drm_atomic_state container, and let callbacks
-fish out what exactly they need. And also provide all necessary helpers to
-find the right states and all that stuff.
+If you want to fully update the pattern, pass the drm_atomic_state
+instead, and let callbacks lookup any additional states they use as
+needed.
+-Sima
 
-We should probably also document that design approach in the kerneldoc for
-drm_atomic_state, or wherever there's a good place for that.
-
-See also my other reply for some of the history of why we have this mess.
-
-Cheers, Sima
-
-> +{
-> +	if (!bridge_state)
-> +		return NULL;
-> +
-> +	return bridge_state->base.state;
-> +}
-> +
->  struct drm_bridge_state *
->  drm_atomic_get_bridge_state(struct drm_atomic_state *state,
->  			    struct drm_bridge *bridge);
->  struct drm_bridge_state *
->  drm_atomic_get_old_bridge_state(const struct drm_atomic_state *state,
+>  	/**
+>  	 * @atomic_disable:
+>  	 *
+>  	 * This callback should disable the bridge. It is called right before
+>  	 * the preceding element in the display pipe is disabled. If the
+> @@ -340,11 +340,11 @@ struct drm_bridge_funcs {
+>  	 * signals) feeding it is still running when this callback is called.
+>  	 *
+>  	 * The @atomic_disable callback is optional.
+>  	 */
+>  	void (*atomic_disable)(struct drm_bridge *bridge,
+> -			       struct drm_bridge_state *old_bridge_state);
+> +			       struct drm_bridge_state *bridge_state);
+>  
+>  	/**
+>  	 * @atomic_post_disable:
+>  	 *
+>  	 * This callback should disable the bridge. It is called right after the
+> @@ -359,11 +359,11 @@ struct drm_bridge_funcs {
+>  	 * called.
+>  	 *
+>  	 * The @atomic_post_disable callback is optional.
+>  	 */
+>  	void (*atomic_post_disable)(struct drm_bridge *bridge,
+> -				    struct drm_bridge_state *old_bridge_state);
+> +				    struct drm_bridge_state *bridge_state);
+>  
+>  	/**
+>  	 * @atomic_duplicate_state:
+>  	 *
+>  	 * Duplicate the current bridge state object (which is guaranteed to be
 > 
 > -- 
 > 2.47.1
