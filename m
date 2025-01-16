@@ -2,185 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054B0A138D9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 12:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4D1A138F1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 12:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4EA610E571;
-	Thu, 16 Jan 2025 11:23:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A560E10E930;
+	Thu, 16 Jan 2025 11:27:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KNKtk+1r";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="VkSeJ59e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CEB710E1E4;
- Thu, 16 Jan 2025 11:23:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737026589; x=1768562589;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=R3hTk0TERuifd3vBbpXJBVJ28NXt5fHeAIYLMjDgeT8=;
- b=KNKtk+1rQVHXvQ0DhJQVcjbCHtqkT88CA+kHFqCgdLMAUvNYwSqLmb3y
- ZZUzn0MpKHCk4w2g5I516E4VWJbWq0FBUEhyk+YECpaueFpqmmQ/0GtbE
- 6C36EMcTUhMQlskryfAbZ36+JhMUGjFujjV+zE4iUpnAOizUhRFVdYxAY
- AaB4RcolTXACjDbPoC5xXMtUmS0CJmb2CO3P4uOxWW5TKlCJ9+4xvgtC4
- nsYoNWcRj9xKn4P9FJTlPkZ8Y1rjLQ5VEFufY1kWyVmKl7Xz+J8cU7wk1
- M+dlkw9FKHMZtv4HHoIq5d/WputSMn6/xbPrImWYqj9KVUdK+TUnLgTgp A==;
-X-CSE-ConnectionGUID: aN+Tm28QSRaNfYpD52FWMw==
-X-CSE-MsgGUID: Mn3aIROAQheaPAs4bDlivw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="48409593"
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; d="scan'208";a="48409593"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2025 03:23:02 -0800
-X-CSE-ConnectionGUID: B1bsgyFYS363ZylPKx53oA==
-X-CSE-MsgGUID: o0E4+ZnkQEK2QLMisaWeSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; d="scan'208";a="110443294"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa004.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 16 Jan 2025 03:23:01 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 16 Jan 2025 03:23:00 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Thu, 16 Jan 2025 03:23:00 -0800
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 16 Jan 2025 03:23:00 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rv25aV1/Isni3Rf6AUA9wZUmgYlCtbpZp5dXu0L+brGLicFHOL8xtXH6tADzpvoGvMJzuiQ4ncgxpn3LnviR9yKdNdbOCu6wap7T4sgIts53xHEphjeKGQZi9z6vJFsPI1yx7imhANpkeoC/4xkgDfoDX3JVfrXllg5bvq7swHl2LsU11B1aHleDj6D2e5zVLxOI4/IVq6M9hsEyWQyNn5imwP/X9v2tDFzKdBO4XaTxPbjMVjByTpqX4k0oUtEzjiVkHMfQ3bxgdXer0EqGPfCa2qFic5ZYDoPHodAy8Hq8m2ecjcRcHSozMbFbVjsuulK6x4HTRuyP3fzOBaQoXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ep1BlavgffPHzgNcYrwwQGuk2TxwZ6vjK7haeTm4q94=;
- b=tbyY8KqCmv5JxkMQtgiNfDfCqoxi7ETNYvJ2rWkf/do+KTLzKMyEHHH5w3kNB7MZ7nFosOSOmUJPlzf1u2Q3G9D6clNDUExISgrlrQ1/hIfQ+34PcIUqBSwcmVO/SavjWGHiUC0hqYGddt+f/hBGN65TL8k2oGwwDSfxnZ6ld5HuQ69YjEJ8uAQLjZwu2GCaRi2EMHc9o4Eg1LMdwVtp/OyyFKvfauS0RoBWLIr22VpX05RaQq+fv1eTYuYW6GsYA6hyYWj14Zac0cgum1JND4Xe/pVrTpSuqo9/dBVTmOBZ2JEsPTE9B8QPVS3PyhhKWYShV+cvQ9UIvr2uYh3KWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MW4PR11MB6864.namprd11.prod.outlook.com (2603:10b6:303:21b::16)
- by DS7PR11MB8808.namprd11.prod.outlook.com (2603:10b6:8:257::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.12; Thu, 16 Jan
- 2025 11:22:58 +0000
-Received: from MW4PR11MB6864.namprd11.prod.outlook.com
- ([fe80::6f1c:5fd9:a37f:82d6]) by MW4PR11MB6864.namprd11.prod.outlook.com
- ([fe80::6f1c:5fd9:a37f:82d6%4]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
- 11:22:58 +0000
-Message-ID: <16e02f7a-5dc4-49aa-b81e-25c0d313b9a1@intel.com>
-Date: Thu, 16 Jan 2025 12:22:54 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/i915/gt: Use spin_lock_irqsave() in interruptible
- context
-To: Krzysztof Karas <krzysztof.karas@intel.com>, intel-gfx
- <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>
-CC: Tvrtko Ursulin <tursulin@ursulin.net>
-References: <pusppq5ybyszau2oocboj3mtj5x574gwij323jlclm5zxvimmu@mnfg6odxbpsv>
-Content-Language: en-US
-From: Maciej Patelczyk <maciej.patelczyk@intel.com>
-In-Reply-To: <pusppq5ybyszau2oocboj3mtj5x574gwij323jlclm5zxvimmu@mnfg6odxbpsv>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: DB7PR05CA0072.eurprd05.prod.outlook.com
- (2603:10a6:10:2e::49) To MW4PR11MB6864.namprd11.prod.outlook.com
- (2603:10b6:303:21b::16)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E5E210E930
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 11:27:41 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-4361e89b6daso4649495e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 03:27:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1737026860; x=1737631660; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=a0nKJjtH2ApPSyDxi76icAcEp1aOGZMrOf/6aGFgnYQ=;
+ b=VkSeJ59e3CN71CcoD1NYHSTXNbnONO4e0+apql7/Dx6yeLakLJQuANhr03LUOOYex+
+ CHNYn5mxeMJZvXq5qh35TjG5nqTDzXcb6RSXuJpO3+wgWz0pPGyI6pDSO765ihE+7nZs
+ uJ07bedUacUwpw9Pso1cRCEWzgt7TPE56vcmA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737026860; x=1737631660;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=a0nKJjtH2ApPSyDxi76icAcEp1aOGZMrOf/6aGFgnYQ=;
+ b=YQav8OyfsDI20wgTgoX2tL1hUDKWhRpIJQq5QU4Zc9vuoGE1W5GAJ74lBp9BJyob+o
+ kOVygK+8tr1XMRobIlCoLwJo2kHfLMRgjRSuUPuEBSN2Jf+lhDV0n/3jgGEvgP50IQD7
+ vrCYKYKbwk1Xsv8fVGDTceQ0y67Bdo2OmGLmcRXQXUPElARZ7oNg85y9v0KWFWP5ANbK
+ J+0SEPKlAg0eY0K4Kg5FhitRPubyifgr4S+Xo8Ktjhxbj8CBSOtdrAD+UsdJ+84gyBxT
+ YRPN+yv/wIpJTU2jVfiOxAVeJ0nN59lXqEgF0vB2nkafTwQNNSLRUluDeNS8D+hzIK6z
+ T2TQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHwWm0Rub/XtN/D2EL2HOlPQacjElMRIoBFZPCOfs+V5HV80N8IpUiXxCrYl7KlmGL9Jt3QKJB58U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzu909HOEzRHEYtSI+v3Ox4w0cjuiJ5+8et5UUV/JMGnt2YmXwN
+ qY8IhhM6nIPwn1jC3D4nXJAAuTFtBQ49/jYZeMgAThne3nR6T45Rzvpi1LiSoeQ=
+X-Gm-Gg: ASbGncsOjDtTXbFbfWGknqaCYXVZ81s6i1IxO1hzYvLQoDTR/OUuaSm8S+UignehDeI
+ vLDP0zSeRow2lKs/SP4LrxydegGNASY8DHftVFPgam74EK6BoYIS/6XrNqQ8ABZGVeNJbHUVmv4
+ mr7TN4QExg4YGGDaV0ZKhE3GUNur7I5FYR4g5YJoUWAdD+sfSt2B/rF5TVIobNpRkTAOa1vdjBD
+ 3FlLb4vSjpCmuLgef57qqPUbfNrjWyO4JPT0YOZBvbB7Qtw4x+jUACG053efZrVuxiv
+X-Google-Smtp-Source: AGHT+IEn6TJVuC3++aW+1bE9Q5vRJBPt+NtT9C6gLCW54SZ0vlfPrBVTCB3tNcIpK4+Qdu8I/gfALg==
+X-Received: by 2002:a05:600c:3b94:b0:434:e2ea:fc94 with SMTP id
+ 5b1f17b1804b1-436e2696cb8mr337102945e9.11.1737026859642; 
+ Thu, 16 Jan 2025 03:27:39 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-437c74c65b7sm57007715e9.23.2025.01.16.03.27.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2025 03:27:39 -0800 (PST)
+Date: Thu, 16 Jan 2025 12:27:36 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/29] drm/atomic-helper: Fix commit_tail state variable
+ name
+Message-ID: <Z4jtKHY4qN3RNZNG@phenom.ffwll.local>
+Mail-Followup-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
+ <20250115-bridge-connector-v1-1-9a2fecd886a6@kernel.org>
+ <w6hoxhwyrp44e6yqelxe5qtlyq643bvynmqrwzybuflhb7lkvu@bmsy3losd6t4>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR11MB6864:EE_|DS7PR11MB8808:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a4c05ce-f500-4be4-5459-08dd36202126
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M2V1QVZxV3ZkMENaak9sbitza3VCYTUyZWxWWGxoTmRycW1QRmxOeXREK0xz?=
- =?utf-8?B?TWg4Tks3aGZCNlczS0NaZ0IvdWtNaFpidkRrUkRmYnFOR1NvY0VBWm1rZ2ZI?=
- =?utf-8?B?bEQ3dlVYTHRCeEhPVXRnYXRyZXBjSk1rME9NZCtNelhYMThxd0JBRDRuVWYx?=
- =?utf-8?B?THFFWTc1RW9kTHFGN3RqQWNGeFZqY1lUaXh2QlRzZmV2NGlxdFllbWgxWkpl?=
- =?utf-8?B?bVlsdnNCNFJ4cnZNM0lKejBNcmxNaE9rS2pQbThaT0xMN1FIQStJYXB2QkJB?=
- =?utf-8?B?M202VUlaNWtrd1R0ZzR0OVZ3cTVDdWpTT2FCS2hkWDdDQ29WenFrekROMDVG?=
- =?utf-8?B?S1NrQlJhZmx6eHlQeW02YlpQdlBueW9rUEx4MHliZW9MWmRpZ3pmcWplKzdy?=
- =?utf-8?B?d1NGdUc2aVJ6T0hucVBVN044eUxYNmZKbU5LcEk1azZ0dmN4UXdpd3Q2Y3hH?=
- =?utf-8?B?dkUvS0YrTlNRMXB4Z1A5T0RpWkZvNWZaQVRQakQyTzNvcVFKSHlzYjFIemZ0?=
- =?utf-8?B?ODJGbi9qeFdvNG81RHllUGZucFdLRTZmR0RpOFdZazYwOVRjZ0FSR0FmTzl5?=
- =?utf-8?B?WFM2bHRIdmRmbS9adjdMOUZEeHRsbmZjQzdxanZrOFZsZFJSNjZFUHY1ako1?=
- =?utf-8?B?bkVHcEVNRlhNZm1zM29wTVR0ZDNoaWJQTS9XSUYxSTRIbDJ2OHpKRU8yMnNa?=
- =?utf-8?B?Yk9SMHU4d1pqaEg4NytJUWR4UXRQSmpQQXZKTGpWT202OHJqOGxnc0N4MzY5?=
- =?utf-8?B?ZVRjd2FDOUV5SFIrbjdWSFlTMTR6aFlvM3hYM0xDM1hIK0F1a2x6ZlZ6VnAw?=
- =?utf-8?B?eXdsMkdEaUlqME9HNVlqRkFRVUFtWmg3dGl0V1laUnEwaDRuQ1hmR0JPT0R0?=
- =?utf-8?B?OG5LcTVLMlVqTnNOZmJ5ak1GcDI1a1QyUVBiZGpHMmZWb3JUVGd3WEJUYTBS?=
- =?utf-8?B?UStFbTRvclFTYnA0L3RYdEovMWp0TU9qYTVhZ2h0dURhMVpEKzZ0MmRIN1Nm?=
- =?utf-8?B?UDNTdlRSZHVUS3dHSGhXZXhqbWs4M2Z6ZVNqWDFlR1BRUlJZajY0Mnd5eFhI?=
- =?utf-8?B?WnRad2cxcEFEUHBycmtBam45RmNSSFNmZlVzQXo0SnhXL2hVeHhrN3B5SHN5?=
- =?utf-8?B?alZOV1pWVS9aQXdNMGcwbEVpcjFlQnlidUlOVk5LTlFlOHIvUlRZcndlMXZl?=
- =?utf-8?B?cFJ1cEJHWTZCY21icXlmTTY5SjRQNXYvRm1pRFJZQ3dLVFQrbjRoNXgvOGxs?=
- =?utf-8?B?OC81cEZmbGRPZ004ZWtpS2FJQnFCWllMTWwvenVhNkJKdTJGYzcrWnlaQzNL?=
- =?utf-8?B?YzFLM0xEaldXRzdUQ2k1VWFVZFg5dmpkZUJkZ1hPK1hzbDRtc2RIMlBwNnVk?=
- =?utf-8?B?UlI2blc5bjNLLzBrQnQwUE43VDd2em16bFdqWjlETWNZTUYydVNZcElpTnR3?=
- =?utf-8?B?enJNeGxKcGwyL3JGaEp3Z3RVLzcxR2xzZlJRdGdpdXhiSkdKcUlaOWNONkps?=
- =?utf-8?B?U09tYmJJZloremNvTVNncW9Iekd3K1RxNzgvTTdEQUZ6QTg5clRsbXVhclhK?=
- =?utf-8?B?SU1OYnlDNmFUb0dEOUtHQnhWNmc4ZGVtQU1oWUY0NTZvblcwclpubm1TZkx3?=
- =?utf-8?B?ZnJVVURyTkpRQytDT1VPdXJpcXd6K01XdmxpWmx2eWxjRHhWNG1KNW5uNmZh?=
- =?utf-8?B?aDlaKzc0aXVUZ2FVRHJaSDgreE1iSkI3Y1hhVHRkVXEwZm1PMmlteTJ6cDI4?=
- =?utf-8?B?UmNSVDFLUHVsaEl6dXNDQ0htK0pFR0JXeU9tQnRxZGYrbnNOVlY3QXhRUFVp?=
- =?utf-8?B?Z0tqSUljWlVLeTV5NVptZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR11MB6864.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WE9oRS9qWW5vcGN2ek1rejdIL0s2bGRySk0xTkxVYlFxb2VmMVVVTUNXeHhL?=
- =?utf-8?B?UnI4dVlFRTRQdHFOUUJRNC9vaGtVNzZpWFBSdjJ3anRxWWlnT05pK2JmQVFj?=
- =?utf-8?B?NG55akJmSVVOTFRNYWpjc1V0amtFTkpJU1ozK25hYTRzelhXdXNtS01ZaTg2?=
- =?utf-8?B?azI4bm9yKzNQYVpWVHFUWXpmYXNHZnN5VmNPeXdzV0UxUFlxK1BQVjJZakdK?=
- =?utf-8?B?VFJoZDhabGZ6WmthYWFkTXJlSXNsRU5HMndpRXI2MlZnRE8rb1pVaHBJSzB5?=
- =?utf-8?B?RG4rUWRhNW4yRUNKNlp5M0RWcjRtNFNRelNFMHBlM3JJajdmQWtwMVdUbWNh?=
- =?utf-8?B?a0tPcU5KeU1LWldGUk53Y3ArcVFhcTkxUy9QaFVyNFJHT3pOaG5MOGg4WUto?=
- =?utf-8?B?d1YreHdESWZZcFdjUTJDY2RPV0hQNmpLakt4Z0dBaldxZnFOSUlNYkUrLzkx?=
- =?utf-8?B?RW5IZ2NGM1JpNjY3N1U1WFRjUEhyT1hVd2FCZVZRWVJsTGNvU01IcUQzUG1h?=
- =?utf-8?B?V2hKS0Q3VnE3bUJFTmJYVDE5disyb3lnelhMS2JnYlF5bnF3c2ZTV2FSdkZR?=
- =?utf-8?B?STIyLytoY0p0alQ5bDloVEYvK28vMncwU2Z1OS9jZFdMMW44ZlVpd0duVSsx?=
- =?utf-8?B?a0VzWmhjMXVlMVdBeTI5QmFtUGcrLzNEai96bUhvRnErNDhGd1RqWVlRaUQv?=
- =?utf-8?B?ajhVSmxkZXZBQkNPUG04UFFwdnArTS9VS1hiSVkxN2ZYak5nbjI2Q1JTUGxy?=
- =?utf-8?B?Mk5SWlZNdW9VeCtCZHpGVzNWYXM4TG8wRnhtd0hzZE51aFJnSnkwMkJCbHl2?=
- =?utf-8?B?OXR6cE1xL2JBVlpYb3d4N21mbzdoQ0RyYS9xS0lqdUdydTVMRUVxMnhFblM2?=
- =?utf-8?B?MVRSajBMa0FxTTlKTzg2dGdVVU9kQjFzMGVyWE5NWk94ZnROQlZ6L29ka2pO?=
- =?utf-8?B?anVTSVROYXpsS0dkaEtRdVZJbHljQTJ0aVNMbWtNTDRKdktNOC8yQUtEeVpy?=
- =?utf-8?B?dWdkazhvT201L2d0WGRZSmEyajRURkltbzdXMTF1dWtRb056K0ZtdDlobmdC?=
- =?utf-8?B?RC85UWd0aFltc2xCVm8yMzY2K0ZIYWp5VG4xTXArUTJGUDR5Uk05cThTR051?=
- =?utf-8?B?WkQ0ajJmUnRGTmJvWVdicVM0amZqTklJeWxBM2YxaENzU3NYNytrTmQ4cmRK?=
- =?utf-8?B?SFo5N1BkTGlXaG9LN3FhNjRBNjJaZHo5V1U3bmNad2R3dGtwR0IwL3JSam9i?=
- =?utf-8?B?K3YxUTVHazdaWFpKK2JNdjNha2RRQWkzVkNzczdyZFNrdWZaOFo0WDJBNVY5?=
- =?utf-8?B?cHQ2em1NbHZXQkVhM1htOGY0emFrWGlCRHV3djd1K0VLUWdFRy83WnNxWTd5?=
- =?utf-8?B?MU1YZXFyQW5URWo2Q3pFY3haeDBKck9WSkR4UUgrSzViRUgxQnQ0VCtidERS?=
- =?utf-8?B?RVN3TElEZlBBZUdWKzFLRlRzdmpvWHFWVDBRL3JoaHVQRExQL3VIdythci9h?=
- =?utf-8?B?dkZhMXN6TTQzRFovS2xmR09PL2xwZjZRV3VHNytVNENSbHRnR1l0VWI1NlZs?=
- =?utf-8?B?Ly9SN0psQklRRFJHcm90ZjFTOGZDMjdzUlZlcUQrOEZ2ZlBVdTRnN1pwR1oy?=
- =?utf-8?B?UXVVdmdIZG8zbW1uUnUycTk5cEpra3JOZ1RneGxpK29sUkFhQ3ZSWEJsUmhE?=
- =?utf-8?B?eDF2aXVYNm0rNXBjcC9tcENrdDgzZjk0Y1EvS2ZkNVZwN1RodFhxcG0rMDJY?=
- =?utf-8?B?ZStnT281d3pFL0hPZEJZdGNvT09mc0ZMeno2Z1R4RTNCZUpkUzVvVG4vZytJ?=
- =?utf-8?B?dGN4aFNhQTRreDk0bVBKeXlQakVFTmJoOFlpT2srYVZiQ3RBN0R2VmFMT1ls?=
- =?utf-8?B?ZXBLYVdDZFRmVXR6R0ladk9HT3dyQlNWdGNCZ2F1ck1VMEUzN0ltNmNqUGsw?=
- =?utf-8?B?RWNzYTVRTzJyUjBpWGV3RExWQzRibXYyeTR4R0Z0bW9lWGRENzN2MUZpRUJH?=
- =?utf-8?B?ajVSejY5YlZjT25UYjd3M2wzMVFVREs5aCt6NitTa1RkTFhWdi9Pcm9xYWVT?=
- =?utf-8?B?Qk5ySEtrVFA3Z3dKd1FIZ3VaUWxTZkI0S2F3U1JkUmNCYmY2U002d1lMRVJT?=
- =?utf-8?B?cFNUaXR6TmovVjdRWlIrczZFUlB6dGczYTFuaEI4TXBWZXdmMCt4OTlUazdm?=
- =?utf-8?B?Nmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a4c05ce-f500-4be4-5459-08dd36202126
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR11MB6864.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2025 11:22:58.1724 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3rVlukzWnd1syRv1Kuk2Fn6Fxm8Z0a7iv0gnvBDj4cZm1FdavQwyq+eNhdQ2PMLLfgpRnzDDbD7KvTt9U15aUeC3cLYmiVz8n5I+vf9FAdQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB8808
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <w6hoxhwyrp44e6yqelxe5qtlyq643bvynmqrwzybuflhb7lkvu@bmsy3losd6t4>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -196,50 +109,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16.01.2025 11:40, Krzysztof Karas wrote:
+On Thu, Jan 16, 2025 at 03:36:12AM +0200, Dmitry Baryshkov wrote:
+> On Wed, Jan 15, 2025 at 10:05:08PM +0100, Maxime Ripard wrote:
+> > Even though the commit_tail () drm_atomic_state parameter is called
+> > old_state, it's actually the state being committed which is confusing.
+> > 
+> > It's even more confusing since the atomic_commit_tail hook being called
+> > by commit_tail() parameter is called state.
+> 
+> Do you have any kind of history and/or explanation, why it's called
+> old_state all over the place?
+> 
+> I think that the renaming is correct, but I'd like to understand the
+> reason behind it.
 
-> spin_lock/unlock() functions used in interrupt contexts could
-> result in a deadlock, as seen in GitLab issue #13399:
-> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13399,
-> which occurs when interrupt comes in while holding a lock.
->
-> Try to remedy the problem by saving irq state before spin lock
-> acquisition.
->
-> v2: add irqs' state save/restore calls to all locks/unlocks in
->   signal_irq_work() execution (Maciej)
->
-> v3: use with spin_lock_irqsave() in guc_lrc_desc_unpin() instead
->   of other lock/unlock calls and add Fixes and Cc tags (Tvrtko);
->   change title and commit message
->
-> Signed-off-by: Krzysztof Karas <krzysztof.karas@intel.com>
-> Fixes: 2f2cc53b5fe7 ("drm/i915/guc: Close deregister-context race against CT-loss")
-> Cc: <stable@vger.kernel.org> # v6.9+
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 12f1ba7ca9c1..29d9c81473cc 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -3433,10 +3433,10 @@ static inline int guc_lrc_desc_unpin(struct intel_context *ce)
->   	 */
->   	ret = deregister_context(ce, ce->guc_id.id);
->   	if (ret) {
-> -		spin_lock(&ce->guc_state.lock);
-> +		spin_lock_irqsave(&ce->guc_state.lock, flags);
->   		set_context_registered(ce);
->   		clr_context_destroyed(ce);
-> -		spin_unlock(&ce->guc_state.lock);
-> +		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
->   		/*
->   		 * As gt-pm is awake at function entry, intel_wakeref_put_async merely decrements
->   		 * the wakeref immediately but per function spec usage call this after unlock.
+So originally drm_atomic_state only had a single set of state pointers, so
+was truly just a state collection and not a state transition/commit like
+it is now.
 
-Looked at this and wasn't seeing it. There is spin_lock_irqsave() used 
-earlier.
+During atomic check it contained the new states, and the old ones you
+could get by looking at obj->state pointers. After
+drm_atomic_helper_swap_state it contained the old states, and the new ones
+could be found by looking at obj->state.
 
-Reviewed-by: Maciej Patelczyk <maciej.patelczyk@intel.com>
+This caused endless amounts of confusions, and eventually we settled on a
+new design:
+- Ville added both old and new state pointers to drm_atomic_state, so now
+  it's not just a state collection, but really a state transition/commit.
+  We did discuss whether we should also rename it, but for lack of time
+  and good name this hasn't happened yet.
+- Instead of trying to pass the individual states to callbacks we've moved
+  over to just passing drm_atomic_state, and let the callbacks grab
+  whatever they need. That's also not yet done everywhere yet, but I think
+  we're pretty close.
 
+But one of the interim attempts at reducing the confusion was to rename
+the drm_atomic_state argument to old_state anywhere after we've called
+swap_states(). Didn't really help, and not it's just adding to the
+confusion.
+
+If we haven't yet I guess we should document the above two design
+principles in the drm_atomic_state kerneldoc.
+
+Cheers, Sima
+
+> 
+> > Let's rename the variable from old_state to state to make it less
+> > confusing.
+> > 
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/drm_atomic_helper.c | 20 ++++++++++----------
+> >  1 file changed, 10 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> > index 40e4e1b6c9110677c1c4981eeb15dc93966f4cf6..913d94d664d885323ad7e41a6424633c28c787e1 100644
+> > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > @@ -1818,13 +1818,13 @@ void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *old_state)
+> >  
+> >  	drm_atomic_helper_cleanup_planes(dev, old_state);
+> >  }
+> >  EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
+> >  
+> > -static void commit_tail(struct drm_atomic_state *old_state)
+> > +static void commit_tail(struct drm_atomic_state *state)
+> >  {
+> > -	struct drm_device *dev = old_state->dev;
+> > +	struct drm_device *dev = state->dev;
+> >  	const struct drm_mode_config_helper_funcs *funcs;
+> >  	struct drm_crtc_state *new_crtc_state;
+> >  	struct drm_crtc *crtc;
+> >  	ktime_t start;
+> >  	s64 commit_time_ms;
+> > @@ -1842,37 +1842,37 @@ static void commit_tail(struct drm_atomic_state *old_state)
+> >  	 * These times will be averaged out in the self refresh helpers to avoid
+> >  	 * overreacting over one outlier frame
+> >  	 */
+> >  	start = ktime_get();
+> >  
+> > -	drm_atomic_helper_wait_for_fences(dev, old_state, false);
+> > +	drm_atomic_helper_wait_for_fences(dev, state, false);
+> >  
+> > -	drm_atomic_helper_wait_for_dependencies(old_state);
+> > +	drm_atomic_helper_wait_for_dependencies(state);
+> >  
+> >  	/*
+> >  	 * We cannot safely access new_crtc_state after
+> >  	 * drm_atomic_helper_commit_hw_done() so figure out which crtc's have
+> >  	 * self-refresh active beforehand:
+> >  	 */
+> > -	for_each_new_crtc_in_state(old_state, crtc, new_crtc_state, i)
+> > +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+> >  		if (new_crtc_state->self_refresh_active)
+> >  			new_self_refresh_mask |= BIT(i);
+> >  
+> >  	if (funcs && funcs->atomic_commit_tail)
+> > -		funcs->atomic_commit_tail(old_state);
+> > +		funcs->atomic_commit_tail(state);
+> >  	else
+> > -		drm_atomic_helper_commit_tail(old_state);
+> > +		drm_atomic_helper_commit_tail(state);
+> >  
+> >  	commit_time_ms = ktime_ms_delta(ktime_get(), start);
+> >  	if (commit_time_ms > 0)
+> > -		drm_self_refresh_helper_update_avg_times(old_state,
+> > +		drm_self_refresh_helper_update_avg_times(state,
+> >  						 (unsigned long)commit_time_ms,
+> >  						 new_self_refresh_mask);
+> >  
+> > -	drm_atomic_helper_commit_cleanup_done(old_state);
+> > +	drm_atomic_helper_commit_cleanup_done(state);
+> >  
+> > -	drm_atomic_state_put(old_state);
+> > +	drm_atomic_state_put(state);
+> >  }
+> >  
+> >  static void commit_work(struct work_struct *work)
+> >  {
+> >  	struct drm_atomic_state *state = container_of(work,
+> > 
+> > -- 
+> > 2.47.1
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
+
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
