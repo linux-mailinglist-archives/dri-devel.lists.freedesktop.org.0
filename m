@@ -2,78 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69440A13700
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 10:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9489A1370C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 10:53:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA4B810E91C;
-	Thu, 16 Jan 2025 09:52:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 114F410E91D;
+	Thu, 16 Jan 2025 09:53:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ABHGOroQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RoJ8IVH4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
- [IPv6:2607:f8b0:4864:20::b2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F39CC10E91D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 09:51:59 +0000 (UTC)
-Received: by mail-yb1-xb2c.google.com with SMTP id
- 3f1490d57ef6-e46ebe19489so1056267276.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:51:59 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A209A10E918
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 09:53:43 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id
+ 2adb3069b0e04-53e3a227b82so768960e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:53:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737021119; x=1737625919; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PHkHmJVyVw2q8SHd/lGtIIaMHF7t+fsEzhn65ZBqGG0=;
- b=ABHGOroQElHoV+dzKUoQbhUVxFjE+dPazpiIy4Z7Afoz/3sQQpMj7hPu4yZ49kgYgx
- 5TkrtBdxLmEPxZuRi6BE9MNZpTPBvt9mt0yQ1o8rs1loVt7/qoe2sPjYUlEEmTx/YNYI
- vmNfZpCZ2OUTrwQ0ZjnEuNf2Q5GADdzDehZBMCiQRdnnplA9tpLxIZxQSh5c/2pXwDG2
- WAOZVNexcZGXJeTChhOMJyVEIrUsb5pvnyQ/eaZ5a2w/jmFwEpfR/ct0zSphImZRZIqE
- bX9yjKaYcPqbQ6lkUe9usiJ4dcAVLxkNSnPe3oicbonAG01R4vNtdTjjmOVdlf/wty6E
- cjKA==
+ d=linaro.org; s=google; t=1737021222; x=1737626022; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=QNNa1h8AYUs4B6XNrJw5bBoCCf6HDJBQip+zEhat+hI=;
+ b=RoJ8IVH4pGlLhEiQYZ3cyxGrycJlPWo1rSOVmTb1S4f8duWsNvO80Y1FasMUKDxXyF
+ ywwxuk4MmN9zGpSAeMloX1vIzWCzFLYXAFzcf8/3bdc/7Iei/TFqpe2CeW9EPmREZ1QN
+ 51I+b+2QyB4onC3QzvfBujZGLLp3qmshh+tLbQsYHvWA0HeR8St9worI/iGP4PsydkPl
+ Ho8j+O1AQU/+AlO417nvqqMC/WTLreig0OlNVYIe/KPPK3Pepnax06pf2F7Rn/4TrXVb
+ k7kkLc+KhFScg0c+WIyNa60cHNX6jA40xH+vTiOn0+XzU/n05pohogBD6g8s2su1ky2n
+ X28A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737021119; x=1737625919;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PHkHmJVyVw2q8SHd/lGtIIaMHF7t+fsEzhn65ZBqGG0=;
- b=GLjtxOi9b66PFfOg+g0Mo4IC+FL8sqQPWnBf+KqUzEcVm1SRdrUG2rtq7VcPeaH9jo
- 5fUoF3/8lvaikqrWB1BpTN0YMJubm7RoPVMV18xGyzoYvU77AxFFJxaScE0cA30cosep
- vWRCK01MVt/a2b+wSwcC10IxO8/pDz5IHfJQaJ/fmKCmUdswSb0Q0fm03Wf96pUM5aaT
- EZw/HK+TVVjoU4KZew6JcFCo36YUKkjCDbcEUJ2KVWdpt9dtzhwf2OKi63tj5wJkrxHO
- gWucFTH/Qq7s7Bs0o6P958Fc4r9LZPEQ0uWVT5P/9iuaoCuo7vtr1waR57DtLGr0Q0bJ
- LwoA==
+ d=1e100.net; s=20230601; t=1737021222; x=1737626022;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QNNa1h8AYUs4B6XNrJw5bBoCCf6HDJBQip+zEhat+hI=;
+ b=c5Ol7lu0Io3C1vmI4VQS1mMGkgH5XWQvv1O8bowAHWIfy3eszzXG7hG09OgMmvs/P/
+ cgBlOKP/ZWc6H8QGXAW03gVVY2q4REuayXxzeJWQAmgLqZZC+KqSCO32kLszDl3Xo1eI
+ mjiBAgW6+EY1usxb/ignL/AWTA2UsaXZSdN8d/3R6+14p5FW7xkskIPypIQ+Y+2VpjAY
+ 9xrPxyCl6MusTm7boZZkaFzDKHs0yDskf7VOOpgtX4uCX+BbjDqk0HQ3hR11ZxHNozFy
+ 5Dnshu0k++pc75lkblEDz2PQ725mzkWZu1k9lADUk/BC4UgGdzk9aTsml+aNBbtEIB+l
+ TTwQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgJW+LTG1qWJYHY1A4f4Zu6L2gQg6Ka/iHyQFuY33iPVFHelTMzj/rjilNC1Rx4Gs3qnbFVBzKvPo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypbpjHXHoKIrj/+ioqydp4pAVXbl6X3QUuGc4PMsogR+joolNT
- bpE+MBPtJjz7GA7W2UKAQvR7yMQ0+6gpToHd9bnOKY1nj2QJI3TFBbm3O6upyJ47r6CszTegSLZ
- jg/wMXPJoOkEZaKn+08WqKAHTadnzbEsWXwVe46rQCQiSNx/v38qUhknM
-X-Gm-Gg: ASbGncu+OxmrBBY5Vr3Er01SNGWqRGf+r09ISGMKalVKES6t2SBUV1FWk4CYXeoVp7d
- 7pCfJ3S2d0BCMToPUC4h2ScwaHCDuoVdtBBEzFg==
-X-Google-Smtp-Source: AGHT+IEPamgQ8A4umLwLWvzdOq5abqzsKPymyE869UdE7JGW5hBM/FhvB7/cu7uZnuZjcd4X4d8keygBo36mKeTM5aA=
-X-Received: by 2002:a05:6902:2001:b0:e38:c0ed:8128 with SMTP id
- 3f1490d57ef6-e54edf4181emr26876714276.3.1737021119084; Thu, 16 Jan 2025
- 01:51:59 -0800 (PST)
+ AJvYcCVKYFrRVWPfm+ofALcnuD1yI3Z8fxSgWJ9IjXPja1RBsseS+OLniwWx3L74UZehnXgDhacRVAXp8RM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwtF3XPPBgBmkjK2fwnCUQoYV68fl9mo+hmD16CFEO9VFphELfY
+ dmQn7HSf9lsYH+ozJC1tjud/XUj2nji4j1jqarumNYW4fwACUS4B/5CRLkFf/9k=
+X-Gm-Gg: ASbGnct7hdn/D1fsFXWqgM5pjKGFadXHDzyAwqS4uc5E3ZzQkL+eWXBrEjSLSQWZe30
+ wvSKP7QSXJO/XRxLJKIG0dFvIz7GmMvjUfYWRZr0ZMqPiSmTPqXOUGWdSWax/9kLVAqa8Wi0zAS
+ Bo7d7QlSwy91Ge+pxpQ3PrwZWrHm20FV7rKJmn3NqGwbABcKj8DnK4gwVSJgu79gpBHozJzwIyr
+ 8OW/fIh5qvZdfPONJq3z1+kY2hbkqJlgOPD0d3vFM7bkirTJZ1B+ABDcObiv+ZmrX3GThBRwl+l
+ 0dEwxAvupE2hmFnERZkVmPoR5PCMQStZ50Ej
+X-Google-Smtp-Source: AGHT+IG4fHj2I6gMUTaF41caKL1snpJIBw9bx+1972ulvIElEnBUO0YOwESJQWwC09hO7y68GuL8jA==
+X-Received: by 2002:a05:6512:3d22:b0:540:25a6:c390 with SMTP id
+ 2adb3069b0e04-542845b6f79mr10839722e87.23.1737021221758; 
+ Thu, 16 Jan 2025 01:53:41 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428be55f1csm2263640e87.88.2025.01.16.01.53.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2025 01:53:41 -0800 (PST)
+Date: Thu, 16 Jan 2025 11:53:39 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 25/29] drm/bridge: Provide pointers to the connector and
+ crtc in bridge state
+Message-ID: <rqem5pqoufet66verjldsb5ihdwnfwcn6clwouj5l6p53f3ik6@sx52djr475yk>
+References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
+ <20250115-bridge-connector-v1-25-9a2fecd886a6@kernel.org>
+ <eaardp55onpuqxneh4q6a7tmujglp2pu7kubwisoubjbyuqbt3@zttu7txp34xx>
+ <20250116-energetic-fine-worm-c2460a@houat>
 MIME-Version: 1.0
-References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
- <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-10-74749c6eba33@linaro.org>
- <l6z2skrj2tvlnqok44yepqs32keuz3wsfpgsacesrxi3q4s4xb@oiicfia3tkef>
- <CABymUCOdtePUgcbtY3Xtf9detcfwm=RjG1D_sfDOSbSP-EjwXA@mail.gmail.com>
-In-Reply-To: <CABymUCOdtePUgcbtY3Xtf9detcfwm=RjG1D_sfDOSbSP-EjwXA@mail.gmail.com>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 16 Jan 2025 17:51:48 +0800
-X-Gm-Features: AbW1kvZx8A6GtE-n-Wp7iPIdMM92jpshgFLQ0sM3KOw4L6IGEW1Av757xu2vCFE
-Message-ID: <CABymUCPeaG0PVBhNdvhXp=GK9RGqsqDfLLv0w+icBmHwn_hiKg@mail.gmail.com>
-Subject: Re: [PATCH v4 10/16] drm/msm/dpu: handle pipes as array
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116-energetic-fine-worm-c2460a@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,104 +99,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Jun Nie <jun.nie@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=9C=8816=E6=97=A5=E5=
-=91=A8=E5=9B=9B 17:49=E5=86=99=E9=81=93=EF=BC=9A
->
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=
-=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 16:00=E5=86=99=E9=81=93=EF=BC=9A
-> >
-> > On Thu, Jan 16, 2025 at 03:25:59PM +0800, Jun Nie wrote:
-> > > Store pipes in array with removing dedicated r_pipe. There are
-> > > 2 pipes in a drm plane at most currently, while 4 pipes are
-> > > required for quad-pipe case. Generalize the handling to pipe pair
-> > > and ease handling to another pipe pair later.
-> >
-> > With the first sentence being moved to the end of the commit message:
-> >
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> >
-> > Minor issues below, please address them in the next version.
-> >
-> > >
-> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+On Thu, Jan 16, 2025 at 09:42:54AM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Thu, Jan 16, 2025 at 03:04:19AM +0200, Dmitry Baryshkov wrote:
+> > On Wed, Jan 15, 2025 at 10:05:32PM +0100, Maxime Ripard wrote:
+> > > Now that connectors are no longer necessarily created by the bridges
+> > > drivers themselves but might be created by drm_bridge_connector, it's
+> > > pretty hard for bridge drivers to retrieve pointers to the connector and
+> > > CRTC they are attached to.
+> > > 
+> > > Indeed, the only way to retrieve the CRTC is to follow the drm_bridge
+> > > encoder field, and then the drm_encoder crtc field, both of them being
+> > > deprecated.
+> > > 
+> > > And for the connector, since we can have multiple connectors attached to
+> > > a CRTC, we don't really have a reliable way to get it.
+> > > 
+> > > Let's provide both pointers in the drm_bridge_state structure so we
+> > > don't have to follow deprecated, non-atomic, pointers, and be more
+> > > consistent with the other KMS entities.
+> > > 
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > > > ---
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  35 +++----
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 167 +++++++++++++++++---=
-----------
-> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  12 +--
-> > >  3 files changed, 112 insertions(+), 102 deletions(-)
-> >
-> > > @@ -853,6 +855,9 @@ static int dpu_plane_atomic_check_nosspp(struct d=
-rm_plane *plane,
-> > >               return -EINVAL;
-> > >       }
-> > >
-> > > +     /* move the assignment here, to ease handling to another pairs =
-later */
-> >
-> > Is it a TODO comment? It reads like an order.
-> >
-> > > +     pipe_cfg =3D &pstate->pipe_cfg[0];
-> > > +     r_pipe_cfg =3D &pstate->pipe_cfg[1];
-> > >       /* state->src is 16.16, src_rect is not */
-> > >       drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
-> > >
-> >
-> > > @@ -1387,17 +1394,28 @@ static void _dpu_plane_atomic_disable(struct =
-drm_plane *plane)
+> > >  drivers/gpu/drm/drm_atomic_state_helper.c |  5 +++++
+> > >  drivers/gpu/drm/drm_bridge.c              | 21 +++++++++++++--------
+> > >  include/drm/drm_atomic.h                  | 14 ++++++++++++++
+> > >  3 files changed, 32 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > index 519228eb109533d2596e899a57b571fa0995824f..66661dca077215b78dffca7bc1712f56d35e3918 100644
+> > > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > > @@ -777,10 +777,15 @@ EXPORT_SYMBOL(drm_atomic_helper_bridge_duplicate_state);
+> > >   * that don't subclass the bridge state.
+> > >   */
+> > >  void drm_atomic_helper_bridge_destroy_state(struct drm_bridge *bridge,
+> > >  					    struct drm_bridge_state *state)
 > > >  {
-> > >       struct drm_plane_state *state =3D plane->state;
-> > >       struct dpu_plane_state *pstate =3D to_dpu_plane_state(state);
-> > > -     struct dpu_sw_pipe *r_pipe =3D &pstate->r_pipe;
-> > > +     struct dpu_sw_pipe *pipe;
-> > > +     int i;
-> > >
-> > > -     trace_dpu_plane_disable(DRMID(plane), false,
-> > > -                             pstate->pipe.multirect_mode);
-> > > +     for (i =3D 0; i < PIPES_PER_STAGE; i +=3D 1) {
-> > > +             pipe =3D &pstate->pipe[i];
-> > > +             if (!pipe->sspp)
-> > > +                     continue;
-> > >
-> > > -     if (r_pipe->sspp) {
-> > > -             r_pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
-> > > -             r_pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NONE;
-> > > +             trace_dpu_plane_disable(DRMID(plane), false,
-> > > +                                     pstate->pipe[i].multirect_mode)=
-;
-> > >
-> > > -             if (r_pipe->sspp->ops.setup_multirect)
-> > > -                     r_pipe->sspp->ops.setup_multirect(r_pipe);
-> > > +             /*
-> > > +              * clear multirect for the right pipe so that the SSPP
-> > > +              * can be further reused in the solo mode
-> > > +              */
-> > > +             if (pipe->sspp && i =3D=3D 1) {
-> >
-> > Wouldn't it be better to `&& i % 2 !=3D 0`? Then, I think, this conditi=
-on
-> > can stay even in quad-pipe case.
->
-> If all pipes are in solo mode, there is no need to test ' i %2 !=3D 0 '. =
-Below
-> test shall be better, right?
-> if (pipe->sspp && pipe->multirect_index =3D=3D DPU_SSPP_RECT_1)
-
-See your comments for later patch. Let's keep it as:
-i % PIPES_PER_STAGE !=3D 0
->
-> >
-> > > +                     pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
-> > > +                     pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NON=
-E;
+> > > +	if (state->connector) {
+> > > +		drm_connector_put(state->connector);
+> > > +		state->connector = NULL;
+> > > +	}
 > > > +
-> > > +                     if (pipe->sspp->ops.setup_multirect)
-> > > +                             pipe->sspp->ops.setup_multirect(pipe);
-> > > +             }
-> > >       }
-> > >
-> > >       pstate->pending =3D true;
-> >
-> > --
-> > With best wishes
-> > Dmitry
+> > >  	kfree(state);
+> > >  }
+> > >  EXPORT_SYMBOL(drm_atomic_helper_bridge_destroy_state);
+> > >  
+> > >  /**
+> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > > index c937980d6591fd98e33e37d799ebf84e7e6c5529..069c105aa59636c64caffbefcf482133b0db97d9 100644
+> > > --- a/drivers/gpu/drm/drm_bridge.c
+> > > +++ b/drivers/gpu/drm/drm_bridge.c
+> > > @@ -829,19 +829,24 @@ EXPORT_SYMBOL(drm_atomic_bridge_chain_enable);
+> > >  
+> > >  static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+> > >  				   struct drm_crtc_state *crtc_state,
+> > >  				   struct drm_connector_state *conn_state)
+> > >  {
+> > > +	struct drm_bridge_state *bridge_state;
+> > > +	int ret;
+> > > +
+> > > +	bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+> > > +						       bridge);
+> > 
+> > It felt like an error to me to call this function for a non-atomic
+> > bridges, until I fully followed the code path to find that it will
+> > return NULL if the bridge isn't registered as a private object.
+> 
+> Yeah.. I wasn't too sure what to do about this one either. I think it
+> would be more consistent to always have a state properly filled, even if
+> we have !atomic drivers. It's what happens with the rest of the
+> framework.
+
+Well... Unlike other parts of the framework there is no state for
+non-atomic bridges. Of course we can probably fix that by using default
+helpers if the callbacks are not provided.
+
+> But also, I have no idea what the side-effects might be.
+> 
+> One thing though: a driver having an atomic_check callback is not an
+> indication of whether it supports atomic mode-setting or not.
+> atomic_check is optional, so we can have atomic drivers without
+> atomic_check.
+
+Yeah. The framework uses the presence of the .atomic_reset() callback in
+order to register the bridge as a private object, maning state
+management & co.
+
+-- 
+With best wishes
+Dmitry
