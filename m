@@ -2,88 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19E9A136F5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 10:50:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69440A13700
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 10:52:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49C1710E91A;
-	Thu, 16 Jan 2025 09:50:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA4B810E91C;
+	Thu, 16 Jan 2025 09:52:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="DCNxeUdj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ABHGOroQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E12410E91C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 09:50:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737021045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=2QBcPOL+yHMfg2AXT/qQcpRo+j7cAx0BnePH8/E/d/s=;
- b=DCNxeUdj7r1FSHzo3z9r202YRLkpP8RSt/o82fCKWJxSSzNC9e7ZRiQHlrr2AtpuAATK8B
- DzLzg4I3+kbBMOYspRMDt2xbkH0SKWg9sEPsd5eyQ0swcqJ8D5SSYbJFeo10rJV0xJJ9Ku
- y4A2ZQ0tAEoxs4eF7/HLcECC47x4uN4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-453-6XEoWVM7MteDPc1i_YbIIA-1; Thu, 16 Jan 2025 04:50:43 -0500
-X-MC-Unique: 6XEoWVM7MteDPc1i_YbIIA-1
-X-Mimecast-MFC-AGG-ID: 6XEoWVM7MteDPc1i_YbIIA
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4362b9c15d8so2992255e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:50:43 -0800 (PST)
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com
+ [IPv6:2607:f8b0:4864:20::b2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F39CC10E91D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 09:51:59 +0000 (UTC)
+Received: by mail-yb1-xb2c.google.com with SMTP id
+ 3f1490d57ef6-e46ebe19489so1056267276.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:51:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737021119; x=1737625919; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PHkHmJVyVw2q8SHd/lGtIIaMHF7t+fsEzhn65ZBqGG0=;
+ b=ABHGOroQElHoV+dzKUoQbhUVxFjE+dPazpiIy4Z7Afoz/3sQQpMj7hPu4yZ49kgYgx
+ 5TkrtBdxLmEPxZuRi6BE9MNZpTPBvt9mt0yQ1o8rs1loVt7/qoe2sPjYUlEEmTx/YNYI
+ vmNfZpCZ2OUTrwQ0ZjnEuNf2Q5GADdzDehZBMCiQRdnnplA9tpLxIZxQSh5c/2pXwDG2
+ WAOZVNexcZGXJeTChhOMJyVEIrUsb5pvnyQ/eaZ5a2w/jmFwEpfR/ct0zSphImZRZIqE
+ bX9yjKaYcPqbQ6lkUe9usiJ4dcAVLxkNSnPe3oicbonAG01R4vNtdTjjmOVdlf/wty6E
+ cjKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737021042; x=1737625842;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2QBcPOL+yHMfg2AXT/qQcpRo+j7cAx0BnePH8/E/d/s=;
- b=KkwNqsBNDikUnoG3cy9Cr8ZMRV6zHWsWpgWr6MsuNJXPRum88Vf4DzM7K9YTXyfRhl
- yM98m3o+y6IzN8V14TcNmK+XABfWLMyCLVQlTyX1cFE6bqn7hZvd3wEVP+/Wd4vmXRa+
- qOBGFPnR2QIoY+tPKdIf7rZcKi3/VjbF8gWgpZIl/WOBXcSyWm2nLT7kBdDOf5K4KnY5
- a1XlVo0rJP6C4hz6zbcCsUps1YzStCaScM7UolDjmn4acTT0Fgc4AYxuviA4QrHV4fnM
- nDkFKrDPi6U5trOfCNEHujMuHhPbZ7uU2w6wZ5NuscXlbzW3QbcVyFA1IHixHudYdyAo
- rWSg==
+ d=1e100.net; s=20230601; t=1737021119; x=1737625919;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PHkHmJVyVw2q8SHd/lGtIIaMHF7t+fsEzhn65ZBqGG0=;
+ b=GLjtxOi9b66PFfOg+g0Mo4IC+FL8sqQPWnBf+KqUzEcVm1SRdrUG2rtq7VcPeaH9jo
+ 5fUoF3/8lvaikqrWB1BpTN0YMJubm7RoPVMV18xGyzoYvU77AxFFJxaScE0cA30cosep
+ vWRCK01MVt/a2b+wSwcC10IxO8/pDz5IHfJQaJ/fmKCmUdswSb0Q0fm03Wf96pUM5aaT
+ EZw/HK+TVVjoU4KZew6JcFCo36YUKkjCDbcEUJ2KVWdpt9dtzhwf2OKi63tj5wJkrxHO
+ gWucFTH/Qq7s7Bs0o6P958Fc4r9LZPEQ0uWVT5P/9iuaoCuo7vtr1waR57DtLGr0Q0bJ
+ LwoA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVaVN3zFifGKNqtCxvC9xkVu4eXPJIhI3UCEL0pf459T0XM4o37R+7gVXKHoi3ySCWB6o1/IYyUI+0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwL+7seu9LHvR6BCr0ydDwJoHnflJ5t79GkuICpVf+M99sLSJpr
- DVrBhpX72zUEa2YJ6PtzRlPf4zZVLHE3jJl+caYW09KvhlLSXH0D2Z9oAUzqb+rZewWksyikem6
- VOq5NuCdTE4MZLsY24BWc+HOu1OjYkGfhW2P+yscbQwGensHpGQ61YIbpInHvftWOqw==
-X-Gm-Gg: ASbGncvuZ+g+Gl9DY8Bu5b26zHYcGtRlfp3A1HQgY7AdNVVvKL0+BKOIhO7/jtTkGsO
- +w3sKXH5Ga3abgEUmKBGqaA2AQYuRwUekQxqdRACApbbq0xe/QlhncMm8w/TqBskVY7m/XM988k
- T4r2SCX4InkmG4f2af3qPqnEsV0zo8nVtE85IRDkGjHxH9031TH1IpNWNgDnGFGTZWXerw1AqqV
- TDJ34pGAEz8miXnPt5fVVZF+OtWrwUGkAROV98IvkYMXQA22tUpMNFsXB3s6aVRyUj/vTIo7oi1
- OX1zbJGVR/t32SAGWOwBe4DhqG+kQHrQqT0vUP0GOYBNreOY7FR3py92IQ==
-X-Received: by 2002:a05:600c:1c88:b0:434:a350:207c with SMTP id
- 5b1f17b1804b1-436e26e5533mr276992405e9.23.1737021042571; 
- Thu, 16 Jan 2025 01:50:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH5t4CRMPGl3U2QYy1MRj8PDDngNqn9nAonrQyLMQZhr62g/12N6EKw6OKR2BA0KNR+REVluA==
-X-Received: by 2002:a05:600c:1c88:b0:434:a350:207c with SMTP id
- 5b1f17b1804b1-436e26e5533mr276992245e9.23.1737021042237; 
- Thu, 16 Jan 2025 01:50:42 -0800 (PST)
-Received: from localhost (203.red-217-125-100.staticip.rima-tde.net.
- [217.125.100.203]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-437c74c6799sm53740205e9.24.2025.01.16.01.50.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2025 01:50:41 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: John Keeping <jkeeping@inmusicbrands.com>
-Cc: John Keeping <jkeeping@inmusicbrands.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] drm/ssd130x: some small ssd132x fixes
-In-Reply-To: <20250115110139.1672488-1-jkeeping@inmusicbrands.com>
-References: <20250115110139.1672488-1-jkeeping@inmusicbrands.com>
-Date: Thu, 16 Jan 2025 10:50:40 +0100
-Message-ID: <87tt9zulxr.fsf@minerva.mail-host-address-is-not-set>
+ AJvYcCXgJW+LTG1qWJYHY1A4f4Zu6L2gQg6Ka/iHyQFuY33iPVFHelTMzj/rjilNC1Rx4Gs3qnbFVBzKvPo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypbpjHXHoKIrj/+ioqydp4pAVXbl6X3QUuGc4PMsogR+joolNT
+ bpE+MBPtJjz7GA7W2UKAQvR7yMQ0+6gpToHd9bnOKY1nj2QJI3TFBbm3O6upyJ47r6CszTegSLZ
+ jg/wMXPJoOkEZaKn+08WqKAHTadnzbEsWXwVe46rQCQiSNx/v38qUhknM
+X-Gm-Gg: ASbGncu+OxmrBBY5Vr3Er01SNGWqRGf+r09ISGMKalVKES6t2SBUV1FWk4CYXeoVp7d
+ 7pCfJ3S2d0BCMToPUC4h2ScwaHCDuoVdtBBEzFg==
+X-Google-Smtp-Source: AGHT+IEPamgQ8A4umLwLWvzdOq5abqzsKPymyE869UdE7JGW5hBM/FhvB7/cu7uZnuZjcd4X4d8keygBo36mKeTM5aA=
+X-Received: by 2002:a05:6902:2001:b0:e38:c0ed:8128 with SMTP id
+ 3f1490d57ef6-e54edf4181emr26876714276.3.1737021119084; Thu, 16 Jan 2025
+ 01:51:59 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fmHkRYXPDmSTjamkEGU296Eq94gENAphSgRXa0g0i1M_1737021043
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
+ <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-10-74749c6eba33@linaro.org>
+ <l6z2skrj2tvlnqok44yepqs32keuz3wsfpgsacesrxi3q4s4xb@oiicfia3tkef>
+ <CABymUCOdtePUgcbtY3Xtf9detcfwm=RjG1D_sfDOSbSP-EjwXA@mail.gmail.com>
+In-Reply-To: <CABymUCOdtePUgcbtY3Xtf9detcfwm=RjG1D_sfDOSbSP-EjwXA@mail.gmail.com>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Thu, 16 Jan 2025 17:51:48 +0800
+X-Gm-Features: AbW1kvZx8A6GtE-n-Wp7iPIdMM92jpshgFLQ0sM3KOw4L6IGEW1Av757xu2vCFE
+Message-ID: <CABymUCPeaG0PVBhNdvhXp=GK9RGqsqDfLLv0w+icBmHwn_hiKg@mail.gmail.com>
+Subject: Re: [PATCH v4 10/16] drm/msm/dpu: handle pipes as array
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,28 +89,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-John Keeping <jkeeping@inmusicbrands.com> writes:
-
-Hello John,
-
-> Two small fixes for ssd132x family chips in the ssd130x driver.
+Jun Nie <jun.nie@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=9C=8816=E6=97=A5=E5=
+=91=A8=E5=9B=9B 17:49=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Since v1:
-> - One patch is dropped as it turns out not to be needed
-> - Both remaining patches have typo fixes in the commit messages and
->   added trailers
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=
+=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 16:00=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > On Thu, Jan 16, 2025 at 03:25:59PM +0800, Jun Nie wrote:
+> > > Store pipes in array with removing dedicated r_pipe. There are
+> > > 2 pipes in a drm plane at most currently, while 4 pipes are
+> > > required for quad-pipe case. Generalize the handling to pipe pair
+> > > and ease handling to another pipe pair later.
+> >
+> > With the first sentence being moved to the end of the commit message:
+> >
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >
+> > Minor issues below, please address them in the next version.
+> >
+> > >
+> > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c  |  35 +++----
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 167 +++++++++++++++++---=
+----------
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h |  12 +--
+> > >  3 files changed, 112 insertions(+), 102 deletions(-)
+> >
+> > > @@ -853,6 +855,9 @@ static int dpu_plane_atomic_check_nosspp(struct d=
+rm_plane *plane,
+> > >               return -EINVAL;
+> > >       }
+> > >
+> > > +     /* move the assignment here, to ease handling to another pairs =
+later */
+> >
+> > Is it a TODO comment? It reads like an order.
+> >
+> > > +     pipe_cfg =3D &pstate->pipe_cfg[0];
+> > > +     r_pipe_cfg =3D &pstate->pipe_cfg[1];
+> > >       /* state->src is 16.16, src_rect is not */
+> > >       drm_rect_fp_to_int(&pipe_cfg->src_rect, &new_plane_state->src);
+> > >
+> >
+> > > @@ -1387,17 +1394,28 @@ static void _dpu_plane_atomic_disable(struct =
+drm_plane *plane)
+> > >  {
+> > >       struct drm_plane_state *state =3D plane->state;
+> > >       struct dpu_plane_state *pstate =3D to_dpu_plane_state(state);
+> > > -     struct dpu_sw_pipe *r_pipe =3D &pstate->r_pipe;
+> > > +     struct dpu_sw_pipe *pipe;
+> > > +     int i;
+> > >
+> > > -     trace_dpu_plane_disable(DRMID(plane), false,
+> > > -                             pstate->pipe.multirect_mode);
+> > > +     for (i =3D 0; i < PIPES_PER_STAGE; i +=3D 1) {
+> > > +             pipe =3D &pstate->pipe[i];
+> > > +             if (!pipe->sspp)
+> > > +                     continue;
+> > >
+> > > -     if (r_pipe->sspp) {
+> > > -             r_pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
+> > > -             r_pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NONE;
+> > > +             trace_dpu_plane_disable(DRMID(plane), false,
+> > > +                                     pstate->pipe[i].multirect_mode)=
+;
+> > >
+> > > -             if (r_pipe->sspp->ops.setup_multirect)
+> > > -                     r_pipe->sspp->ops.setup_multirect(r_pipe);
+> > > +             /*
+> > > +              * clear multirect for the right pipe so that the SSPP
+> > > +              * can be further reused in the solo mode
+> > > +              */
+> > > +             if (pipe->sspp && i =3D=3D 1) {
+> >
+> > Wouldn't it be better to `&& i % 2 !=3D 0`? Then, I think, this conditi=
+on
+> > can stay even in quad-pipe case.
 >
-> John Keeping (2):
->   drm/ssd130x: fix ssd132x encoding
->   drm/ssd130x: ensure ssd132x pitch is correct
+> If all pipes are in solo mode, there is no need to test ' i %2 !=3D 0 '. =
+Below
+> test shall be better, right?
+> if (pipe->sspp && pipe->multirect_index =3D=3D DPU_SSPP_RECT_1)
+
+See your comments for later patch. Let's keep it as:
+i % PIPES_PER_STAGE !=3D 0
 >
-
-Pushed to drm-misc (drm-misc-next). Thanks!
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+> >
+> > > +                     pipe->multirect_index =3D DPU_SSPP_RECT_SOLO;
+> > > +                     pipe->multirect_mode =3D DPU_SSPP_MULTIRECT_NON=
+E;
+> > > +
+> > > +                     if (pipe->sspp->ops.setup_multirect)
+> > > +                             pipe->sspp->ops.setup_multirect(pipe);
+> > > +             }
+> > >       }
+> > >
+> > >       pstate->pending =3D true;
+> >
+> > --
+> > With best wishes
+> > Dmitry
