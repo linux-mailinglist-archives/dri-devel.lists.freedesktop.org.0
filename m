@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074F5A13071
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 02:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1060A1307B
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 02:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6903310E545;
-	Thu, 16 Jan 2025 01:06:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 326AB10E548;
+	Thu, 16 Jan 2025 01:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F8rodydH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Fv1+UDaS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5EE710E545
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:06:48 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id
- 2adb3069b0e04-53e3778bffdso494619e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 17:06:48 -0800 (PST)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5958B10E543
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:09:05 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30229d5b229so4244981fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 17:09:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736989607; x=1737594407; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736989684; x=1737594484; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=QKjpr+PCtv9Xlm25hxPqz35tX6Hp8bb5htelYjdFoXc=;
- b=F8rodydHmUz2Z4hGpCYMCR3kaxMjgOo+6h0bFr35mNo3HxfJetcpQq3RXU93ZcMu+K
- n1uLQ1UFRAiDKZJFOEKwsCJdTRF7LknOVKs5l9fzYOPhTixvfPJWI79/lnBLqAt6HGpz
- pZb8OyyVKetiYmebCdil+nqhamYBEYzjM981ay0MWFfYUb+SArzC3t01kJlQ/ilyVW7W
- J3oNeHl9H5FbXn8eztUct7wS7gXFyQWXPaml2DH9WwQSHuOCIlhI7uQjERndweN/PMQo
- mddke7lE4OV+8WxLaZKiZ3V++4TxYZFP2RvwyF3h+wHFmyHYkc7o1fueUxn/uPwiStgR
- 4GAA==
+ bh=wwzMlilLdEujY5Zs33d6OoN+S/2HulFb5odS52mZBkw=;
+ b=Fv1+UDaSThbDfUfdbQtvSjqQLHGfrwgSMmZTVBFjiCXHlD4vxsG4nd9CW41pGAzaSC
+ QJzgWuh+d3/kMSKz98yswu8ZTiz3TJ3+UyH9bmR0ndVbAUV61pOmmhc1UBfoYknBP2Yh
+ t2XDls0BvO4DQA8WNAt00dl7pZ3rYI8R0fFy2x+pY3OwzqGxHpG/5xvEKqJ7OCG+MR0R
+ QvnV9ga3LFpgiW90DF0tC48JZcBe6ZdK7E5PUcoUnv5q9ovPg/Q/pY/0/rcaFSc+bkYN
+ Ipbfs+QV2hhcZsVtA5iCFWaE6PCpRZED1wRTk7ekrssUfEKSjuFvVfwN1b9mXdCQE/b7
+ xsdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736989607; x=1737594407;
+ d=1e100.net; s=20230601; t=1736989684; x=1737594484;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QKjpr+PCtv9Xlm25hxPqz35tX6Hp8bb5htelYjdFoXc=;
- b=eoU/MDHixYyVwjQF0UwMyS8uHj/iqYKhJx4+/aZEBNbGixnOeqRe9Dhyc9f65E+v+q
- gJQhapen6iQqVYUwUSGq/dlPuwP4nHM4WoQiZ/vqTUgXDEtqozDu+zBFuX4tD9y7C2fe
- cy7FYF2gDcG/9e2GLK2SITG27WzoFJw2/99kibQqQBd9gfkfWFJTOvtF+QidsCRuoK1C
- d8UDpPxiSP6vN3B2qz5VtW6znqII38EXqgiJSu4N2lwEet65k3nG9BVkxIOTgirmAMqk
- q3iqsw67DIOSFT173laeodVQGa7UhCPP6oof5J8u3aT1t6MuFhv8D8xF/Ar0mskAPk+6
- CYYg==
+ bh=wwzMlilLdEujY5Zs33d6OoN+S/2HulFb5odS52mZBkw=;
+ b=GpkKzlfs8EJz2DdEr+BqDv70oozUMVNJuYEegQT6gLXwHRjD8G0mDn6A9rDkcOKBPp
+ gw7MO2nOK65ZJ4xDPf52rJ86q2aJL4RlDnS2rt+swr6qX6TLbhv1XbQ+iQgjDNi6M9GG
+ AnGsP/Z0DTSreINa2muJ9z7K/GXMaSscEmjnKkkDMsx04uuAONMlkNczqELyY2MUIMrS
+ L4GN1eyQzSovhYdMtgYpRqYg04J+QxvmRiOe4HzDJ8ParbH4PO03DXrAMJZ0W3IEfcbR
+ cWbyal+9ZhamF6vG5gRVzuTxGOgV3Qx3KqUofk31YgJE+FK7Ne9QREIpR8rg81I5Crbp
+ wYRg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUgXPBxG6i/38H3tSnSlks4uJv1wY4/FQUUTyksJj6Bfqy9vp4Nc0a28VtgRFIlsn8zejAeFmCop68=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy96mdbCPLr0vk97HRPDa2bRQaAerlmgFSrzWbnARqe74HP7TAH
- lH+okWL06k45yfhiFnyqqH4Sd/XKrEqld1+Y5ruLk0kZCOudeQWigY6RsrHHTgA=
-X-Gm-Gg: ASbGnctNhaM4Sg8OOPyMp8CwVVnAOWCsQ1DUqfkvuxozT4WXPb/wCNZY8aHmii+AUm8
- Ai1RkfrMBlkDfx+EXR4tOPKF6jn6yZ3bVo/AmsFWnvTNJFVKZq6tDHQUdy6dTrH9c+HLNzk3L3k
- smud5B1vStAmjiwcTcTNz66JCgF9x01mlWbLBK62ytqZtAyR3g8yu0/i1CbL70R+fkdsD8cC0Jz
- Vpyjo0WTzZ36mua6HHanAN9yHYtDCLVeUXlZSMTT0hqUsQwc7833DAxcJLmeTKj/De6BotzROjM
- 25rN9FsZYbinvd8FnpV+DyxAtK8KMzkOfloD
-X-Google-Smtp-Source: AGHT+IE6AyNQM4b5B1BKSWYNOLxyZfpSuMzjKikAnrr4mbs9Vwlqc3x13hdbXp0soFpmgvKWgI4/QA==
-X-Received: by 2002:a05:6512:6ca:b0:542:23b3:d82c with SMTP id
- 2adb3069b0e04-542844f69ebmr11602576e87.3.1736989607153; 
- Wed, 15 Jan 2025 17:06:47 -0800 (PST)
+ AJvYcCXuYm7M6N45HYqdYIxDzkxhTSbkhq09Xh+0Tmhg0IYytwaaQShcGNlXJzaHOPFXppJ7jcNR4/+4S8o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyHnGLZM10hh8rulHxhoJ3z09jDTTv/tdwo1f7JX1VDW5ro5zcU
+ Bv+bXbNsr77SHe0DMZhUEZDaW2YB9wcmqbFyMDeEIhIL9iWXjMViiJLIul1BJlg=
+X-Gm-Gg: ASbGncut2iCPWkKqSw+EWYi5gfBD7PSE/NcxKzhrLdysTa9K2pLrfuSvgJraZZ2dBd4
+ GzxNQjxH+CffmvU7KRAsehK05xpcuEujGe5b0ATY6oIU8Jn/CZt0WtWsEtqEBPHqtYR9an7qd+x
+ VbuzDEXj9xJ00PdS4pY4s95wtZgktB41e33iWdywdxYhPe9GaCyzYcmhsrGGvlGpdY79YwXBLno
+ JTZC//M2yVTJ7cq93LwwTXNeEZ21JUmQnjIRVXpPaz7Ak1rLdmz5cIEEvhTtzQU6rwmzfSjk8GE
+ dBBh9Sh1v+W5ONNRCePXzugPB29LG9EAJqA9
+X-Google-Smtp-Source: AGHT+IFmjPC9QwWjRvCfffS8UBGr+gFJLAcJvNPgqdVotuaUVrqh3Sm4R8W+jJAYUE0rg6CRJe0/yA==
+X-Received: by 2002:a05:651c:4cb:b0:302:3355:f756 with SMTP id
+ 38308e7fff4ca-305f463c1e3mr102527661fa.35.1736989683655; 
+ Wed, 15 Jan 2025 17:08:03 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bea676bsm2200782e87.126.2025.01.15.17.06.44
+ 38308e7fff4ca-305ff0ad0e9sm22668551fa.15.2025.01.15.17.08.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2025 17:06:45 -0800 (PST)
-Date: Thu, 16 Jan 2025 03:06:43 +0200
+ Wed, 15 Jan 2025 17:08:02 -0800 (PST)
+Date: Thu, 16 Jan 2025 03:08:00 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,14 +73,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Douglas Anderson <dianders@chromium.org>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 27/29] drm/bridge: tc358775: Switch to atomic commit
-Message-ID: <l2qhiief72s3x4yl4empx4ef76jfp27aaybgqy6d4j2uee2n7x@jrt2erhhvu5l>
+Subject: Re: [PATCH 29/29] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
+ pointer
+Message-ID: <cfn3xpwyoo6lbugaxjwxvcq4l7eqbznlgnunxxfg4jnbrwtnpo@wdoizsk6ckvg>
 References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
- <20250115-bridge-connector-v1-27-9a2fecd886a6@kernel.org>
+ <20250115-bridge-connector-v1-29-9a2fecd886a6@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115-bridge-connector-v1-27-9a2fecd886a6@kernel.org>
+In-Reply-To: <20250115-bridge-connector-v1-29-9a2fecd886a6@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,8 +97,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2025 at 10:05:34PM +0100, Maxime Ripard wrote:
-> The tc358775 driver follows the drm_encoder->crtc pointer that is
+On Wed, Jan 15, 2025 at 10:05:36PM +0100, Maxime Ripard wrote:
+> The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
 > deprecated and shouldn't be used by atomic drivers.
 > 
 > This was due to the fact that we did't have any other alternative to
@@ -107,105 +108,29 @@ On Wed, Jan 15, 2025 at 10:05:34PM +0100, Maxime Ripard wrote:
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/bridge/tc358775.c | 32 +++++++++++---------------------
->  1 file changed, 11 insertions(+), 21 deletions(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 41 ++++++++++++++++++++---------------
+>  1 file changed, 24 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
-> index 0b4efaca6d682320b76ce09ed41824ae7f84ca2d..8f8ed8dc033daf001fc188d919fb38918673bd72 100644
-> --- a/drivers/gpu/drm/bridge/tc358775.c
-> +++ b/drivers/gpu/drm/bridge/tc358775.c
-> @@ -285,11 +285,12 @@ struct tc_data {
->  static inline struct tc_data *bridge_to_tc(struct drm_bridge *b)
->  {
->  	return container_of(b, struct tc_data, bridge);
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> index b3d617505dda7d22b38c000fb79de46376adf3f1..c17d9486cf5c36d61eb00af2bdf9ba1b6f890ffd 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> @@ -242,15 +242,16 @@ static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
+>  	u8 buf[2] = { val & 0xff, val >> 8 };
+>  
+>  	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
 >  }
 >  
-> -static void tc_bridge_pre_enable(struct drm_bridge *bridge)
-> +static void tc_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-> +					struct drm_bridge_state *bridge_state)
+> -static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
+> +static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata,
+> +				     struct drm_bridge_state *bridge_state)
 >  {
->  	struct tc_data *tc = bridge_to_tc(bridge);
->  	struct device *dev = &tc->dsi->dev;
->  	int ret;
->  
-> @@ -308,11 +309,12 @@ static void tc_bridge_pre_enable(struct drm_bridge *bridge)
->  
->  	gpiod_set_value(tc->reset_gpio, 0);
->  	usleep_range(10, 20);
->  }
->  
-> -static void tc_bridge_post_disable(struct drm_bridge *bridge)
-> +static void tc_bridge_atomic_post_disable(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *bridge_state)
->  {
->  	struct tc_data *tc = bridge_to_tc(bridge);
->  	struct device *dev = &tc->dsi->dev;
->  	int ret;
->  
-> @@ -367,34 +369,22 @@ static void d2l_write(struct i2c_client *i2c, u16 addr, u32 val)
->  	if (ret < 0)
->  		dev_err(&i2c->dev, "Error %d writing to subaddress 0x%x\n",
->  			ret, addr);
->  }
->  
-> -/* helper function to access bus_formats */
-> -static struct drm_connector *get_connector(struct drm_encoder *encoder)
-> -{
-> -	struct drm_device *dev = encoder->dev;
-> -	struct drm_connector *connector;
-> -
-> -	list_for_each_entry(connector, &dev->mode_config.connector_list, head)
-> -		if (connector->encoder == encoder)
-> -			return connector;
-> -
-> -	return NULL;
-> -}
-> -
-> -static void tc_bridge_enable(struct drm_bridge *bridge)
-> +static void tc_bridge_atomic_enable(struct drm_bridge *bridge,
-> +				    struct drm_bridge_state *bridge_state)
->  {
->  	struct tc_data *tc = bridge_to_tc(bridge);
->  	u32 hback_porch, hsync_len, hfront_porch, hactive, htime1, htime2;
->  	u32 vback_porch, vsync_len, vfront_porch, vactive, vtime1, vtime2;
->  	u32 val = 0;
->  	u16 dsiclk, clkdiv, byteclk, t1, t2, t3, vsdelay;
->  	struct drm_display_mode *mode;
-> -	struct drm_connector *connector = get_connector(bridge->encoder);
-> +	struct drm_connector *connector = bridge_state->connector;
->  
-> -	mode = &bridge->encoder->crtc->state->adjusted_mode;
-> +	mode = &bridge_state->crtc->state->adjusted_mode;
->  
->  	hback_porch = mode->htotal - mode->hsync_end;
->  	hsync_len  = mode->hsync_end - mode->hsync_start;
->  	vback_porch = mode->vtotal - mode->vsync_end;
->  	vsync_len  = mode->vsync_end - mode->vsync_start;
-> @@ -599,14 +589,14 @@ static int tc_bridge_attach(struct drm_bridge *bridge,
->  				 &tc->bridge, flags);
->  }
->  
->  static const struct drm_bridge_funcs tc_bridge_funcs = {
->  	.attach = tc_bridge_attach,
-> -	.pre_enable = tc_bridge_pre_enable,
-> -	.enable = tc_bridge_enable,
-> +	.atomic_pre_enable = tc_bridge_atomic_pre_enable,
-> +	.atomic_enable = tc_bridge_atomic_enable,
->  	.mode_valid = tc_mode_valid,
-> -	.post_disable = tc_bridge_post_disable,
-> +	.atomic_post_disable = tc_bridge_atomic_post_disable,
+>  	u32 bit_rate_khz, clk_freq_khz;
+>  	struct drm_display_mode *mode =
+> -		&pdata->bridge.encoder->crtc->state->adjusted_mode;
+> +		&bridge_state->crtc->state->adjusted_mode;
 
-Same comment: we have to provide state-management callbacks.
-
->  };
->  
->  static int tc_attach_host(struct tc_data *tc)
->  {
->  	struct device *dev = &tc->i2c->dev;
-> 
-> -- 
-> 2.47.1
-> 
+At least we should document why is it safe to follow the crtc->state.
 
 -- 
 With best wishes
