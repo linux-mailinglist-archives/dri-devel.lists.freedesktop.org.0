@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402ECA13447
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 08:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0DD0A13456
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 08:52:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1C5210E8D5;
-	Thu, 16 Jan 2025 07:48:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48F2C10E55C;
+	Thu, 16 Jan 2025 07:52:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IV+3XIqG";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="erJjSonC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
- [IPv6:2a00:1450:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9839F10E8D5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 07:48:11 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id
- 38308e7fff4ca-30036310158so5299971fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 23:48:11 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9404210E8C6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 07:52:53 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6887so594858e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 23:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737013690; x=1737618490; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1737013912; x=1737618712; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Luwgr/98+f8j9HTp9cKFmSabnH9PtUv555iDvEhdCnM=;
- b=IV+3XIqG+j+ys5chr7ndr3CrDKm3WV6w45q0q8F+ZtI6uXHNXOGbgTgEMe/kaXq+42
- /cGgyidrjqUNIQGfPibIL/kSym2Sm50ATNpu5z91pcoZqafYnYrVzCdWXkOFRIGVt8Ay
- V43wIaq2SABX7WjQ5Ac9eJACJuOz5qugSBSsS7PutQWBMrKDwwmn9hnBlEhCcWUzcw0E
- lP/0UI5VMd4xPhiMINN5oka+jAccUo7fCVFK0yIhEPqEfKm8P85RHBmb77lI7r9DZ0XC
- 5yKkbGplIsY+yDf4LUiQkjB/FnIidX7XY4NLCa+WJLoFscxWr4bNQRaJTQfLc66iYnek
- NR7Q==
+ bh=9KeTcvRzSBRZoETGqvAsD3cwrr3v6t0G+jUydDVDOWE=;
+ b=erJjSonCUDa4mH2MfTH6yh0Tsmnjlyb1WFIkfSHkO5DO6Uu8LKtTm7oHfJLZ1WvqXW
+ FNLTn5aiQTg+olvPqIS8VHE1CvdOZ/u0cBo6ysQf9JqTf7gJfo5DwxRFVrcCr/iUB0tZ
+ tbhzY65dOvRPu0tge8ic52NY98McvMZ80vr4UAXTV8TAtWpyqd/k9TdoxVnJBmTwH7cj
+ jLYm2WJt99ewcdLy55rOrlwgNJVOHIfU8eSgJ18jaCXd1L1f7k5LQcuJUayCmUfyCvh+
+ fBVquHJzpHcekYjU0w0io4wWbf2svWO9TZTGaLwkgqVuJkePo8t0nnZUOYYaAP5/wR7w
+ DUYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737013690; x=1737618490;
+ d=1e100.net; s=20230601; t=1737013912; x=1737618712;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Luwgr/98+f8j9HTp9cKFmSabnH9PtUv555iDvEhdCnM=;
- b=ni4eoWZcnJhDFNXbM3DugUgmjBNJ/BDL7DkrVSig2TLQsyf5Bt1HLsnUhnQYmNd0ZS
- oOmjvAJhn9jG/nqbqnMcEofP9ZKnsVc9HdHF12dkr44na4H/xakhQPrAIVuKLSv2tdGH
- JcypKF//MZeY3kU6IjDaMGq4un1EAoOiixtL4SrlzRhCQRcSbadFdWlctLC+CHI90Ess
- wTjwq8Po4Q2lAZ/CVHLTtCWa3chMnBEGOuvb0Gs5YAXrVepOQ1jCbBwIGbGtTEshp0k+
- t8V2MaQ4LKZPZukbQbBhef2lDkpYTGyIilcnf3EO5vCtMz1Q/NKtycTJI9qcIfvU10f4
- 9PNg==
+ bh=9KeTcvRzSBRZoETGqvAsD3cwrr3v6t0G+jUydDVDOWE=;
+ b=AhKLQrAujTKmkB2cUY3l2lQK6ubbpmSzWj2VeliNHwuL9Gvrcv25CJH5dSVJE4A03K
+ HrFDCLq3CUmlY5VE4yWd1YxJl7rHJfIRu4wpS8Tx8Y8N8tcTpSCtG+vt4GcShKwrpTzd
+ rk06DumXtathfiqYHnjExAKPeQ9afRgLvdUn5m5p5jGvIUc85zhIWkiO/4crUa4Iu/5E
+ xkL7qHFV27TSPY4FibNh82qmjj2e017uldhHtpSPXJNbPnbOREffmssIslDAmEmCbXU9
+ R9Fcm1dqomy0cfS5zhMxC1QtPjVqohRdqXclzvSS2KsvdsSqKLeyfgG+mgz01FqcqEVO
+ Xj4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgKaLncqGdgA68L+oOOAyxbd2zFAd/dBhtx4ZaN3J0RnYrPVv3jbNRZ/VzMxNyV5wZo8xqrz0b/ZU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxIKPGGWV9ej4f/c9I9VmXqd+E+uTsRZT3yX0a597nWwQR53ZDb
- sfhfP0xHFX9m1L1guKdaBg6zAuf2xuPBNqSUyp0f4OcjWrz494Nt6nBJftoQwVQ=
-X-Gm-Gg: ASbGncuyW0xS4wXQEiAnmduouY2W94PJYZ6nUbPX0FNsb0Rw+vmaWlTmD6/5Ddg431A
- by6oWH1D9WUEn4h+SV0a06Y9teHW/iN9vrlFFz56y/pUZRic1JZgY3hOyOqNRtArz1/OL0SL7xl
- yhIsriSAhy2+/eyI3jLfOhRb6Xl3KGdfTLV193keIwjnqO42/VYaiYAJmvT+2URx7/B4z6m2Fmu
- EYNwXgLBH3EZ0wK4enqmYdCA7TAnJB+DS2xVkPqGNe7fHBLfhYLIevckpnO5+X/o6fLkFGLiOZ5
- 5wLZfAxEp4X7jcMwodHWmCk8MiXAq4sOnEUz
-X-Google-Smtp-Source: AGHT+IFQa3wMQmdvF5PR29nT2j5Y4yU5wi9b2px9OWV8zN7GBDkw/qif9xH5KGsN9r+gg/ugRekl8w==
-X-Received: by 2002:a05:6512:acf:b0:542:63a8:3939 with SMTP id
- 2adb3069b0e04-542845a6f01mr9968008e87.8.1737013689890; 
- Wed, 15 Jan 2025 23:48:09 -0800 (PST)
+ AJvYcCU4wwYNXYcEJhwR6o3zc6rdCWMnX5YrkOhxwTFEIBJJmyUSRv0IJUJKvLgjOhMyqJ+dabqJwkZ3XNE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/dOzamhdlmXp4ldfrd1wbt/BmOI4s4MzzjPDnrODP9TtVaUQ2
+ N28wamX4orV+DmJNuRnQKfCg25rNRwUM2wTZkqp0czcQi/BZek+h8JPZmpaQnN0=
+X-Gm-Gg: ASbGncvUFvLygExAw5v+R9B2o+6KKFsG/JHZowJY+CWmIWJVpwREA6XZL9/L5gVsW5p
+ eLEZ44W/QAPwH8XMl5hdb0BT03dd7K2R5YZgRJoOz5sazGDoLXTYnGiyfUaO0P5t1ZwtWff28KO
+ 8tbdYQyAMVXBq+Gt5zTYniBlT71ez1L28jZYnbEahP0XXWjRTTQCzJK8YcRl6dXNQ9uHVcLZgRy
+ M7CkZ36/CoMY0dLMmS2yqpcoULVbxtwUjZiueFtfX1+bR1tpYXksTY5aoXrHKOGRGLHChOM7Ln5
+ dsJOUwpM8f8x12ShAcJESAiLIUgFrGx4qNk2
+X-Google-Smtp-Source: AGHT+IGPJCJqYj/cimGurDWfRa4t15Cl982J3dR8pYm0UoxlgQOAe+YlDndj4ssRizqsQTlDi67H9A==
+X-Received: by 2002:a05:6512:3e19:b0:542:986c:11ef with SMTP id
+ 2adb3069b0e04-542986c134emr6310487e87.5.1737013911933; 
+ Wed, 15 Jan 2025 23:51:51 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5428bec066fsm2284879e87.189.2025.01.15.23.48.07
+ 2adb3069b0e04-5428bea6acasm2225579e87.117.2025.01.15.23.51.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2025 23:48:08 -0800 (PST)
-Date: Thu, 16 Jan 2025 09:48:06 +0200
+ Wed, 15 Jan 2025 23:51:50 -0800 (PST)
+Date: Thu, 16 Jan 2025 09:51:48 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Jun Nie <jun.nie@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -71,14 +71,14 @@ Cc: Rob Clark <robdclark@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 03/16] drm/msm/dpu: configure DSC per number in use
-Message-ID: <bmjrpuxahjzjbnl7xvqhwmzh7dlhyjnfvh7swnxo6txuerfy4o@pvyzbd5cxfsm>
+Subject: Re: [PATCH v4 04/16] drm/msm/dpu: polish log for resource allocation
+Message-ID: <cjtwvbnpqqkcrqs3f2elol5s5wcdxtk5yeevgtf6zj4gvypqth@dcg3ydqk3v4r>
 References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
- <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-3-74749c6eba33@linaro.org>
+ <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-4-74749c6eba33@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-3-74749c6eba33@linaro.org>
+In-Reply-To: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-4-74749c6eba33@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,56 +94,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2025 at 03:25:52PM +0800, Jun Nie wrote:
-> Currently if DSC support is requested, the driver only supports using
-> 2 DSC blocks. We need 4 DSC in quad-pipe topology in future. So Only
-> configure DSC engines in use, instead of the maximum number of DSC
-> engines.
+On Thu, Jan 16, 2025 at 03:25:53PM +0800, Jun Nie wrote:
+> Add resource type info on allocation failure to ease debug. Because
+> more resources are required in new usage cases, such as quad-pipe case.
+> It is more likely that resource allocation may fail than existing usage
+> cases.
+
+- Problem description
+- Analysis
+- Resolution
+
+The patch LGTM, the commit message doesn't. Please work with one of your
+colleagues to make your patch descriptions understandable. You are
+putting the cart before the horse.
+
 > 
 > Signed-off-by: Jun Nie <jun.nie@linaro.org>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 23 +++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> index c734d2c5790d2..6603e9c03226f 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-> @@ -2027,7 +2027,7 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_ctl *ctl,
->  static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
->  				 struct drm_dsc_config *dsc)
->  {
-> -	/* coding only for 2LM, 2enc, 1 dsc config */
-> +	int num_dsc = dpu_enc->num_dscs;
-
-Reverse Christmas tree, please. Or the variable importance criteria.
-Anyway, num_dsc should be lower.
-
-With that fixed:
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
->  	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
->  	struct dpu_hw_ctl *ctl = enc_master->hw_ctl;
->  	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
-> @@ -2039,7 +2039,7 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
->  	u32 initial_lines;
->  	int i;
->  
-> -	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
-> +	for (i = 0; i < num_dsc; i++) {
->  		hw_pp[i] = dpu_enc->hw_pp[i];
->  		hw_dsc[i] = dpu_enc->hw_dsc[i];
->  
-> @@ -2068,7 +2068,7 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
->  	enc_ip_w = intf_ip_w / 2;
->  	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
->  
-> -	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-> +	for (i = 0; i < num_dsc; i++)
->  		dpu_encoder_dsc_pipe_cfg(ctl, hw_dsc[i], hw_pp[i],
->  					 dsc, dsc_common_mode, initial_lines);
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> index a67ad58acd99f..24e085437039e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+> @@ -802,6 +802,21 @@ void dpu_rm_release_all_sspp(struct dpu_global_state *global_state,
+>  		ARRAY_SIZE(global_state->sspp_to_crtc_id), crtc_id);
 >  }
+>  
+> +static char *dpu_hw_blk_type_name[] = {
+> +	[DPU_HW_BLK_TOP] = "TOP",
+> +	[DPU_HW_BLK_SSPP] = "SSPP",
+> +	[DPU_HW_BLK_LM] = "LM",
+> +	[DPU_HW_BLK_CTL] = "CTL",
+> +	[DPU_HW_BLK_PINGPONG] = "pingpong",
+> +	[DPU_HW_BLK_INTF] = "INTF",
+> +	[DPU_HW_BLK_WB] = "WB",
+> +	[DPU_HW_BLK_DSPP] = "DSPP",
+> +	[DPU_HW_BLK_MERGE_3D] = "merge_3d",
+> +	[DPU_HW_BLK_DSC] = "DSC",
+> +	[DPU_HW_BLK_CDM] = "CDM",
+> +	[DPU_HW_BLK_MAX] = "unknown",
+> +};
+> +
+>  /**
+>   * dpu_rm_get_assigned_resources - Get hw resources of the given type that are
+>   *     assigned to this encoder
+> @@ -862,13 +877,13 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
+>  			continue;
+>  
+>  		if (num_blks == blks_size) {
+> -			DPU_ERROR("More than %d resources assigned to enc %d\n",
+> -				  blks_size, enc_id);
+> +			DPU_ERROR("More than %d %s assigned to enc %d\n",
+> +				  blks_size, dpu_hw_blk_type_name[type], enc_id);
+>  			break;
+>  		}
+>  		if (!hw_blks[i]) {
+> -			DPU_ERROR("Allocated resource %d unavailable to assign to enc %d\n",
+> -				  type, enc_id);
+> +			DPU_ERROR("%s unavailable to assign to enc %d\n",
+> +				  dpu_hw_blk_type_name[type], enc_id);
+>  			break;
+>  		}
+>  		blks[num_blks++] = hw_blks[i];
 > 
 > -- 
 > 2.34.1
