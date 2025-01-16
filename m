@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9B2A13392
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 08:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A5FA13394
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 08:09:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0511110E8B4;
-	Thu, 16 Jan 2025 07:08:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C9F410E8B6;
+	Thu, 16 Jan 2025 07:08:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VmbshPO+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DVXcT7AP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8EA910E149;
- Thu, 16 Jan 2025 07:08:46 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ECF110E8B6;
+ Thu, 16 Jan 2025 07:08:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737011327; x=1768547327;
+ t=1737011334; x=1768547334;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=do+APYHMY/aFm80EtSKXNJP6xCYPgv/b7P1sPXKBMnA=;
- b=VmbshPO+jhcsq3NKJ+Iv+wSrI42157RNYFNQ7euyZi6qZMJMFF/LbH8l
- Iybq++BEt/8nvPi3VjoqhsySq8tEUWTKoKzvrGVsNDEvIys2ww95x6Try
- pJbd3vzJJvCveNjtJKI3DaUXE8oKDBoTTK06cuNs8zeNrwNCTT8rvAitR
- gi3pLdgACAETDdcvHufrsAbH3/5CxUTZw0PYYvoirY1YRSWoB1LJRyRAJ
- 9ib936BxKUvt74kgb2/Qy6TRNMWC2tmYOr89wZO4c+A5fhIbsK9w9wu+Y
- tkfg0gicV6aoNMHfFCDxHTHNLi1c/TliAWOfsFWtRrS2YLtpaAdGA924B Q==;
-X-CSE-ConnectionGUID: MXWtV/rcQsOnA+tQ0LZs9A==
-X-CSE-MsgGUID: jXdLj97vRXun0xSnkb1iGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="40193842"
-X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; d="scan'208";a="40193842"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2025 23:08:46 -0800
-X-CSE-ConnectionGUID: 3sQ3O8jISSGyHHvF8uUr3g==
-X-CSE-MsgGUID: zKjkuxyUSUiMQ+trFHB+vw==
+ bh=ZMANZRUpwzNZT2IVd2XNt5asSPDamOy4h08vTPOHG8I=;
+ b=DVXcT7APOezcGclnkSo9upDYBPYrB0u6BalID9J4jq8PeDUe75OH0ae8
+ sNe/4ISOHsfRb3nk8SlGTFkqb0DL3m4Da6L4ktj6WkItG8UMYKSO4liCt
+ qIiDfnXshKtAulFDJW6pQ2NvmUfukZHjzfSRfXamid5Z8PYcZ1htD1yOV
+ YgU3ny8SgBB2pBDzmqDvsNb1vh6cJSKjBRmlZnkTlb/pEU8uUXTwNMKHu
+ 6G6SCpJJw9uJqsiQS/NzZeo833xhFNO7sS1kOq6beMNPs8WL7kz6tu3hu
+ KghOXUk5eSUcsU6XoystHgLGBkinZyVF25FbXBcfuO05PP9mwphMr8IRO Q==;
+X-CSE-ConnectionGUID: DYAOcLmjSXqJvPxRTrjBYA==
+X-CSE-MsgGUID: K6n9W0AZR4e5me6pDmWRhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="62751970"
+X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; d="scan'208";a="62751970"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2025 23:08:49 -0800
+X-CSE-ConnectionGUID: QZk0pGzsTKir2V22RdbfkQ==
+X-CSE-MsgGUID: 8Dzr50oJR8qb/keumObRsQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="110026632"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 15 Jan 2025 23:08:46 -0800
+X-IronPort-AV: E=Sophos;i="6.13,208,1732608000"; d="scan'208";a="136239203"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 15 Jan 2025 23:08:50 -0800
 Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 15 Jan 2025 23:08:45 -0800
+ 15.1.2507.44; Wed, 15 Jan 2025 23:08:48 -0800
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 15 Jan 2025 23:08:45 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.49) by
+ 15.1.2507.44 via Frontend Transport; Wed, 15 Jan 2025 23:08:48 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.42) by
  edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 15 Jan 2025 23:08:45 -0800
+ 15.1.2507.44; Wed, 15 Jan 2025 23:08:48 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m8B56aiGMadIz9xFugbGSGxVw2tU7roYUrrIE0Y6ZiKL21pRnUtO8MfnqcgIw9ok/HTBC6yDRYU9t+f0ld2jv3SIjWbEFCtI46Ue8+gcY7/p5QXmFiGSwZvdgf0pkUTXEQyg/YX6MHCQvfHz2FO+gbvvuhDF6/hRAXqXSEnIvDwtTBpjmOQXOizKK8i8tYdFztd5jGiizkMhwFNW2D2H2aqxJTygdgxud+EADYcf7B+tuGWo01S2+6nuRhJpUVsPmVMnDytxN/PlcpMC05Mh0+hgSnQsVlmhrvJ2KhezBWmrLR+2pfsjR2oka6sdlg8aKLn0XwQrxiTUrp4/V8UFbA==
+ b=lVQuMLDVciFKcgAtzHO6YXrYYjKBSESo8u0+cevjDcbbfAyLT2HNCTY/zViFUmQfzkNmLmJxVS+83DwDwQ3kao1GOpdLXYg9sp9wYxPlgipDnzLhSIWshur4dfRWg51KUCvA0h6rafT1Q8B7FdVvoyIzDfxtYNmB5slxa2O6gNQyXm4TKuS+hTS8eo2qHRWl+PuD32klUZEkN4aPhRLfCTD/e8TI9nsvNpQ0/4M8whu8y6bhYePlXO4Vu3mgpn2OI16ubss2I9rD9vF1Z1Uj5b3n/NBzkhNHHiYAV26wlalRw+ZCBHivLxBRMEqCG/i7XV/fkdA8UFPhCmojsV49bQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G1Em360RCvxGW45ethUOSrqdnfyq2DqZKbzy4L6xLM4=;
- b=pZ+UqYRlJhpk82uNtM9i7GvUcZ/vZfCmoUp9735brC5OGXuCLYB1rA1Mmke8WBl//seGFG9twkIi05MmfHa5sUqylyi+lPcr+L3L7c1jQjv0KwFHXtMLPiWCtV4MWFb4AvRKounzIgzVsgCJH48j6n70e8RhEM5hLFjk1syvDfhRc/6TKVg/HUoXuSDwDWpXDrCxL9xyGgCfMe9hbg4U9vD+P25VHcsL0My2CtxEl/2E3bi0fO6SjxYBqQ0fkpxy9k+VQ5NZOU7WdjJvFhsmQx05bgqNPc1OEuK08HhMT+Gb0wB5Y+66+/UoJMU1lNSeDbMjvz8Gn8x2TeRL9931Mw==
+ bh=YrR0/1eDIQYAYwNJFBUDjlpRFdkCoKs/TEUFX/kWOpI=;
+ b=lbZBfiC5V/B/ZiKq0r84UydtduFLpfAhiZ81vpgNahGqXtUrXjwwNFE/C3rwQS/g1MXGlR3OrrLmzGbb2dgCISfwi7R/beXlV1OeloQc4DGeGAGCWGl69goBTKH+VEULxiNXBdgPdueY5Xxf62tAwpT9LVbJyIhzM9DihtKeRrmTWA3U0MqtZ3ochlQh6IWvEsRo/0rgDh3PBZFqICbmbpe77Z1oEG7Bzj8+rb5Igc7RXWqKQ5p/Ck54Z1dWoz1nvt30ZdLDseFLniIe9IudK98YUMnHwS30o6a0/buGZ12QrB2xyYyVG/MjuikAZALW+nAzy2jyiER5/VCi8NpfbQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -67,11 +67,11 @@ Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
  by SJ1PR11MB6156.namprd11.prod.outlook.com (2603:10b6:a03:45d::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Thu, 16 Jan
- 2025 07:08:43 +0000
+ 2025 07:08:46 +0000
 Received: from IA0PR11MB7307.namprd11.prod.outlook.com
  ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
  ([fe80::dafa:d38d:8ac1:e843%2]) with mapi id 15.20.8356.010; Thu, 16 Jan 2025
- 07:08:42 +0000
+ 07:08:46 +0000
 From: "Murthy, Arun R" <arun.r.murthy@intel.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
@@ -79,15 +79,17 @@ CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Kandpal,
  Suraj" <suraj.kandpal@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>,
  "Bhattacharjee, Susanta" <susanta.bhattacharjee@intel.com>
-Subject: RE: [PATCH v7 01/14] drm: Define histogram structures exposed to user
-Thread-Topic: [PATCH v7 01/14] drm: Define histogram structures exposed to user
-Thread-Index: AQHbYtFCB5lsX7WJdUO11PRG7LBZALMYRh8AgACXd6A=
-Date: Thu, 16 Jan 2025 07:08:42 +0000
-Message-ID: <IA0PR11MB73079537444DAA9596F0A837BA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
+Subject: RE: [PATCH v7 02/14] drm: Define ImageEnhancemenT LUT structures
+ exposed to user
+Thread-Topic: [PATCH v7 02/14] drm: Define ImageEnhancemenT LUT structures
+ exposed to user
+Thread-Index: AQHbYtFEgXOdJTxz0Uatj2h0T3Y1k7MYSSEAgACcqVA=
+Date: Thu, 16 Jan 2025 07:08:46 +0000
+Message-ID: <IA0PR11MB73075A89DAA5BF7D783125EEBA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
 References: <20250110-dpst-v7-0-605cb0271162@intel.com>
- <20250110-dpst-v7-1-605cb0271162@intel.com>
- <kwklrd2zjovabsa537jwg3bpqilvhfmxxyr4exmqbi2b35uxej@mhequ6ttibsd>
-In-Reply-To: <kwklrd2zjovabsa537jwg3bpqilvhfmxxyr4exmqbi2b35uxej@mhequ6ttibsd>
+ <20250110-dpst-v7-2-605cb0271162@intel.com>
+ <i6j3zi5tlnyk2eonmpa5h5qitwgzs2nuzrvsasde3dci6a4ngl@qhbtsjbhq6xr>
+In-Reply-To: <i6j3zi5tlnyk2eonmpa5h5qitwgzs2nuzrvsasde3dci6a4ngl@qhbtsjbhq6xr>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -96,80 +98,80 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: IA0PR11MB7307:EE_|SJ1PR11MB6156:EE_
-x-ms-office365-filtering-correlation-id: c76821a0-7960-476c-4857-08dd35fc9c16
+x-ms-office365-filtering-correlation-id: 4c4b5283-05cf-4ac3-f721-08dd35fc9e73
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
  ARA:13230040|10070799003|366016|1800799024|376014|38070700018; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?mAQ/CFTBHoeyyyEQXsO6hiEMMvQaHSf1wa8r63KhUFqnfLF55QRmT7sLZTOI?=
- =?us-ascii?Q?ycp5UgbKe3OsGY0h+40m1vi6veeY6HK00GUXPuNhoUQhvQaF11atJVz1979O?=
- =?us-ascii?Q?YXn/ynMGcm7laylNRRI4ZRC31PI90zIpI+wzWHelAK7uz8jeaUkQcZcI7M10?=
- =?us-ascii?Q?u1h3Zevagm46BdCSBwkor+qGhWxVZWYlYZ8VMsZYO+IJv57zbFDw9I/reLTi?=
- =?us-ascii?Q?y1eQ/NXiRtZcBoP4hBmEX8t/3gnjjZnauKJiN8V1QN9hHB4IZZ4bz8hX9uXY?=
- =?us-ascii?Q?Ff/Wj7w86vHVYFUGK+WpC3i8fFQ8NUtVgamXoZZc59Vjl2gikAJjZn9tBn+A?=
- =?us-ascii?Q?r4kEK1mLniJgs4zxdvn5EziHwkLfZrfmHqJats1qiPECJ97YDYyaMqaqEUIA?=
- =?us-ascii?Q?mZqIaUDssiuBqJYWoZprhZYHAGeshEbbNKd/a61tGGiHgmpdiCXSRr/RtpzH?=
- =?us-ascii?Q?5sHrgbH0CfdoTXCg7BXFlUEpDnzHbwC4V+GWmR58go5g2HAp6dhWINrcLBmU?=
- =?us-ascii?Q?g42Xk36HaF3+Bh4pv/YTCd6ck6l3a9WF2IaoC00cCyKcYPQzRmpAEXy40cTr?=
- =?us-ascii?Q?ruhi/rM0Aq8mXRzOo2+chJLARxqhu+E5bGSX+A8ZTKF05anmoFKbwVax4brf?=
- =?us-ascii?Q?VLxiLiTZENTX6GGhHWmrEXlJtjyp0gRqk7IFhs0+UJSRPwJhIUowTQpFeEHz?=
- =?us-ascii?Q?VkF4GnYVTrqS6DXcfMNE2HUmxMVR4Lr383kz3kxU51yYXVPsyVuDaD3EnMQ5?=
- =?us-ascii?Q?723cFB9wjmt0QjXeWO5Dfk3Wuhf7H3Lgsw/vxUS4Er2DjdHQFFdbgstYj3kZ?=
- =?us-ascii?Q?n4n3CQQIyszFyf88WJQRYmNr25LdNYAmPcHI4Taixf4OLCLh4bOiT5OpJ7+P?=
- =?us-ascii?Q?NBg5cF4Zfg0dcwgALhT3lVsrV+QcMGynCyNv62HEoa76sEsMo72NgU0Ac6jA?=
- =?us-ascii?Q?5xx6zXgTli5FWDrsinID09e2TkA+4HL8Jtse2PGa4arD86i/XF+Y9bEeGPMw?=
- =?us-ascii?Q?eejAl+x0lh2M8sK0ZGu/4sIvgbgGHn+IXcaGZy8myqTZ2hQVWa02yMBNBxnh?=
- =?us-ascii?Q?/OJSbrPyK/ezFa1Hz2a2uWfw3hu5qeDcoG4VWqSCqwFpvvay4F0Eq8MiUp1B?=
- =?us-ascii?Q?5IYNvAeDquOZeDoi189kLGl9yCx5VtJ6sodFMiKjmpRdtuApT6kJsbcQJTwz?=
- =?us-ascii?Q?OFHfIaivfZLcXvcek1T6vIPP0Y/pixtv6UkdAJFG0W9eCNjaPFjdzkFZbsDU?=
- =?us-ascii?Q?PFfU5vltLuwRYqKGPuuAS2Rk3pGQEbcdeq37EdlAK3vDgv40+FKypvqoYxfN?=
- =?us-ascii?Q?QN9+hj4KE1ehru2iQosKvQ2G+KCp0/E/4f5cK9qUzSvHcEwsrhjMWmNTSau/?=
- =?us-ascii?Q?BENjD1HYosDdtqvLQndReOY6rXrjMBQdLZ9qBUflCqcZeagNfCltcjqF5L2w?=
- =?us-ascii?Q?ZbXF5GMSUXhnTj7+kP930m5CeZRbEq99?=
+x-microsoft-antispam-message-info: =?us-ascii?Q?/ZipUyQKorWHnrO4HUOFwyJqobGKzFOQzKfTMhL+0/uyCl4pRmaLA9s15idv?=
+ =?us-ascii?Q?j+LN0jReWbS2QfEy9mN9k7OGna/LbDK8iPRHLZSZ98w62QR1UHrlxfLTLI8r?=
+ =?us-ascii?Q?hDLNu8R+Ma6JIDwEMuot+r6+e62/P5KirJ9uNjmvAaHSjNL1iFFSatRdKjoK?=
+ =?us-ascii?Q?g6jjfjvYevjgMkvD2vgBeYugWaonYzMfjVP654U3YPVgtkHcruxPqj6h33O2?=
+ =?us-ascii?Q?pLDnmXwUthGdsqsHW5OalPShScVD937R1Af+x1816q3cr1zm6PUu+5RuT4Nd?=
+ =?us-ascii?Q?FTS9cRSwTEqZxt/sHxCKM2usVuIXMrMLYD8ZNkAUHCIUKzSGhJK37uy6arI0?=
+ =?us-ascii?Q?TfdWFgcj7uxU8XkUorTkjVIcmPwvCEx6aBiHXTlEvE9DG78J8Cmf3cmYux9h?=
+ =?us-ascii?Q?rJSlXMPbOwK1bHzoEZ7KbEnbRPdMV7UJyAsx4EQilM5xvGbGDMyNZbUL/cLB?=
+ =?us-ascii?Q?6FRwv6mHFCxoZ3Wd5ASIcH7D0qzCJot35byn/osCqwwU8yvUui5snoKb4ERG?=
+ =?us-ascii?Q?jUhLThTIiiIl6pCS2omQbQNYlkfBtgm5JpUdJyJE4HZta4+c+eh3wGAskrg/?=
+ =?us-ascii?Q?M5orpFXPCSTO7i4nsG2wZtVFHOQAGiIi/gbts8+tYPdMxGhavFsTFWrH8LTz?=
+ =?us-ascii?Q?yqBUMdm3efMRlhOm2xOYzLr3Ze4yS1X4KmvrF2IkLS3D53oGAGvI0tv06PdZ?=
+ =?us-ascii?Q?H2N++N+9CLKhf9hiQySB04S4hFBXD0/pyycQ5tPMKU1hlVrFhPTxVTI9x6fm?=
+ =?us-ascii?Q?0IqHxDGTNnheC/dAK/aGNO6nyS3LhXLWbk+TeejpHJOFatVH1pAPFbZmPuXL?=
+ =?us-ascii?Q?eGgqg2Uc1/S5uHriEfCdntnx1fFisGANTAoI/Y0AmJ1FEpVHl/NYUDw4PEuH?=
+ =?us-ascii?Q?YqOIlZ0EGZRJkzW9HwIn6nKiJgNaMoUq8uRhf++Uq385PvOxEvXJaaYn+siR?=
+ =?us-ascii?Q?NTNfLDtaMtl1AiHLizggWGCWqgGfrSfAhBwdC2AzJnLelf5EluLD+uI/MlwC?=
+ =?us-ascii?Q?w/UVs4A7FaMPGFNz7XFFQB2SCHBW/1ZB/sjxcLkODyHzg8pw+JoG61+YhoO5?=
+ =?us-ascii?Q?7sMIOnS8fZEhc67GRiQCtBPXHdUV3RpNgN0uT6y+BCNX4NX7etc/eVQutnm0?=
+ =?us-ascii?Q?WZWDy8e0Ij0bPaWLRHdbs66f+MnhKVA9adEqTDfNBdIBrhXRxtUiwAtUpETq?=
+ =?us-ascii?Q?ATPnQNCYTrEHhblGSG6cC6bfbKO/2Ao6w8WGK2P+lrcdu/BX9hhxfFnqCiHP?=
+ =?us-ascii?Q?+7vfDiMl1t3xd5MpVUUDUyl6p1DAeuosWwOJaN9ctJrlhKuW97EJ+4IdBnyn?=
+ =?us-ascii?Q?bpI7VtL0rPUV8SItRntyJBQTm3rNia1w8RGdsj/66LZk0nmug3B4jzQnp9wt?=
+ =?us-ascii?Q?/8KU7rQqX49aYz2XswN+Cn75OEEn6TiVnDg0HEG2Q/Tg3h829/dU/luveFo/?=
+ =?us-ascii?Q?NPs+74FjcNa5/lqZ2H1cJPh53UnN/elX?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(38070700018); DIR:OUT;
  SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?qzICAg+Enh0b30EmQlvuM7Y7Pdc2lw96CZifASnzJwY35zXTHMLbdPXemnlA?=
- =?us-ascii?Q?iB9bjqQIiR0qG0r1iegT4/hW1Gc2hQX518E+uJUzBbLV0iAA/choktp3WQ5y?=
- =?us-ascii?Q?FtlnuhBNdfnmd50k8A1SkiGx1Y/O/YYIjvuHDzr84PS1ajiBZXFDuys0rYBd?=
- =?us-ascii?Q?U/qwC08wA74QQzlBHbJCzVTxTDUYWGRfyf/+POh+svkur95MnCfpIOcUzo7/?=
- =?us-ascii?Q?BAs73dUf8bfpXnHq/46kwdopXbWCbtEH3u40Np8an3q+Slw0SyPqh0vh0jM7?=
- =?us-ascii?Q?QGKRpPxvwFHyZN2m/bjjkeQtyX8kYa7RbzdZKP2SbgbqdUUZCAJ3q5LJbcJg?=
- =?us-ascii?Q?xIDxlmqRQx8u05c269+hcfjyz8Q/fdNwJNnUrDZe4RDo41OSJTJCA5bNnPXT?=
- =?us-ascii?Q?MCRHVh1paRBMx50CSPC9TrE5Do4Mx11TH9+Kwn2mkw3iA2z2SrmGksg7GALt?=
- =?us-ascii?Q?nTBKtj49CnOdFeJaNTFwjjGsSIWM32JnU02/v9bsdxQpQCpc/wZMQekD7P94?=
- =?us-ascii?Q?EEsyZtIo5IoYOAKJy8HBpnGdzA61jIlG1JA8GGiCrpv7QsLNcQLpHPTMnqFH?=
- =?us-ascii?Q?pX+P3sR+xJPoXi+UI1Zl2Hrq+m5udvTswazKFMh6cVToweNNDoT0BQVH6JfL?=
- =?us-ascii?Q?ISQxlBEsKm29Fbn/C5Gx7O3adifXsVjxUpMoBZnw0AGQB8lry+sWfreJbjsd?=
- =?us-ascii?Q?fPEl36lN3z3h717Hoz9LJKBTHN6rNv0VRHtLzKDswthG8f00IGz/J+F3NqQ6?=
- =?us-ascii?Q?+FMT01fcl6eKvxhu9I8DglpOYWjcs5bLzwWfIwhKdkR0vAK4ok0YfPGClJmw?=
- =?us-ascii?Q?abmhtyqt42sA4Qisxk+/zRb3NVnJYNQBmHntoi3I3Due8QE8YEJ/Lxttqbzu?=
- =?us-ascii?Q?oQICE0Ifjd6+gjdO6vCNTssPUQBZRNZGdM778W/yae6pjJ9FA0CEVEoEC/fP?=
- =?us-ascii?Q?wwj+9m4tJzgu7M/qzZ/5F+JbLKdeUqWzu8THeoPzxZd4TXgSINbQSDA2e1Vi?=
- =?us-ascii?Q?pBe8NH5g/rZOxqv9YFck9WzkIGIgFlpWwVzu+yCyyZ+aFz5U5m3kD8zD3ud7?=
- =?us-ascii?Q?vQR7c0n4C8VwpFyO5uMZuojjZjUXJCWIPddEF7GXZ8cBQzCtTe62nHsuqbQD?=
- =?us-ascii?Q?NqhCeT5DFv7ED7z95+95wXguGg9hqKqJma/aPib3/MCR7+T1LvnNsYFyfvZN?=
- =?us-ascii?Q?bM57dCS+h3o0OIhOJOojfHUn4d6sLaGwef/LdiC1Ppb5130jJheSBf2K0/Kl?=
- =?us-ascii?Q?RIsa2iK5JrTS03vrl89i4MVUzBwF2aF2yVsT5voiUio0gTmJKyRjaTGa5qEo?=
- =?us-ascii?Q?8ned/EZtiULrwauFBA0CVaYp0jO452AL0D5gNINC2iQoTxjwTtVniIQsCUHK?=
- =?us-ascii?Q?3RhR4yKmkCfjKNfZwTKEtmucTMeVyJlQfL2M0hoAa989ilqERdg8Rbsqs5MI?=
- =?us-ascii?Q?h/ozQAFtEcK9TcNjpr4ydiVjtBSIMaeHGdeIaj84hLXBF5D8Cusg88foBAhi?=
- =?us-ascii?Q?aJeaZx0tIdoB3BKSNv/Lb6uMu7ZNipcl+ifKIx8/Q9rnLxUutR1+R9HfzByP?=
- =?us-ascii?Q?2JfO2tmb3//skbuuqY+9zZFPHrVtknz/uRWkGFw4ptNp4p9p+FeZqYuOqOmF?=
- =?us-ascii?Q?m5AGcNLq1qutfA5Tki8S6IyXB+CUWfBX+tChuu9KneZh?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?HZNN+/Fy9V97ImWuxFgbOcrqTWmxQepvAW1rqTnjTCzPQtTq1pp65PMxhc2X?=
+ =?us-ascii?Q?d12fkW/6tHlTB6z84UECTj54mGrDf3qq8hY3bbvF5G1C84XXrEW/jC290w7z?=
+ =?us-ascii?Q?4B2pJNDw1q5y/ggol7ZDW4iFgpa9c8qjGwDZRclTbnSBMEcLVJobFbrLnJvl?=
+ =?us-ascii?Q?Q0P9W0IHKueDDJ7c1wfuexwhKcDLDxt3WRbRaPzEbirc3l8OZKTG3yAqt1++?=
+ =?us-ascii?Q?sOAwryLhykE0oWzCi8hDyztIr64EUVq3dc4mT0vVvKvjdAxJV2PSTiuw8aBa?=
+ =?us-ascii?Q?hbmARK5nuTdCBCJDYL2roj14nsUHN66zDnEH2SoIkfXLOzCMtT+I2ltN0/tR?=
+ =?us-ascii?Q?StKm8avfMktGXSLxHuNABUgtewTJWXpJcOEqmdz+TIdDd+gQZj47pQ6NZzTA?=
+ =?us-ascii?Q?ojr8MPybGHAQoloImtqEBXjiLayYa5DoOSkLr+i2aWV+2mgfPis+ucJw3z3Q?=
+ =?us-ascii?Q?MDBGLoSbtYNyNzavlAnsdHBoUAcFtkFgIs2k60lDNBfufunCGWlQ3rENMICs?=
+ =?us-ascii?Q?FEE63Lz90jmVoGheJWwRrgHxeLRq4c8hO5ZyjTu90QbTyvu1i7wxz1i/o0qI?=
+ =?us-ascii?Q?9N+3lg6cweBgNXdD/+km2X7pTam3Nod/f+xBWG5EVKHMuhBF+fcBaOx7v8QL?=
+ =?us-ascii?Q?atBE6y7ElTu3taj/ekruSSdcPKQc8HZlxMVLbonqDJi/GHa4GUnz25cKWggl?=
+ =?us-ascii?Q?/OP8r+nioi781SIWf29ivqDjTnsIooIilUmlOU9bNMSOLTKpQUaMs0hB/H6W?=
+ =?us-ascii?Q?0a6eOTUhUVRF8KIjsw6UqCsH90sJcwAv2S8nA47GcSN2uWSNo31s5f7MRASw?=
+ =?us-ascii?Q?rIuDGvgjJFT0l0Y+6AA9b4VQwg3klzqul8nhjknYJWa6pgi1XmSrmlZGpNWg?=
+ =?us-ascii?Q?GFODkkY9sN1fg7dKJPMAsovX2M5OoNuYfySd8eIL5PWnQPcOsiOKUy3uixbV?=
+ =?us-ascii?Q?LX7vzw0umx6nZJmAp246M4IXkoMgrg0Jw7l/SBWkhPjONG+rQWSschyhR2tt?=
+ =?us-ascii?Q?P80XlFjDd2liWyuClQmzlES59X77fw2eD95ydlSvKlEn5iZQ0CZiwYPb/GLE?=
+ =?us-ascii?Q?+HuYMSA1N2FeS6wZUcjLfgjoyS9p7Bj9taM2jyLJVwQpejpPHYmEmAf/ipZ4?=
+ =?us-ascii?Q?xEbbn62TaEdC5rdgWffMt7Ff/Y0DH+OQfBTk6fRcexmpAI056gphKfFkMnnq?=
+ =?us-ascii?Q?azpUHbo6NcIq2AMRTEMHOpwSj+lSRMhJ6KYSvv3dnVNdcgIU4OV8B3SaZRxA?=
+ =?us-ascii?Q?+IaowS63sDk0n1ZXzrxQKA+alyq45DDwYiEERMkY2jW1u4xdBAaiOQzQ4yCY?=
+ =?us-ascii?Q?v6Qy3e9Pqi6oYBTxtHFQiIegAiW43ktwTFqC5a1/1eBuBHA50NFupBKJgbfF?=
+ =?us-ascii?Q?AlXLLhqKTtSoKwkR9LqTfSh3oFxVh3Kx27FhTQTuGNLaTKy3otzkmCX4rsXy?=
+ =?us-ascii?Q?ga+TiF8v4P6xguP8FXbpJHEbXhg1LeUIs5aTa+jgwx+jETv8f+d2J/c/eWW8?=
+ =?us-ascii?Q?hM8bZijdioKN8uXsyNH4R7mRmzJpNHU74gFLJWskq1FeN4939OLQZ7w9GN5L?=
+ =?us-ascii?Q?+g2VxImX/WrfBGVTuMdhS6O38LUnYiGkmSv0SwFyXdJY8QySz41NjxXlF+aS?=
+ =?us-ascii?Q?taFW8nqGcieosF0BKpCvQfdQl1baGOyLNSokte2GvMi8?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c76821a0-7960-476c-4857-08dd35fc9c16
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2025 07:08:42.3073 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c4b5283-05cf-4ac3-f721-08dd35fc9e73
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jan 2025 07:08:46.2478 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zupSQ5iC6sghhjxyxEwAh0INSoNMh9kC7Up9QArH+4p6Gq6cRrHm6EZtsTMbAaofovXV8u1YBkqD05j/tdqDsg==
+X-MS-Exchange-CrossTenant-userprincipalname: ld4vrOOJxUioGpV+wp58/b8fCSIrj8XrB6Nl7GJazygsW8aN01wgXOSdxDPsztTjCFEt3ohpxP5I0TjlDfNQGA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6156
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -187,150 +189,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On Fri, Jan 10, 2025 at 01:15:29AM +0530, Arun R Murthy wrote:
-> > Display Histogram is an array of bins and can be generated in many
-> > ways referred to as modes.
-> > Ex: HSV max(RGB), Wighted RGB etc.
+> On Fri, Jan 10, 2025 at 01:15:30AM +0530, Arun R Murthy wrote:
+> > ImageEnhancemenT(IET) hardware interpolates the LUT value to generate
+> > the enhanced output image. LUT takes an input value, outputs a new
+> > value based on the data within the LUT. 1D LUT can remap individual
+> > input values to new output values based on the LUT sample. LUT can be
+> > interpolated by the hardware by multiple modes Ex: Direct Lookup LUT,
+> > Multiplicative LUT etc The list of supported mode by hardware along
+> > with the format(exponent
+> > mantissa) is exposed to user by the iet_lut_caps property. Maximum
+> > format being 8.24 i.e 8 exponent and 24 mantissa.
+> > For illustration a hardware supporting 1.9 format denotes this as
+> > 0x10001FF. In order to know the exponent do a bitwise AND with
+> > 0xF000000. The LUT value to be provided by user would be a 10bit value
+> > with 1 bit integer and 9 bit fractional value.
 > >
-> > Understanding the histogram data format(Ex: HSV max(RGB)) Histogram is
-> > just the pixel count.
-> > For a maximum resolution of 10k (10240 x 4320 =3D 44236800)
-> > 25 bits should be sufficient to represent this along with a buffer of
-> > 7 bits(future use) u32 is being considered.
-> > max(RGB) can be 255 i.e 0xFF 8 bit, considering the most significant 5
-> > bits, hence 32 bins.
-> > Below mentioned algorithm illustrates the histogram generation in
-> > hardware.
-> >
-> > hist[32] =3D {0};
-> > for (i =3D 0; i < resolution; i++) {
-> > 	bin =3D max(RGB[i]);
-> > 	bin =3D bin >> 3;	/* consider the most significant bits */
-> > 	hist[bin]++;
-> > }
-> > If the entire image is Red color then max(255,0,0) is 255 so the pixel
-> > count of each pixels will be placed in the last bin. Hence except
-> > hist[31] all other bins will have a value zero.
-> > Generated histogram in this case would be hist[32] =3D
-> > {0,0,....44236800}
-> >
-> > Description of the structures, properties defined are documented in
-> > the header file include/uapi/drm/drm_mode.h
+> > Multiple formats can be supported, hence pointer is used over here.
+> > User can then provide the LUT with any one of the supported modes in
+> > any of the supported formats.
+> > The entries in the LUT can vary depending on the hardware capability
+> > with max being 255. This will also be exposed as iet_lut_caps so user
+> > can generate a LUT with the specified entries.
 > >
 > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 > > ---
-> >  include/uapi/drm/drm_mode.h | 59
+> >  include/uapi/drm/drm_mode.h | 50
 > > +++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 59 insertions(+)
+> >  1 file changed, 50 insertions(+)
 > >
 > > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
 > > index
 > >
-> c082810c08a8b234ef2672ecf54fc8c05ddc2bd3..7a7039381142bb5dba269bda
-> ec42
-> > c18be34e2d05 100644
+> 7a7039381142bb5dba269bdaec42c18be34e2d05..056c2efef1589848034afc00
+> 89f1
+> > 838c2547bcf8 100644
 > > --- a/include/uapi/drm/drm_mode.h
 > > +++ b/include/uapi/drm/drm_mode.h
-> > @@ -1355,6 +1355,65 @@ struct drm_mode_closefb {
-> >  	__u32 pad;
-> >  };
+> > @@ -1367,6 +1367,17 @@ struct drm_mode_closefb {
+> >   */
+> >  #define DRM_MODE_HISTOGRAM_HSV_MAX_RGB			(1 <<
+> 0)
 > >
-> > +/*
-> > + * Maximum resolution at present 10k, 10240x4320 =3D 44236800
-> > + * can be denoted in 25bits. With an additional 7 bits in buffer each
-> > +bin
-> > + * can be a u32 value.
-> > + * Maximum value of max(RGB) is 255, so max 255 bins.
+> > +/* LUT values are points on exponential graph with x axis and y-axis
+> > +y=3Df(x) */
 >=20
-> HDR planes have higher max value for a component.
-> Likewise even in an RGB24 case there are 256 possible values. It's not cl=
-ear why
-> 0 gets excluded.
+> Huh?
 >=20
-This applies to only SDR and excludes HDR.
-RGB in hex can have a maximum value of 0xFF { RGB (255, 255, 255) }
+This f(x) can be the algorithm defined  by the user space algorithm to gene=
+rate the lookup
+table. Generation of the LUT value is left to the user space algorithm.=20
+When this LUT table is passed to the hardware its just signifies how hardwa=
+re should
+use this table to get the LUT value. In this mode it's a direct lookup tabl=
+e.
 
-> > + * If the most significant 5 bits are considered, then bins =3D 0xff >=
->
-> > + 3
-> > + * will be 32 bins.
->=20
-> If 5 bits are considered, there will be 2^5 bins, no matter of 0xff >> 3.
->=20
-Agree!
-
-> > + * For illustration consider a full RED image of 10k resolution
-> > +considering all
-> > + * 8 bits histogram would look like hist[255] =3D {0,0,....44236800}
-> > +*/
-> > +#define DRM_MODE_HISTOGRAM_HSV_MAX_RGB			(1 <<
+> > +#define DRM_MODE_IET_LOOKUP_LUT				(1 <<
 > 0)
 >=20
-> Why do you have a bitshift here?
+> Again, what is the reason for a shift? Can these values be OR'd?
 >=20
-Bitwise notification is used to differentiate multiple histogram modes.
-Currently we have max(RGB), upon adding other histogram modes the
-same can be included here.
+Yes can be OR'd values as well.
+Let me know if this has to be changed?
+Just chose bitwise shift to denote the multiple modes.
 
+> > +/*
+> > + * LUT values, points on negative exponential graph with x-axis and
+> > +y-axis
+> > + * Y =3D y/x so upon multiplying x, y is obtained, hence
+> > +multiplicative. The
+>=20
+> Can't parse this sentence.
+>=20
+We need x and y points in the exponential graph.
+For retrieving the value Y on the graph the value passed by the user is in =
+the format y/x
+In order to get the Y points on the graph the value has to be multiplied by=
+ x.
+This is a floating point value when compared with an integer value with the=
+ direct
+lookup mode.
+
+
+> > + * format of LUT can at max be 8.24(8integer 24 fractional)
+> > + represented by
+> > + * u32. Depending on the hardware capability and exponent mantissa
+> > + can be
+> > + * chosen.
+>=20
+> What does that mean? How is it choosen?
+>=20
+The max value that these kind of 1DLUT can be is 8.24
+Hardware design can choose anything within this range. This depends
+on the accuracy required by hardware keeping in mind the hardware cost for
+implementation.
+Just a precision for 32bit value.
+
+> > + */
+> > +#define DRM_MODE_IET_MULTIPLICATIVE			(1 << 1)
 > > +
+> >  /**
+> >   * struct drm_histogram_caps
+> >   *
+> > @@ -1414,6 +1425,45 @@ struct drm_histogram {
+> >  	__u32 nr_elements;
+> >  };
+> >
 > > +/**
-> > + * struct drm_histogram_caps
+> > + * struct drm_iet_caps
 > > + *
-> > + * @histogram_mode: histogram generation modes, defined in the above
+> > + * @iet_mode: pixel factor enhancement modes defined in the above
 > > +macros
-> > + * @bins_count: number of bins for a chosen histogram mode. For
-> illustration
-> > + *		refer the above defined histogram mode.
-> > + */
-> > +struct drm_histogram_caps {
-> > +	u8 histogram_mode;
-> > +	u32 bins_count;
-> > +};
-> > +
-> > +/**
-> > + * struct drm_histogram_config
-> > + *
-> > + * @enable: flag to enable/disable histogram
-> > + * @hist_mode: histogram mode(HSV max(RGB), RGB, LUMA etc)
-> > + * @reserved1: Reserved for future use
-> > + * @reserved2: Reserved for future use
-> > + * @reserved3: Reserved for future use
-> > + * @reserved4: Reserved for future use  */ struct
-> > +drm_histogram_config {
-> > +	bool enable;
-> > +	u8 hist_mode;
-> > +	u32 reserved1;
-> > +	u32 reserved2;
-> > +	u32 reserved3;
-> > +	u32 reserved4;
+> > + * @iet_sample_format: holds the address of an array of u32 LUT sample
+> formats
+> > + *		       depending on the hardware capability. Max being 8.24
+> > + *		       Doing a bitwise AND will get the present sample.
+> > + *		       Ex: for 1 integer 9 fraction AND with 0x10001FF
 >=20
-> What for? Also this struct leaves a 3-byte hole, which might be not so
-> beneficial.
+> ?? Can hardware support 16.16? 32.0?
 >=20
-This is kept for future use. If weighted RGB mode is used for histogram gen=
-eration
-then we need 3 variables to get the weightage. For any other new histogram
-modes or for future usage this is kept reserved.
-Regarding the padding, will re-oder the elements in the struct.
+No, for a 1D LUT maximum floating number can be 8.24
+Hence hardware will have to adhere to anything within this range.
 
+> > + * @nr_iet_sample_formats: number of iet_sample_formsts supported by
+> the
+> > + *			   hardware
+> > + * @nr_iet_lut_entries: number of LUT entries  */ struct drm_iet_caps
+> > +{
+> > +	__u8 iet_mode;
+> > +	u64 iet_sample_format;
+> > +	__u32 nr_iet_sample_formats;
+> > +	__u32 nr_iet_lut_entries;
 > > +};
 > > +
 > > +/**
-> > + * struct drm_histogram
-> > + *
-> > + * @config: histogram configuration data pointed by struct
-> > +drm_histogram_config
-> > + * @data_ptr: pointer to the array of histogram.
-> > + *	      Histogram is an array of bins. Data format for each bin depen=
-ds
-> > + *	      on the histogram mode. Refer to the above histogram modes for
-> > + *	      more information.
-> > + * @nr_elements: number of bins in the histogram.
-> > + */
-> > +struct drm_histogram {
-> > +	struct drm_histogram_config config;
+> > + * struct drm_iet_1dlut_sample
+>=20
+> Is it supposed to be used with DRM_MODE_IET_MULTIPLICATIVE only? Or is it
+> supposed to be used with DRM_MODE_IET_LOOKUP_LUT? In the latter case
+> what should be the iet_format value?
+>=20
+The struct iet_1dlut_sample will be used for all the IET modes i.e direct l=
+ookup and
+multiplicative.
+The element iet_sample_format will not be applicable for direct lookup. Thi=
+s will be
+used for multiplicative and the value what it can hold for multiplicative i=
+s mentioned=20
+in the above description.
+I missed adding this info in the description, will add it in the next versi=
+on.
+
+> > + * @iet_mode: image enhancement mode, this will also convey the channe=
+l.
+> > + * @iet_format: LUT exponent and mantissa format, max being 8.24
+> > + * @data_ptr: pointer to the array of values which is of type u32.
+> > + *	      1 channel: 10 bit corrected value and remaining bits are rese=
+rved.
+> > + *	      multi channel: pointer to struct drm_color_lut
+> > + * @nr_elements: number of entries pointed by the data @data_ptr
+> > + * @reserved: reserved for future use
+> > + * @reserved1: reserved for future use  */ struct
+> > +drm_iet_1dlut_sample {
+> > +	__u8 iet_mode;
+> > +	__u32 iet_format;
 > > +	__u64 data_ptr;
 > > +	__u32 nr_elements;
+> > +	__u32 reserved;
+> > +	__u32 reserved1;
 > > +};
 > > +
 > >  #if defined(__cplusplus)
