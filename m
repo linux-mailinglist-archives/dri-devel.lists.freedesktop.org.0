@@ -2,64 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1876AA1368C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 10:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A00AA136C4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 10:39:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7DAA10E90D;
-	Thu, 16 Jan 2025 09:25:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F338710E914;
+	Thu, 16 Jan 2025 09:39:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="D/0PMgwS";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n0BH+gjP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1722 seconds by postgrey-1.36 at gabe;
- Thu, 16 Jan 2025 09:25:39 UTC
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48BAF10E90D;
- Thu, 16 Jan 2025 09:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hcSBGQUuwLRsQmfD0tmlwNle5S75KZC7hJN7wq6KXnI=; b=D/0PMgwSMtDGChoMr4j+tpoIxU
- Zh20HwMed32AyYBRakasiZHnF0ri1L9BuC4DRgqMhHIebYCH7l23XfCxKKbyhY+1dmm3/hW1zRNOr
- uxq7gc4s4hjby2xnOj68hi61E8tEZOzQ0Paofbe/QPtCD7hzAqqpoBEVueNSFAOBaChGiIXE/vXVU
- 7N6tpjUYmmv65FmO1C3BNa/E/jHEHPcVsHQj2fjWp550kflXjrZ/r6g2ATyA8wZIdLwBZHLxYZvez
- rVgsW3i83uB+/Jm49pENdRjuPgpEjNUCgxi3RtEmy+UfZRGJV/9utzyuMcKbYLJmu4V7D4IY2Nh8w
- Oi5OK/Zw==;
-Received: from [91.154.21.62] (port=60309 helo=tisha)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tYLgO-0003Q1-0O;
- Thu, 16 Jan 2025 10:56:56 +0200
-Date: Thu, 16 Jan 2025 10:56:22 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Alex Hung <alex.hung@amd.com>, <harry.wentland@amd.com>
-Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <wayland-devel@lists.freedesktop.org>
-Subject: Re: [V7 31/45] drm/colorop: add BT2020/BT709 OETF and Inverse OETF
-Message-ID: <20250116105622.577533fc@tisha>
-In-Reply-To: <20241220043410.416867-32-alex.hung@amd.com>
-References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-32-alex.hung@amd.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C488F10E90C;
+ Thu, 16 Jan 2025 09:39:00 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12F276B5;
+ Thu, 16 Jan 2025 10:38:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1737020281;
+ bh=Sz7XGsB0jJiCVcgAYNC5ZZi+VkFA4hXqTcdj3HBGvi4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=n0BH+gjPklcJM4K7npyiN+OizL+So166OYOAFCGwmyI31sasdC0hnhksHO/5bLnfw
+ HMc/eoseS5N2gVokQXXsjM5itCkOuGjpNUxwyWy3Ek6SdEbjqi0yC6yW0imGRrqVj1
+ 1fRnvPVpWPsdUJLy5MKa4eyuKZRKjUpaQVwa4Knc=
+Date: Thu, 16 Jan 2025 11:38:54 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Daniel Stone <daniel@fooishbar.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
+ linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+Message-ID: <20250116093854.GG6754@pendragon.ideasonboard.com>
+References: <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+ <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
+ <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
+ <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
+ <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
+ <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
+ <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
+ <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
+ <CAPj87rOn=RQ615zyaEdFT2ADfPztU7+heVi0G34Rdg-=QO1cCw@mail.gmail.com>
+ <20250116084340.GF6754@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/NPZAZe5HHyM6nT/FUNNbYUh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250116084340.GF6754@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,108 +73,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/NPZAZe5HHyM6nT/FUNNbYUh
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jan 16, 2025 at 10:43:40AM +0200, Laurent Pinchart wrote:
+> On Wed, Jan 15, 2025 at 02:34:26PM +0000, Daniel Stone wrote:
+> > On Wed, 15 Jan 2025 at 14:20, Tomi Valkeinen wrote:
+> > > No disagreement there, we need CREATE_DUMB2.
+> > >
+> > > My point is that we have the current UAPI, and we have userspace using
+> > > it, but we don't have clear rules what the ioctl does with specific
+> > > parameters, and we don't document how it has to be used.
+> > >
+> > > Perhaps the situation is bad, and all we can really say is that
+> > > CREATE_DUMB only works for use with simple RGB formats, and the behavior
+> > > for all other formats is platform specific. But I think even that would
+> > > be valuable in the UAPI docs.
+> > 
+> > Yeah, CREATE_DUMB only works for use with simple RGB formats in a
+> > linear layout. Not monochrome or YUV or tiled or displayed rotated or
+> > whatever.
+> > 
+> > If it happens to accidentally work for other uses, that's fine, but
+> > it's not generically reliable for anything other than simple linear
+> > RGB. It's intended to let you do splash screens, consoles, recovery
+> > password entries, and software-rendered compositors if you really
+> > want. Anything more than that isn't 'dumb'.
+> 
+> We have lots of software out there that rely on CREATE_DUMB supporting
+> YUV linear formats, and lots of drivers (mostly on Arm I suppose) that
+> implement YUV support in CREATE_DUMB. I'm fine replacing it with
+> something better, but I think we need a standard ioctl that can create
+> linear YUV buffers. I've been told many times that DRM doesn't want to
+> standardize buffer allocation further than what CREATE_DUMB is made for.
+> Can we reconsider this rule then ?
 
-On Thu, 19 Dec 2024 21:33:37 -0700
-Alex Hung <alex.hung@amd.com> wrote:
+Actually... Instead of adding a CREATE_DUMB2, it would be best on trying
+to leverage DMA heaps and deprecate allocating from the KMS device.
 
-> From: Harry Wentland <harry.wentland@amd.com>
->=20
-> The BT.709 and BT.2020 OETFs are the same, the only difference
-> being that the BT.2020 variant is defined with more precision
-> for 10 and 12-bit per color encodings.
->=20
-> Both are used as encoding functions for video content, and are
-> therefore defined as OETF (opto-electronic transfer function)
-> instead of as EOTF (electro-optical transfer function).
->=20
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+-- 
+Regards,
 
-Hi,
-
-why would a display system ever use BT.2020 or BT.709 OETF or its
-inverse?
-
-
-Thanks,
-pq
-
-
-> ---
->  drivers/gpu/drm/drm_colorop.c |  2 ++
->  include/drm/drm_colorop.h     | 19 +++++++++++++++++++
->  2 files changed, 21 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index f3391602a577..665b23900cc0 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -70,6 +70,8 @@ static const struct drm_prop_enum_list drm_colorop_type=
-_enum_list[] =3D {
->  static const char * const colorop_curve_1d_type_names[] =3D {
->  	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
->  	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
-> +	[DRM_COLOROP_1D_CURVE_BT2020_INV_OETF] =3D "BT.2020 Inverse OETF",
-> +	[DRM_COLOROP_1D_CURVE_BT2020_OETF] =3D "BT.2020 OETF",
->  	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] =3D "PQ 125 EOTF",
->  	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
->  };
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index 4084a7438032..83a6bd64d48a 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -55,6 +55,25 @@ enum drm_colorop_curve_1d_type {
->  	 */
->  	DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF,
-> =20
-> +	/**
-> +	 * @DRM_COLOROP_1D_CURVE_BT2020_INV_OETF:
-> +	 *
-> +	 * The inverse of &DRM_COLOROP_1D_CURVE_BT2020_OETF
-> +	 */
-> +	DRM_COLOROP_1D_CURVE_BT2020_INV_OETF,
-> +
-> +	/**
-> +	 * @DRM_COLOROP_1D_CURVE_BT2020_OETF:
-> +	 *
-> +	 * The BT.2020/BT.709 transfer function. The BT.709 and BT.2020
-> +	 * transfer functions are the same, the only difference is that
-> +	 * BT.2020 is defined with more precision for 10 and 12-bit
-> +	 * encodings.
-> +	 *
-> +	 *
-> +	 */
-> +	DRM_COLOROP_1D_CURVE_BT2020_OETF,
-> +
->  	/**
->  	 * @DRM_COLOROP_1D_CURVE_PQ_125_EOTF:
->  	 *
-> --=20
-> 2.43.0
->=20
-
---Sig_/NPZAZe5HHyM6nT/FUNNbYUh
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmeIybYACgkQI1/ltBGq
-qqfnfw//W9q/8g6DryKRpFkKwGBtFMQwmBtoA6knJ4opEDmuDUdT2ChyvmV++jq5
-VcElNW/z/YLUQQulYplwDFwGIBOWXyUBLUSUcC0c8erL/ULovTzHdwEiMoeIc375
-jAel2+FG+17nlYS2dzrN0FO8Xpi/d3qNDPMUX0sAk3oRMvmd4SiLgtj+n45rp3W/
-gBJdXbh85GX+0+Ums0FFV7WcmPawSMU7lsp2/VhAJr1JuFqnb23qUUmbTkqOwMZg
-b7kVsaNJLzemUxAF8GSH1uJ1AtbzY0aCzw3fA8ZzpY3WTF1HYrIf/liruaCvuuBT
-qwBBgRmXBB9qWeiQtBS3HrjHQzN+sC9H6IwOfO4WVYFBG2mZJlYkGt11KyXUeGyO
-gQ74k68AJLAGcpSdRPBbWLySxznmEmIank5alPMNMoictiekTxcRFwG5tYUmcOvT
-U4Ls3GsBQSDknZbI+9DFZt0Uu8rIQK9pqA4nW9qu/uIwlOnD+h1Vq4+GBgF01b6L
-WCh7EEbWjSHncYf3LQ/8TEL8/1fiX4bfnPe8UhILtKpxqdYwgE+Pi4kMJGm9Q9du
-6LVznAfvsUqaDcrb9gQmvaRaoZ6TQ2Ha6Qr5n5z0QpscC6UpHN91vL8AQlNnZ9QU
-pb4sWVYxtPNYn9cWQhmrLpSkLj8x/gXw/faluIjxnjkWGt4haU8=
-=S8zm
------END PGP SIGNATURE-----
-
---Sig_/NPZAZe5HHyM6nT/FUNNbYUh--
+Laurent Pinchart
