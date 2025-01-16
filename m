@@ -2,90 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6581DA135B8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 09:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1876AA1368C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 10:25:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B36F10E901;
-	Thu, 16 Jan 2025 08:45:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7DAA10E90D;
+	Thu, 16 Jan 2025 09:25:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="jMdPXHkB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="D/0PMgwS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6725A10E901
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 08:45:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737017132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=mdrHmU1w955LF9SCvybW0+D/xuTZON1n9XZafOB9MoM=;
- b=jMdPXHkB1LR8HmWyIVtrQ/zFxRs5A1zmyD9PgVzpteCYBsbgA5WAh3WmgrkzBWuXZ4Da93
- eQtJBC2ZWq9t2Mp+fAB/V6b1HUGW+e3FC4wJEMa3NZTL18ULwYfQVtAW0doBJVPaWsLF28
- +tf9xt4sW+XJdsD2ikk1eiCvSu/4lE8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-f3wMg97oP1iN_dzftbjeNw-1; Thu, 16 Jan 2025 03:45:30 -0500
-X-MC-Unique: f3wMg97oP1iN_dzftbjeNw-1
-X-Mimecast-MFC-AGG-ID: f3wMg97oP1iN_dzftbjeNw
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3860bc1d4f1so445845f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 00:45:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737017126; x=1737621926;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mdrHmU1w955LF9SCvybW0+D/xuTZON1n9XZafOB9MoM=;
- b=Hld0CSh0O9/6WsYN+fkOLR3Dlq3amXJry01PrOoRXiPR/DWy+2KAN46gIImA43bK5J
- gSN/8/EGEDmDSgh6q85QEihzCue7xXmgm1JotX5XvoSY4imyj0bsk9ZnLb4e/z08VprP
- bSCNpr6h6+Qepqao9Qls/W4BV1oUSEjOPr5VRaczRE/6wH4lVpD30XSDnF1jeeqG8t+f
- Z2YlrNVctNr65TsSQYQQNrYrxa+OArKIw8vATvsvy8iGogkFBcitD/zcqIKrK/OIhX98
- xBjnrPaa1AkuVqDZw2MQJ/rNTT7K9j0MTW3pr3o9JvLWIfFaUud1U8r5HvWLt2PyJWkA
- CGog==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWj1We+n/6jRtB+nYxdrd+mOprAYef0cpyHyg4GSW0uR5FlzrfiA+wpaBdLoXk+RxjluqkvWW+Yepg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFDvqEPw5dTVVETCuT21mTzDN5Jp1dKz6lkdBu0RvkMg4Me3VC
- hVMYZS+UNFUexxh5NHq2ZWBjOVQGX+u/iXjuADggVbHC9/25InKazGVbxyf2luXikzvH2yu9N9/
- fYFsYiuZ6SttwqHnFgJDytxCbFK4W4oVyWeGkq5vX27TLv2zTvNBtKriYWffUg2h2uw==
-X-Gm-Gg: ASbGnctY0hqn0txJzMNQv0D+0fm+ZKvH3jd3hIqbZnCLIh873EgMPWJSqs8ajybFHsX
- tFtuIVX13YG93ugsf84DBE6xYdoSMrPiWD8L0g/zPD1X5EyHFW3LBTrsq2TfgoTuzUjcknCZEL6
- 8kLSHk+ZcDeihCHDKTZTB0IhDvqG4Gppv3y17g2kNiFzqmSzbF8Y6vYmMwLZbd9VIF8M78jz4pz
- XW5e9XpwZJoZcO3vJAn5zoL/6ZH4T2e
-X-Received: by 2002:a05:6000:1845:b0:38b:ed7b:f77d with SMTP id
- ffacd0b85a97d-38bed7bfb4amr946944f8f.52.1737017126010; 
- Thu, 16 Jan 2025 00:45:26 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEHK+IJ1lIO7QX6ub/oEgAZRvZDd3XIWgd5Z+pcYXpKxXmnwgFHsiWHY11XBrNHSWnsCDkEgA==
-X-Received: by 2002:a05:6000:1845:b0:38b:ed7b:f77d with SMTP id
- ffacd0b85a97d-38bed7bfb4amr946919f8f.52.1737017125595; 
- Thu, 16 Jan 2025 00:45:25 -0800 (PST)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38a8e38ef6asm20270415f8f.60.2025.01.16.00.45.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Jan 2025 00:45:25 -0800 (PST)
-Date: Thu, 16 Jan 2025 09:45:24 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <20250116-bold-furry-perch-b1ca0e@houat>
+X-Greylist: delayed 1722 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Jan 2025 09:25:39 UTC
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 48BAF10E90D;
+ Thu, 16 Jan 2025 09:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=hcSBGQUuwLRsQmfD0tmlwNle5S75KZC7hJN7wq6KXnI=; b=D/0PMgwSMtDGChoMr4j+tpoIxU
+ Zh20HwMed32AyYBRakasiZHnF0ri1L9BuC4DRgqMhHIebYCH7l23XfCxKKbyhY+1dmm3/hW1zRNOr
+ uxq7gc4s4hjby2xnOj68hi61E8tEZOzQ0Paofbe/QPtCD7hzAqqpoBEVueNSFAOBaChGiIXE/vXVU
+ 7N6tpjUYmmv65FmO1C3BNa/E/jHEHPcVsHQj2fjWp550kflXjrZ/r6g2ATyA8wZIdLwBZHLxYZvez
+ rVgsW3i83uB+/Jm49pENdRjuPgpEjNUCgxi3RtEmy+UfZRGJV/9utzyuMcKbYLJmu4V7D4IY2Nh8w
+ Oi5OK/Zw==;
+Received: from [91.154.21.62] (port=60309 helo=tisha)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tYLgO-0003Q1-0O;
+ Thu, 16 Jan 2025 10:56:56 +0200
+Date: Thu, 16 Jan 2025 10:56:22 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Alex Hung <alex.hung@amd.com>, <harry.wentland@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <wayland-devel@lists.freedesktop.org>
+Subject: Re: [V7 31/45] drm/colorop: add BT2020/BT709 OETF and Inverse OETF
+Message-ID: <20250116105622.577533fc@tisha>
+In-Reply-To: <20241220043410.416867-32-alex.hung@amd.com>
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-32-alex.hung@amd.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="xzp6s7t2j6i3nskj"
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/NPZAZe5HHyM6nT/FUNNbYUh";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,82 +75,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--Sig_/NPZAZe5HHyM6nT/FUNNbYUh
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---xzp6s7t2j6i3nskj
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: [PULL] drm-misc-next-fixes
-MIME-Version: 1.0
+On Thu, 19 Dec 2024 21:33:37 -0700
+Alex Hung <alex.hung@amd.com> wrote:
+
+> From: Harry Wentland <harry.wentland@amd.com>
+>=20
+> The BT.709 and BT.2020 OETFs are the same, the only difference
+> being that the BT.2020 variant is defined with more precision
+> for 10 and 12-bit per color encodings.
+>=20
+> Both are used as encoding functions for video content, and are
+> therefore defined as OETF (opto-electronic transfer function)
+> instead of as EOTF (electro-optical transfer function).
+>=20
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 
 Hi,
 
-Here's this week drm-misc-next-fixes PR.
+why would a display system ever use BT.2020 or BT.709 OETF or its
+inverse?
 
-Thanks!
-Maxime
 
-drm-misc-next-fixes-2025-01-16:
-Several fixes for the new dmem cgroup controller and the HDMI framework
-audio support
-The following changes since commit 24c61d553302ee49e9c21dd251275ba8c36dcfe4:
+Thanks,
+pq
 
-  Merge tag 'drm-msm-next-2025-01-07' of gitlab.freedesktop.org:drm/msm into drm-next (2025-01-13 11:14:07 +1000)
 
-are available in the Git repository at:
+> ---
+>  drivers/gpu/drm/drm_colorop.c |  2 ++
+>  include/drm/drm_colorop.h     | 19 +++++++++++++++++++
+>  2 files changed, 21 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index f3391602a577..665b23900cc0 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -70,6 +70,8 @@ static const struct drm_prop_enum_list drm_colorop_type=
+_enum_list[] =3D {
+>  static const char * const colorop_curve_1d_type_names[] =3D {
+>  	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
+>  	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
+> +	[DRM_COLOROP_1D_CURVE_BT2020_INV_OETF] =3D "BT.2020 Inverse OETF",
+> +	[DRM_COLOROP_1D_CURVE_BT2020_OETF] =3D "BT.2020 OETF",
+>  	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] =3D "PQ 125 EOTF",
+>  	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
+>  };
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index 4084a7438032..83a6bd64d48a 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -55,6 +55,25 @@ enum drm_colorop_curve_1d_type {
+>  	 */
+>  	DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF,
+> =20
+> +	/**
+> +	 * @DRM_COLOROP_1D_CURVE_BT2020_INV_OETF:
+> +	 *
+> +	 * The inverse of &DRM_COLOROP_1D_CURVE_BT2020_OETF
+> +	 */
+> +	DRM_COLOROP_1D_CURVE_BT2020_INV_OETF,
+> +
+> +	/**
+> +	 * @DRM_COLOROP_1D_CURVE_BT2020_OETF:
+> +	 *
+> +	 * The BT.2020/BT.709 transfer function. The BT.709 and BT.2020
+> +	 * transfer functions are the same, the only difference is that
+> +	 * BT.2020 is defined with more precision for 10 and 12-bit
+> +	 * encodings.
+> +	 *
+> +	 *
+> +	 */
+> +	DRM_COLOROP_1D_CURVE_BT2020_OETF,
+> +
+>  	/**
+>  	 * @DRM_COLOROP_1D_CURVE_PQ_125_EOTF:
+>  	 *
+> --=20
+> 2.43.0
+>=20
 
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-fixes-2025-01-16
-
-for you to fetch changes up to f1359f46f1f1305340970b5073240126fe87254f:
-
-  drm/bridge: fix documentation for the hdmi_audio_prepare() callback (2025-01-15 12:32:47 +0200)
-
-----------------------------------------------------------------
-Several fixes for the new dmem cgroup controller and the HDMI framework
-audio support
-
-----------------------------------------------------------------
-Cristian Ciocaltea (1):
-      drm/display: hdmi: Do not read EDID on disconnected connectors
-
-Dmitry Baryshkov (2):
-      drm/display: hdmi-state-helper: add drm_display_mode declaration
-      drm/bridge: fix documentation for the hdmi_audio_prepare() callback
-
-Jiapeng Chong (1):
-      kernel/cgroup: Remove the unused variable climit
-
-Liu Ying (2):
-      drm/connector: hdmi: Do atomic check when necessary
-      drm/tests: hdmi: Add connector disablement test
-
-Maxime Ripard (5):
-      Merge drm/drm-next into drm-misc-next-fixes
-      cgroup/dmem: Select PAGE_COUNTER
-      cgroup/dmem: Fix parameters documentation
-      drm/doc: Include new drm-compute documentation
-      doc/cgroup: Fix title underline length
-
- Documentation/core-api/cgroup.rst                  |  2 +-
- Documentation/gpu/index.rst                        |  1 +
- drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  5 +++
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 52 ++++++++++++++++++++++
- include/drm/display/drm_hdmi_state_helper.h        |  1 +
- include/drm/drm_bridge.h                           |  2 +-
- init/Kconfig                                       |  1 +
- kernel/cgroup/dmem.c                               | 10 ++---
- 8 files changed, 65 insertions(+), 9 deletions(-)
-
---xzp6s7t2j6i3nskj
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/NPZAZe5HHyM6nT/FUNNbYUh
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4jHJAAKCRAnX84Zoj2+
-dnTKAX9nbV6LIPLAOM3MDf5Svk0UVB6Tin5M33ea3nD7QRu46APQLTGjy52EeAF1
-0PMmN1cBf1to1qZL4aZBOhQrAgjmnzDuZPXa7BL4HPQ7y8dqvrDC2SBkJO1mCJWb
-aolxzqzytQ==
-=eptm
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmeIybYACgkQI1/ltBGq
+qqfnfw//W9q/8g6DryKRpFkKwGBtFMQwmBtoA6knJ4opEDmuDUdT2ChyvmV++jq5
+VcElNW/z/YLUQQulYplwDFwGIBOWXyUBLUSUcC0c8erL/ULovTzHdwEiMoeIc375
+jAel2+FG+17nlYS2dzrN0FO8Xpi/d3qNDPMUX0sAk3oRMvmd4SiLgtj+n45rp3W/
+gBJdXbh85GX+0+Ums0FFV7WcmPawSMU7lsp2/VhAJr1JuFqnb23qUUmbTkqOwMZg
+b7kVsaNJLzemUxAF8GSH1uJ1AtbzY0aCzw3fA8ZzpY3WTF1HYrIf/liruaCvuuBT
+qwBBgRmXBB9qWeiQtBS3HrjHQzN+sC9H6IwOfO4WVYFBG2mZJlYkGt11KyXUeGyO
+gQ74k68AJLAGcpSdRPBbWLySxznmEmIank5alPMNMoictiekTxcRFwG5tYUmcOvT
+U4Ls3GsBQSDknZbI+9DFZt0Uu8rIQK9pqA4nW9qu/uIwlOnD+h1Vq4+GBgF01b6L
+WCh7EEbWjSHncYf3LQ/8TEL8/1fiX4bfnPe8UhILtKpxqdYwgE+Pi4kMJGm9Q9du
+6LVznAfvsUqaDcrb9gQmvaRaoZ6TQ2Ha6Qr5n5z0QpscC6UpHN91vL8AQlNnZ9QU
+pb4sWVYxtPNYn9cWQhmrLpSkLj8x/gXw/faluIjxnjkWGt4haU8=
+=S8zm
 -----END PGP SIGNATURE-----
 
---xzp6s7t2j6i3nskj--
-
+--Sig_/NPZAZe5HHyM6nT/FUNNbYUh--
