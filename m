@@ -2,88 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12F3A13444
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 08:47:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E330A1340E
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 08:42:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77A310E8E1;
-	Thu, 16 Jan 2025 07:28:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7551110E8CE;
+	Thu, 16 Jan 2025 07:28:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LPuHOSGH";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r19vIFAC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A157910E8E1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 07:28:51 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-21619108a6bso8369425ad.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 23:28:51 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
+ [209.85.219.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 637E510E8CD
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 07:28:02 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id
+ 3f1490d57ef6-e53a91756e5so1143352276.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 23:28:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737012471; x=1737617271; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=e3p4IrXJLa2akZc/exUIig8oznH8M83r0nH6KiRhlZU=;
- b=LPuHOSGHfaJi1G+F5orNfPH8ywk7TcXSEvTzh9T2L7HyDWSmygxeLS19sCP0EQGQGO
- cLWwbozUh+buLT6a5oqQ7xZatRcl/Jm36afyDNjtdS5mHX0UG9F/QE2CBwD+tn+oLorV
- 4wz6SydxJ/5YDCEslCv+8WxqSCftcael8mU9fZv+DJYDYDrjdNrMqI6le9NmB1iqa0Rq
- 8TEMGbYFBY5ffKFuLiwXCqunT48dWnEXSj15ZHCu2aJ1GTLJzFw0pMZOyj5QtZ12Segx
- +0gJ0UYplq+M7jIbVqPSkEas8Ta2rBr208DoPrwruiTXEVYKC7v1xqO5dVzxcSTT5oeg
- 7mmg==
+ d=linaro.org; s=google; t=1737012421; x=1737617221; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=23JnYRpCbBV23N39s16FccVsN4HNHdf+HO6VU1JPv7k=;
+ b=r19vIFACsWMxmAGcg4mug0V+v6ZAiwgBjtUr6a+I/2wiIhWnHTkssherkT1x02X2Dl
+ 6DzCtyv/m2r2Dr6EPaNa6rXMRCl4i9POJFa/ATITL/eRbAuEz/osJY+OPELuhOQP74AR
+ HBEdU9r4r9t2HBV/RrmxKcP27NY9lNI38K9MSD2DDI7G1AFLuFF0TdG8XN2e32ukPQSD
+ G3cZrhBUua0LZVnnCsrrJ4PpGDTMrNWaWmovvS6CsarS+m/bquLGCzqq4MvD9wQifEKY
+ bj8GpcSTaTDjxwMB0m+oPQl0KaOHo+hLcdeUjSvRh9ZggJiJPD1u+GbScZ8k+KQiWx3w
+ ihpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737012471; x=1737617271;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e3p4IrXJLa2akZc/exUIig8oznH8M83r0nH6KiRhlZU=;
- b=BqqcWQ/JsBFeE9C0uyd4yWV4Ri9IpauPeZQ3SToSsKlsdnXuXUMInCdMJT5v3kIDtW
- 1mzuBTTS6OUT3JZUsbXYqe8FChitueDAEJPGlEy/esGuzr9SDXC0cqX33g05bQb5sTUF
- WyLxaiuTjIAvabL6hYKGgcDFD7czQB5yW6UK8OQhqYDc64JjhOWDb5CUft4UMblO87mE
- MEGGcsB4LxglDr7V5NDDdZdARsD6Qok4mtKIqK6ebfZguJ5UIkRMN8dbKbMylVsGfIh+
- a+47RaHcTZYQSbl1rf9+3Hb1fR35TfYGT6SelZMBY73Pb34g4FFNRa7KL82kZ4SaE7qM
- og4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVy4G+kYBAocNjV20zevAnOksBOtSJmnQTy7tdS2etz/b1K/7EgI8p0sQu+Y0flVXANUgKd6k9NKxI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4CjIoczWEIiVupdsTRM92K+gXhU2OZ0ZXgt1D7Y4CfQV4A+1E
- M4RnG5WeEMDLtA8RLxHQeyIjBksic2VY1+mKEQRNWZ+CUoQNBiI+vAwIjaOIyag=
-X-Gm-Gg: ASbGnctFprSOo4NhdLBwmh0RtKRUqEQQBliDX5VxqZg5s6+IRqxq9/r6KL1jOe4H5LQ
- Cv0aGfcvOVHoEVmVouiYWto9VbEZuitfb6h2+bUPFci7uWc2JdudilwFMZBhimw4vgGsXFtZTkD
- aEeA1w0I6z3bOsqGXZ5W2vq9QNGV/t9WpWp7FBIY8dgTzz3z6SOyYkwobvZnIzpfrf94Kvwmr+k
- 3lA/CFaBYil6DBIqEvZRE76rCJVg1ZBdoeoNzngWmncgrvMKKAtCw==
-X-Google-Smtp-Source: AGHT+IH6sMEL6GX1kbpB8tlkmwGkWmBcolv5ZrUWSyKJAZnVbbsPEjoI8z6Hwtt366GLlL4hyvvDjg==
-X-Received: by 2002:a05:6a00:399a:b0:725:f1ca:fd8a with SMTP id
- d2e1a72fcca58-72d21fb1dfcmr52232905b3a.19.1737012471334; 
- Wed, 15 Jan 2025 23:27:51 -0800 (PST)
-Received: from [127.0.1.1] ([112.65.12.217]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72d4059485bsm10164583b3a.83.2025.01.15.23.27.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2025 23:27:51 -0800 (PST)
-From: Jun Nie <jun.nie@linaro.org>
-Date: Thu, 16 Jan 2025 15:26:05 +0800
-Subject: [PATCH v4 16/16] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
+ d=1e100.net; s=20230601; t=1737012421; x=1737617221;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=23JnYRpCbBV23N39s16FccVsN4HNHdf+HO6VU1JPv7k=;
+ b=S7LgMcaHRc08cRUxYm9xdHFp8+UGLflxvcLihHTiIfhWRfB4hakZgGhzfyV7pd4NPr
+ kVlWsKah9NhlC6FwwWCMrJer8hj+FzDjQgw1zBUBhVDwYP/kSS1M9HJzbkDbkZtjDhFI
+ Asj99Z43zZ/oM58ROAXbl3u46b+9AwjCK7uHmHDnhBi8xjLqRbICWPB2+Ecbr4U8gEcG
+ sQxILDfUMub/+dTjec7o/NFImm/rNkSaqYIjFifkFW44xkmAgFq6x0QGetglQZKgixND
+ bvz1LAuV8HjMtR/vJ726cnzOFrHpweBRWhhE9QLhtnQV5yWub0QpBG1n6Xg1BKGS/gnv
+ dqTg==
+X-Gm-Message-State: AOJu0YzRme12xeDD91ZHLPU1Pq5mQ9YvRZiSkfW5hrHJk1xx5VxW9d2s
+ DlBQHBQMFHt1FpW/gob698WyCsqQIUT0Z9+urKMWhTobnR8am2Jcnkdda7aPnSh9cr5gp2h7WW6
+ ahsKAbIQsMm/GX37IvWR9v32zLE3DBiJs3zsSew==
+X-Gm-Gg: ASbGncv7ZDu0nfq/prk8lEA4K8AVc9p5HKyXvm+y3QDikQg6ImDvCUX325RI2piK4LR
+ sPwhfyC8vgk1MR8s2BwRxyLBchzQ4rsTTKdmyvSbJSKZaG7+qIw66
+X-Google-Smtp-Source: AGHT+IHQ+qxV5BbgMIThXfCCGgqDGgcL7sB4lY/0l3wgCGZ7dg/DHlTQAZzzrZBqXeHZR237kIVVD3QaCUX5/f9Yw+g=
+X-Received: by 2002:a05:690c:9687:b0:6f6:ccf8:614a with SMTP id
+ 00721157ae682-6f6ccf86218mr46318587b3.17.1737012421588; Wed, 15 Jan 2025
+ 23:27:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-16-74749c6eba33@linaro.org>
-References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
-In-Reply-To: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jun Nie <jun.nie@linaro.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737012353; l=5963;
- i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=RbKPuq803+NiCMGe/UJ/U7W3A07kesdKTJCDbtqd0sE=;
- b=hEdfNz5hHuGh4b0RzMcBCXUrqAGiJZ5UBCDEi/2MsEYrRR4ciTLPVA9sh0uZF7TTKrAk9Uh5Y
- uomWzZumYCzBR0tMPVdXJsFb5TtgG/9NcElr3WNO1k0JX5qRP94alHw
-X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
- pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
+References: <20250110-dpst-v7-0-605cb0271162@intel.com>
+ <20250110-dpst-v7-2-605cb0271162@intel.com>
+ <i6j3zi5tlnyk2eonmpa5h5qitwgzs2nuzrvsasde3dci6a4ngl@qhbtsjbhq6xr>
+ <IA0PR11MB73075A89DAA5BF7D783125EEBA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
+In-Reply-To: <IA0PR11MB73075A89DAA5BF7D783125EEBA1A2@IA0PR11MB7307.namprd11.prod.outlook.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 16 Jan 2025 09:26:50 +0200
+X-Gm-Features: AbW1kvbKvQiACvA6KZB6HujLWaObXj3LewwLzU1hf6Lqx_12bXcUlXssKsNLIWE
+Message-ID: <CAA8EJprDgcyZTgz9QX0X51sC=F6ogXsMkDLfbSypH1kSm5hJzg@mail.gmail.com>
+Subject: Re: [PATCH v7 02/14] drm: Define ImageEnhancemenT LUT structures
+ exposed to user
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Kandpal,
+ Suraj" <suraj.kandpal@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>, 
+ "Bhattacharjee, Susanta" <susanta.bhattacharjee@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,170 +85,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Request 4 mixers and 4 DSC for the case that both dual-DSI and DSC are
-enabled. 4 pipes are preferred for dual DSI case for it is power optimal
-for DSC.
+On Thu, 16 Jan 2025 at 09:08, Murthy, Arun R <arun.r.murthy@intel.com> wrote:
+>
+> > On Fri, Jan 10, 2025 at 01:15:30AM +0530, Arun R Murthy wrote:
+> > > ImageEnhancemenT(IET) hardware interpolates the LUT value to generate
+> > > the enhanced output image. LUT takes an input value, outputs a new
+> > > value based on the data within the LUT. 1D LUT can remap individual
+> > > input values to new output values based on the LUT sample. LUT can be
+> > > interpolated by the hardware by multiple modes Ex: Direct Lookup LUT,
+> > > Multiplicative LUT etc The list of supported mode by hardware along
+> > > with the format(exponent
+> > > mantissa) is exposed to user by the iet_lut_caps property. Maximum
+> > > format being 8.24 i.e 8 exponent and 24 mantissa.
+> > > For illustration a hardware supporting 1.9 format denotes this as
+> > > 0x10001FF. In order to know the exponent do a bitwise AND with
+> > > 0xF000000. The LUT value to be provided by user would be a 10bit value
+> > > with 1 bit integer and 9 bit fractional value.
+> > >
+> > > Multiple formats can be supported, hence pointer is used over here.
+> > > User can then provide the LUT with any one of the supported modes in
+> > > any of the supported formats.
+> > > The entries in the LUT can vary depending on the hardware capability
+> > > with max being 255. This will also be exposed as iet_lut_caps so user
+> > > can generate a LUT with the specified entries.
+> > >
+> > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> > > ---
+> > >  include/uapi/drm/drm_mode.h | 50
+> > > +++++++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 50 insertions(+)
+> > >
+> > > diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> > > index
+> > >
+> > 7a7039381142bb5dba269bdaec42c18be34e2d05..056c2efef1589848034afc00
+> > 89f1
+> > > 838c2547bcf8 100644
+> > > --- a/include/uapi/drm/drm_mode.h
+> > > +++ b/include/uapi/drm/drm_mode.h
+> > > @@ -1367,6 +1367,17 @@ struct drm_mode_closefb {
+> > >   */
+> > >  #define DRM_MODE_HISTOGRAM_HSV_MAX_RGB                     (1 <<
+> > 0)
+> > >
+> > > +/* LUT values are points on exponential graph with x axis and y-axis
+> > > +y=f(x) */
+> >
+> > Huh?
+> >
+> This f(x) can be the algorithm defined  by the user space algorithm to generate the lookup
+> table. Generation of the LUT value is left to the user space algorithm.
+> When this LUT table is passed to the hardware its just signifies how hardware should
+> use this table to get the LUT value. In this mode it's a direct lookup table.
 
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 29 ++++++++++++++++++------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
- 6 files changed, 29 insertions(+), 14 deletions(-)
+Your documentation should be describing what is expected from the
+userspace. What is y, x and f(x)? How is it being used?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index a900220deeb35..5e96c309fabb8 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -200,7 +200,7 @@ static int dpu_crtc_get_lm_crc(struct drm_crtc *crtc,
- 		struct dpu_crtc_state *crtc_state)
- {
- 	struct dpu_crtc_mixer *m;
--	u32 crcs[CRTC_DUAL_MIXERS];
-+	u32 crcs[CRTC_QUAD_MIXERS];
- 
- 	int rc = 0;
- 	int i;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-index b14bab2754635..38820d05edb8b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h
-@@ -210,7 +210,7 @@ struct dpu_crtc_state {
- 
- 	bool bw_control;
- 	bool bw_split_vote;
--	struct drm_rect lm_bounds[CRTC_DUAL_MIXERS];
-+	struct drm_rect lm_bounds[CRTC_QUAD_MIXERS];
- 
- 	uint64_t input_fence_timeout_ns;
- 
-@@ -218,10 +218,10 @@ struct dpu_crtc_state {
- 
- 	/* HW Resources reserved for the crtc */
- 	u32 num_mixers;
--	struct dpu_crtc_mixer mixers[CRTC_DUAL_MIXERS];
-+	struct dpu_crtc_mixer mixers[CRTC_QUAD_MIXERS];
- 
- 	u32 num_ctls;
--	struct dpu_hw_ctl *hw_ctls[CRTC_DUAL_MIXERS];
-+	struct dpu_hw_ctl *hw_ctls[CRTC_QUAD_MIXERS];
- 
- 	enum dpu_crtc_crc_source crc_source;
- 	int crc_frame_skip_count;
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 1f3054792a228..fdb7bfcb4119c 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -54,7 +54,7 @@
- #define MAX_PHYS_ENCODERS_PER_VIRTUAL \
- 	(MAX_H_TILES_PER_DISPLAY * NUM_PHYS_ENCODER_TYPES)
- 
--#define MAX_CHANNELS_PER_ENC 2
-+#define MAX_CHANNELS_PER_ENC 4
- 
- #define IDLE_SHORT_TIMEOUT	1
- 
-@@ -664,15 +664,20 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 
- 	/* Datapath topology selection
- 	 *
--	 * Dual display
-+	 * Dual display without DSC
- 	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
- 	 *
-+	 * Dual display with DSC
-+	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
-+	 * 4 LM, 2 INTF ( Split display using 2 interfaces)
-+	 *
- 	 * Single display
- 	 * 1 LM, 1 INTF
- 	 * 2 LM, 1 INTF (stream merge to support high resolution interfaces)
- 	 *
- 	 * Add dspps to the reservation requirements if ctm is requested
- 	 */
-+
- 	if (intf_count == 2)
- 		topology.num_lm = 2;
- 	else if (!dpu_kms->catalog->caps->has_3d_merge)
-@@ -691,10 +696,20 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 		 * 2 DSC encoders, 2 layer mixers and 1 interface
- 		 * this is power optimal and can drive up to (including) 4k
- 		 * screens
-+		 * But for dual display case, we prefer 4 layer mixers. Because
-+		 * the resolution is always high in the case and 4 DSCs are more
-+		 * power optimal.
- 		 */
--		topology.num_dsc = 2;
--		topology.num_lm = 2;
--		topology.num_intf = 1;
-+
-+		if (intf_count == 2) {
-+			topology.num_dsc = dpu_kms->catalog->dsc_count >= 4 ? 4 : 2;
-+			topology.num_lm = topology.num_dsc;
-+			topology.num_intf = 2;
-+		} else {
-+			topology.num_dsc = 2;
-+			topology.num_lm = 2;
-+			topology.num_intf = 1;
-+		}
- 	}
- 
- 	return topology;
-@@ -2194,8 +2209,8 @@ static void dpu_encoder_helper_reset_mixers(struct dpu_encoder_phys *phys_enc)
- 	struct dpu_hw_mixer_cfg mixer;
- 	int i, num_lm;
- 	struct dpu_global_state *global_state;
--	struct dpu_hw_blk *hw_lm[2];
--	struct dpu_hw_mixer *hw_mixer[2];
-+	struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
-+	struct dpu_hw_mixer *hw_mixer[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_ctl *ctl = phys_enc->hw_ctl;
- 
- 	memset(&mixer, 0, sizeof(mixer));
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-index 63f09857025c2..a9e122243dce9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h
-@@ -302,7 +302,7 @@ static inline enum dpu_3d_blend_mode dpu_encoder_helper_get_3d_blend_mode(
- 
- 	/* Use merge_3d unless DSC MERGE topology is used */
- 	if (phys_enc->split_role == ENC_ROLE_SOLO &&
--	    dpu_cstate->num_mixers == CRTC_DUAL_MIXERS &&
-+	    (dpu_cstate->num_mixers != 1) &&
- 	    !dpu_encoder_use_dsc_merge(phys_enc->parent))
- 		return BLEND_3D_H_ROW_INT;
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-index 4cea19e1a2038..77a7a5375d545 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
-@@ -24,7 +24,7 @@
- #define DPU_MAX_IMG_WIDTH 0x3fff
- #define DPU_MAX_IMG_HEIGHT 0x3fff
- 
--#define CRTC_DUAL_MIXERS	2
-+#define CRTC_QUAD_MIXERS	4
- 
- #define MAX_XIN_COUNT 16
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-index 64e220987be56..804858e69e7da 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h
-@@ -35,8 +35,8 @@
- #endif
- 
- #define STAGES_PER_PLANE		2
--#define PIPES_PER_PLANE			2
- #define PIPES_PER_STAGE			2
-+#define PIPES_PER_PLANE			(PIPES_PER_STAGE * STAGES_PER_PLANE)
- #ifndef DPU_MAX_DE_CURVES
- #define DPU_MAX_DE_CURVES		3
- #endif
+>
+> > > +#define DRM_MODE_IET_LOOKUP_LUT                            (1 <<
+> > 0)
+> >
+> > Again, what is the reason for a shift? Can these values be OR'd?
+> >
+> Yes can be OR'd values as well.
+> Let me know if this has to be changed?
+> Just chose bitwise shift to denote the multiple modes.
+
+What does it mean if drm_iet_1dlut_sample.iet_mode contains OR of two values?
+
+>
+> > > +/*
+> > > + * LUT values, points on negative exponential graph with x-axis and
+> > > +y-axis
+> > > + * Y = y/x so upon multiplying x, y is obtained, hence
+> > > +multiplicative. The
+> >
+> > Can't parse this sentence.
+> >
+> We need x and y points in the exponential graph.
+> For retrieving the value Y on the graph the value passed by the user is in the format y/x
+> In order to get the Y points on the graph the value has to be multiplied by x.
+> This is a floating point value when compared with an integer value with the direct
+> lookup mode.
+
+Again, what are x and y? Bin indices? Pixel counts? Number of CPUs in
+the current generation?
+
+>
+>
+> > > + * format of LUT can at max be 8.24(8integer 24 fractional)
+> > > + represented by
+> > > + * u32. Depending on the hardware capability and exponent mantissa
+> > > + can be
+> > > + * chosen.
+> >
+> > What does that mean? How is it choosen?
+> >
+> The max value that these kind of 1DLUT can be is 8.24
+
+Why?
+
+> Hardware design can choose anything within this range. This depends
+> on the accuracy required by hardware keeping in mind the hardware cost for
+> implementation.
+> Just a precision for 32bit value.
+>
+> > > + */
+> > > +#define DRM_MODE_IET_MULTIPLICATIVE                        (1 << 1)
+> > > +
+> > >  /**
+> > >   * struct drm_histogram_caps
+> > >   *
+> > > @@ -1414,6 +1425,45 @@ struct drm_histogram {
+> > >     __u32 nr_elements;
+> > >  };
+> > >
+> > > +/**
+> > > + * struct drm_iet_caps
+> > > + *
+> > > + * @iet_mode: pixel factor enhancement modes defined in the above
+> > > +macros
+> > > + * @iet_sample_format: holds the address of an array of u32 LUT sample
+> > formats
+> > > + *                depending on the hardware capability. Max being 8.24
+> > > + *                Doing a bitwise AND will get the present sample.
+> > > + *                Ex: for 1 integer 9 fraction AND with 0x10001FF
+> >
+> > ?? Can hardware support 16.16? 32.0?
+> >
+> No, for a 1D LUT maximum floating number can be 8.24
+
+Why? Is it a limitation of the Intel hardware or just a random API choice?
+
+> Hence hardware will have to adhere to anything within this range.
+>
+> > > + * @nr_iet_sample_formats: number of iet_sample_formsts supported by
+> > the
+> > > + *                    hardware
+> > > + * @nr_iet_lut_entries: number of LUT entries  */ struct drm_iet_caps
+> > > +{
+> > > +   __u8 iet_mode;
+> > > +   u64 iet_sample_format;
+> > > +   __u32 nr_iet_sample_formats;
+> > > +   __u32 nr_iet_lut_entries;
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct drm_iet_1dlut_sample
+> >
+> > Is it supposed to be used with DRM_MODE_IET_MULTIPLICATIVE only? Or is it
+> > supposed to be used with DRM_MODE_IET_LOOKUP_LUT? In the latter case
+> > what should be the iet_format value?
+> >
+> The struct iet_1dlut_sample will be used for all the IET modes i.e direct lookup and
+> multiplicative.
+> The element iet_sample_format will not be applicable for direct lookup. This will be
+> used for multiplicative and the value what it can hold for multiplicative is mentioned
+> in the above description.
+> I missed adding this info in the description, will add it in the next version.
+
+And some other formats will also require additional data. This
+multi-format structure sounds bad from my POV.
+
+>
+> > > + * @iet_mode: image enhancement mode, this will also convey the channel.
+> > > + * @iet_format: LUT exponent and mantissa format, max being 8.24
+> > > + * @data_ptr: pointer to the array of values which is of type u32.
+> > > + *       1 channel: 10 bit corrected value and remaining bits are reserved.
+> > > + *       multi channel: pointer to struct drm_color_lut
+> > > + * @nr_elements: number of entries pointed by the data @data_ptr
+> > > + * @reserved: reserved for future use
+> > > + * @reserved1: reserved for future use  */ struct
+> > > +drm_iet_1dlut_sample {
+> > > +   __u8 iet_mode;
+> > > +   __u32 iet_format;
+> > > +   __u64 data_ptr;
+> > > +   __u32 nr_elements;
+> > > +   __u32 reserved;
+> > > +   __u32 reserved1;
+> > > +};
+> > > +
+> > >  #if defined(__cplusplus)
+> > >  }
+> > >  #endif
+> > >
+> > > --
+> > > 2.25.1
+> > >
+> >
+> Thanks and Regards,
+> Arun R Murthy
+> --------------------
+
+
 
 -- 
-2.34.1
-
+With best wishes
+Dmitry
