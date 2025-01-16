@@ -2,54 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9DEA1348A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 09:00:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF05A134A3
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 09:05:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E1A10E8C9;
-	Thu, 16 Jan 2025 08:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0A7F10E8E7;
+	Thu, 16 Jan 2025 08:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ftdNVW85";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="p7ck0bC1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8309710E8C9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 08:00:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AEE79A40ECD;
- Thu, 16 Jan 2025 07:58:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C57CC4CED6;
- Thu, 16 Jan 2025 08:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737014437;
- bh=UqMwLRdfqeiC7wOMJaByXRkqiNcELM6bQ67mEIz6UcU=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=ftdNVW85ECyrzq0vGsUNx0rTFKv99BC4ONH5sxm5FcfoeMtmJ8MWbAPCVOXLvTB0J
- /CAMuQ2lSQjSRX38LmTFwqv9rW4Xqo4cyuA9wpyXdsJZcIbJfWSHEbU36qs2rrux8z
- rmR8Moz9fqU6zsQxmTe+TKJcZnu52z2fmB0iXkWCSZ81g5/xCv3945xVfAqu/GXIyL
- 6CiBtmPUBYJNyou0YUi7NE58p21TvNiU7ypkTe+tpVPSDxHO6XaHyd/mLZag7VPmo4
- mUUFR2wq7Jk/R3xv7pUKi4TBXKRbiEQ98Y+tEh/UE5MFsTXa9BynWZvRbGnRRC9LML
- QyKF2C/0qNtDQ==
-Message-ID: <ffe5edde9469cacb8e396e858a4d0b89@kernel.org>
-Date: Thu, 16 Jan 2025 08:00:34 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Louis Chauvet" <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v8 4/8] drm/vkms: Switch to managed for crtc
-In-Reply-To: <20250114-google-vkms-managed-v8-4-da4254aa3dd5@bootlin.com>
-References: <20250114-google-vkms-managed-v8-4-da4254aa3dd5@bootlin.com>
-Cc: arthurgrillo@riseup.net, dri-devel@lists.freedesktop.org,
- jeremie.dautheribes@bootlin.com, linux-kernel@vger.kernel.org,
- miquel.raynal@bootlin.com, nicolejadeyee@google.com, seanpaul@google.com,
- thomas.petazzoni@bootlin.com, "David
- Airlie" <airlied@gmail.com>, "Haneen Mohammed" <hamohammed.sa@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>, 
- =?utf-8?b?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
- "Melissa Wen" <melissa.srw@gmail.com>, "Rodrigo
- Siqueira" <rodrigosiqueiramelo@gmail.com>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, "Simona
- Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1073010E8ED
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 08:05:21 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-53df80eeeedso707489e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 00:05:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737014659; x=1737619459; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=iWhOrb9/UASERUslvHT6A+SSMFyYSjLv0++Pj5Kul+8=;
+ b=p7ck0bC1OHCs9nOgJ1t/DvqZOonLzrGFdCDPV27sthZ2+FCnB6KD1129Dt1OKDLlUe
+ OkgwU39Pjig0M3tvjzYRQr9lbjaSmg76l5tLaNX/lA3LmbU+dAbV0XVf7AI6ygeqevrT
+ YnTXPZ3MAwi+6Bt5SylNI7QgIXsCo5CQAT/Esl11CTNd4AAXkUTy94psSY4PL4XqyGpk
+ GdYjuxRkzOtsb3BR2XI9fhgShpEEQhHuto+P9hgMfmQH88RS/KR16SW784XwUO3t1ROe
+ YLONFO/4Zh6RfdmTbbkBlTLHH09uSMHxyLp57By4+PYwUklWS5danajSZZ4EdQjQXxgV
+ PmVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737014659; x=1737619459;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iWhOrb9/UASERUslvHT6A+SSMFyYSjLv0++Pj5Kul+8=;
+ b=rfRoUBuqXoj+DXIW8rnx/iBj4ys1AulWgYG5akGkUhPLDJeZFzEYbDJJSXC7lHUsZS
+ hWqc/9Gm7/oCa8hifZOvwn2Q3MQ8sACcrmrhCPEGS2v3NfB4lgiHKl6SI7VTlcsG8g2t
+ PPL6v+AVdIbNK6gk7Ienh4EN9EmAtHGJKKJDY4qYpzZA5yTpbgkKjCkVplCzjpxYLOKt
+ 1/eNDXlJiDLtYoDLGAEgapzOYNVHjNBXxVxtPfkIVFexwqqy5aleEGcM3HzmxUbU6391
+ d6pM9DqLMk66/n/lVXUmnJwmDucdio6e61FKu27VuM/psdr8eReeg6ehpORHbqqxBIqv
+ qlhA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWQoHLZ2VYutNCRdDl8JCcf8WmAJ05APIalMo1ar7RyKdCUKLnnD+s7qm6TavuIoy9YGhZmMVl1lZ0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+/s39bMnlC2auOYyPlJHN+SNvz/pngAoBP/kUSaOk8MXqHGz/
+ SUmU4lni/aXKoMJui/4ClHb6RZz/umOu2gN0QPdKiYs/NeltIUIvn+Jc9fShcns=
+X-Gm-Gg: ASbGnctPq8xhgRjA8FVqC61n1tJ/nEoRKZdJXy7PR9ada0/5Yjji9cqgNvq+bl06/S9
+ a+faJkKxhDA9c4qMl/9So0OkqiXkiDjPKb8SIabnTz7Qo/eRcDOBEerEuLh+QVLoc11aitQfJNO
+ yg70jOTO5ZTs/b/V2OSE96wAIc4oq6oivwZywFGGbw/GPR1SRebAfxJPQKl8bbhFdZXV7PxvcXw
+ XNux4eB8VPLmdKm7v5pESHdGofFoOpJ/sDOMdGsidYtpSeo4qz2z9LKRjiIkG3gC6NiWg3rZ5Va
+ Rx66IVorQfzQ0JNGIKMEJG3hGjP+MipDhBUM
+X-Google-Smtp-Source: AGHT+IEuDBWymX+JxWIF/uLo9WT0Lp/ZRuWOf2NfkbN1f2elgSAAg2ctJNMqdzX6Qa3aZuc+njgQRA==
+X-Received: by 2002:ac2:4e0c:0:b0:540:2a76:584b with SMTP id
+ 2adb3069b0e04-542845b969bmr9906447e87.36.1737014659463; 
+ Thu, 16 Jan 2025 00:04:19 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5428be499fcsm2251566e87.8.2025.01.16.00.04.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2025 00:04:18 -0800 (PST)
+Date: Thu, 16 Jan 2025 10:04:15 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 11/16] drm/msm/dpu: split PIPES_PER_STAGE definition
+ per plane and mixer
+Message-ID: <vyc6zvymcaaw7nlkrsmxwrpbh5u7znl3pyegex6xndz3ibmm3w@xdm7lxlibkvp>
+References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
+ <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-11-74749c6eba33@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-11-74749c6eba33@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,16 +95,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Jan 2025 15:05:46 +0100, Louis Chauvet wrote:
-> The current VKMS driver uses managed function to create crtc, but
-> don't use it to properly clean the crtc workqueue. It is not an
-> issue yet, but in order to support multiple devices easily,
-> convert this code to use drm and device managed helpers.
-> 
-> 
-> [ ... ]
+On Thu, Jan 16, 2025 at 03:26:00PM +0800, Jun Nie wrote:
+> Split the PIPES_PER_STAGE definition per plane and mixer pair.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Why are you trying to repeat commit subject? I noticed this pattern in
+other patches too.
 
-Thanks!
-Maxime
+> Currently, 2 pipes are supported for a plane at most. A stage struct
+> contains configuration for a mixer pair, so pipes per stage are
+> identical to pipes per plane in this case. More pipes will be required
+> for the quad-pipe case in the future, and pipes per stage will be
+> different from pipes per plane in this case. So pipes per plane is
+> split out as PIPES_PER_PLANE.
+
+The stage contains configuration for a mixer pair. Currently the plane
+supports just one stage and 2 pipes. Quad-pipe support will require
+handling 2 stages and 4 pipes at the same time. In preparation for that
+add a separate define, PIPES_PER_PLANE, to denote number of pipes that
+can be used by the plane.
+
+With that being used as a commit message:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+Please use this as an example of what is expected from the commit
+messages.
+
+-- 
+With best wishes
+Dmitry
