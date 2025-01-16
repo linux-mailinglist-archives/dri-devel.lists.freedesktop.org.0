@@ -2,86 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1060A1307B
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 02:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55288A1308D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 02:15:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 326AB10E548;
-	Thu, 16 Jan 2025 01:09:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0DF410E15B;
+	Thu, 16 Jan 2025 01:15:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Fv1+UDaS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kftb+ogF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5958B10E543
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:09:05 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-30229d5b229so4244981fa.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 17:09:05 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB0410E15B
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 01:15:18 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-54021daa6cbso439399e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Jan 2025 17:15:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1736989684; x=1737594484; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1736990057; x=1737594857; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wwzMlilLdEujY5Zs33d6OoN+S/2HulFb5odS52mZBkw=;
- b=Fv1+UDaSThbDfUfdbQtvSjqQLHGfrwgSMmZTVBFjiCXHlD4vxsG4nd9CW41pGAzaSC
- QJzgWuh+d3/kMSKz98yswu8ZTiz3TJ3+UyH9bmR0ndVbAUV61pOmmhc1UBfoYknBP2Yh
- t2XDls0BvO4DQA8WNAt00dl7pZ3rYI8R0fFy2x+pY3OwzqGxHpG/5xvEKqJ7OCG+MR0R
- QvnV9ga3LFpgiW90DF0tC48JZcBe6ZdK7E5PUcoUnv5q9ovPg/Q/pY/0/rcaFSc+bkYN
- Ipbfs+QV2hhcZsVtA5iCFWaE6PCpRZED1wRTk7ekrssUfEKSjuFvVfwN1b9mXdCQE/b7
- xsdg==
+ bh=r4e0IudMnukUFWD7viyoe0eoxw+YDzAgC6X7Oe6+VlY=;
+ b=kftb+ogFFaUv8vvou516MRSbU1biIozc3yicgp3ocD7H9iZbOCgwDTwJvXpnOgvIt6
+ B/On0avgUHfRfvPC2vkTcW/LBFe3haYgHhL8rye4EJtWtlJQLABdwhEUHoL6PuidNTjc
+ 1zk4Zg0TwYzO5FLmHkvSK70Jl3zGkfiTG3OPI5779Fcw+odOh9xm+Y1t+b9dXKoN1ugt
+ fIOoEUnUTCTHiTQTqgPefw+OsnFw2c3TnAMxsiupV5rNaulWAbirXkyjI/qnp3n4eLdp
+ AKStLVpeaTcaDkekRPkgCW+FYFiz2nxYAjbh3W/iQqkE/GlRWpQ6rzu1ogVHckvjZiDJ
+ LwzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1736989684; x=1737594484;
+ d=1e100.net; s=20230601; t=1736990057; x=1737594857;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wwzMlilLdEujY5Zs33d6OoN+S/2HulFb5odS52mZBkw=;
- b=GpkKzlfs8EJz2DdEr+BqDv70oozUMVNJuYEegQT6gLXwHRjD8G0mDn6A9rDkcOKBPp
- gw7MO2nOK65ZJ4xDPf52rJ86q2aJL4RlDnS2rt+swr6qX6TLbhv1XbQ+iQgjDNi6M9GG
- AnGsP/Z0DTSreINa2muJ9z7K/GXMaSscEmjnKkkDMsx04uuAONMlkNczqELyY2MUIMrS
- L4GN1eyQzSovhYdMtgYpRqYg04J+QxvmRiOe4HzDJ8ParbH4PO03DXrAMJZ0W3IEfcbR
- cWbyal+9ZhamF6vG5gRVzuTxGOgV3Qx3KqUofk31YgJE+FK7Ne9QREIpR8rg81I5Crbp
- wYRg==
+ bh=r4e0IudMnukUFWD7viyoe0eoxw+YDzAgC6X7Oe6+VlY=;
+ b=LkvLcVWITfofnJg6BckNyfPcJhmsCSoJKJVlWVzl8MVsFrpWKyZIQWJi4P6tdG3n99
+ qX4Fl88tws3W3S3zV3XMvMix2UZQXn+eDPiF4H/h+0mCwLm0daHnKqbsevk/P/92LuEh
+ nDcx0IKR8wXNhJH28+Sp8KwJOkcralrX+eLkSZA7t0ypNOiyP8MbTcH3sJfSu69jv99n
+ YwcWHsuBzLlAI0LLrGHa99aBtvDJfNpSdbRs7dI/67TPVuz/9/JRzHHN7lEbVEiD34pE
+ 1TMvwLzH6w/QN38nXqsTEsD+WMfS6EMwvxEYtcRrTtv64EOAuCKNCDLPa1KOcWOpLOmj
+ R9sg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXuYm7M6N45HYqdYIxDzkxhTSbkhq09Xh+0Tmhg0IYytwaaQShcGNlXJzaHOPFXppJ7jcNR4/+4S8o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyHnGLZM10hh8rulHxhoJ3z09jDTTv/tdwo1f7JX1VDW5ro5zcU
- Bv+bXbNsr77SHe0DMZhUEZDaW2YB9wcmqbFyMDeEIhIL9iWXjMViiJLIul1BJlg=
-X-Gm-Gg: ASbGncut2iCPWkKqSw+EWYi5gfBD7PSE/NcxKzhrLdysTa9K2pLrfuSvgJraZZ2dBd4
- GzxNQjxH+CffmvU7KRAsehK05xpcuEujGe5b0ATY6oIU8Jn/CZt0WtWsEtqEBPHqtYR9an7qd+x
- VbuzDEXj9xJ00PdS4pY4s95wtZgktB41e33iWdywdxYhPe9GaCyzYcmhsrGGvlGpdY79YwXBLno
- JTZC//M2yVTJ7cq93LwwTXNeEZ21JUmQnjIRVXpPaz7Ak1rLdmz5cIEEvhTtzQU6rwmzfSjk8GE
- dBBh9Sh1v+W5ONNRCePXzugPB29LG9EAJqA9
-X-Google-Smtp-Source: AGHT+IFmjPC9QwWjRvCfffS8UBGr+gFJLAcJvNPgqdVotuaUVrqh3Sm4R8W+jJAYUE0rg6CRJe0/yA==
-X-Received: by 2002:a05:651c:4cb:b0:302:3355:f756 with SMTP id
- 38308e7fff4ca-305f463c1e3mr102527661fa.35.1736989683655; 
- Wed, 15 Jan 2025 17:08:03 -0800 (PST)
+ AJvYcCW3KbcpRe5MJVnptxunm9uAXL70JehvXz59wi+ocBEk/AAF/3LXwRO+MUcwshCWsjvobObBwHBVhfQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YydeOtJJDStUQTxlEAimWclNu1dQFuOkZ6+UTX29LpUJFiEwlnQ
+ tRHBk4+MvP1l6luThUhxbRZTYwCtZd1m2Avqn4iXqjTLmONrLOfNOKW/nKHgKEc=
+X-Gm-Gg: ASbGncvGWsQEXvZUDI+nWpo3rwkV1kDk4VmhYZTE7BHM8rrRl+s2HjDWrapCsHPRrSj
+ CzQVMmXEIKxKn9N5ckwycYQ1k28WhCyBdafDffxHUPcNgneA0AjoTVxkZWvK9Mfvj0E0fwZ/rCm
+ Y91Al4q5PrhtYXB7vRIycH8r6/NfHc1tk8dI/BqYENGZS70IhF0OHPKMez8q66PIuHbshA4WphS
+ 4UKiUJxtuM5Xpa5qKrxV7f3cNZhVpF+0FaAhY9sYQJ/tPVqq1IC9cCd/0KLDYnOxsohT1xWPPEg
+ e8b37qZ3G4HX+vqrg4B/dq/GURXqYOsLxej9
+X-Google-Smtp-Source: AGHT+IHcUh58pDRs3Rqutw/pYV92Q2PDhu6MhAiCX/8p7DwTj7+go5vUgCSXOd/KKHur5P9mxQJjeQ==
+X-Received: by 2002:a05:6512:ac7:b0:540:3572:170c with SMTP id
+ 2adb3069b0e04-542845af111mr8135121e87.2.1736990056825; 
+ Wed, 15 Jan 2025 17:14:16 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-305ff0ad0e9sm22668551fa.15.2025.01.15.17.08.01
+ 2adb3069b0e04-5428bec0664sm2190106e87.193.2025.01.15.17.14.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Jan 2025 17:08:02 -0800 (PST)
-Date: Thu, 16 Jan 2025 03:08:00 +0200
+ Wed, 15 Jan 2025 17:14:15 -0800 (PST)
+Date: Thu, 16 Jan 2025 03:14:13 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 29/29] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
- pointer
-Message-ID: <cfn3xpwyoo6lbugaxjwxvcq4l7eqbznlgnunxxfg4jnbrwtnpo@wdoizsk6ckvg>
-References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
- <20250115-bridge-connector-v1-29-9a2fecd886a6@kernel.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Stephen Boyd <swboyd@chromium.org>, Simona Vetter <simona.vetter@ffwll.ch>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v4 7/9] drm/msm/dpu: handle perf mode in
+ _dpu_core_perf_crtc_update_bus()
+Message-ID: <2fnrfaafg5shswb2p6tsw3ua7y4ll43qzmbrgc4qo6oou3mvwt@5kxr7vifb62m>
+References: <20250106-dpu-perf-rework-v4-0-00b248349476@linaro.org>
+ <20250106-dpu-perf-rework-v4-7-00b248349476@linaro.org>
+ <459422c9-c272-4389-9b05-487a0148a082@quicinc.com>
+ <ab4wkauem3xb65wh3h22bcyzlpx26rrmsicrdlewomn55ykpqi@tggrsmb6qcmf>
+ <8e6b6940-d155-4ab7-bdd6-a67e9506218a@quicinc.com>
+ <4quxgv6n35np7fm7iqx5bw5xnkz7gxabh3ix5rexcq5nir5k7i@xi33w2wyj7om>
+ <72c50442-5624-44ca-a954-64f7ddfa16f9@quicinc.com>
+ <mvw34ny5en3dzt5ro6556daiktk6dc2azjotq26755dqscbu3b@fq7rxjqf7fg2>
+ <b5a49ad8-02df-4418-911c-91bc57c4d05a@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115-bridge-connector-v1-29-9a2fecd886a6@kernel.org>
+In-Reply-To: <b5a49ad8-02df-4418-911c-91bc57c4d05a@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,40 +101,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 15, 2025 at 10:05:36PM +0100, Maxime Ripard wrote:
-> The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
-> deprecated and shouldn't be used by atomic drivers.
+On Wed, Jan 15, 2025 at 04:40:39PM -0800, Abhinav Kumar wrote:
 > 
-> This was due to the fact that we did't have any other alternative to
-> retrieve the CRTC pointer. Fortunately, the crtc pointer is now provided
-> in the bridge state, so we can move to atomic callbacks and drop that
-> deprecated pointer usage.
 > 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 41 ++++++++++++++++++++---------------
->  1 file changed, 24 insertions(+), 17 deletions(-)
+> On 1/15/2025 4:32 PM, Dmitry Baryshkov wrote:
+> > On Wed, Jan 15, 2025 at 11:41:27AM -0800, Abhinav Kumar wrote:
+> > > 
+> > > 
+> > > On 1/15/2025 12:27 AM, Dmitry Baryshkov wrote:
+> > > > On Tue, Jan 14, 2025 at 01:18:26PM -0800, Abhinav Kumar wrote:
+> > > > > 
+> > > > > 
+> > > > > On 1/14/2025 3:10 AM, Dmitry Baryshkov wrote:
+> > > > > > On Mon, Jan 13, 2025 at 07:38:16PM -0800, Abhinav Kumar wrote:
+> > > > > > > 
+> > > > > > > 
+> > > > > > > On 1/5/2025 7:07 PM, Dmitry Baryshkov wrote:
+> > > > > > > > Move perf mode handling for the bandwidth to
+> > > > > > > > _dpu_core_perf_crtc_update_bus() rather than overriding per-CRTC data
+> > > > > > > > and then aggregating known values.
+> > > > > > > > 
+> > > > > > > > Note, this changes the fix_core_ab_vote. Previously it would be
+> > > > > > > > multiplied per the CRTC number, now it will be used directly for
+> > > > > > > > interconnect voting. This better reflects user requirements in the case
+> > > > > > > > of different resolutions being set on different CRTCs: instead of using
+> > > > > > > > the same bandwidth for each CRTC (which is incorrect) user can now
+> > > > > > > > calculate overall bandwidth required by all outputs and use that value.
+> > > > > > > > 
+> > > > > > > 
+> > > > > > > There are two things this change is doing:
+> > > > > > > 
+> > > > > > > 1) Dropping the core_clk_rate setting because its already handled inside
+> > > > > > > _dpu_core_perf_get_core_clk_rate() and hence dpu_core_perf_crtc_update()
+> > > > > > > will still work.
+> > > > > > > 
+> > > > > > > and
+> > > > > > > 
+> > > > > > > 2) Then this part of moving the ab/ib setting to
+> > > > > > > _dpu_core_perf_crtc_update_bus().
+> > > > > > > 
+> > > > > > > Can we split this into two changes so that its clear that dropping
+> > > > > > > core_clk_rate setting in this change will not cause an issue.
+> > > > > > 
+> > > > > > Ack
+> > > > > > 
+> > > > > 
+> > > > > Actually I think this is incorrect.
+> > > > > 
+> > > > > If the user puts in an incorrect value beyond the bounds, earlier the code
+> > > > > will reject that by failing the in _dpu_core_perf_calc_crtc().
+> > > > 
+> > > > This function doesn't perform any validation nor returns an error code.
+> > > > Probably you've meant some other function.
+> > > > 
+> > > 
+> > > Sorry, let me explain a little more to complete the flow I am seeing.
+> > > 
+> > > _dpu_core_perf_calc_crtc() gets called by dpu_core_perf_crtc_check().
+> > > 
+> > > That one checks against erroneous values.
+> > > 
+> > >                  if (!threshold) {
+> > >                          DPU_ERROR("no bandwidth limits specified\n");
+> > >                          return -E2BIG;
+> > >                  } else if (bw > threshold) {
+> > >                          DPU_ERROR("exceeds bandwidth: %ukb > %ukb\n", bw,
+> > >                                          threshold);
+> > >                          return -E2BIG;
+> > >                  }
+> > 
+> > Here we are checking that the selected set of modes doesn't overload
+> > defined platform requirements. However I think that it should be
+> > possible for the user to attempt to overcome predefined bandwidth
+> > limitations in attempt to debug the issue. ICC framework handles that
+> > perfectly (and if you check, until the sync_state is reached all BW's
+> > are assumed to be UINT_MAX). Maybe I should document it in the commit
+> > message that after this commit forced BWs are not a subject to the
+> > catalog limitations.
+> > 
 > 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> index b3d617505dda7d22b38c000fb79de46376adf3f1..c17d9486cf5c36d61eb00af2bdf9ba1b6f890ffd 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> @@ -242,15 +242,16 @@ static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
->  	u8 buf[2] = { val & 0xff, val >> 8 };
->  
->  	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
->  }
->  
-> -static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
-> +static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata,
-> +				     struct drm_bridge_state *bridge_state)
->  {
->  	u32 bit_rate_khz, clk_freq_khz;
->  	struct drm_display_mode *mode =
-> -		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-> +		&bridge_state->crtc->state->adjusted_mode;
+> hmmm, yes this was the validation I was referring to.
+> 
+> I didnt get why a user should be allowed to go beyond the platform limits,
+> what purpose does that serve , its not leading to any conclusion or towards
+> the resolution of the issue. With the platform validation not only we are
+> enforcing the limits but also making sure that random values given by the
+> user dont cause more harm than good.
 
-At least we should document why is it safe to follow the crtc->state.
+If debugfs files are being used to overwrite the data, then the user is
+an advanced user. Possible usage cases might include explicitly
+overclocking the platform, performing validation checks or just
+attempting to understand the underfill issues. Thus I belive the
+advanced user should be given a power to shoot their leg by specifying
+hugher values than specified in the catalog. As I wrote, ICC driver
+already uses UINT_MAX for bandwidth values during the system bootup.
+RPM(h) will enforce bandwidth limitations on those votes.
+
+> 
+> > > 
+> > > > > 
+> > > > > Now, if we move it to _dpu_core_perf_crtc_update_bus(), this is beyond the
+> > > > > check phase so incorrect values cannot be rejected.
+> > > > > 
+> > > > > So we will still need to preserve overriding the values in
+> > > > > _dpu_core_perf_calc_crtc().
+> > > > > 
+> > > > > > > 
+> > > > > > > 
+> > > > > > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > > > > > ---
+> > > > > > > >      drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c | 40 +++++++++++++--------------
+> > > > > > > >      1 file changed, 19 insertions(+), 21 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> > > > > > > > index 70f43e8359caee2082f2ca9944a17a6a20aa3d49..7ff3405c6867556a8dc776783b91f1da6c86ef3f 100644
+> > > > > > > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> > > > > > > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c
+> > > > > > > > @@ -118,22 +118,9 @@ static void _dpu_core_perf_calc_crtc(const struct dpu_core_perf *core_perf,
+> > > > > > > >      		return;
+> > > > > > > >      	}
+> > > > > > > > -	memset(perf, 0, sizeof(struct dpu_core_perf_params));
+> > > > > > > > -
+> > > > > > > > -	if (core_perf->perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
+> > > > > > > > -		perf->bw_ctl = 0;
+> > > > > > > > -		perf->max_per_pipe_ib = 0;
+> > > > > > > > -		perf->core_clk_rate = 0;
+> > > > > > > > -	} else if (core_perf->perf_tune.mode == DPU_PERF_MODE_FIXED) {
+> > > > > > > > -		perf->bw_ctl = core_perf->fix_core_ab_vote * 1000ULL;
+> > > > > > > > -		perf->max_per_pipe_ib = core_perf->fix_core_ib_vote;
+> > > > > > > > -		perf->core_clk_rate = core_perf->fix_core_clk_rate;
+> > > > > > > > -	} else {
+> > > > > > > > -		perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+> > > > > > > > -		perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+> > > > > > > > -		perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+> > > > > > > > -	}
+> > > > > > > > -
+> > > > > > > > +	perf->bw_ctl = _dpu_core_perf_calc_bw(perf_cfg, crtc);
+> > > > > > > > +	perf->max_per_pipe_ib = perf_cfg->min_dram_ib;
+> > > > > > > > +	perf->core_clk_rate = _dpu_core_perf_calc_clk(perf_cfg, crtc, state);
+> > > > > > > >      	DRM_DEBUG_ATOMIC(
+> > > > > > > >      		"crtc=%d clk_rate=%llu core_ib=%u core_ab=%u\n",
+> > > > > > > >      			crtc->base.id, perf->core_clk_rate,
+> > > > > > > > @@ -222,18 +209,29 @@ static int _dpu_core_perf_crtc_update_bus(struct dpu_kms *kms,
+> > > > > > > >      {
+> > > > > > > >      	struct dpu_core_perf_params perf = { 0 };
+> > > > > > > >      	int i, ret = 0;
+> > > > > > > > -	u64 avg_bw;
+> > > > > > > > +	u32 avg_bw;
+> > > > > > > > +	u32 peak_bw;
+> > > > > > > >      	if (!kms->num_paths)
+> > > > > > > >      		return 0;
+> > > > > > > > -	dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+> > > > > > > > +	if (kms->perf.perf_tune.mode == DPU_PERF_MODE_MINIMUM) {
+> > > > > > > > +		avg_bw = 0;
+> > > > > > > > +		peak_bw = 0;
+> > > > > > > > +	} else if (kms->perf.perf_tune.mode == DPU_PERF_MODE_FIXED) {
+> > > > > > > > +		avg_bw = kms->perf.fix_core_ab_vote;
+> > > > > > > > +		peak_bw = kms->perf.fix_core_ib_vote;
+> > > > > > > > +	} else {
+> > > > > > > > +		dpu_core_perf_aggregate(crtc->dev, dpu_crtc_get_client_type(crtc), &perf);
+> > > > > > > > +
+> > > > > > > > +		avg_bw = div_u64(perf.bw_ctl, 1000); /*Bps_to_icc*/
+> > > > > > > > +		peak_bw = perf.max_per_pipe_ib;
+> > > > > > > > +	}
+> > > > > > > > -	avg_bw = perf.bw_ctl;
+> > > > > > > > -	do_div(avg_bw, (kms->num_paths * 1000)); /*Bps_to_icc*/
+> > > > > > > > +	avg_bw /= kms->num_paths;
+> > > > > > > >      	for (i = 0; i < kms->num_paths; i++)
+> > > > > > > > -		icc_set_bw(kms->path[i], avg_bw, perf.max_per_pipe_ib);
+> > > > > > > > +		icc_set_bw(kms->path[i], avg_bw, peak_bw);
+> > > > > > > >      	return ret;
+> > > > > > > >      }
+> > > > > > > > 
+> > > > > > 
+> > > > 
+> > 
 
 -- 
 With best wishes
