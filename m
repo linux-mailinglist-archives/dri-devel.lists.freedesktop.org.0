@@ -2,64 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BF9A13C15
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF7FA13C2C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Jan 2025 15:27:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AFAD10E981;
-	Thu, 16 Jan 2025 14:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB47D10E985;
+	Thu, 16 Jan 2025 14:27:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YSkRXQvJ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="jVateGvY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7021C10E981;
- Thu, 16 Jan 2025 14:24:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737037472; x=1768573472;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=MDrViC5PElsL0tyBvK8W754OQAxvDzniKetqRVX4ViI=;
- b=YSkRXQvJuAUPjKk7Bj70OGu1dguc5TlezOPvrrwacgbd4Qq49paC2Ltp
- iSfCVGBdBg0SsVCw6Nr6uH8DhQukmY60TGX62N9tg1NJQY4//fz/JtISL
- Sz41OYs526pRPIikko5+X9AiQAp4/+A8YSEiezUBpqR5OLqodGp+toVlQ
- fa8TZaxrMGLN+qmuxHy9ThSM5P/TS+xBtX1XVlTU/tpMW+WPuDjPwlWHP
- ibPDBeODRNG5zMSZ82R6PSu2nnjMDilpC2zlYOzoLXDQg103WYPaswxqM
- uWJwpM/jmwWRlNV7yKqF7neI0PYuaCXwYa/1zJ4m0X/GcAJHAPSqrRA64 A==;
-X-CSE-ConnectionGUID: 9LZlU1uxR9aGMi31sbVJjg==
-X-CSE-MsgGUID: uyy3pbnxT2iv6m7+wHqPvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="48424967"
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; d="scan'208";a="48424967"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2025 06:24:31 -0800
-X-CSE-ConnectionGUID: bTp4FN4SR+Kmke233hD7HQ==
-X-CSE-MsgGUID: Iu9o2GGrRaCprI5n1vaG2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,209,1732608000"; d="scan'208";a="105661088"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 16 Jan 2025 06:24:27 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 16 Jan 2025 16:24:26 +0200
-Date: Thu, 16 Jan 2025 16:24:26 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Brian Geffon <bgeffon@google.com>
-Cc: intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
- jani.saarinen@intel.com, tomasz.mistat@intel.com,
- vidya.srinivas@intel.com, jani.nikula@linux.intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tomasz Figa <tfiga@google.com>
-Subject: Re: [PATCH] drm/i915: Fix page cleanup on DMA remap failure
-Message-ID: <Z4kWms-eFWxddspp@intel.com>
-References: <20250116135636.410164-1-bgeffon@google.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA9A10E987
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 14:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1737037599;
+ bh=UeFDYPRgZQPn6MStyNT1pEJTaMhfDKZvOpT5RqokfRw=;
+ h=From:Subject:Date:To:Cc:From;
+ b=jVateGvYT/rBze/xM8rXFqBD5jEYlAz4A9HtU1Aw5XXQVbbvUCPLpRP8mu1QG7Rn2
+ xObE/Bx+A6aojDzhpXE+KpXPw4c7fgwjkVH+IklCX2XJkj2e6EdiCe4LjW8T9yErzF
+ kyUbN0ZUvDnSWlHWl7oMDJnN271HW3YQaSBdKOwidV8lZ8KfW2GlJRUNV/M4b4zJqg
+ dPt/rcx4ZZ8nmTMA1mqYTw8l07x80UZVWv/Tato+oOaNu/T3S4QZbHTSS/6/QdQq9R
+ KcyeeXnWCdeEdR4wU4LmXbqEuyEHQIaHRteNIFkjYrelvaqhaNyUJAdmnw0ddew1OD
+ 409rCe8jo4V9g==
+Received: from fedora.home (lfbn-tou-1-1147-231.w90-76.abo.wanadoo.fr
+ [90.76.208.231])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: laeyraud)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id F1E8F17E0E48;
+ Thu, 16 Jan 2025 15:26:38 +0100 (CET)
+From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Subject: [PATCH 0/3] Add Mali GPU support for Mediatek MT8370 SoC
+Date: Thu, 16 Jan 2025 15:25:56 +0100
+Message-Id: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250116135636.410164-1-bgeffon@google.com>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPQWiWcC/02O2wrCMBBEf6XsswtJ02xrf0VEsummBuzFphah+
+ O8G9cHHMzAzZ4ckS5QEbbHDIltMcRoz6EMB/urGXjB2maFUpVVaWxzWxtQKZXR8E+znBxqmYI8
+ 2ODId5N68SIjPz+bp/OVF7o88vX5DYJcE/TQMcW0LU2tDHKw3jgIxNdTVVah0vnFUKWLxxDV7+
+ Fdqi5+QwW5Nl59UL2Oc0GqFxpLiRmnF7thuJZxfrzepNwwZ6wAAAA==
+X-Change-ID: 20250115-mt8370-enable-gpu-3b6f595fa63d
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737037598; l=2043;
+ i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
+ bh=UeFDYPRgZQPn6MStyNT1pEJTaMhfDKZvOpT5RqokfRw=;
+ b=+A3e6YxoGAsOpzEcB833b1garE16GHGcwIWmz2aTxLJds3c+EMOw1msKeJj1Bc7qYvpJH86/3
+ dqZ+q00c9auAkdL2CE67hH8vrP/Mnt3DET6p5lMrIrlp7dFzWxz3vva
+X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
+ pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,96 +81,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2025 at 08:56:36AM -0500, Brian Geffon wrote:
-> When converting to folios the cleanup path of shmem_get_pages() was
-> missed. When a DMA remap fails and the max segment size is greater than
-> PAGE_SIZE it will attempt to retry the remap with a PAGE_SIZEd segment
-> size. The cleanup code isn't properly using the folio apis and as a
-> result isn't handling compound pages correctly.
-> 
-> Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13487
-> Fixes: 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a folio_batch")
-> Signed-off-by: Brian Geffon <bgeffon@google.com>
-> Suggested-by: Tomasz Figa <tfiga@google.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index fe69f2c8527d..02ddab5bf5c0 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -37,8 +37,6 @@ void shmem_sg_free_table(struct sg_table *st, struct address_space *mapping,
->  	struct folio *last = NULL;
->  	struct page *page;
->  
-> -	mapping_clear_unevictable(mapping);
-> -
+This patchset adds the support of the ARM Mali G57 MC2 GPU (Valhall-JM,
+dual core), integrated in the Mediatek MT8370 SoC, to the panfrost driver
+and to the mt8370.dtsi include file.
 
-The assymmetry here between the alloc vs. free is a bit annoying.
-Maybe we can just keep this here? 
+I've testing this patchset on a Mediatek Genio 510 EVK board,
+with a kernel based on linux-next (tag: next-20250113) plus [1] patchset.
 
-Or if avoiding the ping-pong actually mattes in the gtt prepare
-error case, then maybe we should rename this guy into
-__shmem_sg_free_table() without the mapping_clear_unevictable()
-and wrap it in a higher level shmem_sg_free_table() that does
-everything?
+The panfrost driver probed with the following messages:
+```
+panfrost 13000000.gpu: clock rate = 390000000
+panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0 status 0x0
+panfrost 13000000.gpu: features: 00000000,000019f7, issues: 00000003,
+  80000400
+panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
+  Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+panfrost 13000000.gpu: shader_present=0x5 l2_present=0x1
+[drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
+```
 
->  	folio_batch_init(&fbatch);
->  	for_each_sgt_page(page, sgt_iter, st) {
->  		struct folio *folio = page_folio(page);
-> @@ -180,10 +178,10 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
->  	return 0;
->  err_sg:
->  	sg_mark_end(sg);
-> +	mapping_clear_unevictable(mapping);
->  	if (sg != st->sgl) {
->  		shmem_sg_free_table(st, mapping, false, false);
->  	} else {
-> -		mapping_clear_unevictable(mapping);
->  		sg_free_table(st);
->  	}
->  
-> @@ -209,8 +207,6 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->  	struct address_space *mapping = obj->base.filp->f_mapping;
->  	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
->  	struct sg_table *st;
-> -	struct sgt_iter sgt_iter;
-> -	struct page *page;
->  	int ret;
->  
->  	/*
-> @@ -239,9 +235,8 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->  		 * for PAGE_SIZE chunks instead may be helpful.
->  		 */
->  		if (max_segment > PAGE_SIZE) {
-> -			for_each_sgt_page(page, sgt_iter, st)
-> -				put_page(page);
-> -			sg_free_table(st);
-> +			/* Leave the mapping unevictable while we retry */
-> +			shmem_sg_free_table(st, mapping, false, false);
->  			kfree(st);
->  
->  			max_segment = PAGE_SIZE;
-> @@ -265,6 +260,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->  	return 0;
->  
->  err_pages:
-> +	mapping_clear_unevictable(mapping);
->  	shmem_sg_free_table(st, mapping, false, false);
->  	/*
->  	 * shmemfs first checks if there is enough memory to allocate the page
-> @@ -402,6 +398,7 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_
->  	if (i915_gem_object_needs_bit17_swizzle(obj))
->  		i915_gem_object_save_bit_17_swizzle(obj, pages);
->  
-> +	mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
->  	shmem_sg_free_table(pages, file_inode(obj->base.filp)->i_mapping,
->  			    obj->mm.dirty, obj->mm.madv == I915_MADV_WILLNEED);
->  	kfree(pages);
-> -- 
-> 2.48.0.rc2.279.g1de40edade-goog
+[1] https://lore.kernel.org/linux-mediatek/20250115-dts_mt8370-genio-510-v2-0-fc9b01d08834@collabora.com/
 
+Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+---
+Louis-Alexis Eyraud (3):
+      dt-bindings: gpu: mali-bifrost: Add compatible for MT8370 SoC
+      drm/panfrost: Add support for Mali on the MT8370 SoC
+      arm64: dts: mediatek: mt8370: Enable gpu support
+
+ Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml |  5 ++++-
+ arch/arm64/boot/dts/mediatek/mt8370.dtsi                    |  9 +++++++++
+ drivers/gpu/drm/panfrost/panfrost_drv.c                     | 10 ++++++++++
+ 3 files changed, 23 insertions(+), 1 deletion(-)
+---
+base-commit: 37136bf5c3a6f6b686d74f41837a6406bec6b7bc
+change-id: 20250115-mt8370-enable-gpu-3b6f595fa63d
+prerequisite-change-id: 20250113-dts_mt8370-genio-510-3560b8010ba9:v2
+prerequisite-patch-id: af53ae39240467340ac4c9cdbc8fdd949c5457a2
+prerequisite-patch-id: ca07485956f81c1a40029b48d2b4bcf00d74fc13
+prerequisite-patch-id: c34d9870b2c61d87ad8a6facba13d8970682e679
+prerequisite-patch-id: 48784acdcdd8b886fdec9f21c9cb88abb327e2e1
+
+Best regards,
 -- 
-Ville Syrjälä
-Intel
+Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+
