@@ -2,91 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C274A14BA6
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 09:58:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C1AA14BC3
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 10:04:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC9AD10EAB1;
-	Fri, 17 Jan 2025 08:57:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A639010E7B6;
+	Fri, 17 Jan 2025 09:04:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ytB8T2v9";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="wTgpX6T9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D465F10EAB1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 08:57:58 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-3043e84c687so15915231fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 00:57:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737104217; x=1737709017; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=2BRQ6lNkfp8bS79Vg2bjfdOdsHUWBBgAxpLUiozXV7I=;
- b=ytB8T2v9XwjEhBMDdMzv0JSRbYsQQxD17KL8b9DT41cPNRg1DvHlNEB2mJE+L/20qL
- uyY9Lx+GEd7v6mvcHsBd7P//ABdoOXPD7hxP57PI65PgKcV0nmIJ2vSLUaJdgOgpn08i
- A0QjtdBtsuJ4CAXZzHIkj9VZ3s534vRJ0rijyHHaPWSxJT7RlDNevQXDcdTEcujo+EAM
- b1R0ABakeMJcUf3SPovwvQBVDrHuZe/E/AS4PdoNj1xDImoi2qwvaCmGUAspT9YTniaf
- yqpzmK73+cKpu/bBl0zkFf2YugW4eyJkKGptQmJ1GMG7gp+NfUrPKlPIKsHihVQxgYUS
- I+jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737104217; x=1737709017;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2BRQ6lNkfp8bS79Vg2bjfdOdsHUWBBgAxpLUiozXV7I=;
- b=YvqJgCJRxSVVHJCMsm7m2K0J6swmPxsrrqEUJ/AjVwoOeF/qpWJFLxFhPeN4r7gUJE
- eUNbuUTVqnfqP1p5vowMvVE7rWghFFa8Im7rhuEo7pEiww9oHhw8uiHQ+7yjaVdbKL9n
- /noc0q3MmljWPyzUWhejONdVNXsKXqWTpD3y76bxXKhUyIrNkMFxAHgHQitul40udiCs
- MskF4eXUiv1ddanCCR5JniGxt7+3SLGCbaFPpNmNLokJ+1+e7+14ylmtcvB2xaN06hM6
- JFC24G2IjVm/Pf2UBMiT2T6aQpDYubQB9SC1NgZ0/EvyJJ7ujhhKN+XsH698gAvsABbl
- eu8g==
-X-Gm-Message-State: AOJu0YwTJUfYIjB63H3BHJNQVFRqysKOonfr6Bm4aAJIaHHXaksY53Mp
- dal68vecKJOvdAB+zvLsWeE8hWrUbDQp+upcxs6E3rh2cKwnBuy35eQZiI7wzL4=
-X-Gm-Gg: ASbGncuObpspd5vh6GR6/BDa47R04WGJCvcT4goYiFBVE2rLtNN4ZEYamk2SozLVc90
- gJW8Hd9rV5VpKPLQH+xoiSkx2xlAnUKKCPkHo1ykKKXeVEKn4/1lpf1bh1U2lk33PbkBpwUtKaC
- BdirSCwhVc6AaX6rRAn38rCOY3YmEqrvsskhJzvLVdEfaQelx6bCzbfKkReVD3fvoFVZsLzC2My
- GmmbeB5l1sJ4mSGhZj3vC6rDUkeuqViVLu3eRk/Odco6zR3SveBIuXWMMe7M7uG
-X-Google-Smtp-Source: AGHT+IGJKew3iWflBqoi5/eBNb71qdJHpWzyjt6BMF62fH7cdxIvx8zhS7YOn1v6IRPYf1vezlY6Mg==
-X-Received: by 2002:a2e:a883:0:b0:306:188f:c0b3 with SMTP id
- 38308e7fff4ca-3072cb3cf7amr5794901fa.35.1737104217192; 
- Fri, 17 Jan 2025 00:56:57 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3072a330764sm3402101fa.3.2025.01.17.00.56.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2025 00:56:56 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 17 Jan 2025 10:56:42 +0200
-Subject: [PATCH RFC 7/7] drm/display: dp-tunnel: use new DCPD access
- helpers
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A823310E2FA;
+ Fri, 17 Jan 2025 09:04:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fANOeKvbGZhIa7R8ixVbFZE1HhyfTPDLRenZOXTjAl8=; b=wTgpX6T9mh5eFfg+M1Va8h+FLn
+ Mes6LNpPFBsFxg0hWqKmHtbL4mtc52Ss7/udGmGg/xIaIhWH6odW3R3+TKmXaOxFw2HLVqalf4iKj
+ X4LQ6jTr/pdzdaOaV2NQnwik9ziAwIxyrxlcKzxhcpRSdjPCXNsUly429XaiaDIgsDqc24hN6qNQl
+ vtLpQ2rVV708vc+h7lxappdfSxRNRWBN0EsxaQj9UqzjXxKw32WS2rkU6spXO1V/TJ6+nssrEFX0d
+ na6TfBXbS8zgK2IoT7DKnB+8qsTqwg+RLdbxmNsrClFzySV9pQ+wTfMvqq5RYgmKV1jwbvtscIJhx
+ O5Eus6sQ==;
+Received: from [194.136.85.206] (port=38556 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tYiGw-0003jK-2Y;
+ Fri, 17 Jan 2025 11:04:10 +0200
+Date: Fri, 17 Jan 2025 11:04:01 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Alex Hung <alex.hung@amd.com>
+Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>
+Subject: Re: [V7 29/45] drm/colorop: Add PQ 125 EOTF and its inverse
+Message-ID: <20250117110401.446619e7@eldfell>
+In-Reply-To: <20241220043410.416867-30-alex.hung@amd.com>
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-30-alex.hung@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250117-drm-rework-dpcd-access-v1-7-7fc020e04dbc@linaro.org>
-References: <20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org>
-In-Reply-To: <20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Jani Nikula <jani.nikula@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3991;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=W3eVsc55e3ZuouquqjNn9pJNO1JJGFNEugaVYRs9q+4=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3qXtJub1UL2OoOXbhcTTBRLmuZej50sKPqoXmSaa94ZK
- xb17lWdjMYsDIxcDLJiiiw+BS1TYzYlh33YMbUeZhArE8gUBi5OAZjI+hIOhklzNU4FVAc5WV5y
- MzwS7eByXE656tX0UOPvT6c+/fpr1sfX1kz/OS1ZDY7WXfT3/1K7Up79QrO3zXH287zXWpzNX+h
- 3zb4qNf3xjlS5xQ6uVdOPt5/e8XvlkgLPNLcGy9BUkVWKtXmnD6VaTZVQVZn7uXBdEUvX/ce9Vs
- dDcvUFeTqCX5ZKlu2qTm/qXp7YKn8qrZV5p4+CxUnPnEliJ1fv3LdKQ4p/kY2kV3r22edTzzTLx
- jwSsVZdNsdtao7QjD6jKqPEt/nhO4rYmIQDuR7LfgjLn3pp3bMWv1pfa7W7fGJiPxpslrVLKB57
- PdNl+vdD39QFcuddkzXIcmiWFD2UL/r1zlyBS6vdQnYCAA==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: multipart/signed; boundary="Sig_/IbKa/Ak_Cc0udwwLFnLiXes";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,106 +73,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch drm_dp_tunnel.c to use new set of DPCD read / write helpers.
+--Sig_/IbKa/Ak_Cc0udwwLFnLiXes
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/display/drm_dp_tunnel.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+On Thu, 19 Dec 2024 21:33:35 -0700
+Alex Hung <alex.hung@amd.com> wrote:
 
-diff --git a/drivers/gpu/drm/display/drm_dp_tunnel.c b/drivers/gpu/drm/display/drm_dp_tunnel.c
-index 48b2df120086c9b64f7d8b732c9f1f32f7b50fbd..4ef1f20bfe4a0648a92345a80fc6658ab23c5003 100644
---- a/drivers/gpu/drm/display/drm_dp_tunnel.c
-+++ b/drivers/gpu/drm/display/drm_dp_tunnel.c
-@@ -222,7 +222,7 @@ static int read_tunnel_regs(struct drm_dp_aux *aux, struct drm_dp_tunnel_regs *r
- 	while ((len = next_reg_area(&offset))) {
- 		int address = DP_TUNNELING_BASE + offset;
- 
--		if (drm_dp_dpcd_read(aux, address, tunnel_reg_ptr(regs, address), len) < 0)
-+		if (drm_dp_dpcd_read_data(aux, address, tunnel_reg_ptr(regs, address), len) < 0)
- 			return -EIO;
- 
- 		offset += len;
-@@ -913,7 +913,7 @@ static int set_bw_alloc_mode(struct drm_dp_tunnel *tunnel, bool enable)
- 	u8 mask = DP_DISPLAY_DRIVER_BW_ALLOCATION_MODE_ENABLE | DP_UNMASK_BW_ALLOCATION_IRQ;
- 	u8 val;
- 
--	if (drm_dp_dpcd_readb(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, &val) < 0)
-+	if (drm_dp_dpcd_read_byte(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, &val) < 0)
- 		goto out_err;
- 
- 	if (enable)
-@@ -921,7 +921,7 @@ static int set_bw_alloc_mode(struct drm_dp_tunnel *tunnel, bool enable)
- 	else
- 		val &= ~mask;
- 
--	if (drm_dp_dpcd_writeb(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, val) < 0)
-+	if (drm_dp_dpcd_write_byte(tunnel->aux, DP_DPTX_BW_ALLOCATION_MODE_CONTROL, val) < 0)
- 		goto out_err;
- 
- 	tunnel->bw_alloc_enabled = enable;
-@@ -1039,7 +1039,7 @@ static int clear_bw_req_state(struct drm_dp_aux *aux)
- {
- 	u8 bw_req_mask = DP_BW_REQUEST_SUCCEEDED | DP_BW_REQUEST_FAILED;
- 
--	if (drm_dp_dpcd_writeb(aux, DP_TUNNELING_STATUS, bw_req_mask) < 0)
-+	if (drm_dp_dpcd_write_byte(aux, DP_TUNNELING_STATUS, bw_req_mask) < 0)
- 		return -EIO;
- 
- 	return 0;
-@@ -1052,7 +1052,7 @@ static int bw_req_complete(struct drm_dp_aux *aux, bool *status_changed)
- 	u8 val;
- 	int err;
- 
--	if (drm_dp_dpcd_readb(aux, DP_TUNNELING_STATUS, &val) < 0)
-+	if (drm_dp_dpcd_read_byte(aux, DP_TUNNELING_STATUS, &val) < 0)
- 		return -EIO;
- 
- 	*status_changed = val & status_change_mask;
-@@ -1095,7 +1095,7 @@ static int allocate_tunnel_bw(struct drm_dp_tunnel *tunnel, int bw)
- 	if (err)
- 		goto out;
- 
--	if (drm_dp_dpcd_writeb(tunnel->aux, DP_REQUEST_BW, request_bw) < 0) {
-+	if (drm_dp_dpcd_write_byte(tunnel->aux, DP_REQUEST_BW, request_bw) < 0) {
- 		err = -EIO;
- 		goto out;
- 	}
-@@ -1196,13 +1196,13 @@ static int check_and_clear_status_change(struct drm_dp_tunnel *tunnel)
- 	u8 mask = DP_BW_ALLOCATION_CAPABILITY_CHANGED | DP_ESTIMATED_BW_CHANGED;
- 	u8 val;
- 
--	if (drm_dp_dpcd_readb(tunnel->aux, DP_TUNNELING_STATUS, &val) < 0)
-+	if (drm_dp_dpcd_read_byte(tunnel->aux, DP_TUNNELING_STATUS, &val) < 0)
- 		goto out_err;
- 
- 	val &= mask;
- 
- 	if (val) {
--		if (drm_dp_dpcd_writeb(tunnel->aux, DP_TUNNELING_STATUS, val) < 0)
-+		if (drm_dp_dpcd_write_byte(tunnel->aux, DP_TUNNELING_STATUS, val) < 0)
- 			goto out_err;
- 
- 		return 1;
-@@ -1215,7 +1215,7 @@ static int check_and_clear_status_change(struct drm_dp_tunnel *tunnel)
- 	 * Check for estimated BW changes explicitly to account for lost
- 	 * BW change notifications.
- 	 */
--	if (drm_dp_dpcd_readb(tunnel->aux, DP_ESTIMATED_BW, &val) < 0)
-+	if (drm_dp_dpcd_read_byte(tunnel->aux, DP_ESTIMATED_BW, &val) < 0)
- 		goto out_err;
- 
- 	if (val * tunnel->bw_granularity != tunnel->estimated_bw)
-@@ -1300,7 +1300,7 @@ int drm_dp_tunnel_handle_irq(struct drm_dp_tunnel_mgr *mgr, struct drm_dp_aux *a
- {
- 	u8 val;
- 
--	if (drm_dp_dpcd_readb(aux, DP_TUNNELING_STATUS, &val) < 0)
-+	if (drm_dp_dpcd_read_byte(aux, DP_TUNNELING_STATUS, &val) < 0)
- 		return -EIO;
- 
- 	if (val & (DP_BW_REQUEST_SUCCEEDED | DP_BW_REQUEST_FAILED))
+> From: Harry Wentland <harry.wentland@amd.com>
+>=20
+> The PQ function defines a mapping of code values to nits (cd/m^2).
+> The max code value maps to 10,000 nits.
+>=20
+> Windows DWM's canonical composition color space (CCCS)  defaults
+> to composing SDR contents to 80 nits and uses a float value of
+> 1.0 to represent this. For this reason AMD HW hard-codes a PQ
+> function that is scaled by 125, yielding 80 nit PQ values for
+> 1.0 and 10,000 nits at 125.0.
+>=20
+> This patch introduces this scaled PQ EOTF and its inverse as
+> 1D curve types.
+>=20
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> ---
+>  drivers/gpu/drm/drm_colorop.c |  2 ++
+>  include/drm/drm_colorop.h     | 21 ++++++++++++++++++++-
+>  2 files changed, 22 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+> index 7d4b29c0a0cc..f3391602a577 100644
+> --- a/drivers/gpu/drm/drm_colorop.c
+> +++ b/drivers/gpu/drm/drm_colorop.c
+> @@ -70,6 +70,8 @@ static const struct drm_prop_enum_list drm_colorop_type=
+_enum_list[] =3D {
+>  static const char * const colorop_curve_1d_type_names[] =3D {
+>  	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
+>  	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
+> +	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] =3D "PQ 125 EOTF",
+> +	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
+>  };
+> =20
+> =20
+> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+> index e9f5c1adc2fe..4084a7438032 100644
+> --- a/include/drm/drm_colorop.h
+> +++ b/include/drm/drm_colorop.h
+> @@ -36,7 +36,6 @@
+>   * enum drm_colorop_curve_1d_type - type of 1D curve
+>   *
+>   * Describes a 1D curve to be applied by the DRM_COLOROP_1D_CURVE coloro=
+p.
+> - *
+>   */
+>  enum drm_colorop_curve_1d_type {
+>  	/**
+> @@ -56,6 +55,26 @@ enum drm_colorop_curve_1d_type {
+>  	 */
+>  	DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF,
+> =20
+> +	/**
+> +	 * @DRM_COLOROP_1D_CURVE_PQ_125_EOTF:
+> +	 *
+> +	 * The PQ transfer function, scaled by 125.0f, so that 10,000
+> +	 * nits correspond to 125.0f.
+> +	 *
+> +	 * Transfer characteristics of the PQ function as defined by
+> +	 * SMPTE ST 2084 (2014) for 10-, 12-, 14-, and 16-bit systems
+> +	 * and Rec. ITU-R BT.2100-2 perceptual quantization (PQ) system.
+> +	 * Equivalent to H.273 TransferCharacteristics code point 16.
+> +	 */
 
--- 
-2.39.5
+Hi,
 
+this all good, I'd just clarify a minor detail.
+
+H.273 code point 16 defines the normalised formula
+TF: [0.0, 1.0] -> [0.0, 1.0]
+so it is not equivalent to the 125-scaled version.
+
+Maybe you meant something like this?
+
++	 * Transfer characteristics of the PQ function as defined by
++	 * SMPTE ST 2084 (2014) for 10-, 12-, 14-, and 16-bit systems
++	 * and Rec. ITU-R BT.2100-2 perceptual quantization (PQ) system,
++	 * represented by H.273 TransferCharacteristics code point 16.
+
+
+Thanks,
+pq
+
+
+> +	DRM_COLOROP_1D_CURVE_PQ_125_EOTF,
+> +
+> +	/**
+> +	 * @DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF:
+> +	 *
+> +	 * The inverse of DRM_COLOROP_1D_CURVE_PQ_125_EOTF.
+> +	 */
+> +	DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF,
+> +
+>  	/**
+>  	 * @DRM_COLOROP_1D_CURVE_COUNT:
+>  	 *
+
+
+--Sig_/IbKa/Ak_Cc0udwwLFnLiXes
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmeKHQEACgkQI1/ltBGq
+qqc9UA//dhdXDVCxqYir1zscMW40RSIpSdwcETmm3p4KUH5YCHk/w04BI1y74wxv
+CU+G+x/s5sZi5+ZS4m2F8+tr9KOMV3q1KEaw52MjfetRYVGt9NaJkzhchY6Qvt5X
+IcfuAxR7jcD8TLnro/aCSzGn3QNBqKuFkOXelC7AWbuA80Don0eEJSgzby2by5u2
+AhEttZwp30LntUNowIwWfwLwGdU9FUbxFuIthLPtKo1z7bXWnmwHE6aRuyM2RBxD
+F+wcUXZlcRTKSHWrJmVI++47y6wcYQqU23eghDsKpP0irnBGAqcXjgZXZNiKpQn+
+eC67s53c6XhhFa+AijC58yH2POenHLvsk0mj9AfBG4eXxfTGxrfLCAjR0AIpS/DD
+cLczgpM1LVg2RHu63uhYiIyezsMEvAe2lTMImGBBlOsyCvGT5NG7DJr8xBhShOxv
+tzCEYtCyx4o5qExGo4sVZbpAycTI6BS+g6VBrdLJ08AyF0/dOuREJfDA/HWemUMF
+UUGXmLMF9OY7xWew2fRe7ds2bJbWU2rVrVDz/h9qQhEU0/3CwszG7xuDuB87xloN
+AAHPlOGgEbUQv48v81J8cdbQuf7Idm6PPvOGHAwPo5J5cc+yd058IdoLDklsauo+
+jI7bucGVkHLKFCtpyGnN6cYHpZISTZOBK9p13KXkZl8tnvDtSjw=
+=eU11
+-----END PGP SIGNATURE-----
+
+--Sig_/IbKa/Ak_Cc0udwwLFnLiXes--
