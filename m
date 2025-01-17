@@ -2,129 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F7EA15436
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 17:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795BEA15491
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 17:43:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABD6710EB3D;
-	Fri, 17 Jan 2025 16:26:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27AB510E259;
+	Fri, 17 Jan 2025 16:43:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="pZ6s2ueX";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="A0UQtKMd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on20628.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:200a::628])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24D8710E259;
- Fri, 17 Jan 2025 16:25:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lz5+trvqO3axjmWIwxxByb3OQQgr9YfEuzxYPNlcJNnS+MzAvq0YDgeVjpaTTN6ixcCebTDLQMsd5Eqmmwi4hgRrn35pswVrIWDbsAb39U/7IzH/N1sQW2qEHrZ1e/oqHiZyqBwNd9/4G5rkHCrFPPUx3fFYl3Sq1gcTbTPpYjSc3wSSw9ChzJ9myTE08rT0FDlFwxCj8iDJAOvDbgVNw1sb7FyIfGbyK6Wgsyt5DfAtkYweazP4Ffvs3lis7U7cHSEGYAUtX2A1/zVttAiK0jjiHz9UfXv52wxQMNp8uwvxJSNrkO1OxyjJ5onFh0f3jTQf9WrMtEzmp+9MucmkzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uWf+/25k8sgPJocVh0M+t6yOPxhzT9h05D1lHuq0nTs=;
- b=bGebItr7a42VpQTWSTo3Jcm3I68MOrZELQmkBLzo67yQdliiaYRKcM1VSxjGvSul2TckMSNmnUTGCckcCdCd1AExzpagZEjUCsdR5dxlw9x4g+JRq4sU2kSbI5Dev+YLImkE/+CWPQStUfYxlIszMQetUX/ntr7i9yRXqdyc2hGoODzcUFd1E6HiKRITswrKONbuewB709Id8DWSEJF7u29Y0/M6RI731YtX0f3R1w5/LAGd3hCewNJYVnOzSW3MQM9jCwb1h9inW4ffuH0a6glt6n/so1BAZ+XWur0GyTYIYuOqT2MxXJ57/S7elNNQtbVzYYln+9FVrSobDh82fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uWf+/25k8sgPJocVh0M+t6yOPxhzT9h05D1lHuq0nTs=;
- b=pZ6s2ueX1XH1f3pivcTELseNpjhsQQx4T21mctFM5/kcumMB+jdcRMWnKCU+k3n2acAJqR+VeoAjPmMm1fxzCOL3edzBWkeqXKjlpLKOvZMVRizLQLCntdR1D7Wo473npN+c8ytF78MqWyzKd4jwXEllZ9lWvfXlwU0aK5MlNNM=
-Received: from MW4PR04CA0049.namprd04.prod.outlook.com (2603:10b6:303:6a::24)
- by PH0PR12MB5680.namprd12.prod.outlook.com (2603:10b6:510:146::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Fri, 17 Jan
- 2025 16:25:56 +0000
-Received: from SJ5PEPF000001CD.namprd05.prod.outlook.com
- (2603:10b6:303:6a:cafe::c4) by MW4PR04CA0049.outlook.office365.com
- (2603:10b6:303:6a::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.16 via Frontend Transport; Fri,
- 17 Jan 2025 16:25:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001CD.mail.protection.outlook.com (10.167.242.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8356.11 via Frontend Transport; Fri, 17 Jan 2025 16:25:52 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 17 Jan
- 2025 10:25:50 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd drm-next-6.14
-Date: Fri, 17 Jan 2025 11:25:36 -0500
-Message-ID: <20250117162537.2702962-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.48.0
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com
+ [IPv6:2a00:1450:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE4DB10E259
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 16:43:44 +0000 (UTC)
+Received: by mail-lj1-x22b.google.com with SMTP id
+ 38308e7fff4ca-305d840926fso18331801fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 08:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1737132223; x=1737737023;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qF9YUtvKWxdsAThZHPneJAkbilLaBCeiUVU9+gIe500=;
+ b=A0UQtKMdv8GLNp+iWXv0U7QBWlQ0ZLDIhDpU9GvX1ggUxwVp8w7jQOvDR0a0IXgn5M
+ Tbb3Hr1g//Vx9XIN6BpkAzhnTV87mOjEju99kn9cd0OAdYA10WQEuK931YKptntTvnz9
+ nn4ZkitcmZxVeayxleX3vL4CQP8GrQp4b5WcY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737132223; x=1737737023;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qF9YUtvKWxdsAThZHPneJAkbilLaBCeiUVU9+gIe500=;
+ b=MrneXvxZ+qDTUAR27/6iSXrRpC4J0KaNa4OhMU6GqT8rcb7GTeSDbMe80a1b9cbvEz
+ RNO5qvG+tkWsOQWJeLDMX58PqXDgWQax5Na/3X68qPF17G00+nX5mVRDUZycxThZSeGW
+ lFCHgrXcF9KDO/R9Faw4y872PYxJhFwyEEaRQ6Bz/kWa2ZQTwikzmyjtLC1WibFuK8nc
+ SGgTtnL9y658UTns3pNLhTi9NDp3y26r9yMVfRb8tyo2EHo2QT+Jem3DidU0rLCDLoXJ
+ Gm2czDZVDIhcg3ol3X+BMv2ZZIaXuY8M6EYsOv9+tbS3HNFCAynegPsk6N4lX39x9xAO
+ pctw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXCPHjMjE0lT+YF3deZxKXSWe/JRHNCJb7Od00OcGMmnxsGsIfVsA/R6LEtChClL3kaKXwXxodcdto=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDCFL/Iokqd74Tq9mVbNuGHd9d/WrOfgnF70jjZEVS4fShdIJJ
+ 7/W1Iiob5pOJQBA4PP2RK4WaNh8MtQjVCX72+KVdYOU5zRaJQxxPXAmhRUkqcSOQVzz9ebxhHIW
+ SCg==
+X-Gm-Gg: ASbGncvsDXhqgIISR1mqugujnTolrvDodjmuHtrU9FSyc5upAcQrVWsNGQO11SSwX5F
+ fs2EMfKT3eeAmVn9MH0LaF2rMCU/e3+aN1ilLVEPmeRzv8xCzxdgC//LR3ZC7vSs5VLl5KPLPn6
+ eaKkHQTnpjnKRfQAwivx39TDCg37UxjLCwXgczaNUnh8sBpIvxrfBhcx1lDT6eu4OU3vCpyu/7r
+ CVl1+40JxF1GjdEgoep5MwmmbYNUj6Sqih+V8fhp6jyM/6AmVFsTnE5iWXXaPY+s2+ULl0HEw0G
+ vUuXp5eDthz4qctwg0py
+X-Google-Smtp-Source: AGHT+IFM0UErdCAA3lc8ejCmE8MTXQbobrN4CfOYuQLYV8nkUrmaHuky1hOTsYseJ8VwsNEqoJ/4nw==
+X-Received: by 2002:a05:651c:993:b0:307:2bc6:5eb4 with SMTP id
+ 38308e7fff4ca-3072ca60d64mr11899231fa.3.1737132222459; 
+ Fri, 17 Jan 2025 08:43:42 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
+ [209.85.167.45]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3072a50157esm4857371fa.90.2025.01.17.08.43.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Jan 2025 08:43:41 -0800 (PST)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53e3a37ae07so2500489e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 08:43:41 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV91WAQrbsh7bQlHYhvwyTfo5U704FL8UHX2qI3433RP5o4jHKAmn3lJEHwPOWzG9XEJNiwgZ/84Gs=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:3b09:b0:53e:3a94:c2bc with SMTP id
+ 2adb3069b0e04-5439c224acemr1246759e87.18.1737132221203; Fri, 17 Jan 2025
+ 08:43:41 -0800 (PST)
 MIME-Version: 1.0
+References: <20250117010039.1815430-1-andyshrk@163.com>
+In-Reply-To: <20250117010039.1815430-1-andyshrk@163.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 17 Jan 2025 08:43:29 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UcdXr3xAXSKvM2-+ZSVANaCoux95tGnQD0qQUZ26NqXA@mail.gmail.com>
+X-Gm-Features: AbW1kvYgeqmIYvGj0N8sJhDQt17OVwnJqUb3HiDBJDpyyU9mdndw-C60Ky7FyG4
+Message-ID: <CAD=FV=UcdXr3xAXSKvM2-+ZSVANaCoux95tGnQD0qQUZ26NqXA@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel-edp: Add BOE NV140FHM-NZ panel entry
+To: Andy Yan <andyshrk@163.com>
+Cc: neil.armstrong@linaro.org, tzimmermann@suse.de, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CD:EE_|PH0PR12MB5680:EE_
-X-MS-Office365-Filtering-Correlation-Id: 899457d6-f818-4ace-e476-08dd37139c74
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MTlDS3dtMXg1b1UrcnI1RzlDNjhMMHQ4M1ZVMGFleG85T3VNUWlLUHhOK0tp?=
- =?utf-8?B?ZSttU2c0QWltTVRic3U0eXBiUE5kM01LS0I0bGNNcmZta2IxRU5LVDZjZVc3?=
- =?utf-8?B?bG5hRFYxcUZweWViMmNUc3JhOEYwbjdFSU80akdEdlRkZWY2WUVHRmRzdndv?=
- =?utf-8?B?ZGFNRTR5NDgyc2cvbDA4QU9uekRaMTA4UHQ1UGFKYnBmVVBtclZEQUErbnln?=
- =?utf-8?B?TDYwNU9iWWFVcThGYkJ2MU13VlBuZHROeXVEcDYwR3lRa3E5TFJveHZ2RTRq?=
- =?utf-8?B?Vi9aMzFoNEtwSFMwdHZiY1JxaGZWV1F6SGxXa1IzaDNQSGFnRlovS0FNZTF5?=
- =?utf-8?B?c2M1QVp5cTZXYkczbWhTc2RNd0NYVGdMZHllZ2pMVlR4cGZiSUlZZnlXNVl2?=
- =?utf-8?B?bE5jVFlLLzQvVVZlSmxQRXpOa0RkSzJnTlZzejFJZ1dZL05mZUpub3QzWk43?=
- =?utf-8?B?MmtHaGZJazNXMHR0ZnNCY3VvQmFUbnNkWUI1eG1HUm54MkVMYkJFLzRmZzQ5?=
- =?utf-8?B?RFZHRlVyZll3eWdUOGJzd3BVdEJIdnR5R1JLYVB6TmxkVVR3ZzM4Y2dsY1RI?=
- =?utf-8?B?TFFwTEtYMys2UFVkb1Bnb0FlVHV2Qk5yVEtyOGhvR1VrYVFpM0kxTTlZRFRh?=
- =?utf-8?B?eThyUW1LT3VmenltM2NVc2NmNjJCTEh6b0hyekx4dnNhQjljdkdzaFU1ZE5J?=
- =?utf-8?B?MjhtS08xMmFGSkd3MXRUcGdMR3dvaW9kL0Z5NnFCaEZ0aEpuR25mZWRESDAx?=
- =?utf-8?B?RGVCQTZjaG1HaHJRUmtYQzh0YzNBNVdILzlUMWgzN0ZZZzhKREYvM2RVa3Vv?=
- =?utf-8?B?QmhTUUlVdjdnekhOZU5MKzNsZnVabFBJZElWakl4bDFqNVMxbGFNWXRCYksw?=
- =?utf-8?B?UERyS2xoQmRmMGdnT2laUTlDeUJHVWl6NnFrUGlTRUFTY0xFekF4VGtPNHps?=
- =?utf-8?B?WnkrRnlhTUdFM1BZRmtEZThFLy9zTFNpZUMzL1pQeUhobmV4R1Rwb3E4amJL?=
- =?utf-8?B?NGR0STgxWGk0S2p1b0xwMVdyNCtpd3JFRmo5QkFndWRNTHRRTEFTbEo0a0FR?=
- =?utf-8?B?VHdUQ3BxZkJoUjM2bG1TN0xpcS90SWlRVmVkbTRCdXJsaGQ4QVVoc09ONUh0?=
- =?utf-8?B?R1grQTA4R0VaQXROSmNvN3FqTVN5UmF4SVpkeWs0cTlPam90ZHBBK0M3Sk9s?=
- =?utf-8?B?aFlSc1kza3lHQjViQm9aOElyWDZrM0dIbko2MnZxSHQwVGlRbTB6WS9IVjNz?=
- =?utf-8?B?bFNPUW5CQ0tuWGNPNUVsclRFQ2NDR0N2dDZiNjNhSGk5OGRwNlNFdGxHUGtL?=
- =?utf-8?B?bENXK2RZOUZLekthRm0zOUJJSVFGOGYxblN5ck1QWnpra3hRTUladW5rZmxi?=
- =?utf-8?B?WTBmWkJTcDE0WnNINVAwR1JwSkdoUmVKWkU1dzVUNzU3QXVXK0RzN0pLYUVC?=
- =?utf-8?B?UmJDcFoxRlRPNDhnZEFTbWhGbGlibXRicjM5U1pMNkt3T2UzVUlvOEQxWDJJ?=
- =?utf-8?B?MHhoRFo3RVN1NDFqQTlDZTlWNktPZDBITDUvNExpams4UXpOeFpteGxWUWQ5?=
- =?utf-8?B?ak40RjRHSXVOcjl1dUhwSmtlVDRESjNkUTYrQkxWeHpsNHFVdU9uR1RYQ0R5?=
- =?utf-8?B?cUxwSnJFeCtvczg4UVVwTWx1cTZsanZWSVd1QWd6T3F4dklFWFFCUkJseWhw?=
- =?utf-8?B?RlBLbjA5UUM1SE43enlGRDZ2RGY2Z1NyNmhNbnNXaUJJYlIzRVFHM3BGWjc2?=
- =?utf-8?B?N2RlNjZCVm9CUkNKejZJRTNVM1pSZnBrSEF4L3RkTC91NnpYd0RSV1FaTkJt?=
- =?utf-8?B?SVNYMEhWMGtKV1Y3bGFCRkdHVUprSUQwNndoZzdXOWdoa2ZKOUhHSFRkeWcy?=
- =?utf-8?B?cHJYTElzVHZ6RHd5dXZ1emlvMEVIWUxSZG9vT1ZFNXd4ZUhzUzdkdlVRT0Rj?=
- =?utf-8?Q?+t8mpOfTpEU=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 16:25:52.3728 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 899457d6-f818-4ace-e476-08dd37139c74
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001CD.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5680
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,104 +98,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+Hi,
 
-Fixes for 6.14.
+On Thu, Jan 16, 2025 at 5:00=E2=80=AFPM Andy Yan <andyshrk@163.com> wrote:
+>
+> Add an eDP panel entry for BOE NV140FHM-NZ.
+>
+> No datasheet found for this panel, so the timing
+> is based on a similar NV140FHM-N41 datasheet that
+> I can find on internet[0].
+>
+> edid:
+> 00 ff ff ff ff ff ff 00 09 e5 09 0b 00 00 00 00
+> 01 20 01 04 a5 1f 11 78 03 9b 75 99 5b 5d 8f 2a
+> 23 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 c8 37 80 cc 70 38 28 40 6c 30
+> aa 00 35 ae 10 00 00 1a 00 00 00 fd 00 30 3c 43
+> 43 8f 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
+> 4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
+> 00 4e 56 31 34 30 46 48 4d 2d 4e 34 5a 0a 00 35
+>
+> [0]:http://www.tfinno.com/PIC/PIC/20215121628440.pdf
+> Signed-off-by: Andy Yan <andyshrk@163.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> ---
+>
+> Changes in v2:
+> - Fix typo in commit message NV140FHM-N4Z -> NV140FHM-NZ
+> - Reorder based on the product_id
+> - use delay_200_500_e50_po2e200 based on NV140FHM-N41
+>
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-The following changes since commit 24c61d553302ee49e9c21dd251275ba8c36dcfe4:
+Looks good. Thanks for the patch and for adding relevant info to the
+changelog. :-)
 
-  Merge tag 'drm-msm-next-2025-01-07' of gitlab.freedesktop.org:drm/msm into drm-next (2025-01-13 11:14:07 +1000)
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-are available in the Git repository at:
+Pushed to drm-misc-next:
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.14-2025-01-17
-
-for you to fetch changes up to 97e5c9e4139087a67c2469488360a6d6afdd4b69:
-
-  drm/amd/display: fix CEC DC_DEBUG_MASK documentation (2025-01-16 16:23:22 -0500)
-
-----------------------------------------------------------------
-amd-drm-next-6.14-2025-01-17:
-
-amdgpu:
-- Enforce isolation fixes
-- GFX 12 fix
-- Use drm scheduler API helper rather than open coding it
-- Mark some debugging parameters as unsafe
-- PSP 14.x fix
-- Add cleaner shader support for gfx12
-- Add subvp debugging flag
-- SDMA 4.4.x fix
-- Clarify some kernel log messages
-- clang fix
-- PCIe lane reporting fix
-- Documentation fix
-
-amdkfd:
-- Mark some debugging parameters as unsafe
-- Fix partial migration handling
-- Trap handler updates
-
-----------------------------------------------------------------
-Alex Deucher (3):
-      drm/amdgpu: cache gpu pcie link width
-      drm/amdgpu: fix the PCIe lanes reporting in the INFO IOCTL
-      drm/amd/display: fix CEC DC_DEBUG_MASK documentation
-
-Aurabindo Pillai (1):
-      drm/amd: Add debug option to disable subvp
-
-Christian König (2):
-      drm/amdgpu: mark a bunch of module parameters unsafe
-      drm/amdgpu: always sync the GFX pipe on ctx switch
-
-Emily Deng (1):
-      drm/amdkfd: Fix partial migrate issue
-
-Gui Chengming (1):
-      drm/amdgpu: fix fw attestation for MP0_14_0_{2/3}
-
-Jay Cornwall (2):
-      drm/amdkfd: Sync trap handler binary with source
-      drm/amdkfd: Clear MODE.VSKIP in gfx9 trap handler
-
-Kenneth Feng (1):
-      drm/amdgpu: disable gfxoff with the compute workload on gfx12
-
-Kent Russell (1):
-      drm/amdgpu: Mark debug KFD module params as unsafe
-
-Lijo Lazar (2):
-      drm/amdgpu: Add handler for SDMA context empty
-      drm/amdgpu: Refine ip detection log message
-
-Srinivasan Shanmugam (2):
-      drm/amdgpu: Fix Circular Locking Dependency in AMDGPU GFX Isolation
-      drm/amdgpu/gfx12: Add Cleaner Shader Support for GFX12.0 GPUs
-
-Tvrtko Ursulin (1):
-      drm/amdgpu: Use DRM scheduler API in amdgpu_xcp_release_sched
-
-Tzung-Bi Shih (1):
-      drm/amd/display: mark static functions noinline_for_stack
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |    5 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  156 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   24 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_fw_attestation.c |    4 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   12 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c             |    4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |   19 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |    1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c            |    2 +-
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |    8 +
- drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |   22 +
- drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     | 2391 ++++++++++----------
- .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx9.asm  |    4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |   22 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |    3 +
- .../drm/amd/display/dc/dml2/display_mode_core.c    |   12 +-
- .../dml21/src/dml2_core/dml2_core_dcn4_calcs.c     |   12 +-
- drivers/gpu/drm/amd/include/amd_pcie.h             |   18 +
- drivers/gpu/drm/amd/include/amd_shared.h           |    7 +-
- 19 files changed, 1446 insertions(+), 1280 deletions(-)
+[1/1] drm/panel-edp: Add BOE NV140FHM-NZ panel entry
+      commit: c03dd019f0b56c40f42fa0e7785eaa109e0bdcd6
