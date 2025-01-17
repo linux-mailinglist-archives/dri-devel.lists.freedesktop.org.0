@@ -2,85 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B303A154A3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 17:46:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B69A154AF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 17:48:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88DD510EB44;
-	Fri, 17 Jan 2025 16:46:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08FCA10EB37;
+	Fri, 17 Jan 2025 16:48:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="SG6Qq0J5";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="S7vXiJnS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A198710EB39
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 16:46:20 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50HEC1i2019421;
- Fri, 17 Jan 2025 16:46:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- IYleNHd6kVbwmkUVRZHEi85/2k+atbmlo8sSssb+Rk8=; b=SG6Qq0J5Eh2lpi/b
- KeW+akVwhok0tUlU7julxhWiom9gXhvZEcdNEN7or5hMEl+WSF13jldONECrqKBj
- wL8F1xHkJBtxtg7elal+htgOaUTti7JOROiznq9o5XbvRDcxkJwK19ctGNlkaFOO
- fglUW15+Ncyez4iQRQQeBugws85T+aJSh2uo9Milw1nvj85uAciP2aap3VFAV784
- mv+w+Ppc3Io0E9SFhrikUhCdHEqrvmXfd2ktJ0z1a7YSh65GunI06eDG8XavjozP
- 0d0q7lVCyMVMMSQz7awnmzbtpcEQ7FLfx9iipkgBCr+Zitnr1ePwRuueNVvwkwnA
- 125SDA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447rrkgc8u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jan 2025 16:46:14 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50HGk11Z029517
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jan 2025 16:46:01 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 Jan
- 2025 08:46:00 -0800
-Message-ID: <17d0336c-f28b-2ec1-661f-45b670b6856f@quicinc.com>
-Date: Fri, 17 Jan 2025 09:45:59 -0700
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80BED10EB37
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 16:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1737132503;
+ bh=84YKOZ/drOYfn0QtG1NOft6JVq2XEK+your1FhHrQ7E=;
+ h=From:To:Cc:Subject:Date:From;
+ b=S7vXiJnSSJ7FErDnG16gmqM9+gk4AuzJWPBItbC5yvkqT0+QS04iRUbNE4m8xJbwx
+ 4ublKRep++XH7UaGdAFLLAwXidFuJRyKtrIe0jfnSx4EN0q/RrdsVdCpiLmvoAA9fv
+ ch2OqgMqx1cO/UIvglMkZFS2uVZx9c56bPnmzlqurWYnwbXOozpftMVMAY+052NCdt
+ EtSgRQIskLGJxHltoogf0O0W+aAoPJiWB5LIc+zfsnM06ilf+XLYqXWcwy5610ooEd
+ IBexNnjzobrX3+fbcIcCxKaWhGVcCdnrMq5hbc2GiDIcMM0Mbwis7q0kWjPWticnvf
+ bT2RtUhj9RpQg==
+Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: detlev)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 386C217E0B9D;
+ Fri, 17 Jan 2025 17:48:20 +0100 (CET)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Alexey Charkov <alchark@gmail.com>,
+ Jianfeng Liu <liujianfeng1994@gmail.com>,
+ Dragan Simic <dsimic@manjaro.org>, FUKAUMI Naoki <naoki@radxa.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Johan Jonker <jbx6244@gmail.com>, Kever Yang <kever.yang@rock-chips.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sugar Zhang <sugar.zhang@rock-chips.com>,
+ Algea Cao <algea.cao@rock-chips.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, kernel@collabora.com
+Subject: [PATCH v1 0/2] Add HDMI audio on the Radxa ROCK 5B
+Date: Fri, 17 Jan 2025 11:46:56 -0500
+Message-ID: <20250117164815.67253-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 2/7] bus: mhi: host: Add a policy to enable image transfer
- via BHIe in PBL
-Content-Language: en-US
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: <quic_carlv@quicinc.com>, <quic_yabdulra@quicinc.com>,
- <quic_mattleun@quicinc.com>, <quic_thanson@quicinc.com>,
- <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
- <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>
-References: <20241213213340.2551697-1-quic_jhugo@quicinc.com>
- <20241213213340.2551697-3-quic_jhugo@quicinc.com>
- <20250108054202.r4bqxduuhpcvpqm4@thinkpad>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <20250108054202.r4bqxduuhpcvpqm4@thinkpad>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: h10ipOuYMdkhxtkAKEyabjnwQkeWx3RD
-X-Proofpoint-GUID: h10ipOuYMdkhxtkAKEyabjnwQkeWx3RD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- phishscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
- impostorscore=0 spamscore=0 suspectscore=0 mlxscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501170132
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,108 +78,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/7/2025 10:42 PM, Manivannan Sadhasivam wrote:
-> On Fri, Dec 13, 2024 at 02:33:35PM -0700, Jeffrey Hugo wrote:
->> From: Matthew Leung <quic_mattleun@quicinc.com>
->>
->> Currently, mhi host only performs firmware transfer via BHI in PBL and
-> 
-> s/mhi/MHI here and below.
+To support HDMI audio on the rk3588 based devices, the generic HDMI
+Codec framework is used in the dw-hdmi-qp DRM bridge driver.
 
-Done
+The implementation is mainly based on the downstream driver, ported to the
+generic HDMI Codec framework [1] recently merged in the DRM tree.
+The parameters computation has been kept as is and the data stored in the
+dw_hdmi_qp struct as been cleaned up.
 
-> 
->> BHIe from SBL. To support BHIe transfer directly from PBL, a policy
->> needs to be added.
->>
->> With this policy, BHIe will be used to transfer firmware in PBL if the
->> mhi controller has bhie regs, sets seg_len, and does not set
-> 
-> s/bhie/BHIe
+The downstream kernel also implements a machine driver for HDMI audio but
+it is doing exactly what the simple-audio-card driver does, so use that
+instead in the ROCK 5B device tree.
 
-Done
+Based on commit f1359f46f1f1 (tag: drm-misc-next-fixes-2025-01-16)
 
-> 
->> fbc_download. The intention is to transfer firmware using BHIe in PBL
->> without further BHIe transfers in SBL.
->>
->> Signed-off-by: Matthew Leung <quic_mattleun@quicinc.com>
->> Reviewed-by: Youssef Samir <quic_yabdulra@quicinc.com>
->> Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
->> ---
->>   drivers/bus/mhi/host/boot.c     | 80 +++++++++++++++++++++++++++------
->>   drivers/bus/mhi/host/init.c     |  2 +-
->>   drivers/bus/mhi/host/internal.h |  8 ++++
->>   3 files changed, 75 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/bus/mhi/host/boot.c b/drivers/bus/mhi/host/boot.c
->> index e3f3c07166ad..c9ecb6427209 100644
->> --- a/drivers/bus/mhi/host/boot.c
->> +++ b/drivers/bus/mhi/host/boot.c
->> @@ -452,12 +452,62 @@ static void mhi_firmware_copy_bhie(struct mhi_controller *mhi_cntrl,
->>   	}
->>   }
->>   
->> +static enum mhi_fw_load_type mhi_fw_load_type_get(const struct mhi_controller *mhi_cntrl)
->> +{
->> +	enum mhi_fw_load_type ret = MHI_FW_LOAD_UNKNOWN;
-> 
-> You can directly return the enum without a local variable.
+[1]: https://lore.kernel.org/all/20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org/
 
-Done
+Detlev Casanova (1):
+  arm64: dts: rockchip: Add HDMI0 audio output on rock-5b
 
-> 
->> +
->> +	if (mhi_cntrl->fbc_download) {
->> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
-> 
-> I don't think this condition can fail. If 'mhi_cntrl->bhie' is NULL,
-> mhi_prepare_for_power_up() will fail. So I think MHI_FW_LOAD_UNKNOWN is not
-> needed.
-> 
-> Also, all the validation should be performed early, not while loading fw.
+Sugar Zhang (1):
+  drm/bridge: synopsys: Add audio support for dw-hdmi-qp
 
-You are right.  That will not fail.  I've simplified this, relying on 
-the existing validation.
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   1 +
+ .../boot/dts/rockchip/rk3588-rock-5b.dts      |  19 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c  | 472 ++++++++++++++++++
+ 3 files changed, 492 insertions(+)
 
-> 
->> +			ret = MHI_FW_LOAD_FBC;
->> +	} else {
->> +		if (mhi_cntrl->bhie && mhi_cntrl->seg_len)
->> +			ret = MHI_FW_LOAD_BHIE;
->> +		else
->> +			ret = MHI_FW_LOAD_BHI;
->> +	}
->> +	return ret;
->> +}
->> +
->> +static int mhi_send_image_bhi(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
-> 
-> mhi_load_image_bhi?
-
-Done
-
-> 
->> +{
->> +	struct image_info *image;
->> +	int ret;
->> +
->> +	ret = mhi_alloc_bhi_buffer(mhi_cntrl, &image, size);
->> +	if (ret)
->> +		return ret;
->> +
->> +	mhi_firmware_copy_bhi(mhi_cntrl, fw_data, size, image);
->> +
->> +	ret = mhi_fw_load_bhi(mhi_cntrl, &image->mhi_buf[image->entries - 1]);
->> +	mhi_free_bhi_buffer(mhi_cntrl, image);
->> +
->> +	return ret;
->> +}
->> +
->> +static int mhi_send_image_bhie(struct mhi_controller *mhi_cntrl, const u8 *fw_data, size_t size)
-> 
-> mhi_load_image_bhie?
-
-Done
+-- 
+2.48.1
 
