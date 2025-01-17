@@ -2,72 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B138A15508
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 17:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA63A1555B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 18:10:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E49510EB42;
-	Fri, 17 Jan 2025 16:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE9710E30C;
+	Fri, 17 Jan 2025 17:10:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ndsUG2yh";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="WHfpfH7e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAC7710EB42
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 16:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737132916; x=1768668916;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=J3sBxPVGs95RnNwmbCpIngBPBDIjhtL9gamaBrIlh1I=;
- b=ndsUG2yhCcS8IQDxgcCENN4IEVF4j9kLQndyjRacaH5/YZU6YfaaNqzI
- lYhQPBGR0SQDiHm2b4weTgWmkdRwGVmbVLb6cT+TGWizWAzSjVGkyQa1f
- D/MtZoO3ATpxKpreGVlVWMZpWwK5lE1pplrWTRayzgXmywr3s9khBl2DZ
- bm0cIzhB2ImeSSgGNr8KWjdp6YkFpUh/QoB7oSdW4kasEB/rjZPAlp9G3
- YYJqRYdWF6imVxcrqhG3Tr18SPKOmyP4DfUud0R0kYhDqPRBw/nNed3A+
- S0gBCHj4GEQWIeql2GCGZ6M+SlRfwhR1uhbvrtpgPZ3tG/Ryxv+OCXhft A==;
-X-CSE-ConnectionGUID: 4Z5OtyxoQOyiVrjyDkOeTA==
-X-CSE-MsgGUID: tzk7AP92Tlqu7UGaA0BPag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="48061897"
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="48061897"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2025 08:55:16 -0800
-X-CSE-ConnectionGUID: F3YXPKlSSO6lI8H448/XNQ==
-X-CSE-MsgGUID: 5Nda3dfRQzKiK1N5GsXV8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="110853008"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 17 Jan 2025 08:55:09 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1tYpcg-000TU3-2k;
- Fri, 17 Jan 2025 16:55:06 +0000
-Date: Sat, 18 Jan 2025 00:54:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
- jitao.shi@mediatek.com, jie.qiu@mediatek.com,
- junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, dmitry.baryshkov@linaro.org,
- lewis.liao@mediatek.com, ives.chenjh@mediatek.com,
- tommyyl.chen@mediatek.com, jason-jh.lin@mediatek.com
-Subject: Re: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for
- MT8195/MT8188
-Message-ID: <202501180052.uSAwTJA8-lkp@intel.com>
-References: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7283110E30C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 17:10:07 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50HC8igd006187;
+ Fri, 17 Jan 2025 17:10:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=ZdyZ7SA63gjTv9VIk8QvcU
+ sgPcWewcFyWZUKLCGCn8I=; b=WHfpfH7e8mDIdFd5JsJoQNd7rGUVTwMQ46PQ8N
+ veH+m/wfm+9AUcydcgSesSbqe4JQ+shz5aSQ4xNkWbNsNnfSCY8nMO9fVU7yAKoP
+ Q9quPib1Wy1EvroW1H6dxxMSHMoPXQkwoUhYv34RJMLJj3TD/iMKIjpOJJoBFayu
+ 58gYFmB5koyyBAGN1Uq7043m+vjhG0r668lCgI9JwV8X/mxMNnv0LRBW79Vn5wNL
+ 55MGAxrbe0wrky084/iCD7JKWXNTvREgImlCPZtehqXAC8oxzPQGrx9buLh83Ykx
+ Ilbv7t2cQ3PRJv/TECYcPtAt42WV7IwrMlp6282J/yD5b5yA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447py0grc1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Jan 2025 17:10:00 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50HH9xpP030418
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Jan 2025 17:09:59 GMT
+Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 17 Jan 2025 09:09:57 -0800
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+To: <quic_carlv@quicinc.com>, <manivannan.sadhasivam@linaro.org>,
+ <quic_yabdulra@quicinc.com>, <quic_mattleun@quicinc.com>,
+ <quic_thanson@quicinc.com>
+CC: <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>, Jeffrey Hugo
+ <quic_jhugo@quicinc.com>
+Subject: [PATCH v2 0/7] accel/qaic: Initial AIC200 support
+Date: Fri, 17 Jan 2025 10:09:36 -0700
+Message-ID: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: SY9SijRCak-g9_6qeOek30r5d73Ylvls
+X-Proofpoint-GUID: SY9SijRCak-g9_6qeOek30r5d73Ylvls
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1015 adultscore=0 impostorscore=0 spamscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501170134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,73 +89,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi AngeloGioacchino,
+Initial support to the driver to boot up AIC200. AIC200 uses BHIe
+without BHI, which is something that the MHI bus has not supported until
+now. While the MHI changes are listed first to facilitate cross-tree
+merging, they are not needed until the last change in the series.
 
-kernel test robot noticed the following build errors:
+Also, AIC200 is a different product from AIC100 with MSI-X, different
+BARs, and different MHI configuration so we finally need some
+infrastructure in the driver to be able to handle product differences.
+This is expected to evolve more over time.
 
-[auto build test ERROR on next-20250113]
-[cannot apply to robh/for-next pza/reset/next linus/master pza/imx-drm/next drm-misc/drm-misc-next v6.13-rc7 v6.13-rc6 v6.13-rc5 v6.13-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+v2:
+-Remove inline on mhi_fw_load_error_dump() and shorten stack variable
+lines
+-Simplify kcalloc from mhi_alloc_bhi_buffer()
+-Inline mhi_firmware_copy_bhi() and drop the function
+-Fix spelling of MHI/BHIe in commit text of patch 2
+-Drop MHI_FW_LOAD_UNKNOWN
+-Simplify mhi_fw_load_type_get()
+-Rename mhi_send_image_bhi() to mhi_load_image_bhi()
+-Rename mhi_send_image_bhie() to mhi_load_image_bhie()
+-Adjust the order of mhi_cntrl init in qaic_mhi_register_controller()
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20250113-225554
-base:   next-20250113
-patch link:    https://lore.kernel.org/r/20250113145232.227674-33-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250118/202501180052.uSAwTJA8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180052.uSAwTJA8-lkp@intel.com/reproduce)
+Jeffrey Hugo (2):
+  accel/qaic: Add config structs for supported cards
+  accel/qaic: Add AIC200 support
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501180052.uSAwTJA8-lkp@intel.com/
+Matthew Leung (2):
+  bus: mhi: host: Refactor BHI/BHIe based firmware loading
+  bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL
 
-All errors (new ones prefixed by >>):
+Youssef Samir (3):
+  accel/qaic: Allocate an exact number of MSIs
+  accel/qaic: Add support for MSI-X
+  accel/qaic: Mask out SR-IOV PCI resources
 
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c: In function 'mtk_hdmi_v2_aud_output_channel_map':
->> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:345:15: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     345 |         val = FIELD_PREP(SD0_MAP, sd0) | FIELD_PREP(SD1_MAP, sd1);
-         |               ^~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c: In function 'mtk_hdmi_v2_hpd_pord_status':
->> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:812:23: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     812 |         hpd_pin_sta = FIELD_GET(HPD_PIN_STA, hpd_status);
-         |                       ^~~~~~~~~
---
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddc_check_and_rise_low_bus':
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:59:36: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      59 |                                    FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLOCK_SCL));
-         |                                    ^~~~~~~~~~
-   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddcm_read_hdmi':
->> drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:207:47: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     207 |                         puc_value[read_idx] = FIELD_GET(DDC_DATA_OUT, val);
-         |                                               ^~~~~~~~~
-
-
-vim +/FIELD_PREP +345 drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
-
-   333	
-   334	static u32 mtk_hdmi_v2_aud_output_channel_map(u8 sd0, u8 sd1, u8 sd2, u8 sd3,
-   335						      u8 sd4, u8 sd5, u8 sd6, u8 sd7)
-   336	{
-   337		u32 val;
-   338	
-   339		/*
-   340		 * Each of the Output Channels (0-7) can be mapped to get their input
-   341		 * from any of the available Input Channels (0-7): this function
-   342		 * takes input channel numbers and formats a value that must then
-   343		 * be written to the TOP_AUD_MAP hardware register by the caller.
-   344		 */
- > 345		val = FIELD_PREP(SD0_MAP, sd0) | FIELD_PREP(SD1_MAP, sd1);
-   346		val |= FIELD_PREP(SD2_MAP, sd2) | FIELD_PREP(SD3_MAP, sd3);
-   347		val |= FIELD_PREP(SD4_MAP, sd4) | FIELD_PREP(SD5_MAP, sd5);
-   348		val |= FIELD_PREP(SD6_MAP, sd6) | FIELD_PREP(SD7_MAP, sd7);
-   349	
-   350		return val;
-   351	}
-   352	
+ drivers/accel/qaic/mhi_controller.c | 360 ++++++++++++++++++++++++++--
+ drivers/accel/qaic/mhi_controller.h |   2 +-
+ drivers/accel/qaic/qaic.h           |  14 +-
+ drivers/accel/qaic/qaic_drv.c       |  97 +++++---
+ drivers/accel/qaic/qaic_timesync.c  |   2 +-
+ drivers/accel/qaic/sahara.c         |  39 ++-
+ drivers/bus/mhi/host/boot.c         | 203 ++++++++++++----
+ drivers/bus/mhi/host/init.c         |   2 +-
+ drivers/bus/mhi/host/internal.h     |   7 +
+ 9 files changed, 620 insertions(+), 106 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
