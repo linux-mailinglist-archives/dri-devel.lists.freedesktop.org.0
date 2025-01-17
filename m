@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18995A14A2C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 08:33:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1E6A14A61
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 08:47:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D64810EA6F;
-	Fri, 17 Jan 2025 07:32:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA1510EA7B;
+	Fri, 17 Jan 2025 07:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CeTasxHz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bkNh/K7l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA8610EA6F
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 07:32:57 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id
- 3f1490d57ef6-e46ebe19368so2814365276.0
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 23:32:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737099177; x=1737703977; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=u5hN3WCRaDcwfEGZIF7HwAWSSytle4jyv+q+dyIgSdU=;
- b=CeTasxHzKqV/3zCtRQ4pu2wpXpOBxDWpcAKk6J+Uoq2WBvKmRil1OuoiyqSksUvDvL
- PUmQ7hesnPD796LoCvpe07xkcCbNRLX/iwTwWpLTRk60/uSMWfrQut3G113OQnPFz8bk
- xTN4xiXUHTXeFeA19B4E2Ms1UVAC9w2adJ8fFugIYBgqT0XCzMpkzzrA3Vzxq11ko8sZ
- p74YfAIv9Fxz2K+Dp4xyDCCJJ5E9CITF+dQ/cqcCX+nVXu7Minxvc1qODlkV6vUgAzEc
- uWG+XBaCUidSXonqw4uLk1yg5UeSTuBlEw6lSsoVox6kYiyhUHNtYaAb2n8bpI7MSKZN
- mBAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737099177; x=1737703977;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=u5hN3WCRaDcwfEGZIF7HwAWSSytle4jyv+q+dyIgSdU=;
- b=Mi7adxbHaSvvmLt+LhxtyB721H+rKznhQtpgh08bKlCRMmajhRWwYHm1gCk6hdyxrO
- neS+4SDeqRA1rBFy7yd7vJ4Glzr3HXCgm8+7bnDJFPokFhw03QCbiNnHQfTE3kIG9fp0
- 90gZDizU7CsXl9NHA9HZrpvM7q7NQkKPy9ZeAs7Rhry609rnXyGZcBKXVAXfTliLezPR
- j1suuyRTE+NfQOqS5xlYsNed+OvcvBTGt2YdI3n0KDU4RFmUixcfSjksU5VGDtvI1VcZ
- BoqEZfZce2Rmb0zGaPMEpemS13OobUSeaUaOVZL/Cw5IsB7HB5LpQjDn8lo0xEs6+u35
- Kv0w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXnMdqpChmPMN4FG85O9vO2VtYVwCIRU3KhGyPejZwfRFfNxWtpiXoyNX5DzlDnFW72TR4flQhnybQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeJ+hxYRhaj/Ji8fH9CaddB3hIcrFYQ6qJOhXcebL+tDbnRD7u
- cY3IxTsalnygeePvvAhmErAb9lnIFeiKw4qVFCPhccg8MGFqeJ6MeFEn5lwFdUs/c2SQ/8Yvjsq
- p5c9GBvVIl96tFs7dOAAHZEPmSjnLfzexw7V8AQ==
-X-Gm-Gg: ASbGncvw72JIpDPVW1X+TI87nDL4nmhPz4ZIIJ9Y8yQDkZ1ShElXKU1u6AhOO0sjMrE
- 7feKI+t+o6AfoCrUfgNs8dH2UfFO3ZEgrHLAoMyuaFvs=
-X-Google-Smtp-Source: AGHT+IE+XYh2alu1rY2U8oCgLEh1aqoCMjyJMFnHicZCBv3oNDm+hi8vM03R6tYssS6lGIrrrW8gy6Wp3lPsC3GuOFk=
-X-Received: by 2002:a05:6902:140c:b0:e4c:e9b8:eb37 with SMTP id
- 3f1490d57ef6-e57b1030127mr1141878276.3.1737099175190; Thu, 16 Jan 2025
- 23:32:55 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0471D10EA76;
+ Fri, 17 Jan 2025 07:47:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737100021; x=1768636021;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=DcCXZiNEOOx4OX58TA4PvstFtJZzuF5EjE4UegB7kkk=;
+ b=bkNh/K7lpsiI2mt4dlm1WnOqU48ETQajWpfAKSHXr9sBtRvn2uKKqDb5
+ k7Mf0Oe2F8v8VeNnkWVrn5p9+ACrLvR5lrSCFRYRwIIUEBL1mKqz50F/d
+ f4GFg8UVQ2YStu7RwgwgmDjz2ezIqcLJplrVeGKvlkn1J5Mge9pOvqnMB
+ R5vrPAVFmQ4Cjr2GF7AERIJs0EDB52ySCQZKtOZeayCqugvSF5hFI1JQc
+ zwhaDJNFg6F66dNZ6dVNaYFUeI9L5AjRAiEqNoKWFJoZ/Ry0bPAwosQkN
+ gDvNc0kmOcTMvhsKkfrp6ATZqwGfmlR80QI0m88UYWeclR9OHxLy3L+S8 w==;
+X-CSE-ConnectionGUID: Ws/PS8qXRB+LsP1E2YRa6A==
+X-CSE-MsgGUID: hwWgBQ1KQpGQk8FIf0eQjg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37639840"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="37639840"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2025 23:47:01 -0800
+X-CSE-ConnectionGUID: 4DHApm+0SfyOa7sErlRfpA==
+X-CSE-MsgGUID: ZBDbQbpGQuiPayUollKbVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="105575949"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.202])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2025 23:46:57 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ingyu Jang <ingyujang25@gmail.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Ingyu Jang <ingyujang25@gmail.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/gt: Handle INTEL_WAKEREF_DEF return value in
+ gen8_ggtt_bind_get_ce
+In-Reply-To: <20250116193528.2297487-1-ingyujang25@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250116193528.2297487-1-ingyujang25@gmail.com>
+Date: Fri, 17 Jan 2025 09:46:53 +0200
+Message-ID: <87cyglg9w2.fsf@intel.com>
 MIME-Version: 1.0
-References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
- <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-16-74749c6eba33@linaro.org>
- <mw7zc4ljagxs6sjpl2wfjicq56w7ru2dd43u55rrtwyux62bb5@3w4zayfqxlai>
-In-Reply-To: <mw7zc4ljagxs6sjpl2wfjicq56w7ru2dd43u55rrtwyux62bb5@3w4zayfqxlai>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Fri, 17 Jan 2025 15:32:44 +0800
-X-Gm-Features: AbW1kvbp5yJi4HYj9X5TBWCrEONnlBk4y8iKuerYlGqjnYqdJtYg1reAc_pA1gY
-Message-ID: <CABymUCMnYy-L2Bd6dgYzPTB+qzpFLbU-LyCLDKxCSWy19x_A5g@mail.gmail.com>
-Subject: Re: [PATCH v4 16/16] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,131 +73,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=
-=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 16:32=E5=86=99=E9=81=93=EF=BC=9A
+On Fri, 17 Jan 2025, Ingyu Jang <ingyujang25@gmail.com> wrote:
+> The function 'gen8_ggtt_bind_get_ce' previously did not handle the case
+> where 'intel_gt_pm_get_if_awake()' returns 'INTEL_WAKEREF_DEF'.
+> This value is returned when the 'intel_ref_tracker_alloc()' call within
+> 'intel_gt_pm_get_if_awake()' fails to allocate due
+> to memory pressure or other constraints.
 >
-> On Thu, Jan 16, 2025 at 03:26:05PM +0800, Jun Nie wrote:
-> > Request 4 mixers and 4 DSC for the case that both dual-DSI and DSC are
-> > enabled.
+> 'intel_ref_tracker_alloc()' uses 'ref_tracker_alloc()' with the
+> 'GFP_NOWAIT' flag, which can return 'NULL' if allocation fails.
+> In this case, the function explicitly returns 'INTEL_WAKEREF_DEF'.
 >
-> Why? What is the issue that you are solving?
+> This patch adds a check for 'INTEL_WAKEREF_DEF' in
+> 'gen8_ggtt_bind_get_ce' to ensure that such errors are properly handled.
+> If 'INTEL_WAKEREF_DEF' is returned, the function returns 'NULL' .
 
-    To support high-resolution cases that exceed the width limitation of
-    a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
-    additional pipes are necessary to enable parallel data processing
-    within the SSPP width constraints and MDP clock rate.
+No.
 
-    Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-    and dual interfaces are enabled. More use cases can be incorporated
-    later if quad-pipe capabilities are required.
+The callers should only handle NULL vs. non-NULL, and never make any
+other assumptions about the value.
 
->
-> > 4 pipes are preferred for dual DSI case for it is power optimal
-> > for DSC.
-> >
-> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 29 ++++++++++++++++=
-++------
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
-> >  6 files changed, 29 insertions(+), 14 deletions(-)
-> >
->
-> > @@ -664,15 +664,20 @@ static struct msm_display_topology dpu_encoder_ge=
-t_topology(
-> >
-> >       /* Datapath topology selection
-> >        *
-> > -      * Dual display
-> > +      * Dual display without DSC
-> >        * 2 LM, 2 INTF ( Split display using 2 interfaces)
-> >        *
-> > +      * Dual display with DSC
-> > +      * 2 LM, 2 INTF ( Split display using 2 interfaces)
-> > +      * 4 LM, 2 INTF ( Split display using 2 interfaces)
-> > +      *
-> >        * Single display
-> >        * 1 LM, 1 INTF
-> >        * 2 LM, 1 INTF (stream merge to support high resolution interfac=
-es)
-> >        *
-> >        * Add dspps to the reservation requirements if ctm is requested
-> >        */
-> > +
->
-> irrlevant extra line, please drop.
->
-> >       if (intf_count =3D=3D 2)
-> >               topology.num_lm =3D 2;
-> >       else if (!dpu_kms->catalog->caps->has_3d_merge)
-> > @@ -691,10 +696,20 @@ static struct msm_display_topology dpu_encoder_ge=
-t_topology(
-> >                * 2 DSC encoders, 2 layer mixers and 1 interface
-> >                * this is power optimal and can drive up to (including) =
-4k
-> >                * screens
-> > +              * But for dual display case, we prefer 4 layer mixers. B=
-ecause
-> > +              * the resolution is always high in the case and 4 DSCs a=
-re more
-> > +              * power optimal.
->
-> I think this part is thought about in a wrong way. If it was just about
-> power efficiency, we wouldn't have to add quad pipe support.
-> Please correct me if I'm wrong, but I think it is about the maximum
-> width supported by a particular topology being too low for a requested
-> resolution. So, if there is a DSC and mode width is higher than 5120
-> (8.x+) / 4096 ( <=3D 7.x), then we have to use quad pipe. Likewise if
-> there is no DSC in play, the limitation should be 2 * max_mixer_width.
+If intel_ref_tracker_alloc() fails, we'll only lose the wakeref tracking
+debug aid, but everything else goes fine. The patch at hand conflates
+the returned "asleep" (NULL) with "ref tracker fail", and that's wrong.
 
-Both width limitation and clock rate contribute to pipe number decision.
-To support high resolution, the MDP clock may be required to overclock
-to a higher rate than the safe rate. Current implementation does not
-support checking clock rate when deciding topology. We can add the
-clock rate check later with a new patch.
->
-> >                */
-> > -             topology.num_dsc =3D 2;
-> > -             topology.num_lm =3D 2;
-> > -             topology.num_intf =3D 1;
-> > +
-> > +             if (intf_count =3D=3D 2) {
-> > +                     topology.num_dsc =3D dpu_kms->catalog->dsc_count =
->=3D 4 ? 4 : 2;
->
-> This assumes that the driver can support 2:2:2. Is it the case?
+See how intel_ref_tracker_free() handles INTEL_WAKEREF_DEF.
 
-The code falls back to 2:2:2 case here. But I guess 2:2:2 does not work yet=
-.
-How about below code for DSC case?
+BR,
+Jani.
 
-                 if (intf_count =3D=3D 2 && dpu_kms->catalog->dsc_count >=
-=3D 4) {
-                         topology.num_dsc =3D 4;
-                         topology.num_lm =3D 4;
-                         topology.num_intf =3D 2;
-                 } else {
-                         topology.num_dsc =3D 2;
-                         topology.num_lm =3D 2;
-                         topology.num_intf =3D 1;
-                 }
 
 >
-> > +                     topology.num_lm =3D topology.num_dsc;
-> > +                     topology.num_intf =3D 2;
-> > +             } else {
-> > +                     topology.num_dsc =3D 2;
-> > +                     topology.num_lm =3D 2;
-> > +                     topology.num_intf =3D 1;
-> > +             }
-> >       }
-> >
-> >       return topology;
+> Signed-off-by: Ingyu Jang <ingyujang25@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> --
-> With best wishes
-> Dmitry
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index d60a6ca0cae5..8d22d8f2243d 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -311,7 +311,7 @@ static struct intel_context *gen8_ggtt_bind_get_ce(struct i915_ggtt *ggtt, intel
+>  	 * doing rpm_resume().
+>  	 */
+>  	*wakeref = intel_gt_pm_get_if_awake(gt);
+> -	if (!*wakeref)
+> +	if (!*wakeref || *wakeref == INTEL_WAKEREF_DEF)
+>  		return NULL;
+>  
+>  	intel_engine_pm_get(ce->engine);
+
+-- 
+Jani Nikula, Intel
