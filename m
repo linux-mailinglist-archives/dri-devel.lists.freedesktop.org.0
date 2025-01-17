@@ -2,46 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B72A14738
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 02:01:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313DEA147D4
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 03:00:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0725010E1E9;
-	Fri, 17 Jan 2025 01:01:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3C4510EA37;
+	Fri, 17 Jan 2025 02:00:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="MCaF5bro";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BolhGzCO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D7BB10E1E9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 01:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=+oX46
- ssjen+grNNelmVBLeYI+2FqYGGFwTbiuIPwd2I=; b=MCaF5broRlIS+RwDo5e+a
- GAbHSBIJiTivutU8zBq3xy/JYFVlAJQiOjR623h9MejtOT9Pj4iT6Z1+IgK3FdD2
- PbPsKjCBTVeQ7t3+PtljaXjigItgxPC9TcrhbJ/A2F+goV4WLi2TEdWrtCcCmW/E
- edLAo2MGcywihSJQuzckk4=
-Received: from ProDesk.. (unknown [])
- by gzsmtp1 (Coremail) with SMTP id PCgvCgC3hKq5q4lnoRZOBA--.30558S2;
- Fri, 17 Jan 2025 09:00:46 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: dianders@chromium.org
-Cc: neil.armstrong@linaro.org, tzimmermann@suse.de,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Andy Yan <andyshrk@163.com>
-Subject: [PATCH v2] drm/panel-edp: Add BOE NV140FHM-NZ panel entry
-Date: Fri, 17 Jan 2025 09:00:29 +0800
-Message-ID: <20250117010039.1815430-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 692E210EA35
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 02:00:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737079203; x=1768615203;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=5ZUz4QZLDlVa1hMJ47XHMGlOnKcryI3Cj9ggu76axOY=;
+ b=BolhGzCO5+emxeEY2bbCDWEFk2cPQFkmtwrS15gWqEtCopozwZ/Ptuc9
+ Sr50lPxg9MwQfbG1EfqKEV1iTokGAPIdl8M/4gm7TbvY2ABeDC1cQGVcU
+ CMYOS8LyYNx5diU/GjH5C3yYSCXBIVrhCZQvIjNdLGqDD6j/l3B0YbfVl
+ qQsaAsGlqIVp5BIGlEV4GTGR+6AN9tMDRTFYCIH00DYLHi22aQgF5/BKy
+ RYkB7njyvBJP1qDZt3aXgmSUUbFfrjTe2Ot4kpsmg4glRalQ3AdjfX+8a
+ Kc96wBG8qF9CcGxhStoQwEJM4nxWnTMgArWabDdakjM41GCJhlXWJ5vcO g==;
+X-CSE-ConnectionGUID: Fj+AVf72RjeeqQykFOdjQg==
+X-CSE-MsgGUID: /G/wXfveRMezdCx9GWkbXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="37653499"
+X-IronPort-AV: E=Sophos;i="6.13,210,1732608000"; d="scan'208";a="37653499"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2025 18:00:02 -0800
+X-CSE-ConnectionGUID: q+qN46kgS4eRnBfRJ9Qo0w==
+X-CSE-MsgGUID: pIAKJmATQDajlK90Sjd0tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="106140512"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jan 2025 17:59:57 -0800
+Message-ID: <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
+Date: Fri, 17 Jan 2025 09:57:40 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PCgvCgC3hKq5q4lnoRZOBA--.30558S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uFy3GFy7Kw13ArW3Kry5twb_yoW8Cr48pF
- Wftry7ua10v3W7G397A3WDJF4UAan2ka4IgF40kFWkZa17GF13t3sIyr45AwsYqr15Ja47
- Krn3Jr17tw1UA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRkucXUUUUU=
-X-Originating-IP: [103.29.142.67]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0h-XXmeJq5oGawAAs2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
+ alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+References: <20250108133026.GQ5556@nvidia.com>
+ <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050> <20250109144051.GX5556@nvidia.com>
+ <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050> <20250110133116.GF5556@nvidia.com>
+ <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050> <20250113164935.GP5556@nvidia.com>
+ <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050> <20250114133553.GB5556@nvidia.com>
+ <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
+ <20250115130102.GM5556@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20250115130102.GM5556@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,48 +84,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add an eDP panel entry for BOE NV140FHM-NZ.
+On 1/15/25 21:01, Jason Gunthorpe wrote:
+> On Wed, Jan 15, 2025 at 11:57:05PM +1100, Alexey Kardashevskiy wrote:
+>> On 15/1/25 00:35, Jason Gunthorpe wrote:
+>>> On Tue, Jun 18, 2024 at 07:28:43AM +0800, Xu Yilun wrote:
+>>>
+>>>>> is needed so the secure world can prepare anything it needs prior to
+>>>>> starting the VM.
+>>>> OK. From Dan's patchset there are some touch point for vendor tsm
+>>>> drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
+>>>>
+>>>> Maybe we could move to Dan's thread for discussion.
+>>>>
+>>>> https://lore.kernel.org/linux- 
+>>>> coco/173343739517.1074769.13134786548545925484.stgit@dwillia2- 
+>>>> xfh.jf.intel.com/
+>>> I think Dan's series is different, any uapi from that series should
+>>> not be used in the VMM case. We need proper vfio APIs for the VMM to
+>>> use. I would expect VFIO to be calling some of that infrastructure.
+>> Something like this experiment?
+>>
+>> https://github.com/aik/linux/commit/ 
+>> ce052512fb8784e19745d4cb222e23cabc57792e
+> Yeah, maybe, though I don't know which of vfio/iommufd/kvm should be
+> hosting those APIs, the above does seem to be a reasonable direction.
+> 
+> When the various fds are closed I would expect the kernel to unbind
+> and restore the device back.
 
-No datasheet found for this panel, so the timing
-is based on a similar NV140FHM-N41 datasheet that
-I can find on internet[0].
+I am curious about the value of tsm binding against an iomnufd_vdevice
+instead of the physical iommufd_device.
 
-edid:
-00 ff ff ff ff ff ff 00 09 e5 09 0b 00 00 00 00
-01 20 01 04 a5 1f 11 78 03 9b 75 99 5b 5d 8f 2a
-23 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 c8 37 80 cc 70 38 28 40 6c 30
-aa 00 35 ae 10 00 00 1a 00 00 00 fd 00 30 3c 43
-43 8f 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
-4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
-00 4e 56 31 34 30 46 48 4d 2d 4e 34 5a 0a 00 35
+It is likely that the kvm pointer should be passed to iommufd during the
+creation of a viommu object. If my recollection is correct, the arm
+smmu-v3 needs it to obtain the vmid to setup the userspace event queue:
 
-[0]:http://www.tfinno.com/PIC/PIC/20215121628440.pdf
-Signed-off-by: Andy Yan <andyshrk@163.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+struct iommufd_viommu *arm_vsmmu_alloc(struct device *dev,
+                                        struct iommu_domain *parent,
+                                        struct iommufd_ctx *ictx,
+                                        unsigned int viommu_type)
+{
+
+[...]
+
+         /* FIXME Move VMID allocation from the S2 domain allocation to 
+here */
+         vsmmu->vmid = s2_parent->s2_cfg.vmid;
+
+         return &vsmmu->core;
+}
+
+Intel TDX connect implementation also needs a reference to the kvm
+pointer to obtain the secure EPT information. This is crucial because
+the CPU's page table must be shared with the iommu. I am not sure
+whether the amd architecture has a similar requirement.
 
 ---
-
-Changes in v2:
-- Fix typo in commit message NV140FHM-N4Z -> NV140FHM-NZ
-- Reorder based on the product_id
-- use delay_200_500_e50_po2e200 based on NV140FHM-N41
-
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 94a46241dece..3e3b339b7a7c 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1908,6 +1908,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
-+	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_po2e200, "NV140FHM-NZ"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b43, &delay_200_500_e200, "NV140FHM-T09"),
- 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b56, &delay_200_500_e80, "NT140FHM-N47"),
--- 
-2.43.0
-
+baolu
