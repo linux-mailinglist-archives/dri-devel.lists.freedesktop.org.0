@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B06A14FBC
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 13:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20CCA14FCF
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 13:59:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0617A10E1E6;
-	Fri, 17 Jan 2025 12:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0528110E23A;
+	Fri, 17 Jan 2025 12:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XVutlGSJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XYCCzkeD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA3D410E1E6
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 12:57:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AB2910E23A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 12:59:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 18AD45C61FE;
- Fri, 17 Jan 2025 12:56:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 282D4C4CEE6;
- Fri, 17 Jan 2025 12:57:01 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 1C9535C620D;
+ Fri, 17 Jan 2025 12:59:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 096F6C4CEDD;
+ Fri, 17 Jan 2025 12:59:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737118621;
- bh=Ng8c8u9mGMsnr89/0ZbFiDettIc2FYU96JTg/Manq1A=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XVutlGSJ02ENDzZnXyyURYUHhTJxQLMOtOOuiDwvDS0K0dlxiovJL/S0RQTZ2llrr
- fFGN7zqU1hdnUzACq//OSqhRPCMWULLSsQLqRtX16McWrllt+BQFEZMNyBKiByZupr
- oZHiqAXt2XI9hjPXr7aQIL1tOA5UP758bx9NFGSeDXGMp1T0G1CVDFwuqaDDl1yM/W
- nkVzRU29GQ17TAkp8TAqkSCpOe3fdtVOZQ2CQjhsro6Cvd0e9Ydsgn7Lt1yqXHjL/J
- y2DoKHoS05M7UGrq9KG+jwD6S3IyL50HYeNfFE7E3zK8NkS+boaHHSM7DkTNJnlici
- Eo4oon6spCaXg==
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <dev@lankhorst.se>,
- Friedrich Vock <friedrich.vock@gmx.de>, Tejun Heo <tj@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-rdma@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH next] cgroup/rdma: Drop bogus PAGE_COUNTER select
-Date: Fri, 17 Jan 2025 13:56:57 +0100
-Message-ID: <173711861436.353110.4495844008892869326.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <b4d462f038a2f895f30ae759928397c8183f6f7e.1737020925.git.geert+renesas@glider.be>
-References: <b4d462f038a2f895f30ae759928397c8183f6f7e.1737020925.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+ s=k20201202; t=1737118791;
+ bh=29ZeJ5djacspL093+9m3ViGC2896wijqy3gsmQtUwz4=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=XYCCzkeDTFthZVowiQxiwKl/Zs0l31zwxw82ZoJFgtx9kJPiR8aqRl1VTIcIIv3oo
+ FZvmGDABrIX9E217HLcSYAfggTd3shlFnkDISUoPL5yPY+od/uiZ2Wm7GWewN9y50P
+ zjGYqofwX+c6flDt8XuKVi2VeUseQNDiMrsBnTd3IjHwfK5nwZJenq9Id9+8fqMcYg
+ iAWg9mVmb+ZJS6B/5n8RiRkQr2cpTdfBS1Q1kKzqt0AIQ+CQUpcuTkfLG1ZGJB8EQt
+ h2xDQ62q83Jb+GFvUmgrHd2cw1Dx0qEYQthMj0ahro5xM9gWAEQ7YC91SwA0SBccWf
+ zEmvFBP+9RQcA==
+Message-ID: <8ff0e8c069f5e1e2df8016597f99b11d@kernel.org>
+Date: Fri, 17 Jan 2025 12:59:48 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Louis Chauvet" <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH v9 3/8] drm/managed: Add DRM-managed
+ alloc_ordered_workqueue
+In-Reply-To: <20250116-google-vkms-managed-v9-3-3e4ae1bd05a0@bootlin.com>
+References: <20250116-google-vkms-managed-v9-3-3e4ae1bd05a0@bootlin.com>
+Cc: arthurgrillo@riseup.net, dri-devel@lists.freedesktop.org,
+ jeremie.dautheribes@bootlin.com, linux-kernel@vger.kernel.org,
+ miquel.raynal@bootlin.com, nicolejadeyee@google.com, seanpaul@google.com,
+ thomas.petazzoni@bootlin.com, "David
+ Airlie" <airlied@gmail.com>, "Haneen Mohammed" <hamohammed.sa@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>, 
+ =?utf-8?b?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
+ "Melissa Wen" <melissa.srw@gmail.com>, "Rodrigo
+ Siqueira" <rodrigosiqueiramelo@gmail.com>,
+ "Simona Vetter" <simona.vetter@ffwll.ch>, "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,17 +66,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Jan 2025 10:56:35 +0100, Geert Uytterhoeven wrote:
-> When adding the Device memory controller (DMEM), "select PAGE_COUNTER"
-> was added to CGROUP_RDMA, presumably instead of CGROUP_DMEM.
-> While commit e33b51499a0a6bca ("cgroup/dmem: Select PAGE_COUNTER") added
-> the missing select to CGROUP_DMEM, the bogus select is still there.
-> Remove it.
-> 
-> 
-> [...]
+On Thu, 16 Jan 2025 18:47:15 +0100, Louis Chauvet wrote:
+> Add drmm_alloc_ordered_workqueue(), a helper that provides managed ordered
+> workqueue cleanup. The workqueue will be destroyed with the final
+> reference of the DRM device.
+>=20
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> [ ... ]
 
-Applied to misc/kernel.git (drm-misc-next-fixes).
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
 Thanks!
 Maxime
