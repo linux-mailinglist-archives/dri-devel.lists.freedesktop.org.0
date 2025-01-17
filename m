@@ -2,59 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61206A15024
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 14:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A5FA15055
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 14:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B38710EAE6;
-	Fri, 17 Jan 2025 13:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0705A10EAFA;
+	Fri, 17 Jan 2025 13:13:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="pArEjGXs";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="xxoaM2gg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com
- [95.215.58.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52D1A10EAF1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 13:07:55 +0000 (UTC)
-Message-ID: <f34a0c76-cb61-4c5a-b16c-e6f715f1d048@linux.dev>
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com
+ [95.215.58.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEABE10EAE8
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 13:13:03 +0000 (UTC)
+Message-ID: <8757b595-e1f3-4a04-b201-621237709e3c@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1737119272;
+ t=1737119582;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vk+L5/wjKvymhB96CaUuZqmjix8B8veXegV3r8yTl50=;
- b=pArEjGXs1VyXklZzkySQMIBcjU0P2r6bmEo+gY0UK3jRfi0ol3d7NaTEm1DoEWEEQ1xRw6
- xrXDq5/iYKGxCKa7MQ+8rbjOP0jEpTLzpgAFL4fex0qO+fYPvBxjVPhyVpOE/zGThkQeOV
- 699uNkpp4WKsn7oc5REDjRzI9cwNRYk=
-Date: Fri, 17 Jan 2025 18:37:00 +0530
+ bh=6kEmfvKGroG6EGG4ETw82Z+RqEAdG6vteEmzk4A6OrM=;
+ b=xxoaM2ggG6CVzwTzh24CKOUNQghhK40xRzcO4Mu0AQ9K+yC4Ydqlh3EnJDbEXZJWHNvXhv
+ zJvakx4rQog5BpZgP+E7WHi5ggWhKjlqy1aKGP2Ou2AspA0E7+RmT6SWnHRLRtucK9U60S
+ LUCh/Yu6vsqvbbiYEiyzwPu5F+fgZT4=
+Date: Fri, 17 Jan 2025 18:42:11 +0530
 MIME-Version: 1.0
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: Re: [PATCH v7 11/12] drm/atomic-helper: Re-order bridge chain
- pre-enable and post-disable
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+Subject: Re: [PATCH v7 03/12] drm/bridge: cdns-dsi: Fix phy de-init and flag
+ it so
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
+ Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>,
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
- <20250114055626.18816-12-aradhya.bhatia@linux.dev>
- <psce5mzs5kyw76pkb75lmxliddph6b7yob6nunmxy4ne7g7zin@axa67tkcgr5j>
+ <20250114055626.18816-4-aradhya.bhatia@linux.dev>
+ <84ca02de-9788-4e16-bf24-1651bd365ebd@ideasonboard.com>
+ <7cfc1561-a229-43e7-b4bf-23ad258733c6@linux.dev>
+ <0e0ee18e-28f6-4c57-a47d-cd7ace84fa70@ideasonboard.com>
+ <6f7bafba-9b40-491f-bf6b-00094840089c@linux.dev>
+ <0157aa47-9901-4f3d-b238-5b0ebeba78be@ideasonboard.com>
 Content-Language: en-US
-In-Reply-To: <psce5mzs5kyw76pkb75lmxliddph6b7yob6nunmxy4ne7g7zin@axa67tkcgr5j>
+In-Reply-To: <0157aa47-9901-4f3d-b238-5b0ebeba78be@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,130 +75,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+Hi Tomi,
 
-On 14/01/25 16:54, Dmitry Baryshkov wrote:
-> On Tue, Jan 14, 2025 at 11:26:25AM +0530, Aradhya Bhatia wrote:
->> Move the bridge pre_enable call before crtc enable, and the bridge
->> post_disable call after the crtc disable.
->>
->> The sequence of enable after this patch will look like:
->>
->> 	bridge[n]_pre_enable
->> 	...
->> 	bridge[1]_pre_enable
->>
->> 	crtc_enable
->> 	encoder_enable
->>
->> 	bridge[1]_enable
->> 	...
->> 	bridge[n]_enable
->>
->> And, the disable sequence for the display pipeline will look like:
->>
->> 	bridge[n]_disable
->> 	...
->> 	bridge[1]_disable
->>
->> 	encoder_disable
->> 	crtc_disable
->>
->> 	bridge[1]_post_disable
->> 	...
->> 	bridge[n]_post_disable
->>
->> The definition of bridge pre_enable hook says that,
->> "The display pipe (i.e. clocks and timing signals) feeding this bridge
->> will not yet be running when this callback is called".
->>
->> Since CRTC is also a source feeding the bridge, it should not be enabled
->> before the bridges in the pipeline are pre_enabled. Fix that by
->> re-ordering the sequence of bridge pre_enable and bridge post_disable.
+On 15/01/25 13:47, Tomi Valkeinen wrote:
+> Hi,
 > 
-> The patch contains both refactoring of the corresponding functions and
-> changing of the order. Please split it into two separate commits.
+> On 14/01/2025 18:32, Aradhya Bhatia wrote:
+> 
+>>> But generally speaking, yes, it's good to keep fixes simple, and do
+>>> cleanups later on top. Keeping that in mind, maybe this current patch is
+>>> fine as it is. Although... if the init is done in pre_enable, shouldn't
+>>> the deinit be done in post_disable?
+>>
+>> Yes, I will move the deinit to _bridge_post_disable().
+>>
+>>
+>> So, if we keep the fix limited to deinit in _bridge_post_disable(), then
+>> the cleanup would involve dropping the init calls from _bridge_enable().
+>> And then the patch-12 would do 3 things -
+>>
+>>     1. Drop older _bridge_pre_enable()
+>>     2. Rename old _bridge_enable() to _bridge_pre_enable()
+>>     3. Since the _old_ _bridge_enable() has the calls dropped in the
+>>        cleanup patch, add those calls again in the _new_
+>>        _bridge_pre_enable() (which are really the same function
+>>        bodies).
+> 
+> I would think patch-12 differently: it doesn't do what you list above,
+> but rather combines the current pre_enable() and enable() into a new
+> pre_enable().
+
+Right, yes!
+
+> 
+>> Do you think we can instead skip the cleanup patch, as well as #3 from
+>> patch-12?
+> 
+> Yes, I think the cleanup patch can just be dropped. It's not really
+> relevant.
+> 
+>> Fun fact: We already have patch-4 which fixes the order of init calls in
+>> _bridge_enable()! =)
+> 
+> Right. And I guess that fix doesn't fix anything in practice, as those
+> init calls are no-ops in the bridge_enable()...
+
+Yeah, it doesn't do anything... until patch-12 comes back in picture.
+So, I shall drop patch-4 too as there's no point in getting that patch
+backported. And I will let patch-12 take care of the correct ordering.
+
+> 
+> It's a bit difficult to make meaningful fixes when things are so badly
+> messed up =).
+> 
+> So, maybe try to arrange the series so that the obvious "makes-sense"
+> fixes for stable are in the beginning. So... patches 1, 3, 5? And then
+> work towards the patch 12.
 > 
 
-I assume that you already understand this, so this is just for the
-record -
-
-There is no trivial way to do this. Initially, this is what I had in my
-mind - about what the split patches would look like.
-
-#1
- * refactoring of entire loops into separate functions.
- * Separate out the pre_enable and enable operations inside the
-   encoder_bridge_enable().
- * call them in their (seemingly) original sequences
-	- crtc_enable
-	- encoder_bridge_enable(pre_enable)
-	- encoder_bridge_enable(!pre_enable)
-
-#2
- * rearrange the calls to re-order the operation
-	- encoder_bridge_enable(pre_enable)
-	- crtc_enable
-	- encoder_bridge_enable(!pre_enable)
-
-This would have made the patch#2 seem quite trivial, as patch#1 would
-take the brunt of changes, while keeping the functionality intact.
-
-
-What I have now realized is that, the above isn't possible,
-unfortunately. The moment we separate out pre_enable and enable into 2
-different calls, the overall sequence gets even changed when there are
-multiple pipelines in the system.
-
-So to implement the split properly, the first patch would look like this
-
-#1
- * refactoring of entire loops into separate functions.
- * The calling sequences will be as follows -
- 	- crtc_enable()
-	- encoder_bridge_enable()
-		- this will do both pre_enable and enable
-		  unconditionally.
-
-The pre_enable and enable operations wouldn't be separated in patch 1,
-just that the crtc enable and encoder bridge pre_enable/enable loops
-would be put into individual functions.
-
-The next patch will then introduce booleans, and separate out pre_enable
-and enable, and implement the new order -
-
-#2
- * pre_enable and enable operations will be conditionally segregated
-   inside encoder_bridge_enable(), based on the pre_enable boolean.
- * The calling sequences will then be updated to -
-	- encoder_bridge_enable(pre_enable)
-	- crtc_enable()
-	- encoder_bridge_enable(!pre_enable)
-
-This wouldn't be all that much trivial as I had imagined it to be earlier.
-
-It would also *kind of* like these patches in a previous revision,
-v5:11/13 [0], and v5:12/13 [1]. The only differences being,
-
-1) these older patches separated out only the bridge/encoder operations
-into a function, and not the crtc operations, and
-
-2) An enum is being used instead of the booleans.
-
-
-I believe this is what you are looking for? If I have misunderstood
-something, do let me know.
+Yes, this sounds good.
 
 
 Regards
 Aradhya
-
-
-[0]: v5:11/13
-drm/atomic-helper: Separate out Encoder-Bridge enable and disable
-https://lore.kernel.org/all/20241019200530.270738-4-aradhya.bhatia@linux.dev/
-
-[1]: v5:12/13
-drm/atomic-helper: Re-order bridge chain pre-enable and post-disable
-https://lore.kernel.org/all/20241019200530.270738-5-aradhya.bhatia@linux.dev/
 
