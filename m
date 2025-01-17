@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E24A14A16
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 08:26:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BC9A14A1D
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 08:27:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A078F10E1DE;
-	Fri, 17 Jan 2025 07:26:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58C0E10EA6C;
+	Fri, 17 Jan 2025 07:27:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tfz6MIHj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TMF3pm4n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BD65010E1DE
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 07:26:48 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27A5C10EA6C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 07:27:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A0AFAA429A5;
- Fri, 17 Jan 2025 07:24:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A2B1C4CEE4;
- Fri, 17 Jan 2025 07:26:44 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 65754A41F5D;
+ Fri, 17 Jan 2025 07:25:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D66C4CEDD;
+ Fri, 17 Jan 2025 07:27:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737098807;
- bh=+dtZmcui/f7vtbEUWWMZJy7nN5fFtZpASJpWsb4myDo=;
+ s=k20201202; t=1737098862;
+ bh=tXsL7wqDqt2ykkNuxJvsrPP1uvM5sQGXWX01E8xtQSk=;
  h=Date:Subject:To:References:From:In-Reply-To:From;
- b=tfz6MIHjw5yS5ffb12PzbWcJutfPtgGzGrFHhmi9bb8DpkhMoPFhiPZmSYDTVnqWo
- n1o1k6xmHw99lWqvol45eehjbT8v5LB6bpAISCMDg18h2Ycp5cluHUfKOS9LmdDYwc
- L+WFzcO+JgkmeHMz0SG0ZsLSWT1TYdpQ7K9Y5EmIHHNdag8ZFDsoCJe3FUQ+V6HeVZ
- DUHhr4Xn7GTGNS79CIQp0GoNV5kxckx3EJFT7adgajrn2bxaN91rkOgOQIw58TIz0H
- 9QejaCcz8o+Gw4/s7pkKukSx/SQ3x9bP3sjNQAqOnyI/NhBF13MbXvG9nLKxSq1hKx
- 4CIZlbNJZukhQ==
-Message-ID: <515cc07c-1afa-4742-a6fb-d2cd53c1f650@kernel.org>
-Date: Fri, 17 Jan 2025 08:26:44 +0100
+ b=TMF3pm4nQseIY9lz6M6EB4z8BqoTEpMmWIe0Kann8uu89D/SzybFfW4W5JVX91ztR
+ OGmxd8HuFIr7YgSZQR6hIBEuvFW5JYDciWLLcB4mdE7IzdCnKM32XcmtzocJdIwwgy
+ Qb7G48Jz+kbY1zGsKmJeWeJUOjXnzt8NwYtsR3tWtO1Y8OXlqNRACCBaXVCoCmN/V+
+ 25/zaJnHfsj8ghgpih29ORHRF7CzQcaZ0VE3S3abavwwM78nZcOIbQdOZ4rriOjKOd
+ WVyZIiw3ZIlHGLWqusjpjl5dWi6GylTlw7WcxBSNxxsD9JA82y8Cq7so9DXDvqzxkm
+ osTt2/VuQKmsw==
+Message-ID: <9cf4efd5-cc4b-492c-a1f3-18a19ba7afeb@kernel.org>
+Date: Fri, 17 Jan 2025 08:27:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: panel: Add compatible for
- KINGDISPLAY KD110N11-51IE
+Subject: Re: [PATCH v2 2/4] dt-bindings: display: panel: Add compatible for
+ STARRY 2082109QFH040022-50E
 To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
  neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20250117050433.934184-1-yelangyan@huaqin.corp-partner.google.com>
+References: <20250117050453.934900-1-yelangyan@huaqin.corp-partner.google.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -88,7 +87,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250117050433.934184-1-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250117050453.934900-1-yelangyan@huaqin.corp-partner.google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,50 +106,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17/01/2025 06:04, Langyan Ye wrote:
-> The KINGDISPLAY KD110N11-51IE is a 10.95" WUXGA TFT LCD panel,
+> The STARRY 2082109QFH040022-50E is a 10.95" WUXGA TFT LCD panel,
 > which fits in nicely with the existing panel-boe-tv101wum-nl6
 > driver. Hence, we add a new compatible with panel specific config.
 > 
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-Also: broken threading.
-
-> ---
->  .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml     | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> index 7a9f49e40e75..c771f517952d 100644
-> --- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> +++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
-> @@ -34,6 +34,8 @@ properties:
->        - starry,2081101qfh032011-53g
->          # STARRY ili9882t 10.51" WUXGA TFT LCD panel
->        - starry,ili9882t
-> +        # KINGDISPLAY KD110N11-51IE 10.95" WUXGA TFT LCD panel
-> +      - kingdisplay,kd110n11-51ie
-
-Keep order.
+"Add a new compatible for foo bar panel ....". One sentence. Could be
+also one patch, not two patches.
 
 Best regards,
 Krzysztof
