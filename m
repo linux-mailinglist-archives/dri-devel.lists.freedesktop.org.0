@@ -2,52 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED1EA14E72
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 12:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D85C2A14E7F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 12:32:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A07B410EACD;
-	Fri, 17 Jan 2025 11:25:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3871B10EAD0;
+	Fri, 17 Jan 2025 11:32:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qp1R4vDK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PNyhJPE0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7ACA710EAC3
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 11:25:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 0D7E2A42BE3;
- Fri, 17 Jan 2025 11:23:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E4E5C4CEDD;
- Fri, 17 Jan 2025 11:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1737113140;
- bh=H7A2hqMxKZYMX9asT2op2wIPHhhvQn1el8J9qlmdtis=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Qp1R4vDKGsYVTSE+0Gmin5L01IIwaxm5u81jCuOsFQ0XP0R1hyps7+7dMVFT6mVvD
- k6hfLf0C4qF0PVm4QKvSTXV+V7or4SoDBK36qLYRrOHb7iowfvuQvJHkyAZjOjhwpZ
- xte/EL3Lqrew7nv5rkRqZZ1UPD6dNbL1JjtDFtaE=
-Date: Fri, 17 Jan 2025 12:25:37 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Dave Airlie <airlied@gmail.com>,
- Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- stable@vger.kernel.org, ashutosh.dixit@intel.com,
- dri-devel@lists.freedesktop.org
-Subject: Re: AAARRRGGGHHH!!!! (was Re: [PATCH 6.12.y] xe/oa: Fix query mode
- of operation for OAR/OAC)
-Message-ID: <2025011749-pueblo-brought-3107@gregkh>
-References: <2025010650-tuesday-motivate-5cbb@gregkh>
- <20250110205341.199539-1-umesh.nerlige.ramappa@intel.com>
- <2025011215-agreeing-bonfire-97ae@gregkh>
- <CAPM=9txn1x5A7xt+9YQ+nvLaQ3ycekC1Oj4J2PUpWCJwyQEL9w@mail.gmail.com>
- <2025011244-backlit-jubilance-4fa1@gregkh>
- <jwnn3zov3akpnqzbk5lss3r6q4yupj6indmmapwvh6hadcdycg@pvquyntsvqpe>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF9E110EAD0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 11:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737113553; x=1768649553;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=AfDGpHESyc1zgDyFDFxzT4DuGT0R/BIGxgTzd17JmLs=;
+ b=PNyhJPE0W+I6IJvi4YmbUAjq+DdFOFmM594uFZWYDFlM9/WhqTI3TFwc
+ 6MaFJaf/uGZ7UM+8e30fyua2IbYFQhvnWopwVAYISPi6jaPYmJubkxrMG
+ f40Vm/Wg8ZXGvASnhDvbSdqIFrvjC0P7Ai9KKgkRjNATArnN/dzgACFpG
+ r40TTLSkFRyUqcrUWQcLpojWY104Q+kVK1/1IoNXtEpoKV3EGNyrXBot/
+ FAFuT69nHZdLDygIZ279h9hQ3OXE71FtN53chDxrjjPCyYkT0riVZumUQ
+ 8S6zni4u2X6SOWVpZg32M7PnL+WQbBPd3cMO2t4yGaBBzudfkHCrrUY/G A==;
+X-CSE-ConnectionGUID: ANCRALzqTWm1aadn+8iS2A==
+X-CSE-MsgGUID: NM+RfAAARpWOtXm8EvNXVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="37454494"
+X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="37454494"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2025 03:32:33 -0800
+X-CSE-ConnectionGUID: zyUisJjVSgm4qN8pfEJjZw==
+X-CSE-MsgGUID: eRVSpHkqRGScfSUOe8aRMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="105968500"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 17 Jan 2025 03:32:31 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Jan 2025 13:32:30 +0200
+Date: Fri, 17 Jan 2025 13:32:30 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ David Turner <david.turner@raspberrypi.com>
+Subject: Re: [PATCH] drm: document DRM_MODE_PAGE_FLIP_EVENT interactions with
+ atomic
+Message-ID: <Z4o_zteNVH6gqn2h@intel.com>
+References: <20250116162528.2235991-1-contact@emersion.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <jwnn3zov3akpnqzbk5lss3r6q4yupj6indmmapwvh6hadcdycg@pvquyntsvqpe>
+In-Reply-To: <20250116162528.2235991-1-contact@emersion.fr>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,22 +73,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2025 at 12:01:01PM +0100, Uwe Kleine-König wrote:
-> On Sun, Jan 12, 2025 at 10:06:42PM +0100, Greg KH wrote:
-> > That's fine, the issue is that you are the only ones with "duplicate"
-> > commits in the tree that are both tagged for stable, every release.
+On Thu, Jan 16, 2025 at 04:25:35PM +0000, Simon Ser wrote:
+> It's not obvious off-hand which CRTCs will get a page-flip event
+> when using this flag in an atomic commit, because it's all
+> implicitly implied based on the contents of the atomic commit.
+> Document requirements for using this flag and
 > 
-> Isn't a solution as easy as teaching your tooling not to create/accept
-> commits on -next with Cc: stable? This way folks intending to push a
-> change will notice it should go to the fixes branch. And if only
-> afterwards you notice this is a critical fix that should get backported
-> at least the commit that takes more time entering mainline doesn't have
-> the stable tag.
+> Note, because prepare_signaling() runs right after
+> drm_atomic_set_property() calls, page-flip events are not delivered
+> for CRTCs pulled in later by DRM core (e.g. on modeset by
+> drm_atomic_helper_check_modeset()) or the driver (e.g. other CRTCs
+> sharing a DP-MST connector).
 > 
-> Maybe additionally make sure that Fixes: and revert notices only point
-> to commits that are an ancestor.
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+> Cc: David Turner <david.turner@raspberrypi.com>
+> ---
+>  include/uapi/drm/drm_mode.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+> index c082810c08a8..a122bea25593 100644
+> --- a/include/uapi/drm/drm_mode.h
+> +++ b/include/uapi/drm/drm_mode.h
+> @@ -962,6 +962,14 @@ struct hdr_output_metadata {
+>   * Request that the kernel sends back a vblank event (see
+>   * struct drm_event_vblank) with the &DRM_EVENT_FLIP_COMPLETE type when the
+>   * page-flip is done.
+> + *
+> + * When used with atomic uAPI, one event will be delivered per CRTC included in
+> + * the atomic commit. A CRTC is included in an atomic commit if one of its
+> + * properties is set, or if a property is set on a connector or plane linked
+> + * via the CRTC_ID property to the CRTC. At least one CRTC must be included,
+> + * and all pulled in CRTCs must be either previously or newly powered on (in
+> + * other words, a powered off CRTC which stays off cannot be included in the
+> + * atomic commit).
 
-The commit is always an ancestor, the "trick" is which one when the
-ancestor was cherry-picked previously?  That's the real problem here..
+I don't understand all this stuff about powered off crtcs? If 
+someone sucks in a powered off thing then things will generally
+work just fine.
 
-gre k-h
+There is a bit of corner case with the way we internally complete
+the commits for disabled things (not just crtcs, but also planes
+and connectors) and that can apparently happen a bit later than
+the commit completion for the enabled things. That seems to be
+causing a bit of grief for sway which insists on adding all kinds
+of disabled planes to every commit:
+https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13410
+
+-- 
+Ville Syrjälä
+Intel
