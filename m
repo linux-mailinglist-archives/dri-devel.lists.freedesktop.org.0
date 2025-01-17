@@ -2,56 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAF2A1594C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 23:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92AAAA15954
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 23:04:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99D7810EB78;
-	Fri, 17 Jan 2025 22:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C9C310E26E;
+	Fri, 17 Jan 2025 22:04:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Tpre08Gj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I3SwKIvI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A4D210E31E;
- Fri, 17 Jan 2025 22:01:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F286B10E26E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 22:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737151282; x=1768687282;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=2s7LmEwMFtGywT+0pBofXv1L6lTdhyfU+Cyu5biIJ58=;
- b=Tpre08GjKuCDW39J3kXODgMP8B7l1wzV/rRC40UCqxzm2pRzOeVNtdlT
- BS63kvcC3DBUTf1fPcbNCLRlmKIAJJfeIYeoOUtbE2/Hv3rAew5OmU6zy
- RJEvT3xOimCzNKDliAI4vCr6RVmFviTTBoceJTpF5FR6gZRrI140nj+uv
- mcrnSnVZt485AXyILiXKcmO10utQoXO0y9GCR+V0q8hM0EtAWfMS0yRXU
- 1Wg1j5E11K97uRobziTjkY+Hea4mtcJLVrDIgP9vBqwZR6DMLoD1wSxr+
- qsznvQA24ctRTIBoEb28AN5kd28Jtt8AYOnfJUNtjIwl0DG1NSWotJ8rD g==;
-X-CSE-ConnectionGUID: 5U/v7yLcQnO0XTtWOvQ5fA==
-X-CSE-MsgGUID: 3BzT9Dq8R3uZZ/jrpX4YSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37480292"
-X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; d="scan'208";a="37480292"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2025 14:01:21 -0800
-X-CSE-ConnectionGUID: kmOrB0WFS1OXKR5vibH8Fw==
-X-CSE-MsgGUID: QEYrMfhaTvmDEi4ONNbGjw==
+ t=1737151486; x=1768687486;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=0XZfrcqbblf6skoLJGR4rVZli6Qmk9tbEtvNmO1ngbw=;
+ b=I3SwKIvIY/bUstUlc5KCMSVp/n5F/SYWNY+eL4NYyRNxuA26ZorpLkSp
+ oKKkFZ1DjQbyuPXezH/z2VIQfG2Aq1bNHhVwm4gmi3BRjCjwL6P0rm1+L
+ TtZ/2cItQ0pCLrpDRViY2X7S9nDklu5l0/Xkqo1lfKdq0hkztc6IrUZCq
+ tktDQEP69uO/PXXLhwxKGlHpDkHm61HHZh85KhKeMfb8K8H2VKYieT+1k
+ 1lW3IFiyxRx6ik0pRCrqdg3LNtL7NVdJE+IgS+EhC4kb+fSBD4fUS3Efk
+ Fk4qQZMNwe6E1w7BZ51uvggNEqM2jRAF+PtH0oPdQ6uX1r4OUlDy02Alo g==;
+X-CSE-ConnectionGUID: 9YtMRHt5TROAKmxrBNhVJg==
+X-CSE-MsgGUID: M+BLoYzvSKeko/15UKHj2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="49014985"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="49014985"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2025 14:04:45 -0800
+X-CSE-ConnectionGUID: UbYDsmjDQEOkdHMv79hGow==
+X-CSE-MsgGUID: sMqe5D/qQliPcMUqQsuFKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; d="scan'208";a="106469357"
-Received: from vbelgaum-ubuntu.fm.intel.com ([10.1.39.141])
- by fmviesa010.fm.intel.com with ESMTP; 17 Jan 2025 14:01:17 -0800
-From: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH v4] drm/i915/slpc: Add sysfs for SLPC power profiles
-Date: Fri, 17 Jan 2025 13:57:53 -0800
-Message-Id: <20250117215753.749906-1-vinay.belgaumkar@intel.com>
-X-Mailer: git-send-email 2.38.1
+X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; d="scan'208";a="105774286"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 17 Jan 2025 14:04:40 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tYuSD-000Tkx-20;
+ Fri, 17 Jan 2025 22:04:37 +0000
+Date: Sat, 18 Jan 2025 06:04:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ chunkuang.hu@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, p.zabel@pengutronix.de,
+ airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, ck.hu@mediatek.com,
+ jitao.shi@mediatek.com, jie.qiu@mediatek.com,
+ junzhi.zhao@mediatek.com, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, dmitry.baryshkov@linaro.org,
+ lewis.liao@mediatek.com, ives.chenjh@mediatek.com,
+ tommyyl.chen@mediatek.com, jason-jh.lin@mediatek.com
+Subject: Re: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for
+ MT8195/MT8188
+Message-ID: <202501180524.qKnNpITh-lkp@intel.com>
+References: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250113145232.227674-33-angelogioacchino.delregno@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,266 +83,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Default SLPC power profile is Base(0). Power Saving mode(1)
-has conservative up/down thresholds and is suitable for use with
-apps that typically need to be power efficient.
+Hi AngeloGioacchino,
 
-Selected power profile will be displayed in this format-
+kernel test robot noticed the following build warnings:
 
-$ cat slpc_power_profile
+[auto build test WARNING on next-20250113]
+[cannot apply to robh/for-next pza/reset/next linus/master pza/imx-drm/next drm-misc/drm-misc-next v6.13-rc7 v6.13-rc6 v6.13-rc5 v6.13-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  [base]    power_saving
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-display-mediatek-dpi-Add-MT8195-and-MT8188-compat/20250113-225554
+base:   next-20250113
+patch link:    https://lore.kernel.org/r/20250113145232.227674-33-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v5 32/34] drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250118/202501180524.qKnNpITh-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250118/202501180524.qKnNpITh-lkp@intel.com/reproduce)
 
-$ echo power_saving > slpc_power_profile
-$ cat slpc_power_profile
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501180524.qKnNpITh-lkp@intel.com/
 
-  base    [power_saving]
+All warnings (new ones prefixed by >>):
 
-v2: Disable waitboost in power saving profile, update sysfs
-format and add some kernel doc for SLPC (Rodrigo)
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddc_check_and_rise_low_bus':
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:59:36: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      59 |                                    FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_CLOCK_SCL));
+         |                                    ^~~~~~~~~~
+   In file included from ./arch/openrisc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/kernel.h:27,
+                    from include/linux/clk.h:13,
+                    from drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:11:
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c: In function 'mtk_ddcm_read_hdmi':
+>> include/asm-generic/div64.h:183:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     183 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
+     139 |                 rem = do_div(loop_counter, temp_length);
+         |                       ^~~~~~
+   In file included from include/linux/err.h:5,
+                    from include/linux/clk.h:12:
+>> include/asm-generic/div64.h:195:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     195 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
+     139 |                 rem = do_div(loop_counter, temp_length);
+         |                       ^~~~~~
+   include/asm-generic/div64.h:199:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     199 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    u16 * {aka short unsigned int *}
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:139:23: note: in expansion of macro 'do_div'
+     139 |                 rem = do_div(loop_counter, temp_length);
+         |                       ^~~~~~
+   include/asm-generic/div64.h:174:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'u16 *' {aka 'short unsigned int *'}
+     174 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c:207:47: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     207 |                         puc_value[read_idx] = FIELD_GET(DDC_DATA_OUT, val);
+         |                                               ^~~~~~~~~
 
-v3: Update doc with info about power profiles (Rodrigo)
 
-v4: Checkpatch warning and remove extra line (Rodrigo)
+vim +183 include/asm-generic/div64.h
 
-Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 47 ++++++++++++++
- drivers/gpu/drm/i915/gt/intel_rps.c           |  4 ++
- .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h |  5 ++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 65 +++++++++++++++++++
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  1 +
- .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  3 +
- 6 files changed, 125 insertions(+)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  176  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  177  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  178   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  179   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  180  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  181  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  182  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @183  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  184  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  185  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  186  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  187  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  188  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  189  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  190  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  191  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  192  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  193  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  194  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02 @195  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  196  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  197  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  198  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  199  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  200  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  201  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  202   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  203  
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-index d7784650e4d9..1154cd2b7c34 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
-@@ -464,6 +464,45 @@ static ssize_t slpc_ignore_eff_freq_store(struct kobject *kobj,
- 	return err ?: count;
- }
- 
-+static ssize_t slpc_power_profile_show(struct kobject *kobj,
-+				       struct kobj_attribute *attr,
-+				       char *buff)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
-+
-+	switch (slpc->power_profile) {
-+	case SLPC_POWER_PROFILES_BASE:
-+		return sysfs_emit(buff, "[%s]    %s\n", "base", "power_saving");
-+	case SLPC_POWER_PROFILES_POWER_SAVING:
-+		return sysfs_emit(buff, "%s    [%s]\n", "base", "power_saving");
-+	}
-+
-+	return sysfs_emit(buff, "%u\n", slpc->power_profile);
-+}
-+
-+static ssize_t slpc_power_profile_store(struct kobject *kobj,
-+					struct kobj_attribute *attr,
-+					const char *buff, size_t count)
-+{
-+	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
-+	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
-+	char power_saving[] = "power_saving";
-+	char base[] = "base";
-+	int err;
-+	u32 val;
-+
-+	if (!strncmp(buff, power_saving, sizeof(power_saving) - 1))
-+		val = SLPC_POWER_PROFILES_POWER_SAVING;
-+	else if (!strncmp(buff, base, sizeof(base) - 1))
-+		val = SLPC_POWER_PROFILES_BASE;
-+	else
-+		return -EINVAL;
-+
-+	err = intel_guc_slpc_set_power_profile(slpc, val);
-+	return err ?: count;
-+}
-+
- struct intel_gt_bool_throttle_attr {
- 	struct attribute attr;
- 	ssize_t (*show)(struct kobject *kobj, struct kobj_attribute *attr,
-@@ -668,6 +707,7 @@ INTEL_GT_ATTR_RO(media_RP0_freq_mhz);
- INTEL_GT_ATTR_RO(media_RPn_freq_mhz);
- 
- INTEL_GT_ATTR_RW(slpc_ignore_eff_freq);
-+INTEL_GT_ATTR_RW(slpc_power_profile);
- 
- static const struct attribute *media_perf_power_attrs[] = {
- 	&attr_media_freq_factor.attr,
-@@ -864,6 +904,13 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
- 			gt_warn(gt, "failed to create ignore_eff_freq sysfs (%pe)", ERR_PTR(ret));
- 	}
- 
-+	if (intel_uc_uses_guc_slpc(&gt->uc)) {
-+		ret = sysfs_create_file(kobj, &attr_slpc_power_profile.attr);
-+		if (ret)
-+			gt_warn(gt, "failed to create slpc_power_profile sysfs (%pe)",
-+				ERR_PTR(ret));
-+	}
-+
- 	if (i915_mmio_reg_valid(intel_gt_perf_limit_reasons_reg(gt))) {
- 		ret = sysfs_create_files(kobj, throttle_reason_attrs);
- 		if (ret)
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index fa304ea088e4..2cfaedb04876 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -1025,6 +1025,10 @@ void intel_rps_boost(struct i915_request *rq)
- 		if (rps_uses_slpc(rps)) {
- 			slpc = rps_to_slpc(rps);
- 
-+			/* Waitboost should not be done with power saving profile */
-+			if (slpc->power_profile == SLPC_POWER_PROFILES_POWER_SAVING)
-+				return;
-+
- 			if (slpc->min_freq_softlimit >= slpc->boost_freq)
- 				return;
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
-index c34674e797c6..6de87ae5669e 100644
---- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
-+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
-@@ -228,6 +228,11 @@ struct slpc_optimized_strategies {
- 
- #define SLPC_OPTIMIZED_STRATEGY_COMPUTE		REG_BIT(0)
- 
-+enum slpc_power_profiles {
-+	SLPC_POWER_PROFILES_BASE = 0x0,
-+	SLPC_POWER_PROFILES_POWER_SAVING = 0x1
-+};
-+
- /**
-  * DOC: SLPC H2G MESSAGE FORMAT
-  *
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 706fffca698b..e6e373cb5da8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -15,6 +15,34 @@
- #include "gt/intel_gt_regs.h"
- #include "gt/intel_rps.h"
- 
-+/**
-+ * DOC: SLPC - Dynamic Frequency management
-+ *
-+ * Single Loop Power Control (SLPC) is a GuC algorithm that manages
-+ * GT frequency based on busyness and how KMD initializes it. SLPC is
-+ * almost completely in control after initialization except for a few
-+ * scenarios mentioned below.
-+ *
-+ * KMD uses the concept of waitboost to ramp frequency to RP0 when there
-+ * are pending submissions for a context. It achieves this by sending GuC a
-+ * request to update the min frequency to RP0. Waitboost is disabled
-+ * when the request retires.
-+ *
-+ * Another form of frequency control happens through per-context hints.
-+ * A context can be marked as low latency during creation. That will ensure
-+ * that SLPC uses an aggressive frequency ramp when that context is active.
-+ *
-+ * Power profiles add another level of control to these mechanisms.
-+ * When power saving profile is chosen, SLPC will use conservative
-+ * thresholds to ramp frequency, thus saving power. KMD will disable
-+ * waitboosts as well, which achieves further power savings. Base profile
-+ * is default and ensures balanced performance for any workload.
-+ *
-+ * Lastly, users have some level of control through sysfs, where min/max
-+ * frequency values can be altered and the use of efficient freq
-+ * can be toggled.
-+ */
-+
- static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
- {
- 	return container_of(slpc, struct intel_guc, slpc);
-@@ -265,6 +293,8 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
- 	slpc->num_boosts = 0;
- 	slpc->media_ratio_mode = SLPC_MEDIA_RATIO_MODE_DYNAMIC_CONTROL;
- 
-+	slpc->power_profile = SLPC_POWER_PROFILES_BASE;
-+
- 	mutex_init(&slpc->lock);
- 	INIT_WORK(&slpc->boost_work, slpc_boost_work);
- 
-@@ -567,6 +597,34 @@ int intel_guc_slpc_set_media_ratio_mode(struct intel_guc_slpc *slpc, u32 val)
- 	return ret;
- }
- 
-+int intel_guc_slpc_set_power_profile(struct intel_guc_slpc *slpc, u32 val)
-+{
-+	struct drm_i915_private *i915 = slpc_to_i915(slpc);
-+	intel_wakeref_t wakeref;
-+	int ret = 0;
-+
-+	if (val > SLPC_POWER_PROFILES_POWER_SAVING)
-+		return -EINVAL;
-+
-+	mutex_lock(&slpc->lock);
-+	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
-+
-+	ret = slpc_set_param(slpc,
-+			     SLPC_PARAM_POWER_PROFILE,
-+			     val);
-+	if (ret)
-+		guc_err(slpc_to_guc(slpc),
-+			"Failed to set power profile to %d: %pe\n",
-+			 val, ERR_PTR(ret));
-+	else
-+		slpc->power_profile = val;
-+
-+	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
-+	mutex_unlock(&slpc->lock);
-+
-+	return ret;
-+}
-+
- void intel_guc_pm_intrmsk_enable(struct intel_gt *gt)
- {
- 	u32 pm_intrmsk_mbz = 0;
-@@ -728,6 +786,13 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
- 	/* Enable SLPC Optimized Strategy for compute */
- 	intel_guc_slpc_set_strategy(slpc, SLPC_OPTIMIZED_STRATEGY_COMPUTE);
- 
-+	/* Set cached value of power_profile */
-+	ret = intel_guc_slpc_set_power_profile(slpc, slpc->power_profile);
-+	if (unlikely(ret)) {
-+		guc_probe_error(guc, "Failed to set SLPC power profile: %pe\n", ERR_PTR(ret));
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-index 1cb5fd44f05c..fc9f761b4372 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
-@@ -46,5 +46,6 @@ void intel_guc_slpc_boost(struct intel_guc_slpc *slpc);
- void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc);
- int intel_guc_slpc_set_ignore_eff_freq(struct intel_guc_slpc *slpc, bool val);
- int intel_guc_slpc_set_strategy(struct intel_guc_slpc *slpc, u32 val);
-+int intel_guc_slpc_set_power_profile(struct intel_guc_slpc *slpc, u32 val);
- 
- #endif
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-index a88651331497..83673b10ac4e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
-@@ -33,6 +33,9 @@ struct intel_guc_slpc {
- 	u32 max_freq_softlimit;
- 	bool ignore_eff_freq;
- 
-+	/* Base or power saving */
-+	u32 power_profile;
-+
- 	/* cached media ratio mode */
- 	u32 media_ratio_mode;
- 
 -- 
-2.38.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
