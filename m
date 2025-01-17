@@ -2,166 +2,185 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F7DA155E4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 18:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDB49A15671
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 19:22:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C016310EB56;
-	Fri, 17 Jan 2025 17:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF3A10EB66;
+	Fri, 17 Jan 2025 18:22:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Oe2gizet";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a86ez13N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D8F10EB55;
- Fri, 17 Jan 2025 17:43:09 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75DB310EB64;
+ Fri, 17 Jan 2025 18:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737135790; x=1768671790;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=tRZoxyI12662GhMO6GWxDt93Al113DssrqRNLpbd05I=;
- b=Oe2gizetY4ZRrC9kCNfOFSmt7r7JlKVPwrom9Wrk6IT7qe6ubtm4l8QZ
- 7Sp7BxQC0PDUlPX5Nbgmqwz1a8qTUTKwxrNKo0K0anDScssIrquTaQVnY
- RnExk5mo6T2YxgoesCLBnT4To/DuFSVH4wBva+aV52p1vghzf5xB8y/RY
- Uv3IVL28cpfofwbgfLhbahM+E7UnWibG8GTFPPJL+U4F5IFhq+jNHcFyM
- RcUGMnphNEMvNk7BTbEFsloEIWESNk2H0fqVDWp3KaDegrmZMGSKjLKDX
- ZriXq3hu8WfcNvspXKy/W+mbRWdy+GOsbfTmhBbkdv7C28Kj245+rnt4h w==;
-X-CSE-ConnectionGUID: 3Bf4FgETRwyT/3qczvLyDA==
-X-CSE-MsgGUID: RnDVhN2CQsyd/+YsQnzdew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37730015"
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="37730015"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2025 09:43:09 -0800
-X-CSE-ConnectionGUID: 7cPIeO9GRBuGXccsR08yDA==
-X-CSE-MsgGUID: 98ScFGS1RNiuA4z962LbKQ==
+ t=1737138132; x=1768674132;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=A3l2tVR4Nk1mPa+jG5O+36Cir6vofbszfxltC87T8aI=;
+ b=a86ez13Nj2eXU4hWbS99+eZk879tY2kwfLkeKoMi5HKWQL9BXxeo9M8o
+ DTzuiseYQM03CJ2oT40a9k0eczZisxrrQbGPvVesjYDbm/Y++3+4O1Z6R
+ JfmNQ07kVo7T3KeoeQKZjA049HpMN0X11Dd9kd01365aJZtHjymBc4k7a
+ v/ZOzSaNzGq3eljdVBYSBEhKmmKyuAymmQyYDm7IVib8iD5w1B97CEvc+
+ CU3uJ5n9CzdnR8mjr98+duBhkEmlUGka1DEFfClJtbZMQUbH/lcM/VIof
+ mqmIP/ScbE1YPOqxWrxkiN8QxKCG7ERl08oQmgUdosLGl6DXtT46mLjqW w==;
+X-CSE-ConnectionGUID: 2wOCEK28RUeGUaX/V7u8oQ==
+X-CSE-MsgGUID: oYlcBUNnQLSYoZbMWLx6Fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="55128342"
+X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="55128342"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2025 10:22:12 -0800
+X-CSE-ConnectionGUID: nI2jVjLWT42RQRIb2dGnqQ==
+X-CSE-MsgGUID: 6hywvh8NS5mng1cm0qAVlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="105700467"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 17 Jan 2025 09:43:09 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="136765477"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 17 Jan 2025 10:22:11 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Fri, 17 Jan 2025 09:43:08 -0800
+ 15.1.2507.44; Fri, 17 Jan 2025 10:22:11 -0800
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Fri, 17 Jan 2025 09:43:08 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
+ 15.1.2507.44 via Frontend Transport; Fri, 17 Jan 2025 10:22:11 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
  by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 17 Jan 2025 09:43:08 -0800
+ 15.1.2507.44; Fri, 17 Jan 2025 10:22:10 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C8FMhQKIVGFpRmN8bw9yoss99IIDoFEFffuvkeZidmPd1rK6B9TZ91V1FHXjLM72POIzGZmTLPZETXKWeRg0wPLLZ6Y1XVab1o8X7s1x3B/2VxQre8u8YOnKlW73Q5f7EF+ZY81xtIprFYV/ySbZY4eMCe3bRIpJS//+jS1PrP8sVGG3eSuAYYYiBs3Xe4HvCC0QliNJNqVXoHCCZXsg429h/13RMiGP0CyVQh5zZlYC0jEcrstNrZOeZY9sofxIb4AfK4Htl9L5/LfvrwzV9+B95pTwtH+3cb4ibmtyy+nYVRdENZztYLdu+jsxGUisrpbbs62m5BBdyfVuc6m5Ag==
+ b=Uw7FihBSZcUTe9g74hMImY0s4YOZ9r+gghiJV/k/yYgwQf2KYNk9r5bkul4HrpA/yhS1l+n3936Bbjqy4Cf3QPBAaweAD11UIO7nW66qxXBEOAcQVxi/7oRV9KROPB3mzi3lK01BtYreGZkHA9FD5JNv8KEZHMW6PjHwMOZzqgvNsBZOq5S/htPItI9yGqbncLhk/IgXikyZ4kn1W/IuGEJeIPY4eqN6vqV7T1dH5drsqaCI0Jab9UnEUI1pRym6/qBQNM0vfeh7yligvyiIP19lzy6Jdl3uCq3hdq8MO3wokF+AHbEzMJFpM46WibfQfdRJZ0idvSD4M4WRLrkVhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lf1+MYmbIJ+UeAHyTW1oPDoW0KsbhE3Hpz7VVq+ttyY=;
- b=oiPscju3gU/spjHk5X1KohogyP1AZr9mjS8fhh8RzH4P1WDTAzdeegVGhzypyLIqEa38U7qdy4Kkr2p29bGmQCTi/90JgsKkwL7vzaSSEJyLgQNmPE4M+aK9BtbSJQzivnVoHxj4aV7RYW4Txv7SZ/n1SQbYAIp9R1KwDAv8F6bVczOAL13tUm0PRsiZijFk1aPZLx5ZhZYMScDD5I4agTApV2x1WsOVySNNZfrDS0tpQxJVuvt4PlGycHhH1fx7Xs/0AG/W+pcAZ8fhy7he6Qvlncg+dwON8Ys6r4elvO4ZSp2ruBEufeGQUravPeJYoS+zWq2pPXifrw6a93K9zQ==
+ bh=kQAff2Dz3LQvCrGKmh9i6iroo+0Vln5NDE6ggydfULA=;
+ b=rTiW9zAeZwfui/zAaS/OVtVAhQ6xELlOJOP1eXZuzvSe82G5AcT96NYEj9oGF+/2yukQVwFer1ymGBaokJZLrQNquc2tJZODlVwRzZN8SCDJ+YqfYNUyLxxH9Kk1EFPOX5eAsxsWtXXoRKrAervdu0e99PQJXx4I+cgcVqSkJeeU4tBRqD22SUg3NSTva2A08oNlUhHlZJNeAcsXyUrqurz5U5HXPxHv2oMrg0Zmr4mj6X3pz5RNiGSgptw6/i72QeCDUpjkJ0AKaG/9ECib45Lrs6L3sJ4yOBZ36K9UuwsxLF38panGE9xWU0yylrhbywSDtdAVlx1qH2BunWopjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB8282.namprd11.prod.outlook.com (2603:10b6:806:269::11)
- by PH7PR11MB7497.namprd11.prod.outlook.com (2603:10b6:510:270::13)
- with Microsoft SMTP Server (version=TLS1_2,
+Received: from DM4PR11MB7757.namprd11.prod.outlook.com (2603:10b6:8:103::22)
+ by CO1PR11MB5073.namprd11.prod.outlook.com (2603:10b6:303:92::23) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.14; Fri, 17 Jan
- 2025 17:42:53 +0000
-Received: from SN7PR11MB8282.namprd11.prod.outlook.com
- ([fe80::f9d9:8daa:178b:3e72]) by SN7PR11MB8282.namprd11.prod.outlook.com
- ([fe80::f9d9:8daa:178b:3e72%5]) with mapi id 15.20.8356.010; Fri, 17 Jan 2025
- 17:42:52 +0000
-Date: Fri, 17 Jan 2025 12:42:48 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] MAINTAINERS: Also exclude xe for drm-misc
-Message-ID: <Z4qWmBtbg866SOth@intel.com>
-References: <20250117164529.393503-1-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250117164529.393503-1-lucas.demarchi@intel.com>
-X-ClientProxiedBy: MW4PR03CA0338.namprd03.prod.outlook.com
- (2603:10b6:303:dc::13) To SN7PR11MB8282.namprd11.prod.outlook.com
- (2603:10b6:806:269::11)
+ 2025 18:21:55 +0000
+Received: from DM4PR11MB7757.namprd11.prod.outlook.com
+ ([fe80::60c9:10e5:60f0:13a1]) by DM4PR11MB7757.namprd11.prod.outlook.com
+ ([fe80::60c9:10e5:60f0:13a1%4]) with mapi id 15.20.8356.014; Fri, 17 Jan 2025
+ 18:21:55 +0000
+Message-ID: <0302a082-57b9-4335-819c-eb366b0be063@intel.com>
+Date: Fri, 17 Jan 2025 10:21:53 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/i915/slpc: Add sysfs for SLPC power profiles
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+References: <20250110232151.2844865-1-vinay.belgaumkar@intel.com>
+ <Z4mOwZz1tJCxLeP0@intel.com> <0a192f39-0361-4c2c-82c1-1bdc45edaf06@intel.com>
+ <Z4ppRx_hr713Ik1S@intel.com>
+Content-Language: en-US
+From: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>
+In-Reply-To: <Z4ppRx_hr713Ik1S@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0372.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1::17) To DM4PR11MB7757.namprd11.prod.outlook.com
+ (2603:10b6:8:103::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8282:EE_|PH7PR11MB7497:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20778c4c-8889-49dd-6ba7-08dd371e5e2e
+X-MS-TrafficTypeDiagnostic: DM4PR11MB7757:EE_|CO1PR11MB5073:EE_
+X-MS-Office365-Filtering-Correlation-Id: 03487847-5d9e-405e-fc50-08dd3723d25d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rcIlUF8TmQR3KPHc1PcDFXmMztHfPGcZiy5BQE9TEkBiRptsbSfI9dGSGgiz?=
- =?us-ascii?Q?CfyZ1+y90FdqVwUH+OwnbwTIxhrZx8U6aOJ2GTApJBQOFqjv/G3LYzU/2DZs?=
- =?us-ascii?Q?lcYtkVMh7TexQCVLY2mhKzgKL/nvDSThrx7cDqzLCsAi8YgIa5r+fzDaoUvT?=
- =?us-ascii?Q?EUEJMDm0O7YLdaRGcVYtuhGysTbW0YvlhZ/5hIj9V808DGlRvl8CFqgEVXNy?=
- =?us-ascii?Q?lwxjzhCtpGyzIm+G+pVl9eorhOdrT6OOITlSX25sxVCq5+y/YbAjNjp33Zs2?=
- =?us-ascii?Q?rjHNyM4xojYxZL3ylVxcaukOW6MT5WP7/3yMc62DfOjglZK2NG4zvMU3Ne+h?=
- =?us-ascii?Q?rmD5sE5+e50XdByl5Jj0WmbjiSwz01PGZuLomUQw4QRhfmHgo8joNJXYIE4Q?=
- =?us-ascii?Q?Iynliy2aVgIEwzxJrEKG9UvykEG2gTKHqWRil8oB5p/ER8llrDUjMHR/fz5D?=
- =?us-ascii?Q?aB+6pAeR0EO4uYym26Al/gFS6qpzB+OxFPxz8lECL8P3IqzE6v86QkPM4B43?=
- =?us-ascii?Q?hu3QKmBMRUpuC2Ij+llHsRhPcKZ39EnPo2d5o7ObRJ00Uzt9HdSuEnG0GIG/?=
- =?us-ascii?Q?8mLKm4E3kHdWSRQdrazJ6RvSDVuYSRBXntwqziPIYj99SZkFYuqjI9a3Hvdn?=
- =?us-ascii?Q?aFi1Twaj1j2f2kWUZeFBZYTftnOUzaAgd1+LvrIxqgeRT0TCHhWZokvrDy/4?=
- =?us-ascii?Q?AF/lmyFAzqE11n1B0/XAfzARKuCNbJhGli67IyOU+2cCitHuDQ6todwcXZ5+?=
- =?us-ascii?Q?FTEYMR73c/NIbiqJxYogMTTBM3C9OIklhpXb0LhJpDN1B48t8PK2XawUQvFp?=
- =?us-ascii?Q?f8fm0pga9HP0uPDwyua3SiDgNoi29pLAZXdbZDPFseXArNzDv/QAfrZsoRvD?=
- =?us-ascii?Q?bcjqLVktcVitiwLHk3QQsY4YXrLxzbGo0bU4qPe4mRSTGHq1NhOppe+MoWM6?=
- =?us-ascii?Q?fjniqkliN3A2gml6YqjCHV0FiuDxRUvr8Pp5H1Clotyn1b0gMWA6Bu2Cs+ey?=
- =?us-ascii?Q?K33O1o7MucqdxJDRZFlTXTqqgL8ddstxugvX/UxEwGenOl+bFAskeCjc/71F?=
- =?us-ascii?Q?4XcU6dP+fbLrPVv0hDHRhzrX/ZPmUPOo+2DF/7go4S77ePOJtyLKKzF+Gtmm?=
- =?us-ascii?Q?nH1kadGqX+sPCfGyaIp/PLbjrSzTXEX6A5PLdYbrCO/sF896wHdd9MUtUgkP?=
- =?us-ascii?Q?5HRAOhdddMqLjXW22jBnEq3eZo8TNZ2fcKoXlORq7KEyElmzwsGKWFLxCQK8?=
- =?us-ascii?Q?iPEGOsq/3J6kgCryza89M8q/RxfNWrWzKzYcpdaexEiO+uul5+DSzZSUYCfV?=
- =?us-ascii?Q?c3upkVWV8/a2Kuxcv4HrdVuvsGJY0JLejgBH1z4t5bbbOkqEbO6IRvD2ITeC?=
- =?us-ascii?Q?8RyAWSV9DRtSboBrB09SspCF90Xf?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ekFJQzdNNG5MRm9yU1UzM2x4MzdvZC9BY2pFWndQeDRGV3RLemFwTUJTK1M5?=
+ =?utf-8?B?aDhFZGJCSklWcXlFVGZYTFlSUFRlSmNEMDNtZHlnNWRjRlloQlVZS2poTGlz?=
+ =?utf-8?B?K0R0eDdBZmJEeXhVZmdmcTVHNTcvSDM0anMwOVI0NFNsYW1OcUdvMVEvVm5j?=
+ =?utf-8?B?WG5WNVJuTGxOOUFKMkJsNTZLZThKQnVyRDFyTklwaWFBMFBDTGhpb0tSQTIy?=
+ =?utf-8?B?QjZqY0xvZ2E0USttQ0NYcVpRbXFEWVUybHV1RlhKRUJNbm5yVmVnRDJodDhs?=
+ =?utf-8?B?U1FwcVBCSzhiQnJMZVdsMzgxeXZFL2h0M0JDeGZ0YXI5SkgzN1BIRFlyUmpk?=
+ =?utf-8?B?dGUzaHVCZGttSWlEbFdVdTJKVHp1L2dsL1JxbXFyMDVITjBJamNrb0JMOEFH?=
+ =?utf-8?B?YSs5MWpvRjdUUlBxbjdaTnlkV1drRW5BYVpPbXlwUHNubURYU2JzRVc2bHpH?=
+ =?utf-8?B?YjlxcHZmVDBsUnUvT3dLYXFSWlk3K1ZMVzdhTnBRNm9jUEVGYjF1MkNyVHVZ?=
+ =?utf-8?B?UU5ZWUF1WXowZVR6UmFDNVBGVktORXppNm1iQjlXRXJCWWxtWHlHWnJtTmZD?=
+ =?utf-8?B?WldFR1BkdVFPSWVacEVpZ2tLaGJ6djZvOGJmNlNwWXhXTFJJY1lQSk5IdkMv?=
+ =?utf-8?B?bHVjRmZLbkFFQjlyVzNrMW9veWFwMG9CdHpVSTh1RjJqdUw4NHFJOFVjOERC?=
+ =?utf-8?B?T0tWRDdON3dheUZFcnEwaEY4RlNrbnRCaWhGc3d5dFdKb1dIay9nTC9pdUV1?=
+ =?utf-8?B?UmgzLytrWlpUUXVYd2RvS1hHVkpFVUQ3UStRSmZVWHl1enVDbWZDN2dSSnFv?=
+ =?utf-8?B?WmN2bzNIQmhueW0rSHVya0toLzZJbzFVM1BEZnNldlZjMjl1TGg3aW1WWm9t?=
+ =?utf-8?B?ejdxZjExdFhxSDg2MTdoQ1d2WWdaa0pLNXJTdHdTTEV6RjBuZWZWaXJGWXFh?=
+ =?utf-8?B?MFh4T3VacU5JQzNma2JtcTQ1cVQya1BoeXA4VVZSUjlVUHpXaDVUTmJFcUR6?=
+ =?utf-8?B?SnBtQ1o1dkd5dE1OZ2p4dzZzV3duUE9uYVRFekFNemczcUlHdGNWWFF4WHZS?=
+ =?utf-8?B?ZHRYYkdvQWJQVGhvS29lYlBpazhxR21CUllxdkFrMDZkaFUwMXYzSnZma013?=
+ =?utf-8?B?anZTT3BpZ0svblNuMytwdGV0UTJYT3dyUGVDamIrSnVzOFBWVDBXcEZZeC90?=
+ =?utf-8?B?VmI0MGdCaTRjd05VYjBKcUFxWkpZeU9lWC95SytxRkpSaHpVU0RXUmpPUWJX?=
+ =?utf-8?B?M3cxUUQ4NHFlbUNtb2doeVV6aEJ5Sk5wVDVPN09LVFFnby9sT09wRTZsaU9u?=
+ =?utf-8?B?c1hpSnVyYkpkV0h5eVN3VWhLaHRFcUd5N09POTh1a1hDV2srWTR1blBEak03?=
+ =?utf-8?B?M0YvYXBTa28zK3pqenNJTTU4cWRyT2FRM1QvRWQ2Q0YyemliWVc4YjRlUFFa?=
+ =?utf-8?B?QWoxR0VmaXorYlBBMlBEM1FjTmpTZDhGa2JJQUduWmJqT2VFdWJWbG9tL1dE?=
+ =?utf-8?B?V3hwN3I0aDdpa2gyY2F2eXd4N0hsTk9QN0w5aE8xbEdjVlIzUk9CK2RmYUJG?=
+ =?utf-8?B?R2c5cXpkeit4QWhmWWx5aXovN29LUXIrSXZOa2Q5VmcxZTVyNHlBa1VrZUNB?=
+ =?utf-8?B?NDBlbHdtSWtvc3VlcHNUZzJwMkFFcmg1c3JreHpKNzlFdXMzemdzdHI5aU9y?=
+ =?utf-8?B?ZDgycTBpTVlEMU5RTkU0cW9EelI4S3FhSkE1TjZXQmQ2K0ZtSmpseEtIWmI4?=
+ =?utf-8?B?K1IyZzFHRThVTEZWck9EeUNSRkd5WGpSVHMrQm9QLzNyNWhCc2hHZTJBK0NW?=
+ =?utf-8?B?VktScW9Db0JzOTNzQnMzRzRzNExnRTJoRE9JRWZoZDVBWVErV21HQWdRVVpi?=
+ =?utf-8?Q?DJYReieT1Uvn8?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR11MB8282.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB7757.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?15cvT2KivHSuJVF7XZLrDm5WvAir/3dKZo7JGAxEQEdo9AM3TZkI/Qh/Fu9+?=
- =?us-ascii?Q?AmVOirknlYpAwzrZ8abl8jz5bsidXEhNnMMDSLFLGiRzUV4Dp4uKMXha1P03?=
- =?us-ascii?Q?5UUEWD55lc5VisXIuBy/m7zvK5eNFn4Z4ret9pcYH8mD8iuzMpu07zrYULOP?=
- =?us-ascii?Q?ARDWE2TQwIsU2dR4Qy0tgdK6FfHtclR8NiTygnZ+7P3U2otoRveK5sA68TWa?=
- =?us-ascii?Q?9P4eoONqRlSGJTC6tORiM8OqOvter0GJL7K6sZfa5JqLnaHYmvBbiwXHQVhK?=
- =?us-ascii?Q?MaTK3ifPtpY4VJxPiSfDUDe7BXwA8OxpQRyXMdRqTK5Gx4jvqEnSwreCex0d?=
- =?us-ascii?Q?ihQctAIq2wUh2KNwSNDOPxtJJY0LFdxIKx2e3f0z6M5ac3X2INkcHjd9lX7m?=
- =?us-ascii?Q?cBEA7WWgEHifih+C7P6Of99OjYYKswSjmmwCehG2zTkkag5dinN2olUcBs7t?=
- =?us-ascii?Q?U+3+ZKrDbMXdJYrTlQC3H+oSDn76j7aa3Z5uEpqB86T5R5hjfJqMvQSBVOEA?=
- =?us-ascii?Q?CTrz98dysInD3pCbMRjenBRRl7D5GMX0j/ICkfUhHNoo14zaPL/DaNXcVP9R?=
- =?us-ascii?Q?xQUW5Q4zm1aq1n8H6tvWJ6wsgLdwxDu1x66QgjGWOfVnz2yJHc41gf+0SLNR?=
- =?us-ascii?Q?F4xO/4Td0XcHNBmTMn7CHZrnzZIsPgobDQ+6C3zVW8GWv53q0pwUuRFoq0nZ?=
- =?us-ascii?Q?SJbiWl8PisH2PDAVBSsSHu1ITFGatbWjc7dlorQFmSjZHXyzyKJFrGKmvS49?=
- =?us-ascii?Q?IVDV389vTT0gs6zfv5choF0E4gmN7m5YasFGQWl+1eE5RGqeNs9JJyzDQLpU?=
- =?us-ascii?Q?6iz2ibcitSei+4u8S71f9nepch6x5aRev/voZIDPQ+uSzGKiDmspWQECIUsh?=
- =?us-ascii?Q?1Ftrq8kYEfpmc4XNPgqSYqFtcsJ9twQNGWnrU0bJzvETIwlZ1Zjy2eLTssD4?=
- =?us-ascii?Q?g+pwgKL3x92Ba2/Jx/U+BOKwiVUJt4wScxpJvISJ39syYH1l3K4NJ2AME9c/?=
- =?us-ascii?Q?y5jLn8+RAjJiYKEc/SGAh5+6lIJOCoTwEKdx+mHl4veflxPeWWRb3Cs/aOCd?=
- =?us-ascii?Q?4EHD+SZh9QG8d00LOjWaWVP1Ta8ThQJnQNOHs/RcDYTeF7MAO7RFHvZMRW9l?=
- =?us-ascii?Q?iVn3pqwqBQjs0+a4reniURebfGf2ZdHHvsVS7NTxZOjSx6WxloPtDMn4y4y6?=
- =?us-ascii?Q?g/tjieTnU86b9UsMFhO2H0NFAQhyOKsz8uf/p8O+DSscSTgbYryk8k8NAmmi?=
- =?us-ascii?Q?3ft4tyHZkkSBKruRdTS09MIQ4yRCwCmz2Ufuht9ns2kZbBxDpHd+LKXQjOXh?=
- =?us-ascii?Q?8PMuQGJ5MIdYlvhFjfcjC/FOkotmGX/G0fLvm/seQC1Mc1CqwY9pJf+Y0cUJ?=
- =?us-ascii?Q?nqOsxKWgsz37O0kp2AaD+87TlfHGjwC52UodODEcpYWTqgV9pp1KlLif/5EN?=
- =?us-ascii?Q?j1TSksRPuiB/MXpIM8rayj5FPwafdB5uO4JZZhYTLqzUTHZDZUQHgEOz5PTV?=
- =?us-ascii?Q?Hgae9sdMGZGCztvvMPT/grCJ99A1fGgcKDjbImrbhr3Fcr9Wfvdvvsl+qnlF?=
- =?us-ascii?Q?aoDA0wyNjU5ghjRGYM9gfa/L1q7IJ5CnbpXKDabKkt9EaCFw4I4jTOiKXPxQ?=
- =?us-ascii?Q?aA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20778c4c-8889-49dd-6ba7-08dd371e5e2e
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8282.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aENJalBmaUNXZkl0MDV1SDhGRnJTNFViRmVKbXdwRUZJMm90K1ZtekdPUVdo?=
+ =?utf-8?B?czh6UnZBUjdFNDVBejRLZEhMQ0hQcjl3MkRjSjIzci9CZE5CTmdaMFFnSnVT?=
+ =?utf-8?B?cFNXR25GZ21OUHR1TFNkaXk5SG91V2VxWVBVQ2FZa1IzMWRxQ0VvYnZTTHEr?=
+ =?utf-8?B?NHlxQmlVZ2lHQzNSSzlGRFlsVHpYYktHNC9CM0lDM3l5U0RFY04rOFczQnVr?=
+ =?utf-8?B?MlZrbU9IQU9vSnVpTGQyYnI3QjR5b0lzR2pENVk0aHdqTGxRbDFjczFEL2ZZ?=
+ =?utf-8?B?anhMWC9OeEhObU8vY0U4dlpWTkZNcTQ0QXdPZWluQW5OZ1M2OXlldFF0bzNr?=
+ =?utf-8?B?Smx2WnU1SndsMUdsYkdKakwrMFE4WWJMMXFVTkJKSHlEMUthMUJiOWd4TzN6?=
+ =?utf-8?B?QXErWFdJOFpRa29ZVUJEWFVJbzRVTUtzRUJEMUtVOE1pTS9xQlZmQmllRUFZ?=
+ =?utf-8?B?WFF3a3c0K1ZZeHpkRGhoVjRPbFdGWW51SWZvNGpBZVdvTjFHcVUzQUdXRlVT?=
+ =?utf-8?B?RzFFQmpvRlRJc1F1ZlZBVzRCQzVCNno3a0UrV2IzbVBJeXB2KzBJMU9lNlE3?=
+ =?utf-8?B?K2ZjejZtOHduUmptSldxSG9od3RuclRaNFRGOU1qY1B3d0ZEUDFSSnAyL1pS?=
+ =?utf-8?B?eFJVWlp5Mk9Gc3QvRUIxSVduYWxKYlorY2hid2E4cmhvbkxPVHp6WFBTQjVy?=
+ =?utf-8?B?ck8vajJpYldxSUpvYWZycGNzQWxrMEg2dTl6NmtvYW9MU3BjV1cwVWxWTHlU?=
+ =?utf-8?B?SStwemt6RHRxd1FWYTZJSDA0bE1XdDNMVW9QaXNwZ3p6WUVVNGh5VHBkTnJa?=
+ =?utf-8?B?NFlKeEJ2Ti9ZZUFCNitmSXVMbHpRTDRRY0M4ZUpzeFR3WFBvazZFbnAybjJu?=
+ =?utf-8?B?cGc2TE1UL0VZYUZua0dVNmorZ2dIUHRWaTRsSC94TXphNnlIMm8zMlh6WDJx?=
+ =?utf-8?B?WmQyZFc4Sm5JSGc4ck1lQ1lJam56d2Fna3hTSzVPQTNGeTFhRkJsUjQyYUNm?=
+ =?utf-8?B?QUorTWRhMmRFUHg3MWIyemN1bzV5L24wbGUxdWkxb1F0cjROdTJveXZxQUdk?=
+ =?utf-8?B?MlVvekZrU0RNUi8xT3djcDczTkg1UUNhckZJUUQ3WHNYWmdPSTE4TnpLeGZk?=
+ =?utf-8?B?Y0Fjb25iWnpzUVdoT3FCMmpFblpPOENsYXhXV1BWdERNQk1rYmlUTEY4ZVBW?=
+ =?utf-8?B?S21TdlRidVRFUE9PRFAwS1hNaVh3L0ppZGd4ekdPZDBaTTUvUUF2ZjFUTzY0?=
+ =?utf-8?B?a1hXcTZONUxrb0p6dGRYRGlEaFg2TWdmblJZSmYrMUN0U3R0enoyNmcxZ2I2?=
+ =?utf-8?B?Wlp5bkFXSWc0dHlGdUo0cnkrZnNYdzZQR2ZrRExrRUZWU2tRVmpxTUplNklx?=
+ =?utf-8?B?K2MyZHJQT0IreHdCaVlvRkdYa0FLZ2YzK2ZGd2RGVEc0bHJTWXdUNW0rRXRp?=
+ =?utf-8?B?WHNleW5NeTFjZk1oRk1raVRKN3JZK2paVU5GVFZFWk9lTDlpR0ZsUDhUZ2Rp?=
+ =?utf-8?B?UnBOc1kwNXlzSnlIN1FoSTd5T1UzRjBWejZ0ZjZabmduRW5zZ1BCemg1OWJx?=
+ =?utf-8?B?OThQSzl5ZkRJSHhtWlU5MEhTMllKUUR6aWVsekJoYmtnREgvcVZJRlF0UGpM?=
+ =?utf-8?B?bFlGUFoxTWk4M1Y4KzBPU1RaVzl3YStVck01dWlEUVhnTnRGeU9oeWVLc3RH?=
+ =?utf-8?B?a1RLVzZMUFhGdGZnbE5WRW50V29LN1Y5ZGxDWk85dXlrRTNaYkVKeWZkYnZN?=
+ =?utf-8?B?cjE2ancwUFUrY0dhVTVFNU9XVjdiOFFaS3ZYQkhGVURGWjdFSWZrenp5TGtM?=
+ =?utf-8?B?SHNDNjkzUVpydFZkTkc2TXlmWWw2akRBZGlpNUZRMmpqcHdSUHA2em1PcTVU?=
+ =?utf-8?B?cXI1ZDExSmFDc3JkcndlekZwbUZjTzQvcjF5U1NEblFXNXU3NzhRZXJKRHR4?=
+ =?utf-8?B?T0ZEU0J3bXUwckpzTDBIR3A4eFJjNkhzR3pVenVUcElLK0xqVktmOGplWlpH?=
+ =?utf-8?B?TFFMYnRuNm4vNDJIOTM5aTRYekhwM3JEK2hYQTdXdE1lQ01QUC9iOCsxV1NL?=
+ =?utf-8?B?dVUyUkpxZlVRT25Sc0JOU0tiOXhFWElzV0oxMzlFMVhBRGwxUlJLaisrRmRY?=
+ =?utf-8?B?eFppQStjdy96U0ZhUVNKTjlVTzk0ZmZ3eDU3ZFdtcUtpaVIyclJwdDNFTEtz?=
+ =?utf-8?B?bnc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03487847-5d9e-405e-fc50-08dd3723d25d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7757.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 17:42:52.7945 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 18:21:55.1431 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WIKxgT24rDF4/8juqGeci7sIKM3XgxtHYqXWYfgl6NPOvqflSuSLy9LxqhZ5Wi0+7U9uiHf43PWm4YQBAKrgxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7497
+X-MS-Exchange-CrossTenant-UserPrincipalName: gIYOBnwLHhbjQvuj3T/UWt7vSW6eeIjeKd+nQ1fEu7TkPKo1FSqfCZzjOGz4omfWcTEE/lNp3qEF9Ur7H9ZZEJ4ieFGhwo5v0KwMpbAM8Zo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5073
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -178,36 +197,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2025 at 08:45:29AM -0800, Lucas De Marchi wrote:
-> When the xe driver was added, it didn't extend the exclude entries for
-> drm-misc, as done in commit 5a44d50f0072 ("MAINTAINERS: Update drm-misc
-> entry to match all drivers"). Exclude it like is done for i915 and other
-> drivers with dedicated maintainers.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d32d0a9428234..30d8e47a0e5f3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7606,6 +7606,7 @@ X:	drivers/gpu/drm/nouveau/
->  X:	drivers/gpu/drm/radeon/
->  X:	drivers/gpu/drm/renesas/rcar-du/
->  X:	drivers/gpu/drm/tegra/
-> +X:	drivers/gpu/drm/xe/
 
-my bad! I honestly had never noticed this exclude block before...
+On 1/17/2025 6:29 AM, Rodrigo Vivi wrote:
+> On Thu, Jan 16, 2025 at 03:51:03PM -0800, Belgaumkar, Vinay wrote:
+>> On 1/16/2025 2:57 PM, Rodrigo Vivi wrote:
+>>> On Fri, Jan 10, 2025 at 03:21:51PM -0800, Vinay Belgaumkar wrote:
+>>>> Default SLPC power profile is Base(0). Power Saving mode(1)
+>>>> has conservative up/down thresholds and is suitable for use with
+>>>> apps that typically need to be power efficient.
+>>>>
+>>>> Selected power profile will be displayed in this format-
+>>>>
+>>>> $ cat slpc_power_profile
+>>>>
+>>>>     [base]    power_saving
+>>>>
+>>>> $ echo power_saving > slpc_power_profile
+>>>> $ cat slpc_power_profile
+>>>>
+>>>>     base    [power_saving]
+>>>>
+>>>> v2: Disable waitboost in power saving profile and updated sysfs
+>>>> format and add some kernel doc for SLPC (Rodrigo)
+>>>>
+>>>> Cc: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
+>>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>>> Signed-off-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c   | 47 +++++++++++++++
+>>>>    drivers/gpu/drm/i915/gt/intel_rps.c           |  4 ++
+>>>>    .../drm/i915/gt/uc/abi/guc_actions_slpc_abi.h |  5 ++
+>>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c   | 60 +++++++++++++++++++
+>>>>    drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h   |  1 +
+>>>>    .../gpu/drm/i915/gt/uc/intel_guc_slpc_types.h |  3 +
+>>>>    6 files changed, 120 insertions(+)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+>>>> index d7784650e4d9..83a7cc7dfbc8 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+>>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_sysfs_pm.c
+>>>> @@ -464,6 +464,45 @@ static ssize_t slpc_ignore_eff_freq_store(struct kobject *kobj,
+>>>>    	return err ?: count;
+>>>>    }
+>>>> +static ssize_t slpc_power_profile_show(struct kobject *kobj,
+>>>> +				       struct kobj_attribute *attr,
+>>>> +				       char *buff)
+>>>> +{
+>>>> +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+>>>> +	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
+>>>> +
+>>>> +	switch (slpc->power_profile) {
+>>>> +	case SLPC_POWER_PROFILES_BASE:
+>>>> +		return sysfs_emit(buff, "[%s]    %s\n", "base", "power_saving");
+>>>> +	case SLPC_POWER_PROFILES_POWER_SAVING:
+>>>> +		return sysfs_emit(buff, "%s    [%s]\n", "base", "power_saving");
+>>> I had thought about something generic like kernel/power/main.c, but that is
+>>> indeed not needed since we do only have 2 options. This came out cleaner
+>>> than I though, although not generic...
+>>>
+>>>> +	}
+>>>> +
+>>>> +	return sysfs_emit(buff, "%u\n", slpc->power_profile);
+>>>> +}
+>>>> +
+>>>> +static ssize_t slpc_power_profile_store(struct kobject *kobj,
+>>>> +					struct kobj_attribute *attr,
+>>>> +					const char *buff, size_t count)
+>>>> +{
+>>>> +	struct intel_gt *gt = intel_gt_sysfs_get_drvdata(kobj, attr->attr.name);
+>>>> +	struct intel_guc_slpc *slpc = &gt->uc.guc.slpc;
+>>>> +	char power_saving[] = "power_saving";
+>>>> +	char base[] = "base";
+>>>> +	int err;
+>>>> +	u32 val;
+>>>> +
+>>>> +	if (!strncmp(buff, power_saving, sizeof(power_saving) - 1))
+>>>> +		val = SLPC_POWER_PROFILES_POWER_SAVING;
+>>>> +	else if (!strncmp(buff, base, sizeof(base) - 1))
+>>>> +		val = SLPC_POWER_PROFILES_BASE;
+>>>> +	else
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	err = intel_guc_slpc_set_power_profile(slpc, val);
+>>>> +	return err ?: count;
+>>>> +}
+>>>> +
+>>>>    struct intel_gt_bool_throttle_attr {
+>>>>    	struct attribute attr;
+>>>>    	ssize_t (*show)(struct kobject *kobj, struct kobj_attribute *attr,
+>>>> @@ -668,6 +707,7 @@ INTEL_GT_ATTR_RO(media_RP0_freq_mhz);
+>>>>    INTEL_GT_ATTR_RO(media_RPn_freq_mhz);
+>>>>    INTEL_GT_ATTR_RW(slpc_ignore_eff_freq);
+>>>> +INTEL_GT_ATTR_RW(slpc_power_profile);
+>>>>    static const struct attribute *media_perf_power_attrs[] = {
+>>>>    	&attr_media_freq_factor.attr,
+>>>> @@ -864,6 +904,13 @@ void intel_gt_sysfs_pm_init(struct intel_gt *gt, struct kobject *kobj)
+>>>>    			gt_warn(gt, "failed to create ignore_eff_freq sysfs (%pe)", ERR_PTR(ret));
+>>>>    	}
+>>>> +	if (intel_uc_uses_guc_slpc(&gt->uc)) {
+>>>> +		ret = sysfs_create_file(kobj, &attr_slpc_power_profile.attr);
+>>>> +		if (ret)
+>>>> +			gt_warn(gt, "failed to create slpc_power_profile sysfs (%pe)",
+>>>> +				    ERR_PTR(ret));
+>>>> +	}
+>>>> +
+>>>>    	if (i915_mmio_reg_valid(intel_gt_perf_limit_reasons_reg(gt))) {
+>>>>    		ret = sysfs_create_files(kobj, throttle_reason_attrs);
+>>>>    		if (ret)
+>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+>>>> index fa304ea088e4..2cfaedb04876 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+>>>> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+>>>> @@ -1025,6 +1025,10 @@ void intel_rps_boost(struct i915_request *rq)
+>>>>    		if (rps_uses_slpc(rps)) {
+>>>>    			slpc = rps_to_slpc(rps);
+>>>> +			/* Waitboost should not be done with power saving profile */
+>>>> +			if (slpc->power_profile == SLPC_POWER_PROFILES_POWER_SAVING)
+>>>> +				return;
+>>> hmmm... I'm afraid this is not enough... Although I just noticed that we
+>>> still have a problem for the low context strategy.
+>>>
+>>> Please notice the intel_display_rps_boost_after_vblank...
+>> boost_after_vblank() also ends up calling intel_rps_boost(), so it will skip
+>> correctly whenever the power saving profile is being used. The only extra
+>> thing is an additional work queue addition, I guess. We could avoid that.
+> hmm, that is better than I thought then... although it is probably good to
+> ensure we don't add an extra queue...
+> But also, shouldn't we ensure that the boost counter goes immediatelly to zero
+> and that we really immediatelly stop request the boost freq when we set this
+> mode? or that is too fast that we shouldn't bother?
 
-at least now I understand why my inbox has more drm items nowadays :)
+There are 2 workqueues at play here - one from intel_display_rps_boost() 
+and one where we place boost requests in a queue on the rps side. We 
+check for slpc level criteria(power profile, current min etc.) as well 
+as context level ones (low-latency), we could split the slpc level ones 
+out into another function. It is better to keep all the context related 
+ones in the same intel_rps_boost() function, I think.
 
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+I don't think we should set the boost counter to 0. That is per context, 
+so could be needed for something that is in-flight.
 
->  
->  DRM DRIVERS FOR ALLWINNER A10
->  M:	Maxime Ripard <mripard@kernel.org>
-> -- 
-> 2.48.0
-> 
+Thanks,
+
+Vinay.
+
+>
+>>> So we probably need something like these:
+>>> https://github.com/rodrigovivi/linux/commit/42e24a146239a1b950ed047f619f334f5205ae8a
+>>>
+>>> other than that I believe this is good, thanks for adding this
+>>>
+>>>> +
+>>>>    			if (slpc->min_freq_softlimit >= slpc->boost_freq)
+>>>>    				return;
+>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+>>>> index c34674e797c6..6de87ae5669e 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+>>>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
+>>>> @@ -228,6 +228,11 @@ struct slpc_optimized_strategies {
+>>>>    #define SLPC_OPTIMIZED_STRATEGY_COMPUTE		REG_BIT(0)
+>>>> +enum slpc_power_profiles {
+>>>> +	SLPC_POWER_PROFILES_BASE = 0x0,
+>>>> +	SLPC_POWER_PROFILES_POWER_SAVING = 0x1
+>>>> +};
+>>>> +
+>>>>    /**
+>>>>     * DOC: SLPC H2G MESSAGE FORMAT
+>>>>     *
+>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>>> index 706fffca698b..bee78467d4a3 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
+>>>> @@ -15,6 +15,29 @@
+>>>>    #include "gt/intel_gt_regs.h"
+>>>>    #include "gt/intel_rps.h"
+>>>> +/**
+>>>> + * DOC: SLPC - Dynamic Frequency management
+>>>> + *
+>>>> + * Single Loop Power Control is a GuC based algorithm which manages
+>>>> + * GT frequency based on how KMD initializes its parameters. SLPC is
+>>>> + * almost completely in control after initialization except for the
+>>>> + * waitboost scenario.
+>>>> + *
+>>>> + * KMD uses concept of waitboost to ramp frequency up to RP0 when
+>>>> + * there are pending submissions. The addition of power profiles adds
+>>>> + * another level of control to these mechanisms. When we choose the power
+>>>> + * saving profile, SLPC will use conservative thresholds to ramp frequency,
+>>>> + * thus saving power. KMD will disable waitboosts when this happens to aid
+>>>> + * further power savings. The user has some level of control through sysfs
+>>>> + * where min/max frequencies can be altered and the use of efficient freq
+>>>> + * can be modified as well.
+>>>> + *
+>>>> + * Another form of frequency control happens through per context hints.
+>>>> + * A context can be marked as low latency during creation. That will ensure
+>>>> + * that SLPC uses an aggressive frequency ramp when that context is active.
+>>>> + *
+>>> Thanks for adding the doc!
+>>> but now I'm missing the documentation of these new profile strategies in here...
+>> ok, will call it out specifically.
+>>
+>> Thanks,
+>>
+>> Vinay.
+>>
+>>>> + */
+>>>> +
+>>>>    static inline struct intel_guc *slpc_to_guc(struct intel_guc_slpc *slpc)
+>>>>    {
+>>>>    	return container_of(slpc, struct intel_guc, slpc);
+>>>> @@ -265,6 +288,8 @@ int intel_guc_slpc_init(struct intel_guc_slpc *slpc)
+>>>>    	slpc->num_boosts = 0;
+>>>>    	slpc->media_ratio_mode = SLPC_MEDIA_RATIO_MODE_DYNAMIC_CONTROL;
+>>>> +	slpc->power_profile = SLPC_POWER_PROFILES_BASE;
+>>>> +
+>>>>    	mutex_init(&slpc->lock);
+>>>>    	INIT_WORK(&slpc->boost_work, slpc_boost_work);
+>>>> @@ -567,6 +592,34 @@ int intel_guc_slpc_set_media_ratio_mode(struct intel_guc_slpc *slpc, u32 val)
+>>>>    	return ret;
+>>>>    }
+>>>> +int intel_guc_slpc_set_power_profile(struct intel_guc_slpc *slpc, u32 val)
+>>>> +{
+>>>> +	struct drm_i915_private *i915 = slpc_to_i915(slpc);
+>>>> +	intel_wakeref_t wakeref;
+>>>> +	int ret = 0;
+>>>> +
+>>>> +	if (val > SLPC_POWER_PROFILES_POWER_SAVING)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	mutex_lock(&slpc->lock);
+>>>> +	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+>>>> +
+>>>> +	ret = slpc_set_param(slpc,
+>>>> +			     SLPC_PARAM_POWER_PROFILE,
+>>>> +			     val);
+>>>> +	if (ret)
+>>>> +		guc_err(slpc_to_guc(slpc),
+>>>> +			"Failed to set power profile to %d: %pe\n",
+>>>> +			 val, ERR_PTR(ret));
+>>>> +	else
+>>>> +		slpc->power_profile = val;
+>>>> +
+>>>> +	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
+>>>> +	mutex_unlock(&slpc->lock);
+>>>> +
+>>>> +	return ret;
+>>>> +}
+>>>> +
+>>>>    void intel_guc_pm_intrmsk_enable(struct intel_gt *gt)
+>>>>    {
+>>>>    	u32 pm_intrmsk_mbz = 0;
+>>>> @@ -728,6 +781,13 @@ int intel_guc_slpc_enable(struct intel_guc_slpc *slpc)
+>>>>    	/* Enable SLPC Optimized Strategy for compute */
+>>>>    	intel_guc_slpc_set_strategy(slpc, SLPC_OPTIMIZED_STRATEGY_COMPUTE);
+>>>> +	/* Set cached value of power_profile */
+>>>> +	ret = intel_guc_slpc_set_power_profile(slpc, slpc->power_profile);
+>>>> +	if (unlikely(ret)) {
+>>>> +		guc_probe_error(guc, "Failed to set SLPC power profile: %pe\n", ERR_PTR(ret));
+>>>> +		return ret;
+>>>> +	}
+>>>> +
+>>>>    	return 0;
+>>>>    }
+>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+>>>> index 1cb5fd44f05c..fc9f761b4372 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.h
+>>>> @@ -46,5 +46,6 @@ void intel_guc_slpc_boost(struct intel_guc_slpc *slpc);
+>>>>    void intel_guc_slpc_dec_waiters(struct intel_guc_slpc *slpc);
+>>>>    int intel_guc_slpc_set_ignore_eff_freq(struct intel_guc_slpc *slpc, bool val);
+>>>>    int intel_guc_slpc_set_strategy(struct intel_guc_slpc *slpc, u32 val);
+>>>> +int intel_guc_slpc_set_power_profile(struct intel_guc_slpc *slpc, u32 val);
+>>>>    #endif
+>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+>>>> index a88651331497..83673b10ac4e 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc_types.h
+>>>> @@ -33,6 +33,9 @@ struct intel_guc_slpc {
+>>>>    	u32 max_freq_softlimit;
+>>>>    	bool ignore_eff_freq;
+>>>> +	/* Base or power saving */
+>>>> +	u32 power_profile;
+>>>> +
+>>>>    	/* cached media ratio mode */
+>>>>    	u32 media_ratio_mode;
+>>>> -- 
+>>>> 2.38.1
+>>>>
