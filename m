@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE23A1555D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 18:10:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24576A15563
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 18:10:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C973810EB48;
-	Fri, 17 Jan 2025 17:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9EA10EB4E;
+	Fri, 17 Jan 2025 17:10:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="XTxdI/te";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ateTRC57";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 014CA10EB48
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 17:10:11 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H9K0Gf011617;
- Fri, 17 Jan 2025 17:10:06 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2BD10EB49
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 17:10:12 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50H9nIjc019569;
+ Fri, 17 Jan 2025 17:10:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- VPLIqVL8ZjdJpqW8PLWpdf6TK1aQ+tquCYdDMspBgjI=; b=XTxdI/tet9V0dkiT
- 8S24I/5UuAERrfLG8PoOyciVvxvSmhNiED2iK4uw5Ge6+OzAyRs3wRxRXhoPsAFw
- 7A8V+ssTz0wkXavpNt+4h7cxIWMO3OMaent+77yur4iknePXihRiYmPzrjfhVhj7
- bMx2U8x5q1A5BArum354C/V3yj0Tlzq/0xnC9Q4jbqakdu7/r+R/lz8mtXBbZSiq
- BVAHJSK1BWwaDPUXr9AsqFcasCClvXGYNCUVUfptIW4RDoUflx7h54CybTLYm5M8
- M3WWgVFLU2OHUeYAirCyOmCUOyosNx4tgYP+lfDC+oVwoNt2+iPLlXRDES6uFcfb
- noI98w==
+ sFpV9/ivQyWf5FYff39WzHqyc9CEfVl3LTbD3VyYAW8=; b=ateTRC57Myu7JWkE
+ Snt+Fq9IQHpNV8cngQb2mZJYJ5ICEMFL1QFnrqfFgGphdorBQx/dFvzkgTcaiB43
+ szKJL8FslDYE54/jW5Tfhf/2v5lExthXEtTVUnS3F0EMqs7JI/7niyhCyTJZAVB/
+ 4/TgNyAZYwhiwzh6RRZyR5LiqIWc/wAE6hfKBoAYdSUIEiF8rcdntMw4mUrdh0Q9
+ lk7x2tIUdvFgfDM1sITsPM6J6ydmnSDd5pW2NVx1v2RsWc6UYRx9uXWUV2enYjf0
+ vwaFEd3BCdmca13IS5rGbPqlj/aYmfjN4ThyjTgQQOVz1KHFC954W9tNcwHtnhZD
+ CXZaRQ==
 Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
  [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447mfqs7ag-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 447mwq14gf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jan 2025 17:10:05 +0000 (GMT)
+ Fri, 17 Jan 2025 17:10:06 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
  [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50HHA4cV028645
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50HHA5m1028663
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Jan 2025 17:10:04 GMT
+ Fri, 17 Jan 2025 17:10:05 GMT
 Received: from jhugo-lnx.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 17 Jan 2025 09:10:03 -0800
+ 15.2.1544.9; Fri, 17 Jan 2025 09:10:05 -0800
 From: Jeffrey Hugo <quic_jhugo@quicinc.com>
 To: <quic_carlv@quicinc.com>, <manivannan.sadhasivam@linaro.org>,
  <quic_yabdulra@quicinc.com>, <quic_mattleun@quicinc.com>,
@@ -51,9 +51,9 @@ CC: <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
  <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
  <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>, Jeffrey Hugo
  <quic_jhugo@quicinc.com>
-Subject: [PATCH v2 3/7] accel/qaic: Allocate an exact number of MSIs
-Date: Fri, 17 Jan 2025 10:09:39 -0700
-Message-ID: <20250117170943.2643280-4-quic_jhugo@quicinc.com>
+Subject: [PATCH v2 4/7] accel/qaic: Add support for MSI-X
+Date: Fri, 17 Jan 2025 10:09:40 -0700
+Message-ID: <20250117170943.2643280-5-quic_jhugo@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
 References: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
@@ -66,16 +66,16 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-ORIG-GUID: rrzsg8cYZ1_MDcals59ZQE2tm9jMhBoh
-X-Proofpoint-GUID: rrzsg8cYZ1_MDcals59ZQE2tm9jMhBoh
+X-Proofpoint-ORIG-GUID: wKpXcYv5tyVae_jLa88fn3GuyJ2QBHri
+X-Proofpoint-GUID: wKpXcYv5tyVae_jLa88fn3GuyJ2QBHri
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 mlxlogscore=989
- adultscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 spamscore=0 malwarescore=0
- clxscore=1015 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 spamscore=0
+ malwarescore=0 mlxscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 phishscore=0 impostorscore=0 mlxlogscore=999
+ bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2501170134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,51 +94,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Youssef Samir <quic_yabdulra@quicinc.com>
 
-Devices use 1 MSI vector for the MHI controller and as many vectors as
-the DMA bridge channels on the device. During the probing of the
-device, the driver allocates 32 MSI vectors, which is usually more
-than what is needed for AIC100 devices, which is wasting resources.
+AIC200 device will support MSI-X while AIC100 devices will keep using
+MSI. pci_alloc_irq_vectors() will try to allocate MSI-X vectors if it
+is supported by the target device, otherwise, it will fallback to MSI.
 
-Allocate only the needed number of MSI vectors per device.
+Add support for MSI-X vectors allocation for AIC200 devices.
 
 Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
-Reviewed-by: Troy Hanson <quic_thanson@quicinc.com>
 Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
 Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
 ---
- drivers/accel/qaic/qaic_drv.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/accel/qaic/qaic_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/accel/qaic/qaic_drv.c b/drivers/accel/qaic/qaic_drv.c
-index 81819b9ef8d4..6e9bed17b3f1 100644
+index 6e9bed17b3f1..ce0428f6cb82 100644
 --- a/drivers/accel/qaic/qaic_drv.c
 +++ b/drivers/accel/qaic/qaic_drv.c
-@@ -465,12 +465,13 @@ static int init_pci(struct qaic_device *qdev, struct pci_dev *pdev)
- 
- static int init_msi(struct qaic_device *qdev, struct pci_dev *pdev)
- {
-+	int irq_count = qdev->num_dbc + 1;
- 	int mhi_irq;
- 	int ret;
+@@ -471,9 +471,9 @@ static int init_msi(struct qaic_device *qdev, struct pci_dev *pdev)
  	int i;
  
  	/* Managed release since we use pcim_enable_device */
--	ret = pci_alloc_irq_vectors(pdev, 32, 32, PCI_IRQ_MSI);
-+	ret = pci_alloc_irq_vectors(pdev, irq_count, irq_count, PCI_IRQ_MSI);
+-	ret = pci_alloc_irq_vectors(pdev, irq_count, irq_count, PCI_IRQ_MSI);
++	ret = pci_alloc_irq_vectors(pdev, irq_count, irq_count, PCI_IRQ_MSI | PCI_IRQ_MSIX);
  	if (ret == -ENOSPC) {
- 		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
+-		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
++		ret = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI | PCI_IRQ_MSIX);
  		if (ret < 0)
-@@ -485,7 +486,8 @@ static int init_msi(struct qaic_device *qdev, struct pci_dev *pdev)
- 		 * interrupted, it shouldn't race with itself.
- 		 */
- 		qdev->single_msi = true;
--		pci_info(pdev, "Allocating 32 MSIs failed, operating in 1 MSI mode. Performance may be impacted.\n");
-+		pci_info(pdev, "Allocating %d MSIs failed, operating in 1 MSI mode. Performance may be impacted.\n",
-+			 irq_count);
- 	} else if (ret < 0) {
- 		return ret;
- 	}
+ 			return ret;
+ 
 -- 
 2.34.1
 
