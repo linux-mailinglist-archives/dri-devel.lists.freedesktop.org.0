@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CCDA15369
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 17:01:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77C1DA15385
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 17:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA25910EB2C;
-	Fri, 17 Jan 2025 16:01:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E647310EB31;
+	Fri, 17 Jan 2025 16:02:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LOVATZtN";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ql8k4v3A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A96E810EB2B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 16:01:31 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id
- d9443c01a7336-216634dd574so28907425ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 08:01:31 -0800 (PST)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84C7610EB26
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 16:02:37 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-2166022c5caso40711915ad.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 08:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737129691; x=1737734491; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1737129697; x=1737734497; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Wr+B49KkVbsBteglGhqGqgQcYh/xCc0iV+7YbLbwVHE=;
- b=LOVATZtNhjENqMpoCFDf4bCaHqI9NNSnPpP39+B9QXRRb2vTy6c1FFt82XueVYPi+4
- UjbMcplJzSWVaehgqkYZmVtlcWRV1TjLmR3i6xp2xdYQIFFOlHAfEW9ZXW40svIM1g0K
- EuR8OZMA8bii21f3twzzVy5Tvn9dYcg1/+z7a/GyKh5Mk6fL+Guewl6pLIFIbrZg9zz4
- B4ll1yehJLQF4LjdSyzh/7Jraq/YkHegA4PNw01dze9kZjATEcl6ac5oXGbAcntLhP4q
- T7NBQAyYV1LYpyv2reK+ApyNxKjHNBTXsm9pPu8Ql7k6BhZUF9TyB7yh/q8HjB/tyNan
- FLCw==
+ :reply-to; bh=f3yunoLlxWRJhy60D0YWe6I34aii3wtHTN9FRAZaIpc=;
+ b=Ql8k4v3Acqfaen0bOpSsi+rE4GeLmaacMOJ1RyrRLieWb/vwaIfLjfe6CBC2k6uCDT
+ xp5YuYLVTEZjBQa3+x5yNP4EmYB4KdS9LMmtYE2BtOdv/t84HB7fAOymZLvQwnDmCWZY
+ Ktb+H/LgRn2QBh8kdna0DWJkw3/lHhF+g48g7rplNg4jq8q4Vjznl0X+WjXcuifCxKQM
+ OOe3Gpnd/6U6e7DMt6Si2iCSjVmpiHNRTp5RQQblIKpWG1CyOwfIzzyS28bD874dTYWQ
+ ftWsUNM+PNzX1i4pp8F4/g61DzBV0bDT4ysn6IRDCVrJ9urH09fffEj+TUZqRqgiUpke
+ 9ZGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737129691; x=1737734491;
+ d=1e100.net; s=20230601; t=1737129697; x=1737734497;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Wr+B49KkVbsBteglGhqGqgQcYh/xCc0iV+7YbLbwVHE=;
- b=o3Umajrxs45/TGFmf9w3dKB/8CBL6TkrS8eEOYozJ//zAY9ne+lNVyWMpP4XB3GLyp
- gXZLMNdftqkFPBmlKNvVk3xWvvEClVwJRZQ8vVrumJcXWQOPzSlfs4hh8WVe1r9lDWvz
- gYiuOWDc5LNPrSyMxp10d7kO8fmiDMAkHhvEcA75CBIkycNKrB9sN33XutaEWpK6A+/B
- LR96iVktU0GzeQuhsl81mx4hZaBNvs3I1oSWHqXFUMmerqhE1w3AN7uICVol6FSQiJ6B
- pvdCT+BpO6az+rIOJ0q5iOD15wSRX5TMd5/c5I+hLIc38pIynoNbQ4T2Mqm8vknevLpx
- OJQg==
+ bh=f3yunoLlxWRJhy60D0YWe6I34aii3wtHTN9FRAZaIpc=;
+ b=l39z6jz7JA+arcMrWIIYK7Q6YVJbxoDSoDvSSr5FZ1XBLDh1Kqmv9msfXaPqSbJvxi
+ sXRDw/KOtHEGt7Q+0+cbuxC5CzzEvVHGfi6GoZT7aiOy8khbvr2RD5vo1MtLaa5XJO9O
+ ZG1y9RXRxDUdRWAVgEWyQuX9OX7foodmUkZ+E3fQgaGtP54l1d85m4Iv+LPzvOt8YfNG
+ 98Rkd+KuSUrVvtvP+o4gvQ0Qj5k9t4WUo1QPFrsazBrIzLjeBDgsCXiPmW/Lg8eL+L9v
+ 1ExIeSdYcTkRToQVRkqiSa35Zi6JLpUtci2Jk0u6BqMvmdnWb+Jq2aZ4uVFLzpIbUELd
+ OWSw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUTy+k74PiVtPeU5RBqca8xKpfsC/TefsochmqvG4UWDsNzMA/ZYhT9lWBT+sGh1zwlVHriGrsTt0A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy7Uqo0vG3ynLyujmnXQ2A0yVAibMZxGXLwdU7fM32xxBCvcveg
- jCbMIYbAiFGaW+AEmSRy7R4gauY+q8ZJ8rsY2mRFmZ4bJNa767KRWB3r2mg0NS4=
-X-Gm-Gg: ASbGncvoRI6XxZ83CXYvt61/2lIMAk9tNR1/E2O/mPKJjLcNY1ZcqbTsiJleGvFVh+S
- awNDtsPaJdWZVxkxE+1FIOV58iPIuuLvcRsPluixK7KHzJrx4yvTTNFpElgxZ+geOn3MNAkjE1k
- qUmDkQCANAwWvPZaOL6wsgRwOGrM3kL2dcoHt6nft0KX4L7lTxkqDJU8W1pqOitpp2HwK/nov8t
- 7OdCKmwpQJJ/A3uPmTMJpiXDmMko5kvEN3KyLh7ED+Bkjw95Fz8uA==
-X-Google-Smtp-Source: AGHT+IFCMBLEuNxUQlJAJyR5L/QLo/Ne+5PWgfbfHOTbZl7jUgVf3+h3V24vH5DOTyhflDZPVH8d4g==
-X-Received: by 2002:a17:902:e74b:b0:218:a4ea:a786 with SMTP id
- d9443c01a7336-21c35607c4emr48378565ad.53.1737129691139; 
- Fri, 17 Jan 2025 08:01:31 -0800 (PST)
+ AJvYcCVbn64pAPmZT7lRZs5CVqjkwE3bqtBog6j6yTd3UjbRzwUwihIwfF/GIayosogaTrQK6XMDwR65WB0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1QZx4q+1bwNRdTLRsqBJ2+M854gRfjew/Y+menLoLnQPmfh7k
+ p4nshiv65f2Vk1edqLZtbwAPaPMFeQ5IzYv1wDyO1W51bumQJWNwZJn2AI8NYbQ=
+X-Gm-Gg: ASbGncsHp/MVpVTtrWtACK77xqdAS6lxh/huU5QoHc+8TdtIMld7svW83fhEcLULU05
+ y3+OY0Ki0vf2Blpxv78L8iRXGp7yzFBzE5DmP2csSs+m3xkbun8rjKn2jcVLfFTyVTpY+6fSlpA
+ aw4Hmko1ikKUWv9w333NZDuCi6ralTO3d0LtRuWAwhFdjo0wq/d+I036OIR66oe/wmhhWDNOKPL
+ X2vQh8dJNY0rSWiMksBWZj0plblbKYQfrLQPzPQ20lJDhzI8N4kBg==
+X-Google-Smtp-Source: AGHT+IHqJfGxJvCiAv1ftPN3BjOhgudESdN0Zw8GWxYpwMLaLfxmL+8riiyZMGiCbXS9vMyovccAhw==
+X-Received: by 2002:a17:903:120a:b0:215:9f5a:a236 with SMTP id
+ d9443c01a7336-21c351cfb3dmr35013005ad.6.1737129697086; 
+ Fri, 17 Jan 2025 08:01:37 -0800 (PST)
 Received: from [127.0.1.1] ([112.65.12.217]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-21c2d3e0df9sm17879755ad.196.2025.01.17.08.01.25
+ d9443c01a7336-21c2d3e0df9sm17879755ad.196.2025.01.17.08.01.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Jan 2025 08:01:30 -0800 (PST)
+ Fri, 17 Jan 2025 08:01:36 -0800 (PST)
 From: Jun Nie <jun.nie@linaro.org>
-Date: Sat, 18 Jan 2025 00:00:47 +0800
-Subject: [PATCH v5 04/15] drm/msm/dpu: polish log for resource allocation
+Date: Sat, 18 Jan 2025 00:00:48 +0800
+Subject: [PATCH v5 05/15] drm/msm/dpu: decide right side per last bit
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-4-9701a16340da@linaro.org>
+Message-Id: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-5-9701a16340da@linaro.org>
 References: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-0-9701a16340da@linaro.org>
 In-Reply-To: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-0-9701a16340da@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -76,11 +76,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Jun Nie <jun.nie@linaro.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737129659; l=2149;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737129659; l=1875;
  i=jun.nie@linaro.org; s=20240403; h=from:subject:message-id;
- bh=GP+URSefhQuQ7yB4SyL/Yc7ro6P5CbwOt/8QO9JdOu8=;
- b=GdVRWPfAhthcVRZ02F6X+2Ov3TsWwSpgfj2Jf1xyfuUzYJJ2EhEUVlGB48tQYxK6K4WWoDW3/
- AjoA9FvPm/FCluHc2fLDvSFgUiZ8T+auBWHbMQkdFZ1ya0u1omdINRM
+ bh=omFb8tC5BYgDB/DLsxGi5hvIkUiuwMAxXfTrryE65M4=;
+ b=+PHLNBv4YKhyEsM/qQVuxxt94qq2IbjBKjJH4LJFXf/Nz2dVkh8zYljG1h8J2fPBZThfV6rt5
+ xMwCi7Yrhu5CaTsFjVKn/HX3fJx7CVmZetg2lR6ArDl61jdsFuAyGnd
 X-Developer-Key: i=jun.nie@linaro.org; a=ed25519;
  pk=MNiBt/faLPvo+iJoP1hodyY2x6ozVXL8QMptmsKg3cc=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,62 +98,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is more likely that resource allocation may fail in complex usage
-case, such as quad-pipe case, than existing usage cases.
-A resource type ID is printed on failure in the current implementation,
-but the raw ID number is not explicit enough to help easily understand
-which resource caused the failure, so add a table to match the type ID
-to an human readable resource name and use it in the error print.
+Currently, only one pair of mixers is supported, so a non-zero counter
+value is sufficient to identify the correct mixer within that pair.
+However, future implementations may involve multiple mixer pairs. With
+the current implementation, all mixers within the second pair would be
+incorrectly selected as right mixer. To correctly select the mixer
+within a pair, test the least significant bit of the counter. If the
+least significant bit is not set, select the mixer as left one;
+otherwise, select the mixer as right one for all pairs.
 
 Signed-off-by: Jun Nie <jun.nie@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-index a67ad58acd99f..24e085437039e 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
-@@ -802,6 +802,21 @@ void dpu_rm_release_all_sspp(struct dpu_global_state *global_state,
- 		ARRAY_SIZE(global_state->sspp_to_crtc_id), crtc_id);
- }
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 7191b1a6d41b3..41c9d3e3e3c7c 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -369,11 +369,10 @@ static void _dpu_crtc_setup_blend_cfg(struct dpu_crtc_mixer *mixer,
+ static void _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
+ {
+ 	struct dpu_crtc_state *crtc_state;
+-	int lm_idx, lm_horiz_position;
++	int lm_idx;
  
-+static char *dpu_hw_blk_type_name[] = {
-+	[DPU_HW_BLK_TOP] = "TOP",
-+	[DPU_HW_BLK_SSPP] = "SSPP",
-+	[DPU_HW_BLK_LM] = "LM",
-+	[DPU_HW_BLK_CTL] = "CTL",
-+	[DPU_HW_BLK_PINGPONG] = "pingpong",
-+	[DPU_HW_BLK_INTF] = "INTF",
-+	[DPU_HW_BLK_WB] = "WB",
-+	[DPU_HW_BLK_DSPP] = "DSPP",
-+	[DPU_HW_BLK_MERGE_3D] = "merge_3d",
-+	[DPU_HW_BLK_DSC] = "DSC",
-+	[DPU_HW_BLK_CDM] = "CDM",
-+	[DPU_HW_BLK_MAX] = "unknown",
-+};
-+
- /**
-  * dpu_rm_get_assigned_resources - Get hw resources of the given type that are
-  *     assigned to this encoder
-@@ -862,13 +877,13 @@ int dpu_rm_get_assigned_resources(struct dpu_rm *rm,
- 			continue;
+ 	crtc_state = to_dpu_crtc_state(crtc->state);
  
- 		if (num_blks == blks_size) {
--			DPU_ERROR("More than %d resources assigned to enc %d\n",
--				  blks_size, enc_id);
-+			DPU_ERROR("More than %d %s assigned to enc %d\n",
-+				  blks_size, dpu_hw_blk_type_name[type], enc_id);
- 			break;
- 		}
- 		if (!hw_blks[i]) {
--			DPU_ERROR("Allocated resource %d unavailable to assign to enc %d\n",
--				  type, enc_id);
-+			DPU_ERROR("%s unavailable to assign to enc %d\n",
-+				  dpu_hw_blk_type_name[type], enc_id);
- 			break;
- 		}
- 		blks[num_blks++] = hw_blks[i];
+-	lm_horiz_position = 0;
+ 	for (lm_idx = 0; lm_idx < crtc_state->num_mixers; lm_idx++) {
+ 		const struct drm_rect *lm_roi = &crtc_state->lm_bounds[lm_idx];
+ 		struct dpu_hw_mixer *hw_lm = crtc_state->mixers[lm_idx].hw_lm;
+@@ -384,7 +383,7 @@ static void _dpu_crtc_program_lm_output_roi(struct drm_crtc *crtc)
+ 
+ 		cfg.out_width = drm_rect_width(lm_roi);
+ 		cfg.out_height = drm_rect_height(lm_roi);
+-		cfg.right_mixer = lm_horiz_position++;
++		cfg.right_mixer = lm_idx & 0x1;
+ 		cfg.flags = 0;
+ 		hw_lm->ops.setup_mixer_out(hw_lm, &cfg);
+ 	}
 
 -- 
 2.34.1
