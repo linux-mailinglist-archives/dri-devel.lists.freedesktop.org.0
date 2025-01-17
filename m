@@ -2,94 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BC9A14A1D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 08:27:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18995A14A2C
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 08:33:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58C0E10EA6C;
-	Fri, 17 Jan 2025 07:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D64810EA6F;
+	Fri, 17 Jan 2025 07:32:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TMF3pm4n";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CeTasxHz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A5C10EA6C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 07:27:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 65754A41F5D;
- Fri, 17 Jan 2025 07:25:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D66C4CEDD;
- Fri, 17 Jan 2025 07:27:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737098862;
- bh=tXsL7wqDqt2ykkNuxJvsrPP1uvM5sQGXWX01E8xtQSk=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=TMF3pm4nQseIY9lz6M6EB4z8BqoTEpMmWIe0Kann8uu89D/SzybFfW4W5JVX91ztR
- OGmxd8HuFIr7YgSZQR6hIBEuvFW5JYDciWLLcB4mdE7IzdCnKM32XcmtzocJdIwwgy
- Qb7G48Jz+kbY1zGsKmJeWeJUOjXnzt8NwYtsR3tWtO1Y8OXlqNRACCBaXVCoCmN/V+
- 25/zaJnHfsj8ghgpih29ORHRF7CzQcaZ0VE3S3abavwwM78nZcOIbQdOZ4rriOjKOd
- WVyZIiw3ZIlHGLWqusjpjl5dWi6GylTlw7WcxBSNxxsD9JA82y8Cq7so9DXDvqzxkm
- osTt2/VuQKmsw==
-Message-ID: <9cf4efd5-cc4b-492c-a1f3-18a19ba7afeb@kernel.org>
-Date: Fri, 17 Jan 2025 08:27:37 +0100
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA8610EA6F
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 07:32:57 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id
+ 3f1490d57ef6-e46ebe19368so2814365276.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 23:32:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737099177; x=1737703977; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=u5hN3WCRaDcwfEGZIF7HwAWSSytle4jyv+q+dyIgSdU=;
+ b=CeTasxHzKqV/3zCtRQ4pu2wpXpOBxDWpcAKk6J+Uoq2WBvKmRil1OuoiyqSksUvDvL
+ PUmQ7hesnPD796LoCvpe07xkcCbNRLX/iwTwWpLTRk60/uSMWfrQut3G113OQnPFz8bk
+ xTN4xiXUHTXeFeA19B4E2Ms1UVAC9w2adJ8fFugIYBgqT0XCzMpkzzrA3Vzxq11ko8sZ
+ p74YfAIv9Fxz2K+Dp4xyDCCJJ5E9CITF+dQ/cqcCX+nVXu7Minxvc1qODlkV6vUgAzEc
+ uWG+XBaCUidSXonqw4uLk1yg5UeSTuBlEw6lSsoVox6kYiyhUHNtYaAb2n8bpI7MSKZN
+ mBAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737099177; x=1737703977;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=u5hN3WCRaDcwfEGZIF7HwAWSSytle4jyv+q+dyIgSdU=;
+ b=Mi7adxbHaSvvmLt+LhxtyB721H+rKznhQtpgh08bKlCRMmajhRWwYHm1gCk6hdyxrO
+ neS+4SDeqRA1rBFy7yd7vJ4Glzr3HXCgm8+7bnDJFPokFhw03QCbiNnHQfTE3kIG9fp0
+ 90gZDizU7CsXl9NHA9HZrpvM7q7NQkKPy9ZeAs7Rhry609rnXyGZcBKXVAXfTliLezPR
+ j1suuyRTE+NfQOqS5xlYsNed+OvcvBTGt2YdI3n0KDU4RFmUixcfSjksU5VGDtvI1VcZ
+ BoqEZfZce2Rmb0zGaPMEpemS13OobUSeaUaOVZL/Cw5IsB7HB5LpQjDn8lo0xEs6+u35
+ Kv0w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXnMdqpChmPMN4FG85O9vO2VtYVwCIRU3KhGyPejZwfRFfNxWtpiXoyNX5DzlDnFW72TR4flQhnybQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxeJ+hxYRhaj/Ji8fH9CaddB3hIcrFYQ6qJOhXcebL+tDbnRD7u
+ cY3IxTsalnygeePvvAhmErAb9lnIFeiKw4qVFCPhccg8MGFqeJ6MeFEn5lwFdUs/c2SQ/8Yvjsq
+ p5c9GBvVIl96tFs7dOAAHZEPmSjnLfzexw7V8AQ==
+X-Gm-Gg: ASbGncvw72JIpDPVW1X+TI87nDL4nmhPz4ZIIJ9Y8yQDkZ1ShElXKU1u6AhOO0sjMrE
+ 7feKI+t+o6AfoCrUfgNs8dH2UfFO3ZEgrHLAoMyuaFvs=
+X-Google-Smtp-Source: AGHT+IE+XYh2alu1rY2U8oCgLEh1aqoCMjyJMFnHicZCBv3oNDm+hi8vM03R6tYssS6lGIrrrW8gy6Wp3lPsC3GuOFk=
+X-Received: by 2002:a05:6902:140c:b0:e4c:e9b8:eb37 with SMTP id
+ 3f1490d57ef6-e57b1030127mr1141878276.3.1737099175190; Thu, 16 Jan 2025
+ 23:32:55 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] dt-bindings: display: panel: Add compatible for
- STARRY 2082109QFH040022-50E
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
- neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
+ <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-16-74749c6eba33@linaro.org>
+ <mw7zc4ljagxs6sjpl2wfjicq56w7ru2dd43u55rrtwyux62bb5@3w4zayfqxlai>
+In-Reply-To: <mw7zc4ljagxs6sjpl2wfjicq56w7ru2dd43u55rrtwyux62bb5@3w4zayfqxlai>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Fri, 17 Jan 2025 15:32:44 +0800
+X-Gm-Features: AbW1kvbp5yJi4HYj9X5TBWCrEONnlBk4y8iKuerYlGqjnYqdJtYg1reAc_pA1gY
+Message-ID: <CABymUCMnYy-L2Bd6dgYzPTB+qzpFLbU-LyCLDKxCSWy19x_A5g@mail.gmail.com>
+Subject: Re: [PATCH v4 16/16] drm/msm/dpu: Enable quad-pipe for DSC and
+ dual-DSI case
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-References: <20250117050453.934900-1-yelangyan@huaqin.corp-partner.google.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250117050453.934900-1-yelangyan@huaqin.corp-partner.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,13 +89,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/01/2025 06:04, Langyan Ye wrote:
-> The STARRY 2082109QFH040022-50E is a 10.95" WUXGA TFT LCD panel,
-> which fits in nicely with the existing panel-boe-tv101wum-nl6
-> driver. Hence, we add a new compatible with panel specific config.
-> 
-"Add a new compatible for foo bar panel ....". One sentence. Could be
-also one patch, not two patches.
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B41=E6=
+=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 16:32=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, Jan 16, 2025 at 03:26:05PM +0800, Jun Nie wrote:
+> > Request 4 mixers and 4 DSC for the case that both dual-DSI and DSC are
+> > enabled.
+>
+> Why? What is the issue that you are solving?
 
-Best regards,
-Krzysztof
+    To support high-resolution cases that exceed the width limitation of
+    a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
+    additional pipes are necessary to enable parallel data processing
+    within the SSPP width constraints and MDP clock rate.
+
+    Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
+    and dual interfaces are enabled. More use cases can be incorporated
+    later if quad-pipe capabilities are required.
+
+>
+> > 4 pipes are preferred for dual DSI case for it is power optimal
+> > for DSC.
+> >
+> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 29 ++++++++++++++++=
+++------
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
+> >  6 files changed, 29 insertions(+), 14 deletions(-)
+> >
+>
+> > @@ -664,15 +664,20 @@ static struct msm_display_topology dpu_encoder_ge=
+t_topology(
+> >
+> >       /* Datapath topology selection
+> >        *
+> > -      * Dual display
+> > +      * Dual display without DSC
+> >        * 2 LM, 2 INTF ( Split display using 2 interfaces)
+> >        *
+> > +      * Dual display with DSC
+> > +      * 2 LM, 2 INTF ( Split display using 2 interfaces)
+> > +      * 4 LM, 2 INTF ( Split display using 2 interfaces)
+> > +      *
+> >        * Single display
+> >        * 1 LM, 1 INTF
+> >        * 2 LM, 1 INTF (stream merge to support high resolution interfac=
+es)
+> >        *
+> >        * Add dspps to the reservation requirements if ctm is requested
+> >        */
+> > +
+>
+> irrlevant extra line, please drop.
+>
+> >       if (intf_count =3D=3D 2)
+> >               topology.num_lm =3D 2;
+> >       else if (!dpu_kms->catalog->caps->has_3d_merge)
+> > @@ -691,10 +696,20 @@ static struct msm_display_topology dpu_encoder_ge=
+t_topology(
+> >                * 2 DSC encoders, 2 layer mixers and 1 interface
+> >                * this is power optimal and can drive up to (including) =
+4k
+> >                * screens
+> > +              * But for dual display case, we prefer 4 layer mixers. B=
+ecause
+> > +              * the resolution is always high in the case and 4 DSCs a=
+re more
+> > +              * power optimal.
+>
+> I think this part is thought about in a wrong way. If it was just about
+> power efficiency, we wouldn't have to add quad pipe support.
+> Please correct me if I'm wrong, but I think it is about the maximum
+> width supported by a particular topology being too low for a requested
+> resolution. So, if there is a DSC and mode width is higher than 5120
+> (8.x+) / 4096 ( <=3D 7.x), then we have to use quad pipe. Likewise if
+> there is no DSC in play, the limitation should be 2 * max_mixer_width.
+
+Both width limitation and clock rate contribute to pipe number decision.
+To support high resolution, the MDP clock may be required to overclock
+to a higher rate than the safe rate. Current implementation does not
+support checking clock rate when deciding topology. We can add the
+clock rate check later with a new patch.
+>
+> >                */
+> > -             topology.num_dsc =3D 2;
+> > -             topology.num_lm =3D 2;
+> > -             topology.num_intf =3D 1;
+> > +
+> > +             if (intf_count =3D=3D 2) {
+> > +                     topology.num_dsc =3D dpu_kms->catalog->dsc_count =
+>=3D 4 ? 4 : 2;
+>
+> This assumes that the driver can support 2:2:2. Is it the case?
+
+The code falls back to 2:2:2 case here. But I guess 2:2:2 does not work yet=
+.
+How about below code for DSC case?
+
+                 if (intf_count =3D=3D 2 && dpu_kms->catalog->dsc_count >=
+=3D 4) {
+                         topology.num_dsc =3D 4;
+                         topology.num_lm =3D 4;
+                         topology.num_intf =3D 2;
+                 } else {
+                         topology.num_dsc =3D 2;
+                         topology.num_lm =3D 2;
+                         topology.num_intf =3D 1;
+                 }
+
+>
+> > +                     topology.num_lm =3D topology.num_dsc;
+> > +                     topology.num_intf =3D 2;
+> > +             } else {
+> > +                     topology.num_dsc =3D 2;
+> > +                     topology.num_lm =3D 2;
+> > +                     topology.num_intf =3D 1;
+> > +             }
+> >       }
+> >
+> >       return topology;
+>
+> --
+> With best wishes
+> Dmitry
