@@ -2,57 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08EC6A1521E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 15:50:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F206EA15278
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 16:11:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9C910EAFD;
-	Fri, 17 Jan 2025 14:50:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0434B10E15E;
+	Fri, 17 Jan 2025 15:11:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RV/NnJ9v";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="X4bTgiTn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32B4F10EAFD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 14:50:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5B00E5C62F5;
- Fri, 17 Jan 2025 14:49:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B89EC4CEDD;
- Fri, 17 Jan 2025 14:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737125411;
- bh=3BbYAw3G4hctOtTP8Gs/7fJiQf39z4/DkwOtTDFRB6k=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=RV/NnJ9vm2C/ZPlD3zZZWYC8WL7QfftbI4aVZ/fdLrUP4d2s29btCTrkTTITdYZUC
- wEDXYlaYEAGz9Vus1Lk4ksxWSbh18PAqg00CmjZypuDjMMTwC+osQU2qw118/5D4pR
- Q1tytURip2FVb8V5ncQrJa6UZogyt8bRPLwYs0xhluVFK9xYbrw5nBwBLXxXxqdRVz
- z8gwHRTxgPZZpzGoRX/vg1Tm+nfVG0s29fds45mKS8GT+5x0cV4z35UXnA6ez+925u
- iZTyNa8qEhtbRAlI/BNyShlFYklPZMPDKAMsmpFUGSdQod/NAnOPQogDXmFPKMRHQt
- 1LOoTXhi9XYEw==
-Date: Fri, 17 Jan 2025 15:50:09 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 22/29] drm/bridge: Rename atomic hooks parameters to drop
- old prefix
-Message-ID: <20250117-magpie-of-unreal-pride-efb244@houat>
-References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
- <20250115-bridge-connector-v1-22-9a2fecd886a6@kernel.org>
- <Z4jutByAKEF0cPs3@phenom.ffwll.local>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18C510E15E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 15:11:35 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-4361f664af5so24171125e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 07:11:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1737126694; x=1737731494; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pekHVxf/ttoG9R46riopbQafADFU7Gi1rdzDwGi1/SA=;
+ b=X4bTgiTn9cWXv108JeRhqFmzC7GBqh1rRrTIiAkxj6x8OfAygjRwd0B7yXCZAMqPz6
+ +G7aTSuxY4lIGS0q9BjA6DvKpWg71cmARCeU+Dm4ZE/Ag/VgVzBDv9MyN8YW4FJ3NRfl
+ rnWE1Qj7cNgVdHjg+3FKl8xV7UTf4NyLT7XSA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737126694; x=1737731494;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pekHVxf/ttoG9R46riopbQafADFU7Gi1rdzDwGi1/SA=;
+ b=mG9vkLrVUyJQ6TMw+oTfe0rRHihi5ahjVEeeFfnTUGMmIZlKkbCBvCthULpOr/Y+QC
+ jLJIP1Q0FDDDFBDw5w+SlVqAi13yoaLAT91XwumL0mMrdc4TQ2tBJfShp1flhH2gG7vt
+ WU0PasiGtEKwyTf3nCKWwpO8X/20OOvBTeqp+Rel+g4TukeBuO8MYwdovifOwvHRl0xh
+ fo6UzawW8Ad68fX2HEUFt/9Qijq3qjo+oBW3ekwCpK4F8rk7C1Up9Gt0uRIoFRTTQhFv
+ zvdL4DpVOuWW49vXXf/+WMvg9K7zB5wJz211jvypRVbmmfENLkR4NJ6C+Kz2+sEnv8cH
+ cgPQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVMcE4w9xdUgY/Uxj1sZOXfqwT7VG3hHV52XfAOSHO8/5A5RvxV/Gf1mjqiqIlGwZnuq3mvUVnTsBk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxwNiKSc/+uqiuwhDWb1ij1Hq3wW8b+qLX0zxr/iR1JWSpqNJ6P
+ UNJTyVGGVUk/fn760eSrGP7P6QkQUyVV3Sfg/YIydYKN4so9j6Sz4gOurHFZYoI=
+X-Gm-Gg: ASbGncv8VElI1IdMraQANy2oaQl2zab7nADYv/u2qljcTzzvodbrVFonwHVeTkKPkMM
+ UERM24EKgE7l+xICkzD2IRTsD0qGouIedrqLz03k3U6mJqf8znymsiICfRUiuyXfjqQ7/YBCvpP
+ 2ge8Qs2tEEYKLSz7+GSZyHTegpgH45ldZmgiGGP4to0qMJuB/vmK5PMvVo3S7PduGvpBtTHWYcE
+ sOzgFhtS/pX0qzptuPCBPA1S8JwWu6edD8TYcabqTsivpGrIJaGqiGF49dBBNytIu67
+X-Google-Smtp-Source: AGHT+IF73lL6Kjo3I9LTRG8P/o5zjbTIw37pEm5uCicjXhtcR8WMg5rbZBAI4jBX4D1S13Mc3K1Kzw==
+X-Received: by 2002:a05:600c:5486:b0:434:f586:753c with SMTP id
+ 5b1f17b1804b1-438913ca694mr30636765e9.7.1737126694048; 
+ Fri, 17 Jan 2025 07:11:34 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43890367b48sm36478655e9.0.2025.01.17.07.11.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jan 2025 07:11:33 -0800 (PST)
+Date: Fri, 17 Jan 2025 16:11:31 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "stable-commits@vger.kernel.org" <stable-commits@vger.kernel.org>,
+ "oushixiong@kylinos.cn" <oushixiong@kylinos.cn>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: Patch "drm/radeon: Delay Connector detecting when HPD singals is
+ unstable" has been added to the 6.6-stable tree
+Message-ID: <Z4pzIzRg2xpYv2mJ@phenom.ffwll.local>
+References: <20250103004210.471570-1-sashal@kernel.org>
+ <BL1PR12MB5144226AD0D6697DBF25ED56F7122@BL1PR12MB5144.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="pqpsvkdvhrq43osq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z4jutByAKEF0cPs3@phenom.ffwll.local>
+In-Reply-To: <BL1PR12MB5144226AD0D6697DBF25ED56F7122@BL1PR12MB5144.namprd12.prod.outlook.com>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,85 +91,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jan 08, 2025 at 12:02:03AM +0000, Deucher, Alexander wrote:
+> [Public]
+> 
+> > -----Original Message-----
+> > From: Sasha Levin <sashal@kernel.org>
+> > Sent: Thursday, January 2, 2025 7:42 PM
+> > To: stable-commits@vger.kernel.org; oushixiong@kylinos.cn
+> > Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian
+> > <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David Airlie
+> > <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>
+> > Subject: Patch "drm/radeon: Delay Connector detecting when HPD singals is
+> > unstable" has been added to the 6.6-stable tree
+> >
+> > This is a note to let you know that I've just added the patch titled
+> >
+> >     drm/radeon: Delay Connector detecting when HPD singals is unstable
+> >
+> > to the 6.6-stable tree which can be found at:
+> >     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+> >
+> > The filename of the patch is:
+> >      drm-radeon-delay-connector-detecting-when-hpd-singal.patch
+> > and it can be found in the queue-6.6 subdirectory.
+> >
+> > If you, or anyone else, feels it should not be added to the stable tree, please let
+> > <stable@vger.kernel.org> know about it.
+> >
+> >
+> >
+> > commit 20430c3e75a06c4736598de02404f768653d953a
+> > Author: Shixiong Ou <oushixiong@kylinos.cn>
+> > Date:   Thu May 9 16:57:58 2024 +0800
+> >
+> >     drm/radeon: Delay Connector detecting when HPD singals is unstable
+> >
+> >     [ Upstream commit 949658cb9b69ab9d22a42a662b2fdc7085689ed8 ]
+> >
+> >     In some causes, HPD signals will jitter when plugging in
+> >     or unplugging HDMI.
+> >
+> >     Rescheduling the hotplug work for a second when EDID may still be
+> >     readable but HDP is disconnected, and fixes this issue.
+> >
+> >     Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+> >     Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+> >     Stable-dep-of: 979bfe291b5b ("Revert "drm/radeon: Delay Connector detecting
+> > when HPD singals is unstable"")
+> 
+> 
+> Please drop both of these patches.  There is no need to pull back a
+> patch just so that you can apply the revert.
 
---pqpsvkdvhrq43osq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 22/29] drm/bridge: Rename atomic hooks parameters to drop
- old prefix
-MIME-Version: 1.0
+Since we've just been discussing stable backports at length, how did this
+one happen?
 
-On Thu, Jan 16, 2025 at 12:34:12PM +0100, Simona Vetter wrote:
-> On Wed, Jan 15, 2025 at 10:05:29PM +0100, Maxime Ripard wrote:
-> > All the bridge atomic hooks were using the old_bridge_state name for
-> > their drm_bridge_state parameter. However, this state is the current
-> > state being committed for all of them, which ends up being confusing.
-> >=20
-> > Let's rename it to bridge_state for all of them.
-> >=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  include/drm/drm_bridge.h | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > index 4b84faf14e368310dd20aa964e8178ec80aa6fa7..8e18130be8bb85fc2463917=
-dde9bf1d281934184 100644
-> > --- a/include/drm/drm_bridge.h
-> > +++ b/include/drm/drm_bridge.h
-> > @@ -303,11 +303,11 @@ struct drm_bridge_funcs {
-> >  	 * there is one) when this callback is called.
-> >  	 *
-> >  	 * The @atomic_pre_enable callback is optional.
-> >  	 */
-> >  	void (*atomic_pre_enable)(struct drm_bridge *bridge,
-> > -				  struct drm_bridge_state *old_bridge_state);
-> > +				  struct drm_bridge_state *bridge_state);
-> > =20
-> >  	/**
-> >  	 * @atomic_enable:
-> >  	 *
-> >  	 * This callback should enable the bridge. It is called right after
-> > @@ -323,11 +323,11 @@ struct drm_bridge_funcs {
-> >  	 * chain if there is one.
-> >  	 *
-> >  	 * The @atomic_enable callback is optional.
-> >  	 */
-> >  	void (*atomic_enable)(struct drm_bridge *bridge,
-> > -			      struct drm_bridge_state *old_bridge_state);
-> > +			      struct drm_bridge_state *bridge_state);
->=20
-> Checked this one, and it very clearly passes the old state.
+949658cb9b69ab9d22a42a662b2fdc7085689ed8 is in v6.11 and 979bfe291b5b in
+v6.13-rc1, so there's definitely a need to backport the latter to v6.11.y
+and v6.12.y. And maybe there was a cherry-pick of 949658cb9b69ab9d22a42a66
+to older stable releases already, but that doesn't seem to be the case. So
+what happened here?
 
-Urgh, you're right
+Thanks, Sima
 
-> Because the new state you can get by looking at bridge->state.
+> 
+> Thanks,
+> 
+> Alex
+> 
+> 
+> >     Signed-off-by: Sasha Levin <sashal@kernel.org>
+> >
+> > diff --git a/drivers/gpu/drm/radeon/radeon_connectors.c
+> > b/drivers/gpu/drm/radeon/radeon_connectors.c
+> > index b84b58926106..cf0114ca59a4 100644
+> > --- a/drivers/gpu/drm/radeon/radeon_connectors.c
+> > +++ b/drivers/gpu/drm/radeon/radeon_connectors.c
+> > @@ -1267,6 +1267,16 @@ radeon_dvi_detect(struct drm_connector *connector,
+> > bool force)
+> >                       goto exit;
+> >               }
+> >       }
+> > +
+> > +     if (dret && radeon_connector->hpd.hpd != RADEON_HPD_NONE &&
+> > +         !radeon_hpd_sense(rdev, radeon_connector->hpd.hpd) &&
+> > +         connector->connector_type == DRM_MODE_CONNECTOR_HDMIA) {
+> > +             DRM_DEBUG_KMS("EDID is readable when HPD
+> > disconnected\n");
+> > +             schedule_delayed_work(&rdev->hotplug_work,
+> > msecs_to_jiffies(1000));
+> > +             ret = connector_status_disconnected;
+> > +             goto exit;
+> > +     }
+> > +
+> >       if (dret) {
+> >               radeon_connector->detected_by_load = false;
+> >               radeon_connector_free_edid(connector);
 
-Bridge->state doesn't exist though.
-
-> So this looks very wrong.
->=20
-> If you want to fully update the pattern, pass the drm_atomic_state
-> instead, and let callbacks lookup any additional states they use as
-> needed.
-
-Yeah, that's probably the best option. I think I still have the
-coccinelle scripts I used for the others somewhere.
-
-Thanks!
-Maxime
-
---pqpsvkdvhrq43osq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4puIAAKCRAnX84Zoj2+
-diXFAX9NNbfwvdac/AhA711cDRYnZQnpQjNGgvNoxzUYGGZxD5mYFzS2XP3kln7V
-GxD6hVYBfApzz6LCgko2ccoAO9cEY76Nvkilh3y3L/p+guOESGNzPhJRAlk+3984
-Zfsg8e1XDQ==
-=WJBv
------END PGP SIGNATURE-----
-
---pqpsvkdvhrq43osq--
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
