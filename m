@@ -2,66 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C225BA15813
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 20:21:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D61A1583E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 20:41:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6401810EB70;
-	Fri, 17 Jan 2025 19:21:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E79310EB79;
+	Fri, 17 Jan 2025 19:41:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="QPoJC+nS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qnw3LvRp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D2410EB71
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 19:21:01 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-e39f43344c5so3706233276.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 11:21:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1737141600; x=1737746400;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CcSWQ+lgUEXMrIKRRuWm6vHHQun8oJ0X76wTO8zS0sQ=;
- b=QPoJC+nSBZA5fiYUwnoJ4WdFD04N+xAei0UAHqdgHKgxehDeqtt072ag/GDggS0VZu
- TzI0L0DXZIGOy6uksV9uAMlsgzSnx9RckX8zX9D45hfhDj31fe47JWeWJlp8XTtYn3pE
- mqraANtu62e4IF6pCS9R9HzhXRHI/Wt+7SRxg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737141600; x=1737746400;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CcSWQ+lgUEXMrIKRRuWm6vHHQun8oJ0X76wTO8zS0sQ=;
- b=q6+MSF+46NbJoK5aPehMbYh2IEDxQ1/2mivF2g1VUj9Davo7FfqqKRZ2/I++TbPwIu
- gWl/JRbQp1FuxijkBTpkanBQ0uFSd9VnNzbu6pr3wHrrWXF60T5Nut6A2v/L6W9FeXaC
- ExANKe4JapAIOs2VA2bV0CGboYl19YpEp71esP22I220K/rgb8Kl2soqxKYDjFxFp49N
- a7H7hSRL8tZ2goWxTPZpYiHVc4cHScaf0gujzM9sBBGQp+beolCeNU+QKZeZaBU2zsgg
- EHrJwBjHkurC6Yrp38GaUjVdjhe8JWlTuqf8Ae0R11qU+o2LI72gKmCrSJ5Gnzdd0gMM
- r5/g==
-X-Gm-Message-State: AOJu0YylyVn+4OcslCDXBRq/sZSAWF7d9ta8vQ3zODCVYo6zONkhMupi
- KWA2JJVZU9LnJlsIW+DJIsXibxzJWTF+vHGfbcAm6TCLf1ef2jGVgj+q58Pa5vUPpkahJPdGDAK
- yx++sFTebzVG9Zofh3vGewTFtq0Ywgf3+mmX1
-X-Gm-Gg: ASbGnctODi4Uh6fE96lhoXglqCCkS4WFZLEfI7DxyRd/XikKSlpxHo1KrWmK5gTKHBD
- J+p/N8YBbanXfZVYtJzgOG1FkE94mhAL+ydwC/uc=
-X-Google-Smtp-Source: AGHT+IHmE/nROwNP3aMfaICpg62qJxOG4SC6QUPkH+KujxQUUip3HfM0S4U/uL4oyhMjy4LMZ2834akcj6FfnA3HptE=
-X-Received: by 2002:a05:6902:2789:b0:e4e:723f:cad8 with SMTP id
- 3f1490d57ef6-e57b103ca32mr2985453276.4.1737141599265; Fri, 17 Jan 2025
- 11:19:59 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7DF10EB74;
+ Fri, 17 Jan 2025 19:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737142884; x=1768678884;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=UP97XwVz53AtplWZD1q2CQgu2D7V7K8s4lVdxUSfHtI=;
+ b=Qnw3LvRp1o6LRSSlDcrz5Ek5ltseuPEMuBhJXMBp62maDBEiek0njJIv
+ lJkMQoLIUy5OnZVrKEP33fGi3eH9OkJjdyZkcGcjICpcZo17dxH80J2X+
+ VG9+vY+nnt3UTyu0tTTER901/4ukhqQpMXU5DmMVggNCdSSNzB2PLClWC
+ lUMPh8JoFqjfDPjGbdnAqla0arQtBhAN0+ITFn/HyPNmzItxNljialpTb
+ 4vn18TMN/e64gKXWFke69BFMtftx7KuKPgv/852aI+8hY8/q4aGaHKJ60
+ mPGSuHGU8oJbRE16I895SGrSaqJkfxxtYy19OS+kh9mdZ5gjIxNx4uSsQ g==;
+X-CSE-ConnectionGUID: BkiBCOrSQz6oGqf8FVJfKw==
+X-CSE-MsgGUID: eiIRGyHVRkWNzu9na0tVhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37744096"
+X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; d="scan'208";a="37744096"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2025 11:41:24 -0800
+X-CSE-ConnectionGUID: 0aajDS+dQ6OCUrAtyIMeyg==
+X-CSE-MsgGUID: u0PFfaxEQTa/LAVeMpZtKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,213,1732608000"; d="scan'208";a="106441727"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 17 Jan 2025 11:41:23 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 17 Jan 2025 11:41:23 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Fri, 17 Jan 2025 11:41:23 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 17 Jan 2025 11:40:45 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VD5bEQUPuxraMYZvY2HD0/pz9wbpoTt98TZaEKOKsVemGxO6iKpOoX1oOEUrSkhyMfBln45KD7KEIhWalKgBb3o2Se3aua0uzcBXy8TIEZgw9dpqSBRlWLCHbO3ckaf1CFmBKLO1w7IoLMndXahsenB14RQIsc3SPSttpheNMBu2XckiVq9EIiVoLP0b3QQs2PGN0KSBv1X4xm3/T5suhPAR/Zdea6iiASz/FwIzG0MwGet4+2t4bIlqcWckL0bWRvpIH7LBr7Xf6nlijCdO+ryNC636zDQbh+v3mkAbKLWx31OS12WWMRmRsTox5cP9HlxyKhrTCOf0wrU6skT7HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eSHqmXPyArgAddGCcgTFY+N5FWagi/hF1CbRnF1C/zU=;
+ b=aQC59DrTdoBcPC5OwhppYqcx2OsOAIsIPNMAlHNGIbFYjbcBV+cRuN08g/W7qhh+TH5pIj73c5VoP7WfvOpAYyPc2NG12pjVaizSTugCCnqIHt7TDN/zW5dNhkyanVVRK4DFiP91mbFwZF+YfDCJYCPT1bCZmbpGhSlS8tOvBsmfyndREQo0X5hkDJihOq8h060uOwJJBmk8Yq/8XFk40brFrjv3itKRYaf/8iUYPbFAbnkXIxP2FE0QmIvBczJrJr+m820oaSONIB48uYVzDOkdrsca9IkoXP6wC2Ge4M3wWzhc1N8DSqWKGcLhal2jJzTAB3MclBVew/Er1mHWjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8282.namprd11.prod.outlook.com (2603:10b6:806:269::11)
+ by PH7PR11MB6356.namprd11.prod.outlook.com (2603:10b6:510:1fc::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Fri, 17 Jan
+ 2025 19:40:29 +0000
+Received: from SN7PR11MB8282.namprd11.prod.outlook.com
+ ([fe80::f9d9:8daa:178b:3e72]) by SN7PR11MB8282.namprd11.prod.outlook.com
+ ([fe80::f9d9:8daa:178b:3e72%5]) with mapi id 15.20.8356.010; Fri, 17 Jan 2025
+ 19:40:29 +0000
+Date: Fri, 17 Jan 2025 14:40:24 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Tejas Upadhyay <tejas.upadhyay@intel.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Matthew Auld <matthew.auld@intel.com>, Michal Mrozek
+ <michal.mrozek@intel.com>
+Subject: Re: [PATCH V7] drm/xe/mmap: Add mmap support for PCI memory barrier
+Message-ID: <Z4qyKDsmansWB6Rt@intel.com>
+References: <20250113114201.3178806-1-tejas.upadhyay@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250113114201.3178806-1-tejas.upadhyay@intel.com>
+X-ClientProxiedBy: MW4PR02CA0020.namprd02.prod.outlook.com
+ (2603:10b6:303:16d::26) To SN7PR11MB8282.namprd11.prod.outlook.com
+ (2603:10b6:806:269::11)
 MIME-Version: 1.0
-References: <20250117191343.479610-1-ian.forbes@broadcom.com>
-In-Reply-To: <20250117191343.479610-1-ian.forbes@broadcom.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Fri, 17 Jan 2025 14:19:47 -0500
-X-Gm-Features: AbW1kvZAKwk7uLKMgOHbB-vc8-HgIcBjliDXaGECQ8EL125M2PnRO7gs03BB9qs
-Message-ID: <CABQX2QNdsFQebZRKYH71F-D4VxkHDkArEtSHYJVonTqHPk-r8Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Fix dumb buffer leak
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="0000000000000b9394062bebcceb"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8282:EE_|PH7PR11MB6356:EE_
+X-MS-Office365-Filtering-Correlation-Id: 913abbf7-2303-4e44-390d-08dd372ecc05
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OhLH7Kfd3fy6f3XOeCBo34X66GmYLCa1lZatuLkYyVAK+GEQ+/1EJn+yIKnC?=
+ =?us-ascii?Q?LbIzxPsE/zVKTZf9OTn914L3Iqnmg9unlbWkcaJVLWk5JO6LWauMKITHs7Sr?=
+ =?us-ascii?Q?U96d1CFI/HffCLNHW6VhdcwIKhG5Yacoeil9MA2FB5GpRT9BIdcORwml8i2z?=
+ =?us-ascii?Q?XM9C0+HxbHOKgdai9JibF8b92XcloiMakfGBlGRqWmmaQ7LIqaFvwgfn1iR9?=
+ =?us-ascii?Q?WIRT9byO1ppzKbHGeEM/NP7cXRPpHuyruTdgzaMrYjMbJLHzGgC0mNbG93G0?=
+ =?us-ascii?Q?Z5VxRgQBVWl2/GSWxJSC3G5rhcXQMMShh8oF+q/SCNU0vugzdtBtkfu3MSEV?=
+ =?us-ascii?Q?hkY1KjPtgLxw3BFI8ToFpWl97NVxffsXgob/sKFOfHSQcTmO9hiJJ6xyNU7+?=
+ =?us-ascii?Q?47MkksBp5ltAnuLz4FUXeWVdxZmFG0toIXKN93pH9P3ygN/aoFrt+Kk5vLjV?=
+ =?us-ascii?Q?Sgm15Tyr5CRpbX7/+oHkvobABlklua+4+fuxGcpkaZMhxUG48wM1+bMbtbQ5?=
+ =?us-ascii?Q?zHXCckS2hWiiSbJvmr4OsPmMvsoWN5LppIIsw1gY0Pt7UY7XMj00yMC2gFUS?=
+ =?us-ascii?Q?QCL58KJlGFzhGaE73ss4Augho2hx37uMSNy3CvZP6v1baY23knt9sHON08zc?=
+ =?us-ascii?Q?YiRbAeWUyOG+l6gHG0poNTqgpKhzj61RiKs0ByBrDRF6I/a1wz5KuCpJtVyc?=
+ =?us-ascii?Q?oBcn74Nv6y+3aEEsBRD69zKnTQZc7YPm3aJv/lJoUf+Dkax9fq02vmZpP2xj?=
+ =?us-ascii?Q?Uy7IU75BVLE2u1qPrUUv0K766a36K94xuV66Kw0SCYi120r2Q3HGeusB0+g5?=
+ =?us-ascii?Q?2hfTRrQS48tdQyTEjCGZgXVOffAu7oe6RSVxuWHr7beE5u23gqgFFZAZ6Lg3?=
+ =?us-ascii?Q?qsuYxB8jWqrQOwvzKZA73Ufck6jmqXroAD+Iq2ZkulbWCATZ+pRag7ESVFAG?=
+ =?us-ascii?Q?ZpTyjSKpoGFSDNbZdvOfTYl1wLDlLXKOOW4IgOMeFaWN7W8km3oGAeEHa34s?=
+ =?us-ascii?Q?QG9Z8XzY47vNwh3+lE8s9BpaUaNsXYx2m9plsP2rukmeB/bLe2I2lT03/xQA?=
+ =?us-ascii?Q?+JdRBFJZvOCWcc991XKXeGQ8s7FDGdN41mf2+3OWJSCar8Z0YVEr6q8sbTjE?=
+ =?us-ascii?Q?N9Kj93QKeKwZJ3xPI6aYlzEWKL9+Rh0AkI321ZzHUZjE5RiFJVkB9IcylI8T?=
+ =?us-ascii?Q?jcg+m/str/o/qsJlKw/8UdlRVN83foVMbjGaApcXengkPNvaEF77WTc4FTFq?=
+ =?us-ascii?Q?qjfMNeIpURGX8R8oPERZSf4hTSuulLaPtTy3ny8F2AaCUFk5SJ34dYdOysoI?=
+ =?us-ascii?Q?QekUra+oA8ralO8/UpjbCf7w+o/5NVxWYiRsuZd8C448ow=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR11MB8282.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ljpSz1SfFZ89dotwa26jJTLHMFHLVBb3X8c6xX53hTDoAiW6VeJNlLFtuRYW?=
+ =?us-ascii?Q?kdsxapjQnwi1Nf6/46MyTDAyCyCNY5kipuNuTiT0o3bDBwmjyCasul1ze8H3?=
+ =?us-ascii?Q?restaS1qZWdZPOU3nZWakvySshto3RFzpwqSVMqV2LTnvHB7iB9HcmFOSdb0?=
+ =?us-ascii?Q?xhb+EZ59kc74RG4VvDczwapkjkpkKUSbjEZfe3VnI+0Y0EcOVAsbe8nohKpf?=
+ =?us-ascii?Q?WH0Xd5yXwMjgX0vbCoT+V9h/PJv7uLQL5rPhYgQJTwjcooMwN3gwq5IRcgTv?=
+ =?us-ascii?Q?GjeEzs2Y99RvbsVpMz4jPJJlJmxR1Me8q0Q3Jkt08hbWy8cN5NKaJYvK6KGC?=
+ =?us-ascii?Q?T8vkaFZ3ScIyovqaFZFabRvbOPaXj531/WUORCjwleSq/yQK0DTOOzhbPVaw?=
+ =?us-ascii?Q?FGRBYsnCLv9xikU3M6rvBKtUlvi6SvxvGsdpyj4MobQvTPjtGAxhiNguhb8W?=
+ =?us-ascii?Q?7YLnbZ73O9FEOm5XrasSdLGecTTMh/WleBGX1WeDu/HmZ+9bTy6vtwO6E5yq?=
+ =?us-ascii?Q?VlNYUoI18mNoKP9HfujxRG8bef68NvOZis3+SPcOrsxvmSpo1gnElQ0+HEUW?=
+ =?us-ascii?Q?w5T4Ko8NYlzZtR0sGuKTw1hjAVKeeKJwajUqBJ6++HHLC37jCX2DVhivkk0M?=
+ =?us-ascii?Q?aBMeoT8K4qP4JhjaYZnF+ObmWxJGBjEKZujke651ZrCUgdOG0qk944zgXFiv?=
+ =?us-ascii?Q?RUYVJt2Rxa0tcosYtiDpDQs0AjvDdFoePzEyAH2mpauE9fcRfOVH6UvtGljR?=
+ =?us-ascii?Q?VLI3UvTcskualCETdBhN4uq9Hj+5loZOzbMNl2qA6MwrcX6t/9aPSNabIpmc?=
+ =?us-ascii?Q?Laf+dPNzvGtHTfyDNskrdVp+GV+MmgnC67Zd6Vx+hoNt/CEdNSJjmppWmWFA?=
+ =?us-ascii?Q?28yIozhniwRbr+i7o8OUuumpq1Kiaytx5dXmJ1utj75XLFn9R5kP9ZZwieOI?=
+ =?us-ascii?Q?f3s+hZl+aBCKo0Sxj48qLA7DOcZcKSZRRw3FTZACKJOpvAN6suXemryEo27O?=
+ =?us-ascii?Q?5UlU1GlP7sGP26m13PB6B11z52tJjnsqly7kZ61usvbopjk5grYaArFkEDYo?=
+ =?us-ascii?Q?zUGjGOiumrGFbAQM3/TNHkty6HL5UQYksVqIQf0tt6NAHb3KIVzRay2AoDU0?=
+ =?us-ascii?Q?pods9OSbn+GhKl9NngS/MonGysLk9OOvBsD0qhRndngWhwlUmQZZzLBHAfgC?=
+ =?us-ascii?Q?Mdlaws5Dbwte/hiD61WWwivw76mvp1NSSTZv8BPcAuNL/Bbv6SDPcVrTI7DL?=
+ =?us-ascii?Q?hIicI6j2uLpxYXMCbjiEVYOuNmKVnXET/lMRoY2kgMmSUNsYCEVbbjsbu7v0?=
+ =?us-ascii?Q?qPsAUDt0d40f/IRVeu0KYYczqYICwiIYhdj3vMA28PeOKoEF2eNnefb1vCo2?=
+ =?us-ascii?Q?e9shJpgcrosJhGfvPBHUUXAfOd8rX4XqJ2su8P3eEShv5VACecuHTvm/Hsz3?=
+ =?us-ascii?Q?wkUv2S3JkfocZFysRyEQYvSpljmoGslww6qGrEYD9AzwGIooSoSSLsNFqSOy?=
+ =?us-ascii?Q?lUtMhAEhy3c/ugRNIEkIRo+NtDzdrImWLYp7iOXFu5VUx7eZG8vXjKu8uukj?=
+ =?us-ascii?Q?XwXQJHgIS+DjUvf4A0cUYfm6z1Vl2kDv8zgTeDoAlp+QMZ3kL0xUuxGdyP1Q?=
+ =?us-ascii?Q?mg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 913abbf7-2303-4e44-390d-08dd372ecc05
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8282.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 19:40:29.0423 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XC/6AEWyHE92tGVEcpDrzUFVQEw0nYyxq+qKV5JKgd/25nLug7my4KTVeZLCMLm+eGXJ2qZRU5AqjaxgajGsSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6356
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,157 +178,286 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000000b9394062bebcceb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 13, 2025 at 05:12:01PM +0530, Tejas Upadhyay wrote:
 
-On Fri, Jan 17, 2025 at 2:14=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
-> wrote:
->
-> Fixes: d6667f0ddf46 ("drm/vmwgfx: Fix handling of dumb buffers")
-> Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+Next time, please identify the patch with 'drm/xe/uapi' to get
+it more visible to maintainers.
+
+> In order to avoid having userspace to use MI_MEM_FENCE,
+> we are adding a mechanism for userspace to generate a
+> PCI memory barrier with low overhead (avoiding IOCTL call
+> as well as writing to VRAM will adds some overhead).
+> 
+> This is implemented by memory-mapping a page as uncached
+> that is backed by MMIO on the dGPU and thus allowing userspace
+> to do memory write to the page without invoking an IOCTL.
+> We are selecting the MMIO so that it is not accessible from
+> the PCI bus so that the MMIO writes themselves are ignored,
+> but the PCI memory barrier will still take action as the MMIO
+> filtering will happen after the memory barrier effect.
+> 
+> When we detect special defined offset in mmap(), We are mapping
+> 4K page which contains the last of page of doorbell MMIO range
+> to userspace for same purpose.
+> 
+> For user to query special offset we are adding special flag in
+> mmap_offset ioctl which needs to be passed as follows,
+> struct drm_xe_gem_mmap_offset mmo = {
+>         .handle = 0, /* this must be 0 */
+>         .flags = DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER,
+> };
+> igt_ioctl(fd, DRM_IOCTL_XE_GEM_MMAP_OFFSET, &mmo);
+> map = mmap(NULL, size, PROT_WRITE, MAP_SHARED, fd, mmo);
+> 
+> IGT : https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/b2dbc6f22815128c0dd5c737504f42e1f1a6ad62
+> UMD : https://github.com/intel/compute-runtime/pull/772
+> 
+> V7:
+>   - Dgpu filter added
+> V6(MAuld)
+>   - Move physical mmap to fault handler
+>   - Modify kernel-doc and attach UMD PR when ready
+> V5(MAuld)
+>   - Return invalid early in case of non 4K PAGE_SIZE
+>   - Format kernel-doc and add note for 4K PAGE_SIZE HW limit
+> V4(MAuld)
+>   - Add kernel-doc for uapi change
+>   - Restrict page size to 4K
+> V3(MAuld)
+>   - Remove offset defination from UAPI to be able to change later
+>   - Edit commit message for special flag addition
+> V2(MAuld)
+>   - Add fault handler with dummy page to handle unplug device
+>   - Add Build check for special offset to be below normal start page
+>   - Test d3hot, mapping seems to be valid in d3hot as well
+>   - Add more info to commit message
+> 
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Acked-by: Michal Mrozek <michal.mrozek@intel.com>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> Signed-off-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
 > ---
->  drivers/gpu/drm/vmwgfx/vmwgfx_bo.c      | 2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/=
-vmwgfx_bo.c
-> index a0e433fbcba67..491062e1eb981 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
-> @@ -73,7 +73,7 @@ static void vmw_bo_free(struct ttm_buffer_object *bo)
->  {
->         struct vmw_bo *vbo =3D to_vmw_bo(&bo->base);
->
-> -       WARN_ON(vbo->dirty);
-> +       WARN_ON(vbo->dirty && !vbo->is_dumb);
->         WARN_ON(!RB_EMPTY_ROOT(&vbo->res_tree));
->         vmw_bo_release(vbo);
->         kfree(vbo);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_surface.c
-> index 5721c74da3e0b..3210941cca302 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-> @@ -2358,6 +2358,7 @@ int vmw_dumb_create(struct drm_file *file_priv,
->         vbo =3D res->guest_memory_bo;
->         vbo->is_dumb =3D true;
->         vbo->dumb_surface =3D vmw_res_to_srf(res);
-> +       drm_gem_object_put(&vbo->tbo.base);
->
->  err:
->         if (res)
-> --
+>  drivers/gpu/drm/xe/xe_bo.c     |  19 +++++-
+>  drivers/gpu/drm/xe/xe_bo.h     |   2 +
+>  drivers/gpu/drm/xe/xe_device.c | 107 ++++++++++++++++++++++++++++++++-
+>  include/uapi/drm/xe_drm.h      |  29 ++++++++-
+>  4 files changed, 154 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index 3f5391d416d4..0237e1620ea8 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -2263,9 +2263,26 @@ int xe_gem_mmap_offset_ioctl(struct drm_device *dev, void *data,
+>  	    XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
+>  		return -EINVAL;
+>  
+> -	if (XE_IOCTL_DBG(xe, args->flags))
+> +	if (XE_IOCTL_DBG(xe, args->flags &
+> +			 ~DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER))
+>  		return -EINVAL;
+>  
+> +	if (args->flags & DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER) {
+> +		if (XE_IOCTL_DBG(xe, !IS_DGFX(xe)))
+> +			return -EINVAL;
+> +
+> +		if (XE_IOCTL_DBG(xe, args->handle))
+> +			return -EINVAL;
+> +
+> +		if (XE_IOCTL_DBG(xe, PAGE_SIZE > SZ_4K))
+> +			return -EINVAL;
+> +
+> +		BUILD_BUG_ON(((XE_PCI_BARRIER_MMAP_OFFSET >> XE_PTE_SHIFT) +
+> +			      SZ_4K) >= DRM_FILE_PAGE_OFFSET_START);
+> +		args->offset = XE_PCI_BARRIER_MMAP_OFFSET;
+> +		return 0;
+> +	}
+> +
+>  	gem_obj = drm_gem_object_lookup(file, args->handle);
+>  	if (XE_IOCTL_DBG(xe, !gem_obj))
+>  		return -ENOENT;
+> diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+> index d9386ab03140..04995c5ced32 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.h
+> +++ b/drivers/gpu/drm/xe/xe_bo.h
+> @@ -75,6 +75,8 @@
+>  
+>  #define XE_BO_PROPS_INVALID	(-1)
+>  
+> +#define XE_PCI_BARRIER_MMAP_OFFSET	(0x50 << XE_PTE_SHIFT)
+> +
+>  struct sg_table;
+>  
+>  struct xe_bo *xe_bo_alloc(void);
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 5cbc96b214fe..6ecbf7dd396c 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -232,12 +232,117 @@ static long xe_drm_compat_ioctl(struct file *file, unsigned int cmd, unsigned lo
+>  #define xe_drm_compat_ioctl NULL
+>  #endif
+>  
+> +static void barrier_open(struct vm_area_struct *vma)
+> +{
+> +	drm_dev_get(vma->vm_private_data);
+> +}
+> +
+> +static void barrier_close(struct vm_area_struct *vma)
+> +{
+> +	drm_dev_put(vma->vm_private_data);
+> +}
+> +
+> +static void barrier_release_dummy_page(struct drm_device *dev, void *res)
+> +{
+> +	struct page *dummy_page = (struct page *)res;
+> +
+> +	__free_page(dummy_page);
+> +}
+> +
+> +static vm_fault_t barrier_fault(struct vm_fault *vmf)
+> +{
+> +	struct drm_device *dev = vmf->vma->vm_private_data;
+> +	struct vm_area_struct *vma = vmf->vma;
+> +	vm_fault_t ret = VM_FAULT_NOPAGE;
+> +	pgprot_t prot;
+> +	int idx;
+> +
+> +	prot = vm_get_page_prot(vma->vm_flags);
+> +
+> +	if (drm_dev_enter(dev, &idx)) {
+> +		unsigned long pfn;
+> +
+> +#define LAST_DB_PAGE_OFFSET 0x7ff001
+> +		pfn = PHYS_PFN(pci_resource_start(to_pci_dev(dev->dev), 0) +
+> +				LAST_DB_PAGE_OFFSET);
+> +		ret = vmf_insert_pfn_prot(vma, vma->vm_start, pfn,
+> +					  pgprot_noncached(prot));
+> +		drm_dev_exit(idx);
+> +	} else {
+> +		struct page *page;
+> +
+> +		/* Allocate new dummy page to map all the VA range in this VMA to it*/
+> +		page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+> +		if (!page)
+> +			return VM_FAULT_OOM;
+> +
+> +		/* Set the page to be freed using drmm release action */
+> +		if (drmm_add_action_or_reset(dev, barrier_release_dummy_page, page))
+> +			return VM_FAULT_OOM;
+> +
+> +		ret = vmf_insert_pfn_prot(vma, vma->vm_start, page_to_pfn(page),
+> +					  prot);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct vm_operations_struct vm_ops_barrier = {
+> +	.open = barrier_open,
+> +	.close = barrier_close,
+> +	.fault = barrier_fault,
+> +};
+> +
+> +static int xe_pci_barrier_mmap(struct file *filp,
+> +			       struct vm_area_struct *vma)
+> +{
+> +	struct drm_file *priv = filp->private_data;
+> +	struct drm_device *dev = priv->minor->dev;
+> +	struct xe_device *xe = to_xe_device(dev);
+> +
+> +	if (!IS_DGFX(xe))
+> +		return -EINVAL;
+> +
+> +	if (vma->vm_end - vma->vm_start > SZ_4K)
+> +		return -EINVAL;
+> +
+> +	if (is_cow_mapping(vma->vm_flags))
+> +		return -EINVAL;
+> +
+> +	if (vma->vm_flags & (VM_READ | VM_EXEC))
+> +		return -EINVAL;
+> +
+> +	vm_flags_clear(vma, VM_MAYREAD | VM_MAYEXEC);
+> +	vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP | VM_IO);
+> +	vma->vm_ops = &vm_ops_barrier;
+> +	vma->vm_private_data = dev;
+> +	drm_dev_get(vma->vm_private_data);
+> +
+> +	return 0;
+> +}
+> +
+> +static int xe_mmap(struct file *filp, struct vm_area_struct *vma)
+> +{
+> +	struct drm_file *priv = filp->private_data;
+> +	struct drm_device *dev = priv->minor->dev;
+> +
+> +	if (drm_dev_is_unplugged(dev))
+> +		return -ENODEV;
+> +
+> +	switch (vma->vm_pgoff) {
+> +	case XE_PCI_BARRIER_MMAP_OFFSET >> XE_PTE_SHIFT:
+> +		return xe_pci_barrier_mmap(filp, vma);
+> +	}
+> +
+> +	return drm_gem_mmap(filp, vma);
+> +}
+> +
+>  static const struct file_operations xe_driver_fops = {
+>  	.owner = THIS_MODULE,
+>  	.open = drm_open,
+>  	.release = drm_release_noglobal,
+>  	.unlocked_ioctl = xe_drm_ioctl,
+> -	.mmap = drm_gem_mmap,
+> +	.mmap = xe_mmap,
+>  	.poll = drm_poll,
+>  	.read = drm_read,
+>  	.compat_ioctl = xe_drm_compat_ioctl,
+> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+> index f62689ca861a..cac607a30f6d 100644
+> --- a/include/uapi/drm/xe_drm.h
+> +++ b/include/uapi/drm/xe_drm.h
+> @@ -811,6 +811,32 @@ struct drm_xe_gem_create {
+>  
+>  /**
+>   * struct drm_xe_gem_mmap_offset - Input of &DRM_IOCTL_XE_GEM_MMAP_OFFSET
+> + *
+> + * The @flags can be:
+> + *  - %DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER - For user to query special offset
+> + *  for use in mmap ioctl. Writing to the returned mmap address will generate a
+> + *  PCI memory barrier with low overhead (avoiding IOCTL call as well as writing
+> + *  to VRAM which would also add overhead), acting like an MI_MEM_FENCE
+> + *  instruction.
+> + *
+> + *  Note: The mmap size can be at most 4K, due to HW limitations. As a result
+> + *  this interface is only supported on CPU architectures that support 4K page
+> + *  size. The mmap_offset ioctl will detect this and gracefully return an
+> + *  error, where userspace is expected to have a different fallback method for
+> + *  triggering a barrier.
+> + *
+> + *  Roughly the usage would be as follows:
+> + *
+> + *  .. code-block:: C
+> + *
+> + *  struct drm_xe_gem_mmap_offset mmo = {
+> + *	.handle = 0, // must be set to 0
+> + *	.flags = DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER,
+> + *  };
+> + *
+> + *  err = ioctl(fd, DRM_IOCTL_XE_GEM_MMAP_OFFSET, &mmo);
+> + *  map = mmap(NULL, size, PROT_WRITE, MAP_SHARED, fd, mmo.offset);
+> + *  map[i] = 0xdeadbeaf; // issue barrier
+>   */
+>  struct drm_xe_gem_mmap_offset {
+>  	/** @extensions: Pointer to the first extension struct, if any */
+> @@ -819,7 +845,8 @@ struct drm_xe_gem_mmap_offset {
+>  	/** @handle: Handle for the object being mapped. */
+>  	__u32 handle;
+>  
+> -	/** @flags: Must be zero */
+> +#define DRM_XE_MMAP_OFFSET_FLAG_PCI_BARRIER     (1 << 0)
+> +	/** @flags: Flags */
+>  	__u32 flags;
+>  
+>  	/** @offset: The fake offset to use for subsequent mmap call */
+> -- 
 > 2.34.1
->
-
-You're going to have to explain that one in the commit message a lot
-better because as is it doesn't make sense to me. Especially the
-!vbo->is_dumb in vmw_bo_free.
-
-z
-
---0000000000000b9394062bebcceb
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJkMIICYAIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIHOD
-T2yWpyI56BKBt35Twq8Nt2NsLh+pm0j7e1wQyFf+MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDExNzE5MjAwMFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJ
-KoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQB8SURGCl0j/WOyRDdYOPUS
-ajYUvkliCwZdMeSzDv7SfD3Gh8lmouHQXcDNo9oh3zv2zVep0cvnuGy+e3aY5U1bI413qJf5OiD7
-nU+o1aomBBp6v+YJ0MeWX3J19u1W4opouiclPk1gD+kmq+mMHM7UJKB7jb31ZU+PS89e7GiAivXN
-sybmjTt/J5BSRgZkc6Za6OVdHH/BsFm3MsxbhKXtFRqhEbpnlvWdnracWkvR1fpcT9jk3o+8VOKI
-MDfPEG6MHzdbv8u0s0BYaLZBrxuhk7mwLZ6ryOHcRCk2MjispVvnPGM8pqJhm7PwW0iSm6ba90od
-DRZzMWsvjvBVbrBa
---0000000000000b9394062bebcceb--
+> 
