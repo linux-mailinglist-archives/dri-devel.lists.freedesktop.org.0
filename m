@@ -2,73 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313DEA147D4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 03:00:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A816AA147EA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 03:08:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3C4510EA37;
-	Fri, 17 Jan 2025 02:00:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D77B10E180;
+	Fri, 17 Jan 2025 02:08:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BolhGzCO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gQdabyjN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 692E210EA35
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 02:00:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737079203; x=1768615203;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=5ZUz4QZLDlVa1hMJ47XHMGlOnKcryI3Cj9ggu76axOY=;
- b=BolhGzCO5+emxeEY2bbCDWEFk2cPQFkmtwrS15gWqEtCopozwZ/Ptuc9
- Sr50lPxg9MwQfbG1EfqKEV1iTokGAPIdl8M/4gm7TbvY2ABeDC1cQGVcU
- CMYOS8LyYNx5diU/GjH5C3yYSCXBIVrhCZQvIjNdLGqDD6j/l3B0YbfVl
- qQsaAsGlqIVp5BIGlEV4GTGR+6AN9tMDRTFYCIH00DYLHi22aQgF5/BKy
- RYkB7njyvBJP1qDZt3aXgmSUUbFfrjTe2Ot4kpsmg4glRalQ3AdjfX+8a
- Kc96wBG8qF9CcGxhStoQwEJM4nxWnTMgArWabDdakjM41GCJhlXWJ5vcO g==;
-X-CSE-ConnectionGUID: Fj+AVf72RjeeqQykFOdjQg==
-X-CSE-MsgGUID: /G/wXfveRMezdCx9GWkbXw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="37653499"
-X-IronPort-AV: E=Sophos;i="6.13,210,1732608000"; d="scan'208";a="37653499"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2025 18:00:02 -0800
-X-CSE-ConnectionGUID: q+qN46kgS4eRnBfRJ9Qo0w==
-X-CSE-MsgGUID: pIAKJmATQDajlK90Sjd0tg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="106140512"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2025 17:59:57 -0800
-Message-ID: <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
-Date: Fri, 17 Jan 2025 09:57:40 +0800
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E1D89F41
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 02:08:51 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-306007227d3so15887951fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Jan 2025 18:08:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737079670; x=1737684470; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UmNBaJ9flAoGVL3CjStFJ3qiZfXYpirOf7AF7gGIp/8=;
+ b=gQdabyjN/RRZDsxm9udp271kyJHrmj4OE5zsCXzOa/m83J9GIJ7Muz7M9uR3cBspHB
+ FWwJTEMmgIOJHqFynhKJhZjzD7OjN2Q2W8GRFncrrrip1gYwXt8G7m7u/AfvDalS0kyf
+ IfPT+KNs7cktG4vFZ8GHnOo9sux/nUZ0Lt+Gbk3CSGhJmeYI2drWyPeevEcggPhvbhTW
+ eRkh2ZWU5fQSv0bdl7ojw+ZCtu2hWy0b1nSYThaQIXNY3UyLPhzUeIIpHjUzaSrMERbg
+ tddFFpicPNidHZcb8gWQy8AVDf4U87iFzThCE5xXAUl0GwAuB5qucyGxwtflZlGDd37+
+ CF9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737079670; x=1737684470;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UmNBaJ9flAoGVL3CjStFJ3qiZfXYpirOf7AF7gGIp/8=;
+ b=bcMIeADw84LGPFlLUIBuolLu+aZufTuD8yzITTUax1ap2EgLOB4UX67yzVJyGD4HUL
+ pthx5D4vtWmFkOgFiwfG4GLJeKCFtd4cZNwN/J2gRl9T5M24HoFJTO8tQ1X0JlqoSDeO
+ qpS6hI/r+KnltZK6ZmRRuKDQaOfLFa0k6wWX4P2CZ2IBlBfjbcvEdJ3Ho4wzso2ijhgD
+ pwCcZqaWZfC3In8MSEJhrG1bButH5xF3bRVZV45wDtpXvfDrHVDaRYjE5E+MkU+/dOT3
+ SChdDzDKb2f5pvn9+jKRtdiH8JtLvJY6tsHS5fORZUCFW75FPGW20FrQDWZlZKscESXB
+ zs5g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVkns9E+AY7/gSMmtB680aftMlJU/Zg4g5Q1GKqtUR8pEuKLmDU0uI/IO7kNsgZtlyMqyrbwh7SdTk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxoj7J8YtMANDPnO9GHcxlYMz+44NPTbY7NjTsQCKPdCctriKPM
+ 95GMNwYwZva7C7wgZVx61Qk21s7NV3iZmVxK5ETl2BrDsBe69w1eD1fNOAqp7cA=
+X-Gm-Gg: ASbGncvB++CTyw17VKYj5ArxwJXTjvg7I9TlnY7i2qJou33S+hifKLF08BkdE78NY/R
+ 0JGeYh3yWKqPSbJMr88VdkTz1AoHCV9eitrUO072cIcm/8jaWKTIamErJIO4vl9SQFOu/oFPvER
+ qxdRk1+r58DFZ46RaUgm+coGhBZreyhotJeSOrnB8eHl6lmquUJSZpPF7Spbopr6TnTxL9YjtMW
+ vqxL9mtkaXHmlTFhELT2AebAQohtMZOMq1FrL9vs/rC6PzdEkEYaO38iFvinmBVKzbpENrLBOFg
+ frahid4Uz0yIO40yNg4aHfOGoYq+HgzlqBH7
+X-Google-Smtp-Source: AGHT+IE3mDy1UnCtfClC2GekVgCffh6WY4c88pU3oWTVLE5HIlhZvn/lG3F8S5lbrmtMtSxTxX1gaw==
+X-Received: by 2002:a2e:be0d:0:b0:304:588a:99e1 with SMTP id
+ 38308e7fff4ca-3072cb0a4a0mr2949731fa.26.1737079669918; 
+ Thu, 16 Jan 2025 18:07:49 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3072a331124sm2083161fa.21.2025.01.16.18.07.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Jan 2025 18:07:49 -0800 (PST)
+Date: Fri, 17 Jan 2025 04:07:47 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Jun Nie <jun.nie@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 01/16] drm/msm/dpu: check every pipe per capability
+Message-ID: <2mtcnk7sg7zymdbkmucby3q7uwxhb4jde5r3ym5xdwkzjw6jc5@vv6fomz45ltl>
+References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
+ <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-1-74749c6eba33@linaro.org>
+ <ra4uugpcufctn2j2sosrwxewlwpivsmc6tidadf4kuostv4cq6@ev4di2547lla>
+ <CABymUCPc5z+9SLeKy04Rg79B9sZUPUf9osJ6UJMKiv2cTXynxA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-To: Jason Gunthorpe <jgg@nvidia.com>, Alexey Kardashevskiy <aik@amd.com>
-Cc: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com, yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-References: <20250108133026.GQ5556@nvidia.com>
- <Z36ulpCoJAllp4fP@yilunxu-OptiPlex-7050> <20250109144051.GX5556@nvidia.com>
- <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050> <20250110133116.GF5556@nvidia.com>
- <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050> <20250113164935.GP5556@nvidia.com>
- <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050> <20250114133553.GB5556@nvidia.com>
- <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
- <20250115130102.GM5556@nvidia.com>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20250115130102.GM5556@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABymUCPc5z+9SLeKy04Rg79B9sZUPUf9osJ6UJMKiv2cTXynxA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,60 +98,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/15/25 21:01, Jason Gunthorpe wrote:
-> On Wed, Jan 15, 2025 at 11:57:05PM +1100, Alexey Kardashevskiy wrote:
->> On 15/1/25 00:35, Jason Gunthorpe wrote:
->>> On Tue, Jun 18, 2024 at 07:28:43AM +0800, Xu Yilun wrote:
->>>
->>>>> is needed so the secure world can prepare anything it needs prior to
->>>>> starting the VM.
->>>> OK. From Dan's patchset there are some touch point for vendor tsm
->>>> drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
->>>>
->>>> Maybe we could move to Dan's thread for discussion.
->>>>
->>>> https://lore.kernel.org/linux- 
->>>> coco/173343739517.1074769.13134786548545925484.stgit@dwillia2- 
->>>> xfh.jf.intel.com/
->>> I think Dan's series is different, any uapi from that series should
->>> not be used in the VMM case. We need proper vfio APIs for the VMM to
->>> use. I would expect VFIO to be calling some of that infrastructure.
->> Something like this experiment?
->>
->> https://github.com/aik/linux/commit/ 
->> ce052512fb8784e19745d4cb222e23cabc57792e
-> Yeah, maybe, though I don't know which of vfio/iommufd/kvm should be
-> hosting those APIs, the above does seem to be a reasonable direction.
+On Thu, Jan 16, 2025 at 10:38:33PM +0800, Jun Nie wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> 于2025年1月16日周四 15:44写道：
 > 
-> When the various fds are closed I would expect the kernel to unbind
-> and restore the device back.
+> >
+> > On Thu, Jan 16, 2025 at 03:25:50PM +0800, Jun Nie wrote:
+> > > Move requreiment check to routine of every pipe check. As sblk
+> > > and pipe_hw_caps of r_pipe are not checked in current implementation.
+> >
+> How about this version?
+>     The capability stored in sblk and pipe_hw_caps is checked only for
+>     SSPP of the first pipe in the pair with current implementation. That
+>     of the 2nd pipe, r_pipe, is not checked and may violate hardware
+>     capability. Move requirement check to dpu_plane_atomic_check_pipe()
+>     for the check of every pipe.
 
-I am curious about the value of tsm binding against an iomnufd_vdevice
-instead of the physical iommufd_device.
+... Move SSPP feature checks to dpu_plane_atomic_check_pipe() in order
+to verify requirements for every pipe.
 
-It is likely that the kvm pointer should be passed to iommufd during the
-creation of a viommu object. If my recollection is correct, the arm
-smmu-v3 needs it to obtain the vmid to setup the userspace event queue:
 
-struct iommufd_viommu *arm_vsmmu_alloc(struct device *dev,
-                                        struct iommu_domain *parent,
-                                        struct iommufd_ctx *ictx,
-                                        unsigned int viommu_type)
-{
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[...]
 
-         /* FIXME Move VMID allocation from the S2 domain allocation to 
-here */
-         vsmmu->vmid = s2_parent->s2_cfg.vmid;
-
-         return &vsmmu->core;
-}
-
-Intel TDX connect implementation also needs a reference to the kvm
-pointer to obtain the secure EPT information. This is crucial because
-the CPU's page table must be shared with the iommu. I am not sure
-whether the amd architecture has a similar requirement.
-
----
-baolu
+-- 
+With best wishes
+Dmitry
