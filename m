@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1DE1A1493E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 06:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41AD4A14940
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 06:49:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 127A410E132;
-	Fri, 17 Jan 2025 05:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1619A10EA57;
+	Fri, 17 Jan 2025 05:49:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AL+7GgM4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J+M9+NCU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082AB10E132;
- Fri, 17 Jan 2025 05:49:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD9E10EA56;
+ Fri, 17 Jan 2025 05:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737092992; x=1768628992;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=eqkc6TVqrQTlH+LQ6XNPudzYtAZ0iF78FOuAPA4q46k=;
- b=AL+7GgM4tg4c4vo7ErtWgPE/CAF5c7evqGeD8dY5C3L4I7R4RIniw8KK
- U/uq/MBugiawlsXvQ4EnJ8Rg7/dAYb1Xr48JgqJkopwfsAwL4gT6L8sbK
- CRAvNFMyYH5G2yVeInmUPO8e7xOJmahtqdBAQTVkGxyrNHv2FHgcVrowR
- akx02PAVsZYLoM777GAaCB9zL7ypDJ7aVEoaLA0QxAQ3h1c6iR5kMBHD8
- RbSXBmQ0+CQ7NdeDaUFhcpbT/MBkFgeJ6Ni+hLUAzXZI12oTU2UEhy1BM
- S/wR3Yw3hQqrzOZrMNs41bBNVtUW85WxB3KGkgr4KfTLz831UYnUu1jhS A==;
-X-CSE-ConnectionGUID: hIAbOCOCQQaJztugFqKk1w==
-X-CSE-MsgGUID: VBsOmdt7TtC/qyB6U3okew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="48910435"
-X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; d="scan'208";a="48910435"
+ t=1737092994; x=1768628994;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=B8fjnt+3duiW6gV/idOssZRatU3JZrpZdW81shR7YSU=;
+ b=J+M9+NCUdJVMkXkUvwLyh730Nv06ZmGUj/kPsuJQpECWwB7oa/39nnb+
+ G9vnFQNa0c0W++SN7ZPAMv2Bv9Kq+YMly8FMMzjVeng4/Is7f77n6cHaC
+ LcTwk2wov9V/SV3DA4w3ILzLZyTNJ4TktcLVE89cAI6Y/RWtIYHw2cGX6
+ c95sZORrbQWWA8DbJEyZh0jCklui7B47l7TADCDY+jhhE++Z3Ev3ztP5/
+ 7mAwnus0tI8HH1QQ4KVgv3ijLicfUGFVeqFWtoTOGg5DTwZeONeuVNak9
+ 7I0k1t2H1k7avEqfuKG+UIksFvTMyGbzN4/knsIEksYzHgEsPB46aEHHZ w==;
+X-CSE-ConnectionGUID: eF/baLdbSHi9kWLodiPvCA==
+X-CSE-MsgGUID: 1zkZmZrrRTKoe9p7jrCsfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11317"; a="48910436"
+X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; d="scan'208";a="48910436"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jan 2025 21:49:51 -0800
-X-CSE-ConnectionGUID: E6dOhcURTmak8WRYCXlJhQ==
-X-CSE-MsgGUID: BXb+jpOwQZiE1WVGDh10qA==
+ 16 Jan 2025 21:49:54 -0800
+X-CSE-ConnectionGUID: ORe/fi+RQKSTt2sSdHSaYg==
+X-CSE-MsgGUID: q6UNUrXZTNa+R1sRSFDuEQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; d="scan'208";a="136560350"
+X-IronPort-AV: E=Sophos;i="6.13,211,1732608000"; d="scan'208";a="136560355"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa002.jf.intel.com with ESMTP; 16 Jan 2025 21:49:50 -0800
+ by orviesa002.jf.intel.com with ESMTP; 16 Jan 2025 21:49:52 -0800
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: arun.r.murthy@intel.com,
 	Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 0/2] Extended Wake Timeout 
-Date: Fri, 17 Jan 2025 11:18:48 +0530
-Message-Id: <20250117054850.1189650-1-suraj.kandpal@intel.com>
+Subject: [PATCH 1/2] drm/dp: Add the DPCD register required for Extended wake
+ timeout
+Date: Fri, 17 Jan 2025 11:18:49 +0530
+Message-Id: <20250117054850.1189650-2-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250117054850.1189650-1-suraj.kandpal@intel.com>
+References: <20250117054850.1189650-1-suraj.kandpal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,26 +69,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Retimers in H/w usually takes 30 to 40ms to wake up all the devices. To
-get this we use the Extended Wake Time feature in which the sink device
-tells us the minimum amount of time it requires to wake up and we need
-to do a write to grant this request else we need to wake up within 1ms
-of low power state exit.
-DP source  device shall keep retying  the AUX tansaction upto the
-extended timeout  that is being granted for LTTPRs from the sink device
+Add DPCD registers required to configure Extended Wake Timeout
+for LTTPR.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+---
+ include/drm/display/drm_dp.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Suraj Kandpal (2):
-  drm/dp: Add the DPCD register required for Extended wake timeout
-  drm/i915/lttpr: Enable Extended Wake Timeout
-
- drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +
- .../drm/i915/display/intel_dp_link_training.c | 49 +++++++++++++++++++
- .../drm/i915/display/intel_dp_link_training.h |  1 +
- include/drm/display/drm_dp.h                  | 14 ++++++
- 4 files changed, 66 insertions(+)
-
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index a6f8b098c56f..480370bba1de 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -696,6 +696,9 @@
+ #define DP_UPSTREAM_DEVICE_DP_PWR_NEED	    0x118   /* 1.2 */
+ # define DP_PWR_NOT_NEEDED		    (1 << 0)
+ 
++#define DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_GRANT	    0x119   /* 1.4a */
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_GRANTED	    (1 << 0)
++
+ #define DP_FEC_CONFIGURATION		    0x120    /* 1.4 */
+ # define DP_FEC_READY			    (1 << 0)
+ # define DP_FEC_ERR_COUNT_SEL_MASK	    (7 << 1)
+@@ -1168,6 +1171,15 @@
+ # define DP_VSC_EXT_CEA_SDP_SUPPORTED			(1 << 6)  /* DP 1.4 */
+ # define DP_VSC_EXT_CEA_SDP_CHAINING_SUPPORTED		(1 << 7)  /* DP 1.4 */
+ 
++#define DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_REQUEST	0x2211  /* 1.4a */
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_MASK		0xff
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_1_MS		0x00
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS	0x01
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_40_MS	0x02
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_60_MS	0x03
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_80_MS	0x04
++# define DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_100_MS	0x05
++
+ #define DP_DPRX_FEATURE_ENUMERATION_LIST_CONT_1         0x2214 /* 2.0 E11 */
+ # define DP_ADAPTIVE_SYNC_SDP_SUPPORTED    (1 << 0)
+ # define DP_ADAPTIVE_SYNC_SDP_OPERATION_MODE		GENMASK(1, 0)
+@@ -1473,6 +1485,8 @@
+ #define DP_MAX_LANE_COUNT_PHY_REPEATER			    0xf0004 /* 1.4a */
+ #define DP_Repeater_FEC_CAPABILITY			    0xf0004 /* 1.4 */
+ #define DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT		    0xf0005 /* 1.4a */
++# define DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK		0x7f
++# define DP_EXTENDED_WAKE_TIMEOUT_GRANT			(1 << 7)
+ #define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER	    0xf0006 /* 2.0 */
+ # define DP_PHY_REPEATER_128B132B_SUPPORTED		    (1 << 0)
+ /* See DP_128B132B_SUPPORTED_LINK_RATES for values */
 -- 
 2.34.1
 
