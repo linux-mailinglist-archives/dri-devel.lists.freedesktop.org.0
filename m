@@ -2,68 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF677A1514A
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 15:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E966CA1517F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 15:18:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02A5510EAF9;
-	Fri, 17 Jan 2025 14:10:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE0B10E2E7;
+	Fri, 17 Jan 2025 14:18:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I4uhZ1sf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dkxpQ9vv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E3A910EAF9
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 14:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737123005; x=1768659005;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=zeKFK+vn+TJmhgSu8T6k7acGXHGYVDOiUO5ZOU9J2tw=;
- b=I4uhZ1sfSRT/s1MRF87JTqxMHj/UwY8ADi04DYSnkHNF3E46U3iJr4ye
- g9nk07jhYZ90p05bXkfJObxfGk4ccKMkJZitIzawFA9fzmQ8EGlAxLMrJ
- TLITmYFO3Chi3ddfIaLqdWmsVr2zgIdCQ0mwuwCs/wb9Rb7kWaY+UP1Iz
- yzjRV3DzHAfWw7UmUeogk01RVlK6/f/D8PUSIxGO8iUujLnF7gAhUNOds
- qZ4TrK1hUlyTJmdgBxe716VddkUpcwKt2fnEM4fjmYrqdSxd6SfxwVhkz
- 7o32LTFP4Ss1CQSv6yVAT4ZYtzmG4avoV0gL9v9KQzpw6Viyo3XXZCd3x A==;
-X-CSE-ConnectionGUID: H0H60DhJT96xnuy5hz5p1Q==
-X-CSE-MsgGUID: Uvmv+ObVRMSiiwfPJVjHiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="36762604"
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="36762604"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2025 06:10:04 -0800
-X-CSE-ConnectionGUID: AyTQVXKGRGmWE85xGLzROA==
-X-CSE-MsgGUID: dLU+naDLS7Oq4xOUX2AbHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="105604765"
-Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2025 06:10:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tYn2s-000000025HF-3qCK; Fri, 17 Jan 2025 16:09:58 +0200
-Date: Fri, 17 Jan 2025 16:09:58 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
-Message-ID: <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
-References: <20250116124303.3941583-1-andriy.shevchenko@linux.intel.com>
- <CGME20250117135754eucas1p1a8558792f9475c2acc009e1ba20c7109@eucas1p1.samsung.com>
- <a193bcb5-1b35-48ba-801b-925ab2f92d6f@samsung.com>
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
+ [209.85.219.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30EC110E2E7
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 14:18:44 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id
+ 3f1490d57ef6-e3c8ae3a3b2so3080774276.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 06:18:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1737123463; x=1737728263; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=aGwzPY4c5gn4nEKlnu01wESwyE/Yu3m4vbeoQZY75XA=;
+ b=dkxpQ9vvQd5XC+fuZ6nfpIu8Ut7In4cw/edFIF/iyWPpy+3KnzVaHVaWkvkXLPnqpd
+ Di86Kf4W/sgEg5lL8gTTVONOxGpO43qbkcE1AGqp7FoG+yJzzHQYrp/UTS1ac+7iC84c
+ 4gjqVxqeyuWNqGsYFRaobj+lIW39HurDOpnrl4gZMkr4kEfx6EITfPyt4cwF6udcd/Vk
+ kO0nW3K7BhWhUD1rspEBWgvay1TGChHLHQZ1jx2mtN/PZ+8xu2JcQo5jCDzBMHDwPOzj
+ tNo3tRuC2cgNRxO825vs2Xw4BKpOAN7o4ARgfs04MCOIPRpWPEjsnLYn67oiSTQSCr/z
+ i1SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737123463; x=1737728263;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=aGwzPY4c5gn4nEKlnu01wESwyE/Yu3m4vbeoQZY75XA=;
+ b=A6tLOgkE7KwlfIUkYUZMW9ms6nKv6R2t47PBuTKeEZGDv3tfVqGL0lsgNYrDlQch70
+ A0puhylvWARXYTtQI2Z07HitKdXUE2C+pvpPK1KiTNV7d69TxExwGkkCn/PrsZwkBR6j
+ jmLXv8mi61LZcRDpJfBDByoIwsWblEAtTi9uLK8PdZA6GQKAUutciMWex5NCcJsjRiCr
+ g0xXI3DPxuQAV99egOC3pG3v3CA/lTAAtiySlvkSVx356ksYGjXUICaGAGrCUc3NYZhi
+ Onz+MkvpIenyXJ6xTRBoGklKW6i9DYf+h7RkrN5lLM1M7xGJCJFwPhRK+OqR8VVc8wPF
+ wt4A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhafj0VvVHA0v4dBkgZwx708CCoH6GT2XF026t8Vi3EGw3RHswBFYTyRb1ENWqTFHUXf9LeFqaonk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyVsK+9vk/hw8kZJA8l9yGt26srGCDfHDNw5fbZwdhT1+x/2PLt
+ ob/a3u23eqQP3R+ms0tR2IIil+Mx90LFmoJn4vaZYz8/ZfNaxlw9zIx6wxt9ifb2oOE3WNlZEnz
+ GuZZ6Em/tgnkgjONCFopnmRPvTjw=
+X-Gm-Gg: ASbGncsCXJz/jbuKshKUgz+MOLIc7gYLYIxki1RME5oyMLlmL4V9bWliYxtPrNZivUZ
+ ESEveGKHSrHQhGDNZMB610cGbOnwSS3hs5A5GNg==
+X-Google-Smtp-Source: AGHT+IEgzT2Y8X/d+HOguRWOezTmCdaDrvMrd0xyuzC2YC1+k0LNDI0M/Oo8/mnNOxO0+kIgTEzO5F/+UdmBoEnNI4E=
+X-Received: by 2002:a05:6902:1b0d:b0:e49:e085:c0b4 with SMTP id
+ 3f1490d57ef6-e57b104668amr1782609276.8.1737123463394; Fri, 17 Jan 2025
+ 06:17:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a193bcb5-1b35-48ba-801b-925ab2f92d6f@samsung.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250114-adpdrm-v4-0-e9b5260a39f1@gmail.com>
+ <20250114-adpdrm-v4-2-e9b5260a39f1@gmail.com>
+ <mu7qiybhj7tu5hauk7izfxqlookc3awpknhjk74zwpkbznei4m@kewap6vivzoa>
+ <20250116-vivacious-congenial-nightingale-cb2f6d@houat>
+ <2alm7gds4k2lnbk36gjdw6yhzhpls3ce5baycdiv7lsigxsbzn@rhwdgnphwwp6>
+ <20250117-neon-unicorn-of-plenty-bbe639@houat>
+In-Reply-To: <20250117-neon-unicorn-of-plenty-bbe639@houat>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Fri, 17 Jan 2025 15:17:32 +0100
+X-Gm-Features: AbW1kvbN_g2HyuopLeZCoB8YJ1kzXFaQ1lvT6Fub5esd6CPjCjqmkvDJ9dDJO2Q
+Message-ID: <CAMT+MTTrvXsYONQj0V5U+dPJtCBOAQ-Lfg7NONMB6onMvJ+3QA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] drm: adp: Add Apple Display Pipe driver
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Hector Martin <marcan@marcan.st>, 
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>,
+ Janne Grunau <j@jannau.net>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,94 +97,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2025 at 02:57:52PM +0100, Marek Szyprowski wrote:
-> On 16.01.2025 13:42, Andy Shevchenko wrote:
-> > If the selector register is represented in each page, its value
-> > in accordance to the debugfs is stale because it gets synchronized
-> > only after the real page switch happens. Synchronize cache for
-> > the page selector.
+On Fri, 17 Jan 2025 at 11:24, Maxime Ripard <mripard@kernel.org> wrote:
 > >
-> > Before (offset followed by hexdump, the first byte is selector):
-> >
-> >      // Real registers
-> >      18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >      ...
-> >      // Virtual (per port)
-> >      40: 05 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      50: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      60: 01 ff 00 00 ff ff 00 00 00 00 00 00
-> >      70: 02 ff 00 00 cf f3 00 00 00 00 00 0c
-> >      80: 03 ff 00 00 00 00 00 00 00 00 00 ff
-> >      90: 04 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >
-> > After:
-> >
-> >      // Real registers
-> >      18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >      ...
-> >      // Virtual (per port)
-> >      40: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      50: 01 ff 00 00 e0 e0 00 00 00 00 00 1f
-> >      60: 02 ff 00 00 ff ff 00 00 00 00 00 00
-> >      70: 03 ff 00 00 cf f3 00 00 00 00 00 0c
-> >      80: 04 ff 00 00 00 00 00 00 00 00 00 ff
-> >      90: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> >
-> > Fixes: 6863ca622759 ("regmap: Add support for register indirect addressing.")
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> This patch landed in linux-next some time ago as commit 1fd60ed1700c 
-> ("regmap: Synchronize cache for the page selector"). Today I've noticed 
-> that it causes a regression for Lontium LT9611UXC HDMI bridge driver. 
+> > I was thinking about using drmm_ here, as the DRM device is also created
+> > and destroyed each time. But I might be mistaken here.
+>
+> Ah, right, it makes sense then, thanks!
+> Maxime
 
-Is there any datasheet link to the HW in question?
-
-(FWIW, I have tested this with the CY8C9540 GPIO I²C expander on Intel Galileo
- Gen 1 board.)
-
-> With today's linux-next I got the following messages on QCom RB5 board:
-> 
-> # dmesg | grep  lt9611uxc
-> [   13.737346] lt9611uxc 5-002b: LT9611 revision: 0x00.00.00
-> [   13.804190] lt9611uxc 5-002b: LT9611 version: 0x00
-> [   13.870564] lt9611uxc 5-002b: FW version 0, enforcing firmware update
-> [   13.877437] lt9611uxc 5-002b: Direct firmware load for 
-> lt9611uxc_fw.bin failed with error -2
-> [   13.887517] lt9611uxc 5-002b: probe with driver lt9611uxc failed with 
-> error -2
-> 
-> after reverting the $subject patch, the driver probes fine on that board.
-> 
-> I'm not sure if this is really a bug caused by this change or simply the 
-> driver already was aligned to old regmap behavior. Dmitry, could you 
-> check the regamp usage and review the changes introduced by this patch? 
-> Let me know if there is anything to check on the real hardware to help 
-> resolving this issue.
-
-Yes, see below. And thank you for your report!
-
-...
-
-> > +		/*
-> > +		 * If selector register has been just updated, update the respective
-> > +		 * virtual copy as well.
-> > +		 */
-> > +		if (page_chg &&
-> > +		    in_range(range->selector_reg, range->window_start, range->window_len))
-> > +			_regmap_update_bits(map, sel_register, mask, val, NULL, false);
-
-Can you add a test printk() here to show
-
-page_chg
-range->selector_reg, range->window_start, range->window_len
-sel_register, mask, val
-
-?
-
-And would commenting these three lines make it work again?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Not sure i understand. The drm device is created in probe(), and is
+destroyed by devm.
+I do not see a path where it can be created/destroyed without a trip
+via probe/remove,
+and so tying the lifetime of the bridge in question to devm seems correct?
