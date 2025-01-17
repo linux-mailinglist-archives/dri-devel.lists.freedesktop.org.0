@@ -2,69 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E861A151D5
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 15:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5296CA151DA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 15:32:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A926B10EB0A;
-	Fri, 17 Jan 2025 14:31:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6E8010EB0D;
+	Fri, 17 Jan 2025 14:32:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W+jeyroc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LFqFrkFE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AE6F10EAFD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 14:31:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737124264; x=1768660264;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=WBY7QKi2b3acbB15Gt/cmPsoC4QFmjHRmgXYYdRWeAg=;
- b=W+jeyrocJVHCJ5Oe94J4pjgCqrQtLNrNk3CK/5uvxqEtq/GiIqbswVEE
- FdYH+0z7QC8ZKF5yZHEfapWBlnl0L6abRh8B8nEag7ZPQ3JRD1qyHfZrj
- VOH20YqXT5A9rDDUlR/OCMM/IyI4fwJ5QKZBwlOr9IDNzFSLqtCD+UL63
- nwGcpjMhIz5l1//63K0iDAn57vqVj58yIPPbKXaVE4sCTVfnTeP4x18Fd
- xn646rKLckTao7GGIspaRKUTiGlPegqIZY2X9tHUu1jA2nCQSlCFPJriU
- mYo/wzLbGeRVpg5AGnpyhpZaoIQDs27h0jzvumdC4IRiPj/RGQ7bsj1Y8 w==;
-X-CSE-ConnectionGUID: J24B6I0DSquqiBTtvgChLQ==
-X-CSE-MsgGUID: Zhte0ytQSVyZ0H4X9N9pnA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11318"; a="37437660"
-X-IronPort-AV: E=Sophos;i="6.13,212,1732608000"; d="scan'208";a="37437660"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2025 06:31:04 -0800
-X-CSE-ConnectionGUID: hKLQh85bRXCTbBmbmVZ1xA==
-X-CSE-MsgGUID: P2psl3lhT4WCxmM025Q1Yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="106283938"
-Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2025 06:31:03 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tYnND-000000025gp-1ohT; Fri, 17 Jan 2025 16:30:59 +0200
-Date: Fri, 17 Jan 2025 16:30:59 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
-Message-ID: <Z4ppo8wV3nicOfAQ@smile.fi.intel.com>
-References: <20250116124303.3941583-1-andriy.shevchenko@linux.intel.com>
- <CGME20250117135754eucas1p1a8558792f9475c2acc009e1ba20c7109@eucas1p1.samsung.com>
- <a193bcb5-1b35-48ba-801b-925ab2f92d6f@samsung.com>
- <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from nyc.source.kernel.org (nyc.source.kernel.org
+ [IPv6:2604:1380:45d1:ec00::3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9023210EB0D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 14:32:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id AE9F8A42BCA;
+ Fri, 17 Jan 2025 14:30:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15454C4CEE2;
+ Fri, 17 Jan 2025 14:32:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737124333;
+ bh=T8PZajPEts8hiVvPkTDdvWpLe1pkhFePBotfq454ChY=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=LFqFrkFEVNscEv0YeH/sYXrvxMdJfFMAieYNA9i6pmPXd5QRzY9yu4XZfaN3AGxs8
+ G+iNr6qE6o1sRfc5gCjwUPkIwye8trsk/Cs9NUNL9XNCKcb3xzrfdVhF46tOXU3W41
+ 6pLgLP2VN4QJCFsdjup8taPy0yvUFkfC1q7XOIwp2yLqAYCv9kSzg1yWiFos0170cQ
+ 53U/W3W0Wan8pQOT1+o9rtr4NrzsUwCpXNdQ4x7+Esv8Amj3gt2vXRrKfj49xGNJau
+ jwIZo8tlX2NASe3CQYA6uSF/ohvcX5tz90ixxEhcnZlXXQw+fyXOnMHOOE3abk0ydD
+ bh+SYtZ9nE+Fw==
+Date: Fri, 17 Jan 2025 08:32:12 -0600
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, linux-mediatek@lists.infradead.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, Steven Price <steven.price@arm.com>, 
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Conor Dooley <conor+dt@kernel.org>
+To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+In-Reply-To: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
+References: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
+Message-Id: <173712392224.809745.9286641261845067078.robh@kernel.org>
+Subject: Re: [PATCH 0/3] Add Mali GPU support for Mediatek MT8370 SoC
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,123 +67,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2025 at 04:09:58PM +0200, Andy Shevchenko wrote:
-> On Fri, Jan 17, 2025 at 02:57:52PM +0100, Marek Szyprowski wrote:
-> > On 16.01.2025 13:42, Andy Shevchenko wrote:
-> > > If the selector register is represented in each page, its value
-> > > in accordance to the debugfs is stale because it gets synchronized
-> > > only after the real page switch happens. Synchronize cache for
-> > > the page selector.
-> > >
-> > > Before (offset followed by hexdump, the first byte is selector):
-> > >
-> > >      // Real registers
-> > >      18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> > >      ...
-> > >      // Virtual (per port)
-> > >      40: 05 ff 00 00 e0 e0 00 00 00 00 00 1f
-> > >      50: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
-> > >      60: 01 ff 00 00 ff ff 00 00 00 00 00 00
-> > >      70: 02 ff 00 00 cf f3 00 00 00 00 00 0c
-> > >      80: 03 ff 00 00 00 00 00 00 00 00 00 ff
-> > >      90: 04 ff 00 00 ff 0f 00 00 f0 00 00 00
-> > >
-> > > After:
-> > >
-> > >      // Real registers
-> > >      18: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> > >      ...
-> > >      // Virtual (per port)
-> > >      40: 00 ff 00 00 e0 e0 00 00 00 00 00 1f
-> > >      50: 01 ff 00 00 e0 e0 00 00 00 00 00 1f
-> > >      60: 02 ff 00 00 ff ff 00 00 00 00 00 00
-> > >      70: 03 ff 00 00 cf f3 00 00 00 00 00 0c
-> > >      80: 04 ff 00 00 00 00 00 00 00 00 00 ff
-> > >      90: 05 ff 00 00 ff 0f 00 00 f0 00 00 00
-> > >
-> > > Fixes: 6863ca622759 ("regmap: Add support for register indirect addressing.")
-> > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > 
-> > This patch landed in linux-next some time ago as commit 1fd60ed1700c 
-> > ("regmap: Synchronize cache for the page selector"). Today I've noticed 
-> > that it causes a regression for Lontium LT9611UXC HDMI bridge driver. 
-> 
-> Is there any datasheet link to the HW in question?
-> 
-> (FWIW, I have tested this with the CY8C9540 GPIO I²C expander on Intel Galileo
->  Gen 1 board.)
-> 
-> > With today's linux-next I got the following messages on QCom RB5 board:
-> > 
-> > # dmesg | grep  lt9611uxc
-> > [   13.737346] lt9611uxc 5-002b: LT9611 revision: 0x00.00.00
-> > [   13.804190] lt9611uxc 5-002b: LT9611 version: 0x00
-> > [   13.870564] lt9611uxc 5-002b: FW version 0, enforcing firmware update
-> > [   13.877437] lt9611uxc 5-002b: Direct firmware load for 
-> > lt9611uxc_fw.bin failed with error -2
-> > [   13.887517] lt9611uxc 5-002b: probe with driver lt9611uxc failed with 
-> > error -2
-> > 
-> > after reverting the $subject patch, the driver probes fine on that board.
-> > 
-> > I'm not sure if this is really a bug caused by this change or simply the 
-> > driver already was aligned to old regmap behavior. Dmitry, could you 
-> > check the regamp usage and review the changes introduced by this patch? 
-> > Let me know if there is anything to check on the real hardware to help 
-> > resolving this issue.
-> 
-> Yes, see below. And thank you for your report!
-> 
-> ...
-> 
-> > > +		/*
-> > > +		 * If selector register has been just updated, update the respective
-> > > +		 * virtual copy as well.
-> > > +		 */
-> > > +		if (page_chg &&
-> > > +		    in_range(range->selector_reg, range->window_start, range->window_len))
-> > > +			_regmap_update_bits(map, sel_register, mask, val, NULL, false);
-> 
-> Can you add a test printk() here to show
-> 
-> page_chg
-> range->selector_reg, range->window_start, range->window_len
-> sel_register, mask, val
-> 
-> ?
-> 
-> And would commenting these three lines make it work again?
 
-Also try to apply this patch (while having the above lines not commented):
+On Thu, 16 Jan 2025 15:25:56 +0100, Louis-Alexis Eyraud wrote:
+> This patchset adds the support of the ARM Mali G57 MC2 GPU (Valhall-JM,
+> dual core), integrated in the Mediatek MT8370 SoC, to the panfrost driver
+> and to the mt8370.dtsi include file.
+> 
+> I've testing this patchset on a Mediatek Genio 510 EVK board,
+> with a kernel based on linux-next (tag: next-20250113) plus [1] patchset.
+> 
+> The panfrost driver probed with the following messages:
+> ```
+> panfrost 13000000.gpu: clock rate = 390000000
+> panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0 status 0x0
+> panfrost 13000000.gpu: features: 00000000,000019f7, issues: 00000003,
+>   80000400
+> panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
+>   Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+> panfrost 13000000.gpu: shader_present=0x5 l2_present=0x1
+> [drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
+> ```
+> 
+> [1] https://lore.kernel.org/linux-mediatek/20250115-dts_mt8370-genio-510-v2-0-fc9b01d08834@collabora.com/
+> 
+> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> ---
+> Louis-Alexis Eyraud (3):
+>       dt-bindings: gpu: mali-bifrost: Add compatible for MT8370 SoC
+>       drm/panfrost: Add support for Mali on the MT8370 SoC
+>       arm64: dts: mediatek: mt8370: Enable gpu support
+> 
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml |  5 ++++-
+>  arch/arm64/boot/dts/mediatek/mt8370.dtsi                    |  9 +++++++++
+>  drivers/gpu/drm/panfrost/panfrost_drv.c                     | 10 ++++++++++
+>  3 files changed, 23 insertions(+), 1 deletion(-)
+> ---
+> base-commit: 37136bf5c3a6f6b686d74f41837a6406bec6b7bc
+> change-id: 20250115-mt8370-enable-gpu-3b6f595fa63d
+> prerequisite-change-id: 20250113-dts_mt8370-genio-510-3560b8010ba9:v2
+> prerequisite-patch-id: af53ae39240467340ac4c9cdbc8fdd949c5457a2
+> prerequisite-patch-id: ca07485956f81c1a40029b48d2b4bcf00d74fc13
+> prerequisite-patch-id: c34d9870b2c61d87ad8a6facba13d8970682e679
+> prerequisite-patch-id: 48784acdcdd8b886fdec9f21c9cb88abb327e2e1
+> 
+> Best regards,
+> --
+> Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> 
+> 
+> 
 
-From 0fe5fe51d8b86305a4ca1ae44ede34a24fe2f9d7 Mon Sep 17 00:00:00 2001
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Date: Fri, 17 Jan 2025 16:29:19 +0200
-Subject: [PATCH 1/1] TBD:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index f4c3ff1fdc69..35a1dd568bbb 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -69,7 +69,7 @@ struct lt9611uxc {
- static const struct regmap_range_cfg lt9611uxc_ranges[] = {
- 	{
- 		.name = "register_range",
--		.range_min =  0,
-+		.range_min = 0x0100,
- 		.range_max = 0xd0ff,
- 		.selector_reg = LT9611_PAGE_CONTROL,
- 		.selector_mask = 0xff,
--- 
-2.43.0.rc1.1336.g36b5255a03ac
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
--- 
-With Best Regards,
-Andy Shevchenko
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/mediatek/' for 20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com:
+
+arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pinctrl@10005000: 'pcie-default' does not match any of the regexes: '-pins$', 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8188-pinctrl.yaml#
+arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic: regulators: 'compatible' is a required property
+	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: pmic: '#sound-dai-cells', 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10320000: 'clock-names' is a required property
+	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: mailbox@10330000: 'clock-names' is a required property
+	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: jpeg-decoder@1a040000: iommus: [[123, 685], [123, 686], [123, 690], [123, 691], [123, 692], [123, 693]] is too long
+	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
+
+
+
 
 
