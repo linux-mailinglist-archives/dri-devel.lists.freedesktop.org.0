@@ -2,85 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2246A152E7
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 16:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA48A152E1
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 16:30:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C04310EB1F;
-	Fri, 17 Jan 2025 15:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEAA610EB1A;
+	Fri, 17 Jan 2025 15:30:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="WP1KtlQq";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="dRtQSTs1";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="Qc293F7C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 462 seconds by postgrey-1.36 at gabe;
- Fri, 17 Jan 2025 15:31:12 UTC
-Received: from fhigh-a7-smtp.messagingengine.com
- (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A55D710EB1F
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 15:31:12 +0000 (UTC)
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal
- [10.202.2.44])
- by mailfhigh.phl.internal (Postfix) with ESMTP id ECC041140122;
- Fri, 17 Jan 2025 10:23:29 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-04.internal (MEProxy); Fri, 17 Jan 2025 10:23:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm2; t=1737127409; x=1737213809; bh=8+jxORCvtC
- O1UVW79wt1NLNBpDwrWUOYHCySH1HZJJE=; b=WP1KtlQq0wd8YKHI+ufrouNriM
- VgQkYWZeTLxC6Kz8jwM55ZqgglzmzyEUdDk/k9Dy3UkmNtlHuSti6saC9CKakafN
- wrQOjpLLWOrf+3gwi9dirlLZm1DOsHhGqcgmoCCfy/sbF8m7j6zK5MyoOPDx2ZmR
- 2g90S1rVkpnpFGhcJY1TMaBhOghsCuEckjrrQPjOvr11LvLgvtP81nkB5dSLPEQq
- lFHVkJlE33U0Wojrf+8kT08KBO/+kuVtzu2cPfgrb9JnmryZiXa7w5uk84lxbXwb
- i4H4tNRLH4HRNAP4vBPpGc6A/NqU1n8DMT8FqYsE8KaRCfRBMtxO3Obs0lAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
- 1737127409; x=1737213809; bh=8+jxORCvtCO1UVW79wt1NLNBpDwrWUOYHCy
- SH1HZJJE=; b=dRtQSTs1gii4ez3E70cPRG58yKAcmv1iFEQ9jxDM22qGC69xJMR
- m93mCV+seh8v5lr7IS6g9757BJ5ErB5RgjYFPw8jHb+JkKC6tB8JDCwwV289jDj6
- za5jUjaBogwvoo56LU4RcIm7Pe1p44lc0m6STlAIVFmMCGxNQ6YZGGmKeP7Ne/fY
- YtURY543Ad4AuPNiwOMfDHnYWWMZUE6AbFMVjrIdA4N4KDHC8/yNMn6cbLPt+yBN
- Rv6nBk/nzISymGufkDE5DzI7CeFrn0JxBJr5ouvzJ2cODL4cYlyYJFVmMTGBfSu9
- WIx5c7RAyAhGK7zKyakhkD8uMXOpGXttyKA==
-X-ME-Sender: <xms:8XWKZ2NXf0LVIwmdBuUCE5_w9E0R69LUw9CTTdqcqawYS7QcrWz8sw>
- <xme:8XWKZ09D9WnLu8cdoqdVAoDp02Dt2B19zJ-zO3Z8qs0BkvkP2wW8GkmKGh7s2vZdj
- g6pZHN15tAQtA>
-X-ME-Received: <xmr:8XWKZ9T6Gv66Zp00SpU-JpVj5k6Pev2x4ydJWBT8nWhYLJSAaQ_gZR_V2YDHl2oX1im6Ud9gveySR_BBXrFr5yF1pKZIyVKPMDjHDA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudeifedgjeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
- ucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrf
- grthhtvghrnhepgeehueehgfdtledutdelkeefgeejteegieekheefudeiffdvudeffeel
- vedttddvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhdp
- nhgspghrtghpthhtohepvddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsih
- hmohhnrgdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgtphhtthhopegrlhgvgigrnhgu
- vghrrdguvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtohepshhtrggslhgvsehvgh
- gvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhtrggslhgvqdgtohhmmhhithhs
- sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhushhhihigihhonhhgse
- hkhihlihhnohhsrdgtnhdprhgtphhtthhopegthhhrihhsthhirghnrdhkohgvnhhighes
- rghmugdrtghomhdprhgtphhtthhopeigihhnhhhuihdrphgrnhesrghmugdrtghomhdprh
- gtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhho
- nhgrsehffhiflhhlrdgthh
-X-ME-Proxy: <xmx:8XWKZ2uwKsfxqTDmrPBJZcxraUFcRUFSoG791awAFjux8WR-oKFWTA>
- <xmx:8XWKZ-cDldANaC3nCiwSQVtR-0l_swxSfQfFmxrXX2eku9bkH9EF-w>
- <xmx:8XWKZ63PzhxSidW7zsId0sl3eRq1N6G2SrwrPkt2JoUvzPFRYBFtqg>
- <xmx:8XWKZy9svf6NA8Mb4PQbgUyYYmyBdqlbuQSUXsM1bUwCITZIGLqgmw>
- <xmx:8XWKZ88Fd1OkD9b8vEg5Iqvnp_kyxzNz8bi1cPbtXU7ESZkhL507EZZD>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Jan 2025 10:23:28 -0500 (EST)
-Date: Fri, 17 Jan 2025 16:23:25 +0100
-From: Greg KH <greg@kroah.com>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3931110EB1A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 15:30:07 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id
+ ffacd0b85a97d-38a88ba968aso2079036f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 07:30:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1737127805; x=1737732605; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=PMN0xxHnTn7/r6lyp4MJCux5tDpWjt3j/fmoD58AMqk=;
+ b=Qc293F7C+dYSpps3B21p37tsIGY9VA0yDi2Am0ASLEuwJQBJ1hH5H64GCEcENyFhqL
+ iuSBr0dWsERODiERrOK2hRmoAbBM96tk3gqoHBmHawKLOee+88DLcYNGhTccKrHPUixm
+ 23iV4Ij+pbdICaMgKApp5+nqFkxFDlxjf4TGs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737127805; x=1737732605;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PMN0xxHnTn7/r6lyp4MJCux5tDpWjt3j/fmoD58AMqk=;
+ b=g+OhGDFzBtP2ZJWjS460UqPhii9dMtHe4wgqZSXbRPPAL151g1F1IeKfTgQCZCaIKS
+ CbkxcLiyUK9ysqyxsN2p+bziUZRRd83uc5B4D592w8vheRaQglrSoPhaACiHYvGEf641
+ sw0B/cPNzrXM9lqwTImLoxqrv8yahGPe0jwMG6O1z2NPSdiMCQBE6CiRIOPL/T1DvWhH
+ g01TANn+1Spereg+QxazihBtNqVAW414ALk2MrWU2S18G1PONa4ENC4AHJ+PAz7DIcrA
+ 3mcenApRsw735v7ZcYW32+g3QwlE4RlMq6GYcE0GbdvOXzy9QXG7biY9pfwWz1EQaaP9
+ oZsw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV+6RiaDaLX4tKmdc5xE4uIWrXO5X0YUd6EP91l6wmtikJ7dDWA9l8wf9UUmxj+G9eIVBtacbPXqRo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxsfm45OhGl8AZHOFlsacv5MwZfXECVDZITCRFKJJW8UumYMBnb
+ /18TQU2SUcenscuyXdsEryX1SJpqNAGss2JN29RP2yOvDvotpskaI5Rq5tlZ5cY=
+X-Gm-Gg: ASbGncth3Nuxi452jGJ27OWIxaMfK2gH7EllSM5MClOmuJty0HHsPXFUd7mqQv6mgk6
+ Kq38eyhV7tOnZ85KQnfQPa3ZY6fTXr2hB2DCscC3xPjfxmgHs2ptgwh5cg3AuLikA+eT0CfFGPk
+ R4OD0T0MWK+kTgEMSWFIQTiHwQY8xl7DCStiFR8A/5jEc/xUl2yTD1pXmkYw0jWRffsq5RwKw0B
+ F1Vt9afLQT+d38BvS7nOILqeB57CwqlVGauU5I030EsTUm5c9/dTncwrC9vUKZwIZNK
+X-Google-Smtp-Source: AGHT+IERWF8sIS1dMqT5AGGWertem30EsWZljTh6nQHb58gskcBklmaUmoaA8cvAXYwGl9KdHnRWXA==
+X-Received: by 2002:a05:6000:1f8d:b0:385:d7f9:f157 with SMTP id
+ ffacd0b85a97d-38bf57a749dmr3470574f8f.36.1737127805618; 
+ Fri, 17 Jan 2025 07:30:05 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38bf3221b7fsm2764368f8f.27.2025.01.17.07.30.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jan 2025 07:30:05 -0800 (PST)
+Date: Fri, 17 Jan 2025 16:30:03 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
  "stable-commits@vger.kernel.org" <stable-commits@vger.kernel.org>,
  "oushixiong@kylinos.cn" <oushixiong@kylinos.cn>,
  "Koenig, Christian" <Christian.Koenig@amd.com>,
@@ -89,7 +68,7 @@ Cc: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
  DRI Development <dri-devel@lists.freedesktop.org>
 Subject: Re: Patch "drm/radeon: Delay Connector detecting when HPD singals is
  unstable" has been added to the 6.6-stable tree
-Message-ID: <2025011717-ambush-viable-a27a@gregkh>
+Message-ID: <Z4p3e44qS7uP2Y_Q@phenom.ffwll.local>
 References: <20250103004210.471570-1-sashal@kernel.org>
  <BL1PR12MB5144226AD0D6697DBF25ED56F7122@BL1PR12MB5144.namprd12.prod.outlook.com>
  <Z4pzIzRg2xpYv2mJ@phenom.ffwll.local>
@@ -97,6 +76,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <Z4pzIzRg2xpYv2mJ@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,9 +154,14 @@ On Fri, Jan 17, 2025 at 04:11:31PM +0100, Simona Vetter wrote:
 > to older stable releases already, but that doesn't seem to be the case. So
 > what happened here?
 
-I think Sasha's revert checker caught this one accidentally, but I'll
-defer to him for the final answer.
+Some other examples people brought up:
 
-thanks,
+https://lore.kernel.org/stable/a31d3d49-1861-19a2-2bb4-8793c8eabee9@mailbox.org/
 
-greg k-h
+https://lore.kernel.org/stable/a31d3d49-1861-19a2-2bb4-8793c8eabee9@mailbox.org/
+
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
