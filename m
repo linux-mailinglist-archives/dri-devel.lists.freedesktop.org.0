@@ -2,62 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C1AA14BC3
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 10:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AEFDA14BCB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 10:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A639010E7B6;
-	Fri, 17 Jan 2025 09:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABB1D10EAB7;
+	Fri, 17 Jan 2025 09:05:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="wTgpX6T9";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hsgNbAAW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A823310E2FA;
- Fri, 17 Jan 2025 09:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fANOeKvbGZhIa7R8ixVbFZE1HhyfTPDLRenZOXTjAl8=; b=wTgpX6T9mh5eFfg+M1Va8h+FLn
- Mes6LNpPFBsFxg0hWqKmHtbL4mtc52Ss7/udGmGg/xIaIhWH6odW3R3+TKmXaOxFw2HLVqalf4iKj
- X4LQ6jTr/pdzdaOaV2NQnwik9ziAwIxyrxlcKzxhcpRSdjPCXNsUly429XaiaDIgsDqc24hN6qNQl
- vtLpQ2rVV708vc+h7lxappdfSxRNRWBN0EsxaQj9UqzjXxKw32WS2rkU6spXO1V/TJ6+nssrEFX0d
- na6TfBXbS8zgK2IoT7DKnB+8qsTqwg+RLdbxmNsrClFzySV9pQ+wTfMvqq5RYgmKV1jwbvtscIJhx
- O5Eus6sQ==;
-Received: from [194.136.85.206] (port=38556 helo=eldfell)
- by whm50.louhi.net with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
- (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tYiGw-0003jK-2Y;
- Fri, 17 Jan 2025 11:04:10 +0200
-Date: Fri, 17 Jan 2025 11:04:01 +0200
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Alex Hung <alex.hung@amd.com>
-Cc: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
- <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>
-Subject: Re: [V7 29/45] drm/colorop: Add PQ 125 EOTF and its inverse
-Message-ID: <20250117110401.446619e7@eldfell>
-In-Reply-To: <20241220043410.416867-30-alex.hung@amd.com>
-References: <20241220043410.416867-1-alex.hung@amd.com>
- <20241220043410.416867-30-alex.hung@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4115F10EAB4
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 09:05:25 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7DDAF1C000E;
+ Fri, 17 Jan 2025 09:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1737104703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t3rWvEZK60hQ17RBhmA2UVqEbd2qu3gk9uKimtSAsjs=;
+ b=hsgNbAAWxM+8H1/qTTiBpmQE+Ahq6hCk9KKlzlYcVeL4bcAFfcuvYDMQbGMxh8eD5CTFic
+ VMMduU0BgXjp8Z5gG6Uz+OeoEkFra+N8ZMfcE+WK23SYHIt/XSslkvAC3vfB8F/eNBOvXc
+ VXoeUitvXsR8uLj0RyR9TuU7sk4SiMbjCmgBpZSK2g8F5Aq5gGhVq9UJ7udF1js9ELNnoh
+ Ja6/exxPpjNZXwJ0hMk3/Y+7gAwjTOF9sL8VMvbE56bPfI6yO4d/DhMc64zS4u2p9CPuOC
+ cMdy3Sv0sZXVKJyfvP10OxEAWYRZKRuUTIFPz1DNMNkxmObP89WEsXz4uZiOww==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v4 0/3] drm/vkms: Switch to allocated for drm objects
+Date: Fri, 17 Jan 2025 10:04:26 +0100
+Message-Id: <20250117-b4-vkms-allocated-v4-0-8ec8fd21aaf6@bootlin.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/IbKa/Ak_Cc0udwwLFnLiXes";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse,
- please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - lists.freedesktop.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
- pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABsdimcC/23PwU7EIBQF0F9pWIsCBZWu/A/j4lEeM8RSRkAyZ
+ tJ/l2mjJk5Z8SAc7r2QjMljJkN3IQmrzz7ObZB3HRmPMB+QettmIpiQTDNNjaT1PWQK0xRHKGi
+ pdkqxZyfbAtLenRI6f17N17dtTvjx2eiyHRIDGekYQ/Bl6GwKNPg8Pvxs6IzncoUC5gxrgqFr/
+ yvG+SM9xHiYcMsQYG73llZNGe1RAnJjmQL2YmIsk5/v2yfkmuHoc4npa61Z+Rpia8TFTqPKmyc
+ 0GAPAJTh941Xxa3Audg3RDOeejLXGMePMrdH/GaJne0bfDGUtyLEVk+pfjmVZvgGo1ceNwAEAA
+ A==
+X-Change-ID: 20240909-b4-vkms-allocated-9f5508f4444a
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2456;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=PNKCSwgwfEkCp/cHhPKf+pX9Nl6OyTuv1qUYm8K1uwc=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnih0g5HcQlws8agV9hKok0MfECbFkvM1WDBHvl
+ ipKAxOSszmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ4odIAAKCRAgrS7GWxAs
+ 4mFoD/9sp0xpNG95H80X2PLJPcoXisIaQhFxZfLsEP9B44W+yhSHIY8Dh2vXIE/ea4SHmshH1S3
+ nAI/himd2/OJdnFRZeZZdqWG+5vOhvqGZLGwsIt8mKPW+zHrm0GP1fxHe8y4JzbPh4KYnvB0ymA
+ ASFfn4bAPXWHcqK1eQNSBRA0gNds10yCBWOYiyLCmmSjStGc3XoLS3npkyWcB4OR4hOP4T/+9Mc
+ F5kW/aTFEQSx2WYQXdVEy8D23MFGw/6ZExNYEN4X+qzbbnor1vLJwCuh/VEb/PNDAqhnvJoGf+P
+ AYxuJ/f27hs5b/OB2IL9ldWHNR9YvZhC9ZZg5YoovQhxd+aBN7BmqQGq/5FYimNDjvGoMyFIwhi
+ G3cpO56gWnfxO0uYH+eyWGIky4+dWwShS5nzrOmAz+CWHTzS10BT4WC17Pvi9NicQWGTJSo7Nke
+ 1IeDqgbvXk+WJHjfKiPQnJYYt5+2s7Y2qmnljqx2k30bQdhO12z5G6J1DEGVblRfiY9zsGlCuWf
+ jBet25dhHzAufAnHmgyTqtQvNAyqC0GjV9VyUtjx/wZNNB0p7CdlfkzYm+huGDT5hwW1VFN2o4K
+ vviXoQ1vyKzEpFUFL5N0Jt67smaIbycaeHiBgFDTreckWrPdouIfyL+aDdWnCA/0tTdc+cXXV2U
+ eEpkhj9/Wjl0gQw==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,130 +88,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/IbKa/Ak_Cc0udwwLFnLiXes
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Specific allocations for each DRM object is not strictly needed in VKMS
+right now, but in order to implement dynamic configuration of VKMS
+(configFS), it will be easier to have one allocation per DRM object.
 
-On Thu, 19 Dec 2024 21:33:35 -0700
-Alex Hung <alex.hung@amd.com> wrote:
+There is no need for a dynamic allocation for the writeback connector as
+there can only be one per CRTC
 
-> From: Harry Wentland <harry.wentland@amd.com>
->=20
-> The PQ function defines a mapping of code values to nits (cd/m^2).
-> The max code value maps to 10,000 nits.
->=20
-> Windows DWM's canonical composition color space (CCCS)  defaults
-> to composing SDR contents to 80 nits and uses a float value of
-> 1.0 to represent this. For this reason AMD HW hard-codes a PQ
-> function that is scaled by 125, yielding 80 nit PQ values for
-> 1.0 and 10,000 nits at 125.0.
->=20
-> This patch introduces this scaled PQ EOTF and its inverse as
-> 1D curve types.
->=20
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> ---
->  drivers/gpu/drm/drm_colorop.c |  2 ++
->  include/drm/drm_colorop.h     | 21 ++++++++++++++++++++-
->  2 files changed, 22 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index 7d4b29c0a0cc..f3391602a577 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -70,6 +70,8 @@ static const struct drm_prop_enum_list drm_colorop_type=
-_enum_list[] =3D {
->  static const char * const colorop_curve_1d_type_names[] =3D {
->  	[DRM_COLOROP_1D_CURVE_SRGB_EOTF] =3D "sRGB EOTF",
->  	[DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF] =3D "sRGB Inverse EOTF",
-> +	[DRM_COLOROP_1D_CURVE_PQ_125_EOTF] =3D "PQ 125 EOTF",
-> +	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] =3D "PQ 125 Inverse EOTF",
->  };
-> =20
-> =20
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-> index e9f5c1adc2fe..4084a7438032 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -36,7 +36,6 @@
->   * enum drm_colorop_curve_1d_type - type of 1D curve
->   *
->   * Describes a 1D curve to be applied by the DRM_COLOROP_1D_CURVE coloro=
-p.
-> - *
->   */
->  enum drm_colorop_curve_1d_type {
->  	/**
-> @@ -56,6 +55,26 @@ enum drm_colorop_curve_1d_type {
->  	 */
->  	DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF,
-> =20
-> +	/**
-> +	 * @DRM_COLOROP_1D_CURVE_PQ_125_EOTF:
-> +	 *
-> +	 * The PQ transfer function, scaled by 125.0f, so that 10,000
-> +	 * nits correspond to 125.0f.
-> +	 *
-> +	 * Transfer characteristics of the PQ function as defined by
-> +	 * SMPTE ST 2084 (2014) for 10-, 12-, 14-, and 16-bit systems
-> +	 * and Rec. ITU-R BT.2100-2 perceptual quantization (PQ) system.
-> +	 * Equivalent to H.273 TransferCharacteristics code point 16.
-> +	 */
+No functionnal changes are intented in this series.
 
-Hi,
+This series requires [1] to switch vkms objects to drm-managed objects.
 
-this all good, I'd just clarify a minor detail.
+[1]:https://lore.kernel.org/all/20250116-google-vkms-managed-v9-0-3e4ae1bd05a0@bootlin.com/
 
-H.273 code point 16 defines the normalised formula
-TF: [0.0, 1.0] -> [0.0, 1.0]
-so it is not equivalent to the 125-scaled version.
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v4:
+- Rebased
+- Add R-by from Maxime
+- Link to v3: https://lore.kernel.org/r/20241230-b4-vkms-allocated-v3-0-5dda4c1bd459@bootlin.com
 
-Maybe you meant something like this?
+Changes in v3:
+- Add R-by
+- Fix bug reported by José
+- Remove patch to rename vkms_output to vkms_crtc
+- Link to v2: https://lore.kernel.org/r/20241122-b4-vkms-allocated-v2-0-ff7bddbf0bfb@bootlin.com
 
-+	 * Transfer characteristics of the PQ function as defined by
-+	 * SMPTE ST 2084 (2014) for 10-, 12-, 14-, and 16-bit systems
-+	 * and Rec. ITU-R BT.2100-2 perceptual quantization (PQ) system,
-+	 * represented by H.273 TransferCharacteristics code point 16.
+Changes in v2:
+- Rebased on drm-misc-next
+- Apply comments from Jose
+- Link to v1: https://lore.kernel.org/r/20240912-b4-vkms-allocated-v1-0-29abbaa14af9@bootlin.com
 
+---
+Louis Chauvet (3):
+      drm/vkms: Switch to dynamic allocation for connector
+      drm/vkms: Switch to dynamic allocation for encoder
+      drm/vkms: Switch to dynamic allocation for CRTC
 
-Thanks,
-pq
+ drivers/gpu/drm/vkms/vkms_crtc.c      | 32 ++++++++++++++++--------------
+ drivers/gpu/drm/vkms/vkms_drv.h       | 10 ++++------
+ drivers/gpu/drm/vkms/vkms_output.c    | 37 +++++++++++++++++++++++------------
+ drivers/gpu/drm/vkms/vkms_writeback.c | 23 +++++++++++-----------
+ 4 files changed, 58 insertions(+), 44 deletions(-)
+---
+base-commit: 6e11ce84c514f3ad8c8c766e1328bf49d80a0325
+change-id: 20240909-b4-vkms-allocated-9f5508f4444a
+prerequisite-message-id: 20250116-google-vkms-managed-v9-0-3e4ae1bd05a0@bootlin.com
+prerequisite-patch-id: b608594ad493a41000ee703792eac4b23f9e35dc
+prerequisite-patch-id: 5697aa87c44bbf3eda8a1ba424465dc792545d4c
+prerequisite-patch-id: 274d0d4c603d6db7ced0b10153509c82b40ca274
+prerequisite-patch-id: 5d35b764a11db0c22162acaf3524e0c6a40087b1
+prerequisite-patch-id: ddaf2d9d6e6901923b3b84f0c32139e89a023132
+prerequisite-patch-id: c309f210cafc91ec1dc91e4546cefe2b8d701b1f
+prerequisite-patch-id: 1cc8ec3deb833570bf6fde605256bd9ddbf04083
+prerequisite-patch-id: 52942106bbd11265737c0b41cd90c7b5ca04fd4d
 
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
-> +	DRM_COLOROP_1D_CURVE_PQ_125_EOTF,
-> +
-> +	/**
-> +	 * @DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF:
-> +	 *
-> +	 * The inverse of DRM_COLOROP_1D_CURVE_PQ_125_EOTF.
-> +	 */
-> +	DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF,
-> +
->  	/**
->  	 * @DRM_COLOROP_1D_CURVE_COUNT:
->  	 *
-
-
---Sig_/IbKa/Ak_Cc0udwwLFnLiXes
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmeKHQEACgkQI1/ltBGq
-qqc9UA//dhdXDVCxqYir1zscMW40RSIpSdwcETmm3p4KUH5YCHk/w04BI1y74wxv
-CU+G+x/s5sZi5+ZS4m2F8+tr9KOMV3q1KEaw52MjfetRYVGt9NaJkzhchY6Qvt5X
-IcfuAxR7jcD8TLnro/aCSzGn3QNBqKuFkOXelC7AWbuA80Don0eEJSgzby2by5u2
-AhEttZwp30LntUNowIwWfwLwGdU9FUbxFuIthLPtKo1z7bXWnmwHE6aRuyM2RBxD
-F+wcUXZlcRTKSHWrJmVI++47y6wcYQqU23eghDsKpP0irnBGAqcXjgZXZNiKpQn+
-eC67s53c6XhhFa+AijC58yH2POenHLvsk0mj9AfBG4eXxfTGxrfLCAjR0AIpS/DD
-cLczgpM1LVg2RHu63uhYiIyezsMEvAe2lTMImGBBlOsyCvGT5NG7DJr8xBhShOxv
-tzCEYtCyx4o5qExGo4sVZbpAycTI6BS+g6VBrdLJ08AyF0/dOuREJfDA/HWemUMF
-UUGXmLMF9OY7xWew2fRe7ds2bJbWU2rVrVDz/h9qQhEU0/3CwszG7xuDuB87xloN
-AAHPlOGgEbUQv48v81J8cdbQuf7Idm6PPvOGHAwPo5J5cc+yd058IdoLDklsauo+
-jI7bucGVkHLKFCtpyGnN6cYHpZISTZOBK9p13KXkZl8tnvDtSjw=
-=eU11
------END PGP SIGNATURE-----
-
---Sig_/IbKa/Ak_Cc0udwwLFnLiXes--
