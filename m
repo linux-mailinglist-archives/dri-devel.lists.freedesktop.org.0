@@ -2,56 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318D8A14B6B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 09:46:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E47A1A14AB8
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Jan 2025 09:12:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 734B210EAA8;
-	Fri, 17 Jan 2025 08:46:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFB2A10E1F5;
+	Fri, 17 Jan 2025 08:12:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mKsJtGSc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="A4dvd+In";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E02910EA84
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 08:01:52 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YZBy63zyTz9stj;
- Fri, 17 Jan 2025 09:01:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1737100878; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net
+ [217.70.183.199])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1331710E1F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 08:12:18 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 26543FF80A;
+ Fri, 17 Jan 2025 08:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1737101536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OWKmQYboqVXaYTSDNkdm/JQcGsOftsLWuwVk9cxD6Fg=;
- b=mKsJtGScGcuq4SNin2aLeqMK0CHJc/Ihrku5MYBkDrb1AU1ugdfuB6VcfgmdU3woER602e
- CYi5Jjcv2Z4fHH5jQvJpRrWIcbhYF88zdSIcykeGSADABubZWRxaNlWKG6kUVGjpQHMspO
- +InQhyvYBriQRUwMwV0S0fvM3NCJzmZZpPE3xBn+9zmRa7BC30qgwFCTr1TCeC401MmIhT
- Uo5jI1sTbgsRUTOSKHM0J1NnFP5Raz2RJjJ1ii19xZM0dESYpkgEPGxbxdSVUWUGwIV/Jl
- s/iW2QJpZNJWoVITt1XBauGhEYxJR5qkhvwP05huGUUqedHgWLmndifEOoqZbw==
-Message-ID: <446af2bc30c17b5aea599d53284244bf846b3dbd.camel@mailbox.org>
-Subject: Re: [PATCH 1/2] MAINTAINERS: Update DRM GPU Scheduler section
-From: Philipp Stanner <phasta@mailbox.org>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Matthew
- Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Dave Airlie
- <airlied@gmail.com>
-Date: Fri, 17 Jan 2025 09:01:14 +0100
-In-Reply-To: <20250113121851.31382-1-phasta@kernel.org>
-References: <20250113121851.31382-1-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ bh=Zzpu4ol1m/LToBk3NAdooBOWkvpkG0XmpKguqRBU9tA=;
+ b=A4dvd+IndVsWidlaeK1pFH7cWN/trRYbCf0IvVPMxooutzz/VGCm2udIJrTDjDY6h6alEq
+ 45XLr8LKShnxnUsqZc/eMapWqlsUoDTB+FyM+BJRu5wWhn8apuvxxeD5ra4WvJTDZlcnEL
+ LQWk5+ezV29XXb4OGmhueQBOEV9bOJqU49g52CqbkvjzBmxEVv15Jazkof0EVXfthE+QFM
+ iAfqMa7zMphv+Ol50AAsuOPQ+9/GNPMMiyORUFJPqx77ohNrVCDcDciiovontYOD2iJA5o
+ 1vDVn16dbWOa6IQgQnXu9xytsP5oAxjPurDZ/X/I8YhdKeiVMAxY7/w78gpugQ==
+Date: Fri, 17 Jan 2025 09:12:13 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Marek Vasut
+ <marex@denx.de>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Louis Chauvet
+ <louis.chauvet@bootlin.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <20250117091213.647bf0e6@bootlin.com>
+In-Reply-To: <20250116-archetypal-bulldog-of-expression-fcc937@houat>
+References: <20250108101907.410456-1-herve.codina@bootlin.com>
+ <20250108101907.410456-4-herve.codina@bootlin.com>
+ <20250114-juicy-authentic-mushroom-cfcdfb@houat>
+ <20250114135456.5366eb2a@bootlin.com>
+ <20250116-archetypal-bulldog-of-expression-fcc937@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MBO-RS-ID: a10c711e85096492af1
-X-MBO-RS-META: exm89ty9erynnha6yxy4ydj3usgzzga4
-X-Mailman-Approved-At: Fri, 17 Jan 2025 08:46:14 +0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,64 +72,130 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(-cc some unrelated people)
+Hi Maxime,
 
-On Mon, 2025-01-13 at 13:18 +0100, Philipp Stanner wrote:
-> Luben has not been active and has not responded to mails since summer
-> 2024. Remove him from MAINTAINERS and add an entry in CREDITS.
->=20
-> Philipp has a new email address and an ACK to commit work time to the
-> scheduler. Thus, set the state to 'Supported'.
->=20
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+On Thu, 16 Jan 2025 09:38:45 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Applied those two to drm-misc-next.
+> On Tue, Jan 14, 2025 at 01:54:56PM +0100, Herve Codina wrote:
+> > Hi Maxime,
+> > 
+> > On Tue, 14 Jan 2025 08:40:51 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> > 
+> > ...
+> >   
+> > > >  
+> > > > +static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
+> > > > +{
+> > > > +	struct drm_atomic_state *state = ERR_PTR(-EINVAL);
+> > > > +	struct drm_device *dev = sn65dsi83->bridge.dev;
+> > > > +	struct drm_connector_state *connector_state;
+> > > > +	struct drm_modeset_acquire_ctx ctx;
+> > > > +	struct drm_connector *connector;
+> > > > +	int err;
+> > > > +
+> > > > +	/*
+> > > > +	 * Reset active outputs of the related CRTC.
+> > > > +	 *
+> > > > +	 * This way, drm core will reconfigure each components in the CRTC
+> > > > +	 * outputs path. In our case, this will force the previous component to
+> > > > +	 * go back in LP11 mode and so allow the reconfiguration of SN64DSI83
+> > > > +	 * bridge.
+> > > > +	 *
+> > > > +	 * Keep the lock during the whole operation to be atomic.
+> > > > +	 */
+> > > > +
+> > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+> > > > +
+> > > > +	state = drm_atomic_helper_duplicate_state(dev, &ctx);
+> > > > +	if (IS_ERR(state)) {
+> > > > +		err = PTR_ERR(state);
+> > > > +		goto unlock;
+> > > > +	}    
+> > > 
+> > > No, you must not allocate a new state for this, you need to reuse the
+> > > existing state. You'll find it in bridge->base.state->state.  
+> > 
+> > Thanks for pointing that. I didn't know about bridge->base.state->state.
+> > 
+> > I will use that if using the state is still relevant (see next comment).
+> >   
+> > >   
+> > > > +	state->acquire_ctx = &ctx;
+> > > > +
+> > > > +	connector = drm_atomic_get_old_connector_for_encoder(state,
+> > > > +							     sn65dsi83->bridge.encoder);
+> > > > +	if (!connector) {
+> > > > +		err = -EINVAL;
+> > > > +		goto unlock;
+> > > > +	}
+> > > > +
+> > > > +	connector_state = drm_atomic_get_connector_state(state, connector);
+> > > > +	if (IS_ERR(connector_state)) {
+> > > > +		err = PTR_ERR(connector_state);
+> > > > +		goto unlock;
+> > > > +	}
+> > > > +
+> > > > +	err = drm_atomic_helper_reset_pipe(connector_state->crtc, &ctx);
+> > > > +	if (err < 0)
+> > > > +		goto unlock;    
+> > > 
+> > > And you'll find the crtc in bridge->encoder->crtc.  
+> > 
+> > I am a bit confused. I looked at the drm_encoder structure [1] and the crtc
+> > field available in this structure should not be used by atomic drivers. They
+> > should rely on &drm_connector_state.crtc.  
+> 
+> You're right, it's deprecated but used by most bridges anyway.
+> 
+> I made a series of changes after reviewing your series to address some
+> issues with the current bridge API, most notably
+> 
+> https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9a2fecd886a6@kernel.org/
 
-P.
+Thanks for pointing that, indeed, it clarify many things!
 
-> ---
-> =C2=A0CREDITS=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ++++
-> =C2=A0MAINTAINERS | 5 ++---
-> =C2=A02 files changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff --git a/CREDITS b/CREDITS
-> index cda68f04d5f1..1593ada4209c 100644
-> --- a/CREDITS
-> +++ b/CREDITS
-> @@ -3948,6 +3948,10 @@ S: 1 Amherst Street
-> =C2=A0S: Cambridge, Massachusetts 02139
-> =C2=A0S: USA
-> =C2=A0
-> +N: Luben Tuikov
-> +E: Luben Tuikov <ltuikov89@gmail.com>
-> +D: Maintainer of the DRM GPU Scheduler
-> +
-> =C2=A0N: Simmule Turner
-> =C2=A0E: sturner@tele-tv.com
-> =C2=A0D: Added swapping to filesystem
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a87ddad78e26..fa288ef20c59 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7888,12 +7888,11 @@ F:	Documentation/gpu/zynqmp.rst
-> =C2=A0F:	drivers/gpu/drm/xlnx/
-> =C2=A0
-> =C2=A0DRM GPU SCHEDULER
-> -M:	Luben Tuikov <ltuikov89@gmail.com>
-> =C2=A0M:	Matthew Brost <matthew.brost@intel.com>
-> =C2=A0M:	Danilo Krummrich <dakr@kernel.org>
-> -M:	Philipp Stanner <pstanner@redhat.com>
-> +M:	Philipp Stanner <phasta@kernel.org>
-> =C2=A0L:	dri-devel@lists.freedesktop.org
-> -S:	Maintained
-> +S:	Supported
-> =C2=A0T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> =C2=A0F:	drivers/gpu/drm/scheduler/
-> =C2=A0F:	include/drm/gpu_scheduler.h
+> 
+> > In my case, I have the feeling that I should get the ctrc from the current
+> > state (i.e. bridge->base.state->state) using the sequence provided in this
+> > current patch:
+> >   Retrieve the connector with drm_atomic_get_old_connector_for_encoder()  
+> 
+> Retrieving the old connector makes no sense though. It's the connector
+> that was formerly associated with your encoder. It might work, it might
+> not, it's not what you're looking for.
+> 
+> >   Retrieve the connector state with drm_atomic_get_connector_state()  
+> 
+> drm_atomic_get_connector_state will allocate and pull the connector
+> state into the drm_atomic_state, even if it wasn't part of it before, so
+> it's not great. And you don't need it in the first place, you only need
+> the current active CRTC.
 
+Yes, I agree with that, I only need the active CRTC.
+
+I tried to get the current atomic_state from:
+  1) bridge->base.state->state
+  2) drm_bridge_state->base.state
+
+In both cases, it is NULL. Looking at Sima's reply in your series
+explained that:
+  https://lore.kernel.org/dri-devel/Z4juJy7kKPbI2BDb@phenom.ffwll.local/
+
+If I understood correctly those pointers are explicitly cleared.
+
+So, with all of that, either:
+  a) I wait for your series to be applied in order to use your the crtc field from
+     drm_bridge_state added by:
+       https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9a2fecd886a6@kernel.org/#t
+  b) I use the old school bridge->encoder->crtc for the moment
+
+Do you mind if I use the bridge->encoder->crtc way for the next iteration of
+my series?
+
+Best regards,
+Hervé
