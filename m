@@ -2,87 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6510BA15B1E
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2025 03:39:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ECD0A15B3B
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2025 04:32:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D526910E332;
-	Sat, 18 Jan 2025 02:39:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0ABA10E0D0;
+	Sat, 18 Jan 2025 03:32:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KfFm2YMc";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OGRtZan4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com
- [209.85.160.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7583B10E32C;
- Sat, 18 Jan 2025 02:39:20 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id
- 586e51a60fabf-2a016ef0822so63568fac.0; 
- Fri, 17 Jan 2025 18:39:20 -0800 (PST)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF95210E0D0
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2025 03:32:05 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6832so2908154e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Jan 2025 19:32:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737167899; x=1737772699; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IAbJVSBhvKB/Vnp4nWOV0+x50/nKWwhXDTl4//4/izo=;
- b=KfFm2YMcT67aRqBBP0qgbLw1oOpASuOkh8BFyzSQ9RKyqND0PUbcbeoZOIVnhz/ygv
- QpMvjfX/UeJ8zEvjrE+eX6upQl5p1JLgOSehLAoNRcTlaCU3kTYJ7N5MzjsMNhRb+qp6
- 9sGYJQXF+PWDUV6AcOMdyoB4tG1+RcXsj1FLqoUmnLZv/kGSybItFq/TKxRS8CxonLzE
- fOTGZ5/Xk4SG3FNveiSnaGOfN+drRawObwiMEVkAfVnv+EV7/BLXI8tOtEM7i4lVgsF4
- 4xcpJEt7W6oL0DuXngupwf7H2XpzN81go6xf51AoKDYmu6hv71aUy/Ldt4nrxuB6XEZy
- g4dA==
+ d=linaro.org; s=google; t=1737171124; x=1737775924; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=hzhYcQ8TIQfms4jIUonylBO9hpxU9lIyBPmgiVcYCfA=;
+ b=OGRtZan4i8CrFMAbhupTWEX0RlE75PxzW4Eeok4eCYNQr3U+j6ePUK/DXSxvnNP6ri
+ RH09oYV4YVyRcLei1/kzFjHPBcrZDCSzCvSPxIUNQmHIdZ/PHqHNbdaTGQP6j/6CAeSM
+ xN/PTPoydPRCxXx3Y+j4Bpd/9jSWlmyxQUNNXPcPiXJzGyPlWzzF30I4HqDXp4NqurbP
+ 8XHRBlIVxUyWXTZg9CemdU0TuYxAlNbUsV7Vqc4v+KHAQMJqBaLXLEVijPvdKI1zN6XL
+ t5xvJrj7aRxnBMRTkRBrrrnVwm6ya5xFLJBvbgLtwxqNia6B9ezJcapM4d5PwhsR+iI0
+ o3tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737167899; x=1737772699;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IAbJVSBhvKB/Vnp4nWOV0+x50/nKWwhXDTl4//4/izo=;
- b=Zk2pTHCzNLZkuS9g7JiAhnWZEBegMX0Z677Xg1ePLBzmswY46OeLO4EgAPdL5jLQMh
- DYKNcguaXby8l750oKq0KKRyjjvjh9voOR01zjHjSe0bFUridrFH9S1qx0da4oSkBGDN
- q6harTd7p4Ak+WjiX/UZaY5MvX5q4PP+7jc068qUR/WrBypJdCw0oRjov5yUkBQ0RplJ
- jv9r5Qy9X45icCg9+WtLTs9e9/Cu9u36p9mt1gp4FewbuuPblklHRutwRc/1WBKJtOH6
- sBmqqZVSO3FDUozCZxunuqpFcpsbJCNj+CnZqwUPME77skSniXJh/U9H3ewKqC+PQ/uE
- Wh4A==
+ d=1e100.net; s=20230601; t=1737171124; x=1737775924;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hzhYcQ8TIQfms4jIUonylBO9hpxU9lIyBPmgiVcYCfA=;
+ b=FewQKCsid27Kg2l3bhfVpWi18Kx5RVWLEftByGf3dCJ4XNvAIOvJ3BVtwLQ+Sq81TX
+ HLkbNMnFAdZ6ZIi1vnXk1gFk8gFmA3YlJKtsVeZgfgBZ7ihxb8jrlb/7iNfWnGJOHJuO
+ abgypeGKweviCShPCc8pyVX+64MWt9LIl5c9e4HrtKifJ/si6+doOHhNjMZzColgOD/t
+ gHC/xyshvlo1hYsxCpZjBThyn+QMEyczY18fXxI7rtwnTCvKWXy9XNXRqrGpJh/lPvs6
+ TqYb3exo4zcdmEb05QBxwlHPTv5WwdUZiVL67tM0H7sjt0Rjt1D0bK0HiWd5DCg0D+CN
+ m8SA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUg6DXQyXlcgPvSFddWq6owLc7XEvd2JS+DbdA2Axap9qlpYoRW/e8w7+eVZYcecQbYStPxFo4TMkzM@lists.freedesktop.org,
- AJvYcCWdX36xG0qz8lFF1RlBIrYLUqncesq83VI40Dg5+onlLi9LWhRefMPcNsA3lAqeqRFUQVVLSbgZ@lists.freedesktop.org,
- AJvYcCX4UyWiku+oXIrvz8Sn+CZBxbhHZ+AU4EoweYCRyhe2mUiRG/MfCHXL3mqI/ZSX21eOfc1sHLPZfrk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzbf6ieMzjmV5yNJz3JZgkY1qdPSFQfJkcSgxESQckVEutt3Q5C
- TV+7SIAMU4J0D+nNH+fs0xv+6ssJ+GbBGUq0KUzIxNisjM/NiKI3cm4UC79eeJMQ8ARlx7OHDNB
- FOYLW889wyjgLJ2zsfPAm8LShrjk=
-X-Gm-Gg: ASbGncsUl+FvToxDPQUjFGoblHfjqtecX62yq+ziZcHp/abLdJX+Pi4sITmqqCfU5cP
- 363dQ/WMrKVV5ZJUJNsaVNVFy6j98hWCNfdQFO7Iw+PB8p1T1cEE+6A==
-X-Google-Smtp-Source: AGHT+IFl/o/xQp6BQ9SLIjW4Y2taoTl/ofjk45viDlxxUGX3NtQrOFqy9xX4SdlzjK5YRhkwKKfXUyb+0oqSYmByzow=
-X-Received: by 2002:a05:6870:224b:b0:29e:4111:fef4 with SMTP id
- 586e51a60fabf-2b1c0aafb52mr1021706fac.6.1737167899483; Fri, 17 Jan 2025
- 18:38:19 -0800 (PST)
+ AJvYcCUgngDoYoWuerOr7LAIB2DSwVSyP8p7VJdjbebJEUovzMjkbMFUvOhjeHhjkNP2imPpEYbN/pLFVMs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwGt/buJ5N5Pt/Emlc+88jn2SiiqFkVMGf9kuJrShMExrwErf6D
+ zBIo4FS7VZ75iQTQ04BvcZRLPyKHbiwe3VUMyX1k4hFvi/yUJyqSm/cjuRthtXg=
+X-Gm-Gg: ASbGncv1+5aMqlmgyColKGCCvwXrlkgML2Mfx6RQDv9uEQCJRT6G0ah3HH4frW1Su1O
+ Lu9kX7b10jyMOPEqPnySlaXR8v/+QvyMeL+X2NA5IydoqnbfwTbno8mJTEZTwL6gzfvCnHZQ6dB
+ SEGlYSUsP6h1ZFAOtgPAa/9XzR7cM2uVO+gvWkOs7S8yPDh1j0rkxtU36FaPyqJy/gqWgzXega5
+ +6yDXXxI0jLviGKQSgNOm7FDng8IhQOOmg0+oSulz5W5Ksfup0CymYYwi5KMkBJfbwb5z94p3Pu
+ MdluvR907x2wt6eH8U0JhAaLqBNBA6ZkIHStq/tCtucR7jEaBg==
+X-Google-Smtp-Source: AGHT+IEHCXhnR9Ifz788WfaTw8BC7iP0CpDRy+2jMi6d69znvkXj4Q2lQp7TuxJzYYy15v3Qpf7Fpg==
+X-Received: by 2002:a05:6512:e8d:b0:542:9883:263 with SMTP id
+ 2adb3069b0e04-5439c246370mr1751170e87.14.1737171123682; 
+ Fri, 17 Jan 2025 19:32:03 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5439af60970sm574860e87.116.2025.01.17.19.32.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Jan 2025 19:32:02 -0800 (PST)
+Date: Sat, 18 Jan 2025 05:31:59 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Alexey Charkov <alchark@gmail.com>, Jianfeng Liu <liujianfeng1994@gmail.com>, 
+ Dragan Simic <dsimic@manjaro.org>, FUKAUMI Naoki <naoki@radxa.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, Johan Jonker <jbx6244@gmail.com>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Sugar Zhang <sugar.zhang@rock-chips.com>, 
+ Algea Cao <algea.cao@rock-chips.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com
+Subject: Re: [PATCH v1 1/2] drm/bridge: synopsys: Add audio support for
+ dw-hdmi-qp
+Message-ID: <xtthbgdnyaevtcvjmkqsipje6ksxmbilkacbw5f4m4fvu62ggx@wm34iotb2a6d>
+References: <20250117164815.67253-1-detlev.casanova@collabora.com>
+ <20250117164815.67253-2-detlev.casanova@collabora.com>
 MIME-Version: 1.0
-References: <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
- <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
- <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
- <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
- <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
- <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
- <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
- <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
- <CAAxE2A6ghBK2VTLkNXgk1c61UG1ZQAzWQ4q=wO-OShAUC9eRmQ@mail.gmail.com>
- <CAPj87rNFy7GLAjjxDYGLN-f8M0F7yMX6PED94O4kBJ=pwtPVyA@mail.gmail.com>
- <Z4pmnTy1NYD3rLwS@phenom.ffwll.local>
-In-Reply-To: <Z4pmnTy1NYD3rLwS@phenom.ffwll.local>
-From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
-Date: Fri, 17 Jan 2025 21:37:43 -0500
-X-Gm-Features: AbW1kvY5IuxtPnPVKEKRkX4PWmyPXyweVxRigqqH0P53rbUjRCvTfoymuD2Dn1o
-Message-ID: <CAAxE2A6iDsN=YKW2F7WyyZxn4Sw4Dr5CxZminQGwf8awBivovQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
- alignment
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Daniel Stone <daniel@fooishbar.org>, James Jones <jajones@nvidia.com>, 
- Brian Starkey <brian.starkey@arm.com>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
- ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Content-Type: multipart/alternative; boundary="0000000000009066f8062bf1eb7f"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250117164815.67253-2-detlev.casanova@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,397 +109,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000009066f8062bf1eb7f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jan 17, 2025 at 11:46:57AM -0500, Detlev Casanova wrote:
+> From: Sugar Zhang <sugar.zhang@rock-chips.com>
+> 
+> Register the dw-hdmi-qp bridge driver as an HDMI audio codec.
+> 
+> The register values computation functions (for n) are based on the
+> downstream driver, as well as the register writing functions.
+> 
+> The driver uses the generic HDMI Codec framework in order to implement
+> the HDMI audio support.
+> 
+> Signed-off-by: Sugar Zhang <sugar.zhang@rock-chips.com>
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 472 +++++++++++++++++++
+>  1 file changed, 472 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> index b281cabfe992..55ceeb180bc6 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> @@ -36,6 +36,66 @@
+>  
+>  #define SCRAMB_POLL_DELAY_MS	3000
+>  
+> +/*
+> + * Unless otherwise noted, entries in this table are 100% optimization.
+> + * Values can be obtained from hdmi_compute_n() but that function is
+> + * slow so we pre-compute values we expect to see.
+> + *
+> + * All 32k and 48k values are expected to be the same (due to the way
+> + * the math works) for any rate that's an exact kHz.
+> + */
+> +static const struct dw_hdmi_audio_tmds_n {
+> +	unsigned long tmds;
+> +	unsigned int n_32k;
+> +	unsigned int n_44k1;
+> +	unsigned int n_48k;
+> +} common_tmds_n_table[] = {
+> +	{ .tmds = 25175000, .n_32k = 4096, .n_44k1 = 12854, .n_48k = 6144, },
+> +	{ .tmds = 25200000, .n_32k = 4096, .n_44k1 = 5656, .n_48k = 6144, },
+> +	{ .tmds = 27000000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
+> +	{ .tmds = 28320000, .n_32k = 4096, .n_44k1 = 5586, .n_48k = 6144, },
+> +	{ .tmds = 30240000, .n_32k = 4096, .n_44k1 = 5642, .n_48k = 6144, },
+> +	{ .tmds = 31500000, .n_32k = 4096, .n_44k1 = 5600, .n_48k = 6144, },
+> +	{ .tmds = 32000000, .n_32k = 4096, .n_44k1 = 5733, .n_48k = 6144, },
+> +	{ .tmds = 33750000, .n_32k = 4096, .n_44k1 = 6272, .n_48k = 6144, },
+> +	{ .tmds = 36000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
+> +	{ .tmds = 40000000, .n_32k = 4096, .n_44k1 = 5733, .n_48k = 6144, },
+> +	{ .tmds = 49500000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
+> +	{ .tmds = 50000000, .n_32k = 4096, .n_44k1 = 5292, .n_48k = 6144, },
+> +	{ .tmds = 54000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
+> +	{ .tmds = 65000000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
+> +	{ .tmds = 68250000, .n_32k = 4096, .n_44k1 = 5376, .n_48k = 6144, },
+> +	{ .tmds = 71000000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
+> +	{ .tmds = 72000000, .n_32k = 4096, .n_44k1 = 5635, .n_48k = 6144, },
+> +	{ .tmds = 73250000, .n_32k = 4096, .n_44k1 = 14112, .n_48k = 6144, },
+> +	{ .tmds = 74250000, .n_32k = 4096, .n_44k1 = 6272, .n_48k = 6144, },
+> +	{ .tmds = 75000000, .n_32k = 4096, .n_44k1 = 5880, .n_48k = 6144, },
+> +	{ .tmds = 78750000, .n_32k = 4096, .n_44k1 = 5600, .n_48k = 6144, },
+> +	{ .tmds = 78800000, .n_32k = 4096, .n_44k1 = 5292, .n_48k = 6144, },
+> +	{ .tmds = 79500000, .n_32k = 4096, .n_44k1 = 4704, .n_48k = 6144, },
+> +	{ .tmds = 83500000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
+> +	{ .tmds = 85500000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
+> +	{ .tmds = 88750000, .n_32k = 4096, .n_44k1 = 14112, .n_48k = 6144, },
+> +	{ .tmds = 97750000, .n_32k = 4096, .n_44k1 = 14112, .n_48k = 6144, },
+> +	{ .tmds = 101000000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
+> +	{ .tmds = 106500000, .n_32k = 4096, .n_44k1 = 4704, .n_48k = 6144, },
+> +	{ .tmds = 108000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
+> +	{ .tmds = 115500000, .n_32k = 4096, .n_44k1 = 5712, .n_48k = 6144, },
+> +	{ .tmds = 119000000, .n_32k = 4096, .n_44k1 = 5544, .n_48k = 6144, },
+> +	{ .tmds = 135000000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
+> +	{ .tmds = 146250000, .n_32k = 4096, .n_44k1 = 6272, .n_48k = 6144, },
+> +	{ .tmds = 148500000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
+> +	{ .tmds = 154000000, .n_32k = 4096, .n_44k1 = 5544, .n_48k = 6144, },
+> +	{ .tmds = 162000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
+> +
+> +	/* For 297 MHz+ HDMI spec have some other rule for setting N */
+> +	{ .tmds = 297000000, .n_32k = 3073, .n_44k1 = 4704, .n_48k = 5120, },
+> +	{ .tmds = 594000000, .n_32k = 3073, .n_44k1 = 9408, .n_48k = 10240, },
+> +
+> +	/* End of table */
+> +	{ .tmds = 0,         .n_32k = 0,    .n_44k1 = 0,    .n_48k = 0, },
+> +};
+> +
+>  struct dw_hdmi_qp_i2c {
+>  	struct i2c_adapter	adap;
+>  
+> @@ -59,6 +119,8 @@ struct dw_hdmi_qp {
+>  		void *data;
+>  	} phy;
+>  
+> +	struct mutex audio_mutex;
 
-If DRM_FORMAT_MOD_LINEAR stays, then most of this discussion is irrelevant.
-If you don't like the new linear modifiers, don't use them. If that's you,
-bye.
+There should be a comment, what is being protected by this mutex.
 
-For the rest, there are multiple solutions:
+> +
+>  	struct regmap *regm;
+>  };
+>  
 
-1) New vendor-agnostic linear modifiers. The reason why we would want them
-is that they define robust functions for (x,y,w)->address, (w,h)->size, and
-alignment. All 2^32 (roughly) AMD modifiers have such functions in Mesa
-(really). Linear modifiers would work in the same way.
+[...]
 
-2) New cross-vendor modifier defining 1 layout for the existing case. This
-is not less effort than 1). It's just a different #define, but limited to
-only 1 case. Why bother. Is it really worth debating so much whether
-#define should have 0 parameters instead of 5? If nobody else uses 1), so
-what?
+> +static int dw_hdmi_qp_init_audio_infoframe(struct dw_hdmi_qp *hdmi)
+> +{
+> +	struct hdmi_audio_infoframe frame;
+> +	u8 infoframe_buf[HDMI_INFOFRAME_SIZE(AUDIO)];
+> +	int ret = 0;
+> +
+> +	hdmi_audio_infoframe_init(&frame);
+> +
+> +	frame.coding_type = HDMI_AUDIO_CODING_TYPE_STREAM;
+> +	frame.sample_frequency = HDMI_AUDIO_SAMPLE_FREQUENCY_STREAM;
+> +	frame.sample_size = HDMI_AUDIO_SAMPLE_SIZE_STREAM;
+> +	frame.channels = 2;
+> +
+> +	ret = hdmi_audio_infoframe_pack(&frame, infoframe_buf,
+> +					sizeof(infoframe_buf));
+> +	if (ret < 0) {
+> +		dev_err(hdmi->dev, "%s: Failed to pack audio infoframe: %d\n",
+> +			__func__, ret);
+> +		return ret;
+> +	}
+> +
+> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &infoframe_buf[3], 2);
+> +	dw_hdmi_qp_mod(hdmi,
+> +		  PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN,
+> +		  PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN,
+> +		  PKTSCHED_PKT_EN);
+> +
+> +	return 0;
+> +}
+> +
+> +static void dw_hdmi_qp_set_audio_infoframe(struct dw_hdmi_qp *hdmi,
+> +				    struct hdmi_codec_params *hparms)
+> +{
+> +	u8 infoframe_buf[HDMI_INFOFRAME_SIZE(AUDIO)];
+> +	int ret = 0;
+> +
+> +	ret = hdmi_audio_infoframe_pack(&hparms->cea, infoframe_buf,
+> +					sizeof(infoframe_buf));
 
-3) Implementing DRM_FORMAT_MOD_LINEAR as having 256B pitch and offset
-alignment. This is what we do today. Even if Intel and some AMD chips can
-do 64B or 128B alignment, they overalign to 256B. With so many AMD+NV
-laptops out there, NV is probably next, unless they already do this in the
-closed source driver.
+Please use existing functions,
+drm_atomic_helper_connector_hdmi_update_audio_infoframe() and
+drm_atomic_helper_connector_hdmi_clear_audio_infoframe() to manage the
+infoframe. The drm_atomic_helper_connector_hdmi_update_infoframes()
+function will take care of updating the audio infoframe.
 
-Marek
+> +	if (!ret) {
+> +		dev_err(hdmi->dev, "%s: Failed to pack audio infoframe: %d\n",
+> +			__func__, ret);
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
+> +	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
+> +	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
+> +	 *
+> +	 * PB0: CheckSum
+> +	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
+> +	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
+> +	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
+> +	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
+> +	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
+> +	 * PB6~PB10: Reserved
+> +	 *
+> +	 * AUDI_CONTENTS0 default value defined by HDMI specification,
+> +	 * and shall only be changed for debug purposes.
+> +	 * So, we only configure payload byte from PB0~PB7(2 word total).
+> +	 */
+> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &infoframe_buf[3], 2);
 
-On Fri, Jan 17, 2025 at 9:18=E2=80=AFAM Simona Vetter <simona.vetter@ffwll.=
-ch>
-wrote:
+This should go to your dw_hdmi_qp_bridge_write_infoframe().
 
-> On Wed, Jan 15, 2025 at 12:20:07PM +0000, Daniel Stone wrote:
-> > On Wed, 15 Jan 2025 at 04:05, Marek Ol=C5=A1=C3=A1k <maraeo@gmail.com> =
-wrote:
-> > > On Tue, Jan 14, 2025 at 12:58=E2=80=AFPM Daniel Stone <daniel@fooishb=
-ar.org>
-> wrote:
-> > >> AMD hardware is the only hardware I know of which doesn't support
-> > >> overaligning. Say (not hypothetically) we have a GPU and a display
-> > >> controller which have a minimum pitch alignment of 32 bytes, no
-> > >> minimum height alignment, minimum 32-byte offset alignment, minimum
-> > >> pitch of 32 bytes, and minimum image size of 32 bytes.
-> > >>
-> > >> To be maximally compatible, we'd have to expose 28 (pitch align) * 3=
-2
-> > >> (height align) * 28 (offset align) * 28 (min pitch) * 28 (min size) =
-=3D=3D
-> > >> 19668992 individual modifiers when queried, which is 150MB per forma=
-t
-> > >> just to store the list of modifiers.
-> > >
-> > > Maximum compatibility is not required nor expected.
-> > >
-> > > In your case, only 1 linear modifier would be added for that driver,
-> which is: [5 / 0 / 5 / 5 / 5]
-> > >
-> > > Then if, and only if, compatibility with other devices is desired, th=
-e
-> driver developer could look at drivers of those other devices and determi=
-ne
-> which other linear modifiers to add. Ideally it would be just 1, so there
-> would be a total of 2.
-> >
-> > Mali (actually two DRM drivers and sort of three Mesa drivers) can be
-> > paired with any one of 11 KMS drivers (really 12 given that one is a
-> > very independent subdriver), and something like 20 different codecs
-> > (at least 12 different vendors; I didn't bother counting the actual
-> > subdrivers which are all quite different). The VeriSilicon Hantro G2
-> > codec driver is shipped by five (that we know of) vendors who all have
-> > their own KMS drivers. One of those is in the Rockchip RK3588, which
-> > (don't ask me why) ships six different codec blocks, with three
-> > different drivers, from two different vendors - that's before you even
-> > get to things like the ISP and NPU which really need to be sharing
-> > buffers properly without copies.
-> >
-> > So yeah, working widely without having to encode specific knowledge
-> > everywhere isn't a nice-to-have, it's a hard baseline requirement.
-> >
-> > >> > DRM_FORMAT_MOD_LINEAR needs to go because it prevents apps from
-> detecting whether 2 devices have 0 compatible memory layouts, which is a
-> useful thing to know.
-> > >>
-> > >> I get the point, but again, we have the exact same problem today wit=
-h
-> > >> placement, i.e. some devices require buffers to be in or not be in
-> > >> VRAM or GTT or sysram for some uses, and some devices require physic=
-al
-> > >> contiguity. Solving that problem would require an additional 4 bits,
-> > >> which brings us to 2.3GB of modifiers per format with the current
-> > >> scheme. Not super viable.
-> > >
-> > > Userspace doesn't determine placement. The kernel memory management
-> can move buffers between heaps to accommodate sharing between devices as
-> needed. This is a problem in which userspace has no say.
-> >
-> > It really does though!
-> >
-> > None of these devices use TTM with placement moves, and doing that
-> > isn't a fix either. Embedded systems have so low memory bandwidth that
-> > the difference between choosing the wrong placement and moving it
-> > later vs. having the right placement to begin with is the difference
-> > between 'this does not work' and 'great, I can ship this'. Which is
-> > great if you're a consultancy trying to get paid, but tbh I'd rather
-> > work on more interesting things.
-> >
-> > So yeah, userspace does very much choose the placement. On most
-> > drivers, this is either by 'knowing' which device to allocate from, or
-> > passing a flag to your allocation ioctl. For newer drivers though,
-> > there's the dma-heap allocation mechanism which is now upstream and
-> > the blessed path, for which userspace needs to explicitly know the
-> > desired placement (and must, because fixing it up later is a
-> > non-starter).
-> >
-> > Given that we need to keep LINEAR ~forever for ABI reasons, and
-> > because there's no reasonably workable alternative, let's abandon the
-> > idea of abandoning LINEAR, and try to work with out-of-band signalling
-> > instead.
-> >
-> > One idea is to actually pursue the allocator idea and express this
-> > properly through constraints. I'd be super in favour of this,
-> > unsurprisingly, because it allows us to solve a whole pile of other
-> > problems, rather than the extremely narrow AMD/Intel interop case.
-> >
-> > Another idea for the out-of-band signalling would be to add
-> > information-only modifiers, like
-> > DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_EQ(256), or
-> > DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_GE(32). But then that doesn't really
-> > work at all with how people actually use modifiers: as the doc
-> > describes, userspace takes and intersects the declared modifier lists
-> > and passes the result through. The intersection of LINEAR+EQ256 and
-> > LINEAR+GE32 is LINEAR, so a userspace that follows the rules will just
-> > drop the hints on the floor and pick whatever linear allocation it
-> > feels like.
->
-> Yeah I think latest when we also take into account logical image size (no=
-t
-> just pitch) with stuff like it needs to be aligned to 2 pixels in both
-> directions just using modifiers falls apart.
->
-> And the problem with linear, unlike device modifiers is that we can't jus=
-t
-> throw up our hands and enumerate the handful of formats in actual use for
-> interop. There's so many produces and consumers of linera buffers
-> (Daniel's list above missed camera/image processors) that save assumption
-> is that anything really can happen.
->
-> > I think I've just talked myself into the position that passing
-> > allocator constraints together with modifiers is the only way to
-> > actually solve this problem, at least without creating the sort of
-> > technical debt that meant we spent years fixing up implicit/explicit
-> > modifier interactions when it really should've just been adding a
-> > !)@*(#$ u64 next to the u32.
->
-> Yeah probably.
->
-> Otoh I know inertia, so I am tempted to go with the oddball
-> LINEAR_VEDNOR_A_VENDOR_B_INTEROP thing and stretch the runway for a bit.
-> And we just assign those as we go as a very special thing, and the driver=
-s
-> that support it would prefer it above just LINEAR if there's no other
-> common format left.
->
-> Also makes it really obvious what all userspace/kernel driver enabling
-> would be needed to justify such a modifier.
-> -Sima
->
-> >
-> > Cheers,
-> > Daniel
->
-> --
-> Simona Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
->
+> +
+> +	/* Enable ACR, AUDI, AMD */
+> +	dw_hdmi_qp_mod(hdmi,
+> +		  PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
+> +		  PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
+> +		  PKTSCHED_PKT_EN);
+> +
+> +	/* Enable AUDS */
+> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
+> +	mutex_unlock(&hdmi->audio_mutex);
+> +}
+> +
 
---0000000000009066f8062bf1eb7f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>If <span class=3D"gmail-im">DRM_FORMAT_MOD_LINEAR sta=
-ys, then most of this discussion is irrelevant. If you don&#39;t like the n=
-ew linear modifiers, don&#39;t use them. If that&#39;s you, bye.</span></di=
-v><div><span class=3D"gmail-im"><br></span></div><div><span class=3D"gmail-=
-im">For the rest, there are multiple solutions:</span></div><div><span clas=
-s=3D"gmail-im"><br></span></div><div><span class=3D"gmail-im">1) New vendor=
--agnostic linear modifiers. The reason why we would want them is that they =
-define robust functions for </span><span class=3D"gmail-im">(x,y,w)-&gt;add=
-ress, (w,h)-&gt;size, and alignment. All 2^32 (roughly) AMD modifiers have =
-such functions in Mesa (really).</span><span class=3D"gmail-im"> Linear mod=
-ifiers would work in the same way.<br></span></div><div><span class=3D"gmai=
-l-im"><br></span></div><div><span class=3D"gmail-im">2) New cross-vendor mo=
-difier defining 1 layout for the existing case.=C2=A0</span><span class=3D"=
-gmail-im">This is not less effort than 1). It&#39;s just a different #defin=
-e, but limited to only 1 case.</span><span class=3D"gmail-im"> Why bother. =
-Is it really worth debating so much whether #define should have 0 parameter=
-s instead of 5? If nobody else uses 1), so what?<br></span></div><div><span=
- class=3D"gmail-im"><br></span></div><div><span class=3D"gmail-im">3) Imple=
-menting </span><span class=3D"gmail-im">DRM_FORMAT_MOD_LINEAR as having 256=
-B pitch and offset alignment. This is what we do today. Even if Intel and s=
-ome AMD chips can do 64B or 128B alignment, they overalign to 256B. </span>=
-<span class=3D"gmail-im">With so many AMD+NV laptops out there, NV is proba=
-bly next, unless they already do this in the closed source driver.</span></=
-div><div><span class=3D"gmail-im"><br></span></div><div><span class=3D"gmai=
-l-im">Marek<br></span></div><div><span class=3D"gmail-im"></span></div></di=
-v><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Fri, Jan 17, 2025 at 9:18=E2=80=AFAM Simona Vetter &lt=
-;<a href=3D"mailto:simona.vetter@ffwll.ch">simona.vetter@ffwll.ch</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Ja=
-n 15, 2025 at 12:20:07PM +0000, Daniel Stone wrote:<br>
-&gt; On Wed, 15 Jan 2025 at 04:05, Marek Ol=C5=A1=C3=A1k &lt;<a href=3D"mai=
-lto:maraeo@gmail.com" target=3D"_blank">maraeo@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; On Tue, Jan 14, 2025 at 12:58=E2=80=AFPM Daniel Stone &lt;<a href=
-=3D"mailto:daniel@fooishbar.org" target=3D"_blank">daniel@fooishbar.org</a>=
-&gt; wrote:<br>
-&gt; &gt;&gt; AMD hardware is the only hardware I know of which doesn&#39;t=
- support<br>
-&gt; &gt;&gt; overaligning. Say (not hypothetically) we have a GPU and a di=
-splay<br>
-&gt; &gt;&gt; controller which have a minimum pitch alignment of 32 bytes, =
-no<br>
-&gt; &gt;&gt; minimum height alignment, minimum 32-byte offset alignment, m=
-inimum<br>
-&gt; &gt;&gt; pitch of 32 bytes, and minimum image size of 32 bytes.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; To be maximally compatible, we&#39;d have to expose 28 (pitch=
- align) * 32<br>
-&gt; &gt;&gt; (height align) * 28 (offset align) * 28 (min pitch) * 28 (min=
- size) =3D=3D<br>
-&gt; &gt;&gt; 19668992 individual modifiers when queried, which is 150MB pe=
-r format<br>
-&gt; &gt;&gt; just to store the list of modifiers.<br>
-&gt; &gt;<br>
-&gt; &gt; Maximum compatibility is not required nor expected.<br>
-&gt; &gt;<br>
-&gt; &gt; In your case, only 1 linear modifier would be added for that driv=
-er, which is: [5 / 0 / 5 / 5 / 5]<br>
-&gt; &gt;<br>
-&gt; &gt; Then if, and only if, compatibility with other devices is desired=
-, the driver developer could look at drivers of those other devices and det=
-ermine which other linear modifiers to add. Ideally it would be just 1, so =
-there would be a total of 2.<br>
-&gt; <br>
-&gt; Mali (actually two DRM drivers and sort of three Mesa drivers) can be<=
-br>
-&gt; paired with any one of 11 KMS drivers (really 12 given that one is a<b=
-r>
-&gt; very independent subdriver), and something like 20 different codecs<br=
->
-&gt; (at least 12 different vendors; I didn&#39;t bother counting the actua=
-l<br>
-&gt; subdrivers which are all quite different). The VeriSilicon Hantro G2<b=
-r>
-&gt; codec driver is shipped by five (that we know of) vendors who all have=
-<br>
-&gt; their own KMS drivers. One of those is in the Rockchip RK3588, which<b=
-r>
-&gt; (don&#39;t ask me why) ships six different codec blocks, with three<br=
->
-&gt; different drivers, from two different vendors - that&#39;s before you =
-even<br>
-&gt; get to things like the ISP and NPU which really need to be sharing<br>
-&gt; buffers properly without copies.<br>
-&gt; <br>
-&gt; So yeah, working widely without having to encode specific knowledge<br=
->
-&gt; everywhere isn&#39;t a nice-to-have, it&#39;s a hard baseline requirem=
-ent.<br>
-&gt; <br>
-&gt; &gt;&gt; &gt; DRM_FORMAT_MOD_LINEAR needs to go because it prevents ap=
-ps from detecting whether 2 devices have 0 compatible memory layouts, which=
- is a useful thing to know.<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; I get the point, but again, we have the exact same problem to=
-day with<br>
-&gt; &gt;&gt; placement, i.e. some devices require buffers to be in or not =
-be in<br>
-&gt; &gt;&gt; VRAM or GTT or sysram for some uses, and some devices require=
- physical<br>
-&gt; &gt;&gt; contiguity. Solving that problem would require an additional =
-4 bits,<br>
-&gt; &gt;&gt; which brings us to 2.3GB of modifiers per format with the cur=
-rent<br>
-&gt; &gt;&gt; scheme. Not super viable.<br>
-&gt; &gt;<br>
-&gt; &gt; Userspace doesn&#39;t determine placement. The kernel memory mana=
-gement can move buffers between heaps to accommodate sharing between device=
-s as needed. This is a problem in which userspace has no say.<br>
-&gt; <br>
-&gt; It really does though!<br>
-&gt; <br>
-&gt; None of these devices use TTM with placement moves, and doing that<br>
-&gt; isn&#39;t a fix either. Embedded systems have so low memory bandwidth =
-that<br>
-&gt; the difference between choosing the wrong placement and moving it<br>
-&gt; later vs. having the right placement to begin with is the difference<b=
-r>
-&gt; between &#39;this does not work&#39; and &#39;great, I can ship this&#=
-39;. Which is<br>
-&gt; great if you&#39;re a consultancy trying to get paid, but tbh I&#39;d =
-rather<br>
-&gt; work on more interesting things.<br>
-&gt; <br>
-&gt; So yeah, userspace does very much choose the placement. On most<br>
-&gt; drivers, this is either by &#39;knowing&#39; which device to allocate =
-from, or<br>
-&gt; passing a flag to your allocation ioctl. For newer drivers though,<br>
-&gt; there&#39;s the dma-heap allocation mechanism which is now upstream an=
-d<br>
-&gt; the blessed path, for which userspace needs to explicitly know the<br>
-&gt; desired placement (and must, because fixing it up later is a<br>
-&gt; non-starter).<br>
-&gt; <br>
-&gt; Given that we need to keep LINEAR ~forever for ABI reasons, and<br>
-&gt; because there&#39;s no reasonably workable alternative, let&#39;s aban=
-don the<br>
-&gt; idea of abandoning LINEAR, and try to work with out-of-band signalling=
-<br>
-&gt; instead.<br>
-&gt; <br>
-&gt; One idea is to actually pursue the allocator idea and express this<br>
-&gt; properly through constraints. I&#39;d be super in favour of this,<br>
-&gt; unsurprisingly, because it allows us to solve a whole pile of other<br=
->
-&gt; problems, rather than the extremely narrow AMD/Intel interop case.<br>
-&gt; <br>
-&gt; Another idea for the out-of-band signalling would be to add<br>
-&gt; information-only modifiers, like<br>
-&gt; DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_EQ(256), or<br>
-&gt; DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_GE(32). But then that doesn&#39;t re=
-ally<br>
-&gt; work at all with how people actually use modifiers: as the doc<br>
-&gt; describes, userspace takes and intersects the declared modifier lists<=
-br>
-&gt; and passes the result through. The intersection of LINEAR+EQ256 and<br=
->
-&gt; LINEAR+GE32 is LINEAR, so a userspace that follows the rules will just=
-<br>
-&gt; drop the hints on the floor and pick whatever linear allocation it<br>
-&gt; feels like.<br>
-<br>
-Yeah I think latest when we also take into account logical image size (not<=
-br>
-just pitch) with stuff like it needs to be aligned to 2 pixels in both<br>
-directions just using modifiers falls apart.<br>
-<br>
-And the problem with linear, unlike device modifiers is that we can&#39;t j=
-ust<br>
-throw up our hands and enumerate the handful of formats in actual use for<b=
-r>
-interop. There&#39;s so many produces and consumers of linera buffers<br>
-(Daniel&#39;s list above missed camera/image processors) that save assumpti=
-on<br>
-is that anything really can happen.<br>
-<br>
-&gt; I think I&#39;ve just talked myself into the position that passing<br>
-&gt; allocator constraints together with modifiers is the only way to<br>
-&gt; actually solve this problem, at least without creating the sort of<br>
-&gt; technical debt that meant we spent years fixing up implicit/explicit<b=
-r>
-&gt; modifier interactions when it really should&#39;ve just been adding a<=
-br>
-&gt; !)@*(#$ u64 next to the u32.<br>
-<br>
-Yeah probably.<br>
-<br>
-Otoh I know inertia, so I am tempted to go with the oddball<br>
-LINEAR_VEDNOR_A_VENDOR_B_INTEROP thing and stretch the runway for a bit.<br=
->
-And we just assign those as we go as a very special thing, and the drivers<=
-br>
-that support it would prefer it above just LINEAR if there&#39;s no other<b=
-r>
-common format left.<br>
-<br>
-Also makes it really obvious what all userspace/kernel driver enabling<br>
-would be needed to justify such a modifier.<br>
--Sima<br>
-<br>
-&gt; <br>
-&gt; Cheers,<br>
-&gt; Daniel<br>
-<br>
--- <br>
-Simona Vetter<br>
-Software Engineer, Intel Corporation<br>
-<a href=3D"http://blog.ffwll.ch" rel=3D"noreferrer" target=3D"_blank">http:=
-//blog.ffwll.ch</a><br>
-</blockquote></div>
-
---0000000000009066f8062bf1eb7f--
+-- 
+With best wishes
+Dmitry
