@@ -2,80 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4EDA15DE9
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2025 17:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC29A15DEA
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Jan 2025 17:08:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3080C10E0E4;
-	Sat, 18 Jan 2025 16:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 842CF10E1F1;
+	Sat, 18 Jan 2025 16:08:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RUZUtwdN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tEM0q6D7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3E1810E0E4
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2025 16:07:49 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-436381876e2so4306005e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2025 08:07:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737216408; x=1737821208; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vwdCXA8clqNZfv6cNEYqxDS+Or4qZ1J1EVJqPwpo/9c=;
- b=RUZUtwdNif2X4ksX9XkBNaLYXpR0ib+JithMdQUQaQDYBQwXhKB4kskVyHPzrimJ9m
- BY/4iPrDU8h1fIhuJW7l9Dg77HMfxMDKt2VnP3YwSXjCBGByxDgjDIJUweKR8D0rhdT9
- pemLOjJNe3HMwTxCoLhvjs6AqyBH8Ld4K77zar2NOaRRGzBfvd0tpBSx9ZL6GVTu9idx
- o9RG4OUBpeeBZKIU2adFm+MSENxjNMchMv5JTSowbmffLBMO7lqRLSvoJMtCMrrYWHOz
- iST4zuAtKUVANPQJn2YeDEHeYk28UPkEIjStGTFJAZx8vmrvvM7ospBwIgAsFL/B8ndU
- kaAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737216408; x=1737821208;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vwdCXA8clqNZfv6cNEYqxDS+Or4qZ1J1EVJqPwpo/9c=;
- b=fj4tNgt9RMulJXKuvdKmI/jVW0XCyo/tNlFsoK8H6pnCUPTqHN9mw7fJF6Ripd0V0Y
- p1RrVCLyoE5Q8nyFE943bk5Je0bH5snsk3mLjDzbs/5PD70niQdVzIsY1KFEP3et6ZlT
- rNGSJ92M+kWRYUb5ZhRqp1IBFbSmq4Q1aQp9MgdKlfjIrNyoHWqu8uiujD/fxrf79mCy
- ZCKH8/SR7uchFusdqcN206LjwJpo709AFJLnB9ENMD+HPqu5QSzitmjKjx7UHu2AehLe
- 6E9LwbsOAZxIsv8MElNSka78zJs13nYManyUANGAmEpQH5JownLAeCpisOVE/whpkoHc
- /eNw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXc88B6xUHPxFZv0EOTLlDTpfc90075kT/KS8JR7QPbfLWWrHDrvvTi7Zf6EjPA8bq4dm0PpLaBmdY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YztjIusizFevw0CxklqguKHNYaorq2pLtFxU1+SlxW0DuCep2tl
- LgOCv0oEtNAM2EEO5XPZayGShMKDBqNAWxXpLvvg1Xw/HwAVj/BDnRph1Mwf2gw=
-X-Gm-Gg: ASbGncv4KwnXX2YTDWfOHZnuAuXYSiHPMdcbxorcq+D1Z3qjUBs3lr7tQ5uT3JkDoTh
- Xqp/7iSdSd73MhQu8TzOaiItKm1DXVvoIe1Glnt8a0v2+jgu7pLIRn8vojhjE8BCMQxWCJls3No
- +h+FydusbcQhhAzffjJyOvORYjY8JPO0y/+zH0Hb+2dA1NVswwyojBXJ+uKqyr+RCulOWcs5JVZ
- D7c5Ck546DApP2Kgk0OQmjhixQFXHzcP5UtsP9hFmnZnVkKkq845UnI3v5dwRRw62yj6VSiYnJa
- AKMEmFtz
-X-Google-Smtp-Source: AGHT+IFMVBWg/sRcSunUViba7PAtliDqmSrFRcKnOLFwmE1beALCtPs34+Tkf+oAZ7uLqe5eQ56YKw==
-X-Received: by 2002:a05:600c:510b:b0:436:fb10:d595 with SMTP id
- 5b1f17b1804b1-438913bff64mr26793385e9.1.1737216408218; 
- Sat, 18 Jan 2025 08:06:48 -0800 (PST)
-Received: from krzk-bin.. ([178.197.223.165]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-437c74c475csm133966725e9.20.2025.01.18.08.06.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Jan 2025 08:06:47 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8702E10E1F1
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Jan 2025 16:08:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BAD295C463E;
+ Sat, 18 Jan 2025 16:07:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3238EC4CEE1;
+ Sat, 18 Jan 2025 16:08:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737216494;
+ bh=ibohityZJYJR2vS9My7/wylHqL05Ro2cTshSmwpPaNY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tEM0q6D7UIMeyjJ2p05D5o7IZ/kTkuPnNlJwvWVrp4xQU4kDhA2IIgPTnvZlqlmzW
+ xGRCgsmjVbvPmZk6ypAACPDGY3MOk/nkFseYJwBBbYkXrGf9iWtTvjiE2IoPj4rikh
+ ita+dNTZ2UrSw2q0Kcv70n0TlwESzDR0x/xWHSVfXw0JXZeumw9Mvv5F9ieLIDMkmc
+ 6IlJF2gaREAFVLVUEiH0aFRpBT4AugWxjXTBZQ2n7LHmOcuw1kzjECBS2Oozw6mhbv
+ o6vnMkHwwIn3XKwvZkiv0Hs+wgdpASnOVTitnujYJfuaFv46bOeGsS7dY/1j7UN1r5
+ eVFrSsKhHCcqg==
+Date: Sat, 18 Jan 2025 17:08:10 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] drm/panfrost: Drop redundant Mediatek driver data
-Date: Sat, 18 Jan 2025 17:06:45 +0100
-Message-ID: <20250118160645.78473-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH 2/3] drm/panfrost: Add support for Mali on the MT8370 SoC
+Message-ID: <20250118-meticulous-black-caracal-ec7f0d@krzk-bin>
+References: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
+ <20250116-mt8370-enable-gpu-v1-2-0a6b78e925c8@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250116-mt8370-enable-gpu-v1-2-0a6b78e925c8@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,54 +68,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-mediatek_mt8192_supplies are exactly the same as
-mediatek_mt8183_b_supplies.  mediatek_mt8188_data is exactly the same as
-&mediatek_mt8183_b_data.  There is never point in duplicating all these
-structures - it only raises questions or encourages bugs when someone
-updates one variant without changing the other.  Drop duplicated code.
+On Thu, Jan 16, 2025 at 03:25:58PM +0100, Louis-Alexis Eyraud wrote:
+> This commit adds a compatible for the MediaTek MT8370 SoC, with an
+> integrated ARM Mali G57 MC2 GPU (Valhall-JM, dual core), and adds
+> platform data using the same supplies and the same power domain lists
+> as MT8186 (one regulator, two power domains).
+> 
+> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 0f3935556ac761adcd80197d87e8e478df436fd5..1d51b64ed0f0660cc95263a289d5dad204540cfd 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -837,6 +837,15 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
+>  	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+>  };
+>  
+> +/* MT8370 uses the same power domains and power supplies as MT8186 */
+> +static const struct panfrost_compatible mediatek_mt8370_data = {
+> +	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
+> +	.supply_names = mediatek_mt8183_b_supplies,
+> +	.num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
+> +	.pm_domain_names = mediatek_mt8186_pm_domains,
+> +	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
+> +};
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+No, people, stop this nonsense. This is exactly the same as previous.
+Don't duplicate entries just because you want a commit.
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 0f3935556ac7..12ccc5a11c0e 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -817,21 +817,11 @@ static const struct panfrost_compatible mediatek_mt8186_data = {
- 	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
- };
- 
--/* MT8188 uses the same power domains and power supplies as MT8183 */
--static const struct panfrost_compatible mediatek_mt8188_data = {
--	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
--	.supply_names = mediatek_mt8183_b_supplies,
--	.num_pm_domains = ARRAY_SIZE(mediatek_mt8183_pm_domains),
--	.pm_domain_names = mediatek_mt8183_pm_domains,
--	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
--};
--
--static const char * const mediatek_mt8192_supplies[] = { "mali", NULL };
- static const char * const mediatek_mt8192_pm_domains[] = { "core0", "core1", "core2",
- 							   "core3", "core4" };
- static const struct panfrost_compatible mediatek_mt8192_data = {
--	.num_supplies = ARRAY_SIZE(mediatek_mt8192_supplies) - 1,
--	.supply_names = mediatek_mt8192_supplies,
-+	.num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
-+	.supply_names = mediatek_mt8183_b_supplies,
- 	.num_pm_domains = ARRAY_SIZE(mediatek_mt8192_pm_domains),
- 	.pm_domain_names = mediatek_mt8192_pm_domains,
- 	.pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
-@@ -857,7 +847,7 @@ static const struct of_device_id dt_match[] = {
- 	{ .compatible = "mediatek,mt8183-mali", .data = &mediatek_mt8183_data },
- 	{ .compatible = "mediatek,mt8183b-mali", .data = &mediatek_mt8183_b_data },
- 	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
--	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
-+	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8183_b_data },
- 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
- 	{}
- };
--- 
-2.43.0
+> +
+>  static const struct of_device_id dt_match[] = {
+>  	/* Set first to probe before the generic compatibles */
+>  	{ .compatible = "amlogic,meson-gxm-mali",
+> @@ -859,6 +868,7 @@ static const struct of_device_id dt_match[] = {
+>  	{ .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
+>  	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+>  	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
+> +	{ .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
+
+No, express properly compatibility or say in bindings commit msg why
+devices are not compatible.
+
+Best regards,
+Krzysztof
 
