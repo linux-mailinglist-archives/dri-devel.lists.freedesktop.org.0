@@ -2,97 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E89A165DC
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 04:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237BDA16623
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 05:43:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F7C10E296;
-	Mon, 20 Jan 2025 03:51:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 866E910E28F;
+	Mon, 20 Jan 2025 04:43:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="db1U/bOL";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CP+huDC7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F211F10E270;
- Mon, 20 Jan 2025 03:51:47 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50K3ftnK002567;
- Mon, 20 Jan 2025 03:51:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- l9D0iGf5gfsI47OTyHusqADcAsJb13cd95a9Ia17SRI=; b=db1U/bOLE5YS9mAK
- 1l0ov+EwYdbb25OiYZoSG+aoDK2ewQOLZHgJnqzmLkkp2KA3sTpDdi9v8ml65hMY
- RazpirOKNW1i2AKjyUZZdAN01T8xNHFPZ6LVEvpMfU7TfRQcJ/t6yY86ERsCyvQX
- NiiFXQA/jdF00tZcAPAFkB/zaZ55YIa580NUDCI67KJ0Tl+SqzTEr0mmuFJCSOLO
- Hz75qNYiTkPkeN9TzSqW52EIHLFE7sTpCJhAZKOh5zVU59HLvB8/VGMDy3UxRhLS
- STA6uYc8zVHEMJH7YFLJr1cZmlui8x3DqnnWMzR5P/K/WDapfzWVKUFhiEbqlzUL
- RF6IPA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 449eteg0hj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jan 2025 03:51:41 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50K3pekl002066
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 20 Jan 2025 03:51:40 GMT
-Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 19 Jan 2025 19:51:34 -0800
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-Date: Mon, 20 Jan 2025 11:49:21 +0800
-Subject: [PATCH v4 4/4] drm/msm: mdss: Add QCS8300 support
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1745510E29E
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 04:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737348210; x=1768884210;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=k9VTW4s3d7qGGrZ5gSy0LHsgcR6UYlQ4IwsEUwEVNfU=;
+ b=CP+huDC76rzlr5EQU4OoiJqmiZMKj+/t1LHb2ArJsZUtc4XIgkGjHurm
+ GZ1UeAaRec+LXRoeHPbE/kzzAXN4x07VjabIgE1nT61TfSN0wZj+Y0ysQ
+ ctKncwzascGY6L8FNU//W5rCoRLsoevWIP8fZgF7wBkutB5W/wn1W97x2
+ 9LNdyqhHiLfim+y0J/pH1GbkarFPEoaIqxu3MnAYAyloKQBAwhn6NdOTH
+ wRJaMnD0TlCxTFLB0WfdbizT9Dn62R/KBGOwNiQ6vaSk5goTzG0UOcLiz
+ Zog7Lg3bTbdRoheZdhSlTW/6Tm4SqHjDKB2upvW4Uim4lXJzIVyS9iaQd Q==;
+X-CSE-ConnectionGUID: GJiSGwJoQgSJxfDPVb3/vQ==
+X-CSE-MsgGUID: Td9YuY5MQMqaGjtpC7FYRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="41467915"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; d="scan'208";a="41467915"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2025 20:43:30 -0800
+X-CSE-ConnectionGUID: 7xzZrTKBSAigrIZdE0pXfA==
+X-CSE-MsgGUID: Qwq3bW2hQM27SILBbyoG4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="106818894"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jan 2025 20:43:24 -0800
+Message-ID: <c5aead07-2511-43a1-8f22-1346be34af28@linux.intel.com>
+Date: Mon, 20 Jan 2025 12:41:04 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexey Kardashevskiy <aik@amd.com>, Xu Yilun <yilun.xu@linux.intel.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com, pbonzini@redhat.com,
+ seanjc@google.com, alex.williamson@redhat.com, vivek.kasireddy@intel.com,
+ dan.j.williams@intel.com, yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+References: <20250109144051.GX5556@nvidia.com>
+ <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050> <20250110133116.GF5556@nvidia.com>
+ <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050> <20250113164935.GP5556@nvidia.com>
+ <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050> <20250114133553.GB5556@nvidia.com>
+ <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
+ <20250115130102.GM5556@nvidia.com>
+ <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
+ <20250117132523.GA5556@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20250117132523.GA5556@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250120-mdssdt_qcs8300-v4-4-1687e7842125@quicinc.com>
-References: <20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com>
-In-Reply-To: <20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com>
-To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, "Kuogee
- Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
- Vijay Abraham I" <kishon@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>
-CC: Yongxing Mou <quic_yongmou@quicinc.com>, <linux-arm-msm@vger.kernel.org>, 
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-phy@lists.infradead.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737345066; l=1622;
- i=quic_yongmou@quicinc.com; s=20241121; h=from:subject:message-id;
- bh=T1quEqzzRYSTMr7FDeES364YwjAI1nS3gNRFG9z4HNk=;
- b=BOXhQ4xG/Uh+vxlU762NfIBfEaG/FlDDCDmVnsczhIjvXCij9ru2Foo7ss1uetRSLXHKqFNF/
- jMXesluT9r2CtKB0d3rJOsS2Qg0c+fzntXDR0knUY+UnwqnisMLRsRa
-X-Developer-Key: i=quic_yongmou@quicinc.com; a=ed25519;
- pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: IB8NowB8TNPXRNBQiy6Rototq8zTgaFR
-X-Proofpoint-GUID: IB8NowB8TNPXRNBQiy6Rototq8zTgaFR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-20_01,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 suspectscore=0 spamscore=0 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501200028
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,46 +85,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Mobile Display Subsystem (MDSS) support for the QCS8300 platform.
-Due to different memory type, it use different mdss_data with SA8775P
-although using the same dpu.
+On 1/17/25 21:25, Jason Gunthorpe wrote:
+>> If my recollection is correct, the arm
+>> smmu-v3 needs it to obtain the vmid to setup the userspace event queue:
+> Right now it will use a VMID unrelated to KVM. BTM support on ARM will
+> require syncing the VMID with KVM.
+> 
+> AMD and Intel may require the KVM for some reason as well.
+> 
+> For CC I'm expecting the KVM fd to be the handle for the cVM, so any
+> RPCs that want to call into the secure world need the KVM FD to get
+> the cVM's identifier. Ie a "bind to cVM" RPC will need the PCI
+> information and the cVM's handle.
+> 
+>  From that perspective it does make sense that any cVM related APIs,
+> like "bind to cVM" would be against the VDEVICE where we have a link
+> to the VIOMMU which has the KVM. On the iommufd side the VIOMMU is
+> part of the object hierarchy, but does not necessarily have to force a
+> vIOMMU to appear in the cVM.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
----
- drivers/gpu/drm/msm/msm_mdss.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Yea, from that perspective, treating the vDEVICE object as the primary
+focus for the uAPIs of cVMs is more reasonable. This simplifies the
+iommu drivers by eliminating the need to verify hardware capabilities
+and compatibilities within each callback. Everything could be done in
+one shot when allocating the vDEVICE object.
 
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index dcb49fd30402b80edd2cb5971f95a78eaad6081f..40c8b476763b8c39434b1448008cfa8ffac7a8ea 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -582,6 +582,16 @@ static const struct msm_mdss_data qcm2290_data = {
- 	.reg_bus_bw = 76800,
- };
- 
-+static const struct msm_mdss_data qcs8300_data = {
-+	.ubwc_enc_version = UBWC_4_0,
-+	.ubwc_dec_version = UBWC_4_0,
-+	.ubwc_swizzle = 6,
-+	.ubwc_bank_spread = true,
-+	.highest_bank_bit = 3,
-+	.macrotile_mode = true,
-+	.reg_bus_bw = 74000,
-+};
-+
- static const struct msm_mdss_data sa8775p_data = {
- 	.ubwc_enc_version = UBWC_4_0,
- 	.ubwc_dec_version = UBWC_4_0,
-@@ -737,6 +747,7 @@ static const struct of_device_id mdss_dt_match[] = {
- 	{ .compatible = "qcom,mdss" },
- 	{ .compatible = "qcom,msm8998-mdss", .data = &msm8998_data },
- 	{ .compatible = "qcom,qcm2290-mdss", .data = &qcm2290_data },
-+	{ .compatible = "qcom,qcs8300-mdss", .data = &qcs8300_data },
- 	{ .compatible = "qcom,sa8775p-mdss", .data = &sa8775p_data },
- 	{ .compatible = "qcom,sdm670-mdss", .data = &sdm670_data },
- 	{ .compatible = "qcom,sdm845-mdss", .data = &sdm845_data },
+> 
+> But it also seems to me that VFIO should be able to support putting
+> the device into the RUN state without involving KVM or cVMs.
 
--- 
-2.34.1
+Then, it appears that BIND ioctl should be part of VFIO uAPI.
 
+>> Intel TDX connect implementation also needs a reference to the kvm
+>> pointer to obtain the secure EPT information. This is crucial because
+>> the CPU's page table must be shared with the iommu.
+> I thought kvm folks were NAKing this sharing entirely? Or is the
+
+Yes, previous idea of *generic* EPT sharing was objected by the kvm
+folks. The primary concern, as I understand it, is that KVM has many
+"page non-present" tricks in EPT, which are not applicable to IOPT.
+Consequently, KVM must now consider IOPT requirements when sharing the
+EPT with the IOMMU, which presents a significant maintenance burden for
+the KVM folks.
+
+> secure EPT in the secure world and not directly managed by Linux?
+But Secure EPT is managed by the TDX module within the secure world.
+Crucially, KVM does not involve any such mechanisms. The firmware
+guarantees that any Secure EPT configuration will be applicable to
+Secure IOPT. This approach may alleviate concerns raised by the KVM
+community.
+
+> AFAIK AMD is going to mirror the iommu page table like today.
+> 
+> ARM, I suspect, will not have an "EPT" under Linux control, so
+> whatever happens will be hidden in their secure world.
+
+Intel also does not have an EPT under Linux control. The KVM has a
+mirrored page table and syncs it with the secure EPT managed by firmware
+every time it is updated through the ABIs defined by the firmware.
+
+Thanks,
+baolu
