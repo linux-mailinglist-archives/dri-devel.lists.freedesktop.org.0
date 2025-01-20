@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87151A1679C
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 08:49:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77040A167B9
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 08:54:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE13010E349;
-	Mon, 20 Jan 2025 07:49:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FE1410E35C;
+	Mon, 20 Jan 2025 07:54:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rxs81/qA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+Mr1oFFr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2YEQodiu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y38vcmSM";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="FRr113Fr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6cfO3rrQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FRr113Fr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6cfO3rrQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64E3810E057;
- Mon, 20 Jan 2025 07:49:18 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF61910E34B;
+ Mon, 20 Jan 2025 07:54:47 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EFFAF1F7A0;
- Mon, 20 Jan 2025 07:49:16 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 62A7721165;
+ Mon, 20 Jan 2025 07:54:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737359357; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1737359686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZvZ3OHRKadbpCzwXWAL9vLWOCTKT7oyU5vMn2WBlbQ=;
- b=rxs81/qA+bqzO4BE/s58b3QnZ9ySonlik4XEccALctdyByQ0CfWLJZO4UVHI5jtBECf6RV
- cmXxgS7mzJNeBldU+QkbCQ/JOHv3CD/IC3KG5cD+dcZ1XLmX81Q1qDPmwlkhuezC9c6J65
- pXDSfpcuX4rUspcXjJZWoQzkUvEU8wM=
+ bh=62CCysYlf1kTpBmg533SyW74Db9V4YMx6+JH5cKqFcA=;
+ b=FRr113FrvNY+g8Scutf0XfwDasSBYHi5AIkPEyrAWic0hYaJzGtbFSWGAz9Rpcw/asWHqo
+ +uzbzX10wlrE+dm2eEj7tENItEGpadqCgd0lMj5CystsyyE59+mdYpMMFVPhU0r+e6Ffyn
+ NKRkdJejoy6uAm3BnpZflXT2UCPvQKM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737359357;
+ s=susede2_ed25519; t=1737359686;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZvZ3OHRKadbpCzwXWAL9vLWOCTKT7oyU5vMn2WBlbQ=;
- b=+Mr1oFFrBhsU+w8y11IF2x35dxiOsGhsMELD00UtG2qwMf7mYXoPuoXKDHLWyP5HflI4YR
- KV4qljNpKhKcuHAA==
-Authentication-Results: smtp-out2.suse.de;
+ bh=62CCysYlf1kTpBmg533SyW74Db9V4YMx6+JH5cKqFcA=;
+ b=6cfO3rrQTWcPgKhBaNClVtc+LDctjRhzKgk3CpddogOxdYxc/bEclN3oJiG2Z+z22Okltj
+ b5LuMPJO8sDPSMAg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737359356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1737359686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZvZ3OHRKadbpCzwXWAL9vLWOCTKT7oyU5vMn2WBlbQ=;
- b=2YEQodiuZ3UsPCWnqdQR5j65/V3LzIyTQOZmU+zah5ybLMPcCp2h8kDcRvxehKn20iQ/Xi
- 2P8iRS8l+8D8L4xJj9TGLESugE124kevxgeqjiUoW4bK3KbBS8TYObyw6uPets5WiVIFCv
- 2xtZw3gud2Zba+Nr9FAP5CT1rpKPbOI=
+ bh=62CCysYlf1kTpBmg533SyW74Db9V4YMx6+JH5cKqFcA=;
+ b=FRr113FrvNY+g8Scutf0XfwDasSBYHi5AIkPEyrAWic0hYaJzGtbFSWGAz9Rpcw/asWHqo
+ +uzbzX10wlrE+dm2eEj7tENItEGpadqCgd0lMj5CystsyyE59+mdYpMMFVPhU0r+e6Ffyn
+ NKRkdJejoy6uAm3BnpZflXT2UCPvQKM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737359356;
+ s=susede2_ed25519; t=1737359686;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RZvZ3OHRKadbpCzwXWAL9vLWOCTKT7oyU5vMn2WBlbQ=;
- b=Y38vcmSMf3QLl1H/CftXf7wTfovn1ctCaZ2FOKCqx9I5f1sOR0jqGX7BJ+poBWrpS+flOa
- IsIoNujSOz8vXSCg==
+ bh=62CCysYlf1kTpBmg533SyW74Db9V4YMx6+JH5cKqFcA=;
+ b=6cfO3rrQTWcPgKhBaNClVtc+LDctjRhzKgk3CpddogOxdYxc/bEclN3oJiG2Z+z22Okltj
+ b5LuMPJO8sDPSMAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6B5AC1393E;
- Mon, 20 Jan 2025 07:49:16 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC5C81393E;
+ Mon, 20 Jan 2025 07:54:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id OWHAGPz/jWeMZgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 20 Jan 2025 07:49:16 +0000
-Message-ID: <156804a9-3095-4c93-888f-d9041f523da6@suse.de>
-Date: Mon, 20 Jan 2025 08:49:16 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id fe4aMEUBjmdrTgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 20 Jan 2025 07:54:45 +0000
+Message-ID: <a8a37f7c-a60b-4644-9640-3fabc7257f9b@suse.de>
+Date: Mon, 20 Jan 2025 08:54:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
@@ -132,7 +132,7 @@ In-Reply-To: <f3833771-fcd7-45dc-9019-1525fef34429@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
  FREEMAIL_TO(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
@@ -146,7 +146,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[99.99%];
  TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
  RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 X-Spam-Score: -2.80
 X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -169,18 +169,6 @@ Hi
 
 Am 16.01.25 um 11:03 schrieb Tomi Valkeinen:
 [...]
-> Aligning video= and dumb buffers almost sounds like going backwards. 
-> video= parameter is bad,
-
-Who told you that? Video= is still the way to specify an initial display 
-mode to the kernel and it will remain so.
-
-Of course, it is better to auto-detect settings, but that's for a 
-different use case.
-
-Best regards
-Thomas
-
 >
 > Harmonizing code is fine, but I think that can be done with a function 
 > that only does the fallback-case.
@@ -188,6 +176,16 @@ Thomas
 > So... I can only speak for the platforms I'm using and maintaining, 
 > but I'd rather keep the old behavior for CREATE_DUMB that we've had 
 > for ages.
+
+And we're not going to change that. I'll also include documentation of 
+the intended behavior and semantics in the series' next update.
+
+Whatever else is being discussed here, such as new ioctls, is a topic 
+for a different series.
+
+Best regards
+Thomas
+
 >
 >  Tomi
 >
