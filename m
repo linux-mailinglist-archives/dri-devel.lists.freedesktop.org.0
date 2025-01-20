@@ -2,91 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86909A16AE5
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 11:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF0FA16AE8
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 11:39:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDA7F10E3C1;
-	Mon, 20 Jan 2025 10:37:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F13CB10E3A0;
+	Mon, 20 Jan 2025 10:39:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="evSXXbJK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M7i3XDt7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8F3010E3C3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 10:37:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737369478;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m//Tv6v3/YkbCtfv35A3Nufvn3Q8QncCJ3hJbjfH6Xk=;
- b=evSXXbJK44bsw0ljY9whDtx59hwtk65Hi/i938kzqHYsZEqO4aD1OoQn/7h6Qi1IQGJ23a
- Y5ciU9oUHx1BQI1W0F7R+z+9FLxlxpAAjgc/HS9Jp7ygYnwis2OrHyo46v3rPPCAPrmCT5
- 6LhC2fcRlpbxNSwGFIvpi5z/VHCgH6g=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-126-B1tQooLZP_-FbPfEglS6hA-1; Mon, 20 Jan 2025 05:37:54 -0500
-X-MC-Unique: B1tQooLZP_-FbPfEglS6hA-1
-X-Mimecast-MFC-AGG-ID: B1tQooLZP_-FbPfEglS6hA
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4359eb032c9so33844295e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 02:37:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737369472; x=1737974272;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=m//Tv6v3/YkbCtfv35A3Nufvn3Q8QncCJ3hJbjfH6Xk=;
- b=MDfXChMf4/IMsltR5gW6+znacNrfUxfuWRN+n3pZNj2GEOvW8msk+RMu7VicuCimec
- V6flZBVNThHH7PDZ0dcVSGKlWs3r/GkNjKwqDIUwYwrbXPgZIpe87O9Sz79fwBN7sTNM
- tDInKS6GadH6AlHGL7hJEFgFx7JyQpxxzSNFHshcvNtZQ106Rlo/UB1nCOn/HaFRDfLw
- R4cbMVCK1zamuzQlRp40yyJ3+/zn65m4pLC4ztKDmMsljihgpLe8+TC50d+iXxQLbVbo
- Eeh/N7w9XV0CvI3WnBpU3vaKm/SeZvRDmygtf4CXvE9HzHmoGvqv/4nZemG3UdxO4HFy
- U4CQ==
-X-Gm-Message-State: AOJu0YxlsKVd2bwSVFbunqDBolY+RvxfUUTwhlziaRWXSm1VQANx1A3z
- K3JGJSFqwguA+TuWsk1vttSEKVXt5zxumgDb+hVnEjFXOTfmV6T6Qpc5K3SpAe37u52hydseaV7
- +ABjSODWt+04wl595RJq9Ng4jwukWW95WYEcCTR6ZXrjp6NNqjWJn2tj2eCkiZQ58tbKP3JRKYw
- ==
-X-Gm-Gg: ASbGncuDj4Es9tUcLCyDkDI1Nq8ohd8huELFa8LdBJOzy2aS5a1s/XtxmAd63ecJRhR
- Ln7y+TL6BrvtqvEADPS61S6tPD51Cf9egyK0z697moqCLPzwcuu/JZBgzX2DqDKr3BJ+s76zImX
- IFcgPeXUWFUsC6rvEAqEqqfQvD0S8h0ReHb4YyNU2Fq8VMhK5DN6yFmmJYtmKKK5akqgpvNcs+R
- FzIBPb6UIT69LRakKO+H3UVM7ygoYp1nR1NwZm8YbW2ErRcxCwJuzkEhhQzZO1v/8UwhnUhv/1L
- fVrHTylQ9XaGWL4RiOL8tWhH1J8JJlbJvQ==
-X-Received: by 2002:a05:600c:4743:b0:434:ff25:199f with SMTP id
- 5b1f17b1804b1-438914309a8mr91901295e9.26.1737369472638; 
- Mon, 20 Jan 2025 02:37:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFCPDrnpclah/PIvsTk988b86s6OepEF77bsKetSRWUdmQwCLBiVq84u7j7oFs7w41mSSp2xg==
-X-Received: by 2002:a05:600c:4743:b0:434:ff25:199f with SMTP id
- 5b1f17b1804b1-438914309a8mr91900075e9.26.1737369470736; 
- Mon, 20 Jan 2025 02:37:50 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438904625e5sm134355495e9.32.2025.01.20.02.37.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jan 2025 02:37:50 -0800 (PST)
-Message-ID: <51d2c199-e7ea-4078-acb9-8ab3ce9bc4dc@redhat.com>
-Date: Mon, 20 Jan 2025 11:37:49 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30F3010E3A0;
+ Mon, 20 Jan 2025 10:39:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737369554; x=1768905554;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Cqe4/QTRTJHwKoNcIYNwAIjWzlkT+v0Bi6Kd7JuMZY4=;
+ b=M7i3XDt7uLidRZLlkLFmLCLu1dQ3/4l/c2DqbXiFciU3D6pXGesVnNlG
+ geG/VBrvidUvL5x9iKuhkGjhR+tW+BnqnS9ueysf65P4so8v4N2jlLuSw
+ IrsZ4/wIZVbW3DFnf9u8C3r4HM9DFB82fwJr55LAv7chyMKqxd8lA6N7g
+ RmYDdbevFwUJc0oh0kh0d3K0yVnrW+9+1ZhrP6FaiWbhyOvhJu3JEmQj1
+ nYwMPwHkWVyJ5CfTB/zsoyNl6Q259N+rX8KpE1JT8XyD2aCJMdADmQAc8
+ u7jsOYwi+143FHgxeU3XJ3j0TJWuvpQ6pDsB2IcoSJlbWnj3lDJZGjQDm A==;
+X-CSE-ConnectionGUID: E1uHq+UGSK+OKCoVYPSA1g==
+X-CSE-MsgGUID: 1RiD2aFRSI2GzBlM7cAqjQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="63117972"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; d="scan'208";a="63117972"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2025 02:39:06 -0800
+X-CSE-ConnectionGUID: ssWcj3P9TiaoMGmekuLiOw==
+X-CSE-MsgGUID: f2TgGdh3TNSI9JFwyqInQw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="110520303"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.106])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2025 02:39:03 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lu Yao <yaolu@kylinos.cn>, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Lu Yao <yaolu@kylinos.cn>
+Subject: Re: [PATCH] drm/i915: Handle null 'fb' in
+ 'intel_plane_atomic_check_with_state'
+In-Reply-To: <20250120053908.94339-1-yaolu@kylinos.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250120053908.94339-1-yaolu@kylinos.cn>
+Date: Mon, 20 Jan 2025 12:39:00 +0200
+Message-ID: <87h65trcqj.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] drm/ast: Only warn about unsupported TX chips on Gen4
- and later
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org
-References: <20250117103450.28692-1-tzimmermann@suse.de>
- <20250117103450.28692-9-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250117103450.28692-9-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: zwFTMcBNkU1keWaWxw09dqrV1_MmzufdaBhb5HbNpNs_1737369473
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,82 +71,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/01/2025 11:29, Thomas Zimmermann wrote:
-> Only Gen4 and later read the installed TX chip from the SoC. So only
-> warn on those generations about unsupported chips.
+On Mon, 20 Jan 2025, Lu Yao <yaolu@kylinos.cn> wrote:
+> Add null pointer check before use fb.
+> Reported by smatch.
 
-Thanks, it looks good to me.
+If new_plane_state->uapi.visible is true, fb will be non-NULL too, but
+smatch is unable to see that.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Adding these checks makes one believe that this is not something you can
+rely on.
+
+BR,
+Jani.
+
+>
+> Signed-off-by: Lu Yao <yaolu@kylinos.cn>
 > ---
->   drivers/gpu/drm/ast/ast_main.c | 40 +++++++++++++++++++---------------
->   1 file changed, 22 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index b0d1b99ed532b..ba69280b33e78 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -78,21 +78,6 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
->   	struct drm_device *dev = &ast->base;
->   	u8 vgacra3, vgacrd1;
->   
-> -	/*
-> -	 * Several of the listed TX chips are not explicitly supported
-> -	 * by the ast driver. If these exist in real-world devices, they
-> -	 * are most likely reported as VGA or SIL164 outputs. We warn here
-> -	 * to get bug reports for these devices. If none come in for some
-> -	 * time, we can begin to fail device probing on these values.
-> -	 */
-> -	vgacrd1 = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, AST_IO_VGACRD1_TX_TYPE_MASK);
-> -	drm_WARN(dev, vgacrd1 == AST_IO_VGACRD1_TX_ITE66121_VBIOS,
-> -		 "ITE IT66121 detected, 0x%x, Gen%lu\n", vgacrd1, AST_GEN(ast));
-> -	drm_WARN(dev, vgacrd1 == AST_IO_VGACRD1_TX_CH7003_VBIOS,
-> -		 "Chrontel CH7003 detected, 0x%x, Gen%lu\n", vgacrd1, AST_GEN(ast));
-> -	drm_WARN(dev, vgacrd1 == AST_IO_VGACRD1_TX_ANX9807_VBIOS,
-> -		 "Analogix ANX9807 detected, 0x%x, Gen%lu\n", vgacrd1, AST_GEN(ast));
-> -
->   	/* Check 3rd Tx option (digital output afaik) */
->   	ast->tx_chip = AST_TX_NONE;
->   
-> @@ -116,9 +101,9 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
->   		 * the SOC scratch register #1 bits 11:8 (interestingly marked
->   		 * as "reserved" in the spec)
->   		 */
-> -		jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1,
-> -					      AST_IO_VGACRD1_TX_TYPE_MASK);
-> -		switch (jreg) {
-> +		vgacrd1 = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1,
-> +						 AST_IO_VGACRD1_TX_TYPE_MASK);
-> +		switch (vgacrd1) {
->   		/*
->   		 * GEN4 to GEN6
->   		 */
-> @@ -144,6 +129,25 @@ static void ast_detect_tx_chip(struct ast_device *ast, bool need_post)
->   		case AST_IO_VGACRD1_TX_ASTDP:
->   			ast->tx_chip = AST_TX_ASTDP;
->   			break;
-> +		/*
-> +		 * Several of the listed TX chips are not explicitly supported
-> +		 * by the ast driver. If these exist in real-world devices, they
-> +		 * are most likely reported as VGA or SIL164 outputs. We warn here
-> +		 * to get bug reports for these devices. If none come in for some
-> +		 * time, we can begin to fail device probing on these values.
-> +		 */
-> +		case AST_IO_VGACRD1_TX_ITE66121_VBIOS:
-> +			drm_warn(dev, "ITE IT66121 detected, 0x%x, Gen%lu\n",
-> +				 vgacrd1, AST_GEN(ast));
-> +			break;
-> +		case AST_IO_VGACRD1_TX_CH7003_VBIOS:
-> +			drm_warn(dev, "Chrontel CH7003 detected, 0x%x, Gen%lu\n",
-> +				 vgacrd1, AST_GEN(ast));
-> +			break;
-> +		case AST_IO_VGACRD1_TX_ANX9807_VBIOS:
-> +			drm_warn(dev, "Analogix ANX9807 detected, 0x%x, Gen%lu\n",
-> +				 vgacrd1, AST_GEN(ast));
-> +			break;
->   		}
->   	}
->   
+>  drivers/gpu/drm/i915/display/intel_atomic_plane.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> index d89630b2d5c1..20bfa9589ee7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
+> @@ -640,18 +640,18 @@ int intel_plane_atomic_check_with_state(const struct intel_crtc_state *old_crtc_
+>  	    intel_plane_is_scaled(new_plane_state))
+>  		new_crtc_state->scaled_planes |= BIT(plane->id);
+>  
+> -	if (new_plane_state->uapi.visible &&
+> +	if (fb && new_plane_state->uapi.visible &&
+>  	    intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier))
+>  		new_crtc_state->nv12_planes |= BIT(plane->id);
+>  
+> -	if (new_plane_state->uapi.visible &&
+> +	if (fb && new_plane_state->uapi.visible &&
+>  	    fb->format->format == DRM_FORMAT_C8)
+>  		new_crtc_state->c8_planes |= BIT(plane->id);
+>  
+>  	if (new_plane_state->uapi.visible || old_plane_state->uapi.visible)
+>  		new_crtc_state->update_planes |= BIT(plane->id);
+>  
+> -	if (new_plane_state->uapi.visible &&
+> +	if (fb && new_plane_state->uapi.visible &&
+>  	    intel_format_info_is_yuv_semiplanar(fb->format, fb->modifier)) {
+>  		new_crtc_state->data_rate_y[plane->id] =
+>  			intel_plane_data_rate(new_crtc_state, new_plane_state, 0);
 
+-- 
+Jani Nikula, Intel
