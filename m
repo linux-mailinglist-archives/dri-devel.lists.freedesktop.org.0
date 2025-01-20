@@ -2,62 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006E2A16758
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 08:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06DF0A16796
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 08:48:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA21A10E32F;
-	Mon, 20 Jan 2025 07:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8386E10E33A;
+	Mon, 20 Jan 2025 07:48:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EIli/PuD";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="g+VkeCrK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org
- [IPv6:2604:1380:45d1:ec00::3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 585A710E32D;
- Mon, 20 Jan 2025 07:29:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B1FA1A40C73;
- Mon, 20 Jan 2025 07:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E89CC4CEDD;
- Mon, 20 Jan 2025 07:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737358173;
- bh=QYLdcOf2omnC+tqf+1HFeg9aqbpCJGX+M3S2jzNrCQ8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EIli/PuDTXfGXU+5D8nizOFQsN2ScphpfdASkjSpaIFqViocpmuNsPJHUWRigCbYk
- maREfl2cMtpzeTgRcBiKk2Ev7n/NPajVuqX/gNEO8AKMiU5DUXpT/aaM/Pa3M++EsG
- bKoRcTOA7BxlgMhzN4YVK418RBwhU+egttzvV36sjkW04rYaVqd3UWjyVuiJeJ0w0s
- hFCjDHo7Wsx554dhm7rHjOjarfidtKhr+FiYyrTVsZvHGXFhN3X78uQbTpV37misfw
- e/cBrEFH0mKLAJveNQfYRQ2erwCZc5AlRwpunKPx7oJ20ccveuBXM1a3CuzQQsoqIW
- ILMRlJexxGdug==
-Date: Mon, 20 Jan 2025 08:29:29 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v4 3/4] dt-bindings: display/msm: Document MDSS on QCS8300
-Message-ID: <20250120-economic-sawfly-of-agreement-541c8a@krzk-bin>
-References: <20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com>
- <20250120-mdssdt_qcs8300-v4-3-1687e7842125@quicinc.com>
+Received: from mail-10624.protonmail.ch (mail-10624.protonmail.ch
+ [79.135.106.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6102710E341
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 07:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1737359319; x=1737618519;
+ bh=zRwWsMDd5Kf2yQpedEA3Ka2dLpgNvYvwuOL0uYq4mxY=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
+ b=g+VkeCrKrJMJBx6MsYH0Gpjg3w/wY2gqeo6Z+cHH2THw2P4haYLecMn2TYXR+aMZB
+ vRrzgDpfyyjhEDQ2YlCzYDYxVICTM5w9TXfk+uu7qHoc7+wcrO46XPeABMPSuGEFx9
+ PHMeIDlnXOqZ6K56XFQlzoYzYl4iKx5CJ+0b/G4KzIYJPWryGBoSdA+giJZe7a9XQG
+ KKu/ntbqFaV/EeO29m9sCVOqYQYjLhXeGBaxaZsWTL6L+rzFuOFjEpR5B5DeLTAH+J
+ E0QL5QtTgd8mwfAVheLQFBEeIqDpkedRyPdQJjN6yJSZSTLf/ZbmeWGSg0rAw01l2f
+ 8Up3OcpkrLxBw==
+Date: Mon, 20 Jan 2025 07:48:35 +0000
+To: Alex Hung <alex.hung@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ wayland-devel@lists.freedesktop.org, harry.wentland@amd.com
+Subject: Re: [V7 39/45] drm/colorop: Define LUT_1D interpolation
+Message-ID: <CME-EpnEJHl2zzYsno91e3ZHtHT9cBCCfXb-WPbUzKzdLWg8agu79ZqkjjF9Ncawl3_YoIrUYHioH_bQd8u2kknOyjLzQjh3ftX-a0Re12k=@emersion.fr>
+In-Reply-To: <20241220043410.416867-40-alex.hung@amd.com>
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-40-alex.hung@amd.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: af607c56be6d75a242474f153cbe6d4da248a893
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250120-mdssdt_qcs8300-v4-3-1687e7842125@quicinc.com>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,19 +58,4 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 20, 2025 at 11:49:20AM +0800, Yongxing Mou wrote:
-> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
-> QCS8300 use the same DPU hardware version as SA8775P, so we reuse it's
-> driver. But QCS8300 only have one DP controller, and offset is same with
-> sm8650, so dp controller reuse the sm8650's driver.
-> 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> ---
->  .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 244 +++++++++++++++++++++
->  1 file changed, 244 insertions(+)
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Reviewed-by: Simon Ser <contact@emersion.fr>
