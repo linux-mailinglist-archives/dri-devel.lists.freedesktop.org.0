@@ -2,58 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E638DA16739
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 08:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E413A1673C
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 08:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6431110E0E0;
-	Mon, 20 Jan 2025 07:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B07A10E31F;
+	Mon, 20 Jan 2025 07:21:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="YlMVqCem";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="g4MTfO1H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3280.qiye.163.com (mail-m3280.qiye.163.com
- [220.197.32.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E714A10E0E0
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 07:18:19 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 92b0fd19;
- Mon, 20 Jan 2025 15:18:15 +0800 (GMT+08:00)
-Message-ID: <938a27aa-74dd-4fe2-8cdb-35e70aeba7f9@rock-chips.com>
-Date: Mon, 20 Jan 2025 15:18:13 +0800
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A897F10E32D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 07:21:54 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-4361f796586so44363795e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Jan 2025 23:21:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737357713; x=1737962513; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pHsq3uOy5eJ5dVbh8dVdNYReOLOhPHBDenlW0oUhiJ0=;
+ b=g4MTfO1HqC1WL4S3vBy7MmjqaW48EeGwDusf2AkEIpfFSUjvdYRiTMEi7V58vMubkZ
+ eTrnwN1NKY4gb7GsYIOJuvumOpVkpfAw6JtfpaGwjlyYF1creRj10XRNqvO/L1ViuziC
+ +MMgxwEn3QssqUGXr3UPpzsOvcPNQvp+DXwOV76yOHsqLfRGOq/IVceoQ+NoZPRo0/93
+ DSy5WS6yoGf7sb4ou1odRnb116Pjv5WTr9xBr4pwQXzI1bIB7ZEfD1/p0mlCfDsf6IfS
+ Fm+NW1rIuY5F4L6m3hEfhuAJK0JNv8qkYhk183Eo6uEWbA7TBxRZbr16o37oJ3lgcjyK
+ u8RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737357713; x=1737962513;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pHsq3uOy5eJ5dVbh8dVdNYReOLOhPHBDenlW0oUhiJ0=;
+ b=r0/CFKb6/590cRL2QFbwB9nN8LRsy7UYBHlCIlHyhT7JUmugyczlUWk0XgsDYyze68
+ wm8v5NPwttdYympxmzlnyHFn+3mWVCVzHg+VdZ2wdDjFM1A4h+uiZa68jZ/I5h/jymzt
+ gD5ivu/DDkDIPOkQakCPvecgZLleLfHJLQV9BYKtKlcjbKzQj6cPXLPZBAMEmhBma+mO
+ 6oPKhiYOwua/xOHcbp8HRrkFAEPf0Jq+RA2xuS3ysaIYvjY+jwDpTjyro3HPqyQACQvp
+ UJEIsCWNKBsdh7kSob1zNh6JvPjsoF+/kPCxXiAwb9iITug3qWWYRuT3rTOndDqP+MPt
+ z6tw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVAvrb7R9vSM7dayEbgrpAn7V5Ox/GGuq/P0hOqmBOaTf55lg7fr49jkZ7YzFkIZRJJFBRCCVmaVxI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxdydU9ELfGAAE7c9L7gzloeHoZDu2QHP+XrtlMMcX0Qt2ygytC
+ xFUw8noqYaEH4mznvNURsEVFsle/RrBbDUrI2BPxWvkJBVjqG4uGdISM6oBaW98=
+X-Gm-Gg: ASbGncuAelCmwhaE6y7ugUnEboA6QCujXcd38BBbn9Z24tCGwG49c4uyIqBi5OMkPfy
+ ppbvy2hRof4bCCbCDuwErireejztrTZkU2noRQzrAWaQLEVazReQc7Yz26yN3lxIyh0XQTb4VU6
+ ERqbNuTAWZk/FbpnAIkhYfOthvHGNg+w4BjX1++8gGk5zxrsT259d9olb6JtlWlMNo8VY1wi5So
+ Zc5x9tZOympgKZj48d9DAo5uS6BuhQOjRG/bit968ASMcMnoGhjVPU6QKGd+t7s9/DalSuhBLQ=
+X-Google-Smtp-Source: AGHT+IFxoEn538osLb1odgajYw9fSAUZgF6WvPtYoUG5YWbbVnrdjB5k6/fOChqeptiWxLNN08rLeg==
+X-Received: by 2002:a05:600c:35c3:b0:434:f131:1e71 with SMTP id
+ 5b1f17b1804b1-438913cf2e0mr106268555e9.8.1737357713032; 
+ Sun, 19 Jan 2025 23:21:53 -0800 (PST)
+Received: from localhost ([196.207.164.177]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38bf32222d1sm9595035f8f.38.2025.01.19.23.21.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Jan 2025 23:21:52 -0800 (PST)
+Date: Mon, 20 Jan 2025 10:21:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Su Hui <suhui@nfschina.com>
+Cc: boris.brezillon@collabora.com, steven.price@arm.com,
+ liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, mary.guillemard@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/panthor: avoid garbage value in
+ panthor_ioctl_dev_query()
+Message-ID: <01bf1bd2-2764-41a1-85aa-962f1197387f@stanley.mountain>
+References: <20250119025828.1168419-1-suhui@nfschina.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/6] Add eDP mode support for Rockchip Samsung HDPTX PHY
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
- algea.cao@rock-chips.com, kever.yang@rock-chips.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-References: <20250112090714.1564158-1-damon.ding@rock-chips.com>
- <ezoduel3qz5ihlhekry26cb7ace3bm4xmzsfrsqvbodtcl3gjq@xxo75h7uozei>
-Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <ezoduel3qz5ihlhekry26cb7ace3bm4xmzsfrsqvbodtcl3gjq@xxo75h7uozei>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhofSVZIQ0tIHx1IQkpMGBhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
- NVSktLVUpCS0tZBg++
-X-HM-Tid: 0a9482938cc103a3kunm92b0fd19
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MRQ6CTo*QjILGjc0Ei1KIQtW
- T0pPCzlVSlVKTEhMSE5MT0JMSE5OVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJSEhLNwY+
-DKIM-Signature: a=rsa-sha256;
- b=YlMVqCemoJ5IuGFcjnoZpmTM+woLwFi2wcAc4vBGThor+N1qtfA0YzV3z3iB62D4/0lEir2z/RSlG6qZu78nUvKHmCE7MY1tLK3ql+K4BzVU5YzuM9SKIlIYPOimiJMYFRsZ8FfrfjRSPfKNVynCqgXMukhM4D8CSqMl+w3Snhg=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=LGzVX7k2FmqUfYRLqS7vwiYQh14m9/YvFN4qiCwdhQg=;
- h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250119025828.1168419-1-suhui@nfschina.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,61 +90,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On 2025/1/13 17:10, Dmitry Baryshkov wrote:
-> On Sun, Jan 12, 2025 at 05:07:08PM +0800, Damon Ding wrote:
->> Picked from:
->> https://patchwork.kernel.org/project/linux-rockchip/list/?series=923593
+On Sun, Jan 19, 2025 at 10:58:29AM +0800, Su Hui wrote:
+> 'priorities_info' is uninitialized, and the uninitialized value is copied
+> to user object when calling PANTHOR_UOBJ_SET(). Using memset to initialize
+> 'priorities_info' to avoid this garbage value problem.
 > 
-> Then it should have been v6, not v1.
-> 
+> Fixes: f70000ef2352 ("drm/panthor: Add DEV_QUERY_GROUP_PRIORITIES_INFO dev query")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
 
-I will update a patch series to fix it.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
->>
->> These patchs have been tested with a 1536x2048p60 eDP panel on
->> RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
->> on RK3588 EVB1 board.
->>
->> Damon Ding (6):
->>    phy: phy-rockchip-samsung-hdptx: Swap the definitions of LCPLL_REF and
->>      ROPLL_REF
->>    phy: phy-rockchip-samsung-hdptx: Supplement some register names with
->>      their full version
->>    phy: phy-rockchip-samsung-hdptx: Add the '_MASK' suffix to all
->>      registers
->>    phy: phy-rockchip-samsung-hdptx: Add eDP mode support for RK3588
->>    dt-bindings: display: rockchip: Fix label name of hdptxphy for RK3588
->>      HDMI TX Controller
->>    arm64: dts: rockchip: Fix label name of hdptxphy for RK3588
->>
->>   .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |   2 +-
->>   arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   4 +-
->>   .../dts/rockchip/rk3588-coolpi-cm5-evb.dts    |   2 +-
->>   .../rockchip/rk3588-coolpi-cm5-genbook.dts    |   2 +-
->>   .../boot/dts/rockchip/rk3588-evb1-v10.dts     |   2 +-
->>   .../rk3588-friendlyelec-cm3588-nas.dts        |   2 +-
->>   .../arm64/boot/dts/rockchip/rk3588-jaguar.dts |   2 +-
->>   .../boot/dts/rockchip/rk3588-nanopc-t6.dtsi   |   2 +-
->>   .../dts/rockchip/rk3588-orangepi-5-plus.dts   |   2 +-
->>   .../boot/dts/rockchip/rk3588-rock-5b.dts      |   2 +-
->>   .../boot/dts/rockchip/rk3588-tiger-haikou.dts |   2 +-
->>   .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   2 +-
->>   .../dts/rockchip/rk3588s-indiedroid-nova.dts  |   2 +-
->>   .../boot/dts/rockchip/rk3588s-nanopi-r6.dtsi  |   2 +-
->>   .../boot/dts/rockchip/rk3588s-odroid-m2.dts   |   2 +-
->>   .../boot/dts/rockchip/rk3588s-orangepi-5.dtsi |   2 +-
->>   .../boot/dts/rockchip/rk3588s-rock-5a.dts     |   2 +-
->>   .../boot/dts/rockchip/rk3588s-rock-5c.dts     |   2 +-
->>   .../phy/rockchip/phy-rockchip-samsung-hdptx.c | 971 +++++++++++++++++-
->>   19 files changed, 934 insertions(+), 75 deletions(-)
->>
->> -- 
->> 2.34.1
->>
-> 
+How did you find this bug?
 
-Best regards
-Damon
+regards,
+dan carpenter
 
