@@ -2,171 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4C1A1733F
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 20:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCDDA173B7
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 21:42:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71C7310E47E;
-	Mon, 20 Jan 2025 19:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 349FD10E0DE;
+	Mon, 20 Jan 2025 20:42:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZcG5mpDq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lPbEmS+5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on20622.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:2409::622])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3090F10E47E
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 19:48:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MFC1DBCdDbAqcWBRRvL617Q/tSEqhE4KKnpZZ7ghvE4KqjDrCZghcGQBvgvzwrSGxAnLofOyeRfhf/zZ3YRjmAqO900ldl09kw2okm5SS2bsVnKxlXUf4kibAbO0Pf1O2UFXCwoJEYszQj7p9ybBNSjpEi4vV4UDfZzIbN79uFfUNYXDbrnYWRy/ULpLKjAJzG1PQQbNYzm1c4tT550kIHJHLESV/sLKoHgyS4D2dKcBIcAUIz+V0/038WWaavZnbPsHh2wccqoFsMp5UmPYfvtPJq8ckNhNDwbOe06AhaDRi6S6LhiM1qySZTqGX4uwfqpobjxrkK+vDfghPgHiUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RCUsmlfg75ySx1VtsPTA3Eop2BRzV2g+9H8JlAbTKRo=;
- b=ruWNVWxKrSdKo0j1YNCrT9sUDnfYqass/jdSS13V7oy8ppU2ND4ZEW8jzXkBVJ20rrWJosSV89jRMigfBwOrqUrzw+gbtPpuEMn617y8V9fj0akNob55pzyeJbK/Mfux/KOYLylRJZQWlLdIOJh8N06AbGDi0uAcZhNhClENcc6oCNtZhNtvpWv34r5NrvrtbpIlWJA3kKJcTiLIO2ZhEdWJo5IVnagknY0BrJ4XF8BjFy9Ui6eWmgmPtERefoD/Eydg0l4ad6Fanu8MgnOgp8sELU1sULim9HzKqI8vSBPI9tPPEX3raUl5NnCzi7fPIP7ik7n6BP8ipZOSx2a+Tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RCUsmlfg75ySx1VtsPTA3Eop2BRzV2g+9H8JlAbTKRo=;
- b=ZcG5mpDq9aSrny77wHZONE9dQeQYR93hKbODnc/hc3laCxtdA8iDDiq5OnLuGQnd04F7Bv/Wfnz1h7PBHoZWuCbFkwhuSgjnLx4cqlEclmakyIhgKl3pSuT1cUD3/tumuMM+xA1qnpd/ScjxRRMDtwwoaseLKDhtELgKt+aa6evGMaRpTSL0uszlRXNKdFIadAvDwaLmFsaUXuBThXdfSgU2dOfC7Shmr19tv2fCTS7AruFA3Jl8qzp5xaU88rrjb356tk1TjvMdSTkufLAuj73RpFM/UYNJ0MkJ1dTzVUT+ixD3LMIK/lRfdXbCSvt2lfI0H6z7DQFku4VItCOfYQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by DM4PR12MB8474.namprd12.prod.outlook.com (2603:10b6:8:181::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Mon, 20 Jan
- 2025 19:48:05 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8356.010; Mon, 20 Jan 2025
- 19:48:05 +0000
-Date: Mon, 20 Jan 2025 15:48:04 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
- Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
- kAPI
-Message-ID: <20250120194804.GT5556@nvidia.com>
-References: <Z4F2X7Fu-5lprLrk@phenom.ffwll.local>
- <20250110203838.GL5556@nvidia.com>
- <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
- <20250114173103.GE5556@nvidia.com>
- <Z4d4AaLGrhRa5KLJ@phenom.ffwll.local>
- <420bd2ea-d87c-4f01-883e-a7a5cf1635fe@amd.com>
- <Z4psR1qoNQUQf3Q2@phenom.ffwll.local>
- <c10ae58f-280c-4131-802f-d7f62595d013@amd.com>
- <20250120175901.GP5556@nvidia.com>
- <Z46a7y02ONFZrS8Y@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C02DA10E029;
+ Mon, 20 Jan 2025 20:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737405763; x=1768941763;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=nMabKbfhmKRSjD51tKXbplpRgV1NPBDxefkz6fnzt4g=;
+ b=lPbEmS+5TIhUkU5Tb8CU5JySyACOadw+kUUUC/6wYmmPyQ3e/wGbQGl/
+ cn+iKe5Rq6/Cd3LmDDXzLraRhz92S+vKWue8Xd0XdQkfgIFbv0LckffoR
+ fS2pAGDc3CnIDPNDFQdpY01e6QpFB4ZAFQRItSloJbwjrIkFyiZBizTXp
+ rp+Jqdh9s5nTX/4a2GjKxugVtAKZ8dZWQu5BSmQg8hpMPhMEYwI3AQaiB
+ QmaPkkb0pQbftDLu67Xa+SLkC1WCuMYlc9ov8rWuhSqQoIxx1jlSCVskJ
+ 3LfDzZZMJdSSPNNYAjLaNK7rBTAhbm9larAF8yKyxjhp/19hI2um/LdUL g==;
+X-CSE-ConnectionGUID: oULqVGIHQUW0y8qKvsfKrQ==
+X-CSE-MsgGUID: DtkQE2U/QKiveH/3WBsWNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37833598"
+X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; d="scan'208";a="37833598"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2025 12:42:43 -0800
+X-CSE-ConnectionGUID: CoRcEqKRSxW2OHDmn/BqAA==
+X-CSE-MsgGUID: IadMO7piSNet8rp/z3lgEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; d="scan'208";a="106736931"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 20 Jan 2025 12:42:39 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 20 Jan 2025 22:42:38 +0200
+Date: Mon, 20 Jan 2025 22:42:38 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v3 2/5] drm/plane: Expose function to create
+ format/modifier blob
+Message-ID: <Z461PqtBPu2z9GPh@intel.com>
+References: <20250108-asyn-v3-0-f4399635eec9@intel.com>
+ <20250108-asyn-v3-2-f4399635eec9@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z46a7y02ONFZrS8Y@phenom.ffwll.local>
-X-ClientProxiedBy: BL1PR13CA0197.namprd13.prod.outlook.com
- (2603:10b6:208:2be::22) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|DM4PR12MB8474:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9680b7ba-0e77-4835-9444-08dd398b5b69
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|366016|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?STVyQWk5TFRLRWthUS9iOHNWTmN2bVhTdk1rVmxZbkthczJPRnowZzlVYW1l?=
- =?utf-8?B?NGdQNnpabktWYlFpTWVQUDhhNW1pcU8yemtxcVFYK2ZIRjdma3hYUnI0dkw5?=
- =?utf-8?B?ck40eW5Wb0JZamFtdEJnMysya3JqaUFXelg1SGUxSzZaMVJONFZFd3VQZWdN?=
- =?utf-8?B?MVg4RjN2cUN0Smh2akRXRTRuWXhoTSthZVJpLzlUaTV4QzQwNTFlZUdhckFl?=
- =?utf-8?B?a2hiRlcyL21pZVhEb0hTSUU2bjFwd0tPQlRITXpTNW9OSmNrcFJBR1pZaUw1?=
- =?utf-8?B?R05RNVJMQTNROG9nakxTcmx4bDdEM0ozclJldXNTTThZSDdER0VvdzVXYWRQ?=
- =?utf-8?B?Y0VrMmFER20raXNvQ3hyQzkzOGFsNzRwOWNXNElPS3RBYk4vWEl3aDN0bXRM?=
- =?utf-8?B?OFVKN1VKR1pzTzV2YWQ2MHAxeEdwTHlkUGxlRXVVTTdjY1k3SS9ROFNLa1dN?=
- =?utf-8?B?cHBCclQyUzdHS2tobllYUjVLM0dGMmVta25jd25QYWJ3cFpHdGtmZHJUTW9s?=
- =?utf-8?B?cDZKaFFZYmdkL0hJSjgwdk1uSjJ6ZmovZTJ4elRSZ2hUcDk5bE00eFhncHo5?=
- =?utf-8?B?Z244Zkk1QnF6eENnaVhMSG5FYjM4NlJwT2xTdml6MVBndVp3TUI1Z3dudStY?=
- =?utf-8?B?dW9CYWNUNVZJbXNabkYwNTFNdHBnMDJzT2orZVFLQ1lOY0I0bFAzMDl0ODhS?=
- =?utf-8?B?NGpDYnVSQ1Y2dW1DNHBHMnpTWjJhRlJ4R3ZHWktJKy9WdzdqLzhSaE1uZUNR?=
- =?utf-8?B?NEYyeGdnWVN1dGF3bGw1V09JODZ6cUQyS0lOZ0pJV21uMlY1czdIdEdjRVZr?=
- =?utf-8?B?TUswU3pkUGtFVEZJWmRpUzVvL2FPZ2taQ0QvdkcyZHpHSUhtN1J4NE4yL3ll?=
- =?utf-8?B?c3psS0NIT3krRlRqaWw0RUlZSktjcFZORTRPS1dTQ3IrKzRlRkFMbTZUaHlm?=
- =?utf-8?B?aEk0UVcweFVNZmVMMjNMa1RHS0NwakV5eTVqSmVndWxUS1F0NVJxN0tuWngy?=
- =?utf-8?B?WUtGckIvWTlkWU5xaFRHNFJXbDlZKy9pek5IYzR1blJSRnRiOGNUd1l1T0wx?=
- =?utf-8?B?cmNwM1NFVlRjUzNpMVppREhOOFlVNDM2dWhxNHBNbmFPM1V3Q3greFJJeStj?=
- =?utf-8?B?ZkZkVW55UG1vY2RpYWJZT2tmdWJxZzJvTlNxSEx3Z25FYmxWcGYrdytyYVJz?=
- =?utf-8?B?dTdBQVp2MXVJNDZBSEYwTjZoZnptUE1Ta2VaZnQ5d2JveDZYSkpDSVR5ZnVU?=
- =?utf-8?B?cHVHdWZXU25yMDNRVFpKZXBmc2hwN1d5Z2FGNXprOG9IdjdlKzQ4YmxUaml0?=
- =?utf-8?B?aFk0dEx0QzhtME5rbGJydy9odlB1NE9aeERpdkgyQXRmYzh6TnBsT3JyVG1u?=
- =?utf-8?B?U2R4SU56ckx5Z0JMdURQcEVTcXBkcjg4cllDZFBFWnVqa0VwUkNPZ1BPcktt?=
- =?utf-8?B?TkpUWEdxWTNXcDAvTVI1ZWhkaWd2c2VxM1NKNEJwMkcrak5nd0ptY1lMTG1u?=
- =?utf-8?B?NmVWM1BoZFhaeFFIVVBEVFRFK2oyMDI4QUNtOE5uY2VTUFJFU1UxaGdhL2Zs?=
- =?utf-8?B?YUhUWm1paXUzY1Y0VjhQVkRhZVEyY2ZZclpaOVhsbUs2WjhLMmh2aFIvaTFj?=
- =?utf-8?B?Z0FwbnMrMng1TVp2L29MdDQyb2g4QjdXdXp4TzFPcnpsNE1KMmV4eDBCNDBX?=
- =?utf-8?B?VnpFblNqQk1tdEEweHdSYnoxMmJTeWNpblVLT2M3U3IzWXlCbUxOUmQzdmZp?=
- =?utf-8?B?MjRuNHdCMVpwaWpKWU1BVTBXMDZZRkZadnFRWFdnaGxQQjVYWE1NZGZsbFp6?=
- =?utf-8?B?RjRhVHhQWThmTWswYnNNUm44Smwrb3hsUk9GZlBmbExJVU5JL2F3d09WMVU2?=
- =?utf-8?B?U25udnVhZU9LN1BFd0tlODZIK1JIejdmcGt3OUlzUTE0Q1JiNUUzbUxjMjNR?=
- =?utf-8?Q?aDJu7ur44KU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aW1HZ2lSSSs4UTZIV1l2Y3I5a2hTUUZ3enBKWkkzQmhNb09TdEpsbTNqcmZY?=
- =?utf-8?B?ZktGeHdLdEJBUXlnSlhGTGxJMWM2TWZpSm14L1VOWStiTVU1RVQvc0dvQVBy?=
- =?utf-8?B?b25FS0Q0d1JUOWJOSE56RkVya3ZVZ2xqNmJEbXR6MFlBWWhqN0gvZzNMbENo?=
- =?utf-8?B?eHJTSW04ZUVnU1FxNkNFVVJXek9LSjlpQ3g1a2tsdFhrU3lWcE81dElvdlYz?=
- =?utf-8?B?VTk3UmplTFZ5ZE5GS0p5ZmZNeHkvNDUvTFhxOXZpTzhjcFVxeFFReTZDMWhH?=
- =?utf-8?B?WjVZRmhVL0ZvaTBmUFhWYUlTaGczaytkUSttazE0NTRqclVkRXdUSmJHYTJa?=
- =?utf-8?B?cUZ6bjV4YXRuWkVFeTB1SkhQVG9pNG9obkgrU2tzazF2YzJlZnh0elVLQUtC?=
- =?utf-8?B?WTdJL3E4TzQ3dml2REpROXp3Mm93TUl1Q3VqNDVCdnQ3a2hIQzYvSFZaeHhy?=
- =?utf-8?B?cVVyOEUyOEVadGI4M05VbUpvZ2xmMUJnK1IxSS9TbWhjcm9ESWFGZlVBK09i?=
- =?utf-8?B?SkExUXBUK2lIa2ZjS0xtWTViYnI5aldORlJiSUdMTk1uTzZOaERBNjZmam04?=
- =?utf-8?B?eC8rY1hyaXZXd0ZyRklzWllxK3hRVFJJSkZlOHc3T0F2TkdOdk1wM3VPT0tP?=
- =?utf-8?B?RHB3YTBZb0NGUDJKVTl6V3hGNDNTS1BLcStuajA0VzFjZURCLzNEWUMyd0NG?=
- =?utf-8?B?WTdZaGhSdThrUVBSY3N1L0NRdi90REFnczJ0Zk1KcmQzWkNTYXNOdmRkSGZU?=
- =?utf-8?B?MnpINTljYXpvck9Wd3JHYzh0d3h1eW13V1pQdG0yRXRsSGNUUFJBT05OaGVR?=
- =?utf-8?B?WGYyS3VtUWJQZUdoSFFOU2FuQlZ4dDNZa1Z1bnFYZ2VLUDY0b1BsQ3A3YmNs?=
- =?utf-8?B?VVpSV2h6aDJXbExtWm13TWJXcVhFYTdnWHIzSFhsekwwY1dXeXpNZ1JpbDdw?=
- =?utf-8?B?dDd0UXFDQTFQUWRRTDF0bXJLcTV2OWp5RXlzT3hSbWhRUXV2ZW51djdPVVh2?=
- =?utf-8?B?RXFnNUsyK1NReWxCdEhYYzc4TVF3U1RCTmI2anFlSFQ1b3JBVFhZK3RLd0FE?=
- =?utf-8?B?bW1yM2hDSTU3ZW1hdjg4Q0RMQjJSUGtBZmpCRnFHaXZTYTN5dlVWdTlpeHM4?=
- =?utf-8?B?NDhTWkxRL01ud1dSenp3QzNUVFFTWlJ1YWRmNEsybEJsK2Jnak1qNGxlOFFq?=
- =?utf-8?B?QkliZjdwc0VEVHFRQzBrNE9MSERRbnl0WTFPMzFFaUc3OVR3Qnc0U09oaVdE?=
- =?utf-8?B?eWhhVlpGWTA2cTV5WXI0OS9HZFJtWmdkMEJvak02empKYzMyc1FwK0tDU0Zu?=
- =?utf-8?B?VHRQYUNJbnBRNUdDVlo2UmpYU1hWeEl2cnFZQTg4QXZTeGMxLzdPTldQcjhs?=
- =?utf-8?B?MC9zK05RaXQxMjhyQkQvMGNRUHJ0UDNGRlRSejNQTEtvMW1DQjlnSEhJTlRs?=
- =?utf-8?B?YlNTVlBrUUE5aTRuQ1N1NDlkQXNVb1czZzVVd2kzU3JwTUhsOEtTQXprK0Yy?=
- =?utf-8?B?T3dYclVZblVBOVhvMVA2TEhsd2EyTlQ3Sk9NWnQ1MlUwbUZNdS9pM2c4VVR4?=
- =?utf-8?B?dEt3ODd6MzVUN1IvbXZSQkpmNG51SmxUOWk3aVJhNUtidTRNM3FScVcvTFlr?=
- =?utf-8?B?Z21BdnFBelZ5UG5EL1czeXRLWE5vOGZXaEtaRzNUenowVDZaZ2hNWlZLRXQ4?=
- =?utf-8?B?SDJrUzJidmwrTUswb1RoQmpsYytya3ZsbG10cDlIRnN4SDN0Yldtc1N3amdG?=
- =?utf-8?B?cU8zVkNMM3h0dHRnREV1eVRkRzBLQ3NLUlFrNWpncHFDUHRTVk1mSm5UMXNW?=
- =?utf-8?B?aXNsdHpsY2dLVU9aMmYvLzIxenNaSyt5WHJKbVpZeWRoWjlUQzBVSnVrN1ZY?=
- =?utf-8?B?YStWVUpCWUpNTjVmMkNaaWdZM0NITjdibDRqOGFSajd2UGxSNGJzMW9Md2g0?=
- =?utf-8?B?U0lMNUFNVDJ3eCtTZ0JBRDVYOHVKOGxoOTJTc0p1alFubC9yZDFDTHZPRm1q?=
- =?utf-8?B?RU9OTGdualEyMTdGWW1DMUN0SWc3bER2MW5SWTVBRlVnNlFPTlhpSDF2eWxI?=
- =?utf-8?B?azhBNTUxZzNsbktzYzdNSTcvcm0ya0VxRjJlNENUTVF0dFl3MVY4VGtFeEFE?=
- =?utf-8?Q?k/nItN32+MNPFogNx18g3+NyI?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9680b7ba-0e77-4835-9444-08dd398b5b69
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 19:48:05.5270 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: omYVv/RNBn2YVDfLB/XrEhloVczZn/4anXdvqB/8NIYgK7B4DOMrgTpCaej5jooy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB8474
+In-Reply-To: <20250108-asyn-v3-2-f4399635eec9@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,61 +73,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 20, 2025 at 07:50:23PM +0100, Simona Vetter wrote:
-> On Mon, Jan 20, 2025 at 01:59:01PM -0400, Jason Gunthorpe wrote:
-> > On Mon, Jan 20, 2025 at 01:14:12PM +0100, Christian KÃ¶nig wrote:
-> > What is going wrong with your email? You replied to Simona, but
-> > Simona Vetter <simona.vetter@ffwll.ch> is dropped from the To/CC
-> > list??? I added the address back, but seems like a weird thing to
-> > happen.
+On Wed, Jan 08, 2025 at 11:09:00AM +0530, Arun R Murthy wrote:
+> Expose drm plane function to create formats/modifiers blob. This
+> function can be used to expose list of supported formats/modifiers for
+> sync/async flips.
 > 
-> Might also be funny mailing list stuff, depending how you get these. I
-> read mails over lore and pretty much ignore cc (unless it's not also on
-> any list, since those tend to be security issues) because I get cc'ed on
-> way too much stuff for that to be a useful signal.
+> Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> ---
+>  drivers/gpu/drm/drm_plane.c | 44 +++++++++++++++++++++++++++++---------------
+>  include/drm/drm_plane.h     |  4 ++++
+>  2 files changed, 33 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+> index 416818e54ccffcf3d3aada2723e96ce8ccf1dd97..4f35eec2b7770fcc90c3e07a9068b31c0563a4c0 100644
+> --- a/drivers/gpu/drm/drm_plane.c
+> +++ b/drivers/gpu/drm/drm_plane.c
+> @@ -191,7 +191,10 @@ modifiers_ptr(struct drm_format_modifier_blob *blob)
+>  	return (struct drm_format_modifier *)(((char *)blob) + blob->modifiers_offset);
+>  }
+>  
+> -static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane)
+> +int drm_plane_create_format_blob(struct drm_device *dev,
+> +				 struct drm_plane *plane, u64 *modifiers,
+> +				 unsigned int modifier_count, u32 *formats,
+> +				 unsigned int format_count, bool is_async)
+>  {
+>  	const struct drm_mode_config *config = &dev->mode_config;
+>  	struct drm_property_blob *blob;
+> @@ -200,14 +203,14 @@ static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane
+>  	struct drm_format_modifier_blob *blob_data;
+>  	unsigned int i, j;
+>  
+> -	formats_size = sizeof(__u32) * plane->format_count;
+> +	formats_size = sizeof(__u32) * format_count;
+>  	if (WARN_ON(!formats_size)) {
+>  		/* 0 formats are never expected */
+>  		return 0;
+>  	}
+>  
+>  	modifiers_size =
+> -		sizeof(struct drm_format_modifier) * plane->modifier_count;
+> +		sizeof(struct drm_format_modifier) * modifier_count;
+>  
+>  	blob_size = sizeof(struct drm_format_modifier_blob);
+>  	/* Modifiers offset is a pointer to a struct with a 64 bit field so it
+> @@ -223,37 +226,45 @@ static int create_in_format_blob(struct drm_device *dev, struct drm_plane *plane
+>  
+>  	blob_data = blob->data;
+>  	blob_data->version = FORMAT_BLOB_CURRENT;
+> -	blob_data->count_formats = plane->format_count;
+> +	blob_data->count_formats = format_count;
+>  	blob_data->formats_offset = sizeof(struct drm_format_modifier_blob);
+> -	blob_data->count_modifiers = plane->modifier_count;
+> +	blob_data->count_modifiers = modifier_count;
+>  
+>  	blob_data->modifiers_offset =
+>  		ALIGN(blob_data->formats_offset + formats_size, 8);
+>  
+> -	memcpy(formats_ptr(blob_data), plane->format_types, formats_size);
+> +	memcpy(formats_ptr(blob_data), formats, formats_size);
+>  
+>  	mod = modifiers_ptr(blob_data);
+> -	for (i = 0; i < plane->modifier_count; i++) {
+> -		for (j = 0; j < plane->format_count; j++) {
+> -			if (!plane->funcs->format_mod_supported ||
+> +	for (i = 0; i < modifier_count; i++) {
+> +		for (j = 0; j < format_count; j++) {
+> +			if (is_async ||
+> +			    !plane->funcs->format_mod_supported ||
+>  			    plane->funcs->format_mod_supported(plane,
+> -							       plane->format_types[j],
+> -							       plane->modifiers[i])) {
+> +							       formats[j],
+> +							       modifiers[i])) {
+>  				mod->formats |= 1ULL << j;
+>  			}
+>  		}
+>  
+> -		mod->modifier = plane->modifiers[i];
+> +		mod->modifier = modifiers[i];
+>  		mod->offset = 0;
+>  		mod->pad = 0;
+>  		mod++;
+>  	}
+>  
+> -	drm_object_attach_property(&plane->base, config->modifiers_property,
+> -				   blob->base.id);
+> +	if (is_async)
+> +		drm_object_attach_property(&plane->base,
+> +					   config->async_modifiers_property,
+> +					   blob->base.id);
+> +	else
+> +		drm_object_attach_property(&plane->base,
+> +					   config->modifiers_property,
+> +					   blob->base.id);
 
-Oh I see, you are sending a Mail-followup-to header that excludes your
-address, so you don't get any emails at all.. My mutt is dropping you
-as well.
+IMO the function should only create the blob. Leave it to the caller to
+attach it.
 
-> Yeah I'm not worried about cpu mmap locking semantics. drm/ttm is a pretty
-> clear example that you can implement dma-buf mmap with the rules we have,
-> except the unmap_mapping_range might need a bit fudging with a separate
-> address_space.
+The 'is_async' parameter could also be replaced with with a function
+pointer to the appropriate format_mod_supported() function. That
+makes the implementation entirely generic.
 
-From my perspective the mmap thing is a bit of a side/DRM-only thing
-as nothing I'm interested in wants to mmap dmabuf into a VMA.
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL(drm_plane_create_format_blob);
+>  
+>  /**
+>   * DOC: hotspot properties
+> @@ -476,7 +487,10 @@ static int __drm_universal_plane_init(struct drm_device *dev,
+>  	}
+>  
+>  	if (format_modifier_count)
+> -		create_in_format_blob(dev, plane);
+> +		drm_plane_create_format_blob(dev, plane, plane->modifiers,
+> +					     format_modifier_count,
+> +					     plane->format_types, format_count,
+> +					     false);
+>  
+>  	return 0;
+>  }
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index e8749e6fc3bc0acfc73bbd8401f85c3126e86759..eb84830fbb723e39436bfbadf369894a5657cd45 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -1008,5 +1008,9 @@ int drm_plane_create_scaling_filter_property(struct drm_plane *plane,
+>  int drm_plane_add_size_hints_property(struct drm_plane *plane,
+>  				      const struct drm_plane_size_hint *hints,
+>  				      int num_hints);
+> +int drm_plane_create_format_blob(struct drm_device *dev,
+> +				 struct drm_plane *plane, u64 *modifiers,
+> +				 unsigned int modifier_count, u32 *formats,
+> +				 unsigned int format_count, bool is_async);
 
-However, I think if you have locking rules that can fit into a VMA
-fault path and link move_notify to unmap_mapping_range() then you've
-got a pretty usuable API.
+I don't think this needs to be exposed to anyone.
+__drm_universal_plane_init() should just populate both
+the normal blob, and and the async blob (iff 
+.format_mod_supported_async() is provided).
 
-> For cpu mmaps I'm more worried about the arch bits in the pte, stuff like
-> caching mode or encrypted memory bits and things like that. There's
-> vma->vm_pgprot, but it's a mess. But maybe this all is an incentive to
-> clean up that mess a bit.
+>  
+>  #endif
+> 
+> -- 
+> 2.25.1
 
-I'm convinced we need meta-data along with pfns, there is too much
-stuff that needs more information than just the address. Cachability,
-CC encryption, exporting device, etc. This is a topic to partially
-cross when we talk about how to fully remove struct page requirements
-from the new DMA API.
-
-I'm hoping we can get to something where we describe not just how the
-pfns should be DMA mapped, but also can describe how they should be
-CPU mapped. For instance that this PFN space is always mapped
-uncachable, in CPU and in IOMMU.
-
-We also have current bugs in the iommu/vfio side where we are fudging
-CC stuff, like assuming CPU memory is encrypted (not always true) and
-that MMIO is non-encrypted (not always true)
-
-> I thought iommuv2 (or whatever linux calls these) has full fault support
-> and could support current move semantics. But yeah for iommu without
-> fault support we need some kind of pin or a newly formalized revoke model.
-
-No, this is HW dependent, including PCI device, and I'm aware of no HW
-that fully implements this in a way that could be useful to implement
-arbitary move semantics for VFIO..
-
-Jason
+-- 
+Ville Syrjälä
+Intel
