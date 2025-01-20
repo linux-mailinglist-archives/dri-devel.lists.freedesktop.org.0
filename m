@@ -2,75 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C37A16631
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 05:53:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D60DA165B4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 04:35:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 654BF10E2B7;
-	Mon, 20 Jan 2025 04:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1F5510E162;
+	Mon, 20 Jan 2025 03:35:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lqz1WWVC";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="YY0vmGRw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A00C310E2B7
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 04:53:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737348801; x=1768884801;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Y0xUv/KrGZMTDVn3d6aDjHsZO9ljCANXeLbTh4Y3AmU=;
- b=lqz1WWVC8zp36X8YHnZRD5juPdaiGouP7zccMx1KUOhIQcVpOVPBBR2P
- 2ESmkLAaWua0jfxQLymeLZNk1uz+EnnM9Cyz6/+XUxjPnTHqgFZp6dtSY
- ocBGv3Xqoomvcsvl/H7TSwGVyvfLXka2ks5mWVigOJKsRK+dYrJ2JqnVh
- JNd9XCDc/3SoRHDQrzTPRRmFSnHxy9nX6CkR0LUnw+XQLC4PqOLL6B341
- OSxpa9MzUXLw4cpQgR4WTOOCzXF8RXAcedxXdL05CNM/RKNfgR/INqCTX
- 5LaxQWg0kPwhz5+s0T4duad+q7lAv8UgbIltI0yeMJCCh1wC8M8DcB0de g==;
-X-CSE-ConnectionGUID: Z1jdxGDWQw6wRzVl3Whmgg==
-X-CSE-MsgGUID: CQ2tmBVXQcaH+GQs1t5ISA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="36926156"
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; d="scan'208";a="36926156"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2025 20:53:21 -0800
-X-CSE-ConnectionGUID: pzuQM0SDQPu1WYfF97IPTg==
-X-CSE-MsgGUID: 3MYTX9d4QRCtd/oYUVB0Lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="137273330"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2025 20:53:16 -0800
-Date: Mon, 24 Jun 2024 03:59:53 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Baolu Lu <baolu.lu@linux.intel.com>, Alexey Kardashevskiy <aik@amd.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <Znh+uTMe/wX2RIJm@yilunxu-OptiPlex-7050>
-References: <Z3/7/PQCLi1GE5Ry@yilunxu-OptiPlex-7050>
- <20250110133116.GF5556@nvidia.com>
- <Z4Hp9jvJbhW0cqWY@yilunxu-OptiPlex-7050>
- <20250113164935.GP5556@nvidia.com>
- <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
- <20250114133553.GB5556@nvidia.com>
- <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
- <20250115130102.GM5556@nvidia.com>
- <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
- <20250117132523.GA5556@nvidia.com>
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
+ [91.218.175.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6177810E162
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 03:35:15 +0000 (UTC)
+Message-ID: <3d4e4bda-f465-4c8a-97c4-846b2f3ecb54@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1737344078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=R9tPeFJh3Z8KzRS9nqqf16JZtB2EUc5uK4Rq+n7DfNw=;
+ b=YY0vmGRwrZUTBrUrgVqfAahrdf8E2LNioasg7jg8ibtK9oZUoF3Gyb6ENECPTEd6jx4ozD
+ dCAprAdgpk+wCkRotDFwZGdWs/yRlXxl8a6R+PVCHx5z5L1Gon1hTd9+nMflzGPYruxiHZ
+ vu7GbnHgrZEtNupovuNQyF4Ah1bgbyA=
+Date: Mon, 20 Jan 2025 11:34:27 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250117132523.GA5556@nvidia.com>
+Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
+ linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andy Yan <andyshrk@163.com>, Daniel Stone <daniel@fooishbar.org>
+References: <20250109150310.219442-1-tzimmermann@suse.de>
+ <20250109150310.219442-26-tzimmermann@suse.de>
+ <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
+ <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
+ <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
+ <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
+ <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
+ <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
+ <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
+ <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
+ <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
+ <a2bbeb47-2569-4ee0-9265-92bab139bdc6@suse.de>
+ <f3833771-fcd7-45dc-9019-1525fef34429@ideasonboard.com>
+ <CAMuHMdXxYa+Na3XxpLTy=-eUL_zQ9kAiUKYu-E04u3KWApusSA@mail.gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <CAMuHMdXxYa+Na3XxpLTy=-eUL_zQ9kAiUKYu-E04u3KWApusSA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,151 +82,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2025 at 09:25:23AM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 17, 2025 at 09:57:40AM +0800, Baolu Lu wrote:
-> > On 1/15/25 21:01, Jason Gunthorpe wrote:
-> > > On Wed, Jan 15, 2025 at 11:57:05PM +1100, Alexey Kardashevskiy wrote:
-> > > > On 15/1/25 00:35, Jason Gunthorpe wrote:
-> > > > > On Tue, Jun 18, 2024 at 07:28:43AM +0800, Xu Yilun wrote:
-> > > > > 
-> > > > > > > is needed so the secure world can prepare anything it needs prior to
-> > > > > > > starting the VM.
-> > > > > > OK. From Dan's patchset there are some touch point for vendor tsm
-> > > > > > drivers to do secure world preparation. e.g. pci_tsm_ops::probe().
-> > > > > > 
-> > > > > > Maybe we could move to Dan's thread for discussion.
-> > > > > > 
-> > > > > > https://lore.kernel.org/linux-
-> > > > > > coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-
-> > > > > > xfh.jf.intel.com/
-> > > > > I think Dan's series is different, any uapi from that series should
-> > > > > not be used in the VMM case. We need proper vfio APIs for the VMM to
-> > > > > use. I would expect VFIO to be calling some of that infrastructure.
-> > > > Something like this experiment?
-> > > > 
-> > > > https://github.com/aik/linux/commit/
-> > > > ce052512fb8784e19745d4cb222e23cabc57792e
-> > > Yeah, maybe, though I don't know which of vfio/iommufd/kvm should be
-> > > hosting those APIs, the above does seem to be a reasonable direction.
-> > > 
-> > > When the various fds are closed I would expect the kernel to unbind
-> > > and restore the device back.
-> > 
-> > I am curious about the value of tsm binding against an iomnufd_vdevice
-> > instead of the physical iommufd_device.
-> 
-> Interesting question
->  
-> > It is likely that the kvm pointer should be passed to iommufd during the
-> > creation of a viommu object. 
-> 
-> Yes, I fully expect this
-> 
-> > If my recollection is correct, the arm
-> > smmu-v3 needs it to obtain the vmid to setup the userspace event queue:
-> 
-> Right now it will use a VMID unrelated to KVM. BTM support on ARM will
-> require syncing the VMID with KVM.
-> 
-> AMD and Intel may require the KVM for some reason as well.
-> 
-> For CC I'm expecting the KVM fd to be the handle for the cVM, so any
-> RPCs that want to call into the secure world need the KVM FD to get
-> the cVM's identifier. Ie a "bind to cVM" RPC will need the PCI
-> information and the cVM's handle.
+Hi,
 
-I also expect this.
+On 2025/1/16 18:17, Geert Uytterhoeven wrote:
+> On Thu, Jan 16, 2025 at 11:03 AM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>> On 16/01/2025 10:09, Thomas Zimmermann wrote:
+>>> Am 15.01.25 um 15:20 schrieb Tomi Valkeinen:
+>>> [...]
+>>>> My point is that we have the current UAPI, and we have userspace using
+>>>> it, but we don't have clear rules what the ioctl does with specific
+>>>> parameters, and we don't document how it has to be used.
+>>>>
+>>>> Perhaps the situation is bad, and all we can really say is that
+>>>> CREATE_DUMB only works for use with simple RGB formats, and the
+>>>> behavior for all other formats is platform specific. But I think even
+>>>> that would be valuable in the UAPI docs.
+>>> To be honest, I would not want to specify behavior for anything but the
+>>> linear RGB formats. If anything, I'd take Daniel's reply mail for
+>>> documentation as-is. Anyone stretching the UAPI beyond RGB is on their own.
+>>>
+>>>> Thinking about this, I wonder if this change is good for omapdrm or
+>>>> xilinx (probably other platforms too that support non-simple non-RGB
+>>>> formats via dumb buffers): without this patch, in both drivers, the
+>>>> pitch calculations just take the bpp as bit-per-pixels, align it up,
+>>>> and that's it.
+>>>>
+>>>> With this patch we end up using drm_driver_color_mode_format(), and
+>>>> aligning buffers according to RGB formats figured out via heuristics.
+>>>> It does happen to work, for the formats I tested, but it sounds like
+>>>> something that might easily not work, as it's doing adjustments based
+>>>> on wrong format.
+>>>>
+>>>> Should we have another version of drm_mode_size_dumb() which just
+>>>> calculates using the bpp, without the drm_driver_color_mode_format()
+>>>> path? Or does the drm_driver_color_mode_format() path provide some
+>>>> value for the drivers that do not currently do anything similar?
+>>> With the RGB-only rule, using drm_driver_color_mode_format() makes
+>>> sense. It aligns dumb buffers and video=, provides error checking, and
+>>> overall harmonizes code. The fallback is only required because of the
+>>> existing odd cases that already bend the UAPI's rules.
+>> I have to disagree here.
+>>
+>> On the platforms I have been using (omap, tidss, xilinx, rcar) the dumb
+>> buffers are the only buffers you can get from the DRM driver. The dumb
+>> buffers have been used to allocate linear and multiplanar YUV buffers
+>> for a very long time on those platforms.
+>>
+>> I tried to look around, but I did not find any mentions that CREATE_DUMB
+>> should only be used for RGB buffers. Is anyone outside the core
+>> developers even aware of it?
+>>
+>> If we don't use dumb buffers there, where do we get the buffers? Maybe
+>> from a v4l2 device or from a gpu device, but often you don't have those.
+>> DMA_HEAP is there, of course.
+> Why can't there be a variant that takes a proper fourcc format instead of
+> an imprecise bpp value?
 
-> 
-> From that perspective it does make sense that any cVM related APIs,
-> like "bind to cVM" would be against the VDEVICE where we have a link
-> to the VIOMMU which has the KVM. On the iommufd side the VIOMMU is
-> part of the object hierarchy, but does not necessarily have to force a
-> vIOMMU to appear in the cVM.
-> 
-> But it also seems to me that VFIO should be able to support putting
-> the device into the RUN state
-
-Firstly I think VFIO should support putting device into *LOCKED* state.
-From LOCKED to RUN, there are many evidence fetching and attestation
-things that only guest cares. I don't think VFIO needs to opt-in.
-
-But that doesn't impact this concern. I actually think VFIO should
-provide 'bind' uAPI to support these device side configuration things
-rather than iommufd uAPI. IIUC iommufd should only do the setup on
-IOMMU side.
-
-The switching of TDISP state to LOCKED involves device side
-differences that should be awared by the device owner, VFIO driver.
-
-E.g. as we previously mentioned, to check if all MMIOs are never mapped.
-
-Another E.g. invalidate MMIOs when device is to be LOCKED, some Pseudo
-Code:
-
-@@ -1494,7 +1494,15 @@ static int vfio_pci_ioctl_tsm_bind(struct vfio_pci_core_device *vdev,
-        if (!kvm)
-                return -ENOENT;
-
-+       down_write(&vdev->memory_lock);
-+       vfio_pci_dma_buf_move(vdev, true);
-+
-        ret = pci_tsm_dev_bind(pdev, kvm, &bind.intf_id);
-+
-+       if (__vfio_pci_memory_enabled(vdev))
-+               vfio_pci_dma_buf_move(vdev, false);
-+       up_write(&vdev->memory_lock);
+The 'flags' parameter of the 'struct drm_mode_create_dumb' doesn't gets
+in used so far, I guess the situation will be much better if passing a
+correct fourcc code from the user-space to kernel is allowed.
 
 
-BTW, we may still need viommu/vdevice APIs during 'bind', if some IOMMU
-side configurations are required by secure world. TDX does have some.
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
+-- 
+Best regards,
+Sui
 
-> without involving KVM or cVMs.
-
-It may not be feasible for all vendors. I believe AMD would have one
-firmware call that requires cVM handle *AND* move device into LOCKED
-state. It really depends on firmware implementation.
-
-So I'm expecting a coarse TSM verb pci_tsm_dev_bind() for vendors to do
-any host side preparation and put device into LOCKED state.
-
-> 
-> > Intel TDX connect implementation also needs a reference to the kvm
-> > pointer to obtain the secure EPT information. This is crucial because
-> > the CPU's page table must be shared with the iommu. 
-> 
-> I thought kvm folks were NAKing this sharing entirely? Or is the
-
-I believe this is still Based on the general EPT sharing idea, is it?
-
-There are several major reasons for the objection. In general, KVM now
-has many "page non-present" tricks in EPT, which are not applicable to
-IOPT. If shared, KVM has to take IOPT concerns into account, which is
-quite a burden for KVM maintaining.
-
-> secure EPT in the secure world and not directly managed by Linux?
-
-Yes, the secure EPT is in the secure world and managed by TDX firmware.
-Now a SW Mirror Secure EPT is introduced in KVM and managed by KVM
-directly, and KVM will finally use firmware calls to propagate Mirror
-Secure EPT changes to secure EPT.
-
-Secure EPT are controlled by TDX module, basically KVM cannot play any
-of the tricks. And TDX firmware should ensure any SEPT setting would be
-applicable for Secure IOPT. I hope this could remove most of the
-concerns.
-
-I remember we've talked about SEPT sharing architechture for TDX TIO
-before, but didn't get information back from KVM folks. Not sure how
-things will go. Maybe will find out when we have some patches posted.
-
-Thanks,
-Yilun
-
-> 
-> AFAIK AMD is going to mirror the iommu page table like today.
-> 
-> ARM, I suspect, will not have an "EPT" under Linux control, so
-> whatever happens will be hidden in their secure world.
-> 
-> Jason
