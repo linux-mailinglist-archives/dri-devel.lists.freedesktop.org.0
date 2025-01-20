@@ -2,51 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB77A174EF
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 00:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778AAA174FE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 00:25:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E90010E17F;
-	Mon, 20 Jan 2025 23:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B8F010E289;
+	Mon, 20 Jan 2025 23:25:11 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ODo5awWD";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 35462 seconds by postgrey-1.36 at gabe;
- Mon, 20 Jan 2025 23:06:19 UTC
-Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::166])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA1E10E108
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 23:06:19 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A3E093FBF6;
- Tue, 21 Jan 2025 00:06:16 +0100 (CET)
-From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Tue, 21 Jan 2025 00:06:15 +0100
-Subject: [PATCH RFC] drm/msm/dpu: Fall back to a single DSC encoder (1:1:1)
- on small SoCs
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
+ [IPv6:2607:f8b0:4864:20::b35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1184A10E289
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 23:25:10 +0000 (UTC)
+Received: by mail-yb1-xb35.google.com with SMTP id
+ 3f1490d57ef6-e4930eca0d4so7628000276.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 15:25:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737415509; x=1738020309; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=u3K4n54rL+8zAM59g2r+WZLNP4o+zWfFr7g2g8lZuIE=;
+ b=ODo5awWDHgeofJWn0UjxtcxPetPE6Goxm8LQPN+28PbbP9JzR5Pb4eYDYRlbC4U6Yr
+ A8CT3czrzH9SvdsJiGo11aocglXXCeTHC4gAWcUTy+fY+8GDOAyNLzpi3oSFfOcOBsrM
+ s2de7t9zdjmRdJFKkahJ4xRpwjxbvyUR1GJ0Z031tj52YYgNPAZ72zVMsxSXNgqBkIjS
+ IkxB6/wMe74OcaaZFD3VxQnT4TqE6bOIoNq7YKbsDfUg7oiaWpfoPh1wB4wle/IRbE/B
+ 53MibPaB+KbV6O1oyOtNus/ojFGcIuXoZwIdYj4iWr/B1QBe0OHAeobtZEK0GwxTiC+p
+ 4pEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737415509; x=1738020309;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=u3K4n54rL+8zAM59g2r+WZLNP4o+zWfFr7g2g8lZuIE=;
+ b=JC9JJYisYa+FAmKBIYsE0CL2uAE3tD65mjQya7pspSdFuKJDsaqmsNASHjQuJq/PtK
+ 2Fd0rw1XFE9Imy0vohrE0O0SsQdUWt/vD2saIOjf4R3tLrDQhBIEvCJSs5rlg5arxDYu
+ amtkGCcTbAD0ZUGk9UKZ31mX+EMJLiKEzPEiJ1QfKwwIwdyS4qBehO16RnNXmdI2hIy1
+ WkZ7WIWmQ2tClDuqWwH5B+53UNdRkOyoBj3P5LC9tsJTH817FkzmU2bBFutrYxUa3DX8
+ hPrl1g4GLHqIaOzXOudfQjTJd7pGzs+qcA9fQPMMFyoDd+uhICHfhZxZ32+Nve85ymSs
+ fa5Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWXS4cAGGJU6TS6V/fbdmoPaemzsMB3mn7HQh0jkOpVLUTqHYVLE9AW8KaFjltnpH5nDEDtUB8VJPo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxm42pBnKO7rCmZU1v1KiveBqyQVHvbx1h0ekRU1fudik2c/Vv0
+ BZUth5h314sNkWavZ62ghW9RDPBTakrqhGVnQzoOmWljekaoBPJA8iR568uGSn+ZRcfF18TIgF5
+ 7o+ZsyZ2p9SzKnZWc3WLV5eTinJmLy1DN4pfedA==
+X-Gm-Gg: ASbGncsD83QD9C0J3IF4QqXJjfOf+ivIvYzZjsRlFwH30CekQ4mwU/pFQ4rwRjqz9tt
+ tXxf/+4TtfDvrHXP8jPENUQXMnae2Lhw704xNCGQYGStvbMHJgA==
+X-Google-Smtp-Source: AGHT+IGm1c0IGKgVC6DLGYrBRuOWXwI+xePGXQTc896moba7ai4TGKvAfmuOwpvFx/4v6WNLwRBA/G7NVG8/Ni/Otfk=
+X-Received: by 2002:a05:690c:3703:b0:6f6:ca9a:30d2 with SMTP id
+ 00721157ae682-6f6eb6b58ecmr119970797b3.22.1737415508949; Mon, 20 Jan 2025
+ 15:25:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-dpu-111-topology-v1-1-d01987205c53@somainline.org>
-X-B4-Tracking: v=1; b=H4sIAObWjmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDIwMT3ZSCUl1DQ0PdkvyC/Jz89ErdJEOjZMOUVAujZItEJaC2gqLUtMw
- KsJHRSkFuzkqxtbUALuIjS2cAAAA=
-X-Change-ID: 20240204-dpu-111-topology-b12c1de82c8a
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+References: <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-0-9701a16340da@linaro.org>
+ <20250118-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v5-8-9701a16340da@linaro.org>
+ <6n655caflr2snsgmqtmpzxt4jynrwjqdjurnixujfuefldxhxj@uunzpzfezfqy>
+In-Reply-To: <6n655caflr2snsgmqtmpzxt4jynrwjqdjurnixujfuefldxhxj@uunzpzfezfqy>
+From: Jun Nie <jun.nie@linaro.org>
+Date: Mon, 20 Jan 2025 15:24:58 -0800
+X-Gm-Features: AbW1kvb8c5L96IpOkU0MvYJy9U4O8cLtv8Vu7rlOigF1727zF2y-_YzwepU20HY
+Message-ID: <CABymUCMbWW9TAo=LfB7Aad+8hBSjJmMVytNN7b6R-AWMeB6E0Q@mail.gmail.com>
+Subject: Re: [PATCH v5 08/15] drm/msm/dpu: bind correct pingpong for quad pipe
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Martin Botka <martin.botka@somainline.org>, 
- Jami Kettunen <jami.kettunen@somainline.org>, linux-arm-msm@vger.kernel.org, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-X-Mailer: b4 0.14.2
+ linux-kernel@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,151 +88,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some SoCs such as SC7280 (used in the FairPhone 5) have only a single
-DSC "hard slice" encoder.  The current hardcoded use of 2:2:1 topology
-(2 LM and 2 DSC for a single interface) make it impossible to use
-Display Stream Compression panels with mainline, which is exactly what's
-installed on the FairPhone 5.
+Marijn Suijten <marijn.suijten@somainline.org> =E4=BA=8E2025=E5=B9=B41=E6=
+=9C=8820=E6=97=A5=E5=91=A8=E4=B8=80 05:15=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On 2025-01-18 00:00:51, Jun Nie wrote:
+> > There are 2 interfaces and 4 pingpong in quad pipe. Map the 2nd
+> > interface to 3rd PP instead of the 2nd PP.
+>
+> Can you explain why this patch uses the number of LMs, instead of dividin=
+g the
+> number of PPs divided by the number of physical encoders?  This detail is=
+ not
+> explained at all, or that we're filling hw_lm now for no other reason.
+>
+> - Marijn
 
-By loosening the hardcoded `num_dsc = 2` to fall back to `num_dsc =
-1` when the catalog only contains one entry, we can trivially support
-this phone and unblock further panel enablement on mainline.  A few
-more supporting changes in this patch ensure hardcoded constants of 2
-DSC encoders are replaced to count or read back the actual number of
-DSC hardware blocks that are enabled for the given virtual encoder.
-Likewise DSC_MODE_SPLIT_PANEL can no longer be unconditionally enabled.
+I see LM is 1:1 with PP in catalog header files. So assume their
+number are identical
+and 1:1 bounded. Using PP number is more formal for sure. Will try to
+replace it in
+next version.
 
-Cc: Luca Weiss <luca.weiss@fairphone.com>
-Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
----
-Note that this doesn't paint the full picture in case there are SoCs
-with more DSC hardware blocks, but when multiple virtual encoders
-have already allocated most of them.  My initial plan was to code
-ahead for dynamically tracking and reallocating these blocks in RM, if
-some virtual encoder could potentially be using too many DSC encoders
-which, while "power optimal", may not be able to support the number of
-requested displays/interfaces.  Such a solution would automatically
-ensure DSCmerge is *not* used when there are not enough hardware blocks
-available in the first place.
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 47 +++++++++++++++--------------
- 1 file changed, 25 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 5172ab4dea995a154cd88d05c3842d7425fc34ce..dcf17b5e8ac8eb76f5ba038fcce48e47f32299d5 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -622,9 +622,10 @@ bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc)
- 		if (dpu_enc->phys_encs[i])
- 			intf_count++;
- 
--	/* See dpu_encoder_get_topology, we only support 2:2:1 topology */
- 	if (dpu_enc->dsc)
--		num_dsc = 2;
-+		for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-+			if (dpu_enc->hw_dsc[i])
-+				num_dsc++;
- 
- 	return (num_dsc > 0) && (num_dsc > intf_count);
- }
-@@ -664,7 +665,7 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 	/* Datapath topology selection
- 	 *
- 	 * Dual display
--	 * 2 LM, 2 INTF ( Split display using 2 interfaces)
-+	 * 2 LM, 2 INTF (split display using 2 interfaces)
- 	 *
- 	 * Single display
- 	 * 1 LM, 1 INTF
-@@ -686,13 +687,19 @@ static struct msm_display_topology dpu_encoder_get_topology(
- 
- 	if (dsc) {
- 		/*
--		 * In case of Display Stream Compression (DSC), we would use
--		 * 2 DSC encoders, 2 layer mixers and 1 interface
--		 * this is power optimal and can drive up to (including) 4k
--		 * screens
-+		 * Use 2 DSC encoders and 2 layer mixers per single interface
-+		 * when Display Stream Compression (DSC) is enabled,
-+		 * and when enough DSC blocks are available.
-+		 * This is power-optimal and can drive up to (including) 4k
-+		 * screens.
- 		 */
--		topology.num_dsc = 2;
--		topology.num_lm = 2;
-+		if (dpu_kms->catalog->dsc_count >= 2) {
-+			topology.num_dsc = 2;
-+			topology.num_lm = 2;
-+		} else {
-+			topology.num_dsc = 1;
-+			topology.num_lm = 1;
-+		}
- 		topology.num_intf = 1;
- 	}
- 
-@@ -2020,32 +2027,32 @@ static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_ctl *ctl,
- static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
- 				 struct drm_dsc_config *dsc)
- {
--	/* coding only for 2LM, 2enc, 1 dsc config */
- 	struct dpu_encoder_phys *enc_master = dpu_enc->cur_master;
- 	struct dpu_hw_ctl *ctl = enc_master->hw_ctl;
- 	struct dpu_hw_dsc *hw_dsc[MAX_CHANNELS_PER_ENC];
- 	struct dpu_hw_pingpong *hw_pp[MAX_CHANNELS_PER_ENC];
- 	int this_frame_slices;
- 	int intf_ip_w, enc_ip_w;
--	int dsc_common_mode;
-+	int dsc_common_mode = 0;
- 	int pic_width;
- 	u32 initial_lines;
-+	int num_dsc = 0;
- 	int i;
- 
- 	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++) {
- 		hw_pp[i] = dpu_enc->hw_pp[i];
- 		hw_dsc[i] = dpu_enc->hw_dsc[i];
- 
--		if (!hw_pp[i] || !hw_dsc[i]) {
--			DPU_ERROR_ENC(dpu_enc, "invalid params for DSC\n");
--			return;
--		}
-+		if (!hw_pp[i] || !hw_dsc[i])
-+			break;
-+		num_dsc++;
- 	}
- 
- 	dsc_common_mode = 0;
- 	pic_width = dsc->pic_width;
- 
--	dsc_common_mode = DSC_MODE_SPLIT_PANEL;
-+	if (num_dsc > 1)
-+		dsc_common_mode |= DSC_MODE_SPLIT_PANEL;
- 	if (dpu_encoder_use_dsc_merge(enc_master->parent))
- 		dsc_common_mode |= DSC_MODE_MULTIPLEX;
- 	if (enc_master->intf_mode == INTF_MODE_VIDEO)
-@@ -2054,14 +2061,10 @@ static void dpu_encoder_prep_dsc(struct dpu_encoder_virt *dpu_enc,
- 	this_frame_slices = pic_width / dsc->slice_width;
- 	intf_ip_w = this_frame_slices * dsc->slice_width;
- 
--	/*
--	 * dsc merge case: when using 2 encoders for the same stream,
--	 * no. of slices need to be same on both the encoders.
--	 */
--	enc_ip_w = intf_ip_w / 2;
-+	enc_ip_w = intf_ip_w / num_dsc;
- 	initial_lines = dpu_encoder_dsc_initial_line_calc(dsc, enc_ip_w);
- 
--	for (i = 0; i < MAX_CHANNELS_PER_ENC; i++)
-+	for (i = 0; i < num_dsc; i++)
- 		dpu_encoder_dsc_pipe_cfg(ctl, hw_dsc[i], hw_pp[i],
- 					 dsc, dsc_common_mode, initial_lines);
- }
-
----
-base-commit: 1573c8d4cb206a2d1454ff711e79f8df2353290b
-change-id: 20240204-dpu-111-topology-b12c1de82c8a
-
-Best regards,
--- 
-Marijn Suijten <marijn.suijten@somainline.org>
-
+Jun
+>
+> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> > ---
+> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 15 +++++++++++++--
+> >  1 file changed, 13 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/=
+drm/msm/disp/dpu1/dpu_encoder.c
+> > index 018a1a49ca7d1..b0cab3ccbb57c 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -1220,7 +1220,8 @@ static void dpu_encoder_virt_atomic_mode_set(stru=
+ct drm_encoder *drm_enc,
+> >       struct dpu_hw_blk *hw_pp[MAX_CHANNELS_PER_ENC];
+> >       struct dpu_hw_blk *hw_ctl[MAX_CHANNELS_PER_ENC];
+> >       struct dpu_hw_blk *hw_dsc[MAX_CHANNELS_PER_ENC];
+> > -     int num_ctl, num_pp, num_dsc;
+> > +     struct dpu_hw_blk *hw_lm[MAX_CHANNELS_PER_ENC];
+> > +     int num_lm, num_ctl, num_pp, num_dsc, num_pp_per_intf;
+> >       unsigned int dsc_mask =3D 0;
+> >       int i;
+> >
+> > @@ -1275,11 +1276,21 @@ static void dpu_encoder_virt_atomic_mode_set(st=
+ruct drm_encoder *drm_enc,
+> >               dpu_enc->cur_master->hw_cdm =3D hw_cdm ? to_dpu_hw_cdm(hw=
+_cdm) : NULL;
+> >       }
+> >
+> > +     num_lm =3D dpu_rm_get_assigned_resources(&dpu_kms->rm, global_sta=
+te,
+> > +             drm_enc->crtc, DPU_HW_BLK_LM, hw_lm, ARRAY_SIZE(hw_lm));
+> > +
+> > +
+> > +     /*
+> > +      * There may be 4 PP and 2 INTF for quad pipe case, so INTF is no=
+t
+> > +      * mapped to PP 1:1. Let's calculate the stride with pipe/INTF
+> > +      */
+> > +     num_pp_per_intf =3D num_lm / dpu_enc->num_phys_encs;
+> > +
+> >       for (i =3D 0; i < dpu_enc->num_phys_encs; i++) {
+> >               struct dpu_encoder_phys *phys =3D dpu_enc->phys_encs[i];
+> >               struct dpu_hw_ctl *ctl0 =3D to_dpu_hw_ctl(hw_ctl[0]);
+> >
+> > -             phys->hw_pp =3D dpu_enc->hw_pp[i];
+> > +             phys->hw_pp =3D dpu_enc->hw_pp[num_pp_per_intf * i];
+> >               if (!phys->hw_pp) {
+> >                       DPU_ERROR_ENC(dpu_enc,
+> >                               "no pp block assigned at idx: %d\n", i);
+> >
+> > --
+> > 2.34.1
+> >
