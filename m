@@ -2,190 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B87A167D4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 09:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA83A167E3
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 09:05:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D215B10E340;
-	Mon, 20 Jan 2025 08:02:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7351C10E356;
+	Mon, 20 Jan 2025 08:05:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mZJRhMmP";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Nzcv96hZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9712010E365
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 08:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737360178; x=1768896178;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=BkWTBGLba5O4q0RkAFQ/lhA6xG72ZDJ3mRi0Jh0qCgY=;
- b=mZJRhMmP5kNJfvgAsoHKXYWup1K+zNz7PPC+pgKOVEzTO4H/dUJawuRq
- oS1qYn11Y2MXhNBCaG1dd8NNVWNdGIgaEjRjpkJ6pxgdWiUVukGeHAGDj
- muinaGDewNhCygNoribRYJhtJMdtZy6TB+uGWLtcxYJXFf4ivbXddmBR2
- 4Vt1WLdS+DSdlZXjnxNOzCAnSg15gs3kquGLwGnskx3Mt3+1zQWt30B4X
- aRkhVcEkU+Y5vkJ4JCGSvrfB3eBBSemY4vDGQsVwpvlVOlwwh2usf0dN5
- 4KEKFt5cGiMTpDVTFWPSrDoIVdfVStgcrrcFOqlFgp8BcLWWqTWCisbmv w==;
-X-CSE-ConnectionGUID: 5ZFgMiBZT0qenaSOGebiuA==
-X-CSE-MsgGUID: ALufRAXATu6GvrNNwL4cqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="41654932"
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; d="scan'208";a="41654932"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jan 2025 00:02:57 -0800
-X-CSE-ConnectionGUID: KEZumTmeRvmZ3eGHTUHWDw==
-X-CSE-MsgGUID: 32AkF404TdKaoIs1XHkJUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="106251236"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 20 Jan 2025 00:02:57 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 20 Jan 2025 00:02:56 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 20 Jan 2025 00:02:56 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 20 Jan 2025 00:02:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CMOgLBCFaPrRFvoF3vBenvxhJ7ZL5JBIdVhKVVkaNqkARS2HIDR1JzEcKbUbnBAvuPow7Ug33mMqn7qyJ/k7hM4P9BCDQ5UqNcFmHgPTB+3/fSCPvreWWo31hVZCHoeBmXb9zqZT9yEdaJMD4fXPDU0SlpHly7++WXBSxZuRDcklIhCy5t5dhaQoi/3ZZq0VzH6aqgLIog9OfMS2bvt9VIMAXOSLawKdbI+hgeKtcGDAg2odj6dNCZN6MDyEcuzNIC8zINz7zV3czjDPzluLvmMVDYEDb2Rxe/QUqhMi3Licdi4HfNRP+v927eC9DX8EsOxK5TtnQNsziwKFrHFi5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BkWTBGLba5O4q0RkAFQ/lhA6xG72ZDJ3mRi0Jh0qCgY=;
- b=vAN1ROWFhkri/ddkQRPgbWQ/YThdwjidiilcDsrHbZmqtXUK3U+wddOp/tb+F1egp8D/1XLywJDRls4R2op+K2Pc8zFJRq0NkgTh0R4igtJHvb1FtFXYYmgByKCyZggdqllCvbXo3QOZtfC2urrf0NTQBcq0q8lw4nFoNby2nwf2tMAYopnhHWjlEQ1HMTQyH1I/bP7mPDl65nVWI/6ox5Td7hrmL5DsdyOJ6AdINi+hpmr5WCaB9Asz6YD5HuSnWrxpoMvqC8gEbe7Piso8USHOEp0LXboHm7+VjTXHATBxi8IRFApPL7xqoLCm68hvXHV+0iBpR6pIyxE6WbGwVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by MN2PR11MB4695.namprd11.prod.outlook.com (2603:10b6:208:260::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Mon, 20 Jan
- 2025 08:02:53 +0000
-Received: from IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
- ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.8356.017; Mon, 20 Jan 2025
- 08:02:53 +0000
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: David Hildenbrand <david@redhat.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>
-CC: "syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com"
- <syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com>, Steve Sistare
- <steven.sistare@oracle.com>, Muchun Song <muchun.song@linux.dev>, "Andrew
- Morton" <akpm@linux-foundation.org>
-Subject: RE: [PATCH v2 1/2] mm/memfd: reserve hugetlb folios before allocation
-Thread-Topic: [PATCH v2 1/2] mm/memfd: reserve hugetlb folios before allocation
-Thread-Index: AQHbZl+3lfkNkaG2WE6j0iGvFEUcbrMbNDKAgABhVfA=
-Date: Mon, 20 Jan 2025 08:02:53 +0000
-Message-ID: <IA0PR11MB7185CDA0B252819A61E20E8BF8E72@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20250114080927.2616684-1-vivek.kasireddy@intel.com>
- <20250114080927.2616684-2-vivek.kasireddy@intel.com>
- <6bdab899-3307-4a78-9352-b565ffae5ba8@redhat.com>
-In-Reply-To: <6bdab899-3307-4a78-9352-b565ffae5ba8@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|MN2PR11MB4695:EE_
-x-ms-office365-filtering-correlation-id: ca27c5b8-474f-485a-31f7-08dd3928d77d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?V3ducDhXTUlXUldiMWVQU3BYQ3I5eXJWeHdsQWhvQVUvNnpkQmoybTRGSEky?=
- =?utf-8?B?MlFENTVFQzlOSkxVbXk0MkxJTHRDUWNqYzVndnZhTUpnWDRTS2lMRjFveWVO?=
- =?utf-8?B?K3FwNGFraGJobmJnUXpTbWowOHowNWJvTU9SeEszbm1QVjU1dXdIU1V0WEpW?=
- =?utf-8?B?aVZLRU9GbXl6aXk4NzNrZmU3VTRxK2tneGl6OEpUK0paejA5ZUVFSVJmcTdC?=
- =?utf-8?B?RlVjQVRuTVNjdFV6SkVzTmtrSVBvT3k0dFVWTXZEd2NaZUVQUUZuMWt4elAw?=
- =?utf-8?B?TkhTeU95Z240Q2ZmbUUxT25NNWw0V08xWW0zejArQ0IyVHp2R3d2a1pkT0lp?=
- =?utf-8?B?NzdJRUlUeFVmb1pneCtwQVZvcTFORjJMYm40RDNlTEJSbXgwcXVXS2w3SzRw?=
- =?utf-8?B?YU9UZklVdlVvdFFDRUJyTHUxeEJUUVlySXcwdWtaZE5IajhvZlJid2FhU2J6?=
- =?utf-8?B?RXd4WDZTajd5K0I5MzJIOHZPY1dHRERMdlFsaGpmQXM4RVh5RExYS1kzRFJW?=
- =?utf-8?B?SlUrU1MrdERoT1RyMTUxVXZCeDRVaWRUSTFvalRSWG82Z1B4OHYvVHpybVY5?=
- =?utf-8?B?QU1Ld3A4MFVuTEtvK2xHR2xCcDNzWXEyTkFyb0pLZGJiMUsxTkxVZDkxUjBq?=
- =?utf-8?B?ODVRL3BoYXFIaEhOUUUwMUFlZGRLYjI0VWJ6ZG9INW1YR2wxV2c2U1pjMWFa?=
- =?utf-8?B?cEI5TmFCaEJrRnBxU3VZdlZabGppbkdXMkt0c2hSQkh5SEJHYTNuQWNCR2lw?=
- =?utf-8?B?aDF3NC8zdlBRdzAvcmZraHBYbnFCdXY0WEJadzl3QUNmMmJqVUM4U3RRZmdO?=
- =?utf-8?B?MXVQaklXZ2gvSDBZVERMcUg5ODk2YVNyWnBGS2lHdHBIM3VZSWZwSXpXRlk5?=
- =?utf-8?B?NEhHb0FOaS9yWjVmL2llL1VyTXdORFpVVEVxS20raEZEYmFHdk9XNzZIeWR0?=
- =?utf-8?B?cGxyNDN0cHA0S3J6M2drWEk5K1BxcFJxM3kyQzBWbjRkQ09jdlZVZkRoQlMv?=
- =?utf-8?B?ZE1pZUZyY2pCWXlEQ0RNWWpSeWdTZGEzTmZNNytIT2cvQzdHdnNHL29Ua2hz?=
- =?utf-8?B?bExCSm1ROTh3UjFBY0pRY256K1BNUGNIRk5IUkxFUTFDZGYwZDhQU1FSNkJo?=
- =?utf-8?B?cUdhOUFpWmxvVTZXS0JNeHJxTmNXVGZyZE5YdGVDVWFNWU1PeHF5elVzdVF0?=
- =?utf-8?B?bEg5U3RGVTBlYkcwaEUvb3VxSW1URG5EcVptV2liVEo0UlRFQnI0bXdxU1Fj?=
- =?utf-8?B?dndveVNoTS9DYXdsQnVJS3p1SXdZWUNlUGJVa3I2dkYvTjR6T1hsYkx3VHVX?=
- =?utf-8?B?LzBta1VqdWVUQ2xyMWRzc2lDZCs4cUprVGFIYldKVzFSWW1OS0ZTaEFINmJo?=
- =?utf-8?B?MU0zcklndXZ6ckg4VGhVTUpHcTQzeFgwOVlFTWxxTlV0NEJua2g3c3VkWEcy?=
- =?utf-8?B?UkZKUlFvb1ZndWJodE1ISkxVMVMxYlZraSs1Y3AwZG4yYWNvM2ZnZy9nVHIw?=
- =?utf-8?B?a3JFcGlJaE5kSCsrcElTdU5uL1lIS0hOZFo0QnpuKzlJa25PMk9qTTJjdmhY?=
- =?utf-8?B?NEJnQndZQU5pRDlLeC9pM0tGcXlla3dHRlRpZmNLSGNBb1hxd09LczRXVjZD?=
- =?utf-8?B?UmdzbWtUQVVtM2Jtem1McGwvK2xyNzMrMmV0RWRxNDdYZ3Y4YzJvcDA2TldP?=
- =?utf-8?B?ZS81M0t5UndQeFZMK294bmlnVHMxUWhFSEt4MEJhaGl4N1ZobVFnSURzZzVR?=
- =?utf-8?B?MHAzZHBXYk9KVVZjT2grUzNnK016dW1LUEYzTHhNc21aK2lNT3kzMDMxOVU4?=
- =?utf-8?B?eW4ra05aWHFPT1VoUlRFUGlpMnIwOWZFeEdXVXFDOW15ZTFibWJwQzFUbkVV?=
- =?utf-8?B?T3U5Z3dEUlR2S1JTRGhHWEVJd3JDYVB5RzhNdFYxcnVoMnR4VDVTRmdGckJu?=
- =?utf-8?Q?A/zVdVIXeqndihxExRk7wPKGIoAxAORV?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eHNLWW44eU1ZYXIwTnJYYWZnaU1aN0Jsa3pGRWNrVWFKTTRudVNZcG9rUTZC?=
- =?utf-8?B?SllnNytYUG9CZDV1QlBDTjl4VjdtOGtKSWErU0dxdXBnc1FpUEJiVm1TK0hS?=
- =?utf-8?B?MmFxTkh3ektKQUNwZjIyY3VUZWY1NTJ1cXdzTGpMdHp3Vm1ndktQY0xzS29X?=
- =?utf-8?B?WDBDUzlwWWRCbGJEaDRjYnYrTlB4MDFBRHcrbCtFKys2dUt3NnUxZmhxaWZ4?=
- =?utf-8?B?V3RLRURMTlpaY0tnMXZwd0pUZERLeTg3Y09EbFAraEcveVJzeTRPZDVBS0RZ?=
- =?utf-8?B?bXRLWXdWeE5qV0cxVk44R2M2dzI1M0FsRlVCcUdCdVhYQnhQTEtSdnB0K085?=
- =?utf-8?B?bktPT1prdVhZaTIrRzVxRFQyN1JxMnQ5UENTa0d2NWsvR0dLMVVGakhNNVE4?=
- =?utf-8?B?Q1ZtaXBEYzNRU1dUM29FMVNYdnh6Wkt2QjVSemN5R2VxUGZJY2NWMlcrL2Vo?=
- =?utf-8?B?TU54RlVnV3BpMnh0eWVlU0JBdUNjOXZ6Y00ycmh4ME8vemtuU0ZZdUl2OU1D?=
- =?utf-8?B?dEkrU3kxQ01TUUhqd0g0UlJ2UDljTUJndUNvQVkvTWd2UmNtK2p0N2tOZHBZ?=
- =?utf-8?B?RkdFTmdSK2tKckFaYUZrQnh1TWorWEJIOTBBQmduWmY4amhlS1BRaUFWZnJD?=
- =?utf-8?B?d1FXYlNEUENLei9LaCs2ckJTWHdLT0kxRFpsQ0ZQMmx5bi9WNjd4akIvbWc4?=
- =?utf-8?B?Z1REb0JjbUFFRG5PUS93VU1pNHN4NlR4cWoyTWIwVnNjbGhmZzJFUXAyY1pB?=
- =?utf-8?B?ZnY0cXJPWERGZWFlM1dCTXQ1SXlpK1lkbkJxRzJxL290VjYvWWNGODRjQXJ6?=
- =?utf-8?B?b2NpWGw5OE9aUDBkdzk3SjJHMlFYNndOTDE3RDJPcFZSQUgyN3g3K2t4SUdJ?=
- =?utf-8?B?Y2JSbHk4b0VhRFVtdmVOWVhVZFUyenlJY0xMSk9XZHh6a2FRcFRmR09GQUFX?=
- =?utf-8?B?Zjk5a0M0Qzc2NmlIZEVOcjVlVUVyOEhVbGZWRVl4cDZ5Mis5RU5ERkk0TWpC?=
- =?utf-8?B?Nlp0M2lyMXg0bWpKTWhiZ2RVdlA5Y0Vrby9mRE1uSDVsRWtDeW9nbFZSVDdv?=
- =?utf-8?B?OWRDUGVaci92R3pXQnQ3Um5DZHVybkpwdm1CVE9jRWhjcnA3STVpQ2k1R1Vo?=
- =?utf-8?B?YmQ0L2wwSFZ5WnN0ZFl1L08xaENCUU54ajl1aGNUcFQrd3VkeCtaREpoeFl1?=
- =?utf-8?B?R2llTEhTdDhIc3BRK083OHlTaG12akhlMzhlWEhIT0dHUHBRRngyNllOOFM2?=
- =?utf-8?B?VFVkS2RPcWpPWUVHM3JvdTdPcStGVUJueXhrTVFTR01abnJuNXpzakVwQ1Q0?=
- =?utf-8?B?RlhxVVpOTzQyci9SR1BsRzdTUnI1bnhLZ0dvc3Y0YVVwUzBFWmVlbmd3VWZr?=
- =?utf-8?B?dnh0aGl6ZTA5MlBsWnB4VXhCR0dZcGpFVUkvZjJjWk5wK1BhTStPeW9pYStQ?=
- =?utf-8?B?aUN5N01MM1h4YUt3bzFzQkN0MFZpeC9wWTlBSFdUYU5SNmtnNENrenZyU1d0?=
- =?utf-8?B?TjBkZEJ2WVV6L082cnBuV2I0VzdZYTBhbUZTa3lXQWhrNVJUaFBvSkI3b2Uv?=
- =?utf-8?B?dU56OTNxeFR5OGJ4NWpvbzhIZk4wemYxT21YTHBvaFVUU3loV1RTdk9RcEMz?=
- =?utf-8?B?QXRra2lDTzdZaXJaUU1ZM2JLL0QwY0NSeFBFMXRLVlhSaWJNVURhOVhNZFFk?=
- =?utf-8?B?VnVOUlFhYmdsbU5rblhMYlNuOFZCNlN5Ukl4VHBhaitpYmdhWGt0QTBNK2d5?=
- =?utf-8?B?VEs5ampTcjVtTS9qclQ3MFRDODhENnROcnpTUTlmVjVZRlhXOTlhQ2hkS1ov?=
- =?utf-8?B?MUp3UTU2RXk4YjUvQ2Z0MExsQlpLbDdJNkdzMkxsTm0rRzlmVGdrR2EzS1cv?=
- =?utf-8?B?a2xxZlczQVd0OWRsSjN0Ky93VXQxY2xoRXk1TnBBZ0plUGVSVm44a2hSdGgw?=
- =?utf-8?B?MGhadnM4T1BPaWJyTjkvbGkxVFZBNDN0Mm5nTG1WaEFrUVVZOFhOSlB2K3ZI?=
- =?utf-8?B?Y2JoK3c0clRjN1p1RVBHZDFQMGRBUmt1Nm9RSVRoZTJPVVc5eCt2dEwxa1JY?=
- =?utf-8?B?K0V2T3dibmxIZlJidWFWZHBlQTZ6eFp3b1FhTXptSkg3MUxwYkY2S0Nrd2NW?=
- =?utf-8?Q?qnzhJpOVB2peEeA3UruJJBTuY?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68B6810E356
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 08:05:19 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-54287a3ba3cso4817695e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 00:05:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1737360257; x=1737965057;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xl0TULSGKJYmlTvA4jtWT5x55nWtQt0smZI+nT9oTjU=;
+ b=Nzcv96hZDn6gZqCuCCpEl1gdBeMMFYzJZGnm4tEKDQHo8a0t+u6oPf0y7Pg6+Rlkvx
+ diXUJe2fqUKC1WqJiGl89/fPs2+Y7y4xj1KDs6N6kIaSAfuu8B7DGuZST4fCZpGDhrXi
+ g/94JJD8+SsVFkxnIK1DA4vccr3GHc6zVvf/Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737360257; x=1737965057;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xl0TULSGKJYmlTvA4jtWT5x55nWtQt0smZI+nT9oTjU=;
+ b=vmM31ool889XEG0UPfDI3P5ya0wdAiyve+DShGS7S8OKQq3jjRUsWbpR81v0X5WV4q
+ I5BxKuL1aFbtZcRmhtIhx/MB2IlPZNZZR4wf+ve7njHjnntRuSUlDgYYAPGX5bwdZ/bB
+ 2mr/uaXaDnYE65pmfhvqPRtOU2PbCAGr49OYmHDZH1COF/G4ahxOkc9CqbusvMmEureI
+ 362y+kB6W2QW5BqjASbtUzpdKlDEDeFZs58F9aLcBRn0O5qUP6Zq0h0NkMqq1Wz2S01/
+ XpFr7EiDUyNLb/vY6738B8cKT/6k2ZqMTQOMVNvcLK5xXoqqflDawZKxTvTsXPY3PtuE
+ zhsg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVnoYbkzkMxm81JHwcRQzxyv9NGLkjV2ERCTn6J8vEt9AXblxlnacVJ/bh/uMHpSmQQwogzYSiqFBk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxI6ByhyE6aBcMiuJLL1/b595RfIRzGf0VdGOAUA/+fBi2vhHFE
+ OJBLb18ni0UCmD3+/KoB29Droqe2U0RsAu5hEd6MU2D6dva6fZ6v4Xd7rw6z/WuCoC6oUNuagSA
+ +Rrpq/WL71x42QwccJltyo6Z34EhTc0hwDncS
+X-Gm-Gg: ASbGncucE2L9sKY22iDaYuPekd6ICfa3EvPUWRaE8QHA1hm5oYKU6ZiEYmgYbpXqK+Z
+ aKRkUzdkWjoOhR+jJ9Bq6TEuJQxd0/tfNt8MHPUy16JlWxXx1Ei1L20CWbLrjUPV69heY4tEMKI
+ EHg6A=
+X-Google-Smtp-Source: AGHT+IEQrTie+O4cAkY3+JXkXbqlD1NqeUIiKwN+qKQD/mH2Wq2ljFx0J58xhGiaDGYuoFl3hpgu4UgQF0+WR0384SM=
+X-Received: by 2002:a05:6512:3987:b0:540:2fd2:6b85 with SMTP id
+ 2adb3069b0e04-5439bf92763mr3747982e87.13.1737360257490; Mon, 20 Jan 2025
+ 00:04:17 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca27c5b8-474f-485a-31f7-08dd3928d77d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2025 08:02:53.2686 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DoUbzOpg8WWxDKKOR3UKzsfEBX3ZIYM7BsEXZHbhdouGzbb3VKVyV8hs1oUoa/jEH8DlidwvXJUyLreRhlpP1rMlIo+M+Xgb/1eyyHfV7zs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4695
-X-OriginatorOrg: intel.com
+References: <20250110123835.2719824-1-paul-pl.chen@mediatek.com>
+ <20250110123835.2719824-9-paul-pl.chen@mediatek.com>
+In-Reply-To: <20250110123835.2719824-9-paul-pl.chen@mediatek.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 20 Jan 2025 16:04:06 +0800
+X-Gm-Features: AbW1kvYdkel9YDY-GbFolQ2l-eDqvRFV-zDcl_0W9Kl2UgH5F4F_uiCQO4ykbAw
+Message-ID: <CAGXv+5ERJZiV+XGr1vs5KV7rM5QazEuedkW2o8AspnK_Zu-XCw@mail.gmail.com>
+Subject: Re: [PATCH 07/12] soc: mediatek: mutex: add mutex support for MT8196
+To: "paul-pl.chen" <paul-pl.chen@mediatek.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ chunkuang.hu@kernel.org, angelogioacchino.delregno@collabora.com, 
+ devicetree@vger.kernel.org, xiandong.wang@mediatek.com, 
+ jason-jh.lin@mediatek.com, singo.chang@mediatek.com, treapking@chromium.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com, nancy.lin@mediatek.com, 
+ linux-mediatek@lists.infradead.org, sunny.shen@mediatek.com, 
+ p.zabel@pengutronix.de, sirius.wang@mediatek.com, matthias.bgg@gmail.com, 
+ linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -201,146 +89,454 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRGF2aWQsDQoNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAxLzJdIG1tL21lbWZkOiByZXNl
-cnZlIGh1Z2V0bGIgZm9saW9zIGJlZm9yZQ0KPiBhbGxvY2F0aW9uDQo+IA0KPiBPbiAxNC4wMS4y
-NSAwOTowOCwgVml2ZWsgS2FzaXJlZGR5IHdyb3RlOg0KPiA+IFRoZXJlIGFyZSBjYXNlcyB3aGVu
-IHdlIHRyeSB0byBwaW4gYSBmb2xpbyBidXQgZGlzY292ZXIgdGhhdCBpdCBoYXMNCj4gPiBub3Qg
-YmVlbiBmYXVsdGVkLWluLiBTbywgd2UgdHJ5IHRvIGFsbG9jYXRlIGl0IGluIG1lbWZkX2FsbG9j
-X2ZvbGlvKCkNCj4gPiBidXQgdGhlcmUgaXMgYSBjaGFuY2UgdGhhdCB3ZSBtaWdodCBlbmNvdW50
-ZXIgYSBjcmFzaC9mYWlsdXJlDQo+ID4gKFZNX0JVR19PTighaC0+cmVzdl9odWdlX3BhZ2VzKSkg
-aWYgdGhlcmUgYXJlIG5vIGFjdGl2ZSByZXNlcnZhdGlvbnMNCj4gPiBhdCB0aGF0IGluc3RhbnQu
-IFRoaXMgaXNzdWUgd2FzIHJlcG9ydGVkIGJ5IHN5emJvdDoNCj4gPg0KPiA+IGtlcm5lbCBCVUcg
-YXQgbW0vaHVnZXRsYi5jOjI0MDMhDQo+ID4gT29wczogaW52YWxpZCBvcGNvZGU6IDAwMDAgWyMx
-XSBQUkVFTVBUIFNNUCBLQVNBTiBOT1BUSQ0KPiA+IENQVTogMCBVSUQ6IDAgUElEOiA1MzE1IENv
-bW06IHN5ei4wLjAgTm90IHRhaW50ZWQNCj4gPiA2LjEzLjAtcmM1LXN5emthbGxlci0wMDE2MS1n
-NjM2NzZlZWZiN2EwICMwDQo+ID4gSGFyZHdhcmUgbmFtZTogUUVNVSBTdGFuZGFyZCBQQyAoUTM1
-ICsgSUNIOSwgMjAwOSksIEJJT1MNCj4gPiAxLjE2LjMtZGViaWFuLTEuMTYuMy0yfmJwbzEyKzEg
-MDQvMDEvMjAxNA0KPiA+IFJJUDogMDAxMDphbGxvY19odWdldGxiX2ZvbGlvX3Jlc2VydmUrMHhi
-Yy8weGMwIG1tL2h1Z2V0bGIuYzoyNDAzDQo+ID4gQ29kZTogMWYgZWIgMDUgZTggNTYgMTggYTAg
-ZmYgNDggYzcgYzcgNDAgNTYgNjEgOGUgZTggYmEgMjEgY2MgMDkgNGMgODkNCj4gPiBmMCA1YiA0
-MSA1YyA0MSA1ZSA0MSA1ZiA1ZCBjMyBjYyBjYyBjYyBjYyBlOCAzNSAxOCBhMCBmZiA5MCA8MGY+
-IDBiIDY2DQo+ID4gOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAgOTAg
-OTAgOTAgZjMgMGYNCj4gPiBSU1A6IDAwMTg6ZmZmZmM5MDAwZDNkNzdmOCBFRkxBR1M6IDAwMDEw
-MDg3DQo+ID4gUkFYOiBmZmZmZmZmZjgxZmY2YmViIFJCWDogMDAwMDAwMDAwMDAwMDAwMCBSQ1g6
-IDAwMDAwMDAwMDAxMDAwMDANCj4gPiBSRFg6IGZmZmZjOTAwMGU1MWEwMDAgUlNJOiAwMDAwMDAw
-MDAwMDAwM2VjIFJESTogMDAwMDAwMDAwMDAwMDNlZA0KPiA+IFJCUDogMWZmZmZmZmZmMzQ4MTBk
-OSBSMDg6IGZmZmZmZmZmODFmZjZiYTMgUjA5OiAxZmZmZmQ0MDAwMDkzMDA1DQo+ID4gUjEwOiBk
-ZmZmZmMwMDAwMDAwMDAwIFIxMTogZmZmZmY5NDAwMDA5MzAwNiBSMTI6IGRmZmZmYzAwMDAwMDAw
-MDANCj4gPiBSMTM6IGRmZmZmYzAwMDAwMDAwMDAgUjE0OiBmZmZmZWEwMDAwNDk4MDAwIFIxNTog
-ZmZmZmZmZmY5YTQwODZjOA0KPiA+IEZTOiAgMDAwMDdmNzdhYzEyZTZjMCgwMDAwKSBHUzpmZmZm
-ODg4MDFmYzAwMDAwKDAwMDApDQo+ID4ga25sR1M6MDAwMDAwMDAwMDAwMDAwMA0KPiA+IENTOiAg
-MDAxMCBEUzogMDAwMCBFUzogMDAwMCBDUjA6IDAwMDAwMDAwODAwNTAwMzMNCj4gPiBDUjI6IDAw
-MDA3Zjc3YWI1NGIxNzAgQ1IzOiAwMDAwMDAwMDQwYjcwMDAwIENSNDogMDAwMDAwMDAwMDM1MmVm
-MA0KPiA+IERSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAw
-MDAwMDAwMDAwMDAwMDAwDQo+ID4gRFIzOiAwMDAwMDAwMDAwMDAwMDAwIERSNjogMDAwMDAwMDBm
-ZmZlMGZmMCBEUjc6IDAwMDAwMDAwMDAwMDA0MDANCj4gPiBDYWxsIFRyYWNlOg0KPiA+ICAgPFRB
-U0s+DQo+ID4gICBtZW1mZF9hbGxvY19mb2xpbysweDFiZC8weDM3MCBtbS9tZW1mZC5jOjg4DQo+
-ID4gICBtZW1mZF9waW5fZm9saW9zKzB4ZjEwLzB4MTU3MCBtbS9ndXAuYzozNzUwDQo+ID4gICB1
-ZG1hYnVmX3Bpbl9mb2xpb3MgZHJpdmVycy9kbWEtYnVmL3VkbWFidWYuYzozNDYgW2lubGluZV0N
-Cj4gPiAgIHVkbWFidWZfY3JlYXRlKzB4NzBlLzB4MTBjMCBkcml2ZXJzL2RtYS1idWYvdWRtYWJ1
-Zi5jOjQ0Mw0KPiA+ICAgdWRtYWJ1Zl9pb2N0bF9jcmVhdGUgZHJpdmVycy9kbWEtYnVmL3VkbWFi
-dWYuYzo0OTUgW2lubGluZV0NCj4gPiAgIHVkbWFidWZfaW9jdGwrMHgzMDEvMHg0ZTAgZHJpdmVy
-cy9kbWEtYnVmL3VkbWFidWYuYzo1MjYNCj4gPiAgIHZmc19pb2N0bCBmcy9pb2N0bC5jOjUxIFtp
-bmxpbmVdDQo+ID4gICBfX2RvX3N5c19pb2N0bCBmcy9pb2N0bC5jOjkwNiBbaW5saW5lXQ0KPiA+
-ICAgX19zZV9zeXNfaW9jdGwrMHhmNS8weDE3MCBmcy9pb2N0bC5jOjg5Mg0KPiA+ICAgZG9fc3lz
-Y2FsbF94NjQgYXJjaC94ODYvZW50cnkvY29tbW9uLmM6NTIgW2lubGluZV0NCj4gPiAgIGRvX3N5
-c2NhbGxfNjQrMHhmMy8weDIzMCBhcmNoL3g4Ni9lbnRyeS9jb21tb24uYzo4Mw0KPiA+ICAgZW50
-cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NzcvMHg3Zg0KPiA+DQo+ID4gVGhlcmVmb3Jl
-LCB0byBhdm9pZCB0aGlzIHNpdHVhdGlvbiBhbmQgZml4IHRoaXMgaXNzdWUsIHdlIGp1c3QgbmVl
-ZA0KPiA+IHRvIG1ha2UgYSByZXNlcnZhdGlvbiAoYnkgY2FsbGluZyBodWdldGxiX3Jlc2VydmVf
-cGFnZXMoKSkgYmVmb3JlDQo+ID4gd2UgdHJ5IHRvIGFsbG9jYXRlIHRoZSBmb2xpby4gVGhpcyB3
-aWxsIGVuc3VyZSB0aGF0IHdlIGFyZSBwcm9wZXJseQ0KPiA+IGRvaW5nIHJlZ2lvbi9zdWJwb29s
-IGFjY291bnRpbmcgYXNzb2NpYXRlZCB3aXRoIG91ciBhbGxvY2F0aW9uLg0KPiA+DQo+ID4gV2hp
-bGUgYXQgaXQsIG1vdmUgc3VicG9vbF9pbm9kZSgpIGludG8gaHVnZXRsYiBoZWFkZXIgYW5kIGFs
-c28NCj4gPiByZXBsYWNlIHRoZSBWTV9CVUdfT04oKSB3aXRoIFdBUk5fT05fT05DRSgpIGFzIHRo
-ZXJlIGlzIG5vIG5lZWQgdG8NCj4gPiBjcmFzaCB0aGUgc3lzdGVtIGluIHRoaXMgc2NlbmFyaW8g
-YW5kIGluc3RlYWQgd2UgY291bGQganVzdCB3YXJuDQo+ID4gYW5kIGZhaWwgdGhlIGFsbG9jYXRp
-b24uDQo+ID4NCj4gPiBGaXhlczogMjZhOGVhODA5MjljICgibW0vaHVnZXRsYjogZml4IG1lbWZk
-X3Bpbl9mb2xpb3MgcmVzdl9odWdlX3BhZ2VzDQo+IGxlYWsiKQ0KPiA+IFJlcG9ydGVkLWJ5OiBz
-eXpib3QrYTUwNGNiNWJhZTRmZTExN2JhOTRAc3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQ0KPiA+
-IFNpZ25lZC1vZmYtYnk6IFZpdmVrIEthc2lyZWRkeSA8dml2ZWsua2FzaXJlZGR5QGludGVsLmNv
-bT4NCj4gPiBDYzogU3RldmUgU2lzdGFyZSA8c3RldmVuLnNpc3RhcmVAb3JhY2xlLmNvbT4NCj4g
-PiBDYzogTXVjaHVuIFNvbmcgPG11Y2h1bi5zb25nQGxpbnV4LmRldj4NCj4gPiBDYzogRGF2aWQg
-SGlsZGVuYnJhbmQgPGRhdmlkQHJlZGhhdC5jb20+DQo+ID4gQ2M6IEFuZHJldyBNb3J0b24gPGFr
-cG1AbGludXgtZm91bmRhdGlvbi5vcmc+DQo+ID4gLS0tDQo+ID4gICBpbmNsdWRlL2xpbnV4L2h1
-Z2V0bGIuaCB8ICA1ICsrKysrDQo+ID4gICBtbS9odWdldGxiLmMgICAgICAgICAgICB8IDE0ICsr
-KysrKy0tLS0tLS0tDQo+ID4gICBtbS9tZW1mZC5jICAgICAgICAgICAgICB8IDE0ICsrKysrKysr
-KysrLS0tDQo+ID4gICAzIGZpbGVzIGNoYW5nZWQsIDIyIGluc2VydGlvbnMoKyksIDExIGRlbGV0
-aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvaHVnZXRsYi5oIGIv
-aW5jbHVkZS9saW51eC9odWdldGxiLmgNCj4gPiBpbmRleCBhZTRmZTg2MTViYjYuLjM4YzU4MDU0
-ODU2NCAxMDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2h1Z2V0bGIuaA0KPiA+ICsrKyBi
-L2luY2x1ZGUvbGludXgvaHVnZXRsYi5oDQo+ID4gQEAgLTcxMiw2ICs3MTIsMTEgQEAgZXh0ZXJu
-IHVuc2lnbmVkIGludCBkZWZhdWx0X2hzdGF0ZV9pZHg7DQo+ID4NCj4gPiAgICNkZWZpbmUgZGVm
-YXVsdF9oc3RhdGUgKGhzdGF0ZXNbZGVmYXVsdF9oc3RhdGVfaWR4XSkNCj4gPg0KPiA+ICtzdGF0
-aWMgaW5saW5lIHN0cnVjdCBodWdlcGFnZV9zdWJwb29sICpzdWJwb29sX2lub2RlKHN0cnVjdCBp
-bm9kZQ0KPiAqaW5vZGUpDQo+ID4gK3sNCj4gPiArCXJldHVybiBIVUdFVExCRlNfU0IoaW5vZGUt
-Pmlfc2IpLT5zcG9vbDsNCj4gPiArfQ0KPiA+ICsNCj4gPiAgIHN0YXRpYyBpbmxpbmUgc3RydWN0
-IGh1Z2VwYWdlX3N1YnBvb2wgKmh1Z2V0bGJfZm9saW9fc3VicG9vbChzdHJ1Y3QgZm9saW8NCj4g
-KmZvbGlvKQ0KPiA+ICAgew0KPiA+ICAgCXJldHVybiBmb2xpby0+X2h1Z2V0bGJfc3VicG9vbDsN
-Cj4gPiBkaWZmIC0tZ2l0IGEvbW0vaHVnZXRsYi5jIGIvbW0vaHVnZXRsYi5jDQo+ID4gaW5kZXgg
-YzQ5ODg3NGE3MTcwLi5lZjk0OGY1NmI4NjQgMTAwNjQ0DQo+ID4gLS0tIGEvbW0vaHVnZXRsYi5j
-DQo+ID4gKysrIGIvbW0vaHVnZXRsYi5jDQo+ID4gQEAgLTI1MSwxMSArMjUxLDYgQEAgc3RhdGlj
-IGxvbmcgaHVnZXBhZ2Vfc3VicG9vbF9wdXRfcGFnZXMoc3RydWN0DQo+IGh1Z2VwYWdlX3N1YnBv
-b2wgKnNwb29sLA0KPiA+ICAgCXJldHVybiByZXQ7DQo+ID4gICB9DQo+ID4NCj4gPiAtc3RhdGlj
-IGlubGluZSBzdHJ1Y3QgaHVnZXBhZ2Vfc3VicG9vbCAqc3VicG9vbF9pbm9kZShzdHJ1Y3QgaW5v
-ZGUNCj4gKmlub2RlKQ0KPiA+IC17DQo+ID4gLQlyZXR1cm4gSFVHRVRMQkZTX1NCKGlub2RlLT5p
-X3NiKS0+c3Bvb2w7DQo+ID4gLX0NCj4gPiAtDQo+ID4gICBzdGF0aWMgaW5saW5lIHN0cnVjdCBo
-dWdlcGFnZV9zdWJwb29sICpzdWJwb29sX3ZtYShzdHJ1Y3QNCj4gdm1fYXJlYV9zdHJ1Y3QgKnZt
-YSkNCj4gPiAgIHsNCj4gPiAgIAlyZXR1cm4gc3VicG9vbF9pbm9kZShmaWxlX2lub2RlKHZtYS0+
-dm1fZmlsZSkpOw0KPiA+IEBAIC0yMzk3LDEyICsyMzkyLDE1IEBAIHN0cnVjdCBmb2xpbyAqYWxs
-b2NfaHVnZXRsYl9mb2xpb19yZXNlcnZlKHN0cnVjdA0KPiBoc3RhdGUgKmgsIGludCBwcmVmZXJy
-ZWRfbmlkLA0KPiA+ICAgCXN0cnVjdCBmb2xpbyAqZm9saW87DQo+ID4NCj4gPiAgIAlzcGluX2xv
-Y2tfaXJxKCZodWdldGxiX2xvY2spOw0KPiA+ICsJaWYgKFdBUk5fT05fT05DRSghaC0+cmVzdl9o
-dWdlX3BhZ2VzKSkgew0KPiA+ICsJCXNwaW5fdW5sb2NrX2lycSgmaHVnZXRsYl9sb2NrKTsNCj4g
-PiArCQlyZXR1cm4gTlVMTDsNCj4gPiArCX0NCj4gPiArDQo+ID4gICAJZm9saW8gPSBkZXF1ZXVl
-X2h1Z2V0bGJfZm9saW9fbm9kZW1hc2soaCwgZ2ZwX21hc2ssDQo+IHByZWZlcnJlZF9uaWQsDQo+
-ID4gICAJCQkJCSAgICAgICBubWFzayk7DQo+ID4gLQlpZiAoZm9saW8pIHsNCj4gPiAtCQlWTV9C
-VUdfT04oIWgtPnJlc3ZfaHVnZV9wYWdlcyk7DQo+ID4gKwlpZiAoZm9saW8pDQo+ID4gICAJCWgt
-PnJlc3ZfaHVnZV9wYWdlcy0tOw0KPiA+IC0JfQ0KPiA+DQo+ID4gICAJc3Bpbl91bmxvY2tfaXJx
-KCZodWdldGxiX2xvY2spOw0KPiA+ICAgCXJldHVybiBmb2xpbzsNCj4gPiBkaWZmIC0tZ2l0IGEv
-bW0vbWVtZmQuYyBiL21tL21lbWZkLmMNCj4gPiBpbmRleCAzNWEzNzBkNzVjOWEuLjBkMTI4YzQ0
-ZmI3OCAxMDA2NDQNCj4gPiAtLS0gYS9tbS9tZW1mZC5jDQo+ID4gKysrIGIvbW0vbWVtZmQuYw0K
-PiA+IEBAIC03MCw3ICs3MCw3IEBAIHN0cnVjdCBmb2xpbyAqbWVtZmRfYWxsb2NfZm9saW8oc3Ry
-dWN0IGZpbGUgKm1lbWZkLA0KPiBwZ29mZl90IGlkeCkNCj4gPiAgICNpZmRlZiBDT05GSUdfSFVH
-RVRMQl9QQUdFDQo+ID4gICAJc3RydWN0IGZvbGlvICpmb2xpbzsNCj4gPiAgIAlnZnBfdCBnZnBf
-bWFzazsNCj4gPiAtCWludCBlcnI7DQo+ID4gKwlpbnQgZXJyID0gLUVOT01FTTsNCj4gPg0KPiA+
-ICAgCWlmIChpc19maWxlX2h1Z2VwYWdlcyhtZW1mZCkpIHsNCj4gPiAgIAkJLyoNCj4gPiBAQCAt
-NzksMTIgKzc5LDE2IEBAIHN0cnVjdCBmb2xpbyAqbWVtZmRfYWxsb2NfZm9saW8oc3RydWN0IGZp
-bGUgKm1lbWZkLA0KPiBwZ29mZl90IGlkeCkNCj4gPiAgIAkJICogYWxsb2MgZnJvbS4gQWxzbywg
-dGhlIGZvbGlvIHdpbGwgYmUgcGlubmVkIGZvciBhbiBpbmRlZmluaXRlDQo+ID4gICAJCSAqIGFt
-b3VudCBvZiB0aW1lLCBzbyBpdCBpcyBub3QgZXhwZWN0ZWQgdG8gYmUgbWlncmF0ZWQgYXdheS4N
-Cj4gPiAgIAkJICovDQo+ID4gKwkJc3RydWN0IGlub2RlICppbm9kZSA9IGZpbGVfaW5vZGUobWVt
-ZmQpOw0KPiA+ICAgCQlzdHJ1Y3QgaHN0YXRlICpoID0gaHN0YXRlX2ZpbGUobWVtZmQpOw0KPiA+
-DQo+ID4gICAJCWdmcF9tYXNrID0gaHRsYl9hbGxvY19tYXNrKGgpOw0KPiA+ICAgCQlnZnBfbWFz
-ayAmPSB+KF9fR0ZQX0hJR0hNRU0gfCBfX0dGUF9NT1ZBQkxFKTsNCj4gPiAgIAkJaWR4ID4+PSBo
-dWdlX3BhZ2Vfb3JkZXIoaCk7DQo+ID4NCj4gPiArCQlpZiAoIWh1Z2V0bGJfcmVzZXJ2ZV9wYWdl
-cyhpbm9kZSwgaWR4LCBpZHggKyAxLCBOVUxMLCAwKSkNCj4gPiArCQkJcmV0dXJuIEVSUl9QVFIo
-ZXJyKTsNCj4gPiArDQo+ID4gICAJCWZvbGlvID0gYWxsb2NfaHVnZXRsYl9mb2xpb19yZXNlcnZl
-KGgsDQo+ID4gICAJCQkJCQkgICAgbnVtYV9ub2RlX2lkKCksDQo+ID4gICAJCQkJCQkgICAgTlVM
-TCwNCj4gPiBAQCAtOTUsMTIgKzk5LDE2IEBAIHN0cnVjdCBmb2xpbyAqbWVtZmRfYWxsb2NfZm9s
-aW8oc3RydWN0IGZpbGUgKm1lbWZkLA0KPiBwZ29mZl90IGlkeCkNCj4gPiAgIAkJCQkJCQlpZHgp
-Ow0KPiA+ICAgCQkJaWYgKGVycikgew0KPiA+ICAgCQkJCWZvbGlvX3B1dChmb2xpbyk7DQo+ID4g
-LQkJCQlyZXR1cm4gRVJSX1BUUihlcnIpOw0KPiA+ICsJCQkJZ290byBlcnI7DQo+ID4gICAJCQl9
-DQo+ID4gKw0KPiA+ICsJCQlodWdldGxiX3NldF9mb2xpb19zdWJwb29sKGZvbGlvLA0KPiBzdWJw
-b29sX2lub2RlKGlub2RlKSk7DQo+ID4gICAJCQlmb2xpb191bmxvY2soZm9saW8pOw0KPiA+ICAg
-CQkJcmV0dXJuIGZvbGlvOw0KPiA+ICAgCQl9DQo+ID4gLQkJcmV0dXJuIEVSUl9QVFIoLUVOT01F
-TSk7DQo+ID4gK2VycjoNCj4gPiArCQlodWdldGxiX3VucmVzZXJ2ZV9wYWdlcyhpbm9kZSwgaWR4
-LCBpZHggKyAxLCAwKTsNCj4gDQo+IEhtbW0sIHNob3VsZG4ndCB3ZSBtYXliZSBvbmx5IHVuLXJl
-c2VydmUgaWYgd2Ugd2VyZSByZXNwb25zaWJsZSBmb3IgdGhlDQo+IHJlc2VydmF0aW9uIGFib3Zl
-Pw0KR29vZCBjYXRjaCEgWWVzLCBJIGFncmVlIHRoYXQgdW4tcmVzZXJ2aW5nLCBvbmx5IGlmIHdl
-IHdlcmUgcmVzcG9uc2libGUgZm9yDQp0aGUgcmVzZXJ2YXRpb24gaXMgdGhlIHJpZ2h0IHRoaW5n
-IHRvIGRvIGluIHRoaXMgY2FzZS4NCg0KPiANCj4gSWYgaXQncyBhbHJlYWR5IHJlc2VydmVkIGJl
-Zm9yZSB0aGlzIGNhbGwsIHdlIHNob3VsZCBwcm9iYWJseSBsZWF2ZSBpdA0KPiBhcyBpcz8NClll
-YWgsIHRoYXQgbWFrZXMgc2Vuc2UuIEhvd2V2ZXIsIHRoZXJlIGlzIGN1cnJlbnRseSBubyB3YXkg
-dG8ga25vdyBpZiBhIHJhbmdlIGhhcw0KYWxyZWFkeSBiZWVuIHJlc2VydmVkIG9yIG5vdC4gT25l
-IG9wdGlvbiBJIGNhbiB0aGluayBvZiBpcyB0byBoYXZlIGh1Z2V0bGJfcmVzZXJ2ZV9wYWdlcygp
-DQpwcm92aWRlIHJldHVybiBpbmZvIChucl9yZXNlcnZlZD8pIGFib3V0IGhvdyBtYW55IHBhZ2Vz
-IHdlcmUgc3VjY2Vzc2Z1bGx5IHJlc2VydmVkLg0KVGhpcyB3YXkgd2UgY2FuIGtub3cgaWYgd2Ug
-d2VyZSB0aGUgb25lcyByZXNwb25zaWJsZSBmb3IgdGhlIHJlc2VydmF0aW9uLg0KDQo+IA0KPiBP
-ciBtYXliZSB3ZSBuZXZlciB3YW50IHRvIHVuLXJlc2VydmUgYXQgYWxsIGhlcmU/DQpUaGF0IGFs
-c28gc2VlbXMgdG8gYmUgYW4gb3B0aW9uLiBBRkFJQ1MsIHVuLXJlc2VydmluZyBvbmx5IGFwcGVh
-cnMgdG8gaGFwcGVuIGFzDQpwYXJ0IG9mIHRydW5jYXRlL2hvbGUgcHVuY2gvaW5vZGUgZXZpY3Rp
-b24gYW5kIG5vdCBpZiBodWdldGxiX2ZhdWx0KCkgZmFpbHMuIFVubGVzcw0KSSBhbSBvdmVybG9v
-a2luZyBzb21ldGhpbmcsIG5vdCBjYWxsaW5nIGh1Z2V0bGJfdW5yZXNlcnZlX3BhZ2VzKCkgaWYg
-YWxsb2NhdGlvbg0KZmFpbHMgc2VlbXMgdG8gYmUgT0suDQoNClRoYW5rcywNClZpdmVrDQoNCj4g
-DQo+IC0tDQo+IENoZWVycywNCj4gDQo+IERhdmlkIC8gZGhpbGRlbmINCg0K
+On Fri, Jan 10, 2025 at 8:46=E2=80=AFPM paul-pl.chen <paul-pl.chen@mediatek=
+.com> wrote:
+>
+> From: "Nancy.Lin" <nancy.lin@mediatek.com>
+>
+> Add mutex support the main and external display for MT8196.
+>
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> Signed-off-by: Paul-pl.Chen <paul-pl.chen@mediatek.com>
+> ---
+>  drivers/soc/mediatek/mtk-mutex.c       | 233 +++++++++++++++++++++++--
+>  include/linux/soc/mediatek/mtk-mutex.h |   2 +
+>  2 files changed, 222 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-=
+mutex.c
+> index 5250c1d702eb..c08eb3cc71eb 100644
+> --- a/drivers/soc/mediatek/mtk-mutex.c
+> +++ b/drivers/soc/mediatek/mtk-mutex.c
+> @@ -19,6 +19,7 @@
+>  #define MT2701_MUTEX0_SOF0                     0x30
+>  #define MT8183_MUTEX0_MOD0                     0x30
+>  #define MT8183_MUTEX0_SOF0                     0x2c
+> +#define MT8196_MUTEX0_MOD0                     0x34
+>
+>  #define DISP_REG_MUTEX_EN(n)                   (0x20 + 0x20 * (n))
+>  #define DISP_REG_MUTEX(n)                      (0x24 + 0x20 * (n))
+> @@ -236,6 +237,47 @@
+>  #define MT8195_MUTEX_MOD_MDP_WROT2             32
+>  #define MT8195_MUTEX_MOD_MDP_WROT3             33
+>
+> +/* OVLSYS */
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA2           2
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA3           3
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA4           4
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA5           5
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA6           6
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA7           7
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA8           8
+> +#define MT8196_MUTEX_MOD0_OVL_EXDMA9           9
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER1         11
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER2         12
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER3         13
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER4         14
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER5         15
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER6         16
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER7         17
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER8         18
+> +#define MT8196_MUTEX_MOD0_OVL_BLENDER9         19
+> +#define MT8196_MUTEX_MOD0_OVL_OUTPROC0         20
+> +#define MT8196_MUTEX_MOD0_OVL_OUTPROC1         21
+> +#define MT8196_MUTEX_MOD0_OVL_OUTPROC2         22
+> +#define MT8196_MUTEX_MOD1_OVL_DLO_ASYNC5       (32 + 16)
+> +#define MT8196_MUTEX_MOD1_OVL_DLO_ASYNC6       (32 + 17)
+> +
+> +/* DISP0 */
+> +#define MT8196_MUTEX_MOD0_DISP_DLI_ASYNC0      16
+> +#define MT8196_MUTEX_MOD0_DISP_DLI_ASYNC1      17
+> +#define MT8196_MUTEX_MOD0_DISP_DLI_ASYNC8      24
+> +#define MT8196_MUTEX_MOD1_DISP_DLO_ASYNC1      (32 + 1)
+> +#define MT8196_MUTEX_MOD1_DISP_DLO_ASYNC2      (32 + 2)
+> +#define MT8196_MUTEX_MOD1_DISP_DLO_ASYNC3      (32 + 3)
+> +
+> +/* DISP1 */
+> +#define MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC21    1
+> +#define MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC22    2
+> +#define MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC23    3
+> +#define MT8196_MUTEX_MOD0_DISP1_DP_INTF0       13
+> +#define MT8196_MUTEX_MOD0_DISP1_DP_INTF1       14
+> +#define MT8196_MUTEX_MOD0_DISP1_DSI0           23
+> +#define MT8196_MUTEX_MOD0_DISP1_DVO            29
+> +
+>  #define MT8365_MUTEX_MOD_DISP_OVL0             7
+>  #define MT8365_MUTEX_MOD_DISP_OVL0_2L          8
+>  #define MT8365_MUTEX_MOD_DISP_RDMA0            9
+> @@ -295,6 +337,12 @@
+>  #define MT8195_MUTEX_SOF_DP_INTF1              4
+>  #define MT8195_MUTEX_SOF_DPI0                  6 /* for HDMI_TX */
+>  #define MT8195_MUTEX_SOF_DPI1                  5 /* for digital video ou=
+t */
+> +#define MT8196_MUTEX_SOF_DSI0                  1
+> +#define MT8196_MUTEX_SOF_DSI1                  2
+> +#define MT8196_MUTEX_SOF_DSI2                  4
+> +#define MT8196_MUTEX_SOF_DPI0                  5
+> +#define MT8196_MUTEX_SOF_DPI1                  6
+> +#define MT8196_MUTEX_SOF_DVO0                  7
+>
+>  #define MT8183_MUTEX_EOF_DSI0                  (MT8183_MUTEX_SOF_DSI0 <<=
+ 6)
+>  #define MT8183_MUTEX_EOF_DPI0                  (MT8183_MUTEX_SOF_DPI0 <<=
+ 6)
+> @@ -307,6 +355,12 @@
+>  #define MT8195_MUTEX_EOF_DP_INTF1              (MT8195_MUTEX_SOF_DP_INTF=
+1 << 7)
+>  #define MT8195_MUTEX_EOF_DPI0                  (MT8195_MUTEX_SOF_DPI0 <<=
+ 7)
+>  #define MT8195_MUTEX_EOF_DPI1                  (MT8195_MUTEX_SOF_DPI1 <<=
+ 7)
+> +#define MT8196_MUTEX_EOF_DSI0                  (MT8196_MUTEX_SOF_DSI0 <<=
+ 7)
+> +#define MT8196_MUTEX_EOF_DSI1                  (MT8196_MUTEX_SOF_DSI1 <<=
+ 7)
+> +#define MT8196_MUTEX_EOF_DSI2                  (MT8196_MUTEX_SOF_DSI2 <<=
+ 7)
+> +#define MT8196_MUTEX_EOF_DPI0                  (MT8196_MUTEX_SOF_DPI0 <<=
+ 7)
+> +#define MT8196_MUTEX_EOF_DPI1                  (MT8196_MUTEX_SOF_DPI1 <<=
+ 7)
+> +#define MT8196_MUTEX_EOF_DVO0                  (MT8196_MUTEX_SOF_DVO0 <<=
+ 7)
+>
+>  struct mtk_mutex {
+>         u8 id;
+> @@ -323,6 +377,7 @@ enum mtk_mutex_sof_id {
+>         MUTEX_SOF_DSI3,
+>         MUTEX_SOF_DP_INTF0,
+>         MUTEX_SOF_DP_INTF1,
+> +       MUTEX_SOF_DVO0,
+>         DDP_MUTEX_SOF_MAX,
+>  };
+>
+> @@ -333,6 +388,7 @@ struct mtk_mutex_data {
+>         const u16 mutex_mod_reg;
+>         const u16 mutex_sof_reg;
+>         const bool no_clk;
+> +       const bool need_sof_mod;
+>  };
+>
+>  struct mtk_mutex_ctx {
+> @@ -621,6 +677,64 @@ static const u8 mt8195_mutex_table_mod[MUTEX_MOD_IDX=
+_MAX] =3D {
+>         [MUTEX_MOD_IDX_MDP_WROT3] =3D MT8195_MUTEX_MOD_MDP_WROT3,
+>  };
+>
+> +static const u8 mt8196_mutex_mod[DDP_COMPONENT_ID_MAX] =3D {
+> +       [DDP_COMPONENT_OVL0_EXDMA2] =3D MT8196_MUTEX_MOD0_OVL_EXDMA2,
+> +       [DDP_COMPONENT_OVL0_EXDMA3] =3D MT8196_MUTEX_MOD0_OVL_EXDMA3,
+> +       [DDP_COMPONENT_OVL0_EXDMA4] =3D MT8196_MUTEX_MOD0_OVL_EXDMA4,
+> +       [DDP_COMPONENT_OVL0_EXDMA5] =3D MT8196_MUTEX_MOD0_OVL_EXDMA5,
+> +       [DDP_COMPONENT_OVL0_EXDMA6] =3D MT8196_MUTEX_MOD0_OVL_EXDMA6,
+> +       [DDP_COMPONENT_OVL0_EXDMA7] =3D MT8196_MUTEX_MOD0_OVL_EXDMA7,
+> +       [DDP_COMPONENT_OVL0_EXDMA8] =3D MT8196_MUTEX_MOD0_OVL_EXDMA8,
+> +       [DDP_COMPONENT_OVL0_EXDMA9] =3D MT8196_MUTEX_MOD0_OVL_EXDMA9,
+> +       [DDP_COMPONENT_OVL0_BLENDER1] =3D MT8196_MUTEX_MOD0_OVL_BLENDER1,
+> +       [DDP_COMPONENT_OVL0_BLENDER2] =3D MT8196_MUTEX_MOD0_OVL_BLENDER2,
+> +       [DDP_COMPONENT_OVL0_BLENDER3] =3D MT8196_MUTEX_MOD0_OVL_BLENDER3,
+> +       [DDP_COMPONENT_OVL0_BLENDER4] =3D MT8196_MUTEX_MOD0_OVL_BLENDER4,
+> +       [DDP_COMPONENT_OVL0_BLENDER5] =3D MT8196_MUTEX_MOD0_OVL_BLENDER5,
+> +       [DDP_COMPONENT_OVL0_BLENDER6] =3D MT8196_MUTEX_MOD0_OVL_BLENDER6,
+> +       [DDP_COMPONENT_OVL0_BLENDER7] =3D MT8196_MUTEX_MOD0_OVL_BLENDER7,
+> +       [DDP_COMPONENT_OVL0_BLENDER8] =3D MT8196_MUTEX_MOD0_OVL_BLENDER8,
+> +       [DDP_COMPONENT_OVL0_BLENDER9] =3D MT8196_MUTEX_MOD0_OVL_BLENDER9,
+> +       [DDP_COMPONENT_OVL0_OUTPROC0] =3D MT8196_MUTEX_MOD0_OVL_OUTPROC0,
+> +       [DDP_COMPONENT_OVL0_OUTPROC1] =3D MT8196_MUTEX_MOD0_OVL_OUTPROC1,
+> +       [DDP_COMPONENT_OVL0_DLO_ASYNC5] =3D MT8196_MUTEX_MOD1_OVL_DLO_ASY=
+NC5,
+> +       [DDP_COMPONENT_OVL0_DLO_ASYNC6] =3D MT8196_MUTEX_MOD1_OVL_DLO_ASY=
+NC6,
+> +       [DDP_COMPONENT_OVL1_EXDMA2] =3D MT8196_MUTEX_MOD0_OVL_EXDMA2,
+> +       [DDP_COMPONENT_OVL1_EXDMA3] =3D MT8196_MUTEX_MOD0_OVL_EXDMA3,
+> +       [DDP_COMPONENT_OVL1_EXDMA4] =3D MT8196_MUTEX_MOD0_OVL_EXDMA4,
+> +       [DDP_COMPONENT_OVL1_EXDMA5] =3D MT8196_MUTEX_MOD0_OVL_EXDMA5,
+> +       [DDP_COMPONENT_OVL1_EXDMA6] =3D MT8196_MUTEX_MOD0_OVL_EXDMA6,
+> +       [DDP_COMPONENT_OVL1_EXDMA7] =3D MT8196_MUTEX_MOD0_OVL_EXDMA7,
+> +       [DDP_COMPONENT_OVL1_EXDMA8] =3D MT8196_MUTEX_MOD0_OVL_EXDMA8,
+> +       [DDP_COMPONENT_OVL1_EXDMA9] =3D MT8196_MUTEX_MOD0_OVL_EXDMA9,
+> +       [DDP_COMPONENT_OVL1_BLENDER1] =3D MT8196_MUTEX_MOD0_OVL_BLENDER1,
+> +       [DDP_COMPONENT_OVL1_BLENDER2] =3D MT8196_MUTEX_MOD0_OVL_BLENDER2,
+> +       [DDP_COMPONENT_OVL1_BLENDER3] =3D MT8196_MUTEX_MOD0_OVL_BLENDER3,
+> +       [DDP_COMPONENT_OVL1_BLENDER4] =3D MT8196_MUTEX_MOD0_OVL_BLENDER4,
+> +       [DDP_COMPONENT_OVL1_BLENDER5] =3D MT8196_MUTEX_MOD0_OVL_BLENDER5,
+> +       [DDP_COMPONENT_OVL1_BLENDER6] =3D MT8196_MUTEX_MOD0_OVL_BLENDER6,
+> +       [DDP_COMPONENT_OVL1_BLENDER7] =3D MT8196_MUTEX_MOD0_OVL_BLENDER7,
+> +       [DDP_COMPONENT_OVL1_BLENDER8] =3D MT8196_MUTEX_MOD0_OVL_BLENDER8,
+> +       [DDP_COMPONENT_OVL1_BLENDER9] =3D MT8196_MUTEX_MOD0_OVL_BLENDER9,
+> +       [DDP_COMPONENT_OVL1_OUTPROC0] =3D MT8196_MUTEX_MOD0_OVL_OUTPROC0,
+> +       [DDP_COMPONENT_OVL1_OUTPROC1] =3D MT8196_MUTEX_MOD0_OVL_OUTPROC1,
+> +       [DDP_COMPONENT_OVL1_DLO_ASYNC5] =3D MT8196_MUTEX_MOD1_OVL_DLO_ASY=
+NC5,
+> +       [DDP_COMPONENT_OVL1_DLO_ASYNC6] =3D MT8196_MUTEX_MOD1_OVL_DLO_ASY=
+NC6,
+> +       [DDP_COMPONENT_DLI_ASYNC0] =3D MT8196_MUTEX_MOD0_DISP_DLI_ASYNC0,
+> +       [DDP_COMPONENT_DLI_ASYNC1] =3D MT8196_MUTEX_MOD0_DISP_DLI_ASYNC1,
+> +       [DDP_COMPONENT_DLI_ASYNC8] =3D MT8196_MUTEX_MOD0_DISP_DLI_ASYNC8,
+> +       [DDP_COMPONENT_DLO_ASYNC1] =3D MT8196_MUTEX_MOD1_DISP_DLO_ASYNC1,
+> +       [DDP_COMPONENT_DLO_ASYNC2] =3D MT8196_MUTEX_MOD1_DISP_DLO_ASYNC2,
+> +       [DDP_COMPONENT_DLO_ASYNC3] =3D MT8196_MUTEX_MOD1_DISP_DLO_ASYNC3,
+> +       [DDP_COMPONENT_DLI_ASYNC21] =3D MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC=
+21,
+> +       [DDP_COMPONENT_DLI_ASYNC22] =3D MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC=
+22,
+> +       [DDP_COMPONENT_DLI_ASYNC23] =3D MT8196_MUTEX_MOD0_DISP1_DLI_ASYNC=
+23,
+> +       [DDP_COMPONENT_DVO0] =3D MT8196_MUTEX_MOD0_DISP1_DVO,
+> +       [DDP_COMPONENT_DP_INTF0] =3D MT8196_MUTEX_MOD0_DISP1_DP_INTF0,
+> +       [DDP_COMPONENT_DP_INTF1] =3D MT8196_MUTEX_MOD0_DISP1_DP_INTF1,
+> +       [DDP_COMPONENT_DSI0] =3D MT8196_MUTEX_MOD0_DISP1_DSI0,
+> +};
+> +
+>  static const u8 mt8365_mutex_mod[DDP_COMPONENT_ID_MAX] =3D {
+>         [DDP_COMPONENT_AAL0] =3D MT8365_MUTEX_MOD_DISP_AAL,
+>         [DDP_COMPONENT_CCORR] =3D MT8365_MUTEX_MOD_DISP_CCORR,
+> @@ -704,6 +818,17 @@ static const u16 mt8195_mutex_sof[DDP_MUTEX_SOF_MAX]=
+ =3D {
+>                 MT8195_MUTEX_SOF_DP_INTF1 | MT8195_MUTEX_EOF_DP_INTF1,
+>  };
+>
+> +static const u16 mt8196_mutex_sof[DDP_MUTEX_SOF_MAX] =3D {
+> +       [MUTEX_SOF_SINGLE_MODE] =3D MUTEX_SOF_SINGLE_MODE,
+> +       [MUTEX_SOF_DSI0] =3D MT8196_MUTEX_SOF_DSI0 | MT8196_MUTEX_EOF_DSI=
+0,
+> +       [MUTEX_SOF_DSI1] =3D MT8196_MUTEX_SOF_DSI1 | MT8196_MUTEX_EOF_DSI=
+1,
+> +       [MUTEX_SOF_DP_INTF0] =3D
+> +               MT8196_MUTEX_SOF_DPI0 | MT8196_MUTEX_EOF_DPI0,
+> +       [MUTEX_SOF_DP_INTF1] =3D
+> +               MT8196_MUTEX_SOF_DPI1 | MT8196_MUTEX_EOF_DPI1,
+> +       [MUTEX_SOF_DVO0] =3D MT8196_MUTEX_SOF_DVO0 | MT8196_MUTEX_EOF_DVO=
+0,
+> +};
+> +
+>  static const struct mtk_mutex_data mt2701_mutex_driver_data =3D {
+>         .mutex_mod =3D mt2701_mutex_mod,
+>         .mutex_sof =3D mt2712_mutex_sof,
+> @@ -797,6 +922,14 @@ static const struct mtk_mutex_data mt8195_vpp_mutex_=
+driver_data =3D {
+>         .mutex_table_mod =3D mt8195_mutex_table_mod,
+>  };
+>
+> +static const struct mtk_mutex_data mt8196_mutex_driver_data =3D {
+> +       .mutex_mod =3D mt8196_mutex_mod,
+> +       .mutex_sof =3D mt8196_mutex_sof,
+> +       .mutex_mod_reg =3D MT8196_MUTEX0_MOD0,
+> +       .mutex_sof_reg =3D MT2701_MUTEX0_SOF0,
+> +       .need_sof_mod =3D true,
+> +};
+> +
+>  static const struct mtk_mutex_data mt8365_mutex_driver_data =3D {
+>         .mutex_mod =3D mt8365_mutex_mod,
+>         .mutex_sof =3D mt8183_mutex_sof,
+> @@ -847,6 +980,53 @@ void mtk_mutex_unprepare(struct mtk_mutex *mutex)
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_mutex_unprepare);
+>
+> +void mtk_mutex_write_comp_sof(struct mtk_mutex *mutex,
+> +                             enum mtk_ddp_comp_id id)
+> +{
+> +       struct mtk_mutex_ctx *mtx =3D container_of(mutex, struct mtk_mute=
+x_ctx,
+> +                                                mutex[mutex->id]);
+> +       unsigned int sof_id =3D 0;
+> +
+> +       WARN_ON(&mtx->mutex[mutex->id] !=3D mutex);
+> +
+> +       switch (id) {
+> +       case DDP_COMPONENT_DSI0:
+> +               sof_id =3D MUTEX_SOF_DSI0;
+> +               break;
+> +       case DDP_COMPONENT_DSI1:
+> +               sof_id =3D MUTEX_SOF_DSI0;
+> +               break;
+> +       case DDP_COMPONENT_DSI2:
+> +               sof_id =3D MUTEX_SOF_DSI2;
+> +               break;
+> +       case DDP_COMPONENT_DSI3:
+> +               sof_id =3D MUTEX_SOF_DSI3;
+> +               break;
+> +       case DDP_COMPONENT_DPI0:
+> +               sof_id =3D MUTEX_SOF_DPI0;
+> +               break;
+> +       case DDP_COMPONENT_DPI1:
+> +               sof_id =3D MUTEX_SOF_DPI1;
+> +               break;
+> +       case DDP_COMPONENT_DP_INTF0:
+> +               sof_id =3D MUTEX_SOF_DP_INTF0;
+> +               break;
+> +       case DDP_COMPONENT_DP_INTF1:
+> +               sof_id =3D MUTEX_SOF_DP_INTF1;
+> +               break;
+> +       case DDP_COMPONENT_DVO0:
+> +               sof_id =3D MUTEX_SOF_DVO0;
+> +               break;
+> +       default:
+> +               break;
+> +       }
+> +
+> +       writel_relaxed(mtx->data->mutex_sof[sof_id],
+> +                      mtx->regs +
+> +                      DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex=
+->id));
+> +}
+> +EXPORT_SYMBOL_GPL(mtk_mutex_write_comp_sof);
+
+This duplicates the code in `mtk_mutex_add_comp()`. If the write to the
+MUTEX_SOF register can be reordered to before the MUTEX_MOD* register,
+I suggest replacing the existing code in `mtk_mutex_add_comp()` with
+a call to this new function. In essence "move the existing SOF code
+to a new helper function that is exported".
+
+>  void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>                         enum mtk_ddp_comp_id id)
+>  {
+> @@ -883,6 +1063,9 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>         case DDP_COMPONENT_DP_INTF1:
+>                 sof_id =3D MUTEX_SOF_DP_INTF1;
+>                 break;
+> +       case DDP_COMPONENT_DVO0:
+> +               sof_id =3D MUTEX_SOF_DVO0;
+> +               break;
+>         default:
+>                 if (mtx->data->mutex_mod[id] < 32) {
+>                         offset =3D DISP_REG_MUTEX_MOD(mtx->data->mutex_mo=
+d_reg,
+> @@ -891,7 +1074,8 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>                         reg |=3D 1 << mtx->data->mutex_mod[id];
+>                         writel_relaxed(reg, mtx->regs + offset);
+>                 } else {
+> -                       offset =3D DISP_REG_MUTEX_MOD2(mutex->id);
+> +                       offset =3D DISP_REG_MUTEX_MOD1(mtx->data->mutex_m=
+od_reg,
+> +                                                    mutex->id);
+
+This needs to be a separate patch replacing MOD2 with MOD1, and
+explain why this doesn't break existing platforms:
+
+    On existing platforms with mutex IDs larger than 32 (MT8188 and
+    MT8195), MOD2 =3D=3D MOD + 0x4 =3D=3D MOD1.
+
+And the MOD2 macro should be removed in the same patch to avoid misuse
+in the future.
+
+>                         reg =3D readl_relaxed(mtx->regs + offset);
+>                         reg |=3D 1 << (mtx->data->mutex_mod[id] - 32);
+>                         writel_relaxed(reg, mtx->regs + offset);
+> @@ -899,6 +1083,22 @@ void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>                 return;
+>         }
+>
+> +       if (mtx->data->need_sof_mod) {
+> +               if (mtx->data->mutex_mod[id] < 32) {
+> +                       offset =3D DISP_REG_MUTEX_MOD(mtx->data->mutex_mo=
+d_reg,
+> +                                                   mutex->id);
+> +                       reg =3D readl_relaxed(mtx->regs + offset);
+> +                       reg |=3D 1 << mtx->data->mutex_mod[id];
+> +                       writel_relaxed(reg, mtx->regs + offset);
+> +               } else {
+> +                       offset =3D DISP_REG_MUTEX_MOD1(mtx->data->mutex_m=
+od_reg,
+> +                                                    mutex->id);
+> +                       reg =3D readl_relaxed(mtx->regs + offset);
+> +                       reg |=3D 1 << (mtx->data->mutex_mod[id] - 32);
+> +                       writel_relaxed(reg, mtx->regs + offset);
+> +               }
+> +       }
+> +
+
+This directly duplicates the block above. Something is wrong here.
+
+>         writel_relaxed(mtx->data->mutex_sof[sof_id],
+>                        mtx->regs +
+>                        DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_reg, mutex=
+->id));
+> @@ -924,26 +1124,32 @@ void mtk_mutex_remove_comp(struct mtk_mutex *mutex=
+,
+>         case DDP_COMPONENT_DPI1:
+>         case DDP_COMPONENT_DP_INTF0:
+>         case DDP_COMPONENT_DP_INTF1:
+> +       case DDP_COMPONENT_DVO0:
+>                 writel_relaxed(MUTEX_SOF_SINGLE_MODE,
+>                                mtx->regs +
+>                                DISP_REG_MUTEX_SOF(mtx->data->mutex_sof_re=
+g,
+>                                                   mutex->id));
+>                 break;
+>         default:
+> -               if (mtx->data->mutex_mod[id] < 32) {
+> -                       offset =3D DISP_REG_MUTEX_MOD(mtx->data->mutex_mo=
+d_reg,
+> -                                                   mutex->id);
+> -                       reg =3D readl_relaxed(mtx->regs + offset);
+> -                       reg &=3D ~(1 << mtx->data->mutex_mod[id]);
+> -                       writel_relaxed(reg, mtx->regs + offset);
+> -               } else {
+> -                       offset =3D DISP_REG_MUTEX_MOD2(mutex->id);
+> -                       reg =3D readl_relaxed(mtx->regs + offset);
+> -                       reg &=3D ~(1 << (mtx->data->mutex_mod[id] - 32));
+> -                       writel_relaxed(reg, mtx->regs + offset);
+> -               }
+>                 break;
+>         }
+> +
+> +       if (!mtx->data->need_sof_mod)
+> +               return;
+> +
+> +       if (mtx->data->mutex_mod[id] < 32) {
+> +               offset =3D DISP_REG_MUTEX_MOD(mtx->data->mutex_mod_reg,
+> +                                           mutex->id);
+> +               reg =3D readl_relaxed(mtx->regs + offset);
+> +               reg &=3D ~(1 << mtx->data->mutex_mod[id]);
+> +               writel_relaxed(reg, mtx->regs + offset);
+> +       } else {
+> +               offset =3D DISP_REG_MUTEX_MOD1(mtx->data->mutex_mod_reg,
+> +                                            mutex->id);
+> +               reg =3D readl_relaxed(mtx->regs + offset);
+> +               reg &=3D ~(1 << (mtx->data->mutex_mod[id] - 32));
+> +               writel_relaxed(reg, mtx->regs + offset);
+> +       }
+
+Why is it OK to move this block, especially now that it has an early
+return condition above? The add and remove paths not being the inverse
+of each other seems suspect to me.
+
+
+ChenYu
+
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_mutex_remove_comp);
+>
+> @@ -1134,6 +1340,7 @@ static const struct of_device_id mutex_driver_dt_ma=
+tch[] =3D {
+>         { .compatible =3D "mediatek,mt8192-disp-mutex", .data =3D &mt8192=
+_mutex_driver_data },
+>         { .compatible =3D "mediatek,mt8195-disp-mutex", .data =3D &mt8195=
+_mutex_driver_data },
+>         { .compatible =3D "mediatek,mt8195-vpp-mutex",  .data =3D &mt8195=
+_vpp_mutex_driver_data },
+> +       { .compatible =3D "mediatek,mt8196-disp-mutex", .data =3D &mt8196=
+_mutex_driver_data },
+>         { .compatible =3D "mediatek,mt8365-disp-mutex", .data =3D &mt8365=
+_mutex_driver_data },
+>         { /* sentinel */ },
+>  };
+> diff --git a/include/linux/soc/mediatek/mtk-mutex.h b/include/linux/soc/m=
+ediatek/mtk-mutex.h
+> index 635218e3ac68..c15b48f0e4bf 100644
+> --- a/include/linux/soc/mediatek/mtk-mutex.h
+> +++ b/include/linux/soc/mediatek/mtk-mutex.h
+> @@ -69,6 +69,8 @@ enum mtk_mutex_sof_index {
+>
+>  struct mtk_mutex *mtk_mutex_get(struct device *dev);
+>  int mtk_mutex_prepare(struct mtk_mutex *mutex);
+> +void mtk_mutex_write_comp_sof(struct mtk_mutex *mutex,
+> +                             enum mtk_ddp_comp_id id);
+>  void mtk_mutex_add_comp(struct mtk_mutex *mutex,
+>                         enum mtk_ddp_comp_id id);
+>  void mtk_mutex_enable(struct mtk_mutex *mutex);
+> --
+> 2.34.1
+>
+>
