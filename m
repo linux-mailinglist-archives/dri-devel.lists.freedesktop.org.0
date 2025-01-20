@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57005A16ADB
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 11:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926BAA16ADC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 11:35:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA01210E398;
-	Mon, 20 Jan 2025 10:35:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 098E510E399;
+	Mon, 20 Jan 2025 10:35:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U01ko12p";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="It0f2FA+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 40A0010E398
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 10:35:17 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3D6210E399
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 10:35:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737369316;
+ s=mimecast20190719; t=1737369338;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=11CYfEwKHVkc87XQIxitK/uQ8wiA+5Jv7QMbsyWByZ8=;
- b=U01ko12p+yUGchOCbCNIMq6cej6SpdOJBg8vmIxNaPlvgvMDrAH3qVMvLwC0kDaMNXfcQr
- i0JlJK/Mz+sLdGT3Q3mLpwaFARmlHBKN3sO2E92I/Zlo2OfkUatGjX/fl5bQIDpyGNCCRx
- buOZDRaqLDQP7UuFzS1O/0oQ5bwghRQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5RJlXFScCGhfbFHBcMqrNK/j2k5W//AZq1UFMVlICYs=;
+ b=It0f2FA+nvyhll8ls44CkRCoVbOxSG7r7/3EcyaviH08ZN0Md8YMPoWompBoZKu81WvSB6
+ mhwvMn69h+y4X7E3NwBTZaNPHoZtQeCVHmClWFkREvPuTCQUW5rmSYYGZIkwi5E0tLPoXT
+ LAhauBDOp3BPEhsB3krosiSkXuQAQoc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-14-wdzdMy7qONGwEGTNrZuXVA-1; Mon, 20 Jan 2025 05:35:15 -0500
-X-MC-Unique: wdzdMy7qONGwEGTNrZuXVA-1
-X-Mimecast-MFC-AGG-ID: wdzdMy7qONGwEGTNrZuXVA
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-38a873178f2so2118941f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 02:35:14 -0800 (PST)
+ us-mta-481-63MiWeBzOEiPxaIGKPDXVQ-1; Mon, 20 Jan 2025 05:35:37 -0500
+X-MC-Unique: 63MiWeBzOEiPxaIGKPDXVQ-1
+X-Mimecast-MFC-AGG-ID: 63MiWeBzOEiPxaIGKPDXVQ
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4361eb83f46so33389235e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 02:35:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737369313; x=1737974113;
+ d=1e100.net; s=20230601; t=1737369336; x=1737974136;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=11CYfEwKHVkc87XQIxitK/uQ8wiA+5Jv7QMbsyWByZ8=;
- b=TvM6lmzsq+lF/CU6kQHWZ5lqUyKaxNu9xAGijRt8/i4pa3ZrP/uMfiEncmvdUmm2BF
- Ug75Yb5NgyvBNWewVAXR1tEAdPNMc1MVoo45SpT9PvN1L1Z9ziNKACcLIPzPJLVP1GNR
- ENeDvq3ABd9v5SAmIEtRkDAPfzXon7G0xRYPZivtt6IMMfsYY0Z3xwxFyWCDbBSP4n4G
- X4WQEEDZaj002QQyoYq5VV7jyHSiyUObaXMhdyolYOrj/6nTu/7AXS1RTWMCdNR4tuTe
- oJXviVEWMpffcR81wLwvToMjW9nYwma63fZlb9JG88ibarsCvpbjKir1sPe8iaJDkjpz
- jQ4g==
-X-Gm-Message-State: AOJu0YyCCkOq8Ac9/RgkaHwlI5IG08Zwdomk5xS5IvJMjpPOoT6ZDQKg
- N6QjgkjTaj6UhWr7UGy717GRHxkmUGoBsOzN8nq5m5DuaFu3kOyOIVhp3rvvWFJM8ZilwKup2/Q
- j0ttQbWqcyyHnfqd5zo8vUYqxm03blbYMACoqZEli43HuSbQGLlOY4gtU8VPq7IQqEFbpD6W88g
- ==
-X-Gm-Gg: ASbGnctDo+Pa3DYaedChH3kU+Scx2I+Rshw/BYVjK7HueJaKys8n1uZKBuZYlHcvOoh
- +Lv4+wPZrjgiup23Awa6p2Ivwls4US6GjnLvoCrLckL1SJszzdXyS3LSCFOasGTXTCGF2n6/7xI
- NLXSpK25lmLAcxG4wynywBHH3CJi8nUbhg2axIV6jVGXYCSrg5TcRA6bJEHJjlbKbHiZ+luDMwS
- LLYetV5FwyJyKj0Pj7C5xOmZ1Ly/NVADwhvnenwyvXp7lisEzgJOwMpQESw3RGJ3K0Ay0ZflVLR
- WkoOaBr4yo2QSZdT52Mquz+vwqxfx+B3uA==
-X-Received: by 2002:adf:cd8f:0:b0:385:f2a2:50df with SMTP id
- ffacd0b85a97d-38bf566c278mr10581016f8f.27.1737369313442; 
- Mon, 20 Jan 2025 02:35:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHK/q1DX7pRBSsvmsKvg8xt1wKLlClyOMCk0W1L5WZo95tG2KdfoHLSBczyhE4hN/7/yMCuMQ==
-X-Received: by 2002:adf:cd8f:0:b0:385:f2a2:50df with SMTP id
- ffacd0b85a97d-38bf566c278mr10580987f8f.27.1737369313021; 
- Mon, 20 Jan 2025 02:35:13 -0800 (PST)
+ bh=5RJlXFScCGhfbFHBcMqrNK/j2k5W//AZq1UFMVlICYs=;
+ b=tWSL1pItHyguAEPQqJgbqPR1WgD6PDPra+TjCvaZLSGcMPQGs7McQI2Qy0Y8BPMgcB
+ 1+Fpu442zHg9SipxLYP1q89k2AmMjbcKAZK5iK8JAgwMOJcI9WiQf5rnjABqph07ylcY
+ fOBpOshVis+WCeHgdsxslVjGANDCbxTqsGoZeX/eOpxm9SBUQU+7EeBiN6fNICObqzxT
+ 7oxJmkyAew+2JQI5Xm4+l0Whv3X+CDTv/wNv+9By041uNglGTITpWA8HEPMrS1zP2/mi
+ Kp8ucdcwSYkVqlnAEB9aXWOBH7UgNFfbL68nTwiusvFmuSXVvMTBYonfTMWu9iQMdDpw
+ /06A==
+X-Gm-Message-State: AOJu0YxHyGGfG82kvMKcv/N6suWwkPwrAqw3wM8MXJbJmTk7m61RATFB
+ hYCWULyyf1C9+xY0G4Hk5Ssl7Ns26ICX+aESXZLVZkO3xPkCj/fMMTSEBJwfHLQd2RaYGR80Ttx
+ bBblHEU256C/C/w2DPe1CRhzbD3a7s2j3Hom2hGKtFPHG1Vuyj1Xfjiyzro0xAHa+lQ==
+X-Gm-Gg: ASbGncsjLhhFCRZo2d0NR/+Ah51L366S0Bi8hyIVqb7ocvlySHu1gh7m+JL8QNr1QF/
+ 9xP3/okhlwleQA51i+KiqwTY13aaSHdL902YAB3YbUKXZVnaQ6MN17nWuTwVhcDU4soHKVoAx5X
+ RhYYuObMibwAVqiXjymCdFOAuHTwasV8u3pDjTtkB2e/Kxk5PkSlG1pYuzHeSnh/GJ8RwX1VKJF
+ 4Bq0H4LtOcX/MkZuCedUCtuNi/5els+rjx0++B0VrwCQADUbHcSnrvaW8tZNPbHti56+UGXWgxB
+ nWnloBDQapjbrwHAKFT6acEQh2L9ruLJaQ==
+X-Received: by 2002:a05:600c:4510:b0:434:a30b:5455 with SMTP id
+ 5b1f17b1804b1-4389144f671mr108196735e9.27.1737369336313; 
+ Mon, 20 Jan 2025 02:35:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG/s7ke/yC5n44ksW+s6yDX6J+2PIt4ztlXdkhEEH5TXLLi3O2zejdD+Zqawdi9Dl8CdmTnMA==
+X-Received: by 2002:a05:600c:4510:b0:434:a30b:5455 with SMTP id
+ 5b1f17b1804b1-4389144f671mr108196525e9.27.1737369335957; 
+ Mon, 20 Jan 2025 02:35:35 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38bf3275755sm9852332f8f.80.2025.01.20.02.35.12
+ 5b1f17b1804b1-437c753bee8sm195408755e9.34.2025.01.20.02.35.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Jan 2025 02:35:12 -0800 (PST)
-Message-ID: <8e390985-1fef-4c24-b29f-b4e63f5f140c@redhat.com>
-Date: Mon, 20 Jan 2025 11:35:12 +0100
+ Mon, 20 Jan 2025 02:35:35 -0800 (PST)
+Message-ID: <e364cd9a-6c90-4096-93f3-9042adbcf8a3@redhat.com>
+Date: Mon, 20 Jan 2025 11:35:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/8] drm/ast: Detect DRAM before TX-chip
+Subject: Re: [PATCH 3/8] drm/ast: Refactor ast_post_gpu() by Gen
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
 Cc: dri-devel@lists.freedesktop.org
 References: <20250117103450.28692-1-tzimmermann@suse.de>
- <20250117103450.28692-3-tzimmermann@suse.de>
+ <20250117103450.28692-4-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250117103450.28692-3-tzimmermann@suse.de>
+In-Reply-To: <20250117103450.28692-4-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: oPobIo1fMK3-uY7OflLk58Wc2oWe5p8zeOuT3VBFX2c_1737369314
+X-Mimecast-MFC-PROC-ID: 4f5n6n_iVSxcna-cL2btyJP0lhy9Md7oRgWK9NRZEnU_1737369336
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -102,9 +101,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 17/01/2025 11:29, Thomas Zimmermann wrote:
-> Move DRAM detection before TX-chip detection. Both steps are independent
-> from each other. Detection of the TX-chip is now next to posting those
-> chips, which can be done in a single step.
+> Reorganize ast_post_gpu() so that it first branches by Gen and then
+> by config mode and TX chip. This will later make it possible to split
+> up the function by Gen.
+> 
+> The helper ast_init_3rdtx() only handles Gen4 and Gen5, so leave it
+> out from the other Gens.
 
 Thanks, it looks good to me.
 
@@ -112,28 +114,59 @@ Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_main.c | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+>   drivers/gpu/drm/ast/ast_post.c | 36 ++++++++++++++++++++++++----------
+>   1 file changed, 26 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 037d389ab630d..456230bef2736 100644
-> --- a/drivers/gpu/drm/ast/ast_main.c
-> +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -290,15 +290,13 @@ struct drm_device *ast_device_create(struct pci_dev *pdev,
->   	ast->regs = regs;
->   	ast->ioregs = ioregs;
+> diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
+> index 364030f97571d..49f661760f9e5 100644
+> --- a/drivers/gpu/drm/ast/ast_post.c
+> +++ b/drivers/gpu/drm/ast/ast_post.c
+> @@ -344,21 +344,37 @@ void ast_post_gpu(struct ast_device *ast)
+>   {
+>   	ast_set_def_ext_reg(ast);
 >   
-> -	ast_detect_tx_chip(ast, need_post);
+> -	if (IS_AST_GEN7(ast)) {
+> +	if (AST_GEN(ast) >= 7) {
+>   		if (ast->tx_chip == AST_TX_ASTDP)
+>   			ast_dp_launch(ast);
+> -	} else if (ast->config_mode == ast_use_p2a) {
+> -		if (IS_AST_GEN6(ast))
+> +	} else if (AST_GEN(ast) >= 6) {
+> +		if (ast->config_mode == ast_use_p2a) {
+>   			ast_post_chip_2500(ast);
+> -		else if (IS_AST_GEN5(ast) || IS_AST_GEN4(ast))
+> +		} else {
+> +			if (ast->tx_chip == AST_TX_SIL164) {
+> +				/* Enable DVO */
+> +				ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);
+> +			}
+> +		}
+> +	} else if (AST_GEN(ast) >= 4) {
+> +		if (ast->config_mode == ast_use_p2a) {
+>   			ast_post_chip_2300(ast);
+> -		else
+> +			ast_init_3rdtx(ast);
+> +		} else {
+> +			if (ast->tx_chip == AST_TX_SIL164) {
+> +				/* Enable DVO */
+> +				ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);
+> +			}
+> +		}
+> +	} else  {
+> +		if (ast->config_mode == ast_use_p2a) {
+>   			ast_init_dram_reg(ast);
 > -
->   	ret = ast_get_dram_info(ast);
->   	if (ret)
->   		return ERR_PTR(ret);
-> -
->   	drm_info(dev, "dram MCLK=%u Mhz type=%d bus_width=%d\n",
->   		 ast->mclk, ast->dram_type, ast->dram_bus_width);
->   
-> +	ast_detect_tx_chip(ast, need_post);
->   	if (need_post)
->   		ast_post_gpu(ast);
+> -		ast_init_3rdtx(ast);
+> -	} else {
+> -		if (ast->tx_chip == AST_TX_SIL164)
+> -			ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);	/* Enable DVO */
+> +		} else {
+> +			if (ast->tx_chip == AST_TX_SIL164) {
+> +				/* Enable DVO */
+> +				ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa3, 0xcf, 0x80);
+> +			}
+> +		}
+>   	}
+>   }
 >   
 
