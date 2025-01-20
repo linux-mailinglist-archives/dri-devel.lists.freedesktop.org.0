@@ -2,60 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604CEA1742A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 22:32:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BFAA17445
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 22:48:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 659C110E0FB;
-	Mon, 20 Jan 2025 21:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B12310E494;
+	Mon, 20 Jan 2025 21:48:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tz5cIsFv";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Qx8ObFF6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A43B710E023;
- Mon, 20 Jan 2025 21:31:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F22910E03E;
+ Mon, 20 Jan 2025 21:48:26 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
  [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84F29594;
- Mon, 20 Jan 2025 22:30:52 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20F09594;
+ Mon, 20 Jan 2025 22:47:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1737408652;
- bh=UR0Dn2aJ9/EbfFUoHjgJTmS310tTTS7kpgbvgK5/QDc=;
+ s=mail; t=1737409643;
+ bh=r0+g+ZCdK0POCZwWz1AJHnqADua8SHS7THl9ygGv/U4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tz5cIsFv7BRMKEY3D3u98tmREMFxaLPzmkvKmO6wbVQGH19/R54iyLMQQ9KewTF7w
- XG2/cC4eVkCou98Uc5c6SjKBuQToMQv6RXAwUvyyw9bv++mGApN8ZszSrV/7WmM1sj
- RjBxqj+2N5UL8AxG5M7IOKtI8e0NgxtpGCU3dr8Q=
-Date: Mon, 20 Jan 2025 23:31:47 +0200
+ b=Qx8ObFF6Z0aGnE6eqxVtR+8rHY8H/PHUzl17vLOFqrT1yjU4z2VRencmL5SQdFZBI
+ bNpRtG3+GVLzUw5iQkjiCUk1+2rWJHAZD4uQESj31UkByyTD5Zd+WvQGA/AeXAlD1n
+ xN3HHnYLDDIzI2IByGlRx6/VJIfO5Pkud8i0z6AA=
+Date: Mon, 20 Jan 2025 23:48:17 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Daniel Stone <daniel@fooishbar.org>, James Jones <jajones@nvidia.com>,
- Brian Starkey <brian.starkey@arm.com>,
- Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+To: Michel =?utf-8?Q?D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Cc: Brian Starkey <brian.starkey@arm.com>,
+ Marek =?utf-8?B?T2zFocOhaw==?= <maraeo@gmail.com>,
  dri-devel <dri-devel@lists.freedesktop.org>,
  amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
  ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com
 Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
  alignment
-Message-ID: <20250120213147.GI9249@pendragon.ideasonboard.com>
-References: <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
- <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
- <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
- <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
- <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
- <CAAxE2A6ghBK2VTLkNXgk1c61UG1ZQAzWQ4q=wO-OShAUC9eRmQ@mail.gmail.com>
- <CAPj87rNFy7GLAjjxDYGLN-f8M0F7yMX6PED94O4kBJ=pwtPVyA@mail.gmail.com>
- <Z4pmnTy1NYD3rLwS@phenom.ffwll.local>
- <CAAxE2A6iDsN=YKW2F7WyyZxn4Sw4Dr5CxZminQGwf8awBivovQ@mail.gmail.com>
- <0e9aee49-aa69-4fb6-bab8-4624143f5267@suse.de>
+Message-ID: <20250120214817.GA27438@pendragon.ideasonboard.com>
+References: <CAAxE2A5BkF13bFt8_UnuiqPM8W-ZESgmKEjqqGfv=DGzSfJ7aQ@mail.gmail.com>
+ <uffsfaps6a75zmkyshkwfxgybcslqrnfqqtjzekegdptvwpugc@2ndpcuxyfp3f>
+ <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0e9aee49-aa69-4fb6-bab8-4624143f5267@suse.de>
+In-Reply-To: <c64cb9d8-5ea7-4644-93c8-04a97b758fa0@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +61,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 20, 2025 at 08:58:20AM +0100, Thomas Zimmermann wrote:
-> Am 18.01.25 um 03:37 schrieb Marek Olšák:
-> [...]
-> >
-> > 3) Implementing DRM_FORMAT_MOD_LINEAR as having 256B pitch and offset 
-> > alignment. This is what we do today. Even if Intel and some AMD chips 
-> > can do 64B or 128B alignment, they overalign to 256B. With so many 
-> > AMD+NV laptops out there, NV is probably next, unless they already do 
-> > this in the closed source driver.
+On Tue, Dec 17, 2024 at 11:13:05AM +0100, Michel Dänzer wrote:
+> On 2024-12-17 10:14, Brian Starkey wrote:
+> > On Sun, Dec 15, 2024 at 03:53:14PM +0000, Marek Olšák wrote:
+> >> The comment explains the problem with DRM_FORMAT_MOD_LINEAR.
+> >>
+> >> Signed-off-by: Marek Olšák <marek.olsak@amd.com>
+> >>
+> >> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> >> index 78abd819fd62e..8ec4163429014 100644
+> >> --- a/include/uapi/drm/drm_fourcc.h
+> >> +++ b/include/uapi/drm/drm_fourcc.h
+> >> @@ -484,9 +484,27 @@ extern "C" {
+> >>   * modifier (e.g. not setting DRM_MODE_FB_MODIFIERS in the DRM_ADDFB2 ioctl),
+> >>   * which tells the driver to also take driver-internal information into account
+> >>   * and so might actually result in a tiled framebuffer.
+> >> + *
+> >> + * WARNING:
+> >> + * There are drivers out there that expose DRM_FORMAT_MOD_LINEAR, but only
+> >> + * support a certain pitch alignment and can't import images with this modifier
+> >> + * if the pitch alignment isn't exactly the one supported. They can however
+> >> + * allocate images with this modifier and other drivers can import them only
+> >> + * if they support the same pitch alignment. Thus, DRM_FORMAT_MOD_LINEAR is
+> >> + * fundamentically incompatible across devices and is the only modifier that
+> >> + * has a chance of not working. The PITCH_ALIGN modifiers should be used
+> >> + * instead.
+> >>   */
+> >>  #define DRM_FORMAT_MOD_LINEAR  fourcc_mod_code(NONE, 0)
+> >>
+> >> +/* Linear layout modifiers with an explicit pitch alignment in bytes.
+> >> + * Exposing this modifier requires that the pitch alignment is exactly
+> >> + * the number in the definition.
+> >> + */
+> >> +#define DRM_FORMAT_MOD_LINEAR_PITCH_ALIGN_64B fourcc_mod_code(NONE, 1)
+> > 
+> > Why do we want this to be a modifier? All (?) of the other modifiers
+> > describe properties which the producer and consumer need to know in
+> > order to correctly fill/interpret the data.
+> > 
+> > Framebuffers already have a pitch property which tells the
+> > producer/consumer how to do that for linear buffers.
 > 
-> The dumb-buffer series currently being discussed on dri-devel also 
-> touches handling of scanline pitches. THe actual value varies with each 
-> driver.  Should dumb buffers use a default pitch alignment of 256 on al 
-> hardware?
+> At this point, the entity which allocates a linear buffer on device A
+> to be shared with another device B can't know the pitch restrictions
+> of B. If it guesses incorrectly, accessing the buffer with B won't
+> work, so any effort allocating the buffer and producing its contents
+> will be wasted.
+> 
+> > Modifiers are meant to describe framebuffers, and this pitch alignment
+> > requirement isn't really a framebuffer property - it's a device
+> > constraint. It feels out of place to overload modifiers with it.
+> > 
+> > I'm not saying we don't need a way to describe constraints to
+> > allocators, but I question if modifiers the right mechanism to
+> > communicate them?
+>
+> While I agree with your concern in general, AFAIK there's no other
+> solution for this even on the horizon, after years of talking about
+> it. The solution proposed here seems like an acceptable stop gap,
+> assuming it won't result in a gazillion linear modifiers.
 
-That may break sharing buffers with other devices (codecs, NPUs and/or
-cameras) that would not support a configurable pitch. I don't expect
-that to be the majority case, but I can't rule it out either. There's
-also the issue that, even if the devices support configurable pitches,
-the drivers may not implement it. That's fixable, but hardcoding the
-pitch to 256 bytes without fixing that would be a regression.
+Flipping that argument, the reason why we still have no solution is
+because we've constantly accepted stop-gap measures. Maybe it's time to
+stop. It may feel a bit unfair to Marek that everybody until know got
+away with hacks, but I don't think he would be left alone designing a
+proper solution.
 
 -- 
 Regards,
