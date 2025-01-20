@@ -2,71 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D60DA165B4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 04:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBFA5A165CE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 04:51:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F5510E162;
-	Mon, 20 Jan 2025 03:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A430B10E273;
+	Mon, 20 Jan 2025 03:51:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="YY0vmGRw";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="IbYiGgHq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com
- [91.218.175.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6177810E162
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 03:35:15 +0000 (UTC)
-Message-ID: <3d4e4bda-f465-4c8a-97c4-846b2f3ecb54@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1737344078;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=R9tPeFJh3Z8KzRS9nqqf16JZtB2EUc5uK4Rq+n7DfNw=;
- b=YY0vmGRwrZUTBrUrgVqfAahrdf8E2LNioasg7jg8ibtK9oZUoF3Gyb6ENECPTEd6jx4ozD
- dCAprAdgpk+wCkRotDFwZGdWs/yRlXxl8a6R+PVCHx5z5L1Gon1hTd9+nMflzGPYruxiHZ
- vu7GbnHgrZEtNupovuNQyF4Ah1bgbyA=
-Date: Mon, 20 Jan 2025 11:34:27 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC02C10E270;
+ Mon, 20 Jan 2025 03:51:21 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50JNLdFX003571;
+ Mon, 20 Jan 2025 03:51:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=wE0QTyb1bWqL0xcxeURxIg
+ E1v79bThq1ByWtm34PUEA=; b=IbYiGgHq8wpROiN/LVQOz/oPhGiXiCKo4qSXPz
+ cpH9aGvEzIQfZXXIr/XRxL6Ko0/FBBvEaHgHPFqzEOR1rlUaBRETLdRDJU7V2DNm
+ u53svcmOY6CJX+N+neEJaM+WSvKuyVVvF8oc/CvzVFf7CxCOCyEn6Ta1Kjh5MPq4
+ N2f6nsA19tLHKL/yqpg04rDJxTFsoA/0YtQ8Cg3bNronmRXiU24HpZjC0PqUmtIK
+ fAOGIbmHVSvUzpeeOUb4cNB8R1GIco77mUq84gZNBO1ejWrVvGtgZZyllLLu1a+i
+ p+KbsyfRVxiBB+nLEgR9ZpiA1RW1mv3/Qh/5Ov4NgZhuMsdg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44838qu2vn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Jan 2025 03:51:14 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50K3pDuW004385
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Jan 2025 03:51:13 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 19 Jan 2025 19:51:06 -0800
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+Subject: [PATCH v4 0/4] Display enablement changes for Qualcomm QCS8300
+ platform
+Date: Mon, 20 Jan 2025 11:49:17 +0800
+Message-ID: <20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 25/25] drm/xlnx: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-mediatek@lists.infradead.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, imx@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-tegra@vger.kernel.org, intel-xe@lists.freedesktop.org,
- xen-devel@lists.xenproject.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andy Yan <andyshrk@163.com>, Daniel Stone <daniel@fooishbar.org>
-References: <20250109150310.219442-1-tzimmermann@suse.de>
- <20250109150310.219442-26-tzimmermann@suse.de>
- <cdbe483d-0895-47aa-8c83-1c28220f4a02@ideasonboard.com>
- <bc97b92e-7f8a-4b92-af8a-20fa165ead55@suse.de>
- <f3ba05c7-6e49-4641-a3f9-ba418ebdb7c3@ideasonboard.com>
- <c6735280-7c32-4319-8ca9-a7305d8117c3@suse.de>
- <d67adb03-5cd0-4ac9-af58-cf4446dacee3@ideasonboard.com>
- <0ea6be58-0e04-4172-87cd-064a3e4a43bc@suse.de>
- <f35cb350-6be9-48ca-ad7e-e9dd418281d5@ideasonboard.com>
- <4af0b6a7-c16a-4187-bbf5-365a9c86de21@suse.de>
- <e327ad84-b5c9-4480-b873-dc3aca605538@ideasonboard.com>
- <a2bbeb47-2569-4ee0-9265-92bab139bdc6@suse.de>
- <f3833771-fcd7-45dc-9019-1525fef34429@ideasonboard.com>
- <CAMuHMdXxYa+Na3XxpLTy=-eUL_zQ9kAiUKYu-E04u3KWApusSA@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <CAMuHMdXxYa+Na3XxpLTy=-eUL_zQ9kAiUKYu-E04u3KWApusSA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMXHjWcC/22OzU7DMBCEXyXyGaP1L05PvAdCKF5vqA9JWjtEo
+ CrvziYthwLHGWm++S6iUslUxaG5iEJLrnkaOdiHRuCxG99J5sRZaNBWaW3lkGpN89sZazAAUqn
+ 4FIJJ6CEKHp0K9flzB768XnOh8wdz52spYldJ4jQMeT40OoYQnOodIwxashAxWcCeVOsdXxJq3
+ aYkNtYx13kqX7vronfYTcv91lq0ZDdAjL0hF7B9ZgfMIz7y8+Z5G/p/hx3GDlJ0xiDdDTeLxfw
+ 8O1DK/AEYBngM1BrrWg9wD1jX9Rts/GNvdAEAAA==
+X-Change-ID: 20241224-mdssdt_qcs8300-11b7883dc60b
+To: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, "Kuogee
+ Hsieh" <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>, "Kishon
+ Vijay Abraham I" <kishon@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>
+CC: Yongxing Mou <quic_yongmou@quicinc.com>, <linux-arm-msm@vger.kernel.org>, 
+ <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737345062; l=2700;
+ i=quic_yongmou@quicinc.com; s=20241121; h=from:subject:message-id;
+ bh=xaZ5b+j16ldrxERmWY4pdQXwzSQSeVhjH+GFucm0uU8=;
+ b=veeCAo8IKxO3zgNYroMNrTX8eeaIMvMFC9wUOO8OIW/ac4rjugSsjDQ8Ji1tU1WU8cTUxlyvh
+ 5uvkvPQmTdCC5gll3fcYnqN3BdBPSa3tQJ50TEE0pX+M8qquIrSwh6j
+X-Developer-Key: i=quic_yongmou@quicinc.com; a=ed25519;
+ pk=zeCnFRUqtOQMeFvdwex2M5o0Yf67UHYfwCyBRQ3kFbU=
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: oUAKrL6qNH2zHPpBZzreZclIX9NLGmPU
+X-Proofpoint-GUID: oUAKrL6qNH2zHPpBZzreZclIX9NLGmPU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-20_01,2025-01-16_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ adultscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 mlxlogscore=999 clxscore=1015 spamscore=0
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2501200028
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,73 +113,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This series introduces support to enable the Mobile Display Subsystem (MDSS)
+, Display Processing Unit (DPU), DisplayPort controller for the Qualcomm 
+QCS8300 target. It includes the addition of the hardware catalog, compatible
+string, and their YAML bindings.
 
-On 2025/1/16 18:17, Geert Uytterhoeven wrote:
-> On Thu, Jan 16, 2025 at 11:03 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->> On 16/01/2025 10:09, Thomas Zimmermann wrote:
->>> Am 15.01.25 um 15:20 schrieb Tomi Valkeinen:
->>> [...]
->>>> My point is that we have the current UAPI, and we have userspace using
->>>> it, but we don't have clear rules what the ioctl does with specific
->>>> parameters, and we don't document how it has to be used.
->>>>
->>>> Perhaps the situation is bad, and all we can really say is that
->>>> CREATE_DUMB only works for use with simple RGB formats, and the
->>>> behavior for all other formats is platform specific. But I think even
->>>> that would be valuable in the UAPI docs.
->>> To be honest, I would not want to specify behavior for anything but the
->>> linear RGB formats. If anything, I'd take Daniel's reply mail for
->>> documentation as-is. Anyone stretching the UAPI beyond RGB is on their own.
->>>
->>>> Thinking about this, I wonder if this change is good for omapdrm or
->>>> xilinx (probably other platforms too that support non-simple non-RGB
->>>> formats via dumb buffers): without this patch, in both drivers, the
->>>> pitch calculations just take the bpp as bit-per-pixels, align it up,
->>>> and that's it.
->>>>
->>>> With this patch we end up using drm_driver_color_mode_format(), and
->>>> aligning buffers according to RGB formats figured out via heuristics.
->>>> It does happen to work, for the formats I tested, but it sounds like
->>>> something that might easily not work, as it's doing adjustments based
->>>> on wrong format.
->>>>
->>>> Should we have another version of drm_mode_size_dumb() which just
->>>> calculates using the bpp, without the drm_driver_color_mode_format()
->>>> path? Or does the drm_driver_color_mode_format() path provide some
->>>> value for the drivers that do not currently do anything similar?
->>> With the RGB-only rule, using drm_driver_color_mode_format() makes
->>> sense. It aligns dumb buffers and video=, provides error checking, and
->>> overall harmonizes code. The fallback is only required because of the
->>> existing odd cases that already bend the UAPI's rules.
->> I have to disagree here.
->>
->> On the platforms I have been using (omap, tidss, xilinx, rcar) the dumb
->> buffers are the only buffers you can get from the DRM driver. The dumb
->> buffers have been used to allocate linear and multiplanar YUV buffers
->> for a very long time on those platforms.
->>
->> I tried to look around, but I did not find any mentions that CREATE_DUMB
->> should only be used for RGB buffers. Is anyone outside the core
->> developers even aware of it?
->>
->> If we don't use dumb buffers there, where do we get the buffers? Maybe
->> from a v4l2 device or from a gpu device, but often you don't have those.
->> DMA_HEAP is there, of course.
-> Why can't there be a variant that takes a proper fourcc format instead of
-> an imprecise bpp value?
+Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+---
+Changes in v4:Fixed review comments from Krzysztof, Dmitry.
+- Use the common style for the dt-bindings commits.[Dmitry]
+- Update the commits msg for the mdss binding patch, explain why they
+  reuse different platform drivers.[Krzysztof]
+- Link to v3: https://lore.kernel.org/r/20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com
 
-The 'flags' parameter of the 'struct drm_mode_create_dumb' doesn't gets
-in used so far, I guess the situation will be much better if passing a
-correct fourcc code from the user-space to kernel is allowed.
+Changes in v3:Fixed review comments from Krzysztof, Dmitry.
+- Fix the missing space issue in commit message.[Krzysztof]
+- Separate the patch for the phy from this series.[Dmitry]
+- Remove unused dependencies and update in the cover letter.[Dmitry][Krzysztof]
+- Link to v2: https://lore.kernel.org/r/20241226-mdssdt_qcs8300-v2-0-acba0db533ce@quicinc.com
 
+Changes in v2:Fixed review comments from Krzysztof, Dmitry, Rob.
+- Decouple the devicetree changes from this series.[Dmitry][Krzysztof]
+- Drop the dpu driver changes and reuse SA8775P DPU driver.[Dmitry]
+- Fix compilation issues in MDSS bindings.[Rob][Krzysztof]
+- Correct formatting errors and remove unnecessary status in MDSS
+  bindings.[Krzysztof]
+- Add the the necessary information in MDSS changes commit msg.[Dmitry]
+- Rebase MDSS driver changes to https://lore.kernel.org/dri-devel/
+  20241127-msm-mdss-ubwc-v3-0-9782a7c2b023@linaro.org/.[Dmitry]
+- Package the DisplayPort controller and eDP PHY bindings document to
+  this patch series.
+- Collecting MDSS changes reviewd-by Dmitry.
+- Reuse the sa8775p eDP PHY as a fallback compat.[Dmitry]
+- Reuse the sm8650 DP controller as a fallback compat.[Dmitry]
+- Link to v1: https://lore.kernel.org/r/20241127-mdss_qcs8300-v1-0-29b2c3ee95b8@quicinc.com
+~
 
-> Gr{oetje,eeting}s,
->
->                          Geert
->
--- 
+---
+Yongxing Mou (4):
+      dt-bindings: display/msm: Document the DPU for QCS8300
+      dt-bindings: display/msm: Document the dp-controller for QCS8300
+      dt-bindings: display/msm: Document MDSS on QCS8300
+      drm/msm: mdss: Add QCS8300 support
+
+ .../bindings/display/msm/dp-controller.yaml        |   4 +
+ .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 244 +++++++++++++++++++++
+ .../bindings/display/msm/qcom,sm8650-dpu.yaml      |  13 +-
+ drivers/gpu/drm/msm/msm_mdss.c                     |  11 +
+ 4 files changed, 268 insertions(+), 4 deletions(-)
+---
+base-commit: 2b88851f583d3c4e40bcd40cfe1965241ec229dd
+change-id: 20241224-mdssdt_qcs8300-11b7883dc60b
+
 Best regards,
-Sui
+-- 
+Yongxing Mou <quic_yongmou@quicinc.com>
 
