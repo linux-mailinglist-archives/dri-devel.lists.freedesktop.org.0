@@ -2,80 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E22BFA17459
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 22:54:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143B7A17465
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Jan 2025 22:57:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5881510E499;
-	Mon, 20 Jan 2025 21:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0EF310E49A;
+	Mon, 20 Jan 2025 21:56:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XPafCv8J";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fRRUpCKG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA9E310E499
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 21:54:02 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-218c8ac69faso11103985ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 13:54:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737409982; x=1738014782; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1Vbw7KU/hZTJSqblA6qabU/ThVTNhHylD1j7iTQi1h0=;
- b=XPafCv8JaQ4CxVFJPzHsNY7U0FK8/puDIp43fM2OVMU3iYkBpJj2oryR/Ga25oMoP5
- CtptynmoHyJx1UyKJ2rDpZKKYBDh1JmbV9valh+K77oj70x18fwDUoUfoDIwdO/WZhAO
- oSsNspu4xC3hKlYYU9xgvprpY23s47o4v52/NskCaGkYdAWNv81gpSjeWAIHw5TwU5Ic
- NhieKuC3eE048SN4I06cJEmmuOV/h5yNyVPynpyT1woIag5Zrui75TApXBjW4cSWTTaP
- 6+UaAnnGnzga1te8BdypZdnGsaIZygASaGZ/3OvshvyB0YVqCT+vODOCpdc7bXjF8qaC
- uMGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737409982; x=1738014782;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=1Vbw7KU/hZTJSqblA6qabU/ThVTNhHylD1j7iTQi1h0=;
- b=ksKQaS1SG8WmAviRmvYEshufXP9+GszWrv/x//O3tVgyGgBmtDe04oyAxpcUlfJI+i
- drmzxnJEL9nU3Xi70OXn1G9CB2BGDUxKTs80SHwNRoxWXXU0E1Oi/5+R5cE0lYechZyV
- 2/EC/o/oDUKq8j96+5PbO55GfgqYCVveKvJqWCkX5r3RQdEz/M611xb8M8nSauSb9EOH
- skdVeCxUmbr0VN74wRpl5Nl4+qdGJ5RAZc96CMkpLyWPYydZhzjmwKEd82I9jF81ZQZM
- j87B6LUGpgePfXpt/T5RAGk4O87/d6B2Llpyj7koXb0tPqEBJmo4GifQnSO1k1k9Zz6B
- 0Jdg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXYcdRbCc+E+7gtUisV/Iw1HMzZ9Gwmqwb8a+wpIo43BkzpgKLTZInQNopDImZjwbab1VR258ZJIGQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTUwde7j8OfV80roKmc4YwnH1LN05SKRXshe3NRyxSTPScRauk
- ctLBcCXMgs9R0Px5h9ASxLL6kschzWPnxPtVRcqtVWjH48h2kAwfSlMQ4ZdlVLFNDRJM3Y7YBWN
- QsNFXSfZbtrdT0xSJlcdPcr38Qc4=
-X-Gm-Gg: ASbGncuAglJwReGWMbLqqfHjwNEEaBFzt6+slqsx4WKO5+oRddP5CPoLieZUzUfR+MX
- t2sKr5GQl7EjVbWOedm9VW0oVsHUKm0O7I8PRPaJXAsxL/AuV8XI=
-X-Google-Smtp-Source: AGHT+IEBFfoREvwPsyAWhU6KI6Sj3YXP+bME90dJ+3K+zVF2Ba9Y0tsVR1FviFh6Y7cffgrMh+5FSIjsqdqa+EVs+bs=
-X-Received: by 2002:a17:902:fc87:b0:215:9d47:4897 with SMTP id
- d9443c01a7336-21c353ef373mr82155455ad.4.1737409980859; Mon, 20 Jan 2025
- 13:53:00 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC45610E49A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 21:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737410218; x=1768946218;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=+EFqRv2B6bqOUlGn1H//PxFNhb+WsAIIPmOfXe+iHC8=;
+ b=fRRUpCKGDIbLz09/ETXMPd5weP9cXTRgo9xY612Z/B29ltJbWQUIs+hr
+ gN/h5BcZsP9fak3ToiMXA+ETqoU0sRKoyHDisRzw9IT3y8CG5NzJHf+QP
+ NAxDNYICF2A0aL9xW8D/NX+Hkt6aODM7PZsRsT3os6rbEZ4wUbLaq42Ev
+ A+8elXtNE5CZNzcQCNCVqrKCDp49eAz/tefh2XAVebdY7CeDF+ua842os
+ 3ZigRZIP2ZTAFJEgYHxqM+7QBTA9B+ghAsB/btPuljuVZUmHaZKDs4fuk
+ F/nzvQqR6QwSmzmAWjMIFNa8whLjW9HZ7Fa29AYe/DLzHJvl7Ljssi8w2 A==;
+X-CSE-ConnectionGUID: GqPyutomTVaqeFNGwfSVog==
+X-CSE-MsgGUID: RSRPmrmUR+qmc30aK6uGPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="40629212"
+X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; d="scan'208";a="40629212"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2025 13:56:58 -0800
+X-CSE-ConnectionGUID: laPeCXdRQ/G3Fm2+VJSATA==
+X-CSE-MsgGUID: ZjP2SWxcQoqHHk8fpcJepg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; d="scan'208";a="111612110"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+ by fmviesa004.fm.intel.com with ESMTP; 20 Jan 2025 13:56:54 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1tZzlL-000XGZ-2v;
+ Mon, 20 Jan 2025 21:56:51 +0000
+Date: Tue, 21 Jan 2025 05:56:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian Hewitt <christianshewitt@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
+Message-ID: <202501210513.GCec6kts-lkp@intel.com>
+References: <20250110074458.3624094-3-christianshewitt@gmail.com>
 MIME-Version: 1.0
-References: <20250120124531.2581448-1-linkmauve@linkmauve.fr>
-In-Reply-To: <20250120124531.2581448-1-linkmauve@linkmauve.fr>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 20 Jan 2025 22:52:48 +0100
-X-Gm-Features: AbW1kvbipA64WZgr9Xm7SsOvkVvkgqJp9cEZabKMYD5JD0up8QBoKASUAMMavBM
-Message-ID: <CANiq72n1YpUowTh3Hdjo5auOmTTUU1-8d2FTL3e=Oyu3Q=-BkQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panic: fix compilation issue on ARM
-To: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Jocelyn Falempe <jfalempe@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250110074458.3624094-3-christianshewitt@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,42 +79,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Emmanuel,
+Hi Christian,
 
-On Mon, Jan 20, 2025 at 1:45=E2=80=AFPM Emmanuel Gil Peyrot
-<linkmauve@linkmauve.fr> wrote:
->
-> In C, the char type is specified with =E2=80=9CThe implementation shall d=
-efine char to
-> have the same range, representation, and behavior as either signed char o=
-r
-> unsigned char.=E2=80=9D
->
-> On x86 it defaults to signed char, and on ARM it defaults to unsigned cha=
-r.
-> This carries over to Rust=E2=80=99s FFI, which aliases its c_char type to=
- i8 on x86,
-> and to u8 on ARM.
+kernel test robot noticed the following build errors:
 
-In the kernel `-funsigned-char` is used, see commit 3bc753c06dd0
-("kbuild: treat char as always unsigned").
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.13 next-20250120]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-In any case, the change is fine, because we want to use the proper
-type, but this is already in the Rust PR for this cycle, which should
-land in mainline in some days, see commit 27c7518e7f1c ("rust: finish
-using custom FFI integer types") in rust-next.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Hewitt/Revert-drm-meson-vclk-fix-calculation-of-59-94-fractional-rates/20250110-154701
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250110074458.3624094-3-christianshewitt%40gmail.com
+patch subject: [PATCH 2/2] drm/meson: vclk: fix precision in vclk calculations
+config: arm-randconfig-r072-20250118 (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210513.GCec6kts-lkp@intel.com/reproduce)
 
-However, I am nevertheless confused, because in mainline
-`crate::ffi::c_char` is `core::ffi::c_char` which is `i8` in both
-arm64 and x86_64 and thus there is no build issue there.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210513.GCec6kts-lkp@intel.com/
 
-If by ARM you mean 32-bit, then we don't have support for it yet in
-mainline, so you shouldn't be able to see it there either.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Could you please clarify? Are you using patches on top of mainline,
-e.g. the 32-bit arm support one?
+WARNING: modpost: missing MODULE_DESCRIPTION() in arch/arm/probes/kprobes/test-kprobes.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/gpib/fmh_gpib/fmh_gpib.o
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/gpu/drm/meson/meson-drm.ko] undefined!
 
-Thanks!
-
-Cheers,
-Miguel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
