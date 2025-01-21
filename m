@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4904A18000
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 15:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A18A17FFD
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 15:38:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E90EA10E5D8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F47C10E0E7;
 	Tue, 21 Jan 2025 14:38:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lAzhUjYz";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QzFdpQCM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 295A010E5D9
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 14:38:11 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E5E84C0013;
- Tue, 21 Jan 2025 14:38:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2504610E0E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 14:38:12 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 097B9C0010;
+ Tue, 21 Jan 2025 14:38:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737470289;
+ t=1737470290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rT/oqkmtB9cijaiL9lDgfKvYzJqMxUaAub35WR3p/3U=;
- b=lAzhUjYzdFB7c3mneC/XmAbMwFPac8mbflotUekD5sjC4swrpRZ13sGE/4XZpOjp1CiWPz
- /3RcUGXhLamIZQGqk7Dl8GYMwLH9KmstFhduko5N4QUe3f0c6iib8IiG79bGUb5X/DN/CP
- 8hSeS7jlV2zp8PMANQbpM6NRjW9JYPhkXOqI9dG4n7h225nZVvG4tIe36xDcQEhyVHnp2Q
- +coS9bnlZ3+82rt/ot0kZTJ8IJL3uhCbNW/6qd+qgLNj6Ew2Qr4NAN+rZv2DVU0didUUgj
- EbeYxYnYy74XMeDiEofwvBGekMAY+eyVI3kPhUlf0feL32GTaBnSGXsGoPOGNQ==
+ bh=NX98o/Rl6NdAlU9ltpjlyQYuJMH4YW29knwFHP1bdzM=;
+ b=QzFdpQCMv3l0wUEp1U4LxD58jA6Erl6A/MouEig8+X6WbmZ0gPuSrTgXig8FEKIRYlC0sM
+ u7QImBC2SP/zK3uaHqi1DDNBdp6D4fAalY8cZwgXFAUw/RO7P8nahg4Ac4hg9zcKfyao6t
+ FLTw/KgqWfWuXjWnRGJmeYwtY4vrxgv55Rnh+l8k7NsOPOOUUSRk4A8csR6wPcbWpGYbCh
+ FKbqY7q0I7oQ+AHClYCq9w0+sf7Mi4/PSeDOapr8F7X219HC7IvVmLfyDD//iIZG2rjUIq
+ 88VqKvUzSi/HSpEeNX+BsJZaTTOnyMrLEkEIz9NyutetQCoXtDfU/PWUKkAamA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 21 Jan 2025 15:34:54 +0100
-Subject: [PATCH RFC v3 10/14] drm/vkms: Introduce configfs for device name
+Date: Tue, 21 Jan 2025 15:34:55 +0100
+Subject: [PATCH RFC v3 11/14] drm/vkms: Introduce configfs for connector status
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-google-config-fs-v3-10-8154a6945142@bootlin.com>
+Message-Id: <20250121-google-config-fs-v3-11-8154a6945142@bootlin.com>
 References: <20250121-google-config-fs-v3-0-8154a6945142@bootlin.com>
 In-Reply-To: <20250121-google-config-fs-v3-0-8154a6945142@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -53,21 +53,21 @@ Cc: jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1415;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2230;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=GBQ7JzpZcLe0OOn0aZ2W0MmxaOx2G1PAWm82kEXTnl0=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj7FCZ4QKkm3W+y5H+KYypp+zcp4E7kDRYnQdR
- PVtmAO1qRSJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ4+xQgAKCRAgrS7GWxAs
- 4kxkD/wP1GcgDe3vWuTqb+9KrdXu+JEiiUVcVAXUZALeFJaUZ868q4DHEQ5iZSNvveTd+A51Be4
- CyO6/B1CRIXuIhdrFiNiXcKdWM6r0U1SvmUII2gxJatKXIVNDMg7VA3s45RqG2ZBM4rC/jAcifB
- 2ElHshy6uL/lKJEVYuYJiBsUI0+0aKmi+Hx9dsn64i406fa9H6kiFCsLu1mu0XbWnP0MU9d3xHV
- 0I/xS+cuEdigTIvzYRVyECiLbao+dAwE4QT5Xlnc0FMqA1uujpUDJXR94kFBpixSmtPCHVHqLEa
- +7BYFLGinaLlohYaa+LBwI/zAaonj8elD/WA9/ohndZIp7OK0jtZBP+h/++1nE7cLDvlbCGpPzX
- NnTBtcCMwpp1Rs+y29jBXXY1hdpYOIqzLh1/6TxMgvvZg8kyRNznESDeq65VSAgF9wrKM4adMl7
- Tx77y4k1K+y11OLlCZHKsLNE1JQAtksuf2uhLjcUE++YB3Kf0BE9LDSDQ0IPqBs9Et60CFLLlmh
- dXq1dmlo0SCgeE+M0u4e3IeA3QPeQ2oNo/WNJ0n6q2BykF+7x6aT4K7W2lbPvAVLu35kFjP0V/C
- 9Bo7u/SJUHir52ObNoz48yfTZgjAryVkC2doXcoKsXME8SfZdJfyCoZonK0kjMmlEmf+XQF6VKk
- EwoJ6DNggVW/F3A==
+ bh=Zf2mHAfhpssSgBnJiUlEoh26cihTH7swHtR1ZXs7sHw=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj7FDLcIqxCqEWSNHW+CT+XzDL1Nj/jv83+qH7
+ lBzQX6T5fiJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ4+xQwAKCRAgrS7GWxAs
+ 4j56EACKu6hjW2ZaKZZyJhC/UtS3JdQsQVgerNiIC8XLQujUBFYbRWgAIScea34TTsKDq+PEIPs
+ hjlT+4+k03kkgQT7jAnPX5Jcp+3RTI1+jBeIKE13EVVngOFFHuD3Z5vCzY/a4/uAvuUviPI3Z3U
+ ucVexo9U0iI6xSCd3OooumAC//xUIj1gRuUVdPnX15q3GLNfcLVhCrUY9fUDXoru8UK8lZi3Vs8
+ 4kozq8nI4XP7Za8Fuy5VfyGQ38W2ulh1Z43DsFTHYMTrm4Ija6IBRvOyYFsYnx1PBVXFYWQNU5j
+ Eqc4MWg95XpE/1E6J9TgyQGiAmXLfGJFsVPE5KHUcCx4cKgc7A2sBiwoTP8lA9VKm6jrjWW402a
+ NqSjZE7kILcL6A/Bpg882AFHPCCa+JpOQMQF6fAPQyqobTaYmeRwKAItsmIAoVRv7rv5XKEoNz5
+ djMUapp/3hSx8poK6Q9FUjVlg4pKmWY1qfe2KNUtAwl/E2ZbHp6c9wLe36QR9GV4F2vdKCOihTV
+ gijZHtIq3hDQgsjPFiTzkjm1vlyBgT2IRKwiZ3bN5XdSzcRnA3TlDQDsIZqtvFqDd+hTkX7t5Wy
+ j2RJmK922xBX8QiK8sT1Kqg41TduCugY1YEnn+8G9t3YrbGKOy69vKtJf2inM4kzOpEXcrOHxKP
+ oGLy4GU8e69zwfg==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -86,45 +86,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To allows the userspace to identify the device once it is enabled, create
-a file to fetch it.
-
-This file can only be read once the device is enabled, and will return the
-device name, which can later be used to use it.
+As a connector can be connected and disconnected once a device is created,
+create a file to allow changing this status.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_configfs.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/vkms/vkms_configfs.c | 45 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index eeb0c1e1b225f2a1a35ac6deb9457b90ba6542e5..d0bc6adfdae85b82ca043d318f84fca70840526c 100644
+index d0bc6adfdae85b82ca043d318f84fca70840526c..09d9ac3cb3e25e980473686b7b0d2e66e78cf163 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -927,10 +927,26 @@ static ssize_t device_enable_store(struct config_item *item,
- 	return (ssize_t)count;
+@@ -771,10 +771,55 @@ static ssize_t connector_type_store(struct config_item *item,
+ 	return count;
  }
  
-+static ssize_t device_device_name_show(struct config_item *item, char *page)
++static ssize_t connector_status_show(struct config_item *item, char *page)
 +{
-+	struct vkms_configfs_device *configfs_device = config_item_to_vkms_configfs_device(item);
++	struct vkms_config_connector *connector;
++	enum drm_connector_status status;
++	struct vkms_configfs_device *vkms_configfs = connector_child_item_to_vkms_configfs_device(item);
 +
-+	scoped_guard(mutex, &configfs_device->lock)
-+	{
-+		if (configfs_device->enabled)
-+			return sprintf(page, "%s\n",
-+				       dev_name(configfs_device->vkms_config->dev->drm.dev));
-+		return -EINVAL;
-+	}
-+	return -EINVAL;
++	mutex_lock(&vkms_configfs->lock);
++	connector = connector_item_to_vkms_configfs_connector(item)->vkms_config_connector;
++	status = connector->status;
++	mutex_unlock(&vkms_configfs->lock);
++
++	return sprintf(page, "%u", status);
 +}
 +
- CONFIGFS_ATTR(device_, enable);
-+CONFIGFS_ATTR_RO(device_, device_name);
++static ssize_t connector_status_store(struct config_item *item,
++				      const char *page, size_t count)
++{
++	struct vkms_config_connector *connector;
++	enum drm_connector_status status = connector_status_unknown;
++	struct vkms_configfs_device *vkms_configfs = connector_child_item_to_vkms_configfs_device(item);
++	int ret;
++
++	ret = kstrtouint(page, 10, &status);
++	if (ret)
++		return ret;
++
++	switch (status) {
++	case connector_status_unknown:
++	case connector_status_connected:
++	case connector_status_disconnected:
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	scoped_guard(mutex, &vkms_configfs->lock) {
++		connector = connector_item_to_vkms_configfs_connector(item)->vkms_config_connector;
++		vkms_config_connector_update_status(connector, status);
++	}
++
++	return count;
++}
++
+ CONFIGFS_ATTR(connector_, type);
++CONFIGFS_ATTR(connector_, status);
  
- static struct configfs_attribute *device_attrs[] = {
- 	&device_attr_enable,
-+	&device_attr_device_name,
+ static struct configfs_attribute *connector_attrs[] = {
+ 	&connector_attr_type,
++	&connector_attr_status,
  	NULL,
  };
  
