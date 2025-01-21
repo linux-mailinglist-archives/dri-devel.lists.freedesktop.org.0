@@ -2,72 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F043A179AE
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 09:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AD9A179D0
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 10:05:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA5710E145;
-	Tue, 21 Jan 2025 08:59:07 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e6+Rx7F6";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7605B10E4F1;
+	Tue, 21 Jan 2025 09:04:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 975AD10E145
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 08:59:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4E57E5C4B8B;
- Tue, 21 Jan 2025 08:58:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 677BFC4CEE1;
- Tue, 21 Jan 2025 08:59:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737449944;
- bh=ZKtlqcztY7Hpd/Vh+Gr4qJVD0t32A5Jl+0O19+x+bUY=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=e6+Rx7F6U41mc3MzIvN553otKG9LXKV6aOi4qojl1bVJYtNS930ta5ST23bJ7ZFvC
- mQ9kBcxCvJqwDbnErW4jjW6BvsTrP2Zx1s99+SNnElQlTP6qEAvDhh4KaX703KUXbm
- lFZpFz1RXhev7QPYaFyfDNPULZvNViVyhh/ZcXNA1H+l8ZauoY/QOi5yfEhn+EiGIv
- Xt7+Pz7OVh8bov7cZPhmO5CuFX7Xdy2PQ8WfQk90gwgqUbuTiCjnYtRpmG8haYj+I9
- 9J97gvQ2AE7trA+nBZ7xNmE6aKSfwV68nGuBkTy809jt7JsRF7eXZYq1wU4cyR5KU1
- 3y6r+SxfbXcXQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 52A7FC02185;
- Tue, 21 Jan 2025 08:59:04 +0000 (UTC)
-From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Tue, 21 Jan 2025 16:59:22 +0800
-Subject: [PATCH] drm/bridge: it6505: support hdmi_codec_ops for audio
- stream setup
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E1AE10E4F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 09:04:57 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1taA9j-0007aq-08; Tue, 21 Jan 2025 10:02:43 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1taA9h-0014vV-0u;
+ Tue, 21 Jan 2025 10:02:41 +0100
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1taA9h-0002UQ-0d;
+ Tue, 21 Jan 2025 10:02:41 +0100
+Message-ID: <4549479c7066c44943ffaae011e54c546b50df74.camel@pengutronix.de>
+Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
+ alignment
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>, Marek =?UTF-8?Q?Ol=C5=A1=C3=A1k?=
+ <maraeo@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Daniel Stone <daniel@fooishbar.org>, James Jones <jajones@nvidia.com>, 
+ Brian Starkey <brian.starkey@arm.com>, Michel =?ISO-8859-1?Q?D=E4nzer?=
+ <michel.daenzer@mailbox.org>,  dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,  ML Mesa-dev
+ <mesa-dev@lists.freedesktop.org>, nd@arm.com, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>
+Date: Tue, 21 Jan 2025 10:02:41 +0100
+In-Reply-To: <0e9aee49-aa69-4fb6-bab8-4624143f5267@suse.de>
+References: <8dae97c9-9286-451a-8122-b309eb21b2f4@mailbox.org>
+ <Z2Ki-lQH4Fbch6RO@phenom.ffwll.local>
+ <q45c43j5kwwvemec7mcs4kqzt54pa3nz3jlhkcky2v63s2vfie@him4q253uw4p>
+ <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
+ <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
+ <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
+ <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
+ <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
+ <CAAxE2A6ghBK2VTLkNXgk1c61UG1ZQAzWQ4q=wO-OShAUC9eRmQ@mail.gmail.com>
+ <CAPj87rNFy7GLAjjxDYGLN-f8M0F7yMX6PED94O4kBJ=pwtPVyA@mail.gmail.com>
+ <Z4pmnTy1NYD3rLwS@phenom.ffwll.local>
+ <CAAxE2A6iDsN=YKW2F7WyyZxn4Sw4Dr5CxZminQGwf8awBivovQ@mail.gmail.com>
+ <0e9aee49-aa69-4fb6-bab8-4624143f5267@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-add-audio-codec-v1-1-e3ff71b3c819@ite.com.tw>
-X-B4-Tracking: v=1; b=H4sIAOlhj2cC/x3MPQqAMAxA4atIZgNtqb9XEYeSRM1ipUURxLtbH
- L/hvQeyJJUMY/VAkkuzxr3A1hXQFvZVULkYnHGNsdZjYMZwskakyELY08C+M60LLUGpjiSL3v9
- xmt/3A0PP2gphAAAA
-X-Change-ID: 20250114-add-audio-codec-8c9d47062a6c
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: treapking@chromium.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, 
- Hermes Wu <Hermes.wu@ite.com.tw>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737449969; l=3823;
- i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
- bh=o/uOLwDi0jNIFs2+m/4EDSQBoFNMPYbT+UZqOKKtS8Y=;
- b=6m907IQVQsjUNfZLPRY4w8LQ0JC3NzzPoQAIL98YyXMSxeNjz9uWiT/79KmBn++gM4faLGfUr
- O3xiRHZ8HhwB/x7rm/BjlVkwXzEOWyiA9nScJSRR+1oLaGEMVc3QVnN
-X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
- pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
-X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
- auth_id=310
-X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,131 +75,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hermes Wu <Hermes.wu@ite.com.tw>
+Hi,
 
-IT6505 supports audio form I2S to DP audio data sub stream
+On Mo, 2025-01-20 at 08:58 +0100, Thomas Zimmermann wrote:
+> Hi
+>=20
+>=20
+> Am 18.01.25 um 03:37 schrieb Marek Ol=C5=A1=C3=A1k:
+> [...]
+> >=20
+> > 3) Implementing DRM_FORMAT_MOD_LINEAR as having 256B pitch and offset=
+=20
+> > alignment. This is what we do today. Even if Intel and some AMD chips=
+=20
+> > can do 64B or 128B alignment, they overalign to 256B. With so many=20
+> > AMD+NV laptops out there, NV is probably next, unless they already do=
+=20
+> > this in the closed source driver.
+>=20
+> The dumb-buffer series currently being discussed on dri-devel also=20
+> touches handling of scanline pitches. THe actual value varies with each=
+=20
+> driver.=C2=A0 Should dumb buffers use a default pitch alignment of 256 on=
+ al=20
+> hardware?
 
-Support audio codec operation include
-hw_params, audio_startup, audio_shutdown, hook_plugged_cb.
+Not all, mxsfb for example doesn't support pitch alignment.
 
-In order to prevent pop noise from sink devise, delay audio by
-after I2S signal is enable by source.
-
-Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 67 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 62 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 88ef76a37fe6accacdd343839ff2569b31b18ceb..9dc58d307dae360ffab5df15e8fe8420d084c764 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -3095,18 +3095,39 @@ static int __maybe_unused it6505_audio_setup_hw_params(struct it6505 *it6505,
- 	return 0;
- }
- 
--static void __maybe_unused it6505_audio_shutdown(struct device *dev, void *data)
-+static void it6505_audio_shutdown(struct device *dev, void *data)
- {
- 	struct it6505 *it6505 = dev_get_drvdata(dev);
- 
-+	cancel_delayed_work_sync(&it6505->delayed_audio);
-+
- 	if (it6505->powered)
- 		it6505_disable_audio(it6505);
- }
- 
--static int __maybe_unused it6505_audio_hook_plugged_cb(struct device *dev,
--						       void *data,
--						       hdmi_codec_plugged_cb fn,
--						       struct device *codec_dev)
-+static int it6505_audio_hw_params(struct device *dev,
-+				  void *data,
-+				  struct hdmi_codec_daifmt *daifmt,
-+				  struct hdmi_codec_params *params)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	return it6505_audio_setup_hw_params(it6505, params);
-+}
-+
-+static int it6505_audio_startup(struct device *dev, void *data)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+
-+	queue_delayed_work(system_wq, &it6505->delayed_audio,
-+			   msecs_to_jiffies(180));
-+	return 0;
-+}
-+
-+static int it6505_audio_hook_plugged_cb(struct device *dev,
-+					void *data,
-+					hdmi_codec_plugged_cb fn,
-+					struct device *codec_dev)
- {
- 	struct it6505 *it6505 = data;
- 
-@@ -3117,6 +3138,36 @@ static int __maybe_unused it6505_audio_hook_plugged_cb(struct device *dev,
- 	return 0;
- }
- 
-+static const struct hdmi_codec_ops it6505_audio_codec_ops = {
-+	.hw_params = it6505_audio_hw_params,
-+	.audio_startup = it6505_audio_startup,
-+	.audio_shutdown = it6505_audio_shutdown,
-+	.hook_plugged_cb = it6505_audio_hook_plugged_cb,
-+};
-+
-+static int it6505_register_audio_driver(struct device *dev)
-+{
-+	struct it6505 *it6505 = dev_get_drvdata(dev);
-+	struct hdmi_codec_pdata codec_data = {
-+		.ops = &it6505_audio_codec_ops,
-+		.max_i2s_channels = 8,
-+		.i2s = 1,
-+		.data = it6505,
-+	};
-+	struct platform_device *pdev;
-+
-+	pdev = platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
-+					     PLATFORM_DEVID_AUTO, &codec_data,
-+					     sizeof(codec_data));
-+	if (IS_ERR(pdev))
-+		return PTR_ERR(pdev);
-+
-+	INIT_DELAYED_WORK(&it6505->delayed_audio, it6505_delayed_audio);
-+	DRM_DEV_DEBUG_DRIVER(dev, "bound to %s", HDMI_CODEC_DRV_NAME);
-+
-+	return 0;
-+}
-+
- static inline struct it6505 *bridge_to_it6505(struct drm_bridge *bridge)
- {
- 	return container_of(bridge, struct it6505, bridge);
-@@ -3677,6 +3728,12 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 		return err;
- 	}
- 
-+	err = it6505_register_audio_driver(dev);
-+	if (err < 0) {
-+		dev_err(dev, "Failed to register audio driver: %d", err);
-+		return err;
-+	}
-+
- 	INIT_WORK(&it6505->link_works, it6505_link_training_work);
- 	INIT_WORK(&it6505->hdcp_wait_ksv_list, it6505_hdcp_wait_ksv_list);
- 	INIT_DELAYED_WORK(&it6505->hdcp_work, it6505_hdcp_work);
-
----
-base-commit: fe003bcb69f7bff9ff2b30b659b004dbafe52907
-change-id: 20250114-add-audio-codec-8c9d47062a6c
-
-Best regards,
--- 
-Hermes Wu <Hermes.wu@ite.com.tw>
-
-
+regards
+Philipp
