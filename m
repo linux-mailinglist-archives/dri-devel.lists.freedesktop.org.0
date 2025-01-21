@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7779EA17959
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 09:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F043A179AE
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 09:59:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B43010E169;
-	Tue, 21 Jan 2025 08:40:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DA5710E145;
+	Tue, 21 Jan 2025 08:59:07 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e6+Rx7F6";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9236A10E169
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 08:40:47 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1ta9o8-0002nl-E3; Tue, 21 Jan 2025 09:40:24 +0100
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
- helo=lupine)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1ta9o6-0014s0-2e;
- Tue, 21 Jan 2025 09:40:22 +0100
-Received: from pza by lupine with local (Exim 4.96)
- (envelope-from <p.zabel@pengutronix.de>) id 1ta9o6-0001o9-2I;
- Tue, 21 Jan 2025 09:40:22 +0100
-Message-ID: <8f231c35fbb7304ee781d9c8d1eaeaf5753374de.camel@pengutronix.de>
-Subject: Re: [RFC v3 08/18] reset: thead: Add TH1520 reset controller driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com, 
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- drew@pdp7.com, guoren@kernel.org, wefu@redhat.com,
- jassisinghbrar@gmail.com,  paul.walmsley@sifive.com, palmer@dabbelt.com,
- aou@eecs.berkeley.edu,  frank.binns@imgtec.com, matt.coster@imgtec.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
- jszhang@kernel.org,  m.szyprowski@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
-Date: Tue, 21 Jan 2025 09:40:22 +0100
-In-Reply-To: <20250120172111.3492708-9-m.wilczynski@samsung.com>
-References: <20250120172111.3492708-1-m.wilczynski@samsung.com>
- <CGME20250120172129eucas1p236f71df4e30f821f7682263ee8ecec06@eucas1p2.samsung.com>
- <20250120172111.3492708-9-m.wilczynski@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 975AD10E145
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 08:59:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4E57E5C4B8B;
+ Tue, 21 Jan 2025 08:58:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 677BFC4CEE1;
+ Tue, 21 Jan 2025 08:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737449944;
+ bh=ZKtlqcztY7Hpd/Vh+Gr4qJVD0t32A5Jl+0O19+x+bUY=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=e6+Rx7F6U41mc3MzIvN553otKG9LXKV6aOi4qojl1bVJYtNS930ta5ST23bJ7ZFvC
+ mQ9kBcxCvJqwDbnErW4jjW6BvsTrP2Zx1s99+SNnElQlTP6qEAvDhh4KaX703KUXbm
+ lFZpFz1RXhev7QPYaFyfDNPULZvNViVyhh/ZcXNA1H+l8ZauoY/QOi5yfEhn+EiGIv
+ Xt7+Pz7OVh8bov7cZPhmO5CuFX7Xdy2PQ8WfQk90gwgqUbuTiCjnYtRpmG8haYj+I9
+ 9J97gvQ2AE7trA+nBZ7xNmE6aKSfwV68nGuBkTy809jt7JsRF7eXZYq1wU4cyR5KU1
+ 3y6r+SxfbXcXQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 52A7FC02185;
+ Tue, 21 Jan 2025 08:59:04 +0000 (UTC)
+From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
+Date: Tue, 21 Jan 2025 16:59:22 +0800
+Subject: [PATCH] drm/bridge: it6505: support hdmi_codec_ops for audio
+ stream setup
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250121-add-audio-codec-v1-1-e3ff71b3c819@ite.com.tw>
+X-B4-Tracking: v=1; b=H4sIAOlhj2cC/x3MPQqAMAxA4atIZgNtqb9XEYeSRM1ipUURxLtbH
+ L/hvQeyJJUMY/VAkkuzxr3A1hXQFvZVULkYnHGNsdZjYMZwskakyELY08C+M60LLUGpjiSL3v9
+ xmt/3A0PP2gphAAAA
+X-Change-ID: 20250114-add-audio-codec-8c9d47062a6c
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: treapking@chromium.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, 
+ Hermes Wu <Hermes.wu@ite.com.tw>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737449969; l=3823;
+ i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
+ bh=o/uOLwDi0jNIFs2+m/4EDSQBoFNMPYbT+UZqOKKtS8Y=;
+ b=6m907IQVQsjUNfZLPRY4w8LQ0JC3NzzPoQAIL98YyXMSxeNjz9uWiT/79KmBn++gM4faLGfUr
+ O3xiRHZ8HhwB/x7rm/BjlVkwXzEOWyiA9nScJSRR+1oLaGEMVc3QVnN
+X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
+ pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
+X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
+ auth_id=310
+X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,174 +80,131 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mo, 2025-01-20 at 18:21 +0100, Michal Wilczynski wrote:
-> Introduce reset controller driver for the T-HEAD TH1520 SoC. The
-> controller manages hardware reset lines for various SoC subsystems, such
-> as the GPU.
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-This statement is confusing, given the implementation only handles a
-single (GPU) reset control.
+IT6505 supports audio form I2S to DP audio data sub stream
 
-> By exposing these resets via the Linux reset subsystem,
-> drivers can request and control hardware resets to reliably initialize
-> or recover key components.
->=20
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> ---
->  MAINTAINERS                  |   1 +
->  drivers/reset/Kconfig        |  10 +++
->  drivers/reset/Makefile       |   1 +
->  drivers/reset/reset-th1520.c | 144 +++++++++++++++++++++++++++++++++++
->  4 files changed, 156 insertions(+)
->  create mode 100644 drivers/reset/reset-th1520.c
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1b6e894500ef..18382a356b12 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20197,6 +20197,7 @@ F:	drivers/mailbox/mailbox-th1520.c
->  F:	drivers/net/ethernet/stmicro/stmmac/dwmac-thead.c
->  F:	drivers/pinctrl/pinctrl-th1520.c
->  F:	drivers/pmdomain/thead/
-> +F:	drivers/reset/reset-th1520.c
->  F:	include/dt-bindings/clock/thead,th1520-clk-ap.h
->  F:	include/dt-bindings/firmware/thead,th1520-aon.h
->  F:	include/linux/firmware/thead/thead,th1520-aon.h
-> diff --git a/drivers/reset/Kconfig b/drivers/reset/Kconfig
-> index 5b3abb6db248..fa0943c3d1de 100644
-> --- a/drivers/reset/Kconfig
-> +++ b/drivers/reset/Kconfig
-> @@ -272,6 +272,16 @@ config RESET_SUNXI
->  	help
->  	  This enables the reset driver for Allwinner SoCs.
-> =20
-> +config RESET_TH1520
-> +	tristate "T-HEAD 1520 reset controller"
-> +	depends on ARCH_THEAD || COMPILE_TEST
-> +	select REGMAP_MMIO
-> +	help
-> +	  This driver provides support for the T-HEAD TH1520 SoC reset controll=
-er,
-> +	  which manages hardware reset lines for SoC components such as the GPU=
-.
-> +	  Enable this option if you need to control hardware resets on TH1520-b=
-ased
-> +	  systems.
-> +
->  config RESET_TI_SCI
->  	tristate "TI System Control Interface (TI-SCI) reset driver"
->  	depends on TI_SCI_PROTOCOL || (COMPILE_TEST && TI_SCI_PROTOCOL=3Dn)
-> diff --git a/drivers/reset/Makefile b/drivers/reset/Makefile
-> index 677c4d1e2632..d6c2774407ae 100644
-> --- a/drivers/reset/Makefile
-> +++ b/drivers/reset/Makefile
-> @@ -35,6 +35,7 @@ obj-$(CONFIG_RESET_SIMPLE) +=3D reset-simple.o
->  obj-$(CONFIG_RESET_SOCFPGA) +=3D reset-socfpga.o
->  obj-$(CONFIG_RESET_SUNPLUS) +=3D reset-sunplus.o
->  obj-$(CONFIG_RESET_SUNXI) +=3D reset-sunxi.o
-> +obj-$(CONFIG_RESET_TH1520) +=3D reset-th1520.o
->  obj-$(CONFIG_RESET_TI_SCI) +=3D reset-ti-sci.o
->  obj-$(CONFIG_RESET_TI_SYSCON) +=3D reset-ti-syscon.o
->  obj-$(CONFIG_RESET_TI_TPS380X) +=3D reset-tps380x.o
-> diff --git a/drivers/reset/reset-th1520.c b/drivers/reset/reset-th1520.c
-> new file mode 100644
-> index 000000000000..e4278f49c62f
-> --- /dev/null
-> +++ b/drivers/reset/reset-th1520.c
-> @@ -0,0 +1,144 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2024 Samsung Electronics Co., Ltd.
-> + * Author: Michal Wilczynski <m.wilczynski@samsung.com>
-> + */
-> +
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/reset-controller.h>
-> +#include <linux/regmap.h>
-> +
-> + /* register offset in VOSYS_REGMAP */
-> +#define TH1520_GPU_RST_CFG		0x0
-> +#define TH1520_GPU_RST_CFG_MASK		GENMASK(2, 0)
-> +
-> +/* register values */
-> +#define TH1520_GPU_SW_GPU_RST		BIT(0)
-> +#define TH1520_GPU_SW_CLKGEN_RST	BIT(1)
-> +
-> +struct th1520_reset_priv {
-> +	struct reset_controller_dev rcdev;
-> +	struct regmap *map;
-> +};
-> +
-> +static inline struct th1520_reset_priv *
-> +to_th1520_reset(struct reset_controller_dev *rcdev)
-> +{
-> +	return container_of(rcdev, struct th1520_reset_priv, rcdev);
-> +}
-> +
-> +static void th1520_rst_gpu_enable(struct regmap *reg)
-> +{
-> +	int val;
-> +
-> +	/* if the GPU is not in a reset state it, put it into one */
-> +	regmap_read(reg, TH1520_GPU_RST_CFG, &val);
-> +	if (val)
-> +		regmap_update_bits(reg, TH1520_GPU_RST_CFG,
-> +				   TH1520_GPU_RST_CFG_MASK, 0x0);
-> +
-> +	/* rst gpu clkgen */
-> +	regmap_set_bits(reg, TH1520_GPU_RST_CFG, TH1520_GPU_SW_CLKGEN_RST);
-> +
-> +	/*
-> +	 * According to the hardware manual, a delay of at least 32 clock
-> +	 * cycles is required between de-asserting the clkgen reset and
-> +	 * de-asserting the GPU reset. Assuming a worst-case scenario with
-> +	 * a very high GPU clock frequency, a delay of 1 microsecond is
-> +	 * sufficient to ensure this requirement is met across all
-> +	 * feasible GPU clock speeds.
-> +	 */
-> +	udelay(1);
-> +
-> +	/* rst gpu */
-> +	regmap_set_bits(reg, TH1520_GPU_RST_CFG, TH1520_GPU_SW_GPU_RST);
+Support audio codec operation include
+hw_params, audio_startup, audio_shutdown, hook_plugged_cb.
 
-This sequence of TH1520_GPU_RST_CFG register accesses should be
-protected by a lock.
+In order to prevent pop noise from sink devise, delay audio by
+after I2S signal is enable by source.
 
-[...]
-> +static int th1520_reset_assert(struct reset_controller_dev *rcdev, unsig=
-ned long id)
-> +{
-> +	struct th1520_reset_priv *priv =3D to_th1520_reset(rcdev);
-> +
-> +	th1520_rst_gpu_disable(priv->map);
-> +
-> +	return 0;
-> +}
-> +
-> +static int th1520_reset_deassert(struct reset_controller_dev *rcdev, uns=
-igned long id)
-> +{
-> +	struct th1520_reset_priv *priv =3D to_th1520_reset(rcdev);
-> +
-> +	th1520_rst_gpu_enable(priv->map);
-> +
-> +	return 0;
-> +}
-> +
-> +static int th1520_reset_xlate(struct reset_controller_dev *rcdev,
-> +			      const struct of_phandle_args *reset_spec)
-> +{
-> +	return 0;
-> +}
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 67 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 62 insertions(+), 5 deletions(-)
 
-These all explicitly handle only a single reset control, which is in
-conflict with the commit message of this patch and the dt-binding
-patch. Will more reset controls be added to this driver in the future?
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 88ef76a37fe6accacdd343839ff2569b31b18ceb..9dc58d307dae360ffab5df15e8fe8420d084c764 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -3095,18 +3095,39 @@ static int __maybe_unused it6505_audio_setup_hw_params(struct it6505 *it6505,
+ 	return 0;
+ }
+ 
+-static void __maybe_unused it6505_audio_shutdown(struct device *dev, void *data)
++static void it6505_audio_shutdown(struct device *dev, void *data)
+ {
+ 	struct it6505 *it6505 = dev_get_drvdata(dev);
+ 
++	cancel_delayed_work_sync(&it6505->delayed_audio);
++
+ 	if (it6505->powered)
+ 		it6505_disable_audio(it6505);
+ }
+ 
+-static int __maybe_unused it6505_audio_hook_plugged_cb(struct device *dev,
+-						       void *data,
+-						       hdmi_codec_plugged_cb fn,
+-						       struct device *codec_dev)
++static int it6505_audio_hw_params(struct device *dev,
++				  void *data,
++				  struct hdmi_codec_daifmt *daifmt,
++				  struct hdmi_codec_params *params)
++{
++	struct it6505 *it6505 = dev_get_drvdata(dev);
++
++	return it6505_audio_setup_hw_params(it6505, params);
++}
++
++static int it6505_audio_startup(struct device *dev, void *data)
++{
++	struct it6505 *it6505 = dev_get_drvdata(dev);
++
++	queue_delayed_work(system_wq, &it6505->delayed_audio,
++			   msecs_to_jiffies(180));
++	return 0;
++}
++
++static int it6505_audio_hook_plugged_cb(struct device *dev,
++					void *data,
++					hdmi_codec_plugged_cb fn,
++					struct device *codec_dev)
+ {
+ 	struct it6505 *it6505 = data;
+ 
+@@ -3117,6 +3138,36 @@ static int __maybe_unused it6505_audio_hook_plugged_cb(struct device *dev,
+ 	return 0;
+ }
+ 
++static const struct hdmi_codec_ops it6505_audio_codec_ops = {
++	.hw_params = it6505_audio_hw_params,
++	.audio_startup = it6505_audio_startup,
++	.audio_shutdown = it6505_audio_shutdown,
++	.hook_plugged_cb = it6505_audio_hook_plugged_cb,
++};
++
++static int it6505_register_audio_driver(struct device *dev)
++{
++	struct it6505 *it6505 = dev_get_drvdata(dev);
++	struct hdmi_codec_pdata codec_data = {
++		.ops = &it6505_audio_codec_ops,
++		.max_i2s_channels = 8,
++		.i2s = 1,
++		.data = it6505,
++	};
++	struct platform_device *pdev;
++
++	pdev = platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
++					     PLATFORM_DEVID_AUTO, &codec_data,
++					     sizeof(codec_data));
++	if (IS_ERR(pdev))
++		return PTR_ERR(pdev);
++
++	INIT_DELAYED_WORK(&it6505->delayed_audio, it6505_delayed_audio);
++	DRM_DEV_DEBUG_DRIVER(dev, "bound to %s", HDMI_CODEC_DRV_NAME);
++
++	return 0;
++}
++
+ static inline struct it6505 *bridge_to_it6505(struct drm_bridge *bridge)
+ {
+ 	return container_of(bridge, struct it6505, bridge);
+@@ -3677,6 +3728,12 @@ static int it6505_i2c_probe(struct i2c_client *client)
+ 		return err;
+ 	}
+ 
++	err = it6505_register_audio_driver(dev);
++	if (err < 0) {
++		dev_err(dev, "Failed to register audio driver: %d", err);
++		return err;
++	}
++
+ 	INIT_WORK(&it6505->link_works, it6505_link_training_work);
+ 	INIT_WORK(&it6505->hdcp_wait_ksv_list, it6505_hdcp_wait_ksv_list);
+ 	INIT_DELAYED_WORK(&it6505->hdcp_work, it6505_hdcp_work);
+
+---
+base-commit: fe003bcb69f7bff9ff2b30b659b004dbafe52907
+change-id: 20250114-add-audio-codec-8c9d47062a6c
+
+Best regards,
+-- 
+Hermes Wu <Hermes.wu@ite.com.tw>
 
 
-regards
-Philipp
