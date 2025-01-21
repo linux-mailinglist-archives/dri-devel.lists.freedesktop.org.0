@@ -2,73 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8D2A17ECB
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 14:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FBBA17EF9
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 14:40:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E4710E585;
-	Tue, 21 Jan 2025 13:29:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A351810E5BC;
+	Tue, 21 Jan 2025 13:40:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J1dBJsR9";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="XXJc1fjY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EC1810E585
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 13:29:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737466166; x=1769002166;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=H9kMdRt8GCDNIVgRncWAENc9hqjG3uNq8keSN4EZJxQ=;
- b=J1dBJsR9UbjxZtUwJVGGSXae4pvmiExsPRi2R7D0oiPWDRp8Hd6Pvsxt
- BPu2c1oc3sYV2PodGW66OIs80FG9yaytr1NEu31/9VIFQ9l5tVr/Me4W3
- TzToCzPtZgiEU2WdcSOgJ2C5mUAKZ/tEqMKR/JQ2wrX2bugCW4luGtwhx
- 4AEP3ImwBSzDz4++fBZ3poR/r9KDlhr2agwRFyG+InSSszLgu5aaDp/Rj
- jZnaDABbIcQJQoylFEALiGqJ/sESDCcI3nTGF3rqhUpu1DlPEQNZVvUW9
- EyehSwQz43/fBuCGjJmE9qDhUFSnNqatf/jhcgUx3lhf7FC7PBPbCnmrL w==;
-X-CSE-ConnectionGUID: caTS4DYCR6WAIA5EpkEhkg==
-X-CSE-MsgGUID: r9168J1RQZWO2CO9rAGAbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="48471232"
-X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; d="scan'208";a="48471232"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2025 05:29:26 -0800
-X-CSE-ConnectionGUID: 4dRFVcJ3SeS6MfcKpTSeCQ==
-X-CSE-MsgGUID: lMTdIBpORPSMsbFyUBzeJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; d="scan'208";a="111795497"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2025 05:29:23 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1taEJl-00000003m1c-1QAp; Tue, 21 Jan 2025 15:29:21 +0200
-Date: Tue, 21 Jan 2025 15:29:21 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
-Message-ID: <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
-References: <20250116124303.3941583-1-andriy.shevchenko@linux.intel.com>
- <CGME20250117135754eucas1p1a8558792f9475c2acc009e1ba20c7109@eucas1p1.samsung.com>
- <a193bcb5-1b35-48ba-801b-925ab2f92d6f@samsung.com>
- <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
- <Z4ppo8wV3nicOfAQ@smile.fi.intel.com>
- <8a7581e4-6422-4d77-8027-02df0d7da489@samsung.com>
- <Z4qTQ9ypkX6iS1Pl@smile.fi.intel.com>
- <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+ [148.163.156.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F59010E5AE;
+ Tue, 21 Jan 2025 13:40:30 +0000 (UTC)
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50LBcWDl021758;
+ Tue, 21 Jan 2025 13:40:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+ :content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=pp1; bh=1XuHjAhe+6crgeyPxGiThULHkHEa/Q
+ wDtL3yiBvZqn4=; b=XXJc1fjY1LEte8uWYOHY0rVlVq4wX9PCcoXpIbn1EYs9EL
+ OD4/8pPTNQ9wGah7zwpokGzeZLvKhyS2XwyswSQynQSvx4Pq0nVXT5v0PMm1KdzN
+ F6FmU2v9zN3MF0dGtVIr8337iz/SeaELL+AkChcaIBTAfjVK9Q1TKCVQHZUYF4b8
+ lkEmavTZcGG7bcRDLLuw9HOFrKWm+iyEw+rBb1iDcR2ksQakFyzbWZB9l+0n9NZH
+ 7bFXS3CXhWJ3qAfxFUQeEb9d90I2xBmDXS8qIuY9SsKjzzFL1VStL4eYIhJR/WhB
+ kacwVPn3TvuRt93neu9S0HZxZA9oxnhjkLM3qkFg==
+Received: from ppma11.dal12v.mail.ibm.com
+ (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44a1n9b0sf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2025 13:40:21 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50LAtOsq021012;
+ Tue, 21 Jan 2025 13:40:19 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 448sb1b14q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2025 13:40:19 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 50LDeIWj60031254
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Jan 2025 13:40:18 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 25C3B2004B;
+ Tue, 21 Jan 2025 13:40:18 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7FD1A20040;
+ Tue, 21 Jan 2025 13:40:17 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown
+ [9.155.204.135])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+ Tue, 21 Jan 2025 13:40:17 +0000 (GMT)
+Date: Tue, 21 Jan 2025 14:40:16 +0100
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Joel Granados <joel.granados@kernel.org>
+Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+ Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org,
+ openipmi-developer@lists.sourceforge.net,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
+ codalist@coda.cs.cmu.edu, linux-mm@kvack.org,
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ fsverity@lists.linux.dev, linux-xfs@vger.kernel.org,
+ io-uring@vger.kernel.org, bpf@vger.kernel.org,
+ kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+ Song Liu <song@kernel.org>,
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "Darrick J. Wong" <djwong@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Corey Minyard <cminyard@mvista.com>
+Subject: Re: [PATCH v2] treewide: const qualify ctl_tables where applicable
+Message-ID: <Z4+jwDBrZNRgu85S@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <20250110-jag-ctl_table_const-v2-1-0000e1663144@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250110-jag-ctl_table_const-v2-1-0000e1663144@kernel.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: mWjZL4Eizm--6YwnTI2RlL8astD0-e-i
+X-Proofpoint-GUID: mWjZL4Eizm--6YwnTI2RlL8astD0-e-i
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-21_05,2025-01-21_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 clxscore=1011 priorityscore=1501
+ spamscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501210112
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,37 +117,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 21, 2025 at 08:33:09AM +0100, Marek Szyprowski wrote:
-> On 17.01.2025 18:28, Andy Shevchenko wrote:
-> > On Fri, Jan 17, 2025 at 05:05:42PM +0100, Marek Szyprowski wrote:
+On Fri, Jan 10, 2025 at 03:16:08PM +0100, Joel Granados wrote:
 
-> > Does it fail in the same way?
+Hi Joel,
+
+> Add the const qualifier to all the ctl_tables in the tree except for
+> watchdog_hardlockup_sysctl, memory_allocation_profiling_sysctls,
+> loadpin_sysctl_table and the ones calling register_net_sysctl (./net,
+> drivers/inifiniband dirs). These are special cases as they use a
+> registration function with a non-const qualified ctl_table argument or
+> modify the arrays before passing them on to the registration function.
 > 
-> Yes, the hw revision is reported as zero in this case: LT9611 revision: 
-> 0x00.00.00
+> Constifying ctl_table structs will prevent the modification of
+> proc_handler function pointers as the arrays would reside in .rodata.
+> This is made possible after commit 78eb4ea25cd5 ("sysctl: treewide:
+> constify the ctl_table argument of proc_handlers") constified all the
+> proc_handlers.
 
-Hmm... This is very interesting! It means that the page selector is a bit
-magical there. Dmitry, can you chime in and perhaps shed some light on this?
+I could identify at least these occurences in s390 code as well:
 
-> >> Does it mean that there is really a bug in the driver?
-> > Without looking at the datasheet it's hard to say. At least what I found so far
-> > is one page of the I²C traffic dump on Windows as an example how to use their
-> > evaluation board and software, but it doesn't unveil the bigger picture. At
-> > least what I think is going on here is that the programming is not so easy as
-> > just paging. Something is more complicated there.
-> >
-> > But at least (and as Mark said) the most of the regmap based drivers got
-> > the ranges wrong (so, at least there is one bug in the driver).
-> 
-> I can do more experiments if this helps. Do you need a dump of all 
-> regmap accesses or i2c traffic from this driver?
+diff --git a/arch/s390/appldata/appldata_base.c b/arch/s390/appldata/appldata_base.c
+index dd7ba7587dd5..9b83c318f919 100644
+--- a/arch/s390/appldata/appldata_base.c
++++ b/arch/s390/appldata/appldata_base.c
+@@ -204,7 +204,7 @@ appldata_timer_handler(const struct ctl_table *ctl, int write,
+ {
+ 	int timer_active = appldata_timer_active;
+ 	int rc;
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.procname	= ctl->procname,
+ 		.data		= &timer_active,
+ 		.maxlen		= sizeof(int),
+@@ -237,7 +237,7 @@ appldata_interval_handler(const struct ctl_table *ctl, int write,
+ {
+ 	int interval = appldata_interval;
+ 	int rc;
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.procname	= ctl->procname,
+ 		.data		= &interval,
+ 		.maxlen		= sizeof(int),
+@@ -269,7 +269,7 @@ appldata_generic_handler(const struct ctl_table *ctl, int write,
+ 	struct list_head *lh;
+ 	int rc, found;
+ 	int active;
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.data		= &active,
+ 		.maxlen		= sizeof(int),
+ 		.extra1		= SYSCTL_ZERO,
+diff --git a/arch/s390/kernel/hiperdispatch.c b/arch/s390/kernel/hiperdispatch.c
+index 7857a7e8e56c..7d0ba16085c1 100644
+--- a/arch/s390/kernel/hiperdispatch.c
++++ b/arch/s390/kernel/hiperdispatch.c
+@@ -273,7 +273,7 @@ static int hiperdispatch_ctl_handler(const struct ctl_table *ctl, int write,
+ {
+ 	int hiperdispatch;
+ 	int rc;
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.procname	= ctl->procname,
+ 		.data		= &hiperdispatch,
+ 		.maxlen		= sizeof(int),
+diff --git a/arch/s390/kernel/topology.c b/arch/s390/kernel/topology.c
+index 6691808bf50a..26e50de83d80 100644
+--- a/arch/s390/kernel/topology.c
++++ b/arch/s390/kernel/topology.c
+@@ -629,7 +629,7 @@ static int topology_ctl_handler(const struct ctl_table *ctl, int write,
+ 	int enabled = topology_is_enabled();
+ 	int new_mode;
+ 	int rc;
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.procname	= ctl->procname,
+ 		.data		= &enabled,
+ 		.maxlen		= sizeof(int),
+@@ -658,7 +658,7 @@ static int polarization_ctl_handler(const struct ctl_table *ctl, int write,
+ {
+ 	int polarization;
+ 	int rc;
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.procname	= ctl->procname,
+ 		.data		= &polarization,
+ 		.maxlen		= sizeof(int),
+diff --git a/arch/s390/mm/cmm.c b/arch/s390/mm/cmm.c
+index 939e3bec2db7..8e354c90a3dd 100644
+--- a/arch/s390/mm/cmm.c
++++ b/arch/s390/mm/cmm.c
+@@ -263,7 +263,7 @@ static int cmm_pages_handler(const struct ctl_table *ctl, int write,
+ 			     void *buffer, size_t *lenp, loff_t *ppos)
+ {
+ 	long nr = cmm_get_pages();
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.procname	= ctl->procname,
+ 		.data		= &nr,
+ 		.maxlen		= sizeof(long),
+@@ -283,7 +283,7 @@ static int cmm_timed_pages_handler(const struct ctl_table *ctl, int write,
+ 				   loff_t *ppos)
+ {
+ 	long nr = cmm_get_timed_pages();
+-	struct ctl_table ctl_entry = {
++	const struct ctl_table ctl_entry = {
+ 		.procname	= ctl->procname,
+ 		.data		= &nr,
+ 		.maxlen		= sizeof(long),
 
-It would be helpful! Traces from the failed and non-failed cases
-till the firmware revision and chip ID reading would be enough to
-start with.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> Best regards,
+> -- 
+> Joel Granados <joel.granados@kernel.org>
 
-
+Thanks!
