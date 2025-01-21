@@ -2,77 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C85A17F29
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 14:49:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBD3A17FF7
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 15:38:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6714710E099;
-	Tue, 21 Jan 2025 13:49:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24C0610E1F6;
+	Tue, 21 Jan 2025 14:38:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EbD1yF8L";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="M4U7Kpk7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5447D10E099
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 13:49:32 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-21670dce0a7so116858305ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 05:49:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737467312; x=1738072112; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KHhrcwSV5gVycE0fiHKV7RdTl3Q9CP6hDVIbPOyumYU=;
- b=EbD1yF8LF1WS+KWk2Bf5jfP8KPsRlSBao1Hbfhh4gGvh8v7xTU+TJOpri6KFsdAk8I
- MnFd8JLPy6TxX08FBHz3P0IZiIaHwD4GS27zmI/8SSeq5lcTBUvMiHGmYZe2KhFU+0Q3
- yzlui0wjI08W2uHsHNB1Y5/le1hYFvcw1IEoQr3INkwcnezlwBfsqp0xkEibkNImVuag
- iQX3cd+Xj5idEhm/w0+s+VtdXkkC+d4syQGWU6dnoCZkVQtAmiQ88wvqmL9VCiHHd1V/
- aPUCfMFlITBJO3K8nmMqjdmnKoguhDB2rwHPxdZ2VYIfclaBPcEooUiz0EeQRLLcSjTp
- Tdkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737467312; x=1738072112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KHhrcwSV5gVycE0fiHKV7RdTl3Q9CP6hDVIbPOyumYU=;
- b=WYdrOBe5McNN1OPUfu6NON/bBIfAzBcozjmPqyCUV14oS3pQIJmU7+gZ4/3/wpbFDD
- AhfHChXSfc7CVAz5tWcJtqpAJKiQCoGMoKFoI5PiUCSRw+UoS5lAmBhUFn6gutHpPQCX
- 38q2pQLNTPeSPL9TxhxYtXlliohD5tRwAnm4WZuXflncI4H4JZWe1C62JeXYvK+mUswg
- lhXDBdvwq22+l/VjVlfkSAkUwATwA4oKSpiIMNKzexSP+Dwfh1PWhn39ryjKMmuxXiBk
- cCaoiJNUC/D8AwOArkZrxIcdTH3CcOCf6HFFs0yGwePIm3uYGODHz/ZtEgoGZixUfKQj
- SyPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPOy/Xo/hOSErtE6nXExUCxUUdbicvOho168/GIx1+BqHci+wCI6uwvBvRvX5TVKtQyNZlQxemYEg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPtgHZe4+7ACFyP57U0waC/LDPUBidYcGBQNiDpSP6wG2tq3NC
- NHYOOuQPm+qCB0AdD7Vnw0rFAHfwTG/hYfZrAmDwhuP+DjSaGA44
-X-Gm-Gg: ASbGnctLXSSOxgjSMY1Kyk2d/jdk0BEOmCVeuR8/Y3IhP+GvOlDy6+iZJxpg6YHtWL1
- 3AD9WxHEe8QHd/eifKIa7K1f4LUBTipgg8Q3gO3rpLCbbFrbUSSYB0gNFEYmuVDUJKH84qdb6LY
- B0cb5soRQ5FZX3FW3L8gHWDRBsHPMGP36B5YvD5XIS6U89RNf5aXu4K98ziOb3Azd16bLwIsy54
- SqpBwydfhPUguLShly5ZmYJoleDyojSDmzfWeGwpZiQ1KtXTNXEgDiDIBK/2p8nkUMhZuV4Jsgl
- nHg3c+kQjjStGQ==
-X-Google-Smtp-Source: AGHT+IHm5MzzsASxMbvgFHxZ+JP4w7CgMK4Xn//ZyrTxkv9Iyn+vWv+tr7VrWbz1DqG9EtF+rt1Z3g==
-X-Received: by 2002:a05:6a20:d49a:b0:1e1:adcd:eae5 with SMTP id
- adf61e73a8af0-1eb2160ff91mr21719711637.42.1737467311797; 
- Tue, 21 Jan 2025 05:48:31 -0800 (PST)
-Received: from distilledx.SRMIST.EDU.IN ([103.4.222.252])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-a9bdf0b513asm7408655a12.71.2025.01.21.05.48.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2025 05:48:31 -0800 (PST)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH] drm/panel: samsung-s6e88a0-ams452ef01: transition to mipi_dsi
- wrapped functions
-Date: Tue, 21 Jan 2025 19:18:19 +0530
-Message-ID: <20250121134819.251718-1-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.48.1
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::226])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D302210E1F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 14:37:59 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7B02FC0013;
+ Tue, 21 Jan 2025 14:37:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1737470278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=i+47+HuB3ZtyAbPzcwUAwbH9v/j+FLax5ctnw2Ib6Lo=;
+ b=M4U7Kpk7+5/ONCnuDNZ/GB188F3vrbIHHgPBFk6znywUL+Kvk09Bk3r3YWsNe2KgL5u5Km
+ 3hI8lROUErrPrmCNTFe7ZjZxsBK/eziS1qLrZqP3g+GKOK0/QSzpFzUDclWGddqNTb3Ikl
+ d7KNKJ9iqixOk7a/1emhOetWHb+rAdIl9HX00S1O8HAij49GnyRoiHuvK8IF087fhOX8rF
+ DllopERd2FjBT/8CrlNxMs3mJQm5u2+rBy2vZiQ4Qa4IdgENp6SX5lRLi6NoqQNpdf8+Gz
+ +lYUEb1c1VfVReTlIvSiM3Xj0BV+2YuG14G3XcrDtthUxk1a7VqTrWZVwcA89g==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH RFC v3 00/14] drm/vkms: ConfigFS interface
+Date: Tue, 21 Jan 2025 15:34:44 +0100
+Message-Id: <20250121-google-config-fs-v3-0-8154a6945142@bootlin.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAISwj2cC/23Py07EIBQG4FdpWHuUS9vpdGVi4gO4NS6AnnZIB
+ hgBSc2k7y6Dt5hxx+GEj/8/k4jBYCRjcyYBs4nGuzKIm4bog3QLgpnKTDjlLe04g8X75YigvZv
+ NAnMEtRed6ns1TDtFyrNTwNmslXwmT48P5OXzMuDrW+HT10bJeFGsNWlspmDBmqjvvg/gcE0Xz
+ WKMsqYYm5Kho+w3Q0Drc0FC0mDchCvMwVs4ySAtJgyQBVDQUlMqhRZd294r79PRuNvycc11MDH
+ 58F7rZ1aD1aYDa6+bZla4QfSCDWxPd7K/4jL/IRjj/B+CF6JVO+xnNgjB6V9i27YPLdXIF5IBA
+ AA=
+X-Change-ID: 20240521-google-config-fs-b935b66b8d7b
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org, 
+ arthurgrillo@riseup.net, linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4610;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=XJgeK1X12z5Mi6DOWRYHKT1SQFsFHMWBRayIsrdswgc=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj7E/RMFEU/lpCV+xdxsXPFHfPXHoashgI0t8w
+ RHYQy779UWJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ4+xPwAKCRAgrS7GWxAs
+ 4iU4D/9++Dc4NYhYbMu1MPfiEIPuHTgzzxYLVOaa4lNMh85DJ5J6XyWnoPYVfLGRpRLuXX5H6yJ
+ fMrqLXFKuXyyzC708w3NUYTDegk0FgQKaUVXr4+l05R5oRgLoP1qPYsIzaF3rzqvSaG1eloCQlw
+ rIeC2h9zzJvo/jcw+L6Z2D9Uk/ILRGX0C736qAiI/f/mu8jQ28/w9XLi/IU0NxO1hRKpSW2lZ8j
+ HeXNY8dooarlDBjSVwExPWFkmV40hUB8pJaFSYA+7cSgy8vKikKC9ZztXQZ4ibNV/K21aXVvgUd
+ 9WAPKYjg1anqxdpE2j3n/MWorfN2eivbk/he3mTONIYmZDzOFdGGuvp8cqwnXgOe9SVWwIYxWDQ
+ YWNmZcpwkVCzUWxaFp/dEYNnCjDYbNewsir08+BfLf+1QLUOwHfxz4JIYYIE3HV8Rl9l+Yhrcne
+ Cy71asGjnxdcqPVnaPaALPtqE5qqSfm18dPtvSU69ehF3ostoaLzGFmsZEkn3/TjMu0wzrA8LQF
+ sfJ65KzB5v/+21tIDLSIau+ObbGde+9b8hBE62DsRjpx8fL3LjTEWvHuJ8mgoV6SKOPTg5FLwXH
+ 3rfzJrKRcK1LS8lkSS7kW6af+kMGlY6SwD+fk2nNTOoxEukDpHCaSYSn8AouEpkaj4sGtp+js4B
+ PVaHQiUIZI5EFpA==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,154 +90,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the samsung-s6e88a0-ams452ef01 panel to use multi style functions
-for improved error handling.
+VKMS is manly used to test userspace program and its behavior. The current 
+implementation is not very configurable as you can only have one device, 
+with few specific planes.
 
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+This series aims to introduce a new interface, using ConfigFS, to create 
+and configure more devices. This will introduce:
+- Device creation
+- Plane creation
+- Plane configuration (type, color encoding, color range, rotations)
+- Encoder creation
+- CRTC creation
+- Linking between CRTC and planes/encoders
+
+The proposition is:
+/config/vkms
+	DEVICE_1
+	┣━ enable
+	┣━ writeback
+	┣━ planes
+	┃  ┣━ PLANE_1
+	┃  ┃  ┣━ type
+	┃  ┃  ┣━ supported_rotations
+	┃  ┃  ┣━ default_rotations
+	┃  ┃  ┣━ supported_formats
+	┃  ┃  ┗━ possible_crtcs
+	┃  ┃     ┗━ >> /config/vkms/DEVICE_1/crtc/CRTC_1 
+	┃  ┣━ PLANE_2
+	┃  ┃  ┗━ ditto
+	┃  ┗━ PLANE_3
+	┃     ┗━ ditto
+	┃
+	┣━ encoders
+	┃  ┣━ ENCODER_1
+	┃  ┃  ┗━ possible_crtcs
+	┃  ┃     ┗━ >> /config/vkms/DEVICE_1/crtc/CRTC_1
+	┃  ┗━ ENCODER_2
+	┃     ┗━ ditto
+	┃
+	┗━ crtc
+	   ┗━ CRTC_1
+	
+This interface aims to be extendable (new property can easly be added in 
+objects) and easy to use (objects are created simply by creating folders, 
+and configured by writing files).
+
+This series depends on 
+https://lore.kernel.org/all/20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com/
+
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- .../panel/panel-samsung-s6e88a0-ams452ef01.c  | 89 +++++++------------
- 1 file changed, 31 insertions(+), 58 deletions(-)
+Changes in v3:
+- Rebased on drm-misc-next and 
+  https://lore.kernel.org/all/20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com/
+- Remove color encoding and color range configuration
+- Link to v2: https://lore.kernel.org/r/20241122-google-config-fs-v2-0-4b7e6f183320@bootlin.com
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-index d2df227abbea..c80775b0aad3 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-@@ -39,91 +39,68 @@ static void s6e88a0_ams452ef01_reset(struct s6e88a0_ams452ef01 *ctx)
- static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
--	mipi_dsi_dcs_write_seq(dsi, 0xcc, 0x4c); // set Pixel Clock Divider polarity
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c); // set Pixel Clock Divider polarity
- 
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
- 	// set default brightness/gama
--	mipi_dsi_dcs_write_seq(dsi, 0xca,
--			       0x01, 0x00, 0x01, 0x00, 0x01, 0x00,	// V255 RR,GG,BB
--			       0x80, 0x80, 0x80,			// V203 R,G,B
--			       0x80, 0x80, 0x80,			// V151 R,G,B
--			       0x80, 0x80, 0x80,			// V87  R,G,B
--			       0x80, 0x80, 0x80,			// V51  R,G,B
--			       0x80, 0x80, 0x80,			// V35  R,G,B
--			       0x80, 0x80, 0x80,			// V23  R,G,B
--			       0x80, 0x80, 0x80,			// V11  R,G,B
--			       0x6b, 0x68, 0x71,			// V3   R,G,B
--			       0x00, 0x00, 0x00);			// V1   R,G,B
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca,
-+				     0x01, 0x00, 0x01, 0x00, 0x01, 0x00,// V255 RR,GG,BB
-+				     0x80, 0x80, 0x80,			// V203 R,G,B
-+				     0x80, 0x80, 0x80,			// V151 R,G,B
-+				     0x80, 0x80, 0x80,			// V87  R,G,B
-+				     0x80, 0x80, 0x80,			// V51  R,G,B
-+				     0x80, 0x80, 0x80,			// V35  R,G,B
-+				     0x80, 0x80, 0x80,			// V23  R,G,B
-+				     0x80, 0x80, 0x80,			// V11  R,G,B
-+				     0x6b, 0x68, 0x71,			// V3   R,G,B
-+				     0x00, 0x00, 0x00);			// V1   R,G,B
- 	// set default Amoled Off Ratio
--	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
--	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x2c, 0x0b); // set default elvss voltage
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x03); // gamma/aor update
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x2c, 0x0b); // set default elvss voltage
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03); // gamma/aor update
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
- 
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
- static int s6e88a0_ams452ef01_off(struct s6e88a0_ams452ef01 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi};
- 
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
--	msleep(35);
--
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 35);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
- static int s6e88a0_ams452ef01_prepare(struct drm_panel *panel)
- {
- 	struct s6e88a0_ams452ef01 *ctx = to_s6e88a0_ams452ef01(panel);
--	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	s6e88a0_ams452ef01_reset(ctx);
- 
- 	ret = s6e88a0_ams452ef01_on(ctx);
- 	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
- 		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
- 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies),
- 				       ctx->supplies);
-@@ -136,12 +113,8 @@ static int s6e88a0_ams452ef01_prepare(struct drm_panel *panel)
- static int s6e88a0_ams452ef01_unprepare(struct drm_panel *panel)
- {
- 	struct s6e88a0_ams452ef01 *ctx = to_s6e88a0_ams452ef01(panel);
--	struct device *dev = &ctx->dsi->dev;
--	int ret;
- 
--	ret = s6e88a0_ams452ef01_off(ctx);
--	if (ret < 0)
--		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+	s6e88a0_ams452ef01_off(ctx);
- 
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+Changes in v2:
+- Added many new configuration (mainly connector)
+- Link to v1: https://lore.kernel.org/r/20240814-google-config-fs-v1-0-8363181907a6@bootlin.com
+
+---
+Louis Chauvet (14):
+      drm/vkms: Add vkms_delete/create_device helper
+      drm/vkms: Cleanup configuration field on device destroy
+      drm/vkms: Introduce ConfigFS interface
+      drm/vkms: Introduce configfs for plane
+      drm/vkms: Introduce configfs for plane rotation
+      drm/vkms: Introduce configfs for crtc and encoder
+      drm/vkms: Introduce configfs for connectors
+      drm/vkms: Introduce configfs for connector type
+      drm/vkms: Introduce configfs for plane format
+      drm/vkms: Introduce configfs for device name
+      drm/vkms: Introduce configfs for connector status
+      drm/vkms: Introduce configfs for connector id
+      drm/vkms: Introduce configfs for connector EDID
+      drm/vkms: Introduce configfs for encoder type
+
+ drivers/gpu/drm/vkms/Kconfig         |    1 +
+ drivers/gpu/drm/vkms/Makefile        |    1 +
+ drivers/gpu/drm/vkms/vkms_config.c   |   36 +
+ drivers/gpu/drm/vkms/vkms_config.h   |    6 +-
+ drivers/gpu/drm/vkms/vkms_configfs.c | 1194 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_configfs.h |  128 ++++
+ drivers/gpu/drm/vkms/vkms_drv.c      |   21 +-
+ drivers/gpu/drm/vkms/vkms_drv.h      |    3 +
+ 8 files changed, 1384 insertions(+), 6 deletions(-)
+---
+base-commit: 49a167c393b0ceb592b9d2e65cc4f46bcc707108
+change-id: 20240521-google-config-fs-b935b66b8d7b
+prerequisite-message-id: 20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com
+prerequisite-patch-id: f4e26c103417f44bb47682d43e6550299e58b857
+prerequisite-patch-id: aefc656e8bc9edfd5527971231b7db23b416a19a
+prerequisite-patch-id: 5d4cef18db0f817bc0e9074987c725a9b7739ab0
+prerequisite-patch-id: a74401787cc57fd29164dcea46aca9cee3ac50f8
+prerequisite-patch-id: f0d5640738b5947ab84272c458a2f729a611ab0f
+prerequisite-patch-id: 91ba55d575e4d85500c713079455b112695abecc
+prerequisite-patch-id: d8210f842130e4d0b47ef25b4aa1ec41a7e53db3
+prerequisite-patch-id: 83a4752516471b5152d5e2cb6b56d7ecaae70f66
+prerequisite-patch-id: 5b6aaa13b3e61cee85de8739cc9fa9f0d86e4ac0
+prerequisite-patch-id: a65a919c52e47b81af3adaf660f18b4a6f107492
+prerequisite-patch-id: d85cd3d48810fa53bda9e97928249c1899898b24
+prerequisite-patch-id: c47a619ac3b9b244375776aa03b6c19c32108cca
+prerequisite-patch-id: ef3b0b41bcf9e770319b72d866cef880088bdff0
+prerequisite-patch-id: d1d7c3323f1a0690f94220e9eb9cc4d6a28df112
+prerequisite-patch-id: c87e20092e0a2f6d657837dbf1611b9dbf100b2c
+prerequisite-patch-id: c12f46d01d578587d93d20e9d987394ab63a65ab
+
+Best regards,
 -- 
-2.48.1
+Louis Chauvet <louis.chauvet@bootlin.com>
 
