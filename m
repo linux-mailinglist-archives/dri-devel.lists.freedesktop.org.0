@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A6BCA17C2A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD867A17C31
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:48:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 264EA10E552;
-	Tue, 21 Jan 2025 10:48:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFD110E557;
+	Tue, 21 Jan 2025 10:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RQthLFnz";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="M2k7HUdE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE3A610E552
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:48:16 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 085AA24000C;
- Tue, 21 Jan 2025 10:48:13 +0000 (UTC)
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7669D10E552
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:48:17 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 34B9F240009;
+ Tue, 21 Jan 2025 10:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737456495;
+ t=1737456496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ChVdaZEBxgvUA4UbVcQXFzc7IvJlOB+v+/6/CwncXu8=;
- b=RQthLFnzuZ8e+Tgvk9/I8tyaxYQvqewuIIvDxRMRmk6F2NkC/u/lbNVz8S+JYK5I6C7tMm
- icYAkdlzJsoAg7ylHNU5bYt4ooATaETSgqtE2KFGg4L+SK5SG+3yVzRN7xkAHYVhmPP4iZ
- DA3Fvt13chBo5+2eD5+HpuVFulsV/lNXGTu4lnO/Tio54ZHBpKgyoP9lebYacAi/ZTKtj0
- AoccI3Fz45eeo9QDfTJTzvZN3JWeMpRaNx6F0h+yflkkBF2ZA+B5kpzDZV0ejP0STBJcDl
- MtoiTVSAidM3hTm2EflT/Bz3EvxbCLd9rPTytwEmw/RY1h2rLFry3fXwnBbdMA==
+ bh=1roDM4z3PzoAc0FC+uMQ2aY2OcRduLc4tYzeHMaTk+I=;
+ b=M2k7HUdEgyX84G1K0FTG1rrt87WWPP8FEYtTEOPil4B0BICDM8OMFVrUeqXk4u+PRmNeSU
+ 8NE0sG0V3CVUSUIV4R0paB+0VwQZkC+YK+FQU/pAMhdbqvojLbIQrIzwjPpssqx6+Q5OgG
+ 4ULQLS4c5XTYI0SzsvjMs2/U5zVNUEyt/x3x5hINKKEu2xIGDIn9/wCZuyTiAGiyFazwUI
+ vrgW7l/yNnV05kYeDCm9a/D9GJ1UqNVnABXTnPzogTdx9YvcacsgeSazKGfvvIvzZjruqG
+ LFDusiHFPIbkJdTSS45Kw3dHBhwzU9fmI6R7IqEAtGrl8JdKnuibZwBm5//kOg==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 21 Jan 2025 11:48:03 +0100
-Subject: [PATCH v16 2/7] drm/vkms: Add range and encoding properties to the
- plane
+Date: Tue, 21 Jan 2025 11:48:04 +0100
+Subject: [PATCH v16 3/7] drm/vkms: Drop YUV formats TODO
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-yuv-v16-2-a61f95a99432@bootlin.com>
+Message-Id: <20250121-yuv-v16-3-a61f95a99432@bootlin.com>
 References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
 In-Reply-To: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -54,24 +53,23 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
  thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
  nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
+ Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1309;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=937;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=HyvmbiXZNdWLvhYkgRwbhVQB9LKmC17XVJjEGeUmRrk=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj3tokVQVD5GXWOr/3Ox9IoTMRNFoxwGbbeNd9
- AmZ8C9NJ/aJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ497aAAKCRAgrS7GWxAs
- 4hX8D/9KpZEEsrqXy+CDbqVrUdtazeRN9g4rWXsxUV0R7Uyjn+aI5Oh4dPkyMk7n0C2AKFuGGgD
- nwOpr/XouZIiZPFEbXt2xlOEAI9qHM9PcGk2KbXFeLsRLLQDkiaoL0u71PSzM4VHKx6u4rD9BDg
- VlMN+JQTpyGigKyaqZRrG1vNPEyRCB3Uzv0SCg9TGoEsCCfkGbkmx+I2NQNXVh2VM4IYP7Y2wwP
- 7Fyt0c6O8eiK8gXxAfGkVAQdIaezFKgm/VzK4F1xiFuBpW+ovjkrxtw4fkH0fCsQwLf2poEg7LE
- cs7HLHVFX48OCWv2EO00UQOTCHNDMpnlMzMb8j+OwU32ekABmEW89aPtxwLkKJDB/oiCjpL1zB6
- lnaagVT0OZkv7g0bFSEX2yEcEbpir5Do9RAyrs7S1Mn6vovssryd1szkk7wqjFeq34IA0tGu36q
- FipDW8J+4v3u/heESuy0arx9RppDHvt8wzVpDShbAQoVewdGnW4K/WqGQEUKtPw7NpzEstIFuXl
- cD+PFskv9HnaClkSs/r8BPoh0ruPOBCyow5qksS4GDN/E9WldzbzJa6tqsr8/HhdjPuL/aaSu3/
- Gtyuglh27wjkQuWWs0jVePbDCT2ExBIbSFRK9dmpgaWAjMsSRHwGqvLKn0ioGsVMv5brrCllnF4
- G/xENL+sDHZdmYQ==
+ bh=scn5WH2D0SZUmHmqTUnLEUslGEChLv0xkTXLyc9tyEc=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj3to4dmmxlUDJZaBX3HNhTfZeE3zHyl7fjgpN
+ FXw8uoq1jmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ497aAAKCRAgrS7GWxAs
+ 4ms+EADQVhm1y02fdmCDSmHyne8/ol+zTXYiPs9S1CftZn/s5SeosxJILJUAMn7gCPJdyE1NRhD
+ EUksDV7hJK0C/aqKqrw9YISQC4ryf7EEJD4epxCZONsQCYBvwA3MpRXpWryuUCi3TN2rtyZeCOb
+ XmuaBnV+MR4GHQ84PO78Q6Ffq7QxcPmjQHTOlaifjVuAxAyW7saIOtMZn7AL1U7Z99c7bJZeREw
+ OmEQBUg2+Q2u/Go7jf8CDJalX5zQ28UgQGog4q0pX/Iso57n0gxY+D2iW9AHB1hNKE/2tL6oS8+
+ neH0B20aj1FmUIqN7+nrR4EdcQqYmf3m5hSOpmb8FqY8DScq/F8lNyi0jPj17FApE6fZvkGKFXq
+ 9MkNPE0iteAawcQL3pPuxgY942MTt64myX0kCbU6yE2cvLU8C9Xm8NM8Uvt4bZ4uLFL8HvgnmjZ
+ fZ1vFIISRrHfjiGJqhGS3q2CsiQ0g/lq7irUU5G634ohhULEBbxwSFTRaCvs86IDO6f1/6gbvwJ
+ 2ekMXeIGrhjvWyn4jQLaH2IbbsoKiJYVMDMaaqCMiUhi3OLUKC397TqdsjhUresMqRxWop1hzuv
+ 7QHuTRkhvgtUoEnQ8OlejjawtZrATUvjycSEnql72Lf+vWTj2ejDEezDVubkpVTrCEBSre2VXgK
+ rd+ZibCEJ4JE7vw==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -92,36 +90,29 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arthur Grillo <arthurgrillo@riseup.net>
 
-Now that the driver internally handles these quantization ranges and YUV
-encoding matrices, expose the UAPI for setting them.
+VKMS has support for YUV formats now. Remove the task from the TODO
+list.
 
 Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-[Louis Chauvet: retained only relevant parts, updated the commit message]
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_plane.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/gpu/vkms.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 10e032e146f093d0fd99a82c7b58d62a0d987fd7..e6ca8f2db32d92068ddba7eed92cfae0d28cd45f 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -218,5 +218,14 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
- 					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
+diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+index ba04ac7c2167a9d484c54c69a09a2fb8f2d9c0aa..13b866c3617cd44043406252d3caa912c931772f 100644
+--- a/Documentation/gpu/vkms.rst
++++ b/Documentation/gpu/vkms.rst
+@@ -122,8 +122,7 @@ There's lots of plane features we could add support for:
  
-+	drm_plane_create_color_properties(&plane->base,
-+					  BIT(DRM_COLOR_YCBCR_BT601) |
-+					  BIT(DRM_COLOR_YCBCR_BT709) |
-+					  BIT(DRM_COLOR_YCBCR_BT2020),
-+					  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
-+					  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
-+					  DRM_COLOR_YCBCR_BT601,
-+					  DRM_COLOR_YCBCR_FULL_RANGE);
-+
- 	return plane;
- }
+ - Scaling.
+ 
+-- Additional buffer formats, especially YUV formats for video like NV12.
+-  Low/high bpp RGB formats would also be interesting.
++- Additional buffer formats. Low/high bpp RGB formats would be interesting.
+ 
+ - Async updates (currently only possible on cursor plane using the legacy
+   cursor api).
 
 -- 
 2.47.1
