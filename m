@@ -2,50 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3999A177B4
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 07:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B619A177F5
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 08:02:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 163E110E4DE;
-	Tue, 21 Jan 2025 06:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6F910E4E1;
+	Tue, 21 Jan 2025 07:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="aNjOSedS";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kgLdmUVe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 921 seconds by postgrey-1.36 at gabe;
- Tue, 21 Jan 2025 06:58:48 UTC
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id B4C9A10E4DE
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 06:58:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=/Z/LB
- Ny6fGJ1luOMGyIGCsvIGKVal3b+N+TSWS3wLIk=; b=aNjOSedSzj+IiV/vDT/r5
- O0up6lmEqhKl2awSxNzRuxq0ZzDVBU0YIJIWxYnTlciv1PHFNXQdagdVJVmN28MA
- VTiRiZwDlemOC/YmNuarD4xBsfGdleGnnXTsWIPRjux89Ctr+TdYNsMNWyitKLJQ
- iKb3tZ1BEs9K0K7UGK3yy0=
-Received: from localhost.localdomain (unknown [])
- by gzsmtp4 (Coremail) with SMTP id PygvCgD32Hr1QY9nee4gFg--.59693S2;
- Tue, 21 Jan 2025 14:43:03 +0800 (CST)
-From: oushixiong1025@163.com
-To: Helge Deller <deller@gmx.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Javier Martinez Canillas <javierm@redhat.com>, Lee Jones <lee@kernel.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH] fbdev/sh_mobile_lcdcfb: Use backlight helper
-Date: Tue, 21 Jan 2025 14:42:36 +0800
-Message-Id: <20250121064236.168236-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A58C910E4E1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 07:02:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id F28545C5574;
+ Tue, 21 Jan 2025 07:01:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2232CC4CEDF;
+ Tue, 21 Jan 2025 07:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737442920;
+ bh=Wn2iXU7nWwg+gmqoVND1k8Mrs/mrTenyjHWWjgn/L7I=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=kgLdmUVe4FDq/4nF/SspI8rnGKPrtuPhhqZdmfDkmQ4StjLM0RQj8t2PUi9xIybz+
+ O6O6P2eZBlaMlr3HjY/nR1ATAbDwqMnUhJS5qy/ljsxdQrbvz492NXOEZ8IKZ5MTHG
+ pYr1ueqsNCyY9B/niM4lPhBbCOlGEADI9Nt5SMTIyfYTbd4WjgKhwXxRs/eFGB+26R
+ u0F7YeyV3Tc5NAKKDmJyevUVDZn4GP8kat0vHAFBxTk1+GMo7IR9Ut2DIXb3islQwE
+ cH+IXIc75UkmaofTt7QXlQ5ZtQfwn9XgZUQS2Bzv5HGBlPKxIthCFYJVInQRauiLY4
+ PDgRWb4cRcJWw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 0A31BC02182;
+ Tue, 21 Jan 2025 07:02:00 +0000 (UTC)
+From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
+Date: Tue, 21 Jan 2025 15:01:51 +0800
+Subject: [PATCH v4] drm/bridge: it6505: fix HDCP V match check is not
+ performed correctly
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PygvCgD32Hr1QY9nee4gFg--.59693S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFW3uw4UJr1kWw1xAryrWFg_yoWDCFX_CF
- s0va4vgrsrt395KwnruFn5CFySgr4DuF1aqr4qqrZ3W347J3y3XryYgw4UKF98u3y0yF97
- XFnFqryrAr1fCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbqg4PUUUUU==
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYwjbD2ePPsE4EAAAsA
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250121-fix-hdcp-v-comp-v4-1-185f45c728dc@ite.com.tw>
+X-B4-Tracking: v=1; b=H4sIAF5Gj2cC/4XNQQ7CIBAF0KsY1tLAACm48h7GBYWpZWHbQIOap
+ neXNjHRdOHyz/x5M5OEMWAip8NMIuaQwtCXII8H4jrb35AGXzIBBopxVtM2PGnn3UgzdcN9pKK
+ xGoWvrW8FKVdjxFLZxMu15C6kaYiv7UHm6/Rj6Z2VOeXUSCY15xqU8+cwYVVW1fQgK5bhGzB7A
+ ApQe4fMKqNAtDtA/AFEATgojb4BaWzzAyzL8gY27iWFMQEAAA==
+X-Change-ID: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Hermes Wu <hermes.wu@ite.com.tw>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, treapking@chromium.org, 
+ Hermes Wu <Hermes.wu@ite.com.tw>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737442945; l=2084;
+ i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
+ bh=dUqXlNgYAl2Ay3XuEGf25rTzX7c3cUgN/Ydq0aXRSw0=;
+ b=nhbLadf23YE4qooMAxAUwjrpv7qAIZFRU5IYDckSVOaGDmJ7mdEbwcLIJhd4fRDiDwexc8PKJ
+ IOu5RI71KYrAZUdYsCaaoksnZrYbLNnHp4cYAL1uz4AbJlG07knRRND
+X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
+ pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
+X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
+ auth_id=310
+X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,33 +83,67 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+Fix a typo where V compare incorrectly compares av[] with av[] itself,
+which can result in HDCP failure.
+
+The loop of V compare is expected to iterate for 5 times
+which compare V array form av[0][] to av[4][].
+It should check loop counter reach the last statement "i == 5"
+before return true
+
+Fixes: 0989c02c7a5c ("drm/bridge: it6505: fix HDCP CTS compare V matching")
+Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
 ---
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Changes in v4:
+- Fix a typo where V compare incorrectly compares av[] with av[] itself
+- Link to v3: https://lore.kernel.org/r/20250109-fix-hdcp-v-comp-v3-1-1258edb249ab@ite.com.tw
 
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index 6b37b188af31..69c9067eff88 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -2123,11 +2123,7 @@ sh_mobile_lcdc_channel_fb_init(struct sh_mobile_lcdc_chan *ch,
- static int sh_mobile_lcdc_update_bl(struct backlight_device *bdev)
- {
- 	struct sh_mobile_lcdc_chan *ch = bl_get_data(bdev);
--	int brightness = bdev->props.brightness;
--
--	if (bdev->props.power != FB_BLANK_UNBLANK ||
--	    bdev->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
--		brightness = 0;
-+	int brightness = backlight_get_brightness(bdev);
+Changes in v3:
+- The V value compare loop from i = 0 to i = 4 and shall exit with i == 5 
+  if all V element matches
+- Link to v2: https://lore.kernel.org/r/20250109-fix-hdcp-v-comp-v2-1-7dce0a59523f@ite.com.tw
+
+Changes in v2:
+- pull the check of statment "i" out of V value check loop 
+- Link to v1: https://lore.kernel.org/r/20250108-fix-hdcp-v-comp-v1-1-9404811825cd@ite.com.tw
+---
+ drivers/gpu/drm/bridge/ite-it6505.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 88ef76a37fe6accacdd343839ff2569b31b18ceb..76dabca04d0d191b3bdee23c6a3e55f4b6d3bad4 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -2250,12 +2250,13 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
+ 			continue;
+ 		}
  
- 	ch->bl_brightness = brightness;
- 	return ch->cfg->bl_info.set_brightness(brightness);
+-		for (i = 0; i < 5; i++) {
++		for (i = 0; i < 5; i++)
+ 			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
+-			    av[i][1] != av[i][2] || bv[i][0] != av[i][3])
++			    bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
+ 				break;
+ 
+-			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
++		if (i == 5) {
++			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d", retry);
+ 			return true;
+ 		}
+ 	}
+
+---
+base-commit: 938fbb16aba8f7b88e0fdcf56f315a5bbad41aad
+change-id: 20250107-fix-hdcp-v-comp-3ba8e3d7adf3
+
+Best regards,
 -- 
-2.25.1
+Hermes Wu <Hermes.wu@ite.com.tw>
+
 
