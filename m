@@ -2,67 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7965EA18588
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 20:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A31CA18599
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 20:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80BE010E624;
-	Tue, 21 Jan 2025 19:12:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74DB010E20B;
+	Tue, 21 Jan 2025 19:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="NtdSFwI1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ctDdrFCV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B05D10E622
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 19:12:42 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3862d161947so3270791f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 11:12:42 -0800 (PST)
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
+ [IPv6:2607:f8b0:4864:20::234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4492B10E20B;
+ Tue, 21 Jan 2025 19:22:34 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id
+ 5614622812f47-3eb8583e9f0so988737b6e.1; 
+ Tue, 21 Jan 2025 11:22:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1737486701; x=1738091501;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1737487353; x=1738092153; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=3nKemOvkNZbw8/TFsZgLqrsXSzONT5XNCN0536LUz40=;
- b=NtdSFwI1CKR7UGb91eLPfQPcfxqZ6madNp6eBuf14fxy1I2Qa12WHpHAytAs7XkmhK
- kUuMau7zqH+pC3oWWi04kNobT+gU7D8M/PQiJWrkTYbulDHWv998TPPCRFoAxWwXTmiM
- NLHTh7EVffeihnZ68ipummLPpTRl8hb8TGh/A=
+ bh=0NK3hXMftqmRUpwUCPGcGtU49DbTM35z8//m0dfrfNA=;
+ b=ctDdrFCVhgtkK5XJR5g+xtqFnub7083uuwJOhf2c/iiZzCDaGyVByU4d0bqwksOgiF
+ I+XuX5rhoUB6divQ24FvFD+Tp5KPki4iDZ7U8CLPX/8m7G353kZbfxjYW0S6EDocj+AZ
+ yXu67Tvg++KfaG5AJukokXSmJ9ax0EuG9ypkEtbsUdxtpMX6VRbRsGydjiyb/NGOON2m
+ F4yIKBo8cDRqVH9/9igK/WLYSPa3Q7CMlcj97U+e1DqLL7P2JWd8SgQwTq9qYi/EPPcv
+ PldGmOkhJUExHLF+2ESF7VDhCZwpEVsNennKw3ZZZEcvx1xPgEt/IP50DnB3bA4tHsnR
+ zZgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737486701; x=1738091501;
+ d=1e100.net; s=20230601; t=1737487353; x=1738092153;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3nKemOvkNZbw8/TFsZgLqrsXSzONT5XNCN0536LUz40=;
- b=BJZfMDx9y/lJPMelrGG/qpBime3nA8TSGPQqnDO3IRgxmrBtJdGcli9N4hMAxmSD8v
- g0cVNuKcp9UpBCyV3Lk8Zayu7orzus+dq3l+QuHbtnQ8TvWKPOUUu3HXTsQzoMG2EnRz
- bc/YEI9gu6Ml7MmOiry3yXCSKKli8RwtZE00psanMNeGkp5MZPVxhfZrC+PjM2+MLMtL
- WkL2jnEfEO+vZuNCzO9UY9YXmfxu+bWyqeoKZJxB4MXfNUZb5qPBrp/n2FV6vxqwpXoG
- kRSPHFcsoVyII3GO9HckUNnPfZQVHSDkpzvtO8uAZ8AD9D/l9gX1nBrs1YZqDbQU5Gh1
- gyXA==
-X-Gm-Message-State: AOJu0YzwSK/baQA4xq9kVYM/i91rM49TQrIMJAwgNUg0i8ffFhllAwiS
- T02lWtP418va7+gYzY2N78rBpp/8goKjtslrRwIuCWItA9pZyRNg+MUhEY56JNPSFl+wTXIuvxt
- 8bI3JxWdr5nxu++t9JwlIngzqrQvRPjUm4v1d
-X-Gm-Gg: ASbGncvbYPWX5mXa0ZD7Cpv5fT9Wy8dzYrp3C1S4MRyZN3AZQdB38/c4+AqHQU/13uj
- u+E1Voj8HIfmuBsqcHoSpbXCtqTvFAobfleLvq89y6acTeOZLqfdD
-X-Google-Smtp-Source: AGHT+IFNP+pL4yhNmD+CIhHV4mayeGMuZbcUtr/kbJsRhbjEO1i903coqP1GTw0gFRw753WGxMB5NoXkDxnYg9TI5tI=
-X-Received: by 2002:a5d:64a3:0:b0:38a:624b:d55e with SMTP id
- ffacd0b85a97d-38bf57a684fmr20859330f8f.41.1737486700733; Tue, 21 Jan 2025
- 11:11:40 -0800 (PST)
+ bh=0NK3hXMftqmRUpwUCPGcGtU49DbTM35z8//m0dfrfNA=;
+ b=g5juTiNBPsAGUblDKDMw2pOUCxApH9XG0yfatHUZNCiCVXgRCMFF24skbjPAsVz7LK
+ ysxVpa0MDLzUhwbLHoC6sSViyRvbwhs59e7L3bDxD7oVnmAHIEckdpdSImPgFcozT42V
+ chNMqfw0AulcTC/l4rJmoRmI5id7y7aWnifr19X+MGnMH0bNKtngrGWYWLqF2qxHJjlx
+ 0cKpsPgd7E6/THFqaOBfZUHm0pD3BM5aZhQeQ27H/JSbiGscu2d/NEnLoQ7ZioGvPvCo
+ 0uNbq9nSR7YclFnie8YBOKmLtn/hnXwY1jlk89nVGz+OCz6SrJ4wTIPWKfZgyBaI9/XM
+ Pg9Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU+KHh9iMFyom4fsUMgOXkPjMlMP+eBAC4vJRNWHbdz2SiiXVZWzu5Dy/xHOTqxcNtgkgXGszLX@lists.freedesktop.org,
+ AJvYcCWJlG2RQA+EIU+p1Pvrh59655llaTh5WQUcDuwXnrdC9OeWjTwcaKhJYx0ix2wzMEjiD6Ypn9apt4E=@lists.freedesktop.org,
+ AJvYcCWbhZUsSJAtSbqGLAqLVa9cZubA2y13DN0TTdTwwFkYxCUiiMdWa4LxDnfTn0nou3q7azZu+Bx8t3fK@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmsAWFggayQYTsN8lCfwRdNJpxmfILOtyhHQ9ITX2hf6GHPx0U
+ vayrn5pcQzZjK3fueapJGRy4RycHVjRFJr2IMGXTzeRernqM33YILFQ8DIwURWM0MKAXYRaAoVr
+ JfAuEquQvF+qtjR/eOvcPqwBYZTA=
+X-Gm-Gg: ASbGncvOCdNRau1I7gGHz4Z5d9To4X4hu22P5uoclmRgk6MK26nIVZWXHpf9/q5Dlyq
+ pqaC3LJH0nvEAy/4KFDBc8Ejm272KDsS5sK8ksWib5Xi3EfngsXCq
+X-Google-Smtp-Source: AGHT+IHA/2aKVDb9MnLNMISmiXlIQLOj5O9vo/FNQ78whCjnbqn1MP/5R/NIx7wAyxsbhxv+PQT+UB8wLxuQ1ej8eSs=
+X-Received: by 2002:a05:6820:2106:b0:5f5:2d91:da4c with SMTP id
+ 006d021491bc7-5fa737d474dmr251727eaf.2.1737487353242; Tue, 21 Jan 2025
+ 11:22:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20250117191343.479610-1-ian.forbes@broadcom.com>
- <CABQX2QNdsFQebZRKYH71F-D4VxkHDkArEtSHYJVonTqHPk-r8Q@mail.gmail.com>
-In-Reply-To: <CABQX2QNdsFQebZRKYH71F-D4VxkHDkArEtSHYJVonTqHPk-r8Q@mail.gmail.com>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Tue, 21 Jan 2025 13:11:29 -0600
-X-Gm-Features: AbW1kvaL2xfxKWKs4FhC4qYB83IzOrkmC2NPGsrdDO2uRAaMotAESX1KiVVawfU
-Message-ID: <CAO6MGtjY-3yaL5hZrPfs5VtjTTXEZa2cUrNL+gMte8ooN7yXyQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/vmwgfx: Fix dumb buffer leak
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
- martin.krastev@broadcom.com, maaz.mombasawala@broadcom.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="0000000000009def54062c3c2557"
+References: <CAPj87rMFJ0JRvsKqZUsw_EGrFWr1VLO4Ne2w_bZ5cH+gs_d=og@mail.gmail.com>
+ <Z2Rf7mpSuzZ0ObmT@phenom.ffwll.local>
+ <07d08a42-c44a-477e-8057-721b270310cf@nvidia.com>
+ <CAAxE2A6N0xtgZmzTR9FXMN79xxy3T8zfhh1sz73h1h8=0ycJ2g@mail.gmail.com>
+ <CAPj87rP4r4q-wBx1dHsEkZ7=S2c2XsbA1Pz4Skw1ETt_2yD2Ag@mail.gmail.com>
+ <CAAxE2A6ghBK2VTLkNXgk1c61UG1ZQAzWQ4q=wO-OShAUC9eRmQ@mail.gmail.com>
+ <CAPj87rNFy7GLAjjxDYGLN-f8M0F7yMX6PED94O4kBJ=pwtPVyA@mail.gmail.com>
+ <Z4pmnTy1NYD3rLwS@phenom.ffwll.local>
+ <CAAxE2A6iDsN=YKW2F7WyyZxn4Sw4Dr5CxZminQGwf8awBivovQ@mail.gmail.com>
+ <0e9aee49-aa69-4fb6-bab8-4624143f5267@suse.de>
+ <Z46Y4EME7T6yejWP@phenom.ffwll.local>
+In-Reply-To: <Z46Y4EME7T6yejWP@phenom.ffwll.local>
+From: =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <maraeo@gmail.com>
+Date: Tue, 21 Jan 2025 14:21:57 -0500
+X-Gm-Features: AbW1kvZTQuqa6Lm9Yr9zisb2n7ShkvxMdxRVKcMr3x4M_nubLEMqZNa8Qn8YvzA
+Message-ID: <CAAxE2A7T0ho42j_a1XbqA1wdCTECZs_MjBb-THv3c+HudWAULQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/fourcc: add LINEAR modifiers with an exact pitch
+ alignment
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Stone <daniel@fooishbar.org>, 
+ James Jones <jajones@nvidia.com>, Brian Starkey <brian.starkey@arm.com>, 
+ =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>, 
+ ML Mesa-dev <mesa-dev@lists.freedesktop.org>, nd@arm.com, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+Content-Type: multipart/alternative; boundary="0000000000007dec76062c3c4ca7"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,124 +99,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---0000000000009def54062c3c2557
+--0000000000007dec76062c3c4ca7
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 17, 2025 at 1:20=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.com=
-> wrote:
+On Mon, Jan 20, 2025 at 1:41=E2=80=AFPM Simona Vetter <simona.vetter@ffwll.=
+ch>
+wrote:
+
+> On Mon, Jan 20, 2025 at 08:58:20AM +0100, Thomas Zimmermann wrote:
+> > Hi
+> >
+> >
+> > Am 18.01.25 um 03:37 schrieb Marek Ol=C5=A1=C3=A1k:
+> > [...]
+> > >
+> > > 3) Implementing DRM_FORMAT_MOD_LINEAR as having 256B pitch and offset
+> > > alignment. This is what we do today. Even if Intel and some AMD chips
+> > > can do 64B or 128B alignment, they overalign to 256B. With so many
+> > > AMD+NV laptops out there, NV is probably next, unless they already do
+> > > this in the closed source driver.
 >
-> You're going to have to explain that one in the commit message a lot
-> better because as is it doesn't make sense to me. Especially the
-> !vbo->is_dumb in vmw_bo_free.
+> I don't think this works, or at least not any better than the current
+> linear modifier. There's way too many users of that thing out there that =
+I
+> think you can realistically redefine it.
 >
-> z
 
-The dirty tracker is freed later in vmw_bo_release when it's a
-coherent dumb_buffer.
-Alternatively I can move the WARN_ON below vmw_bo_release and remove
-the is_dumb check.
+DRM_FORMAT_MOD_LINEAR was redefined on PC a long time ago to mean 256B
+pitch alignment because of laptops with AMD+Intel. Drivers redefined it
+because that's what happens when it's under-defined. As you say,
+DRM_FORMAT_MOD_LINEAR can't be removed, but then it can't work with any
+other pitch alignment on all PC hw either, so there is no other choice.
 
---0000000000009def54062c3c2557
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+The options for PC are either a new parameterized linear modifier (with
+properly defined addressing and size equations) or DRM_FORMAT_MOD_LINEAR
+with 256B pitch alignment. There is no 3rd option. Even if you totally
+disregard AMD, you won't get it below 128B or 64B on the rest of PC hw
+anyway, and that's the same problem.
 
-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
-V0fYJUiKJMCwvDmndOil8EtMA8j2T6taUZoQINiKQ0oDWgY6eYVv7AdPVIeOOs3noCyUL8AyA7Bl
-yoOPBB2/gk8VGcolEKgAAj+3hPbBF/d19x1bZzU3wABizBomVwykx5ms1nVXDbQajz8jqYECKWh9
-3OMo7BuC3TAClu5mLr2zs0Ccpp6NRRkjTF8WtCJ+jSnjFJGLAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF2lhbi5mb3JiZXNAYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBSvJWzgGK7aSByS+CQVBVfM
-Xgm5azANBgkqhkiG9w0BAQsFAAOCAgEAfrWiLF3zrYq7D+KPNRaAP70FbxHeaiUfn27Hbu37Eefz
-xeJTcFZH04IEtXqpM3NWYZm4A/dFn/VQPbLCRaeXzpT2TESVH6EFY7BEF0rnSSlUbFyi000MnSH3
-h5m+MoyE+PzLqfzLBZS+EU/haCpPy6Nqhs3fPKG3w5VTnUPsAxXK7rSmkIDVNsvwRttuMq9KHJzH
-Bx51dP/z3mel4OuMjgrwHk5uNY1Sn1MZAUQztVUsWguyfoKcmhxXbBccR5DdEfBgDEbq8bicPQ3J
-kqEy1QZXJfHlJuAJIiEw7odGctwqLeGCU6cBLhnsg54ngjO3uYC6tIySul55MRxFKE8HIwIrx+D5
-2SwhDeVLZ8sTK40uPzW5xg5laOWVCvmy2b+cHCGzarUeIlYdtw0ejdH9Hbkm0G7IrDvjkhPa64gR
-6Q+m5CGRDk+8iWhieH6WFE4HL++BpZhoi+YsOkGU3DK0dA+pxQnXNcNw1s0eNbSUVwQzmlC4LqiK
-Gj5JV81HTPLhoAya57a9i28Fp5qHZiFnCq4HMvwiwY7IWe+UwUuueU199aTK80xNiS553vHc6FpI
-/vxGy+LveJqEtodfKqQKwDOVu//c1Lz3uergJHqFYTMykk5U95J3FG5q/7Mqe4RF6E9OgtuAJidS
-6Ca5anjLQ/qzIfTjoXX7TJSjPztehRQxggJkMIICYAIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgx2/5+PPF/QoW30N7swDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIGQI
-CVMGZ/9AwVQANQ3RaFWAjYPPIKyHXgOaHr/BIzugMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDEyMTE5MTE0MVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJ
-KoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAMkcojNCLkb4Q7TpC1OQdb
-OvxTjaQ6Uy5q3n1H7PSBoKkLqfgm31s5SZAatENj+G3DR3RAKxGky7uxx85M724Jvst+yQ9mxWsz
-+lxIAsFFgkDujuDvwC055/Is7E71LNJfQgOR6GtqzRvm6bMKuD3Ow6MFA16mPGxwLl/P4hxLOZNS
-zzEc0D8iTRuwUlotfg1Mccgokc7RVFw66nRd4R+O0r2+LjodRZXyiGXnJFYSLwaRPwZcce2xy7KF
-aTKi72Fn/LdZEP7yiiY4gyCPSHPn16Fsp7LYtAqWZfLgFPttw3wf2ZAEHztu/V9+ACVM8MuJEDbT
-KwR7KmowwVwGayNd
---0000000000009def54062c3c2557--
+Marek
+
+--0000000000007dec76062c3c4ca7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Mon, Jan 20, 2025 at 1:41=E2=80=AFPM Simon=
+a Vetter &lt;<a href=3D"mailto:simona.vetter@ffwll.ch">simona.vetter@ffwll.=
+ch</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">On Mon, Jan 20, 2025 at 08:58:20AM +0100, Thomas Zimmermann wrote:<br>
+&gt; Hi<br>
+&gt; <br>
+&gt; <br>
+&gt; Am 18.01.25 um 03:37 schrieb Marek Ol=C5=A1=C3=A1k:<br>
+&gt; [...]<br>
+&gt; &gt; <br>
+&gt; &gt; 3) Implementing DRM_FORMAT_MOD_LINEAR as having 256B pitch and of=
+fset<br>
+&gt; &gt; alignment. This is what we do today. Even if Intel and some AMD c=
+hips<br>
+&gt; &gt; can do 64B or 128B alignment, they overalign to 256B. With so man=
+y<br>
+&gt; &gt; AMD+NV laptops out there, NV is probably next, unless they alread=
+y do<br>
+&gt; &gt; this in the closed source driver.<br>
+<br>
+I don&#39;t think this works, or at least not any better than the current<b=
+r>
+linear modifier. There&#39;s way too many users of that thing out there tha=
+t I<br>
+think you can realistically redefine it.<br></blockquote><div><br></div>DRM=
+_FORMAT_MOD_LINEAR was redefined on PC a long time ago to mean 256B pitch a=
+lignment because of laptops with AMD+Intel. Drivers redefined it because th=
+at&#39;s what happens when it&#39;s under-defined. As you say, DRM_FORMAT_M=
+OD_LINEAR can&#39;t be removed, but then it can&#39;t work with any other p=
+itch alignment on all PC hw either, so there is no other choice.</div><div =
+class=3D"gmail_quote gmail_quote_container"><br></div><div class=3D"gmail_q=
+uote gmail_quote_container">The options for PC are either a new=C2=A0parame=
+terized linear modifier (with properly defined addressing and size equation=
+s) or DRM_FORMAT_MOD_LINEAR with 256B pitch alignment. There is no 3rd opti=
+on. Even if you totally disregard AMD, you won&#39;t get it below 128B or 6=
+4B on the rest of PC hw anyway, and that&#39;s the same problem.<br></div><=
+div class=3D"gmail_quote gmail_quote_container"><br></div><div class=3D"gma=
+il_quote gmail_quote_container">Marek<br></div></div>
+
+--0000000000007dec76062c3c4ca7--
