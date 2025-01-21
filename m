@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C56EA17C65
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:55:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6C4A17C64
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B39E810E578;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C87410E575;
 	Tue, 21 Jan 2025 10:55:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FYPXFg02";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nYZFc3d6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
  [IPv6:2001:4b98:dc4:8::222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80ED610E562
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:55:40 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 86F494000D;
- Tue, 21 Jan 2025 10:55:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EFBA10E562
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:55:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5B06440010;
+ Tue, 21 Jan 2025 10:55:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737456939;
+ t=1737456940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rZcwtHI8+1dN0/SLlMiTp/ryUEVBiLmGMxRlYoqZrlY=;
- b=FYPXFg02iu2Ko0nmZ5ic6AtIaw4B0AW5gf6aTSjp1iu1jZVeQo8RxES7m964HAeTzkK/EI
- EzOuvDRpicBAIGwcvtqiDYHQeHze5Td/BZ6N0pz6z7LNj/W9iIEOwdbDcGkGHU1qvtgbxV
- FazmloIRlNNwitemAqTM1ql41iE4/DqXfw+x6Su1nouK74pXJ8VfAH+80MKtgiCFBvpBra
- ni/Ual+NPaag7U4MnL0NzFjf6R7zMjP74LK5HGkW5XLA3tU1rH4ytyJOPUtfTsAvnXUlYm
- yiE3OsKdMQ4RatbwupctUzc/1fOm5m6aEgZwVUxQk9iLXsBDfHfuKAwgw02WJQ==
+ bh=HqcY0DyYtlO489ogTF+qU/dH02tuwjudbhOD1uwQSKo=;
+ b=nYZFc3d66EUYFVln8sqGE2eOnY75Ptngj4UMTlAAfiTHwfn8GzB03e/XXDBaSWuzhUpiRo
+ 3ZiLx6ZaETlaMl8LnmVV8IxM/QPPj423IKQZYHVcxl7mctFWL1KDvQ76Gk9yfeWenrKy05
+ ml3Hwx9tU8+PVrVvWprnUKAUDzJ4fOKUb2Ua9m4j2vQHtWcNBCFGyd/BFm0NLbRrE5r4ZI
+ TRW22oDBcBU55/Zer+1sFGKlE8B2Jb06U9D4XiqIQhvHmrM5z67YHrzzP+sRWMxWhjYB2w
+ OElb4DcF+bGnEl2pq91rwRh/uH/iN67l6PEngg/AkmycMH2G8IGZfjD/ZnvWmw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 21 Jan 2025 11:55:29 +0100
-Subject: [PATCH v3 05/16] drm/vkms: Introduce config for plane name
+Date: Tue, 21 Jan 2025 11:55:30 +0100
+Subject: [PATCH v3 06/16] drm/vkms: Introduce config for plane rotation
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-google-remove-crtc-index-from-parameter-v3-5-cac00a3c3544@bootlin.com>
+Message-Id: <20250121-google-remove-crtc-index-from-parameter-v3-6-cac00a3c3544@bootlin.com>
 References: <20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com>
 In-Reply-To: <20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com>
 To: =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
@@ -50,21 +50,21 @@ Cc: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3777;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3836;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=Q4JNIVSGM6yjHh69qGFrGrMv69I5kWOImsa10E9crF0=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj30h2HpIbZERw8CtbNtFiLzBfLqQ8xZm0cw6w
- aflIInxFj6JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ499IQAKCRAgrS7GWxAs
- 4uLHEADBRT60MdbXTR1tHRt5DffiwnkpywTA9dt1W3puJIOduUacC+1GBFZMRE96TrEuUfZspsj
- AgRmot0GxCVtaByEjjimRDX2eG8kSR9Irt0WiMPDzqsMWCwfa/tdqSX07x+6Xr0xbvHNNgu3BDu
- qsAVBe+kKgnPODJ8ilJ2U+mhK8JJDMMVzXwd8p6V33l87B0iU4ktAJAbZzZh7BOHYv898aomv5e
- y/LdGm9uKt5M9jfdBTR8GVsDfBpMshBaeBdc25pwr1QG1uWwAdYCdUvCGQWJDtXFlEU9jM336oy
- Jgs+Mo2F7pK+ZR5/uj+d+yvLQ+8MJVxbl39FCHWmATYSFLlJODLsgZdSSnczgjETdTKaBIsjFzc
- y+GFZc3amrWXwKh6ju2TLH4IJssJwSs+m7BJvusv6p1P4CsdchD4HzAqOQm++SLV6dse8bSFwyQ
- 0IDH5GvvG61lUuzz0sDBKm4RGIJdxIfrYwNjairdoPjMpuCrRpBsU2Ra8Ukpn9kj3bYNxeI93Ub
- LMWqeuJgm/H+pAKVzZrkFXUJH6k9fZPbQV7oBpmTWgFpMk36hSj0sFvGs4tctnsrbE2VIAqjleg
- b9G+RYftkVcYNPASi/fR92p4trgVY/SVlpqxVM60k4hpNWKSjr01EdKMDi8W6qShtjd/mdOhLkI
- y072mZyrOqfuvng==
+ bh=/+tB6p8BZyzbvr8BpDgZBRbkRtslJ2ufkBFxa/NbvvQ=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj30h3+PgIgWWW6uszuYC0FX9x5fswGz4iDZE/
+ KPg8ENAeMeJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ499IQAKCRAgrS7GWxAs
+ 4sd5D/452OUg4UptAlh29AkMOVyxmnuupUTNypqsPf5EUrqQeLlcIe1dhD0B7L5h7h8dLeRrkwy
+ ldMmQ7niZ3C3qj9TXHWNz2/sHShyk5/uWShDqaFj1in4JOmawaUnUHHNTv/I0PSU5paexqdXSGx
+ 5cMYG67o6L1PEKy4DMJiLXZfms0+e1PGOzJ5umYjwnUNiQNLrellR7vp3yqLxOqdK7nSj2RPhXD
+ zVNAlTeDpMGODZqQC+su7y3lUPXqk2V8QFitWjPU4BXOaDbX5uU4uh4P/DAtd9WCOwAsZH21ySx
+ aN14Tr1npS2Dt/W488H/Ml7jbveWuHpSXlLaOlQyGmsK7SI5EXoB1z/OIaTrfrS2QYIX9DCaR4D
+ /btt0PrbApNtMJukEqlvvLtV2n8BXnlWQaBN1A8BKwLb2tfu5VG/dJzI17e16obM2DqHDuq5yHt
+ ZtpJLldpJBzCdxaHyC9HyWd0m7OCfJpl3WLBsvcXqAyOYDT+yKtgAMVvMzajP5+FRBdqPN/lvh8
+ sOck0uuI/f0GaaI6DO+Fr3dVZyhEFAvCqfadJMix7iGMr1tB6JrPxilAgz7zqPSjQ1d92VVlsPz
+ IVaNFeK6yOiW4Gsb0UnfAenZ0SJr/4iqKL9Yeb141tx4Mj6vJCU2kxNIF1GuMtZJAPhshOAxR7d
+ dCDFuoHvVQEiI4Q==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -83,102 +83,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As a plane will be a folder in ConfigFS, add name configuration for plane
-so it will reflect the folder name.
+VKMS driver supports all the rotation on planes, but for testing it can be
+useful to only advertise few of them. This new configuration interface
+will allow configuring the rotation per planes.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_config.c | 14 ++++++++++++++
- drivers/gpu/drm/vkms/vkms_config.h |  2 ++
- drivers/gpu/drm/vkms/vkms_plane.c  |  2 +-
- 3 files changed, 17 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/vkms/vkms_config.c | 9 +++++++++
+ drivers/gpu/drm/vkms/vkms_config.h | 4 ++++
+ drivers/gpu/drm/vkms/vkms_plane.c  | 5 +++--
+ 3 files changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 495056ce988ab32738701f00c94c709457aefbd3..0caa6bfccb5e409efa37ea48a52299e0dc132728 100644
+index 0caa6bfccb5e409efa37ea48a52299e0dc132728..c7a39cde8cfbcd0ff4f5ae137cfb709b7a2240e2 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.c
 +++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -36,6 +36,10 @@ struct vkms_config *vkms_config_alloc_default(bool enable_writeback, bool enable
- 		goto err_alloc;
+@@ -82,6 +82,8 @@ struct vkms_config_plane *vkms_config_create_plane(struct vkms_config *vkms_conf
+ 		return NULL;
  
- 	plane->type = DRM_PLANE_TYPE_PRIMARY;
-+	plane->name = kzalloc(sizeof("primary"), GFP_KERNEL);
-+	if (!plane->name)
-+		goto err_alloc;
-+	sprintf(plane->name, "primary");
+ 	vkms_config_overlay->type = DRM_PLANE_TYPE_OVERLAY;
++	vkms_config_overlay->supported_rotations = DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK;
++	vkms_config_overlay->default_rotation = DRM_MODE_ROTATE_0;
  
- 	if (enable_overlay) {
- 		for (int i = 0; i < NUM_OVERLAY_PLANES; i++) {
-@@ -43,6 +47,10 @@ struct vkms_config *vkms_config_alloc_default(bool enable_writeback, bool enable
- 			if (!plane)
- 				goto err_alloc;
- 			plane->type = DRM_PLANE_TYPE_OVERLAY;
-+			plane->name = kzalloc(10, GFP_KERNEL);
-+			if (!plane->name)
-+				goto err_alloc;
-+			snprintf(plane->name, 10, "plane-%d", i);
- 		}
- 	}
- 	if (enable_cursor) {
-@@ -50,6 +58,10 @@ struct vkms_config *vkms_config_alloc_default(bool enable_writeback, bool enable
- 		if (!plane)
- 			goto err_alloc;
- 		plane->type = DRM_PLANE_TYPE_CURSOR;
-+		plane->name = kzalloc(sizeof("cursor"), GFP_KERNEL);
-+		if (!plane->name)
-+			goto err_alloc;
-+		sprintf(plane->name, "cursor");
- 	}
- 	return vkms_config;
+ 	list_add(&vkms_config_overlay->link, &vkms_config->planes);
  
-@@ -82,6 +94,7 @@ void vkms_config_delete_plane(struct vkms_config_plane *vkms_config_overlay)
- 	if (!vkms_config_overlay)
- 		return;
- 	list_del(&vkms_config_overlay->link);
-+	kfree(vkms_config_overlay->name);
- 	kfree(vkms_config_overlay);
- }
+@@ -118,6 +120,11 @@ bool vkms_config_is_valid(struct vkms_config *config)
+ 	bool has_primary = false;
  
-@@ -136,6 +149,7 @@ static int vkms_config_show(struct seq_file *m, void *data)
- 	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
- 	list_for_each_entry(config_plane, &vkmsdev->config->planes, link) {
+ 	list_for_each_entry(config_plane, &config->planes, link) {
++		// Default rotation not in supported rotations
++		if ((config_plane->default_rotation & config_plane->supported_rotations) !=
++		    config_plane->default_rotation)
++			return false;
++
+ 		if (config_plane->type == DRM_PLANE_TYPE_PRIMARY) {
+ 			// Multiple primary planes for only one CRTC
+ 			if (has_primary)
+@@ -151,6 +158,8 @@ static int vkms_config_show(struct seq_file *m, void *data)
  		seq_puts(m, "plane:\n");
-+		seq_printf(m, "\tname: %s\n", config_plane->name);
+ 		seq_printf(m, "\tname: %s\n", config_plane->name);
  		seq_printf(m, "\ttype: %d\n", config_plane->type);
++		seq_printf(m, "\tsupported rotations: 0x%x\n", config_plane->supported_rotations);
++		seq_printf(m, "\tdefault rotation: 0x%x\n", config_plane->default_rotation);
  	}
  
+ 	return 0;
 diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index ac99f1df6d9a17bd7040a1e7a6acce14cd8fd9d0..3e70bce8d4f7b06f44ec79b3a3d8e6897f9a44c7 100644
+index 3e70bce8d4f7b06f44ec79b3a3d8e6897f9a44c7..fd5e0df11647f145d53e71a1b6a244951af3ec0d 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.h
 +++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -27,6 +27,7 @@ struct vkms_config {
-  * struct vkms_config_plane
-  *
-  * @link: Link to the others planes
-+ * @name: Name of the plane
+@@ -30,6 +30,8 @@ struct vkms_config {
+  * @name: Name of the plane
   * @type: Type of the plane. The creator of configuration needs to ensures that at least one
   *        plane is primary.
++ * @default_rotation: Default rotation that should be used by this plane
++ * @supported_rotation: Rotation that this plane will support
   * @plane: Internal usage. This pointer should never be considered as valid. It can be used to
-@@ -36,6 +37,7 @@ struct vkms_config {
- struct vkms_config_plane {
- 	struct list_head link;
+  *         store a temporary reference to a vkms plane during device creation. This pointer is
+  *         not managed by the configuration and must be managed by other means.
+@@ -39,6 +41,8 @@ struct vkms_config_plane {
  
-+	char *name;
+ 	char *name;
  	enum drm_plane_type type;
++	unsigned int default_rotation;
++	unsigned int supported_rotations;
  
  	/* Internal usage */
+ 	struct vkms_plane *plane;
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 4663002c9c54030ff6243631a2a1cff26415e7a3..b3a9a42476ef340986c8961f076236d76a7c73e3 100644
+index b3a9a42476ef340986c8961f076236d76a7c73e3..c23ac8687dedaa956cfd6622321f1026521ff13f 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -196,7 +196,7 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
- 	plane = drmm_universal_plane_alloc(dev, struct vkms_plane, base, 0,
- 					   &vkms_plane_funcs,
- 					   vkms_formats, ARRAY_SIZE(vkms_formats),
--					   NULL, config->type, NULL);
-+					   NULL, config->type, config->name);
- 	if (IS_ERR(plane))
- 		return plane;
+@@ -202,8 +202,9 @@ struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
  
+ 	drm_plane_helper_add(&plane->base, &vkms_plane_helper_funcs);
+ 
+-	drm_plane_create_rotation_property(&plane->base, DRM_MODE_ROTATE_0,
+-					   DRM_MODE_ROTATE_MASK | DRM_MODE_REFLECT_MASK);
++	drm_plane_create_rotation_property(&plane->base,
++					   config->default_rotation,
++					   config->supported_rotations);
+ 
+ 	return plane;
+ }
 
 -- 
 2.47.1
