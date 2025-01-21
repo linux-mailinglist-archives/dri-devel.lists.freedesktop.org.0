@@ -2,52 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D3B8A17919
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 09:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC43A17942
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 09:27:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6EDB10E4F3;
-	Tue, 21 Jan 2025 08:14:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="HMn43862";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63DB110E1D2;
+	Tue, 21 Jan 2025 08:27:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id B430410E4F3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 08:14:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=lnHDg
- B30BKfbeE3jVS8dTSbxptXgBhpJgVEJ1B3jgnQ=; b=HMn438621z6KnLeywtU5u
- mDT8BN4/KidHcDIv9FqA9qRQR9jMzN8qHKTWX0Xo55hbDd4oWrQIyFPmyEhWwZ0R
- t1YAsB4ts8fJo6yFvieaRw4RGLRHMdbx6OVt/3q/MZBs8mSBlobz7MsqWR47BYmd
- Vm9/cC9fSICKQW61/FwRwo=
-Received: from localhost.localdomain (unknown [])
- by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id
- _____wDnl1Q0V49nw9a6Hg--.31033S2; 
- Tue, 21 Jan 2025 16:13:42 +0800 (CST)
-From: oushixiong1025@163.com
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH] drm/bridge: Use devm_platform_get_and_ioremap_resource()
-Date: Tue, 21 Jan 2025 16:13:36 +0800
-Message-Id: <20250121081336.218918-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1FB10E1D2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 08:27:35 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1ta9Z6-0008Ps-UH; Tue, 21 Jan 2025 09:24:52 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1ta9Z3-0014lS-0a;
+ Tue, 21 Jan 2025 09:24:49 +0100
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1ta9Z3-0001U4-0B;
+ Tue, 21 Jan 2025 09:24:49 +0100
+Message-ID: <518c440a74b592099b1f5dddd95dbc23615dd034.camel@pengutronix.de>
+Subject: Re: [RFC v3 09/18] drm/imagination: Add reset controller support
+ for GPU initialization
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Michal Wilczynski <m.wilczynski@samsung.com>, mturquette@baylibre.com, 
+ sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ drew@pdp7.com, guoren@kernel.org, wefu@redhat.com,
+ jassisinghbrar@gmail.com,  paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu,  frank.binns@imgtec.com, matt.coster@imgtec.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
+ jszhang@kernel.org,  m.szyprowski@samsung.com
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Date: Tue, 21 Jan 2025 09:24:48 +0100
+In-Reply-To: <20250120172111.3492708-10-m.wilczynski@samsung.com>
+References: <20250120172111.3492708-1-m.wilczynski@samsung.com>
+ <CGME20250120172131eucas1p1ed7fc14a96c66b1dc9e14e9fc7cbb2b7@eucas1p1.samsung.com>
+ <20250120172111.3492708-10-m.wilczynski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDnl1Q0V49nw9a6Hg--.31033S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAr13KFWrWF43ZryfWF48JFb_yoW5GF1fpF
- 4xGFyj9ry8Ga15Kay8AF18AF9IvasFvayfCr4UGwsI934xtF9rAr98AFyfZ3sxtrykC3Wf
- tws3trW8Za4jvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UQVy3UUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXA3bD2ePUJ95zwAAsU
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,67 +71,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+On Mo, 2025-01-20 at 18:21 +0100, Michal Wilczynski wrote:
+> Certain platforms, such as the T-Head TH1520 and Banana Pi BPI-F3,
+> require a controlled GPU reset sequence during the power-up procedure
+> to ensure proper initialization. Without this reset, the GPU may remain
+> in an undefined state, potentially leading to stability or performance
+> issues.
+>=20
+> This commit integrates a dedicated reset controller within the
+> drm/imagination driver. By doing so, the driver can coordinate the
+> necessary reset operations as part of the normal GPU bring-up process,
+> improving reliability and ensuring that the hardware is ready for
+> operation.
+>=20
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
+>  drivers/gpu/drm/imagination/pvr_device.c | 21 +++++++++++++++++++++
+>  drivers/gpu/drm/imagination/pvr_device.h |  9 +++++++++
+>  drivers/gpu/drm/imagination/pvr_power.c  | 15 ++++++++++++++-
+>  3 files changed, 44 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.c b/drivers/gpu/drm/i=
+magination/pvr_device.c
+> index 1704c0268589..7ae9875d8d74 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.c
+> +++ b/drivers/gpu/drm/imagination/pvr_device.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+>  #include <linux/slab.h>
+>  #include <linux/stddef.h>
+>  #include <linux/types.h>
+> @@ -120,6 +121,21 @@ static int pvr_device_clk_init(struct pvr_device *pv=
+r_dev)
+>  	return 0;
+>  }
+> =20
+> +static int pvr_device_reset_init(struct pvr_device *pvr_dev)
+> +{
+> +	struct drm_device *drm_dev =3D from_pvr_device(pvr_dev);
+> +	struct reset_control *reset;
+> +
+> +	reset =3D devm_reset_control_get_exclusive_by_index(drm_dev->dev, 0);
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 4 +---
- drivers/gpu/drm/bridge/microchip-lvds.c            | 5 ++---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          | 3 +--
- 3 files changed, 4 insertions(+), 8 deletions(-)
+The dt-bindings only specify a single reset. No need to request by
+index. Please use:
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index bfa88409a7ff..284fd186eb5f 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1605,9 +1605,7 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 		return ERR_CAST(dp->clock);
- 	}
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--
--	dp->reg_base = devm_ioremap_resource(&pdev->dev, res);
-+	dp->reg_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(dp->reg_base)) {
- 		ret = PTR_ERR(dp->reg_base);
- 		goto err_disable_clk;
-diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-index b8313dad6072..a679dd76962d 100644
---- a/drivers/gpu/drm/bridge/microchip-lvds.c
-+++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-@@ -151,6 +151,7 @@ static int mchp_lvds_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct mchp_lvds *lvds;
- 	struct device_node *port;
-+	struct resource *res;
- 	int ret;
- 
- 	if (!dev->of_node)
-@@ -161,9 +162,7 @@ static int mchp_lvds_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	lvds->dev = dev;
--
--	lvds->regs = devm_ioremap_resource(lvds->dev,
--			platform_get_resource(pdev, IORESOURCE_MEM, 0));
-+	lvds->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(lvds->regs))
- 		return PTR_ERR(lvds->regs);
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 0031f3c54882..96e17776165c 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3386,8 +3386,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 			return ERR_PTR(-EINVAL);
- 		}
- 
--		iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--		hdmi->regs = devm_ioremap_resource(dev, iores);
-+		hdmi->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &iores);
- 		if (IS_ERR(hdmi->regs)) {
- 			ret = PTR_ERR(hdmi->regs);
- 			goto err_res;
--- 
-2.25.1
+	reset =3D devm_reset_control_get_exclusive(drm_dev->dev, NULL);
 
+instead. Or devm_reset_control_get_optional_exclusive(), perhaps? See
+below.
+
+> +	if (IS_ERR(reset))
+> +		return dev_err_probe(drm_dev->dev, PTR_ERR(reset),
+> +				     "failed to get gpu reset line\n");
+> +
+> +	pvr_dev->reset =3D reset;
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * pvr_device_process_active_queues() - Process all queue related events=
+.
+>   * @pvr_dev: PowerVR device to check
+> @@ -509,6 +525,11 @@ pvr_device_init(struct pvr_device *pvr_dev)
+>  	if (err)
+>  		return err;
+> =20
+> +	/* Get the reset line for the GPU */
+> +	err =3D pvr_device_reset_init(pvr_dev);
+> +	if (err)
+> +		return err;
+> +
+>  	/* Explicitly power the GPU so we can access control registers before t=
+he FW is booted. */
+>  	err =3D pm_runtime_resume_and_get(dev);
+>  	if (err)
+> diff --git a/drivers/gpu/drm/imagination/pvr_device.h b/drivers/gpu/drm/i=
+magination/pvr_device.h
+> index 6d0dfacb677b..f6576c08111c 100644
+> --- a/drivers/gpu/drm/imagination/pvr_device.h
+> +++ b/drivers/gpu/drm/imagination/pvr_device.h
+> @@ -131,6 +131,15 @@ struct pvr_device {
+>  	 */
+>  	struct clk *mem_clk;
+> =20
+> +	/**
+> +	 * @reset: Optional reset line.
+
+This looks like the reset control really should be made optional in
+pvr_device_reset_init().
+
+> +	 *
+> +	 * This may be used on some platforms to provide a reset line that need=
+s to be de-asserted
+> +	 * after power-up procedure. It would also need to be asserted after th=
+e power-down
+> +	 * procedure.
+> +	 */
+> +	struct reset_control *reset;
+> +
+>  	/** @irq: IRQ number. */
+>  	int irq;
+> =20
+> diff --git a/drivers/gpu/drm/imagination/pvr_power.c b/drivers/gpu/drm/im=
+agination/pvr_power.c
+> index ba7816fd28ec..87a955600d8b 100644
+> --- a/drivers/gpu/drm/imagination/pvr_power.c
+> +++ b/drivers/gpu/drm/imagination/pvr_power.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+>  #include <linux/timer.h>
+>  #include <linux/types.h>
+>  #include <linux/workqueue.h>
+> @@ -252,6 +253,9 @@ pvr_power_device_suspend(struct device *dev)
+>  	clk_disable_unprepare(pvr_dev->sys_clk);
+>  	clk_disable_unprepare(pvr_dev->core_clk);
+> =20
+> +	if (pvr_dev->reset)
+> +		err =3D reset_control_assert(pvr_dev->reset);
+
+No need for conditional assert, reset_control_assert(NULL) is a no-op.
+Just use:
+
+	err =3D reset_control_assert(pvr_dev->reset);
+
+> +
+>  err_drm_dev_exit:
+>  	drm_dev_exit(idx);
+> =20
+> @@ -282,16 +286,25 @@ pvr_power_device_resume(struct device *dev)
+>  	if (err)
+>  		goto err_sys_clk_disable;
+> =20
+> +	if (pvr_dev->reset) {
+> +		err =3D reset_control_deassert(pvr_dev->reset);
+> +		if (err)
+> +			goto err_mem_clk_disable;
+> +	}
+
+Same as above, reset_control_deassert(NULL) returns 0:
+
+	err =3D reset_control_deassert(pvr_dev->reset);
+	if (err)
+		goto err_mem_clk_disable;
+
+regards
+Philipp
