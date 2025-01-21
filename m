@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98495A17C67
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE550A17C6D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:56:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A9CD10E569;
-	Tue, 21 Jan 2025 10:55:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3CB10E57B;
+	Tue, 21 Jan 2025 10:56:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GW4f/gHd";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZwAaceVd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
  [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E54B910E56F
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:55:48 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 040F740015;
- Tue, 21 Jan 2025 10:55:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAC5A10E573
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:55:49 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C0D4D40012;
+ Tue, 21 Jan 2025 10:55:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737456947;
+ t=1737456948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1L45snXRbo8coOmjDH+6FXlXlk9PA0CwtvqQLbt7rxQ=;
- b=GW4f/gHdOK3yjoD9kr9eALv9YxBAaKoLe8FhaaRafTQfuEY6SnDnvCpF8LzIvJY6m2G6U5
- DoLH1ybWkP7rwng93UDyB1F61Avtc5Y7HwN75Hzcx7kSzguKm/kILrY7m9EJkl6lHj3NkI
- Bok9VU+hvE6R2NI0TnvCdIwUW2vMYD4dwBRDDg3mTUdJnZgw6ajoEPjuo99b3IwnN6a0XB
- enUgK+ViwQ7hvZwVLr23nr0oEvBf6DPafu7PAVfWltEggk3/w6hVLkI4+hpZdvNXMPot05
- ok/p6FZVnd/lGKXf22m9FRzWv13BjBIBQ5Bd/2Cq/MSVkUmjubW7xFn71F2Qbw==
+ bh=Ubw63Fe9Yhv72/NM7/4903dvfCHgNHv426Pizoj94N8=;
+ b=ZwAaceVdWyZTFSwk0cvfv/gj3c7yuj8phaj5B4PCSSsWSkZFs3YRbVaeRaKEiJO+rWMinY
+ veB/mtY6R6AYhyUztLdDgCjve4n2sC8ZkjULcMF9peEgHIyb4FAEcdf0ml/JF0B2gVbFCb
+ MVY9Dcswl5HHdgsVHbYkGnKl0CnR+l0tp1q2GoExIT8wu04kwLEFb+E1qerAXr+sPMWvKZ
+ bT02hSM8m6+xxXx3nBMQxGihSRN7+EeCqAuVb6xNNK2pIQbYJz4U494PPGubvcnpz9awS+
+ 5/IsjKm8Q9A1i1Z4q43HWwZBQL0eqRAQjDprmCff1zJ0dzuNcb7ES6TA+W4aBQ==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 21 Jan 2025 11:55:39 +0100
-Subject: [PATCH v3 15/16] drm/vkms: Introduce config for connector EDID
+Date: Tue, 21 Jan 2025 11:55:40 +0100
+Subject: [PATCH v3 16/16] drm/vkms: Introduce config for encoder type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-google-remove-crtc-index-from-parameter-v3-15-cac00a3c3544@bootlin.com>
+Message-Id: <20250121-google-remove-crtc-index-from-parameter-v3-16-cac00a3c3544@bootlin.com>
 References: <20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com>
 In-Reply-To: <20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com>
 To: =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
@@ -50,21 +50,21 @@ Cc: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com,
  seanpaul@google.com, nicolejadeyee@google.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3463;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2577;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=k1HVDWUOwoXCv+se/NTmEAQUM+zoChcbWYjKvCcZaew=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj30kDvjlXFSbzyU+ash4NXe6sjMOPFGWhSwba
- e+CaHeF4g+JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ499JAAKCRAgrS7GWxAs
- 4puAD/44Yw/tgydOJHNi1VVc25eEPMS3H7phu/LGDSkZZwBegXhBxedOIB5ksgxQlkrdl2bDBVN
- 2jdFEpl+GbVqfZWbeIRxTRWISIDPgmVG8Qq0uR3ZIJEg7hBuoRFkWrAJ033CnpHgMf+tYb73s9L
- Vh80BZiNjkdY4DMu/DLejfYOqbS9C1rsnH+MdMlq9o+vjImJaNfF6/itye4pWLLxZUB2raNHRlg
- tLdhlH5pMjSj86eOoADpAWMOp44YRGHSxXd772UThhthXegfojVuqpwinrWUEBD2hKbMovCJLRt
- naPJ2cxEtaBJ8xgM6IYtFXeUETiY2FHkUQ7SikMm2dSHSWwT3hqdbSiLAzsbNrFUGXeS2p8Z5GO
- vkY6Nrp0DYuAWzREYYi7s4mlRAm0bPKFuFyUx2toZWZh/OA5HfP3JBCp+7vvI4muCscHyRfdWG9
- nBsX96WFeZHEtQRBrONrXbXNrsm5tm6u42KKvPKlSb1yKoJneGQ4WkXZvsX7kLEVuT3nl77YplR
- p/7npq2p0gg67IgJ9IZ2IwL/ls2IgQT368yizx3psMQ5pDfYw+tmP2YtfWz9U9nryOW+wftlkoL
- EnVs/X/ZtnW+DvmwT/E4G4WStjSwwsuhiU0q8sfiQ2HWTO1+ybaiSo4HrC2AyCOlkLazcV0Rxlg
- F3dPgu1JFdaZ/jA==
+ bh=3Uxt9AsZYAsifD+dZG6PItmtjDqqXrCvkT981nanQ+w=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj30l/cLzvUD0vqUSYIoiv/uUEhKQ58HtXMtFb
+ Bg6Gpo1m+6JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ499JQAKCRAgrS7GWxAs
+ 4jynD/95nJtbOf6oHrZj1qKPB36gxyDHT74VRdzt2fqdRx3QvRJ1Y58YzbTZrYOvFWxEsjRsWtk
+ miJTeujVuw9LKoDhjNxIa0Al1r9qR9B7cIarf+J9oIduoh4ZooJOCDR0WKxCYbOYSs0w4LqjT8b
+ iu9R3q9J8ILNutmOoK23aIQC+sMxq0UP7s5fPzed8IW/XnxV9McqLPkI+GCHAeJvum9KUbRtWna
+ gUhJ7sH/ZX3WjKk2VnF1H446ocQfvQYF1fNbfAHTyxRHtTILrFGjjG3M1l1QC7EFg1fFL5uicv1
+ lF4eQ5XAIsuyjOyB9M7Bv1KB99QiUfSAFZohfUSBwf19k+V757KRIlAaVWXdin3KWe8TXaS3AYo
+ 7/l+Aa3P9+Wn3CQTM2rGwmX+YSlh7WGt+KtHeGL9ZRHTy9goUZZvAaF6kw8WblTPZX8lsq1MbBc
+ aTooO/vyl2IXxdxByQvtkWKio/50wrmqnvm+FNlTdYqOI31kDlUgYaqm+eUXqjNNY22KOgUuIub
+ IGl8qCXowIomGr0FyaIVXSRHgCq0C9O6Wsjz3XHxfmpx/ypKYIb00O+X8ZNKWp37ro+4JPMAfbV
+ c6f+mOSFnE4fEV/LDCXQy/rsv0l2ICLCG1iH7Xw/I1yYgW5wHA3L2SMR30/WcHFt/iu0+y1TnYy
+ N0x/HNTUXck029g==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -83,93 +83,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To properly test the EDID reading without using the DRM override, add an
-option to configure the EDID for a connector.
+To allow emulation of different kind of encoders, make the encoder type
+configurable.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_config.c |  1 +
- drivers/gpu/drm/vkms/vkms_config.h |  2 ++
- drivers/gpu/drm/vkms/vkms_output.c | 37 ++++++++++++++++++++++++++++++++++---
- 3 files changed, 37 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vkms/vkms_config.c | 1 +
+ drivers/gpu/drm/vkms/vkms_config.h | 2 ++
+ drivers/gpu/drm/vkms/vkms_output.c | 2 +-
+ 3 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 5eba4284269d058f12f78ddba96cb40215e85f72..3e8883298e73e75fb16ac05e449a7ee8fac72935 100644
+index 3e8883298e73e75fb16ac05e449a7ee8fac72935..a20644031ce923fad98d486a8bb2ec7859038dcd 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.c
 +++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -162,6 +162,7 @@ struct vkms_config_connector *vkms_config_create_connector(struct vkms_config *v
- 	xa_init_flags(&vkms_config_connector->possible_encoders, XA_FLAGS_ALLOC);
- 	vkms_config_connector->type = DRM_MODE_CONNECTOR_VIRTUAL;
- 	vkms_config_connector->status = connector_status_unknown;
-+	vkms_config_connector->edid_blob_len = 0;
+@@ -205,6 +205,7 @@ struct vkms_config_encoder *vkms_config_create_encoder(struct vkms_config *vkms_
+ 	if (!vkms_config_encoder)
+ 		return NULL;
  
- 	return vkms_config_connector;
- }
++	vkms_config_encoder->type = DRM_MODE_ENCODER_VIRTUAL;
+ 	list_add(&vkms_config_encoder->link, &vkms_config->encoders);
+ 	xa_init_flags(&vkms_config_encoder->possible_crtcs, XA_FLAGS_ALLOC);
+ 
 diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index 8e0c9b753821f75f10b3090743905471d0abac36..6844ca8523decd51116fb36f98ed40a09bc2284b 100644
+index 6844ca8523decd51116fb36f98ed40a09bc2284b..23f420291cfc0044ccb2be90688d021aab10c1c0 100644
 --- a/drivers/gpu/drm/vkms/vkms_config.h
 +++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -104,6 +104,8 @@ struct vkms_config_connector {
- 	struct xarray possible_encoders;
- 	int type;
- 	enum drm_connector_status status;
-+	char edid_blob[PAGE_SIZE];
-+	int edid_blob_len;
+@@ -55,6 +55,7 @@ struct vkms_config_crtc {
+  * @link: Link to the others encoders
+  * @name: Name of the encoder
+  * @possible_crtcs: List of CRTC that can be used with this encoder
++ * @type: Type of encoder, see drm_mode.h, DRM_MODE_ENCODER_*
+  * @encoder: Internal usage. This pointer should never be considered as valid. It can be used to
+  *         store a temporary reference to a vkms encoder during device creation. This pointer is
+  *         not managed by the configuration and must be managed by other means.
+@@ -64,6 +65,7 @@ struct vkms_config_encoder {
+ 
+ 	char *name;
+ 	struct xarray possible_crtcs;
++	char type;
  
  	/* Internal usage */
- 	struct drm_connector *connector;
+ 	struct drm_encoder *encoder;
 diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 75d90df44da3b6dd3ed3ae104a6bc6d51c9bf089..8f7df59aa2c1517eb78e9b94b8611b15431fd234 100644
+index 8f7df59aa2c1517eb78e9b94b8611b15431fd234..a48625e879f59a33e18e636cafcdc7f841a0ff1f 100644
 --- a/drivers/gpu/drm/vkms/vkms_output.c
 +++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -38,13 +38,44 @@ static const struct drm_connector_funcs vkms_connector_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- };
- 
-+static int vkms_connector_read_block(void *context, u8 *buf, unsigned int block, size_t len)
-+{
-+	struct vkms_config_connector *config = context;
-+
-+	if (block * len + len > config->edid_blob_len)
-+		return 1;
-+	memcpy(buf, &config->edid_blob[block * len], len);
-+	return 0;
-+}
-+
- static int vkms_conn_get_modes(struct drm_connector *connector)
- {
-+	const struct drm_edid *drm_edid = NULL;
- 	int count;
-+	struct vkms_config_connector *connector_cfg;
-+	struct vkms_device *vkmsdev = drm_device_to_vkms_device(connector->dev);
-+	struct vkms_config_connector *context = NULL;
-+
-+	list_for_each_entry(connector_cfg, &vkmsdev->config->connectors, link) {
-+		if (connector_cfg->connector == connector) {
-+			context = connector_cfg;
-+			break;
-+		}
-+	}
-+	if (context)
-+		drm_edid = drm_edid_read_custom(connector, vkms_connector_read_block, context);
-+
-+	/*
-+	 * Unconditionally update the connector. If the EDID was read
-+	 * successfully, fill in the connector information derived from the
-+	 * EDID. Otherwise, if the EDID is NULL, clear the connector
-+	 * information.
-+	 */
-+	drm_edid_connector_update(connector, drm_edid);
-+
-+	count = drm_edid_connector_add_modes(connector);
- 
--	/* Use the default modes list from DRM */
--	count = drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
--	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
-+	drm_edid_free(drm_edid);
- 
- 	return count;
- }
+@@ -132,7 +132,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 		if (!config_encoder->encoder)
+ 			return -ENOMEM;
+ 		ret = drmm_encoder_init(dev, config_encoder->encoder, NULL,
+-					DRM_MODE_ENCODER_VIRTUAL, config_encoder->name);
++					config_encoder->type, config_encoder->name);
+ 		if (ret) {
+ 			DRM_ERROR("Failed to init encoder\n");
+ 			return ret;
 
 -- 
 2.47.1
