@@ -2,81 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1335EA17680
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 05:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2A0A176A6
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 05:45:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77D9210E053;
-	Tue, 21 Jan 2025 04:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 054FA10E4B9;
+	Tue, 21 Jan 2025 04:45:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="l5CgKuan";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ADz6VqGJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com
- [IPv6:2607:f8b0:4864:20::b30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 543C210E053
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 04:28:37 +0000 (UTC)
-Received: by mail-yb1-xb30.google.com with SMTP id
- 3f1490d57ef6-e455bf1f4d3so7074021276.2
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Jan 2025 20:28:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737433716; x=1738038516; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OZSNB6g5UtUoImhML+UGNfXWXkjaOAV6MUUxlrXnbfE=;
- b=l5CgKuanFCBlh2gDuphdBKYkWW5ONjMVSWemi0WM5ugLVyy6jNV3/cc+NOvvYISuNH
- POG9rxwKXyPPtmFFl1vFSJAO2xzLyfk5Vt0i5ez0eGQaOylgyfR1ian7HFbg/gvwv9mv
- zmRZItVk+di3aciZGa9pBkAuKVRW2RbUTT55FzZR8TKxWMFwonrX9TWLjtzK+Sns2yCD
- 8wbujrC5Fj9kdJ4jm4VsVUq/xC1Z7svlK0MeyUEypdB8Kuix4cbMC/t/f2sPd8CEVY08
- 9VSZXTBVlKLfbkomP7JZOY05Y7Pft6QFdllS09z6vWDQwPnVMeYqUHfGZNwDzOR1RIdY
- UqzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737433716; x=1738038516;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OZSNB6g5UtUoImhML+UGNfXWXkjaOAV6MUUxlrXnbfE=;
- b=lyCodl1gG3EFDZCzOZFZcYxobgdn7U+/rye5edAtowGfsSQsTYM1zam6D7S4SHRfV0
- WYs3HYBoQcsZnY7OZUMelueFvpyqbUZB7cofftMaf1Kfej3tuEo07f1y357g00q+KKRV
- 9SbUQflZKvwxm1xts7pQaT8X7G1xsAUVwHoDHSi5inaeo5DYmlwlxF8UcKJTH9uY/CN/
- SABLKwTgt/pW506a7XwDu5g57Nnr0y/MMTfg+QRaercPQBCZz6iYoZvsGHcM47aZF/5s
- b8QfSBHGxxHBk6MQstuZEUfl0xEK/rCMDOV/e94KYTXhNFFKnuiizlu0Q8RT2v9X+SXd
- jIfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUfC/10Bhf2qrBjhvVm4+DDaDYkL9aeubXiEcKJi3vC0hxeCKxdIQXPm0diHwsjDu8iAvkzqjKc9EM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywwrb+U0zhvhY8UKvqIc1E3LCmzEr7ZRa5/SW4H0ANX2x5ZeW8/
- w0K1vfwkEh0hc3nO4X92Lccm7FQcHtqodFJCHiepz8KSn7I9AE4pGwncSrITk9+OVysDpRneMfT
- FJwFps1WE29O3lk6potdIleXDs91MyhgkG2uLew==
-X-Gm-Gg: ASbGncupHtxMA3cAN7d5NmDqyO14fGfolR/L05gXiCpMtCFmCd+OLGFdDGZnJKpF43U
- K63L2WVw2s9n5zHnT8zRH25AFca6wVEr9Q4DRZ6MifduSsDu1a+Nesw==
-X-Google-Smtp-Source: AGHT+IGq/MHXBnnIFfgM/13ju/i+ES42JwboBmO2dRvRxF/fPN5yr5dACgnwRZOQCQDqbtKLPqHPHxnGRY22awQjXhE=
-X-Received: by 2002:a05:690c:ed4:b0:6f6:ccef:ef4f with SMTP id
- 00721157ae682-6f6eb659ce5mr124991237b3.2.1737433716183; Mon, 20 Jan 2025
- 20:28:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-0-74749c6eba33@linaro.org>
- <20250116-sm8650-v6-13-hmd-deckard-mdss-quad-upstream-33-v4-16-74749c6eba33@linaro.org>
- <mw7zc4ljagxs6sjpl2wfjicq56w7ru2dd43u55rrtwyux62bb5@3w4zayfqxlai>
- <CABymUCMnYy-L2Bd6dgYzPTB+qzpFLbU-LyCLDKxCSWy19x_A5g@mail.gmail.com>
- <6ds6wxlf56kt3lislorxubwbjldpknz74c76smglynzh4jxcpq@dcr2ptutaopa>
-In-Reply-To: <6ds6wxlf56kt3lislorxubwbjldpknz74c76smglynzh4jxcpq@dcr2ptutaopa>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Mon, 20 Jan 2025 20:28:24 -0800
-X-Gm-Features: AbW1kvb-DeFP6oG56gSKdFoJx3QfWKxrxchTK43xDe6e8I2Ayaxn3a_6GSbRAjA
-Message-ID: <CABymUCPviHNEhjV8sp7_dFDXNa5HMOMC+c0V83pyhRQND_0p8A@mail.gmail.com>
-Subject: Re: [PATCH v4 16/16] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3D110E4B7;
+ Tue, 21 Jan 2025 04:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737434719; x=1768970719;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=vgBxh5YxXy1dJodEUhJ5SLLV9r3dSWnJzk/k3SMwRUY=;
+ b=ADz6VqGJY2xNnKrLHAUlqTMQcW7Td7MxydHremmeycoRpXFj4IJN2thv
+ Dsmx2UBEu9tSUs/4s8cEdKdyPTnTpMIAGryizLHDcsmlg12i7Sqci5lqX
+ VtMiPzIqwH00CAr9LlZnx+CWOWQkdt2/qpLcUPWE/QVAHlDUk4IMoPTUI
+ RDrSRWwRsWKQ2tgZN6JZflekWOZ0zmu0eljjL/WUVMqCt38hEdYWJ7dro
+ mNCpdPBNVUHWE8cK4Tn0KNI6ZRbHMnU8tvmAvWOd92A4SSS/Bd6W7kXfZ
+ tuETahbdSAFdgcj0nP6SvglckS1bTVu+ZI2+GSLupl0aduo9OI2MiB4+B Q==;
+X-CSE-ConnectionGUID: IcXCr/W8QYacapD+CtboXg==
+X-CSE-MsgGUID: YewrmMUvQVO5w0z8LwPbUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37857100"
+X-IronPort-AV: E=Sophos;i="6.13,221,1732608000"; d="scan'208";a="37857100"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jan 2025 20:45:18 -0800
+X-CSE-ConnectionGUID: Q37yMt23Tmq0Gn/JNlNGKw==
+X-CSE-MsgGUID: aW/Qg4s8RjW1SqSrFDyRww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="143953333"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 20 Jan 2025 20:45:18 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Mon, 20 Jan 2025 20:45:17 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Mon, 20 Jan 2025 20:45:17 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 20 Jan 2025 20:45:17 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SudBh/fbSXWprcQJx1avI+0eEI4mhv/tnmHZWigOdC5vhx9IYWGBIYn2+/eMJJUAVqiU9rD0EJUDJJt0GPfxY2CqhxA6YdKyuoiMetx/0bnUIXbJwoP7cegRWlt633N+wrANXJ4ZUM2Rzu68R/L+I45aHS/5r7hct+9f+xRtCERsu6YgKG8nQdFpD0o3sIfZJQEOK52FAaG0u0wD67DClclREiKKtXNbR0KkDRyk7fvIm8CERTgM68614FwEJBa6lipiL9DySI0wJsn6NMoRzzJ1p+6O3bYh+E95WUteKiFwEbqalzXqjcxVPVjLs/KW9Cygjlm/f/Z5dMrM59TT7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U9Aet8rLk4Lx9/e/dDmVfP52ANVEy0+0t+wsPUSG1d8=;
+ b=RS4oRXtw4QDiZeVnxt19FtzcQGFbbyePTpp68yEWAATlWyC/cjEgmyoThUEyZudegrNzRikHvZujbSsNTnpZzLFJPn41xVA+6WaGLl7pzrwyGwb+CzYP6hVKFQce2oj22I/Lbxd5yFlp40a5gVV9rTmAyf822pmqyupi7REUapBbXSoVMiDFsTBSW3buSGAxpwRZRoR6mesHDqMGFHo7rTG9nJKckutRb5XXgw0wMmwzo/nygakc8wMmHsqb0kTLQmGPjBIyWJPOxfc8XdXfMxBvG4HNTDco42WNZRxFhPu74IiY1Nm8cWVaB5VVJvWScp9hUQyxb5kv9YY/O985Lw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SN7PR11MB6750.namprd11.prod.outlook.com (2603:10b6:806:266::21)
+ by DM4PR11MB6118.namprd11.prod.outlook.com (2603:10b6:8:b2::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.22; Tue, 21 Jan
+ 2025 04:44:33 +0000
+Received: from SN7PR11MB6750.namprd11.prod.outlook.com
+ ([fe80::9570:169d:a0d5:527]) by SN7PR11MB6750.namprd11.prod.outlook.com
+ ([fe80::9570:169d:a0d5:527%3]) with mapi id 15.20.8356.020; Tue, 21 Jan 2025
+ 04:44:32 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Murthy, 
+ Arun R" <arun.r.murthy@intel.com>
+Subject: RE: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
+Thread-Topic: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
+Thread-Index: AQHbaKOmqPoAUwuokEOMR8JRg1EtubMafkyAgAYuptA=
+Date: Tue, 21 Jan 2025 04:44:32 +0000
+Message-ID: <SN7PR11MB6750B351A861E38AAF0DE8DFE3E62@SN7PR11MB6750.namprd11.prod.outlook.com>
+References: <20250117054850.1189650-1-suraj.kandpal@intel.com>
+ <20250117054850.1189650-3-suraj.kandpal@intel.com>
+ <ztphlheh43abwngqvk7a2ht3bk2njytxlijykzf5ucuc3hrg5h@s22pn3wfdpai>
+In-Reply-To: <ztphlheh43abwngqvk7a2ht3bk2njytxlijykzf5ucuc3hrg5h@s22pn3wfdpai>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR11MB6750:EE_|DM4PR11MB6118:EE_
+x-ms-office365-filtering-correlation-id: daea3466-89f1-4b38-64b0-08dd39d64cbc
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?Mdbgl8yPx/i6/6XJOc3COXOESlJOSKQDqua/aTRBz2dqlMAaL8uxNv+VRVTc?=
+ =?us-ascii?Q?qhReFszDNAk75ptgKoxTyoHwir1W29X7ASsCzY4DkKRELIZmEljqOxBv0kAt?=
+ =?us-ascii?Q?b7JpcvmRR+p1gT2wF4SW3aSC9nJJJNsAwP/OR3+Jjnd2oXqa+BPuwe6byrLZ?=
+ =?us-ascii?Q?Cqx88eT+UqH4fCVf67IysIO/MmHfSqzK4CcXIA35eA4uc98AywfgOMuJuUsW?=
+ =?us-ascii?Q?GHkQ1girX8UZiss06SfGK66rT4Eksd4BtV7TuoSrFRte4ke/lNRRMTbR07tv?=
+ =?us-ascii?Q?9xrdHdLrZqUptWKQjb1ndwkBIr510dV2LSD+0AiLmd+8L1mYJOlqIvLxorey?=
+ =?us-ascii?Q?LYkvdNiwnbSAdw7NM/YZKra/msPpXBBcBYgFcFNJWPlMVFwi3aaEu7BpAzUZ?=
+ =?us-ascii?Q?SDhrMGJ1tVysfHxmqG69nAy9q7yElHWxtQL9uqS1GQz1guRZnseBxysBBS7Q?=
+ =?us-ascii?Q?Ee8E0btCP5ZZOX/g+SJ5qRSblM0rdEoft7LbXmvsp/r0qOrRAz/tsE4SEWcA?=
+ =?us-ascii?Q?V0HA/2rS8bmek6uv6qx6XJhIL6dQmyMD3Boium+5nm63xFDO69qO0qZwEZ0h?=
+ =?us-ascii?Q?gNqzvXrDDsjON5e/3FGsPJKTFu2xN1Sw1HUAO+IsmhTXbrVQv1sQVvOCTK3d?=
+ =?us-ascii?Q?kqZ2eMKHq4a0MXUkj37H/5GNsrlvlVabVJ5NVNSqUy8WIB2kH69+Ujt2InWx?=
+ =?us-ascii?Q?82KFzeBhO7RzJ1scKmSdgzVZBs85o0F72fhmUs4YLQz/DiYzN3HDRDm88vxL?=
+ =?us-ascii?Q?KVEEaMOBfr+i3vP6HFphyrd46jb9Q+IN7si13eIKIvCKHkZPvjRyacVqSskJ?=
+ =?us-ascii?Q?hMXpWZfoCvmOLQ6a6UfesWPrVMm0nPNholZIb9AfSF5IzuwWvoQjNtNWTBIK?=
+ =?us-ascii?Q?Z6cq8OqsMucpzLPFP3ZAQ/eZMV9K6tqk8vcTIUCWuK1mNqj/E0I6bC4tV8MQ?=
+ =?us-ascii?Q?hgePBKBBjSxHfx4p3qA8znJv6W83v3ha9fGfQYtBeMa3ZR8AhVXeVW9rQO9D?=
+ =?us-ascii?Q?CoVUWnlIGVDAQ9GZQawfsZTHSh7J5bchPCqlAvshjU6K6Z1fhRo2g4bwn4tQ?=
+ =?us-ascii?Q?NlXWnt6hlt57fVR+jc3vtLSiRSVDminAZ+YzxMVl6yfjWq/a5uoxM7qdGkiW?=
+ =?us-ascii?Q?F4NGChr80UcooNlg4xQLOmp75nDW4VTSCykaFHT6sOfhx9wJfnqnVOXb/Wxo?=
+ =?us-ascii?Q?irk0EVP24cXYwnXbEOrOUgcCDV93qPZ6juuRM6hgxIQQOqxq7Pd93QDDtUD7?=
+ =?us-ascii?Q?iOT/uWo243GR70/N6ouUJ55TeHJHbZV0KBnIS/ZM8yGrSFPPLVTRydFmjpMx?=
+ =?us-ascii?Q?ZIxeWAWJCVC628oQYWyAoowno+mQUCuW5IvZSXKQ+cIb2PsNewTMFBnCvINB?=
+ =?us-ascii?Q?zpUD7MgNfmh/lyMO8SXro6UEOtvePg3Gy/viLLbc/VL3vQ3Sg4vTPN0VlxSA?=
+ =?us-ascii?Q?5RjPW/6CErdcL0XBsbdaeO2RUCJWhQ54?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR11MB6750.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/aB12Czflyr9vOr7CjUKply2I4BTrHvnlGLQAfMeg0VOKYsW6uQ+40MmfjRd?=
+ =?us-ascii?Q?EsqZMjd9YRnStREE7O4CooCdALGUprW5Q5PjU0a6z2H9iKcTCDRsrJHVgM8j?=
+ =?us-ascii?Q?gTCuildDWcFlzv0KDxYtMPRoio0Xc5Ubx0CdvzAIADu3kh3dBxHbIsDcLHvG?=
+ =?us-ascii?Q?+D036dtNsGkUc1KhqSXzDZdOsbvRHI0vCN2lJvZVUTGR+GOhgHVjGezIZjQe?=
+ =?us-ascii?Q?UJdq+39vKR0sFT8tw5vbfiYmdG+k1bLHv4wVgGs6dwLmR+Gpf861QEJQKI94?=
+ =?us-ascii?Q?5t5d3We7guhR749s9Q4nJ6MPGP2nXexA74xcNtgNDI7VFc+YGP+T8OG0QhaB?=
+ =?us-ascii?Q?sr+9fc+J/T1vyCKWYE61JV5WaZWm3zf058rxEqgyV/0bAjH7WkGe/grvta7R?=
+ =?us-ascii?Q?gjbj4J5mSymniv2imcsUMMXe7tjtG3MBz5xTwlo8IcW26iUJPN7sCj6JrTN3?=
+ =?us-ascii?Q?nJ2CWulSzU9NSQIWfP4Agoa4W518554PoY8Fw1QwSrX3ekFiYtJe2V4ZeyGw?=
+ =?us-ascii?Q?Z6s/tL59eDntflL89XhDa+A+f+jblNqNPdjRwuIlfLbo5hIPZHqkpRvx9Hl6?=
+ =?us-ascii?Q?88QP8GOaOOjcL7nWuzwM2bZMu4zosX0FT/ZLG0GY6du/1mTy6Qmbk9VF/g79?=
+ =?us-ascii?Q?JImVZYOe+CcYMy8V24OXodKrPDDJ3iIwgMwv1f4bfDfZu+TnmuU0YFlGG6yE?=
+ =?us-ascii?Q?10+Q0r15jxnzFqDDem3S5Xa6AY4LMHkiw3+2pPkamXS5cCcXDej4fQA0i7Et?=
+ =?us-ascii?Q?RO3S8QS+CvKTB8A+xf//hii9CSOlMTMDGev4eql201XYBnUtYRNXuZZ05IBL?=
+ =?us-ascii?Q?WDQ92dYsuZ3jaabVfwJwJYdlGecmY3xQ8J/CRWNTmGLC0xDN2W30WULScfjz?=
+ =?us-ascii?Q?yEonDwedVxHqN0T+ikph1tLRfh4WH5Zwv/QXRHvx6n+bQXuHPTurD3I/0JtD?=
+ =?us-ascii?Q?I9FRNiN16UPPVV5e0Ysisi1eeniZ7kDPBYNU8ZIERS/C24aa80guwjHtgEax?=
+ =?us-ascii?Q?6945t0QPS8vCvnu35YnMEbF03rbDWejsSgzOFLsHPkY69YmC6Sem/f2Iid0Q?=
+ =?us-ascii?Q?qJ7St+GY5IIb2NVfQ74trst+H9nwb30c2fCBuEOnEbNKGfAJnvZmyXA6vQcL?=
+ =?us-ascii?Q?gQgrKD/lwpSd3RxS5hGm9QRoJ+dqW74U8u8k121y08rcfqE7OStHAqGF5koN?=
+ =?us-ascii?Q?meNk022gt+AV6W6X+kPbj9moK+6tgnz97pEHcc+lsn/E7V/eSR/TuMutLgKj?=
+ =?us-ascii?Q?wpu8z+yt12elibVfEiZ1tFxTj47RAQNUMienHmOm91+uzaNOvQu/f1Iy1DYQ?=
+ =?us-ascii?Q?lzSC/XNrN4sfnnBbYncPKYTP98heG6zJAh9AILYaJ2xu040iYcw+njIkiMtK?=
+ =?us-ascii?Q?ssgD4niF02oLFyWrRJ32Ic0kkDaP7Nwr7kVCoYVad8YCB2KAoh8CWU+I+tdx?=
+ =?us-ascii?Q?o5R3NCACyeTjKs0+9jTF1JvlCuxd/1qwBz/uoXoLC/fiE70gOmwu8rd7ej/9?=
+ =?us-ascii?Q?8mlk6hei9KcREJT6Il7Kc8JcF97VN3FO3B+CHXVDl/xFHE82dC2R8LnSTWCv?=
+ =?us-ascii?Q?mRJkxlKsqhXxzQVYddZLloeJTnEwndNk8bTTR817?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB6750.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: daea3466-89f1-4b38-64b0-08dd39d64cbc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jan 2025 04:44:32.9509 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0kU5NzIaZ2t5RMj2pOzocg2rRVKTLCPJG4U+EYaNkqUJIykZtAzWZyJpPpjOvVET+0VoUXmqlEyNnd1jWHCZQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6118
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,223 +183,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marijn Suijten <marijn.suijten@somainline.org> =E4=BA=8E2025=E5=B9=B41=E6=
-=9C=8820=E6=97=A5=E5=91=A8=E4=B8=80 04:58=E5=86=99=E9=81=93=EF=BC=9A
->
-> On 2025-01-17 15:32:44, Jun Nie wrote:
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =E4=BA=8E2025=E5=B9=B41=
-=E6=9C=8816=E6=97=A5=E5=91=A8=E5=9B=9B 16:32=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > On Thu, Jan 16, 2025 at 03:26:05PM +0800, Jun Nie wrote:
-> > > > Request 4 mixers and 4 DSC for the case that both dual-DSI and DSC =
-are
-> > > > enabled.
-> > >
-> > > Why? What is the issue that you are solving?
+
+
+> -----Original Message-----
+> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Sent: Friday, January 17, 2025 11:50 AM
+> To: Kandpal, Suraj <suraj.kandpal@intel.com>
+> Cc: intel-xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; dri-
+> devel@lists.freedesktop.org; Murthy, Arun R <arun.r.murthy@intel.com>
+> Subject: Re: [PATCH 2/2] drm/i915/lttpr: Enable Extended Wake Timeout
+>=20
+> On Fri, Jan 17, 2025 at 11:18:50AM +0530, Suraj Kandpal wrote:
+> > Usually retimers take around 30 to 40ms to exit all devices from sleep
+> > state. Extended wake timeout request helps to give additional time by
+> > reading the DPCD register through which sink requests the minimal
+> > amount of time required to wake the sink up.
+> > Source  device shall keep retying  the AUX tansaction till the
+> > extended timeout that is being granted for LTTPRs from the sink device
 > >
-> >     To support high-resolution cases that exceed the width limitation o=
-f
->
-> How high is high?  Some Sony phones use a bonded 2:2:2 setup.
-
-The high resolution here means the capability of 2 SSPP without multi-rect =
-mode,
-or the clock rate requirement exceed the SoC capability. It depends on spec=
-ific
-SoC spec.
-
->
-> >     a pair of SSPPs, or scenarios that surpass the maximum MDP clock ra=
-te,
-> >     additional pipes are necessary to enable parallel data processing
-> >     within the SSPP width constraints and MDP clock rate.
+> > --v2
+> > -Grant the requested time only if greater than 1ms [Arun] -Reframe
+> > commit message [Arun]
 > >
-> >     Request 4 mixers and 4 DSCs for high-resolution cases where both DS=
-C
-> >     and dual interfaces are enabled. More use cases can be incorporated
-> >     later if quad-pipe capabilities are required.
+> > Spec: DP v2.1 Section 3.6.12.3
+> > Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_ddi.c      |  2 +
+> >  .../drm/i915/display/intel_dp_link_training.c | 49
+> > +++++++++++++++++++  .../drm/i915/display/intel_dp_link_training.h |
+> > 1 +
+> >  3 files changed, 52 insertions(+)
 > >
-> > >
-> > > > 4 pipes are preferred for dual DSI case for it is power optimal
-> > > > for DSC.
-> > > >
-> > > > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > > > ---
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         |  2 +-
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 29 ++++++++++++=
-++++++------
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
-> > > >  6 files changed, 29 insertions(+), 14 deletions(-)
-> > > >
-> > >
-> > > > @@ -664,15 +664,20 @@ static struct msm_display_topology dpu_encode=
-r_get_topology(
-> > > >
-> > > >       /* Datapath topology selection
-> > > >        *
-> > > > -      * Dual display
-> > > > +      * Dual display without DSC
-> > > >        * 2 LM, 2 INTF ( Split display using 2 interfaces)
-> > > >        *
-> > > > +      * Dual display with DSC
-> > > > +      * 2 LM, 2 INTF ( Split display using 2 interfaces)
-> > > > +      * 4 LM, 2 INTF ( Split display using 2 interfaces)
->
-> Are these always bonded (i.e. single display with dual-DSI link), or can =
-it be
-> two independent panels?
-
-It can be two independent panels.
->
-> > > > +      *
-> > > >        * Single display
-> > > >        * 1 LM, 1 INTF
-> > > >        * 2 LM, 1 INTF (stream merge to support high resolution inte=
-rfaces)
-> > > >        *
-> > > >        * Add dspps to the reservation requirements if ctm is reques=
-ted
-> > > >        */
-> > > > +
-> > >
-> > > irrlevant extra line, please drop.
-> > >
-> > > >       if (intf_count =3D=3D 2)
-> > > >               topology.num_lm =3D 2;
-> > > >       else if (!dpu_kms->catalog->caps->has_3d_merge)
-> > > > @@ -691,10 +696,20 @@ static struct msm_display_topology dpu_encode=
-r_get_topology(
-> > > >                * 2 DSC encoders, 2 layer mixers and 1 interface
-> > > >                * this is power optimal and can drive up to (includi=
-ng) 4k
-> > > >                * screens
-> > > > +              * But for dual display case, we prefer 4 layer mixer=
-s. Because
-> > > > +              * the resolution is always high in the case and 4 DS=
-Cs are more
-> > > > +              * power optimal.
-> > >
-> > > I think this part is thought about in a wrong way. If it was just abo=
-ut
-> > > power efficiency, we wouldn't have to add quad pipe support.
-> > > Please correct me if I'm wrong, but I think it is about the maximum
-> > > width supported by a particular topology being too low for a requeste=
-d
-> > > resolution. So, if there is a DSC and mode width is higher than 5120
-> > > (8.x+) / 4096 ( <=3D 7.x), then we have to use quad pipe. Likewise if
-> > > there is no DSC in play, the limitation should be 2 * max_mixer_width=
-.
+> > diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c
+> > b/drivers/gpu/drm/i915/display/intel_ddi.c
+> > index acb986bc1f33..96cabe618678 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> > @@ -2645,6 +2645,8 @@ static void mtl_ddi_pre_enable_dp(struct
+> intel_atomic_state *state,
+> >  	if (!is_mst)
+> >  		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
 > >
-> > Both width limitation and clock rate contribute to pipe number decision=
-.
-> > To support high resolution, the MDP clock may be required to overclock
-> > to a higher rate than the safe rate. Current implementation does not
-> > support checking clock rate when deciding topology. We can add the
-> > clock rate check later with a new patch.
-> > >
-> > > >                */
-> > > > -             topology.num_dsc =3D 2;
-> > > > -             topology.num_lm =3D 2;
-> > > > -             topology.num_intf =3D 1;
-> > > > +
-> > > > +             if (intf_count =3D=3D 2) {
-> > > > +                     topology.num_dsc =3D dpu_kms->catalog->dsc_co=
-unt >=3D 4 ? 4 : 2;
->
-> What if there are other encoders that have already reserved DSC blocks, r=
-educing
-> the current available number of DSC blocks?  This patch seems to cover mu=
-ltiple
-> panels/interfaces on a single virtual encoder, how does one get to such a
-> scenario?  Bonded display?  If one or more DP panel is connected, do they=
- use
-> their own virtual encoder, and hence miss out on logic that properly divi=
-des
-> available DSC blocks?
-
-Yes, it's bonded display. Your point is valid. The scenario will fail
-at the resource
-allocation stage and CRTC pipe fails to be setup if there is not
-enough DSC block
-available. But it should fail gracefully, so not a big issue. It is
-always possible
-that resource cannot support a usage scenario.
-
->
-> That idea is what's been holding back a quick hack to support 1:1:1
-> topology for sc7280 / FairPhone 5 to perform a similar workaround:
->
->         if (catalog->dsc_count < 2)
->                 num_dsc =3D num_lm =3D 1;.
-
-Actually, I do not see issue here. Could you help point me the link
-for this change?
-Checking the discussion history helps on understanding more aspects of
-this change.
->
-> > >
-> > > This assumes that the driver can support 2:2:2. Is it the case?
+> > +	intel_dp_lttpr_wake_timeout_setup(intel_dp);
+> > +
+> >  	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
+> >  	if (!is_mst)
+> >  		intel_dp_sink_enable_decompression(state,
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> > b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> > index 8b1977cfec50..c113b0be259e 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> > @@ -135,6 +135,55 @@ static bool
+> intel_dp_lttpr_transparent_mode_enabled(struct intel_dp *intel_dp)
+> >  		DP_PHY_REPEATER_MODE_TRANSPARENT;
+> >  }
 > >
-> > The code falls back to 2:2:2 case here. But I guess 2:2:2 does not work=
- yet.
-> > How about below code for DSC case?
->
-> I've been working on 2:2:2 support [1] but have stalled it to see how you=
-r
-> series here pans out.  Doesn't look like it's heading in a compatible dir=
-ection
-> though, going for quick wins rather than redesigning how DSC blocks are
-> allocated (to name one of the many topics).
->
-> [1]: https://lore.kernel.org/linux-arm-msm/20240417-drm-msm-initial-dualp=
-ipe-dsc-fixes-v1-0-78ae3ee9a697@somainline.org/
->
-> - Marijn
+> > +void intel_dp_lttpr_wake_timeout_setup(struct intel_dp *intel_dp)
+>=20
+> Please move this function to drivers/gpu/drm/display/drm_dp_helper.c
+> Except for the intel_dp_lttpr_transparent_mode_enabled() call there is
+> nothing Intel-specific there.
+>=20
 
-Glad to know that a 2:2:2 case can be enabled. That can be supported with
-code structure of quad-pipe in theory and we can co-work on that. But I wou=
-ld
-not call the quad-pipe patch set a quick wins, as I cannot cover a usage ca=
-se
-that's not supported by mainline yet, and I do not have hardware to support
-2:2:2 neither. What I can do is to add new usage case and make sure
-existing usage cases are not broken. More and more usage cases can be
-added later this way.
-Could you help elaborate what do you mean by how DSC blocks are allocated?
-I see DSC is allocated just as other resources. Maybe you mean how the
-topology is decided. While that's about adding new usage case without
-breaking existing usage cases.
+Sure will do.
 
 Regards,
-Jun
->
+Suraj Kandpal
+> > +{
+> > +	struct intel_display *display =3D to_intel_display(intel_dp);
+> > +	u8 val =3D 1;
+> > +	int ret;
+> > +
+> > +	if (intel_dp_lttpr_transparent_mode_enabled(intel_dp)) {
+> > +		static const u8 timeout_mapping[] =3D {
+> > +			[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_1_MS] =3D
+> 1,
+> > +			[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS]
+> =3D 20,
+> > +			[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_40_MS]
+> =3D 40,
+> > +			[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_20_MS]
+> =3D 20,
+> > +			[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_80_MS]
+> =3D 80,
+> > +			[DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_100_MS]
+> =3D 100,
+> > +		};
+> > +
+> > +		ret =3D drm_dp_dpcd_readb(&intel_dp->aux,
+> > +
+> 	DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_REQUEST, &val);
+> > +		if (ret !=3D 1) {
+> > +			drm_dbg_kms(display->drm,
+> > +				    "Failed to read Extended sleep wake
+> timeout request\n");
+> > +			return;
+> > +		}
+> > +
+> > +		val =3D (val < sizeof(timeout_mapping) &&
+> timeout_mapping[val]) ?
+> > +			timeout_mapping[val] : 1;
+> > +
+> > +		if (val > 1)
+> > +			drm_dp_dpcd_writeb(&intel_dp->aux,
+> > +
+> DP_EXTENDED_DPRX_SLEEP_WAKE_TIMEOUT_GRANT,
+> > +
+> DP_DPRX_SLEEP_WAKE_TIMEOUT_PERIOD_GRANTED);
+> > +	} else {
+> > +		ret =3D drm_dp_dpcd_readb(&intel_dp->aux,
+> > +
+> 	DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT, &val);
+> > +		if (ret !=3D 1) {
+> > +			drm_dbg_kms(display->drm,
+> > +				    "Failed to read Extended sleep wake
+> timeout request\n");
+> > +			return;
+> > +		}
+> > +
+> > +		val =3D (val &
+> DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) ?
+> > +			(val &
+> DP_EXTENDED_WAKE_TIMEOUT_REQUEST_MASK) * 10 : 1;
+> > +
+> > +		if (val > 1)
+> > +			drm_dp_dpcd_writeb(&intel_dp->aux,
+> DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT,
+> > +
+> DP_EXTENDED_WAKE_TIMEOUT_GRANT);
+> > +	}
+> > +}
+> > +
+> >  /*
+> >   * Read the LTTPR common capabilities and switch the LTTPR PHYs to
+> >   * non-transparent mode if this is supported. Preserve the diff --git
+> > a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> > b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> > index 2066b9146762..cd4e0d6db6ed 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> > @@ -15,6 +15,7 @@ struct intel_dp;
 > >
-> >                  if (intf_count =3D=3D 2 && dpu_kms->catalog->dsc_count=
- >=3D 4) {
-> >                          topology.num_dsc =3D 4;
-> >                          topology.num_lm =3D 4;
-> >                          topology.num_intf =3D 2;
-> >                  } else {
-> >                          topology.num_dsc =3D 2;
-> >                          topology.num_lm =3D 2;
-> >                          topology.num_intf =3D 1;
-> >                  }
+> >  int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8
+> > dpcd[DP_RECEIVER_CAP_SIZE]);  int
+> > intel_dp_init_lttpr_and_dprx_caps(struct intel_dp *intel_dp);
+> > +void intel_dp_lttpr_wake_timeout_setup(struct intel_dp *intel_dp);
 > >
-> > >
-> > > > +                     topology.num_lm =3D topology.num_dsc;
-> > > > +                     topology.num_intf =3D 2;
-> > > > +             } else {
-> > > > +                     topology.num_dsc =3D 2;
-> > > > +                     topology.num_lm =3D 2;
-> > > > +                     topology.num_intf =3D 1;
-> > > > +             }
-> > > >       }
-> > > >
-> > > >       return topology;
-> > >
-> > > --
-> > > With best wishes
-> > > Dmitry
+> >  void intel_dp_link_training_set_mode(struct intel_dp *intel_dp,
+> >  				     int link_rate, bool is_vrr);
+> > --
+> > 2.34.1
+> >
+>=20
+> --
+> With best wishes
+> Dmitry
