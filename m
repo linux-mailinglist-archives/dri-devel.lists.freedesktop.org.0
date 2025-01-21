@@ -2,72 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE550A17C6D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:56:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474ACA17CB3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 12:10:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3CB10E57B;
-	Tue, 21 Jan 2025 10:56:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZwAaceVd";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06B4C10E565;
+	Tue, 21 Jan 2025 11:10:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC5A10E573
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:55:49 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C0D4D40012;
- Tue, 21 Jan 2025 10:55:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737456948;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ubw63Fe9Yhv72/NM7/4903dvfCHgNHv426Pizoj94N8=;
- b=ZwAaceVdWyZTFSwk0cvfv/gj3c7yuj8phaj5B4PCSSsWSkZFs3YRbVaeRaKEiJO+rWMinY
- veB/mtY6R6AYhyUztLdDgCjve4n2sC8ZkjULcMF9peEgHIyb4FAEcdf0ml/JF0B2gVbFCb
- MVY9Dcswl5HHdgsVHbYkGnKl0CnR+l0tp1q2GoExIT8wu04kwLEFb+E1qerAXr+sPMWvKZ
- bT02hSM8m6+xxXx3nBMQxGihSRN7+EeCqAuVb6xNNK2pIQbYJz4U494PPGubvcnpz9awS+
- 5/IsjKm8Q9A1i1Z4q43HWwZBQL0eqRAQjDprmCff1zJ0dzuNcb7ES6TA+W4aBQ==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 21 Jan 2025 11:55:40 +0100
-Subject: [PATCH v3 16/16] drm/vkms: Introduce config for encoder type
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
+ [209.85.221.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99BFC10E565;
+ Tue, 21 Jan 2025 11:10:41 +0000 (UTC)
+Received: by mail-vk1-f177.google.com with SMTP id
+ 71dfb90a1353d-518954032b2so1755315e0c.0; 
+ Tue, 21 Jan 2025 03:10:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737457838; x=1738062638;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VXUdfGyq4c5FX1gamn0gc9cnARR4WPDnFMac/C/Y36A=;
+ b=YoipckAYQXGAAXRqk0sNlyCZVeu5lhOkLN0wHLzL+8ytpVfP4BAV696sJfyydYhP48
+ CmHzWCCg/CK6Nx8LQBLBkJxueT6DTaz6vPzxxoLKbEvJ+9acQ0zI9pWWeQ1BGaNhlL+X
+ 8qQbrDi4dSZJLqBV3R5+qGAR16mbtmqJJURAdZYRU02wX5rYWdHA/tFu9xiJmErNa4TB
+ DEVvUA5AS0+RfRJ0Eydh3pmcnsCo2WhRh9SHvogTwQMPoCACc9prAIpJpe6y8Dpz+xgU
+ 9fD87VzkahfFk5jlZpP7RED7NuuQwHU2uw8Xemg4cdIrK5qOTOgQoS618ru4IR9dIpeQ
+ PANw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4Km1E6/0TpM5dpGMDvTiob7birQi6qJ2FR1LsRBPZKigMqc1j2NpqkVtX2SswqXnEQnafsCH24IN8GHc=@lists.freedesktop.org,
+ AJvYcCUctvQ/2/Mji52+tNiS2JKqK+Yxzue2x6XNO1jxdK0JN9oVoKJ3/A7zQ9+cGJD5ab0QxJG20etuQd4=@lists.freedesktop.org,
+ AJvYcCV5TBEo7KOuEOZ888T7oltefJTkOdcyv52kQJeCwcft+XwQjXWMUWbtbt1vJPJ+4OfJ8iTMPvcs@lists.freedesktop.org,
+ AJvYcCW/676Vi5AhCacatstiC1+m0fNnXCPQOz0ZCZLaeGFz1sla4movmmDarO/THpZnGQwmCLe9Y8pjtVFX@lists.freedesktop.org,
+ AJvYcCW0O0DUHhFSlxw1/T5KWXee3z/74TCb32X4qkQByb/wKvr2tB/lFRBstI9mlPdZff5f23YaON3kpw==@lists.freedesktop.org,
+ AJvYcCWC5xler1UuVUs3cQ8axPz3JV6BU3OGVUMG5ZdN4YmbwbwSgis3MWV5NvE+c+WJMFLKOsU+AJlX7s1w@lists.freedesktop.org,
+ AJvYcCX5K+5/jwp6JcoKyIz2RamquCGEBhPZ4ut5EDoZOnNPwkUQ0eJibzF2tg6hoXksJI7+oZKmEGI0G/sG@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzFcMy3QZOEY0iEWJgxRrtYm2YdeY+XCb1HsLW+VLBphYcRcorN
+ IEeYkWbYDkRn1UwlcswC4XtyoB5IyDjW/MjqYJM639zAKusAta+0VCmty3+L
+X-Gm-Gg: ASbGncui/jpMAkIh/JoBXcAaHBqptSBLMkTI+niCxApAPtNRKrfZyObjCLH+RMWCeqQ
+ oWzBlD4UuooHBbX7gH+UVDJ/cKUCa0PmNhU6aelFJnoU9PPCzgfnc9qtZvriTwxiHToJxWrmjeJ
+ cThJaXrJNjNiT+7bdy1XJX78RuIus9G9NuU5Avb1HlMC2GdF/BWgJPNhUx/3Fj0/bhPc81PFQQC
+ me/mr0XCLHMunpbTSoitMba+gKLyuIeKab5lU1HM+EJdlKOWOu3pIGARq2P7TnRKyE3B1bBElPH
+ csbMqnVsyOYeGy9X+IiPJhr5U+K5oqnQ
+X-Google-Smtp-Source: AGHT+IGF0hAHxJQYrJDDPareZjAFA7WZZKOKt0ACI+x71cHFBstQigx+7w+Dht2fho0KeW8c8AcWVA==
+X-Received: by 2002:a05:6122:9008:b0:51b:8949:c996 with SMTP id
+ 71dfb90a1353d-51d5b351af7mr12276619e0c.9.1737457838223; 
+ Tue, 21 Jan 2025 03:10:38 -0800 (PST)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com.
+ [209.85.222.45]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-51cf55a0c57sm1734306e0c.17.2025.01.21.03.10.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Jan 2025 03:10:37 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id
+ a1e0cc1a2514c-85c529e72bcso911513241.0; 
+ Tue, 21 Jan 2025 03:10:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDW/cWjgX2wW//NfqYmjHKH9aBZgk5savOAZq6w4aPnjtHFS8+IsEh5U4z2lAACa36fZxuSOY1tIpf@lists.freedesktop.org,
+ AJvYcCVFkc8AtkDQrh2meb8lqW8lRU4dZBe+Dtqk/yUOSXHnggAk6fiiOkPiug+o4nDvE0cPCnTRj/9Ped8=@lists.freedesktop.org,
+ AJvYcCWHaUbjl4MknBfJZC3UeDkWQXwzKY0O15k1u7hCTjSvElGs0BsLCrDyRqFWeumQXjRg7w4BNbBVoVy2@lists.freedesktop.org,
+ AJvYcCWaM2ExOoPf0vryAAdFdiQU3ayjeTlvWAIIwrm3un4TlWXa44lpKh+6/PvkKj0juKLPs8/33WWc@lists.freedesktop.org,
+ AJvYcCX5T0D4/sfdfFeUx0QaJ6RnWCymTTFDrQtxUf+VWEJVP/eLwCZRWxy+9qUNClZDR1O6gpve7pVISg==@lists.freedesktop.org,
+ AJvYcCXck6pBFBf10szGPctnQk0c+2IPHqyxHcv7vJtE5B8VVYdCZY+eewrX30rdTkgM9vlrXYppvuZoXF5XkRQ=@lists.freedesktop.org,
+ AJvYcCXzMViU1bYzYH749xbu7Ave/VSTNpMHCLjM8Ghx0e3hdA1d+zzLDGYu3rtTRkgNFTDIeGqc+cLFzTq9@lists.freedesktop.org
+X-Received: by 2002:a05:6102:1625:b0:4b2:ad50:a99c with SMTP id
+ ada2fe7eead31-4b690b86c0fmr12441756137.2.1737457837255; Tue, 21 Jan 2025
+ 03:10:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-google-remove-crtc-index-from-parameter-v3-16-cac00a3c3544@bootlin.com>
-References: <20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com>
-In-Reply-To: <20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com>
-To: =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>
-Cc: arthurgrillo@riseup.net, jeremie.dautheribes@bootlin.com, 
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, nicolejadeyee@google.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2577;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=3Uxt9AsZYAsifD+dZG6PItmtjDqqXrCvkT981nanQ+w=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj30l/cLzvUD0vqUSYIoiv/uUEhKQ58HtXMtFb
- Bg6Gpo1m+6JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ499JQAKCRAgrS7GWxAs
- 4jynD/95nJtbOf6oHrZj1qKPB36gxyDHT74VRdzt2fqdRx3QvRJ1Y58YzbTZrYOvFWxEsjRsWtk
- miJTeujVuw9LKoDhjNxIa0Al1r9qR9B7cIarf+J9oIduoh4ZooJOCDR0WKxCYbOYSs0w4LqjT8b
- iu9R3q9J8ILNutmOoK23aIQC+sMxq0UP7s5fPzed8IW/XnxV9McqLPkI+GCHAeJvum9KUbRtWna
- gUhJ7sH/ZX3WjKk2VnF1H446ocQfvQYF1fNbfAHTyxRHtTILrFGjjG3M1l1QC7EFg1fFL5uicv1
- lF4eQ5XAIsuyjOyB9M7Bv1KB99QiUfSAFZohfUSBwf19k+V757KRIlAaVWXdin3KWe8TXaS3AYo
- 7/l+Aa3P9+Wn3CQTM2rGwmX+YSlh7WGt+KtHeGL9ZRHTy9goUZZvAaF6kw8WblTPZX8lsq1MbBc
- aTooO/vyl2IXxdxByQvtkWKio/50wrmqnvm+FNlTdYqOI31kDlUgYaqm+eUXqjNNY22KOgUuIub
- IGl8qCXowIomGr0FyaIVXSRHgCq0C9O6Wsjz3XHxfmpx/ypKYIb00O+X8ZNKWp37ro+4JPMAfbV
- c6f+mOSFnE4fEV/LDCXQy/rsv0l2ICLCG1iH7Xw/I1yYgW5wHA3L2SMR30/WcHFt/iu0+y1TnYy
- N0x/HNTUXck029g==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-Sasl: louis.chauvet@bootlin.com
+References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
+ <173624946815.1500596.321177900833598022.b4-ty@linaro.org>
+ <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
+ <CAA8EJpos0HQpr9P4XRkto0Jy+Anf1xEH2xhEU8wtCyUQd+XwMg@mail.gmail.com>
+In-Reply-To: <CAA8EJpos0HQpr9P4XRkto0Jy+Anf1xEH2xhEU8wtCyUQd+XwMg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 21 Jan 2025 12:10:25 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW-9F9aypY_XeU3y=dn3AAxjFrZO+H+=hbMF7nGrTLAQQ@mail.gmail.com>
+X-Gm-Features: AbW1kvZBx44easXhFOatWXKdq1_QMeY-mb30d2zlnMs06wKR4MmvmnSlyypmVlE
+Message-ID: <CAMuHMdW-9F9aypY_XeU3y=dn3AAxjFrZO+H+=hbMF7nGrTLAQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
+ const mode pointer
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>, 
+ Martyn Welch <martyn.welch@collabora.co.uk>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+ Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Jani Nikula <jani.nikula@intel.com>, Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,62 +153,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-To allow emulation of different kind of encoders, make the encoder type
-configurable.
+Hi Dmitry,
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_config.c | 1 +
- drivers/gpu/drm/vkms/vkms_config.h | 2 ++
- drivers/gpu/drm/vkms/vkms_output.c | 2 +-
- 3 files changed, 4 insertions(+), 1 deletion(-)
+CC sfr
 
-diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
-index 3e8883298e73e75fb16ac05e449a7ee8fac72935..a20644031ce923fad98d486a8bb2ec7859038dcd 100644
---- a/drivers/gpu/drm/vkms/vkms_config.c
-+++ b/drivers/gpu/drm/vkms/vkms_config.c
-@@ -205,6 +205,7 @@ struct vkms_config_encoder *vkms_config_create_encoder(struct vkms_config *vkms_
- 	if (!vkms_config_encoder)
- 		return NULL;
- 
-+	vkms_config_encoder->type = DRM_MODE_ENCODER_VIRTUAL;
- 	list_add(&vkms_config_encoder->link, &vkms_config->encoders);
- 	xa_init_flags(&vkms_config_encoder->possible_crtcs, XA_FLAGS_ALLOC);
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
-index 6844ca8523decd51116fb36f98ed40a09bc2284b..23f420291cfc0044ccb2be90688d021aab10c1c0 100644
---- a/drivers/gpu/drm/vkms/vkms_config.h
-+++ b/drivers/gpu/drm/vkms/vkms_config.h
-@@ -55,6 +55,7 @@ struct vkms_config_crtc {
-  * @link: Link to the others encoders
-  * @name: Name of the encoder
-  * @possible_crtcs: List of CRTC that can be used with this encoder
-+ * @type: Type of encoder, see drm_mode.h, DRM_MODE_ENCODER_*
-  * @encoder: Internal usage. This pointer should never be considered as valid. It can be used to
-  *         store a temporary reference to a vkms encoder during device creation. This pointer is
-  *         not managed by the configuration and must be managed by other means.
-@@ -64,6 +65,7 @@ struct vkms_config_encoder {
- 
- 	char *name;
- 	struct xarray possible_crtcs;
-+	char type;
- 
- 	/* Internal usage */
- 	struct drm_encoder *encoder;
-diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-index 8f7df59aa2c1517eb78e9b94b8611b15431fd234..a48625e879f59a33e18e636cafcdc7f841a0ff1f 100644
---- a/drivers/gpu/drm/vkms/vkms_output.c
-+++ b/drivers/gpu/drm/vkms/vkms_output.c
-@@ -132,7 +132,7 @@ int vkms_output_init(struct vkms_device *vkmsdev)
- 		if (!config_encoder->encoder)
- 			return -ENOMEM;
- 		ret = drmm_encoder_init(dev, config_encoder->encoder, NULL,
--					DRM_MODE_ENCODER_VIRTUAL, config_encoder->name);
-+					config_encoder->type, config_encoder->name);
- 		if (ret) {
- 			DRM_ERROR("Failed to init encoder\n");
- 			return ret;
+On Tue, Jan 21, 2025 at 11:44=E2=80=AFAM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+> On Tue, 21 Jan 2025 at 11:13, Geert Uytterhoeven <geert@linux-m68k.org> w=
+rote:
+> > On Tue, Jan 7, 2025 at 12:31=E2=80=AFPM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > > On Sat, 14 Dec 2024 15:37:04 +0200, Dmitry Baryshkov wrote:
+> > > > While working on the generic mode_valid() implementation for the HD=
+MI
+> > > > Connector framework I noticed that unlike other DRM objects
+> > > > drm_connector accepts non-const pointer to struct drm_display_mode,
+> > > > while obviously mode_valid() isn't expected to modify the argument.
+> > > >
+> > > > Mass-change the DRM framework code to pass const argument to that
+> > > > callback.
+> > > >
+> > > > [...]
+> > >
+> > > Applied to drm-misc-next, thanks!
+> > >
+> > > [1/5] drm/encoder_slave: make mode_valid accept const struct drm_disp=
+lay_mode
+> > >       commit: 7a5cd45fab0a2671aa4ea6d8fb80cea268387176
+> > > [2/5] drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid=
+()
+> > >       commit: b255ce4388e09f14311e7912d0ccd45a14a08d66
+> > > [3/5] drm/sti: hda: pass const struct drm_display_mode* to hda_get_mo=
+de_idx()
+> > >       commit: 5f011b442006ccb29044263df10843de80fc0b14
+> > > [4/5] drm/connector: make mode_valid_ctx take a const struct drm_disp=
+lay_mode
+> > >       commit: 66df9debcb29d14802912ed79a9cf9ba721b51a4
+> > > [5/5] drm/connector: make mode_valid take a const struct drm_display_=
+mode
+> > >       commit: 26d6fd81916e62d2b0568d9756e5f9c33f0f9b7a
+> >
+> > I cannot find these in drm-misc or drm-next, but they are in drm-tip?
+>
+> These are in drm-misc/drm-misc-next, the commit IDs are a part of the
+> Git history.
+>
+> > The last one due to commit 2bdc721917cf141f ("Merge remote-tracking
+> > branch 'drm-misc/drm-misc-next' into drm-tip").
+> >
+> > What am I missing?
+> > Thanks!
+>
+> It might be some kind of misinteraction between drm-misc-next vs
+> drm-misc-next-fixes vs merge window. Let me recheck dim rebuild-tip.
 
--- 
-2.47.1
+I indeed see the commit in
+https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/include=
+/drm/drm_modeset_helper_vtables.h?ref_type=3Dheads
 
+[diving deeper]
+
+So I missed the change from the for-linux-next to the drm-misc-next
+branch.  Hence I fetched only the former, and was using a stale
+version of the latter.
+
+Apparently Stephen is also using the old branches for linux-next:
+
+    drm-misc-fixes git
+https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next-fixes
+    drm-misc git
+https://gitlab.freedesktop.org/drm/misc/kernel.git#for-linux-next
+
+I believe the latter should be drm-misc-next.
+Should the former be drm-misc-fixes or drm-misc-next-fixes? Or both?
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
