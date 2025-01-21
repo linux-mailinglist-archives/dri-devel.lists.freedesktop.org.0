@@ -2,82 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1CDCA17C1A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:45:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9A2A17C2B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:48:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F49910E556;
-	Tue, 21 Jan 2025 10:45:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF70410E558;
+	Tue, 21 Jan 2025 10:48:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OjqKOjDn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GRxrL3bh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17A3410E556
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:45:27 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- 5b1f17b1804b1-4361dc6322fso37798025e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 02:45:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737456325; x=1738061125; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=5+927yDcfTkIOGouFWigCtvSDidRLS7ZH3ez8GRWqN8=;
- b=OjqKOjDnNncrMjxhWQOZsLw7qVvlfZFmGYULmGmsTv/ToIS0jrIK3PvVQhc2hS2Z16
- XLrHeYEVxoLq5BPdGkniGOYASGiTBvB8is89n3Olblv4njRkPfo9SihGj13CsekTFq0h
- p6md0gdIyD5Ash4i4wAnybn1lce29n14BdmZxgLPEcdAw1ag0jNhFIXd3EZGxEEY7M0V
- NpoDv6CVYjfezjmSU2sbIaN0PSNJ5ZIOTSklvqa+N5o2ILqlSJh54EbunDh9QkxmjKQz
- xFsgyiVr15bezfttOXNJgsjR5B8B5RVLQ1D4l+AuQ63sXAfJZDd49IQsNmUoopcBMVNR
- YWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737456325; x=1738061125;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5+927yDcfTkIOGouFWigCtvSDidRLS7ZH3ez8GRWqN8=;
- b=I+j4aVbjUiqCqPB45GnLpAmgty9TclJnqlHWwwz5tadwUwnwH/KpmFj0Npfed2WzCs
- jrsrOsTIcSBv2ys4jdO/AQR22xeEVH1/+5MJjSaaO6sZoJuno0v4lowFVAXkIh7medF7
- 2i1PExmX+JL1U7HlWIov11w4BlSzWprQDqcFC7Eu37CA6e13h8pi7OlTgx97hJ96oYyY
- tZ0wjp0R/GMbbjIz2F9m/LoizYZ2+JDQWO5Fue6Tl+koHKntmg9u6CdYpj1tFpVPbhuj
- pPw9/p0ZGqrWuODZlhH2+MusqMD1tMR2NInJGYgC8906RoTMjmJOigj3jOaKuePciYfa
- uLKg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5DxTB1TZtp0uGIZ44FL11GEWgNVoZJLTtJNqm10LsbGitAd+e/ipEYasYWWcDMXA0QD+Mylodybc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwlKClL+slWLwQX9nh6OoT7yd6oHDKyX6+6XI9qCaCWB+zax5fg
- ET8Oq0TGx4hAse4VwmLmeSu7VWSTo/0yUVvbWke+5nNrxqbN+GaI
-X-Gm-Gg: ASbGncsDB3senKywU8hLrpylxtcDoskGfvqx65WJQj5Krv9jaKOqccJ2sydpeui8w4t
- 9N18/vuTCU9B7S2Wt4zNal4VEPWb8jYri1TKbhNFfzZKU21TIFakOJ2XM5XpSgTp4SEovWaJa7c
- 7zJE0fT2y9IzhU0KhrV1+6CzzecDz8M1FgdDq8l6szfrc4uMh85Ua/nsCvFPXcbaBIf8NgynNBB
- D/STbO9KzXmitgvA76ZXMjn3gblsmTMox9QKnkBV6KI5qjU4NNR2YIBNV9DbdfhXF4f
-X-Google-Smtp-Source: AGHT+IGoEzxq0HPWhuGQ495VDSXx5P9J5zdFjyXfhO1hziVwbrGp6oAHmMzXz8FDgj9b5VZ3m5AxLA==
-X-Received: by 2002:a5d:6505:0:b0:38a:88ac:ed10 with SMTP id
- ffacd0b85a97d-38bf5789edcmr13155035f8f.25.1737456325275; 
- Tue, 21 Jan 2025 02:45:25 -0800 (PST)
-Received: from fedora ([94.73.34.116]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38bf3214fc9sm12736519f8f.6.2025.01.21.02.45.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2025 02:45:24 -0800 (PST)
-Date: Tue, 21 Jan 2025 11:45:22 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- melissa.srw@gmail.com, mripard@kernel.org,
- rodrigosiqueiramelo@gmail.com, simona.vetter@ffwll.ch,
- simona@ffwll.ch, thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v4 3/3] drm/vkms: Switch to dynamic allocation for CRTC
-Message-ID: <Z496wgH0AyaoSHdW@fedora>
-References: <20250117-b4-vkms-allocated-v4-3-8ec8fd21aaf6@bootlin.com>
- <20250120162327.2866-1-jose.exposito89@gmail.com>
- <Z46HL-eSSA2EsPCi@louis-chauvet-laptop>
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45FC010E552
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:48:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9E9C4240004;
+ Tue, 21 Jan 2025 10:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1737456492;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/Ys+vACeQlVio6Iui4zwZCd4nyHptpoz9p1SfxBkB9E=;
+ b=GRxrL3bhubmNstByBLu8myIkWyrv7Z1zC7bGW/5Jx3b6Br2mRG/2LCxF5g0a2N0jRdkAiV
+ SDL8was2f6u6U3xrHiiPg3VPcqNmJ3EqFewTMc7+LcpQ3YxB1Q/vprq29jm4zlO9jF0hJk
+ j7xqMpyYPWjyDQp2+whxPakhB+jfjXsAq9OOs2gloF4Z6clBdU+cNTfV/AuofHbJhGHT6G
+ 3ylEt4KWpgGExgsCnoV7I2zX824E3hyPC5OPdMWIMd4PZSIRreS5E7MFd3BuV1L57mzBz9
+ JmDiMZEP0UTNQkn8hmI3GAmRVtZQNcKr0WjhrjnPKmnX86vwfsqst3qLjqmY8Q==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v16 0/7] drm/vkms: Add support for YUV and DRM_FORMAT_R*
+Date: Tue, 21 Jan 2025 11:48:01 +0100
+Message-Id: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z46HL-eSSA2EsPCi@louis-chauvet-laptop>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGF7j2cC/23TS46cMBAG4Ku0WIekqmzK9qxyjygLP9NI3TABG
+ s1oNHePebRgAjts6uM3Lvuj6GNXx754uXwUXRzrvm6bPED+din81TZ/YlmHPFEQkAQCLN8fY4l
+ CqGAgmEpxkSud7WPpOtv4a65tHrdbnnztYqrf5m//+p3H17of2u59jhpxmv360RFLKIW3QnEix
+ YJ+urYdbnXz3bf3KWWurpCXap2rfdKBk2YpIH6pnvJG2mWQWBRlZS27SJqUc+qoxF6tWSKrlJg
+ pgTEyuKOSmxIgFyWzUjnKeh2NMuKoqp3CdYVVVpERvAsgUkVHxZuSYBbFWYWIvlKkU1BwVGpT1
+ TNLTTuuIZqUoq/gJMtsSgMtymQF2ipgZhORjwphz9YlYlYlWuUVS2ROJ3uPu2NhBKxuOhfSoSV
+ 2Pnlzlre1GgHU6qZeA3q0wXL+P33itmYjol7d1G3rIQSJZKqzDqDcOVq3BeXcOQ5aBNIB/InbG
+ o4knsd+7nheo3MCSMf//u9zuUpd/PvIt3NY7tNy4/L7ez28XEJ3L+917388H8omvg2Zfv4DXzV
+ JceADAAA=
+X-Change-ID: 20240201-yuv-1337d90d9576
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, 
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2563;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=iQG3Mb9N1fTfVQpi9qUaE8sCglfo0bgdGkxThiPbjEA=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj3tn/oNpGWTNfjm4IyLW6lplWoXIMVLA+AN1g
+ iSIw2Sp1TeJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ497ZwAKCRAgrS7GWxAs
+ 4tjuD/4qUeUwgGerZPSXTDIVfa3w5hQnNg8aBoKP+Dwru6snyUBRfSMlkJPl9TvW4Z37tRGR9/V
+ U7lIXP0FuvYPou7PjNZN35PvdW8i3jUpUHzRXHZtzeK9w9PV5CA+Yn/CQAj6m+vzW+SP7jI9DHs
+ t3GCfMQYCB83OvwJIP94ihrgFZBFZ+V/vVAGxpffNZw4B5NieC1/h5AL6ryLJUqmvzGwGjfsZZj
+ nkwF/sky7vAkUOcK84TnaEeCROCcBEmpsK5Z6GdcbeOTaK833Y2Nv33ELleM8+eRQeWwi8yVXcF
+ ncCpdWv2H2jkRow/LUktyA1tBJGoGpmNu0NGr+oUw31GAavbT+hKyMXhVVPkYhJwYw0P0FhahP/
+ nsZQbhZl/QMQ606ZLmHL6aENFlHJRqRnYvgVi5DWwrs9rXViNzlOFxl9BZO1xeNXfnv7tomgj/6
+ Lj/iWaEc2Wp1rhcPrEqWx3WWaSMQbXchJ/fcERCkosfiG2FZFN/GUMnPsK9hmgrrRRWLULww1JM
+ 2Y+GBaMMcgnIh6P8ifRw8gU/1Xb3YkFt8E37UfRppb4PE9HzrQuICMSvo2syu41nha9N6yhoJgd
+ D7uhSIyMiIpOr3RkGMZkiNCe+xxPzQApIFUGo1dI9P3SIfr5zJs2v24NQBzFOju2PlVpOyztLlK
+ CmbH3JUHwZ1ZIeQ==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,70 +96,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 20, 2025 at 06:26:07PM +0100, Louis Chauvet wrote:
-> On 20/01/25 - 17:23, José Expósito wrote:
-> > > A specific allocation for the CRTC is not strictly necessary at this
-> > > point, but in order to implement dynamic configuration of VKMS (configFS),
-> > > it will be easier to have one allocation per CRTC.
-> > > 
-> > > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> 
-> [...]
-> 
-> > > +	/* Initialize the writeback component */
-> > >  	if (vkmsdev->config->writeback) {
-> > > -		writeback = vkms_enable_writeback_connector(vkmsdev, crtc);
-> > > +		writeback = vkms_enable_writeback_connector(vkmsdev, output);
-> > >  		if (writeback)
-> > >  			DRM_ERROR("Failed to init writeback connector\n");
-> > >  	}
-> > 
-> > Hi Louis,
-> > 
-> > Thanks for fixing this error condition.
-> > 
-> > I have been working and running automated tests on top of this series and
-> > I haven't found any other issue.
-> > 
-> > Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> Thanks a lot! I will merge this tomorrow.
-> 
-> What is your automated tests series? 
+This patchset is extracted from [1]. The goal is to introduce the YUV
+support, thanks to Arthur's work.
 
-On the kernel side, I keep working on the ConfigFS patches here:
-https://github.com/JoseExposito/linux/commits/patch-vkms-configfs/
+- PATCH 1: Add the support of YUV formats
+- PATCH 2: Add some drm properties to expose more YUV features
+- PATCH 3: Cleanup the todo
+- PATCH 4..6: Add some kunit tests
+- PATCH 7: Add the support of DRM_FORMAT_R1/2/4/8
 
-It sits on top of your work to switch to managed memory. But now that
-the code is merged, it needs to be rebased.
-You'll notice that I kept your signed-off-by in many patches, as I
-tried to reuse as much common code as possible.
+[1]: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
 
-About the automated testing, the series could be split in two:
-- vkms_config.h/c, which is tested with KUnit
-- ConfigFS, tested with IGT:
-  https://gitlab.freedesktop.org/jexposit/igt-gpu-tools/-/commits/vkms-configfs
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v16:
+- Rebased on drm-misc-next
+- Updated comment and changed fail thresholds. 
+- Link to v15: https://lore.kernel.org/r/20241231-yuv-v15-0-eda6bb3028e6@bootlin.com
 
-I made some wrong assumptions with connectors, for example, it is
-possible to create a device without connectors and hot-add/remove
-them later, and I'm still fixing them and writing tests.
-Once that work is done I'll send the series to the ML.
+Changes in v15:
+- Export drm_get_color_encoding_name only for kunit tests
+- Link to v14: https://lore.kernel.org/r/20241122-yuv-v14-0-e66d83d28d0c@bootlin.com
 
-Jose
+Changes in v14:
+- Rebased on drm-misc-next
+- Link to v13: https://lore.kernel.org/r/20241118-yuv-v13-0-ac0dd4129552@bootlin.com
 
-> I will also send tomorrow a new rebased iteration for:
-> - https://patchwork.freedesktop.org/series/140786/
-> - https://patchwork.freedesktop.org/series/133698/
-> - https://patchwork.freedesktop.org/patch/625883/
-> 
-> If someone can look on them and leave some reviews, I will be very happy 
-> to apply them!
-> 
-> I will also send a first version of the configFS work (two distincts 
-> series to make the review easier). 
-> 
-> Thanks a lot,
-> Louis Chauvet
-> 
+Changes since previous series:
+ - Fix build test as modules issue: https://lore.kernel.org/all/202410110407.EHvadSaF-lkp@intel.com/
+ - Export required symbols in DRM core to use them in kunit
+ - Update the kunit comments according to Maxime's feedback
+ - Link to original series: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+
+---
+Arthur Grillo (5):
+      drm/vkms: Add YUV support
+      drm/vkms: Add range and encoding properties to the plane
+      drm/vkms: Drop YUV formats TODO
+      drm/vkms: Create KUnit tests for YUV conversions
+      drm/vkms: Add how to run the Kunit tests
+
+Louis Chauvet (2):
+      drm: Export symbols to use in tests
+      drm/vkms: Add support for DRM_FORMAT_R*
+
+ Documentation/gpu/vkms.rst                    |  14 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   3 +
+ drivers/gpu/drm/vkms/Kconfig                  |  15 +
+ drivers/gpu/drm/vkms/Makefile                 |   1 +
+ drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+ drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 271 +++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.h               |  18 +
+ drivers/gpu/drm/vkms/vkms_formats.c           | 467 +++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
+ drivers/gpu/drm/vkms/vkms_plane.c             |  29 +-
+ 11 files changed, 830 insertions(+), 4 deletions(-)
+---
+base-commit: 49a167c393b0ceb592b9d2e65cc4f46bcc707108
+change-id: 20240201-yuv-1337d90d9576
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
