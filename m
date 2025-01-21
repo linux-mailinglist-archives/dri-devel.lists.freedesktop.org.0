@@ -2,62 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDDBA181A1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 17:03:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDAFA181C1
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 17:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A246F10E5F4;
-	Tue, 21 Jan 2025 16:03:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3525D10E601;
+	Tue, 21 Jan 2025 16:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QDFViMwZ";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jSGli7TL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
- [217.70.183.194])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6650810E5F4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 16:03:29 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CF2B440004;
- Tue, 21 Jan 2025 16:03:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737475407;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Siaw3L481abmORrY2k86tlJvy1LDxpfizwQAPP/yCcw=;
- b=QDFViMwZ0NIVroK46zpdSFuqPQ8XP7BApXmoa91s4wQJiT262bKY2DAhOC0Ddb11kFFmjW
- ell3e8Xx94FnZWQmzNGTN67MElu5JDy04k1GYq3axIwzMC91A1DG9WQ4sdUVUgaGYs24hv
- dT3agW+XzIE/PE/+MCEBAAwJCR+vdQ2omOelmQo7hc3hEgE+dA20Kp6EsaibTvnTGJgsle
- VtH0YzutAvtwdalg1jhINPSsC6GuXF7HJ42BJe5FFYQgdUK/oxmRC+TAk/2hOQZcCK3b7A
- ul3w7L1OC9v7fOdegtsbHoN7S/c8URAyweup+/MDO5TN3CPgRcB04uSDScSR4w==
-Date: Tue, 21 Jan 2025 17:03:25 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- melissa.srw@gmail.com, mripard@kernel.org,
- rodrigosiqueiramelo@gmail.com, simona.vetter@ffwll.ch,
- simona@ffwll.ch, thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v4 3/3] drm/vkms: Switch to dynamic allocation for CRTC
-Message-ID: <Z4_FTTvgf7JNj0h4@louis-chauvet-laptop>
-Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
- <jose.exposito89@gmail.com>, 
- airlied@gmail.com, dri-devel@lists.freedesktop.org,
- hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
- melissa.srw@gmail.com, mripard@kernel.org,
- rodrigosiqueiramelo@gmail.com, simona.vetter@ffwll.ch,
- simona@ffwll.ch, thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-References: <20250117-b4-vkms-allocated-v4-3-8ec8fd21aaf6@bootlin.com>
- <20250120162327.2866-1-jose.exposito89@gmail.com>
- <Z46HL-eSSA2EsPCi@louis-chauvet-laptop> <Z496wgH0AyaoSHdW@fedora>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+ [209.85.221.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD25210E601
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 16:12:36 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id
+ ffacd0b85a97d-38a8b17d7a7so3021922f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 08:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1737475895; x=1738080695; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3TZ7bh5A7EZSnsLkgxiyqxFy8dvQ9QyQVZnf6qscv2k=;
+ b=jSGli7TLST/JXfXdqzahIBKviwJsj3djoNzCEgfw/GptrDxJIPZyf4xbH1cvtVwbig
+ HWCE8edxRzFn7uD4jP86PlLcw0g7WEJd3anCEG8EeZJBUn+2nkTfkRjGb0HLCra68sJT
+ +QIywR0Elj3RQPrGTXVbR3Q/TenH8wBRo48GU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737475895; x=1738080695;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3TZ7bh5A7EZSnsLkgxiyqxFy8dvQ9QyQVZnf6qscv2k=;
+ b=DGyVuFUeRK4taSnMaChnLiq04peGwMzbLpdhQaRqOsxp9jgeQ/jaOoMS3TruvhHaHx
+ g2EtPlrt/DF3c1KDwjqkzVeN3WbS5Il/y9WiXYem2AXwPR7xIkt8kEwwld0gUf+V+uxU
+ ec7uWmsTVG6Z8tOsGgudrSsIpmrtmU8T5Tk6cVZIy57L2R/dxnhGPX9QHbNsg3X1ehrr
+ zpi7DU3NPoorvoHDKjVdMVSZ4DVorUwhb2pNLaAlEmSEFwizR+6ZO3k9bmhFNMc7N80v
+ jvCAFC+qSRufAP3jtoh0iobvFRFcDOCy0uhd/hkTbTFM942KuHwN/zy9yt22g47xu1Bl
+ iQBg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU83LrS0Edc5OGl2vi/VVwtC9YUEBeGBRiY1VQB+qFVg+zMqXyKtRCfgm3vBhoyesnvpUBsXBcgsrU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzt3jElhplI/1uaKfWq0/rgF0EHmlEGqtqNdC3TErC4thYHU2hI
+ BnIX+cFLl1Im/Ieg6nEt4KAkQh88QWL2C6HZT0Js/hUjYmmDhiOlGffcONjFTdM=
+X-Gm-Gg: ASbGncsMA2ouLSY9lKNY0Z/V4+vWkkY2PliRw0cvr1zf7B7rL0ffNjWONAd2E74raCO
+ DCu2XJsYBbytTowIZuQSNgxguDSIYSddIHSaYRDbK1lF6MyVWxGSMiltZNHdegtZiGKFS0UEH1e
+ AlsuSVxdajdkzvYv+agEgHeXaT2S4pcttIJX3BLon+oR8WieMGMjNg8KW28VuSinQ3VJ2bWDRAp
+ 6fdLuJh3XpdYGUntgBWyyrfEU3BvJRX3Ob0ZDYFydUc7aGkW83KBxvWiyi7sHFafaE/4Pxr3NkI
+ SJP4INuOiB5SbcUk
+X-Google-Smtp-Source: AGHT+IEfWEjj/q32mCraGgQNxIiqVriBvUHyDamWB6hpE5IzhQZsU39uZ8fQcOOtWX//LMCPZR86zQ==
+X-Received: by 2002:a5d:4845:0:b0:385:f573:1f78 with SMTP id
+ ffacd0b85a97d-38bf566e2b2mr13104592f8f.24.1737475895196; 
+ Tue, 21 Jan 2025 08:11:35 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38bf327e06asm14026067f8f.95.2025.01.21.08.11.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2025 08:11:34 -0800 (PST)
+Date: Tue, 21 Jan 2025 17:11:32 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z4_HNA4QQbIsK8D9@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+References: <20250110203838.GL5556@nvidia.com>
+ <Z4Z4NKqVG2Vbv98Q@phenom.ffwll.local>
+ <20250114173103.GE5556@nvidia.com>
+ <Z4d4AaLGrhRa5KLJ@phenom.ffwll.local>
+ <420bd2ea-d87c-4f01-883e-a7a5cf1635fe@amd.com>
+ <Z4psR1qoNQUQf3Q2@phenom.ffwll.local>
+ <c10ae58f-280c-4131-802f-d7f62595d013@amd.com>
+ <20250120175901.GP5556@nvidia.com>
+ <Z46a7y02ONFZrS8Y@phenom.ffwll.local>
+ <20250120194804.GT5556@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z496wgH0AyaoSHdW@fedora>
-X-GND-Sasl: louis.chauvet@bootlin.com
+In-Reply-To: <20250120194804.GT5556@nvidia.com>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,100 +119,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/01/25 - 11:45, José Expósito wrote:
-> On Mon, Jan 20, 2025 at 06:26:07PM +0100, Louis Chauvet wrote:
-> > On 20/01/25 - 17:23, José Expósito wrote:
-> > > > A specific allocation for the CRTC is not strictly necessary at this
-> > > > point, but in order to implement dynamic configuration of VKMS (configFS),
-> > > > it will be easier to have one allocation per CRTC.
-> > > > 
-> > > > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> > > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > > ---
+On Mon, Jan 20, 2025 at 03:48:04PM -0400, Jason Gunthorpe wrote:
+> On Mon, Jan 20, 2025 at 07:50:23PM +0100, Simona Vetter wrote:
+> > On Mon, Jan 20, 2025 at 01:59:01PM -0400, Jason Gunthorpe wrote:
+> > > On Mon, Jan 20, 2025 at 01:14:12PM +0100, Christian König wrote:
+> > > What is going wrong with your email? You replied to Simona, but
+> > > Simona Vetter <simona.vetter@ffwll.ch> is dropped from the To/CC
+> > > list??? I added the address back, but seems like a weird thing to
+> > > happen.
 > > 
-> > [...]
-> > 
-> > > > +	/* Initialize the writeback component */
-> > > >  	if (vkmsdev->config->writeback) {
-> > > > -		writeback = vkms_enable_writeback_connector(vkmsdev, crtc);
-> > > > +		writeback = vkms_enable_writeback_connector(vkmsdev, output);
-> > > >  		if (writeback)
-> > > >  			DRM_ERROR("Failed to init writeback connector\n");
-> > > >  	}
-> > > 
-> > > Hi Louis,
-> > > 
-> > > Thanks for fixing this error condition.
-> > > 
-> > > I have been working and running automated tests on top of this series and
-> > > I haven't found any other issue.
-> > > 
-> > > Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-> > 
-> > Thanks a lot! I will merge this tomorrow.
-> > 
-> > What is your automated tests series? 
+> > Might also be funny mailing list stuff, depending how you get these. I
+> > read mails over lore and pretty much ignore cc (unless it's not also on
+> > any list, since those tend to be security issues) because I get cc'ed on
+> > way too much stuff for that to be a useful signal.
 > 
-> On the kernel side, I keep working on the ConfigFS patches here:
-> https://github.com/JoseExposito/linux/commits/patch-vkms-configfs/
-
-I saw your message just after sending my "vkms-config" series, I am 
-currently looking at your commits to see what are the changes.
-
-I also sent an RFC for the ConfigFS interface, I did not change a lot of 
-thing. I think the two major changes are:
-- Adding format configuration
-- Removing YUV related configuration (encoding/range)
-
-> It sits on top of your work to switch to managed memory. But now that
-> the code is merged, it needs to be rebased.
->
-> You'll notice that I kept your signed-off-by in many patches, as I
-> tried to reuse as much common code as possible.
-
-Yes, thank you. I will compare with my work and understand your change.
-
-> About the automated testing, the series could be split in two:
-
-I agree, and indeed that what I meant in my previous mail :-)
-I did not sent them earlier because I wanted to merge 
-vkms-managed/allocated before.
-
-> - vkms_config.h/c, which is tested with KUnit
-
-Yes! Thank you for this, I wrote only very basic tests, so thank you for 
-your extended kunit tests. 
-
-> - ConfigFS, tested with IGT:
->   https://gitlab.freedesktop.org/jexposit/igt-gpu-tools/-/commits/vkms-configfs
-
-You did a really great job writting those tests! Please CC me 
-when you will send them, I will be very happy to review them.
-
-> I made some wrong assumptions with connectors, for example, it is
-> possible to create a device without connectors and hot-add/remove
-> them later, and I'm still fixing them and writing tests.
-> Once that work is done I'll send the series to the ML.
-
-I did the same asumption, so my series is also broken on this point. I 
-don't want to duplicate the work, so I'm looking forward to your series!
-
-Thanks for this amazing work,
-Louis Chauvet
-
-> Jose
+> Oh I see, you are sending a Mail-followup-to header that excludes your
+> address, so you don't get any emails at all.. My mutt is dropping you
+> as well.
 > 
-> > I will also send tomorrow a new rebased iteration for:
-> > - https://patchwork.freedesktop.org/series/140786/
-> > - https://patchwork.freedesktop.org/series/133698/
-> > - https://patchwork.freedesktop.org/patch/625883/
-> > 
-> > If someone can look on them and leave some reviews, I will be very happy 
-> > to apply them!
-> > 
-> > I will also send a first version of the configFS work (two distincts 
-> > series to make the review easier). 
-> > 
-> > Thanks a lot,
-> > Louis Chauvet
-> > 
+> > Yeah I'm not worried about cpu mmap locking semantics. drm/ttm is a pretty
+> > clear example that you can implement dma-buf mmap with the rules we have,
+> > except the unmap_mapping_range might need a bit fudging with a separate
+> > address_space.
+> 
+> From my perspective the mmap thing is a bit of a side/DRM-only thing
+> as nothing I'm interested in wants to mmap dmabuf into a VMA.
+
+I guess we could just skip mmap on these pfn exporters, but it also means
+a bit more boilerplate. At least the device mapping / dma_buf_attachment
+side should be doable with just the pfn and the new dma-api?
+
+> However, I think if you have locking rules that can fit into a VMA
+> fault path and link move_notify to unmap_mapping_range() then you've
+> got a pretty usuable API.
+> 
+> > For cpu mmaps I'm more worried about the arch bits in the pte, stuff like
+> > caching mode or encrypted memory bits and things like that. There's
+> > vma->vm_pgprot, but it's a mess. But maybe this all is an incentive to
+> > clean up that mess a bit.
+> 
+> I'm convinced we need meta-data along with pfns, there is too much
+> stuff that needs more information than just the address. Cachability,
+> CC encryption, exporting device, etc. This is a topic to partially
+> cross when we talk about how to fully remove struct page requirements
+> from the new DMA API.
+> 
+> I'm hoping we can get to something where we describe not just how the
+> pfns should be DMA mapped, but also can describe how they should be
+> CPU mapped. For instance that this PFN space is always mapped
+> uncachable, in CPU and in IOMMU.
+
+I was pondering whether dma_mmap and friends would be a good place to
+prototype this and go for a fully generic implementation. But then even
+those have _wc/_uncached variants.
+
+If you go into arch specific stuff, then x86 does have wc/uc/... tracking,
+but only for memory (set_page_wc and friends iirc). And you can bypass it
+if you know what you're doing.
+
+> We also have current bugs in the iommu/vfio side where we are fudging
+> CC stuff, like assuming CPU memory is encrypted (not always true) and
+> that MMIO is non-encrypted (not always true)
+
+tbf CC pte flags I just don't grok at all. I've once tried to understand
+what current exporters and gpu drivers do and just gave up. But that's
+also a bit why I'm worried here because it's an enigma to me.
+
+> > I thought iommuv2 (or whatever linux calls these) has full fault support
+> > and could support current move semantics. But yeah for iommu without
+> > fault support we need some kind of pin or a newly formalized revoke model.
+> 
+> No, this is HW dependent, including PCI device, and I'm aware of no HW
+> that fully implements this in a way that could be useful to implement
+> arbitary move semantics for VFIO..
+
+Hm I thought we've had at least prototypes floating around of device fault
+repair, but I guess that only works with ATS/pasid stuff and not general
+iommu traffic from devices. Definitely needs some device cooperation since
+the timeouts of a full fault are almost endless.
+-Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
