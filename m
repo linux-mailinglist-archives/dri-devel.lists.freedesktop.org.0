@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200DFA17FFE
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 15:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F6BA18009
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 15:38:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F9EB10E5D5;
-	Tue, 21 Jan 2025 14:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61CE910E5DA;
+	Tue, 21 Jan 2025 14:38:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YA0i0VLy";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SOB8O30Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::226])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49BF810E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 14:38:14 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1F12CC0011;
- Tue, 21 Jan 2025 14:38:12 +0000 (UTC)
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBC110E5D7
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 14:38:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 27287C0004;
+ Tue, 21 Jan 2025 14:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737470293;
+ t=1737470294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OFQ4Ff8PV/nQ3otAFU0pTp2obHz+6vw8l94Fypiq9Co=;
- b=YA0i0VLysGRnSoxKzQhmCpa0mijD7zPf1oYkPHXO+IVWToEbb4tzJ/1bd7MWhPJL3goZti
- N5rZMztoL+lZ6NzUjZ/cDBXsD91fTnd6ZeyWYlrRJJ4pzOF2t2OnwzGeOJmhIrMRI7O9cb
- fQWYgRlAJhTavAyi9kiI/9fWdco/ZOJWGWVLmeJ2nYmdiJKzIHK2ONik9ZnPp1GXhsjdxn
- E0NCqU9MGqxmZT2eyY7UqgIK4srQQWmfCtGsUakWFOxGLfgxy3LeUakIgDRAkt9dIMQ3iW
- SRBZaBO9Bs58YK9O5Qj0Lf7LZ0euZqI/ngahWseih21ILqzw9zWFRPhLXGxSTg==
+ bh=u4FW97gmv0h8v6YZVl7BcMluaaWrqGSIDWALmXfXyf4=;
+ b=SOB8O30ZvZMfAg/U/DmPeydfe0P/N0ur4FnUDJvXkScKtOuzHIUOllodl2N/91VPtrB2jE
+ 50Epk2tIkd1EHuqN5+GJRrXX2g78yWPm59SUJAwE46klCbl4QaLP0tcwwuJlSC28bzeSSX
+ 2wVWK8O2rsV9sLAOdDqa0DRp4K74y6MPIfaWgPEzL/lRxd4rw2I5mEWCPF+/5JknbcV3yr
+ cJqiNZOdHsb0SqE62/gtMTBYKCdp3zsLaLZYir3u2Ghwe648Fly2zlAr0Iw/gRSb+IpFBC
+ kdzmBq7jKZg/Lwia13/J/MZ8PzMwSgkppRXsgwr04qLQns4Do6xOmx1M3O/yOg==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 21 Jan 2025 15:34:57 +0100
-Subject: [PATCH RFC v3 13/14] drm/vkms: Introduce configfs for connector EDID
+Date: Tue, 21 Jan 2025 15:34:58 +0100
+Subject: [PATCH RFC v3 14/14] drm/vkms: Introduce configfs for encoder type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-google-config-fs-v3-13-8154a6945142@bootlin.com>
+Message-Id: <20250121-google-config-fs-v3-14-8154a6945142@bootlin.com>
 References: <20250121-google-config-fs-v3-0-8154a6945142@bootlin.com>
 In-Reply-To: <20250121-google-config-fs-v3-0-8154a6945142@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -53,21 +53,21 @@ Cc: jose.exposito89@gmail.com, dri-devel@lists.freedesktop.org,
  thomas.petazzoni@bootlin.com, seanpaul@google.com, nicolejadeyee@google.com, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2441;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2882;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=74KM1HCxeJ9rIki3nH8P7Jl+BhT1o7myjLxUUlO3Zbk=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj7FDWykG7DumlhiIaLE+2dhJiHi63l/Ckduqy
- Z+9t7wN3VCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ4+xQwAKCRAgrS7GWxAs
- 4pNYEACEbe3iBCi8a1zrun+ZzRhdFpRNewPtswtul3FQp1KopGzpaATQ2+WDAJ4xZLdY5m2YqPy
- 7hFi5gOTNIWe86KZUqz8AiVVqMLuS01Pn6xgDH08ZIRil+Ui6PAwQ6+QReObyGmMjhhNE0pxmLC
- N25c7YdyyL7n/UoetL0aFjQBr2KeMCXHNBpw1EW5M2AHsgvPsJwr6S2PurZz2xdhwvSh0mDf22d
- wPCtkbVicmFGbNK4Yud3//BVg8HPlPvc20lwrpb84XgfdVYCXMAWS7PRXRFb9e1UiRH43YF6gig
- y4trOq3CPm/ip56uUAgrY+fK8XiTeyfuqee2YcIReZ2yl5kznJxVQx5/ML0TPIFHRKTtGOEiBuJ
- 7xccnQL2f5u3anIYtKOSKLitC2AOuB+FC6FZWZ+MDWaFRa0+p/h9jn2OzzRG4pZtfFLs19o3+P9
- b2T/Ha/k9LlEBkgXiGy82bXBjQNgDhaOeYUFoLzfIZ4OqWysaK/xvfqqONTaXNA6Ib2+jWAJI8Z
- 5t/Gswqh4THslK8mYZGHFlooJUNqSM9uRoC0Ue8JLFDvpAXl8Sn+DMWM/SaHzWVeWs6r4/bEbiY
- H1fFO8s/+P7im27LYroNMEohYcs0XCW3gNOepWrSpKT9o/a3M5/SWwSfwscIlxkX2YPkfYQZq4w
- 7420Vhs3nyqSRgA==
+ bh=9jSFWvf5VmPPMVhisDd6GJDN4cLc45xFfuqW/qC8DN0=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj7FE4zPy3IFkf02hziZ05eEyHbNKtEK5j01zy
+ uuW66pNgJCJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ4+xRAAKCRAgrS7GWxAs
+ 4ju4EADVEou2XXCds+pr2DdT2xfJRCFOAA+E8pdOJuAu8ZaDK7KZyiYFAF36LXtEW4sxermIafz
+ PBvPRP/kqAqG1zVw/ywXFB9FtvhD2n8SKl9iXTQxmwxWsw7JbTlyKqzw2dq2eieyfubf2kEht51
+ 79udId+47rWUMYjJOEMNov2W1bdaQxTyMU3S+WmwxZYJGkADW/aZNvO/DO1MNknABfeQwkJf/B/
+ SUcGFg9ttZsw6G4Ete72Tn1YNttd9dPyeNKC0/2QpWiPqC2tVk/cRCkJ43gmUJQIhQXaYuiZegU
+ L0Q6QTT/okpxv4gEPt6d+KKyGJK8HODkTLIrecVViDf3Ay1jVEP7Yh944KV46V6ye2FdJ8NgvOb
+ QwOItLRTdVUhATQOMOtxdxJ29LDCjwdtov96wgtC/flSHRuXeDxNa7YPX4rPvBVmcqhZ5PjR0fX
+ xgcauGFuHnJFRJQSgn3jue4+Qrp9cpaOpE4qphFTtCjOOJ3+66PjZO/pFDvZbINnlBHLGZ5rnhg
+ MzaZXiCskXfGZjzHJj+33GeO8TqgnfmQ5JfDOOhgwJt3v0c4BzpLGYpqq7cwxu/tLRt0emApb66
+ nZW5+UBNzYFuzONrs8pvoBhroBnzddreG4fJLnlCXO2zqdyH8cetnF33meogqwQF/BLUFD3sLrr
+ lcre+76Q6NNJd1A==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -86,73 +86,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Due to limitation of ConfigFS, the max len of EDID is PAGE_SIZE (4kB on
-x86), it should be sufficient for many tests. One possible evolution is
-using a ConfigFS blob to allow bigger EDID.
-
-The EDID can be changed at any time. As for physical display, you need
-to trigger an HPD event to refresh the modes.
+In order to support multiple configuration, add the possibility to change
+the encoder type.
 
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_configfs.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ drivers/gpu/drm/vkms/vkms_configfs.c | 57 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
-index 76f28862c7652fbd9e84c42b60ad818ddee1485b..547b76d67c4cd1f9c2fb20e45f0f0583fa03b59a 100644
+index 547b76d67c4cd1f9c2fb20e45f0f0583fa03b59a..dd4de385dadbdb24647cc59debb0284f94033b4b 100644
 --- a/drivers/gpu/drm/vkms/vkms_configfs.c
 +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-@@ -814,6 +814,37 @@ static ssize_t connector_status_store(struct config_item *item,
- 	return count;
+@@ -1,5 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ 
++#include "drm/drm_mode.h"
+ #include <linux/configfs.h>
+ #include <linux/mutex.h>
+ #include <drm/drm_print.h>
+@@ -544,6 +545,61 @@ static void encoder_possible_crtcs_drop_link(struct config_item *src,
+ 	mutex_unlock(&vkms_configfs->lock);
  }
  
-+static ssize_t connector_edid_show(struct config_item *item, char *page)
++static ssize_t encoder_type_show(struct config_item *item, char *page)
 +{
-+	struct vkms_config_connector *connector;
-+	struct vkms_configfs_device *vkms_configfs = connector_child_item_to_vkms_configfs_device(item);
++	struct vkms_config_encoder *encoder;
++	char encoder_type = DRM_MODE_ENCODER_NONE;
++	struct vkms_configfs_device *vkms_configfs = encoder_item_to_vkms_configfs_device(item);
 +
 +	scoped_guard(mutex, &vkms_configfs->lock)
 +	{
-+		connector = connector_item_to_vkms_configfs_connector(item)->vkms_config_connector;
-+		memcpy(page, &connector->edid_blob, connector->edid_blob_len);
-+		return connector->edid_blob_len;
++		encoder = encoder_item_to_vkms_configfs_encoder(item)->vkms_config_encoder;
++		encoder_type = encoder->type;
 +	}
 +
-+	return -EINVAL;
++	return sprintf(page, "%u", encoder_type);
 +}
 +
-+static ssize_t connector_edid_store(struct config_item *item,
-+				    const char *page, size_t count)
++static ssize_t encoder_type_store(struct config_item *item,
++				  const char *page, size_t count)
 +{
-+	struct vkms_configfs_device *vkms_configfs = connector_child_item_to_vkms_configfs_device(item);
++	struct vkms_configfs_device *vkms_configfs = encoder_item_to_vkms_configfs_device(item);
++	int val = DRM_MODE_ENCODER_VIRTUAL;
++	struct vkms_config_encoder *encoder;
++	int ret;
 +
-+	scoped_guard(mutex, &vkms_configfs->lock)
-+	{
-+		struct vkms_config_connector *connector =
-+			connector_item_to_vkms_configfs_connector(item)->vkms_config_connector;
-+		memcpy(&connector->edid_blob, page, count);
-+		connector->edid_blob_len = count;
++	ret = kstrtouint(page, 10, &val);
++	if (ret)
++		return ret;
++
++	if (val != DRM_MODE_ENCODER_DAC &&
++	    val != DRM_MODE_ENCODER_DPI &&
++	    val != DRM_MODE_ENCODER_DSI &&
++	    val != DRM_MODE_ENCODER_LVDS &&
++	    val != DRM_MODE_ENCODER_NONE &&
++	    val != DRM_MODE_ENCODER_TMDS &&
++	    val != DRM_MODE_ENCODER_TVDAC &&
++	    val != DRM_MODE_ENCODER_VIRTUAL)
++		return -EINVAL;
++
++	scoped_guard(mutex, &vkms_configfs->lock) {
++		if (vkms_configfs->enabled)
++			return -EINVAL;
++
++		encoder = encoder_item_to_vkms_configfs_encoder(item)->vkms_config_encoder;
++		encoder->type = val;
 +	}
 +
 +	return count;
 +}
 +
- static ssize_t connector_id_show(struct config_item *item, char *page)
- {
- 	struct vkms_configfs_device *vkms_configfs =
-@@ -833,12 +864,14 @@ static ssize_t connector_id_show(struct config_item *item, char *page)
++CONFIGFS_ATTR(encoder_, type);
++
++static struct configfs_attribute *encoder_attrs[] = {
++	&encoder_attr_type,
++	NULL,
++};
++
+ static struct configfs_item_operations encoder_possible_crtcs_item_operations = {
+ 	.allow_link	= &encoder_possible_crtcs_allow_link,
+ 	.drop_link	= &encoder_possible_crtcs_drop_link,
+@@ -572,6 +628,7 @@ static struct configfs_item_operations encoder_item_operations = {
  
- CONFIGFS_ATTR(connector_, type);
- CONFIGFS_ATTR(connector_, status);
-+CONFIGFS_ATTR(connector_, edid);
- CONFIGFS_ATTR_RO(connector_, id);
- 
- static struct configfs_attribute *connector_attrs[] = {
- 	&connector_attr_type,
- 	&connector_attr_status,
- 	&connector_attr_id,
-+	&connector_attr_edid,
- 	NULL,
+ static const struct config_item_type encoder_item_type = {
+ 	.ct_item_ops	= &encoder_item_operations,
++	.ct_attrs       = encoder_attrs,
+ 	.ct_owner	= THIS_MODULE,
  };
  
 
