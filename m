@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD867A17C31
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978EBA17C2F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:48:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFD110E557;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3096810E55A;
 	Tue, 21 Jan 2025 10:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="M2k7HUdE";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VlQzKOzy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7669D10E552
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:48:17 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 34B9F240009;
- Tue, 21 Jan 2025 10:48:15 +0000 (UTC)
+ [IPv6:2001:4b98:dc4:8::221])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A01BF10E557
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:48:18 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 55FB3240007;
+ Tue, 21 Jan 2025 10:48:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737456496;
+ t=1737456497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1roDM4z3PzoAc0FC+uMQ2aY2OcRduLc4tYzeHMaTk+I=;
- b=M2k7HUdEgyX84G1K0FTG1rrt87WWPP8FEYtTEOPil4B0BICDM8OMFVrUeqXk4u+PRmNeSU
- 8NE0sG0V3CVUSUIV4R0paB+0VwQZkC+YK+FQU/pAMhdbqvojLbIQrIzwjPpssqx6+Q5OgG
- 4ULQLS4c5XTYI0SzsvjMs2/U5zVNUEyt/x3x5hINKKEu2xIGDIn9/wCZuyTiAGiyFazwUI
- vrgW7l/yNnV05kYeDCm9a/D9GJ1UqNVnABXTnPzogTdx9YvcacsgeSazKGfvvIvzZjruqG
- LFDusiHFPIbkJdTSS45Kw3dHBhwzU9fmI6R7IqEAtGrl8JdKnuibZwBm5//kOg==
+ bh=JJaae2di248INTyIxrbFsGIlO3L32V5gEL21XGT13do=;
+ b=VlQzKOzyrDbPxUHrXVVP+aIaFNDMnt8IfU0zmEcWf4q1cGUzbTdNPdYNBNpwLJaU+HtRWC
+ 0pJ7EMcwQtfr1Vulf+kagcxVzdkeYqjmIaOMZBw9sE3S0M/3OZE+A8baUburtKeV/YpEV5
+ rQpc18aW3Tba2aE2nPDeVfDmz6KRHKAVEMrrSURjcb0/ZWVrNEgUJK55AbJD0qEv0FH5Qj
+ WlIcmLGr3oUJeikDp7fIV58sfao94d/kdr3ep9W8GtNwVjlOSg2nFciNZtLRKakHQV56+q
+ ZVKbVm2ZkCGLewnc46yogtk92mHeJxjGSiPe1OfYRGrehmTfacyh5XpSGmH0+w==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 21 Jan 2025 11:48:04 +0100
-Subject: [PATCH v16 3/7] drm/vkms: Drop YUV formats TODO
+Date: Tue, 21 Jan 2025 11:48:05 +0100
+Subject: [PATCH v16 4/7] drm: Export symbols to use in tests
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250121-yuv-v16-3-a61f95a99432@bootlin.com>
+Message-Id: <20250121-yuv-v16-4-a61f95a99432@bootlin.com>
 References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
 In-Reply-To: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
 To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
@@ -55,21 +55,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
  Louis Chauvet <louis.chauvet@bootlin.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=937;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1319;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=scn5WH2D0SZUmHmqTUnLEUslGEChLv0xkTXLyc9tyEc=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj3to4dmmxlUDJZaBX3HNhTfZeE3zHyl7fjgpN
- FXw8uoq1jmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ497aAAKCRAgrS7GWxAs
- 4ms+EADQVhm1y02fdmCDSmHyne8/ol+zTXYiPs9S1CftZn/s5SeosxJILJUAMn7gCPJdyE1NRhD
- EUksDV7hJK0C/aqKqrw9YISQC4ryf7EEJD4epxCZONsQCYBvwA3MpRXpWryuUCi3TN2rtyZeCOb
- XmuaBnV+MR4GHQ84PO78Q6Ffq7QxcPmjQHTOlaifjVuAxAyW7saIOtMZn7AL1U7Z99c7bJZeREw
- OmEQBUg2+Q2u/Go7jf8CDJalX5zQ28UgQGog4q0pX/Iso57n0gxY+D2iW9AHB1hNKE/2tL6oS8+
- neH0B20aj1FmUIqN7+nrR4EdcQqYmf3m5hSOpmb8FqY8DScq/F8lNyi0jPj17FApE6fZvkGKFXq
- 9MkNPE0iteAawcQL3pPuxgY942MTt64myX0kCbU6yE2cvLU8C9Xm8NM8Uvt4bZ4uLFL8HvgnmjZ
- fZ1vFIISRrHfjiGJqhGS3q2CsiQ0g/lq7irUU5G634ohhULEBbxwSFTRaCvs86IDO6f1/6gbvwJ
- 2ekMXeIGrhjvWyn4jQLaH2IbbsoKiJYVMDMaaqCMiUhi3OLUKC397TqdsjhUresMqRxWop1hzuv
- 7QHuTRkhvgtUoEnQ8OlejjawtZrATUvjycSEnql72Lf+vWTj2ejDEezDVubkpVTrCEBSre2VXgK
- rd+ZibCEJ4JE7vw==
+ bh=zI9PBYaXL9n8tKDCycFK0oO5/fSOH1r4rcy6X4UZ82E=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnj3tppTuMKoBTd270uJuoPtxkhHJ/jo5Nwk3k4
+ scVkVCSARKJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ497aQAKCRAgrS7GWxAs
+ 4ixkD/4pSZYD+j+DfrMajMvsPrmSkfli7JPwCuvgySG96Bk7/RkL949aDltE7o0/sMiahOLWeVk
+ GKJ4h8K/eIyjlNJ5kuo2g9Eo4he732O2lyRAM4Nyp91P61+JSYv4e87+/QK5R0yd7z4WuO0tlSm
+ 62DyQhb27l+JmQvdPpstknpku+ibnejDjdSXII434WaF3PceUvywyHDluOe7gKTl1eNqXLpWQwi
+ h35vIEUi/4bSP1sKaWvZYhJg2nAd6h9poT6gcmkDCIrUI9kJshYLoNVUa61wjTtDjMHdovDV05s
+ NTY6blbKxm6sC/GfzX1nYAw6q3mP/lCvCS8R+u3NafhR2VfAZp5cS1MltxEvFEPFD6mJo+04tR8
+ /GnOBX/pFMQ1Ty6v6Jcfy2xQzF+NqarP4kka9hz7nJLiATsLUnztdcDiK65hUEUiPRay+pJOzK1
+ SoNeThXwvJaHU4nrHDZlUX6w3E++RbgvFiWm+ro2R7+GVqNyZ5YZs0FPOIXSZSRD37WvtED63OY
+ ESGJuF1cKAN9Eh5560tDR7EZRk9kGoYgsK0KU7hrk9t4/aApISOvsGORea4HT4lShZMm1voOYvZ
+ IogqGfFbMe6BomTC3zU4PURKIvOqMHXtH4s+Yabj+ZDdsBshjg8gqLK9IP3qPQHJGqfojyt790H
+ uEkV3hnmdFBn8RA==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-Sasl: louis.chauvet@bootlin.com
@@ -88,31 +88,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arthur Grillo <arthurgrillo@riseup.net>
+The functions drm_get_color_encoding_name and drm_get_color_range_name
+are useful for clarifying test results. Therefore, export them so they
+can be used in tests built as modules.
 
-VKMS has support for YUV formats now. Remove the task from the TODO
-list.
-
-Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/gpu/vkms.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/drm_color_mgmt.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index ba04ac7c2167a9d484c54c69a09a2fb8f2d9c0aa..13b866c3617cd44043406252d3caa912c931772f 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -122,8 +122,7 @@ There's lots of plane features we could add support for:
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index 3969dc548cff605cbdd3d56dceafb2ca00a5c886..b73a998352d175a26c69e0878da28a6288cfc8b7 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -28,6 +28,7 @@
+ #include <drm/drm_device.h>
+ #include <drm/drm_drv.h>
+ #include <drm/drm_print.h>
++#include <kunit/visibility.h>
  
- - Scaling.
+ #include "drm_crtc_internal.h"
  
--- Additional buffer formats, especially YUV formats for video like NV12.
--  Low/high bpp RGB formats would also be interesting.
-+- Additional buffer formats. Low/high bpp RGB formats would be interesting.
+@@ -494,6 +495,7 @@ const char *drm_get_color_encoding_name(enum drm_color_encoding encoding)
  
- - Async updates (currently only possible on cursor plane using the legacy
-   cursor api).
+ 	return color_encoding_name[encoding];
+ }
++EXPORT_SYMBOL_IF_KUNIT(drm_get_color_encoding_name);
+ 
+ /**
+  * drm_get_color_range_name - return a string for color range
+@@ -509,6 +511,7 @@ const char *drm_get_color_range_name(enum drm_color_range range)
+ 
+ 	return color_range_name[range];
+ }
++EXPORT_SYMBOL_IF_KUNIT(drm_get_color_range_name);
+ 
+ /**
+  * drm_plane_create_color_properties - color encoding related plane properties
 
 -- 
 2.47.1
