@@ -2,128 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091A3A17C1D
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1CDCA17C1A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 11:45:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E88010E563;
-	Tue, 21 Jan 2025 10:45:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F49910E556;
+	Tue, 21 Jan 2025 10:45:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="enF4YWVG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OjqKOjDn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com
- [209.85.219.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D680210E555
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:45:39 +0000 (UTC)
-Received: by mail-yb1-f169.google.com with SMTP id
- 3f1490d57ef6-e39f43344c5so7725367276.1
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 02:45:39 -0800 (PST)
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
+ [IPv6:2a00:1450:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 17A3410E556
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 10:45:27 +0000 (UTC)
+Received: by mail-wm1-x329.google.com with SMTP id
+ 5b1f17b1804b1-4361dc6322fso37798025e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 02:45:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737456279; x=1738061079; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fM4RiAz8x0xBzhbf4AlSqIUYbrQ3SaJ7YEvWtIB73WA=;
- b=enF4YWVGtyD/lErCLhJEuj4Wrmc26M4NYMvGsRLmY7S5INLBbUgdNl8H69q5QFuNi9
- rrF2f34B/V4co7llkZKN05raYohWijWuaMgDPKPqcboD8CHw+bIkh64mEbiwE9wvDknL
- 83fSC60Ro2D2aBASREeV4A19hwXvNlFKEOu9TKdx+iQf+Z3yNhTg8Gh9xkP7ystXq0U/
- Lu3Y5cpfJIu4oDZZqrdAV8p2Hc7P1RQcSRQIRwLlG1AqBQ09ICSUdGuVbFenZ+rKfyid
- HG7yaGSoh4iNZzSQIvJkIS9cC+P/5STzDblUZY5vOTi1rkHrYkSxAVjnKFQERfcKJJ9w
- BvkQ==
+ d=gmail.com; s=20230601; t=1737456325; x=1738061125; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=5+927yDcfTkIOGouFWigCtvSDidRLS7ZH3ez8GRWqN8=;
+ b=OjqKOjDnNncrMjxhWQOZsLw7qVvlfZFmGYULmGmsTv/ToIS0jrIK3PvVQhc2hS2Z16
+ XLrHeYEVxoLq5BPdGkniGOYASGiTBvB8is89n3Olblv4njRkPfo9SihGj13CsekTFq0h
+ p6md0gdIyD5Ash4i4wAnybn1lce29n14BdmZxgLPEcdAw1ag0jNhFIXd3EZGxEEY7M0V
+ NpoDv6CVYjfezjmSU2sbIaN0PSNJ5ZIOTSklvqa+N5o2ILqlSJh54EbunDh9QkxmjKQz
+ xFsgyiVr15bezfttOXNJgsjR5B8B5RVLQ1D4l+AuQ63sXAfJZDd49IQsNmUoopcBMVNR
+ YWtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737456279; x=1738061079;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fM4RiAz8x0xBzhbf4AlSqIUYbrQ3SaJ7YEvWtIB73WA=;
- b=iOcXDz2UeCWeBAFm3lXw58KKnfccBwhgAkDoMrpuoAEMNK8Rt6MzaqEp+hM+2GfUmx
- WO44suexWeW7orf9NMyabYjC0Gh0lm8YZueTYY+iU8dMrZRu8KwQT57zCmMJkOBk2vof
- hMS0FmOC3zEhmb9JchdGOl3Q9pO1wNY7DuH/w1h+lf2HwUb1f651a2Ce50p7oTxQbvAs
- 3yUnU8MRQL2Sfa4DcPFJgTK58z9pF1FLfnztJRZZsC3p+TWmkbbk7ssi2caYjW9Q1Bkf
- 6zFKBA6YJ1yGpvYjPtE2d18nd1wPY0WIsdDKCwWX1XInCgyQoTGcrAQVEYrsS4F8an5x
- WeOQ==
+ d=1e100.net; s=20230601; t=1737456325; x=1738061125;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5+927yDcfTkIOGouFWigCtvSDidRLS7ZH3ez8GRWqN8=;
+ b=I+j4aVbjUiqCqPB45GnLpAmgty9TclJnqlHWwwz5tadwUwnwH/KpmFj0Npfed2WzCs
+ jrsrOsTIcSBv2ys4jdO/AQR22xeEVH1/+5MJjSaaO6sZoJuno0v4lowFVAXkIh7medF7
+ 2i1PExmX+JL1U7HlWIov11w4BlSzWprQDqcFC7Eu37CA6e13h8pi7OlTgx97hJ96oYyY
+ tZ0wjp0R/GMbbjIz2F9m/LoizYZ2+JDQWO5Fue6Tl+koHKntmg9u6CdYpj1tFpVPbhuj
+ pPw9/p0ZGqrWuODZlhH2+MusqMD1tMR2NInJGYgC8906RoTMjmJOigj3jOaKuePciYfa
+ uLKg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfGJjo5r1/ndjCznf/DKZMapXHWaCYJOoU+45icyMzNvhFmZX3iM3t0uNM57a98WBYvZjzl5kKc9s=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyFg2SS17Tl09viLS8j6Il/ZwFbwOhpR4touDWDWSrApY+/h+KF
- eQrhNfvduLYPq4k3FLLvusMbCTT1wrmlwfQr1nyks/rTi6tNs3XgH9UbwD5lLmNYEwzi+05fw+G
- Vz3cAf1wxdRXuhNvE5qULWWKjKlQz3j2cYhw1Nw==
-X-Gm-Gg: ASbGncsavDUjmNX3lW7IevVUjqbttjcoGTwDwT3k7hWpqIjUJO2FAiFOKLuK2v2GAQ+
- 3yleblt7Gq2O8ExjvZo5yqWagwFrvmVKgI22L9eVx7vn/xPeY1a2KxVu0hkq8yCODhQ==
-X-Google-Smtp-Source: AGHT+IHO0V0jurSGd/L1Ymx0QNx/m/A6wTdCul+m+iz6FYx+lOCJoAuF4E4jOdjfH48/SXNUBM+6kJMlTjWcDWiw9yM=
-X-Received: by 2002:a05:690c:3701:b0:6f6:d4bf:d01a with SMTP id
- 00721157ae682-6f6eb940fb8mr129606697b3.34.1737456278815; Tue, 21 Jan 2025
- 02:44:38 -0800 (PST)
+ AJvYcCU5DxTB1TZtp0uGIZ44FL11GEWgNVoZJLTtJNqm10LsbGitAd+e/ipEYasYWWcDMXA0QD+Mylodybc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlKClL+slWLwQX9nh6OoT7yd6oHDKyX6+6XI9qCaCWB+zax5fg
+ ET8Oq0TGx4hAse4VwmLmeSu7VWSTo/0yUVvbWke+5nNrxqbN+GaI
+X-Gm-Gg: ASbGncsDB3senKywU8hLrpylxtcDoskGfvqx65WJQj5Krv9jaKOqccJ2sydpeui8w4t
+ 9N18/vuTCU9B7S2Wt4zNal4VEPWb8jYri1TKbhNFfzZKU21TIFakOJ2XM5XpSgTp4SEovWaJa7c
+ 7zJE0fT2y9IzhU0KhrV1+6CzzecDz8M1FgdDq8l6szfrc4uMh85Ua/nsCvFPXcbaBIf8NgynNBB
+ D/STbO9KzXmitgvA76ZXMjn3gblsmTMox9QKnkBV6KI5qjU4NNR2YIBNV9DbdfhXF4f
+X-Google-Smtp-Source: AGHT+IGoEzxq0HPWhuGQ495VDSXx5P9J5zdFjyXfhO1hziVwbrGp6oAHmMzXz8FDgj9b5VZ3m5AxLA==
+X-Received: by 2002:a5d:6505:0:b0:38a:88ac:ed10 with SMTP id
+ ffacd0b85a97d-38bf5789edcmr13155035f8f.25.1737456325275; 
+ Tue, 21 Jan 2025 02:45:25 -0800 (PST)
+Received: from fedora ([94.73.34.116]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38bf3214fc9sm12736519f8f.6.2025.01.21.02.45.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2025 02:45:24 -0800 (PST)
+Date: Tue, 21 Jan 2025 11:45:22 +0100
+From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ hamohammed.sa@gmail.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mairacanal@riseup.net,
+ melissa.srw@gmail.com, mripard@kernel.org,
+ rodrigosiqueiramelo@gmail.com, simona.vetter@ffwll.ch,
+ simona@ffwll.ch, thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+Subject: Re: [PATCH v4 3/3] drm/vkms: Switch to dynamic allocation for CRTC
+Message-ID: <Z496wgH0AyaoSHdW@fedora>
+References: <20250117-b4-vkms-allocated-v4-3-8ec8fd21aaf6@bootlin.com>
+ <20250120162327.2866-1-jose.exposito89@gmail.com>
+ <Z46HL-eSSA2EsPCi@louis-chauvet-laptop>
 MIME-Version: 1.0
-References: <20241214-drm-connector-mode-valid-const-v2-0-4f9498a4c822@linaro.org>
- <173624946815.1500596.321177900833598022.b4-ty@linaro.org>
- <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVwcaY2Fgpf7GYhBrE5B+AEg=v0BH4OjMXgnp=wqjxmKg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 21 Jan 2025 12:44:27 +0200
-X-Gm-Features: AbW1kvabZ-in97OiEwfu0vjcyzelZUBMNUaWG-jd-XhigpbETlYrZDr4y_chW2I
-Message-ID: <CAA8EJpos0HQpr9P4XRkto0Jy+Anf1xEH2xhEU8wtCyUQd+XwMg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] drm/connector: make mode_valid() callback accept
- const mode pointer
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, 
- Danilo Krummrich <dakr@redhat.com>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Xinhui Pan <Xinhui.Pan@amd.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Peter Senna Tschudin <peter.senna@gmail.com>, Ian Ray <ian.ray@ge.com>, 
- Martyn Welch <martyn.welch@collabora.co.uk>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Sandy Huang <hjc@rock-chips.com>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Jani Nikula <jani.nikula@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z46HL-eSSA2EsPCi@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,59 +93,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Jan 2025 at 11:13, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
->
-> Hi Dmitry,
->
-> On Tue, Jan 7, 2025 at 12:31=E2=80=AFPM Dmitry Baryshkov
-> <dmitry.baryshkov@linaro.org> wrote:
-> > On Sat, 14 Dec 2024 15:37:04 +0200, Dmitry Baryshkov wrote:
-> > > While working on the generic mode_valid() implementation for the HDMI
-> > > Connector framework I noticed that unlike other DRM objects
-> > > drm_connector accepts non-const pointer to struct drm_display_mode,
-> > > while obviously mode_valid() isn't expected to modify the argument.
-> > >
-> > > Mass-change the DRM framework code to pass const argument to that
-> > > callback.
-> > >
-> > > [...]
-> >
-> > Applied to drm-misc-next, thanks!
-> >
-> > [1/5] drm/encoder_slave: make mode_valid accept const struct drm_displa=
-y_mode
-> >       commit: 7a5cd45fab0a2671aa4ea6d8fb80cea268387176
-> > [2/5] drm/amdgpu: don't change mode in amdgpu_dm_connector_mode_valid()
-> >       commit: b255ce4388e09f14311e7912d0ccd45a14a08d66
-> > [3/5] drm/sti: hda: pass const struct drm_display_mode* to hda_get_mode=
-_idx()
-> >       commit: 5f011b442006ccb29044263df10843de80fc0b14
-> > [4/5] drm/connector: make mode_valid_ctx take a const struct drm_displa=
-y_mode
-> >       commit: 66df9debcb29d14802912ed79a9cf9ba721b51a4
-> > [5/5] drm/connector: make mode_valid take a const struct drm_display_mo=
-de
-> >       commit: 26d6fd81916e62d2b0568d9756e5f9c33f0f9b7a
->
-> I cannot find these in drm-misc or drm-next, but they are in drm-tip?
+On Mon, Jan 20, 2025 at 06:26:07PM +0100, Louis Chauvet wrote:
+> On 20/01/25 - 17:23, José Expósito wrote:
+> > > A specific allocation for the CRTC is not strictly necessary at this
+> > > point, but in order to implement dynamic configuration of VKMS (configFS),
+> > > it will be easier to have one allocation per CRTC.
+> > > 
+> > > Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > ---
+> 
+> [...]
+> 
+> > > +	/* Initialize the writeback component */
+> > >  	if (vkmsdev->config->writeback) {
+> > > -		writeback = vkms_enable_writeback_connector(vkmsdev, crtc);
+> > > +		writeback = vkms_enable_writeback_connector(vkmsdev, output);
+> > >  		if (writeback)
+> > >  			DRM_ERROR("Failed to init writeback connector\n");
+> > >  	}
+> > 
+> > Hi Louis,
+> > 
+> > Thanks for fixing this error condition.
+> > 
+> > I have been working and running automated tests on top of this series and
+> > I haven't found any other issue.
+> > 
+> > Reviewed-by: José Expósito <jose.exposito89@gmail.com>
+> 
+> Thanks a lot! I will merge this tomorrow.
+> 
+> What is your automated tests series? 
 
-These are in drm-misc/drm-misc-next, the commit IDs are a part of the
-Git history.
+On the kernel side, I keep working on the ConfigFS patches here:
+https://github.com/JoseExposito/linux/commits/patch-vkms-configfs/
 
-> The last one due to commit 2bdc721917cf141f ("Merge remote-tracking
-> branch 'drm-misc/drm-misc-next' into drm-tip").
->
-> What am I missing?
-> Thanks!
+It sits on top of your work to switch to managed memory. But now that
+the code is merged, it needs to be rebased.
+You'll notice that I kept your signed-off-by in many patches, as I
+tried to reuse as much common code as possible.
 
-It might be some kind of misinteraction between drm-misc-next vs
-drm-misc-next-fixes vs merge window. Let me recheck dim rebuild-tip.
+About the automated testing, the series could be split in two:
+- vkms_config.h/c, which is tested with KUnit
+- ConfigFS, tested with IGT:
+  https://gitlab.freedesktop.org/jexposit/igt-gpu-tools/-/commits/vkms-configfs
 
->
-> P.S. Sima: noticed while resolving a merge conflict using drm-tip. Thx!
+I made some wrong assumptions with connectors, for example, it is
+possible to create a device without connectors and hot-add/remove
+them later, and I'm still fixing them and writing tests.
+Once that work is done I'll send the series to the ML.
 
+Jose
 
---=20
-With best wishes
-Dmitry
+> I will also send tomorrow a new rebased iteration for:
+> - https://patchwork.freedesktop.org/series/140786/
+> - https://patchwork.freedesktop.org/series/133698/
+> - https://patchwork.freedesktop.org/patch/625883/
+> 
+> If someone can look on them and leave some reviews, I will be very happy 
+> to apply them!
+> 
+> I will also send a first version of the configFS work (two distincts 
+> series to make the review easier). 
+> 
+> Thanks a lot,
+> Louis Chauvet
+> 
