@@ -2,106 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FBBA17EF9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 14:40:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D555A17EF8
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 14:40:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A351810E5BC;
-	Tue, 21 Jan 2025 13:40:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6EDD10E59E;
+	Tue, 21 Jan 2025 13:40:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="XXJc1fjY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mc6AGytz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
- [148.163.156.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F59010E5AE;
- Tue, 21 Jan 2025 13:40:30 +0000 (UTC)
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50LBcWDl021758;
- Tue, 21 Jan 2025 13:40:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=pp1; bh=1XuHjAhe+6crgeyPxGiThULHkHEa/Q
- wDtL3yiBvZqn4=; b=XXJc1fjY1LEte8uWYOHY0rVlVq4wX9PCcoXpIbn1EYs9EL
- OD4/8pPTNQ9wGah7zwpokGzeZLvKhyS2XwyswSQynQSvx4Pq0nVXT5v0PMm1KdzN
- F6FmU2v9zN3MF0dGtVIr8337iz/SeaELL+AkChcaIBTAfjVK9Q1TKCVQHZUYF4b8
- lkEmavTZcGG7bcRDLLuw9HOFrKWm+iyEw+rBb1iDcR2ksQakFyzbWZB9l+0n9NZH
- 7bFXS3CXhWJ3qAfxFUQeEb9d90I2xBmDXS8qIuY9SsKjzzFL1VStL4eYIhJR/WhB
- kacwVPn3TvuRt93neu9S0HZxZA9oxnhjkLM3qkFg==
-Received: from ppma11.dal12v.mail.ibm.com
- (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44a1n9b0sf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jan 2025 13:40:21 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
- by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50LAtOsq021012;
- Tue, 21 Jan 2025 13:40:19 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 448sb1b14q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 21 Jan 2025 13:40:19 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 50LDeIWj60031254
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 21 Jan 2025 13:40:18 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 25C3B2004B;
- Tue, 21 Jan 2025 13:40:18 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7FD1A20040;
- Tue, 21 Jan 2025 13:40:17 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown
- [9.155.204.135])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
- Tue, 21 Jan 2025 13:40:17 +0000 (GMT)
-Date: Tue, 21 Jan 2025 14:40:16 +0100
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Joel Granados <joel.granados@kernel.org>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
- Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-aio@kvack.org,
- linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
- codalist@coda.cs.cmu.edu, linux-mm@kvack.org,
- linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
- fsverity@lists.linux.dev, linux-xfs@vger.kernel.org,
- io-uring@vger.kernel.org, bpf@vger.kernel.org,
- kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
- Song Liu <song@kernel.org>,
- "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- "Darrick J. Wong" <djwong@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Corey Minyard <cminyard@mvista.com>
-Subject: Re: [PATCH v2] treewide: const qualify ctl_tables where applicable
-Message-ID: <Z4+jwDBrZNRgu85S@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-References: <20250110-jag-ctl_table_const-v2-1-0000e1663144@kernel.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA07310E592;
+ Tue, 21 Jan 2025 13:40:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737466827; x=1769002827;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WBmnldHfdBRkGsbeSgtmkh5O2QPNuQLqpHOfumaajEw=;
+ b=mc6AGytzenNjkHYU3XxImrgekwoLrcKxHSsa/a+4809tydnZcEjlaNFW
+ 9P5fzuFbEExeI8/qQFA1+bjqaugQPM0XBQ7zCj8rA/1hhyH+f3Gd+ebka
+ TazCQkbx0NbbBuiCmw/xX3YnAf3V9RWK7IKRBULcvzK20KL+w9aB6Sacx
+ 4wf2UsTrn7cqtJkZ0oFphWw6uHPT8w2NwZSpYn26daQPwiXJXT4ySrM6g
+ 8ijyMIpFinNJ3e7G5lqfgAYNMyeeXpkToXXLdkq40xxWADWbu+RkRqYuv
+ P9Tar5KOu79OPg60c/mlSCVd5OPH3u8K8716rKiC3uSj0XnI3GVHa5VxN A==;
+X-CSE-ConnectionGUID: 5631eRlASj+oc10YF54FGw==
+X-CSE-MsgGUID: xtmSZuFyQSCJkbb+DoUS9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="37793473"
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; d="scan'208";a="37793473"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2025 05:40:26 -0800
+X-CSE-ConnectionGUID: 8HPENCmKSWmnhwq0GaJgzw==
+X-CSE-MsgGUID: 7bHHzFaMS1OL4alY/u8QuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; d="scan'208";a="106922408"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 21 Jan 2025 05:40:24 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 21 Jan 2025 15:40:23 +0200
+Date: Tue, 21 Jan 2025 15:40:23 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Murthy, Arun R" <arun.r.murthy@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Subject: Re: [PATCH v3 4/5] drm/i915/display: Populate list of async
+ supported formats/modifiers
+Message-ID: <Z4-jxyzDQfE3hzxY@intel.com>
+References: <20250108-asyn-v3-0-f4399635eec9@intel.com>
+ <20250108-asyn-v3-4-f4399635eec9@intel.com>
+ <Z462TS-6qRPz7eOb@intel.com>
+ <IA0PR11MB7307C0119A52004DC634EC00BAE62@IA0PR11MB7307.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250110-jag-ctl_table_const-v2-1-0000e1663144@kernel.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: mWjZL4Eizm--6YwnTI2RlL8astD0-e-i
-X-Proofpoint-GUID: mWjZL4Eizm--6YwnTI2RlL8astD0-e-i
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-21_05,2025-01-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- bulkscore=0 suspectscore=0 adultscore=0 clxscore=1011 priorityscore=1501
- spamscore=0 impostorscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501210112
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <IA0PR11MB7307C0119A52004DC634EC00BAE62@IA0PR11MB7307.namprd11.prod.outlook.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,117 +76,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 10, 2025 at 03:16:08PM +0100, Joel Granados wrote:
-
-Hi Joel,
-
-> Add the const qualifier to all the ctl_tables in the tree except for
-> watchdog_hardlockup_sysctl, memory_allocation_profiling_sysctls,
-> loadpin_sysctl_table and the ones calling register_net_sysctl (./net,
-> drivers/inifiniband dirs). These are special cases as they use a
-> registration function with a non-const qualified ctl_table argument or
-> modify the arrays before passing them on to the registration function.
+On Tue, Jan 21, 2025 at 03:34:20AM +0000, Murthy, Arun R wrote:
+> > On Wed, Jan 08, 2025 at 11:09:02AM +0530, Arun R Murthy wrote:
+> > > Populate the list of formats/modifiers supported by async flip.
+> > > Register a async property and expose the same to user through blob.
+> > >
+> > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/display/skl_universal_plane.c | 51
+> > > ++++++++++++++++++++++
+> > >  1 file changed, 51 insertions(+)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > index
+> > >
+> > ff9764cac1e71959e56283f61b5192ea261cec7a..e5e47f2219dae62e76cbde2e
+> > fb40
+> > > 266b047ab2b2 100644
+> > > --- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > +++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+> > > @@ -170,6 +170,44 @@ static const u32 icl_hdr_plane_formats[] = {
+> > >  	DRM_FORMAT_XVYU16161616,
+> > >  };
+> > >
+> > > +static u64 tgl_asyn_modifiers[] = {
+> > > +	DRM_FORMAT_MOD_LINEAR,
+> > > +	I915_FORMAT_MOD_X_TILED,
+> > > +	I915_FORMAT_MOD_Y_TILED,
+> > > +	I915_FORMAT_MOD_4_TILED,
+> > > +	I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS,
+> > > +	I915_FORMAT_MOD_4_TILED_MTL_RC_CCS,
+> > > +	I915_FORMAT_MOD_4_TILED_DG2_RC_CCS,
+> > > +	I915_FORMAT_MOD_4_TILED_BMG_CCS,
+> > > +	I915_FORMAT_MOD_4_TILED_LNL_CCS,
+> > > +};
+> > > +
+> > > +static u64 icl_async_modifiers[] = {
+> > > +	I915_FORMAT_MOD_X_TILED,
+> > > +	I915_FORMAT_MOD_Y_TILED,
+> > > +	I915_FORMAT_MOD_Yf_TILED,
+> > > +	I915_FORMAT_MOD_Y_TILED_CCS,
+> > > +	I915_FORMAT_MOD_Yf_TILED_CCS,
+> > > +};
+> > > +
+> > > +static u64 skl_async_modifiers[] = {
+> > > +	I915_FORMAT_MOD_X_TILED,
+> > > +	I915_FORMAT_MOD_Y_TILED,
+> > > +	I915_FORMAT_MOD_Yf_TILED,
+> > > +};
+> > > +
+> > > +static u32 intel_async_formats[] = {
+> > > +	DRM_FORMAT_RGB565,
+> > > +	DRM_FORMAT_XRGB8888,
+> > > +	DRM_FORMAT_XBGR8888,
+> > > +	DRM_FORMAT_ARGB8888,
+> > > +	DRM_FORMAT_ABGR8888,
+> > > +	DRM_FORMAT_XRGB2101010,
+> > > +	DRM_FORMAT_XBGR2101010,
+> > > +	DRM_FORMAT_XRGB16161616F,
+> > > +	DRM_FORMAT_XBGR16161616F,
+> > > +};
+> > 
+> > I've just pushed my .can_async_flip() thing. I'm thinking with that all this can
+> > just disappear and we can have a completely generic implementation. Eg
+> > something like:
+> > 
+> Thanks, will rebase and push!
 > 
-> Constifying ctl_table structs will prevent the modification of
-> proc_handler function pointers as the arrays would reside in .rodata.
-> This is made possible after commit 78eb4ea25cd5 ("sysctl: treewide:
-> constify the ctl_table argument of proc_handlers") constified all the
-> proc_handlers.
+> Thanks and Regards,
+> Arun R Murthy
+> --------------------
+> > intel_plane_format_mod_supported_async()
+> > {
+> > 	// some generic checks here (eg. reject planar formats)
+> > 
+> > 	return plane->format_mod_supported() &&
+> > 		plane->can_async_flip();
+> > }
 
-I could identify at least these occurences in s390 code as well:
+Actually for this one I think it'd probably make sense to call the 
+normal format_mod_supported() before doing any other checks, just 
+in case we ever get situations where the parameters come directly
+from userspace. It's better to filter out completely bogus values
+as early as possible, and the normal format_mod_supported() already
+has to be prepared for garbage values.
 
-diff --git a/arch/s390/appldata/appldata_base.c b/arch/s390/appldata/appldata_base.c
-index dd7ba7587dd5..9b83c318f919 100644
---- a/arch/s390/appldata/appldata_base.c
-+++ b/arch/s390/appldata/appldata_base.c
-@@ -204,7 +204,7 @@ appldata_timer_handler(const struct ctl_table *ctl, int write,
- {
- 	int timer_active = appldata_timer_active;
- 	int rc;
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.procname	= ctl->procname,
- 		.data		= &timer_active,
- 		.maxlen		= sizeof(int),
-@@ -237,7 +237,7 @@ appldata_interval_handler(const struct ctl_table *ctl, int write,
- {
- 	int interval = appldata_interval;
- 	int rc;
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.procname	= ctl->procname,
- 		.data		= &interval,
- 		.maxlen		= sizeof(int),
-@@ -269,7 +269,7 @@ appldata_generic_handler(const struct ctl_table *ctl, int write,
- 	struct list_head *lh;
- 	int rc, found;
- 	int active;
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.data		= &active,
- 		.maxlen		= sizeof(int),
- 		.extra1		= SYSCTL_ZERO,
-diff --git a/arch/s390/kernel/hiperdispatch.c b/arch/s390/kernel/hiperdispatch.c
-index 7857a7e8e56c..7d0ba16085c1 100644
---- a/arch/s390/kernel/hiperdispatch.c
-+++ b/arch/s390/kernel/hiperdispatch.c
-@@ -273,7 +273,7 @@ static int hiperdispatch_ctl_handler(const struct ctl_table *ctl, int write,
- {
- 	int hiperdispatch;
- 	int rc;
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.procname	= ctl->procname,
- 		.data		= &hiperdispatch,
- 		.maxlen		= sizeof(int),
-diff --git a/arch/s390/kernel/topology.c b/arch/s390/kernel/topology.c
-index 6691808bf50a..26e50de83d80 100644
---- a/arch/s390/kernel/topology.c
-+++ b/arch/s390/kernel/topology.c
-@@ -629,7 +629,7 @@ static int topology_ctl_handler(const struct ctl_table *ctl, int write,
- 	int enabled = topology_is_enabled();
- 	int new_mode;
- 	int rc;
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.procname	= ctl->procname,
- 		.data		= &enabled,
- 		.maxlen		= sizeof(int),
-@@ -658,7 +658,7 @@ static int polarization_ctl_handler(const struct ctl_table *ctl, int write,
- {
- 	int polarization;
- 	int rc;
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.procname	= ctl->procname,
- 		.data		= &polarization,
- 		.maxlen		= sizeof(int),
-diff --git a/arch/s390/mm/cmm.c b/arch/s390/mm/cmm.c
-index 939e3bec2db7..8e354c90a3dd 100644
---- a/arch/s390/mm/cmm.c
-+++ b/arch/s390/mm/cmm.c
-@@ -263,7 +263,7 @@ static int cmm_pages_handler(const struct ctl_table *ctl, int write,
- 			     void *buffer, size_t *lenp, loff_t *ppos)
- {
- 	long nr = cmm_get_pages();
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.procname	= ctl->procname,
- 		.data		= &nr,
- 		.maxlen		= sizeof(long),
-@@ -283,7 +283,7 @@ static int cmm_timed_pages_handler(const struct ctl_table *ctl, int write,
- 				   loff_t *ppos)
- {
- 	long nr = cmm_get_timed_pages();
--	struct ctl_table ctl_entry = {
-+	const struct ctl_table ctl_entry = {
- 		.procname	= ctl->procname,
- 		.data		= &nr,
- 		.maxlen		= sizeof(long),
+> > 
+> > > +
+> > >  int skl_format_to_fourcc(int format, bool rgb_order, bool alpha)  {
+> > >  	switch (format) {
+> > > @@ -2613,6 +2651,7 @@ skl_universal_plane_create(struct
+> > drm_i915_private *dev_priv,
+> > >  	unsigned int supported_rotations;
+> > >  	unsigned int supported_csc;
+> > >  	const u64 *modifiers;
+> > > +	u64 *async_modifiers;
+> > >  	const u32 *formats;
+> > >  	int num_formats;
+> > >  	int ret;
+> > > @@ -2715,6 +2754,18 @@ skl_universal_plane_create(struct
+> > drm_i915_private *dev_priv,
+> > >  	if (ret)
+> > >  		goto fail;
+> > >
+> > > +	if (DISPLAY_VER(dev_priv) >= 12)
+> > > +		async_modifiers = tgl_asyn_modifiers;
+> > > +	else if (DISPLAY_VER(dev_priv) == 11)
+> > > +		async_modifiers = icl_async_modifiers;
+> > > +	else
+> > > +		async_modifiers = skl_async_modifiers;
+> > > +
+> > > +	drm_plane_create_format_blob(&dev_priv->drm, &plane->base,
+> > > +				     async_modifiers, sizeof(async_modifiers),
+> > > +				     intel_async_formats,
+> > > +				     sizeof(intel_async_formats), true);
+> > > +
+> > >  	if (DISPLAY_VER(dev_priv) >= 13)
+> > >  		supported_rotations = DRM_MODE_ROTATE_0 |
+> > DRM_MODE_ROTATE_180;
+> > >  	else
+> > >
+> > > --
+> > > 2.25.1
+> > 
+> > --
+> > Ville Syrjälä
+> > Intel
 
-
-> Best regards,
-> -- 
-> Joel Granados <joel.granados@kernel.org>
-
-Thanks!
+-- 
+Ville Syrjälä
+Intel
