@@ -2,56 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5FAA1755A
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 02:00:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5258A1757A
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 02:15:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9274B10E4AA;
-	Tue, 21 Jan 2025 01:00:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD2C110E031;
+	Tue, 21 Jan 2025 01:15:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="i/qmBaiS";
+	dkim=pass (2048-bit key; secure) header.d=kde.org header.i=@kde.org header.b="V4vpkKHa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB9310E4AA;
- Tue, 21 Jan 2025 01:00:02 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com
- [209.85.218.42]) (Authenticated sender: zamundaaa)
- by letterbox.kde.org (Postfix) with ESMTPSA id B591A3240BE;
- Tue, 21 Jan 2025 00:59:58 +0000 (GMT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE67410E031;
+ Tue, 21 Jan 2025 01:15:08 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com
+ [209.85.218.54]) (Authenticated sender: zamundaaa)
+ by letterbox.kde.org (Postfix) with ESMTPSA id C6B4932415B;
+ Tue, 21 Jan 2025 01:15:07 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
- t=1737421198; bh=CkwoxWESXNcXMmZ7s2mD76S7ybGw8Kl6aaukujWpS1c=;
+ t=1737422107; bh=hM2fgf0olfRkEwK6dyP6s2sEQFyODgPiSs8QRRD7534=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=i/qmBaiSCFcaYyCYnmku7snewTzRZ34PW0ED6n/RXbBvU8MrCTd7HA8CsdpmWvsGa
- oZCdmvOpmQ+sIb9H31LBfyX4nKWS+M96J27JNU18IjEFo4anx5AEcgZpn+rLm3VeKn
- PUm88LfBQJgyf0NrIjNrvk/wKkO225rOop949FIy21AgAYNkuH6evF7Ek6LQRq4HcR
- 00OUPI5Jmb4RcJn8nEqudC1v2uBougZcJp2upBS9x0HXGl6j/9JVjAS1+8a6hxl9Zy
- Sr6Tk+9ce1VFZ7n4Hx3t1h0IOlKTm6aPtaAxcfdW9eQnbj5l7/THyQOreJmdYy9K/W
- T/BfFok2sOYqg==
-Received: by mail-ej1-f42.google.com with SMTP id
- a640c23a62f3a-aaf900cc7fbso840432766b.3; 
- Mon, 20 Jan 2025 16:59:58 -0800 (PST)
+ b=V4vpkKHaKnd/oT3woE4w9DgLXF4+huS+pPTtoaJN8WKYhvFvJNO/hOKpFb5qf+Mcq
+ B9mZ/JBkX0lvoa14cb6y8pu7cAKpKgb6/xIBVGwR7eg9TYVBY0tyxWO3mdw8Xehi6n
+ oBbqZD9x+KsJhBHhf2XNfU2U52vLsKind42IraqoJ1axkivBuxXkMvvSXETZIXB6R9
+ Xmpe6yP2hUO+GzfFxUmVhjW1DS96UXqEC7whcQP+60tekUELi7bl6KjGGYjtzBXe7F
+ kwXQPnR7w1DTscc7pfYOxG0/gYE9XbTl3NhRp2j0biPhIzoiUE4lhclCZZCxrDgVLm
+ A7jr0ZpSnPB3w==
+Received: by mail-ej1-f54.google.com with SMTP id
+ a640c23a62f3a-aaf57c2e0beso1020153366b.3; 
+ Mon, 20 Jan 2025 17:15:07 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUEEUa0zjxhyEQxxGd9qTgiYTDOS+k2YADwpMf5+MPPyU71trXIO5qG2qC+zJ5yUN2BpJxvqnzA@lists.freedesktop.org,
- AJvYcCUTasT1T1hwIOnyQeI4p6I5r4FYuxW9RJTx90VTe6NI0k8ELpmK3jG0b35mQmSopaYnvVMsl5Jp2uuJ@lists.freedesktop.org,
- AJvYcCVCH23JlfYRWgyhVJynDHMOcXaW3YPv9fl7ID/jdWkVwhJQeIRoO1Q7rY51vMp1mJ/eLPi27rbTQAY=@lists.freedesktop.org,
- AJvYcCXptH+iFetihqD3qDFwn+R2QW2rKfEWM7P4m+Tt1KNWUASQArYF0OV32EzVyDEia99x3VCMWe8PUZQN@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx2SeuvPmZ7cvGjwXmmB5PBkiwgqysAE2/ACacRLM/CKwMfIMZ4
- RK6y9aSjoTOhWttmiD3kYMu5aAgDsv7KABle4r8+2KGOwXQxnumUFF4ZbOIG9G7ly0so5Pd5yuG
- Lp8IeLQmJ8xxP6OuQ4K3ql8qQNgM=
-X-Google-Smtp-Source: AGHT+IHWjJmow8W95O/jnjybriW0t5JeZFQUA4ExgR0utqovF7K16cEfkE60tz4dkdsEYis7VCTx+AhqD8irrs+GXTk=
-X-Received: by 2002:a17:907:97c8:b0:ab2:c208:732d with SMTP id
- a640c23a62f3a-ab38b3840f3mr1375840566b.40.1737421198223; Mon, 20 Jan 2025
- 16:59:58 -0800 (PST)
+ AJvYcCUtv1kVJLbF95mJXkJCGAbY9YNVr69h3r0EPXCAe5SND+CJSKtn2twd6cSrJ+iaqQOfmABsI5/RV4q+@lists.freedesktop.org,
+ AJvYcCWCGMDnLHQJyXzpjV4JpnDih2/KsOEYkhaqB9fwAjVCnnpvqy4tGw1OcuRavJKyPOBXlwzYLSnD@lists.freedesktop.org,
+ AJvYcCWchc8o6dPqD42Pf7h006gaS9e3iF/9m/ztpqsi3CWuLn5JDCH7zp7yW7MqNG7MOLXNehbYxqJPuw7E@lists.freedesktop.org,
+ AJvYcCXaZa7ERIWFgyIkvVYRve0725RvdK37Mga6DAlEgw9gaHB/QD1o5SuT33xHaI0nIgGMEFJF0cPJJ1Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKt67vdd14gmvfRjGzhgKQUJhdEJIyS3GIPfDyJr4O9QW6Ncw3
+ /nQ9D2KohDL2S64RtViPicfIw6JS6fmvoEcR5FJ3LalWOLjntbuBpHwAMaKr3mqkDOo+AwAf2Eb
+ dT3C2BWIZYaMsb2UMf1pGw5B9NQo=
+X-Google-Smtp-Source: AGHT+IHMrdZmZYN6AneS0M7yk0oJgsGbOhYYMwHUnQJVRQueCtdy9Lh5FdsaXzAZ1DBLPn5H6+vQ6quf6I5I7PDV7ek=
+X-Received: by 2002:a17:907:1c19:b0:aa6:acd6:b30d with SMTP id
+ a640c23a62f3a-ab38b4c63f2mr1366856566b.48.1737422107129; Mon, 20 Jan 2025
+ 17:15:07 -0800 (PST)
 MIME-Version: 1.0
 References: <20241128153707.1294347-1-raag.jadav@intel.com>
-In-Reply-To: <20241128153707.1294347-1-raag.jadav@intel.com>
+ <20241128153707.1294347-3-raag.jadav@intel.com>
+In-Reply-To: <20241128153707.1294347-3-raag.jadav@intel.com>
 From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Tue, 21 Jan 2025 01:59:47 +0100
-X-Gmail-Original-Message-ID: <CAFZQkGwJ4qgHV8WTp2=svJ_VXhb-+Y8_VNtKB=jLsk6DqMYp9w@mail.gmail.com>
-X-Gm-Features: AbW1kvbLlAQjTqa9LUa9lNjlyS2jIj_z2nRscjceoujIm2WjZlTFBKAO1ojrhLc
-Message-ID: <CAFZQkGwJ4qgHV8WTp2=svJ_VXhb-+Y8_VNtKB=jLsk6DqMYp9w@mail.gmail.com>
-Subject: Re: [PATCH v10 0/4] Introduce DRM device wedged event
+Date: Tue, 21 Jan 2025 02:14:56 +0100
+X-Gmail-Original-Message-ID: <CAFZQkGy3R0TMY5CARPQZF70fdKGLX8GQjV_YQAHzEXsiuNHj+w@mail.gmail.com>
+X-Gm-Features: AbW1kvYyDEzcmVwbdo9c6XA4vihWY2IEO2N6qS2J1gV67gtMuD21gh51qrRQ3Dk
+Message-ID: <CAFZQkGy3R0TMY5CARPQZF70fdKGLX8GQjV_YQAHzEXsiuNHj+w@mail.gmail.com>
+Subject: Re: [PATCH v10 2/4] drm/doc: Document device wedged event
 To: Raag Jadav <raag.jadav@intel.com>
 Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com, 
  rodrigo.vivi@intel.com, jani.nikula@linux.intel.com, 
@@ -78,21 +79,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+> +It is the responsibility of the consumer to make sure that the device or
+> +its resources are not in use by any process before attempting recovery.
+I'm not convinced this is actually doable in practice, outside of
+killing all apps that aren't the one trying to recover the GPU.
+Is this just about not crashing those processes if they don't handle
+GPU hotunplugs well, about leaks, or something else?
 
-I experimented with using this in KWin, and
-https://invent.kde.org/plasma/kwin/-/merge_requests/7027/diffs?commit_id=6da40f1b9e2bc94615a436de4778880cee16f940
-makes it fall back to a software renderer when a rebind is required to
-recover the GPU.
-Making it also survive the rebind properly is more challenging
-(current version of the MR doesn't do it for you and just crashes if
-you do it with a udev rule or manually), but it's doable - and not a
-problem of the API.
-
-I'd really like to have the PID of the client that triggered the GPU
-reset, so that we can kill it if multiple resets are triggered in a
-row (or switch to software rendering if it's KWin itself) and show a
-user-friendly notification about why their app(s) crashed, but that
-can be added later.
-
-- Xaver
+> +With IOCTLs blocked and device already 'wedged', all device memory should
+> +be unmapped and file descriptors should be closed to prevent leaks.
+Afaiu from a userspace POV, a rebind is just like a GPU hotunplug +
+hotplug with matching "remove" and "add" udev events. As long as the
+application cleans up resources related to the device when it receives
+the event, there should be no leaks with a normal hotunplug... Is this
+different enough that we can't have the same expectations?
