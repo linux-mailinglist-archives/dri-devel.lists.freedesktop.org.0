@@ -2,122 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0C2A17EB3
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 14:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3415A17EC2
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 14:21:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C3C910E582;
-	Tue, 21 Jan 2025 13:18:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D672010E5A6;
+	Tue, 21 Jan 2025 13:21:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="hmUupzWh";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="sSSvpDaI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FcOZimeR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sSSvpDaI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FcOZimeR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8C3B10E582
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 13:18:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1737465494; x=1738070294; i=deller@gmx.de;
- bh=KVXi3pFcH+/Jo9935EpgrcO7+KMk18ydSMp/44tPfN4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=hmUupzWhXH+99mxKBULYP1VS7QA1icu2dSlE9g3rRH9fVSDiHYMfJI4mXyyGTpme
- ZTdz72UYqrrMKbAL1/IvZ143E/9nokl+9ujxNyNrkWkdCT50b8Osi0k/wsKwt+yHz
- t1VGnb4fK6uwmfuEjvX2VtnSBVhHbPfgghTFNglVTJhDt9zJcR5QtMOLPARLZgJRC
- 0lP7jjEsz5zS5twzeYExUZqFrKDV2UJ7YPzvZjW+Ni2JmBqdcyZJ5qThsGVWeiQHW
- IPe8sMydalCpSV97MzwUPI+KIzP5oFg4alD1hT9p2eDdIEySJWkciYyWfKFaMQXfw
- Z60wo79U0fj+zXjgOA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [10.8.0.6] ([78.94.87.245]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MpUUw-1tAnMI032q-00hmn3; Tue, 21
- Jan 2025 14:18:14 +0100
-Message-ID: <1b34189e-ae44-44f1-a81a-76f0e02bab91@gmx.de>
-Date: Tue, 21 Jan 2025 14:18:11 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41EC410E586
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 13:21:43 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id C5471211DD;
+ Tue, 21 Jan 2025 13:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1737465671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+sJyxu73Eczus6dKaUCw8+4wcc6C45+DbJZXOC/TtLY=;
+ b=sSSvpDaIYMRra6bkUr3+KUJThtxENFk7SrT1853Bt+sONI6iNWqtoNTgAJuLMQIY7BrpnK
+ 912nb56XB/g4RYxRn3zSkUojMiziUzVS+8eY5j7g7T1/iTKpNluj58UqVU1FimHlXBgqxS
+ +TIvtP+SkRIN2CAAlh1yXeg65WOpDMk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1737465671;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+sJyxu73Eczus6dKaUCw8+4wcc6C45+DbJZXOC/TtLY=;
+ b=FcOZimeRVS8inlZLmtEUiqliJW3Oa3YRgLApWSeDUpKlnXO6zJiUXMxKZ90tdi8/21cdp8
+ ZIBbm3JCgVVOoBAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sSSvpDaI;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FcOZimeR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1737465671; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+sJyxu73Eczus6dKaUCw8+4wcc6C45+DbJZXOC/TtLY=;
+ b=sSSvpDaIYMRra6bkUr3+KUJThtxENFk7SrT1853Bt+sONI6iNWqtoNTgAJuLMQIY7BrpnK
+ 912nb56XB/g4RYxRn3zSkUojMiziUzVS+8eY5j7g7T1/iTKpNluj58UqVU1FimHlXBgqxS
+ +TIvtP+SkRIN2CAAlh1yXeg65WOpDMk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1737465671;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+sJyxu73Eczus6dKaUCw8+4wcc6C45+DbJZXOC/TtLY=;
+ b=FcOZimeRVS8inlZLmtEUiqliJW3Oa3YRgLApWSeDUpKlnXO6zJiUXMxKZ90tdi8/21cdp8
+ ZIBbm3JCgVVOoBAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A45911387C;
+ Tue, 21 Jan 2025 13:21:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +Z9nJkefj2fzPwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 21 Jan 2025 13:21:11 +0000
+Message-ID: <5eb6100f-5930-4281-94f9-9ec0dc943569@suse.de>
+Date: Tue, 21 Jan 2025 14:21:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev/sh_mobile_lcdcfb: Use backlight helper
-To: oushixiong1025@163.com
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Javier Martinez Canillas <javierm@redhat.com>, Lee Jones <lee@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250121064236.168236-1-oushixiong1025@163.com>
+Subject: Re: [PATCH 8/8] drm/ast: Only warn about unsupported TX chips on Gen4
+ and later
+To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20250117103450.28692-1-tzimmermann@suse.de>
+ <20250117103450.28692-9-tzimmermann@suse.de>
+ <51d2c199-e7ea-4078-acb9-8ab3ce9bc4dc@redhat.com>
 Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20250121064236.168236-1-oushixiong1025@163.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <51d2c199-e7ea-4078-acb9-8ab3ce9bc4dc@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:w1Mzy/m1O+Dd7lTUxhManGYitC5HrOqEhQoxnzwJRD7v3AlrsMh
- d8K+JQyPG0Asd8hp5AOuiKxdF1B//KeYPzhT58K/y4vT9yBfFrndQ9iECJ2bUnTB7nwXeq8
- qwxxrAqOKKP8iGVbXnq8RrL2XeuZZ7zNY0teU7e7I8lcR3qNDcEp2Qwv6IqKOffFeqJUDiA
- /OI4N6gciJ+7edkEfZJCw==
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: C5471211DD
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCPT_COUNT_THREE(0.00)[3];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Gtl09Lhyddg=;R36Nn2KkukrVOS4cit+PlgJ0Xnq
- y7CB7EVsbVwxG3UGpXZ2xqEoNh7v2vjO7QrrYNZrNt7sf1Xkln1axX8DD7LnMDn0jNFm9N1wx
- ngoGd3/dvipKjMv0B6/3AQ1T6p/I3qfIJ6HOq1SBJnRcagqkG0vG3K+toQANFA0aMFnvM0ImG
- 8IiwGm7C8S3YIF8OyEZDwBTQGIlosbv9DRWzwuGBrbyiSU0c38yAlponwD198CE+I73Pxmdox
- wsBIvijYNKJ2n0LvaDv91KTmg8K3HoiOqgrn/YlWu65pzcBHlyVZ6FP5TSyfW7xxIiMW56feB
- KDHzPoys/+sVKb8YUnLxaO/GPP9QTXWMmdww4SRu0ntLXkqahQVj2Xg25nKgdWv7N1vYxpwOF
- oREp8Q1afm+IttcawElREwuZq26/8q3u+NnQd+5CJC6dNMKbsEpAQWL/IjxR1jAm+JEgobGaW
- B+AIHtHbttkuzZtEqp6y8aAMwX5rco7i2xnaY+EzOONoLrKLJUpIAcEPrBA+h4gOiGHumJCzg
- vEb0kCvPorbYeBIO/rYZtgnqEx4YNT7+dqDBbA5tN2zuReYYb35uqF8qHEADCKmYVz0n4BtPc
- sWRlITFKUKakeGt+D5UblPpYw4Qwv4w5X1WOY+ppbF/nMmL+av6hLemJsFMz1bdTCRn0x8sXW
- 9n/gjA6WdGzh+17jba1VOy+Hucn4xL0PkArI12VCSlj9/MBkx82IkPpZ3keMj3D5PJVLKW0iH
- zcCGLcV5zU3Jq7lx8qoO8pHdP+MWGsAduP/XsuPmtxW7h0YKBixhnPEnMgFkanYpNlnG8ZE43
- TXYp72420cHQYGMqSHJCacuCSCOFQFPfl5RDoeOAwUonFFRXMc49AA86FvAI04ZmC7D0717fv
- S0nyOts1faS/mx7417ZIUUSA/RK4ICRpQxK0r/lcVvnmKtAVPrBNfFa6ISQVhyNuGrZt8X3H8
- tR3tZxNOnPfc59ckyOF/DpvYxELbok/4dyd+gv6Z/z9hICSE85w3/IMpwWAXR+GQwVaGtuAnm
- wBxuEF9dbMlDqDoXbewAVnLsk/sA3R++uk3fYX32GDyILX7Vh3siZ6x0mpf05ucznNJdr3lfD
- bCj7qARniD9M28eNfRdoLtElByx5iVNqa6SpF1jBpX7iYE9ZqH5rk5h1LJa1eUYwysuX5mbkP
- lEngPJH6V8ivkkw8GCec0wuyO6FwzaVlGeTQxc995zWW1w8WPVbwGaUtYRvMNgKWSB7BjxIK5
- hbG+h3Ly9SqLectnVcAfqfS5nb7xJ4uNpGvAV03Ev3tJo37Lk87w9nrQOfjtQUqOW15AkizO3
- uviPedhatt64za9Ui4u5w+e2A==
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,39 +152,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/21/25 07:42, oushixiong1025@163.com wrote:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
+Hi
+
+
+Am 20.01.25 um 11:37 schrieb Jocelyn Falempe:
+> On 17/01/2025 11:29, Thomas Zimmermann wrote:
+>> Only Gen4 and later read the installed TX chip from the SoC. So only
+>> warn on those generations about unsupported chips.
 >
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
-> ---
->   drivers/video/fbdev/sh_mobile_lcdcfb.c | 6 +-----
->   1 file changed, 1 insertion(+), 5 deletions(-)
-
-That patch did not apply any longer to git head.
-I fixed it up manually and applied it to fbdev git tree.
-
-Thanks!
-Helge
-
-
+> Thanks, it looks good to me.
 >
-> diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbde=
-v/sh_mobile_lcdcfb.c
-> index 6b37b188af31..69c9067eff88 100644
-> --- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> +++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-> @@ -2123,11 +2123,7 @@ sh_mobile_lcdc_channel_fb_init(struct sh_mobile_l=
-cdc_chan *ch,
->   static int sh_mobile_lcdc_update_bl(struct backlight_device *bdev)
->   {
->   	struct sh_mobile_lcdc_chan *ch =3D bl_get_data(bdev);
-> -	int brightness =3D bdev->props.brightness;
-> -
-> -	if (bdev->props.power !=3D FB_BLANK_UNBLANK ||
-> -	    bdev->props.state & (BL_CORE_SUSPENDED | BL_CORE_FBBLANK))
-> -		brightness =3D 0;
-> +	int brightness =3D backlight_get_brightness(bdev);
+> Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+Thanks for reviewing. I'll merge the series by the end of the week if 
+nothing else comes in.
+
+Best regards
+Thomas
+
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/ast/ast_main.c | 40 +++++++++++++++++++---------------
+>>   1 file changed, 22 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_main.c 
+>> b/drivers/gpu/drm/ast/ast_main.c
+>> index b0d1b99ed532b..ba69280b33e78 100644
+>> --- a/drivers/gpu/drm/ast/ast_main.c
+>> +++ b/drivers/gpu/drm/ast/ast_main.c
+>> @@ -78,21 +78,6 @@ static void ast_detect_tx_chip(struct ast_device 
+>> *ast, bool need_post)
+>>       struct drm_device *dev = &ast->base;
+>>       u8 vgacra3, vgacrd1;
+>>   -    /*
+>> -     * Several of the listed TX chips are not explicitly supported
+>> -     * by the ast driver. If these exist in real-world devices, they
+>> -     * are most likely reported as VGA or SIL164 outputs. We warn here
+>> -     * to get bug reports for these devices. If none come in for some
+>> -     * time, we can begin to fail device probing on these values.
+>> -     */
+>> -    vgacrd1 = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1, 
+>> AST_IO_VGACRD1_TX_TYPE_MASK);
+>> -    drm_WARN(dev, vgacrd1 == AST_IO_VGACRD1_TX_ITE66121_VBIOS,
+>> -         "ITE IT66121 detected, 0x%x, Gen%lu\n", vgacrd1, 
+>> AST_GEN(ast));
+>> -    drm_WARN(dev, vgacrd1 == AST_IO_VGACRD1_TX_CH7003_VBIOS,
+>> -         "Chrontel CH7003 detected, 0x%x, Gen%lu\n", vgacrd1, 
+>> AST_GEN(ast));
+>> -    drm_WARN(dev, vgacrd1 == AST_IO_VGACRD1_TX_ANX9807_VBIOS,
+>> -         "Analogix ANX9807 detected, 0x%x, Gen%lu\n", vgacrd1, 
+>> AST_GEN(ast));
+>> -
+>>       /* Check 3rd Tx option (digital output afaik) */
+>>       ast->tx_chip = AST_TX_NONE;
+>>   @@ -116,9 +101,9 @@ static void ast_detect_tx_chip(struct 
+>> ast_device *ast, bool need_post)
+>>            * the SOC scratch register #1 bits 11:8 (interestingly marked
+>>            * as "reserved" in the spec)
+>>            */
+>> -        jreg = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1,
+>> -                          AST_IO_VGACRD1_TX_TYPE_MASK);
+>> -        switch (jreg) {
+>> +        vgacrd1 = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xd1,
+>> +                         AST_IO_VGACRD1_TX_TYPE_MASK);
+>> +        switch (vgacrd1) {
+>>           /*
+>>            * GEN4 to GEN6
+>>            */
+>> @@ -144,6 +129,25 @@ static void ast_detect_tx_chip(struct ast_device 
+>> *ast, bool need_post)
+>>           case AST_IO_VGACRD1_TX_ASTDP:
+>>               ast->tx_chip = AST_TX_ASTDP;
+>>               break;
+>> +        /*
+>> +         * Several of the listed TX chips are not explicitly supported
+>> +         * by the ast driver. If these exist in real-world devices, 
+>> they
+>> +         * are most likely reported as VGA or SIL164 outputs. We 
+>> warn here
+>> +         * to get bug reports for these devices. If none come in for 
+>> some
+>> +         * time, we can begin to fail device probing on these values.
+>> +         */
+>> +        case AST_IO_VGACRD1_TX_ITE66121_VBIOS:
+>> +            drm_warn(dev, "ITE IT66121 detected, 0x%x, Gen%lu\n",
+>> +                 vgacrd1, AST_GEN(ast));
+>> +            break;
+>> +        case AST_IO_VGACRD1_TX_CH7003_VBIOS:
+>> +            drm_warn(dev, "Chrontel CH7003 detected, 0x%x, Gen%lu\n",
+>> +                 vgacrd1, AST_GEN(ast));
+>> +            break;
+>> +        case AST_IO_VGACRD1_TX_ANX9807_VBIOS:
+>> +            drm_warn(dev, "Analogix ANX9807 detected, 0x%x, Gen%lu\n",
+>> +                 vgacrd1, AST_GEN(ast));
+>> +            break;
+>>           }
+>>       }
 >
->   	ch->bl_brightness =3D brightness;
->   	return ch->cfg->bl_info.set_brightness(brightness);
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
