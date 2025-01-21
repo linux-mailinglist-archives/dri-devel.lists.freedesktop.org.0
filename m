@@ -2,49 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C33DA18C42
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 07:47:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97CDFA18DA2
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:36:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48FD810E11C;
-	Wed, 22 Jan 2025 06:47:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0FA10E690;
+	Wed, 22 Jan 2025 08:36:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L0GkzAkF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Yvmxvy5A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D810C10E11C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 06:47:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A1D4C5C47E3;
- Wed, 22 Jan 2025 06:46:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98C18C4CED6;
- Wed, 22 Jan 2025 06:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737528420;
- bh=k0TcVNYOkFo0OjNw5zjwtybg6Pjk0UGlNrXTS/BXu8U=;
- h=From:To:Cc:Subject:Date:From;
- b=L0GkzAkFCU1pbcxpYLYlPZo23sehZA54Jnrom+v5zCd3hpGrOTDcEKXgEdND64gjV
- gneHYNuckvL2sSLuLLn2KjOodF9x7YtU7v8KpqKpaTXQtAOGgrp1XIEEoO/azFhm2W
- 639FDKwJEU5akn+KA/9mNIMIhGItEL618CZxI4d6ui0Xr53AEBh99hxXjA8XPvFzLV
- F1INLh+px8I1ZiGQJpjRmUu9VXRBhY4pipvjqfriys3AeQhCjc/+la0B1TUkAzOH83
- Ze8fbS6RAbzfVq0+NkJ1Y4GPPEDpzMocvAu5JxqaXnQkuk/cFO2xZLpk9w5zkyy38J
- CbWuhaIuFzssw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jocelyn Falempe <jfalempe@redhat.com>,
- Jani Nikula <jani.nikula@intel.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: select DRM_KMS_HELPER from DRM_GEM_SHMEM_HELPER
-Date: Wed, 22 Jan 2025 07:46:33 +0100
-Message-Id: <20250122064655.1095176-1-arnd@kernel.org>
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A3E810E172;
+ Tue, 21 Jan 2025 10:43:19 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-21670dce0a7so113022605ad.1; 
+ Tue, 21 Jan 2025 02:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1737456138; x=1738060938; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4Tl/gGsRPHRlKfMk3m6GA72SRpbhaa2/0Y9Q3kM0kF0=;
+ b=Yvmxvy5AtKtog8lwCmzEKkBTnT4f3V8NEFljKi8/CKaVCMocBFod3LkbmQ8VzyOdgs
+ 3HSv/EgCqkHg5TvM2HMdouU+gvO9VfUQAdpCtq5LgdsT5PNP6sq+BbJV/wSdZDjoktvk
+ 9o+I0oF3wRJaQaVvY7cBjK8jXbP+aTxUC1aPRXBO91Yg2Zl0rrmPzQSDJonp90OQ70IS
+ mLox0HjWvraSB1Kf8F6m/7PMhohs648QHQ0ncg1+3aX3QMI91QPad6AZnhUuZE7Eq418
+ o65UVCNwM4zgiNCwYzi9cHDkxP3RiZVzIliwiKvXfR++7AjHJsovZmeD+6kmsbLHBAhN
+ yrzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737456138; x=1738060938;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4Tl/gGsRPHRlKfMk3m6GA72SRpbhaa2/0Y9Q3kM0kF0=;
+ b=da5fKLmeSVZbY8jIR36Sa9kZumgrWBaEfFcIofr+CZ4L/oujlmdlLe/wLneF2eUTKO
+ I+0O6wryHevzeC/PUwsV+aYoX0OghQU48S3Cjs/MezwqecCwhiqXGNQbCiD9tJPtWRuW
+ dC81HuT/YzcpxtGIRutUfw/KFwz5FIwnNnKddV2uFlYRgckylXOMNL3MCoiPgY9ABoSb
+ 6SaNgD1A/fOssO657H6cUkjoJZvyBm476dXCX9kyPzjvr4bWQeuuQrjY3UZ3pDcoPSj7
+ 5lRe7k+ncQiDhxc47urX5b9SfOk62JIJsjSAmC+/X445gSFNwhXj5EJcnNntAhnBwvwD
+ nJxQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUqMjjfrgR9qkUk4v+TWc/0ODhZ9nj395aMf+LbHjgJsPK/0h85rTs4StChx5MNJwi36PfOspuYDO0=@lists.freedesktop.org,
+ AJvYcCUr/unrKVhL2E4GFkuuN8m++aABk8kaPPWjaIBgbUOxVPbEXwkyBeIz0Qi3V/WeqCRo8E2B0l6Ajqk5@lists.freedesktop.org,
+ AJvYcCX9chaVztTqQYevJxGO8STD+/9Ci+q7yUilKq39nRU0AVUBHgHnocR39rgEYaoaYyqVyNktC0T6U/M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwaaKnnCxumVJ3adDclIQXQ3xXhuMQqBW7Gsdm0HTMpFnsXdMis
+ /CIMoNJowGeDSmhsj6YYRiGpSTwQf4hiplOFiUuqTgWaIaQhp/9L
+X-Gm-Gg: ASbGncttpwaBokdmMy6I+n2t3imuHFI7ZXxoG6MqBqpTzqPaSLdZ1rXaCmOJtNQsLIQ
+ I6zNTrSXG53hiOqWq5DbAUTqjQBLMdmS3xeFxeOQ3kcoFrl50EryXcctTAV7vNWBWyOfp0aO0zf
+ 3EFz1ON7OxB8bItZ33GAIn+8uDIC22UTvGVj2Iy6JbESEO08AIWVsEf9/gF0Bb+F2cIIfIkCvM4
+ BkfKEIRJ4fEkYPCejNK42AnBG/Ym0Tmx9Emoyb3sbnYPN2rg5fkMlZecSoj/2gZLKeLd4oC/N9U
+ VRgLZyxmkQo2Aw==
+X-Google-Smtp-Source: AGHT+IEmzmf6qo4FU3cYsSFHCkv37zpXSq5rQ/sBf1cVkK9FRuF5itxEGPjy+jpxoBb9gzGq+/K0BQ==
+X-Received: by 2002:a17:902:f545:b0:215:6e01:ad19 with SMTP id
+ d9443c01a7336-21c35587f37mr272882875ad.29.1737456138578; 
+ Tue, 21 Jan 2025 02:42:18 -0800 (PST)
+Received: from localhost.localdomain
+ ([2401:4900:8899:7ee7:e6fd:4c4f:524d:ebac])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-21c2cea0966sm76063255ad.37.2025.01.21.02.42.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Jan 2025 02:42:18 -0800 (PST)
+From: Atharva Tiwari <evepolonium@gmail.com>
+To: 
+Cc: evepolonium@gmail.com, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915/fbdev: Discard large BIOS framebuffers
+Date: Tue, 21 Jan 2025 16:12:10 +0530
+Message-Id: <20250121104210.3159-1-evepolonium@gmail.com>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 22 Jan 2025 08:36:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,44 +94,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On certain 4K panels, the BIOS framebuffer
+exceeds the panel's required dimensions,
+leading to display corruption.
+This patch introduces a validation check to address the issue.
 
-In the combination of DRM_KMS_HELPER=m, DRM_GEM_SHMEM_HELPER=y, DRM_FBDEV_EMULATION=y,
-The shmem code fails to link against the KMS helpers:
-
-x86_64-linux-ld: vmlinux.o: in function `drm_fbdev_shmem_driver_fbdev_probe':
-(.text+0xeec601): undefined reference to `drm_fb_helper_alloc_info'
-x86_64-linux-ld: (.text+0xeec633): undefined reference to `drm_fb_helper_fill_info'
-x86_64-linux-ld: vmlinux.o: in function `drm_fbdev_shmem_get_page':
-drm_fbdev_shmem.c:(.text+0xeec7d2): undefined reference to `drm_gem_fb_get_obj'
-x86_64-linux-ld: vmlinux.o: in function `drm_fbdev_shmem_fb_mmap':
-drm_fbdev_shmem.c:(.text+0xeec9f6): undefined reference to `drm_gem_fb_get_obj'
-x86_64-linux-ld: vmlinux.o: in function `drm_fbdev_shmem_defio_imageblit':
-(.rodata+0x5b2288): undefined reference to `drm_fb_helper_check_var'
-x86_64-linux-ld: (.rodata+0x5b2290): undefined reference to `drm_fb_helper_set_par'
-
-This can happen for a number of device drivers that select DRM_GEM_SHMEM_HELPER
-without also selecting DRM_KMS_HELPER. To work around this, add another select
-that forces DRM_KMS_HELPER to be built-in rather than a loadable module, but
-only if FBDEV emulation is also enabled.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Atharva Tiwari <evepolonium@gmail.com>
 ---
- drivers/gpu/drm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/i915/display/intel_fbdev.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 0fe99d440bfa..a8d2dffbc82f 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -311,6 +311,7 @@ config DRM_GEM_SHMEM_HELPER
- 	depends on DRM && MMU
- 	select FB_CORE if DRM_FBDEV_EMULATION
- 	select FB_SYSMEM_HELPERS_DEFERRED if DRM_FBDEV_EMULATION
-+	select DRM_KMS_HELPER if DRM_FBDEV_EMULATION
- 	help
- 	  Choose this if you need the GEM shmem helper functions
+diff --git a/drivers/gpu/drm/i915/display/intel_fbdev.c b/drivers/gpu/drm/i915/display/intel_fbdev.c
+index 00852ff5b247..e8cf06772c31 100644
+--- a/drivers/gpu/drm/i915/display/intel_fbdev.c
++++ b/drivers/gpu/drm/i915/display/intel_fbdev.c
+@@ -197,10 +197,10 @@ static int intelfb_create(struct drm_fb_helper *helper,
+ 	ifbdev->fb = NULL;
  
+ 	if (fb &&
+-	    (sizes->fb_width > fb->base.width ||
+-	     sizes->fb_height > fb->base.height)) {
++	    (sizes->fb_width != fb->base.width ||
++	     sizes->fb_height != fb->base.height)) {
+ 		drm_dbg_kms(&dev_priv->drm,
+-			    "BIOS fb too small (%dx%d), we require (%dx%d),"
++			    "BIOS fb dimensions mismatch (%dx%d), we require (%dx%d),"
+ 			    " releasing it\n",
+ 			    fb->base.width, fb->base.height,
+ 			    sizes->fb_width, sizes->fb_height);
 -- 
 2.39.5
 
