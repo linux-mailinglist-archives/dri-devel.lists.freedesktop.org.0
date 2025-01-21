@@ -2,64 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1917FA18328
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 18:43:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CF1A18323
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 18:43:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91D9510E617;
-	Tue, 21 Jan 2025 17:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EA7910E615;
+	Tue, 21 Jan 2025 17:43:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="mrlW+tAb";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="BERKQF8u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AB4C10E617
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 17:43:41 +0000 (UTC)
-Message-ID: <506789d5-b398-43d0-93f2-6947bcc2c6d6@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1737481419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L2kdb3klZjvX15URtdvUVT6YXANgSBlPylcft3gNYSw=;
- b=mrlW+tAbZRCmzMg1U1rupknJhRX+HdZMj0v+0ZLqWY3WwdJ4Ax0UIKwSjP7hKcdJ8PicpM
- 8OL8jbEBRPl2G05gR5gJcCVKvCcMO5EmWZm4w0g2fGSzDUVZeo1Xrh/LyKjj1US/p88Zp2
- oxPGbqL9J3oMhVXoq7VqSJpSv9OTWqs=
-Date: Tue, 21 Jan 2025 23:12:46 +0530
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2079.outbound.protection.outlook.com [40.107.243.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54D2D10E615
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 17:43:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XHffL1pxgrliuaS0Wmt+O4gBpLMRqr7Na4c4YiS7CVdLrEns+3tDNq4JQNY9rbVjhZ7yv7I9Fp7wODnvSwfmgw/zMOE5TQECcDciZ+EdCX0/V9Ja+kHIuGCZ18YuFfD2KvGpVfRvo1zJ4FY5vObg0a46YI7XAmq+gciSMGxpzF+zaLvPMnjO3TQkpG47+5HCKgFjWHxwACqibg9P29X+pm8UT/RaderAUE2gDSXei91bNYSdzLxss6BcPpxiK03uw1xpZE6Ow11+CSARsl1h2h/cHGD+2HSzhalzQeLFPoKmBeq0fN5h6sU/bMyv8gcNdhGQYjRw8V+Sv9NxOO+yoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6rvkY5t6OQnz5nPGYCCFoZtc+mcDypCBNjvJQGpwguE=;
+ b=VnGhMPA+Uolcjr1B+QHowvPR4MtH5BVClPT2DsHonhwpgtd6/ZGMzm1HAaP8BT6YJIdGGjt7iIGhELmgxYthClkgRcjm8Yt+mm9JS8SuZgI/WxMexePKJ0KQMFD3MpUhIxtUSxAukZF3b0s0NCGTUcIMTru+O0wHNt/sI6TIuBk5wNtg4oLce0Oj1h/VCmM+5NLAMiA6/YicXAixpFBCD7fDz1aKR+DCvKd3zI5uc7E69hHAipO4Px2F11MKtyEx13F56w5WcTGf36kxvFpshb1Yc4WhKRBjFkNKALgzjq+xNzpS+bSMTTn+HMTjmsphf8+2GUhmhUgyGHv52Al+sQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6rvkY5t6OQnz5nPGYCCFoZtc+mcDypCBNjvJQGpwguE=;
+ b=BERKQF8u1XkBcEkN3qd9Pg2u+I23cUUdZisXjF4TiL9ZnYtNJoLAqpAuy67/rjwx2UmEIDAT/gyVBIUVF2cXwknXdmEGqMcAZOrHPfgrItDQCVipCkvdOGbs3ChYDxIy7bzGbFD5OF2NlTgjO4gOxMY8SWn3xzgYHUgKsvOmRbJlDfBEAC7ruryRcXZkCXDdXuav0IvUwdE1TcuCcxtamEH04cx5XfE63i9AbzdlqtkBufezHdcRUJXi5wRxud9bX5sOBgk5BVTrkDLMIZywdLTwiDf6oO4p93mTuZCu/igO/TigpoLUbpuVtWENOinxJfyyM+peTjaizaifqxdR0Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by IA1PR12MB6211.namprd12.prod.outlook.com (2603:10b6:208:3e5::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Tue, 21 Jan
+ 2025 17:43:05 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8356.010; Tue, 21 Jan 2025
+ 17:43:04 +0000
+Date: Tue, 21 Jan 2025 13:43:03 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: Baolu Lu <baolu.lu@linux.intel.com>, Alexey Kardashevskiy <aik@amd.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+Message-ID: <20250121174303.GV5556@nvidia.com>
+References: <20250113164935.GP5556@nvidia.com>
+ <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
+ <20250114133553.GB5556@nvidia.com>
+ <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
+ <20250115130102.GM5556@nvidia.com>
+ <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
+ <20250117132523.GA5556@nvidia.com>
+ <Znh+uTMe/wX2RIJm@yilunxu-OptiPlex-7050>
+ <20250120132525.GH5556@nvidia.com>
+ <ZnnhKtA2n4s1CLyf@yilunxu-OptiPlex-7050>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZnnhKtA2n4s1CLyf@yilunxu-OptiPlex-7050>
+X-ClientProxiedBy: BN9PR03CA0183.namprd03.prod.outlook.com
+ (2603:10b6:408:f9::8) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-Subject: Re: [PATCH v7 11/12] drm/atomic-helper: Re-order bridge chain
- pre-enable and post-disable
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
-References: <20250114055626.18816-1-aradhya.bhatia@linux.dev>
- <20250114055626.18816-12-aradhya.bhatia@linux.dev>
- <psce5mzs5kyw76pkb75lmxliddph6b7yob6nunmxy4ne7g7zin@axa67tkcgr5j>
- <f34a0c76-cb61-4c5a-b16c-e6f715f1d048@linux.dev>
- <skykzupk353yt6nsooh7wksbexgymzfpbhboi6r33mxegyscwm@agm7yrfb44i4>
- <30dc847b-7b3b-4c6c-be10-b941f6acf4b9@linux.dev>
- <srbgele3uejml6c6dmkojc77jspuajlee5kzp5fhnpsn2drc3d@mdcbqucbgdte>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <srbgele3uejml6c6dmkojc77jspuajlee5kzp5fhnpsn2drc3d@mdcbqucbgdte>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|IA1PR12MB6211:EE_
+X-MS-Office365-Filtering-Correlation-Id: fba5816b-c9d8-4686-b9db-08dd3a430eac
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?k0VDEF9fkXi38haXvXT004b2K2Y+HymDFcOJoH6W+iFQpY6di2d4Zirh4B1X?=
+ =?us-ascii?Q?EKurN//hEmvJBLJad4WTjwdWUk/fuWp+hEMwgQ7rU03PqPhf9lSEcRRxuIGQ?=
+ =?us-ascii?Q?MESocFvF0zczA1ICx9fYxgujqew612zsbDHxNfkD/2PDZay3PdmnyQa0AM2q?=
+ =?us-ascii?Q?N1BBGn46SyZ7T1CP/IYRkVIA+l1IKLSyrlc7yUjHcQoGF2BEydIspm4Q3u1b?=
+ =?us-ascii?Q?JGatP/nJUShYfCCbcHZA0j58eEN7uuRinWJnPYgGhZhhFRghwrQ6vsmuNjSS?=
+ =?us-ascii?Q?08jVeozV2kACRYNno8O3Gw4eWWqLacUrqt/X24dv/ElIwJMoR3mT1A4dBol4?=
+ =?us-ascii?Q?IRDrMX7P79nobTdVJP5O5smxUctbmPfOD5OFVYk/akiW4WqQvzvYzyG9y1vC?=
+ =?us-ascii?Q?MJO2V1FadyGglExsHmhC41n+kbs+MfPqxglLNCz4AvfrDCtDN+pgwWUnXsDq?=
+ =?us-ascii?Q?ci58ZvN8sJTys8lye3I37neJ6ZZM8KH09oVCwVsWNg8u85BW/ZgBtYxL1N/4?=
+ =?us-ascii?Q?wIJs6mANAOFY7wnNvSwiS4/+HJ/39ay6O1Wm39QI+Sfav6M78frlWoaYA70A?=
+ =?us-ascii?Q?xSf2D+/ClcGnyZRe7+olTqS56bRYzunT6X60oI5YoXUj8u5+LRrpXNCohYTc?=
+ =?us-ascii?Q?dzuMfIdBanQXJATYq0bXSnEL0mFXaRiq22Cz4xZDhskCFO7RRBmxtc4nj9bL?=
+ =?us-ascii?Q?yVcSkMBvwwyTrV5664AIOb35a5kVSMqC3cQ58x65533qVvc2vgr3gVrWyTr6?=
+ =?us-ascii?Q?2a1U/KiC1OmigQ0uKS5dn6s8i+iik2ubWUbQMshG3ExPbASf/TNbSY+WKDBh?=
+ =?us-ascii?Q?ErC6l9sEyGQSqoUozgib8UPVIFAEBBx2ghBSNESkzpzXS7JUali8H1V5szEy?=
+ =?us-ascii?Q?MlMLt+vXH7V3+8eNn3mO44UrfVZzNZEv2215yUx8PieRlurUgvrk0oAxx17u?=
+ =?us-ascii?Q?YRajyYc0F07Kec88HvAhVC0olfUBXUc931zr/vo8PHhQWmsNJsRRmJmDTV39?=
+ =?us-ascii?Q?ZQh6lZCcedknLFhHLGp3sNTsrepHrBViIJ4LcOWisNfFBKn4lFBQ3DM0U5WK?=
+ =?us-ascii?Q?hDTZoI7r5Ql2CxnUP83UfeBBiK/8yX19FFHyuo+ob2FNf1DDFEtcRSVEIvy7?=
+ =?us-ascii?Q?fw8ElySNA+PI0R3Dpm0RED9spsGjQ0kZpMnqO2v1lxpmlH3oCiGJx/GZMXk1?=
+ =?us-ascii?Q?7PtnW24j1+CYZsgIR1Q9kSudNbCsBWvQSm0jEccDylL4OBJxAOOdg1J/LOz3?=
+ =?us-ascii?Q?+Iz3wRwkqlrIR7f3PGO/viRpdO5qkuoZb56BZv57tz1K4gVbUroGshF66Fij?=
+ =?us-ascii?Q?SQJWuo6GgLx14L7T8eLg1Y6e2u9gSvST9vmLQYhl9KIHT8f2MYVYd0T4oWHt?=
+ =?us-ascii?Q?wKPK+gVZFgsydC7M+C5nNojUX18x?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vx6Kitf06gHKibfDf8CQP63uqW4MRF0Lgs4z2uIxYyQanMZZTWKEVzGJ5g5f?=
+ =?us-ascii?Q?JRXosuHCxYtq9F6+2rpewOtzwgd6yaHhRzG0kH7J54u/rdOrnp6+1Cq0IFbU?=
+ =?us-ascii?Q?5XWwoplK2vydGQMhp/EpEsCrFhjHtjiveRd4pKAkOM/aPkk+UsW7sbsl6daz?=
+ =?us-ascii?Q?rJ8mJLwPFOQECjM5GM4SlEIiuaHeA6gm+Uvhsoq7SPr4WmS9S/6iKhJ2NEhz?=
+ =?us-ascii?Q?gOtlTgaRVEIYMj4skW0t6se995x/ELeEwPybXmCg0m396iuQ5ndgJ7bXxbEc?=
+ =?us-ascii?Q?omCYWkIxV0VGa4UsjYYJaKGsbl6iZ76IBkq+mbETCqqH+BvwCW5gcmLfPH8c?=
+ =?us-ascii?Q?cSnnPggS97li5nuPzZODQ2aIglHvzSvE2ZWSPTQguDIgC09DDvorG+SwvCPY?=
+ =?us-ascii?Q?+js7R5JMBmvqaIPx3uR3YDUdCrphhPFsXV15R6o90EXDUuRlcvRybaUscm/H?=
+ =?us-ascii?Q?LczHx4XyB4S1JeXMBlOsKoBw9a3qS4kgz48ilEUfFUwOoR7H/oRMOvUTqEzJ?=
+ =?us-ascii?Q?xkhde5KtkORNV2ay3hx7Kb9eRAe+LdO7FVMQ+9DzGEwzVlaW4Jv2e9cCxjzv?=
+ =?us-ascii?Q?Hry1LyfKGkBiSQ7EMxzZ6BHYmlCK2f4hNDd02F9s8MkELtDT51rgOTxB0Djy?=
+ =?us-ascii?Q?R8Cjz297dlUg6CALtcLIJIeZUT4ITPbUPZi/4DF63JwyntovO2hEO2car/fc?=
+ =?us-ascii?Q?sn7jh8Jjx1kf/7BEYpGPPq4DOvtMEJQVQcdR7jI8wkftFasX991FOVtRDvfV?=
+ =?us-ascii?Q?FRvohYUSU42v6MHnBazfkZ3dVdIk1XpxPUNYoeOC2LACpE1kQWaDTAURdrjn?=
+ =?us-ascii?Q?hDlsmMEvKtl2nJ5Uz2ULfiGrnZYmHhRltXotDmK0rfGZzREw4xAH6BzmRZNh?=
+ =?us-ascii?Q?Xtsy+tAB5Tqzlgci+NOm0hyVhHhFbhdTgiVLFk7cGhpyeL1YYqe/r1QF1zOQ?=
+ =?us-ascii?Q?DDouyaFa68l4HZ3aRRG7v5EaDiDpNzC75YUiif40qgTRB6vhTddV0j05goqI?=
+ =?us-ascii?Q?2wkoppL1qkgBRcn6nUYhbTo+A7+sCpSEIJkdsBImgyfzMFw2BrrpG8+zYjJB?=
+ =?us-ascii?Q?i5nQ2hazsXfxsSyUtLCkeb2qTOSlPYRR2tdAqJ09EnLZnaMoBs/+1r8gYFJk?=
+ =?us-ascii?Q?TUIZQhUzvqKxTREGJJE7Mrf9GIiF30XRiEKR5y68VTIwyK9uejWFOyQSt07b?=
+ =?us-ascii?Q?EZpqW1WD2OD6FzTSNsuMMQ58qkJEfrTIsVyQ7VB+D7hOgnKAOEtRIUyiJn4R?=
+ =?us-ascii?Q?aOw94o1uFMHwRGbOJjhkmlb9Xrf7e7nAQWJDkG3CjhRWbgpEXG4cIrzuwfCc?=
+ =?us-ascii?Q?99grj55BJV6EUgakn50IpukvAPpLxg+sxetDAG6NJqwI4TnaNFvIvXIcaTK6?=
+ =?us-ascii?Q?7NySmxq88GTg++mYXVpUjTktBkZoI0G9gNpK3QQNhJSFUQnb5+EpCz0rfYJm?=
+ =?us-ascii?Q?fF1qfsJNdN0DPHcVInuZ5TEjz8anJ4mrENGoikLY+bYKwKR2KDz6cw+7pstx?=
+ =?us-ascii?Q?2kAT+RYvCJt2VjB3NDdP3qkO/0DGItypqEXoj2ZT3IUvj+dz0cjQ2+KKa63S?=
+ =?us-ascii?Q?rFpm7AjWjWp/07bTocuheiII7kO5nLBEa/nyi84u?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fba5816b-c9d8-4686-b9db-08dd3a430eac
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2025 17:43:04.1639 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wKB7e6v1VNhKlay9rvO4ECxsBOha+Ir5rzRNTRdLDrbicz6OVfETobZ5bK86jKgN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6211
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,228 +161,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
+On Tue, Jun 25, 2024 at 05:12:10AM +0800, Xu Yilun wrote:
 
-On 21/01/25 16:20, Dmitry Baryshkov wrote:
-> On Mon, Jan 20, 2025 at 11:18:22PM +0530, Aradhya Bhatia wrote:
->> Hi Dmitry,
->>
->> On 20/01/25 14:08, Dmitry Baryshkov wrote:
->>> On Fri, Jan 17, 2025 at 06:37:00PM +0530, Aradhya Bhatia wrote:
->>>> Hi Dmitry,
->>>>
->>>> On 14/01/25 16:54, Dmitry Baryshkov wrote:
->>>>> On Tue, Jan 14, 2025 at 11:26:25AM +0530, Aradhya Bhatia wrote:
->>>>>> Move the bridge pre_enable call before crtc enable, and the bridge
->>>>>> post_disable call after the crtc disable.
->>>>>>
->>>>>> The sequence of enable after this patch will look like:
->>>>>>
->>>>>> 	bridge[n]_pre_enable
->>>>>> 	...
->>>>>> 	bridge[1]_pre_enable
->>>>>>
->>>>>> 	crtc_enable
->>>>>> 	encoder_enable
->>>>>>
->>>>>> 	bridge[1]_enable
->>>>>> 	...
->>>>>> 	bridge[n]_enable
->>>>>>
->>>>>> And, the disable sequence for the display pipeline will look like:
->>>>>>
->>>>>> 	bridge[n]_disable
->>>>>> 	...
->>>>>> 	bridge[1]_disable
->>>>>>
->>>>>> 	encoder_disable
->>>>>> 	crtc_disable
->>>>>>
->>>>>> 	bridge[1]_post_disable
->>>>>> 	...
->>>>>> 	bridge[n]_post_disable
->>>>>>
->>>>>> The definition of bridge pre_enable hook says that,
->>>>>> "The display pipe (i.e. clocks and timing signals) feeding this bridge
->>>>>> will not yet be running when this callback is called".
->>>>>>
->>>>>> Since CRTC is also a source feeding the bridge, it should not be enabled
->>>>>> before the bridges in the pipeline are pre_enabled. Fix that by
->>>>>> re-ordering the sequence of bridge pre_enable and bridge post_disable.
->>>>>
->>>>> The patch contains both refactoring of the corresponding functions and
->>>>> changing of the order. Please split it into two separate commits.
->>>>>
->>>>
->>>> I assume that you already understand this, so this is just for the
->>>> record -
->>>>
->>>> There is no trivial way to do this. Initially, this is what I had in my
->>>> mind - about what the split patches would look like.
->>>>
->>>> #1
->>>>  * refactoring of entire loops into separate functions.
->>>>  * Separate out the pre_enable and enable operations inside the
->>>>    encoder_bridge_enable().
->>>>  * call them in their (seemingly) original sequences
->>>> 	- crtc_enable
->>>> 	- encoder_bridge_enable(pre_enable)
->>>> 	- encoder_bridge_enable(!pre_enable)
->>>>
->>>> #2
->>>>  * rearrange the calls to re-order the operation
->>>> 	- encoder_bridge_enable(pre_enable)
->>>> 	- crtc_enable
->>>> 	- encoder_bridge_enable(!pre_enable)
->>>>
->>>> This would have made the patch#2 seem quite trivial, as patch#1 would
->>>> take the brunt of changes, while keeping the functionality intact.
->>>>
->>>>
->>>> What I have now realized is that, the above isn't possible,
->>>> unfortunately. The moment we separate out pre_enable and enable into 2
->>>> different calls, the overall sequence gets even changed when there are
->>>> multiple pipelines in the system.
->>>>
->>>> So to implement the split properly, the first patch would look like this
->>>>
->>>> #1
->>>>  * refactoring of entire loops into separate functions.
->>>>  * The calling sequences will be as follows -
->>>>  	- crtc_enable()
->>>> 	- encoder_bridge_enable()
->>>> 		- this will do both pre_enable and enable
->>>> 		  unconditionally.
->>>>
->>>> The pre_enable and enable operations wouldn't be separated in patch 1,
->>>> just that the crtc enable and encoder bridge pre_enable/enable loops
->>>> would be put into individual functions.
->>>>
->>>> The next patch will then introduce booleans, and separate out pre_enable
->>>> and enable, and implement the new order -
->>>>
->>>> #2
->>>>  * pre_enable and enable operations will be conditionally segregated
->>>>    inside encoder_bridge_enable(), based on the pre_enable boolean.
->>>>  * The calling sequences will then be updated to -
->>>> 	- encoder_bridge_enable(pre_enable)
->>>> 	- crtc_enable()
->>>> 	- encoder_bridge_enable(!pre_enable)
->>>
->>>
->>> I'd say slightly differently:
->>>
->>> #1 Refactor loops into separate functions:
->>>   - crtc_enable()
->>>   - encoder_bridge_enable(), loops over encoders and calls
->>>     pre_enable(bridges), enable(encoder), enable(bridges)
->>>
->>> #2 Split loops into separate functions:
->>>   - crtc_enable()
->>>   - encoder_bridge_pre_enable(), loops over encoders and calls
->>>     pre_enable(bridges),
->>>   - encoder_bridge_enable(), loops over encoders and calls
->>>     enable(encoder), enable(bridges)
->>>
->>
->> When we consider setups with multiple independent displays, there are
->> often multiple crtcs in the system, each with their own encoder-bridge
->> chain.
->>
->> In such a scenario, the sequence of crtc/encoder/bridge enable calls
->> after the #2 that you suggested, will not the remain same as that after
->> #1 (which is the _original_ sequence of calls).
-> 
-> Yes. The order of ops between display has changed, but each display is
-> still programmed in exactly the same way as before.
+> When VFIO works as a TEE user in VM, it means an attester (e.g. PCI
+> subsystem) has already moved the device to RUN state. So VFIO & DPDK
+> are all TEE users, no need to manipulate TDISP state between them.
+> AFAICS, this is the most preferred TIO usage in CoCo-VM.
 
-Yes, that's right. Sequence for each display will remain the same as
-before.
+No, unfortunately. Part of the motivation to have the devices be
+unlocked when the VM starts is because there is an expectation that a
+driver in the VM will need to do untrusted operations to boot up the
+device before it can be switched to the run state.
 
-> 
->>
->> Do we still require #2 as an intermediate step between the original
->> sequence, and the intended new sequence? Wouldn't having the sequence
->> change in 2 half-steps add to the confusion (should some driver break
->> due to either of the refactorings)?
-> 
-> That's the point. Having two refactorings in one commit makes it harder
-> to understand, which one broke the driver. Having two separate commits
-> allows users to revert the latter commit and check what caused the
-> issue.
+So any vfio use case needs to imagine that VFIO starts with an
+untrusted device, does stuff to it, then pushes everything through to
+run. The exact mirror as what a kernel driver should be able to do.
 
-Right. It's easier to debug each display independently in multi-display
-setups, and I can now understand how #2 will be able to help.
+How exactly all this very complex stuff works, I have no idea, but
+this is what I've understood is the target. :\
 
-This explanation helped a lot. Thank you!
-
->>
->>> #3 Move crtc_enable() calls:
->>>   - encoder_bridge_pre_enable(), loops over encoders and calls
->>>     pre_enable(bridges),
->>>   - crtc_enable()
->>>   - encoder_bridge_enable(), loops over encoders and calls
->>>     enable(encoder), enable(bridges)
->>>
->>> You might use enum or booleans to implement encoder_bridge_pre_enable(),
->>> or just keep it as a completely separate function (might be a better
->>> option).
->>
->> Yeah, I suppose a separate function may be better. There will, however,
->> be some code duplication when we loop over the encoder twice, once for
->> pre_enable(bridge) and the other for enable(encoder) and enable(bridge).
->>
->> I hope that will be acceptable?
-> 
-> I'd prefer two separate functions, but I won't insist on that.
-
-Alright!
-
-I have my work cut out for me for the next revision.
-
-> 
->>
->>>
->>> The reason why I'm suggesting it is pretty easy: your patch performs two
->>> refactorings at the same time. If one of the drivers breaks, we have no
->>> way to identify, which of the refactorings caused the break.>
->>>>
->>>> This wouldn't be all that much trivial as I had imagined it to be earlier.
->>>>
->>>> It would also *kind of* like these patches in a previous revision,
->>>> v5:11/13 [0], and v5:12/13 [1]. The only differences being,
->>>>
->>>> 1) these older patches separated out only the bridge/encoder operations
->>>> into a function, and not the crtc operations, and
->>>>
->>>> 2) An enum is being used instead of the booleans.
->>>>
->>>>
->>>> I believe this is what you are looking for? If I have misunderstood
->>>> something, do let me know.
->>>>
->>>>
->>>> Regards
->>>> Aradhya
->>>>
->>>>
->>>> [0]: v5:11/13
->>>> drm/atomic-helper: Separate out Encoder-Bridge enable and disable
->>>> https://lore.kernel.org/all/20241019200530.270738-4-aradhya.bhatia@linux.dev/
->>>>
->>>> [1]: v5:12/13
->>>> drm/atomic-helper: Re-order bridge chain pre-enable and post-disable
->>>> https://lore.kernel.org/all/20241019200530.270738-5-aradhya.bhatia@linux.dev/
->>>>
->>>
->>
->>
->> Regards
->> Aradhya
->>
-> 
-
---
-Regards
-Aradhya
-
+Jason
