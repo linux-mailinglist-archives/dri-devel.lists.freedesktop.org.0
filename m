@@ -2,53 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1D4A180EC
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 16:16:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79622A18123
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Jan 2025 16:29:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBA210E5E7;
-	Tue, 21 Jan 2025 15:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A9CC10E1FB;
+	Tue, 21 Jan 2025 15:29:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iY1fez84";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="d71jjJca";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51FAC10E5E7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 15:16:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4B7005C59CB;
- Tue, 21 Jan 2025 15:16:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D22AEC4CEE0;
- Tue, 21 Jan 2025 15:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737472615;
- bh=FDRipuPPvfmCDCeAd0Ls0RxootY4kCESdc8OiZt7GIw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iY1fez84iqgBQbrqP4iW04Xuq+aZzIkhRWF6iUdQuMQvg689MvAmXXMKGbCxGrcOu
- nEce/HGxnYT5fD2ZE4KPyDk2iauORb1sEjfMxiQjiWYuIbqWibGoJQh4xs+v9R/uh6
- 6JaFZn3lRFq4Cft7H16HAgaF7m5ngialRJQGYqVZcY7D/FmZn6ImkcmXtH/mZOwvcm
- fkKNnMk965Nb3cCEZJezJTPxArfw8aP6BQ65pz/u7cBYws8YCKG8kc1ukXulA7ctS1
- SJu/x1VPdJ1ivSPtE9hvhNwSYyVJsDaBgykhhX3CFzyD8LYtqrVnrquCTd42N/+1Kw
- iu0JSUz9ekdkA==
-From: Philipp Stanner <phasta@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 3/3] drm/sched: Update timedout_job()'s documentation
-Date: Tue, 21 Jan 2025 16:15:46 +0100
-Message-ID: <20250121151544.44949-6-phasta@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250121151544.44949-2-phasta@kernel.org>
-References: <20250121151544.44949-2-phasta@kernel.org>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F038010E1FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 15:29:42 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50L9Hfhc006606;
+ Tue, 21 Jan 2025 15:29:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ XRaedevMSORfkAEjpYG6dBAlSk0930ZbG6DAT5O4hjI=; b=d71jjJcaZgCmvWV/
+ boTG2KmKVMPbN/wfuY3Kd59WoVlr8jrWBYWImzjElBFkgmsjQXYJj033daPPZLwS
+ 5mSeC5TfL6DnKmA0FIePnmrmL7AijoDSinZzyyfCj6sN3mNsybj7Uy+edVuUvDUa
+ rmuEPjgfA0EUPk1+81eUY5vW1rauKA4hWYExjGwUYPpbY8X7f+l/yApt3Iw1ltGn
+ SHMO+5bvislg0v0Fq3xCM9GxmdYCu36h4BGpBA2nY6Ed9r+JrzCGiHRgPu4FTtXO
+ GLcIJ4ZVo/Ll133rWlXDNoIt0cjn5VKsMmVeTviPzzs1DHfAs9RWyl33pcD7xCcg
+ GJBBGg==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44a8tuh6jf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2025 15:29:34 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50LFTX8S029595
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Jan 2025 15:29:33 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 21 Jan
+ 2025 07:29:32 -0800
+Message-ID: <dbf3e688-d7fc-06ab-aee6-3ed1095148c8@quicinc.com>
+Date: Tue, 21 Jan 2025 08:29:32 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 7/7] accel/qaic: Add AIC200 support
+Content-Language: en-US
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: <quic_carlv@quicinc.com>, <quic_yabdulra@quicinc.com>,
+ <quic_mattleun@quicinc.com>, <quic_thanson@quicinc.com>,
+ <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>
+References: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
+ <20250117170943.2643280-8-quic_jhugo@quicinc.com>
+ <20250121051624.nhest7s6iyh2ll4m@thinkpad>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20250121051624.nhest7s6iyh2ll4m@thinkpad>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: QZ8m3zlp2BF81syHGF_36z3fy4GUrIB-
+X-Proofpoint-ORIG-GUID: QZ8m3zlp2BF81syHGF_36z3fy4GUrIB-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-21_06,2025-01-21_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ clxscore=1015 lowpriorityscore=0 phishscore=0 priorityscore=1501
+ impostorscore=0 mlxscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ mlxlogscore=856 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501210126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,132 +95,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_backend_ops.timedout_job()'s documentation is outdated. It
-mentions the deprecated function drm_sched_resubmit_job(). Furthermore,
-it does not point out the important distinction between hardware and
-firmware schedulers.
+On 1/20/2025 10:16 PM, Manivannan Sadhasivam wrote:
+> On Fri, Jan 17, 2025 at 10:09:43AM -0700, Jeffrey Hugo wrote:
+>> Add basic support for the new AIC200 product. The PCIe Device ID is
+>> 0xa110. With this, we can turn on the lights for AIC200 by leveraging
+>> much of the existing driver.
+>>
+>> Co-developed-by: Youssef Samir <quic_yabdulra@quicinc.com>
+>> Signed-off-by: Youssef Samir <quic_yabdulra@quicinc.com>
+>> Signed-off-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
+> 
+> Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Since firmware schedulers tyipically only use one entity per scheduler,
-timeout handling is significantly more simple because the entity the
-faulted job came from can just be killed without affecting innocent
-processes.
+Thanks for the reviews/ack.
 
-Update the documentation with that distinction and other details.
+Do you have thoughts on merging the series? I think I could take 
+everything through drm-misc, you could take everything through the MHI 
+tree, or we could split the series by tree with a phased approach.
 
-Reformat the docstring to work to a unified style with the other
-handles.
-
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- include/drm/gpu_scheduler.h | 82 ++++++++++++++++++++++---------------
- 1 file changed, 49 insertions(+), 33 deletions(-)
-
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index cf40fdb55541..4806740b9023 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -394,8 +394,14 @@ static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
- }
- 
- enum drm_gpu_sched_stat {
--	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
-+	/* Reserve 0 */
-+	DRM_GPU_SCHED_STAT_NONE,
-+
-+	/* Operation succeeded */
- 	DRM_GPU_SCHED_STAT_NOMINAL,
-+
-+	/* Failure because dev is no longer available, for example because
-+	 * it was unplugged. */
- 	DRM_GPU_SCHED_STAT_ENODEV,
- };
- 
-@@ -447,43 +453,53 @@ struct drm_sched_backend_ops {
- 	 * @timedout_job: Called when a job has taken too long to execute,
- 	 * to trigger GPU recovery.
- 	 *
--	 * This method is called in a workqueue context.
-+	 * @sched_job: The job that has timed out
- 	 *
--	 * Drivers typically issue a reset to recover from GPU hangs, and this
--	 * procedure usually follows the following workflow:
-+	 * Returns: A drm_gpu_sched_stat enum.
- 	 *
--	 * 1. Stop the scheduler using drm_sched_stop(). This will park the
--	 *    scheduler thread and cancel the timeout work, guaranteeing that
--	 *    nothing is queued while we reset the hardware queue
--	 * 2. Try to gracefully stop non-faulty jobs (optional)
--	 * 3. Issue a GPU reset (driver-specific)
--	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
--	 * 5. Restart the scheduler using drm_sched_start(). At that point, new
--	 *    jobs can be queued, and the scheduler thread is unblocked
-+	 * Drivers typically issue a reset to recover from GPU hangs.
-+	 * This procedure looks very different depending on whether a firmware
-+	 * or a hardware scheduler is being used.
-+	 *
-+	 * For a FIRMWARE SCHEDULER, each (pseudo-)ring has one scheduler, and
-+	 * each scheduler has one entity. Hence, you typically follow those
-+	 * steps:
-+	 *
-+	 * 1. Stop the scheduler using drm_sched_stop(). This will pause the
-+	 *    scheduler workqueues and cancel the timeout work, guaranteeing
-+	 *    that nothing is queued while we remove the ring.
-+	 * 2. Remove the ring. In most (all?) cases the firmware will make sure
-+	 *    that the corresponding parts of the hardware are resetted, and that
-+	 *    other rings are not impacted.
-+	 * 3. Kill the entity the faulted job stems from, and the associated
-+	 *    scheduler.
-+	 *
-+	 *
-+	 * For a HARDWARE SCHEDULER, each ring also has one scheduler, but each
-+	 * scheduler is typically associated with many entities. This implies
-+	 * that all entities associated with the affected scheduler cannot be
-+	 * torn down, because this would effectively also kill innocent
-+	 * userspace processes which did not submit faulty jobs (for example).
-+	 *
-+	 * Consequently, the procedure to recover with a hardware scheduler
-+	 * should look like this:
-+	 *
-+	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop().
-+	 * 2. Figure out to which entity the faulted job belongs to.
-+	 * 3. Kill that entity.
-+	 * 4. Issue a GPU reset on all faulty rings (driver-specific).
-+	 * 5. Re-submit jobs on all schedulers impacted by re-submitting them to
-+	 *    the entities which are still alive.
-+	 * 6. Restart all schedulers that were stopped in step #1 using
-+	 *    drm_sched_start().
- 	 *
- 	 * Note that some GPUs have distinct hardware queues but need to reset
- 	 * the GPU globally, which requires extra synchronization between the
--	 * timeout handler of the different &drm_gpu_scheduler. One way to
--	 * achieve this synchronization is to create an ordered workqueue
--	 * (using alloc_ordered_workqueue()) at the driver level, and pass this
--	 * queue to drm_sched_init(), to guarantee that timeout handlers are
--	 * executed sequentially. The above workflow needs to be slightly
--	 * adjusted in that case:
--	 *
--	 * 1. Stop all schedulers impacted by the reset using drm_sched_stop()
--	 * 2. Try to gracefully stop non-faulty jobs on all queues impacted by
--	 *    the reset (optional)
--	 * 3. Issue a GPU reset on all faulty queues (driver-specific)
--	 * 4. Re-submit jobs on all schedulers impacted by the reset using
--	 *    drm_sched_resubmit_jobs()
--	 * 5. Restart all schedulers that were stopped in step #1 using
--	 *    drm_sched_start()
--	 *
--	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
--	 * and the underlying driver has started or completed recovery.
--	 *
--	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no longer
--	 * available, i.e. has been unplugged.
-+	 * timeout handlers of different schedulers. One way to achieve this
-+	 * synchronization is to create an ordered workqueue (using
-+	 * alloc_ordered_workqueue()) at the driver level, and pass this queue
-+	 * as drm_sched_init()'s @timeout_wq parameter. This will guarantee
-+	 * that timeout handlers are executed sequentially.
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
--- 
-2.47.1
-
+-Jeff
