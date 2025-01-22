@@ -2,71 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DB8A19638
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 17:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75FE3A19634
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 17:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF7B510E213;
-	Wed, 22 Jan 2025 16:12:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F64510E15E;
+	Wed, 22 Jan 2025 16:12:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="p7C251Sf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jLAo8kkb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CE4010E213
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 16:12:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6B3261C000F;
- Wed, 22 Jan 2025 16:12:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1737562355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dUhoqRqNTi+JvpW8VrhCgfqzUUgEFjEK0Fi5GnnU8aA=;
- b=p7C251SfaqCthIu1s+0NxFFMsaC8tuHLjxiN4XAXymcLB0kq+zWpgSG/vBalxh8Qfp3IDj
- RRQGmgOBzoCq2CygM0rSYnLlJBV/Y1Mv2o8/YY++cFK3Q4frqiFL7P9MoRgRMXvqKw9QXU
- 561sReYr+vuqli0Z1oJRv+3B/UkXvHBX0GDXhBD86U5zOCH8evhUpGfrBn13+IrUsBUZ9g
- zr731BMgz8DylX74uXzMNJP4ypCrGL6Ianof2iK1Srq9gDTa0VrCvSOUh/tcnSSVV7JO96
- B9Q8Aj/IdsYGAr8E6i8hFE35PlPdHSmoH26ucRK1vD1pHRwR1HFWvvQfeGgmgg==
-Date: Wed, 22 Jan 2025 17:12:30 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Simona Vetter
- <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, Paul
- Kocialkowski <contact@paulk.fr>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
- =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
- bridges
-Message-ID: <20250122171230.30cf9b97@booty>
-In-Reply-To: <20250108-astonishing-oarfish-of-energy-c0abbe@houat>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
- <20250106-vigorous-talented-viper-fa49d9@houat>
- <CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
- <20250108162429.53316041@booty>
- <20250108-astonishing-oarfish-of-energy-c0abbe@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
+ [IPv6:2607:f8b0:4864:20::c36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB4EE10E15E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 16:12:36 +0000 (UTC)
+Received: by mail-oo1-xc36.google.com with SMTP id
+ 006d021491bc7-5f6497fbccbso583792eaf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:12:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1737562356; x=1738167156; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=/9jtQGhGzfUUBpDpoTIqjDA1rkZ3nGNJjvwgw5e22m0=;
+ b=jLAo8kkbjMMLfQ+57dnLr2rcGBBh7I1ua9zsO3gtzZi53HTLTSCtyjfuK4VfzA/DL2
+ Hu8dkC7+fIBvci8Q6bnve0zAmh7r1Pd7VTA85A9C7wuTIeeM4/BjUkwaw70nNZNsvg9c
+ AcCCGCf9+VYzkTT46SX+q5wPXW/E7mYFCbrpIyOf3J7adXYTifJZVWyU/82Z5e3/YT9x
+ mICuqr0Vv6YE6d9kw5NFQkcPYYGEMgmpqdmTaZyADvdE74zfjAXxt06DLf4q5vh8MZmV
+ aw8ICCDuhLGUJ84xxk60z92THBdCcu0t43N1/g1FAaMr+hcb0hnrkMyjOarbiEmM3Jvh
+ GlkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737562356; x=1738167156;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/9jtQGhGzfUUBpDpoTIqjDA1rkZ3nGNJjvwgw5e22m0=;
+ b=Nkmyqzw1+bQDhsZzqAZ+kl0NIez/7s+NfES7m8cAglESbG4/VxQNmzzID0JePfXlWB
+ 9icb8JvISfvOmBSdd3qs77H4vcPYp+pEd7OJOWnb1SVoWJ9t4VMZsA1euKeVA0jvev5m
+ WiDflRRm5CxW/V6d256dLDM5c0sr9BFRJc9xb8oitdYbcFtPS0aGx+wyCrpM2rOmObyS
+ V1CABwYtQnONp9+vXzjVdhA9wh5kfLKCKhUZpovz32zPe8B8Ln+wnavLNxsldwngq7Bk
+ xp5ynwlZiVWW2hEaeUYc+MMsBMQdAOkvUpS8W570YdtFNtGL1xhqGufRyyao2CphW2bk
+ 0Hfg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUT9a2xvVKOZX5zsxTxbf5kUu6c7OFBvP741p2ATJh1pBraOIBUtgGUDxyCQjfPaq52JdWk9x+4cL0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+X+iPWUx69n6RMuVRX41/mAbYLDXkXldFQGMfuKwa9q2/pT65
+ UWEuPKJazK/KgyadQwqefaCL1eaB9ai10CXZpyue+SaqpFCs6nCt
+X-Gm-Gg: ASbGncuHahvbp+FH8ZXSFSAvVBpi09ISkmcE39g+W3PvFFC9qGwD5EQY9x5qeinpvKA
+ IXCnbso6mtGOlq4ogwGnAXJbR0/KYBUo4b6FB0hb3dQPkYX9j7LqTBdd0zhvSifIw1A8KpkTGPF
+ 8fv+5juinuoCBA+Fbu6UYBnZh9dQxQGl31Nnzf4L3/KGRiQTqrVKAE9tr87tXWw6bwk74gLRBoP
+ vr4U5fmqPxsu4BVSZRxWISZL2auBIOScx/N1u/aCfCHw850L/RKqL7dWy4n0ATAvS0Ip9YHuRuo
+X-Google-Smtp-Source: AGHT+IHE2b8ugHOaPnXUAF+Kz71s8KV9Kpi4/z9mUrzVbipQA0iNJO+L+jfYIyVhvtmJE3ckimaFxQ==
+X-Received: by 2002:a05:6871:d109:b0:29e:5152:dab1 with SMTP id
+ 586e51a60fabf-2b1c29238f3mr12647287fac.13.1737562355721; 
+ Wed, 22 Jan 2025 08:12:35 -0800 (PST)
+Received: from neuromancer. ([2600:1700:fb0:1bcf:9e8:bbcb:5f73:f84b])
+ by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-2b1b8f767e6sm4482612fac.35.2025.01.22.08.12.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jan 2025 08:12:35 -0800 (PST)
+Message-ID: <679118f3.050a0220.3628fd.4a9f@mx.google.com>
+X-Google-Original-Message-ID: <Z5EY8bVoaxi2MBVe@neuromancer.>
+Date: Wed, 22 Jan 2025 10:12:33 -0600
+From: Chris Morgan <macroalpha82@gmail.com>
+To: Hironori KIKUCHI <kikuchan98@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ Christophe Branchereau <cbranchereau@gmail.com>,
+ Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: display: panel: Add another panel for
+ RG35XX Plus (Rev6)
+References: <20241124080220.1657238-1-kikuchan98@gmail.com>
+ <20241124080220.1657238-2-kikuchan98@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241124080220.1657238-2-kikuchan98@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,67 +98,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-On Wed, 8 Jan 2025 17:02:04 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
-
-[...]
-
-> > > > And we'll also need some flag in drm_bridge to indicate that the device
-> > > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
-> > > > because now your bridge driver sticks around for much longer than your
-> > > > device so the expectation that your device managed resources (clocks,
-> > > > registers, etc.) are always going to be around.    
-> > 
-> > Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
-> > drm_bridge.c will need to be sprinkled with them I guess.  
+On Sun, Nov 24, 2024 at 05:02:12PM +0900, Hironori KIKUCHI wrote:
+> This is a display panel used in the recent revision of the Anbernic
+> RG35XX Plus, a handheld gaming device from Anbernic.
+> It is 3.45 inches in size (diagonally) with a resolution of 640x480.
 > 
-> The users would be the drivers, most likely. There's not much we can do
-> at the framework level, unfortunately.
+> It has the same interface (pins and connector) as the panel of the former
+> revision of RG35XX Plus, but they differ in their init-sequence. So add
+> it as a new panel.
+> 
+> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
+> ---
+>  .../anbernic,rg35xx-plus-rev6-panel.yaml      | 60 +++++++++++++++++++
+>  1 file changed, 60 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
+> new file mode 100644
+> index 00000000000..b60a4cf00f8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
+> @@ -0,0 +1,60 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Anbernic RG35XX series (YLM-LBV0345001H-V2) 3.45" 640x480 24-bit IPS LCD panel
+> +
+> +maintainers:
+> +  - Hironori KIKUCHI <kikuchan98@gmail.com>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: anbernic,rg35xx-plus-rev6-panel
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-3wire: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - port
+> +  - power-supply
+> +  - reset-gpios
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        panel@0 {
+> +            compatible = "anbernic,rg35xx-plus-rev6-panel";
+> +            reg = <0>;
+> +
+> +            spi-3wire;
+> +            spi-max-frequency = <3125000>;
+> +
+> +            reset-gpios = <&pio 8 14 GPIO_ACTIVE_LOW>; // PI14
+> +
+> +            backlight = <&backlight>;
+> +            power-supply = <&reg_lcd>;
+> +
+> +            port {
+> +                endpoint {
+> +                    remote-endpoint = <&tcon_lcd0_out_lcd>;
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.47.0
+> 
 
-Back to the idea of a "gone" flag, or perhaps an "unplugged" flag to
-be consistent with the struct drm_device naming, and
-drm_bridge_enter()/drm_bridge_exit(), I did a few experiments and have
-a question.
+Though the documentation file will likely change (to newvision,nv3052c.yaml
+if I understand correctly) do we know if "anbernic,rg35xx-plus-rev6-panel" is
+an acceptable compatible string for this panel? I'd like to add it to a fixup
+in U-Boot but can't proceed until the string is defined.
 
-In case:
-
-  a) there is a notification callback to inform about bridges
-     being removed, and
-  b) all entities owning a struct drm_bridge pointer stop using
-     that pointer when notified
-
-
-With the above, there should be no need for
-drm_bridge_enter()/drm_bridge_exit(). Nobody will be using a pointer to
-a bridge that is being removed.
-
-Now, about a), patch 1 in this series implements such a mechanism to
-inform all bridges when a bridge is being removed. Note that the
-"unplugged" flag would be set immediately after the notifier callback
-is currently called: "unplugged == true" will never happen before the
-callback, and after the callback there will be no pointer at all.
-
-Patch 1 however is only notifying bridges, so other entities (e.g.
-encoders) cannot be notified with this implementation. However a
-different notification mechanism can be implemented. E.g. until v3 this
-series was using a generic struct notifier_block for this goal [0], so
-any part of the kernel can be notified.
-
-About b), the notification appears simpler to implement in the various
-drivers as it needs to be added in one place per driver. Also adding
-drm_bridge_enter()/exit() can be trickier to get right for non-trivial
-functions.
-
-Do you see any drawback in using a notification mechanism instead of
-drm_bridge_enter()/exit() + unplugged flag?
-
-[0] https://lore.kernel.org/all/20240510-hotplug-drm-bridge-v2-2-ec32f2c66d56@bootlin.com/
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Thank you,
+Chris
