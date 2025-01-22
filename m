@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C350BA18D64
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6A2A18D7C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B12610E689;
-	Wed, 22 Jan 2025 08:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 568C810E225;
+	Wed, 22 Jan 2025 08:17:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="h0BffGDB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F2B210E689
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:09:43 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mkl@pengutronix.de>)
- id 1taVnm-00037x-Et; Wed, 22 Jan 2025 09:09:30 +0100
-Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b]
- helo=bjornoya.blackshift.org)
- by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <mkl@pengutronix.de>) id 1taVnk-001Fbs-23;
- Wed, 22 Jan 2025 09:09:28 +0100
-Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (Client did not present a certificate)
- (Authenticated sender: mkl-all@blackshift.org)
- by smtp.blackshift.org (Postfix) with ESMTPSA id 3FAD33AE29B;
- Wed, 22 Jan 2025 08:09:28 +0000 (UTC)
-Date: Wed, 22 Jan 2025 09:09:27 +0100
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Arnd Bergmann <arnd@arndb.de>, 
- Jocelyn Falempe <jfalempe@redhat.com>, Jani Nikula <jani.nikula@intel.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: select DRM_KMS_HELPER from DRM_GEM_SHMEM_HELPER
-Message-ID: <20250122-thundering-groovy-alpaca-5dcc32-mkl@pengutronix.de>
-References: <20250122064655.1095176-1-arnd@kernel.org>
- <2a62b147-4ce2-485e-ba51-421c82decc81@suse.de>
+Received: from mail-m49204.qiye.163.com (mail-m49204.qiye.163.com
+ [45.254.49.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71C7310E225
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:17:08 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 964943b6;
+ Wed, 22 Jan 2025 16:17:04 +0800 (GMT+08:00)
+Message-ID: <330041c4-aaee-4b41-8ccd-e2807415c709@rock-chips.com>
+Date: Wed, 22 Jan 2025 16:17:03 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="yp6oylcpoarmftlk"
-Content-Disposition: inline
-In-Reply-To: <2a62b147-4ce2-485e-ba51-421c82decc81@suse.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 12/20] drm/rockchip: analogix_dp: Add support to get
+ panel from the DP AUX bus
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+References: <20250109032725.1102465-1-damon.ding@rock-chips.com>
+ <20250109032725.1102465-13-damon.ding@rock-chips.com>
+ <d7zpv6qt52mhny54dejw4yqlp2k2c437op7qmepqe27pufplqk@64xvohrz7h2q>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <d7zpv6qt52mhny54dejw4yqlp2k2c437op7qmepqe27pufplqk@64xvohrz7h2q>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQhlDSVZLSB1LHkgYTkgaHU1WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCSE
+ NVSktLVUpCS0tZBg++
+X-HM-Tid: 0a948d161e8403a3kunm964943b6
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PDo6ERw6TTIJQy8BDB0QKUgQ
+ CChPCgFVSlVKTEhMTkhIQ0lNSUJIVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJT05PNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=h0BffGDBOH6ng9qbVn7Hx1mEclB/bytYNe7bHhleXXMVBiLrhiFs/2vIWNDx3nH3ajzpNCFmPtsU6g6qeBJUZEG8a508OpaoL5bOjo5xmETAocJwRQrxDRI1H0OHYdKtOINkPugtQVvcySFrnSiWSV1mvYmQhG69JnvEKoECHTw=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=0dJqsA0isVay8dpsPnxyQHy2JrvwJVceSD2lUsDULE4=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,53 +71,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dmitry,
 
---yp6oylcpoarmftlk
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm: select DRM_KMS_HELPER from DRM_GEM_SHMEM_HELPER
-MIME-Version: 1.0
+On 2025/1/9 20:48, Dmitry Baryshkov wrote:
+> On Thu, Jan 09, 2025 at 11:27:17AM +0800, Damon Ding wrote:
+>> Move drm_of_find_panel_or_bridge() a little later and combine it with
+>> component_add() into a new function rockchip_dp_link_panel(). The function
+>> will serve as done_probing() callback of devm_of_dp_aux_populate_bus(),
+>> aiding to support for obtaining the eDP panel via the DP AUX bus.
+>>
+>> If failed to get the panel from the DP AUX bus, it will then try the other
+>> way to get panel information through the platform bus.
+>>
+>> In addition, use dev_err() instead of drm_err() in rockchip_dp_poweron()
+>> , which will be called before rockchip_dp_bind().
+>>
+>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>>
+>> ---
+>>
+>> Changes in v4:
+>> - Use done_probing() to call drm_of_find_panel_or_bridge() and
+>>    component_add() when getting panel from the DP AUX bus
+>>
+>> Changes in v5:
+>> - Use the functions exported by the Analogix side to get the pointers of
+>>    struct analogix_dp_plat_data and struct drm_dp_aux.
+>> - Use dev_err() instead of drm_err() in rockchip_dp_poweron().
+>>
+>> ---
+>>   .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 41 ++++++++++++++-----
+>>   1 file changed, 30 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+>> index 0957d3c5d31d..3ae01b870f49 100644
+>> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+>> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+>> @@ -124,13 +124,13 @@ static int rockchip_dp_poweron(struct analogix_dp_plat_data *plat_data)
+>>   
+>>   	ret = clk_prepare_enable(dp->pclk);
+>>   	if (ret < 0) {
+>> -		drm_err(dp->drm_dev, "failed to enable pclk %d\n", ret);
+>> +		dev_err(dp->dev, "failed to enable pclk %d\n", ret);
+> 
+> 
+> why?
+> 
 
-On 22.01.2025 08:53:40, Thomas Zimmermann wrote:
-[...]
+The &rockchip_dp_device.drm_dev will be assigned in rockchip_dp_bind(), 
+which is called after probing process. The PM operations have been 
+advanced to the probing for the AUX transmission, so the dev_err() may 
+be better than drm_err().
 
-> I think this patch fixes
->=20
-> =C2=A0https://lore.kernel.org/dri-devel/a5a98971-405e-496b-89a4-75a61fd6d=
-898@suse.de/T/#mcc9fa26b2980b93dc688061884119a3dd0277dc5
+>>   		return ret;
+>>   	}
+>>   
+>>   	ret = rockchip_dp_pre_init(dp);
+>>   	if (ret < 0) {
+>> -		drm_err(dp->drm_dev, "failed to dp pre init %d\n", ret);
+>> +		dev_err(dp->dev, "failed to dp pre init %d\n", ret);
+>>   		clk_disable_unprepare(dp->pclk);
+>>   		return ret;
+>>   	}
+> 
 
-Yes it does! \o/
+Best regards
+Damon
 
-> Could you please add Closes and Reported-by tags?
-
-Closes: https://lore.kernel.org/all/20250121-greedy-flounder-of-abundance-4=
-d2ee8-mkl@pengutronix.de
-Reported-by: Marc Kleine-Budde <mkl@pengutronix.de>
-Tested-by: Marc Kleine-Budde <mkl@pengutronix.de>
-
-regards,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde          |
-Embedded Linux                   | https://www.pengutronix.de |
-Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
-
---yp6oylcpoarmftlk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmeQp7UACgkQKDiiPnot
-vG8Pwgf7BaQlFRhX1BICGdPv6qJPk+j4dZeCDdrmop0+m3d9DOR/X3wI6j/P7cYR
-yW/KlKl7hDmTThUJK5xwYoWNOo9bt8hs5iU6pdKq6lcBSoqu84qCkDE1cOVR8CFl
-1C45zjgaXEQvPpkSahTzeR3SdKh0Py/Rm+3ZpVkIV9he3542xU9/4WWNMLFI6g9S
-ng6A6c3J9SdatPCoqlmGl8Sz+tLfVrxNO7ueAnoYM4V1Xdz+PMqmG+nYmBBouqjC
-iZg+2TvCxYVVgfrZ9AvkvlmekRUTeNWNmywbpy0lCsWjBz/w6C6RKZ4+nri7uloZ
-o9kFG3fganZRVA0A0NvPaxoRf9jFew==
-=dvvW
------END PGP SIGNATURE-----
-
---yp6oylcpoarmftlk--
