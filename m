@@ -2,87 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FE3A19634
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 17:12:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5386BA19645
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 17:15:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F64510E15E;
-	Wed, 22 Jan 2025 16:12:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B044A10E725;
+	Wed, 22 Jan 2025 16:15:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jLAo8kkb";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="KdK4iKFO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc36.google.com (mail-oo1-xc36.google.com
- [IPv6:2607:f8b0:4864:20::c36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB4EE10E15E
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 16:12:36 +0000 (UTC)
-Received: by mail-oo1-xc36.google.com with SMTP id
- 006d021491bc7-5f6497fbccbso583792eaf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:12:36 -0800 (PST)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com
+ [IPv6:2a00:1450:4864:20::336])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE9C710E724
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 16:15:03 +0000 (UTC)
+Received: by mail-wm1-x336.google.com with SMTP id
+ 5b1f17b1804b1-43624b2d453so78621315e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:15:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737562356; x=1738167156; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=/9jtQGhGzfUUBpDpoTIqjDA1rkZ3nGNJjvwgw5e22m0=;
- b=jLAo8kkbjMMLfQ+57dnLr2rcGBBh7I1ua9zsO3gtzZi53HTLTSCtyjfuK4VfzA/DL2
- Hu8dkC7+fIBvci8Q6bnve0zAmh7r1Pd7VTA85A9C7wuTIeeM4/BjUkwaw70nNZNsvg9c
- AcCCGCf9+VYzkTT46SX+q5wPXW/E7mYFCbrpIyOf3J7adXYTifJZVWyU/82Z5e3/YT9x
- mICuqr0Vv6YE6d9kw5NFQkcPYYGEMgmpqdmTaZyADvdE74zfjAXxt06DLf4q5vh8MZmV
- aw8ICCDuhLGUJ84xxk60z92THBdCcu0t43N1/g1FAaMr+hcb0hnrkMyjOarbiEmM3Jvh
- GlkQ==
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1737562502; x=1738167302;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=k6yifiK7k1egD832rtDY2X5ShBnrSfrr32YKaeunTC8=;
+ b=KdK4iKFOSGcnO0aoEI+jD4eCVb69PwkWFLUq94aslSm4dHouSdF3BDvRuMrEx0Y3wj
+ uabthTZX4K8LloKL4sfBEGzkWIaw1ArrQkVqeP2gCZuzOhBi88GD69htFu7liuqKQT7u
+ WDSK+nUbktsQcDFVQjx2MR/dWqrLbkkqrBoVi0XYkpfjT9bKbKn3SF2ObT3F9i/XjE2p
+ owVkqQEDlnJ9ylMgo3+LCpj+t6cSGgGWz9R+ohwpXXYZW0N5ZS2NcVaeiOXrfX2orwg+
+ 5gRIqqoEDCp57KMlMSJIDt5duAsSWMXBvOdckl2qyj5nt29ZrbRHKMWnl3sZqBlsgPow
+ 2tDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737562356; x=1738167156;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/9jtQGhGzfUUBpDpoTIqjDA1rkZ3nGNJjvwgw5e22m0=;
- b=Nkmyqzw1+bQDhsZzqAZ+kl0NIez/7s+NfES7m8cAglESbG4/VxQNmzzID0JePfXlWB
- 9icb8JvISfvOmBSdd3qs77H4vcPYp+pEd7OJOWnb1SVoWJ9t4VMZsA1euKeVA0jvev5m
- WiDflRRm5CxW/V6d256dLDM5c0sr9BFRJc9xb8oitdYbcFtPS0aGx+wyCrpM2rOmObyS
- V1CABwYtQnONp9+vXzjVdhA9wh5kfLKCKhUZpovz32zPe8B8Ln+wnavLNxsldwngq7Bk
- xp5ynwlZiVWW2hEaeUYc+MMsBMQdAOkvUpS8W570YdtFNtGL1xhqGufRyyao2CphW2bk
- 0Hfg==
+ d=1e100.net; s=20230601; t=1737562502; x=1738167302;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=k6yifiK7k1egD832rtDY2X5ShBnrSfrr32YKaeunTC8=;
+ b=omNlLvviML6v7m1bAagW04sfAMe4uisyvWzcprTdkURrnuinOIfb1M7SNbCij0LpQh
+ 9dTmi3RG1QKcyUYXYJwIX0bXZp90jSoL84y7Y62zZG5zoTSVkng0iUOH8kF/4PDVmaDy
+ jpIK+1uMM0TJ+Rx2WiRK0r3hSTc+l2pvUmeT7y2e0V0hT6RakBZ+PAlZajgTdSviSD39
+ AV1CYEBWXcWtR9nCN1WhZBGqD3NvCNhGAAo+MOqKjQV/w8h6G72NnGtJLEPOxVOzBXKd
+ CoTc5t6cAL458SNB+pIGI1iIf6MM8O1DlHrUXucRPzaW5hQfD/hGuwwdCB+9Unegv3nu
+ mHag==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUT9a2xvVKOZX5zsxTxbf5kUu6c7OFBvP741p2ATJh1pBraOIBUtgGUDxyCQjfPaq52JdWk9x+4cL0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+X+iPWUx69n6RMuVRX41/mAbYLDXkXldFQGMfuKwa9q2/pT65
- UWEuPKJazK/KgyadQwqefaCL1eaB9ai10CXZpyue+SaqpFCs6nCt
-X-Gm-Gg: ASbGncuHahvbp+FH8ZXSFSAvVBpi09ISkmcE39g+W3PvFFC9qGwD5EQY9x5qeinpvKA
- IXCnbso6mtGOlq4ogwGnAXJbR0/KYBUo4b6FB0hb3dQPkYX9j7LqTBdd0zhvSifIw1A8KpkTGPF
- 8fv+5juinuoCBA+Fbu6UYBnZh9dQxQGl31Nnzf4L3/KGRiQTqrVKAE9tr87tXWw6bwk74gLRBoP
- vr4U5fmqPxsu4BVSZRxWISZL2auBIOScx/N1u/aCfCHw850L/RKqL7dWy4n0ATAvS0Ip9YHuRuo
-X-Google-Smtp-Source: AGHT+IHE2b8ugHOaPnXUAF+Kz71s8KV9Kpi4/z9mUrzVbipQA0iNJO+L+jfYIyVhvtmJE3ckimaFxQ==
-X-Received: by 2002:a05:6871:d109:b0:29e:5152:dab1 with SMTP id
- 586e51a60fabf-2b1c29238f3mr12647287fac.13.1737562355721; 
- Wed, 22 Jan 2025 08:12:35 -0800 (PST)
-Received: from neuromancer. ([2600:1700:fb0:1bcf:9e8:bbcb:5f73:f84b])
+ AJvYcCWx+Au8JmPeUXrn9W+kjwvKIiBn9V7lxS8iXUgu6Iw/fo7J9Rt6GiUdleMBJd0pBGVHExvEHAhTMXI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzkTvYHOmVAucH6Axm5R78zUNBbSos3XX2NkJNPaOlMEcEKqadB
+ COLCRBGxRIrHEJd1osk8pYo2bXsSUiTOMmJXNbh1NOmcSWzxGb+xU6TGGwtJHMA=
+X-Gm-Gg: ASbGnctFU3EMPp+vrmOZYRvERpMaVgEcsY2QAMNl+B/4bAHV/J+hOCcCZZBNK3nTTTg
+ ZTRr+kM5gRp7HCd0xHFW86j5k4CUzHUEPRJxlkWiskRiwoFNLgqHSNFR8YZOGfls/EqsLDxFzqI
+ mxt/poS/e99xyEuPD+MUTpSF8+pS0hSYsoQ6qB1I3ihxBktiK12ZiRz0OaBWvSCyiRF1+vecRbN
+ 540u6Tchv2prnKARTrJZ6JQYoJbSeUJtCP/U8LC+clesqxIavm87kHY4fFvBjBxR0pdF27xJPK3
+ wMVLj7tdgg==
+X-Google-Smtp-Source: AGHT+IHjMS8YRSk6XzW0Efeh0A/XzjKRZHlKqwNXg3TUjzGuKVwVdcPgC6qrdd/tzzJ2CrO/z5EPcw==
+X-Received: by 2002:a05:600c:4ecb:b0:434:ff45:cbbe with SMTP id
+ 5b1f17b1804b1-438913f5c63mr219797095e9.18.1737562501952; 
+ Wed, 22 Jan 2025 08:15:01 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
  by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-2b1b8f767e6sm4482612fac.35.2025.01.22.08.12.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2025 08:12:35 -0800 (PST)
-Message-ID: <679118f3.050a0220.3628fd.4a9f@mx.google.com>
-X-Google-Original-Message-ID: <Z5EY8bVoaxi2MBVe@neuromancer.>
-Date: Wed, 22 Jan 2025 10:12:33 -0600
-From: Chris Morgan <macroalpha82@gmail.com>
-To: Hironori KIKUCHI <kikuchan98@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
- Christophe Branchereau <cbranchereau@gmail.com>,
- Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: display: panel: Add another panel for
- RG35XX Plus (Rev6)
-References: <20241124080220.1657238-1-kikuchan98@gmail.com>
- <20241124080220.1657238-2-kikuchan98@gmail.com>
+ 5b1f17b1804b1-438b1718741sm20115825e9.0.2025.01.22.08.15.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Jan 2025 08:15:01 -0800 (PST)
+Message-ID: <ce6bd1f3-8d7c-4b3c-af07-b8c9e0912f51@ursulin.net>
+Date: Wed, 22 Jan 2025 16:14:59 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241124080220.1657238-2-kikuchan98@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Use struct for drm_sched_init() params
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Philipp Stanner <phasta@kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sunil Khatri <sunil.khatri@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+ Yunxiang Li <Yunxiang.Li@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, lima@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250122140818.45172-3-phasta@kernel.org>
+ <20250122165104.536c4143@collabora.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250122165104.536c4143@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,95 +121,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 24, 2024 at 05:02:12PM +0900, Hironori KIKUCHI wrote:
-> This is a display panel used in the recent revision of the Anbernic
-> RG35XX Plus, a handheld gaming device from Anbernic.
-> It is 3.45 inches in size (diagonally) with a resolution of 640x480.
-> 
-> It has the same interface (pins and connector) as the panel of the former
-> revision of RG35XX Plus, but they differ in their init-sequence. So add
-> it as a new panel.
-> 
-> Signed-off-by: Hironori KIKUCHI <kikuchan98@gmail.com>
-> ---
->  .../anbernic,rg35xx-plus-rev6-panel.yaml      | 60 +++++++++++++++++++
->  1 file changed, 60 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
-> new file mode 100644
-> index 00000000000..b60a4cf00f8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/anbernic,rg35xx-plus-rev6-panel.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Anbernic RG35XX series (YLM-LBV0345001H-V2) 3.45" 640x480 24-bit IPS LCD panel
-> +
-> +maintainers:
-> +  - Hironori KIKUCHI <kikuchan98@gmail.com>
-> +
-> +allOf:
-> +  - $ref: panel-common.yaml#
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: anbernic,rg35xx-plus-rev6-panel
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-3wire: true
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - port
-> +  - power-supply
-> +  - reset-gpios
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        panel@0 {
-> +            compatible = "anbernic,rg35xx-plus-rev6-panel";
-> +            reg = <0>;
-> +
-> +            spi-3wire;
-> +            spi-max-frequency = <3125000>;
-> +
-> +            reset-gpios = <&pio 8 14 GPIO_ACTIVE_LOW>; // PI14
-> +
-> +            backlight = <&backlight>;
-> +            power-supply = <&reg_lcd>;
-> +
-> +            port {
-> +                endpoint {
-> +                    remote-endpoint = <&tcon_lcd0_out_lcd>;
-> +                };
-> +            };
-> +        };
-> +    };
-> -- 
-> 2.47.0
-> 
 
-Though the documentation file will likely change (to newvision,nv3052c.yaml
-if I understand correctly) do we know if "anbernic,rg35xx-plus-rev6-panel" is
-an acceptable compatible string for this panel? I'd like to add it to a fixup
-in U-Boot but can't proceed until the string is defined.
+On 22/01/2025 15:51, Boris Brezillon wrote:
+> On Wed, 22 Jan 2025 15:08:20 +0100
+> Philipp Stanner <phasta@kernel.org> wrote:
+> 
+>> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+>> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+>> @@ -3272,6 +3272,7 @@ group_create_queue(struct panthor_group *group,
+>>   		   const struct drm_panthor_queue_create *args)
+>>   {
+>>   	struct drm_gpu_scheduler *drm_sched;
+>> +	struct drm_sched_init_params sched_params;
+> 
+> nit: Could we use a struct initializer instead of a
+> memset(0)+field-assignment?
+> 
+> 	struct drm_sched_init_params sched_params = {
+> 		.ops = &panthor_queue_sched_ops,
+> 		.submit_wq = group->ptdev->scheduler->wq,
+> 		.num_rqs = 1,
+> 		.credit_limit = args->ringbuf_size / sizeof(u64),
+> 		.hang_limit = 0,
+> 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> 		.timeout_wq = group->ptdev->reset.wq,
+> 		.name = "panthor-queue",
+> 		.dev = group->ptdev->base.dev,
+>          };
 
-Thank you,
-Chris
++1 on this as a general approach for the whole series. And I'd drop the 
+explicit zeros and NULLs. Memsets could then go too.
+
+Regards,
+
+Tvrtko
+
+> 
+> The same comment applies the panfrost changes BTW.
+> 
+>>   	struct panthor_queue *queue;
+>>   	int ret;
+>>   
+>> @@ -3289,6 +3290,8 @@ group_create_queue(struct panthor_group *group,
+>>   	if (!queue)
+>>   		return ERR_PTR(-ENOMEM);
+>>   
+>> +	memset(&sched_params, 0, sizeof(struct drm_sched_init_params));
+>> +
+>>   	queue->fence_ctx.id = dma_fence_context_alloc(1);
+>>   	spin_lock_init(&queue->fence_ctx.lock);
+>>   	INIT_LIST_HEAD(&queue->fence_ctx.in_flight_jobs);
+>> @@ -3341,17 +3344,23 @@ group_create_queue(struct panthor_group *group,
+>>   	if (ret)
+>>   		goto err_free_queue;
+>>   
+>> +	sched_params.ops = &panthor_queue_sched_ops;
+>> +	sched_params.submit_wq = group->ptdev->scheduler->wq;
+>> +	sched_params.num_rqs = 1;
+>>   	/*
+>> -	 * Credit limit argument tells us the total number of instructions
+>> +	 * The credit limit argument tells us the total number of instructions
+>>   	 * across all CS slots in the ringbuffer, with some jobs requiring
+>>   	 * twice as many as others, depending on their profiling status.
+>>   	 */
+>> -	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+>> -			     group->ptdev->scheduler->wq, 1,
+>> -			     args->ringbuf_size / sizeof(u64),
+>> -			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+>> -			     group->ptdev->reset.wq,
+>> -			     NULL, "panthor-queue", group->ptdev->base.dev);
+>> +	sched_params.credit_limit = args->ringbuf_size / sizeof(u64);
+>> +	sched_params.hang_limit = 0;
+>> +	sched_params.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS);
+>> +	sched_params.timeout_wq = group->ptdev->reset.wq;
+>> +	sched_params.score = NULL;
+>> +	sched_params.name = "panthor-queue";
+>> +	sched_params.dev = group->ptdev->base.dev;
+>> +
+>> +	ret = drm_sched_init(&queue->scheduler, &sched_params);
+>>   	if (ret)
+>>   		goto err_free_queue;
