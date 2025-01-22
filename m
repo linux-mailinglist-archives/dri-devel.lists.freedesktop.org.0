@@ -2,105 +2,129 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE7EA18D00
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 08:47:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D4EA18D03
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 08:48:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F387710E679;
-	Wed, 22 Jan 2025 07:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B93AB10E1EF;
+	Wed, 22 Jan 2025 07:48:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bymbqyUj";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="s9Af0NcP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GKHyQV3+";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s9Af0NcP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GKHyQV3+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE8FC10E67B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 07:47:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 936C65C408B;
- Wed, 22 Jan 2025 07:46:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89E25C4CED6;
- Wed, 22 Jan 2025 07:47:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737532029;
- bh=IcJL7yEhgm8bDZ/wZh8pao68jVu2AZ38Uox2cispOiU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bymbqyUjslOFEZ78TvAJ7aFWrQcQTFlw/WU2mcXONUywpmg3hmW5MGtAorqsR9q5K
- rkhpIxaMzbW/TE3/IpDGcw2AS28vbl4wUGX0pzoXZTxwGRsOvEInV8d9akQGPDZY9w
- JGZSvJhlDwii1Y3ABWbBxofT1esRkkmaYpv0FhE/HGUMe8Lo2D/9JIycYv7Gy0Tt4s
- YlhIINHFSaw7fQSMJ5i/AigNlELjD/U58z7Hl8gZWcpei3y8AmpFNJGI0fZazqQyLX
- JV7/8XjWOC9oRHTMEfwmgCKJFHVmusyhmL/XIIkcl9seYgoQnZ++D6/Z/szbHCBr3z
- A7zjfC9KKkzAQ==
-Message-ID: <508d6120-53df-4db1-ab62-5f4c49358cbf@kernel.org>
-Date: Wed, 22 Jan 2025 08:46:59 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 763B110E1EF
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 07:48:48 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 278AD21243;
+ Wed, 22 Jan 2025 07:48:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1737532097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=p8lKugjz8LTRqGvaTlvkY+AbB0nhQ+NL6kSMRzPuUz0=;
+ b=s9Af0NcPkhvHIWeH7ndMQJeRHu8t+Cor8IseRdpuVEjCZ4XTuDrvhKdI9RxrSNkcWNsbN4
+ zeB65gQ5wluFCnp1QrvtrlyakwSyIjqZ8NnXY6GiWU+n8LlCr1sMZsUJpouq1jI9mirdsb
+ rF8633gpMetbYnDk6Z+DQjB5ksmW6yU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1737532097;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=p8lKugjz8LTRqGvaTlvkY+AbB0nhQ+NL6kSMRzPuUz0=;
+ b=GKHyQV3+fU62+5ZHerH1v74LqgYleTOrwEv5f8XCdvK53iEdtlgGcqFSwYDXEW+wXZi/xi
+ EKUkSDmdH7cvrZDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1737532097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=p8lKugjz8LTRqGvaTlvkY+AbB0nhQ+NL6kSMRzPuUz0=;
+ b=s9Af0NcPkhvHIWeH7ndMQJeRHu8t+Cor8IseRdpuVEjCZ4XTuDrvhKdI9RxrSNkcWNsbN4
+ zeB65gQ5wluFCnp1QrvtrlyakwSyIjqZ8NnXY6GiWU+n8LlCr1sMZsUJpouq1jI9mirdsb
+ rF8633gpMetbYnDk6Z+DQjB5ksmW6yU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1737532097;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=p8lKugjz8LTRqGvaTlvkY+AbB0nhQ+NL6kSMRzPuUz0=;
+ b=GKHyQV3+fU62+5ZHerH1v74LqgYleTOrwEv5f8XCdvK53iEdtlgGcqFSwYDXEW+wXZi/xi
+ EKUkSDmdH7cvrZDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 025AA1397D;
+ Wed, 22 Jan 2025 07:48:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id ZG7gOsCikGd0CAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 22 Jan 2025 07:48:16 +0000
+Message-ID: <a5a98971-405e-496b-89a4-75a61fd6d898@suse.de>
+Date: Wed, 22 Jan 2025 08:48:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 05/18] pmdomain: thead: Add power-domain driver for TH1520
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
- m.szyprowski@samsung.com, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-References: <20250120172111.3492708-1-m.wilczynski@samsung.com>
- <CGME20250120172125eucas1p141540607f423eea4c55b2bd22ff5adf0@eucas1p1.samsung.com>
- <20250120172111.3492708-6-m.wilczynski@samsung.com>
- <20250121-mature-marigold-ammonite-b379d2@krzk-bin>
- <ce69a49d-6221-458d-b0e5-0f3507f1aeac@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: undefined reference to `drm_fb_helper_fini'
+To: Marc Kleine-Budde <mkl@pengutronix.de>, dri-devel@lists.freedesktop.org
+Cc: kernel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch
+References: <20250121-greedy-flounder-of-abundance-4d2ee8-mkl@pengutronix.de>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ce69a49d-6221-458d-b0e5-0f3507f1aeac@samsung.com>
-Content-Type: text/plain; charset=UTF-8
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250121-greedy-flounder-of-abundance-4d2ee8-mkl@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[pengutronix.de,gmail.com,ffwll.ch];
+ RCPT_COUNT_FIVE(0.00)[5]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,94 +140,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/01/2025 22:42, Michal Wilczynski wrote:
-> 
-> 
-> On 1/21/25 11:02, Krzysztof Kozlowski wrote:
->> On Mon, Jan 20, 2025 at 06:20:58PM +0100, Michal Wilczynski wrote:
->>> The T-Head TH1520 SoC contains multiple power islands that can be
->>> programmatically turned on and off using the AON (Always-On) protocol
->>> and a hardware mailbox [1]. The relevant mailbox driver has already been
->>> merged into the mainline kernel in commit 5d4d263e1c6b ("mailbox:
->>> Introduce support for T-head TH1520 Mailbox driver");
->>>
->>> This commit introduces a power-domain driver for the TH1520 SoC, which
->>
->> Please do not use "This commit/patch/change", but imperative mood. See
->> longer explanation here:
->> https://protect2.fireeye.com/v1/url?k=2123f702-40a8e22d-21227c4d-74fe485cbfe7-afb876722bdc8fc5&q=1&e=e5dabc89-5f0c-4819-9008-76faafc3c1bc&u=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv5.17.1%2Fsource%2FDocumentation%2Fprocess%2Fsubmitting-patches.rst%23L95
->>
->>> is using AON firmware protocol to communicate with E902 core through the
->>> hardware mailbox. This way it can send power on/off commands to the E902
->>> core.
->>
->> ...
->>
->>> diff --git a/drivers/pmdomain/thead/Makefile b/drivers/pmdomain/thead/Makefile
->>> new file mode 100644
->>> index 000000000000..adfdf5479c68
->>> --- /dev/null
->>> +++ b/drivers/pmdomain/thead/Makefile
->>> @@ -0,0 +1,2 @@
->>> +# SPDX-License-Identifier: GPL-2.0-only
->>> +obj-$(CONFIG_TH1520_PM_DOMAINS)		+= th1520-pm-domains.o
->>> diff --git a/drivers/pmdomain/thead/th1520-pm-domains.c b/drivers/pmdomain/thead/th1520-pm-domains.c
->>> new file mode 100644
->>> index 000000000000..d913ad40fb76
->>> --- /dev/null
->>> +++ b/drivers/pmdomain/thead/th1520-pm-domains.c
->>> @@ -0,0 +1,174 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +/*
->>> + * Copyright (C) 2021 Alibaba Group Holding Limited.
->>> + * Copyright (c) 2024 Samsung Electronics Co., Ltd.
->>> + * Author: Michal Wilczynski <m.wilczynski@samsung.com>
->>> + */
->>> +
->>> +#include <linux/firmware/thead/thead,th1520-aon.h>
->>> +#include <linux/slab.h>
->>> +#include <linux/platform_device.h>
->>> +#include <linux/pm_domain.h>
->>> +
->>> +#include <dt-bindings/firmware/thead,th1520-aon.h>
->>
->> So here it is used... I don't understand why power domain is under
->> firmware. Please move it to proper directory and name the file exactly
->> the same as bindings doc which this belongs to.
-> 
-> The power-domain driver has no bindings doc. It's a child driver of the AON
-> node.
+Hi,
 
-OK, not changing my comment, though.
+thanks for the bug report. Arnd just sent a fix, I think.
 
-> 
->>
->>
->>> +
->>> +struct th1520_power_domain {
->>> +	struct th1520_aon_chan *aon_chan;
->>> +	struct generic_pm_domain genpd;
->>> +	u32 rsrc;
->>> +};
->>> +
->>> +struct th1520_power_info {
->>> +	const char *name;
->>> +	u32 rsrc;
->>> +};
->>> +
->>> +static const struct th1520_power_info th1520_pd_ranges[] = {
->>> +	{ "vdec", TH1520_AON_VDEC_PD },
->>
->> Why TH1520_AON_XXX aren't the indices?
-> 
-> These power-domain constants are defined by the AON firmware protocol,
-> which dictates the exact IDs (e.g., 1 for NPU). They are not just array
-> indices; we must use these specific values to communicate with the
-> firmware correctly. Using array indices starting with 1 would be
-> unusual.
+https://lore.kernel.org/dri-devel/20250122064655.1095176-1-arnd@kernel.org/T/#u
 
-Then that's a no. Binding constants do not represent values used by your
-hardware. The binding constant should start from 0.
+Best regards
+Thomas
 
-Best regards,
-Krzysztof
+
+Am 21.01.25 um 13:06 schrieb Marc Kleine-Budde:
+> Hello,
+>
+> while working on something completely different, I stumbled over this
+> linker problem, during final linking of the kernel.
+>
+> - ARCH=arm64
+> - linux: v6.13
+> - gcc version 12.2.0 (Debian 12.2.0-14)
+> - GNU ld (GNU Binutils for Debian) 2.40
+> - .config is attached
+>
+> | aarch64-linux-gnu-ld: Unexpected GOT/PLT entries detected!
+> | aarch64-linux-gnu-ld: Unexpected run-time procedure linkages detected!
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_fb_destroy':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:62: undefined reference to `drm_fb_helper_fini'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.c:67: undefined reference to `drm_fb_helper_unprepare'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_fb_mmap':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:45: undefined reference to `drm_gem_fb_get_obj'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_imageblit':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:37: undefined reference to `drm_fb_helper_damage_area'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_copyarea':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:37: undefined reference to `drm_fb_helper_damage_area'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_fillrect':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:37: undefined reference to `drm_fb_helper_damage_area'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_defio_write':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:37: undefined reference to `drm_fb_helper_damage_range'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_driver_fbdev_probe':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:171: undefined reference to `drm_fb_helper_alloc_info'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.c:177: undefined reference to `drm_fb_helper_fill_info'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.c:192: undefined reference to `drm_fb_helper_deferred_io'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `drm_fb_helper_deferred_io' which may bind externally can not be used when making a shared object; recompile with -fPIC
+> | drivers/gpu/drm/drm_fbdev_shmem.c:192:(.text+0x54c): dangerous relocation: unsupported relocation
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.c:192: undefined reference to `drm_fb_helper_deferred_io'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.c:202: undefined reference to `drm_fb_helper_release_info'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o: in function `drm_fbdev_shmem_get_page':
+> | drivers/gpu/drm/drm_fbdev_shmem.c:86: undefined reference to `drm_gem_fb_get_obj'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0x38): undefined reference to `drm_fb_helper_check_var'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0x40): undefined reference to `drm_fb_helper_set_par'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0x50): undefined reference to `drm_fb_helper_setcmap'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0x58): undefined reference to `drm_fb_helper_blank'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0x60): undefined reference to `drm_fb_helper_pan_display'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0x90): undefined reference to `drm_fb_helper_ioctl'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0xb8): undefined reference to `drm_fb_helper_debug_enter'
+> | aarch64-linux-gnu-ld: drivers/gpu/drm/drm_fbdev_shmem.o:(.rodata+0xc0): undefined reference to `drm_fb_helper_debug_leave'
+>
+> regards,
+> Marc
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
