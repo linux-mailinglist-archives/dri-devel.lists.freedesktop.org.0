@@ -2,77 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CBBA18A5E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 04:12:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD4AA18AFC
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 05:16:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 858CF10E659;
-	Wed, 22 Jan 2025 03:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14F9410E194;
+	Wed, 22 Jan 2025 04:16:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RKRuub1+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Avb8igKA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF01610E659
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 03:12:20 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-2efe25558ddso8265461a91.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Jan 2025 19:12:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737515480; x=1738120280; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ux115BZ6yMp4mGDHcgSg3b/SgxdnLXCDKrOt/YcxPPI=;
- b=RKRuub1+VNbjSRPZCfg3Ov9vRbfek7zyfgbuYc+y75XXkV8BDbz+ChOrcYGBQ15hvk
- vXq/i3wciMUMGdZoObN1e092v6Sn2cbO2o1rNmGDjnxvPJE7t0QsGv6Vi/1W9tbSAZkw
- duPiL88QDUUjFGfrgkdlHPn19JhzR7+SULLnajj88xonYvQtqRQIOBeueEVnwI6mXaz7
- YWPtw1qKI1HwoK3jBgCXzUv4CjPQciSeQTk0zL3ptqdTzl5znHeMsnXUeH23G6Hc1lmS
- zEHd0dyJXv3G9IcfV0K1GYGECGutPSC6txpuKlLrlz1AmYZkRIkJx+QfU0m9YG4Gw2Ak
- cM8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737515480; x=1738120280;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ux115BZ6yMp4mGDHcgSg3b/SgxdnLXCDKrOt/YcxPPI=;
- b=F2d8eUymOE+VU3ScY3NtLnCGtPq5At7bEm/m93+wvVUqcwr2KcWtJLbjCHV+ATa7NX
- KPQINX+t51omV47axAUwjPYEMtlHKcmWpiv7oXhvS/BxvQNp5KGDWIcH/uLJKSuUAU0B
- loByvEG03WjC3AalEolE280AIYzU/qPHpy93/mYK28XSceygQn97ZRZpx0OY71eECYOJ
- CtcNUgejfkxHoW6FMfHkvkeRPyAFE6apCsbSSgT0bQha6UclZ6p3eS56JuGjCUWR0hE7
- tIK/UvysPe3Ng4JqtReZOCcoTl3fIZlqaAoeTOPYAX+6uDtVwl3p8Kw4qrnZKCRKgrRZ
- XkTA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW4PqlgJg6bbu5Jg1RVYSBC/6CDHRQmotIq0Ovo0R5QhiixSbr7/5zdjPPDzfFRq/gqsCO7uBnwpzA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIWUKnsnjV27rf8i/n9UewggB9JG+F32FOHwo1VWddFVNQmxcY
- IJQdRkSGIy8pQwhN1DfjKfn85+ChKzJtWSQWxMp0Kw9jcDSbINer
-X-Gm-Gg: ASbGncuIZO3+HEqloYzMyvgxRVChe+851bbKbQU4iXV1kMgFWWHmPIRn0tUBh9/c8ky
- BxXAsQWLPbr+xzAZnvY6f9z7LQZuDRZGoFeHPJi1CMdo8ATJ/VimjZuF39eAfjuVhMjT37V/duG
- 4HWQ4/H+JyN4e1IASr+bZ6vvPqVhex8/chxoMrhfGIGsEFGDkTdXArb5fj42JGC4jA1m3ke3m1q
- xltUihwa633J/+emngJXeEU5M8CTHpnnWyOLBwJRvkBzzqRATIUcFItlV0kZzCt7F7CfccTzCL5
- Hdi3G+3tguje
-X-Google-Smtp-Source: AGHT+IFNfCmWcYFe6+zV6ILkzqGYAgdGnHc7yVUtAkDwTfWhNG3crD05nOKk4p+hHJMDbHAVGXnzOg==
-X-Received: by 2002:a17:90a:e18f:b0:2ee:acb4:fecd with SMTP id
- 98e67ed59e1d1-2f782c70244mr28919903a91.9.1737515480477; 
- Tue, 21 Jan 2025 19:11:20 -0800 (PST)
-Received: from distilledx.SRMIST.EDU.IN ([59.152.80.69])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2f7e6af0104sm303914a91.49.2025.01.21.19.11.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Jan 2025 19:11:20 -0800 (PST)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH v2] drm/panel: samsung-s6e88a0-ams452ef01: transition to
- mipi_dsi wrapped functions
-Date: Wed, 22 Jan 2025 08:41:10 +0530
-Message-ID: <20250122031110.286079-1-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.48.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31BA310E194
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 04:16:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737519410; x=1769055410;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=7N+WkV4xK2RjWSHcvKvxuLDFZUiR1saedshugIKoqxk=;
+ b=Avb8igKAmsM9DbGnpiLnK5ucYFzzXFn5l+PJVp7PwJPUlyFvKPrV4JQF
+ tQiL14W1ys/vw+/LHIMCMXI/Wg7ZwwmWzZxa+ffUhy3Gxb413SLt5z+ld
+ qHU+VSugLF3oVUhbbuEskfXionywE6ygyQ3TSVhLn2pHvq2e4FEGutQAc
+ ryXackXZxByR4N6nABg5MG2SaZdcb8eYRIK5/Obzjc4cVMVyVlFmWeUFP
+ zJ9ifR4bGkatjiEOyn3T4DErZCgxpWXDmZzz1vq61LrSgldui3XH1w+Mh
+ uexQ01eSiyvCW4VSI8uUbDWfHT36kd7D5lwwJChehtq2AF0ME7mvyC0OR Q==;
+X-CSE-ConnectionGUID: vWo/KH8JQg6t26iajRzAPQ==
+X-CSE-MsgGUID: 2IV3JdPnRU6QdIHpRbLmAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="38113821"
+X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="38113821"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2025 20:16:49 -0800
+X-CSE-ConnectionGUID: GBhLq0WwTheYgMhSQk1s5Q==
+X-CSE-MsgGUID: 92navAJ9QACcQcn6tNGTrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="111994366"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by orviesa003.jf.intel.com with ESMTP; 21 Jan 2025 20:16:45 -0800
+Date: Wed, 22 Jan 2025 12:16:35 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <Z5BxI3efmCPSpOSK@yilunxu-OptiPlex-7050>
+References: <1afd5049-d1d4-4fd6-8259-e7a5454e6a1d@amd.com>
+ <20250115141458.GP5556@nvidia.com>
+ <c86cfee1-063a-4972-a343-ea0eff2141c9@amd.com>
+ <86afb69a-79bd-4719-898e-c6c2e62103f7@amd.com>
+ <20250115151056.GS5556@nvidia.com>
+ <6f7a14aa-f607-45f9-9e15-759e26079dec@amd.com>
+ <20250115170942.GT5556@nvidia.com>
+ <5f588dac-d3e2-445d-9389-067b875412dc@amd.com>
+ <ZnSm6ULbJbxOU27J@yilunxu-OptiPlex-7050>
+ <0d77dc64-df9c-457b-af3b-ecfa49dac7b4@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <0d77dc64-df9c-457b-af3b-ecfa49dac7b4@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,160 +87,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the samsung-s6e88a0-ams452ef01 panel to use multi style functions
-for improved error handling.
+On Mon, Jan 20, 2025 at 02:44:13PM +0100, Christian König wrote:
+> Am 21.06.24 um 00:02 schrieb Xu Yilun:
+> > On Thu, Jan 16, 2025 at 04:13:13PM +0100, Christian König wrote:
+> > >     Am 15.01.25 um 18:09 schrieb Jason Gunthorpe:
+> > > 
+> > >   On Wed, Jan 15, 2025 at 05:34:23PM +0100, Christian König wrote:
+> > > 
+> > >      Granted, let me try to improve this.
+> > >      Here is a real world example of one of the issues we ran into and why
+> > >      CPU mappings of importers are redirected to the exporter.
+> > >      We have a good bunch of different exporters who track the CPU mappings
+> > >      of their backing store using address_space objects in one way or
+> > >      another and then uses unmap_mapping_range() to invalidate those CPU
+> > >      mappings.
+> > >      But when importers get the PFNs of the backing store they can look
+> > >      behind the curtain and directly insert this PFN into the CPU page
+> > >      tables.
+> > >      We had literally tons of cases like this where drivers developers cause
+> > >      access after free issues because the importer created a CPU mappings on
+> > >      their own without the exporter knowing about it.
+> > >      This is just one example of what we ran into. Additional to that
+> > >      basically the whole synchronization between drivers was overhauled as
+> > >      well because we found that we can't trust importers to always do the
+> > >      right thing.
+> > > 
+> > >   But this, fundamentally, is importers creating attachments and then
+> > >   *ignoring the lifetime rules of DMABUF*. If you created an attachment,
+> > >   got a move and *ignored the move* because you put the PFN in your own
+> > >   VMA, then you are not following the attachment lifetime rules!
+> > > 
+> > >     Move notify is solely for informing the importer that they need to
+> > >     re-fresh their DMA mappings and eventually block for ongoing DMA to end.
+> > > 
+> > >     This semantics doesn't work well for CPU mappings because you need to hold
+> > >     the reservation lock to make sure that the information stay valid and you
+> > >     can't hold a lock while returning from a page fault.
+> > Dealing with CPU mapping and resource invalidation is a little hard, but is
+> > resolvable, by using other types of locks. And I guess for now dma-buf
+> > exporters should always handle this CPU mapping VS. invalidation contention if
+> > they support mmap().
+> > 
+> > It is resolvable so with some invalidation notify, a decent importers could
+> > also handle the contention well.
+> 
+> That doesn't work like this.
+> 
+> See page tables updates under DMA-buf works by using the same locking
+> approach for both the validation and invalidation side. In other words we
+> hold the same lock while inserting and removing entries into/from the page
+> tables.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
----
-Changes in v2:
-    - changed s6e88a0_ams452ef01_off to return void
+Not sure what's the issue it causes, maybe I don't get why "you can't
+hold a lock while returning from a page fault".
 
-Link to v1: https://lore.kernel.org/all/20250121134819.251718-1-tejasvipin76@gmail.com/
----
- .../panel/panel-samsung-s6e88a0-ams452ef01.c  | 91 +++++++------------
- 1 file changed, 31 insertions(+), 60 deletions(-)
+> 
+> That this here should be an unlocked API means that can only use it with
+> pre-allocated and hard pinned memory without any chance to invalidate it
+> while running. Otherwise you can never be sure of the validity of the
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-index d2df227abbea..57b1a899bbdc 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-@@ -39,91 +39,66 @@ static void s6e88a0_ams452ef01_reset(struct s6e88a0_ams452ef01 *ctx)
- static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
--	mipi_dsi_dcs_write_seq(dsi, 0xcc, 0x4c); // set Pixel Clock Divider polarity
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c); // set Pixel Clock Divider polarity
- 
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
- 	// set default brightness/gama
--	mipi_dsi_dcs_write_seq(dsi, 0xca,
--			       0x01, 0x00, 0x01, 0x00, 0x01, 0x00,	// V255 RR,GG,BB
--			       0x80, 0x80, 0x80,			// V203 R,G,B
--			       0x80, 0x80, 0x80,			// V151 R,G,B
--			       0x80, 0x80, 0x80,			// V87  R,G,B
--			       0x80, 0x80, 0x80,			// V51  R,G,B
--			       0x80, 0x80, 0x80,			// V35  R,G,B
--			       0x80, 0x80, 0x80,			// V23  R,G,B
--			       0x80, 0x80, 0x80,			// V11  R,G,B
--			       0x6b, 0x68, 0x71,			// V3   R,G,B
--			       0x00, 0x00, 0x00);			// V1   R,G,B
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca,
-+				     0x01, 0x00, 0x01, 0x00, 0x01, 0x00,// V255 RR,GG,BB
-+				     0x80, 0x80, 0x80,			// V203 R,G,B
-+				     0x80, 0x80, 0x80,			// V151 R,G,B
-+				     0x80, 0x80, 0x80,			// V87  R,G,B
-+				     0x80, 0x80, 0x80,			// V51  R,G,B
-+				     0x80, 0x80, 0x80,			// V35  R,G,B
-+				     0x80, 0x80, 0x80,			// V23  R,G,B
-+				     0x80, 0x80, 0x80,			// V11  R,G,B
-+				     0x6b, 0x68, 0x71,			// V3   R,G,B
-+				     0x00, 0x00, 0x00);			// V1   R,G,B
- 	// set default Amoled Off Ratio
--	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
--	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x2c, 0x0b); // set default elvss voltage
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x03); // gamma/aor update
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x2c, 0x0b); // set default elvss voltage
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03); // gamma/aor update
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
- 
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display on: %d\n", ret);
--		return ret;
--	}
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
--static int s6e88a0_ams452ef01_off(struct s6e88a0_ams452ef01 *ctx)
-+static void s6e88a0_ams452ef01_off(struct s6e88a0_ams452ef01 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi};
- 
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
--	msleep(35);
--
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
--
--	return 0;
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 35);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- }
- 
- static int s6e88a0_ams452ef01_prepare(struct drm_panel *panel)
- {
- 	struct s6e88a0_ams452ef01 *ctx = to_s6e88a0_ams452ef01(panel);
--	struct device *dev = &ctx->dsi->dev;
- 	int ret;
- 
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	s6e88a0_ams452ef01_reset(ctx);
- 
- 	ret = s6e88a0_ams452ef01_on(ctx);
- 	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
- 		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
- 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies),
- 				       ctx->supplies);
-@@ -136,12 +111,8 @@ static int s6e88a0_ams452ef01_prepare(struct drm_panel *panel)
- static int s6e88a0_ams452ef01_unprepare(struct drm_panel *panel)
- {
- 	struct s6e88a0_ams452ef01 *ctx = to_s6e88a0_ams452ef01(panel);
--	struct device *dev = &ctx->dsi->dev;
--	int ret;
- 
--	ret = s6e88a0_ams452ef01_off(ctx);
--	if (ret < 0)
--		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+	s6e88a0_ams452ef01_off(ctx);
- 
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
--- 
-2.48.1
+Then importers can use a locked version to get pfn, and manually use
+dma_resv lock only to ensure the PFN validity during page table setup.
+Importers could detect the PFN will be invalid via move notify and
+remove page table entries. Then find the new PFN next time page fault
+happens.
 
+IIUC, Simona mentions drm/ttm is already doing it this way.
+
+I'm not trying to change the CPU mmap things for existing drivers, just
+to ensure importer mapping is possible with faultable MMU. I wanna KVM
+MMU (also faultable) to work in this importer mapping way.
+
+Thanks,
+Yilun
