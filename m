@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C734EA18CEC
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 08:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411A9A18CF2
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 08:45:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5110010E674;
-	Wed, 22 Jan 2025 07:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7BA610E676;
+	Wed, 22 Jan 2025 07:45:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K9W5Y/dN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mtHrG3ms";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4361210E674
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 07:44:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8964210E676
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 07:45:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 890A05C5BD6;
- Wed, 22 Jan 2025 07:43:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73D87C4CED6;
- Wed, 22 Jan 2025 07:44:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8E0F65C5BF4;
+ Wed, 22 Jan 2025 07:44:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB96EC4CED6;
+ Wed, 22 Jan 2025 07:44:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737531857;
- bh=6hmpeOLVmNPCEJz4gTuZE2inQNbfyQ4ZBcEWfrl0WGQ=;
+ s=k20201202; t=1737531907;
+ bh=jdWZU7kFs1EGlYK6lGC7SbOqK0+gXAh737oaITjmdw8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=K9W5Y/dNMuWHCj/eHNPQ+hzQ1JZEl2xf08jiqVslfQnFTkcPMQo+fcotSgkDTHgT0
- SpWlfWFpsrse6cEb5+8QF66zcWyi14tTw+pL3iyloRRHwqXPXogPXc9d426uUDvCFm
- lU9SGDzuwvJqt/86jJ/BdwZJutG5akd0lINkVocYR95qE/ltDcZB07SgpznGW5EHjr
- UvdwBeafU2nJKJ/c3fKxYNAbLxxbqBZvdoiWIHfx3jjFNGDAKAzsqvLFhlOGIQLIdU
- HZl6a3tSdRpnaIznL7xYHiMcogCzJnf21HfKLp1wanIYgbtnmyFLUu57a+2n8iLLcf
- /5ESBphv7roqQ==
-Message-ID: <99c1ac06-cbb4-4319-b006-9f7095509803@kernel.org>
-Date: Wed, 22 Jan 2025 08:44:07 +0100
+ b=mtHrG3msqsZbskloOltinEQJqWIbRPhel0Pr7a1vknidkgPm4DoXiGyGlUOHSmhtS
+ 6sLILTMhvaUt4VZOPNeYAfQzZ5NWMlSiJXqGQBnwEXTUxEpRmm5tug1Sej0z4ejgb+
+ 6rk9uImHYMMCBVOMQkowOc56cWb+lTgXHHfXXLNMXkEfTcwo+pegCwMKUgEkU42HsN
+ 6OFcxy/1/dKpGjuQcrKy+0W4f9gX/b8XUfO2Hq1o152QHEHNEjIkRfdJGe+kGfYFCa
+ Fy5tYnaCWXyxSUQfmlKXwkgvs0uOJMB+mwLRLVwJcwbq3XeI4OaYVku9Y1Gj6cavAQ
+ L1Ck3AwF1oVTg==
+Message-ID: <251f8319-f865-493f-9fe0-7512d7bb042b@kernel.org>
+Date: Wed, 22 Jan 2025 08:44:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 01/18] dt-bindings: clock: Add VO subsystem clock
- controller support
+Subject: Re: [RFC v3 03/18] dt-bindings: firmware: thead,th1520: Add support
+ for firmware node
 To: Michal Wilczynski <m.wilczynski@samsung.com>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
  krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
@@ -50,10 +50,10 @@ Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
  linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
  linux-pm@vger.kernel.org
 References: <20250120172111.3492708-1-m.wilczynski@samsung.com>
- <CGME20250120172120eucas1p23993cdbbe65e82054b9cb92fb704103b@eucas1p2.samsung.com>
- <20250120172111.3492708-2-m.wilczynski@samsung.com>
- <20250121-raptor-of-terrific-perfection-cafc27@krzk-bin>
- <8af66556-90d9-4360-ac38-f300f487f55a@samsung.com>
+ <CGME20250120172123eucas1p13564bf2d07000506caf44cf55bda7fd9@eucas1p1.samsung.com>
+ <20250120172111.3492708-4-m.wilczynski@samsung.com>
+ <20250121-lively-cocky-lorikeet-e0a3db@krzk-bin>
+ <167cdd54-895d-4ecf-873a-b5a1bbc11eb8@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +99,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <8af66556-90d9-4360-ac38-f300f487f55a@samsung.com>
+In-Reply-To: <167cdd54-895d-4ecf-873a-b5a1bbc11eb8@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,46 +117,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/01/2025 22:29, Michal Wilczynski wrote:
-> 
-> 
-> On 1/21/25 10:47, Krzysztof Kozlowski wrote:
->> On Mon, Jan 20, 2025 at 06:20:54PM +0100, Michal Wilczynski wrote:
->>>  properties:
->>>    compatible:
->>> -    const: thead,th1520-clk-ap
->>> +    enum:
->>> +      - thead,th1520-clk-ap
->>> +      - thead,th1520-clk-vo
->>>  
->>>    reg:
->>>      maxItems: 1
->>>  
->>>    clocks:
->>>      items:
->>> -      - description: main oscillator (24MHz)
->>> +      - description: main oscillator (24MHz) or CLK_VIDEO_PLL
+On 21/01/2025 22:31, Michal Wilczynski wrote:
+>>> +#define TH1520_AON_VDEC_PD	1
+>>> +#define TH1520_AON_NPU_PD	2
+>>> +#define TH1520_AON_VENC_PD	3
+>>> +#define TH1520_AON_GPU_PD	4
+>>> +#define TH1520_AON_DSP0_PD	5
+>>> +#define TH1520_AON_DSP1_PD	6
 >>
->> thead,th1520-clk-ap gets also VIDEO_PLL? Aren't both serving the same
->> purpose from these devices point of view? Bindings are telling what this
->> device is expecting.
+>> I don't see these being used in the driver. Can you point me?
 > 
-> Since thead,th1520-clk-ap configures PLL clocks it takes the oscillator
-> 24MHz as an input, so no.
-> 
-> The VO subsystem takes as an input VIDEO_PLL that's configured by the
-> AP.
+> Those are used in the power-domain driver
+> [RFC v3 05/18] pmdomain: thead: Add power-domain driver for TH1520:
+> https://lore.kernel.org/all/20250120172111.3492708-6-m.wilczynski@samsung.com/
 
-I understood that, but you really did not answer to my question. How is
-the input called? Not how is the clock called.
-
-> 
-> I could do something like this if this needs to be formally expressed in
-> the schema:
-
-It is enough to put it in description.
-
-
+Then this is wrong patch and wrong filename.
 
 Best regards,
 Krzysztof
