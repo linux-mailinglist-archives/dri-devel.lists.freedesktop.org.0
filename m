@@ -2,66 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73459A18B45
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 06:22:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6C9A18B53
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 06:34:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8671710E660;
-	Wed, 22 Jan 2025 05:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43E3810E662;
+	Wed, 22 Jan 2025 05:34:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="M8FZeqCe";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gin+rJCG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFDB810E1D8;
- Wed, 22 Jan 2025 05:22:33 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B137010E1D8;
+ Wed, 22 Jan 2025 05:34:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737523353; x=1769059353;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=bGb3uSuBaIf/MAnGLEfUH4EYMoGQe75OanvumQWUoUE=;
- b=M8FZeqCeTBBpjKlnTFYEjKD0PPQrY2iixSC7hhqsJpYKRu+ujX/wjVpK
- zQT1kaSDOTheYe8ivS8rW7W9yGBD53cJ0jYAolS7ShXCHndffJC2ZSl4X
- UTBDm/Og/s1uotrGtYPT3Qdt+JhRVmRm1ecoCysKE5tnHWUgMj3pDazTk
- I6+ViRtcaCy9bpA3n47K+lVGXlm0v/TxQbog+IsTBdGMY478X+tDRQGQw
- HynUX68zZnx0IY1aoKYhAexB3sXUY0PaE6RAAQ+wSrL6p/j8dX1mTxS1r
- O64YyYLk3faDYm97Txq869nJv5p4tdGxDt0x6NcOHiJJpkM6FyxUe57ho Q==;
-X-CSE-ConnectionGUID: KVDxAFc3Slm5mpf8LJZ+BQ==
-X-CSE-MsgGUID: R3BIyjePSW22if0eCW+h6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="37995042"
-X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="37995042"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2025 21:22:33 -0800
-X-CSE-ConnectionGUID: 3wX4WW/XS4ycm8dlpM1JCw==
-X-CSE-MsgGUID: MBkDZ6oBT36a7o+Q4DRzVw==
+ t=1737524060; x=1769060060;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=tAEF0QdeVYwqsFkHenn7Uj72RzK2P4ihXws4kiMUvsQ=;
+ b=Gin+rJCGZnGUg5gal8alwLrFQJJlOvjrZxkD/GDy7jrxXjEngXtzuky5
+ RUepUbFevfDO5CADNtpqPxpMeBBuO9X9Wd4TgOWT3KhLZBcPpgPjy7Vve
+ v5sWK6+z3X63X75dgr1ZEw380Rj+wm9fRG//hztmEDn/y47Vls+gey1XI
+ qVRK1E4MGaqTInIDvt956qbjB1RGqapc1BFtD9MCp2qP7QfD1tRnVrXz7
+ Hi7B9BrRQTjDbb/7JVGEgemvHmme2DCkrAEiWOn3nqLspgUv/kNcUGURV
+ DgQkbhaQcblrpug345ImtXCi3lxwf1wZVk16vw+7RT5JyOJh7jGz72Jku A==;
+X-CSE-ConnectionGUID: YGOJS1knSAutOUAiFHEByA==
+X-CSE-MsgGUID: Pf6At6Z5Sn+G5O77eWETVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="37662420"
+X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="37662420"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2025 21:34:20 -0800
+X-CSE-ConnectionGUID: gnZ3H6gfS8SrxJDqJ3xxlA==
+X-CSE-MsgGUID: jk1IedA9QpOWTJdyNwY3ew==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="112023364"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2025 21:22:29 -0800
-Date: Wed, 22 Jan 2025 07:22:25 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Xaver Hugl <xaver.hugl@kde.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- andriy.shevchenko@linux.intel.com, lina@asahilina.net,
- michal.wajdeczko@intel.com, christian.koenig@amd.com,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
- aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
- alexander.deucher@amd.com, andrealmeid@igalia.com,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH v10 2/4] drm/doc: Document device wedged event
-Message-ID: <Z5CAkXSOpNiiFbv4@black.fi.intel.com>
-References: <20241128153707.1294347-1-raag.jadav@intel.com>
- <20241128153707.1294347-3-raag.jadav@intel.com>
- <CAFZQkGy3R0TMY5CARPQZF70fdKGLX8GQjV_YQAHzEXsiuNHj+w@mail.gmail.com>
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="107920439"
+Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
+ by orviesa008.jf.intel.com with ESMTP; 21 Jan 2025 21:34:19 -0800
+From: Suraj Kandpal <suraj.kandpal@intel.com>
+To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: jani.nikula@intel.com, dmitry.baryshkov@linaro.org,
+ arun.r.murthy@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: [PATCH 0/3] Extended Wake Timeout 
+Date: Wed, 22 Jan 2025 11:03:55 +0530
+Message-Id: <20250122053358.1545039-1-suraj.kandpal@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFZQkGy3R0TMY5CARPQZF70fdKGLX8GQjV_YQAHzEXsiuNHj+w@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,35 +66,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 21, 2025 at 02:14:56AM +0100, Xaver Hugl wrote:
-> > +It is the responsibility of the consumer to make sure that the device or
-> > +its resources are not in use by any process before attempting recovery.
-> I'm not convinced this is actually doable in practice, outside of
-> killing all apps that aren't the one trying to recover the GPU.
-> Is this just about not crashing those processes if they don't handle
-> GPU hotunplugs well, about leaks, or something else?
+Retimers in H/w usually takes 30 to 40ms to wake up all the devices. To
+get this we use the Extended Wake Time feature in which the sink device
+tells us the minimum amount of time it requires to wake up and we need
+to do a write to grant this request else we need to wake up within 1ms
+of low power state exit.
+DP source  device shall keep retying  the AUX tansaction up to the
+extended timeout  that is being granted for LTTPRs from the sink device
 
-Correct, all of it. And since the compositor is in charge of device resources,
-this way it atleast has the opportunity to recover the device and recreate
-context without all the userspace violence.
+Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 
-I'm not entirely aware of its feasibility though, perhaps something for the
-consumers to experiment.
+Suraj Kandpal (3):
+  drm/dp: Add the DPCD register required for Extended wake timeout
+  drm/display/dp: Define function to setup Extended wake time
+  drm/i915/lttpr: Enable Extended Wake Timeout
 
-> > +With IOCTLs blocked and device already 'wedged', all device memory should
-> > +be unmapped and file descriptors should be closed to prevent leaks.
-> Afaiu from a userspace POV, a rebind is just like a GPU hotunplug +
-> hotplug with matching "remove" and "add" udev events. As long as the
-> application cleans up resources related to the device when it receives
-> the event, there should be no leaks with a normal hotunplug... Is this
-> different enough that we can't have the same expectations?
+ drivers/gpu/drm/display/drm_dp_helper.c       | 58 +++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_ddi.c      |  4 ++
+ .../drm/i915/display/intel_dp_link_training.c |  2 +-
+ .../drm/i915/display/intel_dp_link_training.h |  1 +
+ include/drm/display/drm_dp.h                  | 14 +++++
+ include/drm/display/drm_dp_helper.h           |  1 +
+ 6 files changed, 79 insertions(+), 1 deletion(-)
 
-The thing about "remove" event is that it is generated *after* we opt for an
-unbind, and at that point it might be already too late if userspace doesn't
-get enough time to clean things up while the device is removed with a live
-client resulting in unknown consequences.
+-- 
+2.34.1
 
-The idea here is to clean things up *before* we opt for an unbind leaving
-no room for side effects.
-
-Raag
