@@ -2,93 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20441A18D8E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF894A18D95
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E3310E199;
-	Wed, 22 Jan 2025 08:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24A8010E1DE;
+	Wed, 22 Jan 2025 08:24:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FP2zlS8Z";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="ax5o/bxT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94BD810E199
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737534219;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PVGSHSfPlnas+VY5S2g7YHsLUR35+wqex29yMzLsqw0=;
- b=FP2zlS8Zi2T2pERHFuecwCHhJPZq7u96sUCaLgryC/RllO8MEyb/KRhq/Ac5tqhStQnEHF
- sYi/42az9uwPdaLEQC+MCeNpNtuz5o3kLdIFZyScylqVymvhhjPMC9xleqnbzsTaElHf2c
- uMryhuRcXCHAn83MCiCRfJYj124pwyA=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-228-EuniYPYqNjWfCfN5XlAFGg-1; Wed, 22 Jan 2025 03:23:38 -0500
-X-MC-Unique: EuniYPYqNjWfCfN5XlAFGg-1
-X-Mimecast-MFC-AGG-ID: EuniYPYqNjWfCfN5XlAFGg
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-2ef7fbd99a6so12291152a91.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 00:23:37 -0800 (PST)
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C6610E1DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:24:48 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2f78a4ca5deso6357709a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 00:24:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1737534228; x=1738139028; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=1eoGo501A1lPIrAblVFLn0zExfwniV9VkQNrE/D29l4=;
+ b=ax5o/bxT1ghG1qXhzXk9CVq+mA7A/l9gsDBkGP/j1QfIzHlo/b/MHAoAmu12ko7YBp
+ zQHY19KTgrlITrfRhDEdjNxlRCiEDo2CV0NBbrijXpDjtox8M00iX10RUBKYpDffHjER
+ ZpjDK5RCNuBfZwD/SiBrahozsICWMRoBrqbKvmTf+WvhBNuCqJnKyOmokxbnDxl4OroO
+ krXx3cdrSgnEL7o+NEaWGC5xV77Al4HBgcgCxR9wwmqc727kaXBfPmrBYXzs8rL6a8Do
+ DWY21z0//O+Ib7WHlfKGGWPlgLthcYzh7qYrIVjEpEYCO9uDkoFYBCCjJFXndzRqkMJF
+ WqHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737534217; x=1738139017;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PVGSHSfPlnas+VY5S2g7YHsLUR35+wqex29yMzLsqw0=;
- b=bl9kghQ1Z5JGdj56xrMzjskupS2eLgY5Kvk0Ugg5YY8qtiKRiMdGhFUv1Ckt61ifKb
- Mh1m8pPclB9YuHtLTp7AjI0jincnzl5jMkdyZmCHedkPJMKn4Yx060qib13ea2ik8P/Q
- Qg7uZd2EEFKIxkvpnoRzsWoROb2pX4tIApwha2ornPGBSQa371MtP24hP4+Cdy3mxleH
- VURzz5g3WG4xGUepCYN6R6EW+Ia/0wVxnWxSGQDg0IrBgJHcIFNHlbt+Gny+/UTbd4HL
- nDCvkT1uQJaK/y73PmXCibzknXUXGZ/YAaLjT114VwJcWQrUYwys4DPSySSK1F8fLwH0
- /uGg==
-X-Gm-Message-State: AOJu0YybNKfyEccI6LbuM6IuyE8TubpNOWLRu64jJSO5uN4JxqzrdRp+
- S+M18UhAj3J8pO3QyS+j47qh2j8BgiZ0b90cODgff7Tz/hv/uWCgY3rTuat1pkn1N8zMhlY8K6R
- 30DKTqBD0tz02bGcZMciT5o5qydk4qYJjmljzxBI4iwOxnInJFVzUtYTGMAEifKngYw==
-X-Gm-Gg: ASbGncuCgDUwSD3PmGBDVMGzLDNCeV0y/XaeDjYFCSuVmMiBkOLUfOtisTHJGcKoY0m
- IQQGAfve4m+l+dFgUXq0AVtyNl3RetZuOIM7BdhM93bdt0iDvQEoi9lpgsCpGinDF7S8nXKHJuU
- cjoMjZhzIIzF2VguhMPd03XXSgPAWTJX3IAe2qCKa7d2LCGJdDf96jizVduQFX5hPCxEKBmHxvW
- 2Fy+A+rhZX4KPG0MPLy+B+jXhk8QtksrQ6Z5y7/xXcphtxrzWlq3gKyIuqoozsWE2jTd0GlYlW1
- TIDhykuwQOanNanAgnGq
-X-Received: by 2002:a05:6a00:1813:b0:729:cc5:fa42 with SMTP id
- d2e1a72fcca58-72dafbaa1c1mr31265260b3a.20.1737534216905; 
- Wed, 22 Jan 2025 00:23:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFtQffHib0TFRrC5PxTtGere1N52BNH4TNwO/Y7PEoMr4v6BhKhGRaCupmrztVvUK6BJxfN7g==
-X-Received: by 2002:a05:6a00:1813:b0:729:cc5:fa42 with SMTP id
- d2e1a72fcca58-72dafbaa1c1mr31265233b3a.20.1737534216564; 
- Wed, 22 Jan 2025 00:23:36 -0800 (PST)
-Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+ d=1e100.net; s=20230601; t=1737534228; x=1738139028;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1eoGo501A1lPIrAblVFLn0zExfwniV9VkQNrE/D29l4=;
+ b=gfL6uMfH8HCUL4h2GON6tp+KpCOdyhokgcUYk2xh0UGk1b3usug5Vf170LFO0c9ncO
+ ZAR+CGgAgZiUKwaZ7561+uWLX9XUEdrXDUYarabyfk+M0zEOkY/pkZb9W/gm3cXhazTl
+ TVy3amo09hM3gtCyMHRRgYX7qii6e/D4Aa2GMGxfbiRrvsbv5bVv8k9O6ayDwQ9hWURG
+ U18oZPRerrPrhl6SxGfY2wsSPeyVIUuThWQ1owi0sLLfutoX/+cHtJvMd4yv/i8fU/2+
+ NMHSnlHM8oBA0jDxZcT2DYGiCPqoovzr7wAtJxB160CNu9mmrMdVrWSui6UmLWt5IKQJ
+ zpGg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmBYgeSnT6WxWc/STLSFxoxmU94CPNapqaA39nCQCp1zDKcirdNDf18IyPsFYP2N9pNZhOEXX6tpM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwknLoYr9CtUO9txlA97iNkV63QjfVa1lEPvon2hcxelLtw6w+2
+ jP32ruWx99EGUzPOZECBXHllR4FlL7CrUD8aQDytLCguVhuBI1/VCqZB7laVe/o1s5aHHTowPPi
+ 5
+X-Gm-Gg: ASbGncvZ6bZeYhe8UU+mviVkH41qk4HOrBlk47UTDiMseCSPW6ambTCTBwZK1Mq/W1d
+ 0DfbdMqGj4Prsf+1vMIMSntTrzVUfyoqqWTqVS6IzFpuMPbIGLjtAcBo5dkCswyo13mbpxb+Oks
+ +/FYkdn2zlSjoAM6NhLaSM7ePqMXG/Q+2D+Ua9vpiLulAjvIxmabeBU5OP64CbTV3yzLH7iJ8FK
+ 4iWWpy0jcX6xBMv02zfResh9Km2mBhEfXl2rU8zah/wYZfXlRA0jTjwgiNEhm8UYd7aGzck00tP
+ 3bMj6y620KJWtAkVNW6GgnTOJgeew8MfKjX78T5Fuw==
+X-Google-Smtp-Source: AGHT+IEVARNiMRvn4jrKGvIQB9HHW7bki6U2L2id2vgsonP+1GP7pk/8cb6P3EDZ7E4gojx6kxdI3Q==
+X-Received: by 2002:a17:90b:2e4b:b0:2ee:5bc9:75b5 with SMTP id
+ 98e67ed59e1d1-2f782c51387mr29391430a91.4.1737534228527; 
+ Wed, 22 Jan 2025 00:23:48 -0800 (PST)
+Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-72dabaa8948sm10413476b3a.164.2025.01.22.00.23.28
+ 98e67ed59e1d1-2f7e6aa608csm957498a91.27.2025.01.22.00.23.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2025 00:23:36 -0800 (PST)
-Message-ID: <9329836ce71a24360abc568498dc7e4ea059cd87.camel@redhat.com>
-Subject: Re: [PATCH v2 0/3] drm/sched: Documentation and refcount improvements
-From: Philipp Stanner <pstanner@redhat.com>
-To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Wed, 22 Jan 2025 09:23:23 +0100
-In-Reply-To: <20250121151544.44949-2-phasta@kernel.org>
-References: <20250121151544.44949-2-phasta@kernel.org>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+ Wed, 22 Jan 2025 00:23:48 -0800 (PST)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: dianders@chromium.org, neil.armstrong@linaro.org,
+ quic_jesszhan@quicinc.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH] drm/panel-edp: Add STA 116QHD024002
+Date: Wed, 22 Jan 2025 16:23:40 +0800
+Message-Id: <20250122082340.1603169-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qzceDvGJfD2WqcNXNRJ-TLA0N1MoCuB6FWasY3HjKQc_1737534217
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,57 +90,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-01-21 at 16:15 +0100, Philipp Stanner wrote:
-> Changes in v2:
-> =C2=A0 - Document what run_job() is allowed to return. (Tvrtko)
-> =C2=A0 - Delete confusing comment about putting the fence. (Danilo)
-> =C2=A0 - Apply Danilo's RB to patch 1.
-> =C2=A0 - Delete info about job recovery for entities in patch 3. (Danilo,
-> me)
-> =C2=A0 - Set the term "ring" as fix term for both HW rings and FW rings. =
-A
-> =C2=A0=C2=A0=C2=A0 ring shall always be the thingy on the CPU ;) (Danilo)
+Add support for the STA 116QHD024002, pleace the EDID here for
+subsequent reference.
 
-s/CPU/GPU
+00 ff ff ff ff ff ff 00 4e 81 09 00 00 00 00 00
+26 21 01 04 a5 1a 0e 78 02 1e b5 9a 5f 57 94 26
+0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 8e 1c 56 a0 50 00 1e 30 28 20
+55 00 00 90 10 00 00 18 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 20
+20 20 20 20 20 0a 20 20 20 20 20 20 00 00 00 fe
+00 31 31 36 51 48 44 30 32 34 30 30 32 0a 00 3b
 
-obviously.
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-P.
-
-
-> =C2=A0 - Many (all) other comments improvements in patch 3. (Danilo)
->=20
-> This is as series succeeding my previous patch [1].
->=20
-> I recognized that we are still referring to a non-existing function
-> and
-> a deprecated one in the callback docu. We should probably also point
-> out
-> the important distinction between hardware and firmware schedulers
-> more
-> cleanly.
->=20
-> Please give me feedback, especially on the RFC comments in patch3.
->=20
-> (This series still fires docu-build-warnings. I want to gather
-> feedback
-> on the opion questions first and will solve them in v2.)
->=20
-> Thank you,
-> Philipp
->=20
-> [1]
-> https://lore.kernel.org/all/20241220124515.93169-2-phasta@kernel.org/
->=20
-> Philipp Stanner (3):
-> =C2=A0 drm/sched: Document run_job() refcount hazard
-> =C2=A0 drm/sched: Adjust outdated docu for run_job()
-> =C2=A0 drm/sched: Update timedout_job()'s documentation
->=20
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c |=C2=A0=C2=A0 5 +-
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 106 ++++++++++++++++-------
-> --
-> =C2=A02 files changed, 71 insertions(+), 40 deletions(-)
->=20
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 1721a3397dbf..73b8938f175b 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1808,6 +1808,13 @@ static const struct panel_delay delay_200_150_e50 = {
+ 	.enable = 50,
+ };
+ 
++static const struct panel_delay delay_200_500_e250_po2e200 = {
++	.hpd_absent = 200,
++	.unprepare = 500,
++	.enable = 250,
++	.powered_on_to_enable = 200,
++};
++
+ #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
+ { \
+ 	.ident = { \
+@@ -1998,6 +2005,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('S', 'H', 'P', 0x1593, &delay_200_500_p2e100, "LQ134N1"),
+ 
+ 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0004, &delay_200_500_e200, "116KHD024006"),
++	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0009, &delay_200_500_e250_po2e200, "116QHD024002"),
+ 	EDP_PANEL_ENTRY('S', 'T', 'A', 0x0100, &delay_100_500_e200, "2081116HHD028001-51D"),
+ 
+ 	{ /* sentinal */ }
+-- 
+2.34.1
 
