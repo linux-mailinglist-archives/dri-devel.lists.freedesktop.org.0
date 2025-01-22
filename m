@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C695CA18A4E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 03:56:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD6FCA18A56
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 04:03:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A47D410E233;
-	Wed, 22 Jan 2025 02:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A2110E2E0;
+	Wed, 22 Jan 2025 03:03:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="SDlEAMEC";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="UyoLNlt6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id B842B10E233
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 02:56:29 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 259AD10E2E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 03:03:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=MGsaw
- poV0mO1GLDn36CHF9D3oM5pzt99uWzsVwSB6Zs=; b=SDlEAMECfK25/EvbU8xWP
- b7bdlLdpXiYjOAAj2P1/5kanJreSaV6oQWikD1IQ7u9QiMtKUhlAwbB1WZ68eTAm
- PZ870USspn//ImCERBYqLMluqCVb3bEvf7J/olyQMMMh3trNmtGU/scdfYMLTWKy
- nF+ypBJHLJj3uDVb3QmnPo=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=QRjh9
+ FhrnaHu0S6KpqI8qiqynan6VGuEAgxuDFjUP/U=; b=UyoLNlt6vmCgZ+SJU1ru9
+ gffJweKRjs98BGRmGx6BBDYGF2luHg3g+ZWa2blkEPGxtfdEivo1bO1Yqx3hVAy3
+ 6n2tUSlqih1Rf5dCiYmsAQXrCzsLSHtq4x8uzsRp1e8g6Wu4QnMN/+apgMPqWElQ
+ HEMYAzsE4o3pnLVSmp1Il8=
 Received: from localhost.localdomain (unknown [116.128.244.169])
- by gzsmtp3 (Coremail) with SMTP id PigvCgDH4C1BXpBnrNb9Jw--.63116S2;
- Wed, 22 Jan 2025 10:56:02 +0800 (CST)
+ by gzsmtp5 (Coremail) with SMTP id QCgvCgAn0lmmX5BnaACMLQ--.47927S2;
+ Wed, 22 Jan 2025 11:02:00 +0800 (CST)
 From: oushixiong1025@163.com
-To: Andrzej Hajda <andrzej.hajda@intel.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+To: Joel Stanley <joel@jms.id.au>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH v2] drm/bridge: Use devm_platform_get_and_ioremap_resource()
-Date: Wed, 22 Jan 2025 10:56:00 +0800
-Message-Id: <20250122025600.53825-1-oushixiong1025@163.com>
+ Simona Vetter <simona@ffwll.ch>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH v2] drm/aspeed: Use devm_platform_get_and_ioremap_resource()
+Date: Wed, 22 Jan 2025 11:01:55 +0800
+Message-Id: <20250122030155.57802-1-oushixiong1025@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: PigvCgDH4C1BXpBnrNb9Jw--.63116S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGrW3CF17JF1UXr15ZrWkWFg_yoW5Xw1DpF
- WxGFyj9r18G3W5K3y8AF18AF9IyasFvayfCr4UGwsI9348JF9rArZ8AFyfZ3sxtrykAw1f
- twn3trW8Za4qvF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UP-BiUUUUU=
+X-CM-TRANSID: QCgvCgAn0lmmX5BnaACMLQ--.47927S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWfCryfWFWUJr13CryxAFb_yoWDWFcE9F
+ 48urs3XrW7AryDt3yjvanxCFyIkF9agrWrGF18KaySv3W7Z34DWryUur92qr1Y9wsayF95
+ t3WUXr17A3s3CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbqQ6tUUUUU==
 X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYx7cD2eQXFIRhwABsA
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXAPcD2eQUvPxtQAAse
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,63 +72,23 @@ Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 ---
 V1 -> V2: Add Missing commit message.
 
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 4 +---
- drivers/gpu/drm/bridge/microchip-lvds.c            | 5 ++---
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          | 3 +--
- 3 files changed, 4 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index bfa88409a7ff..284fd186eb5f 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1605,9 +1605,7 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 		return ERR_CAST(dp->clock);
- 	}
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--
--	dp->reg_base = devm_ioremap_resource(&pdev->dev, res);
-+	dp->reg_base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(dp->reg_base)) {
- 		ret = PTR_ERR(dp->reg_base);
- 		goto err_disable_clk;
-diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-index b8313dad6072..a679dd76962d 100644
---- a/drivers/gpu/drm/bridge/microchip-lvds.c
-+++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-@@ -151,6 +151,7 @@ static int mchp_lvds_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct mchp_lvds *lvds;
- 	struct device_node *port;
-+	struct resource *res;
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index a7a6b70220eb..33f81b53771d 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -146,8 +146,7 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ 	struct resource *res;
  	int ret;
  
- 	if (!dev->of_node)
-@@ -161,9 +162,7 @@ static int mchp_lvds_probe(struct platform_device *pdev)
- 		return -ENOMEM;
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	priv->base = devm_ioremap_resource(drm->dev, res);
++	priv->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
  
- 	lvds->dev = dev;
--
--	lvds->regs = devm_ioremap_resource(lvds->dev,
--			platform_get_resource(pdev, IORESOURCE_MEM, 0));
-+	lvds->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(lvds->regs))
- 		return PTR_ERR(lvds->regs);
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 0031f3c54882..96e17776165c 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -3386,8 +3386,7 @@ struct dw_hdmi *dw_hdmi_probe(struct platform_device *pdev,
- 			return ERR_PTR(-EINVAL);
- 		}
- 
--		iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--		hdmi->regs = devm_ioremap_resource(dev, iores);
-+		hdmi->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &iores);
- 		if (IS_ERR(hdmi->regs)) {
- 			ret = PTR_ERR(hdmi->regs);
- 			goto err_res;
 -- 
 2.25.1
 
