@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A407A18D4E
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:05:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278A3A18D5C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:07:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B463210E682;
-	Wed, 22 Jan 2025 08:05:04 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uLKfsMmM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91E1410E686;
+	Wed, 22 Jan 2025 08:07:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B5C910E682
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:05:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 223CA5C06E8;
- Wed, 22 Jan 2025 08:04:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 733C0C4CED6;
- Wed, 22 Jan 2025 08:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737533102;
- bh=1/e0OSzJAkm9egv4lYiRA3flNXYIZL51hjzunRXP6Yw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=uLKfsMmMhpnUUg6byVeYeaga1dPXE6WfDsDg3HAw127zk6NflkfKW4HaemNncVg5D
- 6zOzAktmQZNYP51oC5GopHcrtC/AY2O3RfboDaQGrBHKwLoTMUx/UZE+t1lr5noVoI
- ge0S2i0NO9j2aFQ0oGFqE4IJrRrxG8jjKgsAKB5JVoYnbtOB38FDwmUAXXFcKNJLHR
- MAokw5APZMy+e9aLDtdb5ECzM9q9m12kRXRy7yr57fuin78poFhD7dDt6aoKA82jdB
- CEnHsZ+6Eq9NosSOPF6dlSHTeSuWSzS3Ceyb6un+maKhw3GpyuDxPJU2nYik9V8u32
- C+d5W+1HWP4Yw==
-Date: Wed, 22 Jan 2025 09:04:59 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Andy Yan <andyshrk@163.com>
-Cc: heiko@sntech.de, hjc@rock-chips.com, krzk+dt@kernel.org, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, 
- derek.foreman@collabora.com, detlev.casanova@collabora.com,
- daniel@fooishbar.org, robh@kernel.org, sebastian.reichel@collabora.com, 
- Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH v12 12/13] dt-bindings: display: vop2: Add rk3576 support
-Message-ID: <20250122-amber-moth-of-upgrade-fa8331@krzk-bin>
-References: <20250121103254.2528004-1-andyshrk@163.com>
- <20250121103500.2528258-1-andyshrk@163.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 180D510E686
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:07:40 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mkl@pengutronix.de>)
+ id 1taVjr-0002Z2-O6; Wed, 22 Jan 2025 09:05:27 +0100
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b]
+ helo=bjornoya.blackshift.org)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <mkl@pengutronix.de>) id 1taVjr-001Fbd-1A;
+ Wed, 22 Jan 2025 09:05:27 +0100
+Received: from pengutronix.de (pd9e59fec.dip0.t-ipconnect.de [217.229.159.236])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (Client did not present a certificate)
+ (Authenticated sender: mkl-all@blackshift.org)
+ by smtp.blackshift.org (Postfix) with ESMTPSA id F3C0D3AE291;
+ Wed, 22 Jan 2025 08:05:26 +0000 (UTC)
+Date: Wed, 22 Jan 2025 09:05:26 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
+ airlied@gmail.com, simona@ffwll.ch
+Subject: Re: undefined reference to `drm_fb_helper_fini'
+Message-ID: <20250122-phenomenal-robin-of-essence-b11416-mkl@pengutronix.de>
+References: <20250121-greedy-flounder-of-abundance-4d2ee8-mkl@pengutronix.de>
+ <a5a98971-405e-496b-89a4-75a61fd6d898@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="crcaedikgoumvnhf"
 Content-Disposition: inline
-In-Reply-To: <20250121103500.2528258-1-andyshrk@163.com>
+In-Reply-To: <a5a98971-405e-496b-89a4-75a61fd6d898@suse.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,131 +65,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 21, 2025 at 06:34:57PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
-> 
-> Add vop found on rk3576, the main difference between rk3576 and the
-> previous vop is that each VP has its own interrupt line.
-> 
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> 
-> ---
-> 
-> Changes in v12:
-> - Split from patch 10/13
 
-Order your patches finally. It's v12 and you still send binding after
-the user. Read carefully submitting bindings/patches.
+--crcaedikgoumvnhf
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: undefined reference to `drm_fb_helper_fini'
+MIME-Version: 1.0
 
-> 
-> Changes in v11:
-> - Remove redundant min/maxItems constraint
-> 
-> Changes in v10:
-> - Move interrupt-names back to top level
-> - Add constraint of interrupts for all platform
-> - Add constraint for all grf phandles
-> - Reorder some properties
-> 
-> Changes in v9:
-> - Drop 'vop-' prefix of interrupt-names.
-> - Add blank line between DT properties
-> - Remove list interrupt-names in top level
-> 
-> Changes in v8:
-> - Fix dt_binding_check errors
-> - ordered by soc name
-> - Link to the previous version:
->   https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
-> 
-> Changes in v4:
-> - describe constraint SOC by SOC, as interrupts of rk3576 is very
->   different from others
-> - Drop Krzysztof's Reviewed-by, as this version changed a lot.
-> 
-> Changes in v3:
-> - ordered by soc name
-> - Add description for newly added interrupt
-> 
-> Changes in v2:
-> - Add dt bindings
-> 
->  .../display/rockchip/rockchip-vop2.yaml       | 55 ++++++++++++++++++-
->  1 file changed, 52 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> index 157a37ed84da..a2a6369c7b6f 100644
-> --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-> @@ -21,6 +21,7 @@ properties:
->      enum:
->        - rockchip,rk3566-vop
->        - rockchip,rk3568-vop
-> +      - rockchip,rk3576-vop
->        - rockchip,rk3588-vop
->  
->    reg:
-> @@ -38,10 +39,21 @@ properties:
->        - const: gamma-lut
->  
->    interrupts:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 4
->      description:
-> -      The VOP interrupt is shared by several interrupt sources, such as
-> -      frame start (VSYNC), line flag and other status interrupts.
-> +      For VOP version under rk3576, the interrupt is shared by several interrupt
-> +      sources, such as frame start (VSYNC), line flag and other interrupt status.
-> +      For VOP version from rk3576 there is a system interrupt for bus error, and
-> +      every video port has it's independent interrupts for vsync and other video
-> +      port related error interrupts.
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: sys
-> +      - const: vp0
-> +      - const: vp1
-> +      - const: vp2
->  
->    # See compatible-specific constraints below.
->    clocks:
-> @@ -135,6 +147,8 @@ allOf:
->          interrupts:
->            maxItems: 1
+On 22.01.2025 08:48:16, Thomas Zimmermann wrote:
+> thanks for the bug report. Arnd just sent a fix, I think.
 
-So this change moves to this patch.
+Yes, that fixes my problem.
 
->  
-> +        interrupt-names: false
-> +
->          ports:
->            required:
->              - port@0
-> @@ -148,6 +162,39 @@ allOf:
->        required:
->          - rockchip,grf
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rk3576-vop
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 5
+> https://lore.kernel.org/dri-devel/20250122064655.1095176-1-arnd@kernel.or=
+g/T/#u
 
-No. You did not implement my comment at all.
+Thanks,
+Marc
 
-So again:
-"Why minItems? Nothing in this patch makes sense for me. Neither changing
-existing binding nor new binding for rk3576."
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
 
-To address such comment, come with reasonable answer to "why". Not just
-send the same. It's a waste of my time to keep reviewing the same.
+--crcaedikgoumvnhf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
-Krzysztof
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmeQpsMACgkQKDiiPnot
+vG9RSwf5ASbGTdjCDzqe8NJgO9Pc7bHcTJj/+hBZR/V2kg703XdWhmTZhKN9hDL4
+zlQL3ozAHEYjRCcGx92vUw+aoLfGXAYTHD7fOtM10czDm+i02SrSNJ/mPRmyke7C
+3X8VLrUxlG0Lz5ol01TQW0AJxCIt0O7JXO+ST6BwRUzAkhNOKQxeSDKlii2JSo1t
+nkV65vdpMrKnFGTDVaaM8EPHbK4YEi+u+6Zv+UkbVJMdl8WmzgmOi2hbOuV6w+Hr
+scV8BsFcrUtrQc1v22BeNWWlk0uQ+aZDw9G5/Hui7iYxT07PUsFsx5AGK4aqPBeq
+s2mzVmenGWaZ/aXb8FxD/9tAL3XnnQ==
+=m/ln
+-----END PGP SIGNATURE-----
+
+--crcaedikgoumvnhf--
