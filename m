@@ -2,78 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D90A1A269
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:02:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48FF2A1A268
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:02:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03C8610E7D0;
-	Thu, 23 Jan 2025 11:02:14 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="c+PDZlK5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC8EB10E7CE;
+	Thu, 23 Jan 2025 11:02:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B351710E6A5
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 10:12:10 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-385e27c75f4so5539986f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 02:12:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737540669; x=1738145469; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=20FAdf02NrSkEdbz0cWwrE4L3hm/YhIyOMV5uB/eaDI=;
- b=c+PDZlK5IL7uuKrg59PsItq+3/XZQmgE1nlYw3gG/X1C9bnBi7tOEx+meUM6F4bEdm
- Ng+qHMB+TAbTR3tVL1Ul/SxD8cAnH4LE6KNRZVqEN/fbyZOIv7ej64WboMFDxdBZXem6
- n5GV8GSmX6JnDgNTLjEDqv+MYfQ0xSUuRxE887RZQFiJafPidhN0qirCFLq2EoI1uC5d
- NQ+ywQByS49fHvgO6aXGiENgySjSIg+CaAb0xc26CZBEFRbpvX6VVs0wene8kpyiCxJ3
- qegOB5SyXQIRRF1eNOUeaHymxrEpbxhCTK6PSpdrhBA5wJHNb+zGmXKYNmBVq7nB22Gv
- 4qkA==
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com
+ [209.85.161.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F6C10E6E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 14:08:41 +0000 (UTC)
+Received: by mail-oo1-f46.google.com with SMTP id
+ 006d021491bc7-5f2d7868ef0so1572517eaf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 06:08:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737540669; x=1738145469;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=20FAdf02NrSkEdbz0cWwrE4L3hm/YhIyOMV5uB/eaDI=;
- b=GgAjZ9e5Eq34hi/b4qx1pfcWJRDLKvO2oBedWyC1/vEpsI6oR6ZJhokjX8+tiYrzAd
- U3dPJeNbC//NPC9Gi4I7MPsPkuMGr6YSDDBbT5TWLC885XZW2wp2PXe0KqItpJVz4n93
- IYAcWaMlFeMomxY7Pk+SI+zVwZlfFY35S2AvmiUVDbYnNRFOXrEAwue5Z6M0tI0z6+aw
- 1W47CibyjEXH/6LA6FfMNooh/V+kf09f2aRCzMilWGnJaWYe2jOz5snL3PxOCr07VGTY
- 3muf75yh2GeM327PE8dI0o220xK81VDNSHzQ4JtHExMzrdtLqtZfj5+QjsvUmiRQO/cV
- Bu6A==
-X-Gm-Message-State: AOJu0YyZ1dnfJpBdrWzjppclsrO5bGU27oLZqe7tlWR/lvpAVfNV93kF
- WxTuvLzzWOFzn+YX3LvIPqXi6OQJ+/04yS5BvI5Ibp9R37bRBVkuKvUj5qAyijSYtQNYY8sXz5c
- mHZoQuADOTfVCwMpx6vzaDQyFSrY=
-X-Gm-Gg: ASbGncsYSEFUbVR71VBfh81Y7YbRQw7E9LFW8OU8PejDymgs/nnJS/6plR9ZAT4JD1W
- P/pghQ3z27ZBaO3mgZUfiRoK8VMC6HJbT2gLC9VnHg6GtA97QsATP
-X-Google-Smtp-Source: AGHT+IE8JY+rkDYH3zsd4p+dqjYEetE1zmZVVPdNASmTjxFsjiottwCYgW5LnuvweIAbLA8aAFc6uCP+Y0gCHFI9aGU=
-X-Received: by 2002:a5d:698d:0:b0:38b:d8e0:a862 with SMTP id
- ffacd0b85a97d-38bf58e8af9mr16014557f8f.43.1737540668953; Wed, 22 Jan 2025
- 02:11:08 -0800 (PST)
+ d=1e100.net; s=20230601; t=1737554921; x=1738159721;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RUsZILg04LBQFCRWPVTFinOLS6IN3xH4se1RK1RCM4M=;
+ b=CyL8/90iufvQU+o3gOKtEgC8IHQ9VxPTlj/x8etKfwywQDLLuQsfbvWGh4htbBsaCg
+ xsRWsBoH2cyI6RFNLR5VCvpfiE9aabKyoEVofmyZueS6EYN7YWVNj774mfksr3Em39ni
+ 7uIpAnWcsb9sxnlK1fdF/48bz8UzA2VTolBpDxrC5Q8iPpMgNcUagGHrHqmhj9AKv5Oj
+ NhrLtHl50R13KPW/7tv2ryFog7l/IRIz0FkURGoe+EEkWDAQeDG5UdDldEDzjOq3et/W
+ BcWe/+dgFiVd1ouhdV22vIDvSHfhD3MarvthFIlG9HroR8moP76HBKYlX7ck9ZU78E43
+ uEfA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWY+JlBFza/dh2n+UdSCeRjXVGA1aPZkqhCCuj4UNn5rWDO2WReG9Jk24GhmFkvL53qZeIC8DX4eAM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzyrfH5rZYifMMKeS3bWMvvjJjxELtC3RwreUgsNZnVNKJB8K6W
+ 9dN6ckX+G/U5xeQ2WpqyRIWDNwiHyopRAeTRivY4CK8AJNSZYwGE
+X-Gm-Gg: ASbGncsUkBP2QsJWiO5tpZKwQaH5B1KfqtbU2ayky5S8ujodDcO2LK13m28rjbfDRzA
+ gBqueIM+56cuXzwPtAkZMmarXk4s4cmS37r/xs1xsj3tVPIKbksA0lTQbpB9JIizuMV4mmMfZ4A
+ hSgB0DKpU543GMAh3BkOqHcivAh0Xo5OX54yPU1SyI1aSX2ygdMjJmlj/eh+WTGzHkxh2TaCZw6
+ KjnpDdgsoBNyI2yWHLv4qdsRNb8P7bnBpRvpBg61Qf6pKg3lF1VbodJk+xufbV7FYCieyM=
+X-Google-Smtp-Source: AGHT+IGfAvOK55beICDEA/0h82RSyrSDzji6k3MNVa68JbP3M8X7iR9wX04dKNl8O2Br2xZ1pdy6Rg==
+X-Received: by 2002:a05:6871:3a8a:b0:29e:4bc4:97ca with SMTP id
+ 586e51a60fabf-2b1c0a46950mr12209143fac.21.1737554920684; 
+ Wed, 22 Jan 2025 06:08:40 -0800 (PST)
+Received: from muster.uejji.net ([47.188.205.107])
+ by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-2b1b8d54635sm4404581fac.30.2025.01.22.06.08.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jan 2025 06:08:39 -0800 (PST)
+From: John Edwards <uejji@uejji.net>
+To: tzimmermann@suse.de
+Cc: airlied@gmail.com, dri-devel@lists.freedesktop.org,
+ fewtarius@steamfork.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch,
+ uejji@uejji.net
+Subject: Re: [PATCH 0/4] Handheld gaming PC panel orientation quirks
+Date: Wed, 22 Jan 2025 14:02:37 +0000
+Message-ID: <20250122140258.51014-5-uejji@uejji.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <aabd8691-0797-4ee2-a49a-d26c99329f32@suse.de>
+References: <aabd8691-0797-4ee2-a49a-d26c99329f32@suse.de>
 MIME-Version: 1.0
-References: <20250106121054.96739-1-jesseevg@gmail.com>
- <CAA8EJpqO9Ci6mNSA4WRBuiT7tp4D3OLoQfjFnDV_kfo5i-TPuw@mail.gmail.com>
-In-Reply-To: <CAA8EJpqO9Ci6mNSA4WRBuiT7tp4D3OLoQfjFnDV_kfo5i-TPuw@mail.gmail.com>
-From: Jesse Van Gavere <jesseevg@gmail.com>
-Date: Wed, 22 Jan 2025 11:10:57 +0100
-X-Gm-Features: AbW1kvaufqpGClMmrIK_PdXGLKlUjxGf1O_Q7jDhZseLIc7Cv9enLNo0a0-J-gY
-Message-ID: <CAMdwsN-GGHAbViUPkriA-eKq2KSH0p4i5KMXb77XG--nXPOkew@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/bridge: adv7511: Switch to atomic operations
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, Sui Jingfeng <sui.jingfeng@linux.dev>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Adam Ford <aford173@gmail.com>, Jani Nikula <jani.nikula@intel.com>, 
- Mads Bligaard Nielsen <bli@bang-olufsen.dk>, Liu Ying <victor.liu@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Thu, 23 Jan 2025 11:02:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -90,11 +76,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hello.
 
-This patch seems to have been archived but I can't seem to find it in
-the drm-misc git, is there anything else I should be doing to get this
-patch approved and included?
+My sincerest apologies.
 
-Best regards,
-Jesse
+I used get_maintainer to populate the recipients for this patch series,
+but I must have made an error somewhere.
+
+John Edwards
+
+
+On Wed, Jan 22, 2025 at 1:55 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> (cc'ing Hans)
+>
+> Hi Hans,
+>
+> I think this is for you.
+>
+> Best regards
+> Thomas
+>
+> Am 16.01.25 um 16:50 schrieb John Edwards:
+> > Hello.
+> >
+> > I am submitting a small number of patches to add panel rotation quirks for
+> > a few handheld gaming PCs.  These patches were created by the SteamFork
+> > team and are in daily use by us and/or members of our community.
+> >
+> > Thank you for your consideration and for taking the time to review these
+> > patches.
+> >
+> > John Edwards
+> >
+> > Andrew Wyatt (4):
+> >    drm: panel-orientation-quirks: Add support for AYANEO 2S
+> >    drm: panel-orientation-quirks: Add quirks for AYA NEO Flip DS and KB
+> >    drm: panel-orientation-quirks: Add quirk for AYA NEO Slide
+> >    drm: panel-orientation-quirks: Add new quirk for GPD Win 2
+> >
+> >   .../gpu/drm/drm_panel_orientation_quirks.c    | 34 +++++++++++++++++--
+> >   1 file changed, 32 insertions(+), 2 deletions(-)
+> >
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
