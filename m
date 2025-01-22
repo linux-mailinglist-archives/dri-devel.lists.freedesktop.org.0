@@ -1,48 +1,80 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E14FA196FC
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 17:55:40 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D8D0A19720
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 18:05:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 367F510E785;
-	Wed, 22 Jan 2025 16:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5585310E17D;
+	Wed, 22 Jan 2025 17:05:41 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Lf3o9d98";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51CCF10E780
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 16:55:30 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2008E10E096;
+ Wed, 22 Jan 2025 17:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1737565508;
+ bh=fZrP9wlezpCcDGh+K7hUa20Mn2C7VNWVYRQKGznyqL8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Lf3o9d98NReFn6B4qxLKQm9NKR6AOBaxiWzd5x0GKz+RUoMxWHc20PBCHBsG1q7xf
+ JjlBC7jzTyMCErvgEDn4sepzUjGxEc+Y3FwtKROENau+svubwlcP3tXqXG7BtjDxIS
+ M+GuPOj6cGCOfHqTBtyOlC553f/9CMmGV4iMB36t2NtL0aJvvT+e68qeoKcjeZ9edz
+ p/ZTJG+WbOmhFL+z0keRcRIYno673jx+0yeEksTdoKzYe3QX8gJCKlQlVVWaSM5JN5
+ vW3jctIheK80L0maGwOyEW62m0JwdDjG7msdrUxA5DN3g07W+tpyl+JvjWmJHvn/cj
+ CrKh9OKm+2zmA==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id C4CAA40ADD;
- Wed, 22 Jan 2025 17:54:57 +0100 (CET)
-Date: Wed, 22 Jan 2025 17:54:56 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, ~postmarketos/upstreaming@lists.sr.ht, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] drm/msm/dpu: Fall back to a single DSC encoder
- (1:1:1) on small SoCs
-Message-ID: <6g3dfqm274ykypbyz4sckyisg2t67ch7mvh2h6lbkt2lv5unaf@5jcffdimidmw>
-References: <20250121-dpu-111-topology-v1-1-d01987205c53@somainline.org>
- <D77VIRU2Z0L9.20OBL2OMAIA7I@fairphone.com>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 10AAC17E0D72;
+ Wed, 22 Jan 2025 18:05:07 +0100 (CET)
+Date: Wed, 22 Jan 2025 18:04:58 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Philipp Stanner <phasta@kernel.org>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Frank Binns
+ <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Qiang Yu
+ <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
+ <matthew.brost@intel.com>, Philipp Stanner <pstanner@redhat.com>, Melissa
+ Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2?=
+ =?UTF-8?B?bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar
+ <lijo.lazar@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, Ma Jun
+ <Jun.Ma2@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH] drm/sched: Use struct for drm_sched_init() params
+Message-ID: <20250122180353.7ef8fbc1@collabora.com>
+In-Reply-To: <ce6bd1f3-8d7c-4b3c-af07-b8c9e0912f51@ursulin.net>
+References: <20250122140818.45172-3-phasta@kernel.org>
+ <20250122165104.536c4143@collabora.com>
+ <ce6bd1f3-8d7c-4b3c-af07-b8c9e0912f51@ursulin.net>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D77VIRU2Z0L9.20OBL2OMAIA7I@fairphone.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,34 +90,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-01-21 16:58:24, Luca Weiss wrote:
-> Hi Marijn,
-> 
-> On Tue Jan 21, 2025 at 12:06 AM CET, Marijn Suijten wrote:
-> > Some SoCs such as SC7280 (used in the FairPhone 5) have only a single
-> > DSC "hard slice" encoder.  The current hardcoded use of 2:2:1 topology
-> > (2 LM and 2 DSC for a single interface) make it impossible to use
-> > Display Stream Compression panels with mainline, which is exactly what's
-> > installed on the FairPhone 5.
-> 
-> Nitpick, if you send another revision: s/FairPhone/Fairphone/
-> 
-> >
-> > By loosening the hardcoded `num_dsc = 2` to fall back to `num_dsc =
-> > 1` when the catalog only contains one entry, we can trivially support
-> > this phone and unblock further panel enablement on mainline.  A few
-> > more supporting changes in this patch ensure hardcoded constants of 2
-> > DSC encoders are replaced to count or read back the actual number of
-> > DSC hardware blocks that are enabled for the given virtual encoder.
-> > Likewise DSC_MODE_SPLIT_PANEL can no longer be unconditionally enabled.
-> 
-> This unblocks panel enablement on upstream without any hacks on top.
-> Many thanks!
-> 
-> Tested-by: Luca Weiss <luca.weiss@fairphone.com>
+On Wed, 22 Jan 2025 16:14:59 +0000
+Tvrtko Ursulin <tursulin@ursulin.net> wrote:
 
-Thanks!  I fixed the Fairphone capitalization typo but forgot to roll up
-your t-b (something about this being a long time ago and forgetting to run b4
-trailers -u), but then the patch changed a little bit.
+> On 22/01/2025 15:51, Boris Brezillon wrote:
+> > On Wed, 22 Jan 2025 15:08:20 +0100
+> > Philipp Stanner <phasta@kernel.org> wrote:
+> >   
+> >> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> >> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> >> @@ -3272,6 +3272,7 @@ group_create_queue(struct panthor_group *group,
+> >>   		   const struct drm_panthor_queue_create *args)
+> >>   {
+> >>   	struct drm_gpu_scheduler *drm_sched;
+> >> +	struct drm_sched_init_params sched_params;  
+> > 
+> > nit: Could we use a struct initializer instead of a
+> > memset(0)+field-assignment?
+> > 
+> > 	struct drm_sched_init_params sched_params = {
 
-- Marijn
+Actually, you can even make it const if it's not modified after the
+declaration.
+
+> > 		.ops = &panthor_queue_sched_ops,
+> > 		.submit_wq = group->ptdev->scheduler->wq,
+> > 		.num_rqs = 1,
+> > 		.credit_limit = args->ringbuf_size / sizeof(u64),
+> > 		.hang_limit = 0,
+> > 		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> > 		.timeout_wq = group->ptdev->reset.wq,
+> > 		.name = "panthor-queue",
+> > 		.dev = group->ptdev->base.dev,
+> >          };  
+> 
+> +1 on this as a general approach for the whole series. And I'd drop the 
+> explicit zeros and NULLs. Memsets could then go too.
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > 
+> > The same comment applies the panfrost changes BTW.
+> >   
+> >>   	struct panthor_queue *queue;
+> >>   	int ret;
+> >>   
+> >> @@ -3289,6 +3290,8 @@ group_create_queue(struct panthor_group *group,
+> >>   	if (!queue)
+> >>   		return ERR_PTR(-ENOMEM);
+> >>   
+> >> +	memset(&sched_params, 0, sizeof(struct drm_sched_init_params));
+> >> +
+> >>   	queue->fence_ctx.id = dma_fence_context_alloc(1);
+> >>   	spin_lock_init(&queue->fence_ctx.lock);
+> >>   	INIT_LIST_HEAD(&queue->fence_ctx.in_flight_jobs);
+> >> @@ -3341,17 +3344,23 @@ group_create_queue(struct panthor_group *group,
+> >>   	if (ret)
+> >>   		goto err_free_queue;
+> >>   
+> >> +	sched_params.ops = &panthor_queue_sched_ops;
+> >> +	sched_params.submit_wq = group->ptdev->scheduler->wq;
+> >> +	sched_params.num_rqs = 1;
+> >>   	/*
+> >> -	 * Credit limit argument tells us the total number of instructions
+> >> +	 * The credit limit argument tells us the total number of instructions
+> >>   	 * across all CS slots in the ringbuffer, with some jobs requiring
+> >>   	 * twice as many as others, depending on their profiling status.
+> >>   	 */
+> >> -	ret = drm_sched_init(&queue->scheduler, &panthor_queue_sched_ops,
+> >> -			     group->ptdev->scheduler->wq, 1,
+> >> -			     args->ringbuf_size / sizeof(u64),
+> >> -			     0, msecs_to_jiffies(JOB_TIMEOUT_MS),
+> >> -			     group->ptdev->reset.wq,
+> >> -			     NULL, "panthor-queue", group->ptdev->base.dev);
+> >> +	sched_params.credit_limit = args->ringbuf_size / sizeof(u64);
+> >> +	sched_params.hang_limit = 0;
+> >> +	sched_params.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS);
+> >> +	sched_params.timeout_wq = group->ptdev->reset.wq;
+> >> +	sched_params.score = NULL;
+> >> +	sched_params.name = "panthor-queue";
+> >> +	sched_params.dev = group->ptdev->base.dev;
+> >> +
+> >> +	ret = drm_sched_init(&queue->scheduler, &sched_params);
+> >>   	if (ret)
+> >>   		goto err_free_queue;  
+
