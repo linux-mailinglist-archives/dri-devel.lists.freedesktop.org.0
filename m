@@ -2,75 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB1EA18B04
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 05:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB7AA18B22
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 05:48:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F16B10E223;
-	Wed, 22 Jan 2025 04:33:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B946210E283;
+	Wed, 22 Jan 2025 04:48:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OobqpQfg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SXS0yejQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D712210E223
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 04:33:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1415E10E2D4;
+ Wed, 22 Jan 2025 04:48:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737520390; x=1769056390;
+ t=1737521322; x=1769057322;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=LxHnnR6mSHv1FRrCXMjIa+c5dsH7Ux6YqKwi2h9qwRk=;
- b=OobqpQfgxoUyjJB5pxMXpXHKMCkHe/8Lqg5gPG3JzuN35J+PmSH2Xnub
- lTKYk3IzMLUZ4dFDQSVwqoUQGSMZGSySDWsY0cFlrVNC+8SxH2C1KFXQP
- /r7cvlXKC9QyjSy0IwtfSX+QLKPpK9wXK6kKV3NzAy/x0dhrAs1d+ZQAa
- b5qRWFT/UJRllSh8/VHsB5Eh1r7yqYzSlTz7RF2P7YPWi9EzRdU3Ggqfn
- wfJC1zpEvrcjbYE/HWNNWm0V9LeNRRbK3gVhbNpX+3EaR9eyBcPTTF/XQ
- CSUw1ghidsULg6yVHJV7IuLePi3qPJqKI7EVqdrsm6/gWjMPlMmlzHUd8 Q==;
-X-CSE-ConnectionGUID: s2n4ezwCSACK7QhcE9qc0w==
-X-CSE-MsgGUID: RPLd/oYXReejs149wlEZGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="63317726"
-X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="63317726"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jan 2025 20:33:09 -0800
-X-CSE-ConnectionGUID: GiiRJr4GRHis2kjxkPmIjg==
-X-CSE-MsgGUID: YdGhyQHZTjSzt2/SOh01zg==
+ bh=iMaXACMURgli3ZtGpip9gpyVmugdXalQ98jx7Q9T6ko=;
+ b=SXS0yejQEEnuAqVdD9G4tiiHUwRH+AZDMm1tUowKVbzHxr0nB5rr+49o
+ +QPOHIvA2wh5Q3kEg408No7y3kxt5yod91FNAPXyEgwBqGIuPby3mld4x
+ FZRM3FUBmbujDlECYz/U1DL4tM3D7GO3UCE3CYTv//gJmBu84lOYi9O9S
+ ourBXXta4pCsydomdZ+FJR3RKGArtnyrb9QdpbB2qqOJLTGLXo42d1HCh
+ dpoP+JFrI4XgvNSZzdc4CX68Zf1gvu9QvBzsfpc5tejL1MwdDrOIWpUIm
+ twtwLveXb+2rEI0IW/clVLUmqvv5/k9nfMLCRk57BNoy6VPzbUe4p6Dio A==;
+X-CSE-ConnectionGUID: U09vFCqMQdC4fGs8spnlBw==
+X-CSE-MsgGUID: 5O0u6rtuQK2ih/XUF42L2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="48628750"
+X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="48628750"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2025 20:48:42 -0800
+X-CSE-ConnectionGUID: 3irDzB9/R/CdJfHQYz4KNQ==
+X-CSE-MsgGUID: rD5B8qHZTiCjrUj9Dlyyhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="106928561"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
- ([10.239.159.165])
- by fmviesa007.fm.intel.com with ESMTP; 21 Jan 2025 20:33:05 -0800
-Date: Wed, 22 Jan 2025 12:32:56 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Baolu Lu <baolu.lu@linux.intel.com>, Alexey Kardashevskiy <aik@amd.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- vivek.kasireddy@intel.com, dan.j.williams@intel.com,
- yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
- tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <Z5B0+OcLWsiHLRIA@yilunxu-OptiPlex-7050>
-References: <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
- <20250114133553.GB5556@nvidia.com>
- <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
- <20250115130102.GM5556@nvidia.com>
- <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
- <20250117132523.GA5556@nvidia.com>
- <Znh+uTMe/wX2RIJm@yilunxu-OptiPlex-7050>
- <20250120132525.GH5556@nvidia.com>
- <ZnnhKtA2n4s1CLyf@yilunxu-OptiPlex-7050>
- <20250121174303.GV5556@nvidia.com>
+X-IronPort-AV: E=Sophos;i="6.13,224,1732608000"; d="scan'208";a="107556201"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jan 2025 20:48:37 -0800
+Date: Wed, 22 Jan 2025 06:48:34 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Xaver Hugl <xaver.hugl@kde.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, lina@asahilina.net,
+ michal.wajdeczko@intel.com, christian.koenig@amd.com,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ alexander.deucher@amd.com, andrealmeid@igalia.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v10 0/4] Introduce DRM device wedged event
+Message-ID: <Z5B4ogLqSMT7aE-r@black.fi.intel.com>
+References: <20241128153707.1294347-1-raag.jadav@intel.com>
+ <CAFZQkGwJ4qgHV8WTp2=svJ_VXhb-+Y8_VNtKB=jLsk6DqMYp9w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250121174303.GV5556@nvidia.com>
+In-Reply-To: <CAFZQkGwJ4qgHV8WTp2=svJ_VXhb-+Y8_VNtKB=jLsk6DqMYp9w@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,37 +76,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 21, 2025 at 01:43:03PM -0400, Jason Gunthorpe wrote:
-> On Tue, Jun 25, 2024 at 05:12:10AM +0800, Xu Yilun wrote:
+On Tue, Jan 21, 2025 at 01:59:47AM +0100, Xaver Hugl wrote:
+> Hi,
 > 
-> > When VFIO works as a TEE user in VM, it means an attester (e.g. PCI
-> > subsystem) has already moved the device to RUN state. So VFIO & DPDK
-> > are all TEE users, no need to manipulate TDISP state between them.
-> > AFAICS, this is the most preferred TIO usage in CoCo-VM.
+> I experimented with using this in KWin, and
+> https://invent.kde.org/plasma/kwin/-/merge_requests/7027/diffs?commit_id=6da40f1b9e2bc94615a436de4778880cee16f940
+> makes it fall back to a software renderer when a rebind is required to
+> recover the GPU.
+> Making it also survive the rebind properly is more challenging
+> (current version of the MR doesn't do it for you and just crashes if
+> you do it with a udev rule or manually), but it's doable - and not a
+> problem of the API.
 > 
-> No, unfortunately. Part of the motivation to have the devices be
-> unlocked when the VM starts is because there is an expectation that a
-> driver in the VM will need to do untrusted operations to boot up the
+> I'd really like to have the PID of the client that triggered the GPU
+> reset, so that we can kill it if multiple resets are triggered in a
+> row (or switch to software rendering if it's KWin itself) and show a
+> user-friendly notification about why their app(s) crashed, but that
+> can be added later.
 
-I assume these operations are device specific.
+Excellent! While we have our consumer implementation in progress, it's
+always good to have wider adoption.
 
-> device before it can be switched to the run state.
-> 
-> So any vfio use case needs to imagine that VFIO starts with an
-> untrusted device, does stuff to it, then pushes everything through to
+Thank you for your contribution.
 
-I have concern that VFIO has to do device specific stuff. Our current
-expectation is a specific device driver deals with the untrusted
-operations, then user writes a 'bind' device sysfs node which detaches
-the driver for untrusted, do the attestation and accept, and try match
-the driver for trusted (e.g. VFIO).
-
-Thanks,
-Yilun
-
-> run. The exact mirror as what a kernel driver should be able to do.
-> 
-> How exactly all this very complex stuff works, I have no idea, but
-> this is what I've understood is the target. :\
-> 
-> Jason
+Raag
