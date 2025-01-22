@@ -2,106 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71AAA18D88
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20441A18D8E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Jan 2025 09:23:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55B5010E695;
-	Wed, 22 Jan 2025 08:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90E3310E199;
+	Wed, 22 Jan 2025 08:23:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OYXHd5WF";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FP2zlS8Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5F1410E68B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:22:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id ADC705C573B;
- Wed, 22 Jan 2025 08:22:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3C4C4CED6;
- Wed, 22 Jan 2025 08:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737534162;
- bh=+L0LCy9nENdCNACnCQyr3V9VXLR21yhtkYUpPtZ4BXg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OYXHd5WFRn/X3nVAjqajR4R8RtVTe0GC4gEtGnJCJTEXqmwYL5758s5sEgc+1fiRS
- 3qK8Gj9rrf1NWgLrQFFKhc0OC48qyuVvqSlz9aKQzBdUjlF3snA5e0CTx7XrPzCsTS
- 3uyWk9fVoH2VIqKgVfspflZsYuN3rlZ5dRItjcDplG+uXHYPMZuupDEFjFZ3GJhVcS
- 8KlXWBdcieRdp8vdRgmHs/loXPkyB3xIAJhrawW8LKnQ/fAxaqJwsdYqgcjKgqop1i
- jgqoqsAtJKoTIdnZH4ukpCwYf8SPfYw+LTKtYOEVgYtRFugyo98G8Ckmco/FJ86/Af
- bnlAV6ff9dZng==
-Message-ID: <05b8ae46-f8af-413f-8870-ab1997c8f5b9@kernel.org>
-Date: Wed, 22 Jan 2025 09:22:24 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94BD810E199
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 08:23:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1737534219;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PVGSHSfPlnas+VY5S2g7YHsLUR35+wqex29yMzLsqw0=;
+ b=FP2zlS8Zi2T2pERHFuecwCHhJPZq7u96sUCaLgryC/RllO8MEyb/KRhq/Ac5tqhStQnEHF
+ sYi/42az9uwPdaLEQC+MCeNpNtuz5o3kLdIFZyScylqVymvhhjPMC9xleqnbzsTaElHf2c
+ uMryhuRcXCHAn83MCiCRfJYj124pwyA=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-228-EuniYPYqNjWfCfN5XlAFGg-1; Wed, 22 Jan 2025 03:23:38 -0500
+X-MC-Unique: EuniYPYqNjWfCfN5XlAFGg-1
+X-Mimecast-MFC-AGG-ID: EuniYPYqNjWfCfN5XlAFGg
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-2ef7fbd99a6so12291152a91.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 00:23:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737534217; x=1738139017;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PVGSHSfPlnas+VY5S2g7YHsLUR35+wqex29yMzLsqw0=;
+ b=bl9kghQ1Z5JGdj56xrMzjskupS2eLgY5Kvk0Ugg5YY8qtiKRiMdGhFUv1Ckt61ifKb
+ Mh1m8pPclB9YuHtLTp7AjI0jincnzl5jMkdyZmCHedkPJMKn4Yx060qib13ea2ik8P/Q
+ Qg7uZd2EEFKIxkvpnoRzsWoROb2pX4tIApwha2ornPGBSQa371MtP24hP4+Cdy3mxleH
+ VURzz5g3WG4xGUepCYN6R6EW+Ia/0wVxnWxSGQDg0IrBgJHcIFNHlbt+Gny+/UTbd4HL
+ nDCvkT1uQJaK/y73PmXCibzknXUXGZ/YAaLjT114VwJcWQrUYwys4DPSySSK1F8fLwH0
+ /uGg==
+X-Gm-Message-State: AOJu0YybNKfyEccI6LbuM6IuyE8TubpNOWLRu64jJSO5uN4JxqzrdRp+
+ S+M18UhAj3J8pO3QyS+j47qh2j8BgiZ0b90cODgff7Tz/hv/uWCgY3rTuat1pkn1N8zMhlY8K6R
+ 30DKTqBD0tz02bGcZMciT5o5qydk4qYJjmljzxBI4iwOxnInJFVzUtYTGMAEifKngYw==
+X-Gm-Gg: ASbGncuCgDUwSD3PmGBDVMGzLDNCeV0y/XaeDjYFCSuVmMiBkOLUfOtisTHJGcKoY0m
+ IQQGAfve4m+l+dFgUXq0AVtyNl3RetZuOIM7BdhM93bdt0iDvQEoi9lpgsCpGinDF7S8nXKHJuU
+ cjoMjZhzIIzF2VguhMPd03XXSgPAWTJX3IAe2qCKa7d2LCGJdDf96jizVduQFX5hPCxEKBmHxvW
+ 2Fy+A+rhZX4KPG0MPLy+B+jXhk8QtksrQ6Z5y7/xXcphtxrzWlq3gKyIuqoozsWE2jTd0GlYlW1
+ TIDhykuwQOanNanAgnGq
+X-Received: by 2002:a05:6a00:1813:b0:729:cc5:fa42 with SMTP id
+ d2e1a72fcca58-72dafbaa1c1mr31265260b3a.20.1737534216905; 
+ Wed, 22 Jan 2025 00:23:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFtQffHib0TFRrC5PxTtGere1N52BNH4TNwO/Y7PEoMr4v6BhKhGRaCupmrztVvUK6BJxfN7g==
+X-Received: by 2002:a05:6a00:1813:b0:729:cc5:fa42 with SMTP id
+ d2e1a72fcca58-72dafbaa1c1mr31265233b3a.20.1737534216564; 
+ Wed, 22 Jan 2025 00:23:36 -0800 (PST)
+Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-72dabaa8948sm10413476b3a.164.2025.01.22.00.23.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Jan 2025 00:23:36 -0800 (PST)
+Message-ID: <9329836ce71a24360abc568498dc7e4ea059cd87.camel@redhat.com>
+Subject: Re: [PATCH v2 0/3] drm/sched: Documentation and refcount improvements
+From: Philipp Stanner <pstanner@redhat.com>
+To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Date: Wed, 22 Jan 2025 09:23:23 +0100
+In-Reply-To: <20250121151544.44949-2-phasta@kernel.org>
+References: <20250121151544.44949-2-phasta@kernel.org>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 07/18] dt-bindings: reset: Add T-HEAD TH1520 SoC Reset
- Controller
-To: Michal Wilczynski <m.wilczynski@samsung.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, mturquette@baylibre.com,
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- drew@pdp7.com, guoren@kernel.org, wefu@redhat.com, jassisinghbrar@gmail.com,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- frank.binns@imgtec.com, matt.coster@imgtec.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, ulf.hansson@linaro.org,
- jszhang@kernel.org, m.szyprowski@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
-References: <20250120172111.3492708-1-m.wilczynski@samsung.com>
- <CGME20250120172128eucas1p2847f0863524b53d2d5029e5e9d238298@eucas1p2.samsung.com>
- <20250120172111.3492708-8-m.wilczynski@samsung.com>
- <6018a750dcbb46fe1bd9f653f469d54928c23610.camel@pengutronix.de>
- <ff53263d-813f-43c3-9090-e73dc0031949@samsung.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ff53263d-813f-43c3-9090-e73dc0031949@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: qzceDvGJfD2WqcNXNRJ-TLA0N1MoCuB6FWasY3HjKQc_1737534217
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,31 +104,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/01/2025 22:58, Michal Wilczynski wrote:
->>> +maintainers:
->>> +  - Michal Wilczynski <m.wilczynski@samsung.com>
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - thead,th1520-reset
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  "#reset-cells":
->>> +    const: 0
->>
->> Should this be "const: 1" instead?
-> 
-> Right now I'm not planning to extend by more resets, I've thought about
-> this during the discussion on v2 of this patchset. At this point I just
-> can't see more interesting resets to have. Vendor kernel implements WDT
-> and NPU. I don't think NPU driver will be upstream anytime soon. That
-> would leave WDT reset potentially.
+On Tue, 2025-01-21 at 16:15 +0100, Philipp Stanner wrote:
+> Changes in v2:
+> =C2=A0 - Document what run_job() is allowed to return. (Tvrtko)
+> =C2=A0 - Delete confusing comment about putting the fence. (Danilo)
+> =C2=A0 - Apply Danilo's RB to patch 1.
+> =C2=A0 - Delete info about job recovery for entities in patch 3. (Danilo,
+> me)
+> =C2=A0 - Set the term "ring" as fix term for both HW rings and FW rings. =
+A
+> =C2=A0=C2=A0=C2=A0 ring shall always be the thingy on the CPU ;) (Danilo)
 
-Bindings should be complete, regardless whether you implement reset
-consumer driver or not.
+s/CPU/GPU
 
-Best regards,
-Krzysztof
+obviously.
+
+P.
+
+
+> =C2=A0 - Many (all) other comments improvements in patch 3. (Danilo)
+>=20
+> This is as series succeeding my previous patch [1].
+>=20
+> I recognized that we are still referring to a non-existing function
+> and
+> a deprecated one in the callback docu. We should probably also point
+> out
+> the important distinction between hardware and firmware schedulers
+> more
+> cleanly.
+>=20
+> Please give me feedback, especially on the RFC comments in patch3.
+>=20
+> (This series still fires docu-build-warnings. I want to gather
+> feedback
+> on the opion questions first and will solve them in v2.)
+>=20
+> Thank you,
+> Philipp
+>=20
+> [1]
+> https://lore.kernel.org/all/20241220124515.93169-2-phasta@kernel.org/
+>=20
+> Philipp Stanner (3):
+> =C2=A0 drm/sched: Document run_job() refcount hazard
+> =C2=A0 drm/sched: Adjust outdated docu for run_job()
+> =C2=A0 drm/sched: Update timedout_job()'s documentation
+>=20
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c |=C2=A0=C2=A0 5 +-
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 106 ++++++++++++++++-------
+> --
+> =C2=A02 files changed, 71 insertions(+), 40 deletions(-)
+>=20
+
