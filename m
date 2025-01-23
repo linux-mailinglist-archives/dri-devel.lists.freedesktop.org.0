@@ -2,77 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5EECA19FCC
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 09:23:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CEDBA19FD4
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 09:24:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D18710E20D;
-	Thu, 23 Jan 2025 08:23:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9F7210E792;
+	Thu, 23 Jan 2025 08:24:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mVh7Ask+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jUI2ty2+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91C3310E1DC;
- Thu, 23 Jan 2025 08:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1737620630;
- bh=iGapPRqeW9iytt4zWZgelyigNEmJBdm6omiCHg2ZP1A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=mVh7Ask+1N4gj26x77vJDnBb/CRcjQQST7WjyiL9lpQae4ceo73pdXGTPT5F6A/ak
- SARsaQtedT/vNbJaKkHKyQgWZgLQFSMiaN4ev+VMP9soz813yc8snAY3XWIUuRGUAD
- /CWPoexi7i0Ek3xUO2oWWsAMfpGL647bwniAYUzsLJpSn/boxHJkX8t3+alT6zkF6x
- h5Px+Tmzy3B0ykrvcefV8osisg7jmvfkNVzLcUTji3sHINES4+cI1ibgiI8biQv6hk
- RasyaG15bB8u/tgNdQ6ozkl1/CkTk1ZE4xMYD8kwBvyfJQ2ajQcvSAPJoVDHHFkgPw
- 8HvLt4fITM3vA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 506C817E0E57;
- Thu, 23 Jan 2025 09:23:48 +0100 (CET)
-Date: Thu, 23 Jan 2025 09:23:41 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, Alex Deucher <alexander.deucher@amd.com>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Xinhui Pan
- <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
- <christian.gmeiner@gmail.com>, Frank Binns <frank.binns@imgtec.com>, Matt
- Coster <matt.coster@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Qiang Yu <yuq825@gmail.com>, Rob
- Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
- <konradybcio@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, Karol Herbst <kherbst@redhat.com>, Lyude
- Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Rob Herring
- <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
- <liviu.dudau@arm.com>, Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
- <matthew.brost@intel.com>, Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWE=?=
- =?UTF-8?B?w61yYQ==?= Canal <mcanal@igalia.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar <lijo.lazar@amd.com>, Mario
- Limonciello <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>, Yunxiang
- Li <Yunxiang.Li@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- etnaviv@lists.freedesktop.org, lima@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH] drm/sched: Use struct for drm_sched_init() params
-Message-ID: <20250123092341.579f7b72@collabora.com>
-In-Reply-To: <af5aac800f7d2153aa3c315584f70c55378c1b2b.camel@mailbox.org>
-References: <20250122140818.45172-3-phasta@kernel.org>
- <20250122181227.491b7881@collabora.com>
- <af5aac800f7d2153aa3c315584f70c55378c1b2b.camel@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA06110E1DC;
+ Thu, 23 Jan 2025 08:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737620656; x=1769156656;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=GGP2ai4GYm2zNzeIOLLH+0ZN/Orn8SGA6+VFokn/B2c=;
+ b=jUI2ty2+fmba3RAghohY5Ps20bBXo04ilfhl9CQgo2xiVIfJ2kiNHkwd
+ 5fqr8H0rQuJHW/L6TH+JqCA8eb+qAREedMxxG7lxPa0x0Hct/YhdPPXUZ
+ ibmBybhGY+c73LWvVMYlm1p3u5vkxqgrbQS2eJBT2XZ6r8rMIGwDr9n6U
+ jq2ijX9PkegbQiAqJpXTT8VTUCyVyUy9vkSPpcmdQUM/3uJGu7uoL6WMF
+ b4wKeu9kuF0JgT4YYQ/Q7MJSjAsWIYCE9WShXdF8B6te4ZW0wfLcZYFJY
+ cYWlc6qodPQmSJyrwOd557ouqXIbivk7LkEnVRw2qccXBYnI1kCXJOoT1 g==;
+X-CSE-ConnectionGUID: tYwoAg8UTXGBAcvm/z3qKg==
+X-CSE-MsgGUID: ADOMwF0TTTy23K7c+QOkyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="48605978"
+X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; d="scan'208";a="48605978"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 00:24:16 -0800
+X-CSE-ConnectionGUID: XbGgefMOQ4m+sKxc946+Yw==
+X-CSE-MsgGUID: fuiIE3ppQLWpHvLt7QwPbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,227,1732608000"; d="scan'208";a="107389461"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.98])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 00:24:12 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Stephen Rothwell <sfr@canb.auug.org.au>, Andrew Morton
+ <akpm@linux-foundation.org>
+Cc: Dave Airlie <airlied@redhat.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Yafang Shao
+ <laoar.shao@gmail.com>
+Subject: Re: linux-next: manual merge of the drm-intel tree with the mm tree
+In-Reply-To: <20250123103553.32f41759@canb.auug.org.au>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250106130348.73a5fae6@canb.auug.org.au>
+ <20250108121650.09a8e828@canb.auug.org.au>
+ <20250123103553.32f41759@canb.auug.org.au>
+Date: Thu, 23 Jan 2025 10:24:09 +0200
+Message-ID: <877c6mndjq.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,38 +78,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Jan 2025 08:33:01 +0100
-Philipp Stanner <phasta@mailbox.org> wrote:
+On Thu, 23 Jan 2025, Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+> Hi all,
+>
+> On Wed, 8 Jan 2025 12:16:50 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>>
+>> On Mon, 6 Jan 2025 13:03:48 +1100 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>> >
+>> > Today's linux-next merge of the drm-intel tree got a conflict in:
+>> > 
+>> >   drivers/gpu/drm/i915/display/intel_display_driver.c
+>> > 
+>> > between commit:
+>> > 
+>> >   4fc0cee83590 ("drivers: remove get_task_comm() and print task comm directly")
+>> > 
+>> > from the mm-nonmm-unstable branch of the mm tree and commit:
+>> > 
+>> >   f5d38d4fa884 ("drm/i915/display: convert intel_display_driver.[ch] to struct intel_display")
+>> > 
+>> > from the drm-intel tree.
+>> > 
+>> > I fixed it up (see below) and can carry the fix as necessary. This
+>> > is now fixed as far as linux-next is concerned, but any non trivial
+>> > conflicts should be mentioned to your upstream maintainer when your tree
+>> > is submitted for merging.  You may also want to consider cooperating
+>> > with the maintainer of the conflicting tree to minimise any particularly
+>> > complex conflicts.
+>> > 
+>> > -- 
+>> > Cheers,
+>> > Stephen Rothwell
+>> > 
+>> > diff --cc drivers/gpu/drm/i915/display/intel_display_driver.c
+>> > index 62596424a9aa,497b4a1f045f..000000000000
+>> > --- a/drivers/gpu/drm/i915/display/intel_display_driver.c
+>> > +++ b/drivers/gpu/drm/i915/display/intel_display_driver.c
+>> > @@@ -389,8 -397,9 +397,8 @@@ void intel_display_driver_resume_access
+>> >    * Returns %true if the current thread has display HW access, %false
+>> >    * otherwise.
+>> >    */
+>> > - bool intel_display_driver_check_access(struct drm_i915_private *i915)
+>> > + bool intel_display_driver_check_access(struct intel_display *display)
+>> >   {
+>> >  -	char comm[TASK_COMM_LEN];
+>> >   	char current_task[TASK_COMM_LEN + 16];
+>> >   	char allowed_task[TASK_COMM_LEN + 16] = "none";
+>> >   
+>> > @@@ -399,14 -408,15 +407,14 @@@
+>> >   		return true;
+>> >   
+>> >   	snprintf(current_task, sizeof(current_task), "%s[%d]",
+>> >  -		 get_task_comm(comm, current),
+>> >  -		 task_pid_vnr(current));
+>> >  +		 current->comm, task_pid_vnr(current));
+>> >   
+>> > - 	if (i915->display.access.allowed_task)
+>> > + 	if (display->access.allowed_task)
+>> >   		snprintf(allowed_task, sizeof(allowed_task), "%s[%d]",
+>> > - 			 i915->display.access.allowed_task->comm,
+>> > - 			 task_pid_vnr(i915->display.access.allowed_task));
+>> >  -			 get_task_comm(comm, display->access.allowed_task),
+>> > ++			 display->access.allowed_task->comm,
+>> > + 			 task_pid_vnr(display->access.allowed_task));
+>> >   
+>> > - 	drm_dbg_kms(&i915->drm,
+>> > + 	drm_dbg_kms(display->drm,
+>> >   		    "Reject display access from task %s (allowed to %s)\n",
+>> >   		    current_task, allowed_task);
+>> >     
+>> 
+>> This is now a conflict between the drm tree and the mm-nonmm-unstable
+>> branch of the mm tree.
+>
+> And now a conflict between Linus' tree and the mm-nonmm-stable tree.
 
-> On Wed, 2025-01-22 at 18:16 +0100, Boris Brezillon wrote:
-> > On Wed, 22 Jan 2025 15:08:20 +0100
-> > Philipp Stanner <phasta@kernel.org> wrote:
-> >  =20
-> > > =C2=A0int drm_sched_init(struct drm_gpu_scheduler *sched,
-> > > - =C2=A0=C2=A0 const struct drm_sched_backend_ops *ops,
-> > > - =C2=A0=C2=A0 struct workqueue_struct *submit_wq,
-> > > - =C2=A0=C2=A0 u32 num_rqs, u32 credit_limit, unsigned int hang_limit,
-> > > - =C2=A0=C2=A0 long timeout, struct workqueue_struct *timeout_wq,
-> > > - =C2=A0=C2=A0 atomic_t *score, const char *name, struct device *dev);
-> > > + const struct drm_sched_init_params *params); =20
-> >=20
-> >=20
-> > Another nit: indenting is messed up here. =20
->=20
-> That was done on purpose.
->=20
-> I never got why so many like to intend to the opening brackets,
-> because:
->    1. The kernel coding guide line does not demand it
->    2. It mixes tabs with spaces
->    3. It doesn't create an identical level of intendation
->    4. It wastes huge amount of space and does not solve the problem of
->       long names, but might even make it worse:
->       https://elixir.bootlin.com/linux/v6.13-
->       rc3/source/drivers/gpu/drm/scheduler/sched_main.c#L1296
+Will be taken care of with backmerges after -rc1.
 
-It's mostly a matter of keeping things consistent in a code base. I
-don't really have strong opinions when it comes to coding style, but I
-always try to follow the rules in place in the file/subsystem/project
-I'm contributing to, and clearly the pattern in this file is to align
-the extra lines of arguments on the first argument...
+BR,
+Jani.
+
+-- 
+Jani Nikula, Intel
