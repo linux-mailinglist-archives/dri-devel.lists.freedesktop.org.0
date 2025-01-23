@@ -2,65 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5E9A1A6CA
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 16:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6922BA1A6D2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 16:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B794810E83D;
-	Thu, 23 Jan 2025 15:13:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D5410E866;
+	Thu, 23 Jan 2025 15:14:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Oj8HRSQ3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qg/xUrvp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89B7F10E83D
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 15:13:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0788E10E882;
+ Thu, 23 Jan 2025 15:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737645195; x=1769181195;
+ t=1737645276; x=1769181276;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=PJ7aYCbtXYZu+NJO1JN2by/s67/mM6chwppH2LXXzu4=;
- b=Oj8HRSQ3JKt9aq/VC+jaeYsJ9uAGfuuEuSvcpZHsx3WaWwGBTB3uFD7w
- ds4Qqbe0FXyE9FKPDS0tUH0KwXpFct3GoeLsdPVPxmd9QYY6ExZf8CpXK
- IQIw2zXILMfx679oDt9yQ/AT/xn3sYHmy1AjebVIfyqgM0wwSg63M5O2y
- 7qcyMUJIEhStGOV5scTOnHTyHQ89KEnO/f1zBNPcJFfCVuQfTb1jm57zB
- W2QodRwTlg7VDlPBgw94bJhSFMMKGeLHR7EkqDKZd7zL5wt9IjPe8nyxS
- 5R7VW784BKHidfRdVRJ9OYZY6fRtjSDqPd68p0Ul1hgJ+kDOSfejcscSO g==;
-X-CSE-ConnectionGUID: +dFkaHzZTqeHKE/+YTS+2w==
-X-CSE-MsgGUID: k9vhAc2sTOiVVm/PEI0xTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48645062"
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="48645062"
+ bh=GKcTbWhSImUoFOrdn+ul/dc3QS6L9tZcghr+ql2lxKU=;
+ b=Qg/xUrvprKyOE2U1Gf1nIDhvj7AoOwv/tl/lO29U76vtPTnHdnJ26uj+
+ c6tWePCqPdyKCCCz1P+5r+iidtxSj+yhilZ2wvW7yHh7UCZrfpipglCXG
+ yohzAKZXbdFQL7iKFwyGgCSr/qyM78AfiZvBqXGfJTuuRDuKFTAmWrud2
+ usCBHEE/L/WSB0HW6vpX7CEi4hccyeN5vU8JelVrBmHOnxp3/V4IkSzBs
+ zIoHx2041mZqCSC/nYr5/l8fFLXGP5l1RUCgTsw35M8N2b1dPM4rAQ04Y
+ ScmyMd09t8E2hNbcbwSVjwjiy/n/I91T4Ha3r4ImRL1erR+R6zAeB3+cK A==;
+X-CSE-ConnectionGUID: otmbx6qYRcKXkwcfnAAo7w==
+X-CSE-MsgGUID: TDhBA/cGQJeWbhgJh5HThQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="48645446"
+X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="48645446"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2025 07:12:41 -0800
-X-CSE-ConnectionGUID: iA8pr0lGR2G7SnmEsAU9RQ==
-X-CSE-MsgGUID: pnYUQ/TcQBKbHiLGBBM+LQ==
+ 23 Jan 2025 07:14:36 -0800
+X-CSE-ConnectionGUID: 7py+60iXQgC26m3dGT2Qew==
+X-CSE-MsgGUID: m5oDSm1aQJu/yGtoGsUsKA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="107299297"
+X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="107299863"
 Received: from unknown (HELO localhost) ([10.237.66.160])
  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2025 07:12:34 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Damon Ding <damon.ding@rock-chips.com>, heiko@sntech.de
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
- cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
- dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, hjc@rock-chips.com,
- algea.cao@rock-chips.com, kever.yang@rock-chips.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, Damon Ding
- <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v6 01/14] drm/rockchip: analogix_dp: Replace DRM_...()
- functions with drm_...()
-In-Reply-To: <87ikq5n2di.fsf@intel.com>
+ 23 Jan 2025 07:14:34 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Gustavo Sousa <gustavo.sousa@intel.com>
+Subject: Re: [PATCH 4/5] drm/print: Include drm_device.h
+In-Reply-To: <11497a3e490c001f3a884acb310b4812b643a9a0.1737644530.git.jani.nikula@intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
- <20250123100747.1841357-2-damon.ding@rock-chips.com>
- <87ikq5n2di.fsf@intel.com>
-Date: Thu, 23 Jan 2025 17:12:31 +0200
-Message-ID: <875xm5mun4.fsf@intel.com>
+References: <cover.1737644530.git.jani.nikula@intel.com>
+ <11497a3e490c001f3a884acb310b4812b643a9a0.1737644530.git.jani.nikula@intel.com>
+Date: Thu, 23 Jan 2025 17:14:31 +0200
+Message-ID: <8734h9mujs.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,52 +68,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Jan 2025, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Thu, 23 Jan 2025, Damon Ding <damon.ding@rock-chips.com> wrote:
->> According to the comments in include/drm/drm_print.h, the DRM_...()
->> functions are deprecated in favor of drm_...() or dev_...() functions.
->>
->> Use drm_err()/drm_dbg_core()/drm_dbg_kms() instead of
->> DRM_DEV_ERROR()/DRM_ERROR()/DRM_DEV_DEBUG()/DRM_DEBUG_KMS().
->>
->> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
->>
->> ---
->>
->> Changes in v6:
->> - Use drm_...() uniformly rather than mixing drm_...() and dev_..()
->> - Pass 'dp' in drm_...() rather than 'dp->drm_dev'
->> ---
->>  .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 29 ++++++++++---------
->>  1 file changed, 15 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
->> index 0844175c37c5..dd33d7540e4b 100644
->> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
->> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
->> @@ -100,13 +100,13 @@ static int rockchip_dp_poweron(struct analogix_dp_plat_data *plat_data)
->>  
->>  	ret = clk_prepare_enable(dp->pclk);
->>  	if (ret < 0) {
->> -		DRM_DEV_ERROR(dp->dev, "failed to enable pclk %d\n", ret);
->> +		drm_err(dp, "failed to enable pclk %d\n", ret);
+On Thu, 23 Jan 2025, Jani Nikula <jani.nikula@intel.com> wrote:
+> From: Gustavo Sousa <gustavo.sousa@intel.com>
 >
-> Please don't do this.
+> The header drm_print.h uses members of struct drm_device pointers, as
+> such, it should include drm_device.h to let the compiler know the full
+> type definition.
 >
-> You're supposed to pass struct drm_device to drm_err() and friends. Not
-> some random struct pointer that just happens to have a ->dev member.
+> Without such include, users of drm_print.h that don't explicitly need
+> drm_device.h would bump into build errors and be forced to include the
+> latter.
 >
-> The drm_* macros may change at any time to actually expect the correct
-> type.
+> Signed-off-by: Gustavo Sousa <gustavo.sousa@intel.com>
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-And with [1] I'm hoping "at any time" becomes "real soon now".
+This posting should have had
 
-BR,
-Jani.
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+
+but obviously not needed if the original [1] is merged instead.
 
 
-[1] https://lore.kernel.org/all/cover.1737644530.git.jani.nikula@intel.com
+[1] https://lore.kernel.org/r/20250121210935.84357-1-gustavo.sousa@intel.com
 
+>
+> ---
+>
+> Including here as a dependency. May be merged independently.
+> ---
+>  include/drm/drm_print.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index f77fe1531cf8..9732f514566d 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -32,6 +32,7 @@
+>  #include <linux/dynamic_debug.h>
+>  
+>  #include <drm/drm.h>
+> +#include <drm/drm_device.h>
+>  
+>  struct debugfs_regset32;
+>  struct drm_device;
 
 -- 
 Jani Nikula, Intel
