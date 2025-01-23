@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C159A19E87
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 07:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEF9A19E88
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 07:48:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BAF010E08E;
-	Thu, 23 Jan 2025 06:48:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B15E510E402;
+	Thu, 23 Jan 2025 06:48:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="dX+klvCG";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="lHVjuvR6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
- [209.85.216.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F2410E08E
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 06:48:10 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id
- 98e67ed59e1d1-2f441791e40so879327a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 22:48:10 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1A810E3E4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 06:48:14 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-2166f1e589cso12496335ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 22:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1737614890; x=1738219690; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ihO8X/Bibunk5mKcN2BnLX6WPk2+H0kbY5VGF+D42yk=;
- b=dX+klvCGwxhtkf7ONZu1TJhmhfDD0SsAmm/9YeIDbh74Z302hEdeijD/6iaMqQCNYy
- qKyAMmJ6Mg12koQF47KZ9psbeuI9xNbdfUCZflDXLVmedyQ4ognITcIGVl8P+GvhVrqX
- +W0XYEdzKK2/XBptSzaV7pIaI+s5WZZ2SFLLBvJ/d8lFqpblHFGVA9nFDOrRL2KA2k/a
- w4N+ArCcnQ9wYdLObkdJZgXv+bJJhfgGcEO0naMvHyNjVaTKyZGz0KKqTmSlwbfP/HqO
- d+mu54r0ZLk2wcay5wBEsKw8FsyewmY3Op1vF0o+2YUcDzoX5fMC9FJBdIayCKsOqtTl
- YCQg==
+ t=1737614894; x=1738219694; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SwfobZv33V/+FGTeVO+tPqefOOlFn7XlfW7hi3srQwo=;
+ b=lHVjuvR6a5LpR6BOTZfo9q0YJ6t3+tUlFo6X0L6GX7TnacWpowE6LD6SYpxnXQEv4B
+ bGrqae/6YDHZtTLvuEFhLw+FcWfcOe2OpyHmFqSTS0AKLsOgeV3aGs3k3s9UCGu6a4ed
+ zBaRiHvSB5fiNK3MPvGlSm3CemnBL426r65+d+lPm/etrN/R7+35m6+H52eA9EW0S3wy
+ GwW2qt8DvyCkUYDbtjqRDLxWBAJjCErZAe0kGjlx7mVEAQVkdzOjEU2u82LM4WlQDVXy
+ gfAS/qD+RcSvRFf//J18DVAJ0oJnlD5eMpcjraxUvGQpsKYxwSCE8UVX/aINuEVzyGo5
+ xkDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737614890; x=1738219690;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ihO8X/Bibunk5mKcN2BnLX6WPk2+H0kbY5VGF+D42yk=;
- b=xOIkV+skqdzzXBqADDdQv3ctPVg8EH+i5IaVNh2g77d6meq+Zf98C4hIdnyyctGvFU
- j4YfdUf7o/i7/IWcOKfB+yGtV/+CtHELVJ72xRnkzvzCYFkujW4PcgbsgdKVRF7/4bH5
- +vllIoUmNBlUIGWx8oNnsvMsV6FB3Ve6nRhT4B4TquOsvcr9FEYl55SDWV4S1Q60eV94
- a0m1IPiXrHd8NfuA7hwUj1TImqkEdQTI+Xkb02Q6CxAgqOh+3kC8kPBbRLNf6BtKejA4
- ZmaBEPgdn2w0U3RxQfr2EJeYrPnL1rNE3l2PPQK3GdN8ayso16AkPnq8rjkh2Tg7/wFi
- 17zg==
-X-Gm-Message-State: AOJu0YyenekIn4JxJPFkIMww5S1ZJapVauy10cEQDX0BUvrzvyIZywLF
- nb8mqn63yIl3J7C1Edo9Od3T1+i2SKgugZoGejKmQKSWJ25xNkeyLKY1VAwtCB4=
-X-Gm-Gg: ASbGncsG47vsE3wExxcJaoK5cJFLY82WN1RUENK6Y4KGkSoPxy1KNAl7VPtOEHePVCM
- SPKLjJFJLyRSYS2UxcpwYU6RsfvrBBKE6/Xfk5mub2B5LpGOtImFKdmk6dAXU17XSWiN51puX5L
- X7Y3NNuVZ1f7vKPRz7Dpmra8mwIOKOMJydrwj1IU7PdptoJobFlfGlgaED/lCshxm6IGrIxHM0c
- A9pICL5tWwkybJavMzDs29wztJlFME4JTDVbq8X0XSKW/SCUASYIVrvUvuqTMSw4HcCjGfpwPv/
- 5T4zQaZm5rtou+m2YTm/UiOVDDYQmq5HAnPA4Z+Vu7S27ylU9wcT
-X-Google-Smtp-Source: AGHT+IG2nhLWzY19SrhP6ztMPfsB/clKVzmRCDCQniHVFDKX6lXFY0kbEQxUiFXyIHbXYuKJx8vKAA==
-X-Received: by 2002:a17:90b:520e:b0:2f5:88bb:118 with SMTP id
- 98e67ed59e1d1-2f782d4ef17mr30067834a91.22.1737614890004; 
- Wed, 22 Jan 2025 22:48:10 -0800 (PST)
+ d=1e100.net; s=20230601; t=1737614894; x=1738219694;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SwfobZv33V/+FGTeVO+tPqefOOlFn7XlfW7hi3srQwo=;
+ b=iw2sLoSGEyzzYYE3QUPr1mvHSXQyLcIRWBnTrQW7bSgJbS6Ixme6/n+uC/4GgD5JB6
+ +SM4jM8cUJ8/hYEKW/J02x+TixOU/eADw9pbs2CjdQK3MwDgasCiKIN0S+h6c1Dh7ZRF
+ i8x6x7NUzh9ueCUzgHIULLGFN5+zkDLeLu7kul2/omTtyy4gm5uRqxxTliWLXQpc2pPT
+ GRK7LIv7jot9wTtTHyPNV0SyHYWMHSH5uKaAUNDQoPS0XZ2faVz3ZQQvlupB9vWX49UL
+ 28SO0SZwTTd2nHAJ/qsL8GqOe2JGaridNOtDVnPvoLaczyJbazWgr0DaTENW8U/INm/T
+ tiEw==
+X-Gm-Message-State: AOJu0YyvR04PiE0Whd9zffLrV8oQJH0Eg7qxRXVeKzWJvw4UEZwMheri
+ h17zUBZ5SrRTzHfbx30YVaDtcDbaLIymPX8G+3jCQqZwQoG+EPpxM20Fn7MmBPw=
+X-Gm-Gg: ASbGncvtMUwTBDiq70XDmAtUWJ1V2dME3blKfpYmwQz8UvBa9ZXQIqAxP93xFs3HynD
+ BUmnXpXe8Y/1G0pjgmDG1smjcotTKVG6gbXu/8yw3woTXCGq1TE4ahJiWToCRhQFhme+wTuJRx0
+ EJKPPxF0YFZWOa6lEs+JDyTdmWnb5oQpt2vD4CfzfOmYFvWwfAKdbePJK4QOxl/Sp4rI2PaFijP
+ IIXpggv1X3u4I/pN4sLRX9/5Gne56coksqnFRYvsS5xgNeVJzDdpJLled0q3Ry9IgF7qCLCQebj
+ urFzDVaC76PlHsWAb6tbCihOOilY+bOcVUBc0WlwTs3O0hxb1dvy
+X-Google-Smtp-Source: AGHT+IFPp2dMwLLh/TYt3tGZ1O1dzVlAuA9tHPAAVKT+k+MdfX9nDHobaViIokflFeDSPNaTq3oJyg==
+X-Received: by 2002:a17:902:ec90:b0:216:3dc0:c8ab with SMTP id
+ d9443c01a7336-21c3553b527mr340210705ad.9.1737614893777; 
+ Wed, 22 Jan 2025 22:48:13 -0800 (PST)
 Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-a9bcc323777sm11923454a12.20.2025.01.22.22.48.06
+ 41be03b00d2f7-a9bcc323777sm11923454a12.20.2025.01.22.22.48.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2025 22:48:09 -0800 (PST)
+ Wed, 22 Jan 2025 22:48:13 -0800 (PST)
 From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
@@ -68,10 +69,13 @@ To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH v4 0/3] drm/panel: support kingdisplay-kd110n11-51ie
-Date: Thu, 23 Jan 2025 14:47:55 +0800
-Message-Id: <20250123064758.743798-1-yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH v4 1/3] dt-bindings: display: panel: Add compatible for
+ KD110N11-51IE and 2082109QFH040022-50E
+Date: Thu, 23 Jan 2025 14:47:56 +0800
+Message-Id: <20250123064758.743798-2-yelangyan@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250123064758.743798-1-yelangyan@huaqin.corp-partner.google.com>
+References: <20250123064758.743798-1-yelangyan@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,35 +93,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Provides a single binding patch with correct alphabetical order for
-both panels, and adjusts alphabetical order for compatible properties.
+KINGDISPLAY KD110N11-51IE and STARRY 2082109QFH040022-50E are
+10.95-inch WUXGA TFT LCD panels, which fits in nicely with the
+existing panel-boe-tv101wum-nl6 driver. Hence, we add a new
+compatible with panel specific config.
 
-Changes in v4:
-- PATCH 1/3: Single bindings patch for both panels with proper alphabetical order
-- PATCH 2/3: Adjust the alphabetical order of the compatible attribute
-- PATCH 3/3: Adjust the alphabetical order of the compatible attribute
-- Link to v3: https://lore.kernel.org/all/20250117091438.1486732-1-yelangyan@huaqin.corp-partner.google.com/
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+---
+ .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml   | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Changes in v3:
-- Link to v2: https://lore.kernel.org/all/20250117050410.933312-1-yelangyan@huaqin.corp-partner.google.com/
-
-Changes in v2:
-- PATCH 1/4: Add compatible for KINGDISPLAY KD110N11-51IE
-- PATCH 2/4: Add compatible for STARRY 2082109QFH040022-50E
-- Link to v1: https://lore.kernel.org/all/20250116130530.3010117-1-yelangyan@huaqin.corp-partner.google.com/
-
-Langyan Ye (3):
-  dt-bindings: display: panel: Add compatible for KD110N11-51IE and
-    2082109QFH040022-50E
-  drm/panel: boe-tv101wum-nl6: support for kingdisplay-kd110n11-51ie
-    MIPI-DSI panel
-  drm/panel: boe-tv101wum-nl6: support for starry-2082109qfh040022-50e
-    MIPI-DSI panel
-
- .../display/panel/boe,tv101wum-nl6.yaml       |   4 +
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 270 ++++++++++++++++++
- 2 files changed, 274 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+index 7a9f49e40e75..b740681605f8 100644
+--- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
++++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+@@ -30,8 +30,12 @@ properties:
+       - boe,tv110c9m-ll3
+         # INX HJ110IZ-01A 10.95" WUXGA TFT LCD panel
+       - innolux,hj110iz-01a
++        # KINGDISPLAY KD110N11-51IE 10.95" WUXGA TFT LCD panel
++      - kingdisplay,kd110n11-51ie
+         # STARRY 2081101QFH032011-53G 10.1" WUXGA TFT LCD panel
+       - starry,2081101qfh032011-53g
++        # STARRY 2082109QFH040022-50E 10.95" WUXGA TFT LCD panel
++      - starry,2082109qfh040022-50e
+         # STARRY ili9882t 10.51" WUXGA TFT LCD panel
+       - starry,ili9882t
+ 
 -- 
 2.34.1
 
