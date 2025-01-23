@@ -2,90 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA349A1A3DE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 13:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A70A1A3FE
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 13:13:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05E5410E7EE;
-	Thu, 23 Jan 2025 12:08:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF9310E7F4;
+	Thu, 23 Jan 2025 12:13:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gmaWbzD3";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gnpKJjIm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52A2D10E7EE
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 12:08:45 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-54024aa9febso926218e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 04:08:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737634123; x=1738238923; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vTmEOgD3xfc+fwIttOduP71Ufl9BgBhivnCzDUxKm9A=;
- b=gmaWbzD3tseZzVhT5Kuc+4O5y6IuvNP/ford78eEtoyG0MYNgguN8f8sJo/9VQBd9D
- 0ihWiiSPxuwnJVJK+etS41Mxj0OtuFhLFscZJkswZ39Ymv7x7Ngw4AlnxWYiU4y/fX36
- 0xY9FEFoxYht3g0lyzqMr6ROHEYhX+Bya/iKbptm4Q+E/hhQw+O7YBbOdRcDnCPnhmMw
- H8gX17uuPgOTlaseLgNjtWXeyM6txNlxp9BeDXJ0/hYy/uRlfFJ4ZcKSTsVVhsNyapX1
- +JqlooaDdezzVnb+4tdukcLUllvkEnjDKnki5wxito9XBuwCkU/FOhlEyc3Q5My2axOJ
- igog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737634123; x=1738238923;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vTmEOgD3xfc+fwIttOduP71Ufl9BgBhivnCzDUxKm9A=;
- b=cdBk0Y2TbL8FfNs1LpQiri3eiOVU3plYcDl1u6KP+dwfjn+YXtBMyCNxfLB4OWiatp
- Ynr+lPv2r/nN6DZxf/nwqCSt6riDEJ9bqSsQ7gcNGFquDwNm4j6Huxnm9I3TM6AKoGCR
- 8ndJ26BpN2wyfZ0RN4CkRQOnzU8uJ/Qkbh5LFl/3SJDkCAkhbkq2W18Kto7SZUpQDHBx
- ad60zH8OLyaBVTQznJpoFrgd+78Jirsffnmyw9WLLcpXqx7NWFLGpDI1VRQodPPuIzBO
- /HDkVQEoflP2z4Bp5R33q9s417lB4LvP14REogiO4u9V7GDGHxgEbQD31NZ0z7MhniI+
- QN/g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhiJpv6n7E18XOTPhXBlpEFdGC7WQudlgiyfgugPKsWVdE3mYki5VIi1Vc2g43bfYFvExXsOiMiNQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzbNUVD2MdZEHTlWenx0OLqDYRpF7e7Ktkz8umKzyDLSfniwNMA
- vNXpKpfaMRjHTfJzS4MEA+fd0lSAd/Co5sXKpsx4PNlMupubyOQPLKvbGNBIsa4=
-X-Gm-Gg: ASbGnctkjxPk0jcSB5382dQkyMOTV1jhR/4PjRB4RbX05PQOOIgP3i2XugT0t9IAcbc
- 9im2nKq1fXtg+T79eCqex+Jg22P1+LKIxlUZn/zZCSkshnQH1m9mP2UGEFCZ74Bzhetv/x8vfNn
- b5lh3ff/ElXRfHso9L+uJJcRB2hVKYN8yofYSh/PhMiHeGY4CgD60YrHlm5v34CFg2oHsCiugiL
- jb5tW/ThgFO+I0ISDydlYEZi3uiAlqJfdN+XF0hRwMnwcQkUNWTQYiy37FQa7qoH4zTucjbQffw
- r52VGpL403TMzWzFv/f1tu8/Oa5sN0qT5dfm0zxwEFq1ftu/I57iWrBUUcwo
-X-Google-Smtp-Source: AGHT+IFbOx6ctuTmmRLLNk/eHiWv/TSPLK7NEzKkr1HnoNXi9QhiZe7Adm2mXqrnq+teryB16WA3sQ==
-X-Received: by 2002:a05:6512:e8c:b0:540:2223:9b0b with SMTP id
- 2adb3069b0e04-5439c282cd8mr8971004e87.35.1737634123427; 
- Thu, 23 Jan 2025 04:08:43 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543bae0ba76sm786051e87.8.2025.01.23.04.08.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2025 04:08:42 -0800 (PST)
-Date: Thu, 23 Jan 2025 14:08:39 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>, 
- Jeykumar Sankaran <jsanka@codeaurora.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, 
- Sravanthi Kollukuduru <skolluku@codeaurora.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Archit Taneja <architt@codeaurora.org>, Rajesh Yadav <ryadav@codeaurora.org>, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH 0/6] drm: enforce rules for
- drm_atomic_helper_check_modeset()
-Message-ID: <bfuplxwielalawtozidaoj67smxlzqxatwjl7rza5o4gqgky6y@eika3dvihvk7>
-References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
- <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 090CF10E7F3;
+ Thu, 23 Jan 2025 12:13:44 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Yf0GW75cTz9sX2;
+ Thu, 23 Jan 2025 13:13:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1737634420; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0+7fVHRTKElHIrMWMKEDgFUHTZ0B53rnunyjSKs1E10=;
+ b=gnpKJjImu/YQ19v6Zpg9rBZulFKUFHnD/GH5+YNRjv2tZbJk2lBEyPvR5aXVjSjuxsHmyL
+ azsdywWxONg3ylq7gFjBaDOErXHVrhsqAvdXndqulHzRKQ10SdEEzagz+4Z3dgtmUZHQil
+ I+nHCW3ihPnRWxn1mJe3pP6lFPkc+JZl2G5umz8Ll84v3PMDEbrjzcDI9be4qNqj+ObLda
+ viFV7BRw8Cjy5quxQKLqLMHeyOAnkgU1NJ2y3vmG3c06U9vzddGxWwO4eJtqtLrzjk33IQ
+ RwlUQiV+HeVyh5daGwiSGWff1zHBxod4PkdwLjLgeaUowmil0D34K11LE0+Y3A==
+Message-ID: <e7414579afbfc25d4027471bc265ee48e7d25932.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Use struct for drm_sched_init() params
+From: Philipp Stanner <phasta@mailbox.org>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Philipp Stanner
+ <phasta@kernel.org>, Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Xinhui Pan
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>,  Christian Gmeiner
+ <christian.gmeiner@gmail.com>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Qiang Yu <yuq825@gmail.com>,  Rob
+ Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
+ <konradybcio@kernel.org>,  Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Boris
+ Brezillon <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
+ <matthew.brost@intel.com>, Melissa Wen <mwen@igalia.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sunil Khatri <sunil.khatri@amd.com>,  Lijo Lazar <lijo.lazar@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
+ Yunxiang Li <Yunxiang.Li@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org, 
+ lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Date: Thu, 23 Jan 2025 13:13:25 +0100
+In-Reply-To: <ec4bb0f6-c366-40e7-a1df-332458b08eec@igalia.com>
+References: <20250122140818.45172-3-phasta@kernel.org>
+ <24f1c52f-1768-47de-88e3-d4104969d0a9@igalia.com>
+ <9713798aa175aef2041e6d688ac4814006f789bc.camel@redhat.com>
+ <ec4bb0f6-c366-40e7-a1df-332458b08eec@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
+X-MBO-RS-META: atku7wpwx957w9o4ftqprfosj6p5jofp
+X-MBO-RS-ID: d9273a22f3a7c793cfc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,101 +90,116 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 09, 2025 at 02:53:16PM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> 
-> Am 22.12.24 um 06:00 schrieb Dmitry Baryshkov:
-> > As pointed out by Simona, the drm_atomic_helper_check_modeset() and
-> > drm_atomic_helper_check() require the former function is rerun if the
-> > driver's callbacks modify crtc_state->mode_changed. MSM is one of the
-> > drivers which failed to follow this requirement.
-> 
-> I'm concerned about the implications of this series. How does a driver
-> upgrade from simple pageflip to full modeset if necessary? The solution in
-> msm appears to be to run the related test before drm_atomic_helper_check().
-> (Right?)
-> 
-> My corner case is in mgag200, which has to reprogram the PLL if the color
-> mode changes. So it sets mode_changed to true in the primary plane's
-> atomic_check. [1] This works in practice because the plane checks run before
-> the CRTC checks. So the CRTC code will do the correct thing. Reprogramming
-> the PLL means to disable the display at some point. So it comes down to a
-> full modeset.
+T24gVGh1LCAyMDI1LTAxLTIzIGF0IDA4OjEwIC0wMzAwLCBNYcOtcmEgQ2FuYWwgd3JvdGU6Cj4g
+SGkgUGhpbGlwcCwKPiAKPiBPbiAyMy8wMS8yNSAwNToxMCwgUGhpbGlwcCBTdGFubmVyIHdyb3Rl
+Ogo+ID4gT24gV2VkLCAyMDI1LTAxLTIyIGF0IDE5OjA3IC0wMzAwLCBNYcOtcmEgQ2FuYWwgd3Jv
+dGU6Cj4gPiA+IEhpIFBoaWxpcHAsCj4gPiA+IAo+ID4gPiBPbiAyMi8wMS8yNSAxMTowOCwgUGhp
+bGlwcCBTdGFubmVyIHdyb3RlOgo+ID4gPiA+IGRybV9zY2hlZF9pbml0KCkgaGFzIGEgZ3JlYXQg
+bWFueSBwYXJhbWV0ZXJzIGFuZCB1cGNvbWluZyBuZXcKPiA+ID4gPiBmdW5jdGlvbmFsaXR5IGZv
+ciB0aGUgc2NoZWR1bGVyIG1pZ2h0IGFkZCBldmVuIG1vcmUuIEdlbmVyYWxseSwKPiA+ID4gPiB0
+aGUKPiA+ID4gPiBncmVhdCBudW1iZXIgb2YgcGFyYW1ldGVycyByZWR1Y2VzIHJlYWRhYmlsaXR5
+IGFuZCBoYXMgYWxyZWFkeQo+ID4gPiA+IGNhdXNlZAo+ID4gPiA+IG9uZSBtaXNzbmFtaW5nIGlu
+Ogo+ID4gPiA+IAo+ID4gPiA+IGNvbW1pdCA2ZjFjYWNmNGViYTcgKCJkcm0vbm91dmVhdTogSW1w
+cm92ZSB2YXJpYWJsZSBuYW1lIGluCj4gPiA+ID4gbm91dmVhdV9zY2hlZF9pbml0KCkiKS4KPiA+
+ID4gPiAKPiA+ID4gPiBJbnRyb2R1Y2UgYSBuZXcgc3RydWN0IGZvciB0aGUgc2NoZWR1bGVyIGlu
+aXQgcGFyYW1ldGVycyBhbmQKPiA+ID4gPiBwb3J0Cj4gPiA+ID4gYWxsCj4gPiA+ID4gdXNlcnMu
+Cj4gPiA+ID4gCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogUGhpbGlwcCBTdGFubmVyIDxwaGFzdGFA
+a2VybmVsLm9yZz4KPiAKPiBbLi4uXQo+IAo+ID4gPiAKPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJp
+dmVycy9ncHUvZHJtL3YzZC92M2Rfc2NoZWQuYwo+ID4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL3Yz
+ZC92M2Rfc2NoZWQuYwo+ID4gPiA+IGluZGV4IDk5YWM0OTk1YjVhMS4uNzE2ZTZkMDc0ZDg3IDEw
+MDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3NjaGVkLmMKPiA+ID4g
+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zY2hlZC5jCj4gPiA+ID4gQEAgLTgxNCw2
+NyArODE0LDEyNCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0Cj4gPiA+ID4gZHJtX3NjaGVkX2JhY2tl
+bmRfb3BzCj4gPiA+ID4gdjNkX2NwdV9zY2hlZF9vcHMgPSB7Cj4gPiA+ID4gwqDCoMKgCS5mcmVl
+X2pvYiA9IHYzZF9jcHVfam9iX2ZyZWUKPiA+ID4gPiDCoMKgIH07Cj4gPiA+ID4gwqDCoCAKPiA+
+ID4gPiArLyoKPiA+ID4gPiArICogdjNkJ3Mgc2NoZWR1bGVyIGluc3RhbmNlcyBhcmUgYWxsIGlk
+ZW50aWNhbCwgZXhjZXB0IGZvciBvcHMKPiA+ID4gPiBhbmQKPiA+ID4gPiBuYW1lLgo+ID4gPiA+
+ICsgKi8KPiA+ID4gPiArc3RhdGljIHZvaWQKPiA+ID4gPiArdjNkX2NvbW1vbl9zY2hlZF9pbml0
+KHN0cnVjdCBkcm1fc2NoZWRfaW5pdF9wYXJhbXMgKnBhcmFtcywKPiA+ID4gPiBzdHJ1Y3QKPiA+
+ID4gPiBkZXZpY2UgKmRldikKPiA+ID4gPiArewo+ID4gPiA+ICsJbWVtc2V0KHBhcmFtcywgMCwg
+c2l6ZW9mKHN0cnVjdAo+ID4gPiA+IGRybV9zY2hlZF9pbml0X3BhcmFtcykpOwo+ID4gPiA+ICsK
+PiA+ID4gPiArCXBhcmFtcy0+c3VibWl0X3dxID0gTlVMTDsgLyogVXNlIHRoZSBzeXN0ZW1fd3Eu
+ICovCj4gPiA+ID4gKwlwYXJhbXMtPm51bV9ycXMgPSBEUk1fU0NIRURfUFJJT1JJVFlfQ09VTlQ7
+Cj4gPiA+ID4gKwlwYXJhbXMtPmNyZWRpdF9saW1pdCA9IDE7Cj4gPiA+ID4gKwlwYXJhbXMtPmhh
+bmdfbGltaXQgPSAwOwo+ID4gPiA+ICsJcGFyYW1zLT50aW1lb3V0ID0gbXNlY3NfdG9famlmZmll
+cyg1MDApOwo+ID4gPiA+ICsJcGFyYW1zLT50aW1lb3V0X3dxID0gTlVMTDsgLyogVXNlIHRoZSBz
+eXN0ZW1fd3EuICovCj4gPiA+ID4gKwlwYXJhbXMtPnNjb3JlID0gTlVMTDsKPiA+ID4gPiArCXBh
+cmFtcy0+ZGV2ID0gZGV2Owo+ID4gPiA+ICt9Cj4gPiA+IAo+ID4gPiBDb3VsZCB3ZSB1c2Ugb25s
+eSBvbmUgZnVuY3Rpb24gdGhhdCB0YWtlcyBzdHJ1Y3QgdjNkX2RldiAqdjNkLAo+ID4gPiBlbnVt
+Cj4gPiA+IHYzZF9xdWV1ZSwgYW5kIHNjaGVkX29wcyBhcyBhcmd1bWVudHMgKGluc3RlYWQgb2Yg
+b25lIGZ1bmN0aW9uCj4gPiA+IHBlcgo+ID4gPiBxdWV1ZSk/IFlvdSBjYW4gZ2V0IHRoZSBuYW1l
+IG9mIHRoZSBzY2hlZHVsZXIgYnkgY29uY2F0ZW5hdGluZwo+ID4gPiAidjNkXyIKPiA+ID4gdG8K
+PiA+ID4gdGhlIHJldHVybiBvZiB2M2RfcXVldWVfdG9fc3RyaW5nKCkuCj4gPiA+IAo+ID4gPiBJ
+IGJlbGlldmUgaXQgd291bGQgbWFrZSB0aGUgY29kZSBtdWNoIHNpbXBsZXIuCj4gPiAKPiA+IEhl
+bGxvLAo+ID4gCj4gPiBzbyBqdXN0IHRvIGdldCB0aGF0IHJpZ2h0Ogo+ID4gWW91J2QgbGlrZSB0
+byBoYXZlIG9uZSB1bml2ZXJzYWwgZnVuY3Rpb24gdGhhdCBzd2l0Y2gtY2FzZXMgb3ZlciBhbgo+
+ID4gZW51bSwgc2V0cyB0aGUgb3BzIGFuZCBjcmVhdGVzIHRoZSBuYW1lIHdpdGggc3RyaW5nIGNv
+bmNhdGVuYXRpb24/Cj4gPiAKPiA+IEknbSBub3QgY29udmluY2VkIHRoYXQgdGhpcyBpcyBzaW1w
+bGVyIHRoYW4gYSBmZXcgc21hbGwgZnVuY3Rpb25zLAo+ID4gYnV0Cj4gPiBpdCdzIG5vdCBteSBj
+b21wb25lbnQsIHNv4oCmCj4gPiAKPiA+IFdoYXRldmVyIHdlJ2xsIGRvIHdpbGwgYmUgc2ltcGxl
+ciB0aGFuIHRoZSBleGlzdGluZyBjb2RlLCB0aG91Z2guCj4gPiBSaWdodAo+ID4gbm93IG5vIHJl
+YWRlciBjYW4gc2VlIGF0IGZpcnN0IGdsYW5jZSB3aGV0aGVyIGFsbCB0aG9zZSBzY2hlZHVsZXJz
+Cj4gPiBhcmUKPiA+IGlkZW50aWNhbGx5IHBhcmFtZXRyaXplZCBvciBub3QuCj4gPiAKPiAKPiBU
+aGlzIGlzIG15IHByb3Bvc2FsIChqdXN0IGEgcXVpY2sgZHJhZnQsIHBsZWFzZSBjaGVjayBpZiBp
+dAo+IGNvbXBpbGVzKToKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rf
+c2NoZWQuYyAKPiBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3NjaGVkLmMKPiBpbmRleCA5NjE0
+NjUxMjhkODAuLjdjYzQ1YTBjNmNhMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdjNk
+L3YzZF9zY2hlZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc2NoZWQuYwo+IEBA
+IC04MjAsNjcgKzgyMCw2MiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9zY2hlZF9iYWNrZW5k
+X29wcyAKPiB2M2RfY3B1X3NjaGVkX29wcyA9IHsKPiDCoMKgwqDCoMKgwqDCoMKgIC5mcmVlX2pv
+YiA9IHYzZF9jcHVfam9iX2ZyZWUKPiDCoCB9Owo+IAo+ICtzdGF0aWMgaW50Cj4gK3YzZF9zY2hl
+ZF9xdWV1ZV9pbml0KHN0cnVjdCB2M2RfZGV2ICp2M2QsIGVudW0gdjNkX3F1ZXVlIHF1ZXVlLAo+
+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgZHJt
+X3NjaGVkX2JhY2tlbmRfb3BzICpvcHMsIGNvbnN0CgpJcyBpdCBhIHF1ZXVlLCB0aG91Z2g/CgpI
+b3cgYWJvdXQgX3YzZF9zY2hlZF9pbml0KCk/CgpQLgoKPiBjaGFyIAo+ICpuYW1lKQo+ICt7Cj4g
+K8KgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX3NjaGVkX2luaXRfcGFyYW1zIHBhcmFtcyA9IHsKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuc3VibWl0X3dxID0gTlVMTCwKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAubnVtX3JxcyA9IERSTV9TQ0hFRF9QUklPUklUWV9DT1VO
+VCwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuY3JlZGl0X2xpbWl0ID0gMSwKPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuaGFuZ19saW1pdCA9IDAsCj4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqAgLnRpbWVvdXQgPSBtc2Vjc190b19qaWZmaWVzKDUwMCksCj4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnRpbWVvdXRfd3EgPSBOVUxMLAo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5zY29yZSA9IE5VTEwsCj4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgLmRldiA9IHYzZC0+ZHJtLmRldiwKPiArwqDCoMKgwqDCoMKgIH07Cj4g
+Kwo+ICvCoMKgwqDCoMKgwqAgcGFyYW1zLm9wcyA9IG9wczsKPiArwqDCoMKgwqDCoMKgIHBhcmFt
+cy5uYW1lID0gbmFtZTsKPiArCj4gK8KgwqDCoMKgwqDCoCByZXR1cm4gZHJtX3NjaGVkX2luaXQo
+JnYzZC0+cXVldWVbcXVldWVdLnNjaGVkLCAmcGFyYW1zKTsKPiArfQo+ICsKPiDCoCBpbnQKPiDC
+oCB2M2Rfc2NoZWRfaW5pdChzdHJ1Y3QgdjNkX2RldiAqdjNkKQo+IMKgIHsKPiAtwqDCoMKgwqDC
+oMKgIGludCBod19qb2JzX2xpbWl0ID0gMTsKPiAtwqDCoMKgwqDCoMKgIGludCBqb2JfaGFuZ19s
+aW1pdCA9IDA7Cj4gLcKgwqDCoMKgwqDCoCBpbnQgaGFuZ19saW1pdF9tcyA9IDUwMDsKPiDCoMKg
+wqDCoMKgwqDCoMKgIGludCByZXQ7Cj4gCj4gLcKgwqDCoMKgwqDCoCByZXQgPSBkcm1fc2NoZWRf
+aW5pdCgmdjNkLT5xdWV1ZVtWM0RfQklOXS5zY2hlZCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZ2M2RfYmluX3NjaGVkX29wcywgTlVM
+TCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIERSTV9TQ0hFRF9QUklPUklUWV9DT1VOVCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGh3X2pvYnNfbGltaXQsIGpvYl9oYW5nX2xp
+bWl0LAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgbXNlY3NfdG9famlmZmllcyhoYW5nX2xpbWl0X21zKSwgTlVMTCwKPiAtwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5VTEwsICJ2M2Rf
+YmluIiwgdjNkLT5kcm0uZGV2KTsKPiArwqDCoMKgwqDCoMKgIHJldCA9IHYzZF9zY2hlZF9xdWV1
+ZV9pbml0KHYzZCwgVjNEX0JJTiwgJnYzZF9iaW5fc2NoZWRfb3BzLAo+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgInYz
+ZF9iaW4iKTsKPiDCoMKgwqDCoMKgwqDCoMKgIGlmIChyZXQpCj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPiAKPiAtwqDCoMKgwqDCoMKgIHJldCA9IGRybV9z
+Y2hlZF9pbml0KCZ2M2QtPnF1ZXVlW1YzRF9SRU5ERVJdLnNjaGVkLAo+IC3CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJnYzZF9yZW5kZXJfc2No
+ZWRfb3BzLCBOVUxMLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgRFJNX1NDSEVEX1BSSU9SSVRZX0NPVU5ULAo+IC3CoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaHdfam9ic19saW1pdCwg
+am9iX2hhbmdfbGltaXQsCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCBtc2Vjc190b19qaWZmaWVzKGhhbmdfbGltaXRfbXMpLCBOVUxMLAo+
+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+TlVMTCwgInYzZF9yZW5kZXIiLCB2M2QtPmRybS5kZXYpOwo+ICvCoMKgwqDCoMKgwqAgcmV0ID0g
+djNkX3NjaGVkX3F1ZXVlX2luaXQodjNkLCBWM0RfUkVOREVSLAo+ICZ2M2RfcmVuZGVyX3NjaGVk
+X29wcywKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgICJ2M2RfcmVuZGVyIik7Cj4gwqDCoMKgwqDCoMKgwqDCoCBpZiAo
+cmV0KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZmFpbDsKPiAKPiBb
+Li4uXQo+IAo+IEF0IGxlYXN0IGZvciBtZSwgdGhpcyBsb29rcyBtdWNoIHNpbXBsZXIgdGhhbiBv
+bmUgZnVuY3Rpb24gZm9yIGVhY2gKPiBWM0QgcXVldWUuCj4gCj4gQmVzdCBSZWdhcmRzLAo+IC0g
+TWHDrXJhCj4gCj4gPiBQLgo+ID4gCj4gPiAKPiA+ID4gCj4gPiA+IEJlc3QgUmVnYXJkcywKPiA+
+ID4gLSBNYcOtcmEKPiA+ID4gCj4gCgo=
 
-After giving this a second thought, I see an obvious issue from the
-generic code perspective. If you set new_crtc_state->mode_changed from
-your atomic_check(), then it's already too late for
-drm_atomic_helper_check_modeset() to add all affected (aka routed to the
-CRTC) planes to the state. Their atomic_check() callback will be
-skipped. So even if the end-result works in the MGAg200 case at this
-moment, I think we should still disallow that.
-
-Another option might be similar to what we had to do in the DPU driver:
-check whether the mode_changed has to be set before calling
-drm_atomic_helper_check(). Maybe we should consider adding new set of
-callbacks to the drm_*_helper_funcs, which are executed at the beginning
-of the drm_atomic_helper_check_modeset().
-
-WDYT?
-
-> You mention that drm_atomic_helper_check() needs to rerun if mode_changed
-> flips. Would it be possible to implement this instead within the helper?
-> 
-> Best regards
-> Thomas
-> 
-> [1] https://elixir.bootlin.com/linux/v6.12/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L493
-> 
-> > 
-> > As suggested by Simona, implement generic code to verify that the
-> > drivers abide to those requirement and rework MSM driver to follow that
-> > restrictions.
-> > 
-> > There are no dependencies between core and MSM parts, so they can go
-> > separately via corresponding trees.
-> > 
-> > Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
-> > Link: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> > Dmitry Baryshkov (6):
-> >        drm/atomic-helper: document drm_atomic_helper_check() restrictions
-> >        drm/atomic: prepare to check that drivers follow restrictions for needs_modeset
-> >        drm/msm/dpu: don't use active in atomic_check()
-> >        drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
-> >        drm/msm/dpu: simplify dpu_encoder_get_topology() interface
-> >        drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
-> > 
-> >   drivers/gpu/drm/drm_atomic.c                |  3 +
-> >   drivers/gpu/drm/drm_atomic_helper.c         | 86 ++++++++++++++++++++++++++---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 --
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 82 +++++++++++++++++----------
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++
-> >   drivers/gpu/drm/msm/msm_atomic.c            | 13 ++++-
-> >   drivers/gpu/drm/msm/msm_kms.h               |  7 +++
-> >   include/drm/drm_atomic.h                    | 10 ++++
-> >   9 files changed, 192 insertions(+), 43 deletions(-)
-> > ---
-> > base-commit: b72747fdde637ebf52e181671bf6f41cd773b3e1
-> > change-id: 20241222-drm-dirty-modeset-88079bd27ae6
-> > 
-> > Best regards,
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-> 
-
--- 
-With best wishes
-Dmitry
