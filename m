@@ -2,64 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6475DA1A7E9
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 17:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9509A1A7F2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 17:36:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5C110E298;
-	Thu, 23 Jan 2025 16:34:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3463410E882;
+	Thu, 23 Jan 2025 16:36:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NjYpjVGa";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ll9sBj50";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BFC1F10E298
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 16:34:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2421510E882
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 16:36:23 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 5A688A40E14;
- Thu, 23 Jan 2025 16:33:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5C55DC4CEDD;
- Thu, 23 Jan 2025 16:34:53 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E8F41A40ECD;
+ Thu, 23 Jan 2025 16:34:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9274EC4CED3;
+ Thu, 23 Jan 2025 16:36:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737650093;
- bh=LLJaFjiqDf0n+PYKBiIkpdeF02adpxlg3h9RrVFHD8I=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=NjYpjVGaCkD6fJF+hUS4HrnLYEHBC5arfl1a3D0IrZ/j8WhzyPJUOERrM5ftOCyCJ
- XzMGWnBecJEDG8VkWCwLWw4msIsaMcUc18XVFRezJVYEjhcfluQnIBDCRsid0CK0H/
- xl1mYbKtVyojNOSyOaxm4vvDDMCAdHRjlcMwE1L44gg9Klu9sR869SKBWjNzEGY9RG
- 7AnX1ZElIn/F5xiysQPTNVdSr5WrfFyFuSDLXncjdvxnGmQmJLfFtK6eS4IXHDWmSt
- v1G1B0Odoe7LqwFFpeyt0Ho92c9ZI85uyVpLUleYRk1dSWQi9nUXKFepIgSUN1eyYU
- AQrRtnapQWWKA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 3FEEAC02182;
- Thu, 23 Jan 2025 16:34:53 +0000 (UTC)
-From: =?utf-8?q?Noralf_Tr=C3=B8nnes_via_B4_Relay?=
- <devnull+noralf.tronnes.org@kernel.org>
-Date: Thu, 23 Jan 2025 17:34:25 +0100
-Subject: =?utf-8?q?=5BPATCH=5D_MAINTAINERS=3A_Remove_Noralf_Tr=C3=B8nnes_?=
- =?utf-8?q?as_driver_maintainer?=
+ s=k20201202; t=1737650182;
+ bh=BmaC/9qjSSFndeU5m4xN9uF9+Xs0FMsPpR2NDKgxvGU=;
+ h=Date:From:To:Subject:From;
+ b=Ll9sBj50C3HME3Gu9su6uoNaCtWK9GDmLnPMmOStb2gCnt/mg3alCNlzFn/geTuwA
+ nrsK/hp9N0UsPGfZRFUtHZJ0BBzwgLpZcf+p5cKIiMcS2tWEjoncyAsKF8QKPKs1Ao
+ EfUzrgw9KQtTYd1/EbaH910ywv2jKATLeJBCcWcc6YW4IUjmxYhuTbHDEjMXxRj4ii
+ FlOX8MhXawiu6Ht6bysAXRD9RqebNOYZTUtceAsBWGWiWXUIViZXbgGelJH+YrI1sB
+ SNAtipgn/auAE4/PNUJGt+Lh3XtiHDk5BAXcFKzKivJme+WJTT/kMFJngwk58698oX
+ U8oUs9wAfa/Rw==
+Date: Thu, 23 Jan 2025 17:36:17 +0100
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes and cleanups for v6.14-rc1
+Message-ID: <Z5JwASMQjjTjEncJ@carbonx1>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250123-remove-myself-as-maintainer-v1-1-cc3ab7cd98ae@tronnes.org>
-X-B4-Tracking: v=1; b=H4sIAJBvkmcC/x3MQQqDQAxG4atI1g2MwUHwKtLF2P62AWcsSZEW8
- e4OLt7i27ydHKZwGpqdDJu6rqWivTX0eKfyAuuzmiRIDK0IG/K6gfPfscycnHPS8q3BuI9dmKS
- LaQqR6uFjmPV33cf7cZwk2hpgbQAAAA==
-X-Change-ID: 20250122-remove-myself-as-maintainer-7540b245ab05
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737650092; l=2162;
- i=noralf@tronnes.org; s=20221122; h=from:subject:message-id;
- bh=sRUeNf6klT+wIBzNm//9sMgiGRipBFhrw3r7FEK3L0s=;
- b=OrBeu5/cX00/bMfAe91MyuliFg1iUdvlj4rGD1GChl6gzYjhRa7sDL/NR6VJW/ATi4IQjdlve
- Un9PJWdyd3SDm6Ld0OJc4I7GylzXT7vxa1x5YOzbfQzSgkyjFSC8gt8
-X-Developer-Key: i=noralf@tronnes.org; a=ed25519;
- pk=0o9is4iddvvlrY3yON5SVtAbgPnVs0LfQsjfqR2Hvz8=
-X-Endpoint-Received: by B4 Relay for noralf@tronnes.org/20221122 with auth_id=8
-X-Original-From: =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,70 +53,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: noralf@tronnes.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Noralf Trønnes <noralf@tronnes.org>
+Hi Linus,
 
-Remove myself as maintainer for gud, mi0283qt, panel-mipi-dbi and repaper.
-My fatigue illness has finally closed the door on doing development of
-even moderate complexity so it's sad to let this go.
+please pull three fixes and 9 cleanup patches for fbdev for this merge window.
 
-Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
----
- MAINTAINERS | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+This series prevents a possible crash and one memory leak in omapfb
+and fixes possible misbehaviour in vga16fb.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4b038382481f99e336a2de0d2249537ec6781463..ed86d884ee0dfeede2ee185f7779380d04c5080b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7173,8 +7173,7 @@ F:	Documentation/devicetree/bindings/display/panel/panel-edp.yaml
- F:	drivers/gpu/drm/panel/panel-edp.c
- 
- DRM DRIVER FOR GENERIC USB DISPLAY
--M:	Noralf Trønnes <noralf@tronnes.org>
--S:	Maintained
-+S:	Orphan
- W:	https://github.com/notro/gud/wiki
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/gud/
-@@ -7279,15 +7278,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/mgag200/
- 
- DRM DRIVER FOR MI0283QT
--M:	Noralf Trønnes <noralf@tronnes.org>
--S:	Maintained
-+S:	Orphan
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt
- F:	drivers/gpu/drm/tiny/mi0283qt.c
- 
- DRM DRIVER FOR MIPI DBI compatible panels
--M:	Noralf Trønnes <noralf@tronnes.org>
--S:	Maintained
-+S:	Orphan
- W:	https://github.com/notro/panel-mipi-dbi/wiki
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
-@@ -7384,8 +7381,7 @@ F:	Documentation/devicetree/bindings/display/bridge/ps8640.yaml
- F:	drivers/gpu/drm/bridge/parade-ps8640.c
- 
- DRM DRIVER FOR PERVASIVE DISPLAYS REPAPER PANELS
--M:	Noralf Trønnes <noralf@tronnes.org>
--S:	Maintained
-+S:	Orphan
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/repaper.txt
- F:	drivers/gpu/drm/tiny/repaper.c
+Thanks,
+Helge
 
----
-base-commit: a9301e5bef12f8989a02d886109f13e89e1e51b0
-change-id: 20250122-remove-myself-as-maintainer-7540b245ab05
+----------------------------------------------------------------
+The following changes since commit 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8:
 
-Best regards,
--- 
-Noralf Trønnes <noralf@tronnes.org>
+  Linux 6.13-rc3 (2024-12-15 15:58:23 -0800)
 
+are available in the Git repository at:
 
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.14-rc1
+
+for you to fetch changes up to d08e78362a5f5e156b6a1dae90c28ed48c0a8357:
+
+  fbdev: lcdcfb: Use backlight helper (2025-01-21 14:16:39 +0100)
+
+----------------------------------------------------------------
+fbdev fixes and updates for 6.14-rc1:
+
+Fixes:
+- omap: use threaded IRQ for LCD DMA
+- omapfb: Fix an OF node leak in dss_of_port_get_parent_device()
+- vga16fb: fix orig_video_isVGA confusion
+
+Updates & cleanups:
+- hdmi: Remove unused hdmi_infoframe_check
+- omapfb: Remove unused hdmi5_core_handle_irqs
+- omapfb: Use of_property_present() to test existence of DT property
+- omapfb: Use syscon_regmap_lookup_by_phandle_args
+- efifb: Change the return value type to void
+- lcdcfb: Use backlight helper
+- udlfb: Use const 'struct bin_attribute' callback
+- radeon: Use const 'struct bin_attribute' callbacks
+- sm501fb: Use str_enabled_disabled() helper in sm501fb_init_fb()
+
+----------------------------------------------------------------
+Aaro Koskinen (1):
+      fbdev: omap: use threaded IRQ for LCD DMA
+
+Dr. David Alan Gilbert (2):
+      video: hdmi: Remove unused hdmi_infoframe_check
+      fbdev: omapfb: Remove unused hdmi5_core_handle_irqs
+
+Joe Hattori (1):
+      fbdev: omapfb: Fix an OF node leak in dss_of_port_get_parent_device()
+
+Krzysztof Kozlowski (2):
+      fbdev: omapfb: Use of_property_present() to test existence of DT property
+      fbdev: omapfb: Use syscon_regmap_lookup_by_phandle_args
+
+Shixiong Ou (2):
+      fbdev: efifb: Change the return value type to void
+      fbdev: lcdcfb: Use backlight helper
+
+Thomas Wei�schuh (2):
+      fbdev: udlfb: Use const 'struct bin_attribute' callback
+      fbdev: radeon: Use const 'struct bin_attribute' callbacks
+
+Thorsten Blum (1):
+      fbdev: sm501fb: Use str_enabled_disabled() helper in sm501fb_init_fb()
+
+Zsolt Kajtar (1):
+      fbdev: vga16fb: fix orig_video_isVGA confusion
+
+ drivers/video/fbdev/aty/radeon_base.c             |  8 +++----
+ drivers/video/fbdev/efifb.c                       |  4 +---
+ drivers/video/fbdev/omap/lcd_dma.c                |  4 ++--
+ drivers/video/fbdev/omap2/omapfb/dss/dispc.c      | 11 +++------
+ drivers/video/fbdev/omap2/omapfb/dss/dss-of.c     |  1 +
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c | 17 --------------
+ drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h |  1 -
+ drivers/video/fbdev/sh_mobile_lcdcfb.c            |  6 +----
+ drivers/video/fbdev/sm501fb.c                     |  5 ++--
+ drivers/video/fbdev/udlfb.c                       |  8 +++----
+ drivers/video/fbdev/vga16fb.c                     |  7 +++---
+ drivers/video/hdmi.c                              | 28 -----------------------
+ include/linux/hdmi.h                              |  1 -
+ 13 files changed, 23 insertions(+), 78 deletions(-)
