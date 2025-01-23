@@ -2,82 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33DFBA19E8C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 07:48:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4247EA19EB8
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 08:12:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BECA10E772;
-	Thu, 23 Jan 2025 06:48:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44FA010E0FA;
+	Thu, 23 Jan 2025 07:12:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="o/nVxGx4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VtD9GGru";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAFCE10E772
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 06:48:21 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-21675fd60feso10889775ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Jan 2025 22:48:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1737614901; x=1738219701; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EDMfsirDmMuW6vuuox69beKxHRz8d3DOlRa3xovfSw0=;
- b=o/nVxGx41d1bgcWXxUHlnxw6vrScqaBmJe5lIVfXpX/vgz27z/rid4NfZ8vzVg+NxT
- eceX2xLTTsCijSLmyU5tcnnQTVI00Ebsekqmx1++q3fs690WNYxpDm8AsEbjvYmcEAFw
- T7GFg8I2UJOCzTf0K2D0tupH5mhCsWMMR/8Wdzx+JbcGh7kYGTBBRLG4dPu6cP16WtxE
- /hW+jayH4Fs9Gwqt+G74xYUZhXWIs4Aiec7/UAy8zrrtKzeo3fmIXPN22Zu71dHFbNFB
- w1L8XxRmNm/+aWN38nncrpicN5VvaflNvyJVp5O3J1PgvRqo4Io8QdAQDiosmJC8/wmh
- cYUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737614901; x=1738219701;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EDMfsirDmMuW6vuuox69beKxHRz8d3DOlRa3xovfSw0=;
- b=PfXMFPJgPmjvnmm6Ad7+gHPSVAKDPK/3DtgSYq+0WQnq8ppsy3VkOYV+FQy52ftswp
- cslhZi4aQREYz3EZcHmFzrYrF/ojU34TeQO1ffMkg1rjwH8KA61VKpBgBXUujDP/ue0T
- rD+Zs8MVSr8Cy9/a0P5FHTPCd7M379jxVi/m2ZRJz9Ct12ibBbeNbjUF2SN/A2P2KM8U
- tQOX7tOBOVo/s4pgG+ee4/ZYRAH7z+gvBw0DPK3RUl6s9pV71W1m5Eqd88bhY7VyColn
- 8M6VEU81EgUiYVjysDyNXxshEop3sOJmpr9LjhSDu4OlaIsgR2wNiqDgvxUq3Q46IMYS
- HJDA==
-X-Gm-Message-State: AOJu0YwLqLyiHG9vrL/BdP+PIziZHdHvlvf9cG2CcbO7P3OXbTDZVeZ0
- 6VlDurfYdZRYy71ODBEyy9n6oxGFVk0+z0UMk7z7JWD3Yjc93ZkciyWex2Ucf1c=
-X-Gm-Gg: ASbGnctlCbx4HHao93S8TDpw0+DR3UW2Ig0Bjg4JmFVNotemiaPiBPGQ3UBpKUcWQD3
- Hqk0rwMoVbXzRzuGrlTXsBzpitoFUxBGfkax23ylYQufQGyoOrS22eQgMSDxmIAoEmAN9Sipyye
- vY+pu0gq5+TfqcmWPSZUrMvEfITlvqzyb4ykhR22M/PeCTUypnMRBsI4F7FUqGNE59r7K3Vtb9P
- OcqFVon7qfkvEReZdenw8Y6tjny9o37TRCLZ3p9BVlkVhQ2aTfx05xZxO6sPTzbLOvvCbUV+Y+x
- kKUEjZe2ggLL3mBbJivOXFeG9PEbr97MV7hHo9mEKakVnNIX0y9E
-X-Google-Smtp-Source: AGHT+IHzKNFcJ3yuzDSlsqMLC277qN3wI2xPw8XfZS9poSg4o5GiwCz4Tt++c/ivV9I7GLwpshNy6Q==
-X-Received: by 2002:a05:6a20:4303:b0:1e1:9fef:e975 with SMTP id
- adf61e73a8af0-1eb215815a0mr33685291637.26.1737614901299; 
- Wed, 22 Jan 2025 22:48:21 -0800 (PST)
-Received: from dgp100339560-01.huaqin.com ([116.66.212.162])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-a9bcc323777sm11923454a12.20.2025.01.22.22.48.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Jan 2025 22:48:20 -0800 (PST)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org,
- dianders@chromium.org
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH v4 3/3] drm/panel: boe-tv101wum-nl6: support for
- starry-2082109qfh040022-50e MIPI-DSI panel
-Date: Thu, 23 Jan 2025 14:47:58 +0800
-Message-Id: <20250123064758.743798-4-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250123064758.743798-1-yelangyan@huaqin.corp-partner.google.com>
-References: <20250123064758.743798-1-yelangyan@huaqin.corp-partner.google.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9139D10E0FA
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 07:12:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=QPg7JT99Xl+wC+3kyRout8q7754kvYflrWqNPW706PU=; b=VtD9GGruXNBvWNfmnYhkrjacmt
+ J9YAsmwEJ18X9qKh+5lqXYyjjFOE6TgJC4nmkStUCiRIkZQRIduMheEzg5sEUMBcb2qkMCPYWoqP0
+ 7Bn0BENkplgxQE/dCd+7TiZ8G6H8qk+KrJ9hZmCMdpARXLl8M5tkYEljPyV2moCf6nzjxpeg398CO
+ OkFpYkgxg47oudDUZAJpfXXDLJUWt6VVyQTMU6wViEiC9Nj8RNCMTnTWp0ooMAbAV9fjX4/P1w8G3
+ 9dDqpP0PeAP7DsugL3gCBWoXzmm9bVAYD+VlHDYItq1YfhPMB7rGYUXQd5BtrSf6VmMzsC1xQUxby
+ TWozBHWA==;
+Received: from [47.63.138.17] (helo=[192.168.0.17])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tarOC-0015pd-75; Thu, 23 Jan 2025 08:12:32 +0100
+Message-ID: <b60d2a9a374a278256fe290a2a389f59d3062754.camel@igalia.com>
+Subject: Re: [PATCH] drm/v3d: Assign job pointer to NULL before signaling
+ the fence
+From: Iago Toral <itoral@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, Chema Casanova <jmcasanova@igalia.com>, Phil Elwell
+ <phil@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
+ stable@vger.kernel.org
+Date: Thu, 23 Jan 2025 08:12:19 +0100
+In-Reply-To: <20250123012403.20447-1-mcanal@igalia.com>
+References: <20250123012403.20447-1-mcanal@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,190 +63,192 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The starry-2082109qfh040022-50e is a 10.95" TFT panel.
-which fits in nicely with the existing panel-boe-tv101wum-nl6 driver.
-From the datasheet, MIPI needs to keep the LP11 state before the
-lcm_reset pin is pulled high, so increase lp11_before_reset flag.
+Looks good to me:
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 148 ++++++++++++++++++
- 1 file changed, 148 insertions(+)
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 2a84ce3a33ed..ba8921c13942 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -1400,6 +1400,123 @@ static int starry_qfh032011_53g_init(struct boe_panel *boe)
- 	return 0;
- };
- 
-+static int starry_2082109qfh040022_50e_init(struct boe_panel *boe)
-+{
-+	struct mipi_dsi_multi_context ctx = { .dsi = boe->dsi };
-+
-+	msleep(50);
-+
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x83, 0x10, 0x21, 0x55, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD9, 0xD1);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x2C, 0xB5, 0xB5, 0x31, 0xF1, 0x33, 0xC3, 0x57,
-+		0x36, 0x36, 0x36, 0x36, 0x1A, 0x8B, 0x11, 0x65, 0x00, 0x88, 0xFA, 0xFF, 0xFF,
-+		0x8F, 0xFF, 0x08, 0x3C, 0x33);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB2, 0x00, 0x47, 0xB0, 0x80, 0x00, 0x22, 0x70, 0x3C,
-+		0xA1, 0x22, 0x00, 0x00, 0x00, 0x88, 0xF4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB4, 0x14, 0x16, 0x14, 0x50, 0x14, 0x50, 0x0D, 0x6A,
-+		0x0D, 0x6A, 0x01, 0x9E);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB6, 0x34, 0x34, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB8, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCD);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x84);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBC, 0x1B, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBE, 0x20);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBF, 0xFC, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC0, 0x38, 0x38, 0x22, 0x11, 0x33, 0xA0, 0x61, 0x08,
-+		0xF5, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCC);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC7, 0x80);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC6);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC8, 0x97);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xC9, 0x00, 0x1E, 0x30, 0xD4, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x08, 0x13, 0x07, 0x00, 0x0F, 0x16);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCC, 0x02, 0x03, 0x44);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD0, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD1, 0x37, 0x06, 0x00, 0x02, 0x04, 0x2C, 0xFF);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x3B, 0x03, 0x73, 0x3B, 0x21, 0x21, 0x03, 0x03, 0x98, 0x10, 0x1D, 0x00,
-+		0x1D, 0x32, 0x17, 0xA1, 0x07, 0xA1, 0x43, 0x17, 0xA6, 0x07, 0xA6, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD5, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x40, 0x40,
-+		0x18, 0x18, 0x18, 0x18, 0x2A, 0x2B, 0x1F, 0x1F, 0x1E, 0x1E, 0x24, 0x25, 0x26,
-+		0x27, 0x28, 0x29, 0x2A, 0x2B, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-+		0x08, 0x09, 0x0A, 0x0B, 0x20, 0x21, 0x18, 0x18, 0x18, 0x18);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x02, 0xAA, 0xEA, 0xAA, 0xAA, 0x00, 0x02, 0xAA,
-+		0xEA, 0xAA, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0x07, 0x10, 0x10, 0x2A, 0x32, 0x9F, 0x01, 0x5A,
-+		0x91, 0x14, 0x14, 0x00, 0x00, 0x00, 0x00, 0x12, 0x05, 0x02, 0x02, 0x10, 0x33,
-+		0x02, 0x04, 0x18, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x01, 0x7F, 0x11, 0xFD);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x86);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD2, 0x3D);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC5);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x00, 0x00, 0x00, 0x80, 0x80, 0x0C, 0xA1);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0x03, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x03, 0xFF,
-+		0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+		0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0x02, 0x00, 0x2D, 0x01, 0x7F, 0x0F, 0x7C, 0x10,
-+		0xA0, 0x00, 0x00, 0x77, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBF, 0xF2);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xCB, 0x02, 0x00, 0x00, 0x10, 0x58);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD2, 0x0A, 0x0A, 0x05, 0x03, 0x0A, 0x0A, 0x01, 0x03,
-+		0x01, 0x01, 0x05, 0x0E);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCC);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD3, 0x03, 0x1F, 0xE0, 0x11, 0x70);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0xAB, 0xFF, 0xFF, 0xFF, 0xFF, 0xA0, 0xAB, 0xFF,
-+		0xFF, 0xFF, 0xFF, 0xA0);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE7, 0xFE, 0x01, 0xFE, 0x01, 0xFE, 0x01, 0x00, 0x00,
-+		0x00, 0x03, 0x00, 0x03, 0x81, 0x02, 0x40, 0x00, 0x20, 0x9E, 0x02, 0x01, 0x00,
-+		0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC6);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB4, 0x03, 0xFF, 0xF8);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xD8, 0xAA, 0xAB, 0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xAB,
-+		0xEA, 0xAA, 0xAA, 0xA0, 0xAA, 0xBF, 0xFF, 0xFF, 0xFE, 0xA0, 0xAA, 0xBF, 0xFF,
-+		0xFF, 0xFE, 0xA0, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xA0, 0xAA, 0xAA, 0xAA, 0xAA,
-+		0xAA, 0xA0);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE1, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x96);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC5);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x4F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xCC);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBA, 0x84);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xBD, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x00, 0x00, 0x00, 0x00);
-+
-+	msleep(110);
-+
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x11);
-+
-+	mipi_dsi_msleep(&ctx, 120);
-+
-+	mipi_dsi_dcs_write_seq_multi(&ctx, 0x29);
-+
-+	mipi_dsi_msleep(&ctx, 20);
-+
-+	return 0;
-+}
-+
- static inline struct boe_panel *to_boe_panel(struct drm_panel *panel)
- {
- 	return container_of(panel, struct boe_panel, base);
-@@ -1761,6 +1878,34 @@ static const struct panel_desc starry_qfh032011_53g_desc = {
- 	.lp11_before_reset = true,
- };
- 
-+static const struct drm_display_mode starry_2082109qfh040022_50e_default_mode = {
-+	.clock = 192105,
-+	.hdisplay = 1200,
-+	.hsync_start = 1200 + 160,
-+	.hsync_end = 1200 + 160 + 66,
-+	.htotal = 1200 + 160 + 66 + 120,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 115,
-+	.vsync_end = 1920 + 115 + 8,
-+	.vtotal = 1920 + 115 + 8 + 28,
-+	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-+};
-+
-+static const struct panel_desc starry_2082109qfh040022_50e_desc = {
-+	.modes = &starry_2082109qfh040022_50e_default_mode,
-+	.bpc = 8,
-+	.size = {
-+		.width_mm = 147,
-+		.height_mm = 235,
-+	},
-+	.lanes = 4,
-+	.format = MIPI_DSI_FMT_RGB888,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
-+		      MIPI_DSI_MODE_LPM,
-+	.init = starry_2082109qfh040022_50e_init,
-+	.lp11_before_reset = true,
-+};
-+
- static int boe_panel_get_modes(struct drm_panel *panel,
- 			       struct drm_connector *connector)
- {
-@@ -1929,6 +2074,9 @@ static const struct of_device_id boe_of_match[] = {
- 	{ .compatible = "starry,2081101qfh032011-53g",
- 	  .data = &starry_qfh032011_53g_desc
- 	},
-+	{ .compatible = "starry,2082109qfh040022-50e",
-+	  .data = &starry_2082109qfh040022_50e_desc
-+	},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, boe_of_match);
--- 
-2.34.1
+El mi=C3=A9, 22-01-2025 a las 22:24 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> In commit e4b5ccd392b9 ("drm/v3d: Ensure job pointer is set to NULL
+> after job completion"), we introduced a change to assign the job
+> pointer
+> to NULL after completing a job, indicating job completion.
+>=20
+> However, this approach created a race condition between the DRM
+> scheduler workqueue and the IRQ execution thread. As soon as the
+> fence is
+> signaled in the IRQ execution thread, a new job starts to be
+> executed.
+> This results in a race condition where the IRQ execution thread sets
+> the
+> job pointer to NULL simultaneously as the `run_job()` function
+> assigns
+> a new job to the pointer.
+>=20
+> This race condition can lead to a NULL pointer dereference if the IRQ
+> execution thread sets the job pointer to NULL after `run_job()`
+> assigns
+> it to the new job. When the new job completes and the GPU emits an
+> interrupt, `v3d_irq()` is triggered, potentially causing a crash.
+>=20
+> [=C2=A0 466.310099] Unable to handle kernel NULL pointer dereference at
+> virtual address 00000000000000c0
+> [=C2=A0 466.318928] Mem abort info:
+> [=C2=A0 466.321723]=C2=A0=C2=A0 ESR =3D 0x0000000096000005
+> [=C2=A0 466.325479]=C2=A0=C2=A0 EC =3D 0x25: DABT (current EL), IL =3D 32=
+ bits
+> [=C2=A0 466.330807]=C2=A0=C2=A0 SET =3D 0, FnV =3D 0
+> [=C2=A0 466.333864]=C2=A0=C2=A0 EA =3D 0, S1PTW =3D 0
+> [=C2=A0 466.337010]=C2=A0=C2=A0 FSC =3D 0x05: level 1 translation fault
+> [=C2=A0 466.341900] Data abort info:
+> [=C2=A0 466.344783]=C2=A0=C2=A0 ISV =3D 0, ISS =3D 0x00000005, ISS2 =3D 0=
+x00000000
+> [=C2=A0 466.350285]=C2=A0=C2=A0 CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess=
+ =3D 0
+> [=C2=A0 466.355350]=C2=A0=C2=A0 GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0,=
+ Xs =3D 0
+> [=C2=A0 466.360677] user pgtable: 4k pages, 39-bit VAs,
+> pgdp=3D0000000089772000
+> [=C2=A0 466.367140] [00000000000000c0] pgd=3D0000000000000000,
+> p4d=3D0000000000000000, pud=3D0000000000000000
+> [=C2=A0 466.375875] Internal error: Oops: 0000000096000005 [#1] PREEMPT
+> SMP
+> [=C2=A0 466.382163] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer
+> snd_seq snd_seq_device algif_hash algif_skcipher af_alg bnep
+> binfmt_misc vc4 snd_soc_hdmi_codec drm_display_helper cec
+> brcmfmac_wcc spidev rpivid_hevc(C) drm_client_lib brcmfmac hci_uart
+> drm_dma_helper pisp_be btbcm brcmutil snd_soc_core aes_ce_blk
+> v4l2_mem2mem bluetooth aes_ce_cipher snd_compress
+> videobuf2_dma_contig ghash_ce cfg80211 gf128mul snd_pcm_dmaengine
+> videobuf2_memops ecdh_generic sha2_ce ecc videobuf2_v4l2 snd_pcm v3d
+> sha256_arm64 rfkill videodev snd_timer sha1_ce libaes gpu_sched snd
+> videobuf2_common sha1_generic drm_shmem_helper mc rp1_pio
+> drm_kms_helper raspberrypi_hwmon spi_bcm2835 gpio_keys i2c_brcmstb
+> rp1 raspberrypi_gpiomem rp1_mailbox rp1_adc nvmem_rmem
+> uio_pdrv_genirq uio i2c_dev drm ledtrig_pattern
+> drm_panel_orientation_quirks backlight fuse dm_mod ip_tables x_tables
+> ipv6
+> [=C2=A0 466.458429] CPU: 0 UID: 1000 PID: 2008 Comm: chromium Tainted:
+> G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 C=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.13.0-v8+ #18
+> [=C2=A0 466.467336] Tainted: [C]=3DCRAP
+> [=C2=A0 466.470306] Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
+> [=C2=A0 466.476157] pstate: 404000c9 (nZcv daIF +PAN -UAO -TCO -DIT -SSBS
+> BTYPE=3D--)
+> [=C2=A0 466.483143] pc : v3d_irq+0x118/0x2e0 [v3d]
+> [=C2=A0 466.487258] lr : __handle_irq_event_percpu+0x60/0x228
+> [=C2=A0 466.492327] sp : ffffffc080003ea0
+> [=C2=A0 466.495646] x29: ffffffc080003ea0 x28: ffffff80c0c94200 x27:
+> 0000000000000000
+> [=C2=A0 466.502807] x26: ffffffd08dd81d7b x25: ffffff80c0c94200 x24:
+> ffffff8003bdc200
+> [=C2=A0 466.509969] x23: 0000000000000001 x22: 00000000000000a7 x21:
+> 0000000000000000
+> [=C2=A0 466.517130] x20: ffffff8041bb0000 x19: 0000000000000001 x18:
+> 0000000000000000
+> [=C2=A0 466.524291] x17: ffffffafadfb0000 x16: ffffffc080000000 x15:
+> 0000000000000000
+> [=C2=A0 466.531452] x14: 0000000000000000 x13: 0000000000000000 x12:
+> 0000000000000000
+> [=C2=A0 466.538613] x11: 0000000000000000 x10: 0000000000000000 x9 :
+> ffffffd08c527eb0
+> [=C2=A0 466.545777] x8 : 0000000000000000 x7 : 0000000000000000 x6 :
+> 0000000000000000
+> [=C2=A0 466.552941] x5 : ffffffd08c4100d0 x4 : ffffffafadfb0000 x3 :
+> ffffffc080003f70
+> [=C2=A0 466.560102] x2 : ffffffc0829e8058 x1 : 0000000000000001 x0 :
+> 0000000000000000
+> [=C2=A0 466.567263] Call trace:
+> [=C2=A0 466.569711]=C2=A0 v3d_irq+0x118/0x2e0 [v3d] (P)
+> [=C2=A0 466.573826]=C2=A0 __handle_irq_event_percpu+0x60/0x228
+> [=C2=A0 466.578546]=C2=A0 handle_irq_event+0x54/0xb8
+> [=C2=A0 466.582391]=C2=A0 handle_fasteoi_irq+0xac/0x240
+> [=C2=A0 466.586498]=C2=A0 generic_handle_domain_irq+0x34/0x58
+> [=C2=A0 466.591128]=C2=A0 gic_handle_irq+0x48/0xd8
+> [=C2=A0 466.594798]=C2=A0 call_on_irq_stack+0x24/0x58
+> [=C2=A0 466.598730]=C2=A0 do_interrupt_handler+0x88/0x98
+> [=C2=A0 466.602923]=C2=A0 el0_interrupt+0x44/0xc0
+> [=C2=A0 466.606508]=C2=A0 __el0_irq_handler_common+0x18/0x28
+> [=C2=A0 466.611050]=C2=A0 el0t_64_irq_handler+0x10/0x20
+> [=C2=A0 466.615156]=C2=A0 el0t_64_irq+0x198/0x1a0
+> [=C2=A0 466.618740] Code: 52800035 3607faf3 f9442e80 52800021 (f9406018)
+> [=C2=A0 466.624853] ---[ end trace 0000000000000000 ]---
+> [=C2=A0 466.629483] Kernel panic - not syncing: Oops: Fatal exception in
+> interrupt
+> [=C2=A0 466.636384] SMP: stopping secondary CPUs
+> [=C2=A0 466.640320] Kernel Offset: 0x100c400000 from 0xffffffc080000000
+> [=C2=A0 466.646259] PHYS_OFFSET: 0x0
+> [=C2=A0 466.649141] CPU features: 0x100,00000170,00901250,0200720b
+> [=C2=A0 466.654644] Memory Limit: none
+> [=C2=A0 466.657706] ---[ end Kernel panic - not syncing: Oops: Fatal
+> exception in interrupt ]---
+>=20
+> Fix the crash by assigning the job pointer to NULL before signaling
+> the
+> fence. This ensures that the job pointer is cleared before any new
+> job
+> starts execution, preventing the race condition and the NULL pointer
+> dereference crash.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: e4b5ccd392b9 ("drm/v3d: Ensure job pointer is set to NULL
+> after job completion")
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/v3d/v3d_irq.c | 16 ++++++++++++----
+> =C2=A01 file changed, 12 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c
+> b/drivers/gpu/drm/v3d/v3d_irq.c
+> index da203045df9b..72b6a119412f 100644
+> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+> @@ -107,8 +107,10 @@ v3d_irq(int irq, void *arg)
+> =C2=A0
+> =C2=A0		v3d_job_update_stats(&v3d->bin_job->base, V3D_BIN);
+> =C2=A0		trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
+> -		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		v3d->bin_job =3D NULL;
+> +		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		status =3D IRQ_HANDLED;
+> =C2=A0	}
+> =C2=A0
+> @@ -118,8 +120,10 @@ v3d_irq(int irq, void *arg)
+> =C2=A0
+> =C2=A0		v3d_job_update_stats(&v3d->render_job->base,
+> V3D_RENDER);
+> =C2=A0		trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
+> -		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		v3d->render_job =3D NULL;
+> +		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		status =3D IRQ_HANDLED;
+> =C2=A0	}
+> =C2=A0
+> @@ -129,8 +133,10 @@ v3d_irq(int irq, void *arg)
+> =C2=A0
+> =C2=A0		v3d_job_update_stats(&v3d->csd_job->base, V3D_CSD);
+> =C2=A0		trace_v3d_csd_irq(&v3d->drm, fence->seqno);
+> -		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		v3d->csd_job =3D NULL;
+> +		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		status =3D IRQ_HANDLED;
+> =C2=A0	}
+> =C2=A0
+> @@ -167,8 +173,10 @@ v3d_hub_irq(int irq, void *arg)
+> =C2=A0
+> =C2=A0		v3d_job_update_stats(&v3d->tfu_job->base, V3D_TFU);
+> =C2=A0		trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
+> -		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		v3d->tfu_job =3D NULL;
+> +		dma_fence_signal(&fence->base);
+> +
+> =C2=A0		status =3D IRQ_HANDLED;
+> =C2=A0	}
+> =C2=A0
 
