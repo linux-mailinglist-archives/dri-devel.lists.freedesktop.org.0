@@ -2,86 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3724A1A286
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1146DA1A2A6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:11:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46F6310E7CD;
-	Thu, 23 Jan 2025 11:05:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CAF10E7D2;
+	Thu, 23 Jan 2025 11:11:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IixSMNUE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="N8+etfwD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3607610E7CD
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 11:05:51 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5401ab97206so830019e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 03:05:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737630349; x=1738235149; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=CFYMIx7gA2x2BXWR8sEBjoZP5q8qiqn+m17lbzTPceE=;
- b=IixSMNUE8aB6cTj7cyM6pfsgMoIMmCsx5t6daq0CAYEWDJEw3dNNa2f5Trxv/L7nZN
- l2YVI7aoev/urM0jmSWgVTBX/RIPFV9HBEIrGTOVLsfZmS0IYPhAzWiPKidx6bXHG4Ga
- m795nvxw+LAmEHCa2ZcBD2k74hWmdgjVvSccC7O5R0d/x9oZF11Elwdjrg4hJeAiAVjP
- th6N/qbWzbqGpggwtoaOmUDbugMgt/4veKUHQXNXFozcsyTRpXI8GbjF93+3vNM2aPiP
- RhNPXkr4akL7a1MWIKplbtOqWEHZYirTA2UPt9zOXCxtcDXKsLR0bYCEg38hJ/pjZkQQ
- gbvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737630349; x=1738235149;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=CFYMIx7gA2x2BXWR8sEBjoZP5q8qiqn+m17lbzTPceE=;
- b=p4sgSjte8kG9MlKPBGg86wu9XR9O+C0O4yA64LDLY5tDFFGDLHrfjhXn9LkZ3A7XLy
- BNacuJIES8zrIJOUp1Xdkl/aRZ/wsLFG+nfWZKqqGb5th3YXaF1G6LH+jrbZve3kTFfo
- tDZUFNdttepKiKpzfbwjd/jo8pH0awtZcx5Ohck687cg7WwRLfkpCENu2UB2dPgQ0yaF
- X6yk9nDU/83cG8fJI5nhwxlRVvuXq/dfgmDZP3zh7gaa519rhnzWQGl5QeNps5hp0tuX
- d98VvUxlaKzD3PlKE2hNTdPAvKdT6IMrxvdzFz3tK1yTmF0u82PfPVY4iniq/xGJ6UWm
- +bQw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWr34Qr36Lo2MDRr/ztS5G22F0psF1koKSoesETD8wN/I38ojrw1gvU46lGdm2mSGRXtcZsvETe+aA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzirEjY/N8fRsg1e9tuuGEo4U08FfWyd8OM/sdEk0/gOx/HxJjd
- uOgesnRNvHsl1RNZcX7BpSMeJq52y4gghKxFpRoG2ZHcVirCarj9lbVhtCIXYH0=
-X-Gm-Gg: ASbGncusC5Qa3VpyQmHcVL3JfiAEH3Tl62qLwp70RMPy0h14bdnEJt76TDo5+APvnlg
- HyhFHG6RKerp6PWcjQd/zGCl2aONByYLShrDzqUzdHgslgqgjGMVo0LOu0cMicuMmGEsLX45yIY
- ZROCUP6OBFXWhRXVaGXeMlTPPQkfDZ9k8ZyAS8bwMQQURONwdNd52WyEj7NH9y93WWJnp6o3l44
- WtVKZZCSg9HBOL8CueYxoTAN+hdN0jf++cHiBqFOiTbxC8/GahD0A5rhb6ouTDOFtvQp6VX/AQ9
- ZeVzCCAeb5wSqP6LDjt84Qwsz+EMV7rQgqdJ3o9U/eIdT+QrAgtnDWa8ZKFx
-X-Google-Smtp-Source: AGHT+IHOaMZIgrl/i9fQhU0VenZdqikom/uRDq5+HNRf0/hpwi1H0EDReWzRh+78eKvL8X05QKwEBA==
-X-Received: by 2002:a05:6512:3e03:b0:540:1b53:d412 with SMTP id
- 2adb3069b0e04-5439c28ac2dmr11408048e87.43.1737630349503; 
- Thu, 23 Jan 2025 03:05:49 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5439af66c36sm2609048e87.160.2025.01.23.03.05.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2025 03:05:49 -0800 (PST)
-Date: Thu, 23 Jan 2025 13:05:47 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RFC 4/7] drm/display: dp-aux-dev: use new DCPD access
- helpers
-Message-ID: <7unkxysvdn57fp6t7sjmgqsiacg5grbrk4lp3fbfdvaht3hq4o@gqshn45sa5ww>
-References: <20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org>
- <20250117-drm-rework-dpcd-access-v1-4-7fc020e04dbc@linaro.org>
- <87tt9pn8uu.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA1310E7D2;
+ Thu, 23 Jan 2025 11:11:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9lBrwvrvwnBKB2UGwpPVeuf/hT7Rag2nWolvnU4A/UQ=; b=N8+etfwDMmqS+gD9DfogntFxZm
+ URtu0Wo1qGGEc7NT+HPmrOz71vTwEEBEuxqwIgJYJM4iI9vRe30/Vh1aubFGjfdDPKSCvaMsyV8JP
+ PkNtAw7H1+WL9qLDE0tYMyXUd5q71FpQUZW8vhQMFxFSYpHsUq2WMek3E/uvcVXfHgryIxvzYGXk5
+ 4G13UU5xf9JS1iRJSXXD/0Q0c4b8jGFKcspUKSfNvV32tUh3FrtcR+OF2AOKwWBHmrQaoBZw06dbx
+ WZ/RBAKtat0k5/xCZNzS/bueUCbKIfXV0lbkH7jb7xY7/9tiiXn4hlMalVhYIsKLiiRamNz88aepP
+ eqf9EoeQ==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tav6K-001ASW-M5; Thu, 23 Jan 2025 12:10:20 +0100
+Message-ID: <ec4bb0f6-c366-40e7-a1df-332458b08eec@igalia.com>
+Date: Thu, 23 Jan 2025 08:10:01 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tt9pn8uu.fsf@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Use struct for drm_sched_init() params
+To: Philipp Stanner <pstanner@redhat.com>, Philipp Stanner
+ <phasta@kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Luben Tuikov <ltuikov89@gmail.com>,
+ Matthew Brost <matthew.brost@intel.com>, Melissa Wen <mwen@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sunil Khatri <sunil.khatri@amd.com>,
+ Lijo Lazar <lijo.lazar@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
+ Yunxiang Li <Yunxiang.Li@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org
+References: <20250122140818.45172-3-phasta@kernel.org>
+ <24f1c52f-1768-47de-88e3-d4104969d0a9@igalia.com>
+ <9713798aa175aef2041e6d688ac4814006f789bc.camel@redhat.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <9713798aa175aef2041e6d688ac4814006f789bc.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,70 +92,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 23, 2025 at 12:05:29PM +0200, Jani Nikula wrote:
-> On Fri, 17 Jan 2025, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> > Switch drm_dp_aux_dev.c to use new set of DPCD read / write helpers.
-> 
-> This might be one of the few places where the old functions and the old
-> return value was used in a sensible manner.
+Hi Philipp,
 
-Well... Yes and no. What does it mean if we return less bytes? Is that
-still a protocol error?
+On 23/01/25 05:10, Philipp Stanner wrote:
+> On Wed, 2025-01-22 at 19:07 -0300, Maíra Canal wrote:
+>> Hi Philipp,
+>>
+>> On 22/01/25 11:08, Philipp Stanner wrote:
+>>> drm_sched_init() has a great many parameters and upcoming new
+>>> functionality for the scheduler might add even more. Generally, the
+>>> great number of parameters reduces readability and has already
+>>> caused
+>>> one missnaming in:
+>>>
+>>> commit 6f1cacf4eba7 ("drm/nouveau: Improve variable name in
+>>> nouveau_sched_init()").
+>>>
+>>> Introduce a new struct for the scheduler init parameters and port
+>>> all
+>>> users.
+>>>
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-> 
-> BR,
-> Jani.
-> 
-> >
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > ---
-> >  drivers/gpu/drm/display/drm_dp_aux_dev.c | 12 +++++-------
-> >  1 file changed, 5 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/display/drm_dp_aux_dev.c b/drivers/gpu/drm/display/drm_dp_aux_dev.c
-> > index 29555b9f03c8c42681c17c4a01e74a966cf8611f..a31ab3f41efb71fd5f936c24ba5c3b8ebea68a5e 100644
-> > --- a/drivers/gpu/drm/display/drm_dp_aux_dev.c
-> > +++ b/drivers/gpu/drm/display/drm_dp_aux_dev.c
-> > @@ -163,17 +163,16 @@ static ssize_t auxdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
-> >  			break;
-> >  		}
-> >  
-> > -		res = drm_dp_dpcd_read(aux_dev->aux, pos, buf, todo);
-> > -
-> > +		res = drm_dp_dpcd_read_data(aux_dev->aux, pos, buf, todo);
-> >  		if (res <= 0)
-> >  			break;
-> >  
-> > -		if (copy_to_iter(buf, res, to) != res) {
-> > +		if (copy_to_iter(buf, todo, to) != todo) {
-> >  			res = -EFAULT;
-> >  			break;
-> >  		}
-> >  
-> > -		pos += res;
-> > +		pos += todo;
-> >  	}
-> >  
-> >  	if (pos != iocb->ki_pos)
-> > @@ -211,12 +210,11 @@ static ssize_t auxdev_write_iter(struct kiocb *iocb, struct iov_iter *from)
-> >  			break;
-> >  		}
-> >  
-> > -		res = drm_dp_dpcd_write(aux_dev->aux, pos, buf, todo);
-> > -
-> > +		res = drm_dp_dpcd_write_data(aux_dev->aux, pos, buf, todo);
-> >  		if (res <= 0)
-> >  			break;
-> >  
-> > -		pos += res;
-> > +		pos += todo;
-> >  	}
-> >  
-> >  	if (pos != iocb->ki_pos)
-> 
-> -- 
-> Jani Nikula, Intel
+[...]
 
--- 
-With best wishes
-Dmitry
+>>
+>>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c
+>>> b/drivers/gpu/drm/v3d/v3d_sched.c
+>>> index 99ac4995b5a1..716e6d074d87 100644
+>>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>>> @@ -814,67 +814,124 @@ static const struct drm_sched_backend_ops
+>>> v3d_cpu_sched_ops = {
+>>>    	.free_job = v3d_cpu_job_free
+>>>    };
+>>>    
+>>> +/*
+>>> + * v3d's scheduler instances are all identical, except for ops and
+>>> name.
+>>> + */
+>>> +static void
+>>> +v3d_common_sched_init(struct drm_sched_init_params *params, struct
+>>> device *dev)
+>>> +{
+>>> +	memset(params, 0, sizeof(struct drm_sched_init_params));
+>>> +
+>>> +	params->submit_wq = NULL; /* Use the system_wq. */
+>>> +	params->num_rqs = DRM_SCHED_PRIORITY_COUNT;
+>>> +	params->credit_limit = 1;
+>>> +	params->hang_limit = 0;
+>>> +	params->timeout = msecs_to_jiffies(500);
+>>> +	params->timeout_wq = NULL; /* Use the system_wq. */
+>>> +	params->score = NULL;
+>>> +	params->dev = dev;
+>>> +}
+>>
+>> Could we use only one function that takes struct v3d_dev *v3d, enum
+>> v3d_queue, and sched_ops as arguments (instead of one function per
+>> queue)? You can get the name of the scheduler by concatenating "v3d_"
+>> to
+>> the return of v3d_queue_to_string().
+>>
+>> I believe it would make the code much simpler.
+> 
+> Hello,
+> 
+> so just to get that right:
+> You'd like to have one universal function that switch-cases over an
+> enum, sets the ops and creates the name with string concatenation?
+> 
+> I'm not convinced that this is simpler than a few small functions, but
+> it's not my component, so…
+> 
+> Whatever we'll do will be simpler than the existing code, though. Right
+> now no reader can see at first glance whether all those schedulers are
+> identically parametrized or not.
+> 
+
+This is my proposal (just a quick draft, please check if it compiles):
+
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c 
+b/drivers/gpu/drm/v3d/v3d_sched.c
+index 961465128d80..7cc45a0c6ca0 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -820,67 +820,62 @@ static const struct drm_sched_backend_ops 
+v3d_cpu_sched_ops = {
+         .free_job = v3d_cpu_job_free
+  };
+
++static int
++v3d_sched_queue_init(struct v3d_dev *v3d, enum v3d_queue queue,
++                    const struct drm_sched_backend_ops *ops, const char 
+*name)
++{
++       struct drm_sched_init_params params = {
++               .submit_wq = NULL,
++               .num_rqs = DRM_SCHED_PRIORITY_COUNT,
++               .credit_limit = 1,
++               .hang_limit = 0,
++               .timeout = msecs_to_jiffies(500),
++               .timeout_wq = NULL,
++               .score = NULL,
++               .dev = v3d->drm.dev,
++       };
++
++       params.ops = ops;
++       params.name = name;
++
++       return drm_sched_init(&v3d->queue[queue].sched, &params);
++}
++
+  int
+  v3d_sched_init(struct v3d_dev *v3d)
+  {
+-       int hw_jobs_limit = 1;
+-       int job_hang_limit = 0;
+-       int hang_limit_ms = 500;
+         int ret;
+
+-       ret = drm_sched_init(&v3d->queue[V3D_BIN].sched,
+-                            &v3d_bin_sched_ops, NULL,
+-                            DRM_SCHED_PRIORITY_COUNT,
+-                            hw_jobs_limit, job_hang_limit,
+-                            msecs_to_jiffies(hang_limit_ms), NULL,
+-                            NULL, "v3d_bin", v3d->drm.dev);
++       ret = v3d_sched_queue_init(v3d, V3D_BIN, &v3d_bin_sched_ops,
++                                  "v3d_bin");
+         if (ret)
+                 return ret;
+
+-       ret = drm_sched_init(&v3d->queue[V3D_RENDER].sched,
+-                            &v3d_render_sched_ops, NULL,
+-                            DRM_SCHED_PRIORITY_COUNT,
+-                            hw_jobs_limit, job_hang_limit,
+-                            msecs_to_jiffies(hang_limit_ms), NULL,
+-                            NULL, "v3d_render", v3d->drm.dev);
++       ret = v3d_sched_queue_init(v3d, V3D_RENDER, &v3d_render_sched_ops,
++                                  "v3d_render");
+         if (ret)
+                 goto fail;
+
+[...]
+
+At least for me, this looks much simpler than one function for each
+V3D queue.
+
+Best Regards,
+- Maíra
+
+> P.
+> 
+> 
+>>
+>> Best Regards,
+>> - Maíra
+>>
+
