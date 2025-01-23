@@ -2,60 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFE6A1A7CD
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 17:24:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6475DA1A7E9
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 17:34:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43B9E10E87A;
-	Thu, 23 Jan 2025 16:23:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F5C110E298;
+	Thu, 23 Jan 2025 16:34:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KMx5/SnE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NjYpjVGa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 249EE10E877;
- Thu, 23 Jan 2025 16:23:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737649437; x=1769185437;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=YTgP40cI81G5n6maiGL9JhuNqPSJ2j6D3P7ZPdla1sg=;
- b=KMx5/SnEbxZGFa73B3WAlxxTsPM2gv4L0DqHoVyhsd6RcVuIuOAv129u
- jPFXfPOonG4x1MTYu0oztrpMBPupkzXfW7S5/7xVo2z+sNGX2p0wUiRDO
- bkjzGQLajy/O6ML0J9rMP41jUAp4N+yz2o5nSM6sH5CX9zm0KMzJZIaEU
- 1+ynJQtma/aWuRtMUdIW8vkBhcFvEuXklY8VOoKU5GNjXM1w2AfoTHyBg
- MXCnwtcZWZUJNla16A79uLLdkAzCC3hDzzN73Xcdsxj1YSuWlXyHqbH9Q
- WHgmJ3NG93gHaxm4ofFji0iYIs7Iq39HULfHWecgG8KX7AdfeEHgyVMaY w==;
-X-CSE-ConnectionGUID: 7HCnpCnPTXWEE0QYoLUmgg==
-X-CSE-MsgGUID: 8p9aoARiTIWqCpo3ugsqDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="55572639"
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="55572639"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2025 08:23:56 -0800
-X-CSE-ConnectionGUID: 2Q3zx59uRduvqMyYowj1UA==
-X-CSE-MsgGUID: drxUALqwRKeyPeoKVtgjkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="107625295"
-Received: from guc-pnp-dev-box-1.fm.intel.com ([10.1.27.7])
- by fmviesa008.fm.intel.com with ESMTP; 23 Jan 2025 08:23:55 -0800
-From: Zhanjun Dong <zhanjun.dong@intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Zhanjun Dong <zhanjun.dong@intel.com>,
- Alan Previn <alan.previn.teres.alexis@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>,
- Andi Shyti <andi.shyti@intel.com>
-Subject: [PATCH v1] drm/i915/guc: Always disable interrupt ahead of
- synchronize_irq
-Date: Thu, 23 Jan 2025 08:23:51 -0800
-Message-Id: <20250123162351.1364395-1-zhanjun.dong@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFC1F10E298
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 16:34:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5A688A40E14;
+ Thu, 23 Jan 2025 16:33:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5C55DC4CEDD;
+ Thu, 23 Jan 2025 16:34:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737650093;
+ bh=LLJaFjiqDf0n+PYKBiIkpdeF02adpxlg3h9RrVFHD8I=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=NjYpjVGaCkD6fJF+hUS4HrnLYEHBC5arfl1a3D0IrZ/j8WhzyPJUOERrM5ftOCyCJ
+ XzMGWnBecJEDG8VkWCwLWw4msIsaMcUc18XVFRezJVYEjhcfluQnIBDCRsid0CK0H/
+ xl1mYbKtVyojNOSyOaxm4vvDDMCAdHRjlcMwE1L44gg9Klu9sR869SKBWjNzEGY9RG
+ 7AnX1ZElIn/F5xiysQPTNVdSr5WrfFyFuSDLXncjdvxnGmQmJLfFtK6eS4IXHDWmSt
+ v1G1B0Odoe7LqwFFpeyt0Ho92c9ZI85uyVpLUleYRk1dSWQi9nUXKFepIgSUN1eyYU
+ AQrRtnapQWWKA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 3FEEAC02182;
+ Thu, 23 Jan 2025 16:34:53 +0000 (UTC)
+From: =?utf-8?q?Noralf_Tr=C3=B8nnes_via_B4_Relay?=
+ <devnull+noralf.tronnes.org@kernel.org>
+Date: Thu, 23 Jan 2025 17:34:25 +0100
+Subject: =?utf-8?q?=5BPATCH=5D_MAINTAINERS=3A_Remove_Noralf_Tr=C3=B8nnes_?=
+ =?utf-8?q?as_driver_maintainer?=
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20250123-remove-myself-as-maintainer-v1-1-cc3ab7cd98ae@tronnes.org>
+X-B4-Tracking: v=1; b=H4sIAJBvkmcC/x3MQQqDQAxG4atI1g2MwUHwKtLF2P62AWcsSZEW8
+ e4OLt7i27ydHKZwGpqdDJu6rqWivTX0eKfyAuuzmiRIDK0IG/K6gfPfscycnHPS8q3BuI9dmKS
+ LaQqR6uFjmPV33cf7cZwk2hpgbQAAAA==
+X-Change-ID: 20250122-remove-myself-as-maintainer-7540b245ab05
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737650092; l=2162;
+ i=noralf@tronnes.org; s=20221122; h=from:subject:message-id;
+ bh=sRUeNf6klT+wIBzNm//9sMgiGRipBFhrw3r7FEK3L0s=;
+ b=OrBeu5/cX00/bMfAe91MyuliFg1iUdvlj4rGD1GChl6gzYjhRa7sDL/NR6VJW/ATi4IQjdlve
+ Un9PJWdyd3SDm6Ld0OJc4I7GylzXT7vxa1x5YOzbfQzSgkyjFSC8gt8
+X-Developer-Key: i=noralf@tronnes.org; a=ed25519;
+ pk=0o9is4iddvvlrY3yON5SVtAbgPnVs0LfQsjfqR2Hvz8=
+X-Endpoint-Received: by B4 Relay for noralf@tronnes.org/20221122 with auth_id=8
+X-Original-From: =?utf-8?q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,100 +72,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: noralf@tronnes.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The purpose of synchronize_irq is to wait for any pending IRQ handlers for the
-interrupt to complete, if synchronize_irq called before interrupt disabled, an
-tiny timing window created, where no more pending IRQ, but interrupt not
-disabled yet. Meanwhile, if the interrupt event happened in this timing window,
-an unexpected IRQ handling will be triggered.
+From: Noralf Trønnes <noralf@tronnes.org>
 
-Fixed by always disable interrupt ahead of synchronize_irq.
+Remove myself as maintainer for gud, mi0283qt, panel-mipi-dbi and repaper.
+My fatigue illness has finally closed the door on doing development of
+even moderate complexity so it's sad to let this go.
 
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454
-Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
-Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
-Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
-Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
+Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+---
+ MAINTAINERS | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4b038382481f99e336a2de0d2249537ec6781463..ed86d884ee0dfeede2ee185f7779380d04c5080b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7173,8 +7173,7 @@ F:	Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+ F:	drivers/gpu/drm/panel/panel-edp.c
+ 
+ DRM DRIVER FOR GENERIC USB DISPLAY
+-M:	Noralf Trønnes <noralf@tronnes.org>
+-S:	Maintained
++S:	Orphan
+ W:	https://github.com/notro/gud/wiki
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/gud/
+@@ -7279,15 +7278,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	drivers/gpu/drm/mgag200/
+ 
+ DRM DRIVER FOR MI0283QT
+-M:	Noralf Trønnes <noralf@tronnes.org>
+-S:	Maintained
++S:	Orphan
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt
+ F:	drivers/gpu/drm/tiny/mi0283qt.c
+ 
+ DRM DRIVER FOR MIPI DBI compatible panels
+-M:	Noralf Trønnes <noralf@tronnes.org>
+-S:	Maintained
++S:	Orphan
+ W:	https://github.com/notro/panel-mipi-dbi/wiki
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+@@ -7384,8 +7381,7 @@ F:	Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+ F:	drivers/gpu/drm/bridge/parade-ps8640.c
+ 
+ DRM DRIVER FOR PERVASIVE DISPLAYS REPAPER PANELS
+-M:	Noralf Trønnes <noralf@tronnes.org>
+-S:	Maintained
++S:	Orphan
+ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/repaper.txt
+ F:	drivers/gpu/drm/tiny/repaper.c
 
 ---
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Andi Shyti <andi.shyti@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_rps.c      | 3 +--
- drivers/gpu/drm/i915/gt/uc/intel_guc.c   | 4 ++--
- drivers/gpu/drm/i915/pxp/intel_pxp_irq.c | 2 +-
- 3 files changed, 4 insertions(+), 5 deletions(-)
+base-commit: a9301e5bef12f8989a02d886109f13e89e1e51b0
+change-id: 20250122-remove-myself-as-maintainer-7540b245ab05
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
-index fa304ea088e4..0fe7a8d7f460 100644
---- a/drivers/gpu/drm/i915/gt/intel_rps.c
-+++ b/drivers/gpu/drm/i915/gt/intel_rps.c
-@@ -244,8 +244,8 @@ static void rps_disable_interrupts(struct intel_rps *rps)
- 	gen6_gt_pm_disable_irq(gt, GEN6_PM_RPS_EVENTS);
- 	spin_unlock_irq(gt->irq_lock);
- 
-+	rps_reset_interrupts(rps);
- 	intel_synchronize_irq(gt->i915);
--
- 	/*
- 	 * Now that we will not be generating any more work, flush any
- 	 * outstanding tasks. As we are called on the RPS idle path,
-@@ -254,7 +254,6 @@ static void rps_disable_interrupts(struct intel_rps *rps)
- 	 */
- 	cancel_work_sync(&rps->work);
- 
--	rps_reset_interrupts(rps);
- 	GT_TRACE(gt, "interrupts:off\n");
- }
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-index 5949ff0b0161..3e7b2c6cdca4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
-@@ -116,9 +116,9 @@ static void gen9_disable_guc_interrupts(struct intel_guc *guc)
- 	gen6_gt_pm_disable_irq(gt, gt->pm_guc_events);
- 
- 	spin_unlock_irq(gt->irq_lock);
--	intel_synchronize_irq(gt->i915);
- 
- 	gen9_reset_guc_interrupts(guc);
-+	intel_synchronize_irq(gt->i915);
- }
- 
- static bool __gen11_reset_guc_interrupts(struct intel_gt *gt)
-@@ -154,9 +154,9 @@ static void gen11_disable_guc_interrupts(struct intel_guc *guc)
- 	struct intel_gt *gt = guc_to_gt(guc);
- 
- 	guc->interrupts.enabled = false;
--	intel_synchronize_irq(gt->i915);
- 
- 	gen11_reset_guc_interrupts(guc);
-+	intel_synchronize_irq(gt->i915);
- }
- 
- static void guc_dead_worker_func(struct work_struct *w)
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-index d81750b9bdda..b82a667e7ac0 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-@@ -101,9 +101,9 @@ void intel_pxp_irq_disable(struct intel_pxp *pxp)
- 	__pxp_set_interrupts(gt, 0);
- 
- 	spin_unlock_irq(gt->irq_lock);
--	intel_synchronize_irq(gt->i915);
- 
- 	pxp_irq_reset(gt);
-+	intel_synchronize_irq(gt->i915);
- 
- 	flush_work(&pxp->session_work);
- }
+Best regards,
 -- 
-2.34.1
+Noralf Trønnes <noralf@tronnes.org>
+
 
