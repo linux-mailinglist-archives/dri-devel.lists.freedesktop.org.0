@@ -2,87 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D280A1A3BD
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 13:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA349A1A3DE
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 13:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9175210E7DC;
-	Thu, 23 Jan 2025 12:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05E5410E7EE;
+	Thu, 23 Jan 2025 12:08:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="HIPmquDR";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gmaWbzD3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53F6310E7DC
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 12:04:12 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50NAo2cW024913;
- Thu, 23 Jan 2025 12:04:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- BI5W7Z2ZrIQvLeHFUmfQOkX/MBi1TlTcLAvf4/S7OIg=; b=HIPmquDRSpu8X0x0
- pJ+P1gGjd+hGernFAz6Os61TJ9KtpsK1+5gU4Buy02KEH8BMBzcdzu2wjMgLv7p7
- 6d2336qreazY1GwT4W0tPvygZqzARcdhb4khmUtMNUyu4WgyXWL/diDq2LeaFCRB
- dkXJ45aAoP4fb82D/3jRQwm+873oCCdoC4ecq4GI62oiJfv6yW7eupPMarLLHmyR
- wf3wKu3Hf0C1Wy4lsLmlZejF715d02DRn425BfUq+VQl1EOoK00Wb/fmxXi0wEL7
- RJhOYaOiRFdXce3mF0ULHhqRNJ8QqcAZg44bx7rpXHyxJTmkA5OtB3jE+tsHOFmC
- Glqvaw==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44bmbg85pq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jan 2025 12:04:07 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50NC462A029991
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Jan 2025 12:04:06 GMT
-Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 23 Jan
- 2025 04:04:03 -0800
-Message-ID: <41fb5e93-2d77-48e5-92e0-8e82ee4d27ce@quicinc.com>
-Date: Thu, 23 Jan 2025 17:34:00 +0530
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A2D10E7EE
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 12:08:45 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-54024aa9febso926218e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 04:08:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737634123; x=1738238923; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=vTmEOgD3xfc+fwIttOduP71Ufl9BgBhivnCzDUxKm9A=;
+ b=gmaWbzD3tseZzVhT5Kuc+4O5y6IuvNP/ford78eEtoyG0MYNgguN8f8sJo/9VQBd9D
+ 0ihWiiSPxuwnJVJK+etS41Mxj0OtuFhLFscZJkswZ39Ymv7x7Ngw4AlnxWYiU4y/fX36
+ 0xY9FEFoxYht3g0lyzqMr6ROHEYhX+Bya/iKbptm4Q+E/hhQw+O7YBbOdRcDnCPnhmMw
+ H8gX17uuPgOTlaseLgNjtWXeyM6txNlxp9BeDXJ0/hYy/uRlfFJ4ZcKSTsVVhsNyapX1
+ +JqlooaDdezzVnb+4tdukcLUllvkEnjDKnki5wxito9XBuwCkU/FOhlEyc3Q5My2axOJ
+ igog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737634123; x=1738238923;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=vTmEOgD3xfc+fwIttOduP71Ufl9BgBhivnCzDUxKm9A=;
+ b=cdBk0Y2TbL8FfNs1LpQiri3eiOVU3plYcDl1u6KP+dwfjn+YXtBMyCNxfLB4OWiatp
+ Ynr+lPv2r/nN6DZxf/nwqCSt6riDEJ9bqSsQ7gcNGFquDwNm4j6Huxnm9I3TM6AKoGCR
+ 8ndJ26BpN2wyfZ0RN4CkRQOnzU8uJ/Qkbh5LFl/3SJDkCAkhbkq2W18Kto7SZUpQDHBx
+ ad60zH8OLyaBVTQznJpoFrgd+78Jirsffnmyw9WLLcpXqx7NWFLGpDI1VRQodPPuIzBO
+ /HDkVQEoflP2z4Bp5R33q9s417lB4LvP14REogiO4u9V7GDGHxgEbQD31NZ0z7MhniI+
+ QN/g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVhiJpv6n7E18XOTPhXBlpEFdGC7WQudlgiyfgugPKsWVdE3mYki5VIi1Vc2g43bfYFvExXsOiMiNQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzbNUVD2MdZEHTlWenx0OLqDYRpF7e7Ktkz8umKzyDLSfniwNMA
+ vNXpKpfaMRjHTfJzS4MEA+fd0lSAd/Co5sXKpsx4PNlMupubyOQPLKvbGNBIsa4=
+X-Gm-Gg: ASbGnctkjxPk0jcSB5382dQkyMOTV1jhR/4PjRB4RbX05PQOOIgP3i2XugT0t9IAcbc
+ 9im2nKq1fXtg+T79eCqex+Jg22P1+LKIxlUZn/zZCSkshnQH1m9mP2UGEFCZ74Bzhetv/x8vfNn
+ b5lh3ff/ElXRfHso9L+uJJcRB2hVKYN8yofYSh/PhMiHeGY4CgD60YrHlm5v34CFg2oHsCiugiL
+ jb5tW/ThgFO+I0ISDydlYEZi3uiAlqJfdN+XF0hRwMnwcQkUNWTQYiy37FQa7qoH4zTucjbQffw
+ r52VGpL403TMzWzFv/f1tu8/Oa5sN0qT5dfm0zxwEFq1ftu/I57iWrBUUcwo
+X-Google-Smtp-Source: AGHT+IFbOx6ctuTmmRLLNk/eHiWv/TSPLK7NEzKkr1HnoNXi9QhiZe7Adm2mXqrnq+teryB16WA3sQ==
+X-Received: by 2002:a05:6512:e8c:b0:540:2223:9b0b with SMTP id
+ 2adb3069b0e04-5439c282cd8mr8971004e87.35.1737634123427; 
+ Thu, 23 Jan 2025 04:08:43 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543bae0ba76sm786051e87.8.2025.01.23.04.08.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2025 04:08:42 -0800 (PST)
+Date: Thu, 23 Jan 2025 14:08:39 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>, 
+ Jeykumar Sankaran <jsanka@codeaurora.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, 
+ Sravanthi Kollukuduru <skolluku@codeaurora.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Archit Taneja <architt@codeaurora.org>, Rajesh Yadav <ryadav@codeaurora.org>, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH 0/6] drm: enforce rules for
+ drm_atomic_helper_check_modeset()
+Message-ID: <bfuplxwielalawtozidaoj67smxlzqxatwjl7rza5o4gqgky6y@eika3dvihvk7>
+References: <20241222-drm-dirty-modeset-v1-0-0e76a53eceb9@linaro.org>
+ <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/4] misc: fastrpc: Add CRC support using invokeV2
- request
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-References: <20241007084518.3649876-1-quic_ekangupt@quicinc.com>
- <20241007084518.3649876-2-quic_ekangupt@quicinc.com>
- <bmg5em2f673vis6wwtjx6ibkhee7d3zocwesgoafsgt5jxbfqn@w73y6gmzbamj>
- <53ce4792-6eca-42ae-b5d7-24d524697344@quicinc.com>
- <fm4wxyu7dv7wzz6szwtz4vyukzxmzajtzqlidaed4hcrabhpe2@eqw6vimhzkjm>
- <0dd43d4f-0399-454b-96fd-2d4f5f36ea14@quicinc.com>
- <drh2ikzku37tblmpkjbcdqjllynb3shsfogljfkhq2vcsej2ga@4ex36yehg2e6>
-Content-Language: en-US
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-In-Reply-To: <drh2ikzku37tblmpkjbcdqjllynb3shsfogljfkhq2vcsej2ga@4ex36yehg2e6>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: kmqbJATJU9xXcChWD_Nb31yw6ah7lfSZ
-X-Proofpoint-ORIG-GUID: kmqbJATJU9xXcChWD_Nb31yw6ah7lfSZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-23_05,2025-01-22_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015
- phishscore=0 priorityscore=1501 lowpriorityscore=0 mlxscore=0
- suspectscore=0 malwarescore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501230091
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e1a1fc68-cb8d-4fb0-879f-a84e679f6b2b@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,185 +101,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jan 09, 2025 at 02:53:16PM +0100, Thomas Zimmermann wrote:
+> Hi
+> 
+> 
+> Am 22.12.24 um 06:00 schrieb Dmitry Baryshkov:
+> > As pointed out by Simona, the drm_atomic_helper_check_modeset() and
+> > drm_atomic_helper_check() require the former function is rerun if the
+> > driver's callbacks modify crtc_state->mode_changed. MSM is one of the
+> > drivers which failed to follow this requirement.
+> 
+> I'm concerned about the implications of this series. How does a driver
+> upgrade from simple pageflip to full modeset if necessary? The solution in
+> msm appears to be to run the related test before drm_atomic_helper_check().
+> (Right?)
+> 
+> My corner case is in mgag200, which has to reprogram the PLL if the color
+> mode changes. So it sets mode_changed to true in the primary plane's
+> atomic_check. [1] This works in practice because the plane checks run before
+> the CRTC checks. So the CRTC code will do the correct thing. Reprogramming
+> the PLL means to disable the display at some point. So it comes down to a
+> full modeset.
 
+After giving this a second thought, I see an obvious issue from the
+generic code perspective. If you set new_crtc_state->mode_changed from
+your atomic_check(), then it's already too late for
+drm_atomic_helper_check_modeset() to add all affected (aka routed to the
+CRTC) planes to the state. Their atomic_check() callback will be
+skipped. So even if the end-result works in the MGAg200 case at this
+moment, I think we should still disallow that.
 
+Another option might be similar to what we had to do in the DPU driver:
+check whether the mode_changed has to be set before calling
+drm_atomic_helper_check(). Maybe we should consider adding new set of
+callbacks to the drm_*_helper_funcs, which are executed at the beginning
+of the drm_atomic_helper_check_modeset().
 
-On 1/23/2025 4:43 PM, Dmitry Baryshkov wrote:
-> On Thu, Jan 23, 2025 at 03:19:21PM +0530, Ekansh Gupta wrote:
->>
->>
->> On 1/23/2025 1:18 PM, Dmitry Baryshkov wrote:
->>> On Thu, Jan 23, 2025 at 11:16:41AM +0530, Ekansh Gupta wrote:
->>>>
->>>> On 10/7/2024 7:27 PM, Dmitry Baryshkov wrote:
->>>>> On Mon, Oct 07, 2024 at 02:15:15PM GMT, Ekansh Gupta wrote:
->>>>>> InvokeV2 request is intended to support multiple enhanced invoke
->>>>>> requests like CRC check, performance counter enablement and polling
->>>>>> mode for RPC invocations. CRC check is getting enabled as part of
->>>>>> this patch. CRC check for input and output argument helps in ensuring
->>>>>> data consistency over a remote call. If user intends to enable CRC
->>>>>> check, first local user CRC is calculated at user end and a CRC buffer
->>>>>> is passed to DSP to capture remote CRC values. DSP is expected to
->>>>>> write to the remote CRC buffer which is then compared at user level
->>>>>> with the local CRC values.
->>>>> This doesn't explain why this is necessary. Why do you need to checksum
->>>>> arguments?
->>>> This helps if the user suspects any data inconsistencies in the buffers passed to DSP over
->>>> remote call. This is not enabled by default and user can enable it as per their reqirement.
->>>> I'll add this information.
->>> An inconsistency where? Between the kernel and the DSP? Between the user
->>> and the DSP? Does it cover buffer contents or just the addresses?
->> Inconsistency between user and DSP. crc_user is calculated at user library before
->> making ioctl call and it is compared against the crc data which is filled by DSP and
->> copied to user.
->> This covers inconsistency in buffer contents.
-> What is the reason for possible inconsistencies? Is it a debugging
-> feature?
-This is a debugging feature. Buffer data corruption might result in inconsistency.
->
->>>>> Also, what if the DSP firmware doesn't support CRC? How should userspace
->>>>> know that?
->>>> CRC support on DSP is there since long time(>6years).
->>> This doesn't give us a lot. Upstream kernel supports fastrpc since
->>> MSM8916 and MSM8996. Do those platforms support CRC?
->> The metadata buffer as of today also carries space for CRC information:
->> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/misc/fastrpc.c#n877
->>
->> So this is common across all platforms.
->>
->> In case CRC is not supported on any older platform, it would result in crc mismatch at user library.
->> As of now a warning is getting logged there, I can add the information suggesting the failure might
->> also occur if CRC is not supported.
-> Logs go to /dev/null, they are ignored by users, etc. So either there
-> should be an actual error being returned by the kernel / library, or it
-> can be completely ignored and skipped.
->
-> So, do MSM8916 / MSM8996 / SDM845 support CRC? If not, that must be
-> handled somehow.
-I see it's supported on SDM845 but not on MSM89##. I'll just send the new patch version for now
-as CRC mismatch failures are getting ignored.
->
->>> And if they do, why do we need the invoke_v2? Can we modify existing
->>> code instead?
->> invoke_v2 is needed because there is a need to pass user crc pointer over ioctl call which
->> cannot be achieved using existing code. Also there are plans to add more features to this
->> invoke_v2 request which will carry some information from user.
-> Is it really extensible without breaking the ABI?
-I'm planning to keep reserved bits in uapi struct for the same. Do you see any
-problem with this?
->>>> From user space CRC check failure is
->>>> not fatal and is printed as a warning. But if copy of CRC to user fails, it will result in remote
->>>> call failure. Should I keep it as fatal considering that ever very old DSP support this or should
->>>> I consider the copy failure as non-fatal as userspace is treating this as a warning?
->>> warnings can remain unseen for a long time. Consider a GUI app. Nobody
->>> is there to view kernel warnings or library output.
->> Let me see if this can be done. Are you suggesting that the app will be somewhat tracking
->> if there is any crc check mismatch failures?
-> I suggest returning -EIO to the app.
-I'll check this.
->
->>>>>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
->>>>>> ---
->>>>>>  drivers/misc/fastrpc.c      | 161 ++++++++++++++++++++++++------------
->>>>>>  include/uapi/misc/fastrpc.h |   7 ++
->>>>>>  2 files changed, 116 insertions(+), 52 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>>>> index 74181b8c386b..8e817a763d1d 100644
->>>>>> --- a/drivers/misc/fastrpc.c
->>>>>> +++ b/drivers/misc/fastrpc.c
->>>>>> @@ -573,13 +573,15 @@ static void fastrpc_get_buff_overlaps(struct fastrpc_invoke_ctx *ctx)
->>>>>>  
->>>>>>  static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->>>>>>  			struct fastrpc_user *user, u32 kernel, u32 sc,
->>>>>> -			struct fastrpc_invoke_args *args)
->>>>>> +			struct fastrpc_invoke_v2 *inv2)
->>>>>>  {
->>>>>>  	struct fastrpc_channel_ctx *cctx = user->cctx;
->>>>>>  	struct fastrpc_invoke_ctx *ctx = NULL;
->>>>>> +	struct fastrpc_invoke_args *args = NULL;
->>>>> Why do you need to init to NULL if you are going to set it two lines
->>>>> below?
->>>>>
->>>>>>  	unsigned long flags;
->>>>>>  	int ret;
->>>>>>  
->>>>>> +	args = (struct fastrpc_invoke_args *)inv2->inv.args;
->>>>> Why does it need a typecast?
->>>>>
->>>>>>  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
->>>>>>  	if (!ctx)
->>>>>>  		return ERR_PTR(-ENOMEM);
->>>>>> @@ -611,6 +613,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->>>>>>  	/* Released in fastrpc_context_put() */
->>>>>>  	fastrpc_channel_ctx_get(cctx);
->>>>>>  
->>>>>> +	ctx->crc = (u32 *)(uintptr_t)inv2->crc;
->>>>> Oh, but why? Also is it a user pointer or in-kernel data? If it's a
->>>>> user-based pointer, where is the accessiblity check? Why isn't it
->>>>> annotated properly?
->>>> This is a user pointer where the crc data is expected to be copied. There is no
->>>> other access to this pointer from kernel. I'm planning to change the data type
->>>> for crc as (void __user*) inside fastrpc_invoke_ctx structure.
->>> Yes, please. Also make sure that sparse doesn't add any warnings
->>> regarding pointer conversions.
->> Ack.
->>>>>>  	ctx->sc = sc;
->>>>>>  	ctx->retval = -1;
->>>>>>  	ctx->pid = current->pid;
->>>>>> @@ -1070,6 +1073,7 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
->>>>>>  	struct fastrpc_invoke_buf *list;
->>>>>>  	struct fastrpc_phy_page *pages;
->>>>>>  	u64 *fdlist;
->>>>>> +	u32 *crclist;
->>>>>>  	int i, inbufs, outbufs, handles;
->>>>>>  
->>>>>>  	inbufs = REMOTE_SCALARS_INBUFS(ctx->sc);
->>>>>> @@ -1078,6 +1082,7 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
->>>>>>  	list = fastrpc_invoke_buf_start(rpra, ctx->nscalars);
->>>>>>  	pages = fastrpc_phy_page_start(list, ctx->nscalars);
->>>>>>  	fdlist = (uint64_t *)(pages + inbufs + outbufs + handles);
->>>>>> +	crclist = (u32 *)(fdlist + FASTRPC_MAX_FDLIST);
->>>>> I think we should rewrite this parsing somehow. Is the format of data
->>>>> documented somewhere?
->>>> fdlist, crclist and poll(planned) are the only pointers that is being used. I'm planning
->>>> to store these pointers to ctx structure and directly use it wherever needed. This will
->>>> clean-up this unnecessary calculations at multiple places.
->>> Please do. Nevertheless, the format also must be documented.
->> Ack.
->>>>>>  
->>>>>>  	for (i = inbufs; i < ctx->nbufs; ++i) {
->>>>>>  		if (!ctx->maps[i]) {
->>>>>> @@ -1102,6 +1107,12 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
->>>>>>  			fastrpc_map_put(mmap);
->>>>>>  	}
->>>>>>  
->>>>>> +	if (ctx->crc && crclist && rpra) {
->>>>>> +		if (copy_to_user((void __user *)ctx->crc, crclist,
->>>>>> +				FASTRPC_MAX_CRCLIST * sizeof(u32)))
->>>>> Oh, so it's a user pointer. Then u32* was completely incorrect.
->>>>> Also you are copying FASTRPC_MAX_CRCLIST elements. Are all of them
->>>>> filled? Or are we leaking some data to userspace?
->>>> Yes, right. Planning clean-up in next patch.
->>>>
->>>> All of FASTRPC_MAX_CRCLIST is filled with crc data by DSP so copying should be fine.
->>> Huh? I definitely want to see documentation for function arguments.
->> Sure. I'll also modify the metadata layout doc here to add fdlist, CRC and other planned contents.
->> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/misc/fastrpc.c#n842
-> This is not a documentation. E.g. I can not write code using that
-> description. For example, it mentions neither FDLIST nor CRC.
-I'm planning to add complete documentation for CRC and polling mode in user library project.
-If I need to add documentation in driver, can you pls suggest what is the right place to add
-the information?
+WDYT?
 
-Thanks for your comments.
+> You mention that drm_atomic_helper_check() needs to rerun if mode_changed
+> flips. Would it be possible to implement this instead within the helper?
+> 
+> Best regards
+> Thomas
+> 
+> [1] https://elixir.bootlin.com/linux/v6.12/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L493
+> 
+> > 
+> > As suggested by Simona, implement generic code to verify that the
+> > drivers abide to those requirement and rework MSM driver to follow that
+> > restrictions.
+> > 
+> > There are no dependencies between core and MSM parts, so they can go
+> > separately via corresponding trees.
+> > 
+> > Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > Link: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> > Dmitry Baryshkov (6):
+> >        drm/atomic-helper: document drm_atomic_helper_check() restrictions
+> >        drm/atomic: prepare to check that drivers follow restrictions for needs_modeset
+> >        drm/msm/dpu: don't use active in atomic_check()
+> >        drm/msm/dpu: move needs_cdm setting to dpu_encoder_get_topology()
+> >        drm/msm/dpu: simplify dpu_encoder_get_topology() interface
+> >        drm/msm/dpu: don't set crtc_state->mode_changed from atomic_check()
+> > 
+> >   drivers/gpu/drm/drm_atomic.c                |  3 +
+> >   drivers/gpu/drm/drm_atomic_helper.c         | 86 ++++++++++++++++++++++++++---
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  4 --
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 82 +++++++++++++++++----------
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++
+> >   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++
+> >   drivers/gpu/drm/msm/msm_atomic.c            | 13 ++++-
+> >   drivers/gpu/drm/msm/msm_kms.h               |  7 +++
+> >   include/drm/drm_atomic.h                    | 10 ++++
+> >   9 files changed, 192 insertions(+), 43 deletions(-)
+> > ---
+> > base-commit: b72747fdde637ebf52e181671bf6f41cd773b3e1
+> > change-id: 20241222-drm-dirty-modeset-88079bd27ae6
+> > 
+> > Best regards,
+> 
+> -- 
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+> 
 
---ekansh
->
->>>>>> +			return -EFAULT;
->>>>>> +	}
->>>>>> +
->>>>>>  	return 0;
->>>>>>  }
->>>>>>  
-
+-- 
+With best wishes
+Dmitry
