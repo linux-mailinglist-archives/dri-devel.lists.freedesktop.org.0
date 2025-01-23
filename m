@@ -2,97 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C969EA1A47D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 13:45:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3721DA1A4A7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 14:09:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6ABF10E805;
-	Thu, 23 Jan 2025 12:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 916FB10E7F1;
+	Thu, 23 Jan 2025 13:09:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="yp41U//3";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Xvd7NbiE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E271A10E801
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 12:45:04 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-306007227d3so8746271fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 04:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737636303; x=1738241103; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=zWSHW1AJoo6oeAbFU6nV7ox9IaMy4zb6Gnw53tdjyIM=;
- b=yp41U//3qQaR0zSokdH6+oEboDZvewr+LUYUPZCH+cCJHnIHoTbsJjMHKer23ipQEh
- z56PvN85BRdc5zDvpocQe/Vfl4S3BuetRafwl3cxB7fpW5sGfGrICnamMkGaOaTuIGmV
- IWPVdnt+NMuBMG1cP8tPIfRxGtvWfcEIgrwHk6c7fJqRcqOr20ErofHhDLG4NRE64CHu
- sVBw2GXwspGBM+ETG0byIP+9QPBST8m1eiwnkFNfiVnjT4nv38b7i03Y6KcELLgH8V4Y
- mrcBNxwHOoYc/SggeMphVCmD8Q+40ypubytxIyfqRx4yZiRWD56qrXuLn9c1W/w2LQxH
- mDjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737636303; x=1738241103;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=zWSHW1AJoo6oeAbFU6nV7ox9IaMy4zb6Gnw53tdjyIM=;
- b=uXg6p1pI4KGSUmBA7TDp+rmvKMJxVe4vfKaC4PDlMqrjMq/Au3jUhc/z2v8ulkMtSh
- uCquRhduJBV9N1tmlhZ7uzKS1Aw1AtxBMpbh2Mgp7pSLn6KCju2iyz8Rq65ckO6TXy8f
- F/zmSX9iMOZZM+cVqeVAWoRY+OxEoxFLOIL2on+Kol7qR/0YSLsziVmH4/5hI6Hxq1os
- on28yRELgFuSag6S01t1d12SL6lUmlX2jhJ4psBQfmeey1TyB3PbPDrPb0zBeiGEdLTA
- 6SKlrkRh08+o/RQExr9qX3L527UKYvv8WLcK+5Onz8Fboy1gGkzVfphOrR7kCfIYvvdP
- UsAQ==
-X-Gm-Message-State: AOJu0YyF979lRhF9m9YlXqbZ2IDE2Mi8yFTTk2yZQpU7A82l6U3LE9f9
- V/c4Q+qbLbv12sEO6PAOMxLbWReWUh/V8XWSH5Zq+8Jtp9gljBWczMC5pbtEwdg=
-X-Gm-Gg: ASbGncslvkrWjD8tvm2I9/Zt+v979LQb+2xecKfPeZdn46QHvu9J51zA+qEcAuxAEhk
- LSqaVDgo5wocxH39HpfTRbKD9d+9ZB9Ta9MZ+93sZCBN5dhT7y1l5qTjJ2ZtTy4b0ukFdEzgCAP
- 5UX04UUBW8Q0XS/5XpUn2xrs9J64UiUmAKlt3XkU5VDa115AII+hhyaX9432rPjgU/dif32xwcw
- dP46Wn1IUoYfFmW3ks1KIcgEPCUZaTr0AbWlfvOX7FYy+wXNUEfgwUFfJJEjIB17l2Hwe7XMy9q
- 5QFJL3Zqtlsd
-X-Google-Smtp-Source: AGHT+IE12Ap5wyBvC7HL6i+gKbbzFkPkeoSGT9gE9o+mFgIB89+q5WLPBpsNBRDOdCKVJU5k1SiThg==
-X-Received: by 2002:a05:651c:896:b0:306:10d6:28b3 with SMTP id
- 38308e7fff4ca-3072ca5da94mr103081071fa.1.1737636303052; 
- Thu, 23 Jan 2025 04:45:03 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3072a4ed6f3sm30351661fa.86.2025.01.23.04.45.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2025 04:45:02 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Thu, 23 Jan 2025 14:43:36 +0200
-Subject: [PATCH v2 4/4] drm/msm/dpu: don't set crtc_state->mode_changed
- from atomic_check()
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2051.outbound.protection.outlook.com [40.107.243.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0A1110E7F1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 13:09:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=g7V5uD72m4wTws06H7PbZAqYXHl+lhvgGCLG2Aec/QZV3kMc4u14qmJykyZv98eb+coAU64pOLk6Nzkyx2HS5HV8OISHUJKkmO8ElSieHhfy0xkDMmhuWNrH29qLevMCWDyb2RhqsMoX0k0TbYEvNJK/lxHQ9JfW1qpzP0mS1tdwnYPfWVJuQsGWFd+pf4n73QivNDYWEp1Yd61JstufWgrxoVOXbXzAagNmbTcB/y7x8rLzsdb9TsUrASli45eusGL/dSaJP+FM9f48+WRq3C2/I9Q8FchS1bdPSelksbUBgRPTMMGnvkBJDVlJENH9RBDlXO+Eb4Vs/hbLB5IYnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SBvrlX2AU9GQsS5BkXHw9pZ5wjK2Zf70qkysT7YmKHQ=;
+ b=onobT6w/7XxYn5X7gWBUu4Nv7c+F8OckNqRMJUL56lSyPMYbdShvoVK1a65iOFAv6dWmF9k/mQCD9teTZgQIUP7zsAOuVIVi2LtsXj220P4XYdw1H19fmVJkkZN5/kXk4fa88hWZsN1CYNWvRHgDB4FhAo20J2VPexbvF1zlh84DzW6DU789/Q2XqKJW1VdMFrjDsJ1SllfFfskrsinvHqj3Cv93wL5FOaLK95Tli/rXW6DCMkx2cLw1mIo/RyW4udcIGQF58FVy05h2S1IK1u0+u8hoH7z8vwftgrh53YUex7aMkx38FmWHu0SFSIoG2JuVI3H8oyBgzUtK+zGYFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SBvrlX2AU9GQsS5BkXHw9pZ5wjK2Zf70qkysT7YmKHQ=;
+ b=Xvd7NbiE+OfU1pMsPQY5In8uJcPvebq7Oyxm6yc9pK0ZTKpvRKjBP4ozlhEp+E686UX52hrEkcqcQgSfFfBbsAdFRzd48KPU9vZHCXqBQ9QqvVvoAIk69Jkj/uUM5UW4QM+W5YpF4pst/qCDVcX66xlbqK0WAWJ8TYzGCDddzZhIAcikUnS//2ytbKTKetSA1/lp70mKi+XfK0Br1YZcdPo1XeMQuTdDKYkqhUeBRt5uftqdMpDNQ61Nrj/IG8liYBnmxk7DNvYAxnH5k0krI24yJa+QdB37jso6JR/kFzYrZm5UcKbEqQ+MQTc49I6uI/m+VukHTCOddijg2KBX9g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by MN0PR12MB5716.namprd12.prod.outlook.com (2603:10b6:208:373::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Thu, 23 Jan
+ 2025 13:09:00 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8356.010; Thu, 23 Jan 2025
+ 13:09:00 +0000
+Date: Thu, 23 Jan 2025 09:08:58 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>
+Cc: Baolu Lu <baolu.lu@linux.intel.com>, Alexey Kardashevskiy <aik@amd.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
+ private device
+Message-ID: <20250123130858.GI5556@nvidia.com>
+References: <20250115130102.GM5556@nvidia.com>
+ <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
+ <20250117132523.GA5556@nvidia.com>
+ <Znh+uTMe/wX2RIJm@yilunxu-OptiPlex-7050>
+ <20250120132525.GH5556@nvidia.com>
+ <ZnnhKtA2n4s1CLyf@yilunxu-OptiPlex-7050>
+ <20250121174303.GV5556@nvidia.com>
+ <Z5B0+OcLWsiHLRIA@yilunxu-OptiPlex-7050>
+ <20250122125512.GD5556@nvidia.com>
+ <Z5HyxlaiXqp2/KOA@yilunxu-OptiPlex-7050>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z5HyxlaiXqp2/KOA@yilunxu-OptiPlex-7050>
+X-ClientProxiedBy: MN2PR08CA0011.namprd08.prod.outlook.com
+ (2603:10b6:208:239::16) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250123-drm-dirty-modeset-v2-4-bbfd3a6cd1a4@linaro.org>
-References: <20250123-drm-dirty-modeset-v2-0-bbfd3a6cd1a4@linaro.org>
-In-Reply-To: <20250123-drm-dirty-modeset-v2-0-bbfd3a6cd1a4@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Chandan Uddaraju <chandanu@codeaurora.org>, 
- Jeykumar Sankaran <jsanka@codeaurora.org>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, 
- Sravanthi Kollukuduru <skolluku@codeaurora.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Archit Taneja <architt@codeaurora.org>, 
- Rajesh Yadav <ryadav@codeaurora.org>, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, Simona Vetter <simona.vetter@ffwll.ch>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7218;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=ywj2QbrIUOhbEqfzeGCGI+2h2YoIF5PaEJb2YvtBcdI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnkjnH5EQ38UX1kFV3dYaP67laFRQ78Drnr8J+p
- ZgzDnFl7GWJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ5I5xwAKCRCLPIo+Aiko
- 1ZxrB/9W3LpBM1MAETuxxqocvZvwhLTJUljEwK3X1NWFwIEAH7If2Ts2Bm7q+C0BgxqciObi0s4
- YKnHN0XiPZM9luNynljyJAO2STnmmdOLIWKfCpK/MByVWrS+NHvRNQg66EpIs+S6hv/Y5hzbEZZ
- eija4PHE1PlAA9NfQKbuuamPKjM5lXki8FcVmRv65y/HNiMAoxfmeEw8BvW+TkPnvhwYAvG3Z9L
- 20ZnkhDapHmnneJUiIx/5fmqaG3I1/ePPOmx/Kji8HxqFhBt2XvK/axm1MH0O/mCyHhevJ5OeWd
- jyCDSgsjDOCu9m3MTaDh8jTjZGqK83CaSByWX6yDO2WPZ0HW
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN0PR12MB5716:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67e490f5-f084-435a-e378-08dd3baf1a1d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?f7d0AGKMDSCvH6nRkKjuxwIMyIGQIWOUBS8V5LcudAMZnwP64VDO8bdNZ27O?=
+ =?us-ascii?Q?2il6F4+9bFPt1WmbrDqDuNyb68ii3jr/ZItL00vUPsbBYAPiRhvhGVORHksH?=
+ =?us-ascii?Q?B+1DRfN9cOk/pLD30G8BruBmYV44sq24fMFVNppWt+4amUvZvBJbo0vIhzTE?=
+ =?us-ascii?Q?ATIlQSkb4lzLXkrTFP/YYcyhCWHx8CmZIO3gT/34yxou2pDjCD9sDT1PeK2X?=
+ =?us-ascii?Q?CaseH5eWC1ekIsp0bjkj+ly3Tn6mpaLAK2pGe7H0/R0vqFYjvKb4zT9naxfF?=
+ =?us-ascii?Q?jky/yNu23U47XUR40H+aqurPUoIQbu0SyvhfcfwI217OYNdasNi8R7cZ7F4s?=
+ =?us-ascii?Q?kZRpygSbSYsOaBmcEoVkTHQYMwpGG8szR/fhVH5itNQxHdw00b1AM4J66pO6?=
+ =?us-ascii?Q?7huIHYc7kw3z0mhTIBR9hF3jZpSjKlRCJVBqJ7xnRu4KzF9+tH2xUmfGXi8T?=
+ =?us-ascii?Q?tTtWhXgP6efWgvY2sCQRWU7qX/IwT5XI13y2sv7B+L5qPKqUAk4mmlSTCs26?=
+ =?us-ascii?Q?rHyGJqqL3fPDkVOhhUshvfopS0vqLmhAol/fcmc74HoXQ0WG952x1XTGijrx?=
+ =?us-ascii?Q?X6NrncITqZtQHuV0zb36UhzSZNkLOnaq8hnU0KvNI3PZ2s7b3d2hVnwDvMsz?=
+ =?us-ascii?Q?+/fDur4WbIk7gkurMbWmstKqn8WBlOrI1wYB8uYln/5aBIR3yLF19FXZ+3m6?=
+ =?us-ascii?Q?s30ic83SBlN4aJZkzGKnEaYGKQsaow5se8OvK3PoCA0f3StYQx9VoII4PiOC?=
+ =?us-ascii?Q?KhsOZj4NCPpUSC9BUY/Qov5ClB0sOTQy/ngklpb+qxZBY4sxrlHI2flx4Gjp?=
+ =?us-ascii?Q?1F6cz0mxkKWhLsjKzrp59E7EQCa8qruX4Nwd2yOEKd3RoI8cn6xjZM86l5vH?=
+ =?us-ascii?Q?I+6scwy/28+LKr/8Du+Eg7gcawBxgm+9rzfthDfxGSvGamqBxL99jlpJ6moj?=
+ =?us-ascii?Q?WdZMFzCDc4IQhaobQ46RB0DN1giz0IQ+BzaI6iLygkdV1Z1HwkzTAGYBjuIV?=
+ =?us-ascii?Q?le1mP8PFuvj0IzF1R+lX6zUDQSqOrGno/LwNeGgDZl7gbXrNR44uVUqdmcsB?=
+ =?us-ascii?Q?vAingMcuUGeypGuPgIT461Q+VVMD2JdMtPTbCcUadojDAKaBm0XTAuw/jLs6?=
+ =?us-ascii?Q?pdfnxQ8bX8ZDqDnoMi1eWm48m1tXXxhyvMRygElcO2eCwmmzePqOY3NtdIOk?=
+ =?us-ascii?Q?rHvnoHmL0/BN8baQqrc7mTUwW0hd477NHi2z0PG5k8NBTWMjaHr9Cx01dJOm?=
+ =?us-ascii?Q?aARkj12B/UI1P8YMhPjhGLxZX5eAcsF5Ke/fIB33r9LpiT6kAVanWDwuLt+Z?=
+ =?us-ascii?Q?8KQUo86PVbc7B/G/G0rrhO0s3d6wJC4AlQheVAVTO2v0k4sxl16EcPVQDU95?=
+ =?us-ascii?Q?Gpie5Jg=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F+WVboAOYjmDwinVO9XE8lBofXCKGuH8gdBziAK1YLXYCiAAyGZKOUwdfpVT?=
+ =?us-ascii?Q?rOkXurOPJdMqOZeat/6ElpbPuuBFhVqbuAmtjLxZdl9JTkY0S9vXg8svzGAj?=
+ =?us-ascii?Q?r3cKGl+zLQfDQ+iVVU1VKBaXHTWosStcYW+4oaPQDnyWjiw/u9zw45i4gbN3?=
+ =?us-ascii?Q?J96jSLBkm9E/q545amoUFrvXY2OYqwdTZ/w0fU4duJISUSy6DfH0WRLz+O6g?=
+ =?us-ascii?Q?c7YVqCppn8o+WiSH+KjtRKFDP1UsYTAb5/j1nPhi4VpqizRp6hUWtZCBAVr0?=
+ =?us-ascii?Q?nrQ6CrBbzVdiqV2D/Xxmgf7xEU9vtqVAguEiv+gIX74lMKd5L5sF895ugvFl?=
+ =?us-ascii?Q?FCP/+6btFt7pKXkWze+h/GqGmbS8NFAiE1xR29ic3vNE88ftcX4H5m4+qZ+r?=
+ =?us-ascii?Q?h08hel7/egJnjTho/sxmA7jDFd7Dp3rrwDCdetFCHf3xz+irBXKKjTw3Adnm?=
+ =?us-ascii?Q?YIVjEvlFemasdIGWlSml0cYpDafsjiVGspU4Drxsj4xTk5rnhbRDsgX+1Ceq?=
+ =?us-ascii?Q?aPuTg0THH5rP24YVMXJB5nBTOnB3TQIHsyfv4x1z68Ou5KheU9p41dtB09xE?=
+ =?us-ascii?Q?1LoBWYfHbw/QAJGzSxYHGEVWUTV+4t9iq/sHKLWCTxE4lOjEW5vkTt/cCyxS?=
+ =?us-ascii?Q?DNfNz8LbwC8E9fd6OytowqA8eo4+FbqM6solQmhChiqA/ZGJDxza0KwXoo2B?=
+ =?us-ascii?Q?S9uEp44hD/yFXoIEwLrrQvzw1kZI4MAvrAB8wxXo55Wz9GROh9hhzK8ejZX3?=
+ =?us-ascii?Q?OWIhvWxVEzyP5wrinKtr4sdxn3GHJEN/Wu7FFEy3P85YEle/rVCDDQFdVvpx?=
+ =?us-ascii?Q?Y9nZhU2CnzoI38KpjY/lwnz05RnglSgPL1BAVhd+X9OE+HdDwZDz/+EJJc51?=
+ =?us-ascii?Q?hqbf4Vv7UQwO/tRxf0IPJUAeh+yKV/vjYj1xZnXNRxniG7Bkvc5hmDqyzbP8?=
+ =?us-ascii?Q?D7YMaEqLG80OvoqNQ6LSip+f4G4CK1+BYPjYRHGg4Y2VYKcElVCD1J/Lke89?=
+ =?us-ascii?Q?nFiMIRYwWKItViAGvIxzr+otmT2eAs2IeHRDwKeZ1YlocHYEQvsv82zyrYOa?=
+ =?us-ascii?Q?SdjN8mohxeOneOruT791fK/8R/jtit1CJgKAlOiE1KTlqarkQBUTHRPzAgrm?=
+ =?us-ascii?Q?3ImOTDAhLLz4DUG8vSvu1PvkdyDURPGqIgBSuXwk2+V8ukpAjq6I5o3RpCuq?=
+ =?us-ascii?Q?CjHN/7W2E0965toXUTqFI/4CfrzLCfYvvGI5D3gUF2xq0ZjL5KLVg0oojxBT?=
+ =?us-ascii?Q?Xxl8u1AhJX6sl/zET67/1V/XkleVtHz2xYCzKJi7n2Atua7kU+Bs4R+spco9?=
+ =?us-ascii?Q?qQDBubC/SR3QBbOhNjRKEhV2LKEnFuV9fTdaGiuw0eo+UvS+S/isezSvORIm?=
+ =?us-ascii?Q?2HIyDPU3mF+vEErQpxLYoux2IQCDJ8iSfhtscetRnW7quaqxtL59yOAFcbcx?=
+ =?us-ascii?Q?qXM5NZjkZnPtyj+s2uWUDEVvhqHkwnp5QJwlqWov8ENvdg4/EosFZzC0O/S3?=
+ =?us-ascii?Q?LhQjmOAQ2J7hh596eXi8CY+uYrm5BTVwnF83h4YcZm+Zta/N4Y5b3E34IzaY?=
+ =?us-ascii?Q?TOVcgo8Va3O2R2BZ5pk=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67e490f5-f084-435a-e378-08dd3baf1a1d
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 13:09:00.1380 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G1+8LO9rfUjkdnUy1FtTmf7BeBmNq62vGwbUYZ8tyJRtqKpdEbhmjDaymjzsAo+b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5716
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,184 +161,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The MSM driver uses drm_atomic_helper_check() which mandates that none
-of the atomic_check() callbacks toggles crtc_state->mode_changed.
-Perform corresponding check before calling the drm_atomic_helper_check()
-function.
+On Thu, Jan 23, 2025 at 03:41:58PM +0800, Xu Yilun wrote:
 
-Fixes: 8b45a26f2ba9 ("drm/msm/dpu: reserve cdm blocks for writeback in case of YUV output")
-Reported-by: Simona Vetter <simona.vetter@ffwll.ch>
-Closes: https://lore.kernel.org/dri-devel/ZtW_S0j5AEr4g0QW@phenom.ffwll.local/
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 32 +++++++++++++++++++++++++----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 +++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_atomic.c            | 13 +++++++++++-
- drivers/gpu/drm/msm/msm_kms.h               |  7 +++++++
- 5 files changed, 77 insertions(+), 5 deletions(-)
+> I don't have a complete idea yet. But the goal is not to make any
+> existing driver seamlessly work with secure device. It is to provide a
+> generic way for bind/attestation/accept, and may save driver's effort
+> if they don't care about this startup process. There are plenty of
+> operations that a driver can't do to a secure device, FLR is one of
+> them. The TDISP SPEC has described some general rules but some are even
+> device specific.
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index fe139c49823674adf980db5faa3f2acd4c9c20dd..a24fedb5ba4f1c84777b71c669bac0241acdd421 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -753,6 +753,34 @@ static void dpu_encoder_assign_crtc_resources(struct dpu_kms *dpu_kms,
- 	cstate->num_mixers = num_lm;
- }
- 
-+/**
-+ * dpu_encoder_virt_check_mode_changed: check if full modeset is required
-+ * @drm_enc:    Pointer to drm encoder structure
-+ * @crtc_state:	Corresponding CRTC state to be checked
-+ * @conn_state: Corresponding Connector's state to be checked
-+ *
-+ * Check if the changes in the object properties demand full mode set.
-+ */
-+int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state)
-+{
-+	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	struct msm_display_topology topology;
-+
-+	DPU_DEBUG_ENC(dpu_enc, "\n");
-+
-+	/* Using mode instead of adjusted_mode as it wasn't computed yet */
-+	topology = dpu_encoder_get_topology(dpu_enc, &crtc_state->mode, crtc_state, conn_state);
-+
-+	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
-+		crtc_state->mode_changed = true;
-+	else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
-+		crtc_state->mode_changed = true;
-+
-+	return 0;
-+}
-+
- static int dpu_encoder_virt_atomic_check(
- 		struct drm_encoder *drm_enc,
- 		struct drm_crtc_state *crtc_state,
-@@ -786,10 +814,6 @@ static int dpu_encoder_virt_atomic_check(
- 
- 	topology = dpu_encoder_get_topology(dpu_enc, adj_mode, crtc_state, conn_state);
- 
--	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
--		crtc_state->mode_changed = true;
--	else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
--		crtc_state->mode_changed = true;
- 	/*
- 	 * Release and Allocate resources on every modeset
- 	 */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index 92b5ee390788d16e85e195a664417896a2bf1cae..da133ee4701a329f566f6f9a7255f2f6d050f891 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -88,4 +88,8 @@ void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
- 
- bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
- 
-+int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
-+					struct drm_crtc_state *crtc_state,
-+					struct drm_connector_state *conn_state);
-+
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 97e9cb8c2b099f4757169cadf7e941148d2bfb16..9748d24b3ffde45992d28b697a88db5992b00c69 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -446,6 +446,31 @@ static void dpu_kms_disable_commit(struct msm_kms *kms)
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- }
- 
-+static int dpu_kms_check_mode_changed(struct msm_kms *kms, struct drm_atomic_state *state)
-+{
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_connector *connector;
-+	struct drm_connector_state *new_conn_state;
-+	int i;
-+
-+	for_each_new_connector_in_state(state, connector, new_conn_state, i) {
-+		struct drm_encoder *encoder;
-+
-+		WARN_ON(!!new_conn_state->best_encoder != !!new_conn_state->crtc);
-+
-+		if (!new_conn_state->crtc || !new_conn_state->best_encoder)
-+			continue;
-+
-+		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_conn_state->crtc);
-+
-+		encoder = new_conn_state->best_encoder;
-+
-+		dpu_encoder_virt_check_mode_changed(encoder, new_crtc_state, new_conn_state);
-+	}
-+
-+	return 0;
-+}
-+
- static void dpu_kms_flush_commit(struct msm_kms *kms, unsigned crtc_mask)
- {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-@@ -1062,6 +1087,7 @@ static const struct msm_kms_funcs kms_funcs = {
- 	.irq             = dpu_core_irq,
- 	.enable_commit   = dpu_kms_enable_commit,
- 	.disable_commit  = dpu_kms_disable_commit,
-+	.check_mode_changed = dpu_kms_check_mode_changed,
- 	.flush_commit    = dpu_kms_flush_commit,
- 	.wait_flush      = dpu_kms_wait_flush,
- 	.complete_commit = dpu_kms_complete_commit,
-diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
-index a7a2384044ffdb13579cc9a10f56f8de9beca761..364df245e3a209094782ca1b47b752a729b32a5b 100644
---- a/drivers/gpu/drm/msm/msm_atomic.c
-+++ b/drivers/gpu/drm/msm/msm_atomic.c
-@@ -183,10 +183,16 @@ static unsigned get_crtc_mask(struct drm_atomic_state *state)
- 
- int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- {
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct msm_kms *kms = priv->kms;
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_crtc *crtc;
--	int i;
-+	int i, ret = 0;
- 
-+	/*
-+	 * FIXME: stop setting allow_modeset and move this check to the DPU
-+	 * driver.
-+	 */
- 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state,
- 				      new_crtc_state, i) {
- 		if ((old_crtc_state->ctm && !new_crtc_state->ctm) ||
-@@ -196,6 +202,11 @@ int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
- 		}
- 	}
- 
-+	if (kms && kms->funcs && kms->funcs->check_mode_changed)
-+		ret = kms->funcs->check_mode_changed(kms, state);
-+	if (ret)
-+		return ret;
-+
- 	return drm_atomic_helper_check(dev, state);
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index e60162744c669773b6e5aef824a173647626ab4e..ec2a75af89b09754faef1a07adc9338f7d78161e 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -59,6 +59,13 @@ struct msm_kms_funcs {
- 	void (*enable_commit)(struct msm_kms *kms);
- 	void (*disable_commit)(struct msm_kms *kms);
- 
-+	/**
-+	 * @check_mode_changed:
-+	 *
-+	 * Verify if the commit requires a full modeset on one of CRTCs.
-+	 */
-+	int (*check_mode_changed)(struct msm_kms *kms, struct drm_atomic_state *state);
-+
- 	/**
- 	 * Prepare for atomic commit.  This is called after any previous
- 	 * (async or otherwise) commit has completed.
+You can FLR a secure device, it just has to be re-secured and
+re-attested after. Otherwise no VFIO for you.
 
--- 
-2.39.5
+> So I think a driver (including VFIO) expects change to support trusted
+> device, but may not have to cover bind/attestation/accept flow.
 
+I expect changes, but not fundamental ones. VFIO will still have to
+FLR devices as part of it's security architecture.
+
+The entire flow needs to have options for drivers to be involved in
+the flow, somehow.
+
+Jason
