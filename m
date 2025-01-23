@@ -2,62 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A42CA1A54D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 14:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B3AA1A559
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 14:59:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEAB10E80F;
-	Thu, 23 Jan 2025 13:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2A210E00B;
+	Thu, 23 Jan 2025 13:59:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hGfsu1iP";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="MpHsAt+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC5E210E80F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 13:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1737640524;
- bh=ch2pzJGTc3aYg+byV9YZ1M2zRb5bhcxs85xaDaa3pgo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hGfsu1iPsFnFtdsQh8Nj+y4TE6cDO8fezGU99FMQ0bAEMF7kWrcLsL3aoUKmiADB4
- llvLPqijmNjuWZ0saz602r5syqW4RONOpdRKDae2HTqqumHaYBjvceH4qHsv00cLjo
- U9HU4+xgWPHDH6NKQkhCromw1g7oLofzOuaMHfYb6EHovhylpmp2hr2SHoiFNKNU0b
- iWNPathzX5FFOMM/qi5D8q0ExCAZDTqQALh672JBDiOh3p799UBS8R1p+UsV1U/rS/
- In5e9MEKM1AM02C8kn/OMnU2F3zFTsoyDuBe8jBpuozwfTaPjsQmCq/r1o/GCsmO53
- 2ttkVy+FEiJGQ==
-Received: from localhost.localdomain (unknown [171.76.86.251])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A2EA017E0FCA;
- Thu, 23 Jan 2025 14:55:07 +0100 (CET)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: kernelci@lists.linux.dev
-Cc: linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, spbnick@gmail.com, tales.aparecida@gmail.com,
- workflows@vger.kernel.org, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- kernel@collabora.com, torvalds@linuxfoundation.org,
- gregkh@linuxfoundation.org, daniels@collabora.com,
- helen.koike@collabora.com, shreeya.patel@collabora.com,
- denys.f@collabora.com, nicolas.dufresne@collabora.com,
- louis.chauvet@bootlin.com, hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- simona@ffwll.ch, airlied@gmail.com, Tim.Bird@sony.com,
- laurent.pinchart@ideasonboard.com, broonie@kernel.org, leobras.c@gmail.com,
- groeck@google.com, rdunlap@infradead.org, geert@linux-m68k.org,
- michel.daenzer@mailbox.org, sakari.ailus@iki.fi, jarkko@kernel.org
-Subject: [PATCH v2 4/5] kci-gitlab: Add documentation
-Date: Thu, 23 Jan 2025 19:23:34 +0530
-Message-ID: <20250123135342.1468787-5-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250123135342.1468787-1-vignesh.raman@collabora.com>
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
-MIME-Version: 1.0
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2067.outbound.protection.outlook.com [40.107.101.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C52A510E00B
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 13:59:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pFxorwBgRhVzChBLbmdWHODzUaDDSogEVwaLcJX4XNkvBqy0SZAYdVrGK7UqghgESAMPR9dCAUVOnkQRJCYQbb8ClTG7eryeU+JLYo4KFJCLYv3bA0F+x/1Dqq9CItljsJ+7juHqOg3na154EQQ9Q3V3tqSX4187DScJn6WLB0BpThq0yh9mx9LFO+Og2KEC4AGcrHlyHfQGip6SfOC+n2mklXZAU4FKDwwrZ1t5kZa72EnIlUqLEQ05LyqHHfDKsr8n50Frcaen0AzWj/9bDltIh2gSBfACn3Sqiwa868ZkorXDcu2iqQbl+yeaBxmjE3WYsoqHZb9MmVme1K6MXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZqVhw3daTuRJ2XfVebw0ULNxkFfGJ6G9Xt8ufuSNsZU=;
+ b=uGLLZKgW55OtMSIfRsssYv34Y+0mWDlQmXD61K5e7ecfTdtJ2pII+El6T/sV5OWL+aqo7OpZlLPAzqI+y4MXO+h8D95VOK/ciSnqlAU47MuMWaE7Tmv63IVfXOYkqPRU4NLQ0Bbfr1yzPSLbkMOaiHhKtu/w8p0bHiQCTvZrIvpsRC1tIxbbN4//q00GLGFXsfj02kv1S7aA4TCmvCNHu6V1om94ZE4T7JPQzWpR681nfxYxhnn+rZwnUD+vque4bd2fg4Y6i6lq8ujNK78H550OoDmDugGcQloJq5pg2L/TYjhJz6QO8JjsSHfuMonBSPyaKJiWIum0YdJF846bPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZqVhw3daTuRJ2XfVebw0ULNxkFfGJ6G9Xt8ufuSNsZU=;
+ b=MpHsAt+0zjMMUedRiROU31MJF8fSkDkWeibVzkabmWcXPTz7RcfYgSUXB9okN1wYbFZfpacgp7ypKgCH+ExFDpGXlN5Golic6GpCGVDrnhhR14jqJyucwE0H7HoEcrqmlRqWiQ2sW3Yrx8eciDUhe0kJshO+O8ffB2F6KEultSIItVF4rtqt6RJLO31TdPRizszP90vplaF7MCQkaDXdOuV9CM3bjxYQqygHqqn199VLSoMeEOPeiXaRFpc94jilANHJvq6oScLkr8BdF2ONoGAHGxBtwY0Nr/sVjuVRxWMtmVPx9xDkRtTyXFrWE8VakuOy77qW35IMi7CxEYwpYw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CH3PR12MB8307.namprd12.prod.outlook.com (2603:10b6:610:12f::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.17; Thu, 23 Jan
+ 2025 13:59:47 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8356.010; Thu, 23 Jan 2025
+ 13:59:47 +0000
+Date: Thu, 23 Jan 2025 09:59:46 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Xu Yilun <yilun.xu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ Leon Romanovsky <leonro@nvidia.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ vivek.kasireddy@intel.com, dan.j.williams@intel.com, aik@amd.com,
+ yilun.xu@intel.com, linux-coco@lists.linux.dev,
+ linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
+ leon@kernel.org, baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com
+Subject: Re: [RFC PATCH 01/12] dma-buf: Introduce dma_buf_get_pfn_unlocked()
+ kAPI
+Message-ID: <20250123135946.GQ5556@nvidia.com>
+References: <c10ae58f-280c-4131-802f-d7f62595d013@amd.com>
+ <20250120175901.GP5556@nvidia.com>
+ <Z46a7y02ONFZrS8Y@phenom.ffwll.local>
+ <20250120194804.GT5556@nvidia.com>
+ <Z4_HNA4QQbIsK8D9@phenom.ffwll.local>
+ <20250121173633.GU5556@nvidia.com>
+ <Z5DQsyV0vwX3Iabu@phenom.ffwll.local>
+ <6612c40d-4999-41a1-a4a5-74d3ff5875c3@amd.com>
+ <20250122143744.GF5556@nvidia.com>
+ <827315b0-23b6-4a39-88eb-34e756298d67@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <827315b0-23b6-4a39-88eb-34e756298d67@amd.com>
+X-ClientProxiedBy: BL0PR0102CA0005.prod.exchangelabs.com
+ (2603:10b6:207:18::18) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH3PR12MB8307:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa50b0a5-7126-44bb-b514-08dd3bb6324b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U1VPempic2pxaHpWamtNdHVpUWVYWlNDREJYS3FHVFlPNS8yTHp5VVdVV1Ir?=
+ =?utf-8?B?TGNlM2Z5Nzl4RzdaaHJEQjRlbzZPclNYblFnUGI4bE5OeXk3VUxDa1J0R0N5?=
+ =?utf-8?B?bjBOMWRpdm5icVMyeVQ2cnFpK0hRa21oK1piaGpMbGxvdzFkdFBta3ZDcDBO?=
+ =?utf-8?B?RG16eVdVMlMyNGpOeEJqYmV1MXVwOFhKOTZwYmFZcEdjZS9VakM1aDFMbG91?=
+ =?utf-8?B?eWFCSGJ4djNCZWhYSksyK0pWb1Q3NHF4V2RIRnZOSk1mOEhMZ25GMnRiS2xz?=
+ =?utf-8?B?TUQwTy9zcUdSS1RFVjZ4bE1kVFVCSXFsNDVxRU11WUQyNlljWGdsRzJCdDVy?=
+ =?utf-8?B?SGlBakQvUEtuWjM2LzRXMXN6QmlYNzErU3EzaHBDMWIzTDhJLzMxdm1kaWRT?=
+ =?utf-8?B?QkdOTWFYYTJTNjR1Sm5DNzF2em1GTkJoZXlQSnZNbVlUeVFsMkhoTzY4YlRr?=
+ =?utf-8?B?ZldLVFNhZlRDTGYzaEdKb2xZRG5LdXZlb3NrNmRKSUhtRlRub3Z5VlRJZjBL?=
+ =?utf-8?B?NVVzVFVjSjZkeXRGTFJhaFZ0cmtZUUFpT1R1S0tLNFp1bnJHemVXVXpTTEhE?=
+ =?utf-8?B?bkszZUt1UHpncFVieTI1dFNUNHJ6UWhiWE1zZ2Z5d2sxK3pScnQ3M2pPc2V2?=
+ =?utf-8?B?cUhwZlNlazBYT0xvYjVPRmVHTWY5VTg0aCtaNTFMd2lIeVZ5dHVyaU1qSWpS?=
+ =?utf-8?B?bDA1dHlnTUloWVNlNXZYWWV6Skt5NitrRElLZ3MzRzljalEyUjlGWjlOYy8x?=
+ =?utf-8?B?ODdrZGl4NXNVZGR2dEFGaDRWMElBS053SjRDRTcybThDdzkyb2lOaXF3VWpL?=
+ =?utf-8?B?dTMvSnpGaVNMaGp0MmIxN3ZaQ1BOQzZUOHNTNzNWeHF1eEFmTkxWenBFck1z?=
+ =?utf-8?B?OGd6ZG9GbTMyaXpIbzhvR1VKS0NzOVE1UDNwbStTek1xUkJLSmJxbGxyd1ZM?=
+ =?utf-8?B?bUV3NTVVVEtLVlBXUEJpZDRjTEh1dFVKWjdDSTE2bk5LV3RmSGtrU2J2S1RU?=
+ =?utf-8?B?Y0M0NVJtNjRrTnZTZnZuMTByVXNPLzd5RUw5OUlLcDZsNVRzOUlMWEtNNXBs?=
+ =?utf-8?B?cCtoSk9iUWh6eDJrTXVSUnZkbEpDY0NOeUNHZ0M3UUdyNFhoSVBZSjluQmxW?=
+ =?utf-8?B?RTZtc2tvTjBVWEJpK2oyMkM3TXgwVGhadUo3WllibXFHSWdQbzFCY2tpN0xF?=
+ =?utf-8?B?eTJzYmZnM24xbWdSbTh3VHZCSzNpdlJWU21uWCszSXplYk5uakVlRk5IcmE1?=
+ =?utf-8?B?bFQ3b0h5bFd3d3o5c0Zsb1JIWVoxejhka3NaSWs1UVRwNDZXdnpjUDFlU3Jw?=
+ =?utf-8?B?dXo0MWI2a3lRRENia0hRZDg3UktoNWZ0RnZwcGJTZTF0cU9lckh4RnRuTGVa?=
+ =?utf-8?B?QnIrWGVkMjJPV1l5c2szbk5YbXN0YSs3UzV1NjFkbkxyTFlUTnJNSzUyejI0?=
+ =?utf-8?B?amk5NXQ5cndFT0VTSlJ5anR0WDdOMXFFMDd5bnczWE5rb1hyT3FzYTJpU3N5?=
+ =?utf-8?B?czRJeXViZms2NjJBSjlkcVd4ZlN1TW93MWFNa3lNSkVCRlEwVUYvUitRNFVi?=
+ =?utf-8?B?WmMvZTdlMDdoN1VPaEZYYm91aDBScDB5TUtjd1hYMXNjM3hkWlRxZUJhdFJY?=
+ =?utf-8?B?N0ZFZURmQW1yNWJzTHZxTVdxb1U5UUVpNnJwdDdRVEhqTzcxVmtQRWVBNEpX?=
+ =?utf-8?B?WDR5aFlGN3EyTHYwblJ3RVVZNGRZa01Feml0MHc3d3hKOTJIdFJkTURDek12?=
+ =?utf-8?B?cThmNHNWZGlhZmFUYUNvVHh4dUtRMERzVjAxb2d0bm9hQ08rN0UrSkd5T0s1?=
+ =?utf-8?B?VVZ2eHBmdTdyNlVxUlFlZ2hCRmM2OWtyOFZSQ2ZvNVUxZ3NtNHNUSFBVM1dz?=
+ =?utf-8?Q?RYVE2hZwDXY7K?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?KzdtSzRBRXpCc3Y5TTlKL0FWM2dGZXVzWDRRSXZ6dXJHZXczQWlTTk0xR3ZC?=
+ =?utf-8?B?NnRMZmlnRXkxR1J1WXRnVy9FU29rYWlSVU5JSDdSVUc4WFZwcS9kWVcyVTNH?=
+ =?utf-8?B?cEQwUUxhOXVwOGVvU3c0SDlwb09sUWczVlRKcUc5M3lYSGNtK1haQlhnZGQy?=
+ =?utf-8?B?a0hZWndVZnJHQ3puQWc5Ymt0UDhqaHUvZ3VEZ0hMZFl1cmlFSHlQRVM1U0Q0?=
+ =?utf-8?B?dHRPKzdrM0k0WEhLZFpZL2YzYTN3OE10QWdBbFpxQWRmalJ4emtweUh2YXJx?=
+ =?utf-8?B?ajlYZFlBbnU4WkhQaThSWmtsSjdqYU9RV21CL2I5ZW55S2UrSER4aWxYSVFH?=
+ =?utf-8?B?YTJ3OXcvVzJ2STl0Wm1BajBkVE5RVWdINTJzK3JSR3krcVFyM3FKQkJIVEtm?=
+ =?utf-8?B?N1VOQWc1d0ZyUXlGbFZlL2ExaWh1Y2hmZ3hrMVBQemhZVTlOWVJDanU1Qmc5?=
+ =?utf-8?B?MXpiN2M2YnQxaEtLN2VrTHJNdDFob2J6TUpwNW0zbklYTCtUUmh1Z1Z1enNt?=
+ =?utf-8?B?QXZ5NkkvUk5pb1RIclBaK0pYbStZNHBXbmhYMUFsbnE2Q3g3L3JwYzZ4TlJT?=
+ =?utf-8?B?d0hmL2dNczhhblF5eEhPT1owTEZSS1RxWEFHTnhEN1Q4UE00MnZucEFFR0Fk?=
+ =?utf-8?B?UG9CQTNhV2JNUTZNU0NqZWF3RHI2YmFmejJzTjJjcWlnSnZSVU11NHAyaFgv?=
+ =?utf-8?B?QnM1UUh6Z0MwQ1lOTEdsenVZWUF2Qkc1eE9YSUxDUlBlOUFxZWprSzJ5cmY1?=
+ =?utf-8?B?V3V6empIUk8wdlRrNjZPQndVNldjSDhZZCsveGtJWktnKzhwWXNYWHphZ3Vi?=
+ =?utf-8?B?NEFwaEw3bU1Gay9ZWGNodE1hRVRsNVFScytFN2pxSmU1UTFMUXlBRFF6QVlH?=
+ =?utf-8?B?cjVKMFFNZm1nSG5QOU1xRy9nWVl6TmFaelAxdlJEVVhjYmg5MzZPV0V5N2VL?=
+ =?utf-8?B?dy9iQnd1UU1iRUVleXZxV05oRElsZXRpSVZaTy9NOGl4U0pZTDRYQnl4S2I1?=
+ =?utf-8?B?V0FSY0pMTHczSG81ZjFjaXVoZUwwUWRwSWRadkJtNDB2TlI4UFJNdklra3h5?=
+ =?utf-8?B?dXlHdHg1M3JZV1V1L1orVVhxOUJsMTJpY1lkR3Awc2JCSkxLb05CV1MxSndI?=
+ =?utf-8?B?aUJFK3lWbmdiOUs0cXl6bkwwYmNpTkdDWHBxZ0k2eTVEYURlWHJyejNLbEtt?=
+ =?utf-8?B?ZytkM3NwQWRsckxHTUtzb0tYUDZBL1BWWnNLZWc3a0JTK2dOQ0l2ZHBlekhW?=
+ =?utf-8?B?dmVaUHRJMU1FTTlhSENKUGJmRWp2OHVmOEVMRndZblpMbEdaQi9qZ2FabFFE?=
+ =?utf-8?B?SkJHa01PM1A5Wmg1ajNpaERvc29HaEJuZmhNd0xGWVlIMk9LSzJnL3N6NzZL?=
+ =?utf-8?B?dEtsZ3FrVWFhZGMrcjBDdDJvL3E4Q3dEMXBjVGdaL0ZDQTdOOS8yVkcxNVg2?=
+ =?utf-8?B?WDJSMy9GbUg0M1BGTmRXTXZFQXdJdStRMnFDUDYzeTdWUUVtYWhaUEl5Uzk4?=
+ =?utf-8?B?dnJyV0hMblJHS3Zia2JUNmloVDc4aTB3Um1lUnVES0VuTk5Xb2JtcGtlYml1?=
+ =?utf-8?B?NUJ6dCt5bGxoZEc3TkJjSUtKYWpGOUdWTEdGcEVlRndIb2VEMDdSd25VUlU2?=
+ =?utf-8?B?bUJ6Q1NhbXZXS2kyUVVhMVMwYVhqMDlWYnNiL1QxMGhTSGsyVDYxRnFsQmpv?=
+ =?utf-8?B?NnJKTi9WZS9HcGxCM29QdE9oSTJ4eVJ3KzIxZGpTakp1U1lwVEZjMCszWHN5?=
+ =?utf-8?B?bjQzd0EyV28rdHcxbDVRVnYyNFFaN3cweGZDamVTZEJnOTZBZHo0N2pQMVdE?=
+ =?utf-8?B?ZW1lYkZqSnNDWUxKcGVRZmpUZFpORzlHMy9CSzk1dmg3Snl5OWtZMUtnWlBs?=
+ =?utf-8?B?Ylk4RGJFYUlYR3RKakkxNHFwdjdncDVFLzhDcEF5UDVEaWF1ZU1PL3FBSjh0?=
+ =?utf-8?B?QTF4SjBvZkdSTld5dmVYdXBIWTZpYm41ektpV0dLZmxJQ1U4WXhodVU3dTlV?=
+ =?utf-8?B?d05PT3k3dUZhU3dxbHhIS0tBMk1kUnNiTWlSMHdWdE5pK2V4R1g1cFdnV0hG?=
+ =?utf-8?B?YTNLS3pqalY1K3lPdk9WL3IrTWk4L0J0eEovbHdpMGtKa0ZKR1VuSWo3bVll?=
+ =?utf-8?Q?mXaQ=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa50b0a5-7126-44bb-b514-08dd3bb6324b
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 13:59:47.2669 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EIqI9zR186QqvO9kj8v6YW0mVVuCFAT3msm6yxCvPydBeiL0zx7syOxk6mmdBAw/
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8307
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,514 +179,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Helen Koike <helen.koike@collabora.com>
+On Wed, Jan 22, 2025 at 03:59:11PM +0100, Christian König wrote:
+> > > For example we have cases with multiple devices are in the same IOMMU domain
+> > > and re-using their DMA address mappings.
+> > IMHO this is just another flavour of "private" address flow between
+> > two cooperating drivers.
+> 
+> Well that's the point. The inporter is not cooperating here.
 
-Add documentation of kci-gitlab.
+If the private address relies on a shared iommu_domain controlled by
+the driver, then yes, the importer MUST be cooperating. For instance,
+if you send the same private address into RDMA it will explode because
+it doesn't have any notion of shared iommu_domain mappings, and it
+certainly doesn't setup any such shared domains.
 
-Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
----
- Documentation/ci/gitlab-ci/gitlab-ci.rst | 471 +++++++++++++++++++++++
- Documentation/index.rst                  |   7 +
- 2 files changed, 478 insertions(+)
- create mode 100644 Documentation/ci/gitlab-ci/gitlab-ci.rst
+> The importer doesn't have the slightest idea that he is sharing it's DMA
+> addresses with the exporter.
 
-diff --git a/Documentation/ci/gitlab-ci/gitlab-ci.rst b/Documentation/ci/gitlab-ci/gitlab-ci.rst
-new file mode 100644
-index 000000000000..940a80006923
---- /dev/null
-+++ b/Documentation/ci/gitlab-ci/gitlab-ci.rst
-@@ -0,0 +1,471 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+=========================================
-+Automated Testing with kci-gitlab
-+=========================================
-+
-+
-+This documentation outlines kci-gitlab, a GitLab CI/CD workflow for the
-+Linux Kernel. kci-gitlab pipeline is specifically designed for kernel testing.
-+It provides kernel developers with an integrated, efficient, and flexible
-+testing framework using GitLab's CI/CD capabilities. The workflow is designed
-+to simplify testing for developers, allowing tests to be run on any branch at
-+any time, without the need for specific infrastructure. Tests are automatically
-+triggered on each `git push`, with results displayed in the GitLab UI.
-+
-+.. image:: images/the-pipeline.png
-+   :alt: GitLab-CI pipeline for kernel testing
-+   :align: center
-+
-+Customizations and extensions of the pipeline are possible through the
-+scenarios. Scenarios can override existing jobs, change configurations, or
-+define new jobs and stages. See :ref:`extending-the-ci` section.
-+
-+.. note:: If you are unfamiliar with GitLab CI/CD basic concepts, please check
-+   the `official documentation <https://docs.gitlab.com/ee/ci/>`_.
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
-+
-+Setup
-+-----
-+
-+The kci-gitlab pipeline is set up with minimal configuration required. Pushing code to a
-+GitLab repository automatically triggers the pipeline provided the CI/CD configuration
-+file path is set as per the instructions given below..
-+
-+    .. code-block:: bash
-+
-+      # Download the Linux kernel source code
-+      git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-+      # Create a repository on GitLab and add it as a remote
-+      git remote add gitlab https://gitlab.yourinstance.com/your-username/your-repo.git
-+      # In GitlabCI, go to Settings > CI/CD > General pipelines > CI/CD Configuration file
-+      # and add the following path to it :-
-+      tools/ci/gitlab-ci/gitlab-ci.yml
-+      # Push the code to GitLab
-+      git push gitlab
-+
-+.. image:: images/pipelines-on-push.png
-+   :alt: Pipeline triggered on push
-+   :align: center
-+
-+Troubleshooting
-+---------------
-+
-+If the pipeline doesn't trigger automatically, check the following:
-+
-+1. **Enable CI/CD in Project Settings:**
-+
-+   - Go to `Settings > General > Visibility, project features, permissions`.
-+   - Under `Repository`, ensure the `CI/CD` toggle is enabled.
-+
-+2. **Enable Container Registry:**
-+
-+   - Still in `Settings`, find the `Container Registry` section.
-+   - Enable the `Container Registry` toggle.
-+
-+3. **CI Minutes and Resources:**
-+
-+   - If you've exhausted CI minutes or other resources on the Free Tier,
-+     consider setting up a local GitLab runner (see below).
-+
-+Setting Up a Local GitLab Runner
-+--------------------------------
-+
-+You can use your own machine as a runner, instead of the shared runners provided
-+by your GitLab instance.
-+
-+1. **Generate a GitLab Runner Token:**
-+
-+   - Navigate to `Settings > CI/CD > Runners`.
-+   - Expand the `Runners` section and click on "New project runner".
-+   - Choose "Run untagged jobs" and click "Create runner".
-+   - Copy the provided token.
-+
-+.. image:: images/new-project-runner.png
-+   :alt: New project runner button
-+   :align: center
-+
-+2. **Launch the Runner:**
-+
-+   - Ensure Docker is installed and your user is added to the Docker group:
-+
-+    .. code-block:: bash
-+
-+        sudo usermod -aG docker <your-user>
-+
-+   - Log in again to apply the changes.
-+   - Set up the runner:
-+
-+    .. code-block:: bash
-+
-+     export GITLAB_RUNNER_TOKEN=<your_token>
-+     export GITLAB_URL=https://gitlab.yourinstance.com  # Use this for instances other than gitlab.com
-+     cd tools/ci/gitlab-ci
-+     ./bootstrap-gitlab-runner.sh
-+
-+
-+Current Pipeline Jobs
-+---------------------
-+
-+stage: container
-+^^^^^^^^^^^^^^^^
-+
-+**job: debian/x86_64_build debian/arm64_build**
-+
-+This job prepares the container for x86_64 and arm64 architectures that will be
-+used by subsequent jobs. It starts from a base Debian image, installing necessary
-+tools for building the kernel and running tests. The resulting image is pushed to
-+the project registry and cached. If the image already exists in the registry, it
-+won't be rebuilt.
-+
-+To force a rebuild, update the `FDO_DISTRIBUTION_TAG` variable in the
-+`container.yml` file.
-+
-+stage: static-checks
-+^^^^^^^^^^^^^^^^^^^^
-+
-+**job: checkpatch**
-+
-+Runs the `checkpatch.pl` script on the last `$ICI_PATCH_SERIES_SIZE` commits.
-+This variable is determined by:
-+
-+- `ICI_PATCH_SERIES_SIZE=` The number of differing patches between target and
-+  source branches for merge requests; Or
-+- `ICI_PATCH_SERIES_SIZE=$KCI_PATCH_SERIES_SIZE` if `KCI_PATCH_SERIES_SIZE` is
-+  set (see :ref:`how-to-set-variables` below).
-+
-+Defaults to 1 and raises a GitLab warning if unable to identify the number of
-+commits.
-+
-+**job: smatch**
-+
-+Checks `.c` files in the last `$ICI_PATCH_SERIES_SIZE` commits. Creates a
-+job based on architecture and configuration mentioned in the scenario specific
-+yaml files.
-+If a smatch database exists (see `job: smatch-db-generate` below), it reuses it.
-+
-+stage: build
-+^^^^^^^^^^^^
-+
-+**job: build:arm32 build:arm64 build:x86_64**
-+
-+Compiles the kernel for each architecture and configuration
-+in `container.yml`.
-+
-+Raises a GitLab warning if "warning" is found in the build log.
-+
-+.. image:: images/job-matrix.png
-+   :alt: build kernel jobs
-+   :align: center
-+
-+**job: build-docs**
-+
-+Builds documentation. Creates a job for each documentation type. Not run
-+automatically; requires manual triggering.
-+
-+stage: test
-+^^^^^^^^^^^
-+
-+**job: test-boot**
-+
-+Runs boot tests using virtme to launch a virtual machine and execute
-+`test-boot.sh` script.
-+
-+stage: cache
-+^^^^^^^^^^^^
-+
-+**job: smatch-db-generate**
-+
-+Generates a smatch database for use by the `smatch` job. Not run automatically;
-+requires manual triggering.
-+
-+.. _extending-the-ci:
-+
-+Extending the CI - Test Scenarios (KCI_SCENARIO)
-+------------------------------------------------
-+
-+The kci-gitlab pipeline offers flexibility and adaptability through the use of
-+scenarios, enhancing the CI/CD process with broad customization options.
-+Key capabilities include:
-+
-+- **Overriding Existing Jobs:** Tailor existing jobs to meet specific needs or
-+  conditions.
-+
-+- **Changing Configurations:** Dynamically adapt job settings to suit various
-+  environments or subsystem requirements.
-+
-+- **Defining New Jobs and Stages:** Introduce new jobs and stages for additional
-+  tests, build processes, or deployment strategies.
-+
-+These features are particularly useful when a subsystem has distinct
-+requirements. For instance, to enable testing different configurations for a
-+specific architecture, running static checks with varied arguments, or
-+installing specialized tools to conduct targeted tests.
-+
-+Writing a test scenario
-+^^^^^^^^^^^^^^^^^^^^^^^
-+
-+The kci-gitlab pipeline configuration allows the inclusion of additional `.yml` files
-+based on the `KCI_SCENARIO` variable. For example, setting `KCI_SCENARIO` to `my-scenario`
-+includes `my-scenario.yml` from the `scenarios/<my-scenario>/` folder.
-+
-+A different container image can be built for the newly added scenario by modifying
-+the FDO_DISTRIBUTION_TAG. FDO_DISTRIBUTION_EXEC can be used to run scripts to install
-+the required tools for the container. To illustrate, building a container for a specific
-+architecture with a custom configuration can be achieved by overriding the `build` job
-+in the `scenarios/<my-scenario>/my-scenario.yml` file:
-+
-+.. code-block:: yaml
-+
-+    variables:
-+      FDO_DISTRIBUTION_TAG: "<tag>"
-+      FDO_DISTRIBUTION_EXEC: <script>
-+
-+    build:arm64:
-+      variables:
-+        KCI_KCONFIGS_ENABLE: "CONFIG1 CONFIG2"
-+        KCI_DEFCONFIG: "my/custom/config1"
-+
-+We also need to add `scenarios/<my-scenario>/test.yml` to override the test-boot job
-+and add job to run tests for the scenario.
-+
-+This modifies the builds and static checks for `arm64` with different configurations.
-+
-+To select this scenario, trigger the pipeline with KCI_SCENARIO=my-scenario. See
-+:ref:`how-to-set-variables` below.
-+
-+Additionally, we need to add `scenarios/<my-scenario>/test.yml` to override the default
-+test-boot job and add job to run tests for the scenario.
-+
-+DRM scenario
-+^^^^^^^^^^^^
-+
-+Setting `KCI_SCENARIO` to `drm` includes `drm.yml` from the `scenarios/drm/` folder.
-+
-+A different container image can be built for the newly added `drm` scenario by modifying
-+the FDO_DISTRIBUTION_TAG. FDO_DISTRIBUTION_EXEC runs the `prepare-container.sh` script,
-+which installs the required tools (e.g., deqp-runner, IGT, Rust) for the container.
-+To illustrate, building a container for a specific architecture with a custom
-+configuration can be achieved by overriding the build job in the `scenarios/drm/drm.yml` file:
-+
-+.. code-block:: yaml
-+
-+    variables:
-+      FDO_DISTRIBUTION_TAG: "<tag>"
-+      FDO_DISTRIBUTION_EXEC: <prepare-container.sh>
-+
-+    build:arm64:
-+      variables:
-+        KCI_KCONFIGS_ENABLE: "DRM_VKMS DRM_BOCHS"
-+
-+This modifies the builds for x86_64 to enable VKMS driver in the kernel.
-+
-+Additionally, we need to add `scenarios/drm/test.yml` to override the default
-+test-boot job and add job to run tests for the `drm` scenario.
-+
-+Below is a pipeline running IGT tests using igt-runner provided by
-+deqp-runner for :ref:`VKMS <vkms>`.
-+
-+.. image:: images/drm-vkms.png
-+   :alt: DRM vkms job
-+   :align: center
-+
-+`deqp-runner tool <https://gitlab.freedesktop.org/mesa/deqp-runner>`_ supports parallel
-+testing of various test suites, including dEQP, Piglit, GTest, and IGT GPU Tools,
-+using baseline expectations and known flakes. deqp-runner contains experimental support
-+for running IGT tests. `IGT GPU Tools <https://gitlab.freedesktop.org/drm/igt-gpu-tools>`_
-+is a collection of tools for development and testing of the DRM drivers.
-+
-+Refer to Documentation/gpu/automated_testing.rst for details regarding
-+fails/flakes/skips files.
-+
-+Variables
-+---------
-+
-+kci-gitlab supports various variables to modify pipeline behavior or for use
-+in jobs.
-+
-+- **CI_ Prefix:** Standard GitLab CI/CD variables (see GitLab documentation).
-+- **KCI_ Prefix:** Custom variables defined for kernel CI.
-+- **ICI_ Prefix:** Internal variables used between scripts (not for external
-+  use).
-+
-+.. _how-to-set-variables:
-+
-+How to Set Variables
-+--------------------
-+
-+Variables can be set in several ways:
-+
-+- **Project Settings:** Under `CI/CD > Variables`.
-+- **Pipeline UI:** When triggering a pipeline manually.
-+- **Command Line:** When triggering a pipeline manually (see
-+  :ref:`triggering-pipelines-from-command-line` below).
-+- **YML Files:** Using the `variables` keyword.
-+- **Commit Message:** For runtime variables only (see
-+  :ref:`setting-variables-in-the-commit-message` below).
-+
-+.. image:: images/variables.png
-+   :alt: Manual creation of pipeline
-+   :align: center
-+
-+Variables Precedence
-+--------------------
-+
-+- **Commit Message Variables:** Highest precedence if evaluated at runtime.
-+- **Pipeline Variables:** Next in precedence.
-+- **Project Variables:** Follow pipeline variables.
-+- **YML File Variables:** Considered after the above levels.
-+
-+.. _setting-variables-in-the-commit-message:
-+
-+Setting Variables in the Commit Message
-+---------------------------------------
-+
-+Runtime variables can be set in the commit message. Patterns like
-+`KCI_VARIABLE=value` are extracted and exported to the job. To avoid including
-+variables in the git history, add them after three dashes (`---`) in the commit
-+message, as `git am` ignores text after this line.
-+
-+Example:
-+
-+.. code-block::
-+
-+    Title of my awesome commit
-+
-+    This is the commit message description of my awesome patch
-+    ---
-+    KCI_PATCH_SERIES_SIZE=4
-+
-+Description of Each Variable
-+----------------------------
-+
-+**KCI_BUILD_ARCH**
-+    Defines the build architecture to be used in FDO_REPO_SUFFIX for the container
-+    image name.
-+
-+**KCI_KERNEL_ARCH**
-+    Defines the architecture to be used in the kernel build jobs and static checks jobs.
-+    Usually set in the `container.yml` or overridden in scenarios/<my-scenario>/my-scenario.yml.
-+
-+**KCI_DEFCONFIG**
-+    Defines the config file to be used in the build-kernel and static checks
-+    jobs. Usually set in the `container.yml` or overridden in scenarios/<my-scenario>/my-scenario.yml.
-+
-+**KCI_KCONFIGS_{ENABLE,DISABLE,MODULE}**
-+    Defines the extra configs to be enabled, disabled or set as a module, used
-+    in the build-kernel and static checks jobs. Usually set in the `container.yml` or
-+    overridden in scenarios/<my-scenario>/my-scenario.yml.
-+
-+**KCI_SCENARIO**
-+    Used to select which extra scenario file to include in the pipeline. See
-+    :ref:`extending-the-ci` section above. Usually set by the user at project or
-+    pipeline level.
-+
-+**KCI_CHECKPATCH_OPTIONS**
-+    Used in `checkpatch.pl "$KCI_CHECKPATCH_OPTIONS"` (see checkpatch
-+    documentation). It is commonly used with the --ignore flag to suppress
-+    specific warnings generated by checkpatch.pl. It can also be defined in the
-+    commit message, since it is evaluated in run time.
-+
-+**KCI_PATCH_SERIES_SIZE**
-+    Used to define the size of the patch series, see `job: checkpatch` section
-+    above. It is evaluated in run time, and can be set in the commit message.
-+
-+.. _triggering-pipelines-from-command-line:
-+
-+Triggering Pipelines from Command Line
-+--------------------------------------
-+
-+Pipelines can be triggered from the command line with custom variables using the
-+`GitLab CLI tool <https://docs.gitlab.com/ee/editor_extensions/gitlab_cli>`_.
-+
-+Example:
-+
-+.. code-block:: bash
-+
-+    glab auth login
-+    glab ci run -b gitlab-draft -R https://gitlab.collabora.com/koike/linux/ --variables-env KCI_PATCH_SERIES_SIZE:4
-+
-+
-+Debugging and Replicating Jobs Locally
-+--------------------------------------
-+
-+When a job fails in GitLab CI/CD, it's handy to replicate the issue in the
-+same environment used by the GitLab CI/CD runner. This allows for interactive
-+execution of each step and the use of debugging tools to pinpoint the failure's
-+root cause.
-+
-+Rather than repeatedly modifying scripts and running the entire pipeline for
-+debugging, you can download the specific Docker image used by the job and run it
-+locally.
-+
-+To do this, first inspect the failed job in GitLab CI/CD. Look for a message
-+indicating the Docker image used, typically in this format:
-+
-+   Pulling docker image registry.gitlab.collabora.com/koike/linux/debian/bookworm-slim:2024-02-6-ci-test-1
-+
-+You can then use this image to run the job locally. For example:
-+
-+.. code-block:: bash
-+
-+   IMAGE=registry.gitlab.collabora.com/koike/linux/debian/bookworm-slim:2024-02-6-ci-test-1
-+   docker pull $IMAGE
-+   docker run --rm -v `pwd`:/linux -w /linux $IMAGE bash
-+
-+
-+Suggestions
-+-----------
-+
-+Send Pipeline Links with Your Patch
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+When submitting patches or merge requests, it's highly beneficial to include
-+links to the related GitLab CI pipelines. This practice enhances the review
-+process in several ways:
-+
-+1. **Immediate Visibility:** Reviewers can immediately see the results of
-+   automated tests, making it easier to assess the patch's impact.
-+
-+2. **Increased Confidence:** Successful pipeline runs increase confidence in the
-+   changes, demonstrating that they pass existing tests.
-+
-+3. **Efficient Troubleshooting:** If there are issues, pipeline links allow both
-+   authors and reviewers to quickly access logs and test results, facilitating
-+   faster troubleshooting and iteration.
-+
-+4. **Transparency:** Providing pipeline links promotes transparency in the
-+   development process, making it clear how changes have been verified.
-+
-+To include a pipeline link in your patch or merge request, simply copy the URL
-+of the pipeline from your GitLab project's CI/CD pipeline page and paste it into
-+your commit description after three dashes (`---`) or as a reply to your email
-+patch.
-+
-+Always Green Pipeline
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+Maintaining an "always green" pipeline refers to the practice of ensuring that
-+the main branch's pipeline is always in a passing state. This approach has
-+several advantages:
-+
-+1. **Reliable Main Branch:** A green pipeline indicates a stable and reliable
-+   main branch, which is crucial for continuous integration practices.
-+
-+2. **Immediate Feedback:** Developers receive immediate feedback on their
-+   changes. If a merge causes the pipeline to fail, it's a clear signal that the
-+   change introduced an issue.
-+
-+3. **Faster Iteration:** An always green pipeline facilitates faster development
-+   and iteration, as developers can confidently build on top of the latest main
-+   branch without worrying about hidden failures.
-+
-+4. **Culture of Responsibility:** It fosters a culture of responsibility, where
-+   developers are encouraged to fix broken builds promptly and avoid merging
-+   changes that could disrupt the pipeline.
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index f9f525f4c0dd..701e70b54780 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -101,6 +101,13 @@ Architecture-specific documentation
- 
-    CPU architectures <arch/index>
- 
-+CI: Automated testing documentation
-+===================================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   ci/gitlab-ci/gitlab-ci
- 
- Other documentation
- ===================
--- 
-2.43.0
+Of course it does. The importer driver would have had to explicitly
+set this up! The normal kernel behavior is that all drivers get
+private iommu_domains controled by the DMA API. If your driver is
+doing something else *it did it deliberately*.
 
+Some of that mess in tegra host1x around this area is not well
+structured, it should not be implicitly setting up domains for
+drivers. It is old code that hasn't been updated to use the new iommu
+subsystem approach for driver controled non-DMA API domains.
+
+The new iommu architecture has the probing driver disable the DMA API
+and can then manipulate its iommu domain however it likes, safely. Ie
+the probing driver is aware and particiapting in disabling the DMA
+API.
+
+Again, either you are using the DMA API and you work in generic ways
+with generic devices or it is "private" and only co-operating drivers
+can interwork with private addresses. A private address must not ever
+be sent to a DMA API using driver and vice versa.
+
+IMHO this is an important architecture point and why Christoph was
+frowning on abusing dma_addr_t to represent things that did NOT come
+out of the DMA API.
+
+> We have a very limited number of exporters and a lot of different importers.
+> So having complexity in the exporter instead of the importer is absolutely
+> beneficial.
+
+Isn't every DRM driver both an importer and exporter? That is what I
+was expecting at least..
+
+> I still strongly think that the exporter should talk with the DMA API to
+> setup the access path for the importer and *not* the importer directly.
+
+It is contrary to the design of the new API which wants to co-optimize
+mapping and HW setup together as one unit.
+
+For instance in RDMA we want to hint and control the way the IOMMU
+mapping works in the DMA API to optimize the RDMA HW side. I can't do
+those optimizations if I'm not in control of the mapping.
+
+The same is probably true on the GPU side too, you want IOVAs that
+have tidy alignment with your PTE structure, but only the importer
+understands its own HW to make the correct hints to the DMA API.
+
+Jason
