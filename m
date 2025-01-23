@@ -2,54 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B386BA1A2B0
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:12:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99184A1A2B6
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:13:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6FD210E046;
-	Thu, 23 Jan 2025 11:12:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 907B510E7D9;
+	Thu, 23 Jan 2025 11:13:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="geX5nWmL";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XmG2V+es";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BA1B10E046
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 11:12:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=OViG7CMAewHBrClcveWqbTq9zu8RDgmBzRyrS69tFTM=; b=geX5nWmLS9V+PIgIeapbnN8dLt
- 0S6hQWsIRArpM0/LSLDO7Vdx0AbYii3Fk6uwuJPXkK4Cbm+XMkrQXqdMLjKBASi0ycd2BKiyHINTW
- Qpk1kq2d2sI+i1ceCLhv8GIHhZhcaGtvBeALHB70ZFQtSIS/XtTvU30tAxqiMzEZ2MNg87zAK9TaV
- 9271MQBZu4LmDXaXq/RrwQ2p+Ysm77jWXKFLbxt7mg7M/2wQGMzpUIN8w+KiIib1pPVYAoDNVLHXE
- /zHJDA+7sS6ExdlxYeVPifwcjeJeqzZd9Y8R8JNDvlixYWwlcWlbbmO9FfSyMRgZoNPb3JY6ve0bG
- xyGWJzzQ==;
-Received: from ip163.dynamic.igalia.com ([192.168.10.163])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tav8E-001AWP-0o; Thu, 23 Jan 2025 12:12:17 +0100
-Message-ID: <8f890277-079c-4c2d-826e-d9f6fb0c0ca9@igalia.com>
-Date: Thu, 23 Jan 2025 12:12:17 +0100
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D606210E7D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 11:13:37 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-53ff1f7caaeso868262e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 03:13:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737630816; x=1738235616; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UbK2QIG9UZ82+jDNZ5mfxY3AJqyqTWXM47nQcnNSjYk=;
+ b=XmG2V+esL5LivHdWanOejXnItAt4hbIwUJ+lpYn0cYK1Xnsb2YFX2JJjyhIt6US7cS
+ Kh9mNpxdlI83iRjIIvTbNuVMfQB6xLavjb4DxfvfCJ1zTJoTaX0/NTtrGknCgn5WhJSe
+ qFNkT0IhN+DWQSShJK8k8les5BNxz9ECL3a1QVaUaAVzC0AAbor80qyYBrNCH7vfIJKf
+ Ci8aFqoDUbw+D6TPGW0Kl56LSZ3nZGtPHyfRG25GO6PM9VjYQuisXc5lXJt16ASUZ/kl
+ 8qu/idNgQpf8wSfAQN0wr/WhGKJyWvBX2ueEtBvfh79yrKGtou/2ZW4cVN+CsN30sm6L
+ rbkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737630816; x=1738235616;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UbK2QIG9UZ82+jDNZ5mfxY3AJqyqTWXM47nQcnNSjYk=;
+ b=Y0cro/FiKF1uCDY7xiDOyjaM6HAvOJMYDA1XtPEQzbYKmcXhKnVeJNZNsmzbDvnKam
+ 8RlK0iTilcDxhNq3hsp+t0R5YAbc4YHhAN8IWLqc7hf8/p5LtyLsw58Gxx+1ZbN2JD4c
+ dsYdKn5gFCJa9P/yiEOCQSKjFr8tsrmytAi8qo3k5yZBy2WsH0QonWx9qKSHEnnb4LIm
+ l+JpEo5/M+1IR0gx1AgCqECoukgqwEuWBsoy80p9N9DllBcgqrgagD9DD+PbpIQomtXV
+ 8U+nTPHxAjQ36KldB2tAX/cvacc6hTBI3A86NOQIxNSa+VRJ3L06RAmuOhkhHlyMoaj+
+ QQ7g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZCZYwIOrVxHk0+NVmLgwgZIwsGwDkm2E54JDH/KKkUp/22O6yffWqIhX6p3HfkkzFb4I2fZDOiNo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrDWsdxE2wyDLHqYogdPdpCcPSE5d4VFbiNzGKkd6DmBNvoJht
+ 54aM8MguppfbeGURko74LDs0x9QuWKhWBiwYg8LtXpHkHYBL7cCQK4+W6cukfNs=
+X-Gm-Gg: ASbGncsO4E/xmTSZSJSIV6ybV7scC62iGA3ptFMLHIOaa7B+9oTUftdN+rkqop/P5Fn
+ RZGn9U8AAisGr5OM/MBeSqXCZ7kheLZExBw6wcsVOXsrrleOUQGEFdrg8GZZJOji1uApYouThHy
+ GluEDgAYc/gt3phrwH4/JYPWv3fy41feEoJyL6+rrWFWb6rDsu8avgVJDPFbfl4BE1fpPH85DDc
+ bS8nfoEm39UA/q32Lu2yZni6V3M1aTizqnXD48USQWJ92l16oLkfxbEzaEt3L+uTvUNGFTxLXHk
+ gYeS1xe9V+DDMRfp9o810N8Y4DWQJSlTlFtKcUHdi4+B9ELq3LxNVHkuWGM0
+X-Google-Smtp-Source: AGHT+IERe4kxUAeWP4wSOXrmiZHb34wl4W43w8J6oh17JviK1KTZ3IY6rgYfpx3QEyOfEAkFUOfYyQ==
+X-Received: by 2002:ac2:511e:0:b0:542:98bb:5678 with SMTP id
+ 2adb3069b0e04-5439c248293mr6188315e87.25.1737630815998; 
+ Thu, 23 Jan 2025 03:13:35 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5439af0eae0sm2586522e87.79.2025.01.23.03.13.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Jan 2025 03:13:34 -0800 (PST)
+Date: Thu, 23 Jan 2025 13:13:32 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Ekansh Gupta <quic_ekangupt@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
+ gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, 
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
+Subject: Re: [PATCH v1 1/4] misc: fastrpc: Add CRC support using invokeV2
+ request
+Message-ID: <drh2ikzku37tblmpkjbcdqjllynb3shsfogljfkhq2vcsej2ga@4ex36yehg2e6>
+References: <20241007084518.3649876-1-quic_ekangupt@quicinc.com>
+ <20241007084518.3649876-2-quic_ekangupt@quicinc.com>
+ <bmg5em2f673vis6wwtjx6ibkhee7d3zocwesgoafsgt5jxbfqn@w73y6gmzbamj>
+ <53ce4792-6eca-42ae-b5d7-24d524697344@quicinc.com>
+ <fm4wxyu7dv7wzz6szwtz4vyukzxmzajtzqlidaed4hcrabhpe2@eqw6vimhzkjm>
+ <0dd43d4f-0399-454b-96fd-2d4f5f36ea14@quicinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Assign job pointer to NULL before signaling the
- fence
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- Phil Elwell <phil@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- stable@vger.kernel.org
-References: <20250123012403.20447-1-mcanal@igalia.com>
-From: Chema Casanova <jmcasanova@igalia.com>
-Organization: Igalia
-In-Reply-To: <20250123012403.20447-1-mcanal@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0dd43d4f-0399-454b-96fd-2d4f5f36ea14@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,141 +96,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+On Thu, Jan 23, 2025 at 03:19:21PM +0530, Ekansh Gupta wrote:
+> 
+> 
+> 
+> On 1/23/2025 1:18 PM, Dmitry Baryshkov wrote:
+> > On Thu, Jan 23, 2025 at 11:16:41AM +0530, Ekansh Gupta wrote:
+> >>
+> >>
+> >> On 10/7/2024 7:27 PM, Dmitry Baryshkov wrote:
+> >>> On Mon, Oct 07, 2024 at 02:15:15PM GMT, Ekansh Gupta wrote:
+> >>>> InvokeV2 request is intended to support multiple enhanced invoke
+> >>>> requests like CRC check, performance counter enablement and polling
+> >>>> mode for RPC invocations. CRC check is getting enabled as part of
+> >>>> this patch. CRC check for input and output argument helps in ensuring
+> >>>> data consistency over a remote call. If user intends to enable CRC
+> >>>> check, first local user CRC is calculated at user end and a CRC buffer
+> >>>> is passed to DSP to capture remote CRC values. DSP is expected to
+> >>>> write to the remote CRC buffer which is then compared at user level
+> >>>> with the local CRC values.
+> >>> This doesn't explain why this is necessary. Why do you need to checksum
+> >>> arguments?
+> >> This helps if the user suspects any data inconsistencies in the buffers passed to DSP over
+> >> remote call. This is not enabled by default and user can enable it as per their reqirement.
+> >> I'll add this information.
+> > An inconsistency where? Between the kernel and the DSP? Between the user
+> > and the DSP? Does it cover buffer contents or just the addresses?
+> Inconsistency between user and DSP. crc_user is calculated at user library before
+> making ioctl call and it is compared against the crc data which is filled by DSP and
+> copied to user.
+> This covers inconsistency in buffer contents.
 
-El 23/1/25 a las 2:24, Maíra Canal escribió:
-> In commit e4b5ccd392b9 ("drm/v3d: Ensure job pointer is set to NULL
-> after job completion"), we introduced a change to assign the job pointer
-> to NULL after completing a job, indicating job completion.
->
-> However, this approach created a race condition between the DRM
-> scheduler workqueue and the IRQ execution thread. As soon as the fence is
-> signaled in the IRQ execution thread, a new job starts to be executed.
-> This results in a race condition where the IRQ execution thread sets the
-> job pointer to NULL simultaneously as the `run_job()` function assigns
-> a new job to the pointer.
->
-> This race condition can lead to a NULL pointer dereference if the IRQ
-> execution thread sets the job pointer to NULL after `run_job()` assigns
-> it to the new job. When the new job completes and the GPU emits an
-> interrupt, `v3d_irq()` is triggered, potentially causing a crash.
->
-> [  466.310099] Unable to handle kernel NULL pointer dereference at virtual address 00000000000000c0
-> [  466.318928] Mem abort info:
-> [  466.321723]   ESR = 0x0000000096000005
-> [  466.325479]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [  466.330807]   SET = 0, FnV = 0
-> [  466.333864]   EA = 0, S1PTW = 0
-> [  466.337010]   FSC = 0x05: level 1 translation fault
-> [  466.341900] Data abort info:
-> [  466.344783]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-> [  466.350285]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-> [  466.355350]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> [  466.360677] user pgtable: 4k pages, 39-bit VAs, pgdp=0000000089772000
-> [  466.367140] [00000000000000c0] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
-> [  466.375875] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
-> [  466.382163] Modules linked in: rfcomm snd_seq_dummy snd_hrtimer snd_seq snd_seq_device algif_hash algif_skcipher af_alg bnep binfmt_misc vc4 snd_soc_hdmi_codec drm_display_helper cec brcmfmac_wcc spidev rpivid_hevc(C) drm_client_lib brcmfmac hci_uart drm_dma_helper pisp_be btbcm brcmutil snd_soc_core aes_ce_blk v4l2_mem2mem bluetooth aes_ce_cipher snd_compress videobuf2_dma_contig ghash_ce cfg80211 gf128mul snd_pcm_dmaengine videobuf2_memops ecdh_generic sha2_ce ecc videobuf2_v4l2 snd_pcm v3d sha256_arm64 rfkill videodev snd_timer sha1_ce libaes gpu_sched snd videobuf2_common sha1_generic drm_shmem_helper mc rp1_pio drm_kms_helper raspberrypi_hwmon spi_bcm2835 gpio_keys i2c_brcmstb rp1 raspberrypi_gpiomem rp1_mailbox rp1_adc nvmem_rmem uio_pdrv_genirq uio i2c_dev drm ledtrig_pattern drm_panel_orientation_quirks backlight fuse dm_mod ip_tables x_tables ipv6
-> [  466.458429] CPU: 0 UID: 1000 PID: 2008 Comm: chromium Tainted: G         C         6.13.0-v8+ #18
-> [  466.467336] Tainted: [C]=CRAP
-> [  466.470306] Hardware name: Raspberry Pi 5 Model B Rev 1.0 (DT)
-> [  466.476157] pstate: 404000c9 (nZcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [  466.483143] pc : v3d_irq+0x118/0x2e0 [v3d]
-> [  466.487258] lr : __handle_irq_event_percpu+0x60/0x228
-> [  466.492327] sp : ffffffc080003ea0
-> [  466.495646] x29: ffffffc080003ea0 x28: ffffff80c0c94200 x27: 0000000000000000
-> [  466.502807] x26: ffffffd08dd81d7b x25: ffffff80c0c94200 x24: ffffff8003bdc200
-> [  466.509969] x23: 0000000000000001 x22: 00000000000000a7 x21: 0000000000000000
-> [  466.517130] x20: ffffff8041bb0000 x19: 0000000000000001 x18: 0000000000000000
-> [  466.524291] x17: ffffffafadfb0000 x16: ffffffc080000000 x15: 0000000000000000
-> [  466.531452] x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-> [  466.538613] x11: 0000000000000000 x10: 0000000000000000 x9 : ffffffd08c527eb0
-> [  466.545777] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000000000
-> [  466.552941] x5 : ffffffd08c4100d0 x4 : ffffffafadfb0000 x3 : ffffffc080003f70
-> [  466.560102] x2 : ffffffc0829e8058 x1 : 0000000000000001 x0 : 0000000000000000
-> [  466.567263] Call trace:
-> [  466.569711]  v3d_irq+0x118/0x2e0 [v3d] (P)
-> [  466.573826]  __handle_irq_event_percpu+0x60/0x228
-> [  466.578546]  handle_irq_event+0x54/0xb8
-> [  466.582391]  handle_fasteoi_irq+0xac/0x240
-> [  466.586498]  generic_handle_domain_irq+0x34/0x58
-> [  466.591128]  gic_handle_irq+0x48/0xd8
-> [  466.594798]  call_on_irq_stack+0x24/0x58
-> [  466.598730]  do_interrupt_handler+0x88/0x98
-> [  466.602923]  el0_interrupt+0x44/0xc0
-> [  466.606508]  __el0_irq_handler_common+0x18/0x28
-> [  466.611050]  el0t_64_irq_handler+0x10/0x20
-> [  466.615156]  el0t_64_irq+0x198/0x1a0
-> [  466.618740] Code: 52800035 3607faf3 f9442e80 52800021 (f9406018)
-> [  466.624853] ---[ end trace 0000000000000000 ]---
-> [  466.629483] Kernel panic - not syncing: Oops: Fatal exception in interrupt
-> [  466.636384] SMP: stopping secondary CPUs
-> [  466.640320] Kernel Offset: 0x100c400000 from 0xffffffc080000000
-> [  466.646259] PHYS_OFFSET: 0x0
-> [  466.649141] CPU features: 0x100,00000170,00901250,0200720b
-> [  466.654644] Memory Limit: none
-> [  466.657706] ---[ end Kernel panic - not syncing: Oops: Fatal exception in interrupt ]---
->
-> Fix the crash by assigning the job pointer to NULL before signaling the
-> fence. This ensures that the job pointer is cleared before any new job
-> starts execution, preventing the race condition and the NULL pointer
-> dereference crash.
->
-> Cc: stable@vger.kernel.org
-> Fixes: e4b5ccd392b9 ("drm/v3d: Ensure job pointer is set to NULL after job completion")
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> ---
->   drivers/gpu/drm/v3d/v3d_irq.c | 16 ++++++++++++----
->   1 file changed, 12 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-> index da203045df9b..72b6a119412f 100644
-> --- a/drivers/gpu/drm/v3d/v3d_irq.c
-> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
-> @@ -107,8 +107,10 @@ v3d_irq(int irq, void *arg)
->   
->   		v3d_job_update_stats(&v3d->bin_job->base, V3D_BIN);
->   		trace_v3d_bcl_irq(&v3d->drm, fence->seqno);
-> -		dma_fence_signal(&fence->base);
-> +
->   		v3d->bin_job = NULL;
-> +		dma_fence_signal(&fence->base);
-> +
->   		status = IRQ_HANDLED;
->   	}
->   
-> @@ -118,8 +120,10 @@ v3d_irq(int irq, void *arg)
->   
->   		v3d_job_update_stats(&v3d->render_job->base, V3D_RENDER);
->   		trace_v3d_rcl_irq(&v3d->drm, fence->seqno);
-> -		dma_fence_signal(&fence->base);
-> +
->   		v3d->render_job = NULL;
-> +		dma_fence_signal(&fence->base);
-> +
->   		status = IRQ_HANDLED;
->   	}
->   
-> @@ -129,8 +133,10 @@ v3d_irq(int irq, void *arg)
->   
->   		v3d_job_update_stats(&v3d->csd_job->base, V3D_CSD);
->   		trace_v3d_csd_irq(&v3d->drm, fence->seqno);
-> -		dma_fence_signal(&fence->base);
-> +
->   		v3d->csd_job = NULL;
-> +		dma_fence_signal(&fence->base);
-> +
->   		status = IRQ_HANDLED;
->   	}
->   
-> @@ -167,8 +173,10 @@ v3d_hub_irq(int irq, void *arg)
->   
->   		v3d_job_update_stats(&v3d->tfu_job->base, V3D_TFU);
->   		trace_v3d_tfu_irq(&v3d->drm, fence->seqno);
-> -		dma_fence_signal(&fence->base);
-> +
->   		v3d->tfu_job = NULL;
-> +		dma_fence_signal(&fence->base);
-> +
->   		status = IRQ_HANDLED;
->   	}
->   
+What is the reason for possible inconsistencies? Is it a debugging
+feature?
+
+> >
+> >>> Also, what if the DSP firmware doesn't support CRC? How should userspace
+> >>> know that?
+> >> CRC support on DSP is there since long time(>6years).
+> > This doesn't give us a lot. Upstream kernel supports fastrpc since
+> > MSM8916 and MSM8996. Do those platforms support CRC?
+> The metadata buffer as of today also carries space for CRC information:
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/misc/fastrpc.c#n877
+> 
+> So this is common across all platforms.
+> 
+> In case CRC is not supported on any older platform, it would result in crc mismatch at user library.
+> As of now a warning is getting logged there, I can add the information suggesting the failure might
+> also occur if CRC is not supported.
+
+Logs go to /dev/null, they are ignored by users, etc. So either there
+should be an actual error being returned by the kernel / library, or it
+can be completely ignored and skipped.
+
+So, do MSM8916 / MSM8996 / SDM845 support CRC? If not, that must be
+handled somehow.
+
+> > And if they do, why do we need the invoke_v2? Can we modify existing
+> > code instead?
+> invoke_v2 is needed because there is a need to pass user crc pointer over ioctl call which
+> cannot be achieved using existing code. Also there are plans to add more features to this
+> invoke_v2 request which will carry some information from user.
+
+Is it really extensible without breaking the ABI?
+
+> >
+> >> From user space CRC check failure is
+> >> not fatal and is printed as a warning. But if copy of CRC to user fails, it will result in remote
+> >> call failure. Should I keep it as fatal considering that ever very old DSP support this or should
+> >> I consider the copy failure as non-fatal as userspace is treating this as a warning?
+> > warnings can remain unseen for a long time. Consider a GUI app. Nobody
+> > is there to view kernel warnings or library output.
+> Let me see if this can be done. Are you suggesting that the app will be somewhat tracking
+> if there is any crc check mismatch failures?
+
+I suggest returning -EIO to the app.
+
+> >
+> >>>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+> >>>> ---
+> >>>>  drivers/misc/fastrpc.c      | 161 ++++++++++++++++++++++++------------
+> >>>>  include/uapi/misc/fastrpc.h |   7 ++
+> >>>>  2 files changed, 116 insertions(+), 52 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> >>>> index 74181b8c386b..8e817a763d1d 100644
+> >>>> --- a/drivers/misc/fastrpc.c
+> >>>> +++ b/drivers/misc/fastrpc.c
+> >>>> @@ -573,13 +573,15 @@ static void fastrpc_get_buff_overlaps(struct fastrpc_invoke_ctx *ctx)
+> >>>>  
+> >>>>  static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+> >>>>  			struct fastrpc_user *user, u32 kernel, u32 sc,
+> >>>> -			struct fastrpc_invoke_args *args)
+> >>>> +			struct fastrpc_invoke_v2 *inv2)
+> >>>>  {
+> >>>>  	struct fastrpc_channel_ctx *cctx = user->cctx;
+> >>>>  	struct fastrpc_invoke_ctx *ctx = NULL;
+> >>>> +	struct fastrpc_invoke_args *args = NULL;
+> >>> Why do you need to init to NULL if you are going to set it two lines
+> >>> below?
+> >>>
+> >>>>  	unsigned long flags;
+> >>>>  	int ret;
+> >>>>  
+> >>>> +	args = (struct fastrpc_invoke_args *)inv2->inv.args;
+> >>> Why does it need a typecast?
+> >>>
+> >>>>  	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+> >>>>  	if (!ctx)
+> >>>>  		return ERR_PTR(-ENOMEM);
+> >>>> @@ -611,6 +613,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
+> >>>>  	/* Released in fastrpc_context_put() */
+> >>>>  	fastrpc_channel_ctx_get(cctx);
+> >>>>  
+> >>>> +	ctx->crc = (u32 *)(uintptr_t)inv2->crc;
+> >>> Oh, but why? Also is it a user pointer or in-kernel data? If it's a
+> >>> user-based pointer, where is the accessiblity check? Why isn't it
+> >>> annotated properly?
+> >> This is a user pointer where the crc data is expected to be copied. There is no
+> >> other access to this pointer from kernel. I'm planning to change the data type
+> >> for crc as (void __user*) inside fastrpc_invoke_ctx structure.
+> > Yes, please. Also make sure that sparse doesn't add any warnings
+> > regarding pointer conversions.
+> Ack.
+> >
+> >>>>  	ctx->sc = sc;
+> >>>>  	ctx->retval = -1;
+> >>>>  	ctx->pid = current->pid;
+> >>>> @@ -1070,6 +1073,7 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
+> >>>>  	struct fastrpc_invoke_buf *list;
+> >>>>  	struct fastrpc_phy_page *pages;
+> >>>>  	u64 *fdlist;
+> >>>> +	u32 *crclist;
+> >>>>  	int i, inbufs, outbufs, handles;
+> >>>>  
+> >>>>  	inbufs = REMOTE_SCALARS_INBUFS(ctx->sc);
+> >>>> @@ -1078,6 +1082,7 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
+> >>>>  	list = fastrpc_invoke_buf_start(rpra, ctx->nscalars);
+> >>>>  	pages = fastrpc_phy_page_start(list, ctx->nscalars);
+> >>>>  	fdlist = (uint64_t *)(pages + inbufs + outbufs + handles);
+> >>>> +	crclist = (u32 *)(fdlist + FASTRPC_MAX_FDLIST);
+> >>> I think we should rewrite this parsing somehow. Is the format of data
+> >>> documented somewhere?
+> >> fdlist, crclist and poll(planned) are the only pointers that is being used. I'm planning
+> >> to store these pointers to ctx structure and directly use it wherever needed. This will
+> >> clean-up this unnecessary calculations at multiple places.
+> >
+> > Please do. Nevertheless, the format also must be documented.
+> Ack.
+> >
+> >>>>  
+> >>>>  	for (i = inbufs; i < ctx->nbufs; ++i) {
+> >>>>  		if (!ctx->maps[i]) {
+> >>>> @@ -1102,6 +1107,12 @@ static int fastrpc_put_args(struct fastrpc_invoke_ctx *ctx,
+> >>>>  			fastrpc_map_put(mmap);
+> >>>>  	}
+> >>>>  
+> >>>> +	if (ctx->crc && crclist && rpra) {
+> >>>> +		if (copy_to_user((void __user *)ctx->crc, crclist,
+> >>>> +				FASTRPC_MAX_CRCLIST * sizeof(u32)))
+> >>> Oh, so it's a user pointer. Then u32* was completely incorrect.
+> >>> Also you are copying FASTRPC_MAX_CRCLIST elements. Are all of them
+> >>> filled? Or are we leaking some data to userspace?
+> >> Yes, right. Planning clean-up in next patch.
+> >>
+> >> All of FASTRPC_MAX_CRCLIST is filled with crc data by DSP so copying should be fine.
+> > Huh? I definitely want to see documentation for function arguments.
+> Sure. I'll also modify the metadata layout doc here to add fdlist, CRC and other planned contents.
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/misc/fastrpc.c#n842
+
+This is not a documentation. E.g. I can not write code using that
+description. For example, it mentions neither FDLIST nor CRC.
+
+> >
+> >>>> +			return -EFAULT;
+> >>>> +	}
+> >>>> +
+> >>>>  	return 0;
+> >>>>  }
+> >>>>  
+
+-- 
+With best wishes
+Dmitry
