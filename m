@@ -2,45 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9509A1A7F2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 17:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA2C5A1A893
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 18:13:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3463410E882;
-	Thu, 23 Jan 2025 16:36:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A22F510E1BC;
+	Thu, 23 Jan 2025 17:13:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ll9sBj50";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PWz7SaHR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2421510E882
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 16:36:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E8F41A40ECD;
- Thu, 23 Jan 2025 16:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9274EC4CED3;
- Thu, 23 Jan 2025 16:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737650182;
- bh=BmaC/9qjSSFndeU5m4xN9uF9+Xs0FMsPpR2NDKgxvGU=;
- h=Date:From:To:Subject:From;
- b=Ll9sBj50C3HME3Gu9su6uoNaCtWK9GDmLnPMmOStb2gCnt/mg3alCNlzFn/geTuwA
- nrsK/hp9N0UsPGfZRFUtHZJ0BBzwgLpZcf+p5cKIiMcS2tWEjoncyAsKF8QKPKs1Ao
- EfUzrgw9KQtTYd1/EbaH910ywv2jKATLeJBCcWcc6YW4IUjmxYhuTbHDEjMXxRj4ii
- FlOX8MhXawiu6Ht6bysAXRD9RqebNOYZTUtceAsBWGWiWXUIViZXbgGelJH+YrI1sB
- SNAtipgn/auAE4/PNUJGt+Lh3XtiHDk5BAXcFKzKivJme+WJTT/kMFJngwk58698oX
- U8oUs9wAfa/Rw==
-Date: Thu, 23 Jan 2025 17:36:17 +0100
-From: Helge Deller <deller@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes and cleanups for v6.14-rc1
-Message-ID: <Z5JwASMQjjTjEncJ@carbonx1>
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E006B10E1BC
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 17:13:03 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-54020b0dcd2so2704721e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:13:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1737652379; x=1738257179;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FUZLZt5iVz/3SqS+Qd/2WMP5R6+9NXdfBKObsyfvqsg=;
+ b=PWz7SaHRkmGFkaAH8Nykc0OMz1pbZCol2hOEvvNUQN7Uk+7XmbSJZ5ocH06rkBebPs
+ RfNGMWgQDELPrQfXRIQAXTMvmyUlkEgk0jg4+0oEUXky23jCNkh5DVwIJyTfQYvjFj/I
+ +NWDdr3kIO0GZtnbD5fpr/YRLM1GEhOUDnnF0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737652379; x=1738257179;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=FUZLZt5iVz/3SqS+Qd/2WMP5R6+9NXdfBKObsyfvqsg=;
+ b=RoBqoFfm74JuXWcF1+qcWjOWOaEFOSANKs03h8P7mrdwHNilvjNeR0+PKapcoFSgck
+ vco2QvXqp/GdFVF8l+OCOgVvpwuw0a99JAr0a6DkIc8AgidYy9q5dFH7Gdb0Nm0ZaAoo
+ ruIpdfiJOpzvpEqFwjBP6u1qqatzvTFdY4ATta2tSdk3fdl3OPC/DKs1i7MvO/wFVr2t
+ U5lHRbEovt6WJXi5MzseugfRSGMckm5H3a8uyvplBDEE6FK6SUXGNijAvVNLCidxUQAl
+ CzRCLoyNMomO8Cf7f6XaXMMoGaXWctp/YUbU+jRbr9noaLX2I7vBv1PxZHGI4wATMKqn
+ vf4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWBEeUhoBdKOLJiM8+tUv1FVbWVfHaGKezOTXS1WSm8INhJW+1lV1iQ20yEGkrxqYTw/GyL/upp/X0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTI03qMwMwIFQGasY+yBOpgpFAzehhSWLZKkx9ozQ5UnLeq2+p
+ YEWYPwCYrOl/rJjwDVWIH6NHmhDvY8PT4lbvDV+3se4r/n9Yf8dhfapItyKFOfKNXeEHQZqmqrG
+ Kwc+P
+X-Gm-Gg: ASbGncvQU1aUkh2eeIVqwSdigm+vKf0mAQHurGSo0FwXjyQrOxXM8gCoKJsB4R1/tA/
+ RNx3a19Q8SW9W+AaSlCgTwwABW9bAxXIkEsgdTUPfAk++WkJKhb9Gt10OUKN+zAx1AATE8EcNtx
+ Y1PqSKHZgn9TkTtK5XiHXksmW4qxrL0CJ1vpGvyGqeTvUiR5d6alNpUD6bCt9CgyLamL0Cl6wgm
+ 1+rvZUHowAR9rvhrSZ3MF6b46zgT/QzqExt6BqfONNMXPgjQK74NjZ0MS8FsmAT/wgIxxdZT8O+
+ tH2RV0TBRhwlSiGOWzQlfKy0Uczbw/uSGKuCgD/gvK1V
+X-Google-Smtp-Source: AGHT+IEG8NaR9ARl6KKvmDmtq2CXXvNdTyl+5Em6ffs9zrdCI7XheQgVKzaH+xYbrcIBrrgfKkoa0w==
+X-Received: by 2002:a05:6512:4028:b0:540:16b3:3699 with SMTP id
+ 2adb3069b0e04-543c7d5738fmr39719e87.9.1737652378739; 
+ Thu, 23 Jan 2025 09:12:58 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
+ [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5439af074b1sm2728885e87.16.2025.01.23.09.12.56
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jan 2025 09:12:58 -0800 (PST)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-54287a3ba3cso2125522e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:12:56 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVApAwZDYpWe9CWfuatGgz+bWbqsqCw9oBDBwTBRNixIXYLD7qlyA8WwvGyYYsGt6kAZ8uKE6erJr4=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:3f13:b0:542:99a7:b415 with SMTP id
+ 2adb3069b0e04-543c218c7d5mr2076806e87.0.1737652376055; Thu, 23 Jan 2025
+ 09:12:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20250123112055.1521471-1-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250123112055.1521471-1-yelangyan@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 23 Jan 2025 09:12:44 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XSr+tDGuSB-_DQQDbrsfSxqOAzpUaH5Tb=1EfPzEm0jA@mail.gmail.com>
+X-Gm-Features: AbW1kvbV6diAqQj1igbDC6taW_4SBPpKKA-e0hwNqygvXggxfSM-Fx4rAcDM1ZM
+Message-ID: <CAD=FV=XSr+tDGuSB-_DQQDbrsfSxqOAzpUaH5Tb=1EfPzEm0jA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add STA 116QHD024002
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,88 +100,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi,
 
-please pull three fixes and 9 cleanup patches for fbdev for this merge window.
+On Thu, Jan 23, 2025 at 3:21=E2=80=AFAM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
+>
+> Add support for the STA 116QHD024002, pleace the EDID here for
+> subsequent reference.
+>
+> 00 ff ff ff ff ff ff 00 4e 81 09 00 00 00 00 00
+> 26 21 01 04 a5 1a 0e 78 02 1e b5 9a 5f 57 94 26
+> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 8e 1c 56 a0 50 00 1e 30 28 20
+> 55 00 00 90 10 00 00 18 00 00 00 00 00 00 00 00
+> 00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 20
+> 20 20 20 20 20 0a 20 20 20 20 20 20 00 00 00 fe
+> 00 31 31 36 51 48 44 30 32 34 30 30 32 0a 00 3b
+>
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-This series prevents a possible crash and one memory leak in omapfb
-and fixes possible misbehaviour in vga16fb.
+This should have been tagged v2 and had a version history "after the
+cut" since there was a v1 [1]. I'm OK letting it slide this time, but
+some maintainers aren't so lenient so please make sure you use good
+hygiene in sending your patches. Using a tool like b4 or patman makes
+this a lot easier.
 
-Thanks,
-Helge
+In any case, the content of the patch is fine, so:
 
-----------------------------------------------------------------
-The following changes since commit 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8:
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-  Linux 6.13-rc3 (2024-12-15 15:58:23 -0800)
+Pushed to drm-misc-next:
 
-are available in the Git repository at:
+[1/1] drm/panel-edp: Add STA 116QHD024002
+      commit: 6ce24b3450b8e8132b74d4f0b43a48f4e370e825
 
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.14-rc1
 
-for you to fetch changes up to d08e78362a5f5e156b6a1dae90c28ed48c0a8357:
-
-  fbdev: lcdcfb: Use backlight helper (2025-01-21 14:16:39 +0100)
-
-----------------------------------------------------------------
-fbdev fixes and updates for 6.14-rc1:
-
-Fixes:
-- omap: use threaded IRQ for LCD DMA
-- omapfb: Fix an OF node leak in dss_of_port_get_parent_device()
-- vga16fb: fix orig_video_isVGA confusion
-
-Updates & cleanups:
-- hdmi: Remove unused hdmi_infoframe_check
-- omapfb: Remove unused hdmi5_core_handle_irqs
-- omapfb: Use of_property_present() to test existence of DT property
-- omapfb: Use syscon_regmap_lookup_by_phandle_args
-- efifb: Change the return value type to void
-- lcdcfb: Use backlight helper
-- udlfb: Use const 'struct bin_attribute' callback
-- radeon: Use const 'struct bin_attribute' callbacks
-- sm501fb: Use str_enabled_disabled() helper in sm501fb_init_fb()
-
-----------------------------------------------------------------
-Aaro Koskinen (1):
-      fbdev: omap: use threaded IRQ for LCD DMA
-
-Dr. David Alan Gilbert (2):
-      video: hdmi: Remove unused hdmi_infoframe_check
-      fbdev: omapfb: Remove unused hdmi5_core_handle_irqs
-
-Joe Hattori (1):
-      fbdev: omapfb: Fix an OF node leak in dss_of_port_get_parent_device()
-
-Krzysztof Kozlowski (2):
-      fbdev: omapfb: Use of_property_present() to test existence of DT property
-      fbdev: omapfb: Use syscon_regmap_lookup_by_phandle_args
-
-Shixiong Ou (2):
-      fbdev: efifb: Change the return value type to void
-      fbdev: lcdcfb: Use backlight helper
-
-Thomas Weiﬂschuh (2):
-      fbdev: udlfb: Use const 'struct bin_attribute' callback
-      fbdev: radeon: Use const 'struct bin_attribute' callbacks
-
-Thorsten Blum (1):
-      fbdev: sm501fb: Use str_enabled_disabled() helper in sm501fb_init_fb()
-
-Zsolt Kajtar (1):
-      fbdev: vga16fb: fix orig_video_isVGA confusion
-
- drivers/video/fbdev/aty/radeon_base.c             |  8 +++----
- drivers/video/fbdev/efifb.c                       |  4 +---
- drivers/video/fbdev/omap/lcd_dma.c                |  4 ++--
- drivers/video/fbdev/omap2/omapfb/dss/dispc.c      | 11 +++------
- drivers/video/fbdev/omap2/omapfb/dss/dss-of.c     |  1 +
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.c | 17 --------------
- drivers/video/fbdev/omap2/omapfb/dss/hdmi5_core.h |  1 -
- drivers/video/fbdev/sh_mobile_lcdcfb.c            |  6 +----
- drivers/video/fbdev/sm501fb.c                     |  5 ++--
- drivers/video/fbdev/udlfb.c                       |  8 +++----
- drivers/video/fbdev/vga16fb.c                     |  7 +++---
- drivers/video/hdmi.c                              | 28 -----------------------
- include/linux/hdmi.h                              |  1 -
- 13 files changed, 23 insertions(+), 78 deletions(-)
+[1] https://lore.kernel.org/r/20250122082340.1603169-1-yelangyan@huaqin.cor=
+p-partner.google.com
