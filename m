@@ -2,86 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0FCA1A301
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86454A1A309
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:34:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06A7510E7E2;
-	Thu, 23 Jan 2025 11:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 826B010E7E4;
+	Thu, 23 Jan 2025 11:34:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UVUFfxh1";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Bc0b04/m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D6510E7E2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 11:32:47 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30229d5b229so7452111fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 03:32:47 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46D2A10E7E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 11:34:32 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-43658c452f5so614605e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 03:34:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737631966; x=1738236766; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+zMurHlZ7uGtqY8vr+C9le803uP9XgfHXwzvJheucbI=;
- b=UVUFfxh1Kq7O27eDUSAdssQ8Co0C967XLvoZFhl1dh7eiKYeYAeVRAJkrGCnSjd0pN
- Z9ykCNlFBL7Gy3U82npvmnOAjvh/2L0hMsw/Futqi3lbFt3o8BGYoqxfeAQegXXykcv4
- rXQQZGti7JUCW2OACXHIq4eTWNw4bMNKeK26neD7p7hF/AaUS0S0nuGngmJTLlPGkW6a
- RyT3/9OY7rM6QafA2fXg3oXvnCsyeUrgRsll4JSqQZRS1MV7fI06OXImaSMtF7Tm+XEP
- QeMyAaDLC1CgRuicZN4Hp/L27gd0Gy4TOD9Oe1HJvFOLekX/ST3U8TZPvBtQJ+6kM6HR
- KUVQ==
+ d=linaro.org; s=google; t=1737632071; x=1738236871; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=nXZb5O0gwPGCkkfFlyz2rT23SqUdYp/zsp0IQnTJndQ=;
+ b=Bc0b04/m1yjbRjS6/x1nBMWLfLgHxIV7jYBkF/A8YgWiYgnjiL75o0x0h+KJg0asmF
+ +DvdUv52ZZatKjrMSN2NP+lHDQq25GR8A6t6FkYfOCEmye1SzuLnTl+Oyys3wcHljJK9
+ 0+9o16SgONwcmta/phgpMkWeuMySJtCLF52U50NYOsbK7dyclUpxymnAzUqGHCPk8OmG
+ QrPAUZMOd37uMBdYn3wk0f33Id7L2DAvdakqtaLhI8gsYQr4FrjCIH56OhH9lWDgRlA+
+ nSSdfiQlpM39oUc3NtZlhRZ88SYTmnY7+DrRtTEr1mTzN71Fu14eQ310QHUcV+eYsSoE
+ Nvrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737631966; x=1738236766;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+zMurHlZ7uGtqY8vr+C9le803uP9XgfHXwzvJheucbI=;
- b=NKJYhNK4O98eV7mysRrwKSaxAFddDw4Dcav/o03riCIradGZPpCoCen1afaDE/JcWz
- VHjbYC4DQFO/U7LzizxVcSILH9eZBR2ljnMjKhueDCf6sJlfzoY86rmLUawoXj9txc9n
- eR2p8EPHOVFgl05Dzl5r1dZTEwxvzsaVWOFqT1Hop2WkMeUvr+eYhSPxTyxrS3wE6skq
- /MXOUM7d2wslRwebJUfewKWCGQtuC1CC5PUydUJR9kGzF96QGUDQJoGrbjHPfEGKUKod
- E6FPjrLDKikF5EhGwcSN+Rr1UDayGbri5hIJfXvDhhRshMGH4ofbzt4Nbyp7nJmPtZOP
- ep5g==
+ d=1e100.net; s=20230601; t=1737632071; x=1738236871;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nXZb5O0gwPGCkkfFlyz2rT23SqUdYp/zsp0IQnTJndQ=;
+ b=I3YJF6/U61SDUnj30bkJarmcIItC2QQOWje7KTyJRwIoxrF8DFIGQgDrwf5FOZC0/d
+ egwxsirXDvce8sUyLqD6jNedHiG78AiTWBoxaKcGwlO9743yKiPNg7r72Rck9mDQ/fHO
+ LINSeTHuLGlIgm+TKK5ciJOOgo8BczPHbKjCxSPPFuykrOX5dsuX69M5pN581o3pqiqN
+ Y3QsrZT/sKpYqsj6CJ+X9Iq+Yg0xmNBpViWZ8OOCB8TJC1KX8TNAHebwajohI7rMt6wG
+ D2ifpZIirI0vDkTpW7MVPOiNKK4eI8tryXiCIgpBd+6pjSCKAghVqje7iyu8FLOBUy5I
+ tJRQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXfG2SzrjH5MHeVOxOOZI4kPqzxTtxVy5a77taK1pReRJaYkJXVOfM2Gk1gltCJaGcmicCv8psYl0I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwfeJK5EaPGLNutQuYaFaJ8R8b5J6czraqbA+jllQd8Gu+Qgprd
- oU8NjvbeJQ7d9ifFArWeTwRFiuFxxXRzL7taMDcGFs5cXZudMP6XYLY09BrJRbI=
-X-Gm-Gg: ASbGncv0vbVbXRkVyD+pDaa5k0vaiVmK/Rdokzx4DrKTa5KJA9msawWtKkbl4NpTfLS
- O8rlKnc0R+AW95yB9dGgtuU7M40GrFvkFGm9Ro1FiFja6yafDvIFQajWXWT3qM3cef9vnBCxP1j
- 4EnDc4No0fK3Czie+Lr3aZKAFyHRUu32zbBSoPi8riFlVB3dHlBGfQrgNogIVQI8EreX75jeFWY
- k1Z84uXekZcDYkF6P9xyqS1/mxl6cB/KkTNLcTXsbHY5nTDhrvGxdMb1d5nBsvp3Vpkn8vV5lWq
- UQhO2MYPpoP4/TpgjD0YyjF6Do03ujsi/RIUkymifyKtjukssP5ww4kL2as4
-X-Google-Smtp-Source: AGHT+IGv3eRW1iX8AGSWOKHG3VFmFTMTVFcrPCnNhNO4BTbpmlhnROuDMhCvalg4dPHCeDzpS5d6Ng==
-X-Received: by 2002:a2e:b90d:0:b0:304:4cec:29f9 with SMTP id
- 38308e7fff4ca-3072ca60ef9mr67919831fa.3.1737631966038; 
- Thu, 23 Jan 2025 03:32:46 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ AJvYcCW31upvP0E3SJSg2dbJVhZT1FxTJuFmQwPzYxYUGBoQv1caY7TEmdmXN8BkS1TSI8BWtu0YOUmC1XI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzQN/yWFru9ICZfkKF4ZYlFVGK0MXjTeX2cYvkos5HJCnqVMcLu
+ mFKOqN5u/07ZzAHDdVvVx7rYjX/twiBd61BF88DO2CXLnidpvpODCFjja+EEByI=
+X-Gm-Gg: ASbGncvAIqS4O3/6laCNO/lFjYXsMnPSbb1dCEGCL74MA82elkP/Y6KFMIszOOM5Zg+
+ uIB60pbkZZgd29q6SQM0a2herEDV3+0v+/SET1bd4u//VO4tQTtZJ/Jjdz6+nFHersb7wa51baJ
+ lEohqtS6Q0y/5GrtAenx/aIz6hcxg+uGtNjoSByYsWJQkpT9zi6QIzLjMlwzlcdQZXr6XBu3s3A
+ hNsYjeHpOq3jIcdcpFLYv1a46VKRPWv1KEHNiXKVH4aeuzF5OFF9dW/p0dP3Ln1gdg8DjwTDufU
+ 344rVVC2d6pOYX3jS4DLlRse
+X-Google-Smtp-Source: AGHT+IEplQo8k4ESuQwnk9n5v8xpB7niSmitxukd+9xIdozfLnof1API0E5tJnDMixKh/mzKG4dzPQ==
+X-Received: by 2002:a05:600c:4512:b0:434:a30b:5433 with SMTP id
+ 5b1f17b1804b1-438b17cf71dmr27769285e9.5.1737632070617; 
+ Thu, 23 Jan 2025 03:34:30 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.165])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3072a330764sm30489481fa.3.2025.01.23.03.32.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2025 03:32:44 -0800 (PST)
-Date: Thu, 23 Jan 2025 13:32:42 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- l.stach@pengutronix.de, 
- andy.yan@rock-chips.com, hjc@rock-chips.com, algea.cao@rock-chips.com, 
- kever.yang@rock-chips.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v6 14/14] arm64: dts: rockchip: Enable eDP0 display on
- RK3588S EVB1 board
-Message-ID: <u3qiasthay5xrtu4bfu5ihag7x2wajrpbktrcs7bxutvc2iwrk@on5ymtwq5vwx>
-References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
- <20250123100747.1841357-15-damon.ding@rock-chips.com>
+ 5b1f17b1804b1-438b31d9871sm60568405e9.25.2025.01.23.03.34.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Jan 2025 03:34:29 -0800 (PST)
+Message-ID: <4adeffe7-ca07-4441-86fe-10a4891b7b4b@linaro.org>
+Date: Thu, 23 Jan 2025 12:34:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250123100747.1841357-15-damon.ding@rock-chips.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 08/11] drm/msm/dsi: Add support for SM8750
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Srini Kandagatla <srinivas.kandagatla@linaro.org>
+References: <20250109-b4-sm8750-display-v1-0-b3f15faf4c97@linaro.org>
+ <20250109-b4-sm8750-display-v1-8-b3f15faf4c97@linaro.org>
+ <3p7kjok5jzwvgt7dxuad26xgdkjd52v4gbtuudvgkeoj33skqn@afl2ddtsq7s2>
+ <4fc7fdd5-36cd-42e6-af4a-e0e429f9f50b@linaro.org>
+ <7eupqawhdrbjgsj2p7e3ky7uj62m252i6dzkb6y23btocedp3q@qmw72nmbk2c4>
+ <6ee02d22-7a00-4c7c-a5e9-63e91d7d84ba@linaro.org>
+ <uyidfuh5ul5kcg4keeev6yagmjc5ksun626dyb6kdgwegc76d7@iu7ggdhgt5qr>
+ <7255ae24-983d-452c-bd6d-85804c367f8f@linaro.org>
+ <5irzvm4socrdjx3zqdxnogpai3bmfb52f63ddr3pisn5aa4jgf@mbc42kb3gyqd>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <5irzvm4socrdjx3zqdxnogpai3bmfb52f63ddr3pisn5aa4jgf@mbc42kb3gyqd>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,137 +155,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 23, 2025 at 06:07:47PM +0800, Damon Ding wrote:
-> Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
-> - Set pinctrl of pwm12 for backlight
-> - Enable edp0/hdptxphy0/vp2
-> - Assign the parent of DCLK_VOP2_SRC to PLL_V0PLL
-> - Add aux-bus/panel nodes
+On 13/01/2025 13:13, Dmitry Baryshkov wrote:
+> On Mon, Jan 13, 2025 at 12:02:54PM +0100, Krzysztof Kozlowski wrote:
+>> On 13/01/2025 09:29, Dmitry Baryshkov wrote:
+>>> On Fri, Jan 10, 2025 at 01:43:28PM +0100, Krzysztof Kozlowski wrote:
+>>>> On 10/01/2025 10:17, Dmitry Baryshkov wrote:
+>>>>> On Fri, Jan 10, 2025 at 09:59:26AM +0100, Krzysztof Kozlowski wrote:
+>>>>>> On 10/01/2025 00:18, Dmitry Baryshkov wrote:
+>>>>>>> On Thu, Jan 09, 2025 at 02:08:35PM +0100, Krzysztof Kozlowski wrote:
+>>>>>>>> Add support for DSI PHY v7.0 on Qualcomm SM8750 SoC which comes with two
+>>>>>>>> differences worth noting:
+>>>>>>>>
+>>>>>>>> 1. ICODE_ACCUM_STATUS_LOW and ALOG_OBSV_BUS_STATUS_1 registers - their
+>>>>>>>>    offsets were just switched.  Currently these registers are not used
+>>>>>>>>    in the driver, so the easiest is to document both but keep them
+>>>>>>>>    commented out to avoid conflict.
+>>>>>>>>
+>>>>>>>> 2. DSI PHY PLLs, the parents of pixel and byte clocks, cannot be used as
+>>>>>>>>    parents before they are prepared and initial rate is set.  Therefore
+>>>>>>>>    assigned-clock-parents are not working here and driver is responsible
+>>>>>>>>    for reparenting clocks with proper procedure: see dsi_clk_init_6g_v2_9().
+>>>>>>>
+>>>>>>> Isn't it a description of CLK_SET_PARENT_GATE and/or
+>>>>>>
+>>>>>> No - must be gated accross reparent - so opposite.
+>>>>>>
+>>>>>>> CLK_OPS_PARENT_ENABLE ?
+>>>>>>
+>>>>>> Yes, but does not work. Probably enabling parent, before
+>>>>>> assigned-clocks-parents, happens still too early:
+>>>>>>
+>>>>>> [    1.623554] DSI PLL(0) lock failed, status=0x00000000
+>>>>>> [    1.623556] PLL(0) lock failed
+>>>>>> [    1.624650] ------------[ cut here ]------------
+>>>>>> [    1.624651] disp_cc_mdss_byte0_clk_src: rcg didn't update its
+>>>>>> configuration.
+>>>>>>
+>>>>>> Or maybe something is missing in the DSI PHY PLL driver?
+>>>>>
+>>>>> Do you have the no-zero-freq workaround?
+>>>>
+>>>> Yes, it is necessary also for my variant. I did not include it here, but
+>>>> I should mention it in the cover letter.
+>>>
+>>> Could you please possibly backtrace the corresponding enable() calls?
+>>
+>>
+>> It's the same backtrace I shared some time ago in internal discussions:
+>> https://pastebin.com/kxUFgzD9
+>> Unless you ask for some other backtrace?
+>>
+>>> I'd let Stephen and/or Bjorn or Konrad to correct me, but I think that
+>>> such requirement should be handled by the framework instead of having
+>>> the drivers to manually reparent the clocks.
+>>
+>> I don't know how exactly you would like to solve it. The clocks can be
+>> reparented only after some other device specific enable sequence. It's
+>> the third device here, but not reflected in the clocks hierarchy. Maybe
+>> it's the result how entire Display device nodes were designed in the
+>> first place?
+>>
+>> Assigned clocks are between DSI PHY and DISP cc, but they are a property
+>> of DSI controller. This looks exactly too specific for core to handle
+>> and drivers, not framework, should manually reparent such clocks.
+>> Otherwise we need
+>> "clk_pre_prepare_callback_if_we_are_called_when_phy_is_disabled" sort of
+>> callback.
 > 
-> For RK3588, the PLL_V0PLL is specifically designed for the VOP2. This
-> means the clock rate of PLL_V0PLL can be adjusted according to the dclk
-> rate of relevant VP. It is typically assigned as the dclk source of a
-> specific VP when the clock of relevant display mode is unusual, such as
-> the eDP panel 'lg,lp079qx1-sp0v' paired with RK3588S EVB1, which has a
-> clock rate of 202.02MHz.
-> 
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - Remove brightness-levels and default-brightness-level properties in
->   backlight node.
-> - Add the detail DT changes to commit message.
-> 
-> Changes in v3:
-> - Use aux-bus instead of platform bus for edp-panel.
-> 
-> Changes in v4:
-> - Add comments related to the use of panel compatible "lg,lp079qx1-sp0v"
->   in the commit message.
-> 
-> Changes in v5:
-> - Use "edp-panel" instead of "lg,lp079qx1-sp0v"
-> - Remove unnecessary comments in commit message
-> - Assign the parent of DCLK_VOP2_SRC to PLL_V0PLL
-> 
-> Changes in v6:
-> - Add PLL_V0PLL related descriptions in commit message
-> ---
->  .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 54 +++++++++++++++++++
->  1 file changed, 54 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> index bc4077575beb..a8c151b41e21 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
-> @@ -9,6 +9,7 @@
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
->  #include <dt-bindings/pinctrl/rockchip.h>
-> +#include <dt-bindings/soc/rockchip,vop2.h>
->  #include <dt-bindings/usb/pd.h>
->  #include "rk3588s.dtsi"
->  
-> @@ -238,6 +239,41 @@ &combphy2_psu {
->  	status = "okay";
->  };
->  
-> +&edp0 {
-> +	force-hpd;
-
-Why? Please mention the reason in the commit message.
-
-> +	status = "okay";
-> +
-> +	aux-bus {
-> +		panel {
-> +			compatible = "edp-panel";
-> +			backlight = <&backlight>;
-> +			power-supply = <&vcc3v3_lcd_edp>;
-> +
-> +			port {
-> +				panel_in_edp: endpoint {
-> +					remote-endpoint = <&edp_out_panel>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&edp0_in {
-> +	edp0_in_vp2: endpoint {
-> +		remote-endpoint = <&vp2_out_edp0>;
-> +	};
-> +};
-> +
-> +&edp0_out {
-> +	edp_out_panel: endpoint {
-> +		remote-endpoint = <&panel_in_edp>;
-> +	};
-> +};
-> +
-> +&hdptxphy0 {
-> +	status = "okay";
-> +};
-> +
->  &i2c3 {
->  	status = "okay";
->  
-> @@ -399,6 +435,7 @@ usbc0_int: usbc0-int {
->  };
->  
->  &pwm12 {
-> +	pinctrl-0 = <&pwm12m1_pins>;
->  	status = "okay";
->  };
->  
-> @@ -1168,3 +1205,20 @@ usbdp_phy0_dp_altmode_mux: endpoint@1 {
->  		};
->  	};
->  };
-> +
-> +&vop_mmu {
-> +	status = "okay";
-> +};
-> +
-> +&vop {
-> +	assigned-clocks = <&cru DCLK_VOP2_SRC>;
-> +	assigned-clock-parents = <&cru PLL_V0PLL>;
-> +	status = "okay";
-> +};
-> +
-> +&vp2 {
-> +	vp2_out_edp0: endpoint@ROCKCHIP_VOP2_EP_EDP0 {
-> +		reg = <ROCKCHIP_VOP2_EP_EDP0>;
-> +		remote-endpoint = <&edp0_in_vp2>;
-> +	};
-> +};
-> -- 
-> 2.34.1
+> What kind of PHY programming is required? Is enabling the PLL enough or
+> does it need anything else? Are the PLL supplies properly enabled at
+> this point?
 > 
 
--- 
-With best wishes
-Dmitry
+I don't know exactly and checking is tricky. I tried to use
+CLK_OPS_PARENT_ENABLE - with equivalent code, setting proper parents but
+without enabling the DSI PHY PLL manually just with
+CLK_OPS_PARENT_ENABLE - but then you have multiple:
+
+dsi0_pll_bit_clk: Zero divisor and CLK_DIVIDER_ALLOW_ZERO not set
+
+So how do you supposed to test it? Any assigned-clocks-xxx will be way
+too early. Moving code around? Well, if I move preparing the DSI PLL
+clocks out of dsi_link_clk_set_rate_6g, then dsi_link_clk_set_rate_6g()
+will fail. Always and CLK_OPS_PARENT_ENABLE does not help because of above.
+
+If you have specific code in mind, I can try it, but I don't see easy
+methods to see what has to be enabled exactly because of how everything
+is entangled together.
+
+Best regards,
+Krzysztof
