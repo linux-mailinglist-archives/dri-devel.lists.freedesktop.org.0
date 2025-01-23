@@ -2,81 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BCAA1A0E9
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 10:36:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232E7A1A0FA
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 10:41:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97D8610E05E;
-	Thu, 23 Jan 2025 09:36:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A546210E164;
+	Thu, 23 Jan 2025 09:41:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="AI8M5Qr0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GSTntjkS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1944510E05E;
- Thu, 23 Jan 2025 09:36:01 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YdwmY48K5z9sst;
- Thu, 23 Jan 2025 10:35:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1737624957; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BA21ZdFmf9AgvaHm9Y/mSCvgkAFKKd488Nm7JfR7y80=;
- b=AI8M5Qr0n+UrVl84JV0jLmmaPU1I8UG2L59++38mtN9RvjsDVUZ4NeluXnppr33VC5TXR+
- 7g2U/c7hkJlnNIqL07aoUVZ0EvdpYVlVEREJELozJ480nJ/5XveHQ6GVnWjSA4fYJIyxF+
- OTzFTPyJPPsGmaHEmsXHyaWc4eI0dichd+FmBf6OgECfoQmezRCivB9jGmijomm8Bc7ix3
- AiMmq2sTxSkXvietx2YWVpATLzbRjaogj+GVXMGm5XVN+C2FCBiKc5/1ibcrIeWtXVqAvi
- W/FaLMq8S1cc6wy+D9rFhUuWV4IALs+9FSHpGAPACwjrAYrQGlxh4MkWrmgyCQ==
-Message-ID: <4ef6430c01f31659c327f688965800285b8172ac.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: Use struct for drm_sched_init() params
-From: Philipp Stanner <phasta@mailbox.org>
-To: Danilo Krummrich <dakr@kernel.org>, phasta@kernel.org
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Lucas Stach
- <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, Frank Binns
- <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Qiang Yu
- <yuq825@gmail.com>,  Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,  Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, Karol Herbst <kherbst@redhat.com>, Lyude
- Paul <lyude@redhat.com>, Rob Herring <robh@kernel.org>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Luben Tuikov
- <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>, Melissa Wen
- <mwen@igalia.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
- =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  Sunil Khatri <sunil.khatri@amd.com>, Lijo
- Lazar <lijo.lazar@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
- Ma Jun <Jun.Ma2@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>,
- amd-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,  etnaviv@lists.freedesktop.org,
- lima@lists.freedesktop.org,  linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,  nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Date: Thu, 23 Jan 2025 10:35:43 +0100
-In-Reply-To: <Z5IL9Ok7f16S9ZoD@pollux.localdomain>
-References: <20250122140818.45172-3-phasta@kernel.org>
- <20250122181227.491b7881@collabora.com>
- <af5aac800f7d2153aa3c315584f70c55378c1b2b.camel@mailbox.org>
- <Z5IL9Ok7f16S9ZoD@pollux.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40D0B10E164;
+ Thu, 23 Jan 2025 09:41:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737625310; x=1769161310;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=8o3XwouJaVxr8i1Fn1WmhSqn8CsB/ycHHa+M4kLJaC0=;
+ b=GSTntjkS8a1MUG3ut4ZDi2FtI9q8Lr0ig8G4FVExdYkg1LTdNhHY5L2G
+ X+LAZQnndx8CaYiIkPD1/JL9VINILRVEMLCiAQqug3zxVn/Q05dA6vlfU
+ Tcsrg3CYmHXpQwGL6x1gYi1ABSnypRyq3FOGlm1I7bFGe0d9o563YUYa6
+ GR7M2cUhCbOd3QYxopLUizf9utrQa4maj+OmdX/UNoB96v5npxBAo/m4c
+ svW6yhZ7umTBKwxe4XbqteVJO3WCw0BJUbD7pTgZeVegyFNji/m18w1kg
+ IH8x5fa3KtUpL7+1VDxOFiEcZiTM2yLUROT0pckwBBqqWiqlm/th3SpdS g==;
+X-CSE-ConnectionGUID: efDfMyvBQnGrNztqvbDVYw==
+X-CSE-MsgGUID: ZGNeF5ERRMiM6vJisNiYIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="37374230"
+X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="37374230"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 01:41:49 -0800
+X-CSE-ConnectionGUID: so+0SxacQJuJ6Be0i+uivQ==
+X-CSE-MsgGUID: SJ1w2X40T8OM9J4kYWJ3Eg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="112057575"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.98])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 01:41:47 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: dmitry.baryshkov@linaro.org, arun.r.murthy@intel.com, Suraj Kandpal
+ <suraj.kandpal@intel.com>
+Subject: Re: [PATCH 3/3] drm/i915/lttpr: Enable Extended Wake Timeout
+In-Reply-To: <20250122053358.1545039-4-suraj.kandpal@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250122053358.1545039-1-suraj.kandpal@intel.com>
+ <20250122053358.1545039-4-suraj.kandpal@intel.com>
+Date: Thu, 23 Jan 2025 11:41:44 +0200
+Message-ID: <871pwtooiv.fsf@intel.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 164d94837fa13444ce2
-X-MBO-RS-META: f5i44jte5azn1qwoc836a5u9i8n7kbs1
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,42 +68,83 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-01-23 at 10:29 +0100, Danilo Krummrich wrote:
-> On Thu, Jan 23, 2025 at 08:33:01AM +0100, Philipp Stanner wrote:
-> > On Wed, 2025-01-22 at 18:16 +0100, Boris Brezillon wrote:
-> > > On Wed, 22 Jan 2025 15:08:20 +0100
-> > > Philipp Stanner <phasta@kernel.org> wrote:
-> > >=20
-> > > > =C2=A0int drm_sched_init(struct drm_gpu_scheduler *sched,
-> > > > - =C2=A0=C2=A0 const struct drm_sched_backend_ops *ops,
-> > > > - =C2=A0=C2=A0 struct workqueue_struct *submit_wq,
-> > > > - =C2=A0=C2=A0 u32 num_rqs, u32 credit_limit, unsigned int hang_lim=
-it,
-> > > > - =C2=A0=C2=A0 long timeout, struct workqueue_struct *timeout_wq,
-> > > > - =C2=A0=C2=A0 atomic_t *score, const char *name, struct device *de=
-v);
-> > > > + const struct drm_sched_init_params *params);
-> > >=20
-> > >=20
-> > > Another nit: indenting is messed up here.
-> >=20
-> > That was done on purpose.
->=20
-> Let's not change this convention, it's used all over the kernel tree,
-> including
-> the GPU scheduler. People are used to read code that is formatted
-> this way, plus
-> the attempt of changing it will make code formatting inconsistent.
+On Wed, 22 Jan 2025, Suraj Kandpal <suraj.kandpal@intel.com> wrote:
+> Usually retimers take around 30 to 40ms to exit all devices from
+> sleep state. Extended wake timeout mechanism helps to give
+> that additional time.
+>
+> --v2
+> -Grant the requested time only if greater than 1ms [Arun/Jani]
+> -Reframe commit message [Arun]
+>
+> --v3
+> -Move the function to drm_core [Dmitry/Jani]
+>
+> Spec: DP v2.1 Section 3.6.12.3
+> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
 
-Both the tree and this file are already inconsistent in regards to
-this.
+Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-Anyways, what is your proposed solution to ridiculous nonsense like
-this?
+for merging this via drm-misc-next along with the rest of the series.
 
-https://elixir.bootlin.com/linux/v6.13-rc3/source/drivers/gpu/drm/scheduler=
-/sched_main.c#L1296
+
+> ---
+>  drivers/gpu/drm/i915/display/intel_ddi.c              | 4 ++++
+>  drivers/gpu/drm/i915/display/intel_dp_link_training.c | 2 +-
+>  drivers/gpu/drm/i915/display/intel_dp_link_training.h | 1 +
+>  3 files changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 3693b36b9336..3b29a1b90fa6 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -2594,6 +2594,7 @@ static void mtl_ddi_pre_enable_dp(struct intel_atomic_state *state,
+>  {
+>  	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
+>  	bool is_mst = intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP_MST);
+> +	bool transparent_mode;
+>  	int ret;
+>  
+>  	intel_dp_set_link_params(intel_dp,
+> @@ -2645,6 +2646,9 @@ static void mtl_ddi_pre_enable_dp(struct intel_atomic_state *state,
+>  	if (!is_mst)
+>  		intel_dp_set_power(intel_dp, DP_SET_POWER_D0);
+>  
+> +	transparent_mode = intel_dp_lttpr_transparent_mode_enabled(intel_dp);
+> +	drm_dp_lttpr_wake_timeout_setup(&intel_dp->aux, transparent_mode);
+> +
+>  	intel_dp_configure_protocol_converter(intel_dp, crtc_state);
+>  	if (!is_mst)
+>  		intel_dp_sink_enable_decompression(state,
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> index 8b1977cfec50..c0f8473e7223 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> @@ -128,7 +128,7 @@ intel_dp_set_lttpr_transparent_mode(struct intel_dp *intel_dp, bool enable)
+>  	return true;
+>  }
+>  
+> -static bool intel_dp_lttpr_transparent_mode_enabled(struct intel_dp *intel_dp)
+> +bool intel_dp_lttpr_transparent_mode_enabled(struct intel_dp *intel_dp)
+>  {
+>  	return intel_dp->lttpr_common_caps[DP_PHY_REPEATER_MODE -
+>  					   DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV] ==
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.h b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> index 2066b9146762..46614124569f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.h
+> @@ -15,6 +15,7 @@ struct intel_dp;
+>  
+>  int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_SIZE]);
+>  int intel_dp_init_lttpr_and_dprx_caps(struct intel_dp *intel_dp);
+> +bool intel_dp_lttpr_transparent_mode_enabled(struct intel_dp *intel_dp);
+>  
+>  void intel_dp_link_training_set_mode(struct intel_dp *intel_dp,
+>  				     int link_rate, bool is_vrr);
+
+-- 
+Jani Nikula, Intel
