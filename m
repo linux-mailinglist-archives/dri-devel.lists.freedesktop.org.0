@@ -2,69 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4F0A1A2F8
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:31:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0FCA1A301
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 12:32:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4F2610E7E0;
-	Thu, 23 Jan 2025 11:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06A7510E7E2;
+	Thu, 23 Jan 2025 11:32:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XdHYPpHA";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UVUFfxh1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CAF510E7E0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 11:31:41 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-5401d3ea5a1so763184e87.3
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 03:31:41 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7D6510E7E2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 11:32:47 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-30229d5b229so7452111fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 03:32:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737631900; x=1738236700; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1737631966; x=1738236766; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=6GV/GI1CAs1idJHC9goHRl9dRjKhZ5TZhhQYyHtO4m8=;
- b=XdHYPpHArcvBp/8U/vI9dxRoEgLpdQglhtpLBpgehhywEDwp46FixQmMoB10JrjpFb
- JcVFbsnVN/eiomOIUElF6Z2x5iyGtSgSk7wG7Fz6fW+fkQ40guRg0kVXIediOl2ZjXW1
- 8kjZBrWo/d2MiOeEzEWKiL7bki48DtQPh/7nSbWNU9UxBK6Rzq/b15Cwc1VfIQ6wP7Di
- WQxxd3Nbv4p+nbhcuBIGZkx0Or+Q/yvSJhgAfCiLi4m9xzaXqgDTdI7gjF2iuL6T4Dqn
- 8TMX36VlNJi70NdtnaKUgVEarHm+fJoihVDUU86iE/EKy+40IHUNUC7N/CbDt/w8642I
- 06UQ==
+ bh=+zMurHlZ7uGtqY8vr+C9le803uP9XgfHXwzvJheucbI=;
+ b=UVUFfxh1Kq7O27eDUSAdssQ8Co0C967XLvoZFhl1dh7eiKYeYAeVRAJkrGCnSjd0pN
+ Z9ykCNlFBL7Gy3U82npvmnOAjvh/2L0hMsw/Futqi3lbFt3o8BGYoqxfeAQegXXykcv4
+ rXQQZGti7JUCW2OACXHIq4eTWNw4bMNKeK26neD7p7hF/AaUS0S0nuGngmJTLlPGkW6a
+ RyT3/9OY7rM6QafA2fXg3oXvnCsyeUrgRsll4JSqQZRS1MV7fI06OXImaSMtF7Tm+XEP
+ QeMyAaDLC1CgRuicZN4Hp/L27gd0Gy4TOD9Oe1HJvFOLekX/ST3U8TZPvBtQJ+6kM6HR
+ KUVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737631900; x=1738236700;
+ d=1e100.net; s=20230601; t=1737631966; x=1738236766;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6GV/GI1CAs1idJHC9goHRl9dRjKhZ5TZhhQYyHtO4m8=;
- b=qSh0hdvelMBY6f1uYaSVE8KCV08ZwX49DcxndV7cu7YR/nfUUepn4jdoo8A5Es0JV4
- NRxBs3lHTFxiKTLR3Cd+ZW09lmwo4cJXUoOcVv0Z8cGBKeaKclf9NwMY1OGVoW1zwncW
- a1blnSzCxJ9+fi+Gm863pqgmaskXPUtuIoVpD19G4Ya6lE5t5THBbEdnpr6xNfFwSDKS
- TuEo3Rq4ijU9Og7nrzU98n+9L1IYfeo03n7irMurjvj2ubkBMjAm5cf7tgsyjMiMVdVA
- 8IxbgbmdMJtLN4I3ILyvlSGjgJ1/cb640YNn0H2YZVBV+B4w6eSPGPYY+THK1NF2aA8P
- 14UA==
+ bh=+zMurHlZ7uGtqY8vr+C9le803uP9XgfHXwzvJheucbI=;
+ b=NKJYhNK4O98eV7mysRrwKSaxAFddDw4Dcav/o03riCIradGZPpCoCen1afaDE/JcWz
+ VHjbYC4DQFO/U7LzizxVcSILH9eZBR2ljnMjKhueDCf6sJlfzoY86rmLUawoXj9txc9n
+ eR2p8EPHOVFgl05Dzl5r1dZTEwxvzsaVWOFqT1Hop2WkMeUvr+eYhSPxTyxrS3wE6skq
+ /MXOUM7d2wslRwebJUfewKWCGQtuC1CC5PUydUJR9kGzF96QGUDQJoGrbjHPfEGKUKod
+ E6FPjrLDKikF5EhGwcSN+Rr1UDayGbri5hIJfXvDhhRshMGH4ofbzt4Nbyp7nJmPtZOP
+ ep5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXqOvWPukSsGXeXAPxem08ozm2yvIxD7ZSRIG+5Vpx4ne28zsq8C2WIdqESjlS6HN6E5Ol3zzTUFQ8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywxt8DlT8NMV/wBo5a8hu/7131T1uJnoUr/CoTrpNYX6YJgJRiu
- UhpZDj1DRLbqlZ6IM5lHLlD44cj07HwAxV8xbkBOLhJNmHwPC3z3OGXprkWCNIU=
-X-Gm-Gg: ASbGncvtESP5gp7La62ZvEPoB0Q/AILYrv3kj1fQsTJho0LS75vaGJG+eq048vZ5yPb
- xJl40JptctAkuebG7JjTpsfnGmivR8LH63bRyYbzXebsTUmaRwtNFQCRZMzuezVuuH7OhUaAXp4
- 4aZBGoQIgITrS8OCpY2gwqAaI0FSWZHN/AW4rypVRpjzG2Wdl2HZgGiGxgJwb9t9PKBUf2+cr3V
- o3ibTGNgfrwJi3ikrisds2k1G3bjerS+O/0/epQwjaoxjPLGHRUDmAnGuIvIaFMy3uNKAl/JVz7
- fSLXMqfweek6epiw96VQpssCrRAHU0YCwHE+JWMYxnEuE1qAb/qXw077DhKJ
-X-Google-Smtp-Source: AGHT+IHtXPZP5fXc+jx9qkDw8OG65Yz52T0nmfyDaHj9u5aH3nN5zjNMvgxVC7Tag6Djcezn71sacw==
-X-Received: by 2002:a05:6512:483:b0:540:1b2d:8ee1 with SMTP id
- 2adb3069b0e04-5439c21f2bfmr7480684e87.11.1737631899528; 
- Thu, 23 Jan 2025 03:31:39 -0800 (PST)
+ AJvYcCXfG2SzrjH5MHeVOxOOZI4kPqzxTtxVy5a77taK1pReRJaYkJXVOfM2Gk1gltCJaGcmicCv8psYl0I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwfeJK5EaPGLNutQuYaFaJ8R8b5J6czraqbA+jllQd8Gu+Qgprd
+ oU8NjvbeJQ7d9ifFArWeTwRFiuFxxXRzL7taMDcGFs5cXZudMP6XYLY09BrJRbI=
+X-Gm-Gg: ASbGncv0vbVbXRkVyD+pDaa5k0vaiVmK/Rdokzx4DrKTa5KJA9msawWtKkbl4NpTfLS
+ O8rlKnc0R+AW95yB9dGgtuU7M40GrFvkFGm9Ro1FiFja6yafDvIFQajWXWT3qM3cef9vnBCxP1j
+ 4EnDc4No0fK3Czie+Lr3aZKAFyHRUu32zbBSoPi8riFlVB3dHlBGfQrgNogIVQI8EreX75jeFWY
+ k1Z84uXekZcDYkF6P9xyqS1/mxl6cB/KkTNLcTXsbHY5nTDhrvGxdMb1d5nBsvp3Vpkn8vV5lWq
+ UQhO2MYPpoP4/TpgjD0YyjF6Do03ujsi/RIUkymifyKtjukssP5ww4kL2as4
+X-Google-Smtp-Source: AGHT+IGv3eRW1iX8AGSWOKHG3VFmFTMTVFcrPCnNhNO4BTbpmlhnROuDMhCvalg4dPHCeDzpS5d6Ng==
+X-Received: by 2002:a2e:b90d:0:b0:304:4cec:29f9 with SMTP id
+ 38308e7fff4ca-3072ca60ef9mr67919831fa.3.1737631966038; 
+ Thu, 23 Jan 2025 03:32:46 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5439af7a281sm2612994e87.259.2025.01.23.03.31.37
+ 38308e7fff4ca-3072a330764sm30489481fa.3.2025.01.23.03.32.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2025 03:31:38 -0800 (PST)
-Date: Thu, 23 Jan 2025 13:31:35 +0200
+ Thu, 23 Jan 2025 03:32:44 -0800 (PST)
+Date: Thu, 23 Jan 2025 13:32:42 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Damon Ding <damon.ding@rock-chips.com>, 
- Douglas Anderson <dianders@chromium.org>
+To: Damon Ding <damon.ding@rock-chips.com>
 Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org, 
  conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
  sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
@@ -74,15 +73,15 @@ Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
  devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH v6 12/14] drm/edp-panel: Add LG Display panel model
- LP079QX1-SP0V
-Message-ID: <rwn3g7tqgjnc525cjqtivgfgedhooiayn5nujng7bdzazgqhle@wfpuvoyr2tii>
+Subject: Re: [PATCH v6 14/14] arm64: dts: rockchip: Enable eDP0 display on
+ RK3588S EVB1 board
+Message-ID: <u3qiasthay5xrtu4bfu5ihag7x2wajrpbktrcs7bxutvc2iwrk@on5ymtwq5vwx>
 References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
- <20250123100747.1841357-13-damon.ding@rock-chips.com>
+ <20250123100747.1841357-15-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250123100747.1841357-13-damon.ding@rock-chips.com>
+In-Reply-To: <20250123100747.1841357-15-damon.ding@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,55 +97,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 23, 2025 at 06:07:45PM +0800, Damon Ding wrote:
-> The raw edid for LP079QX1-SP0V panel model is:
+On Thu, Jan 23, 2025 at 06:07:47PM +0800, Damon Ding wrote:
+> Add the necessary DT changes to enable eDP0 on RK3588S EVB1 board:
+> - Set pinctrl of pwm12 for backlight
+> - Enable edp0/hdptxphy0/vp2
+> - Assign the parent of DCLK_VOP2_SRC to PLL_V0PLL
+> - Add aux-bus/panel nodes
 > 
-> 00 ff ff ff ff ff ff 00 16 83 00 00 00 00 00 00
-> 04 17 01 00 a5 10 0c 78 06 ef 05 a3 54 4c 99 26
-> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 ea 4e 00 4c 60 00 14 80 0c 10
-> 84 00 78 a0 00 00 00 18 00 00 00 10 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 4c
-> 50 30 37 39 51 58 31 2d 53 50 30 56 00 00 00 fc
-> 00 43 6f 6c 6f 72 20 4c 43 44 0a 20 20 20 00 3f
+> For RK3588, the PLL_V0PLL is specifically designed for the VOP2. This
+> means the clock rate of PLL_V0PLL can be adjusted according to the dclk
+> rate of relevant VP. It is typically assigned as the dclk source of a
+> specific VP when the clock of relevant display mode is unusual, such as
+> the eDP panel 'lg,lp079qx1-sp0v' paired with RK3588S EVB1, which has a
+> clock rate of 202.02MHz.
 > 
 > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-
-Please use get_maintainers.pl when compiling To/Cc lists. Added Douglas
-to CC manually.
-
-Or, better, split irrelevant patches to separate series.
-
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-> index f8511fe5fb0d..77e3fd3ed160 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -1808,6 +1808,12 @@ static const struct panel_delay delay_200_150_e50 = {
->  	.enable = 50,
+> ---
+> 
+> Changes in v2:
+> - Remove brightness-levels and default-brightness-level properties in
+>   backlight node.
+> - Add the detail DT changes to commit message.
+> 
+> Changes in v3:
+> - Use aux-bus instead of platform bus for edp-panel.
+> 
+> Changes in v4:
+> - Add comments related to the use of panel compatible "lg,lp079qx1-sp0v"
+>   in the commit message.
+> 
+> Changes in v5:
+> - Use "edp-panel" instead of "lg,lp079qx1-sp0v"
+> - Remove unnecessary comments in commit message
+> - Assign the parent of DCLK_VOP2_SRC to PLL_V0PLL
+> 
+> Changes in v6:
+> - Add PLL_V0PLL related descriptions in commit message
+> ---
+>  .../boot/dts/rockchip/rk3588s-evb1-v10.dts    | 54 +++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
+> index bc4077575beb..a8c151b41e21 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dts
+> @@ -9,6 +9,7 @@
+>  #include <dt-bindings/gpio/gpio.h>
+>  #include <dt-bindings/input/input.h>
+>  #include <dt-bindings/pinctrl/rockchip.h>
+> +#include <dt-bindings/soc/rockchip,vop2.h>
+>  #include <dt-bindings/usb/pd.h>
+>  #include "rk3588s.dtsi"
+>  
+> @@ -238,6 +239,41 @@ &combphy2_psu {
+>  	status = "okay";
 >  };
 >  
-> +static const struct panel_delay delay_50_500_e200 = {
-> +	.hpd_absent = 50,
-> +	.unprepare = 500,
-> +	.enable = 200,
+> +&edp0 {
+> +	force-hpd;
+
+Why? Please mention the reason in the commit message.
+
+> +	status = "okay";
+> +
+> +	aux-bus {
+> +		panel {
+> +			compatible = "edp-panel";
+> +			backlight = <&backlight>;
+> +			power-supply = <&vcc3v3_lcd_edp>;
+> +
+> +			port {
+> +				panel_in_edp: endpoint {
+> +					remote-endpoint = <&edp_out_panel>;
+> +				};
+> +			};
+> +		};
+> +	};
 > +};
 > +
->  #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
->  { \
->  	.ident = { \
-> @@ -1955,6 +1961,8 @@ static const struct edp_panel_entry edp_panels[] = {
->  	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
->  	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50, "MNB601LS1-4"),
->  
-> +	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200, "LP079QX1-SP0V"),
+> +&edp0_in {
+> +	edp0_in_vp2: endpoint {
+> +		remote-endpoint = <&vp2_out_edp0>;
+> +	};
+> +};
 > +
->  	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d51, &delay_200_500_e200, "Unknown"),
->  	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5b, &delay_200_500_e200, "MB116AN01"),
->  	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5c, &delay_200_500_e200, "MB116AN01-2"),
+> +&edp0_out {
+> +	edp_out_panel: endpoint {
+> +		remote-endpoint = <&panel_in_edp>;
+> +	};
+> +};
+> +
+> +&hdptxphy0 {
+> +	status = "okay";
+> +};
+> +
+>  &i2c3 {
+>  	status = "okay";
+>  
+> @@ -399,6 +435,7 @@ usbc0_int: usbc0-int {
+>  };
+>  
+>  &pwm12 {
+> +	pinctrl-0 = <&pwm12m1_pins>;
+>  	status = "okay";
+>  };
+>  
+> @@ -1168,3 +1205,20 @@ usbdp_phy0_dp_altmode_mux: endpoint@1 {
+>  		};
+>  	};
+>  };
+> +
+> +&vop_mmu {
+> +	status = "okay";
+> +};
+> +
+> +&vop {
+> +	assigned-clocks = <&cru DCLK_VOP2_SRC>;
+> +	assigned-clock-parents = <&cru PLL_V0PLL>;
+> +	status = "okay";
+> +};
+> +
+> +&vp2 {
+> +	vp2_out_edp0: endpoint@ROCKCHIP_VOP2_EP_EDP0 {
+> +		reg = <ROCKCHIP_VOP2_EP_EDP0>;
+> +		remote-endpoint = <&edp0_in_vp2>;
+> +	};
+> +};
 > -- 
 > 2.34.1
 > 
