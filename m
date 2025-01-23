@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD90A1A90A
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 18:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E32A1A943
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 18:52:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61BB710E2B0;
-	Thu, 23 Jan 2025 17:40:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03AFD10E126;
+	Thu, 23 Jan 2025 17:52:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Q1MJTlQw";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="fyIUNH3n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEFAF10E2B0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 17:40:01 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53f22fd6832so1291623e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:40:01 -0800 (PST)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92F810E126
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 17:52:54 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-aafc9d75f8bso220506466b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:52:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1737653999; x=1738258799;
+ d=chromium.org; s=google; t=1737654773; x=1738259573;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=X9uWv1CZXW+AYt3piL5X/2kw/MCLHhdqmnPyWe9WfC4=;
- b=Q1MJTlQwP4krrmf3HXTcAJVToXbqbwt96gXdZ680Msm5d8vJSzmU6GeS6HYVR0RFIh
- zagEGY+0tourHExcyTtnYpd9jdWX9EZ63BlqiRY+3sYr0fU7QMFIJ5rBkfSnOdzroMZQ
- FRdTJhIR4JR4p+Qbc/lUGgnL6f+mnvExSex4k=
+ bh=ffa3/XJVzIzlsf+TECCnatXk0cRQZc3PCfdAQKqsdfQ=;
+ b=fyIUNH3nr5dyX3SSPZev8pGX9aKy6o+APnyF5UiTbVm10mM5k+wZNswlE4R+98ZfLP
+ yxvUfnOhucXhqn24V9+fp9J0nTm9fF16Tywj6/go8pjB9JwhDTF+mJYXhovKK5wdmM3K
+ GIS3RRW767QHyVy8r7CZjITCvhGoihVBWJ/V8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737653999; x=1738258799;
+ d=1e100.net; s=20230601; t=1737654773; x=1738259573;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=X9uWv1CZXW+AYt3piL5X/2kw/MCLHhdqmnPyWe9WfC4=;
- b=rTWi8VgqMNlMc9dBqB/irSi/RKtRMkE4WjnOq74XaTuhKjeUqq177TIWXUdnJ24YTC
- 56FaOpK2ZCS325gwa+SWJiamsYNg6urT9swbgx359W0xtrWuQOxbiUuLt+7LTIXDHlcm
- OGczCgIaxhiL/jnhkKYgSaygctH1k5KabHgyG+kXWT46HIRxDm9PTZNUd8gTXOSl6pxZ
- l7oXToaCR7+muh8a98PkbnBxkeHmLTb9x2buTzNCHicqSF3hqRns3zeTuVHcc/IRQbBr
- 09Vp8zmedn7/te57mH/Fg2sY+zzyK7CtKvC2iydmVDj8yI3cL9wmj8QqmL2y4m8oAUP4
- BTUw==
+ bh=ffa3/XJVzIzlsf+TECCnatXk0cRQZc3PCfdAQKqsdfQ=;
+ b=GFwO15jjgC4ViUCPcKplzMdgcfSdzY3JCWMipzsY7cJ2ppBpPMSrPDUGh34KDd3HWX
+ HK4u7zI8BxblT1FQ60vkgA7S/p7aT5Ax8uzy6i0A3JsTaKRPySVt2zEMTKp8bXAYDAMU
+ B6/IG/8LQhYZ+pzQqjIsK0ZzOR1GZTj3ZKGqOUKLbb2/p4IbUQuR4YZslmfZ37BAFwSZ
+ cjymqWs/9kz4Q6fGWd38PlvQn9KhTtXJ0IEYUhU0xDrkaD0auKCa7wsZT7XA4WVrLi0P
+ Tc+hlFUBI+EYFFwTJRAI1lPwWXB7DEybxRNR4kcCcEJ0rUvxzXkcz5FOCZeh/IAGDl3q
+ 3i8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUMbly5tXThNHQmwaqY56wDYvTgJsM5NzjEuVV3q98ItDi4tpmc07WQ4/e7guGc9gXjhy/xA8t0Epc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywz6KvIP0Uasx6xpKGJUKyBGIh3jDIMGzc1VJ7Daowt8eXm4mMS
- jOOLF5tD0B0Ssw+llquQ/GV592H/fnHB8UUh9LhKY5aWRp4KwrV06dAQ2xbNUXV5F4ddoADIx+X
- pPTk9
-X-Gm-Gg: ASbGncu37fm59rmokxvNwV0tQb6qB2YifE0ed9rlpFI0hhT++DCbA2FlsYRBm3mXt5i
- TirNwGPGV+zT+olVuGa0Antf/pfIzczy+VPVxNl00eYKiH/89dNiMkOyYPRdD42/L4gGBP9X7sl
- duSVuwE335SdruO5icpYOSa8lDqvJSnv1O9lIOdxpDB73YJ9Bk1iSXJBIea9bhBH2f/CS03/zkB
- RrieyMjUkndTnps+V2L7uYCFKwi10/QeA3IrqW3vISvXDxZdRXimCSuNlOX+j+5w7on0EbH8lBo
- GnOAvEYRIf6IiFhqIXu3NcDg67cilPdb9X6IO+HSSmde
-X-Google-Smtp-Source: AGHT+IGYbBAopmVLNFRrYkbDxrTa13c+3g7BdTuWE0oHcFdM4ZdtDHFiUjKjbaxvleS/Z4FzwoezDg==
-X-Received: by 2002:ac2:4424:0:b0:540:1f2f:6ac8 with SMTP id
- 2adb3069b0e04-5439c282100mr8976638e87.33.1737653999388; 
- Thu, 23 Jan 2025 09:39:59 -0800 (PST)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com.
- [209.85.167.43]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5439af76f1csm2714374e87.211.2025.01.23.09.39.58
+ AJvYcCVWKZlN4ueP9jnptqFKz0WcmvWlMvnEuifgEXBRKJZfoJ0an+NlmxmoNxhqw6gaTrwLoHSysdRa6gA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwPPEdjaU+NFjnIOQVcd4NMiw/L969qmjePlQuuNEkOn5lLnEtJ
+ WnO+0KCweMuoPPENpXAMCepImHPaVuDcXmOb6cfgfjeMdLoLNrivm2E8bEfiAxVPaGdyqhhRvc6
+ jIEAL
+X-Gm-Gg: ASbGncujlF3M+NnqnLPoJ3dlogbP5WpYU+EUf4cLGTPTHjbrDpOl8QqA35piplqx9HQ
+ iuFJVyHsyCXxzAv+ps8+U/RBNAXqn9ibVffV2gDdFfGhAzIrUbu/vsl7FIj5hA/fNLk9+QMccTZ
+ c9hPkES9kwVr+beisZ1vEXnB1NxLkbTyw24pRS3uZBKUum9RhI2W9fwp5oKkB3yVndQL5BL0xqb
+ HZ7cq2vINAM/Wn61/FYK/5af41OIWsXThlByGDllx0vIco+MDCxiQM6BArLvEXxbTSzEYFnsTqt
+ 6Ev6DfEEKCI+nPt5Geuu9CkjLhUZZdT5SOUqlsBSILi0
+X-Google-Smtp-Source: AGHT+IEqTyA2PRB7HkjpEhFTp1wtVTtUFDx+0pV7zGAwcvrZBVwrB7Ife8cKWjx1cTWbkBQBszQ+Yw==
+X-Received: by 2002:a17:907:7da7:b0:aa6:8b38:52a3 with SMTP id
+ a640c23a62f3a-ab38b4af7a7mr2447763966b.50.1737654772852; 
+ Thu, 23 Jan 2025 09:52:52 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com.
+ [209.85.218.47]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ab384f2244csm1112455766b.92.2025.01.23.09.52.52
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2025 09:39:58 -0800 (PST)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-540218726d5so1348622e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:39:58 -0800 (PST)
+ Thu, 23 Jan 2025 09:52:52 -0800 (PST)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-aa689a37dd4so250102566b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:52:52 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/0j82a39+latupOSowI8FbRzMoE6rN7cLTqWT+A4Z3AaL6f+FLcMT2NfcxrBV2A/Fp45IxTWZQYA=@lists.freedesktop.org
-X-Received: by 2002:ac2:4c24:0:b0:542:6507:9778 with SMTP id
- 2adb3069b0e04-5439c22cb95mr7130113e87.11.1737653998113; Thu, 23 Jan 2025
- 09:39:58 -0800 (PST)
+ AJvYcCVxRHyctCDDXCrUZ9Jd1iwQC8XCjV1HSxA8ZGtqw9MqzKNqYxDGkAmohYBcQaCy8E4VnZ/NKTCoNn0=@lists.freedesktop.org
+X-Received: by 2002:a19:7714:0:b0:543:bb82:f402 with SMTP id
+ 2adb3069b0e04-543bb82fbf8mr2518373e87.53.1737654408389; Thu, 23 Jan 2025
+ 09:46:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20250123064758.743798-1-yelangyan@huaqin.corp-partner.google.com>
- <20250123064758.743798-2-yelangyan@huaqin.corp-partner.google.com>
-In-Reply-To: <20250123064758.743798-2-yelangyan@huaqin.corp-partner.google.com>
+ <20250123064758.743798-3-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250123064758.743798-3-yelangyan@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 23 Jan 2025 09:39:46 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Vr5DnACFoQnnFzPhF778Nv6LOZj43BqZX6vW_azMARZQ@mail.gmail.com>
-X-Gm-Features: AbW1kvaJA_nHTtfVUNc2cj9PmkZzMWXaKlErRqAlrUOWVEWHGuH3pCltIcw2e98
-Message-ID: <CAD=FV=Vr5DnACFoQnnFzPhF778Nv6LOZj43BqZX6vW_azMARZQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: display: panel: Add compatible for
- KD110N11-51IE and 2082109QFH040022-50E
+Date: Thu, 23 Jan 2025 09:46:37 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Wt+6AoycUfcWaEAi2ucTN_37CvE6VQZF5iHU0+Aj-gZQ@mail.gmail.com>
+X-Gm-Features: AbW1kvZiTQ6uFWm9j1-EZI2sAy992VLYi3vMgIMn7_IbtaGztg3D6lU73GtRTO8
+Message-ID: <CAD=FV=Wt+6AoycUfcWaEAi2ucTN_37CvE6VQZF5iHU0+Aj-gZQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] drm/panel: boe-tv101wum-nl6: support for
+ kingdisplay-kd110n11-51ie MIPI-DSI panel
 To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
@@ -109,49 +109,46 @@ Hi,
 On Wed, Jan 22, 2025 at 10:48=E2=80=AFPM Langyan Ye
 <yelangyan@huaqin.corp-partner.google.com> wrote:
 >
-> KINGDISPLAY KD110N11-51IE and STARRY 2082109QFH040022-50E are
-> 10.95-inch WUXGA TFT LCD panels, which fits in nicely with the
-> existing panel-boe-tv101wum-nl6 driver. Hence, we add a new
-> compatible with panel specific config.
+> The kingdisplay-kd110n11-51ie is a 10.95" TFT panel.
+> which fits in nicely with the existing panel-boe-tv101wum-nl6 driver.
+> From the datasheet, MIPI needs to keep the LP11 state before the
+> lcm_reset pin is pulled high, so increase lp11_before_reset flag.
+>
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 122 ++++++++++++++++++
+>  1 file changed, 122 insertions(+)
 
-FWIW, this is still missing acting on a request that Krzysztof made.
-Specifically, instead of the above wordy patch description, he
-suggested a much simpler patch description that was just one sentence.
-I could believe his suggestion may be difficult to understand if your
-English isn't strong. He said [1]:
+You have Neil's review tag (carried from your V1), so in theory this
+could land once the bindings are reviewed. ...but as I talked about in
+my response [1] to your bindings patch, I'd like some confidence that
+the MIPI controller on the new panels you're adding is actually the
+same as the other panels here. If not then IMO you should add them to
+a different driver or create a new driver.
 
-> "Add a new compatible for foo bar panel ....". One sentence. Could be
-> also one patch, not two patches
+[1] https://lore.kernel.org/r/CAD=3DFV=3DVr5DnACFoQnnFzPhF778Nv6LOZj43BqZX6=
+vW_azMARZQ@mail.gmail.com
 
-Putting that more concretely, you'd want to change your patch
-description in this case to:
 
-Add a new compatible for the panels KINGDISPLAY KD110N11-51IE and
-STARRY 2082109QFH040022-50E.
+> +static int kingdisplay_kd110n11_51ie_init(struct boe_panel *boe)
+> +{
+> +       struct mipi_dsi_multi_context ctx =3D { .dsi =3D boe->dsi };
+> +
+> +       msleep(50);
+> +
+> +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xB9, 0x83, 0x10, 0x21, 0x55, =
+0x00);
 
-...and that's it.
+nit: lower case hex please. 0xb9 instead of 0xB9.
 
-Personally I wouldn't send a V5 just for this, but if Krzysztof
-requests it strongly then I wouldn't object.
 
-That all being said, the part of the CL description that Krzysztof
-wants you to trim is actually somewhat relevant to me if I am to give
-a Reviewed-By tag. The agreement from DRM folks seemed to be that we
-don't want to jam all MIPI panels into one bindings file and one
-driver. The idea is that they should be organized by the controller
-chip. For some history here, see [2] and all of the discussion in
-response to a previous patch [3].
+> +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0xC4);
+> +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xD9, 0xD1);
+> +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xE9, 0x3F);
+> +       mipi_dsi_dcs_write_seq_multi(&ctx, 0xB1, 0x2C, 0xB3, 0xB3, 0x31, =
+0xF1, 0x33, 0xE0, 0x54,
+> +               0x36, 0x36, 0x3A, 0x3A, 0x32, 0x8B, 0x11, 0xE5, 0x98);
 
-So the question is: do the new panels you're adding actually share the
-same onboard MIPI controller as the other ones in this file? If not
-then you _do_ need to spin your patch. If there's already some other
-bindings file / driver for the MIPI controller in these panels then
-you can add to that. If not then you'd need to add a new bindings file
-and a new driver.
-
-[1] https://lore.kernel.org/r/9cf4efd5-cc4b-492c-a1f3-18a19ba7afeb@kernel.o=
-rg
-[2] https://patchwork.freedesktop.org/patch/msgid/20240516072039.1287065-3-=
-yangcong5@huaqin.corp-partner.google.com
-[3] https://lore.kernel.org/all/20240410071439.2152588-1-yangcong5@huaqin.c=
-orp-partner.google.com/
+nit: ideally line up indentation so that the "0" in "0x36" is under
+the "&" in "&ctx".
