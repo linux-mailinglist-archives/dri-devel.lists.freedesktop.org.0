@@ -2,86 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2C5A1A893
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 18:13:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD90A1A90A
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 18:40:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A22F510E1BC;
-	Thu, 23 Jan 2025 17:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61BB710E2B0;
+	Thu, 23 Jan 2025 17:40:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="PWz7SaHR";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Q1MJTlQw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E006B10E1BC
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 17:13:03 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54020b0dcd2so2704721e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:13:03 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEFAF10E2B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 17:40:01 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6832so1291623e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1737652379; x=1738257179;
+ d=chromium.org; s=google; t=1737653999; x=1738258799;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FUZLZt5iVz/3SqS+Qd/2WMP5R6+9NXdfBKObsyfvqsg=;
- b=PWz7SaHRkmGFkaAH8Nykc0OMz1pbZCol2hOEvvNUQN7Uk+7XmbSJZ5ocH06rkBebPs
- RfNGMWgQDELPrQfXRIQAXTMvmyUlkEgk0jg4+0oEUXky23jCNkh5DVwIJyTfQYvjFj/I
- +NWDdr3kIO0GZtnbD5fpr/YRLM1GEhOUDnnF0=
+ bh=X9uWv1CZXW+AYt3piL5X/2kw/MCLHhdqmnPyWe9WfC4=;
+ b=Q1MJTlQwP4krrmf3HXTcAJVToXbqbwt96gXdZ680Msm5d8vJSzmU6GeS6HYVR0RFIh
+ zagEGY+0tourHExcyTtnYpd9jdWX9EZ63BlqiRY+3sYr0fU7QMFIJ5rBkfSnOdzroMZQ
+ FRdTJhIR4JR4p+Qbc/lUGgnL6f+mnvExSex4k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737652379; x=1738257179;
+ d=1e100.net; s=20230601; t=1737653999; x=1738258799;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FUZLZt5iVz/3SqS+Qd/2WMP5R6+9NXdfBKObsyfvqsg=;
- b=RoBqoFfm74JuXWcF1+qcWjOWOaEFOSANKs03h8P7mrdwHNilvjNeR0+PKapcoFSgck
- vco2QvXqp/GdFVF8l+OCOgVvpwuw0a99JAr0a6DkIc8AgidYy9q5dFH7Gdb0Nm0ZaAoo
- ruIpdfiJOpzvpEqFwjBP6u1qqatzvTFdY4ATta2tSdk3fdl3OPC/DKs1i7MvO/wFVr2t
- U5lHRbEovt6WJXi5MzseugfRSGMckm5H3a8uyvplBDEE6FK6SUXGNijAvVNLCidxUQAl
- CzRCLoyNMomO8Cf7f6XaXMMoGaXWctp/YUbU+jRbr9noaLX2I7vBv1PxZHGI4wATMKqn
- vf4g==
+ bh=X9uWv1CZXW+AYt3piL5X/2kw/MCLHhdqmnPyWe9WfC4=;
+ b=rTWi8VgqMNlMc9dBqB/irSi/RKtRMkE4WjnOq74XaTuhKjeUqq177TIWXUdnJ24YTC
+ 56FaOpK2ZCS325gwa+SWJiamsYNg6urT9swbgx359W0xtrWuQOxbiUuLt+7LTIXDHlcm
+ OGczCgIaxhiL/jnhkKYgSaygctH1k5KabHgyG+kXWT46HIRxDm9PTZNUd8gTXOSl6pxZ
+ l7oXToaCR7+muh8a98PkbnBxkeHmLTb9x2buTzNCHicqSF3hqRns3zeTuVHcc/IRQbBr
+ 09Vp8zmedn7/te57mH/Fg2sY+zzyK7CtKvC2iydmVDj8yI3cL9wmj8QqmL2y4m8oAUP4
+ BTUw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWBEeUhoBdKOLJiM8+tUv1FVbWVfHaGKezOTXS1WSm8INhJW+1lV1iQ20yEGkrxqYTw/GyL/upp/X0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTI03qMwMwIFQGasY+yBOpgpFAzehhSWLZKkx9ozQ5UnLeq2+p
- YEWYPwCYrOl/rJjwDVWIH6NHmhDvY8PT4lbvDV+3se4r/n9Yf8dhfapItyKFOfKNXeEHQZqmqrG
- Kwc+P
-X-Gm-Gg: ASbGncvQU1aUkh2eeIVqwSdigm+vKf0mAQHurGSo0FwXjyQrOxXM8gCoKJsB4R1/tA/
- RNx3a19Q8SW9W+AaSlCgTwwABW9bAxXIkEsgdTUPfAk++WkJKhb9Gt10OUKN+zAx1AATE8EcNtx
- Y1PqSKHZgn9TkTtK5XiHXksmW4qxrL0CJ1vpGvyGqeTvUiR5d6alNpUD6bCt9CgyLamL0Cl6wgm
- 1+rvZUHowAR9rvhrSZ3MF6b46zgT/QzqExt6BqfONNMXPgjQK74NjZ0MS8FsmAT/wgIxxdZT8O+
- tH2RV0TBRhwlSiGOWzQlfKy0Uczbw/uSGKuCgD/gvK1V
-X-Google-Smtp-Source: AGHT+IEG8NaR9ARl6KKvmDmtq2CXXvNdTyl+5Em6ffs9zrdCI7XheQgVKzaH+xYbrcIBrrgfKkoa0w==
-X-Received: by 2002:a05:6512:4028:b0:540:16b3:3699 with SMTP id
- 2adb3069b0e04-543c7d5738fmr39719e87.9.1737652378739; 
- Thu, 23 Jan 2025 09:12:58 -0800 (PST)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com.
- [209.85.167.50]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5439af074b1sm2728885e87.16.2025.01.23.09.12.56
+ AJvYcCUMbly5tXThNHQmwaqY56wDYvTgJsM5NzjEuVV3q98ItDi4tpmc07WQ4/e7guGc9gXjhy/xA8t0Epc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywz6KvIP0Uasx6xpKGJUKyBGIh3jDIMGzc1VJ7Daowt8eXm4mMS
+ jOOLF5tD0B0Ssw+llquQ/GV592H/fnHB8UUh9LhKY5aWRp4KwrV06dAQ2xbNUXV5F4ddoADIx+X
+ pPTk9
+X-Gm-Gg: ASbGncu37fm59rmokxvNwV0tQb6qB2YifE0ed9rlpFI0hhT++DCbA2FlsYRBm3mXt5i
+ TirNwGPGV+zT+olVuGa0Antf/pfIzczy+VPVxNl00eYKiH/89dNiMkOyYPRdD42/L4gGBP9X7sl
+ duSVuwE335SdruO5icpYOSa8lDqvJSnv1O9lIOdxpDB73YJ9Bk1iSXJBIea9bhBH2f/CS03/zkB
+ RrieyMjUkndTnps+V2L7uYCFKwi10/QeA3IrqW3vISvXDxZdRXimCSuNlOX+j+5w7on0EbH8lBo
+ GnOAvEYRIf6IiFhqIXu3NcDg67cilPdb9X6IO+HSSmde
+X-Google-Smtp-Source: AGHT+IGYbBAopmVLNFRrYkbDxrTa13c+3g7BdTuWE0oHcFdM4ZdtDHFiUjKjbaxvleS/Z4FzwoezDg==
+X-Received: by 2002:ac2:4424:0:b0:540:1f2f:6ac8 with SMTP id
+ 2adb3069b0e04-5439c282100mr8976638e87.33.1737653999388; 
+ Thu, 23 Jan 2025 09:39:59 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com.
+ [209.85.167.43]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5439af76f1csm2714374e87.211.2025.01.23.09.39.58
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2025 09:12:58 -0800 (PST)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-54287a3ba3cso2125522e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:12:56 -0800 (PST)
+ Thu, 23 Jan 2025 09:39:58 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-540218726d5so1348622e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 09:39:58 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVApAwZDYpWe9CWfuatGgz+bWbqsqCw9oBDBwTBRNixIXYLD7qlyA8WwvGyYYsGt6kAZ8uKE6erJr4=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3f13:b0:542:99a7:b415 with SMTP id
- 2adb3069b0e04-543c218c7d5mr2076806e87.0.1737652376055; Thu, 23 Jan 2025
- 09:12:56 -0800 (PST)
+ AJvYcCU/0j82a39+latupOSowI8FbRzMoE6rN7cLTqWT+A4Z3AaL6f+FLcMT2NfcxrBV2A/Fp45IxTWZQYA=@lists.freedesktop.org
+X-Received: by 2002:ac2:4c24:0:b0:542:6507:9778 with SMTP id
+ 2adb3069b0e04-5439c22cb95mr7130113e87.11.1737653998113; Thu, 23 Jan 2025
+ 09:39:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20250123112055.1521471-1-yelangyan@huaqin.corp-partner.google.com>
-In-Reply-To: <20250123112055.1521471-1-yelangyan@huaqin.corp-partner.google.com>
+References: <20250123064758.743798-1-yelangyan@huaqin.corp-partner.google.com>
+ <20250123064758.743798-2-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250123064758.743798-2-yelangyan@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 23 Jan 2025 09:12:44 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=XSr+tDGuSB-_DQQDbrsfSxqOAzpUaH5Tb=1EfPzEm0jA@mail.gmail.com>
-X-Gm-Features: AbW1kvbV6diAqQj1igbDC6taW_4SBPpKKA-e0hwNqygvXggxfSM-Fx4rAcDM1ZM
-Message-ID: <CAD=FV=XSr+tDGuSB-_DQQDbrsfSxqOAzpUaH5Tb=1EfPzEm0jA@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add STA 116QHD024002
+Date: Thu, 23 Jan 2025 09:39:46 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Vr5DnACFoQnnFzPhF778Nv6LOZj43BqZX6vW_azMARZQ@mail.gmail.com>
+X-Gm-Features: AbW1kvaJA_nHTtfVUNc2cj9PmkZzMWXaKlErRqAlrUOWVEWHGuH3pCltIcw2e98
+Message-ID: <CAD=FV=Vr5DnACFoQnnFzPhF778Nv6LOZj43BqZX6vW_azMARZQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: display: panel: Add compatible for
+ KD110N11-51IE and 2082109QFH040022-50E
 To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, 
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, thierry.reding@gmail.com, sam@ravnborg.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -102,41 +106,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Jan 23, 2025 at 3:21=E2=80=AFAM Langyan Ye
+On Wed, Jan 22, 2025 at 10:48=E2=80=AFPM Langyan Ye
 <yelangyan@huaqin.corp-partner.google.com> wrote:
 >
-> Add support for the STA 116QHD024002, pleace the EDID here for
-> subsequent reference.
->
-> 00 ff ff ff ff ff ff 00 4e 81 09 00 00 00 00 00
-> 26 21 01 04 a5 1a 0e 78 02 1e b5 9a 5f 57 94 26
-> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 8e 1c 56 a0 50 00 1e 30 28 20
-> 55 00 00 90 10 00 00 18 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 20
-> 20 20 20 20 20 0a 20 20 20 20 20 20 00 00 00 fe
-> 00 31 31 36 51 48 44 30 32 34 30 30 32 0a 00 3b
->
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-edp.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+> KINGDISPLAY KD110N11-51IE and STARRY 2082109QFH040022-50E are
+> 10.95-inch WUXGA TFT LCD panels, which fits in nicely with the
+> existing panel-boe-tv101wum-nl6 driver. Hence, we add a new
+> compatible with panel specific config.
 
-This should have been tagged v2 and had a version history "after the
-cut" since there was a v1 [1]. I'm OK letting it slide this time, but
-some maintainers aren't so lenient so please make sure you use good
-hygiene in sending your patches. Using a tool like b4 or patman makes
-this a lot easier.
+FWIW, this is still missing acting on a request that Krzysztof made.
+Specifically, instead of the above wordy patch description, he
+suggested a much simpler patch description that was just one sentence.
+I could believe his suggestion may be difficult to understand if your
+English isn't strong. He said [1]:
 
-In any case, the content of the patch is fine, so:
+> "Add a new compatible for foo bar panel ....". One sentence. Could be
+> also one patch, not two patches
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Putting that more concretely, you'd want to change your patch
+description in this case to:
 
-Pushed to drm-misc-next:
+Add a new compatible for the panels KINGDISPLAY KD110N11-51IE and
+STARRY 2082109QFH040022-50E.
 
-[1/1] drm/panel-edp: Add STA 116QHD024002
-      commit: 6ce24b3450b8e8132b74d4f0b43a48f4e370e825
+...and that's it.
 
+Personally I wouldn't send a V5 just for this, but if Krzysztof
+requests it strongly then I wouldn't object.
 
-[1] https://lore.kernel.org/r/20250122082340.1603169-1-yelangyan@huaqin.cor=
-p-partner.google.com
+That all being said, the part of the CL description that Krzysztof
+wants you to trim is actually somewhat relevant to me if I am to give
+a Reviewed-By tag. The agreement from DRM folks seemed to be that we
+don't want to jam all MIPI panels into one bindings file and one
+driver. The idea is that they should be organized by the controller
+chip. For some history here, see [2] and all of the discussion in
+response to a previous patch [3].
+
+So the question is: do the new panels you're adding actually share the
+same onboard MIPI controller as the other ones in this file? If not
+then you _do_ need to spin your patch. If there's already some other
+bindings file / driver for the MIPI controller in these panels then
+you can add to that. If not then you'd need to add a new bindings file
+and a new driver.
+
+[1] https://lore.kernel.org/r/9cf4efd5-cc4b-492c-a1f3-18a19ba7afeb@kernel.o=
+rg
+[2] https://patchwork.freedesktop.org/patch/msgid/20240516072039.1287065-3-=
+yangcong5@huaqin.corp-partner.google.com
+[3] https://lore.kernel.org/all/20240410071439.2152588-1-yangcong5@huaqin.c=
+orp-partner.google.com/
