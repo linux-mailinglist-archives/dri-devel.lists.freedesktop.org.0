@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD2DA1A16B
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 11:05:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2661BA1A173
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 11:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03CB710E276;
-	Thu, 23 Jan 2025 10:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81D8810E7A8;
+	Thu, 23 Jan 2025 10:08:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XgMZ5Fqm";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="YDvqwG/Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0067810E276;
- Thu, 23 Jan 2025 10:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737626738; x=1769162738;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=Oi9/D0PWYyy7brJ0Vu9h1l6qWwLdFOLmHoN6QamUPlE=;
- b=XgMZ5FqmzJtFeNSVYd/sgVh9rqAjMAODtjFfG1yQtcVvKmI2QJtQGwo4
- cKSj4M1fdgrVuOpQeUJi9Jw8Ym1vNVrYuDm2NJI2dKNwKUB7Wne43z+b3
- Fpd9YqjbH4O3phmkPRV2UmlnKkz0MyJN0RCA23OSh/7nJHdeD+UGQ3MzL
- s69slAg/K+suPpNBCB2Qdc1t4lKHvUmXk737B9QEz+pTinXs3lkvtOFtT
- Az36y133mdy8U4+7zWB7KF7pQ9ivztYad/2wTtJFSysGGmC411TYFnLcH
- 7E7XZ1KUWAlwSc0T7EG7TlxI47Ntgao922qrKyitnthzyztta8Xc8SUbO g==;
-X-CSE-ConnectionGUID: DGLRafO0RMGsxlL0SNLYzQ==
-X-CSE-MsgGUID: +DjwDdXKT3iF3OrlgTdsSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="49108662"
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="49108662"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2025 02:05:37 -0800
-X-CSE-ConnectionGUID: 0nbPCXCIS0ay8X7qslfq7Q==
-X-CSE-MsgGUID: MDiba6P7ROqZRshMBJWnlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="138278355"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.98])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2025 02:05:33 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>, Abhinav
- Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RFC 4/7] drm/display: dp-aux-dev: use new DCPD access
- helpers
-In-Reply-To: <20250117-drm-rework-dpcd-access-v1-4-7fc020e04dbc@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org>
- <20250117-drm-rework-dpcd-access-v1-4-7fc020e04dbc@linaro.org>
-Date: Thu, 23 Jan 2025 12:05:29 +0200
-Message-ID: <87tt9pn8uu.fsf@intel.com>
+Received: from mail-m1973195.qiye.163.com (mail-m1973195.qiye.163.com
+ [220.197.31.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A324210E7A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 10:08:05 +0000 (UTC)
+Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 9818ae40;
+ Thu, 23 Jan 2025 18:07:59 +0800 (GMT+08:00)
+From: Damon Ding <damon.ding@rock-chips.com>
+To: heiko@sntech.de
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org,
+ vkoul@kernel.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: [PATCH v6 00/14] Add eDP support for RK3588
+Date: Thu, 23 Jan 2025 18:07:33 +0800
+Message-Id: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ08YQ1YdGEsYQkwYGhgfHxhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+X-HM-Tid: 0a9492a204aa03a3kunm9818ae40
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAw6Tyo5CjIPEiwjQyofFCsX
+ URRPC0JVSlVKTEhMTUlNQ0NLQk5IVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFJT0pJNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=YDvqwG/Q1FhQMVKavXBLI65yc3eXPOLDhrADB9rLTpbd37yZ5A86ITwsCdS3/ahnDDqTMS3A88QnTfJ6dZqPaNRruK5aeka+dclD933/XnV/HqssHiw91rBpBt7n5rcX8YbMYh26yNJhwtVrDxpOIT72phKJxjbgdGnFFVCrLRs=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=YoTZBDtBpqVXa3pjx+96Qdz9xq3sfd8lU4+udrm9R7k=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,61 +65,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 17 Jan 2025, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> Switch drm_dp_aux_dev.c to use new set of DPCD read / write helpers.
+Picked from:
+https://patchwork.kernel.org/project/linux-rockchip/list/?series=923593
 
-This might be one of the few places where the old functions and the old
-return value was used in a sensible manner.
+These patchs have been tested with a 1536x2048p60 eDP panel on
+RK3588S EVB1 board, and HDMI 1080P/4K display also has been verified
+on RK3588 EVB1 board. Furthermore, the eDP display has been rechecked
+on RK3399 sapphire excavator board.
 
-BR,
-Jani.
+Patch 1~4   are preparations for the RK3588 eDP support on both Analogix
+            side and Rockchip side.
+Patch 5~8  are to support to get panel from the DP AUX bus.
+Patch 9~11 are the RK3588 Analogix DP driver support.
+Patch 12    is to add the power sequencing delays for panel model
+            LP079QX1-SP0V.
+Patch 13    is the addition of RK3588 eDP0 node.
+Patch 14    is to enable the eDP0 display on RK3588S EVB1 board.
 
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/display/drm_dp_aux_dev.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_aux_dev.c b/drivers/gpu/drm/display/drm_dp_aux_dev.c
-> index 29555b9f03c8c42681c17c4a01e74a966cf8611f..a31ab3f41efb71fd5f936c24ba5c3b8ebea68a5e 100644
-> --- a/drivers/gpu/drm/display/drm_dp_aux_dev.c
-> +++ b/drivers/gpu/drm/display/drm_dp_aux_dev.c
-> @@ -163,17 +163,16 @@ static ssize_t auxdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  			break;
->  		}
->  
-> -		res = drm_dp_dpcd_read(aux_dev->aux, pos, buf, todo);
-> -
-> +		res = drm_dp_dpcd_read_data(aux_dev->aux, pos, buf, todo);
->  		if (res <= 0)
->  			break;
->  
-> -		if (copy_to_iter(buf, res, to) != res) {
-> +		if (copy_to_iter(buf, todo, to) != todo) {
->  			res = -EFAULT;
->  			break;
->  		}
->  
-> -		pos += res;
-> +		pos += todo;
->  	}
->  
->  	if (pos != iocb->ki_pos)
-> @@ -211,12 +210,11 @@ static ssize_t auxdev_write_iter(struct kiocb *iocb, struct iov_iter *from)
->  			break;
->  		}
->  
-> -		res = drm_dp_dpcd_write(aux_dev->aux, pos, buf, todo);
-> -
-> +		res = drm_dp_dpcd_write_data(aux_dev->aux, pos, buf, todo);
->  		if (res <= 0)
->  			break;
->  
-> -		pos += res;
-> +		pos += todo;
->  	}
->  
->  	if (pos != iocb->ki_pos)
+Damon Ding (14):
+  drm/rockchip: analogix_dp: Replace DRM_...() functions with drm_...()
+  drm/rockchip: analogix_dp: Use formalized struct definition for grf
+    field
+  drm/rockchip: analogix_dp: Expand device data to support multiple edp
+    display
+  drm/bridge: analogix_dp: Add support for phy configuration.
+  dt-bindings: display: rockchip: analogix-dp: Add support to get panel
+    from the DP AUX bus
+  drm/bridge: analogix_dp: support to get &analogix_dp_device.plat_data
+    and &analogix_dp_device.aux
+  drm/bridge: analogix_dp: Add support to get panel from the DP AUX bus
+  drm/rockchip: analogix_dp: Add support to get panel from the DP AUX
+    bus
+  dt-bindings: display: rockchip: analogix-dp: Add support for RK3588
+  drm/bridge: analogix_dp: Add support for RK3588
+  drm/rockchip: analogix_dp: Add support for RK3588
+  drm/edp-panel: Add LG Display panel model LP079QX1-SP0V
+  arm64: dts: rockchip: Add eDP0 node for RK3588
+  arm64: dts: rockchip: Enable eDP0 display on RK3588S EVB1 board
+
+ .../rockchip/rockchip,analogix-dp.yaml        |  25 +-
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  28 +++
+ .../boot/dts/rockchip/rk3588s-evb1-v10.dts    |  54 ++++
+ .../drm/bridge/analogix/analogix_dp_core.c    |  76 +++---
+ .../drm/bridge/analogix/analogix_dp_core.h    |   1 +
+ .../gpu/drm/bridge/analogix/analogix_dp_reg.c |  52 ++++
+ drivers/gpu/drm/panel/panel-edp.c             |   8 +
+ .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 238 +++++++++++++-----
+ include/drm/bridge/analogix_dp.h              |   8 +-
+ 9 files changed, 401 insertions(+), 89 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.34.1
+
