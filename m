@@ -2,82 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A70A1A3FE
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 13:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48BF9A1A420
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 13:25:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF9310E7F4;
-	Thu, 23 Jan 2025 12:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3A8410E0E5;
+	Thu, 23 Jan 2025 12:25:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="gnpKJjIm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fT0z0cBL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 090CF10E7F3;
- Thu, 23 Jan 2025 12:13:44 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Yf0GW75cTz9sX2;
- Thu, 23 Jan 2025 13:13:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1737634420; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0+7fVHRTKElHIrMWMKEDgFUHTZ0B53rnunyjSKs1E10=;
- b=gnpKJjImu/YQ19v6Zpg9rBZulFKUFHnD/GH5+YNRjv2tZbJk2lBEyPvR5aXVjSjuxsHmyL
- azsdywWxONg3ylq7gFjBaDOErXHVrhsqAvdXndqulHzRKQ10SdEEzagz+4Z3dgtmUZHQil
- I+nHCW3ihPnRWxn1mJe3pP6lFPkc+JZl2G5umz8Ll84v3PMDEbrjzcDI9be4qNqj+ObLda
- viFV7BRw8Cjy5quxQKLqLMHeyOAnkgU1NJ2y3vmG3c06U9vzddGxWwO4eJtqtLrzjk33IQ
- RwlUQiV+HeVyh5daGwiSGWff1zHBxod4PkdwLjLgeaUowmil0D34K11LE0+Y3A==
-Message-ID: <e7414579afbfc25d4027471bc265ee48e7d25932.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: Use struct for drm_sched_init() params
-From: Philipp Stanner <phasta@mailbox.org>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Philipp Stanner
- <phasta@kernel.org>, Alex Deucher <alexander.deucher@amd.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Xinhui Pan
- <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>, Russell King
- <linux+etnaviv@armlinux.org.uk>,  Christian Gmeiner
- <christian.gmeiner@gmail.com>, Frank Binns <frank.binns@imgtec.com>, Matt
- Coster <matt.coster@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Qiang Yu <yuq825@gmail.com>,  Rob
- Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Konrad Dybcio
- <konradybcio@kernel.org>,  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, Karol Herbst <kherbst@redhat.com>, Lyude
- Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Boris
- Brezillon <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost
- <matthew.brost@intel.com>, Melissa Wen <mwen@igalia.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Sunil Khatri <sunil.khatri@amd.com>,  Lijo Lazar <lijo.lazar@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>, 
- Yunxiang Li <Yunxiang.Li@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, etnaviv@lists.freedesktop.org, 
- lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Date: Thu, 23 Jan 2025 13:13:25 +0100
-In-Reply-To: <ec4bb0f6-c366-40e7-a1df-332458b08eec@igalia.com>
-References: <20250122140818.45172-3-phasta@kernel.org>
- <24f1c52f-1768-47de-88e3-d4104969d0a9@igalia.com>
- <9713798aa175aef2041e6d688ac4814006f789bc.camel@redhat.com>
- <ec4bb0f6-c366-40e7-a1df-332458b08eec@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80F8E10E0E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 12:25:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737635153; x=1769171153;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Y9y2JiSrLOPvXTWHcZparjJwT3r8iLZ2GoulTbz9w5s=;
+ b=fT0z0cBLgc3YJECpU0RWf+GQ4FvIoEQDS7c/Pkom5/mWNc7bWJmpFITp
+ 7k19EB24TcHB3ZMOLUixk3RKfpSkT4i+i+ds7d3CGG+8Cdb6ZmQ59TizR
+ 9dwjn0exjYCdy8y9Faq4dJla7Jcmq8IjiCSd63tdo9ulg8oR6MEjRlwax
+ BeDhHi9ooIyDlfM2Ov2s/1R5T2QWPQch9nI0V18ZK1jXg3WbhicBGQqRn
+ do/DtaVDExfhmw4XeyH2nyfRQAdwI6FhLMQ92BFjst0NoWCXV83m4uLWL
+ Px2PSycHEpQCjPSs6bIiJhK51fU/uf3T19dounh2yssnGEW7EG+k676C1 w==;
+X-CSE-ConnectionGUID: MxIYf8bESByBAALv56QcyQ==
+X-CSE-MsgGUID: bOGlC5aJQlWSIfBamMqGqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="37336132"
+X-IronPort-AV: E=Sophos;i="6.13,228,1732608000"; d="scan'208";a="37336132"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 04:25:41 -0800
+X-CSE-ConnectionGUID: LAR+3lOGQqq3l5CRJiaT5Q==
+X-CSE-MsgGUID: tzHN9lx5QzuLvdBtxS/HRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="111462249"
+Received: from unknown (HELO localhost) ([10.237.66.160])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 04:25:33 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Damon Ding <damon.ding@rock-chips.com>, heiko@sntech.de
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
+ cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
+ dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, Damon Ding
+ <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v6 01/14] drm/rockchip: analogix_dp: Replace DRM_...()
+ functions with drm_...()
+In-Reply-To: <20250123100747.1841357-2-damon.ding@rock-chips.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+ <20250123100747.1841357-2-damon.ding@rock-chips.com>
+Date: Thu, 23 Jan 2025 14:25:29 +0200
+Message-ID: <87ikq5n2di.fsf@intel.com>
 MIME-Version: 1.0
-X-MBO-RS-META: atku7wpwx957w9o4ftqprfosj6p5jofp
-X-MBO-RS-ID: d9273a22f3a7c793cfc
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,116 +74,160 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDI1LTAxLTIzIGF0IDA4OjEwIC0wMzAwLCBNYcOtcmEgQ2FuYWwgd3JvdGU6Cj4g
-SGkgUGhpbGlwcCwKPiAKPiBPbiAyMy8wMS8yNSAwNToxMCwgUGhpbGlwcCBTdGFubmVyIHdyb3Rl
-Ogo+ID4gT24gV2VkLCAyMDI1LTAxLTIyIGF0IDE5OjA3IC0wMzAwLCBNYcOtcmEgQ2FuYWwgd3Jv
-dGU6Cj4gPiA+IEhpIFBoaWxpcHAsCj4gPiA+IAo+ID4gPiBPbiAyMi8wMS8yNSAxMTowOCwgUGhp
-bGlwcCBTdGFubmVyIHdyb3RlOgo+ID4gPiA+IGRybV9zY2hlZF9pbml0KCkgaGFzIGEgZ3JlYXQg
-bWFueSBwYXJhbWV0ZXJzIGFuZCB1cGNvbWluZyBuZXcKPiA+ID4gPiBmdW5jdGlvbmFsaXR5IGZv
-ciB0aGUgc2NoZWR1bGVyIG1pZ2h0IGFkZCBldmVuIG1vcmUuIEdlbmVyYWxseSwKPiA+ID4gPiB0
-aGUKPiA+ID4gPiBncmVhdCBudW1iZXIgb2YgcGFyYW1ldGVycyByZWR1Y2VzIHJlYWRhYmlsaXR5
-IGFuZCBoYXMgYWxyZWFkeQo+ID4gPiA+IGNhdXNlZAo+ID4gPiA+IG9uZSBtaXNzbmFtaW5nIGlu
-Ogo+ID4gPiA+IAo+ID4gPiA+IGNvbW1pdCA2ZjFjYWNmNGViYTcgKCJkcm0vbm91dmVhdTogSW1w
-cm92ZSB2YXJpYWJsZSBuYW1lIGluCj4gPiA+ID4gbm91dmVhdV9zY2hlZF9pbml0KCkiKS4KPiA+
-ID4gPiAKPiA+ID4gPiBJbnRyb2R1Y2UgYSBuZXcgc3RydWN0IGZvciB0aGUgc2NoZWR1bGVyIGlu
-aXQgcGFyYW1ldGVycyBhbmQKPiA+ID4gPiBwb3J0Cj4gPiA+ID4gYWxsCj4gPiA+ID4gdXNlcnMu
-Cj4gPiA+ID4gCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogUGhpbGlwcCBTdGFubmVyIDxwaGFzdGFA
-a2VybmVsLm9yZz4KPiAKPiBbLi4uXQo+IAo+ID4gPiAKPiA+ID4gPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3YzZC92M2Rfc2NoZWQuYwo+ID4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL3Yz
-ZC92M2Rfc2NoZWQuYwo+ID4gPiA+IGluZGV4IDk5YWM0OTk1YjVhMS4uNzE2ZTZkMDc0ZDg3IDEw
-MDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3NjaGVkLmMKPiA+ID4g
-PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vdjNkL3YzZF9zY2hlZC5jCj4gPiA+ID4gQEAgLTgxNCw2
-NyArODE0LDEyNCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0Cj4gPiA+ID4gZHJtX3NjaGVkX2JhY2tl
-bmRfb3BzCj4gPiA+ID4gdjNkX2NwdV9zY2hlZF9vcHMgPSB7Cj4gPiA+ID4gwqDCoMKgCS5mcmVl
-X2pvYiA9IHYzZF9jcHVfam9iX2ZyZWUKPiA+ID4gPiDCoMKgIH07Cj4gPiA+ID4gwqDCoCAKPiA+
-ID4gPiArLyoKPiA+ID4gPiArICogdjNkJ3Mgc2NoZWR1bGVyIGluc3RhbmNlcyBhcmUgYWxsIGlk
-ZW50aWNhbCwgZXhjZXB0IGZvciBvcHMKPiA+ID4gPiBhbmQKPiA+ID4gPiBuYW1lLgo+ID4gPiA+
-ICsgKi8KPiA+ID4gPiArc3RhdGljIHZvaWQKPiA+ID4gPiArdjNkX2NvbW1vbl9zY2hlZF9pbml0
-KHN0cnVjdCBkcm1fc2NoZWRfaW5pdF9wYXJhbXMgKnBhcmFtcywKPiA+ID4gPiBzdHJ1Y3QKPiA+
-ID4gPiBkZXZpY2UgKmRldikKPiA+ID4gPiArewo+ID4gPiA+ICsJbWVtc2V0KHBhcmFtcywgMCwg
-c2l6ZW9mKHN0cnVjdAo+ID4gPiA+IGRybV9zY2hlZF9pbml0X3BhcmFtcykpOwo+ID4gPiA+ICsK
-PiA+ID4gPiArCXBhcmFtcy0+c3VibWl0X3dxID0gTlVMTDsgLyogVXNlIHRoZSBzeXN0ZW1fd3Eu
-ICovCj4gPiA+ID4gKwlwYXJhbXMtPm51bV9ycXMgPSBEUk1fU0NIRURfUFJJT1JJVFlfQ09VTlQ7
-Cj4gPiA+ID4gKwlwYXJhbXMtPmNyZWRpdF9saW1pdCA9IDE7Cj4gPiA+ID4gKwlwYXJhbXMtPmhh
-bmdfbGltaXQgPSAwOwo+ID4gPiA+ICsJcGFyYW1zLT50aW1lb3V0ID0gbXNlY3NfdG9famlmZmll
-cyg1MDApOwo+ID4gPiA+ICsJcGFyYW1zLT50aW1lb3V0X3dxID0gTlVMTDsgLyogVXNlIHRoZSBz
-eXN0ZW1fd3EuICovCj4gPiA+ID4gKwlwYXJhbXMtPnNjb3JlID0gTlVMTDsKPiA+ID4gPiArCXBh
-cmFtcy0+ZGV2ID0gZGV2Owo+ID4gPiA+ICt9Cj4gPiA+IAo+ID4gPiBDb3VsZCB3ZSB1c2Ugb25s
-eSBvbmUgZnVuY3Rpb24gdGhhdCB0YWtlcyBzdHJ1Y3QgdjNkX2RldiAqdjNkLAo+ID4gPiBlbnVt
-Cj4gPiA+IHYzZF9xdWV1ZSwgYW5kIHNjaGVkX29wcyBhcyBhcmd1bWVudHMgKGluc3RlYWQgb2Yg
-b25lIGZ1bmN0aW9uCj4gPiA+IHBlcgo+ID4gPiBxdWV1ZSk/IFlvdSBjYW4gZ2V0IHRoZSBuYW1l
-IG9mIHRoZSBzY2hlZHVsZXIgYnkgY29uY2F0ZW5hdGluZwo+ID4gPiAidjNkXyIKPiA+ID4gdG8K
-PiA+ID4gdGhlIHJldHVybiBvZiB2M2RfcXVldWVfdG9fc3RyaW5nKCkuCj4gPiA+IAo+ID4gPiBJ
-IGJlbGlldmUgaXQgd291bGQgbWFrZSB0aGUgY29kZSBtdWNoIHNpbXBsZXIuCj4gPiAKPiA+IEhl
-bGxvLAo+ID4gCj4gPiBzbyBqdXN0IHRvIGdldCB0aGF0IHJpZ2h0Ogo+ID4gWW91J2QgbGlrZSB0
-byBoYXZlIG9uZSB1bml2ZXJzYWwgZnVuY3Rpb24gdGhhdCBzd2l0Y2gtY2FzZXMgb3ZlciBhbgo+
-ID4gZW51bSwgc2V0cyB0aGUgb3BzIGFuZCBjcmVhdGVzIHRoZSBuYW1lIHdpdGggc3RyaW5nIGNv
-bmNhdGVuYXRpb24/Cj4gPiAKPiA+IEknbSBub3QgY29udmluY2VkIHRoYXQgdGhpcyBpcyBzaW1w
-bGVyIHRoYW4gYSBmZXcgc21hbGwgZnVuY3Rpb25zLAo+ID4gYnV0Cj4gPiBpdCdzIG5vdCBteSBj
-b21wb25lbnQsIHNv4oCmCj4gPiAKPiA+IFdoYXRldmVyIHdlJ2xsIGRvIHdpbGwgYmUgc2ltcGxl
-ciB0aGFuIHRoZSBleGlzdGluZyBjb2RlLCB0aG91Z2guCj4gPiBSaWdodAo+ID4gbm93IG5vIHJl
-YWRlciBjYW4gc2VlIGF0IGZpcnN0IGdsYW5jZSB3aGV0aGVyIGFsbCB0aG9zZSBzY2hlZHVsZXJz
-Cj4gPiBhcmUKPiA+IGlkZW50aWNhbGx5IHBhcmFtZXRyaXplZCBvciBub3QuCj4gPiAKPiAKPiBU
-aGlzIGlzIG15IHByb3Bvc2FsIChqdXN0IGEgcXVpY2sgZHJhZnQsIHBsZWFzZSBjaGVjayBpZiBp
-dAo+IGNvbXBpbGVzKToKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rf
-c2NoZWQuYyAKPiBiL2RyaXZlcnMvZ3B1L2RybS92M2QvdjNkX3NjaGVkLmMKPiBpbmRleCA5NjE0
-NjUxMjhkODAuLjdjYzQ1YTBjNmNhMCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vdjNk
-L3YzZF9zY2hlZC5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3YzZC92M2Rfc2NoZWQuYwo+IEBA
-IC04MjAsNjcgKzgyMCw2MiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9zY2hlZF9iYWNrZW5k
-X29wcyAKPiB2M2RfY3B1X3NjaGVkX29wcyA9IHsKPiDCoMKgwqDCoMKgwqDCoMKgIC5mcmVlX2pv
-YiA9IHYzZF9jcHVfam9iX2ZyZWUKPiDCoCB9Owo+IAo+ICtzdGF0aWMgaW50Cj4gK3YzZF9zY2hl
-ZF9xdWV1ZV9pbml0KHN0cnVjdCB2M2RfZGV2ICp2M2QsIGVudW0gdjNkX3F1ZXVlIHF1ZXVlLAo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb25zdCBzdHJ1Y3QgZHJt
-X3NjaGVkX2JhY2tlbmRfb3BzICpvcHMsIGNvbnN0CgpJcyBpdCBhIHF1ZXVlLCB0aG91Z2g/CgpI
-b3cgYWJvdXQgX3YzZF9zY2hlZF9pbml0KCk/CgpQLgoKPiBjaGFyIAo+ICpuYW1lKQo+ICt7Cj4g
-K8KgwqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX3NjaGVkX2luaXRfcGFyYW1zIHBhcmFtcyA9IHsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuc3VibWl0X3dxID0gTlVMTCwKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAubnVtX3JxcyA9IERSTV9TQ0hFRF9QUklPUklUWV9DT1VO
-VCwKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuY3JlZGl0X2xpbWl0ID0gMSwKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAuaGFuZ19saW1pdCA9IDAsCj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgLnRpbWVvdXQgPSBtc2Vjc190b19qaWZmaWVzKDUwMCksCj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnRpbWVvdXRfd3EgPSBOVUxMLAo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5zY29yZSA9IE5VTEwsCj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgLmRldiA9IHYzZC0+ZHJtLmRldiwKPiArwqDCoMKgwqDCoMKgIH07Cj4g
-Kwo+ICvCoMKgwqDCoMKgwqAgcGFyYW1zLm9wcyA9IG9wczsKPiArwqDCoMKgwqDCoMKgIHBhcmFt
-cy5uYW1lID0gbmFtZTsKPiArCj4gK8KgwqDCoMKgwqDCoCByZXR1cm4gZHJtX3NjaGVkX2luaXQo
-JnYzZC0+cXVldWVbcXVldWVdLnNjaGVkLCAmcGFyYW1zKTsKPiArfQo+ICsKPiDCoCBpbnQKPiDC
-oCB2M2Rfc2NoZWRfaW5pdChzdHJ1Y3QgdjNkX2RldiAqdjNkKQo+IMKgIHsKPiAtwqDCoMKgwqDC
-oMKgIGludCBod19qb2JzX2xpbWl0ID0gMTsKPiAtwqDCoMKgwqDCoMKgIGludCBqb2JfaGFuZ19s
-aW1pdCA9IDA7Cj4gLcKgwqDCoMKgwqDCoCBpbnQgaGFuZ19saW1pdF9tcyA9IDUwMDsKPiDCoMKg
-wqDCoMKgwqDCoMKgIGludCByZXQ7Cj4gCj4gLcKgwqDCoMKgwqDCoCByZXQgPSBkcm1fc2NoZWRf
-aW5pdCgmdjNkLT5xdWV1ZVtWM0RfQklOXS5zY2hlZCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICZ2M2RfYmluX3NjaGVkX29wcywgTlVM
-TCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIERSTV9TQ0hFRF9QUklPUklUWV9DT1VOVCwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGh3X2pvYnNfbGltaXQsIGpvYl9oYW5nX2xp
-bWl0LAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgbXNlY3NfdG9famlmZmllcyhoYW5nX2xpbWl0X21zKSwgTlVMTCwKPiAtwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5VTEwsICJ2M2Rf
-YmluIiwgdjNkLT5kcm0uZGV2KTsKPiArwqDCoMKgwqDCoMKgIHJldCA9IHYzZF9zY2hlZF9xdWV1
-ZV9pbml0KHYzZCwgVjNEX0JJTiwgJnYzZF9iaW5fc2NoZWRfb3BzLAo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgInYz
-ZF9iaW4iKTsKPiDCoMKgwqDCoMKgwqDCoMKgIGlmIChyZXQpCj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgcmV0dXJuIHJldDsKPiAKPiAtwqDCoMKgwqDCoMKgIHJldCA9IGRybV9z
-Y2hlZF9pbml0KCZ2M2QtPnF1ZXVlW1YzRF9SRU5ERVJdLnNjaGVkLAo+IC3CoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJnYzZF9yZW5kZXJfc2No
-ZWRfb3BzLCBOVUxMLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgRFJNX1NDSEVEX1BSSU9SSVRZX0NPVU5ULAo+IC3CoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaHdfam9ic19saW1pdCwg
-am9iX2hhbmdfbGltaXQsCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBtc2Vjc190b19qaWZmaWVzKGhhbmdfbGltaXRfbXMpLCBOVUxMLAo+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-TlVMTCwgInYzZF9yZW5kZXIiLCB2M2QtPmRybS5kZXYpOwo+ICvCoMKgwqDCoMKgwqAgcmV0ID0g
-djNkX3NjaGVkX3F1ZXVlX2luaXQodjNkLCBWM0RfUkVOREVSLAo+ICZ2M2RfcmVuZGVyX3NjaGVk
-X29wcywKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgICJ2M2RfcmVuZGVyIik7Cj4gwqDCoMKgwqDCoMKgwqDCoCBpZiAo
-cmV0KQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZmFpbDsKPiAKPiBb
-Li4uXQo+IAo+IEF0IGxlYXN0IGZvciBtZSwgdGhpcyBsb29rcyBtdWNoIHNpbXBsZXIgdGhhbiBv
-bmUgZnVuY3Rpb24gZm9yIGVhY2gKPiBWM0QgcXVldWUuCj4gCj4gQmVzdCBSZWdhcmRzLAo+IC0g
-TWHDrXJhCj4gCj4gPiBQLgo+ID4gCj4gPiAKPiA+ID4gCj4gPiA+IEJlc3QgUmVnYXJkcywKPiA+
-ID4gLSBNYcOtcmEKPiA+ID4gCj4gCgo=
+On Thu, 23 Jan 2025, Damon Ding <damon.ding@rock-chips.com> wrote:
+> According to the comments in include/drm/drm_print.h, the DRM_...()
+> functions are deprecated in favor of drm_...() or dev_...() functions.
+>
+> Use drm_err()/drm_dbg_core()/drm_dbg_kms() instead of
+> DRM_DEV_ERROR()/DRM_ERROR()/DRM_DEV_DEBUG()/DRM_DEBUG_KMS().
+>
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>
+> ---
+>
+> Changes in v6:
+> - Use drm_...() uniformly rather than mixing drm_...() and dev_..()
+> - Pass 'dp' in drm_...() rather than 'dp->drm_dev'
+> ---
+>  .../gpu/drm/rockchip/analogix_dp-rockchip.c   | 29 ++++++++++---------
+>  1 file changed, 15 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> index 0844175c37c5..dd33d7540e4b 100644
+> --- a/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/analogix_dp-rockchip.c
+> @@ -100,13 +100,13 @@ static int rockchip_dp_poweron(struct analogix_dp_plat_data *plat_data)
+>  
+>  	ret = clk_prepare_enable(dp->pclk);
+>  	if (ret < 0) {
+> -		DRM_DEV_ERROR(dp->dev, "failed to enable pclk %d\n", ret);
+> +		drm_err(dp, "failed to enable pclk %d\n", ret);
 
+Please don't do this.
+
+You're supposed to pass struct drm_device to drm_err() and friends. Not
+some random struct pointer that just happens to have a ->dev member.
+
+The drm_* macros may change at any time to actually expect the correct
+type.
+
+BR,
+Jani.
+
+
+>  		return ret;
+>  	}
+>  
+>  	ret = rockchip_dp_pre_init(dp);
+>  	if (ret < 0) {
+> -		DRM_DEV_ERROR(dp->dev, "failed to dp pre init %d\n", ret);
+> +		drm_err(dp, "failed to dp pre init %d\n", ret);
+>  		clk_disable_unprepare(dp->pclk);
+>  		return ret;
+>  	}
+> @@ -126,12 +126,13 @@ static int rockchip_dp_powerdown(struct analogix_dp_plat_data *plat_data)
+>  static int rockchip_dp_get_modes(struct analogix_dp_plat_data *plat_data,
+>  				 struct drm_connector *connector)
+>  {
+> +	struct rockchip_dp_device *dp = pdata_encoder_to_dp(plat_data);
+>  	struct drm_display_info *di = &connector->display_info;
+>  	/* VOP couldn't output YUV video format for eDP rightly */
+>  	u32 mask = DRM_COLOR_FORMAT_YCBCR444 | DRM_COLOR_FORMAT_YCBCR422;
+>  
+>  	if ((di->color_formats & mask)) {
+> -		DRM_DEBUG_KMS("Swapping display color format from YUV to RGB\n");
+> +		drm_dbg_kms(dp, "Swapping display color format from YUV to RGB\n");
+>  		di->color_formats &= ~mask;
+>  		di->color_formats |= DRM_COLOR_FORMAT_RGB444;
+>  		di->bpc = 8;
+> @@ -201,17 +202,17 @@ static void rockchip_dp_drm_encoder_enable(struct drm_encoder *encoder,
+>  	else
+>  		val = dp->data->lcdsel_big;
+>  
+> -	DRM_DEV_DEBUG(dp->dev, "vop %s output to dp\n", (ret) ? "LIT" : "BIG");
+> +	drm_dbg_core(dp, "vop %s output to dp\n", (ret) ? "LIT" : "BIG");
+>  
+>  	ret = clk_prepare_enable(dp->grfclk);
+>  	if (ret < 0) {
+> -		DRM_DEV_ERROR(dp->dev, "failed to enable grfclk %d\n", ret);
+> +		drm_err(dp, "failed to enable grfclk %d\n", ret);
+>  		return;
+>  	}
+>  
+>  	ret = regmap_write(dp->grf, dp->data->lcdsel_grf_reg, val);
+>  	if (ret != 0)
+> -		DRM_DEV_ERROR(dp->dev, "Could not write to GRF: %d\n", ret);
+> +		drm_err(dp, "Could not write to GRF: %d\n", ret);
+>  
+>  	clk_disable_unprepare(dp->grfclk);
+>  }
+> @@ -236,7 +237,7 @@ static void rockchip_dp_drm_encoder_disable(struct drm_encoder *encoder,
+>  
+>  	ret = rockchip_drm_wait_vact_end(crtc, PSR_WAIT_LINE_FLAG_TIMEOUT_MS);
+>  	if (ret)
+> -		DRM_DEV_ERROR(dp->dev, "line flag irq timed out\n");
+> +		drm_err(dp, "line flag irq timed out\n");
+>  }
+>  
+>  static int
+> @@ -277,7 +278,7 @@ static int rockchip_dp_of_probe(struct rockchip_dp_device *dp)
+>  
+>  	dp->grf = syscon_regmap_lookup_by_phandle(np, "rockchip,grf");
+>  	if (IS_ERR(dp->grf)) {
+> -		DRM_DEV_ERROR(dev, "failed to get rockchip,grf property\n");
+> +		drm_err(dp, "failed to get rockchip,grf property\n");
+>  		return PTR_ERR(dp->grf);
+>  	}
+>  
+> @@ -287,19 +288,19 @@ static int rockchip_dp_of_probe(struct rockchip_dp_device *dp)
+>  	} else if (PTR_ERR(dp->grfclk) == -EPROBE_DEFER) {
+>  		return -EPROBE_DEFER;
+>  	} else if (IS_ERR(dp->grfclk)) {
+> -		DRM_DEV_ERROR(dev, "failed to get grf clock\n");
+> +		drm_err(dp, "failed to get grf clock\n");
+>  		return PTR_ERR(dp->grfclk);
+>  	}
+>  
+>  	dp->pclk = devm_clk_get(dev, "pclk");
+>  	if (IS_ERR(dp->pclk)) {
+> -		DRM_DEV_ERROR(dev, "failed to get pclk property\n");
+> +		drm_err(dp, "failed to get pclk property\n");
+>  		return PTR_ERR(dp->pclk);
+>  	}
+>  
+>  	dp->rst = devm_reset_control_get(dev, "dp");
+>  	if (IS_ERR(dp->rst)) {
+> -		DRM_DEV_ERROR(dev, "failed to get dp reset control\n");
+> +		drm_err(dp, "failed to get dp reset control\n");
+>  		return PTR_ERR(dp->rst);
+>  	}
+>  
+> @@ -315,12 +316,12 @@ static int rockchip_dp_drm_create_encoder(struct rockchip_dp_device *dp)
+>  
+>  	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm_dev,
+>  							     dev->of_node);
+> -	DRM_DEBUG_KMS("possible_crtcs = 0x%x\n", encoder->possible_crtcs);
+> +	drm_dbg_kms(dp, "possible_crtcs = 0x%x\n", encoder->possible_crtcs);
+>  
+>  	ret = drm_simple_encoder_init(drm_dev, encoder,
+>  				      DRM_MODE_ENCODER_TMDS);
+>  	if (ret) {
+> -		DRM_ERROR("failed to initialize encoder with drm\n");
+> +		drm_err(dp, "failed to initialize encoder with drm\n");
+>  		return ret;
+>  	}
+>  
+> @@ -340,7 +341,7 @@ static int rockchip_dp_bind(struct device *dev, struct device *master,
+>  
+>  	ret = rockchip_dp_drm_create_encoder(dp);
+>  	if (ret) {
+> -		DRM_ERROR("failed to create drm encoder\n");
+> +		drm_err(dp, "failed to create drm encoder\n");
+>  		return ret;
+>  	}
+
+-- 
+Jani Nikula, Intel
