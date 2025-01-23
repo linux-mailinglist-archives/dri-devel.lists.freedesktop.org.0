@@ -2,68 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981C9A1ACAD
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 23:29:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE339A1ACDD
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Jan 2025 23:54:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 061E610E1C0;
-	Thu, 23 Jan 2025 22:29:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 174FF10E8BB;
+	Thu, 23 Jan 2025 22:54:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Vr2xpAN4";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="bH7KcuMk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB5C10E1C0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 22:29:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1737671355;
- bh=DYl+QLg+bXf1oFNxNjE9MmYOZbStaYtUHF6Ata+RLOA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Vr2xpAN4ksdLDWbNRyZDBVw58o4axQ7f0jvRwJfz1gnFc4uARKRe5OPQwHZIZJ5Ti
- ZNK5UDQl2nlzsPH42JWBuMDqRYtZqaE9TSXSHGIfIfSCNlfYYoPzKhPEumnjCPq+Lc
- IRKTizZprjjrZrsE1O8KWNFQUbbxEpFbbuxrVHG65xw737BtusbliNkvUXheIYRm3g
- mPxfrrJM/W0ZHNWjiS5ha6spAJhsyJIGvhAeTacgR77k587pz+EImJpG+RoSEgJmob
- tQAb40UQt2hnYUBFtnYFoTS8l+UxNF9eikTRmMmqhNLXmwcqziqsYSA5rIK5tx05Ns
- Lp1me8BXbL8uQ==
-Received: from earth.mtl.collabora.ca (mtl.collabora.ca [66.171.169.34])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id DE7C917E0FA7;
- Thu, 23 Jan 2025 23:29:11 +0100 (CET)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98D6210E8A8
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 22:54:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1737672836; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Mok435x0/bUrcJkNUc6ferk6pHOVxPx112XT1tnHl6SuqBl9lIik6/U3+RyCCymtp0HHyr9fJX/Nv5/zNfAyXrUFSzIFsDuCvKLTytb36CocqnvjJCyDqcCIKM//WCG+CL+CM/JDuuaIfXCxxlZAr+6QpVWM2ddq7Sl3MD1xzhA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1737672836;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=/+Wx9HugEM3I27ttx6oMb0CTHpO3RziETvHDF5Mr8n8=; 
+ b=l+TgtUIAvcKctgHWveOg544jGYWgHzBL+YgIcYny31hD9uNbSCvgRfQassZN3TgF6u6/IRKhMOWj8JSk8XY6GMI9J+0tnEMF3cCFRxvq6WanvpveSrTb2MbCwbRJncl/iNQDxCRLylPjkp77ktzdd/pG6Em1FR7t7XIdcxJMmgc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737672836; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=/+Wx9HugEM3I27ttx6oMb0CTHpO3RziETvHDF5Mr8n8=;
+ b=bH7KcuMkFq3KLSJiCUAB+SYjWyi8d7QkVviMJMK+OO/euwPbOVdKHo7/SvROQoOh
+ nBlmLNrbauNl9/uz11HPS/CMLrLUZgz5rweOrfKqDOft6Gof403DQX8vBbP3xVGhGEI
+ v+LMsNLUn7B30I5WxjePZuieaSdqboLTlRV0fG7M=
+Received: by mx.zohomail.com with SMTPS id 1737672825138648.4539861650047;
+ Thu, 23 Jan 2025 14:53:45 -0800 (PST)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Alexey Charkov <alchark@gmail.com>,
- Jianfeng Liu <liujianfeng1994@gmail.com>,
- Dragan Simic <dsimic@manjaro.org>, FUKAUMI Naoki <naoki@radxa.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Johan Jonker <jbx6244@gmail.com>, Kever Yang <kever.yang@rock-chips.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>,
- Algea Cao <algea.cao@rock-chips.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: [PATCH v2 2/2] arm64: dts: rockchip: Add HDMI0 audio output on rock-5b
-Date: Thu, 23 Jan 2025 17:28:07 -0500
-Message-ID: <20250123222850.223255-3-detlev.casanova@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250123222850.223255-1-detlev.casanova@collabora.com>
-References: <20250123222850.223255-1-detlev.casanova@collabora.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel@collabora.com, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Subject: [PATCH v9 0/5] drm/panthor: Display size of internal kernel BOs
+ through fdinfo
+Date: Thu, 23 Jan 2025 22:52:57 +0000
+Message-ID: <20250123225325.3271764-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,70 +72,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the simple-audio-card driver with the hdmi0 QP node as CODEC and
-the i2s5 device as CPU.
+This patch series enables display of the size of driver-owned shmem BO's that aren't
+exposed to userspace through a DRM handle. Also fixes a use-after-free bug in the
+existing fdinfo implementation for Panthor.
 
-The simple-audio-card,mclk-fs value is set to 128 as it is done in
-the downstream driver.
+Discussion of previous revision can be found here [1].
 
-The #sound-dai-cells value is set to 0 in the hdmi0 node so that it can be
-used as an audio codec node.
+Changelog:
+v9:
+ - Added proper locking around group pool xarray to prevent UAF errors.
+ - Added proper locking around vms pool xarray loop for the same reason
+ - Added new patch that fixes UAF error because no locking when accessing 
+   fdinfo group stats.
+ - Some minor cosmetic and naming changes.
+v8:
+ - Made print_size public and added prefix argument for drm_print_memory_stats
+ - Updated documentation commit to reflect new name tags
+ - Some minor polishing
+v7:
+ - Added new commit: mentions the formation rules for driver-specific fdinfo keys
+ - Added new commit: adds a helper that lets driver print memory size key:value
+   pairs with their driver name as a prefix.
+ - Modified later commits to make use of the previous ones.
+ - Deleted mentions of now unnecessary memory keys in the old revision.
+v6:
+ - Replace up_write witnh up_read, which was left out in the previous version
+ - Fixed some minor comment and documentation issues reported by the kernel test robot
+v5:
+ - Replaced down_write semaphore with the read flavour
+ - Fixed typo and added explicit description for drm-shared-internal in
+ the fdinfo documentation file for Panthor.
+v4:
+ - Remove unrelated formating fix
+ - Moved calculating overall size of a group's kernel BO's into
+ its own static helper.
+ - Renamed group kernel BO's size aggregation function to better
+ reflect its actual responsibility.
 
-Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
----
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  1 +
- .../boot/dts/rockchip/rk3588-rock-5b.dts      | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+)
+[1] https://lore.kernel.org/dri-devel/20250114173406.3060248-1-adrian.larumbe@collabora.com/
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index a337f3fb8377e..fcd1c85e6ce8f 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1395,6 +1395,7 @@ hdmi0: hdmi@fde80000 {
- 		reset-names = "ref", "hdp";
- 		rockchip,grf = <&sys_grf>;
- 		rockchip,vo-grf = <&vo1_grf>;
-+		#sound-dai-cells = <0>;
- 		status = "disabled";
- 
- 		ports {
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d597112f1d5b8..1909078538367 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -49,6 +49,21 @@ hdmi0_con_in: endpoint {
- 		};
- 	};
- 
-+	hdmi0-sound {
-+		compatible = "simple-audio-card";
-+		simple-audio-card,format = "i2s";
-+		simple-audio-card,mclk-fs = <128>;
-+		simple-audio-card,name = "hdmi0";
-+
-+		simple-audio-card,codec {
-+			sound-dai = <&hdmi0>;
-+		};
-+
-+		simple-audio-card,cpu {
-+			sound-dai = <&i2s5_8ch>;
-+		};
-+	};
-+
- 	leds {
- 		compatible = "gpio-leds";
- 		pinctrl-names = "default";
-@@ -318,6 +333,10 @@ i2s0_8ch_p0_0: endpoint {
- 	};
- };
- 
-+&i2s5_8ch {
-+	status = "okay";
-+};
-+
- &package_thermal {
- 	polling-delay = <1000>;
- 
+Adrián Larumbe (5):
+  Documentation/gpu: Clarify format of driver-specific fidnfo keys
+  drm/file: Add fdinfo helper for printing regions with prefix
+  drm/panthor: Expose size of driver internal BO's over fdinfo
+  Documentation/gpu: Add fdinfo meanings of panthor-*-memory tags
+  drm/panthor: Fix race condition when gathering fdinfo group samples
+
+ Documentation/gpu/drm-usage-stats.rst   |  5 ++-
+ Documentation/gpu/panthor.rst           | 10 +++++
+ drivers/gpu/drm/drm_file.c              | 27 ++++++++----
+ drivers/gpu/drm/panthor/panthor_drv.c   | 14 ++++++
+ drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++
+ drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c   | 36 +++++++++++++++
+ drivers/gpu/drm/panthor/panthor_mmu.h   |  3 ++
+ drivers/gpu/drm/panthor/panthor_sched.c | 58 ++++++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_sched.h |  3 ++
+ include/drm/drm_file.h                  |  5 +++
+ 11 files changed, 179 insertions(+), 10 deletions(-)
+
+
+base-commit: c6eabbab359c156669e10d5dec3e71e80ff09bd2
 -- 
-2.48.1
+2.47.1
 
