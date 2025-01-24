@@ -2,88 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55C6A1B288
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C5EA1B2A6
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:31:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14FC210E2C1;
-	Fri, 24 Jan 2025 09:22:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3EE10E92D;
+	Fri, 24 Jan 2025 09:31:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gp84dhXf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0BkHg836";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gp84dhXf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0BkHg836";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GQwF4fMn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUgklgqa";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GQwF4fMn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUgklgqa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC46710E2C1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 09:22:52 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 501EE10E92B
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 09:31:23 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4718121176;
- Fri, 24 Jan 2025 09:22:51 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 97D9B1F38F;
+ Fri, 24 Jan 2025 09:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737710571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1737711081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RRNEtgDHPtXgnuhsCM74cMIZDrutbIJ+WVqQXHwkEgs=;
- b=gp84dhXfqvxq9xzP1W+3eP0bbe61TgmbG9g+U1m1tdRzsWV4VWAT1Xwwoxv8F+t5LOFNjr
- TFuvJZ+Vgi3S8adqBEi6Zlo9OnESV6FH8VAjGuSrhW66GF+HIFdRzRrta2+g7/mITJOfxN
- OsUfVGdS6NcTb3W2vF71GBlXw2LqOJo=
+ bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
+ b=GQwF4fMnZ1Cd+jB+hLPlR2tdV6kXvbiyM3CqZSKbcRdpLe5yldpmpcY0TtUeepGRqVjPTR
+ 7MXvlIAbkzzDHw6rye/GXDRUMfKdcirZ8UZCAFCLJ7biOnQFurrEsfd7I4apgon+pJYmA1
+ Ms3wKs5U3gGbq/7Sh4W6EaMPo6rISxY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737710571;
+ s=susede2_ed25519; t=1737711081;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RRNEtgDHPtXgnuhsCM74cMIZDrutbIJ+WVqQXHwkEgs=;
- b=0BkHg836jTGFyy9BNL2KhE8kis7bgZ08dGJL1f5HR4YUGoHstGdQxMVAdy7u0tVXghRJEl
- 20/mEMfaGdFZYrAw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gp84dhXf;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0BkHg836
+ bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
+ b=bUgklgqarbmgnc2jBKTuutxhNuBpQ381+7xdGxDeFjjMM5NxHJAYES/CwtfaW5CrKklgqr
+ c/T2B+GvA+RuD4CQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GQwF4fMn;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bUgklgqa
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737710571; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1737711081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RRNEtgDHPtXgnuhsCM74cMIZDrutbIJ+WVqQXHwkEgs=;
- b=gp84dhXfqvxq9xzP1W+3eP0bbe61TgmbG9g+U1m1tdRzsWV4VWAT1Xwwoxv8F+t5LOFNjr
- TFuvJZ+Vgi3S8adqBEi6Zlo9OnESV6FH8VAjGuSrhW66GF+HIFdRzRrta2+g7/mITJOfxN
- OsUfVGdS6NcTb3W2vF71GBlXw2LqOJo=
+ bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
+ b=GQwF4fMnZ1Cd+jB+hLPlR2tdV6kXvbiyM3CqZSKbcRdpLe5yldpmpcY0TtUeepGRqVjPTR
+ 7MXvlIAbkzzDHw6rye/GXDRUMfKdcirZ8UZCAFCLJ7biOnQFurrEsfd7I4apgon+pJYmA1
+ Ms3wKs5U3gGbq/7Sh4W6EaMPo6rISxY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737710571;
+ s=susede2_ed25519; t=1737711081;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=RRNEtgDHPtXgnuhsCM74cMIZDrutbIJ+WVqQXHwkEgs=;
- b=0BkHg836jTGFyy9BNL2KhE8kis7bgZ08dGJL1f5HR4YUGoHstGdQxMVAdy7u0tVXghRJEl
- 20/mEMfaGdFZYrAw==
+ bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
+ b=bUgklgqarbmgnc2jBKTuutxhNuBpQ381+7xdGxDeFjjMM5NxHJAYES/CwtfaW5CrKklgqr
+ c/T2B+GvA+RuD4CQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11B9013999;
- Fri, 24 Jan 2025 09:22:51 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 643EB13999;
+ Fri, 24 Jan 2025 09:31:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id /WWAAutbk2cjWQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 24 Jan 2025 09:22:51 +0000
-Message-ID: <1230848e-d83a-49f2-9d1a-de97b5edc1a4@suse.de>
-Date: Fri, 24 Jan 2025 10:22:50 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 3mgzF+ldk2fUeAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 24 Jan 2025 09:31:21 +0000
+Message-ID: <6be4aa42-14d3-46c9-b73e-0b036651d55e@suse.de>
+Date: Fri, 24 Jan 2025 10:31:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Fix default resolution on BMC when DP is not
- connected
-To: Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20250124084546.2094575-1-jfalempe@redhat.com>
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH=5D_MAINTAINERS=3A_Remove_Noralf_Tr=C3=B8nn?=
+ =?UTF-8?Q?es_as_driver_maintainer?=
+To: noralf@tronnes.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250123-remove-myself-as-maintainer-v1-1-cc3ab7cd98ae@tronnes.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,30 +109,32 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250124084546.2094575-1-jfalempe@redhat.com>
+In-Reply-To: <20250123-remove-myself-as-maintainer-v1-1-cc3ab7cd98ae@tronnes.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4718121176
+X-Rspamd-Queue-Id: 97D9B1F38F
 X-Spam-Score: -4.51
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; RCPT_COUNT_FIVE(0.00)[6];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ MX_GOOD(-0.01)[]; TO_DN_SOME(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
+ MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_TO(0.00)[tronnes.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
@@ -152,130 +153,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn
 
 
-Am 24.01.25 um 09:45 schrieb Jocelyn Falempe:
-> The physical_status of ast_dp is not reliable, as it reports as
-> connected even when no monitor is connected.
 
-This status comes from VGACRDF, which is undocumented unfortunately. So 
-IDK the exact semantics. Do you know if the other case can also happen 
-where a connected monitor is not reported?
-
-> This makes the default
-> BMC resolution to be 640x480 for remote access.
-> So consider that if there is no edid, no monitor is connected, and
-> add the BMC 1024x768 default resolution.
-> I've debugged this regression on ast_dp, but as dp501 is similar, I
-> fixed both in this patch.
+Am 23.01.25 um 17:34 schrieb Noralf Trønnes via B4 Relay:
+> From: Noralf Trønnes <noralf@tronnes.org>
 >
-> This regression was likely introduced by commit 2281475168d2
-> ("drm/ast: astdp: Perform link training during atomic_enable")
-> But I fixed it in the BMC get_modes handling.
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> Fixes: bbad0090b9f4 ("drm/ast: astdp: Transparently handle BMC support")
-> ---
->   drivers/gpu/drm/ast/ast_dp.c    | 14 +++++++-------
->   drivers/gpu/drm/ast/ast_dp501.c | 14 +++++++-------
->   2 files changed, 14 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 0e282b7b167c..6c8ea95a2230 100644
-> --- a/drivers/gpu/drm/ast/ast_dp.c
-> +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -361,19 +361,19 @@ static const struct drm_encoder_helper_funcs ast_astdp_encoder_helper_funcs = {
->   static int ast_astdp_connector_helper_get_modes(struct drm_connector *connector)
+> Remove myself as maintainer for gud, mi0283qt, panel-mipi-dbi and repaper.
+> My fatigue illness has finally closed the door on doing development of
+> even moderate complexity so it's sad to let this go.
 
-I don't think this is the right place to fix the problem. The field 
-physical_status should always contain the correct physical status. So 
-the fix should go into ast_dp_connector_helper_detect_ctx(). There's [1] 
-something like
-
-   if (ast_dp_status_is_connected(ast))
-     status = connected
-
-and that's where it should read the EDID without updating the 
-connector's EDID property. Example code:
-
-   if (ast_dp_status_is_connected(ast)) {
-     edid = drm_edid_read_custom(/* like in get_modes */)
-     if (drm_edid_valid(edid))
-       status = connected
-     drm_edid_free(edid)
-   }
-
-The EDID test could also go into _is_connected() directly. A comment 
-about false positives from VGACRDF might make sense as well.
-
-[1] 
-https://elixir.bootlin.com/linux/v6.12.6/source/drivers/gpu/drm/ast/ast_dp.c#L397
-
->   {
->   	struct ast_connector *ast_connector = to_ast_connector(connector);
-> +	struct ast_device *ast = to_ast_device(connector->dev);
-> +	const struct drm_edid *drm_edid = NULL;
->   	int count;
->   
-> -	if (ast_connector->physical_status == connector_status_connected) {
-> -		struct ast_device *ast = to_ast_device(connector->dev);
-> -		const struct drm_edid *drm_edid;
-> -
-> +	if (ast_connector->physical_status == connector_status_connected)
->   		drm_edid = drm_edid_read_custom(connector, ast_astdp_read_edid_block, ast);
-> -		drm_edid_connector_update(connector, drm_edid);
-> +
-> +	drm_edid_connector_update(connector, drm_edid);
-> +
-> +	if (drm_edid) {
->   		count = drm_edid_connector_add_modes(connector);
->   		drm_edid_free(drm_edid);
->   	} else {
-> -		drm_edid_connector_update(connector, NULL);
-> -
->   		/*
->   		 * There's no EDID data without a connected monitor. Set BMC-
->   		 * compatible modes in this case. The XGA default resolution
-> diff --git a/drivers/gpu/drm/ast/ast_dp501.c b/drivers/gpu/drm/ast/ast_dp501.c
-> index 9e19d8c17730..c92db65e3f20 100644
-> --- a/drivers/gpu/drm/ast/ast_dp501.c
-> +++ b/drivers/gpu/drm/ast/ast_dp501.c
-
-I'd rather leave this out. The detection works differently for DP501.
+This is very sad news. All the best to you Noralf and thank you for all 
+your help.
 
 Best regards
 Thomas
 
-> @@ -504,19 +504,19 @@ static const struct drm_encoder_helper_funcs ast_dp501_encoder_helper_funcs = {
->   static int ast_dp501_connector_helper_get_modes(struct drm_connector *connector)
->   {
->   	struct ast_connector *ast_connector = to_ast_connector(connector);
-> +	struct ast_device *ast = to_ast_device(connector->dev);
-> +	const struct drm_edid *drm_edid = NULL;
->   	int count;
->   
-> -	if (ast_connector->physical_status == connector_status_connected) {
-> -		struct ast_device *ast = to_ast_device(connector->dev);
-> -		const struct drm_edid *drm_edid;
-> -
-> +	if (ast_connector->physical_status == connector_status_connected)
->   		drm_edid = drm_edid_read_custom(connector, ast_dp512_read_edid_block, ast);
-> -		drm_edid_connector_update(connector, drm_edid);
-> +
-> +	drm_edid_connector_update(connector, drm_edid);
-> +
-> +	if (drm_edid) {
->   		count = drm_edid_connector_add_modes(connector);
->   		drm_edid_free(drm_edid);
->   	} else {
-> -		drm_edid_connector_update(connector, NULL);
-> -
->   		/*
->   		 * There's no EDID data without a connected monitor. Set BMC-
->   		 * compatible modes in this case. The XGA default resolution
 >
-> base-commit: 798047e63ac970f105c49c22e6d44df901c486b2
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+
+Acked-by: Thomas Zimmremann <tzimmermann@suse.de>
+
+> ---
+>   MAINTAINERS | 12 ++++--------
+>   1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4b038382481f99e336a2de0d2249537ec6781463..ed86d884ee0dfeede2ee185f7779380d04c5080b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7173,8 +7173,7 @@ F:	Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+>   F:	drivers/gpu/drm/panel/panel-edp.c
+>   
+>   DRM DRIVER FOR GENERIC USB DISPLAY
+> -M:	Noralf Trønnes <noralf@tronnes.org>
+> -S:	Maintained
+> +S:	Orphan
+>   W:	https://github.com/notro/gud/wiki
+>   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	drivers/gpu/drm/gud/
+> @@ -7279,15 +7278,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	drivers/gpu/drm/mgag200/
+>   
+>   DRM DRIVER FOR MI0283QT
+> -M:	Noralf Trønnes <noralf@tronnes.org>
+> -S:	Maintained
+> +S:	Orphan
+>   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt
+>   F:	drivers/gpu/drm/tiny/mi0283qt.c
+>   
+>   DRM DRIVER FOR MIPI DBI compatible panels
+> -M:	Noralf Trønnes <noralf@tronnes.org>
+> -S:	Maintained
+> +S:	Orphan
+>   W:	https://github.com/notro/panel-mipi-dbi/wiki
+>   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+> @@ -7384,8 +7381,7 @@ F:	Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+>   F:	drivers/gpu/drm/bridge/parade-ps8640.c
+>   
+>   DRM DRIVER FOR PERVASIVE DISPLAYS REPAPER PANELS
+> -M:	Noralf Trønnes <noralf@tronnes.org>
+> -S:	Maintained
+> +S:	Orphan
+>   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>   F:	Documentation/devicetree/bindings/display/repaper.txt
+>   F:	drivers/gpu/drm/tiny/repaper.c
+>
+> ---
+> base-commit: a9301e5bef12f8989a02d886109f13e89e1e51b0
+> change-id: 20250122-remove-myself-as-maintainer-7540b245ab05
+>
+> Best regards,
 
 -- 
 --
