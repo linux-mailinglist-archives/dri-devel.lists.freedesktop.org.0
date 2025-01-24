@@ -2,67 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8FFA1B99A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 16:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965D9A1B9DA
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 17:02:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5A2010E9D0;
-	Fri, 24 Jan 2025 15:46:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IMRZRySe";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFD5F10E080;
+	Fri, 24 Jan 2025 16:02:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E055110E11D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 15:46:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1737733563;
- bh=cLZOIgnfgjGvNUIYx04zBqZGna/RfQWRwRglzMbRjPA=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=IMRZRySe/CPCOi90T2I+F73BaBf5gi8JCS9AU4jiUx/4oKydpEeGcGUquzkgkZ8ku
- s16m5Dy33q+SVtJtezCnGsQXyZbeouaJnwtmxrqpk+0B0v1RpQ3yw7+/4OY56EPnhU
- ZY5+jHI2jtvJRNOkyARBF62bN7SU5lO81jitCgbRyDclT7GT4Sh8K4SWDfhepSlm8Y
- K0XUUCWY9kDa3Nq2CPI04YIxYkU3TFDBpeJrgRTFmi8ApWPiWX/8bHfjlqpShdT7CC
- STyrLmfiuSs2oBCbh1sqkPf9XJBqqmR/pJYmQ7/jmGfTn1n9gvwCZdS4grHLOrvaFg
- rgDZogfAn08Uw==
-Received: from nicolas-tpx395.localdomain (unknown
- [IPv6:2606:6d00:11:e976::7a9])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: nicolas)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4998417E0E6E;
- Fri, 24 Jan 2025 16:45:59 +0100 (CET)
-Message-ID: <f1c73327073c98ade56dfeabf629e2f9cd7d1663.camel@collabora.com>
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>
-Cc: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>, Vignesh Raman	
- <vignesh.raman@collabora.com>, kernelci@lists.linux.dev,
- linuxtv-ci@linuxtv.org, 	dave.pigott@collabora.com, mripard@kernel.org,
- linux-kernel@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, 	pawiecz@collabora.com,
- tales.aparecida@gmail.com, workflows@vger.kernel.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, kernel@collabora.com, 
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org,
- daniels@collabora.com, 	shreeya.patel@collabora.com, denys.f@collabora.com,
- louis.chauvet@bootlin.com, 	hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- simona@ffwll.ch, airlied@gmail.com, 	Tim.Bird@sony.com, broonie@kernel.org,
- groeck@google.com, rdunlap@infradead.org, 	geert@linux-m68k.org,
- michel.daenzer@mailbox.org, sakari.ailus@iki.fi, 	jarkko@kernel.org
-Date: Fri, 24 Jan 2025 10:45:57 -0500
-In-Reply-To: <20250124130021.GA6853@pendragon.ideasonboard.com>
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
- <20250124135203.040d0852@foz.lan>
- <20250124130021.GA6853@pendragon.ideasonboard.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00B0310E080
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 16:01:59 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-436ce2ab251so14882855e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 08:01:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737734518; x=1738339318;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=MrwFiV3RW+qHn9CtrwJGXyZXB8oN5L4VqyOUj3FL7CI=;
+ b=aNDKNlv2zf/TVEhJcBvTRO6yaC1O4w/AG9vnZH5b45Rl0WwuAD5qyKthU2Tb5ye3aq
+ lQLVuokEYVBU0BeX+Az/slkz+u98OqbyVKIQ30R14Sza3jn7Vo+5kXoAzMaWUAC+jAtV
+ +8iwFl32lExcE5vSA+K9FIgdFSxV8z7f9Pb/SiMQYPHMvzyDkLny81V0cu4QXdh45zOD
+ 5XgpKngQVFn5yEYYesBHMpJhoZhpGhfWopp8bnfkz5XNIpMG8puv2ZsFOrWBvooDgR0r
+ EVpaL7HHTqun6obFfhrClukpuFhFia8/r8NabT5t7+7YbrA6rvXMsKjIV9YSNIRvY/yc
+ U6lQ==
+X-Gm-Message-State: AOJu0Yx7vJtAM87iFMB3JT2R044kaqovQQd8l3Rv5t97mudqmnF/mFKB
+ beh0YMARpyOf2uO0UtYzJ+P2n+x/SUCucr0IY3+pDJRNh6Xpiu6dkFCMJg==
+X-Gm-Gg: ASbGncvHqBU9L5yFW8yLVV+ZUIbOfvSyL4UQP+4YRMsUJbOyfFBXjVanL6hefkUZYBF
+ VJzU2bd8News2QQSg5UHrWUUt7M8pZCAxMD/uyLR5iCqT3kmg6MeZipdcK0xLQk4UW0mW/sB2Di
+ lQTCTJc5Qegr98WEJzdExWgxkODr/QLJv+3bmHT4TV2VZeqt0nake6KPLp0TpYZTu8ZMHsALGxh
+ LsnmmdWzShD+VCjdoqmaL7ZcNDf5RTct7DQyhcthvPp5YncPINyDc2WCQ9a9tj5BrGqNhZ9lFsy
+ wv2NBaO6VPEScrRxRAPKq9OW5A==
+X-Google-Smtp-Source: AGHT+IEm2pZ7FI9J9VwHvrbmPvAkkRUkjzhCP8jeQyh3mjoUDbAW0rU14sT9mFi5iZFbjHquLJSNWw==
+X-Received: by 2002:a05:600c:3b94:b0:434:e2ea:fc94 with SMTP id
+ 5b1f17b1804b1-438913cb620mr334333415e9.11.1737734517928; 
+ Fri, 24 Jan 2025 08:01:57 -0800 (PST)
+Received: from xavers-framework.fritz.box
+ ([2a04:7d84:aacc:28f0:9649:9df9:aa43:547a])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-438bd4d34e3sm31004365e9.39.2025.01.24.08.01.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2025 08:01:57 -0800 (PST)
+From: Xaver Hugl <xaver.hugl@kde.org>
+To: dri-devel@lists.freedesktop.org
+Cc: airlied@gmail.com,
+	simona@ffwll.ch,
+	Xaver Hugl <xaver.hugl@kde.org>
+Subject: [PATCH] drm_mode: document that pageflip events must always be sent
+Date: Fri, 24 Jan 2025 17:01:55 +0100
+Message-ID: <20250124160155.980186-1-xaver.hugl@kde.org>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,55 +71,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le vendredi 24 janvier 2025 à 15:00 +0200, Laurent Pinchart a écrit :
-> On Fri, Jan 24, 2025 at 01:52:03PM +0100, Mauro Carvalho Chehab wrote:
-> > Em Fri, 24 Jan 2025 10:12:50 +0200 Laurent Pinchart escreveu:
-> > 
-> > > > It's been a few years since I first thought on finding a good way of helping
-> > > > kernel developers testing their patches, while making use of the free runner
-> > > > minutes Gitlab offers. It can greatly simplify the testing for people who are
-> > > > new to kernel development, or students trying to understand it better.
-> > > > 
-> > > > And this patchset allows that to happen :)
-> > > > 
-> > > > Actually, I spoke to Helen last year, and to enable it to run on the free
-> > > > Gitlab-CI runners, there is a small extra patch which is needed:
-> > > > 
-> > > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/  
-> > 
-> > Sounds interesting!
-> > 
-> > > Gitlab as an open-source software project (the community edition) is one
-> > > thing, but can we please avoid advertising specific proprietary services
-> > > in the kernel documentation ?
-> > 
-> > Every time Gitlab is mentioned, the brand of the company that
-> > developed it and has been providing proprietary services is also
-> > advertised. If you're not happy with that, you should move to use
-> > a git forge developed by some open source community.
-> 
-> I'm fine mentioning the gitlab community edition, I'm not fine
-> advertising gitlab.com SaaS in the kernel source tree.
+There's no way to signal failure to userspace, so if the ioctl requesting
+the event succeeds, the kernel must *always* send the event, or userspace
+will be stuck, forever waiting for the event that never comes.
 
-I've just looked attentively, the intention is just to explain you may need to
-set gitlab variable in your project fork in order to select correctly sized
-sized runners in your own instance. Its is not strictly about commercial
-gitlab.com instance. The default only works with the original project used
-instance (which is not gitlab.com as far as I know), but the comment refer to
-companies that will choose gitlab.com internally to reduce their IT cost.
+Signed-off-by: Xaver Hugl <xaver.hugl@kde.org>
+---
+ include/uapi/drm/drm_mode.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Its quite a stretch to call this "advertisement", that makes it looks very
-dramatic. I personally believe its quite ahead of most other gitlab CI to take
-into consideration running these pipelines on foreign (to the project)
-instances.
-
-Nicolas
-
-> 
-> > The way I see, the best would be if the CI integration could work
-> > with more than one type of forge and being able to use any
-> > free Git??b-CI runners that would be available for developers to
-> > use, as this would allow testing more subsystems with CI, thus
-> > increasing code quality.
-> 
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index c082810c08a8..30611d561c5a 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -962,6 +962,12 @@ struct hdr_output_metadata {
+  * Request that the kernel sends back a vblank event (see
+  * struct drm_event_vblank) with the &DRM_EVENT_FLIP_COMPLETE type when the
+  * page-flip is done.
++ *
++ * It's the responsibility of the kernel to ensure that, if the ioctl
++ * requesting the page-flip event succeeds, the event is actually sent.
++ * Because there's no way to signal failure to userspace after the ioctl
++ * returns, this must be upheld even if the page-flip never actually
++ * happens (because of a GPU reset, hotunplug or driver bug).
+  */
+ #define DRM_MODE_PAGE_FLIP_EVENT 0x01
+ /**
+-- 
+2.48.0
 
