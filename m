@@ -2,105 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0B8A1B96A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 16:37:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8FFA1B99A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 16:46:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC3410E9CA;
-	Fri, 24 Jan 2025 15:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5A2010E9D0;
+	Fri, 24 Jan 2025 15:46:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="a7KUXlR1";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IMRZRySe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5E9210E9C3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 15:37:43 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4361b6f9faeso14939335e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:37:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1737733062; x=1738337862; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=wKs2sXsb3Fmpshbg8ct9uIZl2b+3yE6jd5oQ2qZG9sM=;
- b=a7KUXlR1aKDCgo1ChfhczXHHVfzuANNp5SAZzOYvGc7fF7srCDNGfZUdXxisYk/20K
- 71Gyjs2fWNK7wmsZRz01fgay3lMxQ5awvrDdv9j4pPB6/AFvEa+/tmNr4GmArrNuVzgv
- F9KNpNY1UXvPe7U69ISIJU0g+nT0hSAnf6vsw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737733062; x=1738337862;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wKs2sXsb3Fmpshbg8ct9uIZl2b+3yE6jd5oQ2qZG9sM=;
- b=ftMoLr0tlWWxhFP7Jwy7H/+WQp/3LzD35D3qX4wqJVl3SKVRztSTI8PfRgpeSgoQoi
- 7GHGYIgRrqgYg1ydRiEJpyPqcpaTkkoX0PUDsvWjz38oPQvunC4U+r9UgxQdmOUDtFiJ
- HxyMdPZ629+/tAdtyEKnUjApKSpY5QrLck2XNIAbVZls7uJPRX1H8R9qn4+qflxNmb5U
- xeD6popGitz5Mwj43PRQaELOH9ghwcyNgXgJ8XiJErJ40aKNJdpc49Os3D3gxhrN0Uod
- 4JstD9O7jQtr+1s1QZDobGH7Qh5Cgt8yrAikluvO0n3DzezIVfaFkB0rjk5iVQFdAU42
- SvoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWS7qnAKj+PFO3YXCdrZCi1q2U+pRaNfhShTth1cIat4ikYsKdRHcmBR06fOCkWxxNvncpHYdVsN2M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWRBRM0OykGb9zbiP+D5hSYpNm6LlPT2yF5jHcT+ivyfwks9BD
- zXfNHFjpVHNjz0MXYeM8tXGDV7ZStllPydP+x7pv2e9WRen4gCdwk1wKvEjIYfE=
-X-Gm-Gg: ASbGncsg83K1SKdb/V9fbZIZOqqtYbIEi1zo3wOgYXIyWqv4AmohyhlbhG59Y3XcDxf
- D8k0Q9wYcV7i4v+JGlz3J93/X3TdV6vw/mQOlc5ihopTBNJIElF8P/1ajVvH6+ehwUjRuwZdy7e
- 2x904R/0jvaPLwMiL+2irTzVK+okIEWWnT+W5QKgeEdI2mcjo84Dybp7EBGVw3cz7RpTIdaSH17
- R2rHTWSbV3dTl+ZdiL/ot3NPLCcSz/4sxPdtfp537TVRkPUvFGkdbzCLEDFBYG0g0TNOx/WcIxG
- 9ewtsKrzhNahfheb
-X-Google-Smtp-Source: AGHT+IEuZruYpm+m/S3swbgxLZg3ZYRSPjSYkPJ77/Sq30+2gSNYjiqyYD6oIqhqzOtVWi1flFhIZg==
-X-Received: by 2002:a05:600c:154a:b0:42c:baf1:4c7 with SMTP id
- 5b1f17b1804b1-438bd061259mr36094085e9.4.1737733062061; 
- Fri, 24 Jan 2025 07:37:42 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438bd508257sm29563785e9.23.2025.01.24.07.37.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 07:37:41 -0800 (PST)
-Date: Fri, 24 Jan 2025 16:37:39 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Kalyan Thota <quic_kalyant@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 0/6] drm: introduce atomic_needs_modeset() callbacks
-Message-ID: <Z5OzwxBUjEDr00w6@phenom.ffwll.local>
-Mail-Followup-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
- <ville.syrjala@linux.intel.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Kalyan Thota <quic_kalyant@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-References: <20250124-atomic-needs-modeset-v1-0-b0c05c9eda0f@linaro.org>
- <Z5ODTg9iTjNKggzN@intel.com> <Z5OOo9yR7PVXXIj4@phenom.ffwll.local>
- <Z5ORyQ_49ZNmAxtq@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E055110E11D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 15:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1737733563;
+ bh=cLZOIgnfgjGvNUIYx04zBqZGna/RfQWRwRglzMbRjPA=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=IMRZRySe/CPCOi90T2I+F73BaBf5gi8JCS9AU4jiUx/4oKydpEeGcGUquzkgkZ8ku
+ s16m5Dy33q+SVtJtezCnGsQXyZbeouaJnwtmxrqpk+0B0v1RpQ3yw7+/4OY56EPnhU
+ ZY5+jHI2jtvJRNOkyARBF62bN7SU5lO81jitCgbRyDclT7GT4Sh8K4SWDfhepSlm8Y
+ K0XUUCWY9kDa3Nq2CPI04YIxYkU3TFDBpeJrgRTFmi8ApWPiWX/8bHfjlqpShdT7CC
+ STyrLmfiuSs2oBCbh1sqkPf9XJBqqmR/pJYmQ7/jmGfTn1n9gvwCZdS4grHLOrvaFg
+ rgDZogfAn08Uw==
+Received: from nicolas-tpx395.localdomain (unknown
+ [IPv6:2606:6d00:11:e976::7a9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nicolas)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4998417E0E6E;
+ Fri, 24 Jan 2025 16:45:59 +0100 (CET)
+Message-ID: <f1c73327073c98ade56dfeabf629e2f9cd7d1663.camel@collabora.com>
+Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab+huawei@kernel.org>
+Cc: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>, Vignesh Raman	
+ <vignesh.raman@collabora.com>, kernelci@lists.linux.dev,
+ linuxtv-ci@linuxtv.org, 	dave.pigott@collabora.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, 	pawiecz@collabora.com,
+ tales.aparecida@gmail.com, workflows@vger.kernel.org, 
+ kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
+ cocci@inria.fr, Julia.Lawall@inria.fr, kernel@collabora.com, 
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org,
+ daniels@collabora.com, 	shreeya.patel@collabora.com, denys.f@collabora.com,
+ louis.chauvet@bootlin.com, 	hamohammed.sa@gmail.com, melissa.srw@gmail.com,
+ simona@ffwll.ch, airlied@gmail.com, 	Tim.Bird@sony.com, broonie@kernel.org,
+ groeck@google.com, rdunlap@infradead.org, 	geert@linux-m68k.org,
+ michel.daenzer@mailbox.org, sakari.ailus@iki.fi, 	jarkko@kernel.org
+Date: Fri, 24 Jan 2025 10:45:57 -0500
+In-Reply-To: <20250124130021.GA6853@pendragon.ideasonboard.com>
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+ <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+ <20250124081250.GA24731@pendragon.ideasonboard.com>
+ <20250124135203.040d0852@foz.lan>
+ <20250124130021.GA6853@pendragon.ideasonboard.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z5ORyQ_49ZNmAxtq@intel.com>
-X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,131 +80,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 24, 2025 at 03:12:41PM +0200, Ville Syrjälä wrote:
-> On Fri, Jan 24, 2025 at 01:59:15PM +0100, Simona Vetter wrote:
-> > On Fri, Jan 24, 2025 at 02:10:54PM +0200, Ville Syrjälä wrote:
-> > > On Fri, Jan 24, 2025 at 01:14:18PM +0200, Dmitry Baryshkov wrote:
-> > > > There are several drivers which attempt to upgrading the commit to the
-> > > > full mode set from their per-object atomic_check() callbacks without
-> > > > calling the drm_atomic_helper_check_modeset() or
-> > > > drm_atomic_helper_check() again (as requested by those functions).
-> > > 
-> > > I don't really understand why any of that is supposedly necessary.
-> > > drm_atomic_helper_check_modeset() is really all about the
-> > > connector routing stuff, so if none of that is changing then there
-> > > is no point in calling it again. Eg. in i915 we call it just at
-> > > the start, and later on we flag internal modesets all over the
-> > > place, but none of those need drm_atomic_helper_check_modeset()
-> > > because nothing routing related will have changed.
+Le vendredi 24 janvier 2025 Ã  15:00 +0200, Laurent Pinchart a Ã©critÂ :
+> On Fri, Jan 24, 2025 at 01:52:03PM +0100, Mauro Carvalho Chehab wrote:
+> > Em Fri, 24 Jan 2025 10:12:50 +0200 Laurent Pinchart escreveu:
 > > 
-> > i915 doesn't need this because as you say, it doesn't rely on the atomic
-> > helper modeset tracking much at all, but it's all internal. This is for
-> > drivers which rely more or less entirely on
-> > drm_atomic_crtc_needs_modeset().
+> > > > It's been a few years since I first thought on finding a good way of helping
+> > > > kernel developers testing their patches, while making use of the free runner
+> > > > minutes Gitlab offers. It can greatly simplify the testing for people who are
+> > > > new to kernel development, or students trying to understand it better.
+> > > > 
+> > > > And this patchset allows that to happen :)
+> > > > 
+> > > > Actually, I spoke to Helen last year, and to enable it to run on the free
+> > > > Gitlab-CI runners, there is a small extra patch which is needed:
+> > > > 
+> > > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/  
 > > 
-> > Also note that it's not just about connector routing, but about adding all
-> > the necessary additional states with
-> > drm_atomic_add_affected_connectors/planes and re-running all the various
-> > state computation hooks for those. Again i915 hand-rolls that all.
+> > Sounds interesting!
+> > 
+> > > Gitlab as an open-source software project (the community edition) is one
+> > > thing, but can we please avoid advertising specific proprietary services
+> > > in the kernel documentation ?
+> > 
+> > Every time Gitlab is mentioned, the brand of the company that
+> > developed it and has been providing proprietary services is also
+> > advertised. If you're not happy with that, you should move to use
+> > a git forge developed by some open source community.
 > 
-> IIRC it only runs the connectors' atomic_check(),
-> nothing else really. But maybe that's changed since I last
-> looked at it.
+> I'm fine mentioning the gitlab community edition, I'm not fine
+> advertising gitlab.com SaaS in the kernel source tree.
 
-It calls into connector/bridge/crtc callbacks related to modesets and mode
-validation.
+I've just looked attentively, the intention is just to explain you may need to
+set gitlab variable in your project fork in order to select correctly sized
+sized runners in your own instance. Its is not strictly about commercial
+gitlab.com instance. The default only works with the original project used
+instance (which is not gitlab.com as far as I know), but the comment refer to
+companies that will choose gitlab.com internally to reduce their IT cost.
 
-The thing is a few hundred lines in total if you include all the split out
-subfunctions. Like the kerneldoc pretty clearly spells out that it does a
-lot more than what you've listed here. Just i915 doesn't used most of
-that.
+Its quite a stretch to call this "advertisement", that makes it looks very
+dramatic. I personally believe its quite ahead of most other gitlab CI to take
+into consideration running these pipelines on foreign (to the project)
+instances.
 
-> Anyways it feels like we're throwing everything and the
-> kitchen sink into a single function here. Maybe it should be
-> split into two or more functions with clear responsibilities?
-
-I'm not sure you can split it up much, because modesetting is complicated.
-Like even if you'd want to split out just the routing update logic that's
-a pretty big mess with a bunch of callbacks so that we can pick the right
-encoders to add the right bridges. And then have a 2nd function that does
-the actual state computation/validation.
-
-Not sure that's worth it, since only benefit would be for drivers like
-i915 that almost entirely hand-roll their own atomic check flow and really
-only need the connector routing bits. I guess if you're bored you could
-give it a stab.
--Sima
+Nicolas
 
 > 
-> > 
-> > So yeah i915 doesn't need this.
-> > -Sima
-> > 
-> > > 
-> > > > 
-> > > > As discussed on IRC, add separate atomic_needs_modeset() callbacks,
-> > > > whose only purpose is to allow the plane, connector, encoder or CRTC to
-> > > > specify that for whatever reasons corresponding CRTC should undergo a
-> > > > full modeset. The helpers will call these callbacks in a proper place,
-> > > > adding affected objects and calling required functions as required.
-> > > > 
-> > > > The MSM patches depend on the msm-next tree and the series at [1]. The
-> > > > plan is to land core changes through drm-misc, then merge drm-misc-next
-> > > > into msm-next and merge remaining msm-specific patches through the
-> > > > msm-next tree.
-> > > > 
-> > > > [1] https://lore.kernel.org/dri-devel/20250123-drm-dirty-modeset-v2-0-bbfd3a6cd1a4@linaro.org/
-> > > > 
-> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > > ---
-> > > > Dmitry Baryshkov (6):
-> > > >       drm/atomic-helper: add atomic_needs_modeset callbacks
-> > > >       drm/mgag200: move format check to drm_plane_helper.atomic_needs_modeset
-> > > >       drm/msm/dpu: stop upgrading commits by enabling allow_modeset
-> > > >       drm/msm/dpu: move CTM check to drm_crtc_helper.atomic_needs_modeset
-> > > >       drm/msm/dpu: use atomic_needs_modeset for CDM check
-> > > >       drm/msm: drop msm_atomic_check wrapper
-> > > > 
-> > > >  drivers/gpu/drm/drm_atomic_helper.c         | 59 ++++++++++++++++++
-> > > >  drivers/gpu/drm/mgag200/mgag200_drv.h       |  2 +
-> > > >  drivers/gpu/drm/mgag200/mgag200_mode.c      | 27 ++++++---
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 15 +++++
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 44 +++++++++-----
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 --
-> > > >  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 --------
-> > > >  drivers/gpu/drm/msm/msm_atomic.c            | 29 ---------
-> > > >  drivers/gpu/drm/msm/msm_drv.h               |  1 -
-> > > >  drivers/gpu/drm/msm/msm_kms.c               |  2 +-
-> > > >  drivers/gpu/drm/msm/msm_kms.h               |  7 ---
-> > > >  include/drm/drm_modeset_helper_vtables.h    | 92 +++++++++++++++++++++++++++++
-> > > >  12 files changed, 219 insertions(+), 89 deletions(-)
-> > > > ---
-> > > > base-commit: 0936f0e54426177b0f0263ddf806ed5e13487db6
-> > > > change-id: 20250123-atomic-needs-modeset-8f6a8243a3f7
-> > > > prerequisite-change-id: 20241222-drm-dirty-modeset-88079bd27ae6:v2
-> > > > prerequisite-patch-id: 0c61aabfcd13651203f476985380cbf4d3c299e6
-> > > > prerequisite-patch-id: c6026f08011c288fd301676e9fa6f46d0cc1dab7
-> > > > prerequisite-patch-id: b0cb06d5c88791d6e4755d879ced0d5050aa3cbf
-> > > > prerequisite-patch-id: fd72ddde9dba0df053113bc505c213961a9760da
-> > > > 
-> > > > Best regards,
-> > > > -- 
-> > > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > > 
-> > > -- 
-> > > Ville Syrjälä
-> > > Intel
-> > 
-> > -- 
-> > Simona Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > The way I see, the best would be if the CI integration could work
+> > with more than one type of forge and being able to use any
+> > free Git??b-CI runners that would be available for developers to
+> > use, as this would allow testing more subsystems with CI, thus
+> > increasing code quality.
 > 
-> -- 
-> Ville Syrjälä
-> Intel
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
