@@ -2,110 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38517A1B683
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 14:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58484A1B6A8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 14:12:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9974310E975;
-	Fri, 24 Jan 2025 13:01:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE50A10E97F;
+	Fri, 24 Jan 2025 13:12:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Kb28bA1Q";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YJrAWBtu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9283710E975
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 13:00:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737723657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Vo3fTWya9tHycVPx5tFin/qFgljd4EcPY6jTqMY9tdU=;
- b=Kb28bA1QHMrxWBuiHNiQuOhx2YsUYIn/FiJguQIEc6RRzFzL2pz27ppRBnY6PKEVdOwcIX
- vIsHFDDaON+PQBY5K9KUPDODrinF331C/idy7rzLWdyaQwXL4Ddwv3p1EqMtCQBO08/6J+
- 9xYoi7U+1w5kQM4jRsiC9bgQOTfMgRI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-5x2naxpAMJiObtbpbFxH7g-1; Fri, 24 Jan 2025 08:00:56 -0500
-X-MC-Unique: 5x2naxpAMJiObtbpbFxH7g-1
-X-Mimecast-MFC-AGG-ID: 5x2naxpAMJiObtbpbFxH7g
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-38bee9ae3b7so1343539f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 05:00:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737723655; x=1738328455;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Vo3fTWya9tHycVPx5tFin/qFgljd4EcPY6jTqMY9tdU=;
- b=np+/S8SrEUT86Sj1E6vjd8NmM+HakF78P9PdGnQTCMoCgZ+jnoAgktmiCOcHLdi41D
- B7QrByL0NWm86BtBiR1dxRUccpxXQmoZzGHd98pDvqFT3XMU9N9JNp1GpTwP5TYTqa73
- G47fHk9qapQ2KGI/Z602SUZgoukBL7i7EOJDoL5kHgvPYIb50rGyqP4zLcyIPJYS0x/U
- K7w5i2uj517G1diDfgfzDzYrWKHAT2RxA7c6yYQ5WrbMeUVngTMRXlB6vWGGkfljn4bW
- +DkPNBJjY+xlrqrBNJBgjcf7fyG48EczALLSdRMEn8BFrGbrPUZBNFTlkyAsdvqKrhXN
- BkJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWqwKO8tVYcEZJHmbe5rsGDkVZeKTN2YPd6bwaO0msUqfSsTskj60fxZ8VYMvg+72i8pW9u+ACRfGE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxIyGuD0V8DDPQn1/ti6hN+VHF5E+BJvlvlWNGDGKcS8pIc4gb8
- GI3K3WncUrlCwVL38PltvvK5OsjD6Rq2yGGFdkv5huMqm1/cE6PvUDRYkJe1IS3h7X5bDySWmTI
- eQu25Kb7tRw0VaIsvOkDCnTh1pfQVt53Cbk6z8DfC9aejkVvjSAef7amZ9Dn76JBPZQ==
-X-Gm-Gg: ASbGncu4XxEySl9M8BNEOXG9/cvUMwotK3ehXMn8/E3INrzYZzunCHU6KccvN8/XQvS
- Y09aDpt99Cd/KvPJLgsk21vz81vw8CkgK7UT+dbmPRfGlalLPdU9TaQVcgGJvtFPkIy5kXE++ZN
- W7i+pL3CfmDF4hZqi/wOpJkEm9uy54ND33J4wQfFxfG25PgUK0CkxIOJgc5LrS9TvCV4WpnMc5E
- RrGNUFqvk4H3E3YD8QwRrCHlhuljvRnIRSMVAPdGqp63P7aTPC8Y71nzeHVslEUBo6ogClJsfwD
- vCsgYycMt+WQWZiuKs7Li4CfKENrMTbHwFq52M6/ng4DcQ==
-X-Received: by 2002:a5d:5f54:0:b0:385:fa33:29ed with SMTP id
- ffacd0b85a97d-38bf57d2cc4mr26674311f8f.47.1737723655053; 
- Fri, 24 Jan 2025 05:00:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE7O6kDxKgj8QXof6pkh0HnABdfU01AfCfVNwm0lMd0ZfNC4JqKT86eG7V6rVx2a63lUIXoHw==
-X-Received: by 2002:a5d:5f54:0:b0:385:fa33:29ed with SMTP id
- ffacd0b85a97d-38bf57d2cc4mr26674235f8f.47.1737723654623; 
- Fri, 24 Jan 2025 05:00:54 -0800 (PST)
-Received: from [192.168.0.167] (h-185-57-5-149.na.cust.bahnhof.fi.
- [185.57.5.149]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438bd4857cesm25657015e9.13.2025.01.24.05.00.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2025 05:00:54 -0800 (PST)
-Message-ID: <298675d0-ba19-4c87-b00d-57a5e31b05b6@redhat.com>
-Date: Fri, 24 Jan 2025 15:00:51 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 225A210E97D;
+ Fri, 24 Jan 2025 13:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737724369; x=1769260369;
+ h=date:from:to:subject:message-id:references:mime-version:
+ content-transfer-encoding:in-reply-to;
+ bh=Wr9I0i5nOiy2aG8eH0MHivhx2YZGnyzu6urHdpQ7cHk=;
+ b=YJrAWBtu+4iJL1At33+g1Dqcy3G/qFeN/31sQx3eUA5CFAj9kSG8uKsX
+ HW86E2rK5+/tVMHKTmqsI3xxqvak/z0NU830H+yar5FHZQc2fpuo5OeiS
+ PHTstTeNqg6z18f4KKC3fO7q8IqvnhRw9dcngICWGyDuYGfmFUSu02mH8
+ +/th8u6sQdiJG4an7dB+2oBHdSmEivtNn2GttpyWYnSiPulgd5leWYNgR
+ aQYlrhkCPx0KCewRGbJNzkWRncKBcZWEbmU8q5hf8iQZd3IKxyXcrL1E6
+ LJ68eQE0PaQ02RwZkXng5ojhtYFpBteDfQg7d6OuqMkzF0H8gIlzcD8jn g==;
+X-CSE-ConnectionGUID: YGO+MKW2Ts2h9AtraZTWGA==
+X-CSE-MsgGUID: onjqM5uNSA6/gYKHZNeLGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38357013"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="38357013"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2025 05:12:48 -0800
+X-CSE-ConnectionGUID: +A9XOJj1SnKlu9ICXei7Pw==
+X-CSE-MsgGUID: Dvx9bxfxSnWJXA1LpMEv/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; d="scan'208";a="107890402"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+ by fmviesa008.fm.intel.com with SMTP; 24 Jan 2025 05:12:42 -0800
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 24 Jan 2025 15:12:41 +0200
+Date: Fri, 24 Jan 2025 15:12:41 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Kalyan Thota <quic_kalyant@quicinc.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 0/6] drm: introduce atomic_needs_modeset() callbacks
+Message-ID: <Z5ORyQ_49ZNmAxtq@intel.com>
+References: <20250124-atomic-needs-modeset-v1-0-b0c05c9eda0f@linaro.org>
+ <Z5ODTg9iTjNKggzN@intel.com> <Z5OOo9yR7PVXXIj4@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-To: Jarkko Sakkinen <jarkko@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- =?UTF-8?Q?Leonardo_Br=C3=A1s?= <leobras.c@gmail.com>
-Cc: Vignesh Raman <vignesh.raman@collabora.com>, kernelci@lists.linux.dev,
- linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com,
- pawiecz@collabora.com, spbnick@gmail.com, tales.aparecida@gmail.com,
- workflows@vger.kernel.org, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com,
- kernel@collabora.com, torvalds@linuxfoundation.org,
- gregkh@linuxfoundation.org, daniels@collabora.com,
- helen.koike@collabora.com, shreeya.patel@collabora.com,
- denys.f@collabora.com, nicolas.dufresne@collabora.com,
- louis.chauvet@bootlin.com, hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- simona@ffwll.ch, airlied@gmail.com, Tim.Bird@sony.com, broonie@kernel.org,
- groeck@google.com, rdunlap@infradead.org, geert@linux-m68k.org,
- michel.daenzer@mailbox.org, sakari.ailus@iki.fi
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
- <D7AAOSNDJV11.AXVF80Z934BK@kernel.org>
-From: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>
-In-Reply-To: <D7AAOSNDJV11.AXVF80Z934BK@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RBpVjZdbXQxPmZp8TlKt2AHWyz348McQnM4JknkerlQ_1737723655
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z5OOo9yR7PVXXIj4@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,23 +81,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/24/25 2:16 PM, Jarkko Sakkinen wrote:
-> On Fri Jan 24, 2025 at 10:12 AM EET, Laurent Pinchart wrote:
->> Gitlab as an open-source software project (the community edition) is one
->> thing, but can we please avoid advertising specific proprietary services
->> in the kernel documentation ?
+On Fri, Jan 24, 2025 at 01:59:15PM +0100, Simona Vetter wrote:
+> On Fri, Jan 24, 2025 at 02:10:54PM +0200, Ville Syrjälä wrote:
+> > On Fri, Jan 24, 2025 at 01:14:18PM +0200, Dmitry Baryshkov wrote:
+> > > There are several drivers which attempt to upgrading the commit to the
+> > > full mode set from their per-object atomic_check() callbacks without
+> > > calling the drm_atomic_helper_check_modeset() or
+> > > drm_atomic_helper_check() again (as requested by those functions).
+> > 
+> > I don't really understand why any of that is supposedly necessary.
+> > drm_atomic_helper_check_modeset() is really all about the
+> > connector routing stuff, so if none of that is changing then there
+> > is no point in calling it again. Eg. in i915 we call it just at
+> > the start, and later on we flag internal modesets all over the
+> > place, but none of those need drm_atomic_helper_check_modeset()
+> > because nothing routing related will have changed.
 > 
-> I don't think we should have any of this in the mainline kernel.
+> i915 doesn't need this because as you say, it doesn't rely on the atomic
+> helper modeset tracking much at all, but it's all internal. This is for
+> drivers which rely more or less entirely on
+> drm_atomic_crtc_needs_modeset().
 > 
-> One angle is that "no regressions rule" applies also to the shenanigans.
+> Also note that it's not just about connector routing, but about adding all
+> the necessary additional states with
+> drm_atomic_add_affected_connectors/planes and re-running all the various
+> state computation hooks for those. Again i915 hand-rolls that all.
+
+IIRC it only runs the connectors' atomic_check(),
+nothing else really. But maybe that's changed since I last
+looked at it.
+
+Anyways it feels like we're throwing everything and the
+kitchen sink into a single function here. Maybe it should be
+split into two or more functions with clear responsibilities?
+
 > 
-> Do we really spend energy on this proprietary crap to the eternity?
+> So yeah i915 doesn't need this.
+> -Sima
+> 
+> > 
+> > > 
+> > > As discussed on IRC, add separate atomic_needs_modeset() callbacks,
+> > > whose only purpose is to allow the plane, connector, encoder or CRTC to
+> > > specify that for whatever reasons corresponding CRTC should undergo a
+> > > full modeset. The helpers will call these callbacks in a proper place,
+> > > adding affected objects and calling required functions as required.
+> > > 
+> > > The MSM patches depend on the msm-next tree and the series at [1]. The
+> > > plan is to land core changes through drm-misc, then merge drm-misc-next
+> > > into msm-next and merge remaining msm-specific patches through the
+> > > msm-next tree.
+> > > 
+> > > [1] https://lore.kernel.org/dri-devel/20250123-drm-dirty-modeset-v2-0-bbfd3a6cd1a4@linaro.org/
+> > > 
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > > Dmitry Baryshkov (6):
+> > >       drm/atomic-helper: add atomic_needs_modeset callbacks
+> > >       drm/mgag200: move format check to drm_plane_helper.atomic_needs_modeset
+> > >       drm/msm/dpu: stop upgrading commits by enabling allow_modeset
+> > >       drm/msm/dpu: move CTM check to drm_crtc_helper.atomic_needs_modeset
+> > >       drm/msm/dpu: use atomic_needs_modeset for CDM check
+> > >       drm/msm: drop msm_atomic_check wrapper
+> > > 
+> > >  drivers/gpu/drm/drm_atomic_helper.c         | 59 ++++++++++++++++++
+> > >  drivers/gpu/drm/mgag200/mgag200_drv.h       |  2 +
+> > >  drivers/gpu/drm/mgag200/mgag200_mode.c      | 27 ++++++---
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 15 +++++
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 44 +++++++++-----
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 --
+> > >  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 --------
+> > >  drivers/gpu/drm/msm/msm_atomic.c            | 29 ---------
+> > >  drivers/gpu/drm/msm/msm_drv.h               |  1 -
+> > >  drivers/gpu/drm/msm/msm_kms.c               |  2 +-
+> > >  drivers/gpu/drm/msm/msm_kms.h               |  7 ---
+> > >  include/drm/drm_modeset_helper_vtables.h    | 92 +++++++++++++++++++++++++++++
+> > >  12 files changed, 219 insertions(+), 89 deletions(-)
+> > > ---
+> > > base-commit: 0936f0e54426177b0f0263ddf806ed5e13487db6
+> > > change-id: 20250123-atomic-needs-modeset-8f6a8243a3f7
+> > > prerequisite-change-id: 20241222-drm-dirty-modeset-88079bd27ae6:v2
+> > > prerequisite-patch-id: 0c61aabfcd13651203f476985380cbf4d3c299e6
+> > > prerequisite-patch-id: c6026f08011c288fd301676e9fa6f46d0cc1dab7
+> > > prerequisite-patch-id: b0cb06d5c88791d6e4755d879ced0d5050aa3cbf
+> > > prerequisite-patch-id: fd72ddde9dba0df053113bc505c213961a9760da
+> > > 
+> > > Best regards,
+> > > -- 
+> > > Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > 
+> > -- 
+> > Ville Syrjälä
+> > Intel
+> 
+> -- 
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-This is not getting included into the kernel itself, the contributed code is,
-of course, open-source. And yes it would execute just fine on the fully
-open-source community-edition GitLab. I don't think "no regressions rule"
-should apply here. This is for developers only, and is a template for making
-your own pipeline mostly, with pieces which can be reused.
-
-Nick
-
+-- 
+Ville Syrjälä
+Intel
