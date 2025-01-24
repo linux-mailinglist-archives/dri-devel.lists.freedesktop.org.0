@@ -2,56 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65F9A1B013
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 06:47:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B559A1B017
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 06:52:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E01410E8EC;
-	Fri, 24 Jan 2025 05:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A8BE10E297;
+	Fri, 24 Jan 2025 05:52:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="juqpjnpV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="THC8E3V4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE02B10E8EA;
- Fri, 24 Jan 2025 05:47:34 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15DCF10E297;
+ Fri, 24 Jan 2025 05:52:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737697654; x=1769233654;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=aeTJte9d5rBAF5kBNAaKkZqaL8OjtD1ssK7dTFGW0vA=;
- b=juqpjnpVllDc5cviwRFm0D1dH61iwHDPfUOO1dmWEuRndXtB+RPTYQmS
- vkrQ3fHcq1B+T1/2xSSMdF9lefdIKWOhZmxqBSYEYN3SdHg3IJSSMZEtk
- sFPzgBXJKAcbeDN9cDFLr6jMCbwCWdIwTg6ytMn7tZdajacFV3NsoYt4W
- 8eUD7FSP+LipcgsupFhM1uB9tsPctl+7d9fktvA4O6zzD1hVJKh1P/N8i
- /ac6KfwJf4esQems72scownH0i0UFVU/Kx+ZomICk0V0qOJvsQg+hLsnL
- ejJKPj+IBHVP9EcmZBzXiHLtn9rpMPEpKEGG8mpbx4qGF6ajnz0kv/MAV Q==;
-X-CSE-ConnectionGUID: u1+PbddPTF6kCM7brpHEVQ==
-X-CSE-MsgGUID: wTHrbzLFSq+9QDGmAehicA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="37429324"
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; d="scan'208";a="37429324"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2025 21:47:34 -0800
-X-CSE-ConnectionGUID: YKuzhmyfSC6UbktMDN9A8Q==
-X-CSE-MsgGUID: ferOjyfbQPiLPQGptbXYGg==
+ t=1737697976; x=1769233976;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=1aAhLPBxVqQUfqvDc33T4FDKF2jbZ43wVpm4/0R/Aq4=;
+ b=THC8E3V44W9Kt/icmxD9iU2Ct8CjGEm77CX8JbsHZRSWTz58+KYFqvV4
+ O9KyMTBXf+BW6JYWQn/3JSZf8OOEQd7D9k8V0qA8cygHBTDfx3D41k0ml
+ z2UoCsIgSIPgXQ69ZMjyJC7FQTkPNoWeiEYei58knH6gvSatt5mW+aAdi
+ BsJPnLC/tCglZuo/1bULbcTTcsGWUcHZ6PgAhAsO/I5/ZQjOY1xORkmBZ
+ PGoOwBtKn/itZxCxyomscr2jSJZuyGUwRmpgVVAr9e4nRBux79Qmks5Fk
+ nBx+5uITicw/u9j5UhiTGr+lozaBW5gESYPF35I/gLZ94jOjq6owULE/J g==;
+X-CSE-ConnectionGUID: k37zekdfQwenzcNfUR/FqA==
+X-CSE-MsgGUID: jwG/CA+jSpGSbXNmNmaz3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="60689136"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; d="scan'208";a="60689136"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 21:52:56 -0800
+X-CSE-ConnectionGUID: 1GFe2SzGTMWyJLoNggfQaA==
+X-CSE-MsgGUID: 2nUXefpORP6plQIDxN+u0A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="107526059"
-Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa010.jf.intel.com with ESMTP; 23 Jan 2025 21:47:32 -0800
-From: Suraj Kandpal <suraj.kandpal@intel.com>
-To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: uma.shankar@intel.com, arun.r.murthy@intel.com, ben.kao@intel.com,
- Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 7/7] drm/i915/backlight: Enable Nits based brightness
-Date: Fri, 24 Jan 2025 11:16:31 +0530
-Message-Id: <20250124054631.1796456-8-suraj.kandpal@intel.com>
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; d="scan'208";a="108218631"
+Received: from jraag-z790m-itx-wifi.iind.intel.com ([10.190.239.23])
+ by fmviesa010.fm.intel.com with ESMTP; 23 Jan 2025 21:52:49 -0800
+From: Raag Jadav <raag.jadav@intel.com>
+To: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ andriy.shevchenko@linux.intel.com, michal.wajdeczko@intel.com,
+ christian.koenig@amd.com, xaver.hugl@kde.org
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ lina@asahilina.net, alexander.deucher@amd.com, andrealmeid@igalia.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+ Raag Jadav <raag.jadav@intel.com>
+Subject: [PATCH v11 0/5] Introduce DRM device wedged event
+Date: Fri, 24 Jan 2025 11:22:55 +0530
+Message-Id: <20250124055300.1111274-1-raag.jadav@intel.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250124054631.1796456-1-suraj.kandpal@intel.com>
-References: <20250124054631.1796456-1-suraj.kandpal@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,47 +73,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable Nits based brightness by writing the PANEL_LUMINANCE_CONTROL
-bit and set the correct register to change brightness.
+This series introduces device wedged event in DRM subsystem and uses it
+in xe, i915 and amdgpu drivers. Detailed description in commit message.
 
-Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
----
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+This was earlier attempted as xe specific uevent in v1 and v2 on [1].
+Similar work by André Almeida on [2].
+Wedged event support for amdgpu by André Almeida on [3].
+Consumer implementation by Xaver Hugl on [4].
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index d42f9a78a32b..d63aa1402a25 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -526,6 +526,18 @@ intel_dp_aux_vesa_enable_backlight(const struct intel_crtc_state *crtc_state,
- 	struct intel_connector *connector = to_intel_connector(conn_state->connector);
- 	struct intel_panel *panel = &connector->panel;
- 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
-+	int ret;
-+
-+	if (panel->backlight.edp.vesa.nits_support) {
-+		ret = drm_dp_dpcd_writeb(&intel_dp->aux, DP_EDP_BACKLIGHT_MODE_SET_REGISTER,
-+					 DP_EDP_PANEL_LUMINANCE_CONTROL_ENABLE);
-+
-+		if (ret == 1)
-+			return;
-+
-+		if (!intel_dp_aux_vesa_set_nits_brightness(connector, level))
-+			return;
-+	}
- 
- 	if (!panel->backlight.edp.vesa.info.aux_enable) {
- 		u32 pwm_level;
-@@ -549,6 +561,9 @@ static void intel_dp_aux_vesa_disable_backlight(const struct drm_connector_state
- 	struct intel_panel *panel = &connector->panel;
- 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
- 
-+	if (panel->backlight.edp.vesa.nits_support)
-+		return;
-+
- 	drm_edp_backlight_disable(&intel_dp->aux, &panel->backlight.edp.vesa.info);
- 
- 	if (!panel->backlight.edp.vesa.info.aux_enable)
+ [1] https://patchwork.freedesktop.org/series/136909/
+ [2] https://lore.kernel.org/dri-devel/20221125175203.52481-1-andrealmeid@igalia.com/
+ [3] https://lore.kernel.org/dri-devel/20241216162104.58241-1-andrealmeid@igalia.com/
+ [4] https://invent.kde.org/plasma/kwin/-/merge_requests/7027
+
+ v2: Change authorship to Himal (Aravind)
+     Add uevent for all device wedged cases (Aravind)
+
+ v3: Generic implementation in DRM subsystem (Lucas)
+
+ v4: s/drm_dev_wedged/drm_dev_wedged_event
+     Use drm_info() (Jani)
+     Kernel doc adjustment (Aravind)
+     Change authorship to Raag (Aravind)
+
+ v5: Send recovery method with uevent (Lina)
+     Expose supported recovery methods via sysfs (Lucas)
+
+ v6: Access wedge_recovery_opts[] using helper function (Jani)
+     Use snprintf() (Jani)
+
+ v7: Convert recovery helpers into regular functions (Andy, Jani)
+     Aesthetic adjustments (Andy)
+     Handle invalid method cases
+     Add documentation to drm-uapi.rst (Sima)
+
+ v8: Drop sysfs and allow sending multiple methods with uevent (Lucas, Michal)
+     Improve documentation (Christian, Rodrigo)
+     static_assert() globally (Andy)
+
+ v9: Document prerequisites section (Christian)
+     Provide 'none' method for device reset (Christian)
+     Provide recovery opts using switch cases
+
+v10: Clarify mmap cleanup and consumer prerequisites (Christian, Aravind)
+
+v11: Log device reset (André)
+     Reference wedged event in device reset section (André)
+     Wedged event support for amdgpu (André)
+
+André Almeida (1):
+  drm/amdgpu: Use device wedged event
+
+Raag Jadav (4):
+  drm: Introduce device wedged event
+  drm/doc: Document device wedged event
+  drm/xe: Use device wedged event
+  drm/i915: Use device wedged event
+
+ Documentation/gpu/drm-uapi.rst             | 112 ++++++++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   4 +
+ drivers/gpu/drm/drm_drv.c                  |  68 +++++++++++++
+ drivers/gpu/drm/i915/gt/intel_reset.c      |   3 +
+ drivers/gpu/drm/xe/xe_device.c             |   7 +-
+ include/drm/drm_device.h                   |   8 ++
+ include/drm/drm_drv.h                      |   1 +
+ 7 files changed, 199 insertions(+), 4 deletions(-)
+
 -- 
 2.34.1
 
