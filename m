@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C9BA1B00C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 06:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F46A1B00E
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 06:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1B1910E8DF;
-	Fri, 24 Jan 2025 05:47:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7BE710E8E3;
+	Fri, 24 Jan 2025 05:47:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aYh9DOSj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XhzXqfg4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6E310E8DF;
- Fri, 24 Jan 2025 05:47:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E667010E8E3;
+ Fri, 24 Jan 2025 05:47:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737697646; x=1769233646;
+ t=1737697649; x=1769233649;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=e/GL3gNQ6mhwbDuPhCaZDKd2U72rY6LFXI8UWX2ag14=;
- b=aYh9DOSjo8Zje8r7MDnpYGax+/VggIcMMMe9gbaRG1aPo2WIH46f642E
- Nzdq62w0DX8z0bYXV2MCLnidD4x/T46qNlaQAH5zSE3d8P1aXUSiNAZmD
- PFRkNo0em2GsH3/tmxNlxEDuLB+m1L/HZZ/aRkLrfi3vtL+HOTvOWhbvx
- x5kAWTo2GXKEw9jHMFvdpwT89kxEGiAFmTz/9asJSdo4R8wkiLM7sAoQp
- v/POKqmHkipa3Fh2QKBDHms6x1qMhjOZfeqSGai/ycSy45io+J0BOUck6
- P9U/ic79Mbe3AIQOJg/ox8oeof+7YBVKTmMKa0UI+LkvBLqOAKPT75ysU A==;
-X-CSE-ConnectionGUID: GWmRrsC0TiuVpcImQJApeg==
-X-CSE-MsgGUID: qWdKDvtJR2iDrLvMorLdug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="37429313"
-X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; d="scan'208";a="37429313"
+ bh=qDYrijMRRE/Xm05zRniif+ZejKurPl/TSxPDrgYng54=;
+ b=XhzXqfg4qQOQL6wuXy3aS5I5KZtvrds7JkpA1gGCDqidp0layTe1XKeD
+ ocG+8JcytcIbuwGONQEx4VlxOxu2/B4+RhmwBzJGT4VefJWsFisi+EIUe
+ OlFBLgDTJAhzRYGPsZk5eikeumUravFDMEiJcO74BDSy2vA4lk15nwEEs
+ RwbDDBRpO50HbILdkSIuxfwSRfegWxocLRR9nVCLnKSy3+V7lFKe5vjZt
+ MJjQrr+KQhhYxw6RbuLjMDEvGXKpEcPHxgc7+a/+sp/JDwlksZqKPx+Wi
+ m3cCP0Rh80kOdR2ndn9NXoRiZcyGqiYrANIokqJ4t+Aqny7+YT9BaOQi1 g==;
+X-CSE-ConnectionGUID: SYtiv+v0ThSmdExpC5E8Pw==
+X-CSE-MsgGUID: dKkaPyGyQieS4S/PZqdDSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="37429319"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; d="scan'208";a="37429319"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2025 21:47:26 -0800
-X-CSE-ConnectionGUID: f//7FZZBRD6OEPpXB1XmEA==
-X-CSE-MsgGUID: heX1vmvxQYOJNlwSaWUsRw==
+ 23 Jan 2025 21:47:28 -0800
+X-CSE-ConnectionGUID: km2xsemER0iVWk4XAj4Bvw==
+X-CSE-MsgGUID: ekq2UjHYTvOhZO/dMq3jOg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="107526015"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="107526032"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa010.jf.intel.com with ESMTP; 23 Jan 2025 21:47:24 -0800
+ by orviesa010.jf.intel.com with ESMTP; 23 Jan 2025 21:47:27 -0800
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: uma.shankar@intel.com, arun.r.murthy@intel.com, ben.kao@intel.com,
  Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 4/7] drm/i915/backlight: Modify function to get VESA
- brightness in NITS
-Date: Fri, 24 Jan 2025 11:16:28 +0530
-Message-Id: <20250124054631.1796456-5-suraj.kandpal@intel.com>
+Subject: [PATCH 5/7] drm/i915/backlight: Add function to change brightness in
+ NITS for VESA
+Date: Fri, 24 Jan 2025 11:16:29 +0530
+Message-Id: <20250124054631.1796456-6-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250124054631.1796456-1-suraj.kandpal@intel.com>
 References: <20250124054631.1796456-1-suraj.kandpal@intel.com>
@@ -69,44 +69,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Modify vesa_get_brightness function to take into account nits_support
-and based on that read the appropriate register and return the value.
+Create a function that fills in the value for
+PANEL_TARGET_LUMINANCE_VALUE which helps in changing the brightness in
+NITS using VESA interface.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- .../drm/i915/display/intel_dp_aux_backlight.c | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../drm/i915/display/intel_dp_aux_backlight.c | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index c5ff6e044866..ac9a69fe3f10 100644
+index ac9a69fe3f10..d794397656dd 100644
 --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
 +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -451,6 +451,26 @@ intel_dp_aux_hdr_setup_backlight(struct intel_connector *connector, enum pipe pi
- /* VESA backlight callbacks */
- static u32 intel_dp_aux_vesa_get_backlight(struct intel_connector *connector, enum pipe unused)
- {
-+	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
-+	struct intel_panel *panel = &connector->panel;
-+	u8 buf[3];
-+	u32 val = 0;
-+	int ret;
-+
-+	if (panel->backlight.edp.vesa.nits_support) {
-+		ret = drm_dp_dpcd_read(&intel_dp->aux, DP_EDP_PANEL_TARGET_LUMINANCE_VALUE, buf,
-+				     sizeof(buf));
-+		if (ret < 0) {
-+			drm_err(intel_dp->aux.drm_dev,
-+				"[CONNECTOR:%d:%s] Failed to read brightness from DPCD\n",
-+				connector->base.base.id, connector->base.name);
-+			return 0;
-+		}
-+
-+		val |= buf[0] | buf[1] << 8 | buf[2] << 16;
-+		return val / 1000;
-+	}
-+
+@@ -474,6 +474,30 @@ static u32 intel_dp_aux_vesa_get_backlight(struct intel_connector *connector, en
  	return connector->panel.backlight.level;
  }
+ 
++static int
++intel_dp_aux_vesa_set_nits_brightness(struct intel_connector *connector, u32 level)
++{
++	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
++	u8 buf[3];
++	int ret;
++
++	level = level * 1000;
++	level &= 0xffffff;
++	buf[0] = (level & 0x0000ff);
++	buf[1] = (level & 0x00ff00) >> 8;
++	buf[2] = (level & 0xff0000) >> 16;
++
++	ret = drm_dp_dpcd_write(&intel_dp->aux, DP_EDP_PANEL_TARGET_LUMINANCE_VALUE, buf, sizeof(buf));
++	if (ret != sizeof(buf)) {
++		drm_err(intel_dp->aux.drm_dev,
++			"%s: Failed to VESA AUX Nits backlight level: %d\n",
++			intel_dp->aux.name, ret);
++		return -EINVAL;
++	} else {
++		return 0;
++	}
++}
++
+ static void
+ intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state, u32 level)
+ {
+@@ -481,6 +505,11 @@ intel_dp_aux_vesa_set_backlight(const struct drm_connector_state *conn_state, u3
+ 	struct intel_panel *panel = &connector->panel;
+ 	struct intel_dp *intel_dp = enc_to_intel_dp(connector->encoder);
+ 
++	if (panel->backlight.edp.vesa.nits_support) {
++		if (!intel_dp_aux_vesa_set_nits_brightness(connector, level))
++			return;
++	}
++
+ 	if (!panel->backlight.edp.vesa.info.aux_set) {
+ 		const u32 pwm_level = intel_backlight_level_to_pwm(connector, level);
  
 -- 
 2.34.1
