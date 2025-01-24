@@ -2,98 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F03A1C8AD
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125C1A1C8A8
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:52:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B719910E377;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F49910E374;
 	Sun, 26 Jan 2025 14:52:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dn+YJje1";
-	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B418210E00F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 20:50:40 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-219f8263ae0so48224535ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 12:50:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737751840; x=1738356640; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=pdzsCT8xL6jHZ+tnR3Hwgg863MADe4016kWtdjp4rcw=;
- b=dn+YJje1RUd8xZ616s01j3bxl42lnDW/tTWjIQ8SdhEiIF7dbbdqGlFS9Qvq3popGs
- 7nK9G9T2e9UTen4k5fGipPsKgmmjqzpAPmTr6qEiefQ0h5OyurtE1jnnCziECJroyz9Y
- hAIwOC5NMTZPWV61JyUCXaTkFiZ1LbtgrdgeyftB+E/m1uqR/nhJ4eSV9m0xsBz2xJMD
- 787eQ3Eq1ajEqArOQzWXdHFJeSJRIm9fpTdQgZyTznD1mv5/dEZtgKA6Yp32xVl7ZHXK
- IdQx9EAKynFS4e4bYmWh/dOVPxbiUrrjQk3P2tH9/ZthFXNKLd7KZybZ9loi6e5qTtor
- KWdA==
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8994910E00F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 20:54:33 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-71e1d7130a5so1260858a34.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 12:54:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737751840; x=1738356640;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=pdzsCT8xL6jHZ+tnR3Hwgg863MADe4016kWtdjp4rcw=;
- b=mwIqpKHVTOApNojc8HMWrTz+dxZqnLN5urVdyildtsYdUjyeiZpHtUczH4IE1SY/1f
- 1VM1K4fiin9jOXGbVKWD0M+RS1eL4s9nEzzb78gPQu4okoD2SFU9bYzGk1pSLuBeBhVB
- Y3M7lNW+lKsRZ0ppA9g67kR9aaebTLCCMhGwni8w31m0iYc4qF6M9NTI8VvW1BvD5cfX
- NsKjQ7C6FQfu7KHn/Tr8pedq7ARG4jYPs7Yl5YlWllZEXxhZGXLyOtcAtArO27zOWBMS
- 0+6ccnzngalA3qX7D5BkzUf7ATklcKUNcTzulcrc97lpFg3zCFrQWt8G3Lxycq+ZBpuX
- ikzw==
+ d=1e100.net; s=20230601; t=1737752073; x=1738356873;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JnOGBClk7osJ0B6upaFsfK1KgRp3GiXOZGZi8eI3q40=;
+ b=tCWvlur6c7orm7c6kk8RX2Giz0Owup8neZqR/sv1GVs5zhpOcD+Weaiye2m/Lliwad
+ MrzBGE6/9i5F7Knb4Tj+pfu9mkYIEaR/Eq/c8XfiRp9rGu2Knzd5pMDLhxQ8UsPHCRK9
+ cWOaZC14uFvb0eATW8faQJN4G7ygVkviGTYVqXzSK0GraSZe7TnVSiqy8PHD5WRdOkG7
+ dhvibjC/7fSdLNzVuQ8UCX2CVbIRVZhzRLdKmXvPsFNDHuUvCc9RovmXTLgYR+JlZzWJ
+ FEmpCXzAeqbkFq8FdO1xXeSb4oMXixqps6rumk/XeOzp1YaC6lag+O3mD6hud32b/4Ry
+ C0Iw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVlEX2vqfoeBPB3rNITnRpZDIHWrdRpfgKKE2J/JvEqdZN/zhf0BDbFwOvBek3jbRFRIJJTUMKHBQg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnVsbkuEu20TNjcucT0RDAlzO188rKlqjYTaqH3w20BtePtL+Y
- WsqnviIFhykTtw8+ME+DjUPQs/Q5h+Oj2ZDUWt0/wQQUm/jH6kXH
-X-Gm-Gg: ASbGnctVpZWfzTNVQIiVBJXM/qKP9vlLB1xomX0KkqX0o62ML/C09gF53tJI4hENLt4
- TtIPLKGJfnKh99S4Agc0XQeTpuaVmid4eb+G1yKwGrQb8KWMt2DVyuj2MKLxOswO2xJoJxn6Lyp
- zTR6VqxN9VZ+sO9fKQGknIqQgPRKXWKXhrDy5+o8kkCR3bYjS1l6J7mNWYpDvIu25nEaVT42Zkg
- ST7Lz2+MVduzuUGmwFiJmACxRyYH9dQqa6ocavAT91wH0s1ERNB1TsfxY7Fm/X3FPQtXJNVtwbW
- 01wXrFPGsGntGmSmeodHf3h6SO9VWgVVeLS+W1fDZSginoP+rV8=
-X-Google-Smtp-Source: AGHT+IGwvSer+unLlVc6WTlhBYxGObsMsLAI7zUMsLtcBkSVhBWiPYvxWe7dxKBqk+OHgzBCgn4BNg==
-X-Received: by 2002:a17:903:2449:b0:211:7156:4283 with SMTP id
- d9443c01a7336-21c355fcb7emr524423085ad.43.1737751840090; 
- Fri, 24 Jan 2025 12:50:40 -0800 (PST)
-Received: from ?IPv6:2804:1b3:a801:16c4:2e00:3d86:8f34:c7fb?
- ([2804:1b3:a801:16c4:2e00:3d86:8f34:c7fb])
+ AJvYcCVsJUdZ1CFQ5EmLSxYeE+cglfIrjKrtVJC3pxUeCq+wvdjyvJxUkSc7NKtYrcad1PDtxWdkesRgz2o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDGhn9jbMs5TyvQ6kfXbGRng3dHfj5la55tcuTBCkETcX7SO6/
+ B2G+b4G+9vrw3TAIphcG54rYHml4+LtA+Zh5dbSvHE6jCqsuoIEM
+X-Gm-Gg: ASbGnctdgrSkXg21gV6QvNs8NOq/RGpAf15uMvDArSEnxqr2Gkn20YWDz3K07JiX6kK
+ nNQj/EWgxuOEfjVe3FHhoVfIANqiG79FKYvrOrgFGnhVpl5BTz7wOkafwwNc2gMwzdQQe35I2mf
+ SXtmQxRsa7YXca0ZOJsEpGNpDmP7ewfZ1qUExZjuqxt+aWHe/PoLD69hUJfK2XzV2JyjgQajsBo
+ idGdxH/5n0vZjf/3SxKredA4xEyZUyEfnDahzPM32zdO4jDrcMfFr4vBL42pvT/brxguEaw2IWQ
+ FXMGlw==
+X-Google-Smtp-Source: AGHT+IEBJwsGWY0m4HRWqPxTKo9Z+JkgxvCDzRFG8SK7wGfzwjM0LCJjki2X4FEaPu19+tNx1Jzofg==
+X-Received: by 2002:a05:6830:641a:b0:71d:eee3:fd26 with SMTP id
+ 46e09a7af769-7249da56939mr19282278a34.4.1737752072731; 
+ Fri, 24 Jan 2025 12:54:32 -0800 (PST)
+Received: from muster.uejji.net ([47.188.205.107])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-21da555a428sm18349685ad.84.2025.01.24.12.50.31
+ 006d021491bc7-5fa8b9b8fd3sm553703eaf.40.2025.01.24.12.54.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 12:50:39 -0800 (PST)
-Message-ID: <5acfbe92315d93aceb467fec1d239d6a7a7ba499.camel@gmail.com>
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Cc: Vignesh Raman <vignesh.raman@collabora.com>, kernelci@lists.linux.dev, 
- linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, 
- pawiecz@collabora.com, spbnick@gmail.com, tales.aparecida@gmail.com, 
- workflows@vger.kernel.org, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, 	nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, 	Julia.Lawall@inria.fr, laura.nao@collabora.com,
- kernel@collabora.com, 	torvalds@linuxfoundation.org,
- gregkh@linuxfoundation.org, daniels@collabora.com, 
- helen.koike@collabora.com, shreeya.patel@collabora.com,
- denys.f@collabora.com, 	nicolas.dufresne@collabora.com,
- louis.chauvet@bootlin.com, 	hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- simona@ffwll.ch, airlied@gmail.com, 	Tim.Bird@sony.com, broonie@kernel.org,
- groeck@google.com, rdunlap@infradead.org, 	geert@linux-m68k.org,
- michel.daenzer@mailbox.org, sakari.ailus@iki.fi, 	jarkko@kernel.org
-Date: Fri, 24 Jan 2025 17:50:29 -0300
-In-Reply-To: <20250124135203.040d0852@foz.lan>
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
- <20250124135203.040d0852@foz.lan>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+ Fri, 24 Jan 2025 12:54:31 -0800 (PST)
+From: John Edwards <uejji@uejji.net>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>
+Cc: John Edwards <uejji@uejji.net>, Andrew Wyatt <fewtarius@steamfork.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Jo=C3=A3o=20Pedro=20Kurtz?= <joexkurtz@gmail.com>
+Subject: [PATCH v2 5/5] drm: panel-orientation-quirks: Add quirk for
+ OneXPlayer Mini (Intel)
+Date: Fri, 24 Jan 2025 20:52:51 +0000
+Message-ID: <20250124205301.57041-3-uejji@uejji.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250124204648.56989-2-uejji@uejji.net>
+References: <20250124204648.56989-2-uejji@uejji.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 26 Jan 2025 14:52:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -110,61 +79,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-01-24 at 13:52 +0100, Mauro Carvalho Chehab wrote:
-> Em Fri, 24 Jan 2025 10:12:50 +0200
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
->=20
-> > > It's been a few years since I first thought on finding a good way of =
-helping
-> > > kernel developers testing their patches, while making use of the free=
- runner
-> > > minutes Gitlab offers. It can greatly simplify the testing for people=
- who are
-> > > new to kernel development, or students trying to understand it better=
-.
-> > >=20
-> > > And this patchset allows that to happen :)
-> > >=20
-> > > Actually, I spoke to Helen last year, and to enable it to run on the =
-free
-> > > Gitlab-CI runners, there is a small extra patch which is needed:
-> > >=20
-> > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.co=
-m/ =20
->=20
-> Sounds interesting!
+From: Andrew Wyatt <fewtarius@steamfork.org>
 
-Thanks! :)
+The Intel model of the OneXPlayer Mini uses a 1200x1920 portrait LCD panel.
+The DMI strings are the same as the OneXPlayer, which already has a DMI
+quirk, but the panel is different.
 
->=20
-> > Gitlab as an open-source software project (the community edition) is on=
-e
-> > thing, but can we please avoid advertising specific proprietary service=
-s
-> > in the kernel documentation ?
->=20
-> Every time Gitlab is mentioned, the brand of the company that
-> developed it and has been providing proprietary services is also
-> advertised. If you're not happy with that, you should move to use
-> a git forge developed by some open source community.
->=20
-> The way I see, the best would be if the CI integration could work
-> with more than one type of forge and being able to use any
-> free Git??b-CI runners that would be available for developers to
-> use, as this would allow testing more subsystems with CI, thus
-> increasing code quality.
+Add a DMI match to correctly rotate this panel.
 
-Completely agree!
-I think that this Gitlab contribution will set a base for implementing othe=
-r
-forges / CI systems as well, and allow us to make use of those resources fo=
-r
-better kernel testing.=20
+Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
+Co-developed-by: John Edwards <uejji@uejji.net>
+Signed-off-by: John Edwards <uejji@uejji.net>
+Tested-by: João Pedro Kurtz <joexkurtz@gmail.com>
+---
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Thanks!
-Leo
-
->=20
-> Thanks,
-> Mauro
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index e6148cc31..88aa57c15 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -129,6 +129,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+ };
+ 
++static const struct drm_dmi_panel_orientation_data lcd1200x1920_leftside_up = {
++	.width = 1200,
++	.height = 1920,
++	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
++};
++
+ static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
+ 	.width = 1200,
+ 	.height = 1920,
+@@ -473,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
+ 		},
+ 		.driver_data = (void *)&lcd1600x2560_leftside_up,
++	}, {	/* OneXPlayer Mini (Intel) */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
++		},
++		.driver_data = (void *)&lcd1200x1920_leftside_up,
+ 	}, {	/* OrangePi Neo */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
+-- 
+2.43.0
 
