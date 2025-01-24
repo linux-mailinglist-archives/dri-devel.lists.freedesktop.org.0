@@ -2,142 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C5EA1B2A6
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305F9A1B2CD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:40:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E3EE10E92D;
-	Fri, 24 Jan 2025 09:31:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 360CB10E937;
+	Fri, 24 Jan 2025 09:40:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GQwF4fMn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUgklgqa";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GQwF4fMn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bUgklgqa";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZAzlpI2h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 501EE10E92B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 09:31:23 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 97D9B1F38F;
- Fri, 24 Jan 2025 09:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737711081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
- b=GQwF4fMnZ1Cd+jB+hLPlR2tdV6kXvbiyM3CqZSKbcRdpLe5yldpmpcY0TtUeepGRqVjPTR
- 7MXvlIAbkzzDHw6rye/GXDRUMfKdcirZ8UZCAFCLJ7biOnQFurrEsfd7I4apgon+pJYmA1
- Ms3wKs5U3gGbq/7Sh4W6EaMPo6rISxY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737711081;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
- b=bUgklgqarbmgnc2jBKTuutxhNuBpQ381+7xdGxDeFjjMM5NxHJAYES/CwtfaW5CrKklgqr
- c/T2B+GvA+RuD4CQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GQwF4fMn;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bUgklgqa
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737711081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
- b=GQwF4fMnZ1Cd+jB+hLPlR2tdV6kXvbiyM3CqZSKbcRdpLe5yldpmpcY0TtUeepGRqVjPTR
- 7MXvlIAbkzzDHw6rye/GXDRUMfKdcirZ8UZCAFCLJ7biOnQFurrEsfd7I4apgon+pJYmA1
- Ms3wKs5U3gGbq/7Sh4W6EaMPo6rISxY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737711081;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OQt9GZ9JRFDfccX58xwKCQNMhgU9jud9AZE4uE+ABfg=;
- b=bUgklgqarbmgnc2jBKTuutxhNuBpQ381+7xdGxDeFjjMM5NxHJAYES/CwtfaW5CrKklgqr
- c/T2B+GvA+RuD4CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 643EB13999;
- Fri, 24 Jan 2025 09:31:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 3mgzF+ldk2fUeAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 24 Jan 2025 09:31:21 +0000
-Message-ID: <6be4aa42-14d3-46c9-b73e-0b036651d55e@suse.de>
-Date: Fri, 24 Jan 2025 10:31:21 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?Q?Re=3A_=5BPATCH=5D_MAINTAINERS=3A_Remove_Noralf_Tr=C3=B8nn?=
- =?UTF-8?Q?es_as_driver_maintainer?=
-To: noralf@tronnes.org, David Airlie <airlied@gmail.com>,
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFB4E10E944
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 09:40:32 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-385e3621518so954204f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 01:40:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1737711631; x=1738316431; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=IkdPPp/+MED8ATVhe3nI0w778RyEvrM4KyJhH0kDjG8=;
+ b=ZAzlpI2hqcs+hpodfs0GXqDQS3p5qDmBB9XcXve0Vq4XNer5xwIeuytR6ocZu4Jncp
+ xLEfW4XwHV5fplKp/aa319wRCkBInQX2oQ97m4OuoBpk9c4lI/ClgLVJfctqK2YShDw3
+ 45Qxy9bYVS1RRI0LcHN5nO1bd0JPp9MKND4JM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737711631; x=1738316431;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=IkdPPp/+MED8ATVhe3nI0w778RyEvrM4KyJhH0kDjG8=;
+ b=v8C2MvVgtZl4TpK7sFcvkcTwz/s6sbi9l1NTGy9mfbBd8hDC7WU5kgjKI0JHwYG5hj
+ PngDzjsFF/j0S0oxT1mU10VuJAmfJE1I5mXhW7GqHsx6shgznUiCFMTVGCtUZQi+6Me4
+ xnd+ifzUcLWoBiUbixhpHXBH6sNKb+25ZbfK0M5M2o9yLDozFziZ3j+qdj2Y0wGb8Ovp
+ dxuKncWOk/pKuus7q0Mbk9ue7pzMr09Ry0+s6drQWJ9Wg/9Hh/eb8N2Mbx2o45d+oxdW
+ kcxhfXDNOSxSXn4QdtEny7mHLH2teZBh8v78GQECak42SwJsCLsIW+1oVnfYuX3BVlTz
+ EQ+w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVpytyNkKyn77JvliTmMXympUVxw7klGAO7iTowXr582JD6Rv+SLa3Vqsvy3Ftf2A2F+7VcCdgzG7g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzl9+Qp0nCi6qUkANagquslHC2+iqeY4IELDqZ/GfBFSTUPMb/i
+ HBlmf8zs3L1A5Rvykl95GCksxaJcQ6ZrsSmVboh9+DIbd70FdH84RTTiMqbWCyc=
+X-Gm-Gg: ASbGncvfMnQsP1eNFXUCrTZ3aa2NnLUJb+4O28ZprEz5S+dC2oUahlpA5GAjZZgy+Wf
+ nC6jz7DeXus6v8t+Fhmjg5uj8h2CxrlEQzJC5TXjmTxIKvACcSiSJUOyGxFv7hmTyDRoqRncLIY
+ ReUaJoxdkH/T5bqYQui6tP8W0qem074y81nzhYSw5ennUCfAEzfKOMH7Y3IEuLxUDZnajxXk5G5
+ APh5tC6istMSQU3lvznUqzbF6At5FJl4SQ8j8RuGpNjXO3HrwzlRk/mcKPSqUcGId43F16HZ5Nw
+ o1WPibza4v0eTobI
+X-Google-Smtp-Source: AGHT+IFqTg+1FdOn8Hjo2TJQYIa43o1u+Diw99BiRdztYrMGteooQY3WzGMlmxn52PDTLPNzGmL3Ng==
+X-Received: by 2002:a5d:64ee:0:b0:385:f1f2:13ee with SMTP id
+ ffacd0b85a97d-38bf57b9426mr28026393f8f.46.1737711631085; 
+ Fri, 24 Jan 2025 01:40:31 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c2a1bb02dsm2147352f8f.70.2025.01.24.01.40.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2025 01:40:30 -0800 (PST)
+Date: Fri, 24 Jan 2025 10:40:28 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: noralf@tronnes.org
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: =?iso-8859-1?Q?Re?=
+ =?iso-8859-1?Q?move_Noralf_Tr=F8nnes?= as driver maintainer
+Message-ID: <Z5NgDExm2ONu5Su1@phenom.ffwll.local>
+Mail-Followup-To: noralf@tronnes.org, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250123-remove-myself-as-maintainer-v1-1-cc3ab7cd98ae@tronnes.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250123-remove-myself-as-maintainer-v1-1-cc3ab7cd98ae@tronnes.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 97D9B1F38F
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_DN_SOME(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FREEMAIL_TO(0.00)[tronnes.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.de:email,
- imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <20250123-remove-myself-as-maintainer-v1-1-cc3ab7cd98ae@tronnes.org>
+X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,86 +92,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Dear Noralf
 
-
-
-Am 23.01.25 um 17:34 schrieb Noralf TrÃ¸nnes via B4 Relay:
-> From: Noralf TrÃ¸nnes <noralf@tronnes.org>
->
+On Thu, Jan 23, 2025 at 05:34:25PM +0100, Noralf Trønnes via B4 Relay wrote:
+> From: Noralf Trønnes <noralf@tronnes.org>
+> 
 > Remove myself as maintainer for gud, mi0283qt, panel-mipi-dbi and repaper.
 > My fatigue illness has finally closed the door on doing development of
 > even moderate complexity so it's sad to let this go.
+> 
+> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
 
-This is very sad news. All the best to you Noralf and thank you for all 
-your help.
+As much as it pains me:
 
-Best regards
-Thomas
+Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
 
->
-> Signed-off-by: Noralf TrÃ¸nnes <noralf@tronnes.org>
+Was great to have you around while it was possible, I'll miss you. And
+will you push this last one yourself?
 
-Acked-by: Thomas Zimmremann <tzimmermann@suse.de>
+Cheers, Sima
 
 > ---
->   MAINTAINERS | 12 ++++--------
->   1 file changed, 4 insertions(+), 8 deletions(-)
->
+>  MAINTAINERS | 12 ++++--------
+>  1 file changed, 4 insertions(+), 8 deletions(-)
+> 
 > diff --git a/MAINTAINERS b/MAINTAINERS
 > index 4b038382481f99e336a2de0d2249537ec6781463..ed86d884ee0dfeede2ee185f7779380d04c5080b 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
 > @@ -7173,8 +7173,7 @@ F:	Documentation/devicetree/bindings/display/panel/panel-edp.yaml
->   F:	drivers/gpu/drm/panel/panel-edp.c
->   
->   DRM DRIVER FOR GENERIC USB DISPLAY
-> -M:	Noralf TrÃ¸nnes <noralf@tronnes.org>
+>  F:	drivers/gpu/drm/panel/panel-edp.c
+>  
+>  DRM DRIVER FOR GENERIC USB DISPLAY
+> -M:	Noralf Trønnes <noralf@tronnes.org>
 > -S:	Maintained
 > +S:	Orphan
->   W:	https://github.com/notro/gud/wiki
->   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->   F:	drivers/gpu/drm/gud/
+>  W:	https://github.com/notro/gud/wiki
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	drivers/gpu/drm/gud/
 > @@ -7279,15 +7278,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->   F:	drivers/gpu/drm/mgag200/
->   
->   DRM DRIVER FOR MI0283QT
-> -M:	Noralf TrÃ¸nnes <noralf@tronnes.org>
+>  F:	drivers/gpu/drm/mgag200/
+>  
+>  DRM DRIVER FOR MI0283QT
+> -M:	Noralf Trønnes <noralf@tronnes.org>
 > -S:	Maintained
 > +S:	Orphan
->   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->   F:	Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt
->   F:	drivers/gpu/drm/tiny/mi0283qt.c
->   
->   DRM DRIVER FOR MIPI DBI compatible panels
-> -M:	Noralf TrÃ¸nnes <noralf@tronnes.org>
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	Documentation/devicetree/bindings/display/multi-inno,mi0283qt.txt
+>  F:	drivers/gpu/drm/tiny/mi0283qt.c
+>  
+>  DRM DRIVER FOR MIPI DBI compatible panels
+> -M:	Noralf Trønnes <noralf@tronnes.org>
 > -S:	Maintained
 > +S:	Orphan
->   W:	https://github.com/notro/panel-mipi-dbi/wiki
->   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->   F:	Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
+>  W:	https://github.com/notro/panel-mipi-dbi/wiki
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	Documentation/devicetree/bindings/display/panel/panel-mipi-dbi-spi.yaml
 > @@ -7384,8 +7381,7 @@ F:	Documentation/devicetree/bindings/display/bridge/ps8640.yaml
->   F:	drivers/gpu/drm/bridge/parade-ps8640.c
->   
->   DRM DRIVER FOR PERVASIVE DISPLAYS REPAPER PANELS
-> -M:	Noralf TrÃ¸nnes <noralf@tronnes.org>
+>  F:	drivers/gpu/drm/bridge/parade-ps8640.c
+>  
+>  DRM DRIVER FOR PERVASIVE DISPLAYS REPAPER PANELS
+> -M:	Noralf Trønnes <noralf@tronnes.org>
 > -S:	Maintained
 > +S:	Orphan
->   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->   F:	Documentation/devicetree/bindings/display/repaper.txt
->   F:	drivers/gpu/drm/tiny/repaper.c
->
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>  F:	Documentation/devicetree/bindings/display/repaper.txt
+>  F:	drivers/gpu/drm/tiny/repaper.c
+> 
 > ---
 > base-commit: a9301e5bef12f8989a02d886109f13e89e1e51b0
 > change-id: 20250122-remove-myself-as-maintainer-7540b245ab05
->
+> 
 > Best regards,
+> -- 
+> Noralf Trønnes <noralf@tronnes.org>
+> 
+> 
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
