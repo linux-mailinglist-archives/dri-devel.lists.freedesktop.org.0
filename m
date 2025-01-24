@@ -2,59 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780BBA1B7A2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 15:11:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2DFA1B7DD
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 15:26:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF82810E982;
-	Fri, 24 Jan 2025 14:11:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5723010E0F4;
+	Fri, 24 Jan 2025 14:26:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GAltIYKe";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BAL1UqWp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEB9210E982
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 14:11:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737727913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=zb3gGiD6zuZPuIs92MRj+WLBlMtNhGlUskbMa7ld43k=;
- b=GAltIYKeSJCb/a2QGseMsBtThKV92CWMffANEjbph9lVEdpAeS9VfWfBH1I2Ae3NsXXd1X
- VKMBu9SAlN6TXnXlYjlU74QPNWrvFKeicSjhKzIB1ADfGzZeVz/oX4XhrjA+fwHbaUqZ/L
- M2o4ZdHerHkFi91mK9oBy5p6cNLc5gc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-644-4uq-4AjrP3GZAATjc0K1bQ-1; Fri,
- 24 Jan 2025 09:11:50 -0500
-X-MC-Unique: 4uq-4AjrP3GZAATjc0K1bQ-1
-X-Mimecast-MFC-AGG-ID: 4uq-4AjrP3GZAATjc0K1bQ
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A764C10E0F4
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 14:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1737728799;
+ bh=Fn7sVn0NbYZhm7JxknrOZwVFg9G9cMFFUTYJo64GgPo=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=BAL1UqWppcSgPAdfimcgwSZtp5TQAmeChpEwqE7virszEImjVf3+eaAJHb82q4aZu
+ xPnOgU/Kc2jz/4PAHJk1xW00xAHe6N03twa6YyvqYa4ssu2h0c37PzgmrIPLQ6n4hG
+ AGSLRa8uBFWxMJ4D5SK8CdMz9K2fv6P1mvYUn0pfh8w0OJ1lgJq7RmVDqB9b0ZUVWG
+ SI2yQGg529UMho2hsuhi0bTYUOp6UE7Bkkn/QpIV82QtpFdO5sJiteVAwgQedKR05s
+ EbGGNnbOh/ttIf20CXV4BVoWHooMZw9NAsEGYzt1tOPz3BuETjqI4cFM3jTIYoqltG
+ wXfVJT9gi+khQ==
+Received: from nicolas-tpx395.localdomain (unknown
+ [IPv6:2606:6d00:11:e976::7a9])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id DA5AB1801F1A; Fri, 24 Jan 2025 14:11:48 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.39.193.77])
- by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 3BF561800348; Fri, 24 Jan 2025 14:11:46 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org
-Subject: [PATCH v2] drm/ast: Fix ast_dp connection status
-Date: Fri, 24 Jan 2025 15:11:31 +0100
-Message-ID: <20250124141142.2434138-1-jfalempe@redhat.com>
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: nicolas)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A97DB17E0E57;
+ Fri, 24 Jan 2025 15:26:34 +0100 (CET)
+Message-ID: <b3af62d3565d2d60218520d2ebace6f1a0368c17.camel@collabora.com>
+Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Nikolai Kondrashov <Nikolai.Kondrashov@redhat.com>, Jarkko Sakkinen	
+ <jarkko@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Leonardo =?ISO-8859-1?Q?Br=E1s?=	 <leobras.c@gmail.com>
+Cc: Vignesh Raman <vignesh.raman@collabora.com>, kernelci@lists.linux.dev, 
+ linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, 
+ pawiecz@collabora.com, spbnick@gmail.com, tales.aparecida@gmail.com, 
+ workflows@vger.kernel.org, skhan@linuxfoundation.org,
+ kunit-dev@googlegroups.com, 	nfraprado@collabora.com, davidgow@google.com,
+ cocci@inria.fr, 	Julia.Lawall@inria.fr, laura.nao@collabora.com,
+ kernel@collabora.com, 	torvalds@linuxfoundation.org,
+ gregkh@linuxfoundation.org, daniels@collabora.com, 
+ helen.koike@collabora.com, shreeya.patel@collabora.com,
+ denys.f@collabora.com, 	louis.chauvet@bootlin.com, hamohammed.sa@gmail.com,
+ melissa.srw@gmail.com, 	simona@ffwll.ch, airlied@gmail.com,
+ Tim.Bird@sony.com, broonie@kernel.org, 	groeck@google.com,
+ rdunlap@infradead.org, geert@linux-m68k.org, 	michel.daenzer@mailbox.org,
+ sakari.ailus@iki.fi
+Date: Fri, 24 Jan 2025 09:26:33 -0500
+In-Reply-To: <298675d0-ba19-4c87-b00d-57a5e31b05b6@redhat.com>
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+ <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+ <20250124081250.GA24731@pendragon.ideasonboard.com>
+ <D7AAOSNDJV11.AXVF80Z934BK@kernel.org>
+ <298675d0-ba19-4c87-b00d-57a5e31b05b6@redhat.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,41 +83,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ast_dp_is_connected() used to also check for link training success
-to report the DP connector as connected. Without this check, the
-physical_status is always connected. So if no monitor is present, it
-will fail to read the EDID and set the default resolution to 640x480
-instead of 1024x768.
+Hi,
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during atomic_enable")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.12+
----
- drivers/gpu/drm/ast/ast_dp.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Le vendredi 24 janvier 2025 à 15:00 +0200, Nikolai Kondrashov a écrit :
+> On 1/24/25 2:16 PM, Jarkko Sakkinen wrote:
+> > On Fri Jan 24, 2025 at 10:12 AM EET, Laurent Pinchart wrote:
+> > > Gitlab as an open-source software project (the community edition) is one
+> > > thing, but can we please avoid advertising specific proprietary services
+> > > in the kernel documentation ?
+> > 
+> > I don't think we should have any of this in the mainline kernel.
+> > 
+> > One angle is that "no regressions rule" applies also to the shenanigans.
+> > 
+> > Do we really spend energy on this proprietary crap to the eternity?
+> 
+> This is not getting included into the kernel itself, the contributed code is,
+> of course, open-source. And yes it would execute just fine on the fully
+> open-source community-edition GitLab. I don't think "no regressions rule"
+> should apply here. This is for developers only, and is a template for making
+> your own pipeline mostly, with pieces which can be reused.
 
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 0e282b7b167c..30aad5c0112a 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -17,6 +17,12 @@ static bool ast_astdp_is_connected(struct ast_device *ast)
- {
- 	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, AST_IO_VGACRDF_HPD))
- 		return false;
-+	/*
-+	 * HPD might be set even if no monitor is connected, so also check that
-+	 * the link training was successful.
-+	 */
-+	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, AST_IO_VGACRDC_LINK_SUCCESS))
-+		return false;
- 	return true;
- }
- 
+Perhpas worth clarifying that Media and DRM subsystem have opted for the
+Freedesktop instance. This instance is running the Open Source version of
+Gitlab, with hundreds of CI runners contributed and shared among many projects
+(which includes Mesa, GStreamer, Wayland, Pipewire, libcamera, just to name
+few).
 
-base-commit: 798047e63ac970f105c49c22e6d44df901c486b2
--- 
-2.47.1
-
+Nicolas
