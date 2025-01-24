@@ -2,44 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70060A1B0C7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 08:22:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3484A1B0EB
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 08:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB2A510E8F2;
-	Fri, 24 Jan 2025 07:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5DC210E8F8;
+	Fri, 24 Jan 2025 07:28:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EzhSkP8/";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ox+5y6WG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8E8A10E8F2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:22:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E92310E2B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:28:39 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D91EE465;
- Fri, 24 Jan 2025 08:21:43 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F137465;
+ Fri, 24 Jan 2025 08:27:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1737703304;
- bh=gHdw4MUp+LcohWO3tYdy940G4hDC/T80VfxLfjbSqQY=;
- h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
- b=EzhSkP8/Lmk641EILcvIlcEC5mpePsMbm65+ZHW8lGgAxMLPtROrBI2o14MJM/5pv
- Lur1/+4vvMJJp1FLSI6LgxDFwA+VMZCW+KM/ytdfjtkO+IE7vX5Vt1RGvyp8fTvbIb
- Aw/TF/ddkbBf75RJBlLHm6qJGE/G9hul8l9ffidw=
-Message-ID: <9d53265c-0d95-4264-a661-9f4e076f4e8d@ideasonboard.com>
-Date: Fri, 24 Jan 2025 09:22:44 +0200
+ s=mail; t=1737703653;
+ bh=tadFFT9/jzoFvFgIb1qCZD/e6ulUeAxvLuKkWd/1bng=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ox+5y6WGBeCPHYc8DZ7Ys+7XxXyH0Z6QJrY23WiHlAillfvDSwOeIe1x3b29EXQSv
+ +1SOMjEIdsUYngLaBn0vWnsGD0vYjLAtY3bBnHyMJjspEclbCdYybUHdrxfFluWi/D
+ njUfp85Ugc1HOQF4p4QzWBGSEo6GVWsjUZlHNrmg=
+Message-ID: <976580f4-2e2c-4269-b5a6-2f9431cecaf8@ideasonboard.com>
+Date: Fri, 24 Jan 2025 09:28:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] drm/omap/dss: Use of_property_present() to test
- existence of DT property
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250114145840.505459-1-krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH next] drm: zynqmp_dp: Unlock on error in
+ zynqmp_dp_bridge_atomic_enable()
+To: Sean Anderson <sean.anderson@linux.dev>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+ Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <b4042bd9-c943-4738-a2e1-8647259137c6@stanley.mountain>
+ <20241112052754.GB21062@pendragon.ideasonboard.com>
+ <37be000a-3ef8-4df4-aefa-b4d73487ad27@linux.dev>
+ <20241112164305.GA24067@pendragon.ideasonboard.com>
+ <5c2c6883-d81a-4869-9f32-48d23c0728ea@linux.dev>
+ <11b81c8b-5ef1-470c-836a-a436ecadf0f4@linux.dev>
+Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -84,7 +93,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250114145840.505459-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <11b81c8b-5ef1-470c-836a-a436ecadf0f4@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,34 +113,40 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 14/01/2025 16:58, Krzysztof Kozlowski wrote:
-> of_property_read_bool() should be used only on boolean properties.
+On 24/01/2025 01:56, Sean Anderson wrote:
+> On 11/12/24 12:22, Sean Anderson wrote:
+>> On 11/12/24 11:43, Laurent Pinchart wrote:
+>>> On Tue, Nov 12, 2024 at 09:41:58AM -0500, Sean Anderson wrote:
+>>>> On 11/12/24 00:27, Laurent Pinchart wrote:
+>>>>> Hi Dan,
+>>>>>
+>>>>> Thank you for the patch.
+>>>>>
+>>>>> On Mon, Nov 11, 2024 at 12:06:10PM +0300, Dan Carpenter wrote:
+>>>>>> We added some locking to this function, but accidentally forgot to unlock
+>>>>>> if zynqmp_dp_mode_configure() failed.  Use a guard lock to fix it.
+>>>>>>
+>>>>>> Fixes: a7d5eeaa57d7 ("drm: zynqmp_dp: Add locking")
+>>>>>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+>>>>>
+>>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>>>
+>>>>> Sean, how about replacing all the mutex_lock()/mutex_unlock() calls
+>>>>> you've added in a7d5eeaa57d7 with guards ?
+>>>>
+>>>> I have no objection to that.
+>>>
+>>> Would you send a patch ? Otherwise I can do it.
+>>>
+>>
+>> I can send a patch, but it will not be for a week or two.
+>>
+>> --Sean
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Changes in v2:
-> 1. New patch - split from the next one.
-> ---
->   drivers/gpu/drm/omapdrm/dss/dss.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.c b/drivers/gpu/drm/omapdrm/dss/dss.c
-> index 7b2df3185de4..319f0a1d23a7 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dss.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dss.c
-> @@ -1236,7 +1236,7 @@ static int dss_video_pll_probe(struct dss_device *dss)
->   	if (!np)
->   		return 0;
->   
-> -	if (of_property_read_bool(np, "syscon-pll-ctrl")) {
-> +	if (of_property_present(np, "syscon-pll-ctrl")) {
->   		dss->syscon_pll_ctrl = syscon_regmap_lookup_by_phandle(np,
->   			"syscon-pll-ctrl");
->   		if (IS_ERR(dss->syscon_pll_ctrl)) {
+> Just following up on this; will the above patched be merged? I would
+> prefer to keep the bugfix and the conversion separate.
 
-Thanks, applying these to drm-misc-next.
+I'll push to drm-misc-fixes.
 
   Tomi
 
