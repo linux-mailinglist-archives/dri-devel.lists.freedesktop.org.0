@@ -2,98 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B09CA1AFA7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 06:01:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB486A1AFCF
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 06:19:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE6410E8CB;
-	Fri, 24 Jan 2025 05:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F9110E0B6;
+	Fri, 24 Jan 2025 05:19:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D6UzPliw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="r2CPAlYs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A77410E253
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 05:01:44 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53f22fd6887so1864548e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 21:01:44 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CD8510E0B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 05:19:53 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-540215984f0so1803216e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 21:19:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737694903; x=1738299703; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0eYsDa3iowZle90PPKo5xgDvKG54lWztwuDRX2J8S4I=;
- b=D6UzPliwuNxsYbwpOPGnKQUWJ+kjG5felkpLthL8TONkTo3eLcZuUb7cMWzm/7nh56
- zMe/2B/PpxLKu1vr60Ak60Of/IPMtKpsGdUE33uBwGRgxEzCZg3QkXtHqM9UwHQ92x51
- gzgFvd6OOfa/Re/FsR4y/GfmKUN2lDWSlFYqdyic91aPE8Vb+PbctCpZjTL3Nq461lJo
- Ji62b96mBrSDdbFNp3LL93vEjhOCCCe3JXEKjhOB2F5aypdKR+5MNMZaYSipsc4W1Fr+
- EfZHy0KLiJICJpXCd/6LP99EnnRje3haQUns7luMmcloMa8OaAwuO786IWevHypkNV1h
- is/A==
+ d=linaro.org; s=google; t=1737695991; x=1738300791; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=3o8gTZu6BR29eomWLMiFERLH4W2XG5CknLwAkj4XFWs=;
+ b=r2CPAlYsIZasqmSlEfoUQd3s5elhvIaCtVuH1BGNVYG2dlbMW8/ttS8HTVK/rU2BZX
+ fgKKVO78/h+M6j8GgOA5znvdaV+BO3nz/LmNmVBzxRKkg8z1Hs5Qbvwa89yqea6evx9B
+ e/znayMvrQ+3jeCBRQqjrLMF3qOs1zIkMtTzSRNnHkmieZBLcOKDsNCU1HnxNe83/Ci9
+ gi5eCszkLMEI0l96ZpjGH417DUnGBEd4XtpaDJlWr5UWTWknST/EHmfwdQlCwGepytKG
+ 1jAoUA8BuRju4PFHCgsMyDIp/gmCbdRk78zdZqYe9TvOV9pwTbTMEFSc3Y1z2MsK6hEo
+ WGfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737694903; x=1738299703;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0eYsDa3iowZle90PPKo5xgDvKG54lWztwuDRX2J8S4I=;
- b=rB+01AabvdrWKpgDNOY23gNgEIeBIfHdd/37UvR5gtY09UXGST4pXv2njnRIuMQvKd
- C28+84Uf3vkywfDHO0IvDAFx1sNLarlTODGTrWHl+O81y6B69nYO9WvwZfp0V1LBRg3D
- hYBFAhIQ6zpN50vLwxmN29kmhwpYaDQFTkGr2ZJ/8RCA7Idgx2IMI0xJieP/ZmKJeOWL
- PNCOZLoLi60ooCEXV+XOVkCIKte8Ghi0YxmHgOWaRgCuyWKmx74MzlzdVlkrEstoWt3m
- s0BW3uEM9KEpZBFbp8r62rdr+UTRuUlu4vLyxgBZBrBZsM5DAmRTrlS20czV32F0ie5q
- s52w==
+ d=1e100.net; s=20230601; t=1737695991; x=1738300791;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3o8gTZu6BR29eomWLMiFERLH4W2XG5CknLwAkj4XFWs=;
+ b=Zl+kTUMqwlUenDgtt0RyrVGSKldLYckCJL0jFbnR16MJ8dYkdbcmKo7vyNwk7SFZMD
+ 7lr/p9aLNoMICocrh6dO2hKBi6qzmtTN/xoqXdJ0zDuaniIf5MrohIevBSFot1OOsGuJ
+ PnF9wnErmIXI9szTLIYNNolGJ378aUHtDvmGVf4DWAmxidhOCNTCb/bctyUW7fh1JTJN
+ K0s1+SOa4xS9/BbW1kQOwqFvpcOkmMXf2L5V5d3qNVeww/ON0mLpQcfaV7i/Vt6khk+i
+ FeC75kUw178JY2wPOKY/u8lO+zfXja2TGL9YcGIV8a6hCd2YTu1Hzr4SZp74y5sLvxpp
+ Z7tw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXLhOfBlH5aAdngWjfPIo89WWwPAXSWDBOqup2LV0o0UJUe7Qkb4t7WWBDaAET3JiFfYR7JIEMPgFk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyfJZ/40dOSsEEHkH+U/d0O7X+XWYkAg6M8EK6PpJ9NBe18KK7N
- G5Z+b64jdQPorLGdgLWr+BAD6zygNGZXUxktezIQSLE7MU1EbHiMG/FjZ63LX+c=
-X-Gm-Gg: ASbGnct1tzms3wXLoyADtMwWun8ej80OU3PmG6IhSeFhOg6GraYkLjpbljJDQKY6PQ7
- dNJC5rIqwu60qZ4g4dFU6XHumNJ7NCd/xQ2GLbUmMhk+bC1NwyrWI6pPR5K0pKYUT2c8DJlkrvO
- cNsGYf/NXRVvjlbF3mV7EGtmWZStkHIdIh5VSLhtvlPl9UcjWolU7SU44fLGasdq+BKlmwVdC+J
- qqkK2+CvFYYz4lKaKsfuM4kzLOAoXTnhsJV/NJDZPYSPEIVWwIsnuH7cdA8kht9Cb2ZO0npAbbP
- pefS6uMZD+5Xasp8slCZMGj3+7MmORr4FP1/hObY4u28+jG8hpZogMA1nyVY
-X-Google-Smtp-Source: AGHT+IFFQeosHAQK91/7knXdxvaokrMIpayWFtvTGFpLCdc3EM+chnPzHE/8v2OM0VCnxzJ7GQylfQ==
-X-Received: by 2002:ac2:44b3:0:b0:540:3561:969d with SMTP id
- 2adb3069b0e04-5439c287f06mr9522617e87.49.1737694902384; 
- Thu, 23 Jan 2025 21:01:42 -0800 (PST)
+ AJvYcCX/l/hTpaX5ckhtKUKE5iMObU2fhD8gpNJ+zIEXX39dppxRSG1PAa4DYGv7SBthxSoemgCrP3xo+vY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5fDBNOWM/p6FW2fpPBG4kupVO1DvJWQLTJ5C8D56wYixyQnX/
+ fEWy7urq+EwfWLN7b6Rf76rrO0Bl1BYS6VqIiiy4SVHHkOaJpIazhCPZqjvCCXg=
+X-Gm-Gg: ASbGncsnkGgQAIaXlzc0EyZEPZlfuDm4PqwRYnEw7fYlwa28Q4am3bJ3K1vqrGJRCki
+ Nq83pX4QdLcmZ4rJe6faP6DiT9O7jChd8umEsKD9YgbWjSzZ5Zvbwj+ut7K2toOYGtizq8fGKng
+ RYG6OLL0MKNQFrgR3IzlrD6T1h7rbmLf42NkPLfFZByMZE4AsIJTxJ5REIgiN+XzcfZnH/85GEY
+ BfVuDEl99MTvNIdPfscqokf9fC2qcf3n/v8DkgDjQ4J7WVmeNemP3ml5wp/Wv4+S5dV+NNFMCZL
+ MBwo0NaEG+dHHTAoz77W3WgULdH3AFEqopKy9y/xGn4c9wJ5YaUBxbtGbOez
+X-Google-Smtp-Source: AGHT+IEwnJ9j1k553+NJYN6NU1urekTvAiaOkFEFC2RQFT0hhnn33FzgCNI1K9Ys6RSk3s/xp4ZF6A==
+X-Received: by 2002:ac2:550a:0:b0:53e:38fd:7518 with SMTP id
+ 2adb3069b0e04-5439c22d6e5mr9306949e87.3.1737695991441; 
+ Thu, 23 Jan 2025 21:19:51 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543c8368542sm160268e87.114.2025.01.23.21.01.39
+ 2adb3069b0e04-543c8379953sm166799e87.187.2025.01.23.21.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2025 21:01:40 -0800 (PST)
-Date: Fri, 24 Jan 2025 07:01:38 +0200
+ Thu, 23 Jan 2025 21:19:50 -0800 (PST)
+Date: Fri, 24 Jan 2025 07:19:47 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Alexey Charkov <alchark@gmail.com>, Jianfeng Liu <liujianfeng1994@gmail.com>, 
- Dragan Simic <dsimic@manjaro.org>, FUKAUMI Naoki <naoki@radxa.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, Johan Jonker <jbx6244@gmail.com>,
- Kever Yang <kever.yang@rock-chips.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, 
- Algea Cao <algea.cao@rock-chips.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org,
- kernel@collabora.com
-Subject: Re: [PATCH v2 1/2] drm/bridge: synopsys: Add audio support for
- dw-hdmi-qp
-Message-ID: <mpj5o2kdadkwsutjdtmze6riycdan3w7mohgqdzxiwfpvlh7zx@eocnqikqwrwt>
-References: <20250123222850.223255-1-detlev.casanova@collabora.com>
- <20250123222850.223255-2-detlev.casanova@collabora.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Vinod Koul <vkoul@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/35] drm/msm/dpu: get rid of DPU_PINGPONG_DSC
+Message-ID: <esyb2hdp3rutcoiblqnxshta3x47ymdyotphasliprmkp643ic@eyopzwlihcpk>
+References: <20241214-dpu-drop-features-v1-0-988f0662cb7e@linaro.org>
+ <20241214-dpu-drop-features-v1-18-988f0662cb7e@linaro.org>
+ <1b429f3f-2fff-45bb-86dd-48b1d164ccc8@quicinc.com>
+ <c3c70f9a-7a1c-4575-af93-b519117d0084@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250123222850.223255-2-detlev.casanova@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c3c70f9a-7a1c-4575-af93-b519117d0084@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,279 +98,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 23, 2025 at 05:28:06PM -0500, Detlev Casanova wrote:
-> From: Sugar Zhang <sugar.zhang@rock-chips.com>
+On Thu, Jan 23, 2025 at 01:41:14PM -0800, Abhinav Kumar wrote:
 > 
-> Register the dw-hdmi-qp bridge driver as an HDMI audio codec.
 > 
-> The register values computation functions (for n) are based on the
-> downstream driver, as well as the register writing functions.
+> On 1/23/2025 1:32 PM, Abhinav Kumar wrote:
+> > 
+> > 
+> > On 12/13/2024 2:14 PM, Dmitry Baryshkov wrote:
+> > > Continue migration to the MDSS-revision based checks and replace
+> > > DPU_PINGPONG_DSC feature bit with the core_major_ver < 7 check.
+> > > 
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_14_msm8937.h |  2 --
+> > >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_15_msm8917.h |  1 -
+> > >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_16_msm8953.h |  2 --
+> > >   drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_1_7_msm8996.h  |  6 ++----
+> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c           | 10
+> > > ++--------
+> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h           |  2 --
+> > >   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c          |  2 +-
+> > >   7 files changed, 5 insertions(+), 20 deletions(-)
+> > > 
+> > 
+> > <snip>
+> > 
+> > > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> > > b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> > > index 36c0ec775b92036eaab26e1fa5331579651ac27c..49e03ecee9e8b567a3f809b977deb83731006ac0
+> > > 100644
+> > > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> > > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_pingpong.c
+> > > @@ -319,7 +319,7 @@ struct dpu_hw_pingpong
+> > > *dpu_hw_pingpong_init(struct drm_device *dev,
+> > >           c->ops.disable_autorefresh = dpu_hw_pp_disable_autorefresh;
+> > >       }
+> > > -    if (test_bit(DPU_PINGPONG_DSC, &cfg->features)) {
+> > > +    if (mdss_rev->core_major_ver < 7) {
+> > >           c->ops.setup_dsc = dpu_hw_pp_setup_dsc;
+> > >           c->ops.enable_dsc = dpu_hw_pp_dsc_enable;
+> > >           c->ops.disable_dsc = dpu_hw_pp_dsc_disable;
+> > > 
+> > 
+> > So far in this series, we replaced the feature bits with >= checks of
+> > core_revisions. That kind of works as usually feature bits get added
+> > after a specific version.
+> > 
+> > With this patch and later, whenever we use < checks it gets a bit tricky
+> > as we might also need an upper bound. Feature bits gave individual
+> > control of chipsets but generalizing that all chipsets < 7 have PP DSC
+> > is also not correct. I have to really cross-check but there could be
+> > some old chipsets which do not have DSC at all.
 > 
-> The driver uses the generic HDMI Codec framework in order to implement
-> the HDMI audio support.
+> This raises another question as well.
 > 
-> Signed-off-by: Sugar Zhang <sugar.zhang@rock-chips.com>
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 424 +++++++++++++++++++
->  1 file changed, 424 insertions(+)
+> what if some register was introduced >= X version but was then dropped in a
+> newer chipset.
 > 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> index b281cabfe992e..f79d38de4c6c4 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> @@ -36,6 +36,66 @@
->  
->  #define SCRAMB_POLL_DELAY_MS	3000
->  
-> +/*
-> + * Unless otherwise noted, entries in this table are 100% optimization.
-> + * Values can be obtained from hdmi_compute_n() but that function is
-> + * slow so we pre-compute values we expect to see.
-> + *
-> + * All 32k and 48k values are expected to be the same (due to the way
-> + * the math works) for any rate that's an exact kHz.
-> + */
-> +static const struct dw_hdmi_audio_tmds_n {
-> +	unsigned long tmds;
-> +	unsigned int n_32k;
-> +	unsigned int n_44k1;
-> +	unsigned int n_48k;
-> +} common_tmds_n_table[] = {
-> +	{ .tmds = 25175000, .n_32k = 4096, .n_44k1 = 12854, .n_48k = 6144, },
-> +	{ .tmds = 25200000, .n_32k = 4096, .n_44k1 = 5656, .n_48k = 6144, },
+> Is it not difficult for the user to go back to the files of each of the
+> sub-blocks and alter these checks rather than just fixing up the catalog.
 
-These values do not seem to match the tables in HDMI, Appendix D. Is
-there any reason for that?
+Well, the obvious example we are going to have is the CTL_LAYER_EXT4,
+but if I understand correctly the whole block is going to be dropped, so
+maybe it's not that relevant.
 
-> +	{ .tmds = 27000000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
-> +	{ .tmds = 28320000, .n_32k = 4096, .n_44k1 = 5586, .n_48k = 6144, },
-> +	{ .tmds = 30240000, .n_32k = 4096, .n_44k1 = 5642, .n_48k = 6144, },
-> +	{ .tmds = 31500000, .n_32k = 4096, .n_44k1 = 5600, .n_48k = 6144, },
-> +	{ .tmds = 32000000, .n_32k = 4096, .n_44k1 = 5733, .n_48k = 6144, },
-> +	{ .tmds = 33750000, .n_32k = 4096, .n_44k1 = 6272, .n_48k = 6144, },
-> +	{ .tmds = 36000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
-> +	{ .tmds = 40000000, .n_32k = 4096, .n_44k1 = 5733, .n_48k = 6144, },
-> +	{ .tmds = 49500000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
-> +	{ .tmds = 50000000, .n_32k = 4096, .n_44k1 = 5292, .n_48k = 6144, },
-> +	{ .tmds = 54000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
-> +	{ .tmds = 65000000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
-> +	{ .tmds = 68250000, .n_32k = 4096, .n_44k1 = 5376, .n_48k = 6144, },
-> +	{ .tmds = 71000000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
-> +	{ .tmds = 72000000, .n_32k = 4096, .n_44k1 = 5635, .n_48k = 6144, },
-> +	{ .tmds = 73250000, .n_32k = 4096, .n_44k1 = 14112, .n_48k = 6144, },
-> +	{ .tmds = 74250000, .n_32k = 4096, .n_44k1 = 6272, .n_48k = 6144, },
-> +	{ .tmds = 75000000, .n_32k = 4096, .n_44k1 = 5880, .n_48k = 6144, },
-> +	{ .tmds = 78750000, .n_32k = 4096, .n_44k1 = 5600, .n_48k = 6144, },
-> +	{ .tmds = 78800000, .n_32k = 4096, .n_44k1 = 5292, .n_48k = 6144, },
-> +	{ .tmds = 79500000, .n_32k = 4096, .n_44k1 = 4704, .n_48k = 6144, },
-> +	{ .tmds = 83500000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
-> +	{ .tmds = 85500000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
-> +	{ .tmds = 88750000, .n_32k = 4096, .n_44k1 = 14112, .n_48k = 6144, },
-> +	{ .tmds = 97750000, .n_32k = 4096, .n_44k1 = 14112, .n_48k = 6144, },
-> +	{ .tmds = 101000000, .n_32k = 4096, .n_44k1 = 7056, .n_48k = 6144, },
-> +	{ .tmds = 106500000, .n_32k = 4096, .n_44k1 = 4704, .n_48k = 6144, },
-> +	{ .tmds = 108000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
-> +	{ .tmds = 115500000, .n_32k = 4096, .n_44k1 = 5712, .n_48k = 6144, },
-> +	{ .tmds = 119000000, .n_32k = 4096, .n_44k1 = 5544, .n_48k = 6144, },
-> +	{ .tmds = 135000000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
-> +	{ .tmds = 146250000, .n_32k = 4096, .n_44k1 = 6272, .n_48k = 6144, },
-> +	{ .tmds = 148500000, .n_32k = 4096, .n_44k1 = 5488, .n_48k = 6144, },
-> +	{ .tmds = 154000000, .n_32k = 4096, .n_44k1 = 5544, .n_48k = 6144, },
-> +	{ .tmds = 162000000, .n_32k = 4096, .n_44k1 = 5684, .n_48k = 6144, },
-> +
-> +	/* For 297 MHz+ HDMI spec have some other rule for setting N */
-> +	{ .tmds = 297000000, .n_32k = 3073, .n_44k1 = 4704, .n_48k = 5120, },
-> +	{ .tmds = 594000000, .n_32k = 3073, .n_44k1 = 9408, .n_48k = 10240, },
-> +
-> +	/* End of table */
-> +	{ .tmds = 0,         .n_32k = 0,    .n_44k1 = 0,    .n_48k = 0, },
-> +};
-> +
->  struct dw_hdmi_qp_i2c {
->  	struct i2c_adapter	adap;
->  
-> @@ -83,6 +143,326 @@ static void dw_hdmi_qp_mod(struct dw_hdmi_qp *hdmi, unsigned int data,
->  	regmap_update_bits(hdmi->regm, reg, mask, data);
->  }
->  
-> +static struct dw_hdmi_qp *dw_hdmi_qp_from_bridge(struct drm_bridge *bridge)
-> +{
-> +	struct dw_hdmi_qp *hdmi = container_of(bridge, struct dw_hdmi_qp, bridge);
-> +
-> +	return hdmi;
+Another example might be CWB, where we are going to have 5.x-7.x and
+8.x+ DPU ranges.
 
-Just `return container_of(bridge, struct dw_hdmi_qp, bridge);`
-
-> +}
-> +
-
-[...]
-
-> +
-> +static int dw_hdmi_qp_audio_enable(struct drm_connector *connector,
-> +			    struct drm_bridge *bridge)
-> +{
-> +	struct dw_hdmi_qp *hdmi = dw_hdmi_qp_from_bridge(bridge);
-> +
-> +	if (connector->status == connector_status_connected)
-> +		dw_hdmi_qp_mod(hdmi, 0, AVP_DATAPATH_PACKET_AUDIO_SWDISABLE, GLOBAL_SWDISABLE);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_qp_audio_prepare(struct drm_connector *connector,
-> +			     struct drm_bridge *bridge,
-> +			     struct hdmi_codec_daifmt *fmt,
-> +			     struct hdmi_codec_params *hparms)
-> +{
-> +	struct dw_hdmi_qp *hdmi = dw_hdmi_qp_from_bridge(bridge);
-> +	struct drm_connector_state *conn_state =
-> +		drm_atomic_helper_connector_duplicate_state(connector);
-> +	bool ref2stream = false;
-> +	unsigned long long tmds_char_rate = conn_state->hdmi.tmds_char_rate;
-> +
-> +	drm_atomic_helper_connector_destroy_state(connector, conn_state);
-
-This looks suspicious. I'd suggest storing tmds_char_rate to struct
-dw_hdmi_qp in .atomic_commit instead of playing with the state.
-
-> +
-> +	if (connector->status != connector_status_connected) {
-> +		dev_dbg(hdmi->dev, "connector status is not connected\n");
-> +		return 0;
-> +	}
-> +
-> +	if (fmt->bit_clk_provider | fmt->frame_clk_provider) {
-> +		dev_err(hdmi->dev, "unsupported clock settings\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (fmt->bit_fmt == SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE)
-> +		ref2stream = true;
-> +
-> +	dw_hdmi_qp_set_audio_interface(hdmi, fmt, hparms);
-> +	dw_hdmi_qp_set_sample_rate(hdmi, tmds_char_rate, hparms->sample_rate);
-> +	dw_hdmi_qp_set_channel_status(hdmi, hparms->iec.status, ref2stream);
-> +	drm_atomic_helper_connector_hdmi_update_audio_infoframe(connector, &hparms->cea);
-> +
-> +	return 0;
-> +}
-> +
-> +static void dw_hdmi_qp_audio_disable(struct drm_connector *connector,
-> +			      struct drm_bridge *bridge)
-> +{
-> +	struct dw_hdmi_qp *hdmi = container_of(bridge, struct dw_hdmi_qp, bridge);
-> +
-> +	if (connector->status != connector_status_connected) {
-> +		dev_dbg(hdmi->dev, "connector status is not connected\n");
-> +		return;
-> +	}
-
-Will audio stream be disabled on disconnect?
-
-And anyway the InfoFrame should be cleared by a call to
-drm_atomic_helper_connector_hdmi_clear_audio_infoframe().
-
-> +
-> +	/*
-> +	 * Keep ACR, AUDI, AUDS packet always on to make SINK device
-> +	 * active for better compatibility and user experience.
-> +	 *
-> +	 * This also fix POP sound on some SINK devices which wakeup
-> +	 * from suspend to active.
-> +	 */
-> +	dw_hdmi_qp_mod(hdmi, I2S_BPCUV_RCV_DIS, I2S_BPCUV_RCV_MSK,
-> +		  AUDIO_INTERFACE_CONFIG0);
-> +	dw_hdmi_qp_mod(hdmi, AUDPKT_PBIT_FORCE_EN | AUDPKT_CHSTATUS_OVR_EN,
-> +		  AUDPKT_PBIT_FORCE_EN_MASK | AUDPKT_CHSTATUS_OVR_EN_MASK,
-> +		  AUDPKT_CONTROL0);
-> +
-> +	dw_hdmi_qp_mod(hdmi, AVP_DATAPATH_PACKET_AUDIO_SWDISABLE,
-> +		  AVP_DATAPATH_PACKET_AUDIO_SWDISABLE, GLOBAL_SWDISABLE);
-> +}
-> +
->  static int dw_hdmi_qp_i2c_read(struct dw_hdmi_qp *hdmi,
->  			       unsigned char *buf, unsigned int length)
->  {
-> @@ -361,6 +741,40 @@ static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
->  	return 0;
->  }
->  
-> +static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
-> +					     const u8 *buffer, size_t len)
-> +{
-> +	/*
-> +	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
-> +	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
-> +	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
-> +	 *
-> +	 * PB0: CheckSum
-> +	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
-> +	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
-> +	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
-> +	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
-> +	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
-> +	 * PB6~PB10: Reserved
-> +	 *
-> +	 * AUDI_CONTENTS0 default value defined by HDMI specification,
-> +	 * and shall only be changed for debug purposes.
-> +	 * So, we only configure payload byte from PB0~PB7(2 word total).
-> +	 */
-> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 2);
-
-Please also update PKT_AUDI_CONTENTS0, in case it gets damaged somehow.
-
-> +
-> +	/* Enable ACR, AUDI, AMD */
-> +	dw_hdmi_qp_mod(hdmi,
-> +		  PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> +		  PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> +		  PKTSCHED_PKT_EN);
-> +
-> +	/* Enable AUDS */
-> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
-> +
-> +	return 0;
-> +}
-> +
->  static void dw_hdmi_qp_bridge_atomic_enable(struct drm_bridge *bridge,
->  					    struct drm_bridge_state *old_state)
->  {
-> @@ -477,6 +891,9 @@ static int dw_hdmi_qp_bridge_write_infoframe(struct drm_bridge *bridge,
->  	case HDMI_INFOFRAME_TYPE_DRM:
->  		return dw_hdmi_qp_config_drm_infoframe(hdmi, buffer, len);
->  
-> +	case HDMI_INFOFRAME_TYPE_AUDIO:
-> +		return dw_hdmi_qp_config_audio_infoframe(hdmi, buffer, len);
-> +
->  	default:
->  		dev_dbg(hdmi->dev, "Unsupported infoframe type %x\n", type);
->  		return 0;
-> @@ -494,6 +911,9 @@ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
->  	.hdmi_tmds_char_rate_valid = dw_hdmi_qp_bridge_tmds_char_rate_valid,
->  	.hdmi_clear_infoframe = dw_hdmi_qp_bridge_clear_infoframe,
->  	.hdmi_write_infoframe = dw_hdmi_qp_bridge_write_infoframe,
-> +	.hdmi_audio_startup = dw_hdmi_qp_audio_enable,
-> +	.hdmi_audio_shutdown = dw_hdmi_qp_audio_disable,
-> +	.hdmi_audio_prepare = dw_hdmi_qp_audio_prepare,
->  };
->  
->  static irqreturn_t dw_hdmi_qp_main_hardirq(int irq, void *dev_id)
-> @@ -603,6 +1023,10 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
->  	if (IS_ERR(hdmi->bridge.ddc))
->  		return ERR_CAST(hdmi->bridge.ddc);
->  
-> +	hdmi->bridge.hdmi_audio_max_i2s_playback_channels = 8;
-> +	hdmi->bridge.hdmi_audio_dev = dev;
-> +	hdmi->bridge.hdmi_audio_dai_port = 1;
-> +
->  	ret = devm_drm_bridge_add(dev, &hdmi->bridge);
->  	if (ret)
->  		return ERR_PTR(ret);
-> -- 
-> 2.48.1
-> 
+Basically, yes, when adding support for a new platform we have to audit
+HW blocks. But this applied even beforehand, where new platforms could
+be drooping existing regs (8.x+ dropping a part of the TOP region).
 
 -- 
 With best wishes
