@@ -2,75 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E648DA1B9F5
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 17:06:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AEFDA1BA09
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 17:13:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32E3410E9D7;
-	Fri, 24 Jan 2025 16:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 081E010E9D3;
+	Fri, 24 Jan 2025 16:13:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XR/YYgo+";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="MyVmTwK7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B53310E0FD
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 16:05:58 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-436281c8a38so16368305e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 08:05:58 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3DCC10E9D3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 16:09:49 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-43621d27adeso15581835e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 08:09:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1737734757; x=1738339557; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1737734988; x=1738339788; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=St4LcJGyWFKNwYckoM2A/fDp8BzZEsDfa0eW5apA5Gw=;
- b=XR/YYgo+YLEYrV27JKaQ61Y/vziR8XEZrqHssx1xSRSjLm9e6rHJfh9Q2+p69RQQo9
- rkXqAnX9bqyfCuNp9NojSgY5+3Q5tzwbqGR9V0ZudK4N3Yp78yus4UFb0LuNeBedCi59
- LeFqyraRrSNJBMyhtkctxuDBfT3B7rwhO/J/0=
+ bh=xsbYJojFnJHyb7Z1vIeeeMLtGZUUYponZdFzStqck0c=;
+ b=MyVmTwK7YmqKU9vhj35pTbhkll8sTdxFyte6eFuvw7fgQbHFqlUMJ9SSMC0nTMxMVE
+ OB8ECBkUcyhB7uh+lRK26Gz7hb3sBL870zLZGcBvSGpHjcrQkmL0NqiXwHCF9CH5q4nO
+ cLneam7SqsDaybb4Ma0guppQMHiZ7mQO2ZaZ0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737734757; x=1738339557;
+ d=1e100.net; s=20230601; t=1737734988; x=1738339788;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=St4LcJGyWFKNwYckoM2A/fDp8BzZEsDfa0eW5apA5Gw=;
- b=st7TXqmQJupiZQjHGrby2k3aV2Mbmm7ff/ajebPMVRs/nrOLXpg+KSdNtqQaX6woM9
- VR9wgY1Z9K3vc+nFKJ2a/iinDhbdAjgYEz35NnAb3+Ky0qga8FiqDof3KlZ15jDadXmH
- HXisZ4l9w7iAHeavHJpYB/5oahDFhUH/KMhrFEG5mJ8UelWnIc0SY4ZwLWSxN5xSEAKM
- ZxnKhi1fFccoyyoafrfQb3oGCalkBs4obMb1WReZTExKKHwPeRIRdNX+FU0vnhcHeXwU
- y6w2t+n80oyhsWkXRQss2b+jEsgt9KdRR9F/aE+N8kBfmCDe1VPYlGK96QsUOAFo+9hB
- tpqw==
+ bh=xsbYJojFnJHyb7Z1vIeeeMLtGZUUYponZdFzStqck0c=;
+ b=f1BjlaV0qcnfzfjhbEu1uiXW2JJQWPsinzcGIu7bnBpZiJBmrvYK83cLw2ht9t2LuS
+ Xe/ityf+jNE+rGsXD7UZh+atee1KOOTMNMA61nwYsEoSuVE8zIBzAozcM3PzJ7bhfK60
+ ONYHqNTzufdzGPT+Tm/SQXgSXC+AobHaVlDLdAa9wYpcBgusbepF/xq2h79DHNGECqmJ
+ nO42JfDZJdD3rYszspoPxzMAPL7bAMM8RNx3o42O3QS0inYmtzynyag6pGvNKrwLR/lZ
+ ZSDhRtyk5C+httIXcaQNfdc92QTS7LMjyq3z6eAmEkxw3gtE4RJXYRxN/ec6idzHLm0X
+ 69Lg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXzt0Dhw7DXPJRq9FOtzVlqtEUbFDCt7v3U+Hi6zdDdMdv6uJgBCgHKXgOv8hoLjoPe6fO4LvfQ5+I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyrA5CYwQ9uZwiEzIOWFYScDKFEMokzfYs3eqWxrfJhb+wykjUG
- sZHaQU3mduo2XoR6yLNupsE2KWjHrQ1NnDlZm8rT68CVF3W6eCWcs1GOSVeB58c=
-X-Gm-Gg: ASbGncsI2AuhAT6Z5siveJf6OxOY1VHG05X/Dtu2kZciUTOKCQf/SMpHh9cM8lAmaQR
- fAkNoIIcrrAl7GDbpXfGdXiHuv5550sXhdHDmIjILr6BIu8mkhuK1uaPrqpLlUTJrzA6qHuRf7c
- YAmEHOFTzV7SBdZINnStE+xcLqNCggeaxVZukztmDQg4uX+l15H4uowUl36oEhm4GIwBzicSOh9
- SZdPznEdeM4eOWExf92peIFy0gd6zwfSq589H+trHFWX9nC2kUcnZvs+vPFBA2G4lMfLkn3ZWQ5
- QYL0LmxoB/c4X3xI
-X-Google-Smtp-Source: AGHT+IHUkUINQKk10BOYnvHHne8w/TREwPKoHAPm8S09qW0iVdgZRxjhUWXTJkTUC0FD4dCHMDTmWQ==
-X-Received: by 2002:a5d:5888:0:b0:38a:4b8b:c57a with SMTP id
- ffacd0b85a97d-38bf57a6e78mr30912854f8f.44.1737734756872; 
- Fri, 24 Jan 2025 08:05:56 -0800 (PST)
+ AJvYcCWDUQENAa+Ew5w3Rt97ZBJkCCSlySeAxjKEa2wDHew+PKBWU9nqYAHOAyEUau2j3cAmK0foxb+bh8k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzrDyfl4utDTdY9qdZg7DPQuT58Kmx5OPvlakjHqiq9suwiePmy
+ /fyVYR7ThIdQUMWVXNY9z69Pjx8jaZCQ4RWPelvgfsgXbfTXKocItrCkQ3Ied+4=
+X-Gm-Gg: ASbGncvDfo7NLMqffzaywuGU4tQaQ5cQ1Mg6zpKgqJzQ2HnblKwxzWuBL2fhC0z53Qu
+ S/9wbN/1qBDnGfTwLElqLz09PGruBIZESZf3ONdAMCj7GOzLgeAo/Xb8Ug2AqCZk+e+Pej73CTB
+ tKJaoSKznx/jRiiq9IrS574vfRs2HJK7qVs3Z9WWuUOhikqBCSdH0F4SfRAo4yB4kPOXiv/Zu2V
+ vv/xVuqywocDuFV0un6kXEJfcVuer+L1GZxR5foEo/UiU1whIipvCQAuUui9wFYvHIRO+6IIyuo
+ NRYUH4trkTyWwh99
+X-Google-Smtp-Source: AGHT+IGgcwlojMe2eUG5XvTv971ynSVi+nq4QiUkAIk0hlzmzlheXCJ9b8dBpY6DONEmnVl8dN1sZw==
+X-Received: by 2002:a05:600c:4ed4:b0:434:feb1:adae with SMTP id
+ 5b1f17b1804b1-438913c8604mr285707565e9.3.1737734988285; 
+ Fri, 24 Jan 2025 08:09:48 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a188d5dsm3201047f8f.55.2025.01.24.08.05.56
+ 5b1f17b1804b1-438bd43cdbbsm31778555e9.0.2025.01.24.08.09.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 08:05:56 -0800 (PST)
-Date: Fri, 24 Jan 2025 17:05:54 +0100
+ Fri, 24 Jan 2025 08:09:47 -0800 (PST)
+Date: Fri, 24 Jan 2025 17:09:45 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- airlied@gmail.com, simona@ffwll.ch
-Subject: Re: [pull] amdgpu, amdkfd drm-next-6.14
-Message-ID: <Z5O6YmOfsNfS8Ng9@phenom.ffwll.local>
-References: <20250124152153.3861868-1-alexander.deucher@amd.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PULL] drm-misc-next-fixes
+Message-ID: <Z5O7STQ4ZJrE6kva@phenom.ffwll.local>
+References: <0d4a18f4-222c-4767-9169-e6350ce8fea5@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250124152153.3861868-1-alexander.deucher@amd.com>
+In-Reply-To: <0d4a18f4-222c-4767-9169-e6350ce8fea5@linux.intel.com>
 X-Operating-System: Linux phenom 6.12.3-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,169 +97,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 24, 2025 at 10:21:52AM -0500, Alex Deucher wrote:
+On Fri, Jan 24, 2025 at 04:25:32PM +0100, Maarten Lankhorst wrote:
 > Hi Dave, Simona,
 > 
-> Fixes for 6.14 from last two weeks.  Fixed missing s-o-b.
+> Oops, I messsed up the pull request, didn't see the other commits in the
+> branch.
 > 
-> The following changes since commit 24c61d553302ee49e9c21dd251275ba8c36dcfe4:
+> Additionally:
+> - Fix bogus Kconfig change in cgroup/rdma
+> - Kernel doc fixup for xlnx.
+> - virtio UAF in virtgpu
+
+Ah here it was, I only looked at the annotated tag and was wondering why
+you didn't include these. Already typed up my own version.
+
+btw dim allows you to redo a pr, it just adds a suffix to the tag name.
+
+> Cheers,
+> ~Maarten
 > 
->   Merge tag 'drm-msm-next-2025-01-07' of gitlab.freedesktop.org:drm/msm into drm-next (2025-01-13 11:14:07 +1000)
+> drm-misc-next-fixes-2025-01-24:
+> drm-misc-next-fixes for v6.14-rc1:
+> - Fix a serious regression from commit e4b5ccd392b9 ("drm/v3d: Ensure
+>   job pointer is set to NULL after job completion")
+> The following changes since commit 07c5b277208cf9a9e9cf31bf0143977d7f030aa1:
+> 
+>   Merge v6.13 into drm-next (2025-01-23 14:42:21 +0100)
 > 
 > are available in the Git repository at:
 > 
->   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.14-2025-01-24
+>   https://gitlab.freedesktop.org/drm/misc/kernel.git
+> tags/drm-misc-next-fixes-2025-01-24
+> 
+> for you to fetch changes up to 6e64d6b3a3c39655de56682ec83e894978d23412:
 
-Rebasing/cherry-picking needs a bit more finesse still:
-
-dim: aedf498a2c33 ("drm/amd/display: fix SUBVP DC_DEBUG_MASK documentation"): Fixes: SHA1 in not pointing at an ancestor:
-dim:     5349658fa4a1 ("drm/amd: Add debug option to disable subvp")
-
-Anyway pulled, thanks a lot.
+Pulled, thanks a lot.
 -Sima
 
 > 
-> for you to fetch changes up to 024771f3fb75dc817e9429d5763f1a6eb84b6f21:
-> 
->   drm/amd/display: Optimize cursor position updates (2025-01-24 09:56:28 -0500)
-> 
-> ----------------------------------------------------------------
-> amd-drm-next-6.14-2025-01-24:
-> 
-> amdgpu:
-> - Documentation fixes
-> - SMU 13.x fixes
-> - SR-IOV fix
-> - Display fix
-> - PCIe calculation fix
-> - MES 12 fix
-> - HUBP fix
-> - Cursor fix
-> - Enforce isolation fixes
-> - GFX 12 fix
-> - Use drm scheduler API helper rather than open coding it
-> - Mark some debugging parameters as unsafe
-> - PSP 14.x fix
-> - Add cleaner shader support for gfx12
-> - Add subvp debugging flag
-> - SDMA 4.4.x fix
-> - Clarify some kernel log messages
-> - clang fix
-> - PCIe lane reporting fix
-> - Documentation fix
-> 
-> amdkfd:
-> - Mark some debugging parameters as unsafe
-> - Fix partial migration handling
-> - Trap handler updates
+>   drm/v3d: Assign job pointer to NULL before signaling the fence (2025-01-23
+> 16:15:01 -0300)
 > 
 > ----------------------------------------------------------------
-> Alex Deucher (4):
->       drm/amdgpu: cache gpu pcie link width
->       drm/amdgpu: fix the PCIe lanes reporting in the INFO IOCTL
->       drm/amd/display: fix CEC DC_DEBUG_MASK documentation
->       drm/amd/display: fix SUBVP DC_DEBUG_MASK documentation
+> drm-misc-next-fixes for v6.14-rc1:
+> - Fix a serious regression from commit e4b5ccd392b9 ("drm/v3d: Ensure
+>   job pointer is set to NULL after job completion")
 > 
-> Aric Cyr (2):
->       drm/amd/display: Add hubp cache reset when powergating
->       drm/amd/display: Optimize cursor position updates
+> ----------------------------------------------------------------
+> Geert Uytterhoeven (1):
+>       cgroup/rdma: Drop bogus PAGE_COUNTER select
 > 
-> Aurabindo Pillai (1):
->       drm/amd: Add debug option to disable subvp
+> Maarten Lankhorst (1):
+>       Merge remote-tracking branch 'drm/drm-next' into drm-misc-next-fixes
 > 
-> Christian König (2):
->       drm/amdgpu: mark a bunch of module parameters unsafe
->       drm/amdgpu: always sync the GFX pipe on ctx switch
+> Maíra Canal (1):
+>       drm/v3d: Assign job pointer to NULL before signaling the fence
 > 
-> Emily Deng (1):
->       drm/amdkfd: Fix partial migrate issue
+> Tomi Valkeinen (1):
+>       drm: xlnx: zynqmp_dpsub: Fix kernel doc
 > 
-> Gui Chengming (1):
->       drm/amdgpu: fix fw attestation for MP0_14_0_{2/3}
+> Vivek Kasireddy (1):
+>       drm/virtio: Fix UAF in virtgpu_dma_buf_free_obj()
 > 
-> Jay Cornwall (2):
->       drm/amdkfd: Sync trap handler binary with source
->       drm/amdkfd: Clear MODE.VSKIP in gfx9 trap handler
-> 
-> Jesse.zhang@amd.com (3):
->       revert "drm/amdgpu/pm: Implement SDMA queue reset for different asic"
->       revert "drm/amdgpu/pm: add definition PPSMC_MSG_ResetSDMA2"
->       drm/amd/pm: Refactor SMU 13.0.6 SDMA reset firmware version checks
-> 
-> Kenneth Feng (1):
->       drm/amdgpu: disable gfxoff with the compute workload on gfx12
-> 
-> Kent Russell (1):
->       drm/amdgpu: Mark debug KFD module params as unsafe
-> 
-> Lijo Lazar (4):
->       drm/amdgpu: Add handler for SDMA context empty
->       drm/amdgpu: Refine ip detection log message
->       drm/amd/pm: Add capability flags for SMU v13.0.6
->       drm/amd/pm: Fix smu v13.0.6 caps initialization
-> 
-> Lin.Cao (1):
->       drm/amdgpu: fix ring timeout issue in gfx10 sr-iov environment
-> 
-> Mario Limonciello (1):
->       drm/amd: Clarify kdoc for amdgpu.gttsize
-> 
-> Shaoyun Liu (1):
->       drm/amd/amdgpu: Enable scratch data dump for mes 12
-> 
-> Srinivasan Shanmugam (4):
->       drm/amdgpu: Fix Circular Locking Dependency in AMDGPU GFX Isolation
->       drm/amdgpu/gfx12: Add Cleaner Shader Support for GFX12.0 GPUs
->       drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed
->       drm/amd/amdgpu: Prevent null pointer dereference in GPU bandwidth calculation
-> 
-> Tvrtko Ursulin (1):
->       drm/amdgpu: Use DRM scheduler API in amdgpu_xcp_release_sched
-> 
-> Tzung-Bi Shih (1):
->       drm/amd/display: mark static functions noinline_for_stack
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |    5 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  156 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   26 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_fw_attestation.c |    4 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   12 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c             |    6 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |   19 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |    2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |    1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c            |    2 +-
->  drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |    8 +
->  drivers/gpu/drm/amd/amdgpu/mes_v12_0.c             |   49 +-
->  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |   22 +
->  drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     | 2391 ++++++++++----------
->  .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx9.asm  |    4 +-
->  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |   22 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |    8 +
->  .../drm/amd/display/dc/dml2/display_mode_core.c    |   12 +-
->  .../dml21/src/dml2_core/dml2_core_dcn4_calcs.c     |   12 +-
->  .../gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp.c   |   10 +-
->  .../drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c  |    6 +-
->  .../gpu/drm/amd/display/dc/hubp/dcn10/dcn10_hubp.c |   10 +-
->  .../gpu/drm/amd/display/dc/hubp/dcn10/dcn10_hubp.h |    2 +
->  .../gpu/drm/amd/display/dc/hubp/dcn20/dcn20_hubp.c |    9 +-
->  .../drm/amd/display/dc/hubp/dcn201/dcn201_hubp.c   |    1 +
->  .../gpu/drm/amd/display/dc/hubp/dcn21/dcn21_hubp.c |    3 +
->  .../gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.c |    3 +
->  .../gpu/drm/amd/display/dc/hubp/dcn31/dcn31_hubp.c |    1 +
->  .../gpu/drm/amd/display/dc/hubp/dcn32/dcn32_hubp.c |    1 +
->  .../gpu/drm/amd/display/dc/hubp/dcn35/dcn35_hubp.c |    1 +
->  .../drm/amd/display/dc/hubp/dcn401/dcn401_hubp.c   |   13 +-
->  .../drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c    |    2 +
->  .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    |    2 +
->  drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h       |    2 +
->  drivers/gpu/drm/amd/include/amd_pcie.h             |   18 +
->  drivers/gpu/drm/amd/include/amd_shared.h           |    7 +-
->  .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_6_ppsmc.h   |    1 -
->  drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |    3 +-
->  drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |    1 +
->  .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  286 ++-
->  40 files changed, 1743 insertions(+), 1400 deletions(-)
+>  Documentation/gpu/zynqmp.rst           |  2 --
+>  drivers/gpu/drm/v3d/v3d_irq.c          | 16 ++++++++++++----
+>  drivers/gpu/drm/virtio/virtgpu_prime.c | 11 ++++++-----
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.h    |  1 +
+>  init/Kconfig                           |  1 -
+>  5 files changed, 19 insertions(+), 12 deletions(-)
 
 -- 
 Simona Vetter
