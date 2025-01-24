@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A62A1B482
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 12:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF2AA1B47F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 12:14:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C706B10E90D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C31A10E80E;
 	Fri, 24 Jan 2025 11:14:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hPSihiqS";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SOdP+98a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
  [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C168910E90D
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 11:14:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 401A010E7C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 11:14:44 +0000 (UTC)
 Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-304e4562516so19475561fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 03:14:42 -0800 (PST)
+ 38308e7fff4ca-30613802a04so20307191fa.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 03:14:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737717281; x=1738322081; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1737717282; x=1738322082; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=O/oxMMFfQ3I3pEj54pjtnXmmwf3LThN/3TdVC/t7tnw=;
- b=hPSihiqSx9tZj84oe/kQdvqwJHmZp08tcGoVINaQ3BEBkGd+n+Qfu+BGErXtwGkkjJ
- J/2EuyfLUv/bGeTC/To0eGZJ1dH1QviT9I1Te+Rv5QIA2Nkrq6ZALpi6KwbB7tqVzWzR
- ojL7FNzVyOpQUAIZLeKyXjlk/7GRK+kSQ7QIYROvLa3Gb1+NSgyG1Ijm/3IIohcvDGHJ
- OU0rIZMdz5xVfvrTMNJVqmxmtRmXGdE79GeiFNTS3Y6YLPZv5ZP0RAQWrREHd+ajddpL
- 2+Dfof09dihe/LGVdUOT8XyRT9CParlZBRU8+kcuEiLsLg49WCVmZjhe7TBfPpOIKofw
- kr4g==
+ :reply-to; bh=HqZJP4iufIhevyvAoHW7Eu6OisyxKDYbF5HtjUMC78k=;
+ b=SOdP+98aXHv5Z4EtWbnZPoamq8h07j8aFP/Kk4E1BwC3euzL24c830MGcYK3yXTYqf
+ VjMFjpwTyHz4iKbXrmV+QNLGntGEr4oxdYKCZvpKBT03ALZgGlzBOvLBghR3w+6oX3ZP
+ kR9gOBWRgrIQgiXPL/x7cQkg05wfZt4CKWyJ0kDwRcswjek474BTYwZVGQdtf1ndMAuR
+ 7zoUWl70Nt1jNrLMpxM5oV2O5+ShcHh+wQNG2WP9/+AcYIbLIcwbMPEqJWg8mOjoAqnj
+ fW/GsJwWA52HDKltMvG9+Vo+j/Ij9K9lM+olZjqbeygWuoSp5RLRasKqBmkInJL0rvXr
+ 3ELw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737717281; x=1738322081;
+ d=1e100.net; s=20230601; t=1737717282; x=1738322082;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=O/oxMMFfQ3I3pEj54pjtnXmmwf3LThN/3TdVC/t7tnw=;
- b=W1n7VKuDdSF+Pi6urquPKxUg+W6CqreSwJUj8vuSRPrhIS3VFAueZmq61ezyOuSn2r
- tXPY8ZbEWGTgqH3LORIAZFBDTjJ0buOmtjAMkM2DjxBCnx82DndmNeJceY/WdMREFNpa
- iQgh8iXby0BrfO/TplsthBbo0eM43WNmlWSg9hSb6+rNvC29lJlDDBn5UWMF/HwfjNYU
- efXH2a2WI5nfNk968Pqz9fVZk7RyqENA6o2GqMoobfKsBdcOLBrn5owOB72ZVXsEqVUD
- /42mGkY3YtboFs8xAMNwRZlFxT06Vq0wXsKs0jsPhwCWifigc3BGDR6l9U6XdinlgO3s
- 1vMQ==
-X-Gm-Message-State: AOJu0YwgSEeaApAWi+tnEsqKEkls1Di+jrXBIn/N2VFSHtmLYohttPnQ
- HFMUuXGy9n1Kc6NKqvIm2VceVvxVrgNxXhT6l6sgTpxIaSdnt+is4qCgy+zI/LU=
-X-Gm-Gg: ASbGncsygsVxFA2htsxKjz+d85tJVBgTZDjC2sO3uINox2ZKEow+gr4cx/Bno0Z9rBs
- FmqJXsKdUfl6PYTwBgp27AVRIbPdUEuI+uBKN9Dlb9HGJDJkxhbuF8uIVOcQfeFmTqcNhFoBOtZ
- rPC6L2cBOSa0EzokmQtRL5vzQ2qZOBPFGGoT28hHFQOLr5X6EIXZkbVB4lterpgNhVPeXet20iP
- zug6uiHbISnCqCPe4egldRkRNBfH9rpAXSroAA5MVEx+tMidgxLfgsBRVjuYJqWdny87RpO/cwA
- vk1i+qWSRcDh
-X-Google-Smtp-Source: AGHT+IHVMKQAcRvAe8Ru8jqcnZYt30PR8+TeSYcOpinNZ1wtFZ71833jO2mo4HCWThadfs6F2ffqfw==
-X-Received: by 2002:a2e:bcc5:0:b0:306:5c3:b4d0 with SMTP id
- 38308e7fff4ca-30761b8ba44mr32377961fa.2.1737717280986; 
- Fri, 24 Jan 2025 03:14:40 -0800 (PST)
+ bh=HqZJP4iufIhevyvAoHW7Eu6OisyxKDYbF5HtjUMC78k=;
+ b=OsxhLK3cEg1+Se+pJDfClJoF5pBnn+QGv0wEOctNRXyrkFbxwF7r1piFZ5xuATkBxy
+ JEw1S6NR8j1Hy9zmgeli/Q0YIE4TJzH6vmOAvQUyUwi6FadIss0WWTXlLr0q84zQYJVj
+ J3MwdD88Y3xKjlQi/NT92lE4qAEn3omkw13UwAb0mv+KBNOzsJeA6n87DIh/dtjT/Hl3
+ Is2jfNdTXIacmN+bdDANBZhR9Hljv1IiBq1PrS2YHkuXpvLn1ZBZsunu5bjKJBRP1F8C
+ KlWrmVIRu9ljsO2Z6oO2qYwvArTcTAHNMEp4/mff9CxnW0aqRmvKymeutzz27C3KRANE
+ jasg==
+X-Gm-Message-State: AOJu0Yxz7WRuLsuEobaPe3i4nykpvHuFfOG85YeeyN5jAhM6TcQ5AHKo
+ NWDH8AGBxc9eKpsYtpkikfO9+tDiE+c8rLJvfImtyOMppkH6y4swuoWWoG6Ik20=
+X-Gm-Gg: ASbGncuO573/ZpGdX+npkpjq9M0UjzM4fwivJrBiDp559TaVvXoG0dImNQFDydYQ/lc
+ n4kqLHWWU7a9bvqzNjIMvIBJxmJO/4lYiH9pgzDZMtLPcn+0Ux71ek3cuWoein3HCKugElunLYP
+ A7Q2u/B/0NWR1jQIKlNLOYMrqUzmIH0RLXfwF8CeoDSrdD05DvUX9/gccXbgsoYlV1oSm6lAkPh
+ UmedrLDJqayN5fxOd7AVh1E+SB58I8xFcQkvsNcF+lYpyPzcRRxUMHtbSAgBnbJ/gWxP3sAHRAz
+ msQAdfLHVvrv
+X-Google-Smtp-Source: AGHT+IGbygDMYFkk0NHDouJWb1lGgESCNIcAMGqnoMkLcYKm6hxwcjQGKts6Rc3SjiI4FqcEWgmtng==
+X-Received: by 2002:a05:651c:888:b0:302:4115:acc with SMTP id
+ 38308e7fff4ca-3072cb133d6mr127175271fa.26.1737717282519; 
+ Fri, 24 Jan 2025 03:14:42 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3076bacba5esm3289701fa.36.2025.01.24.03.14.38
+ 38308e7fff4ca-3076bacba5esm3289701fa.36.2025.01.24.03.14.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 03:14:39 -0800 (PST)
+ Fri, 24 Jan 2025 03:14:42 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 24 Jan 2025 13:14:23 +0200
-Subject: [PATCH 5/6] drm/msm/dpu: use atomic_needs_modeset for CDM check
+Date: Fri, 24 Jan 2025 13:14:24 +0200
+Subject: [PATCH 6/6] drm/msm: drop msm_atomic_check wrapper
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250124-atomic-needs-modeset-v1-5-b0c05c9eda0f@linaro.org>
+Message-Id: <20250124-atomic-needs-modeset-v1-6-b0c05c9eda0f@linaro.org>
 References: <20250124-atomic-needs-modeset-v1-0-b0c05c9eda0f@linaro.org>
 In-Reply-To: <20250124-atomic-needs-modeset-v1-0-b0c05c9eda0f@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,16 +76,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5402;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3359;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=RJbY2Rc5XWEYm7DVDGShoSdkiZEDKvsZ6ViiD3b/p6s=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnk3YVhnfHs7IeTGIT9ZCw63TSM0or1W73RRqCO
- jM4PlE72l+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ5N2FQAKCRCLPIo+Aiko
- 1SfjB/4pjKjgrLihmXFuc8/lEhY++xtfarlvxvtlPF7NNTAt8TD2ODkbq65HkGUq3BJhjyWFTg3
- 7jjR6lN0Qurx1jhFXRgAaLmwbwhmP1bsNPcdmhkqENq5DwRwoll/5z/6wrfExcbvmypMWhOs4mq
- F1fDmj8fZXSExioEAARKLBBzNzIpFvE9ne8GpThEhuJ/lHuWSlqqbh7u0eSYi9j6PHumwwYVK76
- Z16KvZ6td5a/UJG0JV3k+NUHGtokspzUvmh8h844NmsjDB1soVBgHcvWiCFCNJ8lHof6IFX1muy
- aZ4qXkbEy9LoU7Es/aKBoJ4QF6nQFwyM5M6gd5LygTSMm3F/
+ bh=STSqFPRboB3sQ4e2j7TOcKj/UooNkL+QUHC/wJG4nEI=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnk3YVzfyLXqMiGQiguLsbAbNz16n03nkZg3A86
+ jritelnE+SJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ5N2FQAKCRCLPIo+Aiko
+ 1ZfHB/0TLEmivajMQxYP83XdMY/7B2Y1Mw8PXawKgnfObCHfQq/5J523H4HSRJOCN16gkYtXIgi
+ DG+J71a51F3+tTe5P2KMApNtGaO8VHbgbB5MArsHLgKf0ne1ii8aMTPWoBUDqTPHi3Fe/ojPhDC
+ T/RnSmXAjEiZDr+fUnUgaLfw9FhASwWi8ONjNGgSMtx6fc9iELeKTHx2icUnyNdbuRgqzvXR2i3
+ hjxzM4vtFQ/ALQof/kfBO+tZt7ZEzws81M3gas+UpTWPSL+dNlxYUioN52zwCpheknppTVzGasH
+ NQetVf0FO8fyyA3JRLc9DrI0yV00vsBbO/pDkmB8yzE6eBRU
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,139 +103,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rework the CDM check into using the new atomic_needs_modeset()
-callbacks. This removes a need for the dpu-specific check_mode_changed()
-callback in the msm_kms_funcs structure.
+With the CTM and CDM checks now being handled by the component
+callbacks there is no need for additional wrappers around
+drm_atomic_helper_check() wrapper. Drop the msm_atomic_check() function
+and use the helper directly.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 35 +++++++++++++++++------------
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  4 ----
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 26 ---------------------
- 3 files changed, 21 insertions(+), 44 deletions(-)
+ drivers/gpu/drm/msm/msm_atomic.c | 14 --------------
+ drivers/gpu/drm/msm/msm_drv.h    |  1 -
+ drivers/gpu/drm/msm/msm_kms.c    |  2 +-
+ drivers/gpu/drm/msm/msm_kms.h    |  7 -------
+ 4 files changed, 1 insertion(+), 23 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-index 84313bc1f9888452914612fab559b390cf38c705..d09a5c682031b840d486cf48871964e395226d33 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
-@@ -753,32 +753,38 @@ static void dpu_encoder_assign_crtc_resources(struct dpu_kms *dpu_kms,
- 	cstate->num_mixers = num_lm;
+diff --git a/drivers/gpu/drm/msm/msm_atomic.c b/drivers/gpu/drm/msm/msm_atomic.c
+index 4377233bd6447060b1300cc0d6877b6a777b1edb..550bcc77acb0426df1f06b08032307c0deef6c4c 100644
+--- a/drivers/gpu/drm/msm/msm_atomic.c
++++ b/drivers/gpu/drm/msm/msm_atomic.c
+@@ -181,20 +181,6 @@ static unsigned get_crtc_mask(struct drm_atomic_state *state)
+ 	return mask;
  }
  
--/**
-- * dpu_encoder_virt_check_mode_changed: check if full modeset is required
-- * @drm_enc:    Pointer to drm encoder structure
-- * @crtc_state:	Corresponding CRTC state to be checked
-- * @conn_state: Corresponding Connector's state to be checked
-- *
-- * Check if the changes in the object properties demand full mode set.
-- */
--int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
--					struct drm_crtc_state *crtc_state,
--					struct drm_connector_state *conn_state)
-+static bool dpu_encoder_virt_atomic_needs_modeset(struct drm_encoder *drm_enc,
-+						  struct drm_atomic_state *state)
- {
- 	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
-+	struct drm_connector *connector;
-+	struct drm_connector_state *conn_state;
-+	struct drm_crtc_state *crtc_state;
- 	struct msm_display_topology topology;
- 
- 	DPU_DEBUG_ENC(dpu_enc, "\n");
- 
-+	connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
-+	if (!connector)
-+		return false;
-+
-+	conn_state = drm_atomic_get_new_connector_state(state, connector);
-+	if (!conn_state || !conn_state->crtc)
-+		return false;
-+
-+	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-+	if (!crtc_state)
-+		return false;
-+
- 	/* Using mode instead of adjusted_mode as it wasn't computed yet */
- 	topology = dpu_encoder_get_topology(dpu_enc, &crtc_state->mode, crtc_state, conn_state);
- 
- 	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
--		crtc_state->mode_changed = true;
-+		return true;
- 	else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
--		crtc_state->mode_changed = true;
-+		return true;
- 
--	return 0;
-+	return false;
- }
- 
- static int dpu_encoder_virt_atomic_check(
-@@ -2658,6 +2664,7 @@ static const struct drm_encoder_helper_funcs dpu_encoder_helper_funcs = {
- 	.atomic_mode_set = dpu_encoder_virt_atomic_mode_set,
- 	.atomic_disable = dpu_encoder_virt_atomic_disable,
- 	.atomic_enable = dpu_encoder_virt_atomic_enable,
-+	.atomic_needs_modeset = dpu_encoder_virt_atomic_needs_modeset,
- 	.atomic_check = dpu_encoder_virt_atomic_check,
- };
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-index da133ee4701a329f566f6f9a7255f2f6d050f891..92b5ee390788d16e85e195a664417896a2bf1cae 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
-@@ -88,8 +88,4 @@ void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
- 
- bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
- 
--int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
--					struct drm_crtc_state *crtc_state,
--					struct drm_connector_state *conn_state);
--
- #endif /* __DPU_ENCODER_H__ */
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 9748d24b3ffde45992d28b697a88db5992b00c69..97e9cb8c2b099f4757169cadf7e941148d2bfb16 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -446,31 +446,6 @@ static void dpu_kms_disable_commit(struct msm_kms *kms)
- 	pm_runtime_put_sync(&dpu_kms->pdev->dev);
- }
- 
--static int dpu_kms_check_mode_changed(struct msm_kms *kms, struct drm_atomic_state *state)
+-int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state *state)
 -{
--	struct drm_crtc_state *new_crtc_state;
--	struct drm_connector *connector;
--	struct drm_connector_state *new_conn_state;
--	int i;
+-	struct msm_drm_private *priv = dev->dev_private;
+-	struct msm_kms *kms = priv->kms;
+-	int ret = 0;
 -
--	for_each_new_connector_in_state(state, connector, new_conn_state, i) {
--		struct drm_encoder *encoder;
+-	if (kms && kms->funcs && kms->funcs->check_mode_changed)
+-		ret = kms->funcs->check_mode_changed(kms, state);
+-	if (ret)
+-		return ret;
 -
--		WARN_ON(!!new_conn_state->best_encoder != !!new_conn_state->crtc);
--
--		if (!new_conn_state->crtc || !new_conn_state->best_encoder)
--			continue;
--
--		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_conn_state->crtc);
--
--		encoder = new_conn_state->best_encoder;
--
--		dpu_encoder_virt_check_mode_changed(encoder, new_crtc_state, new_conn_state);
--	}
--
--	return 0;
+-	return drm_atomic_helper_check(dev, state);
 -}
 -
- static void dpu_kms_flush_commit(struct msm_kms *kms, unsigned crtc_mask)
+ void msm_atomic_commit_tail(struct drm_atomic_state *state)
  {
- 	struct dpu_kms *dpu_kms = to_dpu_kms(kms);
-@@ -1087,7 +1062,6 @@ static const struct msm_kms_funcs kms_funcs = {
- 	.irq             = dpu_core_irq,
- 	.enable_commit   = dpu_kms_enable_commit,
- 	.disable_commit  = dpu_kms_disable_commit,
--	.check_mode_changed = dpu_kms_check_mode_changed,
- 	.flush_commit    = dpu_kms_flush_commit,
- 	.wait_flush      = dpu_kms_wait_flush,
- 	.complete_commit = dpu_kms_complete_commit,
+ 	struct drm_device *dev = state->dev;
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index fee31680a6d540d87cada67342bd5bee721662df..321f3c1f4932434e7fb6d18548f27df13c56eb71 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -232,7 +232,6 @@ int msm_atomic_init_pending_timer(struct msm_pending_timer *timer,
+ 		struct msm_kms *kms, int crtc_idx);
+ void msm_atomic_destroy_pending_timer(struct msm_pending_timer *timer);
+ void msm_atomic_commit_tail(struct drm_atomic_state *state);
+-int msm_atomic_check(struct drm_device *dev, struct drm_atomic_state *state);
+ struct drm_atomic_state *msm_atomic_state_alloc(struct drm_device *dev);
+ 
+ int msm_crtc_enable_vblank(struct drm_crtc *crtc);
+diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
+index 4cfad12f4dc1f91a78b36572f6643ac135e00067..2d934fc0fcfd90a67f934d01fd9b194d4eb97609 100644
+--- a/drivers/gpu/drm/msm/msm_kms.c
++++ b/drivers/gpu/drm/msm/msm_kms.c
+@@ -22,7 +22,7 @@
+ 
+ static const struct drm_mode_config_funcs mode_config_funcs = {
+ 	.fb_create = msm_framebuffer_create,
+-	.atomic_check = msm_atomic_check,
++	.atomic_check = drm_atomic_helper_check,
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
+ 
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index ec2a75af89b09754faef1a07adc9338f7d78161e..e60162744c669773b6e5aef824a173647626ab4e 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -59,13 +59,6 @@ struct msm_kms_funcs {
+ 	void (*enable_commit)(struct msm_kms *kms);
+ 	void (*disable_commit)(struct msm_kms *kms);
+ 
+-	/**
+-	 * @check_mode_changed:
+-	 *
+-	 * Verify if the commit requires a full modeset on one of CRTCs.
+-	 */
+-	int (*check_mode_changed)(struct msm_kms *kms, struct drm_atomic_state *state);
+-
+ 	/**
+ 	 * Prepare for atomic commit.  This is called after any previous
+ 	 * (async or otherwise) commit has completed.
 
 -- 
 2.39.5
