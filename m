@@ -2,82 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50340A1B8D7
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 16:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0516AA1B8EB
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 16:22:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5359010E9AD;
-	Fri, 24 Jan 2025 15:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55CB710E9AE;
+	Fri, 24 Jan 2025 15:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="woBRRGQU";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GU2fnbjU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8691310E9AD
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 15:20:25 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-215740b7fb8so162205ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1737732025; x=1738336825;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SYPf2LUjlgrOWAVceU7WuHio67CjjBc5MKyrd+YyW78=;
- b=woBRRGQUZQ9tXAsMejaDhVoEhaGekjl6VQQoKtDt4GoMrhRCR05m4whJlmA9kg0DXV
- jpAxzhADBy5Guuy31gztz13xPdrrKabf8In51AsndX7zvwmCaa0k0McONv0qqy8YXUkF
- F7dwR9wDv+qBRRCbyvAHYYnQ0L+Kikq41IueISDeliO6Pzvo/vZMPHnODR1AcfDQ5bXo
- 4ebLxB0PayFzR2vbaa9W0RPng0PXIUR3nAhJeBfTwwk9hiO3DNHkD1xvmvuIKn6DFxYA
- 0mzLCK8cUpy6x/K8Ljc/RKokSq0W+9mYKN3XAUkCXHruBkcK1rPHevNtDOpruEgJvHEF
- 3PHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737732025; x=1738336825;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=SYPf2LUjlgrOWAVceU7WuHio67CjjBc5MKyrd+YyW78=;
- b=ZsYAQ1zaNPjn3JAuzQkiRsxUXt7McuIxXntincjAiOpFIzpI1I291NINJpNWyHCzp+
- IeZikafzkeTmW2zI6OL1HNWg+iTru3Sjs58A8jlbYDjOfldClDIOu2DHRXZ9T3HSd8R7
- tla2tSXSyrdGjdbCIK4jXd1xmytF4m/nmwnMbCA6tTD9486vA+B1pUa2rSfpxDPmb/AN
- XAss5gyCXbHw28f3N2esvHfcH1uy7rnzosKut1uyYgNkzVHL/uIHhgZ+CPGLwKh35T2D
- ok619oU5J9ONSvEJdn7SUQF+mhLusFNdvt7EcGXAKuezTlszCd2tqjRIkRPZ7ABNZK2l
- Av+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUny0Q4bhJHbsHfE8llvIBNBg94/EEnfixy6twSOOG1LkqP6UidVNQsPlVMkmddBj+YnY2IBDn/XTo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweK8fUQgN4cR/mUxP8VFWTaB0YwooMsDkwLPIHkAwqf2aAmmH5
- JhqJc1oR6uSjdbrHF3dSAfNA6G4t8k7j7WR6V7mwuA/nD4mTbpuAPnGe56tbgIRyvNuTJIwBFp/
- scpCjsE+b58F0TElbUxLuRQcRrS7EE5Oa0Kwi
-X-Gm-Gg: ASbGncsR33NzMqhP+LX12iP3rKQkv3NH6Y1Xs9N0DFe3tDnfpOJtQtWcdNdqwmRyXqt
- +/qdxvEQCWOwPQw5OeAndZIOoGqdXFpGN1Xx3hUJ3M/wGvzXqBp9VcXiZZvr1
-X-Google-Smtp-Source: AGHT+IG9ohQRM9HL76Qi+3nwEdd3Es5b/Nm30tErg2OwJ7Xs9TmLtXt37CZs7X0OMbTwlvFUfx+bMx0Iwf++I1DvJmw=
-X-Received: by 2002:a17:903:320a:b0:20b:5e34:1850 with SMTP id
- d9443c01a7336-21d9ad2f38amr5652575ad.23.1737732023343; Fri, 24 Jan 2025
- 07:20:23 -0800 (PST)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2059.outbound.protection.outlook.com [40.107.237.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 44CBA10E997;
+ Fri, 24 Jan 2025 15:22:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dvTYdkyo3OqCfTsdFAP7nkewLAicityRL/Jl3OsMhvpu+a5DcP/XYofxD8wrrlha9GXLNLDhnfagmXm59FJR0P/z2R6T5KH1tV140VXtdGuiw5sMc6qgi9P5OkaQnLutqV5a23uMA2pzqzyFBZ4hWCKRMivwHUHbiAX0Rux/4RsooR4ADZNg/VNuYQDlK/oJLee8cbhhF73UrOhxmAID1pt84zmmHsffBkn3fNKA5P9BMKT1m2drztX3Vt5vZif8kLhVc2BQsNm3Fge0feuBIEzOrmgvotIOhDtNFfJ3gTooRHzJlYTRWtQERsTNvFnwKA7aSD/dJd+WFlDmoX8bYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6eAtXjzFMmtyexOsGjWPMK/Zll/6K1xkkpUaMYInQ6k=;
+ b=fQLX4rCo78YlkFlmRqVzxrT8YqhItbQ8vaGDheBawYuhTIZ9pmzBlFpcqSinJRhA994h7N13pJhFLsQAp9Wto2A5IIcp0h4dNC+5zKHGwWGv28vtLfCXECIPsRVRrit4GCOOqixaCOLKQc9yolrzkPCKRlZqLtLeJkxK2F3zKzfY/ejL5nbGgQRR96mKm/GFfuioiFzjoWJ7zHB+0GY6jFrAIZxB0ORWJ/cPuUhvp+spzAhU6M8kSO1S7SZ0hv1XNdQFf9U9xDrDSSEZzx28t/disG2uOCUDcfLGX5C7sy/TlQgFt5QMyOVwXxDj8t+m9aFb7H8NHSWlZHSRcr96yA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6eAtXjzFMmtyexOsGjWPMK/Zll/6K1xkkpUaMYInQ6k=;
+ b=GU2fnbjUsRGl1hlR33Zk8XEQTLf4MVFL5kOsrMrG3fQWi9wqoY9tE+E8/O/ziXYgTGmml8SOZ/tXJ/tPHD2+2aW6xWWF3sjcwE4TX7FyyeOBDLyawlrgNQhBxrugep0MJcXwlSixLJqyxCCG+Q8T5GUZuz73TtnYt9D7guvn844=
+Received: from BL1PR13CA0362.namprd13.prod.outlook.com (2603:10b6:208:2c0::7)
+ by BY5PR12MB4241.namprd12.prod.outlook.com (2603:10b6:a03:20c::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.16; Fri, 24 Jan
+ 2025 15:22:18 +0000
+Received: from BL02EPF00021F6E.namprd02.prod.outlook.com
+ (2603:10b6:208:2c0:cafe::57) by BL1PR13CA0362.outlook.office365.com
+ (2603:10b6:208:2c0::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8377.10 via Frontend Transport; Fri,
+ 24 Jan 2025 15:22:17 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL02EPF00021F6E.mail.protection.outlook.com (10.167.249.10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8377.8 via Frontend Transport; Fri, 24 Jan 2025 15:22:17 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 24 Jan
+ 2025 09:22:15 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd drm-next-6.14
+Date: Fri, 24 Jan 2025 10:21:52 -0500
+Message-ID: <20250124152153.3861868-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-References: <20250116155340.533180-1-bgeffon@google.com>
- <PH7PR11MB8252B7BF1D1B6ADE94839F8F89E02@PH7PR11MB8252.namprd11.prod.outlook.com>
-In-Reply-To: <PH7PR11MB8252B7BF1D1B6ADE94839F8F89E02@PH7PR11MB8252.namprd11.prod.outlook.com>
-From: Brian Geffon <bgeffon@google.com>
-Date: Fri, 24 Jan 2025 10:19:47 -0500
-X-Gm-Features: AWEUYZl6QulbUxISxp6-vL7i1ZnPpkKwqUg007rJfLqh0Cih4D1oUBq_JzuWIIw
-Message-ID: <CADyq12xLorH1kzH6ezp2Z_SYv-AVbrp+h98FeYP+hbt2R1_1Nw@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/i915: Fix page cleanup on DMA remap failure
-To: "Srinivas, Vidya" <vidya.srinivas@intel.com>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
- "Wilson, Chris P" <chris.p.wilson@intel.com>, "Saarinen,
- Jani" <jani.saarinen@intel.com>, 
- "Mistat, Tomasz" <tomasz.mistat@intel.com>, 
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>, 
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- "stable@vger.kernel.org" <stable@vger.kernel.org>,
- Tomasz Figa <tfiga@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F6E:EE_|BY5PR12MB4241:EE_
+X-MS-Office365-Filtering-Correlation-Id: 131f63cb-43d9-42a3-edaa-08dd3c8ae349
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?N0pRczNsNHdkY09kaTRQRnRBcm52QUhoQUZHczdnR00vQVlTUGtCNDJaQjF0?=
+ =?utf-8?B?NForQitYVnBNMm5WQ2FmeEY4VW9pTWRKTEJYOVgyN2xZeUxvd2sxUDZzVUo0?=
+ =?utf-8?B?eVExMjZMR1Fwc21URHh3Y1JQdXRHcUtvR2pPalJORktCTUJiMmFNKzZ5V0ZU?=
+ =?utf-8?B?ay9yb2Vzbm1sOFJwemsrUG5Sc3c2S3JhVkg5OWJXUHpMNEFHOHZyanJFNnBi?=
+ =?utf-8?B?NW1qYnFMS1hxMkNrTUdMV01VMHBiVW9PRzRZajNMaDNkN2NnSHdqY0JvdnFM?=
+ =?utf-8?B?VmkwN1NwWGliUXlHQysxbVErNEtFZ1o4RFVudGpYNFVFc2NuZENqSjZpOFcx?=
+ =?utf-8?B?SVF0ZFRJMGRrQXBWNzdFSDBBOU1xd1c4Rzh6VEhKaWYxM3FrQ0FCTitkWWJr?=
+ =?utf-8?B?YjNodERyY09EVlUySG8wNTNLWE1neUpxdzhtQThlVXRMcTB1b3hhQlVMR0ZF?=
+ =?utf-8?B?ZWN2NTllT3lINmQ5RytCTmZMYktaM1Zha3BydVIvcUh5TGpuMHJiK2MxeFl3?=
+ =?utf-8?B?MlpOQjJWejd5Mk1NQlMzV3FIWnhXaXhQbFRKUlMyN1Zwcno5RnRHdG5DUE8z?=
+ =?utf-8?B?R0NmSFI2andldkE5L1NwN2U1UzgxYkdydmo0bVVUVGdoUVVlRWNicFdlMFM3?=
+ =?utf-8?B?VmV2L01yWkQyeGgra1hSQTRSY2x6cjlYa040aTFZS1lCa0NsY3NiWk9CQ1U5?=
+ =?utf-8?B?ZlBVTm1EeTUrQ1IxTUtSOFVLcC9NejNXOFpSYTZxeXFuZjBubXcwbUlacXBq?=
+ =?utf-8?B?a1d3Y1JneW5YQUhiNjNieFRjdFFQWHFPL0NJVzhoOXRuWVdPVWlvbEkrOE9G?=
+ =?utf-8?B?TUJkMVQyMHJxUDN0UWV3a2VBSkFWWUZlTEhCSWlZN1RqblZVV05TU0xNMm5o?=
+ =?utf-8?B?WGZ4TzY1YUJQWTBpcWVQWldzM0RKdFRLT2tVUEt0WU9VOFhseVQyaFdYUnZE?=
+ =?utf-8?B?Nks2dE9pS2hzQVh1RDFaR2M2YlNrWGdmM2lvbXZqWlM1WHR4L0laaGpQdDRM?=
+ =?utf-8?B?RHh4MFFjeG9qaGRzbDErQk9WYmY1Y2VUOG9xYm0zZ3B2MGlLSWdzVTFLdkgw?=
+ =?utf-8?B?Z1UwTm90YnNraVZUVEVPQ2dkSHNDOUs0Q1lPNElPNHlFTHN2cjA2UUwvejht?=
+ =?utf-8?B?aG8xckJzRUVNQ1lvTC9nei90K1hLQ1MvdVZvVkxSNkpML0c2bTQ1OE1GbUxx?=
+ =?utf-8?B?RTVyVEZlQUVCZzNETTFNYWljMEU2NWlPdnFLeEo0dG9uK2g5K3R3aEt1Snd2?=
+ =?utf-8?B?V0RLa1h5cm1ldm01dDVUSmxWdEpFd1RsaEVnTFF2LzU0aE1LNCttb3NLaTJC?=
+ =?utf-8?B?NThKMGh0RkIwSTdvOXN5N2NPeG9XOW0xZ0x4K3dEZnM3eFNmREJ4QURVT3hL?=
+ =?utf-8?B?YXBvL0krS2M0WUpEaTZsRFR3clNjbDUzeHhEa2lZN2xEbnIzek90MW5ldVdv?=
+ =?utf-8?B?c3Y5KzkxNnlVUXlkL1VxWVBiQTd2VmhWemNKUnoxc1hLbkdpa0VabEJ6VW1O?=
+ =?utf-8?B?N01vcll1eG8yb2VYU3pXcFY1aG9NbnFwMy9oUDd1c3NTSW9vbXdUVUNPbm5N?=
+ =?utf-8?B?Y0Rkand6cDhWYnpZRlZHU3oyWXNadUF2elNBcmFkU3FYc0dlNVQxUHFLVHo2?=
+ =?utf-8?B?RHJ2MFRtczhla1lsS3FwTStBZGVrODZlT0ZWcXZzb0F0U1MvWkx2bmowNFNi?=
+ =?utf-8?B?TjNWeFQxb2dXVTlJazhpRzUrY3Yyam9yRDVGcGN3NllOZkk2Vy9HNGMzYldu?=
+ =?utf-8?B?czQ2Z2JibGJXc3p5bG9hdnNVSFhYZExLeVhMNWcwMFdHK3crZ3c3cEhhdkJR?=
+ =?utf-8?B?Qy91emhMRnp2bDNnQ1g4aEk3OHpzOG1HWnBjYlZBWkpUVi85d0JEcWg1U05t?=
+ =?utf-8?B?NitLaDdId2NZYWZsNEdyK3d4MlNVcGxkbjltOHBySTMwcStiYzdVVVU2WHQz?=
+ =?utf-8?Q?faMC58X++y0=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2025 15:22:17.2279 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 131f63cb-43d9-42a3-edaa-08dd3c8ae349
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00021F6E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4241
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,202 +139,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 22, 2025 at 10:07=E2=80=AFPM Srinivas, Vidya
-<vidya.srinivas@intel.com> wrote:
->
-> Hello Brian, Many thanks for the fix. I am adding my tested-by.
-> Tested-by: Vidya Srinivas <vidya.srinivas@intel.com>
+Hi Dave, Simona,
 
-Thanks for testing Vidya.
+Fixes for 6.14 from last two weeks.  Fixed missing s-o-b.
 
-Can we get a maintainer to take a look?
+The following changes since commit 24c61d553302ee49e9c21dd251275ba8c36dcfe4:
 
->
->
-> > -----Original Message-----
-> > From: Brian Geffon <bgeffon@google.com>
-> > Sent: 16 January 2025 21:24
-> > To: intel-gfx@lists.freedesktop.org
-> > Cc: Wilson, Chris P <chris.p.wilson@intel.com>; Saarinen, Jani
-> > <jani.saarinen@intel.com>; Mistat, Tomasz <tomasz.mistat@intel.com>;
-> > Srinivas, Vidya <vidya.srinivas@intel.com>; ville.syrjala@linux.intel.c=
-om;
-> > jani.nikula@linux.intel.com; linux-kernel@vger.kernel.org; dri-
-> > devel@lists.freedesktop.org; Joonas Lahtinen
-> > <joonas.lahtinen@linux.intel.com>; Brian Geffon <bgeffon@google.com>;
-> > stable@vger.kernel.org; Tomasz Figa <tfiga@google.com>
-> > Subject: [PATCH v2] drm/i915: Fix page cleanup on DMA remap failure
-> >
-> > When converting to folios the cleanup path of shmem_get_pages() was
-> > missed. When a DMA remap fails and the max segment size is greater than
-> > PAGE_SIZE it will attempt to retry the remap with a PAGE_SIZEd segment =
-size.
-> > The cleanup code isn't properly using the folio apis and as a result is=
-n't
-> > handling compound pages correctly.
-> >
-> > v1 -> v2:
-> >   (Ville) Fixed locations where we were not clearing mapping unevictabl=
-e.
-> >
-> > Cc: stable@vger.kernel.org
-> > Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> > Cc: Vidya Srinivas <vidya.srinivas@intel.com>
-> > Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13487
-> > Link: https://lore.kernel.org/lkml/20250116135636.410164-1-
-> > bgeffon@google.com/
-> > Fixes: 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a
-> > folio_batch")
-> > Signed-off-by: Brian Geffon <bgeffon@google.com>
-> > Suggested-by: Tomasz Figa <tfiga@google.com>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_object.h |  3 +--
-> > drivers/gpu/drm/i915/gem/i915_gem_shmem.c  | 23 +++++++++-------------
-> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  7 ++++---
-> >  3 files changed, 14 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > index 3dc61cbd2e11..0f122a12d4a5 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> > @@ -843,8 +843,7 @@ int shmem_sg_alloc_table(struct drm_i915_private
-> > *i915, struct sg_table *st,
-> >                        size_t size, struct intel_memory_region *mr,
-> >                        struct address_space *mapping,
-> >                        unsigned int max_segment);
-> > -void shmem_sg_free_table(struct sg_table *st, struct address_space
-> > *mapping,
-> > -                      bool dirty, bool backup);
-> > +void shmem_sg_free_table(struct sg_table *st, bool dirty, bool backup)=
-;
-> >  void __shmem_writeback(size_t size, struct address_space *mapping);
-> >
-> >  #ifdef CONFIG_MMU_NOTIFIER
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> > b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> > index fe69f2c8527d..b320d9dfd6d3 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> > @@ -29,16 +29,13 @@ static void check_release_folio_batch(struct
-> > folio_batch *fbatch)
-> >       cond_resched();
-> >  }
-> >
-> > -void shmem_sg_free_table(struct sg_table *st, struct address_space
-> > *mapping,
-> > -                      bool dirty, bool backup)
-> > +void shmem_sg_free_table(struct sg_table *st, bool dirty, bool backup)
-> >  {
-> >       struct sgt_iter sgt_iter;
-> >       struct folio_batch fbatch;
-> >       struct folio *last =3D NULL;
-> >       struct page *page;
-> >
-> > -     mapping_clear_unevictable(mapping);
-> > -
-> >       folio_batch_init(&fbatch);
-> >       for_each_sgt_page(page, sgt_iter, st) {
-> >               struct folio *folio =3D page_folio(page); @@ -180,10 +177=
-,10
-> > @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_ta=
-ble
-> > *st,
-> >       return 0;
-> >  err_sg:
-> >       sg_mark_end(sg);
-> > +     mapping_clear_unevictable(mapping);
-> >       if (sg !=3D st->sgl) {
-> > -             shmem_sg_free_table(st, mapping, false, false);
-> > +             shmem_sg_free_table(st, false, false);
-> >       } else {
-> > -             mapping_clear_unevictable(mapping);
-> >               sg_free_table(st);
-> >       }
-> >
-> > @@ -209,8 +206,6 @@ static int shmem_get_pages(struct
-> > drm_i915_gem_object *obj)
-> >       struct address_space *mapping =3D obj->base.filp->f_mapping;
-> >       unsigned int max_segment =3D i915_sg_segment_size(i915->drm.dev);
-> >       struct sg_table *st;
-> > -     struct sgt_iter sgt_iter;
-> > -     struct page *page;
-> >       int ret;
-> >
-> >       /*
-> > @@ -239,9 +234,8 @@ static int shmem_get_pages(struct
-> > drm_i915_gem_object *obj)
-> >                * for PAGE_SIZE chunks instead may be helpful.
-> >                */
-> >               if (max_segment > PAGE_SIZE) {
-> > -                     for_each_sgt_page(page, sgt_iter, st)
-> > -                             put_page(page);
-> > -                     sg_free_table(st);
-> > +                     /* Leave the mapping unevictable while we retry *=
-/
-> > +                     shmem_sg_free_table(st, false, false);
-> >                       kfree(st);
-> >
-> >                       max_segment =3D PAGE_SIZE;
-> > @@ -265,7 +259,8 @@ static int shmem_get_pages(struct
-> > drm_i915_gem_object *obj)
-> >       return 0;
-> >
-> >  err_pages:
-> > -     shmem_sg_free_table(st, mapping, false, false);
-> > +     mapping_clear_unevictable(mapping);
-> > +     shmem_sg_free_table(st, false, false);
-> >       /*
-> >        * shmemfs first checks if there is enough memory to allocate the
-> > page
-> >        * and reports ENOSPC should there be insufficient, along with th=
-e
-> > usual @@ -402,8 +397,8 @@ void
-> > i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj,
-> > struct sg_
-> >       if (i915_gem_object_needs_bit17_swizzle(obj))
-> >               i915_gem_object_save_bit_17_swizzle(obj, pages);
-> >
-> > -     shmem_sg_free_table(pages, file_inode(obj->base.filp)->i_mapping,
-> > -                         obj->mm.dirty, obj->mm.madv =3D=3D
-> > I915_MADV_WILLNEED);
-> > +     mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
-> > +     shmem_sg_free_table(pages, obj->mm.dirty, obj->mm.madv =3D=3D
-> > +I915_MADV_WILLNEED);
-> >       kfree(pages);
-> >       obj->mm.dirty =3D false;
-> >  }
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > index 10d8673641f7..37f51a04b838 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> > @@ -232,7 +232,8 @@ static int i915_ttm_tt_shmem_populate(struct
-> > ttm_device *bdev,
-> >       return 0;
-> >
-> >  err_free_st:
-> > -     shmem_sg_free_table(st, filp->f_mapping, false, false);
-> > +     mapping_clear_unevictable(filp->f_mapping);
-> > +     shmem_sg_free_table(st, false, false);
-> >
-> >       return err;
-> >  }
-> > @@ -243,8 +244,8 @@ static void i915_ttm_tt_shmem_unpopulate(struct
-> > ttm_tt *ttm)
-> >       bool backup =3D ttm->page_flags & TTM_TT_FLAG_SWAPPED;
-> >       struct sg_table *st =3D &i915_tt->cached_rsgt.table;
-> >
-> > -     shmem_sg_free_table(st, file_inode(i915_tt->filp)->i_mapping,
-> > -                         backup, backup);
-> > +     mapping_clear_unevictable(file_inode(i915_tt->filp)->i_mapping);
-> > +     shmem_sg_free_table(st, backup, backup);
-> >  }
-> >
-> >  static void i915_ttm_tt_release(struct kref *ref)
-> > --
-> > 2.48.0.rc2.279.g1de40edade-goog
->
+  Merge tag 'drm-msm-next-2025-01-07' of gitlab.freedesktop.org:drm/msm into drm-next (2025-01-13 11:14:07 +1000)
 
-Thanks
-Brian
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.14-2025-01-24
+
+for you to fetch changes up to 024771f3fb75dc817e9429d5763f1a6eb84b6f21:
+
+  drm/amd/display: Optimize cursor position updates (2025-01-24 09:56:28 -0500)
+
+----------------------------------------------------------------
+amd-drm-next-6.14-2025-01-24:
+
+amdgpu:
+- Documentation fixes
+- SMU 13.x fixes
+- SR-IOV fix
+- Display fix
+- PCIe calculation fix
+- MES 12 fix
+- HUBP fix
+- Cursor fix
+- Enforce isolation fixes
+- GFX 12 fix
+- Use drm scheduler API helper rather than open coding it
+- Mark some debugging parameters as unsafe
+- PSP 14.x fix
+- Add cleaner shader support for gfx12
+- Add subvp debugging flag
+- SDMA 4.4.x fix
+- Clarify some kernel log messages
+- clang fix
+- PCIe lane reporting fix
+- Documentation fix
+
+amdkfd:
+- Mark some debugging parameters as unsafe
+- Fix partial migration handling
+- Trap handler updates
+
+----------------------------------------------------------------
+Alex Deucher (4):
+      drm/amdgpu: cache gpu pcie link width
+      drm/amdgpu: fix the PCIe lanes reporting in the INFO IOCTL
+      drm/amd/display: fix CEC DC_DEBUG_MASK documentation
+      drm/amd/display: fix SUBVP DC_DEBUG_MASK documentation
+
+Aric Cyr (2):
+      drm/amd/display: Add hubp cache reset when powergating
+      drm/amd/display: Optimize cursor position updates
+
+Aurabindo Pillai (1):
+      drm/amd: Add debug option to disable subvp
+
+Christian König (2):
+      drm/amdgpu: mark a bunch of module parameters unsafe
+      drm/amdgpu: always sync the GFX pipe on ctx switch
+
+Emily Deng (1):
+      drm/amdkfd: Fix partial migrate issue
+
+Gui Chengming (1):
+      drm/amdgpu: fix fw attestation for MP0_14_0_{2/3}
+
+Jay Cornwall (2):
+      drm/amdkfd: Sync trap handler binary with source
+      drm/amdkfd: Clear MODE.VSKIP in gfx9 trap handler
+
+Jesse.zhang@amd.com (3):
+      revert "drm/amdgpu/pm: Implement SDMA queue reset for different asic"
+      revert "drm/amdgpu/pm: add definition PPSMC_MSG_ResetSDMA2"
+      drm/amd/pm: Refactor SMU 13.0.6 SDMA reset firmware version checks
+
+Kenneth Feng (1):
+      drm/amdgpu: disable gfxoff with the compute workload on gfx12
+
+Kent Russell (1):
+      drm/amdgpu: Mark debug KFD module params as unsafe
+
+Lijo Lazar (4):
+      drm/amdgpu: Add handler for SDMA context empty
+      drm/amdgpu: Refine ip detection log message
+      drm/amd/pm: Add capability flags for SMU v13.0.6
+      drm/amd/pm: Fix smu v13.0.6 caps initialization
+
+Lin.Cao (1):
+      drm/amdgpu: fix ring timeout issue in gfx10 sr-iov environment
+
+Mario Limonciello (1):
+      drm/amd: Clarify kdoc for amdgpu.gttsize
+
+Shaoyun Liu (1):
+      drm/amd/amdgpu: Enable scratch data dump for mes 12
+
+Srinivasan Shanmugam (4):
+      drm/amdgpu: Fix Circular Locking Dependency in AMDGPU GFX Isolation
+      drm/amdgpu/gfx12: Add Cleaner Shader Support for GFX12.0 GPUs
+      drm/amd/display: Fix error pointers in amdgpu_dm_crtc_mem_type_changed
+      drm/amd/amdgpu: Prevent null pointer dereference in GPU bandwidth calculation
+
+Tvrtko Ursulin (1):
+      drm/amdgpu: Use DRM scheduler API in amdgpu_xcp_release_sched
+
+Tzung-Bi Shih (1):
+      drm/amd/display: mark static functions noinline_for_stack
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |    5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  156 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            |   26 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fw_attestation.c |    4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |   12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c             |    6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |   19 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_mes.h            |    2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sdma.h           |    1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c            |    2 +-
+ drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c             |    8 +
+ drivers/gpu/drm/amd/amdgpu/mes_v12_0.c             |   49 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c           |   22 +
+ drivers/gpu/drm/amd/amdkfd/cwsr_trap_handler.h     | 2391 ++++++++++----------
+ .../gpu/drm/amd/amdkfd/cwsr_trap_handler_gfx9.asm  |    4 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_migrate.c           |   22 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |    8 +
+ .../drm/amd/display/dc/dml2/display_mode_core.c    |   12 +-
+ .../dml21/src/dml2_core/dml2_core_dcn4_calcs.c     |   12 +-
+ .../gpu/drm/amd/display/dc/dpp/dcn10/dcn10_dpp.c   |   10 +-
+ .../drm/amd/display/dc/dpp/dcn401/dcn401_dpp_cm.c  |    6 +-
+ .../gpu/drm/amd/display/dc/hubp/dcn10/dcn10_hubp.c |   10 +-
+ .../gpu/drm/amd/display/dc/hubp/dcn10/dcn10_hubp.h |    2 +
+ .../gpu/drm/amd/display/dc/hubp/dcn20/dcn20_hubp.c |    9 +-
+ .../drm/amd/display/dc/hubp/dcn201/dcn201_hubp.c   |    1 +
+ .../gpu/drm/amd/display/dc/hubp/dcn21/dcn21_hubp.c |    3 +
+ .../gpu/drm/amd/display/dc/hubp/dcn30/dcn30_hubp.c |    3 +
+ .../gpu/drm/amd/display/dc/hubp/dcn31/dcn31_hubp.c |    1 +
+ .../gpu/drm/amd/display/dc/hubp/dcn32/dcn32_hubp.c |    1 +
+ .../gpu/drm/amd/display/dc/hubp/dcn35/dcn35_hubp.c |    1 +
+ .../drm/amd/display/dc/hubp/dcn401/dcn401_hubp.c   |   13 +-
+ .../drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c    |    2 +
+ .../drm/amd/display/dc/hwss/dcn35/dcn35_hwseq.c    |    2 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/hubp.h       |    2 +
+ drivers/gpu/drm/amd/include/amd_pcie.h             |   18 +
+ drivers/gpu/drm/amd/include/amd_shared.h           |    7 +-
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_6_ppsmc.h   |    1 -
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |    3 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_v13_0.h       |    1 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  286 ++-
+ 40 files changed, 1743 insertions(+), 1400 deletions(-)
