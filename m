@@ -2,55 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A06A1B31C
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F66A1B31F
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:56:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 662DA10E93B;
-	Fri, 24 Jan 2025 09:53:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CE6D10E93D;
+	Fri, 24 Jan 2025 09:56:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="YF/UJtRU";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="RtM3Uwup";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6312A10E93B
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 09:53:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=hs5L4OGygStQe7OHoNkefT/tMFgW51GwAYzbcK2ttsE=; b=Y
- F/UJtRU4x54Wka25W8F3b+ZnQt3yz+C2b+iiZd1v0ySkf81lRi0p7vYoQFWUzD5H
- Zu7XAsap66cBnuDUDC0NCpx4jv2oMg1K3AyHu2dmPi5sY5Lfp6Se1yTQiJW2CJAF
- wCOkr1d+tNPcjD1QqvLTEnV06Oc3gEBLEMCX3Pkw+k=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-141 (Coremail) ; Fri, 24 Jan 2025 17:53:39 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Fri, 24 Jan 2025 17:53:39 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Jani Nikula" <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Subject: Re:[PATCH 2/5] drm/rockchip: stop passing non struct drm_device to
- drm_err() and friends
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <f42da4c9943a2f2a9de4272b7849e72236d4c3f9.1737644530.git.jani.nikula@intel.com>
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <f42da4c9943a2f2a9de4272b7849e72236d4c3f9.1737644530.git.jani.nikula@intel.com>
-X-NTES-SC: AL_Qu2YBfuavUwq7yaZbekfmkcVgOw9UcO5v/Qk3oZXOJF8jCrr+CUnVkFMJFbsweeONhCLrheYTj1O48h1bZN6b5MbiaK7Zc1eE4ijTZUsQjP0ag==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4BBF10E93D
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 09:56:10 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4361b6f9faeso12305345e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 01:56:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1737712569; x=1738317369; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=HFtaZY6ZZraVAs4Am9Vg5xV1oypKfUrqh6METYm11sk=;
+ b=RtM3Uwup9zuXp6l6XAg+z1L9QhwS0F19a1um+5uObDmuM4ZXiR1iFtf34EiM9zTrJS
+ 1JKAN7ufQKMTaZ4yM29qSZojswyqG4UlnyN6dAlvlxmw7WA5lYM/4fJDcsZCBV/t2QAp
+ TQn8iyAw3JQPm+iOX0o4FpIYG8VBlQVWuY8e2hYMt9N/BArZTUIs/k9tycJc/KD3blAR
+ CpEBkrB5V0jW/l9Skt/fFF/h66pOUJZ9ToyMmQRBzpWtFYkU7hwIyMWMaUzesRuDvJDo
+ 9g1RtNEmkwxgyl/b0jsLZJDgXgS6TXa8jBs8njzxTIu0PyzzaD1PPE5hfrcraz5/DNXW
+ Si3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737712569; x=1738317369;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=HFtaZY6ZZraVAs4Am9Vg5xV1oypKfUrqh6METYm11sk=;
+ b=fcmAppKRUGWEAqLSseMqIbrIhgnWHPpp/gFxJxh5lI03oGLb1MWtMF7fmDJishTgre
+ CiAPDcHb3jr/OrW9pj1ywXnINARCwiW2Yad0vGHkv+9dgSMYPv+8eDEzjJd9bqxAooCt
+ ulGHc3p3MYKT+vB6+zEgFOl6RslZScyEK+zJwpJSucPLCnqccqp4K2kwFbhGAFS4ujnx
+ Qp9sknUQX8ycWFNSDBYohvqxUSr9sCvFx6nCTXHnpZ0AslsSzOmeezkrO1y0Nddl4dl9
+ WJz+EaO+/H7d7a9OoHauHeKVhehCHhT+EpidV43QHvdDQTennblbD/sTLdR3VaKT0J7k
+ ceBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVMx+0pXrQB0tIfuIx94ZrYFxC2ApwYivIEyCDwB2w2Q3OUFnQdsFMDmadYvEJUM4I1zYugKRRFqmY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpjMgQof95C+LSSFxBQ8ae+1RMJU6jkg1FDTLDiAv66luqEiCS
+ eOSgjDHkKRBtuNjOX8JjSpN7CnoHe/yHEFHwBnhKF4H2/dv98SVkR3cvYyNPsQI=
+X-Gm-Gg: ASbGncswm+JtQCnvAtv5RHqEjSNZc2GuPP4htms8CcKagbhmjYR0BgNPrvikxqQ9CYd
+ vBt24/pUKqET9Guj7V3eNeL4q6gkKq0EykLKgy5x3JMrMF9KXKvhJvVN1RU8BvXdDE8Ffk77n5m
+ jOJuzoTMzAVVPIsM0bYlPFYLy1YEgthXWFv0IEhTH21gqTkOswROUgjtS5gsZxQQpE7a6NxiSlp
+ l9p1aMIMkEkLrZFscsd4clbHBoqXmIVT615gwoFKY8IcULyyHSTVYavABhvtCv/VXvzQaOkpUek
+ G975DymhXb5cXHnzEw==
+X-Google-Smtp-Source: AGHT+IGxpw5taskk35HLdhUeYYcYpfgCX2aqes5gSqbZ3vWLljthfE6j/dI9FbVrsv4Q3UQvxshbzw==
+X-Received: by 2002:a05:600c:63ce:b0:437:c453:ff19 with SMTP id
+ 5b1f17b1804b1-438bd0bd5eemr23052955e9.14.1737712569291; 
+ Fri, 24 Jan 2025 01:56:09 -0800 (PST)
+Received: from blackdock.suse.cz ([193.86.92.181])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-438bd507c59sm20351855e9.17.2025.01.24.01.56.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Jan 2025 01:56:08 -0800 (PST)
+Date: Fri, 24 Jan 2025 10:56:07 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Friedrich Vock <friedrich.vock@gmx.de>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
+ dri-devel@lists.freedesktop.org, cgroups@vger.kernel.org
+Subject: Re: [PATCH] cgroup/dmem: Don't clobber pool in
+ dmem_cgroup_calculate_protection
+Message-ID: <qu3jdiik2sfstey4ecxdojndkzb5gzblg37i76p43xccnotawl@jlbafrgjad2x>
+References: <20250114153912.278909-1-friedrich.vock@gmx.de>
+ <ijjhmxsu5l7nvabyorzqxd5b5xml7eantom4wtgdwqeq7bmy73@cz7doxxi57ig>
+ <4d6ccc9a-3db9-4d5b-87c9-267b659c2a1b@gmx.de>
+ <oe3qgfb3jfzoacfh7efpvmuosravx5kra3ss67zqem6rbtctws@5dmmklctrg3x>
+ <672de60e-5c10-406b-927c-7940d2fbc921@gmx.de>
 MIME-Version: 1.0
-Message-ID: <2c0a76c3.618c.19497bb4329.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: jSgvCgD3n_UjY5NnLTFeAA--.22777W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqQLeXmeTWhlxLwAEsG
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="6hrt3edpenmuek2m"
+Content-Disposition: inline
+In-Reply-To: <672de60e-5c10-406b-927c-7940d2fbc921@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,122 +95,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ckhp77yMCgpBdCAyMDI1LTAxLTIzIDIzOjA5OjA5LCAiSmFuaSBOaWt1bGEiIDxqYW5pLm5pa3Vs
-YUBpbnRlbC5jb20+IHdyb3RlOgo+VGhlIGV4cGVjdGF0aW9uIGlzIHRoYXQgdGhlIHN0cnVjdCBk
-cm1fZGV2aWNlIGJhc2VkIGxvZ2dpbmcgaGVscGVycyBnZXQKPnBhc3NlZCBhbiBhY3R1YWwgc3Ry
-dWN0IGRybV9kZXZpY2UgcG9pbnRlciByYXRoZXIgdGhhbiBzb21lIHJhbmRvbQo+c3RydWN0IHBv
-aW50ZXIgd2hlcmUgeW91IGNhbiBkZXJlZmVyZW5jZSB0aGUgLT5kZXYgbWVtYmVyLgo+Cj5Db252
-ZXJ0IGRybV9lcnIoaGRtaSwgLi4uKSB0byBkZXZfZXJyKGhkbWktPmRldiwgLi4uKS4gVGhpcyBt
-YXRjaGVzCj5jdXJyZW50IHVzYWdlLCBidXQgZHJvcHMgIltkcm1dICpFUlJPUioiIHByZWZpeCBm
-cm9tIGxvZ2dpbmcuCgpGcmFua2x5LCBJIHByZWZlciB0aGUgb3JpZ2luYWwgdmVyc2lvbiBvZiB0
-aGUgbG9nLgpJdCBpcyBhIHBsYXRmb3JtIGRyaXZlciwgc28gaXQgc2hvdWxkIHVzZSBpdHMgb3du
-IGRldmljZS4KSXQgaXMgYSBkcml2ZXIgdGhhdCB3b3JrcyBpbiBkcm0gc3Vic3lzdGVtLCBzbyBp
-dCdzIGJldHRlciB0byB1c2UgIltkcm1dICpFUlJPUioiIHByZWZpeCB3aGVuIGxvZ2dpbmcKCj4K
-PlNpZ25lZC1vZmYtYnk6IEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBpbnRlbC5jb20+Cj4KPi0t
-LQo+Cj5Mb29rcyBsaWtlIGl0J3MgcG9zc2libGUgdG8gaHVudCBkb3duIHRoZSBzdHJ1Y3QgZHJt
-X2RldmljZSBpbiBtb3N0IG9mCj50aGVzZSBjYXNlcywgaWYgdGhhdCdzIGRlc2lyZWQuIFRoaXMg
-d2FzIHRoZSBzaW1wbGVzdCBjaGFuZ2UuCj4KPkNjOiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hp
-cHMuY29tPgo+Q2M6ICJIZWlrbyBTdMO8Ym5lciIgPGhlaWtvQHNudGVjaC5kZT4KPkNjOiBBbmR5
-IFlhbiA8YW5keS55YW5Acm9jay1jaGlwcy5jb20+Cj5DYzogZHJpLWRldmVsQGxpc3RzLmZyZWVk
-ZXNrdG9wLm9yZwo+Q2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZwo+Q2M6
-IGxpbnV4LXJvY2tjaGlwQGxpc3RzLmluZnJhZGVhZC5vcmcKPi0tLQo+IGRyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMgICAgfCAxNiArKysrKysrKy0tLS0tLS0tCj4g
-ZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWlfcXAtcm9ja2NoaXAuYyB8IDE2ICsrKysr
-KysrLS0tLS0tLS0KPiAyIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDE2IGRlbGV0
-aW9ucygtKQo+Cj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWkt
-cm9ja2NoaXAuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMK
-PmluZGV4IGU3YTY2NjljNDZiMC4uZjczN2U3ZDQ2ZTY2IDEwMDY0NAo+LS0tIGEvZHJpdmVycy9n
-cHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYwo+KysrIGIvZHJpdmVycy9ncHUvZHJt
-L3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYwo+QEAgLTIwMyw3ICsyMDMsNyBAQCBzdGF0aWMg
-aW50IHJvY2tjaGlwX2hkbWlfcGFyc2VfZHQoc3RydWN0IHJvY2tjaGlwX2hkbWkgKmhkbWkpCj4g
-Cj4gCWhkbWktPnJlZ21hcCA9IHN5c2Nvbl9yZWdtYXBfbG9va3VwX2J5X3BoYW5kbGUobnAsICJy
-b2NrY2hpcCxncmYiKTsKPiAJaWYgKElTX0VSUihoZG1pLT5yZWdtYXApKSB7Cj4tCQlkcm1fZXJy
-KGhkbWksICJVbmFibGUgdG8gZ2V0IHJvY2tjaGlwLGdyZlxuIik7Cj4rCQlkZXZfZXJyKGhkbWkt
-PmRldiwgIlVuYWJsZSB0byBnZXQgcm9ja2NoaXAsZ3JmXG4iKTsKPiAJCXJldHVybiBQVFJfRVJS
-KGhkbWktPnJlZ21hcCk7Cj4gCX0KPiAKPkBAIC0yMTQsNyArMjE0LDcgQEAgc3RhdGljIGludCBy
-b2NrY2hpcF9oZG1pX3BhcnNlX2R0KHN0cnVjdCByb2NrY2hpcF9oZG1pICpoZG1pKQo+IAlpZiAo
-SVNfRVJSKGhkbWktPnJlZl9jbGspKSB7Cj4gCQlyZXQgPSBQVFJfRVJSKGhkbWktPnJlZl9jbGsp
-Owo+IAkJaWYgKHJldCAhPSAtRVBST0JFX0RFRkVSKQo+LQkJCWRybV9lcnIoaGRtaSwgImZhaWxl
-ZCB0byBnZXQgcmVmZXJlbmNlIGNsb2NrXG4iKTsKPisJCQlkZXZfZXJyKGhkbWktPmRldiwgImZh
-aWxlZCB0byBnZXQgcmVmZXJlbmNlIGNsb2NrXG4iKTsKPiAJCXJldHVybiByZXQ7Cj4gCX0KPiAK
-PkBAIC0yMjIsNyArMjIyLDcgQEAgc3RhdGljIGludCByb2NrY2hpcF9oZG1pX3BhcnNlX2R0KHN0
-cnVjdCByb2NrY2hpcF9oZG1pICpoZG1pKQo+IAlpZiAoSVNfRVJSKGhkbWktPmdyZl9jbGspKSB7
-Cj4gCQlyZXQgPSBQVFJfRVJSKGhkbWktPmdyZl9jbGspOwo+IAkJaWYgKHJldCAhPSAtRVBST0JF
-X0RFRkVSKQo+LQkJCWRybV9lcnIoaGRtaSwgImZhaWxlZCB0byBnZXQgZ3JmIGNsb2NrXG4iKTsK
-PisJCQlkZXZfZXJyKGhkbWktPmRldiwgImZhaWxlZCB0byBnZXQgZ3JmIGNsb2NrXG4iKTsKPiAJ
-CXJldHVybiByZXQ7Cj4gCX0KPiAKPkBAIC0zMDIsMTYgKzMwMiwxNiBAQCBzdGF0aWMgdm9pZCBk
-d19oZG1pX3JvY2tjaGlwX2VuY29kZXJfZW5hYmxlKHN0cnVjdCBkcm1fZW5jb2RlciAqZW5jb2Rl
-cikKPiAKPiAJcmV0ID0gY2xrX3ByZXBhcmVfZW5hYmxlKGhkbWktPmdyZl9jbGspOwo+IAlpZiAo
-cmV0IDwgMCkgewo+LQkJZHJtX2VycihoZG1pLCAiZmFpbGVkIHRvIGVuYWJsZSBncmZjbGsgJWRc
-biIsIHJldCk7Cj4rCQlkZXZfZXJyKGhkbWktPmRldiwgImZhaWxlZCB0byBlbmFibGUgZ3JmY2xr
-ICVkXG4iLCByZXQpOwo+IAkJcmV0dXJuOwo+IAl9Cj4gCj4gCXJldCA9IHJlZ21hcF93cml0ZSho
-ZG1pLT5yZWdtYXAsIGhkbWktPmNoaXBfZGF0YS0+bGNkc2VsX2dyZl9yZWcsIHZhbCk7Cj4gCWlm
-IChyZXQgIT0gMCkKPi0JCWRybV9lcnIoaGRtaSwgIkNvdWxkIG5vdCB3cml0ZSB0byBHUkY6ICVk
-XG4iLCByZXQpOwo+KwkJZGV2X2VycihoZG1pLT5kZXYsICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JG
-OiAlZFxuIiwgcmV0KTsKPiAKPiAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGhkbWktPmdyZl9jbGsp
-Owo+LQlkcm1fZGJnKGhkbWksICJ2b3AgJXMgb3V0cHV0IHRvIGhkbWlcbiIsIHJldCA/ICJMSVQi
-IDogIkJJRyIpOwo+KwlkZXZfZGJnKGhkbWktPmRldiwgInZvcCAlcyBvdXRwdXQgdG8gaGRtaVxu
-IiwgcmV0ID8gIkxJVCIgOiAiQklHIik7Cj4gfQo+IAo+IHN0YXRpYyBpbnQKPkBAIC01NzQsNyAr
-NTc0LDcgQEAgc3RhdGljIGludCBkd19oZG1pX3JvY2tjaGlwX2JpbmQoc3RydWN0IGRldmljZSAq
-ZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4gCXJldCA9IHJvY2tjaGlwX2hkbWlfcGFyc2Vf
-ZHQoaGRtaSk7Cj4gCWlmIChyZXQpIHsKPiAJCWlmIChyZXQgIT0gLUVQUk9CRV9ERUZFUikKPi0J
-CQlkcm1fZXJyKGhkbWksICJVbmFibGUgdG8gcGFyc2UgT0YgZGF0YVxuIik7Cj4rCQkJZGV2X2Vy
-cihoZG1pLT5kZXYsICJVbmFibGUgdG8gcGFyc2UgT0YgZGF0YVxuIik7Cj4gCQlyZXR1cm4gcmV0
-Owo+IAl9Cj4gCj5AQCAtNTgyLDcgKzU4Miw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9yb2NrY2hp
-cF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+IAlpZiAo
-SVNfRVJSKGhkbWktPnBoeSkpIHsKPiAJCXJldCA9IFBUUl9FUlIoaGRtaS0+cGh5KTsKPiAJCWlm
-IChyZXQgIT0gLUVQUk9CRV9ERUZFUikKPi0JCQlkcm1fZXJyKGhkbWksICJmYWlsZWQgdG8gZ2V0
-IHBoeVxuIik7Cj4rCQkJZGV2X2VycihoZG1pLT5kZXYsICJmYWlsZWQgdG8gZ2V0IHBoeVxuIik7
-Cj4gCQlyZXR1cm4gcmV0Owo+IAl9Cj4gCj5kaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Jv
-Y2tjaGlwL2R3X2hkbWlfcXAtcm9ja2NoaXAuYyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9k
-d19oZG1pX3FwLXJvY2tjaGlwLmMKPmluZGV4IGY0MTE1MWQ0OWZjYS4uM2QxZGRkYjM0NjAzIDEw
-MDY0NAo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWlfcXAtcm9ja2NoaXAu
-Ywo+KysrIGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWlfcXAtcm9ja2NoaXAuYwo+
-QEAgLTI0Miw3ICsyNDIsNyBAQCBzdGF0aWMgdm9pZCBkd19oZG1pX3FwX3JrMzU4OF9ocGRfd29y
-ayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCj4gCWlmIChkcm0pIHsKPiAJCWNoYW5nZWQgPSBk
-cm1faGVscGVyX2hwZF9pcnFfZXZlbnQoZHJtKTsKPiAJCWlmIChjaGFuZ2VkKQo+LQkJCWRybV9k
-YmcoaGRtaSwgImNvbm5lY3RvciBzdGF0dXMgY2hhbmdlZFxuIik7Cj4rCQkJZGV2X2RiZyhoZG1p
-LT5kZXYsICJjb25uZWN0b3Igc3RhdHVzIGNoYW5nZWRcbiIpOwo+IAl9Cj4gfQo+IAo+QEAgLTQ3
-Miw3ICs0NzIsNyBAQCBzdGF0aWMgaW50IGR3X2hkbWlfcXBfcm9ja2NoaXBfYmluZChzdHJ1Y3Qg
-ZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKPiAJCX0KPiAJfQo+IAlpZiAoaGRt
-aS0+cG9ydF9pZCA8IDApIHsKPi0JCWRybV9lcnIoaGRtaSwgIkZhaWxlZCB0byBtYXRjaCBIRE1J
-IHBvcnQgSURcbiIpOwo+KwkJZGV2X2VycihoZG1pLT5kZXYsICJGYWlsZWQgdG8gbWF0Y2ggSERN
-SSBwb3J0IElEXG4iKTsKPiAJCXJldHVybiBoZG1pLT5wb3J0X2lkOwo+IAl9Cj4gCj5AQCAtNDk2
-LDIwICs0OTYsMjAgQEAgc3RhdGljIGludCBkd19oZG1pX3FwX3JvY2tjaGlwX2JpbmQoc3RydWN0
-IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4gCWhkbWktPnJlZ21hcCA9IHN5
-c2Nvbl9yZWdtYXBfbG9va3VwX2J5X3BoYW5kbGUoZGV2LT5vZl9ub2RlLAo+IAkJCQkJCSAgICAg
-ICAicm9ja2NoaXAsZ3JmIik7Cj4gCWlmIChJU19FUlIoaGRtaS0+cmVnbWFwKSkgewo+LQkJZHJt
-X2VycihoZG1pLCAiVW5hYmxlIHRvIGdldCByb2NrY2hpcCxncmZcbiIpOwo+KwkJZGV2X2Vyciho
-ZG1pLT5kZXYsICJVbmFibGUgdG8gZ2V0IHJvY2tjaGlwLGdyZlxuIik7Cj4gCQlyZXR1cm4gUFRS
-X0VSUihoZG1pLT5yZWdtYXApOwo+IAl9Cj4gCj4gCWhkbWktPnZvX3JlZ21hcCA9IHN5c2Nvbl9y
-ZWdtYXBfbG9va3VwX2J5X3BoYW5kbGUoZGV2LT5vZl9ub2RlLAo+IAkJCQkJCQkgICJyb2NrY2hp
-cCx2by1ncmYiKTsKPiAJaWYgKElTX0VSUihoZG1pLT52b19yZWdtYXApKSB7Cj4tCQlkcm1fZXJy
-KGhkbWksICJVbmFibGUgdG8gZ2V0IHJvY2tjaGlwLHZvLWdyZlxuIik7Cj4rCQlkZXZfZXJyKGhk
-bWktPmRldiwgIlVuYWJsZSB0byBnZXQgcm9ja2NoaXAsdm8tZ3JmXG4iKTsKPiAJCXJldHVybiBQ
-VFJfRVJSKGhkbWktPnZvX3JlZ21hcCk7Cj4gCX0KPiAKPiAJcmV0ID0gZGV2bV9jbGtfYnVsa19n
-ZXRfYWxsX2VuYWJsZWQoaGRtaS0+ZGV2LCAmY2xrcyk7Cj4gCWlmIChyZXQgPCAwKSB7Cj4tCQlk
-cm1fZXJyKGhkbWksICJGYWlsZWQgdG8gZ2V0IGNsb2NrczogJWRcbiIsIHJldCk7Cj4rCQlkZXZf
-ZXJyKGhkbWktPmRldiwgIkZhaWxlZCB0byBnZXQgY2xvY2tzOiAlZFxuIiwgcmV0KTsKPiAJCXJl
-dHVybiByZXQ7Cj4gCX0KPiAKPkBAIC01MTcsNyArNTE3LDcgQEAgc3RhdGljIGludCBkd19oZG1p
-X3FwX3JvY2tjaGlwX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0
-ZXIsCj4gCQkJCQkJICAgIEdQSU9EX09VVF9ISUdIKTsKPiAJaWYgKElTX0VSUihoZG1pLT5lbmFi
-bGVfZ3BpbykpIHsKPiAJCXJldCA9IFBUUl9FUlIoaGRtaS0+ZW5hYmxlX2dwaW8pOwo+LQkJZHJt
-X2VycihoZG1pLCAiRmFpbGVkIHRvIHJlcXVlc3QgZW5hYmxlIEdQSU86ICVkXG4iLCByZXQpOwo+
-KwkJZGV2X2VycihoZG1pLT5kZXYsICJGYWlsZWQgdG8gcmVxdWVzdCBlbmFibGUgR1BJTzogJWRc
-biIsIHJldCk7Cj4gCQlyZXR1cm4gcmV0Owo+IAl9Cj4gCj5AQCAtNTI1LDcgKzUyNSw3IEBAIHN0
-YXRpYyBpbnQgZHdfaGRtaV9xcF9yb2NrY2hpcF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3Ry
-dWN0IGRldmljZSAqbWFzdGVyLAo+IAlpZiAoSVNfRVJSKGhkbWktPnBoeSkpIHsKPiAJCXJldCA9
-IFBUUl9FUlIoaGRtaS0+cGh5KTsKPiAJCWlmIChyZXQgIT0gLUVQUk9CRV9ERUZFUikKPi0JCQlk
-cm1fZXJyKGhkbWksICJmYWlsZWQgdG8gZ2V0IHBoeTogJWRcbiIsIHJldCk7Cj4rCQkJZGV2X2Vy
-cihoZG1pLT5kZXYsICJmYWlsZWQgdG8gZ2V0IHBoeTogJWRcbiIsIHJldCk7Cj4gCQlyZXR1cm4g
-cmV0Owo+IAl9Cj4gCj5AQCAtNTY0LDcgKzU2NCw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9xcF9y
-b2NrY2hpcF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+
-IAljb25uZWN0b3IgPSBkcm1fYnJpZGdlX2Nvbm5lY3Rvcl9pbml0KGRybSwgZW5jb2Rlcik7Cj4g
-CWlmIChJU19FUlIoY29ubmVjdG9yKSkgewo+IAkJcmV0ID0gUFRSX0VSUihjb25uZWN0b3IpOwo+
-LQkJZHJtX2VycihoZG1pLCAiZmFpbGVkIHRvIGluaXQgYnJpZGdlIGNvbm5lY3RvcjogJWRcbiIs
-IHJldCk7Cj4rCQlkZXZfZXJyKGhkbWktPmRldiwgImZhaWxlZCB0byBpbml0IGJyaWRnZSBjb25u
-ZWN0b3I6ICVkXG4iLCByZXQpOwo+IAkJcmV0dXJuIHJldDsKPiAJfQo+IAo+LS0gCj4yLjM5LjUK
-Pgo+Cj5fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwo+TGlu
-dXgtcm9ja2NoaXAgbWFpbGluZyBsaXN0Cj5MaW51eC1yb2NrY2hpcEBsaXN0cy5pbmZyYWRlYWQu
-b3JnCj5odHRwOi8vbGlzdHMuaW5mcmFkZWFkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LXJv
-Y2tjaGlwCg==
+
+--6hrt3edpenmuek2m
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] cgroup/dmem: Don't clobber pool in
+ dmem_cgroup_calculate_protection
+MIME-Version: 1.0
+
+On Fri, Jan 17, 2025 at 08:02:55PM +0100, Friedrich Vock <friedrich.vock@gm=
+x.de> wrote:
+> Yeah, there are pools for the whole path between limit_pool and
+> test_pool, but the issue is that we traverse the entire tree of cgroups,
+> and we don't always stay on the path between limit_pool and test_pool
+> (because we're iterating from the top down, and we don't know what the
+> path is in that direction - so we just traverse the whole tree until we
+> find test_pool).
+>=20
+> This means that we'll sometimes end up straying off-path - and there are
+> no guarantees for which pools are present in the cgroups we visit there.
+> These cgroups are the potentially problematic ones where the issue can
+> happen.
+>=20
+> Ideally we could always stay on the path between limit_pool and
+> test_pool, but this is hardly possible because we can only follow parent
+> links (so bottom-up traversal) but for accurate protection calculation
+> we need to traverse the path top-down.
+
+Aha, thanks for bearing with me.
+
+	css_foreach_descendant_pre(css, limit_pool->cs->css) {
+		dmemcg_iter =3D container_of(css, struct dmemcg_state, css);
+
+		struct dmem_cgroup_pool_state *found_pool =3D NULL;
+		list_for_each_entry_rcu(pool, &dmemcg_iter->pools, css_node) {
+			if (pool->region =3D=3D limit_pool->region) {
+				found_pool =3D pool
+				break;
+			}
+		}
+		if (!found_pool)
+			continue;
+
+		page_counter_calculate_protection(
+			climit, &found->cnt, true);
+	}
+
+Here I use (IMO) more idiomatic css_foreach_descendant_pre() instead and
+I use the predicate based on ->region (correct?) to match pool's
+devices.
+
+Would that work as intended?
+
+Michal
+
+--6hrt3edpenmuek2m
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ5NjtQAKCRAt3Wney77B
+Sb9kAQDx2dXNJx0ji8l5wnSMZa+EVuGB9ub0rZlAyG+KV+9M2QD/d5JuUzDjSqnA
+KJTKp7PQu58CspZeNoeZdl8PWueJHwQ=
+=2rqU
+-----END PGP SIGNATURE-----
+
+--6hrt3edpenmuek2m--
