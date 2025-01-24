@@ -2,145 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50798A1B7F9
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 15:39:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50340A1B8D7
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 16:20:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FAC10E98E;
-	Fri, 24 Jan 2025 14:39:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5359010E9AD;
+	Fri, 24 Jan 2025 15:20:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ahO3J0r4";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="woBRRGQU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C341C10E98E
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 14:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737729575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JXjIelSfZzKQdcaM/jvKrJm9ctIdFXiuVvcs+iWziAM=;
- b=ahO3J0r4Hwvhpb72/51UPBiTyEyEh5avXn0FlXRWMVMgTTOYoUoBABFkkzPb67hiD7et3z
- l9npbxsv5onuZOX9c1bndUJxAnbJMm25PhwUmXCNJ868Mx8Y232C3rFrBWO7zFcNzyGDTp
- rsJzYK+zW3XFTpnf+BkhhnHnUAbJfHs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-648-MUKUJeIXPu6OqMgf6lt8XQ-1; Fri, 24 Jan 2025 09:39:26 -0500
-X-MC-Unique: MUKUJeIXPu6OqMgf6lt8XQ-1
-X-Mimecast-MFC-AGG-ID: MUKUJeIXPu6OqMgf6lt8XQ
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-4361ac8b25fso12099335e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 06:39:26 -0800 (PST)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8691310E9AD
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 15:20:25 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-215740b7fb8so162205ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:20:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1737732025; x=1738336825;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SYPf2LUjlgrOWAVceU7WuHio67CjjBc5MKyrd+YyW78=;
+ b=woBRRGQUZQ9tXAsMejaDhVoEhaGekjl6VQQoKtDt4GoMrhRCR05m4whJlmA9kg0DXV
+ jpAxzhADBy5Guuy31gztz13xPdrrKabf8In51AsndX7zvwmCaa0k0McONv0qqy8YXUkF
+ F7dwR9wDv+qBRRCbyvAHYYnQ0L+Kikq41IueISDeliO6Pzvo/vZMPHnODR1AcfDQ5bXo
+ 4ebLxB0PayFzR2vbaa9W0RPng0PXIUR3nAhJeBfTwwk9hiO3DNHkD1xvmvuIKn6DFxYA
+ 0mzLCK8cUpy6x/K8Ljc/RKokSq0W+9mYKN3XAUkCXHruBkcK1rPHevNtDOpruEgJvHEF
+ 3PHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737729561; x=1738334361;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=JXjIelSfZzKQdcaM/jvKrJm9ctIdFXiuVvcs+iWziAM=;
- b=wXCmtq2OZPnMcbh1NgCEHVY/mJ+jWZTQHP4O/SfwUF+rqAsxrsEd7EQrkrJiXdPhm6
- /nYsa1TP+sdjLJmPe9szr9uuuaiCfeMiWh97O8gPJTWuJPhiQNamafK0ciXBwsQ12PV2
- Q+Wrf60r0v4q46m78K2OU3PCaw+SO2lqOQEBwNVrrxQXY4UPjslshORDJ8nyOiLaGvlo
- r+PHJ1qJu09rKSEs3EooPUgknA2nXaXQ8DLXyXiSD1Ri+xw1yk2nQhQXfzKJFvRJ3VOF
- 8mlCryxjYt6bM/2TBuYgcOcCaq2WUOoog1otf4vZuh4M9LM9juDiFAJ6puDpcw00Wr9s
- h6Qw==
+ d=1e100.net; s=20230601; t=1737732025; x=1738336825;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SYPf2LUjlgrOWAVceU7WuHio67CjjBc5MKyrd+YyW78=;
+ b=ZsYAQ1zaNPjn3JAuzQkiRsxUXt7McuIxXntincjAiOpFIzpI1I291NINJpNWyHCzp+
+ IeZikafzkeTmW2zI6OL1HNWg+iTru3Sjs58A8jlbYDjOfldClDIOu2DHRXZ9T3HSd8R7
+ tla2tSXSyrdGjdbCIK4jXd1xmytF4m/nmwnMbCA6tTD9486vA+B1pUa2rSfpxDPmb/AN
+ XAss5gyCXbHw28f3N2esvHfcH1uy7rnzosKut1uyYgNkzVHL/uIHhgZ+CPGLwKh35T2D
+ ok619oU5J9ONSvEJdn7SUQF+mhLusFNdvt7EcGXAKuezTlszCd2tqjRIkRPZ7ABNZK2l
+ Av+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgzXgBjafGbY/2CQsonSEl2wvkgxHypy0bjv3/mAlHlgKfWg6yU0tp84I7iRqnPTAZXKz80Bcxr2Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw78JsD/zq/4XMK8LNh50IUanPe8qG2bPgYY0X1YV8xq9H92W94
- Cpma4OMR8i7xLPF4pacu3cVAvgMk+ZQerS/h1lsORHoy8oUwgjW3P/5tM2yjrn++ehWuUE9d6TA
- SqDTc4VfCimbmhB/uI12SQKQcOKBIyxAgrsgRXNvXPY+JAEM6q3JOlqdVpdSaOl3IgQ==
-X-Gm-Gg: ASbGncvFnplxZSxz8OjCkwVfiAp8QjlrTFul1UH13V0dn89iuTKCekIRH4/vpQ7XRit
- KbR4Qz9NQbiHzGB62sLVvElGrB6Y34gve7GsjaXSwT3Wb2vjkI8vC40B9D7GSA/XMcMGjavfpjh
- zG2D/F/HgWQL8JLV1d3pDS57eWwwEHgaZ9VOtNaazIJUZVwBgJupQxfCgFMhzOEnVmTl59XY7oH
- qcaMf4gUqZgh62UrS8JHIORs1s4ORIZl+tyFUj9GMdqLmMayn9aHuEOYJsJ7oISYFTzdB4Rz2Ti
- Y4qjVEI9weCkp22eXsDJw9KPNikHHK/8bsg=
-X-Received: by 2002:a05:600c:1f0d:b0:431:3bf9:3ebb with SMTP id
- 5b1f17b1804b1-4389143923bmr258333855e9.24.1737729561054; 
- Fri, 24 Jan 2025 06:39:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFeLyI0tyajaShR1GLt5oyhwZhAl4H7mI/frvs0Ecdcv9h2bmHBE2LWQaYOJbhpUYv/tplSMQ==
-X-Received: by 2002:a05:600c:1f0d:b0:431:3bf9:3ebb with SMTP id
- 5b1f17b1804b1-4389143923bmr258333605e9.24.1737729560727; 
- Fri, 24 Jan 2025 06:39:20 -0800 (PST)
-Received: from ?IPV6:2a01:599:922:1046:67aa:7b35:f780:c8fc?
- ([2a01:599:922:1046:67aa:7b35:f780:c8fc])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a1bb101sm2947300f8f.66.2025.01.24.06.39.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Jan 2025 06:39:19 -0800 (PST)
-Message-ID: <d4e234c1-d200-42ec-8667-031f6e4953f1@redhat.com>
-Date: Fri, 24 Jan 2025 15:39:18 +0100
+ AJvYcCUny0Q4bhJHbsHfE8llvIBNBg94/EEnfixy6twSOOG1LkqP6UidVNQsPlVMkmddBj+YnY2IBDn/XTo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YweK8fUQgN4cR/mUxP8VFWTaB0YwooMsDkwLPIHkAwqf2aAmmH5
+ JhqJc1oR6uSjdbrHF3dSAfNA6G4t8k7j7WR6V7mwuA/nD4mTbpuAPnGe56tbgIRyvNuTJIwBFp/
+ scpCjsE+b58F0TElbUxLuRQcRrS7EE5Oa0Kwi
+X-Gm-Gg: ASbGncsR33NzMqhP+LX12iP3rKQkv3NH6Y1Xs9N0DFe3tDnfpOJtQtWcdNdqwmRyXqt
+ +/qdxvEQCWOwPQw5OeAndZIOoGqdXFpGN1Xx3hUJ3M/wGvzXqBp9VcXiZZvr1
+X-Google-Smtp-Source: AGHT+IG9ohQRM9HL76Qi+3nwEdd3Es5b/Nm30tErg2OwJ7Xs9TmLtXt37CZs7X0OMbTwlvFUfx+bMx0Iwf++I1DvJmw=
+X-Received: by 2002:a17:903:320a:b0:20b:5e34:1850 with SMTP id
+ d9443c01a7336-21d9ad2f38amr5652575ad.23.1737732023343; Fri, 24 Jan 2025
+ 07:20:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Question] Are "device exclusive non-swap entries" / "SVM atomics
- in Nouveau" still getting used in practice?
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: "linux-mm@kvack.org" <linux-mm@kvack.org>,
- John Hubbard <jhubbard@nvidia.com>, nouveau@lists.freedesktop.org,
- Alistair Popple <apopple@nvidia.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>
-References: <346518a4-a090-4eaa-bc04-634388fd4ca3@redhat.com>
- <Z5JbYC2-slPU0l3n@phenom.ffwll.local>
- <8c6f3838-f194-4a42-845d-10011192a234@redhat.com>
- <20250124141121.GY5556@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250124141121.GY5556@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: LxVtH2Td_Wh5xHZuDdhbbb6Pel34iyJ_pHuYBbaa7cw_1737729561
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250116155340.533180-1-bgeffon@google.com>
+ <PH7PR11MB8252B7BF1D1B6ADE94839F8F89E02@PH7PR11MB8252.namprd11.prod.outlook.com>
+In-Reply-To: <PH7PR11MB8252B7BF1D1B6ADE94839F8F89E02@PH7PR11MB8252.namprd11.prod.outlook.com>
+From: Brian Geffon <bgeffon@google.com>
+Date: Fri, 24 Jan 2025 10:19:47 -0500
+X-Gm-Features: AWEUYZl6QulbUxISxp6-vL7i1ZnPpkKwqUg007rJfLqh0Cih4D1oUBq_JzuWIIw
+Message-ID: <CADyq12xLorH1kzH6ezp2Z_SYv-AVbrp+h98FeYP+hbt2R1_1Nw@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/i915: Fix page cleanup on DMA remap failure
+To: "Srinivas, Vidya" <vidya.srinivas@intel.com>
+Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
+ "Wilson, Chris P" <chris.p.wilson@intel.com>, "Saarinen,
+ Jani" <jani.saarinen@intel.com>, 
+ "Mistat, Tomasz" <tomasz.mistat@intel.com>, 
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>, 
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ Tomasz Figa <tfiga@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,28 +93,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24.01.25 15:11, Jason Gunthorpe wrote:
-> On Fri, Jan 24, 2025 at 11:44:28AM +0100, David Hildenbrand wrote:
-> 
->> There are other concerns I have (what if the page is pinned and access
->> outside of the user space page tables?). Maybe there was not need to handle
->> these cases so far.
-> 
-> I think alot of this depends on userspace following some restrictions
-> so that the pages are always convertible. Presumably if the userspace
-> breaks things then their atomic using GPU kernels will fault.
-> 
-> So, from a kernel perspective, I'd suggest that creating a reasonable
-> set of conditions that userspace can follow to have it work reliably
-> is a reasonable goal.
+On Wed, Jan 22, 2025 at 10:07=E2=80=AFPM Srinivas, Vidya
+<vidya.srinivas@intel.com> wrote:
+>
+> Hello Brian, Many thanks for the fix. I am adding my tested-by.
+> Tested-by: Vidya Srinivas <vidya.srinivas@intel.com>
 
-Yes, that's my assumption as well. If you register a page using io_uring 
-as a fixed buffer and then trigger "device_exclusive" access, the page 
-can still be read/written using io_uring and atomics might not work as 
-expected. "Not supported".
+Thanks for testing Vidya.
 
--- 
-Cheers,
+Can we get a maintainer to take a look?
 
-David / dhildenb
+>
+>
+> > -----Original Message-----
+> > From: Brian Geffon <bgeffon@google.com>
+> > Sent: 16 January 2025 21:24
+> > To: intel-gfx@lists.freedesktop.org
+> > Cc: Wilson, Chris P <chris.p.wilson@intel.com>; Saarinen, Jani
+> > <jani.saarinen@intel.com>; Mistat, Tomasz <tomasz.mistat@intel.com>;
+> > Srinivas, Vidya <vidya.srinivas@intel.com>; ville.syrjala@linux.intel.c=
+om;
+> > jani.nikula@linux.intel.com; linux-kernel@vger.kernel.org; dri-
+> > devel@lists.freedesktop.org; Joonas Lahtinen
+> > <joonas.lahtinen@linux.intel.com>; Brian Geffon <bgeffon@google.com>;
+> > stable@vger.kernel.org; Tomasz Figa <tfiga@google.com>
+> > Subject: [PATCH v2] drm/i915: Fix page cleanup on DMA remap failure
+> >
+> > When converting to folios the cleanup path of shmem_get_pages() was
+> > missed. When a DMA remap fails and the max segment size is greater than
+> > PAGE_SIZE it will attempt to retry the remap with a PAGE_SIZEd segment =
+size.
+> > The cleanup code isn't properly using the folio apis and as a result is=
+n't
+> > handling compound pages correctly.
+> >
+> > v1 -> v2:
+> >   (Ville) Fixed locations where we were not clearing mapping unevictabl=
+e.
+> >
+> > Cc: stable@vger.kernel.org
+> > Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
+> > Cc: Vidya Srinivas <vidya.srinivas@intel.com>
+> > Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13487
+> > Link: https://lore.kernel.org/lkml/20250116135636.410164-1-
+> > bgeffon@google.com/
+> > Fixes: 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a
+> > folio_batch")
+> > Signed-off-by: Brian Geffon <bgeffon@google.com>
+> > Suggested-by: Tomasz Figa <tfiga@google.com>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_object.h |  3 +--
+> > drivers/gpu/drm/i915/gem/i915_gem_shmem.c  | 23 +++++++++-------------
+> >  drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  7 ++++---
+> >  3 files changed, 14 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > index 3dc61cbd2e11..0f122a12d4a5 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> > @@ -843,8 +843,7 @@ int shmem_sg_alloc_table(struct drm_i915_private
+> > *i915, struct sg_table *st,
+> >                        size_t size, struct intel_memory_region *mr,
+> >                        struct address_space *mapping,
+> >                        unsigned int max_segment);
+> > -void shmem_sg_free_table(struct sg_table *st, struct address_space
+> > *mapping,
+> > -                      bool dirty, bool backup);
+> > +void shmem_sg_free_table(struct sg_table *st, bool dirty, bool backup)=
+;
+> >  void __shmem_writeback(size_t size, struct address_space *mapping);
+> >
+> >  #ifdef CONFIG_MMU_NOTIFIER
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > index fe69f2c8527d..b320d9dfd6d3 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> > @@ -29,16 +29,13 @@ static void check_release_folio_batch(struct
+> > folio_batch *fbatch)
+> >       cond_resched();
+> >  }
+> >
+> > -void shmem_sg_free_table(struct sg_table *st, struct address_space
+> > *mapping,
+> > -                      bool dirty, bool backup)
+> > +void shmem_sg_free_table(struct sg_table *st, bool dirty, bool backup)
+> >  {
+> >       struct sgt_iter sgt_iter;
+> >       struct folio_batch fbatch;
+> >       struct folio *last =3D NULL;
+> >       struct page *page;
+> >
+> > -     mapping_clear_unevictable(mapping);
+> > -
+> >       folio_batch_init(&fbatch);
+> >       for_each_sgt_page(page, sgt_iter, st) {
+> >               struct folio *folio =3D page_folio(page); @@ -180,10 +177=
+,10
+> > @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_ta=
+ble
+> > *st,
+> >       return 0;
+> >  err_sg:
+> >       sg_mark_end(sg);
+> > +     mapping_clear_unevictable(mapping);
+> >       if (sg !=3D st->sgl) {
+> > -             shmem_sg_free_table(st, mapping, false, false);
+> > +             shmem_sg_free_table(st, false, false);
+> >       } else {
+> > -             mapping_clear_unevictable(mapping);
+> >               sg_free_table(st);
+> >       }
+> >
+> > @@ -209,8 +206,6 @@ static int shmem_get_pages(struct
+> > drm_i915_gem_object *obj)
+> >       struct address_space *mapping =3D obj->base.filp->f_mapping;
+> >       unsigned int max_segment =3D i915_sg_segment_size(i915->drm.dev);
+> >       struct sg_table *st;
+> > -     struct sgt_iter sgt_iter;
+> > -     struct page *page;
+> >       int ret;
+> >
+> >       /*
+> > @@ -239,9 +234,8 @@ static int shmem_get_pages(struct
+> > drm_i915_gem_object *obj)
+> >                * for PAGE_SIZE chunks instead may be helpful.
+> >                */
+> >               if (max_segment > PAGE_SIZE) {
+> > -                     for_each_sgt_page(page, sgt_iter, st)
+> > -                             put_page(page);
+> > -                     sg_free_table(st);
+> > +                     /* Leave the mapping unevictable while we retry *=
+/
+> > +                     shmem_sg_free_table(st, false, false);
+> >                       kfree(st);
+> >
+> >                       max_segment =3D PAGE_SIZE;
+> > @@ -265,7 +259,8 @@ static int shmem_get_pages(struct
+> > drm_i915_gem_object *obj)
+> >       return 0;
+> >
+> >  err_pages:
+> > -     shmem_sg_free_table(st, mapping, false, false);
+> > +     mapping_clear_unevictable(mapping);
+> > +     shmem_sg_free_table(st, false, false);
+> >       /*
+> >        * shmemfs first checks if there is enough memory to allocate the
+> > page
+> >        * and reports ENOSPC should there be insufficient, along with th=
+e
+> > usual @@ -402,8 +397,8 @@ void
+> > i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj,
+> > struct sg_
+> >       if (i915_gem_object_needs_bit17_swizzle(obj))
+> >               i915_gem_object_save_bit_17_swizzle(obj, pages);
+> >
+> > -     shmem_sg_free_table(pages, file_inode(obj->base.filp)->i_mapping,
+> > -                         obj->mm.dirty, obj->mm.madv =3D=3D
+> > I915_MADV_WILLNEED);
+> > +     mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
+> > +     shmem_sg_free_table(pages, obj->mm.dirty, obj->mm.madv =3D=3D
+> > +I915_MADV_WILLNEED);
+> >       kfree(pages);
+> >       obj->mm.dirty =3D false;
+> >  }
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > index 10d8673641f7..37f51a04b838 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> > @@ -232,7 +232,8 @@ static int i915_ttm_tt_shmem_populate(struct
+> > ttm_device *bdev,
+> >       return 0;
+> >
+> >  err_free_st:
+> > -     shmem_sg_free_table(st, filp->f_mapping, false, false);
+> > +     mapping_clear_unevictable(filp->f_mapping);
+> > +     shmem_sg_free_table(st, false, false);
+> >
+> >       return err;
+> >  }
+> > @@ -243,8 +244,8 @@ static void i915_ttm_tt_shmem_unpopulate(struct
+> > ttm_tt *ttm)
+> >       bool backup =3D ttm->page_flags & TTM_TT_FLAG_SWAPPED;
+> >       struct sg_table *st =3D &i915_tt->cached_rsgt.table;
+> >
+> > -     shmem_sg_free_table(st, file_inode(i915_tt->filp)->i_mapping,
+> > -                         backup, backup);
+> > +     mapping_clear_unevictable(file_inode(i915_tt->filp)->i_mapping);
+> > +     shmem_sg_free_table(st, backup, backup);
+> >  }
+> >
+> >  static void i915_ttm_tt_release(struct kref *ref)
+> > --
+> > 2.48.0.rc2.279.g1de40edade-goog
+>
 
+Thanks
+Brian
