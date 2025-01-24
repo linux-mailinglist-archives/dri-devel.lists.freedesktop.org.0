@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74613A1B47B
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 12:14:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B5BA1B478
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 12:14:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8616210E856;
-	Fri, 24 Jan 2025 11:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4097910E810;
+	Fri, 24 Jan 2025 11:14:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="CXlX64aK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nvbMfxbc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E77510E7F8
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 11:14:34 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-30737db1ab1so17874281fa.1
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 03:14:34 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 020D810E810
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 11:14:36 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-30613037309so19740541fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 03:14:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737717273; x=1738322073; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1737717275; x=1738322075; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=KQumNHb0czdV26nphZSgSBzfVIc/sINg5yBNO6XQGak=;
- b=CXlX64aK1PJ/exTrnzwiYCyuW1A89/84PsfeSUZXn8AWR7ulmYU0lMiU2U48tydsPq
- XZpcoI6fZd8SjiRL0gdnqm4mVPXKA9KfrK02Mc6QPUaWwbAU6CMiQSe4z9BxCYwvd6Gs
- 2Pc1BagxD1Z4J6AJYOYSL3Rk8dVqi3XYoumE5ySgbZzgmaeEMEmAaw2A2wHxXVz/dx/u
- KKwRjzotnPlJUOrOF37Hp88K1zkJ4ST5nb4axNrlYTDXQUn7U50yjCc4vEpSU+FMRnRP
- /NRRiV7+SDsP9RQtGj1QSo14HjyTIWU+R/sXnXR6WSkKuYF8gNkjgO3HN7yA28oUpD8V
- 2cOw==
+ :reply-to; bh=0sacSme45d+zAHAZW9ym+kv+4dwtO/HOlcohR4MIv7o=;
+ b=nvbMfxbci1KqrhwMlLRiNBeQHQyfUOh/A5/lJ+fDnVOIYxQuzeJuF1l7KaL0vc6Q0z
+ yNOomkgSd1Bzh9p0Iw9cYhbjYy86VzGATT0HgQfe8K82lyvuRiqehmlSJ8gyEhoaudVS
+ qErmMX9AYW2TOfTFD3LRY2wbVkdqJyA42Vr689Xe5VyCMM6VleQ5vy/nna4OI82NCpQE
+ LTyf+faGhBVQYkLrzjVxgtWuxHmBDOIFQzoMfZU74+rD1Hhb/A7SJhxtaR7zMKX++mTc
+ HsZt5VxmixgZg0HnC32NgaotdUKzqpf2w6I9v0n1KuXL1V6xn7hp/SODSndmE1o8u0Cm
+ ifvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737717273; x=1738322073;
+ d=1e100.net; s=20230601; t=1737717275; x=1738322075;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KQumNHb0czdV26nphZSgSBzfVIc/sINg5yBNO6XQGak=;
- b=POIFT+y59ZxYjAZqmNw0f+qv6Cnh7MlttSfH5wm0dF5Zr8wZZ9y+4rTgo3IJohdrQ4
- mJNA8lu/3AChxw371xNWOx7/o/xeN+7d0Vo0ydJiZHrxTjKsPLe/XjT7VSymFYyMb7Dh
- zhhUGm12fLFzNvQD4Ti32QgY4yNN/itrkRzWRQ1XhcdjSTZiR2y7tQBWxRj8kidjYN6z
- twx+ULkVqOi+Me+KHN+sBwrc2c2kSrRpbEVfZ+nfG/HuMpesfELDSt462+l3a6sDzU4X
- xIp3bziO3UohzR/Sd7bb7wFM/4DlOxWQ2ugV9mjBS1l8oh2krah+1wniq6bua4YBuq8z
- MCDQ==
-X-Gm-Message-State: AOJu0YxiuCllj3f+vEorX6QRHkmBNZ/zYFGSB8ogkC4ipyiMcZB5UBgO
- yRMbJA3XzQ/S1Qi45KscDXbWPVAkEvXLCZ88fM/twTWNvo24xp1RAYlOBNA9YBA=
-X-Gm-Gg: ASbGncuPEwV1q2ZWdbsAIfP8xwUzex1W3x0XbrH99gAyey2dVDzfq7i3GBZye4L6jS0
- OH0PCiYoWTwZOGA24zbq3J1hc37ghWvUXR1Q0ArcyndCS+9hrrXBQtE+cOw+1ef2i7IDt1DGbOm
- VgFHaKkVTEZg6+RBMBmvjnsOTy9+jkBTkYf/WI89v68/t1MpvQG7bH+JSwkcza6XnLco5TkSRi1
- ig+6SU+3qxQPKkWYm/Kp+fILA9TD+WwzxpTqPSBZuIHarPfGRxGladXVcVoGIHW9ZwqtOMdoUf+
- zmasTSpRiMBs
-X-Google-Smtp-Source: AGHT+IGY2wva+MkPCdRgK1/XNjI/82GaXQEwsVxES2OrmcmMYbeyl0REkjsBdSaqM3fqWG9eRyRhsw==
-X-Received: by 2002:a05:651c:1611:b0:300:3778:4dbb with SMTP id
- 38308e7fff4ca-3072ca60c5emr122341211fa.1.1737717272797; 
- Fri, 24 Jan 2025 03:14:32 -0800 (PST)
+ bh=0sacSme45d+zAHAZW9ym+kv+4dwtO/HOlcohR4MIv7o=;
+ b=cM96lunvyLQp9LT0abOWD2DYE1G0RGNY7aWfQAOOJh3yY5lHQm86U37J6YiXHZ3icV
+ y1jqPRzXi9TNyVCYnisQSzEj2h5yBGCiw5JJQ5XIMn/Q3IcZeHtg5itt0osKs5HoTg5b
+ QSKnNMAkdh2NdkHDE3sZMT5nNf7wHhFjrpUahX5VAPVzZuXedIH5bXKypmwPuGORfUXn
+ TexE+qt9zYtZrt5Iufrt/mi5MoNMEvOeMGHGzE0AqSv6NUchrnkFE8YJ1+l8EB/U9VlG
+ F6enDEc/PhV6mnLLPDm923EifLyBaG3+3jAjEhqZ15cmeSWkcQQJEnZFKYoPiGBHaoKC
+ 7jtA==
+X-Gm-Message-State: AOJu0YzDuCE4169OnE0nF0cwEh26Omb5Pne5PUmqWIfDBIRSv+mY0xiS
+ 0ui0Rabpltgf7eVxXR7qRCCcgcWM3qWEgVK31rFxLfDadJhHXJB2i3bgLNa5uaY=
+X-Gm-Gg: ASbGncsfTlrOavVKeGE/aBB0+Fj1epOAcvm7w6B7f/p1I/5cUVXTdTnt2/e+p1RXMKW
+ 3VmmM2hyNFE6eX247tfBYXg7rtPRxcqeiqIJfz3O2jmAYy3VXd9zW19SOu5PSjs7InvT+sN0qMj
+ 1cQKDm6fwIkKYly+y2PJfS3/k+Yl7nrdSn/C/4I5cmfDaNGaZvxI7VovYxcZVgyTvkwF2wn9GJC
+ pPsfGQRioiaHPExTxf3xV6CAXeo6GegGrvOaRm5PRq61jcL2979lR93zDbUdV48SATfFxkujUk/
+ 6A3jZ4dGixYZ
+X-Google-Smtp-Source: AGHT+IEKsI1FHKsU/oq63Owrwj/AxIolbDVcCg9fk2AcSbkPZFLWwNFBfl+vzCRP0IAnp1mAghhfXQ==
+X-Received: by 2002:a2e:a901:0:b0:2ff:cfbb:c893 with SMTP id
+ 38308e7fff4ca-3072ca60a30mr114304741fa.6.1737717275242; 
+ Fri, 24 Jan 2025 03:14:35 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3076bacba5esm3289701fa.36.2025.01.24.03.14.31
+ 38308e7fff4ca-3076bacba5esm3289701fa.36.2025.01.24.03.14.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 03:14:31 -0800 (PST)
+ Fri, 24 Jan 2025 03:14:34 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 24 Jan 2025 13:14:19 +0200
-Subject: [PATCH 1/6] drm/atomic-helper: add atomic_needs_modeset callbacks
+Date: Fri, 24 Jan 2025 13:14:20 +0200
+Subject: [PATCH 2/6] drm/mgag200: move format check to
+ drm_plane_helper.atomic_needs_modeset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250124-atomic-needs-modeset-v1-1-b0c05c9eda0f@linaro.org>
+Message-Id: <20250124-atomic-needs-modeset-v1-2-b0c05c9eda0f@linaro.org>
 References: <20250124-atomic-needs-modeset-v1-0-b0c05c9eda0f@linaro.org>
 In-Reply-To: <20250124-atomic-needs-modeset-v1-0-b0c05c9eda0f@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,16 +77,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8241;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3634;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=4R2TAjvRhPbl5nWb6SOSqQ5SIwkmWTVcXua85X57qZA=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ/rkMpFJsYka4Z9WvN3MmWi9d9k0jT2adv2u66NZTtzdx
- d5gL1XbyWjMwsDIxSArpsjiU9AyNWZTctiHHVPrYQaxMoFMYeDiFICJaKSx/0+1thHwuKvL9dnl
- NGtW2dNH9QzqLSIXYg5lB8uvOWL2+rlhg9nFLQ2hNs2cecLzM5NUl/J/0m0O5vcOE46d86Du/yG
- BP1e3+JoZrg4XTMw8tqnlk/XLut33DN91X93L67NXRZxB7bnvxCvW+8Scq1//tdLVvWUrpDR/72
- ujQpEJYQeMONOPLronJbxUtu8gk1jMNftvsS+dQu5PskyakdXSuyUx2/ls39XklafOl2QWXLRuP
- O+rlBrG3fw4bLmlNlPFLeMJ796t2jRr5r6dS24e8ZrwX4SPO9Hy5fauaE6+06UzXbzulss5mF8s
- cu06tGNq0nelhOkzNdQd9RjfcEXMbeWWt5SQmsQ5za8WAA==
+ bh=pwmtWNrqDVg2rI64aHz+boP7gTDUq9GICL0T2h/DMTk=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnk3YURWUWU01A6XqaUSIWW8FOy+qff+XjWYSkZ
+ 56VP0FXSWeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ5N2FAAKCRCLPIo+Aiko
+ 1cFHB/4xZMU+AzbdxZr6M/tEKI3BPADtj3wkgUMr8+GsJt3pS5i0aL+uSRnAQ0w90ahY+xj1NGR
+ ydwByJx+LU6dcZ9VBukcBNtjs+jW36FmNm4n2ATCuO7G1j7UtnUw446vYER8Y9XKYuMEL8YcUo+
+ 3OilKZKQLU3Is/wYwRtbcix/JeDmw34ZFQkpFSlOn95EopH6vBbOVDxz3k69cW1x1QFvMJYnYRH
+ bBSgj/YBG+RkwVoBwxO/hgkj/MsUWdVdqp4mzFYQOnC49PetFw7e7kvpieLlz0C4X4CQy4jmyO3
+ W3kgVzYd+wz73NA+9RiEMUfMwT3WubiRVFl9c+y+CzZ9qUqX
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -103,244 +104,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Despite drm_atomic_helper_check_modeset() and drm_atomic_helper_check()
-documenting that the function should be run again if atomic_check()
-callback changes drm_crtc_state.mode_changed some drivers ignore it and
-don't rerun the helpers. To simplify such drivers and remove the need to
-rerun the helper functions provide additional set of callbacks,
-atomic_needs_modeset(). These callbacks are executed at a proper time,
-they return a boolean which signifies that corresponding CRTC should
-undergo a full modeset. This way the atomic_check() callbacks can stop
-updating the drm_crtc_state.mode_changed.
+For the mgag200 driver if the format of the plane changes, then the PLL
+rate needs to be changed. This requires performing a full CRTC modeset.
+Current code sets drm_crtc_state.mode_changed from the plane's
+atomic_check() callback and then doesn't call drm_atomic_helper_check()
+again. It works for the mgag200 driver, but it breaks calling convention
+of the drm_atomic_helper_check() function.
+
+Move the check to the new atomic_needs_modeset() callback, removing the
+need to set the flag in the atomic_check().
+
+Note: this also checks the check to compare format to the
+old_plane_state->fb->format instead of using plane->state->fb->format.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c      | 59 ++++++++++++++++++++
- include/drm/drm_modeset_helper_vtables.h | 92 ++++++++++++++++++++++++++++++++
- 2 files changed, 151 insertions(+)
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |  2 ++
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 27 ++++++++++++++++++++-------
+ 2 files changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 3034ba09c0ee5791ffd2f4130bd84b4cc4676fae..1f689ccd9b0d7f655c6a49e642d652b815a0e8e1 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -649,6 +649,8 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_connector *connector;
- 	struct drm_connector_state *old_connector_state, *new_connector_state;
-+	struct drm_plane *plane;
-+	struct drm_plane_state *new_plane_state, *old_plane_state;
- 	int i, ret;
- 	unsigned int connectors_mask = 0, user_connectors_mask = 0;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index 0608fc63e588bb60f1b087d263a34cfd11624b52..42cf0826ed14e0e9e4ed1b7920486bda008a0f99 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -354,6 +354,8 @@ extern const uint32_t mgag200_primary_plane_formats[];
+ extern const size_t   mgag200_primary_plane_formats_size;
+ extern const uint64_t mgag200_primary_plane_fmtmods[];
  
-@@ -708,6 +710,9 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
++bool mgag200_primary_plane_helper_atomic_needs_modeset(struct drm_plane *plane,
++						       struct drm_atomic_state *new_state);
+ int mgag200_primary_plane_helper_atomic_check(struct drm_plane *plane,
+ 					      struct drm_atomic_state *new_state);
+ void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index fb71658c3117b25311f19276d6f4ffdee157ac17..63285b356326a13b465387e5d7ac90ec9fe867cf 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -463,12 +463,31 @@ const uint64_t mgag200_primary_plane_fmtmods[] = {
+ 	DRM_FORMAT_MOD_INVALID
+ };
  
- 	for_each_oldnew_connector_in_state(state, connector, old_connector_state, new_connector_state, i) {
- 		const struct drm_connector_helper_funcs *funcs = connector->helper_private;
-+		struct drm_encoder *encoder = new_connector_state->best_encoder;
-+		const struct drm_encoder_helper_funcs *enc_funcs =
-+			encoder ? encoder->helper_private : NULL;
++bool mgag200_primary_plane_helper_atomic_needs_modeset(struct drm_plane *plane,
++						       struct drm_atomic_state *new_state)
++{
++	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
++	struct drm_plane_state *old_plane_state = drm_atomic_get_old_plane_state(new_state, plane);
++	struct drm_framebuffer *new_fb = new_plane_state->fb;
++	struct drm_framebuffer *fb = NULL;
++
++	if (old_plane_state)
++		fb = old_plane_state->fb;
++
++	if (!new_fb)
++		return false;
++
++	if (!fb || (fb->format != new_fb->format))
++		return true;
++
++	return false;
++}
++
+ int mgag200_primary_plane_helper_atomic_check(struct drm_plane *plane,
+ 					      struct drm_atomic_state *new_state)
+ {
+ 	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
+ 	struct drm_framebuffer *new_fb = new_plane_state->fb;
+-	struct drm_framebuffer *fb = NULL;
+ 	struct drm_crtc *new_crtc = new_plane_state->crtc;
+ 	struct drm_crtc_state *new_crtc_state = NULL;
+ 	struct mgag200_crtc_state *new_mgag200_crtc_state;
+@@ -486,12 +505,6 @@ int mgag200_primary_plane_helper_atomic_check(struct drm_plane *plane,
+ 	else if (!new_plane_state->visible)
+ 		return 0;
  
- 		WARN_ON(!drm_modeset_is_locked(&dev->mode_config.connection_mutex));
+-	if (plane->state)
+-		fb = plane->state->fb;
+-
+-	if (!fb || (fb->format != new_fb->format))
+-		new_crtc_state->mode_changed = true; /* update PLL settings */
+-
+ 	new_mgag200_crtc_state = to_mgag200_crtc_state(new_crtc_state);
+ 	new_mgag200_crtc_state->format = new_fb->format;
  
-@@ -734,6 +739,25 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 				new_crtc_state->connectors_changed = true;
- 		}
- 
-+		if ((funcs->atomic_needs_modeset &&
-+		     funcs->atomic_needs_modeset(connector, state)) ||
-+		    (enc_funcs && enc_funcs->atomic_needs_modeset &&
-+		     enc_funcs->atomic_needs_modeset(encoder, state))) {
-+			if (new_connector_state->crtc) {
-+				new_crtc_state =
-+					drm_atomic_get_new_crtc_state(state,
-+								      new_connector_state->crtc);
-+				new_crtc_state->mode_changed = true;
-+			}
-+
-+			if (old_connector_state->crtc) {
-+				new_crtc_state =
-+					drm_atomic_get_new_crtc_state(state,
-+								      old_connector_state->crtc);
-+				new_crtc_state->mode_changed = true;
-+			}
-+		}
-+
- 		if (funcs->atomic_check)
- 			ret = funcs->atomic_check(connector, state);
- 		if (ret) {
-@@ -746,6 +770,29 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 		connectors_mask |= BIT(i);
- 	}
- 
-+	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
-+		const struct drm_plane_helper_funcs *funcs;
-+
-+		funcs = plane->helper_private;
-+		if (!funcs || !funcs->atomic_needs_modeset)
-+			continue;
-+
-+		if (!funcs->atomic_needs_modeset(plane, state))
-+			continue;
-+
-+		if (new_plane_state->crtc) {
-+			new_crtc_state = drm_atomic_get_new_crtc_state(state,
-+								       new_plane_state->crtc);
-+			new_crtc_state->mode_changed = true;
-+		}
-+
-+		if (old_plane_state->crtc) {
-+			new_crtc_state = drm_atomic_get_new_crtc_state(state,
-+								       old_plane_state->crtc);
-+			new_crtc_state->mode_changed = true;
-+		}
-+	}
-+
- 	/*
- 	 * After all the routing has been prepared we need to add in any
- 	 * connector which is itself unchanged, but whose CRTC changes its
-@@ -753,6 +800,18 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
- 	 * crtc only changed its mode but has the same set of connectors.
- 	 */
- 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
-+		const struct drm_crtc_helper_funcs *funcs;
-+
-+		if (!new_crtc_state->crtc)
-+			continue;
-+
-+		funcs = crtc->helper_private;
-+		if (!funcs || !funcs->atomic_needs_modeset)
-+			continue;
-+
-+		if (funcs->atomic_needs_modeset(crtc, state))
-+			new_crtc_state->mode_changed = true;
-+
- 		if (!drm_atomic_crtc_needs_modeset(new_crtc_state))
- 			continue;
- 
-diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
-index b62f41f489625e5177bdc05eef950e6c18c219fd..a83999109a49321536956c8b1b93fb4b0d0f7ce2 100644
---- a/include/drm/drm_modeset_helper_vtables.h
-+++ b/include/drm/drm_modeset_helper_vtables.h
-@@ -304,6 +304,29 @@ struct drm_crtc_helper_funcs {
- 	 */
- 	void (*disable)(struct drm_crtc *crtc);
- 
-+	/**
-+	 * @atomic_needs_modeset:
-+	 *
-+	 * This function is called at the beginning of
-+	 * drm_atomic_helper_check_modeset() to verify whether the CRTC needs a
-+	 * full mode set or not.
-+	 *
-+	 * This hook is optional.
-+	 *
-+	 * NOTE:
-+	 *
-+	 * This function is called in the check phase of an atomic update. The
-+	 * driver is not allowed to change anything outside of the
-+	 * &drm_atomic_state update tracking structure passed in.
-+	 *
-+	 * RETURNS:
-+	 *
-+	 * True if the corresponding CRTC should undergo a full modeset, False
-+	 * otherwise.
-+	 */
-+	bool (*atomic_needs_modeset)(struct drm_crtc *crtc,
-+				     struct drm_atomic_state *state);
-+
- 	/**
- 	 * @atomic_check:
- 	 *
-@@ -800,6 +823,29 @@ struct drm_encoder_helper_funcs {
- 	 */
- 	void (*enable)(struct drm_encoder *encoder);
- 
-+	/*
-+	 * @atomic_needs_modeset:
-+	 *
-+	 * This function is called at the beginning of
-+	 * drm_atomic_helper_check_modeset() to verify whether the connected
-+	 * CRTC needs a full mode set or not.
-+	 *
-+	 * This hook is optional.
-+	 *
-+	 * NOTE:
-+	 *
-+	 * This function is called in the check phase of an atomic update. The
-+	 * driver is not allowed to change anything outside of the
-+	 * &drm_atomic_state update tracking structure passed in.
-+	 *
-+	 * RETURNS:
-+	 *
-+	 * True if the corresponding CRTC should undergo a full modeset, False
-+	 * otherwise.
-+	 */
-+	bool (*atomic_needs_modeset)(struct drm_encoder *encoder,
-+				     struct drm_atomic_state *state);
-+
- 	/**
- 	 * @atomic_check:
- 	 *
-@@ -1067,6 +1113,29 @@ struct drm_connector_helper_funcs {
- 	struct drm_encoder *(*atomic_best_encoder)(struct drm_connector *connector,
- 						   struct drm_atomic_state *state);
- 
-+	/**
-+	 * @atomic_needs_modeset:
-+	 *
-+	 * This function is called at the beginning of
-+	 * drm_atomic_helper_check_modeset() to verify whether the connected
-+	 * CRTC needs a full mode set or not.
-+	 *
-+	 * This hook is optional.
-+	 *
-+	 * NOTE:
-+	 *
-+	 * This function is called in the check phase of an atomic update. The
-+	 * driver is not allowed to change anything outside of the
-+	 * &drm_atomic_state update tracking structure passed in.
-+	 *
-+	 * RETURNS:
-+	 *
-+	 * True if the corresponding CRTC should undergo a full modeset, False
-+	 * otherwise.
-+	 */
-+	bool (*atomic_needs_modeset)(struct drm_connector *connector,
-+				     struct drm_atomic_state *state);
-+
- 	/**
- 	 * @atomic_check:
- 	 *
-@@ -1284,6 +1353,29 @@ struct drm_plane_helper_funcs {
- 	 */
- 	void (*end_fb_access)(struct drm_plane *plane, struct drm_plane_state *new_plane_state);
- 
-+	/**
-+	 * @atomic_needs_modeset:
-+	 *
-+	 * This function is called at the beginning of
-+	 * drm_atomic_helper_check_modeset() to verify whether the connected
-+	 * CRTC needs a full mode set or not.
-+	 *
-+	 * This hook is optional.
-+	 *
-+	 * NOTE:
-+	 *
-+	 * This function is called in the check phase of an atomic update. The
-+	 * driver is not allowed to change anything outside of the
-+	 * &drm_atomic_state update tracking structure passed in.
-+	 *
-+	 * RETURNS:
-+	 *
-+	 * True if the corresponding CRTC should undergo a full modeset, False
-+	 * otherwise.
-+	 */
-+	bool (*atomic_needs_modeset)(struct drm_plane *plane,
-+				     struct drm_atomic_state *state);
-+
- 	/**
- 	 * @atomic_check:
- 	 *
 
 -- 
 2.39.5
