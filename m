@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB673A1C8AF
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9EFA1C8B2
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC13A10E378;
-	Sun, 26 Jan 2025 14:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2254110E37E;
+	Sun, 26 Jan 2025 14:52:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
  [209.85.167.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F170510E00F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 20:48:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47D3710E00F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 20:49:09 +0000 (UTC)
 Received: by mail-oi1-f173.google.com with SMTP id
- 5614622812f47-3eb9101419cso1550811b6e.0
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 12:48:30 -0800 (PST)
+ 5614622812f47-3eb939021bfso1244247b6e.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 12:49:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737751710; x=1738356510;
+ d=1e100.net; s=20230601; t=1737751748; x=1738356548;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zTmcnMLYrKmxshYXQBR0d85tQtf4Zs+o04qMUE/3fe0=;
- b=iP8wkVuy48ACjoKhyjiH3fSF9cSAcIk8cHe6udrsvx3Q7IxDE72vao3mY/L/h6CLj+
- tl2ZpmZghd8gUsVpImeCK6ul14o8FmEaJJIESsBhn7q4epkCmItgKWqhX6hqhHAGswdh
- 8+fH7Ib0x4tl6OD/bm9ma5x+LjZVtLbaVy6eFrtmcYfw3F8jOkqC+a2E+TGEQHhth8zS
- rwF540V5EL6saL3dGlmGRVCTcQiMtZAj8GcLNijf7OWIfM42rbWgHGTEwTIu8nnhmlLO
- bJWmLZ/Og0yjwF08AUzFCwdhBZgAHuaMGC+fXdJk54d8eSRT3byXRLoo6uS5vhg+wudi
- OC6w==
+ bh=5xA14pV/ID80+ZWYLSsOoIEL9rfki2kGsfrRSt/vpbY=;
+ b=nkgCI3RWD7oYhWz/W6B09XFIa0UYZh7IyvPtjOU+mHpfPcWfev/YLURBp23p01ZMPW
+ kXefHCxeIxMnsZyJ8FgS48V1QLHoxDguW42OvbcqAy+/aXUmeBDAgGrSI/5VdcCcgyIG
+ FMBgkdAMCO4xc8uq0VqddkdKMs8IqVSCvyYgnIvGqDnMVxWzdKa4SnzQaY8jXot6yv9v
+ fotM3jAFZa1hP728SUQqJ1HRMXPiAlk5Gg2Tumt9AacWWNTBTChl9XOlJu0keFrmnVfg
+ 7t75kcksxPhEL3KUJUYSF/x7OTS3xAZ6XmZ8qMSSzAQs26GgDvb5qJnEMaIP5wwZ7/t9
+ jYdQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUyclY0eKDpBDCtP/y1vJhGBYQZnYQOkooBKsRGZl4qzjoiO/UjDlhZT0tD97jjqDO3mX7P8rYFz4w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0c9Vfe9SJ30+UlHlXz6Fm+J03g9aJXKHRPF9Kh+xxpOCMjXai
- zL4sh22Hudri9QRefpiddxVWql3WVUV/Bsu4TmySG5AKCJO/EA/U
-X-Gm-Gg: ASbGncthGDkcq6PbHh3DasBSRe7yrdtBGX5kmKCW4f4TfZofkACd1ZdNpB3F1dVd01j
- 4GCQXgGqnvnk1k8kh7H1pYRvCbTp6PMgl7EvcaSEgYXXicaP3AmgNJaR0BRLH81ku8I1pAiE3WU
- HEEDmFsT3sG9L51QDEfX4gHjMvRXKyUk002XQ/Zj+WJ0kqpjDmjUt2aGlXw0tV0IWAlT+aQyJlS
- /xPOYzftdaoLGOTWVvYvcJ7WjhNDgZ1dWUlXhHyuxGUOsaHWU97Ob/+RYam0XM0PQk1nupHwfKs
- 5A3EFGMhImp0OESp
-X-Google-Smtp-Source: AGHT+IHUENjiGVLI+oMMp3gBm5+kAKqMBuu4g8ZgEw8kKGT+Kr/ZYXTAqcZqBbONvERpVoLyMHtDDQ==
-X-Received: by 2002:a05:6808:1c0f:b0:3eb:6e47:2fe1 with SMTP id
- 5614622812f47-3f19fcd7a40mr18372654b6e.33.1737751710195; 
- Fri, 24 Jan 2025 12:48:30 -0800 (PST)
+ AJvYcCVfmYwU5EsmKm6qbU2pTr2Km9KBX3gDGQYigx54CgbMVbTr2XyE0hdXP0iHjUaOnuxF59RZwhbsl/4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxxzb5RmqrTHADzty/Hz47h2tDmdSMqmHlI8rDPN0kHQfem14BG
+ wLUSCH//5XFnln7pOoZ2jXQO7dpybcTQLRkHge49ktq84B+4fkq8wbueFjUh
+X-Gm-Gg: ASbGncsUFDIME4hL7g71aCe4px5YfckzZMb6ubTs4WuC+Jd8rB3EdfRwrzRfrtFxfPd
+ nTxP8Mn5vN8fGnH2pb0xRUyZwvgs/+Ebe0FCdu50PcbLQJwxO/slTyJ9GnwKlUQhOK/L2sgh8Gk
+ GB2gTEtOdzG5LmErfprGYjnipVbOqXeTiMF8alA5Agu3Iod+joMOu1PA6rvxWtpFFODtTTVCGVd
+ 8muzRIoOxxkA/66XghAiOcRlmJHx9YImHjXRspFuSvJgyT52dN8IQwslktyDRzUH8Jp/ZKEaZbN
+ ZNpaxQ==
+X-Google-Smtp-Source: AGHT+IFoCw9pViPBJfjcoCYgkjD9iFLB95goRltiwpnSLVyw4cjDuOVRPwGZV0c0Kx+SMcyafVuOIg==
+X-Received: by 2002:a05:6808:3c46:b0:3e6:63b5:f248 with SMTP id
+ 5614622812f47-3f19fbfe377mr21460708b6e.7.1737751748520; 
+ Fri, 24 Jan 2025 12:49:08 -0800 (PST)
 Received: from muster.uejji.net ([47.188.205.107])
  by smtp.gmail.com with ESMTPSA id
- 5614622812f47-3f1f0981130sm598700b6e.36.2025.01.24.12.48.27
+ 5614622812f47-3f1f0981130sm598700b6e.36.2025.01.24.12.49.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 12:48:29 -0800 (PST)
+ Fri, 24 Jan 2025 12:49:07 -0800 (PST)
 From: John Edwards <uejji@uejji.net>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>
 Cc: John Edwards <uejji@uejji.net>, Andrew Wyatt <fewtarius@steamfork.org>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Paco Avelar <pacoavelar@hotmail.com>
-Subject: [PATCH v2 4/5] drm: panel-orientation-quirks: Add new quirk for GPD
- Win 2
-Date: Fri, 24 Jan 2025 20:46:50 +0000
-Message-ID: <20250124204648.56989-10-uejji@uejji.net>
+ =?UTF-8?q?Jo=C3=A3o=20Pedro=20Kurtz?= <joexkurtz@gmail.com>
+Subject: [PATCH v2 5/5] drm: panel-orientation-quirks: Add quirk for
+ OneXPlayer Mini (Intel) From: Andrew Wyatt <fewtarius@steamfork.org>
+Date: Fri, 24 Jan 2025 20:46:52 +0000
+Message-ID: <20250124204648.56989-12-uejji@uejji.net>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250124204648.56989-2-uejji@uejji.net>
 References: <20250124204648.56989-2-uejji@uejji.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sun, 26 Jan 2025 14:52:19 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,36 +79,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andrew Wyatt <fewtarius@steamfork.org>
+The Intel model of the OneXPlayer Mini uses a 1200x1920 portrait LCD panel.
+The DMI strings are the same as the OneXPlayer, which already has a DMI
+quirk, but the panel is different.
 
-Some GPD Win 2 units shipped with the correct DMI strings.
-
-Add a DMI match to correctly rotate the panel on these units.
+Add a DMI match to correctly rotate this panel.
 
 Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
+Co-developed-by: John Edwards <uejji@uejji.net>
 Signed-off-by: John Edwards <uejji@uejji.net>
-Tested-by: Paco Avelar <pacoavelar@hotmail.com>
+Tested-by: João Pedro Kurtz <joexkurtz@gmail.com>
 ---
- drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-index 9e6708cd1..e6148cc31 100644
+index e6148cc31..88aa57c15 100644
 --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
 +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-@@ -339,6 +339,12 @@ static const struct dmi_system_id orientation_data[] = {
- 		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Default string"),
+@@ -129,6 +129,12 @@ static const struct drm_dmi_panel_orientation_data lcd1080x1920_rightside_up = {
+ 	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+ };
+ 
++static const struct drm_dmi_panel_orientation_data lcd1200x1920_leftside_up = {
++	.width = 1200,
++	.height = 1920,
++	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
++};
++
+ static const struct drm_dmi_panel_orientation_data lcd1200x1920_rightside_up = {
+ 	.width = 1200,
+ 	.height = 1920,
+@@ -473,6 +479,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
  		},
- 		.driver_data = (void *)&gpd_win2,
-+	}, {	/* GPD Win 2 (correct DMI strings) */
+ 		.driver_data = (void *)&lcd1600x2560_leftside_up,
++	}, {	/* OneXPlayer Mini (Intel) */
 +		.matches = {
-+		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
-+		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "WIN2")
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK TECHNOLOGY CO., LTD."),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "ONE XPLAYER"),
 +		},
-+		.driver_data = (void *)&lcd720x1280_rightside_up,
- 	}, {	/* GPD Win 3 */
++		.driver_data = (void *)&lcd1200x1920_leftside_up,
+ 	}, {	/* OrangePi Neo */
  		.matches = {
- 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "OrangePi"),
 -- 
 2.43.0
 
