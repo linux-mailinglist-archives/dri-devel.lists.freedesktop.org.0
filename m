@@ -2,62 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10FCA1B173
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 09:13:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2687A1B189
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 09:21:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB2510E917;
-	Fri, 24 Jan 2025 08:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98F1910E2BD;
+	Fri, 24 Jan 2025 08:21:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d1VBjwyL";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="PbUvk0YT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9282110E917
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 08:13:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4A0ACD01;
- Fri, 24 Jan 2025 09:11:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1737706315;
- bh=idLhQQ+Oo5UWIbjsyxcdZEeHw78VV8pc1CNx0UgjdPo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=d1VBjwyLb5/825+b7cVXFO9bdDNfsHPuG4v+5w/PShcuhYZnEGzMi4sgSuBT/t+Vl
- 81MAQ4hSpeZbPfdN5IsMI6Ow92B6XjP6sN03JQCziXIeLU58DsLBP6BFGAvkJAmmYb
- XS3nweXjhRkr7hgNRjCVLoF07N3/estJlBU9pt94=
-Date: Fri, 24 Jan 2025 10:12:50 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Leonardo =?utf-8?B?QnLDoXM=?= <leobras.c@gmail.com>
-Cc: Vignesh Raman <vignesh.raman@collabora.com>, kernelci@lists.linux.dev,
- linuxtv-ci@linuxtv.org, dave.pigott@collabora.com,
- mripard@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- gustavo.padovan@collabora.com, pawiecz@collabora.com,
- spbnick@gmail.com, tales.aparecida@gmail.com,
- workflows@vger.kernel.org, skhan@linuxfoundation.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com,
- davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
- laura.nao@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org,
- daniels@collabora.com, helen.koike@collabora.com,
- shreeya.patel@collabora.com, denys.f@collabora.com,
- nicolas.dufresne@collabora.com, louis.chauvet@bootlin.com,
- hamohammed.sa@gmail.com, melissa.srw@gmail.com, simona@ffwll.ch,
- airlied@gmail.com, Tim.Bird@sony.com, broonie@kernel.org,
- groeck@google.com, rdunlap@infradead.org, geert@linux-m68k.org,
- michel.daenzer@mailbox.org, sakari.ailus@iki.fi, jarkko@kernel.org
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20250124081250.GA24731@pendragon.ideasonboard.com>
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2377D10E2BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 08:21:18 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50O8Krnq517556
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 24 Jan 2025 02:20:53 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1737706853;
+ bh=qg4nqqRog3lgOr1El9gq2s9gaKxMoQICwcFAPITA+9w=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=PbUvk0YT1o7a6Vqc2nAmpmAIGFIR82JNb8WC/M6ZBWPRON4e52GAiOHqiPb2v/MPU
+ 5WFyEI09bQG2EYcXg/bJfR1lk64582pBRSLHwwgfcKUGJIR4osg8V4zcL4WZOz/4wk
+ LRDPLcyRvECBWx4RXliNF2KK57M1SVJiVYGLHXlg=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 50O8KriK123037
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 24 Jan 2025 02:20:53 -0600
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 24
+ Jan 2025 02:20:53 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 24 Jan 2025 02:20:53 -0600
+Received: from [10.24.68.181] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [10.24.68.181])
+ by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50O8Klat007679;
+ Fri, 24 Jan 2025 02:20:48 -0600
+Message-ID: <4df0097f-2672-4bf0-8321-5922783e9278@ti.com>
+Date: Fri, 24 Jan 2025 13:50:46 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: display: ti,am65x-dss: Add support for
+ AM62L DSS
+To: Devarsh Thakkar <devarsht@ti.com>, <jyri.sarha@iki.fi>,
+ <tomi.valkeinen@ideasonboard.com>, <airlied@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
+ <s-jain1@ti.com>, <r-donadkar@ti.com>, <h-shenoy@ti.com>
+References: <20241231090432.3649158-1-devarsht@ti.com>
+ <20241231090432.3649158-2-devarsht@ti.com>
+Content-Language: en-US
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <20241231090432.3649158-2-devarsht@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,104 +80,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 24, 2025 at 02:11:26AM -0300, Leonardo Brás wrote:
-> On Thu, 2025-01-23 at 19:23 +0530, Vignesh Raman wrote:
-> > This patch series introduces "kci-gitlab," a GitLab CI pipeline
-> > specifically designed for kernel testing. It provides kernel
-> > developers with an integrated, efficient, and flexible testing
-> > framework using GitLab's CI/CD capabilities. This patch includes
-> > a .gitlab-ci file in the tools/ci/gitlab-ci/ folder, along with
-> > additional YAML and script files, to define a basic test pipeline
-> > triggered by code pushes to a GitLab-CI instance.
-> > The initial version implements:
-> >     
-> > - Static checks: Includes checkpatch and smatch for code validation.
-> > - Build tests: Covers various architectures and configurations.
-> > - Boot tests: Utilizes virtme for basic boot testing.
-> > 
-> > Additionally, it introduces a flexible "scenarios" mechanism to
-> > support subsystem-specific extensions.
-> > 
-> > This series also introduces a drm scenario that adds a job to run IGT
-> > tests for vkms. This scenario includes helper scripts to build deqp-runner
-> > and IGT, leveraging approaches from the drm-ci/mesa-ci project.
-> > 
-> > We are working towards creating a generic, upstream GitLab-CI pipeline
-> > (kci-gitlab) that will replace DRM-CI [1]. The proposed GitLab-CI pipeline
-> > is designed with a distributed infrastructure model, making it possible
-> > to run on any gitLab instance. We plan to leverage KernelCI [2] as the
-> > backend, utilizing its hardware, rootfs, test plans, and KCIDB [3]
-> > integration.
-> > 
-> > For an example of a fully executed pipeline with drm scenario set,
-> > including documentation generation,
-> > see: https://gitlab.freedesktop.org/vigneshraman/kernel/-/pipelines/1350262
-> > 
-> > Please refer to the documentation included in the patch, or check the
-> > rendered version, here: 
-> > https://vigneshraman.pages.freedesktop.org/-/kernel/-/jobs/69787927/artifacts/artifacts/Documentation-output/ci/gitlab-ci/gitlab-ci.html
-> > 
-> > Differences from v1 to v2:
-> > - moved to tools/ci as suggested by Linus on the previous version
-> > - add arm64 containers for native compilation
-> > - added boot tests using virtme: this is the base structure for boot tests,
-> >   next steps would be adding other tests such as kselftests/kunit tests
-> > - added DRM scenario testing on vkms: this should replace current vkms test
-> >   in drm-ci. This work shows how a test scenario can be used by different
-> >   subsystems to add their tests.
-> > - update documentation
-> > 
-> > For more details on the motivation behind this work, please refer to the
-> > cover letter of v1: https://patchwork.kernel.org/project/linux-kselftest/cover/20240228225527.1052240-1-helen.koike@collabora.com/
-> > 
-> > [1] https://www.collabora.com/news-and-blog/blog/2024/02/08/drm-ci-a-gitlab-ci-pipeline-for-linux-kernel-testing/
-> > [2] https://kernelci.org/
-> > [3] https://docs.kernelci.org/kcidb/
-> > 
-> > Helen Koike (3):
-> >   kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
-> >   kci-gitlab: Add documentation
-> >   kci-gitlab: docs: Add images
-> > 
-> > Vignesh Raman (2):
-> >   MAINTAINERS: Add an entry for ci automated testing
-> >   kci-gitlab: Add drm scenario
-> 
-> Hi Vignesh Raman,
-> I am very happy to see this project going forward :)
-> 
-> It's been a few years since I first thought on finding a good way of helping
-> kernel developers testing their patches, while making use of the free runner
-> minutes Gitlab offers. It can greatly simplify the testing for people who are
-> new to kernel development, or students trying to understand it better.
-> 
-> And this patchset allows that to happen :)
-> 
-> Actually, I spoke to Helen last year, and to enable it to run on the free
-> Gitlab-CI runners, there is a small extra patch which is needed:
-> 
-> https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/
+Hello Devarsh,
 
-Gitlab as an open-source software project (the community edition) is one
-thing, but can we please avoid advertising specific proprietary services
-in the kernel documentation ?
+On 31/12/24 14:34, Devarsh Thakkar wrote:
+> The DSS controller on TI's AM62L SoC is an update from that on TI's
+> AM625/AM65x/AM62A7 SoC. The AM62L DSS [1] only supports a single display
+> pipeline using a single overlay manager, single video port and a single
+> video lite pipeline which does not support scaling.
+> 
+> The output of video port is routed to SoC boundary via DPI interface and
+> the DPI signals from the video port are also routed to DSI Tx controller
+> present within the SoC.
+> 
+> [1]: Section 11.7 (Display Subsystem and Peripherals)
+> Link : https://www.ti.com/lit/pdf/sprujb4
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+>   .../bindings/display/ti/ti,am65x-dss.yaml     | 25 ++++++++++++++++++-
+>   1 file changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 55e3e490d0e6..ba93c6bb02e8 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -12,18 +12,29 @@ maintainers:
+>     - Tomi Valkeinen <tomi.valkeinen@ti.com>
+>   
+>   description: |
+> -  The AM625 and AM65x TI Keystone Display SubSystem with two output
+> +  The AM625 and AM65x TI Keystone Display SubSystem has two output
+>     ports and two video planes. In AM65x DSS, the first video port
+>     supports 1 OLDI TX and in AM625 DSS, the first video port output is
+>     internally routed to 2 OLDI TXes. The second video port supports DPI
+>     format. The first plane is full video plane with all features and the
+>     second is a "lite plane" without scaling support.
+> +  The AM62A7 display subsystem has a single output port supporting DPI format
+> +  although similar to AM625 and AM65x Socs, it has two video planes where first
+> +  is full video plane with all features and second is a video "lite" plane which
+> +  does not support scaling.
+> +  The AM62L display subsystem also has a single output port which supports DPI
+> +  format but it only supports single video "lite plane" which does not support
+> +  scaling. The output port is routed to SoC boundary via DPI interface and same
+> +  DPI signals are also routed internally to DSI Tx controller present within the
+> +  SoC. Due to clocking limitations only one of the interface i.e. either DSI or
+> +  DPI can be used at once.
+>   
+>   properties:
+>     compatible:
+>       enum:
+>         - ti,am625-dss
+>         - ti,am62a7,dss
+> +      - ti,am62l,dss
 
-> Could you please apply it on top of your tree?
-> Some stuff changed places, but I can send a v2 with that fix if you want.
-> 
-> 
-> While I have yet to review this v2 patchset, I applied it on my repo for
-> testing, and cherry-picked the patch on above link, triggering a Pipeline:
-> 
-> https://gitlab.com/linux-kernel/linux/-/pipelines/1638955600
-> 
-> It seems to be working fine, please check it, as you may be more used to the
-> results.
-> 
-> Thanks!
-> Leo
 
--- 
-Regards,
+s/ti,am62l,dss/ti,am62l-dss
 
-Laurent Pinchart
+There seems to be inconsistency in the usage of the compatible name in
+the conditional below.
+
+Same is with the compatible "ti,am62a7,dss".
+Can you fix that too?
+
+
+With the above comments addressed,
+
+Reviewed-by: Jayesh Choudhary <j-choudhary@ti.com>
+
+
+>         - ti,am65x-dss
+>   
+>     reg:
+> @@ -91,6 +102,8 @@ properties:
+>             For AM625 DSS, the internal DPI output port node from video
+>             port 1.
+>             For AM62A7 DSS, the port is tied off inside the SoC.
+> +          For AM62L DSS, the DSS DPI output port node from video port 1
+> +          or DSI Tx controller node connected to video port 1.
+>   
+>         port@1:
+>           $ref: /schemas/graph.yaml#/properties/port
+> @@ -123,6 +136,16 @@ allOf:
+>           ports:
+>             properties:
+>               port@0: false
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,am62l-dss
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@1: false
+>   
+>   required:
+>     - compatible
+
+Warm Regards,
+Jayesh
