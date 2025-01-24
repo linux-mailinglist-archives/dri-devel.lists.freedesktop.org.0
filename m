@@ -2,52 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3484A1B0EB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 08:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CCCA1B0F8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 08:33:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DC210E8F8;
-	Fri, 24 Jan 2025 07:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7493510E2B6;
+	Fri, 24 Jan 2025 07:33:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ox+5y6WG";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pNxhaAQ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E92310E2B6
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:28:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12FF710E2B6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:33:50 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2F137465;
- Fri, 24 Jan 2025 08:27:33 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DC90465;
+ Fri, 24 Jan 2025 08:32:44 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1737703653;
- bh=tadFFT9/jzoFvFgIb1qCZD/e6ulUeAxvLuKkWd/1bng=;
+ s=mail; t=1737703965;
+ bh=mtZBJMgaFqKk5PuEBPDXfMb8hUmMsIzaVTsRq3ExCpo=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ox+5y6WGBeCPHYc8DZ7Ys+7XxXyH0Z6QJrY23WiHlAillfvDSwOeIe1x3b29EXQSv
- +1SOMjEIdsUYngLaBn0vWnsGD0vYjLAtY3bBnHyMJjspEclbCdYybUHdrxfFluWi/D
- njUfp85Ugc1HOQF4p4QzWBGSEo6GVWsjUZlHNrmg=
-Message-ID: <976580f4-2e2c-4269-b5a6-2f9431cecaf8@ideasonboard.com>
-Date: Fri, 24 Jan 2025 09:28:34 +0200
+ b=pNxhaAQ3jAL1JNxFjIEUVIYCO0YccVqCiiCldBYhkUc4tSu3WZHMCRuQC294qxLij
+ YHxHI2SAviexVNN6pdi1MgQf3hBB5WUZhv+PVcUNBfOuz1RH/lrzPovRPHGalbh6KW
+ AiA7MLW4oVraPqRlT7/UurBCm0T5OjAHSJH62LHw=
+Message-ID: <fe43a7a8-a202-4dc4-aded-f68d52d65928@ideasonboard.com>
+Date: Fri, 24 Jan 2025 09:33:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH next] drm: zynqmp_dp: Unlock on error in
- zynqmp_dp_bridge_atomic_enable()
-To: Sean Anderson <sean.anderson@linux.dev>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Michal Simek <michal.simek@amd.com>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <b4042bd9-c943-4738-a2e1-8647259137c6@stanley.mountain>
- <20241112052754.GB21062@pendragon.ideasonboard.com>
- <37be000a-3ef8-4df4-aefa-b4d73487ad27@linux.dev>
- <20241112164305.GA24067@pendragon.ideasonboard.com>
- <5c2c6883-d81a-4869-9f32-48d23c0728ea@linux.dev>
- <11b81c8b-5ef1-470c-836a-a436ecadf0f4@linux.dev>
+Subject: Re: [PATCH] drm/omap: Remove hdmi5_core_handle_irqs()
+To: linux@treblig.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ simona@ffwll.ch, airlied@gmail.com
+References: <20241218020124.278925-1-linux@treblig.org>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -93,7 +82,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <11b81c8b-5ef1-470c-836a-a436ecadf0f4@linux.dev>
+In-Reply-To: <20241218020124.278925-1-linux@treblig.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,40 +102,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 24/01/2025 01:56, Sean Anderson wrote:
-> On 11/12/24 12:22, Sean Anderson wrote:
->> On 11/12/24 11:43, Laurent Pinchart wrote:
->>> On Tue, Nov 12, 2024 at 09:41:58AM -0500, Sean Anderson wrote:
->>>> On 11/12/24 00:27, Laurent Pinchart wrote:
->>>>> Hi Dan,
->>>>>
->>>>> Thank you for the patch.
->>>>>
->>>>> On Mon, Nov 11, 2024 at 12:06:10PM +0300, Dan Carpenter wrote:
->>>>>> We added some locking to this function, but accidentally forgot to unlock
->>>>>> if zynqmp_dp_mode_configure() failed.  Use a guard lock to fix it.
->>>>>>
->>>>>> Fixes: a7d5eeaa57d7 ("drm: zynqmp_dp: Add locking")
->>>>>> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
->>>>>
->>>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>>>>
->>>>> Sean, how about replacing all the mutex_lock()/mutex_unlock() calls
->>>>> you've added in a7d5eeaa57d7 with guards ?
->>>>
->>>> I have no objection to that.
->>>
->>> Would you send a patch ? Otherwise I can do it.
->>>
->>
->> I can send a patch, but it will not be for a week or two.
->>
->> --Sean
+On 18/12/2024 04:01, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
 > 
-> Just following up on this; will the above patched be merged? I would
-> prefer to keep the bugfix and the conversion separate.
+> hdmi5_core_handle_irqs() is a function that was copied from omapdss by
+> commit f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
+> 
+> but it wasn't used in the original anyway.
+> 
+> Remove it.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>   drivers/gpu/drm/omapdrm/dss/hdmi5_core.c | 17 -----------------
+>   drivers/gpu/drm/omapdrm/dss/hdmi5_core.h |  1 -
+>   2 files changed, 18 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> index 21564c38234f..12ef47cd232b 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
+> @@ -545,23 +545,6 @@ static void hdmi_core_enable_interrupts(struct hdmi_core_data *core)
+>   	REG_FLD_MOD(core->base, HDMI_CORE_IH_MUTE, 0x0, 1, 0);
+>   }
+>   
+> -int hdmi5_core_handle_irqs(struct hdmi_core_data *core)
+> -{
+> -	void __iomem *base = core->base;
+> -
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT0, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT1, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT2, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_AS_STAT0, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_PHY_STAT0, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_I2CM_STAT0, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_CEC_STAT0, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_VP_STAT0, 0xff, 7, 0);
+> -	REG_FLD_MOD(base, HDMI_CORE_IH_I2CMPHY_STAT0, 0xff, 7, 0);
+> -
+> -	return 0;
+> -}
+> -
+>   void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+>   		struct hdmi_config *cfg)
+>   {
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+> index 070cbf5fb57d..b8ed21156e8c 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
+> @@ -286,7 +286,6 @@ int hdmi5_core_ddc_read(void *data, u8 *buf, unsigned int block, size_t len);
+>   void hdmi5_core_ddc_uninit(struct hdmi_core_data *core);
+>   
+>   void hdmi5_core_dump(struct hdmi_core_data *core, struct seq_file *s);
+> -int hdmi5_core_handle_irqs(struct hdmi_core_data *core);
+>   void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
+>   			struct hdmi_config *cfg);
+>   int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core);
 
-I'll push to drm-misc-fixes.
+Thanks, applying to drm-misc-next.
 
   Tomi
 
