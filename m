@@ -2,96 +2,194 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED7EA1AEEB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 04:14:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BA9A1AEEE
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 04:16:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E51910E2AB;
-	Fri, 24 Jan 2025 03:14:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA24010E8C6;
+	Fri, 24 Jan 2025 03:16:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="cehgFUAG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Til3Ty+W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7085910E2AB
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 03:14:15 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-53df80eeeedso1811250e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 19:14:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1737688451; x=1738293251;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EU/PQ4VJf1HAvGTZSkAiUG1imY6cPU+66kZ1BUgwrQI=;
- b=cehgFUAGo73cxYiyUvMyaO/oAbR9izg9w5kbhxChA7vMZWDDoIoWtoVAh030tmChvn
- r3urkZ34mQ/FfDbXbd2GpKHE2hn94ztibRJFh8fMIvL/tnkr7F637UUN1v+UlV9hrgia
- 3aVfJeg42VVnYlGpcglbfY7WrBqKqk2KVCOO0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737688451; x=1738293251;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EU/PQ4VJf1HAvGTZSkAiUG1imY6cPU+66kZ1BUgwrQI=;
- b=UUBhajuFjG5ioAPNMH1WQJQkOMvpcbd8gnfdmKtSH3sCjWzOhVQ+CQPHr0G9WL9uo3
- l3LktpFwrHFWKNuO5Ujfytae45yx4/WSuBojf/AGzfQVspsURcJmD+QMjJdLGMybD7Xc
- 2gXMqrLj/5bMXFsCthOpBNYWpzDO2K2ybyBK86F/HTkcDz2abpTGgPMEPV3TfDwqzpja
- pfxTqPxFmiZBxZrBCBtkHXb9InnhQrDKGiB8U8MUYuh5ktep/ixl6qSJPVjKt5o8QaeB
- 0TKPtH9bepf4F/4WBJPNEZvtFGhD/fE7QyCP2oOqFXlcuv2c0sxQ1SeBeWez1D2Jnfiv
- IFhg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW1WiRCw4kk2svOA0cHpS5J1AfB0FZLo26iqX4/2K74Mat5ZE2U+fGpF95rGrwAxL/kUnHnSRuIQ6Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwfWq0a+t0NPm5FfVzfX1y3PB9jCdktVvnk/7nvifLe1ViHlHR/
- HVHlZ7RdPvOU+26lx6UPCTb4EEPOqjvYMmYpb8WT6FspdWququFSSwPcBybg2leeyoFCAyF8BdJ
- qU3Ye
-X-Gm-Gg: ASbGncsF/mq7Lj9Pbh2tRNScevNTs2Zsag1jR+eI1B0+PsJK0bfzpKvjYU96aSLBYay
- spO+NI5XPOs2nHPm6xhqZhoMc57wGyesEVzzqvo2CyaAcf493yl5Yk2kin25Hgu9bzuzTi4VHud
- 7Oy9vcaHLZmUTdChsaHg10TQyhtnMk7ZV1Pp2V3JhIS5uD+PNEwmHnFfRw6O3U/VnudpvyK3e+h
- KO5o9liuJT2eZrFpGyLZ7Ajfwv4Ca9aI6r0GnTWp9ggfA0zYuqOafP9cFnsoil6IHgcWyzwxnc8
- ewrNjI7QJf1aqzaVieU21HjFIub/WU4mVORDtYokcWzyqMZV
-X-Google-Smtp-Source: AGHT+IEJ/Q9nKEy1mzOeTetl05kiw1tV1xkYg+9/HZ8c6bgVEKQND96B7qs4A0C6uoPGvMdTSjk7Vw==
-X-Received: by 2002:a05:6512:3c92:b0:53e:39ed:85e6 with SMTP id
- 2adb3069b0e04-5439c27fa73mr11511150e87.32.1737688451386; 
- Thu, 23 Jan 2025 19:14:11 -0800 (PST)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
- [209.85.208.170]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543c8228975sm140082e87.20.2025.01.23.19.14.10
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Jan 2025 19:14:10 -0800 (PST)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-30229d5b229so15593201fa.0
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 19:14:10 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCXkO92j6Ie4gDAFLgRbVcPcP5axeSFLeAnHqDwpLbZwQv9EQQ62oa4gz0H5274G/Ikmjzlftg4U83U=@lists.freedesktop.org
-X-Received: by 2002:a2e:bc1d:0:b0:302:264e:29dd with SMTP id
- 38308e7fff4ca-3072cb0d869mr106369041fa.24.1737688449583; Thu, 23 Jan 2025
- 19:14:09 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6736810E33E;
+ Fri, 24 Jan 2025 03:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737688596; x=1769224596;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=GUZqJoZxpGesNVsliDmLEc8isSlmWk1blES+ZagIrRE=;
+ b=Til3Ty+WPV/jGdRUxAVnwCr0pjqrjaui1ATLkKAxbfhoDJbI1EiEejmk
+ N31vD76vFaArluoAgXwwLlnIeG94f0GyDlsLAiKpn6wp0gUzm7F1fmPII
+ WWbSti2KHsvMn9JOuOxCQKYwpVLGhz250B6EKpM26mSSgw/UuFIME3KLt
+ 9b3CNLljsSylCaTxGf/Mc1P1wxXQdJIDCtef6dGt+NDVp6SRXdFjCQake
+ ouQISfyhRLDTmZHLFsL+GJXR/H0LFDOvytOvosM35aFG5WHA+k0jsaSH4
+ faMaM3H8k/0rtuW20TaW+RJWgxtja9aoDzsFsn7g7okqEZp7hBivWnwKP A==;
+X-CSE-ConnectionGUID: DFAA2Fn8Qli19EyQlRVmlQ==
+X-CSE-MsgGUID: GmUt5FM4TyWudzVIkZV4Dw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="55631108"
+X-IronPort-AV: E=Sophos;i="6.13,230,1732608000"; d="scan'208";a="55631108"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2025 19:16:35 -0800
+X-CSE-ConnectionGUID: SpLSL/qjTgeZd3ZCDQy3pg==
+X-CSE-MsgGUID: R1P6ktdyTP218EiHqayEPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="130946154"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 23 Jan 2025 19:16:32 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Thu, 23 Jan 2025 19:16:22 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Thu, 23 Jan 2025 19:16:22 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.42) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 23 Jan 2025 19:16:22 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fpmckoBDOGljvpxVXBf5wczeVnEVb3JiKDhIfEd37MNZ9AQL+6XGspvu4Q16G/uKvpxJyjPswad5UfTtAzcUkGwHrcI4xtBO7bPjui7HOc0AvNW4/X5Ei0sjwIO8ECV+m+rpXE/YfkS3YOMbndHTq5g1mWNdcKNH9usNPvx0Oq4ZCAXFl4V+LFPUnaRZfRj9xT9XH7kxRg2iSLRc0ZdKp738/194PlbDSiQ+qSUgh1LWdWAYT034XoM3F2bnWzjJOtwB3y02GnOe2t4B7PsvhJyB1dFHqjnoX7Xu4oLG47ddyJs1C9n/YOYF5NFrVu3sgFyJKukAf+j85lRwAwOToQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OH9vfjVceY5dot25l63w4tfYY3BdmVEE0ndRV9hNy4k=;
+ b=bTPJ9QYOH/DsYL2FgbWDIUkXOtuUribMqMEDTCEQT6xNekeGY3K9czO8QYYtNdeJv65ukbNDgyD+lwtrTSRPY81zudmYrTwdL6/YlP7TjyptEzcX8KKLkQLQ4cWOXUrASLrWw2T8DbHNxERFrFdU/Q+X00RoHTgNIZXKz/cZyMBbAifDIScHqHuvxlrwTccSC5AmOB2NzmCeBOEl2bzXWgsu14L5h1arGEpOcWs1w2EA6CMXR1g5bcwVg3soHwcwlizgaUbK1CpCGlLsEx7XdxLWmsmy9Y3yWBLB3KvqM+RzrrTy0SzbksYZKOeXDyYrRcQJnDJlFmj2Qqp9tK927Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7SPRMB0046.namprd11.prod.outlook.com (2603:10b6:510:1f6::20)
+ by DM4PR11MB6068.namprd11.prod.outlook.com (2603:10b6:8:64::6) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8377.16; Fri, 24 Jan 2025 03:16:15 +0000
+Received: from PH7SPRMB0046.namprd11.prod.outlook.com
+ ([fe80::5088:3f5b:9a15:61dc]) by PH7SPRMB0046.namprd11.prod.outlook.com
+ ([fe80::5088:3f5b:9a15:61dc%6]) with mapi id 15.20.8356.020; Fri, 24 Jan 2025
+ 03:16:13 +0000
+Date: Thu, 23 Jan 2025 22:16:07 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Giedrius =?utf-8?Q?Statkevi=C4=8Dius?= <giedriuswork@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ <dri-devel@lists.freedesktop.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
+Subject: Re: [PATCH v2] drm/i915/lspcon: do not hardcode settle timeout
+Message-ID: <Z5MF9_SAZZJjedXb@intel.com>
+References: <20241017075725.207384-1-giedriuswork@gmail.com>
+ <CALt+6nqxMZjuZuOKaj8Cx4dcNZx0n-0F9aa97d-vZoMWeN=bOw@mail.gmail.com>
+ <Zyk8dFthM0EA2A_K@intel.com>
+ <CALt+6noH3qSJNFYeVmhhGahcFiUsti5Rbt8+ef8QKOi37neaEQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALt+6noH3qSJNFYeVmhhGahcFiUsti5Rbt8+ef8QKOi37neaEQ@mail.gmail.com>
+X-ClientProxiedBy: MW4PR03CA0039.namprd03.prod.outlook.com
+ (2603:10b6:303:8e::14) To PH7SPRMB0046.namprd11.prod.outlook.com
+ (2603:10b6:510:1f6::20)
 MIME-Version: 1.0
-References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
- <20250123100747.1841357-8-damon.ding@rock-chips.com>
- <fw74xd2hgwc7iodhh5wb3ovd26tzlsomgypx4hqlqrxl4k2mdf@pycb5ugojyhr>
-In-Reply-To: <fw74xd2hgwc7iodhh5wb3ovd26tzlsomgypx4hqlqrxl4k2mdf@pycb5ugojyhr>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 23 Jan 2025 19:13:57 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Ubi11ejFO8asRF57OYGb3fGEFo0mz_04-5yQ89PPw3_A@mail.gmail.com>
-X-Gm-Features: AWEUYZmpYwl-43yyRfoSU5RN5Ja9L4Ubzk8XqMfyXD01azhGO7qYiYCgtmJtrGo
-Message-ID: <CAD=FV=Ubi11ejFO8asRF57OYGb3fGEFo0mz_04-5yQ89PPw3_A@mail.gmail.com>
-Subject: Re: [PATCH v6 07/14] drm/bridge: analogix_dp: Add support to get
- panel from the DP AUX bus
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Damon Ding <damon.ding@rock-chips.com>, heiko@sntech.de, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com, 
- l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
- algea.cao@rock-chips.com, kever.yang@rock-chips.com, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7SPRMB0046:EE_|DM4PR11MB6068:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4608ad03-57d1-410c-3bb0-08dd3c257473
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Mk9iVDN5Z0drMGZXMFVPOFhZbERZVVpXbWg4MVhqbE92S0pHc04rdFV3b0ox?=
+ =?utf-8?B?ZEV5Z2dHWWl1TjkzcUZkaHJmSStqWVpMOUZic09EMVBtUnJydGFocHVFb1po?=
+ =?utf-8?B?TWg1bDR5VE14YzhVczU4RUMwWlVONkNxQTlHYmlDdHFoNDFUdmU3ZlJldjVO?=
+ =?utf-8?B?RXlrWWZNbzBPUE5qTldyWEFBWmIvbXl6MUJsZE5RbUVvTWtjQ1gxazVoVTQ4?=
+ =?utf-8?B?bmVjcDZZMk8vMnJnWFZ1WUtwaXVuYVduZ3ZiUVhVT2wrWnQxR3M5b3JsN29Y?=
+ =?utf-8?B?VEFlRS9PbCtBcWN6RkllV1lLc3ViUUZndG9XMTJETmdDZDNoOFJLdlROQ1BC?=
+ =?utf-8?B?RGJrRGduZTQ1QmhOQmpqYkdzOVErS1dKa1hoQXFPZG4zM3JOZStKVWxFQ05r?=
+ =?utf-8?B?R01sRXVlc202WFE2ajdEZUk2RjVrVUxlNGNIUS9xQ1FBd2VIdjdYREtzSnFT?=
+ =?utf-8?B?ZGhwTENXaVNRbEM4UmEvcWN4SDNRRGhQNDk5NW5vc1FQOEhKWWxXbm92akE2?=
+ =?utf-8?B?S2JUVzZYaDNhN0lOVkthUFc0Zkw0a1FYNWhubjVNY3pXZk5HZFBNRGROdy9Y?=
+ =?utf-8?B?TXlJc1kwV01VMmNuWnYvVkxiVVZoeVMyS1dhOFlLMVhzY2VsNE4vK2h5b0Rp?=
+ =?utf-8?B?L0RucERoSXRrV2xIUmlyYktWTVhkWDErVGwxdkdBZWx3RTlJVkVpUGRsdlhx?=
+ =?utf-8?B?aWtLdGxCcE4wNW1ENWRybGh1ZzFraHZuOXJFTy9sdkt1TTEvdjBkdkRLYTJD?=
+ =?utf-8?B?U1ovV01nMkZWakdKOHl3d080dDJ6ZWxBZmNPNUtIOWxoU0YwWUh3RmxZWWM4?=
+ =?utf-8?B?eEVyZWZkajZGS3dwOGd2ZTJMeDAwL3IwYVZoMWcrQ1Y2akRTbGREWWRXRFVI?=
+ =?utf-8?B?NVU4VE8wMis0akNRVUF1TVVLU3RBWHdUNk5yR1VhRnJnajhXeldUTzdselZk?=
+ =?utf-8?B?VDFzUFZzY2hTSkpiQ1JNQnpYenhJY1RURU16SVpRSTJsYURmbFpBYjlneUJL?=
+ =?utf-8?B?Q2NXSXlrVm5hcmdFaVJEcHZublBrcDhPdjBoS1lEbGtEMlBTR28zM1FHMUtF?=
+ =?utf-8?B?czVsNWZLR2xuc2M5cUhSb003cVVuc3dEMVA5VUdRT1UrZSt5TmJtck9KWmh2?=
+ =?utf-8?B?dlRjTlBzNG5KcGNTYzJnTS80Y1lLbGtvcWpRb2ZOREVIYis3ODFCU2R1RFR3?=
+ =?utf-8?B?dXlSeFBIUjY5Ty8zcXJuMFN0L0NaRGZ2ZFQ1a1lCM3Q1Nmx6SDB2SUdaL1cx?=
+ =?utf-8?B?QWkwalBIYVQ2WTJFTHhQdXVwejlPUzZRMDZVWkE3NUluOFlaSmtuSGZvaFRu?=
+ =?utf-8?B?RjE5WW9YNjVBd25NbzI1Y1pPbUcwT1Qyemt1ZUl3QVdXenh3Mmg2c1AyNUhm?=
+ =?utf-8?B?Wk1MaGVvK1JGNmJVVyt0RHJTdGM4WG9rVUFhUEovVUhOWXRyUjVKdTdRUURH?=
+ =?utf-8?B?MmJuUDNxQlVXeUtSdVB3QlU1NURWTWJ0TWxXT0pVbWZhM3dFYzdFTXJIWE5r?=
+ =?utf-8?B?WXVCQ1M1OHlGUlJ1N2dTTlY5RU1CTC9lVTR0ejh2d1d0NWFRMTlTckhjSEkx?=
+ =?utf-8?B?MDFmaDd5TGxQNE00OG5lM3oyZ3IrU1RmQjdlUWRJM3lPSzk0d2orYSs5c2FS?=
+ =?utf-8?B?SEo4RHRXVkRkZHd5bFljTVFtVGVYWmtpeWx5NzVtUFpyeWdQbk05NUtlN1JV?=
+ =?utf-8?B?NnM1SGl2cHdHNU0yMGZ0N29kVm9FeGR5UngxUytZUHJxS3FXYmJXdktRNTBH?=
+ =?utf-8?B?TXpYc1g4TVVYY0NNdXo5anBnL3B5SXp6bFY5SmhxWU84L0RmaDJkbFVrbys3?=
+ =?utf-8?B?SzgrajFDVFZDYTlReU1OV3IzRTg5Z1M1TGVWTzJlaWpDeGZaQjkxWWJsY0Jm?=
+ =?utf-8?Q?KiYDEJ8m6YcoK?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7SPRMB0046.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?REY3QWdzS2owT2l1UDBxcVFWVjhBVFlUVGNIdzFRSGVucU9MTzcrVjJvdzlr?=
+ =?utf-8?B?VVEzZlUyVjFRYnVFaU50OUZiU3dYK2RUOEtjQnEyUlNTaDJFQ0VZZXJCWllV?=
+ =?utf-8?B?SlY5dHhXTE1UNVJGMTJLTkZtN01STFJ5eDFjcXdYRk5VYjdRQzFpdEFnNEN2?=
+ =?utf-8?B?U0o1WTVXbFBNTk5zeGNCa3BRTXl2QTNNSFpZQkxBT3ZzUFJpZFhuMjdvM3Bt?=
+ =?utf-8?B?dkRvN0l1dEtUZjhva3dra0FVaFRxZFlDSGl5NS9yNURNVHNlYjdWczBEOWxB?=
+ =?utf-8?B?d0gyMEFiYzd5VC9sN0poeE1MQXM1ak43QVFZU3paa09IZVNXR1hwbFdWdElv?=
+ =?utf-8?B?T2VPcGR0cTgyOThGWEZMVk1neHRNUzVIMHBFNUcyUHdiajJ2Z2tiMmYvOEJv?=
+ =?utf-8?B?dDJWN09MeVBvT1VmSFI1V2t3NFNMYXI5c3JaNEZHQmxzakVGRWlRRkFvMC9Y?=
+ =?utf-8?B?SzFRWGw0Q3pQbTBxZnRlRzJKMDlzMmVTbzNmRGNkVmZFQ3pXMDl6MGVnYWEv?=
+ =?utf-8?B?bGkvWXhYcjkzbUNld0swTWlsVCs2amtBNm54VlRHdkRVZ1lzQ1UxZEFJdXZQ?=
+ =?utf-8?B?WjlVUlhmTTV0K2I0aDRJM29XNExWSlBJSGpMSjFML0MyZEYrMkRVVUplY1lS?=
+ =?utf-8?B?TWRLLzRObWFwS0NkNExNUjNlVExkazViU24yNmFMcktiOG5wM1dzTGdPaDh5?=
+ =?utf-8?B?WVhsakNTcm1LK2tUdzl4UHhoNlROdVhOSGM4dGMzdXRvdkx2WTUxWFMrZWlx?=
+ =?utf-8?B?T0FYb2oyaWVkaldpcTNEaWFPbWl1M1hOMTJSU0x6MVdvV1d6KzZjcG9ENHhU?=
+ =?utf-8?B?K2VhT3B0NEpiRExsc3dnOGl1dkU0RlkydG1JM0UvZHd0M0NzcktQdk1QU3Fh?=
+ =?utf-8?B?QW9NbGxJV0Z0TVVYSUlMNXN2QjM4YzE3eGVOQ1M3aVVhSVNmWFkweW9XbVF1?=
+ =?utf-8?B?VHZBbTBSNnZ1blMwV0xPalRMbVFUM25iZ0drYld1QjZ5QkptTWI5dk5Ma0lT?=
+ =?utf-8?B?QlZJQzJJNjRSb1RBNlIrSWg3azFtcDIybytLYWorbzBMd3dhaWZpS1lnQTlM?=
+ =?utf-8?B?Y295VElBR295NTVSZm90Q3ZrSVVuVlhlOWp4YVd6YUt3dmdDTXJ5MHpEby9R?=
+ =?utf-8?B?bHZYVzM4NnJyOVdUTXI0a3Z6eDhyOXF5SkswTFZ0MW44elMrUjNVZUJoNHA1?=
+ =?utf-8?B?SHI4RUZQZS9aeEVLRHhlcW9HRU4xQ0ZWbjNEaEkwbDd4Um95V0t1bndtL0Jy?=
+ =?utf-8?B?WnVKdXBnRENCbnp2SlNhOFExWnIwbGFLNklYSHA5VkM3eEd0WVpLMlgvd1RH?=
+ =?utf-8?B?WDNzRUYrUDZSQVp0RGIvL3NMaFl3Z3hXZ25LWWwrMjlFd041WHRObHRad2k3?=
+ =?utf-8?B?QVpSYU1QdTh0Q2VWbnBXN1dDTTFnVUM0VHBDNWg5aW5jdXlSZmZQTVplb1Jr?=
+ =?utf-8?B?bGFqeWl3L0pGdmpsZnBiWGY0d0dIL3lLL0lXU3JzUEVCR2dZcDEyOWxoY2o3?=
+ =?utf-8?B?NHFsQUkvbGlSaDd2OTR0K0l2Rk11eGk4Qi9zaG1yVXdTZFYwRFljN2U4YjZo?=
+ =?utf-8?B?MjJXU3JldzM2N050b0pNdHhGcVZZNFJhSHlhM2UwcUs1a0VpMTR4YUw3ZUlu?=
+ =?utf-8?B?VlVRM0NiZ0NzSDliWE1NdjRIbFhXVzE5bWdBWlJTdTdKZmJDcXFpbEtwbUda?=
+ =?utf-8?B?VHlGN1UxSjlYaWgxOGRpMlI1Z1JPT1l5Ump1bGJtVGJJcVRtNWwrRkVIMDZs?=
+ =?utf-8?B?WWdYYVdYMEJoVXJEYVR4WjJlbjBPZ0JwZjJCRlhmZUNRNE5Za2FJUmVUVU9W?=
+ =?utf-8?B?bFhkcjhqRGtmUSt1UW5Va3pmdkxKYmlibjFzQ2JEaFFnZFljS1RNam9kZjc0?=
+ =?utf-8?B?OG9yVHJGZW1TYWY1dURaSTBFM1g3TkNDbm1OYU53c0EwaHpNWkUvTHlZNG9l?=
+ =?utf-8?B?aFQxVVZNR3Njb3VSTUpBTGRqc2R6WmF1WEQwNG9vQnFkQXpPWDlLaG5WbFBn?=
+ =?utf-8?B?OFpVd0dZYTJ5OGppZEppUHdZYVFZNWR6VmswWmlrcUdDdXdEM1QyYWVET1Uv?=
+ =?utf-8?B?RlFBbDBEaUlvUUhzdzkxOVJ4ZVNMZXJvcTNPQWgvSE5kSTFKOHhWZmdKd01u?=
+ =?utf-8?B?blBhdzF1eGs4aUE0QVJsL2NZSEZaMGVFOTdWTEphVGNYcVBiWEhxUTNHRHhR?=
+ =?utf-8?B?YUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4608ad03-57d1-410c-3bb0-08dd3c257473
+X-MS-Exchange-CrossTenant-AuthSource: PH7SPRMB0046.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2025 03:16:12.4067 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P3Y+nJL0JyZE7lvpeBc4dcDbK8tTVJXA3ydiACSRXj64BNuMpT1qBPIZHeOsPz760vcbbmbx9rh0qwJYUhGQ0w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6068
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,147 +205,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Thu, Jan 23, 2025 at 3:25=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> On Thu, Jan 23, 2025 at 06:07:40PM +0800, Damon Ding wrote:
-> > The main modification is moving the DP AUX initialization from function
-> > analogix_dp_bind() to analogix_dp_probe(). In order to get the EDID of
-> > eDP panel during probing, it is also needed to advance PM operaions to
-
-nit: s/operaions/operations
-
-
-> > ensure that eDP controller and phy are prepared for AUX transmission.
->
-> This doesn't sound right. Per the documentation of
-> drm_dp_aux::transfer(), the device should power itself up if transfer()
-> is called when it is powered off. The caller must only ensure that the
-> panel is on.
->
-> Doug, what's your opinion?
-
-I think maybe the CL description is a bit confusing, but looking at
-the patch I think that the general idea is correct. drm_dp_aux_init()
-is expected to be called in probe() and not in bind(). ...and in order
-for it to work then pm_runtime needs to be enabled at probe and not at
-bind. So both of those two things that this patch does are (in my
-opinion) correct.
-
-
-> > In addtion, add a new function analogix_dp_remove() to ensure symmetry
-> > for PM operations.
+On Wed, Jan 22, 2025 at 01:15:31PM +0200, Giedrius Statkevičius wrote:
+> Hello,
+> 
+> On Mon, 4 Nov 2024 at 23:28, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
 > >
-> > Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+> > On Mon, Nov 04, 2024 at 02:09:46PM +0200, Giedrius Statkevičius wrote:
+> > > Hello,
+> > >
+> > > Kind ping.
 > >
-> > ---
+> > There was a pipe underun in CI... I honestly don't believe this patch is
+> > causing it, but anyway I decided to trigger a retest there before I push this.
 > >
-> > Changes in v4:
-> > - Use done_probing() to call drm_of_find_panel_or_bridge() and
-> >   component_add() when getting panel from the DP AUX bus
-> >
-> > Changes in v5:
-> > - Advance PM operations to make eDP AUX work well
-> >
-> > Changes in v6:
-> > - Use devm_pm_runtime_enable() instead of devm_add_action_or_reset()
-> > - Add a new function analogix_dp_remove() to ensure symmetry for PM
-> >   operations
-> > ---
-> >  .../drm/bridge/analogix/analogix_dp_core.c    | 57 ++++++++++---------
-> >  .../gpu/drm/rockchip/analogix_dp-rockchip.c   |  4 ++
-> >  include/drm/bridge/analogix_dp.h              |  1 +
-> >  3 files changed, 34 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drive=
-rs/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > index 8251adfce2f9..30da8a14361e 100644
-> > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> > @@ -1658,14 +1658,42 @@ analogix_dp_probe(struct device *dev, struct an=
-alogix_dp_plat_data *plat_data)
-> >       }
-> >       disable_irq(dp->irq);
+> > Thanks for the patch and review.
+> 
+> 
+> Ping. Could we merge this patch? This plus another patch (that I have yet to
+> send) fixes replugging the HDMI cable on my laptop.
 
-not related to your patch, but probably needs to be a prerequisite of
-your patch: instead of calling disable_irq() here, you should OR in
-"IRQF_NO_AUTOEN" to the "irq_flags" of devm_request_threaded_irq().
-That not only closes a potential race condition but also makes all the
-error handling much more robust.
+First of all I'm sorry for the delay here.
 
+CI was the problem, not the patch.
 
-> > +     dp->aux.name =3D "DP-AUX";
-> > +     dp->aux.transfer =3D analogix_dpaux_transfer;
-> > +     dp->aux.dev =3D dp->dev;
-> > +     drm_dp_aux_init(&dp->aux);
+I was going to merge this right now, but I noticed it touches include/drm
 
-FWIW: I would highly encourage you to (in a separate patch) add
-wait_hpd_asserted() support here. It is deprecated to not implement
-wait_hpd_asserted(). See the definition of "wait_hpd_asserted" in
-"struct drm_dp_aux" if you're going to support eDP panels.
+Sima, Dave, ack to get this through drm-intel-next?
 
-
-> > +     if (IS_ENABLED(CONFIG_PM)) {
-
-Do we really truly need this? Is there anyone actually using this
-driver without "CONFIG_PM", or can we just assume CONFIG_PM. For the
-most part drivers I've interacted with just assume CONFIG_PM and
-they're a lot simpler because of it. If there's truly a need then we
-can keep this complexity, but I'd rather wait until there is a user.
-Maybe you could add this as a dependency in the Kconfig if needed.
-
-
-> > +             pm_runtime_use_autosuspend(dp->dev);
-> > +             pm_runtime_set_autosuspend_delay(dp->dev, 100);
-> > +             ret =3D devm_pm_runtime_enable(dp->dev);
-> > +             if (ret)
-> > +                     goto err_disable_pm_runtime;
-> > +     } else {
-> > +             ret =3D analogix_dp_resume(dp);
-> > +             if (ret)
-> > +                     goto err_disable_clk;
-
-IMO: if analogix_dp_resume() succeeds, use devm_add_action_or_reset()
-to have a function call analogix_dp_suspend(). Then you can keep using
-"devm" for everything and totally get rid of the need for the
-analogix_dp_remove() function.
-
-
-> > +     }
-> > +
-> >       return dp;
-> >
-> > +err_disable_pm_runtime:
-> > +     pm_runtime_dont_use_autosuspend(dp->dev);
-
-You don't need to call pm_runtime_dont_use_autosuspend(). If you
-enabled pm_runtime with devm_pm_runtime_enable() then it's documented
-to handle calling pm_runtime_dont_use_autosuspend() for you. See the
-kernel doc comment for devm_pm_runtime_enable(). So you can get rid of
-this.
-
-
-> >  err_disable_clk:
-> >       clk_disable_unprepare(dp->clock);
-> >       return ERR_PTR(ret);
-
-Huh? Why would you call "err_disable_clk" here? The only thing that
-enables the clock is analogix_dp_resume(), right? There's something
-fishy here and it predates your patch. I suspect there were problems
-in commit f37952339cc2 ("drm/bridge: analogix_dp: handle clock via
-runtime PM"). You should fix that in a separate patch before yours.
-
-
-> > +void analogix_dp_remove(struct analogix_dp_device *dp)
-> > +{
-> > +     if (IS_ENABLED(CONFIG_PM))
-> > +             pm_runtime_dont_use_autosuspend(dp->dev);
-> > +     else
-> > +             analogix_dp_suspend(dp);
-> > +}
-> > +EXPORT_SYMBOL_GPL(analogix_dp_remove);
-
-See above. Proper use of "devm" should mean you don't need a remove() funct=
-ion.
+> 
+> Best regards,
+> Giedrius
