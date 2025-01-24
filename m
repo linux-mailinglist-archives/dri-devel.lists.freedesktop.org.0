@@ -2,83 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0141A1B2A2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:31:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DA7A1B2A5
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 10:31:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE85010E418;
-	Fri, 24 Jan 2025 09:31:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5713810E92A;
+	Fri, 24 Jan 2025 09:31:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="T7sGEjIG";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V6beqFG4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15C4910E220;
- Fri, 24 Jan 2025 04:08:48 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-2ee76befe58so3060480a91.2; 
- Thu, 23 Jan 2025 20:08:48 -0800 (PST)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CBB810E253
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 05:11:41 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-21654fdd5daso28840955ad.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Jan 2025 21:11:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737691727; x=1738296527; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=D6e6R/iD1t4ReAa9KfZ1qSPqX0t3TQNshzKeYKkD9yY=;
- b=T7sGEjIGhF2uQVyVyilN8b2cSvd6im2obRj7geVlvH3UYHslJ7GyjGaoP6bID2vibE
- +FEfC0cRDz3DexT4O+jnQJNnXNCUajpuKC3yc1Jf7W9omgnoei/XavrsRvkTkJc186xe
- FOibf3tyS1weQGC4T5v1LyagzD1GDfd9LKUgrd5C4QEuF5tbRB5vjsetiyuspHUaDjbJ
- cZo4YRW2UZcolzOKDHE5kYuxhUkl+G6ijecMn8dRmU2TlMD6FHx7gJbDhTSXeCIocZ8D
- zyLy1JWRsCNt8W0bxa4zGFWXeUx+TYrnhUTgcfY9+im64u423A/GKcc/wyOdV1dJXATx
- rEPA==
+ d=gmail.com; s=20230601; t=1737695501; x=1738300301; darn=lists.freedesktop.org;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=Pm8oJeBuOFHd6ekxnejy3HEWqUKZZg6N9tys57iCgH8=;
+ b=V6beqFG4sSS7YdFBIA2UcVW1clBKsLUTmyNGw9srh8/d7oIg8HOopHJBz3/6zG4tK+
+ 5+/V0IYrENYotDwkLZeC9s8aYGMYef/NovhBYzuM0tZPQNa1QsetS9zS54NEXBJki8gg
+ K8sioYxmicg+OWr7ztMMlmse+6CETl4Z1Gd23oo10532ZCfgu+vV7+yeUAZri0hI26Tc
+ AGJd9RVPIMmIGrXh/jLISndszsO4Pt9yrpxa6QsM69260PgN8wHHutLZ0y/bDoigv55F
+ aRenRsjsx3AxUGKfQoQ0K3cWQfDYAA5PPuEdwkjoZQi0E5/pfONt8Zo40Dehpap3qBMT
+ 2M6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737691727; x=1738296527;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D6e6R/iD1t4ReAa9KfZ1qSPqX0t3TQNshzKeYKkD9yY=;
- b=D1NlCoEvoMdiBjJKJhU9EEwVCIdzoRGrk+uKMDJo5TLNnSl2bo+MEhSnbifykJxbD+
- dHwHHx1yTacs8Pf0HowjjCA1pmeDHpbjcCnMAy3lqz+OXgqdQmHULF4Otzvo/xTAhw0C
- YDs+D8GB/Gk0IuK4GiXA62frzVh4i4ufDN+GbsI/b/UDCMQI8me/r5QpsJpKbfAdvCix
- EAWxWR/7xlrQT7MhhmwT2bQNY0nHZ/0e3KI2JBYiq0oCfIEalWgsDO2yxrsF7s9azb7O
- G9rlpXudAbcVoChB2Gp0W6G2gofKZSc2BUIrqyRvJB/7l+fa7QsbGc5HNiHA7Waqvr/w
- zQdQ==
+ d=1e100.net; s=20230601; t=1737695501; x=1738300301;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Pm8oJeBuOFHd6ekxnejy3HEWqUKZZg6N9tys57iCgH8=;
+ b=h624I0CvrTU98bdbQJyQy1/ZcFsFljQw0Ci4PhwZXSZYvnDvGVqqLrfjH8zIEnFrmt
+ 2fWqKvewAcBfcU7R1Fs0lS8mQQM/nJCwN9EWOEHl4e5nhlu4rV7XRY2zxPiIWvfYerxJ
+ StRa5YMWpyQdVe6RozxA62qYWBr6MeKL1Q8NyfPZkW9zD4habb4tH880FPBV1zecvls9
+ buQpmX2RAuKEajtZF/kcbXEQEMpposTCKLKAw/Oxierzs3D/OwRIAyLo4b0wxiqhZZGU
+ 5ePGGULcW92lbV3zWH6sMNnMLCOgR4+njt9oG2ZXCwe9iQJMY5wxFc9FHqhqmM3K23kJ
+ YEJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVERHqS8FEhgfYU5I8Nvh83xrUSQ2mUy1/Bb/Azh0p0lKA+f4HV7ZSsLtPQJYkl6zfeJu/a778XFLMY@lists.freedesktop.org,
- AJvYcCVT2wyqZ/rLRj39ZuYbhZHWxuIeJqm/e98jFwAvDSw8GFqKr4LyF7G7NCHowsOUf39cR7Uw9nEw@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwcNJuKunRfjWdY/A5U9jBEhR/16ho3XRptrx0unufoVkc61PZ+
- 0/G0gMYwtvuOeXuWAyh3JlzSDw75ckm+vasnZ9Hijh/EiIVoQSzN
-X-Gm-Gg: ASbGncswSHvlADefllCLgQtQbvfIi0iBBIOnYSWIlele/3uZj1NbvljGR25oiRHxCll
- K8tI3hc4NW6O6Aqpak6IS09cOfEbdnQd4csE/SjLME7uFdL9/HW1Odmso/tu2QtmP/PSAuZUSL7
- ny0PJyFxk6Y42r02HlOwECk2u70i3S24VW32URLApIkAZzzwoNIxx1iB26LjxxjOZU6Rnt8ZxNo
- lX8DdVzXgio7GYBZDHvaqQz4hISPPY8iM/y8PJIA9v6c1JVPMgPRcsoPZXpshqu5LIW7RGXNmN9
- ptfOOi8rDdLSu5IV3XiWfVuSrW2sBACodK8hmAt+
-X-Google-Smtp-Source: AGHT+IGKwqK3FeAP7M3pDG/EPu8XOfZtrxx0RtjPTD4kt8b1n6567njef2h1tCvlNFusMRPQtdbLkw==
-X-Received: by 2002:a17:90b:2808:b0:2ee:d433:7c54 with SMTP id
- 98e67ed59e1d1-2f782cb61bemr40425091a91.19.1737691727590; 
- Thu, 23 Jan 2025 20:08:47 -0800 (PST)
-Received: from jren-d3.localdomain ([221.222.59.195])
+ AJvYcCVL8Fp+V7iwpiWw2JlQfwTlkSea1vmraj2Mwa02V0Jyutq/dhqrd3WoXv/eJTXqJg+vsUIh9i9NhW0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNOSvj2txOlJb3XArx3qHahs7+udN655xtf3EvP+qOJwV6EJvY
+ 4/kRKcTOwn8M+v24YnlmwfKuDeqvKJAJIsf/AFAoVyXamCkWnSe0
+X-Gm-Gg: ASbGncv8R5sr/VjIJI8dGE9ISS/KK9iLmNGn80zCVkEY2NgOAlYQEZCpeic8RfQ9FbY
+ qpYSu1jbtXqnv2LmixHY/MrjqvVcWRV5HfILkHzDcYHc9daVjrfWUlnrK+xLtn1TovFLuU7Ba9Q
+ UtbMXe0Fd9X0asS23LEgd6A6PCOgHo/IZ+GYl0Gj8pT4bp1O+vGzfWAG/sboQwvARJ3jSkL8VPm
+ RLZOYZMcqCL6XjsN/PYYduElVqmnkakDjsrMclV3a0kURqE8RpHyDTYsohVjKeYPg1hBhvawVuo
+ Nzg/Dghlkk/yudWQLdo7KYOXUgGiB6g6yoZ4/JKgylfQjePWgWQ=
+X-Google-Smtp-Source: AGHT+IEu34cEqyV0xw9hfuRNjxOhke8sLDPtu8jUlbl+4jeWRLNMy3Ms4sWiV94JmApPoJ9ZFKf+5g==
+X-Received: by 2002:a17:903:2312:b0:216:36ff:ba33 with SMTP id
+ d9443c01a7336-21c355589ddmr413044785ad.26.1737695500948; 
+ Thu, 23 Jan 2025 21:11:40 -0800 (PST)
+Received: from ?IPv6:2804:1b3:a801:16c4:23da:a93c:e00a:1229?
+ ([2804:1b3:a801:16c4:23da:a93c:e00a:1229])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2f7ffa455c0sm562670a91.3.2025.01.23.20.08.41
+ d9443c01a7336-21da414e151sm7636555ad.186.2025.01.23.21.11.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Jan 2025 20:08:47 -0800 (PST)
-From: Imkanmod Khan <imkanmodkhan@gmail.com>
-To: stable@vger.kernel.org
-Cc: patches@lists.linux.dev, alexander.deucher@amd.com, daniel.wheeler@amd.com,
- mario.limonciello@amd.com, josip.pavic@amd.com, aurabindo.pillai@amd.com,
- sohaib.nadeem@amd.com, gregkh@linuxfoundation.org, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch, wayne.lin@amd.com,
- sashal@kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, charlene.liu@amd.com, gabe.teeger@amd.com,
- amd-gfx@lists.freedesktop.org, Nicholas.Kazlauskas@amd.com,
- Imkanmod Khan <imkanmodkhan@gmail.com>
-Subject: [PATCH 6.1.y] drm/amd/display: fixed integer types and null check
- locations
-Date: Fri, 24 Jan 2025 12:08:36 +0800
-Message-ID: <20250124040836.7603-1-imkanmodkhan@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ Thu, 23 Jan 2025 21:11:40 -0800 (PST)
+Message-ID: <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+To: Vignesh Raman <vignesh.raman@collabora.com>, kernelci@lists.linux.dev
+Cc: linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kselftest@vger.kernel.org, gustavo.padovan@collabora.com, 
+ pawiecz@collabora.com, spbnick@gmail.com, tales.aparecida@gmail.com, 
+ workflows@vger.kernel.org, skhan@linuxfoundation.org,
+ kunit-dev@googlegroups.com, 	nfraprado@collabora.com, davidgow@google.com,
+ cocci@inria.fr, 	Julia.Lawall@inria.fr, laura.nao@collabora.com,
+ kernel@collabora.com, 	torvalds@linuxfoundation.org,
+ gregkh@linuxfoundation.org, daniels@collabora.com, 
+ helen.koike@collabora.com, shreeya.patel@collabora.com,
+ denys.f@collabora.com, 	nicolas.dufresne@collabora.com,
+ louis.chauvet@bootlin.com, 	hamohammed.sa@gmail.com, melissa.srw@gmail.com,
+ simona@ffwll.ch, airlied@gmail.com, 	Tim.Bird@sony.com,
+ laurent.pinchart@ideasonboard.com, broonie@kernel.org, 	groeck@google.com,
+ rdunlap@infradead.org, geert@linux-m68k.org, 	michel.daenzer@mailbox.org,
+ sakari.ailus@iki.fi, jarkko@kernel.org
+Date: Fri, 24 Jan 2025 02:11:26 -0300
+In-Reply-To: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Fri, 24 Jan 2025 09:31:16 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,98 +106,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sohaib Nadeem <sohaib.nadeem@amd.com>
+On Thu, 2025-01-23 at 19:23 +0530, Vignesh Raman wrote:
+> This patch series introduces "kci-gitlab," a GitLab CI pipeline
+> specifically designed for kernel testing. It provides kernel
+> developers with an integrated, efficient, and flexible testing
+> framework using GitLab's CI/CD capabilities. This patch includes
+> a .gitlab-ci file in the tools/ci/gitlab-ci/ folder, along with
+> additional YAML and script files, to define a basic test pipeline
+> triggered by code pushes to a GitLab-CI instance.
+> The initial version implements:
+>    =20
+> - Static checks: Includes checkpatch and smatch for code validation.
+> - Build tests: Covers various architectures and configurations.
+> - Boot tests: Utilizes virtme for basic boot testing.
+>=20
+> Additionally, it introduces a flexible "scenarios" mechanism to
+> support subsystem-specific extensions.
+>=20
+> This series also introduces a drm scenario that adds a job to run IGT
+> tests for vkms. This scenario includes helper scripts to build deqp-runne=
+r
+> and IGT, leveraging approaches from the drm-ci/mesa-ci project.
+>=20
+> We are working towards creating a generic, upstream GitLab-CI pipeline
+> (kci-gitlab) that will replace DRM-CI [1]. The proposed GitLab-CI pipelin=
+e
+> is designed with a distributed infrastructure model, making it possible
+> to run on any gitLab instance. We plan to leverage KernelCI [2] as the
+> backend, utilizing its hardware, rootfs, test plans, and KCIDB [3]
+> integration.
+>=20
+> For an example of a fully executed pipeline with drm scenario set,
+> including documentation generation,
+> see: https://gitlab.freedesktop.org/vigneshraman/kernel/-/pipelines/13502=
+62
+>=20
+> Please refer to the documentation included in the patch, or check the
+> rendered version, here:=20
+> https://vigneshraman.pages.freedesktop.org/-/kernel/-/jobs/69787927/artif=
+acts/artifacts/Documentation-output/ci/gitlab-ci/gitlab-ci.html
+>=20
+> Differences from v1 to v2:
+> - moved to tools/ci as suggested by Linus on the previous version
+> - add arm64 containers for native compilation
+> - added boot tests using virtme: this is the base structure for boot test=
+s,
+>   next steps would be adding other tests such as kselftests/kunit tests
+> - added DRM scenario testing on vkms: this should replace current vkms te=
+st
+>   in drm-ci. This work shows how a test scenario can be used by different
+>   subsystems to add their tests.
+> - update documentation
+>=20
+> For more details on the motivation behind this work, please refer to the
+> cover letter of v1: https://patchwork.kernel.org/project/linux-kselftest/=
+cover/20240228225527.1052240-1-helen.koike@collabora.com/
+>=20
+> [1] https://www.collabora.com/news-and-blog/blog/2024/02/08/drm-ci-a-gitl=
+ab-ci-pipeline-for-linux-kernel-testing/
+> [2] https://kernelci.org/
+> [3] https://docs.kernelci.org/kcidb/
+>=20
+> Helen Koike (3):
+>   kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
+>   kci-gitlab: Add documentation
+>   kci-gitlab: docs: Add images
+>=20
+> Vignesh Raman (2):
+>   MAINTAINERS: Add an entry for ci automated testing
+>   kci-gitlab: Add drm scenario
 
-[ Upstream commit 0484e05d048b66d01d1f3c1d2306010bb57d8738 ]
+Hi Vignesh Raman,
+I am very happy to see this project going forward :)
 
-[why]:
-issues fixed:
-- comparison with wider integer type in loop condition which can cause
-infinite loops
-- pointer dereference before null check
+It's been a few years since I first thought on finding a good way of helpin=
+g
+kernel developers testing their patches, while making use of the free runne=
+r
+minutes Gitlab offers. It can greatly simplify the testing for people who a=
+re
+new to kernel development, or students trying to understand it better.
 
-Cc: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: stable@vger.kernel.org
-Reviewed-by: Josip Pavic <josip.pavic@amd.com>
-Acked-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Signed-off-by: Sohaib Nadeem <sohaib.nadeem@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Imkanmod Khan <imkanmodkhan@gmail.com>
----
- .../gpu/drm/amd/display/dc/bios/bios_parser2.c   | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+And this patchset allows that to happen :)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-index 4d2590964a20..75e44d8a7b40 100644
---- a/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-+++ b/drivers/gpu/drm/amd/display/dc/bios/bios_parser2.c
-@@ -1862,19 +1862,21 @@ static enum bp_result get_firmware_info_v3_2(
- 		/* Vega12 */
- 		smu_info_v3_2 = GET_IMAGE(struct atom_smu_info_v3_2,
- 							DATA_TABLES(smu_info));
--		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
- 		if (!smu_info_v3_2)
- 			return BP_RESULT_BADBIOSTABLE;
- 
-+		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_2->gpuclk_ss_percentage);
-+
- 		info->default_engine_clk = smu_info_v3_2->bootup_dcefclk_10khz * 10;
- 	} else if (revision.minor == 3) {
- 		/* Vega20 */
- 		smu_info_v3_3 = GET_IMAGE(struct atom_smu_info_v3_3,
- 							DATA_TABLES(smu_info));
--		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
- 		if (!smu_info_v3_3)
- 			return BP_RESULT_BADBIOSTABLE;
- 
-+		DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", smu_info_v3_3->gpuclk_ss_percentage);
-+
- 		info->default_engine_clk = smu_info_v3_3->bootup_dcefclk_10khz * 10;
- 	}
- 
-@@ -2439,10 +2441,11 @@ static enum bp_result get_integrated_info_v11(
- 	info_v11 = GET_IMAGE(struct atom_integrated_system_info_v1_11,
- 					DATA_TABLES(integratedsysteminfo));
- 
--	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
- 	if (info_v11 == NULL)
- 		return BP_RESULT_BADBIOSTABLE;
- 
-+	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v11->gpuclk_ss_percentage);
-+
- 	info->gpu_cap_info =
- 	le32_to_cpu(info_v11->gpucapinfo);
- 	/*
-@@ -2654,11 +2657,12 @@ static enum bp_result get_integrated_info_v2_1(
- 
- 	info_v2_1 = GET_IMAGE(struct atom_integrated_system_info_v2_1,
- 					DATA_TABLES(integratedsysteminfo));
--	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
- 
- 	if (info_v2_1 == NULL)
- 		return BP_RESULT_BADBIOSTABLE;
- 
-+	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_1->gpuclk_ss_percentage);
-+
- 	info->gpu_cap_info =
- 	le32_to_cpu(info_v2_1->gpucapinfo);
- 	/*
-@@ -2816,11 +2820,11 @@ static enum bp_result get_integrated_info_v2_2(
- 	info_v2_2 = GET_IMAGE(struct atom_integrated_system_info_v2_2,
- 					DATA_TABLES(integratedsysteminfo));
- 
--	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
--
- 	if (info_v2_2 == NULL)
- 		return BP_RESULT_BADBIOSTABLE;
- 
-+	DC_LOG_BIOS("gpuclk_ss_percentage (unit of 0.001 percent): %d\n", info_v2_2->gpuclk_ss_percentage);
-+
- 	info->gpu_cap_info =
- 	le32_to_cpu(info_v2_2->gpucapinfo);
- 	/*
--- 
-2.25.1
+Actually, I spoke to Helen last year, and to enable it to run on the free
+Gitlab-CI runners, there is a small extra patch which is needed:
 
+https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/
+
+Could you please apply it on top of your tree?
+Some stuff changed places, but I can send a v2 with that fix if you want.
+
+
+While I have yet to review this v2 patchset, I applied it on my repo for
+testing,=C2=A0and cherry-picked the patch on above link, triggering a Pipel=
+ine:
+
+https://gitlab.com/linux-kernel/linux/-/pipelines/1638955600
+
+It seems to be working fine, please check it, as you may be more used to th=
+e
+results.
+
+Thanks!
+Leo
