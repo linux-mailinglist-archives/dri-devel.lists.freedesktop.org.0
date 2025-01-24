@@ -2,41 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CCCA1B0F8
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 08:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CAEA1B106
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Jan 2025 08:41:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7493510E2B6;
-	Fri, 24 Jan 2025 07:33:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93B3310E8F7;
+	Fri, 24 Jan 2025 07:41:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pNxhaAQ3";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ut6aj5KQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 12FF710E2B6
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:33:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E268810E8F7
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Jan 2025 07:41:46 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DC90465;
- Fri, 24 Jan 2025 08:32:44 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4582C465;
+ Fri, 24 Jan 2025 08:40:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1737703965;
- bh=mtZBJMgaFqKk5PuEBPDXfMb8hUmMsIzaVTsRq3ExCpo=;
+ s=mail; t=1737704441;
+ bh=WBcbTgy3ulr1uQelNdMAjS6ra/7qdZhij1DB83EsW4E=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pNxhaAQ3jAL1JNxFjIEUVIYCO0YccVqCiiCldBYhkUc4tSu3WZHMCRuQC294qxLij
- YHxHI2SAviexVNN6pdi1MgQf3hBB5WUZhv+PVcUNBfOuz1RH/lrzPovRPHGalbh6KW
- AiA7MLW4oVraPqRlT7/UurBCm0T5OjAHSJH62LHw=
-Message-ID: <fe43a7a8-a202-4dc4-aded-f68d52d65928@ideasonboard.com>
-Date: Fri, 24 Jan 2025 09:33:45 +0200
+ b=Ut6aj5KQDlp5wNfnSpqzjBXKp2UNyrN3I8W/biegXn/Cy8hTwHyS8w3kxxdAbkogX
+ fBmJXLBviEbjsniUvxDirZJ5A5T5CBPd48UlqCdbk10AUTtOOlB8hdwHSeKNeuMQE4
+ uy9l9IACmu9LGEMmkzjxjH7nJMCB0in9cD8N12ys=
+Message-ID: <f4ed52b3-42a3-4aec-9656-3ef79c57803d@ideasonboard.com>
+Date: Fri, 24 Jan 2025 09:41:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/omap: Remove hdmi5_core_handle_irqs()
-To: linux@treblig.org
+Subject: Re: [PATCH] drm/tidss: Fix typos
+To: Andrew Kreimer <algonell@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- simona@ffwll.ch, airlied@gmail.com
-References: <20241218020124.278925-1-linux@treblig.org>
+ kernel-janitors@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20240912125735.45114-1-algonell@gmail.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -82,7 +85,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20241218020124.278925-1-linux@treblig.org>
+In-Reply-To: <20240912125735.45114-1-algonell@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -102,64 +105,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 18/12/2024 04:01, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On 12/09/2024 15:57, Andrew Kreimer wrote:
+> Fix typos in comments.
 > 
-> hdmi5_core_handle_irqs() is a function that was copied from omapdss by
-> commit f76ee892a99e ("omapfb: copy omapdss & displays for omapfb")
-> 
-> but it wasn't used in the original anyway.
-> 
-> Remove it.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> Reported-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
 > ---
->   drivers/gpu/drm/omapdrm/dss/hdmi5_core.c | 17 -----------------
->   drivers/gpu/drm/omapdrm/dss/hdmi5_core.h |  1 -
->   2 files changed, 18 deletions(-)
+>   drivers/gpu/drm/tidss/tidss_dispc_regs.h | 2 +-
+>   drivers/gpu/drm/tidss/tidss_plane.c      | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
-> index 21564c38234f..12ef47cd232b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.c
-> @@ -545,23 +545,6 @@ static void hdmi_core_enable_interrupts(struct hdmi_core_data *core)
->   	REG_FLD_MOD(core->base, HDMI_CORE_IH_MUTE, 0x0, 1, 0);
->   }
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+> index 13feedfe5d6d..e88148e44937 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+> @@ -49,7 +49,7 @@ enum dispc_common_regs {
+>   /*
+>    * dispc_common_regmap should be defined as const u16 * and pointing
+>    * to a valid dss common register map for the platform, before the
+> - * macros bellow can be used.
+> + * macros below can be used.
+>    */
 >   
-> -int hdmi5_core_handle_irqs(struct hdmi_core_data *core)
-> -{
-> -	void __iomem *base = core->base;
-> -
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT0, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT1, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_FC_STAT2, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_AS_STAT0, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_PHY_STAT0, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_I2CM_STAT0, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_CEC_STAT0, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_VP_STAT0, 0xff, 7, 0);
-> -	REG_FLD_MOD(base, HDMI_CORE_IH_I2CMPHY_STAT0, 0xff, 7, 0);
-> -
-> -	return 0;
-> -}
-> -
->   void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
->   		struct hdmi_config *cfg)
->   {
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
-> index 070cbf5fb57d..b8ed21156e8c 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5_core.h
-> @@ -286,7 +286,6 @@ int hdmi5_core_ddc_read(void *data, u8 *buf, unsigned int block, size_t len);
->   void hdmi5_core_ddc_uninit(struct hdmi_core_data *core);
+>   #define REG(r) (dispc_common_regmap[r ## _OFF])
+> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+> index a5d86822c9e3..1396bbf9616f 100644
+> --- a/drivers/gpu/drm/tidss/tidss_plane.c
+> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
+> @@ -59,7 +59,7 @@ static int tidss_plane_atomic_check(struct drm_plane *plane,
 >   
->   void hdmi5_core_dump(struct hdmi_core_data *core, struct seq_file *s);
-> -int hdmi5_core_handle_irqs(struct hdmi_core_data *core);
->   void hdmi5_configure(struct hdmi_core_data *core, struct hdmi_wp_data *wp,
->   			struct hdmi_config *cfg);
->   int hdmi5_core_init(struct platform_device *pdev, struct hdmi_core_data *core);
+>   	/*
+>   	 * The HW is only able to start drawing at subpixel boundary
+> -	 * (the two first checks bellow). At the end of a row the HW
+> +	 * (the two first checks below). At the end of a row the HW
+>   	 * can only jump integer number of subpixels forward to the
+>   	 * beginning of the next row. So we can only show picture with
+>   	 * integer subpixel width (the third check). However, after
 
-Thanks, applying to drm-misc-next.
+Thanks, pushing to drm-misc-next.
 
   Tomi
 
