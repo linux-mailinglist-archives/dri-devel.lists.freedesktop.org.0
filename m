@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB653A1C157
+	by mail.lfdr.de (Postfix) with ESMTPS id 128A4A1C156
 	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 07:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3BDB10E2A2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8D5D10E2CA;
 	Sat, 25 Jan 2025 06:47:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LAuJjnBT";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G9TPH228";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
- [209.85.166.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8811410E2A2;
- Sat, 25 Jan 2025 06:46:59 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id
- e9e14a558f8ab-3ce868498d3so8477215ab.3; 
- Fri, 24 Jan 2025 22:46:59 -0800 (PST)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B05E310E2B7;
+ Sat, 25 Jan 2025 06:47:00 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id
+ ca18e2360f4ac-844ce6d0716so215097339f.1; 
+ Fri, 24 Jan 2025 22:47:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737787619; x=1738392419; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1737787620; x=1738392420; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AnDsc2vkEgs5Pp7pnDF60W8zrCwME0cZq6yzmPBvEV8=;
- b=LAuJjnBTn96+AFWROII+Gnc8uvmRhIbL06++9uI7gOAE3jrTDKHW1CFz61lAO0ka4/
- n86f8JZ46WYpxa0wvFYqgLOiQXmJAIyCX4MEc8BkxxiSDes/OOvIOxZqiCGZ1VbsL010
- ULKrp9cdXefG5EpI3kQ5bhXbcLACVfZmeLvKBYXFRZCdL0Z7or4xZNiAJ7oHTVLKfvva
- A1w2/OycfUSFeMpULzuul1Vp+vOSkfmMQsnYt1yhufkXfrqTzH3Lz01mBTNVkwfGtBOG
- PVqzz/3+cIhCrxEfQ+7uaDDhlH4DZacf67xBUOs8RnNhxm1C6a1LGjRBeGLyv/B+MFgZ
- gCTQ==
+ bh=Ytfh/zV61l1ce+ov8of55te3rHqgM7GRb4D7c2dE0nI=;
+ b=G9TPH228vaXdnfNIIEdXeYEog6UmsHREX4HYtxdjbOEEJwS1nIBvQz+mCKMPPi0jov
+ uCrkzQ7KkROYAtufVT6QvyyO14Z0sJtYCkJeP+Xo0vEN9eeQ0TdK78mln5RO5GnZ7vlm
+ SZWXCXlXBBTNqBAEvfGPLa5uC952jWldB+jaexzruZVRAIIHaoaB7PSFhP8reWmOV1/u
+ AqItrUTsRxIPUzLs3Jfts4dyovdPR4Po9lmo/QCo7lAJTa5dMKPzOeUvgsgmWn16k7xO
+ jPTMCbnHu91y7hoLE91tLymixpXK/8WuU2Onh0GtHV/VQ3IQQ42lkFJBC5KiwzZ8Drkq
+ h/cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737787619; x=1738392419;
+ d=1e100.net; s=20230601; t=1737787620; x=1738392420;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AnDsc2vkEgs5Pp7pnDF60W8zrCwME0cZq6yzmPBvEV8=;
- b=q8rfT2sVQ2zEqiTgQb+eLR+64fP58uWmbANwRkB2qoP/g/rmTuKvs5FGROU6VJ7h0K
- eH24QY61Sbcd0VOO4S6Xov61PI+19Ge9TgqgRKF71JSxws7QxU6cSNpuTkdiua9oKqcB
- RCaYd07n4o/C/IjWPXhsEKr94QJtZmlaXUzhO4MQ/56XeBaNVxVofPLEbmSA/ye7oMJX
- ZqKbC8voNB5UgFhuyGCMCEWa0jt7+IU0eFuSXe8iEpFxHY/k/366dsPU+FA87FFeuM/+
- SXGqdm53hRNsu2NwCYrcPKh+qFZxW3etSefSsv93h7C9NI5X9AecUUAT68GJ25GMxxDG
- fDfA==
+ bh=Ytfh/zV61l1ce+ov8of55te3rHqgM7GRb4D7c2dE0nI=;
+ b=VXzCwQ8A2jirv6MA8NgSW5QQn6cmdjS//LOqf6I7+BD5f4QujBDvfiENrltLRkOSt4
+ j5H2mY2dVi12eWbbWP79aJuIqWY2rPKco91GOEuopqGlvEELtWw9I2KvWEqmVfKs+LoV
+ /UPw2zUsULd6Y4Bi5GEap7ICK6sJb0c0qnxWtg7M/ceOWHihqrRS+jzNl2LEf990Yvxt
+ BW7Ub7IjBTYYgp+bSAVZGkWAgs3/nslgp0Dtok9llwU3PIcAlYJ/0ZT+PuoXZ+JntfJi
+ /TTDjKh8CALU/47ljh7JJuEy40DMjuFGNMU2uEYmdZue0TGnsHRkJBv+xCvIjqq6TfgO
+ 9FKg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVnDkfOxcYsSbAJ6v+Jr9wP4aOfjaboPkkJ+LPhALjxKcttISq/FdBceAJrK2yBbAqiizQtNoOSQv28@lists.freedesktop.org,
- AJvYcCW5AYDxIaL+NNZ69zSzJCsFyih6B2Dd8DmhdAXvLfgtJ9cvCOx1lD9LSwVXADE/mPHVZW+M8KkH@lists.freedesktop.org,
- AJvYcCXktFmymTnCHRCW9zySVW+Vra0cVO4ZXS7CZ+Kxikxmst/bxE64Ba528B//Uw4PeN8Ol1zyeuHvap6/ybTzMg==@lists.freedesktop.org,
- AJvYcCXr1O4x+LjFk5uIAKRdYodCxeSTStm4bopZYfmKJ8M41dwz1F8fUde/4W7WBKz6L84qXUnA7eB8ZduU@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzfooQfzxMXXQfKfHZViuMERXlgf1S+tC6mBDJRe4tHMFiHwXjE
- NrAliXLYeUNhwDfysHe2xPQmFw2s1B8sXRwmq2gAzHgy7aAZfkdv
-X-Gm-Gg: ASbGncugALXeUAa/iRfHcD1r5p/7m6QvhugfEH/LkBShltRPafJSLuN2XtXXJ4XWE/R
- T3VRm2daI9DMEe6VDkDYcguM9pbmWi+B7Aea6Fl3o3IecvDErdCPkG4ydX6q3zJa0My9phf8jvA
- 0VAA1nIfQvSQ1JmwIN+hSoBAX/kW86OASGaL1YpSAub/8SXyUMY0oypcO69wjcRDK/LVVjaFAsK
- 65Z4g3w/gQgAOq5ypMjHx/H8hHJAqNyayC/yyOfPVdNCXAnqXojKfVSHk1BdPHLVjKgpVez5XXP
- HsSciZJXomYKnHZ1agbD2/dXHQBGjXriItOa7mV6PfL4NfYa
-X-Google-Smtp-Source: AGHT+IFuXVplZTOidf6+FbrRWr0dJRuZPWucGNDLvhwgjrSV8lGvzy/PXtUkpXLhq4PmLDOpeMhA0A==
-X-Received: by 2002:a05:6602:3c3:b0:84a:78ff:1247 with SMTP id
- ca18e2360f4ac-851b6286c35mr3044417339f.9.1737787618790; 
- Fri, 24 Jan 2025 22:46:58 -0800 (PST)
+ AJvYcCUQA5wn/SmnA7+FhtBjDyBd3MWXLyBJCHLWTK+Ntexr2qx8VFsSJX96zv/162MI1NUxSFjRbBdVYScv@lists.freedesktop.org,
+ AJvYcCUjgdqzG/ijvXQ6RNa6w+OqGZ72LTpNC1+90iEj5NraLGTRlwOhofvPupBcgLaHbvIKToOp967i@lists.freedesktop.org,
+ AJvYcCVCcyp6hnKEVntBfXFpcM9xPnIuLRNNLOayBGEQmWWh+u/f7/5FKfWegACno1bQ25/Tiw5K1PVd9UxeWrxJHQ==@lists.freedesktop.org,
+ AJvYcCVYgRwcjCKv8NQZi9odkKvLSXX6PYWDlrfcIJyG5YeyT1goJionK8JDsWnAL4iFg/rKmuR5E9LCNWHD@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdEO/zAuQawljketVMSW3B7WSa2fGzKrjSVCr417HxPjJIhSGt
+ hajxWsOD4IpLWVHrNgvAQSdQnEd9K21Mb7Ax4dXcAX1lFgP9Mx76
+X-Gm-Gg: ASbGnctzM4Ab5noB6w/jxcEJCOIkka8sDfhLABEQQYNz1y3uhCAXL54GuTfS170/oCi
+ NwXg2YR1OuH1f6lVmj/kmPfj1He3GX+i2v/Nc97sw5Gv1p/bfc3rKrz2n1U4YNPAx6DbFhMf10I
+ l8H0xVwzWYbB3lCGTi1UKi1LXlq85aKZo1NAQd+QvHeq+SzEOp8UkSNIvkALYyFj4wAa/ySWY+/
+ RiFMMopbR8w/uInfz2Q1Q23pDFYIIxIJGScvUxydNnTyEMYOb7hEGU2exZbHGcDOLoWRJ2gNyUE
+ ccUj9WJrRDvemVHifAK0WOjjWqZgz5dN1dxhYw==
+X-Google-Smtp-Source: AGHT+IHZ0rdC7Vd9cUI1tPpIx5JlT8FFJWJY2x9dHWb5lEPIqHartZYwqQohH5tAwYTKxuzcgozcpw==
+X-Received: by 2002:a05:6602:26c5:b0:83b:5221:2a87 with SMTP id
+ ca18e2360f4ac-851b616986dmr3118385239f.3.1737787619986; 
+ Fri, 24 Jan 2025 22:46:59 -0800 (PST)
 Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
  by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-4ec1da476fesm1174144173.58.2025.01.24.22.46.57
+ 8926c6da1cb9f-4ec1da476fesm1174144173.58.2025.01.24.22.46.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 22:46:58 -0800 (PST)
+ Fri, 24 Jan 2025 22:46:59 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org
@@ -72,9 +72,9 @@ Cc: intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH 20/63] dyndbg: drop premature optimization in ddebug_add_module
-Date: Fri, 24 Jan 2025 23:45:34 -0700
-Message-ID: <20250125064619.8305-21-jim.cromie@gmail.com>
+Subject: [PATCH 21/63] dyndbg: allow ddebug_add_module to fail
+Date: Fri, 24 Jan 2025 23:45:35 -0700
+Message-ID: <20250125064619.8305-22-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125064619.8305-1-jim.cromie@gmail.com>
 References: <20250125064619.8305-1-jim.cromie@gmail.com>
@@ -95,49 +95,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The class_ct var was added to avoid 2 function calls, but to do this
-it loops over all the module's debug callsites to determine the count.
-But it doesn't really help, so remove it.
+To prep for failing modprobe on classid conflicts, upgrade the
+call-chain around ddebug_add_module(), in 2 ways:
+
+1. in ddebug_add_module() add local reserved_ids to accumulate
+reservations, pass it by ref to ddebug_attach_{,user_}module_classes()
+so they can examine the reservations as they work.
+
+2. return int from both ddebug_attach_{,user_}module_classes(), up to
+ddebug_add_module(), then to ddebug_module_notify().
+
+No conflicts are currently detected or returned.
+
+TBD: This is updated further by hoisting the reservation-check, which
+obsoletes part of 2, creating churn, maybe squash it away.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
- lib/dynamic_debug.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ lib/dynamic_debug.c | 40 +++++++++++++++++++++++++++++-----------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
 diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 067db504dd1d..16c9b752822b 100644
+index 16c9b752822b..0ef243e30663 100644
 --- a/lib/dynamic_debug.c
 +++ b/lib/dynamic_debug.c
-@@ -1284,8 +1284,6 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
+@@ -1216,8 +1216,9 @@ static void ddebug_apply_params(const struct ddebug_class_map *cm, const char *m
+  * modular classmap vector/section.  Save the start and length of the
+  * subrange at its edges.
+  */
+-static void ddebug_attach_module_classes(struct ddebug_table *dt,
+-					 const struct _ddebug_info *di)
++static int ddebug_attach_module_classes(struct ddebug_table *dt,
++					const struct _ddebug_info *di,
++					u64 *reserved_ids)
+ {
+ 	struct ddebug_class_map *cm;
+ 	int i, nc = 0;
+@@ -1230,13 +1231,14 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt,
+ 		}
+ 	}
+ 	if (!nc)
+-		return;
++		return 0;
+ 
+ 	vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
+ 	dt->info.maps.len = nc;
+ 
+ 	for_subvec(i, cm, &dt->info, maps)
+ 		ddebug_apply_params(cm, cm->mod_name);
++	return 0;
+ }
+ 
+ /*
+@@ -1244,8 +1246,9 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt,
+  * means a query against the dt/module, which means it must be on the
+  * list to be seen by ddebug_change.
+  */
+-static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
+-					      const struct _ddebug_info *di)
++static int ddebug_attach_user_module_classes(struct ddebug_table *dt,
++					      const struct _ddebug_info *di,
++					      u64 *reserved_ids)
+ {
+ 	struct ddebug_class_user *cli;
+ 	int i, nc = 0;
+@@ -1266,7 +1269,7 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
+ 		}
+ 	}
+ 	if (!nc)
+-		return;
++		return 0;
+ 
+ 	dt->info.users.len = nc;
+ 
+@@ -1275,6 +1278,7 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
+ 		ddebug_apply_params(cli->map, cli->mod_name);
+ 
+ 	vpr_dt_info(dt, "attach-client-module: ");
++	return 0;
+ }
+ 
+ /*
+@@ -1284,6 +1288,8 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
  static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
  {
  	struct ddebug_table *dt;
--	struct _ddebug *iter;
--	int i, class_ct = 0;
++	u64 reserved_ids = 0;
++	int rc;
  
  	if (!di->descs.len)
  		return 0;
-@@ -1308,18 +1306,14 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+@@ -1306,16 +1312,23 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
  
  	INIT_LIST_HEAD(&dt->link);
  
--	for_subvec(i, iter, di, descs)
--		if (iter->class_id != _DPRINTK_CLASS_DFLT)
--			class_ct++;
+-	if (di->maps.len)
+-		ddebug_attach_module_classes(dt, di);
 -
--	if (class_ct && di->maps.len)
-+	if (di->maps.len)
- 		ddebug_attach_module_classes(dt, di);
- 
++	if (di->maps.len) {
++		rc = ddebug_attach_module_classes(dt, di, &reserved_ids);
++		if (rc) {
++			kfree(dt);
++			return rc;
++		}
++	}
  	mutex_lock(&ddebug_lock);
  	list_add_tail(&dt->link, &ddebug_tables);
  	mutex_unlock(&ddebug_lock);
  
--	if (class_ct && di->users.len)
-+	if (di->users.len)
- 		ddebug_attach_user_module_classes(dt, di);
+-	if (di->users.len)
+-		ddebug_attach_user_module_classes(dt, di);
  
++	if (di->users.len) {
++		rc = ddebug_attach_user_module_classes(dt, di, &reserved_ids);
++		if (rc)
++			return rc;
++	}
  	vpr_info("%3u debug prints in module %s\n", di->descs.len, modname);
+ 	return 0;
+ }
+@@ -1400,6 +1413,11 @@ static int ddebug_module_notify(struct notifier_block *self, unsigned long val,
+ 	switch (val) {
+ 	case MODULE_STATE_COMING:
+ 		ret = ddebug_add_module(&mod->dyndbg_info, mod->name);
++		if (ret == -EINVAL) {
++			pr_err("conflicting dyndbg-classmap reservations\n");
++			ddebug_remove_module(mod->name);
++			break;
++		}
+ 		if (ret)
+ 			WARN(1, "Failed to allocate memory: dyndbg may not work properly.\n");
+ 		break;
 -- 
 2.48.1
 
