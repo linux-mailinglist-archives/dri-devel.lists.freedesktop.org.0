@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B124A1C0C7
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 04:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63592A1C0E9
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 05:18:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44D3410E013;
-	Sat, 25 Jan 2025 03:53:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CED510E162;
+	Sat, 25 Jan 2025 04:18:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="HlqfImPM";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="KEMjxQrO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id D2E6B10E013;
- Sat, 25 Jan 2025 03:53:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
- Message-ID; bh=2/L6xcxciPFXhq1+98/BrTtpuT7hqPPpmT29iiXWoHA=; b=H
- lqfImPMg0lRktI/+e1Xi8IfWdIUdMYUkLAG/OiT1Q3+P4pPcCQv7AD11dBwv02zP
- e8Hv40MvW54sZXg3AB65gjP0IV10DTuydaFF6uh+PlIKsBlEs/fIUnnT7hhO63xn
- /uPlc8mgtJONtsZXZYo6bUEzGWThBMsxgi97HctRzc=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-141 (Coremail) ; Sat, 25 Jan 2025 11:53:36 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Sat, 25 Jan 2025 11:53:36 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Jani Nikula" <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- "Sandy Huang" <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- "Andy Yan" <andy.yan@rock-chips.com>, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, sam@ravnborg.org,
- "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Subject: Re:Re:[PATCH 2/5] drm/rockchip: stop passing non struct drm_device
- to drm_err() and friends
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <87plkcbfp0.fsf@intel.com>
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <f42da4c9943a2f2a9de4272b7849e72236d4c3f9.1737644530.git.jani.nikula@intel.com>
- <2c0a76c3.618c.19497bb4329.Coremail.andyshrk@163.com>
- <87plkcbfp0.fsf@intel.com>
-X-NTES-SC: AL_Qu2YBfucuEoq4CadYukfmkcVgOw9UcO5v/Qk3oZXOJF8jCrr+CUnVkFMJFbsweeONhCLrheYTj1O48h1bZN6b5MbmZH3ncD3yFJqYxpNdEe98g==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-m1973184.qiye.163.com (mail-m1973184.qiye.163.com
+ [220.197.31.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67F0F10E162
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jan 2025 04:18:19 +0000 (UTC)
+Received: from [172.16.12.26] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 9a494985;
+ Sat, 25 Jan 2025 12:18:10 +0800 (GMT+08:00)
+Message-ID: <7ef0454b-fddd-44c0-be4a-c81c443f08f6@rock-chips.com>
+Date: Sat, 25 Jan 2025 12:18:09 +0800
 MIME-Version: 1.0
-Message-ID: <730ee1d4.f63.1949b97fc99.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: jSgvCgD3__tAYJRnWmZeAA--.23567W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hXfXmeUTS65QgAFso
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 12/14] drm/edp-panel: Add LG Display panel model
+ LP079QX1-SP0V
+To: Doug Anderson <dianders@chromium.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: heiko@sntech.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org,
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
+ l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+ <20250123100747.1841357-13-damon.ding@rock-chips.com>
+ <rwn3g7tqgjnc525cjqtivgfgedhooiayn5nujng7bdzazgqhle@wfpuvoyr2tii>
+ <CAD=FV=WKsA9fcq-LzGcYmgbMuMLUp5SMggpzBzZnvd3sxGf9BQ@mail.gmail.com>
+Content-Language: en-US
+From: Damon Ding <damon.ding@rock-chips.com>
+In-Reply-To: <CAD=FV=WKsA9fcq-LzGcYmgbMuMLUp5SMggpzBzZnvd3sxGf9BQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGk9DH1YfHUxJT09CSU9CHU5WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+X-HM-Tid: 0a949bae7a1d03a3kunm9a494985
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Kyo6DTo*HjIWNBktLzE3F0sp
+ CzEwCzpVSlVKTEhMTExDTUJJSE5JVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
+ EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFPSU9KNwY+
+DKIM-Signature: a=rsa-sha256;
+ b=KEMjxQrOrfEtKZzt6CYphQDs7eNUjjH8m8AWiodw6j70gQcFojna9y5+Fy0sONQ3/SEZtPD1VMuZKpejaV6BtqPVrmfQHyB2/HvVOpkGv/QGCiiQSO44oAVs8y3NeqvAXjLYhldpjhTostWKSR+CS4rVq2br+QqVb20XwbhKWRs=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=LT1lOhEhh2VSdBgeTO1/jteMwTIRumP4Sm+3/Zt7qdA=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,150 +73,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgrlnKggMjAyNS0wMS0yNCAxOTo0MzowN++8jCJKYW5pIE5pa3VsYSIgPGphbmkubmlrdWxhQGlu
-dGVsLmNvbT4g5YaZ6YGT77yaCj5PbiBGcmksIDI0IEphbiAyMDI1LCAiQW5keSBZYW4iIDxhbmR5
-c2hya0AxNjMuY29tPiB3cm90ZToKPj4gSGnvvIwKPj4KPj4gQXQgMjAyNS0wMS0yMyAyMzowOTow
-OSwgIkphbmkgTmlrdWxhIiA8amFuaS5uaWt1bGFAaW50ZWwuY29tPiB3cm90ZToKPj4+VGhlIGV4
-cGVjdGF0aW9uIGlzIHRoYXQgdGhlIHN0cnVjdCBkcm1fZGV2aWNlIGJhc2VkIGxvZ2dpbmcgaGVs
-cGVycyBnZXQKPj4+cGFzc2VkIGFuIGFjdHVhbCBzdHJ1Y3QgZHJtX2RldmljZSBwb2ludGVyIHJh
-dGhlciB0aGFuIHNvbWUgcmFuZG9tCj4+PnN0cnVjdCBwb2ludGVyIHdoZXJlIHlvdSBjYW4gZGVy
-ZWZlcmVuY2UgdGhlIC0+ZGV2IG1lbWJlci4KPj4+Cj4+PkNvbnZlcnQgZHJtX2VycihoZG1pLCAu
-Li4pIHRvIGRldl9lcnIoaGRtaS0+ZGV2LCAuLi4pLiBUaGlzIG1hdGNoZXMKPj4+Y3VycmVudCB1
-c2FnZSwgYnV0IGRyb3BzICJbZHJtXSAqRVJST1IqIiBwcmVmaXggZnJvbSBsb2dnaW5nLgo+Pgo+
-PiBGcmFua2x5LCBJIHByZWZlciB0aGUgb3JpZ2luYWwgdmVyc2lvbiBvZiB0aGUgbG9nLgo+PiBJ
-dCBpcyBhIHBsYXRmb3JtIGRyaXZlciwgc28gaXQgc2hvdWxkIHVzZSBpdHMgb3duIGRldmljZS4K
-Pj4gSXQgaXMgYSBkcml2ZXIgdGhhdCB3b3JrcyBpbiBkcm0gc3Vic3lzdGVtLCBzbyBpdCdzIGJl
-dHRlciB0byB1c2UgIltkcm1dICpFUlJPUioiIHByZWZpeCB3aGVuIGxvZ2dpbmcKPgo+SWYgeW91
-IG5lZWQgdG8gZG8gc3RydWN0IGRldmljZSBiYXNlZCBsb2dnaW5nIHRoYXQgaXMgbm90IHRoZSBz
-YW1lCj5kZXZpY2UgYXMgdGhlIHN0cnVjdCBkcm1fZGV2aWNlIGRldiBtZW1iZXIsIHlvdSBuZWVk
-IHRvIHVzZSBkZXZfZXJyKCkKPmFuZCBmcmllbmRzLiBZb3UgY2FuJ3QgYW5kIG11c3Qgbm90IHVz
-ZSBkcm1fZXJyKCkgYW5kIGZyaWVuZHMuCj4KPkl0J3MgYXMgc2ltcGxlIGFzIHRoYXQuCj4KPlRo
-ZSBjdXJyZW50IGRybV9lcnIoaGRtaSwgLi4uKSB1c2FnZSBpcyBzaW1wbHkgYWJ1c2Ugb2YgdGhl
-IG1hY3JvcywgYW5kCj5tdXN0IHN0b3AuCgpQZXJoYXBzIHdoZW4geW91IGluaXRpYWxseSBkZXNp
-Z25lZCB0aGlzIG1hY3JvcywgeW91IGludGVuZGVkIGl0IHRvIGFjY2VwdCBvbmx5IGRybV9kZXZp
-Y2UsIApidXQgeW91ciBjb2RlIGltcGxlbWVudGF0aW9uIGRpZG4ndCBlbmZvcmNlIHRoaXMgcmVz
-dHJpY3Rpb24gYXQgdGhlIGJlZ2lubmluZy4KSWYgdGhhdCdzIHRydWx5IHdoYXQgeW91IGludGVu
-ZGVkLCBJIHN1Z2dlc3QganVzdCByZXZlcnRpbmcgdGhpcyBjb21taXQgdGhhdCBjb252ZXJ0aW5n
-IHRvIHVzZSB0aGVzZSBtYWNyb3NbMF0sIAphcyBuZWl0aGVyIGRybV9lcnIgbm9yIGRldl9lcnIg
-Y2FuIG1haW50YWluIGNvbnNpc3RlbmN5IHdpdGggdGhlIG9yaWdpbmFsIGxvZyBvZiB0aGlzIGRy
-aXZlci4KQWx0ZXJuYXRpdmVseSwgYXMgc3VnZ2VzdGVkIGJ5IFNhbSAgaW4gdGhlIGluaXRpYWwg
-c3VibWlzc2lvbiBvZiB5b3VyIHBhdGNoIDUgeWVhcnMgYWdvLCAKdGhlcmUgc2hvdWxkIGFsc28g
-YmUgYSBtYWNybyBzaW1pbGFyIHRvIGRybV9kZXZfaW5mbyhkZXZpY2UgKiwgLi4pLlsxXQoKClsw
-XWh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzIwMjQwODEzLWR3LWhkbWkt
-cm9ja2NoaXAtY2xlYW51cC12MS0xLWIzZTczYjVmNGZkNkBjb2xsYWJvcmEuY29tLwpbMV1odHRw
-czovL2xvcmUua2VybmVsLm9yZy9kcmktZGV2ZWwvMjAxOTEyMTIyMTUzMDMuR0ExMTUyMEByYXZu
-Ym9yZy5vcmcvCgo+Cj4KPkJSLAo+SmFuaS4KPgo+Cj4+Cj4+Pgo+Pj5TaWduZWQtb2ZmLWJ5OiBK
-YW5pIE5pa3VsYSA8amFuaS5uaWt1bGFAaW50ZWwuY29tPgo+Pj4KPj4+LS0tCj4+Pgo+Pj5Mb29r
-cyBsaWtlIGl0J3MgcG9zc2libGUgdG8gaHVudCBkb3duIHRoZSBzdHJ1Y3QgZHJtX2RldmljZSBp
-biBtb3N0IG9mCj4+PnRoZXNlIGNhc2VzLCBpZiB0aGF0J3MgZGVzaXJlZC4gVGhpcyB3YXMgdGhl
-IHNpbXBsZXN0IGNoYW5nZS4KPj4+Cj4+PkNjOiBTYW5keSBIdWFuZyA8aGpjQHJvY2stY2hpcHMu
-Y29tPgo+Pj5DYzogIkhlaWtvIFN0w7xibmVyIiA8aGVpa29Ac250ZWNoLmRlPgo+Pj5DYzogQW5k
-eSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29tPgo+Pj5DYzogZHJpLWRldmVsQGxpc3RzLmZy
-ZWVkZXNrdG9wLm9yZwo+Pj5DYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3Jn
-Cj4+PkNjOiBsaW51eC1yb2NrY2hpcEBsaXN0cy5pbmZyYWRlYWQub3JnCj4+Pi0tLQo+Pj4gZHJp
-dmVycy9ncHUvZHJtL3JvY2tjaGlwL2R3X2hkbWktcm9ja2NoaXAuYyAgICB8IDE2ICsrKysrKysr
-LS0tLS0tLS0KPj4+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pX3FwLXJvY2tjaGlw
-LmMgfCAxNiArKysrKysrKy0tLS0tLS0tCj4+PiAyIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlv
-bnMoKyksIDE2IGRlbGV0aW9ucygtKQo+Pj4KPj4+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2Ry
-bS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAv
-ZHdfaGRtaS1yb2NrY2hpcC5jCj4+PmluZGV4IGU3YTY2NjljNDZiMC4uZjczN2U3ZDQ2ZTY2IDEw
-MDY0NAo+Pj4tLS0gYS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaS1yb2NrY2hpcC5j
-Cj4+PisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pLXJvY2tjaGlwLmMKPj4+
-QEAgLTIwMyw3ICsyMDMsNyBAQCBzdGF0aWMgaW50IHJvY2tjaGlwX2hkbWlfcGFyc2VfZHQoc3Ry
-dWN0IHJvY2tjaGlwX2hkbWkgKmhkbWkpCj4+PiAKPj4+IAloZG1pLT5yZWdtYXAgPSBzeXNjb25f
-cmVnbWFwX2xvb2t1cF9ieV9waGFuZGxlKG5wLCAicm9ja2NoaXAsZ3JmIik7Cj4+PiAJaWYgKElT
-X0VSUihoZG1pLT5yZWdtYXApKSB7Cj4+Pi0JCWRybV9lcnIoaGRtaSwgIlVuYWJsZSB0byBnZXQg
-cm9ja2NoaXAsZ3JmXG4iKTsKPj4+KwkJZGV2X2VycihoZG1pLT5kZXYsICJVbmFibGUgdG8gZ2V0
-IHJvY2tjaGlwLGdyZlxuIik7Cj4+PiAJCXJldHVybiBQVFJfRVJSKGhkbWktPnJlZ21hcCk7Cj4+
-PiAJfQo+Pj4gCj4+PkBAIC0yMTQsNyArMjE0LDcgQEAgc3RhdGljIGludCByb2NrY2hpcF9oZG1p
-X3BhcnNlX2R0KHN0cnVjdCByb2NrY2hpcF9oZG1pICpoZG1pKQo+Pj4gCWlmIChJU19FUlIoaGRt
-aS0+cmVmX2NsaykpIHsKPj4+IAkJcmV0ID0gUFRSX0VSUihoZG1pLT5yZWZfY2xrKTsKPj4+IAkJ
-aWYgKHJldCAhPSAtRVBST0JFX0RFRkVSKQo+Pj4tCQkJZHJtX2VycihoZG1pLCAiZmFpbGVkIHRv
-IGdldCByZWZlcmVuY2UgY2xvY2tcbiIpOwo+Pj4rCQkJZGV2X2VycihoZG1pLT5kZXYsICJmYWls
-ZWQgdG8gZ2V0IHJlZmVyZW5jZSBjbG9ja1xuIik7Cj4+PiAJCXJldHVybiByZXQ7Cj4+PiAJfQo+
-Pj4gCj4+PkBAIC0yMjIsNyArMjIyLDcgQEAgc3RhdGljIGludCByb2NrY2hpcF9oZG1pX3BhcnNl
-X2R0KHN0cnVjdCByb2NrY2hpcF9oZG1pICpoZG1pKQo+Pj4gCWlmIChJU19FUlIoaGRtaS0+Z3Jm
-X2NsaykpIHsKPj4+IAkJcmV0ID0gUFRSX0VSUihoZG1pLT5ncmZfY2xrKTsKPj4+IAkJaWYgKHJl
-dCAhPSAtRVBST0JFX0RFRkVSKQo+Pj4tCQkJZHJtX2VycihoZG1pLCAiZmFpbGVkIHRvIGdldCBn
-cmYgY2xvY2tcbiIpOwo+Pj4rCQkJZGV2X2VycihoZG1pLT5kZXYsICJmYWlsZWQgdG8gZ2V0IGdy
-ZiBjbG9ja1xuIik7Cj4+PiAJCXJldHVybiByZXQ7Cj4+PiAJfQo+Pj4gCj4+PkBAIC0zMDIsMTYg
-KzMwMiwxNiBAQCBzdGF0aWMgdm9pZCBkd19oZG1pX3JvY2tjaGlwX2VuY29kZXJfZW5hYmxlKHN0
-cnVjdCBkcm1fZW5jb2RlciAqZW5jb2RlcikKPj4+IAo+Pj4gCXJldCA9IGNsa19wcmVwYXJlX2Vu
-YWJsZShoZG1pLT5ncmZfY2xrKTsKPj4+IAlpZiAocmV0IDwgMCkgewo+Pj4tCQlkcm1fZXJyKGhk
-bWksICJmYWlsZWQgdG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPj4+KwkJZGV2X2Vyciho
-ZG1pLT5kZXYsICJmYWlsZWQgdG8gZW5hYmxlIGdyZmNsayAlZFxuIiwgcmV0KTsKPj4+IAkJcmV0
-dXJuOwo+Pj4gCX0KPj4+IAo+Pj4gCXJldCA9IHJlZ21hcF93cml0ZShoZG1pLT5yZWdtYXAsIGhk
-bWktPmNoaXBfZGF0YS0+bGNkc2VsX2dyZl9yZWcsIHZhbCk7Cj4+PiAJaWYgKHJldCAhPSAwKQo+
-Pj4tCQlkcm1fZXJyKGhkbWksICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAlZFxuIiwgcmV0KTsK
-Pj4+KwkJZGV2X2VycihoZG1pLT5kZXYsICJDb3VsZCBub3Qgd3JpdGUgdG8gR1JGOiAlZFxuIiwg
-cmV0KTsKPj4+IAo+Pj4gCWNsa19kaXNhYmxlX3VucHJlcGFyZShoZG1pLT5ncmZfY2xrKTsKPj4+
-LQlkcm1fZGJnKGhkbWksICJ2b3AgJXMgb3V0cHV0IHRvIGhkbWlcbiIsIHJldCA/ICJMSVQiIDog
-IkJJRyIpOwo+Pj4rCWRldl9kYmcoaGRtaS0+ZGV2LCAidm9wICVzIG91dHB1dCB0byBoZG1pXG4i
-LCByZXQgPyAiTElUIiA6ICJCSUciKTsKPj4+IH0KPj4+IAo+Pj4gc3RhdGljIGludAo+Pj5AQCAt
-NTc0LDcgKzU3NCw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9yb2NrY2hpcF9iaW5kKHN0cnVjdCBk
-ZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+Pj4gCXJldCA9IHJvY2tjaGlwX2hk
-bWlfcGFyc2VfZHQoaGRtaSk7Cj4+PiAJaWYgKHJldCkgewo+Pj4gCQlpZiAocmV0ICE9IC1FUFJP
-QkVfREVGRVIpCj4+Pi0JCQlkcm1fZXJyKGhkbWksICJVbmFibGUgdG8gcGFyc2UgT0YgZGF0YVxu
-Iik7Cj4+PisJCQlkZXZfZXJyKGhkbWktPmRldiwgIlVuYWJsZSB0byBwYXJzZSBPRiBkYXRhXG4i
-KTsKPj4+IAkJcmV0dXJuIHJldDsKPj4+IAl9Cj4+PiAKPj4+QEAgLTU4Miw3ICs1ODIsNyBAQCBz
-dGF0aWMgaW50IGR3X2hkbWlfcm9ja2NoaXBfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVj
-dCBkZXZpY2UgKm1hc3RlciwKPj4+IAlpZiAoSVNfRVJSKGhkbWktPnBoeSkpIHsKPj4+IAkJcmV0
-ID0gUFRSX0VSUihoZG1pLT5waHkpOwo+Pj4gCQlpZiAocmV0ICE9IC1FUFJPQkVfREVGRVIpCj4+
-Pi0JCQlkcm1fZXJyKGhkbWksICJmYWlsZWQgdG8gZ2V0IHBoeVxuIik7Cj4+PisJCQlkZXZfZXJy
-KGhkbWktPmRldiwgImZhaWxlZCB0byBnZXQgcGh5XG4iKTsKPj4+IAkJcmV0dXJuIHJldDsKPj4+
-IAl9Cj4+PiAKPj4+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1p
-X3FwLXJvY2tjaGlwLmMgYi9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaV9xcC1yb2Nr
-Y2hpcC5jCj4+PmluZGV4IGY0MTE1MWQ0OWZjYS4uM2QxZGRkYjM0NjAzIDEwMDY0NAo+Pj4tLS0g
-YS9kcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvZHdfaGRtaV9xcC1yb2NrY2hpcC5jCj4+PisrKyBi
-L2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9kd19oZG1pX3FwLXJvY2tjaGlwLmMKPj4+QEAgLTI0
-Miw3ICsyNDIsNyBAQCBzdGF0aWMgdm9pZCBkd19oZG1pX3FwX3JrMzU4OF9ocGRfd29yayhzdHJ1
-Y3Qgd29ya19zdHJ1Y3QgKndvcmspCj4+PiAJaWYgKGRybSkgewo+Pj4gCQljaGFuZ2VkID0gZHJt
-X2hlbHBlcl9ocGRfaXJxX2V2ZW50KGRybSk7Cj4+PiAJCWlmIChjaGFuZ2VkKQo+Pj4tCQkJZHJt
-X2RiZyhoZG1pLCAiY29ubmVjdG9yIHN0YXR1cyBjaGFuZ2VkXG4iKTsKPj4+KwkJCWRldl9kYmco
-aGRtaS0+ZGV2LCAiY29ubmVjdG9yIHN0YXR1cyBjaGFuZ2VkXG4iKTsKPj4+IAl9Cj4+PiB9Cj4+
-PiAKPj4+QEAgLTQ3Miw3ICs0NzIsNyBAQCBzdGF0aWMgaW50IGR3X2hkbWlfcXBfcm9ja2NoaXBf
-YmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKPj4+IAkJfQo+
-Pj4gCX0KPj4+IAlpZiAoaGRtaS0+cG9ydF9pZCA8IDApIHsKPj4+LQkJZHJtX2VycihoZG1pLCAi
-RmFpbGVkIHRvIG1hdGNoIEhETUkgcG9ydCBJRFxuIik7Cj4+PisJCWRldl9lcnIoaGRtaS0+ZGV2
-LCAiRmFpbGVkIHRvIG1hdGNoIEhETUkgcG9ydCBJRFxuIik7Cj4+PiAJCXJldHVybiBoZG1pLT5w
-b3J0X2lkOwo+Pj4gCX0KPj4+IAo+Pj5AQCAtNDk2LDIwICs0OTYsMjAgQEAgc3RhdGljIGludCBk
-d19oZG1pX3FwX3JvY2tjaGlwX2JpbmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNl
-ICptYXN0ZXIsCj4+PiAJaGRtaS0+cmVnbWFwID0gc3lzY29uX3JlZ21hcF9sb29rdXBfYnlfcGhh
-bmRsZShkZXYtPm9mX25vZGUsCj4+PiAJCQkJCQkgICAgICAgInJvY2tjaGlwLGdyZiIpOwo+Pj4g
-CWlmIChJU19FUlIoaGRtaS0+cmVnbWFwKSkgewo+Pj4tCQlkcm1fZXJyKGhkbWksICJVbmFibGUg
-dG8gZ2V0IHJvY2tjaGlwLGdyZlxuIik7Cj4+PisJCWRldl9lcnIoaGRtaS0+ZGV2LCAiVW5hYmxl
-IHRvIGdldCByb2NrY2hpcCxncmZcbiIpOwo+Pj4gCQlyZXR1cm4gUFRSX0VSUihoZG1pLT5yZWdt
-YXApOwo+Pj4gCX0KPj4+IAo+Pj4gCWhkbWktPnZvX3JlZ21hcCA9IHN5c2Nvbl9yZWdtYXBfbG9v
-a3VwX2J5X3BoYW5kbGUoZGV2LT5vZl9ub2RlLAo+Pj4gCQkJCQkJCSAgInJvY2tjaGlwLHZvLWdy
-ZiIpOwo+Pj4gCWlmIChJU19FUlIoaGRtaS0+dm9fcmVnbWFwKSkgewo+Pj4tCQlkcm1fZXJyKGhk
-bWksICJVbmFibGUgdG8gZ2V0IHJvY2tjaGlwLHZvLWdyZlxuIik7Cj4+PisJCWRldl9lcnIoaGRt
-aS0+ZGV2LCAiVW5hYmxlIHRvIGdldCByb2NrY2hpcCx2by1ncmZcbiIpOwo+Pj4gCQlyZXR1cm4g
-UFRSX0VSUihoZG1pLT52b19yZWdtYXApOwo+Pj4gCX0KPj4+IAo+Pj4gCXJldCA9IGRldm1fY2xr
-X2J1bGtfZ2V0X2FsbF9lbmFibGVkKGhkbWktPmRldiwgJmNsa3MpOwo+Pj4gCWlmIChyZXQgPCAw
-KSB7Cj4+Pi0JCWRybV9lcnIoaGRtaSwgIkZhaWxlZCB0byBnZXQgY2xvY2tzOiAlZFxuIiwgcmV0
-KTsKPj4+KwkJZGV2X2VycihoZG1pLT5kZXYsICJGYWlsZWQgdG8gZ2V0IGNsb2NrczogJWRcbiIs
-IHJldCk7Cj4+PiAJCXJldHVybiByZXQ7Cj4+PiAJfQo+Pj4gCj4+PkBAIC01MTcsNyArNTE3LDcg
-QEAgc3RhdGljIGludCBkd19oZG1pX3FwX3JvY2tjaGlwX2JpbmQoc3RydWN0IGRldmljZSAqZGV2
-LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCj4+PiAJCQkJCQkgICAgR1BJT0RfT1VUX0hJR0gpOwo+
-Pj4gCWlmIChJU19FUlIoaGRtaS0+ZW5hYmxlX2dwaW8pKSB7Cj4+PiAJCXJldCA9IFBUUl9FUlIo
-aGRtaS0+ZW5hYmxlX2dwaW8pOwo+Pj4tCQlkcm1fZXJyKGhkbWksICJGYWlsZWQgdG8gcmVxdWVz
-dCBlbmFibGUgR1BJTzogJWRcbiIsIHJldCk7Cj4+PisJCWRldl9lcnIoaGRtaS0+ZGV2LCAiRmFp
-bGVkIHRvIHJlcXVlc3QgZW5hYmxlIEdQSU86ICVkXG4iLCByZXQpOwo+Pj4gCQlyZXR1cm4gcmV0
-Owo+Pj4gCX0KPj4+IAo+Pj5AQCAtNTI1LDcgKzUyNSw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9x
-cF9yb2NrY2hpcF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVy
-LAo+Pj4gCWlmIChJU19FUlIoaGRtaS0+cGh5KSkgewo+Pj4gCQlyZXQgPSBQVFJfRVJSKGhkbWkt
-PnBoeSk7Cj4+PiAJCWlmIChyZXQgIT0gLUVQUk9CRV9ERUZFUikKPj4+LQkJCWRybV9lcnIoaGRt
-aSwgImZhaWxlZCB0byBnZXQgcGh5OiAlZFxuIiwgcmV0KTsKPj4+KwkJCWRldl9lcnIoaGRtaS0+
-ZGV2LCAiZmFpbGVkIHRvIGdldCBwaHk6ICVkXG4iLCByZXQpOwo+Pj4gCQlyZXR1cm4gcmV0Owo+
-Pj4gCX0KPj4+IAo+Pj5AQCAtNTY0LDcgKzU2NCw3IEBAIHN0YXRpYyBpbnQgZHdfaGRtaV9xcF9y
-b2NrY2hpcF9iaW5kKHN0cnVjdCBkZXZpY2UgKmRldiwgc3RydWN0IGRldmljZSAqbWFzdGVyLAo+
-Pj4gCWNvbm5lY3RvciA9IGRybV9icmlkZ2VfY29ubmVjdG9yX2luaXQoZHJtLCBlbmNvZGVyKTsK
-Pj4+IAlpZiAoSVNfRVJSKGNvbm5lY3RvcikpIHsKPj4+IAkJcmV0ID0gUFRSX0VSUihjb25uZWN0
-b3IpOwo+Pj4tCQlkcm1fZXJyKGhkbWksICJmYWlsZWQgdG8gaW5pdCBicmlkZ2UgY29ubmVjdG9y
-OiAlZFxuIiwgcmV0KTsKPj4+KwkJZGV2X2VycihoZG1pLT5kZXYsICJmYWlsZWQgdG8gaW5pdCBi
-cmlkZ2UgY29ubmVjdG9yOiAlZFxuIiwgcmV0KTsKPj4+IAkJcmV0dXJuIHJldDsKPj4+IAl9Cj4+
-PiAKPj4+LS0gCj4+PjIuMzkuNQo+Pj4KPj4+Cj4+Pl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCj4+PkxpbnV4LXJvY2tjaGlwIG1haWxpbmcgbGlzdAo+Pj5M
-aW51eC1yb2NrY2hpcEBsaXN0cy5pbmZyYWRlYWQub3JnCj4+Pmh0dHA6Ly9saXN0cy5pbmZyYWRl
-YWQub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtcm9ja2NoaXAKPgo+LS0gCj5KYW5pIE5pa3Vs
-YSwgSW50ZWwK
+Hi Doug,
+
+On 2025/1/24 8:30, Doug Anderson wrote:
+> Hi,
+> 
+> On Thu, Jan 23, 2025 at 3:31 AM Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+>>
+>> On Thu, Jan 23, 2025 at 06:07:45PM +0800, Damon Ding wrote:
+>>> The raw edid for LP079QX1-SP0V panel model is:
+>>>
+>>> 00 ff ff ff ff ff ff 00 16 83 00 00 00 00 00 00
+>>> 04 17 01 00 a5 10 0c 78 06 ef 05 a3 54 4c 99 26
+>>> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+>>> 01 01 01 01 01 01 ea 4e 00 4c 60 00 14 80 0c 10
+>>> 84 00 78 a0 00 00 00 18 00 00 00 10 00 00 00 00
+>>> 00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 4c
+>>> 50 30 37 39 51 58 31 2d 53 50 30 56 00 00 00 fc
+>>> 00 43 6f 6c 6f 72 20 4c 43 44 0a 20 20 20 00 3f
+>>>
+>>> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+>>> ---
+>>>   drivers/gpu/drm/panel/panel-edp.c | 8 ++++++++
+>>>   1 file changed, 8 insertions(+)
+>>
+>> Please use get_maintainers.pl when compiling To/Cc lists. Added Douglas
+>> to CC manually.
+>>
+>> Or, better, split irrelevant patches to separate series.
+>>
+>>>
+>>> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+>>> index f8511fe5fb0d..77e3fd3ed160 100644
+>>> --- a/drivers/gpu/drm/panel/panel-edp.c
+>>> +++ b/drivers/gpu/drm/panel/panel-edp.c
+>>> @@ -1808,6 +1808,12 @@ static const struct panel_delay delay_200_150_e50 = {
+>>>        .enable = 50,
+>>>   };
+>>>
+>>> +static const struct panel_delay delay_50_500_e200 = {
+>>> +     .hpd_absent = 50,
+>>> +     .unprepare = 500,
+>>> +     .enable = 200,
+>>> +};
+> 
+> Wow, hpd_absent is 50ms. That's excellent!
+> 
+> I was curious if this was really correct since it's the lowest I've
+> seen, but I searched the internet and found a datasheet that confirms
+> it. Crazy. Although my datasheet has that whole section grayed out and
+> says "Measurement not available". How worried should be about that? I
+> guess if "hpd_absent" of 50 eventually doesn't work it can always be
+> increased.
+> 
+
+The datasheet I have should be the same as yours, and the T3 is "Min. 
+2ms | Typ. 30ms | Max. 50ms" with the gray "Measurement not available".
+
+> Looking at that datasheet (assuming you can find the same one), I
+> wonder how you handle the T4 120ms requirement. It looks like that's
+> the time from tcon reset (which is nearly power on) until you're
+> allowed to put valid data on the panel. I _think_ you could meet the
+> requirement via setting `powered_on_to_enable` to 320 though, right?
+> ...or maybe 335 to handle the maximum value of "tcon_reset" (no idea
+> how you control this signal). If I remember correctly (it's been a
+> while), things will already be clocking but outputting black when the
+> panel's "enable" function is called. After the function is called then
+> we'll turn on the backlight (and still outputting black) and
+> eventually we'll put valid data. So as long as you consider the
+> continued output of black as "valid data" then the timing diagram is
+> satisfied.
+> 
+
+Yes, it is indeed better to set the "powered_on_to_enable" to 335ms, as 
+this will help prevent the display from showing invalid black screens. I 
+will add it in the next version.
+
+> BTW: don't you also need a 200 ms "disable"?
+> 
+
+According to the datasheet, it is a good idea to set "disable" to 200ms.
+
+> 
+>>>   #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
+>>>   { \
+>>>        .ident = { \
+>>> @@ -1955,6 +1961,8 @@ static const struct edp_panel_entry edp_panels[] = {
+>>>        EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
+>>>        EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50, "MNB601LS1-4"),
+>>>
+>>> +     EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200, "LP079QX1-SP0V"),
+> 
+> I don't love that the ID is 0x0000. That makes me nervous that the
+> panel vendor isn't setting the ID properly. ...but at least the string
+> matches in the EDID so hopefully that will be enough to uniquely
+> identify things.
+> 
+> 
+
+The ID "0x0000" makes me nervous too, but the EDID obtained from this 
+panel indeed show it, which is quite surprising. May I still set it to 
+"0x0000" as it really is?
+
+Best regards,
+Damon
+
