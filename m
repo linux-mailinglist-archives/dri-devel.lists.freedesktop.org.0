@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6EBA1C167
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 07:47:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 535B4A1C160
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 07:47:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE8D310EA5B;
-	Sat, 25 Jan 2025 06:47:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62BFE10E2C3;
+	Sat, 25 Jan 2025 06:47:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WHm0j+eA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g75/UTEp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
- [209.85.166.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 318BE10E120;
- Sat, 25 Jan 2025 06:46:56 +0000 (UTC)
-Received: by mail-il1-f177.google.com with SMTP id
- e9e14a558f8ab-3cfc154874eso19217525ab.3; 
- Fri, 24 Jan 2025 22:46:56 -0800 (PST)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+ [209.85.166.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6127D10E120;
+ Sat, 25 Jan 2025 06:46:57 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id
+ ca18e2360f4ac-844ce6d0716so215094939f.1; 
+ Fri, 24 Jan 2025 22:46:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737787615; x=1738392415; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1737787616; x=1738392416; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Xde8rOoc7ub5IEPiyVqYWw11iutjj4hEBt+3xz2QfjM=;
- b=WHm0j+eAgoxalVTiWMnB9cvpt328bkL9HF1CgwQzsM5oSkZAWZ8904M5XZuzpPyXD0
- nqJmC217nvP6Gw0CkCuU2ysGrdyxIZR2RozD7qfXpTCsaIlZKZr/s1so3oW9MvWOyGu+
- PF96dI+ppKSjOXEBrsZyDf0/PEZ622i62T6y0VVd6xXceqIQqmQDojiZ1/yZtn0w6llM
- I9q/yCmdXcb+EBk9RVjMtBOVI4QtooUoB1+b4QeY/FZvqiTw4DpKeUd8O/bdm+2Dh6Ta
- 00EsCpij0+ZXWaA8fBgbrU9RRuy84qHfrpwsArK5lalwB9KxcDOY0TwsXfNaYqMJoj+5
- S9+g==
+ bh=4426qb3gIsTZka2SxcS2AqXLzVLPKaaERHnBDYOLWSA=;
+ b=g75/UTEphoKyiJ8Z8X3Yne7KBOgxmZFkAFx3aX67VQ+W1ybrMxPDFMl10TtCsloGz5
+ m2a8UBy31HaIAI+pQ+bHDZU9EKOAkin7M4pUGhRwKyVCZr+Lvp/mKn2r2nUvqHP8ovqg
+ XVaakPQVtiBoyze1x/h1WpZYIyCt/0L4XSycmvKYN/iM20vuK7FLuerivQHUf283cLHR
+ EyT2Lty66pMgEvbVxLOMGyH25oqKzsFSNVvvD3B51IAPw7hFAlLey2rBAsKxGCdy+1Zy
+ VS92dGv/p09PxR5swatj87F0KVPhmMYupaOVMFAuo1JAD0sSRjzTk8sb+/QAuFXlxTS0
+ NYqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737787615; x=1738392415;
+ d=1e100.net; s=20230601; t=1737787616; x=1738392416;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Xde8rOoc7ub5IEPiyVqYWw11iutjj4hEBt+3xz2QfjM=;
- b=NsJVLYKAX7WP5sx179c4fT90vKyFh7PnTlU82PzJQJTiPpsSpzSpwmaZYnCzBxV514
- NO7Xyg4LL80bXtjGDKcqbdD7WolhVCgS3hkN+M20mIYbijU6d9ql9H6Vqddis/5N1sB/
- ly1WpxAkBaufo6KV9E/5vtQbn+7pv1zOnRFPPhnacidouYyFrr71j+bAZYbeRrZjwTSZ
- 0PTOYneyiYU7W2T3tUjA6XLG4eUjGmCjFMRUyHSCqRPeEobEXQDk0EPTx8dYcLO22LgG
- 6G8+XY0uOK3dUEW17DHa0wYaCMhUGZ+ukDHP6ohHVZD4bQ1AGmHCExp7ox7iN9q/fufm
- mYZg==
+ bh=4426qb3gIsTZka2SxcS2AqXLzVLPKaaERHnBDYOLWSA=;
+ b=w6a82B7M2Hb6/plnngcM8zkZCz7nOEAkVL1+HgdS+2ZuYWjJTvTGo3laQKDW8dfXf/
+ 7OY59QVnJ3F1cYPCfOsQ5wf3bi/8uTwZ7B5SUpBFWhUSh1F/BWpcDll/RM3VFJpINSZo
+ FZGurnkVtKntlDeUi/rZuPyAco6f5nm5nYG0Bx6l3zinV+mx/35LctMSnvCfBUQgJNYl
+ cwCH9INUT01KaIjcEsag7SYoGD3Dw6QmML1kb3dL8z5JISKa6AQr1+kGSUruoFSs7Da3
+ SwydzWAX9RiA1zbDrbl70zZwqv4pEaY+5JYU2kllAfh9ufUrlSskRzBo946zm1pp57CN
+ z8Pw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUx4RMJiVEZ/TUPtsMa69XWVJqmD7z0J7C5tUgJXSc7rqeoc27kUOw3N3RIt8Y6rTu310lYffT1g0Cr@lists.freedesktop.org,
- AJvYcCVI0hlXZYLjlikj0DKKsgBioaKz8bVWmgTLGEdU2WQeOY3K4vl8VteTJtUhAcy5I5fZqfMHypyG@lists.freedesktop.org,
- AJvYcCVhJHmZkaTp+7vIbA6US3G3L0FJ1YO0pWz4tKyZ01aFx5kjI0SFr9OwPfvSy+cM0Zl+eoKqSqmWFx70/ehzSA==@lists.freedesktop.org,
- AJvYcCVo7QpwjkDmue31zSn7HeZ231ou0MVC3uHzEUrvO6XC0QjNIKMJBLtgRgo4FVB+jRCVSDOR+WTMdWAn@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+i/Hnq/UoOqHy9n6LkQqeo6F0lQ4QqFFylFxMalGcKBND2qGX
- 5qyNbbEE1q7WW0v7MQvj7CNXpum4Qa/eDVsRDkLhUXSEVXF2fO49NSlOxQ==
-X-Gm-Gg: ASbGnctpG1br02MwHp7ot9KabhbUVaxUSuj6c0qnF5jj+DfEuyMZS6QbU2kSQazpMQY
- TqSIrlYQPFMKFQsVRIxkhkl6PMbVOuTtnL8yejYG8cUgQzTr40FcqCopq1C+jDcG18IVfHQjIKJ
- KXgBxwNHC+lOrM1iecqz2h7ot4X2IFSW8nXmUm9DFUwH1eN3n8+4tk3mdDZqH4dig4EBgCkW2BF
- QEgH0ngdL/NHA/lc6NB/5AIqdcqe31qmysgwNQiI78wsiQIIw4M0DH7wD9TRRPOu4H8f+H3wgKw
- oB92onLsASXdEj0mwBGQEuTuVE5O9Tob7q2wCQ==
-X-Google-Smtp-Source: AGHT+IG0fqXZTCvCCnwL9vi7cYB4QP6opHHV2Qe7YcKfvhFM9yUxKYXJHOh6jRvUhuTThLQuLUmipg==
-X-Received: by 2002:a05:6e02:174a:b0:3cf:ce7c:b8b1 with SMTP id
- e9e14a558f8ab-3cfce7cb91cmr43838095ab.18.1737787615489; 
- Fri, 24 Jan 2025 22:46:55 -0800 (PST)
+ AJvYcCVH8rqyjqnQFpe4Ouo++bJ0ASgC3IJsq0I1oyTTzTI2mmprbI2gqgOZNYb2EU1OFOidVG0xZE5ZGKsTdiFgSg==@lists.freedesktop.org,
+ AJvYcCVW+9Ftkv3SIpMxAgipmrvONeaisuwiv2xKD+aPbVJH2zAX5sTXM/hUZoVmFD9/vSmGlASDmG+F@lists.freedesktop.org,
+ AJvYcCVtQ/Ikdjd46OMDM4kPRiJigsvGhuO+q6a7NWp3G/xzPSHbRbQ7MUpVQPZU5Jx6bPCnIjPk+ZwQOOjv@lists.freedesktop.org,
+ AJvYcCXhOlOleWPRqPZYmpAhKj5A3IrQoKfhq05sRKUq6JhBAwBz9p4vTckqvR0+fQ2jNstz0ejJsG6wnpX1@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwNYRerLC7GLE16bJPglCYNbE0JPwvvGYGcRgXOvBo6hHWnKVgi
+ XoF2QwEgiEUw1LsOS+yGHS2wdYTNTHFLC5Wv9918vfEWt+jM5RsS
+X-Gm-Gg: ASbGncuJPzpTkQcgjYMlsvRszrCO/uFgAKaKMF8Ah52llw9KtqkhzotLfbBQA/M7vyv
+ G1HhRmTEyDIe+TLSg7gRfzSbut+ytoDaLJSh0wg59vcQ4x8R3XMYhz4D03/vZVokyTtuhfrRe9z
+ geY7f8UF8jqhHRIDg4ZGd6peBcgc7LXO6s+Nmj+FPol5pSjvNOJjgrrD/XpuLqwv00uZ2sis+r8
+ HFyi9lYpzq1tcpW6DROFpaFfHJC4KEHEzKyDsQks7Obz9ZuN6ue2t+7Zh12K/slCdDxX7tReFS0
+ Yoyqp8SyHOxIsJxUGyD8eOT2sO6Dph9CkNCHBCbph8MTwBGA
+X-Google-Smtp-Source: AGHT+IHPcwCIcEeaDfvcsC8Y0hmazgAlIp69PtLu+D2gBA3Q65N9zrEn328wJ16fD3PoHPmaHxXlww==
+X-Received: by 2002:a05:6602:2d91:b0:835:4cb5:4fa7 with SMTP id
+ ca18e2360f4ac-851b62b1c79mr3161173639f.12.1737787616655; 
+ Fri, 24 Jan 2025 22:46:56 -0800 (PST)
 Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
  by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-4ec1da476fesm1174144173.58.2025.01.24.22.46.54
+ 8926c6da1cb9f-4ec1da476fesm1174144173.58.2025.01.24.22.46.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 22:46:55 -0800 (PST)
+ Fri, 24 Jan 2025 22:46:56 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
  gregkh@linuxfoundation.org, ukaszb@chromium.org
@@ -72,10 +72,9 @@ Cc: intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
  tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH 17/63] dyndbg: check DYNDBG_CLASSMAP_DEFINE args at
- compile-time
-Date: Fri, 24 Jan 2025 23:45:31 -0700
-Message-ID: <20250125064619.8305-18-jim.cromie@gmail.com>
+Subject: [PATCH 18/63] dyndbg: add/use for_subvec() to reduce boilerplate
+Date: Fri, 24 Jan 2025 23:45:32 -0700
+Message-ID: <20250125064619.8305-19-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250125064619.8305-1-jim.cromie@gmail.com>
 References: <20250125064619.8305-1-jim.cromie@gmail.com>
@@ -96,76 +95,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add __DYNDBG_CLASSMAP_CHECK to implement these arg-checks at compile:
-	0 <= _base < 63
-	class_names is not empty
-	class_names[0] is a string
-	(class_names.length + _base) < 63
-
-These compile-time checks will prevent several misuses; 4 such
-examples are added to test_dynamic_debug_submod.ko, and will fail
-compilation if -DDD_MACRO_ARGCHECK is added to cflags.
+add for_subvec() macro to encapsulate a for-loop pattern thats used
+repeatedly to iterate over a boxed.vector of N elements.
 
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
-- split static-asserts to __DYNDBG_CLASSMAP_CHECK
-- move __DYNDBG_CLASSMAP_CHECK above kdoc for DYNDBG_CLASSMAP_DEFINE
-  silences kernel-doc warnings
----
- include/linux/dynamic_debug.h |  9 +++++++++
- lib/test_dynamic_debug.c      | 11 +++++++++++
- 2 files changed, 20 insertions(+)
+ lib/dynamic_debug.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index dc610a12b91c..2b0c943af330 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -99,6 +99,14 @@ struct ddebug_class_map {
- 	enum ddebug_class_map_type map_type;
- };
+diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
+index 6bca0c6727d4..08b6e4e7489f 100644
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -158,20 +158,34 @@ static void vpr_info_dq(const struct ddebug_query *query, const char *msg)
+ 		  _dt->num_class_users);				\
+ 	})
  
-+#define __DYNDBG_CLASSMAP_CHECK(_clnames, _base)			\
-+	static_assert(((_base) >= 0 && (_base) < _DPRINTK_CLASS_DFLT),	\
-+		      "_base must be in 0..62");			\
-+	static_assert(ARRAY_SIZE(_clnames) > 0,				\
-+		      "classnames array size must be > 0");		\
-+	static_assert((ARRAY_SIZE(_clnames) + (_base)) < _DPRINTK_CLASS_DFLT, \
-+		      "_base + classnames.length exceeds range")
-+
- /**
-  * DYNDBG_CLASSMAP_DEFINE - define debug classes used by a module.
-  * @_var:   name of the classmap, exported for other modules coordinated use.
-@@ -112,6 +120,7 @@ struct ddebug_class_map {
-  */
- #define DYNDBG_CLASSMAP_DEFINE(_var, _mapty, _base, ...)		\
- 	static const char *_var##_classnames[] = { __VA_ARGS__ };	\
-+	__DYNDBG_CLASSMAP_CHECK(_var##_classnames, (_base));		\
- 	extern struct ddebug_class_map _var;				\
- 	struct ddebug_class_map __aligned(8) __used			\
- 		__section("__dyndbg_classes") _var = {			\
-diff --git a/lib/test_dynamic_debug.c b/lib/test_dynamic_debug.c
-index 1838f62738c4..b1555b0a2bb1 100644
---- a/lib/test_dynamic_debug.c
-+++ b/lib/test_dynamic_debug.c
-@@ -123,8 +123,19 @@ DYNDBG_CLASSMAP_PARAM(level_num, p);
- DYNDBG_CLASSMAP_USE(map_disjoint_bits);
- DYNDBG_CLASSMAP_USE(map_level_num);
- 
-+#if defined(DD_MACRO_ARGCHECK)
 +/*
-+ * Exersize compile-time arg-checks in DYNDBG_CLASSMAP_DEFINE.
-+ * These will break compilation.
++ * simplify a repeated for-loop pattern walking N steps in a T _vec
++ * member inside a struct _box.  It expects int i and T *_sp to be
++ * declared in the caller.
++ * @_i:  caller provided counter.
++ * @_sp: cursor into _vec, to examine each item.
++ * @_box: ptr to a struct containing @_vec member
++ * @_vec: name of a sub-struct member in _box, with array-ref and length
 + */
-+DYNDBG_CLASSMAP_DEFINE(fail_base_neg, 0, -1, "NEGATIVE_BASE_ARG");
-+DYNDBG_CLASSMAP_DEFINE(fail_base_big, 0, 100, "TOOBIG_BASE_ARG");
-+DYNDBG_CLASSMAP_DEFINE(fail_str_type, 0, 0, 1 /* not a string */);
-+DYNDBG_CLASSMAP_DEFINE(fail_emptyclass, 0, 0 /* ,empty */);
- #endif
- 
-+#endif /* TEST_DYNAMIC_DEBUG_SUBMOD */
++#define for_subvec(_i, _sp, _box, _vec)				       \
++	for ((_i) = 0, (_sp) = (_box)->_vec;			       \
++	     (_i) < (_box)->num_##_vec;				       \
++	     (_i)++, (_sp)++)
 +
- /* stand-in for all pr_debug etc */
- #define prdbg(SYM) __pr_debug_cls(SYM, #SYM " msg\n")
+ static int ddebug_find_valid_class(struct ddebug_table const *dt, const char *class_string)
+ {
+ 	struct ddebug_class_map *map;
+ 	struct ddebug_class_user *cli;
+ 	int i, idx;
+ 
+-	for (i = 0, map = dt->classes; i < dt->num_classes; i++, map++) {
++	for_subvec(i, map, dt, classes) {
+ 		idx = match_string(map->class_names, map->length, class_string);
+ 		if (idx >= 0) {
+ 			vpr_dt_info(dt, "good-class: %s.%s ", map->mod_name, class_string);
+ 			return idx + map->base;
+ 		}
+ 	}
+-	for (i = 0, cli = dt->class_users; i < dt->num_class_users; i++, cli++) {
++	for_subvec(i, cli, dt, class_users) {
+ 		idx = match_string(cli->map->class_names, cli->map->length, class_string);
+ 		if (idx >= 0) {
+ 			vpr_dt_info(dt, "class-ref: %s -> %s.%s ",
+@@ -1190,7 +1204,7 @@ static void ddebug_apply_params(const struct ddebug_class_map *cm, const char *m
+ 	if (cm->mod) {
+ 		vpr_cm_info(cm, "loaded classmap: %s", modnm);
+ 		/* ifdef protects the cm->mod->kp deref */
+-		for (i = 0, kp = cm->mod->kp; i < cm->mod->num_kp; i++, kp++)
++		for_subvec(i, kp, cm->mod, kp)
+ 			ddebug_match_apply_kparam(kp, cm, modnm);
+ 	}
+ #endif
+@@ -1212,7 +1226,7 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt,
+ 	struct ddebug_class_map *cm;
+ 	int i, nc = 0;
+ 
+-	for (i = 0, cm = di->classes; i < di->num_classes; i++, cm++) {
++	for_subvec(i, cm, di, classes) {
+ 		if (!strcmp(cm->mod_name, dt->mod_name)) {
+ 			vpr_cm_info(cm, "classes[%d]:", i);
+ 			if (!nc++)
+@@ -1225,7 +1239,7 @@ static void ddebug_attach_module_classes(struct ddebug_table *dt,
+ 	vpr_info("module:%s attached %d classes\n", dt->mod_name, nc);
+ 	dt->num_classes = nc;
+ 
+-	for (i = 0, cm = dt->classes; i < dt->num_classes; i++, cm++)
++	for_subvec(i, cm, dt, classes)
+ 		ddebug_apply_params(cm, cm->mod_name);
+ }
+ 
+@@ -1245,7 +1259,7 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
+ 	 * module's refs, save to dt.  For loadables, this is the
+ 	 * whole array.
+ 	 */
+-	for (i = 0, cli = di->class_users; i < di->num_class_users; i++, cli++) {
++	for_subvec(i, cli, di, class_users) {
+ 		if (WARN_ON_ONCE(!cli || !cli->map || !cli->mod_name))
+ 			continue;
+ 		if (!strcmp(cli->mod_name, dt->mod_name)) {
+@@ -1261,7 +1275,7 @@ static void ddebug_attach_user_module_classes(struct ddebug_table *dt,
+ 	dt->num_class_users = nc;
+ 
+ 	/* now iterate dt */
+-	for (i = 0, cli = dt->class_users; i < dt->num_class_users; i++, cli++)
++	for_subvec(i, cli, di, class_users)
+ 		ddebug_apply_params(cli->map, cli->mod_name);
+ 
+ 	vpr_dt_info(dt, "attach-client-module: ");
+@@ -1299,7 +1313,7 @@ static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
+ 
+ 	INIT_LIST_HEAD(&dt->link);
+ 
+-	for (i = 0, iter = di->descs; i < di->num_descs; i++, iter++)
++	for_subvec(i, iter, di, descs)
+ 		if (iter->class_id != _DPRINTK_CLASS_DFLT)
+ 			class_ct++;
  
 -- 
 2.48.1
