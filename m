@@ -2,85 +2,180 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5FB9A1C1B3
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 07:47:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A32CA1C1DF
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 07:55:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE8110EAA6;
-	Sat, 25 Jan 2025 06:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13B5A10E230;
+	Sat, 25 Jan 2025 06:55:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b9hIvNrs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hWx4GNmV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com
- [209.85.166.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6E7510EA9E;
- Sat, 25 Jan 2025 06:47:45 +0000 (UTC)
-Received: by mail-il1-f174.google.com with SMTP id
- e9e14a558f8ab-3cf880d90bdso10176905ab.3; 
- Fri, 24 Jan 2025 22:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1737787665; x=1738392465; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T6GCuzeAmDEU4hGwplnvXwuVetfxA5yWhKc4RU1kN3E=;
- b=b9hIvNrs9/CIlk3KXdfGb03dCY7M41nGFlVyZQlyTKgPOqwxeDC1SQ7JobcqqVnGEQ
- eR6bwlCgRKpjZ51+025CAgkWXOfE5y/C6hvyPUBBXHAb2R6VwW3ZkM37n7D+JhUHMl6H
- 9Y55xwveDqZNbDJ0X6PHmIqANakLxrS31acyanoNyDtuOsgvbUVMpubX/t3ekOXDgV5l
- ZiJf3KvX3XLQnYj/rGpRZeZoKxc5iZ1Nc1fa7TSdKwyro68ePjcE43erN7/bYZIsZIC4
- 1NXG3yvq51mPsv9XqCC32HaAEEP4ISxrUUO4BhWh5ie6s2C7CgcfYv40NW9HyVCnF/u3
- SzwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737787665; x=1738392465;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T6GCuzeAmDEU4hGwplnvXwuVetfxA5yWhKc4RU1kN3E=;
- b=B82qiDe0faopH5gwKOI1GyDLbCWtDtUAWRtWeTf1T3Y5esmRP480wIvKxMABfuc4L5
- J+pm6mLNlqu/dScHcMjlSpnHilOFgg5RiikvYBKvOf3LuuE5arkyfONd6jCP1aKDde69
- DuQRCEbuBEXGhG0fNV9ZxNugk4CJT3qYef2uF5tX5Pp0bLn6DvSPDOBXco+Mkt6RLPNR
- 05ML/OjHigSHOHapxTYD8q8xJijLyDibW9E2G5Myp3hOZhfvnTmgNU3/0PJ3m2exySVo
- S9HKQkW6Zszb1smdezCuoEpagEIRb8KCiibfxb8DH6j0iDdj71NnancQcZvyuq6N44wk
- aKxw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU+za09FWy+MozGe5eXaxKOBWL8tfbIMzGG4jVxRgmVO4DJDi1yTmfLp7IxDSIRm+MoyBrrZnnCeCII@lists.freedesktop.org,
- AJvYcCVPp7QH9FZ4itb4rYp8Dg48fRsgUejFtyROdEyGUF6wiYJGD7ZqXoMaCTIScdXeked4ziuQ9iA8@lists.freedesktop.org,
- AJvYcCVY9cyWTeRG2kSRH/MRB3thTzHdCXg+8pfMrrW8f+A+SpkOOlFYVhd4yNYBQ9idDgvGaMo8iWuL0LoMVZDBXQ==@lists.freedesktop.org,
- AJvYcCWJB5tTzPAxJSXhe8DicKRT3/c/FRexDxcN0o4I+LC5cyToEAxATWcrpzhDkme4LaAQ0MEqdEBVcPPV@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yys4yJjQC7id1W0JJ3Ei0yfqOE+7jv1JUolH9X+rjlnVEsICpPO
- FRtMl4NJpD0ZCrVAu8PB8F/3Stgotj/EINihsebmiZkVn5dPb1L9
-X-Gm-Gg: ASbGncsZXmn0ic0EztjCt1tgtID7Rq/7jQxrlG/0IUHNRCptmD3oVhe9jf9kFgnx7KD
- B5lXQL0AQLOUuUmhujFQhd7QJqef+X97dvuWVTDWbJFAuz0a4gJnbB6j39OepMuoaRtq1iYEvrW
- O6SbpNhlUYrDbH/2mVllBF/QMvi63l3SjFbd0ccej+hDxhF56VH6bQ6S7igwOmYLoMlOJ5HgnGd
- cUbtQLeajdeUekGtL7PF7pjpaPVYFnTeardn/uQf88sWDQCwtP1lL44lnA8xj5ZDsPiBcMBuEdI
- 5/wqbMm6eBa117KAK0rAo9vXVujYTUAk54D46g==
-X-Google-Smtp-Source: AGHT+IEujLOtg9gkMTa7OzcouFF4HjwPZbpakCrytdnwwqxtjFJ2Exad5qI/+pzTRXAa2s9JlPkT4Q==
-X-Received: by 2002:a05:6602:48c:b0:834:d7b6:4fea with SMTP id
- ca18e2360f4ac-851b61f1347mr3241540439f.6.1737787665030; 
- Fri, 24 Jan 2025 22:47:45 -0800 (PST)
-Received: from gandalf.. (c-67-165-245-5.hsd1.co.comcast.net. [67.165.245.5])
- by smtp.googlemail.com with ESMTPSA id
- 8926c6da1cb9f-4ec1da476fesm1174144173.58.2025.01.24.22.47.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Jan 2025 22:47:44 -0800 (PST)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: linux-kernel@vger.kernel.org, jbaron@akamai.com,
- gregkh@linuxfoundation.org, ukaszb@chromium.org
-Cc: intel-gfx-trybot@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, daniel.vetter@ffwll.ch,
- tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com,
- ville.syrjala@linux.intel.com, Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH 64/64] This series fixes dyndbg (dynamic debug) classmap
- support for DRM.
-Date: Fri, 24 Jan 2025 23:46:18 -0700
-Message-ID: <20250125064619.8305-65-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250125064619.8305-1-jim.cromie@gmail.com>
-References: <20250125064619.8305-1-jim.cromie@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 397E010E230;
+ Sat, 25 Jan 2025 06:55:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737788126; x=1769324126;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=2FUrbu484g4OWhjb3aaJ1tWeiBsl5Kv7f36Zvzj7bsk=;
+ b=hWx4GNmVOYstwrXa2kxhT6NcFscREYHONQ66dtztVVSqnME4ZoRlsl6h
+ z6gfcFmKLMXsSYI22enRTOVW2Xr5eDkqYChHl6WSWbYf62ldHqCMbNtiC
+ /cE+sTpfNpFEJ0V09YqOkw3euU1q6kAcsGCJ5aqRlCABxbmVUwnxXBHZt
+ ZP0jLGgO/VrCEhQcLzJ/qHwA8itvB8IKEE6jlyJYclTNv2g8e/HePviw8
+ KxNFqaq9i89XN3qvuQyjyASEO8SHmIAdOhERxiwKTBpkjnbgOBqJSzgZt
+ /3dUG0B0DiPaniGa2d8hv1FhEJBqDQ1LgoKNjm/7m75ksyLEHAgf/kCrs A==;
+X-CSE-ConnectionGUID: uyxBaGeiT9qV3z/53u17sw==
+X-CSE-MsgGUID: pCqif6kaTBS/OYqciTbiMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="42256189"
+X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; d="scan'208";a="42256189"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Jan 2025 22:55:26 -0800
+X-CSE-ConnectionGUID: rnUSDf1PQfG0hYuwEh+k2A==
+X-CSE-MsgGUID: yseHPyO1STGVOKnYtWyyow==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113104799"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 24 Jan 2025 22:55:26 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 24 Jan 2025 22:55:25 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Fri, 24 Jan 2025 22:55:25 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 24 Jan 2025 22:55:24 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sni1y33Xg+jTPZo/Wa6Y1O3J4CHPT4BgX76bhN67yYy93BPOR0DMzVwsxtbT1d+9wO2i0cS9OkcgdQvT3Jmvy/s08ACmqHxVwO/qmULZL4W5E8HaOH7E5ZpVVEFoypRJQ0k/42KVtJSjV9Z6N91taUTf2EHCYFtR9oUvJOJ/FSfG1wKK13IwSYDWRGgfDi5OT2Q1dNBan8qMltLosA1hfPQ+qkQF6pXL6L3tODuZW2w1sqETQoNK4ayNGfwFyFv8S+Gx8uN+h4G5by4GxCMgfEuUGQnDAgqxa48LAr7p+Mtx8n6zqGN63JeePDTM+03SFYYWSVYnBwfbJrrWn40O/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r0ovtj0peQeNQZd/CVgCWbiFLna5hkXdrnRfqIvS9UQ=;
+ b=poa09kciAvCzqXKwTVCWEAHqyBE6YFyldcqFZgOKVuH3EyDgd5gmdUlfnBBGIpeLv1mdxNTPFRVlCIEbhQgiR+GA/Hr0bzTQIag3qe/9qtigCNLHgyUOBGS4NEvs1EFm8FeEGliSUCyaHTOubVvsrnBpmARNmsdyDVk4uPd752oYCzCvFgYVHbz96bURaYpj+vFlKzX90icKpShFx8Ww/WEj5L15Sr12Y1gwaeaABnhQIUWUChNuPQiWg8evb+NeduP5o/nlpAvau7mEcsV0gsn+Y0pPjitlO4MQi5+lNKeRWWQcciq4OcJNWTWkdw/wELoH4Bwabve6PA+JBHepkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
+ by SJ0PR11MB5868.namprd11.prod.outlook.com (2603:10b6:a03:42b::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.17; Sat, 25 Jan
+ 2025 06:55:23 +0000
+Received: from IA0PR11MB7307.namprd11.prod.outlook.com
+ ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
+ ([fe80::dafa:d38d:8ac1:e843%4]) with mapi id 15.20.8377.009; Sat, 25 Jan 2025
+ 06:55:22 +0000
+From: "Murthy, Arun R" <arun.r.murthy@intel.com>
+To: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+Subject: RE: [PATCH v3 2/5] drm/plane: Expose function to create
+ format/modifier blob
+Thread-Topic: [PATCH v3 2/5] drm/plane: Expose function to create
+ format/modifier blob
+Thread-Index: AQHbYZGzhgFMA5eT/kS28E0OXJhdlLMgNIsAgAJivbCAAXgNQIAB0sQAgAFFscA=
+Date: Sat, 25 Jan 2025 06:55:22 +0000
+Message-ID: <IA0PR11MB73072C33CA9E5584C0654467BAE22@IA0PR11MB7307.namprd11.prod.outlook.com>
+References: <20250108-asyn-v3-0-f4399635eec9@intel.com>
+ <20250108-asyn-v3-2-f4399635eec9@intel.com> <Z461PqtBPu2z9GPh@intel.com>
+ <IA0PR11MB7307EF2ABEFEF5FE2F0D58B9BAE12@IA0PR11MB7307.namprd11.prod.outlook.com>
+ <CH3PR11MB7300A783B09132F6612DDA1EBAE02@CH3PR11MB7300.namprd11.prod.outlook.com>
+ <Z5N4ko2GqOhCvdMJ@intel.com>
+In-Reply-To: <Z5N4ko2GqOhCvdMJ@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7307:EE_|SJ0PR11MB5868:EE_
+x-ms-office365-filtering-correlation-id: 2bbf76be-84ed-40c8-b791-08dd3d0d3d2a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|10070799003|376014|1800799024|366016|38070700018; 
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?7aIAkwKcg1ZTfG4ZadWwLbf3riJxflIZeZRTO+N7rgvmBZQDMO0+D1wUNP?=
+ =?iso-8859-1?Q?O4Lh054LhJZG6DQqhbmNW5uxg96yyrZPqGfsKKpeEPSMm2TloVmVzeYVRU?=
+ =?iso-8859-1?Q?b6ZgoeGfqdMt+GYceldpb9hHEVLHPMVDVBrOAAdDEX5cngIxEM4WtEQp6g?=
+ =?iso-8859-1?Q?oykA0inNyRdDoWynAgLWZRKtV7ucTIUvkUWgO+BdN26zI+x9RDHLpPfRJo?=
+ =?iso-8859-1?Q?IViROVz9UTAbeMY8s21Fq70nX/OtT41Tmv03Q5OaDKN2fnnH33lrLHVUcU?=
+ =?iso-8859-1?Q?CYyz8205N4kfKn7J/1iD7GK4jRxq1y06GHP1XB83/GyyqnnFTUL1khpxBK?=
+ =?iso-8859-1?Q?jQ7iEVYLWZcIXY8oEkkorCNGXRnGPmM9yTXFmmYeAIU1K5a2UrBprrO73Z?=
+ =?iso-8859-1?Q?zOJBz1HFqOcFE6kYsoVTsWbaemir4YS57Y+5B8O9oypJNxVFObOtgaNrBI?=
+ =?iso-8859-1?Q?XdRxPgSnRsK8VULWSBdrYS2Y3M2IkBPLq/3jBJSYkuTrQ0DvVQP7jYQnM5?=
+ =?iso-8859-1?Q?emT0TTC5OTAE16Or89AU7G0QJ4Cb3g0592xCg2xgxmRqL4fYzz7ficpA+f?=
+ =?iso-8859-1?Q?zlJnaItJehtVXoPBJ2uUQrlc9YoBQKTm5C28BJiYBCMB1HG1bpl8nRcKXa?=
+ =?iso-8859-1?Q?nOfvrWl7BtS/+mkF92qYHKXOQfeazfkazsfIrFN6gW4x9IQ9CEyLY5mIcE?=
+ =?iso-8859-1?Q?RqK+2j/c6JVbld1IrQm6z8h3moqhMu5gbGh4u43mCG5Wj63EBjHZZsDJX4?=
+ =?iso-8859-1?Q?kl27dZypo819F63/efrLp3xJAMBVgUmE2Fe7fcThI78S6t8hpgzSFidDDT?=
+ =?iso-8859-1?Q?TjNW7WdUdlnTxh7P1PEDtwKOrMoq8rtFRZ2iLoQ0iI1LCEwpAuIIHcR5eP?=
+ =?iso-8859-1?Q?k71wGdm9jpnXXW+dJxiXE+0gkI4XhFQm/TAkfmLY36jzOrazB3BSJf1tkf?=
+ =?iso-8859-1?Q?zRGSMsZEdDUYL12DipJ6Ca7I+L+N7gi2+K+ECePKtHfGZDPfr8luerL68r?=
+ =?iso-8859-1?Q?BCVHaLFoGdBmdeSp9MrDIZqUh3U47WvcoN7eVa99ozQskExB0z1ks3GSnf?=
+ =?iso-8859-1?Q?Z6pVBa0+JOxuHOvHJ+rsS15Bw4fiULkmieVs5/N9wbjq158cUxDJOMPbsF?=
+ =?iso-8859-1?Q?5j+LrKhFa9loiegPR/SHwQLoXhaCAyQUfY7VBnxGUyo+V0enxAf7YdQsXf?=
+ =?iso-8859-1?Q?J3Ur1+3cVY2KxXAGd77i9I4uqtESK2zkBLXnh7JTzrwigaR2GT/dg5nGGT?=
+ =?iso-8859-1?Q?dxI3Q/g9c00CNy43UUHreG/TDyfNWOBgSLtB98mgkF3MWMIEOSMmmJmsdY?=
+ =?iso-8859-1?Q?xNf5Y9XiwHi5T2Sj9+NSMFLiH/fx8mNc6FPqRcCfjy5ifXU0B0rTt1Ch0N?=
+ =?iso-8859-1?Q?hov4yfJRpBd5PcsdMQDmrpZ1NjeWWyOLthF5kKWqJcapbhvORqAdqFkmCM?=
+ =?iso-8859-1?Q?Z10P75U+77jIltZgGq/82tJJw16xkOcO9bC7H2vSdEp0fOURanttxgo+pB?=
+ =?iso-8859-1?Q?E1E9CaeVfn4DZe9jGNUTF2?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(376014)(1800799024)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?0kH8r19ZsCtWgrye7gJLU/pHpJ76wWiEg39k+0w9KLN92srA+jObZWS0Am?=
+ =?iso-8859-1?Q?I7iY0D23tt8lHtZz0n2mZtfNXQKzRfg0ej9EydC9WRyrCLvejiNn9ZQFk6?=
+ =?iso-8859-1?Q?jfimeQ1ySHLPcOeulDaTjIESZUNzl80P+0mqZpuh9QZ4OvQpS8rvAZ2jjg?=
+ =?iso-8859-1?Q?Sr+RzcV3Cb2wVYZOPCm4X7xUFwDrV6rXlL/YX222XNKNxriq0wJVFFyrKD?=
+ =?iso-8859-1?Q?HC7Emz6cyZktVclKNsfRVfKW3vfVXr3i7ZhOwZ1Hfj7+EKfSmnfFO6Z7z8?=
+ =?iso-8859-1?Q?CYvMFXDeeVy8oEUgZaGpkGQfPaCGFqtMRe+AYZ+onysPyAid2nTWdDrYYC?=
+ =?iso-8859-1?Q?cmiJwWnCkV1YRFF/hf2d3lqqDOT0K9Y79/yeI6nlrD6gwpHyXrUw8WNn0n?=
+ =?iso-8859-1?Q?idBs/a0wPfb/AFZY9TdY99sIWp+vOgeSHftjk2qYUtvICT3+JpikerpA/y?=
+ =?iso-8859-1?Q?vASuyJ8a45cT139STRW3RR1Lnx8ypPsWavpxMlon4n/Cnh0gqLCRYm6OfW?=
+ =?iso-8859-1?Q?88KJIYLZGYJDavd4RZV41CT1QRH4gu1CTb/ISMk2SFjg2bINwwKVn7Rftw?=
+ =?iso-8859-1?Q?EcXpByFZsULxc9W+phiqn8JgtNSZSzO3tSWVfkrTYeO+4g6unfAwbAmNnJ?=
+ =?iso-8859-1?Q?hcmPVXOnCT0orycEzRWhYs64ExgwBD0mhDlkRis40JgUnzCWqVjJBeW4xC?=
+ =?iso-8859-1?Q?bKi1DVuDzIOepjeu7AiWdSEJMWOEFSdmVa+9ZpQE3I3JBLNxzb0k9ly4NW?=
+ =?iso-8859-1?Q?7xNVKfcPi42cmwiCwdEwDDmdxwC5fxoacjkEPGD1jUy35JuHT5dSLU4/c9?=
+ =?iso-8859-1?Q?CTMqE6KoP2jsIBRsenRu6ZJLI8ZllfSyMjCZoCslYK6/2rMvse4GLT/QMj?=
+ =?iso-8859-1?Q?QLynW3hFuv+l6986JDPlvkNtQ+DXuZhUhiGaS0AwK05TDv5LNk+NXl+Oaz?=
+ =?iso-8859-1?Q?WkyGL25dvlDP/hBgJGPNuZiNjq4neys+X1Pn8+NyUEZ5LefEOOaRdUoe5n?=
+ =?iso-8859-1?Q?Ne6kN8DOInYd4vVyFcsOuaK3bXN9XnwaztMxkx0qiBx6Iw5gZEO0Tp9Qjv?=
+ =?iso-8859-1?Q?MZrdxj0Sd/GtuH98ECTqNROCbs79z719QqB+Y4b0R6Z2zPzc4Zi7CSSt4i?=
+ =?iso-8859-1?Q?j/EvWOYABZrX2F2uL9EddjCLqqcKRtQy3pPMgn5RRwm5j8FamNLLxPd3vi?=
+ =?iso-8859-1?Q?/R9igEcGxSoHSCjZNh5XRKyXzbKYF9lT2nDW2z6J8SpNlIXuX7SbHm3t36?=
+ =?iso-8859-1?Q?MyQjtB5koXSJkXqM1P89HaVvQrzdEpC2j+uwrKDs60VqOZ0VUIXpD0wcJu?=
+ =?iso-8859-1?Q?j+NGnDloClxulmA1oLNhW3YlO1ro8VDC+ocSCq9FcPes5GdMyA4Ifu1Cih?=
+ =?iso-8859-1?Q?thsAUCkSgYLA6zhEMiZt0g5noGv7EgyIthm6t2ZqE0IRFzHDBypE/0PM+f?=
+ =?iso-8859-1?Q?28OcRe6JfEXTWcQu3h3+tmgcgKhWPTQACtcHfOPC/VQMCetXraNjTxZEqy?=
+ =?iso-8859-1?Q?Yl/u5QlTDkwcPl15yQTKUrE+vz2iQ+qYMhgjZiogodszYmrzLSGRQjaxxL?=
+ =?iso-8859-1?Q?Twsx811bCjmH0HDKpuD5sVuoPVtBwJfr18f5rojw0CNt1UgkuRg0cKORD2?=
+ =?iso-8859-1?Q?Siu2BGaMyliyUbtFwOFmWW6+eZBPscVugvadita2FLMSEOQuSC6K4lUEnf?=
+ =?iso-8859-1?Q?CSitSulHE3m55ttGizGwyLEqYCf2A1OLxuH5ZnFw?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2bbf76be-84ed-40c8-b791-08dd3d0d3d2a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jan 2025 06:55:22.6122 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iQskWt9tpnMfPPvprs7ruueynLf/ZU0tlJBY+rY7jFHdIBFquTUfMk+x0nwieBvzfEnZXyEF2OxsGjhMqQDSdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5868
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,244 +191,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Despite a few latent flaws (1-3 below), classmaps-v1 went in with:
+> On Thu, Jan 23, 2025 at 07:47:14AM +0000, Murthy, Arun R wrote:
+> > > > On Wed, Jan 08, 2025 at 11:09:00AM +0530, Arun R Murthy wrote:
+> > > > > Expose drm plane function to create formats/modifiers blob. This
+> > > > > function can be used to expose list of supported
+> > > > > formats/modifiers for sync/async flips.
+> > > > >
+> > > > > Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/drm_plane.c | 44
+> > > > > +++++++++++++++++++++++++++++-------
+> > > > --------
+> > > > >  include/drm/drm_plane.h     |  4 ++++
+> > > > >  2 files changed, 33 insertions(+), 15 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/drm_plane.c
+> > > > > b/drivers/gpu/drm/drm_plane.c index
+> > > > >
+> > > >
+> > >
+> 416818e54ccffcf3d3aada2723e96ce8ccf1dd97..4f35eec2b7770fcc90c3e07a90
+> > > 6
+> > > > 8
+> > > > > b31c0563a4c0 100644
+> > > > > --- a/drivers/gpu/drm/drm_plane.c
+> > > > > +++ b/drivers/gpu/drm/drm_plane.c
+> > > > > @@ -191,7 +191,10 @@ modifiers_ptr(struct
+> > > > > drm_format_modifier_blob
+> > > > *blob)
+> > > > >  	return (struct drm_format_modifier *)(((char *)blob) +
+> > > > > blob->modifiers_offset);  }
+> > > > >
+> > > > > -static int create_in_format_blob(struct drm_device *dev, struct
+> > > > > drm_plane *plane)
+> > > > > +int drm_plane_create_format_blob(struct drm_device *dev,
+> > > > > +				 struct drm_plane *plane, u64
+> *modifiers,
+> > > > > +				 unsigned int modifier_count, u32
+> *formats,
+> > > > > +				 unsigned int format_count, bool
+> is_async)
+> > > > >  {
+> > > > >  	const struct drm_mode_config *config =3D &dev->mode_config;
+> > > > >  	struct drm_property_blob *blob; @@ -200,14 +203,14 @@ static
+> > > > > int create_in_format_blob(struct drm_device
+> > > > *dev, struct drm_plane *plane
+> > > > >  	struct drm_format_modifier_blob *blob_data;
+> > > > >  	unsigned int i, j;
+> > > > >
+> > > > > -	formats_size =3D sizeof(__u32) * plane->format_count;
+> > > > > +	formats_size =3D sizeof(__u32) * format_count;
+> > > > >  	if (WARN_ON(!formats_size)) {
+> > > > >  		/* 0 formats are never expected */
+> > > > >  		return 0;
+> > > > >  	}
+> > > > >
+> > > > >  	modifiers_size =3D
+> > > > > -		sizeof(struct drm_format_modifier) * plane->modifier_count;
+> > > > > +		sizeof(struct drm_format_modifier) * modifier_count;
+> > > > >
+> > > > >  	blob_size =3D sizeof(struct drm_format_modifier_blob);
+> > > > >  	/* Modifiers offset is a pointer to a struct with a 64 bit
+> > > > > field so it @@ -223,37 +226,45 @@ static int
+> > > > > create_in_format_blob(struct drm_device *dev, struct drm_plane
+> > > > > *plane
+> > > > >
+> > > > >  	blob_data =3D blob->data;
+> > > > >  	blob_data->version =3D FORMAT_BLOB_CURRENT;
+> > > > > -	blob_data->count_formats =3D plane->format_count;
+> > > > > +	blob_data->count_formats =3D format_count;
+> > > > >  	blob_data->formats_offset =3D sizeof(struct drm_format_modifier=
+_blob);
+> > > > > -	blob_data->count_modifiers =3D plane->modifier_count;
+> > > > > +	blob_data->count_modifiers =3D modifier_count;
+> > > > >
+> > > > >  	blob_data->modifiers_offset =3D
+> > > > >  		ALIGN(blob_data->formats_offset + formats_size, 8);
+> > > > >
+> > > > > -	memcpy(formats_ptr(blob_data), plane->format_types, formats_siz=
+e);
+> > > > > +	memcpy(formats_ptr(blob_data), formats, formats_size);
+> > > > >
+> > > > >  	mod =3D modifiers_ptr(blob_data);
+> > > > > -	for (i =3D 0; i < plane->modifier_count; i++) {
+> > > > > -		for (j =3D 0; j < plane->format_count; j++) {
+> > > > > -			if (!plane->funcs->format_mod_supported ||
+> > > > > +	for (i =3D 0; i < modifier_count; i++) {
+> > > > > +		for (j =3D 0; j < format_count; j++) {
+> > > > > +			if (is_async ||
+> > > > > +			    !plane->funcs->format_mod_supported ||
+> > > > >  			    plane->funcs->format_mod_supported(plane,
+> > > > > -							       plane-
+> > > > >format_types[j],
+> > > > > -							       plane-
+> > > > >modifiers[i])) {
+> > > > > +							       formats[j],
+> > > > > +
+> modifiers[i])) {
+> > > > >  				mod->formats |=3D 1ULL << j;
+> > > > >  			}
+> > > > >  		}
+> > > > >
+> > > > > -		mod->modifier =3D plane->modifiers[i];
+> > > > > +		mod->modifier =3D modifiers[i];
+> > > > >  		mod->offset =3D 0;
+> > > > >  		mod->pad =3D 0;
+> > > > >  		mod++;
+> > > > >  	}
+> > > > >
+> > > > > -	drm_object_attach_property(&plane->base, config-
+> > > > >modifiers_property,
+> > > > > -				   blob->base.id);
+> > > > > +	if (is_async)
+> > > > > +		drm_object_attach_property(&plane->base,
+> > > > > +					   config-
+> >async_modifiers_property,
+> > > > > +					   blob->base.id);
+> > > > > +	else
+> > > > > +		drm_object_attach_property(&plane->base,
+> > > > > +					   config->modifiers_property,
+> > > > > +					   blob->base.id);
+> > > >
+> > > > IMO the function should only create the blob. Leave it to the
+> > > > caller to attach
+> > > it.
+> > > >
+> > > Prior to this change for sync formats/modifiers the property attach
+> > > was also done in the same function. So retained it as it.
+> > >
+> > > > The 'is_async' parameter could also be replaced with with a
+> > > > function pointer to the appropriate format_mod_supported()
+> > > > function. That makes the implementation entirely generic.
+> > > >
+> > > If the list of formats/modifiers for sync and async is passed to
+> > > this function, then based on the list the corresponding function poin=
+ter can
+> be called.
+> > > This was done in the earlier patchset.
+> > >
+> > > > >
+> > > > >  	return 0;
+> > > > >  }
+> > > > > +EXPORT_SYMBOL(drm_plane_create_format_blob);
+> > > > >
+> > > > >  /**
+> > > > >   * DOC: hotspot properties
+> > > > > @@ -476,7 +487,10 @@ static int
+> > > > > __drm_universal_plane_init(struct
+> > > > drm_device *dev,
+> > > > >  	}
+> > > > >
+> > > > >  	if (format_modifier_count)
+> > > > > -		create_in_format_blob(dev, plane);
+> > > > > +		drm_plane_create_format_blob(dev, plane, plane-
+> >modifiers,
+> > > > > +					     format_modifier_count,
+> > > > > +					     plane->format_types,
+> > > > format_count,
+> > > > > +					     false);
+> > > > >
+> > > > >  	return 0;
+> > > > >  }
+> > > > > diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> > > > > index
+> > > > >
+> > > >
+> > >
+> e8749e6fc3bc0acfc73bbd8401f85c3126e86759..eb84830fbb723e39436bfbadf
+> > > > 369
+> > > > > 894a5657cd45 100644
+> > > > > --- a/include/drm/drm_plane.h
+> > > > > +++ b/include/drm/drm_plane.h
+> > > > > @@ -1008,5 +1008,9 @@ int
+> > > > > drm_plane_create_scaling_filter_property(struct drm_plane
+> > > > > *plane, int
+> > > > drm_plane_add_size_hints_property(struct drm_plane *plane,
+> > > > >  				      const struct drm_plane_size_hint *hints,
+> > > > >  				      int num_hints);
+> > > > > +int drm_plane_create_format_blob(struct drm_device *dev,
+> > > > > +				 struct drm_plane *plane, u64
+> *modifiers,
+> > > > > +				 unsigned int modifier_count, u32
+> *formats,
+> > > > > +				 unsigned int format_count, bool
+> is_async);
+> > > >
+> > > > I don't think this needs to be exposed to anyone.
+> > > > __drm_universal_plane_init() should just populate both the normal
+> > > > blob, and and the async blob (iff
+> > > > .format_mod_supported_async() is provided).
+> > > >
+> > > Ok!
+> > >
+> > For __drm_universal_plane_init() to have both the sync/async
+> format/modifiers list we will have to add new elements to struct drm_plan=
+e to
+> hold the async formats/modifiers.
+>=20
+> No, you can just use the already existing format/modifier lists.
+> .format_mod_supported_async() will filter out what's not wanted.
+>=20
+Agree, to populate the struct drm_format_modifier .format_mod_supported_asy=
+nc along with the existing formats/modifier list should be sufficient.
+In case of async for the struct drm_format_modifier_blob the elements forma=
+t_offset includes the list of formats supported by async only. For this we =
+will need to have the static list. So can passing this list be done by addi=
+ng new elements in drm_plane specifically for async.
 
-ee7d633f2dfb drm-print.h: include dyndbg header
-84ec67288c10 drm_print: wrap drm_*_dbg in dyndbg descriptor factory macro
-e820f52577b1 drm_print: interpose drm_*dbg with forwarding macros
-f158936b60a7 drm: POC drm on dyndbg - use in core, 2 helpers, 3 drivers.
-0406faf25fb1 drm_print: condense enum drm_debug_category
-
-and
-
-6ea3bf466ac6 dyndbg: test DECLARE_DYNDBG_CLASSMAP, sysfs nodes
-b9400852c080 dyndbg: add drm.debug style (drm/parameters/debug) bitmap support
-ace7c4bbb240 doc-dyndbg: edit dynamic-debug-howto for brevity, audience
-753914ed85ac doc-dyndbg: describe "class CLASS_NAME" query support
-a4a2a427413e dyndbg: validate class FOO by checking with module
-c45f67ace832 dyndbg: add ddebug_attach_module_classes
-66f4006b6ace kernel/module: add __dyndbg_classes section
-aad0214f3026 dyndbg: add DECLARE_DYNDBG_CLASSMAP macro
-3fc95d80a536 dyndbg: add __pr_debug_cls for testing
-ca90fca7f7b5 dyndbg: add class_id to pr_debug callsites
-b7b4eebdba7b dyndbg: gather __dyndbg[] state into struct _ddebug_info
-
-Those flaws:
-
-1. Regression during initialization.  classmaps-v1 inits drm-dbg
-callsites' static-keys when drm is "modprobed/initd" with
-drm.debug=<initval>, but not during driver & helper modprobes.
-
-Previously __drm_debug vs DRM_UT_* was checked at runtime, which
-made this a non-issue.  My test scripts passed dyndbg=<options>,
-which obscured this lack of "propagation" to drivers, and I didn't
-pick up on it.
-
-2. DECLARE_DYNDBG_CLASSMAP violated a K&R rule "define once, refer
-after", and is the root cause under 1.
-
-3. classmaps-v1 was something of a flag-day patchset; dyndbg & DRM
-parts were overly coupled, and test-dyndbg didn't validate multi-
-module classes.
-
-Consequently we got:
-commit bb2ff6c27bc9 ("drm: Disable dynamic debug as broken")
-
-Classmaps-v2 fixes these as follows:
-
-2. replace DECLARE_DYNDBG_CLASSMAP with DYNDBG_CLASSMAP_DEFINE
-(invoked once in drm-core) and DYNDBG_CLASSMAP_USE (repeatedly, in
-drivers & helpers).
-
-_DEFINE now exports the classmap, which _USE can repeatedly refer to.
-
-_USE adds a usage/linkage record referring to the _DEFINEd (&
-exported) classmap, in a new __dyndbg_class_users section.
-
-1. Now at modprobe, dyndbg scans the new section, follows the linkage
-to the _DEFINEr module, finds the (optional) kernel-param controlling
-the classmap, examines its drm.debug=<initval>, and applies it to the
-module being initialized.
-
-3. test/validate dyndbg for multi-module classes wo DRM involvement.
-
-A. add test_dynamic_debug_submod.ko, a clone of parent.
-This allows recapitulating various multi-module scenarios.
-
-B. add tools/testing/selftests/dynamic_debug/*
-
-This verifies spec'd behavior, including the multi-module scenarios
-made available in 3a.
-
-C. to decouple dyndbg from DRM, DECLARE_DYNDBG_CLASSMAP is preserved
-until after DRM adapts to the api change.
-
-Since the last rev sent here/LKML:
-  https://lore.kernel.org/lkml/20240716185806.1572048-1-jim.cromie@gmail.com/
-
-Ive rebased onto recent drm-tip, and tested with drm-trybot:
-  https://patchwork.freedesktop.org/series/139147/
-
-and made the following additions:
-
-1- drop class "protection" special case, per JBaron's preference.
-   current use is marked BROKEN so nobody to affect.
-   now framed as policy-choice:
-   #define ddebug_client_module_protects_classes false
-
-2- compile-time arg-tests in DYNDBG_CLASSMAP_DEFINE
-   implement several required constraints, fail obviously.
-
-3- modprobe time check of conflicting class-id reservations
-   only affects 2+classmaps users.
-   compile-time solution not apparent.
-
-4- dyndbg can now cause modprobe to fail.
-   needed toq catch 3.
-   maybe some loose ends here on failure.
-
-5- refactor & rename ddebug_attach_*module_classes
-   reduce repetetive boilerplate on 2 types: maps, users.
-   rework mostly brought forward in patchset to reduce churn
-   TBD: maybe squash more.
-
-The recent trybot submissions (against drm-tip) pass CI.BAT, and fail
-one or few CI.IGT tests randomly; re-tests do not repeat the failures.
-
-its also at github.com:jimc/linux.git
-
-commit c0f15eda9c3676149dedbc5a5fc0faee9550a2f7 (HEAD -> dd-fix-9s-ontip, ghlinux/dd-fix-9s-ontip)
-
-Im running it on my laptop & desktop w/o issues.
-
-The drivers/gpu/drm patches are RFC, I think there might be a place to
-put a single DRM_CLASSMAP_USE(drm_ddbug_classes) to replace the
-sprinkling of USEs in drivers and helpers.  IIRC, I tried adding a
-_DEFINE into drm_drv.c, that didn't do it.
-
-I think the dyndbg core additions are ready for review and merging
-into a (next-next) test/integration tree, I'd like to find out.
-
-Jim Cromie (63):
-pre-cleanup:
-  docs/dyndbg: update examples \012 to \n
-  test-dyndbg: fixup CLASSMAP usage error
-  dyndbg: reword "class unknown," to "class:_UNKNOWN_"
-  dyndbg: make ddebug_class_param union members same size
-  dyndbg: replace classmap list with a vector
-  dyndbg: ddebug_apply_class_bitmap - add module arg, select on it
-  dyndbg: split param_set_dyndbg_classes to _module & wrapper fns
-  dyndbg: drop NUM_TYPE_ARRAY
-  dyndbg: reduce verbose/debug clutter
-  dyndbg: silence debugs with no-change updates
-  dyndbg: tighten ddebug_class_name() 1st arg type
-  dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
-  dyndbg: reduce verbose=3 messages in ddebug_add_module
-  dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
-  checkpatch: add an exception to the do-while wrapper advice
-
-core change:
-  dyndbg-API: replace DECLARE_DYNDBG_CLASSMAP
-  dyndbg: check DYNDBG_CLASSMAP_DEFINE args at compile-time
-  dyndbg: add/use for_subvec() to reduce boilerplate
-  dyndbg: make proper substructs in _ddebug_info
-  dyndbg: drop premature optimization in ddebug_add_module
-  dyndbg: allow ddebug_add_module to fail
-  dyndbg: rework ddebug_attach_*module_classes()
-  dyndbg: fail modprobe on ddebug_class_range_overlap()
-  dyndbg: hoist the range-overlap checks
-  ddebug: cleanup-range-overlap fails
-  dyndbg-test: change do_prints testpoint to accept a loopct
-  selftests-dyndbg: add tools/testing/selftests/dynamic_debug/*
-  dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
-  dyndbg-doc: add classmap info to howto
-
-new features:
-  dyndbg: treat comma as a token separator
-  selftests-dyndbg: add comma_terminator_tests
-  dyndbg: split multi-query strings with %
-  selftests-dyndbg: test_percent_splitting
-  docs/dyndbg: explain new delimiters: comma, percent
-
-finishing:
-  selftests-dyndbg: add test_mod_submod
-  docs/dyndbg: explain flags parse 1st
-  dyndbg: change __dynamic_func_call_cls* macros into expressions
-  dyndbg: drop "protection" of class'd pr_debugs from legacy queries
-
-DRM: (phase 2)
-  drm: use correct ccflags-y spelling
-  checkpatch: dont warn about unused macro arg on empty body
-  drm-dyndbg: adapt drm core to use dyndbg classmaps-v2
-  drm-dyndbg: adapt DRM to invoke DYNDBG_CLASSMAP_PARAM
-  drm-print: fix config-dependent unused variable
-  drm-dyndbg: DRM_CLASSMAP_USE in amdgpu driver
-  drm-dyndbg: DRM_CLASSMAP_USE in i915 driver
-  drm-dyndbg: DRM_CLASSMAP_USE in drm_crtc_helper
-  drm-dyndbg: DRM_CLASSMAP_USE in drm_dp_helper
-  drm-dyndbg: DRM_CLASSMAP_USE in nouveau
-  drm-dyndbg: add DRM_CLASSMAP_USE to Xe driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to virtio_gpu
-  drm-dyndbg: add DRM_CLASSMAP_USE to simpledrm
-  drm-dyndbg: add DRM_CLASSMAP_USE to bochs
-  drm-dyndbg: add DRM_CLASSMAP_USE to etnaviv
-  drm-dyndbg: add DRM_CLASSMAP_USE to gma500 driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to radeon
-  drm-dyndbg: add DRM_CLASSMAP_USE to vmwgfx driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to vkms driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to udl driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to mgag200 driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to the gud driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to the qxl driver
-  drm-dyndbg: add DRM_CLASSMAP_USE to the drm_gem_shmem_helper driver
-  drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-
- .../admin-guide/dynamic-debug-howto.rst       | 116 +++-
- MAINTAINERS                                   |   3 +-
- drivers/gpu/drm/Kconfig                       |   3 +-
- drivers/gpu/drm/Makefile                      |   3 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  12 +-
- drivers/gpu/drm/display/drm_dp_helper.c       |  12 +-
- drivers/gpu/drm/drm_crtc_helper.c             |  12 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c        |   2 +
- drivers/gpu/drm/drm_print.c                   |  38 +-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c         |   2 +
- drivers/gpu/drm/gma500/psb_drv.c              |   2 +
- drivers/gpu/drm/gud/gud_drv.c                 |   2 +
- drivers/gpu/drm/i915/i915_params.c            |  12 +-
- drivers/gpu/drm/mgag200/mgag200_drv.c         |   2 +
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  12 +-
- drivers/gpu/drm/qxl/qxl_drv.c                 |   2 +
- drivers/gpu/drm/radeon/radeon_drv.c           |   2 +
- drivers/gpu/drm/tiny/bochs.c                  |   2 +
- drivers/gpu/drm/tiny/simpledrm.c              |   2 +
- drivers/gpu/drm/udl/udl_main.c                |   2 +
- drivers/gpu/drm/virtio/virtgpu_drv.c          |   2 +
- drivers/gpu/drm/vkms/vkms_drv.c               |   2 +
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   2 +
- drivers/gpu/drm/xe/xe_drm_client.c            |   2 +
- include/asm-generic/vmlinux.lds.h             |   1 +
- include/drm/drm_print.h                       |  12 +
- include/linux/dynamic_debug.h                 | 193 ++++--
- kernel/module/main.c                          |  15 +-
- lib/Kconfig.debug                             |  24 +-
- lib/Makefile                                  |   3 +
- lib/dynamic_debug.c                           | 555 +++++++++++-------
- lib/test_dynamic_debug.c                      | 181 +++---
- lib/test_dynamic_debug_submod.c               |  17 +
- scripts/checkpatch.pl                         |   3 +-
- tools/testing/selftests/Makefile              |   1 +
- .../testing/selftests/dynamic_debug/Makefile  |   9 +
- tools/testing/selftests/dynamic_debug/config  |   2 +
- .../dynamic_debug/dyndbg_selftest.sh          | 364 ++++++++++++
- 38 files changed, 1206 insertions(+), 425 deletions(-)
- create mode 100644 lib/test_dynamic_debug_submod.c
- create mode 100644 tools/testing/selftests/dynamic_debug/Makefile
- create mode 100644 tools/testing/selftests/dynamic_debug/config
- create mode 100755 tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-
---
-2.47.0
--- 
-2.47.1
-
+Thanks and Regards,
+Arun R Murthy
+-------------------
+> > Then upon adding new elements in struct drm_plane we may not need to
+> pass a function pointer instead of is_async as commented above as well as=
+ this
+> new elements added in the struct drm_plane helps out over here.
+> >
+> > New elements to be added to the struct drm_plane Struct drm_plane {
+> > 	U32 * formats_async;
+> > 	U32 format_async_count;
+> > 	U64 *async_modifiers,
+> > 	U32 async_modifier_count
+> > }
+> >
+> > Then the functionwith below changes it will be generic and no
+> > exporting of the func would be required
+> >  create_format_blob()
+> > {
+> > 	If(plane->format_count)
+> > 		/* Create blob for sync and call the format_mod_supported()
+> */
+> >
+> > 	If(plane->format_async_count)
+> > 		/* Create blob for async and call the
+> format_mod_async_supported()
+> > */ }
+> >
+> > Is my understanding correct?
+> >
+> > Thanks and Regards,
+> > Arun R Murthy
+> > --------------------
+>=20
+> --
+> Ville Syrj=E4l=E4
+> Intel
