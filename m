@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498A3A1CD06
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 17:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2122A1CD0A
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 17:46:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B64B710E485;
-	Sun, 26 Jan 2025 16:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 386F310E486;
+	Sun, 26 Jan 2025 16:46:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BZ9bkL0+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MmrfVfmP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47AF910E485
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 16:45:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2152F10E486
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 16:46:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 72AAAA40F20;
- Sun, 26 Jan 2025 16:44:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 315DAC4CEE3;
- Sun, 26 Jan 2025 16:45:56 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 45071A40F21;
+ Sun, 26 Jan 2025 16:44:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 013FDC4CEE2;
+ Sun, 26 Jan 2025 16:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737909957;
+ s=k20201202; t=1737909975;
  bh=MEe2oo2YjYf2lKVsyVv7MzPAyJxoyZAgPw92+aRPQfc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BZ9bkL0+zA7NYnyi3yvVADIeNcMi6o3J5HF5acBPqdQReu7gJD3WKjMiv5pK+hbv6
- lzCmXHcDFGcybt+Yo5bUeeHvOrQsgObFc2s+8xVPBEJ6ZqK5EWMDZw4Ent3kG7JTM6
- NYTa1yQ3y74hsAiA2XJUIMK65nkRQJxTqhKu9K7uehIQajV11u8Jw9VLqgx/ruCSJD
- hEwhqPnYRPuwRZy43sws93mPcllbGjof6plRsZSQpBdmFIC7EqjuJ4zOhr/rSK7Bp+
- tmAcAF4IdFUJf4C2Y4QGVolEH2iMIQxsdyaMvE6LUAzft3G+SpPMSweh0tRVKPfiQR
- ILR5ZFKMwJDPA==
+ b=MmrfVfmPiVBKz1aIH3NA+L8Smt5aed/u7vGOq8sA0kgcnDk5PlvxrswwZh9AkmFLB
+ Hlg7meEzOugfOvHkG8WhT8axplZl6PMMwL0lIXsDfJBi4k9zviq3Oz1NZd4R6vRc0z
+ vvHWPKT5wbYd1ZLMr8xx+o6k0ZkmFwt5I4oX+yErEITL8zkQ3P/RIXm8t0jUsgpgSP
+ /BMqoq/15LZeTDlaAdsLEed4Kl+sp+m8E9HF6J7ofQJCOZuvqezN38uVy1tzZvH2Xj
+ GWbGR2COnNURJWLnWZAHyg7MH9ZZIltQa++IdUovNaLJcRzXyBtBq/xAK72ZyXQzv7
+ 7B0rTX4a8VymA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,16 +37,16 @@ Cc: Aaro Koskinen <aaro.koskinen@iki.fi>,
  Linus Walleij <linus.walleij@linaro.org>, Helge Deller <deller@gmx.de>,
  Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
  linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 4/7] fbdev: omap: use threaded IRQ for LCD DMA
-Date: Sun, 26 Jan 2025 11:45:46 -0500
-Message-Id: <20250126164549.964058-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 2/3] fbdev: omap: use threaded IRQ for LCD DMA
+Date: Sun, 26 Jan 2025 11:46:08 -0500
+Message-Id: <20250126164609.964170-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250126164549.964058-1-sashal@kernel.org>
-References: <20250126164549.964058-1-sashal@kernel.org>
+In-Reply-To: <20250126164609.964170-1-sashal@kernel.org>
+References: <20250126164609.964170-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.11
+X-stable-base: Linux 6.6.74
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
