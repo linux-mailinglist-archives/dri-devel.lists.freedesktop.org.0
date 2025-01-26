@@ -2,92 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D28AA1CED6
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 22:46:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E067A1CEDB
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 22:48:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B1510E265;
-	Sun, 26 Jan 2025 21:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3A8E10E21B;
+	Sun, 26 Jan 2025 21:48:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WGy1dS7U";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="SMXmukPP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
- [209.85.208.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 969CB10E48E
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 21:46:37 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-30615661f98so39615751fa.2
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 13:46:37 -0800 (PST)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF95610E21B
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 21:48:08 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-543cc81ddebso2372988e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 13:48:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737927995; x=1738532795; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1737928087; x=1738532887; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=lHr7hxWtGMJ3mRhxERq1ZK8TNjSfR6/lC4QQnZilmzA=;
- b=WGy1dS7U39RpM2EAngaQEK5AK7NerrSBQz8nTddCqLlqL3sRhOtsYyz3SQAA0oO9b6
- DUVsx8h5oLhIYp/v6gT5yHRtue/w2PMPAvz0HbHAnjQCLr8ZMkI3iolFg2t1hTPHIpXl
- gCf11c51ObBsqck9Wj2XBT8RvYMs+QJisrp1EIvCmstjobwoLGTDRQjrwx+emIXv4lqh
- vxFyeGfF9meL1Ig2unjRejh6I+aHvR8WV84kG5UN5YHEuD4a9THWEqXUBqz1S/zCydRh
- duCWhF2NemFmcucLKTdxdTO7xYL7d/xRYSephB5NBq5goKp0QfxBttm1lfZ6tdCMCxIp
- 4ebQ==
+ bh=9/S7PSfTdIyOWCqzxjO8cVsApM/4duiuiYRufIuKZQo=;
+ b=SMXmukPPJvXc+5isU2fMyWb6Z1wBVIM9nxWPgWGtsqmRIFlHEHPHaHQkooiU8KqMek
+ Hc9qQbYAnevpu9w0ZDuGlaw/ID1+BUQ9WA55LDXWfqvRd/lOZzLuwLSNkOpgZcl1rxsQ
+ A7ipIa5DMZO0C7AWoAaKsT0xCe7pN1eCntIrF8FxjVlZgCJh/3glk4J9FzZ6oACzQq3+
+ noght4eH4NEQVqSoI95q4nCyrfIFnXrKTN6Gc1jvazQsBSw2qgYs3yke3PO/oKhzXeyQ
+ BCcppi2K+c4liMia83f06B7MHfaw2uHmPFuJX9RsNW83wCyG/t2HAh0kpB5mEiXQZ+Wh
+ tqSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737927995; x=1738532795;
+ d=1e100.net; s=20230601; t=1737928087; x=1738532887;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lHr7hxWtGMJ3mRhxERq1ZK8TNjSfR6/lC4QQnZilmzA=;
- b=f5iaqoVSlDVFWFTlSBJthYuFm47DDTCDIsu/7+diaxbdV3Jly5dHIS/sh7jHe63R2/
- TSZ/5yhjPbji7g1aAZXXixKd57M8t3JcrsSfajjsA3du/tT1/FvHVoNk24r7RNgukXDj
- LIe9p9X5iv5FCktzsuDvxTQMmD9xmLgKLsp6uLM/2eN6+eIK/tYJAxeJX0cos5l356mS
- jSRIV8V6SYp1oblj08yF7laqQ9aKU7cDG99O+PDLZvig+kv0C1TaVUvvyB09+MYztPcG
- 4pvCIfr25KK5QaSnGGM8yE+/zSrHqHqd93VCU5E3hxbUEl1RYg6vxRM3Hj24otkiHz1C
- bIuw==
+ bh=9/S7PSfTdIyOWCqzxjO8cVsApM/4duiuiYRufIuKZQo=;
+ b=DQR/ZJhKSQ9UZQIgv+zj6odnUjo0KtpYy70Tl72AgvnJZHqnYQFG3k3XZdhfLTqoXO
+ VzlXJrGBa6SnHx15FyLQ1VT98ZsC3KTFRUnKUpeewWKcBgESakaU3Nk4FkoeL3gT/2SA
+ S+2Ds2K4h0Jg0NMxS48AP5SP0qgyjQjvWk5PagT155Rhva7TdT+6N+dEaEGWaYdllcAK
+ aO9B6bbLVyyk/JoOpV+hRHe66hEvmK8tD7IBEqnkz36WY9g8jCf39hDu4rWo27V0ehqA
+ /Iy+degUTtSlRJeanNJ83QFDEBykVYowivmK9cfKS0k4jLaBMqXDyMA9RjRTyilT4/tv
+ ShNA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW4UlJ+gYyK6OwWyP7bTlKmSqpSYBVTE5jGZK6tJwMHQLDHrI5yLvzVth7RViPs14Ze4rp1WVN/0Vk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWsc+dyA4E95XXOKszeBOhXIp2pP/mW+8wGjosRuhWrM4sCIT9
- 4YRu2hJcXQ83ZCGx/sBZc3tX5so6NQSvv73s3FqQnJJA1l/JXej6YNNI4I02014=
-X-Gm-Gg: ASbGnctA7E96SfkCf+xG7OEPRwh8LtusYww/jz5GgvZyQBBfoweNgPcLF4ONwi9nnnC
- Cszwasecj7Zcq8QG8zarg+lfKOGbFWKj9sTGKQi8lKbjPc9+ZmXHp6e5/dL5O5pzReRuQj5cxPz
- ABIFD6CwGsZebAg6CDoipFJEfRD4k1K0rimLC38UnD7zi+ndlz1M1D+v7wQlp7SW481AyyynMzx
- A9rG9DFIaMAEhTq3Mv4bg+R0TCkz2t0l1FWiwyEFnqtppGNpStGv91iV+wncqqKri37kzFDeB61
- kQQqvaPUMNK7XrKekHC2T38Co0sgqcxV9kwuF382nHc1lbS+gIsMHqtbQyig
-X-Google-Smtp-Source: AGHT+IESsYCAPgo0W+Hb9Tr1b501G11+w7GQY2BAqSBcwgrPEO43NhLTVS5Ex65K2qlg7b63CPAuRA==
-X-Received: by 2002:a05:6512:b24:b0:540:2a92:7daa with SMTP id
- 2adb3069b0e04-5439c282032mr12609106e87.42.1737927994923; 
- Sun, 26 Jan 2025 13:46:34 -0800 (PST)
+ AJvYcCUhm6N5Xn5duzD63GkbMGCIhawqG+gr9SlHucioaCYxdunepKvduN8jD8u7QsfXHgWlvMFC9MoHvy0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwMJt9w1zyZirOkykI3ZJMKKNSHplS27vuFRK4bU5caAObh30Ye
+ Feu1G4qmf6IvRZMVpUpDerjAih/OmyD/NqwNiVOtgijutyLh674/DDipv8nnyBI=
+X-Gm-Gg: ASbGncsTNKAbk6JTaHUnXuVR84SHeHepMiTjWTuHL2y8gHT8Y/myrcGtQjLHqlnJtqC
+ XGafiofPxETPQzGCs8dsneAu+RpmlidvBw5mHmWvLp7XJmUUnWlEakIy57GFMxQTtH2dD9KGgzJ
+ 90dwK6y6Cj5STENl5PybiKWjoqmpJxvo3ds8sOjlTgZDL4nheaGi6uhCPPnqPJuEQSD4zEOIYaE
+ g/RCB1ifLtXeW4KiETpXb0nAwN1iQgR4i3ktTAo2N4Zazqv2Jo4B8wmLe3Djwm3kgguYJ1iS1i2
+ 3vhZJgks8LhtZWbeAqTJKuDMYfTQz5DwOLNXqxyPF/j0PgiEoquRgqv6zp/B
+X-Google-Smtp-Source: AGHT+IEcjYpIgRwjVoLjppNzEES8a1xJOYuIEKUeDh9gpiG0iLZgQtNHK6tYiX6ef1gXdDms1RT4TQ==
+X-Received: by 2002:a05:6512:3e03:b0:53d:e5c0:b9bc with SMTP id
+ 2adb3069b0e04-5439c28743bmr13744798e87.50.1737928086874; 
+ Sun, 26 Jan 2025 13:48:06 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543c822f95asm1060677e87.85.2025.01.26.13.46.33
+ 2adb3069b0e04-543c8368521sm1027430e87.133.2025.01.26.13.48.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jan 2025 13:46:34 -0800 (PST)
-Date: Sun, 26 Jan 2025 23:46:32 +0200
+ Sun, 26 Jan 2025 13:48:05 -0800 (PST)
+Date: Sun, 26 Jan 2025 23:48:03 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Vitalii Mordan <mordan@ispras.ru>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Jonas Karlman <jonas@kwiboo.se>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@intel.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
- Aleksandr Mishin <amishin@t-argos.ru>, Tomi Valkeinen <tomi.valkeinen@ti.com>, 
- Quentin Schulz <quentin.schulz@free-electrons.com>,
- Yuti Amonkar <yamonkar@cadence.com>, Jyri Sarha <jsarha@ti.com>, 
- Swapnil Jakhade <sjakhade@cadence.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- Fedor Pchelkin <pchelkin@ispras.ru>, Alexey Khoroshilov <khoroshilov@ispras.ru>,
- Vadim Mutilin <mutilin@ispras.ru>, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] gpu: cdns-mhdp8546: fix call balance of mhdp->clk
- handling routines
-Message-ID: <jlednbhsqwqc7pbnifqm64xn4cyk45roxvdjrun3a5pwq5dsfo@jez2c445jl4c>
-References: <20250124170009.2075175-1-mordan@ispras.ru>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Nishanth Menon <nm@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
+ Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar <u-kumar1@ti.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>,
+ DRI Development List <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel List <linux-kernel@vger.kernel.org>,
+ Stable List <stable@vger.kernel.org>
+Subject: Re: [PATCH v8 01/13] drm/bridge: cdns-dsi: Fix connecting to next
+ bridge
+Message-ID: <6ie36b5hcrgteo2gh2ievnyw2lsnfr3nhsbxu6ymthmc7lzfvs@3zbaf6flye2t>
+References: <20250126191551.741957-1-aradhya.bhatia@linux.dev>
+ <20250126191551.741957-2-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250124170009.2075175-1-mordan@ispras.ru>
+In-Reply-To: <20250126191551.741957-2-aradhya.bhatia@linux.dev>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,42 +104,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 24, 2025 at 08:00:09PM +0300, Vitalii Mordan wrote:
-> If the clock mhdp->clk was not enabled in cdns_mhdp_probe(), it should not
-> be disabled in any path.
+On Mon, Jan 27, 2025 at 12:45:39AM +0530, Aradhya Bhatia wrote:
+> From: Aradhya Bhatia <a-bhatia1@ti.com>
 > 
-> Found by Linux Verification Center (linuxtesting.org) with Klever.
+> Fix the OF node pointer passed to the of_drm_find_bridge() call to find
+> the next bridge in the display chain.
 > 
-> Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
-> Signed-off-by: Vitalii Mordan <mordan@ispras.ru>
+> The code to find the next panel (and create its panel-bridge) works
+> fine, but to find the next (non-panel) bridge does not.
+> 
+> To find the next bridge in the pipeline, we need to pass "np" - the OF
+> node pointer of the next entity in the devicetree chain. Passing
+> "of_node" to of_drm_find_bridge (which is what the code does currently)
+> will fetch the bridge for the cdns-dsi which is not what's required.
+> 
+> Fix that.
+> 
+> Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
+> Cc: Stable List <stable@vger.kernel.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > ---
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index d081850e3c03..3e923bcfb0bf 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -2504,7 +2504,11 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
->  
->  	mhdp->info = of_device_get_match_data(dev);
->  
-> -	clk_prepare_enable(clk);
-> +	ret = clk_prepare_enable(clk);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to enable clk\n");
-> +		return ret;
-> +	}
 
-I think this should be switch to devm_clk_get_enabled, removing the
-extra clk_prepare_enable(), error handling, etc.
-
->  
->  	pm_runtime_enable(dev);
->  	ret = pm_runtime_resume_and_get(dev);
-> -- 
-> 2.25.1
-> 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
