@@ -2,48 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D7CA1C929
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268C6A1C930
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC6E910E403;
-	Sun, 26 Jan 2025 14:56:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F0B310E408;
+	Sun, 26 Jan 2025 14:56:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qKlu+KF9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W45a9Xix";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3A1910E408;
- Sun, 26 Jan 2025 14:56:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6839F10E40B;
+ Sun, 26 Jan 2025 14:56:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 34CE85C2C39;
- Sun, 26 Jan 2025 14:55:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FF72C4CEE2;
- Sun, 26 Jan 2025 14:56:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id AE31F5C2EB9;
+ Sun, 26 Jan 2025 14:55:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B967C4CEE3;
+ Sun, 26 Jan 2025 14:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903367;
- bh=lUa6hxzSEHrVv1Pb4M3DcXtPzy5jghDECoP62giwwcU=;
+ s=k20201202; t=1737903370;
+ bh=p75+67CQSvwC2Ah/9YcMBAgYcG8U2BuzHzywnXyrnjs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qKlu+KF98CaUamyKtaVvn7dhg3pcLBPTfgQ7bXglqyRRv0av9Z8heNzN4WvjdNTuI
- ALX1ZWb6SbReP9ZhA8K/QgJN4ey2anGkWBL/ub8u7Ssy2Nvb6ho8wrJmeyTn0U5hLp
- 9JXbh5H7yG12yMciA6suEOX6hBAma4BeqcJNvMK29Wi8cdcuRSSTw2ibnnzf4ZqU8x
- FGWNd8OAKE95Tq2d65eEEp/f5WQy743tiz7iKfRezGhZSPgAoih81i8ett7QDVcARl
- +bWYH+8SM78XF1PYjiUOTH05oGSSmbFVnhW/+DdOY4xzq7MUJC0bvKnixHrXM7aQPb
- 27Aj245jXjqJA==
+ b=W45a9XixeZvjIrblx7HVqGIi04D/sxbscQrdduyxE2VMZdtcs+8pGBgXeyMelymF8
+ YfSqcGVSEe9rLOB9S1PKs0FOHMHw/O3cHx+xu8yZYe/40cpEgVweXzDQ5TaXtglu6M
+ RZlGoUDi1sYMYYiPoEUarX3hqvJ182hA41/GK9CbBxtLAFgrh23L4AD4Jg0vuvm28l
+ VgFULrDMhciAz1VcQq+rbkv9nMrxDh2yxB6vHO40ZHFSIMqla80yQ+vhoKMMkuq2xC
+ EoELFGhCBz9KszjOnVPfbvqr5oIfYcNHa71mrJv4eIKpQc7ovZ47qTw4ahhiowL6HD
+ DFVZ1GtyPbrIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>,
+Cc: Gabe Teeger <Gabe.Teeger@amd.com>,
+ Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
+ Tom Chung <chiahsuan.chung@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- chaitanya.dhere@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 29/31] drm/amd/display: Increase sanitizer frame
- larger than limit when compile testing with clang
-Date: Sun, 26 Jan 2025 09:54:45 -0500
-Message-Id: <20250126145448.930220-29-sashal@kernel.org>
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, srinivasan.shanmugam@amd.com, roman.li@amd.com,
+ rostrows@amd.com, linux@treblig.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 30/31] drm/amd/display: Limit Scaling Ratio on
+ DCN3.01
+Date: Sun, 26 Jan 2025 09:54:46 -0500
+Message-Id: <20250126145448.930220-30-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145448.930220-1-sashal@kernel.org>
 References: <20250126145448.930220-1-sashal@kernel.org>
@@ -67,80 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nathan Chancellor <nathan@kernel.org>
+From: Gabe Teeger <Gabe.Teeger@amd.com>
 
-[ Upstream commit e4479aecf6581af81bc0908575447878d2a07e01 ]
+[ Upstream commit abc0ad6d08440761b199988c329ad7ac83f41c9b ]
 
-Commit 24909d9ec7c3 ("drm/amd/display: Overwriting dualDPP UBF values
-before usage") added a new warning in dml2/display_mode_core.c when
-building allmodconfig with clang:
+[why]
+Underflow and flickering was occuring due to high scaling ratios
+when resizing videos.
 
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6268:13: error: stack frame size (3128) exceeds limit (3072) in 'dml_prefetch_check' [-Werror,-Wframe-larger-than]
-   6268 | static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
-        |             ^
+[how]
+Limit the scaling ratios by increasing the max scaling factor
 
-Commit be4e3509314a ("drm/amd/display: DML21 Reintegration For Various
-Fixes") introduced one in dml2_core/dml2_core_dcn4_calcs.c with the same
-configuration:
-
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7236:13: error: stack frame size (3256) exceeds limit (3072) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
-   7236 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out_params)
-        |             ^
-
-In the case of the first warning, the stack usage was already at the
-limit at the parent change, so the offending change was rather
-innocuous. In the case of the second warning, there was a rather
-dramatic increase in stack usage compared to the parent:
-
-  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/dml21/src/dml2_core/dml2_core_dcn4_calcs.c:7032:13: error: stack frame size (2696) exceeds limit (2048) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
-   7032 | static bool dml_core_mode_support(struct dml2_core_calcs_mode_support_ex *in_out_params)
-        |             ^
-
-This is an unfortunate interaction between an issue with stack slot
-reuse in LLVM that gets exacerbated by sanitization (which gets enabled
-with all{mod,yes}config) and function calls using a much higher number
-of parameters than is typical in the kernel, necessitating passing most
-of these values on the stack.
-
-While it is possible that there should be source code changes to address
-these warnings, this code is difficult to modify for various reasons, as
-has been noted in other changes that have occurred for similar reasons,
-such as commit 6740ec97bcdb ("drm/amd/display: Increase frame warning
-limit with KASAN or KCSAN in dml2").
-
-Increase the frame larger than limit when compile testing with clang and
-the sanitizers enabled to avoid this breakage in all{mod,yes}config, as
-they are commonly used and valuable testing targets. While it is not the
-best to hide this issue, it is not really relevant when compile testing,
-as the sanitizers are commonly stressful on optimizations and they are
-only truly useful at runtime, which COMPILE_TEST states will not occur
-with the current build.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202412121748.chuX4sap-lkp@intel.com/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+Signed-off-by: Gabe Teeger <Gabe.Teeger@amd.com>
+Signed-off-by: Tom Chung <chiahsuan.chung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dml2/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../drm/amd/display/dc/resource/dcn301/dcn301_resource.c  | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-index c4378e620cbf9..986a69c5bd4bc 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-@@ -29,7 +29,11 @@ dml2_rcflags := $(CC_FLAGS_NO_FPU)
+diff --git a/drivers/gpu/drm/amd/display/dc/resource/dcn301/dcn301_resource.c b/drivers/gpu/drm/amd/display/dc/resource/dcn301/dcn301_resource.c
+index 7d04739c3ba14..4bbbe07ecde7d 100644
+--- a/drivers/gpu/drm/amd/display/dc/resource/dcn301/dcn301_resource.c
++++ b/drivers/gpu/drm/amd/display/dc/resource/dcn301/dcn301_resource.c
+@@ -671,9 +671,9 @@ static const struct dc_plane_cap plane_cap = {
  
- ifneq ($(CONFIG_FRAME_WARN),0)
- ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-+ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
-+frame_warn_flag := -Wframe-larger-than=4096
-+else
- frame_warn_flag := -Wframe-larger-than=3072
-+endif
- else
- frame_warn_flag := -Wframe-larger-than=2048
- endif
+ 	/* 6:1 downscaling ratio: 1000/6 = 166.666 */
+ 	.max_downscale_factor = {
+-			.argb8888 = 167,
+-			.nv12 = 167,
+-			.fp16 = 167 
++			.argb8888 = 358,
++			.nv12 = 358,
++			.fp16 = 358
+ 	},
+ 	64,
+ 	64
+@@ -694,7 +694,7 @@ static const struct dc_debug_options debug_defaults_drv = {
+ 	.disable_dcc = DCC_ENABLE,
+ 	.vsr_support = true,
+ 	.performance_trace = false,
+-	.max_downscale_src_width = 7680,/*upto 8K*/
++	.max_downscale_src_width = 4096,/*upto true 4k*/
+ 	.scl_reset_length10 = true,
+ 	.sanity_checks = false,
+ 	.underflow_assert_delay_us = 0xFFFFFFFF,
 -- 
 2.39.5
 
