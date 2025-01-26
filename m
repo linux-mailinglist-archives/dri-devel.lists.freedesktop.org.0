@@ -2,45 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA535A1C935
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C748A1C934
 	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF0C10E40F;
-	Sun, 26 Jan 2025 14:56:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6E4E10E40D;
+	Sun, 26 Jan 2025 14:56:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eS39qonB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HMxaxU8a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 180BA10E40C
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD9C810E40F
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:22 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 59EF15C5A6F;
- Sun, 26 Jan 2025 14:55:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25FFFC4CEE3;
- Sun, 26 Jan 2025 14:56:17 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0EC205C5743;
+ Sun, 26 Jan 2025 14:55:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF634C4CEE4;
+ Sun, 26 Jan 2025 14:56:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903378;
- bh=OAYQq0O94/PSvNgw2CG3m7XJBnsy9Nv0aKGnYADaU1w=;
+ s=k20201202; t=1737903382;
+ bh=x9qDZHqbuiQ7Ayq0nDGahD9H28T7XReiDJACRkz8x78=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=eS39qonBGDGAzX9w3KymNRfS3QZ/OhhrF41NS7xAx+UpesWpX8/jMPGUCD0z84qew
- gE/TeikZlOj31NRp2ItFh7WpmmqNYMqh++/bzEfQ8O/WxQIoBBpM30uBpyW/vf+14v
- F+6hcxi8s7k01GsXnxH+snYp4oE1yk4aAGDyBgMup1mgfOqT8lpMYBSy1g7GLql++0
- BHDKa8cf7AtvpRR1OXbUelEiwxolhw4FuHaz7BQyiAzPoTXf6OFoyGiVyT8VDlgBTY
- AtNoLFcBZT4Xc5xjnzCMY8vZm1cKRL5TUbvKfL6szPhkPSjqq3tsPLiKXZ0SwRmLCM
- 7NQgBJblAOM6g==
+ b=HMxaxU8abC2wtBPPR/ff/Y9hGrEpCcSGFAq+NhZ+3ROOYT8SvwnwsINUHBgpUCYiK
+ 8NJdqyddhhaDgpQBmrEwQEbSrVLuxAOx8RtdypK5PVWaPqh5ja25Ga1TsJIL4EPUyn
+ +1bK1mbfoiT4p62CcJ55/Mkqc75J2ln5jHXIw+2lLSUzN5Uo8xe77ICRdi99baXgic
+ b5ygoU2iQzEU6N6ukP5QdnvbxowtsuqRkb64fb7vRFkiL8SzsGkvTrH/2dW46NDqoy
+ t7WZ7Yw8kCzPRkOVr/nmgm5HE4nE3/AvurglnZqvF6tEnMhSuEYpMO43zMl7+3zp+L
+ dpGPylg44kH4w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 03/17] drm/connector: add mutex to protect ELD
- from concurrent access
-Date: Sun, 26 Jan 2025 09:55:58 -0500
-Message-Id: <20250126145612.937679-3-sashal@kernel.org>
+ simona@ffwll.ch, dianders@chromium.org, laurent.pinchart@ideasonboard.com,
+ jani.nikula@intel.com, nfraprado@collabora.com,
+ u.kleine-koenig@baylibre.com, sui.jingfeng@linux.dev, xji@analogixsemi.com,
+ yuanhsinte@chromium.org, robh@kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 04/17] drm/bridge: anx7625: use eld_mutex to
+ protect access to connector->eld
+Date: Sun, 26 Jan 2025 09:55:59 -0500
+Message-Id: <20250126145612.937679-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145612.937679-1-sashal@kernel.org>
 References: <20250126145612.937679-1-sashal@kernel.org>
@@ -66,86 +70,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit df7c8e3dde37a9d81c0613285b43600f3cc70f34 ]
+[ Upstream commit e72bf423a60afd744d13e40ab2194044a3af5217 ]
 
-The connector->eld is accessed by the .get_eld() callback. This access
-can collide with the drm_edid_to_eld() updating the data at the same
-time. Add drm_connector.eld_mutex to protect the data from concurrenct
-access. Individual drivers are not updated (to reduce possible issues
-while applying the patch), maintainers are to find a best suitable way
-to lock that mutex while accessing the ELD data.
+Reading access to connector->eld can happen at the same time the
+drm_edid_to_eld() updates the data. Take the newly added eld_mutex in
+order to protect connector->eld from concurrent access.
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-1-c9bce1ee8bea@linaro.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-2-c9bce1ee8bea@linaro.org
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/drm_connector.c | 1 +
- drivers/gpu/drm/drm_edid.c      | 6 ++++++
- include/drm/drm_connector.h     | 5 ++++-
- 3 files changed, 11 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 309aad5f0c808..35bed66214474 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -277,6 +277,7 @@ static int __drm_connector_init(struct drm_device *dev,
- 	INIT_LIST_HEAD(&connector->probed_modes);
- 	INIT_LIST_HEAD(&connector->modes);
- 	mutex_init(&connector->mutex);
-+	mutex_init(&connector->eld_mutex);
- 	mutex_init(&connector->edid_override_mutex);
- 	connector->edid_blob_ptr = NULL;
- 	connector->epoch_counter = 0;
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index ee3fab115c4b5..ad872c61aac0e 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -5499,7 +5499,9 @@ EXPORT_SYMBOL(drm_edid_get_monitor_name);
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 412c6575e87b7..ddf944651c55a 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -2014,8 +2014,10 @@ static int anx7625_audio_get_eld(struct device *dev, void *data,
+ 		memset(buf, 0, len);
+ 	} else {
+ 		dev_dbg(dev, "audio copy eld\n");
++		mutex_lock(&ctx->connector->eld_mutex);
+ 		memcpy(buf, ctx->connector->eld,
+ 		       min(sizeof(ctx->connector->eld), len));
++		mutex_unlock(&ctx->connector->eld_mutex);
+ 	}
  
- static void clear_eld(struct drm_connector *connector)
- {
-+	mutex_lock(&connector->eld_mutex);
- 	memset(connector->eld, 0, sizeof(connector->eld));
-+	mutex_unlock(&connector->eld_mutex);
- 
- 	connector->latency_present[0] = false;
- 	connector->latency_present[1] = false;
-@@ -5530,6 +5532,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
- 	if (!drm_edid)
- 		return;
- 
-+	mutex_lock(&connector->eld_mutex);
-+
- 	mnl = get_monitor_name(drm_edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
- 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD monitor %s\n",
- 		    connector->base.id, connector->name,
-@@ -5590,6 +5594,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
- 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD size %d, SAD count %d\n",
- 		    connector->base.id, connector->name,
- 		    drm_eld_size(eld), total_sad_count);
-+
-+	mutex_unlock(&connector->eld_mutex);
- }
- 
- static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index d300fde6c1a47..b2e9dc02fa349 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1764,8 +1764,11 @@ struct drm_connector {
- 	struct drm_encoder *encoder;
- 
- #define MAX_ELD_BYTES	128
--	/** @eld: EDID-like data, if present */
-+	/** @eld: EDID-like data, if present, protected by @eld_mutex */
- 	uint8_t eld[MAX_ELD_BYTES];
-+	/** @eld_mutex: protection for concurrenct access to @eld */
-+	struct mutex eld_mutex;
-+
- 	/** @latency_present: AV delay info from ELD, if found */
- 	bool latency_present[2];
- 	/**
+ 	return 0;
 -- 
 2.39.5
 
