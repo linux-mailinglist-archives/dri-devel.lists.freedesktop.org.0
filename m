@@ -2,55 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC49EA1C945
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C05A1C946
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:57:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45B6510E422;
-	Sun, 26 Jan 2025 14:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98F0C10E423;
+	Sun, 26 Jan 2025 14:57:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s/OWbaW9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AqT775L0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A65A10E41C
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74D7510E421
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8EA265C5743;
- Sun, 26 Jan 2025 14:56:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC0B4C4CED3;
- Sun, 26 Jan 2025 14:56:47 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A75425C455A;
+ Sun, 26 Jan 2025 14:56:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 013EBC4CED3;
+ Sun, 26 Jan 2025 14:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903409;
- bh=rQAleI2TfFPkBl+b/CusrIsnR/Ylev6Dxm6qv/Uw0Aw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=s/OWbaW945CyeV5761VdZ6rbixjoogAHJoGHDHzEo/Aqxl5UuZpDzhy4sDgxuS1e3
- r8rD0PKHmCfNzTmwoIYYDvIKvcy2vcvKSCOhadifqyPiONLvKwhAjedLMAr7iy4uxw
- LJ6Ecc9TxHsXe65+FGhfDeWHSjGV+ANsxgiar3r9+oZ6nGGRlQVX5cO7YlsAbpmDvQ
- k+bi3AbXdgohKZlUvXBsOmGNzEC/fa9UA6/BUWSxIblIYombmdr6Ln92eCeI87/pKt
- cZQB6m8T+fHzyR7usvARW1/kIiNUA0KpY45eUwnJgXsEUhEz+sYycVwQ1W5pk8jcta
- meUfuO6386jIQ==
+ s=k20201202; t=1737903414;
+ bh=MD1FlhMrr0E2Z6cUUAYRL3pW/7AMpSxpJ5FppkyOIbA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AqT775L0C8GF+0a7MAtarzGFy66ayCZNGVkc33aOvWhjAc0eVd4X3Ss/9tSuBI+gH
+ i4Dxpkbs65r7qJ9TaT5HYtHkIEu7rynfeFMXM0S9b6OTJYJvWpT68VKP5up/pngMIa
+ xZlUm7WXNsIXpBR/sAoiRcOSi2QDV4IGntn6hpM0tKqPkqtTO7if0Bf/2fukt+AHyW
+ 2CEqYkuRLGju13yV6/Y0TW95dZPqPlAK1ZVppTxpVTndiis5ZtbipSoLr7EhcwEJhH
+ xvjumNTn6B5GXtAfZrOZKjWoMWi2yqec2V6ECtypLFc7dN3YqDsJtr7/1IhFUp6/Xu
+ G9aHkWZtgPfsw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hermes Wu <hermes.wu@ite.com.tw>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 16/17] drm/bridge: it6505: fix HDCP CTS KSV list
- wait timer
-Date: Sun, 26 Jan 2025 09:56:11 -0500
-Message-Id: <20250126145612.937679-16-sashal@kernel.org>
+Cc: Dongwon Kim <dongwon.kim@intel.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Rob Clark <robdclark@gmail.com>, Sasha Levin <sashal@kernel.org>,
+ airlied@redhat.com, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.1 1/9] drm/virtio: New fence for every plane update
+Date: Sun, 26 Jan 2025 09:56:43 -0500
+Message-Id: <20250126145651.943149-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250126145612.937679-1-sashal@kernel.org>
-References: <20250126145612.937679-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.74
+X-stable-base: Linux 6.1.127
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,66 +64,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hermes Wu <hermes.wu@ite.com.tw>
+From: Dongwon Kim <dongwon.kim@intel.com>
 
-[ Upstream commit 9f9eef9ec1a2b57d95a86fe81df758e8253a7766 ]
+[ Upstream commit d3c55b8ab6fe5fa2e7ab02efd36d09c39ee5022f ]
 
-HDCP must disabled encryption and restart authentication after
-waiting KSV for 5s.
-The original method uses a counter in a waitting loop that may
-wait much longer than it is supposed to.
-Use time_after() for KSV wait timeout.
+Having a fence linked to a virtio_gpu_framebuffer in the plane update
+sequence would cause conflict when several planes referencing the same
+framebuffer (e.g. Xorg screen covering multi-displays configured for an
+extended mode) and those planes are updated concurrently. So it is needed
+to allocate a fence for every plane state instead of the framebuffer.
 
-Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-9-e0fdd4844703@ite.corp-partner.google.com
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+[dmitry.osipenko@collabora.com: rebase, fix up, edit commit message]
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241020230803.247419-2-dmitry.osipenko@collabora.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 ++++
+ drivers/gpu/drm/virtio/virtgpu_plane.c | 58 +++++++++++++++++---------
+ 2 files changed, 46 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index b23e6f663b18f..cedba2a76f014 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2058,12 +2058,13 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 	struct it6505 *it6505 = container_of(work, struct it6505,
- 					     hdcp_wait_ksv_list);
- 	struct device *dev = it6505->dev;
--	unsigned int timeout = 5000;
--	u8 bstatus = 0;
-+	u8 bstatus;
- 	bool ksv_list_check;
-+	/* 1B-04 wait ksv list for 5s */
-+	unsigned long timeout = jiffies +
-+				msecs_to_jiffies(5000) + 1;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 9b98470593b06..20a418f64533b 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -190,6 +190,13 @@ struct virtio_gpu_framebuffer {
+ #define to_virtio_gpu_framebuffer(x) \
+ 	container_of(x, struct virtio_gpu_framebuffer, base)
  
--	timeout /= 20;
--	while (timeout > 0) {
-+	for (;;) {
- 		if (!it6505_get_sink_hpd_status(it6505))
- 			return;
++struct virtio_gpu_plane_state {
++	struct drm_plane_state base;
++	struct virtio_gpu_fence *fence;
++};
++#define to_virtio_gpu_plane_state(x) \
++	container_of(x, struct virtio_gpu_plane_state, base)
++
+ struct virtio_gpu_queue {
+ 	struct virtqueue *vq;
+ 	spinlock_t qlock;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 4c09e313bebcd..0c073ba4974fb 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -66,11 +66,28 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+ 	return format;
+ }
  
-@@ -2072,13 +2073,12 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 		if (bstatus & DP_BSTATUS_READY)
- 			break;
++static struct
++drm_plane_state *virtio_gpu_plane_duplicate_state(struct drm_plane *plane)
++{
++	struct virtio_gpu_plane_state *new;
++
++	if (WARN_ON(!plane->state))
++		return NULL;
++
++	new = kzalloc(sizeof(*new), GFP_KERNEL);
++	if (!new)
++		return NULL;
++
++	__drm_atomic_helper_plane_duplicate_state(plane, &new->base);
++
++	return &new->base;
++}
++
+ static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
+ 	.update_plane		= drm_atomic_helper_update_plane,
+ 	.disable_plane		= drm_atomic_helper_disable_plane,
+ 	.reset			= drm_atomic_helper_plane_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
++	.atomic_duplicate_state = virtio_gpu_plane_duplicate_state,
+ 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+ };
  
--		msleep(20);
--		timeout--;
--	}
-+		if (time_after(jiffies, timeout)) {
-+			DRM_DEV_DEBUG_DRIVER(dev, "KSV list wait timeout");
-+			goto timeout;
-+		}
+@@ -128,11 +145,13 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
+ 	struct drm_device *dev = plane->dev;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo;
  
--	if (timeout == 0) {
--		DRM_DEV_DEBUG_DRIVER(dev, "timeout and ksv list wait failed");
--		goto timeout;
-+		msleep(20);
+ 	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++	vgplane_st = to_virtio_gpu_plane_state(plane->state);
+ 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+-	if (vgfb->fence) {
++	if (vgplane_st->fence) {
+ 		struct virtio_gpu_object_array *objs;
+ 
+ 		objs = virtio_gpu_array_alloc(1);
+@@ -141,13 +160,11 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
+ 		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
+ 		virtio_gpu_array_lock_resv(objs);
+ 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
+-					      width, height, objs, vgfb->fence);
++					      width, height, objs,
++					      vgplane_st->fence);
+ 		virtio_gpu_notify(vgdev);
+-
+-		dma_fence_wait_timeout(&vgfb->fence->f, true,
++		dma_fence_wait_timeout(&vgplane_st->fence->f, true,
+ 				       msecs_to_jiffies(50));
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
+ 	} else {
+ 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
+ 					      width, height, NULL, NULL);
+@@ -237,20 +254,23 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 	struct drm_device *dev = plane->dev;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo;
+ 
+ 	if (!new_state->fb)
+ 		return 0;
+ 
+ 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
++	vgplane_st = to_virtio_gpu_plane_state(new_state);
+ 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+ 	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
+ 		return 0;
+ 
+-	if (bo->dumb && (plane->state->fb != new_state->fb)) {
+-		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
++	if (bo->dumb) {
++		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
++						     vgdev->fence_drv.context,
+ 						     0);
+-		if (!vgfb->fence)
++		if (!vgplane_st->fence)
+ 			return -ENOMEM;
  	}
  
- 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
+@@ -260,15 +280,15 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
+ 					struct drm_plane_state *state)
+ {
+-	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 
+ 	if (!state->fb)
+ 		return;
+ 
+-	vgfb = to_virtio_gpu_framebuffer(state->fb);
+-	if (vgfb->fence) {
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
++	vgplane_st = to_virtio_gpu_plane_state(state);
++	if (vgplane_st->fence) {
++		dma_fence_put(&vgplane_st->fence->f);
++		vgplane_st->fence = NULL;
+ 	}
+ }
+ 
+@@ -281,6 +301,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_output *output = NULL;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo = NULL;
+ 	uint32_t handle;
+ 
+@@ -293,6 +314,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 
+ 	if (plane->state->fb) {
+ 		vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++		vgplane_st = to_virtio_gpu_plane_state(plane->state);
+ 		bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+ 		handle = bo->hw_res_handle;
+ 	} else {
+@@ -312,11 +334,9 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 			(vgdev, 0,
+ 			 plane->state->crtc_w,
+ 			 plane->state->crtc_h,
+-			 0, 0, objs, vgfb->fence);
++			 0, 0, objs, vgplane_st->fence);
+ 		virtio_gpu_notify(vgdev);
+-		dma_fence_wait(&vgfb->fence->f, true);
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
++		dma_fence_wait(&vgplane_st->fence->f, true);
+ 	}
+ 
+ 	if (plane->state->fb != old_state->fb) {
 -- 
 2.39.5
 
