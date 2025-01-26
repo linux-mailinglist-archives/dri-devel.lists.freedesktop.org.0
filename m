@@ -2,50 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E902A1C94A
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B4EA1C94B
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:57:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054B210E421;
-	Sun, 26 Jan 2025 14:57:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DCFA10E426;
+	Sun, 26 Jan 2025 14:57:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Zwo1Wzl5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NcPTD62Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8FE10E424;
- Sun, 26 Jan 2025 14:57:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7118810E421
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:57:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9C3635C1121;
- Sun, 26 Jan 2025 14:56:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26A61C4CEE4;
- Sun, 26 Jan 2025 14:56:59 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B5B7D5C5E4B;
+ Sun, 26 Jan 2025 14:56:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F5D1C4CEE3;
+ Sun, 26 Jan 2025 14:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903421;
- bh=s/+/JuViBKmMbnbElSmcPqp34fg1Y9JUTA0kgwPD87g=;
+ s=k20201202; t=1737903423;
+ bh=MvhPhwpDMbr1Ot4y7wq+dH0S+d3TKlF9sW4YFGWa0uQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Zwo1Wzl5U48JpBUY/V8VkNU7d9KzaKNIVVbEmJQZ6S7eHfBI2f9C+aD/8/iPDsjd4
- rIaHFO1ykQcKJ20Sy0h8K1dhL3zjYN4k+rFGAIEi5hn4Q+l4IviaTi0l2KpUCpUtrp
- gA8Fg0/aikwTsOpy7x0bcboStvBaaE/v+6bIqwKbUaTTHNdl+slPnHt0lmW2NF9TR5
- 32H3+HnwbZPK0zWE/z5e1HBPJZKs03BWbyB0oyscGl7N7sYA1BcoTHyUEklK+Y8U3N
- Qkl/EpyGZMlETABPlBl2X9M+UdMWZaWHRR5iGK+z7zCWM9HzfsdCSGwKheq2VMyj0i
- mQIhabvYiZCpQ==
+ b=NcPTD62Z3JEZf9GwLAaNgOzpv3BcFhgx0811yhGJwUMf3V/ojp+yFyBCpUnBBiRpo
+ eWe6CnuvG3CRDWfckOehfCZblRBGTnTyIpf0XV1CdvV6Tbt1ED5jGYATRXLSK2KenG
+ HsB13xR98IVeJ6SRjdEBs+rZtH35MQZR68afb2b/ajRdcOhOdC6+p5e8sOkrQZRxZc
+ TI+NfXAMKMq/QQlAoiISVuCAzWqqwTjwLtg7ZyW40OGSJS40c5T7CYNznkfTqlbmZ0
+ sJsp8ION8dNc9sf0WPlknBK9/4t1hYbmRiEqYT0GeOpGv1MVOGSCX1pU3v4Y9CilV2
+ u2WN2aMbL5bxQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Fangzhi Zuo <Jerry.Zuo@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>,
- Wayne Lin <wayne.lin@amd.com>, Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- simona@ffwll.ch, Wayne.Lin@amd.com, chiahsuan.chung@amd.com,
- agustin.gutierrez@amd.com, mario.limonciello@amd.com, hersenxs.wu@amd.com,
- mwen@igalia.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 4/9] drm/amd/display: Fix Mode Cutoff in DSC
- Passthrough to DP2.1 Monitor
-Date: Sun, 26 Jan 2025 09:56:46 -0500
-Message-Id: <20250126145651.943149-4-sashal@kernel.org>
+Cc: Hermes Wu <hermes.wu@ite.com.tw>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.1 5/9] drm/bridge: it6505: Change definition
+ MAX_HDCP_DOWN_STREAM_COUNT
+Date: Sun, 26 Jan 2025 09:56:47 -0500
+Message-Id: <20250126145651.943149-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145651.943149-1-sashal@kernel.org>
 References: <20250126145651.943149-1-sashal@kernel.org>
@@ -69,59 +67,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Fangzhi Zuo <Jerry.Zuo@amd.com>
+From: Hermes Wu <hermes.wu@ite.com.tw>
 
-[ Upstream commit e56ad45e991128bf4db160b75a1d9f647a341d8f ]
+[ Upstream commit 85597bc0d70c287ba41f17d14d3d857a38a3d727 ]
 
-Source --> DP2.1 MST hub --> DP1.4/2.1 monitor
+A HDCP source device shall support max downstream to 127 devices.
+Change definition MAX_HDCP_DOWN_STREAM_COUNT to 127
 
-When change from DP1.4 to DP2.1 from monitor manual, modes higher than
-4k120 are all cutoff by mode validation. Switch back to DP1.4 gets all
-the modes up to 4k240 available to be enabled by dsc passthrough.
+KSVs shall save for DRM blocked devices check.
+This results in struct it6505 growth by ~0.5 KiB.
 
-[why]
-Compared to DP1.4 link from hub to monitor, DP2.1 link has larger
-full_pbn value that causes overflow in the process of doing conversion
-from pbn to kbps.
-
-[how]
-Change the data type accordingly to fit into the data limit during
-conversion calculation.
-
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Reviewed-by: Wayne Lin <wayne.lin@amd.com>
-Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
-Signed-off-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-4-e0fdd4844703@ite.corp-partner.google.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 1acef5f3838f3..5eb994ed54717 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -1555,16 +1555,16 @@ int pre_validate_dsc(struct drm_atomic_state *state,
- 	return ret;
- }
- 
--static unsigned int kbps_from_pbn(unsigned int pbn)
-+static uint32_t kbps_from_pbn(unsigned int pbn)
- {
--	unsigned int kbps = pbn;
-+	uint64_t kbps = (uint64_t)pbn;
- 
- 	kbps *= (1000000 / PEAK_FACTOR_X1000);
- 	kbps *= 8;
- 	kbps *= 54;
- 	kbps /= 64;
- 
--	return kbps;
-+	return (uint32_t)kbps;
- }
- 
- static bool is_dsc_common_config_possible(struct dc_stream_state *stream,
+diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
+index 5a23277be4445..3a15cd170fe4d 100644
+--- a/drivers/gpu/drm/bridge/ite-it6505.c
++++ b/drivers/gpu/drm/bridge/ite-it6505.c
+@@ -296,7 +296,7 @@
+ #define MAX_LANE_COUNT 4
+ #define MAX_LINK_RATE HBR
+ #define AUTO_TRAIN_RETRY 3
+-#define MAX_HDCP_DOWN_STREAM_COUNT 10
++#define MAX_HDCP_DOWN_STREAM_COUNT 127
+ #define MAX_CR_LEVEL 0x03
+ #define MAX_EQ_LEVEL 0x03
+ #define AUX_WAIT_TIMEOUT_MS 15
 -- 
 2.39.5
 
