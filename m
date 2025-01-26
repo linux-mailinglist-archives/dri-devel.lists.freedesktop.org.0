@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF731A1C932
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA535A1C935
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F42F10E40C;
-	Sun, 26 Jan 2025 14:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF0C10E40F;
+	Sun, 26 Jan 2025 14:56:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R2stPh/r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eS39qonB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A67010E408
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 180BA10E40C
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8F60C5C4363;
- Sun, 26 Jan 2025 14:55:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8BB3C4CED3;
- Sun, 26 Jan 2025 14:56:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 59EF15C5A6F;
+ Sun, 26 Jan 2025 14:55:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25FFFC4CEE3;
+ Sun, 26 Jan 2025 14:56:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903375;
- bh=iDFms1I5hEBtyBWy0DYGk9/eU8/v/WiCVIyvJEol4oY=;
- h=From:To:Cc:Subject:Date:From;
- b=R2stPh/rvTJ7pCTpe/U59tuZ2g5ESjjQkidSOLRGgWjk1lbpozkfDf5ax8WczfYC8
- jG+MNWKunWWrejMVcSfUCT5RxuHH4+DENr0emU0VK+165c6o8pLYHvKcp+uAIRGNud
- VfQY9rynbGtsvrJ15hBIY9inOQ4tsvLdA9r1g1zI9BjTX+IlJYLaVQIuucGBPGNxJk
- ts/R0Ciniub6zDMwS2hxi05YtHtlkTGTNByP15GFqNIvwYyBd0UMeK58lQen820fD5
- 0zbUjP3DZ0IgQiEU/K/qXBfq8W/qi9oawH0zWFAf/KRVFxxEEZDvf2GFPR5EyeRGrF
- nLxUYd9t59AVg==
+ s=k20201202; t=1737903378;
+ bh=OAYQq0O94/PSvNgw2CG3m7XJBnsy9Nv0aKGnYADaU1w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=eS39qonBGDGAzX9w3KymNRfS3QZ/OhhrF41NS7xAx+UpesWpX8/jMPGUCD0z84qew
+ gE/TeikZlOj31NRp2ItFh7WpmmqNYMqh++/bzEfQ8O/WxQIoBBpM30uBpyW/vf+14v
+ F+6hcxi8s7k01GsXnxH+snYp4oE1yk4aAGDyBgMup1mgfOqT8lpMYBSy1g7GLql++0
+ BHDKa8cf7AtvpRR1OXbUelEiwxolhw4FuHaz7BQyiAzPoTXf6OFoyGiVyT8VDlgBTY
+ AtNoLFcBZT4Xc5xjnzCMY8vZm1cKRL5TUbvKfL6szPhkPSjqq3tsPLiKXZ0SwRmLCM
+ 7NQgBJblAOM6g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Dongwon Kim <dongwon.kim@intel.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Rob Clark <robdclark@gmail.com>, Sasha Levin <sashal@kernel.org>,
- airlied@redhat.com, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 01/17] drm/virtio: New fence for every plane update
-Date: Sun, 26 Jan 2025 09:55:56 -0500
-Message-Id: <20250126145612.937679-1-sashal@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 03/17] drm/connector: add mutex to protect ELD
+ from concurrent access
+Date: Sun, 26 Jan 2025 09:55:58 -0500
+Message-Id: <20250126145612.937679-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250126145612.937679-1-sashal@kernel.org>
+References: <20250126145612.937679-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -64,190 +64,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dongwon Kim <dongwon.kim@intel.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit d3c55b8ab6fe5fa2e7ab02efd36d09c39ee5022f ]
+[ Upstream commit df7c8e3dde37a9d81c0613285b43600f3cc70f34 ]
 
-Having a fence linked to a virtio_gpu_framebuffer in the plane update
-sequence would cause conflict when several planes referencing the same
-framebuffer (e.g. Xorg screen covering multi-displays configured for an
-extended mode) and those planes are updated concurrently. So it is needed
-to allocate a fence for every plane state instead of the framebuffer.
+The connector->eld is accessed by the .get_eld() callback. This access
+can collide with the drm_edid_to_eld() updating the data at the same
+time. Add drm_connector.eld_mutex to protect the data from concurrenct
+access. Individual drivers are not updated (to reduce possible issues
+while applying the patch), maintainers are to find a best suitable way
+to lock that mutex while accessing the ELD data.
 
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-[dmitry.osipenko@collabora.com: rebase, fix up, edit commit message]
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241020230803.247419-2-dmitry.osipenko@collabora.com
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-1-c9bce1ee8bea@linaro.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 ++++
- drivers/gpu/drm/virtio/virtgpu_plane.c | 58 +++++++++++++++++---------
- 2 files changed, 46 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/drm_connector.c | 1 +
+ drivers/gpu/drm/drm_edid.c      | 6 ++++++
+ include/drm/drm_connector.h     | 5 ++++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 4126c384286bf..61fd37f95fbd9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -191,6 +191,13 @@ struct virtio_gpu_framebuffer {
- #define to_virtio_gpu_framebuffer(x) \
- 	container_of(x, struct virtio_gpu_framebuffer, base)
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 309aad5f0c808..35bed66214474 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -277,6 +277,7 @@ static int __drm_connector_init(struct drm_device *dev,
+ 	INIT_LIST_HEAD(&connector->probed_modes);
+ 	INIT_LIST_HEAD(&connector->modes);
+ 	mutex_init(&connector->mutex);
++	mutex_init(&connector->eld_mutex);
+ 	mutex_init(&connector->edid_override_mutex);
+ 	connector->edid_blob_ptr = NULL;
+ 	connector->epoch_counter = 0;
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index ee3fab115c4b5..ad872c61aac0e 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5499,7 +5499,9 @@ EXPORT_SYMBOL(drm_edid_get_monitor_name);
  
-+struct virtio_gpu_plane_state {
-+	struct drm_plane_state base;
-+	struct virtio_gpu_fence *fence;
-+};
-+#define to_virtio_gpu_plane_state(x) \
-+	container_of(x, struct virtio_gpu_plane_state, base)
-+
- struct virtio_gpu_queue {
- 	struct virtqueue *vq;
- 	spinlock_t qlock;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index a1ef657eba077..36de73e03bbfa 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -66,11 +66,28 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
- 	return format;
- }
- 
-+static struct
-+drm_plane_state *virtio_gpu_plane_duplicate_state(struct drm_plane *plane)
-+{
-+	struct virtio_gpu_plane_state *new;
-+
-+	if (WARN_ON(!plane->state))
-+		return NULL;
-+
-+	new = kzalloc(sizeof(*new), GFP_KERNEL);
-+	if (!new)
-+		return NULL;
-+
-+	__drm_atomic_helper_plane_duplicate_state(plane, &new->base);
-+
-+	return &new->base;
-+}
-+
- static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
- 	.reset			= drm_atomic_helper_plane_reset,
--	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
-+	.atomic_duplicate_state = virtio_gpu_plane_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
- };
- 
-@@ -138,11 +155,13 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
- 	struct drm_device *dev = plane->dev;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
- 	struct virtio_gpu_object *bo;
- 
- 	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+	vgplane_st = to_virtio_gpu_plane_state(plane->state);
- 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
--	if (vgfb->fence) {
-+	if (vgplane_st->fence) {
- 		struct virtio_gpu_object_array *objs;
- 
- 		objs = virtio_gpu_array_alloc(1);
-@@ -151,13 +170,11 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
- 		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
- 		virtio_gpu_array_lock_resv(objs);
- 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
--					      width, height, objs, vgfb->fence);
-+					      width, height, objs,
-+					      vgplane_st->fence);
- 		virtio_gpu_notify(vgdev);
--
--		dma_fence_wait_timeout(&vgfb->fence->f, true,
-+		dma_fence_wait_timeout(&vgplane_st->fence->f, true,
- 				       msecs_to_jiffies(50));
--		dma_fence_put(&vgfb->fence->f);
--		vgfb->fence = NULL;
- 	} else {
- 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
- 					      width, height, NULL, NULL);
-@@ -247,20 +264,23 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
- 	struct drm_device *dev = plane->dev;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
- 	struct virtio_gpu_object *bo;
- 
- 	if (!new_state->fb)
- 		return 0;
- 
- 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
-+	vgplane_st = to_virtio_gpu_plane_state(new_state);
- 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
- 	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
- 		return 0;
- 
--	if (bo->dumb && (plane->state->fb != new_state->fb)) {
--		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
-+	if (bo->dumb) {
-+		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
-+						     vgdev->fence_drv.context,
- 						     0);
--		if (!vgfb->fence)
-+		if (!vgplane_st->fence)
- 			return -ENOMEM;
- 	}
- 
-@@ -270,15 +290,15 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
- static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
- 					struct drm_plane_state *state)
+ static void clear_eld(struct drm_connector *connector)
  {
--	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
++	mutex_lock(&connector->eld_mutex);
+ 	memset(connector->eld, 0, sizeof(connector->eld));
++	mutex_unlock(&connector->eld_mutex);
  
- 	if (!state->fb)
+ 	connector->latency_present[0] = false;
+ 	connector->latency_present[1] = false;
+@@ -5530,6 +5532,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	if (!drm_edid)
  		return;
  
--	vgfb = to_virtio_gpu_framebuffer(state->fb);
--	if (vgfb->fence) {
--		dma_fence_put(&vgfb->fence->f);
--		vgfb->fence = NULL;
-+	vgplane_st = to_virtio_gpu_plane_state(state);
-+	if (vgplane_st->fence) {
-+		dma_fence_put(&vgplane_st->fence->f);
-+		vgplane_st->fence = NULL;
- 	}
++	mutex_lock(&connector->eld_mutex);
++
+ 	mnl = get_monitor_name(drm_edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD monitor %s\n",
+ 		    connector->base.id, connector->name,
+@@ -5590,6 +5594,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD size %d, SAD count %d\n",
+ 		    connector->base.id, connector->name,
+ 		    drm_eld_size(eld), total_sad_count);
++
++	mutex_unlock(&connector->eld_mutex);
  }
  
-@@ -291,6 +311,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_output *output = NULL;
- 	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
- 	struct virtio_gpu_object *bo = NULL;
- 	uint32_t handle;
+ static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index d300fde6c1a47..b2e9dc02fa349 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1764,8 +1764,11 @@ struct drm_connector {
+ 	struct drm_encoder *encoder;
  
-@@ -303,6 +324,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 
- 	if (plane->state->fb) {
- 		vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+		vgplane_st = to_virtio_gpu_plane_state(plane->state);
- 		bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
- 		handle = bo->hw_res_handle;
- 	} else {
-@@ -322,11 +344,9 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 			(vgdev, 0,
- 			 plane->state->crtc_w,
- 			 plane->state->crtc_h,
--			 0, 0, objs, vgfb->fence);
-+			 0, 0, objs, vgplane_st->fence);
- 		virtio_gpu_notify(vgdev);
--		dma_fence_wait(&vgfb->fence->f, true);
--		dma_fence_put(&vgfb->fence->f);
--		vgfb->fence = NULL;
-+		dma_fence_wait(&vgplane_st->fence->f, true);
- 	}
- 
- 	if (plane->state->fb != old_state->fb) {
+ #define MAX_ELD_BYTES	128
+-	/** @eld: EDID-like data, if present */
++	/** @eld: EDID-like data, if present, protected by @eld_mutex */
+ 	uint8_t eld[MAX_ELD_BYTES];
++	/** @eld_mutex: protection for concurrenct access to @eld */
++	struct mutex eld_mutex;
++
+ 	/** @latency_present: AV delay info from ELD, if found */
+ 	bool latency_present[2];
+ 	/**
 -- 
 2.39.5
 
