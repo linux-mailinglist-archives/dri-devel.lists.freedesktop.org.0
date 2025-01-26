@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1DC5A1C8D8
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7A9A1C8D7
 	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:54:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D18110E39F;
-	Sun, 26 Jan 2025 14:54:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D723510E39D;
+	Sun, 26 Jan 2025 14:54:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U4BEdvSY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pV9GRMUp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712E610E39A;
- Sun, 26 Jan 2025 14:53:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ACBE10E39D
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:53:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B6B245C601C;
- Sun, 26 Jan 2025 14:53:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54991C4CEE4;
- Sun, 26 Jan 2025 14:53:55 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 84C945C5FD1;
+ Sun, 26 Jan 2025 14:53:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45A38C4CED3;
+ Sun, 26 Jan 2025 14:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903236;
- bh=+t9llDFbFMn1jJgQFqrQ3k8YWYbBMvG0OVWpHSWc8Q0=;
+ s=k20201202; t=1737903238;
+ bh=igBgiYfC+ah+bvtu93LuqQJmvg2BbkRN+Ap4goJj2hk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=U4BEdvSY9q3Eodj9jcMFVmPvaOst6kWrQBS2Uqj2d3p+5PRgyDMUyZyLS7jJjmfWv
- q6TQlwtWTzcJda5tjGNRPy8RwS9jBVx6vwrb+ugV2TopRc2ToL7oFXaRCIvpjjKVbM
- a0el1z/Xh2QgzIg9sgtB/3rwl7TvqBCG2wE/tA05tmewqkwZOx131x76nfo91EqnzH
- etFNom90/1/PKeDBuF+eDrgS1Q9A/jWJLFMkKdlNjPw1QO3xthBGawpPUPhVQddFI/
- eO88gFpH8NPyIf+/lJd+A16AWHX+n7ctYU1poaN+ZDXx1K6Q8dRHlPInNZDU9Jbxau
- ijeWFljouPS+w==
+ b=pV9GRMUpX6s+w0WnGXf4V414H9q2eJvVut6BuMHSaBZSZngrsTDV/EZOiP2vb+omu
+ efzWy0ezcYuxHsrjIPFMaJX1QnLR3RBNBSv2mFBD++uAP8yjuE2VWAeE6/CU4fT9pl
+ dRYWjtkBccnae/O1HI/oYD8iPHUJb7ygCU4waI95TNRVqCcyHggMllfnY7ha8nS6qP
+ 1S7G9Pf+fLR+dzFlS+ZoUlRpdhuZkP6Aj4Diap5KcuLZIW6i1Pbtl8B5xyUw1aFWOY
+ yUm62RWt1UMCu3zkfaiTyQHBlNXz8sWSlQ6g0cGSF65wihhd7Hp3uE49s43VRxZM1i
+ +qFrRZrNuhj/g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Xiangxu Yin <quic_xiangxuy@quicinc.com>, Sasha Levin <sashal@kernel.org>,
- robdclark@gmail.com, airlied@gmail.com, simona@ffwll.ch,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.13 13/34] drm/msm/dpu: filter out too wide modes if
- no 3dmux is present
-Date: Sun, 26 Jan 2025 09:52:49 -0500
-Message-Id: <20250126145310.926311-13-sashal@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 14/34] drm/connector: add mutex to protect ELD
+ from concurrent access
+Date: Sun, 26 Jan 2025 09:52:50 -0500
+Message-Id: <20250126145310.926311-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145310.926311-1-sashal@kernel.org>
 References: <20250126145310.926311-1-sashal@kernel.org>
@@ -66,60 +64,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit dbc7bb1a93f41c533fe31ddc97bdf777d7a61faa ]
+[ Upstream commit df7c8e3dde37a9d81c0613285b43600f3cc70f34 ]
 
-On chipsets such as QCS615, there is no 3dmux present. In such
-a case, a layer exceeding the max_mixer_width cannot be split,
-hence cannot be supported.
+The connector->eld is accessed by the .get_eld() callback. This access
+can collide with the drm_edid_to_eld() updating the data at the same
+time. Add drm_connector.eld_mutex to protect the data from concurrenct
+access. Individual drivers are not updated (to reduce possible issues
+while applying the patch), maintainers are to find a best suitable way
+to lock that mutex while accessing the ELD data.
 
-Filter out the modes which exceed the max_mixer_width when there
-is no 3dmux present. Also, add a check in the dpu_crtc_atomic_check()
-to return failure for such modes.
-
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Tested-by: Xiangxu Yin <quic_xiangxuy@quicinc.com> # QCS615
-Patchwork: https://patchwork.freedesktop.org/patch/627974/
-Link: https://lore.kernel.org/r/20241209-no_3dmux-v3-1-48aaa555b0d3@quicinc.com
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-1-c9bce1ee8bea@linaro.org
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/drm_connector.c | 1 +
+ drivers/gpu/drm/drm_edid.c      | 6 ++++++
+ include/drm/drm_connector.h     | 5 ++++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index 9f6ffd344693e..ad3462476a143 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -732,6 +732,13 @@ static int _dpu_crtc_check_and_setup_lm_bounds(struct drm_crtc *crtc,
- 	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
- 	int i;
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index ca7f43c8d6f1b..0e6021235a930 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -277,6 +277,7 @@ static int __drm_connector_init(struct drm_device *dev,
+ 	INIT_LIST_HEAD(&connector->probed_modes);
+ 	INIT_LIST_HEAD(&connector->modes);
+ 	mutex_init(&connector->mutex);
++	mutex_init(&connector->eld_mutex);
+ 	mutex_init(&connector->edid_override_mutex);
+ 	mutex_init(&connector->hdmi.infoframes.lock);
+ 	connector->edid_blob_ptr = NULL;
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 855beafb76ffb..13bc4c290b17d 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5605,7 +5605,9 @@ EXPORT_SYMBOL(drm_edid_get_monitor_name);
  
-+	/* if we cannot merge 2 LMs (no 3d mux) better to fail earlier
-+	 * before even checking the width after the split
-+	 */
-+	if (!dpu_kms->catalog->caps->has_3d_merge &&
-+	    adj_mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
-+		return -E2BIG;
-+
- 	for (i = 0; i < cstate->num_mixers; i++) {
- 		struct drm_rect *r = &cstate->lm_bounds[i];
- 		r->x1 = crtc_split_width * i;
-@@ -1251,6 +1258,12 @@ static enum drm_mode_status dpu_crtc_mode_valid(struct drm_crtc *crtc,
+ static void clear_eld(struct drm_connector *connector)
  {
- 	struct dpu_kms *dpu_kms = _dpu_crtc_get_kms(crtc);
++	mutex_lock(&connector->eld_mutex);
+ 	memset(connector->eld, 0, sizeof(connector->eld));
++	mutex_unlock(&connector->eld_mutex);
  
-+	/* if there is no 3d_mux block we cannot merge LMs so we cannot
-+	 * split the large layer into 2 LMs, filter out such modes
-+	 */
-+	if (!dpu_kms->catalog->caps->has_3d_merge &&
-+	    mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width)
-+		return MODE_BAD_HVALUE;
- 	/*
- 	 * max crtc width is equal to the max mixer width * 2 and max height is 4K
- 	 */
+ 	connector->latency_present[0] = false;
+ 	connector->latency_present[1] = false;
+@@ -5657,6 +5659,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	if (!drm_edid)
+ 		return;
+ 
++	mutex_lock(&connector->eld_mutex);
++
+ 	mnl = get_monitor_name(drm_edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD monitor %s\n",
+ 		    connector->base.id, connector->name,
+@@ -5717,6 +5721,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD size %d, SAD count %d\n",
+ 		    connector->base.id, connector->name,
+ 		    drm_eld_size(eld), total_sad_count);
++
++	mutex_unlock(&connector->eld_mutex);
+ }
+ 
+ static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index e3fa43291f449..1e2b25e204cb5 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2001,8 +2001,11 @@ struct drm_connector {
+ 	struct drm_encoder *encoder;
+ 
+ #define MAX_ELD_BYTES	128
+-	/** @eld: EDID-like data, if present */
++	/** @eld: EDID-like data, if present, protected by @eld_mutex */
+ 	uint8_t eld[MAX_ELD_BYTES];
++	/** @eld_mutex: protection for concurrenct access to @eld */
++	struct mutex eld_mutex;
++
+ 	/** @latency_present: AV delay info from ELD, if found */
+ 	bool latency_present[2];
+ 	/**
 -- 
 2.39.5
 
