@@ -2,47 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F851A1C950
+	by mail.lfdr.de (Postfix) with ESMTPS id 3184CA1C951
 	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:57:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67CD810E429;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C18C10E42A;
 	Sun, 26 Jan 2025 14:57:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JR6gKVt9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KObkwSBv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B22510E426
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:57:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78DB310E427
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:57:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B87CE5C5E8D;
- Sun, 26 Jan 2025 14:56:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14B42C4CED3;
- Sun, 26 Jan 2025 14:57:03 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BB6005C5F49;
+ Sun, 26 Jan 2025 14:56:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A891C4CED3;
+ Sun, 26 Jan 2025 14:57:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903425;
- bh=eGZjCzdv4jNzKu+HVvLsvhG2ZyLc6eO2o5Qvsd1CY1g=;
+ s=k20201202; t=1737903427;
+ bh=6g7CHfgjfoyNzNGehf5JAgqB8HRn0chL0blw5JjxKGg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JR6gKVt9o9IT9j5tUSU9s96X+Z4YcSPmddq7vI902YouOsnF/AgBHnZlPbOxm6H7H
- uElsNlrYhf1NHF7RhMnHB8RjTeh031I0THHIElLKUE2pCBxRAberwXtErz0j6Z0+4i
- l4kAWAbE4t5XLH2VVD5xrHRNnWARnyNXZldLIewp1QLIkrlYHR+XTnaXIyY3uJFvkS
- kbH3v6/fxxRhNNVP11f3CYkHzTtBfWbekgsetc0C+0vTZ8zRHTqws4NWCX/jlEhWmP
- pHielvPXdeddUAaLupYNW8+yLjjLAWkvqC6C5kpYIsNCm095IjO70q4nyfJck4AtGz
- c1HHtXnvHhs0w==
+ b=KObkwSBvDTZvK9Sxa3sTTafnDgcxEVRffpVPAzYQ5jn1QGz/tP3RY2VOsYVL5Srq4
+ pUREXVAZ4w11BMTJZtHbQxipjVY1k3vIhRNt5ytfydT2szUbGm083HaM7bBATg97i+
+ 4pmG2/aQPF30g5yUlUepBq5XZO5Y/iSh4a1g4jqzXY+EwvwKR/jYF9C2mP6HvRJKSI
+ MwViFsmYLv0LD2eetjjJ9Ldw8m9QBflvPIr6wEDm/ZAMg7xpmEPLCYhd6wilK8djlF
+ iSdFWlWVZoDGg8HePC6xwdv0trywrVQwj6dB+S2MsRQ5VuAtrr0sp5/pkEA4OirENP
+ dz76N56Vp2p+g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Hermes Wu <hermes.wu@ite.com.tw>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Sasha Levin <sashal@kernel.org>, andrzej.hajda@intel.com,
  neil.armstrong@linaro.org, rfoss@kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 6/9] drm/bridge: it6505: fix HDCP Bstatus check
-Date: Sun, 26 Jan 2025 09:56:48 -0500
-Message-Id: <20250126145651.943149-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 7/9] drm/bridge: it6505: fix HDCP encryption when
+ R0 ready
+Date: Sun, 26 Jan 2025 09:56:49 -0500
+Message-Id: <20250126145651.943149-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145651.943149-1-sashal@kernel.org>
 References: <20250126145651.943149-1-sashal@kernel.org>
@@ -68,50 +69,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hermes Wu <hermes.wu@ite.com.tw>
 
-[ Upstream commit 0fd2ff47d8c207fa3173661de04bb9e8201c0ad2 ]
+[ Upstream commit 8c01b0bae2f9e58f2fee0e811cb90d8331986554 ]
 
-When HDCP is activated,
-a DisplayPort source receiving CP_IRQ from the sink
-shall check Bstatus from DPCD and process the corresponding value
+When starting HDCP authentication, HDCP encryption should be enabled
+when R0'is checked.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Change encryption enables time at R0' ready.
+The hardware HDCP engine trigger is changed and the repeater KSV fails
+will restart HDCP.
+
 Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-5-e0fdd4844703@ite.corp-partner.google.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-6-e0fdd4844703@ite.corp-partner.google.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 3a15cd170fe4d..32c401ab72a60 100644
+index 32c401ab72a60..9ef0ce2c2d14a 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2292,14 +2292,20 @@ static int it6505_process_hpd_irq(struct it6505 *it6505)
- 	DRM_DEV_DEBUG_DRIVER(dev, "dp_irq_vector = 0x%02x", dp_irq_vector);
- 
- 	if (dp_irq_vector & DP_CP_IRQ) {
--		it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
--				HDCP_TRIGGER_CPIRQ);
--
- 		bstatus = it6505_dpcd_read(it6505, DP_AUX_HDCP_BSTATUS);
- 		if (bstatus < 0)
- 			return bstatus;
- 
- 		DRM_DEV_DEBUG_DRIVER(dev, "Bstatus = 0x%02x", bstatus);
+@@ -2069,15 +2069,12 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
+ 	DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
+ 			     ksv_list_check ? "pass" : "fail");
+-	if (ksv_list_check) {
+-		it6505_set_bits(it6505, REG_HDCP_TRIGGER,
+-				HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
 +
-+		/*Check BSTATUS when recive CP_IRQ */
-+		if (bstatus & DP_BSTATUS_R0_PRIME_READY &&
-+		    it6505->hdcp_status == HDCP_AUTH_GOING)
-+			it6505_set_bits(it6505, REG_HDCP_TRIGGER, HDCP_TRIGGER_CPIRQ,
-+					HDCP_TRIGGER_CPIRQ);
-+		else if (bstatus & (DP_BSTATUS_REAUTH_REQ | DP_BSTATUS_LINK_FAILURE) &&
-+			 it6505->hdcp_status == HDCP_AUTH_DONE)
-+			it6505_start_hdcp(it6505);
- 	}
++	if (ksv_list_check)
+ 		return;
+-	}
++
+ timeout:
+-	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
+-			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL,
+-			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL);
++	it6505_start_hdcp(it6505);
+ }
  
- 	ret = drm_dp_dpcd_read_link_status(&it6505->aux, link_status);
+ static void it6505_hdcp_work(struct work_struct *work)
+@@ -2425,7 +2422,11 @@ static void it6505_irq_hdcp_ksv_check(struct it6505 *it6505)
+ {
+ 	struct device *dev = &it6505->client->dev;
+ 
+-	DRM_DEV_DEBUG_DRIVER(dev, "HDCP event Interrupt");
++	DRM_DEV_DEBUG_DRIVER(dev, "HDCP repeater R0 event Interrupt");
++	/* 1B01 HDCP encription should start when R0 is ready*/
++	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
++			HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
++
+ 	schedule_work(&it6505->hdcp_wait_ksv_list);
+ }
+ 
 -- 
 2.39.5
 
