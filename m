@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C095A1C938
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B59CA1C93C
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5D4910E415;
-	Sun, 26 Jan 2025 14:56:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C10110E41A;
+	Sun, 26 Jan 2025 14:56:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RARSzoL4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gEduJBqM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF7B10E415
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:31 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE3010E417;
+ Sun, 26 Jan 2025 14:56:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 82FB55C4363;
- Sun, 26 Jan 2025 14:55:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDA42C4CEE4;
- Sun, 26 Jan 2025 14:56:28 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 63800A406EC;
+ Sun, 26 Jan 2025 14:54:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D74C4CED3;
+ Sun, 26 Jan 2025 14:56:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903390;
- bh=rKjdflqKaUrBhadVCes7Fb1j0AXYCBiuqJiTDLCBTzo=;
+ s=k20201202; t=1737903392;
+ bh=kME5yRiRSilS8XC5gTZceQWF76oZl872X/ZUtzoDK68=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RARSzoL4upL6qGfASz69J7j0dgQoArIAz64e+S6uSLLPfpTAyvppDusXOP25nIT7X
- 1N8kP8Cfj4BHJmTuvHLn6z0xToIVwZ8GB/Oa+S6IKFmTzh+4aoxM3k4VXcL5TL4ZJi
- k6vL0IDA6dxLSKTALcWgZF5odOlZ8m117BRbZ4RPVAmBOkp4vB1BfkzqqLkOmRJEkR
- FWSNIhJ4MsjioZiuAvNn/eV8L7IP+72kKuQE+BSvYyWKMKhbEl8FOGYt/RyAFxeMJU
- rvhVhNIlyRCeePUCNGP/ml2gVZ7iW0W2iBFFFj4TxVnYdsRuI3asAwwwi/EVW7Puxw
- BbBidaYRz1GBg==
+ b=gEduJBqMjTWIzlEe+NOudpf5TZUzDX2tB8ivtS6t5tkcsXp8EbJWdpQ8beVWWp/e1
+ MUvJMo9S2dZqIA10CSPFlP5g3pgeEyswuodBIJKvB9Lq048K567AIdvi0OiNijf3zL
+ R96v3SwBkfA4+n3x9frZfn8vj8rEQCP9w8dZJUGXF2j8rmw1hZg7vTkbQj03IVmFp9
+ 1KYe1Fdv09UJG+bqr9XyzzkqFwXFjvjAg3WtrpcQcOsmJtt6j97DdqYozl80jE0Ugy
+ RUKb/T2HzCMHDO5nmGkXRhkztNCUorHk3oYFSd3q586pmF+7nfI+haw1FKt8sG3JaZ
+ d79Oca24LN5sw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
- inki.dae@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
- airlied@gmail.com, simona@ffwll.ch, krzk@kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 07/17] drm/exynos: hdmi: use eld_mutex to protect
- access to connector->eld
-Date: Sun, 26 Jan 2025 09:56:02 -0500
-Message-Id: <20250126145612.937679-7-sashal@kernel.org>
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.6 08/17] drm/radeon: use eld_mutex to protect access
+ to connector->eld
+Date: Sun, 26 Jan 2025 09:56:03 -0500
+Message-Id: <20250126145612.937679-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145612.937679-1-sashal@kernel.org>
 References: <20250126145612.937679-1-sashal@kernel.org>
@@ -68,34 +67,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit 5e8436d334ed7f6785416447c50b42077c6503e0 ]
+[ Upstream commit b54c14f82428c8a602392d4cae1958a71a578132 ]
 
 Reading access to connector->eld can happen at the same time the
 drm_edid_to_eld() updates the data. Take the newly added eld_mutex in
 order to protect connector->eld from concurrent access.
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-5-c9bce1ee8bea@linaro.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-8-c9bce1ee8bea@linaro.org
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/exynos/exynos_hdmi.c | 2 ++
+ drivers/gpu/drm/radeon/radeon_audio.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
-index 906133331a442..c234f9245b144 100644
---- a/drivers/gpu/drm/exynos/exynos_hdmi.c
-+++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
-@@ -1643,7 +1643,9 @@ static int hdmi_audio_get_eld(struct device *dev, void *data, uint8_t *buf,
- 	struct hdmi_context *hdata = dev_get_drvdata(dev);
- 	struct drm_connector *connector = &hdata->connector;
+diff --git a/drivers/gpu/drm/radeon/radeon_audio.c b/drivers/gpu/drm/radeon/radeon_audio.c
+index fc22fe709b9c1..da37a827337bc 100644
+--- a/drivers/gpu/drm/radeon/radeon_audio.c
++++ b/drivers/gpu/drm/radeon/radeon_audio.c
+@@ -773,8 +773,10 @@ static int radeon_audio_component_get_eld(struct device *kdev, int port,
+ 		if (!dig->pin || dig->pin->id != port)
+ 			continue;
+ 		*enabled = true;
++		mutex_lock(&connector->eld_mutex);
+ 		ret = drm_eld_size(connector->eld);
+ 		memcpy(buf, connector->eld, min(max_bytes, ret));
++		mutex_unlock(&connector->eld_mutex);
+ 		break;
+ 	}
  
-+	mutex_lock(&connector->eld_mutex);
- 	memcpy(buf, connector->eld, min(sizeof(connector->eld), len));
-+	mutex_unlock(&connector->eld_mutex);
- 
- 	return 0;
- }
 -- 
 2.39.5
 
