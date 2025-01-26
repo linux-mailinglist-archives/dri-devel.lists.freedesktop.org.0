@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEBEA1C944
+	by mail.lfdr.de (Postfix) with ESMTPS id EC49EA1C945
 	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CCED10E41C;
-	Sun, 26 Jan 2025 14:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45B6510E422;
+	Sun, 26 Jan 2025 14:56:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GMr9Zl6p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s/OWbaW9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB4C10E41E
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A65A10E41C
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:50 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 843D35C3B56;
- Sun, 26 Jan 2025 14:56:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D889AC4CEE2;
- Sun, 26 Jan 2025 14:56:45 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8EA265C5743;
+ Sun, 26 Jan 2025 14:56:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC0B4C4CED3;
+ Sun, 26 Jan 2025 14:56:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903407;
- bh=Cw+eoe/UHDLELop/e214PmazjCWoAy1PcgxjlS84Eyg=;
+ s=k20201202; t=1737903409;
+ bh=rQAleI2TfFPkBl+b/CusrIsnR/Ylev6Dxm6qv/Uw0Aw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GMr9Zl6pN0jGCVM9DA1e76jeHNowFhtaPmDt0XFXSG1maU27j5a/NLvOFYsZo+Ka4
- FBxP2N71H4JpJ4peb8/S1S6FGtCredZJpaq+lMQnvQXiMuO99AH8gLN5C9t+FuSgA6
- umURIHL9ZQSnF6pRCbesquPkd+0vkHL1hluHpQmh48tjG4DRDBJ3xgD+Oj5n64lfCd
- 6FVeZQtKPYxPESEQR8vvvQrMfKZsMr0mxeTfV6uis83zw80HulpBjJLReR0GZiG37i
- MFLhcER/lg8kLgLAKQo8L+gXrzo8WhP3RS4sSgIPxTvdDXIV+9QRGNqptYPPL32S+3
- keETigcvxA3Lg==
+ b=s/OWbaW945CyeV5761VdZ6rbixjoogAHJoGHDHzEo/Aqxl5UuZpDzhy4sDgxuS1e3
+ r8rD0PKHmCfNzTmwoIYYDvIKvcy2vcvKSCOhadifqyPiONLvKwhAjedLMAr7iy4uxw
+ LJ6Ecc9TxHsXe65+FGhfDeWHSjGV+ANsxgiar3r9+oZ6nGGRlQVX5cO7YlsAbpmDvQ
+ k+bi3AbXdgohKZlUvXBsOmGNzEC/fa9UA6/BUWSxIblIYombmdr6Ln92eCeI87/pKt
+ cZQB6m8T+fHzyR7usvARW1/kIiNUA0KpY45eUwnJgXsEUhEz+sYycVwQ1W5pk8jcta
+ meUfuO6386jIQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,10 +40,10 @@ Cc: Hermes Wu <hermes.wu@ite.com.tw>,
  neil.armstrong@linaro.org, rfoss@kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 15/17] drm/bridge: it6505: fix HDCP CTS compare V
- matching
-Date: Sun, 26 Jan 2025 09:56:10 -0500
-Message-Id: <20250126145612.937679-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 16/17] drm/bridge: it6505: fix HDCP CTS KSV list
+ wait timer
+Date: Sun, 26 Jan 2025 09:56:11 -0500
+Message-Id: <20250126145612.937679-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145612.937679-1-sashal@kernel.org>
 References: <20250126145612.937679-1-sashal@kernel.org>
@@ -69,74 +69,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hermes Wu <hermes.wu@ite.com.tw>
 
-[ Upstream commit 0989c02c7a5c887c70afeae80c64d0291624e1a7 ]
+[ Upstream commit 9f9eef9ec1a2b57d95a86fe81df758e8253a7766 ]
 
-When HDCP negotiation with a repeater device.
-Checking SHA V' matching must retry 3 times before restarting HDCP.
+HDCP must disabled encryption and restart authentication after
+waiting KSV for 5s.
+The original method uses a counter in a waitting loop that may
+wait much longer than it is supposed to.
+Use time_after() for KSV wait timeout.
 
 Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-8-e0fdd4844703@ite.corp-partner.google.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-9-e0fdd4844703@ite.corp-partner.google.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 32 +++++++++++++++++------------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index a1ad9a1a59a62..b23e6f663b18f 100644
+index b23e6f663b18f..cedba2a76f014 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2020,7 +2020,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
- {
+@@ -2058,12 +2058,13 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 	struct it6505 *it6505 = container_of(work, struct it6505,
+ 					     hdcp_wait_ksv_list);
  	struct device *dev = it6505->dev;
- 	u8 av[5][4], bv[5][4];
--	int i, err;
-+	int i, err, retry;
+-	unsigned int timeout = 5000;
+-	u8 bstatus = 0;
++	u8 bstatus;
+ 	bool ksv_list_check;
++	/* 1B-04 wait ksv list for 5s */
++	unsigned long timeout = jiffies +
++				msecs_to_jiffies(5000) + 1;
  
- 	i = it6505_setup_sha1_input(it6505, it6505->sha1_input);
- 	if (i <= 0) {
-@@ -2029,22 +2029,28 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
+-	timeout /= 20;
+-	while (timeout > 0) {
++	for (;;) {
+ 		if (!it6505_get_sink_hpd_status(it6505))
+ 			return;
+ 
+@@ -2072,13 +2073,12 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 		if (bstatus & DP_BSTATUS_READY)
+ 			break;
+ 
+-		msleep(20);
+-		timeout--;
+-	}
++		if (time_after(jiffies, timeout)) {
++			DRM_DEV_DEBUG_DRIVER(dev, "KSV list wait timeout");
++			goto timeout;
++		}
+ 
+-	if (timeout == 0) {
+-		DRM_DEV_DEBUG_DRIVER(dev, "timeout and ksv list wait failed");
+-		goto timeout;
++		msleep(20);
  	}
  
- 	it6505_sha1_digest(it6505, it6505->sha1_input, i, (u8 *)av);
-+	/*1B-05 V' must retry 3 times */
-+	for (retry = 0; retry < 3; retry++) {
-+		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
-+				      sizeof(bv));
- 
--	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
--			      sizeof(bv));
-+		if (err < 0) {
-+			dev_err(dev, "Read V' value Fail %d", retry);
-+			continue;
-+		}
- 
--	if (err < 0) {
--		dev_err(dev, "Read V' value Fail");
--		return false;
--	}
-+		for (i = 0; i < 5; i++) {
-+			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
-+			    av[i][1] != av[i][2] || bv[i][0] != av[i][3])
-+				break;
- 
--	for (i = 0; i < 5; i++)
--		if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
--		    bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
--			return false;
-+			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
-+			return true;
-+		}
-+	}
- 
--	DRM_DEV_DEBUG_DRIVER(dev, "V' all match!!");
--	return true;
-+	DRM_DEV_DEBUG_DRIVER(dev, "V' NOT match!! %d", retry);
-+	return false;
- }
- 
- static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
+ 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
 -- 
 2.39.5
 
