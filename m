@@ -2,56 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D666A1CE83
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 21:43:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D28AA1CED6
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 22:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97ED010E196;
-	Sun, 26 Jan 2025 20:43:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04B1510E265;
+	Sun, 26 Jan 2025 21:46:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="OFkV1SzK";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="WGy1dS7U";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E870710E196
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 20:43:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1737924191; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=l777d6OcriSjXUtiJXGcuYLZM81jfizOB4OST4XmXWq9M2v/ww1Igo2KNFDq0w8vAp4i7MXZGB/aWoq/jn1Psamp/EbmCbN6OTffJSR8D+RPYQgdrL7MInl2lHJy0yftZg8KAHYiOKzw9Q1mpG2qb0oMhJInuOm4Ndm16/JgpnA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1737924191;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=xEnBSKU8pnmvFJgSinvIT748Q11VxHBZbgkAD3qC4/s=; 
- b=Xi8JMhT+qHL76BCTak6XS22qw4iDJzS7WM2BPKBx3h2/RJ/nfeMQd5awo5HWTJLyNevjx8gFxOHX0BVNuLoYGOuv8eDXPvB1oUqrT9ekAYegKS3jyXyBRp5JE+QrXkke/SVHn8GEUDGGKO516Mlctn71z7r0B7Nq3uVbzPq6jm0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737924190; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=xEnBSKU8pnmvFJgSinvIT748Q11VxHBZbgkAD3qC4/s=;
- b=OFkV1SzKmrSJ8ydyfdkeKRLA+cr0oCTYLJTEozi39l2lea5wDTRDwPx9vGkqFHXb
- TXJQdcc/UA3GnJcInUKYubJncTLGERyDoKZYfTUHkPIz5Zk17nSbdp5md9e1KmKhIUY
- oEpPrjum4cZbFeAhL2G6jzWreWHUL2F/S2Wd1RNI=
-Received: by mx.zohomail.com with SMTPS id 173792418632813.028427511580276;
- Sun, 26 Jan 2025 12:43:06 -0800 (PST)
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Asahi Lina <lina@asahilina.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v1] drm/virtio: Extend blob UAPI with deferred-mapping hinting
-Date: Sun, 26 Jan 2025 23:42:39 +0300
-Message-ID: <20250126204239.474847-1-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.47.1
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
+ [209.85.208.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 969CB10E48E
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 21:46:37 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id
+ 38308e7fff4ca-30615661f98so39615751fa.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 13:46:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737927995; x=1738532795; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=lHr7hxWtGMJ3mRhxERq1ZK8TNjSfR6/lC4QQnZilmzA=;
+ b=WGy1dS7U39RpM2EAngaQEK5AK7NerrSBQz8nTddCqLlqL3sRhOtsYyz3SQAA0oO9b6
+ DUVsx8h5oLhIYp/v6gT5yHRtue/w2PMPAvz0HbHAnjQCLr8ZMkI3iolFg2t1hTPHIpXl
+ gCf11c51ObBsqck9Wj2XBT8RvYMs+QJisrp1EIvCmstjobwoLGTDRQjrwx+emIXv4lqh
+ vxFyeGfF9meL1Ig2unjRejh6I+aHvR8WV84kG5UN5YHEuD4a9THWEqXUBqz1S/zCydRh
+ duCWhF2NemFmcucLKTdxdTO7xYL7d/xRYSephB5NBq5goKp0QfxBttm1lfZ6tdCMCxIp
+ 4ebQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737927995; x=1738532795;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lHr7hxWtGMJ3mRhxERq1ZK8TNjSfR6/lC4QQnZilmzA=;
+ b=f5iaqoVSlDVFWFTlSBJthYuFm47DDTCDIsu/7+diaxbdV3Jly5dHIS/sh7jHe63R2/
+ TSZ/5yhjPbji7g1aAZXXixKd57M8t3JcrsSfajjsA3du/tT1/FvHVoNk24r7RNgukXDj
+ LIe9p9X5iv5FCktzsuDvxTQMmD9xmLgKLsp6uLM/2eN6+eIK/tYJAxeJX0cos5l356mS
+ jSRIV8V6SYp1oblj08yF7laqQ9aKU7cDG99O+PDLZvig+kv0C1TaVUvvyB09+MYztPcG
+ 4pvCIfr25KK5QaSnGGM8yE+/zSrHqHqd93VCU5E3hxbUEl1RYg6vxRM3Hj24otkiHz1C
+ bIuw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW4UlJ+gYyK6OwWyP7bTlKmSqpSYBVTE5jGZK6tJwMHQLDHrI5yLvzVth7RViPs14Ze4rp1WVN/0Vk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWsc+dyA4E95XXOKszeBOhXIp2pP/mW+8wGjosRuhWrM4sCIT9
+ 4YRu2hJcXQ83ZCGx/sBZc3tX5so6NQSvv73s3FqQnJJA1l/JXej6YNNI4I02014=
+X-Gm-Gg: ASbGnctA7E96SfkCf+xG7OEPRwh8LtusYww/jz5GgvZyQBBfoweNgPcLF4ONwi9nnnC
+ Cszwasecj7Zcq8QG8zarg+lfKOGbFWKj9sTGKQi8lKbjPc9+ZmXHp6e5/dL5O5pzReRuQj5cxPz
+ ABIFD6CwGsZebAg6CDoipFJEfRD4k1K0rimLC38UnD7zi+ndlz1M1D+v7wQlp7SW481AyyynMzx
+ A9rG9DFIaMAEhTq3Mv4bg+R0TCkz2t0l1FWiwyEFnqtppGNpStGv91iV+wncqqKri37kzFDeB61
+ kQQqvaPUMNK7XrKekHC2T38Co0sgqcxV9kwuF382nHc1lbS+gIsMHqtbQyig
+X-Google-Smtp-Source: AGHT+IESsYCAPgo0W+Hb9Tr1b501G11+w7GQY2BAqSBcwgrPEO43NhLTVS5Ex65K2qlg7b63CPAuRA==
+X-Received: by 2002:a05:6512:b24:b0:540:2a92:7daa with SMTP id
+ 2adb3069b0e04-5439c282032mr12609106e87.42.1737927994923; 
+ Sun, 26 Jan 2025 13:46:34 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543c822f95asm1060677e87.85.2025.01.26.13.46.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 26 Jan 2025 13:46:34 -0800 (PST)
+Date: Sun, 26 Jan 2025 23:46:32 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Vitalii Mordan <mordan@ispras.ru>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@intel.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Aleksandr Mishin <amishin@t-argos.ru>, Tomi Valkeinen <tomi.valkeinen@ti.com>, 
+ Quentin Schulz <quentin.schulz@free-electrons.com>,
+ Yuti Amonkar <yamonkar@cadence.com>, Jyri Sarha <jsarha@ti.com>, 
+ Swapnil Jakhade <sjakhade@cadence.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ Fedor Pchelkin <pchelkin@ispras.ru>, Alexey Khoroshilov <khoroshilov@ispras.ru>,
+ Vadim Mutilin <mutilin@ispras.ru>, lvc-project@linuxtesting.org
+Subject: Re: [PATCH] gpu: cdns-mhdp8546: fix call balance of mhdp->clk
+ handling routines
+Message-ID: <jlednbhsqwqc7pbnifqm64xn4cyk45roxvdjrun3a5pwq5dsfo@jez2c445jl4c>
+References: <20250124170009.2075175-1-mordan@ispras.ru>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250124170009.2075175-1-mordan@ispras.ru>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,146 +103,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If userspace never maps GEM object, then BO wastes hostmem space
-because VirtIO-GPU driver maps VRAM BO at the BO's creating time.
+On Fri, Jan 24, 2025 at 08:00:09PM +0300, Vitalii Mordan wrote:
+> If the clock mhdp->clk was not enabled in cdns_mhdp_probe(), it should not
+> be disabled in any path.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with Klever.
+> 
+> Fixes: fb43aa0acdfd ("drm: bridge: Add support for Cadence MHDP8546 DPI/DP bridge")
+> Signed-off-by: Vitalii Mordan <mordan@ispras.ru>
+> ---
+>  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> index d081850e3c03..3e923bcfb0bf 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+> @@ -2504,7 +2504,11 @@ static int cdns_mhdp_probe(struct platform_device *pdev)
+>  
+>  	mhdp->info = of_device_get_match_data(dev);
+>  
+> -	clk_prepare_enable(clk);
+> +	ret = clk_prepare_enable(clk);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to enable clk\n");
+> +		return ret;
+> +	}
 
-Make mappings on-demand by adding new RESOURCE_CREATE_BLOB IOCTL/UAPI
-hinting flag telling that host mapping should be deferred until first
-mapping is made when the flag is set by userspace.
+I think this should be switch to devm_clk_get_enabled, removing the
+extra clk_prepare_enable(), error handling, etc.
 
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  2 ++
- drivers/gpu/drm/virtio/virtgpu_gem.c   |  9 ++++++++
- drivers/gpu/drm/virtio/virtgpu_ioctl.c |  1 +
- drivers/gpu/drm/virtio/virtgpu_vram.c  | 30 +++++++++++++++++++++-----
- include/uapi/drm/virtgpu_drm.h         |  4 ++++
- 5 files changed, 41 insertions(+), 5 deletions(-)
+>  
+>  	pm_runtime_enable(dev);
+>  	ret = pm_runtime_resume_and_get(dev);
+> -- 
+> 2.25.1
+> 
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 64c236169db8..e5db91a3e8ba 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -85,6 +85,7 @@ struct virtio_gpu_object_params {
- 	uint32_t blob_mem;
- 	uint32_t blob_flags;
- 	uint64_t blob_id;
-+	uint32_t blob_hints;
- };
- 
- struct virtio_gpu_object {
-@@ -483,6 +484,7 @@ struct sg_table *virtio_gpu_vram_map_dma_buf(struct virtio_gpu_object *bo,
- void virtio_gpu_vram_unmap_dma_buf(struct device *dev,
- 				   struct sg_table *sgt,
- 				   enum dma_data_direction dir);
-+void virtio_gpu_vram_map_deferred(struct virtio_gpu_object_vram *vram);
- 
- /* virtgpu_submit.c */
- int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 7db48d17ee3a..c902b68cc25a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -103,12 +103,21 @@ int virtio_gpu_mode_dumb_mmap(struct drm_file *file_priv,
- 			      struct drm_device *dev,
- 			      uint32_t handle, uint64_t *offset_p)
- {
-+	struct virtio_gpu_object_vram *vram;
-+	struct virtio_gpu_object *bo;
- 	struct drm_gem_object *gobj;
- 
- 	BUG_ON(!offset_p);
- 	gobj = drm_gem_object_lookup(file_priv, handle);
- 	if (gobj == NULL)
- 		return -ENOENT;
-+
-+	bo = gem_to_virtio_gpu_obj(gobj);
-+	if (virtio_gpu_is_vram(bo)) {
-+		vram = to_virtio_gpu_vram(bo);
-+		virtio_gpu_vram_map_deferred(vram);
-+	}
-+
- 	*offset_p = drm_vma_node_offset_addr(&gobj->vma_node);
- 	drm_gem_object_put(gobj);
- 	return 0;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index e4f76f315550..51544ee8d3c3 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -489,6 +489,7 @@ static int verify_blob(struct virtio_gpu_device *vgdev,
- 	params->size = rc_blob->size;
- 	params->blob = true;
- 	params->blob_flags = rc_blob->blob_flags;
-+	params->blob_hints = rc_blob->blob_hints;
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
-index 25df81c02783..d72c93e06a4a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vram.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
-@@ -41,6 +41,11 @@ static int virtio_gpu_vram_mmap(struct drm_gem_object *obj,
- 	if (!(bo->blob_flags & VIRTGPU_BLOB_FLAG_USE_MAPPABLE))
- 		return -EINVAL;
- 
-+	virtio_gpu_vram_map_deferred(vram);
-+
-+	if (vram->map_state == STATE_INITIALIZING)
-+		virtio_gpu_notify(vgdev);
-+
- 	wait_event(vgdev->resp_wq, vram->map_state != STATE_INITIALIZING);
- 	if (vram->map_state != STATE_OK)
- 		return -EINVAL;
-@@ -215,14 +220,29 @@ int virtio_gpu_vram_create(struct virtio_gpu_device *vgdev,
- 
- 	virtio_gpu_cmd_resource_create_blob(vgdev, &vram->base, params, NULL,
- 					    0);
--	if (params->blob_flags & VIRTGPU_BLOB_FLAG_USE_MAPPABLE) {
--		ret = virtio_gpu_vram_map(&vram->base);
--		if (ret) {
--			virtio_gpu_vram_free(obj);
--			return ret;
-+	if (!(params->blob_hints & DRM_VIRTGPU_BLOB_FLAG_HINT_DEFER_MAPPING)) {
-+		if (params->blob_flags & VIRTGPU_BLOB_FLAG_USE_MAPPABLE) {
-+			ret = virtio_gpu_vram_map(&vram->base);
-+			if (ret) {
-+				virtio_gpu_vram_free(obj);
-+				return ret;
-+			}
- 		}
- 	}
- 
- 	*bo_ptr = &vram->base;
- 	return 0;
- }
-+
-+void virtio_gpu_vram_map_deferred(struct virtio_gpu_object_vram *vram)
-+{
-+	static DEFINE_MUTEX(map_lock);
-+
-+	if (!(vram->base.blob_flags & VIRTGPU_BLOB_FLAG_USE_MAPPABLE))
-+		return;
-+
-+	mutex_lock(&map_lock);
-+	if (!drm_mm_node_allocated(&vram->vram_node))
-+		virtio_gpu_vram_map(&vram->base);
-+	mutex_unlock(&map_lock);
-+}
-diff --git a/include/uapi/drm/virtgpu_drm.h b/include/uapi/drm/virtgpu_drm.h
-index c2ce71987e9b..3004a1d08570 100644
---- a/include/uapi/drm/virtgpu_drm.h
-+++ b/include/uapi/drm/virtgpu_drm.h
-@@ -194,6 +194,10 @@ struct drm_virtgpu_resource_create_blob {
- 	__u32 cmd_size;
- 	__u64 cmd;
- 	__u64 blob_id;
-+
-+#define DRM_VIRTGPU_BLOB_FLAG_HINT_DEFER_MAPPING        0x0001
-+	__u32 blob_hints;
-+	__u32 pad2;
- };
- 
- #define VIRTGPU_CONTEXT_PARAM_CAPSET_ID       0x0001
 -- 
-2.47.1
-
+With best wishes
+Dmitry
