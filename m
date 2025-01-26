@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81D65A1CE19
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 20:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174E6A1CE1A
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 20:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0220310E48C;
-	Sun, 26 Jan 2025 19:17:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80F1B10E482;
+	Sun, 26 Jan 2025 19:17:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="vBUQGZK2";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="xcOGf2iP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
- [91.218.175.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A2D510E48C
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 19:17:41 +0000 (UTC)
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
+ [91.218.175.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 272A710E482
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 19:17:48 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1737919059;
+ t=1737919063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7tdtqi361Vos6YQGa/wlcxUmhGl8Ksw9TwvAVqGUT4Q=;
- b=vBUQGZK2RhmHNeuQ7OK57Ey/3KZAtxhKELnh6YsaKXxrip7NWVPuA0SaymNVlktKHA4Z/I
- 7PtpNxXWlAZmEF7DuVrVyPjyZNsWnh1cV4FT1CI4fmTQGa2EXKtPQxP15ZeKamEjSRdADL
- l23v8pegD+aCA5S95cGE5v6abWiugA4=
+ bh=tdo12l96WYHSP8NB0D3m4EhwENc4d3VYk/G2ELB65u8=;
+ b=xcOGf2iPGK0gdrgJQ9SCVcbDjjzehGLZj6vEO7MKSlm0KNXsQbtNFijO0cFCMQWBvr9+Tq
+ D/I3E+m1rV9dAcPPncLI/bRhvVVmTYOvuYRV30n+Uk+idbdTx/LRBroY4RlD3enDN2G/Dv
+ drkDxoDNXMI64RFiUxC8mNsD7dz9MWA=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -45,10 +45,10 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v8 12/13] drm/atomic-helper: Re-order bridge chain pre-enable
- and post-disable
-Date: Mon, 27 Jan 2025 00:45:50 +0530
-Message-Id: <20250126191551.741957-13-aradhya.bhatia@linux.dev>
+Subject: [PATCH v8 13/13] drm/bridge: cdns-dsi: Use pre_enable/post_disable to
+ enable/disable
+Date: Mon, 27 Jan 2025 00:45:51 +0530
+Message-Id: <20250126191551.741957-14-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250126191551.741957-1-aradhya.bhatia@linux.dev>
 References: <20250126191551.741957-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -69,78 +69,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move the bridge pre_enable call before crtc enable, and the bridge
-post_disable call after the crtc disable.
+From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-The sequence of enable after this patch will look like:
+The cdns-dsi controller requires that it be turned on completely before
+the input DPI's source has begun streaming[0]. Not having that, allows
+for a small window before cdns-dsi enable and after cdns-dsi disable
+where the previous entity (in this case tidss's videoport) to continue
+streaming DPI video signals. This small window where cdns-dsi is
+disabled but is still receiving signals causes the input FIFO of
+cdns-dsi to get corrupted. This causes the colors to shift on the output
+display. The colors can either shift by one color component (R->G, G->B,
+B->R), or by two color components (R->B, G->R, B->G).
 
-	bridge[n]_pre_enable
-	...
-	bridge[1]_pre_enable
+Since tidss's videoport starts streaming via crtc enable hooks, we need
+cdns-dsi to be up and running before that. Now that the bridges are
+pre_enabled before crtc is enabled, and post_disabled after crtc is
+disabled, use the pre_enable and post_disable hooks to get cdns-dsi
+ready and running before the tidss videoport to get pass the color shift
+issues.
 
-	crtc_enable
-	encoder_enable
+[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
+     TRM Link: http://www.ti.com/lit/pdf/spruil1
 
-	bridge[1]_enable
-	...
-	bridge[n]_enable
-
-And, the disable sequence for the display pipeline will look like:
-
-	bridge[n]_disable
-	...
-	bridge[1]_disable
-
-	encoder_disable
-	crtc_disable
-
-	bridge[1]_post_disable
-	...
-	bridge[n]_post_disable
-
-The definition of bridge pre_enable hook says that,
-"The display pipe (i.e. clocks and timing signals) feeding this bridge
-will not yet be running when this callback is called".
-
-Since CRTC is also a source feeding the bridge, it should not be enabled
-before the bridges in the pipeline are pre_enabled. Fix that by
-re-ordering the sequence of bridge pre_enable and bridge post_disable.
-
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 64 ++++++++++---------
+ 1 file changed, 35 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index f5532e3646e1..d2f19df9f418 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1298,9 +1298,9 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
- {
- 	encoder_bridge_disable(dev, old_state);
- 
--	encoder_bridge_post_disable(dev, old_state);
--
- 	crtc_disable(dev, old_state);
-+
-+	encoder_bridge_post_disable(dev, old_state);
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+index 12457f712c94..4fb4e5bd17f0 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+@@ -669,13 +669,28 @@ cdns_dsi_bridge_mode_valid(struct drm_bridge *bridge,
+ 	return MODE_OK;
  }
  
- /**
-@@ -1635,10 +1635,10 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *old_state
- void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
- 					      struct drm_atomic_state *old_state)
+-static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+-					   struct drm_bridge_state *old_bridge_state)
++static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
++						struct drm_bridge_state *old_bridge_state)
  {
--	crtc_enable(dev, old_state);
--
- 	encoder_bridge_pre_enable(dev, old_state);
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+ 	u32 val;
  
-+	crtc_enable(dev, old_state);
++	/*
++	 * The cdns-dsi controller needs to be disabled after it's DPI source
++	 * has stopped streaming. If this is not followed, there is a brief
++	 * window before DPI source is disabled and after cdns-dsi controller
++	 * has been disabled where the DPI stream is still on, but the cdns-dsi
++	 * controller is not ready anymore to accept the incoming signals. This
++	 * is one of the reasons why a shift in pixel colors is observed on
++	 * displays that have cdns-dsi as one of the bridges.
++	 *
++	 * To mitigate this, disable this bridge from the bridge post_disable()
++	 * hook, instead of the bridge _disable() hook. The bridge post_disable()
++	 * hook gets called after the CRTC disable, where often many DPI sources
++	 * disable their streams.
++	 */
 +
- 	encoder_bridge_enable(dev, old_state);
+ 	val = readl(dsi->regs + MCTL_MAIN_DATA_CTL);
+ 	val &= ~(IF_VID_SELECT_MASK | IF_VID_MODE | VID_EN | HOST_EOT_GEN |
+ 		 DISP_EOT_GEN);
+@@ -687,15 +702,6 @@ static void cdns_dsi_bridge_atomic_disable(struct drm_bridge *bridge,
+ 	if (dsi->platform_ops && dsi->platform_ops->disable)
+ 		dsi->platform_ops->disable(dsi);
  
- 	drm_atomic_helper_commit_writebacks(dev, old_state);
+-	pm_runtime_put(dsi->base.dev);
+-}
+-
+-static void cdns_dsi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+-						struct drm_bridge_state *old_bridge_state)
+-{
+-	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+-	struct cdns_dsi *dsi = input_to_dsi(input);
+-
+ 	dsi->phy_initialized = false;
+ 	dsi->link_initialized = false;
+ 	phy_power_off(dsi->dphy);
+@@ -773,8 +779,8 @@ static void cdns_dsi_init_link(struct cdns_dsi *dsi)
+ 	dsi->link_initialized = true;
+ }
+ 
+-static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+-					  struct drm_bridge_state *old_bridge_state)
++static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
++					      struct drm_bridge_state *old_bridge_state)
+ {
+ 	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+ 	struct cdns_dsi *dsi = input_to_dsi(input);
+@@ -789,6 +795,21 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	u32 tmp, reg_wakeup, div, status;
+ 	int nlanes;
+ 
++	/*
++	 * The cdns-dsi controller needs to be enabled before it's DPI source
++	 * has begun streaming. If this is not followed, there is a brief window
++	 * after DPI source enable and before cdns-dsi controller enable where
++	 * the DPI stream is on, but the cdns-dsi controller is not ready to
++	 * accept the incoming signals. This is one of the reasons why a shift
++	 * in pixel colors is observed on displays that have cdns-dsi as one of
++	 * the bridges.
++	 *
++	 * To mitigate this, enable this bridge from the bridge pre_enable()
++	 * hook, instead of the bridge _enable() hook. The bridge pre_enable()
++	 * hook gets called before the CRTC enable, where often many DPI sources
++	 * enable their streams.
++	 */
++
+ 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+ 		return;
+ 
+@@ -805,8 +826,8 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	mode = &bridge->encoder->crtc->state->adjusted_mode;
+ 	nlanes = output->dev->lanes;
+ 
+-	cdns_dsi_hs_init(dsi);
+ 	cdns_dsi_init_link(dsi);
++	cdns_dsi_hs_init(dsi);
+ 
+ 	/*
+ 	 * Now that the DSI Link and DSI Phy are initialized,
+@@ -935,19 +956,6 @@ static void cdns_dsi_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	writel(tmp, dsi->regs + MCTL_MAIN_EN);
+ }
+ 
+-static void cdns_dsi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+-					      struct drm_bridge_state *old_bridge_state)
+-{
+-	struct cdns_dsi_input *input = bridge_to_cdns_dsi_input(bridge);
+-	struct cdns_dsi *dsi = input_to_dsi(input);
+-
+-	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
+-		return;
+-
+-	cdns_dsi_init_link(dsi);
+-	cdns_dsi_hs_init(dsi);
+-}
+-
+ static u32 *cdns_dsi_bridge_get_input_bus_fmts(struct drm_bridge *bridge,
+ 					       struct drm_bridge_state *bridge_state,
+ 					       struct drm_crtc_state *crtc_state,
+@@ -1042,9 +1050,7 @@ cdns_dsi_bridge_atomic_reset(struct drm_bridge *bridge)
+ static const struct drm_bridge_funcs cdns_dsi_bridge_funcs = {
+ 	.attach = cdns_dsi_bridge_attach,
+ 	.mode_valid = cdns_dsi_bridge_mode_valid,
+-	.atomic_disable = cdns_dsi_bridge_atomic_disable,
+ 	.atomic_pre_enable = cdns_dsi_bridge_atomic_pre_enable,
+-	.atomic_enable = cdns_dsi_bridge_atomic_enable,
+ 	.atomic_post_disable = cdns_dsi_bridge_atomic_post_disable,
+ 	.atomic_check = cdns_dsi_bridge_atomic_check,
+ 	.atomic_duplicate_state = cdns_dsi_bridge_atomic_duplicate_state,
 -- 
 2.34.1
 
