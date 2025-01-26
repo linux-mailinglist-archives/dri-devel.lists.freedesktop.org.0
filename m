@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEB04A1C801
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 14:29:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA826A1C800
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 14:29:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9C4510E1EC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60D0C10E1DB;
 	Sun, 26 Jan 2025 13:29:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rJ4YO7Tw";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sBEWK/F1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68B7510E1CC
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 13:29:20 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-53e3c47434eso3921814e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 05:29:20 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF84D10E1D2
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 13:29:22 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-54024aa9febso3873254e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 05:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737898159; x=1738502959; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1737898161; x=1738502961; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=QQncvRRAuoLjn6XHpoivkjOodkjhTrikHPuhN7/HYX0=;
- b=rJ4YO7TwFnbkk8ZRtiCHzntz/q0LRDsLPdGM1YDdt5U3U4HyN9ZfOWoptiXsOpnkga
- D7Yf40rNedesBzeCvLZOZnLsQeKHETSYKmtXbXNDs+oOWw0edbVKokmY0WHWer2dVKw0
- sXTAqLNdAZtHnrZVX3rswgchzzPVTkU6B1WwrVzBjHo9wuEY5Y3WDBMNxjmupqSE34oj
- U7KEBlk9TNY2ilKGMD44V2OGuIv0HsQE2Cav6zQHzElGEPCbVjNkaRXqLNV0FXBjKpcI
- v/gEAGlPg7VKnF9XAVHyha2fozqSbTFEyZCSGvw0TL0PFuCj63AkAGCbN9NViFcKzZs2
- 6bxw==
+ :reply-to; bh=WHkaqh97FX5NK3tiGexBaGATffLfTWz5HBGvpvU9JzI=;
+ b=sBEWK/F1FXixR9sbBuettgbyqcvB/Owq8129oZ6ooQhiAZN/ECJ9CO0C1DUPIJJJWC
+ /eey9C1js5uc/zEIFq+R94nsLI26rrsHF+AW9vDSF3WcCuJsb68L4C3bQ4MGKlrvwW/Z
+ RzWahYn+vT99q5JqHoY7ZQClzxO72udVHvMdHxTYoycxjY89UXA/s+JTzGZzIRJH4L4J
+ xx4sZpa+Abcw3VZigGVA9ouWxpa9jwloCXj3YYAbt8yyqXWNsmVs2o43bRgHch5TBrSL
+ T1HV9bYteae3S/Ci+CE8Em/gIeJW6tiXKdqBuhPIgqRh/5sqfFEvYWnOBEDaNOFB6nbB
+ SloQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737898159; x=1738502959;
+ d=1e100.net; s=20230601; t=1737898161; x=1738502961;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QQncvRRAuoLjn6XHpoivkjOodkjhTrikHPuhN7/HYX0=;
- b=PYeJ7DnaKdcI0F6P7FPz9oDW3j6wLLuIuNy+PhLTmwr5GbYhToPnuylbYDf7SYg0rx
- OnKBZh1P2m/DJ9z7ds0RNxE8ljXUgQ4WG65lOQpwiiTeK3bKizITkrOsk1CDwMRLwKhl
- DaytMA5lQz3u/8jhxuTtITvp/dl5L+IHVislJEEFXMCax+Dnuo9k23AXKHJw2INDOFIp
- /aOYGF5eWrzYjSx0ji9tJ7TO+yXCoNloJZp0t/hzIRNnu3olJMCcle18L7p4TeaO0FFp
- wtIb0k2bY1REpasT+TIKlu4Vdb0s0MJgmuC0E9uhTqDL1yFrO8LHsJHU/vwCNjVF4gtz
- tqfw==
-X-Gm-Message-State: AOJu0YzQAJkp740xCj4XuRhos0q2EcrB11aU+eZu7LRycOqFgHsU6/eL
- d8NH5xaZJsyZdy0UsWIUTWSNJnXjg/MLq+DM4J98yjn0nHpINnZhytdabcNExn0=
-X-Gm-Gg: ASbGncuOIuw3bnmzAESitVKTyG4vjE4tBT9mJIiaPUZFVVMJZiJm1hmth/6N/uVm7ip
- 3eFMIh9LUDX0b4nnU6DK06Wnp9NC5VqA5CZYI+YlsB2fJ/vRimMKD0s3/LEfGvzGnhg+f9VZd+4
- dkGjaTmvRohKqAuRhwg9PASFMZugdn+qynSb/b6Q912lZIvA4oFZSgpN8njjFbN+wIQAodbdRq5
- dkhUOIPqhiC5oy/aCSBOH6hC7JBTg7AyuBSmks/7nMwDG4XqsQjB5ObfBVkQEFgBtK506IyqCOD
- 4QOoRdsiK6Yc
-X-Google-Smtp-Source: AGHT+IEt81Oa7UabYPV4+mRe4oWi7Klgy2H8e8ataKHVUzFtT6FX/ipVe56WsXXk5T+rYHlhBtnTKg==
-X-Received: by 2002:ac2:454b:0:b0:540:3561:8897 with SMTP id
- 2adb3069b0e04-5439c26751emr11564269e87.39.1737898158634; 
- Sun, 26 Jan 2025 05:29:18 -0800 (PST)
+ bh=WHkaqh97FX5NK3tiGexBaGATffLfTWz5HBGvpvU9JzI=;
+ b=CwSVmR0J/0iIKMcW83h9/VURNa7rGYQrl0AgVopcDKyEjpEImngnxEcOnY1UgDBgad
+ wFgWuhLAMsYACV14CeFaBO9J9vKmqN2rlMGyCsL2THnQSmkJPR9F9skLPvV2M0Ryb5+0
+ MVnFifZc8tyXnRTrxrYoJExYM++hds5ooDAuGfORBVlgsd6LipqfwCON/dlEgcszD7QD
+ XhtJ5tNsyA9NRQHt2fODC2JZGS73hTtg8MLGBJB5FhRWYhSL3tjDnooVW2cOZ3lTmHAz
+ j6pdGzQtMFaTf9K4OUtuvZ/ZhctFvq8vfGQx1x7Ut7BISsxA1WS7cPxsz2mqVcf1solZ
+ vjMA==
+X-Gm-Message-State: AOJu0Yy+mGWZhDiXW9OdVFhY0/eIn16Q/0EEXNehKkOT7H7XitD8A69p
+ krgQ2uHwpaD+SI/AJpUAB7CeHvH9Ga1s9SuNdR0iAa29eGHzyx+1I0gA3YJrg14=
+X-Gm-Gg: ASbGncuCdEXaOgM7rlaPRxjn0NedHj7P5T946+icEc1rFwG9+fGj7+DdurfmTPiTHAI
+ KImWtKSdv4vvH9Cg9Kkz2rc90eTxLzs4ijaRzrW7aIy7mjhj+ropB3fx7+e4zWLfanV/WXCsNQ0
+ oNUkTpCcfLNDz58sVXaA819bzSLeScfcWvXJyhvcgpp51UfONChOXDYncbqiZl5INNQ56ywk/BY
+ 5Uf+2xIghtfkSf4fM7Ci3eiLFYTDk/7gZo0OFx5e4DydRGTF/UQR4SpL1jGRxn/cxwOmd0ziVOB
+ ZccD8v5Cp56yVbMMOdCr9ug=
+X-Google-Smtp-Source: AGHT+IEmnk0UB4SJeTDzm9WgvYSNKbhk5XBGUNzl4sq2v2jpKfa3K9WebNLlF40lsVrNumqRwggjMg==
+X-Received: by 2002:ac2:54b9:0:b0:53e:ca48:776e with SMTP id
+ 2adb3069b0e04-5439c282d8fmr9525511e87.36.1737898161083; 
+ Sun, 26 Jan 2025 05:29:21 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
  2adb3069b0e04-543cbbd4cf8sm770488e87.201.2025.01.26.05.29.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jan 2025 05:29:18 -0800 (PST)
+ Sun, 26 Jan 2025 05:29:19 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 26 Jan 2025 15:29:09 +0200
-Subject: [PATCH v3 04/10] drm/vc4: hdmi: switch to generic CEC helpers
+Date: Sun, 26 Jan 2025 15:29:10 +0200
+Subject: [PATCH v3 05/10] drm/display: bridge-connector: hook in CEC
+ notifier support
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250126-drm-hdmi-connector-cec-v3-4-5b5b2d4956da@linaro.org>
+Message-Id: <20250126-drm-hdmi-connector-cec-v3-5-5b5b2d4956da@linaro.org>
 References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
 In-Reply-To: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -78,16 +79,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10666;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4084;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=gLQhAOItk1SGD5tjqJAAptsrV//vN4Xt/at5DjS5YR4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnljijVipVyTR9v9wCEdDGYSXHTVh6U54K2SFPO
- Xx6q2iAsXSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ5Y4owAKCRCLPIo+Aiko
- 1UcdB/sGcuHMFOvCrZUOOtDcvik2ps9bkWvbfoLYkpL/wGQZkaJJ7NYpVoSIl0nx7ZquYnWCueu
- 9Fq2rYzwShauXCCYPm0Ht2ufBT6QR39xmBfXDpv1iOWqCHbF5mBEtGSwf72iIL0TGh8crUfNkxA
- r6y/+mSqNKyWYovclIHGFzJ488bofoL5HIlWuXGUuYCGYOhRcZ5zQXjjW1abK1x2otxIaM0UIz+
- 2LKrKQNF/nE266QscT1NH8aFYhqpNxwkDTmY1tDC8ObkIpUkJyo+AewE9wxvFvac0gTAulKhOSU
- pUoedYj0dF1KxMyGks+JsPYp1msIFy0eMa0Hw5ufZbGAXR59
+ bh=/jsOvxmo9hww94WNxXcKKcEbKigL+a1mybJ59QI/uaw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnljik10DbWjBxmbwXYxJDtHkvwc/vBACwPceo3
+ MGJ1DGhS9iJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ5Y4pAAKCRCLPIo+Aiko
+ 1WbCCACSLcv6sQHDsQBgz28DGAgyP+HvXdXCf+ihbYLJzh1UBV2MgVhof0dsTHw/FLHvIiiQY4h
+ MCVgx9bAxper6WX4WAfP5ym1uOIRDu/iBcWSqxJRgEb0hXWkKlnSbfJMD1Zl+djdFKpv4URB3tt
+ EFCK2AtDdrysENkQep6Gjp7yuFOcsfine+21bXlc1paPI4jCj0tO/rKZbkQGyP/RZdgPNsh6oe8
+ 6GCiZ+5WbejS+7jSk6KbJR4DFt23xmcvJX+uTSB6QwTnTHaqwrxy5ehZOjvQofoZ7RwY8W+ghAt
+ HANvEDZzfzcJNEm0obk/Y+mUs/jEeg00wMUIkqiLk6Gs9ZbU
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,311 +106,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Switch VC4 driver to using CEC helpers code, simplifying hotplug and
-registration / cleanup. The existing vc4_hdmi_cec_release() is kept for
-now.
+Allow HDMI DRM bridges to create CEC notifier. Physical address is
+handled automatically by drm_atomic_helper_connector_hdmi_hotplug()
+being called from .detect() path.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/vc4/Kconfig    |   1 +
- drivers/gpu/drm/vc4/vc4_hdmi.c | 138 ++++++++++++++++-------------------------
- drivers/gpu/drm/vc4/vc4_hdmi.h |   1 -
- 3 files changed, 56 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611.c        |  2 +-
+ drivers/gpu/drm/display/Kconfig                |  1 +
+ drivers/gpu/drm/display/drm_bridge_connector.c | 11 ++++++++++-
+ include/drm/drm_bridge.h                       |  9 +++++++--
+ 4 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-index 123ab0ce178157c3b39466f87c7ac39c8470f329..bb8c40be325033632d3e94db87a16b03554ad3af 100644
---- a/drivers/gpu/drm/vc4/Kconfig
-+++ b/drivers/gpu/drm/vc4/Kconfig
-@@ -35,6 +35,7 @@ config DRM_VC4_HDMI_CEC
- 	bool "Broadcom VC4 HDMI CEC Support"
- 	depends on DRM_VC4
- 	select CEC_CORE
-+	select DRM_DISPLAY_HDMI_CEC_HELPER
- 	help
- 	  Choose this option if you have a Broadcom VC4 GPU
- 	  and want to use CEC.
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..1108983c44858382cb9f09b686956903645ebe0a 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -32,6 +32,7 @@
-  */
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+index 0df2c68e45897f2f2eed10a56dd670582526180b..158a4966ac00657074b11e93dc9bcab41c16db18 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+@@ -1252,7 +1252,7 @@ static int lt9611_probe(struct i2c_client *client)
+ 	lt9611->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+ 	lt9611->bridge.vendor = "Lontium";
+ 	lt9611->bridge.product = "LT9611";
+-	lt9611->bridge.hdmi_audio_dev = dev;
++	lt9611->bridge.hdmi_dev = dev;
+ 	lt9611->bridge.hdmi_audio_max_i2s_playback_channels = 8;
+ 	lt9611->bridge.hdmi_audio_dai_port = 2;
  
+diff --git a/drivers/gpu/drm/display/Kconfig b/drivers/gpu/drm/display/Kconfig
+index 49da9b768acf3e5f84f2cefae4bb042cfd57a50c..d35d945a3811c30247a9f3e282a16c9eedd0d4e9 100644
+--- a/drivers/gpu/drm/display/Kconfig
++++ b/drivers/gpu/drm/display/Kconfig
+@@ -16,6 +16,7 @@ if DRM_DISPLAY_HELPER
+ config DRM_BRIDGE_CONNECTOR
+ 	bool
+ 	select DRM_DISPLAY_HDMI_AUDIO_HELPER
++	select DRM_DISPLAY_HDMI_CEC_HELPER
+ 	select DRM_DISPLAY_HDMI_STATE_HELPER
+ 	help
+ 	  DRM connector implementation terminating DRM bridge chains.
+diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
+index 0397e62f9cbc93321caeae99982f5e3c66d308c5..9f234bc647d5c0880d4c42aea130074b7fa54573 100644
+--- a/drivers/gpu/drm/display/drm_bridge_connector.c
++++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+@@ -20,6 +20,7 @@
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
  #include <drm/display/drm_hdmi_audio_helper.h>
 +#include <drm/display/drm_hdmi_cec_helper.h>
  #include <drm/display/drm_hdmi_helper.h>
  #include <drm/display/drm_hdmi_state_helper.h>
- #include <drm/display/drm_scdc_helper.h>
-@@ -400,16 +401,8 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 	 * the lock for now.
- 	 */
  
--	if (status == connector_status_disconnected) {
--		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
--		return;
--	}
--
- 	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+@@ -616,7 +617,7 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 				return ERR_PTR(-EINVAL);
  
--	cec_s_phys_addr(vc4_hdmi->cec_adap,
--			connector->display_info.source_physical_address, false);
--
- 	if (status != connector_status_connected)
- 		return;
- 
-@@ -2388,8 +2381,8 @@ static irqreturn_t vc4_cec_irq_handler_rx_thread(int irq, void *priv)
- 	struct vc4_hdmi *vc4_hdmi = priv;
- 
- 	if (vc4_hdmi->cec_rx_msg.len)
--		cec_received_msg(vc4_hdmi->cec_adap,
--				 &vc4_hdmi->cec_rx_msg);
-+		drm_connector_hdmi_cec_received_msg(&vc4_hdmi->connector,
-+						    &vc4_hdmi->cec_rx_msg);
- 
- 	return IRQ_HANDLED;
- }
-@@ -2399,15 +2392,17 @@ static irqreturn_t vc4_cec_irq_handler_tx_thread(int irq, void *priv)
- 	struct vc4_hdmi *vc4_hdmi = priv;
- 
- 	if (vc4_hdmi->cec_tx_ok) {
--		cec_transmit_done(vc4_hdmi->cec_adap, CEC_TX_STATUS_OK,
--				  0, 0, 0, 0);
-+		drm_connector_hdmi_cec_transmit_done(&vc4_hdmi->connector,
-+						     CEC_TX_STATUS_OK,
-+						     0, 0, 0, 0);
+ 			ret = drm_connector_hdmi_audio_init(connector,
+-							    bridge->hdmi_audio_dev,
++							    bridge->hdmi_dev,
+ 							    &drm_bridge_connector_hdmi_audio_funcs,
+ 							    bridge->hdmi_audio_max_i2s_playback_channels,
+ 							    bridge->hdmi_audio_spdif_playback,
+@@ -624,6 +625,14 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+ 			if (ret)
+ 				return ERR_PTR(ret);
+ 		}
++
++		if (bridge->hdmi_cec_notifier) {
++			ret = drm_connector_hdmi_cec_notifier_register(connector,
++								       NULL,
++								       bridge->hdmi_dev);
++			if (ret)
++				return ERR_PTR(ret);
++		}
  	} else {
- 		/*
- 		 * This CEC implementation makes 1 retry, so if we
- 		 * get a NACK, then that means it made 2 attempts.
- 		 */
--		cec_transmit_done(vc4_hdmi->cec_adap, CEC_TX_STATUS_NACK,
--				  0, 2, 0, 0);
-+		drm_connector_hdmi_cec_transmit_done(&vc4_hdmi->connector,
-+						     CEC_TX_STATUS_NACK,
-+						     0, 2, 0, 0);
- 	}
- 	return IRQ_HANDLED;
- }
-@@ -2564,9 +2559,9 @@ static irqreturn_t vc4_cec_irq_handler(int irq, void *priv)
- 	return ret;
- }
+ 		ret = drmm_connector_init(drm, connector,
+ 					  &drm_bridge_connector_funcs,
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 4b84faf14e368310dd20aa964e8178ec80aa6fa7..1f1670e3c6aac39b8b891b0d5e7e91254eb0d3a1 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -914,9 +914,9 @@ struct drm_bridge {
+ 	unsigned int max_bpc;
  
--static int vc4_hdmi_cec_enable(struct cec_adapter *adap)
-+static int vc4_hdmi_cec_enable(struct drm_connector *connector)
- {
--	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
-+	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
- 	struct drm_device *drm = vc4_hdmi->connector.dev;
- 	/* clock period in microseconds */
- 	const u32 usecs = 1000000 / CEC_CLOCK_FREQ;
-@@ -2631,9 +2626,9 @@ static int vc4_hdmi_cec_enable(struct cec_adapter *adap)
- 	return 0;
- }
- 
--static int vc4_hdmi_cec_disable(struct cec_adapter *adap)
-+static int vc4_hdmi_cec_disable(struct drm_connector *connector)
- {
--	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
-+	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
- 	struct drm_device *drm = vc4_hdmi->connector.dev;
- 	unsigned long flags;
- 	int idx;
-@@ -2667,17 +2662,17 @@ static int vc4_hdmi_cec_disable(struct cec_adapter *adap)
- 	return 0;
- }
- 
--static int vc4_hdmi_cec_adap_enable(struct cec_adapter *adap, bool enable)
-+static int vc4_hdmi_cec_adap_enable(struct drm_connector *connector, bool enable)
- {
- 	if (enable)
--		return vc4_hdmi_cec_enable(adap);
-+		return vc4_hdmi_cec_enable(connector);
- 	else
--		return vc4_hdmi_cec_disable(adap);
-+		return vc4_hdmi_cec_disable(connector);
- }
- 
--static int vc4_hdmi_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
-+static int vc4_hdmi_cec_adap_log_addr(struct drm_connector *connector, u8 log_addr)
- {
--	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
-+	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
- 	struct drm_device *drm = vc4_hdmi->connector.dev;
- 	unsigned long flags;
- 	int idx;
-@@ -2703,10 +2698,10 @@ static int vc4_hdmi_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
- 	return 0;
- }
- 
--static int vc4_hdmi_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-+static int vc4_hdmi_cec_adap_transmit(struct drm_connector *connector, u8 attempts,
- 				      u32 signal_free_time, struct cec_msg *msg)
- {
--	struct vc4_hdmi *vc4_hdmi = cec_get_drvdata(adap);
-+	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
- 	struct drm_device *dev = vc4_hdmi->connector.dev;
- 	unsigned long flags;
- 	u32 val;
-@@ -2749,84 +2744,66 @@ static int vc4_hdmi_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 	return 0;
- }
- 
--static const struct cec_adap_ops vc4_hdmi_cec_adap_ops = {
--	.adap_enable = vc4_hdmi_cec_adap_enable,
--	.adap_log_addr = vc4_hdmi_cec_adap_log_addr,
--	.adap_transmit = vc4_hdmi_cec_adap_transmit,
--};
--
--static void vc4_hdmi_cec_release(void *ptr)
--{
--	struct vc4_hdmi *vc4_hdmi = ptr;
--
--	cec_unregister_adapter(vc4_hdmi->cec_adap);
--	vc4_hdmi->cec_adap = NULL;
--}
--
--static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
-+static int vc4_hdmi_cec_init(struct drm_connector *connector)
- {
--	struct cec_connector_info conn_info;
-+	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
- 	struct platform_device *pdev = vc4_hdmi->pdev;
- 	struct device *dev = &pdev->dev;
- 	int ret;
- 
--	if (!of_property_present(dev->of_node, "interrupts")) {
--		dev_warn(dev, "'interrupts' DT property is missing, no CEC\n");
--		return 0;
--	}
--
--	vc4_hdmi->cec_adap = cec_allocate_adapter(&vc4_hdmi_cec_adap_ops,
--						  vc4_hdmi,
--						  vc4_hdmi->variant->card_name,
--						  CEC_CAP_DEFAULTS |
--						  CEC_CAP_CONNECTOR_INFO, 1);
--	ret = PTR_ERR_OR_ZERO(vc4_hdmi->cec_adap);
--	if (ret < 0)
--		return ret;
--
--	cec_fill_conn_info_from_drm(&conn_info, &vc4_hdmi->connector);
--	cec_s_conn_info(vc4_hdmi->cec_adap, &conn_info);
--
- 	if (vc4_hdmi->variant->external_irq_controller) {
- 		ret = devm_request_threaded_irq(dev, platform_get_irq_byname(pdev, "cec-rx"),
- 						vc4_cec_irq_handler_rx_bare,
- 						vc4_cec_irq_handler_rx_thread, 0,
- 						"vc4 hdmi cec rx", vc4_hdmi);
- 		if (ret)
--			goto err_delete_cec_adap;
-+			return ret;
- 
- 		ret = devm_request_threaded_irq(dev, platform_get_irq_byname(pdev, "cec-tx"),
- 						vc4_cec_irq_handler_tx_bare,
- 						vc4_cec_irq_handler_tx_thread, 0,
- 						"vc4 hdmi cec tx", vc4_hdmi);
- 		if (ret)
--			goto err_delete_cec_adap;
-+			return ret;
- 	} else {
- 		ret = devm_request_threaded_irq(dev, platform_get_irq(pdev, 0),
- 						vc4_cec_irq_handler,
- 						vc4_cec_irq_handler_thread, 0,
- 						"vc4 hdmi cec", vc4_hdmi);
- 		if (ret)
--			goto err_delete_cec_adap;
-+			return ret;
- 	}
- 
--	ret = cec_register_adapter(vc4_hdmi->cec_adap, &pdev->dev);
--	if (ret < 0)
--		goto err_delete_cec_adap;
-+	return 0;
-+}
-+
-+static const struct drm_connector_hdmi_cec_adapter_ops vc4_hdmi_cec_adap_ops = {
-+	.base.unregister = drm_connector_hdmi_cec_unregister,
-+	.init = vc4_hdmi_cec_init,
-+	.enable = vc4_hdmi_cec_adap_enable,
-+	.log_addr = vc4_hdmi_cec_adap_log_addr,
-+	.transmit = vc4_hdmi_cec_adap_transmit,
-+};
-+
-+static int vc4_hdmi_cec_register(struct vc4_hdmi *vc4_hdmi)
-+{
-+	struct platform_device *pdev = vc4_hdmi->pdev;
-+	struct device *dev = &pdev->dev;
-+
-+	if (!of_property_present(dev->of_node, "interrupts")) {
-+		dev_warn(dev, "'interrupts' DT property is missing, no CEC\n");
-+		return 0;
-+	}
- 
- 	/*
--	 * NOTE: Strictly speaking, we should probably use a DRM-managed
--	 * registration there to avoid removing the CEC adapter by the
--	 * time the DRM driver doesn't have any user anymore.
-+	 * NOTE: the CEC adapter will be unregistered from
-+	 * drm_connector_cleanup(), which is called from drm_dev_unplug()
-+	 * during device unbind.
- 	 *
- 	 * However, the CEC framework already cleans up the CEC adapter
- 	 * only when the last user has closed its file descriptor, so we
- 	 * don't need to handle it in DRM.
- 	 *
--	 * By the time the device-managed hook is executed, we will give
--	 * up our reference to the CEC adapter and therefore don't
--	 * really care when it's actually freed.
--	 *
- 	 * There's still a problematic sequence: if we unregister our
- 	 * CEC adapter, but the userspace keeps a handle on the CEC
- 	 * adapter but not the DRM device for some reason. In such a
-@@ -2837,19 +2814,14 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
- 	 * the CEC framework already handles this too, by calling
- 	 * cec_is_registered() in cec_ioctl() and cec_poll().
+ 	/**
+-	 * @hdmi_audio_dev: device to be used as a parent for the HDMI Codec
++	 * @hdmi_dev: device to be used as a parent for the HDMI Codec
  	 */
--	ret = devm_add_action_or_reset(dev, vc4_hdmi_cec_release, vc4_hdmi);
--	if (ret)
--		return ret;
--
--	return 0;
--
--err_delete_cec_adap:
--	cec_delete_adapter(vc4_hdmi->cec_adap);
--
--	return ret;
-+	return drm_connector_hdmi_cec_register(&vc4_hdmi->connector,
-+					       &vc4_hdmi_cec_adap_ops,
-+					       vc4_hdmi->variant->card_name,
-+					       1,
-+					       &pdev->dev);
- }
- #else
--static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
-+static int vc4_hdmi_cec_register(struct vc4_hdmi *vc4_hdmi)
- {
- 	return 0;
- }
-@@ -3271,7 +3243,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		goto err_put_runtime_pm;
+-	struct device *hdmi_audio_dev;
++	struct device *hdmi_dev;
  
--	ret = vc4_hdmi_cec_init(vc4_hdmi);
-+	ret = vc4_hdmi_cec_register(vc4_hdmi);
- 	if (ret)
- 		goto err_put_runtime_pm;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index e3d989ca302b72533c374dfa3fd0d5bd7fe64a82..5acbe27fb57659d02f32ca571dd3ded4a1a0d9dc 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -146,7 +146,6 @@ struct vc4_hdmi {
+ 	/**
+ 	 * @hdmi_audio_max_i2s_playback_channels: maximum number of playback
+@@ -933,6 +933,11 @@ struct drm_bridge {
+ 	 * @hdmi_audio_dai_port: sound DAI port, -1 if it is not enabled
  	 */
- 	bool disable_wifi_frequencies;
+ 	int hdmi_audio_dai_port;
++
++	/**
++	 * @hdmi_cec_notifier: use this bridge to register a CEC notifier
++	 */
++	bool hdmi_cec_notifier;
+ };
  
--	struct cec_adapter *cec_adap;
- 	struct cec_msg cec_rx_msg;
- 	bool cec_tx_ok;
- 	bool cec_irq_was_rx;
+ static inline struct drm_bridge *
 
 -- 
 2.39.5
