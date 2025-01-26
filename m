@@ -2,47 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84966A1C91A
+	by mail.lfdr.de (Postfix) with ESMTPS id 0316EA1C919
 	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0D1F10E3FB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D4A910E3F3;
 	Sun, 26 Jan 2025 14:55:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lQnSJ2q1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MDofPCFF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05CD610E3F3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:55:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BB5010E3FA
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:55:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4B5325C463C;
- Sun, 26 Jan 2025 14:55:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E87A1C4CED3;
- Sun, 26 Jan 2025 14:55:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id D1F365C3312;
+ Sun, 26 Jan 2025 14:55:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A166EC4CEE4;
+ Sun, 26 Jan 2025 14:55:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903341;
- bh=E6eskXtNKGqY6mkbJuUK27kMepWR2x2b9c2rs0dxXCs=;
+ s=k20201202; t=1737903342;
+ bh=FfOs3QdDZOZxFGBTzLJe9hXYYdfsWqaa3pMMKvQgAJQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=lQnSJ2q1gDgBMCscAlbgaGTHG5HOPFOA7i6eDE7YMWaN8CdWoD1Kva973sJGLSF2i
- QVlVj8cFJBZmD1xFWltqcvMkP0XN2Ks+itAJuiZJ3aifeQ3bq1Cuo9Jyu9WUA84zxH
- AsVO5MXzBA/w9IjP4+k9kt0MGR9E//rPhPltN/G8g4sCB2H4gPIRbfleTzc9WLnLkK
- j1zPZTbmyEtIi/Zo3PlditWCKnCSissFuv0HShPwkDvw2bL7/C395HQzNHV2QcIq8U
- ixds4+BBQ+VnMsYOkQiBOyumLnYddPVC6YK6DEOc4qYndeASe4beGhX+qunqRvLpPg
- ykhvpRpeOA08w==
+ b=MDofPCFFEZqWZjc2QCB704vcv5kAYIc6WTylqMlv0YaAZzFYlpMsRPRUF/QvUyx8w
+ /E7TFbLSV5ANto5pc5KB2MEql5NC/g+UamCvrWFkJqVopqvzk4fRcAjB/rUiCecsJG
+ tqUclRONKhSK/dZR++nPj+zP56WPWHgT8PMdL97Nw7d9W+zrQT1ykrAE+fiM3ldtkq
+ OHaWp2L1A2IYGHrvmJQ6OsqTSMp0WDzqiBHX8uHUKuOJruZVD2qUPvcSe+gwnv+f0e
+ 7mPu6eMb+l4SSmkQ3OWKaEne8gAeOSmiAT1afITdQL+spPmJ/N3jPDWQaW4FjPoAVf
+ pkDheMpUeyfXw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Sasha Levin <sashal@kernel.org>, alain.volmat@foss.st.com,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 18/31] drm/sti: hdmi: use eld_mutex to protect
+ Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ dave.stevenson@raspberrypi.com, maarten.lankhorst@linux.intel.com,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 19/31] drm/vc4: hdmi: use eld_mutex to protect
  access to connector->eld
-Date: Sun, 26 Jan 2025 09:54:34 -0500
-Message-Id: <20250126145448.930220-18-sashal@kernel.org>
+Date: Sun, 26 Jan 2025 09:54:35 -0500
+Message-Id: <20250126145448.930220-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145448.930220-1-sashal@kernel.org>
 References: <20250126145448.930220-1-sashal@kernel.org>
@@ -68,31 +67,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit e99c0b517bcd53cf61f998a3c4291333401cb391 ]
+[ Upstream commit 81a9a93b169a273ccc4a9a1ee56f17e9981d3f98 ]
 
 Reading access to connector->eld can happen at the same time the
 drm_edid_to_eld() updates the data. Take the newly added eld_mutex in
 order to protect connector->eld from concurrent access.
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Acked-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-9-c9bce1ee8bea@linaro.org
+Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-10-c9bce1ee8bea@linaro.org
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/sti/sti_hdmi.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 847470f747c0e..3c8f3532c7972 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -1225,7 +1225,9 @@ static int hdmi_audio_get_eld(struct device *dev, void *data, uint8_t *buf, size
- 	struct drm_connector *connector = hdmi->drm_connector;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 7e0a5ea7ab859..6b83d02b5d62a 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -2192,9 +2192,9 @@ static int vc4_hdmi_audio_get_eld(struct device *dev, void *data,
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+ 	struct drm_connector *connector = &vc4_hdmi->connector;
  
- 	DRM_DEBUG_DRIVER("\n");
+-	mutex_lock(&vc4_hdmi->mutex);
 +	mutex_lock(&connector->eld_mutex);
  	memcpy(buf, connector->eld, min(sizeof(connector->eld), len));
+-	mutex_unlock(&vc4_hdmi->mutex);
 +	mutex_unlock(&connector->eld_mutex);
  
  	return 0;
