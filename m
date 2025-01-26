@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE09A1C8FB
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:54:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8498DA1C8FA
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 692B610E3C6;
-	Sun, 26 Jan 2025 14:54:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB68B10E3D0;
+	Sun, 26 Jan 2025 14:54:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BgL1hWM8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LR4ZnEOT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06EA310E3C6
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:54:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E332710E3C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:54:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4C6F55C5F2F;
- Sun, 26 Jan 2025 14:54:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95990C4CEE7;
- Sun, 26 Jan 2025 14:54:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3463B5C5F2F;
+ Sun, 26 Jan 2025 14:54:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D71C4CED3;
+ Sun, 26 Jan 2025 14:54:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903291;
- bh=YJVaQn5BsK2QkOM6IZNqXee7nhE2W2Be5XILTAtGU7M=;
- h=From:To:Cc:Subject:Date:From;
- b=BgL1hWM8j0i0FID06h1VwvsYBJe2bc9Kuq9P7FPt5pexMOFmReXSwY/DR/PT1p721
- mDU4IRTxZqlmTG0VsGUhFwhL74cb8AnO3aB8K0aNbU4xwj1DCVX4YwrzRVikYoPFfi
- e4wvaLL9/v9Wk7Cj6TOBQn1pxlZZoBciaFpUNSeDqqnH0nKjCdhJ4pJft9jmPWZEN5
- ealSl60qFYo2NjW1F2qRbihap9vi+yijt42+mJ3pyWfDTSt/yEYqQ9XBEs8aynlD1I
- lsY9iyHbUWx5guDsaNRI7HPENm980MWke2IfyZqrUGUC6HezLwqPP0Igmwo33MsSN+
- 9FdT4+pN5IuWA==
+ s=k20201202; t=1737903294;
+ bh=SqaPKAGyZq+oHzd/IeV5Qs2VWWR+K4kUrRJFKFMAetk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=LR4ZnEOTU/M+VGn11YdfnvYmqkoFOCJR4Sft8H0o4AcMPljntWHw9B7oW568tu7vt
+ DMq9V6Qdfz/DB5HAyHEMJXsjqxG/+1ySyJYTRXkx7SyzLyrp8yNNKqzBSOW1hswZ1h
+ xs4OZtlz8azYy14OEjJhDWZR0/gS48dY+n631CoyM+xk6/Cirvl4sq4uCKkjy7wrI6
+ 667AFYcG9rr7/M+0hTqVuzFrmnEXsMiByxUnbTHtHOH0xBneLPyUs5f6G3LRnrE0O4
+ zloycnXJodLMy0aIPWN6q4FTWGtV9MpnPkiK3WkPNcJssMcTxmmZhocTFyar8Gr2KE
+ WGjUbaVX+h+fw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Dongwon Kim <dongwon.kim@intel.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Rob Clark <robdclark@gmail.com>, Sasha Levin <sashal@kernel.org>,
- airlied@redhat.com, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 01/31] drm/virtio: New fence for every plane
- update
-Date: Sun, 26 Jan 2025 09:54:17 -0500
-Message-Id: <20250126145448.930220-1-sashal@kernel.org>
+Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ "Dustin L . Howett" <dustin@howett.net>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sasha Levin <sashal@kernel.org>,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 02/31] drm: Add panel backlight quirks
+Date: Sun, 26 Jan 2025 09:54:18 -0500
+Message-Id: <20250126145448.930220-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250126145448.930220-1-sashal@kernel.org>
+References: <20250126145448.930220-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.11
@@ -65,190 +67,169 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dongwon Kim <dongwon.kim@intel.com>
+From: Thomas Weißschuh <linux@weissschuh.net>
 
-[ Upstream commit d3c55b8ab6fe5fa2e7ab02efd36d09c39ee5022f ]
+[ Upstream commit 22e5c7ae12145af13785e3ff138395d5b1a22116 ]
 
-Having a fence linked to a virtio_gpu_framebuffer in the plane update
-sequence would cause conflict when several planes referencing the same
-framebuffer (e.g. Xorg screen covering multi-displays configured for an
-extended mode) and those planes are updated concurrently. So it is needed
-to allocate a fence for every plane state instead of the framebuffer.
+Panels using a PWM-controlled backlight source do not have a standard
+way to communicate their valid PWM ranges.
+On x86 the ranges are read from ACPI through driver-specific tables.
+The built-in ranges are not necessarily correct, or may grow stale if an
+older device can be retrofitted with newer panels.
 
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-[dmitry.osipenko@collabora.com: rebase, fix up, edit commit message]
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Reviewed-by: Rob Clark <robdclark@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241020230803.247419-2-dmitry.osipenko@collabora.com
+Add a quirk infrastructure with which the minimum valid backlight value
+can be maintained as part of the kernel.
+
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+Tested-by: Dustin L. Howett <dustin@howett.net>
+Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241111-amdgpu-min-backlight-quirk-v7-1-f662851fda69@weissschuh.net
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 ++++
- drivers/gpu/drm/virtio/virtgpu_plane.c | 58 +++++++++++++++++---------
- 2 files changed, 46 insertions(+), 19 deletions(-)
+ Documentation/gpu/drm-kms-helpers.rst        |  3 +
+ drivers/gpu/drm/Kconfig                      |  4 ++
+ drivers/gpu/drm/Makefile                     |  1 +
+ drivers/gpu/drm/drm_panel_backlight_quirks.c | 70 ++++++++++++++++++++
+ include/drm/drm_utils.h                      |  4 ++
+ 5 files changed, 82 insertions(+)
+ create mode 100644 drivers/gpu/drm/drm_panel_backlight_quirks.c
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 64c236169db88..5dc8eeaf7123c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -194,6 +194,13 @@ struct virtio_gpu_framebuffer {
- #define to_virtio_gpu_framebuffer(x) \
- 	container_of(x, struct virtio_gpu_framebuffer, base)
+diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
+index c3e58856f75b3..96c03b9a644e4 100644
+--- a/Documentation/gpu/drm-kms-helpers.rst
++++ b/Documentation/gpu/drm-kms-helpers.rst
+@@ -230,6 +230,9 @@ Panel Helper Reference
+ .. kernel-doc:: drivers/gpu/drm/drm_panel_orientation_quirks.c
+    :export:
  
-+struct virtio_gpu_plane_state {
-+	struct drm_plane_state base;
-+	struct virtio_gpu_fence *fence;
++.. kernel-doc:: drivers/gpu/drm/drm_panel_backlight_quirks.c
++   :export:
++
+ Panel Self Refresh Helper Reference
+ ===================================
+ 
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index 610e159d362ad..7408ea8caacc3 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -486,6 +486,10 @@ config DRM_HYPERV
+ config DRM_EXPORT_FOR_TESTS
+ 	bool
+ 
++# Separate option as not all DRM drivers use it
++config DRM_PANEL_BACKLIGHT_QUIRKS
++	tristate
++
+ config DRM_LIB_RANDOM
+ 	bool
+ 	default n
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 784229d4504dc..84746054c721a 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -93,6 +93,7 @@ drm-$(CONFIG_DRM_PANIC_SCREEN_QR_CODE) += drm_panic_qr.o
+ obj-$(CONFIG_DRM)	+= drm.o
+ 
+ obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
++obj-$(CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS) += drm_panel_backlight_quirks.o
+ 
+ #
+ # Memory-management helpers
+diff --git a/drivers/gpu/drm/drm_panel_backlight_quirks.c b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+new file mode 100644
+index 0000000000000..6b8bbed77c7f1
+--- /dev/null
++++ b/drivers/gpu/drm/drm_panel_backlight_quirks.c
+@@ -0,0 +1,70 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/array_size.h>
++#include <linux/dmi.h>
++#include <linux/mod_devicetable.h>
++#include <linux/module.h>
++#include <drm/drm_edid.h>
++#include <drm/drm_utils.h>
++
++struct drm_panel_min_backlight_quirk {
++	struct {
++		enum dmi_field field;
++		const char * const value;
++	} dmi_match;
++	struct drm_edid_ident ident;
++	u8 min_brightness;
 +};
-+#define to_virtio_gpu_plane_state(x) \
-+	container_of(x, struct virtio_gpu_plane_state, base)
 +
- struct virtio_gpu_queue {
- 	struct virtqueue *vq;
- 	spinlock_t qlock;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index a72a2dbda031c..7acd38b962c62 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -66,11 +66,28 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
- 	return format;
- }
- 
-+static struct
-+drm_plane_state *virtio_gpu_plane_duplicate_state(struct drm_plane *plane)
++static const struct drm_panel_min_backlight_quirk drm_panel_min_backlight_quirks[] = {
++};
++
++static bool drm_panel_min_backlight_quirk_matches(const struct drm_panel_min_backlight_quirk *quirk,
++						  const struct drm_edid *edid)
 +{
-+	struct virtio_gpu_plane_state *new;
++	if (!dmi_match(quirk->dmi_match.field, quirk->dmi_match.value))
++		return false;
 +
-+	if (WARN_ON(!plane->state))
-+		return NULL;
++	if (!drm_edid_match(edid, &quirk->ident))
++		return false;
 +
-+	new = kzalloc(sizeof(*new), GFP_KERNEL);
-+	if (!new)
-+		return NULL;
-+
-+	__drm_atomic_helper_plane_duplicate_state(plane, &new->base);
-+
-+	return &new->base;
++	return true;
 +}
 +
- static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
- 	.reset			= drm_atomic_helper_plane_reset,
--	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
-+	.atomic_duplicate_state = virtio_gpu_plane_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
- };
++/**
++ * drm_get_panel_min_brightness_quirk - Get minimum supported brightness level for a panel.
++ * @edid: EDID of the panel to check
++ *
++ * This function checks for platform specific (e.g. DMI based) quirks
++ * providing info on the minimum backlight brightness for systems where this
++ * cannot be probed correctly from the hard-/firm-ware.
++ *
++ * Returns:
++ * A negative error value or
++ * an override value in the range [0, 255] representing 0-100% to be scaled to
++ * the drivers target range.
++ */
++int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid)
++{
++	const struct drm_panel_min_backlight_quirk *quirk;
++	size_t i;
++
++	if (!IS_ENABLED(CONFIG_DMI))
++		return -ENODATA;
++
++	if (!edid)
++		return -EINVAL;
++
++	for (i = 0; i < ARRAY_SIZE(drm_panel_min_backlight_quirks); i++) {
++		quirk = &drm_panel_min_backlight_quirks[i];
++
++		if (drm_panel_min_backlight_quirk_matches(quirk, edid))
++			return quirk->min_brightness;
++	}
++
++	return -ENODATA;
++}
++EXPORT_SYMBOL(drm_get_panel_min_brightness_quirk);
++
++MODULE_DESCRIPTION("Quirks for panel backlight overrides");
++MODULE_LICENSE("GPL");
+diff --git a/include/drm/drm_utils.h b/include/drm/drm_utils.h
+index 70775748d243b..15fa9b6865f44 100644
+--- a/include/drm/drm_utils.h
++++ b/include/drm/drm_utils.h
+@@ -12,8 +12,12 @@
  
-@@ -138,11 +155,13 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
- 	struct drm_device *dev = plane->dev;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
- 	struct virtio_gpu_object *bo;
+ #include <linux/types.h>
  
- 	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+	vgplane_st = to_virtio_gpu_plane_state(plane->state);
- 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
--	if (vgfb->fence) {
-+	if (vgplane_st->fence) {
- 		struct virtio_gpu_object_array *objs;
++struct drm_edid;
++
+ int drm_get_panel_orientation_quirk(int width, int height);
  
- 		objs = virtio_gpu_array_alloc(1);
-@@ -151,13 +170,11 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
- 		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
- 		virtio_gpu_array_lock_resv(objs);
- 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
--					      width, height, objs, vgfb->fence);
-+					      width, height, objs,
-+					      vgplane_st->fence);
- 		virtio_gpu_notify(vgdev);
--
--		dma_fence_wait_timeout(&vgfb->fence->f, true,
-+		dma_fence_wait_timeout(&vgplane_st->fence->f, true,
- 				       msecs_to_jiffies(50));
--		dma_fence_put(&vgfb->fence->f);
--		vgfb->fence = NULL;
- 	} else {
- 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
- 					      width, height, NULL, NULL);
-@@ -247,20 +264,23 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
- 	struct drm_device *dev = plane->dev;
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
- 	struct virtio_gpu_object *bo;
++int drm_get_panel_min_brightness_quirk(const struct drm_edid *edid);
++
+ signed long drm_timeout_abs_to_jiffies(int64_t timeout_nsec);
  
- 	if (!new_state->fb)
- 		return 0;
- 
- 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
-+	vgplane_st = to_virtio_gpu_plane_state(new_state);
- 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
- 	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
- 		return 0;
- 
--	if (bo->dumb && (plane->state->fb != new_state->fb)) {
--		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
-+	if (bo->dumb) {
-+		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
-+						     vgdev->fence_drv.context,
- 						     0);
--		if (!vgfb->fence)
-+		if (!vgplane_st->fence)
- 			return -ENOMEM;
- 	}
- 
-@@ -270,15 +290,15 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
- static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
- 					struct drm_plane_state *state)
- {
--	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
- 
- 	if (!state->fb)
- 		return;
- 
--	vgfb = to_virtio_gpu_framebuffer(state->fb);
--	if (vgfb->fence) {
--		dma_fence_put(&vgfb->fence->f);
--		vgfb->fence = NULL;
-+	vgplane_st = to_virtio_gpu_plane_state(state);
-+	if (vgplane_st->fence) {
-+		dma_fence_put(&vgplane_st->fence->f);
-+		vgplane_st->fence = NULL;
- 	}
- }
- 
-@@ -291,6 +311,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 	struct virtio_gpu_device *vgdev = dev->dev_private;
- 	struct virtio_gpu_output *output = NULL;
- 	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_plane_state *vgplane_st;
- 	struct virtio_gpu_object *bo = NULL;
- 	uint32_t handle;
- 
-@@ -303,6 +324,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 
- 	if (plane->state->fb) {
- 		vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+		vgplane_st = to_virtio_gpu_plane_state(plane->state);
- 		bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
- 		handle = bo->hw_res_handle;
- 	} else {
-@@ -322,11 +344,9 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 			(vgdev, 0,
- 			 plane->state->crtc_w,
- 			 plane->state->crtc_h,
--			 0, 0, objs, vgfb->fence);
-+			 0, 0, objs, vgplane_st->fence);
- 		virtio_gpu_notify(vgdev);
--		dma_fence_wait(&vgfb->fence->f, true);
--		dma_fence_put(&vgfb->fence->f);
--		vgfb->fence = NULL;
-+		dma_fence_wait(&vgplane_st->fence->f, true);
- 	}
- 
- 	if (plane->state->fb != old_state->fb) {
+ #endif
 -- 
 2.39.5
 
