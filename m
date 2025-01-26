@@ -2,85 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C5AFA1C843
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:10:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E3CA1C8BC
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:53:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C7510E099;
-	Sun, 26 Jan 2025 14:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87B1910E0FE;
+	Sun, 26 Jan 2025 14:53:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ks3X5cpe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qPBydSo2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43A5E10E099
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:10:30 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-53e3c47434eso3943470e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 06:10:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737900628; x=1738505428; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=8iFu7kfZyApP/YK/23C4ewWSLBktiQkPucZ1cnWaGXc=;
- b=ks3X5cpec19WbGg4VvUiSbHmaJy5/44XjLP8rXG9qaYka4GJlPBzv4UzQsc5Q72f7I
- wPOAF5EToJ4eVA8h1y6aq2Jn13dOcUmTNaNKDEJff8znKOWF9BRXewGPDK8HL5SUBxNz
- YcWu5lodYbec3M0hCF4iwlEjIcBpm0du8+8pTeZ4pTOt/6VvSkWRZLcdke3Hj+Ji/Mth
- ZQOWvxl+JfyTaq8qUlXZq72ush5GrFRsDNRQXNI0/kqB/oQgA0tETX7AMEqCGStmt3KL
- 2OBuqv870igLx+rPLsmiaFbzDCJfMSsRVQRRwOpkMHBVJoktDwZLYkqVGFBw4DtJRjsn
- aKIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737900628; x=1738505428;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8iFu7kfZyApP/YK/23C4ewWSLBktiQkPucZ1cnWaGXc=;
- b=l+MmjctdyUyWocZjPng9YBxnniCZDJAL3lYrMS3CM8jfJE6kO1T6ISNJ5hpZcvPTmJ
- P9XOwe5VXvlphXmcHcmV9lmB/2jXYQyY3bNK8U7a3Y1x75fFO4JC5jmiJGOqbotpaL6a
- CzwPdzcqCsQ8PIE+ODiPdGTfnAhIw0Guf5uFC7QuGd0f9kVT64X8QnX/xN0xmnMDGqft
- S3cVzRceQWeEVH3CBncmTEMHUswLeSse8iJaGEyd/pZi94+ct/mycdRaRUewqcZ34Wy0
- uMgZkYTstJSQKbaW1nxqeMMa4xr22QqnfsBg3VgQ2kX7HaHEgJ46vvii3QAV8/+BT7Jz
- X31g==
-X-Gm-Message-State: AOJu0YynM8vYFbtaQnB+778wT+xU/zmBit7A4zEE4z5h0a8AFr62FATc
- w391jb/6npS1a5oXDIkbEe0b0lAcyeXC5OKZt770G8D3BuQ6Rek+YR3HNZHGr3M=
-X-Gm-Gg: ASbGncvudJftw+dPd08T03+u8X3KJdUlk47z5ny9IC04EH43kP2rdEfDMwI0xbzKnzF
- bpVec9a2nhaVeU4sRRs23vwNAeZaJQXpNZM30fIHvMo2aNjGnZiQogHf01ZXgRDatInKIX5bNEY
- 5EvYS2O7zt6rzzqnLO30bw1U/0nXMVLsHwFlmX6cBqFTPUd4DMxV7jC7lSwgfpB033jYmW5u1lR
- 9FMkeEpbhyDUtIPEbD98ES24ds0TQ8CHD3j5YR7YUhL0eD9YMykzHat3hNy3Q94qwohdJad2pVY
- vPCeZzcQXMuVzpGa35qHEv6oUadNruZbNgexrYgo+ocTkkI5Bjhmivnm1/eY
-X-Google-Smtp-Source: AGHT+IEUgaOjlIqzb8Iw75badSBbGfzHKqCavi4X6hbCsr4dlPImhmBJpQl9OJuzshwRDY3VSmuTCw==
-X-Received: by 2002:ac2:4155:0:b0:542:8cf5:a3a3 with SMTP id
- 2adb3069b0e04-5439c216c23mr11100848e87.5.1737900628467; 
- Sun, 26 Jan 2025 06:10:28 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543c836826asm948964e87.156.2025.01.26.06.10.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Jan 2025 06:10:28 -0800 (PST)
-Date: Sun, 26 Jan 2025 16:10:25 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 03/10] drm/display: hdmi-state-helper: handle CEC
- physical address
-Message-ID: <q7647mm5zxh566zliu7rqa4glzbn43wopd4rpvdpwneuopeuex@rpbtwxfsqm2c>
-References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
- <20250126-drm-hdmi-connector-cec-v3-3-5b5b2d4956da@linaro.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E112F10E0FE
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:53:14 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 74CFB5C5FD4;
+ Sun, 26 Jan 2025 14:52:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9FD3C4CED3;
+ Sun, 26 Jan 2025 14:53:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737903193;
+ bh=YJVaQn5BsK2QkOM6IZNqXee7nhE2W2Be5XILTAtGU7M=;
+ h=From:To:Cc:Subject:Date:From;
+ b=qPBydSo21EwPT/LCiZC0zDXgztNd71CN4jVRlTFDHcPMQt3NKf4+zFEYJ2isRBKti
+ FOVrhfXEjS+ZwN06OWUCnptJSYGB8te8Fobc4ui1nlMTxxClw2nQF+PzkgUEr9Fo8i
+ AHchC6WbPzsGqplRrTPt55d/i2oVVEs0fv8YSRLeAaKFmDORfjjw0jvuabQcqlgWIY
+ nDe8UJmeFFN9mCNlXeFS6FGS2Dzw/tb+UDkXgle851EIbMz8ZPNB2LJZ4HQ4VqZ7mb
+ oNFTNL0z5Sm7ixWyv1xpCnxVamvRbOOfJXcZxWZel8znlGYiOqcLc9s2gd+wBWvQn/
+ SZ/07yYQUx35Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Dongwon Kim <dongwon.kim@intel.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Rob Clark <robdclark@gmail.com>, Sasha Levin <sashal@kernel.org>,
+ airlied@redhat.com, kraxel@redhat.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.13 01/34] drm/virtio: New fence for every plane
+ update
+Date: Sun, 26 Jan 2025 09:52:37 -0500
+Message-Id: <20250126145310.926311-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250126-drm-hdmi-connector-cec-v3-3-5b5b2d4956da@linaro.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,67 +65,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jan 26, 2025 at 03:29:08PM +0200, Dmitry Baryshkov wrote:
-> Call HDMI CEC helpers in order to update physical address of the
-> adapter.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> index 2691e8b3e480131ac6e4e4b74b24947be55694bd..1e7ea9b387088d5f407b647a9a3fead7a2929a30 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -6,6 +6,7 @@
->  #include <drm/drm_print.h>
->  
->  #include <drm/display/drm_hdmi_audio_helper.h>
-> +#include <drm/display/drm_hdmi_cec_helper.h>
->  #include <drm/display/drm_hdmi_helper.h>
->  #include <drm/display/drm_hdmi_state_helper.h>
->  
-> @@ -786,8 +787,11 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
->  	const struct drm_edid *drm_edid;
->  
->  	if (status == connector_status_disconnected) {
-> -		// TODO: also handle CEC and scramber, HDMI sink disconnected.
-> +		// TODO: also handle scramber, HDMI sink disconnected.
->  		drm_connector_hdmi_audio_plugged_notify(connector, false);
-> +		drm_edid_connector_update(connector, NULL);
-> +		drm_connector_hdmi_cec_phys_addr_invalidate(connector);
+From: Dongwon Kim <dongwon.kim@intel.com>
 
-This also has a chunk from the commit 78a5acf5433d ("drm/display: hdmi:
-Do not read EDID on disconnected connectors") present only in
-drm-misc-next-fixes. In future I will make sure that that commit is
-included into my tree history, but the series should probably wait for
--rc1, until all -fixes branches are again a part of the drm-misc-next.
+[ Upstream commit d3c55b8ab6fe5fa2e7ab02efd36d09c39ee5022f ]
 
-On the other hand, if anybody would like to test the series on top of
-drm-misc-next (wink-wink), there would be no need to pick up any other
-changes.
+Having a fence linked to a virtio_gpu_framebuffer in the plane update
+sequence would cause conflict when several planes referencing the same
+framebuffer (e.g. Xorg screen covering multi-displays configured for an
+extended mode) and those planes are updated concurrently. So it is needed
+to allocate a fence for every plane state instead of the framebuffer.
 
-> +		return;
->  	}
->  
->  	if (connector->hdmi.funcs->read_edid)
-> @@ -800,8 +804,9 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
->  	drm_edid_free(drm_edid);
->  
->  	if (status == connector_status_connected) {
-> -		// TODO: also handle CEC and scramber, HDMI sink is now connected.
-> +		// TODO: also handle scramber, HDMI sink is now connected.
->  		drm_connector_hdmi_audio_plugged_notify(connector, true);
-> +		drm_connector_hdmi_cec_phys_addr_set(connector);
->  	}
->  }
->  
-> 
-> -- 
-> 2.39.5
-> 
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+[dmitry.osipenko@collabora.com: rebase, fix up, edit commit message]
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Reviewed-by: Rob Clark <robdclark@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241020230803.247419-2-dmitry.osipenko@collabora.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 ++++
+ drivers/gpu/drm/virtio/virtgpu_plane.c | 58 +++++++++++++++++---------
+ 2 files changed, 46 insertions(+), 19 deletions(-)
 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 64c236169db88..5dc8eeaf7123c 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -194,6 +194,13 @@ struct virtio_gpu_framebuffer {
+ #define to_virtio_gpu_framebuffer(x) \
+ 	container_of(x, struct virtio_gpu_framebuffer, base)
+ 
++struct virtio_gpu_plane_state {
++	struct drm_plane_state base;
++	struct virtio_gpu_fence *fence;
++};
++#define to_virtio_gpu_plane_state(x) \
++	container_of(x, struct virtio_gpu_plane_state, base)
++
+ struct virtio_gpu_queue {
+ 	struct virtqueue *vq;
+ 	spinlock_t qlock;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index a72a2dbda031c..7acd38b962c62 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -66,11 +66,28 @@ uint32_t virtio_gpu_translate_format(uint32_t drm_fourcc)
+ 	return format;
+ }
+ 
++static struct
++drm_plane_state *virtio_gpu_plane_duplicate_state(struct drm_plane *plane)
++{
++	struct virtio_gpu_plane_state *new;
++
++	if (WARN_ON(!plane->state))
++		return NULL;
++
++	new = kzalloc(sizeof(*new), GFP_KERNEL);
++	if (!new)
++		return NULL;
++
++	__drm_atomic_helper_plane_duplicate_state(plane, &new->base);
++
++	return &new->base;
++}
++
+ static const struct drm_plane_funcs virtio_gpu_plane_funcs = {
+ 	.update_plane		= drm_atomic_helper_update_plane,
+ 	.disable_plane		= drm_atomic_helper_disable_plane,
+ 	.reset			= drm_atomic_helper_plane_reset,
+-	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
++	.atomic_duplicate_state = virtio_gpu_plane_duplicate_state,
+ 	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+ };
+ 
+@@ -138,11 +155,13 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
+ 	struct drm_device *dev = plane->dev;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo;
+ 
+ 	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++	vgplane_st = to_virtio_gpu_plane_state(plane->state);
+ 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+-	if (vgfb->fence) {
++	if (vgplane_st->fence) {
+ 		struct virtio_gpu_object_array *objs;
+ 
+ 		objs = virtio_gpu_array_alloc(1);
+@@ -151,13 +170,11 @@ static void virtio_gpu_resource_flush(struct drm_plane *plane,
+ 		virtio_gpu_array_add_obj(objs, vgfb->base.obj[0]);
+ 		virtio_gpu_array_lock_resv(objs);
+ 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
+-					      width, height, objs, vgfb->fence);
++					      width, height, objs,
++					      vgplane_st->fence);
+ 		virtio_gpu_notify(vgdev);
+-
+-		dma_fence_wait_timeout(&vgfb->fence->f, true,
++		dma_fence_wait_timeout(&vgplane_st->fence->f, true,
+ 				       msecs_to_jiffies(50));
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
+ 	} else {
+ 		virtio_gpu_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
+ 					      width, height, NULL, NULL);
+@@ -247,20 +264,23 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 	struct drm_device *dev = plane->dev;
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo;
+ 
+ 	if (!new_state->fb)
+ 		return 0;
+ 
+ 	vgfb = to_virtio_gpu_framebuffer(new_state->fb);
++	vgplane_st = to_virtio_gpu_plane_state(new_state);
+ 	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+ 	if (!bo || (plane->type == DRM_PLANE_TYPE_PRIMARY && !bo->guest_blob))
+ 		return 0;
+ 
+-	if (bo->dumb && (plane->state->fb != new_state->fb)) {
+-		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
++	if (bo->dumb) {
++		vgplane_st->fence = virtio_gpu_fence_alloc(vgdev,
++						     vgdev->fence_drv.context,
+ 						     0);
+-		if (!vgfb->fence)
++		if (!vgplane_st->fence)
+ 			return -ENOMEM;
+ 	}
+ 
+@@ -270,15 +290,15 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ static void virtio_gpu_plane_cleanup_fb(struct drm_plane *plane,
+ 					struct drm_plane_state *state)
+ {
+-	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 
+ 	if (!state->fb)
+ 		return;
+ 
+-	vgfb = to_virtio_gpu_framebuffer(state->fb);
+-	if (vgfb->fence) {
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
++	vgplane_st = to_virtio_gpu_plane_state(state);
++	if (vgplane_st->fence) {
++		dma_fence_put(&vgplane_st->fence->f);
++		vgplane_st->fence = NULL;
+ 	}
+ }
+ 
+@@ -291,6 +311,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_output *output = NULL;
+ 	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_plane_state *vgplane_st;
+ 	struct virtio_gpu_object *bo = NULL;
+ 	uint32_t handle;
+ 
+@@ -303,6 +324,7 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 
+ 	if (plane->state->fb) {
+ 		vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++		vgplane_st = to_virtio_gpu_plane_state(plane->state);
+ 		bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
+ 		handle = bo->hw_res_handle;
+ 	} else {
+@@ -322,11 +344,9 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 			(vgdev, 0,
+ 			 plane->state->crtc_w,
+ 			 plane->state->crtc_h,
+-			 0, 0, objs, vgfb->fence);
++			 0, 0, objs, vgplane_st->fence);
+ 		virtio_gpu_notify(vgdev);
+-		dma_fence_wait(&vgfb->fence->f, true);
+-		dma_fence_put(&vgfb->fence->f);
+-		vgfb->fence = NULL;
++		dma_fence_wait(&vgplane_st->fence->f, true);
+ 	}
+ 
+ 	if (plane->state->fb != old_state->fb) {
 -- 
-With best wishes
-Dmitry
+2.39.5
+
