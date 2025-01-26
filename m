@@ -2,71 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E2CA1C538
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Jan 2025 22:08:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32491A1C5F8
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 01:52:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D87D10E0DE;
-	Sat, 25 Jan 2025 21:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C29210E116;
+	Sun, 26 Jan 2025 00:52:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MsQyWJrJ";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VnHc0hkP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19FE010E0DE
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Jan 2025 21:08:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A877AA40A84;
- Sat, 25 Jan 2025 21:06:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 73DEBC4CED6;
- Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737839301;
- bh=YkJyOTErAt2tRZlqHy8myxEMmo2cnaskYaKMplVFxaA=;
- h=From:Date:Subject:To:Cc:Reply-To:From;
- b=MsQyWJrJ9raaAtPtUbfjGRFFm1lholUMotclQ+t1ew9LzO/W1W5cMWTziYU6YV34Y
- LhoYzN5eTSPyWE5PgrFWePKcJrvNlTccpnR62xUHtm/1QnCJiq7kMgZF6b2Hhx5aHN
- VYH/LcqerNHk4aaBtnxVFoikcyWtE7ELZADoIHNIXPImD/JtAij7WdjvURv6U7zq+i
- acUUbSNe1kZMhRh8TjsuABF0YgCPMFkZRY7X9ROXPoLY6SIscWELLwCoRyOwULVVIw
- OsLw6+lZxxRvN6J4ojCA7qr4beFakvu5YsQwKIId23UcNzZEE+7sYJw7OvIEb44nFT
- XqD/BrxG6RiMw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 5CAB4C0218C;
- Sat, 25 Jan 2025 21:08:21 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sat, 25 Jan 2025 22:08:14 +0100
-Subject: [PATCH v2] drm/virtio: Align host mapping request to maximum
- platform page size
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B92A210E154
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 00:52:40 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-304d757a9c1so36480711fa.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jan 2025 16:52:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1737852758; x=1738457558;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e571IkY7EK87y3Sunky/t3TOpY/BAarwHBxbWfeNYyU=;
+ b=VnHc0hkPkO53Kmu8LP0QOKK8H81vmjNli22WujIaiyGdeFtFVHIeokkgMY6GS1G1ne
+ y+zOpkmCW1n7Nx53BYvqdBVortiYHx4fn5IiI8GKx/w2GIUCJEPHTLJq1hhu54vY2lHf
+ ni30C4zvqp4r1SWvO6hrAeRATf6OrNIdM0kts=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737852758; x=1738457558;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=e571IkY7EK87y3Sunky/t3TOpY/BAarwHBxbWfeNYyU=;
+ b=kk8CrwmW0XuoFNWjLTEMo1FeCIHDlq5Qb90ctAynkOZGMi236NK/JzY3/bJd+Iecoz
+ 1oW1GYQmlwItdTFffZ+PfxPdUPulFBLqBs2vDiNMougtccAmUOTSdnC8IS3ZqhFHKLGx
+ 2RpybcbE0ujSS7sqWAdmhn73hZV1JorH3GQpeLgKJLaaP/RQ+EOhPFkm6y7jTylJI3eB
+ Z4dNCT5WFLGkBjLd6PxwZ1l4arJtk1ymkODtRD1Frkp50iLnzoe3lQcNOkT5PoB2ROgP
+ bg0oJljmh6IOBIhuL/3Ye5Ti6HvPJIxhB6ne4PjtfuVOqRBUOWQUsd3TVwqocUh89MiJ
+ hGqA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVqWn3lrrVMeXuriumG3HkarsxWYGfP3KJP+SjotSyzumnCdLph+Rw1s6rUHePrR23SUrYdODS5UU8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YywXunJMYwnjD2GMzbFIkssmn/hwNPqzuFhFi6rQBzf+YVZH3cZ
+ 1HhfZUE4gBlSKsBpms5st5wfMj0lSmzmjpt/cr4j6JHwofCPoRUeKXe2ylaYin++m5TXRsbFrE0
+ ykA==
+X-Gm-Gg: ASbGnctNrNfCDHcJNEN6lC9XvtaZ15XhnaV82qDwlEbGKRFsIDKnMjDpyx1Bxd3jF/j
+ 2qxmTi6/5U2qySvHYzbPjikpB6dpDQ3jLH/f2Dgxi6YZBj8b9kaAA0lEHMqcBBaPB9qqG/N3zWw
+ kZPqr7M2XVe0jBQgAEMGB35Ryidsiqjv1+ZpQxm4GcC1IdUBFZNDX/YDcrXkpn+NrU72OqdXWbS
+ C5Jrp0C7j3UTb5AY8ZZAAntomALTNEVicpbaPMbCKlP6Ok4VKDGzGcy4oNi3FVcVzwug5JrRQvx
+ /ldBggoaB1nzEOVTXYaOuOtJgpp696u3ZfIUEPkkOczI
+X-Google-Smtp-Source: AGHT+IENq5LLhzcUAGsg2UlPED3gG3nWPYPmjln0Tm/dALF8qJX992DFqy9U3wEW+kzWpPakUm63QQ==
+X-Received: by 2002:a2e:b811:0:b0:302:3356:35d7 with SMTP id
+ 38308e7fff4ca-30761c44fe6mr33725221fa.18.1737852757609; 
+ Sat, 25 Jan 2025 16:52:37 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
+ [209.85.167.47]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3076bc1971bsm8496701fa.76.2025.01.25.16.52.34
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Jan 2025 16:52:35 -0800 (PST)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-5439a6179a7so3477777e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Jan 2025 16:52:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXyhX9Wzh/lldeB5FdfGNgLzc1oiUSg7ICvGrop/MiAcUv8yfXQXPriAt6I4jFipinijIXSJt4M/Hs=@lists.freedesktop.org
+X-Received: by 2002:a05:651c:205c:b0:300:17a3:7af9 with SMTP id
+ 38308e7fff4ca-30761c517bdmr37753901fa.19.1737852303712; Sat, 25 Jan 2025
+ 16:45:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250125-virtgpu-mixed-page-size-v2-1-c40c555cf276@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAL1SlWcC/4WNQQ7CIBBFr9LM2jGANqGuvIfpAulAJ5G2gUrUh
- rtLvYDL9/P/+xskikwJLs0GkTInnqcK6tCAHc3kCXmoDEqoVkjRYea4+uWJgV804GJqI/GHUGl
- 11+5shHIW6nqJ5GplN9/6yiOndY7v31GWe/rfmSVKtNqRJKnbzp2uPhh+HO0coC+lfAGwCfYzv
- gAAAA==
-X-Change-ID: 20250109-virtgpu-mixed-page-size-282b8f4a02fc
-To: David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737839300; l=4035;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=3zZcDtrmzU80dSYarHh3Szvvoc/9VAfbk8eEmWVbJzo=;
- b=PPOumAdOAWKk1KG70bsAN/MNWYF7huqyDMnowaOgSyhe3GoaSGFvCKE86DPb9z2bZyswFuWGp
- eDpxEj8Gh1QAn5irhJPGXzXU6BjymQjFyeXXWW5cJ0pqkJsCzR4PffE
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
+ <20250123100747.1841357-13-damon.ding@rock-chips.com>
+ <rwn3g7tqgjnc525cjqtivgfgedhooiayn5nujng7bdzazgqhle@wfpuvoyr2tii>
+ <CAD=FV=WKsA9fcq-LzGcYmgbMuMLUp5SMggpzBzZnvd3sxGf9BQ@mail.gmail.com>
+ <7ef0454b-fddd-44c0-be4a-c81c443f08f6@rock-chips.com>
+In-Reply-To: <7ef0454b-fddd-44c0-be4a-c81c443f08f6@rock-chips.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Sat, 25 Jan 2025 16:44:51 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=XZOfqcV51Sog3CNBe0mengYyX5cRbftdDY0e73mZNWQA@mail.gmail.com>
+X-Gm-Features: AWEUYZlT8dd77sVC0SZMqkozj-k92yxOjbM1lGN9IVzDz0DDUqySb4xOYDl6kKM
+Message-ID: <CAD=FV=XZOfqcV51Sog3CNBe0mengYyX5cRbftdDY0e73mZNWQA@mail.gmail.com>
+Subject: Re: [PATCH v6 12/14] drm/edp-panel: Add LG Display panel model
+ LP079QX1-SP0V
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, heiko@sntech.de,
+ robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, rfoss@kernel.org, vkoul@kernel.org, 
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com, 
+ l.stach@pengutronix.de, andy.yan@rock-chips.com, hjc@rock-chips.com, 
+ algea.cao@rock-chips.com, kever.yang@rock-chips.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,102 +107,41 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: fnkl.kernel@gmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Hi,
 
-This allows running different page sizes between host and guest on
-platforms that support mixed page sizes.
+On Fri, Jan 24, 2025 at 8:18=E2=80=AFPM Damon Ding <damon.ding@rock-chips.c=
+om> wrote:
+>
+> >>>   #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product=
+_id, _delay, _name) \
+> >>>   { \
+> >>>        .ident =3D { \
+> >>> @@ -1955,6 +1961,8 @@ static const struct edp_panel_entry edp_panels[=
+] =3D {
+> >>>        EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50,=
+ "MNB601LS1-1"),
+> >>>        EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50, "MN=
+B601LS1-4"),
+> >>>
+> >>> +     EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200, "LP0=
+79QX1-SP0V"),
+> >
+> > I don't love that the ID is 0x0000. That makes me nervous that the
+> > panel vendor isn't setting the ID properly. ...but at least the string
+> > matches in the EDID so hopefully that will be enough to uniquely
+> > identify things.
+> >
+> >
+>
+> The ID "0x0000" makes me nervous too, but the EDID obtained from this
+> panel indeed show it, which is quite surprising. May I still set it to
+> "0x0000" as it really is?
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
-Changes in v2:
-- Aligned all object sizes to MAX_PAGE_SIZE too.
-- Link to v1: https://lore.kernel.org/r/20250109-virtgpu-mixed-page-size-v1-1-c8fe1e1859f3@gmail.com
----
- drivers/gpu/drm/virtio/virtgpu_drv.h    | 6 ++++++
- drivers/gpu/drm/virtio/virtgpu_gem.c    | 2 +-
- drivers/gpu/drm/virtio/virtgpu_ioctl.c  | 2 +-
- drivers/gpu/drm/virtio/virtgpu_object.c | 2 +-
- drivers/gpu/drm/virtio/virtgpu_vram.c   | 4 ++--
- 5 files changed, 11 insertions(+), 5 deletions(-)
+Yeah, keep it as 0x0000. Since the panel name is in the EDID then
+commit bf201127c1b8 ("drm/panel-edp: Match edp_panels with panel
+identity") should provide some safety.
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 64c236169db88acd6ba9afd20a1ab16c667490c4..b73844d6535e45402dc46898035eaa7492de935d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -61,6 +61,12 @@
- /* See virtio_gpu_ctx_create. One additional character for NULL terminator. */
- #define DEBUG_NAME_MAX_LEN 65
- 
-+#if defined(__powerpc64__) || defined(__aarch64__) || defined(__mips__) || defined(__loongarch__)
-+#define MAX_PAGE_SIZE SZ_64K
-+#else
-+#define MAX_PAGE_SIZE PAGE_SIZE
-+#endif
-+
- struct virtio_gpu_object_params {
- 	unsigned long size;
- 	bool dumb;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 7db48d17ee3a8a9c638a8c6f9e58f35bd004b453..8e625ccae308f46b11a390a0987fd5ea55ccbf8d 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -73,7 +73,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
- 
- 	pitch = args->width * 4;
- 	args->size = pitch * args->height;
--	args->size = ALIGN(args->size, PAGE_SIZE);
-+	args->size = ALIGN(args->size, MAX_PAGE_SIZE);
- 
- 	params.format = virtio_gpu_translate_format(DRM_FORMAT_HOST_XRGB8888);
- 	params.width = args->width;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index e4f76f31555049369000a50c0cb1d5edab68536b..e39ae008ac5f734ec52e9703413958b4ea4be7d6 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -167,7 +167,7 @@ static int virtio_gpu_resource_create_ioctl(struct drm_device *dev, void *data,
- 	params.size = rc->size;
- 	/* allocate a single page size object */
- 	if (params.size == 0)
--		params.size = PAGE_SIZE;
-+		params.size = MAX_PAGE_SIZE;
- 
- 	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
- 	if (!fence)
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index c7e74cf130221bbed3aa447e416065b03bf3e2b4..5aab82028293b7d73bcc4e686e7e2ecba6108b7b 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -190,7 +190,7 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 
- 	*bo_ptr = NULL;
- 
--	params->size = roundup(params->size, PAGE_SIZE);
-+	params->size = roundup(params->size, MAX_PAGE_SIZE);
- 	shmem_obj = drm_gem_shmem_create(vgdev->ddev, params->size);
- 	if (IS_ERR(shmem_obj))
- 		return PTR_ERR(shmem_obj);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/virtio/virtgpu_vram.c
-index 25df81c027837c248a746e41856b5aa7e216b8d5..18e773b036f7c8190d4e20ad3f2c85c36e7e295c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vram.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
-@@ -150,8 +150,8 @@ static int virtio_gpu_vram_map(struct virtio_gpu_object *bo)
- 		return -EINVAL;
- 
- 	spin_lock(&vgdev->host_visible_lock);
--	ret = drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_node,
--				 bo->base.base.size);
-+	ret = drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram->vram_node,
-+					 bo->base.base.size, MAX_PAGE_SIZE, 0, 0);
- 	spin_unlock(&vgdev->host_visible_lock);
- 
- 	if (ret)
-
----
-base-commit: 643e2e259c2b25a2af0ae4c23c6e16586d9fd19c
-change-id: 20250109-virtgpu-mixed-page-size-282b8f4a02fc
-
-
+-Doug
