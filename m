@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369E5A1C940
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CEBEA1C944
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:56:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E78310E41E;
-	Sun, 26 Jan 2025 14:56:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CCED10E41C;
+	Sun, 26 Jan 2025 14:56:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nEGI8TSy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GMr9Zl6p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47ECA10E41E
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EB4C10E41E
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:56:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7D1565C5743;
- Sun, 26 Jan 2025 14:56:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF694C4CED3;
- Sun, 26 Jan 2025 14:56:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 843D35C3B56;
+ Sun, 26 Jan 2025 14:56:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D889AC4CEE2;
+ Sun, 26 Jan 2025 14:56:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903405;
- bh=UZ8459HmkuMhgo1blcVQdVifKkQYI1uDk5uHg8M+L7c=;
+ s=k20201202; t=1737903407;
+ bh=Cw+eoe/UHDLELop/e214PmazjCWoAy1PcgxjlS84Eyg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nEGI8TSy6Ppr9XS9oWEejHPouHs9Rzi4zI7Ik2nZg53uqTJZ3iVxa6DxzKGKCjH4A
- bs2p5P55HnsdBgzQtjotc3vMS4Lf/zKKtpw3elppyC/V5SgQgI3qjV5j4tKxFOol6o
- I2XF5PbOFPA+klVweN1gS4Or5VL2z/Axy+xgd202TsT7TCKuYIl6/h5nuUpFLZ6sdG
- KgU85r3/SrMaGn3x/AnLJN8zjaovhDCBldVHCg70EH/dMAnlPLk2BwjIUHWcMAGL45
- o7EvR9c1LV1WH6R+p0UQDxLvPGayE4VYguUHmPzSS9Xxp5XgQSGbYKoTMgPYoX01tl
- KseztRTQh6ddg==
+ b=GMr9Zl6pN0jGCVM9DA1e76jeHNowFhtaPmDt0XFXSG1maU27j5a/NLvOFYsZo+Ka4
+ FBxP2N71H4JpJ4peb8/S1S6FGtCredZJpaq+lMQnvQXiMuO99AH8gLN5C9t+FuSgA6
+ umURIHL9ZQSnF6pRCbesquPkd+0vkHL1hluHpQmh48tjG4DRDBJ3xgD+Oj5n64lfCd
+ 6FVeZQtKPYxPESEQR8vvvQrMfKZsMr0mxeTfV6uis83zw80HulpBjJLReR0GZiG37i
+ MFLhcER/lg8kLgLAKQo8L+gXrzo8WhP3RS4sSgIPxTvdDXIV+9QRGNqptYPPL32S+3
+ keETigcvxA3Lg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,10 +40,10 @@ Cc: Hermes Wu <hermes.wu@ite.com.tw>,
  neil.armstrong@linaro.org, rfoss@kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.6 14/17] drm/bridge: it6505: fix HDCP encryption
- when R0 ready
-Date: Sun, 26 Jan 2025 09:56:09 -0500
-Message-Id: <20250126145612.937679-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 15/17] drm/bridge: it6505: fix HDCP CTS compare V
+ matching
+Date: Sun, 26 Jan 2025 09:56:10 -0500
+Message-Id: <20250126145612.937679-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145612.937679-1-sashal@kernel.org>
 References: <20250126145612.937679-1-sashal@kernel.org>
@@ -69,61 +69,74 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Hermes Wu <hermes.wu@ite.com.tw>
 
-[ Upstream commit 8c01b0bae2f9e58f2fee0e811cb90d8331986554 ]
+[ Upstream commit 0989c02c7a5c887c70afeae80c64d0291624e1a7 ]
 
-When starting HDCP authentication, HDCP encryption should be enabled
-when R0'is checked.
-
-Change encryption enables time at R0' ready.
-The hardware HDCP engine trigger is changed and the repeater KSV fails
-will restart HDCP.
+When HDCP negotiation with a repeater device.
+Checking SHA V' matching must retry 3 times before restarting HDCP.
 
 Signed-off-by: Hermes Wu <hermes.wu@ite.com.tw>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-6-e0fdd4844703@ite.corp-partner.google.com
+Link: https://patchwork.freedesktop.org/patch/msgid/20241230-v7-upstream-v7-8-e0fdd4844703@ite.corp-partner.google.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/ite-it6505.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6505.c | 32 +++++++++++++++++------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 0eb831686a6ea..a1ad9a1a59a62 100644
+index a1ad9a1a59a62..b23e6f663b18f 100644
 --- a/drivers/gpu/drm/bridge/ite-it6505.c
 +++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -2078,15 +2078,12 @@ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
- 	ksv_list_check = it6505_hdcp_part2_ksvlist_check(it6505);
- 	DRM_DEV_DEBUG_DRIVER(dev, "ksv list ready, ksv list check %s",
- 			     ksv_list_check ? "pass" : "fail");
--	if (ksv_list_check) {
--		it6505_set_bits(it6505, REG_HDCP_TRIGGER,
--				HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
-+
-+	if (ksv_list_check)
- 		return;
--	}
-+
- timeout:
--	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
--			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL,
--			HDCP_TRIGGER_KSV_DONE | HDCP_TRIGGER_KSV_FAIL);
-+	it6505_start_hdcp(it6505);
- }
- 
- static void it6505_hdcp_work(struct work_struct *work)
-@@ -2459,7 +2456,11 @@ static void it6505_irq_hdcp_ksv_check(struct it6505 *it6505)
+@@ -2020,7 +2020,7 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
  {
  	struct device *dev = it6505->dev;
+ 	u8 av[5][4], bv[5][4];
+-	int i, err;
++	int i, err, retry;
  
--	DRM_DEV_DEBUG_DRIVER(dev, "HDCP event Interrupt");
-+	DRM_DEV_DEBUG_DRIVER(dev, "HDCP repeater R0 event Interrupt");
-+	/* 1B01 HDCP encription should start when R0 is ready*/
-+	it6505_set_bits(it6505, REG_HDCP_TRIGGER,
-+			HDCP_TRIGGER_KSV_DONE, HDCP_TRIGGER_KSV_DONE);
-+
- 	schedule_work(&it6505->hdcp_wait_ksv_list);
+ 	i = it6505_setup_sha1_input(it6505, it6505->sha1_input);
+ 	if (i <= 0) {
+@@ -2029,22 +2029,28 @@ static bool it6505_hdcp_part2_ksvlist_check(struct it6505 *it6505)
+ 	}
+ 
+ 	it6505_sha1_digest(it6505, it6505->sha1_input, i, (u8 *)av);
++	/*1B-05 V' must retry 3 times */
++	for (retry = 0; retry < 3; retry++) {
++		err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
++				      sizeof(bv));
+ 
+-	err = it6505_get_dpcd(it6505, DP_AUX_HDCP_V_PRIME(0), (u8 *)bv,
+-			      sizeof(bv));
++		if (err < 0) {
++			dev_err(dev, "Read V' value Fail %d", retry);
++			continue;
++		}
+ 
+-	if (err < 0) {
+-		dev_err(dev, "Read V' value Fail");
+-		return false;
+-	}
++		for (i = 0; i < 5; i++) {
++			if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
++			    av[i][1] != av[i][2] || bv[i][0] != av[i][3])
++				break;
+ 
+-	for (i = 0; i < 5; i++)
+-		if (bv[i][3] != av[i][0] || bv[i][2] != av[i][1] ||
+-		    bv[i][1] != av[i][2] || bv[i][0] != av[i][3])
+-			return false;
++			DRM_DEV_DEBUG_DRIVER(dev, "V' all match!! %d, %d", retry, i);
++			return true;
++		}
++	}
+ 
+-	DRM_DEV_DEBUG_DRIVER(dev, "V' all match!!");
+-	return true;
++	DRM_DEV_DEBUG_DRIVER(dev, "V' NOT match!! %d", retry);
++	return false;
  }
  
+ static void it6505_hdcp_wait_ksv_list(struct work_struct *work)
 -- 
 2.39.5
 
