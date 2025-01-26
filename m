@@ -2,50 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4D8A1C90C
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD3EA1C90D
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 15:55:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BE1310E3E5;
-	Sun, 26 Jan 2025 14:55:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DCDA10E3E7;
+	Sun, 26 Jan 2025 14:55:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gr6NSIZt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QhBHqz59";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2929B10E3DD;
- Sun, 26 Jan 2025 14:55:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC48810E3E6
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 14:55:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3ED6CA406C4;
- Sun, 26 Jan 2025 14:53:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12A0AC4CEE4;
- Sun, 26 Jan 2025 14:55:20 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 05459A406C4;
+ Sun, 26 Jan 2025 14:53:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8B05C4CEE2;
+ Sun, 26 Jan 2025 14:55:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737903323;
- bh=XKGfn4HN9PdLr93dYM6sHItaHU5f7ZdT7XRVtQ3vWxE=;
+ s=k20201202; t=1737903325;
+ bh=ysuRH6x4E2uV1SDbyOSHJiVwPNoIDcApgVkK+7t+ojE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gr6NSIZtapDWeKCsT4CQwwbtoD0qjvn5fDJpF5oA9U4rbIOf4d6OJDCpHwYCs0ZG3
- 3V6aKkSgWtXDK/Kzjlp7YmFzV7GjwknxbQr57hSC9kmNnBUFs6hfra0ZpsGhI4HOim
- pA3mPHmxCsUVMOsQnL96tbVgjzjHwl0Z+1Ol0KnajCtNmvxlOQANkXx9Zkq8yqup55
- WaTs+clbnuWAgFYXk+1b2VkMEZTb1y3B8RoLDdKYFVwHw85R76DZVgEMGl5LkQpylk
- LeriwQbz2FkHwr422sIIkhrnjNT/21A+Jl0xtPUK9nABsSGyjNKlLjUilPHQwY7411
- RenP7qRYeFp8Q==
+ b=QhBHqz597W2UiI/WW6qG8+82i3PzUPrbdfkkucG1LAmWJdBn4eWBins1AEanaJNB5
+ ndDoPxzKZsuyQmXQ9C91Icy5bJKUXqt1HySgB0HTFa/ClwLq8hs24zh/UvSwKzx3pO
+ C+BMCOJaX0gPmSEJZQWkrORW93guQMuaNxpDkqiMArziOMuFkQ1B3sufHTe8UtZgrU
+ V7D/F6ZZEr9VYXTl8t49c6biTuClqeD88JMwro/O+JxMZbOs8ZCoHTJb3HDUeI3cIE
+ 7Of2eNrSaf3jqHin96W6lkF3HN/1lFUFH2HeQrQFXM+Y6DvFnwyyZ+TcV8szqj5MKg
+ OKZWC+S4KTwcw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ausef Yousof <Ausef.Yousof@amd.com>,
- Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- chaitanya.dhere@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
- sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.12 10/31] drm/amd/display: Overwriting dualDPP UBF
- values before usage
-Date: Sun, 26 Jan 2025 09:54:26 -0500
-Message-Id: <20250126145448.930220-10-sashal@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Sasha Levin <sashal@kernel.org>,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.12 12/31] drm/connector: add mutex to protect ELD
+ from concurrent access
+Date: Sun, 26 Jan 2025 09:54:28 -0500
+Message-Id: <20250126145448.930220-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250126145448.930220-1-sashal@kernel.org>
 References: <20250126145448.930220-1-sashal@kernel.org>
@@ -69,129 +64,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Ausef Yousof <Ausef.Yousof@amd.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[ Upstream commit 24909d9ec7c3afa8da2f3c9afa312e7a4a61f250 ]
+[ Upstream commit df7c8e3dde37a9d81c0613285b43600f3cc70f34 ]
 
-[WHY]
-Right now in dml2 mode validation we are calculating UBF parameters for
-prefetch calculation for single and dual DPP scenarios. Data structure
-to store such values are just 1D arrays, the single DPP values are
-overwritten by the dualDPP values, and we end up using dualDPP for
-prefetch calculations twice (once in place of singleDPP support check
-and again for dual).
+The connector->eld is accessed by the .get_eld() callback. This access
+can collide with the drm_edid_to_eld() updating the data at the same
+time. Add drm_connector.eld_mutex to protect the data from concurrenct
+access. Individual drivers are not updated (to reduce possible issues
+while applying the patch), maintainers are to find a best suitable way
+to lock that mutex while accessing the ELD data.
 
-This naturally leads to many problems, one of which validating a mode in
-"singleDPP" (when we used dual DPP parameters) and sending the singleDPP
-parameters to mode programming, if we cannot support then we observe the
-corruption as described in the ticket.
-
-[HOW]
-UBF values need to have 2d arrays to store values specific to single and
-dual DPP states to avoid single DPP values being overwritten. Other
-parameters are recorded on a per state basis such as prefetch UBF values
-but they are in the same loop used for calculation and at that point its
-fine to overwrite them, its not the case for plain UBF values.
-
-Reviewed-by: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
-Signed-off-by: Ausef Yousof <Ausef.Yousof@amd.com>
-Signed-off-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241206-drm-connector-eld-mutex-v2-1-c9bce1ee8bea@linaro.org
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/dc/dml2/display_mode_core.c   | 30 +++++++++----------
- .../dc/dml2/display_mode_core_structs.h       |  6 ++--
- 2 files changed, 18 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/drm_connector.c | 1 +
+ drivers/gpu/drm/drm_edid.c      | 6 ++++++
+ include/drm/drm_connector.h     | 5 ++++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-index be87dc0f07799..6822b07951204 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core.c
-@@ -6301,9 +6301,9 @@ static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
- 			mode_lib->ms.meta_row_bandwidth_this_state,
- 			mode_lib->ms.dpte_row_bandwidth_this_state,
- 			mode_lib->ms.NoOfDPPThisState,
--			mode_lib->ms.UrgentBurstFactorLuma,
--			mode_lib->ms.UrgentBurstFactorChroma,
--			mode_lib->ms.UrgentBurstFactorCursor);
-+			mode_lib->ms.UrgentBurstFactorLuma[j],
-+			mode_lib->ms.UrgentBurstFactorChroma[j],
-+			mode_lib->ms.UrgentBurstFactorCursor[j]);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index fc35f47e2849e..bbdaaf7022b62 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -277,6 +277,7 @@ static int __drm_connector_init(struct drm_device *dev,
+ 	INIT_LIST_HEAD(&connector->probed_modes);
+ 	INIT_LIST_HEAD(&connector->modes);
+ 	mutex_init(&connector->mutex);
++	mutex_init(&connector->eld_mutex);
+ 	mutex_init(&connector->edid_override_mutex);
+ 	mutex_init(&connector->hdmi.infoframes.lock);
+ 	connector->edid_blob_ptr = NULL;
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 855beafb76ffb..13bc4c290b17d 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -5605,7 +5605,9 @@ EXPORT_SYMBOL(drm_edid_get_monitor_name);
  
- 		s->VMDataOnlyReturnBWPerState = dml_get_return_bw_mbps_vm_only(
- 																	&mode_lib->ms.soc,
-@@ -6458,9 +6458,9 @@ static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
- 				mode_lib->ms.cursor_bw_pre,
- 				mode_lib->ms.prefetch_vmrow_bw,
- 				mode_lib->ms.NoOfDPPThisState,
--				mode_lib->ms.UrgentBurstFactorLuma,
--				mode_lib->ms.UrgentBurstFactorChroma,
--				mode_lib->ms.UrgentBurstFactorCursor,
-+				mode_lib->ms.UrgentBurstFactorLuma[j],
-+				mode_lib->ms.UrgentBurstFactorChroma[j],
-+				mode_lib->ms.UrgentBurstFactorCursor[j],
- 				mode_lib->ms.UrgentBurstFactorLumaPre,
- 				mode_lib->ms.UrgentBurstFactorChromaPre,
- 				mode_lib->ms.UrgentBurstFactorCursorPre,
-@@ -6517,9 +6517,9 @@ static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
- 						mode_lib->ms.cursor_bw,
- 						mode_lib->ms.cursor_bw_pre,
- 						mode_lib->ms.NoOfDPPThisState,
--						mode_lib->ms.UrgentBurstFactorLuma,
--						mode_lib->ms.UrgentBurstFactorChroma,
--						mode_lib->ms.UrgentBurstFactorCursor,
-+						mode_lib->ms.UrgentBurstFactorLuma[j],
-+						mode_lib->ms.UrgentBurstFactorChroma[j],
-+						mode_lib->ms.UrgentBurstFactorCursor[j],
- 						mode_lib->ms.UrgentBurstFactorLumaPre,
- 						mode_lib->ms.UrgentBurstFactorChromaPre,
- 						mode_lib->ms.UrgentBurstFactorCursorPre);
-@@ -6586,9 +6586,9 @@ static void dml_prefetch_check(struct display_mode_lib_st *mode_lib)
- 													mode_lib->ms.cursor_bw_pre,
- 													mode_lib->ms.prefetch_vmrow_bw,
- 													mode_lib->ms.NoOfDPP[j], // VBA_ERROR DPPPerSurface is not assigned at this point, should use NoOfDpp here
--													mode_lib->ms.UrgentBurstFactorLuma,
--													mode_lib->ms.UrgentBurstFactorChroma,
--													mode_lib->ms.UrgentBurstFactorCursor,
-+													mode_lib->ms.UrgentBurstFactorLuma[j],
-+													mode_lib->ms.UrgentBurstFactorChroma[j],
-+													mode_lib->ms.UrgentBurstFactorCursor[j],
- 													mode_lib->ms.UrgentBurstFactorLumaPre,
- 													mode_lib->ms.UrgentBurstFactorChromaPre,
- 													mode_lib->ms.UrgentBurstFactorCursorPre,
-@@ -7809,9 +7809,9 @@ dml_bool_t dml_core_mode_support(struct display_mode_lib_st *mode_lib)
- 				mode_lib->ms.DETBufferSizeYThisState[k],
- 				mode_lib->ms.DETBufferSizeCThisState[k],
- 				/* Output */
--				&mode_lib->ms.UrgentBurstFactorCursor[k],
--				&mode_lib->ms.UrgentBurstFactorLuma[k],
--				&mode_lib->ms.UrgentBurstFactorChroma[k],
-+				&mode_lib->ms.UrgentBurstFactorCursor[j][k],
-+				&mode_lib->ms.UrgentBurstFactorLuma[j][k],
-+				&mode_lib->ms.UrgentBurstFactorChroma[j][k],
- 				&mode_lib->ms.NotUrgentLatencyHiding[k]);
- 		}
+ static void clear_eld(struct drm_connector *connector)
+ {
++	mutex_lock(&connector->eld_mutex);
+ 	memset(connector->eld, 0, sizeof(connector->eld));
++	mutex_unlock(&connector->eld_mutex);
  
-diff --git a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core_structs.h b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core_structs.h
-index f951936bb579e..504c427b3b319 100644
---- a/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core_structs.h
-+++ b/drivers/gpu/drm/amd/display/dc/dml2/display_mode_core_structs.h
-@@ -884,11 +884,11 @@ struct mode_support_st {
- 	dml_uint_t meta_row_height[__DML_NUM_PLANES__];
- 	dml_uint_t meta_row_height_chroma[__DML_NUM_PLANES__];
- 	dml_float_t UrgLatency;
--	dml_float_t UrgentBurstFactorCursor[__DML_NUM_PLANES__];
-+	dml_float_t UrgentBurstFactorCursor[2][__DML_NUM_PLANES__];
- 	dml_float_t UrgentBurstFactorCursorPre[__DML_NUM_PLANES__];
--	dml_float_t UrgentBurstFactorLuma[__DML_NUM_PLANES__];
-+	dml_float_t UrgentBurstFactorLuma[2][__DML_NUM_PLANES__];
- 	dml_float_t UrgentBurstFactorLumaPre[__DML_NUM_PLANES__];
--	dml_float_t UrgentBurstFactorChroma[__DML_NUM_PLANES__];
-+	dml_float_t UrgentBurstFactorChroma[2][__DML_NUM_PLANES__];
- 	dml_float_t UrgentBurstFactorChromaPre[__DML_NUM_PLANES__];
- 	dml_float_t MaximumSwathWidthInLineBufferLuma;
- 	dml_float_t MaximumSwathWidthInLineBufferChroma;
+ 	connector->latency_present[0] = false;
+ 	connector->latency_present[1] = false;
+@@ -5657,6 +5659,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	if (!drm_edid)
+ 		return;
+ 
++	mutex_lock(&connector->eld_mutex);
++
+ 	mnl = get_monitor_name(drm_edid, &eld[DRM_ELD_MONITOR_NAME_STRING]);
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD monitor %s\n",
+ 		    connector->base.id, connector->name,
+@@ -5717,6 +5721,8 @@ static void drm_edid_to_eld(struct drm_connector *connector,
+ 	drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] ELD size %d, SAD count %d\n",
+ 		    connector->base.id, connector->name,
+ 		    drm_eld_size(eld), total_sad_count);
++
++	mutex_unlock(&connector->eld_mutex);
+ }
+ 
+ static int _drm_edid_to_sad(const struct drm_edid *drm_edid,
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index e3fa43291f449..1e2b25e204cb5 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2001,8 +2001,11 @@ struct drm_connector {
+ 	struct drm_encoder *encoder;
+ 
+ #define MAX_ELD_BYTES	128
+-	/** @eld: EDID-like data, if present */
++	/** @eld: EDID-like data, if present, protected by @eld_mutex */
+ 	uint8_t eld[MAX_ELD_BYTES];
++	/** @eld_mutex: protection for concurrenct access to @eld */
++	struct mutex eld_mutex;
++
+ 	/** @latency_present: AV delay info from ELD, if found */
+ 	bool latency_present[2];
+ 	/**
 -- 
 2.39.5
 
