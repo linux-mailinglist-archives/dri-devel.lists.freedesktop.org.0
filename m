@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85354A1CCF5
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 17:41:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D732A1CCFF
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Jan 2025 17:45:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F178610E484;
-	Sun, 26 Jan 2025 16:41:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D61F810E483;
+	Sun, 26 Jan 2025 16:45:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pee83AH9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gAei/ssO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B96F110E483;
- Sun, 26 Jan 2025 16:41:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EAFF10E483
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Jan 2025 16:45:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 735055C5F2E;
- Sun, 26 Jan 2025 16:41:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B742C4CED3;
- Sun, 26 Jan 2025 16:41:39 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 797625C624E;
+ Sun, 26 Jan 2025 16:44:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531B6C4CED3;
+ Sun, 26 Jan 2025 16:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737909701;
- bh=/7J4enhP8qcoFPo60PM5Nw959dOsZCztnFfcr76/Vgw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pee83AH90NNXLz7BP6WhQh9IjMp8jfwGZ9tojv7gTNjTmNKW8WrYWQUAOMUS0kr5a
- oJdi8GTMwp7KlcCzszEQObO/I6Bm/NAM41mNcUEaPT7MpzRJb6x2eJNmG5fQbYLP9x
- ekDBQPQP27IjqZ5PdkdkTO2qqQq6kY/nl7u20h7obwyDZXVz40qWKHblmdRGbrJAkk
- lkMMuHtjOyy1hYZ02sefxYoq4hZSFmWgNCN6T3XJwBqhDu3LX1NYsWt9ccRKgWrtpR
- nIw6OBtHZX2lY+rDaUjFHsaweAcXz9YdkIL7NJCYvxhCYnxXlyL7DmmcmxQ/RliNbG
- qpY/ENj0Sn0hg==
-Date: Sun, 26 Jan 2025 17:41:35 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/7] drm/msm/hdmi: program HDMI timings during
- atomic_pre_enable
-Message-ID: <l3f3xg4fjycx4uo66sfdbtke3g6ubf2lrtocys53ymseoi3g6q@z3642rvjy2fe>
-References: <20250124-bridge-hdmi-connector-v6-0-1592632327f7@linaro.org>
- <20250124-bridge-hdmi-connector-v6-2-1592632327f7@linaro.org>
+ s=k20201202; t=1737909934;
+ bh=MEe2oo2YjYf2lKVsyVv7MzPAyJxoyZAgPw92+aRPQfc=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=gAei/ssOrjB4EvHcjK5VKofX3FAO8FOGCjIha8GrB6pKML8Sf6j5St4PKTrYpT2Re
+ DtqTqxC79NKaUXYTNlnFfWrJeCaDbDvFKO3HaKAYCGfLXoGxElK0ZkuvBhei8A21/M
+ dBBN4lfKLT8G/DycErV8NIHmcdEn+7uLmqXUzn5CZVcYVV66U7GZdZyy4XDLidyTRQ
+ GAdciXo4DqFklr4O+Uby3rvegOrSfw/J0jLe1YobJfR4z1Dchajk/kdupBbCKneubO
+ 9jJwaUdPTgmSvUuwSjc3wsijHiuG/UpEzNb9YUjyAmvPD3RlXeCyuL58/h+5JZybZ0
+ XU/8jB0dwRr5Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Linus Walleij <linus.walleij@linaro.org>, Helge Deller <deller@gmx.de>,
+ Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
+ linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 5/8] fbdev: omap: use threaded IRQ for LCD DMA
+Date: Sun, 26 Jan 2025 11:45:20 -0500
+Message-Id: <20250126164523.963930-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250126164523.963930-1-sashal@kernel.org>
+References: <20250126164523.963930-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="vuxkawwxcu5moozb"
-Content-Disposition: inline
-In-Reply-To: <20250124-bridge-hdmi-connector-v6-2-1592632327f7@linaro.org>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,37 +63,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Aaro Koskinen <aaro.koskinen@iki.fi>
 
---vuxkawwxcu5moozb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 2/7] drm/msm/hdmi: program HDMI timings during
- atomic_pre_enable
-MIME-Version: 1.0
+[ Upstream commit e4b6b665df815b4841e71b72f06446884e8aad40 ]
 
-On Fri, Jan 24, 2025 at 11:47:42PM +0200, Dmitry Baryshkov wrote:
-> The mode_set callback is deprecated, it doesn't get the
-> drm_bridge_state, just mode-related argumetns. Also Abhinav pointed out
-> that HDMI timings should be programmed after setting up HDMI PHY and
-> PLL. Rework the code to program HDMI timings at the end of
-> atomic_pre_enable().
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+When using touchscreen and framebuffer, Nokia 770 crashes easily with:
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Maxime
+    BUG: scheduling while atomic: irq/144-ads7846/82/0x00010000
+    Modules linked in: usb_f_ecm g_ether usb_f_rndis u_ether libcomposite configfs omap_udc ohci_omap ohci_hcd
+    CPU: 0 UID: 0 PID: 82 Comm: irq/144-ads7846 Not tainted 6.12.7-770 #2
+    Hardware name: Nokia 770
+    Call trace:
+     unwind_backtrace from show_stack+0x10/0x14
+     show_stack from dump_stack_lvl+0x54/0x5c
+     dump_stack_lvl from __schedule_bug+0x50/0x70
+     __schedule_bug from __schedule+0x4d4/0x5bc
+     __schedule from schedule+0x34/0xa0
+     schedule from schedule_preempt_disabled+0xc/0x10
+     schedule_preempt_disabled from __mutex_lock.constprop.0+0x218/0x3b4
+     __mutex_lock.constprop.0 from clk_prepare_lock+0x38/0xe4
+     clk_prepare_lock from clk_set_rate+0x18/0x154
+     clk_set_rate from sossi_read_data+0x4c/0x168
+     sossi_read_data from hwa742_read_reg+0x5c/0x8c
+     hwa742_read_reg from send_frame_handler+0xfc/0x300
+     send_frame_handler from process_pending_requests+0x74/0xd0
+     process_pending_requests from lcd_dma_irq_handler+0x50/0x74
+     lcd_dma_irq_handler from __handle_irq_event_percpu+0x44/0x130
+     __handle_irq_event_percpu from handle_irq_event+0x28/0x68
+     handle_irq_event from handle_level_irq+0x9c/0x170
+     handle_level_irq from generic_handle_domain_irq+0x2c/0x3c
+     generic_handle_domain_irq from omap1_handle_irq+0x40/0x8c
+     omap1_handle_irq from generic_handle_arch_irq+0x28/0x3c
+     generic_handle_arch_irq from call_with_stack+0x1c/0x24
+     call_with_stack from __irq_svc+0x94/0xa8
+    Exception stack(0xc5255da0 to 0xc5255de8)
+    5da0: 00000001 c22fc620 00000000 00000000 c08384a8 c106fc00 00000000 c240c248
+    5dc0: c113a600 c3f6ec30 00000001 00000000 c22fc620 c5255df0 c22fc620 c0279a94
+    5de0: 60000013 ffffffff
+     __irq_svc from clk_prepare_lock+0x4c/0xe4
+     clk_prepare_lock from clk_get_rate+0x10/0x74
+     clk_get_rate from uwire_setup_transfer+0x40/0x180
+     uwire_setup_transfer from spi_bitbang_transfer_one+0x2c/0x9c
+     spi_bitbang_transfer_one from spi_transfer_one_message+0x2d0/0x664
+     spi_transfer_one_message from __spi_pump_transfer_message+0x29c/0x498
+     __spi_pump_transfer_message from __spi_sync+0x1f8/0x2e8
+     __spi_sync from spi_sync+0x24/0x40
+     spi_sync from ads7846_halfd_read_state+0x5c/0x1c0
+     ads7846_halfd_read_state from ads7846_irq+0x58/0x348
+     ads7846_irq from irq_thread_fn+0x1c/0x78
+     irq_thread_fn from irq_thread+0x120/0x228
+     irq_thread from kthread+0xc8/0xe8
+     kthread from ret_from_fork+0x14/0x28
 
---vuxkawwxcu5moozb
-Content-Type: application/pgp-signature; name="signature.asc"
+As a quick fix, switch to a threaded IRQ which provides a stable system.
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Aaro Koskinen <aaro.koskinen@iki.fi>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/video/fbdev/omap/lcd_dma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5ZlvwAKCRAnX84Zoj2+
-dlsVAX9kVIzgidPAipVZkVtP9jTc1dPSHDr7Gekx/pQTRZV2pmWARlzDGnktKhFm
-XBHtBLYBgL/agrjjEvCy6zK7KP5WCZYRuOl7LA1TUlRoYCLBKrezW3Vv6aYQULGO
-IC2jUvOD8A==
-=hxco
------END PGP SIGNATURE-----
+diff --git a/drivers/video/fbdev/omap/lcd_dma.c b/drivers/video/fbdev/omap/lcd_dma.c
+index f85817635a8c2..0da23c57e4757 100644
+--- a/drivers/video/fbdev/omap/lcd_dma.c
++++ b/drivers/video/fbdev/omap/lcd_dma.c
+@@ -432,8 +432,8 @@ static int __init omap_init_lcd_dma(void)
+ 
+ 	spin_lock_init(&lcd_dma.lock);
+ 
+-	r = request_irq(INT_DMA_LCD, lcd_dma_irq_handler, 0,
+-			"LCD DMA", NULL);
++	r = request_threaded_irq(INT_DMA_LCD, NULL, lcd_dma_irq_handler,
++				 IRQF_ONESHOT, "LCD DMA", NULL);
+ 	if (r != 0)
+ 		pr_err("unable to request IRQ for LCD DMA (error %d)\n", r);
+ 
+-- 
+2.39.5
 
---vuxkawwxcu5moozb--
