@@ -2,81 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81082A1D9C3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 16:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8650BA1D9CD
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 16:43:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE5A910E572;
-	Mon, 27 Jan 2025 15:43:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04E8F10E2E7;
+	Mon, 27 Jan 2025 15:43:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="i7lzRVrl";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="D7n7Nrd0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 028BF10E572
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 15:43:10 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53e3778bffdso5182458e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 07:43:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737992589; x=1738597389; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=hHQd5cjQbBNiv2pY8rRqJIrAWAxmWtuuWMAVaWyuOF4=;
- b=i7lzRVrly2n8eSqNAk8gIqaVXQg/qTbirPAvPcrQgM2xHSu2f7j0ZP4B5YEoNwfZ2i
- djTFgeaV2WUXtWy/CCoaCWY9cG2Fl7hu8AOrOnmbZsGXy/42Jk4YXs3vBJ+Ase0lk+Zp
- wK+DT3epi42rByRHmeAUQdsADJ8a8RoQ3SjA81Jn79QmNuzwG3WaDVtf+iC40EnDjx+k
- R/3FLzCZKO8bpLQEYGRyEYt/li589LtlyYq7IE/buhg5rV77aFc4mtqU0QzQFl+nMKVn
- bKwLAv24FODeXuX8Ua2dT3/Ni86KyyLvjCjRDCXIkfRfhfkiFvkT40Qo9yoe2EtV02zq
- DgbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737992589; x=1738597389;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hHQd5cjQbBNiv2pY8rRqJIrAWAxmWtuuWMAVaWyuOF4=;
- b=KFLxfAN2P9ysIAyRuq5q88pe/yu4ksnDNSgaOcwAHbJsEIxpOZgswNxOg7HUJyys+O
- cR/BV8pG53LAUR05usQpbUd/aHnZ01ZZHkygKRVZ+7X7R4qo9MFqufMB3+SUpSu2e7wA
- ILyv+iHN2+2y3eh/q7t8uAO2hgoKU/QK3v2iKqRdxlb6tNFbJCqF1mFDKwv/5bTP6i7z
- cwLcZ0d0ChSr2vtjctt4EQ4qWuHeE2/KuNYlV/kkwhSzO/ChoM+zsavUreD/2rbuVdzM
- H2m3J5umJh84zGoF+rGMNYOA0l6hl8mKR5C2Q32jwZnP25up0qWDSpuqFrB53vz+GtEE
- HfgQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXIfEKhTSXq+QDBFXjDENQM5umSTrUP41Rmtb8oux4JY5R6Y/nuz6fciUHzzOmkvfStkUcGUoVJ8DM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxm5maouqoOVun/rTMsrkO4Vveo/e8oa1+Y4F7PODgbZK7x/Low
- 5MZQFpP2OVACScLHFblHsarJyMZB073DH73omI+TOIVO+WWt/I/yx3v/CmQd9vODwW+vz07VSjX
- bU4s=
-X-Gm-Gg: ASbGncv5vZaTNkKrY5+dQyC+mF8J7Adho7MH1ld/qynDgR3TO/CNAQmfdzMPoKYlnNu
- iaDhhMGHYkV2GeismzJ3vo+UMCxNVJAFZ6TQuJQfKEfRG0yuV8q1M57+mDJeSybhR2NccaEwQuc
- 9j7EK2MqfW6/k8gx6Rid+hezM0FDQKp48N04wb+XNF6XnVjvPYkadR06+VHp8RXEwZ4+NqVFMvY
- g82w3WTEvNXT8+KFBhEPVdXFCmVz20ylvyIOgkPF+LuM4VPpjIVFUKcgt1dmXBUEEhoyYA4q6hT
- IRikAowjihH6C4O79Grd1n8jKfjkIYEBa0whM3UPACYdeYqTqSGv1vVmG3qm
-X-Google-Smtp-Source: AGHT+IEkFCIrfiecKQIn0nuU/0wlpniZedRP2dGP9fDfftQvW+CRiPn1WH0bteoGQtIkJbHJ65nwYQ==
-X-Received: by 2002:a05:6512:10c8:b0:540:2f59:7561 with SMTP id
- 2adb3069b0e04-5439c28aed9mr15402780e87.50.1737992589021; 
- Mon, 27 Jan 2025 07:43:09 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543c822f8b5sm1356699e87.79.2025.01.27.07.43.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2025 07:43:08 -0800 (PST)
-Date: Mon, 27 Jan 2025 17:43:07 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Ekansh Gupta <quic_ekangupt@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org, 
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90ED310E2E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 15:43:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1737992616; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=U+cL75R7ONtCJOohEaYpv0vaSZO/be+428yY7gznPhD9WVlcJg32EYWa14YrptYa0Ux9ijNxnrbHpZQphR3x1Y/nouQuCzZv6O2MCDw5oIj9YhJF3/KPnqC8UitK+mJh6yE/iLPjyJ27Wpol/rH2M6WxyZv0jt2jDJtdDYKIKHs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1737992616;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=fN/B8hyFUMNAY6NouYVfTCWBYXW8HZgQlYSOy/IK2Tg=; 
+ b=CA8F8c3dSxAgMUXDJCQBi9HdeheNsiYhl5z6oXzOrmDD2uPXwHGLA/lSb1XGjcQ/R4bUzc7+tJeThQPEJ/u66MIjGf7r6Bwna2cz3JudRzXedAxwiC+NshQN9uhLKoFQFSE2aaUube46GdgGOM5hyo3o03auLNEcxLVAQPYQFlM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737992616; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+ bh=fN/B8hyFUMNAY6NouYVfTCWBYXW8HZgQlYSOy/IK2Tg=;
+ b=D7n7Nrd0ZGjPDm8fl9P8Es9DrAyAJlHkfa6nJTNE2eOEJHq7/gBb3ii0xlbf+Jn1
+ RIzY6DVcLj1bkdoEwT97XD3qpKdc1AkUlD4qbbuV/0e06GJl9DuBUk5f1j4RSvAcwzo
+ +1lHMW40PKI6uBTEy7iy4UUsz96YqPTIcgCnLSW8=
+Received: by mx.zohomail.com with SMTPS id 1737992611393399.7045364377898;
+ Mon, 27 Jan 2025 07:43:31 -0800 (PST)
+Date: Mon, 27 Jan 2025 15:43:27 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, 
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org, arnd@arndb.de
-Subject: Re: [PATCH v2 2/5] misc: fastrpc: Introduce context params structure
-Message-ID: <dbyrbb4q2q2hrdarprfpbg4qnctjfp4uiwp6cqq6epg42ekeba@fyipe2jrhayz>
-References: <20250127044239.578540-1-quic_ekangupt@quicinc.com>
- <20250127044239.578540-3-quic_ekangupt@quicinc.com>
+ Mihail Atanassov <mihail.atanassov@arm.com>, nd@arm.com
+Subject: Re: [RFC v2 5/8] drm/panthor: Introduce sampling sessions to handle
+ userspace clients
+Message-ID: <6vnoxwsc2wy3spnm6w4e53usikceemy5bz5frbqsmwc53atyzn@r2tbbdqoojx3>
+References: <20241211165024.490748-1-lukas.zapolskas@arm.com>
+ <20241211165024.490748-6-lukas.zapolskas@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250127044239.578540-3-quic_ekangupt@quicinc.com>
+In-Reply-To: <20241211165024.490748-6-lukas.zapolskas@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,413 +72,993 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jan 27, 2025 at 10:12:36AM +0530, Ekansh Gupta wrote:
-> Add structure to invoke context parameterms. This structure is meant
-
-Nit: for invoke context parameters.
-
-> to carry invoke context specific data. This structure is passed to
-> internal invocation call to save the data in context. Examples of
-> data intended to part of this structure are: CRC user memory address,
-> poll timeout for invoke call, call priority etc.
+On 11.12.2024 16:50, Lukas Zapolskas wrote:
+> To allow for combining the requests from multiple userspace clients, an
+> intermediary layer between the HW/FW interfaces and userspace is
+> created, containing the information for the counter requests and
+> tracking of insert and extract indices. Each session starts inactive and
+> must be explicitly activated via PERF_CONTROL.START, and explicitly
+> stopped via PERF_CONTROL.STOP. Userspace identifies a single client with
+> its session ID and the panthor file it is associated with.
 > 
-> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
+> The SAMPLE and STOP commands both produce a single sample when called,
+> and these samples can be disambiguated via the opaque user data field
+> passed in the PERF_CONTROL uAPI. If this functionality is not desired,
+> these fields can be kept as zero, as the kernel copies this value into
+> the corresponding sample without attempting to interpret it.
+> 
+> Currently, only manual sampling sessions are supported, providing
+> samples when userspace calls PERF_CONTROL.SAMPLE, and only a single
+> session is allowed at a time. Multiple sessions and periodic sampling
+> will be enabled in following patches.
+> 
+> No protected is provided against the 32-bit hardware counter overflows,
+
+Spelling: protected
+
+> so for the moment it is up to userspace to ensure that the counters are
+> sampled at a reasonable frequency.
+
+> The counter set enum is added to the uapi to clarify the restrictions on
+> calling the interface.
+> 
+> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
 > ---
->  drivers/misc/fastrpc.c | 138 ++++++++++++++++++++++++++++++++++-------
->  1 file changed, 117 insertions(+), 21 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_device.h |   3 +
+>  drivers/gpu/drm/panthor/panthor_drv.c    |   1 +
+>  drivers/gpu/drm/panthor/panthor_perf.c   | 697 ++++++++++++++++++++++-
+>  include/uapi/drm/panthor_drm.h           |  50 +-
+>  4 files changed, 732 insertions(+), 19 deletions(-)
 > 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 1a936d462519..c29d5536195e 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -254,6 +254,11 @@ struct fastrpc_invoke_ctx {
->  	struct fastrpc_channel_ctx *cctx;
->  };
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index aca33d03036c..9ed1e9aed521 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -210,6 +210,9 @@ struct panthor_file {
+>  	/** @ptdev: Device attached to this file. */
+>  	struct panthor_device *ptdev;
 >  
-> +struct fastrpc_ctx_args {
-> +	struct fastrpc_invoke_args *args;
-> +	void __user *crc;
+> +	/** @drm_file: Corresponding drm_file */
+> +	struct drm_file *drm_file;
+
+I think you could do away with this member, wrote more about this below.
+
+>  	/** @vms: VM pool attached to this file. */
+>  	struct panthor_vm_pool *vms;
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 458175f58b15..2848ab442d10 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1505,6 +1505,7 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  	}
+>  
+>  	pfile->ptdev = ptdev;
+> +	pfile->drm_file = file;
+
+Same as above, feel like this is not necessary.
+
+>  
+>  	ret = panthor_vm_pool_create(pfile);
+>  	if (ret)
+> diff --git a/drivers/gpu/drm/panthor/panthor_perf.c b/drivers/gpu/drm/panthor/panthor_perf.c
+> index 6498279ec036..42d8b6f8c45d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_perf.c
+> +++ b/drivers/gpu/drm/panthor/panthor_perf.c
+> @@ -3,16 +3,162 @@
+>  /* Copyright 2024 Arm ltd. */
+>  
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_gem.h>
+>  #include <drm/drm_gem_shmem_helper.h>
+>  #include <drm/drm_managed.h>
+> +#include <drm/drm_print.h>
+>  #include <drm/panthor_drm.h>
+>  
+> +#include <linux/circ_buf.h>
+> +#include <linux/iosys-map.h>
+> +#include <linux/pm_runtime.h>
+> +
+>  #include "panthor_device.h"
+>  #include "panthor_fw.h"
+>  #include "panthor_gpu.h"
+>  #include "panthor_perf.h"
+>  #include "panthor_regs.h"
+>  
+> +/**
+> + * PANTHOR_PERF_EM_BITS - Number of bits in a user-facing enable mask. This must correspond
+> + *                        to the maximum number of counters available for selection on the newest
+> + *                        Mali GPUs (128 as of the Mali-Gx15).
+> + */
+> +#define PANTHOR_PERF_EM_BITS (BITS_PER_TYPE(u64) * 2)
+> +
+> +/**
+> + * enum panthor_perf_session_state - Session state bits.
+> + */
+> +enum panthor_perf_session_state {
+> +	/** @PANTHOR_PERF_SESSION_ACTIVE: The session is active and can be used for sampling. */
+> +	PANTHOR_PERF_SESSION_ACTIVE = 0,
+> +
+> +	/**
+> +	 * @PANTHOR_PERF_SESSION_OVERFLOW: The session encountered an overflow in one of the
+> +	 *                                 counters during the last sampling period. This flag
+> +	 *                                 gets propagated as part of samples emitted for this
+> +	 *                                 session, to ensure the userspace client can gracefully
+> +	 *                                 handle this data corruption.
+> +	 */
+
+How would a client normally deal with data corruption in a sample?
+
+> +	PANTHOR_PERF_SESSION_OVERFLOW,
+> +
+> +	/** @PANTHOR_PERF_SESSION_MAX: Bits needed to represent the state. Must be last.*/
+> +	PANTHOR_PERF_SESSION_MAX,
+> +};
+> +
+> +struct panthor_perf_enable_masks {
+> +	/**
+> +	 * @link: List node used to keep track of the enable masks aggregated by the sampler.
+> +	 */
+> +	struct list_head link;
+> +
+> +	/** @refs: Number of references taken out on an instantiated enable mask. */
+> +	struct kref refs;
+> +
+> +	/**
+> +	 * @mask: Array of bitmasks indicating the counters userspace requested, where
+> +	 *        one bit represents a single counter. Used to build the firmware configuration
+> +	 *        and ensure that userspace clients obtain only the counters they requested.
+> +	 */
+> +	DECLARE_BITMAP(mask, PANTHOR_PERF_EM_BITS)[DRM_PANTHOR_PERF_BLOCK_MAX];
+> +};
+> +
+> +struct panthor_perf_counter_block {
+> +	struct drm_panthor_perf_block_header header;
+> +	u64 counters[];
 > +};
 
-Why do we need a separate struct? Can we use fastrpc_invoke_ctx instead?
+I think I remember reading in the spec thata block header was 12 bytes in length
+but the one defined here seems to have many more fields.
 
+> +struct panthor_perf_session {
+> +	DECLARE_BITMAP(state, PANTHOR_PERF_SESSION_MAX);
+
+I'm wondering, because I don't remember having seen this pattern before.
+Is it common in kernel code to declare bitmaps for masks of enum values in this way?
+
+> +	/**
+> +	 * @user_sample_size: The size of a single sample as exposed to userspace. For the sake of
+> +	 *                    simplicity, the current implementation exposes the same structure
+> +	 *                    as provided by firmware, after annotating the sample and the blocks,
+> +	 *                    and zero-extending the counters themselves (to account for in-kernel
+> +	 *                    accumulation).
+> +	 *
+> +	 *                    This may also allow further memory-optimizations of compressing the
+> +	 *                    sample to provide only requested blocks, if deemed to be worth the
+> +	 *                    additional complexity.
+> +	 */
+> +	size_t user_sample_size;
 > +
->  struct fastrpc_session_ctx {
->  	struct device *dev;
->  	int sid;
-> @@ -574,7 +579,7 @@ static void fastrpc_get_buff_overlaps(struct fastrpc_invoke_ctx *ctx)
+> +	/**
+> +	 * @sample_freq_ns: Period between subsequent sample requests. Zero indicates that
+> +	 *                  userspace will be responsible for requesting samples.
+> +	 */
+> +	u64 sample_freq_ns;
+> +
+> +	/** @sample_start_ns: Sample request time, obtained from a monotonic raw clock. */
+> +	u64 sample_start_ns;
+> +
+> +	/**
+> +	 * @user_data: Opaque handle passed in when starting a session, requesting a sample (for
+> +	 *             manual sampling sessions only) and when stopping a session. This handle
+> +	 *             allows the disambiguation of a sample in the ringbuffer.
+> +	 */
+> +	u64 user_data;
+> +
+> +	/**
+> +	 * @eventfd: Event file descriptor context used to signal userspace of a new sample
+> +	 *           being emitted.
+> +	 */
+> +	struct eventfd_ctx *eventfd;
+> +
+> +	/**
+> +	 * @enabled_counters: This session's requested counters. Note that these cannot change
+> +	 *                    for the lifetime of the session.
+> +	 */
+> +	struct panthor_perf_enable_masks *enabled_counters;
+
+It seems the enable mask for a session is tied to the session's lifetime. In
+panthor_perf_session_setup(), you create one and then increase its reference
+count from within panthor_perf_sampler_add(), which is not being called from
+anywhere else. Maybe in that case you could do without the reference count and
+have a non-pointer struct panthor_perf_enable_masks member here?
+
+> +	/** @ringbuf_slots: Slots in the user-facing ringbuffer. */
+> +	size_t ringbuf_slots;
+> +
+> +	/** @ring_buf: BO for the userspace ringbuffer. */
+> +	struct drm_gem_object *ring_buf;
+> +
+> +	/**
+> +	 * @control_buf: BO for the insert and extract indices.
+> +	 */
+> +	struct drm_gem_object *control_buf;
+> +
+> +	/**
+> +	 * @extract_idx: The extract index is used by userspace to indicate the position of the
+> +	 *               consumer in the ringbuffer.
+> +	 */
+> +	u32 *extract_idx;
+> +
+> +	/**
+> +	 * @insert_idx: The insert index is used by the kernel to indicate the position of the
+> +	 *              latest sample exposed to userspace.
+> +	 */
+> +	u32 *insert_idx;
+> +
+> +	/** @samples: The mapping of the @ring_buf into the kernel's VA space. */
+> +	u8 *samples;
+> +
+> +	/**
+> +	 * @waiting: The list node used by the sampler to track the sessions waiting for a sample.
+> +	 */
+> +	struct list_head waiting;
+> +
+> +	/**
+> +	 * @pfile: The panthor file which was used to create a session, used for the postclose
+> +	 *         handling and to prevent a misconfigured userspace from closing unrelated
+> +	 *         sessions.
+> +	 */
+> +	struct panthor_file *pfile;
+> +
+> +	/**
+> +	 * @ref: Session reference count. The sample delivery to userspace is asynchronous, meaning
+> +	 *       the lifetime of the session must extend at least until the sample is exposed to
+> +	 *       userspace.
+> +	 */
+> +	struct kref ref;
+> +};
+> +
+> +
+>  struct panthor_perf {
+>  	/**
+>  	 * @block_set: The global counter set configured onto the HW.
+> @@ -63,39 +209,154 @@ void panthor_perf_info_init(struct panthor_device *ptdev)
+>  	perf_info->shader_blocks = hweight64(ptdev->gpu_info.shader_present);
+>  }
 >  
->  static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->  			struct fastrpc_user *user, u32 kernel, u32 sc,
-> -			struct fastrpc_invoke_args *args)
-> +			struct fastrpc_ctx_args *cargs)
+> -int panthor_perf_session_setup(struct panthor_device *ptdev, struct panthor_perf *perf,
+> -		struct drm_panthor_perf_cmd_setup *setup_args,
+> -		struct panthor_file *pfile)
+> +static struct panthor_perf_enable_masks *panthor_perf_em_new(void)
 >  {
->  	struct fastrpc_channel_ctx *cctx = user->cctx;
->  	struct fastrpc_invoke_ctx *ctx = NULL;
-> @@ -605,7 +610,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->  			kfree(ctx);
->  			return ERR_PTR(-ENOMEM);
->  		}
-> -		ctx->args = args;
-> +		ctx->args = cargs->args;
->  		fastrpc_get_buff_overlaps(ctx);
->  	}
+> -	return -EOPNOTSUPP;
+> +	struct panthor_perf_enable_masks *em = kmalloc(sizeof(*em), GFP_KERNEL);
+> +
+> +	if (!em)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	INIT_LIST_HEAD(&em->link);
+> +
+> +	kref_init(&em->refs);
+> +
+> +	return em;
+>  }
 >  
-> @@ -1133,7 +1138,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
->  
->  static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
->  				   u32 handle, u32 sc,
-> -				   struct fastrpc_invoke_args *args)
-> +				   struct fastrpc_ctx_args *cargs)
+> -int panthor_perf_session_teardown(struct panthor_file *pfile, struct panthor_perf *perf,
+> -		u32 sid)
+> +static struct panthor_perf_enable_masks *panthor_perf_create_em(struct drm_panthor_perf_cmd_setup
+> +		*setup_args)
 >  {
->  	struct fastrpc_invoke_ctx *ctx = NULL;
->  	struct fastrpc_buf *buf, *b;
-> @@ -1151,7 +1156,7 @@ static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
->  		return -EPERM;
->  	}
+> -	return -EOPNOTSUPP;
+> +	struct panthor_perf_enable_masks *em = panthor_perf_em_new();
+> +
+> +	if (IS_ERR_OR_NULL(em))
+> +		return em;
+> +
+> +	bitmap_from_arr64(em->mask[DRM_PANTHOR_PERF_BLOCK_FW],
+> +			setup_args->fw_enable_mask, PANTHOR_PERF_EM_BITS);
+> +	bitmap_from_arr64(em->mask[DRM_PANTHOR_PERF_BLOCK_CSG],
+> +			setup_args->csg_enable_mask, PANTHOR_PERF_EM_BITS);
+> +	bitmap_from_arr64(em->mask[DRM_PANTHOR_PERF_BLOCK_CSHW],
+> +			setup_args->cshw_enable_mask, PANTHOR_PERF_EM_BITS);
+> +	bitmap_from_arr64(em->mask[DRM_PANTHOR_PERF_BLOCK_TILER],
+> +			setup_args->tiler_enable_mask, PANTHOR_PERF_EM_BITS);
+> +	bitmap_from_arr64(em->mask[DRM_PANTHOR_PERF_BLOCK_MEMSYS],
+> +			setup_args->memsys_enable_mask, PANTHOR_PERF_EM_BITS);
+> +	bitmap_from_arr64(em->mask[DRM_PANTHOR_PERF_BLOCK_SHADER],
+> +			setup_args->shader_enable_mask, PANTHOR_PERF_EM_BITS);
+
+To save some repetition, maybe do this, although it might depend on uAPI
+structures being arranged in the right way, and the compiler not inserting
+unusual padding between consecutive members:
+
+unsigned int block; u64 *mask;
+for (mask = &setup_args->fw_enable_mask[0], block = DRM_PANTHOR_PERF_BLOCK_FW;
+     block < DRM_PANTHOR_PERF_BLOCK_LAST; block++, mask += 2)
+	bitmap_from_arr64(em->mask[block], mask, PANTHOR_PERF_EM_BITS);
+
+> +	return em;
+>  }
 >  
-> -	ctx = fastrpc_context_alloc(fl, kernel, sc, args);
-> +	ctx = fastrpc_context_alloc(fl, kernel, sc, cargs);
->  	if (IS_ERR(ctx))
->  		return PTR_ERR(ctx);
->  
-> @@ -1233,6 +1238,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+> -int panthor_perf_session_start(struct panthor_file *pfile, struct panthor_perf *perf,
+> -		u32 sid, u64 user_data)
+> +static void panthor_perf_destroy_em_kref(struct kref *em_kref)
 >  {
->  	struct fastrpc_init_create_static init;
->  	struct fastrpc_invoke_args *args;
-> +	struct fastrpc_ctx_args *cargs;
->  	struct fastrpc_phy_page pages[1];
->  	char *name;
->  	int err;
-> @@ -1307,15 +1313,25 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
->  	args[2].length = sizeof(*pages);
->  	args[2].fd = -1;
+> -	return -EOPNOTSUPP;
+> +	struct panthor_perf_enable_masks *em = container_of(em_kref, typeof(*em), refs);
+> +
+> +	if (!list_empty(&em->link))
+> +		return;
+
+Could this lead to a situation where the enable mask's refcnt reaches 0,
+but because it hadn't yet been removed from the session's list, the
+mask object is never freed?
+
+> +	kfree(em);
+>  }
 >  
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs) {
-> +		err = -ENOMEM;
-> +		goto err_invoke;
+> -int panthor_perf_session_stop(struct panthor_file *pfile, struct panthor_perf *perf,
+> -		u32 sid, u64 user_data)
+> +static size_t get_annotated_block_size(size_t counters_per_block)
+>  {
+> -		return -EOPNOTSUPP;
+> +	return struct_size_t(struct panthor_perf_counter_block, counters, counters_per_block);
+>  }
+>  
+> -int panthor_perf_session_sample(struct panthor_file *pfile, struct panthor_perf *perf,
+> -		u32 sid, u64 user_data)
+> +static u32 session_read_extract_idx(struct panthor_perf_session *session)
+> +{
+> +	/* Userspace will update their own extract index to indicate that a sample is consumed
+> +	 * from the ringbuffer, and we must ensure we read the latest value.
+> +	 */
+> +	return smp_load_acquire(session->extract_idx);
+> +}
+> +
+> +static u32 session_read_insert_idx(struct panthor_perf_session *session)
+> +{
+> +	return *session->insert_idx;
+> +}
+> +
+> +static void session_get(struct panthor_perf_session *session)
+> +{
+> +	kref_get(&session->ref);
+> +}
+> +
+> +static void session_free(struct kref *ref)
+> +{
+> +	struct panthor_perf_session *session = container_of(ref, typeof(*session), ref);
+> +
+> +	if (session->samples) {
+> +		struct iosys_map map = IOSYS_MAP_INIT_VADDR(session->samples);
+> +
+> +		drm_gem_vunmap_unlocked(session->ring_buf, &map);
+> +		drm_gem_object_put(session->ring_buf);
 > +	}
 > +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_CREATE_STATIC, 3, 0);
->  
->  	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE,
-> -				      sc, args);
-> -	if (err)
-> +				      sc, cargs);
-> +	if (err) {
-> +		kfree(cargs);
+> +	if (session->insert_idx && session->extract_idx) {
 
-No, this should be a part of the error path.
+I think none of these could ever be NULLif session setup succeeded.
 
->  		goto err_invoke;
+> +		struct iosys_map map = IOSYS_MAP_INIT_VADDR(session->extract_idx);
+> +
+> +		drm_gem_vunmap_unlocked(session->control_buf, &map);
+> +		drm_gem_object_put(session->control_buf);
 > +	}
+> +
+> +	kref_put(&session->enabled_counters->refs, panthor_perf_destroy_em_kref);
+> +	eventfd_ctx_put(session->eventfd);
+> +
+> +	devm_kfree(session->pfile->ptdev->base.dev, session);
+
+What is the point of using devm allocations in this case, if we always free
+the session manually?
+
+> +}
+> +
+> +static void session_put(struct panthor_perf_session *session)
+> +{
+> +	kref_put(&session->ref, session_free);
+> +}
+> +
+> +/**
+> + * session_find - Find a session associated with the given session ID and
+> + *                panthor_file.
+> + * @pfile: Panthor file.
+> + * @perf: Panthor perf.
+> + * @sid: Session ID.
+> + *
+> + * The reference count of a valid session is increased to ensure it does not disappear
+> + * in the window between the XA lock being dropped and the internal session functions
+> + * being called.
+> + *
+> + * Return: valid session pointer or an ERR_PTR.
+> + */
+> +static struct panthor_perf_session *session_find(struct panthor_file *pfile,
+> +		struct panthor_perf *perf, u32 sid)
+>  {
+> -	return -EOPNOTSUPP;
+> +	struct panthor_perf_session *session;
 >  
->  	kfree(args);
->  	kfree(name);
-> +	kfree(cargs);
+> +	if (!perf)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	xa_lock(&perf->sessions);
+> +	session = xa_load(&perf->sessions, sid);
+> +
+> +	if (!session || xa_is_err(session)) {
+> +		xa_unlock(&perf->sessions);
+> +		return ERR_PTR(-EBADF);
+
+I think we should return NULL in case !session holds true, for panthor_perf_session_start to catch it and return -EINVAL.
+
+> +	}
+> +
+> +	if (session->pfile != pfile) {
+> +		xa_unlock(&perf->sessions);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	session_get(session);
+> +	xa_unlock(&perf->sessions);
+> +
+> +	return session;
+>  }
+>  
+> -void panthor_perf_session_destroy(struct panthor_file *pfile, struct panthor_perf *perf) { }
+> +static size_t session_get_max_sample_size(const struct drm_panthor_perf_info *const info)
+
+Since this seems to be the size of the sample given to UM, maybe renaming it to
+contain _user_ would make its purpose more apparent.
+
+> +{
+> +	const size_t block_size = get_annotated_block_size(info->counters_per_block);
+> +	const size_t block_nr = info->cshw_blocks + info->csg_blocks + info->fw_blocks +
+> +		info->tiler_blocks + info->memsys_blocks + info->shader_blocks;
+> +
+> +	return sizeof(struct drm_panthor_perf_sample_header) + (block_size * block_nr);
+> +}
+>  
+>  /**
+>   * panthor_perf_init - Initialize the performance counter subsystem.
+> @@ -130,6 +391,399 @@ int panthor_perf_init(struct panthor_device *ptdev)
+>  	ptdev->perf = perf;
 >  
 >  	return 0;
->  err_invoke:
-> @@ -1351,6 +1367,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
->  {
->  	struct fastrpc_init_create init;
->  	struct fastrpc_invoke_args *args;
-> +	struct fastrpc_ctx_args *cargs;
->  	struct fastrpc_phy_page pages[1];
->  	struct fastrpc_map *map = NULL;
->  	struct fastrpc_buf *imem = NULL;
-> @@ -1438,16 +1455,26 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
->  	args[5].length = sizeof(inbuf.siglen);
->  	args[5].fd = -1;
->  
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs) {
-> +		err = -ENOMEM;
-> +		goto err_invoke;
-> +	}
 > +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_CREATE, 4, 0);
->  	if (init.attrs)
->  		sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_CREATE_ATTR, 4, 0);
->  
->  	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE,
-> -				      sc, args);
-> -	if (err)
-> +				      sc, cargs);
-> +	if (err) {
-> +		kfree(cargs);
+> +}
+> +
+> +static int session_validate_set(u8 set)
+> +{
+> +	if (set > DRM_PANTHOR_PERF_SET_TERTIARY)
+> +		return -EINVAL;
+> +
+> +	if (set == DRM_PANTHOR_PERF_SET_PRIMARY)
+> +		return 0;
+> +
+> +	if (set > DRM_PANTHOR_PERF_SET_PRIMARY)
+> +		return capable(CAP_PERFMON) ? 0 : -EACCES;
 
-Likewise.
+I'm a bit clueless about the capability API, so I don't quite understand how
+this is the way whe decide whether a counter set is legal.
 
->  		goto err_invoke;
+> +	return -EINVAL;
+> +}
+> +
+> +/**
+> + * panthor_perf_session_setup - Create a user-visible session.
+> + *
+> + * @ptdev: Handle to the panthor device.
+> + * @perf: Handle to the perf control structure.
+> + * @setup_args: Setup arguments passed in via ioctl.
+> + * @pfile: Panthor file associated with the request.
+> + *
+> + * Creates a new session associated with the session ID returned. When initialized, the
+> + * session must explicitly request sampling to start with a successive call to PERF_CONTROL.START.
+> + *
+> + * Return: non-negative session identifier on success or negative error code on failure.
+> + */
+> +int panthor_perf_session_setup(struct panthor_device *ptdev, struct panthor_perf *perf,
+> +		struct drm_panthor_perf_cmd_setup *setup_args,
+> +		struct panthor_file *pfile)
+> +{
+> +	struct panthor_perf_session *session;
+> +	struct drm_gem_object *ringbuffer;
+> +	struct drm_gem_object *control;
+> +	const size_t slots = setup_args->sample_slots;
+> +	struct panthor_perf_enable_masks *em;
+> +	struct iosys_map rb_map, ctrl_map;
+> +	size_t user_sample_size;
+> +	int session_id;
+> +	int ret;
+> +
+> +	ret = session_validate_set(setup_args->block_set);
+> +	if (ret)
+> +		return ret;
+> +
+> +	session = devm_kzalloc(ptdev->base.dev, sizeof(*session), GFP_KERNEL);
+> +	if (ZERO_OR_NULL_PTR(session))
+> +		return -ENOMEM;
+> +
+> +	ringbuffer = drm_gem_object_lookup(pfile->drm_file, setup_args->ringbuf_handle);
+> +	if (!ringbuffer) {
+> +		ret = -EINVAL;
+> +		goto cleanup_session;
 > +	}
->  
->  	kfree(args);
-> +	kfree(cargs);
->  
->  	return 0;
->  
-> @@ -1498,17 +1525,27 @@ static void fastrpc_session_free(struct fastrpc_channel_ctx *cctx,
->  static int fastrpc_release_current_dsp_process(struct fastrpc_user *fl)
->  {
->  	struct fastrpc_invoke_args args[1];
-> -	int client_id = 0;
-> +	struct fastrpc_ctx_args *cargs;
-> +	int client_id = 0, err;
->  	u32 sc;
->  
->  	client_id = fl->client_id;
->  	args[0].ptr = (u64)(uintptr_t) &client_id;
->  	args[0].length = sizeof(client_id);
->  	args[0].fd = -1;
-> +
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs)
-> +		return -ENOMEM;
-> +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_RELEASE, 1, 0);
->  
-> -	return fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE,
-> -				       sc, &args[0]);
-> +	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE,
-> +				       sc, cargs);
-> +	kfree(cargs);
-> +
-> +	return err;
->  }
->  
->  static int fastrpc_device_release(struct inode *inode, struct file *file)
-> @@ -1643,22 +1680,33 @@ static int fastrpc_dmabuf_alloc(struct fastrpc_user *fl, char __user *argp)
->  static int fastrpc_init_attach(struct fastrpc_user *fl, int pd)
->  {
->  	struct fastrpc_invoke_args args[1];
-> -	int client_id = fl->client_id;
-> +	struct fastrpc_ctx_args *cargs;
-> +	int client_id = fl->client_id, err;
->  	u32 sc;
->  
->  	args[0].ptr = (u64)(uintptr_t) &client_id;
->  	args[0].length = sizeof(client_id);
->  	args[0].fd = -1;
-> +
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs)
-> +		return -ENOMEM;
-> +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_ATTACH, 1, 0);
->  	fl->pd = pd;
->  
-> -	return fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE,
-> -				       sc, &args[0]);
-> +	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE,
-> +				       sc, cargs);
-> +	kfree(cargs);
-> +
-> +	return err;
->  }
->  
->  static int fastrpc_invoke(struct fastrpc_user *fl, char __user *argp)
->  {
->  	struct fastrpc_invoke_args *args = NULL;
-> +	struct fastrpc_ctx_args *cargs;
->  	struct fastrpc_invoke inv;
->  	u32 nscalars;
->  	int err;
-> @@ -1679,9 +1727,16 @@ static int fastrpc_invoke(struct fastrpc_user *fl, char __user *argp)
->  			return -EFAULT;
->  		}
->  	}
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs) {
-> +		kfree(args);
-> +		return -ENOMEM;
+
+I guess this would never be the same ringbuffer we created in
+panthor_perf_sampler_init(). I don't think it can be, because that one was is
+created as a kernel bo, and has no public facing GEM handler. But then this
+means we're doing a copy between the FW ringbuffer and the user-supplied
+one. However, I remember from past conversations that the goal of a new
+implementation was to avoid doing many perfcnt sample copies between the kernel
+and UM, because that would require a huge bandwith when the sample period is
+small.
+
+> +	control = drm_gem_object_lookup(pfile->drm_file, setup_args->control_handle);
+> +	if (!control) {
+> +		ret = -EINVAL;
+> +		goto cleanup_ringbuf;
 > +	}
->  
-> -	err = fastrpc_internal_invoke(fl, false, inv.handle, inv.sc, args);
-> +	cargs->args = args;
-> +	err = fastrpc_internal_invoke(fl, false, inv.handle, inv.sc, cargs);
->  	kfree(args);
-> +	kfree(cargs);
->  
->  	return err;
->  }
-> @@ -1690,6 +1745,8 @@ static int fastrpc_get_info_from_dsp(struct fastrpc_user *fl, uint32_t *dsp_attr
->  				     uint32_t dsp_attr_buf_len)
->  {
->  	struct fastrpc_invoke_args args[2] = { 0 };
-> +	struct fastrpc_ctx_args *cargs;
+> +
+> +	user_sample_size = session_get_max_sample_size(&ptdev->perf_info) * slots;
+> +
+> +	if (ringbuffer->size != PFN_ALIGN(user_sample_size)) {
+> +		ret = -ENOMEM;
+> +		goto cleanup_control;
+> +	}
+
+How is information about the max sample size given to UM? I guess through the
+values returned through the getparam ioctl(), specifically sample_header_size
+and block_header_size?
+
+> +	ret = drm_gem_vmap_unlocked(ringbuffer, &rb_map);
+> +	if (ret)
+> +		goto cleanup_control;
+> +
+> +
+> +	ret = drm_gem_vmap_unlocked(control, &ctrl_map);
+> +	if (ret)
+> +		goto cleanup_ring_map;
+> +
+> +	session->eventfd = eventfd_ctx_fdget(setup_args->fd);
+> +	if (IS_ERR_OR_NULL(session->eventfd)) {
+> +		ret = PTR_ERR_OR_ZERO(session->eventfd) ?: -EINVAL;
+> +		goto cleanup_control_map;
+> +	}
+
+I think eventfd_ctx_fdget can only return error values, so there's no need to
+check for NULL or ZERO.
+
+> +	em = panthor_perf_create_em(setup_args);
+> +	if (IS_ERR_OR_NULL(em)) {
+> +		ret = -ENOMEM;
+> +		goto cleanup_eventfd;
+> +	}
+> +
+> +	INIT_LIST_HEAD(&session->waiting);
+> +	session->extract_idx = ctrl_map.vaddr;
+> +	*session->extract_idx = 0;
+> +	session->insert_idx = session->extract_idx + 1;
+> +	*session->insert_idx = 0;
+> +
+> +	session->samples = rb_map.vaddr;
+
+I think you might've forgotten this:
+
+        session->ringbuf_slots = slots;
+
+> +	/* TODO This will need validation when we support periodic sampling sessions */
+> +	if (setup_args->sample_freq_ns) {
+> +		ret = -EOPNOTSUPP;
+> +		goto cleanup_em;
+> +	}
+> +
+> +	session->sample_freq_ns = setup_args->sample_freq_ns;
+> +	session->user_sample_size = user_sample_size;
+> +	session->enabled_counters = em;
+> +	session->ring_buf = ringbuffer;
+> +	session->control_buf = control;
+> +	session->pfile = pfile;
+> +
+> +	ret = xa_alloc_cyclic(&perf->sessions, &session_id, session, perf->session_range,
+> +			&perf->next_session, GFP_KERNEL);
+
+What do we need the next_session index for?
+
+> +	if (ret < 0)
+> +		goto cleanup_em;
+> +
+> +	kref_init(&session->ref);
+> +
+> +	return session_id;
+> +
+> +cleanup_em:
+> +	kref_put(&em->refs, panthor_perf_destroy_em_kref);
+> +
+> +cleanup_eventfd:
+> +	eventfd_ctx_put(session->eventfd);
+> +
+> +cleanup_control_map:
+> +	drm_gem_vunmap_unlocked(control, &ctrl_map);
+> +
+> +cleanup_ring_map:
+> +	drm_gem_vunmap_unlocked(ringbuffer, &rb_map);
+> +
+> +cleanup_control:
+> +	drm_gem_object_put(control);
+> +
+> +cleanup_ringbuf:
+> +	drm_gem_object_put(ringbuffer);
+> +
+> +cleanup_session:
+> +	devm_kfree(ptdev->base.dev, session);
+> +
+> +	return ret;
+> +}
+> +
+> +static int session_stop(struct panthor_perf *perf, struct panthor_perf_session *session,
+> +		u64 user_data)
+> +{
+> +	if (!test_bit(PANTHOR_PERF_SESSION_ACTIVE, session->state))
+> +		return 0;
+> +
+> +	const u32 extract_idx = session_read_extract_idx(session);
+> +	const u32 insert_idx = session_read_insert_idx(session);
+> +
+> +	/* Must have at least one slot remaining in the ringbuffer to sample. */
+> +	if (WARN_ON_ONCE(!CIRC_SPACE_TO_END(insert_idx, extract_idx, session->ringbuf_slots)))
+> +		return -EBUSY;
+> +
+> +	session->user_data = user_data;
+> +
+> +	clear_bit(PANTHOR_PERF_SESSION_ACTIVE, session->state);
+> +
+> +	/* TODO Calls to the FW interface will go here in later patches. */
+> +	return 0;
+> +}
+> +
+> +static int session_start(struct panthor_perf *perf, struct panthor_perf_session *session,
+> +		u64 user_data)
+> +{
+> +	if (test_bit(PANTHOR_PERF_SESSION_ACTIVE, session->state))
+> +		return 0;
+> +
+> +	set_bit(PANTHOR_PERF_SESSION_ACTIVE, session->state);
+> +
+> +	/*
+> +	 * For manual sampling sessions, a start command does not correspond to a sample,
+> +	 * and so the user data gets discarded.
+> +	 */
+> +	if (session->sample_freq_ns)
+> +		session->user_data = user_data;
+> +
+> +	/* TODO Calls to the FW interface will go here in later patches. */
+> +	return 0;
+> +}
+> +
+> +static int session_sample(struct panthor_perf *perf, struct panthor_perf_session *session,
+> +		u64 user_data)
+> +{
+> +	if (!test_bit(PANTHOR_PERF_SESSION_ACTIVE, session->state))
+> +		return -EACCES;
+> +
+> +	const u32 extract_idx = session_read_extract_idx(session);
+> +	const u32 insert_idx = session_read_insert_idx(session);
+> +
+> +	/* Manual sampling for periodic sessions is forbidden. */
+> +	if (session->sample_freq_ns)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Must have at least two slots remaining in the ringbuffer to sample: one for
+> +	 * the current sample, and one for a stop sample, since a stop command should
+> +	 * always be acknowledged by taking a final sample and stopping the session.
+> +	 */
+> +	if (CIRC_SPACE_TO_END(insert_idx, extract_idx, session->ringbuf_slots) < 2)
+> +		return -EBUSY;
+> +
+> +	session->sample_start_ns = ktime_get_raw_ns();
+> +	session->user_data = user_data;
+> +
+> +	/* TODO Calls to the FW interface will go here in later patches. */
+> +	return 0;
+> +}
+> +
+> +static int session_destroy(struct panthor_perf *perf, struct panthor_perf_session *session)
+> +{
+> +	session_put(session);
+> +
+> +	return 0;
+> +}
+> +
+> +static int session_teardown(struct panthor_perf *perf, struct panthor_perf_session *session)
+> +{
+> +	if (test_bit(PANTHOR_PERF_SESSION_ACTIVE, session->state))
+> +		return -EINVAL;
+> +
+> +	if (!list_empty(&session->waiting))
+> +		return -EBUSY;
+> +
+> +	return session_destroy(perf, session);
+> +}
+> +
+> +/**
+> + * panthor_perf_session_teardown - Teardown the session associated with the @sid.
+> + * @pfile: Open panthor file.
+> + * @perf: Handle to the perf control structure.
+> + * @sid: Session identifier.
+> + *
+> + * Destroys a stopped session where the last sample has been explicitly consumed
+> + * or discarded. Active sessions will be ignored.
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int panthor_perf_session_teardown(struct panthor_file *pfile, struct panthor_perf *perf, u32 sid)
+> +{
 > +	int err;
->  
->  	/*
->  	 * Capability filled in userspace. This carries the information
-> @@ -1706,8 +1763,15 @@ static int fastrpc_get_info_from_dsp(struct fastrpc_user *fl, uint32_t *dsp_attr
->  	args[1].length = dsp_attr_buf_len * sizeof(u32);
->  	args[1].fd = -1;
->  
-> -	return fastrpc_internal_invoke(fl, true, FASTRPC_DSP_UTILITIES_HANDLE,
-> -				       FASTRPC_SCALARS(0, 1, 1), args);
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs)
-> +		return -ENOMEM;
+> +	struct panthor_perf_session *session;
 > +
-> +	cargs->args = args;
-> +	err = fastrpc_internal_invoke(fl, true, FASTRPC_DSP_UTILITIES_HANDLE,
-> +				       FASTRPC_SCALARS(0, 1, 1), cargs);
-> +	kfree(cargs);
-> +	return err;
->  }
->  
->  static int fastrpc_get_info_from_kernel(struct fastrpc_ioctl_capability *cap,
-> @@ -1794,6 +1858,7 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
->  static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *buf)
->  {
->  	struct fastrpc_invoke_args args[1] = { [0] = { 0 } };
-> +	struct fastrpc_ctx_args *cargs;
->  	struct fastrpc_munmap_req_msg req_msg;
->  	struct device *dev = fl->sctx->dev;
->  	int err;
-> @@ -1806,9 +1871,14 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
->  	args[0].ptr = (u64) (uintptr_t) &req_msg;
->  	args[0].length = sizeof(req_msg);
->  
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs)
-> +		return -ENOMEM;
-> +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MUNMAP, 1, 0);
->  	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
-> -				      &args[0]);
-> +				      cargs);
->  	if (!err) {
->  		dev_dbg(dev, "unmmap\tpt 0x%09lx OK\n", buf->raddr);
->  		spin_lock(&fl->lock);
-> @@ -1818,6 +1888,7 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
->  	} else {
->  		dev_err(dev, "unmmap\tpt 0x%09lx ERROR\n", buf->raddr);
->  	}
-> +	kfree(cargs);
->  
->  	return err;
->  }
-> @@ -1852,6 +1923,7 @@ static int fastrpc_req_munmap(struct fastrpc_user *fl, char __user *argp)
->  static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
->  {
->  	struct fastrpc_invoke_args args[3] = { [0 ... 2] = { 0 } };
-> +	struct fastrpc_ctx_args *cargs;
->  	struct fastrpc_buf *buf = NULL;
->  	struct fastrpc_mmap_req_msg req_msg;
->  	struct fastrpc_mmap_rsp_msg rsp_msg;
-> @@ -1902,12 +1974,18 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
->  	args[2].ptr = (u64) (uintptr_t) &rsp_msg;
->  	args[2].length = sizeof(rsp_msg);
->  
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs)
-> +		return -ENOMEM;
-> +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MMAP, 2, 1);
->  	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
-> -				      &args[0]);
-> +				      cargs);
->  	if (err) {
->  		dev_err(dev, "mmap error (len 0x%08llx)\n", buf->size);
->  		fastrpc_buf_free(buf);
-> +		kfree(cargs);
->  		return err;
->  	}
->  
-> @@ -1942,17 +2020,20 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
->  	dev_dbg(dev, "mmap\t\tpt 0x%09lx OK [len 0x%08llx]\n",
->  		buf->raddr, buf->size);
->  
-> +	kfree(cargs);
->  	return 0;
->  
->  err_assign:
->  	fastrpc_req_munmap_impl(fl, buf);
->  
-> +	kfree(cargs);
->  	return err;
->  }
->  
->  static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_mem_unmap *req)
->  {
->  	struct fastrpc_invoke_args args[1] = { [0] = { 0 } };
-> +	struct fastrpc_ctx_args *cargs;
->  	struct fastrpc_map *map = NULL, *iter, *m;
->  	struct fastrpc_mem_unmap_req_msg req_msg = { 0 };
->  	int err = 0;
-> @@ -1982,14 +2063,21 @@ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_me
->  	args[0].ptr = (u64) (uintptr_t) &req_msg;
->  	args[0].length = sizeof(req_msg);
->  
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs)
-> +		return -ENOMEM;
-> +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MEM_UNMAP, 1, 0);
->  	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
-> -				      &args[0]);
-> +				      cargs);
->  	if (err) {
->  		dev_err(dev, "unmmap\tpt fd = %d, 0x%09llx error\n",  map->fd, map->raddr);
-> +		kfree(cargs);
->  		return err;
->  	}
->  	fastrpc_map_put(map);
-> +	kfree(cargs);
->  
->  	return 0;
->  }
-> @@ -2007,6 +2095,7 @@ static int fastrpc_req_mem_unmap(struct fastrpc_user *fl, char __user *argp)
->  static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
->  {
->  	struct fastrpc_invoke_args args[4] = { [0 ... 3] = { 0 } };
-> +	struct fastrpc_ctx_args *cargs;
->  	struct fastrpc_mem_map_req_msg req_msg = { 0 };
->  	struct fastrpc_mmap_rsp_msg rsp_msg = { 0 };
->  	struct fastrpc_mem_unmap req_unmap = { 0 };
-> @@ -2051,8 +2140,13 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
->  	args[3].ptr = (u64) (uintptr_t) &rsp_msg;
->  	args[3].length = sizeof(rsp_msg);
->  
-> +	cargs = kzalloc(sizeof(*cargs), GFP_KERNEL);
-> +	if (!cargs)
-> +		return -ENOMEM;
-> +
-> +	cargs->args = args;
->  	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MEM_MAP, 3, 1);
-> -	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc, &args[0]);
-> +	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc, cargs);
->  	if (err) {
->  		dev_err(dev, "mem mmap error, fd %d, vaddr %llx, size %lld\n",
->  			req.fd, req.vaddrin, map->size);
-> @@ -2072,11 +2166,13 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
->  		fastrpc_req_mem_unmap_impl(fl, &req_unmap);
->  		return -EFAULT;
->  	}
-> +	kfree(cargs);
->  
->  	return 0;
->  
->  err_invoke:
->  	fastrpc_map_put(map);
-> +	kfree(cargs);
->  
->  	return err;
->  }
-> -- 
-> 2.34.1
-> 
+> +	xa_lock(&perf->sessions);
+> +	session = __xa_store(&perf->sessions, sid, NULL, GFP_KERNEL);
 
--- 
-With best wishes
-Dmitry
+Why not xa_erase() here instead?
+
+> +	if (xa_is_err(session)) {
+> +		err = xa_err(session);
+> +		goto restore;
+> +	}
+> +
+> +	if (session->pfile != pfile) {
+> +		err = -EINVAL;
+> +		goto restore;
+> +	}
+> +
+> +	session_get(session);
+> +	xa_unlock(&perf->sessions);
+> +
+> +	err = session_teardown(perf, session);
+> +
+> +	session_put(session);
+
+I haven't made sure that reference counting is balanced, but noticed session_teardown() is already
+putting the session's kref. I'll have a deeper look into it later on.
+
+> +
+> +	return err;
+> +
+> +restore:
+> +	__xa_store(&perf->sessions, sid, session, GFP_KERNEL);
+> +	xa_unlock(&perf->sessions);
+> +
+> +	return err;
+> +}
+> +
+> +/**
+> + * panthor_perf_session_start - Start sampling on a stopped session.
+> + * @pfile: Open panthor file.
+> + * @perf: Handle to the panthor perf control structure.
+> + * @sid: Session identifier for the desired session.
+> + * @user_data: An opaque value passed in from userspace.
+> + *
+> + * A session counts as stopped when it is created or when it is explicitly stopped after being
+> + * started. Starting an active session is treated as a no-op.
+> + *
+> + * The @user_data parameter will be associated with all subsequent samples for a periodic
+> + * sampling session and will be ignored for manual sampling ones in favor of the user data
+> + * passed in the PERF_CONTROL.SAMPLE ioctl call.
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int panthor_perf_session_start(struct panthor_file *pfile, struct panthor_perf *perf,
+> +		u32 sid, u64 user_data)
+> +{
+> +	struct panthor_perf_session *session = session_find(pfile, perf, sid);
+> +	int err;
+> +
+> +	if (IS_ERR_OR_NULL(session))
+> +		return IS_ERR(session) ? PTR_ERR(session) : -EINVAL;
+> +
+> +	err = session_start(perf, session, user_data);
+> +
+> +	session_put(session);
+> +
+> +	return err;
+> +}
+> +
+> +/**
+> + * panthor_perf_session_stop - Stop sampling on an active session.
+> + * @pfile: Open panthor file.
+> + * @perf: Handle to the panthor perf control structure.
+> + * @sid: Session identifier for the desired session.
+> + * @user_data: An opaque value passed in from userspace.
+> + *
+> + * A session counts as active when it has been explicitly started via the PERF_CONTROL.START
+> + * ioctl. Stopping a stopped session is treated as a no-op.
+> + *
+> + * To ensure data is not lost when sampling is stopping, there must always be at least one slot
+> + * available for the final automatic sample, and the stop command will be rejected if there is not.
+> + *
+> + * The @user_data will always be associated with the final sample.
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int panthor_perf_session_stop(struct panthor_file *pfile, struct panthor_perf *perf,
+> +		u32 sid, u64 user_data)
+> +{
+> +	struct panthor_perf_session *session = session_find(pfile, perf, sid);
+> +	int err;
+> +
+> +	if (IS_ERR_OR_NULL(session))
+> +		return IS_ERR(session) ? PTR_ERR(session) : -EINVAL;
+> +
+> +	err = session_stop(perf, session, user_data);
+> +
+> +	session_put(session);
+> +
+> +	return err;
+> +}
+> +
+> +/**
+> + * panthor_perf_session_sample - Request a sample on a manual sampling session.
+> + * @pfile: Open panthor file.
+> + * @perf: Handle to the panthor perf control structure.
+> + * @sid: Session identifier for the desired session.
+> + * @user_data: An opaque value passed in from userspace.
+> + *
+> + * Only an active manual sampler is permitted to request samples directly. Failing to meet either
+> + * of these conditions will cause the sampling request to be rejected. Requesting a manual sample
+> + * with a full ringbuffer will see the request being rejected.
+> + *
+> + * The @user_data will always be unambiguously associated one-to-one with the resultant sample.
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int panthor_perf_session_sample(struct panthor_file *pfile, struct panthor_perf *perf,
+> +		u32 sid, u64 user_data)
+> +{
+> +	struct panthor_perf_session *session = session_find(pfile, perf, sid);
+> +	int err;
+> +
+> +	if (IS_ERR_OR_NULL(session))
+> +		return IS_ERR(session) ? PTR_ERR(session) : -EINVAL;
+> +
+> +	err = session_sample(perf, session, user_data);
+> +
+> +	session_put(session);
+> +
+> +	return err;
+> +}
+> +
+> +/**
+> + * panthor_perf_session_destroy - Destroy a sampling session associated with the @pfile.
+> + * @perf: Handle to the panthor perf control structure.
+> + * @pfile: The file being closed.
+> + *
+> + * Must be called when the corresponding userspace process is destroyed and cannot close its
+> + * own sessions. As such, we offer no guarantees about data delivery.
+> + */
+> +void panthor_perf_session_destroy(struct panthor_file *pfile, struct panthor_perf *perf)
+> +{
+> +	unsigned long sid;
+> +	struct panthor_perf_session *session;
+> +
+> +	xa_for_each(&perf->sessions, sid, session)
+> +	{
+> +		if (session->pfile == pfile) {
+> +			session_destroy(perf, session);
+> +			xa_erase(&perf->sessions, sid);
+> +		}
+> +	}
+>  }
+>  
+>  /**
+> @@ -146,10 +800,17 @@ void panthor_perf_unplug(struct panthor_device *ptdev)
+>  	if (!perf)
+>  		return;
+>  
+> -	if (!xa_empty(&perf->sessions))
+> +	if (!xa_empty(&perf->sessions)) {
+> +		unsigned long sid;
+> +		struct panthor_perf_session *session;
+> +
+>  		drm_err(&ptdev->base,
+>  				"Performance counter sessions active when unplugging the driver!");
+>  
+> +		xa_for_each(&perf->sessions, sid, session)
+> +			session_destroy(perf, session);
+> +	}
+> +
+>  	xa_destroy(&perf->sessions);
+>  
+>  	devm_kfree(ptdev->base.dev, ptdev->perf);
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 8a431431da6b..576d3ad46e6d 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -458,6 +458,12 @@ enum drm_panthor_perf_block_type {
+>  
+>  	/** @DRM_PANTHOR_PERF_BLOCK_SHADER: A shader core counter block. */
+>  	DRM_PANTHOR_PERF_BLOCK_SHADER,
+> +
+> +	/** @DRM_PANTHOR_PERF_BLOCK_LAST: Internal use only. */
+> +	DRM_PANTHOR_PERF_BLOCK_LAST = DRM_PANTHOR_PERF_BLOCK_SHADER,
+> +
+> +	/** @DRM_PANTHOR_PERF_BLOCK_MAX: Internal use only. */
+> +	DRM_PANTHOR_PERF_BLOCK_MAX = DRM_PANTHOR_PERF_BLOCK_LAST + 1,
+>  };
+>  
+>  /**
+> @@ -1368,6 +1374,44 @@ struct drm_panthor_perf_control {
+>  	__u64 pointer;
+>  };
+>  
+> +/**
+> + * enum drm_panthor_perf_counter_set - The counter set to be requested from the hardware.
+> + *
+> + * The hardware supports a single performance counter set at a time, so requesting any set other
+> + * than the primary may fail if another process is sampling at the same time.
+> + *
+> + * If in doubt, the primary counter set has the most commonly used counters and requires no
+> + * additional permissions to open.
+> + */
+> +enum drm_panthor_perf_counter_set {
+> +	/**
+> +	 * @DRM_PANTHOR_PERF_SET_PRIMARY: The default set configured on the hardware.
+> +	 *
+> +	 * This is the only set for which all counters in all blocks are defined.
+> +	 */
+> +	DRM_PANTHOR_PERF_SET_PRIMARY,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_PERF_SET_SECONDARY: The secondary performance counter set.
+> +	 *
+> +	 * Some blocks may not have any defined counters for this set, and the block will
+> +	 * have the UNAVAILABLE block state permanently set in the block header.
+> +	 *
+> +	 * Accessing this set requires the calling process to have the CAP_PERFMON capability.
+> +	 */
+> +	DRM_PANTHOR_PERF_SET_SECONDARY,
+> +
+> +	/**
+> +	 * @DRM_PANTHOR_PERF_SET_TERTIARY: The tertiary performance counter set.
+> +	 *
+> +	 * Some blocks may not have any defined counters for this set, and the block will have
+> +	 * the UNAVAILABLE block state permanently set in the block header. Note that the
+> +	 * tertiary set has the fewest defined counter blocks.
+> +	 *
+> +	 * Accessing this set requires the calling process to have the CAP_PERFMON capability.
+> +	 */
+> +	DRM_PANTHOR_PERF_SET_TERTIARY,
+> +};
+>  
+>  /**
+>   * struct drm_panthor_perf_cmd_setup - Arguments passed to DRM_PANTHOR_IOCTL_PERF_CONTROL
+> @@ -1375,13 +1419,17 @@ struct drm_panthor_perf_control {
+>   */
+>  struct drm_panthor_perf_cmd_setup {
+>  	/**
+> -	 * @block_set: Set of performance counter blocks.
+> +	 * @block_set: Set of performance counter blocks, member of
+> +	 *             enum drm_panthor_perf_block_set.
+>  	 *
+>  	 * This is a global configuration and only one set can be active at a time. If
+>  	 * another client has already requested a counter set, any further requests
+>  	 * for a different counter set will fail and return an -EBUSY.
+>  	 *
+>  	 * If the requested set does not exist, the request will fail and return an -EINVAL.
+> +	 *
+> +	 * Some sets have additional requirements to be enabled, and the setup request will
+> +	 * fail with an -EACCES if these requirements are not satisfied.
+>  	 */
+
+Is this what we check inside session_validate_set() ?
+
+>  	__u8 block_set;
+>  
+> -- 
+> 2.25.1
+
+
+Adrian Larumbe
