@@ -2,100 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE8FA1D710
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 14:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D40A1D73C
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 14:50:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCFD910E518;
-	Mon, 27 Jan 2025 13:44:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8A710E516;
+	Mon, 27 Jan 2025 13:50:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2EtO39jv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3uS7xLaq";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2EtO39jv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3uS7xLaq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ITreSYYk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4DA810E53A
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 13:44:32 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2383C1F38F;
- Mon, 27 Jan 2025 13:44:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737985471; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=GblkuLUpfO9/0e++OB5tz4bfioZoUEee+FJox1oNoEw=;
- b=2EtO39jvT6Lx32f4TkQXAvNI1J16hTwo6v+xebCLR0cqD1HJvJmZVRj/NfLG6f7sLGZ7tx
- uuijJL59Fvl/D71peApvUtySZD+0pQ23AfKLSw+EFUvs9oSfYuhH5bAUve8sW/Ou52pjdm
- P3d/6e3qKOl8ss9JBOopCMhvS90esfA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737985471;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=GblkuLUpfO9/0e++OB5tz4bfioZoUEee+FJox1oNoEw=;
- b=3uS7xLaqBndleOs5tVIEk2W3d1GZbE7peZJrIF1qQ2uPAaFJfmImEK4vsK7ZOvaK+2qnR3
- R0H9a58Bw0lE4nDA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2EtO39jv;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3uS7xLaq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737985471; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=GblkuLUpfO9/0e++OB5tz4bfioZoUEee+FJox1oNoEw=;
- b=2EtO39jvT6Lx32f4TkQXAvNI1J16hTwo6v+xebCLR0cqD1HJvJmZVRj/NfLG6f7sLGZ7tx
- uuijJL59Fvl/D71peApvUtySZD+0pQ23AfKLSw+EFUvs9oSfYuhH5bAUve8sW/Ou52pjdm
- P3d/6e3qKOl8ss9JBOopCMhvS90esfA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737985471;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=GblkuLUpfO9/0e++OB5tz4bfioZoUEee+FJox1oNoEw=;
- b=3uS7xLaqBndleOs5tVIEk2W3d1GZbE7peZJrIF1qQ2uPAaFJfmImEK4vsK7ZOvaK+2qnR3
- R0H9a58Bw0lE4nDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE99D137C0;
- Mon, 27 Jan 2025 13:44:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 82cEOb6Nl2fqIQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 27 Jan 2025 13:44:30 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com,
-	airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- stable@vger.kernel.org
-Subject: [PATCH] drm/ast: astdp: Fix timeout for enabling video signal
-Date: Mon, 27 Jan 2025 14:44:14 +0100
-Message-ID: <20250127134423.84266-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.48.1
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE5110E113;
+ Mon, 27 Jan 2025 13:50:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 554B0A4154E;
+ Mon, 27 Jan 2025 13:48:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881ACC4CED2;
+ Mon, 27 Jan 2025 13:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737985800;
+ bh=laZX1iWKmTFe6EBXe6dQ6V5dBHky9feUPubV8bbHYy0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ITreSYYkYqJo0yzT/NmeCNaU8ylN9fF82uixbVQhbAMNhn/x1ksvsdeN2BZIjx7Av
+ 6jRzLOfnz1KOiZ8BN/+a6yzSKjX86nOzP6ewnKK12LbyYoLRgr6MitIVZMs+Q9nRjt
+ 1O56sOuQWf9/oW9JBeL1K1Ep9SPnbGRY0gAqf1BfWdrmsV6P6rbrAzrEzJaWATIpCg
+ PxgyGHOSh+1Dp+na/sGNdWcGsgzNCRs4/nnMHS16Kt8UOkwJO9cYsDiIOKruHAZkDs
+ tuJVwo0MPlNeiRHuQkLVgJEWRQ8mSboCfx8PwGZonQ0+bdJkEjI8BLPDWS5oZchNDY
+ iBi9Q4ViZ4cfA==
+Date: Mon, 27 Jan 2025 14:49:55 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Kees Cook <kees@kernel.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ openipmi-developer@lists.sourceforge.net, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ linux-rdma@vger.kernel.org, 
+ linux-raid@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-serial@vger.kernel.org, 
+ xen-devel@lists.xenproject.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, 
+ netfs@lists.linux.dev, codalist@coda.cs.cmu.edu, linux-mm@kvack.org, 
+ linux-nfs@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ fsverity@lists.linux.dev, 
+ linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org, 
+ kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org, 
+ linux-hardening@vger.kernel.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, 
+ keyrings@vger.kernel.org, Song Liu <song@kernel.org>, 
+ "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Jani Nikula <jani.nikula@intel.com>, 
+ Corey Minyard <cminyard@mvista.com>
+Subject: Re: Re: Re: [PATCH v2] treewide: const qualify ctl_tables where
+ applicable
+Message-ID: <f4lfo2fb7ajogucsvisfd5sg2avykavmkizr6ycsllcrco4mo3@qt2zx4zp57zh>
+References: <20250110-jag-ctl_table_const-v2-1-0000e1663144@kernel.org>
+ <Z4+jwDBrZNRgu85S@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+ <nslqrapp4v3rknjgtfk4cg64ha7rewrrg24aslo2e5jmxfwce5@t4chrpuk632k>
+ <CAMj1kXEZPe8zk7s67SADK9wVH3cfBup-sAZSC6_pJyng9QT7aw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 2383C1F38F
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- TO_DN_SOME(0.00)[]; ARC_NA(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCPT_COUNT_FIVE(0.00)[5];
- RCVD_TLS_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMj1kXEZPe8zk7s67SADK9wVH3cfBup-sAZSC6_pJyng9QT7aw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,66 +86,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ASTDP transmitter sometimes takes up to second for enabling the
-video signal, while the timeout is only 200 msec. This results in a
-kernel error message. Increase the timeout to 1 second. An example
-of the error message is shown below.
+On Wed, Jan 22, 2025 at 01:41:35PM +0100, Ard Biesheuvel wrote:
+> On Wed, 22 Jan 2025 at 13:25, Joel Granados <joel.granados@kernel.org> wrote:
+> >
+> > On Tue, Jan 21, 2025 at 02:40:16PM +0100, Alexander Gordeev wrote:
+> > > On Fri, Jan 10, 2025 at 03:16:08PM +0100, Joel Granados wrote:
+> > >
+> > > Hi Joel,
+> > >
+> > > > Add the const qualifier to all the ctl_tables in the tree except for
+> > > > watchdog_hardlockup_sysctl, memory_allocation_profiling_sysctls,
+> > > > loadpin_sysctl_table and the ones calling register_net_sysctl (./net,
+> > > > drivers/inifiniband dirs). These are special cases as they use a
+> > > > registration function with a non-const qualified ctl_table argument or
+> > > > modify the arrays before passing them on to the registration function.
+> > > >
+> > > > Constifying ctl_table structs will prevent the modification of
+> > > > proc_handler function pointers as the arrays would reside in .rodata.
+> > > > This is made possible after commit 78eb4ea25cd5 ("sysctl: treewide:
+> > > > constify the ctl_table argument of proc_handlers") constified all the
+> > > > proc_handlers.
+> > >
+> > > I could identify at least these occurences in s390 code as well:
+> > Hey Alexander
+> >
+> > Thx for bringing these to my attention. I had completely missed them as
+> > the spatch only deals with ctl_tables outside functions.
+> >
+> > Short answer:
+> > These should not be included in the current patch because they are a
+> > different pattern from how sysctl tables are usually used. So I will not
+> > include them.
+> >
+> > With that said, I think it might be interesting to look closer at them
+> > as they seem to be complicating the proc_handler (I have to look at them
+> > closer).
+> >
+> > I see that they are defining a ctl_table struct within the functions and
+> > just using the data (from the incoming ctl_table) to forward things down
+> > to proc_do{u,}intvec_* functions. This is very odd and I have only seen
+> > it done in order to change the incoming ctl_table (which is not what is
+> > being done here).
+> >
+> > I will take a closer look after the merge window and circle back with
+> > more info. Might take me a while as I'm not very familiar with s390
+> > code; any additional information on why those are being used inside the
+> > functions would be helpfull.
+> >
+> 
+> Using const data on the stack is not as useful, because the stack is
+> always mapped writable.
+> 
+> Global data structures marked 'const' will be moved into an ELF
+> section that is typically mapped read-only in its entirely, and so the
+> data cannot be modified by writing to it directly. No such protection
+> is possible for the stack, and so the constness there is only enforced
+> at compile time.
+I completely agree with you. No reason to use const within those
+functions. But why define those ctl_tables in function to begin with.
+Can't you just use the ones that are defined outside the functions?
 
-[  697.084433] ------------[ cut here ]------------
-[  697.091115] ast 0000:02:00.0: [drm] drm_WARN_ON(!__ast_dp_wait_enable(ast, enabled))
-[  697.091233] WARNING: CPU: 1 PID: 160 at drivers/gpu/drm/ast/ast_dp.c:232 ast_dp_set_enable+0x123/0x140 [ast]
-[...]
-[  697.272469] RIP: 0010:ast_dp_set_enable+0x123/0x140 [ast]
-[...]
-[  697.415283] Call Trace:
-[  697.420727]  <TASK>
-[  697.425908]  ? show_trace_log_lvl+0x196/0x2c0
-[  697.433304]  ? show_trace_log_lvl+0x196/0x2c0
-[  697.440693]  ? drm_atomic_helper_commit_modeset_enables+0x30a/0x470
-[  697.450115]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.458059]  ? __warn.cold+0xaf/0xca
-[  697.464713]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.472633]  ? report_bug+0x134/0x1d0
-[  697.479544]  ? handle_bug+0x58/0x90
-[  697.486127]  ? exc_invalid_op+0x13/0x40
-[  697.492975]  ? asm_exc_invalid_op+0x16/0x20
-[  697.500224]  ? preempt_count_sub+0x14/0xc0
-[  697.507473]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.515377]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.523227]  drm_atomic_helper_commit_modeset_enables+0x30a/0x470
-[  697.532388]  drm_atomic_helper_commit_tail+0x58/0x90
-[  697.540400]  ast_mode_config_helper_atomic_commit_tail+0x30/0x40 [ast]
-[  697.550009]  commit_tail+0xfe/0x1d0
-[  697.556547]  drm_atomic_helper_commit+0x198/0x1c0
+Best
 
-This is a cosmetical problem. Enabling the video signal still works
-even with the error message. The problem has always been present, but
-only recent versions of the ast driver warn about missing the timeout.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 4e29cc7c5c67 ("drm/ast: astdp: Replace ast_dp_set_on_off()")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.13+
----
- drivers/gpu/drm/ast/ast_dp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-index 30aad5c0112a1..2d7482a65f62a 100644
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -201,7 +201,7 @@ static bool __ast_dp_wait_enable(struct ast_device *ast, bool enabled)
- 	if (enabled)
- 		vgacrdf_test |= AST_IO_VGACRDF_DP_VIDEO_ENABLE;
- 
--	for (i = 0; i < 200; ++i) {
-+	for (i = 0; i < 1000; ++i) {
- 		if (i)
- 			mdelay(1);
- 		vgacrdf = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xdf,
 -- 
-2.48.1
 
+Joel Granados
