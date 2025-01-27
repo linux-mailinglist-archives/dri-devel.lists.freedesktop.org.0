@@ -2,83 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49102A1D8D0
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:56:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED94A1D8E3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:57:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CDE210E31A;
-	Mon, 27 Jan 2025 14:56:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E22910E55F;
+	Mon, 27 Jan 2025 14:57:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BuKj0iHJ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YSi/8SA8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BBD610E562;
- Mon, 27 Jan 2025 14:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737989774; x=1769525774;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=jgZ2GO8S3cXCdWyE6ZvOdFoqm0rhCqZC3ICQKad44uQ=;
- b=BuKj0iHJ48Gx+nTZ/8FZ/okqJRToh+XsyoHplzTwQ+49LCIKjgiRunw5
- 0v7gJPzAVmUIs1jIcj/fpIqcc6UBScS52OI5ly11dKE2WiWov9bZn9Duz
- 8OwncxnsZ45Ki5HDNpVBInsGEwFAOn+lZJ9Jqxa9yDWFQSpAFU8a1ifdn
- UpATii2MmiwSOtqa8mWDYW0vHkA5GgDYn6kPuEElSXK/Hfc6CBp4j+HT1
- IoDGPxpe5LZDUjhxVQzmK2PW9EXN6JmyazBexskA+EB4knuAV2//ekw2F
- HQPpR1sNy1+PFJkrgc8l1yb6P2831a8UGIQ11zIAMVyZeuElG+Kt2iUXn Q==;
-X-CSE-ConnectionGUID: x03Trv7TSV+XgDi9IGSe1w==
-X-CSE-MsgGUID: M3kWjM5/TNar7uQN/tBXjg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="49104684"
-X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; d="scan'208";a="49104684"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2025 06:56:13 -0800
-X-CSE-ConnectionGUID: Z9Coz29cQ6uqfPwc/L4sHg==
-X-CSE-MsgGUID: XE2pskZGQO2Q6A9y4rThjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113598177"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.14])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2025 06:56:01 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Joel Granados <joel.granados@kernel.org>, Ard Biesheuvel <ardb@kernel.org>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>, Thomas =?utf-8?Q?Wei=C3=9F?=
- =?utf-8?Q?schuh?=
- <linux@weissschuh.net>, Kees Cook <kees@kernel.org>, Luis Chamberlain
- <mcgrof@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-crypto@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-raid@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-aio@kvack.org,
- linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev,
- codalist@coda.cs.cmu.edu, linux-mm@kvack.org, linux-nfs@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, fsverity@lists.linux.dev,
- linux-xfs@vger.kernel.org, io-uring@vger.kernel.org, bpf@vger.kernel.org,
- kexec@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, keyrings@vger.kernel.org, Song Liu
- <song@kernel.org>, "Steven Rostedt (Google)" <rostedt@goodmis.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, "Darrick J. Wong"
- <djwong@kernel.org>, Corey Minyard <cminyard@mvista.com>
-Subject: Re: Re: Re: [PATCH v2] treewide: const qualify ctl_tables where
- applicable
-In-Reply-To: <f4lfo2fb7ajogucsvisfd5sg2avykavmkizr6ycsllcrco4mo3@qt2zx4zp57zh>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250110-jag-ctl_table_const-v2-1-0000e1663144@kernel.org>
- <Z4+jwDBrZNRgu85S@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
- <nslqrapp4v3rknjgtfk4cg64ha7rewrrg24aslo2e5jmxfwce5@t4chrpuk632k>
- <CAMj1kXEZPe8zk7s67SADK9wVH3cfBup-sAZSC6_pJyng9QT7aw@mail.gmail.com>
- <f4lfo2fb7ajogucsvisfd5sg2avykavmkizr6ycsllcrco4mo3@qt2zx4zp57zh>
-Date: Mon, 27 Jan 2025 16:55:58 +0200
-Message-ID: <87jzag9ugx.fsf@intel.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8B110E55F
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1737989845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tdwovyvccT3HDsQ77VRqbigxA3O31jTQTH9Ia6EasO4=;
+ b=YSi/8SA8AicZeUlv46pH6M0gUdH0F52hAnd5EN6IXF0UDgKfKbKbcKO3idWWP8JC67HvKN
+ dAI1/95HGjf4J6KoefYy8sAHZwYpqHvFPVrNeYAlEPL0Rhb02+o6jNrEspV929zvhAlVWh
+ ZzSutWN898K0fiwj2XRVbphPX9+wKrw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-68-Pf2Y0yIVOoCrzS4uWfs7_w-1; Mon, 27 Jan 2025 09:57:24 -0500
+X-MC-Unique: Pf2Y0yIVOoCrzS4uWfs7_w-1
+X-Mimecast-MFC-AGG-ID: Pf2Y0yIVOoCrzS4uWfs7_w
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-38634103b0dso2340990f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:57:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737989843; x=1738594643;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=tdwovyvccT3HDsQ77VRqbigxA3O31jTQTH9Ia6EasO4=;
+ b=B9gzPv+2jaiQbyCldph/DGEq18TRNuWUj6TvwUmJyWLCPF2vr9JaShojyFYlGSG6oO
+ Gt69jZiOv/EhzF7yaxhjyWPkOEOoeRTr0yYDEq53W5xjkQszYh4uRmHzLIk4dC045t6U
+ IXZgJ6F1/304wP00ZLjgxK58hPXP5AMQSJWfkgFRAf5s7JxnIPKwWPguAR2wmeLP1vR6
+ SOc2CUBbovLO+F6dU4r5gJuJ/PSdOm2Iaxx3Z2on3hk0Jg7JKV3fW8peKqk0Y0Xf1Ia8
+ 5cHufhy2R/k1LuIhQYSm+2WS8EAp4JL75oZx/Nh44NIOA3ZXYa9VjFWa8v6fbnNtPKVp
+ 84OQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVN3FPh0l1En6qi4ub4AI5J4iRWvy8U/sO0gb/7vDHLy4fPn9oHPUCJCAfmB+uYeeF8c4Va8nRa9XQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz7/+MaUPMsgi06qxwzDqy1I3pYAABpLjdXu+QAeVGKED69p5Fu
+ KmLzwmXI5RK3kFRifzY7X6QJmvLdKw7tMVmvgINloecfzDK/2bKJh+vvMvQ8dh4bAbDbhn9vU2k
+ 6NDiA+tNInjlCJkJE8c6p9s9+1nbZC6/gypZHp5zWig6/T7bZUKApmlBzAdJ5lIAe1w==
+X-Gm-Gg: ASbGncsE069TAtTgzlxVrCgxxTUcQZzCQgBCxxeFxxrrZf22CKPkQ51+dGy5PqbFS44
+ 8cyx/P0Vyqxtk25yX0+8FMyG8PfoWbxmvMP55MeVOFOenc6qfjwOU1JouRgaVLowrasaYwITrxK
+ wi46pq4ADt+VgOU8eeawtQE9CaDctDrNtDQu+CJrOinYXkKhr4vhdimXPzL+Gf70OJT0hBdVAVw
+ BeUxyGsa8mXecxthHJ2PbLy1IwXfS+53h+NxN5gyO4FRXQNk2cUaZm0eWQqX/LXmkUojM/sszlv
+ zlX6tn/TtvuxpPcCKQE9fZtm20X7S+L/cu6I9hVdioYv
+X-Received: by 2002:a5d:47c9:0:b0:386:416b:9c69 with SMTP id
+ ffacd0b85a97d-38bf5662912mr42606268f8f.16.1737989842592; 
+ Mon, 27 Jan 2025 06:57:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEXYFV7RrImuxMMCysWCqp5HQNiDafEqA/7v8uguCi5ysmMMR68BnCyCYVHkvHdW1xdunf1DA==
+X-Received: by 2002:a5d:47c9:0:b0:386:416b:9c69 with SMTP id
+ ffacd0b85a97d-38bf5662912mr42606233f8f.16.1737989842060; 
+ Mon, 27 Jan 2025 06:57:22 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c2a1c4006sm11408787f8f.94.2025.01.27.06.57.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jan 2025 06:57:21 -0800 (PST)
+Message-ID: <1febad0b-b935-4ee7-8030-3e9011e603b8@redhat.com>
+Date: Mon, 27 Jan 2025 15:57:21 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 13/15] drm/ast: astdp: Rework display-mode setting
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ dri-devel@lists.freedesktop.org
+References: <20250124080546.9956-1-tzimmermann@suse.de>
+ <20250124080546.9956-14-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250124080546.9956-14-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JORpFe1aR4ICy-gqb8cI9s893u1UgzRb4yQcKWgvpQQ_1737989843
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,73 +102,274 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Jan 2025, Joel Granados <joel.granados@kernel.org> wrote:
-> On Wed, Jan 22, 2025 at 01:41:35PM +0100, Ard Biesheuvel wrote:
->> On Wed, 22 Jan 2025 at 13:25, Joel Granados <joel.granados@kernel.org> wrote:
->> >
->> > On Tue, Jan 21, 2025 at 02:40:16PM +0100, Alexander Gordeev wrote:
->> > > On Fri, Jan 10, 2025 at 03:16:08PM +0100, Joel Granados wrote:
->> > >
->> > > Hi Joel,
->> > >
->> > > > Add the const qualifier to all the ctl_tables in the tree except for
->> > > > watchdog_hardlockup_sysctl, memory_allocation_profiling_sysctls,
->> > > > loadpin_sysctl_table and the ones calling register_net_sysctl (./net,
->> > > > drivers/inifiniband dirs). These are special cases as they use a
->> > > > registration function with a non-const qualified ctl_table argument or
->> > > > modify the arrays before passing them on to the registration function.
->> > > >
->> > > > Constifying ctl_table structs will prevent the modification of
->> > > > proc_handler function pointers as the arrays would reside in .rodata.
->> > > > This is made possible after commit 78eb4ea25cd5 ("sysctl: treewide:
->> > > > constify the ctl_table argument of proc_handlers") constified all the
->> > > > proc_handlers.
->> > >
->> > > I could identify at least these occurences in s390 code as well:
->> > Hey Alexander
->> >
->> > Thx for bringing these to my attention. I had completely missed them as
->> > the spatch only deals with ctl_tables outside functions.
->> >
->> > Short answer:
->> > These should not be included in the current patch because they are a
->> > different pattern from how sysctl tables are usually used. So I will not
->> > include them.
->> >
->> > With that said, I think it might be interesting to look closer at them
->> > as they seem to be complicating the proc_handler (I have to look at them
->> > closer).
->> >
->> > I see that they are defining a ctl_table struct within the functions and
->> > just using the data (from the incoming ctl_table) to forward things down
->> > to proc_do{u,}intvec_* functions. This is very odd and I have only seen
->> > it done in order to change the incoming ctl_table (which is not what is
->> > being done here).
->> >
->> > I will take a closer look after the merge window and circle back with
->> > more info. Might take me a while as I'm not very familiar with s390
->> > code; any additional information on why those are being used inside the
->> > functions would be helpfull.
->> >
->> 
->> Using const data on the stack is not as useful, because the stack is
->> always mapped writable.
->> 
->> Global data structures marked 'const' will be moved into an ELF
->> section that is typically mapped read-only in its entirely, and so the
->> data cannot be modified by writing to it directly. No such protection
->> is possible for the stack, and so the constness there is only enforced
->> at compile time.
-> I completely agree with you. No reason to use const within those
-> functions. But why define those ctl_tables in function to begin with.
-> Can't you just use the ones that are defined outside the functions?
+On 24/01/2025 08:57, Thomas Zimmermann wrote:
+> ASTDP requires a mode index, depending on the resolution. Move the
+> look-up code from ast_dp_set_mode() into a separate helper. Inline
+> the rest of the function into its only caller. Rename the variable
+> names and register constants to match the programming manual.
+> 
+> As before, the mode-index lookup still happens during the update's
+> atomic commit. Right now, there's no way of doing it during the atomic
+> check. The lookup requires the VBIOS mode, which is not available at
+> the atomic check's invocation. At least warn now if the mode index
+> could not be found.
 
-You could have static const within functions too. You get the rodata
-protection and function local scope, best of both worlds?
+It looks good to me, I have one small comment below.
 
-BR,
-Jani.
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>   drivers/gpu/drm/ast/ast_dp.c  | 172 +++++++++++++++++++---------------
+>   drivers/gpu/drm/ast/ast_reg.h |  18 +---
+>   2 files changed, 100 insertions(+), 90 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 08c811f3ce342..fe122828665fb 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -14,6 +14,82 @@
+>   #include "ast_drv.h"
+>   #include "ast_vbios.h"
+>   
+> +static int ast_astdp_get_mode_index(const struct ast_vbios_enhtable *vmode)
+> +{
+> +	u8 refresh_rate_index;
+> +
+> +	if (vmode->refresh_rate_index < 1 || vmode->refresh_rate_index > 255)
+> +		return -EINVAL;
+> +
+> +	refresh_rate_index = vmode->refresh_rate_index - 1;
+> +
+> +	switch (vmode->hde) {
+> +	case 320:
+> +		if (vmode->vde == 240)
+> +			return ASTDP_320x240_60;
+> +		break;
+
+I find the switch() code introduces a lot of useless verbosity.
+I would prefer something like this:
+
+if (vmode->hde == 240 && vmode->vde == 240)
+	return ASTDP_320x240_60;
+else if (vmode->hde == 400 && vmode->vde == 300)
+	return ASTDP_400x300_60;
 
 
--- 
-Jani Nikula, Intel
+> +	case 400:
+> +		if (vmode->vde == 300)
+> +			return ASTDP_400x300_60;
+> +		break;
+> +	case 512:
+> +		if (vmode->vde == 384)
+> +			return ASTDP_512x384_60;
+> +		break;
+> +	case 640:
+> +		if (vmode->vde == 480)
+> +			return (u8)(ASTDP_640x480_60 + (u8)refresh_rate_index);
+> +		break;
+> +	case 800:
+> +		if (vmode->vde == 600)
+> +			return (u8)(ASTDP_800x600_56 + (u8)refresh_rate_index);
+> +		break;
+> +	case 1024:
+> +		if (vmode->vde == 768)
+> +			return (u8)(ASTDP_1024x768_60 + (u8)refresh_rate_index);
+> +		break;
+> +	case 1152:
+> +		if (vmode->vde == 864)
+> +			return ASTDP_1152x864_75;
+> +		break;
+> +	case 1280:
+> +		if (vmode->vde == 800)
+> +			return (u8)(ASTDP_1280x800_60_RB - (u8)refresh_rate_index);
+> +		if (vmode->vde == 1024)
+> +			return (u8)(ASTDP_1280x1024_60 + (u8)refresh_rate_index);
+> +		break;
+> +	case 1360:
+> +	case 1366:
+> +		if (vmode->vde == 768)
+> +			return ASTDP_1366x768_60;
+> +		break;
+> +	case 1440:
+> +		if (vmode->vde == 900)
+> +			return (u8)(ASTDP_1440x900_60_RB - (u8)refresh_rate_index);
+> +		break;
+> +	case 1600:
+> +		if (vmode->vde == 900)
+> +			return (u8)(ASTDP_1600x900_60_RB - (u8)refresh_rate_index);
+> +		if (vmode->vde == 1200)
+> +			return ASTDP_1600x1200_60;
+> +		break;
+> +	case 1680:
+> +		if (vmode->vde == 1050)
+> +			return (u8)(ASTDP_1680x1050_60_RB - (u8)refresh_rate_index);
+> +		break;
+> +	case 1920:
+> +		if (vmode->vde == 1080)
+> +			return ASTDP_1920x1080_60;
+> +		if (vmode->vde == 1200)
+> +			return ASTDP_1920x1200_60;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+>   static bool ast_astdp_is_connected(struct ast_device *ast)
+>   {
+>   	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, AST_IO_VGACRDF_HPD))
+> @@ -222,80 +298,6 @@ static void ast_dp_set_enable(struct ast_device *ast, bool enabled)
+>   	drm_WARN_ON(dev, !__ast_dp_wait_enable(ast, enabled));
+>   }
+>   
+> -static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode)
+> -{
+> -	struct ast_device *ast = to_ast_device(crtc->dev);
+> -
+> -	u32 ulRefreshRateIndex;
+> -	u8 ModeIdx;
+> -
+> -	ulRefreshRateIndex = vbios_mode->enh_table->refresh_rate_index - 1;
+> -
+> -	switch (crtc->mode.crtc_hdisplay) {
+> -	case 320:
+> -		ModeIdx = ASTDP_320x240_60;
+> -		break;
+> -	case 400:
+> -		ModeIdx = ASTDP_400x300_60;
+> -		break;
+> -	case 512:
+> -		ModeIdx = ASTDP_512x384_60;
+> -		break;
+> -	case 640:
+> -		ModeIdx = (ASTDP_640x480_60 + (u8) ulRefreshRateIndex);
+> -		break;
+> -	case 800:
+> -		ModeIdx = (ASTDP_800x600_56 + (u8) ulRefreshRateIndex);
+> -		break;
+> -	case 1024:
+> -		ModeIdx = (ASTDP_1024x768_60 + (u8) ulRefreshRateIndex);
+> -		break;
+> -	case 1152:
+> -		ModeIdx = ASTDP_1152x864_75;
+> -		break;
+> -	case 1280:
+> -		if (crtc->mode.crtc_vdisplay == 800)
+> -			ModeIdx = (ASTDP_1280x800_60_RB - (u8) ulRefreshRateIndex);
+> -		else		// 1024
+> -			ModeIdx = (ASTDP_1280x1024_60 + (u8) ulRefreshRateIndex);
+> -		break;
+> -	case 1360:
+> -	case 1366:
+> -		ModeIdx = ASTDP_1366x768_60;
+> -		break;
+> -	case 1440:
+> -		ModeIdx = (ASTDP_1440x900_60_RB - (u8) ulRefreshRateIndex);
+> -		break;
+> -	case 1600:
+> -		if (crtc->mode.crtc_vdisplay == 900)
+> -			ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
+> -		else		//1200
+> -			ModeIdx = ASTDP_1600x1200_60;
+> -		break;
+> -	case 1680:
+> -		ModeIdx = (ASTDP_1680x1050_60_RB - (u8) ulRefreshRateIndex);
+> -		break;
+> -	case 1920:
+> -		if (crtc->mode.crtc_vdisplay == 1080)
+> -			ModeIdx = ASTDP_1920x1080_60;
+> -		else		//1200
+> -			ModeIdx = ASTDP_1920x1200_60;
+> -		break;
+> -	default:
+> -		return;
+> -	}
+> -
+> -	/*
+> -	 * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
+> -	 * CRE1[7:0]: MISC1 (default: 0x00)
+> -	 * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
+> -	 */
+> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE0, ASTDP_AND_CLEAR_MASK,
+> -			       ASTDP_MISC0_24bpp);
+> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE1, ASTDP_AND_CLEAR_MASK, ASTDP_MISC1);
+> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE2, ASTDP_AND_CLEAR_MASK, ModeIdx);
+> -}
+> -
+>   static void ast_wait_for_vretrace(struct ast_device *ast)
+>   {
+>   	unsigned long timeout = jiffies + HZ;
+> @@ -318,11 +320,29 @@ static void ast_astdp_encoder_helper_atomic_mode_set(struct drm_encoder *encoder
+>   						     struct drm_crtc_state *crtc_state,
+>   						     struct drm_connector_state *conn_state)
+>   {
+> -	struct drm_crtc *crtc = crtc_state->crtc;
+> +	struct drm_device *dev = encoder->dev;
+> +	struct ast_device *ast = to_ast_device(dev);
+>   	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
+>   	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
+> +	int mode_index;
+> +	u8 vgacre0, vgacre1, vgacre2;
+> +
+> +	mode_index = ast_astdp_get_mode_index(vbios_mode_info->enh_table);
+> +	if (drm_WARN_ON(dev, mode_index < 0))
+> +		return;
+> +
+> +	/*
+> +	 * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
+> +	 * CRE1[7:0]: MISC1 (default: 0x00)
+> +	 * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
+> +	 */
+> +	vgacre0 = AST_IO_VGACRE0_24BPP;
+> +	vgacre1 = 0x00;
+> +	vgacre2 = mode_index & 0xff;
+>   
+> -	ast_dp_set_mode(crtc, vbios_mode_info);
+> +	ast_set_index_reg(ast, AST_IO_VGACRI, 0xe0, vgacre0);
+> +	ast_set_index_reg(ast, AST_IO_VGACRI, 0xe1, vgacre1);
+> +	ast_set_index_reg(ast, AST_IO_VGACRI, 0xe2, vgacre2);
+>   }
+>   
+>   static void ast_astdp_encoder_helper_atomic_enable(struct drm_encoder *encoder,
+> diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
+> index 9db0d584652a4..bb2cc1d8b84ea 100644
+> --- a/drivers/gpu/drm/ast/ast_reg.h
+> +++ b/drivers/gpu/drm/ast/ast_reg.h
+> @@ -57,10 +57,14 @@
+>   #define AST_IO_VGACRD1_TX_ASTDP			0x0e
+>   #define AST_IO_VGACRD1_SUPPORTS_WUXGA		BIT(0)
+>   
+> +/*
+> + * AST DisplayPort
+> + */
+>   #define AST_IO_VGACRD7_EDID_VALID_FLAG	BIT(0)
+>   #define AST_IO_VGACRDC_LINK_SUCCESS	BIT(0)
+>   #define AST_IO_VGACRDF_HPD		BIT(0)
+>   #define AST_IO_VGACRDF_DP_VIDEO_ENABLE	BIT(4) /* mirrors AST_IO_VGACRE3_DP_VIDEO_ENABLE */
+> +#define AST_IO_VGACRE0_24BPP		BIT(5) /* 18 bpp, if unset  */
+>   #define AST_IO_VGACRE3_DP_VIDEO_ENABLE	BIT(0)
+>   #define AST_IO_VGACRE3_DP_PHY_SLEEP	BIT(4)
+>   #define AST_IO_VGACRE5_EDID_READ_DONE	BIT(0)
+> @@ -68,18 +72,4 @@
+>   #define AST_IO_VGAIR1_R			(0x5A)
+>   #define AST_IO_VGAIR1_VREFRESH		BIT(3)
+>   
+> -/*
+> - * AST DisplayPort
+> - */
+> -
+> -/*
+> - * ASTDP setmode registers:
+> - * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
+> - * CRE1[7:0]: MISC1 (default: 0x00)
+> - * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
+> - */
+> -#define ASTDP_MISC0_24bpp		BIT(5)
+> -#define ASTDP_MISC1			0
+> -#define ASTDP_AND_CLEAR_MASK		0x00
+> -
+>   #endif
+
