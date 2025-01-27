@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E47EA1D134
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 08:07:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15A6A1D13D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 08:11:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743FC10E132;
-	Mon, 27 Jan 2025 07:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB3410E495;
+	Mon, 27 Jan 2025 07:11:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IZ3yAWrb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F6oRl9wP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A36410E132
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 07:07:14 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBEF810E495
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 07:11:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1DEC75C0C3F;
- Mon, 27 Jan 2025 07:06:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF15DC4CEE4;
- Mon, 27 Jan 2025 07:07:05 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 4EAA2A40B80;
+ Mon, 27 Jan 2025 07:09:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26554C4CED2;
+ Mon, 27 Jan 2025 07:11:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1737961633;
- bh=9Ez1zOChWlmyhAFXJELL4Q+Ba8u7zI70k04btQJ7GY0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=IZ3yAWrbH0ux0vOf0oP6c8x4wyiAhU+pzINvZTmepJq8amVfhad2FZTMJ3Pfam/B3
- hBvyREeMomlzBmyiw1+EhdtrYAendqzX2erOtad0dQiSG8N3ZaGT8wezgigwHKYddf
- zFwQiVkPOBwtXK2fW/ypHzo2doKJ6qbzAjEjt2tXpntOeunKP239ejfuiYurMjqXpw
- 3KEdYFnyxzL3E+nh+3FxoAS++7hc/NxEhwZz63y7yM1zKTbdXELeJlpJ1C+Y0BoSky
- dKVRLHV+Hz6zFy+vf6EHcp8/VGAsg3vkI2UfTpsajcLiPCOyn276K4vqs9LvTSADAe
- b37EheV7PDmBA==
-Date: Mon, 27 Jan 2025 08:07:03 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Leonardo =?UTF-8?B?QnLDoXM=?= <leobras.c@gmail.com>, Nicolas Dufresne
- <nicolas.dufresne@collabora.com>, Vignesh Raman
- <vignesh.raman@collabora.com>, kernelci@lists.linux.dev,
- linuxtv-ci@linuxtv.org, dave.pigott@collabora.com, mripard@kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, pawiecz@collabora.com,
- tales.aparecida@gmail.com, workflows@vger.kernel.org,
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com,
- cocci@inria.fr, Julia.Lawall@inria.fr, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org,
- daniels@collabora.com, shreeya.patel@collabora.com, denys.f@collabora.com,
- louis.chauvet@bootlin.com, hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- simona@ffwll.ch, airlied@gmail.com, Tim.Bird@sony.com, broonie@kernel.org,
- groeck@google.com, rdunlap@infradead.org, geert@linux-m68k.org,
- michel.daenzer@mailbox.org, sakari.ailus@iki.fi, jarkko@kernel.org
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-Message-ID: <20250127080618.55f5f915@foz.lan>
-In-Reply-To: <20250127060738.GA16795@pendragon.ideasonboard.com>
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
- <20250124135203.040d0852@foz.lan>
- <20250124130021.GA6853@pendragon.ideasonboard.com>
- <f1c73327073c98ade56dfeabf629e2f9cd7d1663.camel@collabora.com>
- <bd37528d1c704951cb86a751a5c81e4c76962f51.camel@gmail.com>
- <20250127060738.GA16795@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ s=k20201202; t=1737961868;
+ bh=jbkElb41o2w2SgRe5NYxjMlK/n+hh4hoG0XCEvONDAM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=F6oRl9wP89kPQeMRFuTaBziV7+Jsk1lIrGW7359vj32IsgNEVOWb4e065UCtIovJj
+ 44fhprrhyJZaaQ7jICFLivbD1Cj6V4U6V1zAsb9Y9FSnzxJUV/5EfEjsyfbeIbmZuL
+ DjSLyekX7NpIRUNSNtMsn2Aa52yGu7sHGHbAOkUAmoavj54vL6jM9S+SRIP2jvRiv/
+ L3OWcqxUUe6c4bIB2sMnWpoTSZjvkOuYhNE9OvPsNqrP4hRmbfVk24KLKrjCmeyXol
+ WX+mXTk7JtmelYLTUBJH6FIgzTgsVqfdNOOD8EXHcVk4ArMtlBmSEfvlV4rVXBFDeS
+ KGrGYInEo5clg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/hisilicon/hibmc: select CONFIG_DRM_DISPLAY_DP_HELPER
+Date: Mon, 27 Jan 2025 08:10:02 +0100
+Message-Id: <20250127071059.617567-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,108 +62,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Em Mon, 27 Jan 2025 08:07:38 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+From: Arnd Bergmann <arnd@arndb.de>
 
-> On Fri, Jan 24, 2025 at 06:12:24PM -0300, Leonardo Br=C3=A1s wrote:
-> > On Fri, 2025-01-24 at 10:45 -0500, Nicolas Dufresne wrote: =20
-> > > Le vendredi 24 janvier 2025 =C3=A0 15:00 +0200, Laurent Pinchart a =
-=C3=A9crit=C2=A0: =20
-> > > > On Fri, Jan 24, 2025 at 01:52:03PM +0100, Mauro Carvalho Chehab wro=
-te: =20
-> > > > > Em Fri, 24 Jan 2025 10:12:50 +0200 Laurent Pinchart escreveu:
-> > > > >  =20
-> > > > > > > It's been a few years since I first thought on finding a good=
- way of helping
-> > > > > > > kernel developers testing their patches, while making use of =
-the free runner
-> > > > > > > minutes Gitlab offers. It can greatly simplify the testing fo=
-r people who are
-> > > > > > > new to kernel development, or students trying to understand i=
-t better.
-> > > > > > >=20
-> > > > > > > And this patchset allows that to happen :)
-> > > > > > >=20
-> > > > > > > Actually, I spoke to Helen last year, and to enable it to run=
- on the free
-> > > > > > > Gitlab-CI runners, there is a small extra patch which is need=
-ed:
-> > > > > > >=20
-> > > > > > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@r=
-edhat.com/   =20
-> > > > >=20
-> > > > > Sounds interesting!
-> > > > >  =20
-> > > > > > Gitlab as an open-source software project (the community editio=
-n) is one
-> > > > > > thing, but can we please avoid advertising specific proprietary=
- services
-> > > > > > in the kernel documentation ? =20
-> > > > >=20
-> > > > > Every time Gitlab is mentioned, the brand of the company that
-> > > > > developed it and has been providing proprietary services is also
-> > > > > advertised. If you're not happy with that, you should move to use
-> > > > > a git forge developed by some open source community. =20
-> > > >=20
-> > > > I'm fine mentioning the gitlab community edition, I'm not fine
-> > > > advertising gitlab.com SaaS in the kernel source tree. =20
-> >=20
-> > Hello Laurent,
-> >=20
-> > I see your point, and I see no issue on removing the two last lines of =
-CI_TAGS
-> > documentation.
-> >=20
-> > I just added this information on documentation because the default runn=
-er used
-> > for the Free Tier of Gitlab does not work for this CI, as it needs more
-> > resources to run. This information can be added on some other place, bu=
-t at the
-> > time I thought it would be ok to let it be there.=C2=A0
-> > This other runner I mentioned in the patch is also available on the Fre=
-e Tier
-> > (free as in beer).
-> >=20
-> > I would like to make it clear that I have no connection/affiliation to =
-Gitlab,
-> > other than a free account in their system, which I use for some CI. I h=
-ave no
-> > interest on advertising anything from them.
-> >=20
-> > My only objective is to make it easier to hobbyists/beginners to use th=
-ose
-> > available free minutes to test some change before sending the patch, if=
- they
-> > think that's valuable. =20
->=20
-> Given the 400 free computes minute per month, and the fact that the
-> saas-linux-medium-amd64 runner consumers two minutes per minute, how
-> many of the proposed CI runs would be available per month ?
->=20
-> CI pipeline runs always compile the kernel from scratch as far as  can
-> see. This may not be an issue for final testing before submission of a
-> patch series, but it just won't work for incremental testing of changes.
-> Think of how inefficient it would be to run a full pipeline just to get
-> the checkpatch.pl output for instance. This is why I believe tests
-> should focus first and foremost on ease of use in developers' local
-> environments. A standardized, from-scratch, comprehensive test run as a
-> gate keeper for integration has value as well, but that won't help
-> beginners much.
+Without the DP helper code, the newly added displayport support
+causes a link failure:
 
-To better cope with free minutes, CI pipelines should allow setting
-up build just the subsystem instead of the entire Kernel. Not perfect,
-but still if CI would test multiple archs/Kconfig options, it would
-be useful to get early lots of potential issues.
+x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.o: in function `hibmc_dp_aux_init':
+dp_aux.c:(.text+0x37e): undefined reference to `drm_dp_aux_init'
+x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.o: in function `hibmc_dp_link_set_pattern':
+dp_link.c:(.text+0xae): undefined reference to `drm_dp_dpcd_write'
+x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.o: in function `hibmc_dp_link_get_adjust_train':
+dp_link.c:(.text+0x121): undefined reference to `drm_dp_get_adjust_request_voltage'
+x86_64-linux-ld: dp_link.c:(.text+0x12e): undefined reference to `drm_dp_get_adjust_request_pre_emphasis'
+x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.o: in function `hibmc_dp_link_training':
+dp_link.c:(.text+0x2b0): undefined reference to `drm_dp_dpcd_write'
+x86_64-linux-ld: dp_link.c:(.text+0x2e3): undefined reference to `drm_dp_dpcd_write'
 
-That's said, using developers' local environments is interesting.
-Yet, there's s potential risk of using it while having an external
-entity running a git forge, as it would mean that a remote entity
-would trigger something to run locally. Personally, I would=20
+Add both DRM_DISPLAY_DP_HELPER and DRM_DISPLAY_HELPER, which is
+in turn required by the former.
 
-So, if I were to setup a local build environment, I would either use
-a separate machine outside my internal network or I would opt to
-install a local git forge instance. No idea how easy/hard would
-be to maintain such local gitlab instance.
+Fixes: 0ab6ea261c1f ("drm/hisilicon/hibmc: add dp module in hibmc")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/gpu/drm/hisilicon/hibmc/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks,
-Mauro
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/Kconfig b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+index 93b8d32e3be1..98d77d74999d 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/Kconfig
++++ b/drivers/gpu/drm/hisilicon/hibmc/Kconfig
+@@ -4,6 +4,8 @@ config DRM_HISI_HIBMC
+ 	depends on DRM && PCI
+ 	depends on MMU
+ 	select DRM_CLIENT_SELECTION
++	select DRM_DISPLAY_HELPER
++	select DRM_DISPLAY_DP_HELPER
+ 	select DRM_KMS_HELPER
+ 	select DRM_VRAM_HELPER
+ 	select DRM_TTM
+-- 
+2.39.5
+
