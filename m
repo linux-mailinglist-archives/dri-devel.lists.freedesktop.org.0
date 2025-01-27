@@ -2,91 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B1A0A1D8EA
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 16:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666FCA1D964
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 16:21:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5842110E561;
-	Mon, 27 Jan 2025 15:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF9A310E564;
+	Mon, 27 Jan 2025 15:21:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SFLtKq4K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y4qd6Rq7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 880CB10E561
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 15:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737990026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gL4ivAEBy+rkX5TT5U6iBPpNY7Sub1rewlEGzzmdt24=;
- b=SFLtKq4K02B5ii/lHq1KxADmgjrKxsLPHfovgGLiDWIw9ekOT/E1PdBAY4cBOdMbjUHvCS
- WArsTHpGd00TtetlCzcpaV3sz/RfkhsnrwtXOpOVBJ92VeUOd0N4+czNZAz/4yGFRbNPW9
- ifk02TdR1J6Vf3JjrayY2hqSMfllL/4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-112-3YbF2hsYODGShL6IO6pgOA-1; Mon, 27 Jan 2025 10:00:25 -0500
-X-MC-Unique: 3YbF2hsYODGShL6IO6pgOA-1
-X-Mimecast-MFC-AGG-ID: 3YbF2hsYODGShL6IO6pgOA
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-38c24ac3415so3727413f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 07:00:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737990023; x=1738594823;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gL4ivAEBy+rkX5TT5U6iBPpNY7Sub1rewlEGzzmdt24=;
- b=VN+f4nq64oIEfGwYIuQ24kETiXacZ1XkTyzGXiEG34UvMpBrvER9OuRIvZU1dNmeZa
- kFACwCqZbcIKv3spfwTiMoBAIGKwtKf3SZqnASUKA8Xl9WLZNyPxLs0JVZ6snMrLMiNa
- bU6qVPi/dgLIpjeur1Fm0X2neykBNNtRGqjy5HB9q2w5JcjZMmzVp2ohN9TFZAXSPC/t
- JqouImXmuOfnZkMRiMmZVN7fpbItXtoFFSUovMAMDlI8ZXmPl3wlcJY6JxOeC5wEwIWE
- XdOWo9z+uAr+FKCmgE8YZvXAsCG6olkFz0IAaf6tmSfQzppbJvHUq0n2LFZGUa3mU6qL
- v8uA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVClZiPFEkwp8BiF53o/UQjVyqENVthdSeYa4k4om/CnpaHMuzO5WmEFRKiKH9bA9pfQ6lFRRqRuX8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxe0SISwNA+AwMiMEkxN+BmT1n56M27ZwO4QvK8amAZFD6bnmfo
- eNG5+cU63fnISZ/2QYX6RNu1dj2+msVwZ8ukkkD5ueFf0oOg4MGdOfd6saC+svRN3fNKyk0Tj25
- b81+PxSfPqUC/d9Y4HBixzLUdyDiSXzJUug3Zye3UAOi2QqW9XCP5bCQmVf3hBd7vRQ==
-X-Gm-Gg: ASbGncsC+OaFu7E8xWm+G1AlQAHg1s6nKtq/qWgmLRL3dbdzirYomIU8YLAOaD51fnp
- WQ0TAmRf+TdQxNxvJZrWc2umYt46XMZxJG/rHYkJi5Ct+8VOxPusSkNHdodMTUzFIxWagd5ZbNY
- 2SqfNTMjpD69oOJ7kYxN9h15eBmWcVxDNpIjuJ2coJRi0ardsK/AM0G43XvY1mhbm2CtjSMeVNV
- XkdmAwC6qgXVfSveJIGgWPIfJ4xE/VuRc1ep3X4RcksNLMTzeDkXJWC7LOWbeTTX4IxmOAHNiz0
- lxFO9Du4cXqHID2V4Ekiuk4/fFZOn6rOmnhXov+BNXpj
-X-Received: by 2002:a05:6000:1a85:b0:38a:88f8:aac6 with SMTP id
- ffacd0b85a97d-38bf57a77c7mr42742764f8f.41.1737990022879; 
- Mon, 27 Jan 2025 07:00:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHxP93OjSX/fRhkv3usut3ywBMVkcV7QWVRuOMaMwVbTnT8Cr2Ustq4X6X9mWLh3GMUaVss7A==
-X-Received: by 2002:a05:6000:1a85:b0:38a:88f8:aac6 with SMTP id
- ffacd0b85a97d-38bf57a77c7mr42742729f8f.41.1737990022482; 
- Mon, 27 Jan 2025 07:00:22 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a1c4295sm11542778f8f.91.2025.01.27.07.00.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jan 2025 07:00:22 -0800 (PST)
-Message-ID: <99176bf3-9ff1-4fd5-90a0-88ba73b5fb56@redhat.com>
-Date: Mon, 27 Jan 2025 16:00:21 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5590610E564;
+ Mon, 27 Jan 2025 15:21:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1737991268; x=1769527268;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=br5CnArb+fohQiflJ1xaEDt09kxgvePXIEhap5j5zLU=;
+ b=Y4qd6Rq7AuIlGn9t5FHDS2LAsR/OToo9fW0LvMjHhra8cGskBujNfo3u
+ km5N4CbMTUTCwdqfGCQHbx+HZodU3DL/1w/f0pmT1UDfZq40BXgQIlOzI
+ mU7VUYQNjdN9uF4BAeksvBC4eiOUKb99xsuLoJn5ntRQsfAsWXPxmQ7Dh
+ HyM5cgBgq5BB4WeAIBce/wd9vOlsez/LdK1ANUoCmLspNgEvVAZBSVYbd
+ qaGqFWeaDmQaI2KvpM6orpYZnNee8kVukIKuPdbpVFlFVzmxzFXIZ424t
+ K2kN0eaby/rbNU3HcE3powOwnVzxvb1DogAHfhQX7qFIt4nXd/NBnLDBY g==;
+X-CSE-ConnectionGUID: /mj8Y64kSp2oMuyMxHZFhg==
+X-CSE-MsgGUID: kn3tXTzJSwyPkEO1x8gASA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="38339359"
+X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; d="scan'208";a="38339359"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2025 07:21:08 -0800
+X-CSE-ConnectionGUID: HBNz1FS3RveYhrYmFTu1mQ==
+X-CSE-MsgGUID: ON91t+rWS+KVvYE8wHbDaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; d="scan'208";a="113456273"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.248])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jan 2025 07:21:05 -0800
+Date: Mon, 27 Jan 2025 16:21:01 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Zhanjun Dong <zhanjun.dong@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>
+Subject: Re: [PATCH v1] drm/i915/guc: Always disable interrupt ahead of
+ synchronize_irq
+Message-ID: <Z5ekXVihQSDjxqQK@ashyti-mobl2.lan>
+References: <20250123162351.1364395-1-zhanjun.dong@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 15/15] drm/ast: Only look up VBIOS mode on full modesets
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- dri-devel@lists.freedesktop.org
-References: <20250124080546.9956-1-tzimmermann@suse.de>
- <20250124080546.9956-16-tzimmermann@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250124080546.9956-16-tzimmermann@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: IEWgkXREJzFP5u80nu-ZJ3YoWTLmAYfYxZlfhMOattc_1737990023
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250123162351.1364395-1-zhanjun.dong@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,87 +73,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/01/2025 08:57, Thomas Zimmermann wrote:
-> Only look up the VBIOS mode during atomic_check if the display mode
-> changes. For page flips, the previous settings still apply. Avoids the
-> runtime overhead of looking up the VBIOS mode on each page flip.
+Hi Zhanjun,
 
-Thanks, it's a nice optimization.
+On Thu, Jan 23, 2025 at 08:23:51AM -0800, Zhanjun Dong wrote:
+> The purpose of synchronize_irq is to wait for any pending IRQ handlers for the
+> interrupt to complete, if synchronize_irq called before interrupt disabled, an
+> tiny timing window created, where no more pending IRQ, but interrupt not
+> disabled yet. Meanwhile, if the interrupt event happened in this timing window,
+> an unexpected IRQ handling will be triggered.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+I get the meaning, but could you please rephrase it to a more
+meaningful sentence, please?
 
--- 
+> Fixed by always disable interrupt ahead of synchronize_irq.
 
-Jocelyn
+Please, don't use the past simple form, use the imperative form:
+
+"Always disable interrupt ahead..."
+
+or better:
+
+"Always disable interrupts before calling intel_synchronyze_irq()"
+
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454
+> Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
+> Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
+> Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
+> Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
+
+There is an issue here, each fixes is introduced in different
+kernel versions and they can't be mixed all together as it would
+be impossible to backport them to the stable brances.
+
+E.g.:
+Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
+Cc: <stable@vger.kernel.org> # v5.5+
+
+Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
+Cc: <stable@vger.kernel.org> # v5.16+
+
+Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
+Cc: <stable@vger.kernel.org> # v5.3+
+
+Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
+Cc: <stable@vger.kernel.org> # v4.10+
+
+Could you please split this patch in the four different patches
+that address the four different fixes?
 
 > 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+No blank lines in the tag section, please.
+
+> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+> 
 > ---
->   drivers/gpu/drm/ast/ast_mode.c | 52 ++++++++++++++++++----------------
->   1 file changed, 27 insertions(+), 25 deletions(-)
+> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Andi Shyti <andi.shyti@intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_rps.c      | 3 +--
+>  drivers/gpu/drm/i915/gt/uc/intel_guc.c   | 4 ++--
+>  drivers/gpu/drm/i915/pxp/intel_pxp_irq.c | 2 +-
+>  3 files changed, 4 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-> index 584fa37b8d6c3..f8c10329af079 100644
-> --- a/drivers/gpu/drm/ast/ast_mode.c
-> +++ b/drivers/gpu/drm/ast/ast_mode.c
-> @@ -996,32 +996,34 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
->   	}
->   
->   	/*
-> -	 * Find the VBIOS mode and adjust the DRM display mode accordingly.
-> +	 * Find the VBIOS mode and adjust the DRM display mode accordingly
-> +	 * if a full modeset is required. Otherwise keep the existing values.
->   	 */
+> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> index fa304ea088e4..0fe7a8d7f460 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> @@ -244,8 +244,8 @@ static void rps_disable_interrupts(struct intel_rps *rps)
+>  	gen6_gt_pm_disable_irq(gt, GEN6_PM_RPS_EVENTS);
+>  	spin_unlock_irq(gt->irq_lock);
+>  
+> +	rps_reset_interrupts(rps);
+>  	intel_synchronize_irq(gt->i915);
 > -
-> -	vmode = ast_vbios_find_mode(ast, &crtc_state->mode);
-> -	if (!vmode)
-> -		return -EINVAL;
-> -	ast_state->vmode = vmode;
-> -
-> -	if (vmode->flags & HBorder)
-> -		hborder = 8;
-> -	if (vmode->flags & VBorder)
-> -		vborder = 8;
-> -
-> -	adjusted_mode->crtc_hdisplay = vmode->hde;
-> -	adjusted_mode->crtc_hblank_start = vmode->hde + hborder;
-> -	adjusted_mode->crtc_hblank_end = vmode->ht - hborder;
-> -	adjusted_mode->crtc_hsync_start = vmode->hde + hborder + vmode->hfp;
-> -	adjusted_mode->crtc_hsync_end = vmode->hde + hborder + vmode->hfp + vmode->hsync;
-> -	adjusted_mode->crtc_htotal = vmode->ht;
-> -
-> -	adjusted_mode->crtc_vdisplay = vmode->vde;
-> -	adjusted_mode->crtc_vblank_start = vmode->vde + vborder;
-> -	adjusted_mode->crtc_vblank_end = vmode->vt - vborder;
-> -	adjusted_mode->crtc_vsync_start = vmode->vde + vborder + vmode->vfp;
-> -	adjusted_mode->crtc_vsync_end = vmode->vde + vborder + vmode->vfp + vmode->vsync;
-> -	adjusted_mode->crtc_vtotal = vmode->vt;
-> +	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
-> +		vmode = ast_vbios_find_mode(ast, &crtc_state->mode);
-> +		if (!vmode)
-> +			return -EINVAL;
-> +		ast_state->vmode = vmode;
-> +
-> +		if (vmode->flags & HBorder)
-> +			hborder = 8;
-> +		if (vmode->flags & VBorder)
-> +			vborder = 8;
-> +
-> +		adjusted_mode->crtc_hdisplay = vmode->hde;
-> +		adjusted_mode->crtc_hblank_start = vmode->hde + hborder;
-> +		adjusted_mode->crtc_hblank_end = vmode->ht - hborder;
-> +		adjusted_mode->crtc_hsync_start = vmode->hde + hborder + vmode->hfp;
-> +		adjusted_mode->crtc_hsync_end = vmode->hde + hborder + vmode->hfp + vmode->hsync;
-> +		adjusted_mode->crtc_htotal = vmode->ht;
-> +
-> +		adjusted_mode->crtc_vdisplay = vmode->vde;
-> +		adjusted_mode->crtc_vblank_start = vmode->vde + vborder;
-> +		adjusted_mode->crtc_vblank_end = vmode->vt - vborder;
-> +		adjusted_mode->crtc_vsync_start = vmode->vde + vborder + vmode->vfp;
-> +		adjusted_mode->crtc_vsync_end = vmode->vde + vborder + vmode->vfp + vmode->vsync;
-> +		adjusted_mode->crtc_vtotal = vmode->vt;
-> +	}
->   
->   	return 0;
->   }
 
+Sebastian has already commented in his review, but please don't
+remove this blank line.
+
+Andi
+
+>  	/*
+>  	 * Now that we will not be generating any more work, flush any
+>  	 * outstanding tasks. As we are called on the RPS idle path,
