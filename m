@@ -2,62 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE4FA20121
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 23:52:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63A92A201FF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 01:00:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68E8210E5D0;
-	Mon, 27 Jan 2025 22:52:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D75C710E081;
+	Tue, 28 Jan 2025 00:00:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XXb5KPk5";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NM9qIL9o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8617910E5CB;
- Mon, 27 Jan 2025 22:52:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 462665C5AF0;
- Mon, 27 Jan 2025 22:52:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2E3CC4CED2;
- Mon, 27 Jan 2025 22:52:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738018360;
- bh=1bHnV9dPOYzzIXzHfF8t5WGKzDZNNjBYgAKsqoYIa8o=;
- h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=XXb5KPk5Dg7bgtbWNpFrSZLNGflbdxbGKegbLyFA1ZoibJ4RQnldJkNctJpKZ7474
- 5tPFkJOat4A3aW4gTloCMXdjCwTX1caHFCi7+r+m49th4u0pZYwjpQtWR8WOIHJyX/
- cPzvv1c0pkYB6T5wkXwFqm3LOpbiMsWZbocqYsjLowg9vTHylLGMefRsKT91PA04Gq
- 45E3Z6u1az3f+jdEP1iqSe5OY9WYrS/EvYoDSW0OulSU34/5fEqKw791S8hF1AuQAW
- LIn12AK8KAxRCUHgWIPvasSV+GihRF59LyiXPb+S/a5jsjE+h0d9OVT+lAR1LYH1ir
- 2arDK5EGpv23A==
-Message-ID: <9e9f5321ae41a7d0114bf23a437f7639.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250127132105.107138-1-krzysztof.kozlowski@linaro.org>
-References: <20250127132105.107138-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display/msm/dsi-phy: Add header with
- exposed clock IDs
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+ [209.85.222.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24D6010E081
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 00:00:20 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id
+ af79cd13be357-7be3d681e74so455534685a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 16:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1738022419; x=1738627219;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EVnEYBOWCQhI/t95EXPgS4UM8DH/cU3R0UVy3CErIS0=;
+ b=NM9qIL9oQYzm+sZHPlj+5pDiJ0UHKyAOIU9tNQqE32CMAM/hwloyZyp+eoFJBt+2gb
+ Q01wRmFcZLEvNmc3ghrqcvMKYOpFr5a8vrNHKn2hk73dY1MfpvGsHq15oxjS8NdF84GT
+ vsQgp+uIa67bcFjO5hqI8MoD9wVDZ6/p4jJc0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738022419; x=1738627219;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EVnEYBOWCQhI/t95EXPgS4UM8DH/cU3R0UVy3CErIS0=;
+ b=lyEtIGM5KPpD5uehxKF9EC/ng6QfY1FPZ4zAdd4K3U2QDta8eGEVIaxlMx4aQeEEwB
+ GhZQjv2IeBan1RRZNMMCPduOeuYLoDJPLrlAkl8F8akFTsvUvF2fyt8pdrkfaEiGciQ4
+ iOhWGuqW/n1eA4933UpMTS3qJyleWczov9HP4j2dXQiNr8thg9ZL5ePStbca65LLqurX
+ swcnm3JXjWK8z4SwYz59QPv5vahP1a51CLBkmhViN2Hf9njH+FCFDZqKRrTN9KGIVO3z
+ 4FQ+Vb3NLRsxPbi1VqacMyfO8JBCMZZzIGktWCdr2JcpcE/IImuv1vXODt02viGTUATR
+ d2vw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmTBLpVtW5bMmH9RTVWF9ls9DPW1aIcZMTqiLNk8iR+6bWneLiYKG7DveklNF/LQdN6u5pQdtyjYA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YweFdtu1BvBZsvlc2qb5lx6ut9PyIpxm73+A/EoU7P2MGPN1sUP
+ iLPMj6ddIf5wE/ecsqZd6KYyP7kOD0vnKvNg/Znd88BI2+HN5aVB2WcuYjHT8g==
+X-Gm-Gg: ASbGncs9m13fjScFR/tzc6OeM1+jRVPVQqVD6c3StkG0v5xUeTysIxTBPNssz3l0GUx
+ O8dYCU3J8k8TOQg9hLnxeG0fzqINHy+BQak/PI+yXMc8SuYCePPBF0dEQKtN2F3Iu4jgArDpsZx
+ AjfK0ysIlT3+LITsFK2Y0UxXHY5PfWVvrhsmwN+G1+VzQ2ha/LObzuCVKR7DJeZcKSQHMnJAMQi
+ k/r2FitQ9HkmaGkX/G8FF6b1peVqd0NLt3cYgrrdAq4zGCEOmHoxL9XFDUCq78QMvg9kzWDF/DX
+ bq5LT15la5ZLzFfOJWb+isHJ9/pxcQxBUfq3kiEIb/fivQc0v3sKVPM=
+X-Google-Smtp-Source: AGHT+IFssOyZO5ISGfMTVkLxwseF674ZpM43RWbaLGxumv6i9USWwsQeDdnN7h+Eol2L2cPB8KHr8w==
+X-Received: by 2002:a05:620a:d8a:b0:7b6:e9ba:2853 with SMTP id
+ af79cd13be357-7be63279657mr6930302585a.35.1738022419052; 
+ Mon, 27 Jan 2025 16:00:19 -0800 (PST)
+Received: from pazz.c.googlers.com.com
+ (34.178.186.35.bc.googleusercontent.com. [35.186.178.34])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-46e6687e9desm44929021cf.29.2025.01.27.16.00.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jan 2025 16:00:18 -0800 (PST)
+From: Paz Zcharya <pazz@chromium.org>
+X-Google-Original-From: Paz Zcharya <pazz@google.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Sean Paul <seanpaul@google.com>, Drew Davenport <ddavenport@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Paz Zcharya <pazz@google.com>, David Airlie <airlied@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Rob Clark <robdclark@gmail.com>,
- Rob Herring <robh@kernel.org>, Sean Paul <sean@poorly.run>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 27 Jan 2025 14:52:38 -0800
-User-Agent: alot/0.12.dev1+gaa8c22fdeedb
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <melissa.srw@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/vkms: Add support for ABGR8888 pixel format
+Date: Mon, 27 Jan 2025 23:59:48 +0000
+Message-ID: <20250127235956.136032-1-pazz@google.com>
+X-Mailer: git-send-email 2.48.1.262.g85cc9f2d1e-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,13 +90,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Krzysztof Kozlowski (2025-01-27 05:21:04)
-> DSI phys, from earliest (28 nm) up to newest (3 nm) generation, provide
-> two clocks.  The respective clock ID is used by drivers and DTS, so it
-> should be documented as explicit ABI.
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->=20
-> ---
+Add support for pixel format ABGR8888, which is the default format
+on Android devices. This will allow us to use VKMS as the default
+display driver in Android Emulator (Cuttlefish) and increase VKMS
+adoption.
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+Changes in v2:
+- Rebased on top of tip of tree because it has been 3 months.
+- No functional changes.
+
+Signed-off-by: Paz Zcharya <pazz@google.com>
+---
+
+ drivers/gpu/drm/vkms/vkms_formats.c   | 32 +++++++++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c     |  1 +
+ drivers/gpu/drm/vkms/vkms_writeback.c |  1 +
+ 3 files changed, 34 insertions(+)
+
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+index 39b1d7c97d45..30a64ecca87c 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.c
++++ b/drivers/gpu/drm/vkms/vkms_formats.c
+@@ -253,6 +253,26 @@ static void XRGB8888_read_line(const struct vkms_plane_state *plane, int x_start
+ 	}
+ }
+ 
++static void ABGR8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
++			       enum pixel_read_direction direction, int count,
++			       struct pixel_argb_u16 out_pixel[])
++{
++	struct pixel_argb_u16 *end = out_pixel + count;
++	u8 *src_pixels;
++
++	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
++
++	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
++
++	while (out_pixel < end) {
++		u8 *px = (u8 *)src_pixels;
++		/* Switch blue and red pixels. */
++		*out_pixel = argb_u16_from_u8888(px[3], px[0], px[1], px[2]);
++		out_pixel += 1;
++		src_pixels += step;
++	}
++}
++
+ static void ARGB16161616_read_line(const struct vkms_plane_state *plane, int x_start,
+ 				   int y_start, enum pixel_read_direction direction, int count,
+ 				   struct pixel_argb_u16 out_pixel[])
+@@ -344,6 +364,14 @@ static void argb_u16_to_XRGB8888(u8 *out_pixel, const struct pixel_argb_u16 *in_
+ 	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
+ }
+ 
++static void argb_u16_to_ABGR8888(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
++{
++	out_pixel[3] = DIV_ROUND_CLOSEST(in_pixel->a, 257);
++	out_pixel[2] = DIV_ROUND_CLOSEST(in_pixel->b, 257);
++	out_pixel[1] = DIV_ROUND_CLOSEST(in_pixel->g, 257);
++	out_pixel[0] = DIV_ROUND_CLOSEST(in_pixel->r, 257);
++}
++
+ static void argb_u16_to_ARGB16161616(u8 *out_pixel, const struct pixel_argb_u16 *in_pixel)
+ {
+ 	__le16 *pixel = (__le16 *)out_pixel;
+@@ -420,6 +448,8 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+ 		return &ARGB8888_read_line;
+ 	case DRM_FORMAT_XRGB8888:
+ 		return &XRGB8888_read_line;
++	case DRM_FORMAT_ABGR8888:
++		return &ABGR8888_read_line;
+ 	case DRM_FORMAT_ARGB16161616:
+ 		return &ARGB16161616_read_line;
+ 	case DRM_FORMAT_XRGB16161616:
+@@ -453,6 +483,8 @@ pixel_write_t get_pixel_write_function(u32 format)
+ 		return &argb_u16_to_ARGB8888;
+ 	case DRM_FORMAT_XRGB8888:
+ 		return &argb_u16_to_XRGB8888;
++	case DRM_FORMAT_ABGR8888:
++		return &argb_u16_to_ABGR8888;
+ 	case DRM_FORMAT_ARGB16161616:
+ 		return &argb_u16_to_ARGB16161616;
+ 	case DRM_FORMAT_XRGB16161616:
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index e2fce471870f..e34f8c7f83c3 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -15,6 +15,7 @@
+ static const u32 vkms_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ABGR8888,
+ 	DRM_FORMAT_XRGB16161616,
+ 	DRM_FORMAT_ARGB16161616,
+ 	DRM_FORMAT_RGB565
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index e9b5c74d7c58..fe163271d5b5 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -17,6 +17,7 @@
+ static const u32 vkms_wb_formats[] = {
+ 	DRM_FORMAT_ARGB8888,
+ 	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ABGR8888,
+ 	DRM_FORMAT_XRGB16161616,
+ 	DRM_FORMAT_ARGB16161616,
+ 	DRM_FORMAT_RGB565
+-- 
+2.48.1.262.g85cc9f2d1e-goog
+
