@@ -2,87 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED94A1D8E3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:57:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978EAA1D8E6
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:59:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E22910E55F;
-	Mon, 27 Jan 2025 14:57:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89D7010E560;
+	Mon, 27 Jan 2025 14:59:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YSi/8SA8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="S5lzrg7m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D8B110E55F
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:57:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D42A110E560
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:59:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737989845;
+ s=mimecast20190719; t=1737989980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tdwovyvccT3HDsQ77VRqbigxA3O31jTQTH9Ia6EasO4=;
- b=YSi/8SA8AicZeUlv46pH6M0gUdH0F52hAnd5EN6IXF0UDgKfKbKbcKO3idWWP8JC67HvKN
- dAI1/95HGjf4J6KoefYy8sAHZwYpqHvFPVrNeYAlEPL0Rhb02+o6jNrEspV929zvhAlVWh
- ZzSutWN898K0fiwj2XRVbphPX9+wKrw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MVx4RAOeNZyHztiJRQOi8Sp7d7sslyxE7ytUbhrc7qI=;
+ b=S5lzrg7mtxpOpTQ/ABMLN7b2PNNbBuHU1H2ednKLf0suQpdHSUnnhKYd4LJqFWV7VGNmCc
+ /QZ34u7U4nXaUvADUUhusZTXkcMYyDyPjXFdP/wHILW9Pyn4Rp+wy4A/K5bveDPFGLyLS+
+ AUomSbHgTd9atv4iO0ycyWKyPKOvdMQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-68-Pf2Y0yIVOoCrzS4uWfs7_w-1; Mon, 27 Jan 2025 09:57:24 -0500
-X-MC-Unique: Pf2Y0yIVOoCrzS4uWfs7_w-1
-X-Mimecast-MFC-AGG-ID: Pf2Y0yIVOoCrzS4uWfs7_w
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-38634103b0dso2340990f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:57:23 -0800 (PST)
+ us-mta-232-fxPwjC-VNUKGCsjiQLfwPw-1; Mon, 27 Jan 2025 09:59:38 -0500
+X-MC-Unique: fxPwjC-VNUKGCsjiQLfwPw-1
+X-Mimecast-MFC-AGG-ID: fxPwjC-VNUKGCsjiQLfwPw
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-43619b135bcso22145505e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:59:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737989843; x=1738594643;
+ d=1e100.net; s=20230601; t=1737989977; x=1738594777;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tdwovyvccT3HDsQ77VRqbigxA3O31jTQTH9Ia6EasO4=;
- b=B9gzPv+2jaiQbyCldph/DGEq18TRNuWUj6TvwUmJyWLCPF2vr9JaShojyFYlGSG6oO
- Gt69jZiOv/EhzF7yaxhjyWPkOEOoeRTr0yYDEq53W5xjkQszYh4uRmHzLIk4dC045t6U
- IXZgJ6F1/304wP00ZLjgxK58hPXP5AMQSJWfkgFRAf5s7JxnIPKwWPguAR2wmeLP1vR6
- SOc2CUBbovLO+F6dU4r5gJuJ/PSdOm2Iaxx3Z2on3hk0Jg7JKV3fW8peKqk0Y0Xf1Ia8
- 5cHufhy2R/k1LuIhQYSm+2WS8EAp4JL75oZx/Nh44NIOA3ZXYa9VjFWa8v6fbnNtPKVp
- 84OQ==
+ bh=MVx4RAOeNZyHztiJRQOi8Sp7d7sslyxE7ytUbhrc7qI=;
+ b=hAv5BIGeZahcU6bmvTyCurcKsmv8AriycgVcizYze4sg4dv80hVjb9s3NSc35FA9mv
+ AznNJewdqoznvFik7oCY3BwEoaG7P8DUNBBIcBoA3WgyeL497v2k9cyBj1PZGIJKh8M5
+ nPa2tOD61kh4u6pu1Ev7stzVO+fAaF+ZOJ7SPNnCje3HawBa+FC2mYgmv5FFaM0Sul/x
+ GzVQurZC7VD3YYz+aPtbX6DtPoH2DDTEPer+gYFubWs9fHWIDwAGo49Jo12vkQ2y6sVn
+ eGT6xIyynmjFOwQ2leHtKlxhDMi5Hxg582jETeIXoF9bTUmzGzdv8K674myFfTc4fJ6m
+ Eh7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVN3FPh0l1En6qi4ub4AI5J4iRWvy8U/sO0gb/7vDHLy4fPn9oHPUCJCAfmB+uYeeF8c4Va8nRa9XQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz7/+MaUPMsgi06qxwzDqy1I3pYAABpLjdXu+QAeVGKED69p5Fu
- KmLzwmXI5RK3kFRifzY7X6QJmvLdKw7tMVmvgINloecfzDK/2bKJh+vvMvQ8dh4bAbDbhn9vU2k
- 6NDiA+tNInjlCJkJE8c6p9s9+1nbZC6/gypZHp5zWig6/T7bZUKApmlBzAdJ5lIAe1w==
-X-Gm-Gg: ASbGncsE069TAtTgzlxVrCgxxTUcQZzCQgBCxxeFxxrrZf22CKPkQ51+dGy5PqbFS44
- 8cyx/P0Vyqxtk25yX0+8FMyG8PfoWbxmvMP55MeVOFOenc6qfjwOU1JouRgaVLowrasaYwITrxK
- wi46pq4ADt+VgOU8eeawtQE9CaDctDrNtDQu+CJrOinYXkKhr4vhdimXPzL+Gf70OJT0hBdVAVw
- BeUxyGsa8mXecxthHJ2PbLy1IwXfS+53h+NxN5gyO4FRXQNk2cUaZm0eWQqX/LXmkUojM/sszlv
- zlX6tn/TtvuxpPcCKQE9fZtm20X7S+L/cu6I9hVdioYv
-X-Received: by 2002:a5d:47c9:0:b0:386:416b:9c69 with SMTP id
- ffacd0b85a97d-38bf5662912mr42606268f8f.16.1737989842592; 
- Mon, 27 Jan 2025 06:57:22 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEXYFV7RrImuxMMCysWCqp5HQNiDafEqA/7v8uguCi5ysmMMR68BnCyCYVHkvHdW1xdunf1DA==
-X-Received: by 2002:a5d:47c9:0:b0:386:416b:9c69 with SMTP id
- ffacd0b85a97d-38bf5662912mr42606233f8f.16.1737989842060; 
- Mon, 27 Jan 2025 06:57:22 -0800 (PST)
+ AJvYcCWUBXKV2K7jrHNNZo1MlihZ4mxpNxkUn6f2EDBnRWNYHr0zRDBrVsbSjQcG0quWWzMJ7N7CjnYrVXs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAfjwdS6ad3tDZ9BScqs2FpM869jwMqGUR1Xeu2Q/GMzoy9OSr
+ S/FssG8tQLlyxHD0DSpZdAKb6KC+LqOyBrFjVOfeBNsimxXs5h1iFadEWXfP/GoxrhrCZGK6oCD
+ Mu/DjjiDA5Gvdj4eLf99pRwYohPIuPDatb3UlxgEl+DNfrvhhkF5T4ohnyX9+22kiVQ==
+X-Gm-Gg: ASbGncvuXQHn56XP4Fs0ozTmXRjZh4cgH0S3wYWuaQkRjTOswvRJ/Y4GOVzlaEjzA93
+ cJfg3SqHfDfj01JIH78e0qUdbljQgfImKwKS7PuVBQjYZX103ChDFa9f8VlhUcIqHskwME0Y47F
+ S4oXAL6Rc+EUAkl8K1GAfE+SZF1L5FuEiXmgfmh2LvQVWBmBAlg9RBNN5K1CSxWtPs6l/EKCFRa
+ xYw2nnQLOxNYYuMxK8f8783s5jHVlssCMNwc3NM2BA0d0OxLJoQUIKwAtKxttIJDs3oNv1LVBiC
+ 9CxK9zJM4lsz8r7W/O5J5siYqDaUGrmzCsw/TBJMo5ax
+X-Received: by 2002:a05:600c:8719:b0:434:9499:9e87 with SMTP id
+ 5b1f17b1804b1-43891437217mr333971385e9.25.1737989977383; 
+ Mon, 27 Jan 2025 06:59:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFqRlsvYfQVpwmXRecs/O4rANqHXK/LSSjrXI7ge3bC9z1a8nmmuqoSNa7Bb2UNmmOqCitIcw==
+X-Received: by 2002:a05:600c:8719:b0:434:9499:9e87 with SMTP id
+ 5b1f17b1804b1-43891437217mr333971155e9.25.1737989976934; 
+ Mon, 27 Jan 2025 06:59:36 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a1c4006sm11408787f8f.94.2025.01.27.06.57.21
+ 5b1f17b1804b1-438bd485007sm136742875e9.12.2025.01.27.06.59.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jan 2025 06:57:21 -0800 (PST)
-Message-ID: <1febad0b-b935-4ee7-8030-3e9011e603b8@redhat.com>
-Date: Mon, 27 Jan 2025 15:57:21 +0100
+ Mon, 27 Jan 2025 06:59:36 -0800 (PST)
+Message-ID: <20a991c8-1051-4c7f-b541-b28fdd8d7825@redhat.com>
+Date: Mon, 27 Jan 2025 15:59:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/15] drm/ast: astdp: Rework display-mode setting
+Subject: Re: [PATCH 14/15] drm/ast: Remove struct ast_vbios_mode_info
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  dri-devel@lists.freedesktop.org
 References: <20250124080546.9956-1-tzimmermann@suse.de>
- <20250124080546.9956-14-tzimmermann@suse.de>
+ <20250124080546.9956-15-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250124080546.9956-14-tzimmermann@suse.de>
+In-Reply-To: <20250124080546.9956-15-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JORpFe1aR4ICy-gqb8cI9s893u1UgzRb4yQcKWgvpQQ_1737989843
+X-Mimecast-MFC-PROC-ID: lfKzlCaC73Pg-n03CvDAvL9auDf6pxK2UgdXm_zDLhk_1737989977
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -103,273 +103,273 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24/01/2025 08:57, Thomas Zimmermann wrote:
-> ASTDP requires a mode index, depending on the resolution. Move the
-> look-up code from ast_dp_set_mode() into a separate helper. Inline
-> the rest of the function into its only caller. Rename the variable
-> names and register constants to match the programming manual.
-> 
-> As before, the mode-index lookup still happens during the update's
-> atomic commit. Right now, there's no way of doing it during the atomic
-> check. The lookup requires the VBIOS mode, which is not available at
-> the atomic check's invocation. At least warn now if the mode index
-> could not be found.
+> The type struct ast_vbios_mode_info used to store information about
+> the color format and display mode. It has outlived its purpose. Inline
+> its fields into struct ast_crtc_state and replace all instances.
 
-It looks good to me, I have one small comment below.
+Thanks, it looks good to me.
 
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_dp.c  | 172 +++++++++++++++++++---------------
->   drivers/gpu/drm/ast/ast_reg.h |  18 +---
->   2 files changed, 100 insertions(+), 90 deletions(-)
+>   drivers/gpu/drm/ast/ast_dp.c   |  3 +-
+>   drivers/gpu/drm/ast/ast_drv.h  |  8 ++---
+>   drivers/gpu/drm/ast/ast_mode.c | 65 +++++++++++++++-------------------
+>   3 files changed, 32 insertions(+), 44 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 08c811f3ce342..fe122828665fb 100644
+> index fe122828665fb..66451f1daf691 100644
 > --- a/drivers/gpu/drm/ast/ast_dp.c
 > +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -14,6 +14,82 @@
->   #include "ast_drv.h"
->   #include "ast_vbios.h"
->   
-> +static int ast_astdp_get_mode_index(const struct ast_vbios_enhtable *vmode)
-> +{
-> +	u8 refresh_rate_index;
-> +
-> +	if (vmode->refresh_rate_index < 1 || vmode->refresh_rate_index > 255)
-> +		return -EINVAL;
-> +
-> +	refresh_rate_index = vmode->refresh_rate_index - 1;
-> +
-> +	switch (vmode->hde) {
-> +	case 320:
-> +		if (vmode->vde == 240)
-> +			return ASTDP_320x240_60;
-> +		break;
-
-I find the switch() code introduces a lot of useless verbosity.
-I would prefer something like this:
-
-if (vmode->hde == 240 && vmode->vde == 240)
-	return ASTDP_320x240_60;
-else if (vmode->hde == 400 && vmode->vde == 300)
-	return ASTDP_400x300_60;
-
-
-> +	case 400:
-> +		if (vmode->vde == 300)
-> +			return ASTDP_400x300_60;
-> +		break;
-> +	case 512:
-> +		if (vmode->vde == 384)
-> +			return ASTDP_512x384_60;
-> +		break;
-> +	case 640:
-> +		if (vmode->vde == 480)
-> +			return (u8)(ASTDP_640x480_60 + (u8)refresh_rate_index);
-> +		break;
-> +	case 800:
-> +		if (vmode->vde == 600)
-> +			return (u8)(ASTDP_800x600_56 + (u8)refresh_rate_index);
-> +		break;
-> +	case 1024:
-> +		if (vmode->vde == 768)
-> +			return (u8)(ASTDP_1024x768_60 + (u8)refresh_rate_index);
-> +		break;
-> +	case 1152:
-> +		if (vmode->vde == 864)
-> +			return ASTDP_1152x864_75;
-> +		break;
-> +	case 1280:
-> +		if (vmode->vde == 800)
-> +			return (u8)(ASTDP_1280x800_60_RB - (u8)refresh_rate_index);
-> +		if (vmode->vde == 1024)
-> +			return (u8)(ASTDP_1280x1024_60 + (u8)refresh_rate_index);
-> +		break;
-> +	case 1360:
-> +	case 1366:
-> +		if (vmode->vde == 768)
-> +			return ASTDP_1366x768_60;
-> +		break;
-> +	case 1440:
-> +		if (vmode->vde == 900)
-> +			return (u8)(ASTDP_1440x900_60_RB - (u8)refresh_rate_index);
-> +		break;
-> +	case 1600:
-> +		if (vmode->vde == 900)
-> +			return (u8)(ASTDP_1600x900_60_RB - (u8)refresh_rate_index);
-> +		if (vmode->vde == 1200)
-> +			return ASTDP_1600x1200_60;
-> +		break;
-> +	case 1680:
-> +		if (vmode->vde == 1050)
-> +			return (u8)(ASTDP_1680x1050_60_RB - (u8)refresh_rate_index);
-> +		break;
-> +	case 1920:
-> +		if (vmode->vde == 1080)
-> +			return ASTDP_1920x1080_60;
-> +		if (vmode->vde == 1200)
-> +			return ASTDP_1920x1200_60;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
->   static bool ast_astdp_is_connected(struct ast_device *ast)
->   {
->   	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, AST_IO_VGACRDF_HPD))
-> @@ -222,80 +298,6 @@ static void ast_dp_set_enable(struct ast_device *ast, bool enabled)
->   	drm_WARN_ON(dev, !__ast_dp_wait_enable(ast, enabled));
->   }
->   
-> -static void ast_dp_set_mode(struct drm_crtc *crtc, struct ast_vbios_mode_info *vbios_mode)
-> -{
-> -	struct ast_device *ast = to_ast_device(crtc->dev);
-> -
-> -	u32 ulRefreshRateIndex;
-> -	u8 ModeIdx;
-> -
-> -	ulRefreshRateIndex = vbios_mode->enh_table->refresh_rate_index - 1;
-> -
-> -	switch (crtc->mode.crtc_hdisplay) {
-> -	case 320:
-> -		ModeIdx = ASTDP_320x240_60;
-> -		break;
-> -	case 400:
-> -		ModeIdx = ASTDP_400x300_60;
-> -		break;
-> -	case 512:
-> -		ModeIdx = ASTDP_512x384_60;
-> -		break;
-> -	case 640:
-> -		ModeIdx = (ASTDP_640x480_60 + (u8) ulRefreshRateIndex);
-> -		break;
-> -	case 800:
-> -		ModeIdx = (ASTDP_800x600_56 + (u8) ulRefreshRateIndex);
-> -		break;
-> -	case 1024:
-> -		ModeIdx = (ASTDP_1024x768_60 + (u8) ulRefreshRateIndex);
-> -		break;
-> -	case 1152:
-> -		ModeIdx = ASTDP_1152x864_75;
-> -		break;
-> -	case 1280:
-> -		if (crtc->mode.crtc_vdisplay == 800)
-> -			ModeIdx = (ASTDP_1280x800_60_RB - (u8) ulRefreshRateIndex);
-> -		else		// 1024
-> -			ModeIdx = (ASTDP_1280x1024_60 + (u8) ulRefreshRateIndex);
-> -		break;
-> -	case 1360:
-> -	case 1366:
-> -		ModeIdx = ASTDP_1366x768_60;
-> -		break;
-> -	case 1440:
-> -		ModeIdx = (ASTDP_1440x900_60_RB - (u8) ulRefreshRateIndex);
-> -		break;
-> -	case 1600:
-> -		if (crtc->mode.crtc_vdisplay == 900)
-> -			ModeIdx = (ASTDP_1600x900_60_RB - (u8) ulRefreshRateIndex);
-> -		else		//1200
-> -			ModeIdx = ASTDP_1600x1200_60;
-> -		break;
-> -	case 1680:
-> -		ModeIdx = (ASTDP_1680x1050_60_RB - (u8) ulRefreshRateIndex);
-> -		break;
-> -	case 1920:
-> -		if (crtc->mode.crtc_vdisplay == 1080)
-> -			ModeIdx = ASTDP_1920x1080_60;
-> -		else		//1200
-> -			ModeIdx = ASTDP_1920x1200_60;
-> -		break;
-> -	default:
-> -		return;
-> -	}
-> -
-> -	/*
-> -	 * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
-> -	 * CRE1[7:0]: MISC1 (default: 0x00)
-> -	 * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
-> -	 */
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE0, ASTDP_AND_CLEAR_MASK,
-> -			       ASTDP_MISC0_24bpp);
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE1, ASTDP_AND_CLEAR_MASK, ASTDP_MISC1);
-> -	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xE2, ASTDP_AND_CLEAR_MASK, ModeIdx);
-> -}
-> -
->   static void ast_wait_for_vretrace(struct ast_device *ast)
->   {
->   	unsigned long timeout = jiffies + HZ;
-> @@ -318,11 +320,29 @@ static void ast_astdp_encoder_helper_atomic_mode_set(struct drm_encoder *encoder
->   						     struct drm_crtc_state *crtc_state,
->   						     struct drm_connector_state *conn_state)
->   {
-> -	struct drm_crtc *crtc = crtc_state->crtc;
-> +	struct drm_device *dev = encoder->dev;
-> +	struct ast_device *ast = to_ast_device(dev);
+> @@ -323,11 +323,10 @@ static void ast_astdp_encoder_helper_atomic_mode_set(struct drm_encoder *encoder
+>   	struct drm_device *dev = encoder->dev;
+>   	struct ast_device *ast = to_ast_device(dev);
 >   	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
->   	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
-> +	int mode_index;
-> +	u8 vgacre0, vgacre1, vgacre2;
-> +
-> +	mode_index = ast_astdp_get_mode_index(vbios_mode_info->enh_table);
-> +	if (drm_WARN_ON(dev, mode_index < 0))
-> +		return;
-> +
-> +	/*
-> +	 * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
-> +	 * CRE1[7:0]: MISC1 (default: 0x00)
-> +	 * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
-> +	 */
-> +	vgacre0 = AST_IO_VGACRE0_24BPP;
-> +	vgacre1 = 0x00;
-> +	vgacre2 = mode_index & 0xff;
+> -	struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
+>   	int mode_index;
+>   	u8 vgacre0, vgacre1, vgacre2;
 >   
-> -	ast_dp_set_mode(crtc, vbios_mode_info);
-> +	ast_set_index_reg(ast, AST_IO_VGACRI, 0xe0, vgacre0);
-> +	ast_set_index_reg(ast, AST_IO_VGACRI, 0xe1, vgacre1);
-> +	ast_set_index_reg(ast, AST_IO_VGACRI, 0xe2, vgacre2);
+> -	mode_index = ast_astdp_get_mode_index(vbios_mode_info->enh_table);
+> +	mode_index = ast_astdp_get_mode_index(ast_crtc_state->vmode);
+>   	if (drm_WARN_ON(dev, mode_index < 0))
+>   		return;
+>   
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index 9309cc5e81b0f..022a8c070c1bc 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -358,18 +358,14 @@ struct ast_vbios_dclk_info {
+>   	u8 param3;
+>   };
+>   
+> -struct ast_vbios_mode_info {
+> -	const struct ast_vbios_stdtable *std_table;
+> -	const struct ast_vbios_enhtable *enh_table;
+> -};
+> -
+>   struct ast_crtc_state {
+>   	struct drm_crtc_state base;
+>   
+>   	/* Last known format of primary plane */
+>   	const struct drm_format_info *format;
+>   
+> -	struct ast_vbios_mode_info vbios_mode_info;
+> +	const struct ast_vbios_stdtable *std_table;
+> +	const struct ast_vbios_enhtable *vmode;
+>   };
+>   
+>   #define to_ast_crtc_state(state) container_of(state, struct ast_crtc_state, base)
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index a823dcbf73c4b..584fa37b8d6c3 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -109,7 +109,7 @@ static void ast_crtc_set_gamma(struct ast_device *ast,
+>   
+>   static void ast_set_vbios_color_reg(struct ast_device *ast,
+>   				    const struct drm_format_info *format,
+> -				    const struct ast_vbios_mode_info *vbios_mode)
+> +				    const struct ast_vbios_enhtable *vmode)
+>   {
+>   	u32 color_index;
+>   
+> @@ -132,7 +132,7 @@ static void ast_set_vbios_color_reg(struct ast_device *ast,
+>   
+>   	ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0x00);
+>   
+> -	if (vbios_mode->enh_table->flags & NewModeInfo) {
+> +	if (vmode->flags & NewModeInfo) {
+>   		ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0xa8);
+>   		ast_set_index_reg(ast, AST_IO_VGACRI, 0x92, format->cpp[0] * 8);
+>   	}
+> @@ -140,19 +140,19 @@ static void ast_set_vbios_color_reg(struct ast_device *ast,
+>   
+>   static void ast_set_vbios_mode_reg(struct ast_device *ast,
+>   				   const struct drm_display_mode *adjusted_mode,
+> -				   const struct ast_vbios_mode_info *vbios_mode)
+> +				   const struct ast_vbios_enhtable *vmode)
+>   {
+>   	u32 refresh_rate_index, mode_id;
+>   
+> -	refresh_rate_index = vbios_mode->enh_table->refresh_rate_index;
+> -	mode_id = vbios_mode->enh_table->mode_id;
+> +	refresh_rate_index = vmode->refresh_rate_index;
+> +	mode_id = vmode->mode_id;
+>   
+>   	ast_set_index_reg(ast, AST_IO_VGACRI, 0x8d, refresh_rate_index & 0xff);
+>   	ast_set_index_reg(ast, AST_IO_VGACRI, 0x8e, mode_id & 0xff);
+>   
+>   	ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0x00);
+>   
+> -	if (vbios_mode->enh_table->flags & NewModeInfo) {
+> +	if (vmode->flags & NewModeInfo) {
+>   		ast_set_index_reg(ast, AST_IO_VGACRI, 0x91, 0xa8);
+>   		ast_set_index_reg(ast, AST_IO_VGACRI, 0x93, adjusted_mode->clock / 1000);
+>   		ast_set_index_reg(ast, AST_IO_VGACRI, 0x94, adjusted_mode->crtc_hdisplay);
+> @@ -164,14 +164,11 @@ static void ast_set_vbios_mode_reg(struct ast_device *ast,
+>   
+>   static void ast_set_std_reg(struct ast_device *ast,
+>   			    struct drm_display_mode *mode,
+> -			    struct ast_vbios_mode_info *vbios_mode)
+> +			    const struct ast_vbios_stdtable *stdtable)
+>   {
+> -	const struct ast_vbios_stdtable *stdtable;
+>   	u32 i;
+>   	u8 jreg;
+>   
+> -	stdtable = vbios_mode->std_table;
+> -
+>   	jreg = stdtable->misc;
+>   	ast_io_write8(ast, AST_IO_VGAMR_W, jreg);
+>   
+> @@ -212,13 +209,13 @@ static void ast_set_std_reg(struct ast_device *ast,
+>   
+>   static void ast_set_crtc_reg(struct ast_device *ast,
+>   			     struct drm_display_mode *mode,
+> -			     struct ast_vbios_mode_info *vbios_mode)
+> +			     const struct ast_vbios_enhtable *vmode)
+>   {
+>   	u8 jreg05 = 0, jreg07 = 0, jreg09 = 0, jregAC = 0, jregAD = 0, jregAE = 0;
+>   	u16 temp, precache = 0;
+>   
+>   	if ((IS_AST_GEN6(ast) || IS_AST_GEN7(ast)) &&
+> -	    (vbios_mode->enh_table->flags & AST2500PreCatchCRT))
+> +	    (vmode->flags & AST2500PreCatchCRT))
+>   		precache = 40;
+>   
+>   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0x11, 0x7f, 0x00);
+> @@ -337,14 +334,14 @@ static void ast_set_offset_reg(struct ast_device *ast,
+>   
+>   static void ast_set_dclk_reg(struct ast_device *ast,
+>   			     struct drm_display_mode *mode,
+> -			     struct ast_vbios_mode_info *vbios_mode)
+> +			     const struct ast_vbios_enhtable *vmode)
+>   {
+>   	const struct ast_vbios_dclk_info *clk_info;
+>   
+>   	if (IS_AST_GEN6(ast) || IS_AST_GEN7(ast))
+> -		clk_info = &dclk_table_ast2500[vbios_mode->enh_table->dclk_index];
+> +		clk_info = &dclk_table_ast2500[vmode->dclk_index];
+>   	else
+> -		clk_info = &dclk_table[vbios_mode->enh_table->dclk_index];
+> +		clk_info = &dclk_table[vmode->dclk_index];
+>   
+>   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xc0, 0x00, clk_info->param1);
+>   	ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xc1, 0x00, clk_info->param2);
+> @@ -402,15 +399,15 @@ static void ast_set_crtthd_reg(struct ast_device *ast)
+>   
+>   static void ast_set_sync_reg(struct ast_device *ast,
+>   			     struct drm_display_mode *mode,
+> -			     struct ast_vbios_mode_info *vbios_mode)
+> +			     const struct ast_vbios_enhtable *vmode)
+>   {
+>   	u8 jreg;
+>   
+>   	jreg  = ast_io_read8(ast, AST_IO_VGAMR_R);
+>   	jreg &= ~0xC0;
+> -	if (vbios_mode->enh_table->flags & NVSync)
+> +	if (vmode->flags & NVSync)
+>   		jreg |= 0x80;
+> -	if (vbios_mode->enh_table->flags & NHSync)
+> +	if (vmode->flags & NHSync)
+>   		jreg |= 0x40;
+>   	ast_io_write8(ast, AST_IO_VGAMR_W, jreg);
+>   }
+> @@ -530,10 +527,9 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   
+>   	if (!old_fb || (fb->format != old_fb->format) || crtc_state->mode_changed) {
+>   		struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
+> -		struct ast_vbios_mode_info *vbios_mode_info = &ast_crtc_state->vbios_mode_info;
+>   
+>   		ast_set_color_reg(ast, fb->format);
+> -		ast_set_vbios_color_reg(ast, fb->format, vbios_mode_info);
+> +		ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state->vmode);
+>   	}
+>   
+>   	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+> @@ -912,8 +908,8 @@ static void ast_crtc_helper_mode_set_nofb(struct drm_crtc *crtc)
+>   	struct ast_device *ast = to_ast_device(dev);
+>   	struct drm_crtc_state *crtc_state = crtc->state;
+>   	struct ast_crtc_state *ast_crtc_state = to_ast_crtc_state(crtc_state);
+> -	struct ast_vbios_mode_info *vbios_mode_info =
+> -		&ast_crtc_state->vbios_mode_info;
+> +	const struct ast_vbios_stdtable *std_table = ast_crtc_state->std_table;
+> +	const struct ast_vbios_enhtable *vmode = ast_crtc_state->vmode;
+>   	struct drm_display_mode *adjusted_mode = &crtc_state->adjusted_mode;
+>   
+>   	/*
+> @@ -924,13 +920,13 @@ static void ast_crtc_helper_mode_set_nofb(struct drm_crtc *crtc)
+>   	 */
+>   	ast_wait_for_vretrace(ast);
+>   
+> -	ast_set_vbios_mode_reg(ast, adjusted_mode, vbios_mode_info);
+> +	ast_set_vbios_mode_reg(ast, adjusted_mode, vmode);
+>   	ast_set_index_reg(ast, AST_IO_VGACRI, 0xa1, 0x06);
+> -	ast_set_std_reg(ast, adjusted_mode, vbios_mode_info);
+> -	ast_set_crtc_reg(ast, adjusted_mode, vbios_mode_info);
+> -	ast_set_dclk_reg(ast, adjusted_mode, vbios_mode_info);
+> +	ast_set_std_reg(ast, adjusted_mode, std_table);
+> +	ast_set_crtc_reg(ast, adjusted_mode, vmode);
+> +	ast_set_dclk_reg(ast, adjusted_mode, vmode);
+>   	ast_set_crtthd_reg(ast);
+> -	ast_set_sync_reg(ast, adjusted_mode, vbios_mode_info);
+> +	ast_set_sync_reg(ast, adjusted_mode, vmode);
 >   }
 >   
->   static void ast_astdp_encoder_helper_atomic_enable(struct drm_encoder *encoder,
-> diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-> index 9db0d584652a4..bb2cc1d8b84ea 100644
-> --- a/drivers/gpu/drm/ast/ast_reg.h
-> +++ b/drivers/gpu/drm/ast/ast_reg.h
-> @@ -57,10 +57,14 @@
->   #define AST_IO_VGACRD1_TX_ASTDP			0x0e
->   #define AST_IO_VGACRD1_SUPPORTS_WUXGA		BIT(0)
+>   static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+> @@ -944,7 +940,6 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>   	struct ast_device *ast = to_ast_device(dev);
+>   	struct ast_crtc_state *ast_state;
+>   	const struct drm_format_info *format;
+> -	struct ast_vbios_mode_info *vbios_mode;
+>   	const struct ast_vbios_enhtable *vmode;
+>   	unsigned int hborder = 0;
+>   	unsigned int vborder = 0;
+> @@ -979,8 +974,6 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>   		}
+>   	}
 >   
-> +/*
-> + * AST DisplayPort
-> + */
->   #define AST_IO_VGACRD7_EDID_VALID_FLAG	BIT(0)
->   #define AST_IO_VGACRDC_LINK_SUCCESS	BIT(0)
->   #define AST_IO_VGACRDF_HPD		BIT(0)
->   #define AST_IO_VGACRDF_DP_VIDEO_ENABLE	BIT(4) /* mirrors AST_IO_VGACRE3_DP_VIDEO_ENABLE */
-> +#define AST_IO_VGACRE0_24BPP		BIT(5) /* 18 bpp, if unset  */
->   #define AST_IO_VGACRE3_DP_VIDEO_ENABLE	BIT(0)
->   #define AST_IO_VGACRE3_DP_PHY_SLEEP	BIT(4)
->   #define AST_IO_VGACRE5_EDID_READ_DONE	BIT(0)
-> @@ -68,18 +72,4 @@
->   #define AST_IO_VGAIR1_R			(0x5A)
->   #define AST_IO_VGAIR1_VREFRESH		BIT(3)
+> -	vbios_mode = &ast_state->vbios_mode_info;
+> -
+>   	/*
+>   	 * Set register tables.
+>   	 *
+> @@ -989,14 +982,14 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>   	 */
+>   	switch (format->format) {
+>   	case DRM_FORMAT_C8:
+> -		vbios_mode->std_table = &vbios_stdtable[VGAModeIndex];
+> +		ast_state->std_table = &vbios_stdtable[VGAModeIndex];
+>   		break;
+>   	case DRM_FORMAT_RGB565:
+> -		vbios_mode->std_table = &vbios_stdtable[HiCModeIndex];
+> +		ast_state->std_table = &vbios_stdtable[HiCModeIndex];
+>   		break;
+>   	case DRM_FORMAT_RGB888:
+>   	case DRM_FORMAT_XRGB8888:
+> -		vbios_mode->std_table = &vbios_stdtable[TrueCModeIndex];
+> +		ast_state->std_table = &vbios_stdtable[TrueCModeIndex];
+>   		break;
+>   	default:
+>   		return -EINVAL;
+> @@ -1009,7 +1002,7 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>   	vmode = ast_vbios_find_mode(ast, &crtc_state->mode);
+>   	if (!vmode)
+>   		return -EINVAL;
+> -	ast_state->vbios_mode_info.enh_table = vmode;
+> +	ast_state->vmode = vmode;
 >   
-> -/*
-> - * AST DisplayPort
-> - */
-> -
-> -/*
-> - * ASTDP setmode registers:
-> - * CRE0[7:0]: MISC0 ((0x00: 18-bpp) or (0x20: 24-bpp)
-> - * CRE1[7:0]: MISC1 (default: 0x00)
-> - * CRE2[7:0]: video format index (0x00 ~ 0x20 or 0x40 ~ 0x50)
-> - */
-> -#define ASTDP_MISC0_24bpp		BIT(5)
-> -#define ASTDP_MISC1			0
-> -#define ASTDP_AND_CLEAR_MASK		0x00
-> -
->   #endif
+>   	if (vmode->flags & HBorder)
+>   		hborder = 8;
+> @@ -1130,8 +1123,8 @@ ast_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+>   	ast_state = to_ast_crtc_state(crtc->state);
+>   
+>   	new_ast_state->format = ast_state->format;
+> -	memcpy(&new_ast_state->vbios_mode_info, &ast_state->vbios_mode_info,
+> -	       sizeof(new_ast_state->vbios_mode_info));
+> +	new_ast_state->std_table = ast_state->std_table;
+> +	new_ast_state->vmode = ast_state->vmode;
+>   
+>   	return &new_ast_state->base;
+>   }
 
