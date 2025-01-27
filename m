@@ -2,64 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432B3A1DC3B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 19:47:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E665A1DC40
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 19:50:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CBFB10E5A3;
-	Mon, 27 Jan 2025 18:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADB7610E336;
+	Mon, 27 Jan 2025 18:50:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FQ9zgeHH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="4fhkgDfc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F08010E311;
- Mon, 27 Jan 2025 18:47:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738003649; x=1769539649;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=9GS4OklWy9gKghj6+YfBxN2F+1ADLIQV1MOra18wIFI=;
- b=FQ9zgeHH7bHTBrBZe0XODhzzUYCT0TcYqaolCrdiXzOHoO2uRKAyJAUu
- d1NoyJtc4jBON/Bt9m8thjb6C90hAof4UTWsKX/KSlRvIGgF9DwTHrIEk
- MDQYa8hZ8VHWd7nHmHecHS/G8r487FN/TNgne0RII8JPl/iMB1YObGba1
- 4q/roYK2nqiD1QzBoUTQY1jZre8naFMm5HNs12lkwJoVRnwmpgcp52Us2
- U5rReL/s01nQ1hzMPquiACyVwc6m5nu/aeT9S7YUlieyv/r37EGySLpTw
- jTgxqXOayIh6XoxqYteupcsJ3uupNWzdWcufPkgUCHz/txjsRNvsoWrha A==;
-X-CSE-ConnectionGUID: Jf4q52l0Riqm4WA76ZnT4w==
-X-CSE-MsgGUID: 4MCRDtoERk256wq79k7P8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="38176432"
-X-IronPort-AV: E=Sophos;i="6.13,239,1732608000"; d="scan'208";a="38176432"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jan 2025 10:47:28 -0800
-X-CSE-ConnectionGUID: VoIGDF70T42mRutcbLVv2g==
-X-CSE-MsgGUID: w5FrBGClTH6WtmgMQwa81A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,239,1732608000"; d="scan'208";a="108631350"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 27 Jan 2025 10:47:24 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 27 Jan 2025 20:47:23 +0200
-Date: Mon, 27 Jan 2025 20:47:23 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Brian Geffon <bgeffon@google.com>
-Cc: intel-gfx@lists.freedesktop.org, chris.p.wilson@intel.com,
- jani.saarinen@intel.com, tomasz.mistat@intel.com,
- vidya.srinivas@intel.com, jani.nikula@linux.intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- stable@vger.kernel.org, Tomasz Figa <tfiga@google.com>
-Subject: Re: [PATCH v2] drm/i915: Fix page cleanup on DMA remap failure
-Message-ID: <Z5fUu6XwUrZESb5H@intel.com>
-References: <20250116155340.533180-1-bgeffon@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB9F10E336;
+ Mon, 27 Jan 2025 18:50:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dICWIEohbQOhVViVh9FvXj8906F3L+MdkCtrAd3GituyCKWbHqCUjQf1hqHM/bf/2+ewvaf0UuMxi+WIuk+MfWJtJMioLD5HgH7SfcwbKugG2LMzqKOHCzlwRr1QlR0QqGdsj9YzyyqVA8dlGNVoFi71Pzy6BLI5Vo6/ONAEgdHVetKpcx0Rvfrqk7OhpnF0DxFi9zm6YdVnIrKDnkmPlbjs2cCR00lIEXZ/tE1RMjRZGdnkb+0oqRkNB7rAOGZiUOXoCPeo9IfO9VxmVspnYGIPU6UKFcfpk0j7GN55zPZ7RQ4X0U1W7bIk5rRAolcnelbr/VKqVEjfu4NPifwmXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PbWVNM/lC3kv9tuSE6gl9uOngloWFu7eI8YNvIGyfq8=;
+ b=nfEadyB3K9+4cg9yMmScH9zth6DSD8K+v/4yR/uTFtKlLRArsUTkl1Hye9J5SJC9YgClxGWuEtYDsrikXHSph4j2XPqhgZstF7ZKJJbb5P1SKA/OYt+Um7E1S50ZEPCLQlYekQtSrjhHlYScaip03eg2rSU70f2zoK7sMnVrLr7SnKk9D8iiBBfFQTjiC/o8UxMOHNMNCecoTaoiIMHzXnMFVkclLKwZAvh7lJ+Gbg0uAICitiqa284LmRYp2jYC82HXrbs3Fehz+u3OAsXu18ww/J6hgas0SugdZh2n0n4BeQpwCvzPnAxRfy341T4Xiz6JCMBod4lWxxmwwzvlTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PbWVNM/lC3kv9tuSE6gl9uOngloWFu7eI8YNvIGyfq8=;
+ b=4fhkgDfcB+ag94+mpdXa6WdKnq/zmdAEVMEToI8hWo/GGmeIsgGqhpc+mDeogEM/MqsiDcBqbkad6PrUcfElwIHIvVoDq0iGls2+5ySOsighnmkP7XEepumuYnf4K7FIW8QMcngvZRFEFJeRbW6/7OTRBeUkKrwtXZ5Vu/0X/Pw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB7264.namprd12.prod.outlook.com (2603:10b6:303:22e::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.19; Mon, 27 Jan
+ 2025 18:50:20 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.8377.021; Mon, 27 Jan 2025
+ 18:50:20 +0000
+Message-ID: <12cb5a8d-ef7f-4cab-85d5-947dae83639c@amd.com>
+Date: Mon, 27 Jan 2025 19:50:15 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: restore wait-free fastpath for GEM_WAIT_IDLE
+To: Lucas Stach <l.stach@pengutronix.de>,
+ Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?=
+ <marek.olsak@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250127160258.289035-1-l.stach@pengutronix.de>
+ <280a3079-d213-4892-869f-004776fd90d0@amd.com>
+ <bf0abe8daf18a5718b1a38c29096967bfde36c12.camel@pengutronix.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <bf0abe8daf18a5718b1a38c29096967bfde36c12.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250116155340.533180-1-bgeffon@google.com>
-X-Patchwork-Hint: comment
+X-ClientProxiedBy: FR0P281CA0095.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a9::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB7264:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70f00a1c-cbc3-451d-c5bc-08dd3f0372f3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZzF1Q0hvdDVoS294V05CZUptZVlUUkUveU1SNGRnU2RHTnNFakE4VlhyUFJm?=
+ =?utf-8?B?eVUrb3Z5Q0VvcWxPODBLMW8vc2F3djdEdDhSV0NBbWo5SnE3SGM3SlRtN3oy?=
+ =?utf-8?B?N2wrN1gvMWxIdHZrUXFiYzBHcUMvVFpESUlCK0Nkdk00VWJ0ZW9IYlZ0QjRj?=
+ =?utf-8?B?R0JFejE3YnhYZ1ArS2ozQzFML0QwNWFUWTZmTlM5aWcxOWRRV3BNNmN5OGNh?=
+ =?utf-8?B?WGVWbzQ3c2FFRC9MVlJJcFAyd3d2b3F5ZlZvR29mcERzS2w3bFQwSUYxQVN5?=
+ =?utf-8?B?a3hncEJnZzd2SlR5aFVpeVFjUFFFdnZnN0VZSkpWU2x0SEpNKzRUaTU0bVRo?=
+ =?utf-8?B?blRkbWw4MmNvTkQwVHhSU3hKTWp3YUNtUFU3VW42dUF2M28vdVdUVGV2SDRP?=
+ =?utf-8?B?WkhJOUtmWEFSRFVEbG1qcldFeTkxSFZvRWh1NThubHNSaEo3akdWTXVrT29B?=
+ =?utf-8?B?WTd2ZUFwTU5QZk5pYkZUeGRrK0VKMHJwK0ZnQzM2WTZJZENMNXVyNm9FNHF2?=
+ =?utf-8?B?M3ZvQVpuSjVCbWpRaU80VllaMVphRFR3V3BNK1lqbVMxT0FQeG9LVDhvTERZ?=
+ =?utf-8?B?VFlBT09peFE0MXg5U0tyeHNxTldHZHBlN29yVnY2TStBMUJCcVZWSGZwRDlJ?=
+ =?utf-8?B?eitwN1oxbXJnNS9xekYvMXJLTzlGSmhiYWg5cVI1U2lhTmNxUXlvcmQyam55?=
+ =?utf-8?B?N3RrOXVkY3BjQnVMT3Vwek1OUzBUanZMdnVaR0FabHdFMTZxaUR0SmFnTkd1?=
+ =?utf-8?B?SEh6c0h6UjUyVEhwRVdiT0VuWXdNaFNrKzltMXNVd216THIyTDJjR044cVIz?=
+ =?utf-8?B?SzhUNHlncnIzM3lTb1dLUDJPRC9rZjAwbDN5Rno1RlgrY1pZTmhRZ2VwRUpO?=
+ =?utf-8?B?SEd6WUlBbmlvcTRDdVpiRHRVMVA0N25oWHQ1Q3hrRkN3clB1K0lyVnVXbzc4?=
+ =?utf-8?B?TndUaDJpSXNRb2YzYnBDaW5qbmdvejFTUTNmK011NVVMQWlzc2dhdnVMME1C?=
+ =?utf-8?B?dHJ1OUFNdWRkMmlMUzc4KysyQ216SDRWeEF3TnNrZlpiWkkwRTYwK1V4a1lv?=
+ =?utf-8?B?NWsrcUxFczFMS2VuZXJwR1JZZjUxK3JScGJTOTNoUmpBb3E1MXp2dURMMFRh?=
+ =?utf-8?B?VGRkZDJwc3Y1RXR6N255Y3BUYS9Kb2pVbVVHU2dJYmRTNVZNcks3VmEyeGMr?=
+ =?utf-8?B?b2ZCa2RZeTRSeCtOeDM0dHorODFFbDNHSUVXakFJYmhXZFJ6SmM3V3NOYkJk?=
+ =?utf-8?B?YU1Hcms2MktXT2hqb3B2V2U5S2lPZVpuaGtZVW9RenQ2MjhiektiRmE0ZHV0?=
+ =?utf-8?B?RitYR1JFVkt1aGVEdWF0OUVoMWE3NWlQR3NyNExJRzFNR1U4TlRUUUpCYnJF?=
+ =?utf-8?B?eWxEbkc4eWRDWXpPN0pBSVg5eTJKSVVCUEpZN0wyaXAvWUcwYms2TWV3WW95?=
+ =?utf-8?B?KzUrcWIwd0c2SHpFckdkSDBuYUNSYm5pWjJwSWpWR0xLM2lrOUprUFdEU2Zu?=
+ =?utf-8?B?dnJvK1RMTHkxYmJQemhMdFlwKzFTNTRlUHAvQm9hTmgyYW9QREhBRTVMSXB0?=
+ =?utf-8?B?U1MvVE93U1l5LzJuY2hUT211Q2NDc2hubkVKcFF0d0pqdForWDlMNEtkck9C?=
+ =?utf-8?B?MW9ORk52VnBjdVU3cVAyNmlKR2JDSW5pOFMrQTZGUXhFTEFhN25rZ0F3MW0x?=
+ =?utf-8?B?LytoNWQzTGV1ZDlRbHJvY0hzbkd3alYwemtJemUxcEN5VVVJVFowNnNCUmx3?=
+ =?utf-8?B?RWRNbE1SMDkxZUtiUjNoK3ZhcVFRaFFvRDI5dmdNcmMzQktrY3dyL2dYZkRY?=
+ =?utf-8?B?aXl6cjI1RVpJKy9TenVFQT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S3BQUXljM2lxb2lidHYzcWlsYURaemJ0dHBUQVZtMm1aRTN0cTRzQk1uTDhr?=
+ =?utf-8?B?eWZHbGRpNDlEQUFqQmRHUTB1TTUrR3ZvbjUyMFJGSFhMU2RTdTNLaVpJVUxn?=
+ =?utf-8?B?dmhBeDUrZThlaFhjQmlhblN6Y3FtbkFFaUdweUJEczBvcG1qMVhlN0N4d3Er?=
+ =?utf-8?B?cU1BdlB4M1Z4bmpFakpSU1hTWm9YVk1qSUVUQjI3ajhBaFRLWFFzbXNIYTJP?=
+ =?utf-8?B?S0NZZFoyQktpOGhkK3BXN2RPV21sMTE2WU4vcmRiUHJEOXBFWldWdE0vbEsz?=
+ =?utf-8?B?OTd3WHFlQS93QjNUa08ydWIxSXB1U05MQ1ZEN3JKU1dNM2xWYUFnZzRZOVRM?=
+ =?utf-8?B?VzYwNExQc2JxMEt4NHFVSUpuYW85bnlZM2YrQjhDdUhsVHNlUzJiellpcGZs?=
+ =?utf-8?B?OVpzbHBxVUxuT3ArcEtwS3AzS3dXTmpoTFpWZW00NmljMTZMSW1pZVlBeWNC?=
+ =?utf-8?B?TzhVbVptUjExRi91aFd1SUdWQ1lLQVFsc2tDQXlzUzYxbHRUaFErR3dGUUZQ?=
+ =?utf-8?B?TXJZVnFLWFZXd1ppelNpbFpQWFgrWnVlZFJCMHJTb25HZERyeC80Ri9BQVFX?=
+ =?utf-8?B?dDlPREFwbTVVcDE2Y3MyWnBvR2NISVR6ZkZXdlRrMjFnR3djSldhMkswU1ZG?=
+ =?utf-8?B?bFl5STI5L2U4ZFBGZ05ZZ1JIWnJWcEl5anNleTVxY2R2QWxpbnFJZXg0RlVh?=
+ =?utf-8?B?RzV1cUFBc3hJZEFIZEJESDZka1pEUGQ0WW5jQ1lxdzRHcGFxbzcxN2l5WXRP?=
+ =?utf-8?B?TEQ3aVFjZ1JuT3orbTRHMXk0NEZtamxhVG4zOHhKYklIbzJ1bkhhZHdSM2hT?=
+ =?utf-8?B?ZVJZbzhkVUlZTkcyOHVvZWowbUZHVEZLRFlmd2F1WnJVRmVjZDRLOExGWG9h?=
+ =?utf-8?B?M1NXdlB2WEVCNDBVSm9WSzdiNnZBdGRVVEVTR0hEL0crL2ZaQlNVVURCUSt5?=
+ =?utf-8?B?SzVvRVd5RjNhK3NaQVVRSnd3T0czeHh2d0Qyd3grcEJrTXpUUlVydEhqcXhT?=
+ =?utf-8?B?TDRja2VoTlIzVm1ldyttbVlsRXA1YmRGMDYxakRXNDF2RE5GTnJoUU5RMytK?=
+ =?utf-8?B?d2VJc25oWUE2aTlRaG10dUpHMG5EY29OSisyUGZpbzZkTTZZQTllREwydzRy?=
+ =?utf-8?B?dTdrdTczV1U3M08wd2FDNVJnU04wTkRtT0VJZEN6dVNVUmVkOEJjYldRTUxu?=
+ =?utf-8?B?ZHBabmtPNFptdkhQV3ZxaDlOR3V4YS80WkRLRVFvcGluWVhUTDJ6dVhXSlJk?=
+ =?utf-8?B?NUdyMXl0NmdabTZnNStsc0hZOU1aaVZyNlpYK2RSVHVxQkdIdlpmSzdkTG1F?=
+ =?utf-8?B?VENwMWdpeTd1bDYySlF6eGhmaHBNVEdsTE1IazFScmlqWGRKMlJjZE14OThr?=
+ =?utf-8?B?Q2UwR3BWVWk0RVJpZzV5QzQwSmlHbDBQek9NeXZta3FKM3RCTEZmU0RrRm5I?=
+ =?utf-8?B?MndqTE1SNXJrbDNSSzZRanJQcVhSOXVzb0cvR2Q3bTNlYmJrdm9mMGZ2V3hs?=
+ =?utf-8?B?cWhHMTJPbzdoeS9vd2FjbGdOcUR3U3dBdzhQYjdFd2Ryc0UzQ3VKV1BNVVpx?=
+ =?utf-8?B?TFFsN1pFNVR1NHUzS2h2VnNDSkI3aCt6bWVyQVFDZDNFWlBmeFlNdUhMdysy?=
+ =?utf-8?B?MWNOWlZjTzlQOFFITUs2NUtzelpWM2F5VklVL2F3VEs3SzJiVzlmeHJOZHhW?=
+ =?utf-8?B?WUQ3eWtRYzdLNkJIV3Vxbjc3S3NrNVcyK0trcFUrWHJpNHczN2RrczFzaDBC?=
+ =?utf-8?B?MGRRVFVZQzJGaVBZUFpUclVINzgzcEVsMStkYWt6c3ZYQ082SVhYcXNXNEdy?=
+ =?utf-8?B?NkVWWHFicmZFTW4rYkFjcUJBY3F2bkdjVmV5L25PY2ZETi9qRThnRW1vRE9D?=
+ =?utf-8?B?VzUyZ1kwdE5HQm1OUFJRbHpHVnUvUWhHVFRteFQyS1Qya0hMR0xZbWNxeWFw?=
+ =?utf-8?B?ejE3MzhybGQwNEQwKzRmOWJ2ZDFsRGI4c29mUHBUSk5VNUZHQUlXMVo0a2I1?=
+ =?utf-8?B?RFdFS2JySnkxMHNOZElJSnBhNUtXejhQV2g1R0NFNGc4Tis2RmVWb09LUnox?=
+ =?utf-8?B?Vlp6ZW1hSU1OSjlHYVp1TFhpOUZKYXRSZ1VlR3JvSUJiUXd0eHlJNlBSbWNM?=
+ =?utf-8?Q?JHEw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70f00a1c-cbc3-451d-c5bc-08dd3f0372f3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2025 18:50:20.5406 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qOs84GzPerpJdFH9ny77Alw9kpkQcr/XbIx0A4S0puNrAdMRrUyNtA97XI6vZBOB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7264
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,160 +163,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 16, 2025 at 10:53:40AM -0500, Brian Geffon wrote:
-> When converting to folios the cleanup path of shmem_get_pages() was
-> missed. When a DMA remap fails and the max segment size is greater than
-> PAGE_SIZE it will attempt to retry the remap with a PAGE_SIZEd segment
-> size. The cleanup code isn't properly using the folio apis and as a
-> result isn't handling compound pages correctly.
-> 
-> v1 -> v2:
->   (Ville) Fixed locations where we were not clearing mapping unevictable.
-> 
-> Cc: stable@vger.kernel.org
-> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> Cc: Vidya Srinivas <vidya.srinivas@intel.com>
-> Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13487
-> Link: https://lore.kernel.org/lkml/20250116135636.410164-1-bgeffon@google.com/
-> Fixes: 0b62af28f249 ("i915: convert shmem_sg_free_table() to use a folio_batch")
-> Signed-off-by: Brian Geffon <bgeffon@google.com>
-> Suggested-by: Tomasz Figa <tfiga@google.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_object.h |  3 +--
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c  | 23 +++++++++-------------
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c    |  7 ++++---
->  3 files changed, 14 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index 3dc61cbd2e11..0f122a12d4a5 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -843,8 +843,7 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
->  			 size_t size, struct intel_memory_region *mr,
->  			 struct address_space *mapping,
->  			 unsigned int max_segment);
-> -void shmem_sg_free_table(struct sg_table *st, struct address_space *mapping,
-> -			 bool dirty, bool backup);
-> +void shmem_sg_free_table(struct sg_table *st, bool dirty, bool backup);
->  void __shmem_writeback(size_t size, struct address_space *mapping);
->  
->  #ifdef CONFIG_MMU_NOTIFIER
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index fe69f2c8527d..b320d9dfd6d3 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -29,16 +29,13 @@ static void check_release_folio_batch(struct folio_batch *fbatch)
->  	cond_resched();
->  }
->  
-> -void shmem_sg_free_table(struct sg_table *st, struct address_space *mapping,
-> -			 bool dirty, bool backup)
-> +void shmem_sg_free_table(struct sg_table *st, bool dirty, bool backup)
+Am 27.01.25 um 17:33 schrieb Lucas Stach:
+> Hi Christian,
+>
+> Am Montag, dem 27.01.2025 um 17:14 +0100 schrieb Christian KÃ¶nig:
+>> Am 27.01.25 um 17:02 schrieb Lucas Stach:
+>>> This effectively reverts 0fea2ed61e7f ("drm/amdgpu: Remove call to
+>>> reservation_object_test_signaled_rcu before wait"), as the premise of
+>>> that commit is wrong. dma_resv_wait_timeout() without a timeout will
+>>> not turn into a wait-free dma_resv_test_signaled, but will wait a
+>>> jiffy for unsignaled fences, which is not at all what userspace expects
+>>> when it calls GEM_WAIT_IDLE with a timeout of 0.
+>> Marek pinged me about that strange behavior as well. That sounds like a
+>> separate bug in dma_resv_wait_timeout() to me.
+>>
+>> I don't see why the function should be waiting with a timeout of 0 and
+>> we have multiple cases where that is assumed.
+>>
+>> What should happen is that dma_resv_wait_timeout() should return 1 when
+>> all fences are signaled even when the timeout is 0.
+>>
+>> My educated guess is that this behavior is somehow broken and instead we
+>> wait for at least 1 jiffies.
+>>
+>> This here is probably just the tip of the iceberg.
+>>
+> dma_resv_wait_timeout() explicitly sets timeout to a single jiffy when
+> it is entered with timeout == 0. This behavior was introduced with your
+> commit 06a66b5c77ed ("reservation: revert "wait only with non-zero
+> timeout specified (v3)" v2"), which seems to fix a real bug.
 
-This still makes the alloc vs. free completely asymmetric.
-This is not what we want because it just makes it very easy
-to make it mistake in the caller.
+Ah, yes! I see where the problem is now.
 
-I think the correct fix is to simply call the current
-shmem_sg_free_table() from the now broken failure path.
-mapping_{set,clear}_unevictable() just seems to be some
-bit operation so AFAICS the slight ping-pong should be
-inconsequential.
+> Between the two behaviors I think it is wrong for callers of
+> dma_resv_wait_timeout() to assume that the call is necessarily wait-
+> free in case of timeout == 0. If you want wait-free but are able to
+> deal with false positive unsignaled returns use dma_resv_test_signaled,
+> otherwise use dma_resv_wait_timeout to get accurate answers with a
+> possible wait.
 
->  {
->  	struct sgt_iter sgt_iter;
->  	struct folio_batch fbatch;
->  	struct folio *last = NULL;
->  	struct page *page;
->  
-> -	mapping_clear_unevictable(mapping);
-> -
->  	folio_batch_init(&fbatch);
->  	for_each_sgt_page(page, sgt_iter, st) {
->  		struct folio *folio = page_folio(page);
-> @@ -180,10 +177,10 @@ int shmem_sg_alloc_table(struct drm_i915_private *i915, struct sg_table *st,
->  	return 0;
->  err_sg:
->  	sg_mark_end(sg);
-> +	mapping_clear_unevictable(mapping);
->  	if (sg != st->sgl) {
-> -		shmem_sg_free_table(st, mapping, false, false);
-> +		shmem_sg_free_table(st, false, false);
->  	} else {
-> -		mapping_clear_unevictable(mapping);
->  		sg_free_table(st);
->  	}
->  
-> @@ -209,8 +206,6 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->  	struct address_space *mapping = obj->base.filp->f_mapping;
->  	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
->  	struct sg_table *st;
-> -	struct sgt_iter sgt_iter;
-> -	struct page *page;
->  	int ret;
->  
->  	/*
-> @@ -239,9 +234,8 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->  		 * for PAGE_SIZE chunks instead may be helpful.
->  		 */
->  		if (max_segment > PAGE_SIZE) {
-> -			for_each_sgt_page(page, sgt_iter, st)
-> -				put_page(page);
-> -			sg_free_table(st);
-> +			/* Leave the mapping unevictable while we retry */
-> +			shmem_sg_free_table(st, false, false);
->  			kfree(st);
->  
->  			max_segment = PAGE_SIZE;
-> @@ -265,7 +259,8 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
->  	return 0;
->  
->  err_pages:
-> -	shmem_sg_free_table(st, mapping, false, false);
-> +	mapping_clear_unevictable(mapping);
-> +	shmem_sg_free_table(st, false, false);
->  	/*
->  	 * shmemfs first checks if there is enough memory to allocate the page
->  	 * and reports ENOSPC should there be insufficient, along with the usual
-> @@ -402,8 +397,8 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_
->  	if (i915_gem_object_needs_bit17_swizzle(obj))
->  		i915_gem_object_save_bit_17_swizzle(obj, pages);
->  
-> -	shmem_sg_free_table(pages, file_inode(obj->base.filp)->i_mapping,
-> -			    obj->mm.dirty, obj->mm.madv == I915_MADV_WILLNEED);
-> +	mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
-> +	shmem_sg_free_table(pages, obj->mm.dirty, obj->mm.madv == I915_MADV_WILLNEED);
->  	kfree(pages);
->  	obj->mm.dirty = false;
->  }
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 10d8673641f7..37f51a04b838 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -232,7 +232,8 @@ static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
->  	return 0;
->  
->  err_free_st:
-> -	shmem_sg_free_table(st, filp->f_mapping, false, false);
-> +	mapping_clear_unevictable(filp->f_mapping);
-> +	shmem_sg_free_table(st, false, false);
->  
->  	return err;
->  }
-> @@ -243,8 +244,8 @@ static void i915_ttm_tt_shmem_unpopulate(struct ttm_tt *ttm)
->  	bool backup = ttm->page_flags & TTM_TT_FLAG_SWAPPED;
->  	struct sg_table *st = &i915_tt->cached_rsgt.table;
->  
-> -	shmem_sg_free_table(st, file_inode(i915_tt->filp)->i_mapping,
-> -			    backup, backup);
-> +	mapping_clear_unevictable(file_inode(i915_tt->filp)->i_mapping);
-> +	shmem_sg_free_table(st, backup, backup);
->  }
->  
->  static void i915_ttm_tt_release(struct kref *ref)
-> -- 
-> 2.48.0.rc2.279.g1de40edade-goog
+Well dma_resv_wait_timeout() with a zero timeout is indeed supposed to 
+return immediately. Anything else would be quite a difference to all 
+other kernel functions which take a jiffies timeout.
 
--- 
-Ville Syrjälä
-Intel
+But the difference between dma_resv_test_signaled() and 
+dma_resv_wait_timeout() with a zero timeout is that the later should 
+still make sure to enable signaling!
+
+A couple of people have pinged me about that as well and we also 
+discussed the desired behavior on a bug report with Faith and a few others.
+
+Going to take a look, thanks for pointing this out.
+
+Regards,
+Christian.
+
+>
+> Regards,
+> Lucas
+>
+>> Regards,
+>> Christian.
+>>
+>>> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+>>> ---
+>>> This is most likely the correct kernel-side solution for the unexpected
+>>> slowdown worked around with in userspace with this Mesa series:
+>>> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32877
+>>> ---
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 9 +++++++--
+>>>    1 file changed, 7 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>> index 1a5df8b94661..75b5d5149911 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+>>> @@ -567,8 +567,13 @@ int amdgpu_gem_wait_idle_ioctl(struct drm_device *dev, void *data,
+>>>    		return -ENOENT;
+>>>    
+>>>    	robj = gem_to_amdgpu_bo(gobj);
+>>> -	ret = dma_resv_wait_timeout(robj->tbo.base.resv, DMA_RESV_USAGE_READ,
+>>> -				    true, timeout);
+>>> +	if (timeout == 0)
+>>> +		ret = dma_resv_test_signaled(robj->tbo.base.resv,
+>>> +					     DMA_RESV_USAGE_READ);
+>>> +	else
+>>> +		ret = dma_resv_wait_timeout(robj->tbo.base.resv,
+>>> +					    DMA_RESV_USAGE_READ,
+>>> +					    true, timeout);
+>>>    
+>>>    	/* ret == 0 means not signaled,
+>>>    	 * ret > 0 means signaled
+
