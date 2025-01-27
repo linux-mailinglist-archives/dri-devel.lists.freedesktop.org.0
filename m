@@ -2,193 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D55A1CFD9
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 05:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD63AA1CFF8
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 05:07:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB0810E222;
-	Mon, 27 Jan 2025 04:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985CA10E160;
+	Mon, 27 Jan 2025 04:07:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jwR+3zC/";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DiqdSWrO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FCEA10E1F8;
- Mon, 27 Jan 2025 04:02:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1737950556; x=1769486556;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=bvP51burNHHZ0MtCdbH9xWiNWC71C8Ll0rATCD6cNRU=;
- b=jwR+3zC/oqoOYqdp8WuwF5AQ9tc093Bro9dzpgYFvcimMgH9vJrDCm/v
- mwxzx8GGy/VCx+SvlqiSaC18tsEVFx9edbgr7q4XIVe/Iz6FZ11gsbJYc
- mxZNYiTu/klIHvjOu3bq6X1kl5bsPSBfChrBIsIsdNcv3GEEH4HB6kjmo
- Po7c1tYnme1kSp7Rovq/wYdt38UzuBgBmPqQaJHip9KXGzaQScyZNXBd7
- 5FBaI8h0h1FjkxcE3OXBRY75/hNuPAb4UgC9jcmR08Rlszl2n8fwIpLYD
- Zt99VL17KPpa0hKc4cPNnvZqpq+BB2+uTDq8ddlL1o5A2ve5oiX6xBPDR A==;
-X-CSE-ConnectionGUID: LLDYUNrcSQuVqiHxxgS7pA==
-X-CSE-MsgGUID: n8Uw1feRSVmJtNMPPG+fiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11327"; a="38286174"
-X-IronPort-AV: E=Sophos;i="6.13,237,1732608000"; d="scan'208";a="38286174"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2025 20:02:35 -0800
-X-CSE-ConnectionGUID: av7M4aB7RO+PqiHhuMxg5Q==
-X-CSE-MsgGUID: slfuncfgR5iieM4nmR698g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113459680"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 26 Jan 2025 20:02:35 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Sun, 26 Jan 2025 20:02:34 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Sun, 26 Jan 2025 20:02:34 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.49) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Sun, 26 Jan 2025 20:02:34 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r9OFKWBqEnUznhJC6qehGNQyYR/jPuHB1LqHHHYpIEnOWLeUOFvnqG/5zlfAF1THKzp9gjlCFOEuyCHLI2OHU6ehSV3cuwLwywhQhRndtBbIsFK+N+Vhq7FX5F0P2FrruAH0ML009A8Fw+60yhRXBXZGmjgz1AxGmhMQbEDiQJNqplyni7RQuILvHzgdqJ13E5arSsncikvtnVVgzqD9rmrQ2rXDPM5jsDqoH32CrVE4fZMQC4j6phfbuTQMoZqFfTQ6n4po5sQ7RttHE13lpFjDSa6y7HdhharEnDjzuKFm8fFa5fKc1g7llrLKNvJOVjziVb/TlFzPU43QZw7WSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bvP51burNHHZ0MtCdbH9xWiNWC71C8Ll0rATCD6cNRU=;
- b=fz+YZigr/8Yzm8f9j36lu9didSjWzEJi/+vB17Qu5X+CFc+0HHqt3tgWCw/+biw0wcAEdKMrgFhGuWcmLizaOJYvbCZoL9HqkY5b1EvF+jiUGjjglHwJySy0ur5ZcZ6UTlGXVZtmo0l4HOauTUF9Zx/q7X5O9dKYkG+0KfYg4GAW/8iOaR6teND4KtOQLutrmWwwZPtPQV4TTusCJqTb1ZUFs4cg2Kx2Ih/lXYm7XkuO4GLbS2g+XzBw4B0t4mAsWF1AzxZ/rJRNuR0GKSsXnBy46fAvw6eJSwpqD9H1Uict3yYybw11qWEezesgux8Eq+EHyHsAAezHcJ8shwtVKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH7PR11MB8252.namprd11.prod.outlook.com (2603:10b6:510:1aa::14)
- by PH0PR11MB7586.namprd11.prod.outlook.com (2603:10b6:510:26e::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Mon, 27 Jan
- 2025 04:02:31 +0000
-Received: from PH7PR11MB8252.namprd11.prod.outlook.com
- ([fe80::625b:17f6:495f:7ad]) by PH7PR11MB8252.namprd11.prod.outlook.com
- ([fe80::625b:17f6:495f:7ad%6]) with mapi id 15.20.8377.021; Mon, 27 Jan 2025
- 04:02:31 +0000
-From: "Srinivas, Vidya" <vidya.srinivas@intel.com>
-To: Brian Geffon <bgeffon@google.com>
-CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "Wilson, Chris P" <chris.p.wilson@intel.com>, "Saarinen, Jani"
- <jani.saarinen@intel.com>, "Mistat, Tomasz" <tomasz.mistat@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Joonas
- Lahtinen" <joonas.lahtinen@linux.intel.com>, "stable@vger.kernel.org"
- <stable@vger.kernel.org>, Tomasz Figa <tfiga@google.com>
-Subject: RE: [PATCH v2] drm/i915: Fix page cleanup on DMA remap failure
-Thread-Topic: [PATCH v2] drm/i915: Fix page cleanup on DMA remap failure
-Thread-Index: AQHbaC7neG8peSCTkESx6yyEUtSfT7MjtxRwgAJfXICAA/ljMA==
-Date: Mon, 27 Jan 2025 04:02:31 +0000
-Message-ID: <PH7PR11MB82524838FC5914937C5EA1FD89EC2@PH7PR11MB8252.namprd11.prod.outlook.com>
-References: <20250116155340.533180-1-bgeffon@google.com>
- <PH7PR11MB8252B7BF1D1B6ADE94839F8F89E02@PH7PR11MB8252.namprd11.prod.outlook.com>
- <CADyq12xLorH1kzH6ezp2Z_SYv-AVbrp+h98FeYP+hbt2R1_1Nw@mail.gmail.com>
-In-Reply-To: <CADyq12xLorH1kzH6ezp2Z_SYv-AVbrp+h98FeYP+hbt2R1_1Nw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH7PR11MB8252:EE_|PH0PR11MB7586:EE_
-x-ms-office365-filtering-correlation-id: afcfba2c-1ca8-433b-f8af-08dd3e876c74
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?Tk9uam04M3d0NUJPN3NCc2FmbW5Rd2t1czV1VFczQW1VZDRRQVhQbHRXV3Ju?=
- =?utf-8?B?am4rbWF1Y1Y5TXNMV2Q1SHhpSmFwSlJWUDlWb1BSWVN2YlpBSkh3TytzNERP?=
- =?utf-8?B?aitLS1IxS1lqTjRIQ215VWdJYmlkdUc5SG94dzExbGJMMFhpc2RSL1ltempL?=
- =?utf-8?B?QjZCNFFxTFFaemZMZStUL2FWMGtESjZWTkhhVDU2VDBVNXh0bmJlSlphdm9s?=
- =?utf-8?B?bE9qVkZIOVUxeG5nWVF5MmpFYWdEaWlDT29INmF2ZWNJSVRuVVdoTE5aKzly?=
- =?utf-8?B?SkdwVmRFV3JucndGNjQvUjMxNXhmSU1ua2JqUTF0VDUzVC9CNVhCdjkycUJJ?=
- =?utf-8?B?QkFDeVRKUVBnMitwblI0VThZamlqNmoyZzRjZXFuK0NUOWpVK1ZobER0dVlF?=
- =?utf-8?B?Z0I1bm5QT3pXcE16SVRZQVBTQkp4VldKY21heXFWaEJPQmNKbGhaeUV0UVNz?=
- =?utf-8?B?ajlVeFdubENTb1phK2NPc1ZCelFHOU9DbG5iTUM1M1VqZmtDMHN1a2ZuS2N4?=
- =?utf-8?B?ekwvS2JTVmR5a3B6aXZHU2ZVVHkrdnNtSWRFbDJycGtnc21sV1Zvbkc1NGxP?=
- =?utf-8?B?QXVSNkFiV1QwVkt5cFBZL094d1dzWTBmYS9ZMUhodGQxYTdLRDJ2d1ljVFBu?=
- =?utf-8?B?ZTNldTJDRUM2UXJYNVlkRUh0T0pQY002TFMwcHNsUGIwUHlPUmdIc0xRNVJa?=
- =?utf-8?B?eXZvQ3daRW1FcmpBRldPeXQ0QzFFcC9FUWRZWStjTXBBYWk0MjZabmUvcFdp?=
- =?utf-8?B?SEtBRkFJdEdBMTFucWQ0Zk5ObjBMODQvQUVzdUtaVmdnRFp2WnF2K3FhRCs5?=
- =?utf-8?B?bVR5bEExc1VueXdFQVY4V1ZFNzE0b1dGakZvMk9BdVh2ZlFHZXk4Nm9tRXhj?=
- =?utf-8?B?bVYrYUdtOGRXWXlGeUVXQ25zUlZPTHFJSnlDSi9HQ1lBWFc1bytnUzExb0dw?=
- =?utf-8?B?VjJDaUkvSVJGNDZXNFdBZUpTWHA2NTBzWk5lS1BZb2wydm5zTzViRy9QYW14?=
- =?utf-8?B?RGJSTFFrUjZYQloycmRuU0E0TU9TUWVNczdLZE5yWHVmNFN0VlpWbWxsRDUz?=
- =?utf-8?B?U1h4V0txbjYwV2Mva1EvTy84b1RlbFR2OWxKN1gzMjlyRy9iczdTbzVhaWVY?=
- =?utf-8?B?ZkxqN2lGMHo1V0JrMVBlVXlJNzhYUEFsN0lYaUMwVjUvRUcxVEZJN3VoMThD?=
- =?utf-8?B?SUZWMlBOSmhoQVNOenFvRGE2eXpUK1RWRnJrc1pqSFZYc2dpaWxUSVZ4UTgx?=
- =?utf-8?B?VEswQWFBT1FYaHFQOFgvZG1jcnBGU3VlZVcvOVRuWjg0WWdRQWhlRldRNGZv?=
- =?utf-8?B?d3hoR1FNTDVkMXlUbWJxMm8zQ0xNNUJHWTdlQzducHlGa25CQnZ6ZVBQemto?=
- =?utf-8?B?enJNSHp3YS9BRzBpR2c3SEw1MDRNTDBpUHZEV1dGUEp4U0N4RjRreHR5dXlW?=
- =?utf-8?B?QTN3TisrVytFR0lmUHpXRkk3bkhNRElxSDhzbG94MnM3akNEOVp4S0s0N1hO?=
- =?utf-8?B?VjJlbUxnSE9KRlpMODdZSzkrd1pyb3l4eU82NS8rbjlPb3h1TEF5dkZHbmhL?=
- =?utf-8?B?bWlLWlJzNFdGWXJNUFpuRUxKS2ZGT1F2Z085RzhKUzl6eTRUUGJsVnMvUUxw?=
- =?utf-8?B?TU5GTk1rU3VTVlNJenVKMUhVd1NVOWVFWktkQ3I0VHNLN1d3T2VYd1R2S3NZ?=
- =?utf-8?B?dXovV0hxRlpESTVCRXhkRytGbUtYcDJDem5KTEp3cFRtTkJLdndPSVl1Si9o?=
- =?utf-8?B?US9aOTNSemdzdlRKeVZWWVAra2Rzd3RGQXRGMlkyOUpMWWh0WW1qSjFPOWtu?=
- =?utf-8?B?U0hFMEExRXMvd3poL1JMRHhCT2lncDBpNnZVRkwrS0FwRk1zSkdtd2xScndq?=
- =?utf-8?Q?48+bYpo5yE8Tt?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB8252.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q1cwbVhJNDFzVTNhUWg1Y29zcmdFSHArZ2s0MG15WkYrTUZMTkxleCsrcmVn?=
- =?utf-8?B?UVdpQ1ZpSTFFZjY2ZU9Eei85SnN2Q2dlUDdlT1JUaFBiUk1zL3FmbUpjWDFS?=
- =?utf-8?B?TS9nTy9GOXVUeUhXY0RlOGo3K005YitRbVNsNmU5WldNSkFCVXhSVDNoVk9P?=
- =?utf-8?B?TEgxZ2E4cHJhbEI1eDZTSitaUzZBUHBjbFA0R1pSN0d3Y1FyMGdYOHdpaGxF?=
- =?utf-8?B?YWV0Uk1ucDFKamVZdlRpdFhkMHlaUDF2VlcrTXlGVHB2NWEvSFhnai9lcWtN?=
- =?utf-8?B?SlFFZTZSeWdqU2lzdk9YRC8xZVJ5TENNU09RU21RSjR3OWpQTEIyQko0aVRF?=
- =?utf-8?B?NUFHWnZKellwQkZjNnRsN3g2QlFjYkNPZnd6M0QvY3p6NU9yR3hPcW44SFV2?=
- =?utf-8?B?WXc4MVJRVlhLdzVuSTJHZU1FdnA4aUZYcCtlQlFPUU83MTZJekhwOGdSWXp2?=
- =?utf-8?B?ZXhCdHhRT2JzTkYzZmRRc250OWVHQnFHemtrdU1HT0FTMnFYSkdRMlR3VjRn?=
- =?utf-8?B?ODJLYnJSazYrdy92V3NVbUhEd0dCWDNMamxnbHY2ZTJkK3VnRCtuNE1RS0hG?=
- =?utf-8?B?UDFDaDA4Q3l3YzVlbmNMait4VVF0a00za09FSHprejJKV0VxVjg1Rmczb0Uv?=
- =?utf-8?B?QlhvZjNQcnM4MVRobThQOXdkMDRNZkxObE05TC9yQmFmcDFpQlpuLzRUUDM1?=
- =?utf-8?B?Wng1YW9xd1U3TE5CMUwzTDV5VHFNd1orL2wyY2IweXZhK3BITzdOQ3h5Ujh4?=
- =?utf-8?B?Z0J1eWZYb3NsMEVxT2xXOXVkckdvcVlLTVhWZnArRnRXRGNkOC9zTFlpS2Ey?=
- =?utf-8?B?ZVBDZWZldDNCOE9kUi82ZWtsaGdCWkJjMTJYbERnZEc2T0VnVlNDdk9qTWN6?=
- =?utf-8?B?UUU1UThvYUdpU1hnOTVPYS8xTkp5TzloejNPck9mUG1YRjV4NW4rK0d0WkNV?=
- =?utf-8?B?WTB1M2t4blliS1B4N2FYS1BmOU1pS2xRVjdueTNMWlUxT0hCU05Sc29mdVBs?=
- =?utf-8?B?dVY0STBlWEVmQnRIdE50MXh0NEJ5bWVzeTFidjNpdUJqVTNIYk9FU20wT09T?=
- =?utf-8?B?c1pMSHZsKzRSdXFZZ0tzR1M5QitNUy9TYTZVTitJVU1lUURDYlF1V3hEaGZ4?=
- =?utf-8?B?NUpjdUdVL2xMbDVoMDhaVERQN1lTQkt3OXptcERiOUx5UzZLWUhCVXNTcUUw?=
- =?utf-8?B?QWFxKzQ1ZkVyUE0zQ1l0U0hOTVF3aWN5UXJEV0pnT2Z3ck4rS3MrTDV6SThz?=
- =?utf-8?B?THppbGp6M08vZlVSRnZFM09yZG5IRXNtVDVLak1yK2U0VENXZzZsRExjTnd0?=
- =?utf-8?B?c1MyU0U4QTg3QnpHN2MzWGo2T242M1hua1prUitPRWhlRGxub2ZSWXVyNThN?=
- =?utf-8?B?NzFHVHVGMWcwMnlqa0VYWm5ReUVsbzEwM1VkdnFDVGlEc0pzYTBSbm92NGFs?=
- =?utf-8?B?TUFpU0RWbEhvT0VnU3pWU3RkbW9ScTN3ZHBYU0h0UDlUeDhRdUQ4N2RWc3FJ?=
- =?utf-8?B?d1AwUVNhbnhHVjhYR2VTZ1NHN2RyYVVkSXNrcEE5SzFlK1o0c3NoL1VMbmty?=
- =?utf-8?B?WWNIRmxWZXpFM3Q0NEZXd3BKTjU3MlFVNE92Qmh1dXBhSms1b2FxS1FtcFlF?=
- =?utf-8?B?L1NnVG5oUmo1TEgxWTZ0RElxbDJNdFVDbHhHbkhyVll2MlAvdkQ5T2hacTQ2?=
- =?utf-8?B?Z1VRaElvYWtSUFRDd3IxRVdoYStDNFFkVWk0blJyeGRpS3FETlM0UHlKOW1u?=
- =?utf-8?B?dEhaa2hvM2NVM1lmdi9iNnM3c1h3ellZbWJ5VUk1QTZZWUZDK1NmWW1sem9E?=
- =?utf-8?B?Q2NhN0UxNTZSclpOelRaWGpxU216NFZxcjVOMjhoMmtZK1VVUk04QkZRMC8r?=
- =?utf-8?B?OGhkcXZacHFSYkMrQWpDV2Rha1VqMWYwbE1lM0hhUEY4THlrVm9iU0xQVkxn?=
- =?utf-8?B?clo0WVlnVFZEYWRhN1I1VnNMVWFYZkpLWkhpMkdIL0VmV2hOMWtOdmt1V1Bw?=
- =?utf-8?B?TFo3VTlWOThncWFwek5WSUVsN1BGUDBoak01V3F0R25EMWtIVVRQbFlWYUVr?=
- =?utf-8?B?WEltUkNFSkI2NnFHMUZyaGtnaUZwZ0RqNTdpY3UrTGlzeFJ3aW1oS2VUSXpk?=
- =?utf-8?Q?gmWFXhs0NZINRR3FkceKLboTZ?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBBF410E160
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 04:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1737950844;
+ bh=OLq/qzF8DOQ+qmX2ArKQs551FBRxoGeaqqEYk6Ey6DI=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=DiqdSWrOFjA8xouKHg+rV0nG56cqNuOolQ0R8kDvWjil7SZ9i9HmFJeHVwyNvZGJm
+ WMZw5jvmy3JUgmRLCPojFKF7UgBAATY9c209e1rFybjRKkZpirbZnho5qv7zDS+/Vw
+ Ca8ja38OFbc+I/wOgB6vZ4nnvv/hh925alOOvsWORgiCgyNfHqFGGMyRImD7YZNIyE
+ RLU4/SLyWZBOVxlaP4weLa/owajEQQ6FTuUUJYsjWkUmzdmhpK7aSZUmTWrKUsbNRy
+ q5wHM9ns1wmgAqBWPd+SA14mWvQoOp0pGKWU7sTzTiXbQmQE8uBQLgwYDyikMvfJ+N
+ 8DOsYfTliYoCQ==
+Received: from [192.168.50.250] (unknown [171.76.81.174])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1C83F17E0EAB;
+ Mon, 27 Jan 2025 05:07:14 +0100 (CET)
+Message-ID: <d524fd79-bc61-4f20-98e1-f9cc970808ff@collabora.com>
+Date: Mon, 27 Jan 2025 09:37:07 +0530
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB8252.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: afcfba2c-1ca8-433b-f8af-08dd3e876c74
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jan 2025 04:02:31.7199 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +/TLM5P2jiW34Zo54WLz7QqapkAgOfU7RP4X5AreZVpJjmCD1BBWRq22qMq1R5XsS9pmJSfHyadsor0yU5QoWPhfrKf1si9lS9KjVs8B/CE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7586
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/5] kci-gitlab: Add drm scenario
+To: Helen Mae Koike Fornazier <helen.koike@collabora.com>,
+ kernelci <kernelci@lists.linux.dev>, linuxtv-ci <linuxtv-ci@linuxtv.org>,
+ "dave.pigott" <dave.pigott@collabora.com>, mripard <mripard@kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kselftest <linux-kselftest@vger.kernel.org>,
+ "gustavo.padovan" <gustavo.padovan@collabora.com>,
+ pawiecz <pawiecz@collabora.com>, spbnick <spbnick@gmail.com>,
+ "tales.aparecida" <tales.aparecida@gmail.com>,
+ workflows <workflows@vger.kernel.org>, skhan <skhan@linuxfoundation.org>,
+ kunit-dev <kunit-dev@googlegroups.com>, nfraprado <nfraprado@collabora.com>,
+ davidgow <davidgow@google.com>, cocci <cocci@inria.fr>,
+ "Julia.Lawall" <Julia.Lawall@inria.fr>, "laura.nao"
+ <laura.nao@collabora.com>, kernel <kernel@collabora.com>,
+ torvalds <torvalds@linuxfoundation.org>, gregkh
+ <gregkh@linuxfoundation.org>, daniels <daniels@collabora.com>,
+ "shreeya.patel" <shreeya.patel@collabora.com>,
+ "denys.f" <denys.f@collabora.com>,
+ "nicolas.dufresne" <nicolas.dufresne@collabora.com>,
+ "louis.chauvet" <louis.chauvet@bootlin.com>,
+ "hamohammed.sa" <hamohammed.sa@gmail.com>,
+ "melissa.srw" <melissa.srw@gmail.com>, simona <simona@ffwll.ch>,
+ airlied <airlied@gmail.com>, "Tim.Bird" <Tim.Bird@sony.com>,
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ broonie <broonie@kernel.org>, "leobras.c" <leobras.c@gmail.com>,
+ groeck <groeck@google.com>, rdunlap <rdunlap@infradead.org>,
+ geert <geert@linux-m68k.org>, "michel.daenzer" <michel.daenzer@mailbox.org>,
+ "sakari.ailus" <sakari.ailus@iki.fi>, jarkko <jarkko@kernel.org>
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+ <20250123135342.1468787-4-vignesh.raman@collabora.com>
+ <Z5KhNx2gUU2kc9NP@phenom.ffwll.local>
+ <194985102fd.cfcde36741735.2441429304516590558@collabora.com>
+ <Z5OyWKZ9P5fzq3ag@phenom.ffwll.local>
+Content-Language: en-US
+From: Vignesh Raman <vignesh.raman@collabora.com>
+In-Reply-To: <Z5OyWKZ9P5fzq3ag@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -204,163 +90,1551 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnJpYW4gR2VmZm9uIDxi
-Z2VmZm9uQGdvb2dsZS5jb20+DQo+IFNlbnQ6IDI0IEphbnVhcnkgMjAyNSAyMDo1MA0KPiBUbzog
-U3Jpbml2YXMsIFZpZHlhIDx2aWR5YS5zcmluaXZhc0BpbnRlbC5jb20+DQo+IENjOiBpbnRlbC1n
-ZnhAbGlzdHMuZnJlZWRlc2t0b3Aub3JnOyBXaWxzb24sIENocmlzIFANCj4gPGNocmlzLnAud2ls
-c29uQGludGVsLmNvbT47IFNhYXJpbmVuLCBKYW5pIDxqYW5pLnNhYXJpbmVuQGludGVsLmNvbT47
-DQo+IE1pc3RhdCwgVG9tYXN6IDx0b21hc3oubWlzdGF0QGludGVsLmNvbT47IHZpbGxlLnN5cmph
-bGFAbGludXguaW50ZWwuY29tOw0KPiBqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5jb207IGxpbnV4
-LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGRyaS0NCj4gZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Au
-b3JnOyBKb29uYXMgTGFodGluZW4NCj4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5pbnRlbC5jb20+
-OyBzdGFibGVAdmdlci5rZXJuZWwub3JnOyBUb21hc3ogRmlnYQ0KPiA8dGZpZ2FAZ29vZ2xlLmNv
-bT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2Ml0gZHJtL2k5MTU6IEZpeCBwYWdlIGNsZWFudXAg
-b24gRE1BIHJlbWFwIGZhaWx1cmUNCj4gDQo+IE9uIFdlZCwgSmFuIDIyLCAyMDI1IGF0IDEwOjA3
-4oCvUE0gU3Jpbml2YXMsIFZpZHlhIDx2aWR5YS5zcmluaXZhc0BpbnRlbC5jb20+DQo+IHdyb3Rl
-Og0KPiA+DQo+ID4gSGVsbG8gQnJpYW4sIE1hbnkgdGhhbmtzIGZvciB0aGUgZml4LiBJIGFtIGFk
-ZGluZyBteSB0ZXN0ZWQtYnkuDQo+ID4gVGVzdGVkLWJ5OiBWaWR5YSBTcmluaXZhcyA8dmlkeWEu
-c3Jpbml2YXNAaW50ZWwuY29tPg0KPiANCj4gVGhhbmtzIGZvciB0ZXN0aW5nIFZpZHlhLg0KPiAN
-Cj4gQ2FuIHdlIGdldCBhIG1haW50YWluZXIgdG8gdGFrZSBhIGxvb2s/DQoNCkhlbGxvIEJyaWFu
-LCBUaGFuayB5b3Ugc28gbXVjaC4NClRvbWFzeiBoYXMgbGVmdCBhIGNvbW1lbnQgb24gZ2l0bGFi
-LCBJIHRoaW5rIGhlIHdpbGwgaGVscCBvbiByZXZpZXcuDQoNClJlZ2FyZHMNClZpZHlhDQoNCj4g
-DQo+ID4NCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206
-IEJyaWFuIEdlZmZvbiA8YmdlZmZvbkBnb29nbGUuY29tPg0KPiA+ID4gU2VudDogMTYgSmFudWFy
-eSAyMDI1IDIxOjI0DQo+ID4gPiBUbzogaW50ZWwtZ2Z4QGxpc3RzLmZyZWVkZXNrdG9wLm9yZw0K
-PiA+ID4gQ2M6IFdpbHNvbiwgQ2hyaXMgUCA8Y2hyaXMucC53aWxzb25AaW50ZWwuY29tPjsgU2Fh
-cmluZW4sIEphbmkNCj4gPiA+IDxqYW5pLnNhYXJpbmVuQGludGVsLmNvbT47IE1pc3RhdCwgVG9t
-YXN6IDx0b21hc3oubWlzdGF0QGludGVsLmNvbT47DQo+ID4gPiBTcmluaXZhcywgVmlkeWEgPHZp
-ZHlhLnNyaW5pdmFzQGludGVsLmNvbT47DQo+ID4gPiB2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVs
-LmNvbTsgamFuaS5uaWt1bGFAbGludXguaW50ZWwuY29tOw0KPiA+ID4gbGludXgta2VybmVsQHZn
-ZXIua2VybmVsLm9yZzsgZHJpLSBkZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7DQo+ID4gPiBK
-b29uYXMgTGFodGluZW4gPGpvb25hcy5sYWh0aW5lbkBsaW51eC5pbnRlbC5jb20+OyBCcmlhbiBH
-ZWZmb24NCj4gPiA+IDxiZ2VmZm9uQGdvb2dsZS5jb20+OyBzdGFibGVAdmdlci5rZXJuZWwub3Jn
-OyBUb21hc3ogRmlnYQ0KPiA+ID4gPHRmaWdhQGdvb2dsZS5jb20+DQo+ID4gPiBTdWJqZWN0OiBb
-UEFUQ0ggdjJdIGRybS9pOTE1OiBGaXggcGFnZSBjbGVhbnVwIG9uIERNQSByZW1hcCBmYWlsdXJl
-DQo+ID4gPg0KPiA+ID4gV2hlbiBjb252ZXJ0aW5nIHRvIGZvbGlvcyB0aGUgY2xlYW51cCBwYXRo
-IG9mIHNobWVtX2dldF9wYWdlcygpIHdhcw0KPiA+ID4gbWlzc2VkLiBXaGVuIGEgRE1BIHJlbWFw
-IGZhaWxzIGFuZCB0aGUgbWF4IHNlZ21lbnQgc2l6ZSBpcyBncmVhdGVyDQo+ID4gPiB0aGFuIFBB
-R0VfU0laRSBpdCB3aWxsIGF0dGVtcHQgdG8gcmV0cnkgdGhlIHJlbWFwIHdpdGggYSBQQUdFX1NJ
-WkVkDQo+IHNlZ21lbnQgc2l6ZS4NCj4gPiA+IFRoZSBjbGVhbnVwIGNvZGUgaXNuJ3QgcHJvcGVy
-bHkgdXNpbmcgdGhlIGZvbGlvIGFwaXMgYW5kIGFzIGEgcmVzdWx0DQo+ID4gPiBpc24ndCBoYW5k
-bGluZyBjb21wb3VuZCBwYWdlcyBjb3JyZWN0bHkuDQo+ID4gPg0KPiA+ID4gdjEgLT4gdjI6DQo+
-ID4gPiAgIChWaWxsZSkgRml4ZWQgbG9jYXRpb25zIHdoZXJlIHdlIHdlcmUgbm90IGNsZWFyaW5n
-IG1hcHBpbmcgdW5ldmljdGFibGUuDQo+ID4gPg0KPiA+ID4gQ2M6IHN0YWJsZUB2Z2VyLmtlcm5l
-bC5vcmcNCj4gPiA+IENjOiBWaWxsZSBTeXJqYWxhIDx2aWxsZS5zeXJqYWxhQGxpbnV4LmludGVs
-LmNvbT4NCj4gPiA+IENjOiBWaWR5YSBTcmluaXZhcyA8dmlkeWEuc3Jpbml2YXNAaW50ZWwuY29t
-Pg0KPiA+ID4gTGluazogaHR0cHM6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL2RybS9pOTE1L2tl
-cm5lbC8tL2lzc3Vlcy8xMzQ4Nw0KPiA+ID4gTGluazogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-bGttbC8yMDI1MDExNjEzNTYzNi40MTAxNjQtMS0NCj4gPiA+IGJnZWZmb25AZ29vZ2xlLmNvbS8N
-Cj4gPiA+IEZpeGVzOiAwYjYyYWYyOGYyNDkgKCJpOTE1OiBjb252ZXJ0IHNobWVtX3NnX2ZyZWVf
-dGFibGUoKSB0byB1c2UgYQ0KPiA+ID4gZm9saW9fYmF0Y2giKQ0KPiA+ID4gU2lnbmVkLW9mZi1i
-eTogQnJpYW4gR2VmZm9uIDxiZ2VmZm9uQGdvb2dsZS5jb20+DQo+ID4gPiBTdWdnZXN0ZWQtYnk6
-IFRvbWFzeiBGaWdhIDx0ZmlnYUBnb29nbGUuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgZHJpdmVy
-cy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5oIHwgIDMgKy0tDQo+ID4gPiBkcml2
-ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fc2htZW0uYyAgfCAyMyArKysrKysrKystLS0t
-LS0tLS0tLS0NCj4gLQ0KPiA+ID4gIGRyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV90
-dG0uYyAgICB8ICA3ICsrKystLS0NCj4gPiA+ICAzIGZpbGVzIGNoYW5nZWQsIDE0IGluc2VydGlv
-bnMoKyksIDE5IGRlbGV0aW9ucygtKQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJz
-L2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fb2JqZWN0LmgNCj4gPiA+IGIvZHJpdmVycy9ncHUv
-ZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX29iamVjdC5oDQo+ID4gPiBpbmRleCAzZGM2MWNiZDJlMTEu
-LjBmMTIyYTEyZDRhNSAxMDA2NDQNCj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dl
-bS9pOTE1X2dlbV9vYmplY3QuaA0KPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2Vt
-L2k5MTVfZ2VtX29iamVjdC5oDQo+ID4gPiBAQCAtODQzLDggKzg0Myw3IEBAIGludCBzaG1lbV9z
-Z19hbGxvY190YWJsZShzdHJ1Y3QNCj4gZHJtX2k5MTVfcHJpdmF0ZQ0KPiA+ID4gKmk5MTUsIHN0
-cnVjdCBzZ190YWJsZSAqc3QsDQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgIHNpemVfdCBz
-aXplLCBzdHJ1Y3QgaW50ZWxfbWVtb3J5X3JlZ2lvbiAqbXIsDQo+ID4gPiAgICAgICAgICAgICAg
-ICAgICAgICAgIHN0cnVjdCBhZGRyZXNzX3NwYWNlICptYXBwaW5nLA0KPiA+ID4gICAgICAgICAg
-ICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgbWF4X3NlZ21lbnQpOyAtdm9pZA0KPiA+ID4gc2ht
-ZW1fc2dfZnJlZV90YWJsZShzdHJ1Y3Qgc2dfdGFibGUgKnN0LCBzdHJ1Y3QgYWRkcmVzc19zcGFj
-ZQ0KPiA+ID4gKm1hcHBpbmcsDQo+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgIGJvb2wgZGly
-dHksIGJvb2wgYmFja3VwKTsNCj4gPiA+ICt2b2lkIHNobWVtX3NnX2ZyZWVfdGFibGUoc3RydWN0
-IHNnX3RhYmxlICpzdCwgYm9vbCBkaXJ0eSwgYm9vbA0KPiA+ID4gK2JhY2t1cCk7DQo+ID4gPiAg
-dm9pZCBfX3NobWVtX3dyaXRlYmFjayhzaXplX3Qgc2l6ZSwgc3RydWN0IGFkZHJlc3Nfc3BhY2Ug
-Km1hcHBpbmcpOw0KPiA+ID4NCj4gPiA+ICAjaWZkZWYgQ09ORklHX01NVV9OT1RJRklFUg0KPiA+
-ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zaG1lbS5j
-DQo+ID4gPiBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zaG1lbS5jDQo+ID4g
-PiBpbmRleCBmZTY5ZjJjODUyN2QuLmIzMjBkOWRmZDZkMyAxMDA2NDQNCj4gPiA+IC0tLSBhL2Ry
-aXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV9zaG1lbS5jDQo+ID4gPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vaTkxNS9nZW0vaTkxNV9nZW1fc2htZW0uYw0KPiA+ID4gQEAgLTI5LDE2ICsy
-OSwxMyBAQCBzdGF0aWMgdm9pZCBjaGVja19yZWxlYXNlX2ZvbGlvX2JhdGNoKHN0cnVjdA0KPiA+
-ID4gZm9saW9fYmF0Y2ggKmZiYXRjaCkNCj4gPiA+ICAgICAgIGNvbmRfcmVzY2hlZCgpOw0KPiA+
-ID4gIH0NCj4gPiA+DQo+ID4gPiAtdm9pZCBzaG1lbV9zZ19mcmVlX3RhYmxlKHN0cnVjdCBzZ190
-YWJsZSAqc3QsIHN0cnVjdCBhZGRyZXNzX3NwYWNlDQo+ID4gPiAqbWFwcGluZywNCj4gPiA+IC0g
-ICAgICAgICAgICAgICAgICAgICAgYm9vbCBkaXJ0eSwgYm9vbCBiYWNrdXApDQo+ID4gPiArdm9p
-ZCBzaG1lbV9zZ19mcmVlX3RhYmxlKHN0cnVjdCBzZ190YWJsZSAqc3QsIGJvb2wgZGlydHksIGJv
-b2wNCj4gPiA+ICtiYWNrdXApDQo+ID4gPiAgew0KPiA+ID4gICAgICAgc3RydWN0IHNndF9pdGVy
-IHNndF9pdGVyOw0KPiA+ID4gICAgICAgc3RydWN0IGZvbGlvX2JhdGNoIGZiYXRjaDsNCj4gPiA+
-ICAgICAgIHN0cnVjdCBmb2xpbyAqbGFzdCA9IE5VTEw7DQo+ID4gPiAgICAgICBzdHJ1Y3QgcGFn
-ZSAqcGFnZTsNCj4gPiA+DQo+ID4gPiAtICAgICBtYXBwaW5nX2NsZWFyX3VuZXZpY3RhYmxlKG1h
-cHBpbmcpOw0KPiA+ID4gLQ0KPiA+ID4gICAgICAgZm9saW9fYmF0Y2hfaW5pdCgmZmJhdGNoKTsN
-Cj4gPiA+ICAgICAgIGZvcl9lYWNoX3NndF9wYWdlKHBhZ2UsIHNndF9pdGVyLCBzdCkgew0KPiA+
-ID4gICAgICAgICAgICAgICBzdHJ1Y3QgZm9saW8gKmZvbGlvID0gcGFnZV9mb2xpbyhwYWdlKTsg
-QEAgLTE4MCwxMA0KPiA+ID4gKzE3NywxMCBAQCBpbnQgc2htZW1fc2dfYWxsb2NfdGFibGUoc3Ry
-dWN0IGRybV9pOTE1X3ByaXZhdGUgKmk5MTUsDQo+ID4gPiBzdHJ1Y3Qgc2dfdGFibGUgKnN0LA0K
-PiA+ID4gICAgICAgcmV0dXJuIDA7DQo+ID4gPiAgZXJyX3NnOg0KPiA+ID4gICAgICAgc2dfbWFy
-a19lbmQoc2cpOw0KPiA+ID4gKyAgICAgbWFwcGluZ19jbGVhcl91bmV2aWN0YWJsZShtYXBwaW5n
-KTsNCj4gPiA+ICAgICAgIGlmIChzZyAhPSBzdC0+c2dsKSB7DQo+ID4gPiAtICAgICAgICAgICAg
-IHNobWVtX3NnX2ZyZWVfdGFibGUoc3QsIG1hcHBpbmcsIGZhbHNlLCBmYWxzZSk7DQo+ID4gPiAr
-ICAgICAgICAgICAgIHNobWVtX3NnX2ZyZWVfdGFibGUoc3QsIGZhbHNlLCBmYWxzZSk7DQo+ID4g
-PiAgICAgICB9IGVsc2Ugew0KPiA+ID4gLSAgICAgICAgICAgICBtYXBwaW5nX2NsZWFyX3VuZXZp
-Y3RhYmxlKG1hcHBpbmcpOw0KPiA+ID4gICAgICAgICAgICAgICBzZ19mcmVlX3RhYmxlKHN0KTsN
-Cj4gPiA+ICAgICAgIH0NCj4gPiA+DQo+ID4gPiBAQCAtMjA5LDggKzIwNiw2IEBAIHN0YXRpYyBp
-bnQgc2htZW1fZ2V0X3BhZ2VzKHN0cnVjdA0KPiA+ID4gZHJtX2k5MTVfZ2VtX29iamVjdCAqb2Jq
-KQ0KPiA+ID4gICAgICAgc3RydWN0IGFkZHJlc3Nfc3BhY2UgKm1hcHBpbmcgPSBvYmotPmJhc2Uu
-ZmlscC0+Zl9tYXBwaW5nOw0KPiA+ID4gICAgICAgdW5zaWduZWQgaW50IG1heF9zZWdtZW50ID0g
-aTkxNV9zZ19zZWdtZW50X3NpemUoaTkxNS0+ZHJtLmRldik7DQo+ID4gPiAgICAgICBzdHJ1Y3Qg
-c2dfdGFibGUgKnN0Ow0KPiA+ID4gLSAgICAgc3RydWN0IHNndF9pdGVyIHNndF9pdGVyOw0KPiA+
-ID4gLSAgICAgc3RydWN0IHBhZ2UgKnBhZ2U7DQo+ID4gPiAgICAgICBpbnQgcmV0Ow0KPiA+ID4N
-Cj4gPiA+ICAgICAgIC8qDQo+ID4gPiBAQCAtMjM5LDkgKzIzNCw4IEBAIHN0YXRpYyBpbnQgc2ht
-ZW1fZ2V0X3BhZ2VzKHN0cnVjdA0KPiA+ID4gZHJtX2k5MTVfZ2VtX29iamVjdCAqb2JqKQ0KPiA+
-ID4gICAgICAgICAgICAgICAgKiBmb3IgUEFHRV9TSVpFIGNodW5rcyBpbnN0ZWFkIG1heSBiZSBo
-ZWxwZnVsLg0KPiA+ID4gICAgICAgICAgICAgICAgKi8NCj4gPiA+ICAgICAgICAgICAgICAgaWYg
-KG1heF9zZWdtZW50ID4gUEFHRV9TSVpFKSB7DQo+ID4gPiAtICAgICAgICAgICAgICAgICAgICAg
-Zm9yX2VhY2hfc2d0X3BhZ2UocGFnZSwgc2d0X2l0ZXIsIHN0KQ0KPiA+ID4gLSAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgcHV0X3BhZ2UocGFnZSk7DQo+ID4gPiAtICAgICAgICAgICAgICAg
-ICAgICAgc2dfZnJlZV90YWJsZShzdCk7DQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgLyog
-TGVhdmUgdGhlIG1hcHBpbmcgdW5ldmljdGFibGUgd2hpbGUgd2UgcmV0cnkgKi8NCj4gPiA+ICsg
-ICAgICAgICAgICAgICAgICAgICBzaG1lbV9zZ19mcmVlX3RhYmxlKHN0LCBmYWxzZSwgZmFsc2Up
-Ow0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAgIGtmcmVlKHN0KTsNCj4gPiA+DQo+ID4gPiAg
-ICAgICAgICAgICAgICAgICAgICAgbWF4X3NlZ21lbnQgPSBQQUdFX1NJWkU7IEBAIC0yNjUsNyAr
-MjU5LDggQEANCj4gPiA+IHN0YXRpYyBpbnQgc2htZW1fZ2V0X3BhZ2VzKHN0cnVjdCBkcm1faTkx
-NV9nZW1fb2JqZWN0ICpvYmopDQo+ID4gPiAgICAgICByZXR1cm4gMDsNCj4gPiA+DQo+ID4gPiAg
-ZXJyX3BhZ2VzOg0KPiA+ID4gLSAgICAgc2htZW1fc2dfZnJlZV90YWJsZShzdCwgbWFwcGluZywg
-ZmFsc2UsIGZhbHNlKTsNCj4gPiA+ICsgICAgIG1hcHBpbmdfY2xlYXJfdW5ldmljdGFibGUobWFw
-cGluZyk7DQo+ID4gPiArICAgICBzaG1lbV9zZ19mcmVlX3RhYmxlKHN0LCBmYWxzZSwgZmFsc2Up
-Ow0KPiA+ID4gICAgICAgLyoNCj4gPiA+ICAgICAgICAqIHNobWVtZnMgZmlyc3QgY2hlY2tzIGlm
-IHRoZXJlIGlzIGVub3VnaCBtZW1vcnkgdG8gYWxsb2NhdGUNCj4gPiA+IHRoZSBwYWdlDQo+ID4g
-PiAgICAgICAgKiBhbmQgcmVwb3J0cyBFTk9TUEMgc2hvdWxkIHRoZXJlIGJlIGluc3VmZmljaWVu
-dCwgYWxvbmcgd2l0aA0KPiA+ID4gdGhlIHVzdWFsIEBAIC00MDIsOCArMzk3LDggQEAgdm9pZA0K
-PiA+ID4gaTkxNV9nZW1fb2JqZWN0X3B1dF9wYWdlc19zaG1lbShzdHJ1Y3QgZHJtX2k5MTVfZ2Vt
-X29iamVjdCAqb2JqLA0KPiA+ID4gc3RydWN0IHNnXw0KPiA+ID4gICAgICAgaWYgKGk5MTVfZ2Vt
-X29iamVjdF9uZWVkc19iaXQxN19zd2l6emxlKG9iaikpDQo+ID4gPiAgICAgICAgICAgICAgIGk5
-MTVfZ2VtX29iamVjdF9zYXZlX2JpdF8xN19zd2l6emxlKG9iaiwgcGFnZXMpOw0KPiA+ID4NCj4g
-PiA+IC0gICAgIHNobWVtX3NnX2ZyZWVfdGFibGUocGFnZXMsIGZpbGVfaW5vZGUob2JqLT5iYXNl
-LmZpbHApLT5pX21hcHBpbmcsDQo+ID4gPiAtICAgICAgICAgICAgICAgICAgICAgICAgIG9iai0+
-bW0uZGlydHksIG9iai0+bW0ubWFkdiA9PQ0KPiA+ID4gSTkxNV9NQURWX1dJTExORUVEKTsNCj4g
-PiA+ICsgICAgIG1hcHBpbmdfY2xlYXJfdW5ldmljdGFibGUoZmlsZV9pbm9kZShvYmotPmJhc2Uu
-ZmlscCktPmlfbWFwcGluZyk7DQo+ID4gPiArICAgICBzaG1lbV9zZ19mcmVlX3RhYmxlKHBhZ2Vz
-LCBvYmotPm1tLmRpcnR5LCBvYmotPm1tLm1hZHYgPT0NCj4gPiA+ICtJOTE1X01BRFZfV0lMTE5F
-RUQpOw0KPiA+ID4gICAgICAga2ZyZWUocGFnZXMpOw0KPiA+ID4gICAgICAgb2JqLT5tbS5kaXJ0
-eSA9IGZhbHNlOw0KPiA+ID4gIH0NCj4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0v
-aTkxNS9nZW0vaTkxNV9nZW1fdHRtLmMNCj4gPiA+IGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2Vt
-L2k5MTVfZ2VtX3R0bS5jDQo+ID4gPiBpbmRleCAxMGQ4NjczNjQxZjcuLjM3ZjUxYTA0YjgzOCAx
-MDA2NDQNCj4gPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2dlbS9pOTE1X2dlbV90dG0u
-Yw0KPiA+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2k5MTUvZ2VtL2k5MTVfZ2VtX3R0bS5jDQo+
-ID4gPiBAQCAtMjMyLDcgKzIzMiw4IEBAIHN0YXRpYyBpbnQgaTkxNV90dG1fdHRfc2htZW1fcG9w
-dWxhdGUoc3RydWN0DQo+ID4gPiB0dG1fZGV2aWNlICpiZGV2LA0KPiA+ID4gICAgICAgcmV0dXJu
-IDA7DQo+ID4gPg0KPiA+ID4gIGVycl9mcmVlX3N0Og0KPiA+ID4gLSAgICAgc2htZW1fc2dfZnJl
-ZV90YWJsZShzdCwgZmlscC0+Zl9tYXBwaW5nLCBmYWxzZSwgZmFsc2UpOw0KPiA+ID4gKyAgICAg
-bWFwcGluZ19jbGVhcl91bmV2aWN0YWJsZShmaWxwLT5mX21hcHBpbmcpOw0KPiA+ID4gKyAgICAg
-c2htZW1fc2dfZnJlZV90YWJsZShzdCwgZmFsc2UsIGZhbHNlKTsNCj4gPiA+DQo+ID4gPiAgICAg
-ICByZXR1cm4gZXJyOw0KPiA+ID4gIH0NCj4gPiA+IEBAIC0yNDMsOCArMjQ0LDggQEAgc3RhdGlj
-IHZvaWQgaTkxNV90dG1fdHRfc2htZW1fdW5wb3B1bGF0ZShzdHJ1Y3QNCj4gPiA+IHR0bV90dCAq
-dHRtKQ0KPiA+ID4gICAgICAgYm9vbCBiYWNrdXAgPSB0dG0tPnBhZ2VfZmxhZ3MgJiBUVE1fVFRf
-RkxBR19TV0FQUEVEOw0KPiA+ID4gICAgICAgc3RydWN0IHNnX3RhYmxlICpzdCA9ICZpOTE1X3R0
-LT5jYWNoZWRfcnNndC50YWJsZTsNCj4gPiA+DQo+ID4gPiAtICAgICBzaG1lbV9zZ19mcmVlX3Rh
-YmxlKHN0LCBmaWxlX2lub2RlKGk5MTVfdHQtPmZpbHApLT5pX21hcHBpbmcsDQo+ID4gPiAtICAg
-ICAgICAgICAgICAgICAgICAgICAgIGJhY2t1cCwgYmFja3VwKTsNCj4gPiA+ICsgICAgIG1hcHBp
-bmdfY2xlYXJfdW5ldmljdGFibGUoZmlsZV9pbm9kZShpOTE1X3R0LT5maWxwKS0+aV9tYXBwaW5n
-KTsNCj4gPiA+ICsgICAgIHNobWVtX3NnX2ZyZWVfdGFibGUoc3QsIGJhY2t1cCwgYmFja3VwKTsN
-Cj4gPiA+ICB9DQo+ID4gPg0KPiA+ID4gIHN0YXRpYyB2b2lkIGk5MTVfdHRtX3R0X3JlbGVhc2Uo
-c3RydWN0IGtyZWYgKnJlZikNCj4gPiA+IC0tDQo+ID4gPiAyLjQ4LjAucmMyLjI3OS5nMWRlNDBl
-ZGFkZS1nb29nDQo+ID4NCj4gDQo+IFRoYW5rcw0KPiBCcmlhbg0K
+Hi Sima,
+
+On 24/01/25 21:01, Simona Vetter wrote:
+> On Fri, Jan 24, 2025 at 09:37:13AM -0300, Helen Mae Koike Fornazier wrote:
+>> Hi Simona,
+>>
+>> Thank you for your comments,
+>>
+>>
+>> ---- On Thu, 23 Jan 2025 17:06:15 -0300 Simona Vetter  wrote ---
+>>
+>>   > On Thu, Jan 23, 2025 at 07:23:33PM +0530, Vignesh Raman wrote:
+>>   > > Add a drm scenario that includes a job to run IGT tests for vkms.
+>>   > > It also includes helper scripts to build deqp-runner and IGT,
+>>   > > which are based on the mesa-ci project.
+>>   > >
+>>   > > The xfails are added from drm-ci (drivers/gpu/drm/ci/xfails)
+>>   > > Refer to Documentation/gpu/automated_testing.rst for details
+>>   > > regarding fails/flakes/skips files.
+>>   >
+>>   > Why does this need to be duplicated, especially since this is another
+>>   > gitlab-ci support like we have already? I know there's difference between
+>>   > the gitlab on fd.o and others, but this is a bit much.
+>>
+>>
+>> We didn't want to duplicate, we were planing to remove it from drm-ci, please
+>> see this commit:
+>>
+>>      https://gitlab.freedesktop.org/vigneshraman/kernel/-/commit/d5ac1612be0c67ea7b164800ccf124481042f5ce
+>>
+>> But we wanted to make sure the entire approach is correct first, so we dropped
+>> that commit for this version.
+> 
+> Ah please include that, and ideally implemented by just moving files
+> around as needed so that it's easier to see what has changed compared to
+> what we have now in drm-ci.
+
+We will include this commit.
+
+> 
+>>   > What I expected:
+>>   > - Stuff that's relevant for the subsystem like the xfail list, or the igt
+>>   >  version we want to test against or any of these things would stay in the
+>>   >  subsystem ci folder, so drivers/gpu/drm/ci here. There should be no need
+>>   >  to duplicate anything, definitely not for a virtual driver like vkms.
+>>
+>> We can move the ci scenario folder to be inside the subsystem specific folder,
+>> I think this is a nice idea, we can do that for v3.
+> 
+> Yeah I'm just thinking about which patches should flow through which
+> trees, and then put the ci parts into the right subfolders. So drm related
+> xfail lists or igt uprev or changes to how the drm build/test targets work
+> should probably flow through drm.git, hence my questions.
+> 
+> Otherwise we could end up with a mess of cross-tree coordination pain.
+
+Agree. We can keep the xfails, igt build scripts in drm/ci directory.
+
+Thanks.
+
+Regards,
+Vignesh
+
+> 
+>>   > - Stuff that's used by multiple different ci needs to be shared somewhere,
+>>   >  maybe in tools/ci/gitlab-ci/ or maybe in the drm/ci directory. Things
+>>   >  like the script to build igt or assemble a drm specific container.
+>>   >  Ideally we'd also be able to share entire gitlab build targets, at least
+>>   >  the pure sw stuff really should work the same everywhere (plus/minus
+>>   >  infra differences in how the docker images are stitched together maybe,
+>>   >  but that's separate build targets anyway).
+>>
+>> Ack
+>>
+>>   >
+>>   > - Stuff that's needed by the kernel at large (like the rust build script)
+>>   >  shouldn't be in a subsystem specific place at all once we get something
+>>   >  else than what we have in drm/ci right now.
+>>
+>> Ack
+>>
+>>   >
+>>   > I'm confused.
+>>
+>> I hope my replies above help, and thanks a lot for your feedback. please,
+>> keep them coming :)
+> 
+> Yeah this makes much more sense now :-)
+> 
+> Cheers, Sima
+> 
+>>
+>> Cheers, Helen
+>>
+>>   >
+>>   > Cheers, Sima
+>>   >
+>>   > >
+>>   > > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com>
+>>   > > ---
+>>   > >  MAINTAINERS                                   |   1 +
+>>   > >  .../scenarios/drm/build-deqp-runner.sh        |  42 +
+>>   > >  tools/ci/gitlab-ci/scenarios/drm/build-igt.sh |  80 ++
+>>   > >  .../ci/gitlab-ci/scenarios/drm/build-rust.sh  |  42 +
+>>   > >  .../scenarios/drm/create-cross-file.sh        |  65 ++
+>>   > >  tools/ci/gitlab-ci/scenarios/drm/drm.yml      |  45 +-
+>>   > >  .../scenarios/drm/prepare-container.sh        |  18 +
+>>   > >  tools/ci/gitlab-ci/scenarios/drm/run-igt.sh   |  83 ++
+>>   > >  tools/ci/gitlab-ci/scenarios/drm/test.yml     |  32 +
+>>   > >  .../scenarios/drm/xfails/vkms-none-fails.txt  |  22 +
+>>   > >  .../scenarios/drm/xfails/vkms-none-flakes.txt |  90 ++
+>>   > >  .../scenarios/drm/xfails/vkms-none-skips.txt  | 812 ++++++++++++++++++
+>>   > >  12 files changed, 1326 insertions(+), 6 deletions(-)
+>>   > >  create mode 100755 tools/ci/gitlab-ci/scenarios/drm/build-deqp-runner.sh
+>>   > >  create mode 100755 tools/ci/gitlab-ci/scenarios/drm/build-igt.sh
+>>   > >  create mode 100755 tools/ci/gitlab-ci/scenarios/drm/build-rust.sh
+>>   > >  create mode 100755 tools/ci/gitlab-ci/scenarios/drm/create-cross-file.sh
+>>   > >  create mode 100755 tools/ci/gitlab-ci/scenarios/drm/prepare-container.sh
+>>   > >  create mode 100755 tools/ci/gitlab-ci/scenarios/drm/run-igt.sh
+>>   > >  create mode 100644 tools/ci/gitlab-ci/scenarios/drm/test.yml
+>>   > >  create mode 100644 tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-fails.txt
+>>   > >  create mode 100644 tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-flakes.txt
+>>   > >  create mode 100644 tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-skips.txt
+>>   > >
+>>   > > diff --git a/MAINTAINERS b/MAINTAINERS
+>>   > > index 874044e570f7..8de12618c3e1 100644
+>>   > > --- a/MAINTAINERS
+>>   > > +++ b/MAINTAINERS
+>>   > > @@ -7551,6 +7551,7 @@ S:    Maintained
+>>   > >  T:    git https://gitlab.freedesktop.org/drm/misc/kernel.git
+>>   > >  F:    Documentation/gpu/vkms.rst
+>>   > >  F:    drivers/gpu/drm/ci/xfails/vkms*
+>>   > > +F:    tools/ci/gitlab-ci/scenarios/drm/xfails/vkms*
+>>   > >  F:    drivers/gpu/drm/vkms/
+>>   > >
+>>   > >  DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/build-deqp-runner.sh b/tools/ci/gitlab-ci/scenarios/drm/build-deqp-runner.sh
+>>   > > new file mode 100755
+>>   > > index 000000000000..9f2574537423
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/build-deqp-runner.sh
+>>   > > @@ -0,0 +1,42 @@
+>>   > > +#!/usr/bin/env bash
+>>   > > +# SPDX-License-Identifier: GPL-2.0-or-later
+>>   > > +#
+>>   > > +# Copyright (C) 2025 Collabora, Vignesh Raman vignesh.raman@collabora.com>
+>>   > > +#
+>>   > > +# Based on the build-deqp-runner.sh script from the mesa project:
+>>   > > +# https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/.gitlab-ci/container/build-deqp-runner.sh
+>>   > > +#
+>>   > > +# shellcheck disable=SC2086 # we want word splitting
+>>   > > +
+>>   > > +set -uex
+>>   > > +
+>>   > > +DEQP_RUNNER_GIT_URL="${DEQP_RUNNER_GIT_URL:-https://gitlab.freedesktop.org/mesa/deqp-runner.git}"
+>>   > > +DEQP_RUNNER_GIT_TAG="${DEQP_RUNNER_GIT_TAG:-v0.20.0}"
+>>   > > +
+>>   > > +git clone $DEQP_RUNNER_GIT_URL --single-branch --no-checkout
+>>   > > +pushd deqp-runner
+>>   > > +git checkout $DEQP_RUNNER_GIT_TAG
+>>   > > +
+>>   > > +RUST_TARGET="${RUST_TARGET:-}"
+>>   > > +
+>>   > > +# When CC (/usr/lib/ccache/gcc) variable is set, the rust compiler uses
+>>   > > +# this variable when cross-compiling arm32 and build fails for zsys-sys.
+>>   > > +# So unset the CC variable when cross-compiling for arm32.
+>>   > > +SAVEDCC=${CC:-}
+>>   > > +if [ "$RUST_TARGET" = "armv7-unknown-linux-gnueabihf" ]; then
+>>   > > +    unset CC
+>>   > > +fi
+>>   > > +cargo install --locked  \
+>>   > > +    -j ${FDO_CI_CONCURRENT:-4} \
+>>   > > +    --root /usr/local \
+>>   > > +    ${EXTRA_CARGO_ARGS:-} \
+>>   > > +    --path .
+>>   > > +CC=$SAVEDCC
+>>   > > +
+>>   > > +popd
+>>   > > +rm -rf deqp-runner
+>>   > > +
+>>   > > +# remove unused test runners
+>>   > > +if [ -z "${DEQP_RUNNER_GIT_TAG:-}" ]; then
+>>   > > +    rm -f /usr/local/bin/igt-runner
+>>   > > +fi
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/build-igt.sh b/tools/ci/gitlab-ci/scenarios/drm/build-igt.sh
+>>   > > new file mode 100755
+>>   > > index 000000000000..fc82aa6fddec
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/build-igt.sh
+>>   > > @@ -0,0 +1,80 @@
+>>   > > +#!/bin/bash
+>>   > > +# SPDX-License-Identifier: GPL-2.0-or-later
+>>   > > +#
+>>   > > +# Copyright (C) 2025 Collabora, Vignesh Raman vignesh.raman@collabora.com>
+>>   > > +#
+>>   > > +# Based on the build-igt.sh script from the drm-ci project:
+>>   > > +# https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/build-igt.sh
+>>   > > +
+>>   > > +set -ex
+>>   > > +
+>>   > > +function generate_testlist {
+>>   > > +    set +x
+>>   > > +    while read -r line; do
+>>   > > +        if [ "$line" = "TESTLIST" ] || [ "$line" = "END TESTLIST" ]; then
+>>   > > +            continue
+>>   > > +        fi
+>>   > > +
+>>   > > +        tests=$(echo "$line" | tr ' ' '\n')
+>>   > > +
+>>   > > +        for test in $tests; do
+>>   > > +            output=$(/igt/libexec/igt-gpu-tools/"$test" --list-subtests || true)
+>>   > > +
+>>   > > +            if [ -z "$output" ]; then
+>>   > > +                echo "$test"
+>>   > > +            else
+>>   > > +                echo "$output" | while read -r subtest; do
+>>   > > +                    echo "$test@$subtest"
+>>   > > +                done
+>>   > > +            fi
+>>   > > +        done
+>>   > > +    done  /igt/libexec/igt-gpu-tools/ci-testlist.txt
+>>   > > +    set -x
+>>   > > +}
+>>   > > +
+>>   > > +git clone https://gitlab.freedesktop.org/drm/igt-gpu-tools.git --single-branch --no-checkout
+>>   > > +pushd igt-gpu-tools
+>>   > > +git checkout $IGT_VERSION
+>>   > > +
+>>   > > +if [[ "$KCI_KERNEL_ARCH" = "arm" ]]; then
+>>   > > +    . ../tools/ci/gitlab-ci/scenarios/drm/create-cross-file.sh armhf
+>>   > > +    EXTRA_MESON_ARGS="--cross-file /cross_file-armhf.txt"
+>>   > > +fi
+>>   > > +
+>>   > > +MESON_OPTIONS="-Doverlay=disabled                    \
+>>   > > +               -Dchamelium=disabled                  \
+>>   > > +               -Dvalgrind=disabled                   \
+>>   > > +               -Dman=enabled                         \
+>>   > > +               -Dtests=enabled                       \
+>>   > > +               -Drunner=enabled                      \
+>>   > > +               -Dlibunwind=enabled                   \
+>>   > > +               -Dprefix=/igt"
+>>   > > +
+>>   > > +if [[ "$KCI_KERNEL_ARCH" = "arm64" ]] || [[ "$KCI_KERNEL_ARCH" = "arm" ]]; then
+>>   > > +    MESON_OPTIONS="$MESON_OPTIONS -Dxe_driver=disabled"
+>>   > > +fi
+>>   > > +
+>>   > > +mkdir -p /igt
+>>   > > +meson build $MESON_OPTIONS $EXTRA_MESON_ARGS
+>>   > > +ninja -C build -j${FDO_CI_CONCURRENT:-4} || ninja -C build -j 1
+>>   > > +ninja -C build install
+>>   > > +
+>>   > > +if [[ "$KCI_KERNEL_ARCH" = "arm64" ]]; then
+>>   > > +    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/igt/lib/aarch64-linux-gnu
+>>   > > +elif [[ "$KCI_KERNEL_ARCH" = "arm" ]]; then
+>>   > > +    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/igt/lib
+>>   > > +else
+>>   > > +    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/igt/lib/x86_64-linux-gnu
+>>   > > +fi
+>>   > > +
+>>   > > +echo "Generating ci-testlist.txt"
+>>   > > +generate_testlist
+>>   > > +
+>>   > > +export INSTALL_PATH="${CI_PROJECT_DIR}/artifacts/"
+>>   > > +INSTALL_PATH+="igt-install-${KCI_KERNEL_ARCH}"
+>>   > > +mkdir -p "$INSTALL_PATH"
+>>   > > +
+>>   > > +tar -cf $INSTALL_PATH/igt.tar /igt
+>>   > > +
+>>   > > +popd
+>>   > > +rm -rf igt-gpu-tools
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/build-rust.sh b/tools/ci/gitlab-ci/scenarios/drm/build-rust.sh
+>>   > > new file mode 100755
+>>   > > index 000000000000..48702d5a9648
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/build-rust.sh
+>>   > > @@ -0,0 +1,42 @@
+>>   > > +#!/bin/bash
+>>   > > +# SPDX-License-Identifier: GPL-2.0-or-later
+>>   > > +#
+>>   > > +# Copyright (C) 2025 Collabora, Vignesh Raman vignesh.raman@collabora.com>
+>>   > > +#
+>>   > > +# Based on the build-rust.sh script from the mesa project:
+>>   > > +# https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/.gitlab-ci/container/build-rust.sh
+>>   > > +
+>>   > > +# Note that this script is not actually "building" rust, but build- is the
+>>   > > +# convention for the shared helpers for putting stuff in our containers.
+>>   > > +
+>>   > > +set -ex
+>>   > > +
+>>   > > +# cargo (and rustup) wants to store stuff in $HOME/.cargo, and binaries in
+>>   > > +# $HOME/.cargo/bin.  Make bin a link to a public bin directory so the commands
+>>   > > +# are just available to all build jobs.
+>>   > > +mkdir -p "$HOME"/.cargo
+>>   > > +ln -s /usr/local/bin "$HOME"/.cargo/bin
+>>   > > +
+>>   > > +# Pick a specific snapshot from rustup so the compiler doesn't drift on us.
+>>   > > +RUST_VERSION=1.78.0-2024-05-02
+>>   > > +
+>>   > > +# For rust in Mesa, we use rustup to install.  This lets us pick an arbitrary
+>>   > > +# version of the compiler, rather than whatever the container's Debian comes
+>>   > > +# with.
+>>   > > +curl -L --retry 4 -f --retry-all-errors --retry-delay 60 \
+>>   > > +    --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
+>>   > > +      --default-toolchain $RUST_VERSION \
+>>   > > +      --profile minimal \
+>>   > > +      -y
+>>   > > +
+>>   > > +rustup component add clippy rustfmt
+>>   > > +
+>>   > > +# Set up a config script for cross compiling -- cargo needs your system cc for
+>>   > > +# linking in cross builds, but doesn't know what you want to use for system cc.
+>>   > > +cat > /root/.cargo/config <<EOF
+>>   > > +[target.armv7-unknown-linux-gnueabihf]
+>>   > > +linker = "arm-linux-gnueabihf-gcc"
+>>   > > +
+>>   > > +[target.aarch64-unknown-linux-gnu]
+>>   > > +linker = "aarch64-linux-gnu-gcc"
+>>   > > +EOF
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/create-cross-file.sh b/tools/ci/gitlab-ci/scenarios/drm/create-cross-file.sh
+>>   > > new file mode 100755
+>>   > > index 000000000000..e078346f23b3
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/create-cross-file.sh
+>>   > > @@ -0,0 +1,65 @@
+>>   > > +#!/bin/bash
+>>   > > +# SPDX-License-Identifier: GPL-2.0-or-later
+>>   > > +#
+>>   > > +# Copyright (C) 2025 Collabora, Vignesh Raman vignesh.raman@collabora.com>
+>>   > > +#
+>>   > > +# Based on the create-cross-file.sh script from the mesa project:
+>>   > > +# https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/.gitlab-ci/container/create-cross-file.sh
+>>   > > +
+>>   > > +arch=$1
+>>   > > +cross_file="/cross_file-$arch.txt"
+>>   > > +meson env2mfile --cross --debarch "$arch" -o "$cross_file"
+>>   > > +
+>>   > > +# Explicitly set ccache path for cross compilers
+>>   > > +sed -i \
+>>   > > +    "s|/usr/bin/\([^-]*\)-linux-gnu\([^-]*\)-g|/usr/lib/ccache/\\1-linux-gnu\\2-g|g" \
+>>   > > +    "$cross_file"
+>>   > > +
+>>   > > +# Rely on qemu-user being configured in binfmt_misc on the host
+>>   > > +# shellcheck disable=SC1003 # how this sed doesn't seems to work for me locally
+>>   > > +sed -i -e '/\[properties\]/a\' -e "needs_exe_wrapper = False" "$cross_file"
+>>   > > +
+>>   > > +# Add a line for rustc, which meson env2mfile is missing.
+>>   > > +cc=$(sed -n "s|^c\s*=\s*\[?'\(.*\)'\]?|\1|p" < "$cross_file")
+>>   > > +
+>>   > > +if [[ "$arch" = "arm64" ]]; then
+>>   > > +    rust_target=aarch64-unknown-linux-gnu
+>>   > > +elif [[ "$arch" = "armhf" ]]; then
+>>   > > +    rust_target=armv7-unknown-linux-gnueabihf
+>>   > > +elif [[ "$arch" = "i386" ]]; then
+>>   > > +    rust_target=i686-unknown-linux-gnu
+>>   > > +elif [[ "$arch" = "ppc64el" ]]; then
+>>   > > +    rust_target=powerpc64le-unknown-linux-gnu
+>>   > > +elif [[ "$arch" = "s390x" ]]; then
+>>   > > +    rust_target=s390x-unknown-linux-gnu
+>>   > > +else
+>>   > > +    echo "Needs rustc target mapping"
+>>   > > +fi
+>>   > > +
+>>   > > +# shellcheck disable=SC1003 # single-quoted string ends in a backslash
+>>   > > +sed -i \
+>>   > > +    -e '/\[binaries\]/a\' \
+>>   > > +    -e "rust = ['rustc', '--target=$rust_target', '-C', 'linker=$cc']" \
+>>   > > +    "$cross_file"
+>>   > > +
+>>   > > +# Set up cmake cross compile toolchain file for dEQP builds
+>>   > > +toolchain_file="/toolchain-$arch.cmake"
+>>   > > +if [[ "$arch" = "arm64" ]]; then
+>>   > > +    GCC_ARCH="aarch64-linux-gnu"
+>>   > > +    DE_CPU="DE_CPU_ARM_64"
+>>   > > +elif [[ "$arch" = "armhf" ]]; then
+>>   > > +    GCC_ARCH="arm-linux-gnueabihf"
+>>   > > +    DE_CPU="DE_CPU_ARM"
+>>   > > +fi
+>>   > > +
+>>   > > +if [[ -n "$GCC_ARCH" ]]; then
+>>   > > +    {
+>>   > > +        echo "set(CMAKE_SYSTEM_NAME Linux)";
+>>   > > +        echo "set(CMAKE_SYSTEM_PROCESSOR arm)";
+>>   > > +        echo "set(CMAKE_C_COMPILER /usr/lib/ccache/$GCC_ARCH-gcc)";
+>>   > > +        echo "set(CMAKE_CXX_COMPILER /usr/lib/ccache/$GCC_ARCH-g++)";
+>>   > > +        echo "set(CMAKE_CXX_FLAGS_INIT \"-Wno-psabi\")";  # makes ABI warnings quiet for ARMv7
+>>   > > +        echo "set(ENV{PKG_CONFIG} \"/usr/bin/$GCC_ARCH-pkgconf\")";
+>>   > > +        echo "set(DE_CPU $DE_CPU)";
+>>   > > +    } > "$toolchain_file"
+>>   > > +fi
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/drm.yml b/tools/ci/gitlab-ci/scenarios/drm/drm.yml
+>>   > > index 206e6f0d1a46..220223544673 100644
+>>   > > --- a/tools/ci/gitlab-ci/scenarios/drm/drm.yml
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/drm.yml
+>>   > > @@ -1,11 +1,44 @@
+>>   > >  # SPDX-License-Identifier: GPL-2.0-or-later
+>>   > >  #
+>>   > >  # Copyright (C) 2024 Collabora, Helen Koike helen.koike@collabora.com>
+>>   > > +# DRM-specific scenario configurations based on drivers/gpu/drm/ci/build.yml
+>>   > >
+>>   > > -# Write here specific configurations and extensions for the given scenario
+>>   > > +variables:
+>>   > > +  FDO_DISTRIBUTION_TAG: "2025-01-21-drm"
+>>   > > +  FDO_DISTRIBUTION_EXEC: ./tools/ci/gitlab-ci/scenarios/drm/prepare-container.sh
+>>   > > +  IGT_VERSION: a73311079a5d8ac99eb25336a8369a2c3c6b519b
+>>   > > +  DEQP_RUNNER_GIT_URL: https://gitlab.freedesktop.org/mesa/deqp-runner.git
+>>   > > +  DEQP_RUNNER_GIT_TAG: v0.20.0
+>>   > >
+>>   > > -# Example - overwrite kernel combinations in the pipeline
+>>   > > -# build:arm64:
+>>   > > -#   variables:
+>>   > > -#     KCI_KCONFIGS_ENABLE: "CONFIG1 CONFIG2"
+>>   > > -#     KCI_DEFCONFIG: "my/custom/config1"
+>>   > > +build:x86_64:
+>>   > > +  variables:
+>>   > > +    KCI_KCONFIGS_ENABLE: "DRM_VKMS DRM_BOCHS"
+>>   > > +
+>>   > > +.igt:
+>>   > > +  stage: build
+>>   > > +  script:
+>>   > > +    - FDO_CI_CONCURRENT=${FDO_CI_CONCURRENT} bash ./tools/ci/gitlab-ci/scenarios/drm/build-igt.sh
+>>   > > +  artifacts:
+>>   > > +    when: always
+>>   > > +    paths:
+>>   > > +      - artifacts/
+>>   > > +
+>>   > > +# Build IGT for testing on devices
+>>   > > +# TODO: Fix cross compilation issue
+>>   > > +.igt:arm32:
+>>   > > +  extends:
+>>   > > +    - .arm32-config
+>>   > > +    - .use-debian/arm64_build
+>>   > > +    - .igt
+>>   > > +
+>>   > > +igt:arm64:
+>>   > > +  extends:
+>>   > > +    - .arm64-config
+>>   > > +    - .use-debian/arm64_build
+>>   > > +    - .igt
+>>   > > +
+>>   > > +igt:x86_64:
+>>   > > +  extends:
+>>   > > +    - .x86_64-config
+>>   > > +    - .use-debian/x86_64_build
+>>   > > +    - .igt
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/prepare-container.sh b/tools/ci/gitlab-ci/scenarios/drm/prepare-container.sh
+>>   > > new file mode 100755
+>>   > > index 000000000000..43fbfdcd3514
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/prepare-container.sh
+>>   > > @@ -0,0 +1,18 @@
+>>   > > +#!/bin/bash
+>>   > > +# SPDX-License-Identifier: GPL-2.0-or-later
+>>   > > +#
+>>   > > +# Copyright (C) 2025 Collabora, Vignesh Raman vignesh.raman@collabora.com>
+>>   > > +
+>>   > > +set -ex
+>>   > > +
+>>   > > +############### Install Smatch
+>>   > > +
+>>   > > +. ./tools/ci/gitlab-ci/ci-scripts/install-smatch.sh
+>>   > > +
+>>   > > +############### Install Rust toolchain
+>>   > > +
+>>   > > +. ./tools/ci/gitlab-ci/scenarios/drm/build-rust.sh
+>>   > > +
+>>   > > +############### Build dEQP runner
+>>   > > +
+>>   > > +. ./tools/ci/gitlab-ci/scenarios/drm/build-deqp-runner.sh
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/run-igt.sh b/tools/ci/gitlab-ci/scenarios/drm/run-igt.sh
+>>   > > new file mode 100755
+>>   > > index 000000000000..4822fcc2780f
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/run-igt.sh
+>>   > > @@ -0,0 +1,83 @@
+>>   > > +#!/bin/sh
+>>   > > +# SPDX-License-Identifier: GPL-2.0-or-later
+>>   > > +#
+>>   > > +# Copyright (C) 2025 Collabora, Vignesh Raman vignesh.raman@collabora.com>
+>>   > > +#
+>>   > > +# Based on the igt_runner.sh script from the drm-ci project:
+>>   > > +# https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ci/igt_runner.sh
+>>   > > +
+>>   > > +set -ex
+>>   > > +
+>>   > > +STATUS_FILE="${1}"
+>>   > > +
+>>   > > +export IGT_FORCE_DRIVER=${DRIVER_NAME}
+>>   > > +export PATH=$PATH:/igt/bin/
+>>   > > +export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:\
+>>   > > +/igt/lib/aarch64-linux-gnu:\
+>>   > > +/igt/lib/x86_64-linux-gnu:\
+>>   > > +/igt/lib:\
+>>   > > +/igt/lib64
+>>   > > +
+>>   > > +# Uncomment the below to debug problems with driver probing
+>>   > > +: '
+>>   > > +ls -l /dev/dri/
+>>   > > +cat /sys/kernel/debug/devices_deferred
+>>   > > +cat /sys/kernel/debug/device_component/*
+>>   > > +'
+>>   > > +
+>>   > > +# Dump drm state to confirm that kernel was able to find a connected display:
+>>   > > +set +e
+>>   > > +cat /sys/kernel/debug/dri/*/state
+>>   > > +set -e
+>>   > > +
+>>   > > +if [ -e "/install/xfails/$DRIVER_NAME-$GPU_VERSION-skips.txt" ]; then
+>>   > > +    IGT_SKIPS="--skips /install/xfails/$DRIVER_NAME-$GPU_VERSION-skips.txt"
+>>   > > +fi
+>>   > > +
+>>   > > +if [ -e "/install/xfails/$DRIVER_NAME-$GPU_VERSION-flakes.txt" ]; then
+>>   > > +    IGT_FLAKES="--flakes /install/xfails/$DRIVER_NAME-$GPU_VERSION-flakes.txt"
+>>   > > +fi
+>>   > > +
+>>   > > +if [ -e "/install/xfails/$DRIVER_NAME-$GPU_VERSION-fails.txt" ]; then
+>>   > > +    IGT_FAILS="--baseline /install/xfails/$DRIVER_NAME-$GPU_VERSION-fails.txt"
+>>   > > +fi
+>>   > > +
+>>   > > +TESTLIST="/igt/libexec/igt-gpu-tools/ci-testlist.txt"
+>>   > > +
+>>   > > +# If the job is parallel at the gitab job level, take the corresponding fraction
+>>   > > +# of the caselist.
+>>   > > +if [ -n "$CI_NODE_INDEX" ]; then
+>>   > > +    sed -ni $CI_NODE_INDEX~$CI_NODE_TOTAL"p" $TESTLIST
+>>   > > +fi
+>>   > > +
+>>   > > +# core_getversion checks if the driver is loaded and probed correctly
+>>   > > +# so run it in all shards
+>>   > > +if ! grep -q "core_getversion" $TESTLIST; then
+>>   > > +    # Add the line to the file
+>>   > > +    echo "core_getversion" >> $TESTLIST
+>>   > > +fi
+>>   > > +
+>>   > > +set +e
+>>   > > +igt-runner \
+>>   > > +    run \
+>>   > > +    --igt-folder /igt/libexec/igt-gpu-tools \
+>>   > > +    --caselist $TESTLIST \
+>>   > > +    --output /results \
+>>   > > +    -vvvv \
+>>   > > +    $IGT_SKIPS \
+>>   > > +    $IGT_FLAKES \
+>>   > > +    $IGT_FAILS \
+>>   > > +    --jobs 1
+>>   > > +ret=$?
+>>   > > +set -e
+>>   > > +
+>>   > > +deqp-runner junit \
+>>   > > +   --testsuite IGT \
+>>   > > +   --results /results/failures.csv \
+>>   > > +   --output /results/junit.xml \
+>>   > > +   --limit 50 \
+>>   > > +   --template "See https://$CI_PROJECT_ROOT_NAMESPACE.pages.freedesktop.org/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/results/{{testcase}}.xml"
+>>   > > +
+>>   > > +cd $oldpath
+>>   > > +echo $ret > ${STATUS_FILE}
+>>   > > +exit $ret
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/test.yml b/tools/ci/gitlab-ci/scenarios/drm/test.yml
+>>   > > new file mode 100644
+>>   > > index 000000000000..9fb37beb446d
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/test.yml
+>>   > > @@ -0,0 +1,32 @@
+>>   > > +# SPDX-License-Identifier: GPL-2.0-or-later
+>>   > > +#
+>>   > > +# Copyright (C) 2025 Collabora, Vignesh Raman vignesh.raman@collabora.com>
+>>   > > +
+>>   > > +vkms:none:
+>>   > > +  extends: build:x86_64
+>>   > > +  stage: test
+>>   > > +  timeout: "1h30m"
+>>   > > +  variables:
+>>   > > +    DRIVER_NAME: vkms
+>>   > > +    GPU_VERSION: none
+>>   > > +  tags:
+>>   > > +    - kvm
+>>   > > +  script:
+>>   > > +    - mkdir -p /install/xfails
+>>   > > +    - cp -rfv tools/ci/gitlab-ci/scenarios/drm/xfails /install/
+>>   > > +    - cp $CI_PROJECT_DIR/artifacts/kernel-install-${KCI_KERNEL_ARCH}/bzImage /install
+>>   > > +    - tar -xv -C / -f $CI_PROJECT_DIR/artifacts/igt-install-${KCI_KERNEL_ARCH}/igt.tar
+>>   > > +    - mkdir -p $CI_PROJECT_DIR/results
+>>   > > +    - ln -sf $CI_PROJECT_DIR/results /results
+>>   > > +    - ./tools/ci/gitlab-ci/ci-scripts/run-virtme.sh /install/bzImage ./tools/ci/gitlab-ci/scenarios/drm/run-igt.sh "DRIVER_NAME=$DRIVER_NAME GPU_VERSION=$GPU_VERSION"
+>>   > > +  artifacts:
+>>   > > +    when: always
+>>   > > +    paths:
+>>   > > +      - results/
+>>   > > +  needs:
+>>   > > +    - build:x86_64
+>>   > > +    - igt:x86_64
+>>   > > +
+>>   > > +test-boot:
+>>   > > +  rules:
+>>   > > +    - when: never
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-fails.txt b/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-fails.txt
+>>   > > new file mode 100644
+>>   > > index 000000000000..3979c95c07ed
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-fails.txt
+>>   > > @@ -0,0 +1,22 @@
+>>   > > +kms_cursor_crc@cursor-rapid-movement-256x85,Fail
+>>   > > +kms_cursor_crc@cursor-rapid-movement-32x10,Fail
+>>   > > +kms_cursor_crc@cursor-rapid-movement-64x64,Fail
+>>   > > +kms_cursor_legacy@basic-flip-before-cursor-atomic,Fail
+>>   > > +kms_cursor_legacy@basic-flip-before-cursor-legacy,Fail
+>>   > > +kms_cursor_legacy@cursor-vs-flip-atomic,Fail
+>>   > > +kms_cursor_legacy@cursor-vs-flip-legacy,Fail
+>>   > > +kms_cursor_legacy@cursor-vs-flip-toggle,Fail
+>>   > > +kms_cursor_legacy@cursor-vs-flip-varying-size,Fail
+>>   > > +kms_cursor_legacy@flip-vs-cursor-atomic,Fail
+>>   > > +kms_cursor_legacy@flip-vs-cursor-crc-atomic,Fail
+>>   > > +kms_cursor_legacy@flip-vs-cursor-crc-legacy,Fail
+>>   > > +kms_cursor_legacy@flip-vs-cursor-legacy,Fail
+>>   > > +kms_flip@flip-vs-modeset-vs-hang,Fail
+>>   > > +kms_flip@flip-vs-panning-vs-hang,Fail
+>>   > > +kms_writeback@writeback-check-output,Fail
+>>   > > +kms_writeback@writeback-check-output-XRGB2101010,Fail
+>>   > > +kms_writeback@writeback-fb-id,Fail
+>>   > > +kms_writeback@writeback-fb-id-XRGB2101010,Fail
+>>   > > +kms_writeback@writeback-invalid-parameters,Fail
+>>   > > +kms_writeback@writeback-pixel-formats,Fail
+>>   > > +perf@i915-ref-count,Fail
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-flakes.txt b/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-flakes.txt
+>>   > > new file mode 100644
+>>   > > index 000000000000..62428f3c8f31
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-flakes.txt
+>>   > > @@ -0,0 +1,90 @@
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_cursor_legacy@long-nonblocking-modeset-vs-cursor-atomic
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@basic-flip-vs-wf_vblank
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@flip-vs-expired-vblank-interruptible
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@flip-vs-wf_vblank-interruptible
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@plain-flip-fb-recreate-interruptible
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@plain-flip-ts-check
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@plain-flip-ts-check-interruptible
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@flip-vs-absolute-wf_vblank
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@flip-vs-absolute-wf_vblank-interruptible
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-g0df7b9b97
+>>   > > +# Linux Version: 6.9.0-rc7
+>>   > > +kms_flip@flip-vs-blocking-wf-vblank
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-gf13702b8e
+>>   > > +# Linux Version: 6.10.0-rc5
+>>   > > +kms_cursor_legacy@flip-vs-cursor-varying-size
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-gf13702b8e
+>>   > > +# Linux Version: 6.10.0-rc5
+>>   > > +kms_flip@flip-vs-expired-vblank
+>>   > > +
+>>   > > +# Board Name: vkms
+>>   > > +# Bug Report: https://lore.kernel.org/dri-devel/61ed26af-062c-443c-9df2-d1ee319f3fb0@collabora.com/T/#u
+>>   > > +# Failure Rate: 50
+>>   > > +# IGT Version: 1.28-gf13702b8e
+>>   > > +# Linux Version: 6.10.0-rc5
+>>   > > +kms_pipe_crc_basic@nonblocking-crc-frame-sequence
+>>   > > diff --git a/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-skips.txt b/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-skips.txt
+>>   > > new file mode 100644
+>>   > > index 000000000000..24659c18c765
+>>   > > --- /dev/null
+>>   > > +++ b/tools/ci/gitlab-ci/scenarios/drm/xfails/vkms-none-skips.txt
+>>   > > @@ -0,0 +1,812 @@
+>>   > > +# skip suspend tests
+>>   > > +.*suspend.*
+>>   > > +
+>>   > > +# keeps printing vkms_vblank_simulate: vblank timer overrun and never ends
+>>   > > +kms_invalid_mode@int-max-clock
+>>   > > +
+>>   > > +# kernel panic seen with kms_cursor_crc tests
+>>   > > +kms_cursor_crc.*
+>>   > > +# kms_cursor_crc@cursor-rapid-movement-32x10
+>>   > > +# Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 0 PID: 2635 Comm: kworker/u8:13 Not tainted 6.9.0-rc7-g40935263a1fd #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x1c7/0x4e0 [vkms]
+>>   > > +# Code: c9 0f 84 6a 01 00 00 8b 42 30 2b 42 28 41 39 c5 0f 8c 6f 01 00 00 49 83 c7 01 49 39 df 74 3b 4b 8b 34 fc 48 8b 96 48 01 00 00  42 78 89 c1 83 e1 0a a8 20 74 b1 45 89 f5 41 f7 d5 44 03 6a 34
+>>   > > +# RSP: 0018:ffffbb4700c17d58 EFLAGS: 00010246
+>>   > > +# RAX: 0000000000000400 RBX: 0000000000000002 RCX: 0000000000000002
+>>   > > +# RDX: 0000000000000000 RSI: ffffa2ad0788c000 RDI: 00000000fff479a8
+>>   > > +# RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffffa2ad0bb14000 R11: 0000000000000000 R12: ffffa2ad03e21700
+>>   > > +# R13: 0000000000000003 R14: 0000000000000004 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffffa2ad2bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000078 CR3: 000000010bd30000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x490
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x1c7/0x4e0 [vkms]
+>>   > > +#  ? compose_active_planes+0x2a3/0x4e0 [vkms]
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x1f4/0x6b0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x350
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 0000000000000078
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x1c7/0x4e0 [vkms]
+>>   > > +# Code: c9 0f 84 6a 01 00 00 8b 42 30 2b 42 28 41 39 c5 0f 8c 6f 01 00 00 49 83 c7 01 49 39 df 74 3b 4b 8b 34 fc 48 8b 96 48 01 00 00  42 78 89 c1 83 e1 0a a8 20 74 b1 45 89 f5 41 f7 d5 44 03 6a 34
+>>   > > +# RSP: 0018:ffffbb4700c17d58 EFLAGS: 00010246
+>>   > > +# RAX: 0000000000000400 RBX: 0000000000000002 RCX: 0000000000000002
+>>   > > +# RDX: 0000000000000000 RSI: ffffa2ad0788c000 RDI: 00000000fff479a8
+>>   > > +# RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffffa2ad0bb14000 R11: 0000000000000000 R12: ffffa2ad03e21700
+>>   > > +# R13: 0000000000000003 R14: 0000000000000004 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffffa2ad2bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +
+>>   > > +#kms_cursor_crc@cursor-rapid-movement-256x85
+>>   > > +# [drm:drm_crtc_add_crc_entry] *ERROR* Overflow of CRC buffer, userspace reads too slow.
+>>   > > +# Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 1 PID: 10 Comm: kworker/u8:0 Not tainted 6.9.0-rc7-g646381cde463 #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x1c7/0x4e0 [vkms]
+>>   > > +# Code: c9 0f 84 6a 01 00 00 8b 42 30 2b 42 28 41 39 c5 0f 8c 6f 01 00 00 49 83 c7 01 49 39 df 74 3b 4b 8b 34 fc 48 8b 96 48 01 00 00  42 78 89 c1 83 e1 0a a8 20 74 b1 45 89 f5 41 f7 d5 44 03 6a 34
+>>   > > +# RSP: 0018:ffffa7e980057d58 EFLAGS: 00010246
+>>   > > +# RAX: 0000000000000400 RBX: 0000000000000002 RCX: 0000000000000002
+>>   > > +# RDX: 0000000000000000 RSI: ffff977987aa5c00 RDI: 000000001b43a85f
+>>   > > +# RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff977981bf0000 R11: 0000000000000000 R12: ffff977989622590
+>>   > > +# R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9779abd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000078 CR3: 0000000109b38000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x490
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x1c7/0x4e0 [vkms]
+>>   > > +#  ? compose_active_planes+0x2a3/0x4e0 [vkms]
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x1f4/0x6b0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x350
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 0000000000000078
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x1c7/0x4e0 [vkms]
+>>   > > +# Code: c9 0f 84 6a 01 00 00 8b 42 30 2b 42 28 41 39 c5 0f 8c 6f 01 00 00 49 83 c7 01 49 39 df 74 3b 4b 8b 34 fc 48 8b 96 48 01 00 00  42 78 89 c1 83 e1 0a a8 20 74 b1 45 89 f5 41 f7 d5 44 03 6a 34
+>>   > > +# RSP: 0018:ffffa7e980057d58 EFLAGS: 00010246
+>>   > > +# RAX: 0000000000000400 RBX: 0000000000000002 RCX: 0000000000000002
+>>   > > +# RDX: 0000000000000000 RSI: ffff977987aa5c00 RDI: 000000001b43a85f
+>>   > > +# RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff977981bf0000 R11: 0000000000000000 R12: ffff977989622590
+>>   > > +# R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9779abd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000078 CR3: 0000000109b38000 CR4: 0000000000350ef0
+>>   > > +
+>>   > > +#kms_cursor_crc@cursor-onscreen-256x256
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 1 PID: 1913 Comm: kworker/u8:6 Not tainted 6.10.0-rc5-g8a28e73ebead #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +# Code: 6a 34 0f 8e 91 fe ff ff 44 89 ea 48 8d 7c 24 48 e8 71 f0 ff ff 4b 8b 04 fc 48 8b 4c 24 50 48 8b 7c 24 40 48 8b 80 48 01 00 00  63 70 18 8b 40 20 48 89 f2 48 c1 e6 03 29 d0 48 8b 54 24 48 48
+>>   > > +# RSP: 0018:ffffb477409fbd58 EFLAGS: 00010282
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffff8b124a242000
+>>   > > +# RDX: 00000000000000ff RSI: ffff8b124a243ff8 RDI: ffff8b124a244000
+>>   > > +# RBP: 0000000000000002 R08: 0000000000000000 R09: 00000000000003ff
+>>   > > +# R10: ffff8b124a244000 R11: 0000000000000000 R12: ffff8b1249282f30
+>>   > > +# R13: 0000000000000002 R14: 0000000000000002 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffff8b126bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000018 CR3: 0000000107a86000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +#  ? compose_active_planes+0x32f/0x4e0 [vkms]
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x350
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 0000000000000018
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +# Code: 6a 34 0f 8e 91 fe ff ff 44 89 ea 48 8d 7c 24 48 e8 71 f0 ff ff 4b 8b 04 fc 48 8b 4c 24 50 48 8b 7c 24 40 48 8b 80 48 01 00 00  63 70 18 8b 40 20 48 89 f2 48 c1 e6 03 29 d0 48 8b 54 24 48 48
+>>   > > +# RSP: 0018:ffffb477409fbd58 EFLAGS: 00010282
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffff8b124a242000
+>>   > > +# RDX: 00000000000000ff RSI: ffff8b124a243ff8 RDI: ffff8b124a244000
+>>   > > +# RBP: 0000000000000002 R08: 0000000000000000 R09: 00000000000003ff
+>>   > > +# R10: ffff8b124a244000 R11: 0000000000000000 R12: ffff8b1249282f30
+>>   > > +# R13: 0000000000000002 R14: 0000000000000002 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffff8b126bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000018 CR3: 0000000107a86000 CR4: 0000000000350ef0
+>>   > > +
+>>   > > +kms_cursor_edge_walk@128x128-right-edge
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 0 PID: 1911 Comm: kworker/u8:3 Not tainted 6.10.0-rc5-g5e7a002eefe5 #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +# Code: 6a 34 0f 8e 91 fe ff ff 44 89 ea 48 8d 7c 24 48 e8 71 f0 ff ff 4b 8b 04 fc 48 8b 4c 24 50 48 8b 7c 24 40 48 8b 80 48 01 00 00  63 70 18 8b 40 20 48 89 f2 48 c1 e6 03 29 d0 48 8b 54 24 48 48
+>>   > > +# RSP: 0018:ffffb2f040a43d58 EFLAGS: 00010282
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffffa2c181792000
+>>   > > +# RDX: 0000000000000000 RSI: ffffa2c181793ff8 RDI: ffffa2c181790000
+>>   > > +# RBP: 0000000000000031 R08: 0000000000000000 R09: 00000000000003ff
+>>   > > +# R10: ffffa2c181790000 R11: 0000000000000000 R12: ffffa2c1814fa810
+>>   > > +# R13: 0000000000000031 R14: 0000000000000031 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffffa2c1abc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000018 CR3: 0000000106768000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  ? mark_held_locks+0x49/0x80
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +#  ? compose_active_planes+0x32f/0x4e0 [vkms]
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x350
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 0000000000000018
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +# Code: 6a 34 0f 8e 91 fe ff ff 44 89 ea 48 8d 7c 24 48 e8 71 f0 ff ff 4b 8b 04 fc 48 8b 4c 24 50 48 8b 7c 24 40 48 8b 80 48 01 00 00  63 70 18 8b 40 20 48 89 f2 48 c1 e6 03 29 d0 48 8b 54 24 48 48
+>>   > > +# RSP: 0018:ffffb2f040a43d58 EFLAGS: 00010282
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffffa2c181792000
+>>   > > +# RDX: 0000000000000000 RSI: ffffa2c181793ff8 RDI: ffffa2c181790000
+>>   > > +# RBP: 0000000000000031 R08: 0000000000000000 R09: 00000000000003ff
+>>   > > +# R10: ffffa2c181790000 R11: 0000000000000000 R12: ffffa2c1814fa810
+>>   > > +# R13: 0000000000000031 R14: 0000000000000031 R15: 000000000000
+>>   > > +
+>>   > > +kms_cursor_edge_walk@128x128-left-edge
+>>   > > +# DEBUG - Begin test kms_cursor_edge_walk@128x128-left-edge
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 0 UID: 0 PID: 27 Comm: kworker/u8:1 Not tainted 6.11.0-rc5-g5d3429a7e9aa #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +# Code: 6a 34 0f 8e 91 fe ff ff 44 89 ea 48 8d 7c 24 48 e8 71 f0 ff ff 4b 8b 04 fc 48 8b 4c 24 50 48 8b 7c 24 40 48 8b 80 48 01 00 00  63 70 18 8b 40 20 48 89 f2 48 c1 e6 03 29 d0 48 8b 54 24 48 48
+>>   > > +# RSP: 0018:ffffa437800ebd58 EFLAGS: 00010282
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffffa0e841904000
+>>   > > +# RDX: 00000000000000ff RSI: ffffa0e841905ff8 RDI: ffffa0e841902000
+>>   > > +# RBP: 0000000000000000 R08: ffffa0e84158a600 R09: 00000000000003ff
+>>   > > +# R10: 0000000078b2bcd2 R11: 00000000278b2bcd R12: ffffa0e84870fc60
+>>   > > +# R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffffa0e86bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000018 CR3: 0000000101710000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +#  ? compose_active_planes+0x32f/0x4e0 [vkms]
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x310
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 0000000000000018
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x344/0x4e0 [vkms]
+>>   > > +# Code: 6a 34 0f 8e 91 fe ff ff 44 89 ea 48 8d 7c 24 48 e8 71 f0 ff ff 4b 8b 04 fc 48 8b 4c 24 50 48 8b 7c 24 40 48 8b 80 48 01 00 00  63 70 18 8b 40 20 48 89 f2 48 c1 e6 03 29 d0 48 8b 54 24 48 48
+>>   > > +# RSP: 0018:ffffa437800ebd58 EFLAGS: 00010282
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000002 RCX: ffffa0e841904000
+>>   > > +# RDX: 00000000000000ff RSI: ffffa0e841905ff8 RDI: ffffa0e841902000
+>>   > > +# RBP: 0000000000000000 R08: ffffa0e84158a600 R09: 00000000000003ff
+>>   > > +# R10: 0000000078b2bcd2 R11: 00000000278b2bcd R12: ffffa0e84870fc60
+>>   > > +# R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+>>   > > +# FS:  0000000000000000(0000) GS:ffffa0e86bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 0000000000000018 CR3: 0000000101710000 CR4: 0000000000350ef0
+>>   > > +# vkms_vblank_simulate: vblank timer overrun
+>>   > > +
+>>   > > +# DEBUG - Begin test kms_cursor_crc@cursor-rapid-movement-64x64
+>>   > > +# ------------[ cut here ]------------
+>>   > > +# WARNING: CPU: 1 PID: 1250 at drivers/gpu/drm/vkms/vkms_crtc.c:139 vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Modules linked in: vkms
+>>   > > +# CPU: 1 UID: 0 PID: 1250 Comm: kms_cursor_crc Not tainted 6.13.0-rc2-ge95c88d68ac3 #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# RIP: 0010:vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Code: f7 48 89 f3 e8 d0 bf ee ec 48 8b 83 50 01 00 00 a8 01 75 15 48 8b bb a0 01 00 00 e8 59 05 95 ec 48 89 df 5b e9 50 05 95 ec 90  0b 90 eb e5 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90
+>>   > > +# RSP: 0018:ffff9fb640aafb08 EFLAGS: 00010202
+>>   > > +# RAX: ffff8e7240859e05 RBX: ffff8e7241cd6400 RCX: ffffffffae496b65
+>>   > > +# RDX: ffffffffad2d1f80 RSI: 0000000000000000 RDI: 0000000000000000
+>>   > > +# RBP: 0000000000000000 R08: 0000000000000034 R09: 0000000000000002
+>>   > > +# R10: 0000000047dd15a5 R11: 00000000547dd15a R12: ffff8e72590cc000
+>>   > > +# R13: 0000000000000000 R14: 00000000ffffffff R15: 0000000000000000
+>>   > > +# FS:  00007f0942ad56c0(0000) GS:ffff8e726bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 00007f0942ad0008 CR3: 0000000118d1e000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __warn+0x8c/0x190
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? report_bug+0x164/0x190
+>>   > > +#  ? handle_bug+0x54/0x90
+>>   > > +#  ? exc_invalid_op+0x17/0x70
+>>   > > +#  ? asm_exc_invalid_op+0x1a/0x20
+>>   > > +#  ? __pfx_drm_property_free_blob+0x10/0x10
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x10/0x40 [vkms]
+>>   > > +#  drm_atomic_state_default_clear+0x137/0x2f0
+>>   > > +#  __drm_atomic_state_free+0x6c/0xb0
+>>   > > +#  drm_atomic_helper_update_plane+0x100/0x150
+>>   > > +#  drm_mode_cursor_universal+0x10e/0x270
+>>   > > +#  drm_mode_cursor_common+0x115/0x240
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  drm_mode_cursor_ioctl+0x4a/0x70
+>>   > > +#  drm_ioctl_kernel+0xb0/0x110
+>>   > > +#  drm_ioctl+0x235/0x4b0
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  __x64_sys_ioctl+0x92/0xc0
+>>   > > +#  do_syscall_64+0xbb/0x1d0
+>>   > > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>   > > +# RIP: 0033:0x7f0943a84cdb
+>>   > > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+>>   > > +# RSP: 002b:00007fff267d68d0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>>   > > +# RAX: ffffffffffffffda RBX: 000000000000005a RCX: 00007f0943a84cdb
+>>   > > +# RDX: 00007fff267d6960 RSI: 00000000c01c64a3 RDI: 0000000000000005
+>>   > > +# RBP: 00007fff267d6960 R08: 0000000000000007 R09: 00005619a60f3450
+>>   > > +# R10: fe95a83851609dee R11: 0000000000000246 R12: 00000000c01c64a3
+>>   > > +# R13: 0000000000000005 R14: 00005619a3cd2c68 R15: 00005619a608c830
+>>   > > +#
+>>   > > +# irq event stamp: 57793
+>>   > > +# hardirqs last  enabled at (57799): [] __up_console_sem+0x4d/0x60
+>>   > > +# hardirqs last disabled at (57804): [] __up_console_sem+0x32/0x60
+>>   > > +# softirqs last  enabled at (45586): [] handle_softirqs+0x310/0x3f0
+>>   > > +# softirqs last disabled at (45569): [] __irq_exit_rcu+0xa1/0xc0
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 0 UID: 0 PID: 119 Comm: kworker/u8:6 Tainted: G        W          6.13.0-rc2-ge95c88d68ac3 #1
+>>   > > +# Tainted: [W]=WARN
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffff9fb640efbd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff8e7241926000 RSI: ffff8e7241927ffc RDI: 000000000b7fb767
+>>   > > +# RBP: ffff9fb640efbde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff8e7241b09a80 R11: 0000000000000000 R12: ffff8e7241cd6200
+>>   > > +# R13: 0000000000000013 R14: 0000000000000000 R15: ffff8e7241b09a80
+>>   > > +# FS:  0000000000000000(0000) GS:ffff8e726bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000118d1e000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x320
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 000000000000001c
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffff9fb640efbd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff8e7241926000 RSI: ffff8e7241927ffc RDI: 000000000b7fb767
+>>   > > +# RBP: ffff9fb640efbde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff8e7241b09a80 R11: 0000000000000000 R12: ffff8e7241cd6200
+>>   > > +# R13: 0000000000000013 R14: 0000000000000000 R15: ffff8e7241b09a80
+>>   > > +# FS:  0000000000000000(0000) GS:ffff8e726bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000118d1e000 CR4: 0000000000350ef0
+>>   > > +
+>>   > > +# DEBUG - Begin test kms_cursor_crc@cursor-rapid-movement-128x42
+>>   > > +# ------------[ cut here ]------------
+>>   > > +# WARNING: CPU: 0 PID: 2933 at drivers/gpu/drm/vkms/vkms_crtc.c:139 vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Modules linked in: vkms
+>>   > > +# CPU: 0 UID: 0 PID: 2933 Comm: kms_cursor_crc Not tainted 6.13.0-rc2-g5219242748c8 #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# RIP: 0010:vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Code: f7 48 89 f3 e8 d0 bf 6e d0 48 8b 83 50 01 00 00 a8 01 75 15 48 8b bb a0 01 00 00 e8 59 05 15 d0 48 89 df 5b e9 50 05 15 d0 90  0b 90 eb e5 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90
+>>   > > +# RSP: 0018:ffffa14cc08b3b08 EFLAGS: 00010202
+>>   > > +# RAX: ffff9b864084b605 RBX: ffff9b8641ba4600 RCX: ffffffff91c96b65
+>>   > > +# RDX: ffffffff90ad1f80 RSI: 0000000000000000 RDI: 0000000000000000
+>>   > > +# RBP: 0000000000000000 R08: 0000000000000034 R09: 0000000000000002
+>>   > > +# R10: 0000000047dd15a5 R11: 00000000547dd15a R12: ffff9b864099c000
+>>   > > +# R13: 0000000000000000 R14: 00000000ffffffff R15: 0000000000000000
+>>   > > +# FS:  00007f4f437ab6c0(0000) GS:ffff9b866bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 00007f4f44c3cd40 CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __warn+0x8c/0x190
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? report_bug+0x164/0x190
+>>   > > +#  ? handle_bug+0x54/0x90
+>>   > > +#  ? exc_invalid_op+0x17/0x70
+>>   > > +#  ? asm_exc_invalid_op+0x1a/0x20
+>>   > > +#  ? __pfx_drm_property_free_blob+0x10/0x10
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x10/0x40 [vkms]
+>>   > > +#  drm_atomic_state_default_clear+0x137/0x2f0
+>>   > > +#  __drm_atomic_state_free+0x6c/0xb0
+>>   > > +#  drm_atomic_helper_update_plane+0x100/0x150
+>>   > > +#  drm_mode_cursor_universal+0x10e/0x270
+>>   > > +#  drm_mode_cursor_common+0x115/0x240
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  drm_mode_cursor_ioctl+0x4a/0x70
+>>   > > +#  drm_ioctl_kernel+0xb0/0x110
+>>   > > +#  drm_ioctl+0x235/0x4b0
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  __x64_sys_ioctl+0x92/0xc0
+>>   > > +#  do_syscall_64+0xbb/0x1d0
+>>   > > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>   > > +# RIP: 0033:0x7f4f44960c5b
+>>   > > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+>>   > > +# RSP: 002b:00007ffcdfb0b560 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>>   > > +# RAX: ffffffffffffffda RBX: 0000000000000060 RCX: 00007f4f44960c5b
+>>   > > +# RDX: 00007ffcdfb0b5f0 RSI: 00000000c01c64a3 RDI: 0000000000000005
+>>   > > +# RBP: 00007ffcdfb0b5f0 R08: 0000000000000007 R09: 000055c3a5801a30
+>>   > > +# R10: 3107764f00e1f281 R11: 0000000000000246 R12: 00000000c01c64a3
+>>   > > +# R13: 0000000000000005 R14: 000055c38b7e42c8 R15: 000055c3a579aab0
+>>   > > +#
+>>   > > +# irq event stamp: 58747
+>>   > > +# hardirqs last  enabled at (58753): [] __up_console_sem+0x4d/0x60
+>>   > > +# hardirqs last disabled at (58758): [] __up_console_sem+0x32/0x60
+>>   > > +# softirqs last  enabled at (47324): [] handle_softirqs+0x310/0x3f0
+>>   > > +# softirqs last disabled at (47307): [] __irq_exit_rcu+0xa1/0xc0
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 1 UID: 0 PID: 11 Comm: kworker/u8:0 Tainted: G        W          6.13.0-rc2-g5219242748c8 #1
+>>   > > +# Tainted: [W]=WARN
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39
+>>   > > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800
+>>   > > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? __kvmalloc_node_noprof+0x3e/0xc0
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x320
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 000000000000001c
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39
+>>   > > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800
+>>   > > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +
+>>   > > +# DEBUG - Begin test kms_cursor_crc@cursor-rapid-movement-32x32
+>>   > > +# ------------[ cut here ]------------
+>>   > > +# WARNING: CPU: 0 PID: 2933 at drivers/gpu/drm/vkms/vkms_crtc.c:139 vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Modules linked in: vkms
+>>   > > +# CPU: 0 UID: 0 PID: 2933 Comm: kms_cursor_crc Not tainted 6.13.0-rc2-g5219242748c8 #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# RIP: 0010:vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Code: f7 48 89 f3 e8 d0 bf 6e d0 48 8b 83 50 01 00 00 a8 01 75 15 48 8b bb a0 01 00 00 e8 59 05 15 d0 48 89 df 5b e9 50 05 15 d0 90  0b 90 eb e5 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90
+>>   > > +# RSP: 0018:ffffa14cc08b3b08 EFLAGS: 00010202
+>>   > > +# RAX: ffff9b864084b605 RBX: ffff9b8641ba4600 RCX: ffffffff91c96b65
+>>   > > +# RDX: ffffffff90ad1f80 RSI: 0000000000000000 RDI: 0000000000000000
+>>   > > +# RBP: 0000000000000000 R08: 0000000000000034 R09: 0000000000000002
+>>   > > +# R10: 0000000047dd15a5 R11: 00000000547dd15a R12: ffff9b864099c000
+>>   > > +# R13: 0000000000000000 R14: 00000000ffffffff R15: 0000000000000000
+>>   > > +# FS:  00007f4f437ab6c0(0000) GS:ffff9b866bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 00007f4f44c3cd40 CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __warn+0x8c/0x190
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? report_bug+0x164/0x190
+>>   > > +#  ? handle_bug+0x54/0x90
+>>   > > +#  ? exc_invalid_op+0x17/0x70
+>>   > > +#  ? asm_exc_invalid_op+0x1a/0x20
+>>   > > +#  ? __pfx_drm_property_free_blob+0x10/0x10
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x10/0x40 [vkms]
+>>   > > +#  drm_atomic_state_default_clear+0x137/0x2f0
+>>   > > +#  __drm_atomic_state_free+0x6c/0xb0
+>>   > > +#  drm_atomic_helper_update_plane+0x100/0x150
+>>   > > +#  drm_mode_cursor_universal+0x10e/0x270
+>>   > > +#  drm_mode_cursor_common+0x115/0x240
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  drm_mode_cursor_ioctl+0x4a/0x70
+>>   > > +#  drm_ioctl_kernel+0xb0/0x110
+>>   > > +#  drm_ioctl+0x235/0x4b0
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  __x64_sys_ioctl+0x92/0xc0
+>>   > > +#  do_syscall_64+0xbb/0x1d0
+>>   > > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>   > > +# RIP: 0033:0x7f4f44960c5b
+>>   > > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+>>   > > +# RSP: 002b:00007ffcdfb0b560 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>>   > > +# RAX: ffffffffffffffda RBX: 0000000000000060 RCX: 00007f4f44960c5b
+>>   > > +# RDX: 00007ffcdfb0b5f0 RSI: 00000000c01c64a3 RDI: 0000000000000005
+>>   > > +# RBP: 00007ffcdfb0b5f0 R08: 0000000000000007 R09: 000055c3a5801a30
+>>   > > +# R10: 3107764f00e1f281 R11: 0000000000000246 R12: 00000000c01c64a3
+>>   > > +# R13: 0000000000000005 R14: 000055c38b7e42c8 R15: 000055c3a579aab0
+>>   > > +#
+>>   > > +# irq event stamp: 58747
+>>   > > +# hardirqs last  enabled at (58753): [] __up_console_sem+0x4d/0x60
+>>   > > +# hardirqs last disabled at (58758): [] __up_console_sem+0x32/0x60
+>>   > > +# softirqs last  enabled at (47324): [] handle_softirqs+0x310/0x3f0
+>>   > > +# softirqs last disabled at (47307): [] __irq_exit_rcu+0xa1/0xc0
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 1 UID: 0 PID: 11 Comm: kworker/u8:0 Tainted: G        W          6.13.0-rc2-g5219242748c8 #1
+>>   > > +# Tainted: [W]=WARN
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39
+>>   > > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800
+>>   > > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? __kvmalloc_node_noprof+0x3e/0xc0
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x320
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 000000000000001c
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39
+>>   > > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800
+>>   > > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +
+>>   > > +# DEBUG - Begin test kms_cursor_crc@cursor-rapid-movement-32x32
+>>   > > +# ------------[ cut here ]------------
+>>   > > +# WARNING: CPU: 0 PID: 2933 at drivers/gpu/drm/vkms/vkms_crtc.c:139 vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Modules linked in: vkms
+>>   > > +# CPU: 0 UID: 0 PID: 2933 Comm: kms_cursor_crc Not tainted 6.13.0-rc2-g5219242748c8 #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# RIP: 0010:vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Code: f7 48 89 f3 e8 d0 bf 6e d0 48 8b 83 50 01 00 00 a8 01 75 15 48 8b bb a0 01 00 00 e8 59 05 15 d0 48 89 df 5b e9 50 05 15 d0 90  0b 90 eb e5 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90
+>>   > > +# RSP: 0018:ffffa14cc08b3b08 EFLAGS: 00010202
+>>   > > +# RAX: ffff9b864084b605 RBX: ffff9b8641ba4600 RCX: ffffffff91c96b65
+>>   > > +# RDX: ffffffff90ad1f80 RSI: 0000000000000000 RDI: 0000000000000000
+>>   > > +# RBP: 0000000000000000 R08: 0000000000000034 R09: 0000000000000002
+>>   > > +# R10: 0000000047dd15a5 R11: 00000000547dd15a R12: ffff9b864099c000
+>>   > > +# R13: 0000000000000000 R14: 00000000ffffffff R15: 0000000000000000
+>>   > > +# FS:  00007f4f437ab6c0(0000) GS:ffff9b866bc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 00007f4f44c3cd40 CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __warn+0x8c/0x190
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? report_bug+0x164/0x190
+>>   > > +#  ? handle_bug+0x54/0x90
+>>   > > +#  ? exc_invalid_op+0x17/0x70
+>>   > > +#  ? asm_exc_invalid_op+0x1a/0x20
+>>   > > +#  ? __pfx_drm_property_free_blob+0x10/0x10
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x10/0x40 [vkms]
+>>   > > +#  drm_atomic_state_default_clear+0x137/0x2f0
+>>   > > +#  __drm_atomic_state_free+0x6c/0xb0
+>>   > > +#  drm_atomic_helper_update_plane+0x100/0x150
+>>   > > +#  drm_mode_cursor_universal+0x10e/0x270
+>>   > > +#  drm_mode_cursor_common+0x115/0x240
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  drm_mode_cursor_ioctl+0x4a/0x70
+>>   > > +#  drm_ioctl_kernel+0xb0/0x110
+>>   > > +#  drm_ioctl+0x235/0x4b0
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  __x64_sys_ioctl+0x92/0xc0
+>>   > > +#  do_syscall_64+0xbb/0x1d0
+>>   > > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>   > > +# RIP: 0033:0x7f4f44960c5b
+>>   > > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+>>   > > +# RSP: 002b:00007ffcdfb0b560 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>>   > > +# RAX: ffffffffffffffda RBX: 0000000000000060 RCX: 00007f4f44960c5b
+>>   > > +# RDX: 00007ffcdfb0b5f0 RSI: 00000000c01c64a3 RDI: 0000000000000005
+>>   > > +# RBP: 00007ffcdfb0b5f0 R08: 0000000000000007 R09: 000055c3a5801a30
+>>   > > +# R10: 3107764f00e1f281 R11: 0000000000000246 R12: 00000000c01c64a3
+>>   > > +# R13: 0000000000000005 R14: 000055c38b7e42c8 R15: 000055c3a579aab0
+>>   > > +#
+>>   > > +# irq event stamp: 58747
+>>   > > +# hardirqs last  enabled at (58753): [] __up_console_sem+0x4d/0x60
+>>   > > +# hardirqs last disabled at (58758): [] __up_console_sem+0x32/0x60
+>>   > > +# softirqs last  enabled at (47324): [] handle_softirqs+0x310/0x3f0
+>>   > > +# softirqs last disabled at (47307): [] __irq_exit_rcu+0xa1/0xc0
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 1 UID: 0 PID: 11 Comm: kworker/u8:0 Tainted: G        W          6.13.0-rc2-g5219242748c8 #1
+>>   > > +# Tainted: [W]=WARN
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39
+>>   > > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800
+>>   > > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? __kvmalloc_node_noprof+0x3e/0xc0
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x320
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 000000000000001c
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa14cc005fd20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff9b8669626000 RSI: ffff9b8669627ffc RDI: 00000000348d6c39
+>>   > > +# RBP: ffffa14cc005fde0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff9b8645650eb0 R11: 0000000000000000 R12: ffff9b8641ba5800
+>>   > > +# R13: 0000000000000028 R14: 0000000000000000 R15: ffff9b8645650eb0
+>>   > > +# FS:  0000000000000000(0000) GS:ffff9b866bd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000108c14000 CR4: 0000000000350ef0
+>>   > > +
+>>   > > +# DEBUG - Begin test kms_cursor_crc@cursor-rapid-movement-128x128
+>>   > > +# ------------[ cut here ]------------
+>>   > > +# WARNING: CPU: 0 PID: 2898 at drivers/gpu/drm/vkms/vkms_crtc.c:139 vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Modules linked in: vkms
+>>   > > +# CPU: 0 UID: 0 PID: 2898 Comm: kms_cursor_crc Not tainted 6.13.0-rc2-g1f006005ebf8 #1
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# RIP: 0010:vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +# Code: f7 48 89 f3 e8 d0 bf 6e e1 48 8b 83 50 01 00 00 a8 01 75 15 48 8b bb a0 01 00 00 e8 59 05 15 e1 48 89 df 5b e9 50 05 15 e1 90  0b 90 eb e5 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90
+>>   > > +# RSP: 0018:ffffa35c4082fb08 EFLAGS: 00010202
+>>   > > +# RAX: ffff8b02c1c0f005 RBX: ffff8b02d4509600 RCX: ffffffffa2c96b65
+>>   > > +# RDX: ffffffffa1ad1f80 RSI: 0000000000000000 RDI: 0000000000000000
+>>   > > +# RBP: 0000000000000000 R08: 0000000000000034 R09: 0000000000000002
+>>   > > +# R10: 0000000030f11ddf R11: 00000000f30f11dd R12: ffff8b02d2528000
+>>   > > +# R13: 0000000000000000 R14: 00000000ffffffff R15: 0000000000000000
+>>   > > +# FS:  00007f4b071ab6c0(0000) GS:ffff8b02efc00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000055f7f8384b48 CR3: 0000000104ef0000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __warn+0x8c/0x190
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? report_bug+0x164/0x190
+>>   > > +#  ? handle_bug+0x54/0x90
+>>   > > +#  ? exc_invalid_op+0x17/0x70
+>>   > > +#  ? asm_exc_invalid_op+0x1a/0x20
+>>   > > +#  ? __pfx_drm_property_free_blob+0x10/0x10
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x31/0x40 [vkms]
+>>   > > +#  ? vkms_atomic_crtc_destroy_state+0x10/0x40 [vkms]
+>>   > > +#  drm_atomic_state_default_clear+0x137/0x2f0
+>>   > > +#  __drm_atomic_state_free+0x6c/0xb0
+>>   > > +#  drm_atomic_helper_update_plane+0x100/0x150
+>>   > > +#  drm_mode_cursor_universal+0x10e/0x270
+>>   > > +#  drm_mode_cursor_common+0x115/0x240
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  drm_mode_cursor_ioctl+0x4a/0x70
+>>   > > +#  drm_ioctl_kernel+0xb0/0x110
+>>   > > +#  drm_ioctl+0x235/0x4b0
+>>   > > +#  ? __pfx_drm_mode_cursor_ioctl+0x10/0x10
+>>   > > +#  __x64_sys_ioctl+0x92/0xc0
+>>   > > +#  do_syscall_64+0xbb/0x1d0
+>>   > > +#  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>>   > > +# RIP: 0033:0x7f4b0815ac5b
+>>   > > +# Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05  c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
+>>   > > +# RSP: 002b:00007ffd726f75e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+>>   > > +# RAX: ffffffffffffffda RBX: 000000000000005d RCX: 00007f4b0815ac5b
+>>   > > +# RDX: 00007ffd726f7670 RSI: 00000000c01c64a3 RDI: 0000000000000005
+>>   > > +# RBP: 00007ffd726f7670 R08: 0000000000000007 R09: 000055f7f83e30c0
+>>   > > +# R10: 2b16893c03bd381a R11: 0000000000000246 R12: 00000000c01c64a3
+>>   > > +# R13: 0000000000000005 R14: 000055f7dbee72c8 R15: 000055f7f837bab0
+>>   > > +#
+>>   > > +# irq event stamp: 58921
+>>   > > +# hardirqs last  enabled at (58927): [] __up_console_sem+0x4d/0x60
+>>   > > +# hardirqs last disabled at (58932): [] __up_console_sem+0x32/0x60
+>>   > > +# softirqs last  enabled at (46140): [] handle_softirqs+0x310/0x3f0
+>>   > > +# softirqs last disabled at (46135): [] __irq_exit_rcu+0xa1/0xc0
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# Oops: Oops: 0000 [#1] PREEMPT SMP NOPTI
+>>   > > +# CPU: 1 UID: 0 PID: 1657 Comm: kworker/u8:14 Tainted: G        W          6.13.0-rc2-g1f006005ebf8 #1
+>>   > > +# Tainted: [W]=WARN
+>>   > > +# Hardware name: ChromiumOS crosvm, BIOS 0
+>>   > > +# Workqueue: vkms_composer vkms_composer_worker [vkms]
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa35c40c43d20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff8b02c52c8000 RSI: ffff8b02c52c9ffc RDI: 00000000fa4761c9
+>>   > > +# RBP: ffffa35c40c43de0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff8b02c1c87840 R11: 0000000000000000 R12: ffff8b02d4508800
+>>   > > +# R13: 0000000000000021 R14: 0000000000000000 R15: ffff8b02c1c87840
+>>   > > +# FS:  0000000000000000(0000) GS:ffff8b02efd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +# CR2: 000000000000001c CR3: 0000000104ef0000 CR4: 0000000000350ef0
+>>   > > +# Call Trace:
+>>   > > +#
+>>   > > +#  ? __die+0x1e/0x60
+>>   > > +#  ? page_fault_oops+0x17b/0x4a0
+>>   > > +#  ? srso_return_thunk+0x5/0x5f
+>>   > > +#  ? exc_page_fault+0x6d/0x230
+>>   > > +#  ? asm_exc_page_fault+0x26/0x30
+>>   > > +#  ? compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +#  vkms_composer_worker+0x205/0x240 [vkms]
+>>   > > +#  process_one_work+0x201/0x6c0
+>>   > > +#  ? lock_is_held_type+0x9e/0x110
+>>   > > +#  worker_thread+0x17e/0x320
+>>   > > +#  ? __pfx_worker_thread+0x10/0x10
+>>   > > +#  kthread+0xce/0x100
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork+0x2f/0x50
+>>   > > +#  ? __pfx_kthread+0x10/0x10
+>>   > > +#  ret_from_fork_asm+0x1a/0x30
+>>   > > +#
+>>   > > +# Modules linked in: vkms
+>>   > > +# CR2: 000000000000001c
+>>   > > +# ---[ end trace 0000000000000000 ]---
+>>   > > +# RIP: 0010:compose_active_planes+0x1a3/0x760 [vkms]
+>>   > > +# Code: db 4d 89 fa 85 c9 0f 84 32 03 00 00 4d 8b 24 da 48 c7 44 24 60 00 00 00 00 48 c7 44 24 68 00 00 00 00 49 8b 84 24 48 01 00 00  50 1c 44 39 ea 0f 8f f3 02 00 00 44 39 68 24 0f 8e e9 02 00 00
+>>   > > +# RSP: 0018:ffffa35c40c43d20 EFLAGS: 00010202
+>>   > > +# RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000002
+>>   > > +# RDX: ffff8b02c52c8000 RSI: ffff8b02c52c9ffc RDI: 00000000fa4761c9
+>>   > > +# RBP: ffffa35c40c43de0 R08: 0000000000000000 R09: 0000000000000000
+>>   > > +# R10: ffff8b02c1c87840 R11: 0000000000000000 R12: ffff8b02d4508800
+>>   > > +# R13: 0000000000000021 R14: 0000000000000000 R15: ffff8b02c1c87840
+>>   > > +# FS:  0000000000000000(0000) GS:ffff8b02efd00000(0000) knlGS:0000000000000000
+>>   > > +# CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>   > > +
+>>   > > +# Skip driver specific tests
+>>   > > +^amdgpu.*
+>>   > > +^msm.*
+>>   > > +nouveau_.*
+>>   > > +^panfrost.*
+>>   > > +^v3d.*
+>>   > > +^vc4.*
+>>   > > +^vmwgfx*
+>>   > > +
+>>   > > +# Skip intel specific tests
+>>   > > +gem_.*
+>>   > > +i915_.*
+>>   > > +xe_.*
+>>   > > +tools_test.*
+>>   > > +
+>>   > > +# IGT issue. is_joiner_mode() should return false for non-Intel hardware.
+>>   > > +# https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/162
+>>   > > +kms_display_modes@extended-mode-basic
+>>   > > +kms_display_modes@mst-extended-mode-negative
+>>   > > --
+>>   > > 2.43.0
+>>   > >
+>>   >
+>>   > --
+>>   > Simona Vetter
+>>   > Software Engineer, Intel Corporation
+>>   > http://blog.ffwll.ch
+>>   >
+>>
+> 
