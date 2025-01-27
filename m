@@ -2,57 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B394EA1D427
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 11:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BED1A1D454
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 11:23:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EF3110E303;
-	Mon, 27 Jan 2025 10:11:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BCF889DFB;
+	Mon, 27 Jan 2025 10:23:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Bt7ucWY4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="RrzLYm/h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 375A310E3A4
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 10:11:16 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4YhPMN6zNgz9t1k;
- Mon, 27 Jan 2025 11:11:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1737972673; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Gt+hpx3fL9KABJQAsLZPNp8jRyhO1DPzEjSPUMbuguE=;
- b=Bt7ucWY4J4rV8FMDCbOF8xPg9f8qKnL3DTLYbZNsUsfii853SPjnfoWBTebYV+5srrvDmU
- cyK/aOyd6SuiODWdcUjEcleiAfvzGpzLKoeh87iQTR2SbOAYqVmAd48Fu/NSPDPUCKeWb7
- P6gIx+45JG5Z1f+o4JUxzve6Dirdx93jSZLYat3AwixPGMmZG6dow5HjUsmSUUuAH7EjZv
- QPjiosQysRzHt1hazfvZomlw79FxGljTbsaLgvk1gfuOBss9E6eLXo9y5dgxC+CYymGiTi
- 37Faza2p4pXaqcVzWW/Iezyksef7VLYedYh3NSjob3z3gnlZVjD5TrqqlhmzFg==
-Message-ID: <0197b888d1b3daa1f9c70b0965ee75d67b514fc9.camel@mailbox.org>
-Subject: Re: [PATCH 3/5] drm/sched: stop passing non struct drm_device to
- drm_err() and friends
-From: Philipp Stanner <phasta@mailbox.org>
-To: Jani Nikula <jani.nikula@intel.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
- <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,  Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Date: Mon, 27 Jan 2025 11:11:08 +0100
-In-Reply-To: <87msfgbfjz.fsf@intel.com>
-References: <cover.1737644530.git.jani.nikula@intel.com>
- <fe441dd1469d2b03e6b2ff247078bdde2011c6e3.1737644530.git.jani.nikula@intel.com>
- <Z5KeZnJ4HOxs1wuk@phenom.ffwll.local> <87msfgbfjz.fsf@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C44289DFB;
+ Mon, 27 Jan 2025 10:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yD/D2+nscyMs4rmMHdMo35IBdi5XMB2qp4Gun29olS8=; b=RrzLYm/hJNnp8Iawo14KFujD1B
+ dgYwgU2sXAB2bMOc9kXkeA1pldRUvEnrwMkqpmid5ZG2T6C+urJ9CSzsBpe9RtIPWCrAWnBpljibR
+ NCL6ZpDEQlc8P0nyaYxJv9b3f+hD7oAFcvRg0KxuASNAfECabdSEHqH5mfkKhKTa+iasGrkDGffGL
+ O0Vdbzy0TulqAF9xPP+B9kv/majU4pzGgGln2J31ccubtKed6WKjOkM/Vm0VeXrPumVpaX4lCq49c
+ LrHuuFQcN2b9LiiRnxYAalDysrPaEgHdgn6/jid11xHnyJox4jSl4p6w+0FiYVDp2hLfQdw/BcZRd
+ 6rPRc1Ag==;
+Received: from [194.136.85.206] (port=38530 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tcMHD-00016b-2a;
+ Mon, 27 Jan 2025 12:23:31 +0200
+Date: Mon, 27 Jan 2025 12:23:28 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: Xaver Hugl <xaver.hugl@kde.org>, airlied@gmail.com, simona@ffwll.ch,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, michal.wajdeczko@intel.com, christian.koenig@amd.com,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ alexander.deucher@amd.com, andrealmeid@igalia.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH v10 2/4] drm/doc: Document device wedged event
+Message-ID: <20250127122328.6d85bca1@eldfell>
+In-Reply-To: <Z5CAkXSOpNiiFbv4@black.fi.intel.com>
+References: <20241128153707.1294347-1-raag.jadav@intel.com>
+ <20241128153707.1294347-3-raag.jadav@intel.com>
+ <CAFZQkGy3R0TMY5CARPQZF70fdKGLX8GQjV_YQAHzEXsiuNHj+w@mail.gmail.com>
+ <Z5CAkXSOpNiiFbv4@black.fi.intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-MBO-RS-META: 1csptqmko7ba7napuizxe1ep95q7wiqe
-X-MBO-RS-ID: c02a3a93349471d024a
+Content-Type: multipart/signed; boundary="Sig_/WDsb8DKWCL+/WckgwZn74cK";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,207 +79,132 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-nit: In drm/sched, we start with an upper case -> "drm/sched: Stop [=E2=80=
-=A6]"
+--Sig_/WDsb8DKWCL+/WckgwZn74cK
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2025-01-24 at 13:46 +0200, Jani Nikula wrote:
-> On Thu, 23 Jan 2025, Simona Vetter <simona.vetter@ffwll.ch> wrote:
-> > On Thu, Jan 23, 2025 at 05:09:10PM +0200, Jani Nikula wrote:
-> > > The expectation is that the struct drm_device based logging
-> > > helpers get
-> > > passed an actual struct drm_device pointer rather than some
-> > > random
-> > > struct pointer where you can dereference the ->dev member.
-> > >=20
-> > > Convert drm_err(sched, ...) to dev_err(sched->dev, ...) and
-> > > similar. This matches current usage, as struct drm_device is not
-> > > available, but drops "[drm]" or "[drm] *ERROR*" prefix from
-> > > logging.
-> > >=20
-> > > Unfortunately, there's no dev_WARN_ON(), so the conversion is not
-> > > exactly the same.
-> > >=20
-> > > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-> >=20
-> > For the two previous patches just dev_ makes sense since they're
-> > just
-> > platform drivers, but for drm/sched I wonder whether it wouldn't be
-> > better
-> > to switch from struct device * to struct drm_device * instead. I
-> > guess
-> > might be best to leave that decision to scheduler folks.
+On Wed, 22 Jan 2025 07:22:25 +0200
+Raag Jadav <raag.jadav@intel.com> wrote:
+
+> On Tue, Jan 21, 2025 at 02:14:56AM +0100, Xaver Hugl wrote:
+> > > +It is the responsibility of the consumer to make sure that the devic=
+e or
+> > > +its resources are not in use by any process before attempting recove=
+ry. =20
+> > I'm not convinced this is actually doable in practice, outside of
+> > killing all apps that aren't the one trying to recover the GPU.
+> > Is this just about not crashing those processes if they don't handle
+> > GPU hotunplugs well, about leaks, or something else? =20
 >=20
-> I had a very brief look, and it seemed like struct drm_device isn't
-> passed around in sched. If use of struct drm_device is preferred, I'm
-> not the best person to figure out how to do that.
+> Correct, all of it. And since the compositor is in charge of device resou=
+rces,
+> this way it atleast has the opportunity to recover the device and recreate
+> context without all the userspace violence.
 
-The @dev field in drm_sched_init() is only ever used for debug prints.
-If we want to improve those prints further and we need a drm_dev for
-that, I'd say we can implement that ourselves once the need arises.
+Hi Raag,
 
+sorry, I haven't followed this series, so I wonder, why should
+userspace be part of recovering the device? Why doesn't the kernel
+automatically load a new driver instance with a new DRM device node?
 
->  But the abuse of the
-> drm_err() and friends macros needs to stop.
+Of course userspace needs to deal with stuff suddenly erroring out, and
+destroy existing related resources, then wait for a working device
+to appear and rebuild all state. The kernel driver already needs to
+make the existing open stuff inert and harmless, why does it need an
+acknowledgement from userspace to unbind and re-bind?
+
+> I'm not entirely aware of its feasibility though, perhaps something for t=
+he
+> consumers to experiment.
+
+If consumers mean userspace, then no, not reliably. But the kernel can
+do it.
+
+I see in the commit message written:
+
+	"For example, if the driver supports multiple recovery methods,
+	consumers can opt for the suitable one based on policy
+	definition."
+
+How could consumers know what to do? How can they guess what would be
+enough to recover the device? Isn't that the kernel driver's job to
+know?
+
+(More important for userspace would be know if dmabuf fds remain
+pointing to valid memory retaining its contents or if the contents are
+lost. Userspace cannot tell which device a dmabuf originates from,
+AFAIK, so this would need to be added in the generic dmabuf UAPI.)
+
+	"Consumers can also choose to have the device available for
+	debugging or additional data collection before performing the
+	recovery."
+
+Couldn't the wedged driver instance remain detached from the hardware
+while a new driver instance initializes? Then debug data remains until
+the wedged device is fully closed from userspace, or maybe devcore dump
+retains it.
+
+I presume that WEDGED=3Dnone case should retain the debug data somehow as
+well.
+
+> > > +With IOCTLs blocked and device already 'wedged', all device memory s=
+hould
+
+btw. when I see "blocked" I think of the function call not returning
+yet. But in this patch "blocked" seems to be synonymous for "returns
+an error immediately". Would it be possible to avoid the word "blocked"
+for this?
+
+> > > +be unmapped and file descriptors should be closed to prevent leaks. =
+=20
+> > Afaiu from a userspace POV, a rebind is just like a GPU hotunplug +
+> > hotplug with matching "remove" and "add" udev events. As long as the
+> > application cleans up resources related to the device when it receives
+> > the event, there should be no leaks with a normal hotunplug... Is this
+> > different enough that we can't have the same expectations? =20
 >=20
-> > Anyway on the series and with that caveat:
-> >=20
-> > Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-Acked-by: Philipp Stanner <phasta@kernel.org>
-
-One more nice-to-have / nit below
-
+> The thing about "remove" event is that it is generated *after* we opt for=
+ an
+> unbind, and at that point it might be already too late if userspace doesn=
+'t
+> get enough time to clean things up while the device is removed with a live
+> client resulting in unknown consequences.
 >=20
-> Thanks,
-> Jani.
->=20
-> >=20
-> >=20
-> > >=20
-> > > ---
-> > >=20
-> > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: Danilo Krummrich <dakr@kernel.org>
-> > > Cc: Philipp Stanner <phasta@kernel.org>
-> > > Cc: "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com>
-> > > Cc: dri-devel@lists.freedesktop.org
-> > > ---
-> > > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c |=C2=A0 2 +-
-> > > =C2=A0drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0 | 20 +++++++=
-++++-------
-> > > --
-> > > =C2=A02 files changed, 12 insertions(+), 10 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
-> > > b/drivers/gpu/drm/scheduler/sched_entity.c
-> > > index 69bcf0e99d57..e29af71d4b5c 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> > > @@ -92,7 +92,7 @@ int drm_sched_entity_init(struct
-> > > drm_sched_entity *entity,
-> > > =C2=A0		 * the lowest priority available.
-> > > =C2=A0		 */
-> > > =C2=A0		if (entity->priority >=3D sched_list[0]->num_rqs)
-> > > {
-> > > -			drm_err(sched_list[0], "entity with out-
-> > > of-bounds priority:%u num_rqs:%u\n",
-> > > +			dev_err(sched_list[0]->dev, "entity with
-> > > out-of-bounds priority:%u num_rqs:%u\n",
+> The idea here is to clean things up *before* we opt for an unbind leaving
+> no room for side effects.
 
-Since you're touching that line already, could you improve that
-string's formatting a bit?
-
-"entity has out-of-bounds priority: %u. num_rqs: %u\n"
+Something here feels fragile. There should not be a deadline for
+userspace to finish cleaning up. What was described for KMS device nodes
+in this same document seems like a more reliable approach: keep the
+dead driver instance around until userspace has closed all references
+to it. The device node could be removed earlier.
 
 
-Thx,
-P.
+Thanks,
+pq
 
-> > > =C2=A0				entity->priority, sched_list[0]-
-> > > >num_rqs);
-> > > =C2=A0			entity->priority =3D max_t(s32, (s32)
-> > > sched_list[0]->num_rqs - 1,
-> > > =C2=A0						 (s32)
-> > > DRM_SCHED_PRIORITY_KERNEL);
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index a48be16ab84f..d1c1f22fd1db 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -103,9 +103,9 @@ static u32 drm_sched_available_credits(struct
-> > > drm_gpu_scheduler *sched)
-> > > =C2=A0{
-> > > =C2=A0	u32 credits;
-> > > =C2=A0
-> > > -	drm_WARN_ON(sched, check_sub_overflow(sched-
-> > > >credit_limit,
-> > > -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > > atomic_read(&sched->credit_count),
-> > > -					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &credits));
-> > > +	WARN_ON(check_sub_overflow(sched->credit_limit,
-> > > +				=C2=A0=C2=A0 atomic_read(&sched-
-> > > >credit_count),
-> > > +				=C2=A0=C2=A0 &credits));
-> > > =C2=A0
-> > > =C2=A0	return credits;
-> > > =C2=A0}
-> > > @@ -130,9 +130,11 @@ static bool drm_sched_can_queue(struct
-> > > drm_gpu_scheduler *sched,
-> > > =C2=A0	/* If a job exceeds the credit limit, truncate it to the
-> > > credit limit
-> > > =C2=A0	 * itself to guarantee forward progress.
-> > > =C2=A0	 */
-> > > -	if (drm_WARN(sched, s_job->credits > sched-
-> > > >credit_limit,
-> > > -		=C2=A0=C2=A0=C2=A0=C2=A0 "Jobs may not exceed the credit limit,
-> > > truncate.\n"))
-> > > +	if (s_job->credits > sched->credit_limit) {
-> > > +		dev_WARN(sched->dev,
-> > > +			 "Jobs may not exceed the credit limit,
-> > > truncate.\n");
-> > > =C2=A0		s_job->credits =3D sched->credit_limit;
-> > > +	}
-> > > =C2=A0
-> > > =C2=A0	return drm_sched_available_credits(sched) >=3D s_job-
-> > > >credits;
-> > > =C2=A0}
-> > > @@ -790,7 +792,7 @@ int drm_sched_job_init(struct drm_sched_job
-> > > *job,
-> > > =C2=A0		 * or worse--a blank screen--leave a trail in
-> > > the
-> > > =C2=A0		 * logs, so this can be debugged easier.
-> > > =C2=A0		 */
-> > > -		drm_err(job->sched, "%s: entity has no rq!\n",
-> > > __func__);
-> > > +		dev_err(job->sched->dev, "%s: entity has no
-> > > rq!\n", __func__);
-> > > =C2=A0		return -ENOENT;
-> > > =C2=A0	}
-> > > =C2=A0
-> > > @@ -1280,7 +1282,7 @@ int drm_sched_init(struct drm_gpu_scheduler
-> > > *sched,
-> > > =C2=A0	if (num_rqs > DRM_SCHED_PRIORITY_COUNT) {
-> > > =C2=A0		/* This is a gross violation--tell drivers what
-> > > the=C2=A0 problem is.
-> > > =C2=A0		 */
-> > > -		drm_err(sched, "%s: num_rqs cannot be greater
-> > > than DRM_SCHED_PRIORITY_COUNT\n",
-> > > +		dev_err(sched->dev, "%s: num_rqs cannot be
-> > > greater than DRM_SCHED_PRIORITY_COUNT\n",
-> > > =C2=A0			__func__);
-> > > =C2=A0		return -EINVAL;
-> > > =C2=A0	} else if (sched->sched_rq) {
-> > > @@ -1288,7 +1290,7 @@ int drm_sched_init(struct drm_gpu_scheduler
-> > > *sched,
-> > > =C2=A0		 * fine-tune their DRM calling order, and return
-> > > all
-> > > =C2=A0		 * is good.
-> > > =C2=A0		 */
-> > > -		drm_warn(sched, "%s: scheduler already
-> > > initialized!\n", __func__);
-> > > +		dev_warn(sched->dev, "%s: scheduler already
-> > > initialized!\n", __func__);
-> > > =C2=A0		return 0;
-> > > =C2=A0	}
-> > > =C2=A0
-> > > @@ -1343,7 +1345,7 @@ int drm_sched_init(struct drm_gpu_scheduler
-> > > *sched,
-> > > =C2=A0Out_check_own:
-> > > =C2=A0	if (sched->own_submit_wq)
-> > > =C2=A0		destroy_workqueue(sched->submit_wq);
-> > > -	drm_err(sched, "%s: Failed to setup GPU scheduler--out
-> > > of memory\n", __func__);
-> > > +	dev_err(sched->dev, "%s: Failed to setup GPU scheduler--
-> > > out of memory\n", __func__);
-> > > =C2=A0	return -ENOMEM;
-> > > =C2=A0}
-> > > =C2=A0EXPORT_SYMBOL(drm_sched_init);
-> > > --=20
-> > > 2.39.5
-> > >=20
->=20
+--Sig_/WDsb8DKWCL+/WckgwZn74cK
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmeXXqAACgkQI1/ltBGq
+qqcM/Q/+Ipt9pMHVb7G+gEvEnhJkrg1fVIHMg2XIo3dIkwC7T8Jrtv8D8eRsbQ6Y
+SRlCSt2FjhlzcLDVVz3li5BgYxyHvEoFdu7KNvgmPydLvdXvUIsBDpluSHhzOCFf
+b3XgaplCG7QlsQMAkP5w0PATD3J0yp8izHFwtlIymst7loPhmTqDd8fJNCfhpA1a
+1qLe3Y8fE+1gzVA3ScrH+H+wWLXi3hKPM5S8ukghCkTUqrO1pc41HDVt2yQ+0UR4
+d2DPAgUayv2uVJvU3mVUpYAU519xFswrtFJ5oGtHMf1aAb4GS4GvUDmQr0TE2ZVo
+l0gc9v1RQ7KLGy3nTNu56a8d3rSYML4OoG569IlW7OyzncE9rsofMMAJ8Z4snzoY
+0+A8lQsJX76gxgdDk7NEZgPdm/9SzY5pZmR/uVn2/ilrnozOy57xKNIU1uYS//IG
+iXGCj8gk+zPUyvId1eLFsCLELOnujTK3g7llRYXR5axdQn2/GElJ4nPbGi0KyZWQ
+whJ6u48Qek6n+3aX1tjuL6EeIhW9aiTXQ4PmS4owwKvi0SB+vys8WRwFvynDLP5Z
+BNq9mUASWrRZE6M7qycKhcAjccZuDyAfz//++5clDmfL05dIntTYzctamLilwWdy
+wsRSNEB/o2ikguHw6NOSTTRL1Lk4usLjPQwoAIi0+kWvEMCjXr4=
+=axF5
+-----END PGP SIGNATURE-----
+
+--Sig_/WDsb8DKWCL+/WckgwZn74cK--
