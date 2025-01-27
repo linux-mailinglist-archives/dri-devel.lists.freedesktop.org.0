@@ -2,130 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80767A1D5A3
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 12:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88821A1D5C1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 13:05:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8272B10E074;
-	Mon, 27 Jan 2025 11:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 081B010E50A;
+	Mon, 27 Jan 2025 12:05:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jsKljiLC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="21sq88+L";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jsKljiLC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="21sq88+L";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="04oquTfn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A770F10E074
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 11:56:00 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 431A321175;
- Mon, 27 Jan 2025 11:55:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737978959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=34QMMOeNIcH+wO27mojTEPVmmqEWv3a882JghgYXIW8=;
- b=jsKljiLC0YFze3hJfI1jlKZj6ExEA9Ykx5w21hVVkBgAy+plg43XMZEU/JZrFO7JHZ9Aw+
- d3PQT1I+O7GnaX9/p+MLOwP2kYNpgscVdIieZfdzdBHb2ZPOWduJ4AXFC+gQCj+E7Oht0S
- Hei42qkoPIVCqgYhRy3UBo0bTX1eNsk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737978959;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=34QMMOeNIcH+wO27mojTEPVmmqEWv3a882JghgYXIW8=;
- b=21sq88+LxTtxASNWeeh1ihhqVnDrhDL8OOGs5xHe45o0hbfA/tPWQMYsEGcItST1qt/T3q
- 5kNnSIVwzKeoaHDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1737978959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=34QMMOeNIcH+wO27mojTEPVmmqEWv3a882JghgYXIW8=;
- b=jsKljiLC0YFze3hJfI1jlKZj6ExEA9Ykx5w21hVVkBgAy+plg43XMZEU/JZrFO7JHZ9Aw+
- d3PQT1I+O7GnaX9/p+MLOwP2kYNpgscVdIieZfdzdBHb2ZPOWduJ4AXFC+gQCj+E7Oht0S
- Hei42qkoPIVCqgYhRy3UBo0bTX1eNsk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1737978959;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=34QMMOeNIcH+wO27mojTEPVmmqEWv3a882JghgYXIW8=;
- b=21sq88+LxTtxASNWeeh1ihhqVnDrhDL8OOGs5xHe45o0hbfA/tPWQMYsEGcItST1qt/T3q
- 5kNnSIVwzKeoaHDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0DE37137C0;
- Mon, 27 Jan 2025 11:55:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id oYEoAk90l2dhIQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 27 Jan 2025 11:55:59 +0000
-Message-ID: <93bfabd4-20a8-4d56-898b-943dccb41df2@suse.de>
-Date: Mon, 27 Jan 2025 12:55:58 +0100
+Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CBD310E509;
+ Mon, 27 Jan 2025 12:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=pjsHTBMWY9P7wI2MwLRSYjI4iuAYoxhTOWBrxWOO6Us=; b=04oquTfn5T3O0dEqwwwdQ260vG
+ biscmqoJlMKOCmey10jhfieNjvSJnHXDhh/pE2FcInXoKqWCSDkybjzz3O+obRH0sOzEFGYH9jR60
+ /SCj7oOVC5asi19BgeHUwTp4kKcIcrgMD4BM1wAsu1C7w3kJoH7HhJM3tfKiP17WSrdigAybtHq88
+ MzECwoizJPng4kinLfS9ZCxVFLNTqdhjGDl7AEPPIxUW5x3C3mtpEZRb9FvBHrzqqgGCYzvdmniDI
+ HJ1pA7kx8GE2OkyCN8E7gEEE/dOk4LSBg1tByB04jjaXBbm5TNpk+mxIq+Q2HZg8k6nme9VtYsjoy
+ pzVga2uA==;
+Received: from [194.136.85.206] (port=50614 helo=eldfell)
+ by whm50.louhi.net with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96.2)
+ (envelope-from <pekka.paalanen@haloniitty.fi>) id 1tcNs1-0007lT-0b;
+ Mon, 27 Jan 2025 14:05:37 +0200
+Date: Mon, 27 Jan 2025 14:05:29 +0200
+From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, wayland-devel@lists.freedesktop.org
+Subject: Re: [V7 31/45] drm/colorop: add BT2020/BT709 OETF and Inverse OETF
+Message-ID: <20250127140529.722b376d@eldfell>
+In-Reply-To: <9cc07dc9-ce0d-40cc-ae70-55a1b3f176e2@amd.com>
+References: <20241220043410.416867-1-alex.hung@amd.com>
+ <20241220043410.416867-32-alex.hung@amd.com>
+ <20250116105622.577533fc@tisha> <20250117110641.7040f712@eldfell>
+ <9cc07dc9-ce0d-40cc-ae70-55a1b3f176e2@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/ast: Fix ast_dp connection status
-To: Jocelyn Falempe <jfalempe@redhat.com>, Dave Airlie <airlied@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org
-References: <20250124141142.2434138-1-jfalempe@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250124141142.2434138-1-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid,
- lists.freedesktop.org:email, imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+Content-Type: multipart/signed; boundary="Sig_/T=m.9GT+5+=inHIBQ2.tQrd";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-AntiAbuse: This header was added to track abuse,
+ please include it with any abuse report
+X-AntiAbuse: Primary Hostname - whm50.louhi.net
+X-AntiAbuse: Original Domain - lists.freedesktop.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - haloniitty.fi
+X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id:
+ pekka.paalanen@haloniitty.fi
+X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,61 +75,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+--Sig_/T=m.9GT+5+=inHIBQ2.tQrd
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 23 Jan 2025 15:16:29 -0500
+Harry Wentland <harry.wentland@amd.com> wrote:
+
+> On 2025-01-17 04:06, Pekka Paalanen wrote:
+> > On Thu, 16 Jan 2025 10:56:22 +0200
+> > Pekka Paalanen <pekka.paalanen@haloniitty.fi> wrote:
+> >  =20
+> >> On Thu, 19 Dec 2024 21:33:37 -0700
+> >> Alex Hung <alex.hung@amd.com> wrote:
+> >> =20
+> >>> From: Harry Wentland <harry.wentland@amd.com>
+> >>>
+> >>> The BT.709 and BT.2020 OETFs are the same, the only difference
+> >>> being that the BT.2020 variant is defined with more precision
+> >>> for 10 and 12-bit per color encodings.
+> >>>
+> >>> Both are used as encoding functions for video content, and are
+> >>> therefore defined as OETF (opto-electronic transfer function)
+> >>> instead of as EOTF (electro-optical transfer function).
+> >>>
+> >>> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> >>> Signed-off-by: Harry Wentland <harry.wentland@amd.com>   =20
+> >>
+> >> Hi,
+> >>
+> >> why would a display system ever use BT.2020 or BT.709 OETF or its
+> >> inverse? =20
+> >=20
+> > Sorry, this is more for my own curiosity, not an argument against the
+> > patch. Since hardware designers decided to incorporate these curves
+> > explicitly, what use was in mind? It's likely something I have
+> > overlooked.
+> >  =20
+>=20
+> I'm not entirely sure myself, but gamescope does use it for displaying
+> game streaming content.
+>=20
+> https://github.com/ValveSoftware/gamescope/blob/2f88849ac9dc7da5c678d5d7d=
+3e9b58f38add1bf/src/Backends/DRMBackend.cpp#L2509
+
+I see, apparently they are being used as a pair to make a roundtrip to
+some optical space for applying a color transformation matrix. IOW, the
+CTM is being applied in the assumed "camera" side of broadcasting or
+grading.
+
+ITU-R BT.2408 seems to refer to this as "scene referred mapping", whose
+aim is to match cameras rather than displays (and has nothing to do
+with the scene). I cannot claim to understand this case, but I suspect
+it should be used only before color grading (manual or automatic
+artistic adjustments, or IOW picture formation(?)) in a pipeline.
+
+I would assume that game streaming content has been prepared for a
+display at its source, which implies that grading has been done. That
+means that inverse-OETF leads to an unknown color space. Applying a
+matrix in an unknown color space has unintended effects. That may not
+be a big problem, even less if the matrix is visually adjusted, but
+it's theoretically not quite right AFAIU.
 
 
-Am 24.01.25 um 15:11 schrieb Jocelyn Falempe:
-> ast_dp_is_connected() used to also check for link training success
-> to report the DP connector as connected. Without this check, the
-> physical_status is always connected. So if no monitor is present, it
-> will fail to read the EDID and set the default resolution to 640x480
-> instead of 1024x768.
->
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-> Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during atomic_enable")
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v6.12+
+Thanks,
+pq
 
-I cannot reproduce the problem, but the patch looks correct. My AST2600 
-with ASTDP still works correctly with the patch allied.
+--Sig_/T=m.9GT+5+=inHIBQ2.tQrd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+-----BEGIN PGP SIGNATURE-----
 
-Best regards
-Thomas
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmeXdokACgkQI1/ltBGq
+qqeiKg/9GD6pmONnePa5/D8aVfH8Sb/12oeBa7VwsCSgUVk2Lq84IsIR6+9Acqzq
+CClBNEx2Cs+VEnqzMko8RtSoODrx30PddYSKNBBxtmv/3VeMQ3zc2nn6/2WTssIq
+CVfQR9vv6dOJZetIlKL/l8hLi2bAbnHcIgrkosjUvFswHM72I63WFKLQgE94s2kH
+31Rd+aXHe1LWpHPOfuqmnszciU7an+K3UcqEV9czOH+lNksboiyJ4ajS5hmxsys8
+RccmrZify2O3NQ48purUAnOoh9NJxIfBMIMyYUIJoJbZzDa38EgBcrdQV1FqNcQj
+xXfeaklaNx7OSajXYdf1GnkeEn1ef/jA0oz+cFhyiEUwAdWXLa0hT3y1WcTZOVej
+dz+nWC32oH8nmuyLcAtIy9s/aqZoaO9di5KEl3RuiU89tmz4cmiqXatYNwYeA5eM
+ASzPloE4ee8OTVCR5CAVHPxFLXfEexaSLPr/wGnOZAgnVnwkjmzDd9n4aYWKgz7W
+06D7LaUoIGleJpHPyKGJhy3xqiRvKOjWAjro2CHpdx63SYEQgnJkvmjKYMfHof6M
+m8bIBzaIKseF7nPlngVaWq8YzS6K3ZlDROwl5QMafmMfeolX/En5apIPSt5LMP9e
+t7qhbrHGvos+3BGj0551OMkvokEfsHxIr4DrQjEZKmoj+tpY2Gk=
+=g+i4
+-----END PGP SIGNATURE-----
 
-> ---
->   drivers/gpu/drm/ast/ast_dp.c | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
-> index 0e282b7b167c..30aad5c0112a 100644
-> --- a/drivers/gpu/drm/ast/ast_dp.c
-> +++ b/drivers/gpu/drm/ast/ast_dp.c
-> @@ -17,6 +17,12 @@ static bool ast_astdp_is_connected(struct ast_device *ast)
->   {
->   	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, AST_IO_VGACRDF_HPD))
->   		return false;
-> +	/*
-> +	 * HPD might be set even if no monitor is connected, so also check that
-> +	 * the link training was successful.
-> +	 */
-> +	if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, AST_IO_VGACRDC_LINK_SUCCESS))
-> +		return false;
->   	return true;
->   }
->   
->
-> base-commit: 798047e63ac970f105c49c22e6d44df901c486b2
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+--Sig_/T=m.9GT+5+=inHIBQ2.tQrd--
