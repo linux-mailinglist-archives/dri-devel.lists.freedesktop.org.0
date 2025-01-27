@@ -2,74 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E3BA1D97A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 16:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1201A1D9A2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 16:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EBFF10E235;
-	Mon, 27 Jan 2025 15:28:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D812510E309;
+	Mon, 27 Jan 2025 15:34:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="VARvKiDY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="NIbsa9rD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 566E910E235
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 15:28:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1737991700; x=1738596500; i=friedrich.vock@gmx.de;
- bh=TzPH4ovaxc9qTpfB8UM+66tNcMc/P/lnSHL60qKVJ20=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
- References:MIME-Version:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=VARvKiDYoCBXLoa0dGF8c2KiU+Z0Rh+oZyD3dAzX8C1CHkcWeBBIoLOyDS5iNmOj
- ORawefcyRWabOsh/8O6iSqmxUAbzse4tBVqwF3OoCrQU9GTapFozNyf89hKQDdqNf
- dEARxxVu1NFyWEvHZas2c8OULpUDn63thUUZJ53vwsTmp0llH8n1nsancdCRfsJP2
- xOrBpRxOPeRGv7nYCkWRaWLddne6RhhF54ct34GsKmc7bucFW86xiI/WrllngMcLR
- vXi02HML8Ldv9XwxMROi5nDdT7risjPvju/LhxVO37/lZeTeNVcBB+d7YuMbgmfYd
- GC7A8krqGKP215wFzw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from sus.localdomain ([77.189.124.63]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mi2Jn-1syRZy3irZ-00iqJh; Mon, 27
- Jan 2025 16:28:20 +0100
-From: Friedrich Vock <friedrich.vock@gmx.de>
-To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>
-Cc: Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>,
- dri-devel@lists.freedesktop.org, cgroups@vger.kernel.org,
- Friedrich Vock <friedrich.vock@gmx.de>
-Subject: [PATCH v2] cgroup/dmem: Don't open-code css_for_each_descendant_pre
-Date: Mon, 27 Jan 2025 16:27:52 +0100
-Message-ID: <20250127152754.21325-1-friedrich.vock@gmx.de>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250114153912.278909-1-friedrich.vock@gmx.de>
-References: <20250114153912.278909-1-friedrich.vock@gmx.de>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 854A410E309
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 15:34:38 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-53e384e3481so4403689e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 07:34:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1737992077; x=1738596877; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=VuArV47OakPm5tI3u4UevLvvxevY1PGx5jGLqv+/LEY=;
+ b=NIbsa9rD9kOHHVm82TVlJd58rxzByD7rh8SwVQ6SjjEgeuFPPoG4JHVHG6vZfTT3mb
+ BaMC0mwsgXyNMNfBkbAz2w3rZfBhYNXpAS0YIx1mv6MvBQAfUSBC0a7d0w9eKyurQnVs
+ KyGUZwH9SDaacpDQrXE3XAOJQ9aLj6mkoJUVfAwRnr2g56SvY/KAXzeBX4qRZFZyNBfx
+ MV26/VvlmNFhJkv+Aa6szcHjuuKSd6UF1DnYmdL3J9CqgqS8iXTHk10hYXJ2vRl0+5PD
+ SiX6zVv3HJTqsV0xlZKxdkth07LYuOoc3DyvyrC92DH2hEOLTVb4VD1K2XOi5aWdee6b
+ 6vpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737992077; x=1738596877;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VuArV47OakPm5tI3u4UevLvvxevY1PGx5jGLqv+/LEY=;
+ b=a7wp1ExeiJqW8lWpNY1AlJx6h7tnFS6hQjrx1MyH4na4zw04XXzEw101kcjfbXlLxZ
+ ZR7oXCh5FPCOpMJS3npJIojJJFDx4n74TaDTof6YrcxPaCJa2m5BZWxdf2TkjvXN00GB
+ pnbk/Eta+/sTk3FyJdxAkoZvcv/Hygxb4rkdATqQO4WZKi369DV1SK7f7ncW1bTKw1XU
+ o4TVA83tCBAZT3Ypx+95fIA1pzxq41jtXwqQQ5Fc/tERjIYfJaAE8iI4FGy4QTwd7bbw
+ Hgsw5DOtgmiBFoSRnL9/KCZMkh7T2kHUieHStcca++I+kOklm5QHg8j3SfEOHelWITGE
+ 591w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWRsixxhke2UF79TtD1vdlDF8/LzFvDvfJLOpUlZxyiT7tAmlXKXJ3L751OtxP2Mn3eSdVxdQSaEsM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyYxse7/chreRDe5KZlF2uMDaHShuuVDpvlPFg4ZsSLRz2HYwjS
+ Ylqd3hSCdEEzOI5NpMq1r4ri8WpNxSGuZ6xeUAyRQAKBtfmW3B1IQCejB/KwPKc=
+X-Gm-Gg: ASbGncu10iKMYrv9MZaqAp1x/R8eqMTD0wkLH3WuJsmUaA8IrPHqRtnezTouKSC85wd
+ 6kL4Ab1MPs/xabUXyROHtsp9DyvI12/6t9y2qjmx4WYQzPQ5iSKtd4d3ciR6lO6Q3zqmmhxuNsF
+ cMVEZ/WWn8q6KCNSVmFbxbawRNLiGQkz8cvpxOKqYRJu4orllRZ84VA78ZkIaoLrra3VgdHInCm
+ g0TKrkNMqGY8LuQb+0eG7yeirXy4wHrqMUs+4GbM2pwIAzm0sg4rP4CysCzvU7v+0XAbiQUvFfw
+ Tv3vtdnSO5ww+7C4D6Ifx3HWbnZy9V0MZgKr0KpF3jFMuGX1zDLEvnvEhKj8
+X-Google-Smtp-Source: AGHT+IFBViOX5IoiLaMV4O3CShQ434LyDf8prPm5SaqVCZbNaTgxql6FUxNa13zXchLB5Cm/PRrD+A==
+X-Received: by 2002:ac2:43a2:0:b0:542:6105:bb72 with SMTP id
+ 2adb3069b0e04-5439c224a57mr11688307e87.19.1737992076690; 
+ Mon, 27 Jan 2025 07:34:36 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543c83798cbsm1346139e87.167.2025.01.27.07.34.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Jan 2025 07:34:36 -0800 (PST)
+Date: Mon, 27 Jan 2025 17:34:34 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ David Airlie <airlied@gmail.com>, Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH RFT 0/2] drm/bridge: Use per-client debugfs entry
+Message-ID: <hywmnv4jf6ix2ziabdftd5zcjqnkfq6pmqxqzw6spc76camrxz@jn5vr4mgj37v>
+References: <20250125125320.37285-4-wsa+renesas@sang-engineering.com>
+ <a3hrta4eiiknuf4sukk27xewhhirzf43u2eeefnpjny27m4x5s@aifvnevj7cb6>
+ <Z5c7vk_oa8HGt7sS@ninjato>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:RFTGqWPVc9LoOnIayNDsIZ6ZlDppbE/XemhrfxA3yZtQZEK/2by
- 8jQOROFf6K+qrNpPewNcigDP1ikqbE5x3Kk6ElqmZxxERft02rbgTDHqWMjGR44u5ECvmvN
- ioNu5l8LmNrqu1WK8qJMhVFdUHHl+Cp0HKu3U3AP552o+24Qe0fXaZ8E8vG5mMAMmEpVAuT
- 7NRG68Ns4WsDmTtoYx3Jg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:FcoEPnHkvPQ=;bYs2v/oRTkx94GNO1UIdS1GzeUb
- lkzm+ocnRfxLdY/vlX0o4Y9ZY3EajViVCYqgfMFUQHwfRMMj2/KyQfXRzUVJJpsdSa4I52dQm
- S88Ii0HZ8EsFryliqPugQN/Yx+9ksPmBAYoOWT6+r+6EzBeeOtdMruE8rOQTYmXwo6fF5xTtb
- UTLwpr4qYQH5k0gmq+lQKeCEZv/hlm0qyGifXcQ7o/gZiY71VBef7lX26uAE4WmMeH6knNcNA
- Pe8TjJVWdPm2kCUiqUxrzkVWhQrtaZ8f132R5LpRPj2N/QJkKoWHgFHyHm+wQEtr0bYtIs+uO
- DvvpNYHwodR11Gj77rr6tL6zn30wteI57n3yMOn6pbhooVKLDtt1p0EwTTEKvIgMF8VrFr/cV
- Lpkan62ghbgLYLZBNXlrI8uzEYX4DwPFTE0IrSREh3u5J6SVTcg/j0ru2rxdjceV6P+AVGXWE
- 0tOK/2VE1PZ+zjVFT0q4TLXDISIqorp8xQNNAwWaI6MfmPYdwsFLGKoWH709njMwdp3xMHHIE
- K/DC8yknEXQdSpYCLsrV6V+iKhYsd6GswuVaWg9/oR1PEV/9Sj4bacb1PzBExos6DwsOQmMi1
- 50E4kajL9YIXw8qGueCDGVyOB9wCLUeh+pUMuHXqqTGdO7SBwPjby7AZB0H3saA/9lrVMAAsx
- JiwXkXda7sw3tf3nLlwqnb8B9ZNHHXAdXOdLT0LuLUgI16nNIKa9W0pF5Pvz7XAGfAzU/6GI0
- SBb+1qgdwJSP781WEfXpOB1GexK1pmFFv0YxQaUUvkU0qJQbb6E4tksmfMn/nVJuH7R0Xsb2K
- a1iVzkf5eUXsCr1arJRfvxqS8uPyX1bwA4H/zcJFb212bf9CPoKwyA5jdi7Qby6gBwh9qaoXW
- xpDDC/neHI7uffXr72rqI5PjBzrVLbouQ9hGsBpffw1SlSj/nlU5U/B+229YM+NSyNEdbW7Xb
- egF049qyy/98vjNbecgmCCDQ8+i9PkgT94GVHDiSJACzJeV5atqkDeBRhzKWr3Xjn0A2D1Nhv
- iHkNng0YbizpJXIWxN96lC+uEmWSF6tviyRZVr2O0TcOi1upHGSH2jSR4ukqWlBImvsDjJe9j
- 549VfyQGilxkI4kEOVa2iQ4jq5Jofppe81+aAC0c+kJhc2Elmky0ZIZ3BMXiYbsSgaXn3WyPT
- nm+gY3ga6H/ytZsXV2zhFVVt1pfPrFYv4xo4w3FtL7g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z5c7vk_oa8HGt7sS@ninjato>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,105 +97,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The current implementation has a bug: If the current css doesn't
-contain any pool that is a descendant of the "pool" (i.e. when
-found_descendant =3D=3D false), then "pool" will point to some unrelated
-pool. If the current css has a child, we'll overwrite parent_pool with
-this unrelated pool on the next iteration.
+On Mon, Jan 27, 2025 at 08:54:38AM +0100, Wolfram Sang wrote:
+> Hi Dmitry,
+> 
+> thanks for the review!
+> 
+> > > The I2C core now offers a debugfs-directory per client. Use it and
+> > > remove the custom handling in drm bridge drivers. I don't have the
+> > > hardware, so I hope I can find people willing to test here. Build bots
+> > > are happy. And for it6505, it even fixes a problem. See the patch
+> > > description there.
+> >
+> > I'd say, it should be done in a slightly different way: bridges have the
+> > debugfs_init() callback, which is used by drm_bridge_connector (and can
+> > be used by other bridge-created connetors) in order to create per-bridge
+> > debugfs data. Please consider using it to create per-bridge debugfs data.
+> 
+> ACK.
+> 
+> > Note, that callbacks gets connector's dentry as an argument, so bridges
+> > still should probably create a subdir for their own stuff.
+> 
+> I wonder if this is necessary (I just looked at the code and have no
+> hardware to test this, sadly). It looks to me as:
+> 
+> - DRM has already debugfs infrastructure, yet those drivers don't use it
+> - but they should
+> - the new I2C client debugfs infrastructure is, thus, not needed here
+> - DRM provides a dentry to the callbacks which drivers can "just use"
+> - all drivers I looked at just put files there and never clean up
+>   (because the subsystem does it)
+> 
+> So, from that, I should switch to the debugfs_init() callback and just
+> use the dentry provided?
 
-Since we can just check whether a pool refers to the same region to
-determine whether or not it's related, all the additional pool tracking
-is unnecessary, so just switch to using css_for_each_descendant_pre for
-traversal.
+Yes, please. Create a per-bridge subdir under that dentry, but I think
+that was the case anyway.
 
-Fixes: b168ed458 ("kernel/cgroup: Add "dmem" memory accounting cgroup")
-Signed-off-by: Friedrich Vock <friedrich.vock@gmx.de>
-=2D--
+> Or am I missing something?
+> 
+> Happy hacking,
+> 
+>    Wolfram
+> 
 
-v2 (Michal): Switch to the more idiomatic css_for_each_descendant_pre
-instead of fixing the open-coded version
 
-=2D--
- kernel/cgroup/dmem.c | 50 ++++++++++----------------------------------
- 1 file changed, 11 insertions(+), 39 deletions(-)
 
-diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-index 52736ef0ccf2..77d9bb1c147f 100644
-=2D-- a/kernel/cgroup/dmem.c
-+++ b/kernel/cgroup/dmem.c
-@@ -220,60 +220,32 @@ dmem_cgroup_calculate_protection(struct dmem_cgroup_=
-pool_state *limit_pool,
- 				 struct dmem_cgroup_pool_state *test_pool)
- {
- 	struct page_counter *climit;
--	struct cgroup_subsys_state *css, *next_css;
-+	struct cgroup_subsys_state *css;
- 	struct dmemcg_state *dmemcg_iter;
--	struct dmem_cgroup_pool_state *pool, *parent_pool;
--	bool found_descendant;
-+	struct dmem_cgroup_pool_state *pool, *found_pool;
-
- 	climit =3D &limit_pool->cnt;
-
- 	rcu_read_lock();
--	parent_pool =3D pool =3D limit_pool;
--	css =3D &limit_pool->cs->css;
-
--	/*
--	 * This logic is roughly equivalent to css_foreach_descendant_pre,
--	 * except we also track the parent pool to find out which pool we need
--	 * to calculate protection values for.
--	 *
--	 * We can stop the traversal once we find test_pool among the
--	 * descendants since we don't really care about any others.
--	 */
--	while (pool !=3D test_pool) {
--		next_css =3D css_next_child(NULL, css);
--		if (next_css) {
--			parent_pool =3D pool;
--		} else {
--			while (css !=3D &limit_pool->cs->css) {
--				next_css =3D css_next_child(css, css->parent);
--				if (next_css)
--					break;
--				css =3D css->parent;
--				parent_pool =3D pool_parent(parent_pool);
--			}
--			/*
--			 * We can only hit this when test_pool is not a
--			 * descendant of limit_pool.
--			 */
--			if (WARN_ON_ONCE(css =3D=3D &limit_pool->cs->css))
--				break;
--		}
--		css =3D next_css;
--
--		found_descendant =3D false;
-+	css_for_each_descendant_pre(css, &limit_pool->cs->css) {
- 		dmemcg_iter =3D container_of(css, struct dmemcg_state, css);
-+		found_pool =3D NULL;
-
- 		list_for_each_entry_rcu(pool, &dmemcg_iter->pools, css_node) {
--			if (pool_parent(pool) =3D=3D parent_pool) {
--				found_descendant =3D true;
-+			if (pool->region =3D=3D limit_pool->region) {
-+				found_pool =3D pool;
- 				break;
- 			}
- 		}
--		if (!found_descendant)
-+		if (!found_pool)
- 			continue;
-
- 		page_counter_calculate_protection(
--			climit, &pool->cnt, true);
-+			climit, &found_pool->cnt, true);
-+
-+		if (found_pool =3D=3D test_pool)
-+			break;
- 	}
- 	rcu_read_unlock();
- }
-=2D-
-2.48.0
-
+-- 
+With best wishes
+Dmitry
