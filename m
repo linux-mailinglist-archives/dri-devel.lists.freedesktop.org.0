@@ -2,88 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4687A1D847
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D243A1D848
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAE0410E546;
-	Mon, 27 Jan 2025 14:26:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B204210E548;
+	Mon, 27 Jan 2025 14:27:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="WH/pOGMP";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="f8o0qPbA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A57210E542
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:26:36 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6715810E548
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:27:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737987995;
+ s=mimecast20190719; t=1737988027;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GX6GcjHaaWjYu4dcH3Gn3G50yBe/UpB1qoj8K1+bDgQ=;
- b=WH/pOGMPXJOHlrWkFZ2vkWM7Z+od8iZFlYTRNFc4HXGvkLxmNQWC4aWW14QpjBsygx1Zf4
- Mm2Tb26U5RavnCsb05w4W2G1YY971YH54CkRr3zyi2+06NOutGPovCZyxQb6Utfp1GdIqN
- OeXsN2t64MzJOdJKtUZAdwIRRkRfkng=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MJnIu8poT1R8sG+28CAaxcuAIoGoAVRIF1+AV/B9Vhc=;
+ b=f8o0qPbAxUgbXiN2fU0+V/Px8nPptP+nYEwQX/dVfIPBrw1RxJksavqrSDFvTYtSDCl4vA
+ QMPxK7Q5uOcTw6amTWe+LFjkKDv1QXDx11MOB2q39xEu8KnnPTdp0d1V8qnazTSuurKNcm
+ xdGGMwWCHxJu3KsUH7TDOBcIuQaydfM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-570-vPPXcViVPIWzptV43NjazQ-1; Mon, 27 Jan 2025 09:26:34 -0500
-X-MC-Unique: vPPXcViVPIWzptV43NjazQ-1
-X-Mimecast-MFC-AGG-ID: vPPXcViVPIWzptV43NjazQ
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-43621907030so33966055e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:26:33 -0800 (PST)
+ us-mta-607-ePL5Dl94Oh-GSGWO0CXaeA-1; Mon, 27 Jan 2025 09:27:05 -0500
+X-MC-Unique: ePL5Dl94Oh-GSGWO0CXaeA-1
+X-Mimecast-MFC-AGG-ID: ePL5Dl94Oh-GSGWO0CXaeA
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-385e1fd40acso2661476f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:27:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737987992; x=1738592792;
+ d=1e100.net; s=20230601; t=1737988024; x=1738592824;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GX6GcjHaaWjYu4dcH3Gn3G50yBe/UpB1qoj8K1+bDgQ=;
- b=vCIuC/snqFWmi7lwzenGpadzBceLxIxmfwA0Tb4bZHbFt6xr0TA9l7q0SZYR14aOn7
- UEA1/dR0d8RERq/60uRRLsj09ud1nYcEYsPQGZyMVaJooek5oXgXvb56RH/bK2yGWxxa
- 9csW0q1CPdMhm22UIBf4owXK3o+dy2Gz6VDhQGG1d0CeoMZe59cFKI7gS1MulUwogKRh
- SNiicmdLg5SeOYbaOPWgURFCkqw4f6+/LhBwwnPNobl/q9WpKhrRxLjLHwODrhDtfD+R
- OdTt91FGk4gLi4UQ4AKznXXv7Bk4phFcqNTA/eYqVe4i89073pMltw/OgVef2XudlgHZ
- 9WiA==
+ bh=MJnIu8poT1R8sG+28CAaxcuAIoGoAVRIF1+AV/B9Vhc=;
+ b=DGEf+7cxYsD6iI8HYzwIFRV8arJ0qg+Y0DQ9BCuzbt0JvV02A+9uVFbYEDN9vblZGr
+ dYe/K0o6hLXxlvRj1khcpEJzLTIxUOc+AkoIrmf8x0NhHIvV3ofiUQNjtRJ0CQSp8Zb+
+ xLeA/5EVuc9pV02tju5v3+EiiR/VNQ9OIYUYaCj9L+mPYrf9EA0M2qCnNAMrGp7rsTfx
+ LrOuy/+TyblL389bLYwoLLLvV/4NFGflcgrYsFLMaYFDT7qy0Jm8qOMXQvdktXYPmfzc
+ XggIuwihkguMvhBkEos/dCKuoZAHfk7uLZs2OcNjh69+7YTgm4D4HwPZfAgqV5rK30C0
+ 8UxQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUaKELOAMRT8ehuEfhHrfzH4e5tlQ+nAIQZGhFRpL/m73A1vkK0Z4wWeuSRT7+INov/0bCxiPiVcU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKyevn8hnULFnAEXbYunLuqBxY6qCCLWlWMXpBRReUdL8edvOb
- apbT+KBZyT6xoWxS96bFjut3uBj7WzYKmNVVUmUQuH50XYf3wmDeRrWAIZz8OBmQUvliTudGAgD
- 5Fr2hN2o1hS5dpuBdrtHGE4EMHL35dO54PD2qiRQbGT7Id5TRqWEVoNlVq5UWdf12pg==
-X-Gm-Gg: ASbGncsIbvlHshEw27RMwX5qYZGQ/AwJn6VWTjUWT2ktPVMbmGKavS1OZ+eLdGuP5jJ
- 3nKHe//GaNmOY/xbLqX8N51qTYJkUJvIz6pMDfkgaEWJq7L1xNyvBhAXv+Rl+zMk4wiwBWAZAfU
- yfyQhz4VMNn16Jq8U46/h7yhphKTboOek80EVZcc7zs5k148vSbRirHGFysjZo4e0DaUkVt8Jhe
- smoHYamkwdi9Ed3fZPqQMHX2Rj9ZlnJpc2NkmQQ12K/wWfqC9v7jrmDd8lqXYaY69Rm7j/szgBM
- 6Y75gRNavzDUvukiudHBham3vag0kPFnHwHDlP8mIy8Q
-X-Received: by 2002:a05:600c:348c:b0:434:a04d:1670 with SMTP id
- 5b1f17b1804b1-438912d7c1bmr412764055e9.0.1737987992491; 
- Mon, 27 Jan 2025 06:26:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHWm67YCiRc8mZA3PRzd4vrfLw1RSrJxxJhvoAlAv6X+0NOqtjzPIz1k9vibz4v1+he46mVYg==
-X-Received: by 2002:a05:600c:348c:b0:434:a04d:1670 with SMTP id
- 5b1f17b1804b1-438912d7c1bmr412763825e9.0.1737987992140; 
- Mon, 27 Jan 2025 06:26:32 -0800 (PST)
+ AJvYcCUZhWzW/sG4znyOQpLb7hMn2MRZzg6Ab/GN9b6awhtXtR3uPyxKT4Vj2/Cr1HKI6NS91UbUyMmThSc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXlGQCU4DbpGPlYGYKZwgshcyR+aiG8nraItrDovny/VRJXGSM
+ UXdhg4sg4P+hu2QSR6eFSFspbMLQsW7xp68a6mwzKcYk+Ts31NIeToizeEILmmxT/hC1g/i8Zpq
+ Y04rH4UyrtPow70K/DqJvqK0RR54TCRh2ZqId4Mmctx3eRDolKa1dLJHNt7UegVIIqMSGkBaUUw
+ ==
+X-Gm-Gg: ASbGncv8+MVEAQY21M8ROXapHWWxnQf0dspk2cAIERhrVi7vXLgIa1TXd0lyILLudSd
+ xSzrFA9itNHvmoATlS37qmiIJaVobfdt2Ix+GYqizy49tbYdayYop01UwSOMB7oXyl7Lz6UehmF
+ r1DFlGzY7MItakfHorzpePKvkgFyJ+6JQM96K++IDexhvB42/+dNRCSDl3K9gluOll/ScJYzS04
+ U9evdjDW0L8kCIR/inXB5Er7kI+3APZgagX4IWpLa2lwbrCMXyyeB7KDhvQGbZ1GATK5A+OTKa3
+ 9ZwXZjZreBXZ0i9KlBehyC4/YmNULe+sBqoK/ASaW0hn
+X-Received: by 2002:a05:6000:402a:b0:386:3327:9d07 with SMTP id
+ ffacd0b85a97d-38bf59ef829mr40312681f8f.54.1737988024482; 
+ Mon, 27 Jan 2025 06:27:04 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGwavGyYiuhLQp65T5lgiG/eASC9MK4c8rBZ1/hMj+qQSg5x4oxiV/moX1bnHvksa3pICerGg==
+X-Received: by 2002:a05:6000:402a:b0:386:3327:9d07 with SMTP id
+ ffacd0b85a97d-38bf59ef829mr40312656f8f.54.1737988024100; 
+ Mon, 27 Jan 2025 06:27:04 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
  ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438bd4fa3e3sm135575555e9.3.2025.01.27.06.26.31
+ ffacd0b85a97d-38c2a188915sm11130374f8f.41.2025.01.27.06.27.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jan 2025 06:26:31 -0800 (PST)
-Message-ID: <3c0e9066-b76e-4251-9ef3-3f88ff758027@redhat.com>
-Date: Mon, 27 Jan 2025 15:26:30 +0100
+ Mon, 27 Jan 2025 06:27:03 -0800 (PST)
+Message-ID: <9006b8a0-8362-4ad4-97c5-b85445e7ce01@redhat.com>
+Date: Mon, 27 Jan 2025 15:27:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/15] drm/ast: Reorganize widescreen test around hardware
- Gens
+Subject: Re: [PATCH 04/15] drm/ast: Rename support_widescreen to
+ support_wsxga_p
 To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  dri-devel@lists.freedesktop.org
 References: <20250124080546.9956-1-tzimmermann@suse.de>
- <20250124080546.9956-4-tzimmermann@suse.de>
+ <20250124080546.9956-5-tzimmermann@suse.de>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250124080546.9956-4-tzimmermann@suse.de>
+In-Reply-To: <20250124080546.9956-5-tzimmermann@suse.de>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: VtIN4qR8hc-RvP5HE1nKp0C55CW75_wFBLPWOUPHxBQ_1737987993
+X-Mimecast-MFC-PROC-ID: Kpl0gQpTp4iMMDGhhVn0h2pJxyXKFY_x5b7ohOVPGOU_1737988025
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -104,94 +105,103 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 24/01/2025 08:57, Thomas Zimmermann wrote:
-> Testing for support of widescreen modes mixes up various hardware
-> Gens. First branch by hardware Gen, then do specific tests for each
-> Gen. By default, widesscreen support is disabled.
-> 
-> Later patches will add more specific tests for each Gen.
+> The flag support_widescreen in struct ast_device selects devices that
+> support resolutions of at least 1680x1050 (WSXGA+). Name it accordingly.
 
-I think it introduces a bit too much repeated code.
+Thanks, it looks good to me.
 
-Maybe adding a small helper like this would help?
-
-static bool ast_vgacrd0_support_wuxga(struct ast_device *ast) {
-	u8 vgacrd0;
-	vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
-	return !(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC) ||
-		(vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN));
-}
-
--- 
-
-Jocelyn
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->   drivers/gpu/drm/ast/ast_main.c | 47 +++++++++++++++++++++-------------
->   1 file changed, 29 insertions(+), 18 deletions(-)
+>   drivers/gpu/drm/ast/ast_drv.h  |  2 +-
+>   drivers/gpu/drm/ast/ast_main.c | 26 +++++++++++++-------------
+>   drivers/gpu/drm/ast/ast_mode.c |  2 +-
+>   3 files changed, 15 insertions(+), 15 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
+> index cf9edef8fca66..ec5b204be1dae 100644
+> --- a/drivers/gpu/drm/ast/ast_drv.h
+> +++ b/drivers/gpu/drm/ast/ast_drv.h
+> @@ -205,7 +205,7 @@ struct ast_device {
+>   		} astdp;
+>   	} output;
+>   
+> -	bool support_wide_screen;
+> +	bool support_wsxga_p; /* 1680x1050 */
+>   
+>   	u8 *dp501_fw_addr;
+>   	const struct firmware *dp501_fw;	/* dp501 fw */
 > diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-> index 2a813f0128eb8..4f402e0b9b5c1 100644
+> index 4f402e0b9b5c1..e1cfb2a1a5448 100644
 > --- a/drivers/gpu/drm/ast/ast_main.c
 > +++ b/drivers/gpu/drm/ast/ast_main.c
-> @@ -40,29 +40,40 @@ static void ast_detect_widescreen(struct ast_device *ast)
+> @@ -40,40 +40,40 @@ static void ast_detect_widescreen(struct ast_device *ast)
 >   {
 >   	u8 vgacrd0;
 >   
-> -	/* Check if we support wide screen */
-> -	switch (AST_GEN(ast)) {
-> -	case 1:
-> -		ast->support_wide_screen = false;
-> -		break;
-> -	default:
-> +	ast->support_wide_screen = false;
-> +
-> +	if (AST_GEN(ast) >= 7) {
-> +		ast->support_wide_screen = true;
-> +	} else if (AST_GEN(ast) >= 6) {
-> +		vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
-> +		if (!(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC))
-> +			ast->support_wide_screen = true;
-> +		else if (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN)
-> +			ast->support_wide_screen = true;
-> +		else if (ast->chip == AST2510)
-> +			ast->support_wide_screen = true;
-> +	} else if (AST_GEN(ast) >= 5) {
-> +		vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
-> +		if (!(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC))
-> +			ast->support_wide_screen = true;
-> +		else if (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN)
-> +			ast->support_wide_screen = true;
-> +		else if (ast->chip == AST1400)
-> +			ast->support_wide_screen = true;
-> +	} else if (AST_GEN(ast) >= 4) {
-> +		vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
-> +		if (!(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC))
-> +			ast->support_wide_screen = true;
-> +		else if (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN)
-> +			ast->support_wide_screen = true;
-> +		else if (ast->chip == AST1300)
-> +			ast->support_wide_screen = true;
-> +	} else if (AST_GEN(ast) >= 2) {
+> -	ast->support_wide_screen = false;
+> +	ast->support_wsxga_p = false;
+>   
+>   	if (AST_GEN(ast) >= 7) {
+> -		ast->support_wide_screen = true;
+> +		ast->support_wsxga_p = true;
+>   	} else if (AST_GEN(ast) >= 6) {
 >   		vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
 >   		if (!(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC))
->   			ast->support_wide_screen = true;
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
 >   		else if (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN)
->   			ast->support_wide_screen = true;
-> -		else {
-> -			ast->support_wide_screen = false;
-> -			if (ast->chip == AST1300)
-> -				ast->support_wide_screen = true;
-> -			if (ast->chip == AST1400)
-> -				ast->support_wide_screen = true;
-> -			if (ast->chip == AST2510)
-> -				ast->support_wide_screen = true;
-> -			if (IS_AST_GEN7(ast))
-> -				ast->support_wide_screen = true;
-> -		}
-> -		break;
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   		else if (ast->chip == AST2510)
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   	} else if (AST_GEN(ast) >= 5) {
+>   		vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
+>   		if (!(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC))
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   		else if (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN)
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   		else if (ast->chip == AST1400)
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   	} else if (AST_GEN(ast) >= 4) {
+>   		vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
+>   		if (!(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC))
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   		else if (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN)
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   		else if (ast->chip == AST1300)
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   	} else if (AST_GEN(ast) >= 2) {
+>   		vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
+>   		if (!(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC))
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
+>   		else if (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN)
+> -			ast->support_wide_screen = true;
+> +			ast->support_wsxga_p = true;
 >   	}
 >   }
 >   
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index b533eb6e233ed..d1b3136b37693 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -1024,7 +1024,7 @@ ast_crtc_helper_mode_valid(struct drm_crtc *crtc, const struct drm_display_mode
+>   	enum drm_mode_status status;
+>   	uint32_t jtemp;
+>   
+> -	if (ast->support_wide_screen) {
+> +	if (ast->support_wsxga_p) {
+>   		if ((mode->hdisplay == 1680) && (mode->vdisplay == 1050))
+>   			return MODE_OK;
+>   		if ((mode->hdisplay == 1280) && (mode->vdisplay == 800))
 
