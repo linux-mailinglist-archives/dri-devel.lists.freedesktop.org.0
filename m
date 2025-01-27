@@ -2,94 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21FFCA1D641
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 13:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C09EA1D64D
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 13:59:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29CE210E238;
-	Mon, 27 Jan 2025 12:52:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC8810E3BB;
+	Mon, 27 Jan 2025 12:59:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ku3Mk2B2";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IwPJuTeA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE22A10E238
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 12:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1737982363;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=II3TarzP0vPWid8xA+lfzZLs90rFzqzn/s7scc+Ffkc=;
- b=Ku3Mk2B2A36YTvuxXEqsAsLsotSMjbt/H+j9a061c6ssAySDiDYtMQKL2BqFOeBMvySRyk
- A+0CFNLKmdPZ4VsuygdkIi3GjBuUcOD9ILmQHSe1eblVpvMiPyek66/MS99F+9a5xCwmQn
- iirCdn7xI7NXBKf5/v/kQUp7q3cFBBY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-302-Yv_4fmXnMP6gvEDMKBMrqA-1; Mon, 27 Jan 2025 07:52:39 -0500
-X-MC-Unique: Yv_4fmXnMP6gvEDMKBMrqA-1
-X-Mimecast-MFC-AGG-ID: Yv_4fmXnMP6gvEDMKBMrqA
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3862a49fbdaso1538584f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 04:52:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737982358; x=1738587158;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=II3TarzP0vPWid8xA+lfzZLs90rFzqzn/s7scc+Ffkc=;
- b=AauqX8uSOddI7PE/pWejFsTYGcqAUs0+Up490o140QI0b7/VjaxFBpqNQYUuAlmXpb
- DzHBuVvy4v8slkHZvxpFe3kaBAsAkAoqPIwfKzhC+dEhquqJxtVO3t6h2QWpbwBlDywL
- i3RGmJDOzkdk2xWr43h8LBza1jAS3VDBu7iYPB9/WQuTaGxnQl5aTTNYJuZJVk3wDbQD
- R4orpne6VxFcwH18LFCV9ype5Acj79KTsl4H2Z9V2CFTgkD6yEr0qGi3xl6DMpkBz4vs
- 4CZ8PKUDpB7/DRoQBZH3FJtWDCvxG7s14nqS0qMv0Axu8ekpTYcz2uuCNis/1BGrgULv
- MCYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUa8zQkqUyJeKESU05zVb4JtUu6K+M8+OMKdHOBRKZ4r5YW8mHMsY4VPiXBKnlb18GdnKRcU+KQayM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzaUcd5SRuTm3QFs4cc1m8iHoBke5Kn2P8r3KGuHjXyNeIIGLYh
- jFD0yd2QuwR6ozLAb4uHUFyUVxuI3qoPMKlPaIjrMaymPDRPVwobNF+xcDZtlfvL+Xl81R0i42q
- LbrQlGJjEoQwrF5+yWzKq/rdgc/SRf1VJTRl4/8/mx2od7EakAZ1Tp2e8iGmnuaZs3g==
-X-Gm-Gg: ASbGncsiopHwbi2qX9CZcgJ2n6gQl4idfNka8jnMp3eEV0emctntIBDlKDghKo3+T0X
- 92D6+9c8rS2eU7SxvdWkBQoG4b7EsSsShWhoXXjwNBtdr5fVC9/KDSyRsheze6sHLtM0IbPtzfW
- 4+dlaRwuyv13zmtbUDeu/T60+x3AhyfyJCkMPTLmNFbwS9wzN9hPoWp+QLJSrpB8OOIsjCDtrBe
- ykDzs78zpJKwiK121x0/NOC5iBnVl2feghWL4tOUWomI3r2vB8xj5222pm0ijLD2/XcexHNMdMn
- XUmSEPvEFLEfIQlz3C7/etk/GfFlsK/hKYjUlhqOs0MF
-X-Received: by 2002:a5d:540c:0:b0:385:ebea:969d with SMTP id
- ffacd0b85a97d-38bf56633c2mr24794249f8f.22.1737982357913; 
- Mon, 27 Jan 2025 04:52:37 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEBOs3kUg6vEfQKQP86bbISePUJi081XdPSeBGkIciE74yl+jOUXVAzcvfUZBr82cEr/lcCUg==
-X-Received: by 2002:a5d:540c:0:b0:385:ebea:969d with SMTP id
- ffacd0b85a97d-38bf56633c2mr24794228f8f.22.1737982357478; 
- Mon, 27 Jan 2025 04:52:37 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a1c3c8csm11224247f8f.90.2025.01.27.04.52.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jan 2025 04:52:37 -0800 (PST)
-Message-ID: <c0446bfe-5a06-47e1-b12a-3fae73365f36@redhat.com>
-Date: Mon, 27 Jan 2025 13:52:36 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D947110E3BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 12:59:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9802A5C53D7;
+ Mon, 27 Jan 2025 12:59:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD72C4CED2;
+ Mon, 27 Jan 2025 12:59:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1737982785;
+ bh=ppFjk8LOf96wO2GfvBgwKK+jksyqZGpwOq7G6KF0lwQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=IwPJuTeABzNiFbEHNI/Po+8XuaqoTrOyh9w34U08QAUxTRc7OYAD4CcLK458PVm49
+ m1ii2IYuQ1rfuAuraq7S0YyIKL+lWzg/VIfL4zOrgiVWV6CQioCe521JaCEn325MoI
+ RLeYTswlB55xCkkiwfe3Slp599aQyyy+xjTGxzYteckMuvKopyi2EWiNuwQXVx6iDY
+ 7YkfpPCg/aRMMDUASKo6YqZonRnkc2iIkS5l0rRegjG5GRqzDQflajKDqWJM+wnewa
+ e+s6Ab7VrcjjuTN31ITcQnkGTat+l2FmXj/DNDWbaqWWdAnSKFqFe56uqIYWKveI6X
+ 46detohoDa4yA==
+Date: Mon, 27 Jan 2025 13:59:39 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 3/3] drm/sched: Update timedout_job()'s documentation
+Message-ID: <Z5eDOzypN_6vcvzm@pollux>
+References: <20250121151544.44949-2-phasta@kernel.org>
+ <20250121151544.44949-6-phasta@kernel.org>
+ <Z5OHKHZRBed_bxF6@pollux>
+ <1da78171e9bb5c533bfc5ddb232d81a6a531de10.camel@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/ast: Fix ast_dp connection status
-To: Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie
- <airlied@redhat.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Cc: stable@vger.kernel.org
-References: <20250124141142.2434138-1-jfalempe@redhat.com>
- <93bfabd4-20a8-4d56-898b-943dccb41df2@suse.de>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <93bfabd4-20a8-4d56-898b-943dccb41df2@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: m_X7imuA7NK0HadqbSRqUTbPlm4ZFNhU5Hr7WkVz9FQ_1737982358
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <1da78171e9bb5c533bfc5ddb232d81a6a531de10.camel@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,69 +69,281 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/01/2025 12:55, Thomas Zimmermann wrote:
-> Hi
+On Mon, Jan 27, 2025 at 01:32:40PM +0100, Philipp Stanner wrote:
+> On Fri, 2025-01-24 at 13:27 +0100, Danilo Krummrich wrote:
+> > On Tue, Jan 21, 2025 at 04:15:46PM +0100, Philipp Stanner wrote:
+> > > drm_sched_backend_ops.timedout_job()'s documentation is outdated.
+> > > It
+> > > mentions the deprecated function drm_sched_resubmit_job().
+> > > Furthermore,
+> > > it does not point out the important distinction between hardware
+> > > and
+> > > firmware schedulers.
+> > > 
+> > > Since firmware schedulers tyipically only use one entity per
+> > > scheduler,
+> > > timeout handling is significantly more simple because the entity
+> > > the
+> > > faulted job came from can just be killed without affecting innocent
+> > > processes.
+> > > 
+> > > Update the documentation with that distinction and other details.
+> > > 
+> > > Reformat the docstring to work to a unified style with the other
+> > > handles.
+> > > 
+> > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > >  include/drm/gpu_scheduler.h | 82 ++++++++++++++++++++++-----------
+> > > ----
+> > >  1 file changed, 49 insertions(+), 33 deletions(-)
+> > > 
+> > > diff --git a/include/drm/gpu_scheduler.h
+> > > b/include/drm/gpu_scheduler.h
+> > > index cf40fdb55541..4806740b9023 100644
+> > > --- a/include/drm/gpu_scheduler.h
+> > > +++ b/include/drm/gpu_scheduler.h
+> > > @@ -394,8 +394,14 @@ static inline bool
+> > > drm_sched_invalidate_job(struct drm_sched_job *s_job,
+> > >  }
+> > >  
+> > >  enum drm_gpu_sched_stat {
+> > > -	DRM_GPU_SCHED_STAT_NONE, /* Reserve 0 */
+> > > +	/* Reserve 0 */
+> > > +	DRM_GPU_SCHED_STAT_NONE,
+> > > +
+> > > +	/* Operation succeeded */
+> > >  	DRM_GPU_SCHED_STAT_NOMINAL,
+> > > +
+> > > +	/* Failure because dev is no longer available, for example
+> > > because
+> > > +	 * it was unplugged. */
+> > >  	DRM_GPU_SCHED_STAT_ENODEV,
+> > >  };
+> > >  
+> > > @@ -447,43 +453,53 @@ struct drm_sched_backend_ops {
+> > >  	 * @timedout_job: Called when a job has taken too long to
+> > > execute,
+> > >  	 * to trigger GPU recovery.
+> > >  	 *
+> > > -	 * This method is called in a workqueue context.
+> > 
+> > Why remove this line?
 > 
-> 
-> Am 24.01.25 um 15:11 schrieb Jocelyn Falempe:
->> ast_dp_is_connected() used to also check for link training success
->> to report the DP connector as connected. Without this check, the
->> physical_status is always connected. So if no monitor is present, it
->> will fail to read the EDID and set the default resolution to 640x480
->> instead of 1024x768.
->>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during 
->> atomic_enable")
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Dave Airlie <airlied@redhat.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: <stable@vger.kernel.org> # v6.12+
-> 
-> I cannot reproduce the problem, but the patch looks correct. My AST2600 
-> with ASTDP still works correctly with the patch allied.
+> I felt its surplus. All the functions here are callbacks that are
+> invoked by "the scheduler". I thought that's all the driver really
+> needs to know. Why should it care about the wq context?
 
-Thanks, interesting that it doesn't affect all hardwares.
-I got reports from two different vendors about this issue.
+Yes, I think we should even be more clear and say which workqueue it's scheduled
+on. The fact that this runs in the context of workqueues is not transpararent to
+users. It's even that the exact workqueue to use is specified in
+drm_sched_init().
 
-If no other comments, I will push it to drm-misc-next tomorrow (only 
-adding reported-by: and tested-by: tags).
-
--- 
-
-Jocelyn
+It's a good hint for drivers in terms of dma-fence handling.
 
 > 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Best regards
-> Thomas
-> 
->> ---
->> Â  drivers/gpu/drm/ast/ast_dp.c | 6 ++++++
->> Â  1 file changed, 6 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
->> index 0e282b7b167c..30aad5c0112a 100644
->> --- a/drivers/gpu/drm/ast/ast_dp.c
->> +++ b/drivers/gpu/drm/ast/ast_dp.c
->> @@ -17,6 +17,12 @@ static bool ast_astdp_is_connected(struct 
->> ast_device *ast)
->> Â  {
->> Â Â Â Â Â  if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, 
->> AST_IO_VGACRDF_HPD))
->> Â Â Â Â Â Â Â Â Â  return false;
->> +Â Â Â  /*
->> +Â Â Â Â  * HPD might be set even if no monitor is connected, so also 
->> check that
->> +Â Â Â Â  * the link training was successful.
->> +Â Â Â Â  */
->> +Â Â Â  if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, 
->> AST_IO_VGACRDC_LINK_SUCCESS))
->> +Â Â Â Â Â Â Â  return false;
->> Â Â Â Â Â  return true;
->> Â  }
->>
->> base-commit: 798047e63ac970f105c49c22e6d44df901c486b2
-> 
+> Also, it's the only function for which the context is mentioned. If we
+> keep it here, we should probably provide it everywhere else, too.
 
+Sounds good.
+
+> 
+> > 
+> > > +	 * @sched_job: The job that has timed out
+> > >  	 *
+> > > -	 * Drivers typically issue a reset to recover from GPU
+> > > hangs, and this
+> > > -	 * procedure usually follows the following workflow:
+> > > +	 * Returns: A drm_gpu_sched_stat enum.
+> > 
+> > Maybe "The status of the scheduler, defined by &drm_gpu_sched_stat".
+> > 
+> > I think you forgot to add the corresponding parts in the
+> > documentation of
+> > drm_gpu_sched_stat.
+> 
+> What do you mean, precisely? I added information to that enum. You mean
+> that I should add that that enum is a return type for this callback
+> here?
+
+You did add information to &drm_gpu_sched_stat, but no kernel doc comments you
+can actually refer to.
+
+> 
+> > 
+> > >  	 *
+> > > -	 * 1. Stop the scheduler using drm_sched_stop(). This will
+> > > park the
+> > > -	 *    scheduler thread and cancel the timeout work,
+> > > guaranteeing that
+> > > -	 *    nothing is queued while we reset the hardware queue
+> > > -	 * 2. Try to gracefully stop non-faulty jobs (optional)
+> > > -	 * 3. Issue a GPU reset (driver-specific)
+> > > -	 * 4. Re-submit jobs using drm_sched_resubmit_jobs()
+> > > -	 * 5. Restart the scheduler using drm_sched_start(). At
+> > > that point, new
+> > > -	 *    jobs can be queued, and the scheduler thread is
+> > > unblocked
+> > > +	 * Drivers typically issue a reset to recover from GPU
+> > > hangs.
+> > > +	 * This procedure looks very different depending on
+> > > whether a firmware
+> > > +	 * or a hardware scheduler is being used.
+> > > +	 *
+> > > +	 * For a FIRMWARE SCHEDULER, each (pseudo-)ring has one
+> > > scheduler, and
+> > 
+> > Why pseudo? It's still a real ring buffer.
+> > 
+> > > +	 * each scheduler has one entity. Hence, you typically
+> > > follow those
+> > > +	 * steps:
+> > 
+> > Maybe better "Hence, the steps taken typically look as follows:".
+> > 
+> > > +	 *
+> > > +	 * 1. Stop the scheduler using drm_sched_stop(). This will
+> > > pause the
+> > > +	 *    scheduler workqueues and cancel the timeout work,
+> > > guaranteeing
+> > > +	 *    that nothing is queued while we remove the ring.
+> > 
+> > "while the ring is removed"
+> > 
+> > > +	 * 2. Remove the ring. In most (all?) cases the firmware
+> > > will make sure
+> > 
+> > At least I don't know about other cases and I also don't think it'd
+> > make a lot
+> > of sense if it'd be different. But of course there's no rule
+> > preventing people
+> > to implement things weirdly.
+> 
+> Seems like we can then use an absolute phrase here and who really wants
+> to do weird things won't be stopped by that anyways :]
+> 
+> > 
+> > > +	 *    that the corresponding parts of the hardware are
+> > > resetted, and that
+> > > +	 *    other rings are not impacted.
+> > > +	 * 3. Kill the entity the faulted job stems from, and the
+> > > associated
+> > 
+> > There can only be one entity in this case, so you can drop "the
+> > faulted job
+> > stems from".
+> > 
+> > > +	 *    scheduler.
+> > > +	 *
+> > > +	 *
+> > > +	 * For a HARDWARE SCHEDULER, each ring also has one
+> > > scheduler, but each
+> > > +	 * scheduler is typically associated with many entities.
+> > > This implies
+> > 
+> > What about "each scheduler can be scheduling one or more entities"?
+> > 
+> > > +	 * that all entities associated with the affected
+> > > scheduler cannot be
+> > 
+> > I think you want to say that not all entites can be torn down, rather
+> > than none
+> > of them can be torn down.
+> > 
+> > > +	 * torn down, because this would effectively also kill
+> > > innocent
+> > > +	 * userspace processes which did not submit faulty jobs
+> > > (for example).
+> > 
+> > This is phrased ambiguously, "kill userspace processs" typically
+> > means something
+> > different than you mean in this context.
+> 
+> then let's say "down, because this would also affect users that did not
+> provide faulty jobs through their entities.", ack?
+
+Sounds good.
+
+> 
+> 
+> Danke,
+> P.
+> 
+> > 
+> > > +	 *
+> > > +	 * Consequently, the procedure to recover with a hardware
+> > > scheduler
+> > > +	 * should look like this:
+> > > +	 *
+> > > +	 * 1. Stop all schedulers impacted by the reset using
+> > > drm_sched_stop().
+> > > +	 * 2. Figure out to which entity the faulted job belongs
+> > > to.
+> > > +	 * 3. Kill that entity.
+> > 
+> > I'd combine the two steps: "2. Kill the entity the faulty job
+> > originates from".
+> > 
+> > > +	 * 4. Issue a GPU reset on all faulty rings (driver-
+> > > specific).
+> > > +	 * 5. Re-submit jobs on all schedulers impacted by re-
+> > > submitting them to
+> > > +	 *    the entities which are still alive.
+> > > +	 * 6. Restart all schedulers that were stopped in step #1
+> > > using
+> > > +	 *    drm_sched_start().
+> > >  	 *
+> > >  	 * Note that some GPUs have distinct hardware queues but
+> > > need to reset
+> > >  	 * the GPU globally, which requires extra synchronization
+> > > between the
+> > > -	 * timeout handler of the different &drm_gpu_scheduler.
+> > > One way to
+> > > -	 * achieve this synchronization is to create an ordered
+> > > workqueue
+> > > -	 * (using alloc_ordered_workqueue()) at the driver level,
+> > > and pass this
+> > > -	 * queue to drm_sched_init(), to guarantee that timeout
+> > > handlers are
+> > > -	 * executed sequentially. The above workflow needs to be
+> > > slightly
+> > > -	 * adjusted in that case:
+> > > -	 *
+> > > -	 * 1. Stop all schedulers impacted by the reset using
+> > > drm_sched_stop()
+> > > -	 * 2. Try to gracefully stop non-faulty jobs on all queues
+> > > impacted by
+> > > -	 *    the reset (optional)
+> > > -	 * 3. Issue a GPU reset on all faulty queues (driver-
+> > > specific)
+> > > -	 * 4. Re-submit jobs on all schedulers impacted by the
+> > > reset using
+> > > -	 *    drm_sched_resubmit_jobs()
+> > > -	 * 5. Restart all schedulers that were stopped in step #1
+> > > using
+> > > -	 *    drm_sched_start()
+> > > -	 *
+> > > -	 * Return DRM_GPU_SCHED_STAT_NOMINAL, when all is normal,
+> > > -	 * and the underlying driver has started or completed
+> > > recovery.
+> > > -	 *
+> > > -	 * Return DRM_GPU_SCHED_STAT_ENODEV, if the device is no
+> > > longer
+> > > -	 * available, i.e. has been unplugged.
+> > > +	 * timeout handlers of different schedulers. One way to
+> > > achieve this
+> > > +	 * synchronization is to create an ordered workqueue
+> > > (using
+> > > +	 * alloc_ordered_workqueue()) at the driver level, and
+> > > pass this queue
+> > > +	 * as drm_sched_init()'s @timeout_wq parameter. This will
+> > > guarantee
+> > > +	 * that timeout handlers are executed sequentially.
+> > >  	 */
+> > >  	enum drm_gpu_sched_stat (*timedout_job)(struct
+> > > drm_sched_job *sched_job);
+> > >  
+> > > -- 
+> > > 2.47.1
+> > > 
+> 
