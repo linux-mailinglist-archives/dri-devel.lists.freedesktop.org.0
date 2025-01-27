@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03CBA1D601
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 13:46:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21FFCA1D641
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 13:52:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 902C810E1BA;
-	Mon, 27 Jan 2025 12:46:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 29CE210E238;
+	Mon, 27 Jan 2025 12:52:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="dZ2sHcN/";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ku3Mk2B2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADC1310E1BA
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 12:46:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1737981996; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Yf0ngQT7DHpB5pDFTYmCpck+o+gg8qsEPV/mRGBXsIM0L+20+nVmFIrNVvnCPNTKj3Y2pSX0KSbP7bdkMtM7TCV+zMsuC8C+IEkYbxEeuzX3B/4PQDVazRu+UhAudpVBo70MR5d6Dw+xWvlnqKeequ0haAA5oozRLVVbEhNigtA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1737981996;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=H8rIGSvppRi8Uzp727+c8Dt782VQ0AhDEJTD6IciYBw=; 
- b=Pjdvr1lFgrZ6q4yVVP2N6ed9GDLBubNrqaiAJJPpj3FcJAGiQCwMdBKpBqrlw8jJKPK9rnSztsQ5wEjcJQULin9qGH68BqSSvlItBxcwxtQCbAJU2z27g+QV7sbKOaDD+lPviZ1hXWDvZuk8Y3YZPreZKyOFlZl3A9y2o46mLgA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737981995; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=H8rIGSvppRi8Uzp727+c8Dt782VQ0AhDEJTD6IciYBw=;
- b=dZ2sHcN/JUt2VGfiI/U+kCr2a9ZEdvMRChyivCa5MPcc2wklELrddDZCDmulc8yS
- 30NQam0BbANWNUi07f0tjkSF/rbP53cgiGwf0211hLD017JG/7K7dpUflfx+BR4QXFs
- dURysHNG3vblLqh7QQBKXqbIFnoHwvwB87BFwbtU=
-Received: by mx.zohomail.com with SMTPS id 1737981991199905.1162484371002;
- Mon, 27 Jan 2025 04:46:31 -0800 (PST)
-Date: Mon, 27 Jan 2025 12:46:27 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- Mihail Atanassov <mihail.atanassov@arm.com>, nd@arm.com
-Subject: Re: [RFC v2 3/8] drm/panthor: Add panthor_perf_init and
- panthor_perf_unplug
-Message-ID: <lgdrzylx2pf3t3ive7tcmuqlqu2vpjuvf5ztnyuoyrb6onecgh@6vieyyz5jzoj>
-References: <20241211165024.490748-1-lukas.zapolskas@arm.com>
- <20241211165024.490748-4-lukas.zapolskas@arm.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE22A10E238
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 12:52:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1737982363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=II3TarzP0vPWid8xA+lfzZLs90rFzqzn/s7scc+Ffkc=;
+ b=Ku3Mk2B2A36YTvuxXEqsAsLsotSMjbt/H+j9a061c6ssAySDiDYtMQKL2BqFOeBMvySRyk
+ A+0CFNLKmdPZ4VsuygdkIi3GjBuUcOD9ILmQHSe1eblVpvMiPyek66/MS99F+9a5xCwmQn
+ iirCdn7xI7NXBKf5/v/kQUp7q3cFBBY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-302-Yv_4fmXnMP6gvEDMKBMrqA-1; Mon, 27 Jan 2025 07:52:39 -0500
+X-MC-Unique: Yv_4fmXnMP6gvEDMKBMrqA-1
+X-Mimecast-MFC-AGG-ID: Yv_4fmXnMP6gvEDMKBMrqA
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3862a49fbdaso1538584f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 04:52:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737982358; x=1738587158;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=II3TarzP0vPWid8xA+lfzZLs90rFzqzn/s7scc+Ffkc=;
+ b=AauqX8uSOddI7PE/pWejFsTYGcqAUs0+Up490o140QI0b7/VjaxFBpqNQYUuAlmXpb
+ DzHBuVvy4v8slkHZvxpFe3kaBAsAkAoqPIwfKzhC+dEhquqJxtVO3t6h2QWpbwBlDywL
+ i3RGmJDOzkdk2xWr43h8LBza1jAS3VDBu7iYPB9/WQuTaGxnQl5aTTNYJuZJVk3wDbQD
+ R4orpne6VxFcwH18LFCV9ype5Acj79KTsl4H2Z9V2CFTgkD6yEr0qGi3xl6DMpkBz4vs
+ 4CZ8PKUDpB7/DRoQBZH3FJtWDCvxG7s14nqS0qMv0Axu8ekpTYcz2uuCNis/1BGrgULv
+ MCYw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUa8zQkqUyJeKESU05zVb4JtUu6K+M8+OMKdHOBRKZ4r5YW8mHMsY4VPiXBKnlb18GdnKRcU+KQayM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzaUcd5SRuTm3QFs4cc1m8iHoBke5Kn2P8r3KGuHjXyNeIIGLYh
+ jFD0yd2QuwR6ozLAb4uHUFyUVxuI3qoPMKlPaIjrMaymPDRPVwobNF+xcDZtlfvL+Xl81R0i42q
+ LbrQlGJjEoQwrF5+yWzKq/rdgc/SRf1VJTRl4/8/mx2od7EakAZ1Tp2e8iGmnuaZs3g==
+X-Gm-Gg: ASbGncsiopHwbi2qX9CZcgJ2n6gQl4idfNka8jnMp3eEV0emctntIBDlKDghKo3+T0X
+ 92D6+9c8rS2eU7SxvdWkBQoG4b7EsSsShWhoXXjwNBtdr5fVC9/KDSyRsheze6sHLtM0IbPtzfW
+ 4+dlaRwuyv13zmtbUDeu/T60+x3AhyfyJCkMPTLmNFbwS9wzN9hPoWp+QLJSrpB8OOIsjCDtrBe
+ ykDzs78zpJKwiK121x0/NOC5iBnVl2feghWL4tOUWomI3r2vB8xj5222pm0ijLD2/XcexHNMdMn
+ XUmSEPvEFLEfIQlz3C7/etk/GfFlsK/hKYjUlhqOs0MF
+X-Received: by 2002:a5d:540c:0:b0:385:ebea:969d with SMTP id
+ ffacd0b85a97d-38bf56633c2mr24794249f8f.22.1737982357913; 
+ Mon, 27 Jan 2025 04:52:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEBOs3kUg6vEfQKQP86bbISePUJi081XdPSeBGkIciE74yl+jOUXVAzcvfUZBr82cEr/lcCUg==
+X-Received: by 2002:a5d:540c:0:b0:385:ebea:969d with SMTP id
+ ffacd0b85a97d-38bf56633c2mr24794228f8f.22.1737982357478; 
+ Mon, 27 Jan 2025 04:52:37 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c2a1c3c8csm11224247f8f.90.2025.01.27.04.52.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jan 2025 04:52:37 -0800 (PST)
+Message-ID: <c0446bfe-5a06-47e1-b12a-3fae73365f36@redhat.com>
+Date: Mon, 27 Jan 2025 13:52:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241211165024.490748-4-lukas.zapolskas@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/ast: Fix ast_dp connection status
+To: Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie
+ <airlied@redhat.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org
+References: <20250124141142.2434138-1-jfalempe@redhat.com>
+ <93bfabd4-20a8-4d56-898b-943dccb41df2@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <93bfabd4-20a8-4d56-898b-943dccb41df2@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: m_X7imuA7NK0HadqbSRqUTbPlm4ZFNhU5Hr7WkVz9FQ_1737982358
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,198 +105,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11.12.2024 16:50, Lukas Zapolskas wrote:
-> Added the panthor_perf system initialization and unplug code to allow
-> for the handling of userspace sessions to be added in follow-up patches.
+On 27/01/2025 12:55, Thomas Zimmermann wrote:
+> Hi
 > 
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c |  7 +++
->  drivers/gpu/drm/panthor/panthor_device.h |  5 +-
->  drivers/gpu/drm/panthor/panthor_perf.c   | 77 ++++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_perf.h   |  3 +
->  4 files changed, 91 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 00f7b8ce935a..1a81a436143b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -19,6 +19,7 @@
->  #include "panthor_fw.h"
->  #include "panthor_gpu.h"
->  #include "panthor_mmu.h"
-> +#include "panthor_perf.h"
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
->  
-> @@ -97,6 +98,7 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	/* Now, try to cleanly shutdown the GPU before the device resources
->  	 * get reclaimed.
->  	 */
-> +	panthor_perf_unplug(ptdev);
->  	panthor_sched_unplug(ptdev);
->  	panthor_fw_unplug(ptdev);
->  	panthor_mmu_unplug(ptdev);
-> @@ -262,6 +264,10 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	if (ret)
->  		goto err_unplug_fw;
->  
-> +	ret = panthor_perf_init(ptdev);
-> +	if (ret)
-> +		goto err_unplug_fw;
-> +
->  	/* ~3 frames */
->  	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
->  	pm_runtime_use_autosuspend(ptdev->base.dev);
-> @@ -275,6 +281,7 @@ int panthor_device_init(struct panthor_device *ptdev)
->  
->  err_disable_autosuspend:
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
-> +	panthor_perf_unplug(ptdev);
->  	panthor_sched_unplug(ptdev);
->  
->  err_unplug_fw:
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index 636542c1dcbd..aca33d03036c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -26,7 +26,7 @@ struct panthor_heap_pool;
->  struct panthor_job;
->  struct panthor_mmu;
->  struct panthor_fw;
-> -struct panthor_perfcnt;
-> +struct panthor_perf;
->  struct panthor_vm;
->  struct panthor_vm_pool;
->  
-> @@ -137,6 +137,9 @@ struct panthor_device {
->  	/** @devfreq: Device frequency scaling management data. */
->  	struct panthor_devfreq *devfreq;
->  
-> +	/** @perf: Performance counter management data. */
-> +	struct panthor_perf *perf;
-> +
->  	/** @unplug: Device unplug related fields. */
->  	struct {
->  		/** @lock: Lock used to serialize unplug operations. */
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.c b/drivers/gpu/drm/panthor/panthor_perf.c
-> index 0e3d769c1805..e0dc6c4b0cf1 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.c
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.c
-> @@ -13,6 +13,24 @@
->  #include "panthor_perf.h"
->  #include "panthor_regs.h"
->  
-> +struct panthor_perf {
-> +	/**
-> +	 * @block_set: The global counter set configured onto the HW.
-> +	 */
-> +	u8 block_set;
+> Am 24.01.25 um 15:11 schrieb Jocelyn Falempe:
+>> ast_dp_is_connected() used to also check for link training success
+>> to report the DP connector as connected. Without this check, the
+>> physical_status is always connected. So if no monitor is present, it
+>> will fail to read the EDID and set the default resolution to 640x480
+>> instead of 1024x768.
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> Fixes: 2281475168d2 ("drm/ast: astdp: Perform link training during 
+>> atomic_enable")
+>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>> Cc: Dave Airlie <airlied@redhat.com>
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: <stable@vger.kernel.org> # v6.12+
+> 
+> I cannot reproduce the problem, but the patch looks correct. My AST2600 
+> with ASTDP still works correctly with the patch allied.
 
-I think this field is not used in any further patches. Only in the sampler
-struct definition later on you include the same field and assign it from
-the ioctl setup arguments.
+Thanks, interesting that it doesn't affect all hardwares.
+I got reports from two different vendors about this issue.
 
-> +	/** @next_session: The ID of the next session. */
-> +	u32 next_session;
-> +
-> +	/** @session_range: The number of sessions supported at a time. */
-> +	struct xa_limit session_range;
-> +
-> +	/**
-> +	 * @sessions: Global map of sessions, accessed by their ID.
-> +	 */
-> +	struct xarray sessions;
-> +};
-> +
->  /**
->   * PANTHOR_PERF_COUNTERS_PER_BLOCK - On CSF architectures pre-11.x, the number of counters
->   * per block was hardcoded to be 64. Arch 11.0 onwards supports the PRFCNT_FEATURES GPU register,
-> @@ -45,3 +63,62 @@ void panthor_perf_info_init(struct panthor_device *ptdev)
->  	perf_info->shader_blocks = hweight64(ptdev->gpu_info.shader_present);
->  }
->  
-> +/**
-> + * panthor_perf_init - Initialize the performance counter subsystem.
-> + * @ptdev: Panthor device
-> + *
-> + * The performance counters require the FW interface to be available to setup the
-> + * sampling ringbuffers, so this must be called only after FW is initialized.
-> + *
-> + * Return: 0 on success, negative error code on failure.
-> + */
-> +int panthor_perf_init(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_perf *perf;
-> +
-> +	if (!ptdev)
-> +		return -EINVAL;
-> +
-> +	perf = devm_kzalloc(ptdev->base.dev, sizeof(*perf), GFP_KERNEL);
-> +	if (ZERO_OR_NULL_PTR(perf))
-> +		return -ENOMEM;
-> +
-> +	xa_init_flags(&perf->sessions, XA_FLAGS_ALLOC);
-> +
-> +	/* Currently, we only support a single session at a time. */
-> +	perf->session_range = (struct xa_limit) {
-> +		.min = 0,
-> +		.max = 1,
-> +	};
+If no other comments, I will push it to drm-misc-next tomorrow (only 
+adding reported-by: and tested-by: tags).
 
-I guess at the moment we only allow a single session because periodic sampling
-isn't yet implemented. Does that mean multisession support will not be made
-available for manual samplers in the future?
+-- 
 
-> +
-> +	drm_info(&ptdev->base, "Performance counter subsystem initialized");
-> +
-> +	ptdev->perf = perf;
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * panthor_perf_unplug - Terminate the performance counter subsystem.
-> + * @ptdev: Panthor device.
-> + *
-> + * This function will terminate the performance counter control structures and any remaining
-> + * sessions, after waiting for any pending interrupts.
-> + */
-> +void panthor_perf_unplug(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_perf *perf = ptdev->perf;
-> +
-> +	if (!perf)
-> +		return;
-> +
-> +	if (!xa_empty(&perf->sessions))
-> +		drm_err(&ptdev->base,
-> +				"Performance counter sessions active when unplugging the driver!");
-> +
-> +	xa_destroy(&perf->sessions);
-> +
-> +	devm_kfree(ptdev->base.dev, ptdev->perf);
+Jocelyn
 
-If we always call devm_kfree, then what is the point of allocating ptdev->perf
-with devm_kzalloc?
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> 
+> Best regards
+> Thomas
+> 
+>> ---
+>>   drivers/gpu/drm/ast/ast_dp.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+>> index 0e282b7b167c..30aad5c0112a 100644
+>> --- a/drivers/gpu/drm/ast/ast_dp.c
+>> +++ b/drivers/gpu/drm/ast/ast_dp.c
+>> @@ -17,6 +17,12 @@ static bool ast_astdp_is_connected(struct 
+>> ast_device *ast)
+>>   {
+>>       if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDF, 
+>> AST_IO_VGACRDF_HPD))
+>>           return false;
+>> +    /*
+>> +     * HPD might be set even if no monitor is connected, so also 
+>> check that
+>> +     * the link training was successful.
+>> +     */
+>> +    if (!ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xDC, 
+>> AST_IO_VGACRDC_LINK_SUCCESS))
+>> +        return false;
+>>       return true;
+>>   }
+>>
+>> base-commit: 798047e63ac970f105c49c22e6d44df901c486b2
+> 
 
-> +	ptdev->perf = NULL;
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.h b/drivers/gpu/drm/panthor/panthor_perf.h
-> index cff537a370c9..90af8b18358c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.h
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.h
-> @@ -9,4 +9,7 @@ struct panthor_device;
->  
->  void panthor_perf_info_init(struct panthor_device *ptdev);
->  
-> +int panthor_perf_init(struct panthor_device *ptdev);
-> +void panthor_perf_unplug(struct panthor_device *ptdev);
-> +
->  #endif /* __PANTHOR_PERF_H__ */
-> -- 
-> 2.25.1
-
-
-Adrian Larumbe
