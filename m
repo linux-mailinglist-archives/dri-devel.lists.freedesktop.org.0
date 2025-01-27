@@ -2,137 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0871DA1D884
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6FAA1D89B
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:43:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0152210E300;
-	Mon, 27 Jan 2025 14:37:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A7610E557;
+	Mon, 27 Jan 2025 14:43:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ym7QZLgL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pGD/enfL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2470810E554
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:37:10 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-385d7fe2732so482988f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:37:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1737988628; x=1738593428; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=0Mgmvx7qMUfxppC0GnNZyd9TXM/c1npLJP/jRYaybk0=;
- b=Ym7QZLgLLHCcNIhpl7b571rlXQtRKWe/I0NoetMfj+SXIB70Do4Ig0Np+hFMo4vPc1
- XCcNmybmVrcvCppLokUl46jS67vV6J9rlw82U04WWwW4y/10PaKzjVn0FIf4mHtGD0oI
- Juhuf6rMPA0lC5GFZNcyQ/+PY5gAfFc+fR6xpNIR/gcA1IMS+dxyhH4nGIYsAB4Dr8YE
- YyueKY189mljAZEwby9tI2q1Zaa+0KwavUoI/ldDxXvB1j7fZ8BZ5LbNYVFm2/Cjazpq
- GQRsHmP9dmriHqn/V42cX8fyhSLQJz8JJsYiXnLtcjaGyxUxqReLCpg685NpT7EoxFzV
- 4YZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1737988628; x=1738593428;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0Mgmvx7qMUfxppC0GnNZyd9TXM/c1npLJP/jRYaybk0=;
- b=BE2o211c6kNzH8KPz8ClEHVFM8/+FjNj1OhZFYB+TV0oueAMYg28cLk+VHTu+qqe8n
- SREqKQRgNl+28PsWZ1H+tVfLXVh+zOp5wjcDuvsuRUGfP/sRWm9Di5KxqYNEof+Yk0/y
- FuMsWt+m2fnwiL4RNU2n6NcHlcQc0UGIY9Ewui27Y33P564QaZFJs9tuOo94dWH6odeF
- fcOMuGq53bKYgqvm8hKfoRwKLUrG2gjo5aZITgpWD/ydTDcXvqp5pGaoRKb3kc3aqID3
- yWrE0TDeEVrxCehw4z/LsrKZp/WZj+W+X2/MaulhdwjeT2dkX/bwkdclcgHI5F4+cJMg
- NvQQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXKGOd58QT3G2oihn0nUefjDPtq5UzbC10Cwnq+Ugyx0KtTOjHwPIhY08/almRVzyx8K5dzIB5FCnk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzSV1KqylYP1nHWGEscuEvyZcNsV5UacStPFOG7Pftf6xkxEBUc
- 4ifT4/ZRT/aGjL2x7+M+b7ujkFgz2wcM3MpTOrG4dGVp1Tyn/jTRlwoEXGzC9Ec=
-X-Gm-Gg: ASbGncsGZXBFQjPf74Z9fIfqEM5XU3vvpcZdb7NusaPcldLxFFc4sbungGfDg7rYyXg
- 59+C+TpFMf1iVTxY2vFUolKiIwnhG1AHp+y4LHoL04eFDIG4OdZ0YKcKm+KkVapiwF/EpM30xHo
- VZQDwNG9TeKyRFNJmESDxjJpqJxzpvXdcj+4H9wEctvoNZmmuU+A0yD8D/NEh5j5YwvmdmPcZGw
- rQ37qp1sYz4yx7PI7bNVZSNNw7wzE9zh4Jlqz5vnMm+IXSsx4ITtSZS03cu+tARUvJkp7/bQkU5
- ZkMXT1ye+xhdIs4pGm7RP1DS+R8nGZGMUQ==
-X-Google-Smtp-Source: AGHT+IENuP2Rt5tOjWZU4PEZeGsfKlhVaK+H06dVS97mfTD04yvo4YEOsPpfj4rxnyHPSjUgjLDcew==
-X-Received: by 2002:a5d:588a:0:b0:385:edb7:69cc with SMTP id
- ffacd0b85a97d-38bf57bf3efmr14586098f8f.12.1737988628534; 
- Mon, 27 Jan 2025 06:37:08 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.98])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a176490sm11036310f8f.1.2025.01.27.06.37.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Jan 2025 06:37:08 -0800 (PST)
-Message-ID: <7038f0a5-f7ae-44da-abee-bd04fecf74b4@linaro.org>
-Date: Mon, 27 Jan 2025 15:37:05 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2D0910E560
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:43:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1737989009;
+ bh=t8H13PU+dE/XDOeVe03jIrdQNLu7F3mQVdhS5tLlG6Q=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=pGD/enfL8kpK87zQuoRfa+HLMtoYy4vYF3/PJkP6xitwVDD5pFD7XQGG/orOFK4UA
+ AvM2kx0BgCQrlrkZ5bGHksoau6SrO9w8Wus+63FSvMulP9kOUs9Vj76uGBfmSdSHy0
+ EKAO+ozERr2vk+UvVMEDq3eae9g1suBwc4ERF2Ko5u5O3fo88tFmLWckr6J96RFDhL
+ bwo0yrAQK4z1pUPiZuH5+ykUzqUaRUBAZ4bkxqPFzlRog0PTveq+9nNBVLMqXQlYiw
+ FZyyUslpppKaMu6f7fB/p8oQ4k669fS1XbeVTKO1ZYnVf1imNzEND5aq7/bWjRJ9jX
+ csRNkYEwFbJDA==
+Received: from nicolas-tpx395.localdomain (unknown
+ [IPv6:2606:6d00:11:e976::7a9])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: nicolas)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 3517517E083A;
+ Mon, 27 Jan 2025 15:43:25 +0100 (CET)
+Message-ID: <c08e5bd0e55b7d9f87ba007455e92da553284dfb.camel@collabora.com>
+Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Leonardo
+ =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Vignesh Raman	
+ <vignesh.raman@collabora.com>, kernelci@lists.linux.dev,
+ linuxtv-ci@linuxtv.org, 	dave.pigott@collabora.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, 	pawiecz@collabora.com,
+ tales.aparecida@gmail.com, workflows@vger.kernel.org, 
+ kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
+ cocci@inria.fr, Julia.Lawall@inria.fr, kernel@collabora.com, 
+ torvalds@linuxfoundation.org, gregkh@linuxfoundation.org,
+ daniels@collabora.com, 	shreeya.patel@collabora.com, denys.f@collabora.com,
+ louis.chauvet@bootlin.com, 	hamohammed.sa@gmail.com, melissa.srw@gmail.com,
+ simona@ffwll.ch, airlied@gmail.com, 	Tim.Bird@sony.com, broonie@kernel.org,
+ groeck@google.com, rdunlap@infradead.org, 	geert@linux-m68k.org,
+ michel.daenzer@mailbox.org, sakari.ailus@iki.fi, 	jarkko@kernel.org
+Date: Mon, 27 Jan 2025 09:43:23 -0500
+In-Reply-To: <20250127060738.GA16795@pendragon.ideasonboard.com>
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+ <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+ <20250124081250.GA24731@pendragon.ideasonboard.com>
+ <20250124135203.040d0852@foz.lan>
+ <20250124130021.GA6853@pendragon.ideasonboard.com>
+ <f1c73327073c98ade56dfeabf629e2f9cd7d1663.camel@collabora.com>
+ <bd37528d1c704951cb86a751a5c81e4c76962f51.camel@gmail.com>
+ <20250127060738.GA16795@pendragon.ideasonboard.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: display/msm/dsi-phy: Add header with
- exposed clock IDs
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20250127132105.107138-1-krzysztof.kozlowski@linaro.org>
- <4vy6tjdvhkplly3uqqekdmz6brkcbac6pijrn6gdyz4x3hralr@meeugoua2ats>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <4vy6tjdvhkplly3uqqekdmz6brkcbac6pijrn6gdyz4x3hralr@meeugoua2ats>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,53 +83,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/01/2025 14:56, Dmitry Baryshkov wrote:
-> On Mon, Jan 27, 2025 at 02:21:04PM +0100, Krzysztof Kozlowski wrote:
->> DSI phys, from earliest (28 nm) up to newest (3 nm) generation, provide
->> two clocks.  The respective clock ID is used by drivers and DTS, so it
->> should be documented as explicit ABI.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Patch for Display tree, although with Ack from clock.
->> ---
->>  .../devicetree/bindings/display/msm/dsi-phy-common.yaml  | 2 ++
->>  MAINTAINERS                                              | 1 +
->>  include/dt-bindings/clock/qcom,dsi-phy-28nm.h            | 9 +++++++++
->>  3 files changed, 12 insertions(+)
->>  create mode 100644 include/dt-bindings/clock/qcom,dsi-phy-28nm.h
->>
+Le lundi 27 janvier 2025 à 08:07 +0200, Laurent Pinchart a écrit :
+> On Fri, Jan 24, 2025 at 06:12:24PM -0300, Leonardo Brás wrote:
+> > On Fri, 2025-01-24 at 10:45 -0500, Nicolas Dufresne wrote:
+> > > Le vendredi 24 janvier 2025 à 15:00 +0200, Laurent Pinchart a écrit :
+> > > > On Fri, Jan 24, 2025 at 01:52:03PM +0100, Mauro Carvalho Chehab wrote:
+> > > > > Em Fri, 24 Jan 2025 10:12:50 +0200 Laurent Pinchart escreveu:
+> > > > > 
+> > > > > > > It's been a few years since I first thought on finding a good way of helping
+> > > > > > > kernel developers testing their patches, while making use of the free runner
+> > > > > > > minutes Gitlab offers. It can greatly simplify the testing for people who are
+> > > > > > > new to kernel development, or students trying to understand it better.
+> > > > > > > 
+> > > > > > > And this patchset allows that to happen :)
+> > > > > > > 
+> > > > > > > Actually, I spoke to Helen last year, and to enable it to run on the free
+> > > > > > > Gitlab-CI runners, there is a small extra patch which is needed:
+> > > > > > > 
+> > > > > > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/  
+> > > > > 
+> > > > > Sounds interesting!
+> > > > > 
+> > > > > > Gitlab as an open-source software project (the community edition) is one
+> > > > > > thing, but can we please avoid advertising specific proprietary services
+> > > > > > in the kernel documentation ?
+> > > > > 
+> > > > > Every time Gitlab is mentioned, the brand of the company that
+> > > > > developed it and has been providing proprietary services is also
+> > > > > advertised. If you're not happy with that, you should move to use
+> > > > > a git forge developed by some open source community.
+> > > > 
+> > > > I'm fine mentioning the gitlab community edition, I'm not fine
+> > > > advertising gitlab.com SaaS in the kernel source tree.
+> > 
+> > Hello Laurent,
+> > 
+> > I see your point, and I see no issue on removing the two last lines of CI_TAGS
+> > documentation.
+> > 
+> > I just added this information on documentation because the default runner used
+> > for the Free Tier of Gitlab does not work for this CI, as it needs more
+> > resources to run. This information can be added on some other place, but at the
+> > time I thought it would be ok to let it be there. 
+> > This other runner I mentioned in the patch is also available on the Free Tier
+> > (free as in beer).
+> > 
+> > I would like to make it clear that I have no connection/affiliation to Gitlab,
+> > other than a free account in their system, which I use for some CI. I have no
+> > interest on advertising anything from them.
+> > 
+> > My only objective is to make it easier to hobbyists/beginners to use those
+> > available free minutes to test some change before sending the patch, if they
+> > think that's valuable.
 > 
->> diff --git a/include/dt-bindings/clock/qcom,dsi-phy-28nm.h b/include/dt-bindings/clock/qcom,dsi-phy-28nm.h
->> new file mode 100644
->> index 000000000000..ab94d58377a1
->> --- /dev/null
->> +++ b/include/dt-bindings/clock/qcom,dsi-phy-28nm.h
+> Given the 400 free computes minute per month, and the fact that the
+> saas-linux-medium-amd64 runner consumers two minutes per minute, how
+> many of the proposed CI runs would be available per month ?
 > 
-> I think this should be dt-bindings/phy/qcom,foo.h
+> CI pipeline runs always compile the kernel from scratch as far as  can
+> see. This may not be an issue for final testing before submission of a
+> patch series, but it just won't work for incremental testing of changes.
+> Think of how inefficient it would be to run a full pipeline just to get
+> the checkpatch.pl output for instance. This is why I believe tests
+> should focus first and foremost on ease of use in developers' local
+> environments. A standardized, from-scratch, comprehensive test run as a
+> gate keeper for integration has value as well, but that won't help
+> beginners much.
 
+Perhaps we can provide pointers how to run a private gitlab runner on your local
+computer. My experience is that this take few minutes, unlike figuring all the
+foreign bash scripts dependency, and debugging issues related to some tools not
+having the right version, which inevitably lead to folks criticizing distro
+choices and other counter productive discussions. Of course, it can only work if
+that process is used and tested.
 
-Both options - clock or phy - work for me, although with slight
-preference of keeping foo constants only in foo (so clock -> clock)
-because then clock maintainer sees it as well. Also because I would
-judge by type of constants (so again clock constants -> clock
-directory), not type of device. We have several MFD devices, like PMICs,
-which have a clock, so bindings should go to mfd? But mfd is not a real
-device, but Linux subsystem.
+> 
+> > > I've just looked attentively, the intention is just to explain you may need to
+> > > set gitlab variable in your project fork in order to select correctly sized
+> > > sized runners in your own instance.
+> > 
+> > That's correct
+> > 
+> > >  Its is not strictly about commercial gitlab.com instance. 
+> > 
+> > Exactly, the change is about being able to choose the runner you want.
+> > 
+> > > The default only works with the original project used
+> > > instance (which is not gitlab.com as far as I know), but the comment refer to
+> > > companies that will choose gitlab.com internally to reduce their IT cost.
+> > 
+> > Correct.
+> > Companies can benefit on that, but my focus was on hobbyist (or begginers) who
+> > may want to test their patches on free CI before sending them to the ML.
+> > 
+> > > Its quite a stretch to call this "advertisement", that makes it looks very
+> > > dramatic. I personally believe its quite ahead of most other gitlab CI to take
+> > > into consideration running these pipelines on foreign (to the project)
+> > > instances.
+> > > 
+> > > > > The way I see, the best would be if the CI integration could work
+> > > > > with more than one type of forge and being able to use any
+> > > > > free Git??b-CI runners that would be available for developers to
+> > > > > use, as this would allow testing more subsystems with CI, thus
+> > > > > increasing code quality.
+> 
 
-For many other archs, e.g Mediatek, pretty often even for the same
-device, the binding headers are split between clock and reset. I know
-that Qualcomm GCC has it in one file, with exceptions (ipq, qca8k). Also
-these other archs have bindings file in e.g. soc or arm, but the header
-in respective subsystem
-
-With exceptions of am654 and pisatchio-usb headers, we don't store clock
-constants in phy.
-
-Unless someone insists or there is existing qcom convention, then I
-rather prefer to keep it in clock.
-
-Best regards,
-Krzysztof
