@@ -2,79 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB7CEA1D062
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 05:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385D7A1D0C9
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 07:07:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 713F610E39C;
-	Mon, 27 Jan 2025 04:43:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2CB10E1D4;
+	Mon, 27 Jan 2025 06:07:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="bz4qALS4";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wg76r+aL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC71510E39C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 04:43:09 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50R1hUVG008471;
- Mon, 27 Jan 2025 04:43:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PVBHZ51bNXLyMIA5posqUMWv/2n+p+py1aBTQ5EgWvY=; b=bz4qALS4RATZ85oF
- OKz7eQ8d8qWvLwTwluSeSLCCfdK91kobDJG2MLXQWPbV3hO7KtDPprHs6h+10Hx/
- OYKV5RDd1KSHWh7bJxWLNS2aq0vr33ssACnIjG+yLhHqIjI/NUYu0CjGq/1Z3W56
- 5bG+Hp5gu8Be5elGXSL1TZF9gKv3jEM9ePvxVzKzPw//ANNLcKN9EL//+loq8Bzp
- ozqnCCXJZjvGpv0ZRw2fEunxEsnK6RX52Y64P7qdh7af1Z2S/14WS1C5/JrhUHFR
- n9CDbhd1xS1MHayT6Rt4xvidgnkH8E/66BfMAAmDWVrA+Jdaz4yuVi/9rgRdQIb6
- 24adJg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44dhu9h4fp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jan 2025 04:43:05 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50R4h5a6003164
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Jan 2025 04:43:05 GMT
-Received: from hu-ekangupt-hyd.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 26 Jan 2025 20:43:02 -0800
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-To: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>
-CC: <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-Subject: [PATCH v2 5/5] misc: fastrpc: Modify context id mask to support
- polling mode
-Date: Mon, 27 Jan 2025 10:12:39 +0530
-Message-ID: <20250127044239.578540-6-quic_ekangupt@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250127044239.578540-1-quic_ekangupt@quicinc.com>
-References: <20250127044239.578540-1-quic_ekangupt@quicinc.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D976610E1D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:07:50 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 981F9496;
+ Mon, 27 Jan 2025 07:06:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1737958002;
+ bh=1PaZnQBrTgFdzNwyFGepkFiUf9DmyMOVozBizg170xA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=wg76r+aLaFMHJluyTdjsdq+Inq2rF8WaS13E1+T6WTus5cN3mHgPYCKYKmAyFUcwf
+ LruXKaGbye7fMI4VJDL5/tACuukhXEf+qbB5dXx15WCUsSOEcVouiEpLea6BTeSBy5
+ 5MfnZLdJTtA8GQI3XY0xYDfbw6L0BkK9FtHnXlU8=
+Date: Mon, 27 Jan 2025 08:07:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Leonardo =?utf-8?B?QnLDoXM=?= <leobras.c@gmail.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Vignesh Raman <vignesh.raman@collabora.com>,
+ kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org,
+ dave.pigott@collabora.com, mripard@kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kselftest@vger.kernel.org, pawiecz@collabora.com,
+ tales.aparecida@gmail.com, workflows@vger.kernel.org,
+ kunit-dev@googlegroups.com, nfraprado@collabora.com,
+ davidgow@google.com, cocci@inria.fr, Julia.Lawall@inria.fr,
+ kernel@collabora.com, torvalds@linuxfoundation.org,
+ gregkh@linuxfoundation.org, daniels@collabora.com,
+ shreeya.patel@collabora.com, denys.f@collabora.com,
+ louis.chauvet@bootlin.com, hamohammed.sa@gmail.com,
+ melissa.srw@gmail.com, simona@ffwll.ch, airlied@gmail.com,
+ Tim.Bird@sony.com, broonie@kernel.org, groeck@google.com,
+ rdunlap@infradead.org, geert@linux-m68k.org,
+ michel.daenzer@mailbox.org, sakari.ailus@iki.fi, jarkko@kernel.org
+Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
+ Kernel Testing
+Message-ID: <20250127060738.GA16795@pendragon.ideasonboard.com>
+References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
+ <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
+ <20250124081250.GA24731@pendragon.ideasonboard.com>
+ <20250124135203.040d0852@foz.lan>
+ <20250124130021.GA6853@pendragon.ideasonboard.com>
+ <f1c73327073c98ade56dfeabf629e2f9cd7d1663.camel@collabora.com>
+ <bd37528d1c704951cb86a751a5c81e4c76962f51.camel@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ymuqKnocGz3csGc394CVVg3fv5yH0Fms
-X-Proofpoint-ORIG-GUID: ymuqKnocGz3csGc394CVVg3fv5yH0Fms
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-27_01,2025-01-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- phishscore=0 adultscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
- clxscore=1015 mlxscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501270036
+In-Reply-To: <bd37528d1c704951cb86a751a5c81e4c76962f51.camel@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,57 +78,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSP needs last 4 bits of context id to be 0 for polling mode to be
-supported as setting of last 8 is intended for async mode(not yet
-supported on upstream driver) and setting these bits restrics
-writing to poll memory from DSP. Modify context id mask to ensure
-polling mode is supported.
+On Fri, Jan 24, 2025 at 06:12:24PM -0300, Leonardo Brás wrote:
+> On Fri, 2025-01-24 at 10:45 -0500, Nicolas Dufresne wrote:
+> > Le vendredi 24 janvier 2025 à 15:00 +0200, Laurent Pinchart a écrit :
+> > > On Fri, Jan 24, 2025 at 01:52:03PM +0100, Mauro Carvalho Chehab wrote:
+> > > > Em Fri, 24 Jan 2025 10:12:50 +0200 Laurent Pinchart escreveu:
+> > > > 
+> > > > > > It's been a few years since I first thought on finding a good way of helping
+> > > > > > kernel developers testing their patches, while making use of the free runner
+> > > > > > minutes Gitlab offers. It can greatly simplify the testing for people who are
+> > > > > > new to kernel development, or students trying to understand it better.
+> > > > > > 
+> > > > > > And this patchset allows that to happen :)
+> > > > > > 
+> > > > > > Actually, I spoke to Helen last year, and to enable it to run on the free
+> > > > > > Gitlab-CI runners, there is a small extra patch which is needed:
+> > > > > > 
+> > > > > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/  
+> > > > 
+> > > > Sounds interesting!
+> > > > 
+> > > > > Gitlab as an open-source software project (the community edition) is one
+> > > > > thing, but can we please avoid advertising specific proprietary services
+> > > > > in the kernel documentation ?
+> > > > 
+> > > > Every time Gitlab is mentioned, the brand of the company that
+> > > > developed it and has been providing proprietary services is also
+> > > > advertised. If you're not happy with that, you should move to use
+> > > > a git forge developed by some open source community.
+> > > 
+> > > I'm fine mentioning the gitlab community edition, I'm not fine
+> > > advertising gitlab.com SaaS in the kernel source tree.
+> 
+> Hello Laurent,
+> 
+> I see your point, and I see no issue on removing the two last lines of CI_TAGS
+> documentation.
+> 
+> I just added this information on documentation because the default runner used
+> for the Free Tier of Gitlab does not work for this CI, as it needs more
+> resources to run. This information can be added on some other place, but at the
+> time I thought it would be ok to let it be there. 
+> This other runner I mentioned in the patch is also available on the Free Tier
+> (free as in beer).
+> 
+> I would like to make it clear that I have no connection/affiliation to Gitlab,
+> other than a free account in their system, which I use for some CI. I have no
+> interest on advertising anything from them.
+> 
+> My only objective is to make it easier to hobbyists/beginners to use those
+> available free minutes to test some change before sending the patch, if they
+> think that's valuable.
 
-Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
----
- drivers/misc/fastrpc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Given the 400 free computes minute per month, and the fact that the
+saas-linux-medium-amd64 runner consumers two minutes per minute, how
+many of the proposed CI runs would be available per month ?
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 257a741af115..ef56c793c564 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -40,7 +40,7 @@
- #define FASTRPC_INIT_HANDLE	1
- #define FASTRPC_DSP_UTILITIES_HANDLE	2
- #define FASTRPC_MAX_STATIC_HANDLE (20)
--#define FASTRPC_CTXID_MASK (0xFF0)
-+#define FASTRPC_CTXID_MASK (0xFF0000)
- #define INIT_FILELEN_MAX (2 * 1024 * 1024)
- #define INIT_FILE_NAMELEN_MAX (128)
- #define FASTRPC_DEVICE_NAME	"fastrpc"
-@@ -524,7 +524,7 @@ static void fastrpc_context_free(struct kref *ref)
- 		fastrpc_buf_free(ctx->buf);
- 
- 	spin_lock_irqsave(&cctx->lock, flags);
--	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 4);
-+	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 16);
- 	spin_unlock_irqrestore(&cctx->lock, flags);
- 
- 	kfree(ctx->maps);
-@@ -664,7 +664,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
- 		spin_unlock_irqrestore(&cctx->lock, flags);
- 		goto err_idr;
- 	}
--	ctx->ctxid = ret << 4;
-+	ctx->ctxid = ret << 16;
- 	spin_unlock_irqrestore(&cctx->lock, flags);
- 
- 	kref_init(&ctx->refcount);
-@@ -2675,7 +2675,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
- 	if (len < sizeof(*rsp))
- 		return -EINVAL;
- 
--	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 4);
-+	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 16);
- 
- 	spin_lock_irqsave(&cctx->lock, flags);
- 	ctx = idr_find(&cctx->ctx_idr, ctxid);
+CI pipeline runs always compile the kernel from scratch as far as  can
+see. This may not be an issue for final testing before submission of a
+patch series, but it just won't work for incremental testing of changes.
+Think of how inefficient it would be to run a full pipeline just to get
+the checkpatch.pl output for instance. This is why I believe tests
+should focus first and foremost on ease of use in developers' local
+environments. A standardized, from-scratch, comprehensive test run as a
+gate keeper for integration has value as well, but that won't help
+beginners much.
+
+> > I've just looked attentively, the intention is just to explain you may need to
+> > set gitlab variable in your project fork in order to select correctly sized
+> > sized runners in your own instance.
+> 
+> That's correct
+> 
+> >  Its is not strictly about commercial gitlab.com instance. 
+> 
+> Exactly, the change is about being able to choose the runner you want.
+> 
+> > The default only works with the original project used
+> > instance (which is not gitlab.com as far as I know), but the comment refer to
+> > companies that will choose gitlab.com internally to reduce their IT cost.
+> 
+> Correct.
+> Companies can benefit on that, but my focus was on hobbyist (or begginers) who
+> may want to test their patches on free CI before sending them to the ML.
+> 
+> > Its quite a stretch to call this "advertisement", that makes it looks very
+> > dramatic. I personally believe its quite ahead of most other gitlab CI to take
+> > into consideration running these pipelines on foreign (to the project)
+> > instances.
+> >
+> > > > The way I see, the best would be if the CI integration could work
+> > > > with more than one type of forge and being able to use any
+> > > > free Git??b-CI runners that would be available for developers to
+> > > > use, as this would allow testing more subsystems with CI, thus
+> > > > increasing code quality.
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
