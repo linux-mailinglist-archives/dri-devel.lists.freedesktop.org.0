@@ -2,60 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0B1A1D7BB
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:06:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3F5A1D7C2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Jan 2025 15:08:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D9CC10E529;
-	Mon, 27 Jan 2025 14:06:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B01A310E531;
+	Mon, 27 Jan 2025 14:08:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="f5aYxZi8";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Qwv+YrDv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7A9B10E529
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:06:45 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1737986798; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=UqC+YuTnDdMspnAY9QtXZSMljXzmaC8rdaVVdqsDANxS3+TKSu8QZ+PErbr4twUK4wZ3njEsJcDkYgrYwzjuqzELsN/QhlgukvOxsGUF4V7MVITlx4AMY9YtmAXWM+VJHSpZwKmM1pJ3wQKFX6lLxScnJTqosjLnl9qVb35Me+E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1737986798;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=edFuHZhRYMEhHL0TZy0kmM+Q/6nzbl4nwU8KM/Phlp8=; 
- b=TTdHGDlRuUoofC0mZLNB9eWpWqctcwZYg/zODWzJl6bcZBbu4a5LK9hjTkIV3EwiLLrnb8aEQFXppUA/1N741EuoGPhIbHh6m9u12+wJXSbyw9IJHYBpcTpbndtWoQ+I8kpRjXwLVV2ITtBfgN1S6RTXcxk9tAmArCKIIul+f0M=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737986798; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=edFuHZhRYMEhHL0TZy0kmM+Q/6nzbl4nwU8KM/Phlp8=;
- b=f5aYxZi84xSZg00Mxo0orHKKMM5I0lLhhMJvrK/O0EhF8I1sPb0pqwp7etB9CAJx
- lVfCXUOnqjzjgT1Xz/bnCUqBkdYvn4F8I5TaarqPawQQm1GHzRv6dgYAc1mUJGzXNo7
- LWHLPuN1oAsEL+8uOr4ErUb52QBExTw+xQzBUgg4=
-Received: by mx.zohomail.com with SMTPS id 1737986791344122.34844599780763;
- Mon, 27 Jan 2025 06:06:31 -0800 (PST)
-Date: Mon, 27 Jan 2025 14:06:27 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- Mihail Atanassov <mihail.atanassov@arm.com>, nd@arm.com
-Subject: Re: [RFC v2 4/8] drm/panthor: Add panthor perf ioctls
-Message-ID: <eqt4prsabmlacdbdepk47ef4nojjdlzrv3djqinfsphrfwgvp5@54d6ritzd2gu>
-References: <20241211165024.490748-1-lukas.zapolskas@arm.com>
- <20241211165024.490748-5-lukas.zapolskas@arm.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE44210E531
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 14:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1737986883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zR8Lw8IGEDS84mnZ2x73Xq3Ymaut8qRwt5YhN2RHp0g=;
+ b=Qwv+YrDvLLdpr0/IaEkQW95RZsTSyS0VJSqtoWtmPwKmSXyNBQeDLkDZNtgEwjFHIeIA/m
+ K7tsaquZRv5opD/tTOFAhWXOPGFKHF7CvDk/TMARL5HX2dr5PRR90mQuSfXNoELIMBkIuu
+ xDqABkh5eYXW3i6npaG94T6ZD875hKQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-646-QMMRZ-XnPhmSRg9rsOy0UA-1; Mon, 27 Jan 2025 09:08:00 -0500
+X-MC-Unique: QMMRZ-XnPhmSRg9rsOy0UA-1
+X-Mimecast-MFC-AGG-ID: QMMRZ-XnPhmSRg9rsOy0UA
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-385e03f54d0so1755549f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 06:07:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1737986878; x=1738591678;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=zR8Lw8IGEDS84mnZ2x73Xq3Ymaut8qRwt5YhN2RHp0g=;
+ b=gcEdCJvFtYr2liVygeoyXOOTNkT0q5ebe0Y2vbqcn1rC50bMBaE48SixwaCEw7pEhQ
+ ZYmppYj1YAFQmj3julsXiR4yStG8gjEsprjT66Nfx6Im/86j/j5t/1OZbIDmjCobgck3
+ aYsR0Qng3x6am2mutiJ6OsHJ6vNd104Equdp2QcotjHHFdXsB75nT4i7l5kYK68uWjBr
+ IlSVx23IYIgVW6uE4wWBIuO+n2vbTLyhYQFkSCD6GvlrFbc1F9jpLTpp4JNVcGsG7HkI
+ FBm18YqSa9BqT7IBHdajXoEeXO/hes2x0H/BfBcNSMJ1GaHEbWYg1vu9n/RQtNlmUDh/
+ ygaQ==
+X-Gm-Message-State: AOJu0Yy7960MzjSmRqHum+psRsh+wB7YX+33Cti79xvabXTidBfNaSZb
+ Olh7KU+Qi2O3gyACpaj7NDU3ku6M/9OALvb9yNAzHAwM6gxwDjF+QNmSZjQqzOOqyTl+zGGzlIk
+ dhHJxssrmfDqs8UkmY2IvqrzvU8uFzKDv2cK3PhJrA/+cxtWMzwHjp3U+EYMTYYg6Ag==
+X-Gm-Gg: ASbGncsaGubsIbYMFFeQryS0oo4EIVYck1WENtlpPeWJbtbBU0UPZpKL0hr9fo2wgir
+ iDKWjrqyarTCuequGrRbh97rawjziQhA0A68MOjGmRZ8NevTnuHA5MPlEoRC4z2rWx1b4fQSwq7
+ Uw8cxX41HR3JK6/b+i9rZPUix5eIpz967NwzGIWYZsf36kC7QaoP8CQ8oo2MBU47S2hK0U6+IPr
+ OqtVfqqFvGSVhGXcE+0auOfoYSp+tA96wPs+DCGtW4MFWUKmy1DCdDKyGmnKXMJe0CBdccbGM95
+ J7PPi6eUAHmLn1VeEgItlPPNcEpOj25H4pqsLg5AhmDU
+X-Received: by 2002:a5d:6b8b:0:b0:38a:8b2c:53ac with SMTP id
+ ffacd0b85a97d-38bf57b3fe9mr27112551f8f.42.1737986878511; 
+ Mon, 27 Jan 2025 06:07:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEE3g8f4oZ3mR7Gu+X5ihE0o/p/nxzvRr76U53vdHbo533RF2hLIvkpnKEtGmuyjpJGP5WYSA==
+X-Received: by 2002:a5d:6b8b:0:b0:38a:8b2c:53ac with SMTP id
+ ffacd0b85a97d-38bf57b3fe9mr27112512f8f.42.1737986878119; 
+ Mon, 27 Jan 2025 06:07:58 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c2a188a61sm11357664f8f.52.2025.01.27.06.07.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jan 2025 06:07:57 -0800 (PST)
+Message-ID: <83d74018-0029-413b-ac6b-77658b109e4a@redhat.com>
+Date: Mon, 27 Jan 2025 15:07:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241211165024.490748-5-lukas.zapolskas@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/ast: astdp: Fix timeout for enabling video signal
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org, stable@vger.kernel.org
+References: <20250127134423.84266-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250127134423.84266-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 4IU4msPfpUNm6aZPJ1TXdkLGWZBV6qBEYwyO90ccUIc_1737986878
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,340 +99,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11.12.2024 16:50, Lukas Zapolskas wrote:
-> This patch implements the PANTHOR_PERF_CONTROL ioctl series, and
-> a PANTHOR_GET_UOBJ wrapper to deal with the backwards and forwards
-> compatibility of the uAPI.
+On 27/01/2025 14:44, Thomas Zimmermann wrote:
+> The ASTDP transmitter sometimes takes up to second for enabling the
+> video signal, while the timeout is only 200 msec. This results in a
+> kernel error message. Increase the timeout to 1 second. An example
+> of the error message is shown below.
 > 
-> Stub function definitions are added to ensure the patch builds on its own,
-> and will be removed later in the series.
+> [  697.084433] ------------[ cut here ]------------
+> [  697.091115] ast 0000:02:00.0: [drm] drm_WARN_ON(!__ast_dp_wait_enable(ast, enabled))
+> [  697.091233] WARNING: CPU: 1 PID: 160 at drivers/gpu/drm/ast/ast_dp.c:232 ast_dp_set_enable+0x123/0x140 [ast]
+> [...]
+> [  697.272469] RIP: 0010:ast_dp_set_enable+0x123/0x140 [ast]
+> [...]
+> [  697.415283] Call Trace:
+> [  697.420727]  <TASK>
+> [  697.425908]  ? show_trace_log_lvl+0x196/0x2c0
+> [  697.433304]  ? show_trace_log_lvl+0x196/0x2c0
+> [  697.440693]  ? drm_atomic_helper_commit_modeset_enables+0x30a/0x470
+> [  697.450115]  ? ast_dp_set_enable+0x123/0x140 [ast]
+> [  697.458059]  ? __warn.cold+0xaf/0xca
+> [  697.464713]  ? ast_dp_set_enable+0x123/0x140 [ast]
+> [  697.472633]  ? report_bug+0x134/0x1d0
+> [  697.479544]  ? handle_bug+0x58/0x90
+> [  697.486127]  ? exc_invalid_op+0x13/0x40
+> [  697.492975]  ? asm_exc_invalid_op+0x16/0x20
+> [  697.500224]  ? preempt_count_sub+0x14/0xc0
+> [  697.507473]  ? ast_dp_set_enable+0x123/0x140 [ast]
+> [  697.515377]  ? ast_dp_set_enable+0x123/0x140 [ast]
+> [  697.523227]  drm_atomic_helper_commit_modeset_enables+0x30a/0x470
+> [  697.532388]  drm_atomic_helper_commit_tail+0x58/0x90
+> [  697.540400]  ast_mode_config_helper_atomic_commit_tail+0x30/0x40 [ast]
+> [  697.550009]  commit_tail+0xfe/0x1d0
+> [  697.556547]  drm_atomic_helper_commit+0x198/0x1c0
 > 
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
+> This is a cosmetical problem. Enabling the video signal still works
+> even with the error message. The problem has always been present, but
+> only recent versions of the ast driver warn about missing the timeout.
+
+Thanks, it looks good to me.
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 4e29cc7c5c67 ("drm/ast: astdp: Replace ast_dp_set_on_off()")
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: <stable@vger.kernel.org> # v6.13+
 > ---
->  drivers/gpu/drm/panthor/panthor_drv.c  | 155 ++++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_perf.c |  34 ++++++
->  drivers/gpu/drm/panthor/panthor_perf.h |  19 +++
->  3 files changed, 206 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/ast/ast_dp.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index e0ac3107c69e..458175f58b15 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -7,6 +7,7 @@
->  #include <asm/arch_timer.h>
->  #endif
->  
-> +#include <linux/cleanup.h>
->  #include <linux/list.h>
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
-> @@ -31,6 +32,7 @@
->  #include "panthor_gpu.h"
->  #include "panthor_heap.h"
->  #include "panthor_mmu.h"
-> +#include "panthor_perf.h"
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
->  
-> @@ -73,6 +75,39 @@ panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const v
->  	return 0;
->  }
->  
-> +/**
-> + * panthor_get_uobj() - Copy kernel object to user object.
-> + * @usr_ptr: Users pointer.
-> + * @usr_size: Size of the user object.
-> + * @min_size: Minimum size for this object.
-> + *
-> + * Helper automating kernel -> user object copies.
-> + *
-> + * Don't use this function directly, use PANTHOR_UOBJ_GET() instead.
-> + *
-> + * Return: valid pointer on success, an encoded error code otherwise.
-> + */
-> +static void*
-> +panthor_get_uobj(u64 usr_ptr, u32 usr_size, u32 min_size)
-> +{
-> +	int ret;
-> +	void *out_alloc __free(kvfree) = NULL;
-> +
-> +	/* User size shouldn't be smaller than the minimal object size. */
-> +	if (usr_size < min_size)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	out_alloc = kvmalloc(min_size, GFP_KERNEL);
-> +	if (!out_alloc)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret = copy_struct_from_user(out_alloc, min_size, u64_to_user_ptr(usr_ptr), usr_size);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return_ptr(out_alloc);
-> +}
-> +
->  /**
->   * panthor_get_uobj_array() - Copy a user object array into a kernel accessible object array.
->   * @in: The object array to copy.
-> @@ -176,8 +211,11 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
-> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks))
-> -
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_setup, shader_enable_mask), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_start, user_data), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_stop, user_data), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_sample, user_data))
->  
->  /**
->   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
-> @@ -192,6 +230,24 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
->  			 PANTHOR_UOBJ_MIN_SIZE(_src_obj), \
->  			 sizeof(_src_obj), &(_src_obj))
->  
-> +/**
-> + * PANTHOR_UOBJ_GET() - Copies a user object from _usr_ptr to a kernel accessible _dest_ptr.
-> + * @_dest_ptr: Local varialbe
-> + * @_usr_size: Size of the user object.
-> + * @_usr_ptr: The pointer of the object in userspace.
-> + *
-> + * Return: Error code. See panthor_get_uobj().
-> + */
-> +#define PANTHOR_UOBJ_GET(_dest_ptr, _usr_size, _usr_ptr) \
-> +	({ \
-> +		typeof(_dest_ptr) _tmp; \
-> +		_tmp = panthor_get_uobj(_usr_ptr, _usr_size, \
-> +				PANTHOR_UOBJ_MIN_SIZE(_tmp[0])); \
-> +		if (!IS_ERR(_tmp)) \
-> +			_dest_ptr = _tmp; \
-> +		PTR_ERR_OR_ZERO(_tmp); \
-> +	})
-> +
->  /**
->   * PANTHOR_UOBJ_GET_ARRAY() - Copy a user object array to a kernel accessible
->   * object array.
-> @@ -1339,6 +1395,99 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
->  	return 0;
->  }
->  
-> +static int panthor_ioctl_perf_control(struct drm_device *ddev, void *data,
-> +		struct drm_file *file)
-> +{
-> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_perf_control *args = data;
-> +	int ret;
-> +
-> +	if (!args->pointer) {
-> +		switch (args->cmd) {
-> +		case DRM_PANTHOR_PERF_COMMAND_SETUP:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_setup);
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
-> +			args->size = 0;
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_START:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_start);
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_STOP:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_stop);
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_sample);
-> +			return 0;
-> +
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	switch (args->cmd) {
-> +	case DRM_PANTHOR_PERF_COMMAND_SETUP:
-> +	{
-> +		struct drm_panthor_perf_cmd_setup *setup_args __free(kvfree) = NULL;
-> +
-> +		ret = PANTHOR_UOBJ_GET(setup_args, args->size, args->pointer);
-> +		if (ret)
-> +			return -EINVAL;
-> +
-> +		if (setup_args->pad[0])
-> +			return -EINVAL;
-> +
-> +		ret = panthor_perf_session_setup(ptdev, ptdev->perf, setup_args, pfile);
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index 30aad5c0112a1..2d7482a65f62a 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -201,7 +201,7 @@ static bool __ast_dp_wait_enable(struct ast_device *ast, bool enabled)
+>   	if (enabled)
+>   		vgacrdf_test |= AST_IO_VGACRDF_DP_VIDEO_ENABLE;
+>   
+> -	for (i = 0; i < 200; ++i) {
+> +	for (i = 0; i < 1000; ++i) {
+>   		if (i)
+>   			mdelay(1);
+>   		vgacrdf = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xdf,
 
-Shouldn't we return the session id as an output param in setup_args or is the
-ioctl's return value enough for this?
-
-> +
-> +		return ret;
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
-> +	{
-> +		return panthor_perf_session_teardown(pfile, ptdev->perf, args->handle);
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_START:
-> +	{
-> +		struct drm_panthor_perf_cmd_start *start_args __free(kvfree) = NULL;
-> +
-> +		ret = PANTHOR_UOBJ_GET(start_args, args->size, args->pointer);
-> +		if (ret)
-> +			return -EINVAL;
-> +
-> +		return panthor_perf_session_start(pfile, ptdev->perf, args->handle,
-> +				start_args->user_data);
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_STOP:
-> +	{
-> +		struct drm_panthor_perf_cmd_stop *stop_args __free(kvfree) = NULL;
-> +
-> +		ret = PANTHOR_UOBJ_GET(stop_args, args->size, args->pointer);
-> +		if (ret)
-> +			return -EINVAL;
-> +
-> +		return panthor_perf_session_stop(pfile, ptdev->perf, args->handle,
-> +				stop_args->user_data);
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
-> +	{
-> +		struct drm_panthor_perf_cmd_sample *sample_args __free(kvfree) = NULL;
-> +
-> +		ret = PANTHOR_UOBJ_GET(sample_args, args->size, args->pointer);
-> +		if (ret)
-> +			return -EINVAL;
-> +
-> +		return panthor_perf_session_sample(pfile, ptdev->perf, args->handle,
-> +					sample_args->user_data);
-> +	}
-
-For the three cases above, you could define a macro like:
-
-#define perf_cmd(command)							\
-	({								\
-		struct drm_panthor_perf_cmd_##command * command##_args __free(kvfree) = NULL; \
-									\
-		ret = PANTHOR_UOBJ_GET(command##_args, args->size, args->pointer); \
-		if (ret)						\
-			return -EINVAL;					\
-		return panthor_perf_session_##command(pfile, ptdev->perf, args->handle, command##_args->user_data); \
-	})
-
-	and then do 'perf_cmd(command);' inside each one of them
-
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
->  static int
->  panthor_open(struct drm_device *ddev, struct drm_file *file)
->  {
-> @@ -1386,6 +1535,7 @@ panthor_postclose(struct drm_device *ddev, struct drm_file *file)
->  
->  	panthor_group_pool_destroy(pfile);
->  	panthor_vm_pool_destroy(pfile);
-> +	panthor_perf_session_destroy(pfile, pfile->ptdev->perf);
-
-I would perhaps do this first because pools are first created during file
-opening, just to undo things in the opposite sequence.
->  
->  	kfree(pfile);
->  	module_put(THIS_MODULE);
-> @@ -1408,6 +1558,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
->  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(PERF_CONTROL, perf_control, DRM_RENDER_ALLOW),
->  };
->  
->  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.c b/drivers/gpu/drm/panthor/panthor_perf.c
-> index e0dc6c4b0cf1..6498279ec036 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.c
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.c
-> @@ -63,6 +63,40 @@ void panthor_perf_info_init(struct panthor_device *ptdev)
->  	perf_info->shader_blocks = hweight64(ptdev->gpu_info.shader_present);
->  }
->  
-> +int panthor_perf_session_setup(struct panthor_device *ptdev, struct panthor_perf *perf,
-> +		struct drm_panthor_perf_cmd_setup *setup_args,
-> +		struct panthor_file *pfile)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +int panthor_perf_session_teardown(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +int panthor_perf_session_start(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid, u64 user_data)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +int panthor_perf_session_stop(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid, u64 user_data)
-> +{
-> +		return -EOPNOTSUPP;
-> +}
-> +
-> +int panthor_perf_session_sample(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid, u64 user_data)
-> +{
-> +	return -EOPNOTSUPP;
-> +
-> +}
-> +
-> +void panthor_perf_session_destroy(struct panthor_file *pfile, struct panthor_perf *perf) { }
-> +
->  /**
->   * panthor_perf_init - Initialize the performance counter subsystem.
->   * @ptdev: Panthor device
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.h b/drivers/gpu/drm/panthor/panthor_perf.h
-> index 90af8b18358c..bfef8874068b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.h
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.h
-> @@ -5,11 +5,30 @@
->  #ifndef __PANTHOR_PERF_H__
->  #define __PANTHOR_PERF_H__
->  
-> +#include <linux/types.h>
-> +
-> +struct drm_gem_object;
-> +struct drm_panthor_perf_cmd_setup;
->  struct panthor_device;
-> +struct panthor_file;
-> +struct panthor_perf;
->  
->  void panthor_perf_info_init(struct panthor_device *ptdev);
->  
->  int panthor_perf_init(struct panthor_device *ptdev);
->  void panthor_perf_unplug(struct panthor_device *ptdev);
->  
-> +int panthor_perf_session_setup(struct panthor_device *ptdev, struct panthor_perf *perf,
-> +		struct drm_panthor_perf_cmd_setup *setup_args,
-> +		struct panthor_file *pfile);
-> +int panthor_perf_session_teardown(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid);
-> +int panthor_perf_session_start(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid, u64 user_data);
-> +int panthor_perf_session_stop(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid, u64 user_data);
-> +int panthor_perf_session_sample(struct panthor_file *pfile, struct panthor_perf *perf,
-> +		u32 sid, u64 user_data);
-> +void panthor_perf_session_destroy(struct panthor_file *pfile, struct panthor_perf *perf);
-> +
->  #endif /* __PANTHOR_PERF_H__ */
-> -- 
-> 2.25.1
-
-
-Adrian Larumbe
