@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C6CA210D8
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FFBA210B8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEF4E10E6F1;
-	Tue, 28 Jan 2025 18:22:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92DB210E317;
+	Tue, 28 Jan 2025 18:22:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="FaJCMhXq";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qifPuciL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id C3D2010E03F
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:21:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 29C7510E03F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:21:59 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id C988B2037179;
+ by linux.microsoft.com (Postfix) with ESMTPSA id EE39B203717A;
  Tue, 28 Jan 2025 10:21:57 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C988B2037179
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EE39B203717A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1738088517;
- bh=NnK20PmZCF3Ily6Bk4PfjyKx9tsw9Ltz3kRT5x7zGKM=;
+ s=default; t=1738088518;
+ bh=/EWqXlZOyaOm4g59VS89I2uqnGTUPl37w71b9X7s02o=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=FaJCMhXqnOBKCZK58/aDFyxpugTwuUI0zorVbM17ln8zh2Kidcw4dLV6kvgQrvjgC
- 0NTPud50z5k1yBSbcBf+9ThgyXzP902+ENnzRWcvFd3c3gCBEPcZA9Zr7F3/Xti+Lp
- 3eGcpMelp4xFNnrE38aQ+AoRxDphqgUTWgfcQdRE=
+ b=qifPuciLp6zYrAFWIRB9lwfoiORDq5Znn6Y1MZg447mRd521rUeXZX4ssO4a3zPi0
+ yIeJx+BuhYKeboGXzAtI2rktLS4vmUes2TtMU1tgSIC4k2CZaQfPx4pU+CBe+A2DVU
+ iFfDndGnNrrUEfvChktnE0Qma+AmmL/g2NBtRY68=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:48 +0000
-Subject: [PATCH 03/16] accel/habanalabs: convert timeouts to secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:49 +0000
+Subject: [PATCH 04/16] ALSA: ac97: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-3-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-4-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -101,70 +101,29 @@ expression E;
 
 -msecs_to_jiffies
 +secs_to_jiffies
- (E
+(E
 - * \( 1000 \| MSEC_PER_SEC \)
- )
+)
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/accel/habanalabs/common/command_submission.c | 2 +-
- drivers/accel/habanalabs/common/debugfs.c            | 2 +-
- drivers/accel/habanalabs/common/device.c             | 2 +-
- drivers/accel/habanalabs/common/habanalabs_drv.c     | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ sound/pci/ac97/ac97_codec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/accel/habanalabs/common/command_submission.c b/drivers/accel/habanalabs/common/command_submission.c
-index 59823e3c3bf7a4fafc0b112fd7b4b2209149973c..dee487724918554c24c3e78df4e8715dd1c73acd 100644
---- a/drivers/accel/habanalabs/common/command_submission.c
-+++ b/drivers/accel/habanalabs/common/command_submission.c
-@@ -2586,7 +2586,7 @@ int hl_cs_ioctl(struct drm_device *ddev, void *data, struct drm_file *file_priv)
- 		cs_seq = args->in.seq;
- 
- 	timeout = flags & HL_CS_FLAGS_CUSTOM_TIMEOUT
--			? msecs_to_jiffies(args->in.timeout * 1000)
-+			? secs_to_jiffies(args->in.timeout)
- 			: hpriv->hdev->timeout_jiffies;
- 
- 	switch (cs_type) {
-diff --git a/drivers/accel/habanalabs/common/debugfs.c b/drivers/accel/habanalabs/common/debugfs.c
-index ca7677293a55822f703a3a1cbf947c4c44fdc569..4b391807e5f2e2a2570a38b9dfdf6be4299dbfb6 100644
---- a/drivers/accel/habanalabs/common/debugfs.c
-+++ b/drivers/accel/habanalabs/common/debugfs.c
-@@ -1403,7 +1403,7 @@ static ssize_t hl_timeout_locked_write(struct file *f, const char __user *buf,
- 		return rc;
- 
- 	if (value)
--		hdev->timeout_jiffies = msecs_to_jiffies(value * 1000);
-+		hdev->timeout_jiffies = secs_to_jiffies(value);
- 	else
- 		hdev->timeout_jiffies = MAX_SCHEDULE_TIMEOUT;
- 
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 30277ae410d4b742ffb7bddc35498564ff96fe62..68eebed3b050f72f81e55b86da869b56b4cdeadf 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -2091,7 +2091,7 @@ int hl_device_cond_reset(struct hl_device *hdev, u32 flags, u64 event_mask)
- 	dev_dbg(hdev->dev, "Device is going to be hard-reset in %u sec unless being released\n",
- 		hdev->device_release_watchdog_timeout_sec);
- 	schedule_delayed_work(&hdev->device_release_watchdog_work.reset_work,
--				msecs_to_jiffies(hdev->device_release_watchdog_timeout_sec * 1000));
-+				secs_to_jiffies(hdev->device_release_watchdog_timeout_sec));
- 	hdev->reset_info.watchdog_active = 1;
- out:
- 	spin_unlock(&hdev->reset_info.lock);
-diff --git a/drivers/accel/habanalabs/common/habanalabs_drv.c b/drivers/accel/habanalabs/common/habanalabs_drv.c
-index 596c52e8aa266bf48e2be45e719adb202604577b..0035748f3228246da235f227b2cf3939d64af350 100644
---- a/drivers/accel/habanalabs/common/habanalabs_drv.c
-+++ b/drivers/accel/habanalabs/common/habanalabs_drv.c
-@@ -386,7 +386,7 @@ static int fixup_device_params(struct hl_device *hdev)
- 	hdev->fw_comms_poll_interval_usec = HL_FW_STATUS_POLL_INTERVAL_USEC;
- 
- 	if (tmp_timeout)
--		hdev->timeout_jiffies = msecs_to_jiffies(tmp_timeout * MSEC_PER_SEC);
-+		hdev->timeout_jiffies = secs_to_jiffies(tmp_timeout);
- 	else
- 		hdev->timeout_jiffies = MAX_SCHEDULE_TIMEOUT;
- 
+diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
+index 6e710dce5c6068ec20c2da751b6f5372ad1df211..88ac37739b7653f69af430dd0163f5ab4ddf0d0c 100644
+--- a/sound/pci/ac97/ac97_codec.c
++++ b/sound/pci/ac97/ac97_codec.c
+@@ -2461,8 +2461,7 @@ int snd_ac97_update_power(struct snd_ac97 *ac97, int reg, int powerup)
+ 		 * (for avoiding loud click noises for many (OSS) apps
+ 		 *  that open/close frequently)
+ 		 */
+-		schedule_delayed_work(&ac97->power_work,
+-				      msecs_to_jiffies(power_save * 1000));
++		schedule_delayed_work(&ac97->power_work, secs_to_jiffies(power_save));
+ 	else {
+ 		cancel_delayed_work(&ac97->power_work);
+ 		update_power_regs(ac97);
 
 -- 
 2.43.0
