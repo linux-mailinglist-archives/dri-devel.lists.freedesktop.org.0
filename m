@@ -2,89 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA82A20A08
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 12:58:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDE6A20A2F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 13:06:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D515C10E258;
-	Tue, 28 Jan 2025 11:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B65E710E642;
+	Tue, 28 Jan 2025 12:06:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Yex3qh3e";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bnwkqBBq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6C9A10E258
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 11:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738065499;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=58JOKwE3B4ptPErvwF68tQ+YT/gMYrRZ8LTZTTrEboE=;
- b=Yex3qh3eczFUydWPt/F5B33RzlDP4TiKejkW9kg2H8y8OxylSDwAaIPZiimZqg4a69rmWJ
- yC06eR1pl3LI0H7xVZHAzpyYHnDTPMF93tlIUaCNmhrnq3CNntN0zDzEn49ejk22TRcQUj
- LMmwL7+fs9l3VjQ2ybNMVTC+hhqinyA=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-A8jwwVPMNDq42-4wDmY6rw-1; Tue, 28 Jan 2025 06:58:17 -0500
-X-MC-Unique: A8jwwVPMNDq42-4wDmY6rw-1
-X-Mimecast-MFC-AGG-ID: A8jwwVPMNDq42-4wDmY6rw
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4679aeb21e6so92885651cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 03:58:17 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E72B10E642
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 12:06:03 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-540218726d5so5963566e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 04:06:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738065961; x=1738670761; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=qUyQVfWY0TcVLA75T8KrSwQy4er3JVk1Q3BfjVHWE9I=;
+ b=bnwkqBBq/PYnPqaT2ADoYD4bycCQ5nq1VrYiMRvFqQdpJe2NBffaYVnxLuuf4ZT52j
+ iAIbZIRtM2QbeNag0XO0uOkRjKoY2iN3Ot+mS+YsZqBInLHtq7fly69+AumBDvLWSKaF
+ AIb4dOFJzmfGPQCurwwRSra+Oxf30N9NBi/h1eJUU1PBHc2NTwWGHTNKMrzWLXHjVpVn
+ UZJCnYEe2LcFjHl56onRIqP9LKwx8ttdEkWbMrWsM3vi1jBdN+Nldo3WNiCGhuk8kKj5
+ uRXXsnl9VgmiibQfl4gPoYlIMBbdvd3+3RfkPav5MJw6cT0ohqJlAXB8vbXW/3Z49wf7
+ Wrrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738065497; x=1738670297;
+ d=1e100.net; s=20230601; t=1738065961; x=1738670761;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=58JOKwE3B4ptPErvwF68tQ+YT/gMYrRZ8LTZTTrEboE=;
- b=I2hPxSM6C5zp/2PlAiB80/6FTOaeLUrtGe/MFLr0hODrL1+n7XnauyX2WLmweAVg9m
- COJOII1b+M6m97SQ/9wIlUGe97x8nKpwgfj6uqwdVpNMa+5xozDLTGMe1mk3wQamUNOY
- 2JGMpYdFTu5hviSoBdwUEVDsW+jlbmkMgEoUHu4fPzl5V47IjtaLV4ukVLDmPg2IsSLr
- 3j1LrX5TwCawnW/xBKFg9gHFoB1uJII2IK7Kzjqfxov93RC25WR7RpyDEf98+jePAZfH
- /kwK/CapSwSCcKH+oHqqMCK9LfN5cc31bQqHiZ8umK/FLoOjmQSIHHGMVs8hY1t+Z3EW
- I5Aw==
+ bh=qUyQVfWY0TcVLA75T8KrSwQy4er3JVk1Q3BfjVHWE9I=;
+ b=dveVwkhHCR0T4v/Lshle40Dq4vYYWQ9D92QaualYwL3I6z1Ha1Xox6xtMVn+3Rebyg
+ B6iqQZJDZFpgxA7qiDvdZytoy8aZtSWxxFjWTWnNBGK4UfVys20oPzT9Gmc1hWoHtsb1
+ OM4SCVvbTlfUQ9hucvuXKo4wfr6F8zFmUSxYxHU/lnDTEBJTUp9dsdHFgLk9hCbO20Sg
+ +MIEIJm/mnDgjM5E7xiQbe2z8WC0Kmg6MPGFJ8ArqCLjdantDFqzfdb9om5RNYqlHxBp
+ rM7SHb9ENyEQZlT9AA+KOCtp9fmu4fdq2TlS8efAAdt0EmgktjzINWew6JxkluNSGjGC
+ 80zQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW2CWtc2+wmtCsIFmiMpXDuvMS2dj/8k1fyY12G34/N9InA1H6HGUcBgHhwr1UbWrNJRNCkru31CM8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxsMsCBvUweG+kKS8fidLkODAGIsO4WcmBWuOa6siasOXz4P7Bb
- y7Akh9W0Zxc9q/ppz7hZ1us/9HK0J+1EKmCWPNZTxNYqjj+E2GdQ5wehFcViYZsa7fI8Omq/bEH
- JBbwjd5AitKcRRXzpHRBAABf7hRQyFI8Vu5eul1deA2pUgvo7JPon5Vjh7gmZi2tCLg==
-X-Gm-Gg: ASbGncueGdoQAqm0ffyVD3vtqwJTZn6Lp2JbnJOf0vzA+PCe00uHo//AMUl3OPb4LON
- Yz7HVt/SxJRYYn/8yuyD6aS4booRiviiRoswV1ynt5BmLuBLcC+rvQ/uZRQIqOetuSm+4Cqf2/3
- hIzlBdEWBx69PUWcCGTSQBa59EDrPOiszlSq1sOUjp5uqjZShI3JfUtXbCmuRT/UeY6+uA+FKF/
- /cgTQpKHq3urCLCK21o8+TkiLuc7rEqqLqfM9KxQE/DbARafo+FNP4X4T1T11mSRakpID3iuUpd
- eQ==
-X-Received: by 2002:ac8:5746:0:b0:466:99a9:c354 with SMTP id
- d75a77b69052e-46e12a96f59mr584717071cf.22.1738065497399; 
- Tue, 28 Jan 2025 03:58:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHKTSZUkwKgOmc86HrQqzorzRgdDmzYgCb/05m4RKf7CKbWvot+1cHZpQJRxGbwHDuwrI8kug==
-X-Received: by 2002:ac8:5746:0:b0:466:99a9:c354 with SMTP id
- d75a77b69052e-46e12a96f59mr584716841cf.22.1738065497043; 
- Tue, 28 Jan 2025 03:58:17 -0800 (PST)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6e2051362b1sm44408026d6.19.2025.01.28.03.58.15
+ AJvYcCW2d4cKql337r85hIofAo/YDrA6YLjDJdg0hzGclsktIcvlIN7K6QyxlGzYqpCiS3u89jgP/Uy7ugI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YygwKyl71pneeMxMX3EfHivP9O5lWJaTj1s/FqWBrK0IiEawhjG
+ XzTi+Syj170FXgVvgQ28lsH3SrBFusxxM8ZRCQbcPRKmgz44tZtLUlEgcLYejHM=
+X-Gm-Gg: ASbGncukQTyQugk5WAyzBrR0BsNdfJNuq2HRuCO6Yi4BvZKHpB6LAvSWd6xhlFc9BAY
+ ozSLzc8VXmBeOtGa8NRB2uBCNfA799n+Mu+toST05GO1QYlU2O11K8IVdn/B/fV6qrAOK+P8+XV
+ CIgq9/UmF+dZG/SWrKeYn+zSFRKeZdM6RfqQlFUDKt9TCRg2IELUH2H8wzoAGI+eOOKFa4qI9y8
+ MuQkwdIT7dHDiRyWA1cpC/lxwHJP9Ae71IY6ORvNcMHT9RwBtokQtsdxfioOzsQd+S3PqAIsv5I
+ cQBO7sMow4/WLyuX6mZxYyKah7k+xQGbXZpilCStl5QBr96puEA0HzMbruBJ5g8RLnd+oDE=
+X-Google-Smtp-Source: AGHT+IHAsiYhaOuqsjBfo6+IiSS13eiK4EvcYmQzAODrNEPBRfk1wrbF7CuWTZhv/BBI0wyJGPOXUw==
+X-Received: by 2002:a05:6512:b94:b0:542:7217:361a with SMTP id
+ 2adb3069b0e04-5439c22c3bemr14203681e87.10.1738065961178; 
+ Tue, 28 Jan 2025 04:06:01 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-3076bc194cesm18324081fa.72.2025.01.28.04.05.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2025 03:58:16 -0800 (PST)
-Date: Tue, 28 Jan 2025 12:58:13 +0100
-From: Maxime Ripard <mripard@redhat.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH] MAINTAINERS: Update drm/rcar-du maintainers
-Message-ID: <wodib3ste3l7lsgjur4i4q6is6eoxxu4jazb7pern5yenwsyw4@np6ad5p5ofbp>
-References: <20250128-rcar-du-maintainers-v1-1-c429ca421c52@ideasonboard.com>
- <yvdba4secotjc4xvyophckuroywx6nv35kusdj3off3dsrnxr4@7buakt7wvten>
- <e92601be-a9c9-4aa7-a250-4e3514202e7b@ideasonboard.com>
+ Tue, 28 Jan 2025 04:06:00 -0800 (PST)
+Date: Tue, 28 Jan 2025 14:05:58 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: display/msm/dsi-phy: Add header with
+ exposed clock IDs
+Message-ID: <q7qrfmmzvs7uyleiuxzaahhawcgexbsyvi7edubpfmr6ompcw2@vj2j434qcwbf>
+References: <20250127132105.107138-1-krzysztof.kozlowski@linaro.org>
+ <4vy6tjdvhkplly3uqqekdmz6brkcbac6pijrn6gdyz4x3hralr@meeugoua2ats>
+ <7038f0a5-f7ae-44da-abee-bd04fecf74b4@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="nz4qsc4lc5t6os55"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e92601be-a9c9-4aa7-a250-4e3514202e7b@ideasonboard.com>
+In-Reply-To: <7038f0a5-f7ae-44da-abee-bd04fecf74b4@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,92 +104,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jan 27, 2025 at 03:37:05PM +0100, Krzysztof Kozlowski wrote:
+> On 27/01/2025 14:56, Dmitry Baryshkov wrote:
+> > On Mon, Jan 27, 2025 at 02:21:04PM +0100, Krzysztof Kozlowski wrote:
+> >> DSI phys, from earliest (28 nm) up to newest (3 nm) generation, provide
+> >> two clocks.  The respective clock ID is used by drivers and DTS, so it
+> >> should be documented as explicit ABI.
+> >>
+> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> >>
+> >> ---
+> >>
+> >> Patch for Display tree, although with Ack from clock.
+> >> ---
+> >>  .../devicetree/bindings/display/msm/dsi-phy-common.yaml  | 2 ++
+> >>  MAINTAINERS                                              | 1 +
+> >>  include/dt-bindings/clock/qcom,dsi-phy-28nm.h            | 9 +++++++++
+> >>  3 files changed, 12 insertions(+)
+> >>  create mode 100644 include/dt-bindings/clock/qcom,dsi-phy-28nm.h
+> >>
+> > 
+> >> diff --git a/include/dt-bindings/clock/qcom,dsi-phy-28nm.h b/include/dt-bindings/clock/qcom,dsi-phy-28nm.h
+> >> new file mode 100644
+> >> index 000000000000..ab94d58377a1
+> >> --- /dev/null
+> >> +++ b/include/dt-bindings/clock/qcom,dsi-phy-28nm.h
+> > 
+> > I think this should be dt-bindings/phy/qcom,foo.h
+> 
+> 
+> Both options - clock or phy - work for me, although with slight
+> preference of keeping foo constants only in foo (so clock -> clock)
+> because then clock maintainer sees it as well. Also because I would
+> judge by type of constants (so again clock constants -> clock
+> directory), not type of device. We have several MFD devices, like PMICs,
+> which have a clock, so bindings should go to mfd? But mfd is not a real
+> device, but Linux subsystem.
+> 
+> For many other archs, e.g Mediatek, pretty often even for the same
+> device, the binding headers are split between clock and reset. I know
+> that Qualcomm GCC has it in one file, with exceptions (ipq, qca8k). Also
+> these other archs have bindings file in e.g. soc or arm, but the header
+> in respective subsystem
+> 
+> With exceptions of am654 and pisatchio-usb headers, we don't store clock
+> constants in phy.
+> 
+> Unless someone insists or there is existing qcom convention, then I
+> rather prefer to keep it in clock.
 
---nz4qsc4lc5t6os55
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] MAINTAINERS: Update drm/rcar-du maintainers
-MIME-Version: 1.0
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On Tue, Jan 28, 2025 at 12:50:18PM +0200, Tomi Valkeinen wrote:
-> Hi,
->=20
-> On 28/01/2025 12:41, Maxime Ripard wrote:
-> > On Tue, Jan 28, 2025 at 12:28:48PM +0200, Tomi Valkeinen wrote:
-> > > Add myself as drm/rcar-du maintainer. Switch Kieran from a maintainer=
- to
-> > > reviewer.
-> > >=20
-> > > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > ---
-> > > Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> > > ---
-> > >   MAINTAINERS | 3 ++-
-> > >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index ed86d884ee0d..5b1bf5fd56fd 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -7760,7 +7760,8 @@ F:	include/uapi/drm/tegra_drm.h
-> > >   DRM DRIVERS FOR RENESAS R-CAR
-> > >   M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > -M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > > +M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > +R:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > >   L:	dri-devel@lists.freedesktop.org
-> > >   L:	linux-renesas-soc@vger.kernel.org
-> > >   S:	Supported
-> >=20
-> > If I understood right that email
-> > https://lore.kernel.org/dri-devel/096e85a5-30d9-4b53-bdcd-a70cde6baa4f@=
-ideasonboard.com/
-> >=20
-> > rcar-du is now de-facto under the drm-misc umbrella. It should be docum=
-ented as well.
->=20
-> Good point. I believe this should be enough?
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5b1bf5fd56fd..16af21c3a48a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7604,7 +7604,6 @@ X:        drivers/gpu/drm/mediatek/
->  X:     drivers/gpu/drm/msm/
->  X:     drivers/gpu/drm/nouveau/
->  X:     drivers/gpu/drm/radeon/
-> -X:     drivers/gpu/drm/renesas/rcar-du/
->  X:     drivers/gpu/drm/tegra/
->=20
->  DRM DRIVERS FOR ALLWINNER A10
-> @@ -7765,7 +7764,7 @@ R:        Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com>
->  L:     dri-devel@lists.freedesktop.org
->  L:     linux-renesas-soc@vger.kernel.org
->  S:     Supported
-> -T:     git git://linuxtv.org/pinchartl/media drm/du/next
-> +T:     git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:
-> Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
->  F: Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
->  F:     Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
 
-Yep, looks good
-
-Maxime
-
---nz4qsc4lc5t6os55
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5jGVQAKCRAnX84Zoj2+
-dhmNAYDI5MP+ScIvUhwMsGGqQWPQyGu/TzTWDO0PMsojy0wyohVcLHkHCJMy2ubD
-7qFod+8Bf0q0Wzr/F5h8mMzRx+KPNI5I84PVhUnR5j/zNQGxPwevlLAWxrIh4u8E
-jiv9JJ1+5g==
-=CMv+
------END PGP SIGNATURE-----
-
---nz4qsc4lc5t6os55--
-
+-- 
+With best wishes
+Dmitry
