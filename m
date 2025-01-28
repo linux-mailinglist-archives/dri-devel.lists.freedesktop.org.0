@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27406A210BB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5511DA210CA
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB5D10E2EA;
-	Tue, 28 Jan 2025 18:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3ECC710E6E5;
+	Tue, 28 Jan 2025 18:22:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="LxxdIayM";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rfpPyd5u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 73F7710E043
+ by gabe.freedesktop.org (Postfix) with ESMTP id BB65910E043
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:21:59 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 1D482203717B;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 42B3F203717C;
  Tue, 28 Jan 2025 10:21:58 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1D482203717B
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 42B3F203717C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1738088518;
- bh=CFb4XrnDSERyLmvQoVXwUxR+JwVzCZvuuqJLbnh8AHY=;
+ bh=T5lTYOdqZ18PkVPGKayEf1CtNzfnccen/5GASjCaKq8=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=LxxdIayMSyUMAUeZUUnUyY3SQxVmwYY5Yyy03OWU22J18lbSyq7bmmWrhs+09j8qK
- AdDxUAv3Opt8Wt6axGPYWRpk6/ENme+ZBSlX8IppgdX/yiYG+JdoRJjp8kHw8DUyuj
- x3rFLX3PefulMBej9H+RgFZR+bApgqLL7hw3/Tgc=
+ b=rfpPyd5u2ZlUcIwQygPeTjz3YVe0bsvVHvz8oTJmztLsU9la/gkLXe+572rOIv/gB
+ i7G5iRnJ4ApNulfyRHe7j7M91b9gXSmWOIpvgx9y6je8Dp4x/KKRzHQhcPHDtnmULj
+ WHUHoPOTUtxAhJC69Tbiyelh7/Qnkg0BPCHLyWN4=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:50 +0000
-Subject: [PATCH 05/16] btrfs: convert timeouts to secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:51 +0000
+Subject: [PATCH 06/16] rbd: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-5-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-6-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -107,34 +107,34 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- fs/btrfs/disk-io.c | 6 +++---
+ drivers/block/rbd.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
-index f09db62e61a1b0e2b8b319f9605883fe0c86cf9d..ed2772d2791997b1e1d15e71d01d818b325f5173 100644
---- a/fs/btrfs/disk-io.c
-+++ b/fs/btrfs/disk-io.c
-@@ -1568,7 +1568,7 @@ static int transaction_kthread(void *arg)
+diff --git a/drivers/block/rbd.c b/drivers/block/rbd.c
+index 5b393e4a1ddfc4eba1a821b9bf8e04585bdf2190..c2389500076643b8e1e9caa75431693d12e59a5e 100644
+--- a/drivers/block/rbd.c
++++ b/drivers/block/rbd.c
+@@ -4162,7 +4162,7 @@ static void rbd_acquire_lock(struct work_struct *work)
+ 		dout("%s rbd_dev %p requeuing lock_dwork\n", __func__,
+ 		     rbd_dev);
+ 		mod_delayed_work(rbd_dev->task_wq, &rbd_dev->lock_dwork,
+-		    msecs_to_jiffies(2 * RBD_NOTIFY_TIMEOUT * MSEC_PER_SEC));
++		    secs_to_jiffies(2 * RBD_NOTIFY_TIMEOUT));
+ 	}
+ }
  
- 	do {
- 		cannot_commit = false;
--		delay = msecs_to_jiffies(fs_info->commit_interval * 1000);
-+		delay = secs_to_jiffies(fs_info->commit_interval);
- 		mutex_lock(&fs_info->transaction_kthread_mutex);
- 
- 		spin_lock(&fs_info->trans_lock);
-@@ -1583,9 +1583,9 @@ static int transaction_kthread(void *arg)
- 		    cur->state < TRANS_STATE_COMMIT_PREP &&
- 		    delta < fs_info->commit_interval) {
- 			spin_unlock(&fs_info->trans_lock);
--			delay -= msecs_to_jiffies((delta - 1) * 1000);
-+			delay -= secs_to_jiffies(delta - 1);
- 			delay = min(delay,
--				    msecs_to_jiffies(fs_info->commit_interval * 1000));
-+				    secs_to_jiffies(fs_info->commit_interval));
- 			goto sleep;
- 		}
- 		transid = cur->transid;
+@@ -6283,9 +6283,9 @@ static int rbd_parse_param(struct fs_parameter *param,
+ 		break;
+ 	case Opt_lock_timeout:
+ 		/* 0 is "wait forever" (i.e. infinite timeout) */
+-		if (result.uint_32 > INT_MAX / 1000)
++		if (result.uint_32 > INT_MAX)
+ 			goto out_of_range;
+-		opt->lock_timeout = msecs_to_jiffies(result.uint_32 * 1000);
++		opt->lock_timeout = secs_to_jiffies(result.uint_32);
+ 		break;
+ 	case Opt_pool_ns:
+ 		kfree(pctx->spec->pool_ns);
 
 -- 
 2.43.0
