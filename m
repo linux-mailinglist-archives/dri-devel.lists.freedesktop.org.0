@@ -2,122 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBACAA21280
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 20:49:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94A1A212EB
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 21:15:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 292CD10E6F9;
-	Tue, 28 Jan 2025 19:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB47A10E02A;
+	Tue, 28 Jan 2025 20:15:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="CNxgZhcG";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="MFygSdqp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD1D610E6F9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 19:48:52 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250128194851euoutp02997c62049a12e1e5167e0a7600ef4041~e8wpGomX-0801408014euoutp02H
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 19:48:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250128194851euoutp02997c62049a12e1e5167e0a7600ef4041~e8wpGomX-0801408014euoutp02H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1738093731;
- bh=vt7JWzghtAmS4fKJN8Ir00QUirp5ujThWVAc+56dmcM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CNxgZhcGjcpvAthpuJEXiAkruh9b4Lovk42IzlZaLsEiy8WWiZrN3P/FfsOrSx4I1
- 9y8WnLHZI1uaQsGOEDTecePedUYrvs2MDb12fZNQvNohVfUBYj2HqED+V/Cp0YxaIG
- DJHRyaL325s3Zyz+HIqcLRwbzc5gdmx4KdClUeKs=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20250128194850eucas1p11f9e60d10d2e7c183dc984e76151c4d4~e8woS9N4J1601016010eucas1p13;
- Tue, 28 Jan 2025 19:48:50 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id C3.C2.20409.2A439976; Tue, 28
- Jan 2025 19:48:50 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250128194849eucas1p1c957dedd293b3091d8dfb35bdfa1fb0c~e8wnEPIKG1601116011eucas1p18;
- Tue, 28 Jan 2025 19:48:49 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20250128194849eusmtrp2e8eaba1fb03f93c070f3988728d2da39~e8wnDgw6k0493804938eusmtrp2N;
- Tue, 28 Jan 2025 19:48:49 +0000 (GMT)
-X-AuditID: cbfec7f4-c0df970000004fb9-2c-679934a295ca
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 51.F0.19920.1A439976; Tue, 28
- Jan 2025 19:48:49 +0000 (GMT)
-Received: from AMDC4942.home (unknown [106.210.136.40]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250128194847eusmtip1fc75fd1ce7c2e9e3f0336886a24de17f~e8wlX99iV0756107561eusmtip1V;
- Tue, 28 Jan 2025 19:48:47 +0000 (GMT)
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-To: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
- m.szyprowski@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org, Michal Wilczynski
- <m.wilczynski@samsung.com>
-Subject: [PATCH v4 18/18] riscv: dts: thead: Add GPU node to TH1520 device tree
-Date: Tue, 28 Jan 2025 20:48:16 +0100
-Message-Id: <20250128194816.2185326-19-m.wilczynski@samsung.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250128194816.2185326-1-m.wilczynski@samsung.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4161710E02A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 20:15:04 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4361c705434so43613175e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 12:15:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1738095303; x=1738700103; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Jfne+1E0DxYE+tkkNd2LaEnYSrvpDi+VKE9gDmVZgHA=;
+ b=MFygSdqpIijHPGp8JAYr+hxuDLZbB71vrNijwnE7Lb9H/z8HIjzw4So2gnt4+7QB3o
+ JWZXlvJnhe+jXy5c+9xWrzMvWj2kWIMRXOYfkqTSi7CGVmDg4OH2NnQdu/fajcZ3L/6b
+ Vw5d/b62P9JbfTFfh+bcqYHS48Wlis3csC9Is=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738095303; x=1738700103;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jfne+1E0DxYE+tkkNd2LaEnYSrvpDi+VKE9gDmVZgHA=;
+ b=qqa/Lkx9lVi7aHiAE/T4G60017U4YwdNCh/exGsgTNwbHVrlF9L2C7gkU/kSCS6ceE
+ AAeZ5moVExoRRZJHNCPFdNcz1y2vG1I9wZrmMIaa3W+B0i4wY0ZpJ1WJfbGxWSFMCzfA
+ 40pgIwzbHmbnmc809IsOboSUDrnGoauC44BWbdihG4om3ZduLRZEXDYrmZOsBOhIosmY
+ 8rm7VfK7nty/vzKr4Sr8T4u5zWVczB2sKaQKvC60xHHsJ1viWmOogyogohBTiVfOUznS
+ s11V/nmHw58JI1WUblH7BJLDfYjherqbOmhEGBiR5/3BOHzu5jWRrXkpaid/1733aALP
+ g7PA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXoUfP3OzGVgvida3GZAswc9sL4hTZ2RRAabDOUv/XYQ9bRWT+kaGFKiUOYok4EjfDz25dIzbp7UY0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgbAdhrWJPvLP0Z9v7jNFJCtRorF6zjDm2ItcKRYuivvuDAf1a
+ D8TWBK3thrAW5sCjGe+hbacXPO1GmJMuu4Cyzco8scWQp0JikaR+YGwdhX4u5PA=
+X-Gm-Gg: ASbGncvrBRKO79gNknjYFX1g0Te3+YZZANgu9uUEhq3V8bBkfBHKjmfqAGhQVmMgyVW
+ sca1U3MyQqByRyffgyNeAK6dAx1FBoKCnumWqVORpZV2BCWlZXHGL8K5z3Yj6fM3LpIGJZnpmnk
+ T7PXjLfY/QdOoAx9oE5JmEJyQgkOCk4iT8PkRQh89yVC9s4dvdFaGepJBWI5XO0Mccjl/HNodpv
+ K9grHqkPV/2O7fJPBR8lE5oCErlO4QAZQQkhnifoF9rhqhy/WVaFI6hpnH+XqkCJWS08/AYuqHy
+ yggNVjZRRplBaDoU1h6AfSygsZA=
+X-Google-Smtp-Source: AGHT+IFCpJVPpO9rfXvd1jMOU5Y8GXvqZMpsBrMYN7aXsmHR2MRFFuNi1zjP08VspD+cMw3VvnJFqQ==
+X-Received: by 2002:a05:600c:1f18:b0:436:1b08:4c78 with SMTP id
+ 5b1f17b1804b1-438dc43093cmr2810575e9.31.1738095302513; 
+ Tue, 28 Jan 2025 12:15:02 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c2a176490sm14733002f8f.1.2025.01.28.12.15.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jan 2025 12:15:01 -0800 (PST)
+Date: Tue, 28 Jan 2025 21:14:59 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: David Hildenbrand <david@redhat.com>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ John Hubbard <jhubbard@nvidia.com>, nouveau@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@nvidia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [Question] Are "device exclusive non-swap entries" / "SVM
+ atomics in Nouveau" still getting used in practice?
+Message-ID: <Z5k6w1OZ1ttgTGRo@phenom.ffwll.local>
+Mail-Followup-To: Alistair Popple <apopple@nvidia.com>,
+ David Hildenbrand <david@redhat.com>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ John Hubbard <jhubbard@nvidia.com>, nouveau@lists.freedesktop.org,
+ Jason Gunthorpe <jgg@nvidia.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>
+References: <346518a4-a090-4eaa-bc04-634388fd4ca3@redhat.com>
+ <Z5JbYC2-slPU0l3n@phenom.ffwll.local>
+ <8c6f3838-f194-4a42-845d-10011192a234@redhat.com>
+ <Z5OxuGMGT-OvMy5P@phenom.ffwll.local>
+ <f2f059a3-0c95-44cf-b79a-8c01e9334919@redhat.com>
+ <fbwjse2zexcsxuro5w3a5vs2rq4eabpccfkbd3buc4qmkgoo7z@xpdtyukllzvo>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxbVRjGc+69vfdSZd6WEU4AURsdkUVWCZrjZgi6Oe9kkLG4kJgIdHBX
- mKWQFpybRkv4EGonY6GZFBhY2fisndB2fMpkSDemdYMJiMDYHOFj3SiDkm1mVMpF3X/P+7y/
- c573PTk0LraQgXS6MptTKWUKCSkkbP0PHa8YI8vlUn1ZGLo0YsSQ9W8DhZq7HRiq7nMI0OSg
- BUPX3Qsk+n76KoVmu3MJNFxfRaG8fjOJ5gyTJFrUTQrQUEcliZaO9wFkW8onkalvgkJmdzWG
- vl20Eqi2rQOgwuKzAnRt4B00MXmJQHNDOhwVGp5Bnq42Cq0O/0Cgins9FLI4SwXIbkpA+T1l
- RHQIuzBaQLHOuTmCvVi0TLHdKzUE226YoFhd+y+AbWksJtnx4S6SPX05nr3xlR1jW2u/YPNN
- /Rhb8ljKLvz4O8l+bWkE7GDeCLVP/IHwzVROkf4xp9oWlSxMa/VMYVkzwk++y0vSgDu0FtA0
- ZCKh5qZEC4S0mKkHcEA3S/HFMoBV2mKSL5YAXNGXEFrgs37Cfm5ewDfqADyjsW9QTgBLmyvX
- KZKJgFN11evUZqaAgAU/5wJvgTMzANpuV5Jeyo+Jh+5qJ+adhGBegmNng7y2LxMNS1tLBHzc
- c7Dnp19xr/ZZ81se1xM8I4KXy2+va3yNybNW4DxvEkKXO5HXu2Cj8fTGPX5w3m6heB0MPe3V
- GK8z4ZT1/sbZz2C7zr6hd8BxxyPSOxrOvAzNHdt4+y34191WjH+7TXD0roifYBM8aTuF87Yv
- LCoU8/QWqNcd/y/UUW/bCGXhoCeXPAFeMDyxi+GJXQz/59YAvBEEcDnqDDmnjlByR8LVsgx1
- jlIenpKZ0QLWPvaVVftyG6ibXwzvBRgNegGkcclm3w8d38jFvqmyo8c4VWaSKkfBqXtBEE1I
- AnyNPQVyMSOXZXMfcVwWp/q3i9E+gRosI7jkS1ckXeIISWxuiqnzO5Clp5NvBk4PWbfqnQPv
- N9zYZb/oeu9RXIw5Fo90hV4Y2psymrJVmy/d4fx8xWN7mDKe1FmzpDGf3zc/diRmzy37ikNU
- tHO8Qvrg6tMXnFX3T/52KGX/dmnT6xEW9cxhSdinz1aEbG9QnDrW9G5CnH+qCY53US216rnV
- O2PlQZ5DV/yvR6/8EW/O14nSog4qY3d3vtig1xgdBTMJwScOu/zzcqzDlQE1B4LLotNvZTu6
- joadUSQO7S27Nli2ADtytLPGN5Zj7zG7G3ZqXnM/H1fxdub5c1GhyaLYxpHQXsVTDX8agTvQ
- FJSgjDrYKZ1+gPVJCHWa7NUwXKWW/QN5kRGYRwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCKsWRmVeSWpSXmKPExsVy+t/xu7oLTWamG1yaKWFx4voiJoutv2ex
- W6zZe47JYv6Rc6wW9y5tYbK48vU9m8W6pxfYLV7sbWSxuLZiLrtF87H1bBYvZ91js/jYc4/V
- 4vKuOWwWn3uPMFps+9zCZrH2yF12i/Vf5zNZLPy4lcViyY5djBZtnctYLS6ecrW4e+8Ei8XL
- yz3MFm2z+C3+79nBbvHv2kYWi9nv9rNbbHkzkdXi+Npwi5b9U1gc5Dze32hl93jz8iWLx+GO
- L+wee78tYPHYOesuu0fPzjOMHptWdbJ53Lm2h81j3slAj/vdx5k8Ni+p92hZe4zJo/+vgcf7
- fVfZPPq2rGL0uNR8nT1AKErPpii/tCRVISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/O
- JiU1J7MstUjfLkEvY/P/B0wFz7kqFjfHNzC+5uhi5OSQEDCROL7hFWsXIxeHkMBSRon5m++y
- QiRkJK51v2SBsIUl/lzrYoMoesUo8fbGFnaQBJuAkcSD5fPBGkQEFrNI7N1XCVLELPCWUeL6
- zI1g3cIC/hKPzyxj6mLk4GARUJW4tUwaJMwr4CAxcXM/1DJ5if0HzzKD2JxA8U1/V4C1CgnY
- Szx6O4MNol5Q4uTMJ2BxZqD65q2zmScwCsxCkpqFJLWAkWkVo0hqaXFuem6xoV5xYm5xaV66
- XnJ+7iZGYHLZduzn5h2M81591DvEyMTBeIhRgoNZSYQ39tyMdCHelMTKqtSi/Pii0pzU4kOM
- pkBnT2SWEk3OB6a3vJJ4QzMDU0MTM0sDU0szYyVxXrfL59OEBNITS1KzU1MLUotg+pg4OKUa
- mHYc7fJ+IbxXSjL07v1FwZOer4pNyj9tF/f/+/7XvonJB79P1QsT3+Uzubon+e0cBecJ7ZM2
- bL/R9EXogbblLsktazpjeiUt0zmmHJ4Ylff4ZHHdqv/O8qk3fSouB/UxeAV4cxoZL7cOZ49b
- zlda/+VUe9bq9osRqxQ3FO+KFE2dH6Z72qf9aIPNfvf79xYss9qkr/Nob8eS7vI3DPqa78X5
- 6gNmvfPcu/m7aX/w4cVxUT87BFWPaf6seVhVd3rC5Qbzv+tUdZOr+LZWzONUXy65eKny16O3
- hD/UtW7yE3Y/tKPL4OTOlcbbWErVl31KLWnn3RfMfjk62qvz0qZjat5C7+alOclu+Wm+WH2C
- kxJLcUaioRZzUXEiAHobLJy3AwAA
-X-CMS-MailID: 20250128194849eucas1p1c957dedd293b3091d8dfb35bdfa1fb0c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250128194849eucas1p1c957dedd293b3091d8dfb35bdfa1fb0c
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250128194849eucas1p1c957dedd293b3091d8dfb35bdfa1fb0c
-References: <20250128194816.2185326-1-m.wilczynski@samsung.com>
- <CGME20250128194849eucas1p1c957dedd293b3091d8dfb35bdfa1fb0c@eucas1p1.samsung.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fbwjse2zexcsxuro5w3a5vs2rq4eabpccfkbd3buc4qmkgoo7z@xpdtyukllzvo>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,42 +105,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
-TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
-the GPU using the drm/imagination driver.
+On Tue, Jan 28, 2025 at 11:09:24AM +1100, Alistair Popple wrote:
+> On Fri, Jan 24, 2025 at 06:54:02PM +0100, David Hildenbrand wrote:
+> > > > > On integrated the gpu is tied into the coherency
+> > > > > fabric, so there it's not needed.
+> > > > > 
+> > > > > I think the more fundamental question with both this function here and
+> > > > > with forced migration to device memory is that there's no guarantee it
+> > > > > will work out.
+> > > > 
+> > > > Yes, in particular with device-exclusive, it doesn't really work with THP
+> > > > and is only limited to anonymous memory. I have patches to at least make it
+> > > > work reliably with THP.
+> > > 
+> > > I should have crawled through the implementation first before replying.
+> > > Since it only looks at folio_mapcount() make_device_exclusive() should at
+> > > least in theory work reliably on anon memory, and not be impacted by
+> > > elevated refcounts due to migration/ksm/thp/whatever.
+> > 
+> > Yes, there is -- in theory -- nothing blocking the conversion except the
+> > folio lock. That's different than page migration.
+> 
+> Indeed - this was the entire motivation for make_device_exclusive() - that we
+> needed a way to reliably exclude CPU access that couldn't be blocked in the same
+> way page migration can (otherwise we could have just migrated to a device page,
+> even if that may have added unwanted overhead).
 
-By adding this node, the kernel can recognize and initialize the GPU,
-providing graphics acceleration capabilities on the Lichee Pi 4A and
-other boards based on the TH1520 SoC.
+The folio_trylock worries me a bit. I guess this is to avoid deadlocks
+when locking multiple folios, but I think at least on the first one we
+need an unconditional folio_lock to guarantee forward progress. Since
+atomics can't cross 4k boundaries (or the hw is just really broken) this
+should be enough to avoid being stuck in a livelock. I'm also not seeing
+any other reason why a folio_lock shouldn't work here, but then my
+understanding of mm/ stuff is really just scratching the surface.
 
-Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
----
- arch/riscv/boot/dts/thead/th1520.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I did crawl through all the other code and it looks like everything else
+is unconditional locks. So looks all good and I didn't spot anything else
+that seemed problematic.
 
-diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-index bdbb1b985b0b..b4b3add0d98d 100644
---- a/arch/riscv/boot/dts/thead/th1520.dtsi
-+++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-@@ -498,6 +498,18 @@ clk: clock-controller@ffef010000 {
- 			#clock-cells = <1>;
- 		};
- 
-+		gpu: gpu@ffef400000 {
-+			compatible = "thead,th1520-gpu", "img,img-bxm";
-+			reg = <0xff 0xef400000 0x0 0x100000>;
-+			interrupt-parent = <&plic>;
-+			interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk_vo CLK_GPU_CORE>,
-+				 <&clk_vo CLK_GPU_CFG_ACLK>;
-+			clock-names = "core", "mem";
-+			power-domains = <&aon TH1520_GPU_PD>;
-+			resets = <&rst TH1520_RESET_ID_GPU>;
-+		};
-+
- 		rst: reset-controller@ffef528000 {
- 			compatible = "thead,th1520-reset";
- 			reg = <0xff 0xef528000 0x0 0x4f>;
+Somewhat aside, I do wonder whether we really want to require callers to
+hold the mmap lock, or whether with all the work towards lockless fastpath
+that shouldn't instead just be an implementation detail. At least for the
+gpu hmm code I've seen I've tried to push hard towards a world were the
+gpu side does not rely on mmap_read_lock being held at all, to future
+proof this all. And currently we only have one caller of
+make_device_exclusive_range() so would be simple to do.
+-Sima
 -- 
-2.34.1
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
