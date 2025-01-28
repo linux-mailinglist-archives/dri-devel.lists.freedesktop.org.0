@@ -2,124 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20405A20DD3
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 16:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89315A20E0A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 17:08:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E970F10E0D5;
-	Tue, 28 Jan 2025 15:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC65710E0A5;
+	Tue, 28 Jan 2025 16:08:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="eKfbjJF3";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="tG7+EqD6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83B7310E0D5
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 15:59:46 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250128155944euoutp01b482b37ddbf73790b0cc46df1981ae02~e5omSkbEp0383303833euoutp01w
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 15:59:44 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250128155944euoutp01b482b37ddbf73790b0cc46df1981ae02~e5omSkbEp0383303833euoutp01w
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45D1D10E0A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 16:08:13 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250128160811euoutp028216f8505213a1570b7b85baff782cca~e5v_bfzvA0639006390euoutp02U
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 16:08:11 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250128160811euoutp028216f8505213a1570b7b85baff782cca~e5v_bfzvA0639006390euoutp02U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1738079984;
- bh=iwJ+epY4nSd+sLjdpwzOYTKuCc1d7Es+yGTdW2i3PBc=;
+ s=mail20170921; t=1738080491;
+ bh=6c0m7wbLpqSxp9r7NFxt/0mJL6hLBxypbiJD2llazOI=;
  h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=eKfbjJF3lyf5iEGiWw8QUA/EOlL4r6JQPwua64OaPT4xTF6Po1YRMHp+GiLPxUeyz
- LN9skB1H+8gcw4TNhrRhPJRqEao6/oEeS8CA/8OqoIsDhmG90RbrIoRr7sB6jBYhqy
- oyntdtYJpp0x99FurAb3VtvHbCyMn1x6bWe0DoP0=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20250128155944eucas1p2d96354f049a647c89aa1e1cd9abac150~e5ol2hEv-0796807968eucas1p2h;
- Tue, 28 Jan 2025 15:59:44 +0000 (GMT)
+ b=tG7+EqD6CRDZEo8W7g/2zqsU0k1VOo8pGjX14UE+PWRHyjv37DvCFosm9MbGEsTHl
+ 3pQcAcORexP1oe4C4EExs01LeH+oOQfJX3Yqrgmm1o+iO1jlDzGUgcZWz9Wf0+tsaG
+ e40eUb8oOky227HX6SXk2cl/PHNAv90adv+cLR7Y=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20250128160811eucas1p1e869522ce894d838ab114cc2908333a4~e5v_Jl3Jr0855608556eucas1p1X;
+ Tue, 28 Jan 2025 16:08:11 +0000 (GMT)
 Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 6C.1E.20397.0FEF8976; Tue, 28
- Jan 2025 15:59:44 +0000 (GMT)
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id 0B.00.20409.BE009976; Tue, 28
+ Jan 2025 16:08:11 +0000 (GMT)
 Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
  eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250128155943eucas1p2a013a245dc7ebb3789dbd935ac4227fc~e5olaK1XY1919719197eucas1p2t;
- Tue, 28 Jan 2025 15:59:43 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ 20250128160811eucas1p26de774f66d397fa447cf181f86a7a464~e5v963Tvg1873918739eucas1p2e;
+ Tue, 28 Jan 2025 16:08:11 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
  eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20250128155943eusmtrp2555de54ab9e83820cf9f12f834b2aa38~e5olZJVJW0160501605eusmtrp2L;
- Tue, 28 Jan 2025 15:59:43 +0000 (GMT)
-X-AuditID: cbfec7f5-ed1d670000004fad-45-6798fef0b33c
+ 20250128160811eusmtrp260fc9f5153df7a7661fa93f82becff2e~e5v96WVcp0739307393eusmtrp2W;
+ Tue, 28 Jan 2025 16:08:11 +0000 (GMT)
+X-AuditID: cbfec7f4-c0df970000004fb9-ec-679900eb531b
 Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 4F.CF.19654.FEEF8976; Tue, 28
- Jan 2025 15:59:43 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id AD.F5.19920.BE009976; Tue, 28
+ Jan 2025 16:08:11 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
  eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250128155942eusmtip272ccc759c57bd6953e7f8d3ee7843ec4~e5okLEtjt3036030360eusmtip2b;
- Tue, 28 Jan 2025 15:59:42 +0000 (GMT)
-Message-ID: <4c8a5979-c0e0-460f-9809-4cf8b10e40ce@samsung.com>
-Date: Tue, 28 Jan 2025 16:59:42 +0100
+ 20250128160809eusmtip2a889eb283dfd7a1749ae0401bfafa7d2~e5v8rBAwL0457004570eusmtip2d;
+ Tue, 28 Jan 2025 16:08:09 +0000 (GMT)
+Message-ID: <6b4cba29-786c-4999-ac1d-27b3e4cea6f8@samsung.com>
+Date: Tue, 28 Jan 2025 17:08:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 05/18] pmdomain: thead: Add power-domain driver for TH1520
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jszhang@kernel.org, p.zabel@pengutronix.de, m.szyprowski@samsung.com,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, DRI mailing list
+ <dri-devel@lists.freedesktop.org>
 Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <CAPDyKFrKKZ4RL5y+sCKAOK71ap7O3aTTc6rY9NrvcHt4hh6EVQ@mail.gmail.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SfVRTdRj2d+/dvWOewWWg/DKLwr6wAo04/lIOSgc696gds0g9Hg1W3IbJ
- 19lAjegEOBaDUYAIY0AzQOXQAMOBgOOjSQwIl2IC6YYrlQJBvqTEjOV2qfjved/3ed/nfd7z
- 8nGRgVzFPxCXyErjxDE+pIBo7Jo3vzy1oJasO3l9OeoeLMdQw18aCulazRjSdpp5aLhfj6Gf
- 5iZJVHv7EoV+b00j0EBVGYWOdtWRaFQzTKJp1TAPXWkpJdFsTidAjbNyEtV0Win09XQDgSqb
- WgBSKE/x0OXeMGQd7ibQ6BUVjhQaN2Q3NFFoYeBbApXcbaeQfjyPh0w1u5G8vYDY8gQzOZRB
- MeOjowRzIfMexbT+cYJgmjVWilE19wGmvlpJMpYBA8l81bOTuZFtwpizlZ8x8poujPny73XM
- ZNtVkvlCXw2Y/qOD1FuivYKgKDbmwCFW6h8cKYi+WlRPJqQJjxjn2olUMCPIAnw+pF+FXWfC
- s4CAL6KrAPx54TLOBfcAvDtowrhgFsCC+WqQBVycHb35ZQRXOA2gvWhokTUBoPXSQ56DJaSD
- odJi4Dk0CPpZaFQncWl32FN8i3DgFbQ3vHFNTTmwB70TXuyxObEn/QI0/PIjzzETp8t5sKeh
- wtmA017w2i0t5sAk/Qq0ndY6tVweNVsqCjGO4w3PTZQ6PUD6ogB+YzmFc2uHwtJ8yyL2gGMm
- PcXh1dDezA2FdDy0NcwsclJgs8q0iDdBi/kB6TCD076wrsWfS4fAC2NlOHdHVzg04c6t4Arz
- G4sW00KYqRBx7OfgcVXOf6LmqkYsF/hollxFs8SkZokZzf+6JwBRDbzYJFmshJUFxLGH/WTi
- WFlSnMTvg/jYevDowX9YMM01gaqxaT8jwPjACCAf9/EU7jerJSJhlPjjZFYaHyFNimFlRvA4
- n/DxEpa3Z0hEtEScyB5k2QRW+m8V47usSsUKYCWw2cZRtlUZ5Jr34YRvX2FH8p0QccV+a1t3
- WGim3GNj8tanttP3w4LTjjw85oUpI6OeH9p2faDwpcCPXH5zT10ZUGL/lNQF5q5+cYtQTeii
- ff3k3zfalqUff1sYuSbjcGyYfSHFl8mZcuvNDdq348yDKa1i2yevu54XpJzsdzMa1kzq1r6W
- oE3X1itaSLbcs26lPq9u3H1X4tMl9zePzC/L/jwsZLdufQQ2dqe2f+sbEcKUd2qbdxQvrx0p
- OD81s2Gj/x5cFv5Yeltivzr1zxXjN29vPjQTGZgYcI4OfWbq5tnvijtG3uO9v/dg3Lv1bb9u
- wjdgu/pC3yzs0Hc/6R0+uW+PDyGLFq9fi0tl4n8A4DKPEk8EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPKsWRmVeSWpSXmKPExsVy+t/xe7rv/81IN1j0VcvixPVFTBZbf89i
- t1iz9xyTxfwj51gt7l3awmRx5et7Not1Ty+wW7zY28hicW3FXHaL5mPr2SxezrrHZvGx5x6r
- xeVdc9gsPvceYbTY9rmFzWLtkbvsFgs/bmWxWLJjF6NFW+cyVouLp1wt7t47wWLx8nIPs0Xb
- LH6L/3t2sFv8u7aRxWL2u/3sFlveTGS1OL423KJl/xQWB1mP9zda2T3evHzJ4nG44wu7x95v
- C1g8ds66y+7Rs/MMo8emVZ1sHneu7WHzmHcy0ON+93Emj81L6j1a1h5j8uj/a+Dxft9VNo++
- LasYPS41X2cPEIrSsynKLy1JVcjILy6xVYo2tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcks
- Sy3St0vQy7g6fRNbQSNvxaGv+1kaGD9xdTFyckgImEicmjSXpYuRi0NIYCmjxMJ9T5ghEjIS
- 17pfskDYwhJ/rnWxQRS9ZpS4erqfCSTBK2An0XlnD2sXIwcHi4CqxKEZpRBhQYmTM5+A9YoK
- yEvcvzWDHcQWFgiUOHvyAZgtIqAhsefheVaQmcwCi1glthzazw6xYAKTRN/+c2wgVcwC4hK3
- nswHW8YmYCTxYPl8VhCbE2jSncXTmEAWMwuoS6yfJwRRLi+x/e0c5gmMQrOQ3DELyaRZCB2z
- kHQsYGRZxSiSWlqcm55bbKRXnJhbXJqXrpecn7uJEZiyth37uWUH48pXH/UOMTJxMB5ilOBg
- VhLhjT03I12INyWxsiq1KD++qDQntfgQoykwKCYyS4km5wOTZl5JvKGZgamhiZmlgamlmbGS
- OC/blfNpQgLpiSWp2ampBalFMH1MHJxSDUy54RXrPb37FvAFxDRwFD9ccahDuchNarN4smz7
- EfkSpRwZB8Y911dEiyXs0HeMXFksxjuv2fJW4G+eK/rHBfPZxTPcmi7uYBetnBVwee1yxg9f
- t/k2vdKyYiysOOe/Q3XuhL/CRwUquLqi376e7eQY9v75tH0+exZHKa2f09l/47nTDfX6cE1p
- vvvGgrF/L37Rt+Z/bagZ+pXz1o70JAdfo7n/Qssq1if+/aBy0mjCnRnL+Rne+fluWXBc3CYw
- dP+LHJE0Hx0J/mn/M9R7r0+J+CL0zvTp8xmNCaJpS2tVXZW2u4cdVH0yrVyy1OtGgm7DxwKB
- Df3OXHHNO6/Uxl78wnVvlaRUzO2mbS4flFiKMxINtZiLihMBosuwKuIDAAA=
-X-CMS-MailID: 20250128155943eucas1p2a013a245dc7ebb3789dbd935ac4227fc
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBKsWRmVeSWpSXmKPExsWy7djPc7qvGWamG6xZJ2rR2zSdyWLqwyds
+ Fq+nfWCzmHj+J5vFla/v2SyaF69ns7i8aw6bxdwvU5kdODw2repk87hzbQ+bx7yTgR77565h
+ 97jffZzJ4/MmuQC2KC6blNSczLLUIn27BK6MT3cesBY8kKv4uuI8YwPje4kuRg4OCQETifn/
+ fLoYuTiEBFYwSuyauJINwvnCKLHoWBMjhPOZUWJ15w/mLkZOsI7208+hqpYzSqzdfB/K+cgo
+ MffPExaQKl4BO4lXE7awgdgsAqoSp75vZYOIC0qcnAlRIyogL3H/1gx2EFtYwFtiRet8RhBb
+ RMBcYt2kRWBDmQVWM0k86r/BBJJgFhCXuPVkPpjNJmAo0fW2C2wop4CRxNIdb6Bq5CWat85m
+ BmmWEHjDIdH29hAbxN0uEsunLWWHsIUlXh3fAmXLSPzfCTIUpKGdUWLB7/tQzgRGiYbntxgh
+ qqwl7pz7xQYKM2YBTYn1u/Qhwo4SV7ZPY4EEJZ/EjbeCEEfwSUzaNp0ZIswr0dEmBFGtJjHr
+ +Dq4tQcvXGKewKg0CylcZiF5cxaSd2Yh7F3AyLKKUTy1tDg3PbXYKC+1XK84Mbe4NC9dLzk/
+ dxMjMDGd/nf8yw7G5a8+6h1iZOJgPMQowcGsJMIbe25GuhBvSmJlVWpRfnxRaU5q8SFGaQ4W
+ JXHeRftb04UE0hNLUrNTUwtSi2CyTBycUg1MW7tn6HWanjv6q0qkxmj1nRmlT3stQl8Yfl01
+ s1/v1KfepNtbrKYpSrLuSHcNDW7z/PWjcLmz8JaGV2/zVkw6LPbqrvWvPUWmdiyG1vd33S1W
+ Frh1cNJxceNAW0ZmtiKd0LNL7U9eubr1wYOWLW/9edU0dCcryW+b4fXb7cCjnat1KmVz5Kcs
+ mRO7Viuy2F+kzkpgp9iPFLU1DjP6X55dtbD0rhiPu8OtxMrQXE+pRbz9Trt/pl/uWuzXvbss
+ 8cjpOt+ih8d1L/NN0FaeyDhhSdP6M2p//3iGf8m4GfW36bvW/QaLG8cu3Gua1Gl1+dmpU1ed
+ /D3bHXdVSzJ8lhE5ZLhghtwZBccNyU2cuxgilFiKMxINtZiLihMBJeMK47sDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrNIsWRmVeSWpSXmKPExsVy+t/xe7qvGWamG6y5ymbR2zSdyWLqwyds
+ Fq+nfWCzmHj+J5vFla/v2SyaF69ns7i8aw6bxdwvU5kdODw2repk87hzbQ+bx7yTgR77565h
+ 97jffZzJ4/MmuQC2KD2bovzSklSFjPziElulaEMLIz1DSws9IxNLPUNj81grI1MlfTublNSc
+ zLLUIn27BL2MT3cesBY8kKv4uuI8YwPje4kuRk4OCQETifbTz9m6GLk4hASWMkpcuHGNESIh
+ I3FyWgMrhC0s8edaF1TRe0aJ15962UESvAJ2Eq8mbGEDsVkEVCVOfd/KBhEXlDg58wkLiC0q
+ IC9x/9YMsHphAW+JFa3zwRaICJhLrJu0CGwos8BqJokfvRvYITbcZJZ48OgeWAezgLjErSfz
+ mUBsNgFDia63XWAbOAWMJJbueMMEUWMm0bW1ixHClpdo3jqbeQKj0Cwkh8xCMmoWkpZZSFoW
+ MLKsYhRJLS3OTc8tNtQrTswtLs1L10vOz93ECIzFbcd+bt7BOO/VR71DjEwcjIcYJTiYlUR4
+ Y8/NSBfiTUmsrEotyo8vKs1JLT7EaAoMjYnMUqLJ+cBkkFcSb2hmYGpoYmZpYGppZqwkzut2
+ +XyakEB6YklqdmpqQWoRTB8TB6dUA1N131Y9Oe80ORMh6/furEvWWit7710hN0vs+/NgpZ3M
+ 1ic33LSW8t81aat+3MGWc4aBZanGdkFVsmtYnDiVt1T3+L3labgfv9zI0lP4mPnsCzvdZbcE
+ X5/0LM0jJ4WVr+GOhOb14PsOrbc2/V3U+C5/PuOCv/Wbvi7dozdzvvZR76mfkxbtbNy2bon/
+ XbYHEX+mf4v/pvvhewWbvHHyjP8bla3Xa0ixKXSsMHNh/GxxmDVuUaz01dVKVscF0wPF9u03
+ DbSIvs+TP2lenWLbraMlMydfE4lTNdm49ldA+8MJu19Mjco+vd7ggiP/Ly0lYZmTO08Zc0zM
+ EL90+KeSPlty+8FHAX261v/K5UO+9SuxFGckGmoxFxUnAgBChiBmTgMAAA==
+X-CMS-MailID: 20250128160811eucas1p26de774f66d397fa447cf181f86a7a464
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250120172125eucas1p141540607f423eea4c55b2bd22ff5adf0
+X-RootMTR: 20250117135754eucas1p1a8558792f9475c2acc009e1ba20c7109
 X-EPHeader: CA
 CMS-TYPE: 201P
-X-CMS-RootMailID: 20250120172125eucas1p141540607f423eea4c55b2bd22ff5adf0
-References: <CGME20250120172125eucas1p141540607f423eea4c55b2bd22ff5adf0@eucas1p1.samsung.com>
- <20250120172111.3492708-1-m.wilczynski@samsung.com>
- <20250120172111.3492708-6-m.wilczynski@samsung.com>
- <CAPDyKFrKKZ4RL5y+sCKAOK71ap7O3aTTc6rY9NrvcHt4hh6EVQ@mail.gmail.com>
+X-CMS-RootMailID: 20250117135754eucas1p1a8558792f9475c2acc009e1ba20c7109
+References: <20250116124303.3941583-1-andriy.shevchenko@linux.intel.com>
+ <CGME20250117135754eucas1p1a8558792f9475c2acc009e1ba20c7109@eucas1p1.samsung.com>
+ <a193bcb5-1b35-48ba-801b-925ab2f92d6f@samsung.com>
+ <Z4pktkZ1ihfkZjHm@smile.fi.intel.com> <Z4ppo8wV3nicOfAQ@smile.fi.intel.com>
+ <8a7581e4-6422-4d77-8027-02df0d7da489@samsung.com>
+ <Z4qTQ9ypkX6iS1Pl@smile.fi.intel.com>
+ <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
+ <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,41 +128,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Andy,
+
+On 21.01.2025 14:29, Andy Shevchenko wrote:
+> On Tue, Jan 21, 2025 at 08:33:09AM +0100, Marek Szyprowski wrote:
+>> On 17.01.2025 18:28, Andy Shevchenko wrote:
+>>> On Fri, Jan 17, 2025 at 05:05:42PM +0100, Marek Szyprowski wrote:
+>>>
+>>> Does it fail in the same way?
+>> Yes, the hw revision is reported as zero in this case: LT9611 revision:
+>> 0x00.00.00
+> Hmm... This is very interesting! It means that the page selector is a bit
+> magical there. Dmitry, can you chime in and perhaps shed some light on this?
+>
+>>>> Does it mean that there is really a bug in the driver?
+>>> Without looking at the datasheet it's hard to say. At least what I found so far
+>>> is one page of the I²C traffic dump on Windows as an example how to use their
+>>> evaluation board and software, but it doesn't unveil the bigger picture. At
+>>> least what I think is going on here is that the programming is not so easy as
+>>> just paging. Something is more complicated there.
+>>>
+>>> But at least (and as Mark said) the most of the regmap based drivers got
+>>> the ranges wrong (so, at least there is one bug in the driver).
+>> I can do more experiments if this helps. Do you need a dump of all
+>> regmap accesses or i2c traffic from this driver?
+> It would be helpful! Traces from the failed and non-failed cases
+> till the firmware revision and chip ID reading would be enough to
+> start with.
+
+I'm sorry for the delay, I was a bit busy with other stuff.
+
+Here are logs (all values are in hex):
+
+next-20250128 (probe broken):
+root@target:~# dmesg | grep regmap
+[   14.817604] regmap_write reg 80ee <- 1
+[   14.823036] regmap_read reg 8100 -> 0
+[   14.827631] regmap_read reg 8101 -> 0
+[   14.832130] regmap_read reg 8102 -> 0
+[   14.841477] regmap_write reg 80ee <- 0
+[   14.901796] regmap_write reg 80ee <- 1
+[   14.909895] regmap_read reg b021 -> 0
+[   14.927409] regmap_write reg 80ee <- 0
+
+next-20250128 + 1fd60ed1700c reverted (probe okay):
+root@target:~# dmesg | grep regmap
+[   13.565920] regmap_write reg 80ee <- 1
+[   13.567509] regmap_read reg 8100 -> 17
+[   13.568219] regmap_read reg 8101 -> 4
+[   13.568909] regmap_read reg 8102 -> 93
+[   13.568927] regmap_write reg 80ee <- 0
+[   13.625844] regmap_write reg 80ee <- 1
+[   13.630963] regmap_read reg b021 -> 40
+[   13.645522] regmap_write reg 80ee <- 0
+[   13.880192] regmap_write reg 80ee <- 1
+[   13.884921] regmap_read reg b023 -> 0
+[   13.892159] regmap_write reg 80ee <- 0
+[   13.954508] regmap_write reg 80ee <- 1
+[   13.959441] regmap_read reg b023 -> 0
+[   13.963269] regmap_write reg 80ee <- 0
+[   14.029818] regmap_write reg 80ee <- 1
+[   14.034644] regmap_read reg b023 -> 0
+[   14.038491] regmap_write reg 80ee <- 0
+[   16.278387] regmap_write reg 80ee <- 1
+[   16.283902] regmap_read reg b023 -> 0
+[   16.287944] regmap_write reg 80ee <- 0
+[   16.347570] regmap_write reg 80ee <- 1
+[   16.355894] regmap_read reg b023 -> 0
+[   16.359748] regmap_write reg 80ee <- 0
+[   16.452472] regmap_write reg 80ee <- 1
+[   16.454387] regmap_write reg d00d <- 4
+[   16.456228] regmap_write reg d00e <- 65
+[   16.462096] regmap_write reg d00f <- 4
+[   16.462971] regmap_write reg d010 <- 38
+[   16.463741] regmap_write reg d011 <- 8
+[   16.464741] regmap_write reg d012 <- 98
+[   16.465250] regmap_write reg d013 <- 7
+[   16.465764] regmap_write reg d014 <- 80
+[   16.466481] regmap_write reg d015 <- 5
+[   16.467156] regmap_update_bits reg d016 <- 0/f
+[   16.467817] regmap_write reg d017 <- 2c
+[   16.468325] regmap_update_bits reg d018 <- 0/f
+[   16.469101] regmap_write reg d019 <- 4
+[   16.469749] regmap_update_bits reg d01a <- 0/f
+[   16.470509] regmap_write reg d01b <- 58
+[   16.471041] regmap_write reg 80ee <- 0
 
 
-On 1/21/25 10:55, Ulf Hansson wrote:
-> On Mon, 20 Jan 2025 at 18:21, Michal Wilczynski
-> <m.wilczynski@samsung.com> wrote:
->>
->> The T-Head TH1520 SoC contains multiple power islands that can be
->> programmatically turned on and off using the AON (Always-On) protocol
->> and a hardware mailbox [1]. The relevant mailbox driver has already been
->> merged into the mainline kernel in commit 5d4d263e1c6b ("mailbox:
->> Introduce support for T-head TH1520 Mailbox driver");
->>
->> This commit introduces a power-domain driver for the TH1520 SoC, which
->> is using AON firmware protocol to communicate with E902 core through the
->> hardware mailbox. This way it can send power on/off commands to the E902
->> core.
->>
->> Link: https://protect2.fireeye.com/v1/url?k=aca9147a-cd220149-aca89f35-000babff9bb7-dfbb0fd97ae06334&q=1&e=7a720b7b-4489-48b9-b901-404180e7bc23&u=https%3A%2F%2Fopenbeagle.org%2Fbeaglev-ahead%2Fbeaglev-ahead%2F-%2Fblob%2Fmain%2Fdocs%2FTH1520%2520System%2520User%2520Manual.pdf [1]
->>
->> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> 
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> 
-> I guess this depends on patch2 and patch3. Not sure what's the best
-> way to merge this, but I can certainly funnel them all three through
-> my pmdomain tree if that sounds feasible. Just let me know.
-> 
-> Kind regards
-> Uffe
-
-Thanks Ulf. I've made some changes based on my discussion with
-Krzysztof, so I'll hold off on adding your Reviewed-by tag until v4.
-Once we've addressed any remaining comments, it would be great if you
-could take the firmware and power-domain patches through your tree.
-
-> 
->> ---
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
