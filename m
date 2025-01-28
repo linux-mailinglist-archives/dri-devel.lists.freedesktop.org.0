@@ -2,79 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58EBBA2083E
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 11:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7A7A20842
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 11:09:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 614A410E622;
-	Tue, 28 Jan 2025 10:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6541510E625;
+	Tue, 28 Jan 2025 10:09:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="afj3ip0M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GCJ4Fjl4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6392410E622
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 10:08:36 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-38637614567so2596045f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 02:08:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738058915; x=1738663715; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=h2yOvoDnInS5YyguD1gPdiTImuorPx6Slh8QNA5BfCg=;
- b=afj3ip0MxLKFVcH/UU0SDrB7gMtw34a97RCNzG95Eqk++25V+h2XKwO/RnkgAbeNvP
- /e4M6RhtYZ40oVJQJv0DhXgvJV8DYchEtVlpzilxZhndtSvcnNSa8b9H6KQjrUffWJKF
- clUyDVuf6JaEvKbRRVgzSqCdMRQ1xZdOQR9PlbFQIcpkLl7HrPImr5DB01yjKatZlYsz
- C1BjkxuneWMnyb2ZMbFpy0pyrbzpFdQHQve8tPcg19qX2wy1nF5GXDZ0u/k2tHTlQWVS
- cU3EoL+ZBhiW5qLsHhzEqYE7/BfZBngAf1geazUxy3xREVa6soHrHG+hJ1z8lONyJuAw
- w65w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738058915; x=1738663715;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h2yOvoDnInS5YyguD1gPdiTImuorPx6Slh8QNA5BfCg=;
- b=vMk0t4+wIfiHL5k79a+E88XJ0tJ2j3+oJgyic8s+t2dNrYLcyyG2GtHbxtGujka2kS
- IgzWIlrfB/EL6jv/EWVsCRr1pC/93qCV0pgfR4pe4T2MPtTdZVB9D19XHcRkX3sdzjXm
- E9bRPA45pkxYlPyN7cgVkZr5OfgrDCoNL7McOuSPpmSH1ELPXVVZz/JZVrZ9DJ3J08b1
- 2QEQFf5k0AdgooQ1hMB1hJUxHXJw8QhgIIMAxiE8lR7j/k0g9lLzhbjsgRG29aFsjih5
- xNkqD9hqDebEUNqWfBOp30Dw5HXxkN5KNbhTWFsOu3lFbbGmfaQqT7VoyiuIqNCwKrI1
- JvuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWX3FmpuXuCmPeKdELykk/roJt+NUoQ8zlm8ZwSp/GnAD+wVVkBc5miaUNVT1eVEz6KbVNALsLCyIs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFXAZrig2Cuw6w24EEB5W52Luwiip2XXbqLt5/x3wxm+xNTifP
- 3yA9hhFaxguLM3tSdg3p7vAiCWDepecUbj/xgGq6PF9s32uCi10h
-X-Gm-Gg: ASbGncsIHlPTSoeiajmESCnYiKGjEC5fK/ROpFkjHaYzuzbfuVrpa6z8uLkumOF3o8V
- v2WurZrWB6Xx1mUkmyLZ8RxhR/gQquUQRcl8jPQvGcNU+M0CQ/JYCGS3nSV3gQHU7Jo7W8YzHVP
- WH3nhCoxWjgCqxUDUg/MP7OEryEP6sAIEUObnsj1bIslvJUjVWIxJ/kEjAwm33LWlXIRPJtVwha
- jzzlj5BnloUJluqxS+Mm2+LM2DnALxsBgSfs1VdrhauPviSZmzBeF3UL5164+iWGvBiN1VOHKhf
- vL0d8UH9/ZMWKu/3JWjIcQ0mww==
-X-Google-Smtp-Source: AGHT+IHEilQrm8VE74CTRIVJXbYI24X5hbrOC34o8rHdp8QOyp8603efRQrzisOdGe1zt5eY0BMEKA==
-X-Received: by 2002:a05:6000:1faa:b0:385:e013:39ec with SMTP id
- ffacd0b85a97d-38bf5656b93mr39373974f8f.8.1738058914547; 
- Tue, 28 Jan 2025 02:08:34 -0800 (PST)
-Received: from able.fritz.box ([2a00:e180:154d:4600:f97b:2e:9c49:a657])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a17d6b2sm14023800f8f.34.2025.01.28.02.08.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2025 02:08:34 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: marek.olsak@amd.com,
-	l.stach@pengutronix.de,
-	sumit.semwal@linaro.org
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] dma-buf: fix timeout handling in dma_resv_wait_timeout
-Date: Tue, 28 Jan 2025 11:08:33 +0100
-Message-Id: <20250128100833.8973-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4C6310E625
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 10:09:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 7934EA40B48;
+ Tue, 28 Jan 2025 10:08:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76507C4CED3;
+ Tue, 28 Jan 2025 10:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738058989;
+ bh=OISSWgvkSbEVcJUb2bzvWSLklg+uLGPm74ASjpg6puM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GCJ4Fjl4CtRma41qVkWz8SfYUitVzhv5veIXnhfdeIb3Kux9uZxQwCIBYZKmUjAIW
+ ndIzG5kyLWshMUGzg2hblXMeAe3zUSQqDu3uTKdagOzu9vJiFBjh1EvhgY7ESA2B4A
+ EAqhn5fMN/34PgpKwzjqMvTvwzPmO94KcXKOk60IM0myxScK0ne2zerJfajPj9Ykui
+ nxq776PDeld3lPeQzH7BaPS4aXGO/BqbMRLrDUGeX7UDyVhgONUCiSknf0K1C4bWap
+ W2uABdWVfXsxOQ6B+f5GM+H8w7GZmq7Vqy6Y2A7HFAxn4+duv4c0ZiZ56Przo2txhC
+ mBWItkkbnuaLA==
+Message-ID: <1e9f7f94-3d0c-4258-b9de-746d0b22ec06@kernel.org>
+Date: Tue, 28 Jan 2025 11:09:40 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/7] drm: Add DSI/DP support for Renesas r8a779h0 V4M
+ and grey-hawk board
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-clk@vger.kernel.org, stable@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
+ <aa858619-56f6-4d3a-b27d-f38cbfa57d98@ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <aa858619-56f6-4d3a-b27d-f38cbfa57d98@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,46 +123,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Even the kerneldoc says that with a zero timeout the function should not
-wait for anything, but still return 1 to indicate that the fences are
-signaled now.
+On 17/12/2024 14:33, Tomi Valkeinen wrote:
+> Hi all,
+> 
+> On 17/12/2024 07:31, Tomi Valkeinen wrote:
+>> Add everything needed to support the DSI output on Renesas r8a779h0
+>> (V4M) SoC, and the DP output (via sn65dsi86 DSI to DP bridge) on the
+>> Renesas grey-hawk board.
+>>
+>> Overall the DSI and the board design is almost identical to Renesas
+>> r8a779g0 and white-hawk board.
+>>
+>> Note: the v4 no longer has the dts and the clk patches, as those have
+>> been merged to renesas-devel.
+>>
+> 
+> I have pushed this to drm-misc-next. Thank you all for the reviews!
+I am confused how this is supposed to work. You merged your own patches
+for Renesas DRM, even not being the Renesas DRM maintainer, while my
+much earlier patchset was "only" reviewed by Renesas DRM maintainers but
+not picked up by them.
 
-Unfortunately that isn't what was implemented, instead of only returning
-1 we also waited for at least one jiffies.
+So maybe you are the Renesas DRM maintainer? But get_maintainers.pl is
+silent on that, so I don't Cc you.
 
-Fix that by adjusting the handling to what the function is actually
-documented to do.
+Can you guys clarify that so maintainers file reflect reality?
 
-Reported-by: Marek Olšák <marek.olsak@amd.com>
-Reported-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: <stable@vger.kernel.org>
----
- drivers/dma-buf/dma-resv.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 5f8d010516f0..ae92d9d2394d 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -684,11 +684,12 @@ long dma_resv_wait_timeout(struct dma_resv *obj, enum dma_resv_usage usage,
- 	dma_resv_iter_begin(&cursor, obj, usage);
- 	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 
--		ret = dma_fence_wait_timeout(fence, intr, ret);
--		if (ret <= 0) {
--			dma_resv_iter_end(&cursor);
--			return ret;
--		}
-+		ret = dma_fence_wait_timeout(fence, intr, timeout);
-+		if (ret <= 0)
-+			break;
-+
-+		/* Even for zero timeout the return value is 1 */
-+		timeout = min(timeout, ret);
- 	}
- 	dma_resv_iter_end(&cursor);
- 
--- 
-2.34.1
-
+Best regards,
+Krzysztof
