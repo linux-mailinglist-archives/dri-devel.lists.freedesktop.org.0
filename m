@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B566A2068C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 09:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA448A20738
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 10:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E927C10E20D;
-	Tue, 28 Jan 2025 08:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18CC810E617;
+	Tue, 28 Jan 2025 09:21:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l4og8gwm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JBwdFfeu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A171910E20D;
- Tue, 28 Jan 2025 08:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738054326; x=1769590326;
- h=message-id:subject:from:to:date:in-reply-to:references:
- content-transfer-encoding:mime-version;
- bh=arBYayUBa7gh3GjVgWUJEeFHyqwuLt462GaAYBUJ17A=;
- b=l4og8gwmAe3EYYUkzaATZRxK+xnEmkjVpm6amWYnksjyJW4OiQDmR/Za
- Jf8dyjDGvSh+D5RILsm5LqV07EuMK7O06UhZSbm/RNpH8rzHvbhFBxXYI
- U47d2cnjQFkn4sUHrq93BeMxzmJyIt7zUXaLxptyNfW5tkZtRpE6UHL8y
- tK9ynbP5eAbjjLKeElVxpBP23vud5xQ/VshlA1h6Ee0pmidiifzer3wtw
- Hrb9Xk8kfuHUVNgg9/brzMMbAVfyFROnjO6sGGNVZTz2mBsswZo2N5BZc
- A2YYZXoOW8Uc30mYm/NxyPlnpY2BU4zPoRi2VEO6rC8RrygmpsGL/NN9v A==;
-X-CSE-ConnectionGUID: v+uafKWhRTK+q6NRCluQTg==
-X-CSE-MsgGUID: NEjlURU1Q1ClEA79YwqtTQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="37732175"
-X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; d="scan'208";a="37732175"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2025 00:52:06 -0800
-X-CSE-ConnectionGUID: uiA469o4TnK3CjMIkAHeng==
-X-CSE-MsgGUID: x/aKlPa3TA6n/e4E80RdBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="112680230"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.120])
- ([10.245.246.120])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2025 00:52:02 -0800
-Message-ID: <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
-Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
- pages
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com, lyude@redhat.com,
- dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch, jgg@ziepe.ca,
- leon@kernel.org, 	jglisse@redhat.com, akpm@linux-foundation.org,
- GalShalom@Nvidia.com, 	dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, 	linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-mm@kvack.org, 	linux-tegra@vger.kernel.org
-Date: Tue, 28 Jan 2025 09:51:52 +0100
-In-Reply-To: <20241201103659.420677-2-ymaman@nvidia.com>
-References: <20241201103659.420677-1-ymaman@nvidia.com>
- <20241201103659.420677-2-ymaman@nvidia.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA7C510E25F
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 09:21:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BE4C05C5ADE;
+ Tue, 28 Jan 2025 09:21:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6158C4CED3;
+ Tue, 28 Jan 2025 09:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738056114;
+ bh=AjNogne13c4qMiwZddfdCgFJisJ5oHihprr5OfKcQ60=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JBwdFfeuQyX3ANNV4Jje98erGq9uD/7JZEEuT6hA0nUNhk0Ax+82Cb5zsxfMr4yHi
+ lkiZr/p1KLdffkM/c59zkhpj5xP/5VBY+5vgURcbBexoXsK+Fg78CRoKu2XxuPuyI8
+ otOtlA6rk62oU3ceRu3AJj9BsPhbp/UbxlFujFmklXhOuXfemWkrkluciGXQq9Rusb
+ G0Woo+q9x2a2sEYDMkM+UKYYGqRGbSzmrrwYmAqV/xgsPezbXxHqlc97d/n1047E8X
+ 2jwGRYvWTehVr5E+4k3ul0DwLPLRgNtPdafOHMBHjYdwvVeUJWTVvkjV3iTJyKxczu
+ f5ljfmFiB6elg==
+Date: Tue, 28 Jan 2025 10:21:51 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Liu Ying <victor.liu@nxp.com>
+Cc: imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+ kernel@pengutronix.de, festevam@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+ abelvesa@kernel.org, 
+ peng.fan@nxp.com, mturquette@baylibre.com, sboyd@kernel.org, 
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, 
+ quic_bjorande@quicinc.com, geert+renesas@glider.be, dmitry.baryshkov@linaro.org,
+ arnd@arndb.de, nfraprado@collabora.com, marex@denx.de
+Subject: Re: [PATCH v7 0/7] Add ITE IT6263 LVDS to HDMI converter support
+Message-ID: <64eaq2n3pfcxxxcw5n3cqpx3ie3vyqo6v6akc5g72anoazendf@5vrlafr3q676>
+References: <20241114065759.3341908-1-victor.liu@nxp.com>
+ <20241217-uppish-sapphire-dinosaur-4c40a2@houat>
+ <aba80c42-1b48-426f-b29d-88bf18473602@nxp.com>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="7kmjyo7mbnkjzcvj"
+Content-Disposition: inline
+In-Reply-To: <aba80c42-1b48-426f-b29d-88bf18473602@nxp.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,267 +72,297 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jonatan
 
+--7kmjyo7mbnkjzcvj
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 0/7] Add ITE IT6263 LVDS to HDMI converter support
+MIME-Version: 1.0
 
-On Sun, 2024-12-01 at 12:36 +0200, Yonatan Maman wrote:
-> From: Yonatan Maman <Ymaman@Nvidia.com>
+On Wed, Dec 18, 2024 at 02:02:18PM +0800, Liu Ying wrote:
+> On 12/17/2024, Maxime Ripard wrote:
+> > On Thu, Nov 14, 2024 at 02:57:52PM +0800, Liu Ying wrote:
+> >> This patch series aims to add ITE IT6263 LVDS to HDMI converter on
+> >> i.MX8MP EVK.
+> >>
+> >> Since IT6263 DT binding and driver were picked up from v5 and landed
+> >> in drm-misc, this patch series contains patches almost all i.MX8MP
+> >> SoC/platform specific.
+> >>
+> >> Patch 1 is a preparation patch to allow display mode of an existing
+> >> panel to pass the added mode validation logic in patch 3.
+> >>
+> >> Patch 2 is a preparation patch to drop CLK_SET_RATE_PARENT flag for
+> >> media_disp{1,2}_pix clocks.  Patch 5 depends on patch 2.
+> >>
+> >> Patch 3 allows i.MX8MP LVDS Display Bridge(LDB) bridge driver to find
+> >> the next non-panel bridge, that is the IT6263 in this case.
+> >>
+> >> Patch 4 adds mode validation logic to i.MX8MP LDB bridge driver against
+> >> "ldb" clock so that it can filter out unsupported display modes read
+> >> from EDID.
+> >>
+> >> Patch 5 adds mode validation logic to i.MX8MP LDB bridge driver against
+> >> "pix" clock so that it can filter out display modes which are not
+> >> supported by pixel clock tree.
+> >>
+> >> Patch 6 adds DT overlays to support NXP adapter cards[1][2] with IT6263
+> >> populated.
+> >>
+> >> Patch 7 enables the IT6263 bridge driver in defconfig.
+> >>
+> >> Note that patch 3 and 4 depend on patch[3] in shawnguo/imx/fixes.
+> >>
+> >> Since this patch series is related to another one[4] authored by Marek,
+> >> Maxime asked for a proper description[5] about the exact problem.
+> >>
+> >> Admittedly, it's a bit complicated.  Here, I'm trying to do so and exp=
+lain
+> >> a bit more.
+> >>
+> >> [ Description ]
+> >> It's a clock problem about shared i.MX8MP video PLL between MIPI DSI a=
+nd
+> >> LVDS display pipelines.  The pipelines are driven by separate DRM driv=
+er
+> >> instances, hence there is no way to negotiate a dynamically changeable
+> >> PLL rate to satisfy both of them.  The only solution is to assign a
+> >> sensible/unchangeable clock rate for the PLL in DT.
+> >>
+> >> Admittedly, sys_pll3_out can be another clock source to derive pixel c=
+lock
+> >> for i.MX8MP MIPI DSI display pipeline if a particalur i.MX8MP platform
+> >> doesn't use audio(sys_pll3_out is supposed to derive audio AXI clock r=
+unning
+> >> at nominal 600MHz).  However, for i.MX8MP platforms with audio feature=
+s,
+> >> the shared video PLL case has to be handled and it determines that the=
+ above
+> >> solution(unchangeable PLL rate assigned in DT) has to be used no matter
+> >> sys_pll3_out is for display or audio, because the separate DRM driver
+> >> instances really don't know if they are sharing the video PLL or not.
+> >>
+> >> [[ i.MX8MP Display Hardware ]]
+> >> i.MX8MP SoC supports three display pipelines:
+> >>
+> >>  -----------------------------           ------------------------
+> >> | imx8mp_media_disp_pix_sels  |         | imx8mp_media_ldb_sels  |
+> >>  -----------------------------           ------------------------
+> >> |  osc_24m (fixed 24MHz)      |         |  osc_24m (fixed 24MHz) |
+> >> |*-video_pll1_out (video)     |         |  sys_pll2_333m (sys)   |
+> >> |  audio_pll2_out (audio)     |         |  sys_pll2_100m (sys)   |
+> >> |  audio_pll1_out (audio)     |         | -sys_pll1_800m (sys)   |
+> >> | -sys_pll1_800m (sys)        |         | -sys_pll2_1000m (sys)  |
+> >> | -sys_pll2_1000m (sys)       |         |  clk_ext2 (external)   |
+> >> |  sys_pll3_out (audio ?)     |         |  audio_pll2_out (audio)|
+> >> |  clk_ext4 (external)        |         |*-video_pll1_out (video)|
+> >>  -----------------------------           ------------------------
+> >>              ||                                     |
+> >>  -----------------------------           ------------------------
+> >> |   media_disp{1,2}_pix       |         |        media_ldb       |
+> >>  ----------------------------- mux+div   ------------------------ mux+=
+div
+> >>              ||                                     |
+> >>  -----------------------------           ------------------------
+> >> | media_disp{1,2}_pix_root_clk|         |   media_ldb_root_clk   |
+> >>  ----------------------------- gate      ------------------------ gate
+> >>              ||                                     | (LVDS serial clo=
+ck)
+> >>              ||                                     V
+> >> 	     || (Disp2 Pclk)  --------      ------------------
+> >> 	     | ------------> | LCDIF2 | -> |       LDB        | -> panel/brid=
+ge
+> >> 	     |                --------      ------------------
+> >> 	     |  (Disp1 Pclk)  --------      ------------------
+> >> 	      -------------> | LCDIF1 | -> | Samsung MIPI DSI | -> panel/brid=
+ge
+> >> 	                      --------      ------------------
+> >>                               --------      ------------------      --=
+--------
+> >>                              | LCDIF3 | -> | Synopsys HDMI TX | -> | H=
+DMI PHY |
+> >>                               --------      ------------------     |  =
+   +    |
+> >>                                  ^                                 |  =
+  PLL   |
+> >>                                  |                                  --=
+--------
+> >>                                  | (Disp3 pclk)                       =
+  | |
+> >>                                   ------------------------------------=
+--  |
+> >>                                                                       =
+    V
+> >>                                                                     pa=
+nel/bridge
+> >>
+> >> * video_pll1_out is supposed to be used by video outputs.
+> >>
+> >> - LCDIF2 + LDB can only use the *same* video_pll1_out, sys_pll1_800m or
+> >>   sys_pll2_1000m.
+> >>
+> >> [[ i.MX8MP Display Drivers ]]
+> >> LCDIF: drivers/gpu/drm/mxsfb/lcdif_*.c
+> >> Three LCDIFv3 display controllers are driven by three imx-lcdif DRM in=
+stances
+> >> separately.
+> >>
+> >> LDB: drivers/gpu/drm/bridge/fsl-ldb.c
+> >>
+> >> Samsung MIPI DSI: drivers/gpu/drm/bridge/samsung-dsim.c
+> >>
+> >> Synopsys HDMI TX: drivers/gpu/drm/bridge/imx/imx8mp-hdmi-tx.c
+> >>
+> >> [[ Problem - Shared Video PLL Between Samsung MIPI DSI and LDB ]]
+> >> osc_24m, audio_pll*, sys_pll* and clk_ext* are not for video outputs,
+> >> because:
+> >> a. Aparently, osc_24m runs at fixed 24MHz which is too low for most di=
+splays.
+> >> b. Audio subsystem may consume all audio_pll*.
+> >> c. sys_pll* are system clocks which are supposed to run at fixed typic=
+al
+> >>    rates, e.g., sys_pll2_1000m runs at 1000MHz.
+> >> d. sys_pll3_out is supposed to derive audio AXI clock running at nomin=
+al
+> >>    600MHz(i.MX8MP data sheet specifies the rate), see NXP downstream k=
+ernel:
+> >>    https://github.com/nxp-imx/linux-imx/blob/lf-6.6.y/arch/arm64/boot/=
+dts/freescale/imx8mp-evk-ndm.dts#L19
+> >>    https://github.com/nxp-imx/linux-imx/blob/lf-6.6.y/arch/arm64/boot/=
+dts/freescale/imx8mp-ddr4-evk.dts#L25
+> >=20
+> > Is there any downside to using any of these clocks, aside from the fact
+> > that their rate must not change?
 >=20
-> hmm_range_fault() by default triggered a page fault on device private
-> when HMM_PFN_REQ_FAULT flag was set. pages, migrating them to RAM. In
-> some
-> cases, such as with RDMA devices, the migration overhead between the
-> device (e.g., GPU) and the CPU, and vice-versa, significantly
-> degrades
-> performance. Thus, enabling Peer-to-Peer (P2P) DMA access for device
-> private page might be crucial for minimizing data transfer overhead.
+> osc_24m and sys_pll* don't support spread spectrum while audio_pll* and
+> video_pll1_out support it. Other than that, I don't see any downside to
+> use any of these clocks, if their clock rates happen to meet the clock
+> rate requirements of the MIPI DSI and LDB display pipelines.
 >=20
-> Introduced an API to support P2P DMA for device private
-> pages,includes:
-> =C2=A0- Leveraging the struct pagemap_ops for P2P Page Callbacks. This
-> callback
-> =C2=A0=C2=A0 involves mapping the page for P2P DMA and returning the
-> corresponding
-> =C2=A0=C2=A0 PCI_P2P page.
+> >=20
+> > Also, if they can't change their rate, why do they have
+> > CLK_SET_RATE_PARENT (sys_pll* in particular) ?
 >=20
-> =C2=A0- Utilizing hmm_range_fault for initializing P2P DMA. The API
-> =C2=A0=C2=A0 also adds the HMM_PFN_REQ_TRY_P2P flag option for the
-> =C2=A0=C2=A0 hmm_range_fault caller to initialize P2P. If set, hmm_range_=
-fault
-> =C2=A0=C2=A0 attempts initializing the P2P connection first, if the owner
-> device
-> =C2=A0=C2=A0 supports P2P, using p2p_page. In case of failure or lack of
-> support,
-> =C2=A0=C2=A0 hmm_range_fault will continue with the regular flow of migra=
-ting
-> the
-> =C2=A0=C2=A0 page to RAM.
+> If media_disp{1,2}_pix and media_ldb clocks have no CLK_SET_RATE_PARENT,
+> it doesn't mattter whether their parent clocks(these clocks) have it or n=
+ot.
+> Note that patch 2 drops CLK_SET_RATE_PARENT for media_disp{1,2}_pix clock=
+s.
 >=20
-> This change does not affect previous use-cases of hmm_range_fault,
-> because both the caller and the page owner must explicitly request
-> and
-> support it to initialize P2P connection.
+> Anyway, why have sys_pll* clocks got CLK_SET_RATE_PARENT? The reason I can
+> think of is that it makes some potential i.MX8MP platforms possible to set
+> the sys_pll* rates with the parent clock rates(sys_pll1/2/3) updated
+> accordingly, e.g., if sys_pll2_1000m is the only active child of sys_pll2=
+_out,
+> sys_pll2_1000m's rate can be assigned to 800MHz(not typical 1000MHz) in D=
+T.
+> Or, maybe, the sys_pll* rates can be assigned to some particular values to
+> support nominal/overdrive modes of various i.MX8MP clock roots(some are
+> derived from the sys_pll* clocks).
 >=20
-> Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
-> Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
-> ---
-> =C2=A0include/linux/hmm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
-> =C2=A0include/linux/memremap.h |=C2=A0 8 ++++++
-> =C2=A0mm/hmm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 57 ++++++++++++++++++++++++++++++=
-+++-----
-> --
-> =C2=A03 files changed, 57 insertions(+), 11 deletions(-)
-
-It appears we're working on a very similar thing, (In fact the original
-proposals were sent out the same day. I have a couple of questions).
-
-
+> >=20
+> >> e. clk_ext* are external clocks without known capabilities.
+> >>
+> >> So, the only eligible video_pll1_out is supposed to be shared between =
+LDB
+> >> and Samsung MIPI DSI in the two separate display pipelines if sys_pll3=
+_out
+> >> is already used to derive the audio AXI clock.
+> >>
+> >> With the shared video_pll1_out, drivers for the two display pipelines =
+cannot
+> >> change the PLL clock rate in runtime, since the pipelines are driven b=
+y two
+> >> DRM driver instances.
+> >=20
+> > What is the typicall frequency on those pipelines? Could setting the PLL
 >=20
-> diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-> index 62980ca8f3c5..017f22cef893 100644
-> --- a/include/linux/hmm.h
-> +++ b/include/linux/hmm.h
-> @@ -26,6 +26,7 @@ struct mmu_interval_notifier;
-> =C2=A0 * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output
-> transformation
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to mark tha=
-t page is already DMA mapped
-> + * HMM_PFN_ALLOW_P2P - Allow returning PCI P2PDMA page
-> =C2=A0 *
-> =C2=A0 * On input:
-> =C2=A0 * 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Return the current state of the page, d=
-o not
-> fault it.
-> @@ -41,7 +42,7 @@ enum hmm_pfn_flags {
-> =C2=A0	HMM_PFN_ERROR =3D 1UL << (BITS_PER_LONG - 3),
-> =C2=A0
-> =C2=A0	/* Sticky flag, carried from Input to Output */
-> +	HMM_PFN_ALLOW_P2P =3D 1UL << (BITS_PER_LONG - 6),
-> =C2=A0	HMM_PFN_DMA_MAPPED =3D 1UL << (BITS_PER_LONG - 7),
-> =C2=A0
-> =C2=A0	HMM_PFN_ORDER_SHIFT =3D (BITS_PER_LONG - 8),
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index 3f7143ade32c..cdf5189be5e9 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -89,6 +89,14 @@ struct dev_pagemap_ops {
-> =C2=A0	 */
-> =C2=A0	vm_fault_t (*migrate_to_ram)(struct vm_fault *vmf);
-> =C2=A0
-> +	/*
-> +	 * Used for private (un-addressable) device memory only.
-> Return a
-> +	 * corresponding PFN for a page that can be mapped to device
-> +	 * (e.g using dma_map_page)
-> +	 */
-> +	int (*get_dma_pfn_for_device)(struct page *private_page,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *dma_pfn);
-> +
-> =C2=A0	/*
-> =C2=A0	 * Handle the memory failure happens on a range of pfns.=C2=A0
-> Notify the
-> =C2=A0	 * processes who are using these pfns, and try to recover
-> the data on
-> diff --git a/mm/hmm.c b/mm/hmm.c
-> index a852d8337c73..1c080bc00ee8 100644
-> --- a/mm/hmm.c
-> +++ b/mm/hmm.c
-> @@ -226,6 +226,51 @@ static inline unsigned long
-> pte_to_hmm_pfn_flags(struct hmm_range *range,
-> =C2=A0	return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) :
-> HMM_PFN_VALID;
-> =C2=A0}
-> =C2=A0
-> +static bool hmm_handle_device_private(struct hmm_range *range,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long pfn_req_flags,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 swp_entry_t entry,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *hmm_pfn)
-> +{
-> +	struct page *page =3D pfn_swap_entry_to_page(entry);
-> +	struct dev_pagemap *pgmap =3D page->pgmap;
-> +	int ret;
+> For MIPI DSI to HDMI(ADV7535) and LVDS to HDMI(IT6263), the typical pixel
+> rates are 148.5MHz(1080p60Hz) and 74.25MHz(720p60Hz) and the typical LDB
+> clock rate is 519.75MHz.
 >=20
-> +	pfn_req_flags &=3D range->pfn_flags_mask;
-> +	pfn_req_flags |=3D range->default_flags;
-> +
-> +	/*
-> +	 * Don't fault in device private pages owned by the caller,
-> +	 * just report the PFN.
-> +	 */
-> +	if (pgmap->owner =3D=3D range->dev_private_owner) {
-> +		*hmm_pfn =3D swp_offset_pfn(entry);
-> +		goto found;
-> +	}
-> +
-> +	/*
-> +	 * P2P for supported pages, and according to caller request
-> +	 * translate the private page to the match P2P page if it
-> fails
-> +	 * continue with the regular flow
-> +	 */
-> +	if (pfn_req_flags & HMM_PFN_ALLOW_P2P &&
-> +	=C2=A0=C2=A0=C2=A0 pgmap->ops->get_dma_pfn_for_device) {
-> +		ret =3D pgmap->ops->get_dma_pfn_for_device(page,
-> hmm_pfn);
+> For MIPI DSI panel and LVDS panel, there no typical pixel rates. It depen=
+ds
+> on individual panels. However, it's possible to override panel's pixel cl=
+ock
+> rate in DT to use a fixed PLL clock rate if the pixel clock rate deviation
+> is still acceptable by the panel.
+>=20
+> > high enough that any frequency required by any of these pipelines can be
+> > accomodated through a divider work?
+>=20
+> Yes, that's why media_blk_ctrl node in imx8mp.dtsi assigns video_pll1 clo=
+ck
+> rate to 1.0395GHz. That rate supports the typical 148.5MHz and 74.25MHz
+> pixel clock rates. With this patch series applied, i.MX8MP EVK would use
+> this fixed 1.0395GHz video_pll1 clock to drive both MIPI DSI to HDMI and
+> LVDS to HDMI simultaneously.
+>=20
+> >=20
+> > Something like you run the PLL at 594MHz, and then most HDMI frequencies
+> > can be reached by a 1, 2 or 4 divider.
+>=20
+> PLL running at 594MHz does support the typical pixel clock rates for MIPI
+> DSI to HDMI, but not for LVDS to HDMI due to the 7x(single-LVDS link) or
+> 3.5x(dual-LVDS link) folder between LDB clock rate and pixel clock rate.
+> PLL running at 1.0395GHz is the one chosen to support both MIPI DSI to
+> HDMI and LVDS to HDMI, e.g., with dual-LVDS link, 148.5MHz pixel clock ra=
+te
+> =3D 1.0395GHz / 7 and 519.75MHz LDB clock rate(148.5MHz * 3.5) =3D 1.0395=
+GHz / 2.
+>=20
+> >=20
+> >> [[ Solution ]]
+> >> Assign the PLL clock source(s) and the PLL clock rate(s) in DT.  Disal=
+low
+> >> display drivers to change the PLL clock source(s) or rate(s) in runtime
+> >> including LCDIF driver and bridge drivers.  With sensible PLL clock ra=
+te(s),
+> >> typical display modes like 1920x1080@60 can be supported if external H=
+DMI
+> >> bridges are connected, and panel display modes can be too.  Also the u=
+nneeded
+> >> CLK_SET_RATE_PARENT flag can be dropped for media_disp{1,2}_pix clocks.
+> >> If needed, bridge drivers just call clk_round_rate() to validate clock=
+s so
+> >> that unsupported display modes can be filtered out.  Although the
+> >> unchangeable PLL clock rate disallows more potential display modes, the
+> >> solution works for single/dual/triple display pipelines(OFC, hardware =
+designers
+> >> should pick panel/bridge display devices carefully first by considerin=
+g clock
+> >> resources).
+> >=20
+> > I think it's a reasonable idea, if not for the hardcode-it it DT stuff.
+> > If we can manage to have a fixed setup work ok for all display use
+> > cases, why would it be in DT? The clock driver seems like a much better
+> > choice to me.
+>=20
+> Different i.MX8MP platforms may have different display devices(panel(s)
+> and/or bridge(s)). It's flexible to allow each platform to assign the PLL
+> rate(s) in DT. It doesn't look doable with clock driver, does it?
 
-How would the pgmap device know whether P2P is actually possible
-without knowing the client device, (like calling pci_p2pdma_distance)
-and also if looking into access control, whether it is allowed?
+Why not? Plenty of platforms are doing it. If anything, it's more
+flexible to deal with it in the clock driver, because then you don't
+have to filter out modes that aren't compatible with the frequency that
+got assigned in the DT.
 
-I wonder whether you could consider using something that is a little
-more generic that would fit also our use-case. Here the caller provides
-a callback as to whether devmem access is allowed, but leaves any dma-
-mapping or pfn mangling to be done after the call to hmm_range_fault(),
-since hmm_range_fault() really only needs to know whether it has to
-migrate to system or not. One benefit of using this alternative
-approach is that struct hmm_range can be subclassed by the caller and
-for example cache device pairs for which p2p is allowed.
+Also, it's more robust since that frequency isn't guaranteed to be
+constant across the system life.
 
-Current version (after the feedback from Jason looks like this). It
-looks like your use-case could easily be made to fit this one, but, as
-I understand it, not vice versa: (Could send this as a separate patch
-if needed).
+Maxime
 
-Thanks,
-Thomas
+--7kmjyo7mbnkjzcvj
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-index 126a36571667..8ac1f4125e30 100644
---- a/include/linux/hmm.h
-+++ b/include/linux/hmm.h
-@@ -76,6 +76,21 @@ static inline unsigned int
-hmm_pfn_to_map_order(unsigned long hmm_pfn)
- 	return (hmm_pfn >> HMM_PFN_ORDER_SHIFT) & 0x1F;
- }
-=20
-+struct hmm_range;
-+
-+/**
-+ * struct hmm_range_ops - Functions for detailed cross-device access.
-+ */
-+struct hmm_range_ops {
-+	/**
-+	 * @devmem_allow: Whether to allow cross-device access to
-device_private pages.
-+	 * @hrange: Pointer to a struct hmm_range. Typically
-subclassed by the caller
-+	 * to provide needed information.
-+	 * @page: The page being queried.
-+	 */
-+	bool (*devmem_allow)(struct hmm_range *hrange, struct page
-*page);
-+};
-+
- /*
-  * struct hmm_range - track invalidation lock on virtual address range
-  *
-@@ -87,6 +102,7 @@ static inline unsigned int
-hmm_pfn_to_map_order(unsigned long hmm_pfn)
-  * @default_flags: default flags for the range (write, read, ... see
-hmm doc)
-  * @pfn_flags_mask: allows to mask pfn flags so that only
-default_flags matter
-  * @dev_private_owner: owner of device private pages
-+ * @ops: Pointer to a struct hmm_range_ops or NULL if no ops provided.
-  */
- struct hmm_range {
- 	struct mmu_interval_notifier *notifier;
-@@ -97,6 +113,7 @@ struct hmm_range {
- 	unsigned long		default_flags;
- 	unsigned long		pfn_flags_mask;
- 	void			*dev_private_owner;
-+	const struct hmm_range_ops *ops;
- };
-=20
- /*
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 7e0229ae4a5a..ea4e08caa14a 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -220,6 +220,15 @@ static inline unsigned long
-pte_to_hmm_pfn_flags(struct hmm_range *range,
- 	return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) :
-HMM_PFN_VALID;
- }
-=20
-+static bool hmm_devmem_allow(struct hmm_range *range, struct page
-*page)
-+{
-+	if (likely(page->pgmap->owner =3D=3D range->dev_private_owner))
-+		return true;
-+	if (likely(!range->ops))
-+		return false;
-+	return range->ops->devmem_allow(range, page);
-+}
-+
- static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long
-addr,
- 			      unsigned long end, pmd_t *pmdp, pte_t
-*ptep,
- 			      unsigned long *hmm_pfn)
-@@ -245,11 +254,10 @@ static int hmm_vma_handle_pte(struct mm_walk
-*walk, unsigned long addr,
-=20
- 		/*
- 		 * Don't fault in device private pages owned by the
-caller,
--		 * just report the PFN.
-+		 * or that are accessible to the caller. Just report
-the PFN.
- 		 */
- 		if (is_device_private_entry(entry) &&
--		    pfn_swap_entry_to_page(entry)->pgmap->owner =3D=3D
--		    range->dev_private_owner) {
-+		    hmm_devmem_allow(range,
-pfn_swap_entry_to_page(entry))) {
- 			cpu_flags =3D HMM_PFN_VALID;
- 			if (is_writable_device_private_entry(entry))
- 				cpu_flags |=3D HMM_PFN_WRITE;
---=20
-2.48.1
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5ihrgAKCRAnX84Zoj2+
+dnSLAYDt6cWcr36B59F3FD29h+8EhJFZdQYolvJ7EnbMmgpcvvyE+/jFQvdZDB98
+KGeKET0BgPuI14uRS6azReXJHElsJi4ivmgc+xYGykxLt6yA7fTYJlBo9mxtbI4E
+Hpqm546xvg==
+=UCgp
+-----END PGP SIGNATURE-----
 
-
+--7kmjyo7mbnkjzcvj--
