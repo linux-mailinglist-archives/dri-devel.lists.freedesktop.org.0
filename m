@@ -2,71 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AC6A20435
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 07:06:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929E5A204B5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 07:57:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7193D10E333;
-	Tue, 28 Jan 2025 06:06:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D15010E1C6;
+	Tue, 28 Jan 2025 06:57:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="KL5qjXvV";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="g/jzuMW5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 527 seconds by postgrey-1.36 at gabe;
- Tue, 28 Jan 2025 06:06:31 UTC
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1118110E333
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 06:06:31 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50S5vN3Z1135210
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Jan 2025 23:57:23 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1738043843;
- bh=GRHN9naLj2rJ4nGo9FOnkbnTUItG3F+RSSngWidQHmY=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=KL5qjXvVeFA5RsI+3QLslXtRJ9ySUiNiCrr3XW62Ht1dUBj3nFdtmFls5vNSfCxmW
- OZMzvx0rchnxEHai+Ozt0ReU8xI02ybg/mrXBD2sGltDOw3Y8lUgmVgFkl2gJDU/94
- VrHHSzUHEDW4Y/tXLGdboyjQXu1a3PdTLJnmW0hc=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 50S5vNmf068607
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 27 Jan 2025 23:57:23 -0600
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 27
- Jan 2025 23:57:22 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 27 Jan 2025 23:57:22 -0600
-Received: from [10.24.68.181] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [10.24.68.181])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50S5vHMq045270;
- Mon, 27 Jan 2025 23:57:18 -0600
-Message-ID: <59c66b9a-9ced-434e-8e6d-626a1fa70abf@ti.com>
-Date: Tue, 28 Jan 2025 11:27:16 +0530
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 4D68710E1C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 06:57:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=eeLRa
+ 5x2KpEUggfoDIJOtFMbFXm1/Aza7Z1ZIM6TNgI=; b=g/jzuMW5cl3G4pv3lzIKJ
+ EfDG6v2rhLzYdtLRRKYseNyibIb7ephWWogwE6UQUqkNdHO6oT5k/99uCADcIyIr
+ 4L1o9Y1SXPr9tm3X/no8qDIj4s1HYIBwc6ZxJVOfx7gbFx2Ye7ygC+RHMhjmlP51
+ sp6fXWHQzIgCqtWFzTyuQg=
+Received: from DESKTOP-DMSSUQ5.localdomain (unknown [113.247.116.130])
+ by gzsmtp5 (Coremail) with SMTP id QCgvCgA3YTOuf5hnTzY4MA--.33100S2;
+ Tue, 28 Jan 2025 14:56:46 +0800 (CST)
+From: oushixiong1025@163.com
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] drm/bridge: analogix_dp: Use devm_platform_ioremap_resource()
+Date: Tue, 28 Jan 2025 14:56:45 +0800
+Message-ID: <20250128065645.27140-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] drm: bridge: cdns-mhdp8546: Fix possible null pointer
- dereference
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
- <dri-devel@lists.freedesktop.org>, <sjakhade@cadence.com>,
- <mripard@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
- <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>
-CC: <amishin@t-argos.ru>, <jani.nikula@intel.com>, <tzimmermann@suse.de>,
- <maarten.lankhorst@linux.intel.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <linux-kernel@vger.kernel.org>,
- <devarsht@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-References: <20250116111636.157641-1-j-choudhary@ti.com>
- <e76f94b9-b138-46e7-bb18-b33dd98c9abb@ideasonboard.com>
- <9431081.CDJkKcVGEf@steina-w>
-Content-Language: en-US
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <9431081.CDJkKcVGEf@steina-w>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: QCgvCgA3YTOuf5hnTzY4MA--.33100S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WFyUXw1UtF48KrW7tw13Arb_yoW8Gr4kpF
+ 97Ga1Uur48u3W8Kws5ZrWxAFZxXasFv3yrGr4ftwsa9w1UtF9rAFn8AFy0gas3tFykC3Wf
+ XwnxJrykAa4DXFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UQFxUUUUUU=
+X-Originating-IP: [113.247.116.130]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRviD2eYYD6tVwABsx
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,42 +62,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Tomi, Alexander,
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-On 24/01/25 13:38, Alexander Stein wrote:
-> Hi,
-> 
-> Am Donnerstag, 23. Januar 2025, 17:20:34 CET schrieb Tomi Valkeinen:
->> Hi,
->>
->> On 16/01/2025 13:16, Jayesh Choudhary wrote:
->>> For the cases we have DRM_BRIDGE_ATTACH_NO_CONNECTOR flag set,
->>
->> Any idea if any other platform than K3 is using this driver? tidss
->> supports DRM_BRIDGE_ATTACH_NO_CONNECTOR, so if K3 is the only user, we
->> could drop the legacy !DRM_BRIDGE_ATTACH_NO_CONNECTOR case. Which would
->> remove quite a bit of code, I think, and make the driver a bit more easy
->> to understand (although I think it could use a major cleanup...).
-> 
-> FYI: Not directly using it, but patch series [1] is at least touching
-> this file.
+Convert platform_get_resource(), devm_ioremap_resource() to a single
+call to devm_platform_ioremap_resource().
 
-I can't see any other platform using this.
-No one uses compatible "cdns,mhdp8546" and only K3 devices uses the
-wrapper compatible "ti,j721e-mhdp8546"
-Let me post next RFC version with legacy !DRM_BRIDGE_ATTACH_NO_CONNECTOR
-dropped.
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-And the mentioned series only touches mailbox access function to move
-then to a common helper file. (So independent change)
+diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+index bfa88409a7ff..f6e4bdc05ba0 100644
+--- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
++++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+@@ -1553,7 +1553,6 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct analogix_dp_device *dp;
+-	struct resource *res;
+ 	unsigned int irq_flags;
+ 	int ret;
+ 
+@@ -1605,9 +1604,7 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
+ 		return ERR_CAST(dp->clock);
+ 	}
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-
+-	dp->reg_base = devm_ioremap_resource(&pdev->dev, res);
++	dp->reg_base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(dp->reg_base)) {
+ 		ret = PTR_ERR(dp->reg_base);
+ 		goto err_disable_clk;
+-- 
+2.43.0
 
-
-> 
-> Best regards,
-> Alexander
-> 
-> [1] https://lore.kernel.org/all/cover.1734340233.git.Sandor.yu@nxp.com/
-> 
-
-Warm Regards,
-Jayesh
