@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B7CA210D4
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4597BA210B1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9903810E6E7;
-	Tue, 28 Jan 2025 18:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6804B10E125;
+	Tue, 28 Jan 2025 18:22:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hgE89/ZE";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Y6ylpiLi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3D76110E043
+ by gabe.freedesktop.org (Postfix) with ESMTP id A070A10E043
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:22:00 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 677F3203717D;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 91DF1203717E;
  Tue, 28 Jan 2025 10:21:58 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 677F3203717D
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 91DF1203717E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1738088518;
- bh=HdLPh2PfgYXpuYBC8DOdOZE21MhHNYKQn7qY/vRruJc=;
+ bh=DdLbmsRzgWLdzC2fj6O2CIX1t5gGJspI8Pgb54drLsE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=hgE89/ZEGzhCC06fBSy0OuT0sQNDNNusckBiNMFdx8HObLyTLW3siMG94Pr0ZLlsb
- fQK9++emxz2f1q1VTPxH2f2GJNOABzUmDv5dw+7qWye+06L0MBnTU4YhBM46fW71JN
- PSr2aK+Cp92CEJ/69KbyMUuvjSAK/8CWtJpCo8l8=
+ b=Y6ylpiLi1KVZ08WiTao/OJYzlh6hCYH9M4Lti7xtSLDcF9isW5mseElvLmHpIZ8qP
+ x/5hoAPvzc6Kc/w4ySGEyIVQMvEw8hunjl0cSDD/bAeaa2sgqpNFi8a/A/eDwTMxh5
+ TRAFAiqE6+9cKOciP+b85ff4KZYaPvXJLO+fVtn0=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:52 +0000
-Subject: [PATCH 07/16] libceph: convert timeouts to secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:53 +0000
+Subject: [PATCH 08/16] libata: zpodd: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-7-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-8-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -107,59 +107,22 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- net/ceph/ceph_common.c | 10 ++++------
- net/ceph/osd_client.c  |  3 +--
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ drivers/ata/libata-zpodd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/net/ceph/ceph_common.c b/net/ceph/ceph_common.c
-index 4c6441536d55b6323f4b9d93b5d4837cd4ec880c..0d1e303c0212cc9f70f7c54ca422b0b3ea01bf32 100644
---- a/net/ceph/ceph_common.c
-+++ b/net/ceph/ceph_common.c
-@@ -529,27 +529,25 @@ int ceph_parse_param(struct fs_parameter *param, struct ceph_options *opt,
- 		/* 0 isn't well defined right now, reject it */
- 		if (result.uint_32 < 1 || result.uint_32 > INT_MAX / 1000)
- 			goto out_of_range;
--		opt->osd_keepalive_timeout =
--		    msecs_to_jiffies(result.uint_32 * 1000);
-+		opt->osd_keepalive_timeout = secs_to_jiffies(result.uint_32);
- 		break;
- 	case Opt_osd_idle_ttl:
- 		/* 0 isn't well defined right now, reject it */
- 		if (result.uint_32 < 1 || result.uint_32 > INT_MAX / 1000)
- 			goto out_of_range;
--		opt->osd_idle_ttl = msecs_to_jiffies(result.uint_32 * 1000);
-+		opt->osd_idle_ttl = secs_to_jiffies(result.uint_32);
- 		break;
- 	case Opt_mount_timeout:
- 		/* 0 is "wait forever" (i.e. infinite timeout) */
- 		if (result.uint_32 > INT_MAX / 1000)
- 			goto out_of_range;
--		opt->mount_timeout = msecs_to_jiffies(result.uint_32 * 1000);
-+		opt->mount_timeout = secs_to_jiffies(result.uint_32);
- 		break;
- 	case Opt_osd_request_timeout:
- 		/* 0 is "wait forever" (i.e. infinite timeout) */
- 		if (result.uint_32 > INT_MAX / 1000)
- 			goto out_of_range;
--		opt->osd_request_timeout =
--		    msecs_to_jiffies(result.uint_32 * 1000);
-+		opt->osd_request_timeout = secs_to_jiffies(result.uint_32);
- 		break;
+diff --git a/drivers/ata/libata-zpodd.c b/drivers/ata/libata-zpodd.c
+index 4b83b517caec66c82b126666f6dffd09729bf845..799531218ea2d5cc1b7e693a2b2aff7f376f7d76 100644
+--- a/drivers/ata/libata-zpodd.c
++++ b/drivers/ata/libata-zpodd.c
+@@ -160,8 +160,7 @@ void zpodd_on_suspend(struct ata_device *dev)
+ 		return;
+ 	}
  
- 	case Opt_share:
-diff --git a/net/ceph/osd_client.c b/net/ceph/osd_client.c
-index b24afec241382b60d775dd12a6561fa23a7eca45..ba61a48b4388c2eceb5b7a299906e7f90191dd5d 100644
---- a/net/ceph/osd_client.c
-+++ b/net/ceph/osd_client.c
-@@ -4989,8 +4989,7 @@ int ceph_osdc_notify(struct ceph_osd_client *osdc,
- 	linger_submit(lreq);
- 	ret = linger_reg_commit_wait(lreq);
- 	if (!ret)
--		ret = linger_notify_finish_wait(lreq,
--				 msecs_to_jiffies(2 * timeout * MSEC_PER_SEC));
-+		ret = linger_notify_finish_wait(lreq, secs_to_jiffies(2 * timeout));
- 	else
- 		dout("lreq %p failed to initiate notify %d\n", lreq, ret);
+-	expires = zpodd->last_ready +
+-		  msecs_to_jiffies(zpodd_poweroff_delay * 1000);
++	expires = zpodd->last_ready + secs_to_jiffies(zpodd_poweroff_delay);
+ 	if (time_before(jiffies, expires))
+ 		return;
  
 
 -- 
