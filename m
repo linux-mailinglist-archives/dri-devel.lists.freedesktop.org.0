@@ -2,72 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A31DA20828
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 11:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4201A20829
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 11:04:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 292F510E0B9;
-	Tue, 28 Jan 2025 10:04:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D86F10E264;
+	Tue, 28 Jan 2025 10:04:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="bBHqDG46";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QmgwvXAR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EA2210E0B9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 10:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- sang-engineering.com; h=date:from:to:cc:subject:message-id
- :references:mime-version:content-type:in-reply-to; s=k1; bh=bxz/
- 0pXNGLp79DTrXAGCWmNrASaqXxxqeOlWeKqp+3k=; b=bBHqDG46xELr7OSouF4I
- SNDrnImMyPvtbU8otubAm6l2/yVD5Ows0qODjCQurg2z/5ALTxfILC/4csz3kDw9
- wINfEFPTA2kvXkECkbsal7WAeD+Xwtx0sb2k4TjMMfOCykO/vJS8ZufmP7wX+uSR
- pKX4Q1Ae8188UI9ygpajo96BoiiC9MfoirTejn+7U5e2v0fz1/VyzR4dsogQowQA
- 7NrxhAt9ZUfHTQAWGEAdQ6E3ytI4kC8lPbpMoFETwjjS6CxXRm/s6WwdTbJtbjSe
- T8OqLpjemT/yye10YmuMEPq76eF4UCGPwhaqua1YJFyPElTJdpNBLazO0PGyhqfZ
- bw==
-Received: (qmail 541909 invoked from network); 28 Jan 2025 11:04:29 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
- authenticated); 28 Jan 2025 11:04:29 +0100
-X-UD-Smtp-Session: l3s3148p1@k5KaUcEsgM8ujnvm
-Date: Tue, 28 Jan 2025 11:04:29 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-renesas-soc@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0DA4310E612
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 10:04:36 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 513431BF204;
+ Tue, 28 Jan 2025 10:04:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738058675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OgYV1p9ISQoK4yI18FOJcDadHJfkikkNCT31rFdcASY=;
+ b=QmgwvXARm5dogmhXKa+Jlc0ul3ZRiJHfGnNL4JYVupQJNb8GY9HP6WDU7PMjqzUVcyEldt
+ xvK37jndLW/ycPtBTFEl9fDZn1MEFSBwyGnfGt8+l4ZM0rFJ/UiyIMhXky+lqed2umdmp6
+ jQHO+0z79paLbwAutVlMJOMKX+l/1+FR857gwp+S0VliVw7cSE77XJivsak+pq9/Xjvft7
+ fVgIPeRBrHEktxEy4KeCUWTf621jNP+uOfQfFckgMKeZ4e3+mSomsT7d3YrqIME6kRJ00W
+ vruK3rEOiGjlqPTIXFPpmdIO7ZFqSt5KE0bqsm5jAXV33AEzZZ2jU3Y8eG1jAQ==
+Date: Tue, 28 Jan 2025 11:04:33 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Paz Zcharya <pazz@chromium.org>
+Cc: Sean Paul <seanpaul@google.com>, Drew Davenport <ddavenport@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Paz Zcharya <pazz@google.com>, David Airlie <airlied@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Melissa Wen <melissa.srw@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/vkms: Add support for ABGR8888 pixel format
+Message-ID: <Z5irsdEc6Ex2v_eP@louis-chauvet-laptop>
+Mail-Followup-To: Paz Zcharya <pazz@chromium.org>,
+ Sean Paul <seanpaul@google.com>,
+ Drew Davenport <ddavenport@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Paz Zcharya <pazz@google.com>, David Airlie <airlied@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH RFT 0/2] drm/bridge: Use per-client debugfs entry
-Message-ID: <Z5irrd7FWLhENnDX@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Doug Anderson <dianders@chromium.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- linux-renesas-soc@vger.kernel.org,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-References: <20250125125320.37285-4-wsa+renesas@sang-engineering.com>
- <a3hrta4eiiknuf4sukk27xewhhirzf43u2eeefnpjny27m4x5s@aifvnevj7cb6>
- <Z5c7vk_oa8HGt7sS@ninjato>
- <hywmnv4jf6ix2ziabdftd5zcjqnkfq6pmqxqzw6spc76camrxz@jn5vr4mgj37v>
- <CAD=FV=V_cs1mc-6LJ21OYbTc8=_3RQYEOBACOSE1iX2woa7nXg@mail.gmail.com>
+References: <20250127235956.136032-1-pazz@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="6EHuVUA1Cx8xfTJd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=V_cs1mc-6LJ21OYbTc8=_3RQYEOBACOSE1iX2woa7nXg@mail.gmail.com>
+In-Reply-To: <20250127235956.136032-1-pazz@google.com>
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,48 +73,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 27/01/25 - 23:59, Paz Zcharya wrote:
+> Add support for pixel format ABGR8888, which is the default format
+> on Android devices. This will allow us to use VKMS as the default
+> display driver in Android Emulator (Cuttlefish) and increase VKMS
+> adoption.
+> 
+> Changes in v2:
+> - Rebased on top of tip of tree because it has been 3 months.
+> - No functional changes.
+> 
+> Signed-off-by: Paz Zcharya <pazz@google.com>
 
---6EHuVUA1Cx8xfTJd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi Paz,
 
-Hi Doug!
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 
-> wanted it in panel-edp, but glad it's useful for other cases. ;-)
+When applying a patch I got a small warning about a missmatch between your 
+author email and the Signed-off-by:
 
-:)
+	-:106: WARNING:FROM_SIGN_OFF_MISMATCH: From:/Signed-off-by: email address mismatch: 'From: Paz Zcharya <pazz@chromium.org>' != 'Signed-off-by: Paz Zcharya <pazz@google.com>'
 
-> want some type of directory under there. In ti-sn65dsi86's case you
-> could presumably keep the existing behavior where it creates a
-> directory under there called "1-002c".
+I can fix it for you by adding a Author: / changing the Sign-of-by before 
+applying on drm-misc-next.
 
-The good news is that I learnt now that I can actually test the change
-myself on one of the Renesas boards. So, I can play around to find a
-good solution. Maybe even with a symlink somewhere. I have to try.
+What mail do you want to use? pazz@google.com or pazz@chromium.org?
 
-Thanks for the feedback,
-
-   Wolfram
-
-
---6EHuVUA1Cx8xfTJd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmeYq6kACgkQFA3kzBSg
-KbaMvRAAhnbQnQVGIRUNbt/NKUlXINlMVqrKnFr59uDA4ZePfDepJCs+GO3AO9iG
-zHmc6ozEI1/1ts4ijD8mdNnBe6WeWE+g655TZCdqr2hfY2LvWbSuuiH2mY68G3XT
-5CpNMsmAfp4KS4Fegx4jTubMiJJWaljeGNg6lsNy419yEzZGi5R3GZ6RHHbOuA1U
-6uSUAtBY5trKtf2POXhErm0QPVHAg6gzNgYkZDFy+ghg+p9sRYvPuRjrY7+Q8zq8
-EWomTcJ2NKnEdOsqfaVEWllYTIDd+UTAo6nyae3nVIy4n2LOU5OksdE+wjfm+DKR
-1UjnuelcGX2Xpssa+TNFagmn40e2mgaZ2PbEVokdzYMZ4jYM/VMIeEoek+qmivNj
-QQkMXoq6phHEDfpdCm+4u20tUi/E52XB8V85mMj4Ol9Fv5PJtTLQCqyWvsP4bXi1
-J2qqk9Y2NLwWar32sks9QxQ8pnm9ju9XLYW00/TT5jQ/BDJCEIf7/Rn/D+qXwRSR
-ocC84ks+5nHiKF8iuU5zRqkO3KdMZ2g06bE7uKj+Hx/t1GjgvZpqCJe9el677/XI
-4n3r9QIyw4S7BRo0LHCm2P0UyZXsGvwzA0xyrss0cR7hsqi+3uKPn2s0c2nN18Ay
-OfkaZdlUMCKzvAHKqoIFgSQ9NUkqbkXgiqAyPDp/t6AZ4EYuAAU=
-=hM0Y
------END PGP SIGNATURE-----
-
---6EHuVUA1Cx8xfTJd--
+Thanks!
+Louis Chauvet
