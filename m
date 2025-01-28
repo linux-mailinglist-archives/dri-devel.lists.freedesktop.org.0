@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87E4A210C6
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68B3A210CF
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D754D10E689;
-	Tue, 28 Jan 2025 18:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9410910E6E6;
+	Tue, 28 Jan 2025 18:22:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZOuwdqaZ";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VDOJ0UVc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6D75E10E2B0
+ by gabe.freedesktop.org (Postfix) with ESMTP id BAD9810E2B0
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:22:03 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 7B8912037183;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 9DEDF2037186;
  Tue, 28 Jan 2025 10:21:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7B8912037183
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9DEDF2037186
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1738088519;
- bh=VqcHpB+vyGTp1RMX3+WFTH5f5bCj+Q9J8OolxUskrKo=;
+ bh=MrRoSF+FOHzMLN/F6LhKtUoOtRK4Dvpw4z2TjFgN7VQ=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=ZOuwdqaZhug0KNQQ21Ohb30BhgvBJyo55qHRaa7MGqCb8wONCvj3jN/bLp9sKWWM6
- 8bC+bT63Hpx0+HHlZCeQeaR75fGVzJRRwDfMPixaFz8dfRqI1843e4U/m+evk1P+Me
- /+O0qMwZndCMTYuy618bWJRmYRUItE1KI26PeEM4=
+ b=VDOJ0UVcB3tdWtv0kEPgju6P8XjLVhI9v/FwUwQueJEftvBCu5K7f+pdk59MpNfkK
+ ZNizZYJyPBz3Enx9ehl7deE8rXReMEi7MKIck08fnn53suV4apwJE6v0a75dbsKot1
+ FOlMM/x/cVOz5FAhrxA1C4ODo0Fz3V/+H2e0Wt4U=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:59 +0000
-Subject: [PATCH 14/16] platform/x86/amd/pmf: convert timeouts to
+Date: Tue, 28 Jan 2025 18:22:00 +0000
+Subject: [PATCH 15/16] platform/x86: thinkpad_acpi: convert timeouts to
  secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-14-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-15-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -108,23 +108,22 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/platform/x86/amd/pmf/acpi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/platform/x86/thinkpad_acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
-index dd5780a1d06e1dc979fcff5bafd6729bc4937eab..6b7effe80b78b7389b320ee65fa5d2373f782a2f 100644
---- a/drivers/platform/x86/amd/pmf/acpi.c
-+++ b/drivers/platform/x86/amd/pmf/acpi.c
-@@ -220,7 +220,8 @@ static void apmf_sbios_heartbeat_notify(struct work_struct *work)
- 	if (!info)
- 		return;
- 
--	schedule_delayed_work(&dev->heart_beat, msecs_to_jiffies(dev->hb_interval * 1000));
-+	schedule_delayed_work(&dev->heart_beat,
-+			      secs_to_jiffies(dev->hb_interval));
- 	kfree(info);
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index 1fcb0f99695a78d392ed000b0831eb4d45eff55f..500b497c3f375f463f014ed3f3361afc9d6f3329 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -8505,7 +8505,7 @@ static void fan_watchdog_reset(void)
+ 	if (fan_watchdog_maxinterval > 0 &&
+ 	    tpacpi_lifecycle != TPACPI_LIFE_EXITING)
+ 		mod_delayed_work(tpacpi_wq, &fan_watchdog_task,
+-			msecs_to_jiffies(fan_watchdog_maxinterval * 1000));
++			secs_to_jiffies(fan_watchdog_maxinterval));
+ 	else
+ 		cancel_delayed_work(&fan_watchdog_task);
  }
- 
 
 -- 
 2.43.0
