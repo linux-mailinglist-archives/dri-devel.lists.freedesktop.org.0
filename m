@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDA2CA20E28
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 17:14:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49BFDA20E2F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 17:15:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F1E6A10E290;
-	Tue, 28 Jan 2025 16:14:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A586810E6A1;
+	Tue, 28 Jan 2025 16:15:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sSuZdn8p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HkHq0lxL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8A1010E290
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 16:14:11 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 636B810E6A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 16:15:00 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id E343CA40F8F;
- Tue, 28 Jan 2025 16:12:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 034EAC4CED3;
- Tue, 28 Jan 2025 16:14:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id BA2785C607F;
+ Tue, 28 Jan 2025 16:14:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBB0AC4CEE3;
+ Tue, 28 Jan 2025 16:14:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738080850;
- bh=mdFKniHm9KXKpyePPQqG9Nc6x0eYjQPiW6XlN7qqAIU=;
+ s=k20201202; t=1738080899;
+ bh=+RYCuJBTfGX4QA28PDt0r07txLkGzA2mZuZY/PZkZFE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sSuZdn8pDee/DRuFRqYjEAkq9R8bzjMJesnY/LmKCK8XEqjdrMVHiDQgP2CK09WdM
- eupy8IDuwFO1Q/5V3BNFri63zR1zhuAt8Hk5RjnihHqEEAUcfDzJ2z96hM3AuWlVF3
- +aRpr61TS0R4dvpNRpWjau8SlzUovaInWIC5Z3NLevHdlwQkU9k3atpeFApVT6Q4af
- XEC5dTEY8+DoRZRFsnLH4+q3QU8gPa6/oIXxU8PlR4aVKw78U46CRbxHwy8JxiIy+Y
- uLh5QfRcK/Ze9+lcjVG+M1xrfwBULw6BD0mA58FF2t+4Bi9e5iBH3/fqSdjnNRVG5U
- shorGlJCCwwaA==
-Date: Tue, 28 Jan 2025 17:14:06 +0100
+ b=HkHq0lxL1L7ttRkpLFqb/xXW6PMIJvtvAXnzrna2PgH0vvnBqZWGq3PfEY80CdoCf
+ x3pv5NIZIUONFlsUstC4ZMvweonfA9IwmN9HOtGAHIApOWxu9Q5jAssJC/gwSkTzr6
+ hmh42ejhEqtBzTBFaugBIP3lsxJGnQT20LyHf3zJO/h3hE0Ge8cJxJCFVfkgkjquf6
+ ApCk1FqAM8pqy145xE/WXCpHgjWBVDpD6CwfauPWkZKSib07Z6/EJyqIENmFyLwNyr
+ DA6z2nmpsGsv9H2LDI8MPQEBbV/SoOJlPSUVqiGhgwBH4ymErv5ItMomVSE4vsY34J
+ PKqgeRY5JzlXQ==
+Date: Tue, 28 Jan 2025 17:14:56 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -45,16 +45,16 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 08/10] drm/display: bridge-connector: handle CEC
- adapters
-Message-ID: <j5vgb5kcjs2ax3kws6rlbcca57set22ncj6onvgbm4xwjtw43t@uplzdjywzrkr>
+Subject: Re: [PATCH v3 05/10] drm/display: bridge-connector: hook in CEC
+ notifier support
+Message-ID: <jesawkrivnr2seor37i324zxzntt7zqvlwfdg37shfykl2e3q2@strwurvshn22>
 References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
- <20250126-drm-hdmi-connector-cec-v3-8-5b5b2d4956da@linaro.org>
+ <20250126-drm-hdmi-connector-cec-v3-5-5b5b2d4956da@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="jlvdrkt32g5ihies"
+ protocol="application/pgp-signature"; boundary="buhslvzjxvjetd22"
 Content-Disposition: inline
-In-Reply-To: <20250126-drm-hdmi-connector-cec-v3-8-5b5b2d4956da@linaro.org>
+In-Reply-To: <20250126-drm-hdmi-connector-cec-v3-5-5b5b2d4956da@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,52 +71,56 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---jlvdrkt32g5ihies
+--buhslvzjxvjetd22
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
-Subject: Re: [PATCH v3 08/10] drm/display: bridge-connector: handle CEC
- adapters
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 05/10] drm/display: bridge-connector: hook in CEC
+ notifier support
 MIME-Version: 1.0
 
-On Sun, Jan 26, 2025 at 03:29:13PM +0200, Dmitry Baryshkov wrote:
->  /* -----------------------------------------------------------------------------
->   * Bridge Connector Initialisation
->   */
-> @@ -633,6 +711,21 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
->  			if (ret)
->  				return ERR_PTR(ret);
->  		}
-> +
-> +		if (bridge->hdmi_cec_adapter_name) {
-> +			if (!bridge->funcs->hdmi_cec_enable ||
-> +			    !bridge->funcs->hdmi_cec_log_addr ||
-> +			    !bridge->funcs->hdmi_cec_transmit)
-> +				return ERR_PTR(-EINVAL);
-> +
-> +			ret = drm_connector_hdmi_cec_register(connector,
-> +							      &drm_bridge_connector_hdmi_cec_ops,
-> +							      bridge->hdmi_cec_adapter_name,
-> +							      bridge->hdmi_cec_available_las,
-> +							      bridge->hdmi_dev);
-> +			if (ret)
-> +				return ERR_PTR(ret);
-> +		}
+On Sun, Jan 26, 2025 at 03:29:10PM +0200, Dmitry Baryshkov wrote:
+> Allow HDMI DRM bridges to create CEC notifier. Physical address is
+> handled automatically by drm_atomic_helper_connector_hdmi_hotplug()
+> being called from .detect() path.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/bridge/lontium-lt9611.c        |  2 +-
+>  drivers/gpu/drm/display/Kconfig                |  1 +
+>  drivers/gpu/drm/display/drm_bridge_connector.c | 11 ++++++++++-
+>  include/drm/drm_bridge.h                       |  9 +++++++--
+>  4 files changed, 19 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/br=
+idge/lontium-lt9611.c
+> index 0df2c68e45897f2f2eed10a56dd670582526180b..158a4966ac00657074b11e93d=
+c9bcab41c16db18 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> @@ -1252,7 +1252,7 @@ static int lt9611_probe(struct i2c_client *client)
+>  	lt9611->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
+>  	lt9611->bridge.vendor =3D "Lontium";
+>  	lt9611->bridge.product =3D "LT9611";
+> -	lt9611->bridge.hdmi_audio_dev =3D dev;
+> +	lt9611->bridge.hdmi_dev =3D dev;
+>  	lt9611->bridge.hdmi_audio_max_i2s_playback_channels =3D 8;
+>  	lt9611->bridge.hdmi_audio_dai_port =3D 2;
 
-Maybe we can use a different bridge feature flag to trigger the CEC code
-support instead?
+This looks unrleated?
 
 Maxime
 
---jlvdrkt32g5ihies
+--buhslvzjxvjetd22
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5kCTgAKCRAnX84Zoj2+
-dvmIAYDiQe6rHPk9dNG3rlqlQ+L6eAK5T5NsL5wnq6iHTm97tOu6EMbLTXE9X+JR
-Ge2YLYkBgOxY7eZ7hGhJA47GxGHy3WMHHDvX0eIzHPo6aNlfDaya+6lr+gtyJSQE
-1oFKUnLfYg==
-=xUXC
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5kCfwAKCRAnX84Zoj2+
+dl/zAX9eSr2bpe8RHnqR1tMzm4UzuwOQbtu2RPy3zzlz+15qe+5/urNdT6lQjcWb
+god2eOIBgKRPYUAcMsWeRxw6DkznecCUGNUC6dF2bdiU8H8pTkHhyMI69COVBxFS
+JR9coc70Iw==
+=Ao2v
 -----END PGP SIGNATURE-----
 
---jlvdrkt32g5ihies--
+--buhslvzjxvjetd22--
