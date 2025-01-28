@@ -2,108 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63029A21373
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 22:03:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5857DA213AD
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 22:47:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C25BF10E0FC;
-	Tue, 28 Jan 2025 21:03:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A11110E02E;
+	Tue, 28 Jan 2025 21:47:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="lugd+JEl";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Sj/R0GKu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4855310E0FC
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 21:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
- s=s29768273; t=1738098159; x=1738702959; i=markus.elfring@web.de;
- bh=3umHLMGrcLo5C0gV5DfFSpcRm6HAQK73Bd3Y1mC2uB4=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
- Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
- cc:content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=lugd+JElfIBEVWJEly/xpiC37xATW6N6QL/mFXzaImqmdRiGu9El4suaNDc5SBIJ
- f7yuPAtB4XVuylj3u7G5BczelJ5/emDxHQ30PDVNcC9rtRKBhqRseJy6OASoL+Iq9
- ArcQ3FyUW9yd6zl6HvZ2Xlf0WV4HKCmnClbV719vvUnC+rm0ypbfdtPwsGGbVAZnj
- WkCAfzZcvm0TYZkxsVNFrodDO6tQZu6OcvhdWzOTgMDymVvgzqDR+mTdyiZV8tA4+
- QU/te2bbCzVTLcIj2amNj5TwWzdApX4spmArstqfs3lmriJ7U+3XkJ3feVPqxmnLX
- mxBXcCqystTm/wZ5ww==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.40]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mi4z5-1szA8E0tNZ-00bwwr; Tue, 28
- Jan 2025 22:02:39 +0100
-Message-ID: <565fb1db-3618-4636-8820-1ca77dad07a2@web.de>
-Date: Tue, 28 Jan 2025 22:02:29 +0100
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com
+ [209.85.219.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B500A10E02E
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 21:47:47 +0000 (UTC)
+Received: by mail-yb1-f170.google.com with SMTP id
+ 3f1490d57ef6-e4a6b978283so222975276.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 13:47:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738100866; x=1738705666; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zn+DqKP4PqxYmNm18V5XDkXaiOImU9Wxv+z627K+dB8=;
+ b=Sj/R0GKujjefjWpA3Xmjn2wujLGGa94eBtg8y09U19KemyRQABmMZObWvlNzBjVYdA
+ unICmjJR0JFw0gxwJ4LDPuu78YacLhuUmjzLsqYIcdlozHPd05muNhkcLB0P7KrSopOf
+ pze+GPdeJlWRcNFG2LP+jvWjorB6JU316FkUbiE8bGZwD7fRLrvHgq++fXC+yX6Aiv/S
+ hUpYQ+rMfLSOpAcCjg6rlP3Qoy9gUe/bYYDv8Zzr0WttFIHiNxuUFahkyNyC1hfJUED4
+ Wmi3gZb3cMfhrInExFkyfc4NVgiHIUAEDFlNtcPNpMq09uFo8KpcUv90Q/1HvhcTt2fe
+ H+Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738100866; x=1738705666;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Zn+DqKP4PqxYmNm18V5XDkXaiOImU9Wxv+z627K+dB8=;
+ b=dVLWvUjsWodSXOvrgoUSKz36JvGViHTBhS9Nay1Qe9ozz2cFP2T0eH7OZw8ck1vaBD
+ v1mUPUDoHiw5QjmSSdovl6clCU+/Cdq8B9rx40QxX6r/epx/xg+TDst8vJ3whG323ouB
+ 9/61aQGsNultnWGmL0QurGpVdUqhlo7FUgbbO9iq6IRl4sTuHes8vlLYpzjILHpSUhsi
+ rHgpvthA4rLCABgFr4f0nnLl3dKuzsUwABqOMR+KgUqSDWw4shyf7JNcnY2Ow0mH0UQ0
+ NypPhlsdXbUNRkWJ1gtD1BHhRgvOL/BE/4UmrSzWAiHiBu5/tpUZx90+RSXy3Kw4et+0
+ +dKQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBvvFZcxbL9m1AVkDswfplt92tihe18JornVhQhru7s2UCoLz5i05HGA5zu9X43Qu7sUnstp/D15Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyLwv8Z9MALCsbqH1wNm3yvuTdzO9JvF+RQIyDkMzSZs3cZSE8c
+ j56UWQ5BdenaRRZ3CHoEFraQ8kisVG/w4wbB3Gb3NeZiy9k01NPLlWBLZNb0hxTXduBL5QJpbbn
+ OtfYXXXmyLtbwKK+hYWMYGD6v3L0KKnuvoHiavQ==
+X-Gm-Gg: ASbGncvpNM6mjUfrEuUtoFonSYQbCOXQgN8SuETYncpmZAp3vyuAh4zX2fdOfgHGRyv
+ icJJqF3kYmfmGw45jV3vp+3bQg3eq72fr7vSyVFZVs7M94DlZlCHoUst55/DJ4cAjtdwSo8Lv/2
+ luVW83OizQfNWt7Euep/rJpXxwaVYT7Q==
+X-Google-Smtp-Source: AGHT+IEsReWyhqQ6ql9ccWt4eIj2dVvKfCJjrPrZJXAVKevC+b1Jl3BnGoWCpIZI0MTHnefam8NOnM7m7AG9gK5eIJM=
+X-Received: by 2002:a05:690c:6285:b0:6dd:b8ff:c29c with SMTP id
+ 00721157ae682-6f797730641mr43058997b3.17.1738100866577; Tue, 28 Jan 2025
+ 13:47:46 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Easwar Hariharan <eahariha@linux.microsoft.com>, cocci@inria.fr
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-xfs@vger.kernel.org,
- ceph-devel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
- imx@lists.linux.dev, kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org,
- Andrew Morton <akpm@linux-foundation.org>, Carlos Maiolino <cem@kernel.org>,
- Chris Mason <clm@fb.com>, Christoph Hellwig <hch@lst.de>,
- Damien Le Moal <dlemoal@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- David Sterba <dsterba@suse.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>,
- Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- James Bottomley <James.Bottomley@HansenPartnership.com>,
- James Smart <james.smart@broadcom.com>, Jaroslav Kysela <perex@perex.cz>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
- Josef Bacik <josef@toxicpanda.com>, Julia Lawall <Julia.Lawall@inria.fr>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Ilya Dryomov <idryomov@gmail.com>,
- Kalesh Anakkur Purayil <kalesh-anakkur.purayil@broadcom.com>,
- Keith Busch <kbusch@kernel.org>, Leon Romanovsky <leon@kernel.org>,
- Mark Brown <broonie@kernel.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nicolas Palix <nicolas.palix@imag.fr>, Niklas Cassel <cassel@kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>, Ricardo Ribalda <ribalda@google.com>,
- Sagi Grimberg <sagi@grimberg.me>, Sascha Hauer <s.hauer@pengutronix.de>,
- Sebastian Reichel <sre@kernel.org>,
- Selvin Xavier <selvin.xavier@broadcom.com>, Shawn Guo <shawnguo@kernel.org>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Takashi Iwai <tiwai@suse.com>,
- Victor Gambier <victor.gambier@inria.fr>, Xiubo Li <xiubli@redhat.com>,
- Yaron Avizrat <yaron.avizrat@intel.com>
-References: <20250128-converge-secs-to-jiffies-part-two-v1-1-9a6ecf0b2308@linux.microsoft.com>
-Subject: Re: [PATCH 01/16] coccinelle: misc: secs_to_jiffies: Patch
- expressions too
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-1-9a6ecf0b2308@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:iHXXXI1GgZe21qv8LaB36WZ2Vsbh+30ctHdeuhjL58pow7ObI/n
- WkL1BRfcGc3xPTE7WTH/8blOzYTn9sr9kmiu0JlwbK+4b714M1NEuSxTjO0wec15e2/vSDy
- uDaoXgXEnc15+k7LwhSrDlieAakHXlujaBdoTKMERuZeGqcF/lr7wB/BevoNLo+FU7wzIqQ
- aOajvgo+YHQHBAbcH9fBg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:rl1+EWWMtaU=;EqS9WTtqlVexMZSa5Jv6osEpxMn
- hvF5ExxFi69MshCqN0iCQJ9CsPgR4dRizBjf15Nun4PB2G1xVTkt8gPKouGwCsVTv8Wm+WqU2
- TfM0O0GAReZpmFXq82LdrG2sTl+5GS7MW/XeczWoOvfmlQZGUTxAeiabHe982tQ5sjQ7pvBjj
- b6JYk30LAwHaptKVJlAyYDTQrNqQmKm1fInHh1R0BqLWD7yAbmIhzOgsGDyapCyRzZ/6L58Kd
- qMLJCmj8kp6OcGrtC6qyfn6vENJ3sKXUzDCjeFjZsblLj6AZqVFqPaGkr3WDBvgVlzknwCsuL
- dTDBwwDzhXWZDpsnaBHnS8iI6b9y60B0/WwOzfqaZ2vol6lFD69SHUFtYn0ZgHvwiCZm9xktA
- JWX2pS3My9yJ+hVoYQ8Roh/du8QDa/Pm1AN3y4siXvV4Vd2p4r7avPuVYF89xPfhqeOiCUyim
- 74txrmxIhNJtDI2TJ2SHQYS2r1gUY8+ioCwT2SsVmzxEdV795ccbiiKzw3KT1teQ1CRIhkeZF
- k+me759e21qqFhzCA+W+kKa3oNrQvnrx3MFGbr/WoIwLxlyqLG25aVhqwuWvn7yyDaFQ60QKw
- tMPxLX6+iV8IWzhIUyb4CtEkcgWiVVNm59osGitJw6HZJgsmDNDR4zs4DWL+Q5VGOpmwSVC0x
- Q+nvkt0/jEV6wgWG8uEad4c+rNAUrw9rtdYU5HViYfJzdE2v/knRfZBUzOkgi6O5iMZtJ3Lxi
- rKMYnBh+OfDHRaOKzTHuD/jxsBh2wri3J7QnuWvzCczLpsppJHq+CGdZvNevnxIcUGmYGqYZs
- K5WU8xokNX6ip+Z6iQRZjHliRbfF3LPa1bz58C8lLJ8UJMr2uicwiVhyCmJXfhfnTsF1UEjV3
- 2Bjsxn/TOrbOtdszIeVMV7ChLFk0OwufgZxaGxw/3gOyHaPOUZ3Mz/eBUr3BiSQtFPFl4bvd4
- GwFqEoazTKVX6f87q5CL/ThpkFTHi+muon/dhBj6NFEXz0Vk7JlO2YBAbv+PnanDfW0BCvaKH
- DuZIBZebVIcC++l0MdC0iSdO+kNr3TXnRpRd2Pyhqn0qD+C8W+jzV6x520UF9whVDkCQlAjr8
- R1OTygelS4A8CdLcvmF1P6DSPVs1dfnOMm4gzJp4/NcmbxhgSRgtg23Df90/CTB3FnVaeTOWC
- m6owGzbKvieq3OLAkE+SPXE4/jRQF+NmzzaRCayhBpQ==
+References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
+ <20250126-drm-hdmi-connector-cec-v3-5-5b5b2d4956da@linaro.org>
+ <jesawkrivnr2seor37i324zxzntt7zqvlwfdg37shfykl2e3q2@strwurvshn22>
+In-Reply-To: <jesawkrivnr2seor37i324zxzntt7zqvlwfdg37shfykl2e3q2@strwurvshn22>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Tue, 28 Jan 2025 23:47:35 +0200
+X-Gm-Features: AWEUYZkem7YdjFk3hwIW-iXA-gezJrEqFDsNNdUkpKGwbLi83cws2gLFXum-H_w
+Message-ID: <CAA8EJppvnsYc0Ri_3=GGkR6vgFPQt14m56E1kTNhiSf8HU4e8g@mail.gmail.com>
+Subject: Re: [PATCH v3 05/10] drm/display: bridge-connector: hook in CEC
+ notifier support
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,62 +94,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Teach the script to suggest conversions for timeout patterns where the
-> arguments to msecs_to_jiffies() are expressions as well.
-
-I propose to take another look at implementation details for such a script=
- variant
-according to the semantic patch language.
-
-
-=E2=80=A6
-> +++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
-> @@ -11,12 +11,22 @@
+On Tue, 28 Jan 2025 at 18:15, Maxime Ripard <mripard@kernel.org> wrote:
 >
->  virtual patch
-=E2=80=A6
-> -@depends on patch@ constant C; @@
-> +@depends on patch@
-> +expression E;
-> +@@
+> On Sun, Jan 26, 2025 at 03:29:10PM +0200, Dmitry Baryshkov wrote:
+> > Allow HDMI DRM bridges to create CEC notifier. Physical address is
+> > handled automatically by drm_atomic_helper_connector_hdmi_hotplug()
+> > being called from .detect() path.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/bridge/lontium-lt9611.c        |  2 +-
+> >  drivers/gpu/drm/display/Kconfig                |  1 +
+> >  drivers/gpu/drm/display/drm_bridge_connector.c | 11 ++++++++++-
+> >  include/drm/drm_bridge.h                       |  9 +++++++--
+> >  4 files changed, 19 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > index 0df2c68e45897f2f2eed10a56dd670582526180b..158a4966ac00657074b11e93dc9bcab41c16db18 100644
+> > --- a/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > +++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
+> > @@ -1252,7 +1252,7 @@ static int lt9611_probe(struct i2c_client *client)
+> >       lt9611->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+> >       lt9611->bridge.vendor = "Lontium";
+> >       lt9611->bridge.product = "LT9611";
+> > -     lt9611->bridge.hdmi_audio_dev = dev;
+> > +     lt9611->bridge.hdmi_dev = dev;
+> >       lt9611->bridge.hdmi_audio_max_i2s_playback_channels = 8;
+> >       lt9611->bridge.hdmi_audio_dai_port = 2;
 >
-> -- msecs_to_jiffies(C * MSEC_PER_SEC)
-> -+ secs_to_jiffies(C)
-> +-msecs_to_jiffies
-> ++secs_to_jiffies
-> + (E
-> +- * \( 1000 \| MSEC_PER_SEC \)
-> + )
+> This looks unrleated?
 
-1. I do not see a need to keep an SmPL rule for the handling of constants
-   (or literals) after the suggested extension for expressions.
+No, it is related. Initially it was the 'hdmi_audio_dev' field (when
+there was just audio), now it was renamed to 'hdmi_dev', as it's
+common to both audio and CEC.
 
-2. I find it nice that you indicate an attempt to make the shown SmPL code
-   a bit more succinct.
-   Unfortunately, further constraints should be taken better into account
-   for the current handling of isomorphisms (and corresponding SmPL disjun=
-ctions).
-   Thus I would find an SmPL rule (like the following) more appropriate.
-
-@adjustment@
-expression e;
-@@
--msecs_to_jiffies
-+secs_to_jiffies
- (
-(
--e * 1000
-|
--e * MSEC_PER_SEC
-)
-+e
- )
-
-
-3. It seems that you would like to support only a single operation mode so=
- far.
-   This system aspect can trigger further software development challenges.
-
-
-Regards,
-Markus
+-- 
+With best wishes
+Dmitry
