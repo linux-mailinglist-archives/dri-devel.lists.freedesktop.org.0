@@ -2,77 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740E8A20B2F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 14:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF7EA20B39
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 14:20:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E16D910E3F6;
-	Tue, 28 Jan 2025 13:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E30E10E1B4;
+	Tue, 28 Jan 2025 13:20:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="STBS9u+L";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="jHRYBivV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02FC810E3F6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 13:17:35 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50SDH00d1185639
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 28 Jan 2025 07:17:00 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1738070220;
- bh=98kXBdxRQblqVYlGPy67fOXlBJtaWs9p1Zfnvmpx1rs=;
- h=Date:From:Subject:To:CC:References:In-Reply-To;
- b=STBS9u+LehGIgHLMXitumTZf3pDyrg310HsNtAyvkRWNoBRtzJ2mQQXpfVsIOHpo4
- cAX/+U3ZN+9ynXhpOyRNot0tTANowcrZcYkOEctRAzvnvU86j0J9fsTsLywWsx1Y3/
- qbzZkDGYNveYFozCMmtLUCjGuFztkwNM+tXB1ffI=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 50SDH0XK057397
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 28 Jan 2025 07:17:00 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 28
- Jan 2025 07:17:00 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 28 Jan 2025 07:16:59 -0600
-Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
- forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50SDGsvt014946;
- Tue, 28 Jan 2025 07:16:54 -0600
-Message-ID: <dea025e1-98d4-2dcf-e729-19c9d49bf3ae@ti.com>
-Date: Tue, 28 Jan 2025 18:46:53 +0530
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
+ [209.85.222.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD67110E63A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 13:20:36 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id
+ af79cd13be357-7b6ef047e9bso534808785a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 05:20:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1738070435; x=1738675235; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=GOWXoYYRnWMsoeKK+VVuf/lMuv2V7GO+mfTTLFXfUSE=;
+ b=jHRYBivVVkVDTe5D5aEc6CMgyOWp5Dnqomjl0jpUdtlsNZPWj9AsycMm3NKNDMVDL6
+ ceAeDkv121kbek5mAlNZTfZ5uv5qKhfp0Ays7C+ZDJ9A2tNcmG71xAOCFGdL9Pmexz77
+ rwVkSVhvIn1UJ5nJm1c8nmLpYyfLA0wTHVOGAvTKcouvERbH1pIZGo8onHF4Qe7TyRAf
+ i5YAxNiAbF6ZOioNFSs7oZ5nSZMZLii6Hzbjj+TS8GUVnrvi5A7qrzfxpOFHYGbU5+sY
+ kjjqDf511UIVp/71Sxg+KunyAYVnk8JoQb1JM3GdChhW5edBpfK8pQEkEBj2jZbnCbiA
+ NWLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738070435; x=1738675235;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GOWXoYYRnWMsoeKK+VVuf/lMuv2V7GO+mfTTLFXfUSE=;
+ b=WKuGPm7x7lI1O2694D5H0eZFjQR1OL7bLHyigPbtdM2hZ/nvIPMBl6QjwDmfhLZzGx
+ yI7+QMByHaHDdmmOJVcqC8LSGbXkNNdSK/Ca7LaHW0ZBAUcnu9eaGjKLUDShCAZ/qc7u
+ ONxDyIXhqMeK7Lt3IlOybwd2bc1pUZd/c4CyN5VU0zPhiAyUnmXAzyvuYnifyJXez4OZ
+ 7C3hyzXcRU9WqWXjqFkhJUKRf/a2eocUsm1LEYB5VXUNypYiKAcelB2daBbY65Oi6awX
+ Wl8SuWr2sPnSo3ug/bRwESZHlyn57IcBf0oA564Qzzci9jZ1tHs+bpgEsvW9eFNj0ivL
+ c5XA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1MEwXDaqSwuYtot+IY9QXQySYZgIZiQPPZFj7gtOgmD00LMV9vNC4jL0BZmJT08i4N62u+lv7U7Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1EmBgqPbVBTiho4sfBLK0ddcu8tkozEWR7MbSy0mnIcu8pNXF
+ ThTRpO+PUpPTJTTkueuiZGnR4aoO+AoslGemY6NHSw2DkRmkwkMnjNZwQRm2Wjw=
+X-Gm-Gg: ASbGnctbNpEi8Z9DRqc3yIL5PPQUwywg+pZfAOPbtrSfz3Le7gDxiQeqQPLJzrmK/q5
+ HAqoWs2jMEVGDYJDjs6H5mLkn5J3q34Csi8zD6swsnQGGSuo1+Zmp23FGRh5UwACxqu3vdD32fy
+ 59jQnorBVjIEjb6ghHT8w9UgIoyONP/bD16+OEIBmcQy4S9LFvrKTA0XKek1/WWa0PG9E397Zvm
+ OINIoAQtetl9JPQL1ftKXsmAV3SQrystp6gzFdjsK3tH6DC8D/wC3pAjCwHY85udpzvEhob68+2
+ I2azKJJHKVhXejkdqDYbnJpikCZhOTnj2+6HmodfyGjSYw25rCSOIK2MyQ4bl2wSjQVa0B1FQLo
+ =
+X-Google-Smtp-Source: AGHT+IFfqsRD0FOVkdIg887UXRm977J4ky26yoqHXaGeXqELEj2EneWq+CuXUYKkdzvufPHaZSVAIg==
+X-Received: by 2002:a05:620a:3910:b0:7b7:142d:53a8 with SMTP id
+ af79cd13be357-7bff3fb4946mr402618885a.19.1738070435489; 
+ Tue, 28 Jan 2025 05:20:35 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.128.5]) by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7be9aeedc68sm512887085a.74.2025.01.28.05.20.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Jan 2025 05:20:34 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1tclW6-00000007TbE-14aw;
+ Tue, 28 Jan 2025 09:20:34 -0400
+Date: Tue, 28 Jan 2025 09:20:34 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch,
+ leon@kernel.org, jglisse@redhat.com, akpm@linux-foundation.org,
+ GalShalom@nvidia.com, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-mm@kvack.org, linux-tegra@vger.kernel.org
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+Message-ID: <20250128132034.GA1524382@ziepe.ca>
+References: <20241201103659.420677-1-ymaman@nvidia.com>
+ <20241201103659.420677-2-ymaman@nvidia.com>
+ <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-From: Devarsh Thakkar <devarsht@ti.com>
-Subject: Re: [PATCH 2/2] drm/tidss: Add support for AM62L display subsystem
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>, "jyri.sarha@iki.fi"
- <jyri.sarha@iki.fi>, "tomi.valkeinen@ideasonboard.com"
- <tomi.valkeinen@ideasonboard.com>, "airlied@gmail.com" <airlied@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>
-CC: "Bajjuri, Praneeth" <praneeth@ti.com>, "Raghavendra, Vignesh"
- <vigneshr@ti.com>, "Jain, Swamil" <s-jain1@ti.com>, "Donadkar, Rishikesh"
- <r-donadkar@ti.com>, "Choudhary, Jayesh" <j-choudhary@ti.com>, "Shenoy,
- Harikrishna" <h-shenoy@ti.com>
-References: <20241231090432.3649158-1-devarsht@ti.com>
- <20241231090432.3649158-3-devarsht@ti.com>
- <eab600f6-bfc2-489c-b384-5b620164a556@linux.dev>
-Content-Language: en-US
-In-Reply-To: <eab600f6-bfc2-489c-b384-5b620164a556@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+In-Reply-To: <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,146 +101,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Aradhya,
+On Tue, Jan 28, 2025 at 09:51:52AM +0100, Thomas Hellström wrote:
 
-On 18/01/25 14:57, Aradhya Bhatia wrote:
-> Hi Devarsh,
->
-> Thanks for the patches.
->
+> How would the pgmap device know whether P2P is actually possible
+> without knowing the client device, (like calling pci_p2pdma_distance)
+> and also if looking into access control, whether it is allowed?
 
-Thanks for the review.
+The DMA API will do this, this happens after this patch is put on top
+of Leon's DMA API patches. The mapping operation will fail and it will
+likely be fatal to whatever is going on.
+ 
+get_dma_pfn_for_device() returns a new PFN, but that is not a DMA
+mapped address, it is just a PFN that has another struct page under
+it.
 
-> On 31/12/24 14:34, Devarsh Thakkar wrote:
->> Enable display for AM62L DSS [1] which supports only a single display
->> pipeline using a single overlay manager, single video port and a single
->> video lite pipeline which does not support scaling.
->>
->> The output of video port is routed to SoC boundary via DPI interface and
->> the DPI signals from the video port are also routed to DSI Tx controller
->> present within the SoC.
->>
->> [1]: Section 11.7 (Display Subsystem and Peripherals)
->> Link : https://www.ti.com/lit/pdf/sprujb4
->>
->> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
->> ---
+There is an implicit assumption here that P2P will work and we don't
+need a 3rd case to handle non-working P2P..
 
-<snip>
->> 
->> +const struct dispc_features dispc_am62l_feats = {
->> +    .max_pclk_khz = {
->> +            [DISPC_VP_DPI] = 165000,
->
-> The TRM mentions that the max the VP PLL can go is 150MHz, so maybe you
-> might need to update this.
->
-> That said, as far as I understand, the IP itself can support 165 MHz,
-> and I am wondering, what would we do if there comes out a new SoC that
-> uses AM62L DSS as is, but just bumps up the PLL capacity to 165MHz.
->
-> It would be odd to have a ditto feats structure with just the frequency
-> updated.
+> but leaves any dma- mapping or pfn mangling to be done after the
+> call to hmm_range_fault(), since hmm_range_fault() really only needs
+> to know whether it has to migrate to system or not.
 
-TRM mentions max VP PLL frequency as 165 Mhz and not 150 Mhz. Please refer
-Table 11-343. DSS Signals for MIPI DPI 2.0 or BT.656/BT.1120 section in
-section 11.7.1.2.1 DSS Parallel Interface of  AM62L TRM [1].
->
->> +    },
->> +
->> +    .subrev = DISPC_AM62L,
->> +
->> +    .common = "common",
->> +    .common_regs = tidss_am65x_common_regs,
->
-> Also, I don't think we should utilize this as is.
->
-> The AM62L common regions is different, and is, at best, a subset of the
-> AM65x/AM62x common register space.
->
-> For example, registers VID_IRQ{STATUS, ENABLE}_0 have been dropped,
-> along with VP_IRQ{STATUS, ENABLE}_1.
->
-> - Which brings to my next concern...
->
+See above, this is already the case..
 
-Thanks for pointing out, I probably missed this since the use-case still
-worked since VP interrupts were still enabled and those were sufficient to
-drive the display
-but the VID underflow interrupts and VID specific bits were probably not
-enabled at-all due to above miss, so agreed
-we should probably go ahead with a different reg space for AM62L due to
-aforementioned differences.
+> One benefit of using this alternative
+> approach is that struct hmm_range can be subclassed by the caller and
+> for example cache device pairs for which p2p is allowed.
 
->> +
->> +    .num_vps = 1,
->> +    .vp_name = { "vp1" },
->> +    .ovr_name = { "ovr1" },
->> +    .vpclk_name =  { "vp1" },
->> +    .vp_bus_type = { DISPC_VP_DPI },
->> +
->> +    .vp_feat = { .color = {
->> +                    .has_ctm = true,
->> +                    .gamma_size = 256,
->> +                    .gamma_type = TIDSS_GAMMA_8BIT,
->> +            },
->> +    },
->> +
->> +    .num_planes = 1,
->> +    .vid_name = { "vidl1" },
->> +    .vid_lite = { true },
->> +    .vid_order = { 0 },
->
-> ...
->
-> Usually, VID1 is the first video pipeline, while VIDL1 remains the
-> second. Which is why vid1 occupies the index 0, and vidl1 occupies 1 -
-> even from the hardware perspective.
->
-> While AM62L has only one video (lite) pipeline - vidl1, and there is no
-> vid1, the hardware still treats vidl1 at index 1.
->
-> For example, the TRM has defined DISPC_VID_IRQ{STATUS, ENABLE}_1 (and
-> not _0) in the common region.
->
-> So, the vid_order here should be 1, not 0.
->
+If you want to directly address P2P non-uniformity I'd rather do it
+directly in the core code than using a per-driver callback. Every
+driver needs exactly the same logic for such a case.
 
-We will have a separate register space for AM62L which would only have
-DISPC_VID_IRQ{STATUS, ENABLE}_1 mapped,
-so that should handle it.Also I think vid_order semantically maps to zorder
-and since there is only a single plane available on AM62L
-it is not correct to assign vid_order as 1 just to align with VIDL reg bit fields.
-Furthermore, vid_order set to 1 won't work too, since driver also uses
-vid_order for indexing the reg space for vid. For e.g.
-if we use vid_order as 1 then hw_plane would get assigned as 1 too, then
-dispc_vid* functions (as seen below) would fail as
-there is no base_vid region at index 1 for AM62L as it has only single video
-register space i.e. for VIDL.
-
-static                                                                                                 
- 
-void dispc_vid_write(struct dispc_device *dispc, u32 hw_plane, u16 reg, u32
-val)                         
-{                                                                                                      
- 
-        void __iomem *base =
-dispc->base_vid[hw_plane];                                                  
-                                                                                                       
- 
-        iowrite32(val, base +
-reg);                                                                      
-}                                                                                                      
- 
-
-But with hw_plane set to 0 we also need to handle bit fields for VIDL which
-are still at index 5 for registers DSS_COMMON_DISPC_IRQENABLE_SET,
-DSS_COMMON_DISPC_IRQENABLE_CLR and DSS_COMMON_DISPC_IRQSTATUS_(RAW) and also
-DSS_OVR1_ATTRIBUTES_0 which expects 1 to be set in bits 4:1,
-and existing dispc_k3* functions managing these registers were handling it via
-hw_plane set to 1.  To handle this and also since AM62L is the only one K3 SoC
-which only supports VIDL plane, I will be adding separate wrapper implementer
-functions dispc_am62l_ovr_set_plane, dispc_am62l_set_irqenable to handle this.
-
-Regards
-Devarsh
+Jason
