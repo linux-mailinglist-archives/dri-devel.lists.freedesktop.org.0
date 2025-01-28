@@ -2,129 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC5AA20C31
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 15:43:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EA3A20C40
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 15:49:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F00210E0E6;
-	Tue, 28 Jan 2025 14:43:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89B6110E659;
+	Tue, 28 Jan 2025 14:49:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="LW2ooT+k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NNTnys7A";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LW2ooT+k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NNTnys7A";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kTd/J2qH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4E6210E0E6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 14:43:32 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 9D13621120;
- Tue, 28 Jan 2025 14:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738075411; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ebzrmwDyR1+NYrsyjHdyFYMbOwr4Cc6SpFvGr5v654k=;
- b=LW2ooT+kIQfD50By3Vp07kjSHxvJdKZg/ywhBqsGcLtrGOM/D3wEbNxKoWI0XBNOg095S0
- 5V2zsX1xFk6w5lcuHxlzvW4Ym/uBCqybP1XKNtePoAlE1cho4vBUsdZ3tADemci/IaGWL7
- pNeEi1x8T1c8roAi6j41p8mmQgDb1+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738075411;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ebzrmwDyR1+NYrsyjHdyFYMbOwr4Cc6SpFvGr5v654k=;
- b=NNTnys7AB5vKoVjbAVQPJSTbNGx1lzFYvF4XFhitJz+NLtKj3vSVYwP7sBAwLhkjR5w5/c
- dXMJ6hzsfcWwM6BA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738075411; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ebzrmwDyR1+NYrsyjHdyFYMbOwr4Cc6SpFvGr5v654k=;
- b=LW2ooT+kIQfD50By3Vp07kjSHxvJdKZg/ywhBqsGcLtrGOM/D3wEbNxKoWI0XBNOg095S0
- 5V2zsX1xFk6w5lcuHxlzvW4Ym/uBCqybP1XKNtePoAlE1cho4vBUsdZ3tADemci/IaGWL7
- pNeEi1x8T1c8roAi6j41p8mmQgDb1+o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738075411;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ebzrmwDyR1+NYrsyjHdyFYMbOwr4Cc6SpFvGr5v654k=;
- b=NNTnys7AB5vKoVjbAVQPJSTbNGx1lzFYvF4XFhitJz+NLtKj3vSVYwP7sBAwLhkjR5w5/c
- dXMJ6hzsfcWwM6BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7DD2513625;
- Tue, 28 Jan 2025 14:43:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id PVdmHRPtmGdJOAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 28 Jan 2025 14:43:31 +0000
-Message-ID: <ab391d65-2f85-4ff4-b91b-996bd66a8d9a@suse.de>
-Date: Tue, 28 Jan 2025 15:43:31 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4389110E659;
+ Tue, 28 Jan 2025 14:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738075753; x=1769611753;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=uNNV9AiWSNOX6ApUsgEFrkkAU4pDKZfbG0WkJNIOQ4k=;
+ b=kTd/J2qHCb/P+HF5lYKZ1JHR3FJv5Q5dG7+vvuU2THzsu025n9hWcvjl
+ cSx1GjhzBg9VewBUikXURlT0ztLyomyzslRGGHENlk+L8VSubY03g9WfJ
+ XEFNsHpqW0gQcf6ZQ68GBv09AZa0WdW9pZz8rT5sNZgmC5MSWXrACpo9V
+ S8m0ZT9jlfYpQCsCW9VrZbIYSfHUnGET3cy+AqdxwjNqya6EN83wpSFiE
+ 0Ygc9ypOAV+lE6a3XPSIx7EryXTyDO+CWYACNH96QlgTOSlTVP08lv6gi
+ fNhTjTJ6FsgFOGqOJQav9iriL9tfrPzKV0Y3WI9AUOd8jmEUduQKTiEZZ A==;
+X-CSE-ConnectionGUID: /9TmZBZ5TGety8ypSNngXg==
+X-CSE-MsgGUID: 4w5ybAYtQgqUTBqNG3PA9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="38662576"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="38662576"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 06:49:13 -0800
+X-CSE-ConnectionGUID: hYHxh45jRjqWTCGeN8qB/A==
+X-CSE-MsgGUID: IlkXYCWZQdmDqhIdG2o5hA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; d="scan'208";a="109330374"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO [10.245.246.161])
+ ([10.245.246.161])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 06:49:08 -0800
+Message-ID: <de293a7e9b4c44eab8792b31a4605cc9e93b2bf5.camel@linux.intel.com>
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch, leon@kernel.org, 
+ jglisse@redhat.com, akpm@linux-foundation.org, GalShalom@nvidia.com, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, 	linux-tegra@vger.kernel.org
+Date: Tue, 28 Jan 2025 15:48:54 +0100
+In-Reply-To: <20250128132034.GA1524382@ziepe.ca>
+References: <20241201103659.420677-1-ymaman@nvidia.com>
+ <20241201103659.420677-2-ymaman@nvidia.com>
+ <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
+ <20250128132034.GA1524382@ziepe.ca>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/15] drm/ast: Reorganize widescreen test around hardware
- Gens
-To: Jocelyn Falempe <jfalempe@redhat.com>, airlied@redhat.com,
- dri-devel@lists.freedesktop.org
-References: <20250124080546.9956-1-tzimmermann@suse.de>
- <20250124080546.9956-4-tzimmermann@suse.de>
- <3c0e9066-b76e-4251-9ef3-3f88ff758027@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <3c0e9066-b76e-4251-9ef3-3f88ff758027@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[3]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,41 +79,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jocelyn
+On Tue, 2025-01-28 at 09:20 -0400, Jason Gunthorpe wrote:
+> On Tue, Jan 28, 2025 at 09:51:52AM +0100, Thomas Hellstr=C3=B6m wrote:
+>=20
+> > How would the pgmap device know whether P2P is actually possible
+> > without knowing the client device, (like calling
+> > pci_p2pdma_distance)
+> > and also if looking into access control, whether it is allowed?
+>=20
+> The DMA API will do this, this happens after this patch is put on top
+> of Leon's DMA API patches. The mapping operation will fail and it
+> will
+> likely be fatal to whatever is going on.
+> =C2=A0
+> get_dma_pfn_for_device() returns a new PFN, but that is not a DMA
+> mapped address, it is just a PFN that has another struct page under
+> it.
+>=20
+> There is an implicit assumption here that P2P will work and we don't
+> need a 3rd case to handle non-working P2P..
 
+OK. We will have the case where we want pfnmaps with driver-private
+fast interconnects to return "interconnect possible, don't migrate"
+whereas possibly other gpus and other devices would return
+"interconnect unsuitable, do migrate", so (as I understand it)
+something requiring a more flexible interface than this.
 
-Am 27.01.25 um 15:26 schrieb Jocelyn Falempe:
-> On 24/01/2025 08:57, Thomas Zimmermann wrote:
->> Testing for support of widescreen modes mixes up various hardware
->> Gens. First branch by hardware Gen, then do specific tests for each
->> Gen. By default, widesscreen support is disabled.
->>
->> Later patches will add more specific tests for each Gen.
->
-> I think it introduces a bit too much repeated code.
->
-> Maybe adding a small helper like this would help?
+>=20
+> > but leaves any dma- mapping or pfn mangling to be done after the
+> > call to hmm_range_fault(), since hmm_range_fault() really only
+> > needs
+> > to know whether it has to migrate to system or not.
+>=20
+> See above, this is already the case..
 
-I'll add a helper here and for the code in patch 6
+Well what I meant was at hmm_range_fault() time only consider whether
+to migrate or not. Afterwards at dma-mapping time you'd expose the
+alternative pfns that could be used for dma-mapping.
 
-Best regards
+We were actually looking at a solution where the pagemap implements
+something along
+
+bool devmem_allowed(pagemap, client); //for hmm_range_fault
+
+plus dma_map() and dma_unmap() methods.
+
+In this way you'd don't need to expose special p2p dma pages and the
+interface could also handle driver-private interconnects, where
+dma_maps and dma_unmap() methods become trivial.
+
+>=20
+> > One benefit of using this alternative
+> > approach is that struct hmm_range can be subclassed by the caller
+> > and
+> > for example cache device pairs for which p2p is allowed.
+>=20
+> If you want to directly address P2P non-uniformity I'd rather do it
+> directly in the core code than using a per-driver callback. Every
+> driver needs exactly the same logic for such a case.
+
+Yeah, and that would look something like the above, although initially
+we intended to keep these methods in drm allocator around its pagemaps,
+but could of course look into doing this directly in dev_pagemap ops.=C2=A0
+But still would probably need some guidance into what's considered
+acceptable, and I don't think the solution proposed in this patch meets
+our needs.
+
+Thanks,
 Thomas
 
->
-> static bool ast_vgacrd0_support_wuxga(struct ast_device *ast) {
->     u8 vgacrd0;
->     vgacrd0 = ast_get_index_reg(ast, AST_IO_VGACRI, 0xd0);
->     return !(vgacrd0 & AST_IO_VGACRD0_VRAM_INIT_BY_BMC) ||
->         (vgacrd0 & AST_IO_VGACRD0_IKVM_WIDESCREEN));
-> }
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+>=20
+> Jason
 
