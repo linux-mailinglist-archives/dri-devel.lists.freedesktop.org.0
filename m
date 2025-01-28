@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09487A21447
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 23:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1E5A21449
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 23:32:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 865A510E713;
-	Tue, 28 Jan 2025 22:31:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFDDC10E70B;
+	Tue, 28 Jan 2025 22:32:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X36tgvUD";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Wnf1eJP6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCF510E70B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 22:31:54 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91E4F10E70D
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 22:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738103513;
+ s=mimecast20190719; t=1738103526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yMcBg9K49M3BeejEiLmSt5GBgrJzsgbnQ34MkO1WtxM=;
- b=X36tgvUDsOu8ISUjZFqItubiEYngb6WLIjpOAx/iZ3anLNhVMSEZIkNw+gLoGmB9ZsnPd3
- OmVUuipIiPMAjZWUaZgyRIhyXh66ktaWuxrPRwRMAoN4sYf2E49/2K+Y9TVrxKRr0RsDgu
- gKlz81zforDr0BzCMVDCxYTzZCf7h0k=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=FT+LB9XyHtC4Gj89X2CISx5zHalQ981h59ZAU2H883M=;
+ b=Wnf1eJP6RuFrWJVzHfKJHRzbXMZEbEmqM+VvI4ojBmBOk3U9YBb0TjAUizTl1xQ4oZyxcv
+ LiNOe7Cjh90Et90daHtSza9RJQpcBc0j9KXVPKcqCTlBwNN5qIPCarnhjIObtABvBZVJ1Y
+ uVp/mPAWihkbDtQYFN5X1X041c+xh+o=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-658-l34GlrawO-K0fA0KVgkKpA-1; Tue,
- 28 Jan 2025 17:31:50 -0500
-X-MC-Unique: l34GlrawO-K0fA0KVgkKpA-1
-X-Mimecast-MFC-AGG-ID: l34GlrawO-K0fA0KVgkKpA
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-329-M2RzTAHnMa-s-Qvyv4CCZQ-1; Tue,
+ 28 Jan 2025 17:32:00 -0500
+X-MC-Unique: M2RzTAHnMa-s-Qvyv4CCZQ-1
+X-Mimecast-MFC-AGG-ID: M2RzTAHnMa-s-Qvyv4CCZQ
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id A4DF219560B8; Tue, 28 Jan 2025 22:31:42 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id EEC54180034D; Tue, 28 Jan 2025 22:31:53 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.231])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 8B20018008E0; Tue, 28 Jan 2025 22:31:31 +0000 (UTC)
+ id D4F2818008DC; Tue, 28 Jan 2025 22:31:42 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 28 Jan 2025 17:29:30 -0500
-Subject: [PATCH 06/14] drm/mxsfb: move to devm_platform_ioremap_resource()
- usage
+Date: Tue, 28 Jan 2025 17:29:31 -0500
+Subject: [PATCH 07/14] drm/rockchip: move to
+ devm_platform_ioremap_resource() usage
 MIME-Version: 1.0
-Message-Id: <20250128-cocci-memory-api-v1-6-0d1609a29587@redhat.com>
+Message-Id: <20250128-cocci-memory-api-v1-7-0d1609a29587@redhat.com>
 References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
 In-Reply-To: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
 To: Joel Stanley <joel@jms.id.au>, 
@@ -97,19 +97,19 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738103410; l=2475;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738103410; l=1654;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=v1L4cPFDHFCRceX3WACQnVLoVu2mFhNUCVhK5pDvpqY=;
- b=I44qT4OB+punCyftMrmGeaLcqI0wLiLGsgdJU8Fg2L87XeeVfgAHvvMvf7IHN//dxeGK9GTyZ
- pBEjXPFreDECZ+17nDv5++iCAiXB7JsTsmQ37mQBE4989Nq5bR28eDx
+ bh=ajXPI9xB0Rs31Rc4x9qTz/uAYXcdrRjutTTRm1keGG4=;
+ b=LDffY/YSoJthJibzS51SC42ZXvZrbp2ayc7zabHlWIb3613ZhwERUpoDhV+XXcJIzmp40r+tI
+ M92TihMbvZQAPKQMCFEl20B8k7s+n0MjBVXZT6Ras5dWx8LX3W0QmuA
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: neq8ZbMWx7ysDrewCVlHOqfJUcPE0Q8EC87uc3eYW88_1738103503
+X-Mimecast-MFC-PROC-ID: MsmD_vlmFBXI4nRNUi4QGBMN95RMpSdQfZKCl-bBYlw_1738103514
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,58 +140,36 @@ identifier pdev;
 -ioremap_res = devm_ioremap_resource(...);
 +ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-Cc: Marek Vasut <marex@denx.de>
-Cc: Stefan Agner <stefan@agner.ch>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: Heiko Stübner <heiko@sntech.de>
+Cc: Andy Yan <andy.yan@rock-chips.com>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/mxsfb/lcdif_drv.c | 4 +---
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-index 8ee00f59ca821cea8e823e7100fb4d7534283994..fcb2a7517377e9a5bbd2997c578c579b1b079f92 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
-@@ -134,7 +134,6 @@ static int lcdif_load(struct drm_device *drm)
- {
- 	struct platform_device *pdev = to_platform_device(drm->dev);
- 	struct lcdif_drm_private *lcdif;
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index 57747f1cff26e444ef3569983d6a7f7922f03ff7..4c639f7c868907fc35ce22f2ef7e281ad85c2d9e 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -2187,7 +2187,6 @@ static int vop_bind(struct device *dev, struct device *master, void *data)
+ 	const struct vop_data *vop_data;
+ 	struct drm_device *drm_dev = data;
+ 	struct vop *vop;
 -	struct resource *res;
- 	int ret;
+ 	int ret, irq;
  
- 	lcdif = devm_kzalloc(&pdev->dev, sizeof(*lcdif), GFP_KERNEL);
-@@ -144,8 +143,7 @@ static int lcdif_load(struct drm_device *drm)
- 	lcdif->drm = drm;
- 	drm->dev_private = lcdif;
+ 	vop_data = of_device_get_match_data(dev);
+@@ -2207,8 +2206,7 @@ static int vop_bind(struct device *dev, struct device *master, void *data)
+ 
+ 	vop_win_init(vop);
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	lcdif->base = devm_ioremap_resource(drm->dev, res);
-+	lcdif->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(lcdif->base))
- 		return PTR_ERR(lcdif->base);
- 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 59020862cf65e5cc488903f1263ed16dfbce06f9..377d4c4c9979ad9538cfec5464827a82936f811b 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -215,7 +215,6 @@ static int mxsfb_load(struct drm_device *drm,
- {
- 	struct platform_device *pdev = to_platform_device(drm->dev);
- 	struct mxsfb_drm_private *mxsfb;
--	struct resource *res;
- 	int ret;
- 
- 	mxsfb = devm_kzalloc(&pdev->dev, sizeof(*mxsfb), GFP_KERNEL);
-@@ -226,8 +225,7 @@ static int mxsfb_load(struct drm_device *drm,
- 	drm->dev_private = mxsfb;
- 	mxsfb->devdata = devdata;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	mxsfb->base = devm_ioremap_resource(drm->dev, res);
-+	mxsfb->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(mxsfb->base))
- 		return PTR_ERR(mxsfb->base);
- 
+-	vop->regs = devm_ioremap_resource(dev, res);
++	vop->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(vop->regs))
+ 		return PTR_ERR(vop->regs);
+ 	vop->len = resource_size(res);
 
 -- 
 2.47.0
