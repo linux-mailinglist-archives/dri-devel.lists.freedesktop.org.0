@@ -2,112 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7A7A20842
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 11:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AED2A20848
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 11:11:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6541510E625;
-	Tue, 28 Jan 2025 10:09:52 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GCJ4Fjl4";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id F26F710E626;
+	Tue, 28 Jan 2025 10:11:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C6310E625
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 10:09:50 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7934EA40B48;
- Tue, 28 Jan 2025 10:08:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76507C4CED3;
- Tue, 28 Jan 2025 10:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738058989;
- bh=OISSWgvkSbEVcJUb2bzvWSLklg+uLGPm74ASjpg6puM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=GCJ4Fjl4CtRma41qVkWz8SfYUitVzhv5veIXnhfdeIb3Kux9uZxQwCIBYZKmUjAIW
- ndIzG5kyLWshMUGzg2hblXMeAe3zUSQqDu3uTKdagOzu9vJiFBjh1EvhgY7ESA2B4A
- EAqhn5fMN/34PgpKwzjqMvTvwzPmO94KcXKOk60IM0myxScK0ne2zerJfajPj9Ykui
- nxq776PDeld3lPeQzH7BaPS4aXGO/BqbMRLrDUGeX7UDyVhgONUCiSknf0K1C4bWap
- W2uABdWVfXsxOQ6B+f5GM+H8w7GZmq7Vqy6Y2A7HFAxn4+duv4c0ZiZ56Przo2txhC
- mBWItkkbnuaLA==
-Message-ID: <1e9f7f94-3d0c-4258-b9de-746d0b22ec06@kernel.org>
-Date: Tue, 28 Jan 2025 11:09:40 +0100
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+ [209.85.221.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5044710E626
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 10:11:00 +0000 (UTC)
+Received: by mail-vk1-f176.google.com with SMTP id
+ 71dfb90a1353d-5162571e761so1818339e0c.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 02:11:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738059057; x=1738663857;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/AAfq/RNvRQuRmMukdGgxMKHf9VpECc6Wyd77wR3+7g=;
+ b=Za6zNbWa7vRsJ6mSroPvP3UxqXsqE3vliUvNgJH0lBdRFsxe7Gu5LP4Ju84SEfHQPJ
+ t4BTImxUmrx1RmafWt06fOolTlSalGlT7KbdQv98RicPxD7Vai0LGEIGSln9V6++UkJv
+ f9lN7I4KMNiZoIDu9GmlyodUqiXd6WZvtm/qi0NDkctLvoaL61HgqBHAWoe9Od0UBi0Q
+ DSSKjOR6GU2FkANnO6rXS3ejod4ODjkkDUjEOs/2bD3d4AR8bnqRjb/SMAO3odAVwbYL
+ +t299T1C8AUoLCz3cmvSJvjMucuf6LdT8sdjV6A0o4KZc5uvnmPcHznVhpa8QW0cR9Hs
+ ixpQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6Zu8eeJSmL9TGHemnaY4KwADEoDxV/MHqLaM1T8j23KtEpw8oTMzXgXAgL2rr9ernAgm5ktzyHwk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQx/cYmfA3t+JmmlUPXuJOZv1RbPvAZ5JcIwMKkil2CtRa3DRL
+ n8TC3lmhyx+s1AqL5VSYj0zUQdPYvlrMj9//GcueSc4mifcBs/clp2xELMYGgV0=
+X-Gm-Gg: ASbGncsrsjxWp+vrAo1QyzhkDzkNIbqvEr5n5gtUbXrPQ6b1fxBoW/aU0Pz11XzxGHL
+ Qa2Ntm/YALR2d7EL6ZDiel2z8q9wGNHylpBBigE5XtSbT5xjSq7E+nDDxdZCvGOHOK8GhGFncjH
+ 4E4hTw63FfutfzY6evYbQDg0P2OYmyyPjjEvSb3ZGu9wfu//xcc1xkzqY7adGwDLuEjxlHTmjcG
+ 6uPnj2hAcIpiWU+bSVN7UcjR+WWbaPkLPEv8ClMh+emTYH9bCl1tR5vFwdivpRmvGP5jJ1qhzW3
+ +eA0NqcnHvRuDSHUsMGRGyir7nUFrEmfdUqNjJVARNpKwxhW0noynA==
+X-Google-Smtp-Source: AGHT+IHFwYRtzk1OVWNpH+UjvhewMY2BtuahehPXbgNztrAZln543vfJZa8YFoZvwylDHzWu97OurA==
+X-Received: by 2002:a05:6122:828b:b0:51b:89e8:5cf0 with SMTP id
+ 71dfb90a1353d-51d592ba55cmr34498948e0c.3.1738059055947; 
+ Tue, 28 Jan 2025 02:10:55 -0800 (PST)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com.
+ [209.85.217.50]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-51e4ebe9b38sm1735198e0c.39.2025.01.28.02.10.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Jan 2025 02:10:55 -0800 (PST)
+Received: by mail-vs1-f50.google.com with SMTP id
+ ada2fe7eead31-4afefc876c6so1572365137.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 02:10:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUcI4iS6OHnDVSc3PyjZnNWYkydtV5STx8kCudX3wHsSyexevC61gzvMaXPq4SOGXLJ8wYQx4gkvY=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:3ed0:b0:4af:dcbe:4767 with SMTP id
+ ada2fe7eead31-4b690bd612amr35553422137.10.1738059054548; Tue, 28 Jan 2025
+ 02:10:54 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/7] drm: Add DSI/DP support for Renesas r8a779h0 V4M
- and grey-hawk board
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+References: <20250125125320.37285-4-wsa+renesas@sang-engineering.com>
+ <20250125125320.37285-6-wsa+renesas@sang-engineering.com>
+ <CAMuHMdXjTYa54Lz66JBgw5NXcJAP3BTnH2TOx987ma-EcDMdww@mail.gmail.com>
+ <Z5ir-7cIM6YOlzgE@ninjato>
+In-Reply-To: <Z5ir-7cIM6YOlzgE@ninjato>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Jan 2025 11:10:42 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWfip+6wqkB+dK=F185WrVxofYs5irckxgDfEEuHOZ3pQ@mail.gmail.com>
+X-Gm-Features: AWEUYZkQXyz-uBN1tjxLEVqAQZDgE5JSyEMj-kOv4nC6bhvMdYo3aHi44tHVskA
+Message-ID: <CAMuHMdWfip+6wqkB+dK=F185WrVxofYs5irckxgDfEEuHOZ3pQ@mail.gmail.com>
+Subject: Re: [PATCH RFT 2/2] drm/bridge: ti-sn65dsi86: Use per-client debugfs
+ entry
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, LUU HOAI <hoai.luu.ub@renesas.com>,
- Jagan Teki <jagan@amarulasolutions.com>, Sam Ravnborg <sam@ravnborg.org>,
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-clk@vger.kernel.org, stable@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20241217-rcar-gh-dsi-v5-0-e77421093c05@ideasonboard.com>
- <aa858619-56f6-4d3a-b27d-f38cbfa57d98@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <aa858619-56f6-4d3a-b27d-f38cbfa57d98@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,31 +96,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/12/2024 14:33, Tomi Valkeinen wrote:
-> Hi all,
-> 
-> On 17/12/2024 07:31, Tomi Valkeinen wrote:
->> Add everything needed to support the DSI output on Renesas r8a779h0
->> (V4M) SoC, and the DP output (via sn65dsi86 DSI to DP bridge) on the
->> Renesas grey-hawk board.
->>
->> Overall the DSI and the board design is almost identical to Renesas
->> r8a779g0 and white-hawk board.
->>
->> Note: the v4 no longer has the dts and the clk patches, as those have
->> been merged to renesas-devel.
->>
-> 
-> I have pushed this to drm-misc-next. Thank you all for the reviews!
-I am confused how this is supposed to work. You merged your own patches
-for Renesas DRM, even not being the Renesas DRM maintainer, while my
-much earlier patchset was "only" reviewed by Renesas DRM maintainers but
-not picked up by them.
+Hi Wolfram,
 
-So maybe you are the Renesas DRM maintainer? But get_maintainers.pl is
-silent on that, so I don't Cc you.
+On Tue, 28 Jan 2025 at 11:05, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > I gave it a try on Gray Hawk Single.
+>
+> Oh, we have such a board? Nice! That would help a lot.
 
-Can you guys clarify that so maintainers file reflect reality?
+We have several! ;-)
 
-Best regards,
-Krzysztof
+$ git grep ti,sn65dsi86 -- arch/*/boot/dts/renesas
+arch/arm64/boot/dts/renesas/r8a779a0-falcon-cpu.dtsi:
+compatible = "ti,sn65dsi86";
+arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts:
+compatible = "ti,sn65dsi86";
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts:
+ compatible = "ti,sn65dsi86";
+arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi:
+compatible = "ti,sn65dsi86";
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
