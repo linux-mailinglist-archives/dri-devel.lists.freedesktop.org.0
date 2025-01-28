@@ -2,50 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC05A2094F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 12:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C4CA2093E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 12:09:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F132F10E65A;
-	Tue, 28 Jan 2025 11:13:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18EFB10E64E;
+	Tue, 28 Jan 2025 11:09:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="AMhLtl8D";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GqySkiFd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id C9C9D10E65A
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 11:13:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=C0ZJZ
- Px2mfgjH2pMopT+tPtYYCICn14OT0CJ98yvDdk=; b=AMhLtl8DfPv95KrviQfg3
- 0RwKKg69vyI26pmTIJw5nfSDR/OmkewJ3gnyCxjhevTB03jWzLgpsEHWjtM/JfQb
- FB0D3xrlF5dN2Mbnd+5DE7MLjtpBnOQ2rY790kdJGUAo7iWhqBAxRvg/A2Gpy4Nc
- xuD9+xTsdVOKck7vZ/WA8k=
-Received: from DESKTOP-DMSSUQ5.localdomain (unknown [])
- by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
- _____wD3V8m3u5hn6uWxIw--.63804S2; 
- Tue, 28 Jan 2025 19:12:55 +0800 (CST)
-From: oushixiong1025@163.com
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH] drm/mediatek: Convert to use devm_platform_ioremap_resource
-Date: Tue, 28 Jan 2025 17:41:18 +0800
-Message-ID: <20250128094118.1526-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.43.0
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 447C610E64E
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 11:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1738062581;
+ bh=FCzCdXDixomOPjcHMbLKXnIA0J7l3YwpyrSrtlH3Sns=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=GqySkiFd/bE9lc9FiSczCh+QZI1Zw6gjiViMffGWZeL6JbZElP53tP1PMVej9NhFs
+ rHdIvfS5z3uruMTyxiM/2kUoO53C09fJe4wMkaGZuMTrIZ8i4sedOjFRBPGcNpnYQz
+ FDthnsSzoyLYrngVCvn6yTTdHn9Sve35pghxKhCepZyivbG8WR5AsWROS7/8SiGELJ
+ cDudq4JQ46k3MM4cnnm6Nzitc11j2cX2xgy55eoAkDviKKetO+oSCQm2Z4CFqVkSyr
+ SHVM+scxa64yOL0WsaWYZSc3hhuf5U+0mPmKR3gT9x3EUaFNxs63cxBBJK2bURkBPP
+ GmJG8T+e/1pVg==
+Received: from [192.168.1.90] (unknown [188.27.43.189])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5886417E0E6E;
+ Tue, 28 Jan 2025 12:09:41 +0100 (CET)
+Message-ID: <65dc1384-88cc-480c-a028-f927ed2419df@collabora.com>
+Date: Tue, 28 Jan 2025 13:09:40 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wD3V8m3u5hn6uWxIw--.63804S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZFW3tryxAFW8JFWrKrW5trb_yoWktFX_Wa
- yvkrs7WryUCr95X3WxCF47CFy2yanY9FykJF13Kayava47Jw1UZrWjvr9rZrsrWws7AFyq
- yanIq3W29a1fCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8fu4UUUUUU==
-X-Originating-IP: [113.247.116.130]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYw3iD2eYnOP7BQAAs9
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] Fixup drm_atomic_helper_connector_hdmi_check()
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20250114-hdmi-conn-null-mode-v3-0-16bca91e11b0@collabora.com>
+ <xbo2usn3yo4gvdng76nr2mdvvotsiqmler65kn2irwpywy4fin@wrxhoakcbmef>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <xbo2usn3yo4gvdng76nr2mdvvotsiqmler65kn2irwpywy4fin@wrxhoakcbmef>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,37 +67,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+Hi Maxime,
 
-Do not need to get resource, so convert to use
-devm_platform_ioremap_resource.
+On 1/28/25 11:58 AM, Maxime Ripard wrote:
+> Hi,
+> 
+> On Tue, Jan 14, 2025 at 08:16:55PM +0200, Cristian Ciocaltea wrote:
+>> Fix a NULL pointer dereference discovered while unloading a DRM module
+>> and provide a test to make sure the helper works as expected in case the
+>> connector's CRTC is shut down.
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> 
+> I'm sorry, I didn't realize it at the time but it looks like it was made
+> redundant by another series that got merged about the same time you were
+> sending this one:
+> 
+> https://patchwork.freedesktop.org/series/143378/
+> 
+> Sorry again,
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/mediatek/mtk_padding.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+No worries.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_padding.c b/drivers/gpu/drm/mediatek/mtk_padding.c
-index b4e3e5a3428b..7e302724e74a 100644
---- a/drivers/gpu/drm/mediatek/mtk_padding.c
-+++ b/drivers/gpu/drm/mediatek/mtk_padding.c
-@@ -95,7 +95,6 @@ static int mtk_padding_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct mtk_padding *priv;
--	struct resource *res;
- 	int ret;
- 
- 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-@@ -107,7 +106,7 @@ static int mtk_padding_probe(struct platform_device *pdev)
- 		return dev_err_probe(dev, PTR_ERR(priv->clk),
- 				     "failed to get clk\n");
- 
--	priv->reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	priv->reg = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->reg))
- 		return dev_err_probe(dev, PTR_ERR(priv->reg),
- 				     "failed to do ioremap\n");
--- 
-2.43.0
+I checked the merged series and I think some bits from this series are
+still applicable:
 
+* Simplify the NULL verification by considering only the return of
+connector_state_get_mode(), which gets rid of the redundant
+'new_conn_state->crtc' check, but also covers the additional checks
+already performed in that function.
+
+* Update the newly introduced test case to also verify
+{mode|connectors|active}_changed.
+
+I could send those as v4, but probably it makes sense to drop this
+series and start a new one - please let me know if you have a preference
+here.
+
+Thanks,
+Cristian
