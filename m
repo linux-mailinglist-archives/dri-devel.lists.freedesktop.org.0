@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C452CA210B4
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4021DA210C1
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67CD610E043;
-	Tue, 28 Jan 2025 18:22:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 889DC10E3C0;
+	Tue, 28 Jan 2025 18:22:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bCWdmC5s";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nOvIreoP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1842410E043
+ by gabe.freedesktop.org (Postfix) with ESMTP id A9A1C10E043
  for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:22:01 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id B64E5203717F;
+ by linux.microsoft.com (Postfix) with ESMTPSA id DB2792037180;
  Tue, 28 Jan 2025 10:21:58 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B64E5203717F
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DB2792037180
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1738088518;
- bh=u7OiaBq0jFk7FcA2dC+mPjTQmMAI3oiqK6Ljbdu99Zo=;
+ bh=++CcFDhMGmgcKwzaiNwx3lMiN5jr5twzkm9Lzfmspqc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=bCWdmC5sK+KGAbHIQs99+gR3I9KkUGPk8kFlcCfGOtNz5+PxpeUtS30nO0JF6Kkrh
- 4YdwJAnsnMu3a7zDoviG7hWlukFPfHmJucfdR4tFHFcqEK2OJWxup5PGk5ZafTVcpE
- UzK+XoLAiEFwEnVWfbUT/XAsd53WZnxAQJy+FV1o=
+ b=nOvIreoPo3EtPXnqT78hdGSPjS+BJfm76bfob6LjYY8fpAzAx+SSWBMemjjxO+8RL
+ gtA/N4PvBwCgX5MwsErpmvFLEJEFEicnjVAtYs/DImfDKgiY3inNNwt6TIW4w8Mj2E
+ eLHR2MK1+CS1Dd52E6DvRE+gXgt4inmHotPghBSw=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:54 +0000
-Subject: [PATCH 09/16] xfs: convert timeouts to secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:55 +0000
+Subject: [PATCH 10/16] power: supply: da9030: convert timeouts to
+ secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-9-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-10-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -107,48 +108,23 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- fs/xfs/xfs_icache.c | 2 +-
- fs/xfs/xfs_sysfs.c  | 7 +++----
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ drivers/power/supply/da9030_battery.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
-index 7b6c026d01a1fc020a41a678964cdbf7a8113323..7a1feb8dc21f6f71d04f88de866e5a95925e0c54 100644
---- a/fs/xfs/xfs_icache.c
-+++ b/fs/xfs/xfs_icache.c
-@@ -230,7 +230,7 @@ xfs_blockgc_queue(
- 	rcu_read_lock();
- 	if (radix_tree_tagged(&pag->pag_ici_root, XFS_ICI_BLOCKGC_TAG))
- 		queue_delayed_work(mp->m_blockgc_wq, &pag->pag_blockgc_work,
--				   msecs_to_jiffies(xfs_blockgc_secs * 1000));
-+				   secs_to_jiffies(xfs_blockgc_secs));
- 	rcu_read_unlock();
- }
+diff --git a/drivers/power/supply/da9030_battery.c b/drivers/power/supply/da9030_battery.c
+index ac2e319e95179039279dacaed1744136f679fbac..d25279c260308b6c82acb2aabf44f3749f71b703 100644
+--- a/drivers/power/supply/da9030_battery.c
++++ b/drivers/power/supply/da9030_battery.c
+@@ -502,8 +502,7 @@ static int da9030_battery_probe(struct platform_device *pdev)
  
-diff --git a/fs/xfs/xfs_sysfs.c b/fs/xfs/xfs_sysfs.c
-index 60cb5318fdae3cc246236fd988b4749df57f8bfc..eed0f28afe97ead762a9539e45f292db7d0d0c4a 100644
---- a/fs/xfs/xfs_sysfs.c
-+++ b/fs/xfs/xfs_sysfs.c
-@@ -568,8 +568,8 @@ retry_timeout_seconds_store(
- 	if (val == -1)
- 		cfg->retry_timeout = XFS_ERR_RETRY_FOREVER;
- 	else {
--		cfg->retry_timeout = msecs_to_jiffies(val * MSEC_PER_SEC);
--		ASSERT(msecs_to_jiffies(val * MSEC_PER_SEC) < LONG_MAX);
-+		cfg->retry_timeout = secs_to_jiffies(val);
-+		ASSERT(secs_to_jiffies(val) < LONG_MAX);
- 	}
- 	return count;
- }
-@@ -686,8 +686,7 @@ xfs_error_sysfs_init_class(
- 		if (init[i].retry_timeout == XFS_ERR_RETRY_FOREVER)
- 			cfg->retry_timeout = XFS_ERR_RETRY_FOREVER;
- 		else
--			cfg->retry_timeout = msecs_to_jiffies(
--					init[i].retry_timeout * MSEC_PER_SEC);
-+			cfg->retry_timeout = secs_to_jiffies(init[i].retry_timeout);
- 	}
- 	return 0;
+ 	/* 10 seconds between monitor runs unless platform defines other
+ 	   interval */
+-	charger->interval = msecs_to_jiffies(
+-		(pdata->batmon_interval ? : 10) * 1000);
++	charger->interval = secs_to_jiffies(pdata->batmon_interval ? : 10);
  
+ 	charger->charge_milliamp = pdata->charge_milliamp;
+ 	charger->charge_millivolt = pdata->charge_millivolt;
 
 -- 
 2.43.0
