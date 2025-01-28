@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04BBA21444
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 23:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09487A21447
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 23:31:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C105610E703;
-	Tue, 28 Jan 2025 22:31:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 865A510E713;
+	Tue, 28 Jan 2025 22:31:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Opm5PHqh";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="X36tgvUD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F3D110E703
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 22:31:41 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FCF510E70B
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 22:31:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738103500;
+ s=mimecast20190719; t=1738103513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uBHgf3oei/qHmIZpbMF9VehDvC+EICOlxAHVG2vbAos=;
- b=Opm5PHqhZOYLgj6f6QgelTIpAG3UgXWFk/lFGmh0/jbrWNpyNeCsOxRNvuDUqMsjlgcBfl
- 8a1OGprpLMSb7WiRRtGF5g/sb1hzusDJscyCHcbN2Kf0HNw0Z0MeZgx8pzy9WowMFuzH/6
- sgMtD7cGsGx6E4BZa6MlF305SMM/UMk=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=yMcBg9K49M3BeejEiLmSt5GBgrJzsgbnQ34MkO1WtxM=;
+ b=X36tgvUDsOu8ISUjZFqItubiEYngb6WLIjpOAx/iZ3anLNhVMSEZIkNw+gLoGmB9ZsnPd3
+ OmVUuipIiPMAjZWUaZgyRIhyXh66ktaWuxrPRwRMAoN4sYf2E49/2K+Y9TVrxKRr0RsDgu
+ gKlz81zforDr0BzCMVDCxYTzZCf7h0k=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-673-fxGDwM2BPi2Fc2IPObJXkg-1; Tue,
- 28 Jan 2025 17:31:37 -0500
-X-MC-Unique: fxGDwM2BPi2Fc2IPObJXkg-1
-X-Mimecast-MFC-AGG-ID: fxGDwM2BPi2Fc2IPObJXkg
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-658-l34GlrawO-K0fA0KVgkKpA-1; Tue,
+ 28 Jan 2025 17:31:50 -0500
+X-MC-Unique: l34GlrawO-K0fA0KVgkKpA-1
+X-Mimecast-MFC-AGG-ID: l34GlrawO-K0fA0KVgkKpA
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 3F1441800366; Tue, 28 Jan 2025 22:31:31 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id A4DF219560B8; Tue, 28 Jan 2025 22:31:42 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.231])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 67E34180035E; Tue, 28 Jan 2025 22:31:19 +0000 (UTC)
+ id 8B20018008E0; Tue, 28 Jan 2025 22:31:31 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 28 Jan 2025 17:29:29 -0500
-Subject: [PATCH 05/14] drm/meson: move to devm_platform_ioremap_resource()
+Date: Tue, 28 Jan 2025 17:29:30 -0500
+Subject: [PATCH 06/14] drm/mxsfb: move to devm_platform_ioremap_resource()
  usage
 MIME-Version: 1.0
-Message-Id: <20250128-cocci-memory-api-v1-5-0d1609a29587@redhat.com>
+Message-Id: <20250128-cocci-memory-api-v1-6-0d1609a29587@redhat.com>
 References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
 In-Reply-To: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
 To: Joel Stanley <joel@jms.id.au>, 
@@ -97,16 +97,16 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
  imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738103410; l=1714;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738103410; l=2475;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=f2q+dLROh+nmfHqYKZQjWCkJEGeXIqlbeRtQt42VgCQ=;
- b=lhClH7lzArBOUdWbc4Q4UnvQ1RCQ19pVNRVv63WKBHzCVgJMxuArGJpHa8TYtAgCNIzt7DlYr
- NxuKblbIiv5BF/Ek4dNs87o4KLEP61IBFsptwDPsRW00XhC+FVopP4m
+ bh=v1L4cPFDHFCRceX3WACQnVLoVu2mFhNUCVhK5pDvpqY=;
+ b=I44qT4OB+punCyftMrmGeaLcqI0wLiLGsgdJU8Fg2L87XeeVfgAHvvMvf7IHN//dxeGK9GTyZ
+ pBEjXPFreDECZ+17nDv5++iCAiXB7JsTsmQ37mQBE4989Nq5bR28eDx
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: DcbvXGIP6PvXO1mk8iu0chZvSvqNqwDD03nScWYOgxs_1738103492
+X-Mimecast-MFC-PROC-ID: neq8ZbMWx7ysDrewCVlHOqfJUcPE0Q8EC87uc3eYW88_1738103503
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -125,62 +125,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace platform_get_resource_byname + devm_ioremap
+Replace platform_get_resource + devm_ioremap_resource
 with just devm_platform_ioremap_resource()
 
 Used Coccinelle to do this change. SmPl patch:
-@rule_3@
+@rule_1@
 identifier res;
-expression ioremap;
+expression ioremap_res;
 identifier pdev;
-constant mem;
-expression name;
 @@
 -struct resource *res;
 ...
--res = platform_get_resource_byname(pdev,mem,name);
-<...
--if (!res) {
--...
--}
-...>
--ioremap = devm_ioremap(...);
-+ioremap = devm_platform_ioremap_resource_byname(pdev,name);
+-res = platform_get_resource(pdev,...);
+-ioremap_res = devm_ioremap_resource(...);
++ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Stefan Agner <stefan@agner.ch>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/meson/meson_drv.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/gpu/drm/mxsfb/lcdif_drv.c | 4 +---
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 81d2ee37e7732dca89d02347b9c972300b38771a..6c805805b7a7f675f8bb03944318972eb4df864e 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -184,7 +184,6 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	const struct meson_drm_match_data *match;
- 	struct meson_drm *priv;
- 	struct drm_device *drm;
+diff --git a/drivers/gpu/drm/mxsfb/lcdif_drv.c b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+index 8ee00f59ca821cea8e823e7100fb4d7534283994..fcb2a7517377e9a5bbd2997c578c579b1b079f92 100644
+--- a/drivers/gpu/drm/mxsfb/lcdif_drv.c
++++ b/drivers/gpu/drm/mxsfb/lcdif_drv.c
+@@ -134,7 +134,6 @@ static int lcdif_load(struct drm_device *drm)
+ {
+ 	struct platform_device *pdev = to_platform_device(drm->dev);
+ 	struct lcdif_drm_private *lcdif;
 -	struct resource *res;
- 	void __iomem *regs;
- 	int ret, i;
+ 	int ret;
  
-@@ -220,14 +219,8 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 	}
+ 	lcdif = devm_kzalloc(&pdev->dev, sizeof(*lcdif), GFP_KERNEL);
+@@ -144,8 +143,7 @@ static int lcdif_load(struct drm_device *drm)
+ 	lcdif->drm = drm;
+ 	drm->dev_private = lcdif;
  
- 	priv->io_base = regs;
--
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "hhi");
--	if (!res) {
--		ret = -EINVAL;
--		goto free_drm;
--	}
- 	/* Simply ioremap since it may be a shared register zone */
--	regs = devm_ioremap(dev, res->start, resource_size(res));
-+	regs = devm_platform_ioremap_resource_byname(pdev, "hhi");
- 	if (!regs) {
- 		ret = -EADDRNOTAVAIL;
- 		goto free_drm;
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	lcdif->base = devm_ioremap_resource(drm->dev, res);
++	lcdif->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(lcdif->base))
+ 		return PTR_ERR(lcdif->base);
+ 
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index 59020862cf65e5cc488903f1263ed16dfbce06f9..377d4c4c9979ad9538cfec5464827a82936f811b 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -215,7 +215,6 @@ static int mxsfb_load(struct drm_device *drm,
+ {
+ 	struct platform_device *pdev = to_platform_device(drm->dev);
+ 	struct mxsfb_drm_private *mxsfb;
+-	struct resource *res;
+ 	int ret;
+ 
+ 	mxsfb = devm_kzalloc(&pdev->dev, sizeof(*mxsfb), GFP_KERNEL);
+@@ -226,8 +225,7 @@ static int mxsfb_load(struct drm_device *drm,
+ 	drm->dev_private = mxsfb;
+ 	mxsfb->devdata = devdata;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	mxsfb->base = devm_ioremap_resource(drm->dev, res);
++	mxsfb->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(mxsfb->base))
+ 		return PTR_ERR(mxsfb->base);
+ 
 
 -- 
 2.47.0
