@@ -2,58 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FD3A20E01
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 17:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF66A20DA5
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 16:52:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2C310E6B4;
-	Tue, 28 Jan 2025 16:06:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C04F610E12E;
+	Tue, 28 Jan 2025 15:52:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WfRfzXn/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CcXlOXIp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91E9310E6B4;
- Tue, 28 Jan 2025 16:06:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738080389; x=1769616389;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=Kjc+4bZ3Mw8Tvc6O58RCdTmBMyon2TLHDsDhCs9PLGs=;
- b=WfRfzXn/W9Obkb5GoJsyg0lFmuhxoH3rap5988sYDxKK9W/EQhpx/YPz
- tZG49SAAJ2BouVm4lXgc055MGv2CXfu2QMmTfAgLmA02Z+4yXxA4/VhRz
- 3T6mZ08p39gu4hH6mb0of79oyhcUHgW1ksxMiitjEsZpNWpL5vUIoc8G7
- pF1+4PTAdrJfc+wdAHMJqZnzZeH0+yAU5+LcpxHxUA0sfndAk8xCJQ2N3
- YxV5zjBYCB8mD0EEQfh6Kebpby6h7DNjVo4nY8fPvA4YyWaE6tokrueJC
- 4eur8yTBkoIgXcd8jXw62t37Y3+G4cjIAp6yaE25NEMqQhQjmI2qjrQP3 Q==;
-X-CSE-ConnectionGUID: Q7jBzVzTTZSmzZjkdgFL8g==
-X-CSE-MsgGUID: /mSSAGcHQrObfqPzzlshaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="38745075"
-X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; d="scan'208";a="38745075"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2025 08:06:28 -0800
-X-CSE-ConnectionGUID: jOvxD+h4RnO/2xexgg6ITg==
-X-CSE-MsgGUID: 79PWBcjlQNqsI+R+31p7qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="145977051"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by orviesa001.jf.intel.com with ESMTP; 28 Jan 2025 08:06:26 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 28 Jan 2025 21:21:20 +0530
-Subject: [PATCH v8 14/14] drm/i915/histogram: Enable pipe dithering
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B084D10E12E
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 15:52:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id CAD4D5C010A;
+ Tue, 28 Jan 2025 15:51:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9432C4CED3;
+ Tue, 28 Jan 2025 15:52:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738079542;
+ bh=+ZMv34W7IZyQt09/UhRkguTm7FtkDfuQFyxRcOrXnIs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CcXlOXIpnLyZgqiMzwDrTGNDlVDm8ZYX7jzG7v5j1ufPatgfA9k8x9Wjot9syEzhD
+ Xie+j5rt44l47oz43QfQVEJNKSrpFvdsyXm0PIuo/zrHrtt9sQ9wb9taQHxMGUuw0c
+ gDNoW+kviirYNueRaKU6CeohbbrX6XF7etGDkOaOFBrcbYhgkCxZKHIWi8B6xQcY0i
+ +vNG9eIXEnzfSnMFvPEwhDFH6XGAleP5J5+ULWuP2wjUv889U5aM+Pb1cgFLE1uQEg
+ xTE9UjtlFlLNIy5BmkJMWF1CK8ycgHUppzHmCgxs/vX37bI9+jygg9J6XvFwdNANpL
+ ziPRKYdG69UJQ==
+Date: Tue, 28 Jan 2025 16:52:18 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Paul Kocialkowski <contact@paulk.fr>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+Message-ID: <zave5l4djfl6i2qyxcpfn2dn3pip2sjaqefrkct47qzdd653jf@z4zhcpptbt4x>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
+ <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
+ <20250102130149.5784c09b@booty> <20250110115819.55bc887b@booty>
+ <20250116113236.39ba876a@booty>
+ <emuj2innmp6zmzd7pyakqzjqpdzhly6qfhakya3ydwmd63pl26@5jwxaidpikjw>
+ <20250121122718.48502262@booty>
+ <lwqv5nukfchusbi2vep2cx3vu6oxj4r5jd7oe3wo4nxtpxadh2@wjyt2c2r46kn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-dpst-v8-14-871b94d777f8@intel.com>
-References: <20250128-dpst-v8-0-871b94d777f8@intel.com>
-In-Reply-To: <20250128-dpst-v8-0-871b94d777f8@intel.com>
-To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Cc: suraj.kandpal@intel.com, dmitry.baryshkov@linaro.org, 
- Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="xgzb5xxdgehkfjxi"
+Content-Disposition: inline
+In-Reply-To: <lwqv5nukfchusbi2vep2cx3vu6oxj4r5jd7oe3wo4nxtpxadh2@wjyt2c2r46kn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +84,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable pipe dithering while enabling histogram to overcome some
-atrifacts seen on the screen.
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_histogram.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+--xgzb5xxdgehkfjxi
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+MIME-Version: 1.0
 
-diff --git a/drivers/gpu/drm/i915/display/intel_histogram.c b/drivers/gpu/drm/i915/display/intel_histogram.c
-index f6844449e4bb6167116d223af316e5f3a5e8707c..ead9c2391d460f459dfca8e99ea423a34418e67d 100644
---- a/drivers/gpu/drm/i915/display/intel_histogram.c
-+++ b/drivers/gpu/drm/i915/display/intel_histogram.c
-@@ -22,6 +22,13 @@
- #define HISTOGRAM_BIN_READ_RETRY_COUNT 5
- #define IET_SAMPLE_FORMAT_1_INT_9_FRACT 0x1000009
- 
-+static void intel_histogram_enable_dithering(struct intel_display *display,
-+					     enum pipe pipe)
-+{
-+	intel_de_rmw(display, PIPE_MISC(pipe), PIPE_MISC_DITHER_ENABLE,
-+		     PIPE_MISC_DITHER_ENABLE);
-+}
-+
- static void set_bin_index_0(struct intel_display *display, enum pipe pipe)
- {
- 	if (DISPLAY_VER(display) >= 20)
-@@ -200,6 +207,10 @@ static int intel_histogram_enable(struct intel_crtc *intel_crtc, u8 mode)
- 
- 	if (histogram->enable)
- 		return 0;
-+
-+	/* Pipe Dithering should be enabled with histogram */
-+	intel_histogram_enable_dithering(display, pipe);
-+
- 	 /* enable histogram, clear DPST_BIN reg and select TC function */
- 	if (DISPLAY_VER(display) >= 20)
- 		intel_de_rmw(display, DPST_CTL(pipe),
+On Tue, Jan 21, 2025 at 01:57:47PM +0200, Dmitry Baryshkov wrote:
+> On Tue, Jan 21, 2025 at 12:27:18PM +0100, Luca Ceresoli wrote:
+> > Hi Dmitry,
+> >=20
+> > On Thu, 16 Jan 2025 12:56:25 +0200
+> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> >=20
+> > [...]
+> >=20
+> > > > Idea 3:=20
+> > > >=20
+> > > > The idea is that if the panel driver framework always creates a pan=
+el
+> > > > bridge, it will never need to be created on the fly automagically by
+> > > > its consumers, so the whole problem would disappear. It also would =
+be
+> > > > better modeling the hardware: still wrapping a panel with a drm_bri=
+dge
+> > > > that does not exist in the hardware, but at least having it created=
+ by
+> > > > the provider driver and not by the consumer driver which happens to
+> > > > look for it. =20
+> > >=20
+> > > I think this is the best option up to now.
+> >=20
+> > Thanks for sharing your opinion. However a few points are not clear to
+> > me, see below.
+> >=20
+> > > > This looks like a promising and simple idea, so I tried a quick
+> > > > implementation:
+> > > >=20
+> > > >  void drm_panel_init(struct drm_panel *panel, struct device *dev,
+> > > >                     const struct drm_panel_funcs *funcs, int connec=
+tor_type)
+> > > >  {
+> > > > +       struct drm_bridge *bridge;
+> > > > +
+> > > >         INIT_LIST_HEAD(&panel->list);
+> > > >         INIT_LIST_HEAD(&panel->followers);
+> > > >         mutex_init(&panel->follower_lock);
+> > > >         panel->dev =3D dev;
+> > > >         panel->funcs =3D funcs;
+> > > >         panel->connector_type =3D connector_type;
+> > > > +
+> > > > +       bridge =3D devm_drm_panel_bridge_add(panel->dev, panel);
+> > > > +       WARN_ON(!bridge);
+> > > >  }
+> > > >=20
+> > > > This is somewhat working but it requires more work because:
+> > > >=20
+> > > >  * as it is, it creates a circular dependency between drm_panel and=
+ the
+> > > >    panel bridge, and modular builds will fail:
+> > > >=20
+> > > >      depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
+> > > >=20
+> > > >  * The panel bridge implementation should be made private to the pa=
+nel
+> > > >    driver only (possibly helping to solve the previous issue?) =20
+> > >=20
+> > > Or merge drm_panel.c into bridge/panel.c.
+> >=20
+> > Not sure here you mean exactly what you wrote, or the other way around.
+> > It looks more correct to me that the panel core (drm_panel.c) starts
+> > exposing a bridge now, and not that the panel bridge which is just one
+> > of many bridge drivers starts handling all the panel-related stuff.
+>=20
+> No, I actually meant what I wrote: merge drm_panel.c into
+> bridge/panel.c. Indeed we have some drivers that use panel directly.
+> However drm_bridge is a more generic interface. So, yes, I propose to
+> have a bridge driver which incorporates panel support.
 
--- 
-2.25.1
+It's a legitimate subject to discuss, but I'm not sure it's worth
+focusing on this at this point though.
 
+We should probably split it out into smaller chunks. Figuring out the
+drivers lifetime, and reference counting API is hard enough as it is,
+throwing panels into the mix at this point just adds more complexity.
+
+Maxime
+
+--xgzb5xxdgehkfjxi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5j9LQAKCRAnX84Zoj2+
+dr+9AYD3ejhJkBU6GuhBCf1V416YoKd8WTFeAyOCAx6vOMYG5g/AB64hT0jgLj8f
+VsKw5esBf21gmTYvT0Skk2DDP0XMtC0YYHdZpitvjdK9Vveu29dHs7Yrsw0wOXDG
+ZtjM4Zx0sg==
+=0eQL
+-----END PGP SIGNATURE-----
+
+--xgzb5xxdgehkfjxi--
