@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D1CA20910
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 11:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC05A2094F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 12:13:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9742810E648;
-	Tue, 28 Jan 2025 10:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F132F10E65A;
+	Tue, 28 Jan 2025 11:13:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L1hr0C/n";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="AMhLtl8D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 224A110E648
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 10:56:25 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 968EC6DF;
- Tue, 28 Jan 2025 11:55:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1738061716;
- bh=FoU1Bn2fATcpBi0/ZF4ZzVjOlm3v0fAt6pCwFUvlt2w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=L1hr0C/nku3UQfyc+n71GfVy68QOpkXUcTJnmma5QpyfmRnHh5uGD1a39L2S//L8F
- qJTcASuKvE1NLl+CPmLMdmkRKyhqWf9HSeZ6gO02R2O47pS4Lkia86PIYs0Oh+H5CW
- PBRNeifTryjVn06kSWjTiOPw+ISoBZS+3+oO5RcA=
-Date: Tue, 28 Jan 2025 12:56:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH] MAINTAINERS: Update drm/rcar-du maintainers
-Message-ID: <20250128105612.GC13628@pendragon.ideasonboard.com>
-References: <20250128-rcar-du-maintainers-v1-1-c429ca421c52@ideasonboard.com>
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C9C9D10E65A
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 11:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=C0ZJZ
+ Px2mfgjH2pMopT+tPtYYCICn14OT0CJ98yvDdk=; b=AMhLtl8DfPv95KrviQfg3
+ 0RwKKg69vyI26pmTIJw5nfSDR/OmkewJ3gnyCxjhevTB03jWzLgpsEHWjtM/JfQb
+ FB0D3xrlF5dN2Mbnd+5DE7MLjtpBnOQ2rY790kdJGUAo7iWhqBAxRvg/A2Gpy4Nc
+ xuD9+xTsdVOKck7vZ/WA8k=
+Received: from DESKTOP-DMSSUQ5.localdomain (unknown [])
+ by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
+ _____wD3V8m3u5hn6uWxIw--.63804S2; 
+ Tue, 28 Jan 2025 19:12:55 +0800 (CST)
+From: oushixiong1025@163.com
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] drm/mediatek: Convert to use devm_platform_ioremap_resource
+Date: Tue, 28 Jan 2025 17:41:18 +0800
+Message-ID: <20250128094118.1526-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250128-rcar-du-maintainers-v1-1-c429ca421c52@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wD3V8m3u5hn6uWxIw--.63804S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZFW3tryxAFW8JFWrKrW5trb_yoWktFX_Wa
+ yvkrs7WryUCr95X3WxCF47CFy2yanY9FykJF13Kayava47Jw1UZrWjvr9rZrsrWws7AFyq
+ yanIq3W29a1fCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8fu4UUUUUU==
+X-Originating-IP: [113.247.116.130]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYw3iD2eYnOP7BQAAs9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,50 +61,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tomi,
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-Thank you for the patch.
+Do not need to get resource, so convert to use
+devm_platform_ioremap_resource.
 
-On Tue, Jan 28, 2025 at 12:28:48PM +0200, Tomi Valkeinen wrote:
-> Add myself as drm/rcar-du maintainer. Switch Kieran from a maintainer to
-> reviewer.
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Cc: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  MAINTAINERS | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ed86d884ee0d..5b1bf5fd56fd 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7760,7 +7760,8 @@ F:	include/uapi/drm/tegra_drm.h
->  
->  DRM DRIVERS FOR RENESAS R-CAR
->  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> -M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> +M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+---
+ drivers/gpu/drm/mediatek/mtk_padding.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Shouldn't this be
-
-M:	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
-? While at it, you can add +renesas to my e-mail address too.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +R:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->  L:	dri-devel@lists.freedesktop.org
->  L:	linux-renesas-soc@vger.kernel.org
->  S:	Supported
-> 
-> ---
-> base-commit: e2a81c0cd7de6cb063058be304b18f200c64802b
-> change-id: 20250128-rcar-du-maintainers-34ee66948f04
-
+diff --git a/drivers/gpu/drm/mediatek/mtk_padding.c b/drivers/gpu/drm/mediatek/mtk_padding.c
+index b4e3e5a3428b..7e302724e74a 100644
+--- a/drivers/gpu/drm/mediatek/mtk_padding.c
++++ b/drivers/gpu/drm/mediatek/mtk_padding.c
+@@ -95,7 +95,6 @@ static int mtk_padding_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct mtk_padding *priv;
+-	struct resource *res;
+ 	int ret;
+ 
+ 	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+@@ -107,7 +106,7 @@ static int mtk_padding_probe(struct platform_device *pdev)
+ 		return dev_err_probe(dev, PTR_ERR(priv->clk),
+ 				     "failed to get clk\n");
+ 
+-	priv->reg = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
++	priv->reg = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->reg))
+ 		return dev_err_probe(dev, PTR_ERR(priv->reg),
+ 				     "failed to do ioremap\n");
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
