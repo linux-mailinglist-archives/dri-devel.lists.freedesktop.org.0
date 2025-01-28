@@ -2,99 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99866A205AB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 09:09:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B566A2068C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 09:52:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEBAA10E0FA;
-	Tue, 28 Jan 2025 08:09:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E927C10E20D;
+	Tue, 28 Jan 2025 08:52:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hZ/0G/Ie";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l4og8gwm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A22510E363
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 19:05:58 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-2ef6c56032eso6412217a91.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Jan 2025 11:05:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738004757; x=1738609557; darn=lists.freedesktop.org;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=FgpSNPeAjFZp+XVJ99wWjxWH+/lWeKYYdQIoeMWl0ls=;
- b=hZ/0G/IemmS/8HqMZyeoO3GDowjr104eXDwexBx+VGF8w0r/ifB8MyXkC5uOD99wC9
- a5LZSiIuuxTZkzZd6FoGucKx+mrt4BLxaRKQknFraDAQFbJ+/1vwJ9tmwTAldpfQsZWH
- fjoMpeY4EIHzKMzQZD2tZHKfqJinEylrAfr/E91K6g7hVNexW1wOpNAmtor/la1L0xCs
- zg1/dshUwGd8svfAnUBir7UAVfzxjHYy+fvCtsq/fcqHzkQ4DMkTrU0la0owr1QrDdHA
- sKO/b05YU41kLQop+6XYKQkJcMyCllwAw3nhHjwuwjX6h8ixvSPtGyEqTMzUrQeb4V5z
- e/XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738004757; x=1738609557;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FgpSNPeAjFZp+XVJ99wWjxWH+/lWeKYYdQIoeMWl0ls=;
- b=bH86X5It+U6pbZWwU4z3tlRxLOAb+2FRYCWMCAyWc2VJssMfyUnJ3inbu/f7M4T35x
- 7I/cNjgLU4oWmHqG9zeCN8aBzJSW095SH/F/63tppF2mfwMedp8ujDdEqFd/bkwTR8TE
- q7DtHMbyVvw4m6eWQb+jmkEDz9qZgJNALVd8TiiFIZ9gUHTHvKgKuVeAK/9FVoizbJA6
- ZA9ABF+QsD7gXRkAFIoBgvtL+tM12koJBqpdtH0P9f8N4hLR8VWQTo9p1CVQCIG4gN74
- T7SfTsIpC3ZuMS8s1stQEiuDhCQ3bvmcgWVQGT1s1k66vILse98fuBueY9XOBxzeRbAI
- nZuA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXmVhT/tk6E/h7ixB1GlJkLfPgOrCe1x37k2DW72k8GhWqlYA0K0WUXoAQIUIo6WKKKLFJr7j7nx8Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxIWYT0/5tFVtrA577PMjDcH2loPrNT2dZ56GYpq1XZ74v8ULJM
- ao37EZVIAkPCs4EHM0HZYtUOc52jeEAMDFSQtWG1Leh2e7XZ7wh2
-X-Gm-Gg: ASbGnct5BKrP7OoONEik3NyyfJ73mp55+aDbJzIhMEhKBgYMSe1g5gYwU/dAj2SRh1n
- TJK0nbV7dtI8SEHDmy5fNCvmSCGsBBcC7eFxuXRqWFHek9qSrxylU/ZLF/Of3olJZTzwyTwEccG
- FFTe3vaR6Qd0BnYZ+kM8AW0hwesyPiGmw/5rQ1HSKsy5Yql/4oPbxjxz91RK5R3aXoMq7UA5OoY
- 8+aW63WK7DawccZGuKLaM6Zz6S1/WenkS4A7zmx2zQ1n5Ao4VEPvJvKm58tTAM2TOKgD2aCy1vY
- lPD1diu+s2QJxJuRZZ9p1n51L3n1oAt7cFEBH32pZvyjGcY94L0=
-X-Google-Smtp-Source: AGHT+IGV7gPf93QQO1WJVtV/nW0FDXYUQssyR5CStDGifbGwwzQP3dnpV8mOxs8Y4y2sm2ikFERqIA==
-X-Received: by 2002:a17:90a:d648:b0:2ee:3cc1:793a with SMTP id
- 98e67ed59e1d1-2f782d8c178mr8304612a91.29.1738004757474; 
- Mon, 27 Jan 2025 11:05:57 -0800 (PST)
-Received: from ?IPv6:2804:1b3:a801:16c4:2e00:3d86:8f34:c7fb?
- ([2804:1b3:a801:16c4:2e00:3d86:8f34:c7fb])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2f7ffaf8f03sm7546423a91.39.2025.01.27.11.05.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Jan 2025 11:05:57 -0800 (PST)
-Message-ID: <a6816a68e5e9aeb1d330b68f6a73decd2233c164.camel@gmail.com>
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras.c@gmail.com>
-To: Vignesh Raman <vignesh.raman@collabora.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>
-Cc: kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, 	mripard@kernel.org,
- linux-kernel@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
- linux-kselftest@vger.kernel.org, 	gustavo.padovan@collabora.com,
- pawiecz@collabora.com, spbnick@gmail.com, 	tales.aparecida@gmail.com,
- workflows@vger.kernel.org, skhan@linuxfoundation.org, 
- kunit-dev@googlegroups.com, nfraprado@collabora.com, davidgow@google.com, 
- cocci@inria.fr, Julia.Lawall@inria.fr, laura.nao@collabora.com, 
- kernel@collabora.com, torvalds@linuxfoundation.org,
- gregkh@linuxfoundation.org, 	daniels@collabora.com,
- helen.koike@collabora.com, shreeya.patel@collabora.com, 
- denys.f@collabora.com, nicolas.dufresne@collabora.com,
- louis.chauvet@bootlin.com, 	hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- simona@ffwll.ch, airlied@gmail.com, 	Tim.Bird@sony.com, broonie@kernel.org,
- groeck@google.com, rdunlap@infradead.org, 	geert@linux-m68k.org,
- michel.daenzer@mailbox.org, sakari.ailus@iki.fi, 	jarkko@kernel.org
-Date: Mon, 27 Jan 2025 16:05:47 -0300
-In-Reply-To: <6ebd1551-017f-4b31-b235-829b2735d78f@collabora.com>
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
- <6ebd1551-017f-4b31-b235-829b2735d78f@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A171910E20D;
+ Tue, 28 Jan 2025 08:52:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738054326; x=1769590326;
+ h=message-id:subject:from:to:date:in-reply-to:references:
+ content-transfer-encoding:mime-version;
+ bh=arBYayUBa7gh3GjVgWUJEeFHyqwuLt462GaAYBUJ17A=;
+ b=l4og8gwmAe3EYYUkzaATZRxK+xnEmkjVpm6amWYnksjyJW4OiQDmR/Za
+ Jf8dyjDGvSh+D5RILsm5LqV07EuMK7O06UhZSbm/RNpH8rzHvbhFBxXYI
+ U47d2cnjQFkn4sUHrq93BeMxzmJyIt7zUXaLxptyNfW5tkZtRpE6UHL8y
+ tK9ynbP5eAbjjLKeElVxpBP23vud5xQ/VshlA1h6Ee0pmidiifzer3wtw
+ Hrb9Xk8kfuHUVNgg9/brzMMbAVfyFROnjO6sGGNVZTz2mBsswZo2N5BZc
+ A2YYZXoOW8Uc30mYm/NxyPlnpY2BU4zPoRi2VEO6rC8RrygmpsGL/NN9v A==;
+X-CSE-ConnectionGUID: v+uafKWhRTK+q6NRCluQTg==
+X-CSE-MsgGUID: NEjlURU1Q1ClEA79YwqtTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="37732175"
+X-IronPort-AV: E=Sophos;i="6.13,240,1732608000"; d="scan'208";a="37732175"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 00:52:06 -0800
+X-CSE-ConnectionGUID: uiA469o4TnK3CjMIkAHeng==
+X-CSE-MsgGUID: x/aKlPa3TA6n/e4E80RdBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="112680230"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.120])
+ ([10.245.246.120])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 00:52:02 -0800
+Message-ID: <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch, jgg@ziepe.ca,
+ leon@kernel.org, 	jglisse@redhat.com, akpm@linux-foundation.org,
+ GalShalom@Nvidia.com, 	dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, 	linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-mm@kvack.org, 	linux-tegra@vger.kernel.org
+Date: Tue, 28 Jan 2025 09:51:52 +0100
+In-Reply-To: <20241201103659.420677-2-ymaman@nvidia.com>
+References: <20241201103659.420677-1-ymaman@nvidia.com>
+ <20241201103659.420677-2-ymaman@nvidia.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-X-Mailman-Approved-At: Tue, 28 Jan 2025 08:09:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,180 +76,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-01-27 at 13:02 +0530, Vignesh Raman wrote:
-> Hi Leo,
->=20
-> On 24/01/25 13:42, Laurent Pinchart wrote:
-> > On Fri, Jan 24, 2025 at 02:11:26AM -0300, Leonardo Br=C3=A1s wrote:
-> > > On Thu, 2025-01-23 at 19:23 +0530, Vignesh Raman wrote:
-> > > > This patch series introduces "kci-gitlab," a GitLab CI pipeline
-> > > > specifically designed for kernel testing. It provides kernel
-> > > > developers with an integrated, efficient, and flexible testing
-> > > > framework using GitLab's CI/CD capabilities. This patch includes
-> > > > a .gitlab-ci file in the tools/ci/gitlab-ci/ folder, along with
-> > > > additional YAML and script files, to define a basic test pipeline
-> > > > triggered by code pushes to a GitLab-CI instance.
-> > > > The initial version implements:
-> > > >     =20
-> > > > - Static checks: Includes checkpatch and smatch for code validation=
-.
-> > > > - Build tests: Covers various architectures and configurations.
-> > > > - Boot tests: Utilizes virtme for basic boot testing.
-> > > >=20
-> > > > Additionally, it introduces a flexible "scenarios" mechanism to
-> > > > support subsystem-specific extensions.
-> > > >=20
-> > > > This series also introduces a drm scenario that adds a job to run I=
-GT
-> > > > tests for vkms. This scenario includes helper scripts to build deqp=
--runner
-> > > > and IGT, leveraging approaches from the drm-ci/mesa-ci project.
-> > > >=20
-> > > > We are working towards creating a generic, upstream GitLab-CI pipel=
-ine
-> > > > (kci-gitlab) that will replace DRM-CI [1]. The proposed GitLab-CI p=
-ipeline
-> > > > is designed with a distributed infrastructure model, making it poss=
-ible
-> > > > to run on any gitLab instance. We plan to leverage KernelCI [2] as =
-the
-> > > > backend, utilizing its hardware, rootfs, test plans, and KCIDB [3]
-> > > > integration.
-> > > >=20
-> > > > For an example of a fully executed pipeline with drm scenario set,
-> > > > including documentation generation,
-> > > > see: https://gitlab.freedesktop.org/vigneshraman/kernel/-/pipelines=
-/1350262
-> > > >=20
-> > > > Please refer to the documentation included in the patch, or check t=
-he
-> > > > rendered version, here:
-> > > > https://vigneshraman.pages.freedesktop.org/-/kernel/-/jobs/69787927=
-/artifacts/artifacts/Documentation-output/ci/gitlab-ci/gitlab-ci.html
-> > > >=20
-> > > > Differences from v1 to v2:
-> > > > - moved to tools/ci as suggested by Linus on the previous version
-> > > > - add arm64 containers for native compilation
-> > > > - added boot tests using virtme: this is the base structure for boo=
-t tests,
-> > > >    next steps would be adding other tests such as kselftests/kunit =
-tests
-> > > > - added DRM scenario testing on vkms: this should replace current v=
-kms test
-> > > >    in drm-ci. This work shows how a test scenario can be used by di=
-fferent
-> > > >    subsystems to add their tests.
-> > > > - update documentation
-> > > >=20
-> > > > For more details on the motivation behind this work, please refer t=
-o the
-> > > > cover letter of v1: https://patchwork.kernel.org/project/linux-ksel=
-ftest/cover/20240228225527.1052240-1-helen.koike@collabora.com/
-> > > >=20
-> > > > [1] https://www.collabora.com/news-and-blog/blog/2024/02/08/drm-ci-=
-a-gitlab-ci-pipeline-for-linux-kernel-testing/
-> > > > [2] https://kernelci.org/
-> > > > [3] https://docs.kernelci.org/kcidb/
-> > > >=20
-> > > > Helen Koike (3):
-> > > >    kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
-> > > >    kci-gitlab: Add documentation
-> > > >    kci-gitlab: docs: Add images
-> > > >=20
-> > > > Vignesh Raman (2):
-> > > >    MAINTAINERS: Add an entry for ci automated testing
-> > > >    kci-gitlab: Add drm scenario
-> > >=20
-> > > Hi Vignesh Raman,
-> > > I am very happy to see this project going forward :)
-> > >=20
-> > > It's been a few years since I first thought on finding a good way of =
-helping
-> > > kernel developers testing their patches, while making use of the free=
- runner
-> > > minutes Gitlab offers. It can greatly simplify the testing for people=
- who are
-> > > new to kernel development, or students trying to understand it better=
-.
-> > >=20
-> > > And this patchset allows that to happen :)
->=20
-> Thanks for testing the patch and providing feedback.
+Hi, Jonatan
 
-:)
+
+On Sun, 2024-12-01 at 12:36 +0200, Yonatan Maman wrote:
+> From: Yonatan Maman <Ymaman@Nvidia.com>
+>=20
+> hmm_range_fault() by default triggered a page fault on device private
+> when HMM_PFN_REQ_FAULT flag was set. pages, migrating them to RAM. In
+> some
+> cases, such as with RDMA devices, the migration overhead between the
+> device (e.g., GPU) and the CPU, and vice-versa, significantly
+> degrades
+> performance. Thus, enabling Peer-to-Peer (P2P) DMA access for device
+> private page might be crucial for minimizing data transfer overhead.
+>=20
+> Introduced an API to support P2P DMA for device private
+> pages,includes:
+> =C2=A0- Leveraging the struct pagemap_ops for P2P Page Callbacks. This
+> callback
+> =C2=A0=C2=A0 involves mapping the page for P2P DMA and returning the
+> corresponding
+> =C2=A0=C2=A0 PCI_P2P page.
+>=20
+> =C2=A0- Utilizing hmm_range_fault for initializing P2P DMA. The API
+> =C2=A0=C2=A0 also adds the HMM_PFN_REQ_TRY_P2P flag option for the
+> =C2=A0=C2=A0 hmm_range_fault caller to initialize P2P. If set, hmm_range_=
+fault
+> =C2=A0=C2=A0 attempts initializing the P2P connection first, if the owner
+> device
+> =C2=A0=C2=A0 supports P2P, using p2p_page. In case of failure or lack of
+> support,
+> =C2=A0=C2=A0 hmm_range_fault will continue with the regular flow of migra=
+ting
+> the
+> =C2=A0=C2=A0 page to RAM.
+>=20
+> This change does not affect previous use-cases of hmm_range_fault,
+> because both the caller and the page owner must explicitly request
+> and
+> support it to initialize P2P connection.
+>=20
+> Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
+> Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
+> ---
+> =C2=A0include/linux/hmm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 ++-
+> =C2=A0include/linux/memremap.h |=C2=A0 8 ++++++
+> =C2=A0mm/hmm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 57 ++++++++++++++++++++++++++++++=
++++-----
+> --
+> =C2=A03 files changed, 57 insertions(+), 11 deletions(-)
+
+It appears we're working on a very similar thing, (In fact the original
+proposals were sent out the same day. I have a couple of questions).
+
 
 >=20
-> > >=20
-> > > Actually, I spoke to Helen last year, and to enable it to run on the =
-free
-> > > Gitlab-CI runners, there is a small extra patch which is needed:
-> > >=20
-> > > https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.co=
-m/
+> diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+> index 62980ca8f3c5..017f22cef893 100644
+> --- a/include/linux/hmm.h
+> +++ b/include/linux/hmm.h
+> @@ -26,6 +26,7 @@ struct mmu_interval_notifier;
+> =C2=A0 * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output
+> transformation
+> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 to mark tha=
+t page is already DMA mapped
+> + * HMM_PFN_ALLOW_P2P - Allow returning PCI P2PDMA page
+> =C2=A0 *
+> =C2=A0 * On input:
+> =C2=A0 * 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Return the current state of the page, d=
+o not
+> fault it.
+> @@ -41,7 +42,7 @@ enum hmm_pfn_flags {
+> =C2=A0	HMM_PFN_ERROR =3D 1UL << (BITS_PER_LONG - 3),
+> =C2=A0
+> =C2=A0	/* Sticky flag, carried from Input to Output */
+> +	HMM_PFN_ALLOW_P2P =3D 1UL << (BITS_PER_LONG - 6),
+> =C2=A0	HMM_PFN_DMA_MAPPED =3D 1UL << (BITS_PER_LONG - 7),
+> =C2=A0
+> =C2=A0	HMM_PFN_ORDER_SHIFT =3D (BITS_PER_LONG - 8),
+> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+> index 3f7143ade32c..cdf5189be5e9 100644
+> --- a/include/linux/memremap.h
+> +++ b/include/linux/memremap.h
+> @@ -89,6 +89,14 @@ struct dev_pagemap_ops {
+> =C2=A0	 */
+> =C2=A0	vm_fault_t (*migrate_to_ram)(struct vm_fault *vmf);
+> =C2=A0
+> +	/*
+> +	 * Used for private (un-addressable) device memory only.
+> Return a
+> +	 * corresponding PFN for a page that can be mapped to device
+> +	 * (e.g using dma_map_page)
+> +	 */
+> +	int (*get_dma_pfn_for_device)(struct page *private_page,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *dma_pfn);
+> +
+> =C2=A0	/*
+> =C2=A0	 * Handle the memory failure happens on a range of pfns.=C2=A0
+> Notify the
+> =C2=A0	 * processes who are using these pfns, and try to recover
+> the data on
+> diff --git a/mm/hmm.c b/mm/hmm.c
+> index a852d8337c73..1c080bc00ee8 100644
+> --- a/mm/hmm.c
+> +++ b/mm/hmm.c
+> @@ -226,6 +226,51 @@ static inline unsigned long
+> pte_to_hmm_pfn_flags(struct hmm_range *range,
+> =C2=A0	return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) :
+> HMM_PFN_VALID;
+> =C2=A0}
+> =C2=A0
+> +static bool hmm_handle_device_private(struct hmm_range *range,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long pfn_req_flags,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 swp_entry_t entry,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long *hmm_pfn)
+> +{
+> +	struct page *page =3D pfn_swap_entry_to_page(entry);
+> +	struct dev_pagemap *pgmap =3D page->pgmap;
+> +	int ret;
 >=20
-> Thanks for the patch.
+> +	pfn_req_flags &=3D range->pfn_flags_mask;
+> +	pfn_req_flags |=3D range->default_flags;
+> +
+> +	/*
+> +	 * Don't fault in device private pages owned by the caller,
+> +	 * just report the PFN.
+> +	 */
+> +	if (pgmap->owner =3D=3D range->dev_private_owner) {
+> +		*hmm_pfn =3D swp_offset_pfn(entry);
+> +		goto found;
+> +	}
+> +
+> +	/*
+> +	 * P2P for supported pages, and according to caller request
+> +	 * translate the private page to the match P2P page if it
+> fails
+> +	 * continue with the regular flow
+> +	 */
+> +	if (pfn_req_flags & HMM_PFN_ALLOW_P2P &&
+> +	=C2=A0=C2=A0=C2=A0 pgmap->ops->get_dma_pfn_for_device) {
+> +		ret =3D pgmap->ops->get_dma_pfn_for_device(page,
+> hmm_pfn);
 
-Thank you for most of the work, it sure will be useful :)
+How would the pgmap device know whether P2P is actually possible
+without knowing the client device, (like calling pci_p2pdma_distance)
+and also if looking into access control, whether it is allowed?
 
->=20
-> We can keep the variable name as KCI_CI_TAGS (like other variables) and=
+I wonder whether you could consider using something that is a little
+more generic that would fit also our use-case. Here the caller provides
+a callback as to whether devmem access is allowed, but leaves any dma-
+mapping or pfn mangling to be done after the call to hmm_range_fault(),
+since hmm_range_fault() really only needs to know whether it has to
+migrate to system or not. One benefit of using this alternative
+approach is that struct hmm_range can be subclassed by the caller and
+for example cache device pairs for which p2p is allowed.
+
+Current version (after the feedback from Jason looks like this). It
+looks like your use-case could easily be made to fit this one, but, as
+I understand it, not vice versa: (Could send this as a separate patch
+if needed).
+
+Thanks,
+Thomas
+
+
+diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+index 126a36571667..8ac1f4125e30 100644
+--- a/include/linux/hmm.h
++++ b/include/linux/hmm.h
+@@ -76,6 +76,21 @@ static inline unsigned int
+hmm_pfn_to_map_order(unsigned long hmm_pfn)
+ 	return (hmm_pfn >> HMM_PFN_ORDER_SHIFT) & 0x1F;
+ }
 =20
-> add it in variables with default empty string.
++struct hmm_range;
++
++/**
++ * struct hmm_range_ops - Functions for detailed cross-device access.
++ */
++struct hmm_range_ops {
++	/**
++	 * @devmem_allow: Whether to allow cross-device access to
+device_private pages.
++	 * @hrange: Pointer to a struct hmm_range. Typically
+subclassed by the caller
++	 * to provide needed information.
++	 * @page: The page being queried.
++	 */
++	bool (*devmem_allow)(struct hmm_range *hrange, struct page
+*page);
++};
++
+ /*
+  * struct hmm_range - track invalidation lock on virtual address range
+  *
+@@ -87,6 +102,7 @@ static inline unsigned int
+hmm_pfn_to_map_order(unsigned long hmm_pfn)
+  * @default_flags: default flags for the range (write, read, ... see
+hmm doc)
+  * @pfn_flags_mask: allows to mask pfn flags so that only
+default_flags matter
+  * @dev_private_owner: owner of device private pages
++ * @ops: Pointer to a struct hmm_range_ops or NULL if no ops provided.
+  */
+ struct hmm_range {
+ 	struct mmu_interval_notifier *notifier;
+@@ -97,6 +113,7 @@ struct hmm_range {
+ 	unsigned long		default_flags;
+ 	unsigned long		pfn_flags_mask;
+ 	void			*dev_private_owner;
++	const struct hmm_range_ops *ops;
+ };
+=20
+ /*
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 7e0229ae4a5a..ea4e08caa14a 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -220,6 +220,15 @@ static inline unsigned long
+pte_to_hmm_pfn_flags(struct hmm_range *range,
+ 	return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) :
+HMM_PFN_VALID;
+ }
+=20
++static bool hmm_devmem_allow(struct hmm_range *range, struct page
+*page)
++{
++	if (likely(page->pgmap->owner =3D=3D range->dev_private_owner))
++		return true;
++	if (likely(!range->ops))
++		return false;
++	return range->ops->devmem_allow(range, page);
++}
++
+ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long
+addr,
+ 			      unsigned long end, pmd_t *pmdp, pte_t
+*ptep,
+ 			      unsigned long *hmm_pfn)
+@@ -245,11 +254,10 @@ static int hmm_vma_handle_pte(struct mm_walk
+*walk, unsigned long addr,
+=20
+ 		/*
+ 		 * Don't fault in device private pages owned by the
+caller,
+-		 * just report the PFN.
++		 * or that are accessible to the caller. Just report
+the PFN.
+ 		 */
+ 		if (is_device_private_entry(entry) &&
+-		    pfn_swap_entry_to_page(entry)->pgmap->owner =3D=3D
+-		    range->dev_private_owner) {
++		    hmm_devmem_allow(range,
+pfn_swap_entry_to_page(entry))) {
+ 			cpu_flags =3D HMM_PFN_VALID;
+ 			if (is_writable_device_private_entry(entry))
+ 				cpu_flags |=3D HMM_PFN_WRITE;
+--=20
+2.48.1
 
-Just tested, if it's an empty string, it will just be ignored, as it won't =
-match
-anything (that is not an empty string)
-
->=20
-> >=20
-> > Gitlab as an open-source software project (the community edition) is on=
-e
-> > thing, but can we please avoid advertising specific proprietary service=
-s
-> > in the kernel documentation ?
->=20
-> Agree. We could remove the lines which mentions gitlab.com SaaS in
-> commit message and documentation.
-
-Done :)
-Added a generic reason for needing better instance
-
->=20
-> >=20
-> > > Could you please apply it on top of your tree?
-> > > Some stuff changed places, but I can send a v2 with that fix if you w=
-ant.
->=20
-> I will test your patch and we can add this for v3.
-
-Thanks!
-That's the v2 with the required changes:
-
-https://lore.kernel.org/all/20250127185849.34131-1-leobras@redhat.com/T/#u
-
-Please let me know if any further change is needed.
-
-Thanks!
-Leo
-
->=20
-> Regards,
-> Vignesh
->=20
-> > >=20
-> > >=20
-> > > While I have yet to review this v2 patchset, I applied it on my repo =
-for
-> > > testing,=C2=A0and cherry-picked the patch on above link, triggering a=
- Pipeline:
-> > >=20
-> > > https://gitlab.com/linux-kernel/linux/-/pipelines/1638955600
-> > >=20
-> > > It seems to be working fine, please check it, as you may be more used=
- to the
-> > > results.
-> > >=20
-> > > Thanks!
-> > > Leo
-> >=20
 
