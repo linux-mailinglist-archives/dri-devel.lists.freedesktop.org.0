@@ -2,126 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142B1A20E80
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 17:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BBC4A20E9D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 17:32:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22FCF10E6C2;
-	Tue, 28 Jan 2025 16:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D81D10E6C5;
+	Tue, 28 Jan 2025 16:32:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="TFmaGkOa";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P+9Wv4LL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 860AC10E6C2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 16:27:14 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250128162712euoutp01067d5e3256cf5dd3353e8550a935024b~e6AlBTQhX0270402704euoutp01P
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 16:27:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250128162712euoutp01067d5e3256cf5dd3353e8550a935024b~e6AlBTQhX0270402704euoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1738081632;
- bh=fFbTh+PWSmdRFBoGu9O4DUva9iXla1md7758aeiDLz4=;
- h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
- b=TFmaGkOaOngHdMQ/pXWXbzPxRWkXqYTQQ7blYdU3MnDfl4Ui55OQEmZS92nkRU0QK
- 9TX/PY4ci0p5GYDsRhsOWS2re8kN/l4fph6zMyF8e9fF3u2UyhZjQvigLMkKzbjp+H
- aiwUFOqcNtxzG4ahagzXxHPBOw/dUlGvc2SLwdcg=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20250128162712eucas1p1c6f2938e96b8144aaccff7d0c3905440~e6Akmdgug0040500405eucas1p1R;
- Tue, 28 Jan 2025 16:27:12 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 6C.C2.20409.06509976; Tue, 28
- Jan 2025 16:27:12 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20250128162711eucas1p2bfe8403d51943e5d5e7bc99c165a3a3b~e6AkKpP0F2095320953eucas1p2R;
- Tue, 28 Jan 2025 16:27:11 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20250128162711eusmtrp14491c4910474d6a0c0a4fb4333444735~e6AkJufsr1458214582eusmtrp1e;
- Tue, 28 Jan 2025 16:27:11 +0000 (GMT)
-X-AuditID: cbfec7f4-c0df970000004fb9-38-67990560a4fa
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 84.F2.19654.F5509976; Tue, 28
- Jan 2025 16:27:11 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250128162710eusmtip144e6661f192407d315ac892b5ee175de~e6Ai2D0jv2024520245eusmtip1G;
- Tue, 28 Jan 2025 16:27:10 +0000 (GMT)
-Message-ID: <51846fb3-3d86-4ba7-8504-0725d3cd738f@samsung.com>
-Date: Tue, 28 Jan 2025 17:27:10 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF4D10E6C5;
+ Tue, 28 Jan 2025 16:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738081952; x=1769617952;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=QmV+7gtGvGbC0D7AD0FZxKqZ+uJvTV+fE2kcgk9KYwM=;
+ b=P+9Wv4LLVeIHLm58vR54XJbVSfq1pE3fG0ZY/muvRXDu0GaxkgaSmEKZ
+ AZB++9/Gn/JSY4MQajT331tzlxtDLNyoU2Au4r2LoemXYOyHNnqY4wVK1
+ lT1XawN/SSb7XN1DW3pG2eEA+BCfQUPBfMPtZfnaq5yBSyg2642mYiIV3
+ WHJ5D/hUhQdAvraqRLyHVTM8hfKg3VGTFNrmbTpvGo1A3Rq+4bjsAmkzd
+ Tkujn61/S52Sm7amQbrv3u6tt5ovDal6X+a9QDqf+532lGFHg7ZXVcUPg
+ 9jQAEfJs1tCYbj4JShdTIKEN0bodYlEUq5qflLuk/6wreolBnVA8FDHo5 w==;
+X-CSE-ConnectionGUID: L5Ez5CunQ+Ghx2weFJI/mA==
+X-CSE-MsgGUID: udGTMuqzTvi4QGFdppxyaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="56000669"
+X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; d="scan'208";a="56000669"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 08:32:31 -0800
+X-CSE-ConnectionGUID: WBIIBAoqTTGl0aER7KaBzg==
+X-CSE-MsgGUID: ZX7aVbzyShGdDSqqUk7gUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; d="scan'208";a="139672331"
+Received: from mwiniars-desk2.ger.corp.intel.com (HELO [10.245.246.161])
+ ([10.245.246.161])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 08:32:26 -0800
+Message-ID: <b78d32e13811ef1fa57b0535749c811f2afb4dcd.camel@linux.intel.com>
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch, leon@kernel.org, 
+ jglisse@redhat.com, akpm@linux-foundation.org, GalShalom@nvidia.com, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, 	linux-tegra@vger.kernel.org
+Date: Tue, 28 Jan 2025 17:32:23 +0100
+In-Reply-To: <20250128151610.GC1524382@ziepe.ca>
+References: <20241201103659.420677-1-ymaman@nvidia.com>
+ <20241201103659.420677-2-ymaman@nvidia.com>
+ <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
+ <20250128132034.GA1524382@ziepe.ca>
+ <de293a7e9b4c44eab8792b31a4605cc9e93b2bf5.camel@linux.intel.com>
+ <20250128151610.GC1524382@ziepe.ca>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v3 04/18] firmware: thead: Add AON firmware protocol driver
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, drew@pdp7.com, guoren@kernel.org,
- wefu@redhat.com, jassisinghbrar@gmail.com, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, frank.binns@imgtec.com,
- matt.coster@imgtec.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- ulf.hansson@linaro.org, jszhang@kernel.org, p.zabel@pengutronix.de,
- m.szyprowski@samsung.com, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-pm@vger.kernel.org
-Content-Language: en-US
-In-Reply-To: <0324973c-2180-4077-a000-b7b6d895b7aa@samsung.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxbZRTGfW9v771tUrgUTF9Rx0LG4pyygajvnEPmmLlomGiWmGwaaLa7
- DsdX2nXTzY/yMdygncCQj4IWcANsVj5qYaWhVFltGczC2AZIoEyFZCDIKh1kKMXRdsp/v/Oc
- 5815zslLcYRXiVAqNeM4K80Qp4UTfLzd9qD/+RRupWR72QqJeobrMNT2t5pEl80ODGmsDi5y
- DhowdOv+PIGapgZIdNecjaOhxq9JlGtrJtC02kmg/v4WErmUTi66aaom0ILKClD7Qh6BdNZx
- EtW62nB00WgCKP9cPRfd6N2Lxp09OJq+qeSgfHUgWu00ksgz1Iqjqj8tJDLMFnORXfceyrOU
- 4nEbmPmRMyQzOz2NM1fPuknGvFiDMx3qcZJRdlwHjF57jmDGhjoJ5ptr7zAThXaM+f7i50ye
- zoYxX65sZ+a7bhPMeYMWMIO5w2SS8AD/1cNsWuoJVrotNoV/tLbBCrLs/I+Gij2EAgxQBYBH
- QToGDruNnALAp4R0I4AaTTnmK9wANiunuL5iAcAC8yLn0ZOl7y75XQ0AFlsq/cUcgNcNjfia
- S0DHQu3UIrnGOB0Bq1ZngE8PgtcqJ72ex+kwODFa4fUE02/DpsLb3DUm6Gh4p0Hj5RB6Cxxe
- WfLG4NCdXFhW2uJtcGgRHJ3UYGvMo1+D5TmDmE8Pg1fmqr0bQfoGH2p6nf7c8bDngRv3cTCc
- sRtIHz8F+y4o/XomvNP2l9//CexQ2v28E445lokCQD0csAU2m7b55N2wtWTWK0M6AI7MBfki
- BMCS9nKOTxbAs/lCn3sz/Eqp+m+oo7EdKwLh6nVXUa9bTL1uGfX/c2sArgUiVi5Ll7Cy6Az2
- ZKRMnC6TZ0giD2Wm68HDf97nsbuNoGHGFdkNMAp0A0hxwkMEHzgqJELBYfHHp1hpZrJUnsbK
- usGTFB4uEtRZzkiEtER8nD3Gslms9FEXo3ihCuwIoGZsn5bxkuIU708I5LlGg+HyclhOb32x
- 2Fl193Rl4NYBUXCmsui5mOVC4Hol+V7r6hPchJgR3bGTp35sUaTMHjwR77miv9WVwB9SyWP7
- E7+oFWe/+Fn2rpyDNaKc0Q8jdrwRVb/pH0dKyB8Hdr+ZzFv1MBx4vvDbH5Rq+87ZIzNxqKKl
- 7d6cqeunsYSquv18W6i1ZE+QfrDnLVFAoCL/UFGWLnSxQOdOTFrauO/dkR1btYmWpgu1P0ed
- Rpd6m2o8Val79728oflpV/DqZOnvGf3teboJ3saA/fH66vL7quG53wBm6vvlGVWAxbVnl/Yx
- 2vBr9EutParNEamvv7Ap0WwOx2VHxVHPcqQy8b+TFE+hVgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKKsWRmVeSWpSXmKPExsVy+t/xu7rxrDPTDXauU7c4cX0Rk8XW37PY
- LdbsPcdkMf/IOVaLe5e2MFlc+fqezWLd0wvsFi/2NrJYXFsxl92i+dh6NouXs+6xWZw/v4Hd
- 4mPPPVaLy7vmsFl87j3CaLHtcwubxdojd9ktFn7cymKxZMcuRou2zmWsFhdPuVrcvXeCxeLl
- 5R5mi7ZZ/Bb/9+xgt/h3bSOLxex3+9kttryZyGpxfG24Rcv+KSwOch7vb7Sye7x5+ZLF43DH
- F3aPvd8WsHjsnHWX3aNn5xlGj02rOtk87lzbw+Yx72Sgx/3u40wem5fUe7SsPcbk0f/XwOP9
- vqtsHn1bVjF6XGq+zh4gFKVnU5RfWpKqkJFfXGKrFG1oYaRnaGmhZ2RiqWdobB5rZWSqpG9n
- k5Kak1mWWqRvl6CXsXD5EcaC41wV1yb+Y2tgvMDRxcjJISFgIvF95VKmLkYuDiGBpYwSyy5e
- ZoNIyEhc637JAmELS/y51sUGUfSaUWJFywZ2kASvgJ3EqqffwGwWAVWJ2f9fMULEBSVOznwC
- 1iwqIC9x/9YMsBphAV+JJdf2M4HYbAJGEg+Wz2cFsUUENCWu//3OCrKAWWAPq8ThzZ+htq1n
- krj0cRVYB7OAuMStJ/PBbE4Be4npTZeAbA6guLrE+nlCECXyEtvfzmGewCg0C8kds5B0z0Lo
- mIWkYwEjyypGkdTS4tz03GIjveLE3OLSvHS95PzcTYzA9LXt2M8tOxhXvvqod4iRiYPxEKME
- B7OSCG/suRnpQrwpiZVVqUX58UWlOanFhxhNgWExkVlKNDkfmEDzSuINzQxMDU3MLA1MLc2M
- lcR52a6cTxMSSE8sSc1OTS1ILYLpY+LglGpgmhkpFen85fHhW6F71sgEGC2b/zmMNytTba3N
- NM17uwImv+WVYYrSZg97kSPq0bX01u+rglURPc0PJzoVvVnw58WZd73fXs6Wd02+UH7jgvf/
- 3pD2SUfCHJ8V+HvH7i4tvNPq5c/IsPjmD7v1lp9+C68MvPg3Mrty9oO6KdbZFdd331TRPnPV
- Vdjo5xXbFvuPHhGu0Y/W73g1adGZdXc4F0nlcfHtvTu/43tjfpTo5h+af7lbP025rhj6zTro
- tFLjguldRU0GqqFCL2bU/3l8omxxs1T024LqCFPV7Qrdhx85aXuJMB+vVX2oxe92vfJ7s8jk
- 0IVPTnZvL5zWF/ux7PbZtnVzPj8IbjfpXXzxpRJLcUaioRZzUXEiAD4ihYDoAwAA
-X-CMS-MailID: 20250128162711eucas1p2bfe8403d51943e5d5e7bc99c165a3a3b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250120172124eucas1p233b3f6da39e7064db62b02a66bc1ac29
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250120172124eucas1p233b3f6da39e7064db62b02a66bc1ac29
-References: <20250120172111.3492708-1-m.wilczynski@samsung.com>
- <CGME20250120172124eucas1p233b3f6da39e7064db62b02a66bc1ac29@eucas1p2.samsung.com>
- <20250120172111.3492708-5-m.wilczynski@samsung.com>
- <20250121-small-ruby-seahorse-7475d0@krzk-bin>
- <0324973c-2180-4077-a000-b7b6d895b7aa@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,53 +81,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2025-01-28 at 11:16 -0400, Jason Gunthorpe wrote:
+> On Tue, Jan 28, 2025 at 03:48:54PM +0100, Thomas Hellstr=C3=B6m wrote:
+> > On Tue, 2025-01-28 at 09:20 -0400, Jason Gunthorpe wrote:
+> > > On Tue, Jan 28, 2025 at 09:51:52AM +0100, Thomas Hellstr=C3=B6m wrote=
+:
+> > >=20
+> > > > How would the pgmap device know whether P2P is actually
+> > > > possible
+> > > > without knowing the client device, (like calling
+> > > > pci_p2pdma_distance)
+> > > > and also if looking into access control, whether it is allowed?
+> > >=20
+> > > The DMA API will do this, this happens after this patch is put on
+> > > top
+> > > of Leon's DMA API patches. The mapping operation will fail and it
+> > > will
+> > > likely be fatal to whatever is going on.
+> > > =C2=A0
+> > > get_dma_pfn_for_device() returns a new PFN, but that is not a DMA
+> > > mapped address, it is just a PFN that has another struct page
+> > > under
+> > > it.
+> > >=20
+> > > There is an implicit assumption here that P2P will work and we
+> > > don't
+> > > need a 3rd case to handle non-working P2P..
+> >=20
+> > OK. We will have the case where we want pfnmaps with driver-private
+> > fast interconnects to return "interconnect possible, don't migrate"
+> > whereas possibly other gpus and other devices would return
+> > "interconnect unsuitable, do migrate", so (as I understand it)
+> > something requiring a more flexible interface than this.
+>=20
+> I'm not sure this doesn't handle that case?
+>=20
+> Here we are talking about having DEVICE_PRIVATE struct page
+> mappings. On a GPU this should represent GPU local memory that is
+> non-coherent with the CPU, and not mapped into the CPU.
+>=20
+> This series supports three case:
+>=20
+> =C2=A01) pgmap->owner =3D=3D range->dev_private_owner
+> =C2=A0=C2=A0=C2=A0 This is "driver private fast interconnect" in this cas=
+e HMM
+> should
+> =C2=A0=C2=A0=C2=A0 immediately return the page. The calling driver unders=
+tands the
+> =C2=A0=C2=A0=C2=A0 private parts of the pgmap and computes the private in=
+terconnect
+> =C2=A0=C2=A0=C2=A0 address.
+>=20
+> =C2=A0=C2=A0=C2=A0 This requires organizing your driver so that all priva=
+te
+> =C2=A0=C2=A0=C2=A0 interconnect has the same pgmap->owner.
+
+Yes, although that makes this map static, since pgmap->owner has to be
+set at pgmap creation time. and we were during initial discussions
+looking at something dynamic here. However I think we can probably do
+with a per-driver owner for now and get back if that's not sufficient.
+
+>=20
+> =C2=A02) The page is DEVICE_PRIVATE and get_dma_pfn_for_device() exists.
+> =C2=A0=C2=A0=C2=A0 The exporting driver has the option to return a P2P st=
+ruct page
+> =C2=A0=C2=A0=C2=A0 that can be used for PCI P2P without any migration. In=
+ a PCI GPU
+> =C2=A0=C2=A0=C2=A0 context this means the GPU has mapped its local memory=
+ to a PCI
+> =C2=A0=C2=A0=C2=A0 address. The assumption is that P2P always works and s=
+o this
+> =C2=A0=C2=A0=C2=A0 address can be DMA'd from.
+
+So do I understand it correctly, that the driver then needs to set up
+one device_private struct page and one pcie_p2p struct page for each
+page of device memory participating in this way?
+
+>=20
+> =C2=A03) Migrate back to CPU memory - then eveything works.
+>=20
+> Is that not enough? Where do you want something different?
+>=20
+> > > > but leaves any dma- mapping or pfn mangling to be done after
+> > > > the
+> > > > call to hmm_range_fault(), since hmm_range_fault() really only
+> > > > needs
+> > > > to know whether it has to migrate to system or not.
+> > >=20
+> > > See above, this is already the case..
+> >=20
+> > Well what I meant was at hmm_range_fault() time only consider
+> > whether
+> > to migrate or not. Afterwards at dma-mapping time you'd expose the
+> > alternative pfns that could be used for dma-mapping.
+>=20
+> That sounds like you are talking about multipath, we are not really
+> ready to tackle general multipath yet at the DMA API level, IMHO.
+>=20
+> If you are just talking about your private multi-path, then that is
+> already handled..
+
+No, the issue I'm having with this is really why would
+hmm_range_fault() need the new pfn when it could easily be obtained
+from the device-private pfn by the hmm_range_fault() caller? The only
+thing hmm_range_fault() needs to know is, again, whether to migrate or
+not. But I guess if the plan is to have hmm_range_fault() call
+pci_p2pdma_distance() on it, and we don't want the exporter to do that,
+it makes sense.
+
+>=20
+> > We were actually looking at a solution where the pagemap implements
+> > something along
+> >=20
+> > bool devmem_allowed(pagemap, client); //for hmm_range_fault
+> >=20
+> > plus dma_map() and dma_unmap() methods.
+>=20
+> This sounds like dmabuf philosophy, and I don't think we should go in
+> this direction. The hmm caller should always be responsible for dma
+> mapping and we need to improve the DMA API to make this work better,
+> not build side hacks like this.
+>=20
+> You can read my feelings and reasoning on this topic within this huge
+> thread:
+>=20
+> https://lore.kernel.org/dri-devel/20250108132358.GP5556@nvidia.com/
+>=20
+> > In this way you'd don't need to expose special p2p dma pages and
+> > the
+>=20
+> Removing the "special p2p dma pages" has to be done by improving the
+> DMA API to understand how to map phsyical addresses without struct
+> page. We are working toward this, slowly.
+
+> pgmap->ops->dma_map/unmap() ideas just repeat the DMABUF mistake
+> of mis-using the DMA API for P2P cases. Today you cannot correctly
+> DMA
+> map P2P memory without the struct page.
+
+Yeah, I don't want to drag hmm into that discussion, although
+admittedly the idea of pgmap->ops->dma_map/unmap mimics the dma-buf
+behaviour.
+
+So anyway what we'll do is to try to use an interconnect-common owner
+for now and revisit the problem if that's not sufficient so we can come
+up with an acceptable solution.
 
 
-On 1/28/25 16:54, Michal Wilczynski wrote:
-> 
-> 
-> On 1/21/25 10:56, Krzysztof Kozlowski wrote:
-> 
->>> diff --git a/include/linux/firmware/thead/thead,th1520-aon.h b/include/linux/firmware/thead/thead,th1520-aon.h
->>> new file mode 100644
->>> index 000000000000..3daa17c01d17
->>> --- /dev/null
->>> +++ b/include/linux/firmware/thead/thead,th1520-aon.h
->>> @@ -0,0 +1,186 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +/*
->>> + * Copyright (C) 2021 Alibaba Group Holding Limited.
->>> + */
->>> +
->>> +#ifndef _THEAD_AON_H
->>> +#define _THEAD_AON_H
->>> +
->>> +#include <linux/device.h>
->>> +#include <linux/types.h>
->>> +
->>> +#define AON_RPC_MSG_MAGIC (0xef)
->>> +#define TH1520_AON_RPC_VERSION 2
->>> +#define TH1520_AON_RPC_MSG_NUM 7
->>> +
->>> +extern struct th1520_aon_chan *aon_chan;
->>
->> Drop all externs.
-> 
-> This is required so the code will compile as the
-> int th1520_aon_call_rpc(struct th1520_aon_chan *aon_chan, void *msg);
-> is non static and exposed in the same header.
-> 
-> I really would like to keep th1520_aon_call_rpc in this header, as it
-> could be useful for other drivers to construct their own RPC calls to
-> reboot or shutdown the system e.g watchdog.
+/Thomas
 
-Oh I get it, simply drop extern not the whole expression, sorry it's
-fine.
-
-> 
->>
->>
->> Best regards,
->> Krzysztof
->>
->>
