@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3E8A21544
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 00:44:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12A6A21546
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 00:46:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D446C10E27B;
-	Tue, 28 Jan 2025 23:44:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3214310E714;
+	Tue, 28 Jan 2025 23:46:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OSghu9Mo";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dWqBg7NP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9140310E27B
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 23:44:14 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-53e384e3481so5945032e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 15:44:14 -0800 (PST)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F59D10E714
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 23:46:01 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-543d8badc30so3079968e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 15:46:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738107853; x=1738712653; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738107960; x=1738712760; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9yRxeMsKIz/YlsBTxIgGuyD6zsTp2VG/EbzO3/ftdXc=;
- b=OSghu9MocC8hZT7mO7x3Mn7QbnSh+v2aDFuIAu2r/ADl5aO/OFugHsr1RWmUdWHTCP
- SmxkU8xtpVTMFnmwuLldgxfvC3g7icHDjF3R6s+E4BWu12pSUSUZjmccZGwidQ6bH6vL
- R/Bk9WWYhwiSdIVvbj41MeiCnSowmyTdy7QfhibTTIx+xhvWGNf6Q4aHktQpOrxTtxYn
- e2pED9u/KgCyJLkIk3Z1qmbvZBENN9sriHV2/cfBXmWDKfhu62UwXgM4nGzh6XyKy+qt
- VYfhqqphTJrWQexPGZ+PO+N3LDHiH2f0DJP0QDlaTP/KEMM+3FGb0ZkGpkHjVZuhSLth
- ZLQg==
+ bh=nFuHb/P6nPbu1zZspDQ3/ljZpmz0fvUEKrzsUNOliXY=;
+ b=dWqBg7NP5IMJysPzBEkV+b0L8ppiCS1MdXR5MEk0K7Y6o170YTMHA3GJrw8du6TwJ6
+ PiufAZwmgDRgPylIl7jOaUNqtFzbZDlRMv68uEcS/e/rj6W+y0Bhrf0En9GM1v9DNc0r
+ /FT9yJnKQDvRyD2XWk1WAG1/4pHwewXJhzvU3HGVP8H+KDi8UH2Xeh4AKd/ZSylA/pul
+ CLjClojB+CwwBvIZsqDxtrQmkgDPQPxg9D7Hrnm0e39pAM6uYZBDT80qyaeXQwN8Fzpq
+ O6qJUi3vcm86ZZfHj2qTsemqU7wDD+JmtQcbCfwlYAWz0jNtC/+opD2k7A5hz0OMl0ZY
+ /S5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738107853; x=1738712653;
+ d=1e100.net; s=20230601; t=1738107960; x=1738712760;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9yRxeMsKIz/YlsBTxIgGuyD6zsTp2VG/EbzO3/ftdXc=;
- b=riawjlD7A12xF86dM593UkYC5NfZleZXTmgBw+jnamvaz0ESqg2iTNevCAu8tWsW15
- RWkwvGTubo2fK7fK1arnoZ+7BS1NPmvC/ZtgeQXlN3/x1ecMHOWQObVOtf7bHq2AtmxG
- LJ5l8PL36BxV2X/xnWJN/7s8A/QI/xgC9tH4REmAsgA6CwYi4i+zUaBxiQACwcNkaR18
- PFUZd8R/0dqFBPwl8oJr2/hZtLxze7BN7xCpR8/8IJIpktVPXH6oEjUyVmH3g4HdW52G
- MxqmE/GWaRSdteiQ1x5Yv1Hf+qkdjQ8S5Xy4tMSIBhcm2CJZwV1he94DZKTAsw+uBYNJ
- RyEA==
+ bh=nFuHb/P6nPbu1zZspDQ3/ljZpmz0fvUEKrzsUNOliXY=;
+ b=bdT6yNhwf4HD/x/XymowxhcQPaJKkBF4co+ZfPkML7wd/HKmm6+EZOaica2JSiKPz5
+ yjmN0yk294SAUZRyV7+BB8ZEtiN8Amp9UJJOZJenL6NoexmNUoHf4uGov4sOPPEy45kJ
+ maFV5ZoV3XWBM9Jh75P425DNjKisL/rzpP7AmAhoIgafKDwCBD8f7295CfR+HkdM76b4
+ zzRjjVzoBC+4O1lpfq+ztHogaBBJH3RFA3ZvdbmlS5QvN5dsKBVbRCuT/EpalXTlyL0G
+ fEfRzzmmHDJWirG7471b45+eX5dpnREpl/nro4HoeiJ3mMhtOCLay5JSqCN8isTiWTv8
+ wkgw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWp+rdG5yrVqN6pK+VjB3FSOwXKZ/qjgcHQPP1eLF8SkJTPqHe54f+O4Bw8IzXR8nG7Ce8bn8lUp0E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx7yNgSsOQQqBT18BwvodRqwmOE7deLWowUtFq8kRRLWeCjZKJ+
- JB707XxgPaYGAgmojag7LCRGrFx75XAQfwpzVN9kbUA+e9CPeO45E5d2eFwKf0w=
-X-Gm-Gg: ASbGnctygtct5FAW9LVZ4WIMrqEtUDjo4F8n8g9LTtqb7VAoeF08eu0Bet9HwXMevSb
- gwIHdipxPgJxyVb5uFKUUkT8tO6jBnkd5ZIuHMCsYnYFdYmbGt75zpJrq2E6cGaPQ4oV58LvWN3
- Ea6KJU4+iq5yzZ/CX+Xvllp6bq44IsGVELRKsF+idOX2z8eDtUUR0lN91BN7OTUPfsoXqPoErlq
- +v83BTk5Nb3vhe2S7x8ZKbTxwlMwIAsqAYhDf8Gz0QgQ1Wbu0tjHXdwbIgSA8oxh8GZG5gZVQ3u
- 0wYwezrizfSsrgqkOJimFo13R/W5Lv53lO4SJ8u7oMmlyWEX3gPYC7BZAP4xpw9dW0ga3mw=
-X-Google-Smtp-Source: AGHT+IEGlNcPFc12SjKB8koMN+2/y0IzhsTezyy3VtwxS/oT0lSx1QNE/x0xRWOcin+Kv46ubnOZwQ==
-X-Received: by 2002:a05:6512:131e:b0:540:1d37:e6e with SMTP id
- 2adb3069b0e04-543e4c32554mr324610e87.33.1738107852766; 
- Tue, 28 Jan 2025 15:44:12 -0800 (PST)
+ AJvYcCVmLV93clLzj3ZncVfRIuwdMVjv8HOIOQnVO4h+YIFAv1srm+fW6O/DSFKNQRu0NnNOkLa/1dGxA9c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzlRXg96zqvw3ktX02lwAkEEXQ3OoOz0mZSh5t+yAC60ePuNIMg
+ QtAsOTgo1ap+IZmyjr7hyx14peaLimTixX5NdizXGXjfbk/+LIDHQ8DabafH6lY=
+X-Gm-Gg: ASbGnctG4KeXJV8do8sT2LGAmHgsJXk+EA+qfdKf9JtV86EJGE6h+WG57kHgtAzIsyb
+ EULm9fNmo8Wurb9vwCJT8IIK0+Zfk4yne1EASQUi4PBDPrstHAtbgAuUbfXHrVrVcqosj/XdEA1
+ /AD191N/ahuKd3FZIGR9NETNEZcnNYAgfi3SEzpYmMlMS5ZkfCrR5MZQfpUqpiaegpK7BSaWzae
+ 0HnhLxQTDILY61U2O4K4eU8EyAxrpcF2UueYrgnrrJprUQg8D99hrEqYY6iE1DMSrz3HSdkgomI
+ y3Q+u+kLuRshqJkTUYH/ZXoO/gPAYQ2n5UkuvOX8jWEIBfDTNRv5NpO1Un24K3JnXfdL/2Y=
+X-Google-Smtp-Source: AGHT+IFQljYE+nSqiPfZjnDHImYIKqGCYT54cl7R256wJ17qnKat3BDRLHkO05Zja5bsXtecQoanaQ==
+X-Received: by 2002:a05:6512:118b:b0:542:28b4:2732 with SMTP id
+ 2adb3069b0e04-543e4be947emr283432e87.19.1738107959894; 
+ Tue, 28 Jan 2025 15:45:59 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543c8229281sm1790066e87.32.2025.01.28.15.44.10
+ 2adb3069b0e04-543c8229297sm1779568e87.48.2025.01.28.15.45.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Jan 2025 15:44:11 -0800 (PST)
-Date: Wed, 29 Jan 2025 01:44:09 +0200
+ Tue, 28 Jan 2025 15:45:58 -0800 (PST)
+Date: Wed, 29 Jan 2025 01:45:56 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,16 +76,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 08/10] drm/display: bridge-connector: handle CEC
- adapters
-Message-ID: <qe7cm52nozxvawm6yjzbvfarwoiokpwkr26s66tkypgrsztc7t@vnzbek6i4qhr>
+Subject: Re: [PATCH v3 09/10] drm/bridge: allow limiting I2S formats
+Message-ID: <7nawswhaddasa4a2sytwspq62s4a2di3ukemfqsc3ueh2lftzl@kjq42eoq3ram>
 References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
- <20250126-drm-hdmi-connector-cec-v3-8-5b5b2d4956da@linaro.org>
- <j5vgb5kcjs2ax3kws6rlbcca57set22ncj6onvgbm4xwjtw43t@uplzdjywzrkr>
+ <20250126-drm-hdmi-connector-cec-v3-9-5b5b2d4956da@linaro.org>
+ <bd2eou4qqxwqn3bypvpvkcrw56m555jwlnlni277phds7vfklh@aacywioenkkq>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <j5vgb5kcjs2ax3kws6rlbcca57set22ncj6onvgbm4xwjtw43t@uplzdjywzrkr>
+In-Reply-To: <bd2eou4qqxwqn3bypvpvkcrw56m555jwlnlni277phds7vfklh@aacywioenkkq>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,39 +100,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2025 at 05:14:06PM +0100, Maxime Ripard wrote:
-> On Sun, Jan 26, 2025 at 03:29:13PM +0200, Dmitry Baryshkov wrote:
-> >  /* -----------------------------------------------------------------------------
-> >   * Bridge Connector Initialisation
-> >   */
-> > @@ -633,6 +711,21 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
-> >  			if (ret)
-> >  				return ERR_PTR(ret);
-> >  		}
+On Tue, Jan 28, 2025 at 05:11:16PM +0100, Maxime Ripard wrote:
+> On Sun, Jan 26, 2025 at 03:29:14PM +0200, Dmitry Baryshkov wrote:
+> > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> > index b55e80a57758e8b652eac0cd01cb245a04e221f5..d16af5fe90cb48f6671e798d9dee61a359c9233f 100644
+> > --- a/include/drm/drm_bridge.h
+> > +++ b/include/drm/drm_bridge.h
+> > @@ -920,6 +920,11 @@ struct drm_bridge {
+> >  	 */
+> >  	int hdmi_audio_max_i2s_playback_channels;
+> >  
+> > +	/**
+> > +	 * @hdmi_audio_i2s_formats: supported I2S formats, optional
+> > +	 */
+> > +	u64 hdmi_audio_i2s_formats;
 > > +
-> > +		if (bridge->hdmi_cec_adapter_name) {
-> > +			if (!bridge->funcs->hdmi_cec_enable ||
-> > +			    !bridge->funcs->hdmi_cec_log_addr ||
-> > +			    !bridge->funcs->hdmi_cec_transmit)
-> > +				return ERR_PTR(-EINVAL);
-> > +
-> > +			ret = drm_connector_hdmi_cec_register(connector,
-> > +							      &drm_bridge_connector_hdmi_cec_ops,
-> > +							      bridge->hdmi_cec_adapter_name,
-> > +							      bridge->hdmi_cec_available_las,
-> > +							      bridge->hdmi_dev);
-> > +			if (ret)
-> > +				return ERR_PTR(ret);
-> > +		}
 > 
-> Maybe we can use a different bridge feature flag to trigger the CEC code
-> support instead?
+> We should document what the default value is if it's optional.
 
-it is possible, but what is the possible usecase? DP drivers should be
-using DP_AUX CEC instead. And I think there are no other kinds of
-bridges which implement CEC support. Meson driver does something strange
-by registering CEC notifier from meson_encoder_hdmi. I think instead
-this should be moved to the DW HDMI bridge itself
+"The default is to allow all formats supported by the corresponding
+I2S bus driver." Does that sound fine from your POV?
+
+> 
+> Once fixed:
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> 
+> Maxime
+
+
 
 -- 
 With best wishes
