@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992EFA210C7
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0604A210C4
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Jan 2025 19:22:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E86A810E6E3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB0FC10E6DD;
 	Tue, 28 Jan 2025 18:22:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="i1P5CteI";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="jXfb9M/C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id C560E10E2B0
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:22:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1250F10E2B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Jan 2025 18:22:03 +0000 (UTC)
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
- by linux.microsoft.com (Postfix) with ESMTPSA id 367E92037182;
+ by linux.microsoft.com (Postfix) with ESMTPSA id 598502037184;
  Tue, 28 Jan 2025 10:21:59 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 367E92037182
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 598502037184
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
  s=default; t=1738088519;
- bh=cIG2dfkqcecUU0JqZpchlOURAaCdxgZkNT0UTt4bvLA=;
+ bh=OqPAwTULz/ylA5SQSCmsIKYH/79lvRoXFrBfI1CqqYw=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=i1P5CteIH6opQQHIehVjxxbMtebMN7rXuNwBXMSI0asiaK5CTudtXAgtKgnK6I75c
- 1ngX/e4Oyj1B1vWMI4mQPUPmJ8cuPN3FTRVbcAp1DyhUYo8gGu4rDV59iA6QKrL9uC
- BkxdKeiMaFW1YdRdBrMCMMVni2EQgoLc5InCNfZg=
+ b=jXfb9M/Cehjh0rKk4/gwmJMdgUjXncg0HDEC39xVRFWQkuiYphjidp7M9lcy47Bum
+ gUNDvi3+taG7qq0jtJSKlDz1ymYX6/HH0DskMWFPIdQPzlPn2zSfXJ32Gn2cCN+9lW
+ iIDOVi+CXaME0UAmvAJpRjEmzopqE4zm0lQ/NWzM=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 28 Jan 2025 18:21:57 +0000
-Subject: [PATCH 12/16] spi: spi-fsl-lpspi: convert timeouts to
- secs_to_jiffies()
+Date: Tue, 28 Jan 2025 18:21:58 +0000
+Subject: [PATCH 13/16] spi: spi-imx: convert timeouts to secs_to_jiffies()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-12-9a6ecf0b2308@linux.microsoft.com>
+Message-Id: <20250128-converge-secs-to-jiffies-part-two-v1-13-9a6ecf0b2308@linux.microsoft.com>
 References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -108,14 +107,14 @@ expression E;
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- drivers/spi/spi-fsl-lpspi.c | 2 +-
+ drivers/spi/spi-imx.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-fsl-lpspi.c b/drivers/spi/spi-fsl-lpspi.c
-index 40f5c8fdba765a1334710a696966232a459316e6..5e381844523440c03b1d0bbe4a044f28fbfbc738 100644
---- a/drivers/spi/spi-fsl-lpspi.c
-+++ b/drivers/spi/spi-fsl-lpspi.c
-@@ -572,7 +572,7 @@ static int fsl_lpspi_calculate_timeout(struct fsl_lpspi_data *fsl_lpspi,
+diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
+index eeb7d082c2472f954001045295b349bc2eb53197..832d6e9009ebe741779acd58c3a9450c231151bb 100644
+--- a/drivers/spi/spi-imx.c
++++ b/drivers/spi/spi-imx.c
+@@ -1449,7 +1449,7 @@ static int spi_imx_calculate_timeout(struct spi_imx_data *spi_imx, int size)
  	timeout += 1;
  
  	/* Double calculated timeout */
@@ -123,7 +122,7 @@ index 40f5c8fdba765a1334710a696966232a459316e6..5e381844523440c03b1d0bbe4a044f28
 +	return secs_to_jiffies(2 * timeout);
  }
  
- static int fsl_lpspi_dma_transfer(struct spi_controller *controller,
+ static int spi_imx_dma_transfer(struct spi_imx_data *spi_imx,
 
 -- 
 2.43.0
