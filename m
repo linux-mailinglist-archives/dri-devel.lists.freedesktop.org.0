@@ -2,92 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA56A22049
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:29:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1423A2204B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:29:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F19F10E825;
-	Wed, 29 Jan 2025 15:28:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0F810E821;
+	Wed, 29 Jan 2025 15:29:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NOyxzPTq";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WewLZ/QD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E75410E821
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 15:28:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 70E7EA4148F;
- Wed, 29 Jan 2025 15:27:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21DB6C4CED1;
- Wed, 29 Jan 2025 15:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738164532;
- bh=bok9TVvjjQCymMYvMKlNAI5VH8lxZtesRpd8zGC0hcI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NOyxzPTqxCIMDXiltBFL33XgRz5+HmhF0fqEkvxsOMQ+6Wzc56dBN6SyjzMqltBb3
- 6NHtoBcd65EsJ8oCbYGGJvz7/v567MFrM9a76OkdnsX647Ow/whbk9IojguGxowzk/
- vbgmUGA5QVu9G7m22EiF1kv31X4aNiRWdytIs030qtfGVFcGpnPSqX2oZnwdYQILpm
- Pjpn1K1oNLt3gHaVCozxK5+ncmcRqK8/EMM9cl/FWKOpIv1Co7UcwDOnuN5Jv9Df4M
- APJZcGw1WrNChwRUMgJfEVxBXmfA2Yi8igsZSjP24OyJBaMR3b9+I6o4BEWoNaXNbL
- K/PKTztalZRiQ==
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B59DC10E81B;
+ Wed, 29 Jan 2025 15:28:53 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-43675b1155bso79575145e9.2; 
+ Wed, 29 Jan 2025 07:28:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1738164532; x=1738769332; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=UFnAOzI6LRp9h4tf2slqgF3xBjZO6jkaEQzaSMIlNNQ=;
+ b=WewLZ/QDBmCj/nvufu5vZ4dS0+NUqcNdRji/RXZgaLw9HWDEBK+o0mlqqIL7VjsvzZ
+ ez57eF4/5gp1wcwUTWHprljCpKQWnNhgsrQaN/X1uY89La1IJCMRshq6LdaTFkXEG5EI
+ 1X/IWW1sd1CKAUe8Rc1C++6a7m/D7x1/06TeWtRgNy4R8pBibGmzroi/fjsk6R3lB1Ht
+ swSZhWl1F/kIQoLdhIsvYMXGTUXULZejCFz8/3lN2OCpQgAqzpdkVCjhSkwoejOzhFS1
+ 6Mw2AvZT75smMGwL0qp9qlZ7yYBX9S7Vu2PesgNmCkv+g/fB3kr+SakOhEjKjmTn5Eje
+ 9ylg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738164532; x=1738769332;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UFnAOzI6LRp9h4tf2slqgF3xBjZO6jkaEQzaSMIlNNQ=;
+ b=wIz2ij5eEtqEhmavhblTOY7iZxRn6mO/N3NpLPG2y3K+BkFA51ZrzqftbdAt+4T8+1
+ buLJurovRH9EqECujA7BsM7V8Ke+eH22dKXE6oV2Kg60JVHHKQaBC02/0O6nP2y7s42I
+ rRRrN4s3ytGWsMlTYA6JgRu+TqUT9OpedL54A8+12TqLnSIQlGKHjtQjpAk1uBICIaU+
+ 9eSwwuPR410lagszYI4U35Ti4qqGWX9NNaUcbK9otFilJx30oQnVan9joWXBVslE13TS
+ v59t52h7bfEfh7oA0ZX9F7+KUP6MlkzfYZrg9IXfUGu8Xka3xEkPWHB5p/YKiN966GHc
+ BLXw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW3MR/KxaHu3z4TZ82GVh42lupPIn4TGc4DojcEDg+irB7Zyd2K8oFtfpbj3tIRUoMnHuBe+tWiXtQy@lists.freedesktop.org,
+ AJvYcCWdQ493g/1ADARZyXNY+IKCwgSOAoAb/3G2hLYOpPIkIkwi4QnYtMiy68dHmTG3X3Wkt6GvkEnw@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+MEET7ftMxgD4AXRmtSt1k80L6Vv28/wbgqNPE88kibebM/ES
+ JocNONcVuYrwruSsuZqy8+jiUnVdgE9n5Qfl/HARr6JNQZQ2tuow
+X-Gm-Gg: ASbGncuYn6GRppKPoUcPHe+oHWTm9v5FVPyHKXx2q043zVoToLEPRqoIhVRvKrPtQA0
+ W/ggXrzYt33gy0jZyqBrCikL/3hCd1p35TVNMKBKEmL+SzPzJl6bEsMJ3wkBJmVUm4Q1EcA3+mb
+ QYLja+1sXZytCHbNqy6SaXugdRU2S/GReKLYiv426vDpK6dBLwRRUXISoYG0z+X4Fu8BLiMPZmr
+ HbgkQLLyR7uRrIZ8c1hpjC7miJDlzx9BGVeldiurz8yyfnYMd6GYVZob1VSDiyeqVCuo5Y1ATby
+ Smgmuk0VuRI6ozXxacaDduvyGOQr
+X-Google-Smtp-Source: AGHT+IHxdTUxEELokA28m3LbW+4K5I7/GSWqeeD/YfRkam6CLVUUSeKxkIOqwyDH1wJNjsBlZsJJVw==
+X-Received: by 2002:a05:600c:348c:b0:436:18e5:6917 with SMTP id
+ 5b1f17b1804b1-438dc34c0a9mr33093315e9.0.1738164531847; 
+ Wed, 29 Jan 2025 07:28:51 -0800 (PST)
+Received: from able.fritz.box ([2a00:e180:155e:6600:f980:913c:b763:f23d])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-438dcc1317fsm27280455e9.8.2025.01.29.07.28.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jan 2025 07:28:51 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: James.Zhu@amd.com, Felix.Kuehling@amd.com, Philip.Yang@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 2/2] drm/amdgpu: remove all KFD fences from the BO on release
 Date: Wed, 29 Jan 2025 16:28:49 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, 
- Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
- linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-Message-ID: <4jn3dfea3eb5yuqobjwvbzfxhwatpvvhtpxbmt6npyrypkyruw@mgtmxignyvt5>
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
- <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
- <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
- <2y3lwycrggmktamu3j3gj65uco7quvtu7tlc3724e4mpokhjz2@icedc3kervme>
+Message-Id: <20250129152849.15777-2-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250129152849.15777-1-christian.koenig@amd.com>
+References: <20250129152849.15777-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="ntiwixuo22akqcub"
-Content-Disposition: inline
-In-Reply-To: <2y3lwycrggmktamu3j3gj65uco7quvtu7tlc3724e4mpokhjz2@icedc3kervme>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,66 +90,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Remove all KFD BOs from the private dma_resv object.
 
---ntiwixuo22akqcub
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-MIME-Version: 1.0
+This prevents the KFD from being evitec unecessarily when an exported BO
+is released.
 
-On Wed, Jan 29, 2025 at 03:41:32PM +0100, Thierry Reding wrote:
-> On Wed, Jan 29, 2025 at 03:31:50PM +0100, Maxime Ripard wrote:
-> > Hi Thomas,
-> >=20
-> > On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
-> > > Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
-> > > > Remove the TODO now that this series addresses
-> > > > the changes needed.
-> > >=20
-> > > While your series is fine, this TODO item is unrelated. It's about va=
-rious
-> > > ancient fbdev drivers that do not reserve their memory regions correc=
-tly. So
-> > > please drop patch 14 form the series.
-> >=20
-> > Is it? Could we rephrase the entry then? I'm the one that suggested
-> > Anusha to work on this, and it's still not clear to me what it means
-> > exactly if it's not what she worked on :)
->=20
-> The text in the TODO sounds pretty clear to me.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h    |  5 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  | 52 ++++++++-----------
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.c    | 38 ++++++++------
+ 3 files changed, 47 insertions(+), 48 deletions(-)
 
-The title is "Request memory regions in all drivers", and the first
-sentence is "Go through all drivers and add code to request the memory
-regions that the driver uses". It's definitely ambiguous if only fbdev
-drivers should be considered, even more so in the DRM documentation.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+index 4b80ad860639..62917f76da33 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h
+@@ -192,7 +192,7 @@ int kfd_debugfs_kfd_mem_limits(struct seq_file *m, void *data);
+ #if IS_ENABLED(CONFIG_HSA_AMD)
+ bool amdkfd_fence_check_mm(struct dma_fence *f, struct mm_struct *mm);
+ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f);
+-int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo);
++void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo);
+ int amdgpu_amdkfd_evict_userptr(struct mmu_interval_notifier *mni,
+ 				unsigned long cur_seq, struct kgd_mem *mem);
+ int amdgpu_amdkfd_bo_validate_and_fence(struct amdgpu_bo *bo,
+@@ -212,9 +212,8 @@ struct amdgpu_amdkfd_fence *to_amdgpu_amdkfd_fence(struct dma_fence *f)
+ }
+ 
+ static inline
+-int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo)
++void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo)
+ {
+-	return 0;
+ }
+ 
+ static inline
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+index f30548f4c3b3..609b27fe1cda 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
+@@ -370,40 +370,32 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
+ 	return 0;
+ }
+ 
+-int amdgpu_amdkfd_remove_fence_on_pt_pd_bos(struct amdgpu_bo *bo)
++/**
++ * amdgpu_amdkfd_remove_all_eviction_fences - Remove all eviction fences
++ * @bo: the BO where to remove the evictions fences from.
++ *
++ * This functions should only be used on release when all references to the BO
++ * are already dropped. We remove the eviction fence from the private copy of
++ * the dma_resv object here since that is what is used during release to
++ * determine of the BO is idle or not.
++ */
++void amdgpu_amdkfd_remove_all_eviction_fences(struct amdgpu_bo *bo)
+ {
+-	struct amdgpu_bo *root = bo;
+-	struct amdgpu_vm_bo_base *vm_bo;
+-	struct amdgpu_vm *vm;
+-	struct amdkfd_process_info *info;
+-	struct amdgpu_amdkfd_fence *ef;
+-	int ret;
+-
+-	/* we can always get vm_bo from root PD bo.*/
+-	while (root->parent)
+-		root = root->parent;
++	struct dma_resv *resv = &bo->tbo.base._resv;
++	struct dma_fence *fence, *stub;
++	struct dma_resv_iter cursor;
+ 
+-	vm_bo = root->vm_bo;
+-	if (!vm_bo)
+-		return 0;
++	dma_resv_assert_held(resv);
+ 
+-	vm = vm_bo->vm;
+-	if (!vm)
+-		return 0;
+-
+-	info = vm->process_info;
+-	if (!info || !info->eviction_fence)
+-		return 0;
+-
+-	ef = container_of(dma_fence_get(&info->eviction_fence->base),
+-			struct amdgpu_amdkfd_fence, base);
+-
+-	BUG_ON(!dma_resv_trylock(bo->tbo.base.resv));
+-	ret = amdgpu_amdkfd_remove_eviction_fence(bo, ef);
+-	dma_resv_unlock(bo->tbo.base.resv);
++	stub = dma_fence_get_stub();
++	dma_resv_for_each_fence(&cursor, resv, DMA_RESV_USAGE_BOOKKEEP, fence) {
++		if (!to_amdgpu_amdkfd_fence(fence))
++			continue;
+ 
+-	dma_fence_put(&ef->base);
+-	return ret;
++		dma_resv_replace_fences(resv, fence->context, stub,
++					DMA_RESV_USAGE_BOOKKEEP);
++	}
++	dma_fence_put(stub);
+ }
+ 
+ static int amdgpu_amdkfd_bo_validate(struct amdgpu_bo *bo, uint32_t domain,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+index fc94b8b9b86d..d12be7a1eb6e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+@@ -1194,28 +1194,36 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+ 	if (abo->kfd_bo)
+ 		amdgpu_amdkfd_release_notify(abo);
+ 
+-	/* We only remove the fence if the resv has individualized. */
+-	WARN_ON_ONCE(bo->type == ttm_bo_type_kernel
+-			&& bo->base.resv != &bo->base._resv);
+-	if (bo->base.resv == &bo->base._resv)
+-		amdgpu_amdkfd_remove_fence_on_pt_pd_bos(abo);
++	/*
++	 * We lock the private dma_resv object here and since the BO is about to
++	 * be released nobody else should have a pointer to it.
++	 * So when this locking here fails something is wrong with the reference
++	 * counting.
++	 */
++	if (WARN_ON_ONCE(!dma_resv_trylock(&bo->base._resv)))
++		return;
++
++	amdgpu_amdkfd_remove_all_eviction_fences(abo);
+ 
+ 	if (!bo->resource || bo->resource->mem_type != TTM_PL_VRAM ||
+ 	    !(abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE) ||
+ 	    adev->in_suspend || drm_dev_is_unplugged(adev_to_drm(adev)))
+-		return;
++		goto out;
+ 
+-	if (WARN_ON_ONCE(!dma_resv_trylock(bo->base.resv)))
+-		return;
++	r = dma_resv_reserve_fences(&bo->base._resv, 1);
++	if (r)
++		goto out;
+ 
+-	r = amdgpu_fill_buffer(abo, 0, bo->base.resv, &fence, true);
+-	if (!WARN_ON(r)) {
+-		amdgpu_vram_mgr_set_cleared(bo->resource);
+-		amdgpu_bo_fence(abo, fence, false);
+-		dma_fence_put(fence);
+-	}
++	r = amdgpu_fill_buffer(abo, 0, &bo->base._resv, &fence, true);
++	if (WARN_ON(r))
++		goto out;
++
++	amdgpu_vram_mgr_set_cleared(bo->resource);
++	dma_resv_add_fence(&bo->base._resv, fence, DMA_RESV_USAGE_KERNEL);
++	dma_fence_put(fence);
+ 
+-	dma_resv_unlock(bo->base.resv);
++out:
++	dma_resv_unlock(&bo->base._resv);
+ }
+ 
+ /**
+-- 
+2.34.1
 
-> It says that not all drivers request the memory that they are going to
-> use, and suggests to add those missing calls.
-
-Right.
-
-> But all of the drivers in this series already do that
-
-Nope.
-
-> and the only change here is to convert them to use some of the newer
-> helpers.
-
-For some, yes. For others, it actually adds request_mem_region.
-
-Maxime
-
---ntiwixuo22akqcub
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pJLAAKCRAnX84Zoj2+
-djXJAX42QJuv9ldBu+AhSOcaGHTmHduDMEY8V8Vl9SA1LQwXd1eGjPx3kK6JEffx
-SuWaI7oBgKL15NjVE6UaWuMksj7yMDft9JYcv/qLSoYx2TpAp/7FYElajo0cqE0S
-btsWT+helA==
-=K+FR
------END PGP SIGNATURE-----
-
---ntiwixuo22akqcub--
