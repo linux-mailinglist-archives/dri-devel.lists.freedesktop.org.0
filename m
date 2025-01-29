@@ -2,94 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90455A21E22
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 14:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E36A21E6F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 15:05:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2A0310E0D7;
-	Wed, 29 Jan 2025 13:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39B210E0B5;
+	Wed, 29 Jan 2025 14:05:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="XWC0ytNF";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="aJTPa8mr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19C7810E06C
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 13:47:59 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-467a3f1e667so41886761cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 05:47:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1738158479; x=1738763279; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TGxs1D5kHZWfV3TMw8ydKze6LYDZn037JbgBy8rBgVo=;
- b=XWC0ytNFtdHYpPu1IhbMjjVcjVyUgdC+oq3yfh6bErdKGIkhBSKV1WZbcFjnYLitBq
- 77vYJOuMrPAeHfHUBH/1hwvz/ymG2mAgfy/VnZ+zJomtjXYwmRXiNcHV5eCfZHlfHmuF
- DbPxw7MunzVhnORcMrz9C9ZJG85UwxQ8YSD82wxKJqetlAdunrxfK0qfVCExWdVBh8qG
- plJLTW7bzxji1cvez5oL8T64Ma9sRL9e1bc7+ffw+mUDCwy3gRGPy8ExOTemR+xwB3gC
- 6IUhQJxULZPLZ5Pni6PuwkHb9wTgwvAvdPPLoa+Qpz90AheuKrfjNyBBWuAbljqWDs1h
- gEQA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B77310E0B5
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 14:05:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1738159542;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=L6kKYHxAf9gfs9QpeELvznyDwdRbm+EXcQmKXvXNfzQ=;
+ b=aJTPa8mrhJSe5xNS7n/PacjF7O5iiP/tzsjhpwg32QX5kjT1SqLdJ0AXAltG1NA5sZAf3k
+ E0t5aUmMuTT9yutUKkDwBUFIcaPbqfYpKHAz7/3WagcsrkNprywNuNzuOvT3CgjsUkScKD
+ QF2uK6rymTNJHWwDsOSt6OSC8zLcM9Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-348-c6mV46iCNi2vADmh6Iy27g-1; Wed, 29 Jan 2025 09:05:35 -0500
+X-MC-Unique: c6mV46iCNi2vADmh6Iy27g-1
+X-Mimecast-MFC-AGG-ID: c6mV46iCNi2vADmh6Iy27g
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-38a2140a400so5280803f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 06:05:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738158479; x=1738763279;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TGxs1D5kHZWfV3TMw8ydKze6LYDZn037JbgBy8rBgVo=;
- b=XQrcu79VnZdq49sqXsVxkB2H+aRsGpEtBdcGsbT71Zg75cQVtT7ZijzOUY01qzJXmJ
- t9a9c3IrzqY1S/sCCa2v5a9/DYUsUnqIfGtjgFAR2lECS/t6Qp2KhYgorgSketwyygAq
- CJb5twA+J4jlSDvF8BafLxAaCynAOYCAi/8azuk4PHh08rAzhNZGUlIFL1UwGE6NFLqs
- 1NziVJN1tvvunXaxmU9L2iC7QleMQsVORjadO5wAmP7lCXRIXwsFnrVGiRKMVg6ytdJj
- tHrH+EUUht04h+t96NkTf28gsaWiWHqsEBI7NU4stWXy0Z+I9U9j/Defg/OO8o41tCwE
- FLLw==
+ d=1e100.net; s=20230601; t=1738159533; x=1738764333;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=L6kKYHxAf9gfs9QpeELvznyDwdRbm+EXcQmKXvXNfzQ=;
+ b=M0PgRo/lhT8a5qDFG6cJZGazQTORd9fWGYEEO5hHC9EKw+soqO1AXrXH1R8k18n/1F
+ Sag7pJ95c5TuLWwkJcl76Nt/WVAAyY08ZaPcXMrHeYV8YbFkyXNcWixY2q2PS7PjkPb4
+ y6IkZ1Sg/3bTd3Hzovkzr/uMXk7oRPjWt/ddK9Xt8rqxy2CLPDJHL1h6tROjZHwq+6Vg
+ AvOBC+BC6930smstzhcQIzb7xuVkfgtshxcznWRPgPDtLoEfRUkTGG6EcSE7yOHMFhvj
+ 5rvov4itJUSOfhp4OB5O7HatRQ2akzEXWUR6Z0oTvLgcYwrJ8TFrGv6Zbgt/FSomXq4d
+ oSuw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgLzKvZfFL4A6A6gyORNJ7SvhXP7cWxaNU4LnVQo4fOfl0ycCl9TFGYYR0O1OQroO4YxMHQVnBQq4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywj0U4Zhk900Vxzll11OGBZMe8mTLcZVsEMIDhgJ1j/qSakSjRD
- 0l3ipM7yt9d5wZWw0fJPMEKGCeMS5fHDJfKnMMR53fgUbsCfprE54PQQGW98qQ8=
-X-Gm-Gg: ASbGncuVF4LIJ/+gPsmU0htzXiVhwGASUhGEnypfZ+XLtSfOU6UyEoPA8Kr9WkfnP/E
- ZNqaSMDKIlJMRUWOGdcK+PgpednNcMbVPuK20hZmopuM86ML5I6c+A7x2iaV4baU1CM/XBKW5F0
- wBAjZ2bjHiy4rPhTFPH+sLSh0poZVvvDhS84KhBplzAyihyuQh0CAEl7eSurJ10ATNoGOh2uNqF
- nTU9yqRDvj82l4O4IzaQpDrE34+MPZwO13bVdZjlU3zbp/JdGEvx2ka+YMXk+PQ6ppmKt5E3yEH
- QXhVeG0I2hwdDzk44qYgGJbmtsuNFyLnpVdX8Y4GEzyz2MXD9Ac8l7U7iKSiemO9
-X-Google-Smtp-Source: AGHT+IHuYCAk+wYHqjFRDvmI1uuhKYfRXYz+H9jof+ajiAjSs3miFEirWAObJrrIBPKksD6vvP2lVg==
-X-Received: by 2002:ac8:5a08:0:b0:46c:782f:5f85 with SMTP id
- d75a77b69052e-46fd0b98596mr53288201cf.52.1738158478735; 
- Wed, 29 Jan 2025 05:47:58 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.68.128.5]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-46e66b67680sm62281881cf.60.2025.01.29.05.47.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2025 05:47:58 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1td8Q9-00000009BlF-1by8;
- Wed, 29 Jan 2025 09:47:57 -0400
-Date: Wed, 29 Jan 2025 09:47:57 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com,
- lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
- simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
- akpm@linux-foundation.org, GalShalom@nvidia.com,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-mm@kvack.org, linux-tegra@vger.kernel.org
-Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
- pages
-Message-ID: <20250129134757.GA2120662@ziepe.ca>
-References: <20241201103659.420677-1-ymaman@nvidia.com>
- <20241201103659.420677-2-ymaman@nvidia.com>
- <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
- <20250128132034.GA1524382@ziepe.ca>
- <de293a7e9b4c44eab8792b31a4605cc9e93b2bf5.camel@linux.intel.com>
- <20250128151610.GC1524382@ziepe.ca>
- <b78d32e13811ef1fa57b0535749c811f2afb4dcd.camel@linux.intel.com>
- <20250128172123.GD1524382@ziepe.ca>
- <Z5ovcnX2zVoqdomA@phenom.ffwll.local>
+ AJvYcCUHrczvq9r4bF3gLbe32Jz4bK+Xt8J+bosgDBom7p//8of+4LK+fs5y5/he9raijbdLEwIQKFXuK04=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTNL3N9m/G4zkI3KNKYcqctenzR6GB/8kl1UcnLOca97WDLOJD
+ qAUEeK+o/eTimJUTGyVd0lN/JBtk3tEt5S3qwWgnu60U+4YLiG9ytLrZOeEWuZCwdQTZh7P9vZG
+ Op4LNpVOy6bjAAAiPP/AlF9/moh+jmqur+7HOflFjY22Qn+RsHNBdjstRUKQRPvetXA==
+X-Gm-Gg: ASbGncv47jdLZpOlit+Y/ZgP1GnMovycLVWxZDnz10zPsA3RAWYbdNOwYIKeQSdVi/c
+ 2tB4QtzRWuiM2HdLowi0T5vxuCD5LI6EmrFibxfrDtmzfiWhc4yw2kNdJ1sunmy3AaUclbi5LyP
+ MSprhm2rln5tzRmXvqPqzjfIrWWgo03DcQzOsi7jLzlwcOIDqB7SQTZtBn9/Ky7L4ZHiRqFXGZS
+ jAMXPnjgw/UR5UxbU1NAAXuyJ5koB6f2NfvFYRAvwHRdfC/PqI5IEFl/B52vgGtAZBxViMIC3AC
+ El5tYVNNuzdwz1ge0GElG2Kjc4AfMWopl4wUJgLYmtyY
+X-Received: by 2002:a5d:584a:0:b0:385:f72a:a3b0 with SMTP id
+ ffacd0b85a97d-38c5209664emr2598214f8f.55.1738159532560; 
+ Wed, 29 Jan 2025 06:05:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH3bQlYikVPKSbM2nhnnq+zTGybXX5EMbbZWUtqHiB2G+7YBdN//3SWYbrWqH6dR8Ai+SGRJA==
+X-Received: by 2002:a5d:584a:0:b0:385:f72a:a3b0 with SMTP id
+ ffacd0b85a97d-38c5209664emr2598146f8f.55.1738159531966; 
+ Wed, 29 Jan 2025 06:05:31 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c2a1c4006sm17361500f8f.94.2025.01.29.06.05.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jan 2025 06:05:31 -0800 (PST)
+Message-ID: <c3560336-38fa-451c-8ef2-c58871c7ff6e@redhat.com>
+Date: Wed, 29 Jan 2025 15:05:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z5ovcnX2zVoqdomA@phenom.ffwll.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 14/16] drm/ast: astdp: Look up mode index from table
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
+ dri-devel@lists.freedesktop.org
+References: <20250129095840.20629-1-tzimmermann@suse.de>
+ <20250129095840.20629-15-tzimmermann@suse.de>
+ <b824e913-0d2f-4a09-b1fa-da89375b47e4@redhat.com>
+ <bc902ac5-ab1e-4d16-bc27-163123cb2d3f@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <bc902ac5-ab1e-4d16-bc27-163123cb2d3f@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 3MVegRfSoruxBYI0QFzZkHb330SXw3PAEaqZtvuOh3A_1738159533
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,41 +104,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 29, 2025 at 02:38:58PM +0100, Simona Vetter wrote:
-
-> > The pgmap->owner doesn't *have* to fixed, certainly during early boot before
-> > you hand out any page references it can be changed. I wouldn't be
-> > surprised if this is useful to some requirements to build up the
-> > private interconnect topology?
+On 29/01/2025 13:01, Thomas Zimmermann wrote:
+> Hi
 > 
-> The trouble I'm seeing is device probe and the fundemantal issue that you
-> never know when you're done. And so if we entirely rely on pgmap->owner to
-> figure out the driver private interconnect topology, that's going to be
-> messy. That's why I'm also leaning towards both comparing owners and
-> having an additional check whether the interconnect is actually there or
-> not yet.
+> 
+> Am 29.01.25 um 12:27 schrieb Jocelyn Falempe:
+>> On 29/01/2025 10:55, Thomas Zimmermann wrote:
+>>> Replace the large switch statement with a look-up table when selecting
+>>> the mode index. Makes the code easier to read. The table is sorted by
+>>> resolutions; if run-time overhead from traversal becomes significant,
+>>> binary search would be a possible optimization.
+>>>
+>>> The mode index requires a refresh-rate index to be added or subtracted,
+>>> which still requires a minimal switch.
+>>>
+>> I think there is a problem in the mode_index/refresh_index 
+>> calculation, see below:
+>>
+>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> Suggested-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>> ---
+>>>   drivers/gpu/drm/ast/ast_dp.c | 116 +++++++++++++++++------------------
+>>>   1 file changed, 55 insertions(+), 61 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+>>> index e1ca012e639be..70fa754432bca 100644
+>>> --- a/drivers/gpu/drm/ast/ast_dp.c
+>>> +++ b/drivers/gpu/drm/ast/ast_dp.c
+>>> @@ -14,80 +14,74 @@
+>>>   #include "ast_drv.h"
+>>>   #include "ast_vbios.h"
+>>>   +struct ast_astdp_mode_index_table_entry {
+>>> +    unsigned int hdisplay;
+>>> +    unsigned int vdisplay;
+>>> +    unsigned int mode_index;
+>>> +};
+>>> +
+>>> +/* FIXME: Do refresh rate and flags actually matter? */
+>>> +static const struct ast_astdp_mode_index_table_entry 
+>>> ast_astdp_mode_index_table[] = {
+>>> +    {  320,  240, ASTDP_320x240_60 },
+>>> +    {  400,  300, ASTDP_400x300_60 },
+>>> +    {  512,  384, ASTDP_512x384_60 },
+>>> +    {  640,  480, ASTDP_640x480_60 },
+>>> +    {  800,  600, ASTDP_800x600_56 },
+>>> +    { 1024,  768, ASTDP_1024x768_60 },
+>>> +    { 1152,  864, ASTDP_1152x864_75 },
+>>> +    { 1280,  800, ASTDP_1280x800_60_RB },
+>>> +    { 1280, 1024, ASTDP_1280x1024_60 },
+>>> +    { 1360,  768, ASTDP_1366x768_60 }, // same as 1366x786
+>>> +    { 1366,  768, ASTDP_1366x768_60 },
+>>> +    { 1440,  900, ASTDP_1440x900_60_RB },
+>>> +    { 1600,  900, ASTDP_1600x900_60_RB },
+>>> +    { 1600, 1200, ASTDP_1600x1200_60 },
+>>> +    { 1680, 1050, ASTDP_1680x1050_60_RB },
+>>> +    { 1920, 1080, ASTDP_1920x1080_60 },
+>>> +    { 1920, 1200, ASTDP_1920x1200_60 },
+>>> +    { 0 }
+>>> +};
+>>> +
+>>> +static int __ast_astdp_get_mode_index(unsigned int hdisplay, 
+>>> unsigned int vdisplay)
+>>> +{
+>>> +    const struct ast_astdp_mode_index_table_entry *entry = 
+>>> ast_astdp_mode_index_table;
+>>> +
+>>> +    while (entry->hdisplay && entry->vdisplay) {
+>>> +        if (entry->hdisplay == hdisplay && entry->vdisplay == vdisplay)
+>>> +            return entry->mode_index;
+>>> +        ++entry;
+>>> +    }
+>>> +
+>>> +    return -EINVAL;
+>>> +}
+>>> +
+>>>   static int ast_astdp_get_mode_index(const struct ast_vbios_enhtable 
+>>> *vmode)
+>>>   {
+>>> +    int mode_index;
+>>>       u8 refresh_rate_index;
+>>>   +    mode_index = __ast_astdp_get_mode_index(vmode->hde, vmode->vde);
+>>> +    if (mode_index < 0)
+>>> +        return mode_index;
+>>> +
+>>>       if (vmode->refresh_rate_index < 1 || vmode->refresh_rate_index 
+>>> > 255)
+>>>           return -EINVAL;
+>>> -
+>>>       refresh_rate_index = vmode->refresh_rate_index - 1;
+>>>   -    switch (vmode->hde) {
+>>> -    case 320:
+>>> -        if (vmode->vde == 240)
+>>> -            return ASTDP_320x240_60;
+>>> -        break;
+>>> -    case 400:
+>>> -        if (vmode->vde == 300)
+>>> -            return ASTDP_400x300_60;
+>>> -        break;
+>>> -    case 512:
+>>> -        if (vmode->vde == 384)
+>>> -            return ASTDP_512x384_60;
+>>> -        break;
+>>> -    case 640:
+>>> -        if (vmode->vde == 480)
+>>> -            return (u8)(ASTDP_640x480_60 + (u8)refresh_rate_index);
+>>> -        break;
+>>> -    case 800:
+>>> -        if (vmode->vde == 600)
+>>> -            return (u8)(ASTDP_800x600_56 + (u8)refresh_rate_index);
+>>> -        break;
+>>> -    case 1024:
+>>> -        if (vmode->vde == 768)
+>>> -            return (u8)(ASTDP_1024x768_60 + (u8)refresh_rate_index);
+>>> -        break;
+>>> -    case 1152:
+>>> -        if (vmode->vde == 864)
+>>> -            return ASTDP_1152x864_75;
+>>> -        break;
+>>> -    case 1280:
+>>> -        if (vmode->vde == 800)
+>>> -            return (u8)(ASTDP_1280x800_60_RB - (u8)refresh_rate_index);
+>>> -        if (vmode->vde == 1024)
+>>> -            return (u8)(ASTDP_1280x1024_60 + (u8)refresh_rate_index);
+>>> -        break;
+>>> -    case 1360:
+>>> -    case 1366:
+>>> -        if (vmode->vde == 768)
+>>> -            return ASTDP_1366x768_60;
+>>> -        break;
+>>> -    case 1440:
+>>> -        if (vmode->vde == 900)
+>>> -            return (u8)(ASTDP_1440x900_60_RB - (u8)refresh_rate_index);
+>>> -        break;
+>>> -    case 1600:
+>>> -        if (vmode->vde == 900)
+>>> -            return (u8)(ASTDP_1600x900_60_RB - (u8)refresh_rate_index);
+>>> -        if (vmode->vde == 1200)
+>>
+>>> -        break;
+>>> -    case 1680:
+>>> -        if (vmode->vde == 1050)
+>>> -            return (u8)(ASTDP_1680x1050_60_RB - 
+>>> (u8)refresh_rate_index);
+>>> -        break;
+>>> -    case 1920:
+>>> -        if (vmode->vde == 1080)
+>>> -            return ASTDP_1920x1080_60;
+>>> -        if (vmode->vde == 1200)
+>>> -            return ASTDP_1920x1200_60;
+>>> +    /* FIXME: Why are we doing this? */
+>>> +    switch (mode_index) {
+>>> +    case ASTDP_1280x800_60_RB:
+>>> +    case ASTDP_1440x900_60_RB:
+>>> +    case ASTDP_1600x900_60_RB:
+>>> +    case ASTDP_1680x1050_60_RB:
+>>> +        mode_index = (u8)(mode_index - (u8)refresh_rate_index);
+>>>           break;
+>> I think you should add this to do the same as before:
+> 
+> It's intentional. The refresh-rate index stored in vmode- 
+>  >refresh_rate_index is at least one. The function then subtracts 1 to 
+> compute refresh_rate_index, so we have 0 by default. And that's what we 
+> always used for cases that did not explicitly add refresh_rate_index 
+> before. I guess I should add this to the commit message's second paragraph.
+> 
+> Apart from that, I honestly don't understand the purpose of this 
+> computation.
 
-Hoenstely, I'd rather invest more effort into being able to update
-owner for those special corner cases than to slow down the fast path
-in hmm_range_fault..
+Yes, I have no clue either. Thanks for the clarification.> Best regards
+> Thomas
+> 
+>>
+>>     case ASTDP_640x480_60:
+>>     case ASTDP_800x600_56:
+>>     case ASTDP_1024x768_60:
+>>     case ASTDP_1280x1024_60:
+>>         mode_index = (u8)(mode_index + (u8)refresh_rate_index);
+>>           break;
+>>     default:
+>>         break;
+>>
+>>>       default:
+>>> +        mode_index = (u8)(mode_index + (u8)refresh_rate_index);
+>>>           break;
+>>>       }
+>>>   -    return -EINVAL;
+>>> +    return mode_index;
+>>>   }
+>>>     static bool ast_astdp_is_connected(struct ast_device *ast)
+>>
+> 
 
-The notion is that owner should represent a contiguous region of
-connectivity. IMHO you can always create this, but I suppose there
-could be corner cases where you need to split/merge owners.
-
-But again, this isn't set in stone, if someone has a better way to
-match the private interconnects without going to driver callbacks then
-try that too.
-
-I think driver callbacks inside hmm_range_fault should be the last resort..
-
-> You can fake that by doing these checks after hmm_range_fault returned,
-> and if you get a bunch of unsuitable pages, toss it back to
-> hmm_range_fault asking for an unconditional migration to system memory for
-> those. But that's kinda not great and I think goes at least against the
-> spirit of how you want to handle pci p2p in step 2 below?
-
-Right, hmm_range_fault should return pages that can be used and you
-should not call it twice.
-
-Jason
