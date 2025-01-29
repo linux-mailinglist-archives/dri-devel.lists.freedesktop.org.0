@@ -2,83 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2740AA21776
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 06:43:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D9EBA217AE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 07:27:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A8D010E0B6;
-	Wed, 29 Jan 2025 05:43:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACC610E03A;
+	Wed, 29 Jan 2025 06:27:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="VQiKF+Ab";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tYXlaTpf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C502210E0B6
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 05:43:16 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50T2hGZT021051;
- Wed, 29 Jan 2025 05:43:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MluhHGnAAyIhuJOeIvVp+VrtgGP6P/eiVV8c2vS8Kfk=; b=VQiKF+AbjJ7ubL8l
- JMBkogNSvEAOT+kvMyPpIfyb7Yzlqm4+vOfw49iX99zR8ehZiL+vl9xrV0/XUck5
- rEllZ+v+5f/GAl4bIzhtTxjfyqHHS9hApObkRfcIarqoJ5lI+2DaoFagXgHcFE/J
- FHfJYXgIx/YZNmFzKFPsd4HNcpVebRTiwMwpQGZ3BZ6l8hkPusmIlN8X0ZTnz0qy
- F0KXiqw1sPVLRJlf5vBtnrBvXmNBY0Fxstq3GrLYEdBa+f1FlY/4KuSe4hSXQJhV
- M0lm9bskHCiWX6DKAi+5M8Di+m+d/RbQzBu3osW6sKPs3SlYEUwOeRGyJIWq8yAF
- H6wCXg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44f7xfgkr5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jan 2025 05:43:12 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50T5hB7L013730
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Jan 2025 05:43:11 GMT
-Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 28 Jan
- 2025 21:43:08 -0800
-Message-ID: <08b469b8-2339-4fde-9472-fcaadbb4ed87@quicinc.com>
-Date: Wed, 29 Jan 2025 11:13:05 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCE810E03A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 06:27:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id D54ED5C55CE;
+ Wed, 29 Jan 2025 06:27:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E108EC4CED3;
+ Wed, 29 Jan 2025 06:27:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738132062;
+ bh=BcheDkbF7i4plK077EE5fx0I+7LaoMSZmCvmiRwCLWc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tYXlaTpf1UHLxCOLY2b71oBs1Z8jmc+k88hDg4mxgy9BfVh5FaZFJ0sctqiMaUJa3
+ 0ERjR88O2sKxLaXENNFiYXgW5V6EWANwLybrlRdZ0uAueHnvFc/luTGhJJHi5qSyHf
+ Qhwk4n5jqTURqvwR6zUdrtKBktKuVAQJmisiNKpSZSSK6LJmo4zYOOzg6tSFgxCsOc
+ Qfzb+Ch4Hp08uSkL1c1h9vCW8n/kbD+KUJVXjOVTrDcLl+peTbMx/iozRX16+XGbqx
+ LmxLOokGigU1zjIvh0goqBVkjBWqvL4YDcg+yxNUApdR5ACop75NXb+fT4J9+7jnPJ
+ KRVcLrP4/YQHg==
+Date: Wed, 29 Jan 2025 07:27:24 +0100
+From: Carlos Maiolino <cem@kernel.org>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+ James Smart <james.smart@broadcom.com>,
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chris Mason <clm@fb.com>, 
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
+ Ilya Dryomov <idryomov@gmail.com>, Dongsheng Yang <dongsheng.yang@easystack.cn>,
+ Jens Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>, 
+ Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, 
+ Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, cocci@inria.fr, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-sound@vger.kernel.org, 
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, 
+ linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 09/16] xfs: convert timeouts to secs_to_jiffies()
+Message-ID: <kywszbmxtm27rlgaefr6xus6l4bpdiouqqe72px7ml72hh4ozc@5orjtzsbg75s>
+References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
+ <JZGx8kYNWP54f9cEViEKZlR6sGGADv31K4TOPtwvyeoDEFkRKICiFaQy04EvZtsQtc44Zozh76mkch2s8rz7mQ==@protonmail.internalid>
+ <20250128-converge-secs-to-jiffies-part-two-v1-9-9a6ecf0b2308@linux.microsoft.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] misc: fastrpc: Modify context id mask to support
- polling mode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-References: <20250127044239.578540-1-quic_ekangupt@quicinc.com>
- <20250127044239.578540-6-quic_ekangupt@quicinc.com>
- <im7gi5ib7wnihu3ff4a2erqctne2pm2zf3wl4qmuejz4dfhf7e@z5au6vnm5por>
-Content-Language: en-US
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-In-Reply-To: <im7gi5ib7wnihu3ff4a2erqctne2pm2zf3wl4qmuejz4dfhf7e@z5au6vnm5por>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: xTgp9aCGfXEQaNAtw6CIm52bhGquG61u
-X-Proofpoint-GUID: xTgp9aCGfXEQaNAtw6CIm52bhGquG61u
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-28_04,2025-01-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0
- phishscore=0 mlxlogscore=999 adultscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501290045
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-9-9a6ecf0b2308@linux.microsoft.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,71 +91,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jan 28, 2025 at 06:21:54PM +0000, Easwar Hariharan wrote:
+> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+> secs_to_jiffies().  As the value here is a multiple of 1000, use
+> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
+> 
+> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+> the following Coccinelle rules:
+> 
+> @depends on patch@
+> expression E;
+> @@
+> 
+> -msecs_to_jiffies
+> +secs_to_jiffies
+> (E
+> - * \( 1000 \| MSEC_PER_SEC \)
+> )
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  fs/xfs/xfs_icache.c | 2 +-
+>  fs/xfs/xfs_sysfs.c  | 7 +++----
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
+> index 7b6c026d01a1fc020a41a678964cdbf7a8113323..7a1feb8dc21f6f71d04f88de866e5a95925e0c54 100644
+> --- a/fs/xfs/xfs_icache.c
+> +++ b/fs/xfs/xfs_icache.c
+> @@ -230,7 +230,7 @@ xfs_blockgc_queue(
+>  	rcu_read_lock();
+>  	if (radix_tree_tagged(&pag->pag_ici_root, XFS_ICI_BLOCKGC_TAG))
+>  		queue_delayed_work(mp->m_blockgc_wq, &pag->pag_blockgc_work,
+> -				   msecs_to_jiffies(xfs_blockgc_secs * 1000));
+> +				   secs_to_jiffies(xfs_blockgc_secs));
+>  	rcu_read_unlock();
+>  }
+> 
+> diff --git a/fs/xfs/xfs_sysfs.c b/fs/xfs/xfs_sysfs.c
+> index 60cb5318fdae3cc246236fd988b4749df57f8bfc..eed0f28afe97ead762a9539e45f292db7d0d0c4a 100644
+> --- a/fs/xfs/xfs_sysfs.c
+> +++ b/fs/xfs/xfs_sysfs.c
+> @@ -568,8 +568,8 @@ retry_timeout_seconds_store(
+>  	if (val == -1)
+>  		cfg->retry_timeout = XFS_ERR_RETRY_FOREVER;
+>  	else {
+> -		cfg->retry_timeout = msecs_to_jiffies(val * MSEC_PER_SEC);
+> -		ASSERT(msecs_to_jiffies(val * MSEC_PER_SEC) < LONG_MAX);
+> +		cfg->retry_timeout = secs_to_jiffies(val);
+> +		ASSERT(secs_to_jiffies(val) < LONG_MAX);
+>  	}
+>  	return count;
+>  }
+> @@ -686,8 +686,7 @@ xfs_error_sysfs_init_class(
+>  		if (init[i].retry_timeout == XFS_ERR_RETRY_FOREVER)
+>  			cfg->retry_timeout = XFS_ERR_RETRY_FOREVER;
+>  		else
+> -			cfg->retry_timeout = msecs_to_jiffies(
+> -					init[i].retry_timeout * MSEC_PER_SEC);
+> +			cfg->retry_timeout = secs_to_jiffies(init[i].retry_timeout);
+>  	}
+>  	return 0;
 
+Looks fine to me.
 
+Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
 
-On 1/29/2025 5:00 AM, Dmitry Baryshkov wrote:
-> On Mon, Jan 27, 2025 at 10:12:39AM +0530, Ekansh Gupta wrote:
->> DSP needs last 4 bits of context id to be 0 for polling mode to be
->> supported as setting of last 8 is intended for async mode(not yet
->> supported on upstream driver) and setting these bits restrics
->> writing to poll memory from DSP. Modify context id mask to ensure
->> polling mode is supported.
-> Shouldn't this commit come before the previous one?
-
-Yes, I'll change the order in next series.
-
-Thanks for reviewing the changes.
-
---ekansh
-
->
->> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
->> ---
->>  drivers/misc/fastrpc.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index 257a741af115..ef56c793c564 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -40,7 +40,7 @@
->>  #define FASTRPC_INIT_HANDLE	1
->>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
->>  #define FASTRPC_MAX_STATIC_HANDLE (20)
->> -#define FASTRPC_CTXID_MASK (0xFF0)
->> +#define FASTRPC_CTXID_MASK (0xFF0000)
->>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
->>  #define INIT_FILE_NAMELEN_MAX (128)
->>  #define FASTRPC_DEVICE_NAME	"fastrpc"
->> @@ -524,7 +524,7 @@ static void fastrpc_context_free(struct kref *ref)
->>  		fastrpc_buf_free(ctx->buf);
->>  
->>  	spin_lock_irqsave(&cctx->lock, flags);
->> -	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 4);
->> +	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 16);
->>  	spin_unlock_irqrestore(&cctx->lock, flags);
->>  
->>  	kfree(ctx->maps);
->> @@ -664,7 +664,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->>  		spin_unlock_irqrestore(&cctx->lock, flags);
->>  		goto err_idr;
->>  	}
->> -	ctx->ctxid = ret << 4;
->> +	ctx->ctxid = ret << 16;
->>  	spin_unlock_irqrestore(&cctx->lock, flags);
->>  
->>  	kref_init(&ctx->refcount);
->> @@ -2675,7 +2675,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
->>  	if (len < sizeof(*rsp))
->>  		return -EINVAL;
->>  
->> -	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 4);
->> +	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 16);
->>  
->>  	spin_lock_irqsave(&cctx->lock, flags);
->>  	ctx = idr_find(&cctx->ctx_idr, ctxid);
->> -- 
->> 2.34.1
->>
-
+> 
+> 
+> --
+> 2.43.0
+> 
+> 
