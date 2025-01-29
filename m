@@ -2,83 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B03A21F23
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 15:31:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C75AA21F30
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 15:31:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BC7D10E803;
-	Wed, 29 Jan 2025 14:31:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C04D210E1C4;
+	Wed, 29 Jan 2025 14:31:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="izW+pcs4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XwkYLReR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4DAA10E803
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 14:31:07 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5401be44b58so7343605e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 06:31:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738161066; x=1738765866; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=pVy4t4cB0UKE4FfYHqIFPU0/jXfWjWZ0p1/3jveveAc=;
- b=izW+pcs4O/uobmYJNNxc3eHKKV8C0pRldDvGtNUWgWRysJwvL4Te7ujeMBGHWCAgEG
- r/z3jMvauL9T48LS1qpV6szpk5ESw7jr3hNBLMBFU3QT56gc5mlAPvlOYr8QfhbRwnV3
- XV4u1otTdBSP65455SgOxScyoIQwDNHxugp0YiSWIFwjirTOLM3QYHxXwBFEbxmIO9lh
- UjTlfwhEh2NEsZG6MHN0VHdYjRgKy1CRzsW9yVd9Chogv5F2DkQE21MIRX4h69xZCpb6
- qEZGRKMUbOmi8476iyJcwHKw8AAOYERUqYr+Y6Fp5JDxh3fr6zv7N9CFZjkzHM+cNJAH
- OyJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738161066; x=1738765866;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pVy4t4cB0UKE4FfYHqIFPU0/jXfWjWZ0p1/3jveveAc=;
- b=i9JPlosflmw5YAINuyyaRX7wm9pSccIUCD1nVqsd3L+b4XMV9pjuNiATWKV6xFqvXt
- j5fDWxMEVckyK2M1dfX03DNVY+hsz8/5u31AEro+WG80A23Bfsfz1OXNMn/hOO88ziKg
- 1p2iw+fPMODGCzAxJ1XfkCQ2idO0DR77e3umjYNU9x6mElr0wNT4dWSSlk47SlXZO6of
- bytMMOxSMaOt6yMURoa0HG74Q9DS1DPL0OtDg9Tvtfig4G5wjtULQO4CTTab1R3kmddY
- TiKXAGHlcvKYuIDOxpK9z01bDrOruNHDh+zPyUW+bsfWcTCrXBZpzWN9thK3JTKgfsw3
- FjHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWGA5CI4hLLKFpy1Uf1yZdashKFFPQcZi0XhU0Rs7UC03ZKbnl2MzVJ9Xo7NBL7Ymv7fRCVPaBX+zQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxvTlbRxJjwu9b2VZdJf5JptcMFra6s1e7Mr8fFJiTVbAzVQbD7
- tlskR7gWgaHJCJ5GS0mfMpiEkJ6inA64XkG7c38+7+Qm9x9naew1QKR80pKk21s=
-X-Gm-Gg: ASbGncvpiLenr0HRq1R2gH3o/O5SxEvE2Pt+M9WJ27pt7d+RVRjp+KPyRw4auve0t7x
- 7CxnXQ1n+1D85U8fFrtUJuMoxE5enKlKxvQ5467f3L1gQToi8BZ3lAhhAU99lNV7ONpSEg1aGaQ
- tdjTarmmO6hcL63FDBFxdbEgryrOATfmjZcAs9J0Sb5FgFSFcX5Y1KfJMObOuvAC7+txxIc+GnF
- VRXBq1B/tD1LVenz7Q1T4S4foMcwd4uhwW9vHu8l37ldHqTbNEYSb+5J6tnARm6A1jwlB3/zMuF
- zq88Z9LBPPIqaeHJRu85ja9kB0xEfmlODHbJuXAQnzdMQnvAF1BkTFmS/NKwhEZP9xaINHY=
-X-Google-Smtp-Source: AGHT+IGiFX0DAOip+lO73WcET9swpVWNQ7eiRCrLXIVYnD59II5BJCbVk0x92HCSNEMStqdqKSHwqg==
-X-Received: by 2002:a2e:bc01:0:b0:302:29a5:6e01 with SMTP id
- 38308e7fff4ca-3079680c529mr12837351fa.2.1738161065789; 
- Wed, 29 Jan 2025 06:31:05 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-3076bc18ce8sm21731551fa.67.2025.01.29.06.31.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2025 06:31:05 -0800 (PST)
-Date: Wed, 29 Jan 2025 16:31:03 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1155610E1C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 14:31:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 15ABF5C5D05;
+ Wed, 29 Jan 2025 14:31:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80EADC4CED1;
+ Wed, 29 Jan 2025 14:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738161114;
+ bh=/NQivZatFy6ozbG8cW4E7SYCaO/iSD4IT71wGW8bA+U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XwkYLReRA45QF3dUHy2a5jJCxEh/8q0TL3kVXAa2fw4Ahf/WYOfr4xtttIKeBbyc/
+ mDRVGqF1sIyPmUPXVpRTEiqvANTBSxwkyCn+KVXDefWJKRT8MP2GRekoCahVd007Ih
+ CP918gN8Tg+65uWncO6AC8DjiTwETGtUNBziEih0x09caA2bAX82v/m1vlrsGUyf8w
+ B/ZP77LhzZG7Q/azQWEd5JmWQ4v+3nu1JaI/q0aIuyHWZgFsQKPoFEaNYaSOdWiRwO
+ EQ/Ichf24+ZgBpu6lFjVGCimVGm4SrC+Wkf8jGVRniARB0uLj5/lcma9JiP2TTeCAW
+ ICPsEs4ALdTeQ==
+Date: Wed, 29 Jan 2025 15:31:50 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC] drm/msm/dsi/phy: Program clock inverters in correct
- register
-Message-ID: <kdnbhw2ng2kuhm2ynlmtxz4bnq6j243ktqwfvr4mgrr6w5uy7d@4j6cictf4tpu>
-References: <20250129115504.40080-1-krzysztof.kozlowski@linaro.org>
+ Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
+ linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 14/14] Documentation: Update the todo
+Message-ID: <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
+References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
+ <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
+ <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="4zgjoi5tasqxwp35"
 Content-Disposition: inline
-In-Reply-To: <20250129115504.40080-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,49 +100,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 29, 2025 at 12:55:04PM +0100, Krzysztof Kozlowski wrote:
-> Since SM8250 all downstream sources program clock inverters in
-> PLL_CLOCK_INVERTERS_1 register and leave the PLL_CLOCK_INVERTERS as
-> reset value (0x0).  The most recent Hardware Programming Guide for 3 nm,
-> 4 nm, 5 nm and 7 nm PHYs also mention PLL_CLOCK_INVERTERS_1.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Not tested except my work-in-progress oon SM8750. Not sure what is the
-> impact, so also no Fixes tag.
 
-I'd say,
+--4zgjoi5tasqxwp35
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 14/14] Documentation: Update the todo
+MIME-Version: 1.0
 
-Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Hi Thomas,
 
-I didn't fully test this, but according to msm-4.14, msm-4.19 and
-display drivers techpack this change is required on all 7nm- PHYs
-(including the SM8150).
+On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
+> Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
+> > Remove the TODO now that this series addresses
+> > the changes needed.
+>=20
+> While your series is fine, this TODO item is unrelated. It's about various
+> ancient fbdev drivers that do not reserve their memory regions correctly.=
+ So
+> please drop patch 14 form the series.
 
-> ---
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index 7f6fb2a840d2..6646f8dbe457 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -326,7 +326,7 @@ static void dsi_pll_commit(struct dsi_pll_7nm *pll, struct dsi_pll_config *confi
->  	writel(pll->phy->cphy_mode ? 0x00 : 0x10,
->  	       base + REG_DSI_7nm_PHY_PLL_CMODE_1);
->  	writel(config->pll_clock_inverters,
-> -	       base + REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS);
-> +	       base + REG_DSI_7nm_PHY_PLL_CLOCK_INVERTERS_1);
->  }
->  
->  static int dsi_pll_7nm_vco_set_rate(struct clk_hw *hw, unsigned long rate,
-> -- 
-> 2.43.0
-> 
+Is it? Could we rephrase the entry then? I'm the one that suggested
+Anusha to work on this, and it's still not clear to me what it means
+exactly if it's not what she worked on :)
 
--- 
-With best wishes
-Dmitry
+Maxime
+
+--4zgjoi5tasqxwp35
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5o71gAKCRAnX84Zoj2+
+dlIiAYCuZ4LfnornQ6HBeGeodgAvHyP2JHHAH32UgOwV9w+vt/5RwFWlygqXx5nv
+ggyszhgBgJuXAJdx+hiY88mf0JptAOibew6TT8wLX6WV4WS6/NXT4CzBcrvJArwN
+C91xDc/bTg==
+=wEcd
+-----END PGP SIGNATURE-----
+
+--4zgjoi5tasqxwp35--
