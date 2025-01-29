@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4393EA21D43
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 13:40:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E028FA21D3E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 13:40:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B586610E7E6;
-	Wed, 29 Jan 2025 12:40:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58A6B10E7E4;
+	Wed, 29 Jan 2025 12:40:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QJcmH+7t";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cwqZcDQI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 594A710E7E2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 12:40:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49AEA10E7E4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 12:40:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738154416; x=1769690416;
+ t=1738154418; x=1769690418;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ORDKKvPDsTtumPUvXJ34As3hCg4Jf6LPzVj4Imt/ICQ=;
- b=QJcmH+7tk3idvl/GzUFwasy5OKYYCAS++PF5lyp7sFPLgJWvneOwLtjX
- TnMCooQCcmEJrZLq8b+HOUIK+hvTxFbypYzp2mUnpOz3ebW3tHwWP8nR1
- 0VNb7Ugvp3+MmrNeJo0UY91ODw3SK+doXrCsvYhacRFEDFf+wvMT7f3VT
- F8YGTeJ1LTQJS7oCqG3egowau+jcGnnUPkjY5zML+BzZHYGUo0SrjfaTp
- qTRjd0f0zr+XED/aurR8r8AXbX7SrClgs0TV3lGDWfXBjTk8qU9YBwmTh
- pGiRd1ENPI6Z7ox82gz0U1X+In1Yfxp4h9o+kv6wut50utx/Dv0PFg5Zk g==;
-X-CSE-ConnectionGUID: C5gd+gWoS0im6rIbOT5j7w==
-X-CSE-MsgGUID: smbS6d10RfCvHpTx+c/UjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="49647263"
-X-IronPort-AV: E=Sophos;i="6.13,243,1732608000"; d="scan'208";a="49647263"
+ bh=B2CrWdcsOicH9+yP6JOFhLTScavsFkbHwpJkajJlaJM=;
+ b=cwqZcDQI9gR7C8CXeNKU5y9hmIg/TjzD52uwOj7sLrrN7MERd3FY2CVQ
+ oJ87oqtVnJu9SrTlNMSIddxhedTKH2Tg/cbHuMOKRt5o/l66dqatiRI4Z
+ 0MpoXRnz9/E9B/bn4HbFgoKE4Q5ltwIiOvT2l/Mx3yDac5unYdSgE7vRF
+ ERkt0jzj78zkrDmapVtepz4Pi5z20Zjdq2JRK1izSL2YY6RtyaW7wqoo1
+ TiBycyVfHjNGYtLbVvN+XDjT1qMDWx2z1frJGBkLNq1f40gPmmpAUbwvv
+ bMTDOVP69mYGEwMEL1cqNl3ogfdGaKDmsTHBufXUZRDNIfgpqLGfnHvjD g==;
+X-CSE-ConnectionGUID: xZeSZMYQRA+71sKvehRRfg==
+X-CSE-MsgGUID: nPaPqodjSNKDySH29qMEfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="49647269"
+X-IronPort-AV: E=Sophos;i="6.13,243,1732608000"; d="scan'208";a="49647269"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2025 04:40:16 -0800
-X-CSE-ConnectionGUID: Zi/2YPCAQVSWEVsi2qhNiw==
-X-CSE-MsgGUID: puULkPcaSXO+w6n18m+U7w==
+ 29 Jan 2025 04:40:17 -0800
+X-CSE-ConnectionGUID: RxrTt+IvSJ2xz4kjOzRMsg==
+X-CSE-MsgGUID: g0R02cOsRemid+OBtV39Lg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113030871"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113030872"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2025 04:40:13 -0800
+ 29 Jan 2025 04:40:15 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  maciej.falkowski@linux.intel.com,
  Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- stable@vger.kernel.org, Karol Wachowski <karol.wachowski@intel.com>
-Subject: [PATCH 1/3] accel/ivpu: Fix error handling in ivpu_boot()
-Date: Wed, 29 Jan 2025 13:40:07 +0100
-Message-ID: <20250129124009.1039982-2-jacek.lawrynowicz@linux.intel.com>
+ stable@vger.kernel.org
+Subject: [PATCH 2/3] accel/ivpu: Clear runtime_error after
+ pm_runtime_resume_and_get() fails
+Date: Wed, 29 Jan 2025 13:40:08 +0100
+Message-ID: <20250129124009.1039982-3-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20250129124009.1039982-1-jacek.lawrynowicz@linux.intel.com>
 References: <20250129124009.1039982-1-jacek.lawrynowicz@linux.intel.com>
@@ -70,43 +71,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ensure IRQs and IPC are properly disabled if HW sched or DCT
-initialization fails.
+pm_runtime_resume_and_get() sets dev->power.runtime_error that causes
+all subsequent pm_runtime_get_sync() calls to fail.
+Clear the runtime_error using pm_runtime_set_suspended(), so the driver
+doesn't have to be reloaded to recover when the NPU fails to boot during
+runtime resume.
 
-Fixes: cc3c72c7e610 ("accel/ivpu: Refactor failure diagnostics during boot")
-Cc: <stable@vger.kernel.org> # v6.13+
-Reviewed-by: Karol Wachowski <karol.wachowski@intel.com>
+Fixes: 7d4b4c74432d ("accel/ivpu: Remove suspend_reschedule_counter")
+Cc: <stable@vger.kernel.org> # v6.11+
+Reviewed-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_drv.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/accel/ivpu/ivpu_pm.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_drv.c b/drivers/accel/ivpu/ivpu_drv.c
-index ca2bf47ce2484..0c4a82271c26d 100644
---- a/drivers/accel/ivpu/ivpu_drv.c
-+++ b/drivers/accel/ivpu/ivpu_drv.c
-@@ -397,15 +397,19 @@ int ivpu_boot(struct ivpu_device *vdev)
- 	if (ivpu_fw_is_cold_boot(vdev)) {
- 		ret = ivpu_pm_dct_init(vdev);
- 		if (ret)
--			goto err_diagnose_failure;
-+			goto err_disable_ipc;
+diff --git a/drivers/accel/ivpu/ivpu_pm.c b/drivers/accel/ivpu/ivpu_pm.c
+index 949f4233946c6..c3774d2221326 100644
+--- a/drivers/accel/ivpu/ivpu_pm.c
++++ b/drivers/accel/ivpu/ivpu_pm.c
+@@ -309,7 +309,10 @@ int ivpu_rpm_get(struct ivpu_device *vdev)
+ 	int ret;
  
- 		ret = ivpu_hw_sched_init(vdev);
- 		if (ret)
--			goto err_diagnose_failure;
-+			goto err_disable_ipc;
- 	}
+ 	ret = pm_runtime_resume_and_get(vdev->drm.dev);
+-	drm_WARN_ON(&vdev->drm, ret < 0);
++	if (ret < 0) {
++		ivpu_err(vdev, "Failed to resume NPU: %d\n", ret);
++		pm_runtime_set_suspended(vdev->drm.dev);
++	}
  
- 	return 0;
- 
-+err_disable_ipc:
-+	ivpu_ipc_disable(vdev);
-+	ivpu_hw_irq_disable(vdev);
-+	disable_irq(vdev->irq);
- err_diagnose_failure:
- 	ivpu_hw_diagnose_failure(vdev);
- 	ivpu_mmu_evtq_dump(vdev);
+ 	return ret;
+ }
 -- 
 2.45.1
 
