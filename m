@@ -2,152 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB326A21C4F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 12:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90782A21C79
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 12:51:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C04F210E7B7;
-	Wed, 29 Jan 2025 11:31:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90B6410E035;
+	Wed, 29 Jan 2025 11:51:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="c+aN7FcB";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hP3ltSKA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1742710E7B7
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 11:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738150280;
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D7FC10E035
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 11:51:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7F4294427C;
+ Wed, 29 Jan 2025 11:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738151511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=JXxKEWFa0kyjHsvEo16sNj1w52gUXHl7Gu/3LaFydsM=;
- b=c+aN7FcBTH8d4C5NdIR5/OgGPgsM2zOsUq0a4FfcIrVM5wc7YntPLWN2nIRHNwMQFSYXsU
- +AoWJ35lQjUUOSAFY5gir+hf0PIR57qRQOrkcV2XX8TOXdZ1cd3kNEbl5nNZFIGi8hT2UL
- gxMnnvmWm222j3qahCMZKnFDr53/hWI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-564-XuFuTOlnNXCiS2pjDRHgfg-1; Wed, 29 Jan 2025 06:31:19 -0500
-X-MC-Unique: XuFuTOlnNXCiS2pjDRHgfg-1
-X-Mimecast-MFC-AGG-ID: XuFuTOlnNXCiS2pjDRHgfg
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-38a35a65575so4667014f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 03:31:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738150278; x=1738755078;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JXxKEWFa0kyjHsvEo16sNj1w52gUXHl7Gu/3LaFydsM=;
- b=J2R1+x5WjIM0OdLyITPPnyr7wslOrxr1TeW66eV+UME0nXVKHwkkDx8HGIcwy3ECic
- kZW5oLZ3mOkTSYh6dtODR8Nw6Re3ym/QOx9lyHWcEXERY6oXz6nDZBbDQBdkTWLv0GtG
- oMDPex5+P8AM62f0YxGcBgMrC09UvQmBJxedtGgA/yluuYoqZB4r2fyLn0xNLpvFuwvL
- zp0mqqreQ1/aGlH/YuR58+hncajsnti3tgJs9QfC7arM9/UuPrP5L+Yp32j0CaXL14xr
- nOqQUJ0zRk7oWxufwcbdQRr2g2aOvMyQp3NnECHCCuFwk41U9+gqrYTlIrgwa1ZXMjRW
- emWQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBUhkPDjJAO6Asl3qi3RLe1o8HXJSZF/lw7O1/9FaZx+Sh/R0Iy7iHmPcTXMcfraSjYa5k4qp20lk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz98LLfU0dFmxHVIYl1TETclz7E2bAq/EWPR7JuMW7QrE8EHH3s
- p1VFdaCmm76AiyH1AUYaV1i/cOaYv86plOes+QmYAG4hXzHW+e51STsyUco6nktmTP2IIUpLpi/
- UVfKUM1dw5onwO6Q7D6LRjyj/jvbBGWfQTqo3EYMMWIU+dfTid1dNQQuuiiWX6JFkMQ==
-X-Gm-Gg: ASbGncsiLGGF/JPmIoVuYKwCzwIzsD29EKIh2qJ2EIxXtBfh7F5zF7rlv+lhBSlE8Vj
- wNTrZ2ondI02OxJDJ6nPllj5ZlIhCRqmsl32V4ZK5U5XLyySCikeLiXeYrX9ff9Rzyxcj85l1ns
- UEh4nai8Azj6/Vmlqgt+iG5FcgBj5s2NbS47UhvNloUovpF8aEEqLWBrkBcal99SBbseCHGhsDQ
- 9WF+8QiZ+uAcGmGWRhjNeFLaHzTkWPEAWFsGkhk1hXJBfzz9h3E1QYulydfy4NrYJ1LkFRKyBC0
- bzw+hT5p+zMV6bDerUjql7MfcI/iV/7mVPSbYQOLQxKmsLVRNPtmtsFMxR1UKrrWs8iSgG8wzSk
- YTWnNOMN1SrGSi6kqZYO+VOzKQdjMDMRT
-X-Received: by 2002:a05:6000:1788:b0:386:459f:67e0 with SMTP id
- ffacd0b85a97d-38c5194d438mr2694283f8f.21.1738150277615; 
- Wed, 29 Jan 2025 03:31:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH+uB1GWH3/Vq0ObSfPbVqQL8MPtlhNJW3rwbsNG1FaGxyQH/zDRIQvN9QYr/JlswhT6uug5g==
-X-Received: by 2002:a05:6000:1788:b0:386:459f:67e0 with SMTP id
- ffacd0b85a97d-38c5194d438mr2694238f8f.21.1738150277083; 
- Wed, 29 Jan 2025 03:31:17 -0800 (PST)
-Received: from ?IPV6:2003:cb:c705:3b00:64b8:6719:5794:bf13?
- (p200300cbc7053b0064b867195794bf13.dip0.t-ipconnect.de.
- [2003:cb:c705:3b00:64b8:6719:5794:bf13])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a1bbc8dsm16907601f8f.72.2025.01.29.03.31.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jan 2025 03:31:15 -0800 (PST)
-Message-ID: <c7891b99-3001-4d70-8673-8a76357db0bf@redhat.com>
-Date: Wed, 29 Jan 2025 12:31:14 +0100
+ in-reply-to:in-reply-to:references:references;
+ bh=F/dtdtAqW4QEmrAdXfRHJqeqI55Av04tfH1TTwtge4Q=;
+ b=hP3ltSKAWYzIflmKjO+mNQ5s1A/kE5qfNlSiukluqHAzQ7UVRBEmfUxQnyP3DCP0HflJAg
+ JM+VWTLdar6gVgvAsQJpm8pzckCrcaZmUW9h6+pLAyMMd6tyV5og2W8M2dsPyX7bjsg9RZ
+ 8GrHlCQqMvc1qpUvpTVlnz3pyabn/cvu/sBTADGjWs2dBxcLExzPcoSC4rMQOqFs/6SIno
+ Mds/5iucfRjmcXfZYjvVRN7N16EICapKeQ0nQuqyGq0Lqybta3SeDWTQrKfgBarrykGCW0
+ zBmwvXxpOQbTCcWCiZnDrbsY3zkHWp+hjBhlf3cVvEK9BftnZujKh+1vvV0YAg==
+Date: Wed, 29 Jan 2025 12:51:46 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Simona Vetter
+ <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, Paul
+ Kocialkowski <contact@paulk.fr>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
+ =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
+ Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+Message-ID: <20250129125146.22981c9f@booty>
+In-Reply-To: <ksxomce6vddld7vikzyjd55babho63vj6ej5vrsiwfp2tid6yu@xfpagqpata4v>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
+ <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
+ <20250102130149.5784c09b@booty> <20250110115819.55bc887b@booty>
+ <20250116113236.39ba876a@booty>
+ <20250116-brave-feathered-dormouse-8ea4cf@houat>
+ <20250121122729.41c8f2b1@booty>
+ <ksxomce6vddld7vikzyjd55babho63vj6ej5vrsiwfp2tid6yu@xfpagqpata4v>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Question] Are "device exclusive non-swap entries" / "SVM atomics
- in Nouveau" still getting used in practice?
-To: Alistair Popple <apopple@nvidia.com>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, John Hubbard
- <jhubbard@nvidia.com>, nouveau@lists.freedesktop.org,
- Jason Gunthorpe <jgg@nvidia.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>
-References: <346518a4-a090-4eaa-bc04-634388fd4ca3@redhat.com>
- <Z5JbYC2-slPU0l3n@phenom.ffwll.local>
- <8c6f3838-f194-4a42-845d-10011192a234@redhat.com>
- <Z5OxuGMGT-OvMy5P@phenom.ffwll.local>
- <f2f059a3-0c95-44cf-b79a-8c01e9334919@redhat.com>
- <fbwjse2zexcsxuro5w3a5vs2rq4eabpccfkbd3buc4qmkgoo7z@xpdtyukllzvo>
- <Z5k6w1OZ1ttgTGRo@phenom.ffwll.local>
- <ded68896-d682-4fb3-8693-4657aa90b313@redhat.com>
- <Z5oHY1pjjwBfRN1g@phenom.ffwll.local> <Z5oQ2YV1cRUc0KnD@phenom.ffwll.local>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <Z5oQ2YV1cRUc0KnD@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: WG7CYyIYg7WsQ9MhTkU8oNL9EWYGcNguXYaGZdZYQV0_1738150278
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemiegtgedvmeehjedvsgemvdekgeehmegtsgguugenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemiegtgedvmeehjedvsgemvdekgeehmegtsgguugdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlihhnrghrohdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhp
+ dhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,142 +88,253 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29.01.25 12:28, Simona Vetter wrote:
-> On Wed, Jan 29, 2025 at 11:48:03AM +0100, Simona Vetter wrote:
->> On Tue, Jan 28, 2025 at 09:24:33PM +0100, David Hildenbrand wrote:
->>> On 28.01.25 21:14, Simona Vetter wrote:
->>>> On Tue, Jan 28, 2025 at 11:09:24AM +1100, Alistair Popple wrote:
->>>>> On Fri, Jan 24, 2025 at 06:54:02PM +0100, David Hildenbrand wrote:
->>>>>>>>> On integrated the gpu is tied into the coherency
->>>>>>>>> fabric, so there it's not needed.
->>>>>>>>>
->>>>>>>>> I think the more fundamental question with both this function here and
->>>>>>>>> with forced migration to device memory is that there's no guarantee it
->>>>>>>>> will work out.
->>>>>>>>
->>>>>>>> Yes, in particular with device-exclusive, it doesn't really work with THP
->>>>>>>> and is only limited to anonymous memory. I have patches to at least make it
->>>>>>>> work reliably with THP.
->>>>>>>
->>>>>>> I should have crawled through the implementation first before replying.
->>>>>>> Since it only looks at folio_mapcount() make_device_exclusive() should at
->>>>>>> least in theory work reliably on anon memory, and not be impacted by
->>>>>>> elevated refcounts due to migration/ksm/thp/whatever.
->>>>>>
->>>>>> Yes, there is -- in theory -- nothing blocking the conversion except the
->>>>>> folio lock. That's different than page migration.
->>>>>
->>>>> Indeed - this was the entire motivation for make_device_exclusive() - that we
->>>>> needed a way to reliably exclude CPU access that couldn't be blocked in the same
->>>>> way page migration can (otherwise we could have just migrated to a device page,
->>>>> even if that may have added unwanted overhead).
->>>>
->>>> The folio_trylock worries me a bit. I guess this is to avoid deadlocks
->>>> when locking multiple folios, but I think at least on the first one we
->>>> need an unconditional folio_lock to guarantee forward progress.
->>>
->>> At least on the hmm path I was able to trigger the EBUSY a couple of times
->>> due to concurrent swapout. But the hmm-tests selftest fails immediately
->>> instead of retrying.
->>
->> My worries with just retrying is that it's very hard to assess whether
->> there's a livelock or whether the retry has a good chance of success. As
->> an example the ->migrate_to_ram path has some trylocks, and the window
->> where all other threads got halfway and then fail the trylock is big
->> enough that once you pile up enough threads that spin through there,
->> you're stuck forever. Which isn't great.
->>
->> So if we could convert at least the first folio_trylock into a plain lock
->> then forward progress is obviously assured and there's no need to crawl
->> through large chunks of mm/ code to hunt for corner cases where we could
->> be too unlucky to ever win the race.
->>
->>>> Since
->>>> atomics can't cross 4k boundaries (or the hw is just really broken) this
->>>> should be enough to avoid being stuck in a livelock. I'm also not seeing
->>>> any other reason why a folio_lock shouldn't work here, but then my
->>>> understanding of mm/ stuff is really just scratching the surface.
->>>>
->>>> I did crawl through all the other code and it looks like everything else
->>>> is unconditional locks. So looks all good and I didn't spot anything else
->>>> that seemed problematic.
->>>>
->>>> Somewhat aside, I do wonder whether we really want to require callers to
->>>> hold the mmap lock, or whether with all the work towards lockless fastpath
->>>> that shouldn't instead just be an implementation detail.
->>>
->>> We might be able to use the VMA lock in the future, but that will require
->>> GUP support and a bunch more. Until then, the mm_lock in read mode is
->>> required.
->>
->> Yup. I also don't think we should try to improve before benchmarks show an
->> actual need. It's more about future proofing and making sure mmap_lock
->> doesn't leak into driver data structures that I'm worried about. Because
->> I've seen some hmm/gpu rfc patches that heavily relied on mmap_lock to
->> keep everything correct on the driver side, which is not a clean design.
->>
->>> I was not able to convince myself that we'll really need the folio lock, but
->>> that's also a separate discussion.
->>
->> This is way above my pay understanding of mm/ unfortunately.
+Hello Maxime,
+
+thanks for the continued feedback.
+
+On Tue, 28 Jan 2025 16:09:53 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> To be clear, I'm not sure it's worth renaming drm_bridge to something
+> else, and I certainly don't consider it is a prerequisite to this
+> series.
+
+Sure, I agree.
+
+> > > > For hotplugging we cannot use drmm and devm and instead we use get/put,
+> > > > to let the "next bridge" disappear with the previous one still present.
+> > > > So the trivial idea is to add a drm_of_get_bridge(), similar to
+> > > > {drmm,devm_drm}_of_get_bridge() except it uses plain
+> > > > drm_panel_bridge_add() instead of devm/drmm variants. But then the
+> > > > caller (which is the panel consumer) will have to dispose of the struct
+> > > > drm_bridge pointer by calling:
+> > > > 
+> > > >  - drm_bridge_put() in case a)
+> > > >  - drm_panel_bridge_remove in case b)
+> > > > 
+> > > > And that's the problem I need to solve.    
+> > > 
+> > > I'm not sure the problem is limited to panel_bridge. Your question is
+> > > essentially: how do I make sure a driver-specific init is properly freed
+> > > at drm_bridge_put time. This was done so far mostly at bridge remove
+> > > time, but we obviously can't do that anymore.
+> > > 
+> > > But we'd have the same issue if, say, we needed to remove a workqueue
+> > > from a driver.
+> > > 
+> > > I think we need a destroy() hook for bridges, just like we have for
+> > > connectors for example that would deal with calling
+> > > drm_panel_bridge_remove() if necessary, or any other driver-specific
+> > > sequence.  
+> > 
+> > The .destroy hook looked appealing at first, however as I tried to
+> > apply the idea to bridges I'm not sure it matches. Here's why.
+> > 
+> > The normal (and sane) flow for a bridge is:
+> > 
+> >  A) probe
+> >     1. allocate private struct embedding struct drm_bridge
+> >        (I have an _alloc() variant ready for v5 to improve this as you proposed)
+> >     2. get resources, initialize struct fields
+> >     3. drm_bridge_add(): publish bridge into global bridge_list
+> > 
+> > Now the bridge can be found and pointers taken and used.  
 > 
-> I pondered this some more, and I think it's to make sure we get a stable
-> reading of folio_mapcount() and are not racing with new rmaps being
-> established. But I also got lost a few times in the maze ...
+> We agree so far.
 
-That mapcount handling is all messed up and I'll remove that along with
-the rmap walk. Also, the folio lock does not stabilize the mapcount at all ...
+Good :-)
 
-Here is my understanding:
+> > And on hardware removal, in reverse order:
+> >  
+> >  B) remove (hardware is hot-unplugged)
+> >     3. unpublish bridge
+> >     2. release resources, cleanup
+> >     1. kfree private struct  
+> 
+> I think the sequence would rather be something like:
+> 
+> B') remove
+>   3. unpublish bridge
+>   2. release device resources
+>   1. release reference
+> 
+> C') last put
+>   2. release KMS resources
+>   1. kfree private struct
 
-commit e2dca6db09186534c7e6082b77be6e17d8920f10
-Author: David Hildenbrand <david@redhat.com>
-Date:   Tue Jan 28 15:25:37 2025 +0100
+Just to ensure we are on the same page: patch 3 is already implementing
+this model except for C'2.
 
-     mm/memory: document restore_exclusive_pte()
-     
-     Let's document how this function is to be used, and why the requirement
-     for the folio lock might maybe be dropped in the future.
-     
-     Signed-off-by: David Hildenbrand <david@redhat.com>
+Well, in reality it even implements a .destroy callback at C'2, even
+though it was not meant for the usage you have in mind and it's
+scheduled for removal in v6 -- even though as I said I'm OK in
+re-adding it if it is useful.
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 46956994aaff..caaae8df11a9 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -718,6 +718,31 @@ struct folio *vm_normal_folio_pmd(struct vm_area_struct *vma,
-  }
-  #endif
-  
-+/**
-+ * restore_exclusive_pte - Restore a device-exclusive entry
-+ * @vma: VMA covering @address
-+ * @folio: the mapped folio
-+ * @page: the mapped folio page
-+ * @address: the virtual address
-+ * @ptep: PTE pointer into the locked page table mapping the folio page
-+ * @orig_pte: PTE value at @ptep
-+ *
-+ * Restore a device-exclusive non-swap entry to an ordinary present PTE.
-+ *
-+ * The folio and the page table must be locked, and MMU notifiers must have
-+ * been called to invalidate any (exclusive) device mappings. In case of
-+ * fork(), MMU_NOTIFY_PROTECTION_PAGE is triggered, and in case of a page
-+ * fault MMU_NOTIFY_EXCLUSIVE is triggered.
-+ *
-+ * Locking the folio makes sure that anybody who just converted the PTE to
-+ * a device-private entry can map it into the device, before unlocking it; so
-+ * the folio lock prevents concurrent conversion to device-exclusive.
-+ *
-+ * TODO: the folio lock does not protect against all cases of concurrent
-+ * page table modifications (e.g., MADV_DONTNEED, mprotect), so device drivers
-+ * must already use MMU notifiers to sync against any concurrent changes
-+ * Maybe the requirement for the folio lock can be dropped in the future.
-+ */
+Mainly I'm not sure I understand for which ultimate goal you propose to
+postpone releasing KMS resources to C'.
 
+Is it (1) because we _want_ to postpone releasing KMS resources? In this
+case I don't know the use case, so if you have a practical example it
+would probably help a lot.
+
+Moreover, for the panel bridge specifically, it would mean postponing
+the destruction of the struct panel_bridge, which however has a pointer
+to the panel. But the panel is probably hot-unplugged at the same time
+as the previous removable bridge(s), we'd have a time window between B'
+and C' where there is a pointer to a freed struct panel. We'd need to
+ensure that pointer is cleared at B'2, even though it is a "KMS
+resource" and not a "device resource".
+
+Or is it (2) because there are cases where we don't know how else we
+could release the KMS resources? AFAIK all bridge drivers are able to
+release everything in their remove function (B'2) with the exception of
+the panel bridge, so this sounds like a workaround for just one user
+that apparently we all agree should be improved on its own anyway.
+
+Note I'm not strongly against (2), if it simplifies the path towards
+dynamic bridge lifetime by postponing the panel bridge rework. I just
+need to understand the plan.
+
+Another question is what is a device resource and what is a KMS
+resource. What's the boolean expression to classify a
+resource in one or the other family? For example, in your example
+quoted above ("But we'd have the same issue if, say, we needed to
+remove a workqueue from a driver"), is the workqueue a KMS resource?
+
+I need to understand your idea if I want to implement it.
+
+> > Some drivers do real stuff in B2, so it is important that B3 happens
+> > before B2, isn't it? We don't want other drivers to find and use a
+> > bridge that is being dismantled, or afterwards.  
+> 
+> Yeah, B3/B'3 should definitely happen first.
+> 
+> > B3 should normally happen by removing the bridge from the global
+> > bridge_list, or other bridges might find it. However setting the "gone"
+> > bool and teaching of_drm_find_bridge() & Co to skip bridges with
+> > gone==true would allow to postpone the actual removal, if needed.
+> > 
+> > With that said, with hotplugging there will be two distinct events:
+> > 
+> >  * hardware removal
+> >  * last ref is put
+> > 
+> > The second event could happen way later than the first one. During the
+> > time frame between the two events we need the bridge to be unpublished
+> > and the bridge resources to be already released, as the hardware is
+> > gone. We cannot do this at the last put, it's too late.
+> > 
+> > So I think the only sane sequence is:
+> > 
+> >  * on hardware removal:
+> >      B3) unpublish bridge (drm_bridge_remove() or just set gone flag)
+> >      B2) free resources, deinit whatever needed
+> >  * when last ref is put
+> >      B1) kfree (likely via devm)  
+> 
+> No, devm will have destroyed it in B'2. We need to destroy it in the
+> cleanup hook of kref_put
+
+devm will have destroyed what? Sorry I'm not following.
+
+If you mean "it" == "the private struct", then no, this is not the
+case. drm_bridge_init in patch 3 does not kfree the private struct but
+instead registers a devm action to call drm_bridge_put. Then, at the
+last put, drm_bridge_free() will actually kfree the private struct.
+
+In this v5, kree()ing the private struct at the last put is done via
+a callback. In my work towards v6 the principle is the same but I have
+reworked it all, implementing a devm_drm_bridge_alloc() macro as you
+suggested (BTW that was a great improvement, thanks) and removing the
+.destroy callback as it was not needed.
+
+In case it helps, here's a preview of my v6, with some added comments to
+support this discussion:
+
+/* Internal function (for refcounted bridges) */
+void __drm_bridge_free(struct kref *kref)
+{
+        struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
+        void *container = ((void*)bridge) - bridge->container_offset;
+
+        DRM_DEBUG("bridge=%p, container=%p FREE\n", bridge, container);
+
+        kfree(container);
+}
+EXPORT_SYMBOL(__drm_bridge_free);
+
+static inline void drm_bridge_put(struct drm_bridge *bridge)
+{
+        if (!drm_bridge_is_refcounted(bridge))
+                return;
+
+        DRM_DEBUG("bridge=%p PUT\n", bridge);
+
+        kref_put(&bridge->refcount, __drm_bridge_free);
+}
+
+static void drm_bridge_put_void(void *data)
+{
+        struct drm_bridge *bridge = (struct drm_bridge *)data;
+
+        drm_bridge_put(bridge);
+}
+
+// fold this into __devm_drm_bridge_alloc() or keep for consistency
+// with drm_encoder.c?
+static int __devm_drm_bridge_init(struct device *dev, struct drm_bridge *bridge,
+                                  size_t offset, const struct drm_bridge_funcs *funcs)
+{
+        int err;
+
+        bridge->container_offset = offset;
+        kref_init(&bridge->refcount);
+        bridge->is_refcounted = 1;
+
+        err = devm_add_action_or_reset(dev, drm_bridge_put_void, bridge); // <== devm just puts one ref, does not kfree
+        if (err)
+                return err;
+
+        bridge->funcs = funcs;
+
+        return 0;
+}
+
+void *__devm_drm_bridge_alloc(struct device *dev, size_t size, size_t offset,
+                              const struct drm_bridge_funcs *funcs)
+{
+        void *container;
+        struct drm_bridge *bridge;
+        int ret;
+
+        if (!funcs) {
+                dev_warn(dev, "Missing funcs pointer\n");
+                return ERR_PTR(-EINVAL);
+        }
+
+        container = kzalloc(size, GFP_KERNEL);     // <== NOT allocating with devm
+        if (!container)
+                return ERR_PTR(-ENOMEM);
+
+        bridge = container + offset;
+
+        ret = __devm_drm_bridge_init(dev, bridge, offset, funcs);
+        if (ret)
+                return ERR_PTR(ret);
+
+        DRM_DEBUG("bridge=%p, container=%p, funcs=%ps ALLOC\n", bridge, container, funcs);
+
+        return container;
+}
+EXPORT_SYMBOL(__devm_drm_bridge_alloc);
+
+#define devm_drm_bridge_alloc(dev, type, member, funcs) \
+        ((type *)__devm_drm_bridge_alloc(dev, sizeof(type), \
+                                         offsetof(type, member), funcs))
+
+Luca
 
 -- 
-Cheers,
-
-David / dhildenb
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
