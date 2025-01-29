@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CD4A224C9
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 20:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2236DA224B1
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 20:51:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A40F10E8C3;
-	Wed, 29 Jan 2025 19:51:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5189C10E177;
+	Wed, 29 Jan 2025 19:51:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jSljHVuj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B2Ha/JMm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C260810E177;
- Wed, 29 Jan 2025 19:51:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D95A10E177;
+ Wed, 29 Jan 2025 19:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738180282; x=1769716282;
+ t=1738180283; x=1769716283;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LCfR84HPwui0H9/LK6RuWCm6mh6tcuhNNat/l6/TyEc=;
- b=jSljHVujTYWv0cvBDLbuNg8fvHlOlFblDwjdx4HB43dbG45Yvv6tO1Ag
- fAdVDrR/fqt9zU0rqGPHG5kUBJBgk/aJlYcUC05vIRp0gcXlZgPAEBNnO
- cqRr3Zt8hCEXR6U9VMlg71vlYLV5K1/2N8LGcc+WYpcmni+lJbMCFjiF4
- UtThQ4JCraTt6gLughkSsiHLSoELyV3icdg/7hKiZE5etXp0AD3o7obSG
- PEANOvTNTPPwXlG2dqPcpr6BZqVB4Bt61HyeGNYClW/dHb/q9JLDJwr9O
- doaM2dBpjQWpXS+pxI39immoMfu/KVVkeZcoTbGCkja+o4waKZV6Q9utU g==;
-X-CSE-ConnectionGUID: P/VLRFVQQkSNzgpt5twiFg==
-X-CSE-MsgGUID: ZAl2FnL7Tu2s/K4rJTnzPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50132759"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="50132759"
+ bh=3pAIz7ueT3elgRj2RsK4MJPCZ8uDoCP27nJ430TBxrQ=;
+ b=B2Ha/JMmuO/RlQ+wY6tnYXhOEJkXfCScDdwIDybu4Yrhm1U5HQu8djlj
+ aYePc0bgVwEvgnR01NbmH8Hs+COZ+hlyAXlOSGxZzWkjiYCUrW4PS4+s7
+ hg2xEBsMKQEVrK982pP30h3Yinse4StQi/1t2Xbr7Vsi5c7jai8E7s/al
+ muTxKVukZuq6hKa8LbSQpODd56/1v/B/fY0UXVmiCxt+cEYrGHMYZSnHI
+ 5/A8yXmyOhjhDeQm2l3tR6Kkr4Zx2lVO6rHlgoRAZ/To7YDWKFK0WFeGb
+ BIePMP8FQvrWCHn+RWfsJP3fdlVGgawG3Jb1tbXpJiOQfgXJL9ewRXMsW A==;
+X-CSE-ConnectionGUID: FzE2WC32QTuyu0DyzLSiuQ==
+X-CSE-MsgGUID: L5+k1TwiSnCXBCSbaSuFEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50132768"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="50132768"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Jan 2025 11:51:22 -0800
-X-CSE-ConnectionGUID: xr9ijrL+T3eRl1MAL0LS5g==
-X-CSE-MsgGUID: sFGHoklySMiEyuhAzveHAw==
+X-CSE-ConnectionGUID: FpPJwashQCaqfj0LaAq06Q==
+X-CSE-MsgGUID: 4Jf70MaHS8q/CaxTiU0+4w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="132392128"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="132392131"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Jan 2025 11:51:21 -0800
@@ -47,14 +47,14 @@ To: intel-xe@lists.freedesktop.org,
 Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
  thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
  felix.kuehling@amd.com, dakr@kernel.org
-Subject: [PATCH v4 09/33] drm/xe: Add SVM init / close / fini to faulting VMs
-Date: Wed, 29 Jan 2025 11:51:48 -0800
-Message-Id: <20250129195212.745731-10-matthew.brost@intel.com>
+Subject: [PATCH v4 10/33] drm/xe: Add dma_addr res cursor
+Date: Wed, 29 Jan 2025 11:51:49 -0800
+Message-Id: <20250129195212.745731-11-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250129195212.745731-1-matthew.brost@intel.com>
 References: <20250129195212.745731-1-matthew.brost@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,213 +71,220 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add SVM init / close / fini to faulting VMs. Minimual implementation
-acting as a placeholder for follow on patches.
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-v2:
- - Add close function
+Add dma_addr res cursor which walks an array of drm_pagemap_dma_addr.
+Useful for SVM ranges and programing page tables.
+
 v3:
  - Better commit message (Thomas)
- - Kernel doc (Thomas)
- - Update chunk array to be unsigned long (Thomas)
- - Use new drm_gpusvm.h header location (Thomas)
- - Newlines between functions in xe_svm.h (Thomas)
- - Call drm_gpusvm_driver_set_lock in init (Thomas)
+ - Use new drm_pagemap.h location
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/xe/Makefile      |  1 +
- drivers/gpu/drm/xe/xe_svm.c      | 73 ++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_svm.h      | 17 ++++++++
- drivers/gpu/drm/xe/xe_vm.c       | 12 ++++++
- drivers/gpu/drm/xe/xe_vm_types.h |  7 +++
- 5 files changed, 110 insertions(+)
- create mode 100644 drivers/gpu/drm/xe/xe_svm.c
- create mode 100644 drivers/gpu/drm/xe/xe_svm.h
+ drivers/gpu/drm/xe/xe_res_cursor.h | 116 ++++++++++++++++++++++++++++-
+ drivers/gpu/drm/xe/xe_svm.h        |   4 +
+ 2 files changed, 118 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index 328aff36831b..a078a8895ec5 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -97,6 +97,7 @@ xe-y += xe_bb.o \
- 	xe_sched_job.o \
- 	xe_step.o \
- 	xe_survivability_mode.o \
-+	xe_svm.o \
- 	xe_sync.o \
- 	xe_tile.o \
- 	xe_tile_sysfs.o \
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-new file mode 100644
-index 000000000000..79da859f02b1
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -0,0 +1,73 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2024 Intel Corporation
-+ */
-+
-+#include "xe_svm.h"
-+#include "xe_vm.h"
-+#include "xe_vm_types.h"
-+
-+static void xe_svm_invalidate(struct drm_gpusvm *gpusvm,
-+			      struct drm_gpusvm_notifier *notifier,
-+			      const struct mmu_notifier_range *mmu_range)
-+{
-+	/* TODO: Implement */
-+}
-+
-+static const struct drm_gpusvm_ops gpusvm_ops = {
-+	.invalidate = xe_svm_invalidate,
-+};
-+
-+static const unsigned long fault_chunk_sizes[] = {
-+	SZ_2M,
-+	SZ_64K,
-+	SZ_4K,
-+};
-+
-+/**
-+ * xe_svm_init() - SVM initialize
-+ * @vm: The VM.
-+ *
-+ * Initialize SVM state which is embedded within the VM.
-+ *
-+ * Return: 0 on success, negative error code on error.
-+ */
-+int xe_svm_init(struct xe_vm *vm)
-+{
-+	int err;
-+
-+	err = drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM", &vm->xe->drm,
-+			      current->mm, NULL, 0, vm->size,
-+			      SZ_512M, &gpusvm_ops, fault_chunk_sizes,
-+			      ARRAY_SIZE(fault_chunk_sizes));
-+	if (err)
-+		return err;
-+
-+	drm_gpusvm_driver_set_lock(&vm->svm.gpusvm, &vm->lock);
-+
-+	return 0;
-+}
-+
-+/**
-+ * xe_svm_close() - SVM close
-+ * @vm: The VM.
-+ *
-+ * Close SVM state (i.e., stop and flush all SVM actions).
-+ */
-+void xe_svm_close(struct xe_vm *vm)
-+{
-+	xe_assert(vm->xe, xe_vm_is_closed(vm));
-+}
-+
-+/**
-+ * xe_svm_fini() - SVM finalize
-+ * @vm: The VM.
-+ *
-+ * Finalize SVM state which is embedded within the VM.
-+ */
-+void xe_svm_fini(struct xe_vm *vm)
-+{
-+	xe_assert(vm->xe, xe_vm_is_closed(vm));
-+
-+	drm_gpusvm_fini(&vm->svm.gpusvm);
-+}
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-new file mode 100644
-index 000000000000..49cfd938aa17
---- /dev/null
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright © 2024 Intel Corporation
-+ */
-+
-+#ifndef _XE_SVM_H_
-+#define _XE_SVM_H_
-+
-+struct xe_vm;
-+
-+int xe_svm_init(struct xe_vm *vm);
-+
-+void xe_svm_fini(struct xe_vm *vm);
-+
-+void xe_svm_close(struct xe_vm *vm);
-+
-+#endif
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index dff10dfa9c69..bc34e6738c8c 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -34,6 +34,7 @@
- #include "xe_preempt_fence.h"
- #include "xe_pt.h"
- #include "xe_res_cursor.h"
-+#include "xe_svm.h"
- #include "xe_sync.h"
- #include "xe_trace_bo.h"
- #include "xe_wa.h"
-@@ -1504,6 +1505,12 @@ struct xe_vm *xe_vm_create(struct xe_device *xe, u32 flags)
- 		}
- 	}
+diff --git a/drivers/gpu/drm/xe/xe_res_cursor.h b/drivers/gpu/drm/xe/xe_res_cursor.h
+index dca374b6521c..46486087a51d 100644
+--- a/drivers/gpu/drm/xe/xe_res_cursor.h
++++ b/drivers/gpu/drm/xe/xe_res_cursor.h
+@@ -26,6 +26,7 @@
  
-+	if (flags & XE_VM_FLAG_FAULT_MODE) {
-+		err = xe_svm_init(vm);
-+		if (err)
-+			goto err_close;
+ #include <linux/scatterlist.h>
+ 
++#include <drm/drm_pagemap.h>
+ #include <drm/ttm/ttm_placement.h>
+ #include <drm/ttm/ttm_range_manager.h>
+ #include <drm/ttm/ttm_resource.h>
+@@ -34,9 +35,13 @@
+ #include "xe_bo.h"
+ #include "xe_device.h"
+ #include "xe_macros.h"
++#include "xe_svm.h"
+ #include "xe_ttm_vram_mgr.h"
+ 
+-/* state back for walking over vram_mgr, stolen_mgr, and gtt_mgr allocations */
++/**
++ * struct xe_res_cursor - state for walking over dma mapping, vram_mgr,
++ * stolen_mgr, and gtt_mgr allocations
++ */
+ struct xe_res_cursor {
+ 	u64 start;
+ 	u64 size;
+@@ -44,7 +49,17 @@ struct xe_res_cursor {
+ 	void *node;
+ 	u32 mem_type;
+ 	struct scatterlist *sgl;
++	/** @dma_addr: Current element in a struct drm_pagemap_dma_addr array */
++	const struct drm_pagemap_dma_addr *dma_addr;
+ 	struct drm_buddy *mm;
++	/**
++	 * @dma_start: DMA start address for the current segment.
++	 * This may be different to @dma_addr.addr since elements in
++	 * the array may be coalesced to a single segment.
++	 */
++	u64 dma_start;
++	/** @dma_seg_size: Size of the current segment. */
++	u64 dma_seg_size;
+ };
+ 
+ static struct drm_buddy *xe_res_get_buddy(struct ttm_resource *res)
+@@ -70,6 +85,7 @@ static inline void xe_res_first(struct ttm_resource *res,
+ 				struct xe_res_cursor *cur)
+ {
+ 	cur->sgl = NULL;
++	cur->dma_addr = NULL;
+ 	if (!res)
+ 		goto fallback;
+ 
+@@ -141,6 +157,36 @@ static inline void __xe_res_sg_next(struct xe_res_cursor *cur)
+ 	cur->sgl = sgl;
+ }
+ 
++/**
++ * __xe_res_dma_next() - Advance the cursor when end-of-segment is reached
++ * @cur: The cursor
++ */
++static inline void __xe_res_dma_next(struct xe_res_cursor *cur)
++{
++	const struct drm_pagemap_dma_addr *addr = cur->dma_addr;
++	u64 start = cur->start;
++
++	while (start >= cur->dma_seg_size) {
++		start -= cur->dma_seg_size;
++		addr++;
++		cur->dma_seg_size = PAGE_SIZE << addr->order;
++	}
++	cur->dma_start = addr->addr;
++
++	/* Coalesce array_elements */
++	while (cur->dma_seg_size - start < cur->remaining) {
++		if (cur->dma_start + cur->dma_seg_size != addr[1].addr ||
++		    addr->proto != addr[1].proto)
++			break;
++		addr++;
++		cur->dma_seg_size += PAGE_SIZE << addr->order;
 +	}
 +
- 	if (number_tiles > 1)
- 		vm->composite_fence_ctx = dma_fence_context_alloc(1);
++	cur->dma_addr = addr;
++	cur->start = start;
++	cur->size = cur->dma_seg_size - start;
++}
++
+ /**
+  * xe_res_first_sg - initialize a xe_res_cursor with a scatter gather table
+  *
+@@ -160,11 +206,42 @@ static inline void xe_res_first_sg(const struct sg_table *sg,
+ 	cur->start = start;
+ 	cur->remaining = size;
+ 	cur->size = 0;
++	cur->dma_addr = NULL;
+ 	cur->sgl = sg->sgl;
+ 	cur->mem_type = XE_PL_TT;
+ 	__xe_res_sg_next(cur);
+ }
  
-@@ -1549,6 +1556,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
- 	xe_vm_close(vm);
- 	if (xe_vm_in_preempt_fence_mode(vm))
- 		flush_work(&vm->preempt.rebind_work);
-+	if (xe_vm_in_fault_mode(vm))
-+		xe_svm_close(vm);
- 
- 	down_write(&vm->lock);
- 	for_each_tile(tile, xe, id) {
-@@ -1617,6 +1626,9 @@ void xe_vm_close_and_put(struct xe_vm *vm)
- 		xe_vma_destroy_unlocked(vma);
++/**
++ * xe_res_first_dma - initialize a xe_res_cursor with dma_addr array
++ *
++ * @dma_addr: struct drm_pagemap_dma_addr array to walk
++ * @start: Start of the range
++ * @size: Size of the range
++ * @cur: cursor object to initialize
++ *
++ * Start walking over the range of allocations between @start and @size.
++ */
++static inline void xe_res_first_dma(const struct drm_pagemap_dma_addr *dma_addr,
++				    u64 start, u64 size,
++				    struct xe_res_cursor *cur)
++{
++	XE_WARN_ON(!dma_addr);
++	XE_WARN_ON(!IS_ALIGNED(start, PAGE_SIZE) ||
++		   !IS_ALIGNED(size, PAGE_SIZE));
++
++	cur->node = NULL;
++	cur->start = start;
++	cur->remaining = size;
++	cur->dma_seg_size = PAGE_SIZE << dma_addr->order;
++	cur->dma_start = 0;
++	cur->size = 0;
++	cur->dma_addr = dma_addr;
++	__xe_res_dma_next(cur);
++	cur->sgl = NULL;
++	cur->mem_type = XE_PL_TT;
++}
++
+ /**
+  * xe_res_next - advance the cursor
+  *
+@@ -191,6 +268,12 @@ static inline void xe_res_next(struct xe_res_cursor *cur, u64 size)
+ 		return;
  	}
  
-+	if (xe_vm_in_fault_mode(vm))
-+		xe_svm_fini(vm);
++	if (cur->dma_addr) {
++		cur->start += size;
++		__xe_res_dma_next(cur);
++		return;
++	}
 +
- 	up_write(&vm->lock);
- 
- 	down_write(&xe->usm.lock);
-diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-index f6855e4fb9e6..aa075d5e7a3f 100644
---- a/drivers/gpu/drm/xe/xe_vm_types.h
-+++ b/drivers/gpu/drm/xe/xe_vm_types.h
-@@ -6,6 +6,7 @@
- #ifndef _XE_VM_TYPES_H_
- #define _XE_VM_TYPES_H_
- 
-+#include <drm/drm_gpusvm.h>
- #include <drm/drm_gpuvm.h>
- 
- #include <linux/dma-resv.h>
-@@ -140,6 +141,12 @@ struct xe_vm {
- 	/** @gpuvm: base GPUVM used to track VMAs */
- 	struct drm_gpuvm gpuvm;
- 
-+	/** @svm: Shared virtual memory state */
-+	struct {
-+		/** @svm.gpusvm: base GPUSVM used to track fault allocations */
-+		struct drm_gpusvm gpusvm;
-+	} svm;
+ 	if (cur->sgl) {
+ 		cur->start += size;
+ 		__xe_res_sg_next(cur);
+@@ -232,6 +315,35 @@ static inline void xe_res_next(struct xe_res_cursor *cur, u64 size)
+  */
+ static inline u64 xe_res_dma(const struct xe_res_cursor *cur)
+ {
+-	return cur->sgl ? sg_dma_address(cur->sgl) + cur->start : cur->start;
++	if (cur->dma_addr)
++		return cur->dma_start + cur->start;
++	else if (cur->sgl)
++		return sg_dma_address(cur->sgl) + cur->start;
++	else
++		return cur->start;
++}
 +
- 	struct xe_device *xe;
++/**
++ * xe_res_is_vram() - Whether the cursor current dma address points to
++ * same-device VRAM
++ * @cur: The cursor.
++ *
++ * Return: true iff the address returned by xe_res_dma() points to internal vram.
++ */
++static inline bool xe_res_is_vram(const struct xe_res_cursor *cur)
++{
++	if (cur->dma_addr)
++		return cur->dma_addr->proto == XE_INTERCONNECT_VRAM;
++
++	switch (cur->mem_type) {
++	case XE_PL_STOLEN:
++	case XE_PL_VRAM0:
++	case XE_PL_VRAM1:
++		return true;
++	default:
++		break;
++	}
++
++	return false;
+ }
+ #endif
+diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
+index 49cfd938aa17..4569931db622 100644
+--- a/drivers/gpu/drm/xe/xe_svm.h
++++ b/drivers/gpu/drm/xe/xe_svm.h
+@@ -6,6 +6,10 @@
+ #ifndef _XE_SVM_H_
+ #define _XE_SVM_H_
  
- 	/* exec queue used for (un)binding vma's */
++#include <drm/drm_pagemap.h>
++
++#define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
++
+ struct xe_vm;
+ 
+ int xe_svm_init(struct xe_vm *vm);
 -- 
 2.34.1
 
