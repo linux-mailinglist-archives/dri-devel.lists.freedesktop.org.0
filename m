@@ -2,70 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE446A219E7
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 10:33:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19327A21A1B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 10:41:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 202C610E2CE;
-	Wed, 29 Jan 2025 09:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBBB410E751;
+	Wed, 29 Jan 2025 09:41:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="huxgjh8M";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="ibsOXJKP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2EA10E2CE
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 09:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1738143188;
- bh=rF2QEfMpgRURa/Nr9ID5fEOyfE/6x7j6OMBvAS0duAE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=huxgjh8MA2s8jdfqP46FkoeTWT6nNkC3K/UUPZYFld3yHhBrdBtFj99lDEv/xUKUn
- Lq7mAU9zMnCIsvM02zBTExclPzvc7RYKFN2WShLcOFVh1xMC6utFbw5eREhvmZ4Mb7
- 9hmFkScaDZbSybDqeNV4W+AIBbQ8LyNoFeen8bbGxvEwdP2dn7aBEcjAe+txsdPvD+
- tQXIxBdBWaoT5KxFCJ9QOkzYgiIJ0INW+8GQRffX0YSR6fFF8bBlonZcr/OqOBsd7m
- Jfwq1ocHDX3bn1NIIdFUEwg0JlooV6KmoxPxKTeL/s/3wyBf7razJQHr3IJJnO7CEI
- YQv6GdN1dOTdQ==
-Received: from [192.168.50.250] (unknown [171.76.83.215])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C07B317E00F6;
- Wed, 29 Jan 2025 10:33:00 +0100 (CET)
-Message-ID: <446c3583-ba95-4021-83ca-1e112edf5b22@collabora.com>
-Date: Wed, 29 Jan 2025 15:02:51 +0530
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4975F10E751
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 09:41:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1738143622; x=1738748422; i=markus.elfring@web.de;
+ bh=RmUlpFblDQ0X0FrPNxA6WyeicYW3HpJ3EyGlM0jP5z0=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=ibsOXJKPJKhZo8FqJFepmaYQoSFoyR2qxzl8lohWNNUQx+2NF2ManFbNjUNGq/F2
+ gbw8iml79L7rvtKd56Ir7+yYHXrAe1EUIefoTtrBNrmtFI2yM2WYsLj1b568yC1rb
+ SKGUWYn0X41jPRogXjuGLSd6Gt6171dGmUJ2Fp3bc0pBO92HArHd48fDFFdCCxzPK
+ pf78m0ogusJQNS3QQ3zn1K/mM4iA6yn4B0KggTtABnb9cI7MMqnv247Vl4f+VntcE
+ +DVoabadzyBcjKoDGRsAmxtyEkjkG+dxMfHbTqq28F/8W87L00uXvdFhKdqm9Gctj
+ xUEgsrypLeLKtXHbAg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.93.19]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MG994-1tgKE62NvY-00Fdf6; Wed, 29
+ Jan 2025 10:40:22 +0100
+Message-ID: <9ca0337d-e378-4de5-99be-1dfa1d4f8cff@web.de>
+Date: Wed, 29 Jan 2025 10:40:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] kci-gitlab: Introducing GitLab-CI Pipeline for
- Kernel Testing
-To: =?UTF-8?Q?Leonardo_Br=C3=A1s?= <leobras.c@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: kernelci@lists.linux.dev, linuxtv-ci@linuxtv.org,
- dave.pigott@collabora.com, mripard@kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kselftest@vger.kernel.org,
- gustavo.padovan@collabora.com, pawiecz@collabora.com, spbnick@gmail.com,
- tales.aparecida@gmail.com, workflows@vger.kernel.org,
- skhan@linuxfoundation.org, kunit-dev@googlegroups.com,
- nfraprado@collabora.com, davidgow@google.com, cocci@inria.fr,
- Julia.Lawall@inria.fr, laura.nao@collabora.com, kernel@collabora.com,
- torvalds@linuxfoundation.org, gregkh@linuxfoundation.org,
- daniels@collabora.com, helen.koike@collabora.com,
- shreeya.patel@collabora.com, denys.f@collabora.com,
- nicolas.dufresne@collabora.com, louis.chauvet@bootlin.com,
- hamohammed.sa@gmail.com, melissa.srw@gmail.com, simona@ffwll.ch,
- airlied@gmail.com, Tim.Bird@sony.com, broonie@kernel.org, groeck@google.com,
- rdunlap@infradead.org, geert@linux-m68k.org, michel.daenzer@mailbox.org,
- sakari.ailus@iki.fi, jarkko@kernel.org
-References: <20250123135342.1468787-1-vignesh.raman@collabora.com>
- <f779c9af4133629f724e366241fab7421d13d227.camel@gmail.com>
- <20250124081250.GA24731@pendragon.ideasonboard.com>
- <6ebd1551-017f-4b31-b235-829b2735d78f@collabora.com>
- <a6816a68e5e9aeb1d330b68f6a73decd2233c164.camel@gmail.com>
-Content-Language: en-US
-From: Vignesh Raman <vignesh.raman@collabora.com>
-In-Reply-To: <a6816a68e5e9aeb1d330b68f6a73decd2233c164.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [01/16] coccinelle: misc: secs_to_jiffies: Patch expressions too
+To: Easwar Hariharan <eahariha@linux.microsoft.com>, cocci@inria.fr
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-spi@vger.kernel.org, linux-xfs@vger.kernel.org,
+ ceph-devel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net,
+ imx@lists.linux.dev, kernel@pengutronix.de,
+ linux-arm-kernel@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>, Carlos Maiolino <cem@kernel.org>,
+ Chris Mason <clm@fb.com>, Christoph Hellwig <hch@lst.de>,
+ Damien Le Moal <dlemoal@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
+ David Sterba <dsterba@suse.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
+ Dongsheng Yang <dongsheng.yang@easystack.cn>,
+ Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ James Smart <james.smart@broadcom.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+ Josef Bacik <josef@toxicpanda.com>, Julia Lawall <Julia.Lawall@inria.fr>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Ilya Dryomov <idryomov@gmail.com>,
+ Kalesh Anakkur Purayil <kalesh-anakkur.purayil@broadcom.com>,
+ Keith Busch <kbusch@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ Mark Brown <broonie@kernel.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Nicolas Palix <nicolas.palix@imag.fr>, Niklas Cassel <cassel@kernel.org>,
+ Oded Gabbay <ogabbay@kernel.org>, Ricardo Ribalda <ribalda@google.com>,
+ Sagi Grimberg <sagi@grimberg.me>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>,
+ Selvin Xavier <selvin.xavier@broadcom.com>, Shawn Guo <shawnguo@kernel.org>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, Takashi Iwai <tiwai@suse.com>,
+ Victor Gambier <victor.gambier@inria.fr>, Xiubo Li <xiubli@redhat.com>,
+ Yaron Avizrat <yaron.avizrat@intel.com>
+References: <20250128-converge-secs-to-jiffies-part-two-v1-1-9a6ecf0b2308@linux.microsoft.com>
+ <565fb1db-3618-4636-8820-1ca77dad07a2@web.de>
+ <2402812d-b818-4d1b-9653-767c9cd89dda@linux.microsoft.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <2402812d-b818-4d1b-9653-767c9cd89dda@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:VVUayMb32w7y67C7tTjgB5AAr0xhckczX0N8TokrIpC9jN6eUE9
+ EFsN7wRaBX0tQgtAxOLriEuyy3B/8avbPqaD1zz3GlxmzANwcYY0B13b3+dGcse9e29fR2B
+ x1FDILYMT0Hm6Op4dZPmgiuO2ynGivSf8q+hlfpEEa8MIXRg6GY1vfPop11AepKnCCaop1O
+ +p76d5j2Efo5XT3k24tTg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:tcxCLGC+RCc=;ey0yBxZW/tRSJQW6qo2D+Q6kDrW
+ B7ti/3QUhXC8WrcBjNzI4u6z+d1rV4adoqTUoUSMt/DqJcKI/DlrivOEoz806s/5+Kn56DDqL
+ LU9xtxxU9vsLyCTP7I8gL7dl6Qx1gz/cso735SydkffMPYwAsbCaRqy9WGoFqBlIQ9QCxafc3
+ W4RbDo3aQwMCu9VcGvB6j+H5tbohMyIwgg8IKKOqedJ1nboWwMgz4OIZ7EST+13jVvGHzPDUP
+ RMgEYGdAiBMWyxIajIWHh0tiMSE3p1A+yPFCKxzA51+Jsl4lqfDwp6i6xfZI0wLLB4pLlY9o9
+ 4q4fn10BcFNZy38f62U9iuLflyBSQy3IDj2SnmtLJbJzYINTq3rTIPHq21PIW76G8fDbFN0aG
+ 3ac6gqwYlxfQhltWeUu6Jf+r0y/8ZDSvg6BenYTc1SAFAqZHEM4upcrvZQorHyWClmJeL4R1d
+ pwRYkmLBgkDzN9R/bb0jfrgkgXUIzdRpQYEu62HTHwYHvlMnYXeCcivCQRHgqKox7R6hNuIrn
+ rxTrTFacoaE+vqTHL959kdf+7baowrszBGfdV4G67c90sFgZ24V7UDmogT/jAdPtbbKWpCJ3F
+ kMrOyabr3gWq6SX50hyVFHIUca6hdwNAbHNQqpbFNzCXjeuhFqIkBldPkgoHIWodZqGhWHxbJ
+ rh9yga8+A7Xz90bS7If3X8UB0JOiOJoqee5k8VuGqGUor7M8/IYAWxEzk0sfRhZN5x9gzYIwj
+ z5v+Opf6qMCYFMEpDc5oZNLzukYChx6b04HyYvuAIbzbqHM64L8pCx9PjiofRQqAAUENSsyVK
+ wSLOByWJNd0hj3dnFK4MWKIc72WDX2na+gBRF+CITUiUaTapl8UB+IMJ1+mNkz1dW85FtBpIj
+ tD/0moj9gcbkIb1LR6m5OI0uHLkCOXIBTrIfx3IHv6b13SsYXuqGkV/RzTBhQpQUsnir3VJIj
+ cVkG88L1qB1XMwvpL5WZaIlaVUahCedhQsFB49sgDWhVH58n5+/Z9aWfVKo9SGwG1/1EYyVhs
+ xdj7mKATCRxJL8YFYbK1K5zFB2c5chXeAOrRuI6GfbxLg4Jr5TwIV+gUIoOLkM9oBMdE3PZmY
+ FmuKpySVCwL9uRLQ0lYfPXIDXqcQix+7IQpKOnC7/mKJSccV7o1cXqpz0osAScgdxIeUIW7Oo
+ TT3dPmTAxqyMA5HLb2IdqDbNqBt78hG7Vp0fBYOvquK98imV2V34SSApTC+PTRD9nO5SEk1WD
+ M5c0DPUlZtR3e/lmnDioWB77iUkT5JV0a7FRF40QmlHGvbSs8vfTQg9ZFgjUq8jYaGVb32YjP
+ AEhromp4VpaoN9T5CJol8F+orrIemlZIcgjTh9W5NmdUN4pRCbHOUfJ/tbXwdPtCw5lPPfB1R
+ 5kdsgtTCg2hWVnV9uMjqAZCd/Sr1UngGlxpd0=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,165 +124,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Leo,
-
-On 28/01/25 00:35, Leonardo Brás wrote:
-> On Mon, 2025-01-27 at 13:02 +0530, Vignesh Raman wrote:
->> Hi Leo,
->>
->> On 24/01/25 13:42, Laurent Pinchart wrote:
->>> On Fri, Jan 24, 2025 at 02:11:26AM -0300, Leonardo Brás wrote:
->>>> On Thu, 2025-01-23 at 19:23 +0530, Vignesh Raman wrote:
->>>>> This patch series introduces "kci-gitlab," a GitLab CI pipeline
->>>>> specifically designed for kernel testing. It provides kernel
->>>>> developers with an integrated, efficient, and flexible testing
->>>>> framework using GitLab's CI/CD capabilities. This patch includes
->>>>> a .gitlab-ci file in the tools/ci/gitlab-ci/ folder, along with
->>>>> additional YAML and script files, to define a basic test pipeline
->>>>> triggered by code pushes to a GitLab-CI instance.
->>>>> The initial version implements:
->>>>>       
->>>>> - Static checks: Includes checkpatch and smatch for code validation.
->>>>> - Build tests: Covers various architectures and configurations.
->>>>> - Boot tests: Utilizes virtme for basic boot testing.
->>>>>
->>>>> Additionally, it introduces a flexible "scenarios" mechanism to
->>>>> support subsystem-specific extensions.
->>>>>
->>>>> This series also introduces a drm scenario that adds a job to run IGT
->>>>> tests for vkms. This scenario includes helper scripts to build deqp-runner
->>>>> and IGT, leveraging approaches from the drm-ci/mesa-ci project.
->>>>>
->>>>> We are working towards creating a generic, upstream GitLab-CI pipeline
->>>>> (kci-gitlab) that will replace DRM-CI [1]. The proposed GitLab-CI pipeline
->>>>> is designed with a distributed infrastructure model, making it possible
->>>>> to run on any gitLab instance. We plan to leverage KernelCI [2] as the
->>>>> backend, utilizing its hardware, rootfs, test plans, and KCIDB [3]
->>>>> integration.
->>>>>
->>>>> For an example of a fully executed pipeline with drm scenario set,
->>>>> including documentation generation,
->>>>> see: https://gitlab.freedesktop.org/vigneshraman/kernel/-/pipelines/1350262
->>>>>
->>>>> Please refer to the documentation included in the patch, or check the
->>>>> rendered version, here:
->>>>> https://vigneshraman.pages.freedesktop.org/-/kernel/-/jobs/69787927/artifacts/artifacts/Documentation-output/ci/gitlab-ci/gitlab-ci.html
->>>>>
->>>>> Differences from v1 to v2:
->>>>> - moved to tools/ci as suggested by Linus on the previous version
->>>>> - add arm64 containers for native compilation
->>>>> - added boot tests using virtme: this is the base structure for boot tests,
->>>>>     next steps would be adding other tests such as kselftests/kunit tests
->>>>> - added DRM scenario testing on vkms: this should replace current vkms test
->>>>>     in drm-ci. This work shows how a test scenario can be used by different
->>>>>     subsystems to add their tests.
->>>>> - update documentation
->>>>>
->>>>> For more details on the motivation behind this work, please refer to the
->>>>> cover letter of v1: https://patchwork.kernel.org/project/linux-kselftest/cover/20240228225527.1052240-1-helen.koike@collabora.com/
->>>>>
->>>>> [1] https://www.collabora.com/news-and-blog/blog/2024/02/08/drm-ci-a-gitlab-ci-pipeline-for-linux-kernel-testing/
->>>>> [2] https://kernelci.org/
->>>>> [3] https://docs.kernelci.org/kcidb/
->>>>>
->>>>> Helen Koike (3):
->>>>>     kci-gitlab: Introducing GitLab-CI Pipeline for Kernel Testing
->>>>>     kci-gitlab: Add documentation
->>>>>     kci-gitlab: docs: Add images
->>>>>
->>>>> Vignesh Raman (2):
->>>>>     MAINTAINERS: Add an entry for ci automated testing
->>>>>     kci-gitlab: Add drm scenario
->>>>
->>>> Hi Vignesh Raman,
->>>> I am very happy to see this project going forward :)
->>>>
->>>> It's been a few years since I first thought on finding a good way of helping
->>>> kernel developers testing their patches, while making use of the free runner
->>>> minutes Gitlab offers. It can greatly simplify the testing for people who are
->>>> new to kernel development, or students trying to understand it better.
->>>>
->>>> And this patchset allows that to happen :)
->>
->> Thanks for testing the patch and providing feedback.
-> 
-> :)
-> 
->>
->>>>
->>>> Actually, I spoke to Helen last year, and to enable it to run on the free
->>>> Gitlab-CI runners, there is a small extra patch which is needed:
->>>>
->>>> https://lore.kernel.org/all/20240327013055.139494-2-leobras@redhat.com/
->>
->> Thanks for the patch.
-> 
-> Thank you for most of the work, it sure will be useful :)
-> 
->>
->> We can keep the variable name as KCI_CI_TAGS (like other variables) and
->> add it in variables with default empty string.
-> 
-> Just tested, if it's an empty string, it will just be ignored, as it won't match
-> anything (that is not an empty string)
-
-Ack. Adding it to variables will allow us pass KCI_CI_TAGS when manually 
-creating a pipeline without changing the CI/CD settings, but we can 
-ignore this for now.
-
-> 
-
->>
+>> =E2=80=A6
+>>> +++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+>>> @@ -11,12 +11,22 @@
 >>>
->>> Gitlab as an open-source software project (the community edition) is one
->>> thing, but can we please avoid advertising specific proprietary services
->>> in the kernel documentation ?
->>
->> Agree. We could remove the lines which mentions gitlab.com SaaS in
->> commit message and documentation.
-> 
-> Done :)
-> Added a generic reason for needing better instance
-> 
->>
+>>>  virtual patch
+>> =E2=80=A6
+>>> -@depends on patch@ constant C; @@
+>>> +@depends on patch@
+>>> +expression E;
+>>> +@@
 >>>
->>>> Could you please apply it on top of your tree?
->>>> Some stuff changed places, but I can send a v2 with that fix if you want.
+>>> -- msecs_to_jiffies(C * MSEC_PER_SEC)
+>>> -+ secs_to_jiffies(C)
+>>> +-msecs_to_jiffies
+>>> ++secs_to_jiffies
+>>> + (E
+>>> +- * \( 1000 \| MSEC_PER_SEC \)
+>>> + )
 >>
->> I will test your patch and we can add this for v3.
-> 
-> Thanks!
-> That's the v2 with the required changes:
-> 
-> https://lore.kernel.org/all/20250127185849.34131-1-leobras@redhat.com/T/#u
-> 
-> Please let me know if any further change is needed.
+>> 1. I do not see a need to keep an SmPL rule for the handling of constan=
+ts
+>>    (or literals) after the suggested extension for expressions.
+>
+> Can you explain why? Would the expression rule also address the cases
+> where it's a constant or literal?
+
+Probably, yes.
 
 
-Thanks for the patch. We will pick this for v3.
+>> 2. I find it nice that you indicate an attempt to make the shown SmPL c=
+ode
+>>    a bit more succinct.
+>>    Unfortunately, further constraints should be taken better into accou=
+nt
+>>    for the current handling of isomorphisms (and corresponding SmPL dis=
+junctions).
+>>    Thus I would find an SmPL rule (like the following) more appropriate=
+.
+>>
+>
+> Sorry, I couldn't follow your sentence construction or reasoning here.
+> I don't see how my patch is deficient, or different from your suggestion
+> below, especially given that it follows your feedback from part 1:
+> https://lore.kernel.org/all/9088f9a2-c4ab-4098-a255-25120df5c497@web.de/
+
+I tend also to present possibilities for succinct SmPL code.
+Unfortunately, software dependencies can trigger corresponding target conf=
+licts.
+
+
+> Can you point out specifically what SmPL isomorphisms or disjunctions
+> are broken with the patch in its current state?
+
+Please take another look at related information sources.
+Would you like to achieve any benefits from commutativity (for multiplicat=
+ions)?
+https://gitlab.inria.fr/coccinelle/coccinelle/-/blob/bd08cad3f802229dc629a=
+13eefef2018c620e905/standard.iso#L241
+https://github.com/coccinelle/coccinelle/blob/cca22217d1b4316224e80a18d0b0=
+8dd351234497/standard.iso#L241
+
 
 Regards,
-Vignesh
+Markus
 
-> 
-> Thanks!
-> Leo
-> 
->>
->> Regards,
->> Vignesh
->>
->>>>
->>>>
->>>> While I have yet to review this v2 patchset, I applied it on my repo for
->>>> testing, and cherry-picked the patch on above link, triggering a Pipeline:
->>>>
->>>> https://gitlab.com/linux-kernel/linux/-/pipelines/1638955600
->>>>
->>>> It seems to be working fine, please check it, as you may be more used to the
->>>> results.
->>>>
->>>> Thanks!
->>>> Leo
->>>
-> 
