@@ -2,79 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B730A21D93
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 14:11:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1E8A21D9B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 14:13:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508BF10E7F5;
-	Wed, 29 Jan 2025 13:11:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED23710E06F;
+	Wed, 29 Jan 2025 13:13:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="I3AFh5mb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PhAfJdmV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B482110E7F5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 13:11:41 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D41DA442EF;
- Wed, 29 Jan 2025 13:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738156300;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8HgcJtHNXDb9K1nOfZ+HqLoD2HMmB8+mqhC5v0ZMXaQ=;
- b=I3AFh5mb8yfxGmI5bk4VkzrfR2gQyg/9py/0qIH1dJa6j9ML63Mzmx5bBis2fnbnmbQSZ7
- IPT58oYLy2sIPYa9oZbo7xRkycofNvvb3RxbhBx78q9/oLXE/54esdrSBE2s04t5YPVhqh
- Gl9MMKJecggbVb6psYKy50II4LgtRgMnm84tH/kETqvFaSDfwstf2Dpe2mD3JYSsNbgCwz
- ZKObaxEiVhtxQaAQDbGzFsry7HssZeSSMbUZIcF6CxsWFTQl+g3CEMlgahkRMBh4gu8Xif
- aGTHWgIR8b4WasSubsjFBDtJ86yI7hEnFZk+jM85Z2ovSry/BWbV9IseVCd2vQ==
-Date: Wed, 29 Jan 2025 14:11:35 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, Paul
- Kocialkowski <contact@paulk.fr>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
- =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
- bridges
-Message-ID: <20250129141135.28b01ff9@booty>
-In-Reply-To: <yipjwosmkqsadvhulzh76ydqbfvv5npdafl3yzdjmikfa2yq4y@j7nj4audwxl7>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
- <20250106-vigorous-talented-viper-fa49d9@houat>
- <CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
- <20250108162429.53316041@booty>
- <20250108-astonishing-oarfish-of-energy-c0abbe@houat>
- <20250122171230.30cf9b97@booty>
- <jiwexbvzcrq7hywl5t25cojrgjnyv5q2wnb2kvgriucal6764w@hhrefcftcjza>
- <20250129125153.35d0487a@booty>
- <yipjwosmkqsadvhulzh76ydqbfvv5npdafl3yzdjmikfa2yq4y@j7nj4audwxl7>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF0F10E06F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 13:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738156387; x=1769692387;
+ h=from:date:to:cc:subject:in-reply-to:message-id:
+ references:mime-version;
+ bh=uWLMAkjiPxmd0IZ1cdFsHKZZFguDfleylm6v197BRzQ=;
+ b=PhAfJdmV6kOP7mNpcs2TuSphmT884HccaJXxPU0VgdZ7V6PYLLmIY7/S
+ B7fVrIIr/PPGDmRuGFA4lsiO3U7n0LmWOQm+8wr1649x/lhjy1RvqfYVi
+ 8/LVzo1xbRNOiqzg7vYP0q3kV9vN5m8FmWsFAWYJ5hKY5Q/qKx5TrtOD4
+ U7iYL45Z8snPTPD4p8rv83beMPvoV5zn/vhp30lguoCwnSBmKmnJLTQMY
+ IabcQTMNo3/RbXvZmIZ7NPkSNu0KZ2PtaaMroIzO4wChOYFerEeiiuYhr
+ 7c6tILpKkhY81PHVdFnskj0OmxTL353vlgo3Dh5rIL9jbvhPpmLdH8nG7 g==;
+X-CSE-ConnectionGUID: uZvt0wYdSb+ZlFhXJIPg0Q==
+X-CSE-MsgGUID: 2OamgaRfTSK8/4yFIuge5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="56203310"
+X-IronPort-AV: E=Sophos;i="6.13,243,1732608000"; d="scan'208";a="56203310"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2025 05:13:06 -0800
+X-CSE-ConnectionGUID: VQdEsMXqR8qBKjmeEKbOAw==
+X-CSE-MsgGUID: O+KtZNkvRJq7JgLfGnW4VQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113646751"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.222])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2025 05:12:52 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 29 Jan 2025 15:12:49 +0200 (EET)
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, 
+ Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, 
+ Nicolas Palix <nicolas.palix@imag.fr>, 
+ James Smart <james.smart@broadcom.com>, 
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, 
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>, 
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
+ linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 14/16] platform/x86/amd/pmf: convert timeouts to
+ secs_to_jiffies()
+In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-14-9a6ecf0b2308@linux.microsoft.com>
+Message-ID: <e8207616-6079-be0d-d482-6577616a4cc7@linux.intel.com>
+References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
+ <20250128-converge-secs-to-jiffies-part-two-v1-14-9a6ecf0b2308@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsgefsgekmeejrghfgeemkeekgeefmegvhedufhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsgefsgekmeejrghfgeemkeekgeefmegvhedufhdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlihhnrghrohdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhp
- dhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,123 +104,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 29 Jan 2025 14:22:30 +0200
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+On Tue, 28 Jan 2025, Easwar Hariharan wrote:
 
-> On Wed, Jan 29, 2025 at 12:51:53PM +0100, Luca Ceresoli wrote:
-> > Hi Maxime,
-> > 
-> > On Tue, 28 Jan 2025 15:49:23 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >   
-> > > Hi,
-> > > 
-> > > On Wed, Jan 22, 2025 at 05:12:30PM +0100, Luca Ceresoli wrote:  
-> > > > On Wed, 8 Jan 2025 17:02:04 +0100
-> > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > > 
-> > > > [...]
-> > > >     
-> > > > > > > > And we'll also need some flag in drm_bridge to indicate that the device
-> > > > > > > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
-> > > > > > > > because now your bridge driver sticks around for much longer than your
-> > > > > > > > device so the expectation that your device managed resources (clocks,
-> > > > > > > > registers, etc.) are always going to be around.        
-> > > > > > 
-> > > > > > Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
-> > > > > > drm_bridge.c will need to be sprinkled with them I guess.      
-> > > > > 
-> > > > > The users would be the drivers, most likely. There's not much we can do
-> > > > > at the framework level, unfortunately.    
-> > > > 
-> > > > Back to the idea of a "gone" flag, or perhaps an "unplugged" flag to
-> > > > be consistent with the struct drm_device naming, and
-> > > > drm_bridge_enter()/drm_bridge_exit(), I did a few experiments and have
-> > > > a question.
-> > > > 
-> > > > In case:
-> > > > 
-> > > >   a) there is a notification callback to inform about bridges
-> > > >      being removed, and
-> > > >   b) all entities owning a struct drm_bridge pointer stop using
-> > > >      that pointer when notified
-> > > > 
-> > > > 
-> > > > With the above, there should be no need for
-> > > > drm_bridge_enter()/drm_bridge_exit(). Nobody will be using a pointer to
-> > > > a bridge that is being removed.
-> > > > 
-> > > > Now, about a), patch 1 in this series implements such a mechanism to
-> > > > inform all bridges when a bridge is being removed. Note that the
-> > > > "unplugged" flag would be set immediately after the notifier callback
-> > > > is currently called: "unplugged == true" will never happen before the
-> > > > callback, and after the callback there will be no pointer at all.
-> > > > 
-> > > > Patch 1 however is only notifying bridges, so other entities (e.g.
-> > > > encoders) cannot be notified with this implementation. However a
-> > > > different notification mechanism can be implemented. E.g. until v3 this
-> > > > series was using a generic struct notifier_block for this goal [0], so
-> > > > any part of the kernel can be notified.
-> > > > 
-> > > > About b), the notification appears simpler to implement in the various
-> > > > drivers as it needs to be added in one place per driver. Also adding
-> > > > drm_bridge_enter()/exit() can be trickier to get right for non-trivial
-> > > > functions.
-> > > > 
-> > > > Do you see any drawback in using a notification mechanism instead of
-> > > > drm_bridge_enter()/exit() + unplugged flag?    
-> > > 
-> > > Yeah, because we're not considering the same thing :)
-> > > 
-> > > The issue you're talking about is that you want to be notified that the
-> > > next bridge has been removed and you shouldn't use the drm_bridge
-> > > pointer anymore.
-> > > 
-> > > A notification mechanism sounds like a good solution there.
-> > > 
-> > > The other issue we have is that now, we will have the drm_bridge pointer
-> > > still allocated and valid after its device has been removed.
-> > > 
-> > > In which case, you need to be able to tell the bridge driver whose
-> > > device got removed that the devm resources aren't there anymore, and it
-> > > shouldn't try to access them.
-> > > 
-> > > That's what drm_bridge_enter()/exit is here for.  
-> > 
-> > Let me rephrase to check I got what you mean.
-> > 
-> > A) On bridge removal, use a notifier to notify all consumers of that
-> > bridge that they have to stop using the pointer to the bridge about to
-> > be removed.
-> > 
-> > B) Internally in the bridge driver (provider) use
-> > drm_bridge_enter()/exit() to forbid access to resources when the
-> > hardware is unplugged.
-> > 
-> > And also: bridge consumers won't need to use drm_bridge_enter()/exit()
-> > as they will clear their pointer before setting the unplugged flag.
-> > 
-> > Is my understanding of your idea correct?
-> > 
-> > If it is, I tend to agree, and I like it.
-> > 
-> > I like it, except for one point  I'm afraid. Why do we need enter/exit
-> > inside the driver (provider) code? At driver release, the driver
-> > instance won't exist anymore. Sure the private struct embedding a
-> > struct drm_bridge will be still allocated for some time, but the struct
-> > device will not exist, and the device driver instance as well.  
+> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+> secs_to_jiffies().  As the value here is a multiple of 1000, use
+> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
 > 
-> You have to sync several possible kinds of events: bridge calls from DRM
-> core, from HDMI audio, CEC, DP AUX _and_ completely async device
-> 'remove' / unbind callbacks.
+> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
+> the following Coccinelle rules:
+> 
+> @depends on patch@
+> expression E;
+> @@
+> 
+> -msecs_to_jiffies
+> +secs_to_jiffies
+> (E
+> - * \( 1000 \| MSEC_PER_SEC \)
+> )
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  drivers/platform/x86/amd/pmf/acpi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
+> index dd5780a1d06e1dc979fcff5bafd6729bc4937eab..6b7effe80b78b7389b320ee65fa5d2373f782a2f 100644
+> --- a/drivers/platform/x86/amd/pmf/acpi.c
+> +++ b/drivers/platform/x86/amd/pmf/acpi.c
+> @@ -220,7 +220,8 @@ static void apmf_sbios_heartbeat_notify(struct work_struct *work)
+>  	if (!info)
+>  		return;
+>  
+> -	schedule_delayed_work(&dev->heart_beat, msecs_to_jiffies(dev->hb_interval * 1000));
+> +	schedule_delayed_work(&dev->heart_beat,
+> +			      secs_to_jiffies(dev->hb_interval));
+>  	kfree(info);
+>  }
 
-Ah, yes, that make sense. Looks like the big picture w.r.t. notifiers
-and enter/exit is clear -- until implementation time at least ;)
+Hi,
 
-Thanks,
-Luca
+So you made the line shorter but still added the newline char for some 
+reason even if the original didn't have one?? Please don't enforce 80 
+chars limit with patches like this.
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+ i.
+
