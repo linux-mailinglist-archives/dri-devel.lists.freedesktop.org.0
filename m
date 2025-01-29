@@ -2,76 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE26A22046
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:28:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA56A22049
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:29:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC54910E81B;
-	Wed, 29 Jan 2025 15:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F19F10E825;
+	Wed, 29 Jan 2025 15:28:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V/fpZA/U";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NOyxzPTq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD08D10E81B;
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E75410E821
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 15:28:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 70E7EA4148F;
+ Wed, 29 Jan 2025 15:27:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21DB6C4CED1;
  Wed, 29 Jan 2025 15:28:52 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4364a37a1d7so71472495e9.3; 
- Wed, 29 Jan 2025 07:28:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738164531; x=1738769331; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=oy9uAEFPZc5iEkwcnA+wQLhPVpGnYnqmr1wmYD9GK00=;
- b=V/fpZA/UWYbcyWwSCoEEX2jqS0U8t5xl5drbKTbhdQJxNLVi4Ws+qKL5aJKfXVuYeg
- qhlveh4xHrsdyUghzwkCU7VLZ1n1beXJm7NfVv6mEAAP8EE9iJn+U5MczHhxro7bleV/
- w0vykiZSH0npada2CWy9X27DH1nYYHbtuY/B6PXNSIlKX68PGGQCTHoClJuNiynft31o
- MSpl0JswgnUpcAqu7I6Yw5Ty21YbveHOO6u5rYai98D2b4fQkX0KMTAAnYiyngOxjJ0t
- Rqk/zwf1ELuaXHmUSyY0W6imWcEFJE5oya8l9Knpk9YwIWWO5v9WSCCUt9oGoL/NdmbC
- KDyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738164531; x=1738769331;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oy9uAEFPZc5iEkwcnA+wQLhPVpGnYnqmr1wmYD9GK00=;
- b=VXJ7mz+KaW+eNSls950ukOjEilLtsmq2Y8KMCLL0l3PJBygBH3E1/wo9OPj9sTCnZK
- iWIQa7VO5gER5ABvu6WhubNTCkjeRierC8L3oX2hfzxFWRggplh/KaBR9fSvzL6N2o7A
- sS+QRN9str4w43Ub/pKOLLJ9SZhVPIhldaBFCcOm0PYxdT0ll6jlYhQ9NdvgoXxZcq2P
- 7EXJYihJ6OUMBK2X4xUlxBIJlQ9/CZEBvALWd0aoQFdJAMRl3tHxl9U5XhgzYODAZNUI
- QnMj5ypepR6fra9jS47DgAsZnCvmTO0XNPSlmeRzG6nFvCY6S8JJEn9+xxdz4+yzLDhg
- SiYg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUyTSFKRzFMyYWmqF1ew8ZaxsOUXnz4m/hDYWfq61ZK5TavhRuYtOJd7qsHo4kNwZssUSp0bRUGek/R@lists.freedesktop.org,
- AJvYcCXZqwXex1sVGcdPjEONWZJH92u6CUiCWF/FTYtqlyKGGgp5hHpIruD6hyL5PZUHzYZvYl5kZ5KV@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9YaPHkO/RqpiFKkwGFcOR8wRlWHmSAbetfcHR8TVCEx1sGNFW
- lWFF5QM0fgcGdBMxtKQzBIxQE0t0VL8TFwDnWBZR0w1D5piXUc0v
-X-Gm-Gg: ASbGncsLlyxh1rQWWvyaksE8CR0AYC/UgrPJHPzgEz/chbf1W/qg07nP5FTGunW2L+k
- JNg7YYnMCWQJUKQ3oGj+xWKMdzH41As7DFE6apJ30It6gRCFuHm/dAvLz4KPVtTJqnIBcEH/NNf
- o2e4omYeUDtLHwJj+TsYeRMLCKtfqO9oxwDdjAIgr/mooU22/2KcUJuHuCawDqWt1npqVkqa7OB
- KgcV3H3xFs5FtdYyjkmhp8G+a2PRwVEnzAhj2mKg58J2lOcMnIwVDJ+d1vknFX77HqSKYORh9ol
- Cvj/0Q29AYi96cpIoXHkqCEdN7IK
-X-Google-Smtp-Source: AGHT+IFbtLeT/Xwi3taA1u3URhxFeV8wPslCx1rwXepBOAh/7LMRuauYcfHBbl6gTaNPyvmYrT4ynA==
-X-Received: by 2002:a05:600c:4f83:b0:436:713b:cb31 with SMTP id
- 5b1f17b1804b1-438dc3a904cmr29497085e9.3.1738164531090; 
- Wed, 29 Jan 2025 07:28:51 -0800 (PST)
-Received: from able.fritz.box ([2a00:e180:155e:6600:f980:913c:b763:f23d])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438dcc1317fsm27280455e9.8.2025.01.29.07.28.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2025 07:28:50 -0800 (PST)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: James.Zhu@amd.com, Felix.Kuehling@amd.com, Philip.Yang@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/ttm: test private resv obj on release/destroy
-Date: Wed, 29 Jan 2025 16:28:48 +0100
-Message-Id: <20250129152849.15777-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.34.1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738164532;
+ bh=bok9TVvjjQCymMYvMKlNAI5VH8lxZtesRpd8zGC0hcI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NOyxzPTqxCIMDXiltBFL33XgRz5+HmhF0fqEkvxsOMQ+6Wzc56dBN6SyjzMqltBb3
+ 6NHtoBcd65EsJ8oCbYGGJvz7/v567MFrM9a76OkdnsX647Ow/whbk9IojguGxowzk/
+ vbgmUGA5QVu9G7m22EiF1kv31X4aNiRWdytIs030qtfGVFcGpnPSqX2oZnwdYQILpm
+ Pjpn1K1oNLt3gHaVCozxK5+ncmcRqK8/EMM9cl/FWKOpIv1Co7UcwDOnuN5Jv9Df4M
+ APJZcGw1WrNChwRUMgJfEVxBXmfA2Yi8igsZSjP24OyJBaMR3b9+I6o4BEWoNaXNbL
+ K/PKTztalZRiQ==
+Date: Wed, 29 Jan 2025 16:28:49 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, 
+ Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>,
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
+ linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 14/14] Documentation: Update the todo
+Message-ID: <4jn3dfea3eb5yuqobjwvbzfxhwatpvvhtpxbmt6npyrypkyruw@mgtmxignyvt5>
+References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
+ <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
+ <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
+ <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
+ <2y3lwycrggmktamu3j3gj65uco7quvtu7tlc3724e4mpokhjz2@icedc3kervme>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="ntiwixuo22akqcub"
+Content-Disposition: inline
+In-Reply-To: <2y3lwycrggmktamu3j3gj65uco7quvtu7tlc3724e4mpokhjz2@icedc3kervme>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,39 +103,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Test the fences in the private dma_resv object instead of the pointer to
-a potentially shared dma_resv object.
 
-This only matters for imported BOs with an SG table since those don't
-get their dma_resv pointer replaced on release.
+--ntiwixuo22akqcub
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 14/14] Documentation: Update the todo
+MIME-Version: 1.0
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/ttm/ttm_bo.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Wed, Jan 29, 2025 at 03:41:32PM +0100, Thierry Reding wrote:
+> On Wed, Jan 29, 2025 at 03:31:50PM +0100, Maxime Ripard wrote:
+> > Hi Thomas,
+> >=20
+> > On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
+> > > Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
+> > > > Remove the TODO now that this series addresses
+> > > > the changes needed.
+> > >=20
+> > > While your series is fine, this TODO item is unrelated. It's about va=
+rious
+> > > ancient fbdev drivers that do not reserve their memory regions correc=
+tly. So
+> > > please drop patch 14 form the series.
+> >=20
+> > Is it? Could we rephrase the entry then? I'm the one that suggested
+> > Anusha to work on this, and it's still not clear to me what it means
+> > exactly if it's not what she worked on :)
+>=20
+> The text in the TODO sounds pretty clear to me.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 06d6a452c4f4..4d6b2143db63 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -234,7 +234,7 @@ static void ttm_bo_delayed_delete(struct work_struct *work)
- 
- 	bo = container_of(work, typeof(*bo), delayed_delete);
- 
--	dma_resv_wait_timeout(bo->base.resv, DMA_RESV_USAGE_BOOKKEEP, false,
-+	dma_resv_wait_timeout(&bo->base._resv, DMA_RESV_USAGE_BOOKKEEP, false,
- 			      MAX_SCHEDULE_TIMEOUT);
- 	dma_resv_lock(bo->base.resv, NULL);
- 	ttm_bo_cleanup_memtype_use(bo);
-@@ -269,7 +269,7 @@ static void ttm_bo_release(struct kref *kref)
- 		drm_vma_offset_remove(bdev->vma_manager, &bo->base.vma_node);
- 		ttm_mem_io_free(bdev, bo->resource);
- 
--		if (!dma_resv_test_signaled(bo->base.resv,
-+		if (!dma_resv_test_signaled(&bo->base._resv,
- 					    DMA_RESV_USAGE_BOOKKEEP) ||
- 		    (want_init_on_free() && (bo->ttm != NULL)) ||
- 		    bo->type == ttm_bo_type_sg ||
--- 
-2.34.1
+The title is "Request memory regions in all drivers", and the first
+sentence is "Go through all drivers and add code to request the memory
+regions that the driver uses". It's definitely ambiguous if only fbdev
+drivers should be considered, even more so in the DRM documentation.
 
+> It says that not all drivers request the memory that they are going to
+> use, and suggests to add those missing calls.
+
+Right.
+
+> But all of the drivers in this series already do that
+
+Nope.
+
+> and the only change here is to convert them to use some of the newer
+> helpers.
+
+For some, yes. For others, it actually adds request_mem_region.
+
+Maxime
+
+--ntiwixuo22akqcub
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pJLAAKCRAnX84Zoj2+
+djXJAX42QJuv9ldBu+AhSOcaGHTmHduDMEY8V8Vl9SA1LQwXd1eGjPx3kK6JEffx
+SuWaI7oBgKL15NjVE6UaWuMksj7yMDft9JYcv/qLSoYx2TpAp/7FYElajo0cqE0S
+btsWT+helA==
+=K+FR
+-----END PGP SIGNATURE-----
+
+--ntiwixuo22akqcub--
