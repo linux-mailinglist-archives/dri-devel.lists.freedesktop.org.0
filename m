@@ -2,120 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 755FBA225CD
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 22:31:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D26A225E0
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 22:37:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9090410E1D5;
-	Wed, 29 Jan 2025 21:31:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F39710E1AA;
+	Wed, 29 Jan 2025 21:37:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FU29nrzV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aVpDL4aC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2055.outbound.protection.outlook.com [40.107.236.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8192610E1D5;
- Wed, 29 Jan 2025 21:30:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D924110E1AA;
+ Wed, 29 Jan 2025 21:37:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738186667; x=1769722667;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=qGbSOSrIXYaRfAivZCnX6TLw/YktW3tDZl7V/1RqMto=;
+ b=aVpDL4aCsE4Emn64h5nFx4Z20CtXcnJ2bACfgJqYLRG1SrqxdYNMFjoe
+ t2XHIKn3tyw0YDMFubhl+5Cb/jdpCd26Czwbtsa3xoocTWTpDWQaeTnJj
+ ahTnzbafUhAgY2S4ibeZQGN4YlNpSZ5fa6hars67ShtCoY2OauENjkxIP
+ sFpEjyPEU6WUqwsrwX5FjS6AYYwPo+KX7JZ6kEbiMUs0fSkAv6TZ0CCXc
+ n+ez1HBByOr0PzapXBzIpFAuGs+cJ8xNn3aRnwrvqeL9zLpoN+xF8bzGp
+ bf63V8k6wwyno21Rhz+O2pNymR/AqHY/xcbla9VEOexyrvM0J5yQU2v4w A==;
+X-CSE-ConnectionGUID: O2d56tkPTO+usv1P+2Ev6w==
+X-CSE-MsgGUID: 7Bf8g50KTZiD7rGR0n0JdQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="56147470"
+X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; d="scan'208";a="56147470"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2025 13:37:47 -0800
+X-CSE-ConnectionGUID: w/s1TGuSTv+AMSOLQF/I9Q==
+X-CSE-MsgGUID: LG4hsWUCQeWyVNb+N29tXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; d="scan'208";a="114183186"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 29 Jan 2025 13:37:47 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 29 Jan 2025 13:37:46 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 29 Jan 2025 13:37:46 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.41) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 29 Jan 2025 13:37:44 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jdP0AumETsUromuB/5slUhYD+7BoB/RyzsCcggM1YKst/yy5/vMmt955C3RlTzDiVGsk8/N4lx3UskDL08WQT5X6qXSnHZmPZfhmDBYDfi1SGKhhGw6UBvX8KOWOkN5A1dRcydQPpxfV6LfftA5+6UaIESsT4Q3hLysoyoYLy9Zgfp1Ejsllhd4SENMV3QHCzE8h3yiRZ1It8zeZaiC+e9gR9V5X0Hp199NUwG4HDWyIKSxthdW+4fw1YvX2V/zYtcCq3lV40kzn6vzRsFqn5gckqIynNOrtHtIGRoJMA6fHw4dI81Ta/8SRwZ08CczYQT0sZzZqk4zmazD3AjITLw==
+ b=NdHu8ERlTwPFma7pSMRNGesn3T8EdmjeW+vSXV6dCJZZbg69WmkbOzvZU5nwG6AT9j+xaEo0+JebPJwEmHOylmzk7eF0ERxCUFfk79RROjlWFi3GGp4C9YcL70UeBHQTxYU/OvVQa/MqKVbhNyuCnwUcVIsqNEIbidwbZtfqmk81w2f6FHsaOCuDnb0bLf1ec0TbAMx3ilSPIJTfB6jkc6fiHEirZjlrDTzZqvYcvUr1oFlGC6HD8llBqzfGtbulxM563RZhAciKN9TQ6aoa+1hutobSEB/ALi3cNB32pNzzvqExgr4h3LHmdw1bftnDDXV0kuBuzQqGYSIxA8cq3w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5CoIRnpF2nnHny3vPMXCDWYGJ64A6yODOO06hLIBK8s=;
- b=rIZUJfRVgoG/7MegZ4LpSYFw1n0H3d75giQyO98aP9GS9v4Eglh2nawI/gdpGxUP0+VtsMzT/vQbu99D1v0nd0vtbHzebNJKLw6JQ71PsMOFjOHNxdu8ZNu4k6D+oVlM6WRclOiMV1YMM5C9vgUh1bLDW6Owd85QQycyL0NjuKQ2AOhP4htquAj7pQ51v6WdQdGSB7KXNSOnOfj2uVcXL3vEYhiqzlGACoKsnCjQKyNVmLNqHXYTpkZqAkygIrHcxAD4hPXqFC9Qlnix9AAi94h/eV8NIZmPsHDaL7FWPDQ4ViR+3H3ifUAoawHM7yKEgZdJw25+2XkGHNK8rJWlyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5CoIRnpF2nnHny3vPMXCDWYGJ64A6yODOO06hLIBK8s=;
- b=FU29nrzVd19lXsT/0fpSCm9i3h8RcGfXng4xGqANTLd5BkU65gGQ+vQGfyt1zCl8FsmaTLNXVgxmlkyT8JIzwZWenrP5RbEbhOXTtW+0kQJc+n9jXtsYKUdYlP3fIaC4mIX0ImuuR/IXdr3PM3JHxoPSqi5owwtMkghyHEODqLA=
-Received: from BL1P221CA0016.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:2c5::29)
- by LV8PR12MB9408.namprd12.prod.outlook.com (2603:10b6:408:208::7)
+ bh=0KEZaS07rVipSLPhdwMQoi52W10JYqFXtw4m2b7Blyk=;
+ b=FiZRfAUe4c7kJRZfTplZRgyQcYcbZPLWx+2XFDJX2zWsQIMXslmnKEjofXRk0ccycrZZzCOVlbjmYMC+cADLOb7VnQT7lPdEn/wzq7jTsK2JuSWMzOXGHd91fGwfmOkYJwI37bo7PBw9Mr7TznSoqCrhiF7nksLnqu9J3MwpfmZAwgDFFGCXhGnWkMy4ETh+odeUCgkjmI5AffzC3dSUrMN3flUcTCxpbDWxJh2n/mbO1KqrbNDkKH6OtzDTqC9vxJ6ByUOo13/XcZGbFxXPaPKyagrY89twskTGAKSYnXeNB3st6Upu/Ma79Y6XqVbPJqIyfCd+gZoDHX8h5mVpmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB8282.namprd11.prod.outlook.com (2603:10b6:806:269::11)
+ by SN7PR11MB6996.namprd11.prod.outlook.com (2603:10b6:806:2af::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.21; Wed, 29 Jan
- 2025 21:30:53 +0000
-Received: from BL6PEPF00020E61.namprd04.prod.outlook.com
- (2603:10b6:208:2c5:cafe::50) by BL1P221CA0016.outlook.office365.com
- (2603:10b6:208:2c5::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8377.24 via Frontend Transport; Wed,
- 29 Jan 2025 21:30:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF00020E61.mail.protection.outlook.com (10.167.249.22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8398.14 via Frontend Transport; Wed, 29 Jan 2025 21:30:52 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 29 Jan
- 2025 15:30:51 -0600
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <simona@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd drm-fixes-6.14
-Date: Wed, 29 Jan 2025 16:30:37 -0500
-Message-ID: <20250129213037.3966625-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.48.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Wed, 29 Jan
+ 2025 21:37:01 +0000
+Received: from SN7PR11MB8282.namprd11.prod.outlook.com
+ ([fe80::f9d9:8daa:178b:3e72]) by SN7PR11MB8282.namprd11.prod.outlook.com
+ ([fe80::f9d9:8daa:178b:3e72%5]) with mapi id 15.20.8377.021; Wed, 29 Jan 2025
+ 21:37:00 +0000
+Date: Wed, 29 Jan 2025 16:36:54 -0500
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Alexander Usyskin <alexander.usyskin@intel.com>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Karthik Poosa <karthik.poosa@intel.com>, "Reuven
+ Abliyev" <reuven.abliyev@intel.com>, Oren Weil <oren.jer.weil@intel.com>,
+ <linux-mtd@lists.infradead.org>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 10/11] drm/xe/nvm: add on-die non-volatile memory device
+Message-ID: <Z5qfdpPY_bZ1glmc@intel.com>
+References: <20250101153925.865703-1-alexander.usyskin@intel.com>
+ <20250101153925.865703-11-alexander.usyskin@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250101153925.865703-11-alexander.usyskin@intel.com>
+X-ClientProxiedBy: MW4P223CA0021.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:303:80::26) To SN7PR11MB8282.namprd11.prod.outlook.com
+ (2603:10b6:806:269::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00020E61:EE_|LV8PR12MB9408:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ae32f66-cd3d-42ea-b235-08dd40ac3539
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8282:EE_|SN7PR11MB6996:EE_
+X-MS-Office365-Filtering-Correlation-Id: e500ea46-5d0a-46e4-ee95-08dd40ad1069
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TijGbOwYC0V47f4Xc/i4gaelkrs/lAMhsTTEwSfvmaMNnsiY3YBQZV5gkiE3?=
- =?us-ascii?Q?jbWiPNqBeB8HNynYSHB5M9I7G2YFlCbwwOlT499a/6WidAHZ94Y2/k3G89Wx?=
- =?us-ascii?Q?P+jwVsZGuArkSoMpRW8Mti2UnQx+H059JrmVnicusv3LWCw+eybXRUb+poxY?=
- =?us-ascii?Q?U2Wt8Fr82GeiJJXj0tlBOYBw+vVQXIBBpoisHcThJYuC5EW64ns/olw7x4ow?=
- =?us-ascii?Q?rROp9WStdVEtdk9qcGAO3nQBM8X9UbHYZxWZnKq/kE1Lt4XkrmpWKT/cmi1W?=
- =?us-ascii?Q?9Ry1H4vyVOXkLL1bFJgO/6xzxrx8zYX2useaUsG7drY0h9AZrxH5XTG0c3Gc?=
- =?us-ascii?Q?KZOlwV68JzJ6/DdVQdNXFlPCuMD87SAglsv45oThXB7b6XS2m4NrJtvyurH+?=
- =?us-ascii?Q?cUBmO2stBcbFtE6jR5ZgnzqFndPBc2BY1aKLHD+mEtEQnct4z4zKnEILBsHP?=
- =?us-ascii?Q?iLhWCkp8D7zXljTE10AobCIE0cvmVAa6nctmMxTrMr20fWyarM3EfjckdwNe?=
- =?us-ascii?Q?4hliW9AWQ7XBwIddwSUzLtgMhnMsol/DMlfKKJHC/9omBnL4x5XtB/hsOExR?=
- =?us-ascii?Q?O2x0BpS1fpfv820coOuzrvrJio30ayzyLyIOndxKMZK/T3/czjWJ/asGEsDM?=
- =?us-ascii?Q?hGZ9XQBtU5ZDnC2c3SUVI67flx1wtvEkrFlgD6SowquepSmdu66gYV/uC8ve?=
- =?us-ascii?Q?xUxTXspHRHX1KtybQqxCDVZWcD6uX36NDuF0Usu9UuP0bxBOzQFruxYmC8X5?=
- =?us-ascii?Q?RJKxrx7PODaYxW8nhUK+yIh1tFEc0+IZDgVmx6loQmVCLLhv/BG9EXeGFhMx?=
- =?us-ascii?Q?BxowmoXwfqpdm1I0wA9R9K6ryay3hZrJ2h0XTiQM+aCvEkjZgAUBZCLCXHaj?=
- =?us-ascii?Q?aFnpUOkkSJENKLnzwdnmsWV8pomOa5pYtaTw/rNEv1c3JDx0tziHXv9+U5uu?=
- =?us-ascii?Q?CNrN6dcXUwWujPIAA+mktvrSPYzInGZSMVHVH+zLYQhJ8DBBlgFa2bLYZq28?=
- =?us-ascii?Q?KPhRHpKvHb64jKEyZ0f54utu/esY5dABZAlNDB8I6z3ReMnw17kIRVoR6u7B?=
- =?us-ascii?Q?gHqPV72zK0Ybu8FvBZHg0YmvIO0e7JCjsPW/MaXdKbRmRp3onNcn50rfBoM8?=
- =?us-ascii?Q?sSW5EvxhLMlZnUoOiQwr2GbrncoLygLb+kM7ZVWUjT6pIrpPRNRi5IMGte8/?=
- =?us-ascii?Q?ND6ef5afvNM7Ct7whqB7BXbqHQ5RaP+606kHeYWXkUKaUbJ6PWjBz8IDSefs?=
- =?us-ascii?Q?clrb9quyGgqlMMyQAeqMavBMNvZ6NRt6nruoR0CLkTA2pXkCBPLKZl4dFJ4Z?=
- =?us-ascii?Q?0KsfPsgt8d9clsvpzWumsxEQnVlV4KmuJ1N4ex+HvcJuoqWR3zMkdjmsAW2U?=
- =?us-ascii?Q?6dVvYI/sR8pc4gGKgNZ6EaWc70CuM3WMzyQQhe9O7DSuzvqj8EVRrLQAeh+u?=
- =?us-ascii?Q?zy4KVVK0YUE=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2025 21:30:52.7379 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ae32f66-cd3d-42ea-b235-08dd40ac3539
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00020E61.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9408
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?UbxmqlIJ6YkBEingu34jRFim5eyoIuv2MQuB3AEoYnORh+GdyUIDkALW/3+l?=
+ =?us-ascii?Q?UBZ3BGn9ytVtNjP7rMkAf/I+gZrikX3J6zMyzuoQvAnws/tLCItuEte7mPuC?=
+ =?us-ascii?Q?0tpzbcLgILU+RTz+VlUFLmNmkw6oZ6IIGPT7dEsa53uWRdTUjMkoqG8Vy6k8?=
+ =?us-ascii?Q?kpXMFx1UrsiEAVeJtMFkWQfsyXA6c7qfUU+1ksBK2Hx3GA/21axJ0vS9LZEJ?=
+ =?us-ascii?Q?NHQ6WLFimbMTeFivPkkVSL76TbCdQjNbJ7Z7//iwiGXYz9zxvx8HinQG7GpU?=
+ =?us-ascii?Q?P3diIX+xUoUz7WIxG5zXsRNuTrS0kNF7cbYRqIy132p8m+zFRkNitPn4Nmq1?=
+ =?us-ascii?Q?h0W2O9pFqpqxS598yGe9H4HeVxY+RQaQSIdXJCUeLg4Lbq2F7S7X5u/NnDo/?=
+ =?us-ascii?Q?qiCUurzIjIHxb3JmRmOywzTNDKsW2nGAqkUswMmp6QJ0Dw14wcZhZjt9cCZ7?=
+ =?us-ascii?Q?MbCVCPehERa/UzH2LDtCleQv7Y13+mPjgezCJSBBOh0JZp6nf1+OgJRqriiL?=
+ =?us-ascii?Q?vkkViShhV9Peu7cCl66A3aZwcpSZhA4OttjY9bvCdqEsa6fDGkVUQmv9e/nh?=
+ =?us-ascii?Q?Fdndnlt6OUZSdDK04WoYXZsjXDJ2A3k/O+9G7uDpSgCjKMeSU4sr9Pa/wjT5?=
+ =?us-ascii?Q?05NxgD0hxOV5hQkakAZmut/P4DmAcDdEHCzZ+sMPxFxyJvoFM3ns50yIeENe?=
+ =?us-ascii?Q?MhbaFyVDkEONL9w9pi9xZJZkTjLybH+aaGJ6xeJiTTtK6Pq5EXcZGfijhHSy?=
+ =?us-ascii?Q?UK2uMtUQoFHD7qulotOOLd5INLJ/n8rZdYIQJHr42ESl0BrN/7IJxIZydi3P?=
+ =?us-ascii?Q?3bCes3e6Sm3/aG0q6GMwr58ZJRijWAgvYMYgWrJ+nx5c3Hn3CXP8GbtAolYq?=
+ =?us-ascii?Q?b6FR9HxKukPccz7qIKmIQUzsIO2D2nOqrF9NoCIYpUWT1jRWL1lL7QEzAK1j?=
+ =?us-ascii?Q?6XnykI/aBnXiJPA8JCso2qFFLaixFJB7iITyEJuMrY1pVgXTfImSi3hTkrHV?=
+ =?us-ascii?Q?axEN1Fd+pqRvYkHC2EBgC4CE7kHZlc8ctJrJHnuS9k+mw2XBig0EroFCooSW?=
+ =?us-ascii?Q?Rreb1nELR292+ib3KiE5jLB9J4U7fWKxHbawj2r7yz2FtecfGMIfPI5MV/zy?=
+ =?us-ascii?Q?qkwvK4dGgkpMgb6s+V2s89XIjZbiEti870Uq+WxiHbthxp+qrPqwPQhhOcSD?=
+ =?us-ascii?Q?ZYJI+m81iwStQYnMEiA2AQfoSfsXd8LflaRxmSy7DsxiohaEDSm+pOYjTuSU?=
+ =?us-ascii?Q?Xh32gM2be+NG+lk9eMRWjALDyFyAMYLQA5aCI3rryQFRDEwgoU2KL1CajWBx?=
+ =?us-ascii?Q?XfGW63hClkgTknfljci1rNAWUrE3w2WKlSRfJRRhI9Acm5LfYjRi4JwG42ar?=
+ =?us-ascii?Q?u9aPv8LM1cEg7gRnrkdpFeJbvQwq?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR11MB8282.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s4ymarDBBzp14UG8DNmTT2rUKlX7otl4FLHq98mQQT3N+rNJfFR4Rom0Z9ow?=
+ =?us-ascii?Q?levJx0Mh5ABa/a6cm3hhDR+IB6x+5x/vcWVDgIsS8iScWwvToVtArEdilwK7?=
+ =?us-ascii?Q?Iw5OzhQ3in2A0dlOwF5hoCCYdgz2DsG2Ogs6mquCHj0N/ZjdQqRAgFJOg8WG?=
+ =?us-ascii?Q?K9LHTqTPUmOCFC8kDFNEuxp2TBgxdzdWwcJbyDOFxVJEsSttZx7W85HrEl1a?=
+ =?us-ascii?Q?DPWweYvF1Jh3ngQ70HU+ja1mHckUy6pGY0DdhbXtxSjV+dAA59wOOc/ulfD6?=
+ =?us-ascii?Q?LFXk15Bn8tLi3f2oWPyBLWrgFZ8Drm8lI0fRsnMtAVtnbE4EaNQGSmDqgq8d?=
+ =?us-ascii?Q?lMjFrJ8n1gaH9AoumvmyPnZJlnOfAM6T7ZDs4vZKHZy5L5TamaQpTwX0K8KV?=
+ =?us-ascii?Q?NDMzPhT8+I/MzqDcqQeD1dACEWPO2Sa3mAd0u+bHBZNGO3EFlWHAT1hwOgbi?=
+ =?us-ascii?Q?SqIZ6pIFLpXYFNs4enx7jdxNkVrHYhBXxUq7VCsvQ/l/fjcGRMIYYp1NY82q?=
+ =?us-ascii?Q?In6q1dHfsEInkRfOQIfzPpb5mjwND7H14lfFGkU3NMtF8weai6730fHzb6sH?=
+ =?us-ascii?Q?v0Gl1FCVEuuq02z68mPRh0Rqc7XCL3pwy3BfvZM7MZJIexVuWnEJO+8MsMBA?=
+ =?us-ascii?Q?7VR4GeZIPSeo9Bga1XaoyC6AgbLhFDYaVbKW39jioKUF5u1haQ6x8NVb5uKe?=
+ =?us-ascii?Q?bAAp3VUeEtzCo0o6mz71Ep9YjUF0WEfBQHD5SjOYuwuhHS4objjsQfFIb4Zo?=
+ =?us-ascii?Q?sI0z0OGRzcT+7dT1/5P6zQyBOEZYK9fV8zOaE+U2U3EIrV6ndRz+dl9Cu1Va?=
+ =?us-ascii?Q?8IL0ADJRG3krQl1vJb4tg3cGaaOOTkr7707GhfoNYoEBo4F+CMUUEgD8TS4d?=
+ =?us-ascii?Q?23xypL0r1yIEti/QVEteaP63obiyH5BlJZt10icolcXAs0rbvuYVYrQjfuc3?=
+ =?us-ascii?Q?1H74jCF1uQdw0MxLC2MQGhFWZD8Ad/RJNY7aPhEQsPs4adeSdAVnrf9AZw3/?=
+ =?us-ascii?Q?UVgOEYE92fakL8smnTOXpoSSETyIuHd7FGc+F1Q8nLlD+Gp9Dp7sD7ZGxYM5?=
+ =?us-ascii?Q?7/1GnXWuFdaTjJn5+qMtd+fXzL3qBb87qUAwlN4q0rSUwXsrKBc1OQ9YfwNF?=
+ =?us-ascii?Q?CQbbzy/yvD9HAVPTXfTyfnZ3al9q6syloHg2G7Oyg2l0Pa1/5zvH+wfZdvvF?=
+ =?us-ascii?Q?nSzJZbzDSQhxlMZwzJMBUVS0ppL5lHCkn1Ciobj8eDgF5ZhvHGsgUrzVzudx?=
+ =?us-ascii?Q?TqPlKZxjlePGqc8IZDRnlxkrNE4/P7F108A6TN1ZZluJHCAUqbjEH7eIB8Xg?=
+ =?us-ascii?Q?bYEeLQ5vhAOxhouCPb0E8QEU77lEQXL/KIjse2LPTnXWwK4t8VGyCoADFO3R?=
+ =?us-ascii?Q?U3v2a0J8NfPBgXtT8Hva/eejBSaSwaIidEopY9KRcj7KD5y924TJ0WnzkHRP?=
+ =?us-ascii?Q?m0ipteIH3x+PY0zFUL6nNElJa+OnHfm333pcm9Gm9sgEyInNIzzb0cELJ15r?=
+ =?us-ascii?Q?ibfMqQVMu6vIakIRlAHEZcO3bg3+JKNGGupCqNP5Zt+PamzaRJUHUFDiajIZ?=
+ =?us-ascii?Q?3Uj+PPN+rtKmyUWgAW4A8KYthxOwbwu/vJ2TM9W1wzdKTcmksErnAorJdmhB?=
+ =?us-ascii?Q?Cg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e500ea46-5d0a-46e4-ee95-08dd40ad1069
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8282.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2025 21:37:00.8706 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l05AG2S73TsK3Hzx/+eV8dn8p1RuhpaCz3twqsNX1IeV5QXNLJxm+ixaq1AWNqax0GX8KGytxpqdc9rCVij8cg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB6996
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,58 +187,320 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+On Wed, Jan 01, 2025 at 05:39:24PM +0200, Alexander Usyskin wrote:
+> Enable access to internal non-volatile memory on DGFX
+> with GSC/CSC devices via a child device.
+> The nvm child device is exposed via auxiliary bus.
+> 
+> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Fixes for 6.14.
+Since this patch needs a rebase anyway, please allow me to point out
+a few nipticks that I'd like you to adjust.
 
-The following changes since commit 64179a1416e1420a34226ab3beb5f84710953d16:
+I'm sorry for not catching this earlier...
 
-  Merge tag 'drm-misc-next-fixes-2025-01-24' of https://gitlab.freedesktop.org/drm/misc/kernel into drm-next (2025-01-24 17:06:06 +0100)
+A rebased version with my nipticks can be found here:
+https://github.com/rodrigovivi/linux/tree/nvm-mtd
+(But you need to add more platforms there... I just added the BMG,
+and also I didn't address all the items that I'm listing below)
 
-are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.14-2025-01-29
+> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+> ---
+>  drivers/gpu/drm/xe/Makefile          |   1 +
+>  drivers/gpu/drm/xe/xe_device.c       |   3 +
+>  drivers/gpu/drm/xe/xe_device_types.h |   7 ++
+>  drivers/gpu/drm/xe/xe_nvm.c          | 100 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_nvm.h          |  15 ++++
+>  drivers/gpu/drm/xe/xe_pci.c          |   6 ++
+>  6 files changed, 132 insertions(+)
+>  create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
+>  create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+> 
+> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
+> index 7730e0596299..f5f3a3233fab 100644
+> --- a/drivers/gpu/drm/xe/Makefile
+> +++ b/drivers/gpu/drm/xe/Makefile
+> @@ -94,6 +94,7 @@ xe-y += xe_bb.o \
+>  	xe_ring_ops.o \
+>  	xe_sa.o \
+>  	xe_sched_job.o \
+> +	xe_nvm.o \
 
-for you to fetch changes up to 7f2b5237e313e39008a85b33ca94ab503a8fdff9:
+move up to respect alphabetical order.
 
-  drm/amd/display: restore invalid MSA timing check for freesync (2025-01-28 16:26:13 -0500)
+>  	xe_step.o \
+>  	xe_sync.o \
+>  	xe_tile.o \
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 7f021ec5f8e7..78e5e88435c6 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -50,6 +50,7 @@
+>  #include "xe_pcode.h"
+>  #include "xe_pm.h"
+>  #include "xe_query.h"
+> +#include "xe_nvm.h"
+>  #include "xe_sriov.h"
+>  #include "xe_tile.h"
+>  #include "xe_ttm_stolen_mgr.h"
+> @@ -743,6 +744,7 @@ int xe_device_probe(struct xe_device *xe)
+>  			goto err_fini_gt;
+>  	}
+>  
+> +	xe_nvm_init(xe);
+>  	xe_heci_gsc_init(xe);
+>  
+>  	err = xe_oa_init(xe);
+> @@ -813,6 +815,7 @@ void xe_device_remove(struct xe_device *xe)
+>  	xe_oa_fini(xe);
+>  
+>  	xe_heci_gsc_fini(xe);
+> +	xe_nvm_fini(xe);
+>  
+>  	for_each_gt(gt, xe, id)
+>  		xe_gt_remove(gt);
+> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
+> index 8a7b15972413..817c8fac9d9d 100644
+> --- a/drivers/gpu/drm/xe/xe_device_types.h
+> +++ b/drivers/gpu/drm/xe/xe_device_types.h
+> @@ -35,6 +35,8 @@
+>  struct xe_ggtt;
+>  struct xe_pat_ops;
+>  
+> +struct intel_dg_nvm_dev;
 
-----------------------------------------------------------------
-amd-drm-fixes-6.14-2025-01-29:
+move above xe_ggtt and no space needed.
 
-amdgpu:
-- GC 12 fix
-- Aldebaran fix
-- DCN 3.5 fix
-- Freesync fix
+> +
+>  #define XE_BO_INVALID_OFFSET	LONG_MAX
+>  
+>  #define GRAPHICS_VER(xe) ((xe)->info.graphics_verx100 / 100)
+> @@ -308,6 +310,8 @@ struct xe_device {
+>  		u8 has_device_atomics_on_smem:1;
+>  		/** @info.has_flat_ccs: Whether flat CCS metadata is used */
+>  		u8 has_flat_ccs:1;
+> +		/** @info.has_gsc_nvm: device has gsc non-volatile memory */
+> +		u8 has_gsc_nvm:1;
+>  		/** @info.has_heci_cscfi: device has heci cscfi */
+>  		u8 has_heci_cscfi:1;
+>  		/** @info.has_heci_gscfi: device has heci gscfi */
+> @@ -511,6 +515,9 @@ struct xe_device {
+>  	/** @heci_gsc: graphics security controller */
+>  	struct xe_heci_gsc heci_gsc;
+>  
+> +	/** @nvm: discrete graphics non-volatile memory */
+> +	struct intel_dg_nvm_dev *nvm;
+> +
+>  	/** @oa: oa observation subsystem */
+>  	struct xe_oa oa;
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_nvm.c b/drivers/gpu/drm/xe/xe_nvm.c
+> new file mode 100644
+> index 000000000000..16383cbc9e1d
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_nvm.c
+> @@ -0,0 +1,100 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright(c) 2019-2024, Intel Corporation. All rights reserved.
 
-amdkfd:
-- Per queue reset fix
-- MES fix
+2025
 
-----------------------------------------------------------------
-Jay Cornwall (1):
-      drm/amdkfd: Block per-queue reset when halt_if_hws_hang=1
+> + */
+> +
+> +#include <linux/intel_dg_nvm_aux.h>
+> +#include <linux/pci.h>
 
-Kenneth Feng (1):
-      drm/amd/amdgpu: change the config of cgcg on gfx12
+add a line here to separate these 2 blocks
 
-Lijo Lazar (1):
-      drm/amd/pm: Mark MM activity as unsupported
+> +#include "xe_device_types.h"
+> +#include "xe_nvm.h"
+> +#include "xe_sriov.h"
+> +
+> +#define GEN12_GUNIT_NVM_BASE 0x00102040
+> +#define GEN12_GUNIT_NVM_SIZE 0x80
+> +#define HECI_FW_STATUS_2_NVM_ACCESS_MODE BIT(3)
+> +
+> +static const struct intel_dg_nvm_region regions[INTEL_DG_NVM_REGIONS] = {
+> +	[0] = { .name = "DESCRIPTOR", },
+> +	[2] = { .name = "GSC", },
+> +	[11] = { .name = "OptionROM", },
+> +	[12] = { .name = "DAM", },
+> +};
+> +
+> +static void xe_nvm_release_dev(struct device *dev)
+> +{
+> +}
+> +
+> +void xe_nvm_init(struct xe_device *xe)
+> +{
+> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
+> +	struct intel_dg_nvm_dev *nvm;
+> +	struct auxiliary_device *aux_dev;
+> +	int ret;
+> +
+> +	if (!xe->info.has_gsc_nvm)
+> +		return;
+> +
+> +	/* No access to internal NVM from VFs */
+> +	if (IS_SRIOV_VF(xe))
+> +		return;
+> +
+> +	/* Nvm pointer should be NULL here */
+> +	if (WARN_ON(xe->nvm))
+> +		return;
+> +
+> +	xe->nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
+> +	if (!xe->nvm)
+> +		return;
+> +
+> +	nvm = xe->nvm;
+> +
+> +	nvm->writeable_override = false;
+> +	nvm->bar.parent = &pdev->resource[0];
+> +	nvm->bar.start = GEN12_GUNIT_NVM_BASE + pdev->resource[0].start;
+> +	nvm->bar.end = nvm->bar.start + GEN12_GUNIT_NVM_SIZE - 1;
+> +	nvm->bar.flags = IORESOURCE_MEM;
+> +	nvm->bar.desc = IORES_DESC_NONE;
+> +	nvm->regions = regions;
+> +
+> +	aux_dev = &nvm->aux_dev;
+> +
+> +	aux_dev->name = "nvm";
+> +	aux_dev->id = (pci_domain_nr(pdev->bus) << 16) |
+> +		       PCI_DEVID(pdev->bus->number, pdev->devfn);
+> +	aux_dev->dev.parent = &pdev->dev;
+> +	aux_dev->dev.release = xe_nvm_release_dev;
+> +
+> +	ret = auxiliary_device_init(aux_dev);
+> +	if (ret) {
+> +		drm_err(&xe->drm, "xe-nvm aux init failed %d\n", ret);
+> +		return;
+> +	}
+> +
+> +	ret = auxiliary_device_add(aux_dev);
+> +	if (ret) {
+> +		drm_err(&xe->drm, "xe-nvm aux add failed %d\n", ret);
+> +		auxiliary_device_uninit(aux_dev);
+> +		return;
+> +	}
+> +}
+> +
+> +void xe_nvm_fini(struct xe_device *xe)
+> +{
+> +	struct intel_dg_nvm_dev *nvm = xe->nvm;
+> +
+> +	if (!xe->info.has_gsc_nvm)
+> +		return;
+> +
+> +	/* No access to internal NVM from VFs */
+> +	if (IS_SRIOV_VF(xe))
+> +		return;
+> +
+> +	/* Nvm pointer should not be NULL here */
+> +	if (WARN_ON(!nvm))
+> +		return;
+> +
+> +	auxiliary_device_delete(&nvm->aux_dev);
+> +	auxiliary_device_uninit(&nvm->aux_dev);
+> +	kfree(nvm);
+> +	xe->nvm = NULL;
+> +}
+> diff --git a/drivers/gpu/drm/xe/xe_nvm.h b/drivers/gpu/drm/xe/xe_nvm.h
+> new file mode 100644
+> index 000000000000..068695447913
+> --- /dev/null
+> +++ b/drivers/gpu/drm/xe/xe_nvm.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright(c) 2019-2024 Intel Corporation. All rights reserved.
+> + */
+> +
+> +#ifndef __XE_NVM_H__
+> +#define __XE_NVM_H__
+> +
+> +struct xe_device;
+> +
+> +void xe_nvm_init(struct xe_device *xe);
+> +
+> +void xe_nvm_fini(struct xe_device *xe);
+> +
+> +#endif /* __XE_NVM_H__ */
 
-Melissa Wen (1):
-      drm/amd/display: restore invalid MSA timing check for freesync
+#endif  is enough here without the comment...
 
-Prike Liang (1):
-      drm/amdkfd: only flush the validate MES contex
+> diff --git a/drivers/gpu/drm/xe/xe_pci.c b/drivers/gpu/drm/xe/xe_pci.c
+> index 6b7f77425c7f..9b8ce6397a67 100644
+> --- a/drivers/gpu/drm/xe/xe_pci.c
+> +++ b/drivers/gpu/drm/xe/xe_pci.c
+> @@ -60,6 +60,7 @@ struct xe_device_desc {
+>  	u8 has_display:1;
+>  	u8 has_heci_gscfi:1;
+>  	u8 has_heci_cscfi:1;
+> +	u8 has_gsc_nvm:1;
 
-loanchen (1):
-      drm/amd/display: Correct register address in dcn35
+move above heci ones to respect alphabetical order
 
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c                       | 11 -----------
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c        |  4 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c       |  7 +++++--
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c            | 12 ++++++++----
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c           |  1 -
- 6 files changed, 16 insertions(+), 21 deletions(-)
+>  	u8 has_llc:1;
+>  	u8 has_mmio_ext:1;
+>  	u8 has_sriov:1;
+> @@ -282,6 +283,7 @@ static const struct xe_device_desc dg1_desc = {
+>  	PLATFORM(DG1),
+>  	.has_display = true,
+>  	.has_heci_gscfi = 1,
+> +	.has_gsc_nvm = 1,
+
+move above heci one to respect alphabetical order
+
+>  	.require_force_probe = true,
+>  };
+>  
+> @@ -293,6 +295,7 @@ static const u16 dg2_g12_ids[] = { INTEL_DG2_G12_IDS(NOP), 0 };
+>  	DGFX_FEATURES, \
+>  	PLATFORM(DG2), \
+>  	.has_heci_gscfi = 1, \
+> +	.has_gsc_nvm = 1, \
+
+move above heci one to respect alphabetical order
+
+>  	.subplatforms = (const struct xe_subplatform_desc[]) { \
+>  		{ XE_SUBPLATFORM_DG2_G10, "G10", dg2_g10_ids }, \
+>  		{ XE_SUBPLATFORM_DG2_G11, "G11", dg2_g11_ids }, \
+> @@ -324,6 +327,7 @@ static const __maybe_unused struct xe_device_desc pvc_desc = {
+>  	PLATFORM(PVC),
+>  	.has_display = false,
+>  	.has_heci_gscfi = 1,
+> +	.has_gsc_nvm = 1,
+
+move above heci one to respect alphabetical order
+
+>  	.require_force_probe = true,
+>  };
+>  
+> @@ -344,6 +348,7 @@ static const struct xe_device_desc bmg_desc = {
+>  	PLATFORM(BATTLEMAGE),
+>  	.has_display = true,
+>  	.has_heci_cscfi = 1,
+> +	.has_gsc_nvm = 1,
+
+move above heci one to respect alphabetical order
+
+>  };
+>  
+>  static const struct xe_device_desc ptl_desc = {
+> @@ -616,6 +621,7 @@ static int xe_info_init_early(struct xe_device *xe,
+>  	xe->info.is_dgfx = desc->is_dgfx;
+>  	xe->info.has_heci_gscfi = desc->has_heci_gscfi;
+>  	xe->info.has_heci_cscfi = desc->has_heci_cscfi;
+> +	xe->info.has_gsc_nvm = desc->has_gsc_nvm;
+
+move above heci ones to respect alphabetical order
+
+>  	xe->info.has_llc = desc->has_llc;
+>  	xe->info.has_mmio_ext = desc->has_mmio_ext;
+>  	xe->info.has_sriov = desc->has_sriov;
+> -- 
+> 2.43.0
+> 
