@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6287AA2181F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 08:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C710BA2182B
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 08:31:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A947910E74E;
-	Wed, 29 Jan 2025 07:30:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E48C10E74F;
+	Wed, 29 Jan 2025 07:31:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E4EfT3Ub";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VABuxuU2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EF5810E74E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 07:30:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAB2D10E74F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 07:31:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id EFE8DA402AE;
- Wed, 29 Jan 2025 07:28:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B43FC4CED3;
- Wed, 29 Jan 2025 07:30:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id A18965C57F1;
+ Wed, 29 Jan 2025 07:30:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87D90C4CEE0;
+ Wed, 29 Jan 2025 07:31:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738135805;
- bh=YP70k3CuKOov2UxqgnQYgL5HUHj0EryZS8nauAe2jjI=;
+ s=k20201202; t=1738135898;
+ bh=vaLfSjS74gqgUZVZqpZI1Spi9TQQGJMrQAS15v1471U=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E4EfT3UbNbTuywP7/eWQWkq9G1EmPjDzLGf+l/fPzYmwz7ipoY3s25dKEfMgMYoiU
- iPxUqFxFMhxzmN+hmKnGnRRNXQB1J5TkayoVCdixsAGt/3/B8mqzGIDQTer/Kp6qnb
- Hi+f/CEIIDhACy/LfW/w7IwYpsV/Bd+2PhHVS6bWg0aLyG0OnZwDrafhQ9svsiu8hQ
- nfvt0HmzBZH97DHv3hqCodcMO/qzfPbudlzAPuG8DQydryTz/Mg7Y6YhLpZs+KkUKs
- shUny9WTbVOLVJ9ZOeMUUhBlviZFLVqorJNsG4gf9kgGBjg3TBKpJOvkSFe90Lv7Kr
- /H04vnOdkwVkg==
-Date: Wed, 29 Jan 2025 08:30:01 +0100
+ b=VABuxuU27Ks/hWe7YYp/ddzQeaZDLN3UPkrl/THpXnuMyctbE5sHTHSnp3MeIMq7c
+ wwOZZQraoGbvTOTTEq+WvLMZlHXPrssFW575y1bCBArS2cx+jq++4Z9ON4RVa8sQ9Y
+ 8+UPAd4kkoK5o1NVg1YB8j59NZk41qHAgg53gWFMc3VkWpGBmh8GZBvaroBFiWCs2m
+ uhYX127ozm/hK4TmC4DMrO9k4LqWhZd3FE6yN0jDSEh0rRqU/vEy906s0AL2mlgUin
+ zSA0AxA3ysKTJI86bJ2rvryAKDYcULXhPPVWxJsCTJ9CH1MSReCjuLntGyQ/6pLSsa
+ +zs3MzRpdeouA==
+Date: Wed, 29 Jan 2025 08:31:35 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Michal Wilczynski <m.wilczynski@samsung.com>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
@@ -44,16 +44,15 @@ Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
  linux-kernel@vger.kernel.org, 
  linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
  linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 03/18] dt-bindings: firmware: thead,th1520: Add
- support for firmware node
-Message-ID: <20250129-marten-of-incredible-gallantry-604baa@krzk-bin>
+Subject: Re: [PATCH v4 05/18] dt-bindings: power: Add TH1520 SoC power domains
+Message-ID: <20250129-daring-tan-hawk-ffdc1b@krzk-bin>
 References: <20250128194816.2185326-1-m.wilczynski@samsung.com>
- <CGME20250128194829eucas1p279fb146417854b28366378793087694a@eucas1p2.samsung.com>
- <20250128194816.2185326-4-m.wilczynski@samsung.com>
+ <CGME20250128194831eucas1p258522118b2f21abd8f6d4cdde277fe07@eucas1p2.samsung.com>
+ <20250128194816.2185326-6-m.wilczynski@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250128194816.2185326-4-m.wilczynski@samsung.com>
+In-Reply-To: <20250128194816.2185326-6-m.wilczynski@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,19 +68,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2025 at 08:48:01PM +0100, Michal Wilczynski wrote:
-> The kernel communicates with the E902 core through the mailbox
-> transport using AON firmware protocol. Add dt-bindings to document it
-> the dt node.
+On Tue, Jan 28, 2025 at 08:48:03PM +0100, Michal Wilczynski wrote:
+> Add power domain ID's for the TH1520 SoC power domains.
 > 
 > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
->  .../bindings/firmware/thead,th1520-aon.yaml   | 53 +++++++++++++++++++
 >  MAINTAINERS                                   |  1 +
->  2 files changed, 54 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+>  .../dt-bindings/power/thead,th1520-power.h    | 19 +++++++++++++++++++
+>  2 files changed, 20 insertions(+)
+>  create mode 100644 include/dt-bindings/power/thead,th1520-power.h
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
