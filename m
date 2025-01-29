@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5989A22570
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 22:04:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5266A2258F
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 22:19:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF55210E139;
-	Wed, 29 Jan 2025 21:03:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F59210E00F;
+	Wed, 29 Jan 2025 21:19:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="mY3mAkZd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HTzxoty0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 305B310E139
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 21:03:58 +0000 (UTC)
-Received: from [100.65.161.47] (unknown [20.236.11.29])
- by linux.microsoft.com (Postfix) with ESMTPSA id 4FFDA2109A5E;
- Wed, 29 Jan 2025 13:03:55 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4FFDA2109A5E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1738184637;
- bh=O+JFGGFluQhzEspwlwz6aXkZ7QKW4DjxL6knEN3myoo=;
- h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
- b=mY3mAkZdBwX5JW6v0rHOcPwixnNpeCwrI5i6lioeivoGl5PeSwTfMHOmjED6AV41/
- 5wIYfQa9MecJKhXc6T7//bDDoOB4BG1MPO3Miu2pGAWJwBcdsKKFOS1hzy+NN34ovy
- jA6uxIox2R9YzB3PKnfuI/uqwUCqDlg2DifBsbMw=
-Message-ID: <dd0358b1-7c8a-4c9e-88c5-2e1db69a3a35@linux.microsoft.com>
-Date: Wed, 29 Jan 2025 13:03:57 -0800
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2522210E00F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 21:19:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 3038CA41C41;
+ Wed, 29 Jan 2025 21:17:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3592C4CED1;
+ Wed, 29 Jan 2025 21:19:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738185584;
+ bh=+Qsqfuy/ZFdMoLo0F/4FS8dsGspy1qqpACl6yHdM0II=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HTzxoty0gaf1FXl9hq0JEUBI23Ch/5WJqiwOnXVnIU15VzQiEE7vSUiGaTY6GGe3T
+ IAwX5C0pi+I+S3sHICbuunhhcGByKJHS3/iVTd9w3d32nHu/2dxzkyixa/UKXbzyHC
+ wyGLHPDTCmlRapRRyWYGwhL2jVlfEvfLrfT/+osxWxIWIFOZnno6mpY6/wNC9iLBy7
+ R+BRrOqJ8xJ1ttX9V6Qj1yBAD/ZMJEYA4TVbjlg/Qj0FWGYVpFeTvUe6Z8b5gsxAHM
+ /D1gB4+zEHrqZ/b8TpmEaDCSmfoUVyTnqBhEOKaGaA1i640u0/IS/iT4bVDSEx7aCv
+ tJFCV7FdnSVRg==
+Date: Wed, 29 Jan 2025 21:19:40 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
+Message-ID: <cbe0cd60-2057-461c-896b-b637a6b67f83@sirena.org.uk>
+References: <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
+ <Z4ppo8wV3nicOfAQ@smile.fi.intel.com>
+ <8a7581e4-6422-4d77-8027-02df0d7da489@samsung.com>
+ <Z4qTQ9ypkX6iS1Pl@smile.fi.intel.com>
+ <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
+ <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
+ <6b4cba29-786c-4999-ac1d-27b3e4cea6f8@samsung.com>
+ <Z5kJLrE6xOzOKaeb@smile.fi.intel.com>
+ <Z5pESDSekep9ChAN@smile.fi.intel.com>
+ <c2c2f613-3b65-4efe-99c2-135f043b2d3b@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay
- <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>, James Smart
- <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
- David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>,
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Carlos Maiolino <cem@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- eahariha@linux.microsoft.com, cocci@inria.fr, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org,
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-spi@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 06/16] rbd: convert timeouts to secs_to_jiffies()
-To: Andrew Morton <akpm@linux-foundation.org>,
- Ilya Dryomov <idryomov@gmail.com>,
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org
-References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <20250128-converge-secs-to-jiffies-part-two-v1-6-9a6ecf0b2308@linux.microsoft.com>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Content-Language: en-US
-In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-6-9a6ecf0b2308@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="WVo/KW6FvNqVLjBm"
+Content-Disposition: inline
+In-Reply-To: <c2c2f613-3b65-4efe-99c2-135f043b2d3b@samsung.com>
+X-Cookie: The world is not octal despite DEC.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,53 +73,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/28/2025 10:21 AM, Easwar Hariharan wrote:
-> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-> secs_to_jiffies().  As the value here is a multiple of 1000, use
-> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
-> 
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-> the following Coccinelle rules:
-> 
-> @depends on patch@
-> expression E;
-> @@
-> 
-> -msecs_to_jiffies
-> +secs_to_jiffies
-> (E
-> - * \( 1000 \| MSEC_PER_SEC \)
-> )
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> ---
->  drivers/block/rbd.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
 
-<snip>
+--WVo/KW6FvNqVLjBm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> @@ -6283,9 +6283,9 @@ static int rbd_parse_param(struct fs_parameter *param,
->  		break;
->  	case Opt_lock_timeout:
->  		/* 0 is "wait forever" (i.e. infinite timeout) */
-> -		if (result.uint_32 > INT_MAX / 1000)
-> +		if (result.uint_32 > INT_MAX)
->  			goto out_of_range;
-> -		opt->lock_timeout = msecs_to_jiffies(result.uint_32 * 1000);
-> +		opt->lock_timeout = secs_to_jiffies(result.uint_32);
->  		break;
->  	case Opt_pool_ns:
->  		kfree(pctx->spec->pool_ns);
-> 
+On Wed, Jan 29, 2025 at 06:50:57PM +0100, Marek Szyprowski wrote:
 
-Hi Ilya, Dongsheng, Jens, others,
+> Bingo! This patch (on top of current linux-next) fixed the probe issue.=
+=20
+> Feel free to add:
 
-Could you please review this hunk and confirm the correct range check
-here? I figure this is here because of the multiplier to
-msecs_to_jiffies() and therefore unneeded after the conversion. If so, I
-noticed patch 07 has similar range checks that I neglected to fix and
-can do in a v2.
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-Thanks,
-Easwar (he/him)
+> (although I'm not sure if this is a fix for the generic case or just=20
+> this driver)
+
+It's a fix for a broader class of issue, if there's other issues or not
+is a separate question.
+
+--WVo/KW6FvNqVLjBm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeam2sACgkQJNaLcl1U
+h9BnLAgAhVeRdUPXBY34USDBT60cPgFLNojWItmZ/USMDeDtAZoqExVebCcXfiUD
+4iQH/9fkxSgoj27DHzu3ceDYr9r+6BCh3S3n1DJS02JryNnCgLVuxrfhmnMgc2pF
+nfqaEsknyjARSkC2DTyl6UwHsTTChHRoaWVVi9pVdK1fGh3RFI01150P41vSSTre
+qE/GBfBccrQ6Tl+S4XmfHU2WETBE+NCnlSUuByzuYB0CaDdh5YgzbQtcMJXBKphg
+8wq/iSoMkV9vSZHvQt4M+VjyHpbiMrMHJuQ/GSeje0IWHiTHGcHMm1FVJEPLXuMr
+PqhnO+gpMMe7/1SsoZgp5fj4TL5lPQ==
+=4f3J
+-----END PGP SIGNATURE-----
+
+--WVo/KW6FvNqVLjBm--
