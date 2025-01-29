@@ -2,53 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1C4DA21D63
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 14:00:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E801A21D61
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 14:00:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FACA10E7F2;
-	Wed, 29 Jan 2025 12:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C7610E7EB;
+	Wed, 29 Jan 2025 12:59:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WMlT7Hzn";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QtkePpMO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 115BA10E7EB
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31E6E10E7ED
  for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 12:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1738155597; x=1769691597;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=QvlK0uKfUVjc/E7nDmboDqlk8O2yAF6ayMkLofrtXnU=;
- b=WMlT7HznFcEcEc4PEzSsiIO5zobe2nhmpCDCXEnlKu6umlRGMuPjnfUJ
- xV9SCu7LxGGIBHWBmdmsnPUw9mta8gUhDxb8VwfNhDvHOs4TEO01m06nS
- Sq/e4zyGbAfQb+S/SDMiFkSKhA9er/u+WFj29jYZhMzPp42lrige+3DU+
- GwVwPZHcfsO0hJ81vOnR3eqwX8UlYXHsgN5zwi7/A5dkDZTwFZ9UH0s2q
- rqbadztmFC32wuEnrRne0NVyqypv6fsQjwR9nWPwrF8uKCO8avhNFBg44
- UC84XGjXcYYAgbdWdJo05G1ddTChHM9QDoEjJZyG2kXiA6diRmORVPi+D Q==;
-X-CSE-ConnectionGUID: IcjxOOOOSK60KfEGR/6aSg==
-X-CSE-MsgGUID: LNdcNYXuSUOX0zxbDxJ67g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50080740"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="50080740"
+ bh=+wsYi3VWsNb/svrBD49XbrdqbSzOLk09O73qruFnamo=;
+ b=QtkePpMOc3yWQldTRQrmvzJrpsZAqFlt5qu7IobdQvgg5ynZF73itacq
+ uYGr9wH83yJAnD3xA8EshtPWst+IoI2BrMrjhT1BQu5eVCProM2qq0e6E
+ KbSzicBAfRrfVeQb+hlOTNLNQisx74IrQCHBfp0GaNuc8oOmA/V5mwbFn
+ tgK2fOd+57lbFmPjZdXwj2k/GcrbL8McySswUS09XG3WVDma+yT8BQs/8
+ 35a6i9ckN3CTSnlxKbMEKJ0zMBkAX8A5GXAS6ydf4556wBtKPaTwlu/u6
+ 2yAvpl8kVm5olVOCS1QrmK05Fv5HpCxvmnUA4Ko4MG5ios+WMxgeFat7b w==;
+X-CSE-ConnectionGUID: oyMcFTrOQXCXbMTI71svwg==
+X-CSE-MsgGUID: R8/p+202S56+XrKzyMEeVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50080744"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="50080744"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Jan 2025 04:59:57 -0800
-X-CSE-ConnectionGUID: 3NVhGkqxS0mg4UXXPGjZkQ==
-X-CSE-MsgGUID: amseuSZoRoq922vk3JAbhA==
+X-CSE-ConnectionGUID: Rnq9qk/LSTakzDveEWwTFA==
+X-CSE-MsgGUID: BsmbCyxgRzyaVKILRoJm9A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="109936669"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="109937347"
 Received: from jlawryno.igk.intel.com ([10.91.220.59])
  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2025 04:56:40 -0800
+ 29 Jan 2025 04:56:42 -0800
 From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: oded.gabbay@gmail.com, quic_jhugo@quicinc.com,
  maciej.falkowski@linux.intel.com,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Subject: [PATCH 1/6] accel/ivpu: Add support for hardware fault injection
-Date: Wed, 29 Jan 2025 13:56:31 +0100
-Message-ID: <20250129125636.1047413-2-jacek.lawrynowicz@linux.intel.com>
+ Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
+ Karol Wachowski <karol.wachowski@intel.com>
+Subject: [PATCH 2/6] accel/ivpu: Update last_busy in IRQ handler
+Date: Wed, 29 Jan 2025 13:56:32 +0100
+Message-ID: <20250129125636.1047413-3-jacek.lawrynowicz@linux.intel.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20250129125636.1047413-1-jacek.lawrynowicz@linux.intel.com>
 References: <20250129125636.1047413-1-jacek.lawrynowicz@linux.intel.com>
@@ -69,191 +70,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This commit introduces the capability to simulate hardware faults for
-testing purposes. The new `fail_hw` fault can be injected in
-`ivpu_hw_reg_poll_fld()`, which is used in various parts of the driver
-to wait for the hardware to reach a specific state. This allows to test
-failures during NPU boot and shutdown, IPC message handling and more.
+Call pm_runtime_mark_last_busy() in top half of IRQ handler to prevent
+device from being runtime suspended before bottom half is executed on
+a workqueue.
 
-Fault injection can be enabled using debugfs or a module parameter.
-
-Reviewed-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
+Reviewed-by: Karol Wachowski <karol.wachowski@intel.com>
 Signed-off-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 ---
- drivers/accel/ivpu/ivpu_debugfs.c   |  5 +++
- drivers/accel/ivpu/ivpu_hw.c        | 14 +++++++
- drivers/accel/ivpu/ivpu_hw_ip.c     |  4 +-
- drivers/accel/ivpu/ivpu_hw_reg_io.h | 64 +++++++++++++++++------------
- 4 files changed, 58 insertions(+), 29 deletions(-)
+ drivers/accel/ivpu/ivpu_hw.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/accel/ivpu/ivpu_debugfs.c b/drivers/accel/ivpu/ivpu_debugfs.c
-index 8180b95ed69dc..e79715c53f2a0 100644
---- a/drivers/accel/ivpu/ivpu_debugfs.c
-+++ b/drivers/accel/ivpu/ivpu_debugfs.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include <linux/debugfs.h>
-+#include <linux/fault-inject.h>
- 
- #include <drm/drm_debugfs.h>
- #include <drm/drm_file.h>
-@@ -430,4 +431,8 @@ void ivpu_debugfs_init(struct ivpu_device *vdev)
- 				    debugfs_root, vdev, &fw_profiling_freq_fops);
- 		debugfs_create_file("dct", 0644, debugfs_root, vdev, &ivpu_dct_fops);
- 	}
-+
-+#ifdef CONFIG_FAULT_INJECTION
-+	fault_create_debugfs_attr("fail_hw", debugfs_root, &ivpu_hw_failure);
-+#endif
- }
 diff --git a/drivers/accel/ivpu/ivpu_hw.c b/drivers/accel/ivpu/ivpu_hw.c
-index e332f19ab51de..8099ab047bfe6 100644
+index 8099ab047bfe6..4199f0bbb435b 100644
 --- a/drivers/accel/ivpu/ivpu_hw.c
 +++ b/drivers/accel/ivpu/ivpu_hw.c
-@@ -9,6 +9,15 @@
- #include "ivpu_hw_ip.h"
+@@ -10,6 +10,7 @@
  
  #include <linux/dmi.h>
-+#include <linux/fault-inject.h>
-+
-+#ifdef CONFIG_FAULT_INJECTION
-+DECLARE_FAULT_ATTR(ivpu_hw_failure);
-+
-+static char *ivpu_fail_hw;
-+module_param_named_unsafe(fail_hw, ivpu_fail_hw, charp, 0444);
-+MODULE_PARM_DESC(fail_hw, "<interval>,<probability>,<space>,<times>");
-+#endif
+ #include <linux/fault-inject.h>
++#include <linux/pm_runtime.h>
  
- static char *platform_to_str(u32 platform)
- {
-@@ -247,6 +256,11 @@ int ivpu_hw_init(struct ivpu_device *vdev)
- 	timeouts_init(vdev);
- 	atomic_set(&vdev->hw->firewall_irq_counter, 0);
+ #ifdef CONFIG_FAULT_INJECTION
+ DECLARE_FAULT_ATTR(ivpu_hw_failure);
+@@ -331,7 +332,9 @@ irqreturn_t ivpu_hw_irq_handler(int irq, void *ptr)
+ 	/* Re-enable global interrupts to re-trigger MSI for pending interrupts */
+ 	ivpu_hw_btrs_global_int_enable(vdev);
  
-+#ifdef CONFIG_FAULT_INJECTION
-+	if (ivpu_fail_hw)
-+		setup_fault_attr(&ivpu_hw_failure, ivpu_fail_hw);
-+#endif
+-	if (ip_handled || btrs_handled)
+-		return IRQ_HANDLED;
+-	return IRQ_NONE;
++	if (!ip_handled && !btrs_handled)
++		return IRQ_NONE;
 +
- 	return 0;
++	pm_runtime_mark_last_busy(vdev->drm.dev);
++	return IRQ_HANDLED;
  }
- 
-diff --git a/drivers/accel/ivpu/ivpu_hw_ip.c b/drivers/accel/ivpu/ivpu_hw_ip.c
-index 029dd065614b2..823f6a57dc546 100644
---- a/drivers/accel/ivpu/ivpu_hw_ip.c
-+++ b/drivers/accel/ivpu/ivpu_hw_ip.c
-@@ -968,14 +968,14 @@ void ivpu_hw_ip_wdt_disable(struct ivpu_device *vdev)
- 
- static u32 ipc_rx_count_get_37xx(struct ivpu_device *vdev)
- {
--	u32 count = REGV_RD32_SILENT(VPU_37XX_HOST_SS_TIM_IPC_FIFO_STAT);
-+	u32 count = readl(vdev->regv + VPU_37XX_HOST_SS_TIM_IPC_FIFO_STAT);
- 
- 	return REG_GET_FLD(VPU_37XX_HOST_SS_TIM_IPC_FIFO_STAT, FILL_LEVEL, count);
- }
- 
- static u32 ipc_rx_count_get_40xx(struct ivpu_device *vdev)
- {
--	u32 count = REGV_RD32_SILENT(VPU_40XX_HOST_SS_TIM_IPC_FIFO_STAT);
-+	u32 count = readl(vdev->regv + VPU_40XX_HOST_SS_TIM_IPC_FIFO_STAT);
- 
- 	return REG_GET_FLD(VPU_40XX_HOST_SS_TIM_IPC_FIFO_STAT, FILL_LEVEL, count);
- }
-diff --git a/drivers/accel/ivpu/ivpu_hw_reg_io.h b/drivers/accel/ivpu/ivpu_hw_reg_io.h
-index 79b3f441eac4d..66259b0ead026 100644
---- a/drivers/accel/ivpu/ivpu_hw_reg_io.h
-+++ b/drivers/accel/ivpu/ivpu_hw_reg_io.h
-@@ -7,6 +7,7 @@
- #define __IVPU_HW_REG_IO_H__
- 
- #include <linux/bitfield.h>
-+#include <linux/fault-inject.h>
- #include <linux/io.h>
- #include <linux/iopoll.h>
- 
-@@ -16,13 +17,11 @@
- #define REG_IO_ERROR      0xffffffff
- 
- #define REGB_RD32(reg)          ivpu_hw_reg_rd32(vdev, vdev->regb, (reg), #reg, __func__)
--#define REGB_RD32_SILENT(reg)   readl(vdev->regb + (reg))
- #define REGB_RD64(reg)          ivpu_hw_reg_rd64(vdev, vdev->regb, (reg), #reg, __func__)
- #define REGB_WR32(reg, val)     ivpu_hw_reg_wr32(vdev, vdev->regb, (reg), (val), #reg, __func__)
- #define REGB_WR64(reg, val)     ivpu_hw_reg_wr64(vdev, vdev->regb, (reg), (val), #reg, __func__)
- 
- #define REGV_RD32(reg)          ivpu_hw_reg_rd32(vdev, vdev->regv, (reg), #reg, __func__)
--#define REGV_RD32_SILENT(reg)   readl(vdev->regv + (reg))
- #define REGV_RD64(reg)          ivpu_hw_reg_rd64(vdev, vdev->regv, (reg), #reg, __func__)
- #define REGV_WR32(reg, val)     ivpu_hw_reg_wr32(vdev, vdev->regv, (reg), (val), #reg, __func__)
- #define REGV_WR64(reg, val)     ivpu_hw_reg_wr64(vdev, vdev->regv, (reg), (val), #reg, __func__)
-@@ -47,31 +46,42 @@
- #define REG_TEST_FLD_NUM(REG, FLD, num, val) \
- 	((num) == FIELD_GET(REG##_##FLD##_MASK, val))
- 
--#define REGB_POLL_FLD(reg, fld, val, timeout_us) \
--({ \
--	u32 var; \
--	int r; \
--	ivpu_dbg(vdev, REG, "%s : %s (0x%08x) Polling field %s started (expected 0x%x)\n", \
--		 __func__, #reg, reg, #fld, val); \
--	r = read_poll_timeout(REGB_RD32_SILENT, var, (FIELD_GET(reg##_##fld##_MASK, var) == (val)),\
--			      REG_POLL_SLEEP_US, timeout_us, false, (reg)); \
--	ivpu_dbg(vdev, REG, "%s : %s (0x%08x) Polling field %s %s (reg val 0x%08x)\n", \
--		 __func__, #reg, reg, #fld, r ? "ETIMEDOUT" : "OK", var); \
--	r; \
--})
--
--#define REGV_POLL_FLD(reg, fld, val, timeout_us) \
--({ \
--	u32 var; \
--	int r; \
--	ivpu_dbg(vdev, REG, "%s : %s (0x%08x) Polling field %s started (expected 0x%x)\n", \
--		 __func__, #reg, reg, #fld, val); \
--	r = read_poll_timeout(REGV_RD32_SILENT, var, (FIELD_GET(reg##_##fld##_MASK, var) == (val)),\
--			      REG_POLL_SLEEP_US, timeout_us, false, (reg)); \
--	ivpu_dbg(vdev, REG, "%s : %s (0x%08x) Polling field %s %s (reg val 0x%08x)\n", \
--		 __func__, #reg, reg, #fld, r ? "ETIMEDOUT" : "OK", var); \
--	r; \
--})
-+#define REGB_POLL_FLD(reg, fld, exp_fld_val, timeout_us) \
-+	ivpu_hw_reg_poll_fld(vdev, vdev->regb, reg, reg##_##fld##_MASK, \
-+			     FIELD_PREP(reg##_##fld##_MASK, exp_fld_val), timeout_us, \
-+			     __func__, #reg, #fld)
-+
-+#define REGV_POLL_FLD(reg, fld, exp_fld_val, timeout_us) \
-+	ivpu_hw_reg_poll_fld(vdev, vdev->regv, reg, reg##_##fld##_MASK, \
-+			     FIELD_PREP(reg##_##fld##_MASK, exp_fld_val), timeout_us, \
-+			     __func__, #reg, #fld)
-+
-+extern struct fault_attr ivpu_hw_failure;
-+
-+static inline int __must_check
-+ivpu_hw_reg_poll_fld(struct ivpu_device *vdev, void __iomem *base,
-+		     u32 reg_offset, u32 reg_mask, u32 exp_masked_val, u32 timeout_us,
-+		     const char *func_name, const char *reg_name, const char *fld_name)
-+{
-+	u32 reg_val;
-+	int ret;
-+
-+	ivpu_dbg(vdev, REG, "%s : %s (0x%08x) POLL %s started (exp_val 0x%x)\n",
-+		 func_name, reg_name, reg_offset, fld_name, exp_masked_val);
-+
-+	ret = read_poll_timeout(readl, reg_val, (reg_val & reg_mask) == exp_masked_val,
-+				REG_POLL_SLEEP_US, timeout_us, false, base + reg_offset);
-+
-+#ifdef CONFIG_FAULT_INJECTION
-+	if (should_fail(&ivpu_hw_failure, 1))
-+		ret = -ETIMEDOUT;
-+#endif
-+
-+	ivpu_dbg(vdev, REG, "%s : %s (0x%08x) POLL %s %s (reg_val 0x%08x)\n",
-+		 func_name, reg_name, reg_offset, fld_name, ret ? "ETIMEDOUT" : "OK", reg_val);
-+
-+	return ret;
-+}
- 
- static inline u32
- ivpu_hw_reg_rd32(struct ivpu_device *vdev, void __iomem *base, u32 reg,
 -- 
 2.45.1
 
