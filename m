@@ -2,123 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551FEA21F67
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 15:41:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD0DA21F9E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 15:50:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2E9710E808;
-	Wed, 29 Jan 2025 14:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B70BD10E80D;
+	Wed, 29 Jan 2025 14:50:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ORB1RihA";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mimgsKh8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03A1910E808
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 14:41:39 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4363ae65100so77610685e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 06:41:39 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E3AD10E80D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 14:49:59 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-4361e82e3c3so10646685e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 06:49:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738161698; x=1738766498; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=zSEV+em0N0SfQE1alVhrq6tX6ofwmLyBx4bRZxI20Mc=;
- b=ORB1RihAGvQN9+Nx2ynmaGBdbFIkq0GEjurqrXKa3xxmKkq2B1T1WlHITv06AGE6VC
- aoVmUoAB2ikS28sUoQskfZqtWjE/4tK9VTUbTp7wKd9JnaOPDZj4VUVTJUK3BKgoKNZV
- i3WwSzG/ldUID7Nj3FDt8OmOho3luEFZBYN/2JGqaIQbkLhE/nePAMdwSnis9cWBi9DM
- ESmr5nXO6hxJix7UgJSp2+mVkbu/y+4RqUNNMkaGNo/5rtwYQhoLBMphItwfaxBZdjQc
- /CJKGEsEnclNK+okSy6CawGyBiarqpQEEvnAE9/wM+ymgzD/38omvvN/8Cbgem3bTlfc
- pC9A==
+ d=linaro.org; s=google; t=1738162198; x=1738766998; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=V/n482OJOD7YjQStqqcw/7H8YB/93aB4xiCe5kU4AIA=;
+ b=mimgsKh8BNakMQxc3cDEvLQTBHdZ8LdXtw5pNoN4vRN2nzcj8zbpdarNWcHngzbkoQ
+ wgQ4eOR3jc5/KVV2jAgxB0b3Wrx519NwlXrmWzjukZ7fir5XAYq1fhzhsaTO6qvCgfm8
+ rqshh6VwnRiUiNDyR+IbYp1q6qp+LxkAinRHxKe0RE25fnbdttBTwLngy+umhWueV5TR
+ hN8x6OIyJR2clZaSVJ57xJhyRxhwNtDg9T6rROwDTV5SgKNTaGAw55fo3CZuQurGKuG/
+ 0cpzrdhHlVHhdp1US5Dbnp0wGp72bAL2PrXul2Vr7wkU3JqMFsq9F1Ppf49aS3GJRtDP
+ xEXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738161698; x=1738766498;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=1e100.net; s=20230601; t=1738162198; x=1738766998;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zSEV+em0N0SfQE1alVhrq6tX6ofwmLyBx4bRZxI20Mc=;
- b=VCr5tjwsguJrj+S10nj+GYs2CAh78VjmJ31d2x8x7yybGj/Cd1BZCnxZ5L12MMczVH
- teIBDnFVLk0Sz9CgHGTI7B1lv78XnVHIOwCa4kCbJA00CU6dp69EFmj3VihXC8jKm/Le
- mJJB+OCztwYdF0gOgSEHOqNno5YCGHywAoMG/SQvWZeC8x2YYsacemojULzIq14ytCbv
- Q5nJDZyIiCx916avb4SIiAQ7JfpXKDUvtMgN+WZRyTkG4WtHP81LQcuGEudhXr+2c7eQ
- MSHJYbV/kIA5fDkrPiNYXxoSnQIHj4RMsxlalNNs77X4lRXom+8jhDH+leVmmJDrv84A
- biOA==
+ bh=V/n482OJOD7YjQStqqcw/7H8YB/93aB4xiCe5kU4AIA=;
+ b=FTgjgtrGYhBmKJR0LShv0AS9LpN7db8VXxIWDsfERb90BB6Enlv8NSuYiVWTD0HDdL
+ UtVrPIJqFSZkU/YBM4FdL/QXSWL1ni8EGrmhD91pATcAkSkyyIsyLqSHmY1QAIvz3yD+
+ HU12SSHQElYQBFPd9jGAI8z+u6kQw+zG0Z7IJDM46wWFEYUtXuS4KVj1EE9mfcD+55pe
+ sbwsTu0EbTcDyJlU5QRe482sLkkXukjSO8sxHuQFbQc8ANZ70F23ivxENMFFuKfbTtcm
+ E1akU0DtaBu0rPuPZQx0wHmbnWRYRohoekYKjOB834vF7VSGxYzL96E0nXW7NtF8Xy2Z
+ 1URg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUxbzbjwFvyTUh2U971yH2MwSyHb/+DbLsBolHmFaaJiUHC7P6uL6DCufrH6yXOAG60/Vmy/EXu+vo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyU1G5CbPWiNU4Z4+HFkqvS/6TFjo22RovNXjBhwl4lrdwj+NqQ
- 91nmW6hW0W6aPgDrR6b+FVzVAzrAltkB4M5X+H/jqMdnba39xbYB
-X-Gm-Gg: ASbGncu7cbPIbtJINwhyMe6A4JXoXzaJe77AnFxZH+aX5LzkjpKYdoVmYMcErur8xnh
- xdlCuxm9oP/i6XmF0RAqbbT1WLX4tu8r1niVQZDNjD+GzC2VNxxoISjzlDeVh7+DtVxQzuAfy/w
- k0d3IgmTqezT+DFofEaVwnu1r+miiSHS/+9GhZ71bZCd0d7QWfXVv2ZK2AR/023TdK4pavbPnIG
- NCzlqNStCqTbJjvbNz9NyHjSeyH4V5qcCdv+Ar5I5gwkcRDijpDeivo2sINcfcBG9JOPPeDtChj
- DfooJ7b6onxf5RbFr8BtTpiwh5lfxTElIUK0613oFxLLrYubv0sp2LUjHPUiNLGXt0SoT7aiLer
- lNA==
-X-Google-Smtp-Source: AGHT+IGdWBqWeiv+jbIoBfzm7k0/2DrarU7EXB90OvgtRbMeVkAoe8ODcFAhL4eNP6mW3P0r12bwJA==
-X-Received: by 2002:a05:600c:4e07:b0:436:e86e:e4ab with SMTP id
- 5b1f17b1804b1-438dc4353e7mr35398335e9.30.1738161698102; 
- Wed, 29 Jan 2025 06:41:38 -0800 (PST)
-Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
+ AJvYcCW1FVo3uEZgyDAxATFAnTUjjewU05FwSX//I1410lF3ShRWbxL3JWbjL+J+EsEfVORrNqi7il8oxew=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzSQtAtgREE/NWVDdCJusvSvwn5dQMWF5gC+2ogTsyMQP9ASure
+ vgy/TfxlgbujDvwhlIpKSEDXwkED0Zw1y5b/dB5bVuvhiuCe3NbqcUlrCShtiC8=
+X-Gm-Gg: ASbGncsQTD4sECufV9FUoC6hgmOz0UjE9c+bz3rwbKVlWIbUOk1KbyNVW5OqT3FGfhj
+ tHSu4F9iEM24UGOz+MnZdhp8aI4PeadRMlygWlRhZ/wfNQ9UjoKmD8L/hIEIhJg9t7q/9ujGrDV
+ nY0OfYGHddr1QP5MQVRNDHU5JBx6cOdYND99y1iiWAzIANwpu+mHc6Psrz+It4DrD9yl2kBmQcP
+ 45ZFMGkoi09FG/W7pQ9A3c/PrObqAs6o4EgfIzo8fHZPTE9Ii/XCOdkzI/S8TQNPDIp81FtDoDu
+ dOGblH56En0OxpA6xF6UcFZBSrhQ0MwPoA==
+X-Google-Smtp-Source: AGHT+IHDci9L/6AsBEeiuG6BZgyEOBnEPboPoD7HxDCRuBXGZTBAXC+3TfunwokyNjk3QSqkQJSPhg==
+X-Received: by 2002:a05:600c:19d2:b0:42c:bfd6:9d2f with SMTP id
+ 5b1f17b1804b1-438dc3a3ea6mr10969925e9.1.1738162198082; 
+ Wed, 29 Jan 2025 06:49:58 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.98])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438dcc2b1d9sm24718285e9.21.2025.01.29.06.41.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2025 06:41:36 -0800 (PST)
-Date: Wed, 29 Jan 2025 15:41:32 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, 
- Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
- linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-Message-ID: <2y3lwycrggmktamu3j3gj65uco7quvtu7tlc3724e4mpokhjz2@icedc3kervme>
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
- <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
- <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
+ ffacd0b85a97d-38c2a1bb0c9sm17494486f8f.78.2025.01.29.06.49.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jan 2025 06:49:57 -0800 (PST)
+Message-ID: <4a27c3f2-6b36-42bf-b323-2cfb0014ca58@linaro.org>
+Date: Wed, 29 Jan 2025 15:49:55 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cigenp6alv7pkbet"
-Content-Disposition: inline
-In-Reply-To: <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] drm/msm/dsi/phy: Program clock inverters in correct
+ register
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250129115504.40080-1-krzysztof.kozlowski@linaro.org>
+ <kdnbhw2ng2kuhm2ynlmtxz4bnq6j243ktqwfvr4mgrr6w5uy7d@4j6cictf4tpu>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <kdnbhw2ng2kuhm2ynlmtxz4bnq6j243ktqwfvr4mgrr6w5uy7d@4j6cictf4tpu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,58 +141,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 29/01/2025 15:31, Dmitry Baryshkov wrote:
+> On Wed, Jan 29, 2025 at 12:55:04PM +0100, Krzysztof Kozlowski wrote:
+>> Since SM8250 all downstream sources program clock inverters in
+>> PLL_CLOCK_INVERTERS_1 register and leave the PLL_CLOCK_INVERTERS as
+>> reset value (0x0).  The most recent Hardware Programming Guide for 3 nm,
+>> 4 nm, 5 nm and 7 nm PHYs also mention PLL_CLOCK_INVERTERS_1.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> ---
+>>
+>> Not tested except my work-in-progress oon SM8750. Not sure what is the
+>> impact, so also no Fixes tag.
+> 
+> I'd say,
+> 
+> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> I didn't fully test this, but according to msm-4.14, msm-4.19 and
+> display drivers techpack this change is required on all 7nm- PHYs
+> (including the SM8150).
 
---cigenp6alv7pkbet
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-MIME-Version: 1.0
+Thanks.
 
-On Wed, Jan 29, 2025 at 03:31:50PM +0100, Maxime Ripard wrote:
-> Hi Thomas,
->=20
-> On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
-> > Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
-> > > Remove the TODO now that this series addresses
-> > > the changes needed.
-> >=20
-> > While your series is fine, this TODO item is unrelated. It's about vari=
-ous
-> > ancient fbdev drivers that do not reserve their memory regions correctl=
-y. So
-> > please drop patch 14 form the series.
->=20
-> Is it? Could we rephrase the entry then? I'm the one that suggested
-> Anusha to work on this, and it's still not clear to me what it means
-> exactly if it's not what she worked on :)
+This was suggested to me in non-public talks so let's add original
+credits as well:
 
-The text in the TODO sounds pretty clear to me. It says that not all
-drivers request the memory that they are going to use, and suggests to
-add those missing calls. But all of the drivers in this series already
-do that and the only change here is to convert them to use some of the
-newer helpers.
+Reported-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Thierry
-
---cigenp6alv7pkbet
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmeaPhkACgkQ3SOs138+
-s6H45hAAkHi6OubObNKNwO2CYc2mT8gjjY3iZP3UvxqouoU05ylZ0uUIxHOz8K8T
-vXb+tkMFtsqIZZTJZGti+67m/YYOCtZsvXO79IMZy7WUab/bKWX7x2vy3WjN5lyG
-yqlo8kp85y69za3sJHjRrUvr4acQSDyDejrwBdWN2xMCnDgzG5lzXkXhibhyOaMd
-p0wyLE4EkS0pdxCg2FGGjiFOAnWmHd3+DPW3wRSMVsiXpVgWxEAQ6aGmNMtl0Y7F
-KM7UDu0umziZxMyR2/4SFn7Q772BDa1dwInJhSBF3ugkGdQ3mSPpBeDPjf+cI2Mj
-69Z5AA1KQOhvGcKM9WOW/kXV9/CeXD1dv6Z5c4ho4gnOWA9Sjj0PUVRIJy7oDtm5
-4SdccVE1EPL/+IzByDQFxbG6/UFTJroG0+N9mpx9p2tZ0fJDGiQepxQ6XqLKlbZg
-olV21Xytohgotp2SlQ8tk2PIln70QKzEanmMVBl2WEkxAByKbu/XK+4A9+3/Hy9l
-+RdZ/r1pHfzlW7nzFGKpNeNaH3uMkupcb4PsceavHYDmabcKJtyK4J2/xp218nwA
-EopzxkwqOiYMAHl1/tBeNlt4bEIhph/3ldgBr6fgUWSbddKQxr6YjU/Lyvp5KOFH
-qkb1aCLDg6nKqceZe1QQeEDsVyZJA2a3ACyQ5rpyrniazDRDlU8=
-=VcN2
------END PGP SIGNATURE-----
-
---cigenp6alv7pkbet--
+Best regards,
+Krzysztof
