@@ -2,80 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9EBA217AE
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 07:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E3EA217DE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 08:05:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ACC610E03A;
-	Wed, 29 Jan 2025 06:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB72A10E73E;
+	Wed, 29 Jan 2025 07:04:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tYXlaTpf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fbSbY2+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CCE810E03A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 06:27:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D54ED5C55CE;
- Wed, 29 Jan 2025 06:27:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E108EC4CED3;
- Wed, 29 Jan 2025 06:27:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738132062;
- bh=BcheDkbF7i4plK077EE5fx0I+7LaoMSZmCvmiRwCLWc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tYXlaTpf1UHLxCOLY2b71oBs1Z8jmc+k88hDg4mxgy9BfVh5FaZFJ0sctqiMaUJa3
- 0ERjR88O2sKxLaXENNFiYXgW5V6EWANwLybrlRdZ0uAueHnvFc/luTGhJJHi5qSyHf
- Qhwk4n5jqTURqvwR6zUdrtKBktKuVAQJmisiNKpSZSSK6LJmo4zYOOzg6tSFgxCsOc
- Qfzb+Ch4Hp08uSkL1c1h9vCW8n/kbD+KUJVXjOVTrDcLl+peTbMx/iozRX16+XGbqx
- LmxLOokGigU1zjIvh0goqBVkjBWqvL4YDcg+yxNUApdR5ACop75NXb+fT4J9+7jnPJ
- KRVcLrP4/YQHg==
-Date: Wed, 29 Jan 2025 07:27:24 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
- Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
- Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
- James Smart <james.smart@broadcom.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Chris Mason <clm@fb.com>, 
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
- Ilya Dryomov <idryomov@gmail.com>, Dongsheng Yang <dongsheng.yang@easystack.cn>,
- Jens Axboe <axboe@kernel.dk>, Xiubo Li <xiubli@redhat.com>, 
- Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, 
- Frank Li <Frank.Li@nxp.com>, Mark Brown <broonie@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
- Selvin Xavier <selvin.xavier@broadcom.com>, 
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, cocci@inria.fr, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-sound@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
- linux-block@vger.kernel.org, 
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 09/16] xfs: convert timeouts to secs_to_jiffies()
-Message-ID: <kywszbmxtm27rlgaefr6xus6l4bpdiouqqe72px7ml72hh4ozc@5orjtzsbg75s>
-References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <JZGx8kYNWP54f9cEViEKZlR6sGGADv31K4TOPtwvyeoDEFkRKICiFaQy04EvZtsQtc44Zozh76mkch2s8rz7mQ==@protonmail.internalid>
- <20250128-converge-secs-to-jiffies-part-two-v1-9-9a6ecf0b2308@linux.microsoft.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4908310E06E;
+ Wed, 29 Jan 2025 07:04:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738134295; x=1769670295;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Y3VRUb3PmeMld5+U168mbNCYtLVpYo9aXmk/0RVKA10=;
+ b=fbSbY2+0Jp1cP0Pvd2HNw+qLR1hunaYQ3sYRgRwKAGYcCQbOacNzE4Wn
+ Xf7GUmzBgAtrG1czb4sWKQHr/cbFPBCTCjndIsWkQwM36rhio0+GauR5+
+ Ndl/yqu7cMYE1ec0g+aBGGgpmT4ESBRjY6259zYPIaAr4xwijDBTcc2EL
+ HGKS6+aFXdltpgyiox8Bfq2UeypN+TzDXrMvOCDYOlMQG7sBJXi98raNv
+ v9KvP8dQKUqGaFfUU8XZs4wOi7dIRZ5O/U+Q/RaWebJClFufxm1r8NFtD
+ JXybCi/qoR3p0I6ZDs/IICrunE7o5phIuPD0jEh9+L35B+XrVdpkhw3C7 A==;
+X-CSE-ConnectionGUID: vswKM3MOScKmm7NIBNcXwQ==
+X-CSE-MsgGUID: N8gTz9onQJG2Tz2j/rpzNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="38541759"
+X-IronPort-AV: E=Sophos;i="6.13,242,1732608000"; d="scan'208";a="38541759"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 23:04:54 -0800
+X-CSE-ConnectionGUID: j1JpE7l4QfyiDOMqv/HX3A==
+X-CSE-MsgGUID: DSqUCl9GQCen2U0J1bPgqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="108803685"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Jan 2025 23:04:49 -0800
+Date: Wed, 29 Jan 2025 09:04:46 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
+Cc: Xaver Hugl <xaver.hugl@kde.org>, airlied@gmail.com, simona@ffwll.ch,
+ lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+ lina@asahilina.net, michal.wajdeczko@intel.com,
+ christian.koenig@amd.com, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
+ anshuman.gupta@intel.com, alexander.deucher@amd.com,
+ andrealmeid@igalia.com, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com
+Subject: Re: [PATCH v10 2/4] drm/doc: Document device wedged event
+Message-ID: <Z5nTDrUVQjCcK9Cb@black.fi.intel.com>
+References: <20241128153707.1294347-1-raag.jadav@intel.com>
+ <20241128153707.1294347-3-raag.jadav@intel.com>
+ <CAFZQkGy3R0TMY5CARPQZF70fdKGLX8GQjV_YQAHzEXsiuNHj+w@mail.gmail.com>
+ <Z5CAkXSOpNiiFbv4@black.fi.intel.com>
+ <20250127122328.6d85bca1@eldfell>
+ <Z5ilcc0hC8nvz0Li@black.fi.intel.com>
+ <20250128133809.1e5ed2be@eldfell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-9-9a6ecf0b2308@linux.microsoft.com>
+In-Reply-To: <20250128133809.1e5ed2be@eldfell>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,75 +82,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2025 at 06:21:54PM +0000, Easwar Hariharan wrote:
-> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-> secs_to_jiffies().  As the value here is a multiple of 1000, use
-> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
+On Tue, Jan 28, 2025 at 01:38:09PM +0200, Pekka Paalanen wrote:
+> On Tue, 28 Jan 2025 11:37:53 +0200
+> Raag Jadav <raag.jadav@intel.com> wrote:
 > 
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-> the following Coccinelle rules:
+> > On Mon, Jan 27, 2025 at 12:23:28PM +0200, Pekka Paalanen wrote:
+> > > On Wed, 22 Jan 2025 07:22:25 +0200
+> > > Raag Jadav <raag.jadav@intel.com> wrote:
+> > >   
+> > > > On Tue, Jan 21, 2025 at 02:14:56AM +0100, Xaver Hugl wrote:  
+> > > > > > +It is the responsibility of the consumer to make sure that the device or
+> > > > > > +its resources are not in use by any process before attempting recovery.    
+> > > > > I'm not convinced this is actually doable in practice, outside of
+> > > > > killing all apps that aren't the one trying to recover the GPU.
+> > > > > Is this just about not crashing those processes if they don't handle
+> > > > > GPU hotunplugs well, about leaks, or something else?    
+> > > > 
+> > > > Correct, all of it. And since the compositor is in charge of device resources,
+> > > > this way it atleast has the opportunity to recover the device and recreate
+> > > > context without all the userspace violence.  
+> > > 
+> > > Hi Raag,
+> > > 
+> > > sorry, I haven't followed this series, so I wonder, why should
+> > > userspace be part of recovering the device? Why doesn't the kernel
+> > > automatically load a new driver instance with a new DRM device node?  
+> > 
+> > There are things like bus level reset (PCI SBR) and re-enumeration that are
+> > not possible from driver context (or atleast I'm not aware of it), so a new
+> > instance is just as useful/less as the old one.
 > 
-> @depends on patch@
-> expression E;
-> @@
-> 
-> -msecs_to_jiffies
-> +secs_to_jiffies
-> (E
-> - * \( 1000 \| MSEC_PER_SEC \)
-> )
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
-> ---
->  fs/xfs/xfs_icache.c | 2 +-
->  fs/xfs/xfs_sysfs.c  | 7 +++----
->  2 files changed, 4 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/xfs/xfs_icache.c b/fs/xfs/xfs_icache.c
-> index 7b6c026d01a1fc020a41a678964cdbf7a8113323..7a1feb8dc21f6f71d04f88de866e5a95925e0c54 100644
-> --- a/fs/xfs/xfs_icache.c
-> +++ b/fs/xfs/xfs_icache.c
-> @@ -230,7 +230,7 @@ xfs_blockgc_queue(
->  	rcu_read_lock();
->  	if (radix_tree_tagged(&pag->pag_ici_root, XFS_ICI_BLOCKGC_TAG))
->  		queue_delayed_work(mp->m_blockgc_wq, &pag->pag_blockgc_work,
-> -				   msecs_to_jiffies(xfs_blockgc_secs * 1000));
-> +				   secs_to_jiffies(xfs_blockgc_secs));
->  	rcu_read_unlock();
->  }
-> 
-> diff --git a/fs/xfs/xfs_sysfs.c b/fs/xfs/xfs_sysfs.c
-> index 60cb5318fdae3cc246236fd988b4749df57f8bfc..eed0f28afe97ead762a9539e45f292db7d0d0c4a 100644
-> --- a/fs/xfs/xfs_sysfs.c
-> +++ b/fs/xfs/xfs_sysfs.c
-> @@ -568,8 +568,8 @@ retry_timeout_seconds_store(
->  	if (val == -1)
->  		cfg->retry_timeout = XFS_ERR_RETRY_FOREVER;
->  	else {
-> -		cfg->retry_timeout = msecs_to_jiffies(val * MSEC_PER_SEC);
-> -		ASSERT(msecs_to_jiffies(val * MSEC_PER_SEC) < LONG_MAX);
-> +		cfg->retry_timeout = secs_to_jiffies(val);
-> +		ASSERT(secs_to_jiffies(val) < LONG_MAX);
->  	}
->  	return count;
->  }
-> @@ -686,8 +686,7 @@ xfs_error_sysfs_init_class(
->  		if (init[i].retry_timeout == XFS_ERR_RETRY_FOREVER)
->  			cfg->retry_timeout = XFS_ERR_RETRY_FOREVER;
->  		else
-> -			cfg->retry_timeout = msecs_to_jiffies(
-> -					init[i].retry_timeout * MSEC_PER_SEC);
-> +			cfg->retry_timeout = secs_to_jiffies(init[i].retry_timeout);
->  	}
->  	return 0;
+> Ok, "not possible from driver context" is a key revelation. I wonder if
+> starting an overview section with that in the documentation would help
+> getting the right mindset.
 
-Looks fine to me.
+Not "not possible" in a literal sense, but rather allowing something that
+drastic and convoluted that is probably beyond the scope of the driver.
 
-Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+> Did I miss that somewhere?
 
+The first two paragraphs are meant as an introduction. Let me know if
+something's not translating so well.
+
+> I thought bus level reset meant resetting the PCI device by some bus
+> API. Clearly mistaken, I suppose you mean resetting the whole bus
+> including everything on it?
+
+I'm no PCI expert but yes, it is atleast my understanding.
+
+...
+
+> > > (More important for userspace would be know if dmabuf fds remain
+> > > pointing to valid memory retaining its contents or if the contents are
+> > > lost. Userspace cannot tell which device a dmabuf originates from,
+> > > AFAIK, so this would need to be added in the generic dmabuf UAPI.)  
+> > 
+> > Not sure if I understand, perhaps Christian can shed some light here.
 > 
+> A system might have multiple GPUs, and one GPU going down may leave all
+> the rest working as usual. A Wayland compositor would want to tell the
+> difference between still-good and possibly or definitely lost dmabufs
+> it received from its clients.
+
+Usually 'DEVNAME=' and 'DEVPATH=' values refer to the device that generates
+the event.
+
+> But this is off-topic in this thread I believe, nothing to the series
+> at hand.
+
+...
+
+> > > > > > +be unmapped and file descriptors should be closed to prevent leaks.    
+> > > > > Afaiu from a userspace POV, a rebind is just like a GPU hotunplug +
+> > > > > hotplug with matching "remove" and "add" udev events. As long as the
+> > > > > application cleans up resources related to the device when it receives
+> > > > > the event, there should be no leaks with a normal hotunplug... Is this
+> > > > > different enough that we can't have the same expectations?    
+> > > > 
+> > > > The thing about "remove" event is that it is generated *after* we opt for an
+> > > > unbind, and at that point it might be already too late if userspace doesn't
+> > > > get enough time to clean things up while the device is removed with a live
+> > > > client resulting in unknown consequences.
+> > > > 
+> > > > The idea here is to clean things up *before* we opt for an unbind leaving
+> > > > no room for side effects.  
+> > > 
+> > > Something here feels fragile. There should not be a deadline for
+> > > userspace to finish cleaning up. What was described for KMS device nodes
+> > > in this same document seems like a more reliable approach: keep the
+> > > dead driver instance around until userspace has closed all references
+> > > to it. The device node could be removed earlier.  
+> > 
+> > I'm not sure if I'm following here. The driver instance will exist as long
+> > as the dead device exists, which the consumer can remove if/when it chooses
+> > to trigger an unbind from userspace. There is no deadline for it.
 > 
-> --
-> 2.43.0
+> I was going by your words: "it might be already too late if userspace
+> doesn't get enough time to clean things up".
+
+The idea here is to completely detach kernel and userspace *before* moving
+forward with the recovery.
+
+> > The consumer can choose to rely on hotplug events if it wishes, but the point
+> > here is that it doesn't guarantee a clean recovery in all cases.
 > 
-> 
+> Clearly I don't understand the whole picture here. No worries,
+> nevermind.
+
+Less moving parts comes with more chances of success.
+
+Raag
