@@ -2,125 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1237AA221C6
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 17:30:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1745A221FE
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 17:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD6DE10E0FD;
-	Wed, 29 Jan 2025 16:30:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3520A10E847;
+	Wed, 29 Jan 2025 16:44:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R/luurQ2";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="EIAgAttT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
- [209.85.128.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA0FE10E0FD
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 16:30:11 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-436249df846so48099895e9.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 08:30:11 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBE1E10E122
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 16:44:33 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4363ae65100so79647455e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 08:44:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738168210; x=1738773010; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=kncPR1x+HrgO/UNoa6XCUy62lvyXubVaayCMa0/G3/c=;
- b=R/luurQ2KPH4F7QxcVP6Qp0gR4wwxbt8DZGMP/hZEK7r4jkYWJwZudRaiZ2oe0zpyK
- KqI+LKSLAEWvKk0KGFN2Y6OWHivhyPUk3CvnKyC+KyYP+637V/fehk4Q2Ep7XUim1Vv0
- R4alSkR01UtjISidvX8z2r4d5XbbKJlFh3YKKVd60/UVwr/cmuPJcJXkzpvrsK+iB8r8
- 2oJ5cG/MQVHlnZGIvgWP1zjmBvPzyA9ejnaRbD7jry97nfXq4LdKggvAgb8FGqUWjoj6
- L6aOU5QfGMkGGdQc4Lv0sqxfN7aV90UdK6HTGtiNeza+9oisE2kNgt+UEy+LXOhLY4rm
- u3tA==
+ d=linaro.org; s=google; t=1738169072; x=1738773872; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=s+P+kQEK9FrLYE8x2tbLZXPIt8MJ5MgVTvHDKiGvbJ0=;
+ b=EIAgAttTskpqeLWtqWWX4/eiWNf0rJ09gvhllvRXiKJG03FSVid/s84ftk8akiX93Q
+ CYHVv5CxotpuXVTmKXLWo843d/flmbscImwrDmx5010gmx2P8vvKL/D1TZ7/Uj3046wR
+ v/twK07pH7NO8xCpYwWqen8Ef5bxxQfHk3B/+eGkoibTEaByZQmi7rq7zc9PU29YRdT0
+ b/Ltjk2/1i5xDqzJ48lhfnOIBaHzb2NjkmLbdMbD5PSsBC8KAWgHHnEYQmoCRXxrdsR+
+ o9oTlhUAAVrYESh1FLeDo4Z3eXlDca6qhWLgUXwwV9zrQSpm3pc54Fqciac3pVt1SDgx
+ WLfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738168210; x=1738773010;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=kncPR1x+HrgO/UNoa6XCUy62lvyXubVaayCMa0/G3/c=;
- b=p5stuOg03nayscudt1H95YmZ6V2RtC/jyQQfNXsXWHQck/juk489pnPL3yFaxgWW5x
- 16wAs+5DQrlh1TpEoY52qhxccHtkKzNm6M9suq7jE2Q00yMCPcQbW4V/sVwTZ71VGiEE
- +JhYh+PYYxh59DBeGVOGZHMTGtOlPxyeZxzwVtLIoqP/TLHy4uXsNkG0H2qJrqeiQFDf
- IazZKI91AzAiKy+YDHZFgZV/TN/JnDim3SqOZT8WWYNqhDMuAksb86jPZYP0u/qQ0LKl
- NjpoevdweOoRKvOHpLRvvCVGiy+RL6BWdoZeLl8yZxYbzoMaTuLhV6kM4iVMP6VrdXpF
- B0lQ==
+ d=1e100.net; s=20230601; t=1738169072; x=1738773872;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=s+P+kQEK9FrLYE8x2tbLZXPIt8MJ5MgVTvHDKiGvbJ0=;
+ b=pB7AlQE1VLM8I1QNMqqL22ZU/bxnHAUd1bb7LgDypo9BqnPWicDSn+QI6JPtV+9rpz
+ WFU2lZU/S/C8lvuJbRIlfqXkmIE5zztTDp/8SoJ6jt77MVf748OHS3nNfBgM1R5XU3fs
+ YsqOHUkBmQkGH+VhMzwRyCsQ5fvAHTiIhqircE2apvWgNMfyJl4VtRfGa9xC3fhpAExV
+ Oa2Vk3eUKFYvaZxuJkvA2juypaFJxBZHSNkZOiM7wGHzUux8oYOIxzG9exIpZ9AhwITV
+ Chb7gcPle6mfW9cJ+2iVVcTMhVVIG5ulyJJAkExVAOFOBqk0agqxk3njv5I4mouQE5s4
+ U4Xw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXyDwDIWq29d5YDETYQGTZSc10TcxGy4WVlg3bn/U7U+HfHRaUh00zcsWHSDFigUzA2LoWcu61yhYg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyb7kb1NIvkFKnkYFi+PJ3Xf2DU2bfooL7U6e4kaMqkR4DJPLzU
- Mvr4fZlHyB5OSxf4Jol3PShfCJ6oJ2t5HZsb17wo0JxL3uRaseT8
-X-Gm-Gg: ASbGncvSsyWghR+Z8wglEdfRuC71CN77d99OY6DPFQmAYfHU+ky7QlX8DgLTSqs6Yu+
- XCHT1Gww67zn4ez4ZmGAViiJVgMMUZBA0Pdq3LppfRUE5WsIcf+n8MNFJtDWYnG2YwkmKyzhs+8
- PEsX/y34CpxtTO+WLfSPY2zWv7EZtabcK3b8jn8SGb/fnh5hq1KKlAeaNyla1wcRHToyNPTnhAC
- WWZn79grh6cfuZ30TCwDFjQIBWJhxS843Zl+fMClHg1cNtl3X3pHJ9l5x4kDwTczlzpIMN9xbii
- ICxCdSEJ8SXZriFarXv9Pljnc97Ey0bwitTWWYrK/ygEPWuPm4X0nKD0efl+XesNXc2mqLwsEMu
- EVQ==
-X-Google-Smtp-Source: AGHT+IFm5Jm3zy7mcGZVwWe1YgDmOIk+BMdUjzsviFL4g+X0VoNE5WMhP+abocamyyaYUsUSJGXvKA==
-X-Received: by 2002:a05:6000:2ce:b0:38a:8e2e:9fcc with SMTP id
- ffacd0b85a97d-38c520b7692mr3030462f8f.45.1738168209834; 
- Wed, 29 Jan 2025 08:30:09 -0800 (PST)
-Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
+ AJvYcCUHb4KsUFn60JlcZPXw0HmKm1rN3m3HhpcQYHJeBaGTRSoIjUrVFh5PaM9jDtAQTo5Amm0CyizRkJ4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwO0y/NDBBJX9aT2+cdeDsFxNMhyJUvosrqzB0nzv2cnSohLJg2
+ 0rBiZF18EXZUAi0v7qsnzsi1sOcoTS68S3A/sDG6FIT7x2jaRunh20ewEJa+lkw=
+X-Gm-Gg: ASbGncvwEgd6MGR4+N1Zy0mWB/BQtp/wca9nOUl8XT5W6avHwp1zUNkN8tnc7R5sSF7
+ uYOOOSeAZ+XlfvhZVFsPwQN41DRM++TDy6YXpSi/OBvXcEO9/cmodz4HWrLKRAGxCRZNmcWauUR
+ Kh+cl8yMJOPJ6hVJsno3CvBQP1QUJFex1BQG0CHxDixGmPi2EuyGhmpva7WeOoKE8GUxPqi/kwe
+ xYbHHr27cx6h2pP3nh9P798tYY6pxVg8G3dX2EDqYKpvzNovFZQlB0p/Wnav5lNwjSx1WMXtWCC
+ iTp7j/2Yu9Q4rnOHAHOM0jq4kgwFtnCK06NHy63YkU12spHPp2pt8U0rC3wc5S0csh63
+X-Google-Smtp-Source: AGHT+IGU+0apyU+mgIHTYWjC+/davOqZgpQBPDsbDYK1OSLnbxtCNBsrhJypFLuT+lEu1zN6aBPDYw==
+X-Received: by 2002:a05:600c:4e07:b0:436:e86e:e4ab with SMTP id
+ 5b1f17b1804b1-438dc4353e7mr41981115e9.30.1738169072304; 
+ Wed, 29 Jan 2025 08:44:32 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:b25e:a614:863b:566e?
+ ([2a01:e0a:982:cbb0:b25e:a614:863b:566e])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c2a1bb0besm17773109f8f.79.2025.01.29.08.30.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Jan 2025 08:30:08 -0800 (PST)
-Date: Wed, 29 Jan 2025 17:30:05 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, 
- Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
- linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-Message-ID: <54mqpk7elbn3y4o4w5skiwbx6kpkpbsg45l7tfzuphf6rzziej@laywqtj7tfpw>
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
- <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
- <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
- <2y3lwycrggmktamu3j3gj65uco7quvtu7tlc3724e4mpokhjz2@icedc3kervme>
- <4jn3dfea3eb5yuqobjwvbzfxhwatpvvhtpxbmt6npyrypkyruw@mgtmxignyvt5>
+ ffacd0b85a97d-38c2a1bad87sm17562458f8f.74.2025.01.29.08.44.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Jan 2025 08:44:31 -0800 (PST)
+Message-ID: <c676ef1a-3b08-4342-b4da-d0b525f2f55b@linaro.org>
+Date: Wed, 29 Jan 2025 17:44:31 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vlfdakvgoj7a5bm2"
-Content-Disposition: inline
-In-Reply-To: <4jn3dfea3eb5yuqobjwvbzfxhwatpvvhtpxbmt6npyrypkyruw@mgtmxignyvt5>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 08/10] drm/display: bridge-connector: handle CEC
+ adapters
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
+ <20250126-drm-hdmi-connector-cec-v3-8-5b5b2d4956da@linaro.org>
+ <j5vgb5kcjs2ax3kws6rlbcca57set22ncj6onvgbm4xwjtw43t@uplzdjywzrkr>
+ <qe7cm52nozxvawm6yjzbvfarwoiokpwkr26s66tkypgrsztc7t@vnzbek6i4qhr>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <qe7cm52nozxvawm6yjzbvfarwoiokpwkr26s66tkypgrsztc7t@vnzbek6i4qhr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,87 +127,47 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 29/01/2025 00:44, Dmitry Baryshkov wrote:
+> On Tue, Jan 28, 2025 at 05:14:06PM +0100, Maxime Ripard wrote:
+>> On Sun, Jan 26, 2025 at 03:29:13PM +0200, Dmitry Baryshkov wrote:
+>>>   /* -----------------------------------------------------------------------------
+>>>    * Bridge Connector Initialisation
+>>>    */
+>>> @@ -633,6 +711,21 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
+>>>   			if (ret)
+>>>   				return ERR_PTR(ret);
+>>>   		}
+>>> +
+>>> +		if (bridge->hdmi_cec_adapter_name) {
+>>> +			if (!bridge->funcs->hdmi_cec_enable ||
+>>> +			    !bridge->funcs->hdmi_cec_log_addr ||
+>>> +			    !bridge->funcs->hdmi_cec_transmit)
+>>> +				return ERR_PTR(-EINVAL);
+>>> +
+>>> +			ret = drm_connector_hdmi_cec_register(connector,
+>>> +							      &drm_bridge_connector_hdmi_cec_ops,
+>>> +							      bridge->hdmi_cec_adapter_name,
+>>> +							      bridge->hdmi_cec_available_las,
+>>> +							      bridge->hdmi_dev);
+>>> +			if (ret)
+>>> +				return ERR_PTR(ret);
+>>> +		}
+>>
+>> Maybe we can use a different bridge feature flag to trigger the CEC code
+>> support instead?
+> 
+> it is possible, but what is the possible usecase? DP drivers should be
+> using DP_AUX CEC instead. And I think there are no other kinds of
+> bridges which implement CEC support. Meson driver does something strange
+> by registering CEC notifier from meson_encoder_hdmi. I think instead
+> this should be moved to the DW HDMI bridge itself
+> 
 
---vlfdakvgoj7a5bm2
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-MIME-Version: 1.0
+It was done before bridge_connector has any support for CEC to keep the
+functionnality, I'll be happy to switch to this.
 
-On Wed, Jan 29, 2025 at 04:28:49PM +0100, Maxime Ripard wrote:
-> On Wed, Jan 29, 2025 at 03:41:32PM +0100, Thierry Reding wrote:
-> > On Wed, Jan 29, 2025 at 03:31:50PM +0100, Maxime Ripard wrote:
-> > > Hi Thomas,
-> > >=20
-> > > On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
-> > > > Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
-> > > > > Remove the TODO now that this series addresses
-> > > > > the changes needed.
-> > > >=20
-> > > > While your series is fine, this TODO item is unrelated. It's about =
-various
-> > > > ancient fbdev drivers that do not reserve their memory regions corr=
-ectly. So
-> > > > please drop patch 14 form the series.
-> > >=20
-> > > Is it? Could we rephrase the entry then? I'm the one that suggested
-> > > Anusha to work on this, and it's still not clear to me what it means
-> > > exactly if it's not what she worked on :)
-> >=20
-> > The text in the TODO sounds pretty clear to me.
->=20
-> The title is "Request memory regions in all drivers", and the first
-> sentence is "Go through all drivers and add code to request the memory
-> regions that the driver uses". It's definitely ambiguous if only fbdev
-> drivers should be considered, even more so in the DRM documentation.
->=20
-> > It says that not all drivers request the memory that they are going to
-> > use, and suggests to add those missing calls.
->=20
-> Right.
->=20
-> > But all of the drivers in this series already do that
->=20
-> Nope.
->=20
-> > and the only change here is to convert them to use some of the newer
-> > helpers.
->=20
-> For some, yes. For others, it actually adds request_mem_region.
-
-Ah... indeed. Well, on the face of it this looks like just another mass-
-conversion to the devm_platform_ioremap_resource() helper, so that's
-also confusing.
-
-Maybe the right way to do this would be to split this into two series,
-one that actually does what the TODO suggests (and maybe updates the
-TODO to make it more obvious that after this only fbdev drivers are
-left) and another series that does the helper conversion.
-
-Thierry
-
---vlfdakvgoj7a5bm2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmeaV4kACgkQ3SOs138+
-s6Fc5g//QZiZGAOOwS/HvsPWCl3EAnXTtEOaH4XXTZswARVZDGZdl3jYwiZim7x3
-Odn69X6NAQl5pFytjbexpzii+zH/UQZVz5kndydjXtK/JWz5VeXlKUrxYKMU+GEM
-+9dEecjXOqKAtLPF/QyA387/Xp6qIIsQDHM5/akoAifYOd3TbuCl4AqBU/LYuGt6
-F86Eaa7n8kChb6BpZ3Km6NfzkhJhTIw9/VZXxp21Y9izQUZuHAVvyt3e2hLr9L9W
-S0XFv1mPAYUcBAao+vvEF3kJvrnVXjXDZnjVPpiKuJe4e0l2aDMNW9TEr7are4m5
-8JlrAMkbGTKEKzTQlHIgKuFJYcmTyvqs4KBrxmX1bEqm2gsRqnNXl/7yvbY+s/s5
-QSM9otV5y60e0IZkmuJjoEklKJ8SmyPgbrnb04ua2KQXrRvnDO+BQSWerziVyz84
-6RNfGTuacRhr5C2KlI7MdELGzweRPD6TA8Qa3k71gpCXKg9063+1aRanPLWbpwue
-vIBmrFZZcJRMxftEjPMRJj7IcBvIZY12Zij2eu7fWDaeXujcre4Apg3rClGnYxOq
-RT0DHxbnFi9msAWdCAFZTUiyzyFZ0Vq/op7JUugsAq/nYKK9lXSyOdVvLd1Ojgm5
-CBtQAEdJXMKCwmB5yb7bRv2ag/y/oiQtUsnkgViwm1FTPUFD+gY=
-=XiY9
------END PGP SIGNATURE-----
-
---vlfdakvgoj7a5bm2--
+Neil
