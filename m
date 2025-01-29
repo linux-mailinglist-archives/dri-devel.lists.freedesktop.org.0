@@ -2,78 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42DFA21D05
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 13:21:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EFCDA21D08
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 13:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1224210E030;
-	Wed, 29 Jan 2025 12:21:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDED10E7E1;
+	Wed, 29 Jan 2025 12:22:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mf5T0Pnk";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13E0410E7EA
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 12:21:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F1A1B5C5698;
- Wed, 29 Jan 2025 12:21:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3667CC4CED3;
- Wed, 29 Jan 2025 12:21:40 +0000 (UTC)
-Message-ID: <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
-Date: Wed, 29 Jan 2025 13:21:38 +0100
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE99310E7E0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 12:22:35 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-53f22fd6832so7452736e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 04:22:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738153354; x=1738758154; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=eRDMdrR73gUJ1Q4/o40XdsAUzR8OCpfjUSMlmEuWmLc=;
+ b=mf5T0PnkzvAPwDyz5XA4IYRQH0+Cy1c/kPthyUQBx7xnOG3DgsJ0hoEz0p3fgrJitH
+ MOkCeJe5uQlDP1g3WIRSEKbq03SC/ywHMLNReSwf+W0xjiFv+RDZAH6CZerE/9F7Luek
+ 54ngdNTBd3wtWe60txx3S5uswHX5iyThZCNBs5g9iU+hPRIsnBP/4TyDZwm6Cx54Qghq
+ NjazcZPHejBLqDAfBcYzGPp2njyOemdW8PH3po6QGDNeYC9ywWiSHeuTvMjkix9pMGTv
+ 5nVxv/iCbvMD/uHiQryIm8WHOwuk1q8AFvxLERr2+MnThjrMO/oyecy/2wC3yNP45+bG
+ vZNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738153354; x=1738758154;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eRDMdrR73gUJ1Q4/o40XdsAUzR8OCpfjUSMlmEuWmLc=;
+ b=bj3lU5kJRXB74kkees01WlxtkNqLSQloIDCXgerxZDbrMkdd1m9Ahsl+6cSwW7hxN3
+ ph+onJHtSzNQJ5WVtGMD2AlWLDyKSJXOuYSMRV/YKORrjY9Jfb4roAQtfDLKivHgVU+O
+ QIJXh5OyHE456MMia8LAbugONTpL8mkNVLeDEE9NsQjTktQCN9RI6/9pjEUT/DHLpqAZ
+ khSjolcB3aFBJsdlOXrKY44q2sfGB04KAoWdWsr9TlttlM1PW3HMQg4uyug/OotG0cgH
+ q/qVIF0etQzVTnRbjDsGvS4DAj3EiKAbdTZY2e2BGZHt/Hi9c3UxQ2a3dgKA2O6mA/4R
+ JudQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV7eH3ppPozMK82joR7xzPTHeEfbG4+6dY2n/CEds3qebCKf8qcIUnF+MrTK3ge3mTCoN42p8uO0Is=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxskOQp83Aq1wGcEd095XgD3siEEe3AcN7b/pOgWxXz9VyNGigV
+ NsgpQYj28L53cggwLCOXIioYCKB8pB9uXyjzhl8B+CX96FjHytx6ghCbBotm+1s=
+X-Gm-Gg: ASbGncssacPDD4kfpqN8JA1ouXyKlqKwgQOxm44chqqLT5GY+517Eft6fZB6tyXbVqQ
+ tTnz8Gbl8X+muGKQhZY5qHZIG2ysv+B5oBN1bcERgvTytZwWxknj+rABJiv1ABZA8X4hSr2UotM
+ 5kqSObD+jbYFVxSKl48Yv8eYF0OEpwCyaY9Z44sJK6ZgvrnTNkHjx9RCEfT5jPI/9UFNOmugZPP
+ AgYQZBRqAFNDdzksEEoIx3ngptfNQT3/wRrYnK+GniEOUVis+q9YBNOI9vBF7FKsMs7BjJIE3V/
+ dwjlJKKajM9pm5yfIyJzZ9bkfHNIcmQ5ovkiuXNaV7/JwUkVLgSjaWRCqnLfEYhPni4+sIE=
+X-Google-Smtp-Source: AGHT+IGvBOgV2ZaaEvAbq6mS1qgCJfJWEc+POw07Pf84KnH6OU2QSM8Lwr3ZtXvI91MJz/jrtziZ1w==
+X-Received: by 2002:ac2:4e08:0:b0:542:2a29:88ed with SMTP id
+ 2adb3069b0e04-543e4c3c238mr992245e87.44.1738153353797; 
+ Wed, 29 Jan 2025 04:22:33 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543c8228943sm1973304e87.33.2025.01.29.04.22.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Jan 2025 04:22:32 -0800 (PST)
+Date: Wed, 29 Jan 2025 14:22:30 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Paul Kocialkowski <contact@paulk.fr>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
+ bridges
+Message-ID: <yipjwosmkqsadvhulzh76ydqbfvv5npdafl3yzdjmikfa2yq4y@j7nj4audwxl7>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
+ <20250106-vigorous-talented-viper-fa49d9@houat>
+ <CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
+ <20250108162429.53316041@booty>
+ <20250108-astonishing-oarfish-of-energy-c0abbe@houat>
+ <20250122171230.30cf9b97@booty>
+ <jiwexbvzcrq7hywl5t25cojrgjnyv5q2wnb2kvgriucal6764w@hhrefcftcjza>
+ <20250129125153.35d0487a@booty>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Farblos <farblos@vodafonemail.de>
-References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250129125153.35d0487a@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,86 +115,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/01/2025 10:51, Hans Verkuil wrote:
-> If the hotplug detect of a display is low for longer than one second
-> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
-> is unregistered since we assume the display was disconnected. If the
-> HPD went low for less than one second, then we check if the properties
-> of the CEC adapter have changed, since that indicates that we actually
-> switch to new hardware and we have to unregister the old CEC device and
-> register a new one.
+On Wed, Jan 29, 2025 at 12:51:53PM +0100, Luca Ceresoli wrote:
+> Hi Maxime,
 > 
-> Unfortunately, the test for changed properties was written poorly, and
-> after a new CEC capability was added to the CEC core code the test always
-> returned true (i.e. the properties had changed).
+> On Tue, 28 Jan 2025 15:49:23 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
 > 
-> As a result the CEC device was unregistered and re-registered for every
-> HPD toggle. If the CEC remote controller integration was also enabled
-> (CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
-> also unregistered and re-registered. As a result the input device in
-> /sys would keep incrementing its number, e.g.:
+> > Hi,
+> > 
+> > On Wed, Jan 22, 2025 at 05:12:30PM +0100, Luca Ceresoli wrote:
+> > > On Wed, 8 Jan 2025 17:02:04 +0100
+> > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > 
+> > > [...]
+> > >   
+> > > > > > > And we'll also need some flag in drm_bridge to indicate that the device
+> > > > > > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
+> > > > > > > because now your bridge driver sticks around for much longer than your
+> > > > > > > device so the expectation that your device managed resources (clocks,
+> > > > > > > registers, etc.) are always going to be around.      
+> > > > > 
+> > > > > Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
+> > > > > drm_bridge.c will need to be sprinkled with them I guess.    
+> > > > 
+> > > > The users would be the drivers, most likely. There's not much we can do
+> > > > at the framework level, unfortunately.  
+> > > 
+> > > Back to the idea of a "gone" flag, or perhaps an "unplugged" flag to
+> > > be consistent with the struct drm_device naming, and
+> > > drm_bridge_enter()/drm_bridge_exit(), I did a few experiments and have
+> > > a question.
+> > > 
+> > > In case:
+> > > 
+> > >   a) there is a notification callback to inform about bridges
+> > >      being removed, and
+> > >   b) all entities owning a struct drm_bridge pointer stop using
+> > >      that pointer when notified
+> > > 
+> > > 
+> > > With the above, there should be no need for
+> > > drm_bridge_enter()/drm_bridge_exit(). Nobody will be using a pointer to
+> > > a bridge that is being removed.
+> > > 
+> > > Now, about a), patch 1 in this series implements such a mechanism to
+> > > inform all bridges when a bridge is being removed. Note that the
+> > > "unplugged" flag would be set immediately after the notifier callback
+> > > is currently called: "unplugged == true" will never happen before the
+> > > callback, and after the callback there will be no pointer at all.
+> > > 
+> > > Patch 1 however is only notifying bridges, so other entities (e.g.
+> > > encoders) cannot be notified with this implementation. However a
+> > > different notification mechanism can be implemented. E.g. until v3 this
+> > > series was using a generic struct notifier_block for this goal [0], so
+> > > any part of the kernel can be notified.
+> > > 
+> > > About b), the notification appears simpler to implement in the various
+> > > drivers as it needs to be added in one place per driver. Also adding
+> > > drm_bridge_enter()/exit() can be trickier to get right for non-trivial
+> > > functions.
+> > > 
+> > > Do you see any drawback in using a notification mechanism instead of
+> > > drm_bridge_enter()/exit() + unplugged flag?  
+> > 
+> > Yeah, because we're not considering the same thing :)
+> > 
+> > The issue you're talking about is that you want to be notified that the
+> > next bridge has been removed and you shouldn't use the drm_bridge
+> > pointer anymore.
+> > 
+> > A notification mechanism sounds like a good solution there.
+> > 
+> > The other issue we have is that now, we will have the drm_bridge pointer
+> > still allocated and valid after its device has been removed.
+> > 
+> > In which case, you need to be able to tell the bridge driver whose
+> > device got removed that the devm resources aren't there anymore, and it
+> > shouldn't try to access them.
+> > 
+> > That's what drm_bridge_enter()/exit is here for.
 > 
-> /sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
+> Let me rephrase to check I got what you mean.
 > 
-> Since short HPD toggles are common, the number could over time get into
-> the thousands.
+> A) On bridge removal, use a notifier to notify all consumers of that
+> bridge that they have to stop using the pointer to the bridge about to
+> be removed.
 > 
-> While not a serious issue (i.e. nothing crashes), it is not intended
-> to work that way.
+> B) Internally in the bridge driver (provider) use
+> drm_bridge_enter()/exit() to forbid access to resources when the
+> hardware is unplugged.
 > 
-> This patch changes the test so that it only checks for the single CEC
-> capability that can actually change, and it ignores any other
-> capabilities, so this is now safe as well if new caps are added in
-> the future.
+> And also: bridge consumers won't need to use drm_bridge_enter()/exit()
+> as they will clear their pointer before setting the unplugged flag.
 > 
-> With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
-> dropped as well, so that's a nice cleanup.
+> Is my understanding of your idea correct?
 > 
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Reported-by: Farblos <farblos@vodafonemail.de>
+> If it is, I tend to agree, and I like it.
+> 
+> I like it, except for one point  I'm afraid. Why do we need enter/exit
+> inside the driver (provider) code? At driver release, the driver
+> instance won't exist anymore. Sure the private struct embedding a
+> struct drm_bridge will be still allocated for some time, but the struct
+> device will not exist, and the device driver instance as well.
 
-Fixes: 2c6d1fffa1d9 ("drm: add support for DisplayPort CEC-Tunneling-over-AUX")
+You have to sync several possible kinds of events: bridge calls from DRM
+core, from HDMI audio, CEC, DP AUX _and_ completely async device
+'remove' / unbind callbacks.
 
-Regards,
+> 
+> Luca
+> 
+> -- 
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
-	Hans
-
-> ---
-> Jens (aka Farblos), can you test this patch?
-> ---
->  drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
-> index 007ceb281d00..56a4965e518c 100644
-> --- a/drivers/gpu/drm/display/drm_dp_cec.c
-> +++ b/drivers/gpu/drm/display/drm_dp_cec.c
-> @@ -311,16 +311,6 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
->  	if (!aux->transfer)
->  		return;
-> 
-> -#ifndef CONFIG_MEDIA_CEC_RC
-> -	/*
-> -	 * CEC_CAP_RC is part of CEC_CAP_DEFAULTS, but it is stripped by
-> -	 * cec_allocate_adapter() if CONFIG_MEDIA_CEC_RC is undefined.
-> -	 *
-> -	 * Do this here as well to ensure the tests against cec_caps are
-> -	 * correct.
-> -	 */
-> -	cec_caps &= ~CEC_CAP_RC;
-> -#endif
->  	cancel_delayed_work_sync(&aux->cec.unregister_work);
-> 
->  	mutex_lock(&aux->cec.lock);
-> @@ -337,7 +327,9 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
->  		num_las = CEC_MAX_LOG_ADDRS;
-> 
->  	if (aux->cec.adap) {
-> -		if (aux->cec.adap->capabilities == cec_caps &&
-> +		/* Check if the adapter properties have changed */
-> +		if ((aux->cec.adap->capabilities & CEC_CAP_MONITOR_ALL) ==
-> +		    (cec_caps & CEC_CAP_MONITOR_ALL) &&
->  		    aux->cec.adap->available_log_addrs == num_las) {
->  			/* Unchanged, so just set the phys addr */
->  			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
-
+-- 
+With best wishes
+Dmitry
