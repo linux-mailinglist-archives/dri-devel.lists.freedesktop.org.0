@@ -2,93 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1E8A21D9B
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 14:13:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87A92A21DC5
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 14:18:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED23710E06F;
-	Wed, 29 Jan 2025 13:13:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDD4810E04E;
+	Wed, 29 Jan 2025 13:18:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PhAfJdmV";
+	dkim=pass (2048-bit key; unprotected) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="P2Sm3tQq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF0F10E06F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 13:13:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738156387; x=1769692387;
- h=from:date:to:cc:subject:in-reply-to:message-id:
- references:mime-version;
- bh=uWLMAkjiPxmd0IZ1cdFsHKZZFguDfleylm6v197BRzQ=;
- b=PhAfJdmV6kOP7mNpcs2TuSphmT884HccaJXxPU0VgdZ7V6PYLLmIY7/S
- B7fVrIIr/PPGDmRuGFA4lsiO3U7n0LmWOQm+8wr1649x/lhjy1RvqfYVi
- 8/LVzo1xbRNOiqzg7vYP0q3kV9vN5m8FmWsFAWYJ5hKY5Q/qKx5TrtOD4
- U7iYL45Z8snPTPD4p8rv83beMPvoV5zn/vhp30lguoCwnSBmKmnJLTQMY
- IabcQTMNo3/RbXvZmIZ7NPkSNu0KZ2PtaaMroIzO4wChOYFerEeiiuYhr
- 7c6tILpKkhY81PHVdFnskj0OmxTL353vlgo3Dh5rIL9jbvhPpmLdH8nG7 g==;
-X-CSE-ConnectionGUID: uZvt0wYdSb+ZlFhXJIPg0Q==
-X-CSE-MsgGUID: 2OamgaRfTSK8/4yFIuge5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="56203310"
-X-IronPort-AV: E=Sophos;i="6.13,243,1732608000"; d="scan'208";a="56203310"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2025 05:13:06 -0800
-X-CSE-ConnectionGUID: VQdEsMXqR8qBKjmeEKbOAw==
-X-CSE-MsgGUID: O+KtZNkvRJq7JgLfGnW4VQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113646751"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.245.222])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jan 2025 05:12:52 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 29 Jan 2025 15:12:49 +0200 (EET)
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-cc: Andrew Morton <akpm@linux-foundation.org>, 
- Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
- Julia Lawall <Julia.Lawall@inria.fr>, 
- Nicolas Palix <nicolas.palix@imag.fr>, 
- James Smart <james.smart@broadcom.com>, 
- Dick Kennedy <dick.kennedy@broadcom.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, 
- David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>, 
- Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>, 
- Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>, 
- "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>, 
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>, 
- Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>, 
- Selvin Xavier <selvin.xavier@broadcom.com>, 
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- cocci@inria.fr, LKML <linux-kernel@vger.kernel.org>, 
- linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
- ceph-devel@vger.kernel.org, linux-block@vger.kernel.org, 
- linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
- linux-spi@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 14/16] platform/x86/amd/pmf: convert timeouts to
- secs_to_jiffies()
-In-Reply-To: <20250128-converge-secs-to-jiffies-part-two-v1-14-9a6ecf0b2308@linux.microsoft.com>
-Message-ID: <e8207616-6079-be0d-d482-6577616a4cc7@linux.intel.com>
-References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
- <20250128-converge-secs-to-jiffies-part-two-v1-14-9a6ecf0b2308@linux.microsoft.com>
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EA9210E04E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 13:18:14 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-30738a717ffso59974501fa.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 05:18:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google; t=1738156692; x=1738761492;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=f+CHJ8n+1weOhv4NN8WEDPgNRoao7eEb7VxTBwhD7To=;
+ b=P2Sm3tQqedj2s/vcB5gUrA4dNo/OW0TH+jgMvATk1TyrSm3j9Fw/Nq3AZIppjk2Cbl
+ rak5Nl8MDiomj7ULimC2cefHSqhPblbELsKIDa29F1FG2xrZuADYdC5FhbWPDLyi8Ism
+ wOdOXl+WCB3GUlBy0OVretSbVVNre3jtCydxA7CBm8+FX4yK2GxRvrwxdKr9WovIoXeT
+ oZFZq1zb9+xoygvr/jwcZQsvz511ae7LJLQxiD0lyAAJ+zucX3KQ56jXdySwrz2Q6fEq
+ 6RoJuOQH1bEMZwsg892a/gz38sDpqwl4BWiYRcf2stgbhlHsXfL0Ehv7peYPoyp9nDKI
+ VQKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738156692; x=1738761492;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=f+CHJ8n+1weOhv4NN8WEDPgNRoao7eEb7VxTBwhD7To=;
+ b=ni3gcXP3mtKme6k0fxbclDWGaXeUeupy9CisHbnntNxf3zzwr13Wrwy0eyBjvY3pD6
+ mUCY4BM55H5N226EY87p61XvcG1F6Vgn9aHuezxO1yqHui6OfKskX7Kq6e0B8jsvkhJA
+ l/Qp15Tm9aPAO0/eEfigH5NcM4ViZFNYEoJ8jYbW+H1d/b9zL6+ySoSO3XG0NLfuK1nj
+ LjWLEefAqL5sHMbWqMMwfBC38egNiG6Qldm95eUdZFbyR//SmooyVzAk1k/YsJzykcCh
+ /9MPIpqOgiRj7YbcDhOyKDf4grniDiZpJC2uneC+aEIUpl2SHeBt7Lu2U7WvXKtoyWyY
+ V2Ng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWSdvfATbbNngwqcWEHWYy01BWaXtVqXwhQvdAQPWbqwYbac0esgvE2NVZt1Wx1LUeo6KNYjfO1XNs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzR/t5oeq3BzHThI5om0Uz49pdsXCFWQ0X8E3Jg/Pl193eSmw/L
+ Dzmw6mfbaQObMaEHyVoLiY+BCD8LJhvSD4kMA9VknfEYc07+IhKHP6Y9TpfZ5QvJl0yLewLT2vQ
+ JgNZ0lqTSVuq/8fmqjjL6nogVwbJDZm8pTsIarw==
+X-Gm-Gg: ASbGncuh7SiuT1bW/wR0M72OEV6AYMd4gfrJmKUEAXCWvq5IvOcdQEYJ5GOrK4xcWAn
+ lBNpFPDHyd3OS37x7aGu8uBg0CxnvI7HSw3QoTT3kEOyn8nZjQdSURkGrRTi0iuV07VxlmWBiuj
+ eDEIu4xNR9EyjWxv/50Qs/pXCzXDvq
+X-Google-Smtp-Source: AGHT+IGFRC+m+r/a8Okn6oewxCN7IKGCsP32ORqURIUMiUOfm5o7kOj6AXMqnFWDbj2MV05dJpu5VXuc2FEJhvoxCWI=
+X-Received: by 2002:a2e:be9c:0:b0:307:2bc6:5eb4 with SMTP id
+ 38308e7fff4ca-307968bfa7bmr8911111fa.3.1738156692452; Wed, 29 Jan 2025
+ 05:18:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
+ <20250128-cocci-memory-api-v1-13-0d1609a29587@redhat.com>
+In-Reply-To: <20250128-cocci-memory-api-v1-13-0d1609a29587@redhat.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 29 Jan 2025 13:17:54 +0000
+X-Gm-Features: AWEUYZktkNT_EsHcnViFnfugP1naRJeQlMuaRyszOFwlglEWr7DXeU7KaxFISbw
+Message-ID: <CAPY8ntBvJpSFhOwqBPmiN59Z0EpienEm-=M-euHdQU8XLGgXUA@mail.gmail.com>
+Subject: Re: [PATCH 13/14] drm/vc4: move to devm_platform_ioremap_resource()
+ usage
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Joel Stanley <joel@jms.id.au>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
+ Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
+ Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+ John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Marek Vasut <marex@denx.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Alexey Brodkin <abrodkin@synopsys.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Jonathan Corbet <corbet@lwn.net>, 
+ linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+ imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,50 +126,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Jan 2025, Easwar Hariharan wrote:
+Hi Anusha
 
-> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-> secs_to_jiffies().  As the value here is a multiple of 1000, use
-> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
-> 
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-> the following Coccinelle rules:
-> 
-> @depends on patch@
-> expression E;
+On Tue, 28 Jan 2025 at 22:33, Anusha Srivatsa <asrivats@redhat.com> wrote:
+>
+> Replace platform_get_resource_byname + devm_ioremap_resource
+> with just devm_platform_ioremap_resource()
+>
+> Used Coccinelle to do this change. SmPl patch:
+> //rule s/(devm_)platform_get_resource_byname +
+> //(devm_)ioremap/devm_platform_ioremap_resource.
+> @rule_3@
+> identifier res;
+> expression ioremap;
+> identifier pdev;
+> constant mem;
+> expression name;
 > @@
-> 
-> -msecs_to_jiffies
-> +secs_to_jiffies
-> (E
-> - * \( 1000 \| MSEC_PER_SEC \)
-> )
-> 
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> -struct resource *res;
+> ...
+> -res =3D platform_get_resource_byname(pdev,mem,name);
+> <...
+> -if (!res) {
+> -...
+> -}
+> ...>
+> -ioremap =3D devm_ioremap(...);
+> +ioremap =3D devm_platform_ioremap_resource_byname(pdev,name);
+>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: "Ma=C3=ADra Canal" <mcanal@igalia.com>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 > ---
->  drivers/platform/x86/amd/pmf/acpi.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/amd/pmf/acpi.c b/drivers/platform/x86/amd/pmf/acpi.c
-> index dd5780a1d06e1dc979fcff5bafd6729bc4937eab..6b7effe80b78b7389b320ee65fa5d2373f782a2f 100644
-> --- a/drivers/platform/x86/amd/pmf/acpi.c
-> +++ b/drivers/platform/x86/amd/pmf/acpi.c
-> @@ -220,7 +220,8 @@ static void apmf_sbios_heartbeat_notify(struct work_struct *work)
->  	if (!info)
->  		return;
->  
-> -	schedule_delayed_work(&dev->heart_beat, msecs_to_jiffies(dev->hb_interval * 1000));
-> +	schedule_delayed_work(&dev->heart_beat,
-> +			      secs_to_jiffies(dev->hb_interval));
->  	kfree(info);
->  }
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
+i.c
+> index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..e22733f8159aa4b247a915e24=
+a236f620bae932c 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -2951,15 +2951,10 @@ static int vc5_hdmi_init_resources(struct drm_dev=
+ice *drm,
+>  {
+>         struct platform_device *pdev =3D vc4_hdmi->pdev;
+>         struct device *dev =3D &pdev->dev;
+> -       struct resource *res;
+>         int ret;
+>
+> -       res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi"=
+);
+> -       if (!res)
+> -               return -ENODEV;
+> -
+> -       vc4_hdmi->hdmicore_regs =3D devm_ioremap(dev, res->start,
+> -                                              resource_size(res));
+> +       vc4_hdmi->hdmicore_regs =3D devm_platform_ioremap_resource_byname=
+(pdev,
+> +                                                                       "=
+hdmi");
 
-Hi,
+Whilst I totally agree with this change, why was only one of the 8
+instances of this pattern within this function updated? Is that a
+limitation in your script?
+https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/vc4/vc4_hdmi.=
+c#L2957-L3020
 
-So you made the line shorter but still added the newline char for some 
-reason even if the original didn't have one?? Please don't enforce 80 
-chars limit with patches like this.
+  Dave
 
--- 
- i.
-
+>         if (!vc4_hdmi->hdmicore_regs)
+>                 return -ENOMEM;
+>
+>
+> --
+> 2.47.0
+>
