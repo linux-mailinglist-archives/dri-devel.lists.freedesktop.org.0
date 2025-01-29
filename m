@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E25A2206C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D56E7A22073
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:33:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EEBB10E826;
-	Wed, 29 Jan 2025 15:32:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E46B10E829;
+	Wed, 29 Jan 2025 15:33:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eNEyerr8";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tqrvmPa5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C286710E826
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 15:32:03 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5596210E829
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 15:33:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 06A655C5A46;
- Wed, 29 Jan 2025 15:31:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BE9C4CED1;
- Wed, 29 Jan 2025 15:32:01 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id A2881A41A66;
+ Wed, 29 Jan 2025 15:31:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8610C4CED1;
+ Wed, 29 Jan 2025 15:33:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738164722;
- bh=3eFheDSpWiyXUMIVePzaMmKiY4Irw4pDvAOo/KLDnaE=;
+ s=k20201202; t=1738164806;
+ bh=MINsAlGP+IWemPuIKVuQIkc4AnIYXc8ewNTg0fTGbZk=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eNEyerr8J8cbrkMBUgupRCxukgjLdit161gsKlHuJxa+5IqchUKpPVtU4BV55gLHH
- arBcFMgvi5A3NFA1OOSoAZUoqHmhTBa8NxmwyXTU767gowKxQF2CYOKypUqndM2Dw4
- gMSGB/Rs7OZtmzE+zSYKGK7fR8O+vuWcQeSoRX0J0b6FiT5uxyH537PUh3ICy3gBE7
- qGorehjzmtey9b4Ie1xvoPiBep7Y95l8e4v8qYDm+4UZz/i0Ss81LEaBI2zJeYXHU1
- pwkIwiqaZHM9XFV7eReEW18xKSuzUrbPdEWsOuwBBrTaa3/7ZMCwQo/ZSyVQmAsg4Z
- xfrQZrqytCJow==
-Date: Wed, 29 Jan 2025 16:31:59 +0100
+ b=tqrvmPa5UhekDfsy+cPdeHlTD9eEK6B5/Kuz61v80rcNV7C5be85yrZ3LkZThJuqZ
+ REhX4Sx6D+sYCmlPMDzeLzuams0lpiG6AfMG21NglJQMD4qblG2xuEBx1Q3hernB8w
+ eG3UNI53K925jPmHC4QVjBlPQH7d815/egQX0aBgMGqoIsA5BruQ9KbbuqGxk/zAY2
+ zcTOw7JSTxKnnmHMk/4f7gn6RdZGjntB1ogpqPG4kBR27Hc1KH7qcmlVtke7DwPHfe
+ BUaaDWTH3JAPzWVYwfALZJW/P8WjAl3TbOMHbarnsPcyJAtx7JESkUJtZKpw2N+Xz4
+ Bl94cgjlVNDEQ==
+Date: Wed, 29 Jan 2025 16:33:22 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Anusha Srivatsa <asrivats@redhat.com>
 Cc: Joel Stanley <joel@jms.id.au>, 
@@ -75,16 +75,16 @@ Cc: Joel Stanley <joel@jms.id.au>,
  linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
  linux-doc@vger.kernel.org
-Subject: Re: [PATCH 02/14] drm/fsl-dcu: move to
+Subject: Re: [PATCH 03/14] drm/hisilicon: move to
  devm_platform_ioremap_resource() usage
-Message-ID: <re7tzoh5jc62tne5yjxwedzgwytjiaobe7lmthufl64ianzkwd@5tr3snkco7n5>
+Message-ID: <6ccprzvnxkrqphxrsfp5gofzkicqyibjpveniup7wpra7p2tg2@x5tz45kit2oc>
 References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-2-0d1609a29587@redhat.com>
+ <20250128-cocci-memory-api-v1-3-0d1609a29587@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="4ecgy27a4bl56ypl"
+ protocol="application/pgp-signature"; boundary="dupye724qr742yg3"
 Content-Disposition: inline
-In-Reply-To: <20250128-cocci-memory-api-v1-2-0d1609a29587@redhat.com>
+In-Reply-To: <20250128-cocci-memory-api-v1-3-0d1609a29587@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,15 +101,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---4ecgy27a4bl56ypl
+--dupye724qr742yg3
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 02/14] drm/fsl-dcu: move to
+Subject: Re: [PATCH 03/14] drm/hisilicon: move to
  devm_platform_ioremap_resource() usage
 MIME-Version: 1.0
 
-On Tue, Jan 28, 2025 at 05:29:26PM -0500, Anusha Srivatsa wrote:
+On Tue, Jan 28, 2025 at 05:29:27PM -0500, Anusha Srivatsa wrote:
 > Replace platform_get_resource + devm_ioremap_resource
 > with just devm_platform_ioremap_resource()
 >=20
@@ -125,24 +125,29 @@ On Tue, Jan 28, 2025 at 05:29:26PM -0500, Anusha Srivatsa wrote:
 > -ioremap_res =3D devm_ioremap_resource(...);
 > +ioremap_res =3D devm_platform_ioremap_resource(pdev,0);
 >=20
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Alison Wang <alison.wang@nxp.com>
+> Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> Cc: Tian Tao <tiantao6@hisilicon.com>
+> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Yongqin Liu <yongqin.liu@linaro.org>
+> Cc: John Stultz <jstultz@google.com>
+>=20
 > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
 Maxime
 
---4ecgy27a4bl56ypl
+--dupye724qr742yg3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pJ7gAKCRAnX84Zoj2+
-dtrgAYCFjfwtMfB3t6F45oNqmLk0ks3YVtwAXdgRfdShn6/wFj/BV7iDvIgrpcCH
-qLlOFWEBgMW8WvTRwXwIETDgFjCMTrxFlK4L2dh4+vwJLxCZFKsXy41VgEFoC+Qs
-LXrrPbNtgw==
-=AGCA
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pKQgAKCRAnX84Zoj2+
+dgnAAYDocV8Hi1jItqly1rX3RgJxBvbHB7dRM9x+ADwfWacUO02HGMnqwmBc16Bx
+dkudzNMBf01rR/o3BCIIpg5xa99y2kiswp8ppBoSmPORAmV5OyaRnLWfOw8PehtB
+NryfqyN45g==
+=XqRS
 -----END PGP SIGNATURE-----
 
---4ecgy27a4bl56ypl--
+--dupye724qr742yg3--
