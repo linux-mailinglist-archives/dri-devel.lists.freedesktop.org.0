@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4431BA2249C
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 20:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A440A224AA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 20:46:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ACDB10E076;
-	Wed, 29 Jan 2025 19:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D565F10E175;
+	Wed, 29 Jan 2025 19:46:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ltsneRdN";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ER/t6Xk5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16C7E10E076
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 19:40:53 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e587cca1e47so169381276.0
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 11:40:53 -0800 (PST)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com
+ [209.85.219.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1564B10E175
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 19:46:33 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id
+ 3f1490d57ef6-e53aa843a24so1995318276.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 11:46:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738179652; x=1738784452; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :references:to:from:subject:user-agent:mime-version:date:message-id
+ d=gmail.com; s=20230601; t=1738179992; x=1738784792; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YiAwe4ZwCv8Im80AYWWU2ZRBnO1Np7+D1TolCE4p/M0=;
- b=ltsneRdNP+UwuOqM3MvKILodwEj/LNeMbq4/Vg52dZGjwWwpg+g9E5fXu7fdOMCRaA
- oYimZvR7ksb0nC3JepEVcoccSr5IenhodioHWCkAJvvERJCaD0z1n+MV6M/85BV43NVQ
- iFXlBOsCrAwZ6fZ6MYLgCV5SQcOF7Hj4B3qQ1EzkXoC+qZvnWiUkLp1qst5xLT6m2AAn
- f10Y6RPD9K9ODcCLZOw++romOV+KLklC51x1RPdTkWctWGBywH51zxBGQlU8HdubWl/U
- tDT8/8C9FL5ZbyvCRmbnVvlTfUyKfb8HFXI3CE6M91K4EckwV014JzSqqotrgPVBXWwX
- DxMw==
+ bh=xgRC8OeXxOl594KDgwrGWdhbUQ/t+LE/hIy8Z/jf0C4=;
+ b=ER/t6Xk5ETDpWKygpB0ARIY+KXLblhk5L55xG7HEikxt2RXgnhUGDDACUX5GytOnfM
+ c2RVXqISBfcnGil/k/XRImVnwkbxNue+Nx2wxYgvAfZzDC/nC2ujgK0NYNZZ+fiZSl/T
+ RJR2KCSzNxeAJ6G/uqmAPolwWuMSojnAbkPjFzpG16Sz5wOWb2BUcsXGMOpF8quqEK5Y
+ u9S0A07bTWaVsiyEZxdmH6twHtkWlYIfHw0iZI1YDDw9Nio5xqhL9D7aF5vwx3LG6HXc
+ xuegynnU/6pVbe8IgEjfrxH4T1tlDFRVYE/hUtZJ3GfGW/Q784cMJ4vOaksSuvq6NHxF
+ bQgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738179652; x=1738784452;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :references:to:from:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1738179992; x=1738784792;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YiAwe4ZwCv8Im80AYWWU2ZRBnO1Np7+D1TolCE4p/M0=;
- b=o/w7khhyrpmTamF5VnqYvJpLWRKsmXUGImDWykvaswNqPGERYAB0Kw8HO2+fW7O9xQ
- AK4AuvSOlgpsKHL4lYbCER+tmsEqsTBsb0DAiQtpA/R9DXlMxjIvbD3cpCtW1HY5kY/i
- L4tVre/25bYUhEtkUf6nc2jIpu4a2O4AM2uS9U9JYwePjH499MmvC+1FIJ/MfTy0nsxe
- rkEg7mB9wrsclkD24SAiOWp0b11jM/O94mE+g/LR7FCV8+Ok5ImM5I5nAcM9JOsp4f4K
- +6Ja9QvUs4pMKyBmdeyVjcH1UZlJY/f8/PvBmR/eusva2IVTso2/mSLMRpcflxy8ebDs
- vhlA==
+ bh=xgRC8OeXxOl594KDgwrGWdhbUQ/t+LE/hIy8Z/jf0C4=;
+ b=riWcOhubZf+z1F/Y/vjpxxaZORLaZhSvEjBl7T58ibUhzxnktPY24xg3TcaLk+ujsC
+ RjM4pHA+p0g9QdXPVoGAOSz0qmkseoJLoy+zSHvNbHGaNdNmh/z0+4l+0xw24Tmylj6a
+ xG5076ZfRzprjRTSUZeSitcQSX4xj35ibptGNPDnlftgRZLFnnidwrOfPN+cnfw2ozw1
+ xNNPeLpT74BICAX+6gr7tppdz52PdoMx1Sa0xPITvhBDvc7YweEGxoapgM0TEqdvGcIV
+ P5g+sAqeQ47VywJFXeF7yCFWWYU+F3AxQmY54ldzgkzNWTwTtP9v+DSIU9voCFRcucL2
+ Qd8w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU+xI0Ef5du6jbeqr2k0GziU3eH21UMv6jNLQE9MlNq33AE32b/n33l31qkzStC4/dmC31+c7dpiyk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzrG8RB8/WljH3W4J5YXns1LKA5r+WjiLD+jpzT478oZSenOst3
- qPS8AUufBeCGi4KwEUkz4DuTmdaoZt3H56a1yzTSpfvx7Baqhrte
-X-Gm-Gg: ASbGnctiusUHGpkXQuspvolB1t3SW8d1UZWaDubSKwx3SppmhLCzmjozCLfXyJMWlBi
- nauzohROW58jJEVQWTkjOhFHfM31NsN2Gt5dnc3w3njv9Vlujm7GiM9L0j14B+FOwNgzta4iFvQ
- VM+ZVaBxPVD6j6n8RIrD+gpt2tPXO7RSHYERTq64u6O79hlSe1ed6FPxhKRYn4oetjTJwrp6rNj
- zx0Sln30eDJtbsn8pdYiNrlM8PIWnGC935nlke7+ginB4g91HVJvxrz2Tg45B/08392s85q0fQz
- 2y5/5N8yFOJEedcOCKA=
-X-Google-Smtp-Source: AGHT+IFcm70cBzxdaG4YIpPTJqjr1mlkmvf4KaftoD5a2PQ8bLHewaoEFQM7aAbm4+WTw3yFJ6O+gg==
-X-Received: by 2002:a05:690c:4912:b0:6ef:805c:ea15 with SMTP id
- 00721157ae682-6f7a83fd04bmr32763617b3.23.1738179652005; 
- Wed, 29 Jan 2025 11:40:52 -0800 (PST)
+ AJvYcCXrvJ58ArId/aa0hK7A11/H2DDW7W6v75BHsLuqRsXZHAb8Hx1+lD2lvtzG4ftYqOYwIsi7zmZpo/U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyn8q676ZosMbMIeqMr8hwbNRXhpPMvu/jB+8LwKgZUw1bFnwpF
+ 1rOrTcR0fFZfoStihMQnK3qirdTW9mw2y5H5sV9w+LuJ/xIgcb6F
+X-Gm-Gg: ASbGncuxvP8YZgF/PIjEkVthYTRvg4U1EN6FShG9mydZ+3JeHDHuf3bguvLGGydJjVZ
+ 8x+WbVH4ndmNXMSTpa+vwek+qhqJd34ltvUKcacm8kK6GjCjVcDE278PwmSwKm7fNyByvxOMOKt
+ lF3xLdjQLl6rcD4LWmaYXJePL5sgQl933e7KwJ3eQCpPTU6+vqIMj/f77qdhX8s4l5Yx/GU1Ts+
+ jATOnBR6ccDXCJIGUb3XkbZyBvYfYD5m/sJqK5nURiPskWdhebSwFq3cbKwX3BuCk/0rtVetAnF
+ gmjg6JXNrlnxmMmvARc=
+X-Google-Smtp-Source: AGHT+IGZHZoRwpLASNm1lhdI/ftLWBK3eJ7E8KD+ljLTQamiuyRlOXTcUIBefFe1tbw2L5oeT2CPAg==
+X-Received: by 2002:a05:6902:2207:b0:e57:87db:22b5 with SMTP id
+ 3f1490d57ef6-e5ac88a6cdbmr674094276.6.1738179991974; 
+ Wed, 29 Jan 2025 11:46:31 -0800 (PST)
 Received: from [10.138.7.94] ([45.134.140.51])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-6f757a2ac24sm23937107b3.103.2025.01.29.11.40.50
+ 3f1490d57ef6-e583b867f3bsm2594747276.45.2025.01.29.11.46.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Jan 2025 11:40:51 -0800 (PST)
-Message-ID: <a0165511-b7c7-442a-84cc-15fef7ea53b9@gmail.com>
-Date: Wed, 29 Jan 2025 14:40:50 -0500
+ Wed, 29 Jan 2025 11:46:31 -0800 (PST)
+Message-ID: <4b7da777-87bd-4002-a2a8-b44a89281f12@gmail.com>
+Date: Wed, 29 Jan 2025 14:46:30 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC PATCH 3/3] drm/virtio: implement blob userptr resource object
-From: Demi Marie Obenour <demiobenour@gmail.com>
+Content-Language: en-US
 To: "Huang, Honglei1" <Honglei1.Huang@amd.com>, Huang Rui
  <ray.huang@amd.com>, virtualization@lists.linux-foundation.org,
  linux-kernel@vger.kernel.org, Dmitry Osipenko
@@ -74,18 +74,15 @@ To: "Huang, Honglei1" <Honglei1.Huang@amd.com>, Huang Rui
  David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
  <olvaffe@gmail.com>, Akihiko Odaki <akihiko.odaki@daynix.com>,
- Lingshan Zhu <Lingshan.Zhu@amd.com>, Simona Vetter <simona.vetter@ffwll.ch>,
- Xen developer discussion <xen-devel@lists.xenproject.org>,
- Kernel KVM virtualization development <kvm@vger.kernel.org>,
- =?UTF-8?Q?Marek_Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+ Lingshan Zhu <Lingshan.Zhu@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 References: <20241220100409.4007346-1-honglei1.huang@amd.com>
  <20241220100409.4007346-3-honglei1.huang@amd.com>
  <Z2WO2udH2zAEr6ln@phenom.ffwll.local>
  <2fb36b50-4de2-4060-a4b7-54d221db8647@gmail.com>
- <de8ade34-eb67-4bff-a1c9-27cb51798843@amd.com>
- <Z36wV07M8B_wgWPl@phenom.ffwll.local>
- <9572ba57-5552-4543-a3b0-6097520a12a3@gmail.com>
-Content-Language: en-US
+ <40485636-7ea3-4e34-b4bb-1ccaaadd4e47@amd.com>
+ <62aeac90-1ba6-4e22-9465-fee95973a6bf@amd.com>
+From: Demi Marie Obenour <demiobenour@gmail.com>
 Autocrypt: addr=demiobenour@gmail.com; keydata=
  xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49yB+l2nipd
  aq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYfbWpr/si88QKgyGSV
@@ -129,7 +126,7 @@ Autocrypt: addr=demiobenour@gmail.com; keydata=
  vUSQHSrmfOzX3cV4yfmjM5lewgSstoxGyTx2M8enslgdXhPthZlDnTnOT+C+OTsh8+m5tos8
  HQjaPM01MKBiAqdPgksm1wu2DrrwUi6ChRVTUBcj6+/9IJ81H2P2gJk3Ls3AVIxIffLoY34E
  +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <9572ba57-5552-4543-a3b0-6097520a12a3@gmail.com>
+In-Reply-To: <62aeac90-1ba6-4e22-9465-fee95973a6bf@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -147,144 +144,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 1/24/25 7:42 PM, Demi Marie Obenour wrote:
-> On 1/8/25 12:05 PM, Simona Vetter wrote:
->> On Fri, Dec 27, 2024 at 10:24:29AM +0800, Huang, Honglei1 wrote:
->>>
->>> On 2024/12/22 9:59, Demi Marie Obenour wrote:
->>>> On 12/20/24 10:35 AM, Simona Vetter wrote:
->>>>> On Fri, Dec 20, 2024 at 06:04:09PM +0800, Honglei Huang wrote:
->>>>>> From: Honglei Huang <Honglei1.Huang@amd.com>
->>>>>>
->>>>>> A virtio-gpu userptr is based on HMM notifier.
->>>>>> Used for let host access guest userspace memory and
->>>>>> notice the change of userspace memory.
->>>>>> This series patches are in very beginning state,
->>>>>> User space are pinned currently to ensure the host
->>>>>> device memory operations are correct.
->>>>>> The free and unmap operations for userspace can be
->>>>>> handled by MMU notifier this is a simple and basice
->>>>>> SVM feature for this series patches.
->>>>>> The physical PFNS update operations is splited into
->>>>>> two OPs in here. The evicted memories won't be used
->>>>>> anymore but remap into host again to achieve same
->>>>>> effect with hmm_rang_fault.
+On 1/20/25 4:54 AM, Huang, Honglei1 wrote:
+> On 2024/12/27 10:02, Huang, Honglei1 wrote:
+>> On 2024/12/22 9:59, Demi Marie Obenour wrote:
+>>> On 12/20/24 10:35 AM, Simona Vetter wrote:
+>>>> On Fri, Dec 20, 2024 at 06:04:09PM +0800, Honglei Huang wrote:
+>>>>> From: Honglei Huang<Honglei1.Huang@amd.com>
 >>>>>
->>>>> So in my opinion there are two ways to implement userptr that make sense:
->>>>>
->>>>> - pinned userptr with pin_user_pages(FOLL_LONGTERM). there is not mmu
->>>>>    notifier
->>>>>
->>>>> - unpinnned userptr where you entirely rely on userptr and do not hold any
->>>>>    page references or page pins at all, for full SVM integration. This
->>>>>    should use hmm_range_fault ideally, since that's the version that
->>>>>    doesn't ever grab any page reference pins.
->>>>>
->>>>> All the in-between variants are imo really bad hacks, whether they hold a
->>>>> page reference or a temporary page pin (which seems to be what you're
->>>>> doing here). In much older kernels there was some justification for them,
->>>>> because strange stuff happened over fork(), but with FOLL_LONGTERM this is
->>>>> now all sorted out. So there's really only fully pinned, or true svm left
->>>>> as clean design choices imo.
->>>>>
->>>>> With that background, why does pin_user_pages(FOLL_LONGTERM) not work for
->>>>> you?
+>>>>> A virtio-gpu userptr is based on HMM notifier.
+>>>>> Used for let host access guest userspace memory and
+>>>>> notice the change of userspace memory.
+>>>>> This series patches are in very beginning state,
+>>>>> User space are pinned currently to ensure the host
+>>>>> device memory operations are correct.
+>>>>> The free and unmap operations for userspace can be
+>>>>> handled by MMU notifier this is a simple and basice
+>>>>> SVM feature for this series patches.
+>>>>> The physical PFNS update operations is splited into
+>>>>> two OPs in here. The evicted memories won't be used
+>>>>> anymore but remap into host again to achieve same
+>>>>> effect with hmm_rang_fault.
+>>>> So in my opinion there are two ways to implement userptr that make sense:
 >>>>
->>>> +1 on using FOLL_LONGTERM.  Fully dynamic memory management has a huge cost
->>>> in complexity that pinning everything avoids.  Furthermore, this avoids the
->>>> host having to take action in response to guest memory reclaim requests.
->>>> This avoids additional complexity (and thus attack surface) on the host side.
->>>> Furthermore, since this is for ROCm and not for graphics, I am less concerned
->>>> about supporting systems that require swappable GPU VRAM.
->>>
->>> Hi Sima and Demi,
->>>
->>> I totally agree the flag FOLL_LONGTERM is needed, I will add it in next
->>> version.
->>>
->>> And for the first pin variants implementation, the MMU notifier is also
->>> needed I think.Cause the userptr feature in UMD generally used like this:
->>> the registering of userptr always is explicitly invoked by user code like
->>> "registerMemoryToGPU(userptrAddr, ...)", but for the userptr release/free,
->>> there is no explicit API for it, at least in hsakmt/KFD stack. User just
->>> need call system call "free(userptrAddr)", then kernel driver will release
->>> the userptr by MMU notifier callback.Virtio-GPU has no other way to know if
->>> user has been free the userptr except for MMU notifior.And in UMD theres is
->>> no way to get the free() operation is invoked by user.The only way is use
->>> MMU notifier in virtio-GPU driver and free the corresponding data in host by
->>> some virtio CMDs as far as I can see.
->>>
->>> And for the second way that is use hmm_range_fault, there is a predictable
->>> issues as far as I can see, at least in hsakmt/KFD stack. That is the memory
->>> may migrate when GPU/device is working. In bare metal, when memory is
->>> migrating KFD driver will pause the compute work of the device in
->>> mmap_wirte_lock then use hmm_range_fault to remap the migrated/evicted
->>> memories to GPU then restore the compute work of device to ensure the
->>> correction of the data. But in virtio-GPU driver the migration happen in
->>> guest kernel, the evict mmu notifier callback happens in guest, a virtio CMD
->>> can be used for notify host but as lack of mmap_write_lock protection in
->>> host kernel, host will hold invalid data for a short period of time, this
->>> may lead to some issues. And it is hard to fix as far as I can see.
->>>
->>> I will extract some APIs into helper according to your request, and I will
->>> refactor the whole userptr implementation, use some callbacks in page
->>> getting path, let the pin method and hmm_range_fault can be choiced
->>> in this series patches.
+>>>> - pinned userptr with pin_user_pages(FOLL_LONGTERM). there is not mmu
+>>>>    notifier
+>>>>
+>>>> - unpinnned userptr where you entirely rely on userptr and do not hold any
+>>>>    page references or page pins at all, for full SVM integration. This
+>>>>    should use hmm_range_fault ideally, since that's the version that
+>>>>    doesn't ever grab any page reference pins.
+>>>>
+>>>> All the in-between variants are imo really bad hacks, whether they hold a
+>>>> page reference or a temporary page pin (which seems to be what you're
+>>>> doing here). In much older kernels there was some justification for them,
+>>>> because strange stuff happened over fork(), but with FOLL_LONGTERM this is
+>>>> now all sorted out. So there's really only fully pinned, or true svm left
+>>>> as clean design choices imo.
+>>>>
+>>>> With that background, why does pin_user_pages(FOLL_LONGTERM) not work for
+>>>> you?
+>>> +1 on using FOLL_LONGTERM.  Fully dynamic memory management has a huge cost
+>>> in complexity that pinning everything avoids.  Furthermore, this avoids the
+>>> host having to take action in response to guest memory reclaim requests.
+>>> This avoids additional complexity (and thus attack surface) on the host side.
+>>> Furthermore, since this is for ROCm and not for graphics, I am less concerned
+>>> about supporting systems that require swappable GPU VRAM.
+>> Hi Sima and Demi, I totally agree the flag FOLL_LONGTERM is needed, I 
+>> will add it in next version. And for the first pin variants 
+>> implementation, the MMU notifier is also needed I think.
+>> Cause the userptr feature in UMD generally used like this: the 
+>> registering of userptr
+>> always is explicitly invoked by user code like 
+>> "registerMemoryToGPU(userptrAddr, ...)",
+>> but for the userptr release/free, there is no explicit API for it, at 
+>> least in hsakmt/KFD stack.
+>> User just need call system call "free(userptrAddr)", thenkernel driver 
+>> will release the userptr
+>> by MMU notifier callback.Virtio-GPU has no other way to know if user has 
+>> been free the userptr
+>> except for MMU notifior.And in UMD theres is no way to get the free() 
+>> operation is invoked by user.
+>> the only way is use MMU notifierin virtio-GPU driver and free the 
+>> corresponding data in host
+>> by some virtio CMDs as far as I can see.
+>> And for the second way that is use hmm_range_fault, there is a 
+>> predictable issues as far as I can see, at least in hsakmt/KFD stack. 
+>> That is the memory may migrate when GPU/device is working. In bare 
+>> metal, when memory is migrating KFD driver will pause the compute work 
+>> of the device in mmap_wirte_lock then use hmm_range_fault to remap the 
+>> migrated/evicted memories to GPU then restore the compute work of device 
+>> to ensure the correction of the data. But in virtio-GPU driver the 
+>> migration happen in guest kernel, the evict mmu notifier callback 
+>> happens in guest, a virtio CMD can be used for notify host but as lack 
+>> of mmap_write_lock protection in host kernel, host will hold invalid 
+>> data for a short period of time, this may lead to some issues. And it is 
+>> hard to fix as far as I can see.
+>> Finally I will extract some APIs into helper according to your request, 
+>> and I will refactor the whole userptr
+>> implementation, use some callbacks in page getting path, let the pin 
+>> method and hmm_range_fault can be choiced
+>> in this series patches.
 >>
->> Ok, so if this is for svm, then you need full blast hmm, or the semantics
->> are buggy. You cannot fake svm with pin(FOLL_LONGTERM) userptr, this does
->> not work.
+>> Regards,
+>> Honglei
 > 
-> Is this still broken in the virtualized case?  Page migration between host
-> and device memory is completely transparent to the guest kernel, so pinning
-> guest memory doesn't interfere with the host KMD at all.  In fact, the host
-> KMD is not even aware of it.
+> Hi Sima,
+> 
+> I modified the code, remove all the MMU nitifior and use 
+> pin_user_pages_fast only. Under this implementation userptr fully
+> managed by UMD. We did a performance test, it decreased by 30% in
+> OpenCL stack in Geekbench6 benmark.
+> We use AMD V2000 for test:
+> use MMU notifior + pin_user_pages:
+> near 13000 score: https://browser.geekbench.com/v6/compute/3257793
+> 
+> use pin_user_pages only:
+> near 10000 socre: https://browser.geekbench.com/v6/compute/3496228
+> 
+> The code is under clean up, I will send out later.
+> 
+> And I found a another thing, it seems like in intel i915 userptr
+> implementation, the pin_user_pages is also used in MMU notifior.
+> Code path is: 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/i915/gem/i915_gem_userptr.c?h=v6.13#:~:text=ret%20%3D%20pin_user_pages_fast(obj%2D%3Euserptr.ptr%20%2B%20pinned%20*%20PAGE_SIZE%2C
+> 
+> Patch set: 
+> https://lore.kernel.org/all/159353552439.22701.14005121342739071590@emeril.freedesktop.org/T/
+> https://patchwork.kernel.org/project/intel-gfx/patch/20210323155059.628690-17-maarten.lankhorst@linux.intel.com/#24064663
+> 
+> And I didn't find the hmm_range_fault code path, maybe I missed it?
 
-To elaborate further:
+A 30% performance penalty is consistent with the GPU being forced
+to use 4K pages instead of its preferred 2M huge pages.  AMD GPUs
+have TLBs that are optimized for 2M pages, so using 4K pages will
+cause lots of TLB misses.
 
-Memory in a KVM guest is *not* host physical memory, or even host kernel
-memory.  It is host *userspace* memory, and in particular, *it is fully pageable*.
-There *might* be a few exceptions involving structures that are accessed by
-the (physical) CPU, but none of these are relevant here.
-
-This means that memory management works very differently than in the
-non-virtualized case.  The host KMD can migrate pages between host memory
-and device memory without either the guest kernel or host userspace being
-aware that such migration has happened.  This means that pin(FOLL_LONGTERM)
-in the guest doesn't pin memory on the host.  Instead, it pins memory in the
-*guest*.  The host will continue to migrate pages between host and device
-as needed.  I’m no expert on SVM, but I suspect this is the desired behavior.
-
-Xen is significantly trickier, because most guest memory is provided by
-the Xen toolstack via the hypervisor and is _not_ pageable.  Therefore,
-it cannot be mapped into the GPU without using Xen grant tables.  Since
-Xen grants do not support non-cooperative revocation, this requires a
-FOLL_LONGTERM pin *anyway*.  Furthermore, granted pages _cannot_ be
-migrated from host to device, so unless the GPU is an iGPU all of its
-accesses will need to cross the PCI bus.  This will obviously be slow.
-
-The guest can avoid this problem by migrating userptr memory to virtio-GPU
-blob objects _before_ pinning it.  Virtio-GPU blob objects are backed by
-host userspace memory, so the host can migrate them between device and host
-memory just like in the KVM case.  Under KVM, such migration would be be
-slightly wasteful but otherwise harmless in the common case.  In the case
-where PCI passthrough is also in use, however, it might be necessary even
-for KVM guests.  This is because PCI passthrough requires pinned memory,
-and pinned memory cannot be migrated to the device.
-
-Since AMD’s automotive use-case uses Xen, and since KVM might also need
-page migration, I recommend that the initial implementation _always_
-migrate pages to blob objects no matter what the hypervisor is.  Direct
-GPU access to guest memory can be implemented as a KVM-specific optimization
-later.
-
-Also worth noting is that only pages that have been written need to be
-migrated.  If a page hasn't been written, it should not be migrated, because
-unwritten pages of a blob objects will read as zero.  However, the migration
-should almost certainly be done in 2M chunks, rather than 4K ones.  This is
-because the TLBs of at least AMD GPU are optimized for 2M pages, and GPU access
-to 4K pages takes a 30% performance penalty.  This nicely matches the penalty
-that AMD observed.
+CC Christian König who pointed out that a highly fragmented
+physical address space is a bad idea if you care about GPU
+performance.
 -- 
 Sincerely,
 Demi Marie Obenour (she/her/hers)
