@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56E7A22073
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:33:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC4CA2208D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Jan 2025 16:40:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E46B10E829;
-	Wed, 29 Jan 2025 15:33:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1B110E02C;
+	Wed, 29 Jan 2025 15:40:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tqrvmPa5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="blVJU1tB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5596210E829
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 15:33:27 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C13F810E02C
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Jan 2025 15:40:06 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A2881A41A66;
- Wed, 29 Jan 2025 15:31:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8610C4CED1;
- Wed, 29 Jan 2025 15:33:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9CE8C5C5DB8;
+ Wed, 29 Jan 2025 15:39:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B54A4C4CED3;
+ Wed, 29 Jan 2025 15:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738164806;
- bh=MINsAlGP+IWemPuIKVuQIkc4AnIYXc8ewNTg0fTGbZk=;
+ s=k20201202; t=1738165205;
+ bh=H7Wno81VDmAC8LZxebVHqmFv78aV+GntC7UloBA6wQA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tqrvmPa5UhekDfsy+cPdeHlTD9eEK6B5/Kuz61v80rcNV7C5be85yrZ3LkZThJuqZ
- REhX4Sx6D+sYCmlPMDzeLzuams0lpiG6AfMG21NglJQMD4qblG2xuEBx1Q3hernB8w
- eG3UNI53K925jPmHC4QVjBlPQH7d815/egQX0aBgMGqoIsA5BruQ9KbbuqGxk/zAY2
- zcTOw7JSTxKnnmHMk/4f7gn6RdZGjntB1ogpqPG4kBR27Hc1KH7qcmlVtke7DwPHfe
- BUaaDWTH3JAPzWVYwfALZJW/P8WjAl3TbOMHbarnsPcyJAtx7JESkUJtZKpw2N+Xz4
- Bl94cgjlVNDEQ==
-Date: Wed, 29 Jan 2025 16:33:22 +0100
+ b=blVJU1tBuGlKF4p47SaFusm9eG5WZSgkALpUADxFuWuQiIFr9qF7DNpOhnbEUeXbs
+ 7viGrnwFOcJSwLPYI+Ehdw7eY23dv9mEQ7o9fqlXjrbnP3pst1omLXvrGlE1aBm30m
+ Bi7pbYb1UPpMvMHUuyONufYRLOO7ZVEBsAkaSFoyED0QRRyozXtecJBokIiLtaVWOO
+ q0djJLUSg4eE2yATE1o5zFnBrTEQd2LiyidKL5wQWTiQ5Taf9QVxZKqyI4HsxEX9wi
+ K7GNZwBmVTPWfpazFvFm2ldBBFkDsVN11cDjiMvXt+chOhLgfReDoepEnSHIosPwoR
+ O1uHFNJcIFiaA==
+Date: Wed, 29 Jan 2025 16:40:01 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Anusha Srivatsa <asrivats@redhat.com>
 Cc: Joel Stanley <joel@jms.id.au>, 
@@ -75,16 +75,16 @@ Cc: Joel Stanley <joel@jms.id.au>,
  linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
  linux-doc@vger.kernel.org
-Subject: Re: [PATCH 03/14] drm/hisilicon: move to
+Subject: Re: [PATCH 06/14] drm/mxsfb: move to
  devm_platform_ioremap_resource() usage
-Message-ID: <6ccprzvnxkrqphxrsfp5gofzkicqyibjpveniup7wpra7p2tg2@x5tz45kit2oc>
+Message-ID: <ivwhzbasvxnnnzoqpqd6w24d6wma6pufcrc6jl7b6gsyzrnup2@r36hiijgac7m>
 References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-3-0d1609a29587@redhat.com>
+ <20250128-cocci-memory-api-v1-6-0d1609a29587@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="dupye724qr742yg3"
+ protocol="application/pgp-signature"; boundary="j6fxajocgelt3kwa"
 Content-Disposition: inline
-In-Reply-To: <20250128-cocci-memory-api-v1-3-0d1609a29587@redhat.com>
+In-Reply-To: <20250128-cocci-memory-api-v1-6-0d1609a29587@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,15 +101,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---dupye724qr742yg3
+--j6fxajocgelt3kwa
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 03/14] drm/hisilicon: move to
+Subject: Re: [PATCH 06/14] drm/mxsfb: move to
  devm_platform_ioremap_resource() usage
 MIME-Version: 1.0
 
-On Tue, Jan 28, 2025 at 05:29:27PM -0500, Anusha Srivatsa wrote:
+On Tue, Jan 28, 2025 at 05:29:30PM -0500, Anusha Srivatsa wrote:
 > Replace platform_get_resource + devm_ioremap_resource
 > with just devm_platform_ioremap_resource()
 >=20
@@ -125,29 +125,24 @@ On Tue, Jan 28, 2025 at 05:29:27PM -0500, Anusha Srivatsa wrote:
 > -ioremap_res =3D devm_ioremap_resource(...);
 > +ioremap_res =3D devm_platform_ioremap_resource(pdev,0);
 >=20
-> Cc: Xinliang Liu <xinliang.liu@linaro.org>
-> Cc: Tian Tao <tiantao6@hisilicon.com>
-> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Yongqin Liu <yongqin.liu@linaro.org>
-> Cc: John Stultz <jstultz@google.com>
->=20
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Stefan Agner <stefan@agner.ch>
 > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
 Maxime
 
---dupye724qr742yg3
+--j6fxajocgelt3kwa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pKQgAKCRAnX84Zoj2+
-dgnAAYDocV8Hi1jItqly1rX3RgJxBvbHB7dRM9x+ADwfWacUO02HGMnqwmBc16Bx
-dkudzNMBf01rR/o3BCIIpg5xa99y2kiswp8ppBoSmPORAmV5OyaRnLWfOw8PehtB
-NryfqyN45g==
-=XqRS
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pL0QAKCRAnX84Zoj2+
+dpu8AX92mKVtYr4NesUkaNaAZLgSW9h3CZMfohWW2Hi3OHXPAvC1LmJnp0Zowbq8
+4FFBL/wBf2VL8YqmcT3T9+XhphtMFWv/+85mR4/YE14rKn4brg9xZxj2nw0jIWJ5
+ZU3psZFZbg==
+=rMo6
 -----END PGP SIGNATURE-----
 
---dupye724qr742yg3--
+--j6fxajocgelt3kwa--
