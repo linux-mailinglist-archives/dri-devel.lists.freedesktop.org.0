@@ -2,162 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7583A2348C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 20:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3658A234FA
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 21:19:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91F2610E032;
-	Thu, 30 Jan 2025 19:16:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12C9D10E097;
+	Thu, 30 Jan 2025 20:19:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vJ5olkEH";
+	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="CciR1lv/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2063.outbound.protection.outlook.com [40.107.236.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1059110E032;
- Thu, 30 Jan 2025 19:16:37 +0000 (UTC)
+Received: from BN8PR05CU002.outbound.protection.outlook.com
+ (mail-eastus2azolkn19011033.outbound.protection.outlook.com [52.103.12.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36AB910E097
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 20:19:38 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AqK1LsO0+sicK4EN6YjkwxA/Df5PxM1z2VH86yOXeiQAlCwZlogNeWj/aAsRUz1JBR/urem4YozIETlNIg78qLzk/LH1U2BUplVfmMRPmppM0A+lWV0wMYYC8aoA3VOuZwNuXtsDOdD+C1CjwygdGZbQ/AVt/AjOGFGY/NjQoh/NVriWoYc/yb0B5ogf0W/77Cs7hRENOmxlzniBWRpfdAfhmi+QbzCRqyCpCu7FeJsspqAu6Yhgauj7LxovjH/TVQnF/LDg+iGEG+ruL+O5AgZoB3Egai4av9ykORl/RV92aK1wepSWSnN+WpaSln9ojjZoFQZLelySkSwxfTk9rg==
+ b=jxi09+l8Yh4dMj5+F/wJL4YoKuKcoYlW20baAkQSzA63Kwyr0U//kt6rOm8P73y5dy45Ui5CCBP1stt1Uf1cY66IsXhWM+K+VNRTEHmCOptt+4kBXM8RiJsQxqCzJ3SfW2XpJW+Xl9vONUL+rZ6LfFqwqGNballKPKuUqSFbo9H3fHn/2JfNBf4RppBMsr+t0JAXVh2LV0P6FzHgyMJNHspcIINIPZnOzR51Lknxdoc0jqJSTJv9Z0h31YPcUcSdeRM8jvwvHm2aDbuLRXn6lYDU4zjlFj04hY6G+jyV8Rq0Ri3vW/nVU9AiVOa+El2oDfIWiyTk+yEdYAYjHynd/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ziaLN93CvV7iwvnovWzzUEsBXnPc0RJm1JkGlLLnIrA=;
- b=cWkWsAnUJBGDA2neuuX4e44FKQNTdTztBuANkcl48lP1GW7nkPJPD5favgwlVAv13RFY827MkRVT6E0t0fhfYuL+d55tNZkd0PEGhs03KztMtjJi69FcO1pxSkf5DpFnatvqsKkdqNTXN7t65kalBxaPeSzb7YefWq4GUrJXpbpfwD7IMjlyjyYRmunhPwXTgil8v7mQpjoqAu6UbhCkRRPRHbz2Ry4N8Qba2ZCkeHjXR7z6jrzKiKLb1k8vhfvwJ1mFREo2KRrshslNIsFeJpPqxLK4t77tJlzftUvsSBhRwOoTpTGi7mMao8PKU61QOu+pWZz1+VAfInu3IsaUaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=5nWABQVq75ldhVvaRk2v5005B81ReWF9UfBznTIDICY=;
+ b=UsehuusF2kQ+gXn7I31qVgVT7j+cgkbfxKARw/3QrLwG+KNp562+A+QWwgIt53J8QAhJC+rRqWKuzynrRyO7XwfGpPM2eL9olaqfg5mQ0EINzgfjZKi4lRhHxKazzbxWaLgSzm/0YajjDvTJG0hCp7g6lGCA49Ce2ABGU5V24jC4g7A3KnluEuyItFVGHkwFOhtP6f8+rHdc8k7VmE5kSkQlYbgwwMgGrwDlZbhl+mYdXdRcpEpt6kEg1NZ+c+vLgl6vzD8jJBZP5CYaqC9piuiC7dmO0xtiE0VbGHd/zmDJ67DMQG6w44iMj+aj6bQyV3bvVm7X4zuTv8Fw16sIbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ziaLN93CvV7iwvnovWzzUEsBXnPc0RJm1JkGlLLnIrA=;
- b=vJ5olkEH3FvHMu1C5QWOUl7AFq1UEnu558B9X8rNswuYnAoILrsT3ejTbPqP2Anj1oKIvc74/4/tdw1ydbg/BEoN98bnGpL7fXPs1xemrHM5Has+seh5+x1GZw1DhTB2tOISZV6/iYxQK6CgtvudHYPC6kSSFSWmxfNKQCqCRwQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CYXPR12MB9278.namprd12.prod.outlook.com (2603:10b6:930:e5::11) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=5nWABQVq75ldhVvaRk2v5005B81ReWF9UfBznTIDICY=;
+ b=CciR1lv/FNyKaXqFQP+DuEV3yQaAhbmjTcQ8efEkyihNXOsDTQ66uCzk9PRzILSMT4OiLc2x88VBAvHB7EL2BFoF2yneZ+l++J8SoLMXc1Tdg+YLNtKYoiwc5Q+YJOIq0bA11uPtmgKCeeCw52HPx8S+NRLdm48bOo6V7WPdpC7fZXiPWj0pVhQ57gnopXMfuuygIGa2f2XnGE7JYOuR3OkUVP996LsukBp3fGjTN26scLr2HKUdly7pdC4N1oSspj3OAIJ7URjkqoiTtqXDwmDrT9J0WmSfYq9atOEIlnqKiXj2vEugjriXpe6zhSDRaBMPVg1NUU+Pf02bw16xRQ==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by BL3PR02MB8282.namprd02.prod.outlook.com (2603:10b6:208:345::7)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.20; Thu, 30 Jan
- 2025 19:16:30 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062%4]) with mapi id 15.20.8398.018; Thu, 30 Jan 2025
- 19:16:30 +0000
-Message-ID: <b1c960e3-6663-434c-9b01-a94175c153b5@amd.com>
-Date: Thu, 30 Jan 2025 14:16:25 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: Increase sanitizer frame larger than
- limit when compile testing with clang
-To: Nathan Chancellor <nathan@kernel.org>, Greg KH <gregkh@linuxfoundation.org>
-Cc: Alex Deucher <alexdeucher@gmail.com>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>, Jun Lei <jun.lei@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
- patches@lists.linux.dev, kernel test robot <lkp@intel.com>
-References: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
- <CADnq5_Pun+zN1=B0eFMw1w8k_oD3fw626SdaEug24YRg8aOLKw@mail.gmail.com>
- <2025013058-fasting-gibberish-9718@gregkh>
- <2025013003-audience-opposing-7f95@gregkh>
- <5d1cfcee-b575-4e01-8ec0-dd1bcbba9bc0@amd.com>
- <20250130175103.GA3394637@ax162>
+ 2025 20:19:34 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.8398.017; Thu, 30 Jan 2025
+ 20:19:34 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Thomas Tai <thomas.tai@oracle.com>, "mhkelley58@gmail.com"
+ <mhkelley58@gmail.com>, "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>, "decui@microsoft.com"
+ <decui@microsoft.com>, "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
+ "javierm@redhat.com" <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
+ "daniel@ffwll.ch" <daniel@ffwll.ch>, "airlied@gmail.com" <airlied@gmail.com>, 
+ "tzimmermann@suse.de" <tzimmermann@suse.de>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
+Subject: RE: hyper_bf soft lockup on Azure Gen2 VM when taking kdump or
+ executing kexec
+Thread-Topic: hyper_bf soft lockup on Azure Gen2 VM when taking kdump or
+ executing kexec
+Thread-Index: AdtzQ0vu6eNj8snBS+OSvfShEIJEjQABFnwAAALyBRA=
+Date: Thu, 30 Jan 2025 20:19:34 +0000
+Message-ID: <SN6PR02MB415732CABA59155898531226D4E92@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <BLAPR10MB521793485093FDB448F7B2E5FDE92@BLAPR10MB5217.namprd10.prod.outlook.com>
+ <BLAPR10MB521780F7C93DC013E2E031BDFDE92@BLAPR10MB5217.namprd10.prod.outlook.com>
+In-Reply-To: <BLAPR10MB521780F7C93DC013E2E031BDFDE92@BLAPR10MB5217.namprd10.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20250130175103.GA3394637@ax162>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQZPR01CA0156.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8c::28) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|BL3PR02MB8282:EE_
+x-ms-office365-filtering-correlation-id: 70e99210-b660-42eb-a0a5-08dd416b697f
+x-microsoft-antispam: BCL:0;
+ ARA:14566002|461199028|15080799006|8062599003|19110799003|8060799006|102099032|440099028|3412199025;
+x-microsoft-antispam-message-info: =?us-ascii?Q?zkWTbE95NfhaWFYW8yg/XRgMAHDEbY7dPJXN/0su1P+AiBBw9lhTbAI9mNbl?=
+ =?us-ascii?Q?AJzjOdx7a9ztapdCz3yadxf9XcdSfB50XUAl2UO7/YYqeIgCH3xasXspPy5W?=
+ =?us-ascii?Q?SgPz+kHnlmIBxyskwGNZ3vodcJs8dTrqBpvPkIZ0ipgo5hKXGudSr2ZpRtxw?=
+ =?us-ascii?Q?dHUvarkWOPV0aig6NNGLpfXcsw7GFz07DrZKKPQgP1V17+NmIhHhQS5q0+ZC?=
+ =?us-ascii?Q?P0qBBBF+FrH+BC28AbTZzbINMpByZYo608O5mmx2VFjKFqz0xW1aybBW1S3Q?=
+ =?us-ascii?Q?VI64Xf75IQ/TOtllSmxXpLvbnrob101YVVb9+w1DfpJHqMReIPhBNpJtxq32?=
+ =?us-ascii?Q?MGI1U5GgS99dQtrZixzUqcNfP8NLoaJ981ueJ8FlaiBg9PRYzRZk9Uyy48sU?=
+ =?us-ascii?Q?21uegJVKOKhf51GlUwl+r/TnnTKthry6KOJJ4JrjP42/7h1m3HY3/5arFj1/?=
+ =?us-ascii?Q?xb1G7H0DfvfkTsSoFxyl7NS/eWpPbiyUr0b5nojlNxrcl1FyH+OViYfDMrNf?=
+ =?us-ascii?Q?n/GKFn/bVQsgr3PnGVuY878vIx2YX3OTn5fKAphsmaYIv7bfkBFxJwT2lpkw?=
+ =?us-ascii?Q?K4OJBBTKxi5qUJtNiIgePkkG2szfZ2mXORPT7tnBllfkUQ+cI/0yWA38P++x?=
+ =?us-ascii?Q?8havj4OqGRHAEvG1crHT9a3yUFC8f/2Ueq5z5mPORUn/a5rqL1php+4Jcz/u?=
+ =?us-ascii?Q?fFCD/giye1Q8JHEAGu/PFOcVj1AnIqK6Xn4uXR0+4xa+rr8Ttcqgfk77v4r5?=
+ =?us-ascii?Q?mWPirkts9ToaPfiLBJAa7fsDHMHnI7jx0HaA/wtWbM63cawnIulSRXnTFxWq?=
+ =?us-ascii?Q?6Ddc7VQ5bdHsvHt29JjdgvCwnUqfOEH0vvX6MvtN1063eY1sbjqDRrviK2G7?=
+ =?us-ascii?Q?FvCf6+vuaUMRT3KOPPdDyEkUmobZH1a7PBY+/fsEvAd6rddRGGB01Pm32Y2i?=
+ =?us-ascii?Q?A5ouXtFBpLkbKeL5+nFoI/X5MHtmPJf1t8sxUlp5Cnsg8GKL3WpX5/9wkl8i?=
+ =?us-ascii?Q?+ejrDgcC6o5PhHwZ+WljsCVRYVsBWZBpj1AEW1AuMD8J1eE=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5S2tF4RvrnHPrLQAwSvZT2+NPd/xmjtExDEdewzI0CP4dgQYjyBKlsgfgkFQ?=
+ =?us-ascii?Q?amtLEZwRC2O97Xwsql1bK/r8QpPBNMSuuuX1U16BA9oE+XSXzISjsrl5/I45?=
+ =?us-ascii?Q?l4p7LrN9nRN5JxTyKNGRiaWvkYbGUX7oWyYoVcmnIUqbgZ02lrfc/+Xzlj6u?=
+ =?us-ascii?Q?6Bic3Utz46MagWBGbtQ3A7wJ8Q7iQI1T+oej7qz8WW0gzNUh4mLHIeFXsV0l?=
+ =?us-ascii?Q?ePOm4dy+qHUodsVbSU0LT6pyLmr4aqHiZYK6Vo1HLLjGgCLYGSPRMAWzmRgS?=
+ =?us-ascii?Q?3RTl8vUOh+HHVLiikE0tXKr6ErRxqnD7BGyI9zYR7Oz1CRHTuFjvdyKcXo5l?=
+ =?us-ascii?Q?e+XK6/2dFHtX94OZn0xLnwReBg3uuVrwrfji19pU7EyVVr1nj3scQT/pRpsS?=
+ =?us-ascii?Q?HKVG/Tl6u1QlGXQzXn4nPklHdUWi7vM+VHYuqskFwrkN0hfHwGw6+RZfQdP7?=
+ =?us-ascii?Q?k1q5vSZqOfh9e1P6q6xp3XDSiT7Opus33JBjhPiD9gyqtDqvfME1KrIeJmT+?=
+ =?us-ascii?Q?oOlZNZreDxCNF6YbehrzNoTAPG58TiLHAtZRe+XG1gmhaZynOWGyLmxl8qRV?=
+ =?us-ascii?Q?IU7cDylLstdTuQ3MdzJf7xpAPp5uly7c4Yd1fT/k2HWYEscD/EQsxCU0j+K9?=
+ =?us-ascii?Q?R4gVGm/eHsXF+tymd5avZJM9/mk6nDab8VOYX9ub2i1bnYElOkDuN/V2UiAS?=
+ =?us-ascii?Q?KFrFYblk9PbhpyKI6ns82z0c19T6010HjK3qAMcmMsiSktpPgfhUEmqRxz9h?=
+ =?us-ascii?Q?6E+C9Y5B7upvqyow0uNryq7ebT2/9uxAicDpi1/nA2TuJRLfquRYMNgHBtCo?=
+ =?us-ascii?Q?de6ISxTUQZJL1Vh67gxYdxLTN0ZIOcfOEDtZv7Olh/f579CX82JNLe6Zcc5K?=
+ =?us-ascii?Q?cJfnPLO8LLTaOgcJQD+Lzt5wGd30Ik/aMn575Y3P9uPGs7nlJa4GxkgVmScl?=
+ =?us-ascii?Q?v1SQ+OnZscO9OfZ0cMRWTgNPjGL/EvMIYQFoP2rzd3ih7Mj8RH8VnA11CuTW?=
+ =?us-ascii?Q?hLJkXeR+sOgtv+mSt8k0lZhAxIXQAHfijQX9m0aecd5v+pV89ZSRCDbTkGfy?=
+ =?us-ascii?Q?2m9mc1NHD8yqzK01Z9qPzEIJ3p2mrxz6likIjE7VzN56B469osty9ehSxVBT?=
+ =?us-ascii?Q?fE4/5E9OxfSTevXSJ4jagkx2VaMqaLh9XXZAkzAFGj7bJbqASng4ja1YfBtG?=
+ =?us-ascii?Q?h9r29cz2S+7+SD7C52al/o9GqNcRw+rTY36gVgFEMj9g+8/fwp87FdPkvUY?=
+ =?us-ascii?Q?=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|CYXPR12MB9278:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56348ee9-6092-4ede-d2f5-08dd416299f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q0hCK1dXbDc3TVp3K1dJbXVHOUo2ckdSS0QrTEhFb3YxanNJZTNMZzhrUFND?=
- =?utf-8?B?dlBXMXFiZkczbFNDdDhPMFBpVENYb1JHYXhrWEltcSt4dk9lcFlVMUp5YmVU?=
- =?utf-8?B?aVBKdTZzWElHVlMvY0ZUcEk3ZGNsb0FJT1BUeFFZSzJKY1dmN3lEZVZ4ZGY0?=
- =?utf-8?B?bHUvZmRXWTludiswekoxUXJuY1NJbnlYOXFQQUNMTEZtSGRwSWlnMndUWFFK?=
- =?utf-8?B?OGFkcU56cHYzQVBoa29XUGcyVzdGRk9hczhSa1FHRlBKY0dqSktQZCs3eGZ3?=
- =?utf-8?B?a2lNRXBEOXdpalh4MWtqTzd1QUM5MzAvRGdma0NaMURPQ1VUVkdKVUVqbmRx?=
- =?utf-8?B?LytqWjJTSEpISEpsSklScWFhOUwzZE5ON1RPSVBLbUMzSURjYUc1a0kybWdy?=
- =?utf-8?B?cjlHNC9uMVk0SnU5OFkweDh2ZnhKQm1RSTE2TTdKMCtRUHg3MnR5bStTbi9k?=
- =?utf-8?B?VUV2S3BrYmJxeXhtOTNidUhDRjAvUnBqOGFRQjF4S0I3TDMwR2k2NmdMbmRD?=
- =?utf-8?B?elFOUzQ2b1hGSVl3aFpLcWlTUWRHQlpuKzlONDRrM0RMSGx2MDR6WEc4WXdW?=
- =?utf-8?B?bFppOVdYUThETGNObWdNdzBjTm1tdklmK0VmWmxCVVYwYWs1QUlwZnZHbWJ5?=
- =?utf-8?B?VlhJRVpmNDZCNmdyN2tvcytCYTFwODBObC9nV0s1aDUxR2ZYQXdkN1luZTZW?=
- =?utf-8?B?ZkxhY0VRdUlUS29uelJHR3Iwc0g1aDhaU3RldGpGV2hKeVNUeGRBVlBIRldK?=
- =?utf-8?B?RW5hbHRFN2EyU3MwdHprMnViTjNkYTFnck50RWhrNm9NNm03aDhITkp2QWRl?=
- =?utf-8?B?UEJVcmNlYUxTeFRtMVZzL1ZpcXJlODRpNENQMy93WjdTNTRYWXlTcE1uZFpB?=
- =?utf-8?B?ZitBTFQxL2R2RzZLY25IL3gwVTFCZC9DaGNRZUxxUkNLQUtpU1VqQWFjSVRr?=
- =?utf-8?B?clY1S2VaTDJaQkt4UDArZklsV2NZUDVvc0dFcVlxdTlwanJDTTJTZlFaa0E3?=
- =?utf-8?B?WFk3V24rMVpVQ1grT1A3c3JxTGVTN1RMdTRDWDV5cGpJT3VoaHVrYXpwdzNp?=
- =?utf-8?B?dnBtWWNMdTB4MHRrSkwzcE9vWGdtREJNSXJqdURyQlJydU5MWklEUzFoMUQ0?=
- =?utf-8?B?MHROSElIaHlmVXVhRTViWm42SUh4L3BsUFBjdW5VWnBZbE81UmJrM1JUL3dx?=
- =?utf-8?B?bEUxZzcwcXh5N0pQazM1VzA5RUJNN0d4ZGV3VFZaNkV1RmRKUmNhY3FuNFdO?=
- =?utf-8?B?YWhjUUh4RVplTWMzekQ0UjB1cXdid09vSmFPaEFCU1puQ0RrcmV4ZytQQVpG?=
- =?utf-8?B?ZjdFeUVienRESkZlRm14VmI0QjdWTzdla2hBV1RmK1FUa1lIZWl4bFR3Yld6?=
- =?utf-8?B?NVZrS08xVUxxVnlRWDE5L3JDYjRzZzAyUWo1enZwb1B2Rms4M3g4a2VtcVpL?=
- =?utf-8?B?ekE2UEhCK05QVXU1dDc3UWRveExsQ051dDQxMUFwQm9vbWw5ZVdEVERqeE13?=
- =?utf-8?B?WkpYT3hIaFI4dkxNSkdBTHRGdUNMam1lcGVvZCs0ei9jb05jVmlnMDNCSXdh?=
- =?utf-8?B?RXQ5aVlwT2xZcllFY2xING9rUjM4MklqQi94emEwdHFnbmY2bTluaUs2Kzhx?=
- =?utf-8?B?R2tzbVlsSHlTSGZua1NOZ1JsMjJnRGhDdCtaUFJGR1NQQUREajFJQ01UUENN?=
- =?utf-8?B?TEFOSXhPaWRjRnhiWWN0YWdzNmFHWnc0ZkhoR2U5YVV1c05GWG0zQUN5TjJR?=
- =?utf-8?B?YWc4VlZIaGNWOGpXUXd3SlN4bGZKbFpqNStMRXdsempQSHhBem1CbHErREV4?=
- =?utf-8?B?YlRLQktLQ1UxcENZU2hTbFZxZmhzWTVPYTVhazROZXV6bnJTNjlrYmxNcTVt?=
- =?utf-8?Q?1XUbNqw/h8eS5?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MStybjB4b2VxMUxJNWFBZ212WlVJdStvQU93VHZEYUdXWjVVTFlsT1dFSWk3?=
- =?utf-8?B?SXArS1pNREQxa2Z3OEE2aTkxZXJ3Q0RoZHR3aVV3UjFpUmdhanZNTzhudTZz?=
- =?utf-8?B?aFFRZTVlaGhMZWZSMGEyekIrNUdYM21wQldMTVNrL1E4bkhwQWIvWUZlNlVB?=
- =?utf-8?B?TjQ4dTRJY3FXemoxSjlvSTM2OVk5N2Z4R1ZwZHVqaityRDcvRGduRm1VMmt1?=
- =?utf-8?B?UURBZkljQ0c0akpERXljdnFoalBmZmNwQlJYVUZWam4xK2dEZVRocTFobXc4?=
- =?utf-8?B?QTBaYU5FbnJJMTF3T0NEOURQQ0FZc3Q5Q0cwUEl6OFZSajA2dnhWMkFxSnRr?=
- =?utf-8?B?M2kwT1g4bFFrWG0zeE5jT2NXR2xtUUYzWHdQMk8yL04zQS83SkNQb3FvNExy?=
- =?utf-8?B?MmhjN09hK05wUkxQTGtJcVZ2SE8vNjk2QUsyQTJ5OFdZMThlMVEwbmVzaHZi?=
- =?utf-8?B?aEpiRm5OSHJoa1I3NlBkRGw0VGR1YVhMQWlFbUFkYmoyclAraEVIMmM0c1Q2?=
- =?utf-8?B?OWI0UlNEajY1a2JwMFJoN3NRTTVqeUN1aXp0b3RJY3JSa1NOcy9YZ2x5b0Ew?=
- =?utf-8?B?QU8yejBzdi9vclFuOXhNaFBmSnJ1Nnp5cDFWUlBxaHV4S0tqNDRBRWlXTVdo?=
- =?utf-8?B?K2FwalovWjFockxZTVpINTNJR0pVaU9lY2pjM0ZINXRRSzhRUVpkSncxUENu?=
- =?utf-8?B?WEF4djBXTzh4UFk3VGhNTXNmWDRzYlQ1M2wxMWdqY09Uc3BBYU9McHF5WmN1?=
- =?utf-8?B?R0x6TkFVRmlJRmtrUEJaczAzRmo5RDErMlI5WWhicDl1cEFjc2FaZWpidUd0?=
- =?utf-8?B?VExyNlpSS0Fwa0ZHdjREbU9EVTNoYUhSN2x5VU5OanEvWExKWHJZbnhVT1oz?=
- =?utf-8?B?MGNSUTFpa3JtM3N6cHozRzRUVmYzaVI5ZTN4V2VxOEl4SXZFNGloTVE0N003?=
- =?utf-8?B?cm9oZ3Bwb00rR3dSMXFuUUVwZVUxRWZhdFBjRzAwaG82N3ZrcytsemdubmJ2?=
- =?utf-8?B?NDJNSEowZVBjVm5wL0pIMTBHV0MweHN0dTJaNG56N3lNbWZsVVRoeEVockw2?=
- =?utf-8?B?QkJBa3hwYnc2R2pSU2VsTU1UMjYxbUNkdWEyR1RVbzZGYXdDaEhwRlI3Z2tX?=
- =?utf-8?B?SHFCUEZMRmZtVEhmcG4wTzUxaGE0c2czOG1uSEJGcDU5b3hUQTNsSmdBS204?=
- =?utf-8?B?VWx3NVFWTzBNVDcyYXZXSGl0Z3BCa2FQMUlndTVqTEhJZVRLcUdMTVBLdElL?=
- =?utf-8?B?allBa2hlaUZucFhyMkg4YjU1ejJnR0t3bmp3ZU5YamlMdmFUak82SGhNUGcv?=
- =?utf-8?B?Nm5JeHdYMGdUMUdwMm9GQ2hxdlluK3NhUEU4QzRmRHNDWXBpQllEUzZ2cVdU?=
- =?utf-8?B?d05Ga0xBUG9HcTdFZlRCTjlIakJJNlFEaTNqWlJxTlJudnpkbWtnNGRkaVQy?=
- =?utf-8?B?N09yMnhVWTJLT3VpSFBiWW0wRVhUMVJrNmNOOUpDTS8wZU1QTk9QLzQ2NnVQ?=
- =?utf-8?B?ZEppQllQbVEwZmxxWTNWaHVNUi9EOUZJYjJCZ0RRazlmbTJ3Ty9TbzM1NW1h?=
- =?utf-8?B?bXBsSHpQWG1lb1JoU0lGeFE5UWFwblhnVDNJTllHMjE3YnJMM0J3Q04wTUtO?=
- =?utf-8?B?VE8zbnpxR1lhVkUyRjl1SngxdHlZN290b0diMVEvMzM3aE8vYUU5UTlVYTVL?=
- =?utf-8?B?b0pCQko1eEt0V25wVUFHYXZLVmpELzNHSmtXQ1dDdE8rY3Bra05pVittbGtq?=
- =?utf-8?B?M1h5ejRJVDh1eXVTdlhuc2hiN3hkdHlKWC9QTGhCQmlERFZWYWU1aE1oaEhw?=
- =?utf-8?B?UUlUZU1SUE95NzU1VENYdi84SWtCSDdhRDBqeWdYQ3RnNHg0OWtzc3pmTUNo?=
- =?utf-8?B?cDA5d2hFeDVJb29NbFBkNWdtYkIrM3RVWnNYZUhVaFVjL1VkS1pNcXdnWExo?=
- =?utf-8?B?bDlURTRkTXFQb2tPK01pUDUzRGs0VFhUMmxPazdNcnI2bkN4UTBMbnMrV1JE?=
- =?utf-8?B?b0pPOXREb2xoTVNOdThJOEZSMTA0MWJUR1ViSG9xNVo4RjV0eXhrR1hldUk1?=
- =?utf-8?B?TkkxMTB1azZDQWoxR25OMlFmbFR2UTJHVng1dDkzSlhzclJhN0szSStmZjhV?=
- =?utf-8?Q?an1PPULVcP7KKHUEDF65ogASX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56348ee9-6092-4ede-d2f5-08dd416299f0
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 19:16:30.3786 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n1r5xCcR64i6/bNBXfuCyJ4SQZkNrQ2ul9yOnORAJJkJ8GR853e7pS3B4q/t0s5Z2Zr2I1JDGYHYEM/fDAK7ww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9278
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70e99210-b660-42eb-a0a5-08dd416b697f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2025 20:19:34.3527 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR02MB8282
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,89 +139,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Thomas Tai <thomas.tai@oracle.com> Sent: Thursday, January 30, 2025 1=
+0:50 AM
+>=20
+> Sorry for the typo in the subject title. It should have been 'hyperv_fb s=
+oft lockup on
+> Azure Gen2 VM when taking kdump or executing kexec'
+>=20
+> Thomas
+>=20
+> >
+> > Hi Michael,
+> >
+> > We see an issue with the mainline kernel on the Azure Gen 2 VM when
+> > trying to induce a kernel panic with sysrq commands. The VM would hang
+> > with soft lockup. A similar issue happens when executing kexec on the V=
+M.
+> > This issue is seen only with Gen2 VMs(with UEFI boot). Gen1 VMs with bi=
+os
+> > boot are fine.
+> >
+> > git bisect identifies the issue is cased by the commit 20ee2ae8c5899
+> > ("fbdev/hyperv_fb: Fix logic error for Gen2 VMs in hvfb_getmem()" ).
+> > However, reverting the commit would cause the frame buffer not to work
+> > on the Gen2 VM.
+> >
+> > Do you have any hints on what caused this issue?
+> >
+> > To reproduce the issue with kdump:
+> > - Install mainline kernel on an Azure Gen 2 VM and trigger a kdump
+> > - echo 1 > /proc/sys/kernel/sysrq
+> > - echo c > /proc/sysrq-trigger
+> >
+> > To reproduce the issue with executing kexec:
+> > - Install mainline kernel on Azure Gen 2 VM and use kexec
+> > - sudo kexec -l /boot/vmlinuz --initrd=3D/boot/initramfs.img --command-
+> > line=3D"$( cat /proc/cmdline )"
+> > - sudo kexec -e
+> >
+> > Thank you,
+> > Thomas
 
+I will take a look, but it might be early next week before I can do so.
 
-On 2025-01-30 12:51, Nathan Chancellor wrote:
-> Hey Greg and Harry,
-> 
+It looks like your soft lockup log below is from the kdump kernel (or the n=
+ewly
+kexec'ed kernel). Can you confirm? Also, this looks like a subset of the fu=
+ll log.
+Do you have the full serial console log that you could email to me?  Seeing
+everything might be helpful. Of course, I'll try to repro the problem mysel=
+f as
+well.
 
-[snip]
+Thanks,
 
->> A more robust solution would be to do a greater-than check here
->> (for all the cases) and only set -Wframe-larger-than if the value
->> is greater than the one defined by CONFIG_FRAME_WARN. There are
->> a few "-gt" uses in other Makefiles, so I would think it's fine
->> to use that.
->>
->> I'm no Makefile expert but if this seems like a reasonable course
->> of action I can take a stab at it.
-> 
-> Something like this would work I think? I added indentation because it
-> was getting a little gnarly. I am happy to write a formal patch and send
-> it off if this looks acceptable.
+Michael
 
-Thanks. That's exactly what I was thinking of. If you send a formal
-patch I'll be happy to give my RB.
-
-Harry
-
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> index 46f9c05de16e..e1d500633dfa 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> @@ -29,11 +29,15 @@ dml_ccflags := $(CC_FLAGS_FPU)
->  dml_rcflags := $(CC_FLAGS_NO_FPU)
->  
->  ifneq ($(CONFIG_FRAME_WARN),0)
-> -ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-> -frame_warn_flag := -Wframe-larger-than=3072
-> -else
-> -frame_warn_flag := -Wframe-larger-than=2048
-> -endif
-> +    ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-> +        frame_warn_limit := 3072
-> +    else
-> +        frame_warn_limit := 2048
-> +    endif
-> +
-> +    ifeq ($(call test-lt, $(CONFIG_FRAME_WARN), $(frame_warn_limit)),y)
-> +        frame_warn_flag := -Wframe-larger-than=$(frame_warn_limit)
-> +    endif
->  endif
->  
->  CFLAGS_$(AMDDALPATH)/dc/dml/display_mode_lib.o := $(dml_ccflags)
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> index 91c4f3b4bd5f..21fd466dba26 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> @@ -28,15 +28,19 @@ dml2_ccflags := $(CC_FLAGS_FPU)
->  dml2_rcflags := $(CC_FLAGS_NO_FPU)
->  
->  ifneq ($(CONFIG_FRAME_WARN),0)
-> -ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-> -ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
-> -frame_warn_flag := -Wframe-larger-than=4096
-> -else
-> -frame_warn_flag := -Wframe-larger-than=3072
-> -endif
-> -else
-> -frame_warn_flag := -Wframe-larger-than=2048
-> -endif
-> +    ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-> +        ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
-> +            frame_warn_limit := 4096
-> +        else
-> +            frame_warn_limit := 3072
-> +        endif
-> +    else
-> +        frame_warn_limit := 2048
-> +    endif
-> +
-> +    ifeq ($(call test-lt, $(CONFIG_FRAME_WARN), $(frame_warn_limit)),y)
-> +        frame_warn_flag := -Wframe-larger-than=$(frame_warn_limit)
-> +    endif
->  endif
->  
->  subdir-ccflags-y += -I$(FULL_AMD_DISPLAY_PATH)/dc/dml2
+> >
+> > --- soft lockup log---
+> > [    1.690032] efifb: probing for efifb
+> > [    1.693989] efifb: framebuffer at 0x40000000, using 3072k, total 307=
+2k
+> > [    1.700996] efifb: mode is 1024x768x32, linelength=3D4096, pages=3D1
+> > [    1.706999] efifb: scrolling: redraw
+> > [    1.710981] efifb: Truecolor: size=3D8:8:8:8, shift=3D24:16:8:0
+> > [    1.716806] Console: switching to colour frame buffer device 128x48
+> > [   29.176649] watchdog: BUG: soft lockup - CPU#0 stuck for 26s!
+> > [swapper/0:1]
+> > [   29.176655] Modules linked in:
+> > [   29.176658] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.13.0+=
+ #1
+> > [   29.176661] Hardware name: Microsoft Corporation Virtual
+> > Machine/Virtual Machine, BIOS Hyper-V UEFI Release v4.1 03/08/2024
+> > [   29.176663] RIP: 0010:fast_imageblit.isra.0+0x2de/0x460
+> > [   29.176669] Code: 07 49 21 f1 41 83 e1 01 46 8b 4c 8c 40 44 89 09 41=
+ 89 d1
+> > 4c 8d 79 08 41 c0 e9 06 49 21 f1 41 83 e1 03 46 8b 4c 8c 40 45 89 0e <4=
+1> 89
+> > d1 4c 8d 71 0c 41 c0 e9 05 49 21 f1 41 83 e1 07 46 8b 4c 8c
+> > [   29.176671] RSP: 0018:ffffc900000437a8 EFLAGS: 00010246
+> > [   29.176673] RAX: 0000000000000400 RBX: 0000000000000005 RCX:
+> > ffffc900006bb140
+> > [   29.176674] RDX: 0000000000000000 RSI: 0000000000000001 RDI:
+> > ffff888012146600
+> > [   29.176675] RBP: 0000000000000080 R08: ffffc900006bb000 R09:
+> > 0000000000000000
+> > [   29.176676] R10: 0000000000000001 R11: ffff888012146580 R12:
+> > 0000000000001000
+> > [   29.176677] R13: ffff88801214658a R14: ffffc900006bb144 R15:
+> > ffffc900006bb148
+> > [   29.176678] FS:  0000000000000000(0000) GS:ffff888026a00000(0000)
+> > knlGS:0000000000000000
+> > [   29.176680] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > [   29.176681] CR2: 00007f8bc160c238 CR3: 000000002ac38002 CR4:
+> > 00000000003706b0
+> > [   29.176683] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+> > 0000000000000000
+> > [   29.176684] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+> > 0000000000000400
+> > [   29.176685] Call Trace:
+> > [   29.176687]  <IRQ>
+> > [   29.176690]  ? watchdog_timer_fn+0x220/0x2a0
+> > [   29.176695]  ? __pfx_watchdog_timer_fn+0x10/0x10
+> > [   29.176697]  ? __hrtimer_run_queues+0x112/0x2b0
+> > [   29.176702]  ? hrtimer_interrupt+0x108/0x270
+> > [   29.176704]  ? sched_clock_cpu+0x60/0x1a0
+> > [   29.176708]  ? __sysvec_hyperv_stimer0+0x32/0x60
+> > [   29.176712]  ? sysvec_hyperv_stimer0+0x70/0x90
+> > [   29.176715]  </IRQ>
+> > [   29.176716]  <TASK>
+> > [   29.176716]  ? asm_sysvec_hyperv_stimer0+0x1a/0x20
+> > [   29.176722]  ? fast_imageblit.isra.0+0x2de/0x460
+> > [   29.176724]  cfb_imageblit+0x433/0x470
+> > [   29.176726]  bit_putcs+0x291/0x570
+> > [   29.176731]  ? __pfx_bit_putcs+0x10/0x10
+> > [   29.176733]  fbcon_putcs+0x139/0x1a0
+> > [   29.176735]  do_update_region+0xf1/0x110
+> > [   29.176740]  redraw_screen+0x22f/0x290
+> > [   29.176743]  do_bind_con_driver.isra.0+0x2ab/0x3d0
+> > [   29.176745]  do_take_over_console+0x3a/0x50
+> > [   29.176747]  do_fbcon_takeover+0x5c/0xe0
+> > [   29.176749]  fbcon_fb_registered+0x4f/0x70
+> > [   29.176751]  do_register_framebuffer+0x1bc/0x2a0
+> > [   29.176755]  devm_register_framebuffer+0x28/0x90
+> > [   29.176757]  efifb_probe+0x544/0x720
+> > [   29.176760]  platform_probe+0x43/0xb0
+> > [   29.176763]  really_probe+0xd9/0x390
+> > [   29.176767]  ? __pfx___device_attach_driver+0x10/0x10
+> > [   29.176769]  __driver_probe_device+0x78/0x160
+> > [   29.176771]  driver_probe_device+0x1e/0xa0
+> > [   29.176773]  __device_attach_driver+0x99/0x130
+> > [   29.176775]  bus_for_each_drv+0x98/0xf0
+> > [   29.176777]  __device_attach+0xbc/0x1f0
+> > [   29.176779]  bus_probe_device+0x8d/0xb0
+> > [   29.176781]  device_add+0x4f1/0x6e0
+> > [   29.176785]  platform_device_add+0xfa/0x260
+> > [   29.176787]  sysfb_init+0x109/0x120
+> > [   29.176791]  ? __pfx_sysfb_init+0x10/0x10
+> > [   29.176793]  do_one_initcall+0x5b/0x330
+> > [   29.176796]  do_initcalls+0xac/0x130
+> > [   29.176800]  kernel_init_freeable+0x134/0x1e0
+> > [   29.176802]  ? __pfx_kernel_init+0x10/0x10
+> > [   29.176806]  kernel_init+0x1a/0x1d0
+> > [   29.176808]  ret_from_fork+0x34/0x50
+> > [   29.176813]  ? __pfx_kernel_init+0x10/0x10
+> > [   29.176815]  ret_from_fork_asm+0x1a/0x30
+> > [   29.176819]  </TASK>
+> > [  432.306986] fb0: EFI VGA frame buffer device
 
