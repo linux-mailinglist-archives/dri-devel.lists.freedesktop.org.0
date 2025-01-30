@@ -2,58 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA99A23519
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 21:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB1FA2351F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 21:35:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9730A10E9E1;
-	Thu, 30 Jan 2025 20:33:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD1910E0A8;
+	Thu, 30 Jan 2025 20:35:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="wsGxR3Wo";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="fLhFS94g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAA4110E9DB
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 20:33:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=GDjyYngW/V8rZ/9s/V2isOq01Zq2IRay1Y1ld6/4IKA=; b=wsGxR3WotEAaoIbMjuMGP44tEV
- h30tAbAt8BGPE+tBCGMkjfFLPpQbldEY68cX2M2Asp9fLBgbgU5FRpJQ0IDxBoGSMsTjqdq6oy5vU
- gfldPf0af8xcnoO7be0Feo+EMaKxOprioif7Jr0WAbtsfZYFw25CqABkFVU4vwvL8uzz+yCl9OqOr
- zMbEXrtT3trtJRQgoV/bJHlh2NZsZxyU5mb1VGJpi9MFs2e8tVeFGgzoXKAH47doMdvX1iSPRNVNy
- QlzQu7E2NRD0ycPV8L/1GWI1wJ1DJYJy//Bh+u1sT9IfuucEfyUo1O6J6MuHEmd0yFmmUFLAjEGHE
- YAJWXOOQ==;
-Received: from i53875b5c.versanet.de ([83.135.91.92] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1tdbEM-0001gn-Po; Thu, 30 Jan 2025 21:33:42 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Damon Ding <damon.ding@rock-chips.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- rfoss@kernel.org, vkoul@kernel.org, sebastian.reichel@collabora.com,
- cristian.ciocaltea@collabora.com, l.stach@pengutronix.de,
- dmitry.baryshkov@linaro.org, andy.yan@rock-chips.com, hjc@rock-chips.com,
- algea.cao@rock-chips.com, kever.yang@rock-chips.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v6 08/14] drm/rockchip: analogix_dp: Add support to get
- panel from the DP AUX bus
-Date: Thu, 30 Jan 2025 21:33:41 +0100
-Message-ID: <3340006.44csPzL39Z@diego>
-In-Reply-To: <20250123100747.1841357-9-damon.ding@rock-chips.com>
-References: <20250123100747.1841357-1-damon.ding@rock-chips.com>
- <20250123100747.1841357-9-damon.ding@rock-chips.com>
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com
+ [209.85.218.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83D4D10E03B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 20:35:02 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id
+ a640c23a62f3a-ab39f84cbf1so226174466b.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 12:35:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1738269301; x=1738874101;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=i90LZEJP39KZzuaancmUFtDGdMy9w3zyTcWopQWmg60=;
+ b=fLhFS94gbl2hPDuYArBvd496Gc9ZxKcOwMD+3HrLV3cNz33SZey+7ETGrqzVp6lxE9
+ iGH2Kq5L2dfDEwAXpuHpuJpmXRSSaBHlEQjKpYAwM/Qe/2ewZ0DnSwGwQWxCBk0I5RSU
+ BMbG1dFlg52WIvNedViuQTI1a741mcM05y1G3oG9jpfizXMgFrIztUhVDRvJYEtHkZPm
+ fOrhhP0lsALSXDD3H2JYxh9kmiVvmnrgYhaC+5J7S/0JzP6NXxePbnccEtntmGxQ4EJP
+ wih+QWjFkNtlAHBgwx7T//IW82y/g0OjoyM+W5UALwkraFJNjaJFGLsJ5KrjcUUGvDOv
+ OyYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738269301; x=1738874101;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=i90LZEJP39KZzuaancmUFtDGdMy9w3zyTcWopQWmg60=;
+ b=Fsucv+n7xo2dYWN3Nw2iZ7TwhThUMB4qIKoIc8q/UpKnAP3PgkDqhdL9ncZiWPLToL
+ D49S91yt7dpqpFDaMdKaKzM5URWHw1uYvoAHZ3SYwe1LuYO04tf7sYXK8KrzRyWhke2x
+ GduGi7vb8RTq/htVOji5aGw8iLliBkL/Lib9IXNdVWYZGNhxOnv5Hcz6vbqNOTg+D4BM
+ gF1SRlnlVXLi5y0TnXMjYh1zpGHlp/nhG9TIeGU9U+eKbg0KnttQHV3DWcK+yMZxS9tl
+ zB1W2JO/uV6nNIvZFUanqakOAiBgYtKtsNcRxHbgBjhaurNcot7fCNqoMHlNYr0sDU42
+ 86Kw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVv8ETUzGANIs1zng8Qh0qtMnpbhhiFCNR4Pb1z0xSA92/7uPAGumz90xp/egpPg8H2bgjKRbsv5M0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVFqcWa5Gz+UctQpO1cgYnBkUdL/PAQuOb5aiuIPp+cjk3arUA
+ idbFDuAznrgqALh5Z9aGv33E6qHjJurlqsimbuaRcAHVCmjcVgwJmcClUoYuRef4kWFpmxXLtHN
+ 4H3wIEvDGkdntbSkvNUmRFXFOo2ZyVKYY8J5Y
+X-Gm-Gg: ASbGnct+IkAP4raSV+UEWX6jP3s2xhcEFM/gzBQUaYgUhC4DnWYwzH9Qz5e3h1ky8oi
+ lSwCynBf+20pMUyQZfXyE/kBd8uBWapl/kFhpno8Z3uG6Cl8XgWBaY/B46Kf1Z/q+SvAERFfkkU
+ Y0nsquniqky0ebwSraoff/AGlKEqz++g==
+X-Google-Smtp-Source: AGHT+IGECMPAgyniOqYNB21R66I8EdMyOHzZpuuSW7CxtAKNGfo7YHvttie355d+QCVHN1qEbYdE+9qUUvFsylnBIlM=
+X-Received: by 2002:a17:907:1c0e:b0:aab:8ca7:43df with SMTP id
+ a640c23a62f3a-ab6cfe11fa5mr941990066b.39.1738269300801; Thu, 30 Jan 2025
+ 12:35:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+References: <20250130100050.1868208-1-kirill.shutemov@linux.intel.com>
+ <20250130100050.1868208-6-kirill.shutemov@linux.intel.com>
+In-Reply-To: <20250130100050.1868208-6-kirill.shutemov@linux.intel.com>
+From: Yu Zhao <yuzhao@google.com>
+Date: Thu, 30 Jan 2025 13:34:24 -0700
+X-Gm-Features: AWEUYZl3-5-D2vyBu6SH4C2leVIlg1PIhkFjDOkk3Xxy6Plb6I0iqOiSPQjOIdU
+Message-ID: <CAOUHufbZAp9jJb7AA_LF2sS9TbN-T4ssSrp2GbqWSAbf5rUCVg@mail.gmail.com>
+Subject: Re: [PATCHv3 05/11] mm/truncate: Use folio_set_dropbehind() instead
+ of deactivate_file_folio()
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Chengming Zhou <chengming.zhou@linux.dev>,
+ Christian Brauner <brauner@kernel.org>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ David Airlie <airlied@gmail.com>, David Hildenbrand <david@redhat.com>,
+ Hao Ge <gehao@kylinos.cn>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Josef Bacik <josef@toxicpanda.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Nhat Pham <nphamcs@gmail.com>, 
+ Oscar Salvador <osalvador@suse.de>, Ran Xiaokai <ran.xiaokai@zte.com.cn>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
+ Steven Rostedt <rostedt@goodmis.org>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Vlastimil Babka <vbabka@suse.cz>, Yosry Ahmed <yosryahmed@google.com>,
+ intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-trace-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,44 +107,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Damon,
+On Thu, Jan 30, 2025 at 3:01=E2=80=AFAM Kirill A. Shutemov
+<kirill.shutemov@linux.intel.com> wrote:
+>
+> The recently introduced PG_dropbehind allows for freeing folios
+> immediately after writeback. Unlike PG_reclaim, it does not need vmscan
+> to be involved to get the folio freed.
+>
+> The new flag allows to replace whole deactivate_file_folio() machinery
+> with simple folio_set_dropbehind().
+>
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
-Am Donnerstag, 23. Januar 2025, 11:07:41 MEZ schrieb Damon Ding:
-> Move drm_of_find_panel_or_bridge() a little later and combine it with
-> component_add() into a new function rockchip_dp_link_panel(). The function
-> will serve as done_probing() callback of devm_of_dp_aux_populate_bus(),
-> aiding to support for obtaining the eDP panel via the DP AUX bus.
-> 
-> If failed to get the panel from the DP AUX bus, it will then try the other
-> way to get panel information through the platform bus.
-> 
-> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
-> 
-> ---
-
-> @@ -450,9 +461,17 @@ static int rockchip_dp_probe(struct platform_device *pdev)
->  	if (IS_ERR(dp->adp))
->  		return PTR_ERR(dp->adp);
->  
-> -	ret = component_add(dev, &rockchip_dp_component_ops);
-> -	if (ret)
-> -		return ret;
-> +	ret = devm_of_dp_aux_populate_bus(analogix_dp_get_aux(dp->adp), rockchip_dp_link_panel);
-
-This causes an undefined-reference error, so you probably need something like:
-
-diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
-index f9cbbb40b36f..fa946a809858 100644
---- a/drivers/gpu/drm/rockchip/Kconfig
-+++ b/drivers/gpu/drm/rockchip/Kconfig
-@@ -8,6 +8,7 @@ config DRM_ROCKCHIP
-        select DRM_PANEL
-        select VIDEOMODE_HELPERS
-        select DRM_ANALOGIX_DP if ROCKCHIP_ANALOGIX_DP
-+       select DRM_DISPLAY_DP_AUX_BUS if ROCKCHIP_ANALOGIX_DP
-        select DRM_DW_HDMI if ROCKCHIP_DW_HDMI
-        select DRM_DW_HDMI_QP if ROCKCHIP_DW_HDMI_QP
-        select DRM_DW_MIPI_DSI if ROCKCHIP_DW_MIPI_DSI
-
-
-
+Acked-by: Yu Zhao <yuzhao@google.com>
