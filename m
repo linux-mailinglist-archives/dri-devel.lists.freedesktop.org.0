@@ -2,170 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554DCA2374D
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 23:37:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D10CA23758
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 23:43:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E42510E9EB;
-	Thu, 30 Jan 2025 22:37:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9993110E9E8;
+	Thu, 30 Jan 2025 22:43:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OHhTSfIv";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lYSuKfes";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62E6010E9E8;
- Thu, 30 Jan 2025 22:37:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C46310E9E8;
+ Thu, 30 Jan 2025 22:43:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738276647; x=1769812647;
+ t=1738277020; x=1769813020;
  h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=sZyb0/DngIuN/qlZcsBzMobsHpaMOTLLRA7FfNJrXho=;
- b=OHhTSfIvqaYXk7Yr+PyezKGdxNr5aks0JFxwoW0r5Sp3mFnfz2I/fLmY
- SKZXr20x4JdsFbjKIue3QxjfZJJOJfejgZhNnJOuTWl9Wk62PY+OojyHP
- ou6kYbHfyLbk0Zr6XzELc/AXu+S0DwN7w6GORhbJr93CbMY3E1oAva91G
- p6sNXaIoYBVe2POcPFu2bx+Vk0MypsAZGO//xXgW5LZ6YFjYQ06aR6+Z6
- 5odS5c5/fxMxxIdOCEgmzahEGgbQcCcYNvYc9AjPlcAJe6uLesHZUC3hZ
- yj6/sHQ7VjpFWOTrjbXinFPHaSUj9eVUHAilHd/ui0r6lzmF7oXtN6u6Z Q==;
-X-CSE-ConnectionGUID: 0EjVhNukQvmR1VWGvlSzEw==
-X-CSE-MsgGUID: 7sKg23VWT5eYxmApCPOW5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="42767711"
-X-IronPort-AV: E=Sophos;i="6.13,246,1732608000"; d="scan'208";a="42767711"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2025 14:37:27 -0800
-X-CSE-ConnectionGUID: qTQqouwsTve8mdz5lwxg6Q==
-X-CSE-MsgGUID: HLJr5RcnRb64XzYyzuTI3A==
+ in-reply-to:mime-version;
+ bh=WREFHJ86O5rYe2wUhnC5G4t9QVvdeG0whB7F2RwbbhI=;
+ b=lYSuKfesMm/fdTGzcAi1VypPTdozffKDnPy9mo4bPwRcTCBQsGmvCRaz
+ bfSOXiZi82l1f+ielf0wWiqBbPN2NFdIKqBrNRxqxoC9Y94FLmxkvA4eE
+ vRfBIOfqlQmyzcJBapnerGLiPCAjsoKdWJFbNsrz9Va1PaH1f8PqDQt7C
+ IzGgpK0LIWmwM6CddYjTavy+mmGJC+Z3bmpzHts0x2dPJJ6hzCVM1Iher
+ +Y1DQxK8pRLMzG1ol9NUJf4ctFZhgEiZpfuqEhPSUWu/5nSgsvw1bpxKX
+ NM0gwFCTxDJYEo0K90KMgEmhjlwWFgmuxdgI+TK4SfVV2ChfmzTCXe4ET A==;
+X-CSE-ConnectionGUID: s7Beh22FSQix4LR1OJ1m8A==
+X-CSE-MsgGUID: H3mAAMepR16fBwg8EJcc3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38739151"
+X-IronPort-AV: E=Sophos;i="6.13,246,1732608000"; d="scan'208";a="38739151"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2025 14:43:39 -0800
+X-CSE-ConnectionGUID: mb3k74blTmueT+RytSxavw==
+X-CSE-MsgGUID: 39SpETlqTCmCd57ASG0eIQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,246,1732608000"; d="scan'208";a="109417280"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113491294"
 Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 30 Jan 2025 14:37:26 -0800
+ by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 30 Jan 2025 14:43:39 -0800
 Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
  ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 30 Jan 2025 14:37:26 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ 15.1.2507.44; Thu, 30 Jan 2025 14:43:38 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
  orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Thu, 30 Jan 2025 14:37:26 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.44 via Frontend Transport; Thu, 30 Jan 2025 14:43:38 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 30 Jan 2025 14:37:26 -0800
+ 15.1.2507.44; Thu, 30 Jan 2025 14:43:38 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HstV5tiiLKcEFcBHleX/eVs6OteCA12QudJ79HFJq4RKDvzKCq15q60OluARFimIT1dmZxsvH3BADpkf2S3LFOSdA9U8BwIs4jUkXR2W1HPdqsNtwspFYjm/SGjh/SQvvqfmRZWrtDtgOoGma5G8v7E4/7WkDCGWe2Hpq1ggRV966A8HNqpMVuWn2VP9B8h2SSsuC41sLLLvkjvb5wxTsWhSeKb+3AT6b4hdVO86lA1EbsnuAFMjy7aXLykVvcc8A0q+TJCa4FcDat1P65EbnCuOac/dw5F7IaZCSMM3f+Pho6bqGWg3t5xkyeFQO739i99X5GNEXeY9D4UoMSZ17g==
+ b=jrRd4e7RGliuv2oX5tSJkRjuLi0YNtfziovp8KWpUvcwm+EBIWHRQg9qTU31cNSydgv0ffJNvgtcUllpjoU6k1cNtIR0Sjh/QxpjgToaadx5NE1ZtrFNLlh3+U0UOYNjBWqq4o8CwfHJDn+l6ybn7x6Bs3uWd6duyux6rw8/Qk2yaX+c3EbEPGbfgCXlEpf3jabIEkQ36K1rUTvGpdRv/djmu52VW6Sk7Y5wZ7nKQkMPOEH/nvwM1ftDs3PkfvdIaEKtkLbCc90esCfB2LPs/sRLVbD3R2B41WbsITnqdg92i6duHqBkSNjtlEVrOL/Is6Rx6zXlYXrr8BlFO+r+JA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gH34LC8EJsBj2UMtjpZjLghBEye6SJqCo645CEZc7wY=;
- b=aS8N90G6iDofgZg7hmPihqRwJ56gJ7jDBPhh2NbH45FCb6LpMSJR+gmg3urzq86UcAZQuuoQFTT6qb/HfeugEvXUKjhd2E9RQ8gq/wIvM7Uqvqg90uWKpBjqk4ePhuSKzdwp9auyH9pybSEdj4YaMRXA60x/q6HwgpcciVvPh3b0ECL8d2VQY/ePpJXjyzNfcEsl1lUq1QnErVqueHU6HY177r/Ah9WnHiMfL0HG5TDeVgMKohl/Wibm/W1FI2JkUqvIWUraD9IkC6erloNk0hUyU5MVzNyw7ACwHjAiu7yR/yz/CertaPCWozJssLwQ2ZeH8GABFXMtN/PPrnix8g==
+ bh=jrYoTpTyIbtM+k9/IzqC3ws16tFbGOIzrTJkA4lNuo4=;
+ b=QrYXPoVfEocdEOrrhcu/wpc871AtZJhno/sEwbHcq6rauULEsSZKwbaHArmbh6Dt9fafGyMKLjNJcKbsASA6RCES/f41j/sDgx4vquggVN9ZeU9nP2f/bsKPYICiCqLy+wwrGzHyGVtkMSiqcqswhW6MzrEzzXgUieBv8mP9k2gJ/Eqd10494nPIiRRAOqeZmEGWXibsLvCOsucmoVkPsiPom9k55Aji0dvRv+zIO0Wl84j9fzx93+Y1xeAbwg8WCMjI7aSqoqXew3euqQrpZYCcnvJKdNkQDffNp+nufJz7MwO+WjUG2js8AWLzha/GUO27qNkYcYnrpQHIA6QuFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SN7PR11MB8282.namprd11.prod.outlook.com (2603:10b6:806:269::11)
- by PH7PR11MB6056.namprd11.prod.outlook.com (2603:10b6:510:1d4::20)
+ by MW5PR11MB5860.namprd11.prod.outlook.com (2603:10b6:303:19f::8)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.20; Thu, 30 Jan
- 2025 22:37:18 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Thu, 30 Jan
+ 2025 22:42:54 +0000
 Received: from SN7PR11MB8282.namprd11.prod.outlook.com
  ([fe80::f9d9:8daa:178b:3e72]) by SN7PR11MB8282.namprd11.prod.outlook.com
  ([fe80::f9d9:8daa:178b:3e72%5]) with mapi id 15.20.8377.021; Thu, 30 Jan 2025
- 22:37:18 +0000
-Date: Thu, 30 Jan 2025 17:37:14 -0500
+ 22:42:54 +0000
+Date: Thu, 30 Jan 2025 17:42:50 -0500
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: Alan Previn <alan.previn.teres.alexis@intel.com>
 CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, John Harrison
  <john.c.harrison@intel.com>, Matthew Brost <matthew.brost@intel.com>,
  "Zhanjun Dong" <zhanjun.dong@intel.com>
-Subject: Re: [PATCH v6 1/6] drm/xe/guc: Rename __guc_capture_parsed_output
-Message-ID: <Z5v_GhV2xJYZB3mw@intel.com>
+Subject: Re: [PATCH v6 3/6] drm/xe/guc: Split engine state print between
+ xe_hw_engine vs xe_guc_capture
+Message-ID: <Z5wAagl1DmBIVRG5@intel.com>
 References: <20250128183653.4027915-1-alan.previn.teres.alexis@intel.com>
- <20250128183653.4027915-2-alan.previn.teres.alexis@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
+ <20250128183653.4027915-4-alan.previn.teres.alexis@intel.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250128183653.4027915-2-alan.previn.teres.alexis@intel.com>
-X-ClientProxiedBy: MW2PR16CA0025.namprd16.prod.outlook.com (2603:10b6:907::38)
- To SN7PR11MB8282.namprd11.prod.outlook.com
+In-Reply-To: <20250128183653.4027915-4-alan.previn.teres.alexis@intel.com>
+X-ClientProxiedBy: MW2PR2101CA0012.namprd21.prod.outlook.com
+ (2603:10b6:302:1::25) To SN7PR11MB8282.namprd11.prod.outlook.com
  (2603:10b6:806:269::11)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB8282:EE_|PH7PR11MB6056:EE_
-X-MS-Office365-Filtering-Correlation-Id: cce79675-43b0-4e85-6dc1-08dd417ea74c
+X-MS-TrafficTypeDiagnostic: SN7PR11MB8282:EE_|MW5PR11MB5860:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7aad6a0e-3017-41be-95a7-08dd417f6f3f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?+Xf0XhVqUA6Yi1E3yqlEffPP8VvZI0K675FHOQKw8H8ii1xiQAFukiIR7k?=
- =?iso-8859-1?Q?afXyCPvd4+LEZmcDabiP8/GsC7eL/Oy1DDbs41Dx1r9O4IdPis0GtDkE9n?=
- =?iso-8859-1?Q?Fba5LtpkxwsSgofKDPKXOmq9O26PwrioPCOsMNUnfVqsVJxemtg4MYu6WH?=
- =?iso-8859-1?Q?nm4eKTDbyBFHpqM9WBX0tzp9DpvSLnpYvK55HCJNzF7O0nEcOz3w9cDpzv?=
- =?iso-8859-1?Q?2ETA0vK1Z/J1KXPW+bVx0aST0DBodrNviQrIlYIixcPUvt69OXVSSXrPYu?=
- =?iso-8859-1?Q?6VDEaGhQzAaxn9b5+mhMgLT4rTy11SCs6AE1ibhY94REwd6v3qViVomVvk?=
- =?iso-8859-1?Q?DHGKmcvM6bZZxu8ImNyKBL3GPQpEn87QiB66vminNgDw/jks0Ul36mbxSE?=
- =?iso-8859-1?Q?ATmpawxPwzaHi8ip5vog1D3RLbmaKijYEzQ1YfAB9KYCigifV3oFJZOxr7?=
- =?iso-8859-1?Q?l/At0CmKorJS+g5Mh+ns4Qcr6HWzF3LRnsdMSIc1+5amQpsm9Ae/Tp3Qvu?=
- =?iso-8859-1?Q?KpC86qQ7TItt8fDIMim0tKRzjnf7BWRz5SW/zkbHbVWWLgZL7Q2xrTKBwJ?=
- =?iso-8859-1?Q?OVPVK2xn1H1D9aBquukSOKvdERG542tnA8crWd/vUluEsl5jnwpfrJDbls?=
- =?iso-8859-1?Q?gnk6X5kU6aEw0t6OPpbC8h/LEhfneF5M4rWLzVtpHRWibjzUvwI5sWiCwi?=
- =?iso-8859-1?Q?ZYf5hiskH5nPQ1ZctYweFqgfJ5VhRaGFNS8nh75q9Q4TDOwCK9AfH2SM68?=
- =?iso-8859-1?Q?Tfze5eCMixfwJadCJfppyW/o+kML9ORXkzkFSg19AkkyEYe060SrsDVvwd?=
- =?iso-8859-1?Q?efYTdaTiU1z83hLfPJy3xAbMBfjQSVFQf7bc8JbA2I8kL/CPWQrBE2NfR1?=
- =?iso-8859-1?Q?l3aUfgAYjtqoWHdUKy/GYWEqMB+M58TG+oEsNh6r+VwWIdbrMudB1oQE/J?=
- =?iso-8859-1?Q?xRYBfTw5tKdWlssV6yOiaSXYfiZwxNzZpxpwVkYATOP93iz47ylSuV8PZL?=
- =?iso-8859-1?Q?GOVZcwUAPBd3d7jqiljgzVe6GQMDBW6luv4lEC8raPwt5/AgvUOjyXYndx?=
- =?iso-8859-1?Q?bq6pAoWKqtdK+/i8SdLksxAFysDiQKMwHTFI6rFCbglkjUD3iMpwqX/JBu?=
- =?iso-8859-1?Q?v4yj/Jbu+dG0gQdKbTH3bhd1B+vntVMwRiL36g1i5mGIIDrIP1qOsrywEK?=
- =?iso-8859-1?Q?TlxsxTIsEcoqbrO5GTQtGydI8PvIhYd2XoSZwCd27vsaONjEeWbijJ/7MQ?=
- =?iso-8859-1?Q?qmgXvNx0sZSu1UEqERuiT0JIZg8qmeDrqpfT2ZTD6oLaWrvtBwUU3veu5Y?=
- =?iso-8859-1?Q?8ghg+Z4kOiiAFJ8+6ksRT/xqOTMGmemhMKoGnVW7hOTDo/C4yaHRUxSMDO?=
- =?iso-8859-1?Q?kWZ2LILV51oGvQ9wgph+3XqSPilEBNbPXmvX9OcbVVfWI+tvbL+X0etRvp?=
- =?iso-8859-1?Q?5YB4BRp/GBK61mVe?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Lq0J0kkiloCPxzHYuQ3ojNhj1bFqv76vBQGTd+bEX9MbEBOHrhJHiDObX3hd?=
+ =?us-ascii?Q?Ob6xF/ndCNenSOvj/yv/U6FJDEtzVcIUi7wOFM4B9hlasPwf1AuxqME0Lrxg?=
+ =?us-ascii?Q?SeiJYAlzVZzmaWGBp9EdMMcI5VkCEaf7Pi5wayqs9Y0bNmSqS6X8XERbfB6e?=
+ =?us-ascii?Q?69ZKgA8c+dV72rq3AJq8hiSMPYHojnDYXUv0rNyTW5Oz95eSNqu/IfEA/rBf?=
+ =?us-ascii?Q?ZNMNY+dp2rZvG32z+0fbyYOMIzNmAviEqMeoxSsjZeZqcqzF14UaQ88zn7SZ?=
+ =?us-ascii?Q?Pbi+7maxuXpNXy9xmynoIXnTNmzthyrcXTG3JZjRv4hgCrCD/i1mtG0SIWiM?=
+ =?us-ascii?Q?j8OOodJqxqF2eCuplWbTZvhsq0igE6NY7mxtZXW1EKBEH4njQ1g40lgL4WV8?=
+ =?us-ascii?Q?pXxuh+cLkpJ2VjeDzIORMjLJuklVh0V2gwtMMF2lwFC18hxDu9i4103Ii6mu?=
+ =?us-ascii?Q?KhZ1D+KOC+JzY4AdTR5KH93fcjx4r9EIiYmuvXelnNIoPrHzBnj2uslqM/bJ?=
+ =?us-ascii?Q?UnFf3NVWhsDqzzLgEX34QmcxYbJ+IW9zOuDnwASocsVes7cO5sS1Af4Iz1nk?=
+ =?us-ascii?Q?WSubkL82uwVR1DE1eNIbOcym7rxbEGMhQvqet19n+xqUDNvWLHTVAuALtVYD?=
+ =?us-ascii?Q?1LSv9Zv1f1E4R/GhGemRl+r7mk8W5A7Ia73ZIuTPkroyBGzkL95X2EllbqR2?=
+ =?us-ascii?Q?KS25JW7UKVIbJKjrMLLBEwwMWvBYrAa5LCeYfNf2zUcm+htCbcpPadnWNBzp?=
+ =?us-ascii?Q?464libUqX5cTpcijpMO06d70xOUmR2Bvzi10bGyAuOpl+2pOmkRJq6sfHRwc?=
+ =?us-ascii?Q?JPYALxLvzW9jNMpToPVbidY1uWMEBkwnVJIRrFxusOzFJwI/TBNh5LUVdR3q?=
+ =?us-ascii?Q?wLKykLPLj/4sTp7fj+13RY2ULCvyscBwYLpWoV60QhxRkW1f2krbHdTtbOYD?=
+ =?us-ascii?Q?NCMu6qLlHdCA+frPXRjQpX6u4s+hK63gtkdpEIYW6wo3orZY7LZTP0ePD5eS?=
+ =?us-ascii?Q?OOnjoObGjkpgqKijrU8Xr7dtqUyqpXvnEF+vzdEaUSdRNHaOqFo9HNwWW8OL?=
+ =?us-ascii?Q?xoRPK8Bf6eZQK8YP6CwFVADplzqCsnZhlCoB6m+SgW/qP023SRfEShG08kq4?=
+ =?us-ascii?Q?xPmpUaMcz3hL9TJCZ1mmB78unWz492K5P3DRoLcUJShDCxM+LwGaNjy/lL6M?=
+ =?us-ascii?Q?Q7yj0yeDx6zU/rJtwJEbkxXzXGpNWwQFeGEgEl3+rGyrkURA4efGZ5QIL4nt?=
+ =?us-ascii?Q?ml0h4Ogs27P8ur/hX4OGpI8M7joLNKaCZKH2U59uBiYQAcnvWjyJ9ZHiPq2Z?=
+ =?us-ascii?Q?qKbfTMdXYNRVwuv2FSPiMAJZegtluyOZlkm+IcZIHmUV0azKk5EK/RoTx9F5?=
+ =?us-ascii?Q?8oZ8HOGzTYzCsiwvChgw8221SowB?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN7PR11MB8282.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?GT/lSf5rv8Vq+x1CtxZ8LsSFiqNf63kjgf5mEhtaPU1D4+XPUXaDJOz4cq?=
- =?iso-8859-1?Q?Lb8nHGJMxZubG6knj7+HYyfQScwWSWecJ3BVFiZIA4GWuildKl0S3yVx0U?=
- =?iso-8859-1?Q?DFvA94z5GNP2zP6Q7HQfl6JJRZk09EmbNkgoWlBB4mIXRV2AcIMm9XjLr7?=
- =?iso-8859-1?Q?J31RbKNNa50mCwm/Iq7BV7bIzOzpatUG0X/wHtQJP2KGLbRPbO2hSZI/Cf?=
- =?iso-8859-1?Q?cDkt4JFG7y+0wsyiQAKbevoi6RnB6Hm3wwtNmJhGKyFRqZOnnZgveNscct?=
- =?iso-8859-1?Q?1JYqbnAAEf8fJpwSQxlzlMpzewMKKbP5univqW/FUE8U7E5r0I+DaFI36u?=
- =?iso-8859-1?Q?IqIOEyM+gmXZsJMwj2uScp5rM9awkkAAMSYWsaiu8+dxqHYNElKVfwVX47?=
- =?iso-8859-1?Q?+PJ+GCkL5CY5qHAAL8iDhxBrFzkd+gxWZH68t0hzjbL2nSatTGbDFuaC/f?=
- =?iso-8859-1?Q?srxye3XsD7N/DWVmkfdmCqPDNNgAL4ea3zA1GgiLpW8BTUJUk/LYHmUF61?=
- =?iso-8859-1?Q?MJazw+Vi7x8DrAeyaVeFmY1QhDVr2XKZBSs5xr2zYXNxoDj3BJecslPO64?=
- =?iso-8859-1?Q?ksog3V1mmP2riFiozHxIynUPHr1bPB1ww2r8NvN2QneyvC4RHNso6JR8Z5?=
- =?iso-8859-1?Q?8Vf7v2lihCy8+orHCbUTV061dCMjFu2XWGzDuI1Hkkl6OidOpYdMEQycWi?=
- =?iso-8859-1?Q?okSat3kdEnDWnWdUZkBmEma7P4yF3PRvLL2xbHHbQkc2Zo/DnPHe89wWnO?=
- =?iso-8859-1?Q?AsMF/CjVnVbFpZQaf7MuTe8TzdbQWEJvG0jWTKQ9sroRKABNbx9a6phTyh?=
- =?iso-8859-1?Q?NQj2DeBFGzZV6a5FYNaACv/9hpFDIlOp8PXxMdJjOKHEd0pG7TRRJ6guBr?=
- =?iso-8859-1?Q?ogu72lj9QzIQ05UYEBepR76YyYSvOw5vOWVbwiCjmw5AfmQxTU3wWb5JMN?=
- =?iso-8859-1?Q?XPaOeutidqfzhp99ahNoVmCGhxsCtUB4f0IK6yvcpJyl59qvXFqlrETreq?=
- =?iso-8859-1?Q?orFd5VXhWdeLFol/+cAtBWnCzhrfVFdk6GQcLhumHIFHzVsbRAxeqm/dVy?=
- =?iso-8859-1?Q?VDBzKIEYrJOYdi2sI9v+e9rYrkvG33TKUmyRnpxgYS45OarUau9sldzBwz?=
- =?iso-8859-1?Q?bd142oZe32/Nudif8JjoF9jd0QIWBOXyVKXp2Ns+tWHx8Ypw6jlISXc0/I?=
- =?iso-8859-1?Q?FS/kNd2s203QdfWiwoNJN7YigRIMaom8t8Z5dCiLaeOKyoCbihHOwWIsEn?=
- =?iso-8859-1?Q?ZlIODs18TyrchVDUqhMWlTK6RrRFdwhxPHK6/FRaTt1VSA2Y+GSgEeLVzS?=
- =?iso-8859-1?Q?pp99JQkVuORuryM6DTUrdmK/UrXY9xVW+WT3UhpdrTzD2PsudW3ImP71Xe?=
- =?iso-8859-1?Q?yZ6/IkxQiXiDldYv0n0sxhxEcScNKqUs8scyl6RNW3PXisSIRD56Dw031e?=
- =?iso-8859-1?Q?FZJ1KMFvIh8jaxAg5E7PS+bhER24SN5JBHx/vlTrrjmT38bpIsG1J032mn?=
- =?iso-8859-1?Q?xK3UaJnmVzGwH2/4akcaMn0I5xgOm4Ez1Pc/YCaF0hXmCziFTtmqkLpEy0?=
- =?iso-8859-1?Q?j0ovwv6DtkN4Ae6bwme6M6j0+d1KS1/yVXlr7Rzv1E4NnEywMj8YVc9eSj?=
- =?iso-8859-1?Q?xgSISABUnqoCNs15PTHi1EYCMDw0Arb7MRdbvTeoAaE5HFUi9ssEJXlA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cce79675-43b0-4e85-6dc1-08dd417ea74c
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9eAfJkBkVScrjW5dPAI10Egw/NSJgGEjjbwzpc88x662UBgoGqo70cUsWZIL?=
+ =?us-ascii?Q?n0shjRflpurPI3VKgAKDnPosKvsXiv5JMLFRveP7T9M/S/9i9W+pWB6TH1MO?=
+ =?us-ascii?Q?chC6zQ3XTA3QTXpBIhjCNAY7t+Xk8zytSGkX3QOXbb67XaU0autyOGHqzmjS?=
+ =?us-ascii?Q?7BBsKZDG5Mv+cbIFJn+CrvwZ24jcv51YI1GIE0Za9wyHwrjAN6WmTCOsnWl9?=
+ =?us-ascii?Q?qAT3Mex/1a3aB5D9B0L/ALhtXPrboRxz13pmJ8ge85/40eNeXX1jtb1pnHof?=
+ =?us-ascii?Q?W6chN7tOggNX+Fu8NbqrSYoBHiSltWy4QMIX6wBLQ/V/LdReBPeySUQzwFih?=
+ =?us-ascii?Q?dvJnB/MxRGG+0Qbiaw/Ib1jjJspz6mXw/+mOPMEdvxjiyT1SI7i/PM85vQwB?=
+ =?us-ascii?Q?b3ZJZ+VWAzsJ5wYvPTer/T1UpcIa0HQKelfE+EanQUbC/GAcdsW2YxGM+gJ8?=
+ =?us-ascii?Q?UPvvurRFVP42fLHTW0/DfnuqKs6xqaYySczD+LSaoNiUFgPR2cXkOjyfTFym?=
+ =?us-ascii?Q?hAgt7QWDGnfFbcfFJOxnoJURU9fTMFdTqC6B57/erm7OV9wnUdtTdEpfbc34?=
+ =?us-ascii?Q?+JFi6tGZNicmbCrrX+OCWFBesezK5TgnO973gmStWYusMS7sWAYIqzJz3pio?=
+ =?us-ascii?Q?/4l8Jp8/Ff99PJ2APS6IyGVFDuFQO7r62B114lcALCVpXeJrXX6EKgbq6wpU?=
+ =?us-ascii?Q?0rTvzAeEPiJVTzDTDIeA+Zkm8lfP+wXxjqXf2OAeHnhf/EMBdc1X9rjL4ZSV?=
+ =?us-ascii?Q?camY5BvFS2t08fwHE6IqeRh77VxNZk4WSt0t+wNVBxpG0CeORnJYJz2lhsSH?=
+ =?us-ascii?Q?xOCx2hZB/jLYLQAe55+WNZBMTZ1uDFr/MQ9zszYLOohBgpX5/sSgW2UfKuFY?=
+ =?us-ascii?Q?gYx03WVVmNpWNO8Wn0gEdV2HQKmCHqFRn8jO/1cwSR3VofsSQRiDYL1tycUm?=
+ =?us-ascii?Q?P+m6TQz3uyrOjf3oCVlry0OuWNvizVb1XxxRmfbF4Z8TqOUbJg5aWFoZCFVx?=
+ =?us-ascii?Q?9ZGMe4wPdIccBPmxiGO6eI5TYfx8QTE9ipK5jCzU0mAfypOqds1XCzhjEOxn?=
+ =?us-ascii?Q?2QLx17JKdsy54WrHp9V3CnP8FXvzfn2j6V24E2DR5LnVB/2qaKkkSWz/y5r3?=
+ =?us-ascii?Q?qVYwB+s1gUg+pRqy8Q+vfJEPAopbIvGiq2PmzmzXrPwMCxI/5WXiEkwNVHGV?=
+ =?us-ascii?Q?Wv/HnqoKVvAzs63XZayrwT0sbLgE1Ptj7e+pkgoe3p3iRywDBahjClznaX7n?=
+ =?us-ascii?Q?9cQf38pUyRFf2U2s0ADURwlLHj8Eh5hyccmtmnwwL5iRv7S0yAgGM5r7GDjJ?=
+ =?us-ascii?Q?bY9dYriw4j+/rjGv/PXBxrAJ5q3QminLuIsuh33eFKngnMVxi+EuCApp6yoJ?=
+ =?us-ascii?Q?pNCrfy4ToC5ve7rai45uG5AiIJ6y6VrJRI/Fpc7nzhKhy9msGqPvxEMwJDKm?=
+ =?us-ascii?Q?uoziEr+UqFNV0iY1F3xN3b7YBxJgI6PrWrMbAFdaX1UjwwqBr45gzglsyEQi?=
+ =?us-ascii?Q?MuCAXPpowQOL0WXHmuZUSc372gbS7+0A7ufk0+tZWlQPQ6GGMOVG82vOxx7j?=
+ =?us-ascii?Q?TWxdI0nvJlxAU33kYjWK3SHKDdg0zMWmeycWVmntZwPZO1FSkL0DrYHj9s59?=
+ =?us-ascii?Q?ew=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7aad6a0e-3017-41be-95a7-08dd417f6f3f
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB8282.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 22:37:18.8104 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 22:42:54.2094 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bbin2wCwZEoCOxL71311mVe2ONrBvW2x2YJGcfXAowFiybO0P0cCvy7qdoXGuWLaWzgiADmJ5vkDJ+wx4rbIBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6056
+X-MS-Exchange-CrossTenant-UserPrincipalName: snFC5vytWE21W+GNYi+73QlgZsnlWitT/V3MQSK01qufL+I9ZtHFaAx4CxbECwkr+ajtbUxBwaHwxoxfw8MOEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5860
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -182,382 +180,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jan 28, 2025 at 10:36:47AM -0800, Alan Previn wrote:
-> Since '__guc_capture_parsed_output *' is a handle that
-> is retrieved, stored and relinquished by an entity
-> external to GuC (i.e. xe_devcoredump), lets rename it to
-> something formal without the'__' prefix and export it
-> via give a header file.
+On Tue, Jan 28, 2025 at 10:36:49AM -0800, Alan Previn wrote:
+> Relocate the xe_engine_snapshot_print function from xe_guc_capture.c
+> into xe_hw_engine.c but split out the GuC-Err-Capture register printing
+> portion out into a separate helper inside xe_guc_capture.c so that
+> we can have a clear separation between printing the general engine info
+> vs GuC-Err-Capture node's register list.
 > 
 > Signed-off-by: Alan Previn <alan.previn.teres.alexis@intel.com>
 > ---
->  drivers/gpu/drm/xe/xe_devcoredump_types.h     |  2 +-
->  drivers/gpu/drm/xe/xe_guc_capture.c           | 83 ++++++-------------
->  drivers/gpu/drm/xe/xe_guc_capture.h           |  2 +-
->  .../drm/xe/xe_guc_capture_snapshot_types.h    | 53 ++++++++++++
->  drivers/gpu/drm/xe/xe_hw_engine.c             |  2 +-
->  drivers/gpu/drm/xe/xe_hw_engine_types.h       |  5 --
->  6 files changed, 81 insertions(+), 66 deletions(-)
->  create mode 100644 drivers/gpu/drm/xe/xe_guc_capture_snapshot_types.h
+>  drivers/gpu/drm/xe/xe_guc_capture.c | 72 +++++++++++++----------------
+>  drivers/gpu/drm/xe/xe_guc_capture.h |  4 +-
+>  drivers/gpu/drm/xe/xe_hw_engine.c   | 28 +++++++++++
+>  drivers/gpu/drm/xe/xe_hw_engine.h   |  1 +
+>  4 files changed, 62 insertions(+), 43 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_devcoredump_types.h b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> index 1a1d16a96b2d..c94ce21043a8 100644
-> --- a/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> +++ b/drivers/gpu/drm/xe/xe_devcoredump_types.h
-> @@ -58,7 +58,7 @@ struct xe_devcoredump_snapshot {
->  	 * this single-node tracker works because devcoredump will always only
->  	 * produce one hw-engine capture per devcoredump event
->  	 */
-> -	struct __guc_capture_parsed_output *matched_node;
-> +	struct xe_guc_capture_snapshot *matched_node;
->  	/** @vm: Snapshot of VM state */
->  	struct xe_vm_snapshot *vm;
->  
 > diff --git a/drivers/gpu/drm/xe/xe_guc_capture.c b/drivers/gpu/drm/xe/xe_guc_capture.c
-> index f6d523e4c5fe..e04c87739267 100644
+> index f118e8dd0ecb..a7278a01f586 100644
 > --- a/drivers/gpu/drm/xe/xe_guc_capture.c
 > +++ b/drivers/gpu/drm/xe/xe_guc_capture.c
-> @@ -26,6 +26,7 @@
->  #include "xe_guc_ads.h"
->  #include "xe_guc_capture.h"
->  #include "xe_guc_capture_types.h"
-> +#include "xe_guc_capture_snapshot_types.h"
->  #include "xe_guc_ct.h"
->  #include "xe_guc_exec_queue_types.h"
->  #include "xe_guc_log.h"
-> @@ -53,40 +54,6 @@ struct __guc_capture_bufstate {
->  	u32 wr;
->  };
+> @@ -1655,22 +1655,16 @@ guc_capture_find_reg(struct gcap_reg_list_info *reginfo, u32 addr, u32 flags)
+>  }
 >  
-> -/*
-> - * struct __guc_capture_parsed_output - extracted error capture node
-> - *
-> - * A single unit of extracted error-capture output data grouped together
-> - * at an engine-instance level. We keep these nodes in a linked list.
-> - * See cachelist and outlist below.
-> - */
-> -struct __guc_capture_parsed_output {
-> -	/*
-> -	 * A single set of 3 capture lists: a global-list
-> -	 * an engine-class-list and an engine-instance list.
-> -	 * outlist in __guc_capture_parsed_output will keep
-> -	 * a linked list of these nodes that will eventually
-> -	 * be detached from outlist and attached into to
-> -	 * xe_codedump in response to a context reset
-> -	 */
-> -	struct list_head link;
-> -	bool is_partial;
-> -	u32 eng_class;
-> -	u32 eng_inst;
-> -	u32 guc_id;
-> -	u32 lrca;
-> -	u32 type;
-> -	bool locked;
-> -	enum xe_hw_engine_snapshot_source_id source;
-> -	struct gcap_reg_list_info {
-> -		u32 vfid;
-> -		u32 num_regs;
-> -		struct guc_mmio_reg *regs;
-> -	} reginfo[GUC_STATE_CAPTURE_TYPE_MAX];
-> -#define GCAP_PARSED_REGLIST_INDEX_GLOBAL   BIT(GUC_STATE_CAPTURE_TYPE_GLOBAL)
-> -#define GCAP_PARSED_REGLIST_INDEX_ENGCLASS BIT(GUC_STATE_CAPTURE_TYPE_ENGINE_CLASS)
-> -};
+>  static void
+> -snapshot_print_by_list_order(struct xe_hw_engine_snapshot *snapshot, struct drm_printer *p,
+> -			     u32 type, const struct __guc_mmio_reg_descr_group *list)
+> +print_noderegs_by_list_order(struct xe_guc *guc, struct gcap_reg_list_info *reginfo,
+> +			     const struct __guc_mmio_reg_descr_group *list, struct drm_printer *p)
+>  {
+> -	struct xe_gt *gt = snapshot->hwe->gt;
+> -	struct xe_guc *guc = &gt->uc.guc;
+> -	struct gcap_reg_list_info *reginfo = NULL;
+> -	u32 i, last_value = 0;
+> +	u32 last_value, i;
+>  	bool is_ext, low32_ready = false;
+>  
+>  	if (!list || !list->list || list->num_regs == 0)
+>  		return;
+>  
+> -	XE_WARN_ON(!snapshot->matched_node);
 > -
->  /*
->   * Define all device tables of GuC error capture register lists
->   * NOTE:
-> @@ -287,7 +254,7 @@ struct xe_guc_state_capture {
+>  	is_ext = list == guc->capture->extlists;
+> -	reginfo = &snapshot->matched_node->reginfo[type];
 >  
->  static void
->  guc_capture_remove_stale_matches_from_list(struct xe_guc_state_capture *gc,
-> -					   struct __guc_capture_parsed_output *node);
-> +					   struct xe_guc_capture_snapshot *node);
+>  	/*
+>  	 * loop through descriptor first and find the register in the node
+> @@ -1740,8 +1734,8 @@ snapshot_print_by_list_order(struct xe_hw_engine_snapshot *snapshot, struct drm_
 >  
->  static const struct __guc_mmio_reg_descr_group *
->  guc_capture_get_device_reglist(struct xe_device *xe)
-> @@ -841,7 +808,7 @@ static void check_guc_capture_size(struct xe_guc *guc)
+>  				group = FIELD_GET(GUC_REGSET_STEERING_GROUP, reg_desc->flags);
+>  				instance = FIELD_GET(GUC_REGSET_STEERING_INSTANCE, reg_desc->flags);
+> -				dss = xe_gt_mcr_steering_info_to_dss_id(gt, group, instance);
+> -
+> +				dss = xe_gt_mcr_steering_info_to_dss_id(guc_to_gt(guc), group,
+> +									instance);
+>  				drm_printf(p, "\t%s[%u]: 0x%08x\n", reg_desc->regname, dss, value);
+>  			} else {
+>  				drm_printf(p, "\t%s: 0x%08x\n", reg_desc->regname, value);
+> @@ -1760,13 +1754,18 @@ snapshot_print_by_list_order(struct xe_hw_engine_snapshot *snapshot, struct drm_
 >  }
 >  
->  static void
-> -guc_capture_add_node_to_list(struct __guc_capture_parsed_output *node,
-> +guc_capture_add_node_to_list(struct xe_guc_capture_snapshot *node,
->  			     struct list_head *list)
->  {
->  	list_add(&node->link, list);
-> @@ -849,7 +816,7 @@ guc_capture_add_node_to_list(struct __guc_capture_parsed_output *node,
->  
->  static void
->  guc_capture_add_node_to_outlist(struct xe_guc_state_capture *gc,
-> -				struct __guc_capture_parsed_output *node)
-> +				struct xe_guc_capture_snapshot *node)
->  {
->  	guc_capture_remove_stale_matches_from_list(gc, node);
->  	guc_capture_add_node_to_list(node, &gc->outlist);
-> @@ -857,14 +824,14 @@ guc_capture_add_node_to_outlist(struct xe_guc_state_capture *gc,
->  
->  static void
->  guc_capture_add_node_to_cachelist(struct xe_guc_state_capture *gc,
-> -				  struct __guc_capture_parsed_output *node)
-> +				  struct xe_guc_capture_snapshot *node)
->  {
->  	guc_capture_add_node_to_list(node, &gc->cachelist);
->  }
->  
->  static void
->  guc_capture_free_outlist_node(struct xe_guc_state_capture *gc,
-> -			      struct __guc_capture_parsed_output *n)
-> +			      struct xe_guc_capture_snapshot *n)
->  {
->  	if (n) {
->  		n->locked = 0;
-> @@ -876,9 +843,9 @@ guc_capture_free_outlist_node(struct xe_guc_state_capture *gc,
->  
->  static void
->  guc_capture_remove_stale_matches_from_list(struct xe_guc_state_capture *gc,
-> -					   struct __guc_capture_parsed_output *node)
-> +					   struct xe_guc_capture_snapshot *node)
->  {
-> -	struct __guc_capture_parsed_output *n, *ntmp;
-> +	struct xe_guc_capture_snapshot *n, *ntmp;
->  	int guc_id = node->guc_id;
->  
->  	list_for_each_entry_safe(n, ntmp, &gc->outlist, link) {
-> @@ -888,7 +855,7 @@ guc_capture_remove_stale_matches_from_list(struct xe_guc_state_capture *gc,
->  }
->  
->  static void
-> -guc_capture_init_node(struct xe_guc *guc, struct __guc_capture_parsed_output *node)
-> +guc_capture_init_node(struct xe_guc *guc, struct xe_guc_capture_snapshot *node)
->  {
->  	struct guc_mmio_reg *tmp[GUC_STATE_CAPTURE_TYPE_MAX];
->  	int i;
-> @@ -1067,13 +1034,13 @@ guc_capture_log_get_register(struct xe_guc *guc, struct __guc_capture_bufstate *
->  	return 0;
->  }
->  
-> -static struct __guc_capture_parsed_output *
-> +static struct xe_guc_capture_snapshot *
->  guc_capture_get_prealloc_node(struct xe_guc *guc)
->  {
-> -	struct __guc_capture_parsed_output *found = NULL;
-> +	struct xe_guc_capture_snapshot *found = NULL;
->  
->  	if (!list_empty(&guc->capture->cachelist)) {
-> -		struct __guc_capture_parsed_output *n, *ntmp;
-> +		struct xe_guc_capture_snapshot *n, *ntmp;
->  
->  		/* get first avail node from the cache list */
->  		list_for_each_entry_safe(n, ntmp, &guc->capture->cachelist, link) {
-> @@ -1081,7 +1048,7 @@ guc_capture_get_prealloc_node(struct xe_guc *guc)
->  			break;
->  		}
->  	} else {
-> -		struct __guc_capture_parsed_output *n, *ntmp;
-> +		struct xe_guc_capture_snapshot *n, *ntmp;
->  
->  		/*
->  		 * traverse reversed and steal back the oldest node already
-> @@ -1100,11 +1067,11 @@ guc_capture_get_prealloc_node(struct xe_guc *guc)
->  	return found;
->  }
->  
-> -static struct __guc_capture_parsed_output *
-> -guc_capture_clone_node(struct xe_guc *guc, struct __guc_capture_parsed_output *original,
-> +static struct xe_guc_capture_snapshot *
-> +guc_capture_clone_node(struct xe_guc *guc, struct xe_guc_capture_snapshot *original,
->  		       u32 keep_reglist_mask)
->  {
-> -	struct __guc_capture_parsed_output *new;
-> +	struct xe_guc_capture_snapshot *new;
->  	int i;
->  
->  	new = guc_capture_get_prealloc_node(guc);
-> @@ -1146,7 +1113,7 @@ guc_capture_extract_reglists(struct xe_guc *guc, struct __guc_capture_bufstate *
->  	struct xe_gt *gt = guc_to_gt(guc);
->  	struct guc_state_capture_group_header_t ghdr = {0};
->  	struct guc_state_capture_header_t hdr = {0};
-> -	struct __guc_capture_parsed_output *node = NULL;
-> +	struct xe_guc_capture_snapshot *node = NULL;
->  	struct guc_mmio_reg *regs = NULL;
->  	int i, numlists, numregs, ret = 0;
->  	enum guc_state_capture_type datatype;
-> @@ -1439,11 +1406,11 @@ void xe_guc_capture_process(struct xe_guc *guc)
->  		__guc_capture_process_output(guc);
->  }
->  
-> -static struct __guc_capture_parsed_output *
-> +static struct xe_guc_capture_snapshot *
->  guc_capture_alloc_one_node(struct xe_guc *guc)
->  {
->  	struct drm_device *drm = guc_to_drm(guc);
-> -	struct __guc_capture_parsed_output *new;
-> +	struct xe_guc_capture_snapshot *new;
->  	int i;
->  
->  	new = drmm_kzalloc(drm, sizeof(*new), GFP_KERNEL);
-> @@ -1468,7 +1435,7 @@ guc_capture_alloc_one_node(struct xe_guc *guc)
->  static void
->  __guc_capture_create_prealloc_nodes(struct xe_guc *guc)
->  {
-> -	struct __guc_capture_parsed_output *node = NULL;
-> +	struct xe_guc_capture_snapshot *node = NULL;
->  	int i;
->  
->  	for (i = 0; i < PREALLOC_NODES_MAX_COUNT; ++i) {
-> @@ -1583,7 +1550,7 @@ xe_engine_manual_capture(struct xe_hw_engine *hwe, struct xe_hw_engine_snapshot
->  	struct xe_devcoredump *devcoredump = &xe->devcoredump;
->  	enum guc_capture_list_class_type capture_class;
->  	const struct __guc_mmio_reg_descr_group *list;
-> -	struct __guc_capture_parsed_output *new;
-> +	struct xe_guc_capture_snapshot *new;
->  	enum guc_state_capture_type type;
->  	u16 guc_id = 0;
->  	u32 lrca = 0;
-> @@ -1849,7 +1816,7 @@ void xe_engine_snapshot_print(struct xe_hw_engine_snapshot *snapshot, struct drm
+>  /**
+> - * xe_engine_snapshot_print - Print out a given Xe HW Engine snapshot.
+> - * @snapshot: Xe HW Engine snapshot object.
+> + * xe_guc_capture_snapshot_print - Print out a the contents of a provided Guc-Err-Capture node
+> + * @guc : Target GuC for operation.
+> + * @node: GuC Error Capture register dump node.
+>   * @p: drm_printer where it will be printed out.
 >   *
->   * Returns: found guc-capture node ptr else NULL
+> - * This function prints out a given Xe HW Engine snapshot object.
+> + * This function prints out a register dump of a GuC-Err-Capture node that was retrieved
+> + * earlier either by GuC-FW reporting or by manual capture depending on how the
+> + * caller (typically xe_hw_engine_snapshot) was invoked and used.
 >   */
-> -struct __guc_capture_parsed_output *
-> +struct xe_guc_capture_snapshot *
->  xe_guc_capture_get_matching_and_lock(struct xe_exec_queue *q)
+> -void xe_engine_snapshot_print(struct xe_hw_engine_snapshot *snapshot, struct drm_printer *p)
+> +
+> +void xe_guc_capture_snapshot_print(struct xe_guc *guc, struct xe_guc_capture_snapshot *node,
+> +				   struct drm_printer *p)
 >  {
->  	struct xe_hw_engine *hwe;
-> @@ -1878,7 +1845,7 @@ xe_guc_capture_get_matching_and_lock(struct xe_exec_queue *q)
+>  	const char *grptype[GUC_STATE_CAPTURE_GROUP_TYPE_MAX] = {
+>  		"full-capture",
+> @@ -1774,45 +1773,36 @@ void xe_engine_snapshot_print(struct xe_hw_engine_snapshot *snapshot, struct drm
+>  	};
+>  	int type;
+>  	const struct __guc_mmio_reg_descr_group *list;
+> -	enum guc_capture_list_class_type capture_class;
+>  	struct xe_gt *gt;
+>  
+> -	if (!snapshot)
+> +	if (!guc)
+>  		return;
+> -
+> -	gt = snapshot->hwe->gt;
+> -
+> -	if (!snapshot->matched_node)
+> +	gt = guc_to_gt(guc);
+> +	if (!node) {
+> +		xe_gt_warn(gt, "GuC Capture printing without node!\n");
+>  		return;
+> +	}
+> +	if (!p) {
+> +		xe_gt_warn(gt, "GuC Capture printing without printer!\n");
+> +		return;
+> +	}
+>  
+> -	xe_gt_assert(gt, snapshot->hwe);
+> -
+> -	capture_class = xe_engine_class_to_guc_capture_class(snapshot->hwe->class);
+> -
+> -	drm_printf(p, "%s (physical), logical instance=%d\n",
+> -		   snapshot->name ? snapshot->name : "",
+> -		   snapshot->logical_instance);
+>  	drm_printf(p, "\tCapture_source: %s\n",
+> -		   snapshot->matched_node->source == XE_ENGINE_CAPTURE_SOURCE_GUC ?
+> +		   node->source == XE_ENGINE_CAPTURE_SOURCE_GUC ?
+>  		   "GuC" : "Manual");
+
+This looks like it is changing the order of the prints. So, please ensure that this
+is not breaking the decode user space tools.
+
+> -	drm_printf(p, "\tCoverage: %s\n", grptype[snapshot->matched_node->is_partial]);
+> -	drm_printf(p, "\tForcewake: domain 0x%x, ref %d\n",
+> -		   snapshot->forcewake.domain, snapshot->forcewake.ref);
+> -	drm_printf(p, "\tReserved: %s\n",
+> -		   str_yes_no(snapshot->kernel_reserved));
+> +	drm_printf(p, "\tCoverage: %s\n", grptype[node->is_partial]);
+>  
+>  	for (type = GUC_STATE_CAPTURE_TYPE_GLOBAL; type < GUC_STATE_CAPTURE_TYPE_MAX; type++) {
+>  		list = xe_guc_capture_get_reg_desc_list(gt, GUC_CAPTURE_LIST_INDEX_PF, type,
+> -							capture_class, false);
+> -		snapshot_print_by_list_order(snapshot, p, type, list);
+> +							node->eng_class, false);
+> +		print_noderegs_by_list_order(guc, &node->reginfo[type], list, p);
 >  	}
 >  
->  	if (guc_class <= GUC_LAST_ENGINE_CLASS) {
-> -		struct __guc_capture_parsed_output *n, *ntmp;
-> +		struct xe_guc_capture_snapshot *n, *ntmp;
->  		struct xe_guc *guc =  &q->gt->uc.guc;
->  		u16 guc_id = q->guc->id;
->  		u32 lrca = xe_lrc_ggtt_addr(q->lrc[0]);
-> @@ -1931,7 +1898,7 @@ xe_engine_snapshot_capture_for_queue(struct xe_exec_queue *q)
->  			coredump->snapshot.hwe[id] =
->  				xe_hw_engine_snapshot_capture(hwe, q);
->  		} else {
-> -			struct __guc_capture_parsed_output *new;
-> +			struct xe_guc_capture_snapshot *new;
+> -	if (capture_class == GUC_CAPTURE_LIST_CLASS_RENDER_COMPUTE) {
+> +	if (node->eng_class == GUC_CAPTURE_LIST_CLASS_RENDER_COMPUTE) {
+> +		type = GUC_STATE_CAPTURE_TYPE_ENGINE_CLASS;
+>  		list = xe_guc_capture_get_reg_desc_list(gt, GUC_CAPTURE_LIST_INDEX_PF,
+> -							GUC_STATE_CAPTURE_TYPE_ENGINE_CLASS,
+> -							capture_class, true);
+> -		snapshot_print_by_list_order(snapshot, p, GUC_STATE_CAPTURE_TYPE_ENGINE_CLASS,
+> -					     list);
+> +							type, node->eng_class, true);
+> +		print_noderegs_by_list_order(guc, &node->reginfo[type], list, p);
+>  	}
 >  
->  			new = xe_guc_capture_get_matching_and_lock(q);
->  			if (new) {
-> @@ -1965,7 +1932,7 @@ void xe_guc_capture_put_matched_nodes(struct xe_guc *guc)
->  {
->  	struct xe_device *xe = guc_to_xe(guc);
->  	struct xe_devcoredump *devcoredump = &xe->devcoredump;
-> -	struct __guc_capture_parsed_output *n = devcoredump->snapshot.matched_node;
-> +	struct xe_guc_capture_snapshot *n = devcoredump->snapshot.matched_node;
->  
->  	if (n) {
->  		guc_capture_remove_stale_matches_from_list(guc->capture, n);
+>  	drm_puts(p, "\n");
 > diff --git a/drivers/gpu/drm/xe/xe_guc_capture.h b/drivers/gpu/drm/xe/xe_guc_capture.h
-> index 20a078dc4b85..046989fba3b1 100644
+> index 8ac893c92f19..e67589ab4342 100644
 > --- a/drivers/gpu/drm/xe/xe_guc_capture.h
 > +++ b/drivers/gpu/drm/xe/xe_guc_capture.h
-> @@ -50,7 +50,7 @@ size_t xe_guc_capture_ads_input_worst_size(struct xe_guc *guc);
->  const struct __guc_mmio_reg_descr_group *
->  xe_guc_capture_get_reg_desc_list(struct xe_gt *gt, u32 owner, u32 type,
->  				 enum guc_capture_list_class_type capture_class, bool is_ext);
-> -struct __guc_capture_parsed_output *xe_guc_capture_get_matching_and_lock(struct xe_exec_queue *q);
-> +struct xe_guc_capture_snapshot *xe_guc_capture_get_matching_and_lock(struct xe_exec_queue *q);
->  void xe_engine_manual_capture(struct xe_hw_engine *hwe, struct xe_hw_engine_snapshot *snapshot);
->  void xe_engine_snapshot_print(struct xe_hw_engine_snapshot *snapshot, struct drm_printer *p);
+> @@ -15,7 +15,6 @@
+>  struct xe_exec_queue;
+>  struct xe_guc;
+>  struct xe_hw_engine;
+> -struct xe_hw_engine_snapshot;
+>  
+>  static inline enum guc_capture_list_class_type xe_guc_class_to_capture_class(u16 class)
+>  {
+> @@ -55,7 +54,8 @@ struct xe_guc_capture_snapshot *
+>  xe_guc_capture_get_matching_and_lock(struct xe_exec_queue *q,
+>  				     enum xe_guc_capture_snapshot_source srctype);
+>  void xe_guc_capture_snapshot_store_manual_job(struct xe_guc *guc, struct xe_exec_queue *q);
+> -void xe_engine_snapshot_print(struct xe_hw_engine_snapshot *snapshot, struct drm_printer *p);
+> +void xe_guc_capture_snapshot_print(struct xe_guc *guc, struct xe_guc_capture_snapshot *node,
+> +				   struct drm_printer *p);
 >  void xe_engine_snapshot_capture_for_queue(struct xe_exec_queue *q);
-> diff --git a/drivers/gpu/drm/xe/xe_guc_capture_snapshot_types.h b/drivers/gpu/drm/xe/xe_guc_capture_snapshot_types.h
-> new file mode 100644
-> index 000000000000..0be2c809a7ce
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_guc_capture_snapshot_types.h
-> @@ -0,0 +1,53 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2021-2024 Intel Corporation
-
-2025
-
-then
-
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-
-
-> + */
-> +
-> +#ifndef _XE_GUC_CAPTURE_SNAPSHOT_TYPES_H
-> +#define _XE_GUC_CAPTURE_SNAPSHOT_TYPES_H
-> +
-> +#include <linux/types.h>
-> +#include <abi/guc_capture_abi.h>
-> +
-> +struct guc_mmio_reg;
-> +
-> +enum xe_guc_capture_snapshot_source {
-> +	XE_ENGINE_CAPTURE_SOURCE_MANUAL,
-> +	XE_ENGINE_CAPTURE_SOURCE_GUC
-> +};
-> +
-> +/*
-> + * struct xe_guc_capture_snapshot - extracted error capture node
-> + *
-> + * A single unit of extracted error-capture output data grouped together
-> + * at an engine-instance level. We keep these nodes in a linked list.
-> + * See cachelist and outlist below.
-> + */
-> +struct xe_guc_capture_snapshot {
-> +	/*
-> +	 * A single set of 3 capture lists: a global-list
-> +	 * an engine-class-list and an engine-instance list.
-> +	 * outlist in xe_guc_state_capture will keep
-> +	 * a linked list of these nodes that will eventually
-> +	 * be detached from outlist and attached into to
-> +	 * xe_codedump in response to a context reset
-> +	 */
-> +	struct list_head link;
-> +	bool is_partial;
-> +	u32 eng_class;
-> +	u32 eng_inst;
-> +	u32 guc_id;
-> +	u32 lrca;
-> +	u32 type;
-> +	bool locked;
-> +	enum xe_guc_capture_snapshot_source source;
-> +	struct gcap_reg_list_info {
-> +		u32 vfid;
-> +		u32 num_regs;
-> +		struct guc_mmio_reg *regs;
-> +	} reginfo[GUC_STATE_CAPTURE_TYPE_MAX];
-> +#define GCAP_PARSED_REGLIST_INDEX_GLOBAL   BIT(GUC_STATE_CAPTURE_TYPE_GLOBAL)
-> +#define GCAP_PARSED_REGLIST_INDEX_ENGCLASS BIT(GUC_STATE_CAPTURE_TYPE_ENGINE_CLASS)
-> +};
-> +
-> +#endif
+>  void xe_guc_capture_steered_list_init(struct xe_guc *guc);
+>  void xe_guc_capture_put_matched_nodes(struct xe_guc *guc, struct xe_guc_capture_snapshot *n);
 > diff --git a/drivers/gpu/drm/xe/xe_hw_engine.c b/drivers/gpu/drm/xe/xe_hw_engine.c
-> index fc447751fe78..a99e3160724b 100644
+> index 26006d72904f..d615ebab6e42 100644
 > --- a/drivers/gpu/drm/xe/xe_hw_engine.c
 > +++ b/drivers/gpu/drm/xe/xe_hw_engine.c
-> @@ -843,7 +843,7 @@ struct xe_hw_engine_snapshot *
->  xe_hw_engine_snapshot_capture(struct xe_hw_engine *hwe, struct xe_exec_queue *q)
->  {
->  	struct xe_hw_engine_snapshot *snapshot;
-> -	struct __guc_capture_parsed_output *node;
-> +	struct xe_guc_capture_snapshot *node;
+> @@ -905,6 +905,34 @@ void xe_hw_engine_snapshot_free(struct xe_hw_engine_snapshot *snapshot)
+>  	kfree(snapshot);
+>  }
 >  
->  	if (!xe_hw_engine_is_valid(hwe))
->  		return NULL;
-> diff --git a/drivers/gpu/drm/xe/xe_hw_engine_types.h b/drivers/gpu/drm/xe/xe_hw_engine_types.h
-> index e4191a7a2c31..de69e2628f2f 100644
-> --- a/drivers/gpu/drm/xe/xe_hw_engine_types.h
-> +++ b/drivers/gpu/drm/xe/xe_hw_engine_types.h
-> @@ -152,11 +152,6 @@ struct xe_hw_engine {
->  	struct xe_hw_engine_group *hw_engine_group;
->  };
->  
-> -enum xe_hw_engine_snapshot_source_id {
-> -	XE_ENGINE_CAPTURE_SOURCE_MANUAL,
-> -	XE_ENGINE_CAPTURE_SOURCE_GUC
-> -};
-> -
+> +/**
+> + * xe_engine_snapshot_print - Print out a given Xe HW Engine snapshot.
+> + * @snapshot: Xe HW Engine snapshot object.
+> + * @p: drm_printer where it will be printed out.
+> + *
+> + * This function prints out a given Xe HW Engine snapshot object.
+> + */
+> +void xe_engine_snapshot_print(struct xe_hw_engine_snapshot *snapshot, struct drm_printer *p)
+> +{
+> +	struct xe_gt *gt;
+> +
+> +	if (!snapshot)
+> +		return;
+> +
+> +	gt = snapshot->hwe->gt;
+> +
+> +	drm_printf(p, "%s (physical), logical instance=%d\n",
+> +		   snapshot->name ? snapshot->name : "",
+> +		   snapshot->logical_instance);
+> +	drm_printf(p, "\tForcewake: domain 0x%x, ref %d\n",
+> +		   snapshot->forcewake.domain, snapshot->forcewake.ref);
+> +	drm_printf(p, "\tReserved: %s\n",
+> +		   str_yes_no(snapshot->kernel_reserved));
+> +	drm_puts(p, "\n");
+> +
+> +	xe_guc_capture_snapshot_print(&gt->uc.guc, snapshot->matched_node, p);
+> +}
+> +
 >  /**
->   * struct xe_hw_engine_snapshot - Hardware engine snapshot
->   *
+>   * xe_hw_engine_print - Xe HW Engine Print.
+>   * @hwe: Hardware Engine.
+> diff --git a/drivers/gpu/drm/xe/xe_hw_engine.h b/drivers/gpu/drm/xe/xe_hw_engine.h
+> index 6b5f9fa2a594..fac2e9a421d9 100644
+> --- a/drivers/gpu/drm/xe/xe_hw_engine.h
+> +++ b/drivers/gpu/drm/xe/xe_hw_engine.h
+> @@ -58,6 +58,7 @@ u32 xe_hw_engine_mask_per_class(struct xe_gt *gt,
+>  struct xe_hw_engine_snapshot *
+>  xe_hw_engine_snapshot_capture(struct xe_hw_engine *hwe, struct xe_exec_queue *q);
+>  void xe_hw_engine_snapshot_free(struct xe_hw_engine_snapshot *snapshot);
+> +void xe_engine_snapshot_print(struct xe_hw_engine_snapshot *snapshot, struct drm_printer *p);
+
+please respect the component namespace here
+
+>  void xe_hw_engine_print(struct xe_hw_engine *hwe, struct drm_printer *p);
+>  void xe_hw_engine_setup_default_lrc_state(struct xe_hw_engine *hwe);
+>  
 > -- 
 > 2.34.1
 > 
