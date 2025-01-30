@@ -2,100 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0ABA2335C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 18:47:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDEEA23373
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 18:51:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E5C510E9BD;
-	Thu, 30 Jan 2025 17:47:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED9C10E9C1;
+	Thu, 30 Jan 2025 17:51:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="mzvC941q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G8oX5K9c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
- [209.85.219.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C13110E9BD
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 17:47:05 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id
- 6a1803df08f44-6e1a41935c3so14147236d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 09:47:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738259225; x=1738864025;
- darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=M2KnSOALVun40U0rx69PL5LHkQdFIbv2CoISnegMh7s=;
- b=mzvC941qLC66m3Z371mAsyfJAtN78ITfHHDvEyerUQDfvJbl2g5EZE9pT006jNnrYj
- iS5vgpt4CKGU/PCjyg0w+Wc934qR5TBAmaiKIxAT0e7XALV026Xzpa1JAgvhfA4Md5iU
- baaQ69BTTv8aIpZYUutcm1zhjH0GXMZrbTRvpt7UjcFWGo/Qy6veNtGLYWxhwvuLVWGN
- fBaiZwz4+9UCnHm8dgCpLdT/Iq/84inrm0ZYMas634rqVSaPqu54jAHl6UGZw+YPXTDv
- E6aiCwZ+svIlBXxolDmS354SrCrsZMz97O4UfB+N/nGMrXd3RZnLycx0ja+XHBnVmrfK
- QEyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738259225; x=1738864025;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=M2KnSOALVun40U0rx69PL5LHkQdFIbv2CoISnegMh7s=;
- b=jEZxCDW3W2sUtJ4YM/FbV0xRPFthxKahHlg9rPE+2OF+yzFJ481ja6V61QWapSKAPB
- mt62PmX5MAGyoO4sgTptHoOPaEU5k8cp4dFEwiPvZYFTS3APNW6GHs2mLbHx/o9hjD7c
- IuDsm7WHj3823bR86U8tRB1kS8/o/OPC1pIkBQ0oac2lbZwmLhvhCcgMTKaGPE4INZYd
- JnDMSvsd7gywnnyNLRFwX0omKalC8hiZNGRfJdTpFsvsrrYmVjKRkhOuecxXohZ21RAs
- aYNYfxScddSD+NTdltorehbXWLYljRm8XCwSU2iRcXLMQpULxphHdfvGHdVc2EbeHW/R
- CTwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbnD2+Rt7e5zvwjumxSCL14lGbUqmSdYDcPt7bcBYSz9bjZSCV3Alvs9F996+XzRAKlIIUb2OemUA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxgkgLoV6lpRUuKecZr8aIZZspw9+sAwd/q7GWMT/uSF+msO15Z
- oWCx7uX4Ok83fN0muqTy/kOW4DU3K/ZwkVdla2jVw7WUjJWpiht7CpABmsCatPY=
-X-Gm-Gg: ASbGncsG46ikWBhdPlV9bE5ErE58umU7dHiYUREjo2DqCxEMs3Tkek19a2FT/yQNvgO
- TX3lf5efU+JPsYS5LycRo7FlcNv12hDBkPCc/6k3DFkgANpqOtqCOAQjsiumrHziUJSAHiWdhoB
- BrAf7nGWPWUddNoBqVCLAdY/tZ4OMsRXXU2K7bbmVqIMQev96SrHHHuWT8Co0ndSgXbSFCkFcd8
- fhZ00KGPsaxXlxofXhAVaxVDw665kjKM3EaEat6ZbNII2on94+kPU1mvmhGIBqxgKxtsuBQ0ivj
- 0/WK0ou0D6JsweXx
-X-Google-Smtp-Source: AGHT+IFb98ThAFaKwElwJF/sopgUxhTZjXeuvxkotRwiLF8RhVhCp7fJLzKCy+1eOfFzQ+qv/2X0Lw==
-X-Received: by 2002:a05:6214:1d0e:b0:6d8:9124:8795 with SMTP id
- 6a1803df08f44-6e243b94159mr102405256d6.1.1738259224602; 
- Thu, 30 Jan 2025 09:47:04 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
- by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6e25481419fsm8430276d6.27.2025.01.30.09.47.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2025 09:47:04 -0800 (PST)
-Message-ID: <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali
- CSF GPUs
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Florent Tomasin <florent.tomasin@arm.com>, Vinod Koul
- <vkoul@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Boris Brezillon
- <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, Liviu
- Dudau	 <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
- Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
- <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
- Mercier"	 <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
- Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, nd@arm.com, Akash Goel
- <akash.goel@arm.com>
-Date: Thu, 30 Jan 2025 12:47:02 -0500
-In-Reply-To: <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
-References: <cover.1738228114.git.florent.tomasin@arm.com>
- <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
- <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
- <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53D2C10E079;
+ Thu, 30 Jan 2025 17:51:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id CC3E6A41FE9;
+ Thu, 30 Jan 2025 17:49:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37509C4CED2;
+ Thu, 30 Jan 2025 17:51:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738259469;
+ bh=8ILs2EZ7y01odK/7QB5fifvei6UxkDe+Ir0p9+/191I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=G8oX5K9c4LRa4Pr5PDZozggkVjj1XeWFu7puLplRrtcTdo+I700IuF3WswCeMcL1T
+ /kp5mPc649rlST//FQgyr46iaZR8YYqxm3/dPgmUzOQ1JT05QcWaS62W+2adRyS/Cc
+ o7x49moNqhdFGU+O9EKsSueNQmtSHFAxBqCkEYiq9AfqePeLKvKbVar9dsQbW0gybG
+ GanDmfUNpscb6fB/fIN5hw9x0ijJJemGHC4TpvY4wliwI1XPC8ToIhlQXtw++sUoo9
+ KNhxhHYOWdDhdHTEoM/9BjXxF/QQmLqbVClONZzuAGt4VdlKbBrh7Sxgzy2o8CZET6
+ 1cXh+A8ImG0VA==
+Date: Thu, 30 Jan 2025 10:51:03 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Harry Wentland <harry.wentland@amd.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: Alex Deucher <alexdeucher@gmail.com>,
+ Chaitanya Dhere <chaitanya.dhere@amd.com>,
+ Jun Lei <jun.lei@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
+ patches@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] drm/amd/display: Increase sanitizer frame larger than
+ limit when compile testing with clang
+Message-ID: <20250130175103.GA3394637@ax162>
+References: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
+ <CADnq5_Pun+zN1=B0eFMw1w8k_oD3fw626SdaEug24YRg8aOLKw@mail.gmail.com>
+ <2025013058-fasting-gibberish-9718@gregkh>
+ <2025013003-audience-opposing-7f95@gregkh>
+ <5d1cfcee-b575-4e01-8ec0-dd1bcbba9bc0@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5d1cfcee-b575-4e01-8ec0-dd1bcbba9bc0@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,80 +70,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le jeudi 30 janvier 2025 =C3=A0 17:38 +0100, Maxime Ripard a =C3=A9crit=C2=
-=A0:
-> Hi Nicolas,
->=20
-> On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrote:
-> > Le jeudi 30 janvier 2025 =C3=A0 14:46 +0100, Maxime Ripard a =C3=A9crit=
-=C2=A0:
-> > > Hi,
-> > >=20
-> > > I started to review it, but it's probably best to discuss it here.
-> > >=20
-> > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin wrote:
-> > > > Hi,
-> > > >=20
-> > > > This is a patch series covering the support for protected mode exec=
-ution in
-> > > > Mali Panthor CSF kernel driver.
-> > > >=20
-> > > > The Mali CSF GPUs come with the support for protected mode executio=
-n at the
-> > > > HW level. This feature requires two main changes in the kernel driv=
-er:
-> > > >=20
-> > > > 1) Configure the GPU with a protected buffer. The system must provi=
-de a DMA
-> > > >    heap from which the driver can allocate a protected buffer.
-> > > >    It can be a carved-out memory or dynamically allocated protected=
- memory region.
-> > > >    Some system includes a trusted FW which is in charge of the prot=
-ected memory.
-> > > >    Since this problem is integration specific, the Mali Panthor CSF=
- kernel
-> > > >    driver must import the protected memory from a device specific e=
-xporter.
-> > >=20
-> > > Why do you need a heap for it in the first place? My understanding of
-> > > your series is that you have a carved out memory region somewhere, an=
-d
-> > > you want to allocate from that carved out memory region your buffers.
-> > >=20
-> > > How is that any different from using a reserved-memory region, adding
-> > > the reserved-memory property to the GPU device and doing all your
-> > > allocation through the usual dma_alloc_* API?
-> >=20
-> > How do you then multiplex this region so it can be shared between
-> > GPU/Camera/Display/Codec drivers and also userspace ?
->=20
-> You could point all the devices to the same reserved memory region, and
-> they would all allocate from there, including for their userspace-facing
-> allocations.
+Hey Greg and Harry,
 
-I get that using memory region is somewhat more of an HW description, and
-aligned with what a DT is supposed to describe. One of the challenge is tha=
-t
-Mediatek heap proposal endup calling into their TEE, meaning knowing the re=
-gion
-is not that useful. You actually need the TEE APP guid and its IPC protocol=
-. If
-we can dell drivers to use a head instead, we can abstract that SoC specifi=
-c
-complexity. I believe each allocated addressed has to be mapped to a zone, =
-and
-that can only be done in the secure application. I can imagine similar need=
-s
-when the protection is done using some sort of a VM / hypervisor.
+On Thu, Jan 30, 2025 at 11:02:37AM -0500, Harry Wentland wrote:
+> On 2025-01-30 02:04, Greg KH wrote:
+> > On Thu, Jan 30, 2025 at 07:47:59AM +0100, Greg KH wrote:
+> > > Thanks, but I am still getting this error on Linus's current tree right
+> > > now, with this commit applied:
+> > > 
+> > >    CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.o
+> > > drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6713:12: error: stack frame size (2056) exceeds limit (2048) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
+> > >   6713 | dml_bool_t dml_core_mode_support(struct display_mode_lib_st *mode_lib)
+> > >        |            ^
+> > > 1 error generated.
 
-Nicolas
+Bummer, that means that commit a8d42cd228ec ("drm/amd/display: mark
+static functions noinline_for_stack") did not help this case like I had
+hoped that it would.
 
->=20
-> > Also, how the secure memory is allocted / obtained is a process that
-> > can vary a lot between SoC, so implementation details assumption
-> > should not be coded in the driver.
->=20
-> But yeah, we agree there, it's also the point I was trying to make :)
->=20
-> Maxime
+> > > I think the issue is:
+> > > 
+> > > > > --- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+> > > > > +++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+> > > > > @@ -29,7 +29,11 @@ dml2_rcflags := $(CC_FLAGS_NO_FPU)
+> > > > > 
+> > > > >   ifneq ($(CONFIG_FRAME_WARN),0)
+> > > > >   ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
+> > > 
+> > > I do not have CONFIG_KASAN or CONFIG_KCSAN enabled, but I do have:
+> > > 
+> > > > > +ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
+> > > 
+> > > These two options enabled, and for some reason:
+> > > 	CONFIG_FRAME_WARN=2048
+> > > as well.
+> > > 
+> > > Ah, 2048 is the default value, that's how.
+> > > 
+> > > So this warning triggers even without KASAN or KCSAN being enabled, is
+> > > that to be expected?  Is the stack really being used that much here?
 
+It is entirely possible. Look at how many parameters there are to some
+of these functions, which have to be passed on the stack when the
+compiler runs out of registers. When I looked into this at one point,
+GCC was barely doing better than Clang in certain configurations. What
+version of clang is this and would you mind sharing your configuration?
+
+> > > I'll go bump FRAME_WARN up to get some local testing working again, but
+> > > odds are others are going to hit this if I am in my "normal" build
+> > > tests.
+> > 
+> > Ick, no, bumping CONFIG_FRAME_WARN=8192 doesn't fix this here either.
+> > Any hints?
+> > 
+> 
+> It looks like we always override CONFIG_FRAME_WARN...
+> 
+> > ifneq ($(CONFIG_FRAME_WARN),0)
+> > ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
+> > ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
+> > frame_warn_flag := -Wframe-larger-than=4096
+> > else
+> > frame_warn_flag := -Wframe-larger-than=3072
+> > endif
+> > else
+> > frame_warn_flag := -Wframe-larger-than=2048
+> 
+> ... right here for the default case.
+> 
+> You could bump that locally.
+> 
+> A more robust solution would be to do a greater-than check here
+> (for all the cases) and only set -Wframe-larger-than if the value
+> is greater than the one defined by CONFIG_FRAME_WARN. There are
+> a few "-gt" uses in other Makefiles, so I would think it's fine
+> to use that.
+> 
+> I'm no Makefile expert but if this seems like a reasonable course
+> of action I can take a stab at it.
+
+Something like this would work I think? I added indentation because it
+was getting a little gnarly. I am happy to write a formal patch and send
+it off if this looks acceptable.
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+index 46f9c05de16e..e1d500633dfa 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+@@ -29,11 +29,15 @@ dml_ccflags := $(CC_FLAGS_FPU)
+ dml_rcflags := $(CC_FLAGS_NO_FPU)
+ 
+ ifneq ($(CONFIG_FRAME_WARN),0)
+-ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
+-frame_warn_flag := -Wframe-larger-than=3072
+-else
+-frame_warn_flag := -Wframe-larger-than=2048
+-endif
++    ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
++        frame_warn_limit := 3072
++    else
++        frame_warn_limit := 2048
++    endif
++
++    ifeq ($(call test-lt, $(CONFIG_FRAME_WARN), $(frame_warn_limit)),y)
++        frame_warn_flag := -Wframe-larger-than=$(frame_warn_limit)
++    endif
+ endif
+ 
+ CFLAGS_$(AMDDALPATH)/dc/dml/display_mode_lib.o := $(dml_ccflags)
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+index 91c4f3b4bd5f..21fd466dba26 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+@@ -28,15 +28,19 @@ dml2_ccflags := $(CC_FLAGS_FPU)
+ dml2_rcflags := $(CC_FLAGS_NO_FPU)
+ 
+ ifneq ($(CONFIG_FRAME_WARN),0)
+-ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
+-ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
+-frame_warn_flag := -Wframe-larger-than=4096
+-else
+-frame_warn_flag := -Wframe-larger-than=3072
+-endif
+-else
+-frame_warn_flag := -Wframe-larger-than=2048
+-endif
++    ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
++        ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
++            frame_warn_limit := 4096
++        else
++            frame_warn_limit := 3072
++        endif
++    else
++        frame_warn_limit := 2048
++    endif
++
++    ifeq ($(call test-lt, $(CONFIG_FRAME_WARN), $(frame_warn_limit)),y)
++        frame_warn_flag := -Wframe-larger-than=$(frame_warn_limit)
++    endif
+ endif
+ 
+ subdir-ccflags-y += -I$(FULL_AMD_DISPLAY_PATH)/dc/dml2
