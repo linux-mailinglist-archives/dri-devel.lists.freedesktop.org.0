@@ -2,62 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9077A22C65
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 12:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD668A22C8D
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 12:33:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9626410E0B4;
-	Thu, 30 Jan 2025 11:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0456810E03D;
+	Thu, 30 Jan 2025 11:33:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IxMcZ8tK";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="TxRtoFDl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 178F210E03D;
- Thu, 30 Jan 2025 11:18:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738235884; x=1769771884;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=613kyMMGMs3HHOgkG0vQJO3qbtFuDPEmnvTM0DdDPqo=;
- b=IxMcZ8tKWD3G97xV25L5i3/iAk2VuyxLI9w/KvZT593YwC5bIDMsBoaF
- otJMZK/gU92BDP69TCO1NBICiHdu//r8LNJvZnJdwEXaT9icnokN2wCLR
- nJ/f9bPhSAMf0jCilbKZS3elgkwejT1zMbw25JMe1CtxrwzUnFUfphZph
- FTeRvFW1/8HaQpR7wKRlQX8H9y0lxmcTTOlYCkT/AAM8NTbCpneHqBD+a
- UOkddyGqOJN+VOCuqKD6CipEbhWJly+pqIPamTmXtFsY9HFvEISvn396S
- bIn3IlV6ByC8+Uj5GrMwj6giY/ZJu8AAAWONwkzarJ4aCGdLznnjgRI1L w==;
-X-CSE-ConnectionGUID: e3hir2ZyR2ygetCC76QYhw==
-X-CSE-MsgGUID: xfOFzPSGRbeVDlR3gn0Jaw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="49428414"
-X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; d="scan'208";a="49428414"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2025 03:18:03 -0800
-X-CSE-ConnectionGUID: Z2DMT8g/QCiHeqGSi6CIoQ==
-X-CSE-MsgGUID: 8gD6nDQAQYu9c8Vz1JE27Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; d="scan'208";a="109281809"
-Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.244.112])
- ([10.245.244.112])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2025 03:18:01 -0800
-Message-ID: <4cdb6d9a-cf7b-4d2f-b214-c5c53f7b9714@intel.com>
-Date: Thu, 30 Jan 2025 11:17:58 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63DE610E03D
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 11:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1738236819;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=125I8Ys+u6fwmCdqFMEfO5PntZZCalxJd6bqOSO8/yY=;
+ b=TxRtoFDlusV/ktPQAHNaExc8Q7JjU2M3DXu/fgByAVKz/AtZ6a9BTaefxKGvQ52fmODzgr
+ OqxhghJ/4MCXDpydEhaNO/SeE0jLn8sjRm4/Xfj07bmJN80lkd6BB8oP1jb755mQRhRZz0
+ FVyxVgNB6nUhnBBeQjiLGEDJrlOFfzc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-211-W7lnFuzhMAqQGnZJMsGpgw-1; Thu, 30 Jan 2025 06:33:38 -0500
+X-MC-Unique: W7lnFuzhMAqQGnZJMsGpgw-1
+X-Mimecast-MFC-AGG-ID: W7lnFuzhMAqQGnZJMsGpgw
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-4361efc9dc6so3271195e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 03:33:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738236816; x=1738841616;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :to:from:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=125I8Ys+u6fwmCdqFMEfO5PntZZCalxJd6bqOSO8/yY=;
+ b=SPd7IVNPnP0RJwKfr1NwPhjioC6iTc1iQcTxIKWaU7uJ6lnvFN7+j5QFqkTPeDFxGM
+ MLsW5FZaoreqLKEWrYyxBhFxNVjZqyddqSWJjwgSbGovd7/1cpxUwwm1vD4gOCox7Jj3
+ OqR3qSy7phDO8DEzl++Qb/qTjlefMz4VKSse3ZeKvqJ09PfoAnm9fGTNpyjPeMVBKYvN
+ fF2GlQC8gferiMWQGLSWwUbGQXNIkNHOLbsm4d2McSXT8rc+VwJKR25NPDDcr28Ua8i1
+ iq4tBNje2cUUzChd2aitITuJXNmhH8kflPmWRlfeWYZJsml037e5S2DoA+F+Yvp2IRY1
+ LkAw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWccGA5gzBqwqBHEF5oEl2yzOhkKdVf8SQBZ4MfSs+Vazgn+qXCMycpdAlO6YXBnK/EVMcLzEKqIV4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzTjYv2VDKmR79AWujeQT4Cc8is0mhV12r+a3qTdJP+KEST8smw
+ HpNoUjg9dE/EYLxD8ya8/otz7XvvmjNChM944cqb6ImB6fJpGb4uaDf6T0XZJ7g7sbGN+YyTwRb
+ J1V5kSIWoiSeOPcWrmb5g3qfKecsyJZVQOoEowfub9JaIuCgx8gCeHh2cE1Lci7uyAYw9BM9eMQ
+ ==
+X-Gm-Gg: ASbGncuEqZCfoGfgziHHqU+TzHV9IZz1bE2YLeClg4NTLJU6IRzjVHRbE6Ia80NndQC
+ T+KKtEf+3dzceXORsGqBvS3aM7fe13QbOUQ47hZLTssRD/3S2GmMNVvGLxi1mi2PQ4oZHTV/NLR
+ WUqbV7OYGiutVF+ZRL5TnxXYhh7bQOAenKPK0NEhR/mPd57ZA4bB6V7wsFnVji0+AJpcEk6Za6p
+ g7UK0sVxopqddv+btalPC0pTmeC+RD3TBNC0X6HhP2Nxak78NhJFzPtiUmAc+tj0hp18nJexjqc
+ EjqRk0D6cnfiMTB/YeVq9DbC3u+cLNlvLnfwkLAvkuGk
+X-Received: by 2002:a05:600c:500d:b0:434:9e1d:7626 with SMTP id
+ 5b1f17b1804b1-438dc40f16bmr53236705e9.25.1738236816539; 
+ Thu, 30 Jan 2025 03:33:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHVvUuQepCZEgBuMOCivNzFPoWpiJsmIqwPckClnUgeXFBqAVhr3qvSJ0+mqpaa64Yimu0y0w==
+X-Received: by 2002:a05:600c:500d:b0:434:9e1d:7626 with SMTP id
+ 5b1f17b1804b1-438dc40f16bmr53236525e9.25.1738236815984; 
+ Thu, 30 Jan 2025 03:33:35 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-438e23e5d4csm19913205e9.19.2025.01.30.03.33.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2025 03:33:35 -0800 (PST)
+Message-ID: <2a02ee54-369e-44b2-a759-fd9951f7fc87@redhat.com>
+Date: Thu, 30 Jan 2025 12:33:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/33] drm/gpusvm: Add support for GPU Shared Virtual
- Memory
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+Subject: Re: [PATCH v2 14/16] drm/ast: astdp: Look up mode index from table
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
  dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
- felix.kuehling@amd.com, dakr@kernel.org
-References: <20250129195212.745731-1-matthew.brost@intel.com>
- <20250129195212.745731-7-matthew.brost@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20250129195212.745731-7-matthew.brost@intel.com>
+References: <20250129095840.20629-1-tzimmermann@suse.de>
+ <20250129095840.20629-15-tzimmermann@suse.de>
+ <b824e913-0d2f-4a09-b1fa-da89375b47e4@redhat.com>
+ <bc902ac5-ab1e-4d16-bc27-163123cb2d3f@suse.de>
+ <c3560336-38fa-451c-8ef2-c58871c7ff6e@redhat.com>
+In-Reply-To: <c3560336-38fa-451c-8ef2-c58871c7ff6e@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: LRLJFBmRRnC3fBg520mh4qbMpTHEvJylWvZzEKxwJVw_1738236817
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,218 +106,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/01/2025 19:51, Matthew Brost wrote:
-> This patch introduces support for GPU Shared Virtual Memory (SVM) in the
-> Direct Rendering Manager (DRM) subsystem. SVM allows for seamless
-> sharing of memory between the CPU and GPU, enhancing performance and
-> flexibility in GPU computing tasks.
-> 
-> The patch adds the necessary infrastructure for SVM, including data
-> structures and functions for managing SVM ranges and notifiers. It also
-> provides mechanisms for allocating, deallocating, and migrating memory
-> regions between system RAM and GPU VRAM.
-> 
-> This is largely inspired by GPUVM.
-> 
-> v2:
->   - Take order into account in check pages
->   - Clear range->pages in get pages error
->   - Drop setting dirty or accessed bit in get pages (Vetter)
->   - Remove mmap assert for cpu faults
->   - Drop mmap write lock abuse (Vetter, Christian)
->   - Decouple zdd from range (Vetter, Oak)
->   - Add drm_gpusvm_range_evict, make it work with coherent pages
->   - Export drm_gpusvm_evict_to_sram, only use in BO evict path (Vetter)
->   - mmget/put in drm_gpusvm_evict_to_sram
->   - Drop range->vram_alloation variable
->   - Don't return in drm_gpusvm_evict_to_sram until all pages detached
->   - Don't warn on mixing sram and device pages
->   - Update kernel doc
->   - Add coherent page support to get pages
->   - Use DMA_FROM_DEVICE rather than DMA_BIDIRECTIONAL
->   - Add struct drm_gpusvm_vram and ops (Thomas)
->   - Update the range's seqno if the range is valid (Thomas)
->   - Remove the is_unmapped check before hmm_range_fault (Thomas)
->   - Use drm_pagemap (Thomas)
->   - Drop kfree_mapping (Thomas)
->   - dma mapp pages under notifier lock (Thomas)
->   - Remove ctx.prefault
->   - Remove ctx.mmap_locked
->   - Add ctx.check_pages
->   - s/vram/devmem (Thomas)
-> v3:
->   - Fix memory leak drm_gpusvm_range_get_pages
->   - Only migrate pages with same zdd on CPU fault
->   - Loop over al VMAs in drm_gpusvm_range_evict
->   - Make GPUSVM a drm level module
->   - GPL or MIT license
->   - Update main kernel doc (Thomas)
->   - Prefer foo() vs foo for functions in kernel doc (Thomas)
->   - Prefer functions over macros (Thomas)
->   - Use unsigned long vs u64 for addresses (Thomas)
->   - Use standard interval_tree (Thomas)
->   - s/drm_gpusvm_migration_put_page/drm_gpusvm_migration_unlock_put_page (Thomas)
->   - Drop err_out label in drm_gpusvm_range_find_or_insert (Thomas)
->   - Fix kernel doc in drm_gpusvm_range_free_pages (Thomas)
->   - Newlines between functions defs in header file (Thomas)
->   - Drop shall language in driver vfunc kernel doc (Thomas)
->   - Move some static inlines from head to C file (Thomas)
->   - Don't allocate pages under page lock in drm_gpusvm_migrate_populate_ram_pfn (Thomas)
->   - Change check_pages to a threshold
-> v4:
->   - Fix NULL ptr deref in drm_gpusvm_migrate_populate_ram_pfn (Thomas, Himal)
->   - Fix check pages threshold
->   - Check for range being unmapped under notifier lock in get pages (Testing)
->   - Fix characters per line
->   - Drop WRITE_ONCE for zdd->devmem_allocation assignment (Thomas)
->   - Use completion for devmem_allocation->detached (Thomas)
->   - Make GPU SVM depend on ZONE_DEVICE (CI)
->   - Use hmm_range_fault for eviction (Thomas)
->   - Drop zdd worker (Thomas)
-> 
-> Cc: Simona Vetter <simona.vetter@ffwll.ch>
-> Cc: Dave Airlie <airlied@redhat.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: <dri-devel@lists.freedesktop.org>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
+On 29/01/2025 15:05, Jocelyn Falempe wrote:
+> On 29/01/2025 13:01, Thomas Zimmermann wrote:
+>> Hi
+>>
+>>
+>> Am 29.01.25 um 12:27 schrieb Jocelyn Falempe:
+>>> On 29/01/2025 10:55, Thomas Zimmermann wrote:
+>>>> Replace the large switch statement with a look-up table when selecting
+>>>> the mode index. Makes the code easier to read. The table is sorted by
+>>>> resolutions; if run-time overhead from traversal becomes significant,
+>>>> binary search would be a possible optimization.
+>>>>
+>>>> The mode index requires a refresh-rate index to be added or subtracted,
+>>>> which still requires a minimal switch.
+>>>>
+>>> I think there is a problem in the mode_index/refresh_index 
+>>> calculation, see below:
 
-<snip>
+Sorry, I though I already reviewed it. With the added explanations, it 
+looks good to me.
 
-> +/**
-> + * __drm_gpusvm_migrate_to_ram() - Migrate GPU SVM range to RAM (internal)
-> + * @vas: Pointer to the VM area structure
-> + * @device_private_page_owner: Device private pages owner
-> + * @page: Pointer to the page for fault handling (can be NULL)
-> + * @fault_addr: Fault address
-> + * @size: Size of migration
-> + *
-> + * This internal function performs the migration of the specified GPU SVM range
-> + * to RAM. It sets up the migration, populates + dma maps RAM PFNs, and
-> + * invokes the driver-specific operations for migration to RAM.
-> + *
-> + * Returns:
-> + * 0 on success, negative error code on failure.
-> + */
-> +static int __drm_gpusvm_migrate_to_ram(struct vm_area_struct *vas,
-> +				       void *device_private_page_owner,
-> +				       struct page *page,
-> +				       unsigned long fault_addr,
-> +				       unsigned long size)
-> +{
-> +	struct migrate_vma migrate = {
-> +		.vma		= vas,
-> +		.pgmap_owner	= device_private_page_owner,
-> +		.flags		= MIGRATE_VMA_SELECT_DEVICE_PRIVATE |
-> +			MIGRATE_VMA_SELECT_DEVICE_COHERENT,
-> +		.fault_page	= page,
-> +	};
-> +	struct drm_gpusvm_zdd *zdd;
-> +	const struct drm_gpusvm_devmem_ops *ops;
-> +	struct device *dev;
-> +	unsigned long npages, mpages = 0;
-> +	struct page **pages;
-> +	dma_addr_t *dma_addr;
-> +	unsigned long start, end;
-> +	void *buf;
-> +	int i, err = 0;
-> +
-> +	start = ALIGN_DOWN(fault_addr, size);
-> +	end = ALIGN(fault_addr + 1, size);
-> +
-> +	/* Corner where VMA area struct has been partially unmapped */
-> +	if (start < vas->vm_start)
-> +		start = vas->vm_start;
-> +	if (end > vas->vm_end)
-> +		end = vas->vm_end;
-> +
-> +	migrate.start = start;
-> +	migrate.end = end;
-> +	npages = npages_in_range(start, end);
-> +
-> +	buf = kvcalloc(npages, 2 * sizeof(*migrate.src) + sizeof(*dma_addr) +
-> +		       sizeof(*pages), GFP_KERNEL);
-> +	if (!buf) {
-> +		err = -ENOMEM;
-> +		goto err_out;
-> +	}
-> +	dma_addr = buf + (2 * sizeof(*migrate.src) * npages);
-> +	pages = buf + (2 * sizeof(*migrate.src) + sizeof(*dma_addr)) * npages;
-> +
-> +	migrate.vma = vas;
-> +	migrate.src = buf;
-> +	migrate.dst = migrate.src + npages;
-> +
-> +	err = migrate_vma_setup(&migrate);
-> +	if (err)
-> +		goto err_free;
-> +
-> +	/* Raced with another CPU fault, nothing to do */
-> +	if (!migrate.cpages)
-> +		goto err_free;
-> +
-> +	if (!page) {
-> +		for (i = 0; i < npages; ++i) {
-> +			if (!(migrate.src[i] & MIGRATE_PFN_MIGRATE))
-> +				continue;
-> +
-> +			page = migrate_pfn_to_page(migrate.src[i]);
-> +			break;
-> +		}
-> +
-> +		if (!page)
-> +			goto err_finalize;
-> +	}
-> +	zdd = page->zone_device_data;
-> +	ops = zdd->devmem_allocation->ops;
-> +	dev = zdd->devmem_allocation->dev;
-> +
-> +	err = drm_gpusvm_migrate_populate_ram_pfn(vas, page, npages, &mpages,
-> +						  migrate.src, migrate.dst,
-> +						  start);
-> +	if (err)
-> +		goto err_finalize;
-> +
-> +	err = drm_gpusvm_migrate_map_pages(dev, dma_addr, migrate.dst, npages,
-> +					   DMA_FROM_DEVICE);
-> +	if (err)
-> +		goto err_finalize;
-> +
-> +	for (i = 0; i < npages; ++i)
-> +		pages[i] = migrate_pfn_to_page(migrate.src[i]);
-> +
-> +	err = ops->copy_to_ram(pages, dma_addr, npages);
-> +	if (err)
-> +		goto err_finalize;
-> +
-> +err_finalize:
-> +	if (err)
-> +		drm_gpusvm_migration_unlock_put_pages(npages, migrate.dst);
-> +	migrate_vma_pages(&migrate);
-> +	migrate_vma_finalize(&migrate);
-> +	drm_gpusvm_migrate_unmap_pages(dev, dma_addr, npages,
-> +				       DMA_FROM_DEVICE);
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>
+>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Suggested-by: Jocelyn Falempe <jfalempe@redhat.com>
+>>>> ---
+>>>>   drivers/gpu/drm/ast/ast_dp.c | 116 ++++++++++++++++ 
+>>>> +------------------
+>>>>   1 file changed, 55 insertions(+), 61 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ 
+>>>> ast_dp.c
+>>>> index e1ca012e639be..70fa754432bca 100644
+>>>> --- a/drivers/gpu/drm/ast/ast_dp.c
+>>>> +++ b/drivers/gpu/drm/ast/ast_dp.c
+>>>> @@ -14,80 +14,74 @@
+>>>>   #include "ast_drv.h"
+>>>>   #include "ast_vbios.h"
+>>>>   +struct ast_astdp_mode_index_table_entry {
+>>>> +    unsigned int hdisplay;
+>>>> +    unsigned int vdisplay;
+>>>> +    unsigned int mode_index;
+>>>> +};
+>>>> +
+>>>> +/* FIXME: Do refresh rate and flags actually matter? */
+>>>> +static const struct ast_astdp_mode_index_table_entry 
+>>>> ast_astdp_mode_index_table[] = {
+>>>> +    {  320,  240, ASTDP_320x240_60 },
+>>>> +    {  400,  300, ASTDP_400x300_60 },
+>>>> +    {  512,  384, ASTDP_512x384_60 },
+>>>> +    {  640,  480, ASTDP_640x480_60 },
+>>>> +    {  800,  600, ASTDP_800x600_56 },
+>>>> +    { 1024,  768, ASTDP_1024x768_60 },
+>>>> +    { 1152,  864, ASTDP_1152x864_75 },
+>>>> +    { 1280,  800, ASTDP_1280x800_60_RB },
+>>>> +    { 1280, 1024, ASTDP_1280x1024_60 },
+>>>> +    { 1360,  768, ASTDP_1366x768_60 }, // same as 1366x786
+>>>> +    { 1366,  768, ASTDP_1366x768_60 },
+>>>> +    { 1440,  900, ASTDP_1440x900_60_RB },
+>>>> +    { 1600,  900, ASTDP_1600x900_60_RB },
+>>>> +    { 1600, 1200, ASTDP_1600x1200_60 },
+>>>> +    { 1680, 1050, ASTDP_1680x1050_60_RB },
+>>>> +    { 1920, 1080, ASTDP_1920x1080_60 },
+>>>> +    { 1920, 1200, ASTDP_1920x1200_60 },
+>>>> +    { 0 }
+>>>> +};
+>>>> +
+>>>> +static int __ast_astdp_get_mode_index(unsigned int hdisplay, 
+>>>> unsigned int vdisplay)
+>>>> +{
+>>>> +    const struct ast_astdp_mode_index_table_entry *entry = 
+>>>> ast_astdp_mode_index_table;
+>>>> +
+>>>> +    while (entry->hdisplay && entry->vdisplay) {
+>>>> +        if (entry->hdisplay == hdisplay && entry->vdisplay == 
+>>>> vdisplay)
+>>>> +            return entry->mode_index;
+>>>> +        ++entry;
+>>>> +    }
+>>>> +
+>>>> +    return -EINVAL;
+>>>> +}
+>>>> +
+>>>>   static int ast_astdp_get_mode_index(const struct 
+>>>> ast_vbios_enhtable *vmode)
+>>>>   {
+>>>> +    int mode_index;
+>>>>       u8 refresh_rate_index;
+>>>>   +    mode_index = __ast_astdp_get_mode_index(vmode->hde, vmode->vde);
+>>>> +    if (mode_index < 0)
+>>>> +        return mode_index;
+>>>> +
+>>>>       if (vmode->refresh_rate_index < 1 || vmode->refresh_rate_index 
+>>>> > 255)
+>>>>           return -EINVAL;
+>>>> -
+>>>>       refresh_rate_index = vmode->refresh_rate_index - 1;
+>>>>   -    switch (vmode->hde) {
+>>>> -    case 320:
+>>>> -        if (vmode->vde == 240)
+>>>> -            return ASTDP_320x240_60;
+>>>> -        break;
+>>>> -    case 400:
+>>>> -        if (vmode->vde == 300)
+>>>> -            return ASTDP_400x300_60;
+>>>> -        break;
+>>>> -    case 512:
+>>>> -        if (vmode->vde == 384)
+>>>> -            return ASTDP_512x384_60;
+>>>> -        break;
+>>>> -    case 640:
+>>>> -        if (vmode->vde == 480)
+>>>> -            return (u8)(ASTDP_640x480_60 + (u8)refresh_rate_index);
+>>>> -        break;
+>>>> -    case 800:
+>>>> -        if (vmode->vde == 600)
+>>>> -            return (u8)(ASTDP_800x600_56 + (u8)refresh_rate_index);
+>>>> -        break;
+>>>> -    case 1024:
+>>>> -        if (vmode->vde == 768)
+>>>> -            return (u8)(ASTDP_1024x768_60 + (u8)refresh_rate_index);
+>>>> -        break;
+>>>> -    case 1152:
+>>>> -        if (vmode->vde == 864)
+>>>> -            return ASTDP_1152x864_75;
+>>>> -        break;
+>>>> -    case 1280:
+>>>> -        if (vmode->vde == 800)
+>>>> -            return (u8)(ASTDP_1280x800_60_RB - 
+>>>> (u8)refresh_rate_index);
+>>>> -        if (vmode->vde == 1024)
+>>>> -            return (u8)(ASTDP_1280x1024_60 + (u8)refresh_rate_index);
+>>>> -        break;
+>>>> -    case 1360:
+>>>> -    case 1366:
+>>>> -        if (vmode->vde == 768)
+>>>> -            return ASTDP_1366x768_60;
+>>>> -        break;
+>>>> -    case 1440:
+>>>> -        if (vmode->vde == 900)
+>>>> -            return (u8)(ASTDP_1440x900_60_RB - 
+>>>> (u8)refresh_rate_index);
+>>>> -        break;
+>>>> -    case 1600:
+>>>> -        if (vmode->vde == 900)
+>>>> -            return (u8)(ASTDP_1600x900_60_RB - 
+>>>> (u8)refresh_rate_index);
+>>>> -        if (vmode->vde == 1200)
+>>>
+>>>> -        break;
+>>>> -    case 1680:
+>>>> -        if (vmode->vde == 1050)
+>>>> -            return (u8)(ASTDP_1680x1050_60_RB - 
+>>>> (u8)refresh_rate_index);
+>>>> -        break;
+>>>> -    case 1920:
+>>>> -        if (vmode->vde == 1080)
+>>>> -            return ASTDP_1920x1080_60;
+>>>> -        if (vmode->vde == 1200)
+>>>> -            return ASTDP_1920x1200_60;
+>>>> +    /* FIXME: Why are we doing this? */
+>>>> +    switch (mode_index) {
+>>>> +    case ASTDP_1280x800_60_RB:
+>>>> +    case ASTDP_1440x900_60_RB:
+>>>> +    case ASTDP_1600x900_60_RB:
+>>>> +    case ASTDP_1680x1050_60_RB:
+>>>> +        mode_index = (u8)(mode_index - (u8)refresh_rate_index);
+>>>>           break;
+>>> I think you should add this to do the same as before:
+>>
+>> It's intentional. The refresh-rate index stored in vmode- 
+>>  >refresh_rate_index is at least one. The function then subtracts 1 to 
+>> compute refresh_rate_index, so we have 0 by default. And that's what 
+>> we always used for cases that did not explicitly add 
+>> refresh_rate_index before. I guess I should add this to the commit 
+>> message's second paragraph.
+>>
+>> Apart from that, I honestly don't understand the purpose of this 
+>> computation.
+> 
+> Yes, I have no clue either. Thanks for the clarification.> Best regards
+>> Thomas
+>>
+>>>
+>>>     case ASTDP_640x480_60:
+>>>     case ASTDP_800x600_56:
+>>>     case ASTDP_1024x768_60:
+>>>     case ASTDP_1280x1024_60:
+>>>         mode_index = (u8)(mode_index + (u8)refresh_rate_index);
+>>>           break;
+>>>     default:
+>>>         break;
+>>>
+>>>>       default:
+>>>> +        mode_index = (u8)(mode_index + (u8)refresh_rate_index);
+>>>>           break;
+>>>>       }
+>>>>   -    return -EINVAL;
+>>>> +    return mode_index;
+>>>>   }
+>>>>     static bool ast_astdp_is_connected(struct ast_device *ast)
+>>>
+>>
+> 
 
-clang for me is throwing:
-
-drivers/gpu/drm/drm_gpusvm.c:2017:7: error: variable 'dev' is used 
-uninitialized whenever 'if' condition is true 
-[-Werror,-Wsometimes-uninitialized]
-  2017 |                 if (!page)
-       |                     ^~~~~
-drivers/gpu/drm/drm_gpusvm.c:2047:33: note: uninitialized use occurs here
-  2047 |         drm_gpusvm_migrate_unmap_pages(dev, dma_addr, npages,
-       |                                        ^~~
-drivers/gpu/drm/drm_gpusvm.c:2017:3: note: remove the 'if' if its 
-condition is always false
-  2017 |                 if (!page)
-       |                 ^~~~~~~~~~
-  2018 |                         goto err_finalize;
-       |                         ~~~~~~~~~~~~~~~~~
-drivers/gpu/drm/drm_gpusvm.c:1966:20: note: initialize the variable 
-'dev' to silence this warning
-  1966 |         struct device *dev;
-       |                           ^
-       |                            = NULL
-1 error generated.
