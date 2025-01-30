@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D1AA22E28
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D200AA22E2B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:48:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D970D10E972;
-	Thu, 30 Jan 2025 13:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4301C10E989;
+	Thu, 30 Jan 2025 13:48:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pn1OW3pr";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UzcoKMyJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F12E10E982
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BB6210E981
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:48:23 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6F19F442FB;
- Thu, 30 Jan 2025 13:48:21 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4AEC7204B4;
+ Thu, 30 Jan 2025 13:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
  t=1738244902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fMKFvNBkVO0/MDUp8nOqVPyZY6wGb4ZRt5EIDceuMt4=;
- b=pn1OW3prdAy82FX1W+4aGunB/VxlV3pBMmAZyPK/BULx+fba+KWh0aDrjYYGbGA7uqLrvE
- c+53KLSRUUur3B7gL2FVMUhSSqpYvKq0i6i8HX21ZeroTJM0o+y8sdWExKlt7Fe1gfpY5I
- F/G7Lqk0Xdt6RspOKvczgy4ZoqhFxuLVokJr5wDiMpt1jn8w72dYWvbFobNyN9fcHb4Tt4
- F5AbpPC6Oyw5HKK9lO3zKUx+ova6voW9MvCSuOAZ3U3A51bvVWR4expVY+4tHC4rxjfe1i
- skhGoFd4NP1/K9Zx7BMWSoyMMNnXMrRscjS/Jp3MqWvNgKQE5oZeI/wOgd4UTA==
-Date: Thu, 30 Jan 2025 14:48:20 +0100
+ bh=lSH8ChCYlBWnUyGU2beVtSLAp35PZAnCJ6j5QPoh5d4=;
+ b=UzcoKMyJR8IVNjGcwsjVyNvYfmvzK6boT2Ow7DwDzUx0bUtqzLi/2PAQMiS7AAbF7fKXmi
+ 8luYKt3nktQseP/htrJBUCetDHQL6alcoE7ic02AAoAoiY0HvspEn/C4ODz+P5a24UAx3p
+ T9GegKP+3x1GZDxLKpxsNiptWI03x9C0u9rcVXRfx/8M2CJqgQbdIFyB8crbQ6saCA9fna
+ UK5NK/cQJWskIYk8xggrFZiVlwuwbzD2GF3GG/wxvKjIXflDz0dNPpyYjYHgHNb5ZrHQCw
+ UEtk/89cDqMlVnvMGX60dxe5JLi7yC70of/SOLfwqLWf5/aCEl1pIJWc14SSAw==
+Date: Thu, 30 Jan 2025 14:48:21 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/13] drm/vkms: Allow to configure multiple CRTCs
-Message-ID: <Z5uDJFHnn1HzWOz4@louis-chauvet-laptop>
+Subject: Re: [PATCH 09/13] drm/vkms: Allow to attach planes and CRTCs
+Message-ID: <Z5uDJd4iV9Vnrp9e@louis-chauvet-laptop>
 Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  <jose.exposito89@gmail.com>, 
  hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -46,12 +46,12 @@ Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20250129110059.12199-1-jose.exposito89@gmail.com>
- <20250129110059.12199-9-jose.exposito89@gmail.com>
+ <20250129110059.12199-10-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250129110059.12199-9-jose.exposito89@gmail.com>
+In-Reply-To: <20250129110059.12199-10-jose.exposito89@gmail.com>
 X-GND-State: clean
 X-GND-Score: -100
 X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgjeevteekvdelteduuedugeefjeehueejfeekgfdtuefgteefuedtveeikedvkeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhouhhishdqtghhrghuvhgvthdqlhgrphhtohhppdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhst
@@ -73,13 +73,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29/01/25 - 12:00, José Expósito wrote:
-> Add a list of CRTCs to vkms_config and helper functions to add and
-> remove as many CRTCs as wanted.
+> Add a list of possible CRTCs to the plane configuration and helpers to
+> attach, detach and get the primary and cursor planes attached to a CRTC.
 > 
-> For backwards compatibility, add one CRTC to the default configuration.
-> 
-> A future patch will allow to attach planes and CRTCs, but for the
-> moment there are no changes in the way the output is configured.
+> Now that the default configuration has its planes and CRTC correctly
+> attached, configure the output following the configuration.
 > 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
@@ -90,51 +88,100 @@ Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
 [...]
 
-> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
-
-[...]
-
-> +static void vkms_config_test_valid_crtc_number(struct kunit *test)
-> +{
-> +	struct vkms_config *config;
-> +	struct vkms_config_crtc *crtc_cfg;
-> +	int n;
-> +
-> +	config = vkms_config_default_create(false, false, false);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-> +
-> +	/* Invalid: No CRTCs */
-> +	crtc_cfg = list_first_entry(&config->crtcs, typeof(*crtc_cfg), link);
-> +	vkms_config_destroy_crtc(config, crtc_cfg);
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
-> +	/* Invalid: Too many CRTCs */
-> +	for (n = 0; n <= 32; n++)
-> +		vkms_config_add_crtc(config);
-> +
-> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
-> +
-> +	vkms_config_destroy(config);
-> +}
-
-Same as before, can you rename the fonction to 
-vkms_config_test_invalid_crtc_number
-
-[...]
-
 > diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
 
 [...]
 
-> +struct vkms_config_crtc **vkms_config_get_crtcs(const struct vkms_config *config,
-> +						size_t *out_length)
+> -static bool valid_plane_type(struct vkms_config *config)
+> +static bool valid_plane_type(struct vkms_config *config,
+> +			     struct vkms_config_crtc *crtc_cfg)
+
+What do you think about renaming it to "valid_planes_for_crtc" to reflect 
+the fact you tests if a CRTC is attached to a valid combination of planes?
+
+>  {
+>  	struct vkms_config_plane *plane_cfg;
+>  	bool has_primary_plane = false;
+>  	bool has_cursor_plane = false;
+>  
+>  	list_for_each_entry(plane_cfg, &config->planes, link) {
+> +		struct vkms_config_crtc *possible_crtc;
+> +		unsigned long idx = 0;
+>  		enum drm_plane_type type;
+>  
+>  		type = vkms_config_plane_get_type(plane_cfg);
+>  
+> -		if (type == DRM_PLANE_TYPE_PRIMARY) {
+> -			if (has_primary_plane) {
+> -				pr_err("Multiple primary planes\n");
+> -				return false;
+> -			}
+> +		xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+> +			if (possible_crtc != crtc_cfg)
+> +				continue;
+>  
+> -			has_primary_plane = true;
+> -		} else if (type == DRM_PLANE_TYPE_CURSOR) {
+> -			if (has_cursor_plane) {
+> -				pr_err("Multiple cursor planes\n");
+> -				return false;
+> -			}
+> +			if (type == DRM_PLANE_TYPE_PRIMARY) {
+> +				if (has_primary_plane) {
+> +					pr_err("Multiple primary planes\n");
+> +					return false;
+> +				}
+>  
+> -			has_cursor_plane = true;
+> +				has_primary_plane = true;
+> +			} else if (type == DRM_PLANE_TYPE_CURSOR) {
+> +				if (has_cursor_plane) {
+> +					pr_err("Multiple cursor planes\n");
+> +					return false;
+> +				}
+> +
+> +				has_cursor_plane = true;
+> +			}
+>  		}
+>  	}
+
+[...]
+
+> +int __must_check vkms_config_plane_attach_crtc(struct vkms_config_plane *plane_cfg,
+> +					       struct vkms_config_crtc *crtc_cfg)
+> +{
+> +	struct vkms_config_crtc *possible_crtc;
+> +	unsigned long idx = 0;
+> +	u32 crtc_idx = 0;
+> +
+> +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+> +		if (possible_crtc == crtc_cfg)
+> +			return -EINVAL;
+
+Is it really an error? After this call, we expect plane and crtc to be 
+attached, so if the plane is already attached, I don't see any issue.
+
+> +	}
+> +
+> +	return xa_alloc(&plane_cfg->possible_crtcs, &crtc_idx, crtc_cfg,
+> +			xa_limit_32b, GFP_KERNEL);
+> +}
+> +
+
+[...]
+
+> +struct vkms_config_crtc **vkms_config_plane_get_possible_crtcs(struct vkms_config_plane *plane_cfg,
+> +							       size_t *out_length)
 > +{
 > +	struct vkms_config_crtc **array;
-> +	struct vkms_config_crtc *crtc_cfg;
-> +	size_t length;
+> +	struct vkms_config_crtc *possible_crtc;
+> +	unsigned long idx;
+> +	size_t length = 0;
 > +	int n = 0;
 > +
-> +	length = list_count_nodes((struct list_head *)&config->crtcs);
+> +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc)
+> +		length++;
+> +
 > +	if (length == 0) {
 > +		*out_length = length;
 > +		return NULL;
@@ -144,8 +191,8 @@ vkms_config_test_invalid_crtc_number
 > +	if (!array)
 > +		return ERR_PTR(-ENOMEM);
 > +
-> +	list_for_each_entry(crtc_cfg, &config->crtcs, link) {
-> +		array[n] = crtc_cfg;
+> +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+> +		array[n] = possible_crtc;
 > +		n++;
 > +	}
 > +
@@ -153,73 +200,99 @@ vkms_config_test_invalid_crtc_number
 > +	return array;
 > +}
 
-Same as before, can't we use an iterator?
+Same as before, can we use an iterator?
 
-[...]
+> +static struct vkms_config_plane *vkms_config_crtc_get_plane(const struct vkms_config *config,
+> +							    struct vkms_config_crtc *crtc_cfg,
+> +							    enum drm_plane_type type)
 
-> +static bool valid_crtc_number(struct vkms_config *config)
+Even if this is a private function, can we add a comment explaning that 
+the returned value is only one of the available planes of this type?
+
+	/**
+	 * vkms_config_crtc_get_plane() - Get the first attached plane 
+         * found of a specific type
+	 * @config: configuration containing the crtc and the planes
+	 * @crtc_cfg: Only find planes attached to this CRTC
+	 * @type: Plane type to search
+	 *
+	 * Returns:
+	 * The first plane found attached to @crtc_cfg with the type 
+	 * @type.
+	 */
+
 > +{
-> +	size_t n_crtcs;
+> +	struct vkms_config_plane *plane_cfg;
+> +	struct vkms_config_crtc *possible_crtc;
+> +	enum drm_plane_type current_type;
+> +	unsigned long idx;
 > +
-> +	n_crtcs = list_count_nodes(&config->crtcs);
-> +	if (n_crtcs <= 0 || n_crtcs >= 32) {
-> +		pr_err("The number of CRTCs must be between 1 and 31\n");
-
-I agree we need some logs, but I think pr_err is too agressive (i.e may 
-be considered as an error by some test tools).
-
-I think we should at least:
-- lower to warn/notice/info
-- use drm variants of the macro
-
-> +		return false;
+> +	list_for_each_entry(plane_cfg, &config->planes, link) {
+> +		current_type = vkms_config_plane_get_type(plane_cfg);
+> +
+> +		xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+> +			if (possible_crtc == crtc_cfg && current_type == type)
+> +				return plane_cfg;
+> +		}
 > +	}
 > +
-> +	return true;
+> +	return NULL;
 > +}
-> +
 
 [...]
 
-> +struct vkms_config_crtc *vkms_config_add_crtc(struct vkms_config *config)
-> +{
-> +	struct vkms_config_crtc *crtc_cfg;
-> +
-> +	crtc_cfg = kzalloc(sizeof(*crtc_cfg), GFP_KERNEL);
-> +	if (!crtc_cfg)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	vkms_config_crtc_set_writeback(crtc_cfg, false);
-> +
-> +	list_add_tail(&crtc_cfg->link, &config->crtcs);
-> +
-> +	return crtc_cfg;
-> +}
-> +
-> +void vkms_config_destroy_crtc(struct vkms_config *config,
-> +			      struct vkms_config_crtc *crtc_cfg)
-> +{
-> +	list_del(&crtc_cfg->link);
-> +	kfree(crtc_cfg);
-> +}
+> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
 
-Same as before, the pair add/destroy seems strange.
+[...]
 
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> @@ -181,7 +181,8 @@ static int vkms_create(struct vkms_config *config)
->  		goto out_devres;
->  	}
->  
-> -	ret = drm_vblank_init(&vkms_device->drm, 1);
-> +	ret = drm_vblank_init(&vkms_device->drm,
-> +			      vkms_config_get_num_crtcs(config));
+> +/**
+> + * vkms_config_crtc_primary_plane() - Return the primary plane for a CRTC
+> + * @config: Configuration containing the CRTC
+> + * @crtc_config: Target CRTC
+> + *
+> + * Returns:
+> + * The primary plane or NULL if none is assigned yet.
+> + */
 
-At this point we only create one crtc, can you move this change in the 
-commit where you create multiple crtc?
+Same as above, can you speficy that it is one of the primary plane?
 
->  	if (ret) {
->  		DRM_ERROR("Failed to vblank\n");
->  		goto out_devres;
-> -- 
-> 2.48.1
-> 
+> +struct vkms_config_plane *vkms_config_crtc_primary_plane(const struct vkms_config *config,
+> +							 struct vkms_config_crtc *crtc_cfg);
+> +
+> +/**
+> + * vkms_config_crtc_cursor_plane() - Return the cursor plane for a CRTC
+
+Ditto
+
+[...]
+
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+
+[...]
+
+> @@ -35,19 +41,54 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>  			ret = PTR_ERR(plane_cfg->plane);
+>  			goto err_free;
+>  		}
+> +	}
+> +
+> +	for (n = 0; n < n_crtcs; n++) {
+> +		struct vkms_config_crtc *crtc_cfg;
+> +		struct vkms_config_plane *primary, *cursor;
+> +
+> +		crtc_cfg = crtc_cfgs[n];
+> +		primary = vkms_config_crtc_primary_plane(vkmsdev->config, crtc_cfg);
+> +		cursor = vkms_config_crtc_cursor_plane(vkmsdev->config, crtc_cfg);
+
+Linked with a previous comment: here we have no garantee that primary is a 
+valid pointer, can we check it or call vkms_config_is_valid to ensure it?
+
+> +		crtc_cfg->crtc = vkms_crtc_init(dev, &primary->plane->base,
+> +						cursor ? &cursor->plane->base : NULL);
+> +		if (IS_ERR(crtc_cfg->crtc)) {
+> +			DRM_ERROR("Failed to allocate CRTC\n");
+> +			ret = PTR_ERR(crtc_cfg->crtc);
+> +			goto err_free;
+> +		}
+
+[...]
