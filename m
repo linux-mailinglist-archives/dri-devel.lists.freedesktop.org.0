@@ -2,53 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D63A2290A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 08:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D41A2297B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 09:21:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85F3910E273;
-	Thu, 30 Jan 2025 07:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3F5A893DB;
+	Thu, 30 Jan 2025 08:21:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="W/Wu4myP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R+joXJeH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51DC210E273;
- Thu, 30 Jan 2025 07:04:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 7BD5FA41B34;
- Thu, 30 Jan 2025 07:02:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62C9CC4CED2;
- Thu, 30 Jan 2025 07:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1738220672;
- bh=4jivC6LP33sqHcamtkNrVE//7hbpZlTsOyw8xSt8r0U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W/Wu4myP/aHEawNyadI78+Y1eFnLgl67sXzcIGjYUM2iepYtQ1weX82Cz439bel6V
- KKmO78/ykXhn8lLwUk0wJpIW4IkmwUXv0ZwKfLmaPM7GxC0vJhyRDCjyoOVea07osC
- ONbYnwHtJM6xyOgoRj4qp+7Tj1ym0ZgDP6CE3zjk=
-Date: Thu, 30 Jan 2025 08:04:30 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Chaitanya Dhere <chaitanya.dhere@amd.com>,
- Jun Lei <jun.lei@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, llvm@lists.linux.dev,
- patches@lists.linux.dev, kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] drm/amd/display: Increase sanitizer frame larger than
- limit when compile testing with clang
-Message-ID: <2025013003-audience-opposing-7f95@gregkh>
-References: <20241219-amdgpu-dml2-address-clang-frame-larger-than-allconfig-v1-1-8c53a644d486@kernel.org>
- <CADnq5_Pun+zN1=B0eFMw1w8k_oD3fw626SdaEug24YRg8aOLKw@mail.gmail.com>
- <2025013058-fasting-gibberish-9718@gregkh>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3F1A893DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 08:21:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738225288; x=1769761288;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=M1qt6yIqv7j8m2gxhiDBq3JhCbnCFKoGYMctlmrwUuo=;
+ b=R+joXJeHAQS/3BFYZBm2Nh4zsbysvb6DsxfUNtWxd+Z8Givhp4TidHQ1
+ MzxkXqQ7aOGPzb6BfBiR4OA/iESEFWMf6mWTy6pwNwUqk/NYxMZqFv+RR
+ CmVmLenU/zl93Ndtz1AdE0jrX1bHkLr1JZ4Uu95g/TYoeW91tzzvAcxt2
+ XT5ryO/OWew+VPXcoY2dnVy8uEzfrPo5J4leztmH4JtAvaBJZEa/LJs8g
+ f19SIyBI34FD2E8bbeMNFKL03gIvAh4hUwMId8Rx5dSzoxNQpLVlksxka
+ wNVDloB26pjFVpkublRODSqyDn83jiCSsa6/3B2nzTfyM+3hUoHn+bWnC A==;
+X-CSE-ConnectionGUID: AVA4N4kQRJ66oeq+W/Qkmw==
+X-CSE-MsgGUID: 5So+5YTNQyiohsv9fg5LwA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11330"; a="38664563"
+X-IronPort-AV: E=Sophos;i="6.13,244,1732608000"; d="scan'208";a="38664563"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2025 00:21:27 -0800
+X-CSE-ConnectionGUID: Jg+3FL3KT4OdJNtJ2Qsjuw==
+X-CSE-MsgGUID: 0uzz3YCcQgq+3fMLp1Bocg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="113877805"
+Received: from smile.fi.intel.com ([10.237.72.58])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2025 00:21:25 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+ (envelope-from <andriy.shevchenko@linux.intel.com>)
+ id 1tdPne-00000006coi-2jbv; Thu, 30 Jan 2025 10:21:22 +0200
+Date: Thu, 30 Jan 2025 10:21:22 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
+Message-ID: <Z5s2gpIj-HOiHD3C@smile.fi.intel.com>
+References: <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
+ <Z4ppo8wV3nicOfAQ@smile.fi.intel.com>
+ <8a7581e4-6422-4d77-8027-02df0d7da489@samsung.com>
+ <Z4qTQ9ypkX6iS1Pl@smile.fi.intel.com>
+ <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
+ <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
+ <6b4cba29-786c-4999-ac1d-27b3e4cea6f8@samsung.com>
+ <Z5kJLrE6xOzOKaeb@smile.fi.intel.com>
+ <Z5pESDSekep9ChAN@smile.fi.intel.com>
+ <c2c2f613-3b65-4efe-99c2-135f043b2d3b@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2025013058-fasting-gibberish-9718@gregkh>
+In-Reply-To: <c2c2f613-3b65-4efe-99c2-135f043b2d3b@samsung.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,49 +85,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 30, 2025 at 07:47:59AM +0100, Greg KH wrote:
-> On Mon, Jan 06, 2025 at 12:29:32PM -0500, Alex Deucher wrote:
-> > Applied.  Thanks!
+On Wed, Jan 29, 2025 at 06:50:57PM +0100, Marek Szyprowski wrote:
+> On 29.01.2025 16:07, Andy Shevchenko wrote:
+> >> [...]
+> > Meanwhile, can you test this patch (on top of non-working case)?
+> >
+> > If I understood the case, the affected driver doesn't use case and we actually
+> > write to the selector register twice which most likely messes up the things.
+> > But this is only a theory (since we don't have the traces yet).
 > 
-> Thanks, but I am still getting this error on Linus's current tree right
-> now, with this commit applied:
+> Bingo! This patch (on top of current linux-next) fixed the probe issue. 
+> Feel free to add:
 > 
->   CC [M]  drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.o
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dml2/display_mode_core.c:6713:12: error: stack frame size (2056) exceeds limit (2048) in 'dml_core_mode_support' [-Werror,-Wframe-larger-than]
->  6713 | dml_bool_t dml_core_mode_support(struct display_mode_lib_st *mode_lib)
->       |            ^
-> 1 error generated.
-> 
-> 
-> I think the issue is:
-> 
-> > > --- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> > > +++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
-> > > @@ -29,7 +29,11 @@ dml2_rcflags := $(CC_FLAGS_NO_FPU)
-> > >
-> > >  ifneq ($(CONFIG_FRAME_WARN),0)
-> > >  ifeq ($(filter y,$(CONFIG_KASAN)$(CONFIG_KCSAN)),y)
-> 
-> I do not have CONFIG_KASAN or CONFIG_KCSAN enabled, but I do have:
-> 
-> > > +ifeq ($(CONFIG_CC_IS_CLANG)$(CONFIG_COMPILE_TEST),yy)
-> 
-> These two options enabled, and for some reason:
-> 	CONFIG_FRAME_WARN=2048
-> as well.
-> 
-> Ah, 2048 is the default value, that's how.
-> 
-> So this warning triggers even without KASAN or KCSAN being enabled, is
-> that to be expected?  Is the stack really being used that much here?
-> 
-> I'll go bump FRAME_WARN up to get some local testing working again, but
-> odds are others are going to hit this if I am in my "normal" build
-> tests.
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-Ick, no, bumping CONFIG_FRAME_WARN=8192 doesn't fix this here either.
-Any hints?
+Thank you! I will test it on my HW as well to confirm that there no regressions
+and will submit a formal fix.
 
-thanks,
+> (although I'm not sure if this is a fix for the generic case or just 
+> this driver)
 
-greg k-h
+This is for all cases where cache is not in use.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
