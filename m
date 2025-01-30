@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B47A22D4A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:09:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF1BA22D4F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:09:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC2E210E95B;
-	Thu, 30 Jan 2025 13:09:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 972D210E347;
+	Thu, 30 Jan 2025 13:09:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="MQdsK9pH";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MQdsK9pH";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="dmC+bpbq";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dmC+bpbq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com
- (mail-am7eur03on2066.outbound.protection.outlook.com [40.107.105.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE3AF10E95B
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:09:38 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05on2048.outbound.protection.outlook.com [40.107.20.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B10D10E347
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:09:48 +0000 (UTC)
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=W/mYHHY8wOtRWTM3bCuAxJzmeSya5bdM9WSRFch8I59TWNr/uRSQ/1tKGax3lyhk+Ab51KYLO01h8KmaY8q3+NI2kX6DnfnWXvSo45x5+2LDsiLKEiqVBAVLpBrvVc52cPyt8QJWRMsPrHTsKd62WIf8SI5lQJIJIuenRxgr4vhle0Wh1w+7lJslD0vGdV3BSt+kOjrZEMn8NNHuKvNtMA77GN1bXxeDfiaW9Lzthk6Lo9oL3h+lBxDjlq1MzEm6T2VNoOnSkFKpu0qMv/gFJwutrFgpK949wkq4Mm6bp9yWppWEIElpfOgcQpXVslEniikSRnLHfAFZTu/fCB3MAg==
+ b=hVHVZsy4UinrALHKv5867+dH8kn8/EwBaULsKApxXxC3AkuLlSAXrOM3o4Ee44A6cdKlZIi4/5Cz6ngmwgGZG8ehlUmcHghUBgE1ML/kiAbKthOh1FJgXctNaii2irwpdlUzKAerfART+vSbiqOUhcCRuN2VHAwHenzhIoFtg3WRi3OxiAqi/s7/E4LutlAvdxAEXVqp8EwIVo3c4WTf5JF9UtPR1E0FyrSCE05Wk31HYdfXxasd8uq35VOC6+FGxGfrwaL7u3nxLNjoOZYyztD57qpL9oGgzZYYJRXHn/dnvULanvE2WFlELA/L1pHfyPSgJW9SHJL4xsN7DvHD2g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YItMqBB3AFZY9z+AAWQmS9LrlWXXDu8EElut2eZSjfM=;
- b=VBRuTCEO9qkCAZEBtUy+QVeu2YPxhxA7U65spsCVfGOELLlUb0Jawa8EDmn50/iKAr6ht4Oad23sS/gbJzbGShifpt1LafP6oErS6mDA19SSVarbCIR0M15r3TNsrnREK+6vtL/l88nqjnU5haktFDc7+sqZ++OjIoSOccefsMmMm9MlHwVqk3W1eBXVwzbU6fhNfl+14xENwMuZdScwLpAuqGi8X+KZaSIxg6SBmZnzBGsGGf0bnIhQj13NkCbY1umu5+jxoj03cRL978K4vfdivJbaxv1/opHai1NxU4Ozvqc5Sgn/1rf3woPlHiAetHdyBawpQbAun+Z0TV/5tw==
+ bh=FgaCamHnxvPMXaZFSAc1/BOzJH3l89NFFvdMd2pfmO8=;
+ b=n/zJXn+yX0zRV7t5hKSJbeLgDSoRJzGSSzc45UELjvw4t9mVv+5T+itpMJTGG1fGKmOMwf1d9U31nK7as5DFiLwvPqK7H8r8M6pe67rVLiq2eFK0m0KrtJEwYg7Tg+DSL4/c2oK1NfiUW52P5170Lba1SWuCrzCJQYqjpKzh3kkdplRkydTpGsEzdFP+A2T+osLfNCL9P0nkL+Y9xnKLZWHH3EtW+0xcWbwbNIhe9YA5ZCA0Oh3Q4R0SU2gaeT3QdyRM2vYcgOwLwSwUYfIDecq21vXR3t6r9R6hEmBua31saTQdG/h2KmYKdbQW1X2JA1okwyv4O5Jvia5tHFsrww==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  63.35.35.123) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
@@ -31,18 +31,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  ltdi=1)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YItMqBB3AFZY9z+AAWQmS9LrlWXXDu8EElut2eZSjfM=;
- b=MQdsK9pH9F24jJwyVELdeH1JPCo5xohATn6LEhLoRMkS+/01lVOWYnRT4fjlfq+Lbp3+F8YK6QNnYm2gZoQAXoDDYACFtsWQVtmck993hAtZo/5d6yqm1Lp3pSiqN3Gn3Np0rRbjsT2UYx30qWRXSx4D61BA350gMM1eBIDRuTg=
-Received: from DUZPR01CA0002.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:3c3::8) by VI0PR08MB10710.eurprd08.prod.outlook.com
- (2603:10a6:800:207::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.18; Thu, 30 Jan
- 2025 13:09:29 +0000
-Received: from DU2PEPF0001E9C1.eurprd03.prod.outlook.com
- (2603:10a6:10:3c3:cafe::9a) by DUZPR01CA0002.outlook.office365.com
- (2603:10a6:10:3c3::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.17 via Frontend Transport; Thu,
- 30 Jan 2025 13:09:37 +0000
+ bh=FgaCamHnxvPMXaZFSAc1/BOzJH3l89NFFvdMd2pfmO8=;
+ b=dmC+bpbqsqNQNwGSG8FQ0oaJwBR6z8iZ6lnDuLWWxDwOequSaClXVdbfZXxqBNJNMbXXaSr4R+Te8pFJ8HeXIrQjQBeLnwXybISI5+3hG3mmisqfJ24OOm3YmKQIMPy1HA/95d9nxKuq6jwpQ/GuyV9/VLObdcpxNl3lPrbIl5g=
+Received: from AM0PR04CA0131.eurprd04.prod.outlook.com (2603:10a6:208:55::36)
+ by GV1PR08MB8691.eurprd08.prod.outlook.com (2603:10a6:150:85::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.21; Thu, 30 Jan
+ 2025 13:09:33 +0000
+Received: from AM4PEPF00027A68.eurprd04.prod.outlook.com
+ (2603:10a6:208:55:cafe::43) by AM0PR04CA0131.outlook.office365.com
+ (2603:10a6:208:55::36) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.18 via Frontend Transport; Thu,
+ 30 Jan 2025 13:09:32 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -51,47 +51,47 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
  pr=C
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DU2PEPF0001E9C1.mail.protection.outlook.com (10.167.8.70) with
- Microsoft SMTP
- Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.14 via
- Frontend Transport; Thu, 30 Jan 2025 13:09:28 +0000
-Received: ("Tessian outbound d1e0abd198b0:v560");
- Thu, 30 Jan 2025 13:09:27 +0000
+ AM4PEPF00027A68.mail.protection.outlook.com (10.167.16.85) with
+ Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.14
+ via Frontend Transport; Thu, 30 Jan 2025 13:09:32 +0000
+Received: ("Tessian outbound 671aa0ad34c4:v560");
+ Thu, 30 Jan 2025 13:09:31 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: ca60226393ebda3c
-X-TessianGatewayMetadata: 41C5iM3Q8zvqrV/s0MlO/0wnrlMX+Jatsbrho/D/C2GhtTE3Y+4Chb5pNS5mtMBvvXr+fM0Ibb/jz0djhK8I9YYwm8NBP9opIwyKPGt5YFOpWNp6jSJ1Hr5BckpjU75lsG71j6pmwTzQ9x/XzGrpFqmnnZDPtgdNa5DN/u++sRQ=
+X-CR-MTA-CID: 3b96bd91acacdd57
+X-TessianGatewayMetadata: qoVaNJHo09g7Nr7WiHlnEBFdWsRJB86Jj/NwpEIIV1Qq88fWkjIEUWHk+pCw1TL7pUy+TLEebcJOBSpZN7EgS0ol5XZzuTyDaNnuFpQ6xF40pIoQcfXKCTIdNoBADG1ONgGHHMq20bCs8l4tVPN+DvhO2Hy6iQETymIfAALxHbX4frIPiHLUbNYM2hvY+X5J7eSYGku2M8AuZnlReqTqeA==
 X-CR-MTA-TID: 64aa7808
-Received: from L5f962119725b.1
+Received: from Le713702a97a6.1
  by 64aa7808-outbound-1.mta.getcheckrecipient.com id
- 731C6107-BEA4-4A6F-B553-063DD10D8C51.1; 
- Thu, 30 Jan 2025 13:09:19 +0000
+ 53CAB092-6D8F-46A4-93F9-AB52E14BE0B5.1; 
+ Thu, 30 Jan 2025 13:09:23 +0000
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
  by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id
- L5f962119725b.1 (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Thu, 30 Jan 2025 13:09:18 +0000
+ Le713702a97a6.1 (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Thu, 30 Jan 2025 13:09:23 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A2F/MXQOBnGUwhfmeXLXObpK9a5AwalCQ5i9Gy+ZhDtwoOcx/PEWwaOg+E1SsHV48iJ1RU5NsB2g6oqE3MUV4js9hDfKkOtOQiO2ecerwRyfE/j8xG5FqOYTh/fVU7ETmce2Hs8GNRAz2URfK1znwckSH5XFpnn6SqlyXL14QJtyjnnDg35BJHs3zT5PbY/2qh2OwoR92zzdKefzyLEFKL5K3JHXUinhuW8RLFrPqo1yFhL1xsHHmVSobGU5rCd4m0NmFO1KENYcl0rstlcbY+8dwb9x3kCYncyatcu9YO97zYCYD68EMk6NJRogJUrnr4KC5u2jPcGztVNtdNinyA==
+ b=NcYGZlKtG/CiW2quSQm53ORx3ZwKWmz5l/J/qsZAdT96OM/1Cly36e1DrVpOrHtRpTcYGc31DLUsuzkpONfyiNpH1ovmGek3BntuXp9NO0VCHvsZRhlUsc4fFnWVdocmEfgHrZFPiUVlzuSUPK+kHQ56Q07ep5u3MLhh/gFBsr0OYm5e8CTYQzeGF7iGGR/z6qZ8e2Uwlco6JGtYOs4pUosIWk1q5vC+7H+iK/C5X61rXyWMJ6km5pFa302DMUgp/3Z5POXykrXWd1efcAC97BKjLNORXuYUJy8VW6kC1+LZGe3Pb+wnZe/k5Nby3KBMO2yF34SxzGuNHn7bOInd1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YItMqBB3AFZY9z+AAWQmS9LrlWXXDu8EElut2eZSjfM=;
- b=LOQhso0IBUCf8C4lBimp6ffAl50lvlcsPsNS/XKn0WgMNgdveXJeSjmsGiQZ8TUzBxxhLHeFDrhttf2WpPgxEVaC3gHvmVOXWH/5LE0vCCvEZK6LLAe2FUZc/r3mqiVBjpfT94cTVidEpIzqxWNZHGTLI+7bO2zrKlUo/Dwx/EEmkcuSuVWsjAvmo4J6ucKHre17Cl+lnYeS5M4I8xkRY3+aUBkVnjbxFTlDldARk+WllOPtFxRHQuCvS8eZDdsIZveBlXvjquiyJoNpMTyM9+KI93tMEWPShv9ZNS/1Uzm2uvSfz/ZUrZfR+Lth+9ybvtei9B0rGuU+DmjpmcbMYg==
+ bh=FgaCamHnxvPMXaZFSAc1/BOzJH3l89NFFvdMd2pfmO8=;
+ b=D0WhO/Q/XdUsh8ikXb/MvammaXbC/hohJqZdJ60/yhGBjTGaD++zetwSHqRXRDiGA0VQctwhvbGWtI48aLGOLsAPryXS882x83K1X1gBhg6fTZkc9TJV5Weg2bfbGsHHeX3YW4CQXjHxLJjxHkuhw+Uv8ciKEWtCS8ywMewO7jDIhYaR0unFnEW8i3wXzwd61TaxbcKe533CHAsWxRZ86EFefDw2y/8QvSP9JgHYs3THlAPAevqmwfVvw0CkmsHq5FmUEnKIyEs7CR1vqILbiUSz0dcDCwJZpJ5BUrRfqZXfxcdxzY/m9uVg6ToUvb7sM4poFbFX5pBZT8DoSjjROg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  172.205.89.229) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=arm.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YItMqBB3AFZY9z+AAWQmS9LrlWXXDu8EElut2eZSjfM=;
- b=MQdsK9pH9F24jJwyVELdeH1JPCo5xohATn6LEhLoRMkS+/01lVOWYnRT4fjlfq+Lbp3+F8YK6QNnYm2gZoQAXoDDYACFtsWQVtmck993hAtZo/5d6yqm1Lp3pSiqN3Gn3Np0rRbjsT2UYx30qWRXSx4D61BA350gMM1eBIDRuTg=
-Received: from DB7PR05CA0044.eurprd05.prod.outlook.com (2603:10a6:10:2e::21)
- by PA6PR08MB10593.eurprd08.prod.outlook.com (2603:10a6:102:3c8::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Thu, 30 Jan
- 2025 13:09:13 +0000
-Received: from DB5PEPF00014B89.eurprd02.prod.outlook.com
- (2603:10a6:10:2e:cafe::ea) by DB7PR05CA0044.outlook.office365.com
- (2603:10a6:10:2e::21) with Microsoft SMTP Server (version=TLS1_3,
+ bh=FgaCamHnxvPMXaZFSAc1/BOzJH3l89NFFvdMd2pfmO8=;
+ b=dmC+bpbqsqNQNwGSG8FQ0oaJwBR6z8iZ6lnDuLWWxDwOequSaClXVdbfZXxqBNJNMbXXaSr4R+Te8pFJ8HeXIrQjQBeLnwXybISI5+3hG3mmisqfJ24OOm3YmKQIMPy1HA/95d9nxKuq6jwpQ/GuyV9/VLObdcpxNl3lPrbIl5g=
+Received: from DU7P194CA0027.EURP194.PROD.OUTLOOK.COM (2603:10a6:10:553::7) by
+ GV2PR08MB9374.eurprd08.prod.outlook.com (2603:10a6:150:d0::14) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8398.20; Thu, 30 Jan 2025 13:09:13 +0000
+Received: from DU6PEPF00009525.eurprd02.prod.outlook.com
+ (2603:10a6:10:553:cafe::e2) by DU7P194CA0027.outlook.office365.com
+ (2603:10a6:10:553::7) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.18 via Frontend Transport; Thu,
  30 Jan 2025 13:09:13 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 172.205.89.229)
@@ -102,20 +102,16 @@ Received-SPF: Fail (protection.outlook.com: domain of arm.com does not
  receiver=protection.outlook.com; client-ip=172.205.89.229;
  helo=nebula.arm.com;
 Received: from nebula.arm.com (172.205.89.229) by
- DB5PEPF00014B89.mail.protection.outlook.com (10.167.8.197) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ DU6PEPF00009525.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.8398.14 via Frontend Transport; Thu, 30 Jan 2025 13:09:13 +0000
-Received: from AZ-NEU-EX03.Arm.com (10.251.24.31) by AZ-NEU-EX05.Arm.com
- (10.240.25.133) with Microsoft SMTP Server (version=TLS1_2,
+Received: from AZ-NEU-EX06.Arm.com (10.240.25.134) by AZ-NEU-EX06.Arm.com
+ (10.240.25.134) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 30 Jan
- 2025 13:09:05 +0000
-Received: from AZ-NEU-EX06.Arm.com (10.240.25.134) by AZ-NEU-EX03.Arm.com
- (10.251.24.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 30 Jan
- 2025 13:09:04 +0000
+ 2025 13:09:06 +0000
 Received: from e121164.cambridge.arm.com (10.2.10.32) by mail.arm.com
  (10.240.25.134) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 30 Jan 2025 13:09:03 +0000
+ Transport; Thu, 30 Jan 2025 13:09:05 +0000
 From: Florent Tomasin <florent.tomasin@arm.com>
 To: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
  Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Boris
@@ -136,101 +132,103 @@ CC: <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
  <nd@arm.com>, Akash Goel <akash.goel@arm.com>, Florent Tomasin
  <florent.tomasin@arm.com>
-Subject: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali CSF GPUs
-Date: Thu, 30 Jan 2025 13:08:56 +0000
-Message-ID: <cover.1738228114.git.florent.tomasin@arm.com>
+Subject: [RFC PATCH 1/5] dt-bindings: dma: Add CMA Heap bindings
+Date: Thu, 30 Jan 2025 13:08:57 +0000
+Message-ID: <771534be8dfa2a3bdc3876502752f518224b9298.1738228114.git.florent.tomasin@arm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1738228114.git.florent.tomasin@arm.com>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 1
-X-MS-TrafficTypeDiagnostic: DB5PEPF00014B89:EE_|PA6PR08MB10593:EE_|DU2PEPF0001E9C1:EE_|VI0PR08MB10710:EE_
-X-MS-Office365-Filtering-Correlation-Id: df2a0bab-1a09-41c5-5ce8-08dd412f544c
+X-MS-TrafficTypeDiagnostic: DU6PEPF00009525:EE_|GV2PR08MB9374:EE_|AM4PEPF00027A68:EE_|GV1PR08MB8691:EE_
+X-MS-Office365-Filtering-Correlation-Id: 74ad0537-4039-45ae-a878-08dd412f568a
 X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted: BCL:0;
- ARA:13230040|1800799024|7416014|36860700013|376014|82310400026|921020|13003099007;
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?xgibOeOPOwdEr8QJXRHf78g1HmeBgI0EsC/AzHf3IWY8T+DX1eOgLpyJLet6?=
- =?us-ascii?Q?7PTLSkG7i0QgfGfbtVONuJzG6huoExizKuVt23a7zT0GCwxqP8mg7T5pITVS?=
- =?us-ascii?Q?SJm8vcqNWP1+6bP+j4AQ9ntU9Sh8o55l4H/y/2aQLN/gDwAKu6B3Dk9WXs91?=
- =?us-ascii?Q?2OV8BaCo2Ehpm7Eu9LvSNnRZygJG/BGSRKnjoGdXKQYTDbBoZz9dEDylv+TM?=
- =?us-ascii?Q?7PwVYhC58QdPSWohJROc4/u7flfP1g0jc/jmpAh824VU4m301YYcWD1LG3HA?=
- =?us-ascii?Q?DfsU7GoG3riWMdUFvEh4S0yGB+T4eGS0CVFk31Jn6TQC1mdRmfCmk3onB/Du?=
- =?us-ascii?Q?j9S/OvNcA43DYlE8eG2Qk9pBez8/bOgNv/jaZuHsHv2LZEuxoWHuZamGYm/t?=
- =?us-ascii?Q?W6YxMC/Ib9wdcf9kpINFlvCBqTcW+TlIZ8LeLk9tBCSYfohH1dHsheKkHYPO?=
- =?us-ascii?Q?31ghd7QmpS33dNt7TThSm7SPbdkEWA/0p0MJMWX7ZJkpzm8H4Xk8cDAksgtc?=
- =?us-ascii?Q?MqrEvauaGSCsOi/5UHNzpYfmaNxwPOaG8q2cxZ1txdp1jAnjItGbtHX+PYEF?=
- =?us-ascii?Q?FgYDaODURyiWI+w2+QuVMHi/H2utL4dd5cqG13lXIm7qgCedXv4rQnhQ7pYM?=
- =?us-ascii?Q?bmL0l221QfqT9uKG3yfXRbn/TxA+5V5tuE4gaOgUiFNORd+SQ2YMLXIlEz6q?=
- =?us-ascii?Q?P5z9nU6DjjoZnZMBUyvBYogPxWwAq4j7KMZARikG0+h+Zyn0D+VlzGcgutv6?=
- =?us-ascii?Q?GTq/Pcu7hdxzqZEHXWRSMFLOhi5XOwXj4CRNJXB7qCBUTr3MAAF8dI2tELaz?=
- =?us-ascii?Q?WdJWGoG9DivoqRHqd8278afdVy1LefZnmMHyLPYgVfFcVUfjiILt93D4SxTK?=
- =?us-ascii?Q?TpFtdXlnWC0vV2NqOsow57T8xjWlP4gaTKSnD91oDVF6G9i1ihuOSwdZVtsj?=
- =?us-ascii?Q?LbbyjLjleCCwYx1LM4pYkXeBvxdDDZNIdwf2tSzrcf9qjBSp4iF1/6XuPuKh?=
- =?us-ascii?Q?YV0QNCS8gru75HODY6rFwSWto/vhLLllUVXYZumc0Oo0yArmYTctcCrTEI6B?=
- =?us-ascii?Q?fBsJIhygB7bQkDk+JLHxNpXj8CZWpa/XdWaWSWoTZvC4fvUl57mD1W2W8u5N?=
- =?us-ascii?Q?Rr7JTmU7AE8zC3XfnBLBLku8FL8x/AajuJpANEyTIfD0IOJFYKcrRF4VFq8i?=
- =?us-ascii?Q?HP2op5rUP9D/NoJTL69US7R3zxdVcaPKutW1G+T90SBQXLWJGxvUH+RIPRCj?=
- =?us-ascii?Q?sYCnxQNn9QOVpDfItcZkFQdhp4PXwJPvZVBdN7H5wd+1Ndx9vQUQb9+J+MUa?=
- =?us-ascii?Q?nlawo8QH2vECS23sgfaLGcsk77H/IOnTg0FPGkmsU9AkdEVwE/Gy3OX42zug?=
- =?us-ascii?Q?zfhq4z7tBqt2Et13nNXySYRbrpaYuSTBk66rW2ucwW+NFWPooW/982DWXgGW?=
- =?us-ascii?Q?yO4s9UZwsFFtAfl8wb78MCGfV2PHZvufx2sSbIfVUkwdn0efk8bR6w=3D=3D?=
+ ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?kp7y9OlcNnlxCGnxZwdQsMAB37oeT5uUdoygQ5PD3ph0+XkNzmSYUKIvo1Rw?=
+ =?us-ascii?Q?vj7CuGFQF9RsvFkRJvRVhl6moydjlfwp+6lTi8xaBVFPL/fnvV7BC9Lb8HBe?=
+ =?us-ascii?Q?bBabXoZ0XKkW705JdLXytHzZCA9bEUA5qAQ9PlJnc2374P8Q5Ovivfu2O5fQ?=
+ =?us-ascii?Q?iUUTo3NKkaWAD0B5oT2PDbBGvlu0W1chD+9nmd5umC0fd/yh5eAZc8RacAne?=
+ =?us-ascii?Q?05jvopguUjipA5u1HlJSytE0VQCkyqHk6NnUbiU+pRismDuh7Z+JNo/04G6U?=
+ =?us-ascii?Q?iP1Dt11x2g9M/w6MHJKQD1+Pfq2J5Nh+ywbrrKh5ONG2TwAny1kM3vbEwcJn?=
+ =?us-ascii?Q?CYdwKGte2csmQThyJlmfDF0ktDhDs6TlaZaj2i+7O87IM3HodFzf3BdfFvsR?=
+ =?us-ascii?Q?gsFfzvio/OfYQdIYmqb13ZYIKzXcD0DTKF8Mt5zGZNkJA/fZTX2eXH2JxzRi?=
+ =?us-ascii?Q?pdz+JmF5yN8gKnphfzNHky2jUW64ydHf9NRFc/YhnNwTA7aTjTjnAf2WCi2C?=
+ =?us-ascii?Q?F+FD/8OeLVZomq9s65jFPpUrpqELjJAoQezS8y+TKKzual1ZcQwKOMr5WESC?=
+ =?us-ascii?Q?vtzehZQbj4Bd1t0H2DnGP+xGke3ft6WKTSPadthR2PKcXa983DtMN6sHGiAI?=
+ =?us-ascii?Q?qC/PT3E3gYnry8gJ39Y6eUzO3T+9UoLf7hJuegXMaljtSJgrBU/zcc2lN/XI?=
+ =?us-ascii?Q?JDTzSOGrRrtvNflqmYHD8q+9oNG5f6QOZ9fLW2fFHGQGJ1kQPyTdUHRzn7Di?=
+ =?us-ascii?Q?9rWukmDYF2iKBX4BmgZENboTuTFxRZCkmAuVHuwXWp9U32cKBMmeqQZAXd0S?=
+ =?us-ascii?Q?XNVms56q5/Rv9u92OJne8U7vEb8izzeA60A1jXCNGk+wAXdeQAx7CAMf8F0T?=
+ =?us-ascii?Q?/c3z7X88mzK5NzxeDQqJXKtkLXAfCjhYjLK3TyAeVmAvu5l5iw8Ldyifs8n7?=
+ =?us-ascii?Q?PQRzEf/36FkM2wYq0OJsuV4w5Vv3Fkj5uvY3XjBqo+dyokTHl2q6/b+Mm45W?=
+ =?us-ascii?Q?477f5qiPIau56UvBAnVPGXQpDeUsM2q/PLTc+UTVCauz9UjEibTW/9Yj62Rz?=
+ =?us-ascii?Q?UmiEw6fhkhKGprpFjx0CsXrB26CO4TYkIoyN3rEn6G+Jv4UfTpcTHZGe7ZRy?=
+ =?us-ascii?Q?Y2lf6RMYMFC/AvFW+go0r5ezEjsKEDRJtIhiZfjFE0KfiU7y3Ur0ixgKF2Oj?=
+ =?us-ascii?Q?XULmlEhPU0i1o0EIJ6Dm0bVHjZuWRoLCayxCdf5ZvxvnH04HydeTtXbphzH1?=
+ =?us-ascii?Q?LJ4ZOabhm2et0uAEkZnTFwHPLBnuLKIKtiQl8HtDs1hj0CEt6VVYjJzgGGww?=
+ =?us-ascii?Q?YdhdjS645rlwhKFsE4izav4zGBX0r+FP0D2Jgmz/rYs9VXJJjsPN27pfDw5z?=
+ =?us-ascii?Q?/cwf6YAVHmL7lN9qzjqB9fhp5CegXNaskjko6SHoQV2av1nJFeMbqsZ0r3R4?=
+ =?us-ascii?Q?GgTu3XoYa5ktMxeN6jl3m6tJ7yu0gfP9?=
 X-Forefront-Antispam-Report-Untrusted: CIP:172.205.89.229; CTRY:IE; LANG:en;
  SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:nebula.arm.com; PTR:InfoDomainNonexistent;
  CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(36860700013)(376014)(82310400026)(921020)(13003099007);
+ SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(921020);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA6PR08MB10593
-X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:10:2e::21];
- domain=DB7PR05CA0044.eurprd05.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU2PEPF0001E9C1.eurprd03.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB9374
+X-MS-Exchange-SkipListedInternetSender: ip=[2603:10a6:10:553::7];
+ domain=DU7P194CA0027.EURP194.PROD.OUTLOOK.COM
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: AM4PEPF00027A68.eurprd04.prod.outlook.com
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 90491689-a6d6-4550-a5f4-08dd412f4aca
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 250177de-9e0c-40fa-488a-08dd412f4ac8
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|14060799003|82310400026|35042699022|36860700013|921020|13003099007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+7tLdQwF9Dq/cYuhkQcl05VisiaUxpiFO2/z6EIuyFVIndm6pyzJBR+8wkro?=
- =?us-ascii?Q?/eF76BHeRq6/7MiQHx4qGUEupDZFjP0qixsXk3Reg9sCvtxmw1lIqHvn7rNA?=
- =?us-ascii?Q?WUG5TrL1wgxbwDnHa/fsr8nQ7Y20b3tpYNvnWzv/CSG1DyXbO3aHzSg4kTkw?=
- =?us-ascii?Q?Nxvi/71nW0o/UTA3x/LlAs8Fs5ZgxEFN9rGjp/7a56WJtwhY3uSoqRLTqkaA?=
- =?us-ascii?Q?dnXH3v/ik9cnkCnWMAdV9XeMCUh0Q2+4CQyP3rK32UHgljwVMKWIWjWEVO+9?=
- =?us-ascii?Q?9eaO7BDaj/yStdg7g17+kZT0elxO1uVs/N3NAuHX7InB6meeExgtwIeu1vZo?=
- =?us-ascii?Q?0EBKOEU03kjGHREh5vrkeB+9L5rJH0N2wsN1jamegh/XkTdoSzFOsilmL3sm?=
- =?us-ascii?Q?ZDUHbn9AU/mxigU/RfWt4ANN+wPn7zwRCUXHqmJTs3ieFONaHKOpEDdD+3tL?=
- =?us-ascii?Q?X5my/5CgcxLhbyuwvu5JqVoWqcIbyADmLXaw2nW42fZLZw2W4/Q4OnY3JGPd?=
- =?us-ascii?Q?Ag1P7UBXhrHEsqh/GPgnEGqhIUcBnXGgweTgbobGVGEmWAjBK3h2l8pxWOAv?=
- =?us-ascii?Q?FD/rCwFausb6iI/cpKQPjhSPBByv4b1+SwOhuFLNg4Os8hrIky0sHtwwLH0+?=
- =?us-ascii?Q?hc84uSkI/yw/yw0Pm45AE5loSBoYc3cyzYhsUe2zhwBrWWn43aAn1C5ZJtTF?=
- =?us-ascii?Q?pRWhroWut66RprSuNMarOsss7DHuzzT2GnidJv9HZ5cEw1teLEmTrm9h7DkV?=
- =?us-ascii?Q?kMVuhxCdDJOgJhTo/V8h/+EpL/h9jZsOmUrPHzU/MY/3SfT9A/OdxUe8VgtV?=
- =?us-ascii?Q?aC6Hys11aEpiVjDXnaYIxhYqqGYcbhxfb1F/BdcaKlAuqmX4Ixp5fNKggvGa?=
- =?us-ascii?Q?v50A5E+80KFzWdgEs463xKNlLF3iyJaPEshl1HMy1R03E7462ItfGxb9ys/4?=
- =?us-ascii?Q?QBfgj7YHpedafpOTFBdRbmUvSsEFrau5dLKpK9KFz/6f1ojNNUZg8BrlWx8K?=
- =?us-ascii?Q?0zNCQe0T+RpSSU0JZ/djW9/WXS/e2fYTCun5kbBJAvkHewEWjvqk7CFkOX71?=
- =?us-ascii?Q?jxhtMnoCzrc/d60xZn0kWlH7QzKUFeYQ92hVKwhXWZFs61AI8BBsfKqx4PJT?=
- =?us-ascii?Q?juo2bmdC9UerAuc8jExrTvLGAnoQRYbDPWkb4Y73ufDcL+T2VC4P7gyaPBAU?=
- =?us-ascii?Q?MDNJcBQPT5kF3mc8+vJTMeVqqFUuaZAxSj0jd2ZqBR2xTpz++5nzOwLchSJh?=
- =?us-ascii?Q?NgzoSMtBbDGW/sC/kh2dm+B9xI1z7K4k3y7Z4w0we9LBvwZo+b2TYwrAgrvq?=
- =?us-ascii?Q?0Z/+/2Rxc7POIxSVTut28qCZzeTH/En6o1Atbmb43TQdxswTHBs/grZQgeBp?=
- =?us-ascii?Q?R+IQc8GnO536mRevlS2eyYCNf3XTg0sA7HQcndw8nFLx1DFcdRLxjr1SJgd1?=
- =?us-ascii?Q?0mkpDFBHsYmmfcIbubKR6Z7zc6EMGG/TwQ7pK1dfeinYqHGDdQRgIQ=3D=3D?=
+ ARA:13230040|36860700013|82310400026|376014|1800799024|35042699022|14060799003|13003099007|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?TrfzJDYWXfnRg3DeSgBMPKWDlFDbC4DGIyZvkg8Xs2xf7SsKzRg/9Z4LDIRu?=
+ =?us-ascii?Q?48+EN0AgWSCTifYdj1tt8rmqieAH5+ZJMVFfsBDwaspbscE8ClL+Aqt8GxoS?=
+ =?us-ascii?Q?ivzZ7+akudKGn8z7v74/7hrJkRRHZDXCa6HckHQxmcQ2ruxzlIBvPZgqs3DU?=
+ =?us-ascii?Q?DqUAdnH68bLr9NLlBa60xIrvSGdfc0c07ne4DVE1/aVZdoKcp24/TeWKP+Lu?=
+ =?us-ascii?Q?OER6lFTW7IfsTh0mUdGkI6482JHtQJOK/QImQn9M2U5VrsEpTC1Ix7Ye5tgI?=
+ =?us-ascii?Q?wBnGnv17rYmkV242P0rKe6RYR4iLfbp5DU2p82j/KbGB5Zz2SFG70Uq3g/oH?=
+ =?us-ascii?Q?H7l8YLXJzdZyMWPjqoG0Ne8Jlhs1uqqvbEbhdV1SocjosKYQEpowTj+6S+je?=
+ =?us-ascii?Q?DvVE/ClnDbeSvsXuPplCUrowZIWKbLmlX6z0Xj6+x8pdLr3EoGN1/MYeGTQq?=
+ =?us-ascii?Q?1AdTjbFFP3+qDtXk5mLSKubKNWtRjkXnQFfo8ZtQRpFvg9SsHUNjtN8F52vX?=
+ =?us-ascii?Q?c8nMbSgvieHd7POJb3KUZMCD0mWIo8OhudwsTDJ+PgmD1KVxAKhd9oGytzVn?=
+ =?us-ascii?Q?oY0gqS6wRSY77tVz1WdVI0WuLUuF0wJcVqcAAfcuMjGxgyHhbVzUhPa1V2A8?=
+ =?us-ascii?Q?lOeJi/LbX50QvKqPjq9JuCMeZn5sVb98xXZID/zzHUzs57tAdmeOVO3tX1zS?=
+ =?us-ascii?Q?MqJnNfEz5yUZ7EDCKFJa9bWmtnUSbsKINw/PZtVibhyYFG26CKQv0fGl8c9m?=
+ =?us-ascii?Q?CU0Jf+EhTYb1jhyQl+FkE9/gXuyLjVZGXQlCZQpSLQlt0x/F8lTJIDKlT/v2?=
+ =?us-ascii?Q?hEGPfTcVC3vwxqouZxBlUY30NFYVX5jgLIvQM+6EfHJLPqnVKlAqYbSffYPZ?=
+ =?us-ascii?Q?Wu6wvfynAntXw4/tKIdV4qgzCft2E4yh/Hmkncl+2rq5yFwvBDvZ0XownX2m?=
+ =?us-ascii?Q?AlFFotWxtqPw6QMKri+WORTi5Hf6lmIyhOLzddrZSWUOLxkrO80c8FDeKj4i?=
+ =?us-ascii?Q?45ISm+P/WoPh2UCXzSfOShYB/5KeR8U+tlr/Ck5ggZAz7b9R7CTCjz0KAXLn?=
+ =?us-ascii?Q?w0MFQg5MLiL5EQGPLyOH2aJVofaI49mKx2CkmreW6/aMgg8sWvyq6XpzhSRf?=
+ =?us-ascii?Q?JydqC3+RaabIyYSz5neEm8XbtLc+AtwG7brlfn/Yz6sJTTRnjxts7IGDR347?=
+ =?us-ascii?Q?lRRlUToStg0BCg05JyYuBHuE+R/LXZuxXuTEwke0PJta69LB0dpYILurF814?=
+ =?us-ascii?Q?ys+LQUg3BcldQjeZ42Utydz0MgrWCJDU3J6ya05j14sULob2ZFekTomq+P8Y?=
+ =?us-ascii?Q?H93e8Lxqg1m3guqZZ4DrW/GgQ5cE0CZJVyjSgz9rBPk/JJJhsZ5Ob4782DRU?=
+ =?us-ascii?Q?xyLmpMRSKPrxUcdkF1l5RU2260CKDorV+cVvREM/dIkqagGuExdV5tn59nV3?=
+ =?us-ascii?Q?Dr4ZDO2uBoEh7dKiAxNM14hxAgn9n53I?=
 X-Forefront-Antispam-Report: CIP:63.35.35.123; CTRY:IE; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:64aa7808-outbound-1.mta.getcheckrecipient.com;
  PTR:64aa7808-outbound-1.mta.getcheckrecipient.com; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(14060799003)(82310400026)(35042699022)(36860700013)(921020)(13003099007);
+ SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(35042699022)(14060799003)(13003099007)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 13:09:28.6912 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: df2a0bab-1a09-41c5-5ce8-08dd412f544c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 13:09:32.4862 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74ad0537-4039-45ae-a878-08dd412f568a
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[63.35.35.123];
  Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF0001E9C1.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: AM4PEPF00027A68.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10710
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8691
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -246,237 +244,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Introduce a CMA Heap dt-binding allowing custom
+CMA heap registrations.
 
-This is a patch series covering the support for protected mode execution in
-Mali Panthor CSF kernel driver.
+* Note to the reviewers:
+The patch was used for the development of the protected mode
+feature in Panthor CSF kernel driver and is not initially thought
+to land in the Linux kernel. It is mostly relevant if someone
+wants to reproduce the environment of testing. Please, raise
+interest if you think the patch has value in the Linux kernel.
 
-The Mali CSF GPUs come with the support for protected mode execution at the
-HW level. This feature requires two main changes in the kernel driver:
-
-1) Configure the GPU with a protected buffer. The system must provide a DMA
-   heap from which the driver can allocate a protected buffer.
-   It can be a carved-out memory or dynamically allocated protected memory region.
-   Some system includes a trusted FW which is in charge of the protected memory.
-   Since this problem is integration specific, the Mali Panthor CSF kernel
-   driver must import the protected memory from a device specific exporter.
-
-2) Handle enter and exit of the GPU HW from normal to protected mode of execution.
-   FW sends a request for protected mode entry to the kernel driver.
-   The acknowledgment of that request is a scheduling decision. Effectively,
-   protected mode execution should not overrule normal mode of execution.
-   A fair distribution of execution time will guaranty the overall performance
-   of the device, including the UI (usually executing in normal mode),
-   will not regress when a protected mode job is submitted by an application.
-
-
-Background
-----------
-
-Current Mali Panthor CSF driver does not allow a user space application to
-execute protected jobs on the GPU. This use case is quite common on end-user-device.
-A user may want to watch a video or render content that is under a "Digital Right
-Management" protection, or launch an application with user private data.
-
-1) User-space:
-
-   In order for an application to execute protected jobs on a Mali CSF GPU the
-   user space application must submit jobs to the GPU within a "protected regions"
-   (range of commands to execute in protected mode).
-
-   Find here an example of a command buffer that contains protected commands:
-
-```
-          <--- Normal mode ---><--- Protected mode ---><--- Normal mode --->
-   +-------------------------------------------------------------------------+
-   | ... | CMD_0 | ... | CMD_N | PROT_REGION | CMD_N+1 | ... | CMD_N+M | ... |
-   +-------------------------------------------------------------------------+
-```
-
-   The PROT_REGION command acts as a barrier to notify the HW of upcoming
-   protected jobs. It also defines the number of commands to execute in protected
-   mode.
-
-   The Mesa definition of the opcode can be found here:
-
-     https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/panfrost/lib/genxml/v10.xml?ref_type=heads#L763
-
-2) Kernel-space:
-
-   When loading the FW image, the Kernel driver must also load the data section of
-   CSF FW that comes from the protected memory, in order to allow FW to execute in
-   protected mode.
-
-   Important: this memory is not owned by any process. It is a GPU device level
-              protected memory.
-
-   In addition, when a CSG (group) is created, it must have a protected suspend buffer.
-   This memory is allocated within the kernel but bound to a specific CSG that belongs
-   to a process. The kernel owns this allocation and does not allow user space mapping.
-   The format of the data in this buffer is only known by the FW and does not need to
-   be shared with other entities. The purpose of this buffer is the same as the normal
-   suspend buffer but for protected mode. FW will use it to suspend the execution of
-   PROT_REGION before returning to normal mode of execution.
-
-
-Design decisions
-----------------
-
-The Mali Panthor CSF kernel driver will allocate protected DMA buffers
-using a global protected DMA heap. The name of the heap can vary on
-the system and is integration specific. Therefore, the kernel driver
-will retrieve it using the DTB entry: "protected-heap-name".
-
-The Mali Panthor CSF kernel driver will handle enter/exit of protected
-mode with a fair consideration of the job scheduling.
-
-If the system integrator does not provide a protected DMA heap, the driver
-will not allow any protected mode execution.
-
-
-Patch series
-------------
-
-The series is based on:
-
-  https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.com/#t
-
-[PATCHES 1-2]:
-  These patches were used for the development of the feature and are not
-  initially thought to land in the Linux kernel. They are mostly relevant
-  if someone wants to reproduce the environment of testing.
-
-  Note: Please, raise interest if you think those patches have value in
-        the Linux kernel.
-
-  * dt-bindings: dma: Add CMA Heap bindings
-  * cma-heap: Allow registration of custom cma heaps
-
-[PATCHES 3-4]:
-  These patches introduce the Mali Panthor CSF driver DTB binding to pass
-  the protected DMA Heap name and the handling of the protected DMA memory
-  allocations in the driver.
-
-  Note: The registration of the protected DMA buffers is done via GEM prime.
-  The direct call to the registration function, may seems controversial and
-  I would appreciate feedback on that matter.
-
-  * dt-bindings: gpu: Add protected heap name to Mali Valhall CSF binding
-  * drm/panthor: Add support for protected memory allocation in panthor
-
-[PATCH 5]:
-  This patch implements the logic to handle enter/exit of the GPU protected
-  mode in Panthor CSF driver.
-
-  Note: to prevent scheduler priority inversion, only a single CSG is allowed
-        to execute while in protected mode. It must be the top priority one.
-
-  * drm/panthor: Add support for entering and exiting protected mode
-
-Testing
--------
-
-1) Platform and development environment
-
-   Any platform containing a Mali CSF type of GPU and a protected memory allocator
-   that is based on DMA Heap can be used. For example, it can be a physical platform
-   or a simulator such as Arm Total Compute FVPs platforms. Reference to the latter:
-
-     https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms/Total%20Compute%20FVPs
-
-   To ease the development of the feature, a carved-out protected memory heap was
-   defined and managed using a modified version of the CMA heap driver.
-
-2) Protected job submission:
-
-   A protected mode job can be created in Mesa following this approach:
-
-```
-diff --git a/src/gallium/drivers/panfrost/pan_csf.c b/src/gallium/drivers/panfrost/pan_csf.c
-index da6ce875f86..13d54abf5a1 100644
---- a/src/gallium/drivers/panfrost/pan_csf.c
-+++ b/src/gallium/drivers/panfrost/pan_csf.c
-@@ -803,8 +803,25 @@ GENX(csf_emit_fragment_job)(struct panfrost_batch *batch,
-       }
-    }
-
-+   if (protected_cmd) {
-+      /* Number of commands to execute in protected mode in bytes.
-+       * The run fragment and wait commands. */
-+      unsigned const size = 2 * sizeof(u64);
-+
-+      /* Wait for all previous commands to complete before evaluating
-+       * the protected commands. */
-+      cs_wait_slots(b, SB_ALL_MASK, false);
-+      cs_prot_region(b, size);
-+   }
-+
-    /* Run the fragment job and wait */
-    cs_run_fragment(b, false, MALI_TILE_RENDER_ORDER_Z_ORDER, false);
-+
-+   /* Wait for all protected commands to complete before evaluating
-+    * the normal mode commands. */
-+   if (protected_cmd)
-+      cs_wait_slots(b, SB_ALL_MASK, false);
-+
-    cs_wait_slot(b, 2, false);
-
-    /* Gather freed heap chunks and add them to the heap context free list
-```
-
-
-Constraints
------------
-
-At the time of developing the feature, Linux kernel does not have a generic
-way of implementing protected DMA heaps. The patch series relies on previous
-work to expose the DMA heap API to the kernel drivers.
-
-The Mali CSF GPU requires device level allocated protected memory, which do
-not belong to a process. The current Linux implementation of DMA heap only
-allows a user space program to allocate from such heap. Having the ability
-to allocate this memory at the kernel level via the DMA heap API would allow
-support for protected mode on Mali CSF GPUs.
-
-
-Conclusion
-----------
-
-This patch series aims to initiate the discussion around handling of protected
-mode in Mali CSG GPU and highlights constraints found during the development
-of the feature.
-
-Some Mesa changes are required to construct a protected mode job in user space,
-which can be submitted to the GPU.
-
-Some of the changes may seems controversial and we would appreciate getting
-opinion from the community.
-
-
-Regards,
-
-Florent Tomasin (5):
-  dt-bindings: dma: Add CMA Heap bindings
-  cma-heap: Allow registration of custom cma heaps
-  dt-bindings: gpu: Add protected heap name to Mali Valhall CSF binding
-  drm/panthor: Add support for protected memory allocation in panthor
-  drm/panthor: Add support for entering and exiting protected mode
-
- .../devicetree/bindings/dma/linux,cma.yml     |  43 ++++++
- .../bindings/gpu/arm,mali-valhall-csf.yaml    |   6 +
- drivers/dma-buf/heaps/cma_heap.c              | 120 +++++++++++------
- drivers/gpu/drm/panthor/Kconfig               |   1 +
- drivers/gpu/drm/panthor/panthor_device.c      |  22 +++-
- drivers/gpu/drm/panthor/panthor_device.h      |  10 ++
- drivers/gpu/drm/panthor/panthor_fw.c          |  46 ++++++-
- drivers/gpu/drm/panthor/panthor_fw.h          |   2 +
- drivers/gpu/drm/panthor/panthor_gem.c         |  49 ++++++-
- drivers/gpu/drm/panthor/panthor_gem.h         |  16 ++-
- drivers/gpu/drm/panthor/panthor_heap.c        |   2 +
- drivers/gpu/drm/panthor/panthor_sched.c       | 124 ++++++++++++++++--
- 12 files changed, 382 insertions(+), 59 deletions(-)
+Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+---
+ .../devicetree/bindings/dma/linux,cma.yml     | 43 +++++++++++++++++++
+ 1 file changed, 43 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/dma/linux,cma.yml
 
---
+diff --git a/Documentation/devicetree/bindings/dma/linux,cma.yml b/Documentation/devicetree/bindings/dma/linux,cma.yml
+new file mode 100644
+index 000000000000..c532e016bbe5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/dma/linux,cma.yml
+@@ -0,0 +1,43 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/dma/linux-cma.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Custom Linux CMA heap
++
++description:
++  The custom Linux CMA heap device tree node allows registering
++  of multiple CMA heaps.
++
++  The CMA heap name will match the node name of the "memory-region".
++
++properties:
++  compatible:
++    enum:
++      - linux,cma
++
++  memory-region:
++    maxItems: 1
++    description: |
++      Phandle to the reserved memory node associated with the CMA Heap.
++      The reserved memory node must follow this binding convention:
++       - Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
++
++examples:
++  - |
++    reserved-memory {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      custom_cma_heap: custom-cma-heap {
++        compatible = "shared-dma-pool";
++        reg = <0x0 0x90600000 0x0 0x1000000>;
++        reusable;
++      };
++    };
++
++    device_cma_heap: device-cma-heap {
++      compatible = "linux,cma";
++      memory-region = <&custom_cma_heap>;
++    };
+-- 
 2.34.1
 
