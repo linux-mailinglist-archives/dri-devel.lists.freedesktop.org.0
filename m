@@ -2,151 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B724A22EB0
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 15:08:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ABFA22F89
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 15:23:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B65D10E98D;
-	Thu, 30 Jan 2025 14:08:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94E6810E98B;
+	Thu, 30 Jan 2025 14:23:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="iO5lIBQB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Es7vPwS5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2082.outbound.protection.outlook.com [40.107.244.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F095510E98D;
- Thu, 30 Jan 2025 14:08:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qMF5W+o/NSy0Qn4SFOIhe9Dnw/5Pp+uSpDRr78d7Q9kcvjnSsJtT4xVsyK1oOA9mp2dpNiFa+fw+g8BBOIue1HqbP/GhVeGgccCZpfhORPZMwzqMzfluYMPKur/cZYH4Si7JzylhkJTo7fbloYSi2sF1iyNiM/xlUz4dn7pk72pIeOv/eIKwt/oBmVU9Egl20UG7H00TGcdtUxItTgtSlf3Lve5gMU58TMkK5WgqY2rxqyPPxOBz5u0WHpTCcetKXW9JsC/cfN8oyVv95bU23T1IBzYZPBFlCyIlNDYjvtc5M0e1fHpj3Pi7n1dmBSvi/BVR+GWjSFNK0lQDG3644w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aVKrKUm2zojmnP7ZlMPfQYyg8t657KC/bf1LMjJaFf0=;
- b=HR5qkrBU/Z/eQGui4v/6d/B7LNAiwEW85FCI0pMXq+LnhmV5L6ZQfN1qjR9P+HWaI+RgIHbM36OYxZ8HwAIPssdzHp1hGyN3LO8HgOMcdt1IDiQTrnW0pLjTO2PmVUiTNLMGJK8tRpIgtQb3RTTWZJ6QEbF5SRMEm9lt1qKD860wTadYsYZDjDqPnOqADpzNvrxkcwBaLYj9Igsc+9l6aiULR54gSz9NewhxHvg6LE/7CBhE2AiOOsMRwArld3A4qakZivmHzoxklhw5MR5D6+BTZIzded/FjuDCdGa2Ssjn+/1WA1Ry/QfcwupLY72XtzPysVIc5jzBWs3cC2Fq2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aVKrKUm2zojmnP7ZlMPfQYyg8t657KC/bf1LMjJaFf0=;
- b=iO5lIBQBsmSn1C042Du7xRDH9T3dq4Oc50ayyDs8670LUgXib1M0HSm5x5hBYyTCcRAvAKx0Yd6KhRW1xWufo7NtfQwaiRBknEI+Ggk+eIk8GIc01I4VMH9wyxCI7+WTy68FjCh2GTo0kGzTZyq3yk9lzTMOjnQ7tVdmV2BDTvwERO/nALsq2XNgbf8A9JAldTzsUy4eJmFVvc+AnDP/uo3Emo001Gc9orexej/eGstEi0ewXjJqKA4h+A8yWUyXUBFvz3LwnucXMOr0932eYuFT9ShNPmDQ7XI5QAGEchHr6q8ntTcluPs3CVVBMr8v5otXfdYEX04JvL7OI2QRrA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SJ2PR12MB8012.namprd12.prod.outlook.com (2603:10b6:a03:4c7::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.18; Thu, 30 Jan
- 2025 14:08:33 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8377.021; Thu, 30 Jan 2025
- 14:08:33 +0000
-Date: Thu, 30 Jan 2025 10:08:32 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>,
- =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v1 08/12] mm/rmap: handle device-exclusive entries
- correctly in try_to_unmap_one()
-Message-ID: <20250130140832.GM5556@nvidia.com>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-9-david@redhat.com>
- <Z5tQL60SNNGCkfQR@phenom.ffwll.local>
- <59feb709-dadc-4d19-857e-49320cca3d98@redhat.com>
- <Z5t5RKFwl34vpqU4@phenom.ffwll.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z5t5RKFwl34vpqU4@phenom.ffwll.local>
-X-ClientProxiedBy: BN8PR16CA0016.namprd16.prod.outlook.com
- (2603:10b6:408:4c::29) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 801038924B;
+ Thu, 30 Jan 2025 14:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738246981; x=1769782981;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=PE74vHnQne5VUV42hgwUYXWS5nlgBFa+nP4B1MIDu8g=;
+ b=Es7vPwS5JKvlPRP/biWaEhs8dFtoooZa37Tf391uY/7C9EDOQirxokMP
+ BrJClDh3eP8UexRcd1FC5UD+8lDLkbaXxcZ1i0TQYI8rkh03aBIxrHoS3
+ r/rQ+3GZm77OIPND5SdmUyFkfpS8idzU9jo+BPMW2pErNTwWLXVUce9pw
+ YxawOgLZZK08E5Yrs3zFG9VTHrlBfiXY4wtAogBUEdm+XDDWptA2rduw4
+ 5MoKZiFXGC+riXx1qSQQy01IXgOnhbFpOcVAxpHNhLX0H4q8NTsOilraJ
+ aJ/Y4YLHNZhp0trlRW/pv5+l+yM8DM5ScO5oPvOSFd/wsWbhoaEJ+oDr2 Q==;
+X-CSE-ConnectionGUID: he4wz+LcRO6a0UaQmnmIUA==
+X-CSE-MsgGUID: icUrDBJ+RI6RUd3ewa6OtA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="26395123"
+X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; d="scan'208";a="26395123"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2025 06:23:00 -0800
+X-CSE-ConnectionGUID: EoYYVc8MS0qAWFZYaNLwfg==
+X-CSE-MsgGUID: xA4ClSBaTrO3q51OEtKg5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="146534318"
+Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.244.112])
+ ([10.245.244.112])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jan 2025 06:22:57 -0800
+Message-ID: <01d5d109-aef5-463f-9475-22c2483501a3@intel.com>
+Date: Thu, 30 Jan 2025 14:22:55 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SJ2PR12MB8012:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0efc02c-3544-444b-b6b4-08dd413794a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OLIQX0gZGMGbWzgw8aVl0nO0rJvPrGr2aMYu/TkGErm9ehthl7FcLyqlhdMT?=
- =?us-ascii?Q?mZcPiO1nSxkvXZWyhIMLLD9LPEcpQ0OEBdVaHNpcgQ5Dhm5WunF/Y1Jh4BxH?=
- =?us-ascii?Q?Kvd8ABb/TjgGu/kFihfb+gWjGPSov0oCXWK0NFC5+IH/M0Yx+kFWOu5r+mWg?=
- =?us-ascii?Q?pnCmJkJkzeKJdNko2AkfhdBbWBCesXfvdcAWv/lzKWChQM74+WD+TynEv1RQ?=
- =?us-ascii?Q?SQlsoYcum72AKJ0Cxff+fH1w3lVVc4RilRCnS46K9Wf7lBZPggMwy+RT2mDO?=
- =?us-ascii?Q?CBhjI3tjls9KgVN+Vuvi9DO68QOQvvMKq+9zLuKfukaBg7ttD5Ju/GDv5CHX?=
- =?us-ascii?Q?RkLyZBTUiyyMJXFZ7wQeWZVHunKvFa+FmluLzcMWH9KitfJNDtyw3cpNfXR6?=
- =?us-ascii?Q?O12CoR+lDL33UnB3drRTsY14clUiAda/iBZLymRNzkQQ7w+7lOPiEN8inT62?=
- =?us-ascii?Q?8SLolQEWSAWUfcy5mmKLdpQPypLQQJYNtzFFxg9aeMtqFvmRazBXF6SQpuvi?=
- =?us-ascii?Q?E/lOkoBcvmeJsu3arNFQFwtrBkA6CKLT1WE4rHQb7vjWEETQaYHNn3N6dIo3?=
- =?us-ascii?Q?UIBAz9BwzF2CSSKieRHzwJDluAeD2N6ZoMuU0dBiobdRliU/dzkAqLaQigy8?=
- =?us-ascii?Q?KPwfu0l1KXykDsrGzYB85JJcqPXcu3OiumU1dAkueG71qR33Q05YEaVkVAq5?=
- =?us-ascii?Q?+G+/o6UoAVvQ3CH1//n6k8R6RNt8Oi1iiXwRRkgw9w9mjLqkXlvsHexQcdl+?=
- =?us-ascii?Q?C/VXx8C9HQQD53zlpt5yMUZuk2VCIi7xzFZdwCkkI8ah9Fw6WLHs8LeUkB7W?=
- =?us-ascii?Q?ydsleJ2s4CHkp5i0PMyiDIildJp9hR61vJgwhMryDhwgcw7OrBQNev68BzOq?=
- =?us-ascii?Q?8QQ5Ex5X2gAkx9UYxL/3zRuRgBZNlvfTQ8TGvc5SizWKdMFPYLDmaP5Nkz1Z?=
- =?us-ascii?Q?7KwtHWi23FHNa9jDkNnokI8Poy3wOJw7gcUfAZryrf9o0zyVtXb7QVUDpH7w?=
- =?us-ascii?Q?/Zg49WUkLZGJwmZZXngwL6Z3lSF8uVv7hCoYr6bia+9uc9NU061m/Kmhet/q?=
- =?us-ascii?Q?Fus4FPaIYyTKU+n2Ws7FSWj2gp3ZRFuoUKB0KQEc0g/C4XtZCTH81Mq9fl6E?=
- =?us-ascii?Q?u4AylSy+rH8u6CA50aUtFu1186fX5zs/DRqc1hHyBHF0/5VpzMbFmrAkFWOA?=
- =?us-ascii?Q?H6GaD2Bo2s+s3LqJ/xyvmqzn5y05S9kqCvxE2qQk1vcG3EB/mk81YympCZ4y?=
- =?us-ascii?Q?KTT9Oa41m1J6OcUvaiXhSd2k0sJ0GEj3ilKYN/JXs6JJO3pOH8n49IT0t7/a?=
- =?us-ascii?Q?0fbFf7vy98SQg+CQF0wGAc8gyaS/ebstiQkX5TCe3VLihP30b3ab1MO50GWa?=
- =?us-ascii?Q?QJYNufpfXgdtBMn+l7WYFAAWYKF5S0BwOPdboQMRLJ7v/+bgcqbajxdSKOMN?=
- =?us-ascii?Q?t4cyQIBnleg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB8659.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lvqYAbFMzlZXIiM1Eh0WMAWPrmx2bOgsKGtsLN4qSvnDa2o29/zuWwn9YlQo?=
- =?us-ascii?Q?Q+SDF0rkpaYR3pxZgC23vr7znjhlMuG76B9Mi0vkoM8qxnh52oQ7kAkeNMAD?=
- =?us-ascii?Q?eETfswwoG8/+da/Nc+0f7jCNRH6vSBIHQtDHIsg2OGqWBpyPhG7Iq28CVka1?=
- =?us-ascii?Q?/0FOe1oof965yjoBH4xW9x/o1SiNlTm0NgShyWr447nntGiIGeI/UQfkKdic?=
- =?us-ascii?Q?dU5f32ZwidyHnmo5PlRR1fghpCO5BbcAux+Pq5nmOcSeeOVvXxCaWrBQRQ5s?=
- =?us-ascii?Q?zDJBASRy7vHJJ1FfnnAR6JLMfIYOeN9TELPsCIj2R4eMz9Ty4x9U+uSPku6B?=
- =?us-ascii?Q?aK4jwIecMOCuSDiQKEWhDREeoCLt8D7W/xo1sSzspqKY+XivhP/jcQNLryug?=
- =?us-ascii?Q?+EPgu2VXLB6hBnGCCQeiCysQCzIr791UWxZbSQYj6gwR5m29oHvW4qC1ideB?=
- =?us-ascii?Q?TRRfsVDkXhvMTJ+p3+V30u4GTSN7v7o3JRNGk9q3jbh7vtZsAL1F6hym2tnJ?=
- =?us-ascii?Q?bNnomuTno/5gyXk5B1s1fPZLsrfE0Hr0Evea3bkGW5ASchnxzxFbdK5Cs8lO?=
- =?us-ascii?Q?8dcBinJVyHFOo13xQROkPpPVkolva7LxhMWTzNVz6o5zELx5m7WHhnLSEa5x?=
- =?us-ascii?Q?y6d6zoLcHXqWvIbRsR5Tz1hbEJBgn2ZI4VpOUJZwXRfcwtO1eUmTQZi4Nl3c?=
- =?us-ascii?Q?ab60FlVWIJAxHlXnJU3K38TBgCBlPwFVit5vhKq91gZeqUZ7rOTgz0jeZsGa?=
- =?us-ascii?Q?i9j2CpZC2jPaoTAoNVFEzFfPHTYH7bUAQdf3O0rdTr02ZZa/+OC2FnztKhMm?=
- =?us-ascii?Q?diNOvJDlMPYed7PE0jBycDXpVqlG2GogO9xbeD0VLeX4WqsbH2/tmSR0aNd/?=
- =?us-ascii?Q?RJ/V7OyUeChPpTp+8A/mp2dD/jGLDOZCKs1EZS0BF9WAPzY0WfI2SvIZpDtp?=
- =?us-ascii?Q?Bkbsuf/89d/G92ZNlKAtaBP/C7VqufODHaCbw0H3H9/x82Dabg7UDpMXuJHi?=
- =?us-ascii?Q?2bo3WlrHp5iTVBZ0cqqIAUfz8wEXT+0ekNBnsiQnXAQxRAKM4kv7guJBluxt?=
- =?us-ascii?Q?cz2xl4PK1R2ycrGigu/a+BsjlU085EbpJWbJ0113TAwfbXR0o1SkjJKD42Qy?=
- =?us-ascii?Q?wAMhU9uQhFNNNs5y2/wzsJBqmfNyPvun2qgaTWz4tflZCwjA5y8P7OE8HIMJ?=
- =?us-ascii?Q?wu0Ut9a44Jv6Mc2Rc26ZUxUZqOsS67wFdLpe2KZ+cB11EL8K6W8NwfsRSKYn?=
- =?us-ascii?Q?F/i28/zkruZ3+ExvYuLzSalb1IpGF3blQPQ92PxP+MYQCBwpv/9xgpySoKM6?=
- =?us-ascii?Q?/clXtQ6z1BXA5J7vyZpBs+JPP2Vvqq5HAttAAGN4f+VqcZLUV+2EjOUn8wTX?=
- =?us-ascii?Q?VZnmTVnnyx1GcXRzIWBMuhvDI7lVG82xZrp7qCF5ZIfvBZk59Muz+7kvr4uP?=
- =?us-ascii?Q?/lzOPdDGFPhT2bx2bu1RaTOG0GuupjOfZ+HsImp/jUVB2WsBSfp1LmZxiRHl?=
- =?us-ascii?Q?UZTbJFMggZHsgIDTG4ooacW6u+GAe7yslsyu34miTQGqdYDdxhEehPiLWqbS?=
- =?us-ascii?Q?tiV/2cVKHDtPjEQIeDE=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0efc02c-3544-444b-b6b4-08dd413794a6
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 14:08:33.2140 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JclOrCHgiypMNGIsI2Na4bCaOuwa861AOxikFXw4wDOpzKtmA1Gm/2/mHuZpGquJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8012
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 28/33] drm/xe: Add SVM VRAM migration
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
+ thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
+ felix.kuehling@amd.com, dakr@kernel.org
+References: <20250129195212.745731-1-matthew.brost@intel.com>
+ <20250129195212.745731-29-matthew.brost@intel.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250129195212.745731-29-matthew.brost@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,43 +74,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 30, 2025 at 02:06:12PM +0100, Simona Vetter wrote:
-> On Thu, Jan 30, 2025 at 12:08:42PM +0100, David Hildenbrand wrote:
-> > On 30.01.25 11:10, Simona Vetter wrote:
-> > > On Wed, Jan 29, 2025 at 12:54:06PM +0100, David Hildenbrand wrote:
-> > > > Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
-> > > > we can return with a device-exclusive entry from page_vma_mapped_walk().
-> > > > 
-> > > > try_to_unmap_one() is not prepared for that, so teach it about these
-> > > > non-present nonswap PTEs.
-> > > > 
-> > > > Before that, could we also have triggered this case with device-private
-> > > > entries? Unlikely.
-> > > 
-> > > Just quick comment on this, I'm still pondering all the other aspects.
-> > > 
-> > > device-private memory is entirely owned by the driver, the core mm isn't
-> > > supposed to touch these beyond migrating it back to system memory in
-> > > do_swap_page. Plus using rmap when the driver asks for invalidating
-> > > mappings as needed.
-> > > 
-> > > So no lru, thp, migration or anything initiated by core mm should ever
-> > > happen on these device private pages. If it does, it'd be a bug.
-> > 
-> > I was not 100% sure about HWPoison handling, that's why I added that
-> > comment. In other regards I agree: reclaim etc. does not apply.
+On 29/01/2025 19:52, Matthew Brost wrote:
+> Migration is implemented with range granularity, with VRAM backing being
+> a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of the
+> TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
+> SVM range is migrated to SRAM, the TTM BO is destroyed).
 > 
-> So maybe I'm just entirely lost, but unless you have a coherent
-> interconnect I don't think hwpoisin should get involved with device
-> private memory? And for a coherent interconnect it's just device memory,
-> which isn't treated very special.
+> The design choice for using TTM BO for VRAM backing store, as opposed to
+> direct buddy allocation, is as follows:
+> 
+> - DRM buddy allocations are not at page granularity, offering no
+>    advantage over a BO.
+> - Unified eviction is required (SVM VRAM and TTM BOs need to be able to
+>    evict each other).
+> - For exhaustive eviction [1], SVM VRAM allocations will almost certainly
+>    require a dma-resv.
+> - Likely allocation size is 2M which makes of size of BO (872)
+>    acceptable per allocation (872 / 2M == .0004158).
+> 
+> With this, using TTM BO for VRAM backing store seems to be an obvious
+> choice as it allows leveraging of the TTM eviction code.
+> 
+> Current migration policy is migrate any SVM range greater than or equal
+> to 64k once.
+> 
+> [1] https://patchwork.freedesktop.org/series/133643/
+> 
+> v2:
+>   - Rebase on latest GPU SVM
+>   - Retry page fault on get pages returning mixed allocation
+>   - Use drm_gpusvm_devmem
+> v3:
+>   - Use new BO flags
+>   - New range structure (Thomas)
+>   - Hide migration behind Kconfig
+>   - Kernel doc (Thomas)
+>   - Use check_pages_threshold
+> v4:
+>   - Don't evict partial unmaps in garbage collector (Thomas)
+>   - Use %pe to print errors (Thomas)
+>   - Use %p to print pointers (Thomas)
+> 
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/xe/xe_svm.c | 99 +++++++++++++++++++++++++++++++++++--
+>   drivers/gpu/drm/xe/xe_svm.h |  5 ++
+>   2 files changed, 100 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
+> index ba1db030bf33..fc030855d078 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -502,7 +502,6 @@ static int xe_svm_populate_devmem_pfn(struct drm_gpusvm_devmem *devmem_allocatio
+>   	return 0;
+>   }
+>   
+> -__maybe_unused
+>   static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops = {
+>   	.devmem_release = xe_svm_devmem_release,
+>   	.populate_devmem_pfn = xe_svm_populate_devmem_pfn,
+> @@ -582,6 +581,64 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
+>   	return (range->tile_present & ~range->tile_invalidated) & BIT(tile->id);
+>   }
+>   
+> +static struct xe_mem_region *tile_to_mr(struct xe_tile *tile)
+> +{
+> +	return &tile->mem.vram;
+> +}
+> +
+> +static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
+> +				       struct xe_svm_range *range,
+> +				       const struct drm_gpusvm_ctx *ctx)
+> +{
+> +	struct xe_mem_region *mr = tile_to_mr(tile);
+> +	struct drm_buddy_block *block;
+> +	struct list_head *blocks;
+> +	struct xe_bo *bo;
+> +	ktime_t end = 0;
+> +	int err;
+> +
+> +retry:
+> +	xe_vm_lock(vm, false);
+> +	bo = xe_bo_create(tile_to_xe(tile), tile, vm, range->base.itree.last + 1 -
+> +			  range->base.itree.start, ttm_bo_type_device,
+> +			  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
+> +			  XE_BO_FLAG_CPU_ADDR_MIRROR);
+> +	xe_vm_unlock(vm);
 
-I'm not sure it is meaningful, but in principle a driver could keep
-track of the poisoned private memory using that struct page
-bit. Perhaps in that sense it is more of a driver private flag than
-something the core MM would touch.
+What was the trick again to ensure eviction is not triggered at this 
+point? I thought there was some trick with eviction_valuable() but I 
+can't find it.
 
-If you have a coherent interconnect then you should not be using
-device private.
+> +	if (IS_ERR(bo)) {
+> +		err = PTR_ERR(bo);
+> +		if (xe_vm_validate_should_retry(NULL, err, &end))
+> +			goto retry;
+> +		return bo;
+> +	}
+> +
+> +	drm_gpusvm_devmem_init(&bo->devmem_allocation,
+> +			       vm->xe->drm.dev, vm->svm.gpusvm.mm,
+> +			       &gpusvm_devmem_ops,
+> +			       &tile->mem.vram.dpagemap,
+> +			       range->base.itree.last + 1 -
+> +			       range->base.itree.start);
+> +
+> +	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
+> +	list_for_each_entry(block, blocks, link)
+> +		block->private = mr;
+> +
+> +	/*
+> +	 * Take ref because as soon as drm_gpusvm_migrate_to_devmem succeeds the
+> +	 * creation ref can be dropped upon CPU fault or unmap.
+> +	 */
+> +	xe_bo_get(bo);
+> +
+> +	err = drm_gpusvm_migrate_to_devmem(&vm->svm.gpusvm, &range->base,
+> +					   &bo->devmem_allocation, ctx);
+> +	if (err) {
+> +		xe_bo_put(bo);	/* Local ref */
+> +		xe_bo_put(bo);	/* Creation ref */
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	return bo;
+> +}
+> +
+>   /**
+>    * xe_svm_handle_pagefault() - SVM handle page fault
+>    * @vm: The VM.
+> @@ -590,7 +647,8 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
+>    * @fault_addr: The GPU fault address.
+>    * @atomic: The fault atomic access bit.
+>    *
+> - * Create GPU bindings for a SVM page fault.
+> + * Create GPU bindings for a SVM page fault. Optionally migrate to device
+> + * memory.
+>    *
+>    * Return: 0 on success, negative error code on error.
+>    */
+> @@ -598,11 +656,18 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   			    struct xe_tile *tile, u64 fault_addr,
+>   			    bool atomic)
+>   {
+> -	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma), };
+> +	struct drm_gpusvm_ctx ctx = {
+> +		.read_only = xe_vma_read_only(vma),
+> +		.devmem_possible = IS_DGFX(vm->xe) &&
+> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR),
+> +		.check_pages_threshold = IS_DGFX(vm->xe) &&
+> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR) ? SZ_64K : 0,
+> +	};
+>   	struct xe_svm_range *range;
+>   	struct drm_gpusvm_range *r;
+>   	struct drm_exec exec;
+>   	struct dma_fence *fence;
+> +	struct xe_bo *bo = NULL;
+>   	ktime_t end = 0;
+>   	int err;
+>   
+> @@ -610,6 +675,9 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   	xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(vma));
+>   
+>   retry:
+> +	xe_bo_put(bo);
+> +	bo = NULL;
+> +
+>   	/* Always process UNMAPs first so view SVM ranges is current */
+>   	err = xe_svm_garbage_collector(vm);
+>   	if (err)
+> @@ -625,9 +693,31 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   	if (xe_svm_range_is_valid(range, tile))
+>   		return 0;
+>   
+> +	/* XXX: Add migration policy, for now migrate range once */
+> +	if (!range->migrated && range->base.flags.migrate_devmem &&
+> +	    (range->base.itree.last + 1 - range->base.itree.start) >= SZ_64K) {
+> +		range->migrated = true;
+> +
+> +		bo = xe_svm_alloc_vram(vm, tile, range, &ctx);
+> +		if (IS_ERR(bo)) {
+> +			drm_info(&vm->xe->drm,
+> +				 "VRAM allocation failed, falling back to retrying, asid=%u, errno %pe\n",
+> +				 vm->usm.asid, bo);
+> +			bo = NULL;
+> +			goto retry;
+> +		}
+> +	}
+> +
+>   	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
+> -	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU mappings have changed */
+> +	/* Corner where CPU mappings have changed */
+> +	if (err == -EOPNOTSUPP || err == -EFAULT || err == -EPERM) {
+> +		if (err == -EOPNOTSUPP)
+> +			drm_gpusvm_range_evict(&vm->svm.gpusvm, &range->base);
+> +		drm_info(&vm->xe->drm,
+> +			 "Get pages failed, falling back to retrying, asid=%u, gpusvm=%p, errno %pe\n",
+> +			 vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
+>   		goto retry;
+> +	}
+>   	if (err)
+>   		goto err_out;
+>   
+> @@ -658,6 +748,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
+>   	dma_fence_put(fence);
+>   
+>   err_out:
+> +	xe_bo_put(bo);
+>   
+>   	return err;
+>   }
+> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
+> index 63daffdfdbf6..4c2576162c39 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.h
+> +++ b/drivers/gpu/drm/xe/xe_svm.h
+> @@ -35,6 +35,11 @@ struct xe_svm_range {
+>   	 * range. Protected by GPU SVM notifier lock.
+>   	 */
+>   	u8 tile_invalidated;
+> +	/**
+> +	 * @migrated: Range has been migrated to device memory, protected by
+> +	 * GPU fault handler locking.
+> +	 */
+> +	u8 migrated	:1;
+>   };
+>   
+>   int xe_devm_add(struct xe_tile *tile, struct xe_mem_region *mr);
 
-Jason
