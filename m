@@ -2,61 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73ABFA22F89
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 15:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE21A230FB
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 16:27:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E6810E98B;
-	Thu, 30 Jan 2025 14:23:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 45D6110E358;
+	Thu, 30 Jan 2025 15:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Es7vPwS5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ik+h1gMZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 801038924B;
- Thu, 30 Jan 2025 14:23:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738246981; x=1769782981;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PE74vHnQne5VUV42hgwUYXWS5nlgBFa+nP4B1MIDu8g=;
- b=Es7vPwS5JKvlPRP/biWaEhs8dFtoooZa37Tf391uY/7C9EDOQirxokMP
- BrJClDh3eP8UexRcd1FC5UD+8lDLkbaXxcZ1i0TQYI8rkh03aBIxrHoS3
- r/rQ+3GZm77OIPND5SdmUyFkfpS8idzU9jo+BPMW2pErNTwWLXVUce9pw
- YxawOgLZZK08E5Yrs3zFG9VTHrlBfiXY4wtAogBUEdm+XDDWptA2rduw4
- 5MoKZiFXGC+riXx1qSQQy01IXgOnhbFpOcVAxpHNhLX0H4q8NTsOilraJ
- aJ/Y4YLHNZhp0trlRW/pv5+l+yM8DM5ScO5oPvOSFd/wsWbhoaEJ+oDr2 Q==;
-X-CSE-ConnectionGUID: he4wz+LcRO6a0UaQmnmIUA==
-X-CSE-MsgGUID: icUrDBJ+RI6RUd3ewa6OtA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="26395123"
-X-IronPort-AV: E=Sophos;i="6.13,245,1732608000"; d="scan'208";a="26395123"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2025 06:23:00 -0800
-X-CSE-ConnectionGUID: EoYYVc8MS0qAWFZYaNLwfg==
-X-CSE-MsgGUID: xA4ClSBaTrO3q51OEtKg5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="146534318"
-Received: from dneilan-mobl1.ger.corp.intel.com (HELO [10.245.244.112])
- ([10.245.244.112])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2025 06:22:57 -0800
-Message-ID: <01d5d109-aef5-463f-9475-22c2483501a3@intel.com>
-Date: Thu, 30 Jan 2025 14:22:55 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5CC10E042
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 15:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1738250815;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=6EfvH24Zk4QAYrENk+aBxb1nppjMz5tPj3khOZvqEvA=;
+ b=ik+h1gMZ8ka18OFOlwsoJSfer22sNF2mL1smFdO8V4uBz9g49MTJZ9tJU6xlElTFCgU8qJ
+ J3EnNCCnKaGIoreZG5Es0P/mDn2n8nnARLF9OHuXwyU9c2LhXv3wGfKjyaax9FD2hSlMHP
+ Y1ym/rxo8qSoO2PS76O3JRqIaGKl3Fk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-662-t_LSl0qDPx6SBragnpRYrg-1; Thu, 30 Jan 2025 10:26:54 -0500
+X-MC-Unique: t_LSl0qDPx6SBragnpRYrg-1
+X-Mimecast-MFC-AGG-ID: t_LSl0qDPx6SBragnpRYrg
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-4361efc9d1fso6603005e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 07:26:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738250813; x=1738855613;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:from:references:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6EfvH24Zk4QAYrENk+aBxb1nppjMz5tPj3khOZvqEvA=;
+ b=Ko/1i33GQS4LZZENznzZk65teDc7nmtPEBojXNU8V7H/BuIWBS/AFbCBwPpmQT6hHO
+ A0yEb9DCREZt4GH6HLNdnRvuHNCi5UgKcGMTDlcVG9vbuFKak0BIjeHK7SX9RqVDZlIY
+ 40NjaK7y6IsRxDZyWrKP0/O/Cp1xBYrGfbVsp86CLmCULHh80rr7nPWwjraa0eU6QB1C
+ po3ZnRukogjYGnLW0dKVPv6POmhTCy4zZj7Mx6g32E5l8l4RL3D41PdcNBbSFuUsbOhx
+ +/c/Ofig3s0HE4thpnY2dZAbmI8NQ17uIJoL28PrKZ9k0L8aJ6VjK28UYCZHKhMNeGQc
+ +PcQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9KZcvvMFRdOlWg/r5UzP3KbU7YhRfhAKbXZrfAjFXa26jCWzK/AIZTD24obSV1JyfgNx9FIQJHuk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy6wvCW3vODMLQza4a8hKOOkyWIQoxTKQI/1BzPZpxyq3q55Gn0
+ CJcsvw7NhtKuIUL1X99al7511e0RC4seo3S+xok09EEZo6/pbn6nyizumPQsFiGB3+64yzvd+Gs
+ AZrciZdQzgYJsyzOh8ydaOxXcBWX7q/S3IvqgctFHTyv+US1S/sp4Ri5FwrFKKvOIJA==
+X-Gm-Gg: ASbGncvKbsBXCyPKCD40ftyoTpQrLXmefvXXvUvIZDuXq9BEQVfAg4USxK0hD8Sd6kg
+ 2l2Ii1AIgQ6FnIZdexMDBivGKzrG1HSDVBHW5J65Pb7HvLozR++19fRFu4uBAUr9fpAwJqmxxB6
+ 9RXtUfC5vJklXohcdf24eIaAXKwf3VqzjF+eiwo2lU6eiN9StVrQDlQ/tr/iSLmNCbBcxPesVvW
+ ZFh9gpRRhrbsb+rtnWWWnDawdzlOluS9hjb++6SPmZ4NQvpCCMBygrjWBwuYw6Q4KejQCcLF8Nm
+ hrjvKZNUmCDyrc+m2HfwHgwU/2G5jWxoWK0IGNWja38gm8nSDVudW1JVRs+JporzgMEbMWrSQaP
+ 3dFScTKIb8i71nOVqJywoM6F61pG89fvr
+X-Received: by 2002:a05:600c:154f:b0:436:30e4:459b with SMTP id
+ 5b1f17b1804b1-438dc3ca451mr67421175e9.18.1738250812882; 
+ Thu, 30 Jan 2025 07:26:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF5i55LyvroBppi5sagXhnryW5jxU5Q3lAVRCCxKZvooKz6TsR04LsBL0jQxaaSe4iNmLMxgA==
+X-Received: by 2002:a05:600c:154f:b0:436:30e4:459b with SMTP id
+ 5b1f17b1804b1-438dc3ca451mr67420875e9.18.1738250812484; 
+ Thu, 30 Jan 2025 07:26:52 -0800 (PST)
+Received: from ?IPV6:2003:cb:c713:3b00:16ce:8f1c:dd50:90fb?
+ (p200300cbc7133b0016ce8f1cdd5090fb.dip0.t-ipconnect.de.
+ [2003:cb:c713:3b00:16ce:8f1c:dd50:90fb])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-438e23deedfsm27026195e9.16.2025.01.30.07.26.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2025 07:26:51 -0800 (PST)
+Message-ID: <10e0b904-1ddb-429e-bcfa-22b360a841b3@redhat.com>
+Date: Thu, 30 Jan 2025 16:26:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 28/33] drm/xe: Add SVM VRAM migration
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
- felix.kuehling@amd.com, dakr@kernel.org
-References: <20250129195212.745731-1-matthew.brost@intel.com>
- <20250129195212.745731-29-matthew.brost@intel.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20250129195212.745731-29-matthew.brost@intel.com>
+Subject: Re: [PATCH v1 2/4] mm/mmu_notifier: drop owner from
+ MMU_NOTIFY_EXCLUSIVE
+To: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
+ <jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+References: <20250129115803.2084769-1-david@redhat.com>
+ <20250129115803.2084769-3-david@redhat.com>
+ <h4dnoixvp2kjeao6mzcpze4zx6t34ebpltqadkjl5zxcjhddkf@lbzo2yhzu5sz>
+ <eab05949-efc8-4c04-ace1-b4435ec894e6@redhat.com>
+ <Z5t-sFymrz5kFafV@phenom.ffwll.local>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <Z5t-sFymrz5kFafV@phenom.ffwll.local>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: xV3O2yW1eB2y9HGJBliDfxFN7C0V3hL3rCI8BV9ITYc_1738250813
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,230 +165,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/01/2025 19:52, Matthew Brost wrote:
-> Migration is implemented with range granularity, with VRAM backing being
-> a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of the
-> TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
-> SVM range is migrated to SRAM, the TTM BO is destroyed).
+On 30.01.25 14:29, Simona Vetter wrote:
+> On Thu, Jan 30, 2025 at 10:28:00AM +0100, David Hildenbrand wrote:
+>> On 30.01.25 06:34, Alistair Popple wrote:
+>>> Looking at hmm_test I see that doesn't use the sequence counter to ensure
+>>> the PTE remains valid whilst it is mapped. I think that is probably wrong, so
+>>> apologies if that lead you astray.
+>>
+>> Yes, the hmm_test does not completely follow the same model the nouveau
+>> implementation does; so it might not be completely correct.
 > 
-> The design choice for using TTM BO for VRAM backing store, as opposed to
-> direct buddy allocation, is as follows:
+> But unrelated but just crossed my mind:
 > 
-> - DRM buddy allocations are not at page granularity, offering no
->    advantage over a BO.
-> - Unified eviction is required (SVM VRAM and TTM BOs need to be able to
->    evict each other).
-> - For exhaustive eviction [1], SVM VRAM allocations will almost certainly
->    require a dma-resv.
-> - Likely allocation size is 2M which makes of size of BO (872)
->    acceptable per allocation (872 / 2M == .0004158).
-> 
-> With this, using TTM BO for VRAM backing store seems to be an obvious
-> choice as it allows leveraging of the TTM eviction code.
-> 
-> Current migration policy is migrate any SVM range greater than or equal
-> to 64k once.
-> 
-> [1] https://patchwork.freedesktop.org/series/133643/
-> 
-> v2:
->   - Rebase on latest GPU SVM
->   - Retry page fault on get pages returning mixed allocation
->   - Use drm_gpusvm_devmem
-> v3:
->   - Use new BO flags
->   - New range structure (Thomas)
->   - Hide migration behind Kconfig
->   - Kernel doc (Thomas)
->   - Use check_pages_threshold
-> v4:
->   - Don't evict partial unmaps in garbage collector (Thomas)
->   - Use %pe to print errors (Thomas)
->   - Use %p to print pointers (Thomas)
-> 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/xe/xe_svm.c | 99 +++++++++++++++++++++++++++++++++++--
->   drivers/gpu/drm/xe/xe_svm.h |  5 ++
->   2 files changed, 100 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index ba1db030bf33..fc030855d078 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.c
-> +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -502,7 +502,6 @@ static int xe_svm_populate_devmem_pfn(struct drm_gpusvm_devmem *devmem_allocatio
->   	return 0;
->   }
->   
-> -__maybe_unused
->   static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops = {
->   	.devmem_release = xe_svm_devmem_release,
->   	.populate_devmem_pfn = xe_svm_populate_devmem_pfn,
-> @@ -582,6 +581,64 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
->   	return (range->tile_present & ~range->tile_invalidated) & BIT(tile->id);
->   }
->   
-> +static struct xe_mem_region *tile_to_mr(struct xe_tile *tile)
-> +{
-> +	return &tile->mem.vram;
-> +}
-> +
-> +static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
-> +				       struct xe_svm_range *range,
-> +				       const struct drm_gpusvm_ctx *ctx)
-> +{
-> +	struct xe_mem_region *mr = tile_to_mr(tile);
-> +	struct drm_buddy_block *block;
-> +	struct list_head *blocks;
-> +	struct xe_bo *bo;
-> +	ktime_t end = 0;
-> +	int err;
-> +
-> +retry:
-> +	xe_vm_lock(vm, false);
-> +	bo = xe_bo_create(tile_to_xe(tile), tile, vm, range->base.itree.last + 1 -
-> +			  range->base.itree.start, ttm_bo_type_device,
-> +			  XE_BO_FLAG_VRAM_IF_DGFX(tile) |
-> +			  XE_BO_FLAG_CPU_ADDR_MIRROR);
-> +	xe_vm_unlock(vm);
+> I guess another crucial difference is that the hw (probably, not sure)
+> will restart the fault if we don't repair it to its liking. So the
+> hmm-test does need some kind of retry loop too somewhere to match that.
 
-What was the trick again to ensure eviction is not triggered at this 
-point? I thought there was some trick with eviction_valuable() but I 
-can't find it.
+Yes. Especially for the folio lock spinning is a rather suboptimal 
+approach. So we likely would want the option to just lock it instead of 
+try-locking it. (or getting rid of it entirely :) )
 
-> +	if (IS_ERR(bo)) {
-> +		err = PTR_ERR(bo);
-> +		if (xe_vm_validate_should_retry(NULL, err, &end))
-> +			goto retry;
-> +		return bo;
-> +	}
-> +
-> +	drm_gpusvm_devmem_init(&bo->devmem_allocation,
-> +			       vm->xe->drm.dev, vm->svm.gpusvm.mm,
-> +			       &gpusvm_devmem_ops,
-> +			       &tile->mem.vram.dpagemap,
-> +			       range->base.itree.last + 1 -
-> +			       range->base.itree.start);
-> +
-> +	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
-> +	list_for_each_entry(block, blocks, link)
-> +		block->private = mr;
-> +
-> +	/*
-> +	 * Take ref because as soon as drm_gpusvm_migrate_to_devmem succeeds the
-> +	 * creation ref can be dropped upon CPU fault or unmap.
-> +	 */
-> +	xe_bo_get(bo);
-> +
-> +	err = drm_gpusvm_migrate_to_devmem(&vm->svm.gpusvm, &range->base,
-> +					   &bo->devmem_allocation, ctx);
-> +	if (err) {
-> +		xe_bo_put(bo);	/* Local ref */
-> +		xe_bo_put(bo);	/* Creation ref */
-> +		return ERR_PTR(err);
-> +	}
-> +
-> +	return bo;
-> +}
-> +
->   /**
->    * xe_svm_handle_pagefault() - SVM handle page fault
->    * @vm: The VM.
-> @@ -590,7 +647,8 @@ static bool xe_svm_range_is_valid(struct xe_svm_range *range,
->    * @fault_addr: The GPU fault address.
->    * @atomic: The fault atomic access bit.
->    *
-> - * Create GPU bindings for a SVM page fault.
-> + * Create GPU bindings for a SVM page fault. Optionally migrate to device
-> + * memory.
->    *
->    * Return: 0 on success, negative error code on error.
->    */
-> @@ -598,11 +656,18 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->   			    struct xe_tile *tile, u64 fault_addr,
->   			    bool atomic)
->   {
-> -	struct drm_gpusvm_ctx ctx = { .read_only = xe_vma_read_only(vma), };
-> +	struct drm_gpusvm_ctx ctx = {
-> +		.read_only = xe_vma_read_only(vma),
-> +		.devmem_possible = IS_DGFX(vm->xe) &&
-> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR),
-> +		.check_pages_threshold = IS_DGFX(vm->xe) &&
-> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR) ? SZ_64K : 0,
-> +	};
->   	struct xe_svm_range *range;
->   	struct drm_gpusvm_range *r;
->   	struct drm_exec exec;
->   	struct dma_fence *fence;
-> +	struct xe_bo *bo = NULL;
->   	ktime_t end = 0;
->   	int err;
->   
-> @@ -610,6 +675,9 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->   	xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(vma));
->   
->   retry:
-> +	xe_bo_put(bo);
-> +	bo = NULL;
-> +
->   	/* Always process UNMAPs first so view SVM ranges is current */
->   	err = xe_svm_garbage_collector(vm);
->   	if (err)
-> @@ -625,9 +693,31 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->   	if (xe_svm_range_is_valid(range, tile))
->   		return 0;
->   
-> +	/* XXX: Add migration policy, for now migrate range once */
-> +	if (!range->migrated && range->base.flags.migrate_devmem &&
-> +	    (range->base.itree.last + 1 - range->base.itree.start) >= SZ_64K) {
-> +		range->migrated = true;
-> +
-> +		bo = xe_svm_alloc_vram(vm, tile, range, &ctx);
-> +		if (IS_ERR(bo)) {
-> +			drm_info(&vm->xe->drm,
-> +				 "VRAM allocation failed, falling back to retrying, asid=%u, errno %pe\n",
-> +				 vm->usm.asid, bo);
-> +			bo = NULL;
-> +			goto retry;
-> +		}
-> +	}
-> +
->   	err = drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
-> -	if (err == -EFAULT || err == -EPERM)	/* Corner where CPU mappings have changed */
-> +	/* Corner where CPU mappings have changed */
-> +	if (err == -EOPNOTSUPP || err == -EFAULT || err == -EPERM) {
-> +		if (err == -EOPNOTSUPP)
-> +			drm_gpusvm_range_evict(&vm->svm.gpusvm, &range->base);
-> +		drm_info(&vm->xe->drm,
-> +			 "Get pages failed, falling back to retrying, asid=%u, gpusvm=%p, errno %pe\n",
-> +			 vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
->   		goto retry;
-> +	}
->   	if (err)
->   		goto err_out;
->   
-> @@ -658,6 +748,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->   	dma_fence_put(fence);
->   
->   err_out:
-> +	xe_bo_put(bo);
->   
->   	return err;
->   }
-> diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-> index 63daffdfdbf6..4c2576162c39 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.h
-> +++ b/drivers/gpu/drm/xe/xe_svm.h
-> @@ -35,6 +35,11 @@ struct xe_svm_range {
->   	 * range. Protected by GPU SVM notifier lock.
->   	 */
->   	u8 tile_invalidated;
-> +	/**
-> +	 * @migrated: Range has been migrated to device memory, protected by
-> +	 * GPU fault handler locking.
-> +	 */
-> +	u8 migrated	:1;
->   };
->   
->   int xe_devm_add(struct xe_tile *tile, struct xe_mem_region *mr);
+> But might be good to also still land some of the other improvements
+> discussed in these threads to make make_device_exclusive a bit more
+> reliable instead of relying on busy-looping throug the hw fault handler
+> for everything.
+
+Right.
+
+-- 
+Cheers,
+
+David / dhildenb
 
