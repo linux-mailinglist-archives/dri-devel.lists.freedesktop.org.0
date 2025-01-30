@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30FDA22E23
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D1AA22E28
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC3BC10E983;
-	Thu, 30 Jan 2025 13:48:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D970D10E972;
+	Thu, 30 Jan 2025 13:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="X5vC5MBr";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pn1OW3pr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15B2910E981
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:48:22 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 67980442F8;
- Thu, 30 Jan 2025 13:48:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F12E10E982
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:48:23 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6F19F442FB;
+ Thu, 30 Jan 2025 13:48:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738244901;
+ t=1738244902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PUaEcvOqojO5KkZeiqdnobiTzfbr0lXwcEOXB0Nb2a0=;
- b=X5vC5MBr60Wm7RxL1IJ66VdaK5BV8KbRRI23QmJQipyiZLhyQ8j765zjKaLLlPXY1EYvDP
- yJj08dKuzxZC1O4uXP8OvLBeQ9WuRH2edJXIr6T4pYeQ52KwoiwU8HRkX5gWi5bWDDky2L
- eiKzU4dHnzhqX9hx5bYTwhOK6mRttbMr2P4R5YnhP9P4DwgXfnYutgDUvIxSa+EKB/L8+M
- qYSlGWbTq5oYJUN8hsevZe30JJHi967Vs644G7gg5O7w7Wu5qS5KWnf9Immmg5cFRZ1YPr
- plYwLrmGnbLwxkP6magg/fZKyhSsJlJjXY/DQ7sVIvyF76NggKiVnMV8Jktf3w==
-Date: Thu, 30 Jan 2025 14:48:19 +0100
+ bh=fMKFvNBkVO0/MDUp8nOqVPyZY6wGb4ZRt5EIDceuMt4=;
+ b=pn1OW3prdAy82FX1W+4aGunB/VxlV3pBMmAZyPK/BULx+fba+KWh0aDrjYYGbGA7uqLrvE
+ c+53KLSRUUur3B7gL2FVMUhSSqpYvKq0i6i8HX21ZeroTJM0o+y8sdWExKlt7Fe1gfpY5I
+ F/G7Lqk0Xdt6RspOKvczgy4ZoqhFxuLVokJr5wDiMpt1jn8w72dYWvbFobNyN9fcHb4Tt4
+ F5AbpPC6Oyw5HKK9lO3zKUx+ova6voW9MvCSuOAZ3U3A51bvVWR4expVY+4tHC4rxjfe1i
+ skhGoFd4NP1/K9Zx7BMWSoyMMNnXMrRscjS/Jp3MqWvNgKQE5oZeI/wOgd4UTA==
+Date: Thu, 30 Jan 2025 14:48:20 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 07/13] drm/vkms: Allow to configure multiple planes
-Message-ID: <Z5uDI0QiP2UWGzI8@louis-chauvet-laptop>
+Subject: Re: [PATCH 08/13] drm/vkms: Allow to configure multiple CRTCs
+Message-ID: <Z5uDJFHnn1HzWOz4@louis-chauvet-laptop>
 Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  <jose.exposito89@gmail.com>, 
  hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -46,12 +46,12 @@ Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  tzimmermann@suse.de, airlied@gmail.com,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20250129110059.12199-1-jose.exposito89@gmail.com>
- <20250129110059.12199-8-jose.exposito89@gmail.com>
+ <20250129110059.12199-9-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250129110059.12199-8-jose.exposito89@gmail.com>
+In-Reply-To: <20250129110059.12199-9-jose.exposito89@gmail.com>
 X-GND-State: clean
 X-GND-Score: -100
 X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdehleejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgjeevteekvdelteduuedugeefjeehueejfeekgfdtuefgteefuedtveeikedvkeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhouhhishdqtghhrghuvhgvthdqlhgrphhtohhppdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhst
@@ -73,12 +73,13 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 29/01/25 - 12:00, José Expósito wrote:
-> Add a list of planes to vkms_config and create as many planes as
-> configured during output initialization.
+> Add a list of CRTCs to vkms_config and helper functions to add and
+> remove as many CRTCs as wanted.
 > 
-> For backwards compatibility, add one primary plane and, if configured,
-> one cursor plane and NUM_OVERLAY_PLANES planes to the default
-> configuration.
+> For backwards compatibility, add one CRTC to the default configuration.
+> 
+> A future patch will allow to attach planes and CRTCs, but for the
+> moment there are no changes in the way the output is configured.
 > 
 > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
@@ -93,90 +94,31 @@ Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 
 [...]
 
-> +static void vkms_config_test_get_planes(struct kunit *test)
+> +static void vkms_config_test_valid_crtc_number(struct kunit *test)
 > +{
 > +	struct vkms_config *config;
-> +	struct vkms_config_plane *plane_cfg1, *plane_cfg2;
-> +	struct vkms_config_plane **array;
-> +	size_t length;
-> +
-> +	config = vkms_config_create("test");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
-> +
-> +	array = vkms_config_get_planes(config, &length);
-> +	KUNIT_ASSERT_EQ(test, length, 0);
-> +	KUNIT_ASSERT_NULL(test, array);
-> +
-> +	plane_cfg1 = vkms_config_add_plane(config);
-> +	array = vkms_config_get_planes(config, &length);
-> +	KUNIT_ASSERT_EQ(test, length, 1);
-> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg1);
-> +	kfree(array);
-> +
-> +	plane_cfg2 = vkms_config_add_plane(config);
-> +	array = vkms_config_get_planes(config, &length);
-> +	KUNIT_ASSERT_EQ(test, length, 2);
-> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg1);
-> +	KUNIT_ASSERT_PTR_EQ(test, array[1], plane_cfg2);
-> +	kfree(array);
-> +
-> +	vkms_config_destroy_plane(plane_cfg1);
-> +	array = vkms_config_get_planes(config, &length);
-> +	KUNIT_ASSERT_EQ(test, length, 1);
-> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg2);
-> +	kfree(array);
-> +
-> +	vkms_config_destroy(config);
-> +}
-
-In this test I have the feeling that vkms_config_get_planes always returns 
-a predictable order. It is maybe trivial here, but I would prefer to shows 
-that the order is not stable, for example:
-
-	bool plane_cfg1_found = false;
-	bool plane_cfg2_found = false;
-
-	vkms_config_for_each_plane(config, plane_cfg) {
-		if (plane_cfg == plane_cfg1)
-			plane_cfg1_found = true;
-		else if (plane_cfg == plane_cfg2)
-			plane_cfg2_found = true;
-		else
-			KUNIT_FAILS("Unexpected plane");
-	}
-
-	KUNIT_ASSERT(test, plane_cfg1_found);
-	KUNIT_ASSERT(test, plane_cfg2_found);
-
-[...]
-
-> +static void vkms_config_test_valid_plane_number(struct kunit *test)
-> +{
-> +	struct vkms_config *config;
-> +	struct vkms_config_plane *plane_cfg;
+> +	struct vkms_config_crtc *crtc_cfg;
 > +	int n;
 > +
 > +	config = vkms_config_default_create(false, false, false);
 > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
 > +
-> +	/* Invalid: No planes */
-> +	plane_cfg = list_first_entry(&config->planes, typeof(*plane_cfg), link);
-> +	vkms_config_destroy_plane(plane_cfg);
+> +	/* Invalid: No CRTCs */
+> +	crtc_cfg = list_first_entry(&config->crtcs, typeof(*crtc_cfg), link);
+> +	vkms_config_destroy_crtc(config, crtc_cfg);
 > +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
 > +
-> +	/* Invalid: Too many planes */
+> +	/* Invalid: Too many CRTCs */
 > +	for (n = 0; n <= 32; n++)
-> +		vkms_config_add_plane(config);
+> +		vkms_config_add_crtc(config);
 > +
 > +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
 > +
 > +	vkms_config_destroy(config);
 > +}
 
-For this function, the naming is a bit strange, it says 
-"valid_plane_number", but you test only invalid plane number.
-
-Can you rename it to vkms_config_test_invalid_plane_number?
+Same as before, can you rename the fonction to 
+vkms_config_test_invalid_crtc_number
 
 [...]
 
@@ -184,15 +126,15 @@ Can you rename it to vkms_config_test_invalid_plane_number?
 
 [...]
 
-> +struct vkms_config_plane **vkms_config_get_planes(const struct vkms_config *config,
-> +						  size_t *out_length)
+> +struct vkms_config_crtc **vkms_config_get_crtcs(const struct vkms_config *config,
+> +						size_t *out_length)
 > +{
-> +	struct vkms_config_plane **array;
-> +	struct vkms_config_plane *plane_cfg;
+> +	struct vkms_config_crtc **array;
+> +	struct vkms_config_crtc *crtc_cfg;
 > +	size_t length;
 > +	int n = 0;
 > +
-> +	length = list_count_nodes((struct list_head *)&config->planes);
+> +	length = list_count_nodes((struct list_head *)&config->crtcs);
 > +	if (length == 0) {
 > +		*out_length = length;
 > +		return NULL;
@@ -202,8 +144,8 @@ Can you rename it to vkms_config_test_invalid_plane_number?
 > +	if (!array)
 > +		return ERR_PTR(-ENOMEM);
 > +
-> +	list_for_each_entry(plane_cfg, &config->planes, link) {
-> +		array[n] = plane_cfg;
+> +	list_for_each_entry(crtc_cfg, &config->crtcs, link) {
+> +		array[n] = crtc_cfg;
 > +		n++;
 > +	}
 > +
@@ -211,126 +153,73 @@ Can you rename it to vkms_config_test_invalid_plane_number?
 > +	return array;
 > +}
 
-To join the comment on the test, I am not a big fan of creating a new list 
-to return to the caller, for three reasons:
-- the caller needs to manage an other pointer;
-- the caller needs to understand that the content of the array is only 
-  valid if: the config is not freed, nobody else removed anything from the 
-  planes;
-- the caller may think this list always have the same order if he looks at 
-  the tests.
-
-I would prefer a simple macro to do an iteration over the config->planes 
-list: (I did not test this macro, but you have this idea)
-
-	#define vkms_config_iter_plane(config, plane_cfg) \
-		list_for_each_entry((plane_cfg), &(config).planes, link)
-
-This way:
-- no new pointer to manage;
-- if one day we have concurency issue, we just have to protect config, not 
-  config+all the planes;
-- there is no expected order.
+Same as before, can't we use an iterator?
 
 [...]
 
->  bool vkms_config_is_valid(struct vkms_config *config)
->  {
-> +	if (!valid_plane_number(config))
-> +		return false;
-> +
-> +	if (!valid_plane_type(config))
-> +		return false;
-> +
->  	return true;
->  }
-
-I really like the idea to split the validation function, way simpler!
-
-[...]
-
-> +void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg)
+> +static bool valid_crtc_number(struct vkms_config *config)
 > +{
-> +	list_del(&plane_cfg->link);
-> +	kfree(plane_cfg);
+> +	size_t n_crtcs;
+> +
+> +	n_crtcs = list_count_nodes(&config->crtcs);
+> +	if (n_crtcs <= 0 || n_crtcs >= 32) {
+> +		pr_err("The number of CRTCs must be between 1 and 31\n");
+
+I agree we need some logs, but I think pr_err is too agressive (i.e may 
+be considered as an error by some test tools).
+
+I think we should at least:
+- lower to warn/notice/info
+- use drm variants of the macro
+
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+
+[...]
+
+> +struct vkms_config_crtc *vkms_config_add_crtc(struct vkms_config *config)
+> +{
+> +	struct vkms_config_crtc *crtc_cfg;
+> +
+> +	crtc_cfg = kzalloc(sizeof(*crtc_cfg), GFP_KERNEL);
+> +	if (!crtc_cfg)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	vkms_config_crtc_set_writeback(crtc_cfg, false);
+> +
+> +	list_add_tail(&crtc_cfg->link, &config->crtcs);
+> +
+> +	return crtc_cfg;
+> +}
+> +
+> +void vkms_config_destroy_crtc(struct vkms_config *config,
+> +			      struct vkms_config_crtc *crtc_cfg)
+> +{
+> +	list_del(&crtc_cfg->link);
+> +	kfree(crtc_cfg);
 > +}
 
-I would prefer a "standard" function pair, i.e.: add/remove or 
-create/destroy, not add/destroy.
+Same as before, the pair add/destroy seems strange.
 
-For me it should be create/destroy, you create the plane by using a 
-config, so it is clear it will be attached to it.
-
-If you choose add/remove, you should explains in the documentation that 
-remove is also doing kfree.
-
-[...]
-
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-
-[...]
-
-> @@ -11,61 +11,63 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->  	struct vkms_connector *connector;
->  	struct drm_encoder *encoder;
->  	struct vkms_output *output;
-> -	struct vkms_plane *primary, *overlay, *cursor = NULL;
-> -	int ret;
-> +	struct vkms_plane *primary = NULL, *cursor = NULL;
-> +	struct vkms_config_plane **plane_cfgs = NULL;
-> +	size_t n_planes;
-> +	int ret = 0;
->  	int writeback;
->  	unsigned int n;
-
-I think it could be interesting to have a vkms_config_is_valid call here. 
-It will avoid raising DRM errors or create unexpected devices.
-
-It will also garantee in a later patch that 
-vkms_config_crtc_get_primary_plane is a valid pointer.
-
-> -	/*
-> -	 * Initialize used plane. One primary plane is required to perform the composition.
-> -	 *
-> -	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
-> -	 * composition.
-> -	 */
-> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
-> -	if (IS_ERR(primary))
-> -		return PTR_ERR(primary);
-> +	plane_cfgs = vkms_config_get_planes(vkmsdev->config, &n_planes);
-> +	if (IS_ERR(plane_cfgs))
-> +		return PTR_ERR(plane_cfgs);
-
-If you agree on the iterator implementation, this code could be simplified 
-a lot.
-
-> -	if (vkmsdev->config->cursor) {
-> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
-> -		if (IS_ERR(cursor))
-> -			return PTR_ERR(cursor);
-> +	for (n = 0; n < n_planes; n++) {
-> +		struct vkms_config_plane *plane_cfg;
-> +		enum drm_plane_type type;
-> +
-> +		plane_cfg = plane_cfgs[n];
-> +		type = vkms_config_plane_get_type(plane_cfg);
-> +
-> +		plane_cfg->plane = vkms_plane_init(vkmsdev, type);
-
-Can we pass plane_cfg in vkms_plane_init? This way we don't have to 
-touch vkms_output_init when adding new vkms_config_plane members.
-
-> +		if (IS_ERR(plane_cfg->plane)) {
-> +			DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
-> +			ret = PTR_ERR(plane_cfg->plane);
-> +			goto err_free;
-> +		}
-> +
-> +		if (type == DRM_PLANE_TYPE_PRIMARY)
-> +			primary = plane_cfg->plane;
-> +		else if (type == DRM_PLANE_TYPE_CURSOR)
-> +			cursor = plane_cfg->plane;
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -181,7 +181,8 @@ static int vkms_create(struct vkms_config *config)
+>  		goto out_devres;
 >  	}
+>  
+> -	ret = drm_vblank_init(&vkms_device->drm, 1);
+> +	ret = drm_vblank_init(&vkms_device->drm,
+> +			      vkms_config_get_num_crtcs(config));
 
-[...]
+At this point we only create one crtc, can you move this change in the 
+commit where you create multiple crtc?
+
+>  	if (ret) {
+>  		DRM_ERROR("Failed to vblank\n");
+>  		goto out_devres;
+> -- 
+> 2.48.1
+> 
