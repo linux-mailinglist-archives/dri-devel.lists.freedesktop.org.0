@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D014A22D96
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597AEA22D9A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E14C10E15A;
-	Thu, 30 Jan 2025 13:20:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D53A410E34B;
+	Thu, 30 Jan 2025 13:21:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lj64ridc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ipeIczgT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1517110E15A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:20:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 907D110E34B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:21:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 953AAA402C7;
- Thu, 30 Jan 2025 13:18:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52BC3C4CED2;
- Thu, 30 Jan 2025 13:20:23 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 17BD9A402BA;
+ Thu, 30 Jan 2025 13:19:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20FAC4CED2;
+ Thu, 30 Jan 2025 13:21:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738243230;
- bh=YfzfC3vgyP+KoosDU3ZEVST8TlyNzxQAsPYtsFBXE58=;
+ s=k20201202; t=1738243300;
+ bh=/FYFoFx51U6tBMI/OHfLnMY9sPQJJAgn2rePQRkIa+g=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lj64ridcOqJk+nJKj2rilUjQrksdnIkZwqkAbdYyYDFxKg8uHt/Bb884H6bOGuxCR
- YcZeixvzOkfEN5d6rIxjPplfF689GiqFCLLEuv9H2s/36UfwUcV+JJqX7feOVpBuMq
- xGRrvf6qDhlEtuVRGtbxOVPeJehX3f55sr9qy+Aubtx3YFeDYyF9YUn2RXh4/9Is4t
- daBqrBSpwZmRdxmFfDh2odgqx5Ke3cIttzTqayQQHsNcsC8evkGO6/8jNr5DmqVH4E
- s/q+RQU1NW2YA/dtNH9eLqlUwGTgB3LaiZ0zlcm+ouQLxy7ID4cSYdbvP+dSjVX1TU
- drm1NjY1bZhBg==
-Message-ID: <f397d8e3-0ec2-4b76-a7b4-5c816a334831@kernel.org>
-Date: Thu, 30 Jan 2025 14:20:21 +0100
+ b=ipeIczgTGuQ2tAkN6RTh9IBwpegKN28JEQ/xfVcxBaNGi5FKzgYstmSPXkvoI43iu
+ kMyp5TWDakgKXKmEdKvV3kzusyshwF17Stqwzb5Pxu7qsLgUBvMLoPQ2rV0E3fQh/8
+ sUOgM8qC/IJuNJER81hzMrMgXJsjXew5GDqmDLiRB02qbpiJX22UoV7iF33zyizKxc
+ e19t9uRGkTlt5Xwdt6XE9olfrAowhX1NHc996WQ34AuaEnI/V1lgbGWUdkrWSxbTu9
+ 8/NcQgjhYDzkXTahWtC0SrihNoz8IdlGVDAkyxHB4nsn+/H285NKlcOMH51qqM+JUa
+ g4z7U/yf5o+Xw==
+Message-ID: <1003b393-770a-4e2b-b5ed-054f1f9072b4@kernel.org>
+Date: Thu, 30 Jan 2025 14:21:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] drm/panfrost: Add support for Mali on the MT8370 SoC
@@ -101,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
 In-Reply-To: <194b7237128.10f9923a41656565.5574753983898665940@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,69 +121,11 @@ On 30/01/2025 13:15, Louis-Alexis Eyraud wrote:
 > Hello,
 > 
 > sorry for the delay,
-> 
->  ---- On Sat, 18 Jan 2025 17:08:10 +0100  Krzysztof Kozlowski  wrote --- 
->  > On Thu, Jan 16, 2025 at 03:25:58PM +0100, Louis-Alexis Eyraud wrote:
->  > > This commit adds a compatible for the MediaTek MT8370 SoC, with an
->  > > integrated ARM Mali G57 MC2 GPU (Valhall-JM, dual core), and adds
->  > > platform data using the same supplies and the same power domain lists
->  > > as MT8186 (one regulator, two power domains).
->  > > 
->  > > Signed-off-by: Louis-Alexis Eyraud louisalexis.eyraud@collabora.com>
->  > > ---
->  > >  drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++++++
->  > >  1 file changed, 10 insertions(+)
->  > > 
->  > > diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
->  > > index 0f3935556ac761adcd80197d87e8e478df436fd5..1d51b64ed0f0660cc95263a289d5dad204540cfd 100644
->  > > --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
->  > > +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
->  > > @@ -837,6 +837,15 @@ static const struct panfrost_compatible mediatek_mt8192_data = {
->  > >      .pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
->  > >  };
->  > >  
->  > > +/* MT8370 uses the same power domains and power supplies as MT8186 */
->  > > +static const struct panfrost_compatible mediatek_mt8370_data = {
->  > > +    .num_supplies = ARRAY_SIZE(mediatek_mt8183_b_supplies) - 1,
->  > > +    .supply_names = mediatek_mt8183_b_supplies,
->  > > +    .num_pm_domains = ARRAY_SIZE(mediatek_mt8186_pm_domains),
->  > > +    .pm_domain_names = mediatek_mt8186_pm_domains,
->  > > +    .pm_features = BIT(GPU_PM_CLK_DIS) | BIT(GPU_PM_VREG_OFF),
->  > > +};
->  > 
->  > No, people, stop this nonsense. This is exactly the same as previous.
->  > Don't duplicate entries just because you want a commit.
->  > 
-> I added this new compatible in bindings and panfrost driver because there were no other matching compatible 
-> Using another mali-vallhal-jm compatible would make the driver probe fail because of power domains number difference. 
-> Using mt8186-mali compatible would work without modifications but as it is not the same architecture (mali-bifrost), it would be incorrect.
 
-Fix your email app, so it won't add spaces before quote and will wrap
-the text properly.
+You gave yourself 12 days to respond, which is fine. But to me, you gave
+15 minutes and immediately sent v2.
 
-> 
-> I've also misguessed on the dt_match array modifications, sorry.
-> I'll amend this patch in order to reuse the mt8186 platform data instead.
-> 
->  > > +
->  > >  static const struct of_device_id dt_match[] = {
->  > >      /* Set first to probe before the generic compatibles */
->  > >      { .compatible = "amlogic,meson-gxm-mali",
->  > > @@ -859,6 +868,7 @@ static const struct of_device_id dt_match[] = {
->  > >      { .compatible = "mediatek,mt8186-mali", .data = &mediatek_mt8186_data },
->  > >      { .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
->  > >      { .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
->  > > +    { .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
->  > 
->  > No, express properly compatibility or say in bindings commit msg why
->  > devices are not compatible.
->  > 
-> I'll reword in V2 the commit messages to make the compatible need more explicit.
-
-Your commit msg should then explain that this is not compatible with
-mt8186 because programming model or architecture is different. Number of
-power domains rarely matters for actual compatibility and as easily
-visible in panfrost driver: does not matter here, either.
+So now your v2 will be still rejected.
 
 Best regards,
 Krzysztof
