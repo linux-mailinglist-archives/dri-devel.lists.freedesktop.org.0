@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2D3A228BE
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 06:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2AAA228CF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 07:12:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4C5710E8E8;
-	Thu, 30 Jan 2025 05:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 391C010E8ED;
+	Thu, 30 Jan 2025 06:12:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="fIkKYz8j";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HXzrDWjE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2077.outbound.protection.outlook.com [40.107.244.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 988D010E26C;
- Thu, 30 Jan 2025 05:57:47 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0B8910E8ED;
+ Thu, 30 Jan 2025 06:11:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RIwRcZoZxRXSGMO2FVMB+JrfdVgg20Hg//93zoFGhSHwVd+UsM5aRPA8dVISO996zfgpT7GDYg/cZV2R1pPLjHaPgQDbBvixB4b77IjoBuI1dWDnr4/P+QoMiDTNellL9sQOEXeIhGmvazsm0v5mnarSIrAbU30f1hjAhJfDq93Lsl8sZW0COM1kzFUd1DAdFqv1D1FS/+cbRC61UmXtWOmDS8pLSW14uIX9m6FGqNUs1C5uwcLHzceZzmyACf5hXSImQ10jPWwYmMf+Vxx4lEhp/FBpghSbHRSH5vYMIuWU5dO2UGal776CCrrLvt9eeJOffm7HAgeltScz6phZ+A==
+ b=MfCPZddNez4Cu8ZfrKV8fhy1Yj5V7NY4R54TGcJ72uOtczL/Y4v2IjY2hIt7/52w2SbGrb/DDwdbgXmttbAIXnUr0eVUL9y4934fDg302DjPE9dLMtp5lDde3Ts7X9w69s+hdDg6sD2VR0A2p1TkER+X8GW6q5dSmTnH/hOopVm5wn3JrZRoAroVe0SWjloCXYpPjctb1e2gsCig2/e6o9LaxcmfliG1IZ17LX+0nR5isDlcx4CCeOesCihkjTxTRENVbjrOjbA9wxDrZDnQarTbEQyagPCbOqQfC6RQo4XcR2Q1n4lWwdkpRVZeT4C2FDgY+O9yLB4TDGfBGkxaLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X5IvnWBKUY28sduoPE9X1UdM49yGMTHK2Yl2vJWmXgI=;
- b=aK7nftN2oDvR537vCCVgKyf5oFcqU3wobfhG9FY3+sMNOa743K81Fl64DzoEyxM1myuFcbUn3sMta+KXAUJuFOtPMVCsIOzcSYSRbhWg8Wk/Ks1tnDefHmj/l869XHS3gQNLZmdDhU9TmCiQOx6QLfSM7nAoCApScpbhWQFxRMd+3xdmHlgJQgLH/zCYvjzAduQsxAgb63h1xqrg4Y1pTuPibVqjGjxyAgPBE+rah+N/fSLtcQMEB9yj6U0kcOhNDXy+YvrYfBxSOcCw57sk85RR/AKgnfe4JlVkRI0R4Jbx7CVI5bjmuUdWd53tyaP9Npy4e5cSXO779hdWdGX6mw==
+ bh=DVkXc55kyyzdFuzdqnJYRdEZ6As1MD6JH8vbZZgmQ0A=;
+ b=YYm33cZ08KM6zqFj9azO+HSzPBNL1S3MnGN8pI2H6pEEQkYy1/blXNlcH/YZoLXZrcqmOxPrsR9ZIu9T+LQ36g9resmvP1JrJ9AKeX1rhRN2Dg7iR+5maxqGTjKuttB3sn3xPnO/MRvzjsrJUo1nY2dZi9OiWblk9VWQPASfToOwX9XbbbrIRPgJO3ntUaYUC6oPa+W7CJp2ZY+1Jj/Rl11LSmcfpQZIVjdR9XXVZ1k62Dza7jZlZlAYvnW9VJbccXvNj6oANU9KCj/+LKpO+HJvxAC4ZVxwdnNLbRSfSmc1XV/cATdifoSG8xL39sSg2KUFYtUiVY9rja6rUe9YTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X5IvnWBKUY28sduoPE9X1UdM49yGMTHK2Yl2vJWmXgI=;
- b=fIkKYz8j1Kd8fB0lGFJJNBywGuklNEeQKZNf0+vYahCdkEWsB6XkSi9Z1aPoCSvBQs9ZJQeWCAdRelwIn9slgxwr2Jl1xyRqQgdFJ5++iYEcagszh3vqL7SOVBk/Szsm6xpDzMfhVYptARfJxEdH9zTo/PHMsf3E+8p06ieJYhLS41VvVOCA5mKKMER5f89KnqDWKfIUx+UahWasVOTvsUqT8jmM0ELUJG7YlnDWnREwLH3ZqfJoDSpVagLJSOJA/m3A2elbavQZaEfCt4JlAxuPF1k2/7OPrs9VhCd/lF/d4zXawoJhj5Cm+IH36BHZonbOCMf/sj36pWcBRPoMig==
+ bh=DVkXc55kyyzdFuzdqnJYRdEZ6As1MD6JH8vbZZgmQ0A=;
+ b=HXzrDWjEtMPoJK221T+B9khzb6gwPzK0SjlbnD3WCAT57YpEQ6d0ueWA/ciFYoEQD1B/3oqs2ZoJuT33uJJMVTJHpuoj1fH8qYsCY7usAq/op69VE55oCGhNug1MQlmoN0cOMB424W5sx7zOCZG1koQgpBv9gbefX17JaGTFffpcKVtuiC1DelD7VdM4pzFpyMC8oSN5VFki2F4T4YvtAipABviulZmx+lEzo3eziCP6IfjyVc26ippJa4Tqy8f3T+myPg1rqkzqmKsRvkmvdMO4V+lrb+tZW8pTTtqrb2jFYkq0bvIl6jhffsWorB4AvWKlyiS0UcGmtZGEfP4lnA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- MN0PR12MB6055.namprd12.prod.outlook.com (2603:10b6:208:3cd::20) with
+ PH0PR12MB8151.namprd12.prod.outlook.com (2603:10b6:510:299::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.18; Thu, 30 Jan
- 2025 05:57:43 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.21; Thu, 30 Jan
+ 2025 06:11:54 +0000
 Received: from DS0PR12MB7726.namprd12.prod.outlook.com
  ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
  ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8398.017; Thu, 30 Jan 2025
- 05:57:43 +0000
-Date: Thu, 30 Jan 2025 16:57:39 +1100
+ 06:11:53 +0000
+Date: Thu, 30 Jan 2025 17:11:49 +1100
 From: Alistair Popple <apopple@nvidia.com>
 To: David Hildenbrand <david@redhat.com>
 Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -58,110 +58,91 @@ Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  Jann Horn <jannh@google.com>, 
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v1 03/12] mm/rmap: convert make_device_exclusive_range()
- to make_device_exclusive()
-Message-ID: <b3stuhf2s6236zawaa6zt6x3fg6oamrtj3pwajlyoxlaxdmdtf@arqxcoemsjfg>
+Subject: Re: [PATCH v1 04/12] mm/rmap: implement make_device_exclusive()
+ using folio_walk instead of rmap walk
+Message-ID: <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
 References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-4-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ <20250129115411.2077152-5-david@redhat.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250129115411.2077152-4-david@redhat.com>
-X-ClientProxiedBy: SY5P282CA0166.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:24a::14) To DS0PR12MB7726.namprd12.prod.outlook.com
+In-Reply-To: <20250129115411.2077152-5-david@redhat.com>
+X-ClientProxiedBy: SYYP282CA0010.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:b4::20) To DS0PR12MB7726.namprd12.prod.outlook.com
  (2603:10b6:8:130::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MN0PR12MB6055:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e83c001-4951-4561-d4bd-08dd40f3033b
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|PH0PR12MB8151:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8027d37-4d56-45d0-b6ae-08dd40f4fe12
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|7053199007|27256017; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TzdSR1V6Tk5vVVVkT0hMalZXRUR1Sm9yQjN4M2NCTDljQ081RzNITlhpTmtu?=
- =?utf-8?B?Ky9KSlpPKzdWeGVZd05PMjlsSkhPT21OamlwQlhnT1JjUWlDSS9hbnoxUk5C?=
- =?utf-8?B?Z0hsNkpkNWt1U01hcFJGOGpGVzJySjhwRnhRMjhBWEYxSFF2cHNPOHAxSWdw?=
- =?utf-8?B?RWpKL3JKMVlKYmJvekRZR2hSUE0vN3hRblpPUktHT2liY1JhS0xqOFdCOHZs?=
- =?utf-8?B?V2UxWmdKbS90T3hFdEMxWVEzNHFxRVBHQWh1d0Vlb0IwTXlSMjIxNGtIZ0c1?=
- =?utf-8?B?Mm53b1A3UU9BYlRCMzRDWnY0NlRIU1dvcXhMVnhCQjd2N1g2YTJHRURYejAz?=
- =?utf-8?B?RlpRSU14aTRoRTFuZEZYVVhEWXcycVoyOXllNExCWlJpQUNqdkVycVBEM2ZR?=
- =?utf-8?B?MzZhVlJPMGhvRWU5bTQ2aVB4SjhNWGVKN1BRZ2hTMW56V2phS1RDVzBxRndt?=
- =?utf-8?B?OEg3R1d6dnBaSnRkOHRhNzg2SnFxbktELzd6eWJKM0VmRUhyTjFjVnRFd3c5?=
- =?utf-8?B?OFJxM1VKMzlHQlBKY1AxSWNsNVRTWjZjclh3NWY5NmVOZVZidVplenVRQkFy?=
- =?utf-8?B?b0RKSGJZZUc4ODk5eWVXazlNZDdkZnNsUllob3lGQnU5dUtMWWxPZTBQSTZP?=
- =?utf-8?B?UDIxcElNN0RqWkVXdjZydHZGTDVGTmZJR3Bra1M3STRUMERqR3VRb1NtZzVS?=
- =?utf-8?B?UGg5Z0dZTXZCVXRrM3JkazRvWTNkZTFIWk96eDZWOU8wc09aVDlydjVaS01Z?=
- =?utf-8?B?UkR6dFN5WCtMNXhCOVFBeXQ0RHJqVDQ2Y3c3UkF0OXFFUWFqVmdZckkrdjV4?=
- =?utf-8?B?VHo2a0I1bDFCeGI5K2s1R3pxWklBa0FmOW4zRElCZ1RjQUVma3c5eFlJaFkz?=
- =?utf-8?B?SjRacWY1ZkFuT3M5QU1xSW0wa01WMlJINE0wY2h1cnM2VFR6bzhRandLeVV5?=
- =?utf-8?B?N3lpUytsM2VlOFBHL01qVmJOWE1jdTF4S29KZnl6RUROQmRsdUF5ZitWaGQv?=
- =?utf-8?B?VWR0MFhwQWF5SUhyQ3hhcGJvK282L3A0a0lwSVEvbFBxcUNxWTE4R1BoU0I4?=
- =?utf-8?B?dFROWWpyVUhDNHpmOVZCc2VKTldWQ3hCRVFtZHVLM3BNU3lWUU5yNml6QVlW?=
- =?utf-8?B?cjdYZXdQQjlhZml3STlWUzFtcmRLdGVydHZHcGZhMnlzNlhyYU52QjZjay9k?=
- =?utf-8?B?d0kxSlZjVlVuUk02SXQ4UFhjUkVBSm90eUpFdHN6Y1JCV3UxUlBlSTFtVjNT?=
- =?utf-8?B?Nkk5a2NLWGwvRVFsTlN4VU50L3ppdW1GNHNDa3ovb2dwVmt6SnRMU2gybjBZ?=
- =?utf-8?B?Q1VoSjd1NjJITS9WMHpVMjhDT1pkayswVUJuakJnRDV5M1BrTDdPVmY0RDlF?=
- =?utf-8?B?KzBZdDEvb1ZuQXhGd0d3eFlLNEd5OVFiRDRXR1NNaFByY1BvYk9RVUtBWmFI?=
- =?utf-8?B?S1JFc1hQcFl4Wm5BRUNTZ01RaUlWZGJZZHMzRVI5YmlWSE8xK3MwWTNsd0Rn?=
- =?utf-8?B?WlVRUXFKVDQwRzdMRUh5TFhueUxMOU0rWVFmSXYxdTJ6aE1ic2NjUVp2Y3Nj?=
- =?utf-8?B?MlM2YjdUdzVGNDVNUVovdFhPS1I3Zys0NjFEUW5jdkNTcEZUc1EzR1o2MGl0?=
- =?utf-8?B?ajlDZkRDUVF4dDhneFZtK2I0a01Fb2xUN0JWY3NLeDRGandmbTMyN1E5OXpv?=
- =?utf-8?B?SlVXYWJQNHVqcWswemlBcVBnVVVkbFhBa2E2L2VTMEdBdDFia3E3bGZQN2Ew?=
- =?utf-8?B?NVkrUDZ2bXYxdXJPWXJlSUN2UXdRWitUYmZ0ZjM1N2lZeHFDalJ6QzB4clAx?=
- =?utf-8?B?ZUhVR1pVNkFUdGppQWk0U1BWdy9BekxmQnB3Zko5cEFuNDhTQldoTTU2OE9w?=
- =?utf-8?B?MUZEM0tscW9IMVFvM0RDM0pDNVgzRnpYUTRiRmI1R25wcCs1cStsMjR6YlpT?=
- =?utf-8?Q?beWzcXOEAzu9x0Z5i/deTcXcFl/726Dq?=
+ ARA:13230040|1800799024|7416014|366016|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cJlRHFwhAkZ03U7Sm62azcx9L7jT2xvH8BII7JNs7RmmFPl5YekLRIgDCNfb?=
+ =?us-ascii?Q?9aGgo4lx/G3ux7xJiodpD4/EmPqn/SUSmTzuArQ1Z0aVX6g6llYlmH6A8VCe?=
+ =?us-ascii?Q?yfxp3h0oHBbm2kQws9o0kfor1LHbxoWEsN+d94r/beJak3w00DLTQRa7oyv9?=
+ =?us-ascii?Q?PEGqeyeaaRUH36c3g0Zh/c4DrAbkPUaKheJSG3G3C3hhuSo1e4Kob95nGShy?=
+ =?us-ascii?Q?IZrDZvBlWlV9NYtpo1y6W9XNv0Z23mqcfZICl43ZUNNCxslJfAbAKRNmVTj+?=
+ =?us-ascii?Q?NAhXYrgS5FaZufCS2IoLC1A3uaE9oDAg2A1PkIjA2nZO6f3Am0akMvlE4ToY?=
+ =?us-ascii?Q?dJMZmDXAr1/zhkkg0tK9ujd3zh9jO0jyQ2Wjs1JH4uAcEqw4F72EAlNwWF9t?=
+ =?us-ascii?Q?kKnXbDpqgp5bIvElvSgPfBA6b5VJ7NQtHziy2c86P0CGQs0RxTf76ROwCmHT?=
+ =?us-ascii?Q?lQ/tZdceBbGL5uLhQsXo5hQlg/9m77YTzu55A1IV71+YbVmJFngxrv4fnyd8?=
+ =?us-ascii?Q?fLHn4kMpYKRelqpE4p7sgIaF623g9tzb6dcuHcvrelxF9Up6TmJOOguEczxt?=
+ =?us-ascii?Q?0mowrEnRoDQndV2P65rwmuZqT/KKbrHqCYEeUNLx78LbrR+GfDN2cOJJSuJ+?=
+ =?us-ascii?Q?EDcQJ6g0GUZ4SaO2uUZs2fC30259rY2J2GgZwYIoRxbKUaSgR6lX3GndBrt7?=
+ =?us-ascii?Q?dKWh8/N67/DfcDSYy+fp0LYdtw0YZzspNkiZ73WexmOe8hZCT6QM7Wk8BrwV?=
+ =?us-ascii?Q?zX+XwD1D8d+BQV58TKbNcj/X1tbuvm2mNpjnKpkUPdhHhahNlFqMWOMJwaFH?=
+ =?us-ascii?Q?B1tGDshocwWKg0oiw6hUoLpBG7+nkgfh56DJmRoguOvFdBM1P+NmLa+7XDDl?=
+ =?us-ascii?Q?eMwibmOtTS/8hFZ9fIxYZ18UtOx8HK2pVem8gyHYUr7NFk70scTPoj8PNgS3?=
+ =?us-ascii?Q?rxqc9zBpsLH0cZCiLi7PD04aIGxrDxTyOKqjauUin7E0dFz8MYzwZwqpGwsn?=
+ =?us-ascii?Q?7mNS4oFkoppfwQgoddQNEmRLNyq/rClb22j6BOT3GrYnc9WC35PkKcmBQlrA?=
+ =?us-ascii?Q?EJ+vpO6Vxu8K8MiKQl62Dcc3pW07lfDPNHhhUlm7O4PMS9PFXRSvGnBT3yMq?=
+ =?us-ascii?Q?0YIADu/csBb0eBEQ/m3XxKOdlrQL3n8yFryrzVPcwzlERHK0eAmySgi+CZR6?=
+ =?us-ascii?Q?bnYz85bjmr7xAu5mBbfhZBCbYqJ8bwRAGqn5343vvSnsu8UpQAJRJJjvR0ia?=
+ =?us-ascii?Q?fGHPAIqWNi3YmCWl2Pxua6yLdjmyISACQ4eykwNPb87M5k29cORl0Wc58q5n?=
+ =?us-ascii?Q?RwSH1nS2Pw37D2ast/KRmQFuKOJDCmOOFN+lXYPA81jEDKXunWtezOcWfqVA?=
+ =?us-ascii?Q?8nCgMzgFfOHj1u6QjL8TIZ1BYqUP?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007)(27256017);
- DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(7416014)(366016)(376014)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aC9lSUdEUFB4S3FVTjhlM1BKTDA2YlJOdG5Lc3hSelRGbG9Razd4YTdUbVNs?=
- =?utf-8?B?bzhZVWhhMERmZ2Z3Nm5WRGo3NWhGRnJDdlozYml1NUxzVzllWWZTSmR0eDZB?=
- =?utf-8?B?ZXByTW1aTjJ6V2ZZY0Y2bWR5VnZpQUtoWVFuOGtyNHhXdWtEeklpSGthQTB4?=
- =?utf-8?B?R1dWZTZMN0laQ2tEaWVidlRaQUNmUzFVU2dla1dHMVVHczhJNU51NmJKKysy?=
- =?utf-8?B?bFJXS1BIWEhtNFJiZ0JBQTVtRFNmWTJoQ29GckdGRStCQ1hGNTdVb2lkaDJS?=
- =?utf-8?B?MkpFMlpyWjdxaE9WVkQ1bitrcXRLaWpOWGJPVGtPbTJPdVJUSWhVUGY5Y3Yw?=
- =?utf-8?B?V2JPbFNOdE5QaWM0bmh5NTMvOTdtVGEwR3dKVlJhWS9yWllsRFhSNUQzMjhV?=
- =?utf-8?B?OUxiWG02bmRjN0Q0SklXNU5kVHJJWnBPbkJTTUFvazF4eHdGTUVMcWYreU12?=
- =?utf-8?B?UVNCNHN1cVN3ZnhkaUxqb1VnT21TREhKTENQbVMvT0FUdEhZZ0p5ZGhqNy96?=
- =?utf-8?B?ODBaOVBWbkFCWWZEZ1FnR3pHWHp5T1JkaURTQ3dOdFVLclJmMWFlaFNSZWF6?=
- =?utf-8?B?NElBV2NrR2dteDh0WkRZSXFBU0I0enFQd0NmODQ5Z1BseTlNZGhwWUJ4czJU?=
- =?utf-8?B?c2ZlNXBpeFB3R0VDMWdaUFlEZzEyQjVZWXV5Y29jdGpkdG83YWROQ0x5bWJj?=
- =?utf-8?B?ZE5zQkIxUU9maWd2ZWpzRlBGa3YyTnVqbzhyMW1uRnZTTG4ydjFnV1grMldC?=
- =?utf-8?B?ZEtHelZCWFNyMlZjQWlGNlBiZEVzU000ZEg5TEZqMXlka3RkR3pDaTNndlVB?=
- =?utf-8?B?MVBqVjZTM1F2UnlQRmRzbWZzMzlTK3Rkdk1qZ0MrZVNvS2M5MDAvQ3lLNEZK?=
- =?utf-8?B?Sm5mdWtVWU0xSVBqbi92c0hUTUk5dDk2SzhmQnRxVHM2WUplN2ttRmo5Mkl5?=
- =?utf-8?B?c2pjTnRHeEgvbHQyK0MvUVI5NitabFF2WDV3K2dTQ250N1QxWnUzVmVkbDIy?=
- =?utf-8?B?RE1ROU9SbXZOLzBVczlwdHVUcngrYVA4VUs2c29rVFZlUGlTYncrMHZ5a1Iy?=
- =?utf-8?B?TTNmSjM2NWQ3MGlaMzRXcXYzRDQwM1FFMmp2USt1Qk8vTjVQbWVaeFpscFJC?=
- =?utf-8?B?Nk5JanNUcVAzSWlFVjg3dXk5eTlhc1k0SXRKTXBWZ1paR05jVVJmcVNyVHY0?=
- =?utf-8?B?eDNPYWljMGI2SG9aZEFvaDNvVUVsVVZmSmhCS1ZUeXdjVDRFT0hoSTkrbS9v?=
- =?utf-8?B?ZUtPc0d4cVdXWDE3VmpQMEUvMDIzVllxclU5bGJyWU9DRVFldWNmbGlPMlhw?=
- =?utf-8?B?TXRzZDFZUC8xa0gxejRacXBBa1ZqVElpeTJzdGdzQnlzMDdTdTZpZ1lIQU9Z?=
- =?utf-8?B?WFU4N1FtdVF4MmxJTloveGdkV1dKb0tDS2hVSVZsdjY0dVkvN25idERGcVIw?=
- =?utf-8?B?a2NzMEwremRxQ20vL2FOUjZBUTBGV0tqOGMzbFF3QlpPcTM5T096VFRRQVk3?=
- =?utf-8?B?STVLcHhla3g2VDR0T1MxYk9qZXZ2dGdPdlNPdzRxUHNJVGFUdHpUOHY3eFB3?=
- =?utf-8?B?S1JqUEhSMHpqN3lsUllUSjNJRXNMU2NWdmV2OGVwcTh6Ymw0c0txdjUzUElZ?=
- =?utf-8?B?dDNoOTFkMmlFemRVOXZHNnVBOXJ0SkhJTWRhQzRROE1TOFk3L1loZnNMSmNZ?=
- =?utf-8?B?Ymk0ZlZNZks1VzQzbUQ0dHpFRXQrMkt4b05YV2lmN1p3ZER1OGhZd213dVRW?=
- =?utf-8?B?WXE2OTBhWEMrd2VnblNmcS96MzZRWUhUZ084MC9HeDZoNG9lVCtTeTBzM2FZ?=
- =?utf-8?B?bHlSanNKRVBCYUM5eDJZVXRJS01sRW1QYjdKZUUxYWswWlZnb0xTUERtY1Yx?=
- =?utf-8?B?dzZZM2hwZjI1TDNEWVhyU0ovR3Jnb2RVMWxydWR2NWpQZnZoWDI1SDc1OHZl?=
- =?utf-8?B?RHFHSERtREN2VWhkcG5MaGdTR1NudUhHdnhiWVVZeFhPcU03UHpIa0VmZDdx?=
- =?utf-8?B?NUdCd3dXNHJsNk5OOE1QQWFKR3hLSFJ4QWNyNkt0cHo5TXpiL3FxM0JEa1Qr?=
- =?utf-8?B?azZ3WGNqazAzNld4L1R2UVR3SFRHUy9qVVFQUEZuK1VEbGdaUHdpSmg4bHhp?=
- =?utf-8?Q?NAqa/sbEXFWakYeBLu0LhWB4U?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NQ2DPP2YhKkDIThGceRul72P9fQdS0YTdy3SlSNoNWF0UUJEBLVyjmThDnDK?=
+ =?us-ascii?Q?PaxF9Qqxa0K54NrsI4gzoo1GDXw59+OMPpvppiQ2cxGFv0vfzZXq/cdzOmrC?=
+ =?us-ascii?Q?dE32FNluH4je90tOVMZ11WCQUQItSaVIWA2hBjFv71Fs2IPPrv/9j0s47Khf?=
+ =?us-ascii?Q?mw8CjK+SmXc2lhCkuznp0jd0L2E/YfnvDZKQqSwKlEwm2GdHAeEUxhRLKCIB?=
+ =?us-ascii?Q?Y5vJJi0OUKrUmoe7M5j6v79d8zPgXnZMw8WEIbiE1xJOt/5AGZMet2Ya0XPB?=
+ =?us-ascii?Q?pBDr0qyDy9dSqzSRAkE6mTBOX93dHJNim7KaneX/5Za7EYDDD5M3OWxPvK1+?=
+ =?us-ascii?Q?HDG7McSeZWjcMh3fxv6uqVNjx72cZK7CaAzxRJhTSQqoDpz3IQSOR2ZZB0po?=
+ =?us-ascii?Q?2hKtyLlc3pRPe3JZiSxBKU8SP8PQCdFKpFalIwPO8E+KAPWvalquonxv65pL?=
+ =?us-ascii?Q?xMjn2ufMcCdOmfsICMgbCxBlIalzeeGuU7yZ0SkcJjYvnaqBHHJzE9mMU8Y5?=
+ =?us-ascii?Q?t0WMmxbiuWBJHsOjTm6b8+qdmDQhbDnn4oa0NaMAmj/V+i9goT36xw1mvPli?=
+ =?us-ascii?Q?6m3BmZb7nphmcZCW7oWWeuP4+JpRVGW7NqJ953AKDk2RMHI9QR5StrZ8H9ex?=
+ =?us-ascii?Q?3bYTNi2jKUzauzYqa0WU9C6yEeo3xpN4x2etOoCsK32rf4WvIEG6u6D2CzAk?=
+ =?us-ascii?Q?tcw9iymHw+hvtvoOUD9IKK0xHWVCIFFV/uJePXt8e44xP6UB+fvceQh+bMp2?=
+ =?us-ascii?Q?bEUI+xXkjOj7pISRPUKnNArRWkrjR41NdzHLo9wnHh8Us0uWeSuwDFdMyr8B?=
+ =?us-ascii?Q?SnIEX1gzR7A0wlX+7VKp2qzSvpBUAI9BLJO1fSuRhuoNy4tzOoZ70G4tGGU0?=
+ =?us-ascii?Q?8ZWJFa2KyOvQy75yVSfW/J0bGQ9a/EpvlvUhbZpd9C6W1jH2CkbAYXRNCJNp?=
+ =?us-ascii?Q?Fji7kcRiL4IiwrijJAOL8+TZkbnZfBwmpsthkRJQXFWOrc8A3I4ATLYBYXOH?=
+ =?us-ascii?Q?nORFuc1RHHaLqZNHWfsV39y/dzm/abfvss7z2p/HDAwiHspO4ZdhSFUJTZgx?=
+ =?us-ascii?Q?A4+ned0O6a3glJL1If52bqyTQKiLlDmVEyduTL6DQd5SXtYk/h7Jfdaqh9oV?=
+ =?us-ascii?Q?LZB5e+WyH4So+T2VQMXwYyg17v4/2t0OVsC/ywINUQqHxRRkxPgKn+V5MhY7?=
+ =?us-ascii?Q?FDLZ6DNWRtUMfief0Htgn+7+asR76fCyx5+OC67ahcX1QVzlYqkusEWZpNYj?=
+ =?us-ascii?Q?0piwCGmlHMsnEr63AkAVv0q3TejnvvAAJotHwkcoGxZJKIEUJ8MTXMlYKWNo?=
+ =?us-ascii?Q?oxcG8xnprYazpoEK4lH0tKiLdEf5w6mducSMdPniTcggqqQcazyjRYkawFv1?=
+ =?us-ascii?Q?zKkd40f3A0J09+GgZVP59d16ec9YCVBO5ixUxulK+YDUnHuwC9l8XIWI3Y9a?=
+ =?us-ascii?Q?yR/zRamrArJBfU8jd93qmDp6JAvcwk3CsEnKrYzUoYGpFjWl4ameHKydsABR?=
+ =?us-ascii?Q?MXMKDm+8g+PDwJ6diqyeVwmjc39IwSIHw3Qo/pGHN2bSBahvZJ8f0NdJ+ppd?=
+ =?us-ascii?Q?zXClOjbq1O9VLAhWDQxgMtypWRJlygXrPBAcxAg+?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e83c001-4951-4561-d4bd-08dd40f3033b
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8027d37-4d56-45d0-b6ae-08dd40f4fe12
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 05:57:43.3555 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 06:11:53.8127 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eR7gwLyA+07plTE3HXeMZlyUZxwGFbHvk7tbXeJhFv0Xl3LH3mElkZrIcHVqs2N3KRSdMCT6yAff+4K6HBhTjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6055
+X-MS-Exchange-CrossTenant-UserPrincipalName: doLbSHC6dSByMWijwHcSHWDWbgWmvhDm767BqG9CRgY/vLSjHBWZRq6ySHCQQAEcmkdK2mcR41kKjWHMc+cPjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8151
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,301 +158,275 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 29, 2025 at 12:54:01PM +0100, David Hildenbrand wrote:
-> The single "real" user in the tree of make_device_exclusive_range() always
-> requests making only a single address exclusive. The current implementation
-> is hard to fix for properly supporting anonymous THP / large folios and
-> for avoiding messing with rmap walks in weird ways.
+On Wed, Jan 29, 2025 at 12:54:02PM +0100, David Hildenbrand wrote:
+> We require a writable PTE and only support anonymous folio: we can only
+> have exactly one PTE pointing at that page, which we can just lookup
+> using a folio walk, avoiding the rmap walk and the anon VMA lock.
 > 
-> So let's always process a single address/page and return folio + page to
-> minimize page -> folio lookups. This is a preparation for further
-> changes.
+> So let's stop doing an rmap walk and perform a folio walk instead, so we
+> can easily just modify a single PTE and avoid relying on rmap/mapcounts.
 > 
-> Reject any non-anonymous or hugetlb folios early, directly after GUP.
+> We now effectively work on a single PTE instead of multiple PTEs of
+> a large folio, allowing for conversion of individual PTEs from
+> non-exclusive to device-exclusive -- note that the other way always
+> worked on single PTEs.
+> 
+> We can drop the MMU_NOTIFY_EXCLUSIVE MMU notifier call and document why
+> that is not required: GUP will already take care of the
+> MMU_NOTIFY_EXCLUSIVE call if required (there is already a device-exclusive
+> entry) when not finding a present PTE and having to trigger a fault and
+> ending up in remove_device_exclusive_entry().
+
+I will have to look at this a bit more closely tomorrow but this doesn't seem
+right to me. We may be transitioning from a present PTE (ie. a writable
+anonymous mapping) to a non-present PTE (ie. a device-exclusive entry) and
+therefore any secondary processors (eg. other GPUs, iommus, etc.) will need to
+update their copies of the PTE. So I think the notifier call is needed.
+
+> Note that the PTE is
+> always writable, and we can always create a writable-device-exclusive
+> entry.
+> 
+> With this change, device-exclusive is fully compatible with THPs /
+> large folios. We still require PMD-sized THPs to get PTE-mapped, and
+> supporting PMD-mapped THP (without the PTE-remapping) is a different
+> endeavour that might not be worth it at this point.
+> 
+> This gets rid of the "folio_mapcount()" usage and let's us fix ordinary
+> rmap walks (migration/swapout) next. Spell out that messing with the
+> mapcount is wrong and must be fixed.
 > 
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->  Documentation/mm/hmm.rst                    |  2 +-
->  Documentation/translations/zh_CN/mm/hmm.rst |  2 +-
->  drivers/gpu/drm/nouveau/nouveau_svm.c       |  5 +-
->  include/linux/mmu_notifier.h                |  2 +-
->  include/linux/rmap.h                        |  5 +-
->  lib/test_hmm.c                              | 45 +++++------
->  mm/rmap.c                                   | 90 +++++++++++----------
->  7 files changed, 75 insertions(+), 76 deletions(-)
+>  mm/rmap.c | 188 ++++++++++++++++--------------------------------------
+>  1 file changed, 55 insertions(+), 133 deletions(-)
 > 
-> diff --git a/Documentation/mm/hmm.rst b/Documentation/mm/hmm.rst
-> index f6d53c37a2ca..7d61b7a8b65b 100644
-> --- a/Documentation/mm/hmm.rst
-> +++ b/Documentation/mm/hmm.rst
-> @@ -400,7 +400,7 @@ Exclusive access memory
->  Some devices have features such as atomic PTE bits that can be used to implement
->  atomic access to system memory. To support atomic operations to a shared virtual
->  memory page such a device needs access to that page which is exclusive of any
-> -userspace access from the CPU. The ``make_device_exclusive_range()`` function
-> +userspace access from the CPU. The ``make_device_exclusive()`` function
->  can be used to make a memory range inaccessible from userspace.
->  
->  This replaces all mappings for pages in the given range with special swap
-> diff --git a/Documentation/translations/zh_CN/mm/hmm.rst b/Documentation/translations/zh_CN/mm/hmm.rst
-> index 0669f947d0bc..22c210f4e94f 100644
-> --- a/Documentation/translations/zh_CN/mm/hmm.rst
-> +++ b/Documentation/translations/zh_CN/mm/hmm.rst
-> @@ -326,7 +326,7 @@ devm_memunmap_pages() 和 devm_release_mem_region() 当资源可以绑定到 ``s
->  
->  一些设备具有诸如原子PTE位的功能，可以用来实现对系统内存的原子访问。为了支持对一
->  个共享的虚拟内存页的原子操作，这样的设备需要对该页的访问是排他的，而不是来自CPU
-> -的任何用户空间访问。  ``make_device_exclusive_range()`` 函数可以用来使一
-> +的任何用户空间访问。  ``make_device_exclusive()`` 函数可以用来使一
->  个内存范围不能从用户空间访问。
->  
->  这将用特殊的交换条目替换给定范围内的所有页的映射。任何试图访问交换条目的行为都会
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> index b4da82ddbb6b..39e3740980bb 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> @@ -609,10 +609,9 @@ static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
->  
->  		notifier_seq = mmu_interval_read_begin(&notifier->notifier);
->  		mmap_read_lock(mm);
-> -		ret = make_device_exclusive_range(mm, start, start + PAGE_SIZE,
-> -					    &page, drm->dev);
-> +		page = make_device_exclusive(mm, start, drm->dev, &folio);
->  		mmap_read_unlock(mm);
-> -		if (ret <= 0 || !page) {
-> +		if (IS_ERR(page)) {
->  			ret = -EINVAL;
->  			goto out;
->  		}
-> diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
-> index e2dd57ca368b..d4e714661826 100644
-> --- a/include/linux/mmu_notifier.h
-> +++ b/include/linux/mmu_notifier.h
-> @@ -46,7 +46,7 @@ struct mmu_interval_notifier;
->   * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
->   * longer have exclusive access to the page. When sent during creation of an
->   * exclusive range the owner will be initialised to the value provided by the
-> - * caller of make_device_exclusive_range(), otherwise the owner will be NULL.
-> + * caller of make_device_exclusive(), otherwise the owner will be NULL.
->   */
->  enum mmu_notifier_event {
->  	MMU_NOTIFY_UNMAP = 0,
-> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-> index 683a04088f3f..86425d42c1a9 100644
-> --- a/include/linux/rmap.h
-> +++ b/include/linux/rmap.h
-> @@ -663,9 +663,8 @@ int folio_referenced(struct folio *, int is_locked,
->  void try_to_migrate(struct folio *folio, enum ttu_flags flags);
->  void try_to_unmap(struct folio *, enum ttu_flags flags);
->  
-> -int make_device_exclusive_range(struct mm_struct *mm, unsigned long start,
-> -				unsigned long end, struct page **pages,
-> -				void *arg);
-> +struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-> +		void *owner, struct folio **foliop);
->  
->  /* Avoid racy checks */
->  #define PVMW_SYNC		(1 << 0)
-> diff --git a/lib/test_hmm.c b/lib/test_hmm.c
-> index 056f2e411d7b..9e1b07a227a3 100644
-> --- a/lib/test_hmm.c
-> +++ b/lib/test_hmm.c
-> @@ -780,10 +780,8 @@ static int dmirror_exclusive(struct dmirror *dmirror,
->  	unsigned long start, end, addr;
->  	unsigned long size = cmd->npages << PAGE_SHIFT;
->  	struct mm_struct *mm = dmirror->notifier.mm;
-> -	struct page *pages[64];
->  	struct dmirror_bounce bounce;
-> -	unsigned long next;
-> -	int ret;
-> +	int ret = 0;
->  
->  	start = cmd->addr;
->  	end = start + size;
-> @@ -795,36 +793,31 @@ static int dmirror_exclusive(struct dmirror *dmirror,
->  		return -EINVAL;
->  
->  	mmap_read_lock(mm);
-> -	for (addr = start; addr < end; addr = next) {
-> -		unsigned long mapped = 0;
-> -		int i;
-> -
-> -		next = min(end, addr + (ARRAY_SIZE(pages) << PAGE_SHIFT));
-> +	for (addr = start; addr < end; addr += PAGE_SIZE) {
-> +		struct folio *folio;
-> +		struct page *page;
->  
-> -		ret = make_device_exclusive_range(mm, addr, next, pages, NULL);
-> -		/*
-> -		 * Do dmirror_atomic_map() iff all pages are marked for
-> -		 * exclusive access to avoid accessing uninitialized
-> -		 * fields of pages.
-> -		 */
-> -		if (ret == (next - addr) >> PAGE_SHIFT)
-> -			mapped = dmirror_atomic_map(addr, next, pages, dmirror);
-> -		for (i = 0; i < ret; i++) {
-> -			if (pages[i]) {
-> -				unlock_page(pages[i]);
-> -				put_page(pages[i]);
-> -			}
-> +		page = make_device_exclusive(mm, addr, &folio, NULL);
-> +		if (IS_ERR(page)) {
-> +			ret = PTR_ERR(page);
-> +			break;
->  		}
->  
-> -		if (addr + (mapped << PAGE_SHIFT) < next) {
-> -			mmap_read_unlock(mm);
-> -			mmput(mm);
-> -			return -EBUSY;
-> -		}
-> +		ret = dmirror_atomic_map(addr, addr + PAGE_SIZE, &page, dmirror);
-> +		if (!ret)
-> +			ret = -EBUSY;
-> +		folio_unlock(folio);
-> +		folio_put(folio);
-> +
-> +		if (ret)
-> +			break;
->  	}
->  	mmap_read_unlock(mm);
->  	mmput(mm);
->  
-> +	if (ret)
-> +		return -EBUSY;
-> +
->  	/* Return the migrated data for verification. */
->  	ret = dmirror_bounce_init(&bounce, start, size);
->  	if (ret)
 > diff --git a/mm/rmap.c b/mm/rmap.c
-> index 17fbfa61f7ef..676df4fba5b0 100644
+> index 676df4fba5b0..49ffac6d27f8 100644
 > --- a/mm/rmap.c
 > +++ b/mm/rmap.c
-> @@ -2495,70 +2495,78 @@ static bool folio_make_device_exclusive(struct folio *folio,
->  		.arg = &args,
->  	};
->  
-> -	/*
-> -	 * Restrict to anonymous folios for now to avoid potential writeback
-> -	 * issues.
-> -	 */
-> -	if (!folio_test_anon(folio) || folio_test_hugetlb(folio))
-> -		return false;
-
-A bit of churn with the previous patch but I suppose it makes a stable backport
-of the previous patch easier. The rest looks good so:
-
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
-
->  	rmap_walk(folio, &rwc);
->  
->  	return args.valid && !folio_mapcount(folio);
+> @@ -2375,131 +2375,6 @@ void try_to_migrate(struct folio *folio, enum ttu_flags flags)
 >  }
 >  
->  /**
-> - * make_device_exclusive_range() - Mark a range for exclusive use by a device
-> + * make_device_exclusive() - Mark an address for exclusive use by a device
->   * @mm: mm_struct of associated target process
-> - * @start: start of the region to mark for exclusive device access
-> - * @end: end address of region
-> - * @pages: returns the pages which were successfully marked for exclusive access
-> + * @addr: the virtual address to mark for exclusive device access
->   * @owner: passed to MMU_NOTIFY_EXCLUSIVE range notifier to allow filtering
-> + * @foliop: folio pointer will be stored here on success.
-> + *
-> + * This function looks up the page mapped at the given address, grabs a
-> + * folio reference, locks the folio and replaces the PTE with special
-> + * device-exclusive non-swap entry, preventing userspace CPU access. The
-> + * function will return with the folio locked and referenced.
->   *
-> - * Returns: number of pages found in the range by GUP. A page is marked for
-> - * exclusive access only if the page pointer is non-NULL.
-> + * On fault these special device-exclusive entries are replaced with the
-> + * original PTE under folio lock, after calling MMU notifiers.
->   *
-> - * This function finds ptes mapping page(s) to the given address range, locks
-> - * them and replaces mappings with special swap entries preventing userspace CPU
-> - * access. On fault these entries are replaced with the original mapping after
-> - * calling MMU notifiers.
-> + * Only anonymous non-hugetlb folios are supported and the VMA must have
-> + * write permissions such that we can fault in the anonymous page writable
-> + * in order to mark it exclusive. The caller must hold the mmap_lock in read
-> + * mode.
->   *
->   * A driver using this to program access from a device must use a mmu notifier
->   * critical section to hold a device specific lock during programming. Once
->   * programming is complete it should drop the page lock and reference after
->   * which point CPU access to the page will revoke the exclusive access.
-> + *
-> + * Returns: pointer to mapped page on success, otherwise a negative error.
->   */
-> -int make_device_exclusive_range(struct mm_struct *mm, unsigned long start,
-> -				unsigned long end, struct page **pages,
-> -				void *owner)
-> +struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-> +		void *owner, struct folio **foliop)
->  {
-> -	long npages = (end - start) >> PAGE_SHIFT;
-> -	long i;
-> +	struct folio *folio;
-> +	struct page *page;
-> +	long npages;
-> +
-> +	mmap_assert_locked(mm);
->  
-> -	npages = get_user_pages_remote(mm, start, npages,
-> +	/*
-> +	 * Fault in the page writable and try to lock it; note that if the
-> +	 * address would already be marked for exclusive use by the device,
-> +	 * the GUP call would undo that first by triggering a fault.
-> +	 */
-> +	npages = get_user_pages_remote(mm, addr, 1,
->  				       FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
-> -				       pages, NULL);
-> -	if (npages < 0)
-> -		return npages;
+>  #ifdef CONFIG_DEVICE_PRIVATE
+> -struct make_exclusive_args {
+> -	struct mm_struct *mm;
+> -	unsigned long address;
+> -	void *owner;
+> -	bool valid;
+> -};
 > -
-> -	for (i = 0; i < npages; i++, start += PAGE_SIZE) {
-> -		struct folio *folio = page_folio(pages[i]);
-> -		if (PageTail(pages[i]) || !folio_trylock(folio)) {
-> -			folio_put(folio);
-> -			pages[i] = NULL;
-> -			continue;
+> -static bool page_make_device_exclusive_one(struct folio *folio,
+> -		struct vm_area_struct *vma, unsigned long address, void *priv)
+> -{
+> -	struct mm_struct *mm = vma->vm_mm;
+> -	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, address, 0);
+> -	struct make_exclusive_args *args = priv;
+> -	pte_t pteval;
+> -	struct page *subpage;
+> -	bool ret = true;
+> -	struct mmu_notifier_range range;
+> -	swp_entry_t entry;
+> -	pte_t swp_pte;
+> -	pte_t ptent;
+> -
+> -	mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0,
+> -				      vma->vm_mm, address, min(vma->vm_end,
+> -				      address + folio_size(folio)),
+> -				      args->owner);
+> -	mmu_notifier_invalidate_range_start(&range);
+> -
+> -	while (page_vma_mapped_walk(&pvmw)) {
+> -		/* Unexpected PMD-mapped THP? */
+> -		VM_BUG_ON_FOLIO(!pvmw.pte, folio);
+> -
+> -		ptent = ptep_get(pvmw.pte);
+> -		if (!pte_present(ptent)) {
+> -			ret = false;
+> -			page_vma_mapped_walk_done(&pvmw);
+> -			break;
 > -		}
-> +				       &page, NULL);
-> +	if (npages != 1)
-> +		return ERR_PTR(npages);
-> +	folio = page_folio(page);
+> -
+> -		subpage = folio_page(folio,
+> -				pte_pfn(ptent) - folio_pfn(folio));
+> -		address = pvmw.address;
+> -
+> -		/* Nuke the page table entry. */
+> -		flush_cache_page(vma, address, pte_pfn(ptent));
+> -		pteval = ptep_clear_flush(vma, address, pvmw.pte);
+> -
+> -		/* Set the dirty flag on the folio now the pte is gone. */
+> -		if (pte_dirty(pteval))
+> -			folio_mark_dirty(folio);
+> -
+> -		/*
+> -		 * Check that our target page is still mapped at the expected
+> -		 * address.
+> -		 */
+> -		if (args->mm == mm && args->address == address &&
+> -		    pte_write(pteval))
+> -			args->valid = true;
+> -
+> -		/*
+> -		 * Store the pfn of the page in a special migration
+> -		 * pte. do_swap_page() will wait until the migration
+> -		 * pte is removed and then restart fault handling.
+> -		 */
+> -		if (pte_write(pteval))
+> -			entry = make_writable_device_exclusive_entry(
+> -							page_to_pfn(subpage));
+> -		else
+> -			entry = make_readable_device_exclusive_entry(
+> -							page_to_pfn(subpage));
+> -		swp_pte = swp_entry_to_pte(entry);
+> -		if (pte_soft_dirty(pteval))
+> -			swp_pte = pte_swp_mksoft_dirty(swp_pte);
+> -		if (pte_uffd_wp(pteval))
+> -			swp_pte = pte_swp_mkuffd_wp(swp_pte);
+> -
+> -		set_pte_at(mm, address, pvmw.pte, swp_pte);
+> -
+> -		/*
+> -		 * There is a reference on the page for the swap entry which has
+> -		 * been removed, so shouldn't take another.
+> -		 */
+> -		folio_remove_rmap_pte(folio, subpage, vma);
+> -	}
+> -
+> -	mmu_notifier_invalidate_range_end(&range);
+> -
+> -	return ret;
+> -}
+> -
+> -/**
+> - * folio_make_device_exclusive - Mark the folio exclusively owned by a device.
+> - * @folio: The folio to replace page table entries for.
+> - * @mm: The mm_struct where the folio is expected to be mapped.
+> - * @address: Address where the folio is expected to be mapped.
+> - * @owner: passed to MMU_NOTIFY_EXCLUSIVE range notifier callbacks
+> - *
+> - * Tries to remove all the page table entries which are mapping this
+> - * folio and replace them with special device exclusive swap entries to
+> - * grant a device exclusive access to the folio.
+> - *
+> - * Context: Caller must hold the folio lock.
+> - * Return: false if the page is still mapped, or if it could not be unmapped
+> - * from the expected address. Otherwise returns true (success).
+> - */
+> -static bool folio_make_device_exclusive(struct folio *folio,
+> -		struct mm_struct *mm, unsigned long address, void *owner)
+> -{
+> -	struct make_exclusive_args args = {
+> -		.mm = mm,
+> -		.address = address,
+> -		.owner = owner,
+> -		.valid = false,
+> -	};
+> -	struct rmap_walk_control rwc = {
+> -		.rmap_one = page_make_device_exclusive_one,
+> -		.done = folio_not_mapped,
+> -		.anon_lock = folio_lock_anon_vma_read,
+> -		.arg = &args,
+> -	};
+> -
+> -	rmap_walk(folio, &rwc);
+> -
+> -	return args.valid && !folio_mapcount(folio);
+> -}
+> -
+>  /**
+>   * make_device_exclusive() - Mark an address for exclusive use by a device
+>   * @mm: mm_struct of associated target process
+> @@ -2530,9 +2405,12 @@ static bool folio_make_device_exclusive(struct folio *folio,
+>  struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+>  		void *owner, struct folio **foliop)
+>  {
+> -	struct folio *folio;
+> +	struct folio *folio, *fw_folio;
+> +	struct vm_area_struct *vma;
+> +	struct folio_walk fw;
+>  	struct page *page;
+> -	long npages;
+> +	swp_entry_t entry;
+> +	pte_t swp_pte;
 >  
-> -		if (!folio_make_device_exclusive(folio, mm, start, owner)) {
-> -			folio_unlock(folio);
-> -			folio_put(folio);
-> -			pages[i] = NULL;
-> -		}
-> +	if (!folio_test_anon(folio) || folio_test_hugetlb(folio)) {
-> +		folio_put(folio);
-> +		return ERR_PTR(-EOPNOTSUPP);
-> +	}
-> +
-> +	if (!folio_trylock(folio)) {
-> +		folio_put(folio);
-> +		return ERR_PTR(-EBUSY);
+>  	mmap_assert_locked(mm);
+>  
+> @@ -2540,12 +2418,16 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+>  	 * Fault in the page writable and try to lock it; note that if the
+>  	 * address would already be marked for exclusive use by the device,
+>  	 * the GUP call would undo that first by triggering a fault.
+> +	 *
+> +	 * If any other device would already map this page exclusively, the
+> +	 * fault will trigger a conversion to an ordinary
+> +	 * (non-device-exclusive) PTE and issue a MMU_NOTIFY_EXCLUSIVE.
+>  	 */
+> -	npages = get_user_pages_remote(mm, addr, 1,
+> -				       FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
+> -				       &page, NULL);
+> -	if (npages != 1)
+> -		return ERR_PTR(npages);
+> +	page = get_user_page_vma_remote(mm, addr,
+> +					FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
+> +					&vma);
+> +	if (IS_ERR(page))
+> +		return page;
+>  	folio = page_folio(page);
+>  
+>  	if (!folio_test_anon(folio) || folio_test_hugetlb(folio)) {
+> @@ -2558,11 +2440,51 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+>  		return ERR_PTR(-EBUSY);
 >  	}
 >  
-> -	return npages;
-> +	if (!folio_make_device_exclusive(folio, mm, addr, owner)) {
-> +		folio_unlock(folio);
-> +		folio_put(folio);
-> +		return ERR_PTR(-EBUSY);
-> +	}
-> +	*foliop = folio;
-> +	return page;
+> -	if (!folio_make_device_exclusive(folio, mm, addr, owner)) {
+> +	/*
+> +	 * Let's do a second walk and make sure we still find the same page
+> +	 * mapped writable. If we don't find what we expect, we will trigger
+> +	 * GUP again to fix it up. Note that a page of an anonymous folio can
+> +	 * only be mapped writable using exactly one page table mapping
+> +	 * ("exclusive"), so there cannot be other mappings.
+> +	 */
+> +	fw_folio = folio_walk_start(&fw, vma, addr, 0);
+> +	if (fw_folio != folio || fw.page != page ||
+> +	    fw.level != FW_LEVEL_PTE || !pte_write(fw.pte)) {
+> +		if (fw_folio)
+> +			folio_walk_end(&fw, vma);
+>  		folio_unlock(folio);
+>  		folio_put(folio);
+>  		return ERR_PTR(-EBUSY);
+>  	}
+> +
+> +	/* Nuke the page table entry so we get the uptodate dirty bit. */
+> +	flush_cache_page(vma, addr, page_to_pfn(page));
+> +	fw.pte = ptep_clear_flush(vma, addr, fw.ptep);
+> +
+> +	/* Set the dirty flag on the folio now the pte is gone. */
+> +	if (pte_dirty(fw.pte))
+> +		folio_mark_dirty(folio);
+> +
+> +	/*
+> +	 * Store the pfn of the page in a special device-exclusive non-swap pte.
+> +	 * do_swap_page() will trigger the conversion back while holding the
+> +	 * folio lock.
+> +	 */
+> +	entry = make_writable_device_exclusive_entry(page_to_pfn(page));
+> +	swp_pte = swp_entry_to_pte(entry);
+> +	if (pte_soft_dirty(fw.pte))
+> +		swp_pte = pte_swp_mksoft_dirty(swp_pte);
+> +	/* The pte is writable, uffd-wp does not apply. */
+> +	set_pte_at(mm, addr, fw.ptep, swp_pte);
+> +
+> +	/*
+> +	 * TODO: The device-exclusive non-swap PTE holds a folio reference but
+> +	 * does not count as a mapping (mapcount), which is wrong and must be
+> +	 * fixed, otherwise RMAP walks don't behave as expected.
+> +	 */
+> +	folio_remove_rmap_pte(folio, page, vma);
+> +
+> +	folio_walk_end(&fw, vma);
+>  	*foliop = folio;
+>  	return page;
 >  }
-> -EXPORT_SYMBOL_GPL(make_device_exclusive_range);
-> +EXPORT_SYMBOL_GPL(make_device_exclusive);
->  #endif
->  
->  void __put_anon_vma(struct anon_vma *anon_vma)
 > -- 
 > 2.48.1
 > 
