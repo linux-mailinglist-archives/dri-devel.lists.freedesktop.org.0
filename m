@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE7EDA232CD
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 18:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06FEEA232CE
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 18:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8410610E06B;
-	Thu, 30 Jan 2025 17:29:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AFE410E36D;
+	Thu, 30 Jan 2025 17:29:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="eywZYJdV";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="N1b8U1vt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E26910E36D
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D98010E06B
  for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 17:29:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1738258155; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1738258157; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=A+SsHuVX3sf3+VAWzVwK1MjlZoR1xPPnyRlniEfnvy+4vEvwKnRBDH/zhgQnAa3lIJXjbJsjOR7tO+fK2jihW3qrlJt3sQUEVbAcuGxDM5lmApQf0UK2AVS4xS9WC5/aMbG0tNF0AsLN6xkqWJ8+1k34z2S2F2m7eP28v9ry7fc=
+ b=K0mcm3ZZVkIa2qRv/vGsJQ793dJM9sTSGClvlhjgb7nlQiljTSYKPq2+dFb+66Lx0Fl9H+p4bM1qqz6xm4qWpBUHGXtXvmHe5y2m32zu7xY0Lod9gxyz/BNb0BtLmT8RFAWa55K00B+HePHoaeD2QgOt52nbnPrJyC4o8KRT7J0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1738258155;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=MJtkl06MZmKKWS/Wyt3m43oW6LdnP587UJ5C+2GbfgY=; 
- b=Ju4p9MZSyZEqTnU160JefVPvFQ46L97Y6GizKpJMbULMjnGFN8jQpagnBCAH+T67MAnTiquxRaWalJ5jm50dvjMv59dSojjZLReyU5izVeGPj2y8LrOUKxo0PJE8i3wvA+eMArrPWdmovUgnjPL8sYegRT0BIsZi5fe/7b+0Suc=
+ s=zohoarc; t=1738258157;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=5MJd8R69SbdNulHkmKCs63pHS989RsRUWoZsRccqpIk=; 
+ b=R3FgPIwWME8kzcb/kMWiplOu/72pttiwcSh91NcL6siTDq545SXDOm/woqp7ZZH1UKXXXF47gweklearZjyOhd83ytB0p3iD++ZI/J+v64VXJY0tymlkFbynRWnh18QZtHCDcrIO9m+dlR3Aip7HtIgRy4tnJyV/3ALZIX/TFng=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
  dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738258155; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738258157; 
  s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=MJtkl06MZmKKWS/Wyt3m43oW6LdnP587UJ5C+2GbfgY=;
- b=eywZYJdVMeFDRNXlMjrvldqnCpC13IGzCy0ktY+sU8FhwDIDPeA+sbmgVJWTZ0qY
- XcxsOKzfr9A3YCkNTF8+v7W++lSpVLJe+yYFP6qPTV7v2t0xFMUBbV/g0HuTlYawYfW
- jBQMXIDhPQ2HfarqeC+Gbs4+fK2bgSOqie7aa/uA=
-Received: by mx.zohomail.com with SMTPS id 1738258149303588.4722290961884;
- Thu, 30 Jan 2025 09:29:09 -0800 (PST)
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=5MJd8R69SbdNulHkmKCs63pHS989RsRUWoZsRccqpIk=;
+ b=N1b8U1vts3zaRJ7wBx9g/6YhEWhcAUo6SlGINMK4ryqPiRflSKQHpmPhIZLMdpNI
+ id4aoG8htyZDl/T5pIanEpqbGYDgGxBAjLZHj3dckZZcFyRv+Iwg3Kyeq5sgNu+pklo
+ pynxEqnruF+SAo42pS7mt9++i6bQ+rn9J0gT+TYM=
+Received: by mx.zohomail.com with SMTPS id 1738258154340806.4685254117666;
+ Thu, 30 Jan 2025 09:29:14 -0800 (PST)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -49,11 +49,13 @@ Cc: kernel@collabora.com, Tvrtko Ursulin <tursulin@ursulin.net>,
  dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Subject: [PATCH v10 0/5] drm/panthor: Display size of internal kernel BOs
- through fdinfo
-Date: Thu, 30 Jan 2025 17:28:08 +0000
-Message-ID: <20250130172851.941597-1-adrian.larumbe@collabora.com>
+Subject: [PATCH v10 1/5] Documentation/gpu: Clarify format of driver-specific
+ fidnfo keys
+Date: Thu, 30 Jan 2025 17:28:09 +0000
+Message-ID: <20250130172851.941597-2-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250130172851.941597-1-adrian.larumbe@collabora.com>
+References: <20250130172851.941597-1-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -72,69 +74,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series enables display of the size of driver-owned shmem BO's that aren't
-exposed to userspace through a DRM handle. Also fixes a use-after-free bug in the
-existing fdinfo implementation for Panthor.
+This change reflects de facto usage by amdgpu, as exemplified by commit
+d6530c33a978 ("drm/amdgpu: expose more memory stats in fdinfo").
 
-Discussion of previous revision can be found here [1].
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+---
+ Documentation/gpu/drm-usage-stats.rst | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Changelog:
-v10:
- - Simplified locking scheme in panthor_vm_heaps_sizes
- - Fixed kernel test robot warning about documentation
- - Added some R-b tags to patches
-v9:
- - Added proper locking around group pool xarray to prevent UAF errors.
- - Added proper locking around vms pool xarray loop for the same reason
- - Added new patch that fixes UAF error because no locking when accessing 
-   fdinfo group stats.
- - Some minor cosmetic and naming changes.
-v8:
- - Made print_size public and added prefix argument for drm_print_memory_stats
- - Updated documentation commit to reflect new name tags
- - Some minor polishing
-v7:
- - Added new commit: mentions the formation rules for driver-specific fdinfo keys
- - Added new commit: adds a helper that lets driver print memory size key:value
-   pairs with their driver name as a prefix.
- - Modified later commits to make use of the previous ones.
- - Deleted mentions of now unnecessary memory keys in the old revision.
-v6:
- - Replace up_write witnh up_read, which was left out in the previous version
- - Fixed some minor comment and documentation issues reported by the kernel test robot
-v5:
- - Replaced down_write semaphore with the read flavour
- - Fixed typo and added explicit description for drm-shared-internal in
- the fdinfo documentation file for Panthor.
-v4:
- - Remove unrelated formating fix
- - Moved calculating overall size of a group's kernel BO's into
- its own static helper.
- - Renamed group kernel BO's size aggregation function to better
- reflect its actual responsibility.
-
-[1] https://lore.kernel.org/dri-devel/20250123225325.3271764-1-adrian.larumbe@collabora.com/
-
-Adrián Larumbe (5):
-  Documentation/gpu: Clarify format of driver-specific fidnfo keys
-  drm/file: Add fdinfo helper for printing regions with prefix
-  drm/panthor: Expose size of driver internal BO's over fdinfo
-  Documentation/gpu: Add fdinfo meanings of panthor-*-memory tags
-  drm/panthor: Fix race condition when gathering fdinfo group samples
-
- Documentation/gpu/drm-usage-stats.rst   |  5 ++-
- Documentation/gpu/panthor.rst           | 10 +++++
- drivers/gpu/drm/drm_file.c              | 27 ++++++++----
- drivers/gpu/drm/panthor/panthor_drv.c   | 14 ++++++
- drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++
- drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
- drivers/gpu/drm/panthor/panthor_mmu.c   | 33 ++++++++++++++
- drivers/gpu/drm/panthor/panthor_mmu.h   |  3 ++
- drivers/gpu/drm/panthor/panthor_sched.c | 58 ++++++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_sched.h |  3 ++
- include/drm/drm_file.h                  |  5 +++
- 11 files changed, 176 insertions(+), 10 deletions(-)
-
+diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+index 2717cb2a597e..2b5393ed7692 100644
+--- a/Documentation/gpu/drm-usage-stats.rst
++++ b/Documentation/gpu/drm-usage-stats.rst
+@@ -21,7 +21,10 @@ File format specification
+ 
+ - File shall contain one key value pair per one line of text.
+ - Colon character (`:`) must be used to delimit keys and values.
+-- All keys shall be prefixed with `drm-`.
++- All standardised keys shall be prefixed with `drm-`.
++- Driver-specific keys shall be prefixed with `driver_name-`, where
++  driver_name should ideally be the same as the `name` field in
++  `struct drm_driver`, although this is not mandatory.
+ - Whitespace between the delimiter and first non-whitespace character shall be
+   ignored when parsing.
+ - Keys are not allowed to contain whitespace characters.
 -- 
 2.47.1
 
