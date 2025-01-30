@@ -2,106 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597AEA22D9A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:21:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AC8A22DA4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 14:23:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D53A410E34B;
-	Thu, 30 Jan 2025 13:21:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AADA310E34D;
+	Thu, 30 Jan 2025 13:23:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ipeIczgT";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="iQadx/uK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 907D110E34B
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:21:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 17BD9A402BA;
- Thu, 30 Jan 2025 13:19:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20FAC4CED2;
- Thu, 30 Jan 2025 13:21:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738243300;
- bh=/FYFoFx51U6tBMI/OHfLnMY9sPQJJAgn2rePQRkIa+g=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ipeIczgTGuQ2tAkN6RTh9IBwpegKN28JEQ/xfVcxBaNGi5FKzgYstmSPXkvoI43iu
- kMyp5TWDakgKXKmEdKvV3kzusyshwF17Stqwzb5Pxu7qsLgUBvMLoPQ2rV0E3fQh/8
- sUOgM8qC/IJuNJER81hzMrMgXJsjXew5GDqmDLiRB02qbpiJX22UoV7iF33zyizKxc
- e19t9uRGkTlt5Xwdt6XE9olfrAowhX1NHc996WQ34AuaEnI/V1lgbGWUdkrWSxbTu9
- 8/NcQgjhYDzkXTahWtC0SrihNoz8IdlGVDAkyxHB4nsn+/H285NKlcOMH51qqM+JUa
- g4z7U/yf5o+Xw==
-Message-ID: <1003b393-770a-4e2b-b5ed-054f1f9072b4@kernel.org>
-Date: Thu, 30 Jan 2025 14:21:31 +0100
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBFE110E33B
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 13:23:19 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6e1a41935c3so10323726d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 05:23:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1738243399; x=1738848199; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z4xPSZzw/OoNchPOgrFnhgjUTxZA4+QRO6/LNv63tO8=;
+ b=iQadx/uKf9wswHn5dsfoDpneGipPAMnDKUPsOfCNwwOOA9XZfBPssLMOrWafbTAk7j
+ oe+4rlmQL6LUL2i1DsWECQVSPIwzA26Tb5rns48pPE/pYwxMjr4MVq/dr8V4EspdO+yj
+ fSMiwuIBqtU2k6JwY+XOUz8Rsh2b9Oa0ilOercw5SRNKPOuknpl3f1QeZDZUsR/ihO5b
+ 5C6tVs3VEp9m4E5GjlvgrB3eGlm56ZW9RAG2PbdH1nM4Gqpwy+UjqkhKhuAz0UicBWrG
+ mW8SgggJ0azXYiS3gYwhYFafKgnvIuVy/JeCKlFY2ME+XeQpblqN31xRHzyF66kFhnkW
+ FrEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738243399; x=1738848199;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Z4xPSZzw/OoNchPOgrFnhgjUTxZA4+QRO6/LNv63tO8=;
+ b=QTGp+LFd/3A4RpuxJC5quuiakm5z8MDToGXj2BiaGoylWnXh6RDdxoB4AaiBPk+SKW
+ h3MolNx6v3Ghxj8h8v+zOsH7R9zKtBwEsiByHmYS9VZsr9gRDkVrdv6EjfyuNMK7wccr
+ /Z3H0T78KW1kX991WRc15oTDXR/E8/2YBlfAuDrm3nvHu4AAL21esaTaLJHi0KEjLsd7
+ mUR7U7y8O1TeUTcb2/tw3UiU2ZoanRQnrRN/kirid/MQt4v8tPFWv8xENewlhtGnQdlP
+ 6JtS2nYjlfR7dBkUVpz+3u3esfczT+HZOyLaizyngN39O9iSdmXDyLiSw7SI9+/iwbSi
+ 8s9g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6b5dW1rez2RSeOfE6jHMc7GJGQzMs1y8Hd/UzNZip4a4eSun4RCueS2zNgI1wF9E+bwF8+Fn4Rig=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3le43XKXs5EoBBZXU0l7EJN++xsbFx7fqsd4HeurhuMkS555S
+ 83f2SbECNb4BBIj09FcwJWFXHUGnmJP9yudIKGAP08m89R5HVF7qr08EX7M+p74=
+X-Gm-Gg: ASbGncsd0un+LylR4Z9G1qMq250yOXCrG4Y2HT2u75W5JX8fm8QKs+W/vdvy9YQ5dKg
+ Z/KqCoPCYNvaXPKL256MoC8736NH+4HxerSVS9a5eLu0jQ2eXL/aTPeQMSEHQSMtPZvD6jj+TNb
+ w7Ybj0FzHpV2JB9rwvX1OsVVhVXf5wfwezaJEiYogQpTCCy4+mz6g2eoorklYw3hewsIV257nc5
+ 1jE0kVDWYY/41UmVDR5fZcAetRf9eN0o6k9EIYRYeJ3R3MqQpkOwcRRmMmtkQPGY+67rKDK1Xah
+ oBQfQ7j2W2zWeWDWrOf1RiWeApqBLw2AWoXmkb2INLBhM7zglDO2uRC5iqlWys4M
+X-Google-Smtp-Source: AGHT+IGu3gG6c418DyCLyq64UOVytvPPjptyLj9HsxmCFyjptBXKcCidLbQRWokyMo3VhHjgkQmzrQ==
+X-Received: by 2002:ad4:5d63:0:b0:6d8:aa45:a8a2 with SMTP id
+ 6a1803df08f44-6e243bbbb2bmr94974656d6.11.1738243398854; 
+ Thu, 30 Jan 2025 05:23:18 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [142.68.128.5]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-6e2549222cesm6056236d6.83.2025.01.30.05.23.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Jan 2025 05:23:18 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1tdUVp-00000009YDe-2eaQ;
+ Thu, 30 Jan 2025 09:23:17 -0400
+Date: Thu, 30 Jan 2025 09:23:17 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com,
+ lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
+ simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
+ akpm@linux-foundation.org, GalShalom@nvidia.com,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, linux-tegra@vger.kernel.org
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+Message-ID: <20250130132317.GG2120662@ziepe.ca>
+References: <20241201103659.420677-2-ymaman@nvidia.com>
+ <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
+ <20250128132034.GA1524382@ziepe.ca>
+ <de293a7e9b4c44eab8792b31a4605cc9e93b2bf5.camel@linux.intel.com>
+ <20250128151610.GC1524382@ziepe.ca>
+ <b78d32e13811ef1fa57b0535749c811f2afb4dcd.camel@linux.intel.com>
+ <20250128172123.GD1524382@ziepe.ca>
+ <Z5ovcnX2zVoqdomA@phenom.ffwll.local>
+ <20250129134757.GA2120662@ziepe.ca>
+ <Z5tZc0OQukfZEr3H@phenom.ffwll.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/panfrost: Add support for Mali on the MT8370 SoC
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, kernel <kernel@collabora.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- devicetree <devicetree@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- linux-mediatek <linux-mediatek@lists.infradead.org>
-References: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
- <20250116-mt8370-enable-gpu-v1-2-0a6b78e925c8@collabora.com>
- <20250118-meticulous-black-caracal-ec7f0d@krzk-bin>
- <194b7237128.10f9923a41656565.5574753983898665940@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <194b7237128.10f9923a41656565.5574753983898665940@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z5tZc0OQukfZEr3H@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,15 +106,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/01/2025 13:15, Louis-Alexis Eyraud wrote:
-> Hello,
+On Thu, Jan 30, 2025 at 11:50:27AM +0100, Simona Vetter wrote:
+> On Wed, Jan 29, 2025 at 09:47:57AM -0400, Jason Gunthorpe wrote:
+> > On Wed, Jan 29, 2025 at 02:38:58PM +0100, Simona Vetter wrote:
+> > 
+> > > > The pgmap->owner doesn't *have* to fixed, certainly during early boot before
+> > > > you hand out any page references it can be changed. I wouldn't be
+> > > > surprised if this is useful to some requirements to build up the
+> > > > private interconnect topology?
+> > > 
+> > > The trouble I'm seeing is device probe and the fundemantal issue that you
+> > > never know when you're done. And so if we entirely rely on pgmap->owner to
+> > > figure out the driver private interconnect topology, that's going to be
+> > > messy. That's why I'm also leaning towards both comparing owners and
+> > > having an additional check whether the interconnect is actually there or
+> > > not yet.
+> > 
+> > Hoenstely, I'd rather invest more effort into being able to update
+> > owner for those special corner cases than to slow down the fast path
+> > in hmm_range_fault..
 > 
-> sorry for the delay,
+> I'm not sure how you want to make the owner mutable.
 
-You gave yourself 12 days to respond, which is fine. But to me, you gave
-15 minutes and immediately sent v2.
+You'd probably have to use a system where you never free them until
+all the page maps are destroyed.
 
-So now your v2 will be still rejected.
+You could also use an integer instead of a pointer to indicate the
+cluster of interconnect, I think there are many options..
 
-Best regards,
-Krzysztof
+> And I've looked at the lifetime fun of unregistering a dev_pagemap for
+> device hotunplug and pretty firmly concluded it's unfixable and that I
+> should run away to do something else :-P
+
+? It is supposed to work, it blocks until all the pages are freed, but
+AFAIK ther is no fundamental life time issue. The driver is
+responsible to free all its usage.
+
+> An optional callback is a lot less scary to me here (or redoing
+> hmm_range_fault or whacking the migration helpers a few times) looks a lot
+> less scary than making pgmap->owner mutable in some fashion.
+
+It extra for every single 4k page on every user :\
+
+And what are you going to do better inside this callback?
+
+Jason
