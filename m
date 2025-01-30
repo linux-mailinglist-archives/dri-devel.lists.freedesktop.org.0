@@ -2,99 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74D9A23185
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 17:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD655A23189
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 17:10:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDFE10E9A9;
-	Thu, 30 Jan 2025 16:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 294EA10E9AB;
+	Thu, 30 Jan 2025 16:10:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="dpSKOgC6";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="ZgvXskYE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
  [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8490710E9A9
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 16:09:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E52010E9AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 16:10:34 +0000 (UTC)
 Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4361dc6322fso7243745e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 08:09:49 -0800 (PST)
+ 5b1f17b1804b1-436202dd730so7482595e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 08:10:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1738253388; x=1738858188; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1738253433; x=1738858233; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DHjECDXWr9DtzEWz0JXb8DxrPMtRT+1WnFwQ9T4qTYY=;
- b=dpSKOgC6QI62i9gw4CbPr9/y+tMNWBEX/lKXC/rApPeCgZ4Q6Ihx6ummAr5Sp5i6KZ
- lKYHLYnHQzw7CT7lctoqypYW0YNzl4Yh8jQzhtgTP9NPtSfF+7n43skylIn81Kn7vUdg
- mEqiOgjW6gALIiQEoa2wHzpfB8zFH7q/z35J0=
+ bh=+aR4Ll0dxJFmtTXN5GjVVUyw5AIaU7JwbYHSEFoNZYE=;
+ b=ZgvXskYE3e42mS7ExUvNo6PbWaRzxYeECAyzlT1cOZmO6Ho80/HVdYWNz0letnlxoB
+ 0eNMIi40R6sd3vV9TfAW2/VH0pgJq+692DveSLil/bxDh/Kkrlur+UYRbuV4jTdK8I6P
+ f0fobokyQliyiXFdkzpk+9+bqcxWmo9Ssiw5M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738253388; x=1738858188;
+ d=1e100.net; s=20230601; t=1738253433; x=1738858233;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DHjECDXWr9DtzEWz0JXb8DxrPMtRT+1WnFwQ9T4qTYY=;
- b=Y4jnY4dlqoBiWjr/CCWBeSvG9M6hpxxdsg62NdEDLYa73MKVE2hdy6UFuxwARWADZv
- bhAlKv466aGHx3swm3oHVqleWqWO4/ImnM0QPcCY9gAQMfSJJ2kYUnXnsQncaPj9Q6T1
- 53vvvJaIDs3B7UclCNR1FOKCU2JRrQsEM5t//aAPXahYPV8OWilAAfsG+lQC3V6UeGc1
- 1Z7pB7cdsC6ksvKlYLz01wqX4hN/CafuKWYaI6CgP70bL3pGo6MOznjNHMdUxe6HGzaW
- bYa0MBaU9XqXdFVi1oN6nOtBJYgY8Rat1n7wLi9AW/x6ArkuYrIl7HSxuFV0/oEbvC4R
- kalQ==
+ bh=+aR4Ll0dxJFmtTXN5GjVVUyw5AIaU7JwbYHSEFoNZYE=;
+ b=TliMUc9IazFX/pHyhk/JiRq4bR1saS460SAGdRnRNSUPphvj625KsxWoYT31mGtm4F
+ b03Wfw/eoa5G6s6nxJ8712UATMa5RGCuc5cz7hyOxVorMvwdwsqq0BvcSsJHTjW/EuU4
+ DEHva2qG0SmHc5v9FXs2xOUNd5rRctIgQLsQZkXewPSbguus7phc0czADuPI+eXwXVgM
+ JAoiFuj/WeR48TE59Y9wjIztRfL2bc7RqU3Ys8msnTydnEunp4QUEF6wKEXY+WQGFULW
+ 2nmjXvoT11E09Z0vDbd7Am4Ea7Id/+3hOwt6+B7gdQ3IJEGU8nCdrwhNruVCGWRqx4pW
+ Ar5w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWb+5f2U9buyUrFS4TsNlwp+ZEAnHnSSl49yX0ehSOLfDHQfeUXXJ4WEEy/fPwl7URg8Rs0iPg3z1M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzll7bOqp1SBPrWesLQf2ateBmY4xJr0av3qRSDLEuJcVk5jbh4
- AirD2BS1zwEDMdyd4Qxk2BQhtuBUfXSeIJHSAXjxec+tMUYrE5ygxh/KeB0HFEU=
-X-Gm-Gg: ASbGncsdXoHe5sQr6NGFte3pmLU2t30otSDJBDfFgkUeLBXpGTp7Z6L9uWIxjdAKtA8
- XfDePChAA3a16P3QntjIcDB77BO0UNPeKPxj2Rra+mOgoOMF+FN98thzYjUSDFUPm0vTGFb6/QC
- ieinMJiohG0RM37mvSC2FvCl23/qmLunf314DZc55/eP09bTJh2EhhRSeqz0spvoM663wB3kPrT
- TNb28aywh1L4eRUqXWhfDRFF1nc/pHpkMo23VQaNjeP7OaSHorh6x+pk4e3u0FCv8lp+qt+DVNd
- dHXxTbi2yOF/ccC9eTxgPub81zQ=
-X-Google-Smtp-Source: AGHT+IHzkAlG33CPN/kMrEln846pAhOyRPiLkWV/nev8K+POyx7veXX/IQAiWwM1YsBE7oYiCeZW/A==
-X-Received: by 2002:a05:600c:1e0d:b0:436:f960:3427 with SMTP id
- 5b1f17b1804b1-438dc40ffbbmr65699075e9.22.1738253387756; 
- Thu, 30 Jan 2025 08:09:47 -0800 (PST)
+ AJvYcCWzhZ8WAt63QR7lhCKCYpCfYQKgRSe2DqYejelwF8rSSOQdzXRzWcdJ5wIuJIfojs1MICu4Yv0aXYQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3mjj/hCklhoPHu7jNkmFvncamS5Q2U0uS6fBir0a5OayUwODM
+ B43tJBS+NIUMPGZkrPH82+nER1DiIYTKkXPhI/k2CmLg5tf6OElXU5uCzEFactU=
+X-Gm-Gg: ASbGncvJzSqMcJWR2sYULRWQ/PdpXCOhPYiPYKjawl4EIoRepdvI/0G7HjdN+1Jr+Kg
+ 0aOnszT0x6/FVfktJnQoAsx+xgh/YKRQIFrLPkuYPPsrGGr6DAUgnjy8GCfB+eIQmTs/To6uItk
+ HqFHA6f9uTjIwrvX8Xa1XSDvq/GlhrzC0VVQ/OEIfeClsCi2nOLSM69kPXTCD2kj5w1rduM9wip
+ /TNo/gnq9XqGAr1rooJmzp8CpUTXxCKHq/iZ1MdTasjCxS/UHeyTOoGvFb00LLB013olXJA644/
+ 7UIvoYVeATe+W+BnT1ul/+dj/y0=
+X-Google-Smtp-Source: AGHT+IHVd4DfU6AaL1PQgWpWv09mvfBE8UJUdITJOwxWpPybeOC1smy7UyEu+/Ad7rIxi3xBtlBrvg==
+X-Received: by 2002:a05:600c:5486:b0:433:c76d:d57e with SMTP id
+ 5b1f17b1804b1-438dc3a40d3mr81383795e9.5.1738253432989; 
+ Thu, 30 Jan 2025 08:10:32 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438dcc2ef08sm64120395e9.22.2025.01.30.08.09.46
+ 5b1f17b1804b1-438dcc1315esm62266005e9.6.2025.01.30.08.10.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2025 08:09:46 -0800 (PST)
-Date: Thu, 30 Jan 2025 17:09:44 +0100
+ Thu, 30 Jan 2025 08:10:32 -0800 (PST)
+Date: Thu, 30 Jan 2025 17:10:30 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com,
- lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
- simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
- akpm@linux-foundation.org, GalShalom@nvidia.com,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-mm@kvack.org, linux-tegra@vger.kernel.org
-Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
- pages
-Message-ID: <Z5ukSNjvmQcXsZTm@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com,
- lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
- simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
- akpm@linux-foundation.org, GalShalom@nvidia.com,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-mm@kvack.org, linux-tegra@vger.kernel.org
-References: <7282ac68c47886caa2bc2a2813d41a04adf938e1.camel@linux.intel.com>
- <20250128132034.GA1524382@ziepe.ca>
- <de293a7e9b4c44eab8792b31a4605cc9e93b2bf5.camel@linux.intel.com>
- <20250128151610.GC1524382@ziepe.ca>
- <b78d32e13811ef1fa57b0535749c811f2afb4dcd.camel@linux.intel.com>
- <20250128172123.GD1524382@ziepe.ca>
- <Z5ovcnX2zVoqdomA@phenom.ffwll.local>
- <20250129134757.GA2120662@ziepe.ca>
- <Z5tZc0OQukfZEr3H@phenom.ffwll.local>
- <20250130132317.GG2120662@ziepe.ca>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>
+Subject: Re: [PATCH v1 08/12] mm/rmap: handle device-exclusive entries
+ correctly in try_to_unmap_one()
+Message-ID: <Z5ukdq6LG2dQKaPU@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
+ David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>
+References: <20250129115411.2077152-1-david@redhat.com>
+ <20250129115411.2077152-9-david@redhat.com>
+ <Z5tQL60SNNGCkfQR@phenom.ffwll.local>
+ <59feb709-dadc-4d19-857e-49320cca3d98@redhat.com>
+ <Z5t5RKFwl34vpqU4@phenom.ffwll.local>
+ <20250130140832.GM5556@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250130132317.GG2120662@ziepe.ca>
+In-Reply-To: <20250130140832.GM5556@nvidia.com>
 X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -111,79 +121,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 30, 2025 at 09:23:17AM -0400, Jason Gunthorpe wrote:
-> On Thu, Jan 30, 2025 at 11:50:27AM +0100, Simona Vetter wrote:
-> > On Wed, Jan 29, 2025 at 09:47:57AM -0400, Jason Gunthorpe wrote:
-> > > On Wed, Jan 29, 2025 at 02:38:58PM +0100, Simona Vetter wrote:
-> > > 
-> > > > > The pgmap->owner doesn't *have* to fixed, certainly during early boot before
-> > > > > you hand out any page references it can be changed. I wouldn't be
-> > > > > surprised if this is useful to some requirements to build up the
-> > > > > private interconnect topology?
+On Thu, Jan 30, 2025 at 10:08:32AM -0400, Jason Gunthorpe wrote:
+> On Thu, Jan 30, 2025 at 02:06:12PM +0100, Simona Vetter wrote:
+> > On Thu, Jan 30, 2025 at 12:08:42PM +0100, David Hildenbrand wrote:
+> > > On 30.01.25 11:10, Simona Vetter wrote:
+> > > > On Wed, Jan 29, 2025 at 12:54:06PM +0100, David Hildenbrand wrote:
+> > > > > Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
+> > > > > we can return with a device-exclusive entry from page_vma_mapped_walk().
+> > > > > 
+> > > > > try_to_unmap_one() is not prepared for that, so teach it about these
+> > > > > non-present nonswap PTEs.
+> > > > > 
+> > > > > Before that, could we also have triggered this case with device-private
+> > > > > entries? Unlikely.
 > > > > 
-> > > > The trouble I'm seeing is device probe and the fundemantal issue that you
-> > > > never know when you're done. And so if we entirely rely on pgmap->owner to
-> > > > figure out the driver private interconnect topology, that's going to be
-> > > > messy. That's why I'm also leaning towards both comparing owners and
-> > > > having an additional check whether the interconnect is actually there or
-> > > > not yet.
+> > > > Just quick comment on this, I'm still pondering all the other aspects.
+> > > > 
+> > > > device-private memory is entirely owned by the driver, the core mm isn't
+> > > > supposed to touch these beyond migrating it back to system memory in
+> > > > do_swap_page. Plus using rmap when the driver asks for invalidating
+> > > > mappings as needed.
+> > > > 
+> > > > So no lru, thp, migration or anything initiated by core mm should ever
+> > > > happen on these device private pages. If it does, it'd be a bug.
 > > > 
-> > > Hoenstely, I'd rather invest more effort into being able to update
-> > > owner for those special corner cases than to slow down the fast path
-> > > in hmm_range_fault..
+> > > I was not 100% sure about HWPoison handling, that's why I added that
+> > > comment. In other regards I agree: reclaim etc. does not apply.
 > > 
-> > I'm not sure how you want to make the owner mutable.
+> > So maybe I'm just entirely lost, but unless you have a coherent
+> > interconnect I don't think hwpoisin should get involved with device
+> > private memory? And for a coherent interconnect it's just device memory,
+> > which isn't treated very special.
 > 
-> You'd probably have to use a system where you never free them until
-> all the page maps are destroyed.
+> I'm not sure it is meaningful, but in principle a driver could keep
+> track of the poisoned private memory using that struct page
+> bit. Perhaps in that sense it is more of a driver private flag than
+> something the core MM would touch.
 > 
-> You could also use an integer instead of a pointer to indicate the
-> cluster of interconnect, I think there are many options..
+> If you have a coherent interconnect then you should not be using
+> device private.
 
-Hm yeah I guess an integer allocater of the atomic_inc kind plus "surely
-32bit is enough" could work. But I don't think it's needed, if we can
-reliable just unregister the entire dev_pagemap and then just set up a new
-one. Plus that avoids thinking about which barriers we might need where
-exactly all over mm code that looks at the owner field.
-
-> > And I've looked at the lifetime fun of unregistering a dev_pagemap for
-> > device hotunplug and pretty firmly concluded it's unfixable and that I
-> > should run away to do something else :-P
-> 
-> ? It is supposed to work, it blocks until all the pages are freed, but
-> AFAIK ther is no fundamental life time issue. The driver is
-> responsible to free all its usage.
-
-Hm I looked at it again, and I guess with the fixes to make migration to
-system memory work reliable in Matt Brost's latest series it should indeed
-work reliable. The devm_ version still freaks me out because of how easily
-people misuse these for things that are memory allocations.
-
-> > An optional callback is a lot less scary to me here (or redoing
-> > hmm_range_fault or whacking the migration helpers a few times) looks a lot
-> > less scary than making pgmap->owner mutable in some fashion.
-> 
-> It extra for every single 4k page on every user :\
-> 
-> And what are you going to do better inside this callback?
-
-Having more comfy illusions :-P
-
-Slightly more seriously, I can grab some locks and make life easier,
-whereas sprinkling locking or even barriers over pgmap->owner in core mm
-is not going to fly. Plus more flexibility, e.g. when the interconnect
-doesn't work for atomics or some other funny reason it only works for some
-of the traffic, where you need to more dynamically decide where memory is
-ok to sit. Or checking p2pdma connectivity and all that stuff.
-
-But we can also do all that stuff by checking afterwards or migrating
-memory around as needed. At least for drivers who cooperate and all set
-the same owner, which I think is Thomas' current plan.
-
-Also note that fundamentally you can't protect against the hotunplug or
-driver unload case for hardware access. So some access will go to nowhere
-when that happens, until we've torn down all the mappings and migrated
-memory out.
+Yes on both, that's what I meant.
 -Sima
 -- 
 Simona Vetter
