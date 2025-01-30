@@ -2,152 +2,159 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71CDA22CA9
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 12:42:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CB2A22CD5
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 13:09:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F13FB10E93C;
-	Thu, 30 Jan 2025 11:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD30B10E94A;
+	Thu, 30 Jan 2025 12:09:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AhZIKnG7";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Ta5Pk1HT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DBE510E93C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 11:42:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738237351;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=OvJKFUs/4w46Q4QG1QX7ObxGqlReY0noE2BTZvNWIjA=;
- b=AhZIKnG7L989UX7EV7EgfHHGj4MU/81EjFeZ8KPz0apbtngn7KpxSKlSl9oS0Xu3CZRHLx
- EF0a1sLvR25eQtAMivO0pPSNaiV8BUC+/Wuh9AY7LcSSUMkygXIEqjyYhjl/mJqrb4Cwge
- 6WQbH3Vw+ahL1KO6P5OIlByPO+2hkcE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-449-6OatbpaYMDC4hgfyBYeKyA-1; Thu, 30 Jan 2025 06:42:30 -0500
-X-MC-Unique: 6OatbpaYMDC4hgfyBYeKyA-1
-X-Mimecast-MFC-AGG-ID: 6OatbpaYMDC4hgfyBYeKyA
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4361f371908so4597655e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 03:42:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738237349; x=1738842149;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OvJKFUs/4w46Q4QG1QX7ObxGqlReY0noE2BTZvNWIjA=;
- b=AAlqUehFT95UKLrvPXY2tuF9mrCD66eVj8I0gd718dNSHYTVMzOo+R1hQ/kq5ceZaB
- xmQf10bTKJGchlm+A2neF6ghlX4GFADXikZVZAB2kqrHvuxSCgHoCPzhDlp4sKHZYAdj
- SNQsUzaLXQJ8muZkSD2XnUAMDzBoNX5lGVc4c03x2qBEjAzHmhcd5l5TwbiEe9hnj69Y
- jrvNn+rChUkuycy/AByT+U2MttZOo2GGfDuXG7HuZK7PKCm9fqoCE0od7fyLYzRkrBWW
- uL8/l1ZVukXoiMK2HTDkpQFK5Jfd7Q6C5kT5thpPcFpic44LOt1EAB4B50Z1AS6CIkhH
- qfRQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0cEv3cyHv2rlOd9+lbj2yDRdE3Zmf+16yAQQvFrNtpwT4uST3SN5hiUCoybK5UApB6WLbrRlkkuA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyl3S9FXp6fScE+wsXBUK96SizXHqHgyhmwyn4tqCaPNs+yKtDd
- GvO9pID+NC3v6afpjo0n9cMw8wveAp7dbOzxJfEDW3y+s2Q5By3OW5GEtC/x1OQAvq0IYCAk9dm
- J0OQkfYjIRqbnAxXkOrUtMaXnVKQOTNXwzt7Jg+iTrvUosjyYETLrg9BAb9aCcg9YUw==
-X-Gm-Gg: ASbGncuLz8Bl9qqW1F93DYcEi+G2Xbx9DYdSlSShLOf4j4T9OU18IfDiIfVDs1Ykmnl
- AZwBL/apyMmaVDO31/Pnkrz8g9XQlwLQGdE2pMbTdkfmje+Pj2VxQAafKPe1tFtzuXKbvdF5YPR
- MP/FIS+x/6ts8iYYlbb/67vawZ7Ey5xZYBbveXo2dP95m2wSv5KvJ9Q42RAYAzrdFngFI/P6nFi
- Hk7a4YikPLZmHN2RqT7onH8sztR6jHhutKolxYCpNrisEbwDJt2LfLW7nUrWbzclBjBTCodZVul
- FsFi25XZkJboVR1QeuVeKemrNQWSvHYhjhhCHw3edcKpErUIlHpx5LqQcYxTaKpd/BRTuwhom0O
- t7p2IiqDzzh79Gg8rohW2KxyzjorjASwu
-X-Received: by 2002:a05:600c:b89:b0:432:cbe5:4f09 with SMTP id
- 5b1f17b1804b1-438dc3bb62fmr58827025e9.4.1738237349110; 
- Thu, 30 Jan 2025 03:42:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGY9Z+9uBiFOagJR/rgrq8LfD84ufQR1bgPvqm2p4jGDLTMjXvAkn0iuB45i+xIkXC9mFPx6g==
-X-Received: by 2002:a05:600c:b89:b0:432:cbe5:4f09 with SMTP id
- 5b1f17b1804b1-438dc3bb62fmr58826765e9.4.1738237348745; 
- Thu, 30 Jan 2025 03:42:28 -0800 (PST)
-Received: from ?IPV6:2003:cb:c713:3b00:16ce:8f1c:dd50:90fb?
- (p200300cbc7133b0016ce8f1cdd5090fb.dip0.t-ipconnect.de.
- [2003:cb:c713:3b00:16ce:8f1c:dd50:90fb])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438e23de772sm20187955e9.13.2025.01.30.03.42.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jan 2025 03:42:28 -0800 (PST)
-Message-ID: <887df26d-b8bb-48df-af2f-21b220ef22e6@redhat.com>
-Date: Thu, 30 Jan 2025 12:42:26 +0100
-MIME-Version: 1.0
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A99A810E93E;
+ Thu, 30 Jan 2025 12:09:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tD3WRPMdWFRQrD7vlynhNvqe5eVACKkL5lFmuVPFPP8+1cDJKUSrRSnqfORMq4OkdDJAP9DB+lQ+cV6aFXXFXW1dpN5fWbY3ky8c7gCtsuItyR/a4u9o/I7CAoKxsF4VMOY3N9e3zYjyBjouszkH+E78FUT8YtxV0as7grbAsQmk/AeFI1yTwnUrkWWAh0BrrZ1YplVcFO6eRgdOw9xBF2Ib8AMn9wxay3L+Qo2xB4+8DUIddLb/LLmTvgpwYSaQtHwxgMEnCzj0i76PM80v5imfX34vHP7H8/IH778ZY05SYrEr7liRGrw8IQdpOFRvRMW+sqJyjm7RbxHz8S5O0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xavSCauqLCPOEXTYOFx6FcUgJkzv6+mQjKKLs+Hm2Uo=;
+ b=mH2uUpl1Uc1Gi7RQ0mplTyP7DJIppEBVGbnSXmfiym3x/GYPfpZxt6ddHknWegP8fTqG1uNHh3wzDfyiaag96dMXUTRfAv3ZIPGTMjfhOF2rbrvSVS7/OlyrCaZXqt8P6vwVH8SRpD/BpYh8I2IL2qMcfzI9jtu9yqCg4tPgGbhqDOLbOsDrQNg/4XATF76xDLXSdj0dH5BTaM72nVTStN1h6e2n7XqrH2zXx8OtyFnUHd+Gzw+ZvzfaH2BagOOPUYLfu2Hvt8pfP+0EFQFI9qJRpQq04i6EpieHrb7TrT9fhGYz8BaSN+eeW9OOQQoUF3eqYns9Ke6qTYBHLka+7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xavSCauqLCPOEXTYOFx6FcUgJkzv6+mQjKKLs+Hm2Uo=;
+ b=Ta5Pk1HTGAA2nBtznYkL4ylYr5RTIwERc0j1CR5hSDb4O8AR+a7fbkeIY40QDYsV7qiEGPDde0p8xH+4+o14LrY+wdxBB4bMCxAAZVgnSm1/36VqMUQDunmpwkRLDH8g8bVvVZ3rezM3Lng02Wp7InDSX7d9nNFuYDdkSaCLtTI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ1PR12MB6217.namprd12.prod.outlook.com (2603:10b6:a03:458::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.18; Thu, 30 Jan
+ 2025 12:09:06 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%6]) with mapi id 15.20.8377.021; Thu, 30 Jan 2025
+ 12:09:06 +0000
+Content-Type: multipart/alternative;
+ boundary="------------fsWGnDq8l9uompi4GkhneprX"
+Message-ID: <f2f8bdc4-d803-41f1-931d-d9a68273fa70@amd.com>
+Date: Thu, 30 Jan 2025 13:09:01 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 12/12] mm/rmap: keep mapcount untouched for
- device-exclusive entries
-To: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- nouveau@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-13-david@redhat.com>
- <Z5tWYpwpUfgEmeKj@phenom.ffwll.local>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <Z5tWYpwpUfgEmeKj@phenom.ffwll.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: nkEW9oI_Vc9Xyb_B2zFeXdwVK9QCe6WCORnjFCmbbzY_1738237349
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 13/26] RFC drm/xe/eudebug: userptr vm pread/pwrite
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>, intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Dominik Grzegorzek <dominik.grzegorzek@intel.com>,
+ Simona Vetter <simona@ffwll.ch>
+References: <20241209133318.1806472-15-mika.kuoppala@linux.intel.com>
+ <20241220113108.2386842-1-mika.kuoppala@linux.intel.com>
+ <2eadfcd7-5cbd-4f3c-86aa-7e5a50df01d8@amd.com>
+ <173813781464.9444.9979122540723604978@jlahtine-mobl.ger.corp.intel.com>
+ <39142118-2f55-4ecb-bc7b-50705afaf4c8@amd.com>
+ <173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com>
+X-ClientProxiedBy: FR3P281CA0205.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a5::17) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ1PR12MB6217:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad617cae-aead-462f-61d3-08dd4126e4e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|8096899003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZWZpczFpVHBHTkw3ZHpOMHVUNE1kWG8vRFFCMUE0S1dPZnpLRkoybjZaY3F1?=
+ =?utf-8?B?NzBSVGhLVDltbGMyd2srY2dabElTeklLcEp5U3ZWNm93NnlSK1R5djg2UitS?=
+ =?utf-8?B?OW9KSlBpRXh3QVlaVk5zc2pOMnVqTmc5QmFUY2Q1ZDUxTVJGTWkySWEzQ0xE?=
+ =?utf-8?B?WW5FMnBITEFwbC9rQ3VsK2NwWW5kRThQWXVsVkVkeFN0cC9HenEySVV6aXRk?=
+ =?utf-8?B?a293K1pqK1BRZkM3Rm5DWEZHaGpMb2Z5dS91NlV5bWtLNHAwUHhhSEVSeXZm?=
+ =?utf-8?B?dkdUbWp1dElOTmpyU1ZpWUlKY1czM3QwYnFDbEF0QVZ5TDhiY0tkNzJ2ODBD?=
+ =?utf-8?B?WFFBeEVFdERnRmt6K0R1dS9ZNENQZVZUS25ibFg5V0JoYkVYdFJxdXVJNnU4?=
+ =?utf-8?B?RGdPRTRjS05lVkRheFJTbnFSUXQvR0loR1hYVnhpNWFiVkNoM3B3alRBL1E5?=
+ =?utf-8?B?YVF6ekJCY0Z6K1QvaXM4WHF4UDEyMnJrM0JHS0lmckNscUNzUGkzNkRNcHJ1?=
+ =?utf-8?B?MXlUbDRzNnFSblJLTjczRHBjT0VYMlArT1JObXFzOS95U0dDYWs0d3BIclEy?=
+ =?utf-8?B?N2J2cmZ5MGhIOWhKMG0xODc1b004WCswNTRNenQyd3ZOZmYzWGdFd1V3UjdN?=
+ =?utf-8?B?d1QwT0Nwdlh2UWZLbmp6aFpXWmlPcXpEeU1rRkZhdTRjejFjSkh0UEtpMWw4?=
+ =?utf-8?B?bWxXRFJBV2NsQTBKeEhTcVBXNG5ZbmJHcmIyWHlTMUNoQzY4M2dsY1lhN3lv?=
+ =?utf-8?B?eDlHOTlabSswWERQSGZ0cU1BaHNBZCtyVmJuMEZxdjJrMGJLdE1FQXM1YU5Z?=
+ =?utf-8?B?aEVYQTVmMTdwZzBtcWtKUEtXQ1hVTEtWMFVNbytYN3NwekQ2alJ5UWJWcWZR?=
+ =?utf-8?B?aDMzY3Z2K2s5Mm1mWlQzMnViZXlOZlhNcXZZK0JBTTNuLzd0anRXRjVWbEI0?=
+ =?utf-8?B?ZEl5UWlKNDhwWEtQWEE4ZU15dXFHVExEQ3k5MHI2bW9XL1VqcWtWOU14UGor?=
+ =?utf-8?B?d0ZlS3NpVVRuOUV5ODQwNTdNRGFBelVXS2RkeXRJTkNYZkVVRWlZUnVKemd2?=
+ =?utf-8?B?aUFrK0dEZ3NOQ1J4cXpsZVhCcVlDZVpVSDE1bE1pR1JreVFoVFJxWXQvMDZz?=
+ =?utf-8?B?QVpsclZITy9TZ3JsTkpoV29IS294MlM2RUY4bEhFMjBsdUhMQVFKY0dvbng0?=
+ =?utf-8?B?N3pKSGNQZHdpeUdDdUtpd1UrMzdRd2hsZ2Fxam54eXkvaUd6UFlOMm9QL0Y2?=
+ =?utf-8?B?SDVkalVsTHZyT3VjTGJwSml6a0pxN2JCR2JjZ2JXajVSaU1PNnFtYjk4dHFz?=
+ =?utf-8?B?cTB6WVBmVVpQMmtRWnlWMURYWk9XWWdPWFF6aFFNb1lvNmY0NnBGL1FhVE9Y?=
+ =?utf-8?B?ZFdrMnlQMnNkSS9tbkxOc2wyMi9sWExQdlhzNVpBcW9RbEhFbXhuT0VneFRD?=
+ =?utf-8?B?NFQxUWIxYXJCbC9NZG5VaHkyeTlySmNKczhQaFYyTkQ2RzVWNkVyOUt1alk2?=
+ =?utf-8?B?TjRHTGhETXV2UnBpUFRhQ1dpOXdPVnpsRmYyempGOVBVenU2eXQwbXR0T1ow?=
+ =?utf-8?B?c2I1VnVpelZ5cFZjR0w4enMra0RwK2xFVCtJcG9OVFVYREQrdm84REhxUnd1?=
+ =?utf-8?B?OXlLckJQY3R2QmlueWUyVEwrZ2lCVEN0OVhVYzU4OTVBOUxFQmVTQ1JuTXpF?=
+ =?utf-8?B?OGZGMWxHWmllZDJudzc2ck83bVlUTTZMdzNaUHdjK213Q2xZOXVRTVdsN0xK?=
+ =?utf-8?B?UkhZc3VTRDVQSlJTOUw1cXB4b0pVMC9YVFdzNnJRL05kb0hBMkZCakpmZVFw?=
+ =?utf-8?B?eXVBMkF1czNmMVNRaU03dUVQSnozTHdmZktNbmR1L0tBT1ZscW5nTW14ajVt?=
+ =?utf-8?Q?t9NE5zWzheORT?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(8096899003); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWZwNE9qNEpkSTVRSG9HWUNTcnBuU0hxZXdqcytXK0JCRDdadkZRWTFwWTZr?=
+ =?utf-8?B?dGtzRXIzRlU0bXI5V1JsYmQ2ZnZCbzlYdldIRkdtNWZ0UnNCV012djVJZVFs?=
+ =?utf-8?B?bDFEUm1QQW96UXQ5ekN5bGI3bXNWaCs3WUtES0hza3h2bEszR3NpanoxZ0Vm?=
+ =?utf-8?B?Z1RlS3oyWW5Fb1FleG8xNzVvNmFqMXYwVUxIK0ZqdWQ3MEp3R3JmVFIwcVkr?=
+ =?utf-8?B?Q2dPNHNWeFRoREtKeVRDU1kzamdEYUEwTEdjQ0VmRkZVTTdyL1d0YWJneXdX?=
+ =?utf-8?B?TGp0LzNxL1k1QlhYZnN4SFMzcXNMNnFCejlEdGJzU1lFMTdDQWJOZDZsdkEv?=
+ =?utf-8?B?ek9iWlZldkxMK0R6ZHZPVm54dVpYbW5NSTVpVEJ3NEV3WklEaTFtcHA5b2Fo?=
+ =?utf-8?B?UXBBdzR0aVMwRm11dVJCWHBaV3BSV2QwTFVzSzNxOHI5TS9oRlBxMW8wU1Mw?=
+ =?utf-8?B?WVA2NFNLSGpycjFUWXVYVmxaeEJBYVBLWm95SWJEZ2YzQnN3WkgvdXpGcTFT?=
+ =?utf-8?B?ZkE2YmhGZWFmdkxZT3lTZFZEWnkycXNrT25tY3AvdzJYTWV3RENTVHhnY1dz?=
+ =?utf-8?B?UGh0cm5qR3VIQmRsTTdzTW82Q1lHTzBQWUh3eHMzblJSanhKSW5mVzI0QkRO?=
+ =?utf-8?B?d2RJaDJXUzU4YTliVlFEVXlwLzdmSkxSSUZSb2VPUGJSQWZzeXY0TG5xaG91?=
+ =?utf-8?B?cVMrS0RqbFlTbjlrcm9JNjBlNzlxSzh5VURYaEVQVDNVbisxWUN5RUVjNXF1?=
+ =?utf-8?B?c2RBckRVUktBelY2SnlDT25jYUl0S3hJN2ZKSjNkemN5d21nUzU2NUdXbk0y?=
+ =?utf-8?B?cWdwdllxR21ES3JUU3djTlhVTGwrK2pHWEliWk9XVVJEb0kwU3p3MWpvYitZ?=
+ =?utf-8?B?MmZrMWdQYUp5dTNhQUNQYmpNd1V6RG4yWXlWNGZpMHVhMkxBNWM3V0JlamE0?=
+ =?utf-8?B?OWNtUGZtNHNMRHNzd0lIdktYZVhTQytvM0RGVVlEbFRmN1ZsRWRaRHFEaFJ1?=
+ =?utf-8?B?Z0UvZktSR1ZBeE8vTFIzZjJWSXp5NHRjOWZkVVFiTk42eE5qSnFzOG54S3kz?=
+ =?utf-8?B?SUp4MDk5Qm83VkZFN0lTZHh0bVpmeERFQXVMVWVMZWROY2pacy9mVVlMemQ2?=
+ =?utf-8?B?V00zbW9SVUdNS1ZhejJOZEN4aDJxeExaUXRNK2R4TzBsNS9uY3pKQXRmTEZw?=
+ =?utf-8?B?QTFyZGd2SmMvT1laMGFVZFZyYUtnc012MmRWRjZMc1dERUw1WW1XZi9yN25k?=
+ =?utf-8?B?R1dlRHRmYzIrUGRVc1dmc1ZIQTgyK0MycFAwamxiMDMyL0ZpeGtRUHovZmRa?=
+ =?utf-8?B?N1c0b3FPOGVvNEJvWUE0UWtNN3hiUmhCeXlscWVWQ0JZOStKR0htNHBiVy96?=
+ =?utf-8?B?aGw0czQ5RTRpcDZwMm5tTEdzK292Mk40Vmt5MlpCaXpHdDhaMU0rdGRHdjNB?=
+ =?utf-8?B?aTVXb3lGYlA1ZjJUZXloMDVTWE11QzN5KzR5S0lLUUtLZWlpeU1NaHUwVUYz?=
+ =?utf-8?B?L21QZmYzd1BvUjU4YVRNQmtxYVN4K1l5WVlzT0xrY1pkMFBobDZWVHF4cjE5?=
+ =?utf-8?B?OEdQZ29pNmlrVFduZVFyakwyeDdHVktqYkRMNzRaclplSm1QNVQ0OEUxZmJm?=
+ =?utf-8?B?SUZzNTkwb2U5U25NSUJxSUJYS0JiVjBQQkZkRzlNSE56K29qZGpyb1UwdytK?=
+ =?utf-8?B?K0RCcFlnY1kvSmVCZFpTdXp1Mi96S2RuTWdjeFJMOVJRSFdvOC9jQnpvUUJ0?=
+ =?utf-8?B?UVVjQnJCWDAraGZGR2d3RjBmM3dzenhnVDN5aERESHRFSDc1YTQ1blJMTEh5?=
+ =?utf-8?B?bWFjUkRvSUpiY0U2RTIxajZQc09tYkJhWU82L3dTMkFVRGlrcEg0ZFlxTTl6?=
+ =?utf-8?B?SnI0aGxZV3p0ZTRYTUlZWlFBTDRaT0JIOGEwT3pTMGoyclVaR0lGckJWeFNQ?=
+ =?utf-8?B?MVdWa2pUeDBnbk4wYXYrZjdldHJwZ1hmK3dna3pCVFJ5RHNveXNDc1czRStM?=
+ =?utf-8?B?Y3BtclpqMG8yRGd0WkYwdHFjbjBVMEZzZXRmMTY3dTdaYXoveEJCU294R29D?=
+ =?utf-8?B?QmZobTBCTzFtKzlTMXJBYWVhVTNFRUZWd2NaNzJJd1paTXJua1U2K3RUQmdv?=
+ =?utf-8?Q?8hjcFEgyw9NyK7szcPVHDRgkq?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad617cae-aead-462f-61d3-08dd4126e4e3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 12:09:06.2170 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FCgxuQDEHmG9zI5/aAVW7Kv8Cq4FuMVDvDdD9uDSMaHRlN7vUVG7OW9n57Pw13Oj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6217
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,110 +170,293 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30.01.25 11:37, Simona Vetter wrote:
-> On Wed, Jan 29, 2025 at 12:54:10PM +0100, David Hildenbrand wrote:
->> Now that conversion to device-exclusive does no longer perform an
->> rmap walk and the main page_vma_mapped_walk() users were taught to
->> properly handle nonswap entries, let's treat device-exclusive entries just
->> as if they would be present, similar to how we handle device-private
->> entries already.
-> 
-> So the reason for handling device-private entries in rmap is so that
-> drivers can rely on try_to_migrate and related code to invalidate all the
-> various ptes even for device private memory. Otherwise no one should hit
-> this path, at least if my understanding is correct.
+--------------fsWGnDq8l9uompi4GkhneprX
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Right, device-private probably only happen to be seen on the migration 
-path so far.
+Am 29.01.25 um 19:18 schrieb Joonas Lahtinen:
+>>> Would be great to reach a consensus on the high level details before
+>>> spinning off further series addressing the smaller items.
+>> I would say that attaching debug metadata to the GPU VMA doesn't look
+>> like the best design, but if you just do that inside XE it won't affect
+>> any other part of the kernel.
+> It just grew out of convenience of implementation on the side of VM_BIND.
+>
+> The other alternative would be to maintain a secondary load map in the
+> kernel in a separate data structure from GPU VMA.
+>
+> I was actually going to suggest such thing as a common DRM thing: GPU VMA
+> metadata interface or parallel "GPU loadmap" interface. It'd allow for
+> userspace tooling to more easier go from GPU EU IP to a module that
+> was loaded at that address. Kind of a step 0 towards backtrace for GPU.
+>
+> Can you elaborate on what your concern is with the VMA metadata
+> attachment?
 
-> 
-> So I'm very much worried about opening a can of worms here because I think
-> this adds a genuine new case to all the various callers.
+In general we should try to avoid putting data into the kernel the 
+kernel doesn't need.
 
-To be clear: it can all already happen.
+In other words we don't put the debug metadata for the CPU process on 
+the CPU VMA either.
 
-Assume you have a THP (or any mTHP today). You can easily trigger the 
-scenario that folio_mapcount() != 0 with active device-exclusive 
-entries, and you start doing rmap walks and stumble over these 
-device-exclusive entries and *not* handle them properly. Note that more 
-and more systems are configured to just give you THP unless you 
-explicitly opted-out using MADV_NOHUGEPAGE early.
+You could reduce the amount of data massively if you just attach the 
+source of the debug metadata to the GPU VMA.
 
-Note that b756a3b5e7ea added that hunk that still walks these 
-device-exclusive entries in rmap code, but didn't actually update the 
-rmap walkers:
+E.g. instead of the symbol table just where to find it. A VA of the CPU 
+process, a file system location or something like that.
 
-@@ -102,7 +104,8 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw)
-
-                 /* Handle un-addressable ZONE_DEVICE memory */
-                 entry = pte_to_swp_entry(*pvmw->pte);
--               if (!is_device_private_entry(entry))
-+               if (!is_device_private_entry(entry) &&
-+                   !is_device_exclusive_entry(entry))
-                         return false;
-
-                 pfn = swp_offset(entry);
-
-That was the right thing to do, because they resemble PROT_NONE entries 
-and not migration entries or anything else that doesn't hold a folio 
-reference).
-
-Fortunately, it's only the page_vma_mapped_walk() callers that need care.
-
-mm/rmap.c is handled with this series.
-
-mm/page_vma_mapped.c should work already.
-
-mm/migrate.c: does not apply
-
-mm/page_idle.c: likely should just skip !pte_present().
-
-mm/ksm.c might be fine, but likely we should just reject !pte_present().
-
-kernel/events/uprobes.c likely should reject !pte_present().
-
-mm/damon/paddr.c likely should reject !pte_present().
-
-
-I briefly though about a flag to indicate if a page_vma_mapped_walk() 
-supports these non-present entries, but likely just fixing them up is 
-easier+cleaner.
-
-Now that I looked at all, I might just write patches for them.
-
-> 
->> This fixes swapout/migration of folios with device-exclusive entries.
+>> My other concern I have is using ptrace_may_access, I would still try to
+>> avoid that.
 >>
->> Likely there are still some page_vma_mapped_walk() callers that are not
->> fully prepared for these entries, and where we simply want to refuse
->> !pte_present() entries. They have to be fixed independently; the ones in
->> mm/rmap.c are prepared.
-> 
-> The other worry is that maybe breaking migration is a feature, at least in
-> parts. 
+>> What if you first grab the DRM render node file descriptor which
+>> represents the GPU address space you want to debug with pidfd_getfd()
+>> and then either create the eudebug file descriptor from an IOCTL or
+>> implement the necessary IOCTLs on the DRM render node directly?
+>>
+>> That would make it unnecessary to export ptrace_may_access.
+> We're prototyping this. At this point there are some caveats recognized:
+>
+> 1. There is a limitation that you don't get a notification when your
+> target PID opens a DRM client, but GDB or other application would have
+> to keep polling for the FDs. I'll have to check with the team how that
+> would fit to GDB side.
 
-Maybe breaking swap and migration is a feature in some reality, in this 
-reality it's a BUG :)
+Well there is the dnotify/inotify API which allows a process to be 
+notified of certain filesystem events.
 
-If thp constantly reassembles a pmd entry because hey all the
-> memory is contig and userspace allocated a chunk of memory to place
-> atomics that alternate between cpu and gpu nicely separated by 4k pages,
-> then we'll thrash around invalidating ptes to no end. So might be more
-> fallout here.
+I never used it, but it potentially provides an event when a specific 
+file is open.
 
-khugepaged will back off once it sees an exclusive entry, so collapsing 
-could only happen once everything is non-exclusive. See 
-__collapse_huge_page_isolate() as an example.
+On the other hand I have no idea what permissions are necessary to use 
+it, potentially root.
 
-It's really only page_vma_mapped_walk() callers that are affected by 
-this change, not any other page table walkers.
+> 2. Debugging multiple DRM clients (to same GPU) under one PID now
+> requires separate debugger connections. This may break the way the debugger
+> locking is currently implemented for the discovery phase to prevent parallel
+> IOCTL from running. Will have to look into it once we have a working
+> prototype.
 
+Well multiple DRM clients would also have multiple GPU VM address 
+spaces, wouldn't they?
 
-It's unfortunate that we now have to fix it all up, that original series 
-should have never been merged that way.
+So you would need multiple connections, one for each DRM client as well.
 
--- 
-Cheers,
+> 3. Last but not the least, we'll have to compare which LSM security
+> modules and other conditions checked on the pidfd_getfd() paths for
+> access restrictions.
+>
+> Reason for using ptrace_may_access() was to have a clear 1:1 mapping
+> between user being allowed to ptrace() a PID to control CPU threads and
+> do debugger IOCTL to control GPU threads. So if user can attach to a PID
+> with GDB, they would certainly also be able to debug the GPU portion.
+>
+> If there is divergence, I don't see a big benefit in going to
+> pidfd_getfd(). We're all the same not even exporting ptrace_may_access()
+> and YOLO'ing the access check by comparing euid and such which is close
+> to what ptrace does, but not exactly the same (just like pidfd_getfd()
+> access checks).
 
-David / dhildenb
+Well that argumentation is exactly backward to why I suggested not using 
+ptrace_may_access().
 
+When an administrator used LSM to block pidfd_getfd() then a driver 
+which uses a driver specific IOCTL to bypass that is actually a really 
+bad idea.
+
+> However I believe this would not be a fundamental blocker for the
+> series? If this would be the only remaining disagreement, I guess we
+> could just do CAP_ADMIN check initially before we can find something
+> agreeable.
+
+Well as soon as anything is merged upstream it becomes UAPI, which in 
+turn means that changing it fundamentally becomes really hard to do.
+
+What you could do is to expose the interface through debugfs and 
+explicitly state that it isn't stable in any way.
+
+Regards,
+Christian.
+
+>
+> Regards, Joonas
+>
+>> Regards,
+>> Christian.
+>>
+>>> Regards, Joonas
+>>>
+>>>> Regards,
+>>>> Christian.
+
+--------------fsWGnDq8l9uompi4GkhneprX
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    Am 29.01.25 um 19:18 schrieb Joonas Lahtinen:<br>
+    <blockquote type="cite" cite="mid:173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com"><span style="white-space: pre-wrap">
+</span>
+      <blockquote type="cite">
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">Would be great to reach a consensus on the high level details before
+spinning off further series addressing the smaller items.
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+I would say that attaching debug metadata to the GPU VMA doesn't look 
+like the best design, but if you just do that inside XE it won't affect 
+any other part of the kernel.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+It just grew out of convenience of implementation on the side of VM_BIND.
+
+The other alternative would be to maintain a secondary load map in the
+kernel in a separate data structure from GPU VMA.
+
+I was actually going to suggest such thing as a common DRM thing: GPU VMA
+metadata interface or parallel &quot;GPU loadmap&quot; interface. It'd allow for
+userspace tooling to more easier go from GPU EU IP to a module that
+was loaded at that address. Kind of a step 0 towards backtrace for GPU.
+
+Can you elaborate on what your concern is with the VMA metadata
+attachment?</pre>
+    </blockquote>
+    <br>
+    In general we should try to avoid putting data into the kernel the
+    kernel doesn't need.<br>
+    <br>
+    In other words we don't put the debug metadata for the CPU process
+    on the CPU VMA either.<br>
+    <br>
+    You could reduce the amount of data massively if you just attach the
+    source of the debug metadata to the GPU VMA.<br>
+    <br>
+    E.g. instead of the symbol table just where to find it. A VA of the
+    CPU process, a file system location or something like that.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com">
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">My other concern I have is using ptrace_may_access, I would still try to 
+avoid that.
+
+What if you first grab the DRM render node file descriptor which 
+represents the GPU address space you want to debug with pidfd_getfd() 
+and then either create the eudebug file descriptor from an IOCTL or 
+implement the necessary IOCTLs on the DRM render node directly?
+
+That would make it unnecessary to export ptrace_may_access.
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+We're prototyping this. At this point there are some caveats recognized:
+
+1. There is a limitation that you don't get a notification when your
+target PID opens a DRM client, but GDB or other application would have
+to keep polling for the FDs. I'll have to check with the team how that
+would fit to GDB side.</pre>
+    </blockquote>
+    <br>
+    Well there is the dnotify/inotify API which allows a process to be
+    notified of certain filesystem events.<br>
+    <br>
+    I never used it, but it potentially provides an event when a
+    specific file is open.<br>
+    <br>
+    On the other hand I have no idea what permissions are necessary to
+    use it, potentially root.<br>
+    <br>
+    <span style="white-space: pre-wrap">
+</span>
+    <blockquote type="cite" cite="mid:173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com">
+      <pre class="moz-quote-pre" wrap="">2. Debugging multiple DRM clients (to same GPU) under one PID now
+requires separate debugger connections. This may break the way the debugger
+locking is currently implemented for the discovery phase to prevent parallel
+IOCTL from running. Will have to look into it once we have a working
+prototype.</pre>
+    </blockquote>
+    <br>
+    Well multiple DRM clients would also have multiple GPU VM address
+    spaces, wouldn't they?<br>
+    <br>
+    So you would need multiple connections, one for each DRM client as
+    well.<br>
+    <br>
+    <blockquote type="cite" cite="mid:173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com">
+      <pre class="moz-quote-pre" wrap="">3. Last but not the least, we'll have to compare which LSM security
+modules and other conditions checked on the pidfd_getfd() paths for
+access restrictions.
+
+Reason for using ptrace_may_access() was to have a clear 1:1 mapping
+between user being allowed to ptrace() a PID to control CPU threads and
+do debugger IOCTL to control GPU threads. So if user can attach to a PID
+with GDB, they would certainly also be able to debug the GPU portion.
+
+If there is divergence, I don't see a big benefit in going to
+pidfd_getfd(). We're all the same not even exporting ptrace_may_access()
+and YOLO'ing the access check by comparing euid and such which is close
+to what ptrace does, but not exactly the same (just like pidfd_getfd()
+access checks).</pre>
+    </blockquote>
+    <br>
+    Well that argumentation is exactly backward to why I suggested not
+    using ptrace_may_access().<br>
+    <br>
+    When an administrator used LSM to block pidfd_getfd() then a driver
+    which uses a driver specific IOCTL to bypass that is actually a
+    really bad idea.<br>
+    <br>
+    <blockquote type="cite" cite="mid:173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com">
+      <pre class="moz-quote-pre" wrap="">However I believe this would not be a fundamental blocker for the
+series? If this would be the only remaining disagreement, I guess we
+could just do CAP_ADMIN check initially before we can find something
+agreeable.</pre>
+    </blockquote>
+    <br>
+    Well as soon as anything is merged upstream it becomes UAPI, which
+    in turn means that changing it fundamentally becomes really hard to
+    do.<br>
+    <br>
+    What you could do is to expose the interface through debugfs and
+    explicitly state that it isn't stable in any way.<br>
+    <br>
+    Regards,<br>
+    Christian.<br>
+    <br>
+    <blockquote type="cite" cite="mid:173817470871.73308.11950290138742433654@jlahtine-mobl.ger.corp.intel.com">
+      <pre class="moz-quote-pre" wrap="">
+
+Regards, Joonas
+
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+Regards,
+Christian.
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+Regards, Joonas
+
+</pre>
+          <blockquote type="cite">
+            <pre class="moz-quote-pre" wrap="">Regards,
+Christian.
+</pre>
+          </blockquote>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+      </blockquote>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------fsWGnDq8l9uompi4GkhneprX--
