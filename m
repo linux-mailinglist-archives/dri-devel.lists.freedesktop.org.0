@@ -2,97 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CE3DA229E3
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 09:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D30A229FC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Jan 2025 10:02:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1981010E2C3;
-	Thu, 30 Jan 2025 08:56:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0E0E10E2CF;
+	Thu, 30 Jan 2025 09:02:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZLbJtHOo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VdB2e9n+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 696C910E2C3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 08:56:27 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23A8210E2CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 09:02:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738227386;
+ s=mimecast20190719; t=1738227723;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pnLOL5siwR5BxEAjycoT3uYFK6h+TWN9CY8uLMr9KK4=;
- b=ZLbJtHOoqadsrg54CwC5whaS3T3Csg9lchz7zFnnhIoOCLxgWfSDz4Kq2TmgGYQPI/VaCu
- tr4pHlNkOO1iNDo9C+E3rEPcC0daMcpJ1MvacK0cRvQ2h43mXiUTEpdh9k5DpT9RUhuSW1
- eY1swrysH8zFeKzeAgjuSNpAHkUQulI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P7BnR7oKxWFLrbq+LpQx7284rU6/PZ9N/+D+Z7eg9Us=;
+ b=VdB2e9n+/Zsyv7i6P91rGwMQU3Ybd6ZrIl9/IDaWAzi0LkEmM3N/PjI6OIkRUyRz9ydU2t
+ Hhc/53T2LbgpVK7DKNEtKp8l6delPuuB5JJt5zh6RDVeJkcko2mqxFX3BGEXgXCQxf3QRE
+ /PIDwEBLJzWPDLdOEH3FuOcDeDKiQWM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-ZFTpjs6oOOmYlQQdPxPsWQ-1; Thu, 30 Jan 2025 03:56:25 -0500
-X-MC-Unique: ZFTpjs6oOOmYlQQdPxPsWQ-1
-X-Mimecast-MFC-AGG-ID: ZFTpjs6oOOmYlQQdPxPsWQ
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-4362b9c1641so2227465e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 00:56:24 -0800 (PST)
+ us-mta-5-H69EuGb2NM6-SOzxqP4sow-1; Thu, 30 Jan 2025 04:02:01 -0500
+X-MC-Unique: H69EuGb2NM6-SOzxqP4sow-1
+X-Mimecast-MFC-AGG-ID: H69EuGb2NM6-SOzxqP4sow
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3862a49fbdaso193765f8f.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 01:02:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738227384; x=1738832184;
+ d=1e100.net; s=20230601; t=1738227720; x=1738832520;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=pnLOL5siwR5BxEAjycoT3uYFK6h+TWN9CY8uLMr9KK4=;
- b=B05orcrqV+j5O6CF8lEzHqj8Mnw7POFiSmUIoeY9WOgJRSvPIENOZWB5qbHvWTIPH8
- xxmAAYghdKacaEPx+I+qsxXzyocM1EGsd8jypKGua/HTBhUjVLtbNs7VNpjei4HmQCuM
- J4aUxPqWSOXw7/5pnukgf1H4F340d5YM5Gcsy93llWGYto4NZaptAPvCRIf0BtD5ol0u
- 05MXx21ZLOBIY8QQQLesxk3laV2hge07325eJqrgKUn/xW1WmeFe8AZlGSbLMLq+VTTa
- Ssh85O36+bbOZGQpGJkwsAz3YdgVPOeP3H5j1H0RwDfVL5Efi+e538Q2bn63TcneC6++
- +GIQ==
+ bh=P7BnR7oKxWFLrbq+LpQx7284rU6/PZ9N/+D+Z7eg9Us=;
+ b=ceZCfo90mbU4t00e25eBg95r80Xz5Tbvg78m387QuZ/8Yv6pw/cPpBIzluaarWK7Oz
+ 0guLWSChzlPmM39Mh/rCpWEOP3hETVv4283SsiUM0SUENfXMZnvJPTNOjVY7GCqXYAun
+ fKYg1CCOG8B640uzdeIXSpivfahc5jAH/wMZZyE32B9lHOF/77/S6Nq5nEhXPC+EfeQQ
+ 0Sl0cr1JVGxqLgDkhBFsomQB1Krr8RzpZ0mYRFvMnzvOhfUTv2lsodLhY6DVFvUSj8lu
+ Zmn8N7J0Z00mZs0NBPSDrwo1CnrQrcpnWAZQuXRs5a10YCpqIow/EERTPsvEx44GeTQT
+ DaKA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUBnTBeGRy2XsLWwCiZclBjwZzP7gAOPRInBxiucm8RBlmQabFVgd9ZVrjnzAynYj6XIZVz+c9PWA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWDCwqOuDucaOVVDhL8WTk04RUFYuuD+Ju04gJE3G+SLw7ikZV
- 9g04wjwAPT3ZdoRwhugKCOU9Kk1MRQE9D3Q9EkW37eACqOiQHFS/NANruqYHrlgQWTSRfTuZAeO
- r9gy+CIpFoKQjE7Na4ExhqfSY+h460N9ecHSF+bWDnGwizZnlOLJQRd8lTTo9spnXLA==
-X-Gm-Gg: ASbGncvF2Qx5VGYEcHsEZZzQ0zRFBvUsi+PbRc2DkzlSBlB47wttY32LrfHv7Lc83Xn
- HJ5KJ0rEWbl7XT7u8Vz0fe5sX/Enan9v2Fvm54QZk99YPIkcraxshbrrZi8sX/AqkmDHP03a16J
- +sXedsEE/WdDFB4Pahp7P4/ZlsGAaxzbIzKuFpaiz0U8CjRMWqrmd1jM4O0GIYBxfE1XNHiHXJf
- ghCa1j11JbpCPJBWTnOf1d1M7vJj6oy2OCJbEg98+ylsegD+0BXpQ7gEUj1FqXhr+KSD4sB5fxg
- nnxkGx4Ag60rRytvCFA0Ypj1x2xUeqq/juVnnsuB/g/q
-X-Received: by 2002:a05:600c:212:b0:434:f270:a4f0 with SMTP id
- 5b1f17b1804b1-438e07cd591mr27629315e9.21.1738227383870; 
- Thu, 30 Jan 2025 00:56:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH0itvGVCZG4RumRuf7h8v/horjGNz+EfGmPAGziGyVncpeWB3PI5aSg4IcsH6VSUET2T0htg==
-X-Received: by 2002:a05:600c:212:b0:434:f270:a4f0 with SMTP id
- 5b1f17b1804b1-438e07cd591mr27628995e9.21.1738227383450; 
- Thu, 30 Jan 2025 00:56:23 -0800 (PST)
+ AJvYcCUENFz7gyisH7ufpUBPzX82jNEhqigFFwAOZFjFxOeShGRPQ/D+oMPv6c5k1PZFD/Fmu+tb04c8ra4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKvCeG4ykFgnYiFM2DWN3j4ji94YUWYoXV1EQfDMjIL+QwS32v
+ XtkqGFiuIQSV3/FWUARZemgFD2p5IJCjeS4zHq6QPeYA91Tw09DD+oGB7PEbvK4Wy+58mh2tIVX
+ nhahtBoDU6fb6FbG2ckywUY1CrhX45cB8p3F7wui5KYzg2fB69rX1m2Gfz3Sl0UJU3Q==
+X-Gm-Gg: ASbGncvPBlOdHW9JGPjWFh7hUJHECGJdt46dETjAqb9YPAOBkPLYT3ppLqhDTNhCEq5
+ Nohj0qSv4xqUDEF0z497hCdvL6dwd8HQFrnVqv8xPG+HOovREtdK6cZCYaMFgQpyogEb5DwYTo7
+ djvghvZVrVfybm06gzU9odArgnnwgKt1TR7FMLv4LJPy2CnxPQ03y4MBqrkkKNlo9NZWZDW2Hl3
+ Kcvzs2XkdMpFVBEDTg77h5VcGTudPaCTBC8+JYWtaMRoBcQqL3vTEO9CBt1oTdekbIiZfa74/Mq
+ YPBnVWH3G3rzyqz5kpAj0kROOpixS5rXJ3X/FARtzqHE
+X-Received: by 2002:a5d:674e:0:b0:386:4a0c:fe17 with SMTP id
+ ffacd0b85a97d-38c51b5e4efmr4617345f8f.27.1738227720418; 
+ Thu, 30 Jan 2025 01:02:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFk2uwTm4ytpRhBOmy2rIFSiLhi0lro88yTTUiOicna290ro8PmQqH5omjQhhHzbTGLrwMXXg==
+X-Received: by 2002:a5d:674e:0:b0:386:4a0c:fe17 with SMTP id
+ ffacd0b85a97d-38c51b5e4efmr4617305f8f.27.1738227720024; 
+ Thu, 30 Jan 2025 01:02:00 -0800 (PST)
 Received: from ?IPV6:2a01:599:904:96e0:a245:aa9f:6c57:eb41?
  ([2a01:599:904:96e0:a245:aa9f:6c57:eb41])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438dcc6df36sm53447555e9.25.2025.01.30.00.56.21
+ ffacd0b85a97d-38c5c019b1dsm1359184f8f.0.2025.01.30.01.01.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Jan 2025 00:56:22 -0800 (PST)
-Message-ID: <b363847b-a1d6-41f0-9f81-d97923382bb3@redhat.com>
-Date: Thu, 30 Jan 2025 09:56:20 +0100
+ Thu, 30 Jan 2025 01:01:58 -0800 (PST)
+Message-ID: <180e9c2f-51fe-44ba-ac68-5aa7b7918ab0@redhat.com>
+Date: Thu, 30 Jan 2025 10:01:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 01/12] mm/gup: reject FOLL_SPLIT_PMD with hugetlb VMAs
-To: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+Subject: Re: [PATCH v1 04/12] mm/rmap: implement make_device_exclusive() using
+ folio_walk instead of rmap walk
+To: Alistair Popple <apopple@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- stable@vger.kernel.org
+ Jason Gunthorpe <jgg@nvidia.com>
 References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-2-david@redhat.com>
- <24e88fec-65b5-47ad-8833-67257f86fde5@nvidia.com>
+ <20250129115411.2077152-5-david@redhat.com>
+ <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -139,9 +140,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <24e88fec-65b5-47ad-8833-67257f86fde5@nvidia.com>
+In-Reply-To: <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 49JB90kV0PlpuOV0x2T-bS2b-XMpHJDZei8eMwllGXU_1738227384
+X-Mimecast-MFC-PROC-ID: dkxKMUkngrFh3tQc-RH2LCEdA93f_qp3ohUX6zgquNE_1738227720
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -161,70 +162,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29.01.25 22:42, John Hubbard wrote:
-> On 1/29/25 3:53 AM, David Hildenbrand wrote:
->> We only have two FOLL_SPLIT_PMD users. While uprobe refuses hugetlb
->> early, make_device_exclusive_range() can end up getting called on
->> hugetlb VMAs.
+On 30.01.25 07:11, Alistair Popple wrote:
+> On Wed, Jan 29, 2025 at 12:54:02PM +0100, David Hildenbrand wrote:
+>> We require a writable PTE and only support anonymous folio: we can only
+>> have exactly one PTE pointing at that page, which we can just lookup
+>> using a folio walk, avoiding the rmap walk and the anon VMA lock.
 >>
->> Right now, this means that with a PMD-sized hugetlb page, we can end
->> up calling split_huge_pmd(), because pmd_trans_huge() also succeeds
->> with hugetlb PMDs.
+>> So let's stop doing an rmap walk and perform a folio walk instead, so we
+>> can easily just modify a single PTE and avoid relying on rmap/mapcounts.
 >>
->> For example, using a modified hmm-test selftest one can trigger:
+>> We now effectively work on a single PTE instead of multiple PTEs of
+>> a large folio, allowing for conversion of individual PTEs from
+>> non-exclusive to device-exclusive -- note that the other way always
+>> worked on single PTEs.
 >>
->> [  207.017134][T14945] ------------[ cut here ]------------
->> [  207.018614][T14945] kernel BUG at mm/page_table_check.c:87!
->> [  207.019716][T14945] Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
->> [  207.021072][T14945] CPU: 3 UID: 0 PID: ...
->> [  207.023036][T14945] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-2.fc40 04/01/2014
->> [  207.024834][T14945] RIP: 0010:page_table_check_clear.part.0+0x488/0x510
->> [  207.026128][T14945] Code: ...
->> [  207.029965][T14945] RSP: 0018:ffffc9000cb8f348 EFLAGS: 00010293
->> [  207.031139][T14945] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: ffffffff8249a0cd
->> [  207.032649][T14945] RDX: ffff88811e883c80 RSI: ffffffff8249a357 RDI: ffff88811e883c80
->> [  207.034183][T14945] RBP: ffff888105c0a050 R08: 0000000000000005 R09: 0000000000000000
->> [  207.035688][T14945] R10: 00000000ffffffff R11: 0000000000000003 R12: 0000000000000001
->> [  207.037203][T14945] R13: 0000000000000200 R14: 0000000000000001 R15: dffffc0000000000
->> [  207.038711][T14945] FS:  00007f2783275740(0000) GS:ffff8881f4980000(0000) knlGS:0000000000000000
->> [  207.040407][T14945] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [  207.041660][T14945] CR2: 00007f2782c00000 CR3: 0000000132356000 CR4: 0000000000750ef0
->> [  207.043196][T14945] PKRU: 55555554
->> [  207.043880][T14945] Call Trace:
->> [  207.044506][T14945]  <TASK>
->> [  207.045086][T14945]  ? __die+0x51/0x92
->> [  207.045864][T14945]  ? die+0x29/0x50
->> [  207.046596][T14945]  ? do_trap+0x250/0x320
->> [  207.047430][T14945]  ? do_error_trap+0xe7/0x220
->> [  207.048346][T14945]  ? page_table_check_clear.part.0+0x488/0x510
->> [  207.049535][T14945]  ? handle_invalid_op+0x34/0x40
->> [  207.050494][T14945]  ? page_table_check_clear.part.0+0x488/0x510
->> [  207.051681][T14945]  ? exc_invalid_op+0x2e/0x50
->> [  207.052589][T14945]  ? asm_exc_invalid_op+0x1a/0x20
->> [  207.053596][T14945]  ? page_table_check_clear.part.0+0x1fd/0x510
->> [  207.054790][T14945]  ? page_table_check_clear.part.0+0x487/0x510
->> [  207.055993][T14945]  ? page_table_check_clear.part.0+0x488/0x510
->> [  207.057195][T14945]  ? page_table_check_clear.part.0+0x487/0x510
->> [  207.058384][T14945]  __page_table_check_pmd_clear+0x34b/0x5a0
->> [  207.059524][T14945]  ? __pfx___page_table_check_pmd_clear+0x10/0x10
->> [  207.060775][T14945]  ? __pfx___mutex_unlock_slowpath+0x10/0x10
->> [  207.061940][T14945]  ? __pfx___lock_acquire+0x10/0x10
->> [  207.062967][T14945]  pmdp_huge_clear_flush+0x279/0x360
->> [  207.064024][T14945]  split_huge_pmd_locked+0x82b/0x3750
->> ...
->>
->> Before commit 9cb28da54643 ("mm/gup: handle hugetlb in the generic
->> follow_page_mask code"), we would have ignored the flag; instead, let's
+>> We can drop the MMU_NOTIFY_EXCLUSIVE MMU notifier call and document why
+>> that is not required: GUP will already take care of the
+>> MMU_NOTIFY_EXCLUSIVE call if required (there is already a device-exclusive
+>> entry) when not finding a present PTE and having to trigger a fault and
+>> ending up in remove_device_exclusive_entry().
 > 
-> ...and so after that commit (which doesn't touch FOLL_SPLIT_PMD, we no
-> longer ignore the flag? At a first look at that commit, I don't quite
-> understand the connection, can you clarify just a bit for me?
+> I will have to look at this a bit more closely tomorrow but this doesn't seem
+> right to me. We may be transitioning from a present PTE (ie. a writable
+> anonymous mapping) to a non-present PTE (ie. a device-exclusive entry) and
+> therefore any secondary processors (eg. other GPUs, iommus, etc.) will need to
+> update their copies of the PTE. So I think the notifier call is needed.
 
-Sure! Before that commit we always went via hugetlb_follow_page_mask(), 
-so we never ended up in follow_pmd_mask().
+Then it is all very confusing:
 
-hugetlb_follow_page_mask() didn't check for the flag ("ignored it"), so 
-we would not have crashed in GUP.
+"MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no 
+longer have exclusive access to the page."
+
+That's simply not true in the scenario you describe, because nobody had 
+exclusive access.
+
+But what you are saying is, that we need to inform others (e.g., KVM) 
+that we are converting it to a device-exclusive entry, such that they 
+stop accessing it.
+
+That makes sense to me (and the cleanup patch in the cleanup series 
+would have to go as well to prevent the livelock).
+
+So we would have to update the documentation of MMU_NOTIFY_EXCLUSIVE 
+that it is also trigger on conversion from non-exclusive to exclusive.
+
+Does that make sense?
 
 Thanks!
 
