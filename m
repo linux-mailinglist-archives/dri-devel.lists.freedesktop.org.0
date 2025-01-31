@@ -2,187 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE42A23A4B
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 08:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDCBA23AB5
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 09:35:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 395D810EA31;
-	Fri, 31 Jan 2025 07:48:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JOZ/RQbv";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B80610E149;
+	Fri, 31 Jan 2025 08:35:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68D0010EA30;
- Fri, 31 Jan 2025 07:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738309723; x=1769845723;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=QWw0yaZVYj+LX9qKZPE/mn4nNkTqxeYa2Q/SvRXG7F8=;
- b=JOZ/RQbvBYI+6bgLhb78xPh/Ozno2VpJkCu6LDayFebieLKZAmD6tRnr
- 2pWRDHa1131ZqiVcBl1Ts5qFCJJ8UZKvF1KAcAhS5eb33AhDcHiJnhJ2r
- 46XCDplf6vYzcmDIk2e80P6Z1ScoI3aTpibaykFZHvIGwDyiZifoQnj/U
- YjARIPzLDcgWyQ5xcCOXp9tMjCqAV9/Oxfb8ZbH4QGB7jwb+FSgCsMIyP
- 8pOw7w5bdoafp/1gc8MAQWZ70mQ9f9Gs/WPFXYH/W8pxEZmKgT0R3xn4s
- tLN7poedWHPcdLpws6fMWJacrRuf+4OW8j76ElQZl/sywN+F0nS6+cHwh w==;
-X-CSE-ConnectionGUID: sLwglH6bQiS94I2mw5KOhw==
-X-CSE-MsgGUID: 5UbZJYd3ScGHLypFX805Aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="61344748"
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; d="scan'208";a="61344748"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jan 2025 23:48:43 -0800
-X-CSE-ConnectionGUID: GEZgzovZR867v/W2AsBTig==
-X-CSE-MsgGUID: dCypFFF6TeGH5Yaap9S/dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; d="scan'208";a="109711136"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 30 Jan 2025 23:48:43 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 30 Jan 2025 23:48:42 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Thu, 30 Jan 2025 23:48:42 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.44) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 30 Jan 2025 23:48:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fx1KXmGkfMzIlwnN4zd+06iMX3l+OC0bDaq/S3jGKEpQvRKqf6QwOLr9oYpct6f07dssMeFHYJFAKTH5iOuFL2jFN1aUyIrYW/xcmII7oJnxfLgqia4vel1DbUCZOBbLBhTpESmby+8e8RUGpqJC566b0fjREv/njQ7O+OMyLwGK9inFevpKftl9ZjQAZRJr23gRvC2PDCJHVXAK3iX8b4LCgsMPa7v8OZn8Y5Ez+a2WH6PXKIZv8Ipphse4qK7DgwPEx/OLYsVEO32ssZj51dAWveTBREwYe9J85uWmTK0C8qs8rkkwl5q0H8eP8Yn2SPtuvKZLezX4B9vDlSXoRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XVGbzgCvCAJU7Vvz1c6nVkJlZPq5qQvT6EhtztCPENU=;
- b=tNSd9+kdo8EjkybMty4wAL9UWJ6zhy3HlRn33uP9eaRZzfnWJxxgJrM4jrZ8OaBJt4IsJYujwaDcwas8tF10fRG0BMeyizZkE90lDk2qC4vZe9nYvwIkbPcyong3YOLOB8uQ6OPsIp+DrkIflCsbX9ZKAu7E3o5cy3Uvn4RPl+chWm2edmaMNW82Na2WHLIvUcryfeeII95e9En0nuZ3DrvE0Y7WkuQQ4NwocDVoHnpmDPBRrZWN7VFFuv1lkOi5zOJvtFyR2ncqa4AQoQpEAfUImledIylMwT9svyCxz6ikP84qTagJXyocl9oXP5h0KNRrDWGtL1AZIkConiYoFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7904.namprd11.prod.outlook.com (2603:10b6:8:f8::8) by
- MW5PR11MB5811.namprd11.prod.outlook.com (2603:10b6:303:198::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Fri, 31 Jan
- 2025 07:48:12 +0000
-Received: from DS0PR11MB7904.namprd11.prod.outlook.com
- ([fe80::f97d:d6b8:112a:7739]) by DS0PR11MB7904.namprd11.prod.outlook.com
- ([fe80::f97d:d6b8:112a:7739%4]) with mapi id 15.20.8398.018; Fri, 31 Jan 2025
- 07:48:12 +0000
-Message-ID: <e6f93c69-d6a9-4cb3-8f86-65a1e3f04985@intel.com>
-Date: Fri, 31 Jan 2025 09:47:52 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/33] mm/migrate: Add migrate_device_pfns
-To: Matthew Brost <matthew.brost@intel.com>, <intel-xe@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>
-CC: <himal.prasad.ghimiray@intel.com>, <apopple@nvidia.com>,
- <airlied@gmail.com>, <thomas.hellstrom@linux.intel.com>,
- <simona.vetter@ffwll.ch>, <felix.kuehling@amd.com>, <dakr@kernel.org>
-References: <20250129195212.745731-1-matthew.brost@intel.com>
- <20250129195212.745731-3-matthew.brost@intel.com>
-Content-Language: en-US
-From: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
-In-Reply-To: <20250129195212.745731-3-matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR06CA0181.eurprd06.prod.outlook.com
- (2603:10a6:803:c8::38) To DS0PR11MB7904.namprd11.prod.outlook.com
- (2603:10b6:8:f8::8)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5092B10E149
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 08:35:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 57AEB5C62BF;
+ Fri, 31 Jan 2025 08:34:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574ACC4CED1;
+ Fri, 31 Jan 2025 08:35:33 +0000 (UTC)
+Message-ID: <2b745a6f-b177-4590-94f5-0aa2145d5c3d@xs4all.nl>
+Date: Fri, 31 Jan 2025 09:35:31 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7904:EE_|MW5PR11MB5811:EE_
-X-MS-Office365-Filtering-Correlation-Id: cae46466-cd22-4812-1a92-08dd41cb9cc3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dXdPTUp1TGZmY1dvS3lvdlZtYWpNR0lDOGh1QTFTS0s4NCtTTzVaTjZUZGFP?=
- =?utf-8?B?OEU5RzRqa2p6bm1xOFFJeFhGeDRZV3o2RnNCN0FLd0JIWDFJMjVnekhveGxy?=
- =?utf-8?B?S2lHZ3dpNGh5T1A5QUNFVWlBdTJvQWhsY3dtMTg4ZXNLU29NRGpaUlB3b1M2?=
- =?utf-8?B?QmxyRzZkcExWZ0R6K3FHT1k1WCtuQTJhN0xyR2lubHd5OXBtb1VQUnhEYTdV?=
- =?utf-8?B?SnlPRmdtdVhUN2hHMHlaTm9CS0o1SVIvQlhNWThHWHJyVm8rVlk2bXlzZWlP?=
- =?utf-8?B?LzJ6b2FZS0tTVnZLSDNUaSsvT1d1UWxZZ0tnNDhaam9SaEJaR21ZMFNSNGJU?=
- =?utf-8?B?OWh0M2VmKy9wZ2krVUhaZXp0aitvcUZtY1lDbWhwazFmVmNLQUUva1BoMlB3?=
- =?utf-8?B?YXBXT2ZMQ09PQm5wZXBzcDE1M2NrWWl5ZVozbE9oU08wY0t3UG9aRnVHUmov?=
- =?utf-8?B?NkF3alErS2ZsNTdyd0UxZytzSmZCRmswWm5lMXBvWHdzMVllbTU3QVl5dzVY?=
- =?utf-8?B?N0ErVlp4QzgxVDZjTnd4SUt0dW43QjZMem1tZnRFaE8rSzFNV1VjMGk3aWlB?=
- =?utf-8?B?b0NSME8vTFVYd1gzc3Nud0hYRVVvajZHZFZIV25nRTlSaTl1L05sbS9KMS9i?=
- =?utf-8?B?TlV5ZFlETG1STEhsRGFVbEVBckZIWEF6QTZaRzBOZDNLUG9MTHk0WVJubUdC?=
- =?utf-8?B?YjNXU1YvQzZuRTgvYUFidUdsaElCSmorNWtwY1pvdjNOR25QQk5ubk5yYmJS?=
- =?utf-8?B?bHBLdXdHZ2dlc0N5K2VSWGtKbkVqQkMyOFF1VWJ5N0tyUklzVzEzWmNuR3Ir?=
- =?utf-8?B?ZWhzQ2xMZHJvc0wyenpsbU1mOUU0MTJBMmszejEySWNSTTZ3TmZ3dzlEendR?=
- =?utf-8?B?TStoTDZWMlU1eDhORzZkVmlub21kNVRWbk5UZ1oyVURRRHhxVll3UkpwRTAr?=
- =?utf-8?B?ck5Uc1dpQTZEQXA5UXQrQTMrK3U5YTc2dVhSMSsyeHE0Y2VPZ1VDUm56b1A3?=
- =?utf-8?B?TVpjVjFjSkR0NnRiMmNHZW9qY1B3VFViT28rK2M2aitrZUpBaXRDZTY5VWRF?=
- =?utf-8?B?N3BDTDFGOTFPRjJ5Njc0YVplYXJSNjNhaXRmd01lYkZVKzJsVWRraXJVNDAv?=
- =?utf-8?B?bHhiN0EvK3kyN2pxQ0c1bFNQbUc5N1owWXlJTE8zT05wVjVPa0pNTmZsSlhw?=
- =?utf-8?B?SkVtZGVWY200L2RsczlSQ1pTSEg2Yno4OXVNK1diTmFGNytGdTBGVlk4Rko3?=
- =?utf-8?B?bFFhOTBnaVMxdXBETXVHRCtDaUFqZTZ3d3E3czVGeXR2MEdjYXBaV3I5Z3Vj?=
- =?utf-8?B?WnBRN1hMKzkyczV5a1k1TURjRGo1emd4ZGcxVlkza1BlZWtoYTVrMENzNW1w?=
- =?utf-8?B?czRhSmZYOW9GSERiQWFRTWpheis4VFRqc3Exa0F6cXV5YzBLc1pXb2t5NDNS?=
- =?utf-8?B?NDFoTlIxQlVUR0tuZ2dEUDJMRzUrMTBRMXl5U2NndUQ3Sk1lWUIzOFlESWxP?=
- =?utf-8?B?OGZPL0J3ekM1bUphT1dlUVVzMXZ5M2Ywd0RSSXlOZ0RlNm1uTDZHUmllZWEz?=
- =?utf-8?B?ZDZMOVhOMWFCNFNHOXU0N21mcUc1cVpSRTdSdXpxZysrNVplcklkUy9veFRj?=
- =?utf-8?B?eEF3Q04vTWVNaDFRRHd1RlBzYitCWjBxc09KaGZXMU9pUzl4Z2RraXQ1aXh5?=
- =?utf-8?B?eWhKQ2wxQmhNYzdQRTdiTER5WTA1OTE1MzBvY2FHc1VQMGRaWHc1TER0c01I?=
- =?utf-8?B?SGcvcWZnZHg2eUZNSHozQjFzVEhFZDF2NDhLd2hGd0pyb0locDQwaVdTNjNF?=
- =?utf-8?B?WE52NkZnYXgyQ0VaUVAwc1grVlE2b213c1h4VE5kQkJhbkpFakxqUUkzeEwz?=
- =?utf-8?Q?+dGXy54NZjW5y?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS0PR11MB7904.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VHFmRVExRmNGNXpBUVVxTmd5L2RPTWhtcGx0WVlLWkVVNXJ2VUZjcVYrU0Nu?=
- =?utf-8?B?d0x2dGZkZ3VKa2ZBbDF1REhRVDY3NHhYUStZMk0zNlpnUmFPb0tUVmkwMzg4?=
- =?utf-8?B?ODBoSkE2eVF3dWpYcVdBMHZCSWZJOW4xZmkySVFqSkNlYUFpcjVwZzFzWnpF?=
- =?utf-8?B?azFMUzRWOWYwRU9iKzZvYXNqK3g3WmtLNjIrL1pONFdSbTZMQ2NwYUxnckhy?=
- =?utf-8?B?dlRzek1YQ3pVa0J6ZHN5SnZoeHU5TnR6bW9NUEpnNnR1am11dENqMkNkMUFh?=
- =?utf-8?B?RHlDemFCNEJNU3FEa0tMMHlna0VtUEk5MDJCME5jQXRESDc4d0JSUlpVQTdJ?=
- =?utf-8?B?Q2lsRnZCNDdZZU9jMkIvN2lLdTF6ZlpEekxkNjRCQ1lXRGxWN0pHYnVtczhi?=
- =?utf-8?B?ZGgxZFhDVjQrY3I1U0l0alRlYjhWanVyS2ZnVHIvUHk4cWdONkVnRnZXcnYz?=
- =?utf-8?B?clFHeU51K2NTSFpwNnBhZzlJS3RiUHo0UmNGOEpVLzNaSFBtQlJPUTZDOUxo?=
- =?utf-8?B?cExRM0N1ZnJ0RHZER2NXREdyYlpHSUxTeGZxWmRwVzRlOEgzeEhHbVlJaUhm?=
- =?utf-8?B?Mmd3QkNaSXZZL1pTbVFULzJqbUZmMHpDNW96dUJIVWFGNDFxUklUK3lSMFJ4?=
- =?utf-8?B?Z2piQ0ZaWkwyWmlTT2Vtc0N4a1F3SWVRU21QZ1NCMWxyVWtmWjMxVmdpcytH?=
- =?utf-8?B?SlZZZWFVQTMydmJtQXVVSnhheFpWR092SUVGWTZUTVpNUllPa0x0WnlnTjBo?=
- =?utf-8?B?cFpIMWwzQTBDR2pnS2FOZUt5OVJreWNxK1FYMlhlUTFmNnpkbmlyUWJIc2M2?=
- =?utf-8?B?TTNMTUhEQklhRmVUUHgwNzJTVDZLUkFsR0c3N0RCclA4Q29JNjNaNjFCMXR4?=
- =?utf-8?B?ZHhiY3VkeXlLTXQycG5wMXlxcWg3dW9RRVNuWWpxR0N1TTNZelMwbmt2dFEy?=
- =?utf-8?B?bkJOODY3dHRjNFRFWWIxTGJzY2N5UlZ5OVVPcHlFTldyKzVLcWljbnNYYmNq?=
- =?utf-8?B?NlZsWmFWMGNlSXhVVmxvR2praUtFbE9WWU9VcjNkR3MyejZjTFFiOVdQNmY2?=
- =?utf-8?B?SmZ2MGxDSnBKNW00WjhIRFhibEFuZ2FHUnlEYXAwUjh0REtNNUNuSVd5cGUy?=
- =?utf-8?B?c1pYMlJmYjRRb0dEcS9zNzVXWU1nLzlxZERMUmplazk3S0laeXBaSTQzUnN3?=
- =?utf-8?B?T2ozbjFJYWsyWG53dlNDMm5LR3N5cDZJYjdBb2N5VWtiWjJjcTdRN3F4Q1N4?=
- =?utf-8?B?eUZqcm5RUFdpWFA0RU1YWllxUEptdGp3VmE0RllSSDJJeFJyTkpwSFdOZCsx?=
- =?utf-8?B?TGMxM2FwVFlsMyt6VlMzR1VCaE4rOHk3eHlYMVRrb3YyeWVFanhmRU5KRndn?=
- =?utf-8?B?N2JObjZRT1VZNGJNWFR1SFFhai9SSG10TEZCd1ZwVUVZVElVMUUvTCtwb0NW?=
- =?utf-8?B?L3J1Yk5MTnZ4NG5WR2xjREVhdXdzQmFYaTltYlQ0cjJSNTliMFhWUkQzckNR?=
- =?utf-8?B?YXBML0swMU4weTd2Wkpsbi93aks4dkprN05Uc3hUTUswOENVQ01JcGdFUng1?=
- =?utf-8?B?VnRuU3hQS3NJbk5sdGo5aUV6d3JJRjRmdnZPdTA5U1lpYSsvR1MweGN3ZjVN?=
- =?utf-8?B?a3pjZFB1KytJMXNpck9sK1RTRW56N0V4NmdObWhhbkMyZ2xLZ3U4YWViYkxW?=
- =?utf-8?B?d2w4T05QWnFKOVlSSkFXZU1XY1dRVUhlU1dodUU0N0w1bThseXdpeE9kVEZH?=
- =?utf-8?B?RjRpeFQ0bjhLT1JubmhKL05pcnNKeElpeEZQNllXa212ajRNb0lmeWZ2UGFa?=
- =?utf-8?B?MVhsWmMrTGZMcWlEbXJZbFVTWVNPNlp0QlZMeEVBUHNTT0tmYUFqV21icEIv?=
- =?utf-8?B?b2NiS0FJUjFrL1JHclhmUk9yVGNGQS9SRTJhNnZ3VVoxSnBnb3Z6eDFvM3o3?=
- =?utf-8?B?R2Z0NDB0cGZCTy9HaU5id1JTY1VjZXhGSWg3R1VSWWQ1TldzSEdzOGRJUTVD?=
- =?utf-8?B?QUpLdldQSUpiZTVMTWpFRTdQWFdQVVhBQUIrTW1iUGxQazZJNlliUUVtQ29R?=
- =?utf-8?B?aGVxVXFvdk5rT2VCZkpnZndsbndsYWFwK1BrQXdmd1RBZnhEbmhxMllLa24v?=
- =?utf-8?B?MlJMbi9lMXNZUTU3d25yKzVOSXluQmdObm5PR1FUUUxFV1Y4akxSUDNKYStj?=
- =?utf-8?B?R3c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cae46466-cd22-4812-1a92-08dd41cb9cc3
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7904.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2025 07:48:12.4656 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OVBOueNNzpWj/yhrvkXFIE6LQTGTIDh9+OR/BoeoyOLimj+jsiFNRawYk7hED29+BBG6Xqqug/Dg0ZLUPlW7nHtVrzDIxbSEry9bM4si4A4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5811
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Farblos <farblos@vodafonemail.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
+ <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -198,128 +91,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 1/29/25 9:51 PM, Matthew Brost wrote:
-> Add migrate_device_pfns which prepares an array of pre-populated device
-> pages for migration. This is needed for eviction of known set of
-> non-contiguous devices pages to cpu pages which is a common case for SVM
-> in DRM drivers using TTM.
+On 29/01/2025 13:21, Hans Verkuil wrote:
+> On 29/01/2025 10:51, Hans Verkuil wrote:
+>> If the hotplug detect of a display is low for longer than one second
+>> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
+>> is unregistered since we assume the display was disconnected. If the
+>> HPD went low for less than one second, then we check if the properties
+>> of the CEC adapter have changed, since that indicates that we actually
+>> switch to new hardware and we have to unregister the old CEC device and
+>> register a new one.
+>>
+>> Unfortunately, the test for changed properties was written poorly, and
+>> after a new CEC capability was added to the CEC core code the test always
+>> returned true (i.e. the properties had changed).
+>>
+>> As a result the CEC device was unregistered and re-registered for every
+>> HPD toggle. If the CEC remote controller integration was also enabled
+>> (CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
+>> also unregistered and re-registered. As a result the input device in
+>> /sys would keep incrementing its number, e.g.:
+>>
+>> /sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
+>>
+>> Since short HPD toggles are common, the number could over time get into
+>> the thousands.
+>>
+>> While not a serious issue (i.e. nothing crashes), it is not intended
+>> to work that way.
+>>
+>> This patch changes the test so that it only checks for the single CEC
+>> capability that can actually change, and it ignores any other
+>> capabilities, so this is now safe as well if new caps are added in
+>> the future.
+>>
+>> With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
+>> dropped as well, so that's a nice cleanup.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> Reported-by: Farblos <farblos@vodafonemail.de>
 > 
-> v2:
->   - s/migrate_device_vma_range/migrate_device_prepopulated_range
->   - Drop extra mmu invalidation (Vetter)
-> v3:
->   - s/migrate_device_prepopulated_range/migrate_device_pfns (Alistar)
->   - Use helper to lock device pages (Alistar)
->   - Update commit message with why this is required (Alistar)
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   include/linux/migrate.h |  1 +
->   mm/migrate_device.c     | 52 +++++++++++++++++++++++++++++------------
->   2 files changed, 38 insertions(+), 15 deletions(-)
-> 
-> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
-> index 002e49b2ebd9..6254746648cc 100644
-> --- a/include/linux/migrate.h
-> +++ b/include/linux/migrate.h
-> @@ -229,6 +229,7 @@ void migrate_vma_pages(struct migrate_vma *migrate);
->   void migrate_vma_finalize(struct migrate_vma *migrate);
->   int migrate_device_range(unsigned long *src_pfns, unsigned long start,
->   			unsigned long npages);
-> +int migrate_device_pfns(unsigned long *src_pfns, unsigned long npages);
->   void migrate_device_pages(unsigned long *src_pfns, unsigned long *dst_pfns,
->   			unsigned long npages);
->   void migrate_device_finalize(unsigned long *src_pfns,
-> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-> index 9cf26592ac93..19960743f927 100644
-> --- a/mm/migrate_device.c
-> +++ b/mm/migrate_device.c
-> @@ -876,6 +876,22 @@ void migrate_vma_finalize(struct migrate_vma *migrate)
->   }
->   EXPORT_SYMBOL(migrate_vma_finalize);
->   
-> +static unsigned long migrate_device_pfn_lock(unsigned long pfn)
-> +{
-> +	struct folio *folio;
-> +
-> +	folio = folio_get_nontail_page(pfn_to_page(pfn));
-> +	if (!folio)
-> +		return 0;
-> +
-> +	if (!folio_trylock(folio)) {
-> +		folio_put(folio);
-> +		return 0;
-> +	}
-> +
-> +	return migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
-> +}
-> +
->   /**
->    * migrate_device_range() - migrate device private pfns to normal memory.
->    * @src_pfns: array large enough to hold migrating source device private pfns.
-> @@ -900,29 +916,35 @@ int migrate_device_range(unsigned long *src_pfns, unsigned long start,
->   {
->   	unsigned long i, pfn;
->   
-> -	for (pfn = start, i = 0; i < npages; pfn++, i++) {
-> -		struct folio *folio;
-> +	for (pfn = start, i = 0; i < npages; pfn++, i++)
-> +		src_pfns[i] = migrate_device_pfn_lock(pfn);
->   
-> -		folio = folio_get_nontail_page(pfn_to_page(pfn));
-> -		if (!folio) {
-> -			src_pfns[i] = 0;
-> -			continue;
-> -		}
-> +	migrate_device_unmap(src_pfns, npages, NULL);
->   
-> -		if (!folio_trylock(folio)) {
-> -			src_pfns[i] = 0;
-> -			folio_put(folio);
-> -			continue;
-> -		}
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(migrate_device_range);
->   
-> -		src_pfns[i] = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
-> -	}
-> +/**
-> + * migrate_device_pfns() - migrate device private pfns to normal memory.
-> + * @src_pfns: pre-popluated array of source device private pfns to migrate.
-> + * @npages: number of pages to migrate.
-> + *
-> + * Similar to migrate_device_range() but supports non-contiguous pre-popluated
-> + * array of device pages to migrate.
-> + */
-> +int migrate_device_pfns(unsigned long *src_pfns, unsigned long npages)
-> +{
-> +	unsigned long i;
-> +
-> +	for (i = 0; i < npages; i++)
-> +		src_pfns[i] = migrate_device_pfn_lock(src_pfns[i]);
->   
->   	migrate_device_unmap(src_pfns, npages, NULL);
->   
->   	return 0;
->   }
-> -EXPORT_SYMBOL(migrate_device_range);
-> +EXPORT_SYMBOL(migrate_device_pfns);
->   
->   /*
->    * Migrate a device coherent folio back to normal memory. The caller should have
-Looks good to me and I have confirmed that a code flow has been added 
-that calls this function from the actual driver (xe),
-which did not exist in the previous v3 patch series.
-(This code flow called when ttm performs eviction when ttm needs)
+> Fixes: 2c6d1fffa1d9 ("drm: add support for DisplayPort CEC-Tunneling-over-AUX")
 
-There seems to be no test scenario for testing device memory pressure in 
-the test cases mentioned in the cover letter.
-Do you plan to add this scenario as well? ( Please correct me if I 
-misunderstood.)
+Cc: <stable@vger.kernel.org> # 6.12
 
-Reviewed-by: Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>
+While the bug has been present since the introduction of drm_dp_cec.c, it lay
+dormant until a new CEC capability was introduced in 6.12. So this fix doesn't need
+to be backported all the way, just from 6.12 onwards.
+
+Dmitry, do you want to pick this up? I can do it as well, but it is quite some
+time ago since I last worked with drm.
+
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>> ---
+>> Jens (aka Farblos), can you test this patch?
+>> ---
+>>  drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
+>>  1 file changed, 3 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
+>> index 007ceb281d00..56a4965e518c 100644
+>> --- a/drivers/gpu/drm/display/drm_dp_cec.c
+>> +++ b/drivers/gpu/drm/display/drm_dp_cec.c
+>> @@ -311,16 +311,6 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
+>>  	if (!aux->transfer)
+>>  		return;
+>>
+>> -#ifndef CONFIG_MEDIA_CEC_RC
+>> -	/*
+>> -	 * CEC_CAP_RC is part of CEC_CAP_DEFAULTS, but it is stripped by
+>> -	 * cec_allocate_adapter() if CONFIG_MEDIA_CEC_RC is undefined.
+>> -	 *
+>> -	 * Do this here as well to ensure the tests against cec_caps are
+>> -	 * correct.
+>> -	 */
+>> -	cec_caps &= ~CEC_CAP_RC;
+>> -#endif
+>>  	cancel_delayed_work_sync(&aux->cec.unregister_work);
+>>
+>>  	mutex_lock(&aux->cec.lock);
+>> @@ -337,7 +327,9 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
+>>  		num_las = CEC_MAX_LOG_ADDRS;
+>>
+>>  	if (aux->cec.adap) {
+>> -		if (aux->cec.adap->capabilities == cec_caps &&
+>> +		/* Check if the adapter properties have changed */
+>> +		if ((aux->cec.adap->capabilities & CEC_CAP_MONITOR_ALL) ==
+>> +		    (cec_caps & CEC_CAP_MONITOR_ALL) &&
+>>  		    aux->cec.adap->available_log_addrs == num_las) {
+>>  			/* Unchanged, so just set the phys addr */
+>>  			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
+> 
+> 
 
