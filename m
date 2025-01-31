@@ -2,183 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D362A23DF8
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 13:52:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D20A23E0A
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 13:56:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38B810EA9F;
-	Fri, 31 Jan 2025 12:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67DE310EAA6;
+	Fri, 31 Jan 2025 12:56:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OJXvJekh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q/Rg3t+c";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OJXvJekh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q/Rg3t+c";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="ObGVA5f3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF5B10EA9F
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 12:52:56 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6102221164;
- Fri, 31 Jan 2025 12:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738327974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
- b=OJXvJekhlynoZ9rIvLIfn2YimoIgOmxTS9oa5YNuExw/xCVhowm8nWPWf3G8sJXzsAUnuI
- s/epMH7Z9y7ITOOQZNt5wsAH7Sad0Phs4mZQXO1spnUTWEWvph+XD4deyPYgfLtE/wflwt
- n1K2bt6j5IJVe/wONIp9bcpFcEWEXQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738327974;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
- b=q/Rg3t+ctg2xwN/ynQC3w7uf5PXG8JsZOsy9hahuVbde7ewDLZD/zGOE2X9/vXC8gW2mgU
- Dt9cfhleBehZDGAw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OJXvJekh;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="q/Rg3t+c"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738327974; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
- b=OJXvJekhlynoZ9rIvLIfn2YimoIgOmxTS9oa5YNuExw/xCVhowm8nWPWf3G8sJXzsAUnuI
- s/epMH7Z9y7ITOOQZNt5wsAH7Sad0Phs4mZQXO1spnUTWEWvph+XD4deyPYgfLtE/wflwt
- n1K2bt6j5IJVe/wONIp9bcpFcEWEXQc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738327974;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=xuqPM8bGj5U9tmFRVmkdxRxXX6iIQR3TQtKKGW1chJo=;
- b=q/Rg3t+ctg2xwN/ynQC3w7uf5PXG8JsZOsy9hahuVbde7ewDLZD/zGOE2X9/vXC8gW2mgU
- Dt9cfhleBehZDGAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0180F1364B;
- Fri, 31 Jan 2025 12:52:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id lkNHOqTHnGf9WwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 31 Jan 2025 12:52:52 +0000
-Message-ID: <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
-Date: Fri, 31 Jan 2025 13:52:52 +0100
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8B210EAA6
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 12:56:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=/FoI0hcOWWKx3ZDDab4Xa9u6v7y9BGQr2tGgLwIcnOM=; b=ObGVA5f3t35MDUOj
+ 57qdyRZw7FkLaRYghMy/WiNCiGtPzCwRdOds0dIJWht+8qv7VSX2L0XiIrI6A77eZgtUAFN2Yf92v
+ ZlrZ1MS35oJTPxwI5IG472cWhFH9eLSQoXgcDGF1w0xLLLes6NsFDqvYodhvhQqJBA7n290VAUo2C
+ N0ldzsW09QOcQni/JWde03+by4A9s44a7glwxPfrBEkxNKwq/kosr3Tm/mhATwBMWfobPsMkdti3U
+ E+2fV7W8QWgX9sakrAMVsVuV385NFz/+UYlEpm9Hk2mDYdmU+PsrcSZ8CKcAsJEdqqb63lL3gyG9e
+ 2EEpHuSqBZbO9WbjNA==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1tdqZW-00CwEi-2A;
+ Fri, 31 Jan 2025 12:56:34 +0000
+Date: Fri, 31 Jan 2025 12:56:34 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: ville.syrjala@linux.intel.com, jfalempe@redhat.com,
+ tomi.valkeinen@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] Revert "drm/client: Add drm_client_modeset_check()"
+Message-ID: <Z5zIgmCn4Hl56mS6@gallifrey>
+References: <20241029234706.285087-1-linux@treblig.org>
+ <20241029234706.285087-4-linux@treblig.org>
+ <4ysvn7vcynvmjc53frgj2nwuctf6kd6xdphgfjm3ulgfaxwngm@mod6oqvfmxav>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner
- <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-amlogic@lists.infradead.org, imx@lists.linux.dev,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
- <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
- <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 6102221164
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_CC(0.00)[redhat.com,jms.id.au,linux.intel.com,gmail.com,ffwll.ch,codeconstruct.com.au,agner.ch,nxp.com,linaro.org,hisilicon.com,google.com,kernel.org,pengutronix.de,collabora.com,baylibre.com,googlemail.com,denx.de,rock-chips.com,sntech.de,linux.alibaba.com,foss.st.com,nvidia.com,synopsys.com,raspberrypi.com,igalia.com,lwn.net,lists.ozlabs.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,st-md-mailman.stormreply.com];
- ARC_NA(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCVD_TLS_ALL(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RL5qdohruh175rhiw1bqi96ifb)];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; TO_MATCH_ENVRCPT_SOME(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[]; RCPT_COUNT_GT_50(0.00)[60];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <4ysvn7vcynvmjc53frgj2nwuctf6kd6xdphgfjm3ulgfaxwngm@mod6oqvfmxav>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 12:53:50 up 268 days, 7 min,  1 user,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,43 +63,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime
+* Dmitry Baryshkov (dmitry.baryshkov@linaro.org) wrote:
+> On Tue, Oct 29, 2024 at 11:47:05PM +0000, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > drm_client_modeset_check() was explicitly added in 2020 by
+> > commit 64593f2a6fc9 ("drm/client: Add drm_client_modeset_check()")
+> > but has never been used.
+> > 
+> > This reverts commit 64593f2a6fc933bb9a410bc3f8c261f3e57a9601.
+> 
+> Nit: Usually this comes before the commit message.  No need for repost
+> though.
+> 
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
+Hi,
+  Just checking, has anyone got this in a pull?
+Dmitry's review was at the end of October.
+(There's also a few others that Dmitry was kind enough to review
+still outstanding:
+  drm: encoder_slave: Remove unused encoder functions
+and
+  gpu: ipu-v3: Remove unused functions
+)
 
-Am 29.01.25 um 15:31 schrieb Maxime Ripard:
-> Hi Thomas,
->
-> On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
->> Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
->>> Remove the TODO now that this series addresses
->>> the changes needed.
->> While your series is fine, this TODO item is unrelated. It's about various
->> ancient fbdev drivers that do not reserve their memory regions correctly. So
->> please drop patch 14 form the series.
-> Is it? Could we rephrase the entry then? I'm the one that suggested
-> Anusha to work on this, and it's still not clear to me what it means
-> exactly if it's not what she worked on :)
+(There's also drm/i915/gvt: Remove intel_gvt_ggtt_h2g<->index
+and co that I've seen in Next but not in a pull yet)
 
-I guess, we could make this more precise.
+Thanks,
 
-Some old graphics drivers don't request their memory ranges correctly. 
-It's usually a problem with hardware that has exclusive ranges, such as 
-the VGA. Vga16fb doesn't request the range as it should. Someone needs 
-to audit all those old drivers and fix them.
+Dave
 
-Best regards
-Thomas
-
-
->
-> Maxime
-
+> 
+> 
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> > ---
+> >  drivers/gpu/drm/drm_client_modeset.c | 35 ++++------------------------
+> >  include/drm/drm_client.h             |  1 -
+> >  2 files changed, 4 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+> > index cee5eafbfb81..39201c11eaac 100644
+> > --- a/drivers/gpu/drm/drm_client_modeset.c
+> > +++ b/drivers/gpu/drm/drm_client_modeset.c
+> > @@ -995,7 +995,7 @@ bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation)
+> >  }
+> >  EXPORT_SYMBOL(drm_client_rotation);
+> >  
+> > -static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool active, bool check)
+> > +static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool active)
+> >  {
+> >  	struct drm_device *dev = client->dev;
+> >  	struct drm_plane *plane;
+> > @@ -1062,10 +1062,7 @@ static int drm_client_modeset_commit_atomic(struct drm_client_dev *client, bool
+> >  		}
+> >  	}
+> >  
+> > -	if (check)
+> > -		ret = drm_atomic_check_only(state);
+> > -	else
+> > -		ret = drm_atomic_commit(state);
+> > +	ret = drm_atomic_commit(state);
+> >  
+> >  out_state:
+> >  	if (ret == -EDEADLK)
+> > @@ -1126,30 +1123,6 @@ static int drm_client_modeset_commit_legacy(struct drm_client_dev *client)
+> >  	return ret;
+> >  }
+> >  
+> > -/**
+> > - * drm_client_modeset_check() - Check modeset configuration
+> > - * @client: DRM client
+> > - *
+> > - * Check modeset configuration.
+> > - *
+> > - * Returns:
+> > - * Zero on success or negative error code on failure.
+> > - */
+> > -int drm_client_modeset_check(struct drm_client_dev *client)
+> > -{
+> > -	int ret;
+> > -
+> > -	if (!drm_drv_uses_atomic_modeset(client->dev))
+> > -		return 0;
+> > -
+> > -	mutex_lock(&client->modeset_mutex);
+> > -	ret = drm_client_modeset_commit_atomic(client, true, true);
+> > -	mutex_unlock(&client->modeset_mutex);
+> > -
+> > -	return ret;
+> > -}
+> > -EXPORT_SYMBOL(drm_client_modeset_check);
+> > -
+> >  /**
+> >   * drm_client_modeset_commit_locked() - Force commit CRTC configuration
+> >   * @client: DRM client
+> > @@ -1168,7 +1141,7 @@ int drm_client_modeset_commit_locked(struct drm_client_dev *client)
+> >  
+> >  	mutex_lock(&client->modeset_mutex);
+> >  	if (drm_drv_uses_atomic_modeset(dev))
+> > -		ret = drm_client_modeset_commit_atomic(client, true, false);
+> > +		ret = drm_client_modeset_commit_atomic(client, true);
+> >  	else
+> >  		ret = drm_client_modeset_commit_legacy(client);
+> >  	mutex_unlock(&client->modeset_mutex);
+> > @@ -1246,7 +1219,7 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
+> >  
+> >  	mutex_lock(&client->modeset_mutex);
+> >  	if (drm_drv_uses_atomic_modeset(dev))
+> > -		ret = drm_client_modeset_commit_atomic(client, mode == DRM_MODE_DPMS_ON, false);
+> > +		ret = drm_client_modeset_commit_atomic(client, mode == DRM_MODE_DPMS_ON);
+> >  	else
+> >  		drm_client_modeset_dpms_legacy(client, mode);
+> >  	mutex_unlock(&client->modeset_mutex);
+> > diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
+> > index bc0e66f9c425..ead3c3526ee3 100644
+> > --- a/include/drm/drm_client.h
+> > +++ b/include/drm/drm_client.h
+> > @@ -177,7 +177,6 @@ int drm_client_modeset_create(struct drm_client_dev *client);
+> >  void drm_client_modeset_free(struct drm_client_dev *client);
+> >  int drm_client_modeset_probe(struct drm_client_dev *client, unsigned int width, unsigned int height);
+> >  bool drm_client_rotation(struct drm_mode_set *modeset, unsigned int *rotation);
+> > -int drm_client_modeset_check(struct drm_client_dev *client);
+> >  int drm_client_modeset_commit_locked(struct drm_client_dev *client);
+> >  int drm_client_modeset_commit(struct drm_client_dev *client);
+> >  int drm_client_modeset_dpms(struct drm_client_dev *client, int mode);
+> > -- 
+> > 2.47.0
+> > 
+> 
+> -- 
+> With best wishes
+> Dmitry
+> 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
