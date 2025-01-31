@@ -2,88 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8B1A24135
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 17:57:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020BBA2416A
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 17:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B5F110E3BA;
-	Fri, 31 Jan 2025 16:57:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F44710E3DA;
+	Fri, 31 Jan 2025 16:59:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="asLmaFXS";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="I3w/9KbK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
- [209.85.221.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6895E10E3B3
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 16:57:39 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id
- ffacd0b85a97d-38a34e8410bso1166087f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 08:57:39 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AB5210E3CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 16:59:30 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-43618283d48so17253435e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 08:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738342658; x=1738947458; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=pfNeHfRMYsZ2XMQ7Tt/gdmnr9NbENuVOxKod6aka5ak=;
- b=asLmaFXSNh29q+W5CeZfHxHl46APgZtdEJAh6Z6L2Y8vYdAnMFRiTulF9lQpWrCThG
- OUptbHRaF5o50666/BaHlT2hUkksUk6TjD7BI46quuJ99eSuequfUZupydu0MO+/5UCg
- 7et7XkHAh9x1CPope7oRzmzuZ2cSRYSPaVnBpwtZifMBMd34AbK+/Rnqq6OlbGzQS+vq
- Mm46Ze0NCtLYQo4kK0yDfkBgSVfcw+zgwqNXvHRt14IPSSPueSY2wqeT6ezsLzzAntA7
- ms3ubydbOytBRHMhdMhNymNQnM6C+yXINuIvnkiy/K922PUKCJitfdAPOosW/dKUjvkm
- 9rnQ==
+ d=ffwll.ch; s=google; t=1738342769; x=1738947569; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VV6lM3YFA6dZ2gmoOiF/2v5mb84a3EuFvSRPBCXsykU=;
+ b=I3w/9KbKfX0TIVjPWnRQhiBUtM5LOz0r7ywA3AaKwAxy8O2SDg0lAOWPPPtZ+rnDYP
+ jyYv8kcEUdSU0hNCiRXsULsPI1+wlx+dndvkcEpXJSZB8c/42eBWUlUMdJCzPu3/VR0Y
+ HaFPXcHYKzj1sGDh5EZkvh5JIwzoUUhWR4O7c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738342658; x=1738947458;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1738342769; x=1738947569;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pfNeHfRMYsZ2XMQ7Tt/gdmnr9NbENuVOxKod6aka5ak=;
- b=fJY9FR1G/aXWRdrpePVPK63FGtzLzqIS5lL05Jp76Lm5UIwqiTefyRZoo7wt5Lb8wv
- Eayg6WCWkeqLf8pETDGqzHvRNdCLk5YlwFeqOS2iTPXe60y0G2DkIQm5ZrPPBQtS7lAD
- 7FOOgoxUmIEb2bB16dunX445+hOk4GhAOnJ/fI6AOWIYcKEzBxWGX9Hk5DaDvPHm7sKw
- uT6TyPe0/AiL6GHE/ZQuDUwDTJ+lFIqEtS/CWn2Nx3bd0hGJF+pfpvKV5zPiZLhx5wLd
- M5VUKBEN/a/RPu+CI2vQ0EDNrobpMekOJSCmBNNFsKcU0nXlzj5yMi9i4fxEOv9nX8nw
- 4wbA==
+ bh=VV6lM3YFA6dZ2gmoOiF/2v5mb84a3EuFvSRPBCXsykU=;
+ b=P5UhL35kgcwrVEuM7Sc3OuB2hHYSmpMzLDlTYtVNVJMJz6OJewzk+CpsDWgUdqSEMo
+ bjIKQPJgosSSIgK9P+MNZOwvE16OKVd89vHCnudHFD/1sSwB9AZjFwOuzNLaiOTNjVS9
+ EH+fF5AIibrcBqYDURpVglsjqE/mQ/kHFz8+tDt5EMSWAQzef1jzJV2TKVcmEntO26m5
+ pZzkG8zpdxKH88d65rdLjDfVBHYzfeUccKOmD56mcRgQXuDty7pmQZ/XYttqqm163JP7
+ uTsngtSRKsGsauzvDgFCpAmvFB7+5/HCzM07ON/UYeNbbX1eDT6YrF2G7k0TPhDX66zi
+ jhLg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV96M2Z45MC0HlG3DofH3gv24R/OESGRHYjSIffY1RLJlMEvoyht6QwtKYNPzwVx7dbljsGqLNkgn8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy36zQ5DqqU3l67jAaYYs72A8UKis3aTmzY0x+yFbH25pEGL98X
- JD/fIfxrMo+tZmkvis0extASsMuOWr7WTeHIhOoKRZByT/NBt6O/
-X-Gm-Gg: ASbGncvTPJujAv+lumM8+2vERETRiD5DhCvb5cElwS2oM/J1A30duiKENS+nAa1jgru
- kW98SrPgnQs+ilh+qWcYM5sFup5ARJxIsmbfDi/u7JA2ad7mZD0uHPq671WLizokako6u/caK4j
- XOeTAkFc2QQNnIjp9CfpyZaegDAvHQV63+CveY9pNljsvh5o5ZS9gxh/2OX/TcfwMclnffpIkh4
- 8MfqaP30SkDEzTWGva3O0qeJHKjpsrNs1/a6H/Jead2In9jAgQUmRt8l7ygSbumD/iKp3yqIG5S
- YS2Ysvmw9YKBFQ==
-X-Google-Smtp-Source: AGHT+IGOPpZaIae4HFS1C/f6cM0C4JYSNsuInmLgJR5wt85aAr3MLOMfTcOKfMs6fffvV2/D20b9UQ==
-X-Received: by 2002:a05:6000:2c5:b0:386:4a16:dad7 with SMTP id
- ffacd0b85a97d-38c519460a0mr10280008f8f.10.1738342657681; 
- Fri, 31 Jan 2025 08:57:37 -0800 (PST)
-Received: from fedora ([94.73.37.161]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438e23de35csm60398925e9.10.2025.01.31.08.57.36
+ AJvYcCVzp8Xajw98JK0B1VaDf4MBqS+GAV6krLkRrKyKOZKqnajbVbh6NBo4KWAQtj/0Ujh5GaDr+WlpLeM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWXFM/1rI1M0cdSKzQhD3Tr4hVChFW1kQsMH+dN/DabEEbL2YE
+ DIw3yvwwcGFg3BCwmLCNbaiN/OI2MZc3wOzmaCa6gwr7qWGMbXhAcYvmgw4a+UQ=
+X-Gm-Gg: ASbGncsc0nuuo2UpGlLB3NO+HNy/e0IWUQPb9ocoziX+LHV8g7d1rWPcOOmj8bRugux
+ OM4OXXtNH/UxkcGInciWt/MbOAutjJeilpem2C6ZCVniVHUHBZCWvbzk66Kf7VIVEdPr2Ked0N3
+ gE10vc+1iK6Z9Gka93qpIb2Em5FaEcARBSH8lZT76qFSru2CpUJEg+7SktPgDjWwrgvphv4qh3O
+ dD4CNOdNa3G4wTnIOEt7u92FxxwFRx0OULPPMUYbkEa4Dst4oICchzrfUKv6Bf1TgnPV/S1hE2+
+ aix6/4bjFj5pl9ESGBysuYO1I7E=
+X-Google-Smtp-Source: AGHT+IGol4Q1biN5R/T0S8PgIDvIBvNwryDWNshGEwCGFyy4OqFaWpi7Ea88cFCjbaHh4AUGnh4Gfg==
+X-Received: by 2002:a05:600c:5119:b0:434:f917:2b11 with SMTP id
+ 5b1f17b1804b1-438dc40bd8dmr99961815e9.21.1738342768800; 
+ Fri, 31 Jan 2025 08:59:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-438e23de2d6sm59965215e9.11.2025.01.31.08.59.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jan 2025 08:57:37 -0800 (PST)
-Date: Fri, 31 Jan 2025 17:57:35 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- jeremie.dautheribes@bootlin.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mairacanal@riseup.net, marcheu@google.com, melissa.srw@gmail.com,
- miquel.raynal@bootlin.com, mripard@kernel.org,
- nicolejadeyee@google.com, pekka.paalanen@collabora.com,
- pekka.paalanen@haloniitty.fi, rdunlap@infradead.org,
- rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
- simona.vetter@ffwll.ch, simona@ffwll.ch,
- thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <Z50A_0AlcLokJ4sD@fedora>
-References: <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
- <20250131084111.2903-1-jose.exposito89@gmail.com>
- <Z5zJ1pEk3v-1V5Uu@louis-chauvet-laptop>
+ Fri, 31 Jan 2025 08:59:28 -0800 (PST)
+Date: Fri, 31 Jan 2025 17:59:26 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com,
+ lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
+ simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
+ akpm@linux-foundation.org, GalShalom@nvidia.com,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, linux-tegra@vger.kernel.org
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+Message-ID: <Z50BbuUQWIaDPRzK@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com,
+ lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
+ simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
+ akpm@linux-foundation.org, GalShalom@nvidia.com,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, linux-tegra@vger.kernel.org
+References: <de293a7e9b4c44eab8792b31a4605cc9e93b2bf5.camel@linux.intel.com>
+ <20250128151610.GC1524382@ziepe.ca>
+ <b78d32e13811ef1fa57b0535749c811f2afb4dcd.camel@linux.intel.com>
+ <20250128172123.GD1524382@ziepe.ca>
+ <Z5ovcnX2zVoqdomA@phenom.ffwll.local>
+ <20250129134757.GA2120662@ziepe.ca>
+ <Z5tZc0OQukfZEr3H@phenom.ffwll.local>
+ <20250130132317.GG2120662@ziepe.ca>
+ <Z5ukSNjvmQcXsZTm@phenom.ffwll.local>
+ <20250130174217.GA2296753@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z5zJ1pEk3v-1V5Uu@louis-chauvet-laptop>
+In-Reply-To: <20250130174217.GA2296753@ziepe.ca>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,153 +111,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 31, 2025 at 02:02:14PM +0100, Louis Chauvet wrote:
-> On 31/01/25 - 09:41, José Expósito wrote:
-> > Hi Louis,
-> > 
-> > > From: Arthur Grillo <arthurgrillo@riseup.net>
+On Thu, Jan 30, 2025 at 01:42:17PM -0400, Jason Gunthorpe wrote:
+> On Thu, Jan 30, 2025 at 05:09:44PM +0100, Simona Vetter wrote:
+> > > > An optional callback is a lot less scary to me here (or redoing
+> > > > hmm_range_fault or whacking the migration helpers a few times) looks a lot
+> > > > less scary than making pgmap->owner mutable in some fashion.
 > > > 
-> > > Create KUnit tests to test the conversion between YUV and RGB. Test each
-> > > conversion and range combination with some common colors.
+> > > It extra for every single 4k page on every user :\
 > > > 
-> > > The code used to compute the expected result can be found in comment.
-> > >
-> > > [Louis Chauvet:
-> > > - fix minor formating issues (whitespace, double line)
-> > > - change expected alpha from 0x0000 to 0xffff
-> > > - adapt to the new get_conversion_matrix usage
-> > > - apply the changes from Arthur
-> > > - move struct pixel_yuv_u8 to the test itself]
-> > > 
-> > > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> 
-> [...]
-> 
-> > > +	/*
-> > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
-> > > +	 *                     in_bits = 16,
-> > > +	 *                     in_legal = False,
-> > > +	 *                     in_int = True,
-> > > +	 *                     out_bits = 8,
-> > > +	 *                     out_legal = False,
-> > > +	 *                     out_int = True)
-> > > +	 * Test cases for conversion between YUV BT709 full range and RGB
-> > > +	 * using the ITU-R BT.709 weights.
-> > > +	 */
-> > > +	{
-> > > +		.encoding = DRM_COLOR_YCBCR_BT709,
-> > > +		.range = DRM_COLOR_YCBCR_FULL_RANGE,
-> > > +		.n_colors = 4,
+> > > And what are you going to do better inside this callback?
 > > 
-> > If I understood correctly, "n_colors" here indicates the number of items in
-> > "colors", but there is a mismatch between both lengths.
-> > 
-> > It also applies to the other test cases where "n_colors = 4".
+> > Having more comfy illusions :-P
 > 
-> I don't know how I miss it, I am 100% sure I did the exact same comment to 
-> Arthur few mounth ago, thanks!
->  
-> > > +		.colors = {
-> > > +			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
-> > > +			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
-> > > +			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
-> > > +			{ "red",   { 0x36, 0x63, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
-> > > +			{ "green", { 0xb6, 0x1e, 0x0c }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
-> > > +			{ "blue",  { 0x12, 0xff, 0x74 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
-> > > +		},
-> > > +	},
-> > > +	/*
+> Exactly!
 > 
-> [...]
+> > Slightly more seriously, I can grab some locks and make life easier,
 > 
-> > > +/*
-> > > + * vkms_format_test_yuv_u8_to_argb_u16 - Testing the conversion between YUV
-> > > + * colors to ARGB colors in VKMS
-> > > + *
-> > > + * This test will use the functions get_conversion_matrix_to_argb_u16 and
-> > > + * argb_u16_from_yuv888 to convert YUV colors (stored in
-> > > + * yuv_u8_to_argb_u16_cases) into ARGB colors.
-> > > + *
-> > > + * The conversion between YUV and RGB is not totally reversible, so there may be
-> > > + * some difference between the expected value and the result.
-> > > + * In addition, there may be some rounding error as the input color is 8 bits
-> > > + * and output color is 16 bits.
-> > > + */
-> > > +static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
-> > > +{
-> > > +	const struct yuv_u8_to_argb_u16_case *param = test->param_value;
-> > > +	struct pixel_argb_u16 argb;
-> > > +
-> > > +	for (size_t i = 0; i < param->n_colors; i++) {
-> > > +		const struct format_pair *color = &param->colors[i];
-> > > +		struct conversion_matrix matrix;
-> > > +
-> > > +		get_conversion_matrix_to_argb_u16
-> > > +			(DRM_FORMAT_NV12, param->encoding, param->range, &matrix);
-> > > +
-> > > +		argb = argb_u16_from_yuv888(color->yuv.y, color->yuv.u, color->yuv.v, &matrix);
-> > 
-> > Running the test on ppc64 (big endian) doesn't fail. For reference:
-> > 
-> >   $ sudo dnf install powerpc64-linux-gnu-gcc
-> >   $ sudo dnf install qemu-system-ppc64
-> >   $ ./tools/testing/kunit/kunit.py run \
-> >      --kunitconfig=drivers/gpu/drm/vkms/tests \
-> >      --arch=powerpc --cross_compile=powerpc64-linux-gnu- \
-> >      --make_options CF=-D__CHECK_ENDIAN__ \
-> >      --kconfig_add CONFIG_KASAN=y \
-> >      --kconfig_add CONFIG_KASAN_VMALLOC=y
-> > 
-> > However, I wonder if endianness is correctly handled. I always find endianness
-> > difficult to reason about, but I'll try my best to explain it.
-> > 
-> > On a big endian architecture, color->yuv is stored in big endian. This might not
-> > be an issue, because its components (y, u and v) are u8.
-> > However, I think that the return value of argb_u16_from_yuv888(), which is the
-> > result of argb_u16_from_u16161616(), is returned in big endian while it should
-> > be little endian.
-> 
-> The goal of `struct argb_u16` is to hide machine-specific issues. We want 
-> to be able to do addition, multiplication... without 
-> `le_from_cpu`/`cpu_to_le` everywhere.
-> 
-> If you look at the rest of the vkms driver, we never do bit manipulation 
-> on `struct argb_u16`, only mathematical operations. 
-> 
-> > Since you are comparing argb.a (big endian) with color->argb.a (big endian) the
-> > test succedess, but in this case it should fail because, if I remember
-> > correctly, colors must be stored in little endian and therefore, the color
-> > returned by argb_u16_from_yuv888() should be little endian.
-> 
-> The colors are stored in a specific endian only in framebuffers, but in 
-> our case, this is not a framebuffer. For the `argb_u16_to_ARGB16161616`, 
-> you can see we use `cpu_to_le16` to store the data in the proper order.
->  
-> > If you replace this 4 KUNIT_EXPECT_LE_MSG() with KUNIT_EXPECT_MEMEQ(), all test
-> > will fail, but you'll notice that the buffers printed in the error log are
-> > different depending on the endianness (x86_64 vs ppc64).
-> > 
-> > What do you think? Did I overlook the conversion?
-> 
-> I think yes, but thanks to make me think about it, I will steal your 
-> command line to test on powerPC :)
+> Yes, but then see my concern about performance again. Now you are
+> locking/unlocking every 4k? And then it still races since it can
+> change after hmm_range_fault returns. That's not small, and not really
+> better.
 
-Well, at least the command was useful :P Thanks for the explanation.
-I have been looking with more detail into get_pixel_write_function()
-and what you mention makes sense now.
+Hm yeah, I think that's the death argument for the callback. Consider me
+convinced on that being a bad idea.
 
-Thanks!
+> > whereas sprinkling locking or even barriers over pgmap->owner in core mm
+> > is not going to fly. Plus more flexibility, e.g. when the interconnect
+> > doesn't work for atomics or some other funny reason it only works for some
+> > of the traffic, where you need to more dynamically decide where memory is
+> > ok to sit.
+> 
+> Sure, an asymmetric mess could be problematic, and we might need more
+> later, but lets get to that first..
+> 
+> > Or checking p2pdma connectivity and all that stuff.
+> 
+> Should be done in the core code, don't want drivers open coding this
+> stuff.
 
-> > Have a look to the tests present in drm_format_helper_test.c. They use different
-> > functions (cpubuf_to_le32, le32buf_to_cpu, etc) to make sure that colors are
-> > represented in little endian and that comparing the expected and actual results
-> > happens in the same endian.
+Yeah so after amdkfd and noveau I agree that letting drivers mess this up
+isn't great. But see below, I'm not sure whether going all the way to core
+code is the right approach, at least for gpu internal needs.
+
+> > Also note that fundamentally you can't protect against the hotunplug or
+> > driver unload case for hardware access. So some access will go to nowhere
+> > when that happens, until we've torn down all the mappings and migrated
+> > memory out.
 > 
-> Those tests are testing conversion "buffer to buffer", so yes, there is 
-> some endian-dependant issues.
+> I think a literal (safe!) hot unplug must always use the page map
+> revoke, and that should be safely locked between hmm_range_fault and
+> the notifier.
 > 
-> [...]
+> If the underlying fabric is loosing operations during an unplanned hot
+> unplug I expect things will need resets to recover..
+
+So one aspect where I don't like the pgmap->owner approach much is that
+it's a big thing to get right, and it feels a bit to me that we don't yet
+know the right questions.
+
+A bit related is that we'll have to do some driver-specific migration
+after hmm_range_fault anyway for allocation policies. With coherent
+interconnect that'd be up to numactl, but for driver private it's all up
+to the driver. And once we have that, we can also migrate memory around
+that's misplaced for functional and not just performance reasons.
+
+The plan I discussed with Thomas a while back at least for gpus was to
+have that as a drm_devpagemap library, which would have a common owner (or
+maybe per driver or so as Thomas suggested). Then it would still not be in
+drivers, but also a bit easier to mess around with for experiments. And
+once we have some clear things that hmm_range_fault should do instead for
+everyone, we can lift them up.
+
+Doing this at a pagemap level should also be much more efficient, since I
+think we can make the assumption that access limitations are uniform for a
+given dev_pagemap (and if they're not if e.g. not the entire vram is bus
+visible, drivers can handle that by splitting things up).
+
+But upfront speccing all this out doesn't seem like a good idea to,
+because I honestly don't know what we all need.
+
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
