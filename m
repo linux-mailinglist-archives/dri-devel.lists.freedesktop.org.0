@@ -2,80 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA06CA2419C
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 18:13:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C05A2419F
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 18:13:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F29B10E3FE;
-	Fri, 31 Jan 2025 17:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 412D510E061;
+	Fri, 31 Jan 2025 17:13:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kmouL5kH";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="R8uOpa2J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CFC410E3FE
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 17:13:05 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-385deda28b3so1225585f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 09:13:05 -0800 (PST)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5CE10E1C9
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 17:13:24 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-38be3bfb045so2321538f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 09:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738343584; x=1738948384; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date:from:to:cc
+ d=ffwll.ch; s=google; t=1738343602; x=1738948402; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=v73pmvXqiho5WEdT7QxUjB8R4XydyyW0ihhgFNC55Qc=;
- b=kmouL5kHuAUBnyZk/kQrARWQ95qjRUtnNul8oHevN3hLvlbfswVEEcPpMwJoU77CUL
- +jOtZ/YrXo1NLZt9anG4ih+ieykUk2wcxjzVCGvhw4SRfiowvuL3jduJw68O9WExvATg
- TXvMKPWoc80C3fED27OFQnl+qcJn501wg8vkAu/r8IEIypSAhHSOQN3uaNxwsQfSiGN+
- wdAVSKvOyOfxiDoP4LKB5nSRyTJ5z2KY0eKGI33LLMCv09A6/6S0NblKt7PqzpDygNNX
- VcH82yzE5WBctKpl2YYKEYQ8YQ5eaXWdFbE85bBbuYqCMUciweKYJG00OKF3SHqk52kz
- AvFA==
+ bh=6jSWMajugHE39GppqlmQIz8pPmyPm52DOpdfP99qKyo=;
+ b=R8uOpa2JvaGPOLui/pH22ugyUv1SlsiHcNaZ72vxxeDl6TAXgqfxzscdtTgDunKRme
+ r8qRH5O0qx06HnwcbAeaqIy+cIyTL63SMlgtv0Uorogx69sta2hSnTGHS8J8x8Q+ptyu
+ s46zvMQ3TdfEe+81aQYhiEgUQL8W7h/wDciRI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738343584; x=1738948384;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:to:from:date
+ d=1e100.net; s=20230601; t=1738343602; x=1738948402;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=v73pmvXqiho5WEdT7QxUjB8R4XydyyW0ihhgFNC55Qc=;
- b=ahgY1yZn/rqhf8fUI35q3pcKW7zesqFlgTxJwOGYHttmbCtwLHaKMvW7KSDySfXLtC
- APbUNqMThMy1II+Sk5kW5LpMZthKJinsXq5ohtHmPrG9KTH9fDTCGJapZS9ygPF+UjIR
- kuZOmePpsPmL/Pz91Lx05r9w4oEt9E59wdhHP+e3+3h+jYAhfxNN2opSv2+QiSxsnjFw
- inbfLiBxXUR8n4bgfypE7L8D6MYAyN+ZFL/b8CrzzGteBOFoZHEwfeKxjOvd2EzSKlQQ
- Hk5PiGHuUv3/fvRQTrMbuG7kMfPWa6+wcifUDduVi7/NUpa8zhjqtner03+YAwE3R5sP
- EQmw==
+ bh=6jSWMajugHE39GppqlmQIz8pPmyPm52DOpdfP99qKyo=;
+ b=OKVSzwnPL/c5aP9XJ/UUQV5mVLGbbreEEGiMM89p8B/cLWBp74msah6tJMj7KutJRa
+ UzLiXvEEc+DtJujThFBHEai/dI4xjHU3+YGZKnEx4MU8aywbsZ3Gtc7orghxrsVUJEOB
+ xnxAqrhviXB5hnKFkhLJ8HFuE4WsphXbYku1qSSxYL7IiWh/fjONSt+clAm1paPQKpV+
+ G7a90/s/p5k0NMuEcE5ohjN+lvLyd4uM7l6MHfERjwxkOvJAZ/62lFu52mL+gOTgLxCE
+ pg5hL4igBGqtMdJRAPOhYY+YKrkcpbxXmChgWYJZUkBB0x/kQDMcrvVRcN9rxZS7oNHD
+ 6bOA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWZFD0KsIj8v7Z4l1sClTqc/deVCQkDWnegBDd7OsZFQ/DUpudBgtFxZio/0WQiLeai8hztS7JlStM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLlR68PDxV8JniWlAGAqhDto4gNGuh2iKjdZW+n0PakT1vg41B
- P9VhdbSatv4PqS1DzIkyEPRYEBiKHGJcDmj1tyIzAyurJvQ74IV2
-X-Gm-Gg: ASbGncuxqUXjk7Eknu71FqdoTysCWsALFgfJ+dcQxLcpfS6zUc7Bp0g5kvDd9rBQ0pq
- h52TMNYt6EDzByx/WiXMlOiUoTnRCQKxOhgbrRfpuYDZS/DwXOOLuxg97zjsXL0PEPDWlReSXkq
- PNHpkHjngg9NO5Ljfkz7Nuu02MeI3YyYCeDIDtmZ7WIAxXKySZOg8Ot9oFvSFso8BpseevBPgml
- Y+DtlrhKY/DhNeBWp8TYXjmQM47nTwL1HJUQnBe4XSabwrs3Lr+RmlnccG4lh1NZuyc9i5miPgE
- Ds/2/PVkLHrRQw==
-X-Google-Smtp-Source: AGHT+IH3K/xx7YhzgmmclYzzwfqAMEGQp3+WnMXLWIxhdFN6PQfffMt+hjRULJsW6CLlEBnPW87OKA==
-X-Received: by 2002:a5d:64e4:0:b0:38a:88b8:99af with SMTP id
- ffacd0b85a97d-38c51951c62mr10419121f8f.22.1738343583672; 
- Fri, 31 Jan 2025 09:13:03 -0800 (PST)
-Received: from fedora ([94.73.37.161]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c5c1cfccasm5200973f8f.92.2025.01.31.09.13.03
+ AJvYcCUexUG6nWEgCKXHiWvDyAIcMafjkqiOcMYwvcIjzp3rML9jPu1AIDP0U5Ek5gPflnF7+L9Dz+YnIFE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzOOuZ2vCjFoJqsRQFvItckJZtqmwDIGC+zppCOQuK629M8f3y8
+ IJwTfTjL6GzsiNT1AhfNggRrnWFrf/hEfAI3Pk2mTcVLllF1Kv6aVVA8sOn81F4=
+X-Gm-Gg: ASbGncvgOEHs3B07tBaQe0iA9i6jKSNJTq1xgsehU9Mre16Jkshij8oYPftLaIjb/qj
+ 8WUBh74RbbrVWDKWWPfC9vFaZ7wjdNSmAF6INXqIt015/mLugLXbkVSDaTla0gDCIOFCTPWiWWT
+ aNDs2ctivJpitQ6L9uW++6viWwt9PtDKt4jVYN/vNbUqIy263YE/DwLBCV5uSUYzQyNp+g5Jeh+
+ 0wcWuwClFMAVCoLRaGOQmxsBGvwgoldJngM0dEKjEGDCabIFdTT1dNpIIxIVmY6FJ+IX8pXOQT0
+ 01iwq2Uq++eakBEYEqrk29UOnwc=
+X-Google-Smtp-Source: AGHT+IGBiDEPfJPSLRmnOOkpJfCiAcSXF7PRNDxRISEjglfPUZ3JlbXVG6tP7dp5Gn/UOWRu2XqpDg==
+X-Received: by 2002:a05:6000:1563:b0:38a:5d7d:4bd6 with SMTP id
+ ffacd0b85a97d-38c5a9bee80mr7346375f8f.25.1738343602545; 
+ Fri, 31 Jan 2025 09:13:22 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c5c1b57ccsm5178729f8f.79.2025.01.31.09.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jan 2025 09:13:03 -0800 (PST)
-Date: Fri, 31 Jan 2025 18:13:01 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] drm/vkms: Allow to configure device
-Message-ID: <Z50EnT31Fm8EWBX3@fedora>
-References: <20250129110059.12199-1-jose.exposito89@gmail.com>
- <Z5uDGr445jEfdt5L@louis-chauvet-laptop> <Z5yYVov9_z6CDU46@fedora>
- <Z5zJ1rEZyBEgd7DN@louis-chauvet-laptop>
+ Fri, 31 Jan 2025 09:13:22 -0800 (PST)
+Date: Fri, 31 Jan 2025 18:13:19 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v1 12/12] mm/rmap: keep mapcount untouched for
+ device-exclusive entries
+Message-ID: <Z50Er1Oy7VPLVY9U@phenom.ffwll.local>
+Mail-Followup-To: David Hildenbrand <david@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+References: <20250129115411.2077152-1-david@redhat.com>
+ <20250129115411.2077152-13-david@redhat.com>
+ <Z5tWYpwpUfgEmeKj@phenom.ffwll.local>
+ <887df26d-b8bb-48df-af2f-21b220ef22e6@redhat.com>
+ <Z5t8dkujVv7xZiuV@phenom.ffwll.local>
+ <d70db67d-8989-4ce4-bc21-52a89449db4b@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z5zJ1rEZyBEgd7DN@louis-chauvet-laptop>
+In-Reply-To: <d70db67d-8989-4ce4-bc21-52a89449db4b@redhat.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,170 +122,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 31, 2025 at 02:02:14PM +0100, Louis Chauvet wrote:
-> On 31/01/25 - 10:31, José Expósito wrote:
-> > On Thu, Jan 30, 2025 at 02:48:10PM +0100, Louis Chauvet wrote:
-> > > On 29/01/25 - 12:00, José Expósito wrote:
-> > > > Hi everyone,
-> > > > 
-> > > > In preparation for ConfigFS support, a flexible way to configure VKMS device(s)
-> > > > is required.
-> > > > This series adds the required APIs to create a configuration, the code changes
-> > > > required to apply it and KUnit test validating the changes.
+On Thu, Jan 30, 2025 at 04:43:08PM +0100, David Hildenbrand wrote:
+> > > Assume you have a THP (or any mTHP today). You can easily trigger the
+> > > scenario that folio_mapcount() != 0 with active device-exclusive entries,
+> > > and you start doing rmap walks and stumble over these device-exclusive
+> > > entries and *not* handle them properly. Note that more and more systems are
+> > > configured to just give you THP unless you explicitly opted-out using
+> > > MADV_NOHUGEPAGE early.
 > > > 
-> > > Hi José,
-> > 
-> > Hi Louis,
-> > 
-> > Thanks a lot for the quick review!
-> > 
-> > > Thanks a lot!
+> > > Note that b756a3b5e7ea added that hunk that still walks these
+> > > device-exclusive entries in rmap code, but didn't actually update the rmap
+> > > walkers:
 > > > 
-> > > This series is amazing and better than mine on many points. I have few 
-> > > comments:
-> > > - a "strange" naming pair: add/destroy (I expect add/remove or 
-> > >   create/destroy like other function in DRM)
-> > 
-> > I used "add" because the function creates and adds a display pipeline
-> > items and "destroy" because the opposite function removes it and frees
-> > its memory, so I wanted to emphasize that the action was destructive.
-> > 
-> > However, I don't have a strong preference about the naming. If you
-> > prefer another pair of verbs, I'll be happy to change the function
-> > names.
-> 
-> So, I think create/destroy is a bit better: `create` with the 
-> `vkms_config` parameter is enough to tell "it allocates stuff in 
-> `vkms_config`". 
-
-ACK, I'll change in v2.
-
-> > > - usage of "complex" list accessors, can't we just create iterators?
-> > 
-> > Yes, on the first iteration, I used the underlying structure: list
-> > iterators for planes/CRTCs/encoders/connectors and xa_for_each for
-> > the possible_* items.
-> > 
-> > However, I found 2 main issues that made me rewrite this code:
-> > 
-> > The first one is that, if in the future, we change the internal data
-> > type, we'll have to change all the code using it. On this way, like
-> > I did with all the other vkms_config_*_get_*() functions, the data is
-> > encapsulated.
-> 
-> In one of my comment I proposed a macro to help on this point. I think 
-> this is sufficient to hide internals. (see patch 7/13)
-
-That's a very good point, I like the vkms_config_for_each_plane()
-macro you suggested. Also, it matches really well with similar macros
-in drm, for example drm_connector_for_each_possible_encoder().
-
-I'll add them in v2.
-
-> > The second one is vkms_config_get_connectors(). Unlike the other
-> > functions, this one filters by connector enabled status. If we let the
-> > caller do the filtering, we'll duplicate that logic.
-> 
-> That something I missed, and a very good point.
-> 
-> I will try to create a macro that do the filtered iteration, if I succeed 
-> and you agree on the previous point, I think it does not worth it to have 
-> those huge amount of code just to iterate over a list.
-> 
-> > Because of these two reasons, I decided to add a getter for lists.
-> > 
-> > > - should we use pr_err in vkms_config_valid?
-> > 
-> > I think it is great to show to the user a reason why their device couldn't
-> > be enabled in dmesg... But I'm not sure if there is a better way to do it.
-> 
-> I was not clear: I agree we want some logs, but pr_err is too 
-> agressive (see patch 8/13).
-
-Agreed, we can lower to warn.
-
-> > > > Louis Chauvet and I are working on ConfigFS support. In this series I tried to
-> > > > merge his changes [1] with mine [2].
-> > > > I kept his Signed-off-by to reflect that, even if I show up as the author of
-> > > > some/most of the patches, this was a joint effort.
+> > > @@ -102,7 +104,8 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw)
 > > > 
-> > > To avoid confusion, you should add the Co-developped-by tag, so it will be 
-> > > clear that we worked together on this.
-> > 
-> > Good point, I'll change it.
-> > 
-> > > > I'm still polishing the ConfigFS code [3] and its IGT tests [4] (connector
-> > > > hot-add/remove bugs) but the IGT tests also exercise this series and can be used
-> > > > for additional test coverage.
+> > >                  /* Handle un-addressable ZONE_DEVICE memory */
+> > >                  entry = pte_to_swp_entry(*pvmw->pte);
+> > > -               if (!is_device_private_entry(entry))
+> > > +               if (!is_device_private_entry(entry) &&
+> > > +                   !is_device_exclusive_entry(entry))
+> > >                          return false;
 > > > 
-> > > I will take a look at those series. For the connector hot-add/remove, do 
-> > > you have any example of usage in the kernel? I did not found anything in 
-> > > the documentation explaining they are hot-addable.
+> > >                  pfn = swp_offset(entry);
+> > > 
+> > > That was the right thing to do, because they resemble PROT_NONE entries and
+> > > not migration entries or anything else that doesn't hold a folio reference).
 > > 
-> > I pushed a couple of WIP commits to the kernel and IGT so you can see/test
-> > the crashes and hopefully share some ideas.
-> > 
-> > About the documentation: I didn't find much information other than a few
-> > mentions to hot-add/remove. However, in one of my rebases, two new functions, 
-> > drm_connector_dynamic_init() and drm_connector_dynamic_register(), were added:
-> > https://patchwork.freedesktop.org/patch/628418/
+> > Yeah I got that part. What I meant is that doubling down on this needs a
+> > full audit and cannot rely on "we already have device private entries
+> > going through these paths for much longer", which was the impression I
+> > got. I guess it worked, thanks for doing that below :-)
 > 
-> Ho! This is exactly one issue I had when developping IGT tests, sometimes 
-> you fetch the connector list, and when querying info about a specific 
-> connector you get nothing!
-
-I'm not sure if it is the same issue, but when it happened to me, I was
-missing a call to drm_mode_config_reset(). Credit to Maxime for helping
-me with this error :)
- 
-> > I'm still trying to make them work, but I think they are what we need.
+> I know I know, I shouldn't have touched it ... :)
 > 
-> After reading the patch "https://patchwork.freedesktop.org/patch/628418/", 
-> I don't think we really need to support "dynamic connector creation" right 
-> now:
-> - None of the existing driver do it (except MST, but MST need a lot of 
->   stuff to works)
-> - If we want to support it later, just create a "useless" 
->   /configfs/vkms/DEV/connectors/CON/enable that you must write 1 before 
->   the device initialization to make the connector working. This way we 
->   will not have to break the UAPI (the file is already there, disabled by 
->   default)
+> So yeah, I'll spend some extra work on sorting out the other cases.
 
-Fair enough, we can add it in the future. To keep it backwars compatible
-though, we'll need to enable by default "static" connectors so users don't
-need to change the way they create devices.
+Thanks :-)
 
-For "dynamic" connectors (connectors created once the device is enabled) we
-would need to set them disabled on creation, but this would be backwards
-compatible, as we won't allow creating new connectors in the first version.
-
-I'll remove the connector hot-add/remove on v2... Meaning that configfs + IGT
-will be ready for review :)
-
-> > Part of the crashes happen on the cleanup of drm_client_setup(). Adding a
-> > connector adds modes in the DRM client, but removing the connector doesn't
-> > remove them and, on cleanup, I get a NULL pointer.
-> >
-> > I'm a bit stuck, so help or tips are very welcome :)
+> > And at least from my very rough understanding of mm, at least around all
+> > this gpu stuff, tracking device exclusive mappings like real cpu mappings
+> > makes sense, they do indeed act like PROT_NONE with some magic to restore
+> > access on fault.
+> > 
+> > I do wonder a bit though what else is all not properly tracked because
+> > they should be like prot_none except arent. I guess we'll find those as we
+> > hit them :-/
 > 
-> I will look at it next week (same repo/branch?).
+> Likely a lot of stuff. But more in a "entry gets ignored -- functionality
+> not implemented, move along" way, because all page table walkers have to
+> care about !pte_present() already; it's just RMAP code that so far never
+> required it.
 
-Yes, same repo.
+I think it'd be good to include a tersion summary of this in the commit
+messages - I'd expect this is code other gpu folks will need to crawl
+through in the future again, and I had no idea where I should even start
+looking to figure this out.
 
-Enjoy your weekend!
-Jose
-
-> Have a nice weekend,
-> Louis Chauvet
-> 
-> > 
-> > > Thanks again for this series,
-> > > Louis Chauvet
-> > 
-> > I'll look with more time into your comments in the other patches next week.
-> > 
-> > Thanks,
-> > Jose
-> > 
 > 
 > [...]
+> 
+> > 
+> > > If thp constantly reassembles a pmd entry because hey all the
+> > > > memory is contig and userspace allocated a chunk of memory to place
+> > > > atomics that alternate between cpu and gpu nicely separated by 4k pages,
+> > > > then we'll thrash around invalidating ptes to no end. So might be more
+> > > > fallout here.
+> > > 
+> > > khugepaged will back off once it sees an exclusive entry, so collapsing
+> > > could only happen once everything is non-exclusive. See
+> > > __collapse_huge_page_isolate() as an example.
+> > 
+> > Ah ok. I think might be good to add that to the commit message, so that
+> > people who don't understand mm deeply (like me) aren't worried when they
+> > stumble over this change in the future again when digging around.
+> 
+> Will do, thanks for raising that concern!
+> 
+> > 
+> > > It's really only page_vma_mapped_walk() callers that are affected by this
+> > > change, not any other page table walkers.
+> > 
+> > I guess my mm understanding is just not up to that, but I couldn't figure
+> > out why just looking at page_vma_mapped_walk() only is good enough?
+> 
+> See above: these never had to handle !page_present() before -- in contrast
+> to the other page table walkers.
+>
+> So nothing bad happens when these page table walkers traverse these PTEs,
+> it's just that the functionality will usually be implemented.
+> 
+> Take MADV_PAGEOUT as an example: madvise_cold_or_pageout_pte_range() will
+> simply skip "!pte_present()", because it wouldn't know what to do in that
+> case.
+> 
+> Of course, there could be page table walkers that check all cases and bail
+> out if they find something unexpected: do_swap_page() cannot make forward
+> progress and will inject a VM_FAULT_SIGBUS if it doesn't recognize the
+> entry. But these are rather rare.
+
+Yeah this all makes sense to me now. Thanks a lot for your explanation,
+I'll try to pay it back by trying to review the next version of the series
+a bit.
+
+> We could enlighten selected page table walkers to handle device-exclusive
+> where it really makes sense later.
+
+I think rmap for eviction/migration is really the big one that obviously
+should be fixed. All the other cases I could think of I think just end up
+in handle_mm_fault() to sort out the situation and then retry.
+
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
