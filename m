@@ -2,155 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57623A23C89
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 11:56:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AEFA23C94
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 12:02:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0846810E1AB;
-	Fri, 31 Jan 2025 10:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9326C10E1C7;
+	Fri, 31 Jan 2025 11:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ZHLpSDrC";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=louisalexis.eyraud@collabora.com header.b="AsPyoanP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B474E10E1AB
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 10:56:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738320968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Q3RpfUrdZBCMnrOyM0k8HuSUcAta7Y636lLqMrYrWx8=;
- b=ZHLpSDrCma3qjJ5bAt/4Huym8WSgNrJr4+fAFMNWdCz0C31R7yEgD3B2+e4N3gWmZrfGa2
- nIo+A/c9gGs099b/7VRrH/SNDKOdPUgBRfcXCMbMm3itl2U4sAI3c7kATApFWQMvqTe+gz
- slG5aap2As5wcOihADYY8bNGbWsR+q8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-127-QvV-QqRYNPSy0jMlGZri_g-1; Fri, 31 Jan 2025 05:56:07 -0500
-X-MC-Unique: QvV-QqRYNPSy0jMlGZri_g-1
-X-Mimecast-MFC-AGG-ID: QvV-QqRYNPSy0jMlGZri_g
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-38a873178f2so817128f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 02:56:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738320966; x=1738925766;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Q3RpfUrdZBCMnrOyM0k8HuSUcAta7Y636lLqMrYrWx8=;
- b=OmQZ+XjP2IbT0nSAt0C6mJs/0JTv8/jXOBY0e3L8ZegWtcoBEo/eW7fr5NopbEYtbZ
- XGSGUCEjARHXuRmtr7yENAl+ulJI7ZofHgWCFbhdzoe+n5BMGkcko5HMbs3JPHQfFfhf
- UkSjxg1KA2ILd8vBPF7wdXQyPeio2jI6Bcym9iqevoNJzmyOnieSmTHtkJlEUy6KBLAZ
- EN+vWdr9C+QItP9DqMHGT5wUhyogi+kxXrgwZadxpdHkQ9vT4Q1/WCD8lSRhMj7kwBYz
- a8kVF/B90LtvcRo89QCBuJlFe6K/jSpwGiFv6Q8oOGz+YLRIcpzw6si+JW4ruJ8Fkig1
- n+zA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUj0kDJvKQ8fyg4B3G8cCQ7iC9tOqa9bI+M/A0orwPDrqoHd7UbtEVIPkYf7oy4gdKOMSEic44psIg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWuoy07L8MUemnh5537JRpfzWGQAPlf1F2cFVDzeMz3q+pSRCM
- KnMUlA/XczOzDiS+57Vl5BrAsVA4zZR6DPKGmznwiSURDjxX4QPU5hQD53Q2vsEwmXQsPZqqrDP
- dJqkv97ebbpkWHweVaRbL+Kwi38H3l2Djo8AEsEVuSp6fBEpelwh8e150tp7YeHNY1w==
-X-Gm-Gg: ASbGncv520a8FWg/WhIdWjgNRoBmxjeazeuE4ZRJnBvRHY8Ed6p/MAQpPGeeq5GCK2M
- q8BYRozX3cGzalxnus66JiBi6LSXljpMKymhSbEQjZAhxhq6TqKrc0cdTcK4bFpC+ClwPxtePZV
- I4Riz5HxGGUoP7bngQfS6dbnI940kqXZsEgAQi1tGzvU4A6nIi+ROj4OWh7xvRkjrF4exxD4pxm
- Ef/ljVAiwyIwPyQ/kwiPudRircHd87lVnFG9dIe09zxQPdb1yWpL4m+a7nHMG5t3gTqc7cPWgZM
- 9WCpycU45aBvxx/2t/dVxM9Cz2OY2I6F9CZKIPVqG3PIqH4lwnOkaxVFfeiOFT9swx/73z1+zz1
- fRKymn6GzzsBH+oUiDEDIgU7T3J7HNoPk
-X-Received: by 2002:a05:6000:1a8b:b0:385:f47b:1501 with SMTP id
- ffacd0b85a97d-38c5195fd82mr8250981f8f.32.1738320965942; 
- Fri, 31 Jan 2025 02:56:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH+I+ynCeZEHXX+6WrhMhXHSL94RRp5D9nLI6LDBxYzej6H/Ex/I2OwQyT0gbWRqDVNDvdr0w==
-X-Received: by 2002:a05:6000:1a8b:b0:385:f47b:1501 with SMTP id
- ffacd0b85a97d-38c5195fd82mr8250948f8f.32.1738320965490; 
- Fri, 31 Jan 2025 02:56:05 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70a:1c00:b8d4:bc62:e7ed:ec0e?
- (p200300cbc70a1c00b8d4bc62e7edec0e.dip0.t-ipconnect.de.
- [2003:cb:c70a:1c00:b8d4:bc62:e7ed:ec0e])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c5c102fcasm4451251f8f.38.2025.01.31.02.55.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Jan 2025 02:55:58 -0800 (PST)
-Message-ID: <d552cc03-b7af-44be-bcaf-13da720a2226@redhat.com>
-Date: Fri, 31 Jan 2025 11:55:55 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A40F10E1C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 11:02:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1738321347; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Hkql+bgGsvPgUJbPyMiWHR3VvDrgD3/F2Fvco6ZqedgPxoNDct9nPoroK/UOC1kg8fiKi2MwL6CgzCAE9/gzg+T1Mk/Ly2GWJSHMUtmWzSIMwqycUrHJHMLwwhLw8iJbxWJN72z1lyC0zLymeHrPlQTegGctm93eEpsF9ka2wBY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1738321347;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=ezAMBD29GkkB4e4t8a/2A1rSsnKm9LPumN4NESuMnWY=; 
+ b=WSkZ36BG4IYlZYIZSpBtsHGTfoBKrNrVDfaB0tSwC/7NfiFt6NlFho0ZcVElMwuh8Caup6iLzQ6Bd7JCBaCb5ufANpTjllZt+UWXOMFZ64xw9t7MYOmuL0aykqsGXOSd/1DClH6fhba/X4oX+gjFxdkVLeDDFRdnrXWke6jCCFk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=louisalexis.eyraud@collabora.com;
+ dmarc=pass header.from=<louisalexis.eyraud@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738321347; 
+ s=zohomail; d=collabora.com; i=louisalexis.eyraud@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=ezAMBD29GkkB4e4t8a/2A1rSsnKm9LPumN4NESuMnWY=;
+ b=AsPyoanPmBfmqtoZVvtj7k2FLUm21bkSi7HNPPMp6hR2oKm2q94Lfi7d+mr4lpz/
+ dMn9S51J90ADF/Qj45pmfVL4/k7kCTjMGoR9DwKrOHHKj4EVM7qXoaT0Wnf13hXiPYZ
+ wZ0BSVaw5ZheIl4LueSw73Y7ZVpWXx0WqFE+H7VU=
+Received: by mx.zohomail.com with SMTPS id 1738321342354706.4067778296129;
+ Fri, 31 Jan 2025 03:02:22 -0800 (PST)
+Message-ID: <8b924147e03693d04e1800b19a65ac773b699365.camel@collabora.com>
+Subject: Re: [PATCH 2/3] drm/panfrost: Add support for Mali on the MT8370 SoC
+From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard	
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Boris
+ Brezillon <boris.brezillon@collabora.com>, Steven Price	
+ <steven.price@arm.com>, kernel <kernel@collabora.com>, dri-devel	
+ <dri-devel@lists.freedesktop.org>, devicetree <devicetree@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>,  linux-mediatek
+ <linux-mediatek@lists.infradead.org>
+Date: Fri, 31 Jan 2025 12:01:51 +0100
+In-Reply-To: <1003b393-770a-4e2b-b5ed-054f1f9072b4@kernel.org>
+References: <20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com>
+ <20250116-mt8370-enable-gpu-v1-2-0a6b78e925c8@collabora.com>
+ <20250118-meticulous-black-caracal-ec7f0d@krzk-bin>
+ <194b7237128.10f9923a41656565.5574753983898665940@collabora.com>
+ <1003b393-770a-4e2b-b5ed-054f1f9072b4@kernel.org>
+Organization: Collabora Ltd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 05/12] mm/memory: detect writability in
- restore_exclusive_pte() through can_change_pte_writable()
-To: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Jason Gunthorpe <jgg@nvidia.com>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-6-david@redhat.com>
- <Z5tLmYOQaZrdWQHN@phenom.ffwll.local>
- <2670f65f-e973-483e-aed6-526d00125ad7@redhat.com>
- <Z5t4rrkRiOsRY2jH@phenom.ffwll.local>
- <z7s7xb2ftv5hqg3uzjqkou6enguleazwwehxbi5zulbkar2aej@zlbdh2kdewdn>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <z7s7xb2ftv5hqg3uzjqkou6enguleazwwehxbi5zulbkar2aej@zlbdh2kdewdn>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: ic2SePSYvuL9mGfRVpujCM0fs0QHWvHqsdlth9YeDD8_1738320966
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,66 +81,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31.01.25 00:06, Alistair Popple wrote:
-> On Thu, Jan 30, 2025 at 02:03:42PM +0100, Simona Vetter wrote:
->> On Thu, Jan 30, 2025 at 10:58:51AM +0100, David Hildenbrand wrote:
->>> On 30.01.25 10:51, Simona Vetter wrote:
->>>> On Wed, Jan 29, 2025 at 12:54:03PM +0100, David Hildenbrand wrote:
->>>>> Let's do it just like mprotect write-upgrade or during NUMA-hinting
->>>>> faults on PROT_NONE PTEs: detect if the PTE can be writable by using
->>>>> can_change_pte_writable().
->>>>>
->>>>> Set the PTE only dirty if the folio is dirty: we might not
->>>>> necessarily have a write access, and setting the PTE writable doesn't
->>>>> require setting the PTE dirty.
->>>>
->>>> Not sure whether there's much difference in practice, since a device
->>>> exclusive access means a write, so the folio better be dirty (unless we
->>>> aborted halfway through). But then I couldn't find the code in nouveau to
->>>> do that, so now I'm confused.
->>>
->>> That confused me as well. Requiring the PTE to be writable does not imply
->>> that it is dirty.
->>>
->>> So something must either set the PTE or the folio dirty.
->>
->> Yeah I'm not finding that something.
->>
->>> ( In practice, most anonymous folios are dirty most of the time ... )
->>
->> And yup that's why I think it hasn't blown up yet.
->>
->>> If we assume that "device-exclusive entries" are always dirty, then it
->>> doesn't make sense to set the folio dirty when creating device-exclusive
->>> entries. We'd always have to set the PTE dirty when restoring the exclusive
->>> pte.
->>
->> I do agree with your change, I think it's correct to put this
->> responsibility onto drivers. It's just that nouveau seems to not be
->> entirely correct.
-> 
-> Yeah, agree it should be a driver responsibility but also can't see how nouveau
-> is correct there either. I might see if I can get it to blow up...
+On Thu, 2025-01-30 at 14:21 +0100, Krzysztof Kozlowski wrote:
+> On 30/01/2025 13:15, Louis-Alexis Eyraud wrote:
+> > Hello,
+> >=20
+> > sorry for the delay,
+>=20
+> You gave yourself 12 days to respond, which is fine. But to me, you
+> gave
+> 15 minutes and immediately sent v2.
+>=20
+> So now your v2 will be still rejected.
+>=20
+> Best regards,
+> Krzysztof
 
-(in context of the rmap walkers) The question is, how do we consider 
-device-exclusive entries:
+Hello Krzysztof,
 
-(1) dirty? Not from a CPU perspective.
-(2) referenced? Not from a CPU perspective.
+my apologies if you felt offended I sent my v2 patchset too early after
+replying on the mailing list.
+I meant well.
 
-If the answer is always "no" to all questions, then memory notifiers 
-must handle it, because we'd be answering the question from the CPU 
-point of view.
+As I felt your first remarks were appropriate and precise enough to me,
+I've submitted a second version so that the modifications to review
+could be available shortly after my reply.=20
 
-If the answer is always "yes", there is a problem: we can only make it 
-clean/young by converting it to an ordinary PTE first (requiring MMU 
-notifiers etc.), which makes it quite nasty.
+I'll be more cautious next time.
 
-Mixed answers are not possible, because we don't know just from staring 
-at the entry.
-
--- 
-Cheers,
-
-David / dhildenb
-
+Regards,
+Louis-Alexis
