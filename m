@@ -2,78 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318E7A23E10
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 14:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D47A23DEF
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 13:51:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEC2510EAA5;
-	Fri, 31 Jan 2025 13:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10C5310EA99;
+	Fri, 31 Jan 2025 12:51:03 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="eO/vR0ed";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 902 seconds by postgrey-1.36 at gabe;
- Fri, 31 Jan 2025 13:00:18 UTC
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECDEF10EAA5
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 13:00:18 +0000 (UTC)
-Received: from localhost.localdomain (178.204.90.63) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 31 Jan
- 2025 15:45:03 +0300
-From: Roman Smirnov <r.smirnov@omp.ru>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Roman Smirnov <r.smirnov@omp.ru>, Dave Airlie <airlied@redhat.com>, Keith
- Packard <keithp@keithp.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, syzbot
- <syzbot+6754751ad05524dae739@syzkaller.appspotmail.com>
-Subject: [PATCH] drm/drm_lease: add sanity check to
- drm_mode_create_lease_ioctl()
-Date: Fri, 31 Jan 2025 15:44:17 +0300
-Message-ID: <20250131124421.152497-1-r.smirnov@omp.ru>
-X-Mailer: git-send-email 2.43.0
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE8D10EA9A
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 12:51:00 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50VC5vKF022968;
+ Fri, 31 Jan 2025 13:49:55 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ /HSVZHF+gUfOPipAL03x8Rt6OjUDOJ5sMK9Y6abyy8o=; b=eO/vR0edP+XB+SDG
+ Qztl6iqqjK259GAULsDJUHlo124QahBu02rNdt+KKaRP6uI0P++mMLvVvKf+wvNf
+ jBte5zM1D4DYMV3f61GPpNox0I/peKIJX/QSv+OpY28X/Hv7HTLcdwPPL9Ph9kuP
+ oOQT+9b86ZnfFwgvL8rhXchdx0hKzOZ3Iq8Y/I7aC6CFQyv+twREcnHvpjkEn2W2
+ /2CdCN6FN18unhSxbP3nUyDqNhH8DPB5jxIFhwIXSjTg1mMAzvfTFq1zPanzxO1b
+ mM5tQfWjdO8JlaGIq1XYJS9Ip34Dw58AcxhbPhyO/4H5GCo0ateLkqGtqjUwfxMp
+ Jmwchw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 44gf7cb165-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Jan 2025 13:49:54 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 898D240048;
+ Fri, 31 Jan 2025 13:46:14 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6CCC52F1E87;
+ Fri, 31 Jan 2025 13:45:18 +0100 (CET)
+Received: from [10.129.178.211] (10.129.178.211) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Fri, 31 Jan
+ 2025 13:45:16 +0100
+Message-ID: <ef6cc3c8-2419-4503-8a3c-836c1eefeafc@foss.st.com>
+Date: Fri, 31 Jan 2025 13:45:16 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/14] drm/sti: move to devm_platform_ioremap_resource()
+ usage
+To: Anusha Srivatsa <asrivats@redhat.com>
+CC: Joel Stanley <joel@jms.id.au>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>,
+ Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>,
+ John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,
+ Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
+ Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Alexey Brodkin <abrodkin@synopsys.com>, Dave
+ Stevenson <dave.stevenson@raspberrypi.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance
+ <kernel-list@raspberrypi.com>,
+ Jonathan Corbet <corbet@lwn.net>, <linux-aspeed@lists.ozlabs.org>,
+ <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mediatek@lists.infradead.org>,
+ <linux-amlogic@lists.infradead.org>, <imx@lists.linux.dev>,
+ <linux-rockchip@lists.infradead.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-tegra@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
+ <20250128-cocci-memory-api-v1-9-0d1609a29587@redhat.com>
+ <83c922b8-9cf0-4c4f-9a10-ee7c26bd85c4@foss.st.com>
+ <CAN9Xe3TKnt26G_+Lfn53j-CHxhjOqzSJ+Q6Xwx47oBtCJO6cQg@mail.gmail.com>
+Content-Language: en-US
+From: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+In-Reply-To: <CAN9Xe3TKnt26G_+Lfn53j-CHxhjOqzSJ+Q6Xwx47oBtCJO6cQg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [178.204.90.63]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 01/31/2025 12:24:05
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 190712 [Jan 31 2025]
-X-KSE-AntiSpam-Info: Version: 6.1.1.7
-X-KSE-AntiSpam-Info: Envelope from: r.smirnov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 50 0.3.50
- df4aeb250ed63fd3baa80a493fa6caee5dd9e10f
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_one_url, url3}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.204.90.63 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;
- syzkaller.appspot.com:7.1.1,5.0.1; omp.ru:7.1.1; 127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: FromAlignment: s
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.204.90.63
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/31/2025 12:26:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/31/2025 10:24:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Originating-IP: [10.129.178.211]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-31_04,2025-01-31_02,2024-11-22_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,94 +121,393 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Syzkaller found a case of dangerous call via drm_ioctl(). If user makes
-object_count too large, WARN() is called when allocating memory:
 
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5229 at mm/page_alloc.c:4709 __alloc_pages_noprof+0x3bd/0x710 mm/page_alloc.c:4709
-Modules linked in:
-CPU: 0 UID: 0 PID: 5229 Comm: syz-executor478 Not tainted 6.12.0-rc4-syzkaller-00047-gc2ee9f594da8 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-Call Trace:
- <TASK>
- __alloc_pages_node_noprof include/linux/gfp.h:269 [inline]
- alloc_pages_node_noprof include/linux/gfp.h:296 [inline]
- ___kmalloc_large_node+0x8b/0x1d0 mm/slub.c:4209
- __kmalloc_large_node_noprof+0x1a/0x80 mm/slub.c:4236
- __do_kmalloc_node mm/slub.c:4252 [inline]
- __kmalloc_noprof+0x2ae/0x400 mm/slub.c:4276
- kmalloc_noprof include/linux/slab.h:882 [inline]
- kmalloc_array_noprof include/linux/slab.h:923 [inline]
- fill_object_idr drivers/gpu/drm/drm_lease.c:389 [inline]
- drm_mode_create_lease_ioctl+0x580/0x1db0 drivers/gpu/drm/drm_lease.c:522
- drm_ioctl_kernel+0x337/0x440 drivers/gpu/drm/drm_ioctl.c:745
- drm_ioctl+0x60e/0xad0 drivers/gpu/drm/drm_ioctl.c:842
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:907 [inline]
- __se_sys_ioctl+0xf9/0x170 fs/ioctl.c:893
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
- </TASK>
+On 1/29/25 20:11, Anusha Srivatsa wrote:
+> On Wed, Jan 29, 2025 at 4:10 AM Raphael Gallais-Pou <
+> raphael.gallais-pou@foss.st.com> wrote:
+>
+>> On 1/28/25 23:29, Anusha Srivatsa wrote:
+>>> Replace platform_get_resource/_byname + devm_ioremap
+>>> with just devm_platform_ioremap_resource()
+>>>
+>>> Used Coccinelle to do this change. SmPl patch:
+>>>
+>>> @rule@
+>>> identifier res;
+>>> expression ioremap;
+>>> identifier pdev;
+>>> constant mem;
+>>> expression name;
+>>> @@
+>>> -struct resource *res;
+>>> ...
+>>> -res = platform_get_resource_byname(pdev,mem,name);
+>>> <...
+>>> -if (!res) {
+>>> -...
+>>> -}
+>>> ...>
+>>> -ioremap = devm_ioremap(...);
+>>> +ioremap = devm_platform_ioremap_resource_byname(pdev,name);
+>>>
+>>> and
+>>> @rule_2@
+>>> identifier res;
+>>> expression ioremap;
+>>> identifier pdev;
+>>> @@
+>>> -struct resource *res;
+>>> ...
+>>> -res = platform_get_resource(pdev,...);
+>>> <...
+>>> -if (!res) {
+>>> -...
+>>> -}
+>>> ...>
+>>> -ioremap = devm_ioremap(...);
+>>> +ioremap = devm_platform_ioremap_resource(pdev,0);
+>>>
+>>> Cc: Alain Volmat <alain.volmat@foss.st.com>
+>>> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+>>
+>> Hi Anusha,
+>>
+>>
+>> Thanks again for your work,
+>>
+>>> ---
+>>>  drivers/gpu/drm/sti/sti_compositor.c | 10 +---------
+>>>  drivers/gpu/drm/sti/sti_dvo.c        | 10 +---------
+>>>  drivers/gpu/drm/sti/sti_hda.c        | 10 +---------
+>>>  drivers/gpu/drm/sti/sti_hdmi.c       | 11 +----------
+>>>  drivers/gpu/drm/sti/sti_hqvdp.c      | 10 +---------
+>>>  drivers/gpu/drm/sti/sti_tvout.c      | 10 +---------
+>>>  drivers/gpu/drm/sti/sti_vtg.c        | 10 +---------
+>>>  7 files changed, 7 insertions(+), 64 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/sti/sti_compositor.c
+>> b/drivers/gpu/drm/sti/sti_compositor.c
+>>> index
+>> 063f82d23d80c4ba83624a0066a18416a2b37351..7aefce6706ba2cd7d97a33228c9b9812edecf06f
+>> 100644
+>>> --- a/drivers/gpu/drm/sti/sti_compositor.c
+>>> +++ b/drivers/gpu/drm/sti/sti_compositor.c
+>>> @@ -177,7 +177,6 @@ static int sti_compositor_probe(struct
+>> platform_device *pdev)
+>>>       struct device_node *np = dev->of_node;
+>>>       struct device_node *vtg_np;
+>>>       struct sti_compositor *compo;
+>>> -     struct resource *res;
+>>>       unsigned int i;
+>>>
+>>>       compo = devm_kzalloc(dev, sizeof(*compo), GFP_KERNEL);
+>>> @@ -194,14 +193,7 @@ static int sti_compositor_probe(struct
+>> platform_device *pdev)
+>>>       memcpy(&compo->data, of_match_node(compositor_of_match, np)->data,
+>>>              sizeof(struct sti_compositor_data));
+>>> -
+>>> -     /* Get Memory ressources */
+>>> -     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>>> -     if (res == NULL) {
+>>> -             DRM_ERROR("Get memory resource failed\n");
+>>> -             return -ENXIO;
+>>> -     }
+>>> -     compo->regs = devm_ioremap(dev, res->start, resource_size(res));
+>>> +     compo->regs = devm_platform_ioremap_resource(pdev, 0);
+>>>       if (compo->regs == NULL) {
+>>>               DRM_ERROR("Register mapping failed\n");
+>>>               return -ENXIO;
+>>> diff --git a/drivers/gpu/drm/sti/sti_dvo.c
+>> b/drivers/gpu/drm/sti/sti_dvo.c
+>>> index
+>> c6c2abaa1891cd3ea025805b50d275ec314512c3..660588f01f90950a9b2c180ab230188c19901f26
+>> 100644
+>>> --- a/drivers/gpu/drm/sti/sti_dvo.c
+>>> +++ b/drivers/gpu/drm/sti/sti_dvo.c
+>>> @@ -511,7 +511,6 @@ static int sti_dvo_probe(struct platform_device
+>> *pdev)
+>>>  {
+>>>       struct device *dev = &pdev->dev;
+>>>       struct sti_dvo *dvo;
+>>> -     struct resource *res;
+>>>       struct device_node *np = dev->of_node;
+>>>
+>>>       DRM_INFO("%s\n", __func__);
+>>> @@ -523,14 +522,7 @@ static int sti_dvo_probe(struct platform_device
+>> *pdev)
+>>>       }
+>>>
+>>>       dvo->dev = pdev->dev;
+>>> -
+>>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>> "dvo-reg");
+>>> -     if (!res) {
+>>> -             DRM_ERROR("Invalid dvo resource\n");
+>>> -             return -ENOMEM;
+>>> -     }
+>>> -     dvo->regs = devm_ioremap(dev, res->start,
+>>> -                     resource_size(res));
+>>> +     dvo->regs = devm_platform_ioremap_resource_byname(pdev, "dvo-reg");
+>>>       if (!dvo->regs)
+>>>               return -ENOMEM;
+>>>
+>>> diff --git a/drivers/gpu/drm/sti/sti_hda.c
+>> b/drivers/gpu/drm/sti/sti_hda.c
+>>> index
+>> b12863bea95559c4f874eb94cea8938609d435d4..28fde4c568d0069ecf2f2f69f5be0e87c1d5f4f3
+>> 100644
+>>> --- a/drivers/gpu/drm/sti/sti_hda.c
+>>> +++ b/drivers/gpu/drm/sti/sti_hda.c
+>>> @@ -741,7 +741,6 @@ static int sti_hda_probe(struct platform_device
+>> *pdev)
+>>>  {
+>>>       struct device *dev = &pdev->dev;
+>>>       struct sti_hda *hda;
+>>> -     struct resource *res;
+>> There is a compile error, using an ARM toolchain on this patch and several
+>> others.
+>>
+>> struct ressource *res is used on other places, which does not allow to
+>> remove
+>> the instanciation here.
+>>
+>>
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/sti/sti_hda.c: In
+>> function
+>> ‘sti_hda_probe’:
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/sti/sti_hda.c:756:9:
+>> error:
+>> ‘res’ undeclared (first use in this function)
+>>   756 |         res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>>       |         ^~~
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/sti/sti_hda.c:756:9:
+>> note:
+>> each undeclared identifier is reported only once for each function it
+>> appears in
+>>   CC [M]  drivers/gpu/drm/nouveau/nvkm/core/event.o
+>> make[8]: *** [/local/home/gallais1/src/drm-misc/scripts/Makefile.build:194:
+>> drivers/gpu/drm/sti/sti_hda.o] Error 1
+>> make[8]: *** Waiting for unfinished jobs....
+>>
+>>
+>> This can be applied:
+>>
+>>
+>> * regarding [PATCH 07/14] rockchip driver:
+>>
+>>
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/rockchip/rockchip_drm_vop.c:
+>> In function ‘vop_bind’:
+>>
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/rockchip/rockchip_drm_vop.c:2212:34:
+>> error: ‘res’ undeclared (first use in this function); did you mean ‘ret’?
+>>  2212 |         vop->len = resource_size(res);
+>>       |                                  ^~~
+>>       |                                  ret
+>>
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/rockchip/rockchip_drm_vop.c:2212:34:
+>> note: each undeclared identifier is reported only once for each function it
+>> appears in
+>>   CC [M]  drivers/gpu/drm/nouveau/nvif/fifo.o
+>> make[8]: *** [/local/home/gallais1/src/drm-misc/scripts/Makefile.build:194:
+>> drivers/gpu/drm/rockchip/rockchip_drm_vop.o] Error 1
+>> make[8]: *** Waiting for unfinished jobs....
+>>
+>>
+>> * regarding  [PATCH 13/14] vc4 driver:
+>>
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/vc4/vc4_hdmi.c: In
+>> function
+>> ‘vc5_hdmi_init_resources’:
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/vc4/vc4_hdmi.c:2961:9:
+>> error:
+>> ‘res’ undeclared (first use in this function); did you mean ‘ret’?
+>>  2961 |         res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>> "hd");
+>>       |         ^~~
+>>       |         ret
+>> /local/home/gallais1/src/drm-misc/drivers/gpu/drm/vc4/vc4_hdmi.c:2961:9:
+>> note:
+>> each undeclared identifier is reported only once for each function it
+>> appears in
+>> make[8]: *** [/local/home/gallais1/src/drm-misc/scripts/Makefile.build:194:
+>> drivers/gpu/drm/vc4/vc4_hdmi.o] Error 1
+>> make[8]: *** Waiting for unfinished jobs....
+>>
+>>
+> Raphael,
+> In the sti_hda_probe, does it make sense to remove the second
+> platform_get_resource_byname() (the one with video-dacs-ctrl resource) and
+> apply the coccinelle transformation to it like the rest of the subsystem?
+> I feel like that should be left as is and the rule should be adjusted to
+> ensure that if "res" is further used then do not remove it. THoughts?
+>
+> anusha
 
-The number of objects requested for lessee must not exceed the
-number of objects already in lessor because if the user requests
-more identifiers than lessor has, one of the calls of idr_find()
-in drm_lease_create() will return NULL. Then ioctl() will
-terminate with an error.
 
-The added check handles this case before calling kcalloc(),
-which prevents WARN() from being called.
+Hi Anusha,
 
-Reported-by: syzbot <syzbot+6754751ad05524dae739@syzkaller.appspotmail.com>
-Closes: https://syzkaller.appspot.com/bug?extid=6754751ad05524dae739
-Fixes: 62884cd386b8 ("drm: Add four ioctls for managing drm mode object leases [v7]")
-Signed-off-by: Roman Smirnov <r.smirnov@omp.ru>
----
- drivers/gpu/drm/drm_lease.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+Agreed. The second platform_get_resource_byname should remain, with struct
+resource *res.
 
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 94375c6a5425..c1bebc70e544 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -336,6 +336,23 @@ static void _drm_lease_revoke(struct drm_master *top)
- 	}
- }
- 
-+static int validate_object_count(struct drm_device *dev,
-+				 size_t object_count)
-+{
-+	size_t available_objects = 0;
-+	int object;
-+	void *entry;
-+
-+	mutex_lock(&dev->mode_config.idr_mutex);
-+	idr_for_each_entry(&dev->mode_config.object_idr, entry, object)
-+		available_objects++;
-+	mutex_unlock(&dev->mode_config.idr_mutex);
-+
-+	if (available_objects < object_count)
-+		return -EINVAL;
-+	return 0;
-+}
-+
- void drm_lease_revoke(struct drm_master *top)
- {
- 	mutex_lock(&top->dev->mode_config.idr_mutex);
-@@ -507,6 +524,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 
- 	object_count = cl->object_count;
- 
-+	ret = validate_object_count(lessor->dev, object_count);
-+	if (ret) {
-+		drm_dbg_lease(dev, "requested too many objects\n");
-+		goto out_lessor;
-+	}
-+
- 	/* Handle leased objects, if any */
- 	idr_init(&leases);
- 	if (object_count != 0) {
--- 
-2.43.0
+Regards,
+Raphaël
 
+>> Regards,
+>> Raphaël
+>>
+>>>       DRM_INFO("%s\n", __func__);
+>>>
+>>> @@ -750,14 +749,7 @@ static int sti_hda_probe(struct platform_device
+>> *pdev)
+>>>               return -ENOMEM;
+>>>
+>>>       hda->dev = pdev->dev;
+>>> -
+>>> -     /* Get resources */
+>>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>> "hda-reg");
+>>> -     if (!res) {
+>>> -             DRM_ERROR("Invalid hda resource\n");
+>>> -             return -ENOMEM;
+>>> -     }
+>>> -     hda->regs = devm_ioremap(dev, res->start, resource_size(res));
+>>> +     hda->regs = devm_platform_ioremap_resource_byname(pdev, "hda-reg");
+>>>       if (!hda->regs)
+>>>               return -ENOMEM;
+>>>
+>>> diff --git a/drivers/gpu/drm/sti/sti_hdmi.c
+>> b/drivers/gpu/drm/sti/sti_hdmi.c
+>>> index
+>> ca2fe17de4a5d1e0199e59a97e6c7601e139ed9e..666143c48b0d0f2c20cd26323ddbc8e69d966622
+>> 100644
+>>> --- a/drivers/gpu/drm/sti/sti_hdmi.c
+>>> +++ b/drivers/gpu/drm/sti/sti_hdmi.c
+>>> @@ -1380,7 +1380,6 @@ static int sti_hdmi_probe(struct platform_device
+>> *pdev)
+>>>       struct device *dev = &pdev->dev;
+>>>       struct sti_hdmi *hdmi;
+>>>       struct device_node *np = dev->of_node;
+>>> -     struct resource *res;
+>>>       struct device_node *ddc;
+>>>       int ret;
+>>>
+>>> @@ -1399,15 +1398,7 @@ static int sti_hdmi_probe(struct platform_device
+>> *pdev)
+>>>       }
+>>>
+>>>       hdmi->dev = pdev->dev;
+>>> -
+>>> -     /* Get resources */
+>>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>> "hdmi-reg");
+>>> -     if (!res) {
+>>> -             DRM_ERROR("Invalid hdmi resource\n");
+>>> -             ret = -ENOMEM;
+>>> -             goto release_adapter;
+>>> -     }
+>>> -     hdmi->regs = devm_ioremap(dev, res->start, resource_size(res));
+>>> +     hdmi->regs = devm_platform_ioremap_resource_byname(pdev,
+>> "hdmi-reg");
+>>>       if (!hdmi->regs) {
+>>>               ret = -ENOMEM;
+>>>               goto release_adapter;
+>>> diff --git a/drivers/gpu/drm/sti/sti_hqvdp.c
+>> b/drivers/gpu/drm/sti/sti_hqvdp.c
+>>> index
+>> 0f658709c9d0d398c4eed65202443db9d0b41f8c..420395598d119a403d531211022e6005d6a2bd59
+>> 100644
+>>> --- a/drivers/gpu/drm/sti/sti_hqvdp.c
+>>> +++ b/drivers/gpu/drm/sti/sti_hqvdp.c
+>>> @@ -1356,7 +1356,6 @@ static int sti_hqvdp_probe(struct platform_device
+>> *pdev)
+>>>       struct device *dev = &pdev->dev;
+>>>       struct device_node *vtg_np;
+>>>       struct sti_hqvdp *hqvdp;
+>>> -     struct resource *res;
+>>>
+>>>       DRM_DEBUG_DRIVER("\n");
+>>>
+>>> @@ -1367,14 +1366,7 @@ static int sti_hqvdp_probe(struct platform_device
+>> *pdev)
+>>>       }
+>>>
+>>>       hqvdp->dev = dev;
+>>> -
+>>> -     /* Get Memory resources */
+>>> -     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>>> -     if (!res) {
+>>> -             DRM_ERROR("Get memory resource failed\n");
+>>> -             return -ENXIO;
+>>> -     }
+>>> -     hqvdp->regs = devm_ioremap(dev, res->start, resource_size(res));
+>>> +     hqvdp->regs = devm_platform_ioremap_resource(pdev, 0);
+>>>       if (!hqvdp->regs) {
+>>>               DRM_ERROR("Register mapping failed\n");
+>>>               return -ENXIO;
+>>> diff --git a/drivers/gpu/drm/sti/sti_tvout.c
+>> b/drivers/gpu/drm/sti/sti_tvout.c
+>>> index
+>> af6c06f448c4819def8cc0d0836e30f991529690..0bebe815f5e7567f84388af93723a6fa7d2cc7a2
+>> 100644
+>>> --- a/drivers/gpu/drm/sti/sti_tvout.c
+>>> +++ b/drivers/gpu/drm/sti/sti_tvout.c
+>>> @@ -838,7 +838,6 @@ static int sti_tvout_probe(struct platform_device
+>> *pdev)
+>>>       struct device *dev = &pdev->dev;
+>>>       struct device_node *node = dev->of_node;
+>>>       struct sti_tvout *tvout;
+>>> -     struct resource *res;
+>>>
+>>>       DRM_INFO("%s\n", __func__);
+>>>
+>>> @@ -850,14 +849,7 @@ static int sti_tvout_probe(struct platform_device
+>> *pdev)
+>>>               return -ENOMEM;
+>>>
+>>>       tvout->dev = dev;
+>>> -
+>>> -     /* get memory resources */
+>>> -     res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>> "tvout-reg");
+>>> -     if (!res) {
+>>> -             DRM_ERROR("Invalid glue resource\n");
+>>> -             return -ENOMEM;
+>>> -     }
+>>> -     tvout->regs = devm_ioremap(dev, res->start, resource_size(res));
+>>> +     tvout->regs = devm_platform_ioremap_resource_byname(pdev,
+>> "tvout-reg");
+>>>       if (!tvout->regs)
+>>>               return -ENOMEM;
+>>>
+>>> diff --git a/drivers/gpu/drm/sti/sti_vtg.c
+>> b/drivers/gpu/drm/sti/sti_vtg.c
+>>> index
+>> 5ba469b711b5318e9e9e6d8df127fb8933d1fac1..b5353fe774d72fd629ecd3ef75a5d2817ca8617f
+>> 100644
+>>> --- a/drivers/gpu/drm/sti/sti_vtg.c
+>>> +++ b/drivers/gpu/drm/sti/sti_vtg.c
+>>> @@ -380,20 +380,12 @@ static int vtg_probe(struct platform_device *pdev)
+>>>  {
+>>>       struct device *dev = &pdev->dev;
+>>>       struct sti_vtg *vtg;
+>>> -     struct resource *res;
+>>>       int ret;
+>>>
+>>>       vtg = devm_kzalloc(dev, sizeof(*vtg), GFP_KERNEL);
+>>>       if (!vtg)
+>>>               return -ENOMEM;
+>>> -
+>>> -     /* Get Memory ressources */
+>>> -     res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>>> -     if (!res) {
+>>> -             DRM_ERROR("Get memory resource failed\n");
+>>> -             return -ENOMEM;
+>>> -     }
+>>> -     vtg->regs = devm_ioremap(dev, res->start, resource_size(res));
+>>> +     vtg->regs = devm_platform_ioremap_resource(pdev, 0);
+>>>       if (!vtg->regs) {
+>>>               DRM_ERROR("failed to remap I/O memory\n");
+>>>               return -ENOMEM;
+>>>
+>>
