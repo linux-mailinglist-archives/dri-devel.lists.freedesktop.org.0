@@ -2,81 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3C3A23E7E
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 14:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C5AA23EC7
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 15:01:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87CB210EAB6;
-	Fri, 31 Jan 2025 13:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 848AF10E1D2;
+	Fri, 31 Jan 2025 14:01:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y1GSRVG0";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1RM0vbBc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ft5f1Gkh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UzVqjCxm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Z8g/EMRS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5503210EAB5;
- Fri, 31 Jan 2025 13:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738330740; x=1769866740;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=BlkMwqZELP0Gp0TzhdEuSlXKujbDb3xlMAHFMVLsdm8=;
- b=Y1GSRVG0zPo2JYRw28LW1xP51qGwo4Sbm320todu55TO7kzYrQZ0b6a+
- fo43MghPlQn6Fcy9BVFCMdjbNNlKDc0CuMr4tNepzrK7JENEZAp/CSDRj
- 8FRuTrjfdO4ak5T19dvT1sfzJguqzf5JmCzzqu8r4g94v8HoTRxQpWYBb
- 1V4huAvOJw3t7xFpDee8qOrUsoax+GRamr74+LSkFR153LNAfTQYQ+1yi
- O74W9bnSP4HsbT7+H0g0cDO0RXr2B5XoLIW8/lbtmedFGnHdtoGU2PKgA
- Sn5dtzBLUd95x7cUhuB9Hilp5bmfYuEAek5ErjKU3tuu7jRZAxptpDLaQ w==;
-X-CSE-ConnectionGUID: Obq1g/hOTjuQg75uS0pong==
-X-CSE-MsgGUID: 79xxlrqmTPOCO2aFJqk6Kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="50283177"
-X-IronPort-AV: E=Sophos;i="6.13,248,1732608000"; d="scan'208";a="50283177"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2025 05:38:58 -0800
-X-CSE-ConnectionGUID: yJ4rsx1GRSusxX/Vynh0XQ==
-X-CSE-MsgGUID: gJj2D0AhTKuPuWC4WLeG5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="146816937"
-Received: from dprybysh-mobl.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.175])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2025 05:38:46 -0800
-Date: Fri, 31 Jan 2025 14:38:42 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Jens Axboe <axboe@kernel.dk>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- Chengming Zhou <chengming.zhou@linux.dev>,
- Christian Brauner <brauner@kernel.org>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Dan Carpenter <dan.carpenter@linaro.org>, David Airlie <airlied@gmail.com>,
- David Hildenbrand <david@redhat.com>, Hao Ge <gehao@kylinos.cn>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Josef Bacik <josef@toxicpanda.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Nhat Pham <nphamcs@gmail.com>,
- Oscar Salvador <osalvador@suse.de>, Ran Xiaokai <ran.xiaokai@zte.com.cn>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Steven Rostedt <rostedt@goodmis.org>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Vlastimil Babka <vbabka@suse.cz>,
- Yosry Ahmed <yosryahmed@google.com>, Yu Zhao <yuzhao@google.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCHv3 03/11] drm/i915/gem: Use PG_dropbehind instead of
- PG_reclaim
-Message-ID: <Z5zSYtcGGp73Ip2c@ashyti-mobl2.lan>
-References: <20250130100050.1868208-1-kirill.shutemov@linux.intel.com>
- <20250130100050.1868208-4-kirill.shutemov@linux.intel.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AF4510E204
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 14:01:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id E85121F38D;
+ Fri, 31 Jan 2025 14:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1738332069; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=runrax6cSqbhEFuH2V1wlWl1yoojzhyr4qemGuoIJS8=;
+ b=1RM0vbBc+LYgRX+eywvQzS1TLSph2j36nn6hvmLcC8XKcInq2MjQcp2dhHD0roLakUdiwa
+ 0l1rpyi429NRlBKYy6r4Ame3IA3OG4IoTZfnUyOQG4sbrcDqva3anvWNGtcec5WqW8wFEO
+ skoPYx31ODE09TY9AxQkxymoB3W6C3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1738332069;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=runrax6cSqbhEFuH2V1wlWl1yoojzhyr4qemGuoIJS8=;
+ b=ft5f1GkhNWuu7+8UOcE0m2GwQHNOyLwoiHIaSQSp7ma867k1P9rBbaKe2ULjmzzPx6LIa1
+ qG0v2R2Cog0rUFDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1738332067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=runrax6cSqbhEFuH2V1wlWl1yoojzhyr4qemGuoIJS8=;
+ b=UzVqjCxmGGFRwIbHToL1srCcv3Doc70DqpfXH0psN2Gbt/vMxfOyAUN0/haStbCsyNTR5I
+ 3Zyl0GO8cHvpDecYqVhoouifqUU+1e9CUsm9+Hk170h10GZH5z4zd9Bc4ts3Fm4TbWxbRs
+ 57ofGcW58+tPJmMhUAm2GrDdNohGOR0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1738332067;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=runrax6cSqbhEFuH2V1wlWl1yoojzhyr4qemGuoIJS8=;
+ b=Z8g/EMRST6yPbzWi02JHCr+KBxqF3VNxk/zVvb2nsIYCnGe/1eTClKIcg1St4I7OJBLhNU
+ 8ps8wyS/cxCHAGCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AAE7A133A6;
+ Fri, 31 Jan 2025 14:01:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id NEQ0KKPXnGfbcQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 31 Jan 2025 14:01:07 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
+ michael.hennerich@analog.com, support.opensource@diasemi.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 00/16] backlight: Do not include <linux/fb.h> in drivers
+Date: Fri, 31 Jan 2025 14:58:31 +0100
+Message-ID: <20250131140103.278158-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250130100050.1868208-4-kirill.shutemov@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-0.998];
+ MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+]; FROM_HAS_DN(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+ FREEMAIL_TO(0.00)[kernel.org,gmail.com,analog.com,diasemi.com];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[8]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ TO_DN_SOME(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,25 +105,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kirill,
+A number of backlight drivers include <linux/fb.h>. None of them
+requires anything from the header file, so remove the include
+statements.
 
-On Thu, Jan 30, 2025 at 12:00:41PM +0200, Kirill A. Shutemov wrote:
-> The recently introduced PG_dropbehind allows for freeing folios
-> immediately after writeback. Unlike PG_reclaim, it does not need vmscan
-> to be involved to get the folio freed.
-> 
-> Instead of using folio_set_reclaim(), use folio_set_dropbehind() in
-> __shmem_writeback()
-> 
-> It is safe to leave PG_dropbehind on the folio if, for some reason
-> (bug?), the folio is not in a writeback state after ->writepage().
-> In these cases, the kernel had to clear PG_reclaim as it shared a page
-> flag bit with PG_readahead.
-> 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
+Thomas Zimmermann (16):
+  backlight: 88pm860x_bl: Do not include <linux/fb.h>
+  backlight: adp5520_bl: Do not include <linux/fb.h>
+  backlight: adp8860_bl: Do not include <linux/fb.h>
+  backlight: adp8870_bl: Do not include <linux/fb.h>
+  backlight: as3711_bl: Do not include <linux/fb.h>
+  backlight: bd6107_bl: Do not include <linux/fb.h>
+  backlight: da903x_bl: Do not include <linux/fb.h>
+  backlight: da9052_bl: Do not include <linux/fb.h>
+  backlight: ep93xx_bl: Do not include <linux/fb.h>
+  backlight: hp680_bl: Do not include <linux/fb.h>
+  backlight: locomolcd: Do not include <linux/fb.h>
+  backlight: lv5207lp: Do not include <linux/fb.h>
+  backlight: max8925_bl: Do not include <linux/fb.h>
+  backlight: tps65217_bl: Do not include <linux/fb.h>
+  backlight: vgg2432a4: Do not include <linux/fb.h>
+  backlight: wm831x_bl: Do not include <linux/fb.h>
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
+ drivers/video/backlight/88pm860x_bl.c | 1 -
+ drivers/video/backlight/adp5520_bl.c  | 1 -
+ drivers/video/backlight/adp8860_bl.c  | 1 -
+ drivers/video/backlight/adp8870_bl.c  | 1 -
+ drivers/video/backlight/as3711_bl.c   | 1 -
+ drivers/video/backlight/bd6107.c      | 1 -
+ drivers/video/backlight/da903x_bl.c   | 1 -
+ drivers/video/backlight/da9052_bl.c   | 1 -
+ drivers/video/backlight/ep93xx_bl.c   | 1 -
+ drivers/video/backlight/hp680_bl.c    | 1 -
+ drivers/video/backlight/locomolcd.c   | 1 -
+ drivers/video/backlight/lv5207lp.c    | 1 -
+ drivers/video/backlight/max8925_bl.c  | 1 -
+ drivers/video/backlight/tps65217_bl.c | 1 -
+ drivers/video/backlight/vgg2432a4.c   | 1 -
+ drivers/video/backlight/wm831x_bl.c   | 1 -
+ 16 files changed, 16 deletions(-)
 
-Thanks,
-Andi
+-- 
+2.48.1
+
