@@ -2,78 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3459A23A2F
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 08:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EB0A23A44
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 08:43:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 012C210EA23;
-	Fri, 31 Jan 2025 07:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 672D210EA26;
+	Fri, 31 Jan 2025 07:43:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="k2X3/oLP";
+	dkim=pass (2048-bit key; unprotected) header.d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.i=@pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com header.b="p8En1DnK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39D0B10EA23
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 07:35:05 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-2161eb94cceso20068045ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 23:35:05 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A3410EA26
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 07:43:32 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-21628b3fe7dso30773475ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 23:43:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1738308905;
- x=1738913705; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=aQHz63JJqIEOU3JbuW7+imJYEN8GGWGxWep+wHv/Pek=;
- b=k2X3/oLP4J9F3+MzKWrdpedzDi4Gp68WFLG5D8quch1O/UbGITLe3ju584gRERxehF
- mT308hLKp6ZFmKuyMjyxfQN8ReCcwjekclWsH4RQyEtsXGCxVeldLRHEqgfq+qbi82C+
- rRRpC8MHwzp45fvZFjEHrXPwmDzKwzYYufOOpQZOSRpwzLATDfmDCSMYlco5Ajea9QPj
- vO0gtbJTf/VQtIG5YMYLc5G14RyzZi4pbj5LdZGqPT5S0502XT0CTykTinCae1bW8v9j
- n5Soxo8mLq9XjTxMeoFx3BmctPYP0FY5EB6amfltKhF0oNa1r6akG2oS/N6AGgRvZhgd
- Klcg==
+ d=pf-is-s-u-tokyo-ac-jp.20230601.gappssmtp.com; s=20230601; t=1738309412;
+ x=1738914212; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4+s6PUYoAuvVOLOYu4NXTnsi8GEijG6VOLQxGoXEUQQ=;
+ b=p8En1DnK7YJeE747Ja/yjqhnHWX4Jy7rUxXOQU8svQnAvniaIWH5wQCJRIRlR1ODq3
+ G/lV7JGmxsOyKEkdRSSPZ+vkGZPmOvGdpHHPVYvOY5pcn/lzTd+ZpNVbTYdQNGuhQoqb
+ SdPUXav08nfIue5HDh5aiUcnhsul8Fob/mWMe8iXBerWnFhnFTZUj3HxkDb7Ddt0JLRu
+ +gRiHjd9RUy6COkpKPwCJ2Q+v0020pIrOi26L/PoPKdGp/yHVa0xwWUbmpZvW7EQnfjl
+ Jgj04A1L7gwnUKARP7Cty2ebdUzljEd3Y6No8Idu7lDdV1BDtCYG7lDa78Bd56yZHDES
+ MBKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738308905; x=1738913705;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aQHz63JJqIEOU3JbuW7+imJYEN8GGWGxWep+wHv/Pek=;
- b=S574/qRPtgSsaFRogh3/a00qzAcWGATiA3TD9yns1QA1GKCSlHdJoVAio3fuN/+r6a
- Vl0BVGnaaOxQRkO9f9bEEVdymPTmh4ClKspWZfLitbnvYkWlQ4kMpe37rE3RF35xV6l/
- Sbyh1Sd8ddsHoAwqf29iZXfdkCWkk5VZUINjUKpUY1BWZXcpLRAh4Oqk/uZ+eF404l+C
- L8IVT9aIH9BvuVMHSlSxZTphK4SwKzcOe0gUq+1jooVIRFls8Lc0I9aEZAWVVYxbHg48
- 56iZp5UqVafdQbmiP2imf+PKMXkwLVWxNYaAEqaZ+v1AWHpqaCA10ZWKq4PNNlkOiDwy
- kTbg==
-X-Gm-Message-State: AOJu0YzXTPlxr+V1FhiepQXgxns8iQW8FKO7/ZuiUUeTT68a+RFm3q1r
- DIS17kv8IF0uyJ0qUavEOv2nWthVhgxvOTl2vxdAIdozybarEt75+j945AIa0Yw=
-X-Gm-Gg: ASbGncspS2jVzOBZAM9A7qycU65M7dIa9ALIlCrJyjxM3c+FqGWQAnYBnsUfmZVrrgb
- KJNxST7nPQE1qo3aY6TueHNwvKC5TsLPep5cwd50alZPLUgROlvEYgb+Wwxc1b6SRWiUAqCQ2cT
- 4Wiu430MrpQQUVhYj5gEpZ5j33YkZgrm9M5hKytkC4dM4752PUyOrwfI5L9U4AF2E5310BbHfJT
- uCtlxtw1CKDpHq0dL1XimLkekFtG/YmOwukaHMnM+/o053FXN3mjppCDiIZGhpWT94JHh157B4w
- cnXnTgEgFY3TQQ/p1yKndO7hesbmPmF/qP1MQlmnEhg=
-X-Google-Smtp-Source: AGHT+IHmopWj+UQtWyVFZd4kY/yyGWNXZheYB1RrU7b4H9wkZMFciEYw0nqH0BWjaRvZuVBNiYTfgw==
-X-Received: by 2002:a17:902:dacd:b0:216:50fb:5dfc with SMTP id
- d9443c01a7336-21dd7c3cddemr131884635ad.9.1738308905111; 
- Thu, 30 Jan 2025 23:35:05 -0800 (PST)
-Received: from joe-White-Brand-Product..
- ([2001:f70:39c0:3a00:b655:219:8dac:8f58])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-acec04796c9sm2480729a12.62.2025.01.30.23.34.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2025 23:35:04 -0800 (PST)
-From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ d=1e100.net; s=20230601; t=1738309412; x=1738914212;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4+s6PUYoAuvVOLOYu4NXTnsi8GEijG6VOLQxGoXEUQQ=;
+ b=tPvQ1pUfxuQvkZ8tf58TT+wORL+5HP4rxW5xWA4sfnap9/Tdyk/yTLuAjRi/Rw08EA
+ X9Zwb1K+IMS1q16n1yjVcePMx3fKOQRaqZa05+HKJZyVAKAQlURijzdu4Dw33SuK8VvJ
+ AkQGQaDUnVYW9nx38GkLb04P/9JngKiI8VNDai14KWiu96Lg9GQL2/davsNzPTwMqH2k
+ 1CBMTCGeKv7Zypjd707kh5yeoZVHxURSwFnGsn/6YX/ffJe2hSUhEyi7/GP/2MEMFvR8
+ czxWDFBWPC4tG8JdX6Z4UW2RLdcuHE5TMQLYVUjxGAAuGiMgySmG1OhJWDCh32WZrlDi
+ dJSw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKtMyY3GckPBwy9QgC088luhc3D8FRxQ2j6RUmIUkwpXbI13TjBYCn59JYqRmoZU+tSNpH4SIEffk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzl435/M1IhFmMtNy+f8vQFpplSxv+OnaLo1b2/qdVK/rXgUKKD
+ ZW9hA0nEuiw3YVJAfiX+md4a/rJtLYhPku7Uqm2700TpjR0BetjpisbUntKNsis=
+X-Gm-Gg: ASbGnct8evbBGekT85uZAtlcKPFnerqwabN2ZlB+ZCwXs3GA8zhDaqVyVOZFVskBK7F
+ sMhpWLu7b4SpFAZUy//uy2FFqCvhhPX/D4rYu7EJrto2QRNEaPyhoA/LllbWlLmrCygw45E6ElJ
+ MhFp+tt2zkmSwkkIQpOL+8BNCPf++ktbiY3afq2SZoUqJb2TT44MgbirWBeo56gtmYv1mTwM8I/
+ qWyS4fHUDcxvbs8Sh1Dbah/VYg9Hkks4bT4FXbnb7mrb/sEBCtrg9aNhWtjjXGuPzbDC74sgxi5
+ axB0xvRGHBStzKe6qEiGGHteQotpElMFc6zp2sBnbtBytpDRPfDUPsuTOj7zXGkM7aQ9
+X-Google-Smtp-Source: AGHT+IEbiAUmYxvmgAuOEjLQQ1gxS7G3BR7bWoiXfKmgi49nHAJX2G2lNRk5YmHaeQ/oYNi7kQjzUA==
+X-Received: by 2002:a17:902:ec84:b0:216:2804:a241 with SMTP id
+ d9443c01a7336-21dd7dddea0mr143350925ad.37.1738309411785; 
+ Thu, 30 Jan 2025 23:43:31 -0800 (PST)
+Received: from [192.168.0.78] (133-32-227-190.east.xps.vectant.ne.jp.
+ [133.32.227.190]) by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2f8489d3982sm3214124a91.24.2025.01.30.23.43.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Jan 2025 23:43:31 -0800 (PST)
+Message-ID: <f6bdbc3b-4af9-4b95-8b6e-42f14f20d788@pf.is.s.u-tokyo.ac.jp>
+Date: Fri, 31 Jan 2025 16:43:25 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/bridge: display-connector: implement the error
+ path of .probe()
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
  Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
- dan.carpenter@linaro.org, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Subject: [PATCH v4] drm/bridge: display-connector: implement the error path of
- .probe()
-Date: Fri, 31 Jan 2025 16:34:53 +0900
-Message-ID: <20250131073453.551252-1-joe@pf.is.s.u-tokyo.ac.jp>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, dmitry.baryshkov@linaro.org
+References: <20250131051918.549781-1-joe@pf.is.s.u-tokyo.ac.jp>
+ <349b0a91-fd0f-4feb-9351-f8c31ee7bbe2@stanley.mountain>
+Content-Language: en-US
+From: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+In-Reply-To: <349b0a91-fd0f-4feb-9351-f8c31ee7bbe2@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,109 +96,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current implementation of .probe() leaks a reference of i2c_adapter.
-Implement an error path and call put_device() on the obtained
-i2c_adapter in it to fix this refcount bug.
+Hi Dan,
 
-Also, remove the IS_ERR() check before calling
-i2c_put_adapter(conn->bridge.ddc) since conn->bridge.dcc is either NULL
-or a valid pointer, and a null-check is already done in
-i2c_put_adapter().
+Thank you for your review.
 
-This bug was found by an experimental verification tool that I am
-developing.
+On 1/31/25 14:48, Dan Carpenter wrote:
+> Unrelated to this patch but from a naive reading of the code the
+> 
+> 	conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
+> 
+> assignment can fail with -EPROBE_DEFER if CONFIG_GPIOLIB_IRQCHIP is
+> enabled.  The driver can function without an IRQ so we just ignore
+> the error, but probably it would be better to propogate it back?
 
-Fixes: 0c275c30176b ("drm/bridge: Add bridge driver for display connectors")
-Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
----
-Changes in V4:
-- Stopped assigning the return value of dev_err_probe().
-- Updated the commit message.
+Makes sense. I will write a patch addressing this issue if anyone thinks 
+the EPROBE_DEFER error should not be ignored. Please let me know.
 
-Changes in V3:
-- Removed shadowed variables (ret).
+> 
+> On Fri, Jan 31, 2025 at 02:19:18PM +0900, Joe Hattori wrote:
+>> Current implementation of .probe() leaks a reference of i2c_adapter.
+>> Implement an error path and call put_device() on the obtained
+>> i2c_adapter in it to fix this refcount bug.
+>>
+>> This bug was found by an experimental static analysis tool that I am
+>> developing.
+>>
+>> Fixes: 0c275c30176b ("drm/bridge: Add bridge driver for display connectors")
+>> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
+>> ---
+>> Changes in V3:
+>> - Removed shadowed variables (ret).
+>>
+>> Changes in V2:
+>> - Omit the null check before calling i2c_put_adapter().
+>> ---
+>>   drivers/gpu/drm/bridge/display-connector.c | 31 +++++++++++++---------
+>>   1 file changed, 19 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
+>> index 72bc508d4e6e..411f9372e064 100644
+>> --- a/drivers/gpu/drm/bridge/display-connector.c
+>> +++ b/drivers/gpu/drm/bridge/display-connector.c
+>> @@ -329,35 +329,39 @@ static int display_connector_probe(struct platform_device *pdev)
+>>   
+>>   	/* Get the DP PWR for DP connector. */
+>>   	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
+>> -		int ret;
+>> -
+>>   		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
+>> -		if (ret < 0)
+>> -			return dev_err_probe(&pdev->dev, ret, "failed to get DP PWR regulator\n");
+>> +		if (ret < 0) {
+>> +			ret = dev_err_probe(&pdev->dev, ret,
+>                          ^^^                             ^^^
+> This is a "ret = ret" assignment.  There is no need for that.  Just
+> call dev_err_probe() without saving the return value.
 
-Changes in V2:
-- Omit the null check before calling i2c_put_adapter().
----
- drivers/gpu/drm/bridge/display-connector.c | 31 +++++++++++++---------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+Handled in the V4 patch [1].
 
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index 72bc508d4e6e..52a86f99fa45 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -329,35 +329,39 @@ static int display_connector_probe(struct platform_device *pdev)
- 
- 	/* Get the DP PWR for DP connector. */
- 	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
--		int ret;
--
- 		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
--		if (ret < 0)
--			return dev_err_probe(&pdev->dev, ret, "failed to get DP PWR regulator\n");
-+		if (ret < 0) {
-+			dev_err_probe(&pdev->dev, ret,
-+					    "failed to get DP PWR regulator\n");
-+			goto err_put;
-+		}
- 	}
- 
- 	/* enable DDC */
- 	if (type == DRM_MODE_CONNECTOR_HDMIA) {
--		int ret;
--
- 		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
- 						       GPIOD_OUT_HIGH);
- 
- 		if (IS_ERR(conn->ddc_en)) {
- 			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
--			return PTR_ERR(conn->ddc_en);
-+			ret = PTR_ERR(conn->ddc_en);
-+			goto err_put;
- 		}
- 
- 		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
--		if (ret < 0)
--			return dev_err_probe(&pdev->dev, ret, "failed to get HDMI +5V Power regulator\n");
-+		if (ret < 0) {
-+			dev_err_probe(
-+				&pdev->dev, ret,
-+				"failed to get HDMI +5V Power regulator\n");
-+			goto err_put;
-+		}
- 	}
- 
- 	if (conn->supply) {
- 		ret = regulator_enable(conn->supply);
- 		if (ret) {
- 			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
--			return ret;
-+			goto err_put;
- 		}
- 	}
- 
-@@ -383,6 +387,10 @@ static int display_connector_probe(struct platform_device *pdev)
- 	drm_bridge_add(&conn->bridge);
- 
- 	return 0;
-+
-+err_put:
-+	i2c_put_adapter(conn->bridge.ddc);
-+	return ret;
- }
- 
- static void display_connector_remove(struct platform_device *pdev)
-@@ -397,8 +405,7 @@ static void display_connector_remove(struct platform_device *pdev)
- 
- 	drm_bridge_remove(&conn->bridge);
- 
--	if (!IS_ERR(conn->bridge.ddc))
--		i2c_put_adapter(conn->bridge.ddc);
-+	i2c_put_adapter(conn->bridge.ddc);
- }
- 
- static const struct of_device_id display_connector_match[] = {
--- 
-2.43.0
+> 
+>> +					    "failed to get DP PWR regulator\n");
+>> +			goto err_put;
+>> +		}
+>>   	}
+>>   
+>>   	/* enable DDC */
+>>   	if (type == DRM_MODE_CONNECTOR_HDMIA) {
+>> -		int ret;
+>> -
+>>   		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
+>>   						       GPIOD_OUT_HIGH);
+>>   
+>>   		if (IS_ERR(conn->ddc_en)) {
+>>   			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
+>> -			return PTR_ERR(conn->ddc_en);
+>> +			ret = PTR_ERR(conn->ddc_en);
+>> +			goto err_put;
+>>   		}
+>>   
+>>   		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
+>> -		if (ret < 0)
+>> -			return dev_err_probe(&pdev->dev, ret, "failed to get HDMI +5V Power regulator\n");
+>> +		if (ret < 0) {
+>> +			ret = dev_err_probe(
+>> +				&pdev->dev, ret,
+>> +				"failed to get HDMI +5V Power regulator\n");
+> 
+> Same.
+> 
+>> +			goto err_put;
+>> +		}
+>>   	}
+>>   
+>>   	if (conn->supply) {
+>>   		ret = regulator_enable(conn->supply);
+>>   		if (ret) {
+>>   			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
+>> -			return ret;
+>> +			goto err_put;
+>>   		}
+>>   	}
+>>   
+>> @@ -383,6 +387,10 @@ static int display_connector_probe(struct platform_device *pdev)
+>>   	drm_bridge_add(&conn->bridge);
+>>   
+>>   	return 0;
+>> +
+>> +err_put:
+>> +	i2c_put_adapter(conn->bridge.ddc);
+>> +	return ret;
+>>   }
+>>   
+>>   static void display_connector_remove(struct platform_device *pdev)
+>> @@ -397,8 +405,7 @@ static void display_connector_remove(struct platform_device *pdev)
+>>   
+>>   	drm_bridge_remove(&conn->bridge);
+>>   
+>> -	if (!IS_ERR(conn->bridge.ddc))
+>> -		i2c_put_adapter(conn->bridge.ddc);
+>> +	i2c_put_adapter(conn->bridge.ddc);
+> 
+> This change is a nice cleanup and perhaps it silences a warning in your
+> static checker?  It should be mentioned in the commit message.
 
+Reflected in the commit message of v4. (This change was not detected by 
+my verifier, but yes, should have been mentioned in the message anyway)
+
+> 
+> regards,
+> dan carpenter
+> 
+
+[1]: 
+https://lore.kernel.org/dri-devel/20250131073453.551252-1-joe@pf.is.s.u-tokyo.ac.jp/
+
+Best,
+Joe
