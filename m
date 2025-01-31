@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC41A23EE0
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 15:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76AFCA23F0E
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 15:21:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5313F10EAC3;
-	Fri, 31 Jan 2025 14:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A36010EAC9;
+	Fri, 31 Jan 2025 14:21:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="GcI+YDUi";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 118AC10EAB9
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 14:01:14 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E11291F443;
- Fri, 31 Jan 2025 14:01:12 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9CC94139B1;
- Fri, 31 Jan 2025 14:01:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id eFn1JKjXnGfbcQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 31 Jan 2025 14:01:12 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
- michael.hennerich@analog.com, support.opensource@diasemi.com
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 16/16] backlight: wm831x_bl: Do not include <linux/fb.h>
-Date: Fri, 31 Jan 2025 14:58:47 +0100
-Message-ID: <20250131140103.278158-17-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250131140103.278158-1-tzimmermann@suse.de>
-References: <20250131140103.278158-1-tzimmermann@suse.de>
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 151B310E1EC;
+ Fri, 31 Jan 2025 14:21:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=gn6ROdhimfH2SlxaFG9S9wImJavIsJGvPsiITl9Tyxg=; b=GcI+YDUi42q8wWLAaliLPMiJCL
+ jC3vbx12pAXO2Q4jttDBHLad6PFrI8gKFC3UGsAmD9CGyvTct74eea7pwBUi30YOPI6ohMHsELXRa
+ WTkZKm4FPDerhWo7QwIC3sY8fg06rYWHQ+C/HxXpwV2FZ1kAuXRRCAg1UfEL2sqGk4RbLj6BuD2qa
+ NQw6KWjJxuVhMY3rwD/NiDfpZcCBes6Wo+8nK9PgbM5Tqg7/Fr0zPXey2d2H8QVOORFMWSgoJTKjk
+ /JriUdLVUEli8ufJKmilaBRGPP2FpKCWfAuKk2Ubz4QxzjU62JGSWjoLnj8bempgYL3036hFSGCmw
+ xa5KYQwA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat
+ Linux)) id 1tdrtX-0000000EmeT-34tM; Fri, 31 Jan 2025 14:21:19 +0000
+Date: Fri, 31 Jan 2025 14:21:19 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>,
+ Andrew Morton <akpm@linux-foundation.org>, Jens Axboe <axboe@kernel.dk>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Chengming Zhou <chengming.zhou@linux.dev>,
+ Christian Brauner <brauner@kernel.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Dan Carpenter <dan.carpenter@linaro.org>, David Airlie <airlied@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Hao Ge <gehao@kylinos.cn>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Josef Bacik <josef@toxicpanda.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Miklos Szeredi <miklos@szeredi.hu>, Nhat Pham <nphamcs@gmail.com>,
+ Oscar Salvador <osalvador@suse.de>, Ran Xiaokai <ran.xiaokai@zte.com.cn>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Vlastimil Babka <vbabka@suse.cz>,
+ Yosry Ahmed <yosryahmed@google.com>, Yu Zhao <yuzhao@google.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCHv3 02/11] drm/i915/gem: Convert __shmem_writeback() to
+ folios
+Message-ID: <Z5zcXyYfXSI0PYBY@casper.infradead.org>
+References: <20250130100050.1868208-1-kirill.shutemov@linux.intel.com>
+ <20250130100050.1868208-3-kirill.shutemov@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Score: -4.00
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: E11291F443
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250130100050.1868208-3-kirill.shutemov@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,26 +77,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This driver does not require <linux/fb.h>. Remove the include
-statement.
+On Thu, Jan 30, 2025 at 12:00:40PM +0200, Kirill A. Shutemov wrote:
+> Use folios instead of pages.
+> 
+> This is preparation for removing PG_reclaim.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/video/backlight/wm831x_bl.c | 1 -
- 1 file changed, 1 deletion(-)
+Well, this is a horrid little function.  Rather than iterating just the
+dirty folios, it iterates all folios, then locks them before checking
+whether they're dirty.
 
-diff --git a/drivers/video/backlight/wm831x_bl.c b/drivers/video/backlight/wm831x_bl.c
-index c5aaee205bdfb..49027f04a1ecb 100644
---- a/drivers/video/backlight/wm831x_bl.c
-+++ b/drivers/video/backlight/wm831x_bl.c
-@@ -9,7 +9,6 @@
- #include <linux/init.h>
- #include <linux/platform_device.h>
- #include <linux/module.h>
--#include <linux/fb.h>
- #include <linux/backlight.h>
- #include <linux/slab.h>
- 
--- 
-2.48.1
+I don't know whether the comments are correct or the code is correct.
+This comment doesn't match with setting PageReclaim:
 
+         * Leave mmapings intact (GTT will have been revoked on unbinding,
+         * leaving only CPU mmapings around) and add those pages to the LRU
+         * instead of invoking writeback so they are aged and paged out
+         * as normal.
+
+so I wonder if Chris was confused about what PageReclaim actually does.
+Let's find out if he still remembers what he thought it did!
