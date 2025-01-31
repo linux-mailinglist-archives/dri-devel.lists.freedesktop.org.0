@@ -2,77 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0147FA241C6
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 18:18:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2C8A241CD
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 18:20:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0960410E405;
-	Fri, 31 Jan 2025 17:18:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E68E10E406;
+	Fri, 31 Jan 2025 17:20:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="eF7K20Vp";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="DOnKOEb2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38A7910E405
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 17:18:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1738343913; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=f/iY1x4utYyIJED6fcvaaas089qhpFaxupg+RoEoMQeB+BTvtDqhYcOFQGdubiFfRuu84pFe08958yXNfTH9uHNIac2N8eBs1B+5fCbX7Hb1NXt+XHPPkAt/CXCw6PwVwzZkx0EHHi2oYdKbecHIpmdrujZBSFG3/S1jdlIawrc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1738343913;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=KxrVvNWFsLdjUGWz01VmAu7gb3IK9lnKuIig2vYIG3M=; 
- b=aJZJy3fNsdSZ/j+Zi+T3eeHc0pOZqnKJPjdWRZKsWg6BnUXfeRrdr9h+BC0T+EZOBGLJ+CqYojzHJhepG9AZ9iy3YlFzTP+IhDZv/8PLxieD+p6HM3/4PLNlASm+7X16N0tpInXWdfHgxiAAl3pV4TXOfWNJyVzhEIHnjjRFHCk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
- dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738343913; 
- s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=KxrVvNWFsLdjUGWz01VmAu7gb3IK9lnKuIig2vYIG3M=;
- b=eF7K20VpljQSTO45wK2hF3MA4A4e8+K7HQHEdei9dYVEu/VvFe36L9NjbJN5mSQ2
- bN0MzTRmOaLuDdvsAVNf0ZljnKCKNn0WRyQfdh1d1zPpSyl78ht8ukpizB64YLhKyTK
- bob/pDfCQQekFArnBL0P3dMu+HAX9UmZRxW+9h7A=
-Received: by mx.zohomail.com with SMTPS id 1738343906427960.6186911597109;
- Fri, 31 Jan 2025 09:18:26 -0800 (PST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org, Quentin Schulz <quentin.schulz@cherry.de>
-Cc: Algea Cao <algea.cao@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- dri-devel@lists.freedesktop.org,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, kernel@collabora.com,
- David Airlie <airlied@gmail.com>, Dragan Simic <dsimic@manjaro.org>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Robert Foss <rfoss@kernel.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, linux-rockchip@lists.infradead.org, 
- Alexey Charkov <alchark@gmail.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Johan Jonker <jbx6244@gmail.com>, FUKAUMI Naoki <naoki@radxa.com>,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jianfeng Liu <liujianfeng1994@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH v3 2/2] arm64: dts: rockchip: Add HDMI0 audio output on
- rock-5b
-Date: Fri, 31 Jan 2025 12:18:23 -0500
-Message-ID: <3668702.iIbC2pHGDl@trenzalore>
-In-Reply-To: <8ad30e14-e785-4e3a-ba92-644e7fb07759@cherry.de>
-References: <20250130165126.2292107-1-detlev.casanova@collabora.com>
- <20250130165126.2292107-3-detlev.casanova@collabora.com>
- <8ad30e14-e785-4e3a-ba92-644e7fb07759@cherry.de>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 928E510E406
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 17:20:15 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3862a921123so1610802f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 09:20:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1738344014; x=1738948814; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xczt2wiwP9aoq6grPvh88tM/HM9YU6nKxYw7mbHJ51k=;
+ b=DOnKOEb2cV5FAwLZOSvKsqM4SB6NLUgW0d3Mw2E8aupL1t7goXVSNDR+QY8Ck0DdB7
+ 74hmZ5D/gFXANTpIyGzntgQgB5eOgTfaV7XmlNBbi0hqhV23EgtOhDwISpXygu3JxpyD
+ FzH5ylNYMOqC7OefLf+sOcVjmPJ9txEuSXNqE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738344014; x=1738948814;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xczt2wiwP9aoq6grPvh88tM/HM9YU6nKxYw7mbHJ51k=;
+ b=hsNkF+AC8sIWWvO+CKJXCa7of/Jft597c6O5ZttoZUWFIXvF8+1dHlJnSRtt3C/eY0
+ zbM5VWcYjdoJEl63q43A2u/P1xwXZPrs1E0dU2TnbkUqTpgrKBNqAioVtaVw1j8EqyZQ
+ /pcpTP32yw59k/lTkBrajElj6v9m7LuxR9tknpKH/ISYIvOs7d4l/bndpxrVrKpMxeEu
+ 3hlFv2RncZm9rTZc8fLAqqMGN8bv9RSv3ZNWf2DUK2C8Ubpxp0GFgpgrxVMT++jzPSzA
+ zbW5Me+tcCU2NDPLrkvPNp+WIycGN4MZVTcgQ5x8t49rISlqsnxpiASzH9qsONk1mqed
+ tPfA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXLyOThbINhXkhKmYVo7nJ9UnRQrEDMpsM2nYpV+173MfyqxV7zFzU+GswUKHHc9gotjHBkfFh9jqM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykOW5MXxC+pGBdWSeOPreUBbH/TCXdJ0LepOUIOCCpeS4YnqFY
+ mJV7mYS9jg+cBhj5bgBpUdy5d8ZJGTFdkXqLrfMCdddra8RAONu/YeLCZc8VoWU=
+X-Gm-Gg: ASbGncs8A0Fiz9ofM4tzSspfDfsc9bB7uEeo1DETwxig4qpt+5QsOJh5ypgRzi/iX2h
+ 6WWCQMiRenDghYQvLXOd0IfuqZEGhlFfqQvlYFzt6Qw4f2/h3MOvF2fBOgYpyTdZT+1N0GWY5/o
+ 0e7sVOnQXjlewEbBjQjNc7yJTt6tp6bNbZSuWDpqVtr1XU2+E2BzeKaWa24e1tdHvKfg5Hp6Pfx
+ Q/f5r8rWA7G+0e/dls+o9eYlRAi4yIpNEMqUBVZg08tNdssngGDXugCTYcx6qbcPPZaX3XA4cQ6
+ 6mWeFHuOE7z4labtuUBbf0qojDU=
+X-Google-Smtp-Source: AGHT+IEBqHvHKIqdGp0t4Qh+w+AOU1lOYA0A7nG1BCLDh39RGEo9xrVIZ8SI5EuvHfApoC/uo/mR7w==
+X-Received: by 2002:a05:6000:bd0:b0:385:f64e:f163 with SMTP id
+ ffacd0b85a97d-38c51967e87mr7449467f8f.32.1738344013909; 
+ Fri, 31 Jan 2025 09:20:13 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c5c122707sm5254768f8f.50.2025.01.31.09.20.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Jan 2025 09:20:13 -0800 (PST)
+Date: Fri, 31 Jan 2025 18:20:11 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v1 4/4] mm/memory: document restore_exclusive_pte()
+Message-ID: <Z50GS-RM03E7Usmi@phenom.ffwll.local>
+Mail-Followup-To: Alistair Popple <apopple@nvidia.com>,
+ David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
+References: <20250129115803.2084769-1-david@redhat.com>
+ <20250129115803.2084769-5-david@redhat.com>
+ <7vejbjs7btkof4iguvn3nqvozxqpnzbymxbumd7pant4zi4ac4@3ozuzfzsm5tp>
+ <cfc4f8ac-80c4-472f-85fc-36ffcd212441@redhat.com>
+ <Z5t_RebEx6Mj-KlT@phenom.ffwll.local>
+ <d27c35d5-918f-4550-9975-eb7ba59ac9be@redhat.com>
+ <upvlv4b2zly56trmoaocs5gl34ykd7tjz2grzqtwkfy45gbm7l@uxsmqdjgyo5n>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <upvlv4b2zly56trmoaocs5gl34ykd7tjz2grzqtwkfy45gbm7l@uxsmqdjgyo5n>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,108 +121,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Quentin,
-
-On Friday, 31 January 2025 11:38:34 EST Quentin Schulz wrote:
-> Hi Detlev,
+On Fri, Jan 31, 2025 at 11:14:06AM +1100, Alistair Popple wrote:
+> On Thu, Jan 30, 2025 at 04:29:33PM +0100, David Hildenbrand wrote:
+> > On 30.01.25 14:31, Simona Vetter wrote:
+> > > On Thu, Jan 30, 2025 at 10:37:06AM +0100, David Hildenbrand wrote:
+> > > > On 30.01.25 01:27, Alistair Popple wrote:
+> > > > > On Wed, Jan 29, 2025 at 12:58:02PM +0100, David Hildenbrand wrote:
+> > > > > > Let's document how this function is to be used, and why the requirement
+> > > > > > for the folio lock might maybe be dropped in the future.
+> > > > > 
+> > > > > Sorry, only just catching up on your other thread. The folio lock was to ensure
+> > > > > the GPU got a chance to make forward progress by mapping the page. Without it
+> > > > > the CPU could immediately invalidate the entry before the GPU had a chance to
+> > > > > retry the fault.
+> > > > > > Obviously performance wise having such thrashing is terrible, so should
+> > > > > really be avoided by userspace, but the lock at least allowed such programs
+> > > > > to complete.
+> > > > 
+> > > > Thanks for the clarification. So it's relevant that the MMU notifier in
+> > > > remove_device_exclusive_entry() is sent after taking the folio lock.
+> > > > 
+> > > > However, as soon as we drop the folio lock, remove_device_exclusive_entry()
+> > > > will become active, lock the folio and trigger the MMU notifier.
+> > > > 
+> > > > So the time it is actually mapped into the device is rather
+> > 
+> > I meant to say "rather short." :)
+> > 
+> > > 
+> > > Looks like you cut off a bit here (or mail transport did that somewhere),
+> > > but see my other reply I don't think this is a legit use-case. So we don't
+> > > have to worry.
+> > 
+> > In that case, we would need the folio lock in the future.
+> > 
+> > > Well beyond documenting that if userspace concurrently thrashes
+> > > the same page with both device atomics and cpu access it will stall real
+> > > bad.
+> > 
+> > I'm curious, is locking between device-cpu or device-device something that
+> > can happen frequently? In that case, you would get that trashing naturally?
 > 
-> On 1/30/25 5:45 PM, Detlev Casanova wrote:
-> > Use the simple-audio-card driver with the hdmi0 QP node as CODEC and
-> > the i2s5 device as CPU.
-> > 
-> > The simple-audio-card,mclk-fs value is set to 128 as it is done in
-> > the downstream driver.
-> > 
-> > The #sound-dai-cells value is set to 0 in the hdmi0 node so that it can be
-> > used as an audio codec node.
-> > 
-> > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> > ---
-> > 
-> >   arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  1 +
-> >   .../boot/dts/rockchip/rk3588-rock-5b.dts      | 19 +++++++++++++++++++
-> >   2 files changed, 20 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> > b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi index
-> > 8cfa30837ce72..790c1c25a3e41 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> > @@ -1394,6 +1394,7 @@ hdmi0: hdmi@fde80000 {
-> > 
-> >   		reset-names = "ref", "hdp";
-> >   		rockchip,grf = <&sys_grf>;
-> >   		rockchip,vo-grf = <&vo1_grf>;
-> > 
-> > +		#sound-dai-cells = <0>;
-> > 
-> >   		status = "disabled";
-> >   		
-> >   		ports {
-> > 
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts index
-> > d597112f1d5b8..1909078538367 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-> > @@ -49,6 +49,21 @@ hdmi0_con_in: endpoint {
-> > 
-> >   		};
-> >   	
-> >   	};
-> > 
-> > +	hdmi0-sound {
-> > +		compatible = "simple-audio-card";
-> > +		simple-audio-card,format = "i2s";
-> > +		simple-audio-card,mclk-fs = <128>;
-> > +		simple-audio-card,name = "hdmi0";
-> > +
-> > +		simple-audio-card,codec {
-> > +			sound-dai = <&hdmi0>;
-> > +		};
-> > +
-> > +		simple-audio-card,cpu {
-> > +			sound-dai = <&i2s5_8ch>;
-> > +		};
-> > +	};
-> > +
-> 
-> This is SoC specific and not board specific I believe. I2S5 is not
-> usable anywhere else but with HDMI0 controller if I've read the TRM
-> properly.
-> 
-> Therefore, I would suggest to move this to rk3588-base.dtsi (with
-> status=disabled; and when hdmi1-sound comes up, to rk3588-extra.dtsi),
-> the same way we've done for RK3399 for example.
+> It results in terrible performance so in practice it isn't something that I've
+> seen except when stress testing the driver. Those stress tests were useful for
+> exposing a range of kernel/driver bugs/issues though, and despite the short time
+> it is mapped the lock was sufficient to allow atomic thrashing tests to complete
+> vs. having the device fault endlessly.
 
-Indeed, I only could test on a Rock 5B, but I think it can be moved to the SoC 
-DTS.
+Yeah the practical use-case of device atomics is that they alternate, as
+the processing shifts between the cpu and the gpu. Classic one is when you
+generate variable amounts of data per input block that you fill into a big
+preallocated array, and the atomic counter is your dumb-as-rock malloc for
+that. The atomic moves as the generating/consuming of that data moves
+around the system (and needs a fault each time it moves), but you really
+never want to have concurrent access going on. Any thrashing concurrent
+access is just broken userspace (or a driver stress test).
 
-> The only hesitation I have is that HDMI0 can use either I2S or SPDIF for
-> audio, both audio controllers internal exclusive to HDMI0/1 controller.
-> But the user could anyway define their own simple audio card for spdif
-> or modify this one if they wanted to.
+> So unless it's making things more difficult I'd rather keep the lock.
 
-So some boards will use I2S and some SPDIF ? Or any board can be used with one 
-or the other ?
-The disabled status makes sense as hdmi is disabled in the SoC tree as well. 
-So if a user wants to use SPDIF instead, they could keep hdmi0-sound disabled 
-and add their own simple-audio-card compatible node.
+But why do these stress-tests need to complete? We have a lot of these in
+our gpu test suite, and we just nuke them after a short timeout if nothing
+blows up. Concurrently hammering the same page from both gpu and cpu
+really isn't something that should have any forward progress gurantees
+imo. And I feel like too much locking just risks us hiding some much more
+nasty (design) bugs underneath - I've had that experience reviewing both
+amdkfd and the in-work xe code. So my preference for gpu interacting with
+core mm is that we have the least amount of locking to make sure we really
+don't have a breaking design impendence mismatch going on.
 
-> I've tested with my suggested change and same changes than for Rock 5B
-> DTS on RK3588 Tiger Haikou with speaker-test -c 2 -t wav, left is left,
-> right is right :)
-> 
-> I'm not giving my Tb here as the commit title is specifically about Rock
-> 5B and I haven't tested this series on it. If you had a separate patch
-> for the hdmi sound node and enabling it on Rock 5b, I would have given
-> my Tb on the former and not the latter.
-
-Thank you for testing anyway ! I will move the node and enable it in all board 
-dts that already enable hdmi0.
-
-
-Detlev.
-
-
-
+Cheers, Sima
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
