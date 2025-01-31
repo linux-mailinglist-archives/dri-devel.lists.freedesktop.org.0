@@ -2,72 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C514A23E18
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 14:02:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6732DA23E14
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 14:02:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F34AC10EAAA;
-	Fri, 31 Jan 2025 13:02:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD2BE10EAA7;
+	Fri, 31 Jan 2025 13:02:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Y4KKhUGL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nH3v5WYM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
- [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F9410EAA7
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 13:02:19 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B82E14426E;
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF4B210EAA7
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 13:02:17 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D86F144315;
  Fri, 31 Jan 2025 13:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738328538;
+ t=1738328536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+kwLBBAKHwJScVqX5D1od3kUCloHeVAnZHLlm04sT2g=;
- b=Y4KKhUGLCwXU0ABQLBZThvOq6BCwbcDbX4a0O/V4To90dJCzQgQ9SaGSSeEGjx39cyM9xu
- PWRi/uehJD9C7NzKqBMLblppKa1Dvge82TN4RUHzQcLeHkWChKHM/DSvrQ8ey8tuw0jK6j
- fuXXgqtE73uIsQRK8gSWkjyPJcAQUtgGjoEjfWNthklzS3mxp5B5ADzEB/Lmhi43hARbnE
- Jk/vsYSl+h2khKTWeJLOPxkC29Kuqz/AwdsZdX+D2hDKue1r25W4BX8quLyLoB1MPUYPqx
- hpHR4iQEtmuiHJ1h9scyWtXKFhXie2uDqMzu+fjir1LLIBV2CZ/C76/QTEMgZA==
+ bh=XJwSHV11kphzeXrWnjeXrkif/bqrggQ85lvkHsuBw6I=;
+ b=nH3v5WYMhcZfITGnkH86Y6hheRWa1SEIvz7KB6HBphbq37u+6tWJYS1e7+QLOYc9POfX7X
+ msU711aBHV7+Hogs8aTslUvpU/SZ7LSn0uHlw8z+Emwcf/7YFWdX657OQLV4ErqkU0iZQi
+ I07zWn5sXK6OzvwNfaKOUpgzolb5gBLltg+kn1GB1HHMx+Gjz+RhV2JVQOZA+iyDzMsLjt
+ 0mjn8bXFYhZORBqNnSNV7y2aYGn8BJxJUuIamzcRQQgfdqQoWr73JeD9fYDu+GlBQ2p5oZ
+ cDZL2jKR/KRiWbcPtQlcI/eRRaOkn3vfHY6XT1Y/pFwW6wL9O9Sap7pU/3Dt6w==
 Date: Fri, 31 Jan 2025 14:02:14 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- jeremie.dautheribes@bootlin.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mairacanal@riseup.net, marcheu@google.com, melissa.srw@gmail.com,
- miquel.raynal@bootlin.com, mripard@kernel.org,
- nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
- rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
- seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
- thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v16 3/7] drm/vkms: Drop YUV formats TODO
-Message-ID: <Z5zJ1h91AINbQRVF@louis-chauvet-laptop>
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] drm/vkms: Allow to configure device
+Message-ID: <Z5zJ1rEZyBEgd7DN@louis-chauvet-laptop>
 Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  <jose.exposito89@gmail.com>, 
- airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
- jeremie.dautheribes@bootlin.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mairacanal@riseup.net, marcheu@google.com, melissa.srw@gmail.com,
- miquel.raynal@bootlin.com, mripard@kernel.org,
- nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
- rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
- seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
- thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-References: <20250121-yuv-v16-3-a61f95a99432@bootlin.com>
- <20250131084045.2874-1-jose.exposito89@gmail.com>
+ hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250129110059.12199-1-jose.exposito89@gmail.com>
+ <Z5uDGr445jEfdt5L@louis-chauvet-laptop> <Z5yYVov9_z6CDU46@fedora>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250131084045.2874-1-jose.exposito89@gmail.com>
+In-Reply-To: <Z5yYVov9_z6CDU46@fedora>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedufeehgfefieeileeukeetfeduvdeiffeuhfdvleevfeefveelueduleeftdejteenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvgedprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegrrhhthhhurhhgrhhilhhlohesrhhishgvuhhprdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepughri
- hdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhgvmhhivgdruggruhhthhgvrhhisggvshessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeffeduuddujeevueffkeekhffhkeethefggeeitdduieffhfffkedtfeeggfdvueenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhouhhishdqtghhrghuvhgvthdqlhgrphhtohhppdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmp
+ dhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,61 +72,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/01/25 - 09:40, JosÃ© ExpÃ³sito wrote:
+On 31/01/25 - 10:31, José Expósito wrote:
+> On Thu, Jan 30, 2025 at 02:48:10PM +0100, Louis Chauvet wrote:
+> > On 29/01/25 - 12:00, José Expósito wrote:
+> > > Hi everyone,
+> > > 
+> > > In preparation for ConfigFS support, a flexible way to configure VKMS device(s)
+> > > is required.
+> > > This series adds the required APIs to create a configuration, the code changes
+> > > required to apply it and KUnit test validating the changes.
+> > 
+> > Hi José,
+> 
 > Hi Louis,
 > 
-> Thanks a lot for the patches.
+> Thanks a lot for the quick review!
 > 
-> I'm not well versed in YUV color formats, so I did my best reading the kernel
-> documentation before reviewing this series... But I'll most likely ask some
-> basic/dump questions.
-> 
-> > From: Arthur Grillo <arthurgrillo@riseup.net>
+> > Thanks a lot!
 > > 
-> > VKMS has support for YUV formats now. Remove the task from the TODO
-> > list.
-> > 
-> > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > ---
-> >  Documentation/gpu/vkms.rst | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> > index ba04ac7c2167a9d484c54c69a09a2fb8f2d9c0aa..13b866c3617cd44043406252d3caa912c931772f 100644
-> > --- a/Documentation/gpu/vkms.rst
-> > +++ b/Documentation/gpu/vkms.rst
-> > @@ -122,8 +122,7 @@ There's lots of plane features we could add support for:
-> >  
-> >  - Scaling.
-> >  
-> > -- Additional buffer formats, especially YUV formats for video like NV12.
-> > -  Low/high bpp RGB formats would also be interesting.
-> > +- Additional buffer formats. Low/high bpp RGB formats would be interesting.
+> > This series is amazing and better than mine on many points. I have few 
+> > comments:
+> > - a "strange" naming pair: add/destroy (I expect add/remove or 
+> >   create/destroy like other function in DRM)
 > 
-> I see that you implemented support for 6 DRM_FORMAT_NV* formats, but
-> DRM_FORMAT_NV15, DRM_FORMAT_NV20 and DRM_FORMAT_NV30 are not implemented.
+> I used "add" because the function creates and adds a display pipeline
+> items and "destroy" because the opposite function removes it and frees
+> its memory, so I wanted to emphasize that the action was destructive.
 > 
-> The same applies to DRM_FORMAT_Y210 or DRM_FORMAT_YUV410 among others.
-> 
-> Could it be useful to implement all of them in the future? If so, should we add
-> it to the ToDo list?
+> However, I don't have a strong preference about the naming. If you
+> prefer another pair of verbs, I'll be happy to change the function
+> names.
 
-I don't think we need "all of them" (there are â‰ˆ100 + all the modifiers), 
-but definitly all the commonly used ones (I have some of the "common" one 
-ready here [1], I just wait for the YUV series to be accepted to avoid 
-conflicts).
-
-> It might be a great task to get started in kernel development, as there are
-> already similar examples and tests.
-
-I don't think we need to specify which format are missing, the point 
-"Additionnal buffer formats. [...]" seems sufficient. If you think this is 
-relevant, I can add "Easy task" so beginners will find it easier?
+So, I think create/destroy is a bit better: `create` with the 
+`vkms_config` parameter is enough to tell "it allocates stuff in 
+`vkms_config`". 
  
-[1]:https://lore.kernel.org/all/20241122-b4-new-color-formats-v3-0-23f7776197c9@bootlin.com/
+> > - usage of "complex" list accessors, can't we just create iterators?
+> 
+> Yes, on the first iteration, I used the underlying structure: list
+> iterators for planes/CRTCs/encoders/connectors and xa_for_each for
+> the possible_* items.
+> 
+> However, I found 2 main issues that made me rewrite this code:
+> 
+> The first one is that, if in the future, we change the internal data
+> type, we'll have to change all the code using it. On this way, like
+> I did with all the other vkms_config_*_get_*() functions, the data is
+> encapsulated.
 
-> >  
-> >  - Async updates (currently only possible on cursor plane using the legacy
-> >    cursor api).
+In one of my comment I proposed a macro to help on this point. I think 
+this is sufficient to hide internals. (see patch 7/13)
+ 
+> The second one is vkms_config_get_connectors(). Unlike the other
+> functions, this one filters by connector enabled status. If we let the
+> caller do the filtering, we'll duplicate that logic.
+
+That something I missed, and a very good point.
+
+I will try to create a macro that do the filtered iteration, if I succeed 
+and you agree on the previous point, I think it does not worth it to have 
+those huge amount of code just to iterate over a list.
+
+> Because of these two reasons, I decided to add a getter for lists.
+> 
+> > - should we use pr_err in vkms_config_valid?
+> 
+> I think it is great to show to the user a reason why their device couldn't
+> be enabled in dmesg... But I'm not sure if there is a better way to do it.
+
+I was not clear: I agree we want some logs, but pr_err is too 
+agressive (see patch 8/13).
+
+> > > Louis Chauvet and I are working on ConfigFS support. In this series I tried to
+> > > merge his changes [1] with mine [2].
+> > > I kept his Signed-off-by to reflect that, even if I show up as the author of
+> > > some/most of the patches, this was a joint effort.
 > > 
+> > To avoid confusion, you should add the Co-developped-by tag, so it will be 
+> > clear that we worked together on this.
+> 
+> Good point, I'll change it.
+> 
+> > > I'm still polishing the ConfigFS code [3] and its IGT tests [4] (connector
+> > > hot-add/remove bugs) but the IGT tests also exercise this series and can be used
+> > > for additional test coverage.
+> > 
+> > I will take a look at those series. For the connector hot-add/remove, do 
+> > you have any example of usage in the kernel? I did not found anything in 
+> > the documentation explaining they are hot-addable.
+> 
+> I pushed a couple of WIP commits to the kernel and IGT so you can see/test
+> the crashes and hopefully share some ideas.
+> 
+> About the documentation: I didn't find much information other than a few
+> mentions to hot-add/remove. However, in one of my rebases, two new functions, 
+> drm_connector_dynamic_init() and drm_connector_dynamic_register(), were added:
+> https://patchwork.freedesktop.org/patch/628418/
+
+Ho! This is exactly one issue I had when developping IGT tests, sometimes 
+you fetch the connector list, and when querying info about a specific 
+connector you get nothing!
+
+> I'm still trying to make them work, but I think they are what we need.
+
+After reading the patch "https://patchwork.freedesktop.org/patch/628418/", 
+I don't think we really need to support "dynamic connector creation" right 
+now:
+- None of the existing driver do it (except MST, but MST need a lot of 
+  stuff to works)
+- If we want to support it later, just create a "useless" 
+  /configfs/vkms/DEV/connectors/CON/enable that you must write 1 before 
+  the device initialization to make the connector working. This way we 
+  will not have to break the UAPI (the file is already there, disabled by 
+  default)
+ 
+> Part of the crashes happen on the cleanup of drm_client_setup(). Adding a
+> connector adds modes in the DRM client, but removing the connector doesn't
+> remove them and, on cleanup, I get a NULL pointer.
+>
+> I'm a bit stuck, so help or tips are very welcome :)
+
+I will look at it next week (same repo/branch?).
+
+Have a nice weekend,
+Louis Chauvet
+
+> 
+> > Thanks again for this series,
+> > Louis Chauvet
+> 
+> I'll look with more time into your comments in the other patches next week.
+> 
+> Thanks,
+> Jose
+> 
+
+[...]
