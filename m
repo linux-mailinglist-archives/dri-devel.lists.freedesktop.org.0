@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 039D6A244A4
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 22:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D29A244AA
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 22:33:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2214A10E20A;
-	Fri, 31 Jan 2025 21:31:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4936A10E02B;
+	Fri, 31 Jan 2025 21:33:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YtzshWKi";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="jyD9gPXS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24C3010E211
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 21:31:21 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-aaf60d85238so408439166b.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 13:31:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738359079; x=1738963879; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=8sMFgyKuIAH8ly7F91V8rApj+AxzQFEz+0kCLCxW1So=;
- b=YtzshWKiW6Ay99/eHq2VLVtVoiDP6vOkaW6UF+L7yPuJa3EP+B0eMLX/1EBbjgB199
- 5/PMq9Q3iCkJ44YJZsS0+1Nnwz2/Jdt00mPyTkfwPIzZwAqXrsHLD4ZFEUndESnC8HJB
- YporCTKulpMcGxbFUp9r9KOY8fr7CN5jRnAFQx6TDsCxXGlUhaQoODZjpzy5285loI1r
- se8zP3B03CnYRw1Tk9QE9LhSqd3Iz3BKBObjGyKKbmE7ZHPIyMrH7VgCZlH2DV4VtneZ
- vi/xu1mqf22+qSnMa+eBRbBBR/Z9HnCxltQW2DnCfC8ChT7BnwgcAjuVSxEiCm8JDFyc
- 4WGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738359079; x=1738963879;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8sMFgyKuIAH8ly7F91V8rApj+AxzQFEz+0kCLCxW1So=;
- b=IB3gwbUJtEaJZI4zbxrFS4AKWcMHLwepmtkGhGlgU+UnnGh0sZNJ8UPsuh/4gPqU2h
- ts5eF/TUyhy4sdxou1UKN20tuv3wviPq15cMD9WEMMQyWL7A2sL05KyBNos7A4USd5bk
- c/KnOJBo1XCF0ilhRzxLO8IWZJmH2OBa9rcvyDsgVtKqgvj1gngj02AvU18DiI6prl2a
- 77V6rXMqjJQ6kjYXgMEm11VAocozApSjJES3yRYRMBDqXsIkbM7QB/StK4eG1kckZN/e
- G0k//EhZi0rnTtuKcXNnl3Y5mBJgZLyW6DqRR7VvH9oyxcuzKRj7xAwez4OrHyqdi85b
- kV7w==
-X-Gm-Message-State: AOJu0Yw3+5X2alWTmrwNkwjEaah+lD6trloeeuFanuGfRGocgSNgRvCs
- 2SjmeEsfQexrVlpOyUfOYfwIvbwK4wEXCofY21WGFrrEOMF9HoOr8dNlHCgLTxn+2kqlf3z8q64
- hWRasvjQuO675OKYx5wQmLPG70F9jhKrf
-X-Gm-Gg: ASbGnctpb9spnwk7bIhszVTzAVWFpQApw8DfiOIJxN0dq4DCjFVYX+EuaF5jsKiWnrw
- EevOpEcx3O6JTgjFnQ4PyRCOsw7nhL2S9zDLrFG92RwdswbpTyO87IpzLbf+B80AOb+xh+s0=
-X-Google-Smtp-Source: AGHT+IFCxjq7JVele5N0WAD/aWKOorY7Nl8XoPCWOwHdyUa4tKW4l5lQYN8VH9vBW8jEWSjHSdhpLpI8ipXmD1wj+v0=
-X-Received: by 2002:a17:907:9452:b0:ab6:fe30:f495 with SMTP id
- a640c23a62f3a-ab6fe31018emr545918366b.35.1738359079237; Fri, 31 Jan 2025
- 13:31:19 -0800 (PST)
+Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com
+ [95.215.58.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60FF210E02B
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 21:33:08 +0000 (UTC)
+Date: Fri, 31 Jan 2025 13:32:56 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1738359184;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FKADDN/gzLU5ps4Oe+ymmjbVA+yTOl27darYW9+bIr0=;
+ b=jyD9gPXS1WTaul95TpeSAfE5cKe6GAm6eOkWb/GiX7s5qiCfSRB8BaOinWtNL/E622IZjh
+ 0QScNYaKTFt28s6IqWK1DsqmrG5njsWa/Py97/n3byOUomQBe9xiy4XrKkYlPSzhlhYxVK
+ kdV1A0T7T9VIc3IRqV+q4ufc53+aXuY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Chengming Zhou <chengming.zhou@linux.dev>,
+ Christian Brauner <brauner@kernel.org>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ David Airlie <airlied@gmail.com>, David Hildenbrand <david@redhat.com>,
+ Hao Ge <gehao@kylinos.cn>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Josef Bacik <josef@toxicpanda.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Nhat Pham <nphamcs@gmail.com>, 
+ Oscar Salvador <osalvador@suse.de>, Ran Xiaokai <ran.xiaokai@zte.com.cn>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, 
+ Steven Rostedt <rostedt@goodmis.org>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Vlastimil Babka <vbabka@suse.cz>, Yosry Ahmed <yosryahmed@google.com>,
+ Yu Zhao <yuzhao@google.com>, 
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCHv3 06/11] mm/vmscan: Use PG_dropbehind instead of PG_reclaim
+Message-ID: <lpptopwuxbfixeigoxs44rrpg6sm5mviai3uy7sxvvng3twyer@xpul6sjcvvjj>
+References: <20250130100050.1868208-1-kirill.shutemov@linux.intel.com>
+ <20250130100050.1868208-7-kirill.shutemov@linux.intel.com>
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 1 Feb 2025 07:31:07 +1000
-X-Gm-Features: AWEUYZmar993kBa1Sp93Oc8tcUnpCbu80RjXzUnUNE47h24wGe57ZiO58684Qes
-Message-ID: <CAPM=9twWB85+Oz8ZSoAej1y4Otb6JesYm7_DE0XAfEU6CJbZxQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.14-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>, Sima Vetter <sima@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250130100050.1868208-7-kirill.shutemov@linux.intel.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,81 +78,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+On Thu, Jan 30, 2025 at 12:00:44PM +0200, Kirill A. Shutemov wrote:
+> The recently introduced PG_dropbehind allows for freeing folios
+> immediately after writeback. Unlike PG_reclaim, it does not need vmscan
+> to be involved to get the folio freed.
+> 
+> Instead of using folio_set_reclaim(), use folio_set_dropbehind() in
+> pageout().
+> 
+> It is safe to leave PG_dropbehind on the folio if, for some reason
+> (bug?), the folio is not in a writeback state after ->writepage().
+> In these cases, the kernel had to clear PG_reclaim as it shared a page
+> flag bit with PG_readahead.
 
-Back from travel, thanks to Sima for taking care of things, only one
-MR left for me to finish the merge window, this is only AMD fixes.
+Is it correct to say that leaving PG_dropbehind on folios which doesn't
+have writeback state after ->writepage() (i.e. store to zswap) is fine
+because PG_dropbehind is not in PAGE_FLAGS_CHECK_AT_FREE?
 
-Dave.
-
-drm-next-2025-02-01:
-drm fixes for 6.14-rc1
-
-amdgpu:
-- GC 12 fix
-- Aldebaran fix
-- DCN 3.5 fix
-- Freesync fix
-
-amdkfd:
-- Per queue reset fix
-- MES fix
-The following changes since commit 64179a1416e1420a34226ab3beb5f84710953d16:
-
-  Merge tag 'drm-misc-next-fixes-2025-01-24' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-next
-(2025-01-24 17:06:06 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-02-01
-
-for you to fetch changes up to 8dcb26b493d3bab90851f93ae1c127af5cb2dbb5:
-
-  Merge tag 'amd-drm-fixes-6.14-2025-01-29' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next (2025-01-31
-09:41:25 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.14-rc1
-
-amdgpu:
-- GC 12 fix
-- Aldebaran fix
-- DCN 3.5 fix
-- Freesync fix
-
-amdkfd:
-- Per queue reset fix
-- MES fix
-
-----------------------------------------------------------------
-Dave Airlie (1):
-      Merge tag 'amd-drm-fixes-6.14-2025-01-29' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next
-
-Jay Cornwall (1):
-      drm/amdkfd: Block per-queue reset when halt_if_hws_hang=1
-
-Kenneth Feng (1):
-      drm/amd/amdgpu: change the config of cgcg on gfx12
-
-Lijo Lazar (1):
-      drm/amd/pm: Mark MM activity as unsupported
-
-Melissa Wen (1):
-      drm/amd/display: restore invalid MSA timing check for freesync
-
-Prike Liang (1):
-      drm/amdkfd: only flush the validate MES contex
-
-loanchen (1):
-      drm/amd/display: Correct register address in dcn35
-
- drivers/gpu/drm/amd/amdgpu/gfx_v12_0.c                       | 11 -----------
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c        |  4 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_process_queue_manager.c       |  7 +++++--
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c            | 12 ++++++++----
- drivers/gpu/drm/amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c |  2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c           |  1 -
- 6 files changed, 16 insertions(+), 21 deletions(-)
+> 
+> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> ---
+>  mm/vmscan.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index bc1826020159..c97adb0fdaa4 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -692,19 +692,16 @@ static pageout_t pageout(struct folio *folio, struct address_space *mapping,
+>  		if (shmem_mapping(mapping) && folio_test_large(folio))
+>  			wbc.list = folio_list;
+>  
+> -		folio_set_reclaim(folio);
+> +		folio_set_dropbehind(folio);
+> +
+>  		res = mapping->a_ops->writepage(&folio->page, &wbc);
+>  		if (res < 0)
+>  			handle_write_error(mapping, folio, res);
+>  		if (res == AOP_WRITEPAGE_ACTIVATE) {
+> -			folio_clear_reclaim(folio);
+> +			folio_clear_dropbehind(folio);
+>  			return PAGE_ACTIVATE;
+>  		}
+>  
+> -		if (!folio_test_writeback(folio)) {
+> -			/* synchronous write or broken a_ops? */
+> -			folio_clear_reclaim(folio);
+> -		}
+>  		trace_mm_vmscan_write_folio(folio);
+>  		node_stat_add_folio(folio, NR_VMSCAN_WRITE);
+>  		return PAGE_SUCCESS;
+> -- 
+> 2.47.2
+> 
