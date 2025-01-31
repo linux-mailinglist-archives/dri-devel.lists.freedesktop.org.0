@@ -2,60 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6732DA23E14
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 14:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75EC9A23E15
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 14:02:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD2BE10EAA7;
-	Fri, 31 Jan 2025 13:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9E1E10EAA9;
+	Fri, 31 Jan 2025 13:02:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nH3v5WYM";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cdms/jwB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
  [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF4B210EAA7
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 13:02:17 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D86F144315;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A05EA10EAA9
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 13:02:19 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7F00A44310;
  Fri, 31 Jan 2025 13:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738328536;
+ t=1738328538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XJwSHV11kphzeXrWnjeXrkif/bqrggQ85lvkHsuBw6I=;
- b=nH3v5WYMhcZfITGnkH86Y6hheRWa1SEIvz7KB6HBphbq37u+6tWJYS1e7+QLOYc9POfX7X
- msU711aBHV7+Hogs8aTslUvpU/SZ7LSn0uHlw8z+Emwcf/7YFWdX657OQLV4ErqkU0iZQi
- I07zWn5sXK6OzvwNfaKOUpgzolb5gBLltg+kn1GB1HHMx+Gjz+RhV2JVQOZA+iyDzMsLjt
- 0mjn8bXFYhZORBqNnSNV7y2aYGn8BJxJUuIamzcRQQgfdqQoWr73JeD9fYDu+GlBQ2p5oZ
- cDZL2jKR/KRiWbcPtQlcI/eRRaOkn3vfHY6XT1Y/pFwW6wL9O9Sap7pU/3Dt6w==
+ bh=lb/K/SCohDoUCh3f9yyufOMMbrIywrLyezp4JOZkI7g=;
+ b=cdms/jwBoySKOD2dUfuAAo/vIHMeeEqQw7PSK9TfVn+DXbQyW+d1JyNX0lhVwrWjeMUpPf
+ s531FqzuyVVanajnVBtZfRFU23LNEXwnHr/rsP6rS0mjUi6QkFxevT43qpRjQws8ibzmvb
+ C7EQJ5cgyORf876q2yjVx34gICIbrKRIpmqkvajlPIYD8SQluQ8jxZbZJuzfsmwXHmlIIy
+ JN9hLbraLNS/EzOmL7jUv4tqGE/tCuFOc2ruGyHYElqszyNhC6+JUVGKT1aQiTSwPPaTzc
+ ZWuqYS/s4nz/eO+PovLimb/KgCP5+buT7D4EOwfBXPVUuJl8KrjAxIoengsj2g==
 Date: Fri, 31 Jan 2025 14:02:14 +0100
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/13] drm/vkms: Allow to configure device
-Message-ID: <Z5zJ1rEZyBEgd7DN@louis-chauvet-laptop>
+Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ jeremie.dautheribes@bootlin.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mairacanal@riseup.net, marcheu@google.com, melissa.srw@gmail.com,
+ miquel.raynal@bootlin.com, mripard@kernel.org,
+ nicolejadeyee@google.com, pekka.paalanen@collabora.com,
+ pekka.paalanen@haloniitty.fi, rdunlap@infradead.org,
+ rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
+ simona.vetter@ffwll.ch, simona@ffwll.ch,
+ thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <Z5zJ1pEk3v-1V5Uu@louis-chauvet-laptop>
 Mail-Followup-To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?=
  <jose.exposito89@gmail.com>, 
- hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250129110059.12199-1-jose.exposito89@gmail.com>
- <Z5uDGr445jEfdt5L@louis-chauvet-laptop> <Z5yYVov9_z6CDU46@fedora>
+ airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ jeremie.dautheribes@bootlin.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mairacanal@riseup.net, marcheu@google.com, melissa.srw@gmail.com,
+ miquel.raynal@bootlin.com, mripard@kernel.org,
+ nicolejadeyee@google.com, pekka.paalanen@collabora.com,
+ pekka.paalanen@haloniitty.fi, rdunlap@infradead.org,
+ rodrigosiqueiramelo@gmail.com, seanpaul@google.com,
+ simona.vetter@ffwll.ch, simona@ffwll.ch,
+ thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+References: <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
+ <20250131084111.2903-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z5yYVov9_z6CDU46@fedora>
+In-Reply-To: <20250131084111.2903-1-jose.exposito89@gmail.com>
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeffeduuddujeevueffkeekhffhkeethefggeeitdduieffhfffkedtfeeggfdvueenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhouhhishdqtghhrghuvhgvthdqlhgrphhtohhppdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmp
- dhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekkeegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefgjeevteekvdelteduuedugeefjeehueejfeekgfdtuefgteefuedtveeikedvkeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhouhhishdqtghhrghuvhgvthdqlhgrphhtohhppdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghrthhhuhhrghhrihhllhhosehrihhsvghuphdrnhgvthdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguv
+ ghskhhtohhprdhorhhgpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehjvghrvghmihgvrdgurghuthhhvghrihgsvghssegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,139 +86,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/01/25 - 10:31, José Expósito wrote:
-> On Thu, Jan 30, 2025 at 02:48:10PM +0100, Louis Chauvet wrote:
-> > On 29/01/25 - 12:00, José Expósito wrote:
-> > > Hi everyone,
-> > > 
-> > > In preparation for ConfigFS support, a flexible way to configure VKMS device(s)
-> > > is required.
-> > > This series adds the required APIs to create a configuration, the code changes
-> > > required to apply it and KUnit test validating the changes.
-> > 
-> > Hi José,
-> 
+On 31/01/25 - 09:41, José Expósito wrote:
 > Hi Louis,
 > 
-> Thanks a lot for the quick review!
-> 
-> > Thanks a lot!
+> > From: Arthur Grillo <arthurgrillo@riseup.net>
 > > 
-> > This series is amazing and better than mine on many points. I have few 
-> > comments:
-> > - a "strange" naming pair: add/destroy (I expect add/remove or 
-> >   create/destroy like other function in DRM)
-> 
-> I used "add" because the function creates and adds a display pipeline
-> items and "destroy" because the opposite function removes it and frees
-> its memory, so I wanted to emphasize that the action was destructive.
-> 
-> However, I don't have a strong preference about the naming. If you
-> prefer another pair of verbs, I'll be happy to change the function
-> names.
-
-So, I think create/destroy is a bit better: `create` with the 
-`vkms_config` parameter is enough to tell "it allocates stuff in 
-`vkms_config`". 
- 
-> > - usage of "complex" list accessors, can't we just create iterators?
-> 
-> Yes, on the first iteration, I used the underlying structure: list
-> iterators for planes/CRTCs/encoders/connectors and xa_for_each for
-> the possible_* items.
-> 
-> However, I found 2 main issues that made me rewrite this code:
-> 
-> The first one is that, if in the future, we change the internal data
-> type, we'll have to change all the code using it. On this way, like
-> I did with all the other vkms_config_*_get_*() functions, the data is
-> encapsulated.
-
-In one of my comment I proposed a macro to help on this point. I think 
-this is sufficient to hide internals. (see patch 7/13)
- 
-> The second one is vkms_config_get_connectors(). Unlike the other
-> functions, this one filters by connector enabled status. If we let the
-> caller do the filtering, we'll duplicate that logic.
-
-That something I missed, and a very good point.
-
-I will try to create a macro that do the filtered iteration, if I succeed 
-and you agree on the previous point, I think it does not worth it to have 
-those huge amount of code just to iterate over a list.
-
-> Because of these two reasons, I decided to add a getter for lists.
-> 
-> > - should we use pr_err in vkms_config_valid?
-> 
-> I think it is great to show to the user a reason why their device couldn't
-> be enabled in dmesg... But I'm not sure if there is a better way to do it.
-
-I was not clear: I agree we want some logs, but pr_err is too 
-agressive (see patch 8/13).
-
-> > > Louis Chauvet and I are working on ConfigFS support. In this series I tried to
-> > > merge his changes [1] with mine [2].
-> > > I kept his Signed-off-by to reflect that, even if I show up as the author of
-> > > some/most of the patches, this was a joint effort.
+> > Create KUnit tests to test the conversion between YUV and RGB. Test each
+> > conversion and range combination with some common colors.
 > > 
-> > To avoid confusion, you should add the Co-developped-by tag, so it will be 
-> > clear that we worked together on this.
-> 
-> Good point, I'll change it.
-> 
-> > > I'm still polishing the ConfigFS code [3] and its IGT tests [4] (connector
-> > > hot-add/remove bugs) but the IGT tests also exercise this series and can be used
-> > > for additional test coverage.
+> > The code used to compute the expected result can be found in comment.
+> >
+> > [Louis Chauvet:
+> > - fix minor formating issues (whitespace, double line)
+> > - change expected alpha from 0x0000 to 0xffff
+> > - adapt to the new get_conversion_matrix usage
+> > - apply the changes from Arthur
+> > - move struct pixel_yuv_u8 to the test itself]
 > > 
-> > I will take a look at those series. For the connector hot-add/remove, do 
-> > you have any example of usage in the kernel? I did not found anything in 
-> > the documentation explaining they are hot-addable.
+> > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> > ---
+
+[...]
+
+> > +	/*
+> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
+> > +	 *                     in_bits = 16,
+> > +	 *                     in_legal = False,
+> > +	 *                     in_int = True,
+> > +	 *                     out_bits = 8,
+> > +	 *                     out_legal = False,
+> > +	 *                     out_int = True)
+> > +	 * Test cases for conversion between YUV BT709 full range and RGB
+> > +	 * using the ITU-R BT.709 weights.
+> > +	 */
+> > +	{
+> > +		.encoding = DRM_COLOR_YCBCR_BT709,
+> > +		.range = DRM_COLOR_YCBCR_FULL_RANGE,
+> > +		.n_colors = 4,
 > 
-> I pushed a couple of WIP commits to the kernel and IGT so you can see/test
-> the crashes and hopefully share some ideas.
+> If I understood correctly, "n_colors" here indicates the number of items in
+> "colors", but there is a mismatch between both lengths.
 > 
-> About the documentation: I didn't find much information other than a few
-> mentions to hot-add/remove. However, in one of my rebases, two new functions, 
-> drm_connector_dynamic_init() and drm_connector_dynamic_register(), were added:
-> https://patchwork.freedesktop.org/patch/628418/
+> It also applies to the other test cases where "n_colors = 4".
 
-Ho! This is exactly one issue I had when developping IGT tests, sometimes 
-you fetch the connector list, and when querying info about a specific 
-connector you get nothing!
-
-> I'm still trying to make them work, but I think they are what we need.
-
-After reading the patch "https://patchwork.freedesktop.org/patch/628418/", 
-I don't think we really need to support "dynamic connector creation" right 
-now:
-- None of the existing driver do it (except MST, but MST need a lot of 
-  stuff to works)
-- If we want to support it later, just create a "useless" 
-  /configfs/vkms/DEV/connectors/CON/enable that you must write 1 before 
-  the device initialization to make the connector working. This way we 
-  will not have to break the UAPI (the file is already there, disabled by 
-  default)
+I don't know how I miss it, I am 100% sure I did the exact same comment to 
+Arthur few mounth ago, thanks!
  
-> Part of the crashes happen on the cleanup of drm_client_setup(). Adding a
-> connector adds modes in the DRM client, but removing the connector doesn't
-> remove them and, on cleanup, I get a NULL pointer.
->
-> I'm a bit stuck, so help or tips are very welcome :)
+> > +		.colors = {
+> > +			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
+> > +			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
+> > +			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
+> > +			{ "red",   { 0x36, 0x63, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
+> > +			{ "green", { 0xb6, 0x1e, 0x0c }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
+> > +			{ "blue",  { 0x12, 0xff, 0x74 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
+> > +		},
+> > +	},
+> > +	/*
 
-I will look at it next week (same repo/branch?).
+[...]
 
-Have a nice weekend,
-Louis Chauvet
+> > +/*
+> > + * vkms_format_test_yuv_u8_to_argb_u16 - Testing the conversion between YUV
+> > + * colors to ARGB colors in VKMS
+> > + *
+> > + * This test will use the functions get_conversion_matrix_to_argb_u16 and
+> > + * argb_u16_from_yuv888 to convert YUV colors (stored in
+> > + * yuv_u8_to_argb_u16_cases) into ARGB colors.
+> > + *
+> > + * The conversion between YUV and RGB is not totally reversible, so there may be
+> > + * some difference between the expected value and the result.
+> > + * In addition, there may be some rounding error as the input color is 8 bits
+> > + * and output color is 16 bits.
+> > + */
+> > +static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
+> > +{
+> > +	const struct yuv_u8_to_argb_u16_case *param = test->param_value;
+> > +	struct pixel_argb_u16 argb;
+> > +
+> > +	for (size_t i = 0; i < param->n_colors; i++) {
+> > +		const struct format_pair *color = &param->colors[i];
+> > +		struct conversion_matrix matrix;
+> > +
+> > +		get_conversion_matrix_to_argb_u16
+> > +			(DRM_FORMAT_NV12, param->encoding, param->range, &matrix);
+> > +
+> > +		argb = argb_u16_from_yuv888(color->yuv.y, color->yuv.u, color->yuv.v, &matrix);
+> 
+> Running the test on ppc64 (big endian) doesn't fail. For reference:
+> 
+>   $ sudo dnf install powerpc64-linux-gnu-gcc
+>   $ sudo dnf install qemu-system-ppc64
+>   $ ./tools/testing/kunit/kunit.py run \
+>      --kunitconfig=drivers/gpu/drm/vkms/tests \
+>      --arch=powerpc --cross_compile=powerpc64-linux-gnu- \
+>      --make_options CF=-D__CHECK_ENDIAN__ \
+>      --kconfig_add CONFIG_KASAN=y \
+>      --kconfig_add CONFIG_KASAN_VMALLOC=y
+> 
+> However, I wonder if endianness is correctly handled. I always find endianness
+> difficult to reason about, but I'll try my best to explain it.
+> 
+> On a big endian architecture, color->yuv is stored in big endian. This might not
+> be an issue, because its components (y, u and v) are u8.
+> However, I think that the return value of argb_u16_from_yuv888(), which is the
+> result of argb_u16_from_u16161616(), is returned in big endian while it should
+> be little endian.
 
+The goal of `struct argb_u16` is to hide machine-specific issues. We want 
+to be able to do addition, multiplication... without 
+`le_from_cpu`/`cpu_to_le` everywhere.
+
+If you look at the rest of the vkms driver, we never do bit manipulation 
+on `struct argb_u16`, only mathematical operations. 
+
+> Since you are comparing argb.a (big endian) with color->argb.a (big endian) the
+> test succedess, but in this case it should fail because, if I remember
+> correctly, colors must be stored in little endian and therefore, the color
+> returned by argb_u16_from_yuv888() should be little endian.
+
+The colors are stored in a specific endian only in framebuffers, but in 
+our case, this is not a framebuffer. For the `argb_u16_to_ARGB16161616`, 
+you can see we use `cpu_to_le16` to store the data in the proper order.
+ 
+> If you replace this 4 KUNIT_EXPECT_LE_MSG() with KUNIT_EXPECT_MEMEQ(), all test
+> will fail, but you'll notice that the buffers printed in the error log are
+> different depending on the endianness (x86_64 vs ppc64).
 > 
-> > Thanks again for this series,
-> > Louis Chauvet
-> 
-> I'll look with more time into your comments in the other patches next week.
-> 
-> Thanks,
-> Jose
-> 
+> What do you think? Did I overlook the conversion?
+
+I think yes, but thanks to make me think about it, I will steal your 
+command line to test on powerPC :)
+
+> Have a look to the tests present in drm_format_helper_test.c. They use different
+> functions (cpubuf_to_le32, le32buf_to_cpu, etc) to make sure that colors are
+> represented in little endian and that comparing the expected and actual results
+> happens in the same endian.
+
+Those tests are testing conversion "buffer to buffer", so yes, there is 
+some endian-dependant issues.
 
 [...]
