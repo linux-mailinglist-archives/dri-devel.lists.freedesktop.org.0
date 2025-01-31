@@ -2,102 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD002A23B57
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 10:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FEFA23B53
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 10:23:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1952F10EA4F;
-	Fri, 31 Jan 2025 09:23:17 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="FmFmsu1Z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+SEzxFxR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FmFmsu1Z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+SEzxFxR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F56410EA49;
+	Fri, 31 Jan 2025 09:23:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31AB110E169
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4FD10E053
  for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 09:23:05 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D539A1F393;
- Fri, 31 Jan 2025 09:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738315383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HY2EgTobPyw4DSubEddeZKXr5Ir+VxEw6Z4EXB8TnzI=;
- b=FmFmsu1ZBLYSAhpe7f14Z7h/NLmcInXXbCEdeaIXPgIWoQ0nnac9/y5uuF0vKaI/gzJL4c
- ANnV8frSDYD2cTRqtxqgDBIVCX1XMYg2hwHVBOp7jue3YokhGLVmqBFWgh6d0pjaYZSrR3
- qrS1Vn4Xy7mbQdDhDb0HnwnStCQvCgM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738315383;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HY2EgTobPyw4DSubEddeZKXr5Ir+VxEw6Z4EXB8TnzI=;
- b=+SEzxFxRKQEcR5UlfNL01lh6Q6i1Bkow6TveIiSbYra8sQvTBRGNTzN/L9xCM2gk5+cbsO
- VBSZelJzB7rYwaBA==
-Authentication-Results: smtp-out2.suse.de;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 09F3121175;
+ Fri, 31 Jan 2025 09:23:04 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738315383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HY2EgTobPyw4DSubEddeZKXr5Ir+VxEw6Z4EXB8TnzI=;
- b=FmFmsu1ZBLYSAhpe7f14Z7h/NLmcInXXbCEdeaIXPgIWoQ0nnac9/y5uuF0vKaI/gzJL4c
- ANnV8frSDYD2cTRqtxqgDBIVCX1XMYg2hwHVBOp7jue3YokhGLVmqBFWgh6d0pjaYZSrR3
- qrS1Vn4Xy7mbQdDhDb0HnwnStCQvCgM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738315383;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HY2EgTobPyw4DSubEddeZKXr5Ir+VxEw6Z4EXB8TnzI=;
- b=+SEzxFxRKQEcR5UlfNL01lh6Q6i1Bkow6TveIiSbYra8sQvTBRGNTzN/L9xCM2gk5+cbsO
- VBSZelJzB7rYwaBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE84B1364B;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAF50139B1;
  Fri, 31 Jan 2025 09:23:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id aGhRKXeWnGd+GwAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id QCs9NHeWnGd+GwAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 31 Jan 2025 09:23:03 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, jfalempe@redhat.com, dri-devel@lists.freedesktop.org
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 08/16] drm/ast: Find VBIOS mode from regular display size
-Date: Fri, 31 Jan 2025 10:21:08 +0100
-Message-ID: <20250131092257.115596-9-tzimmermann@suse.de>
+Subject: [PATCH v3 09/16] drm/ast: Add empty initializer for VBIOS modes
+Date: Fri, 31 Jan 2025 10:21:09 +0100
+Message-ID: <20250131092257.115596-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250131092257.115596-1-tzimmermann@suse.de>
 References: <20250131092257.115596-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -6.80
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_COUNT_TWO(0.00)[2]; FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+];
- R_RATELIMIT(0.00)[to_ip_from(RLc3yndobo9xjuzryszaastcfq)];
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
 X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU]
+X-Spam-Score: -4.00
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 09F3121175
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,81 +68,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The ast driver looks up supplied display modes from an internal list of
-display modes supported by the VBIOS.
+VBIOS mode tables are terminated by an entry with a refresh rate of
+0xff. The code is hard to read and fragile to use. Therefore create
+an empty entry with AST_VBIOS_MODE_INVALID to terminate each mode list.
 
-Do not use the crtc_-prefixed display values from struct drm_display_mode
-for looking up the VBIOS mode. The fields contain raw values that the
-driver programs to hardware. They are affected by display settings like
-double-scan or interlace.
-
-Instead use the regular vdisplay and hdisplay fields for lookup. As the
-programmed values can now differ from the values used for lookup, set
-struct drm_display_mode.crtc_vdisplay and .crtc_hdisplay from the VBIOS
-mode.
+Stop at the invalid entry when searching for modes in the tables.
+Instead of testing for refresh == 0xff, test with a helper function if
+the mode's size and refresh have meaningful values.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 ---
- drivers/gpu/drm/ast/ast_mode.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/ast/ast_mode.c   |  2 +-
+ drivers/gpu/drm/ast/ast_tables.h | 52 ++++++++++++++------------------
+ 2 files changed, 24 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index a484292c96453..961bc2efbc029 100644
+index 961bc2efbc029..3f437f871a357 100644
 --- a/drivers/gpu/drm/ast/ast_mode.c
 +++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -131,7 +131,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		return false;
- 	}
+@@ -179,7 +179,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
  
--	switch (mode->crtc_hdisplay) {
-+	switch (mode->hdisplay) {
- 	case 640:
- 		vbios_mode->enh_table = &res_640x480[refresh_rate_index];
- 		break;
-@@ -145,7 +145,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		vbios_mode->enh_table = &res_1152x864[refresh_rate_index];
- 		break;
- 	case 1280:
--		if (mode->crtc_vdisplay == 800)
-+		if (mode->vdisplay == 800)
- 			vbios_mode->enh_table = &res_1280x800[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1280x1024[refresh_rate_index];
-@@ -157,7 +157,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		vbios_mode->enh_table = &res_1440x900[refresh_rate_index];
- 		break;
- 	case 1600:
--		if (mode->crtc_vdisplay == 900)
-+		if (mode->vdisplay == 900)
- 			vbios_mode->enh_table = &res_1600x900[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1600x1200[refresh_rate_index];
-@@ -166,7 +166,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 		vbios_mode->enh_table = &res_1680x1050[refresh_rate_index];
- 		break;
- 	case 1920:
--		if (mode->crtc_vdisplay == 1080)
-+		if (mode->vdisplay == 1080)
- 			vbios_mode->enh_table = &res_1920x1080[refresh_rate_index];
- 		else
- 			vbios_mode->enh_table = &res_1920x1200[refresh_rate_index];
-@@ -201,6 +201,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 	hborder = (vbios_mode->enh_table->flags & HBorder) ? 8 : 0;
- 	vborder = (vbios_mode->enh_table->flags & VBorder) ? 8 : 0;
+ 	loop = vbios_mode->enh_table;
  
-+	adjusted_mode->crtc_hdisplay = vbios_mode->enh_table->hde;
- 	adjusted_mode->crtc_htotal = vbios_mode->enh_table->ht;
- 	adjusted_mode->crtc_hblank_start = vbios_mode->enh_table->hde + hborder;
- 	adjusted_mode->crtc_hblank_end = vbios_mode->enh_table->ht - hborder;
-@@ -210,6 +211,7 @@ static bool ast_get_vbios_mode_info(const struct drm_format_info *format,
- 					 vbios_mode->enh_table->hfp +
- 					 vbios_mode->enh_table->hsync);
+-	while (loop->refresh_rate != 0xff) {
++	while (ast_vbios_mode_is_valid(loop)) {
+ 		if (((mode->flags & DRM_MODE_FLAG_NVSYNC) && (loop->flags & PVSync))  ||
+ 		    ((mode->flags & DRM_MODE_FLAG_PVSYNC) && (loop->flags & NVSync))  ||
+ 		    ((mode->flags & DRM_MODE_FLAG_NHSYNC) && (loop->flags & PHSync))  ||
+diff --git a/drivers/gpu/drm/ast/ast_tables.h b/drivers/gpu/drm/ast/ast_tables.h
+index 0378c9bc079b0..4367817b2f806 100644
+--- a/drivers/gpu/drm/ast/ast_tables.h
++++ b/drivers/gpu/drm/ast/ast_tables.h
+@@ -24,6 +24,8 @@
+ #ifndef AST_TABLES_H
+ #define AST_TABLES_H
  
-+	adjusted_mode->crtc_vdisplay = vbios_mode->enh_table->vde;
- 	adjusted_mode->crtc_vtotal = vbios_mode->enh_table->vt;
- 	adjusted_mode->crtc_vblank_start = vbios_mode->enh_table->vde + vborder;
- 	adjusted_mode->crtc_vblank_end = vbios_mode->enh_table->vt - vborder;
++#include "ast_drv.h"
++
+ /* Std. Table Index Definition */
+ #define TextModeIndex		0
+ #define EGAModeIndex		1
+@@ -212,6 +214,14 @@ static const struct ast_vbios_stdtable vbios_stdtable[] = {
+ 	},
+ };
+ 
++#define AST_VBIOS_INVALID_MODE \
++	{0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u, 0u}
++
++static inline bool ast_vbios_mode_is_valid(const struct ast_vbios_enhtable *vmode)
++{
++	return vmode->ht && vmode->vt && vmode->refresh_rate;
++}
++
+ static const struct ast_vbios_enhtable res_640x480[] = {
+ 	{ 800, 640, 8, 96, 525, 480, 2, 2, VCLK25_175,	/* 60Hz */
+ 	  (SyncNN | HBorder | VBorder | Charx8Dot), 60, 1, 0x2E },
+@@ -221,8 +231,7 @@ static const struct ast_vbios_enhtable res_640x480[] = {
+ 	  (SyncNN | Charx8Dot) , 75, 3, 0x2E },
+ 	{ 832, 640, 56, 56, 509, 480, 1, 3, VCLK36,	/* 85Hz */
+ 	  (SyncNN | Charx8Dot) , 85, 4, 0x2E },
+-	{ 832, 640, 56, 56, 509, 480, 1, 3, VCLK36,	/* end */
+-	  (SyncNN | Charx8Dot) , 0xFF, 4, 0x2E },
++	AST_VBIOS_INVALID_MODE,				/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_800x600[] = {
+@@ -236,8 +245,7 @@ static const struct ast_vbios_enhtable res_800x600[] = {
+ 	 (SyncPP | Charx8Dot), 75, 4, 0x30 },
+ 	{1048, 800, 32, 64, 631, 600, 1, 3, VCLK56_25,	/* 85Hz */
+ 	 (SyncPP | Charx8Dot), 84, 5, 0x30 },
+-	{1048, 800, 32, 64, 631, 600, 1, 3, VCLK56_25,	/* end */
+-	 (SyncPP | Charx8Dot), 0xFF, 5, 0x30 },
++	AST_VBIOS_INVALID_MODE,				/* end */
+ };
+ 
+ 
+@@ -250,8 +258,7 @@ static const struct ast_vbios_enhtable res_1024x768[] = {
+ 	 (SyncPP | Charx8Dot), 75, 3, 0x31 },
+ 	{1376, 1024, 48, 96, 808, 768, 1, 3, VCLK94_5,	/* 85Hz */
+ 	 (SyncPP | Charx8Dot), 84, 4, 0x31 },
+-	{1376, 1024, 48, 96, 808, 768, 1, 3, VCLK94_5,	/* end */
+-	 (SyncPP | Charx8Dot), 0xFF, 4, 0x31 },
++	AST_VBIOS_INVALID_MODE,				/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_1280x1024[] = {
+@@ -261,31 +268,26 @@ static const struct ast_vbios_enhtable res_1280x1024[] = {
+ 	 (SyncPP | Charx8Dot), 75, 2, 0x32 },
+ 	{1728, 1280, 64, 160, 1072, 1024, 1, 3, VCLK157_5,	/* 85Hz */
+ 	 (SyncPP | Charx8Dot), 85, 3, 0x32 },
+-	{1728, 1280, 64, 160, 1072, 1024, 1, 3, VCLK157_5,	/* end */
+-	 (SyncPP | Charx8Dot), 0xFF, 3, 0x32 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_1600x1200[] = {
+ 	{2160, 1600, 64, 192, 1250, 1200, 1, 3, VCLK162,	/* 60Hz */
+ 	 (SyncPP | Charx8Dot), 60, 1, 0x33 },
+-	{2160, 1600, 64, 192, 1250, 1200, 1, 3, VCLK162,	/* end */
+-	 (SyncPP | Charx8Dot), 0xFF, 1, 0x33 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_1152x864[] = {
+ 	{1600, 1152, 64, 128,  900,  864, 1, 3, VCLK108,	/* 75Hz */
+ 	 (SyncPP | Charx8Dot | NewModeInfo), 75, 1, 0x3B },
+-	{1600, 1152, 64, 128,  900,  864, 1, 3, VCLK108,	/* end */
+-	 (SyncPP | Charx8Dot | NewModeInfo), 0xFF, 1, 0x3B },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ /* 16:9 */
+ static const struct ast_vbios_enhtable res_1360x768[] = {
+ 	{1792, 1360, 64, 112, 795, 768, 3, 6, VCLK85_5,		/* 60Hz */
+ 	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 1, 0x39 },
+-	{1792, 1360, 64, 112, 795, 768, 3, 6, VCLK85_5,	         /* end */
+-	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
+-	  AST2500PreCatchCRT), 0xFF, 1, 0x39 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_1600x900[] = {
+@@ -294,17 +296,14 @@ static const struct ast_vbios_enhtable res_1600x900[] = {
+ 	  AST2500PreCatchCRT), 60, 1, 0x3A },
+ 	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
+ 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 2, 0x3A },
+-	{2112, 1600, 88, 168, 934, 900, 3, 5, VCLK118_25,	/* 60Hz CVT */
+-	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 0xFF, 2, 0x3A },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_1920x1080[] = {
+ 	{2200, 1920, 88, 44, 1125, 1080, 4, 5, VCLK148_5,	/* 60Hz */
+ 	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
+ 	  AST2500PreCatchCRT), 60, 1, 0x38 },
+-	{2200, 1920, 88, 44, 1125, 1080, 4, 5, VCLK148_5,	/* 60Hz */
+-	 (SyncPP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
+-	  AST2500PreCatchCRT), 0xFF, 1, 0x38 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ 
+@@ -315,8 +314,7 @@ static const struct ast_vbios_enhtable res_1280x800[] = {
+ 	  AST2500PreCatchCRT), 60, 1, 0x35 },
+ 	{1680, 1280, 72,128,  831,  800, 3, 6, VCLK83_5,	/* 60Hz */
+ 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 2, 0x35 },
+-	{1680, 1280, 72,128,  831,  800, 3, 6, VCLK83_5,	/* 60Hz */
+-	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 0xFF, 2, 0x35 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ 
+ };
+ 
+@@ -326,8 +324,7 @@ static const struct ast_vbios_enhtable res_1440x900[] = {
+ 	  AST2500PreCatchCRT), 60, 1, 0x36 },
+ 	{1904, 1440, 80,152,  934,  900, 3, 6, VCLK106_5,	/* 60Hz */
+ 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 2, 0x36 },
+-	{1904, 1440, 80,152,  934,  900, 3, 6, VCLK106_5,	/* 60Hz */
+-	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 0xFF, 2, 0x36 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_1680x1050[] = {
+@@ -336,17 +333,14 @@ static const struct ast_vbios_enhtable res_1680x1050[] = {
+ 	  AST2500PreCatchCRT), 60, 1, 0x37 },
+ 	{2240, 1680,104,176, 1089, 1050, 3, 6, VCLK146_25,	/* 60Hz */
+ 	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 60, 2, 0x37 },
+-	{2240, 1680,104,176, 1089, 1050, 3, 6, VCLK146_25,	/* 60Hz */
+-	 (SyncPN | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo), 0xFF, 2, 0x37 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ static const struct ast_vbios_enhtable res_1920x1200[] = {
+ 	{2080, 1920, 48, 32, 1235, 1200, 3, 6, VCLK154,		/* 60Hz RB*/
+ 	 (SyncNP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
+ 	  AST2500PreCatchCRT), 60, 1, 0x34 },
+-	{2080, 1920, 48, 32, 1235, 1200, 3, 6, VCLK154,		/* 60Hz RB */
+-	 (SyncNP | Charx8Dot | LineCompareOff | WideScreenMode | NewModeInfo |
+-	  AST2500PreCatchCRT), 0xFF, 1, 0x34 },
++	AST_VBIOS_INVALID_MODE,					/* end */
+ };
+ 
+ #endif
 -- 
 2.48.1
 
