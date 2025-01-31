@@ -2,80 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDCBA23AB5
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 09:35:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD69A23AC7
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 09:40:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B80610E149;
-	Fri, 31 Jan 2025 08:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C300E10E1BB;
+	Fri, 31 Jan 2025 08:40:50 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kTsxTtZw";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5092B10E149
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 08:35:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 57AEB5C62BF;
- Fri, 31 Jan 2025 08:34:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574ACC4CED1;
- Fri, 31 Jan 2025 08:35:33 +0000 (UTC)
-Message-ID: <2b745a6f-b177-4590-94f5-0aa2145d5c3d@xs4all.nl>
-Date: Fri, 31 Jan 2025 09:35:31 +0100
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0B310E1BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 08:40:49 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-3862ca8e0bbso1425944f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 00:40:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1738312847; x=1738917647; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=TW/Jk6AHRJuQHT82twXaYQqc4zjBEepsqdONtoOlsw4=;
+ b=kTsxTtZwq7o3Baie6YoAi9NdlyCYjcRiUeITkc/s2BA3EiwHU6o7HU/6FBjbHCoihE
+ m47hL6zooFwdO6fsFOiZgWBd45k1Rtc6jII5CYBpY8DgkUeJBv6WdiShNWB8+l9KmEML
+ ijTFCtpvEI5FgzjWQw0LV1gzAd3xzELlSMOABmxOVL92tljmPWVoZGR0dWy4JL1D3a8K
+ m1+r1m73y9DRoBmKO13SGvWUXzZLBcPV7cphBmeFp1Lx2q3qzPGEG1QU3NsNMAg/cuE7
+ tgMvyUYWDhZrHj8HafiXseRr/PVZSDG0XkWiVTw3nc4ZxdCity3lAQfdguU/Z1pAMBBV
+ M6gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738312847; x=1738917647;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=TW/Jk6AHRJuQHT82twXaYQqc4zjBEepsqdONtoOlsw4=;
+ b=pAogYxAGFWvQaBCZq9ZQZwhUKX1aWVJwsvd2nhCwm+0PUtdQWuDxnsc5tjOyyrUjpe
+ E5PrygBODGQ4ScaxqFEjCyclVlRGZzuDy2C6tmaOB4io8V5q+6qxoQJnsA1tBkc2unGw
+ GfnuKdohogesMXJtm1h9CZeEUbHsR6s20uX/PRCPmlDXW9237GDnl/KQvgzmYvv2WGTQ
+ ZH/N73iWd7GcUF9tQw53qmUzkLLCJUgwq9+DzWrHtq66yrP6anSvvEoTzLiq7MHZg1JX
+ zxOOIlQ/G9/hC4oaIoQ3bE+mXAFlFoj+BBssBU0y+Gzxzcykc8ddzntGtaeS/XgdGrav
+ /CTA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWf1v6JzVp7pzBFXBdYZ5dXOUj/6IEsu7KEekcK/dfTbARjNHD0p3lHtBZnC1cEON8E0H5hfReqtSg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxX8ThXssrX7xePu7JTSmL3W2NI9vKThewFclMDAAsmiVvX2wks
+ M4N2LMLpuKE4smGoGZHXOKyRohHMQ7xTiiFzhkwUMqYUayb0uaMb
+X-Gm-Gg: ASbGnctQt9UEUBkz6eCs1whp1rJ+KHUMA1+Yh7wrevPcqVOBzbJgfMYtTwQrcgqvqP2
+ YPflG9CY7rdgwDRx5eTW/O1eWzdfU3GeQXz3u9UD88sooyziTrxQ/wibwPp8Bxb18YI5NSHgUAV
+ DQ6g4GkdTcXcQHy+LE+yiPbzwJiuqIGspsWHingu+L4SYtKoP5T2Fyot/w31a245pHi3oc3Ob7l
+ sv/sZCoeZE/+15RPFZqLL5fRbQvRSuYGb6bEWYS9xYgdeK8nZ33NBVx8BxKhBrkN8bKIOklLHrM
+ oEThhPx1WS4FnFGf
+X-Google-Smtp-Source: AGHT+IGLZ7dclEPxy7l0oMnBB+13a8iscVbSdcuAWf67ZXDM9KAY5KRxxtRghjO34bfzpqVLfXp54A==
+X-Received: by 2002:a5d:6d88:0:b0:38a:418e:1179 with SMTP id
+ ffacd0b85a97d-38c519380afmr10198224f8f.2.1738312847155; 
+ Fri, 31 Jan 2025 00:40:47 -0800 (PST)
+Received: from fedora.. ([94.73.37.161]) by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c5c102ac9sm3990757f8f.29.2025.01.31.00.40.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Jan 2025 00:40:46 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: louis.chauvet@bootlin.com
+Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
+ jeremie.dautheribes@bootlin.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mairacanal@riseup.net, marcheu@google.com, melissa.srw@gmail.com,
+ miquel.raynal@bootlin.com, mripard@kernel.org, nicolejadeyee@google.com,
+ pekka.paalanen@haloniitty.fi, rdunlap@infradead.org,
+ rodrigosiqueiramelo@gmail.com, seanpaul@google.com, simona.vetter@ffwll.ch,
+ simona@ffwll.ch, thomas.petazzoni@bootlin.com, tzimmermann@suse.de
+Subject: [PATCH v16 3/7] drm/vkms: Drop YUV formats TODO
+Date: Fri, 31 Jan 2025 09:40:45 +0100
+Message-ID: <20250131084045.2874-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250121-yuv-v16-3-a61f95a99432@bootlin.com>
+References: <20250121-yuv-v16-3-a61f95a99432@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: drm_dp_cec: fix broken CEC adapter properties check
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Farblos <farblos@vodafonemail.de>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <361bb03d-1691-4e23-84da-0861ead5dbdc@xs4all.nl>
- <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <4df44e18-68a0-4cfc-9641-1742d024faf3@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,103 +94,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/01/2025 13:21, Hans Verkuil wrote:
-> On 29/01/2025 10:51, Hans Verkuil wrote:
->> If the hotplug detect of a display is low for longer than one second
->> (configurable through drm_dp_cec_unregister_delay), then the CEC adapter
->> is unregistered since we assume the display was disconnected. If the
->> HPD went low for less than one second, then we check if the properties
->> of the CEC adapter have changed, since that indicates that we actually
->> switch to new hardware and we have to unregister the old CEC device and
->> register a new one.
->>
->> Unfortunately, the test for changed properties was written poorly, and
->> after a new CEC capability was added to the CEC core code the test always
->> returned true (i.e. the properties had changed).
->>
->> As a result the CEC device was unregistered and re-registered for every
->> HPD toggle. If the CEC remote controller integration was also enabled
->> (CONFIG_MEDIA_CEC_RC was set), then the corresponding input device was
->> also unregistered and re-registered. As a result the input device in
->> /sys would keep incrementing its number, e.g.:
->>
->> /sys/devices/pci0000:00/0000:00:08.1/0000:e7:00.0/rc/rc0/input20
->>
->> Since short HPD toggles are common, the number could over time get into
->> the thousands.
->>
->> While not a serious issue (i.e. nothing crashes), it is not intended
->> to work that way.
->>
->> This patch changes the test so that it only checks for the single CEC
->> capability that can actually change, and it ignores any other
->> capabilities, so this is now safe as well if new caps are added in
->> the future.
->>
->> With the changed test the bit under #ifndef CONFIG_MEDIA_CEC_RC can be
->> dropped as well, so that's a nice cleanup.
->>
->> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
->> Reported-by: Farblos <farblos@vodafonemail.de>
+Hi Louis,
+
+Thanks a lot for the patches.
+
+I'm not well versed in YUV color formats, so I did my best reading the kernel
+documentation before reviewing this series... But I'll most likely ask some
+basic/dump questions.
+
+> From: Arthur Grillo <arthurgrillo@riseup.net>
 > 
-> Fixes: 2c6d1fffa1d9 ("drm: add support for DisplayPort CEC-Tunneling-over-AUX")
-
-Cc: <stable@vger.kernel.org> # 6.12
-
-While the bug has been present since the introduction of drm_dp_cec.c, it lay
-dormant until a new CEC capability was introduced in 6.12. So this fix doesn't need
-to be backported all the way, just from 6.12 onwards.
-
-Dmitry, do you want to pick this up? I can do it as well, but it is quite some
-time ago since I last worked with drm.
-
-Regards,
-
-	Hans
-
+> VKMS has support for YUV formats now. Remove the task from the TODO
+> list.
 > 
-> Regards,
+> Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  Documentation/gpu/vkms.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> 	Hans
-> 
->> ---
->> Jens (aka Farblos), can you test this patch?
->> ---
->>  drivers/gpu/drm/display/drm_dp_cec.c | 14 +++-----------
->>  1 file changed, 3 insertions(+), 11 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/display/drm_dp_cec.c b/drivers/gpu/drm/display/drm_dp_cec.c
->> index 007ceb281d00..56a4965e518c 100644
->> --- a/drivers/gpu/drm/display/drm_dp_cec.c
->> +++ b/drivers/gpu/drm/display/drm_dp_cec.c
->> @@ -311,16 +311,6 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
->>  	if (!aux->transfer)
->>  		return;
->>
->> -#ifndef CONFIG_MEDIA_CEC_RC
->> -	/*
->> -	 * CEC_CAP_RC is part of CEC_CAP_DEFAULTS, but it is stripped by
->> -	 * cec_allocate_adapter() if CONFIG_MEDIA_CEC_RC is undefined.
->> -	 *
->> -	 * Do this here as well to ensure the tests against cec_caps are
->> -	 * correct.
->> -	 */
->> -	cec_caps &= ~CEC_CAP_RC;
->> -#endif
->>  	cancel_delayed_work_sync(&aux->cec.unregister_work);
->>
->>  	mutex_lock(&aux->cec.lock);
->> @@ -337,7 +327,9 @@ void drm_dp_cec_attach(struct drm_dp_aux *aux, u16 source_physical_address)
->>  		num_las = CEC_MAX_LOG_ADDRS;
->>
->>  	if (aux->cec.adap) {
->> -		if (aux->cec.adap->capabilities == cec_caps &&
->> +		/* Check if the adapter properties have changed */
->> +		if ((aux->cec.adap->capabilities & CEC_CAP_MONITOR_ALL) ==
->> +		    (cec_caps & CEC_CAP_MONITOR_ALL) &&
->>  		    aux->cec.adap->available_log_addrs == num_las) {
->>  			/* Unchanged, so just set the phys addr */
->>  			cec_s_phys_addr(aux->cec.adap, source_physical_address, false);
-> 
-> 
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index ba04ac7c2167a9d484c54c69a09a2fb8f2d9c0aa..13b866c3617cd44043406252d3caa912c931772f 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -122,8 +122,7 @@ There's lots of plane features we could add support for:
+>  
+>  - Scaling.
+>  
+> -- Additional buffer formats, especially YUV formats for video like NV12.
+> -  Low/high bpp RGB formats would also be interesting.
+> +- Additional buffer formats. Low/high bpp RGB formats would be interesting.
 
+I see that you implemented support for 6 DRM_FORMAT_NV* formats, but
+DRM_FORMAT_NV15, DRM_FORMAT_NV20 and DRM_FORMAT_NV30 are not implemented.
+
+The same applies to DRM_FORMAT_Y210 or DRM_FORMAT_YUV410 among others.
+
+Could it be useful to implement all of them in the future? If so, should we add
+it to the ToDo list?
+It might be a great task to get started in kernel development, as there are
+already similar examples and tests.
+
+>  
+>  - Async updates (currently only possible on cursor plane using the legacy
+>    cursor api).
+> 
