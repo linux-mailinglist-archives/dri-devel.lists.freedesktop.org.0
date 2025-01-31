@@ -2,111 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F46A24188
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 18:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3FD3A2419A
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 18:12:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E1F510E3FD;
-	Fri, 31 Jan 2025 17:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE0810E091;
+	Fri, 31 Jan 2025 17:12:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="kMF8ijrH";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="jOBW4E26";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 128B510E3FE
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 17:06:03 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-43635796b48so14417265e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 09:06:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1738343161; x=1738947961; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=G+G4waO4iWi5ppsP27MVzR5EHmBlY2mxPNF1CuedbFM=;
- b=kMF8ijrHFQdlZFrXzHJCQZOzy+oa5nn03uB3NEc/rh8tllaow04oVNSqrtZ66Qz8XA
- ph8zD2fUVcQZJ8r10m/G6dYE222EM67hPSCDSWFEFO3cMQML/Q9ysshMFxEMmZH4Zt1W
- 7yCBA2CbAC8iolbilOuuV30H0Vp9hxI/chUtA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738343161; x=1738947961;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G+G4waO4iWi5ppsP27MVzR5EHmBlY2mxPNF1CuedbFM=;
- b=jy4SjGd9eit+0AO0yvBxUro9i3x7T+Q2kCbCw71eE7TlaUrxq9HyKZbDBud20frwUz
- i1wTuurwMNh4wAThvIzTIw89Dc3gI87cZd47r32to90qvZWUXOmXLodvBg8clXKno+Oj
- mHFaBBX8ozfS7ujPw8e2nBjSoXnw0nI0kT5vpB6dO/CQsriHej3MDP9f+uMRIenFkxIf
- E5PMYASb7acp70tyQoVKxDcZlmk1egmrR7c4GhxntN1ajpcR5cNtT7tqPyRSWH4diqf1
- ehJQedV+ZJb3qODczJR8ph2rq02rp/uuzYWx7EPfqwh1qq3fZP4ZJE+8ogHIYy469+ie
- bJvg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXuHniLWkmhC7TjKpDAR0P5gHBC/q8hP99hGD0QadCzhoXk7kquJzn8fFCL0sPS5UGHFuVL67pRJX0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1knxWEY63aBYlxSFUe/awm4YahPR3XUNyzwG46tSrgXB9Gr7L
- mfCfNKMv9/0akaX+lEt38kOBSqiJsOrS3Tx9QR08HgsNzivfE8Bfq+7V+Ei5rvA=
-X-Gm-Gg: ASbGncvIbkcM79F4JEQTCEBlys6jULwzqAIjjcDEzIF2XTIqNl3eTgWzON7Ki15oDGJ
- XFxlE/AiP+DOTXCLAChcjrqF/AsYfOq0OL9qiRTQv3Jp9nuFIKqdMJPk9rbJ5bQ8ztsPCkssy7C
- AfVYujoA9SoyxjE8cyhe2AbXa6Da4+g+lmVJoJYHrNtWI+6fjTxZC5t7MhhjnebcbrOMxCUMD5O
- Vga0NmXK0a0ImzePojWtno/xNv8lkSo3a/GGv+NDelS4ePzsDtwJDjnUNbfLunzRZKuMGYmldAs
- DXT28OgOVd+hO5s78v3qlfUZ724=
-X-Google-Smtp-Source: AGHT+IHqJ7SXWObwA7TE2hNt8h99Mz+Rh4lA4VBEyCv4JI/V7wPQqHQuFCcfla/1mLYWhuuiSze4/A==
-X-Received: by 2002:a05:600c:83c6:b0:434:f2af:6e74 with SMTP id
- 5b1f17b1804b1-438e170e7b5mr73728995e9.15.1738343161267; 
- Fri, 31 Jan 2025 09:06:01 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438e23e5e53sm60120095e9.17.2025.01.31.09.05.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Jan 2025 09:06:00 -0800 (PST)
-Date: Fri, 31 Jan 2025 18:05:58 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: David Hildenbrand <david@redhat.com>
-Cc: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v1 05/12] mm/memory: detect writability in
- restore_exclusive_pte() through can_change_pte_writable()
-Message-ID: <Z50C9tyZC_wQS6Ux@phenom.ffwll.local>
-Mail-Followup-To: David Hildenbrand <david@redhat.com>,
- Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>,
- =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-6-david@redhat.com>
- <Z5tLmYOQaZrdWQHN@phenom.ffwll.local>
- <2670f65f-e973-483e-aed6-526d00125ad7@redhat.com>
- <Z5t4rrkRiOsRY2jH@phenom.ffwll.local>
- <z7s7xb2ftv5hqg3uzjqkou6enguleazwwehxbi5zulbkar2aej@zlbdh2kdewdn>
- <d552cc03-b7af-44be-bcaf-13da720a2226@redhat.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5A8A10E091
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 17:12:53 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50VGvTs3012737;
+ Fri, 31 Jan 2025 17:12:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ xa33Uki9JwMISfJXTyskf/bagu1pRj2S+WNwAyM6Xko=; b=jOBW4E26VYbjCjmj
+ pPZypvt0yvvFM5XzKHE99/dSDc26BET2mBUjeXG3o/tJDBZUW2hvKTtlmUIdojzD
+ CtgMR+rjI6vyuX1EyCZsV+9hweNBYvyLvxY1AZ7VXY/mP2Jq5eAOwonEzzKlIdeE
+ 0HwEeoJgjDEN5POosEM971T72jBXIPk6MD8YzWRZtFLfMwR8U6qIDSn3jc5oXWaB
+ f+tAgAJto5a47bzXNcBVc7DCj/+CHrbzvpvk//asvJvCAomDwqjAHYTEvH+ziYTM
+ hHJoRidV40TxtQPPOumP99PyVi0VvxGUopAE0tphBlwAGjMvpwUL1OOqAbDPVCwO
+ FnLhIQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44h2gd81dp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Jan 2025 17:12:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50VHCibE009199
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 31 Jan 2025 17:12:44 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 31 Jan
+ 2025 09:12:43 -0800
+Message-ID: <9fd4a356-6a4f-714e-2b14-dafd20d703ab@quicinc.com>
+Date: Fri, 31 Jan 2025 10:12:42 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d552cc03-b7af-44be-bcaf-13da720a2226@redhat.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2 0/7] accel/qaic: Initial AIC200 support
+Content-Language: en-US
+To: <quic_carlv@quicinc.com>, <manivannan.sadhasivam@linaro.org>,
+ <quic_yabdulra@quicinc.com>, <quic_mattleun@quicinc.com>,
+ <quic_thanson@quicinc.com>
+CC: <ogabbay@kernel.org>, <lizhi.hou@amd.com>,
+ <jacek.lawrynowicz@linux.intel.com>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <mhi@lists.linux.dev>
+References: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20250117170943.2643280-1-quic_jhugo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: QEKdxOym9gRQgj4N-A2AajIVjFvGOhF4
+X-Proofpoint-GUID: QEKdxOym9gRQgj4N-A2AajIVjFvGOhF4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-31_06,2025-01-31_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ impostorscore=0 adultscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
+ definitions=main-2501310131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,85 +93,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 31, 2025 at 11:55:55AM +0100, David Hildenbrand wrote:
-> On 31.01.25 00:06, Alistair Popple wrote:
-> > On Thu, Jan 30, 2025 at 02:03:42PM +0100, Simona Vetter wrote:
-> > > On Thu, Jan 30, 2025 at 10:58:51AM +0100, David Hildenbrand wrote:
-> > > > On 30.01.25 10:51, Simona Vetter wrote:
-> > > > > On Wed, Jan 29, 2025 at 12:54:03PM +0100, David Hildenbrand wrote:
-> > > > > > Let's do it just like mprotect write-upgrade or during NUMA-hinting
-> > > > > > faults on PROT_NONE PTEs: detect if the PTE can be writable by using
-> > > > > > can_change_pte_writable().
-> > > > > > 
-> > > > > > Set the PTE only dirty if the folio is dirty: we might not
-> > > > > > necessarily have a write access, and setting the PTE writable doesn't
-> > > > > > require setting the PTE dirty.
-> > > > > 
-> > > > > Not sure whether there's much difference in practice, since a device
-> > > > > exclusive access means a write, so the folio better be dirty (unless we
-> > > > > aborted halfway through). But then I couldn't find the code in nouveau to
-> > > > > do that, so now I'm confused.
-> > > > 
-> > > > That confused me as well. Requiring the PTE to be writable does not imply
-> > > > that it is dirty.
-> > > > 
-> > > > So something must either set the PTE or the folio dirty.
-> > > 
-> > > Yeah I'm not finding that something.
-> > > 
-> > > > ( In practice, most anonymous folios are dirty most of the time ... )
-> > > 
-> > > And yup that's why I think it hasn't blown up yet.
-> > > 
-> > > > If we assume that "device-exclusive entries" are always dirty, then it
-> > > > doesn't make sense to set the folio dirty when creating device-exclusive
-> > > > entries. We'd always have to set the PTE dirty when restoring the exclusive
-> > > > pte.
-> > > 
-> > > I do agree with your change, I think it's correct to put this
-> > > responsibility onto drivers. It's just that nouveau seems to not be
-> > > entirely correct.
-> > 
-> > Yeah, agree it should be a driver responsibility but also can't see how nouveau
-> > is correct there either. I might see if I can get it to blow up...
+On 1/17/2025 10:09 AM, Jeffrey Hugo wrote:
+> Initial support to the driver to boot up AIC200. AIC200 uses BHIe
+> without BHI, which is something that the MHI bus has not supported until
+> now. While the MHI changes are listed first to facilitate cross-tree
+> merging, they are not needed until the last change in the series.
 > 
-> (in context of the rmap walkers) The question is, how do we consider
-> device-exclusive entries:
+> Also, AIC200 is a different product from AIC100 with MSI-X, different
+> BARs, and different MHI configuration so we finally need some
+> infrastructure in the driver to be able to handle product differences.
+> This is expected to evolve more over time.
 > 
-> (1) dirty? Not from a CPU perspective.
-> (2) referenced? Not from a CPU perspective.
+> v2:
+> -Remove inline on mhi_fw_load_error_dump() and shorten stack variable
+> lines
+> -Simplify kcalloc from mhi_alloc_bhi_buffer()
+> -Inline mhi_firmware_copy_bhi() and drop the function
+> -Fix spelling of MHI/BHIe in commit text of patch 2
+> -Drop MHI_FW_LOAD_UNKNOWN
+> -Simplify mhi_fw_load_type_get()
+> -Rename mhi_send_image_bhi() to mhi_load_image_bhi()
+> -Rename mhi_send_image_bhie() to mhi_load_image_bhie()
+> -Adjust the order of mhi_cntrl init in qaic_mhi_register_controller()
 > 
-> If the answer is always "no" to all questions, then memory notifiers must
-> handle it, because we'd be answering the question from the CPU point of
-> view.
+> Jeffrey Hugo (2):
+>    accel/qaic: Add config structs for supported cards
+>    accel/qaic: Add AIC200 support
 > 
-> If the answer is always "yes", there is a problem: we can only make it
-> clean/young by converting it to an ordinary PTE first (requiring MMU
-> notifiers etc.), which makes it quite nasty.
+> Matthew Leung (2):
+>    bus: mhi: host: Refactor BHI/BHIe based firmware loading
+>    bus: mhi: host: Add a policy to enable image transfer via BHIe in PBL
 > 
-> Mixed answers are not possible, because we don't know just from staring at
-> the entry.
+> Youssef Samir (3):
+>    accel/qaic: Allocate an exact number of MSIs
+>    accel/qaic: Add support for MSI-X
+>    accel/qaic: Mask out SR-IOV PCI resources
+> 
+>   drivers/accel/qaic/mhi_controller.c | 360 ++++++++++++++++++++++++++--
+>   drivers/accel/qaic/mhi_controller.h |   2 +-
+>   drivers/accel/qaic/qaic.h           |  14 +-
+>   drivers/accel/qaic/qaic_drv.c       |  97 +++++---
+>   drivers/accel/qaic/qaic_timesync.c  |   2 +-
+>   drivers/accel/qaic/sahara.c         |  39 ++-
+>   drivers/bus/mhi/host/boot.c         | 203 ++++++++++++----
+>   drivers/bus/mhi/host/init.c         |   2 +-
+>   drivers/bus/mhi/host/internal.h     |   7 +
+>   9 files changed, 620 insertions(+), 106 deletions(-)
 
-I think it's the gpu's (or whatever is using it) responsibility to update
-folio state while it has ptes pointing at memory. Whether that's
-device-exclusive system memory or device-private migrated memory. Anything
-else doesn't make sense to me conceptually.
+Pushed to drm-misc-next
 
-And I don't think we can just blindly assume even for device-exclusive
-mappings that they will be dirty when we convert them back to a real pte,
-because we might have raced trying to set up the gpu mapping and restarted
-before we even put the pte into place. Or maybe someone was real quick at
-writing it back after the gpu already dropped it's pte.
-
-I guess maybe some clear documentation in all these functions
-(make_device_exclusive, hmm_range_fault, migration helpers) that it's the
-drivers job to dirty pages correctly would help?
-
-But nouveau definitely does not look very correct here, pretty sure on
-that.
-
-Cheers, Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
