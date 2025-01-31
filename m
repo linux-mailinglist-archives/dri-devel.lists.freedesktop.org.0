@@ -2,195 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF60A24300
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 19:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60E3A24309
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 19:59:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5424D10E424;
-	Fri, 31 Jan 2025 18:56:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C11110E425;
+	Fri, 31 Jan 2025 18:59:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I5Rx2RfS";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lxiyVh+y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B554110E43F;
- Fri, 31 Jan 2025 18:56:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738349777; x=1769885777;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=YhKwHDFbrqWOmhdh1x6DxcLgnK/85V58gYj1gt4zosU=;
- b=I5Rx2RfSHz6GpPZrPVUbMtyx0+Ict4mf4oRidzoWPtdLomDR2UCFOyvO
- h4VmlVfOY4n9FPEbbur6Y09eSLaYtCFNZneius4bpEppZ0ZUszhQadSDJ
- RGEVxHZO4ukxdKEXqJg5KLXZc0G3jnu9E50MJZLEszZbQz8bKVSS7vYm2
- jXNgn/TcdHdQ/bTXLA8RIEszNvyDlCWD0DS4VlsmcPosmaAPHAYZTY0GA
- aFWmmrKWM+Fn5fpfEJxLbh5JhvcI4pjxuSS0w7tnGMRWFPPPZjdzOTvLo
- 4KusZUEnXAtGRQ3ONoufAQe2tUloY9m2b9HdGi+zfvi7KLWw+Rr5vIYzc g==;
-X-CSE-ConnectionGUID: AklcOTQMTE+uGI3hW52q2A==
-X-CSE-MsgGUID: C8Om3eBCQ3m9aFqVJQMmnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11332"; a="39084345"
-X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; d="scan'208";a="39084345"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Jan 2025 10:56:16 -0800
-X-CSE-ConnectionGUID: BdWwS9QORY2gL84m7BrlMw==
-X-CSE-MsgGUID: x2BACz8BQMGNdfb1YEwwog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,249,1732608000"; d="scan'208";a="109598929"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 31 Jan 2025 10:56:16 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Fri, 31 Jan 2025 10:56:15 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Fri, 31 Jan 2025 10:56:15 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 31 Jan 2025 10:56:15 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2054.outbound.protection.outlook.com [40.107.95.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74BD310E1F9;
+ Fri, 31 Jan 2025 18:59:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=su3hhPbtTNliLJYhhEhl5MHWqpgzV1LTnqhjlqLA79NaIbuPM3fpOoyYB2y9o1IY7/x3jpPzERBlrVxYlkWxvLtyaNnI5OhXpowxO/5IjhLLv1Yv5HE6hgIyVqCWAu4No/INBYVeAY0E/5PDdn7eeIQlpG3/H9IJwCZam/2CRcoF6untlNaL0CcU0cBGqMyChcBEE9bdgxxw7O2eAhAls5K7d8tXG02URF1ge8Fs1v949eQIZ/d2EHDfIv1+LkSKYe7Vt88diLU3FLggfkmK+ScXXOEmlXO4VewqdR0FNBOUhmffhRLIYWNaC1o0yQoxne9gWhqIMs1ZTT0IYF2wIw==
+ b=y2kqlBzceUj7Sej9anB5Mv7X1LR5f4AXHc0G+w3+sCtG/D61GxtXe/8OJl+1R3quGPaezplJ2I9LNNLG6U9Turw4HFTTmpptMTMMpF1gsQaDB3A1+HaMPydcVSd4LpHTnKbo7YjbvN2s+IQrBwouQwxmeIkvhRbaXVHD/24K3ZvhcpHCs/dZ2bRrQNQHouWybeIsue8KVnwRh9btxQ4Rp7UkCDjeBEYDBlSELTz17tqi0/r5WejsbEPW7YN/6NJ676OYXFWWF904dGoMHngjSSZyzLzgE995LkCNz3qS07PMo70ggvnW778GQR1RmcTBW31trqI0OsdMzVpm2zgQZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YhKwHDFbrqWOmhdh1x6DxcLgnK/85V58gYj1gt4zosU=;
- b=fE2JRHo5zAQclvEJiQDkagIz00on05OV8AQS8j1NpGrtRtM71PdG8I+W8LAKW4VMoPlufuXgOX9xAD7N00M+71mQJFC7sxPBDtvU/bc5c+nR/2BY+IHqT9nDIJrcwPgWdRe+5jl/WS9HvsfBpJL0D0Wqlwk/hHOqCaPutoxufCWJwE/sR1Kcf8Ek7043rgax8kBrJdrp7HmwQCQXKCFetxu8US13nBr8zNNCCEBuRyHY2gW1XLbMX8GuUtygpq6wQdtlOHqhKZdQVU0nsK9VRqCRemOISWaXu3x6OBtmoArsWUCWP0N/870cz+8uQ24UFx8SHqRrc/sYvruhkClbtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com (2603:10b6:8:12::16) by
- PH7PR11MB8035.namprd11.prod.outlook.com (2603:10b6:510:245::21) with
+ bh=651oPppyThJgl/pE7IjgXztBbii0R20oLcz3ouNye7I=;
+ b=cq4kRgSZ+QTL0m5NZFMOoDT+rOMsCWKhCF0PoTXEvOhZObHZkdTpwmX80QFpkQVSxmaSuy6zH841KsIJ0EaSu4wujU0y5O0118zsXAiKk6xBmnNbJ6E7Czr3zwTKAMo4mXch4jROlAyr1duiG6simNj/2HHNwX/DvSTh6PE9bLUE5FS+aPvxihHYVnporaZ3sXRpDLIer7ai63yzQr5khT7lSrEYiMjxvBMtQc4qFSHq6tLEW1EoMc+P3u/CzxrLqNGGjnqHGp2AnPwM7SIKMntQkAj3JBoaagayI2rdOgwyEk6PmOnztgJMJNxlpdRI4szv3WtPejn43aHiECB5Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=651oPppyThJgl/pE7IjgXztBbii0R20oLcz3ouNye7I=;
+ b=lxiyVh+yx7iDEYj4eKAHjWdTm5QGpjmFZV4M1YmA/9Ff63AjKsYYHlreiCZyVjcmw56damzVezwwBvDUS6qWqEhgq2Oy8KUzhKbf+hoSLXtcmFHYs+0SSSLEWX8wJDrhFkwO+i7WwansmBX89L2Q5gnjuOVYj2FCX59ozG0KJPY=
+Received: from BN0PR07CA0021.namprd07.prod.outlook.com (2603:10b6:408:141::16)
+ by CY8PR12MB7363.namprd12.prod.outlook.com (2603:10b6:930:51::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.20; Fri, 31 Jan
- 2025 18:56:08 +0000
-Received: from DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::4046:430d:f16c:b842]) by DM8PR11MB5751.namprd11.prod.outlook.com
- ([fe80::4046:430d:f16c:b842%5]) with mapi id 15.20.8398.020; Fri, 31 Jan 2025
- 18:56:08 +0000
-From: "Teres Alexis, Alan Previn" <alan.previn.teres.alexis@intel.com>
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>
-CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Harrison, John C" <john.c.harrison@intel.com>, "Dong, Zhanjun"
- <zhanjun.dong@intel.com>, "Ceraolo Spurio, Daniele"
- <daniele.ceraolospurio@intel.com>, "Brost, Matthew" <matthew.brost@intel.com>
-Subject: Re: [PATCH v6 4/6] drm/xe/guc: Move xe_hw_engine_snapshot creation
- back to xe_hw_engine.c
-Thread-Topic: [PATCH v6 4/6] drm/xe/guc: Move xe_hw_engine_snapshot creation
- back to xe_hw_engine.c
-Thread-Index: AQHbcbOgXdRhp7aKZkOdnbCkV2SvV7Mv7XuAgAFSrgA=
-Date: Fri, 31 Jan 2025 18:56:08 +0000
-Message-ID: <2df2e1ac9bbd72c9766e7fffdfe4c6e87489b219.camel@intel.com>
-References: <20250128183653.4027915-1-alan.previn.teres.alexis@intel.com>
- <20250128183653.4027915-5-alan.previn.teres.alexis@intel.com>
- <Z5wAq14aXXIccYhI@intel.com>
-In-Reply-To: <Z5wAq14aXXIccYhI@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.44.4-0ubuntu2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR11MB5751:EE_|PH7PR11MB8035:EE_
-x-ms-office365-filtering-correlation-id: 42a55ee2-7450-4517-6af4-08dd4228ec49
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?MGRUMCs4WjFEajc4UEFqRm5RVmpVM0JUQW5RZlorVVdaMnRQc0hsV254YzIw?=
- =?utf-8?B?eGNma1BjTDFKMEhSQUE0MmhRODl6dnF5UThhbmV5RVlNbGlsOUVFMmlSek5C?=
- =?utf-8?B?K1pwU1BYZzVDMCswa0dLMFZiMS9USllwejFNVU50cm5JT3pPWVdncUhnL0I1?=
- =?utf-8?B?Z3VIc3dkVjJvM0V3Y1Q2M21LOEVEYnFHOVNmSzdGMGplTjhyWURwd3hnMThh?=
- =?utf-8?B?WjI0WDRDSnMyVGVpTUdscE91NTBpRiswWUlKbHhvM1RmdHM0WDRSRE1aN3Fs?=
- =?utf-8?B?Q0M4SFA0ZnF4cSt3eG94TWFtRFg1WXNoNUJMTGl2UEJWTFNLbndRVjI1aHB6?=
- =?utf-8?B?dHYzamNadzRYdUViTU1LdWZBSDlhb2ZERE56ZWJ5bHhVU3l2M2E4V25yU2Ru?=
- =?utf-8?B?UXloVkFqb2JYTTdUYjlkT1B6aFUzL2JLNHJySzhaZlZuempyTklJWkNqK3ht?=
- =?utf-8?B?dlYxNUgzWTAyRTNnbmRJem1ya2pGMmMydVBwNnRjajRFdmtPalllc1dtN2hy?=
- =?utf-8?B?SkxKdHhFcE4raFNUd3pOM2VBelRUemk2Tzlpek1naEZ5Sjh3d1NsMFlwSzBo?=
- =?utf-8?B?VjhWQU1BNitMdlhKd3ZSZElBRkxNd0JEWjkrYktaajl3c2dvTmJlZU5MME1a?=
- =?utf-8?B?bWdqeVlWYUV3M2l0VTlDV1hyaU1BeXF4VHFLVjlmd1M2eHBMSkNBMnUwWHo1?=
- =?utf-8?B?bUJRdTh3S1hzK2FsKzRoblFTS3pVbG5jN2g5T0JyQmUxcWRUamlVVXdtSmJD?=
- =?utf-8?B?RHc5aEE1RGVDVjNYR1lsUVAzQkhGT2pIbXlDWWFiUG94WDZQaHJCR1F3U2U3?=
- =?utf-8?B?WHREb2FPQnhRTXRMWGdPVEloUVB4ZHU2MXlkN2U2dDdCN0pJQkROeWh5eGFZ?=
- =?utf-8?B?NFFNZk5kNGJINk5DZGtQMHZDMW9yNDFsTXlPTXMzMHNnWEY3cHM1bUtUM0hq?=
- =?utf-8?B?SksxUDhNWDBBUzZGa0VpdWg3OSt0SGkxZHh1aDU2cXdjYlVyMEZKK0xOcnd0?=
- =?utf-8?B?THBFWWYvVnE4L29oN1JlR0pIL1JRQjhuclQ3STR6VmtnSFlFcXJkVm9QNnln?=
- =?utf-8?B?ZnVDU2tQM0h4L2dIS0RYbEJVLzdwVkhSbVJ6S1ZKYTRMNlZHMTZoWkVJU01M?=
- =?utf-8?B?Ti83b3E5TEoxeDhrTmtyRGw5V05uM3Fackd6c0p6VW81UXUwNXRsR29xOEY1?=
- =?utf-8?B?U012bm9JY3pFWGlNVWZvL1Y3bndmcERua056MUU5dXYrWmhZazNnUDBGOFps?=
- =?utf-8?B?dlNrblVrN2hyMjN0VFo3YzZjRVd3QW84TyticCtWMHJ3emdYYXRBdC90dFU2?=
- =?utf-8?B?ckRubXkvNm5qcS85aW9TWEVmcWY0blByZ21GWjhmSTlBSW8rRlQ0QllXcjFz?=
- =?utf-8?B?K09YTytNejlKWHFGVnFUQzl2MkgvcFFyMUEyYlhIQVovbFE3d2lDTzE5Y29C?=
- =?utf-8?B?RkFUZUE2VUlHeUtNYXVvTmIzbk1rUXdoOGVLT2xmSVYvN1pXL1RkWHhZblpt?=
- =?utf-8?B?bVgyVUpwYTVoc3Z2SGpxOHZLbHVsNzZqWDlWZG9IS3Y1aU1jZytUb3FhUmRG?=
- =?utf-8?B?SUZnMEZ2UGorSnFBZEk5aGtabUQ3cit3Q2kzYlJVZkF0d0hoVWJRWFkwc1FO?=
- =?utf-8?B?enZCRUUrb2lSekhjYndVMlRBdE0zNGYxSWIySm5IaWcxNzRSNzd6c2JLZ1pn?=
- =?utf-8?B?YXFxRW90a01HSmhNUzdUZHlMSkUzUnVSVGJIMkR1YW9ibXhLaHROSXNpeUhI?=
- =?utf-8?B?OEc1MkxzU3A4MG9GR2xEM2tHK1RDa3Fmc2hKbzR0V2ZkWjdOYTA1cWQ5OFFZ?=
- =?utf-8?B?OEhhWXNnWTNiNmlzaE9tT1VwSlY3cjJJNVFOZHhEOERqR2tjM3FVL1RsSFU0?=
- =?utf-8?B?b1FTb3JpWHBXLysvbGQxdWJhZlJBdWp5MDhjODJPRGVlUFRhakNPY3d4TGJL?=
- =?utf-8?Q?O+W4AQVc8c24AizwpdRRndQKI91g5wqu?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5751.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?bHl4VncyNFFnMm5IZHRGUXorYlV4RDQrR2Z0VjB5b3RNckFFOHRCQUxYL05S?=
- =?utf-8?B?ejMwRUNOQysveXhXSkVFMmZUaS9GV1BpNmsxc1VFQkcrVmZpak9qK0RQaDNX?=
- =?utf-8?B?bm5PK1FsZForYlJxYTY0dXhkMjU3SGpPeW53d3laMU01elJCZTJaR3JYMkt6?=
- =?utf-8?B?UUZIUE1vVkVxcEY1d2FtUllVbDN4Y3JHS3FPbEVLMGlFT3lCRXBKNlo0YjRC?=
- =?utf-8?B?RGJnZlNFY1pUR0pFajh2bndidUFPSTU4elcyY3RvNEJ2Q0FKd3NuTE4xYVlt?=
- =?utf-8?B?SXhSR3JyWEFXRXRoTXVpQkN6aWNJMWxOK2JiN3N4MUFDMkVxVFFGWUJkaXdy?=
- =?utf-8?B?TS9ycStnOXJXNGFJWkhKWFhvR2lWbWlqMTBZSDFoeUVCLzUxWEl2Vy9Selk3?=
- =?utf-8?B?TlRyVVhoZmFIN3JoRFJITi9DanN4dE5Xbi94OVgxVVRTb2lwL1JIMDc1ek53?=
- =?utf-8?B?ZXl5c2lFZUo0ODFXY0MwcnloRUw5WWo1QW9JSFBqbllpdEM4dTNDWFF4Vk5w?=
- =?utf-8?B?T3F5NmxEUGNvLzhCWjhSUU8zVTZUbWRzVHNDNmViSitBRmcwRys5bTJCUURy?=
- =?utf-8?B?aWIvWnRhaGwvZGJTMXo1YXgzTDNlb3ZFVVpLWVFOaVBPZGFuaFZmQUFBWTNz?=
- =?utf-8?B?YlZiWE1idWRCYi9uemhzSm1FYlRCemVEUFN1bDlqcmc5SGVBWFRrd2twQnlt?=
- =?utf-8?B?ZEFMM3UzcXYvSDZEbWpiMlhpWGZKbXVmZzd6SlBqNkZ4bXNqYURrZjQ3d1pL?=
- =?utf-8?B?TUpqOEpJK1dXV3E3U2hLUGJORTF5U3l5cnJCRlpxcFFodDJhSXpLTkdrcGZM?=
- =?utf-8?B?Tmw2a0pRSE9zZjk1aXNsM0RiKzRJZm9sVmxwSkMzS2pXR1pNM3dCL2VqUncv?=
- =?utf-8?B?TlNRL2tNVnVlald0b3YydXUvdTFHa3RBQ0JZQkNlUHZET2RkYXZ3VU0zcmNm?=
- =?utf-8?B?RW1Bc1JpZjBDbFVUZ0hHeU9mMUtYYWVpVExYY1o1RnVydGFFRHZRTldaWVJH?=
- =?utf-8?B?SjVzUWNlZ29LSHg1WncwYXJQNWJxTHVudzIxZXJLOGZobEhrRUpXajdsRVJT?=
- =?utf-8?B?OHg0NGxsS1d1K3MyemVxQ3ZSNEJCb3JjMFk3eXlzTWp6ZVFzYnhjd3JGOFVZ?=
- =?utf-8?B?TGdqMW5UbW9qaFAyZVFUeEJoRnFyWVNaRlZ1OEtxWG9iTXl0cnd0UkpIU2lG?=
- =?utf-8?B?N0hrMm5OSEVLdlBodWJSSURkU0twbTVtYnREaXNkNktpQ2FEWDJNQ3N3YWt1?=
- =?utf-8?B?bjNQbUIxUUZWeTV5aldmNFBJTUhIb3lBcjU1djFLWklmVXVGSnBmSlhtZVJa?=
- =?utf-8?B?VlVtb0QzMjYrdjJPYmFsQ1BGVHlrdE1sU0NmNVMrNHN0SkJCdEErTkJWY2ZB?=
- =?utf-8?B?ck04K3E3UUFTd2FZOS9udFJhOURaaTZhSDdTdk02S1ZXMVlTR0QyajUzN0JD?=
- =?utf-8?B?MWlZK0liVE81NS9GeWhiTzY2TTY1UzJVNjBuSG94RjhKRjNsQ0RrSVBQUlEz?=
- =?utf-8?B?RkdlTUFrMW1iYVdKb3o3eUsxNVphbXFGdzhIdjc4YW5iaVdteWJrUndwWmI0?=
- =?utf-8?B?eWx4WjhiRlBQQmtsVW80dFFhWkd0MitrNncvNHBCQlRRK1JJaGxrYUFNNjBO?=
- =?utf-8?B?Vk9aY1lEYWRnaHVkTWFOOFJNaGxLYlJ1YytWeWhiMnVxVSsrUjEzRUFrQjA4?=
- =?utf-8?B?OVRTeWMrUVRXZ0d2NzN1UFpEcGx4U1NCdW5sK0ZKb1BJemlQRmsvSkZkOHp6?=
- =?utf-8?B?Vlg1dGFZbE0wbFpHZnQ5a1VodVJFc3lzS0ZqMWpObWxsTUVjVzdBb0hMMmlx?=
- =?utf-8?B?UXMzQ0NCNDR2aFVKU1FxZGJXMHh2TUpDMXdTelZEKzhHb3NtMVRrajJsZTkv?=
- =?utf-8?B?WDd1bmhJZTliVUtnRXpHR3Y5QURLUXJvVzFPMzduTTF4aHpkcU9FdEkrdysw?=
- =?utf-8?B?THY4YTA4VFpPY1p3ZS9nbi9GaTNGRWhON3d5M2d4ZkFGM2FlL1h4Rnp5N201?=
- =?utf-8?B?aElCOXVsYklMRkx4NkwyaEZEaTBEb3RmZEZFWFduUWVJbUFEUmQ0THlOS3d6?=
- =?utf-8?B?S2MrWFlMN2p0d1VIQ1ZGM05oSHMrM3J4ek4xUC9CRjQxLzhaNUxXU2g3T241?=
- =?utf-8?B?Q0dDYzUwRmd3SHFzcXNOYXRWUUJBa2lHczAvQjB2S1RWbXcwV2lpNlUyV29Z?=
- =?utf-8?Q?FZeoqTyD4njsFgFuxKu3jA0=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FC6C0B3C2DE6C142A1E20652C0653790@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.23; Fri, 31 Jan
+ 2025 18:58:53 +0000
+Received: from BN3PEPF0000B076.namprd04.prod.outlook.com
+ (2603:10b6:408:141:cafe::e2) by BN0PR07CA0021.outlook.office365.com
+ (2603:10b6:408:141::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.20 via Frontend Transport; Fri,
+ 31 Jan 2025 18:58:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B076.mail.protection.outlook.com (10.167.243.121) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8398.14 via Frontend Transport; Fri, 31 Jan 2025 18:58:52 +0000
+Received: from fdavid-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 31 Jan
+ 2025 12:58:48 -0600
+From: David Francis <David.Francis@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: <amd-gfx@lists.freedesktop.org>, <tvrtko.ursulin@igalia.com>,
+ <Christian.Koenig@amd.com>, <Felix.Kuehling@amd.com>, <Weijun.Jiang@amd.com>, 
+ <dcostantino@meta.com>, <sruffell@meta.com>
+Subject: 
+Date: Fri, 31 Jan 2025 13:58:28 -0500
+Message-ID: <20250131185829.827297-1-David.Francis@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5751.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42a55ee2-7450-4517-6af4-08dd4228ec49
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jan 2025 18:56:08.6597 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NsLR41A5mlok01a89W4AdXIvJ52WsgMYcZTsVFu8wRJWfmUhhY+f9cvmBFDy2daUIfWtNbFA2WHFMsxdY0rf5wNSqhOrg2Z8pHvaoFsgg10N30D2tHYGt2yqTLL8733b
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8035
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B076:EE_|CY8PR12MB7363:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc0cb832-623a-4b11-819d-08dd42294e08
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|376014|1800799024|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aVJGWkNOYnI3enFXeU5XZ1I0cUhFRjY2SEs0NDBpQVZZemd4NXdhOUxFRVZp?=
+ =?utf-8?B?WFNDOER4QWpKUTdmbDNFemRpU2Jldk9DR1VkMW82MlNMakNnTWtPTGVPNmFP?=
+ =?utf-8?B?OXB5Vi83QWR6M1BvSGN5MC9pTG1OdWpGR2xCWlN1RHhiQ1hrOENtRzEwaytM?=
+ =?utf-8?B?MVorZksxbkt4Q2piY1JXVzNWb2EzL1Z1TTVhVEUwR0RJMDhxOURYdUtmT3BZ?=
+ =?utf-8?B?NCtwWmliS0h4SHZ5eHh4b0J6eDlFd3BkVDBzQm5pK0dSbUVXYVZyRktYanh0?=
+ =?utf-8?B?K0NoVTdEVmRKbUF0TnpId3JRK0lkemdnUzFBa29SVlpGbzd1Y0xCdzNyTGRt?=
+ =?utf-8?B?TXhIaTVQWmFQUnVpM3A1RjQ0TUFRV1liU1FCMkRwVjc0UkVBWXB1cm9BQjNm?=
+ =?utf-8?B?WTBMaXd3ckN6VDZFcWpBbEdtbVdXSkhGVFhPUUNNUUwyNDNzVEh2cnRyY2JR?=
+ =?utf-8?B?bFlVVm9pTlpENmtiTnZKV0tSeVdQRG4vcno0Znh4cDZLd1FlR0dNT0lFZDRn?=
+ =?utf-8?B?em9DQVdFOXJ4K25zaldGbHh3Q21tb3psSkt3MmxrYUMrS29XdTV1S0RITUVi?=
+ =?utf-8?B?TEtKVzYwMkFSTFNIYld4aUgxSFNYUEpROTlTSjZyWTIyWmM5R1UyQURUZHJa?=
+ =?utf-8?B?NVREbTk2aERSRWFjOEdqNWlRbHUveml2UVRrL2d2dHFjQWR0anVYYVJKd0Mv?=
+ =?utf-8?B?M1VGTThBOHlLQ2NhdmVFMDk3ekFUZ2RrQXhRK250UEw0Zjdpb0J6dGlzaVFt?=
+ =?utf-8?B?bUlPL0lIbk9lTHpyVmdIK08zVG5DUTBYSTJTMFdMT0MzSGtFNU9mVEtxYjd0?=
+ =?utf-8?B?L1NzRUt3ZnlaWGVSWlh4dE1wV0lxZWtUWWpqV3l2WUNKSnh5MDRxVnROOW5w?=
+ =?utf-8?B?N2ZZamJGVTNWenhwYlg5TTdqQjZBeC9Jb0F3VGNyamw5YWNUUklNeWs1ZG5a?=
+ =?utf-8?B?ZmpaZDVXSFNEUm53c0h6ditDVlNEbVNIcUwzdDI2Q094Y0xaNnoyV0RTbXJT?=
+ =?utf-8?B?VlczeHBIVnFxWVhDdEwxK1JKT0daSCtHR0VEWDBtemlUdnducC94cVVxS3U1?=
+ =?utf-8?B?cFVZWjhibnFJYUkyaTFrMHIwZytOTUVWRG5nUTNSaVFDU1NMTnFFNmpjeHRT?=
+ =?utf-8?B?VjVFeENSNGRXcTJ6d2VrMWorRlV4cUl0L0N5MDBLNkpEVVZtMFhTazUvZkZ1?=
+ =?utf-8?B?OWo2QXdmaDdaWkdMcG5tQXlrbTIzaTBCWHE2dDl0QXN2UGlIUjBMRjVJS3J0?=
+ =?utf-8?B?RTJ4QlFsZ1BFQnRkRWxvWEZKZEdhZVFXTXI5b21UbHBjSi84a214Z3pJOEsw?=
+ =?utf-8?B?UUVoUW5jdElNZjJIVm9GK0U3NjJGcDdVc2NyWFMxSVY3YVM1QW1OaWdHQzlB?=
+ =?utf-8?B?M3JLdFBOUnJxZytGYVlHajdHV1gvak9HZDRQY2QwOXlmVU8wYXdJRk5SSEFO?=
+ =?utf-8?B?UFZGS1pjMkh2dlNnVWxxZjA4TXBmT1JvZEVXNkFHV2J0dzYrSEZHcEVIbUFr?=
+ =?utf-8?B?OWZNYVVmaGVJK1BXSm5CaUM2Qk9aanBVVXJDOEdQY1pDalYvTmMycWJHdWlv?=
+ =?utf-8?B?RnpyN2x4bFREUTJnUUpFa2YyejY5cllaZ1p0UnJ3dzUyb2Q5Zk9RdGtjdGZU?=
+ =?utf-8?B?KzFDWjUyODVwK3FGVEdiQTdnRUtURjhpVXA2T28yTExqR2ZFTkFTM1lWemFE?=
+ =?utf-8?B?ZWhnanI1MVVxU1A3V3lQQ0tyRHVvOTBxYlYrelBiZ0l0UEwzRDlDNi83b3lU?=
+ =?utf-8?B?UkxZNDFLZ01renZ0QW5FNndBRG1IcGw3VklpQWtMcGlRV2swU2dudjFlaWpL?=
+ =?utf-8?B?dUd5QlJMZkcxdUlFd3lUMkRoOFhFTlU5ZHNJLzBJSWU0T3FzME9lVW00dXpN?=
+ =?utf-8?B?RTFlenVLeC90encrVXlqMllTS1dMM2pOVGl1NFhiYmtKSDZzOFVMamVPaDBu?=
+ =?utf-8?B?WUdOR1NtUEpWdTFId0FQRGk0TDFMS05VVHc3aGhweXpBQytnQU9Kbzg5cEFM?=
+ =?utf-8?Q?UCb7wsXiUv33yJjiFSIx2+EC09OqCc=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2025 18:58:52.5344 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc0cb832-623a-4b11-819d-08dd42294e08
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN3PEPF0000B076.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7363
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -206,22 +141,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDI1LTAxLTMwIGF0IDE3OjQzIC0wNTAwLCBWaXZpLCBSb2RyaWdvIHdyb3RlOg0K
-PiBPbiBUdWUsIEphbiAyOCwgMjAyNSBhdCAxMDozNjo1MEFNIC0wODAwLCBBbGFuIFByZXZpbiB3
-cm90ZToNCmFsYW46c25pcA0KPiA+IEBAIC01NSw4ICs1NSw3IEBAIHZvaWQgeGVfaHdfZW5naW5l
-X2hhbmRsZV9pcnEoc3RydWN0IHhlX2h3X2VuZ2luZSAqaHdlLCB1MTYgaW50cl92ZWMpOw0KPiA+
-IMKgdm9pZCB4ZV9od19lbmdpbmVfZW5hYmxlX3Jpbmcoc3RydWN0IHhlX2h3X2VuZ2luZSAqaHdl
-KTsNCj4gPiDCoHUzMiB4ZV9od19lbmdpbmVfbWFza19wZXJfY2xhc3Moc3RydWN0IHhlX2d0ICpn
-dCwNCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgZW51bSB4ZV9lbmdpbmVfY2xhc3MgZW5naW5lX2NsYXNzKTsNCj4gPiAt
-c3RydWN0IHhlX2h3X2VuZ2luZV9zbmFwc2hvdCAqDQo+ID4gLXhlX2h3X2VuZ2luZV9zbmFwc2hv
-dF9jYXB0dXJlKHN0cnVjdCB4ZV9od19lbmdpbmUgKmh3ZSwgc3RydWN0IHhlX2V4ZWNfcXVldWUg
-KnEpOw0KPiA+ICt2b2lkIHhlX2VuZ2luZV9zbmFwc2hvdF9jYXB0dXJlX2Zvcl9xdWV1ZShzdHJ1
-Y3QgeGVfZXhlY19xdWV1ZSAqcSk7DQo+IA0KPiBoZXJlIGFzIHdlbGwuIHBsZWFzZSByZXNwZWN0
-IHRoZSBuYW1lIHNwYWNlLg0KYWxhbjogbXkgYmFkIC0gd2lsbCBmaXggdGhpcyAoYW5kIHRoZSBz
-YW1lIGluIGxhc3QgcGF0Y2gpLg0KDQo+IA0KPiA+IMKgdm9pZCB4ZV9od19lbmdpbmVfc25hcHNo
-b3RfZnJlZShzdHJ1Y3QgeGVfaHdfZW5naW5lX3NuYXBzaG90ICpzbmFwc2hvdCk7DQo+ID4gwqB2
-b2lkIHhlX2VuZ2luZV9zbmFwc2hvdF9wcmludChzdHJ1Y3QgeGVfaHdfZW5naW5lX3NuYXBzaG90
-ICpzbmFwc2hvdCwgc3RydWN0IGRybV9wcmludGVyICpwKTsNCj4gPiDCoHZvaWQgeGVfaHdfZW5n
-aW5lX3ByaW50KHN0cnVjdCB4ZV9od19lbmdpbmUgKmh3ZSwgc3RydWN0IGRybV9wcmludGVyICpw
-KTsNCj4gPiAtLSANCj4gPiAyLjM0LjENCj4gPiANCg0K
+We are working on extending support for CRIU checkpoint/restore in the amdgpu
+driver to support new use cases and ROCm applications increasingly using
+render node ioctls for memory management. In the longer term this may also
+allow checkpoint/restore of graphics application. With this patch series we
+are soliciting feedback about our design and proof-of-concept implementation.
+Our intention is to upstream a future version of these changes in DRM, amdgpu
+and CRIU.
+
+Following the philosophy of CRIU (where “IU” stand for “in usermode”) much of
+the complexity of saving and restoring memory sharing relationships is handled
+in user mode. We believe our work can serve as a blueprint for supporting CRIU
+in other DRM and dmabuf drivers in the future.
+
+# Motivation
+
+Applications managing GPU/Compute resources on AMD platforms use the
+amdgpu driver. This driver exposes one DRM /dev/dri/renderD interface per
+AMD device and one KFD /dev/kfd device file per machine for all devices.
+
+AMD's CRIU plugin currently deals with both /dev/kfd and renderD device files.
+For /dev/kfd it uses a CRIU-exclusive ioctl on the device file to dump and
+restore device data. For the renderD device files, it only records the
+device ID and topology.
+
+dmabuf is a kernel component that allows users to share memory between
+devices. A user can request export of a file descriptor (a dmabuf_fd)
+representing a region of memory allocated on a device from that device's
+driver. That dmabuf_fd can be sent (imported) to another device (by the
+same process or a different one) to create shared memory between the two
+devices. This results in the two processes having handles on the same physical
+memory.
+
+Further details about dmabuf can be found at
+https://docs.kernel.org/driver-api/dma-buf.html
+
+AMD is moving towards dmabuf-based buffer object management to support
+inter-process communication, as well as other features.
+
+AMD's CRIU plugin needs to support processes that have shared memory created
+with dmabuf. Currently, all applications that use this feature allocate
+memory in /dev/kfd, export it from that device, and then import in an renderD
+device. This CRIU solution should be able to support future use cases
+including allocating and exporting from renderD, importing on /dev/kfd, and
+even sharing memory with non-AMD devices. As much as possible, we would like to
+contain these changes in the CRIU plugin, although changes in core CRIU,
+amdgpu, amdkfd, and core drm are also necessary.
+
+Please find attached the relevant kernel and CRIU patches.
+
+# Access relevant data
+
+The amdgpu CRIU plugin already uses CRIU ioctls of the kfd device to
+extract driver state from /dev/kfd, and to recreate that state during restore.
+The renderD devices have their own driver state, and to access it we need
+CRIU renderD ioctls.
+
+The amdgpu data that needs to be stored during dump and restored during
+restore is all BO-related: the bos' addresses, sizes, and flags, and the
+similar data for associated virtual memory mappings.
+
+Typically, applications access renderD drm ioctls through a wrapped library
+called libdrm. However, since these ioctls will only ever be used by CRIU
+itself, we have chosen to have CRIU call them directly. This means that the
+relevant header file, amdgpu_drm.h, must be added to CRIU.
+
+# Identifying shared BOs (buffer objects)
+
+During checkpoint, the amdgpu CRIU plugin must identify which buffer objects
+across the renderD and /dev/kfd devices in all checkpointed processes
+correspond to shared data, so that that sharing relationship can be later
+restored. An easy way is to use memory’s GEM handle. Because all the
+checkpointing happens in a single CRIU process, shared memory will always share
+a GEM handle. Gem handles are intended to identify memory and require no
+additional code to use.
+
+Extracting the gem handles requires use of the libdrm function
+amdgpu_device_get_fd, which was added in version libdrm-2.4.109 of libdrm in
+November 2021. This introduces a dependency of CRIU on sufficiently new libdrm.
+
+# Restoring shared BOs - The Mechanism
+
+During restore, CRIU must recreate the shared memory relationships that existed
+before checkpoint. The plan is to mimic the means by which the memory was
+shared in the first place. During checkpoint, one of the processes which holds
+a shared piece of memory will be designated the exporter and the rest
+importers. The exporter process will get a dmabuf_fd from the driver and
+transfer it to the importer processes. Those processes will send the dmabuf_fd
+to the driver, where it will be imported. This approach minimizes kernel
+changes.
+
+The renderD dmabuf import code cannot be reused as it is. When a dmabuf_fd is
+imported normally, it is assigned a gem handle arbitrarily. However, the
+checkpointed process uses the gem handle to identify this data, so the
+restored memory must have the same gem handle as before. This necessitates
+adding two new drm interfaces for creating and importing buffer objects with
+a specified gem handle.
+
+Transferring dmabuf_fds between CRIU processes requires a socket.
+
+Each process creates its own socket and registers it to a name containing its
+pid. When a process exports a dmabuf_fd, it sends it to the sockets of all
+other processes. Before a process begins restoring a device file, it checks its
+socket for incoming messages. In the current version of the patchset, this is
+done in core CRIU, parallel to the existing socket for exchanging file
+descriptors for shared files. It could be done within the amdgpu plugin
+instead, but this would require an additional plugin callback to ensure that
+all sockets are created before any plugin files are restored.
+
+This new socket is created within the amdgpu CRIU plugin. Each process creates
+its own socket and registers it to a name containing its pid. When a process
+exports a dmabuf_fd, it sends it to the sockets of all other processes. Before
+a process begins restoring a device file, it checks its socket for incoming
+messages.
+
+The sockets themselves and the dmabuf_fds received over sockets both must be
+assigned fds. These fds cannot conflict with each other or with fds of other
+restored files. We intend to alter find_unused_fd_pid to allow the allocation
+of multiple regions of unused fds; this work is not yet complete.
+
+# Restoring shared BOs - The Logic
+
+CRIU already has a mechanism for handling files that have requirements to be
+restored. Files that can't fully restore on the first try can return 1,
+indicating they are incomplete and will need to be retried. We extend this
+mechanism to plugin files to handle the shared bo case. Any device file that
+needs to restore imported bos will retry if the corresponding exports haven't
+happened yet.
+
+Another option would be to do the plugin restore in two phases, with all the
+exported bos in the first phase and all the imports in the second phase. That
+would be more efficient but would require more core CRIU changes, in particular
+additional synchronization between restoring processes.
+
+To support this, files-ext.c is modified to allow plugin files to retry.
+
+# TODO
+
+1) Backwards compatibility
+
+It is important to us that older versions of CRIU continue to work with new
+kernels with the changes. The existing amdkfd CRIU ioctl UAPI must be extended
+in a way that does not break the ABI.
+
+2) Checkpoint and restore of dmabuf fds themselves
+
+The usual approach to IPC taken by AMD libraries is to export a dmabuf,
+immediately send it to another process, and then close it. Therefore, it is
+unlikely that a process will have a dmabuf_fd open during checkpoint. We
+would still like to handle this case, however. Work to do so is not done.
+
+This would require handling of dmabuf file descriptors in the amdgpu CRIU
+plugin. It woudl support only dmabuf fds that were exported by amdgpu. For
+each such dmabuf fd, it would have to store an identifier of the underlying
+amdgpu BO that can be used during restore to recreate the dmabuf fd from the
+restored BO.
+
+
+The CRIU patch can also be found at
+https://github.com/fdavid-amd/criu/tree/dmabuf-post
+
+
