@@ -2,81 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CFDA2396C
-	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 06:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7D8A23995
+	for <lists+dri-devel@lfdr.de>; Fri, 31 Jan 2025 07:44:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D795710EA17;
-	Fri, 31 Jan 2025 05:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36FD810E150;
+	Fri, 31 Jan 2025 06:44:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="cTQ6Mt/v";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lkDeA86b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7022F10EA17
- for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 05:48:55 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-38633b5dbcfso1555068f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 21:48:55 -0800 (PST)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 774C610EA1B
+ for <dri-devel@lists.freedesktop.org>; Fri, 31 Jan 2025 06:44:26 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-2eeb4d643a5so2830297a91.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Jan 2025 22:44:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738302534; x=1738907334; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ipqnOsyfrju212SW/de3YbA7kXao55VqDRWRMe5iZjM=;
- b=cTQ6Mt/vXCAYJIO6EN6L1k3ZJMMavAt/cxRp8e3sPX5cDCT4b9kgRayTv1rYrp6ZP/
- ZLHGYiOCmTcJ/nhe0cOQQyGxcPqEQlW5aL9Uz4cZCMQVv8pvK+CveuEtFH+MGCyBjDY2
- bE5p2nwOc3SJx1uMzeHvj+u3/QjL/SPvFys5a0gzazLq6lJETYO75ddZ+nBbPZV42NOe
- FiehiOCdZKOKhQJg5mQS7Jsm9fFiEbrcBV9X9QpALGloTouvp6QqiC+qeLgW2YguLrdo
- J2239KWGx5wbaX7QXo/7c4KMSvOlK08O9Bd1UYBFPKrMV8env09NW4ieXsUDLdNG9Pin
- JmHg==
+ d=gmail.com; s=20230601; t=1738305866; x=1738910666; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=a8wLuo6Y8PuSoWmYGpdb9OZTpSpfN0loU20jIS3gbiQ=;
+ b=lkDeA86biD71g4EZzR5Un9Rv/ovnAf5ZoerRZ/EpHyA7Mir8EYzUvu46SwDw8GXh4g
+ QDsdI5yifHpvBhCNrE+cPkOCU78DBR+mZps8bL2q5vlAVB6HsHKXxufCVmUOjQwD46vy
+ GzN524p+BG7EttmKwHNi6QH66I2U6Yvxn/J3wD8zcZ/aEyMjOxDxguKfc0UAOMhoakXP
+ FP9uLkZt/O/E00TYNZDnNjhPXZoLQi1NMnrICJY3U6LeblrNaOo8cd2ldZ8Zy+pvbT2q
+ kr3I+TPgd7lBp2GdzXOxRQJfqXiffGSic+tNHugoXLCJTI2M7xJ7mA/3xZW8gc/FTofi
+ 0Dhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738302534; x=1738907334;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ipqnOsyfrju212SW/de3YbA7kXao55VqDRWRMe5iZjM=;
- b=mi41d0YbjUrf3pDtT/z29XXDaDRGEFFW5hvw80kf7sYAdCPGVWlFxgs7jNKOpcj0f3
- fEOaCWs4SBbEmTsh0kjuqRWB4Nl5iepLPqTm2/SoZRB9FEvDsgn66q0fX4q9raSWDr3f
- QhwXp+lERO2f8+GIZnrAbjjGCsNZAgLlfHh7rjSKbE7tjGfNzY8WotE7Ht/Ggv5EXczC
- Gpy4y4nZaf5R/44buIwx/DDtQJWxFFzUXqgMht6+ynkF40/aXIh/3QUvOjhtsgYgeHB3
- a+ugrOTqXc78XOIsvOL4ICkwHuvG/FAsyyWrIlbEN8M77PPWcREW1TK9rklfrPmX0HGZ
- smGw==
+ d=1e100.net; s=20230601; t=1738305866; x=1738910666;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=a8wLuo6Y8PuSoWmYGpdb9OZTpSpfN0loU20jIS3gbiQ=;
+ b=Ii/eZgCPsJqqvF9RbD8IlVj0oy/AToLDCUBke0mfFQTSAGCi2RN1N6PAwtRIYe5OfZ
+ TCIJ+nnP85U6c6xC19ojjhMaZmO6nhsvcqMJTgQ1r0Oc6F06Mxse5iVNVL7IAgvj5d4M
+ 2GL2NTApWMtfw1x4mXrDGqRnjyU26om1RtPanDPoIVnhdQnG//JEHYmeKJuXRqWG3iXJ
+ GVud0bY4gMzpO7StUQGQI2XQTEMjyTHOEV8uufpplIl2CpcKCfU1+1JL2NS8kvETro17
+ cP9xaRB63xb9ZDP43XW2ojaobWyPRiUrxHNjJTf+DpGdyd+fK0Wb+Fn3FAPomT//CYzc
+ HF9A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYbTty7LrKR2A1uv/AVC5Lfo8dbyAKJDv85wARHdnfoW6z9iLFLHAq0EdJ3zfEhacPagdyiq+Hycs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwHfpQHn6IJTeAg8Y0mS7brymy1wZRFL2x5XY5BMAQoZGqYfZdK
- Ulebnqmj2ZHPWya4zUKAXOfn2WD8M2icxPfCdroepik+1jdwLH/dna6jYQ2TdTE=
-X-Gm-Gg: ASbGncvZrHEc+hCoDrsBQpQJ5LDNkzh2yKhxquXmwWkCteKls+UeA0baafG0NmhVqlq
- W3yuAjq1FmY+/SD9EfHd+RsW29XDKNedkwSnyVAXVjXUTODwI+J93BCOdOVA5+US1MKYm5RJMym
- G/MfvmpjpBtTrRb36sSSOZz3EhKMSXr9Uy4Z644IfgDhwAY6P0CJS/zf/FDYF/NFnQiRNNAYk6C
- 00SaAktQpnuHhZCptXNFXRBcS3F3WyHNBhLOguYOngG1vFRWkyvIK+aCf11ToHhMRbNWi7MVV0H
- Hqg5qZJEd+2NIed38wVx
-X-Google-Smtp-Source: AGHT+IE6Kvkz6eWsm/uHeQ8rAvBvZhd3/ICwJhrsFTfp4+AyK4yMDjJwpHtTQAGSOcKH8BF+6KZIPw==
-X-Received: by 2002:a05:6000:2a6:b0:38c:2745:2df3 with SMTP id
- ffacd0b85a97d-38c51e95dc8mr10018488f8f.37.1738302533859; 
- Thu, 30 Jan 2025 21:48:53 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-438d75de282sm63103555e9.2.2025.01.30.21.48.52
+ AJvYcCVqxFioG4DzeKYwQmci+JqwSBJ7CpRNyPY21YHQpxcboXwdJ3P99r/oc0F2wRu3Qjs0yhk6AHcGfIg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxyk/m0wR0PMGH8zwBOfnyqIOXeHvLcKWZ+uiph3yHRHU4L7g8R
+ LkwFBeCBJpdGoOtdrgHvitk8qNFqSzJUI5AHAg24rpIM73evkQWa
+X-Gm-Gg: ASbGncsEpN7iU4IgiL5WT31j8OmnWqA0IYRNVQOY62Opb8t7TwFh+XPcfL96cD341Fs
+ V1N853t+aeD6iSpVng3PFy1OGB128W7VX/gRkNaI1iXw8/1gVSgcPr7iN/XjILd1KxIeewn5rCi
+ IJNTASQIcV/HApc+GgOG+d9ebWQy0D/4U2ZPJV7u2+8l4gn4kSxaZK+3JJAyBCbBFguLYQ0FfE8
+ BGDnaoxXBeVyxQuEhU838PgIRGIGg5pKUaLrVU3iFGJRs+FF/yEOJ+NSA/OCNvdqbRyrDusSk8m
+ knuIyiSKL6XVkg3Pw8L7MdjBa/g=
+X-Google-Smtp-Source: AGHT+IHz6VGpOU7Q2P2FSU44mu0Jwe+DIUCfoPCztH6MLZjXZrB1gVjhllou8+ScJgH3BIUqDlne6g==
+X-Received: by 2002:a17:90b:2f06:b0:2ea:83a0:47a5 with SMTP id
+ 98e67ed59e1d1-2f83abab52cmr14551878a91.4.1738305865882; 
+ Thu, 30 Jan 2025 22:44:25 -0800 (PST)
+Received: from noel.flets-west.jp ([2405:6586:4480:a10:167:9818:d778:5c14])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-2f83bfc0ddbsm5098947a91.45.2025.01.30.22.44.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Jan 2025 21:48:53 -0800 (PST)
-Date: Fri, 31 Jan 2025 08:48:49 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- dmitry.baryshkov@linaro.org
-Subject: Re: [PATCH v3] drm/bridge: display-connector: implement the error
- path of .probe()
-Message-ID: <349b0a91-fd0f-4feb-9351-f8c31ee7bbe2@stanley.mountain>
-References: <20250131051918.549781-1-joe@pf.is.s.u-tokyo.ac.jp>
+ Thu, 30 Jan 2025 22:44:25 -0800 (PST)
+From: Hironori KIKUCHI <kikuchan98@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Hironori KIKUCHI <kikuchan98@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH 0/2] drm: panel: Add Generic MIPI Panel Driver
+Date: Fri, 31 Jan 2025 15:43:52 +0900
+Message-ID: <20250131064354.4163579-1-kikuchan98@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250131051918.549781-1-joe@pf.is.s.u-tokyo.ac.jp>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,117 +93,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Unrelated to this patch but from a naive reading of the code the
+This is a Generic MIPI-DSI / DPI(+SPI) dual stack panel driver.
 
-	conn->hpd_irq = gpiod_to_irq(conn->hpd_gpio);
+Although the MIPI specifications define how to communicate with a panel
+to display an image, some panels still require a panel-specific
+initialization sequence to be sent.
 
-assignment can fail with -EPROBE_DEFER if CONFIG_GPIOLIB_IRQCHIP is
-enabled.  The driver can function without an IRQ so we just ignore
-the error, but probably it would be better to propogate it back?
+While there are many dedicated drivers for such panels, they are very
+similar to each other, except for the configuration parameters, including
+the initialization sequence for each panel.
+Since there are numerous panels in the wild, adding parameters to
+the driver for each panel every time is a pain.
 
-On Fri, Jan 31, 2025 at 02:19:18PM +0900, Joe Hattori wrote:
-> Current implementation of .probe() leaks a reference of i2c_adapter.
-> Implement an error path and call put_device() on the obtained
-> i2c_adapter in it to fix this refcount bug.
-> 
-> This bug was found by an experimental static analysis tool that I am
-> developing.
-> 
-> Fixes: 0c275c30176b ("drm/bridge: Add bridge driver for display connectors")
-> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-> ---
-> Changes in V3:
-> - Removed shadowed variables (ret).
-> 
-> Changes in V2:
-> - Omit the null check before calling i2c_put_adapter().
-> ---
->  drivers/gpu/drm/bridge/display-connector.c | 31 +++++++++++++---------
->  1 file changed, 19 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-> index 72bc508d4e6e..411f9372e064 100644
-> --- a/drivers/gpu/drm/bridge/display-connector.c
-> +++ b/drivers/gpu/drm/bridge/display-connector.c
-> @@ -329,35 +329,39 @@ static int display_connector_probe(struct platform_device *pdev)
->  
->  	/* Get the DP PWR for DP connector. */
->  	if (type == DRM_MODE_CONNECTOR_DisplayPort) {
-> -		int ret;
-> -
->  		ret = display_connector_get_supply(pdev, conn, "dp-pwr");
-> -		if (ret < 0)
-> -			return dev_err_probe(&pdev->dev, ret, "failed to get DP PWR regulator\n");
-> +		if (ret < 0) {
-> +			ret = dev_err_probe(&pdev->dev, ret,
-                        ^^^                             ^^^
-This is a "ret = ret" assignment.  There is no need for that.  Just
-call dev_err_probe() without saving the return value.
+Instead, this driver offers more generic and convenient method.
 
-> +					    "failed to get DP PWR regulator\n");
-> +			goto err_put;
-> +		}
->  	}
->  
->  	/* enable DDC */
->  	if (type == DRM_MODE_CONNECTOR_HDMIA) {
-> -		int ret;
-> -
->  		conn->ddc_en = devm_gpiod_get_optional(&pdev->dev, "ddc-en",
->  						       GPIOD_OUT_HIGH);
->  
->  		if (IS_ERR(conn->ddc_en)) {
->  			dev_err(&pdev->dev, "Couldn't get ddc-en gpio\n");
-> -			return PTR_ERR(conn->ddc_en);
-> +			ret = PTR_ERR(conn->ddc_en);
-> +			goto err_put;
->  		}
->  
->  		ret = display_connector_get_supply(pdev, conn, "hdmi-pwr");
-> -		if (ret < 0)
-> -			return dev_err_probe(&pdev->dev, ret, "failed to get HDMI +5V Power regulator\n");
-> +		if (ret < 0) {
-> +			ret = dev_err_probe(
-> +				&pdev->dev, ret,
-> +				"failed to get HDMI +5V Power regulator\n");
+Its fundamental approach is similar to the `panel-mipi-dbi` driver,
+which sends an initialization sequence stored in a firmware file.
 
-Same.
+Moreover, this driver allows display modes, timings, and panel
+configuration parameters to be stored in the same file or in DT.
 
-> +			goto err_put;
-> +		}
->  	}
->  
->  	if (conn->supply) {
->  		ret = regulator_enable(conn->supply);
->  		if (ret) {
->  			dev_err(&pdev->dev, "failed to enable PWR regulator: %d\n", ret);
-> -			return ret;
-> +			goto err_put;
->  		}
->  	}
->  
-> @@ -383,6 +387,10 @@ static int display_connector_probe(struct platform_device *pdev)
->  	drm_bridge_add(&conn->bridge);
->  
->  	return 0;
-> +
-> +err_put:
-> +	i2c_put_adapter(conn->bridge.ddc);
-> +	return ret;
->  }
->  
->  static void display_connector_remove(struct platform_device *pdev)
-> @@ -397,8 +405,7 @@ static void display_connector_remove(struct platform_device *pdev)
->  
->  	drm_bridge_remove(&conn->bridge);
->  
-> -	if (!IS_ERR(conn->bridge.ddc))
-> -		i2c_put_adapter(conn->bridge.ddc);
-> +	i2c_put_adapter(conn->bridge.ddc);
+I've also come up with a firmware generator:
+https://kikuchan.github.io/panel-firmware-generator/
+It helps to create and configure the panel parameters on the web.
 
-This change is a nice cleanup and perhaps it silences a warning in your
-static checker?  It should be mentioned in the commit message.
+As a reference, similar generic drivers currently exist:
+  * drivers/gpu/drm/panel/panel-simple.c
+    - Supports wide variety of panels, but no init-sequence support
+  * drivers/gpu/drm/tiny/panel-mipi-dbi.c
+    - Supports init-sequence, but only supports DBI panels
+  * drivers/gpu/drm/panel/panel-dsi-cm.c
+    - Supports DSI Command Mode, but no init-sequence support
 
-regards,
-dan carpenter
+Regards,
+kikuchan.
+
+Hironori KIKUCHI (2):
+  dt-bindings: display: panel: Add generic MIPI-DSI/DPI panels
+  drm: panel: Add a driver for Generic MIPI-DSI/DPI(+SPI) panels
+
+ .../bindings/display/panel/panel-mipi.yaml    |  244 +++
+ drivers/gpu/drm/panel/Kconfig                 |   10 +
+ drivers/gpu/drm/panel/Makefile                |    1 +
+ drivers/gpu/drm/panel/panel-mipi.c            | 1355 +++++++++++++++++
+ 4 files changed, 1610 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-mipi.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-mipi.c
+
+-- 
+2.48.1
 
