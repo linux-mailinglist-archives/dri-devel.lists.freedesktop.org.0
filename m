@@ -2,177 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57CEFA24AEA
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2025 18:06:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1FFA24AFE
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2025 18:19:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C13610E3AA;
-	Sat,  1 Feb 2025 17:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3793810E16C;
+	Sat,  1 Feb 2025 17:19:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="TWsq1E3g";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="iSgnVzkU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nqYumLYF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 924A210E16C
- for <dri-devel@lists.freedesktop.org>; Sat,  1 Feb 2025 17:06:33 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 511BDgqP010233;
- Sat, 1 Feb 2025 17:06:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=corp-2023-11-20; bh=K8zjT/K+QdffRWjOYh
- vH2XOl5UPsG//XM/8APGCD9wk=; b=TWsq1E3gwig3yzMMuxqF5bfmIY0V8n2k54
- 9/rJHy698RD8ACsO2p99sFwlecSSURE4vPHkWPXUAUHDDoiU8NTkw9fO1QMiJ2DQ
- 11bYq65zGcvpjQQ2raMBcybccwDRI9UV2WU6GQTVphS+9s8tQF/KWmh37ViMMZB+
- TnhuZU4/0GvOeTT40ficOij3PzuoSdpCSDBUxRgjTpAXbUg+NKTY4ALo2a8ISvSI
- U/fuYD+So3jEKVwV4tEFHq8ichjeTZD6VJXyzGkY0WSYpik+6qcGkCqj8WXtzWq9
- Lx0SUlQZ4WWLFeHEQBIZlW2aUqE62I2qLyUKmP3lVqe4NVbg4oJg==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44hh73g72m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 01 Feb 2025 17:06:08 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 511F0bsb027922; Sat, 1 Feb 2025 17:06:07 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2044.outbound.protection.outlook.com [104.47.70.44])
- by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 44ha25w6b4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 01 Feb 2025 17:06:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DrlwMhh9jA8uow003MU8wIm3RKfNlCOSczfTqPWAGnshZrJ+iMAHqa8xpZpCqLd+19kunzrsuHwi26PlrepDTG/S0fStw6Qp/YVjWEQnsf2gVxpPoxWsKGP8WAsvee53hvBJadOXAnMoSQc8iqVd93FA/idivP77FTcDvTw5Splh12RIqXGbjsSKdrRPK12nsbgxWwQGM/tHYeLAOaemRqN+nBeqXEpk1T1X99dcd+z5u8fj4creYIXiKhUEahAADOp5Yi+S7In27Gb/64v/xcrGsnQmGKiIkVszUAC8SoCMC/ZFZv4xX+dNuCHSdhYS5ZRr5gOnvd0PbnD87sFDWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K8zjT/K+QdffRWjOYhvH2XOl5UPsG//XM/8APGCD9wk=;
- b=gACTQhaL6F3w6yF9xmQh0dP7ByWB9qCmWfqqj1B0X1oH7M93bRTsMSKUvsQJjgux7nl6aDXBal+5e2YcI/yxgQBjatwr8ygBerIDI7Lx1T8PxyQfxJsW1gL/Q+/clBMsqreH20cMVcw0V3zA5700PRhW3CNsG+ZDv3xzwVqAYMWpAPz0um7Fujek3fi0eoecuVpzYI7sh+v2RklxOo58QB1x+x8rF1ZCJ8TAKmAT/dWggb0QG9+6OD11S08rygq/gZcNR0jYk+L+FBlhQHiPC5fbQ9q8l9qqXwU3r2ee3OMOOUeZQB0GUbziep2bYqLy/IR/+yu2hNIfcwfQrMnQUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9185510E16C
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Feb 2025 17:19:02 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-540218726d5so2858045e87.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 01 Feb 2025 09:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K8zjT/K+QdffRWjOYhvH2XOl5UPsG//XM/8APGCD9wk=;
- b=iSgnVzkUmvilip/1ehZLz8lxhTXVMh9rf67/MbCBUAgahtZ+Qo8eC3NRPoyRlWBAHONpmVHdhDGwjftuVahgRVGU34j3tQ1c/0e54XMAHRHeMu4+5S2VvlPOOVbBh2DHzuBjC4/anzCtaUJ5StBn0A/9KCesqjXrOU+SIrmaLko=
-Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
- by DS0PR10MB7245.namprd10.prod.outlook.com (2603:10b6:8:fd::6) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8398.18; Sat, 1 Feb 2025 17:06:04 +0000
-Received: from BYAPR10MB3366.namprd10.prod.outlook.com
- ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
- ([fe80::baf2:dff1:d471:1c9%6]) with mapi id 15.20.8398.020; Sat, 1 Feb 2025
- 17:06:04 +0000
-Date: Sat, 1 Feb 2025 17:06:01 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jaya Kumar <jayakumar.lkml@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>,
- David Hildenbrand <david@redhat.com>,
- Kajtar Zsolt <soci@c64.rulez.org>, Maira Canal <mcanal@igalia.com>
-Subject: Re: [PATCH 3/3] fb_defio: do not use deprecated page->mapping, index
- fields
-Message-ID: <e38046bc-fa35-4f4d-b0e8-00ac4637c725@lucifer.local>
-References: <cover.1738347308.git.lorenzo.stoakes@oracle.com>
- <3542c5bb74d2487cf45d1d02ee5e73a05c4d279a.1738347308.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3542c5bb74d2487cf45d1d02ee5e73a05c4d279a.1738347308.git.lorenzo.stoakes@oracle.com>
-X-ClientProxiedBy: LO2P265CA0283.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a1::31) To BYAPR10MB3366.namprd10.prod.outlook.com
- (2603:10b6:a03:14f::25)
+ d=linaro.org; s=google; t=1738430340; x=1739035140; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=71bnsC2oO6LHEbwy3diuH2zhR6b0aYnH+9+cp/aJomY=;
+ b=nqYumLYFlUaorlq8OdQnrNUKew46qf7pm5RkxxzkbELBN9Z3aJdrKFDq+JPOVF6hm/
+ Ya4fQr/z82zxDcalhxOTi3pITtqsghULwdianT5Yf0OA6k1xjTc3Lbl2siBX9uuJTMt/
+ B19e9NDMzNo1sEnewNofmPqooP5ycdnuf+7H/syjVAOgCQJxTIGjgO5oDWqM4aCzp6RV
+ QVau6xyr72KP43mwRTtsu5o8GfCu6fpVN8EMAirS59awUZQPMIpyLu/QSL2f7JKJB1Ud
+ L/r7jDGlvpa4Xcd+T6k4JGkduEEktilr4F7vmCb1ec0OKZQJp1P8r9g88qacZJn0iCsG
+ aJcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738430340; x=1739035140;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=71bnsC2oO6LHEbwy3diuH2zhR6b0aYnH+9+cp/aJomY=;
+ b=RBVz3TywRUJFUqda2bFoeRUk8id9izzRxYKWsq/+Stp57DixYx319AzMcvaZXsqedK
+ bNug42gbxagflZSfVa89Cpsw8/bzmyv83Fu21hZ8naDw+wDJwL5uZORXHnX4fLXSRU9D
+ Fv9qEdiV1gdwwyOgt+GF4lR4UMx8qNz9AE4Cv+fCHdqcoJccUHhRYzis+9wB1bCwsx29
+ KTba6WrWfh34dbekAQ7DiTRf7Z4Vt0YrQFC8wGWBDVPlvj73AakcHULfZf2qqRfLmTAN
+ iEhK47OkaUE3ZiCin4kiZjqdYIr2z19aFLVoRSyBuD8BtxEayRxcXWpjfrletxoKrSkV
+ iYpg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXoNg8o/f04H9i8F8QRD6eMYGXb2BAU/fwFLasei2EyK827gMPNjCZ6dKYHzoEmfcN9+GaxbbGvSDk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy+YcfFJ5oKvP0pDbBU9FgNrPWdrdl6aBLUacTe+q905RYygsJT
+ J+gXvSrPnMTTIQ+hWMuMBRjUoD5InoiwklciA5mCtjsxq4YZCR+f8WVciEfFsTc=
+X-Gm-Gg: ASbGncsJbbtSJAXRzFZAXRQC6zAP7tqGH2wsvRvw7SbqL2uvdJqUFBam/s27Xpsp9kF
+ OdaRp7+ij0xSSp8h3qKyBF6DQuyDBihZQW8PCBBKr1XZeY2QSq3/nddiPN2IgRSzplC/ZfVCKzb
+ dQaTZMk7yQnvg3Q/srXhFHWIXsf0LK/uWQt5ezaQH2UDoI6AsBDY+58C5ZOFQDw9NFOQQ+VuBPc
+ o3XQ3iAnCfPypconxVQwlv7/BhibNkWcV+R2KIWJOKx3zNaNNt+2bm8BoWwuy6HbjlxByE8gDQ2
+ iC4CbzHyJ48YHh8ynk7axupNc67mY6AtgOrkaAyHjCGiOHjtYO6jdOayanQSdAli6YMse9U=
+X-Google-Smtp-Source: AGHT+IGP/gG4Q+cDNWpkoWzbMqHda4mKxSbGl6ubfsg5AbMmMLOWCJBBnITp7IdIj8yWTDNIAVEjVA==
+X-Received: by 2002:ac2:42c7:0:b0:540:2ef4:9cf0 with SMTP id
+ 2adb3069b0e04-543e4beac3emr4169598e87.18.1738430340412; 
+ Sat, 01 Feb 2025 09:19:00 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543ebebea39sm780238e87.224.2025.02.01.09.18.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 01 Feb 2025 09:18:58 -0800 (PST)
+Date: Sat, 1 Feb 2025 19:18:56 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
+Message-ID: <eyjsejpx7klztr4k7xmrvceosfykyozs736kycdnf5uur5by43@5i5x7tsuxtpg>
+References: <a193bcb5-1b35-48ba-801b-925ab2f92d6f@samsung.com>
+ <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
+ <Z4ppo8wV3nicOfAQ@smile.fi.intel.com>
+ <8a7581e4-6422-4d77-8027-02df0d7da489@samsung.com>
+ <Z4qTQ9ypkX6iS1Pl@smile.fi.intel.com>
+ <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
+ <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
+ <6b4cba29-786c-4999-ac1d-27b3e4cea6f8@samsung.com>
+ <Z5kJLrE6xOzOKaeb@smile.fi.intel.com>
+ <Z5pESDSekep9ChAN@smile.fi.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|DS0PR10MB7245:EE_
-X-MS-Office365-Filtering-Correlation-Id: 844b7a0c-5feb-47f3-d9e5-08dd42e2b631
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Dsac8bFwHHDc2a8rXlaosJBSwsiaNVhD9EeCbt+2jrHlFpFL2Bah9UDAFYiL?=
- =?us-ascii?Q?SKz1i/2YEgZvkptXSK7OBRU0FXcSjdR+XiDp6leGZqLF0L/NUKjT80++/00x?=
- =?us-ascii?Q?PLKMFeCOT2+Qfa+OazkBrbnKGVxKYMjRaunBdji1JMQmd4FvPjWFhEPIcubc?=
- =?us-ascii?Q?lYo2k96eFr6eJVAKpdgzESPtfWSZPeL/CxzBhm64k6AbjQctdcWp0Phy5qPC?=
- =?us-ascii?Q?hRrTpKYtyF+cjIf66MiGMn/JUNxabydsHL8fIFvNCgSPERNoxfmh5XZP5SG6?=
- =?us-ascii?Q?FKCo+BPveBvG3w5gdUUJgFo5AZFGuSD6TFylj5gfArV5VsopRBjT89IQqFzc?=
- =?us-ascii?Q?x3wlRIcx+pfyFZUk24gDbx57bTWnJGD8XzwmoQN2xMytxsck6M+lJYfMjFPE?=
- =?us-ascii?Q?JwofhhahZkswrTYjkpY7sY1D7odf+FR/AGsL/aVqgJQPf+MVUTbdPyB7Xuf3?=
- =?us-ascii?Q?afX0072dJ7vuBMdNVbCDv7MHMC67T0VMYkYdWCrQ+qBYH0XtQj80w+0aE74a?=
- =?us-ascii?Q?QVPG0sGsiuOMDAEW1NIkBFmWmNNPz+tRk2x0M4rt4tjbNx7mK/4X7YQh2mr1?=
- =?us-ascii?Q?56NUBqiuWzDrTF68+YaeG90lpO3ziAFHWe4SrwJQLGjQlfKfmoZrqBzS6zvM?=
- =?us-ascii?Q?2Nw2IrKOCOpQ2H+KqNk5OQ57aebdkIIe1L6RodzKbmps8Iqdi8i+Sf2Y06Ev?=
- =?us-ascii?Q?YAkyOqU5dSG3idnGY11KfQDSPdKrgd+Y0n0Ud9njkTCdW4bslV4usx1tclrI?=
- =?us-ascii?Q?JNX2NSG2RvZwGz3sq9v4UILEJRc9+N1SOtEEQBq4PkJY+KICgNWA0kdC9Aqi?=
- =?us-ascii?Q?8hLetp3DbnzkfNH4aQnFClcdtuU8ag3PTxuHyRPDKaqaMfo03u5aZmIUPm4c?=
- =?us-ascii?Q?hEwuwOAeRU91hH+ikKKZ0/11YeNXW3vYIlDtT6hoKzoRbnRvzUHXRN27FUfa?=
- =?us-ascii?Q?GxC1envoFbKHj1Nh1gX7rFXC2m6ZvBhqK3sC1l1xHtmXEyFP/qEN0KGX7ZkM?=
- =?us-ascii?Q?9CADMjKbMDhEh5VviVogTzWFaZMvaUcp6qLm/nvEklc0OyI1XLPsjmSN3yNf?=
- =?us-ascii?Q?2Zi8S1jOXFFM57wecKK57tNvgEuJFaAd6rrF/2LYZB+aV+Dgf+4rnrqimIfR?=
- =?us-ascii?Q?GtGpI7PJ9vnHR8dCX+WEuNGz1DD8jHrNL3u223rxBIlW22WlV/MM4v16FO7M?=
- =?us-ascii?Q?m2WeTq7IKC+2D+OasWRzgf4oa5XrWnwSg6uJeS2txAVuyDwFtN5FvyOn6W76?=
- =?us-ascii?Q?NvFyB8cSpjX1TzwuMmJzTKAQifYHj3PWPv9des32myXPXG+F1doC29ctjkDX?=
- =?us-ascii?Q?BgYhW2bwwvIP+JNQ0sCIJ4ypgbQufO2yxXwu7wkyULgSA/BV/nsksfNq60tE?=
- =?us-ascii?Q?PdCdsQr+L8xT3Ay/NS8qa1nhf4vo?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3366.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2DWg7ytrLiVE+EXODTp4+u7xkpQbH0bDC0SEPseT8/xJJngozKDBO5uoDJS2?=
- =?us-ascii?Q?gxs7IKsJFFyAHmZWfuG3SRtvir+XFzHd5G5cvXab58RUMENjoKXHWZ/nxWa5?=
- =?us-ascii?Q?RTd/VejpeH1JUbt43ZIvWV8N8nhpRLuDTr3Lvi0KGKaDwKTs6xqgtabAKq6Q?=
- =?us-ascii?Q?oNcE7uI6+k9fJlNQBB6oXSZOinPCUFBZPgs3CJl26fy5RkNXuw3UzrhjgzEg?=
- =?us-ascii?Q?2DignkyxMWXv+JfMgHznjQRPIRtQAw23xJFy9dmBGlurJNAILCeEYYZmMORx?=
- =?us-ascii?Q?m5tzkSuspBSXCt7vkbYK30PFLcQPS8JIjJ7BGioDUtubZv5tGnJIXfbN8lF4?=
- =?us-ascii?Q?5e2ErsqtD5F56j3R6cV8kOEEqpyt3ZOCjTn1DZLtfiytK4YYswC+TkXbmhsb?=
- =?us-ascii?Q?60GyRFN8ORHCybrM0mqsUxmHokmIjEAwoPR3wxwX3gk8E5NR/K3tif+9NUBU?=
- =?us-ascii?Q?zXcfR5HmnS6vDpiRzi2A6rUJb5AH5mm/kl0+v+SbwqVbGfdfBYYJpeWvu23d?=
- =?us-ascii?Q?BQVmJixbhnt2QZlvIlgpJAIzN8665yiwe2MIlL70NDq1w5gfDq5XKbc+KbHp?=
- =?us-ascii?Q?EqH7vZmkCGClxAt6w/5ZegR4Rwvh/oACAPvS8meo7IPQODcLvtGyicuJbQOl?=
- =?us-ascii?Q?PnIa+LwlMoAzBceQbvoP93TK2Mt7Cyv/1EqHji/nDqLbfLOTAhHmDvqTizQl?=
- =?us-ascii?Q?w8YmdupbEEZ4K661UfSh+qvwuqB2iW5XM8OyJGQAjevl5HHNnCsZ/j3xyemz?=
- =?us-ascii?Q?KyhTy2k9yeIx2yWbQhO7dxyyJ4VFPhQI6UtSqI0NCAzczWaD1XqstM8IJ2CS?=
- =?us-ascii?Q?3c46dDLFAHGx8GiIDc35gawTj6Ur48chHDiHlxxTd3KAcDUIbKC9rdHv8WmS?=
- =?us-ascii?Q?Byzg6VKoq8MTk+ccKssKKaNLJCa8GMBcqyv8cRjM2DHc+OEC5CCSuRtojgK1?=
- =?us-ascii?Q?A2OXnoh1r0Lw3GFGqpBS8wYmoHYUu1GXEunQxHD9Iu78jjADOUi3F+MbzEY4?=
- =?us-ascii?Q?+03VHnmxN/FiMzZ2ykrcld6PPeYWBQ1mn3/nyfpYBjjDp7dvgDePzDR5JPEN?=
- =?us-ascii?Q?fmTGYRbiA4A4Xg1H6Qx7PYxsOKi2J1qIjD27bKbXJCXRjk+TWWFFBD+k8ONf?=
- =?us-ascii?Q?hy/M6luGigk0iJnRP7r/LKjA6yt1U0pnQaOZ6eTU9pXh96nrQ3sutXQNo0/b?=
- =?us-ascii?Q?vc9s2SfZkH4WKaaQVAmJtYKHcj3pwpwTN0Q3+lHwg9JsJOgKgx0CTi0On750?=
- =?us-ascii?Q?dR0ZFtQszuWoHRb9dGndn6Ow1GM3Xmyv8d0dfU71xi7xlOGj2PdLz1dvjgbh?=
- =?us-ascii?Q?VfsnPgTF6plUO/wJS0NLuvtfTEU3Q7Y2fBrVPo84NwJnUHHafEJs23OnFXCp?=
- =?us-ascii?Q?8CI3yajzzTN3ZVrP005jNDHVy+tmXzERmQCEzu7ab4KIQ3uusU7HYLV4F1BM?=
- =?us-ascii?Q?gycJfqK/ECdJJG2CAKfDev1h+AyrQN0vZ4gyhFZ5vq/DW1OMxwTofyNLhu3T?=
- =?us-ascii?Q?HqQZ3ywTo73oTZe2CvdENaHeoI/9NvXwItGgnSFTxlDietXe9BOlGaji/snG?=
- =?us-ascii?Q?fMZoIm81Zif9XDQJik13zGWqWu/ORB/vqVhxshulAH5qjK2OqhEnCTuWrrDq?=
- =?us-ascii?Q?LQ=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: xfLEuEx9kgfJbzFL9Jo2uydANkihZnBuJI97bZbCVSXhL90ecP1WTGlcMFSHbZPw3p+dIDtCyswgro70mFEv4nRWrUUqvmC6j8/qpdfT1406zR2SLMyJbtMVBH2/ZXYRchjcc5ardThW0afvmEnmpaRA+clQmuwqMxWInecFDO7zKMJacH9MW3tKJfHUqPseny2ZlA6bbbWiUGqnHUDUvftNeJm54spFba6gzJhh6VbXCDp8rVWWJxoMPJ8txxXMrXnLuUtc62Qog79h/l1mhDSPhI3NuzfHQ2aGYDo8U7lC6otRGymsm8//lHLtCF0BSn7PL1alvosA5/Luliv+Vc0UnYpUxI8AVQzfGOLzEtM1nn3pv7mohh6192yfdA252nKmCkL5sd1PrJLx8ei+bBGiy7Y7z+jnFul3LvPsChwtuVOHvxD69nCmpmoy888I1FLdtKj/Zc16brxBXxf7AS75o3SKWYSgnVV/RpAPtCrGU8HtVh8SPBkDl6TdF6kZBEBQFmfXwIeTHdblMjKiSK0B803HdBAomP5iPGnlSQ0sXIsaFq2juk5UihawsJE8ShzgEPSFjNDkUVthxiNjWqdFDDwxt7uP/1sQerdHHHw=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 844b7a0c-5feb-47f3-d9e5-08dd42e2b631
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2025 17:06:04.4292 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dWMK/2mCfC4TcoPfBJyWUW0gddIV5D3UWQ44fpXZb6RHrTyqDnd6ojblb9MSttW29Uav4Iv2lYwXwtINHx3rIW34ZEkGqhlknSJRdTXHCKA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7245
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-01_07,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- adultscore=0 phishscore=0
- bulkscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2501170000
- definitions=main-2502010148
-X-Proofpoint-ORIG-GUID: QKTESQvBG2cdjSo5vtERlQNFw3286j9Z
-X-Proofpoint-GUID: QKTESQvBG2cdjSo5vtERlQNFw3286j9Z
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z5pESDSekep9ChAN@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,80 +103,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-(This time sent in reply to the correct series...)
+On Wed, Jan 29, 2025 at 05:07:52PM +0200, Andy Shevchenko wrote:
+> On Tue, Jan 28, 2025 at 06:43:26PM +0200, Andy Shevchenko wrote:
+> > On Tue, Jan 28, 2025 at 05:08:08PM +0100, Marek Szyprowski wrote:
+> > > On 21.01.2025 14:29, Andy Shevchenko wrote:
+> > > > On Tue, Jan 21, 2025 at 08:33:09AM +0100, Marek Szyprowski wrote:
+> > > >> On 17.01.2025 18:28, Andy Shevchenko wrote:
+> > > >>> On Fri, Jan 17, 2025 at 05:05:42PM +0100, Marek Szyprowski wrote:
+> > > >>>
+> > > >>> Does it fail in the same way?
+> > > >> Yes, the hw revision is reported as zero in this case: LT9611 revision:
+> > > >> 0x00.00.00
+> > > > Hmm... This is very interesting! It means that the page selector is a bit
+> > > > magical there. Dmitry, can you chime in and perhaps shed some light on this?
+> > > >
+> > > >>>> Does it mean that there is really a bug in the driver?
+> > > >>> Without looking at the datasheet it's hard to say. At least what I found so far
+> > > >>> is one page of the I²C traffic dump on Windows as an example how to use their
+> > > >>> evaluation board and software, but it doesn't unveil the bigger picture. At
+> > > >>> least what I think is going on here is that the programming is not so easy as
+> > > >>> just paging. Something is more complicated there.
+> > > >>>
+> > > >>> But at least (and as Mark said) the most of the regmap based drivers got
+> > > >>> the ranges wrong (so, at least there is one bug in the driver).
+> > > >> I can do more experiments if this helps. Do you need a dump of all
+> > > >> regmap accesses or i2c traffic from this driver?
+> > > > It would be helpful! Traces from the failed and non-failed cases
+> > > > till the firmware revision and chip ID reading would be enough to
+> > > > start with.
+> > > 
+> > > I'm sorry for the delay, I was a bit busy with other stuff.
+> > 
+> > No problem and thanks for sharing.
+> > 
+> > > Here are logs (all values are in hex):
+> > > 
+> > > next-20250128 (probe broken):
+> > > root@target:~# dmesg | grep regmap
+> > > [   14.817604] regmap_write reg 80ee <- 1
+> > > [   14.823036] regmap_read reg 8100 -> 0
+> > > [   14.827631] regmap_read reg 8101 -> 0
+> > > [   14.832130] regmap_read reg 8102 -> 0
+> > 
+> > 
+> > 
+> > > next-20250128 + 1fd60ed1700c reverted (probe okay):
+> > > root@target:~# dmesg | grep regmap
+> > > [   13.565920] regmap_write reg 80ee <- 1
+> > > [   13.567509] regmap_read reg 8100 -> 17
+> > > [   13.568219] regmap_read reg 8101 -> 4
+> > > [   13.568909] regmap_read reg 8102 -> 93
+> > 
+> > Something is missing here. Like we have an identical start and an immediate
+> > failure. If you did it via printk() approach, it's probably wrong as my patch
+> > uses internal regmap function. Most likely you need to enable trace events
+> > for regmap and collect those for let's say 2 seconds:
+> > 
+> > 	echo 1 > ...trace events...
+> > 	modprobe ...
+> > 	sleep 2
+> > 	echo 0 > ...trace events...
+> > 
+> > and dump the buffer to a file. It might have though more than needed
+> > as some other devices might also use regmap at the same time. I don't remember
+> > if the trace events for regmap have a device instance name field which can be
+> > used as a filter.
+> > 
+> > Alternatively you may also try to add a printk() into regmap core, but I don't
+> > think it's more practical than trace events.
+> 
+> Meanwhile, can you test this patch (on top of non-working case)?
+> 
+> diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
+> index 2314744201b4..f799a7a80231 100644
+> --- a/drivers/base/regmap/regmap.c
+> +++ b/drivers/base/regmap/regmap.c
+> @@ -1553,8 +1553,19 @@ static int _regmap_select_page(struct regmap *map, unsigned int *reg,
+>  		 * virtual copy as well.
+>  		 */
+>  		if (page_chg &&
+> -		    in_range(range->selector_reg, range->window_start, range->window_len))
+> +		    in_range(range->selector_reg, range->window_start, range->window_len)) {
+> +			bool bypass, cache_only;
+> +
+> +			bypass = map->cache_bypass;
+> +			cache_only = map->cache_only;
+> +			map->cache_bypass = false;
+> +			map->cache_only = true;
+> +
+>  			_regmap_update_bits(map, sel_register, mask, val, NULL, false);
+> +
+> +			map->cache_bypass = bypass;
+> +			map->cache_only = cache_only;
+> +		}
+>  	}
+>  
+>  	*reg = range->window_start + win_offset;
+> 
+> If I understood the case, the affected driver doesn't use case and we actually
+> write to the selector register twice which most likely messes up the things.
 
-On Fri, Jan 31, 2025 at 06:28:58PM +0000, Lorenzo Stoakes wrote:
-> With the introduction of mapping_wrprotect_page() there is no need to use
-> folio_mkclean() in order to write-protect mappings of frame buffer pages,
-> and therefore no need to inappropriately set kernel-allocated page->index,
-> mapping fields to permit this operation.
->
-> Instead, store the pointer to the page cache object for the mapped driver
-> in the fb_deferred_io object, and use the already stored page offset from
-> the pageref object to look up mappings in order to write-protect them.
->
-> This is justified, as for the page objects to store a mapping pointer at
-> the point of assignment of pages, they must all reference the same
-> underlying address_space object. Since the life time of the pagerefs is
-> also the lifetime of the fb_deferred_io object, storing the pointer here
-> makes snese.
->
-> This eliminates the need for all of the logic around setting and
-> maintaining page->index,mapping which we remove.
->
-> This eliminates the use of folio_mkclean() entirely but otherwise should
-> have no functional change.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Tested-by: Kajtar Zsolt <soci@c64.rulez.org>
+Unfortunately I can not comment regarding the LT9611UXC itself, the
+datasheet that I have here is pretty cryptic, incomplete and partially
+written in Mandarin.
 
-Andrew -
+This patch though fixes an issue for me too, So:
 
-Sorry to be a pain but could you please apply the attached fix-patch to
-avoid build bot failures when randconfig generates invalid
-configurations. The defio mechanism entirely relies upon the page faulting
-mechanism, and thus an MMU to function.
+Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # Qualcomm RB1
 
-This was previously masked, because folio_mkclean() happens to have a
-!CONFIG_MMU stub. It really doesn't make sense to apply such a stub for
-mapping_wrprotect_page() for architectures without an MMU.
+> But this is only a theory (since we don't have the traces yet).
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
 
-Instead, correctly express the actual dependency in Kconfig, which should
-prevent randconfig from doing the wrong thing and also helps document this
-fact about defio.
-
-Thanks!
-
-----8<----
-From 32abcfbb8dea92d9a8a99e6a86f45a1823a75c59 Mon Sep 17 00:00:00 2001
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Date: Sat, 1 Feb 2025 16:56:02 +0000
-Subject: [PATCH] fbdev: have CONFIG_FB_DEFERRED_IO depend on CONFIG_MMU
-
-Frame buffer deferred I/O is entirely reliant on the page faulting
-mechanism (and thus, an MMU) to function.
-
-Express this dependency in the Kconfig, as otherwise randconfig could
-generate invalid configurations resulting in build errors.
-
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202502020030.MnEJ847Z-lkp@intel.com/
----
- drivers/video/fbdev/core/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/video/fbdev/core/Kconfig b/drivers/video/fbdev/core/Kconfig
-index d554d8c543d4..154804914680 100644
---- a/drivers/video/fbdev/core/Kconfig
-+++ b/drivers/video/fbdev/core/Kconfig
-@@ -135,6 +135,7 @@ config FB_SYSMEM_FOPS
- config FB_DEFERRED_IO
- 	bool
- 	depends on FB_CORE
-+	depends on MMU
-
- config FB_DMAMEM_HELPERS
- 	bool
---
-2.48.1
+-- 
+With best wishes
+Dmitry
