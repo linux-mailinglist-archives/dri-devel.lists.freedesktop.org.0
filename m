@@ -2,99 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36204A247C8
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2025 09:41:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5D2A247CE
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2025 09:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF07310E1D9;
-	Sat,  1 Feb 2025 08:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C76310E1DD;
+	Sat,  1 Feb 2025 08:55:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kroah.com header.i=@kroah.com header.b="i9MwJaHi";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="fSZZwkri";
+	dkim=pass (1024-bit key; unprotected) header.d=ucw.cz header.i=@ucw.cz header.b="Cc6GyaHj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
- Sat, 01 Feb 2025 08:41:11 UTC
-Received: from flow-b2-smtp.messagingengine.com
- (flow-b2-smtp.messagingengine.com [202.12.124.137])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6484810E148;
- Sat,  1 Feb 2025 08:41:11 +0000 (UTC)
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal
- [10.202.2.49])
- by mailflow.stl.internal (Postfix) with ESMTP id 03BEA1D40825;
- Sat,  1 Feb 2025 03:34:29 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-09.internal (MEProxy); Sat, 01 Feb 2025 03:34:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1738398869; x=1738406069; bh=Gr1zB5yYMG
- S0lw6CixbzKQ92pbAY2oNwMe6gTZbPNcY=; b=i9MwJaHiU7BS8OwND65BDCuieH
- Je4EZAznyUtwb3hROr93pSf9g7g/bIjny5Ev0iZpVCQdqIM9nWi93DxVjwsgSilw
- Pq8GgqSJcEbJoPqvXTGtXIWcvp0ulE4Nw2r5SIzqEVHVo2zY3WPIGISUxDZ5qZzd
- CNPWHKUUBqoGMZcZmsdPvxw5mBVzqNyuncS02X+QEoA18xIyS608uiQGSYnoGxqL
- KlskeOXTsZb5jRB0EsRcS45X91noS3aw04Jl0Hzh3QxeNwCJ/6pj0RXha3xwVozD
- OG/vlzCvsXr1jdCoTKIjfeLYobAluwfUTKawNY6wA+ckYY0ECfLAeNp9SrTw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1738398869; x=1738406069; bh=Gr1zB5yYMGS0lw6CixbzKQ92pbAY2oNwMe6
- gTZbPNcY=; b=fSZZwkri4RoubdcowJKUZVZZwmyYKScJkeX8j9LdwmT13tlpWzG
- 7rdd28P3o5Ajvs7zmUZ8atuyN2VjZvDHmqwEOJtTEPQESWfERZDacGQ6m+rPTpls
- HWgw0Yz8JX5RN9zmzEHq734wzxefAU6RDzmzZsfUDC2ybSg7vlXVXgkMD89x8Adi
- Q/ZFpZxo065p75FUG7LyLs8S6bMtNZFfYOOG8iWfPOSjbMjBrXF7N2MlOfZUF9CQ
- CbMEYWuyfxsLKAC3feQygULogfIw8J0A9PcQQSIb3yJULzmbhz/HcGdAm1s71Mjl
- iKJ9nZ/oN8xMEG7iBFruFgif9mep32UcAxA==
-X-ME-Sender: <xms:lNydZ_rucv1AleRp3RIuYHvTKQ6IuU6SxIEraEcRusl2KuEHtZUIlw>
- <xme:lNydZ5p4Eo-NhN1TA2k5NixpXEtM9IpmDjrZSJXmYja9tS7F4zCgfbnbA-SxWZMvE
- CkUL3dFGp9UCw>
-X-ME-Received: <xmr:lNydZ8MNkDTcoRxF0Uan_FsFk10WP7eieh37AvYJJga2JJUu96RnA1Un9dqgwg-rYYXLBFKggK0aXYZngH2xEA3XpBs3qw7zCoLyEg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduuddvhecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddv
- necuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtf
- frrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueef
- hffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpehgrhgvgheskhhrohgrhhdrtghomhdpnhgspghrtghpthhtohepheekpdhmohguvgep
- shhmthhpohhuthdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpth
- htoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrges
- fhhffihllhdrtghhpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpth
- htohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtgho
- mhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhope
- htiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghjrghnuhhlghhu
- sehrvgguhhgrthdrtghomhdprhgtphhtthhopehlhihuuggvsehrvgguhhgrthdrtghomh
-X-ME-Proxy: <xmx:lNydZy56WtzRwe-LifRB7XkftVcyAIN7XhYDMysNV6xCmdY4FXZzmA>
- <xmx:lNydZ-4d9956HWSr2XCZlcW3Lo2vGuZ2I9VjVFb_ooxDuZbcPyzcxw>
- <xmx:lNydZ6guanCULnn6Wm7H__JB-w1DrI4ez0jXFuJG2DJadKjLJQQMcA>
- <xmx:lNydZw5fnmiRKQ2UGkv0s3lPZ8uFtoyKCVn5KuBsKbjjEs4zcIRAgg>
- <xmx:ldydZxwtE5Kr-H2vdblUI6jw1Ynv8pyDRN28ZrocygcY6bOZWc-zjqs6>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 1 Feb 2025 03:34:27 -0500 (EST)
-Date: Sat, 1 Feb 2025 09:33:28 +0100
-From: Greg KH <greg@kroah.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
- pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 1/2] gpu: nova-core: add initial driver stub
-Message-ID: <2025020151-leverage-unadorned-fb05@gregkh>
-References: <20250131220432.17717-1-dakr@kernel.org>
+X-Greylist: delayed 421 seconds by postgrey-1.36 at gabe;
+ Sat, 01 Feb 2025 08:55:49 UTC
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5046310E1DD
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Feb 2025 08:55:49 +0000 (UTC)
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+ id B9C5C1C01A4; Sat,  1 Feb 2025 09:48:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+ t=1738399725;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=S9/h32gsK9ywKqz5Lw4yDI62fcqfLayMm/eCbggP/f4=;
+ b=Cc6GyaHjdGK5vJNZmBRJZdW6cD7JZ5/g+lRg3vUYzcbG8jlBBAWeaIwJQ4wfcxU2Rog8nW
+ TmbodGUmcppl4wDtqneQdxt+PgGjRw8EcJj6lizfx+v5JYKlpDWrBg/55HhgDV9snGysTX
+ M1H958VDKPut1DTqxg5ljm2G82rF3Xk=
+Date: Sat, 1 Feb 2025 09:48:45 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Werner Sembach <wse@tuxedocomputers.com>, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, bentiss@kernel.org,
+ dri-devel@lists.freedesktop.org, jelle@vdwaa.nl, jikos@kernel.org,
+ lee@kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+ miguel.ojeda.sandonis@gmail.com, ojeda@kernel.org,
+ onitake@gmail.com, cs@tuxedo.de,
+ platform-driver-x86@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v5 0/1] platform/x86/tuxedo: Add virtual LampArray for
+ TUXEDO NB04 devices
+Message-ID: <Z53f7VNIgUWWFn9l@duo.ucw.cz>
+References: <20250121225510.751444-1-wse@tuxedocomputers.com>
+ <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="t+WGy4gS/jMLitDQ"
 Content-Disposition: inline
-In-Reply-To: <20250131220432.17717-1-dakr@kernel.org>
+In-Reply-To: <aa91e17f-0ea8-4645-a0f9-57c016e36a9e@gmx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,22 +64,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 31, 2025 at 11:04:24PM +0100, Danilo Krummrich wrote:
-> +impl Gpu {
-> +    pub(crate) fn new(pdev: &pci::Device, bar: Devres<Bar0>) -> Result<impl PinInit<Self>> {
-> +        let spec = GpuSpec::new(&bar)?;
-> +        let fw = Firmware::new(pdev.as_ref(), &spec, "535.113.01")?;
-> +
-> +        dev_info!(
-> +            pdev.as_ref(),
-> +            "NVIDIA {:?} ({:#x})",
-> +            spec.chipset,
-> +            spec.boot0
-> +        );
 
-When drivers work properly, they should be quiet, so can you move this
-to dev_dbg()?
+--t+WGy4gS/jMLitDQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+Hi!
 
-greg k-h
+> > I now got my feet a little wet with hid-bpf regarding something else, a=
+nd
+> > with that knowledge I would leave the long arrays in the beginning in t=
+he
+> > kernel code for the time being:
+> >=20
+> > sirius_16_ansii_kbl_mapping and sirius_16_iso_kbl_mapping are required
+> > during initialization so they have to exist in the kernel code anyway.
+> >=20
+> > report_descriptor will most likly not change even for future models and
+> > afaik having report_descriptors in kernel drivers is not unheard of.
+> >=20
+> > So the only things that could be meaningfully moved to a hid-bpf program
+> > are the sirius_16_*_kbl_mapping_pos_* arrays. But for these is have to =
+give
+> > out some fallback value anyway for the case where a hid-bpf file is mis=
+sing
+> > or fails to load. So why not use real world values from my test device =
+for
+> > these values?
+> >=20
+> > As soon as there is a future device that can use the same driver with j=
+ust
+> > these pos arrays different, then I would implement that change via a bpf
+> > program instead of a change to the kernel driver.
+> >=20
+> > Let me know if you too think this is a sensefull approach?
+> >=20
+> >=20
+> > Another question: Would this patch need to wait for a userspace
+> > implementation of lamp array before it can get accepted?
+>=20
+> It would be nice if you could test the LampArray implementation. But othe=
+r than that
+> userspace can catch up later.
+>=20
+> Still, i am interested in the opinion of the LED maintainers
+> regarding the fake HID interface.
+
+Comments from previous review were not addressed.
+
+Most importantly, this is not a way to do kernel interface. We want
+reasonable interface that can be documented and modified as needed. We
+want to pass /dev/input to userspace, not raw HID. This is not ok.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--t+WGy4gS/jMLitDQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZ53f7QAKCRAw5/Bqldv6
+8r1XAJ9ybQ25RhK01bbqWLJeDafym4vE7wCfcUwxRi+iQ738e+ZzEgfvabQY5NE=
+=upCv
+-----END PGP SIGNATURE-----
+
+--t+WGy4gS/jMLitDQ--
