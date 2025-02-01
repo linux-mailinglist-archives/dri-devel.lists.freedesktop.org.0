@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB9DA248E5
-	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2025 13:12:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4CCA24923
+	for <lists+dri-devel@lfdr.de>; Sat,  1 Feb 2025 13:51:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E612510E074;
-	Sat,  1 Feb 2025 12:12:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BD4710E219;
+	Sat,  1 Feb 2025 12:51:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e4YFI8tv";
+	dkim=pass (2048-bit key; secure) header.d=gmx.net header.i=wahrenst@gmx.net header.b="IFyKnyiB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBDA588E45;
- Sat,  1 Feb 2025 12:12:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 063F65C39E1;
- Sat,  1 Feb 2025 12:12:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10FF6C4CED3;
- Sat,  1 Feb 2025 12:12:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738411963;
- bh=zqN7AakLlbtVefgeIf3wADi+hbc/wJ/4nlqzKX2S6xw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=e4YFI8tv35vRm6FBikSeoD+z0U2PU15duxLPkIK9EeJSbci27jlSwjE5KnnOTmmVC
- 67vmY76tlJ1UcdOGKbybLY1VmJ+uFS2QLF1S6lltNYOh+Jw96Wkl3bshnWNlZOKUq6
- 2mDrZnDz+PH2imYaLfPrIkI9UaOjTQ4/Aq+2KlIJyzvEeyNMG64OxqGXKCa/A8jGco
- CZLuw9bjSOw+NPGL3u/h8fuTdi56vb4WHQmkPwhHaQE1bze8vx53qiI3qe6nziogXw
- 1LzJX2WnjAX8bHWaIbo3yTREe2k4fVKzZj+KKbMt+ikTE6dj9u8PNU3pH/mziZJwos
- Z3/Tzyqf6WS9Q==
-Date: Sat, 1 Feb 2025 13:12:35 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Greg KH <greg@kroah.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
- pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
- jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
- ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 1/2] gpu: nova-core: add initial driver stub
-Message-ID: <Z54PsyY-fNRBwJQ4@cassiopeiae>
-References: <20250131220432.17717-1-dakr@kernel.org>
- <2025020151-leverage-unadorned-fb05@gregkh>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F0B510E219
+ for <dri-devel@lists.freedesktop.org>; Sat,  1 Feb 2025 12:51:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+ s=s31663417; t=1738414255; x=1739019055; i=wahrenst@gmx.net;
+ bh=ksc9LDzcVJ8NsfCRkNnZJ/sDE50pMagCoJkWLkY6T8E=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+ MIME-Version:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=IFyKnyiBWaaqX4tpOK5xVK88ihFGkdLUa4EOzOdCV+wlbqLxJEdE5GEJW3ANz7rn
+ 1yFXEPo3QM7vmtaOiZd3/kmydlnMfUcMuie6g9kF1qbAcMeaqueXcBRLU7lKj6W1d
+ B1LYVDhiRY+4Z9y6MoJRiD6tvZh4beyBfxyTUB0uKc4vFvCx9SIDGQKIxVhsbhgyc
+ mf71GlrKjZ9OslZISCfK/MTfDi/j8eCERNmCTHjfFm2iUOxrW6m2zKWk7ArKqvS1M
+ 9BeONdr7lIjsthsYycVqiCZciwbPf3NKOciPzjgmVmFtjG1Y0Anp0qm7v4NVsBFUw
+ saEUNq7hQGWW/reeMg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MQe5u-1tpod71rhW-00SFBo; Sat, 01
+ Feb 2025 13:50:55 +0100
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com,
+ Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH] drm/v3d: Add clock handling
+Date: Sat,  1 Feb 2025 13:50:46 +0100
+Message-Id: <20250201125046.33030-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025020151-leverage-unadorned-fb05@gregkh>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:00mu1rAZBO2E0U+cFaN8ms2RfDsvH5u8rTv39vdVtbkwR/Xwwoi
+ 7wtJi2V6kz5XrHCDT4kQRVK7ABdBj+HERi+TNHA+pFkUkhpozcfeYDmwZt919GVHGDCoGvc
+ 9kNTLDB3Ot3fw8OUBZKlj77VUki7VBE6lAUKAVM7BEE6sgTY6oEv+FURuzyhj9ZnItQTc1i
+ 0DM9vI4+6jt0GZ+LiFnQg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:hW2sjhKH7m0=;vA3HeB4DhImYO5yfIz4VBvpcVc9
+ 2tlxeVpdyKAAzdy+3K3xOmelamXwergAjiqH8fuKXPpcBWTx/bNMklyebMcWH92YTBdqh1Z8u
+ WTWbhJDGSnuV/ARTeD3MityQF72zKrlP7RsF3AgR5zOOqGyYNUefj/QClw1c9S9mtLq6RrwOU
+ 34KyrlL1GdfULCs2VaVToX5PbBNfNmTV6J3ENF7kC7yJQfVfrDH6JbtMf+Sx5zM1lJINOqH7h
+ WUo45RQiotQ7ovotJlEgIYHt+4dB9iwZ5Nrxcu4UMk1Uqc1glhsPGfIryWpljwGfkxDpsHnAu
+ SPBxmx307/JkpoAV/LBU4S0JelbO4LqqLych+8mqdZJYW2ooxR5Qimhk786yWudcSqHQViwaw
+ fyMQIeDAkHvQvgwuPoqvxARwrsL28JtYkhV9douPaiXcG/M53I7wNqiN+wPlgJRwfN8/h8rTs
+ nvYGJ8F1l9CSGp+5bL03LhR+0cc8JbHXN4KP62qVZ6FZakaCmZEd8O0Q4N/2W/ycWNGc20F/7
+ SifuUGaFyy0nXNQ+el8HPAG8w4d4dExXppX27u3vKFabvPsvWh7yLPUWIsH9280zl9dt8bLsU
+ NdpeJ9pc1U8e2UJevcMnIClQhVJwSll6Lp26omN//rm1YupUO2HkN7YL8zb9sxfxVkYulZxux
+ Bzq797b/ExSj6zmLHI/AxqvsTaNi7h35ptSuf05fjeokPxEOn0U+/7ZAfJH9tS/MsTpL6/yqy
+ 4lHyjo4rk3LPW53EG0RCs1YDMQVSW7UX3YFnWewA5VnZMMQNxU6e6dAjT2XBbcny4ybhpdSVI
+ GofCYJijUTvK/CvKipUymTbjJpVGKxTDv0Ov1kn655m5SP1KhV6DffCMXqDErJS+SK6R9Y+N6
+ DYWInJltlQva1PrVVWRYtQLe2XpnniAQqpc0owZtxTIe/ZD9dLNpT0MNixBEXT9RKZxH80yow
+ NokelVi+6stAZCNIFLX6sb9xCW4vHKifHl54InquHyNJxhD3ZhHwHUV5mV4awqt7aL52cS+6N
+ V1ew/jpOsTU1J4oL+jtGRx6b3xfb9rTzdnro6KSsFMl8Uj+f6GQuOKxG43Sr3q/iql8PSOOcq
+ OkHPBSt/x8XZU2mOApSNvlzPzz6sznfDHqVKyEOufZGiFemztvVtT1HSWZSSVQi4ZBXp+NJls
+ H5yEbq4nWZds75y0v/MYgyXStVrQkoHB267YQqkdGSkIvy2SxLGQAClL3Cr5jMu0wiz5/nLr6
+ XLVdQP2vf5mqs6J/3Oq7i/H5IOhba/mFzA33Cnt50hUTwH6Q2kS1+SU/89mM6C+IXZWVK/ox1
+ csGFx1Q9jAin/2I068tAK37CzyxQ/xSOK/Ic/EubFGr1bA=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,26 +86,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 01, 2025 at 09:33:28AM +0100, Greg KH wrote:
-> On Fri, Jan 31, 2025 at 11:04:24PM +0100, Danilo Krummrich wrote:
-> > +impl Gpu {
-> > +    pub(crate) fn new(pdev: &pci::Device, bar: Devres<Bar0>) -> Result<impl PinInit<Self>> {
-> > +        let spec = GpuSpec::new(&bar)?;
-> > +        let fw = Firmware::new(pdev.as_ref(), &spec, "535.113.01")?;
-> > +
-> > +        dev_info!(
-> > +            pdev.as_ref(),
-> > +            "NVIDIA {:?} ({:#x})",
-> > +            spec.chipset,
-> > +            spec.boot0
-> > +        );
-> 
-> When drivers work properly, they should be quiet, so can you move this
-> to dev_dbg()?
+Since the initial commit 57692c94dcbe ("drm/v3d: Introduce a new DRM drive=
+r
+for Broadcom V3D V3.x+") the struct v3d_dev reserved a pointer for
+an optional V3D clock. But there wasn't any code, which fetched it.
+So add the missing clock handling before accessing any V3D registers.
 
-Sure, the only reason I made this dev_info!() is because, as an initial
-skeleton, the driver isn't doing anything else for now. So, I thought it would
-be nice to have some sign of life.
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ drivers/gpu/drm/v3d/v3d_drv.c | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
-Of course, the intention was to remove this, once there's any other sign of
-life.
+diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+index 930737a9347b..852015214e97 100644
+=2D-- a/drivers/gpu/drm/v3d/v3d_drv.c
++++ b/drivers/gpu/drm/v3d/v3d_drv.c
+@@ -295,11 +295,21 @@ static int v3d_platform_drm_probe(struct platform_de=
+vice *pdev)
+ 	if (ret)
+ 		return ret;
+
++	v3d->clk =3D devm_clk_get_optional(dev, NULL);
++	if (IS_ERR(v3d->clk))
++		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n=
+");
++
++	ret =3D clk_prepare_enable(v3d->clk);
++	if (ret) {
++		dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
++		return ret;
++	}
++
+ 	mmu_debug =3D V3D_READ(V3D_MMU_DEBUG_INFO);
+ 	mask =3D DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
+ 	ret =3D dma_set_mask_and_coherent(dev, mask);
+ 	if (ret)
+-		return ret;
++		goto clk_disable;
+
+ 	v3d->va_width =3D 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
+
+@@ -319,28 +329,29 @@ static int v3d_platform_drm_probe(struct platform_de=
+vice *pdev)
+ 		ret =3D PTR_ERR(v3d->reset);
+
+ 		if (ret =3D=3D -EPROBE_DEFER)
+-			return ret;
++			goto clk_disable;
+
+ 		v3d->reset =3D NULL;
+ 		ret =3D map_regs(v3d, &v3d->bridge_regs, "bridge");
+ 		if (ret) {
+ 			dev_err(dev,
+ 				"Failed to get reset control or bridge regs\n");
+-			return ret;
++			goto clk_disable;
+ 		}
+ 	}
+
+ 	if (v3d->ver < 41) {
+ 		ret =3D map_regs(v3d, &v3d->gca_regs, "gca");
+ 		if (ret)
+-			return ret;
++			goto clk_disable;
+ 	}
+
+ 	v3d->mmu_scratch =3D dma_alloc_wc(dev, 4096, &v3d->mmu_scratch_paddr,
+ 					GFP_KERNEL | __GFP_NOWARN | __GFP_ZERO);
+ 	if (!v3d->mmu_scratch) {
+ 		dev_err(dev, "Failed to allocate MMU scratch page\n");
+-		return -ENOMEM;
++		ret =3D -ENOMEM;
++		goto clk_disable;
+ 	}
+
+ 	ret =3D v3d_gem_init(drm);
+@@ -369,6 +380,8 @@ static int v3d_platform_drm_probe(struct platform_devi=
+ce *pdev)
+ 	v3d_gem_destroy(drm);
+ dma_free:
+ 	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
++clk_disable:
++	clk_disable_unprepare(v3d->clk);
+ 	return ret;
+ }
+
+@@ -386,6 +399,8 @@ static void v3d_platform_drm_remove(struct platform_de=
+vice *pdev)
+
+ 	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
+ 		    v3d->mmu_scratch_paddr);
++
++	clk_disable_unprepare(v3d->clk);
+ }
+
+ static struct platform_driver v3d_platform_driver =3D {
+=2D-
+2.34.1
+
