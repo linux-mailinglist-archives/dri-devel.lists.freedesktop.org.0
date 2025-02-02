@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76547A24F9B
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2025 20:05:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26CDA24FA5
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2025 20:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0088210E28E;
-	Sun,  2 Feb 2025 19:05:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EA0810E290;
+	Sun,  2 Feb 2025 19:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="GGC2wyvm";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="TCmPGtHf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E81A10E28E
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2025 19:05:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACF9D10E290
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2025 19:09:05 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id CE99325AB1;
- Sun,  2 Feb 2025 20:05:18 +0100 (CET)
+ by disroot.org (Postfix) with ESMTP id BFE8025B4D;
+ Sun,  2 Feb 2025 20:09:03 +0100 (CET)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 0_FarVtUe3uv; Sun,  2 Feb 2025 20:05:17 +0100 (CET)
+ id R78ycfH2rEdc; Sun,  2 Feb 2025 20:08:59 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1738523117; bh=uZPnvPpJWT6jieto24uQtfNE/WGiMaBy8XW8tZAAa5E=;
+ t=1738523339; bh=uZPnvPpJWT6jieto24uQtfNE/WGiMaBy8XW8tZAAa5E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=GGC2wyvm5IetYNvJDj27pTw8z0xuRktP8pnIiNfKAraCLNvyiNFjy0cB6OwrIGMQa
- 4ah1n0wCT2/rfz4XFgqLid5dnMlt7prpkW73xEUQRzWLHF0PyUjMmDZeHlO8u2hrSd
- OcdXzEt73p7UCNxDE9ZP2JeBRAz1VxqiDkb38l4evdS9BpEVDW6ZnAU3vN8KOgz7Ph
- 8v0hFMuw0geSb3VU/5Njoh5ib8i4QAmGYzLIo1XvVOAWptz5zMYiLf+pSTSzvf5JbC
- 3njsZbeXUFXFnk/efUe58NZwVvmWqU+WmZ+Iw9fLBgYEN6E+YPssErFwyh65EuDxLb
- bk7Th8uxYfIxQ==
+ b=TCmPGtHf33Hh1MO6RvRQV8fdoJeuB8jU38nVb9WuD2Od65unGQAANvP4e82tHr76E
+ /tMKfwUmWTmQXXwDAwq43Imx5NL8wU1ygm2wMTxjhawWvbIRTnhaxOALlxkPxRQy5Y
+ uRDqvnN1EH0TyITorxQHkuPKpu+SrdlwFkIXPT8b6VKjLE0CIIGQ6peis1JdlR4qL0
+ cY2Hmj78ebblz861lJjz0+zppXpDxJ3oWE7j20YEBaszP2PG9OTg48vbjgsMfEu8lb
+ U4lubAXwPjHpvk48mCLpNgUtqE3scV/I6Lnek8cwFhvm5HU2/1MQ+GMd9ccUnwLARz
+ 6/VphTJwyoiow==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
  Conor Dooley <conor@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>,
@@ -62,10 +62,10 @@ Cc: Sergey Lisov <sleirsgoevy@gmail.com>, devicetree@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
  linux-mmc@vger.kernel.org, linux-hardening@vger.kernel.org,
  Kaustabh Chakraborty <kauschluss@disroot.org>
-Subject: [PATCH 03/34] dt-bindings: clock: add clock definitions for
+Subject: [PATCH 02/33] dt-bindings: clock: add clock definitions for
  exynos7870 CMU
-Date: Mon,  3 Feb 2025 00:34:54 +0530
-Message-ID: <20250202190454.14632-1-kauschluss@disroot.org>
+Date: Mon,  3 Feb 2025 00:37:58 +0530
+Message-ID: <20250202190758.14986-1-kauschluss@disroot.org>
 In-Reply-To: <20250203-exynos7870-v1-0-2b6df476a3f0@disroot.org>
 References: <20250203-exynos7870-v1-0-2b6df476a3f0@disroot.org>
 MIME-Version: 1.0
