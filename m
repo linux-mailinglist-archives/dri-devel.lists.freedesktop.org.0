@@ -2,89 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA10A24E36
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2025 14:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B8B2A24E6A
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2025 14:52:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C23810E046;
-	Sun,  2 Feb 2025 13:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F60310E327;
+	Sun,  2 Feb 2025 13:52:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nKaRFTdn";
+	dkim=pass (2048-bit key; secure) header.d=asahilina.net header.i=@asahilina.net header.b="Ji5IC4Py";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4F7F10E046;
- Sun,  2 Feb 2025 13:27:12 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-43635796b48so21395995e9.0; 
- Sun, 02 Feb 2025 05:27:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738502831; x=1739107631; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WAvOQI1Wn4DH9Wv7uUKNmkcHNCqY1/iZtJSY08Wnp3U=;
- b=nKaRFTdnhg+Tto1tqkOweOaxUZzGpTh4faAPU50vw1+I/hJ6OmD7IyKcuMSoYX0E8o
- Z9LFvaGAmLz9URYSljaf/5wC3/6navmL0GFOtycQVIwm0qaSInxznoDlkiw6GqLEvRBB
- VuOHGQl8aKGkWun/YpijvJHiSvWjLUbjk/7aS2Ip73G+APGHgcb5jTeAL4F0yZqXB9+7
- XXNeThsYcv2TEF17PayCBGkqHu91lZ0QGC6bPjH2lGqOV8Puoe1foiWyZHe+VPskO1yG
- 8FvNZ71/38ZLAdcTdlVMAQYwYZdpGRr28DsLGcnG2DkSL8OG4te4k4p1eyBdRYUofsMb
- Xy0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738502831; x=1739107631;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=WAvOQI1Wn4DH9Wv7uUKNmkcHNCqY1/iZtJSY08Wnp3U=;
- b=iiRXXTqyezfM+Q5AhbQpUY3G0Ip1pDuD7LDsx+nqRvvpcvNfrNnBup4BRYmbCZ/OY5
- oVnpexwHvzdc56RMRZpmFYkKhxwyqCFIOD+VaWpNs8JNrb2iHAVv2VA6VwDgqcZtFF12
- Hh6aF8AeX1UAXTMSOsta+u0bYuTnSuLAyL7oub5W2MSjgPbHJ8w8tEBSMW4TsctFCZys
- kUfYtPdJXy5lcmDD/L/b34PAxGg+FE20mGEjO3oMuyjB6LoC4dw3/IZr1v17O/0l+2k4
- 0zchFKEILjwgZFv5sbZ3fmUCdB58C1SnVWgjozfNJ6lsjOgNiyHUK4rCGtkNMCR1T5/L
- 4jQA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX61arZkrxceIjAu91rIJZSewx5QBo29HXIt8h8ql31m3EnczlgqgydemlHtDuQ49B/n2tDvEaFDKwo@lists.freedesktop.org,
- AJvYcCXAB+uQxOg4sN0zoac5eDIESePR5fTxCVVoP5ssi+UZjGUPOi2JGRgKAkavmGKt5Xp4adbHPpk4LEc=@lists.freedesktop.org,
- AJvYcCXToiMEZWV0SwML//7kOjIYg3YVY1Art5W7i6Rpay7NXqm4OPUb5FrgTdNKv+MSs6r+SHjT7xrQOQk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxwJs51Oxxs2tb83vljxfvtAW4V0oS7Y1j+tzqFG2hH+uqFRrOv
- E0b5Yn5ujALufjiF1Lj5gPEZ9kSdtADFQhJ1mHZyL5cvfusjt+Gx
-X-Gm-Gg: ASbGncsafdCgx+gfSj0jksUtX0sTttWR01S/HryphD7SlgvDOlx2udMXF/TAiQbTLUU
- iW8DpI3pgSfqpl+9QNLpybiAEgq+FC1uFJTad+ZLgHFGJSau75JkMrdx0002AyogieT3uTSe0kW
- V+SAo9UuXLC9SRp+s+DjcIUK4qF99RYGNytJtT2VD+/Wu9MY4a3rLZFGYkroLvvThFpvJkB82eB
- Dccw3Lrh/2UewTJlQ7bwx8GAzJQilqXYXHbzyIjqmEm65Nb+xolLAu5rxrNnvkQL/4TIiLRRMWp
- Lw7Ituvheirf72CBvTluaBv88/QVelc6uVdmX4GDfOpkbnIb82PHCw==
-X-Google-Smtp-Source: AGHT+IFhxc419TFWlww4Aer27PrCQcXjY0iJFZ6vSCeovYji+JiCAIeiqg0F1EozClpYtrlYh0mnDw==
-X-Received: by 2002:a05:600c:34c6:b0:436:1b77:b5aa with SMTP id
- 5b1f17b1804b1-438e6ed5faamr75285655e9.8.1738502830692; 
- Sun, 02 Feb 2025 05:27:10 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-438e23d444bsm122686965e9.8.2025.02.02.05.27.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Feb 2025 05:27:10 -0800 (PST)
-Date: Sun, 2 Feb 2025 13:27:09 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, Guenter Roeck
- <linux@roeck-us.net>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v2] drm/i915/backlight: Return immediately when scale()
- finds invalid parameters
-Message-ID: <20250202132709.3ab54376@pumpkin>
-In-Reply-To: <CAHk-=wix3Rgt+8yBHDdeb_F+c8TzL5aidtCiUEpF+TBc6SCLiQ@mail.gmail.com>
-References: <20250121145203.2851237-1-linux@roeck-us.net>
- <Z5AmlJ8stVQ4L5jS@intel.com>
- <CAHk-=wix3Rgt+8yBHDdeb_F+c8TzL5aidtCiUEpF+TBc6SCLiQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1989210E28A;
+ Sun,  2 Feb 2025 13:52:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: sendonly@marcansoft.com)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 5B93B4269B;
+ Sun,  2 Feb 2025 13:45:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+ s=default; t=1738503910;
+ bh=3AvMwJ2jULJvu6H8cVIc1G7+NuSo81Y/MeyNFbPbV8I=;
+ h=From:Subject:Date:To:Cc;
+ b=Ji5IC4PydnxsZxDxaqzMBdWkRSyC74+bIxQs1UCGEKyTynR95nD7ygDHzTYpmsCBr
+ jU51iUNuu3VzDWU+uLunEBdeXUlGs/20+/BaR96jKexDIhEO2WnfVB52HDbOKcOQqM
+ MZXy687jmGWPiW+jrxj5f/tmnvbNsHiCo1J9uXic8mtMqao5kzj8lGogI7vqunzL+U
+ lMMYpL3CB5y2t2eyegRjnOKZ+OSqA+7sw6s8oDBfXUwAHnJKJ6wOU24QP6oDAvJtd1
+ bFASQDpb9uhDzNVc5nBzGsqLknGti8rQARaozoodEiZoVMnRzOB7AgW8ZrprbTRMv1
+ qfOJcwaPLJnUg==
+From: Asahi Lina <lina@asahilina.net>
+Subject: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled mappings
+Date: Sun, 02 Feb 2025 22:34:49 +0900
+Message-Id: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHl0n2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDIKGbXlBalqtbnJmXnpOqW5AIVGBkamxsYpZobmJmbq4E1FdQlJqWWQE
+ 2Mzq2thYAixoWp2MAAAA=
+X-Change-ID: 20250202-gpuvm-single-page-253346a74677
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738503908; l=2980;
+ i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
+ bh=3AvMwJ2jULJvu6H8cVIc1G7+NuSo81Y/MeyNFbPbV8I=;
+ b=N+BAOegpxo9UAn5W5vwEtkBj+YvWzILm1x1cmu8zmxtnc3lvtyTW+g9+kRg303d2e7RY12OKB
+ fJ7OLEyFGHQDqA/Bf1+k/DzKPmhK2sTSI5HbJZj+/gUYsnzLVK2HZtn
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,21 +80,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Jan 2025 15:15:09 -0800
-Linus Torvalds <torvalds@linux-foundation.org> wrote:
+Some hardware requires dummy page mappings to efficiently implement
+Vulkan sparse features. These mappings consist of the same physical
+memory page, repeated for a large range of address space (e.g. 16GiB).
 
-> On Tue, 21 Jan 2025 at 14:59, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> >
-> > I'm pushing this soon to drm-intel-next, unless Linus want to take
-> > this one directly to his tree  
-> 
-> Let's just go through the proper channels and go through the drm tree.
-> 
-> Unless I've issed something, I think this is only an active issue on
-> parisc (and only with certain compiler versions at that), so it isn't
-> some super-urgent thing that needs to be expedited.
+Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
+ranges to correspond 1:1 to virtual memory ranges that are mapped, and
+does math on the BO offset accordingly. To make single page mappings
+work, we need a way to turn off that math, keeping the BO offset always
+constant and pointing to the same page (typically BO offset 0).
 
-It probably wants pushing into rc-2.
-The build bot is complaining again.
+To make this work, we need to handle all the corner cases when these
+mappings intersect with regular mappings. The rules are simply to never
+mix or merge a "regular" mapping with a single page mapping.
 
-	David
+drm_gpuvm has support for a flags field in drm_gpuva objects. This is
+normally managed by drivers directly. We can introduce a
+DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
+sm_map and friends need to know ahead of time whether the new mapping is
+a single page mapping or not. Therefore, we need to add an argument to
+these functions so drivers can provide the flags to be filled into
+drm_gpuva.flags.
+
+These changes should not affect any existing drivers that use drm_gpuvm
+other than the API change:
+
+- imagination: Does not use flags at all
+- nouveau: Only uses drm_gpuva_invalidate(), which is only called on
+  existing drm_gpuva objects (after the map steps)
+- panthor: Does not use flags at all
+- xe: Does not use drm_gpuva_init_from_op() or
+  drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
+flags field of the gpuva object is managed by the driver only, so these
+changes cannot clobber it.
+
+Note that the way this is implemented, drm_gpuvm does not need to know
+the GPU page size. It only has to never do math on the BO offset to meet
+the requirements.
+
+I suspect that after this change there could be some cleanup possible in
+the xe driver (which right now passes flags around in various
+driver-specific ways from the map step through to drm_gpuva objects),
+but I'll leave that to the Xe folks.
+
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+Asahi Lina (4):
+      drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
+      drm/gpuvm: Plumb through flags into drm_gpuva_op_map
+      drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
+      drm/gpuvm: Plumb through flags into drm_gpuva_init
+
+ drivers/gpu/drm/drm_gpuvm.c            | 72 ++++++++++++++++++++++++++--------
+ drivers/gpu/drm/imagination/pvr_vm.c   |  3 +-
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c |  3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c  |  3 +-
+ drivers/gpu/drm/xe/xe_vm.c             |  3 +-
+ include/drm/drm_gpuvm.h                | 26 +++++++++---
+ 6 files changed, 84 insertions(+), 26 deletions(-)
+---
+base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+change-id: 20250202-gpuvm-single-page-253346a74677
+
+Cheers,
+~~ Lina
+
