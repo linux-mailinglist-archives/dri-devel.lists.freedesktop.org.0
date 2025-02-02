@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01953A24DB6
-	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2025 13:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 958E9A24DB7
+	for <lists+dri-devel@lfdr.de>; Sun,  2 Feb 2025 13:07:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B784A10E190;
-	Sun,  2 Feb 2025 12:07:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8376810E25F;
+	Sun,  2 Feb 2025 12:07:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kg28nvcU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uJFDCIx6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15AFE10E190
- for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2025 12:07:20 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-540215984f0so3728846e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 02 Feb 2025 04:07:19 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6115D10E25F
+ for <dri-devel@lists.freedesktop.org>; Sun,  2 Feb 2025 12:07:22 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-543e49a10f5so3623585e87.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 02 Feb 2025 04:07:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738498038; x=1739102838; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738498041; x=1739102841; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=xhw5N6hu1mAiszBnZTb89OhX/h/jTmadLA2Ac168sA0=;
- b=kg28nvcUd/gHzlMxGTPwnMW7NPSdpKs9306jfSVt4OHft7ZXXjSmguNX0QUaSf5QHI
- +e79zkRI8DA8RsEQJc0cS/2B3vlcR8xoT4Z7N5CM5xUHSry5G2xUsuImKL6/iUfHucmT
- YD3iLZVxVeiEJQbLb+mtVaL1S60MhHqjBR9xHqZBL+ubCNefx1CNKX4hBCW5NPMVMaK0
- zMhNZ03JuGosfNN5AGQopQzzK5hwfc0vcF1GOPhX9ud4qO1TIOELBZbBycaCYHmbPSgr
- ZSfSq05OY/ezaL1qqEr+dANjBLHyjwwOKKKHtMdU0gPpVkunN4KXFOwehAOH3PcPjFe8
- 1/yA==
+ :reply-to; bh=F59sj0XNKbiGtLNc0GKb2ggGZoaV7/aeIrEMGH1u/DA=;
+ b=uJFDCIx6MKqQQGx7p5oDmaTOAPbSrk/6hZBCJpwTFhIg2G5A7T95SdrNu16qb7B/E5
+ lfzAJKFKJo1DoFgJMsiSeI0aA2+PJclwzeNc5JW+asfXrRnOQxjZywMlaz5wZe6Q58gA
+ 4R55ckr4JC3uwCjAP8702i64Iu8sVVtBTVHM+TSdvdmbVGuKRB+3ouNRXy32bhhrEdLp
+ HdAGL1HF9By1G5oBuhm69SI9BfqxU6uvkAJ3VOme/IfFJCO4ejzcpYjUY3Bl3Oi65cu3
+ ueDeYhgxb+JLA+4Nc74LFARsZSZs1O8BNEKLMFcd5C7qGjC0EEGe+lKJp2mlcLVM1GPW
+ BRxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738498038; x=1739102838;
+ d=1e100.net; s=20230601; t=1738498041; x=1739102841;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xhw5N6hu1mAiszBnZTb89OhX/h/jTmadLA2Ac168sA0=;
- b=f8uYr97R76Sr/PwU8iG+HfZRfNzlb3OKvgwqEzC6PhieZRlzxeQBClXUA74aywQ/ul
- NQBTGdSpUV46GFtoXaC+VEZ8OH34zqKdPFZ87t331cISKLi+c9pZrSotsNfnx8Tn+ig2
- e9nKo4H73dJ7Nsi4L5CbCBLS25ZNyTK+yLWbNhfSOe1PPL7yjqPV+k2vSoZ6g207ZUsl
- bGh1nHimfKAwlb/5991goHObWwnztDBsFb4+1ewZBVr1UzjnbQlozayhxbiJpifNFDED
- 3UTq9NtbEiBBitoWAypuQgdtrxkFjTas0FXli9JvcpNT9fyiqlEOH63S93OuzvtmWL+L
- eDsw==
-X-Gm-Message-State: AOJu0Yy90JtkSqUoyYg4EBFU81+r26c7Rxm2/n0HoTgNGgev31yYquxr
- DdhNL93AgeQmBPeuWPyknCCgOEnNbxoxkLsZIoVZ2B4I7qRD0KCnYTISX8J4ysE=
-X-Gm-Gg: ASbGncvgMgEY+qJrv7xyf62f7pBaCLoZEhIO+HX56J9x3LxyY6+T1HpSwDhj6XaWdPZ
- RmC+DgSJSrAMbs0PF4HOooYMM8u0HNfAXyjjhj+bM/46HPZP1s7OQnL6KIVDfhFqcsto1hUH/bq
- xLbfHHNEe07HqoGwG6dkSepGHsLlLg9jwoG8bdeJsQWSZaUav5qDDFhyWpnITxsifh3KTCNEli7
- AHqChP3iy3GkJJtCgEuBuXRLSHW4GdyhRVHn4/rfCoXOvX4ftyCKBbAw1HyPylytnduxolw7kAx
- 6AhxKy0SU6xW4QELT1UFiKA=
-X-Google-Smtp-Source: AGHT+IFKxqh5RzRr7EynRmlZdOMQxYF98ueum1lpXp6uhGzXBycMfXIfxbOZE8sRaPbWGVtxWKLsLA==
-X-Received: by 2002:a05:6512:2311:b0:540:1d0a:581e with SMTP id
- 2adb3069b0e04-543e4c01840mr6466809e87.28.1738498038133; 
- Sun, 02 Feb 2025 04:07:18 -0800 (PST)
+ bh=F59sj0XNKbiGtLNc0GKb2ggGZoaV7/aeIrEMGH1u/DA=;
+ b=llEzw+bLbD1rv0P26sYWii/oETM47gGgh+wc2DEscCnjgtUWZUTdSh0nplS1UBBRL/
+ ItsI/Wwn9YQH1u3gijUAstiUYt7NbN1/q9ywX8vVwQxf/597W6DptRRcObyu+R4JQ0xz
+ moV0czRDXdGLGSGFQZgEKt2Sn2u6UtDIQXPSX77DmICAsJEnPEFjxlAVqNcugw0Eq6Te
+ yNkrE4vkQeKF71p7/siHDCSvvQqLscHJ4oXeThOecoxDQJLGU/hH3sEk0xVYaIDBJoYM
+ JZEreZi+25nFWXD1NAl32PI3lFPpUgOQtEto6/shykEGVebuvMaTAHJGU3632P818zzi
+ zbxA==
+X-Gm-Message-State: AOJu0YxcrpNd5tPHMR0aIdQhpQVLTqRD7ckF/Y748dSnOYRbIgX3GMF5
+ Oo1vvF4+mvXUx6uf7xrORiSNabp5nrvqq1s0jGGWcRPMyaHExDoR/ZKLsxkfMwA=
+X-Gm-Gg: ASbGncuFWygDn0aSSPjVcEXmRD7IPT+si0fMaeAPPaI99WaRF4z7gBRthP+tceoJIFl
+ mXdl4qv24njZMdy88HHM06KJ14cQ1rilhjPeIgei08cqwCQ+8bVeBR9YAfCfynCR+ka3vp23ny0
+ 088AH71cZ6I9NYGzJfT50nZADaHTTHSBLUmKliAtpLhz6OKVVsubYjAdBrdrCEwjyy8zBq+ZI5t
+ 2fQ/4ASNZEhTIKDSLwrxHmb8TEbKXisUX3XwgZdH1y42L7sJ7KGSVUWoe4eAjIDQQ7yG/eBcel/
+ jzgz+yGnfzeI6SvuXQMpYiE=
+X-Google-Smtp-Source: AGHT+IHVYRDC4J4iYdmsbDvkkAZqI5KPrACpL/BZx5B/ZFeHipes2e1xGC3WGrn3XHqGwbLb5pLbxg==
+X-Received: by 2002:a05:6512:102f:b0:543:e4ac:1df6 with SMTP id
+ 2adb3069b0e04-543e4bdff98mr5145760e87.5.1738498040651; 
+ Sun, 02 Feb 2025 04:07:20 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543ebe10678sm960695e87.101.2025.02.02.04.07.15
+ 2adb3069b0e04-543ebe10678sm960695e87.101.2025.02.02.04.07.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Feb 2025 04:07:16 -0800 (PST)
+ Sun, 02 Feb 2025 04:07:19 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 02 Feb 2025 14:07:08 +0200
-Subject: [PATCH v4 01/12] drm/connector: add CEC-related fields
+Date: Sun, 02 Feb 2025 14:07:09 +0200
+Subject: [PATCH v4 02/12] drm/connector: unregister CEC data
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250202-drm-hdmi-connector-cec-v4-1-a71620a54d50@linaro.org>
+Message-Id: <20250202-drm-hdmi-connector-cec-v4-2-a71620a54d50@linaro.org>
 References: <20250202-drm-hdmi-connector-cec-v4-0-a71620a54d50@linaro.org>
 In-Reply-To: <20250202-drm-hdmi-connector-cec-v4-0-a71620a54d50@linaro.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -78,16 +78,16 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3396;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1438;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=Ap0yDjP6kDXZa+LMpowMdXjr2vFMubs2IUYLPT/y4wI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnn1/uPICuG7Dl1z2vtRP2DAhfWXYDYzZ5xvAZi
- FLVShdhsCeJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ59f7gAKCRCLPIo+Aiko
- 1aZNB/9viZ7oSe7tqC3ymZ+zjbPI3JmDZgQBp4KG8RcUmjqA0ZvQ7YrVp+6dH7BFj0GA0akBZ2F
- xRF0L58sJQuRUPFlyhsOgjhhRkNg+doYDS4jHJwplm8p9JrHyEKbJAC16824VBrzYxiVnzRRhA2
- kP4AO8fD2FCl/q/ip1E8AlbEalkvzgpe238+aIX8nt2BKTOzFdk/eB2dNT1DOP3fYtSF4CE+skb
- cNDeygAkt+DmFPfPAWhTohRjuL/uSAU2qqgcOI5wdwaD9D4K8yTGXPz/sqvOPTsIjaConmYo3Vp
- JQdB89sqJ501S8eBDQLpUMN0hV9U+P7+CWRjqm5nhqig9dPA
+ bh=RjjhvUseWPk0WJktiUGr9igyfvy7Lala3huHY3iwjag=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnn1/uOkPHmx9sBYxzjPWzemPGMPzzOqhkgC7Xu
+ e6Vd/xrdy2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ59f7gAKCRCLPIo+Aiko
+ 1Ze9B/0UqNqVk6rEOBuY8R/S2llohsLFWnYF4vZbOMuOFKEHwS8TxSdZzXX5gMO1qJj5R60aZU2
+ X/yRTLBR48aitZUCoEjKS4x4X0VBgf5oU4vO3DMTrTLMnBxuQfjTOjVesDhenEpxfWWHPdXKo94
+ wHWhh33axXAdAlJ9fZf+GDoqOKdctRFm8GxcSUgVM/GiW8xQa3mJQd2ybhNmWCPnZFX4UqyW1oC
+ kafGoUEYeM1SKrFuu+olg0yZBA7EoK+/ax747+Ahw0iZSWOjFnKKw+nJCTrUCR45Lekq8c1ib9T
+ vgEFAjSbTEG2rmoxTq/zcMX71GOPIWYAHaIQIdz/apLvUHXX
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,109 +105,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As a preparation to adding HDMI CEC helper code, add CEC-related fields
-to the struct drm_connector. Include both cec_adapter and cec_notifier,
-allowing drivers to select which one to use. The unregister callback
-is provided to let drivers unregister CEC-related data in a generic way
-without polluting drm_connector.c with dependencies on the CEC
-functions.
+In order to make sure that CEC adapters or notifiers are unregistered
+and CEC-related data is properly destroyed make drm_connector_cleanup()
+call CEC's unregister() callback.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/drm_connector.c |  1 +
- include/drm/drm_connector.h     | 46 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
+ drivers/gpu/drm/drm_connector.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 1383fa9fff9bcf31488453e209a36c6fe97be2f1..9890b00e8f9be856f67cc2835733a056ddb98efb 100644
+index 9890b00e8f9be856f67cc2835733a056ddb98efb..fffb718b09eaaac200e6abc7524bbfe98c4741f4 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -279,6 +279,7 @@ static int drm_connector_init_only(struct drm_device *dev,
- 	INIT_LIST_HEAD(&connector->probed_modes);
- 	INIT_LIST_HEAD(&connector->modes);
- 	mutex_init(&connector->mutex);
-+	mutex_init(&connector->cec.mutex);
- 	mutex_init(&connector->eld_mutex);
- 	mutex_init(&connector->edid_override_mutex);
- 	mutex_init(&connector->hdmi.infoframes.lock);
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index f13d597370a30dc1b14c630ee00145256052ba56..790a4d6266436b1853ba458456529403e5597a3b 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -46,6 +46,7 @@ struct drm_property_blob;
- struct drm_printer;
- struct drm_privacy_screen;
- struct drm_edid;
-+struct cec_adapter;
- struct edid;
- struct hdmi_codec_daifmt;
- struct hdmi_codec_params;
-@@ -1191,6 +1192,21 @@ struct drm_connector_hdmi_audio_funcs {
- 			   bool enable, int direction);
- };
+@@ -699,6 +699,16 @@ static void drm_mode_remove(struct drm_connector *connector,
+ 	drm_mode_destroy(connector->dev, mode);
+ }
  
-+/**
-+ * struct drm_connector_cec_funcs - drm_hdmi_connector control functions
-+ */
-+struct drm_connector_cec_funcs {
-+	/**
-+	 * @adap_unregister: unregister CEC adapter / notifier.
-+	 *
-+	 * The callback to unregister CEC adapter or notifier, so that the core
-+	 * DRM layer doesn't depend on the CEC_CORE. The callback should also
-+	 * clean all data in the @drm_connector_cec struct, including the
-+	 * 'funcs' field.
-+	 */
-+	void (*unregister)(struct drm_connector *connector);
-+};
++static void drm_connector_cec_unregister(struct drm_connector *connector)
++{
++	mutex_lock(&connector->cec.mutex);
++
++	if (connector->cec.funcs->unregister)
++		connector->cec.funcs->unregister(connector);
++
++	mutex_unlock(&connector->cec.mutex);
++}
 +
  /**
-  * struct drm_connector_hdmi_funcs - drm_hdmi_connector control functions
-  */
-@@ -1832,6 +1848,31 @@ struct drm_connector_hdmi {
- 	} infoframes;
- };
+  * drm_connector_cleanup - cleans up an initialised connector
+  * @connector: connector to cleanup
+@@ -719,6 +729,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
  
-+/**
-+ * struct drm_connector_cec - DRM Connector CEC-related structure
-+ */
-+struct drm_connector_cec {
-+	/**
-+	 * @mutex: protects all fields in this structure.
-+	 */
-+	struct mutex mutex;
-+
-+	/**
-+	 * @adap: CEC adapter corresponding to the DRM connector.
-+	 */
-+	struct cec_adapter *adapter;
-+
-+	/**
-+	 * @notifier: CEC notifier corresponding to the DRM connector.
-+	 */
-+	struct cec_notifier *notifier;
-+
-+	/**
-+	 * @funcs: CEC Control Functions
-+	 */
-+	const struct drm_connector_cec_funcs *funcs;
-+};
-+
- /**
-  * struct drm_connector - central DRM connector control structure
-  *
-@@ -2253,6 +2294,11 @@ struct drm_connector {
- 	 * @hdmi_audio: HDMI codec properties and non-DRM state.
- 	 */
- 	struct drm_connector_hdmi_audio hdmi_audio;
-+
-+	/**
-+	 * @cec: CEC-related data.
-+	 */
-+	struct drm_connector_cec cec;
- };
+ 	platform_device_unregister(connector->hdmi_audio.codec_pdev);
  
- #define obj_to_connector(x) container_of(x, struct drm_connector, base)
++	drm_connector_cec_unregister(connector);
++
+ 	if (connector->privacy_screen) {
+ 		drm_privacy_screen_put(connector->privacy_screen);
+ 		connector->privacy_screen = NULL;
 
 -- 
 2.39.5
