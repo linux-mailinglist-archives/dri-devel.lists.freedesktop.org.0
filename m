@@ -2,76 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B894A26D96
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51231A26D9A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:48:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5D8C10E5B3;
-	Tue,  4 Feb 2025 08:48:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2C8010E5CA;
+	Tue,  4 Feb 2025 08:48:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=mgnet.work header.i=pancake@mgnet.work header.b="vlTpZm9B";
+	dkim=pass (1024-bit key; unprotected) header.d=matrox.com header.i=@matrox.com header.b="a/LM2cDh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 304 seconds by postgrey-1.36 at gabe;
- Mon, 03 Feb 2025 10:03:41 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08F2410E2CE
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 10:03:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mgnet.work;
- s=s1-ionos; t=1738577019; x=1739181819; i=pancake@mgnet.work;
- bh=CXG4/Gqud+GA9zCiVPKBTrNOlcZAYvolb9tzOuzGqQs=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:From:To:
- References:In-Reply-To:Content-Type:Content-Transfer-Encoding:cc:
- content-transfer-encoding:content-type:date:from:message-id:
- mime-version:reply-to:subject:to;
- b=vlTpZm9BeV24qJvQR/ufvbFR+yUqp0JbfqZCR+U0GSdljcjGZHzEP1FN0ATXKw2D
- hkFFXv+H1vssVWi0F1yrgG7CfDcKI4IjEtZ4dgKVUQZZB6oAls72w2+5aGP3e3mfS
- saT4ovVd5le5x+ECDUdeg1EilKiAlGnk/g5POhtP1YxTHWjlu4gW7uk65uYNcfRVU
- nfTEhh21XjpIvgybT0xTFlxogrXGsf/8azIHy5Ku6v8e7V+PCCNB+EQBmzMaNorFP
- 06mhyzhuK15PDopSYqNxegXovSpFqesVAjzVokjVoV1c1l+GTsbijCm7ynZCikI7B
- 64MfO6N+OKOreP7ePg==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [172.16.0.24] ([84.136.91.147]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis) id
- 1MEF87-1tXVF812bl-000xyh for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb
- 2025 10:58:35 +0100
-Message-ID: <5baa47c4-e92e-467e-a20a-0fb3a6374636@mgnet.work>
-Date: Mon, 3 Feb 2025 10:58:34 +0100
+X-Greylist: delayed 455 seconds by postgrey-1.36 at gabe;
+ Mon, 03 Feb 2025 13:15:10 UTC
+Received: from mtxmxout4.matrox.com (mtxmxout4.matrox.com [138.11.2.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A910910E428
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 13:15:10 +0000 (UTC)
+Received: from venus.matrox.com (unknown [192.168.1.36])
+ by mtxmxout4.matrox.com (Postfix) with ESMTP id 7BB8A400D0
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 08:07:34 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matrox.com; s=dkim;
+ t=1738588054; bh=Rd91snfQISx1V1oKL6wKfZGoBBLlGokbPUcaLbk6dYE=;
+ h=Date:From:To:Subject;
+ b=a/LM2cDhfO2+0NaeMKmysXkLazoupHyCI971/kiXFbswZ5yh8nSOR4NnxdE1Gw59D
+ dGziP4C1qXysk/dqtXXQvKjs80RvckNTpq8fSqnt6PlwvjBkP11p4kaTCba3vQuRd3
+ 37+zczhLdKbs62YUPiLli/UOLkRxmcy+lPRyqe/k=
+Received: (from ssmsp@localhost)
+ by venus.matrox.com (8.14.6/8.13.2) id 513D7Ymo010889
+ for dri-devel@lists.freedesktop.org; Mon, 3 Feb 2025 08:07:34 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by venus.matrox.com (Postfix) with ESMTP id 6D64B5F760;
+ Mon,  3 Feb 2025 08:07:34 -0500 (EST)
+X-Virus-MTX-Scanned: by Matrox Virus scanner at venus.matrox.com
+Received: from venus.matrox.com ([127.0.0.1])
+ by localhost (venus.matrox.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id qDoW15h4H9d4; Mon,  3 Feb 2025 08:07:34 -0500 (EST)
+Received: from venus-in.matrox.com (localhost.localdomain [127.0.0.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by venus.matrox.com (Postfix) with ESMTPS id 58D9A5F75B;
+ Mon,  3 Feb 2025 08:07:34 -0500 (EST)
+Received: from pluton.matrox.com (pluton.matrox.com [192.168.8.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by venus-in.matrox.com (Postfix) with ESMTPS id 5707E61F04;
+ Mon,  3 Feb 2025 08:07:34 -0500 (EST)
+Received: by pluton.matrox.com (Postfix, from userid 3820)
+ id 5463E340366; Mon,  3 Feb 2025 08:07:34 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+ by pluton.matrox.com (Postfix) with ESMTP id 51C62340365;
+ Mon,  3 Feb 2025 08:07:34 -0500 (EST)
+Date: Mon, 3 Feb 2025 08:07:34 -0500 (EST)
+From: Gwenael Georgeault <ggeorgea@matrox.com>
+To: David Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/mgag200: Added support for the new device G200eH5
+Message-ID: <alpine.LFD.2.00.2502030802150.30536@pluton.matrox.com>
+User-Agent: Alpine 2.00 (LFD 1167 2008-08-23)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Question] drm: Picking a compatible CRTC for a connector seems
- not to work as expected
-From: Emilia Schotte <pancake@mgnet.work>
-To: dri-devel@lists.freedesktop.org
-References: <516D691A-CFAE-4340-9EC0-5DFC8C7357DD@mgnet.work>
-Content-Language: en-US
-In-Reply-To: <516D691A-CFAE-4340-9EC0-5DFC8C7357DD@mgnet.work>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:bDDlmDlP30jeC0pgLuYzOsPiqDk4ll+vHonjFgQ1IgLTw7fQyhZ
- hG/39niCPjsUdZTb/PlchSiJTobrYD2N35w7YzIzqfr5ENe1YOh+ViVyrGcAswM1iLTd4RL
- Y1YGznBl+5VklIA4po8CbJYJsh75ch1IBnKwX+1Ji4jpzjlBEFRqcTHBWAnDwwYGswfXSOd
- D/m35H48afnYBbMNJvXCw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:qVsBPXhIbYc=;qTju6FuJfNyU9rF3VnLn4ZVzJff
- Spf+oIYbJjHyMyHRNWny3ZLxtLc4C7vB+HlUOYmiPKe/M3240qh6/vlT3dhuBSz7XNiEJ1Gv6
- JwFjwEt4iD7llKeAl7kkFK+EtYAMZN7ZRF/6G2sTgbxP54ZLixaSJ1M4f0srds6iRq23FhzoV
- tUDOb8wcTz0nKWFLAcf14iU9FUe9NEH74g4r7PrcKRg3OA2NFJwIX4u+3ZerC6FdCZavFp2CJ
- XAdJC8WqfbvPRDIbL26jNLh22iXGkV4K0zdL8ccX9VXRBFJyY2TJtbX7DiDQa1Qjnnl2KVJ91
- OQ20YntoNQrQt0l6Oabkdfixg9/R1wFPLWKa6N7Oq+PYTbB7y5rEKfk6xLzsp4ZiDBgxzrgmJ
- DGGd6bFbqVWVkElyQkkqAV6ssQJcZ4EHUHbTSpKlVFvMDTBpVfDkgWzp9E0BDwMPYalKg7Ooh
- Qyuy+r9sLbGSjH9OEwQQB/f1PcrZ03t+0vgdiTHPxJ675EIJg0n+b/Dov/UekWaNMaAo5/A9b
- BgxSSGCI1HSNoKHGUBY73VrKkqiQU08xToKKocOtmDqBVYzczZObqUGBOTvry2ZEX1BIm9Z5M
- NaOO49rtDjg//rZYOJrQnuXzosoF9aZ2C+khfGNUV+upAxfnmnQVhOAfVh4YyBnm99YlnSjno
- yEYrdGGQJ5BESDrwD0BWCSDAnq4tZ63Coiv945a7NJu4N29HiVc5uGrM0lA2HU/cEHeTh4/c0
- AtNGGUx+sMpfdaRBDr+UdbpjE66sPHbqy2v40z3CyGq3ks+DB07oQfJjk7+dTOuCDb0ceBdKa
- HT+tGZX37Jq6lC6erBEv775fvGjCualjP6Q4qytK6losJv6B8r4XIf1MrLMarluwwaFg7tr1m
- NLy7Df5UgNv4xQbDGDxD1fdi/oKa2L06759NJ9qsUfB0qSlbYCl9GqdZisR/z5y3SONwTeqyz
- JV1P4CT8xaLFe7c/YneYi8Nv5hYEfjSmVKa/drOZufGC+xAJ8AX1ShLFd3qRZkiThKlEUN+L5
- DJ5dRzLEFAjnZ66vOr+LQ4XKvVSDmevU/2yvwtyvoP9Pb2ZbyyYdVqrveDXNArMs3hQ3l23Fs
- RGc5YbPeNyau54f1F9dPFOXE/yigRttC3Zp1ccY8JeTPC72NT4qSHewMtoJZhxF3XyNIxA8/c
- bFOr86vIMISBnykCVOaXRlBZsE/qHgYT4m+TQ/kk9bTTTariyOYNa3XJxSN/G0JrZpv9OAgk0
- 4KZHOlnSOE9RM++Wj8Rb5XM+DUdykw67WMv92N3P1XIyShaoID8RhC4=
+Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
 X-Mailman-Approved-At: Tue, 04 Feb 2025 08:48:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -88,54 +77,298 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi again,
+- Added the new device ID
+- Added new pll algorithm
 
-now I feel really silly. You can in fact use any CRTC with any
-connector, just like the API suggests. I however got stuck in object
-oriented (?) hell, where the CRTC was already being used with another
-connector as stored in.. some object I don't know exactly but it was
-probably something the CRTC_ID property of another connector. My modeset
-request did not unset this property as it simply left the connector
-alone, which obviously now won't work anymore. Annoyingly, the debug log
-did not indicate this at all and the error was incredibly vague.
+Co-authored-by: Mamadou Insa Diop <mdiop@matrox.com>
+---
+  drivers/gpu/drm/mgag200/Makefile          |   1 +
+  drivers/gpu/drm/mgag200/mgag200_drv.c     |   4 +
+  drivers/gpu/drm/mgag200/mgag200_drv.h     |   7 +-
+  drivers/gpu/drm/mgag200/mgag200_g200eh5.c | 212 ++++++++++++++++++++++
+  4 files changed, 222 insertions(+), 2 deletions(-)
+  create mode 100644 drivers/gpu/drm/mgag200/mgag200_g200eh5.c
 
-Issue is fixed now, was not a bug
+diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
+index 5a02203fad12..94f063c8722a 100644
+--- a/drivers/gpu/drm/mgag200/Makefile
++++ b/drivers/gpu/drm/mgag200/Makefile
+@@ -6,6 +6,7 @@ mgag200-y := \
+  	mgag200_g200.o \
+  	mgag200_g200eh.o \
+  	mgag200_g200eh3.o \
++	mgag200_g200eh5.o \
+  	mgag200_g200er.o \
+  	mgag200_g200ev.o \
+  	mgag200_g200ew3.o \
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index 069fdd2dc8f6..1c257f5b5136 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -214,6 +214,7 @@ static const struct pci_device_id mgag200_pciidlist[] = {
+  	{ PCI_VENDOR_ID_MATROX, 0x534, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_ER },
+  	{ PCI_VENDOR_ID_MATROX, 0x536, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EW3 },
+  	{ PCI_VENDOR_ID_MATROX, 0x538, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EH3 },
++	{ PCI_VENDOR_ID_MATROX, 0x53A, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EH5 },
+  	{0,}
+  };
 
-On 2/2/25 2:09 AM, Pancake wrote:
-> =EF=BB=BFHello!
->
-> I'm working on getting a modeset to happen via atomic commit and I've go=
-t most of my code done already but there's one small thing I'm getting hun=
-g up on.
-> In order to display something I need to dedicate a CRTC to a connector, =
-but not all CRTCs can be used for all connectors. As far as I have underst=
-ood, each connector has a list of compatible encoders and every encoder ha=
-s a bit set for all compatible CRTCs. Now I've used a variety of things to=
- check which connector is compatible with what CRTC:
-> - I ran drm_info which showed that each connector supports a unique subs=
-et of encoders, but each encoder supports all 4 CRTCs.
-> - I wrote a small c program where I called drmModeConnectorGetPossibleCr=
-tcs(), which resulted in the same outcome.
-> - And I used my main application written in rust, which I encountered th=
-is issue with in the first place.
-> I tested this both on an NVIDIA GPU with proprietary drivers as well as =
-an integrated AMD GPU with, I believe, the amdgpu driver. Same outcome.
-> This leads me to believe I can freely choose any CRTC to attach to a con=
-nector (as long as I don't reuse them, obviously), however this isn't the =
-case. Only when iterating through the connectors and CRTCs in the order th=
-at I initially received them in when getting the resource handles, does my=
- modeset work. If not in this exact order the atomic commit fails with inv=
-alid parameter and logs into dmesg something along the lines of "CRTC/conn=
-ector mismatch".
-> Am I encountering bugs in both the AMD and NVIDIA drivers here, or is th=
-ere something I'm missing when it comes to choosing a compatible CRTC?
-> If this is some sort of quirk, what's the best way to work around it?
->
-> Easiest way to replicate this is to simply grab drm_info from emersion's=
- gitlab, or write a small c program that fetches the resource handles and =
-iterates over all connectors, calling drmModeConnectorGetPossibleCrtcs() a=
-nd observing the lower 4 bits.
->
-> Thanks!
-> Emilia
->
+@@ -256,6 +257,9 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+  	case G200_EH3:
+  		mdev = mgag200_g200eh3_device_create(pdev, &mgag200_driver);
+  		break;
++	case G200_EH5:
++		mdev = mgag200_g200eh5_device_create(pdev, &mgag200_driver);
++		break;
+  	case G200_ER:
+  		mdev = mgag200_g200er_device_create(pdev, &mgag200_driver);
+  		break;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index 0608fc63e588..065ba09d109b 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -196,6 +196,7 @@ enum mga_type {
+  	G200_EV,
+  	G200_EH,
+  	G200_EH3,
++	G200_EH5,
+  	G200_ER,
+  	G200_EW3,
+  };
+@@ -333,11 +334,13 @@ void mgag200_g200eh_pixpllc_atomic_update(struct drm_crtc *crtc, struct drm_atom
+  struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev,
+  						const struct drm_driver *drv);
+  struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
+-						 const struct drm_driver *drv);
++						const struct drm_driver *drv);
++struct mga_device *mgag200_g200eh5_device_create(struct pci_dev *pdev,
++						const struct drm_driver *drv);
+  struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev,
+  						const struct drm_driver *drv);
+  struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
+-						 const struct drm_driver *drv);
++						const struct drm_driver *drv);
+
+  /*
+   * mgag200_mode.c
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh5.c b/drivers/gpu/drm/mgag200/mgag200_g200eh5.c
+new file mode 100644
+index 000000000000..5e39504785d8
+--- /dev/null
++++ b/drivers/gpu/drm/mgag200/mgag200_g200eh5.c
+@@ -0,0 +1,212 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include <linux/pci.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_probe_helper.h>
++
++#include "mgag200_drv.h"
++
++/*
++ * PIXPLLC
++ */
++
++static int mgag200_g200eh5_pixpllc_atomic_check(struct drm_crtc *crtc,
++					struct drm_atomic_state *new_state)
++{
++
++	static u64 ulVCOMax     = 10000000000ULL;   // units in Hz (10 GHz)
++	static u64 ulVCOMin     = 2500000000LL;     // units in Hz (2.5 GHz)
++	static u64 ulPLLFreqRef = 25000000ULL;      // units in Hz (25 MHz)
++
++	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
++	struct mgag200_crtc_state *new_mgag200_crtc_state = to_mgag200_crtc_state(new_crtc_state);
++	long   clock = new_crtc_state->mode.clock;
++	struct mgag200_pll_values *pixpllc = &new_mgag200_crtc_state->pixpllc;
++
++	u64 ulFDelta     = 0xFFFFFFFFFFFFFFFFULL;
++
++	u16 ulMultMax    = (u16)(ulVCOMax / ulPLLFreqRef);    // 400 (0x190)
++	u16 ulMultMin    = (u16)(ulVCOMin / ulPLLFreqRef);    // 100 (0x64)
++
++	u64 ulFTmpDelta;
++	u64 ulComputedFo;
++
++	u16 ulTestM;
++	u8  ulTestDivA;
++	u8  ulTestDivB;
++	u64 ulFoHz;
++	int iDone = 0;
++
++	u8 ucM = 0;
++	u8 ucN = 0;
++	u8 ucP = 0;
++
++	ulFoHz = (u64)clock * 1000ULL;
++
++
++	for (ulTestM = ulMultMin; ulTestM <= ulMultMax; ulTestM++) { // This gives 100 <= M <= 400
++		for (ulTestDivA = 8; ulTestDivA > 0; ulTestDivA--) { // This gives 1 <= A <= 8
++			for (ulTestDivB = 1; ulTestDivB <= ulTestDivA; ulTestDivB++) {
++				// This gives 1 <= B <= A
++				ulComputedFo = (ulPLLFreqRef * ulTestM) /
++					(4 * ulTestDivA * ulTestDivB);
++
++				if (ulComputedFo > ulFoHz)
++					ulFTmpDelta = ulComputedFo - ulFoHz;
++				else
++					ulFTmpDelta = ulFoHz - ulComputedFo;
++
++				if (ulFTmpDelta < ulFDelta) {
++					ulFDelta = ulFTmpDelta;
++					ucM = (u8)(0xFF & ulTestM);
++					ucN = (u8)(
++					(0x7 & (ulTestDivA - 1))
++					| (0x70 & (0x7 & (ulTestDivB - 1)) << 4)
++					);
++					ucP = (u8)(1 & (ulTestM >> 8));
++				}
++				if (ulFDelta == 0) {
++					iDone = 1;
++					break;
++				}
++			} // End of DivB if (iDone)
++			if (iDone)
++				break;
++		} // End of DivA Loop
++
++		if (iDone)
++			break;
++	} // End of M Loop
++
++	pixpllc->m = ucM + 1;
++	pixpllc->n = ucN + 1;
++	pixpllc->p = ucP + 1;
++	pixpllc->s = 0;
++
++	return 0;
++	}
++
++
++
++/*
++ * Mode-setting pipeline
++ */
++
++static const struct drm_plane_helper_funcs mgag200_g200eh5_primary_plane_helper_funcs = {
++	MGAG200_PRIMARY_PLANE_HELPER_FUNCS,
++};
++
++static const struct drm_plane_funcs mgag200_g200eh5_primary_plane_funcs = {
++	MGAG200_PRIMARY_PLANE_FUNCS,
++};
++
++static const struct drm_crtc_helper_funcs mgag200_g200eh5_crtc_helper_funcs = {
++	MGAG200_CRTC_HELPER_FUNCS,
++};
++
++static const struct drm_crtc_funcs mgag200_g200eh5_crtc_funcs = {
++	MGAG200_CRTC_FUNCS,
++};
++
++static int mgag200_g200eh5_pipeline_init(struct mga_device *mdev)
++{
++	struct drm_device *dev = &mdev->base;
++	struct drm_plane *primary_plane = &mdev->primary_plane;
++	struct drm_crtc *crtc = &mdev->crtc;
++	int ret;
++
++	ret = drm_universal_plane_init(dev, primary_plane, 0,
++		&mgag200_g200eh5_primary_plane_funcs,
++		mgag200_primary_plane_formats,
++		mgag200_primary_plane_formats_size,
++		mgag200_primary_plane_fmtmods,
++		DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret) {
++		drm_err(dev, "drm_universal_plane_init() failed: %d\n", ret);
++		return ret;
++	}
++	drm_plane_helper_add(primary_plane, &mgag200_g200eh5_primary_plane_helper_funcs);
++	drm_plane_enable_fb_damage_clips(primary_plane);
++
++	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
++		&mgag200_g200eh5_crtc_funcs, NULL);
++	if (ret) {
++		drm_err(dev, "drm_crtc_init_with_planes() failed: %d\n", ret);
++		return ret;
++	}
++
++	drm_crtc_helper_add(crtc, &mgag200_g200eh5_crtc_helper_funcs);
++
++	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
++	drm_mode_crtc_set_gamma_size(crtc, MGAG200_LUT_SIZE);
++	drm_crtc_enable_color_mgmt(crtc, 0, false, MGAG200_LUT_SIZE);
++	ret = mgag200_vga_bmc_output_init(mdev);
++
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++/*
++ * DRM device
++ */
++
++static const struct mgag200_device_info mgag200_g200eh5_device_info =
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, false, 1, 0, false);
++
++static const struct mgag200_device_funcs mgag200_g200eh5_device_funcs = {
++	.pixpllc_atomic_check = mgag200_g200eh5_pixpllc_atomic_check,
++	.pixpllc_atomic_update = mgag200_g200eh_pixpllc_atomic_update, // same as G200EH
++};
++
++struct mga_device *mgag200_g200eh5_device_create(struct pci_dev *pdev,
++	const struct drm_driver *drv)
++{
++
++	struct mga_device *mdev;
++	struct drm_device *dev;
++	resource_size_t vram_available;
++	int ret;
++
++	mdev = devm_drm_dev_alloc(&pdev->dev, drv, struct mga_device, base);
++
++	if (IS_ERR(mdev))
++		return mdev;
++	dev = &mdev->base;
++
++	pci_set_drvdata(pdev, dev);
++
++	ret = mgag200_init_pci_options(pdev, 0x00000120, 0x0000b000);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = mgag200_device_preinit(mdev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = mgag200_device_init(mdev, &mgag200_g200eh5_device_info,
++		&mgag200_g200eh5_device_funcs);
++
++	if (ret)
++		return ERR_PTR(ret);
++
++	mgag200_g200eh_init_registers(mdev); // same as G200EH
++	vram_available = mgag200_device_probe_vram(mdev);
++
++	ret = mgag200_mode_config_init(mdev, vram_available);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = mgag200_g200eh5_pipeline_init(mdev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	drm_mode_config_reset(dev);
++	drm_kms_helper_poll_init(dev);
++
++	return mdev;
++}
+-- 
+2.34.1
+
