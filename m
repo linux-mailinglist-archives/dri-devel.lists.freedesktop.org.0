@@ -2,72 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F4BA25AD7
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 14:26:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D69A25ADE
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 14:29:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194F010E4B4;
-	Mon,  3 Feb 2025 13:26:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90ECD10E05A;
+	Mon,  3 Feb 2025 13:29:32 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cSQfBr8Q";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru
- [195.16.41.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8298E10E4B4
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 13:26:20 +0000 (UTC)
-Received: from gca-msk-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
- by mail-gw02.astralinux.ru (Postfix) with ESMTP id 33F9F1F9E0;
- Mon,  3 Feb 2025 16:26:11 +0300 (MSK)
-Received: from new-mail.astralinux.ru (gca-yc-ruca-srv-mail03.astralinux.ru
- [10.177.185.108])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
- Mon,  3 Feb 2025 16:26:06 +0300 (MSK)
-Received: from localhost.localdomain (unknown [10.198.57.103])
- by new-mail.astralinux.ru (Postfix) with ESMTPA id 4YmnLt3yDBz1h04s;
- Mon,  3 Feb 2025 16:25:58 +0300 (MSK)
-From: Anastasia Belova <abelova@astralinux.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Anastasia Belova <abelova@astralinux.ru>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Roman Li <roman.li@amd.com>,
- Sasha Levin <sashal@kernel.org>, Tim Huang <tim.huang@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
- Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>
-Subject: [PATCH 6.1] drm/amd/display: fix double free issue during amdgpu
- module unload
-Date: Mon,  3 Feb 2025 16:25:47 +0300
-Message-ID: <20250203132549.11729-1-abelova@astralinux.ru>
-X-Mailer: git-send-email 2.43.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A30AE10E4AF;
+ Mon,  3 Feb 2025 13:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738589371; x=1770125371;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=IX+nBik+ioUC8Q8VY/QkrBWA+qDS2bqt+ZVxu+sLnU8=;
+ b=cSQfBr8Q1o8tcZLokjc+TKanDXp03Ik3wo8yP2XDRNh7UH043p7DHHkk
+ 3jiqj2auUwoqpjNKmY4jBVoQQc9DSFjOyuIgDPkisu6J2juNcGhqIzOSy
+ Tix7eTBLuV0cPx6izN1MH0rhCWCLwe79fvLKXbWtKFnHROjroie7VP+rY
+ fkFNAYznE/uVzjCH5ISKp0bAb9Umz+Uqe9CZkU+c5naJlXkTAuCx7m5E4
+ i+CW8ANeYbjYpVSfTM4E3CtA+w5GLShyJDgN0SykFu+P/e0Q4772YygrD
+ KVNkmhaSkrGcceOMAIHvKQd7nrZ+XETKLyC/FS6zYZ/xoa6paIumPSb6X A==;
+X-CSE-ConnectionGUID: 44RtdSWTTQ6erVkwJlIw0g==
+X-CSE-MsgGUID: 8+ejlDnCTw2ZIJxYtcZaPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="38286319"
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; d="scan'208";a="38286319"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2025 05:29:30 -0800
+X-CSE-ConnectionGUID: WPg7dMeVQpe3O5OlpegG7A==
+X-CSE-MsgGUID: nVPfS6JaSV2K29pf1MRz8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="111138607"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.83])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2025 05:29:28 -0800
+Date: Mon, 3 Feb 2025 14:29:24 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: "Dong, Zhanjun" <zhanjun.dong@intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v1] drm/i915/guc: Always disable interrupt ahead of
+ synchronize_irq
+Message-ID: <Z6DEtCX-XzJE8cwm@ashyti-mobl2.lan>
+References: <20250123162351.1364395-1-zhanjun.dong@intel.com>
+ <Z5ekXVihQSDjxqQK@ashyti-mobl2.lan>
+ <41833264-348a-443e-ba89-f559cc9114cb@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: abelova@astralinux.ru
-X-KSMG-AntiSpam-Info: LuaCore: 50 0.3.50
- df4aeb250ed63fd3baa80a493fa6caee5dd9e10f,
- {Tracking_from_domain_doesnt_match_to}, 127.0.0.199:7.1.2; astralinux.ru:7.1.1;
- d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;
- new-mail.astralinux.ru:7.1.1, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 190752 [Feb 03 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.7
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854,
- bases: 2025/02/03 07:33:00 #27201296
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <41833264-348a-443e-ba89-f559cc9114cb@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,82 +73,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tim Huang <tim.huang@amd.com>
+Hi,
 
-[ Upstream commit 20b5a8f9f4670a8503aa9fa95ca632e77c6bf55d ]
+Please, next time, do not remove the mailing and the other folks
+you cc'ed.
 
-Flexible endpoints use DIGs from available inflexible endpoints,
-so only the encoders of inflexible links need to be freed.
-Otherwise, a double free issue may occur when unloading the
-amdgpu module.
+I'm adding back the mailing list and Daniele who has commented
+before.
 
-[  279.190523] RIP: 0010:__slab_free+0x152/0x2f0
-[  279.190577] Call Trace:
-[  279.190580]  <TASK>
-[  279.190582]  ? show_regs+0x69/0x80
-[  279.190590]  ? die+0x3b/0x90
-[  279.190595]  ? do_trap+0xc8/0xe0
-[  279.190601]  ? do_error_trap+0x73/0xa0
-[  279.190605]  ? __slab_free+0x152/0x2f0
-[  279.190609]  ? exc_invalid_op+0x56/0x70
-[  279.190616]  ? __slab_free+0x152/0x2f0
-[  279.190642]  ? asm_exc_invalid_op+0x1f/0x30
-[  279.190648]  ? dcn10_link_encoder_destroy+0x19/0x30 [amdgpu]
-[  279.191096]  ? __slab_free+0x152/0x2f0
-[  279.191102]  ? dcn10_link_encoder_destroy+0x19/0x30 [amdgpu]
-[  279.191469]  kfree+0x260/0x2b0
-[  279.191474]  dcn10_link_encoder_destroy+0x19/0x30 [amdgpu]
-[  279.191821]  link_destroy+0xd7/0x130 [amdgpu]
-[  279.192248]  dc_destruct+0x90/0x270 [amdgpu]
-[  279.192666]  dc_destroy+0x19/0x40 [amdgpu]
-[  279.193020]  amdgpu_dm_fini+0x16e/0x200 [amdgpu]
-[  279.193432]  dm_hw_fini+0x26/0x40 [amdgpu]
-[  279.193795]  amdgpu_device_fini_hw+0x24c/0x400 [amdgpu]
-[  279.194108]  amdgpu_driver_unload_kms+0x4f/0x70 [amdgpu]
-[  279.194436]  amdgpu_pci_remove+0x40/0x80 [amdgpu]
-[  279.194632]  pci_device_remove+0x3a/0xa0
-[  279.194638]  device_remove+0x40/0x70
-[  279.194642]  device_release_driver_internal+0x1ad/0x210
-[  279.194647]  driver_detach+0x4e/0xa0
-[  279.194650]  bus_remove_driver+0x6f/0xf0
-[  279.194653]  driver_unregister+0x33/0x60
-[  279.194657]  pci_unregister_driver+0x44/0x90
-[  279.194662]  amdgpu_exit+0x19/0x1f0 [amdgpu]
-[  279.194939]  __do_sys_delete_module.isra.0+0x198/0x2f0
-[  279.194946]  __x64_sys_delete_module+0x16/0x20
-[  279.194950]  do_syscall_64+0x58/0x120
-[  279.194954]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
-[  279.194980]  </TASK>
+...
 
-Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
-Signed-off-by: Tim Huang <tim.huang@amd.com>
-Reviewed-by: Roman Li <roman.li@amd.com>
-Signed-off-by: Roman Li <roman.li@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-[ Anastasia: link_destruct in drivers/gpu/drm/amd/display/dc/link/link_factory.c
-  from upstream was dc_link_destruct in drivers/gpu/drm/amd/display/dc/core/dc_link.c
-  in 6.1 ]
-Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
----
-Backport fix for CVE-2024-49989
- drivers/gpu/drm/amd/display/dc/core/dc_link.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454
+> > > Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
+> > > Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
+> > > Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
+> > > Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
+> > 
+> > There is an issue here, each fixes is introduced in different
+> > kernel versions and they can't be mixed all together as it would
+> > be impossible to backport them to the stable brances.
+> > 
+> > E.g.:
+> > Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
+> > Cc: <stable@vger.kernel.org> # v5.5+
+> > 
+> > Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
+> > Cc: <stable@vger.kernel.org> # v5.16+
+> > 
+> > Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
+> > Cc: <stable@vger.kernel.org> # v5.3+
+> > 
+> > Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
+> > Cc: <stable@vger.kernel.org> # v4.10+
+> > 
+> > Could you please split this patch in the four different patches
+> > that address the four different fixes?
+> Sure, will split it in next rev.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link.c b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-index bbaeb6c567d0..f0db2d58fd6b 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link.c
-@@ -83,7 +83,7 @@ static void dc_link_destruct(struct dc_link *link)
- 	if (link->panel_cntl)
- 		link->panel_cntl->funcs->destroy(&link->panel_cntl);
- 
--	if (link->link_enc) {
-+	if (link->link_enc && !link->is_dig_mapping_flexible) {
- 		/* Update link encoder resource tracking variables. These are used for
- 		 * the dynamic assignment of link encoders to streams. Virtual links
- 		 * are not assigned encoder resources on creation.
--- 
-2.43.0
+First of all we need to understand if those Fixes are really
+needed or not. Daniele in his review has pointed out that...
 
+> > > 
+> > 
+> > No blank lines in the tag section, please.
+> > 
+> > > Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+> > > 
+> > > ---
+> > > Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+> > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> > > Cc: Andi Shyti <andi.shyti@intel.com>
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_rps.c      | 3 +--
+> > >   drivers/gpu/drm/i915/gt/uc/intel_guc.c   | 4 ++--
+> > >   drivers/gpu/drm/i915/pxp/intel_pxp_irq.c | 2 +-
+> > >   3 files changed, 4 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+> > > index fa304ea088e4..0fe7a8d7f460 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+> > > @@ -244,8 +244,8 @@ static void rps_disable_interrupts(struct intel_rps *rps)
+> > >   	gen6_gt_pm_disable_irq(gt, GEN6_PM_RPS_EVENTS);
+> > >   	spin_unlock_irq(gt->irq_lock);
+> > > +	rps_reset_interrupts(rps);
+
+... the interrupts here are already disabled (read a couple of
+lines above).
+
+What is the reproduction rate of the issue? And how have you
+tested it?
+
+Thanks,
+Andi
+
+> > >   	intel_synchronize_irq(gt->i915);
+> > > -
+> > 
+> > Sebastian has already commented in his review, but please don't
+> > remove this blank line.
+> > 
+> > Andi
+> > 
+> > >   	/*
+> > >   	 * Now that we will not be generating any more work, flush any
+> > >   	 * outstanding tasks. As we are called on the RPS idle path,
