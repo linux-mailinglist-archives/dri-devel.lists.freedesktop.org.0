@@ -2,84 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B7DA26199
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 18:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B91A261B2
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 18:49:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0805410E538;
-	Mon,  3 Feb 2025 17:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 766CC10E53B;
+	Mon,  3 Feb 2025 17:49:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="UEolFfJn";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Kte3kwwp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33BC710E539
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 17:42:24 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-54020b0dcd2so6296328e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 09:42:24 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 722C010E53B
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 17:49:09 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-53e3a37ae07so5308572e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 09:49:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738604542; x=1739209342; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738604948; x=1739209748; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ZV759n545yp2xuLFkBUA+OXI8LlcFh1JTbt2D9n4TpY=;
- b=UEolFfJnfiGlH0NawLaJnrihIfGD19rTXBZmbrW6UW5OMTgxPaqhIdSFMOcudIUFcL
- EVnI5tp3a3MEfOjt1bLQPHbtOshRdYHlS43ZdDTz+wHi+xiqq6IaquPzBh9AID57hp+2
- 347Sns5o37Dh9/bnimQHoybaP3vGteF41xH3tUBaODcF7OIQR2ntgYAfFxOCIOnZYx1W
- rNCg35lpXvZjyiS4vD+nho3xebqiymyRDoBLKHqHSyZFjoYiiJijWdGURF1xuTbO57Ul
- 9gmV+fhTJYkVRssHZPYdBEQyzagP7TC1ECmDH6FX54GO8pd8/Uw/+EhzbszWGZaBo6GD
- UGQg==
+ bh=tl7hb2dffFiUZtnUCsysXD2fQiSxN433uDcJunLyDI8=;
+ b=Kte3kwwpzoYEh4xG8953Ql/3BBCEoKl6GsjDZ7t0UNA1oJXv4+5C/QnRM7UFEeRcpQ
+ l0VinOmsA8SleoqaGO/swHjcujT6ooMYavvguqVjsHVExO8OiSMH8Tguu/N9Gw1upvfd
+ pp6XBQWZuFGijtFeVk+n1KG3N6zy5cYzzt6zMfw8GhKvGocAcXeRyghj0IMRO1j7cvtA
+ UnF44ySsjp5OiNUg3wESEg/ufxYW2ucjsEEz2PV6cwwvITpx4pZQTbPrR2ftFfZJ5dno
+ cvLxMtojDClWoxpcK8vSkwo+d1Vavz+IIeSKG6QoLIcPjFujTfFCTQq+CLFlPmloZgfj
+ YnZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738604542; x=1739209342;
+ d=1e100.net; s=20230601; t=1738604948; x=1739209748;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZV759n545yp2xuLFkBUA+OXI8LlcFh1JTbt2D9n4TpY=;
- b=gu2OuVgdYgtWb1QTn2ghmjOE9DkcuF+6j9ot++8+0GvbsIg25sULxUeIZ5mZ1jJZ0x
- Ij3upLCOxdRCK9CtUw9SFLvG/MY/AAYs4A3KALC6i6PtVYx6nrRmETgNPSvTHus/nf7C
- 0LQuN/O9UMY1DwrQdGEAgkT0eGXnyz0njdRE/sdS2o96r44IJYsfmpXkSBDdVlGwE3Nz
- h+iQjnKcx5fM2lArL+ukz8G50I50GjC4zjgCBQbfBacm/KwpB3JMrlAQLdUxB9HI0682
- k8Yn715wa5WyUD00rpakNjEobsha0WsIRir4LhnLGaMS+3aaxNOYoq4Lkbz7HrCwyNTi
- SVTQ==
+ bh=tl7hb2dffFiUZtnUCsysXD2fQiSxN433uDcJunLyDI8=;
+ b=XSCrUPZmYGcZBGzYwDOi3jVw6rtaT+pSkvD2RZfiZ1YNIt4FLqzVkCKEEzGFBnt8qN
+ HWU9gAMdnDsxUEGEmLzn/GjZfq40nBoE1JaYzcRIBXuq4rf614CF9qW8llgtOL8MOf6i
+ vWZRxtSbIhPzCY75g1+dFNi8UgdgnjN55eNYjWD9y3uhT8NBAO/zm/dnolI6gjFRcP3V
+ puoXxGEuqDqUD5rDQNUQcvxjaxMpHJ+DXnyFBBhbO+MkWGTDq9HQdzfaE6E1FCQQB/fn
+ S849xjQmsQr2Qp+xSXFJccrfY6iFM1CjVqeVk+qmSl711ls+fEoTrPEbjh8LZmD1lBKz
+ x61w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWl9rUi19pztaosES0xSO6khl3XnPcUoA5cZ+BFSZsXefL68eLxBdXhqa0VYBs8WL038V3ygJAMjYg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxd+zeQHho6S2YXxaDGuhNHABsMFxfBq2cxQrRsSh7z3g6cvuq3
- XzZ8P2BVpqyojtF5W2fatKAAXGz57NCV47txrROJwkt4Ie/GCMuIo/8Gr/i97N0=
-X-Gm-Gg: ASbGncth17Wy2gI8y0Zsoiv9haC4d131BYPeJxTn9kL3LyF9RRihJVicqRDBtYZ/tu3
- MIe03TOB5BNZMT7+XWigeEXqaz/ec473JBUfE3NMO1VX3cndDlzGSbaJR7n5QVTD4RhNs3Gt2nI
- oEMMu3iKvnZm82hY9+Dm1YDyOUnW4+oD6xVnBgP8TVsSmrIHpQVYO303hfpie2T3LcmyqaEbv+C
- wI/bjVcEf0r4/01T/IvOoDGdLM6Fh4SDWaBuRR7mkiS7aMEG5engLfk92l91geUQgdgaSrPX7JI
- XGFJt6/FCd0tLLOvFLqo+diiEZId7CaxCaubDLTztugWKjg0Un3J3akrhkJX3lCZXL1wYGw=
-X-Google-Smtp-Source: AGHT+IGlJ87svBgPPUA20T73yUcNcWRnrAPPLfHleKAdvq9eZ+1SZHlu0nXMsWAYW/fUC1Is8QpX2g==
-X-Received: by 2002:a05:6512:3f13:b0:542:99a7:b415 with SMTP id
- 2adb3069b0e04-543ffab903amr96587e87.0.1738604542379; 
- Mon, 03 Feb 2025 09:42:22 -0800 (PST)
+ AJvYcCWNG4iENz550YTRKsFbsMai9bUnvzwb1YJQEud+g0RJN1qsbWUNoXO6LGxjC2zNmw0LqU3eJ65Ox1w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3ZzI66UZGSuJ+14ixiMBzcakOk3yd5BOrScG0ndmLV3VW2LTm
+ Wiop2mWf5dTUVLKWz02Iuw7PSK5CUL8Bz3fk7gE2FCgqBh2f3E/gupiXxlqEexB0wo9D/rUgblE
+ JezQ=
+X-Gm-Gg: ASbGncsiWG8pD6cvb5rFIsFZvLtsjMN+PWAvO4k1f3QneKXu9/oRNd8JT5LPpR1G6sx
+ ckzE4+NGhL4+JIshlRc60Iq6A69thp76WsSJHfO3Kkw4XkqtWUUDwsDhf1mS9diPflvF+OX9erQ
+ QJW6RteIGePa6DyHXmJBqUWpOi8H+k3O8XyGFuB9M+xkIphwD8b5RnJRJc1q7yIC2eK8u9CNyhD
+ nMHXwAVY9c3n96Twfai4wZP8Kevek6+BXmJfr3DXLtSJzGFS2EJ/33SAPnYUf1aB+qoe8Q9cvEm
+ MD1G6ep4FO7BPYJcydE96g4eYMwHXUR+3id3NG/e01xm6+OeoqLM1mfn8lblS8SQ66ljM5U=
+X-Google-Smtp-Source: AGHT+IFvISZSPO1dGObZpHPIDkgvz6DFnGdqtd4FYJvvIrUHjTGv2EHKj64Yr07Pt6wQMHxeMScNlQ==
+X-Received: by 2002:a05:6512:3f18:b0:543:e0c9:1d97 with SMTP id
+ 2adb3069b0e04-543e4be3439mr7560020e87.12.1738604947562; 
+ Mon, 03 Feb 2025 09:49:07 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543ebeb7df3sm1351683e87.204.2025.02.03.09.42.20
+ 2adb3069b0e04-543ebdf0edcsm1359166e87.25.2025.02.03.09.49.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2025 09:42:22 -0800 (PST)
-Date: Mon, 3 Feb 2025 19:42:19 +0200
+ Mon, 03 Feb 2025 09:49:07 -0800 (PST)
+Date: Mon, 3 Feb 2025 19:49:05 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG0 updated
- from driver side
-Message-ID: <le5kxzhm3b2whxoo3eblkelryc7ak2yezugqti2sxw7m244dzc@nyuhhs53jdup>
-References: <20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org>
- <20250203-drm-msm-phy-pll-cfg-reg-v2-1-862b136c5d22@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 29/29] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
+ pointer
+Message-ID: <sdyucn42l63puzt43bqgzildszsziceaucyfyjven3h3zy6iyj@pwlk4uhs6w43>
+References: <20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org>
+ <20250115-bridge-connector-v1-29-9a2fecd886a6@kernel.org>
+ <cfn3xpwyoo6lbugaxjwxvcq4l7eqbznlgnunxxfg4jnbrwtnpo@wdoizsk6ckvg>
+ <20250203-orthodox-watchful-poodle-4018f4@houat>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250203-drm-msm-phy-pll-cfg-reg-v2-1-862b136c5d22@linaro.org>
+In-Reply-To: <20250203-orthodox-watchful-poodle-4018f4@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,63 +100,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 03, 2025 at 06:29:18PM +0100, Krzysztof Kozlowski wrote:
-> PHY_CMN_CLK_CFG0 register is updated by the PHY driver and by two
-> divider clocks from Common Clock Framework:
-> devm_clk_hw_register_divider_parent_hw().  Concurrent access by the
-> clocks side is protected with spinlock, however driver's side in
-> restoring state is not.  Restoring state is called from
-> msm_dsi_phy_enable(), so there could be a path leading to concurrent and
-> conflicting updates with clock framework.
+On Mon, Feb 03, 2025 at 11:01:28AM +0100, Maxime Ripard wrote:
+> Hi Dmitry,
 > 
-> Add missing lock usage on the PHY driver side, encapsulated in its own
-> function so the code will be still readable.
+> On Thu, Jan 16, 2025 at 03:08:00AM +0200, Dmitry Baryshkov wrote:
+> > On Wed, Jan 15, 2025 at 10:05:36PM +0100, Maxime Ripard wrote:
+> > > The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
+> > > deprecated and shouldn't be used by atomic drivers.
+> > > 
+> > > This was due to the fact that we did't have any other alternative to
+> > > retrieve the CRTC pointer. Fortunately, the crtc pointer is now provided
+> > > in the bridge state, so we can move to atomic callbacks and drop that
+> > > deprecated pointer usage.
+> > > 
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 41 ++++++++++++++++++++---------------
+> > >  1 file changed, 24 insertions(+), 17 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > index b3d617505dda7d22b38c000fb79de46376adf3f1..c17d9486cf5c36d61eb00af2bdf9ba1b6f890ffd 100644
+> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+> > > @@ -242,15 +242,16 @@ static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
+> > >  	u8 buf[2] = { val & 0xff, val >> 8 };
+> > >  
+> > >  	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
+> > >  }
+> > >  
+> > > -static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
+> > > +static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata,
+> > > +				     struct drm_bridge_state *bridge_state)
+> > >  {
+> > >  	u32 bit_rate_khz, clk_freq_khz;
+> > >  	struct drm_display_mode *mode =
+> > > -		&pdata->bridge.encoder->crtc->state->adjusted_mode;
+> > > +		&bridge_state->crtc->state->adjusted_mode;
+> > 
+> > At least we should document why is it safe to follow the crtc->state.
 > 
-> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index 031446c87daec0af3f81df324158311f5a80014e..c164f845653816291ad96c863257f75462ef58e7 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -372,6 +372,15 @@ static void dsi_pll_enable_pll_bias(struct dsi_pll_7nm *pll)
->  	ndelay(250);
->  }
->  
-> +static void dsi_pll_cmn_clk_cfg0_write(struct dsi_pll_7nm *pll, u32 val)
-> +{
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&pll->postdiv_lock, flags);
-> +	writel(val, pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG0);
-> +	spin_unlock_irqrestore(&pll->postdiv_lock, flags);
-> +}
-> +
->  static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
->  {
->  	u32 data;
-> @@ -574,8 +583,8 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
->  	val |= cached->pll_out_div;
->  	writel(val, pll_7nm->phy->pll_base + REG_DSI_7nm_PHY_PLL_PLL_OUTDIV_RATE);
->  
-> -	writel(cached->bit_clk_div | (cached->pix_clk_div << 4),
-> -	       phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG0);
-> +	dsi_pll_cmn_clk_cfg0_write(pll_7nm,
-> +				   cached->bit_clk_div | (cached->pix_clk_div << 4));
+> What do you have in mind there? crtc->state is a pointer that is widely
+> used, what is there to document?
 
-Ideally this would be FIELD_PREP or a special function generated for you
-in the header.
-
->  
->  	val = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
->  	val &= ~0x3;
-> 
-> -- 
-> 2.43.0
-> 
+If I understand correctly, crtc->state is safe to be used during atomic
+callbacks only or if the mutex is being held. However this function is
+also being called from ti_sn65dsi86_enable_comms(), which is in turn is
+used in ti_sn65dsi86_resume(). Is it safe? Why?
 
 -- 
 With best wishes
