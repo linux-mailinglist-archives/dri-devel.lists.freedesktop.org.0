@@ -2,61 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164F3A250D7
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 00:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C485A25104
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 02:07:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDE5810E11F;
-	Sun,  2 Feb 2025 23:56:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06F9F10E0C2;
+	Mon,  3 Feb 2025 01:07:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=asahilina.net header.i=@asahilina.net header.b="aObAO7Gf";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Ri8gky45";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4701610E0C2;
- Sun,  2 Feb 2025 23:56:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: lina@asahilina.net)
- by mail.marcansoft.com (Postfix) with ESMTPSA id B7858425F5;
- Sun,  2 Feb 2025 23:56:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
- s=default; t=1738540566;
- bh=XxSMXL+/QTvPenPoEdFCaxa+GXolURGhYNxTlnUOi/w=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=aObAO7GfWqEeA7trzJ86f/XnseVBckks3Wp4/oXznHSilYgYVoqZIWDOvj71xgkib
- lgmCn4V/J95HXPuWr/BC9UezFlKNi7fChuM++IKjdHyEnniFWEdcFH3P80QjT4GKT8
- 7FXJpcyV5rxXbJB/o77o3DyY6W0ZxXjoEFTCGaMdjI9Qu614oQ9ehN29qeFz5nc71y
- n6Vb2X9YqAd8aVCrFAhZkk9YlgsEa1fvwSHKLjn9QIyM149G8f40pXF85PmeGbCrRC
- CDm8c7tFbkfvpwTOQgds27hLzVDN6ZHCf/i3csfpUeE+/V/ONQ2WElOVQKGkCcKlui
- L9Utcl2DNDEPA==
-Message-ID: <4a431b98-cccc-495e-b72e-02362828c96b@asahilina.net>
-Date: Mon, 3 Feb 2025 08:56:03 +0900
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA0B10E0C2;
+ Mon,  3 Feb 2025 01:07:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1738544841; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PAWag2A7a1OVTqEWxPEBABzr/en3f0pfIR7P/gedajimLiPSMcIbkNL0Gwx005BUwrnOjk1izQP6cTMltoLjmt8jLIGtj/tpstdJKLNXNKYcQY9jAGdziW4YMlTItOQ/E/C8X3p5haehrAUIsHLF/PuVzKItGNHsOC+CwnTehog=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1738544841;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=KnGTluyypwtazBIRrVkSvKuikw6cFhABGbbWmFW2RaU=; 
+ b=IkF66q/QuaoBGxJLPPQdrXWXQ4EB92JbYzhWn6GGTfqs0y9ku0y+N57XclzvyiIj/HMjJyEp8MD661hAvxXpw3qri16GOTeQzQZ3vy1udJ5ubYhztlnNunUt2RERmrRfWeNxsgZm1wu98MSEVcHG6iTWdF2uIJQV+a7i0nDUm1Y=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738544841; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=KnGTluyypwtazBIRrVkSvKuikw6cFhABGbbWmFW2RaU=;
+ b=Ri8gky45buTDhbjOUQq6J3IB83+m70o013N/TwbbklDQuDh4V8cbe5XTVUUDw1i4
+ Y8BTk7EuubEXjs1qZfCj+6WjfGslR+isUEyZojA/ao69nVsxwNAVSxp2LwygQfB0VCP
+ b5pmdp/fTDp/+8meJiYsazgbWgsBED8CNXpmOtvI=
+Received: by mx.zohomail.com with SMTPS id 1738544837827544.081124145429;
+ Sun, 2 Feb 2025 17:07:17 -0800 (PST)
+Message-ID: <b3fe0f90-761b-4dea-aa43-e7187a2ffd5a@collabora.com>
+Date: Mon, 3 Feb 2025 04:07:13 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled mappings
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, asahi@lists.linux.dev
-References: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
- <Z5-_O8vkCO0LXcl7@pollux.localdomain>
+Subject: Re: [PATCH v5] drm/virtio: Add drm_panic support
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
+ kraxel@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, daniel@ffwll.ch, christophe.jaillet@wanadoo.fr
+Cc: virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20241129122408.4167150-1-ryasuoka@redhat.com>
+ <be01d2f7-8423-4e10-b65b-a84a7bc7c99e@collabora.com>
+ <3ca0382c-a410-4424-a5a4-7c1b8be7ebed@collabora.com>
+ <a0fc9b8c-e86d-46a2-a1d2-5ce8793ad2a5@redhat.com>
 Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <Z5-_O8vkCO0LXcl7@pollux.localdomain>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <a0fc9b8c-e86d-46a2-a1d2-5ce8793ad2a5@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,81 +73,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/3/25 3:53 AM, Danilo Krummrich wrote:
-> Hi Lina,
+On 12/2/24 20:19, Jocelyn Falempe wrote:
+>>>
+>>> I've now noticed that drm_gem_shmem_vmap() expects BO reservation lock
+>>> to be held and we can't take lock it at a panic time.
+>>>
+>>> https://elixir.bootlin.com/linux/v6.12.1/source/drivers/gpu/drm/
+>>> drm_gem_shmem_helper.c#L330
+>>>
+>>> This resv warning isn't triggered because bo->base.vaddr is set for VT
+>>> framebufffer BO when panic happens.
 > 
-> On Sun, Feb 02, 2025 at 10:34:49PM +0900, Asahi Lina wrote:
->> Some hardware requires dummy page mappings to efficiently implement
->> Vulkan sparse features. These mappings consist of the same physical
->> memory page, repeated for a large range of address space (e.g. 16GiB).
->>
->> Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
->> ranges to correspond 1:1 to virtual memory ranges that are mapped, and
->> does math on the BO offset accordingly. To make single page mappings
->> work, we need a way to turn off that math, keeping the BO offset always
->> constant and pointing to the same page (typically BO offset 0).
->>
->> To make this work, we need to handle all the corner cases when these
->> mappings intersect with regular mappings. The rules are simply to never
->> mix or merge a "regular" mapping with a single page mapping.
->>
->> drm_gpuvm has support for a flags field in drm_gpuva objects. This is
->> normally managed by drivers directly. We can introduce a
->> DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
->> sm_map and friends need to know ahead of time whether the new mapping is
->> a single page mapping or not. Therefore, we need to add an argument to
->> these functions so drivers can provide the flags to be filled into
->> drm_gpuva.flags.
->>
->> These changes should not affect any existing drivers that use drm_gpuvm
->> other than the API change:
->>
->> - imagination: Does not use flags at all
->> - nouveau: Only uses drm_gpuva_invalidate(), which is only called on
->>   existing drm_gpuva objects (after the map steps)
->> - panthor: Does not use flags at all
->> - xe: Does not use drm_gpuva_init_from_op() or
->>   drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
->> flags field of the gpuva object is managed by the driver only, so these
->> changes cannot clobber it.
->>
->> Note that the way this is implemented, drm_gpuvm does not need to know
->> the GPU page size. It only has to never do math on the BO offset to meet
->> the requirements.
->>
->> I suspect that after this change there could be some cleanup possible in
->> the xe driver (which right now passes flags around in various
->> driver-specific ways from the map step through to drm_gpuva objects),
->> but I'll leave that to the Xe folks.
->>
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->> Asahi Lina (4):
->>       drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
->>       drm/gpuvm: Plumb through flags into drm_gpuva_op_map
->>       drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
->>       drm/gpuvm: Plumb through flags into drm_gpuva_init
-> 
-> Without looking into any details yet:
-> 
-> This is a bit of tricky one, since we're not even close to having a user for
-> this new feature upstream yet, are we?
+> I usually test using gnome desktop in the VM, and in this case vaddr is
+> not set, and calling vmap() is needed. (and I don't get the warning, I
+> will check why).
 
-I'd hope we're at least somewhere "this year" close to upstreaming
-drm/asahi!
+All those get_pages() and vmap() that drm_gem_shmem_vmap() uses may
+sleep. You'll need to add atomic variants for the vmap funcs if it's
+really needed.
 
-> 
-> I wonder if we could do an exception by adding some KUnit tests (which
-> admittedly I never got to) validating things with and without this new feature.
-> 
-> Speaking of tests, how did you validate this change to validate the behavior
-> without DRM_GPUVA_SINGLE_PAGE?
+Like I said in the comment to v6, let's start with rejecting BOs that
+aren't vmapped. If atomic vmap will become needed, it will be a separate
+problem to solve.
 
-Mostly just making sure our driver passes GL/Vulkan CTS including sparse
-after this change. I do want to put together some low-level tests in
-igt-gpu-tools, but I haven't gotten around to it yet...
-
-~~ Lina
+-- 
+Best regards,
+Dmitry
 
