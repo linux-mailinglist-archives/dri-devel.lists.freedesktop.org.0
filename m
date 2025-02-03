@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4995A25D97
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 15:58:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C46A25D98
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 15:58:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2B210E4C4;
-	Mon,  3 Feb 2025 14:58:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FFAB10E4D0;
+	Mon,  3 Feb 2025 14:58:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YyPwiR8Q";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hJUZo1ig";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 757FE10E1C4
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 14:58:35 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPA id 0B6A0443EC;
- Mon,  3 Feb 2025 14:58:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4A6810E4C4
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 14:58:36 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPA id 59E50443EF;
+ Mon,  3 Feb 2025 14:58:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738594714;
+ t=1738594715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7KPvVCDsWCjb/hJCyzZs7zY8Yj/18Nne+HJeVVHOGXQ=;
- b=YyPwiR8Q0T6WQCaKbJrD+QXRrLkFkcBnSrllfJISQMNR3zMVgF6jIcVk+9ACfWZSNCPBQn
- DgoARXnqJwxzQRTUW9LVdda0fH1/vYdjcP8tYVq/yFBjHiaBRz9OTOxzEox9EBiDJLyx3w
- AVypnGyqL7mu1fiyDN0ml91Ys1li+hhbkp5hqTYYj55+peXu0aQw44Rv4t15wTGuVvIjIr
- bnhh49BZbL7kbTBLGlDnQGkJn+NY/PjZCybxgWDfVI3PTWcYL9UqbS7qTEEJEUpaYtpM6Q
- ESg3j4GeLPAx0aRIpQxm2E0sgXyz1zj7eb0zv+x1SBmq9VdX15z2WiuyVm3RbA==
+ bh=Bhfccr6+eFBXNyn1O43G354wuCTcGUlppHJnEDmkHso=;
+ b=hJUZo1ig1kWLvP1M86xyKmW4WWNELbwAW9dvgo2Ohvzrg7vNpYSJ82pCscbxInZqF+Uk3o
+ mc3aZPwGnCAiv4BBb3zDLqRZw40D9mlHtpDLhapAxx+SYlBPbb7p52FV2Y7PmDxSBHvsU1
+ oFcc2/w2EJ5VghRPY6LyYtms+O2rMr62Xz+OmbyRgJJaKUNq23M6C0rEbVxG4rE843sgfH
+ TEg+fQkWnZ/dA/z/Pccxg0jFph6Sf46nHILTXAj8N1e6y2LApwUjqronprSz8rEAB8DPCo
+ 0oLwPg2SMdkQXa4axo1zvSv/9X4W9sD+MiETM61eAIZRfCAI70ju3mr6Mz9uhw==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Alexander Stein <alexander.stein@ew.tq-group.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -51,10 +51,9 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
  Herve Codina <herve.codina@bootlin.com>
-Subject: [PATCH v4 2/4] drm/atomic-helper: Introduce
- drm_atomic_helper_reset_crtc()
-Date: Mon,  3 Feb 2025 15:58:21 +0100
-Message-ID: <20250203145824.155869-3-herve.codina@bootlin.com>
+Subject: [PATCH v4 3/4] drm/vc4: hdmi: Use drm_atomic_helper_reset_crtc()
+Date: Mon,  3 Feb 2025 15:58:22 +0100
+Message-ID: <20250203145824.155869-4-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250203145824.155869-1-herve.codina@bootlin.com>
 References: <20250203145824.155869-1-herve.codina@bootlin.com>
@@ -80,82 +79,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_reset_crtc() allows to reset the CRTC active outputs.
+The current code uses a the reset_pipe() local function to reset the
+CRTC outputs.
 
-This resets all active components available between the CRTC and
-connectors.
+drm_atomic_helper_reset_crtc() has been introduced recently and it
+performs exact same operations.
+
+In order to avoid code duplication, use the new helper instead of the
+local function.
 
 Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 41 +++++++++++++++++++++++++++++
- include/drm/drm_atomic_helper.h     |  2 ++
- 2 files changed, 43 insertions(+)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 30 +-----------------------------
+ 1 file changed, 1 insertion(+), 29 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 8ed186ddaeaf..cac807df8a86 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -3363,6 +3363,47 @@ int drm_atomic_helper_disable_all(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 47d9ada98430..e878eddc9c3f 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -270,34 +270,6 @@ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi)
+ static void vc4_hdmi_cec_update_clk_div(struct vc4_hdmi *vc4_hdmi) {}
+ #endif
+ 
+-static int reset_pipe(struct drm_crtc *crtc,
+-			struct drm_modeset_acquire_ctx *ctx)
+-{
+-	struct drm_atomic_state *state;
+-	struct drm_crtc_state *crtc_state;
+-	int ret;
+-
+-	state = drm_atomic_state_alloc(crtc->dev);
+-	if (!state)
+-		return -ENOMEM;
+-
+-	state->acquire_ctx = ctx;
+-
+-	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+-	if (IS_ERR(crtc_state)) {
+-		ret = PTR_ERR(crtc_state);
+-		goto out;
+-	}
+-
+-	crtc_state->connectors_changed = true;
+-
+-	ret = drm_atomic_commit(state);
+-out:
+-	drm_atomic_state_put(state);
+-
+-	return ret;
+-}
+-
+ static int vc4_hdmi_reset_link(struct drm_connector *connector,
+ 			       struct drm_modeset_acquire_ctx *ctx)
+ {
+@@ -376,7 +348,7 @@ static int vc4_hdmi_reset_link(struct drm_connector *connector,
+ 	 * would be perfectly happy if were to just reconfigure
+ 	 * the SCDC settings on the fly.
+ 	 */
+-	return reset_pipe(crtc, ctx);
++	return drm_atomic_helper_reset_crtc(crtc, ctx);
  }
- EXPORT_SYMBOL(drm_atomic_helper_disable_all);
  
-+/**
-+ * drm_atomic_helper_reset_crtc - reset the active outputs of a CRTC
-+ * @crtc: DRM CRTC
-+ * @ctx: lock acquisition context
-+ *
-+ * Reset the active outputs by indicating that connectors have changed.
-+ * This implies a reset of all active components available between the CRTC and
-+ * connectors.
-+ *
-+ * Returns:
-+ * 0 on success or a negative error code on failure.
-+ */
-+int drm_atomic_helper_reset_crtc(struct drm_crtc *crtc,
-+				 struct drm_modeset_acquire_ctx *ctx)
-+{
-+	struct drm_atomic_state *state;
-+	struct drm_crtc_state *crtc_state;
-+	int ret;
-+
-+	state = drm_atomic_state_alloc(crtc->dev);
-+	if (!state)
-+		return -ENOMEM;
-+
-+	state->acquire_ctx = ctx;
-+
-+	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (IS_ERR(crtc_state)) {
-+		ret = PTR_ERR(crtc_state);
-+		goto out;
-+	}
-+
-+	crtc_state->connectors_changed = true;
-+
-+	ret = drm_atomic_commit(state);
-+out:
-+	drm_atomic_state_put(state);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_atomic_helper_reset_crtc);
-+
- /**
-  * drm_atomic_helper_shutdown - shutdown all CRTC
-  * @dev: DRM device
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 9aa0a05aa072..53382fe93537 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -139,6 +139,8 @@ int drm_atomic_helper_set_config(struct drm_mode_set *set,
- 
- int drm_atomic_helper_disable_all(struct drm_device *dev,
- 				  struct drm_modeset_acquire_ctx *ctx);
-+int drm_atomic_helper_reset_crtc(struct drm_crtc *crtc,
-+				 struct drm_modeset_acquire_ctx *ctx);
- void drm_atomic_helper_shutdown(struct drm_device *dev);
- struct drm_atomic_state *
- drm_atomic_helper_duplicate_state(struct drm_device *dev,
+ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
 -- 
 2.47.1
 
