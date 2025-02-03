@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5774BA2677C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 00:05:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C13A26787
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 00:06:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B910810E58A;
-	Mon,  3 Feb 2025 23:04:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75E4A10E58D;
+	Mon,  3 Feb 2025 23:06:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W73U2Do3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s/Oqgb1r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7789410E588;
- Mon,  3 Feb 2025 23:04:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D6E10E58E
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 23:06:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2A042A41F6A;
- Mon,  3 Feb 2025 23:03:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6B72C4CEEA;
- Mon,  3 Feb 2025 23:04:52 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 099E95C69D0;
+ Mon,  3 Feb 2025 23:05:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A40C4CEF0;
+ Mon,  3 Feb 2025 23:06:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738623893;
- bh=8LXNfDj0XbdIAmhPvi+TuYd1/opSOX2Sn7nRqUMekVU=;
+ s=k20201202; t=1738623980;
+ bh=8BS2LzvHcY78r1DdXYDr56TTF+ncuwdpHMuL/41500s=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=W73U2Do3p8HRpob25XLwSf3uFb+Uj7d/dFfMIyFRZwRt7Foo28qldEsHhuEr9Heun
- A9z/eoBtcyF2nTtz2xAMc5oYBLvgFCVNfhLfDsZi5UMyOzJV8ZwlFNnBpqr2sZsrfT
- sXLfoAdGPWyUMLtEcYR2Mbna2AXWtk9ynv9dR7MhTmcJPk/9WqYl07AKMu/zmbPY0b
- v/mYDKfMtkgiWWK+6wMl+rNOMhuCxuoPip9ZDKzHRSec9oHP8a4VOVJIwwjMPm5xsr
- 2QnmeGncsFD5N5KDaQ9H6jvDOC9imsSR/UFMTbQ41ikzR18cID0hlssuc3rS25xo67
- u12dLkBwxJdhA==
-Date: Mon, 3 Feb 2025 17:04:51 -0600
+ b=s/Oqgb1r/aQwrhI+H5DguR4mvIzCqhBGEL1v2+HGxur3qlKR10e5vJyTvtKuLnzpt
+ 2Py18GBs3H7WVtbqksGT2LX6xTei47UOovGqk9O6fXrdcnOYIU31eKwhofsVhY9CQD
+ o8s2StGGt9Q303awQLnXL3V9NJiEDaGMjdbfcbybvutzdfXzPji6De2oE8c0fnKj1O
+ CiT83JoMsJQGL+Z+8/G1vO0v8CAKVXxBYyTyM9PGzcf1awaq3Q1bEyMv18ZxsChxPl
+ o0WMur3EI03qosHXattpMjJUmPh9wgahW5UKkBjAswivrhsSbgZLptVjTXwLNAjDz4
+ xSH7cilbv7Izw==
+Date: Mon, 3 Feb 2025 17:06:18 -0600
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Danila Tikhonov <danila@jiaxyga.com>
-Cc: maarten.lankhorst@linux.intel.com, konradybcio@kernel.org,
- freedreno@lists.freedesktop.org, linux@mainlining.org,
- tzimmermann@suse.de, dmitry.baryshkov@linaro.org,
- devicetree@vger.kernel.org, quic_abhinavk@quicinc.com,
- ~postmarketos/upstreaming@lists.sr.ht, krzk+dt@kernel.org,
- jun.nie@linaro.org, fekz115@gmail.com, robdclark@gmail.com,
- marijn.suijten@somainline.org, simona@ffwll.ch, airlied@gmail.com,
- mripard@kernel.org, conor+dt@kernel.org, sean@poorly.run,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- quic_jesszhan@quicinc.com, neil.armstrong@linaro.org,
- linux-arm-msm@vger.kernel.org, andersson@kernel.org, jonathan@marek.ca
-Subject: Re: [PATCH 1/4] dt-bindings: display: panel: Add Visionox RM692E5
-Message-ID: <173862389119.509853.11162021545785979711.robh@kernel.org>
-References: <20250203181436.87785-1-danila@jiaxyga.com>
- <20250203181436.87785-2-danila@jiaxyga.com>
+To: rafael@beims.me
+Cc: Simona Vetter <simona@ffwll.ch>, Rafael Beims <rafael.beims@toradex.com>,
+ Robert Foss <rfoss@kernel.org>,
+ Joao Paulo Goncalves <joao.goncalves@toradex.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, dri-devel@lists.freedesktop.org,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: lt8912b: Add I2S audio
+ input port
+Message-ID: <173862397834.518293.5664388217181154431.robh@kernel.org>
+References: <20250203192401.244651-1-rafael@beims.me>
+ <20250203192401.244651-2-rafael@beims.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250203181436.87785-2-danila@jiaxyga.com>
+In-Reply-To: <20250203192401.244651-2-rafael@beims.me>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,15 +73,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 03 Feb 2025 21:14:24 +0300, Danila Tikhonov wrote:
-> The Visionox RM692E5 is a 6.55” AMOLED panel used in Nothing Phone (1)
-> (sm7325-nothing-spacewar).
+On Mon, 03 Feb 2025 16:23:55 -0300, rafael@beims.me wrote:
+> From: Rafael Beims <rafael.beims@toradex.com>
 > 
-> Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
+> Add the I2S audio input port for audio over HDMI support.
+> 
+> Signed-off-by: Rafael Beims <rafael.beims@toradex.com>
 > ---
->  .../display/panel/visionox,rm692e5.yaml       | 77 +++++++++++++++++++
->  1 file changed, 77 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/visionox,rm692e5.yaml
+>  .../bindings/display/bridge/lontium,lt8912b.yaml          | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
 
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
