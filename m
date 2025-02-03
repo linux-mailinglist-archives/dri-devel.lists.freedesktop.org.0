@@ -2,125 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AD1A261E7
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 19:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E66A26284
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 19:32:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FA8710E541;
-	Mon,  3 Feb 2025 18:03:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0399110E14B;
+	Mon,  3 Feb 2025 18:32:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="E6GxBRHo";
+	dkim=pass (1024-bit key; unprotected) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="smnCGuOB";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="BC98GYkI";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=jiaxyga.com header.i=@jiaxyga.com header.b="ajmjCBND";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC06A10E541;
- Mon,  3 Feb 2025 18:03:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NVXieqjF2BR3SZtQDMDbYyltE5I108qXKzC6JxLqiDVQ1saBZpHhOwjvFPlmqY7JvyJ1zYMdKVpgARsf+X+MOYwGmLzPtvwkhRh81tQm1SFG35F4mEBnHmRCdZ+BLTXuqv6d/WhLwssS5hPm3EVzwaFE2riB9ZY/c/d7ueiNfcfCjWYvU6MRwNNfQkY2ljo/H65N7Uh0t2c4e8bbnvEKeeT0gEbDrIsV3Nw2tbyg7cmdJCSzf2k3s3mY4tCVKiVD44/VXu4mhdMq4eyqFXYreQlLkJabOxgRI/hHjJqeg7FWZh7ADUDigSoA7UglAGgZzRBVXhp2+WmZVwetyt5e5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3YursoAu3Dw88XAlboHsmnzVDp+XDlWwE9Wk0lSArSs=;
- b=eJ7J6PiAu7TEOGiNckRB7spD9qxj4vZh3xg7VInbL3tgkKTw38TNcKjAKE1qVJLpJSPdtux1K5NusfbYDnGg6nxfULfGtKe4FMEEJiPL83cW3cyRuggkhn7HxUkkN4G29Mfjlu6w6m7M2acnUxItRh1o3YgIY2HoYB2oyeGTG5EDriE8bRI3jHpwTtwamCRhTSA+MleuKFuy20tzO2BPnk/jMU0mxcP7VkSShFFMG5oXlSrXRNOxi5Y9L8U6dHu0vFl7Eu5B7S501K2yMeYnPnfcsY3CbFPC/ULb1+524/oQeCOIzqX6Scy86QjoMuQmqjSMAI7psX90NxDe9MC7RQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3YursoAu3Dw88XAlboHsmnzVDp+XDlWwE9Wk0lSArSs=;
- b=E6GxBRHo46ZKClRvv4qVfEChiA6WkD0VfQ28SPHLXnS+aqhwt1ZDQTSHlXhuQFhUtPoyJ6M62fRz+uovSfOJ+7L1pqa9R1GG3cFFafp9wXOgv3+QrbMbAuynQIAAGbATAYDZ24MSOdrn6gRw+5K4t3xZOBxaASeNvslkCU41zwY=
-Received: from SJ0PR13CA0165.namprd13.prod.outlook.com (2603:10b6:a03:2c7::20)
- by LV8PR12MB9084.namprd12.prod.outlook.com (2603:10b6:408:18e::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Mon, 3 Feb
- 2025 18:03:03 +0000
-Received: from SJ1PEPF000023D5.namprd21.prod.outlook.com
- (2603:10b6:a03:2c7:cafe::e4) by SJ0PR13CA0165.outlook.office365.com
- (2603:10b6:a03:2c7::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.24 via Frontend Transport; Mon,
- 3 Feb 2025 18:03:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF000023D5.mail.protection.outlook.com (10.167.244.70) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8445.2 via Frontend Transport; Mon, 3 Feb 2025 18:03:02 +0000
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 3 Feb
- 2025 12:03:00 -0600
-From: Alex Hung <alex.hung@amd.com>
-To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
- <Rodrigo.Siqueira@amd.com>, <alexander.deucher@amd.com>,
- <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <alvin.lee2@amd.com>, <alex.hung@amd.com>,
- <wenjing.liu@amd.com>, <Austin.Zheng@amd.com>, <aurabindo.pillai@amd.com>,
- <dillon.varone@amd.com>, <mario.limonciello@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH] drm/amd/display: Replace pr_info in dc_validate_boot_timing()
-Date: Mon, 3 Feb 2025 11:02:03 -0700
-Message-ID: <20250203180203.1259237-1-alex.hung@amd.com>
-X-Mailer: git-send-email 2.43.0
+X-Greylist: delayed 1040 seconds by postgrey-1.36 at gabe;
+ Mon, 03 Feb 2025 18:32:28 UTC
+Received: from fallback1.i.mail.ru (fallback1.i.mail.ru [79.137.243.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8165C10E14B;
+ Mon,  3 Feb 2025 18:32:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com;
+ s=mailru; 
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc;
+ bh=D7JRFzFEare/oFNaQJiakwJpq4E0pQkd2/w9tDmKTqw=; 
+ t=1738607548;x=1738697548; 
+ b=smnCGuOBjGZjt4HkkWlP9Yb/VQ4lbjUYF2AZ051PcwYeVxnVnsTfRQcbBkstFYTn4NvA0kNTvc0ryxFN7KQeB0Cjejs8tBRcLrqld+lig6mrjxnJ8oS642C1A6VMPPLYEXdV9qGXO723lSzn0jj+qvy/6mHE2JGT9xbKBxabM+c=;
+Received: from [10.113.26.107] (port=52868 helo=send262.i.mail.ru)
+ by fallback1.i.mail.ru with esmtp (envelope-from <danila@jiaxyga.com>)
+ id 1tf0yU-000zpC-CA; Mon, 03 Feb 2025 21:15:10 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+ ; s=mailru;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive:X-Cloud-Ids;
+ bh=D7JRFzFEare/oFNaQJiakwJpq4E0pQkd2/w9tDmKTqw=; t=1738606510; x=1738696510; 
+ b=BC98GYkIhf7SHAed8xAJquTrfQJUoaDxnqsC94m0fZu7esO3T4eRUmKRCEKFdX8+g5EKnCy/aNS
+ mQZtO4VYTUzHLKdW4eD3ixU9xUcxr5iB39YAB4RqyWTYNKCNvlEwbQheu72PJCQ7kPMoLvEZgdO1p
+ TGIlUsYIrBLbDbsi3RI=;
+Received: from [10.113.188.174] (port=48258 helo=send264.i.mail.ru)
+ by exim-fallback-5fbdbdcb77-7lmmm with esmtp (envelope-from
+ <danila@jiaxyga.com>)
+ id 1tf0yL-00000000FA4-3QGz; Mon, 03 Feb 2025 21:15:02 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=jiaxyga.com
+ ; s=mailru;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:From:Sender:Reply-To:To:Cc:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+ References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+ List-Owner:List-Archive:X-Cloud-Ids:Disposition-Notification-To;
+ bh=D7JRFzFEare/oFNaQJiakwJpq4E0pQkd2/w9tDmKTqw=; t=1738606501; x=1738696501; 
+ b=ajmjCBNDH9Og/zmCjKzP+Pl//2SDrwqtFJc1aaPH6tJK4VD9GJCnyUkWOUGfmErl2qEjVtY/Be5
+ RuZJhT5zY0mbJPqhtj3l+i6aImyEhP+UZt7gQU/yT/2jpADXv8VpzqIJK2Dyye3cype4NOstSFVOj
+ zMZO1rcEpPg+dqWAgEQ=;
+Received: by exim-smtp-6d97ff8cf4-crh4d with esmtpa (envelope-from
+ <danila@jiaxyga.com>)
+ id 1tf0y4-00000000H1P-2H7S; Mon, 03 Feb 2025 21:14:45 +0300
+From: Danila Tikhonov <danila@jiaxyga.com>
+To: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
+ robdclark@gmail.com, quic_abhinavk@quicinc.com,
+ dmitry.baryshkov@linaro.org, sean@poorly.run,
+ marijn.suijten@somainline.org, jonathan@marek.ca, jun.nie@linaro.org,
+ fekz115@gmail.com
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux@mainlining.org,
+ ~postmarketos/upstreaming@lists.sr.ht, Danila Tikhonov <danila@jiaxyga.com>
+Subject: [PATCH 0/4] sm7325-nothing-spacewar: Add and enable the panel
+Date: Mon,  3 Feb 2025 21:14:23 +0300
+Message-ID: <20250203181436.87785-1-danila@jiaxyga.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D5:EE_|LV8PR12MB9084:EE_
-X-MS-Office365-Filtering-Correlation-Id: 256ffb77-3cdd-468d-a5a7-08dd447d00c7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|36860700013|82310400026|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7O+0vV+vCVFH2skPMvMSGZXSZptseoYsGs5nPC0fYljnSOg1L4X7rwxRPhD0?=
- =?us-ascii?Q?lr7wcq+URyfcBypNu964jyGmvGfVHD/UiWSsmKMlG98wc6B2dn5+dEUbmXkZ?=
- =?us-ascii?Q?KaPlvRc3HAVb+Aau8dX0rfsQLUo9yIEJZT3Zr0gqR+ydUr82IXWt7SRpfcs7?=
- =?us-ascii?Q?g+CwUt/r4VaoC533gPexolrixHW+kTXwksnC7c9Bf2sDADEhELqmdS97z6gf?=
- =?us-ascii?Q?okOEbZOuULGQ0onaGjn61/Gwh2P7Cy+7Km03tAmi02bRdWavCCypYg7sHbh0?=
- =?us-ascii?Q?aj8qMC6tQ1a1RyZFzkrhbvTr3C7GG8wQ9TbhYU2gVcn+h+9sLLYmFZusUCF8?=
- =?us-ascii?Q?YBN98n7Y4uB6/QoqfSvV79WmDgvzYFvQpyEaW7xVKcgKRC1DWCgEzA9PxZij?=
- =?us-ascii?Q?QmT5RgPXqxShleySmRx4yPdEw53Azd1Vyw1lhVYpEFJb7rhS5y4bYwMnTLb/?=
- =?us-ascii?Q?B2lwekmqY9A+0bGfUV5YNYRqv2JOQFZcdAWeid+5e8+55a6fbKPdCGUaFi9W?=
- =?us-ascii?Q?TE1NWv/lQyn4ldgb+/SHfVT7jJQrrBIBudu2h07/3T1LF32kynHeQM0AsgFP?=
- =?us-ascii?Q?c+Wmz6oMd0jmg03A0B5aKIQgy2NDvE0d6yuDaGLiM/LTkgN1Dnm+8PKfIPht?=
- =?us-ascii?Q?TsR3SVq815SCsDfvyVcLnd/0XswuIT+7VSf/pJvQJ/ePcAlv0lAeEj7Z4bFT?=
- =?us-ascii?Q?Bc4gVRLoR3BTTlJHD6e3omtT2A2TvF2lZkczaP0qEjy/fhFiP+oUTEjVyb3d?=
- =?us-ascii?Q?CgDpd/Ncs3E1Bl4h+XXYPU8950UFfYq46PRqAHccysuieD9CB/jlPC4/gxFX?=
- =?us-ascii?Q?Sn9ypsZShfw9sbgYCKXb+FQMwDWcKlAEHVyzEML4vBBGPVF4tspgwaZYB0Yq?=
- =?us-ascii?Q?2sDKunanHlGIbXL/SwtNAGut3YhLGrOlQ1ToyI23Z3ReC0M4uZ+cO9K4ooOh?=
- =?us-ascii?Q?sZqNSOxEe+MXGu9EPmuXCMLcPFyYtJ3w6A0/boPPG87ayrjH1fRbJDHSDyxQ?=
- =?us-ascii?Q?YDfM1BFLi6JYYB0CdiWY4OaIz4kZxWzS9XdWbQw/31Lhc9yublyDIwk7WNC8?=
- =?us-ascii?Q?elxCphsd+6tUxp3ND+y/XnWTdlLFnthoYlfvn28QnqiB5fJn+DNcPY5c3PHu?=
- =?us-ascii?Q?tCOFEUzu7SdgKanpI5WWZrG89+7IXqAyv9EuK53EelBw0uh+tGIsd4soM6qW?=
- =?us-ascii?Q?l2/zd4M2hq7/YirhF8PatvQq9Pi+IuNc3y9K4S9/gzgQj+MxLfK0m8EvMYb6?=
- =?us-ascii?Q?vQ7a9KcYizroPmyfg8CGAsQizx7LqWcdpwk4hkuwfFzRFN4TTTw3KJQMViAt?=
- =?us-ascii?Q?ZMZd+0MFtNZa9mOK+xdkS0HUfh/r2zksR05yC65/pQAe640cYyuDimZjn4/w?=
- =?us-ascii?Q?YUbgEiMR27zaZX8J/5Ee2MtjVmzQefb/QJtt+5S9yW15wppmwthxEzFE1d0D?=
- =?us-ascii?Q?LpfyaY/7FKhkFkKQX/6qXRkCEo1jcZ3CLBn9OMkC7EnsV6PPeo324lbNaQVF?=
- =?us-ascii?Q?Ay7MiI7YAIa/OpbpIFFw6g6J42RUnDd5upoJ?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026)(921020); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 18:03:02.9444 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 256ffb77-3cdd-468d-a5a7-08dd447d00c7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000023D5.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9084
+X-Mailru-Src: smtp
+X-7564579A: B8F34718100C35BD
+X-77F55803: 4F1203BC0FB41BD985D89FF3B425BBEFB48FEBABD90F3B7401DE346ACC8939A6CD62213F67905E7A3696776F0B98519CBDA1AADECFE04B855B746C49C5A93FB624BDAFD5E9761C67FEDCCBD3DDE7F493
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7B7733D0215A2F71AEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006378F586D843116CFB2EA1F7E6F0F101C6723150C8DA25C47586E58E00D9D99D84E1BDDB23E98D2D38BC08E230531AC9C90D48C84F60DA7BD9C119A65102D8A25FFE0C136DC086F5BCDA471835C12D1D9774AD6D5ED66289B5278DA827A17800CE77FFCE1C639F4728C9FA2833FD35BB23D2EF20D2F80756B5F868A13BD56FB6657A471835C12D1D977725E5C173C3A84C3A367EA73E0D98AAD117882F4460429728AD0CFFFB425014E868A13BD56FB6657D81D268191BDAD3DC09775C1D3CA48CF05E80F4396618BB276E601842F6C81A12EF20D2F80756B5FB606B96278B59C4276E601842F6C81A127C277FBC8AE2E8B406C66621D3021AFD81D268191BDAD3D3666184CF4C3C14F3FC91FA280E0CE3D1A620F70A64A45A98AA50765F79006372E808ACE2090B5E1725E5C173C3A84C3C5EA940A35A165FF2DBA43225CD8A89F890A246B268E114E5E1C53F199C2BB95B5C8C57E37DE458BEDA766A37F9254B7
+X-C1DE0DAB: 0D63561A33F958A5D4AF5AD9AAC5B2B25002B1117B3ED696750175D3FA3F03671E49B01306B5E3AD823CB91A9FED034534781492E4B8EEAD14747542773C033FC79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
+X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CF123DA26E3BF0E2AAF0A13BBC0A68F25BA3F27AC1796CF9F1BBB2732F3F50E1D614625291CC5E48B9C56FE0738BD31C043FCBB3ED5EEAA176139AD299E36D9692B5D06203C12B99C4354DA1E504E663BD02C26D483E81D6BE72B480F99247062FEE42F474E8A1C6FD34D382445848F2F3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojks+hT+CyYL1/eAliXkWy9g==
+X-Mailru-Sender: 9EB879F2C80682A0D0AE6A344B45275FF5005910AAC186731356DD24693B53BC3C74BFA4BD2A0242BE2B9809F5EE1A3E2C62728BC403A049225EC17F3711B6CF1A6F2E8989E84EC137BFB0221605B344978139F6FA5A77F05FEEDEB644C299C0ED14614B50AE0675
+X-Mras: Ok
+X-Mailru-Src: fallback
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4A84B4964F946E17EB1A91FC540E416C1F01E828FDC9BC856049FFFDB7839CE9E725523CC1EE150EB27A37986E63DEF09B751DBE7BA36A3DC8D4C3B0D36B3506639594C5AF30C0DD2
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u6NqYXWMR0/V85CnFjCYTu9APdQH0PvpnP5qz8aO2mjTJzjHGC4ogvVuzB3zfVUBtENeZ6b5av1fnCBE34JUDkWdM6QxE+Ga5d8voMtmXfSpaVNpzbQKl5AyxHfUpwjuv
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4A84B4964F946E17EB1A91FC540E416C1BDB3A1FA17F234B6049FFFDB7839CE9E725523CC1EE150EB483549C658F0D40FE1F6A45164BAA1708DC51D434ABBA9C3
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u6NqYXWMR0/V85CnFjCYTu9APdQH0PvpnP5qz8aO2mjTJzjHGC4ogvVuzB3zfVUBtENeZ6b5av1fnCBE34JUDkWdM6QxE+Ga5d8voMtmXfSqf+jS9K0O6j7JdENjvzQK2
+X-Mailru-MI: 20000000000000800
+X-Mras: Ok
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,29 +112,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use DC_LOG_DEBUG instead of pr_info to match other uses in dc.c.
+This patch series adds support for the Visionox RM692E5 panel, which is
+used on the Nothing Phone (1) and then adds it to the DTS.
 
-Fixes: eb8eec752038 ("drm/amd/display: Add debug messages for dc_validate_boot_timing()")
+But before adding to DTS we need to allow all bpc values ​​in DSC code,
+because Visionox RM692E5 has a bpc value of 10. Also we need to make sure
+that the DSC patch for 1.1.1 topology was applied.
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Alex Hung <alex.hung@amd.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+To: Neil Armstrong <neil.armstrong@linaro.org> 
+To: Jessica Zhang <quic_jesszhan@quicinc.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Rob Clark <robdclark@gmail.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Sean Paul <sean@poorly.run>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: Jonathan Marek <jonathan@marek.ca>
+To: Jun Nie <jun.nie@linaro.org>
+To: Eugene Lepshy <fekz115@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux@mainlining.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht
+Signed-off-by: Danila Tikhonov <danila@jiaxyga.com>
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
-index a2b0331ef579..793351e15bc3 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
-@@ -1865,7 +1865,7 @@ bool dc_validate_boot_timing(const struct dc *dc,
- 			uint32_t pixels_per_cycle = se->funcs->get_pixels_per_cycle(se);
- 
- 			if (pixels_per_cycle != 1 && !dc->debug.enable_dp_dig_pixel_rate_div_policy) {
--				pr_info("boot timing validation failed due to pixels_per_cycle\n");
-+				DC_LOG_DEBUG("boot timing validation failed due to pixels_per_cycle\n");
- 				return false;
- 			}
- 
+Danila Tikhonov (1):
+  dt-bindings: display: panel: Add Visionox RM692E5
+
+Eugene Lepshy (3):
+  drm/panel: Add Visionox RM692E5 panel driver
+  drm/msm/dsi: Allow all bpc values
+  arm64: dts: qcom: sm7325-nothing-spacewar: Enable panel and GPU
+
+ .../display/panel/visionox,rm692e5.yaml       |  77 ++++
+ .../boot/dts/qcom/sm7325-nothing-spacewar.dts |  53 ++-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |   7 +-
+ drivers/gpu/drm/panel/Kconfig                 |  10 +
+ drivers/gpu/drm/panel/Makefile                |   1 +
+ .../gpu/drm/panel/panel-visionox-rm692e5.c    | 433 ++++++++++++++++++
+ 6 files changed, 573 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/visionox,rm692e5.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-visionox-rm692e5.c
+
 -- 
-2.43.0
+2.48.1
 
