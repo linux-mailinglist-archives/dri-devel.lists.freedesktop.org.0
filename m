@@ -2,75 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A220A255A9
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 10:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF48BA255B9
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 10:22:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A9C110E034;
-	Mon,  3 Feb 2025 09:19:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D405110E3F8;
+	Mon,  3 Feb 2025 09:22:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jpvVqwct";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mZjjl17G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 064D910E034
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 09:19:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738574368; x=1770110368;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=Xgv9cXby25MnVXgPbDZH0JSH1bW2Lin3jEG1CUba0Us=;
- b=jpvVqwct8sFDkTV6voMQxXPXHIDYWtbr5MxPP0qv0TGzLdFhokeK+GhJ
- dqbTf+uN87MBE+EYk25dsjSl4DcYsi3WceR8T7bjXA/uirqdx+0vZB9ks
- Iq0cdvz9I97L+L9lzhoMpPbaVKFL84HJStmcUf5KOiJTOE27oZfqR/TXy
- Amtztr5oSD+77fyw6ieuwytJA+7GUsSiKuq2aGivXQ6Vh6NnM6JOHPy4u
- 6MYYlJHrHUDlhHu6xkzaSHBG92eSAMMxUyR2e43wUDfg59jTETzhW7LHd
- NGUtSB/63inxwEKLfTZMaDrN5z3G44S9orMGC8Wr1nX1stND11oW5Crlj Q==;
-X-CSE-ConnectionGUID: OXcBvTQpS1elaf4hi8D5CA==
-X-CSE-MsgGUID: Zt9C5UOSQm+kk29t+jRoug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11334"; a="50448247"
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; d="scan'208";a="50448247"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2025 01:19:28 -0800
-X-CSE-ConnectionGUID: +bqc7yNkQ06rdEd5R5s9WA==
-X-CSE-MsgGUID: XE2gxrdCTdixbMGJbvgpAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; d="scan'208";a="110806587"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2025 01:19:27 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tesbz-00000007maz-0agV; Mon, 03 Feb 2025 11:19:23 +0200
-Date: Mon, 3 Feb 2025 11:19:22 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
- Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
-Message-ID: <Z6CKGu7URC1iGOVO@smile.fi.intel.com>
-References: <Z4pktkZ1ihfkZjHm@smile.fi.intel.com>
- <Z4ppo8wV3nicOfAQ@smile.fi.intel.com>
- <8a7581e4-6422-4d77-8027-02df0d7da489@samsung.com>
- <Z4qTQ9ypkX6iS1Pl@smile.fi.intel.com>
- <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
- <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
- <6b4cba29-786c-4999-ac1d-27b3e4cea6f8@samsung.com>
- <Z5kJLrE6xOzOKaeb@smile.fi.intel.com>
- <Z5pESDSekep9ChAN@smile.fi.intel.com>
- <eyjsejpx7klztr4k7xmrvceosfykyozs736kycdnf5uur5by43@5i5x7tsuxtpg>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D55CF10E2BE;
+ Mon,  3 Feb 2025 09:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1738574522;
+ bh=7U7Yl06go+bByThCK2iknqMhLcveevfT0vv3Dt817BE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=mZjjl17G/l4cbQnyEM4LJ3L6AlSgH9HNznFxRBcOM+deSS9In+FxlBMtMNguZtZ7g
+ ZKzfzSJ20gpG0ptp6q06ib3xOM8EmhNQzEBdcwwHXk2Zhq4OJga8AUfTo5kNJYuX43
+ TmYli/TCRaQglmoMKZPfvX45JJPzsXBfytXYAHwEpBZWVybgj6HKTj0btx/Nti/kHB
+ JkNdmhDK8LpB8r2GI8q8xjT6eGFUAbKnkWLbfE3qdJnd/8R79EB7+uzEF++k76rX//
+ QShXOzJsCXJDsOTziqWjRfsqF/9GzNiiCyfh5FRFnup14+afaqwrhkVOlU8B6TrFkH
+ Rmv7GLyGpHOpg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 31D4917E07B3;
+ Mon,  3 Feb 2025 10:22:01 +0100 (CET)
+Date: Mon, 3 Feb 2025 10:21:53 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@kernel.org>, asahi@lists.linux.dev
+Cc: Asahi Lina <lina@asahilina.net>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Karol Herbst <kherbst@redhat.com>, Lyude
+ Paul <lyude@redhat.com>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+ =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, akash.goel@arm.com
+Subject: Re: [PATCH 0/4] drm/gpuvm: Add support for single-page-filled mappings
+Message-ID: <20250203102153.145229e0@collabora.com>
+In-Reply-To: <Z5-_O8vkCO0LXcl7@pollux.localdomain>
+References: <20250202-gpuvm-single-page-v1-0-8cbd44fdcbd4@asahilina.net>
+ <Z5-_O8vkCO0LXcl7@pollux.localdomain>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <eyjsejpx7klztr4k7xmrvceosfykyozs736kycdnf5uur5by43@5i5x7tsuxtpg>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,125 +71,205 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 01, 2025 at 07:18:56PM +0200, Dmitry Baryshkov wrote:
-> On Wed, Jan 29, 2025 at 05:07:52PM +0200, Andy Shevchenko wrote:
-> > On Tue, Jan 28, 2025 at 06:43:26PM +0200, Andy Shevchenko wrote:
-> > > On Tue, Jan 28, 2025 at 05:08:08PM +0100, Marek Szyprowski wrote:
-> > > > On 21.01.2025 14:29, Andy Shevchenko wrote:
-> > > > > On Tue, Jan 21, 2025 at 08:33:09AM +0100, Marek Szyprowski wrote:
-> > > > >> On 17.01.2025 18:28, Andy Shevchenko wrote:
-> > > > >>> On Fri, Jan 17, 2025 at 05:05:42PM +0100, Marek Szyprowski wrote:
-> > > > >>>
-> > > > >>> Does it fail in the same way?
-> > > > >> Yes, the hw revision is reported as zero in this case: LT9611 revision:
-> > > > >> 0x00.00.00
-> > > > > Hmm... This is very interesting! It means that the page selector is a bit
-> > > > > magical there. Dmitry, can you chime in and perhaps shed some light on this?
-> > > > >
-> > > > >>>> Does it mean that there is really a bug in the driver?
-> > > > >>> Without looking at the datasheet it's hard to say. At least what I found so far
-> > > > >>> is one page of the I²C traffic dump on Windows as an example how to use their
-> > > > >>> evaluation board and software, but it doesn't unveil the bigger picture. At
-> > > > >>> least what I think is going on here is that the programming is not so easy as
-> > > > >>> just paging. Something is more complicated there.
-> > > > >>>
-> > > > >>> But at least (and as Mark said) the most of the regmap based drivers got
-> > > > >>> the ranges wrong (so, at least there is one bug in the driver).
-> > > > >> I can do more experiments if this helps. Do you need a dump of all
-> > > > >> regmap accesses or i2c traffic from this driver?
-> > > > > It would be helpful! Traces from the failed and non-failed cases
-> > > > > till the firmware revision and chip ID reading would be enough to
-> > > > > start with.
-> > > > 
-> > > > I'm sorry for the delay, I was a bit busy with other stuff.
-> > > 
-> > > No problem and thanks for sharing.
-> > > 
-> > > > Here are logs (all values are in hex):
-> > > > 
-> > > > next-20250128 (probe broken):
-> > > > root@target:~# dmesg | grep regmap
-> > > > [   14.817604] regmap_write reg 80ee <- 1
-> > > > [   14.823036] regmap_read reg 8100 -> 0
-> > > > [   14.827631] regmap_read reg 8101 -> 0
-> > > > [   14.832130] regmap_read reg 8102 -> 0
-> > > 
-> > > 
-> > > 
-> > > > next-20250128 + 1fd60ed1700c reverted (probe okay):
-> > > > root@target:~# dmesg | grep regmap
-> > > > [   13.565920] regmap_write reg 80ee <- 1
-> > > > [   13.567509] regmap_read reg 8100 -> 17
-> > > > [   13.568219] regmap_read reg 8101 -> 4
-> > > > [   13.568909] regmap_read reg 8102 -> 93
-> > > 
-> > > Something is missing here. Like we have an identical start and an immediate
-> > > failure. If you did it via printk() approach, it's probably wrong as my patch
-> > > uses internal regmap function. Most likely you need to enable trace events
-> > > for regmap and collect those for let's say 2 seconds:
-> > > 
-> > > 	echo 1 > ...trace events...
-> > > 	modprobe ...
-> > > 	sleep 2
-> > > 	echo 0 > ...trace events...
-> > > 
-> > > and dump the buffer to a file. It might have though more than needed
-> > > as some other devices might also use regmap at the same time. I don't remember
-> > > if the trace events for regmap have a device instance name field which can be
-> > > used as a filter.
-> > > 
-> > > Alternatively you may also try to add a printk() into regmap core, but I don't
-> > > think it's more practical than trace events.
-> > 
-> > Meanwhile, can you test this patch (on top of non-working case)?
-> > 
-> > diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-> > index 2314744201b4..f799a7a80231 100644
-> > --- a/drivers/base/regmap/regmap.c
-> > +++ b/drivers/base/regmap/regmap.c
-> > @@ -1553,8 +1553,19 @@ static int _regmap_select_page(struct regmap *map, unsigned int *reg,
-> >  		 * virtual copy as well.
-> >  		 */
-> >  		if (page_chg &&
-> > -		    in_range(range->selector_reg, range->window_start, range->window_len))
-> > +		    in_range(range->selector_reg, range->window_start, range->window_len)) {
-> > +			bool bypass, cache_only;
-> > +
-> > +			bypass = map->cache_bypass;
-> > +			cache_only = map->cache_only;
-> > +			map->cache_bypass = false;
-> > +			map->cache_only = true;
-> > +
-> >  			_regmap_update_bits(map, sel_register, mask, val, NULL, false);
-> > +
-> > +			map->cache_bypass = bypass;
-> > +			map->cache_only = cache_only;
-> > +		}
-> >  	}
-> >  
-> >  	*reg = range->window_start + win_offset;
-> > 
-> > If I understood the case, the affected driver doesn't use case and we actually
-> > write to the selector register twice which most likely messes up the things.
++Akash with whom we've been discussing adding a 'REPEAT' mode to
+drm_gpuvm/panthor.
+
+On Sun, 2 Feb 2025 19:53:47 +0100
+Danilo Krummrich <dakr@kernel.org> wrote:
+
+> Hi Lina,
 > 
-> Unfortunately I can not comment regarding the LT9611UXC itself, the
-> datasheet that I have here is pretty cryptic, incomplete and partially
-> written in Mandarin.
+> On Sun, Feb 02, 2025 at 10:34:49PM +0900, Asahi Lina wrote:
+> > Some hardware requires dummy page mappings to efficiently implement
+> > Vulkan sparse features. These mappings consist of the same physical
+> > memory page, repeated for a large range of address space (e.g. 16GiB).
+> > 
+> > Add support for this to drm_gpuvm. Currently, drm_gpuvm expects BO
+> > ranges to correspond 1:1 to virtual memory ranges that are mapped, and
+> > does math on the BO offset accordingly. To make single page mappings
+> > work, we need a way to turn off that math, keeping the BO offset always
+> > constant and pointing to the same page (typically BO offset 0).
+> > 
+> > To make this work, we need to handle all the corner cases when these
+> > mappings intersect with regular mappings. The rules are simply to never
+> > mix or merge a "regular" mapping with a single page mapping.
+> > 
+> > drm_gpuvm has support for a flags field in drm_gpuva objects. This is
+> > normally managed by drivers directly. We can introduce a
+> > DRM_GPUVA_SINGLE_PAGE flag to handle this. However, to make it work,
+> > sm_map and friends need to know ahead of time whether the new mapping is
+> > a single page mapping or not. Therefore, we need to add an argument to
+> > these functions so drivers can provide the flags to be filled into
+> > drm_gpuva.flags.
+> > 
+> > These changes should not affect any existing drivers that use drm_gpuvm
+> > other than the API change:
+> > 
+> > - imagination: Does not use flags at all
+> > - nouveau: Only uses drm_gpuva_invalidate(), which is only called on
+> >   existing drm_gpuva objects (after the map steps)
+> > - panthor: Does not use flags at all
+> > - xe: Does not use drm_gpuva_init_from_op() or
+> >   drm_gpuva_remap()/drm_gpuva_map() (which call it). This means that the
+> > flags field of the gpuva object is managed by the driver only, so these
+> > changes cannot clobber it.
+> > 
+> > Note that the way this is implemented, drm_gpuvm does not need to know
+> > the GPU page size. It only has to never do math on the BO offset to meet
+> > the requirements.
+> > 
+> > I suspect that after this change there could be some cleanup possible in
+> > the xe driver (which right now passes flags around in various
+> > driver-specific ways from the map step through to drm_gpuva objects),
+> > but I'll leave that to the Xe folks.
+> > 
+> > Signed-off-by: Asahi Lina <lina@asahilina.net>
+> > ---
+> > Asahi Lina (4):
+> >       drm/gpuvm: Add a flags argument to drm_gpuvm_sm_map[_*]
+> >       drm/gpuvm: Plumb through flags into drm_gpuva_op_map
+> >       drm/gpuvm: Add DRM_GPUVA_SINGLE_PAGE flag and logic
+> >       drm/gpuvm: Plumb through flags into drm_gpuva_init  
 > 
-> This patch though fixes an issue for me too, So:
+> Without looking into any details yet:
 > 
-> Tested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org> # Qualcomm RB1
+> This is a bit of tricky one, since we're not even close to having a user for
+> this new feature upstream yet, are we?
 
-Thank you, guys, for reporting an testing, but it seems the simple problem
-to solve requires a lot of changes to be done without regressions
-(this fix on fix makes a regression to those who have cache enabled), which
-means that for now I propose to revert it (or drop) if possible, Mark,
-what is your preference?
+Actually, we would be interesting in having this feature hooked up in
+panthor. One use case we have is Vulkan sparse bindings, of course. But
+we also have cases where we need to map a dummy page repeatedly on the
+FW side. The approach we've been considering is slightly different:
+pass a DRM_GPUVA_REPEAT_FLAG along with GEM range, so we can repeat a
+range of the GEM (see the below diff, which is completely untested by
+the way), but I think we'd be fine with this SINGLE_PAGE flag.
 
-> > But this is only a theory (since we don't have the traces yet).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--->8---
+diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
+index f9eb56f24bef..ea61f3ffaddf 100644
+--- a/drivers/gpu/drm/drm_gpuvm.c
++++ b/drivers/gpu/drm/drm_gpuvm.c
+@@ -2053,16 +2053,17 @@ EXPORT_SYMBOL_GPL(drm_gpuva_unmap);
+ 
+ static int
+ op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
+-      u64 addr, u64 range,
+-      struct drm_gem_object *obj, u64 offset)
++      u64 addr, u64 va_range,
++      struct drm_gem_object *obj, u64 offset, u64 gem_range)
+ {
+     struct drm_gpuva_op op = {};
+ 
+     op.op = DRM_GPUVA_OP_MAP;
+     op.map.va.addr = addr;
+-    op.map.va.range = range;
++    op.map.va.range = va_range;
+     op.map.gem.obj = obj;
+     op.map.gem.offset = offset;
++    op.map.gem.range = gem_range;
+ 
+     return fn->sm_step_map(&op, priv);
+ }
+@@ -2102,7 +2103,8 @@ static int
+ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+            const struct drm_gpuvm_ops *ops, void *priv,
+            u64 req_addr, u64 req_range,
+-           struct drm_gem_object *req_obj, u64 req_offset)
++           struct drm_gem_object *req_obj,
++           u64 req_offset, u64 req_gem_range)
+ {
+     struct drm_gpuva *va, *next;
+     u64 req_end = req_addr + req_range;
+@@ -2237,7 +2239,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
+ 
+     return op_map_cb(ops, priv,
+              req_addr, req_range,
+-             req_obj, req_offset);
++             req_obj, req_offset, req_gem_range);
+ }
+ 
+ static int
+@@ -2344,10 +2346,43 @@ drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
+ 
+     return __drm_gpuvm_sm_map(gpuvm, ops, priv,
+                   req_addr, req_range,
+-                  req_obj, req_offset);
++                  req_obj, req_offset, 0);
+ }
+ EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map);
+ 
++/**
++ * drm_gpuvm_sm_map_repeat() - repeatedly maps a GEM range over a VA range
++ * @gpuvm: the &drm_gpuvm representing the GPU VA space
++ * @priv: pointer to a driver private data structure
++ * @req_addr: the start address of the new mapping
++ * @req_range: the range of the new mapping
++ * @req_obj: the &drm_gem_object to map
++ * @req_offset: the offset within the &drm_gem_object
++ * @req_gem_range: the offset within the &drm_gem_object
++ *
++ * Same as drm_gpuvm_sm_map() except it repeats a GEM range over a VA range
++ *
++ * Returns: 0 on success or a negative error code
++ */
++int
++drm_gpuvm_sm_map_repeat(struct drm_gpuvm *gpuvm, void *priv,
++            u64 req_addr, u64 req_range,
++            struct drm_gem_object *req_obj,
++            u64 req_offset, u64 req_gem_range)
++{
++    const struct drm_gpuvm_ops *ops = gpuvm->ops;
++
++    if (unlikely(!(ops && ops->sm_step_map &&
++               ops->sm_step_remap &&
++               ops->sm_step_unmap)))
++        return -EINVAL;
++
++    return __drm_gpuvm_sm_map(gpuvm, ops, priv,
++                  req_addr, req_range,
++                  req_obj, req_offset, req_gem_range);
++}
++EXPORT_SYMBOL_GPL(drm_gpuvm_sm_map_repeat);
++
+ /**
+  * drm_gpuvm_sm_unmap() - creates the &drm_gpuva_ops to split on unmap
+  * @gpuvm: the &drm_gpuvm representing the GPU VA space
+@@ -2536,7 +2571,7 @@ drm_gpuvm_sm_map_ops_create(struct drm_gpuvm *gpuvm,
+ 
+     ret = __drm_gpuvm_sm_map(gpuvm, &gpuvm_list_ops, &args,
+                  req_addr, req_range,
+-                 req_obj, req_offset);
++                 req_obj, req_offset, 0);
+     if (ret)
+         goto err_free_ops;
+ 
+diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
+index 00d4e43b76b6..8157ede365d1 100644
+--- a/include/drm/drm_gpuvm.h
++++ b/include/drm/drm_gpuvm.h
+@@ -846,6 +846,14 @@ struct drm_gpuva_op_map {
+          */
+         u64 offset;
+ 
++        /**
++         * @gem.range: the range of the GEM to map
++         *
++         * If smaller than va.range, the GEM range should be mapped
++         * multiple times over the VA range.
++         */
++        u64 range;
++
+         /**
+          * @gem.obj: the &drm_gem_object to map
+          */
+@@ -1203,6 +1211,11 @@ int drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm, void *priv,
+              u64 addr, u64 range,
+              struct drm_gem_object *obj, u64 offset);
+ 
++int drm_gpuvm_sm_map_repeat(struct drm_gpuvm *gpuvm, void *priv,
++                u64 addr, u64 range,
++                struct drm_gem_object *obj,
++                u64 offset, u64 gem_range);
++
+ int drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm, void *priv,
+                u64 addr, u64 range);
