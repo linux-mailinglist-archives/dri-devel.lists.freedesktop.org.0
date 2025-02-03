@@ -2,65 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E394A2588E
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 12:52:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7175DA25890
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 12:52:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCE1910E4A8;
-	Mon,  3 Feb 2025 11:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3DDE10E284;
+	Mon,  3 Feb 2025 11:52:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="giTCQ0t1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MIo42Ixr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1B3410E49F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 11:52:29 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-21661be2c2dso69923305ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 03:52:29 -0800 (PST)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D823B10E49C
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 11:52:33 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-21634338cfdso3757675ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 03:52:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738583549; x=1739188349; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1738583553; x=1739188353; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Bvsk07Lzw6XdWgB2cdXk97Y7I1cSDuStLmoSGezH+tI=;
- b=giTCQ0t1rcWBSMLCgjTnSQnQrT79Cy3cYv44ko0+gldjwZn77kxL7SL136adcyMVrp
- Vm94fMzABPG/b8quiyPmoCg5bNQtWwca/N4ESRCRLduN7qNwF/9vTet1Ldn/9jEJCT34
- 0y6kya5+8iyNgV71qJRrU3jK85DDvcsniPmpim28Qca5CX8FITUoZlL8/1xUsx1ctfpC
- 2RNP33mHGFPrAmN5pvDOhdU9PTVWXROlLp5M4JB2m4uUbQcge7AZTjamyVRu+oj/nrpl
- haL86G4xtPisOCqoVEc7MVVhseoLQNprPBmF8bBZjoTNBSd2NyvLz8g+kJTOsZpEzXWM
- Hp/Q==
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=NuVUwIb3ATElWRb+tDZLU6hMx05qo8CzOAa+DShnxhY=;
+ b=MIo42IxrazAL7Pq6e9CmHq0exZgQDWSphA+WwjgDYhQoE+5kkVOj3OKIWM2txlMq7R
+ HlYPww0Hbv8r7oftEfmago5g0jG2cicq+WmCAN68JaztTk2195aEvRBkx96OT3rMP5mI
+ 8i8yV71TYBEqntQd/KTfBrRSu4CEQk5E5eP9N8PX1H6IrG4SJKj37Pe+siONEud38gmh
+ Jdz/AJ7nJHLkfgPwNCNkpQXRDN8uTqh+ke1Uuf0Br4UtGhvstFM83hWdfV9cSH9RcySF
+ S9bgPdw8+mMmPiwmnBlrZ2jTN1sBcEUMK3fSCkCRIEttPi3IJwe12hrjie7UnUQG1aJO
+ RHRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738583549; x=1739188349;
+ d=1e100.net; s=20230601; t=1738583553; x=1739188353;
  h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Bvsk07Lzw6XdWgB2cdXk97Y7I1cSDuStLmoSGezH+tI=;
- b=NwMrJIX9/zRrkLHlLiZCi2WbnOiLmmDe6gzKx4UqDLewF8maDBDYgcoAQTCwGXFMAW
- tHQjwSfM01L5jD5fyuPNWZ8jA3PaeQNEqRpGA0tu0Ybgzjr1UTc3WlkRTsn0cWPXdfG3
- U1Io/gDfptW83Z4+u+6JL32xu76BVMZqBa4ILe4P+hxL2lrZegzvdJwvGsXTa5VriX2O
- oVciswe9dcJTGSEaApHlgRAi/b7YSJzptuiPjyYTXKPIiuDyHInIJM9/9jQlygpGahQv
- 5yNVkWU/Q/yrcDchBH6KzxixToCbQL7xBhxqJdLLFmI6V/qAvHQwGnCIpF0/EGNUauIM
- cIbw==
+ bh=NuVUwIb3ATElWRb+tDZLU6hMx05qo8CzOAa+DShnxhY=;
+ b=WxdtIE7LcRxBT7Y2hlF/srZP0hfgKAC88QHqtv5ALwROoKxIK9i5dGGN5MuW5KH/fM
+ uq/Ohr5Tg06kG+jEik4V8b4w6rKSuV/mJ6ZtFL7x0X2caiSv7PKOCaMx7mZBT8TLw0Wc
+ kqsosSNibvw4Bd0CSS+h4Qb3Za6zeiU6y/7h8D01EiyE5v9RdVXdkxAOiQWhyXOmjYqp
+ HSWMkFAjNUeQcS0aFqIxR4GqNsH9y4X9FfheTRcQ8q05YgwD0EKWZp9DRvnaPoSaPZ48
+ Gm6VzcIxBH/Erxxg5yXRHo95QaSGge+11LuOGlIZiF4NFEKoqtvtxKtYrvcQRVHupppL
+ 1d9w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXVZ6mUCiH9KE8ZqnpEDgoE51m1r7Ha8hQYlWdRU8X/yi35OPIOayxfO3LR39jbOwJd29MeHhs6Dwc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0ED1XICl2WcSIqvrKRBHcfP4kJDXXM1LoGdAhiNBUp7rDzPk3
- 6No793FWS9KximvPS3DdxAK7zAlURIOwKTvLLiqfdgDw3OutyOS5
-X-Gm-Gg: ASbGncs294py0ZIJtXbK5LbmRxVbMhdO/fQXSH/6Tr1uYmTx0b8G2sXH0AlRVVAcnAA
- uIcDl6qpaxEQDrhTVHHSzqHSk6omWrSehGcq/OGv+ifP18Z+7w1NJ3unq3VyMcTyM/ekDoCLfqS
- YjggTy+6sCmVzNXHXcExHLbLHnww/pXgBGe6EGECgXofgzs2kKikGio+96Ed1T9nko31R1D6m8J
- p+kpD2dsC763PSXrXtU0P1KV3vQGCaMQUoRHkNLTultJxb5xO1TICSbY36FoQyFoQMkNNhW7iaj
- ZDcMBZGA9WFc9R00
-X-Google-Smtp-Source: AGHT+IH1MtQsv7n9+03TmRQLhZL0KNOrrS14baU7/DtFKLh1qhS09XchSBq/EFGuV307S9+ypU09rw==
-X-Received: by 2002:a05:6a20:cd93:b0:1e1:afa9:d38a with SMTP id
- adf61e73a8af0-1ed7a48c85cmr32676039637.1.1738583549287; 
- Mon, 03 Feb 2025 03:52:29 -0800 (PST)
+ AJvYcCUAh45aMUwE533twCBbyKMFY7+HBDsgq4rWGdgOuTVAFVEskS6eisIM3n2/49u5ukMwzCz99TKOUFE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx50YiQjNEkYc1pSeenU6z3XW/seMO4GXn3KNaUcVrjp2j6+GuZ
+ tkI8EkHfuINwPn6pvZb7iTBG6yYGYFH/LQlczqSd3FX4Qldo5tAA
+X-Gm-Gg: ASbGncsCpILAWVh1HWZfgpMe7Ox0JKj/SeJR00sr0VWaIaGwHRnRy/UjG5FDuFL1/MV
+ KuhHoGZaKY2q8cohdx79AkpJwKQ3Qc6l+w/7YP9U1gAgeCQ6HPnuFuiAWxPH2sFejVcmezt5Tnh
+ RB37xbhaj3v+LBSuR7sruNF5QdvNqCuIwZaXfanVhQGXjj1nYcvqLsANNqKP2uUgA2/SZ5lDjn4
+ WPutCxB719iy15DTXXXZCIdxCbsgDBSXuXrNpyIC6Fvyry+uOveYAFSy1yZt4nLScSKH1yd6YSn
+ 5dZl7Mr9FtB+qxr/
+X-Google-Smtp-Source: AGHT+IHAUg+jBA6FADxyc/xDCHiXuFU49eYPAhY7dRRNEYaiurAK+cyssoskPZL1rJkF+Q3jR0YDHw==
+X-Received: by 2002:a05:6a00:2e14:b0:71e:4cff:2654 with SMTP id
+ d2e1a72fcca58-72fd0bf7126mr31273767b3a.6.1738583553324; 
+ Mon, 03 Feb 2025 03:52:33 -0800 (PST)
 Received: from nick-mbp.. ([59.188.211.160])
  by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-72fe631c039sm8262408b3a.25.2025.02.03.03.52.25
+ d2e1a72fcca58-72fe631c039sm8262408b3a.25.2025.02.03.03.52.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2025 03:52:28 -0800 (PST)
+ Mon, 03 Feb 2025 03:52:32 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Lee Jones <lee@kernel.org>,
@@ -72,11 +71,10 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
  linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v5 RESEND 1/3] dt-bindings: leds: backlight: apple,
- dwi-bl: Add Apple DWI backlight
-Date: Mon,  3 Feb 2025 19:50:32 +0800
-Message-ID: <20250203115156.28174-2-towinchenmi@gmail.com>
+Subject: [PATCH v5 RESEND 2/3] backlight: apple_dwi_bl: Add Apple DWI
+ backlight driver
+Date: Mon,  3 Feb 2025 19:50:33 +0800
+Message-ID: <20250203115156.28174-3-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250203115156.28174-1-towinchenmi@gmail.com>
 References: <20250203115156.28174-1-towinchenmi@gmail.com>
@@ -97,79 +95,186 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add backlight controllers attached via Apple DWI 2-wire interface.
+Add driver for backlight controllers attached via Apple DWI 2-wire
+interface, which is found on some Apple iPhones, iPads and iPod touches
+with a LCD display.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
+Although there is an existing apple_bl driver, it is for backlight
+controllers on Intel Macs attached via PCI, which is completely different
+from the Samsung-derived DWI block.
+
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- .../bindings/leds/backlight/apple,dwi-bl.yaml | 57 +++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+ drivers/video/backlight/Kconfig        |  12 +++
+ drivers/video/backlight/Makefile       |   1 +
+ drivers/video/backlight/apple_dwi_bl.c | 123 +++++++++++++++++++++++++
+ 3 files changed, 136 insertions(+)
+ create mode 100644 drivers/video/backlight/apple_dwi_bl.c
 
-diff --git a/Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml b/Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
+diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+index 3614a5d29c71..c6168727900a 100644
+--- a/drivers/video/backlight/Kconfig
++++ b/drivers/video/backlight/Kconfig
+@@ -290,6 +290,18 @@ config BACKLIGHT_APPLE
+ 	  If you have an Intel-based Apple say Y to enable a driver for its
+ 	  backlight.
+ 
++config BACKLIGHT_APPLE_DWI
++	tristate "Apple DWI 2-Wire Interface Backlight Driver"
++	depends on ARCH_APPLE || COMPILE_TEST
++	default y
++	help
++	  Say Y to enable the backlight driver for backlight controllers
++	  attached via the Apple DWI 2-wire interface which is found in some
++	  Apple iPhones, iPads and iPod touches.
++
++	  To compile this driver as a module, choose M here: the module will
++	  be called apple_dwi_bl.
++
+ config BACKLIGHT_QCOM_WLED
+ 	tristate "Qualcomm PMIC WLED Driver"
+ 	select REGMAP
+diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+index 8fc98f760a8a..156ff9461fb3 100644
+--- a/drivers/video/backlight/Makefile
++++ b/drivers/video/backlight/Makefile
+@@ -23,6 +23,7 @@ obj-$(CONFIG_BACKLIGHT_ADP5520)		+= adp5520_bl.o
+ obj-$(CONFIG_BACKLIGHT_ADP8860)		+= adp8860_bl.o
+ obj-$(CONFIG_BACKLIGHT_ADP8870)		+= adp8870_bl.o
+ obj-$(CONFIG_BACKLIGHT_APPLE)		+= apple_bl.o
++obj-$(CONFIG_BACKLIGHT_APPLE_DWI)	+= apple_dwi_bl.o
+ obj-$(CONFIG_BACKLIGHT_AS3711)		+= as3711_bl.o
+ obj-$(CONFIG_BACKLIGHT_BD6107)		+= bd6107.o
+ obj-$(CONFIG_BACKLIGHT_CLASS_DEVICE)	+= backlight.o
+diff --git a/drivers/video/backlight/apple_dwi_bl.c b/drivers/video/backlight/apple_dwi_bl.c
 new file mode 100644
-index 000000000000..29caeb356e6f
+index 000000000000..93bd744972d6
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/leds/backlight/apple,dwi-bl.yaml
-@@ -0,0 +1,57 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/leds/backlight/apple,dwi-bl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/video/backlight/apple_dwi_bl.c
+@@ -0,0 +1,123 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Driver for backlight controllers attached via Apple DWI 2-wire interface
++ *
++ * Copyright (c) 2024 Nick Chan <towinchenmi@gmail.com>
++ */
 +
-+title: Apple DWI 2-Wire Interface Backlight Controller
++#include <linux/backlight.h>
++#include <linux/bitfield.h>
++#include <linux/device.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
 +
-+maintainers:
-+  - Nick Chan <towinchenmi@gmail.com>
++#define DWI_BL_CTL			0x0
++#define DWI_BL_CTL_SEND1		BIT(0)
++#define DWI_BL_CTL_SEND2		BIT(4)
++#define DWI_BL_CTL_SEND3		BIT(5)
++#define DWI_BL_CTL_LE_DATA		BIT(6)
++/* Only used on Apple A9 and later */
++#define DWI_BL_CTL_SEND4		BIT(12)
 +
-+description:
-+  Apple SoCs contain a 2-wire interface called DWI. On some Apple iPhones,
-+  iPads and iPod touches with a LCD display, 1-2 backlight controllers
-+  are connected via DWI. Interfacing with DWI controls all backlight
-+  controllers at the same time. As such, the backlight controllers are
-+  treated as a single controller regardless of the underlying
-+  configuration.
++#define DWI_BL_CMD			0x4
++#define DWI_BL_CMD_TYPE			GENMASK(31, 28)
++#define DWI_BL_CMD_TYPE_SET_BRIGHTNESS	0xa
++#define DWI_BL_CMD_DATA			GENMASK(10, 0)
 +
-+allOf:
-+  - $ref: common.yaml#
++#define DWI_BL_CTL_SEND			(DWI_BL_CTL_SEND1 | \
++					 DWI_BL_CTL_SEND2 | \
++					 DWI_BL_CTL_SEND3 | \
++					 DWI_BL_CTL_LE_DATA | \
++					 DWI_BL_CTL_SEND4)
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,s5l8960x-dwi-bl
-+          - apple,t7000-dwi-bl
-+          - apple,s8000-dwi-bl
-+          - apple,t8010-dwi-bl
-+          - apple,t8015-dwi-bl
-+      - const: apple,dwi-bl
++#define DWI_BL_MAX_BRIGHTNESS		2047
 +
-+  reg:
-+    maxItems: 1
++struct apple_dwi_bl {
++	void __iomem *base;
++};
 +
-+  power-domains:
-+    maxItems: 1
++static int dwi_bl_update_status(struct backlight_device *bl)
++{
++	struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
 +
-+required:
-+  - compatible
-+  - reg
++	int brightness = backlight_get_brightness(bl);
 +
-+unevaluatedProperties: false
++	u32 cmd = 0;
 +
-+examples:
-+  - |
-+    soc {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
++	cmd |= FIELD_PREP(DWI_BL_CMD_DATA, brightness);
++	cmd |= FIELD_PREP(DWI_BL_CMD_TYPE, DWI_BL_CMD_TYPE_SET_BRIGHTNESS);
 +
-+      dwi_bl: backlight@20e200010 {
-+        compatible = "apple,s5l8960x-dwi-bl", "apple,dwi-bl";
-+        reg = <0x2 0x0e200010 0x0 0x8>;
-+        power-domains = <&ps_dwi>;
-+      };
-+    };
++	writel(cmd, dwi_bl->base + DWI_BL_CMD);
++	writel(DWI_BL_CTL_SEND, dwi_bl->base + DWI_BL_CTL);
++
++	return 0;
++}
++
++static int dwi_bl_get_brightness(struct backlight_device *bl)
++{
++	struct apple_dwi_bl *dwi_bl = bl_get_data(bl);
++
++	u32 cmd = readl(dwi_bl->base + DWI_BL_CMD);
++
++	return FIELD_GET(DWI_BL_CMD_DATA, cmd);
++}
++
++static const struct backlight_ops dwi_bl_ops = {
++	.options = BL_CORE_SUSPENDRESUME,
++	.get_brightness = dwi_bl_get_brightness,
++	.update_status	= dwi_bl_update_status
++};
++
++static int dwi_bl_probe(struct platform_device *dev)
++{
++	struct apple_dwi_bl *dwi_bl;
++	struct backlight_device *bl;
++	struct backlight_properties props;
++	struct resource *res;
++
++	dwi_bl = devm_kzalloc(&dev->dev, sizeof(*dwi_bl), GFP_KERNEL);
++	if (!dwi_bl)
++		return -ENOMEM;
++
++	dwi_bl->base = devm_platform_get_and_ioremap_resource(dev, 0, &res);
++	if (IS_ERR(dwi_bl->base))
++		return PTR_ERR(dwi_bl->base);
++
++	memset(&props, 0, sizeof(struct backlight_properties));
++	props.type = BACKLIGHT_PLATFORM;
++	props.max_brightness = DWI_BL_MAX_BRIGHTNESS;
++	props.scale = BACKLIGHT_SCALE_LINEAR;
++
++	bl = devm_backlight_device_register(&dev->dev, dev->name, &dev->dev,
++					dwi_bl, &dwi_bl_ops, &props);
++	if (IS_ERR(bl))
++		return PTR_ERR(bl);
++
++	platform_set_drvdata(dev, dwi_bl);
++
++	bl->props.brightness = dwi_bl_get_brightness(bl);
++
++	return 0;
++}
++
++static const struct of_device_id dwi_bl_of_match[] = {
++	{ .compatible = "apple,dwi-bl" },
++	{},
++};
++
++MODULE_DEVICE_TABLE(of, dwi_bl_of_match);
++
++static struct platform_driver dwi_bl_driver = {
++	.driver		= {
++		.name	= "apple-dwi-bl",
++		.of_match_table = dwi_bl_of_match
++	},
++	.probe		= dwi_bl_probe,
++};
++
++module_platform_driver(dwi_bl_driver);
++
++MODULE_DESCRIPTION("Apple DWI Backlight Driver");
++MODULE_AUTHOR("Nick Chan <towinchenmi@gmail.com>");
++MODULE_LICENSE("Dual MIT/GPL");
 -- 
 2.48.1
 
