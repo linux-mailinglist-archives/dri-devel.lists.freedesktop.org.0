@@ -2,121 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8FC0A25BA1
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 15:01:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D77A25BAE
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 15:04:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4A0510E04F;
-	Mon,  3 Feb 2025 14:01:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 743A610E4E2;
+	Mon,  3 Feb 2025 14:04:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dxJQFzlt";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="HK292aNI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C4FA10E0D9
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 14:01:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 72F9F5C65F8;
- Mon,  3 Feb 2025 14:00:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 664D6C4CED2;
- Mon,  3 Feb 2025 14:01:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738591297;
- bh=FUGVfpQsBsQZDnW8/29ndy6ufToxH4fLIZhk0OSH+vk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=dxJQFzlt4BVNOgSQuojXmA9wuzm4juDMiaj0xfMOAE5qPk5Vzb1dY6VgLM/hLrYRI
- Zd9+pCEzYYVOR46Td4Mo1YEY21wDNc78e4E/NQu4MLG+yWelOi7uSJDHAR94Gq2Io2
- S/5g5li5Jhvv/wwVRI4ApfEeYqSP9+TuKxkXCOjaMGuMZGFoJXBSs7yJ/o4dYajCqM
- 7sMqSFURdJ7oxQpQ7ZoOdRq4XLWiWKj1QXmNEhRzyyuYLgf26P1NSFzawTAN1FRBJ4
- ckEJtWX4+/sU6ftXPOVdiNouwo41UZKZrbT/T99jACiBEflDshR6f2c2lZ7XLI/b7z
- DPRk7DkWm7p3g==
-Message-ID: <9c8a9dee-92ba-47e4-b16b-ab47727d8057@kernel.org>
-Date: Mon, 3 Feb 2025 15:01:22 +0100
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 671DE10E4E2
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 14:04:11 +0000 (UTC)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 513E3PRh3026657
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 3 Feb 2025 08:03:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1738591405;
+ bh=risQ65T55Tm6eYa1TdwpJHzLazGd9IsglOpUNuMRuXA=;
+ h=From:To:CC:Subject:Date;
+ b=HK292aNIVDqDJmRQaMufd725Kbw0S55a7MXRShiHfGnrv23bO6IRnEfDVGs7euDQ5
+ XdF8K3Xo7aFZeKg8LGTJXPsUehm/ztaH+2nnhX9I5+e9c/MY997SKSx/G5YQs0PCL3
+ yQRBkcQWu+XF3vLzNT8es5MZu7KDp7mhIdRnIRdQ=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+ by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 513E3Pvh078914
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 3 Feb 2025 08:03:25 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 3
+ Feb 2025 08:03:25 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 3 Feb 2025 08:03:25 -0600
+Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 513E3Ox3036019;
+ Mon, 3 Feb 2025 08:03:24 -0600
+From: Devarsh Thakkar <devarsht@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
+ <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
+ <h-shenoy@ti.com>, <devarsht@ti.com>
+Subject: [PATCH] dt-bindings: display: ti: Fix compatible for am62a7 dss
+Date: Mon, 3 Feb 2025 19:33:23 +0530
+Message-ID: <20250203140323.1992920-1-devarsht@ti.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/33] dt-bindings: clock: add clock definitions for
- exynos7870 CMU
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Tomasz Figa <tomasz.figa@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Lee Jones <lee@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andi Shyti <andi.shyti@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Jaehoon Chung <jh80.chung@samsung.com>,
- Vivek Gautam <gautam.vivek@samsung.com>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Kees Cook <kees@kernel.org>,
- Tony Luck <tony.luck@intel.com>, "Guilherme G . Piccoli"
- <gpiccoli@igalia.com>, Sergey Lisov <sleirsgoevy@gmail.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-usb@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20250203-exynos7870-v1-0-2b6df476a3f0@disroot.org>
- <20250202190758.14986-1-kauschluss@disroot.org>
- <20250203-enigmatic-remarkable-beagle-709955@krzk-bin>
- <c1249f2f6ac8a2f5a1dcb3bbbba647f9@disroot.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <c1249f2f6ac8a2f5a1dcb3bbbba647f9@disroot.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,35 +74,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/02/2025 13:40, Kaustabh Chakraborty wrote:
-> On 2025-02-03 07:54, Krzysztof Kozlowski wrote:
->> On Mon, Feb 03, 2025 at 12:37:58AM +0530, Kaustabh Chakraborty wrote:
->>> From: Sergey Lisov <sleirsgoevy@gmail.com>
->>>
->>> Add unique identifiers for exynos7870 clocks for every bank. It adds all
->>> clocks of CMU_MIF, CMU_DISPAUD, CMU_G3D, CMU_ISP, CMU_MFCMSCL, and
->>> CMU_PERI.
->>>
->>> Signed-off-by: Sergey Lisov <sleirsgoevy@gmail.com>
->>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->>> ---
->>>  include/dt-bindings/clock/exynos7870.h | 324 +++++++++++++++++++++++++
->>>  1 file changed, 324 insertions(+)
->>
->> Look at git log - that's never a separate commit.
-> 
-> Hmm, I see past examples which are mixed.
-> 
-> 2ae5c2c3f8d586b709cf67efe94488be397d7544
-> Exynos850 CMU (c. 2021). CMU definitions are in a separate commit.
-> 
-> 591020a516720e9eba1c4b1748cb73b6748e445f
-> Exynos7885 CMU (c. 2021). CMU definitions are in a separate commit.
-> 
-Huh, indeed, my mistake.
+Fix compatible string for AM62A7 DSS.
+s/ti,am62a7,dss/ti,am62a7-dss
 
-Let's avoid that pattern, so binding headers are always part of bindings
-commit.
+Fixes: 7959ceb767e4 ("dt-bindings: display: ti: Add support for am62a7 dss")
+Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+---
+ Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+index 55e3e490d0e6..31c4ffcb599c 100644
+--- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
++++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+@@ -23,7 +23,7 @@ properties:
+   compatible:
+     enum:
+       - ti,am625-dss
+-      - ti,am62a7,dss
++      - ti,am62a7-dss
+       - ti,am65x-dss
+ 
+   reg:
+-- 
+2.39.1
+
