@@ -2,96 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77434A25F4C
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDFD8A25F4F
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E17E910E4ED;
-	Mon,  3 Feb 2025 15:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E28910E4F2;
+	Mon,  3 Feb 2025 15:56:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uUn3cZn2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="mJk7tTzD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69D3310E4ED
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:56:37 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-54024aa9febso4589592e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 07:56:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738598195; x=1739202995; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+ufx9LndyQ+Q8Y+4pq9rBmtvxrTRSiMJivVKQTd2MhM=;
- b=uUn3cZn2sgxIbtK248A5seLG5I64mnVXP9d/CFBAsGZ/U45WpglRGQQnQ+vRU0QPvO
- 3uNSgzlCYyFOMSBqxoRgGVXlm0oOI4P07vGgrZk6CUJd7gICXl6/3lu50K4d5e7Vuza9
- 03Fe9ib44Eh+oaC+nAUd/Hsxm4TSK8qxGmGILRl9f3BEizvJunB1NHfbLdI8CjX5HVjy
- +egX6tqDyAnlpVw3EjutuwYyKWLSuh/77Fp4roA1Mj3TJGPWEtR1klZ0Zrp49mbrQ76P
- sFGHzpUvAes0SXEA8p1ZXHq7aHYUpnrcQhJqYGdNZRIk2ISyot3czOaeB1U0f81RRSMW
- czyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738598195; x=1739202995;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+ufx9LndyQ+Q8Y+4pq9rBmtvxrTRSiMJivVKQTd2MhM=;
- b=ZB5B85s3Du727yYD899G7WA4sqwhwV0Q6pD164s0DhcEPgL2tu07Pjud2sNw+Dqm2i
- 1YmIOUYGAtInivr2NO57AeInUJpD/NgScNxYKjgBZeez/abgk8PASx4hwB3FFUf8KzqZ
- hAitrrCuMz//QHza/MzFTivKU/A72IaPk7YSS5EsZzqWX3t6IQ6wIVolhDudkBE0r5Di
- lL4LOkxMnVGuPBKErhgFJSYSPS7Www2PRMr7wAz0oh/IMjFgjeUrvLb3ve2AISeiQk81
- JTKSCZKyJ5WyL8qH0uD/i4SI95qTqvHa9u1w9ViuVKFGbMy9up0aePZ2RcF/G6w22pUR
- sM+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUA0Lsa9NejfAI3PnHAvrzG+ZW0963VS1fnsM9GF2d2I85RKihXVUKySmGirxhSLIhRir+EMsMfTyw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEXGrIzZR7P26ORmgK8ryOxTcGAq8QIXb6SKOarTfjkEViv5LG
- CtIhQOt9F7lTqpi8h2KMlbRtaYugkJ5ElexPbtZ3M4PJnQCqfY1/NhIL85fqzZY=
-X-Gm-Gg: ASbGncuTbI8JGLgC8wwLv0wz22h9l1sXXI6sfHOTApvK/rLCrzdmaYSey4Gb74oHNby
- z+gihMnfNJNWHNErACT0tAvjW1f53O1f1usmeidEOHJoDgx9KL4uK9uuEPF0w/2Lmm/WIkq/X+d
- omaesdaEjsPRNsO8zoR62z8nzRu+tIcrOU2pAhFy6okDaj5/dq70sQ4vGve+dmDvHb0ZLcJjoKA
- 0LLG5VRso6DE3TPfEFaaFZ3g1v8BVO+VuK+oVBsQHmOozTZCtCIbKKW79H1qHbvT3gDIRmIn5nW
- 98P/Cup2I4mnhcjvdKGICeSFYABwrE49FGyfwoZyBGcrNiapjFDSK+4xlTEvFiMuDv6AOeU=
-X-Google-Smtp-Source: AGHT+IFT9JYuit2k0e9HSaZLgvpA0Li63Lnd/rY7xCOAkHWEzZCyLSO/loAyRrahXsnWpzZ++/uVIQ==
-X-Received: by 2002:a05:6512:33c9:b0:542:29b6:9c27 with SMTP id
- 2adb3069b0e04-543e4c3fd62mr7381291e87.51.1738598195122; 
- Mon, 03 Feb 2025 07:56:35 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543ebeb071csm1327031e87.134.2025.02.03.07.56.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2025 07:56:34 -0800 (PST)
-Date: Mon, 3 Feb 2025 17:56:33 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 2/4] drm/atomic-helper: Introduce
- drm_atomic_helper_reset_crtc()
-Message-ID: <76stqnzkm5itcoavv4vl7hbjiiujtenov3qaigdikxqjsuyif4@jhanrdhw5jly>
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23A4E10E4F2
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:56:43 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8D6134429D;
+ Mon,  3 Feb 2025 15:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738598202;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tMBSA0Upt0iWcWNJa/KoKNpe46eJc1eQwBVOZ/c9pa4=;
+ b=mJk7tTzD5p1/KsRJo5NYRYupbAphhwab+KDnoBVsu4F1TqNKfScnCpG00DHs8LnlF5tEKa
+ NrHLC5TUjJwn/Zmf9VJcrpIvOuaLrwYZxKDljGf3aUEg+qJRJpOfb0gTtjftW8sQQisyCX
+ W4lcA2ez1zhh9+CnpBhfALHBHI/1bPaVfHz3XQPFHm2Zp4tqlBTTLcJ46CjTC21Yz5CaPs
+ /zmB3We8WAQ6lLNYYs1smcMhCC9S5T3gYnCfJPYQ5qb9YC22kE6iPA1QdsBj2HLtI9Yo48
+ 4jBAcHdwdnY/492edQzfvbxvRvy0zdL5csDYx2ItvVf/wwmSIZK9Kzl1FhLofw==
+Date: Mon, 3 Feb 2025 16:56:38 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel
+ Maintenance <kernel-list@raspberrypi.com>, Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 0/4] Add support for errors recovery in the TI
+ SN65DSI83 bridge driver
+Message-ID: <20250203165638.6db36f7c@bootlin.com>
+In-Reply-To: <20250203145824.155869-1-herve.codina@bootlin.com>
 References: <20250203145824.155869-1-herve.codina@bootlin.com>
- <20250203145824.155869-3-herve.codina@bootlin.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250203145824.155869-3-herve.codina@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejiedvieekkedtjeekffejveelhedtfeehtefgudfhffffiedvfedvhfeiheeujeenucffohhmrghinhepudegqdhrtgdurdhmhidpkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopegrlhgvgigrnhguvghrrdhsthgvihhnsegvfidrthhqqdhgrhhouhhprdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlr
+ dhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,21 +78,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 03, 2025 at 03:58:21PM +0100, Herve Codina wrote:
-> drm_atomic_helper_reset_crtc() allows to reset the CRTC active outputs.
+Hi all,
+
+Oops, this series doesn't apply on top of v6.14-rc1. My bad, sorry about
+that.
+
+Please ignore this series. I will send soon a new iteration fixed.
+
+Apologies,
+Hervé
+
+On Mon,  3 Feb 2025 15:58:19 +0100
+Herve Codina <herve.codina@bootlin.com> wrote:
+
+> Hi,
 > 
-> This resets all active components available between the CRTC and
-> connectors.
+> Usually the TI SN65DSI83 recovers from error by itself but during ESD
+> tests, we have some cases where the TI SN65DSI83 didn't recover.
 > 
-> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-> ---
->  drivers/gpu/drm/drm_atomic_helper.c | 41 +++++++++++++++++++++++++++++
->  include/drm/drm_atomic_helper.h     |  2 ++
->  2 files changed, 43 insertions(+)
+> In order to handle those cases, this series adds support for a recovery
+> mechanism.
+> 
+> Compare to the previous iteration, this v4 series:
+>   - rebase on top of v6.14-rc1
+>   - disable/re-enable irq in the failure detection and reset process
+>   - Split the patch moving reset_pipe() from VC4 to a new helper
+>   - Rename the new helper to drm_atomic_helper_reset_crtc()
+>   - Remove state duplication and use bridge.encoder->crtc
+> 
+> Best regards,
+> Hervé Codina
+> 
+> Changes v3 -> v4
+>   v3: https://lore.kernel.org/lkml/20250108101907.410456-1-herve.codina@bootlin.com/
+> 
+>   - Patch 1:
+>     No changes
+> 
+>   - Patch 2 and 3 (patch 2 in v3):
+>     Rename the helper to drm_atomic_helper_reset_crtc()
+>     Split the patch available in v3 in two patches.
+> 
+>   - Patch 4 (patch 3 in v3):
+>     Take into account commit d2b8c6d549570 ("drm/bridge: ti-sn65dsi83:
+>     Add ti,lvds-vod-swing optional properties"), available in v6.14-rc1.
+>     Disable irq when a fault is detected and re-enable it after the pipe
+>     reset.
+>     Remove state duplication and use bridge.encoder->crtc directly
+> 
+> Changes v2 -> v3
+>   v2: https://lore.kernel.org/lkml/20241217143216.658461-1-herve.codina@bootlin.com/
+> 
+>   - Patch 1:
+>     No changes
+> 
+>   - Patch 2 (new in v3)
+>     Move reset_pipe() from VC4 HDMI driver to a new atomic helper
+> 
+>   - Patch 3
+>     Use the new drm_atomic_helper_reset_pipe()
+> 
+>   Patch removed in v3
+>     - Patch 2 in v2
+>       No more needed
+> 
+> Changes v1 -> v2
+>   v1: https://lore.kernel.org/lkml/20241024095539.1637280-1-herve.codina@bootlin.com/
+> 
+>   - Patch 1:
+>     Add 'Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>'
+>     Add 'Acked-by: Conor Dooley <conor.dooley@microchip.com>'
+> 
+>   - Patch 2 (new patch in v2)
+>     Introduce drm_atomic_helper_disable_connector()
+> 
+>   - Patch 3 (patch 2 in v1)
+>     Reset the output path instead of the full pipeline.
+>     Update and add more information related to the bridge in commit log.
+> 
+> Herve Codina (4):
+>   dt-bindings: display: bridge: sn65dsi83: Add interrupt
+>   drm/atomic-helper: Introduce drm_atomic_helper_reset_crtc()
+>   drm/vc4: hdmi: Use drm_atomic_helper_reset_crtc()
+>   drm: bridge: ti-sn65dsi83: Add error recovery mechanism
+> 
+>  .../bindings/display/bridge/ti,sn65dsi83.yaml |   3 +
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 131 ++++++++++++++++++
+>  drivers/gpu/drm/drm_atomic_helper.c           |  41 ++++++
+>  drivers/gpu/drm/vc4/vc4_hdmi.c                |  30 +---
+>  include/drm/drm_atomic_helper.h               |   2 +
+>  5 files changed, 178 insertions(+), 29 deletions(-)
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
