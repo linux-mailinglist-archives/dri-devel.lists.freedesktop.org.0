@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9635A25F9E
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 17:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7CEA25F9F
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 17:16:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43E4010E4CB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF12910E4DD;
 	Mon,  3 Feb 2025 16:16:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="dUqg2tyC";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="PLv8ugY1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F53410E0F8
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 16:16:13 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPA id 87EFF41C79;
- Mon,  3 Feb 2025 16:16:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8500710E4CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 16:16:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPA id F2E9844292;
+ Mon,  3 Feb 2025 16:16:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738599372;
+ t=1738599374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5nEw7G2K5EHvLFn5xVDYvlW8IrTxeZ6V08m9NMNJeeI=;
- b=dUqg2tyCSDiEbQtn/bnFlodarm54MyGhtZbMkyxCllIpCr9/5Nj2/Qzx+wOTum3k2sHdIZ
- y06vBi1wSgADM4pHViaseCqLFDzPXLN7kdfcPzrYBkFHI7Bh/D9th0613bBoFlf6zd7yAs
- NsmZL/uPfAgDR4GmDovJb9qGcJfcpMLBDtRDO5CmGRdiYhGZ1z5kutK1AjTSH23QpKOUTk
- E0fNyHY5QVVlAVKX/+MTNoFxc+MwLebADlSKBnIxt7NzEbzYkDM1sVQ8kSFKIkb7oca1nm
- y9Z1130kuzc1atmdSlA4rTtLZq38TYIOgaHtaZVDZU4FgkGxmhlEbY70HqWSOw==
+ bh=LmwX/1Q1RNDl1aoU1BI0wydrMi9PXMOL1skPCsvzrM8=;
+ b=PLv8ugY1SVyiSl27A/DJL1gzKKC6xFXa4dP9xqGetlX9i3OAPMPHWYViMLQnDt6KYC+FRc
+ /lq2aE+3bmD3D6b6ojWXS/gHx4N99Sxks7CBHASB/JYP0nZmOO7ipL+lqZ8+tfb9svban8
+ mxuBE0TcenRS3Bbm9snNwB9emekj6eER+blOAG1D/mT8ggC+fFwwWyV1GiQyNVKcMJa3Rc
+ d3rjeBoKa0F1DAz/pvjOeL3W/Px7xpl0Ep6GBOeWUdHbybWPErTiChS8Lgkvk5QWQqNN8m
+ WBgpKsV8SbJbXWkSlEj04yRGKVoWdra1VV2xHiqfbRSZ0ELmjFYVptns29jPLA==
 From: Herve Codina <herve.codina@bootlin.com>
 To: Alexander Stein <alexander.stein@ew.tq-group.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -50,12 +50,11 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
  Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Herve Codina <herve.codina@bootlin.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v5 1/4] dt-bindings: display: bridge: sn65dsi83: Add interrupt
-Date: Mon,  3 Feb 2025 17:16:03 +0100
-Message-ID: <20250203161607.223731-2-herve.codina@bootlin.com>
+ Herve Codina <herve.codina@bootlin.com>
+Subject: [PATCH v5 2/4] drm/atomic-helper: Introduce
+ drm_atomic_helper_reset_crtc()
+Date: Mon,  3 Feb 2025 17:16:04 +0100
+Message-ID: <20250203161607.223731-3-herve.codina@bootlin.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250203161607.223731-1-herve.codina@bootlin.com>
 References: <20250203161607.223731-1-herve.codina@bootlin.com>
@@ -63,7 +62,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehffeigfejueelueeuffelueefgfelhfejhfehieegudekteeiledttdfhffekffenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdrlhhotggrlhguohhmrghinhdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdekpdhrtghpthhtoheprghlvgigrghnuggvrhdrshhtvghinhesvgifrdhtqhdqghhrohhuphdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehffeigfejueelueeuffelueefgfelhfejhfehieegudekteeiledttdfhffekffenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdrlhhotggrlhguohhmrghinhdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtoheprghlvgigrghnuggvrhdrshhtvghinhesvgifrdhtqhdqghhrohhuphdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtr
  dhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
 X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,34 +80,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Both the TI SN65DSI83 and SN65DSI84 bridges have an IRQ pin to signal
-errors using interrupt.
+drm_atomic_helper_reset_crtc() allows to reset the CRTC active outputs.
 
-This interrupt is not documented in the binding.
-
-Add the missing interrupts property.
+This resets all active components available between the CRTC and
+connectors.
 
 Signed-off-by: Herve Codina <herve.codina@bootlin.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml       | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/drm_atomic_helper.c | 41 +++++++++++++++++++++++++++++
+ include/drm/drm_atomic_helper.h     |  2 ++
+ 2 files changed, 43 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-index bad6f5c81b06..9b5f3f3eab19 100644
---- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
-@@ -35,6 +35,9 @@ properties:
-   vcc-supply:
-     description: A 1.8V power supply (see regulator/regulator.yaml).
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 5186d2114a50..0a636c398578 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -3362,6 +3362,47 @@ int drm_atomic_helper_disable_all(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_disable_all);
  
-+  interrupts:
-+    maxItems: 1
++/**
++ * drm_atomic_helper_reset_crtc - reset the active outputs of a CRTC
++ * @crtc: DRM CRTC
++ * @ctx: lock acquisition context
++ *
++ * Reset the active outputs by indicating that connectors have changed.
++ * This implies a reset of all active components available between the CRTC and
++ * connectors.
++ *
++ * Returns:
++ * 0 on success or a negative error code on failure.
++ */
++int drm_atomic_helper_reset_crtc(struct drm_crtc *crtc,
++				 struct drm_modeset_acquire_ctx *ctx)
++{
++	struct drm_atomic_state *state;
++	struct drm_crtc_state *crtc_state;
++	int ret;
 +
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
++	state = drm_atomic_state_alloc(crtc->dev);
++	if (!state)
++		return -ENOMEM;
++
++	state->acquire_ctx = ctx;
++
++	crtc_state = drm_atomic_get_crtc_state(state, crtc);
++	if (IS_ERR(crtc_state)) {
++		ret = PTR_ERR(crtc_state);
++		goto out;
++	}
++
++	crtc_state->connectors_changed = true;
++
++	ret = drm_atomic_commit(state);
++out:
++	drm_atomic_state_put(state);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_atomic_helper_reset_crtc);
++
+ /**
+  * drm_atomic_helper_shutdown - shutdown all CRTC
+  * @dev: DRM device
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 9aa0a05aa072..53382fe93537 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -139,6 +139,8 @@ int drm_atomic_helper_set_config(struct drm_mode_set *set,
  
+ int drm_atomic_helper_disable_all(struct drm_device *dev,
+ 				  struct drm_modeset_acquire_ctx *ctx);
++int drm_atomic_helper_reset_crtc(struct drm_crtc *crtc,
++				 struct drm_modeset_acquire_ctx *ctx);
+ void drm_atomic_helper_shutdown(struct drm_device *dev);
+ struct drm_atomic_state *
+ drm_atomic_helper_duplicate_state(struct drm_device *dev,
 -- 
 2.47.1
 
