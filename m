@@ -2,184 +2,186 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB52DA267F2
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 00:37:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 331FCA26813
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 00:51:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D103610E051;
-	Mon,  3 Feb 2025 23:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8CBB10E04A;
+	Mon,  3 Feb 2025 23:51:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JEpdYrgH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j9rOsv8N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67C8E10E051;
- Mon,  3 Feb 2025 23:37:33 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B86D110E04A;
+ Mon,  3 Feb 2025 23:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738625853; x=1770161853;
- h=message-id:date:subject:references:to:from:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=cZJ8Q3FeyOjAunYsN93ElaueF+JmxQQUxUiRQY6oARY=;
- b=JEpdYrgHpqUtInEtRCqDJh2olZF3d+f0gguN/RE/X2h4QWyFes+lJiYP
- pN4RJJuJ8k8Y9c/ui4EpWgfzedzueaDrKFw2YbDzQGXh/vFjETtx62IOm
- G4cejTjgPxl6EpMV9VGCGmazKn8JSku68iSL0VBVs/4MX0cKU5VSw/qNx
- um1TZJ0tPi5yXgXCoZPzKoViLLAUSqylQdSDI02KmM8q2kDhm5Tz77FX/
- Xj4OCn87/Dz204b0SO+rVXyZXweU1MQW1Av7Seh5L5VqlFSA3QhjbHZIK
- RA2om9QnMyBEhp1BDl/jG8iCM7DaIlWnvrxelZhmWiiseStZccN4y3qut g==;
-X-CSE-ConnectionGUID: JUOy5zrCQlaiwimX0Ivzwg==
-X-CSE-MsgGUID: 9oRgn09JQhWqY22+D4IGYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39237249"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="39237249"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2025 15:37:33 -0800
-X-CSE-ConnectionGUID: 7ox3J3NqSuuU2WfBVB3s5A==
-X-CSE-MsgGUID: fuL0mVaHTcOWhepd/R6Fjw==
+ t=1738626678; x=1770162678;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=XGhoOY+0RyxhRTJkVeO7DIKQe7nfWGh3OhNFcEdSzf4=;
+ b=j9rOsv8NhHWUpoRujw7wr+4BwvGNIrDZBqzQhb3EPaaU8jKvMs/UwLHm
+ B4CTRoM1+ttH/Htf4zLN/qtzaVw/nXz0IemBEW8MU6zJ74mnIM+mTa7+/
+ RtfZimUX5i1Ofv/rwmPI/3mWZG0V1KJwTixZKpFBGqdSiVGLlmnCTfl32
+ YrOt42Akcc/VaK8R1/FjT4RYfQlP73qd9IufLcZlGhqS/u+4AQ5obVyhL
+ pCwmkZ1I0HRd5UvdKUH5lK3EFQgJ8EZN8Ehhq7gpAqG3j4mvIeJ7KoXlI
+ x9CYDNQbGOfGOS5NpA52yBfTVgQGebfyPLlR1ft9QUPIC93pM1mCQB31i A==;
+X-CSE-ConnectionGUID: rLqNi9mrT7KvqE9BLgVK4g==
+X-CSE-MsgGUID: P6sQD39JS9uCYlWwLwHIdw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="39018183"
+X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; d="scan'208";a="39018183"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2025 15:50:23 -0800
+X-CSE-ConnectionGUID: muTgDMRPQ6OnXhmm4ipI1g==
+X-CSE-MsgGUID: fH9j3rR6S32MAaJRApSFyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; d="scan'208";a="110257552"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
- by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 03 Feb 2025 15:37:30 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="115592221"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 03 Feb 2025 15:50:22 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 3 Feb 2025 15:37:29 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ 15.1.2507.44; Mon, 3 Feb 2025 15:50:21 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 3 Feb 2025 15:37:29 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2507.44 via Frontend Transport; Mon, 3 Feb 2025 15:50:21 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 3 Feb 2025 15:37:29 -0800
+ 15.1.2507.44; Mon, 3 Feb 2025 15:50:21 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m+Uy6ojmIHIZlMNJnAX0dsrCI4HJT/mD46RfjjX2iojVkQVBcZFxkHLpI7fyZ3vQSwwPFxbxDmU68S8ZugBJ6b10GeuZgfAGrQYpa3ApzTC2Z4eBusqAMH2ly9ZpyHP58HzyC0ASQ9uqdY8LOqybHg/H7I3zCkpVTf75Vo2rVaVrfM056IPJi4mGkBPXSRrPuXUQaWaQxuwmnG/ZDY3XFb7Rp72nHCIDktZvBJuJNjI5JyHTC1svCT1QOcdXJnbCD9zB7FSBxkdF/lUMbBw7+b45ovlYTm+6EeEqEPuJ65MNDFPT+jn/rKLCe/WkUzRHE4P62/xVw7b68mhfGmjShg==
+ b=OFP0cxLOOjqGIM+cVwzB0N1qFHrFyFo1XFxSXercW940Oa6M7RcYGO+lcJNmSpxS+lV0axlXgyPZbAHn6gP1Zx6CXV7ES9a5TOp1xQEbg3RZM/Fj/KtTAvtD1bKze1DDttZ6NExwP0+Hm+fmFDdopBOPxl1OQ6Jy2iUkPi1nmgMjAUthwxYYPjeXyCKZOuJaL8QNvoOVLOgjey1d464TtvLRubucgrnD8Al7M9tGKh+cdXXDBcIW73Kipb98aMRhQvlxj5S8iZVGfz8kFiNkWuK5YA5q7yMIzAwKl2XDcYqxiXcKsawIP/9thnB4aQaU1cs8RBrGXQcFOPdDXbmK3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DrvfUXvsiFeMLsXc5NOFxNw6ILTRO/6Piu2zmw08Hjg=;
- b=jX2/4fhkDpvndUIt8myroCEyjbNfPAuABVsAALwfBID4APueYje+sXLqEylK38/hKyOCrOwDvGfwMlYheJyjaTAos+LVO7HAA4Q9kp4BKcr14K7A52hYzM0GwZ4TkIcxhVc5VgQ44SbmPOGNpeu6vCqBycrDKxqvC4i32nezfX7BbWuUIpK2+v1rWDVnvc0pxboXzyTGfiibzfXIa5s+Xwi7vSZdeR9EKlZnh2MCKVLUe/p4ohU2Q8/X2lrFb/YZAYyLuq0n9jXJqnLY5+lCK65qZucmgq2xsgUDcVAHdQAzVhOtoNR63VXLk3VhXi5V/XPLPWv4JAtBxbDP7sqIqw==
+ bh=8AdykeCC68vqySqVorIOPy9kZIt0iFmMZt7fj8TuQXg=;
+ b=GJNZx/TN4t3Z+aXn/z+KTR/SHkMTO+6brD2JXJ0KDfV+iItfe+vS9jPG5vzEwgJGDLa/xCvZikXys6vRlju4R6dH4l3v2aL3BkjkUDITMPKneUUiMZ7+77vTVzWG8T1s4Zd5T3VjZoHRZyeelVXU+IzkqYOKq9yLcObKEOUHgZEOuFvxBQoEIbnczdzcLdI1bH2Q5tLv6O7JWhFEd5OplYX0cVVpEAzmD8+z++pTryVe5a62MQYAN3q+tcNAz0Ci6w2X48/VvzI1FJ4rnW8qZMrw16/GfoCKXHHzHEdXqIrrKjw27nsQnPKOwnBRBuxNtY+B8lSd+GdHdWZs+iHcxg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from IA1PR11MB8200.namprd11.prod.outlook.com (2603:10b6:208:454::6)
- by CO1PR11MB4995.namprd11.prod.outlook.com (2603:10b6:303:9f::22)
+ by SJ0PR11MB5021.namprd11.prod.outlook.com (2603:10b6:a03:2dc::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Mon, 3 Feb
- 2025 23:37:14 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Mon, 3 Feb
+ 2025 23:50:19 +0000
 Received: from IA1PR11MB8200.namprd11.prod.outlook.com
  ([fe80::b6d:5228:91bf:469e]) by IA1PR11MB8200.namprd11.prod.outlook.com
  ([fe80::b6d:5228:91bf:469e%4]) with mapi id 15.20.8398.025; Mon, 3 Feb 2025
- 23:37:13 +0000
-Message-ID: <fab8cfdc-7f72-45f0-abef-047cac488c92@intel.com>
-Date: Mon, 3 Feb 2025 18:37:10 -0500
+ 23:50:19 +0000
+Message-ID: <0613d63c-d236-45e6-a610-97b6a36eee75@intel.com>
+Date: Mon, 3 Feb 2025 18:50:16 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Fwd: [PATCH v1] drm/i915/guc: Always disable interrupt ahead of
+Subject: Re: [PATCH v1] drm/i915/guc: Always disable interrupt ahead of
  synchronize_irq
+To: Andi Shyti <andi.shyti@linux.intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+References: <20250123162351.1364395-1-zhanjun.dong@intel.com>
+ <Z5ekXVihQSDjxqQK@ashyti-mobl2.lan>
+ <41833264-348a-443e-ba89-f559cc9114cb@intel.com>
+ <Z6DEtCX-XzJE8cwm@ashyti-mobl2.lan>
 Content-Language: en-US
-References: <bd1ef8f5-6a48-42cb-a58c-c050f454b4f1@intel.com>
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- "Daniele Ceraolo Spurio" <daniele.ceraolospurio@intel.com>
 From: "Dong, Zhanjun" <zhanjun.dong@intel.com>
-In-Reply-To: <bd1ef8f5-6a48-42cb-a58c-c050f454b4f1@intel.com>
-X-Forwarded-Message-Id: <bd1ef8f5-6a48-42cb-a58c-c050f454b4f1@intel.com>
+In-Reply-To: <Z6DEtCX-XzJE8cwm@ashyti-mobl2.lan>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR04CA0032.namprd04.prod.outlook.com
- (2603:10b6:303:6a::7) To IA1PR11MB8200.namprd11.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0010.namprd03.prod.outlook.com
+ (2603:10b6:303:8f::15) To IA1PR11MB8200.namprd11.prod.outlook.com
  (2603:10b6:208:454::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB8200:EE_|CO1PR11MB4995:EE_
-X-MS-Office365-Filtering-Correlation-Id: a10fd1d8-6a26-4546-7ccd-08dd44abafd1
+X-MS-TrafficTypeDiagnostic: IA1PR11MB8200:EE_|SJ0PR11MB5021:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d83bf28-d841-4ae3-1cae-08dd44ad8425
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?VGNFaUdjRTZ5T1NiOE9HSmxiUzgxVTVVTkFBNko5OUtOU0lUT1pHbWVPdUVE?=
- =?utf-8?B?aG9odDNLTzlrb0dYWFlnTWNEWXRPTGI2cVAvdGdlQ2ZKUzVEZ1g5NDBUTG5i?=
- =?utf-8?B?eUtzUC91Mm0ySzA3dFJaMDh1STRLenhURGorVEt3YWtkZjVnQVN3N0JXTExk?=
- =?utf-8?B?Zlo0eGI0alJsVGZ5NEI5eDNWb2lqKy9lbTA2am1BK25CVVU2aUF6WkNtOXFP?=
- =?utf-8?B?ZldkcEp0eDh5ZmM0RVlENkpnM2dXNlNPN2g0aXQrSXdJdUhLTTVMM2VlV0di?=
- =?utf-8?B?cWpVQzMzbHFpakRYY1E4aURVUmlsN3g5c21vL2JjQkQyUVZmZTZqaU5Oald0?=
- =?utf-8?B?aFZ0Uk0yNitLSWphWmsvRTdiNUI0bE1VTitqME5MSE5hVUs3ZTJPUjVveVZF?=
- =?utf-8?B?RXRwWTV2a2hseUZHR2pwYjUyY3dtZ3MrRlBFM25QLzEydGRkUDZHMEQ3Yitt?=
- =?utf-8?B?Z0QvaGwrcnlZTFBVOVdaRWI0M29KVzUwTUEzaVozL0M2aWE3eUFjN1ZBWi92?=
- =?utf-8?B?VnBESTJsblhvdlhUZzBNWFRyNG9yUEMrK1dyVlU5Z0llaVN6eDUwUCttcWxv?=
- =?utf-8?B?ZFZ1OEc3aXZad3V5M3FjMnJ5REtqRkpWdjJnRVVVZUh5UUhzbWlhRjZwVndC?=
- =?utf-8?B?YTNTbERmWnF6WGMvSFROclExSGhaOWRtZlY5MlZLellZWWFiUkptcTFwVVdH?=
- =?utf-8?B?MERqM1hCekF5R1V1OXVIVHBzeFNGazREUkhyUlpWSTFTU1BQNjl3S0dPbVBG?=
- =?utf-8?B?Qk4wRVNtemgrT3owNzRjLzNpYzdYaWRDcEhFTGJ6WUxOVFNGbFdGM3NSektB?=
- =?utf-8?B?R0FoRjA2dnBQNko4ckkxYUJiemNkdUdUOVlnWmh5UlJQTkROcFVJMzFGS2pa?=
- =?utf-8?B?RnBJQURHM1BtWlQ4MzhLdm5rZWlGMjV5eXppc2VWYTRrVDhTOXpVU0ZKSWNu?=
- =?utf-8?B?ZzAvNkZhejhTcVNUcnZnRTc5ZXFKWWdFT0h2R2RxNHgyQ0YwVm8rbUhEL1Zv?=
- =?utf-8?B?VFZ3WXVjRWZHNmtGMW5hUkN3WGNYUWsyMUNPaUZSV080TzRMdEVPcFRabHF0?=
- =?utf-8?B?WVVxT1pwYm9XamdhNXg2ZHpjbmlQMkRpY0xWVFFpcDhiNjA0d0R6aTRVdGJ2?=
- =?utf-8?B?RStkQ0w3bm1zdlJJeXVpdlE5cHBMRDZCdFNHVFhqekM4NjkwN3kxWGtwcVB1?=
- =?utf-8?B?NTBEWVVUZUtMdmJuSndHK25nSU9LQkF1c1kvQUVFM3FqQTVhdGNJNWdZZjdp?=
- =?utf-8?B?ZXRBYlZVa0VQYU10WFNsNUNBUjY4bHFKOGRyZm54UEFac05jczRPSERjZmR5?=
- =?utf-8?B?L3N3Ykdld05UQkVMNXQrcUgrSWhFNlNJZVJLL3dWN01oUkRNUnErcE1CYTNC?=
- =?utf-8?B?UWFhdEdJdytLNjhwalYvMG9SVU1HZWQyTUwrZ0pOUmpKRFA2T1FhODVQR2hv?=
- =?utf-8?B?RWltcE13RWtIYWdXVDNtSk84YmEyYUgxZHZuNVlvYU1CdGJUdE1EcForMk5Y?=
- =?utf-8?B?RHVYRm54YTRGSitlTkhOeGZEN3A3YjcxaVFObUt0TTJKNThRTHI1dkhZMTRR?=
- =?utf-8?B?a1kyV2lkK0dZWDQ4RGQxSGFVZ1c2RmFuZmU0RHlsbnEveWYzUnQvMWR1YzdV?=
- =?utf-8?B?RDcxZ0o5NEpMdG5mdG5wOTNFQktvN0cwTDF3UmNjRE8yZ2JsOU1mbkVwZjVU?=
- =?utf-8?B?SGFuWkF1ZmlyVzd2NkxkV1ZBZHdLbFl1dVdqTkhyc0RuaWIxMWNuRzQvM2lw?=
- =?utf-8?B?MW9aZnRCRWxGTUJueHhMY29vVXhobHZSNWxLUVZvVU45OGFHd0xlUVd3NWI1?=
- =?utf-8?B?Z09abVMxcUZ2eFhEM25xUT09?=
+X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|1800799024|366016|13003099007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UTF5WjNaQW90S1ZiUnNzVG13cUpvOGNMMDd1VTJES3pNYUxMd2F5c1JnS2Fr?=
+ =?utf-8?B?YzVWZ2NjOHUwV1lEd3hYenhXVVhiQXZnR01ySThGcUhFQ1NyMVhIOXhZTHA2?=
+ =?utf-8?B?ZUFrcDhtZ25RQU4wTFFjdWtXWWFNd0h4am5qT0k5UWR4blJSb3FSdkRmU1dV?=
+ =?utf-8?B?U3pSUC9RWHlSUGhMNk9IS1JIVlNzVDZyRmZwaWhoMW5NQ2l2YVE2Q2NEZWZ2?=
+ =?utf-8?B?U1pBZlhtN1Q2T1h2cDkwZEtjRDJKSlVPdE5FOHhYNWR2ZEtYMWJoS2ZKSEVQ?=
+ =?utf-8?B?OHMvWXhUaFFvZFlJYnlwdzZmVSthU3NyaTVQakMrM1cyb0F5c01FTzY1WDhG?=
+ =?utf-8?B?SU1wUkxISnR2aE14QjNwOFNJYldWRWt4bUd5UHpqSXZ1RWI4ZGR6VlZnekZK?=
+ =?utf-8?B?ZjVic25XNDc0eisxOXFvMHBVTTdKNDhzcFQ2VUxMS2NGeW4wZkc3cUNvOW1x?=
+ =?utf-8?B?RFRxbXpKdkxxRzlsMXdEaXlIeEdXTlRML3U0Z2M0NEpOSHR3cm14K0txUklV?=
+ =?utf-8?B?SGRnb2ZZcUdIc0VpQStNd0hEeW1nRFVOdzJCOUFDbkNDTklmdXZiSmpYS1hp?=
+ =?utf-8?B?akZ4M2Z6OEd4azl3dWtBUllIdTNUKyt4bGdTZHJqV21FMzdzR0hnbnVibk9H?=
+ =?utf-8?B?UWlIa0ZBYWlwcGdvS1dqaWE2UmduRndOODZXRGZWSSt2TlpQcXZnMnJzMFlV?=
+ =?utf-8?B?emRtaFFUK0llanhkbEM2ZWZ4N0d6NXN5RHNGLzA3MTZ3NmtsenpFbzM5M0dC?=
+ =?utf-8?B?dm1oZmhZbWJYQWx2bDhEcTBmdDdJc0NVUjBndDFXWmZ6WHdMc0VZWU1UR29Q?=
+ =?utf-8?B?OUY2Ymp1Y1RNb3A5Si9Zb0trLzFRaFc0dkRZRXBNUkdiYlBzNVNBNG1SNjRu?=
+ =?utf-8?B?WmxoNkFuS3JWMWtIZC9kbGw5dTJ0SmwwdnlxZEFpNytKZElzWnFZYVRpb2dO?=
+ =?utf-8?B?VzBsQ0ZOVzM1VlRmUmMydjU5aTgwbFZ4NGZHbElNSU9qK3hLRHk5cWxFcXE1?=
+ =?utf-8?B?aFF2NzVUd1YrZkt5OHIzVTlVWSttZ3FoQUgrSnhBVHQyRU1ZYktEaTNtVFFV?=
+ =?utf-8?B?NHpqWWU4anRjRXpiYTV0Smg2dmNGaE15U2NIelBQNWFkbURkeEh5bWg4SVF0?=
+ =?utf-8?B?a2p2K2puS0JUdkx0eG5lYUhQNTZzTnRRODdCeDk1NVJCb3FUaXpSdkNCOE5Y?=
+ =?utf-8?B?N1UzbHcxUUF6bGNxbjBrL25NbzRuYzVFU3h5MUZXaDQxOHdvRXFOMitGZ1Z3?=
+ =?utf-8?B?UVc2dzNUK1hTVDM3VnFoRzlmcUl0RzZzVFpBMTlxWCtydFVNSitEcHdvMkEz?=
+ =?utf-8?B?OGdWYTYvWmdDWTRvZms2Y3dtYUprZGVnWURxV0RVeVJScnl0RHpxUEorN1Ex?=
+ =?utf-8?B?bjBEdVpsU215UEJ2WllSMzdxTGNHWjVrME1HU3NidlZpZFRFdDlaTmc4c2tj?=
+ =?utf-8?B?TWtGUWo4SlQvNnpUVDNXUUdtazJBTkVPVXUvZTluRzR1V0xWRzZLU2twdjN5?=
+ =?utf-8?B?cUlUR1R5VVJxRHVobVo1dkJ5OEROK1l6WWRxbTAzR1JNeGk5Y1VZZ2Vwa3Ri?=
+ =?utf-8?B?QlRvN1o5WDZ0UTVYZXZXNEFVWlB1MVl3alI4cWJESDJHRkw1ZnNIdlkzN1Vu?=
+ =?utf-8?B?dUZCcUo0emtJUTdEYjRyT0hMaTJidmppaGc5cEovK2ErbXJ6bW9WeEZxTi9W?=
+ =?utf-8?B?aUtLZVBqdG9GWmZPc09pU243Mmp4RnY5Q09VNnFlR210MTI5ejI3U3NVR2RS?=
+ =?utf-8?B?aDdGMGdhSTl5ZWx5Q0p0RzFLeE5lZUF5djI2QlF4ZjBWMWI4N2hyai8xdEs4?=
+ =?utf-8?B?TmsxVk9XMm5sbmlDZU1tdz09?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:IA1PR11MB8200.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(376014)(1800799024)(366016)(13003099007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmFqUCtTRmpmRlhjR3ZLV1Y4R2ZzYkdwRDd6T0pUdGxkMTE5QzFXaG53czdY?=
- =?utf-8?B?d2hTSDd1YnR1ZytXbmYxMjBURXNuMWViYW4wU25PWEwxZXY4SzRvUDRaUXpm?=
- =?utf-8?B?TDFKY0QzdjFVbDNLekIxM3NBVVIrMjgxTVRNQzk2MUc2UjhIRWdvR3RwRzNr?=
- =?utf-8?B?a0dEcmJVYndEeG9POTVMNmZYR2JaTG43Tk5ZaWFYYjczMzQ5NUNpRVRZbE1J?=
- =?utf-8?B?YS94dUJUL0lLUHJpaFBaRGs5QWdUdnNUN25CVXphYjRYTGhNZGlDcEF3enRU?=
- =?utf-8?B?K0dTeHR0NHpMNFUyT0c0VFQ1MVNTWkc3WjdIYnB5eDByTWdBOTVGOWdzT0pP?=
- =?utf-8?B?ZzVmODFUbFVBNkdkRG5OdHFQcDFZbGlGUTVVWjdyUERUVzRXRm1GSzFzZFd2?=
- =?utf-8?B?eE91clo0L2xoK3FZZFNGRkw4WmxqSmRnZTJTMjUvUDlUZmJXUXo0bmdmRDlT?=
- =?utf-8?B?T3RsVXFEZGRvRHlMR1ZYVEY5L0ZFYVVibktMU0ozd3NiTHViTkRybGpnUkYx?=
- =?utf-8?B?UHNFU3U5RE83eW9zWEVYbWd2M0NmelR5UHVyeHJ4NXpYblB1NURUOGNKQW9R?=
- =?utf-8?B?S2ljTWROVmNkV1ZReUQrVkJUbWROSjF2bzM4WG1DNk9JNDBJd2VzN1NickRi?=
- =?utf-8?B?c1N5bmZVV1ptdGc5VEVGRW5rT3BNUGhwRzZFZEs2NVJZU2FwQ2hIWnF3blhY?=
- =?utf-8?B?K3RUQlhXaVlaZTZidlEwMVVVSWVnb212K0MxeEhpUjMxQXNNcVd6Z2orZGR6?=
- =?utf-8?B?QTBIOTRhdHc0OGlBeWFIOHV5Y0l5UUJDVE4wYklSRi85L0dhUkFlbkZJRXkv?=
- =?utf-8?B?MWhuZ1NxUlBKS0FIZ1U5QjFMMzZGOG5zdktpc3BPNFdhTEYvN3lwa080bnl5?=
- =?utf-8?B?L0V2WktZeEMrMUFDT3VRRnU5bGVaaDAwalA1N25rUU8wM09rdUwxSzZIK1Vt?=
- =?utf-8?B?ZUg5MytuTzJWcnIvRVdtNGNiZXEwQURXUlBFRDV6S0tCRzFJRnp5ZkJheVJi?=
- =?utf-8?B?YzBNZVlzaCtsVm1telJDbmVxTnBZMXhZYjZWYmFOQmNwS1M0bHBOSitxM0hH?=
- =?utf-8?B?Skx0TW9kNVl6V2F6TTNWTWhpemhFdjNOSThWWEw2ZWQ4SWtEd2NhMkE1dHhw?=
- =?utf-8?B?OEozMzIwMmhlSVlXR24zazVKMW9rb1ZIU0RjNjRpRVhvL1RvblFtdXh3Ym9P?=
- =?utf-8?B?aVlCcHozYkZnRHBVZkRGNGxTSm9jNWN4bkkydU9TOVNObVVnK20zVEorazdh?=
- =?utf-8?B?OFc4ODkrVnF5TmlCZWZ2Zm40dGk3NFJzY3pjNHJBYlR3Sm5UV2pUNkFFV0ta?=
- =?utf-8?B?M0F5NGVPU1RWSUJWSkZpSmRNelV3ZERvbUpVZ2Zzalp1UTlPNXArL2dKZldo?=
- =?utf-8?B?ZDZlTE5naTdtTWtvWm8xWkh2YjJuOVYwMklwUVdubDhjVTFmZTFSVTR3eXk0?=
- =?utf-8?B?cEd4MDRoWXczZ1JHWk95OUg4STJxS2pVQ09mNzdwQTFVTm1rWlYxbmsyWW1n?=
- =?utf-8?B?NisxdlBBWnI3c2NRQ2pmdE1TS2M3Y3RWVEw5Rmt4enlwcFZ0TkFSOGpHWCto?=
- =?utf-8?B?Y3dzL2crNzNGa3hXYWdBKzBPaFF5WHFIVGsrWDdXbmlDWUZGY25XNTNlKzlo?=
- =?utf-8?B?aHBXT3UzWHFsV0JIL2doNnhIUWhDeHdzYTJtQVp6TVFGZXVTRkZCSFBsbVFY?=
- =?utf-8?B?V2J1L0phWXJoNVdWcUltYVJZR3BjYmtNaDVUTGZHaGYvbEtHb21sd2FkNE5G?=
- =?utf-8?B?OUtTbnlYL0FtSE5qL1VKc3YwellOSU0wZEJQVGtrVjdmS0Zib3QxakswZ0dn?=
- =?utf-8?B?clVQVnFiWkZYWU5sbVdwbFhqd0E0MUpsdEJsalVzRit3UENVVVNhdFgrN0VS?=
- =?utf-8?B?aFBvRWF5dU5waWRYQ0YxQ0djQmhveVhGc0dDd2Y1RjFpU1JLQjc2T2tnV0Zt?=
- =?utf-8?B?Q2wvcXlmLzBuUlhScDJkbnhHOEZ6WkJMQTlZR2Y4ZlNJZk5aTythVzRIemJh?=
- =?utf-8?B?b1RpdFB1ZkdyUzZsdzZhQ1FSWDlPM3lDejhUZ2ZiMzBudDRUZ2p4a09YK0gw?=
- =?utf-8?B?bHhwNmt6TUhxNUxMODFVQ0p5b0xwbW5rTjNtcFZabFpPSmRrSkQ5eFJSQ2xq?=
- =?utf-8?B?U0t3cVNqUUhzaXN4aFlCdERURmdDUTkraXRpSmd4M0t6WjFkb1A3Ukp0SFdp?=
- =?utf-8?B?MGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a10fd1d8-6a26-4546-7ccd-08dd44abafd1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUlXL0RCaGJZcTN5ZUxDSlkvUzIrOEFzSUcxWmxWQ1BuQi9tTVQ0UGN6Y0RU?=
+ =?utf-8?B?UmJkdWpwY3pUUU10ZGVLSmpqVTlnTVJsd1ZscXI1Vk1FVkhVekFEaXhKWXpn?=
+ =?utf-8?B?cldaNC9nM2FNYjZCeEdkSHBHSUtHU1ppUTNjb1F3YVJQQzV5L2N3bmRaUjd1?=
+ =?utf-8?B?ZEltdVFrM3A4bW5rdFNUMlpaRTlQaU1qVkErZ295UlJWNVQ0UzlSSnU1cC9I?=
+ =?utf-8?B?aEtjcXFCMzNOQkQ5TlRLRTFHMGsxL1I1STgwK3psMDUyZTlCMlRLMlRoQnND?=
+ =?utf-8?B?S2M3ZmpQVndkOUVDQVZ1N1RTQVY4eEhZdWl6U2xiUDVUYzdUUnFYWTVza1lx?=
+ =?utf-8?B?eURoZTZSaUVBUmJDT2VzMXRLVjJUMzEwNWNQZmdKdzI5QmZiK1dmOTFjMkxD?=
+ =?utf-8?B?VHY1b25HUVF1cldVZU1qWi9pNTJOdzdkK0hVN2M4bm5NblEzdkttRXhCdHJl?=
+ =?utf-8?B?R00yZ0dZcExqWXYxdEVldERUU1F3RWI0RG5qeis3NWczMlVUTE5Kd3B5Y3dX?=
+ =?utf-8?B?dTNIaENocXpBd3kzMWFPNEU5TjJZRUF4YjNJWmgvWUdPS2gweDdKbFBsY3Jt?=
+ =?utf-8?B?UDBGNGJGS3N3NXdCbStBdnlFL1dBV1UrQmROSUo5eC9ld0N1YVJnOGttdGRL?=
+ =?utf-8?B?Qm41SE5zWUpVdjVMaVBtOTRURDcxUmlVeGZwOHJPWWxBMVF5Z0hnZDhzVWhV?=
+ =?utf-8?B?YkdnNE1ZUEZvU3BqSDdIQVk1R0R3c1IwZFMrR3N4NkUvZUhsSHRlS1JkaTNv?=
+ =?utf-8?B?SWNYVFlxeE5SNFc1U3NGdExaelVTNkR3QUQ2eHpkM29LVFY4T3B6NHRzR3VP?=
+ =?utf-8?B?M1lTNnM0TE50ZkRLZXBFMC9TeGNYMDRZSy9RQndOM1BKL0NQNDd6SHNGY3R3?=
+ =?utf-8?B?ZnlJRFZKV3V6cWhtWStDS3N2azN5WTdrR0I4cndjZHF6WXJ5TERqUDB3ZkIy?=
+ =?utf-8?B?N04vS2U2cW9yRE51aklMdW9jY0ZwSUx2QjNrY0N5enR6R1M1ZU5wTytCSHVF?=
+ =?utf-8?B?dDVtL0dldlJXZ2lIWmVUR1RPMk1JWWt5YUk3UDlNdkFUZk9WbmNacVF1UFF4?=
+ =?utf-8?B?cHJaY0pza2lhd2tnK0E1ZjFLVE0xT0JTSFQzWHpOb09WSGRoREZXNnVGdjRn?=
+ =?utf-8?B?NkpNRUt4aWJNSUJZeDlBTVgrWnF5dXRXSVlzNWI3OWlDRVhNbVZWWVBONTU0?=
+ =?utf-8?B?V2hPcXhQNlNjb25qbG14V3hHT2wyOTZpMFhXNzI1SzVaUitHRlZEOHVaY3Q1?=
+ =?utf-8?B?ZXppbWEvRE1rcnFZSktQVWNzTjRNd0tYY1Y5MDVUdUVmeHFNNWFxdnZrbVds?=
+ =?utf-8?B?TjlLUm9zc3RFMi9HR0tnd1kweHNFYUV1Z0lLTHlSS3hod3JkcFYyTkJvQVhu?=
+ =?utf-8?B?MG4xbzc0clFzZkFtaXFDb2Z2a0pOTHZqVGV0OVN0aEN3VmxFRUZnUEV3YVM0?=
+ =?utf-8?B?Y0VKY0hTYlVoOC9Ua1g5SzBSTUZZbDlFNkhJRlIzdzRUbUs4aFdtWVg3QXZH?=
+ =?utf-8?B?ZUlnOWJkRXhLUFBFODRKSlJ6WUNKd3I1NW91OGhQTzA3eVkvWlVDU3Y3eGhv?=
+ =?utf-8?B?Vzc3TGUva3VuMVlmcmI2UXNxNTNZYjNkVzdxTERlWU14cUxWVHZvNnkyRzZC?=
+ =?utf-8?B?MWJqM2MyUkZPMktQM0F1bStMSFFZbi90bkZrNTg3b24wbjk0b0RtNkJhNGFU?=
+ =?utf-8?B?Z0lvSjBydzgyL3Uzb3RjRnBEbWVXOEwwTnR3cTg3YmRlVmNzSUptcVhSMS9U?=
+ =?utf-8?B?aW9ZeWlHbDVjbU9CZHp3dkJGNHpRVEl1RWJUSWVIT3ZId01lYWR3dEQ1UytL?=
+ =?utf-8?B?Z2VmWE1RL1JiQnpvSmI1azZnSmxuRG5Bb0hHaEdSKzRxblFPYmZ4d0hmTjl2?=
+ =?utf-8?B?UHFIbm5VL0FOdHNLTTFKTzRyVmRjZ3ZBVlowMlBJZkM1U25ZNG40Rk1PZUQv?=
+ =?utf-8?B?UGlzUXZhNEJsbUg5MnRzWHZJRktNaUhXTUdLSWUyaWNFdDRsSVJTUnN4NzFS?=
+ =?utf-8?B?KzB3Z2tjUkMrK1JOWnhxcGcycW9pL09seWZObVA2M3NOWmc3Z0xxYlVTSVQ1?=
+ =?utf-8?B?d3RKMjc5ZVh3bVlBWWRPaXBsTmVaSkpXdTFaSU40cUtQZFBHMWh3WFM1Nk90?=
+ =?utf-8?B?TTdENGtiNUFKdjRkZWZoQ2hsOFhJelVJLzR0UGVRU0M4SmExN0xUbnlPMWsz?=
+ =?utf-8?B?N0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d83bf28-d841-4ae3-1cae-08dd44ad8425
 X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB8200.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 23:37:13.8338 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 23:50:19.5189 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QA+7VeJOa7kLfbttu4GERxsLAilGqIUpvGuqUAFiVZmFrhq1gjkn7l2yAfVIO03guy4S1Cd16qE0VMtphy1yZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4995
+X-MS-Exchange-CrossTenant-UserPrincipalName: pvssrrBoWICYVCWAmMyJgrTcT68COOyUmyNQ+qhzIkZPbX9Hv6BJBA/KM8cKchkVWrTpUw8MgdzOgRMHyOL6YQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5021
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -196,163 +198,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Just found my previous response click on "reply", not the "reply all", 
-so add Cc list.
+
+
+On 2025-02-03 8:29 a.m., Andi Shyti wrote:
+> Hi,
+> 
+> Please, next time, do not remove the mailing and the other folks
+> you cc'ed.
+> 
+> I'm adding back the mailing list and Daniele who has commented
+> before.
+
+Thanks, I also found my previous response click on "reply", not the 
+"reply all".
+
+> 
+> ...
+> 
+>>>> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454
+>>>> Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
+>>>> Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
+>>>> Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
+>>>> Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
+>>>
+>>> There is an issue here, each fixes is introduced in different
+>>> kernel versions and they can't be mixed all together as it would
+>>> be impossible to backport them to the stable brances.
+>>>
+>>> E.g.:
+>>> Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
+>>> Cc: <stable@vger.kernel.org> # v5.5+
+>>>
+>>> Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
+>>> Cc: <stable@vger.kernel.org> # v5.16+
+>>>
+>>> Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
+>>> Cc: <stable@vger.kernel.org> # v5.3+
+>>>
+>>> Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
+>>> Cc: <stable@vger.kernel.org> # v4.10+
+>>>
+>>> Could you please split this patch in the four different patches
+>>> that address the four different fixes?
+>> Sure, will split it in next rev.
+> 
+> First of all we need to understand if those Fixes are really
+> needed or not. Daniele in his review has pointed out that...
+I agree with Daniele, these fixes is not needed.
+
+> 
+>>>>
+>>>
+>>> No blank lines in the tag section, please.
+>>>
+>>>> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
+>>>>
+>>>> ---
+>>>> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+>>>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>>> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+>>>> Cc: Andi Shyti <andi.shyti@intel.com>
+>>>> ---
+>>>>    drivers/gpu/drm/i915/gt/intel_rps.c      | 3 +--
+>>>>    drivers/gpu/drm/i915/gt/uc/intel_guc.c   | 4 ++--
+>>>>    drivers/gpu/drm/i915/pxp/intel_pxp_irq.c | 2 +-
+>>>>    3 files changed, 4 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
+>>>> index fa304ea088e4..0fe7a8d7f460 100644
+>>>> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
+>>>> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
+>>>> @@ -244,8 +244,8 @@ static void rps_disable_interrupts(struct intel_rps *rps)
+>>>>    	gen6_gt_pm_disable_irq(gt, GEN6_PM_RPS_EVENTS);
+>>>>    	spin_unlock_irq(gt->irq_lock);
+>>>> +	rps_reset_interrupts(rps);
+> 
+> ... the interrupts here are already disabled (read a couple of
+> lines above).
+> 
+> What is the reproduction rate of the issue? And how have you
+> tested it?
+I run the issue igt test 
+(https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454) on ARL 
+for more than 3000 loops, but no reproduce at all. This issue seems 
+happens few month a time, and auto closed by Jira as no reproduce after 
+few weeks.
+Due to the issue is hard to reproduce, what I do now is by code analysis.
 
 Regards,
 Zhanjun Dong
 
-
--------- Forwarded Message --------
-Subject: Re: [PATCH v1] drm/i915/guc: Always disable interrupt ahead of 
-synchronize_irq
-Date: Mon, 27 Jan 2025 17:17:33 -0500
-From: Dong, Zhanjun <zhanjun.dong@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-
-Please see my comments below.
-Daniele raised a good point on GuC interrupt, I will dig deeper for more 
-info.
-
-Regards,
-Zhanjun Dong
-
-On 2025-01-27 12:12 p.m., Daniele Ceraolo Spurio wrote:
 > 
+> Thanks,
+> Andi
 > 
-> 
-> On 1/23/2025 8:23 AM, Zhanjun Dong wrote:
->> The purpose of synchronize_irq is to wait for any pending IRQ handlers 
->> for the
->> interrupt to complete, if synchronize_irq called before interrupt 
->> disabled, an
->> tiny timing window created, where no more pending IRQ, but interrupt not
->> disabled yet. Meanwhile, if the interrupt event happened in this 
->> timing window,
->> an unexpected IRQ handling will be triggered.
->>
->> Fixed by always disable interrupt ahead of synchronize_irq.
->>
->> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454
->> Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
->> Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on 
->> Gen11")
->> Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
->> Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state 
->> management")
->>
->> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
->>
->> ---
->> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
->> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
->> Cc: Andi Shyti <andi.shyti@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/intel_rps.c      | 3 +--
->>   drivers/gpu/drm/i915/gt/uc/intel_guc.c   | 4 ++--
->>   drivers/gpu/drm/i915/pxp/intel_pxp_irq.c | 2 +-
->>   3 files changed, 4 insertions(+), 5 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/ 
->> i915/gt/intel_rps.c
->> index fa304ea088e4..0fe7a8d7f460 100644
->> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
->> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
->> @@ -244,8 +244,8 @@ static void rps_disable_interrupts(struct 
->> intel_rps *rps)
->>       gen6_gt_pm_disable_irq(gt, GEN6_PM_RPS_EVENTS);
->>       spin_unlock_irq(gt->irq_lock);
->> +    rps_reset_interrupts(rps);
->>       intel_synchronize_irq(gt->i915);
-> 
-> I don't think this is an issue, because we set the irq mask in 
-> gen6_gt_pm_disable_irq, so there is no chance of getting any new 
-> interrupts after that. Not saying that we shouldn't do the re-order, but 
-> we don't need a fixes tag for this.
-Good point, the interrupt already disabled by gen6_gt_pm_disable_irq, 
-the rps_reset_interrupts is just clear interrupt bits, so no risk here, 
-therefor no issue at all.
-Anyway, re-order is still a good practice, the interrupt bits set/and 
-clear is all about the interrupt bits, these 2 actions could be consider 
-logically tight relationship, the intel_synchronize_irq considered to be 
-the next step.
-So fixes tag should be removed. As not an issue fix, this work could be 
-done separately.
-
-> 
->> -
->>       /*
->>        * Now that we will not be generating any more work, flush any
->>        * outstanding tasks. As we are called on the RPS idle path,
->> @@ -254,7 +254,6 @@ static void rps_disable_interrupts(struct 
->> intel_rps *rps)
->>        */
->>       cancel_work_sync(&rps->work);
->> -    rps_reset_interrupts(rps);
->>       GT_TRACE(gt, "interrupts:off\n");
->>   }
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/ 
->> i915/gt/uc/intel_guc.c
->> index 5949ff0b0161..3e7b2c6cdca4 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
->> @@ -116,9 +116,9 @@ static void gen9_disable_guc_interrupts(struct 
->> intel_guc *guc)
->>       gen6_gt_pm_disable_irq(gt, gt->pm_guc_events);
->>       spin_unlock_irq(gt->irq_lock);
->> -    intel_synchronize_irq(gt->i915);
->>       gen9_reset_guc_interrupts(guc);
->> +    intel_synchronize_irq(gt->i915);
-> 
-> Same as above with gen6_gt_pm_disable_irq
-> 
->>   }
->>   static bool __gen11_reset_guc_interrupts(struct intel_gt *gt)
->> @@ -154,9 +154,9 @@ static void gen11_disable_guc_interrupts(struct 
->> intel_guc *guc)
->>       struct intel_gt *gt = guc_to_gt(guc);
->>       guc->interrupts.enabled = false;
->> -    intel_synchronize_irq(gt->i915);
->>       gen11_reset_guc_interrupts(guc);
->> +    intel_synchronize_irq(gt->i915);
-> 
-> No early disabling here, but I don't think this change helps either. 
-> AFAICS gen11_reset_guc_interrupts() only calls gen11_gt_reset_one_iir(), 
-> which just clears the IIR bits for the GuC. There are no changes in 
-> interrupt enable/mask status, so interrupts can still be generated. The 
-> way interrupts are stopped for gen11+ is by setting guc- 
->  >interrupts.enabled, because that's checked from both guc_irq_handler() 
-> and intel_guc_to_host_event_handler(), so any new interrupts generated 
-> after we set that should be immediately dropped.
-Good point! Because there are no changes in interrupt enable/mask 
-status, guc interrupt won't stops, therefor synchronize irq won't make 
-changes.
-Let me dig deeper and get back to you once I have more info.
-
-> 
->>   }
->>   static void guc_dead_worker_func(struct work_struct *w)
->> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/ 
->> drm/i915/pxp/intel_pxp_irq.c
->> index d81750b9bdda..b82a667e7ac0 100644
->> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
->> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
->> @@ -101,9 +101,9 @@ void intel_pxp_irq_disable(struct intel_pxp *pxp)
->>       __pxp_set_interrupts(gt, 0);
->>       spin_unlock_irq(gt->irq_lock);
->> -    intel_synchronize_irq(gt->i915);
->>       pxp_irq_reset(gt);
->> +    intel_synchronize_irq(gt->i915);
-> 
-> Again not a bug here, __pxp_set_interrupts is doing the interrupts 
-> disabling and that is already happening before intel_synchronize_irq().
-Same to above rps case, not a bug.
-> 
-> Daniele
-> 
->>       flush_work(&pxp->session_work);
->>   }
-> 
+>>>>    	intel_synchronize_irq(gt->i915);
+>>>> -
+>>>
+>>> Sebastian has already commented in his review, but please don't
+>>> remove this blank line.
+>>>
+>>> Andi
+>>>
+>>>>    	/*
+>>>>    	 * Now that we will not be generating any more work, flush any
+>>>>    	 * outstanding tasks. As we are called on the RPS idle path,
 
