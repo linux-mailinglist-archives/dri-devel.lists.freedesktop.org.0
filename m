@@ -2,92 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132B2A25DED
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA4CA25EB1
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:30:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAF6610E0D8;
-	Mon,  3 Feb 2025 15:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5315810E117;
+	Mon,  3 Feb 2025 15:30:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="BGBI2CnA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Ip10a0Lv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D058A10E0F4
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:08:08 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-7b6e5c74cb7so371881585a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 07:08:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1738595287; x=1739200087; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=VIfqpXWa2saTTZIkeCGgjoPhbUp2hEhSFcQHJJf5WU0=;
- b=BGBI2CnAqg1nrtVPhbjl/uBO/sURhoQ3TaNAzrsqYqBLfwvgvj4sbo1e4cwz3ilIbN
- B3allo2yvmelueVfbnQjkntXwKHVy0OFAlDbNR/a48dk53iLvJO/XNj3e65Z0eoz7Vvo
- dKdHdjO7l+tU98kjipBJbNfMQa11my3BWALLka3VqvOo6BHOIPjr0MDXtQlqpGM7eXPG
- 1FfckFkeViDlnjt3r/v8e3VJszwxLwBBCi2y5OqeBxAyCriWXsRIzEqYfiqJ/wjHWhYZ
- beD2cyzBUVSOWTtUib6TKoX8MkjPk2CvV7SX0AO7d1KzxzEVxNUrPL3rFbdrqMVrV3tI
- aBMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738595287; x=1739200087;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VIfqpXWa2saTTZIkeCGgjoPhbUp2hEhSFcQHJJf5WU0=;
- b=r5xwCexSZSOtJzB5eb6Q5ZDpgmM8CVFG9LL8svkKLBKrRD70HlcLqMkG9M9dLdwlEN
- fm0Y0mW/eWgTozf5kwBX7rJjd0Pi5xCdSM7M9BdVSiASmcBNP4QVvWL9sgpsmCs+lPdO
- ka0xKTA0MAiukKdmlY84FHeAydkCu17+YcZbvbwpX/8NZu7TYilK6fFSjenUJlz/0DGv
- RP1g8tNl9hoGfASGg+T6K7H/d3zAWj/UjtT6mqqu9nf5+F7+teeS/y0t65wBqyF9dyd6
- CwVYTG6IABhcygN5kJCFeNZkMWQLL5lJT4MbpASTb9MZT3jNc/3ILenfoOdOzrvFpjkZ
- YSIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU5VvdjdgdbnuwTBfcdRJbeM4VQ0shUT3SLVUj/aE2dwz9otfvZDXFgOWHUJV5aLsJwDTypA9XLZbM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxIsxNd/TqotlhLRYmqe3TMSx3q4tCNiz7U9MPS1rR5pvMBzGNe
- dxb5fAiZGJFypbSK1LnlFX6UCtMkJ9YcY9XzbWk1eWk7fgaAabAr0+TF/5Snmnc=
-X-Gm-Gg: ASbGncuQk0k8GqB1Y+nuhSCdHmnszC360qdeAI0v6EmwAfLHhTrl7jhOG1St+UwFPi4
- lgHdirz5RYHeSgHSVD6jEz/Oc6vcIF1GZWj5bKZlH6wxbOREkZlEPVpaa/v+hA8JnC4TtvjCecD
- xJoJSlZh8HPUzsT/9XmreDGmCFteyaJRhaPwI13mXRWhJAaqiaZaz74fcYmNWsuUD1piCLIZRRK
- f5a3Ygt3C/RHxuVud4qrVO4lhD+flFI1ggIxVbKL9Z3DdajSFXLW8MtaKEbzrAAWA==
-X-Google-Smtp-Source: AGHT+IH/qa1lrVLcKxozjVl1Axtfg0S5tmpdY0Hz1inHc6vNMg7mQBJDuUSeOKIlGn70ib6W5YOi8A==
-X-Received: by 2002:a05:620a:19a8:b0:7b6:c540:9531 with SMTP id
- af79cd13be357-7bffcce8d01mr3518318185a.18.1738595287317; 
- Mon, 03 Feb 2025 07:08:07 -0800 (PST)
-Received: from ziepe.ca ([130.41.10.206]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7c00a8d1280sm534889985a.45.2025.02.03.07.08.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2025 07:08:06 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1tey3R-0000000As1Z-1rVV;
- Mon, 03 Feb 2025 11:08:05 -0400
-Date: Mon, 3 Feb 2025 11:08:05 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com,
- lyude@redhat.com, dakr@redhat.com, airlied@gmail.com,
- simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
- akpm@linux-foundation.org, GalShalom@nvidia.com,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-mm@kvack.org, linux-tegra@vger.kernel.org
-Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
- pages
-Message-ID: <20250203150805.GC2296753@ziepe.ca>
-References: <20250128151610.GC1524382@ziepe.ca>
- <b78d32e13811ef1fa57b0535749c811f2afb4dcd.camel@linux.intel.com>
- <20250128172123.GD1524382@ziepe.ca>
- <Z5ovcnX2zVoqdomA@phenom.ffwll.local>
- <20250129134757.GA2120662@ziepe.ca>
- <Z5tZc0OQukfZEr3H@phenom.ffwll.local>
- <20250130132317.GG2120662@ziepe.ca>
- <Z5ukSNjvmQcXsZTm@phenom.ffwll.local>
- <20250130174217.GA2296753@ziepe.ca>
- <Z50BbuUQWIaDPRzK@phenom.ffwll.local>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE1510E021
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=n7yEzfTFiJNwpSgkUjYMH61SLfUC8V6kCLsoTkkJP20=; b=Ip10a0LvCzGNzF79ZaPcPoMB6C
+ oLVQyWEHGZUNFm/4z/z8jgUZSd7m37U+tSSqPjSFhMEibTQICrL5Bb17xBZ9HvqQ9CCWiW2Iett0T
+ pmRhr8taqtOCmGiV1jSJnqKzVnxwl/ObrKikJpAyQRF5I3qPlfcp8Hb1T06mE1DGZxx8Lo5jMNSnT
+ AwbVCEVycxU01dMpnJTwj3QEZ0ETsZN7ms3zn7YOf1RpQ/ccTEWiAk9cIKmF0kH1/GkvL1RVEFCos
+ OtngjS0BmIceeE2gM/J+rtQ3W/dcayeHJ0KOeIr5jTx1nRyoH/UfxgPICWLWRZZfXqfZkB9k/6Amn
+ PpWFHzuw==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1teyOl-0035qz-DS; Mon, 03 Feb 2025 16:30:13 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>
+Subject: [RFC 0/5] DRM scheduler kunit tests
+Date: Mon,  3 Feb 2025 15:30:01 +0000
+Message-ID: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z50BbuUQWIaDPRzK@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,46 +61,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 31, 2025 at 05:59:26PM +0100, Simona Vetter wrote:
+There has repeatedly been quite a bit of apprehension when any change to the DRM
+scheduler is proposed, with two main reasons being code base is considered
+fragile, not well understood and not very well documented, and secondly the lack
+of systematic testing outside the vendor specific tests suites and/or test
+farms.
 
-> So one aspect where I don't like the pgmap->owner approach much is that
-> it's a big thing to get right, and it feels a bit to me that we don't yet
-> know the right questions.
+This RFC is an attempt to dislodge this status quo by adding some unit tests
+using the kunit framework.
 
-Well, I would say it isn't really complete yet. No driver has yet
-attempted to use a private interconnect with these scheme. Probably it
-needs more work.
+General approach is that there is a mock "hardware" backend which can be
+controlled from tests, which in turn allows exercising various scheduler code
+paths.
 
-> A bit related is that we'll have to do some driver-specific migration
-> after hmm_range_fault anyway for allocation policies. With coherent
-> interconnect that'd be up to numactl, but for driver private it's all up
-> to the driver. And once we have that, we can also migrate memory around
-> that's misplaced for functional and not just performance reasons.
+I am sending this early as an RFC so we can get alignment on the general idea
+and high level approach. Once past that point we can polish and then hopefully
+people can go crazy and start adding more advanced tests, testing corner cases
+and what not.
 
-Are you sure? This doesn't seem to what any hmm_range_fault() user
-should be doing. hmm_range_fault() is to help mirror the page table
-to a secondary, that is all. Migration policy shouldn't be part of it,
-just mirroring doesn't necessarily mean any access was performed, for
-instance.
+Only some simple basic tests get added in the series and hopefully it is easy to
+understand what tests are doing.
 
-And mirroring doesn't track any access done by non-faulting cases either.
+My usage of the kunit framework may not be perfect though, since this series is
+my first attempt to use it.
 
-> The plan I discussed with Thomas a while back at least for gpus was to
-> have that as a drm_devpagemap library, 
+An obligatory "screenshot" for reference:
 
-I would not be happy to see this. Please improve pagemap directly if
-you think you need more things.
+[15:16:33] ============ drm_sched_basic_tests (6 subtests) ============
+[15:16:33] [PASSED] drm_sched_basic_submit
+[15:16:33] [PASSED] drm_sched_basic_queue
+[15:16:34] [PASSED] drm_sched_basic_chain
+[15:16:34] [PASSED] drm_sched_basic_entities
+[15:16:34] [PASSED] drm_sched_basic_entities_chain
+[15:16:34] [PASSED] drm_sched_basic_entity_cleanup
+[15:16:34] ============== [PASSED] drm_sched_basic_tests ==============
+[15:16:34] ========== drm_sched_basic_tdr_tests (1 subtest) ===========
+[15:16:36] [PASSED] drm_sched_basic_tdr
+[15:16:36] ============ [PASSED] drm_sched_basic_tdr_tests ============
+[15:16:36] ======= drm_sched_basic_priority_tests (2 subtests) ========
+[15:16:37] [PASSED] drm_sched_priorities
+[15:16:37] [PASSED] drm_sched_change_priority
+[15:16:37] ========= [PASSED] drm_sched_basic_priority_tests ==========
+[15:16:37] ====== drm_sched_basic_modify_sched_tests (1 subtest) ======
+[15:16:39] [PASSED] drm_sched_test_modify_sched
+[15:16:39] ======= [PASSED] drm_sched_basic_modify_sched_tests ========
+[15:16:39] ============================================================
+[15:16:39] Testing complete. Ran 10 tests: passed: 10
+[15:16:39] Elapsed time: 13.442s total, 0.001s configuring, 4.117s building, 9.248s running
 
-> which would have a common owner (or
-> maybe per driver or so as Thomas suggested). 
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>
 
-Neither really match the expected design here. The owner should be
-entirely based on reachability. Devices that cannot reach each other
-directly should have different owners.
+Tvrtko Ursulin (5):
+  drm: Move some options to separate new Kconfig.debug
+  drm/scheduler: Add scheduler unit testing infrastructure and some
+    basic tests
+  drm/scheduler: Add a simple TDR test
+  drm/scheduler: Add basic priority tests
+  drm/scheduler: Add a basic test for modifying entities scheduler list
 
-> But upfront speccing all this out doesn't seem like a good idea to,
-> because I honestly don't know what we all need.
+ drivers/gpu/drm/Kconfig                       |  98 +---
+ drivers/gpu/drm/Kconfig.debug                 | 104 ++++
+ drivers/gpu/drm/scheduler/.kunitconfig        |  12 +
+ drivers/gpu/drm/scheduler/Makefile            |   1 +
+ drivers/gpu/drm/scheduler/tests/Makefile      |   4 +
+ .../gpu/drm/scheduler/tests/drm_mock_entity.c |  29 ++
+ .../gpu/drm/scheduler/tests/drm_mock_job.c    |   3 +
+ .../drm/scheduler/tests/drm_mock_scheduler.c  | 260 ++++++++++
+ .../gpu/drm/scheduler/tests/drm_sched_tests.h | 128 +++++
+ .../scheduler/tests/drm_sched_tests_basic.c   | 464 ++++++++++++++++++
+ 10 files changed, 1010 insertions(+), 93 deletions(-)
+ create mode 100644 drivers/gpu/drm/Kconfig.debug
+ create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
+ create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
+ create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
+ create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+ create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+ create mode 100644 drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+ create mode 100644 drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
 
-This is why it is currently just void *owner  :)
+-- 
+2.48.0
 
-Jason
