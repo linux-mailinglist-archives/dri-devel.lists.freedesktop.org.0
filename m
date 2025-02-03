@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA618A2533C
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 08:53:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0E9A25345
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 08:54:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E29BF10E06E;
-	Mon,  3 Feb 2025 07:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E17D10E3E1;
+	Mon,  3 Feb 2025 07:54:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GdzDDw+T";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BxlFIwf1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD8C610E06E
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 07:53:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DDC110E3E1
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 07:54:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3A1DAA40EAA;
- Mon,  3 Feb 2025 07:51:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D18AC4CEE2;
- Mon,  3 Feb 2025 07:53:07 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 5405FA40EB8;
+ Mon,  3 Feb 2025 07:52:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CF66C4CEE2;
+ Mon,  3 Feb 2025 07:54:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738569188;
- bh=98P8X6HMfcm3Oxb2BZKVpxuLvrRbMpgR2GrkKyq4mkM=;
+ s=k20201202; t=1738569265;
+ bh=h2Tgk866PVTB33WTwVVqd9bu13KATTuNBIINA6qpSEo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GdzDDw+TQ2RB5QCOljApbh1Dlc8hoYjvO4lSQ/49lsQ6ZVV2A4k2pJaVsWI+FbVNo
- VJ0yLHPv9e01G669yA0cuIG1WK5T0WTiUegMwrtsOhcnUeitdHku8VcHPoepnDJlw8
- nKJqcmFLJrGplgm03KhG48/AI5d0XlKpajVGrFIv7SBLqq6QE05rpho4o4HNhHNnXr
- d8pLn1baGWmyQ7nL3QgzE6t+29sl0NIKOwo3GOwMGDtBM0fK9eXa7LqHDX5ggldgBy
- NAhtDZ4dmKbGXZwVM37OEtQwAQvLvyAJXI61czxKGZ0rwcFHOkR0idtiPKZFfgURMR
- VVlgiT8sUR8Pg==
-Date: Mon, 3 Feb 2025 08:53:05 +0100
+ b=BxlFIwf1m1t7UrcDrBKcGXvWYHcpnk81A5FScAehD+Bz6Tp+Ejot0cpnnuwnOVmyo
+ TO00GpHeFpiNDIh0D9EsLiEl3s6wLJVLXG0hawuTCQjt7+wNPC7kXv3T1FLCdIzG5h
+ C7wzXDXz26V9RSI2UDe5bYJ7t/Vn2xVjntg7+PwTOPTlu+bqgPSMs6rc0Qh+26UnKE
+ plWs82UTbwcd1ejVM+vS6Rv44R8xbRgYCjY4msr2nzzVYHvUe1PPlfQg7FF+3jCSN5
+ uTc/4H11eQGEkwnxYuijm8S6CWEP5hYDArY6FOlDqK/E/XBMt8Tis9+N2oFjppYhFo
+ P4BP+IWAUgpYA==
+Date: Mon, 3 Feb 2025 08:54:22 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Kaustabh Chakraborty <kauschluss@disroot.org>
 Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>, 
@@ -54,7 +54,7 @@ Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>,
  Vivek Gautam <gautam.vivek@samsung.com>,
  Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
  Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>, 
- "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
  Sergey Lisov <sleirsgoevy@gmail.com>, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, 
@@ -64,15 +64,15 @@ Cc: Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>,
  dri-devel@lists.freedesktop.org, 
  linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
  linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 02/34] dt-bindings: hwinfo: samsung,exynos-chipid: add
+Subject: Re: [PATCH 01/33] dt-bindings: hwinfo: samsung,exynos-chipid: add
  exynos7870-chipid compatible
-Message-ID: <20250203-roadrunner-of-unnatural-wind-54bddf@krzk-bin>
+Message-ID: <20250203-slim-jovial-dinosaur-3d7afe@krzk-bin>
 References: <20250203-exynos7870-v1-0-2b6df476a3f0@disroot.org>
- <20250202190353.14572-1-kauschluss@disroot.org>
+ <20250203-exynos7870-v1-1-2b6df476a3f0@disroot.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250202190353.14572-1-kauschluss@disroot.org>
+In-Reply-To: <20250203-exynos7870-v1-1-2b6df476a3f0@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,15 +88,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 03, 2025 at 12:33:53AM +0530, Kaustabh Chakraborty wrote:
+On Mon, Feb 03, 2025 at 12:06:34AM +0530, Kaustabh Chakraborty wrote:
 > Add the compatible string "samsung,exynos7870-chipid" to the documentation,
 > with a fallback to "samsung,exynos4210-chipid".
+> 
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+>  Documentation/devicetree/bindings/hwinfo/samsung,exynos-chipid.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-This we see from the diff. Say something not obvious about hardware
-instead of repeating redudundantly subject and diff. Otherwise what you
-said is equivalent in just few words: "Document Exynos7870 ChipID."
-instead of two lines of text. Instead say whether device is or is not
-compatible.
+That's mess, how could you have two same commits in Git log? The only
+answer I see is that you did not create it on top of git repo. That's
+not how you should work. Use either b4 or git format-patch
+--cover-letter, not some other methods.
 
 Best regards,
 Krzysztof
