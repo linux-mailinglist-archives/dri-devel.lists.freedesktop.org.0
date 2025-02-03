@@ -2,53 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96C3A25EB5
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:30:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC49A25EBB
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:31:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7409610E4F1;
-	Mon,  3 Feb 2025 15:30:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A17210E021;
+	Mon,  3 Feb 2025 15:31:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CUhmCBWe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pUw4g7/3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 231A110E0DD
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=8PwHc/paEzVcZwGPvm7i+3AMJTKywLcV113s8BKRR/c=; b=CUhmCBWeJrM/NrTWZRXstpsK/M
- wCip2IsMT21iL9CYCR4UZRSOiE34n5nwvW4RT7GNUPns4+qcxSFgB+tubiOEzppilysCuAST69T07
- /lAETYMJWKzNS33JRtukkA9eHlae1ZuykkGzrEHY4oLaE1QeIXB9ZxAF2DKR0oUQo6uDPzsCBCHGA
- Mxa0XeuWpIWUk0OxIg9pstjclu3WcVn4xLAMo+QxRetAotQv+9asAwuRoa5kX8tyMsGI7CCVwVevl
- sYyIi393NOOrDG1pXLYfYJlnoAP6NNaSc5mJTD/1h2uvUldTOTbK7SKqQLur2ioRbYn1DqqpuckOp
- 09DyBoWg==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1teyOp-0035rU-IB; Mon, 03 Feb 2025 16:30:17 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 5/5] drm/scheduler: Add a basic test for modifyng entities
- scheduler list
-Date: Mon,  3 Feb 2025 15:30:07 +0000
-Message-ID: <20250203153007.63400-7-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
-References: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D37410E021
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:31:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 49154A4142A;
+ Mon,  3 Feb 2025 15:29:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CB3EC4CEE0;
+ Mon,  3 Feb 2025 15:31:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738596678;
+ bh=3eugK1vqrccz38OY5GN0YkQW2c0WOhGqGyxEzYxxH68=;
+ h=From:Date:Subject:To:Cc:Reply-To:From;
+ b=pUw4g7/32e4byQkzsZ9ZfFol47D7JPJkLDC8UFDs84A6ptKIjXKMLzIJtDee1T5zx
+ 6GBU01T4ofBfIXTng4ptU+s/Vt34BKLPm3dLs2gg5OOzX3pAk0JPQdQcNYawOfc9QT
+ Ey2UErxz3rCHgdS1wQU8RmHljtQ0B8aha1sow5d1xhNMPAhbvtvazOUnKkLCNHpoKS
+ b1kqlcrxAcgKWP9ov5HgznS5eTMlKS7mr92x2MAaVXPc81plqrHAMdPibd2dz4GQ4Y
+ dH2T283jNnKI72TM94SDRwrL3K/c5ouR7ouhHIBUQVWgj3n4TDieO0X3KdD0tCt8DB
+ g1LhFF9NGODVg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 1B3B7C02192;
+ Mon,  3 Feb 2025 15:31:18 +0000 (UTC)
+From: Brendan King via B4 Relay <devnull+Brendan.King.imgtec.com@kernel.org>
+Date: Mon, 03 Feb 2025 15:31:03 +0000
+Subject: [PATCH] drm/imagination: only init job done fences once
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250203-init-done-fences-once-v1-1-a2d62406564b@imgtec.com>
+X-B4-Tracking: v=1; b=H4sIADbhoGcC/x2MMQqAMAwAv1IyG2jVgvgVcZA01SyptCJC8e8Wl
+ 4Mb7ioUzsIFZlMh8y1FkjZxnQE6Nt0ZJTSH3vbeusGhqFwYkjJGVuKCqRHJe/LBxjFMBK09M0d
+ 5/u+yvu8H/PicQGcAAAA=
+X-Change-ID: 20250131-init-done-fences-once-c55c5d0f4d8c
+To: Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Brendan King <brendan.king@imgtec.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738596677; l=1196;
+ i=Brendan.King@imgtec.com; s=20250203; h=from:subject:message-id;
+ bh=UjK3FC3XXdkxQeYEYfFWpaTm/iFaz77TzbxNoVMDyf0=;
+ b=My4AKSVKqtml8fmbWNeG7+uNB1hJeePCt8h5m8p1YMXMVMWi4Ca2kDGbYQYyuowV8VWFHz3o5
+ BX+BCQa2pX4AlrXF5avolyMkWWzU/cSzJUtfcAn4aJKKwRMqhOmj+Iz
+X-Developer-Key: i=Brendan.King@imgtec.com; a=ed25519;
+ pk=i3JvC3unEBLW+4r5s/aEWQZFsRCWaCBrWdFbMXIXCqg=
+X-Endpoint-Received: by B4 Relay for Brendan.King@imgtec.com/20250203 with
+ auth_id=335
+X-Original-From: Brendan King <Brendan.King@imgtec.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,97 +75,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Brendan.King@imgtec.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic test for exercising modifying the entities scheduler list at
-runtime.
+From: Brendan King <Brendan.King@imgtec.com>
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
+Ensure job done fences are only initialised once.
+
+This fixes a memory manager not clean warning from drm_mm_takedown
+on module unload.
+
+Signed-off-by: Brendan King <brendan.king@imgtec.com>
 ---
- .../scheduler/tests/drm_sched_tests_basic.c   | 66 ++++++++++++++++++-
- 1 file changed, 65 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/imagination/pvr_queue.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-index 94706a52e8fd..9c072cdca95f 100644
---- a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-@@ -395,6 +395,70 @@ static struct kunit_suite drm_sched_priority = {
- 	.test_cases = drm_sched_priority_tests,
- };
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+index c4f08432882b12f5cdfeb7fc991fd941f0946676..9a67e646f1eae709859f664c796e1940f0b45300 100644
+--- a/drivers/gpu/drm/imagination/pvr_queue.c
++++ b/drivers/gpu/drm/imagination/pvr_queue.c
+@@ -304,8 +304,9 @@ pvr_queue_cccb_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
+ static void
+ pvr_queue_job_fence_init(struct dma_fence *fence, struct pvr_queue *queue)
+ {
+-	pvr_queue_fence_init(fence, queue, &pvr_queue_job_fence_ops,
+-			     &queue->job_fence_ctx);
++	if (!fence->ops)
++		pvr_queue_fence_init(fence, queue, &pvr_queue_job_fence_ops,
++				     &queue->job_fence_ctx);
+ }
  
-+static void drm_sched_test_modify_sched(struct kunit *test)
-+{
-+	unsigned int i, cur_ent = 0, cur_sched = 0;
-+	struct drm_mock_sched_entity *entity[13];
-+	struct drm_mock_scheduler *sched[3];
-+	struct drm_mock_sched_job *job;
-+	const unsigned int qd = 1000;
-+	bool done;
-+
-+	/*
-+	 * Submit a bunch of jobs against entities configured with different
-+	 * schedulers and while waiting for them to complete, periodically keep
-+	 * changing schedulers associated with each entity.
-+	 */
-+
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		sched[i] = drm_mock_new_scheduler(test, MAX_SCHEDULE_TIMEOUT);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		entity[i] = drm_mock_new_sched_entity(test,
-+						      DRM_SCHED_PRIORITY_NORMAL,
-+						      sched[i % ARRAY_SIZE(sched)]);
-+
-+	for (i = 0; i < qd; i++) {
-+		job = drm_mock_new_sched_job(test, entity[cur_ent++]);
-+		cur_ent %= ARRAY_SIZE(entity);
-+		drm_mock_sched_job_set_duration_us(job, 1000);
-+		drm_mock_sched_job_submit(job);
-+	}
-+
-+	do {
-+		struct drm_gpu_scheduler *modify;
-+
-+		usleep_range(200, 500);
-+		cur_ent++;
-+		cur_ent %= ARRAY_SIZE(entity);
-+		cur_sched++;
-+		cur_sched %= ARRAY_SIZE(sched);
-+		modify = &sched[cur_sched]->base;
-+		drm_sched_entity_modify_sched(&entity[cur_ent]->base, &modify,
-+					      1);
-+	} while (!drm_mock_sched_job_is_finished(job));
-+
-+	done = drm_mock_sched_job_wait_finished(job, HZ);
-+	KUNIT_ASSERT_EQ(test, done, true);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		drm_mock_sched_entity_free(entity[i]);
-+
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		drm_mock_scheduler_fini(sched[i]);
-+}
-+
-+static struct kunit_case drm_sched_modify_sched_tests[] = {
-+	KUNIT_CASE(drm_sched_test_modify_sched),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_modify_sched = {
-+	.name = "drm_sched_basic_modify_sched_tests",
-+	.test_cases = drm_sched_modify_sched_tests,
-+};
-+
- kunit_test_suites(&drm_sched_basic,
- 		  &drm_sched_tdr,
--		  &drm_sched_priority);
-+		  &drm_sched_priority,
-+		  &drm_sched_modify_sched);
+ /**
+
+---
+base-commit: 3ab334814dc7dff39075e055e12847d51878916e
+change-id: 20250131-init-done-fences-once-c55c5d0f4d8c
+
+Best regards,
 -- 
-2.48.0
+Brendan King <Brendan.King@imgtec.com>
+
 
