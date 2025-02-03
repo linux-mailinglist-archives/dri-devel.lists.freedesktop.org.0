@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF44BA2617A
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 18:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D01A26181
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 18:32:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38CAF10E535;
-	Mon,  3 Feb 2025 17:31:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4FF710E52C;
+	Mon,  3 Feb 2025 17:32:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aiwbF1es";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bl/gDt/Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
  [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43B4710E535
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 17:31:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3B5F10E52C
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 17:32:02 +0000 (UTC)
 Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-543e49a10f5so4875731e87.1
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 09:31:33 -0800 (PST)
+ 2adb3069b0e04-54021daa6cbso4995748e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 09:32:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738603891; x=1739208691; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738603921; x=1739208721; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=6J5C2NglTFNy0YpzDKyoh02/sMog3Gz9jf3ZxrSeYfw=;
- b=aiwbF1eswOJSd0AxlEcJtdowUdM+IgOXMScFucpGPyOPyKaKJq5AZ/Q5oqvQ7OvvHM
- ZYycZS5+aFSDSJqqG2cPu3y/PZQ7/IoNBcjHgq33Zm2nDlYiGWMz/LzT+pzTLgpjuMsX
- 6fw/5K1jSZFaqTtpDQ374b3dlXMBch8KWwSuDA+pXVkNCjSWU+ki3SxgqIFDqv9JhFvc
- yBU0Ij7VOxAQJQAQ46yZOEc6ULMCtjE4kCaekyNTEBvAAa7pnFUfmaJPGd5lGAhkHWco
- xPGELWMgo1jOoq58pF6PRW2NlGdlBrVsP/RG6tmOsGsB6MMtxmOJ+rxdhNe4f94NOGEc
- PASg==
+ bh=GDUijl8uS2TQuu4uVYKfLNqBTHvBE5FjtYAu/OpsnPw=;
+ b=bl/gDt/Q08/g8B0Wv1gC65/odpxyRx20gHJmpoIj6+4JhDoQWv0b7dj5TbPMPghuxz
+ bqxvcUZnoFgqMAUhCC7cEa2sAHNlk5QaVNUlUjk1H85OP8iMxAQPuEeYCd4ZsnJgpcUT
+ 4IuWmV84DZUzGFoCXMHy/syVO8UVTgENbkIJ7aPc2uGXLU03yPuYLgFURZmJJHki3obc
+ 8JmuIaRtGGdrJj89zTRkjGazt+022IhPILCgxjGCfEjRv15zVCo9i3nOd3SkWvxOaBL+
+ gJteUP9/Nj0wZASp+8p20MFSe3oYJwYJlNgQsQRac6UAUZrkNTKkpNL4spoFfVKtIgtV
+ 5GBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738603891; x=1739208691;
+ d=1e100.net; s=20230601; t=1738603921; x=1739208721;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6J5C2NglTFNy0YpzDKyoh02/sMog3Gz9jf3ZxrSeYfw=;
- b=m/aymPxw/vqjeIHcJ5CS3MOD0HFhOegjWmpzrcvArdGcJdmy0eWIuEkEchufymCFGO
- GFSNd09ObwO6dYJ9Up+r24o6IyMppfYyG9np+pEzQMkWJ3Z5OJseCjW/22Gn1Egyw5id
- N3QGsGahfEo8XHc3s31EVSnwIhOrx5Nd+Xl/RCTHcRTIC4rWQK606dZ9cP6a3yPpTpbi
- +q+MkOSChxGP0v5GOF9mYQUTPxlutnbv0A4Dh20aWdJPbd1zHUrAmjAMwMaaODVXsf/o
- KFxn9POVHTtdriBlL79KCqd8rCM3MrvnCvom8DIYyFWi6AmORJzhmlpJ81eQ5dj/dBnm
- qv2Q==
+ bh=GDUijl8uS2TQuu4uVYKfLNqBTHvBE5FjtYAu/OpsnPw=;
+ b=kM8kP1V4XOk7LlkfA7o3vjh5zsaEYlvYsFXrR55tfgeOm/sH1E+WIGe+2XveIJOwou
+ 8OIhfGKU2ptZklUJ1IGFf1RguNzUBles9YcTYDQ/tiA6t2S4Od6raLDXr/IsZemcE6U/
+ wBNQtwTPwwFHTNO4vVKZz33G07trtfCrVii+EBw6QyurjXksoGB+cu6PtwaXrHKizXl9
+ SVd1ip0R19L3Bp70t6QtLdvBo5Ruy0AzW9ivLcXR2AhCisq7vR8NJxmUQ8h+O8d9ew/0
+ dMmePVrJ4MfvawB6r021a5m7cmfXJ7dKMBBYubdp+H8PmjBzzgBSoHUrKj9Hznux3wvd
+ 24SA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXJ98FIaBZy+dQvNXl/K3Pdky4z6LoM58Z9Nw8GFj75K3ih+KyG6XgN3/6NnpkrS0jxCMpUG0+kryY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKfdq6a+wbEK1Al4MsmMQUBuDZX53XyZWz5+eso0/5rZknERlu
- ymwnQRNRzpynV5Yx53WntuVXa/aoGCmLt4RjJnO6hgjVjCpolzMM+IzcUIkBlmc=
-X-Gm-Gg: ASbGnctRpXGhf74/yN1hLEX01DjYK0OS3EiW5b9wCbLpCQuJ95Nyw+0P0ISnjwwBdlW
- oUgarvjBgY/f2/LJZxmE8DfHJRERfbgSiYPyAcWPqZjJsavBmA67BSi2OTeqnvJU8c13rWCBGJj
- 4IVaHIkxKJ7jO3lxa/F3gvK4sN0HPfCKqayxbdldtiXEF8fRnTs2Cb2gLDk2vcGCXOGUiNkUsoO
- Dj9NIwIOcDXjp1Whrf+eYS8n8PBL+7TxWoRuwO6ZVVCjSiuHrUvofCaa3rMnuGJ+Tz2KuE8q7ud
- r5j1dkz1qUuP9HgTJKUd18XHF6vueopRXowR/cL0iHR22jHAqc7rtbUbxaQjku3QjVOa2Go=
-X-Google-Smtp-Source: AGHT+IFkNKZpMLqmFDZoDeQKhVlcO9/NhY+aFDQECzKLKClwYk71/Jrbal9oPP0TJgwbGI19n1UGFg==
-X-Received: by 2002:a05:6512:3183:b0:542:8cb0:88a8 with SMTP id
- 2adb3069b0e04-543e4c3fffamr7547584e87.52.1738603891401; 
- Mon, 03 Feb 2025 09:31:31 -0800 (PST)
+ AJvYcCVgH76gR+y8IAhHkoxYxwWB99unLRBuTuV1LWpszgnX0w0Q/n6dobyV7k6jPX8vaeKLlq6f6MiHG2g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0l7MGg0VfV3YWVDB1WjYJM3wHaHhHNCaQIOMbeBE7cVRRKbZm
+ BHpzGG2z4JhCYHjDZk/IjhCec67oXejWUqxcog5RId/o2k6ghqHhCRsVv82OuCc=
+X-Gm-Gg: ASbGncuFmv5uJEVkZtqG6zn7bvbT5xXa/WycRinZCDYWYql6qUhWbfvuV8CBuDNDKKn
+ /mSwWntW9uakd0roqi5unS2g/+HU58fGj4NexOr2sPGORnrNNYQsYrCWYOpgZZLinVB+Tsg3QJm
+ 2zmFzyRSaSIbVEKuRwEJagrhKnj681bTAKW8QIFE32cdLR5JI7V7NqUId6Pj+/6zKYvFhMLp3Lc
+ t2roHpaWs/5U/b6VyR2pJv2mopwivW0bSybJf91++HZhejPHDdjxR8b/uSItRprzRVFSK979/gX
+ CEIxrQifT/L0kx6fx0oLLAo63pU7rDD9jwrVYP7RmTTowc5spSIGhFyu3Fy2x3kPV/gPtDU=
+X-Google-Smtp-Source: AGHT+IEb+YyAW/StovyfhGvTrplF4uSDM9l+hAFGlMM+ryuL+SzWuAvhltLr7IYW4VtZW5P8EU0Sug==
+X-Received: by 2002:ac2:5142:0:b0:542:91a5:1d5c with SMTP id
+ 2adb3069b0e04-543e4bdff1fmr5990527e87.8.1738603921128; 
+ Mon, 03 Feb 2025 09:32:01 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543ebeb06bbsm1347935e87.146.2025.02.03.09.31.29
+ 2adb3069b0e04-543ebebeb49sm1356174e87.225.2025.02.03.09.31.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Feb 2025 09:31:30 -0800 (PST)
-Date: Mon, 3 Feb 2025 19:31:28 +0200
+ Mon, 03 Feb 2025 09:31:59 -0800 (PST)
+Date: Mon, 3 Feb 2025 19:31:58 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Herve Codina <herve.codina@bootlin.com>
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, 
@@ -83,15 +83,14 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
  Louis Chauvet <louis.chauvet@bootlin.com>,
  Luca Ceresoli <luca.ceresoli@bootlin.com>, 
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 2/4] drm/atomic-helper: Introduce
- drm_atomic_helper_reset_crtc()
-Message-ID: <tk7ygprxgujdok4eo4iipmqs2bnsecxngltz2mk7kyqwl3ufpl@23rygh6g5iam>
+Subject: Re: [PATCH v5 3/4] drm/vc4: hdmi: Use drm_atomic_helper_reset_crtc()
+Message-ID: <75boqmmyd5hqpdluidnd72b6ygaxsharxtlxv5jmkgtehnmyuu@3udsy5y6s4hc>
 References: <20250203161607.223731-1-herve.codina@bootlin.com>
- <20250203161607.223731-3-herve.codina@bootlin.com>
+ <20250203161607.223731-4-herve.codina@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250203161607.223731-3-herve.codina@bootlin.com>
+In-Reply-To: <20250203161607.223731-4-herve.codina@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,20 +106,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 03, 2025 at 05:16:04PM +0100, Herve Codina wrote:
-> drm_atomic_helper_reset_crtc() allows to reset the CRTC active outputs.
+On Mon, Feb 03, 2025 at 05:16:05PM +0100, Herve Codina wrote:
+> The current code uses a the reset_pipe() local function to reset the
+> CRTC outputs.
 > 
-> This resets all active components available between the CRTC and
-> connectors.
+> drm_atomic_helper_reset_crtc() has been introduced recently and it
+> performs exact same operations.
+> 
+> In order to avoid code duplication, use the new helper instead of the
+> local function.
 > 
 > Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c | 41 +++++++++++++++++++++++++++++
->  include/drm/drm_atomic_helper.h     |  2 ++
->  2 files changed, 43 insertions(+)
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 30 +-----------------------------
+>  1 file changed, 1 insertion(+), 29 deletions(-)
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
