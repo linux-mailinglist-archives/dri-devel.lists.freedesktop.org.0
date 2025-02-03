@@ -2,74 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B47A25A55
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 14:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F09CA25AB7
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 14:21:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5413E10E4B5;
-	Mon,  3 Feb 2025 13:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3574F10E428;
+	Mon,  3 Feb 2025 13:21:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iDqQQLnK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I5wtFJe8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 438B710E4B5
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 13:07:21 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CCFC10E428
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 13:21:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738588041; x=1770124041;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=0Iv61x4iGBHTvEl65EBQzUt2TO7zniIckQfdujV1iu4=;
- b=iDqQQLnKhVUFxUAd29lHQpNzQgNjGall1epb2+bA7o6szs+8HEcxXMkS
- FW+r80wppy+DKIYczgkpyTHG4u+FzSIV37PzyBNbnBsybuGi9JCGvXAS/
- nZa6v9BB7z1vY8Ki5eTN9x8yjReJ8WLDSduWhjAYv/LXA0A6EJD17f1FA
- INOtdKSB7NBS5GQXHi1QZ2yNwX5mQtuy1/aQaa+pUvm2Q7VkprfkrJ/Ys
- cFa0rfNENBBNsDOUkeLtd1/Bjvj87/UbPw+6zNjZsbAvtnNT35iAnjK2k
- RGlfhj6+yBjqHihLMGuGuOPh81GMbXrYGDQI8Q70ajS8UTOlq0ILn/24u Q==;
-X-CSE-ConnectionGUID: FNoibFJVRCSMaKfX+UHzvQ==
-X-CSE-MsgGUID: XNqo7WSzT3G/dyD3SQ+Iyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="50492925"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="50492925"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2025 05:07:21 -0800
-X-CSE-ConnectionGUID: 39ZnDj6TTMeDiJ1StK8P9A==
-X-CSE-MsgGUID: o8Ar0ERMTZeO4bdLMiKkLA==
+ t=1738588891; x=1770124891;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=qNUiPO2yHgXnsW5NYL968qRQlYZ+KbplWMOxfDHT4Pg=;
+ b=I5wtFJe8qlk3/6b46f5FAvFb2kCCnPKz4Aw7vuJZJsjlYbO1q4qe64R5
+ YPVGcRIM/7NfQi6suxh0WsQeN2T19Hk2L7q+IeBYxwk8YjUaHJWFsqOVA
+ 0olESev/VkOuhWWgChgqNcWDG6IucN8loxzIVMs+UEkrOP400H9EDefgM
+ nVEsnvfd7pPD5praskPLUr9QVPXSjljoeJGycjY0FCFbvHQ5YdJxF7ofw
+ LQGYAR6fnG8A4DT3aIBFDJ7y8HKb09EomxT1XkarSfAerdzwI05eFwxiI
+ G787v80EyalZEBT+pQI8A2PH/TFuH1YyGH0mMC06jDGDhTvrblkk+0Iik w==;
+X-CSE-ConnectionGUID: h8iEtveIRPKMnXSazaR3VQ==
+X-CSE-MsgGUID: nJ1CQnTcRB2NWyNGbk8lHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="56616567"
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; d="scan'208";a="56616567"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2025 05:21:31 -0800
+X-CSE-ConnectionGUID: nlVN1aI0QFSUS/IyFmEeRg==
+X-CSE-MsgGUID: 4btVPqeHRnaIw1rKsBA+MA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="114904819"
-Received: from smile.fi.intel.com ([10.237.72.58])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2025 05:07:19 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
- (envelope-from <andriy.shevchenko@linux.intel.com>)
- id 1tewAW-00000007psU-1GMK; Mon, 03 Feb 2025 15:07:16 +0200
-Date: Mon, 3 Feb 2025 15:07:16 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- DRI mailing list <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 1/1] regmap: Synchronize cache for the page selector
-Message-ID: <Z6C_hAvjW9FC2Pix@smile.fi.intel.com>
-References: <8a7581e4-6422-4d77-8027-02df0d7da489@samsung.com>
- <Z4qTQ9ypkX6iS1Pl@smile.fi.intel.com>
- <42fe4488-0ff2-4b92-ae11-cce1664a7176@samsung.com>
- <Z4-hMdUUTeQHN5W_@smile.fi.intel.com>
- <6b4cba29-786c-4999-ac1d-27b3e4cea6f8@samsung.com>
- <Z5kJLrE6xOzOKaeb@smile.fi.intel.com>
- <Z5pESDSekep9ChAN@smile.fi.intel.com>
- <eyjsejpx7klztr4k7xmrvceosfykyozs736kycdnf5uur5by43@5i5x7tsuxtpg>
- <Z6CKGu7URC1iGOVO@smile.fi.intel.com>
- <849eca29-4f03-4fb2-bd1f-747ce42f4c5f@sirena.org.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <849eca29-4f03-4fb2-bd1f-747ce42f4c5f@sirena.org.uk>
+X-IronPort-AV: E=Sophos;i="6.13,255,1732608000"; d="scan'208";a="110855444"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.71])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2025 05:21:26 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Haoyu Li <lihaoyu499@gmail.com>, Lee Jones <lee@kernel.org>, Daniel
+ Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>
+Cc: Helge Deller <deller@gmx.de>, Rob Herring <robh@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, chenyuan0y@gmail.com,
+ zichenxie0106@gmail.com, Haoyu Li <lihaoyu499@gmail.com>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] drivers: video: backlight: Fix NULL Pointer Dereference
+ in backlight_device_register()
+In-Reply-To: <20250130145228.96679-1-lihaoyu499@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250130145228.96679-1-lihaoyu499@gmail.com>
+Date: Mon, 03 Feb 2025 15:21:23 +0200
+Message-ID: <87ldun6u5o.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,21 +74,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 03, 2025 at 12:45:27PM +0000, Mark Brown wrote:
-> On Mon, Feb 03, 2025 at 11:19:22AM +0200, Andy Shevchenko wrote:
-> 
-> > Thank you, guys, for reporting an testing, but it seems the simple problem
-> > to solve requires a lot of changes to be done without regressions
-> > (this fix on fix makes a regression to those who have cache enabled), which
-> > means that for now I propose to revert it (or drop) if possible, Mark,
-> > what is your preference?
-> 
-> I dropped it a while ago, it's not in mainline.
+On Thu, 30 Jan 2025, Haoyu Li <lihaoyu499@gmail.com> wrote:
+> In the function "wled_probe", the "wled->name" is dynamically allocated
+> (wled_probe -> wled_configure -> devm_kasprintf), which is possible
+> to be null.
+>
+> In the call trace: wled_probe -> devm_backlight_device_register
+> -> backlight_device_register, this "name" variable is directly
+> dereferenced without checking. We add a null-check statement.
+>
+> Fixes: f86b77583d88 ("backlight: pm8941: Convert to using %pOFn instead of device_node.name")
+> Signed-off-by: Haoyu Li <lihaoyu499@gmail.com>
+> Cc: stable@vger.kernel.org
 
-Okay, thanks!
+IMO whoever allocates should be responsible for checking NULL instead of
+passing NULL around and expecting everyone check their input for NULL.
+
+BR,
+Jani.
+
+
+> ---
+>  drivers/video/backlight/backlight.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+> index f699e5827ccb..b21670bd86de 100644
+> --- a/drivers/video/backlight/backlight.c
+> +++ b/drivers/video/backlight/backlight.c
+> @@ -414,6 +414,8 @@ struct backlight_device *backlight_device_register(const char *name,
+>  	struct backlight_device *new_bd;
+>  	int rc;
+>  
+> +	if (!name)
+> +		return ERR_PTR(-EINVAL);
+>  	pr_debug("backlight_device_register: name=%s\n", name);
+>  
+>  	new_bd = kzalloc(sizeof(struct backlight_device), GFP_KERNEL);
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jani Nikula, Intel
