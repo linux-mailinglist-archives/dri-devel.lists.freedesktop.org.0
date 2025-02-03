@@ -2,137 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A18FA261CA
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 18:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598D3A261D1
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 18:59:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CE1C10E539;
-	Mon,  3 Feb 2025 17:58:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6A8F10E540;
+	Mon,  3 Feb 2025 17:59:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="mUURczHt";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sg4P5ZOu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81C810E539
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 17:58:28 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250203175827euoutp0259e45a6576eda70d34a152424598e8c7~gxH9EzVf73024030240euoutp02B
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 17:58:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20250203175827euoutp0259e45a6576eda70d34a152424598e8c7~gxH9EzVf73024030240euoutp02B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1738605507;
- bh=oB8LLzwbooAPaWEM+Y0kHxlx9ubp+CpytH8cBLFeUhQ=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=mUURczHtAoTDbB0FbnYUwVZAVREebzKDnEFfXDG5T8nQP5dp0MpaixNHgpf3pdV/n
- qvKCtOFjhW1ipbrSb1w0nSZomMuJINZ3EhMr85fHx6PAuhAlapsP6WZP+mQ6cxoArr
- jNtbebyCSRmJmrerNcvsFvRn22J+EMMuMe499H/4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20250203175826eucas1p1f91a7a22351ac258c5dc7954ded52990~gxH8Y55o92679526795eucas1p1T;
- Mon,  3 Feb 2025 17:58:26 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 38.40.20397.2C301A76; Mon,  3
- Feb 2025 17:58:26 +0000 (GMT)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250203175824eucas1p183992086c6d11614686d9c3a5bd69141~gxH7IYZ161697816978eucas1p1k;
- Mon,  3 Feb 2025 17:58:24 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20250203175824eusmtrp29bb55cb77fc80cea7f96c94fb56fc8c2~gxH7HlxyW1484114841eusmtrp2D;
- Mon,  3 Feb 2025 17:58:24 +0000 (GMT)
-X-AuditID: cbfec7f5-e59c770000004fad-4e-67a103c294ba
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 39.88.19654.0C301A76; Mon,  3
- Feb 2025 17:58:24 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250203175823eusmtip2f86af6640dd3450e986c7e1d73c09e1b~gxH56OqW11343113431eusmtip2d;
- Mon,  3 Feb 2025 17:58:23 +0000 (GMT)
-Message-ID: <c7a441bc-8465-46fe-a883-2a7eee3d3922@samsung.com>
-Date: Mon, 3 Feb 2025 18:58:23 +0100
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D92B610E53F
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 17:58:59 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-5401d3ea5a1so4089648e87.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 09:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738605538; x=1739210338; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Stn8iOzRg0pl2xk4Aml3qZzGpyJrcj7qEXXMSflHudU=;
+ b=sg4P5ZOu++FVMAJrFj9DljTi/QdFXcq5SpC+DQiy8ON7Ab63+QGRZWTl1rTsOdZ2OW
+ Gdj80kibbhfETYFCSyKKbwmdZhGl7xlxHuBNL0PTShSplzFX3E++DCXTrEh+s3R6WhmN
+ cKjigs2b1eh3zxDZfj4EMFxGFZ1LYwYH7PvJtLamVY9oEwSQuY7RLWZoQJw1xoUJF3Jp
+ 3XMFO09SwapgQbgYZR9zgzD5TMjbJzt32Vux9WR7hb7ebsTcdsS8Bi38QxJtRoYMx3ba
+ fHhTS4E2ZoabuyfdO2YwjQ4zP3JYHhLdOs/AZcmAtz6iU0u5kNVNhvoUxPen6n5xLvoy
+ bKhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738605538; x=1739210338;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Stn8iOzRg0pl2xk4Aml3qZzGpyJrcj7qEXXMSflHudU=;
+ b=h3XQiIXFx+/hEgtyTdVICwLCUL51suJJYAtrz6R4XdeEackBcMONDoE3MGsKqVe4Yb
+ GYbSulN5MnPW8QpDFtylcCXWx/FkjhyphS7GFtlYNKlcnUP+qsIb3ieHVYZcwHuQZDea
+ Cs1VYPcMcgYtEa42dPb2I7qhfJalfGCfbiyW3V18vwr3I0lIaVoJjKpvutgRfgn1WVmi
+ rIirqnl6nmAKr7f9JSupPbZLyZBZpTeKEq8QcA7DCkgUMC/e76BRu7Ob5Ru+bzrF+DeG
+ U4BN54xnJCJUDRWEPBXe/czb6QFP39VvkPLAeQSsQAThDS5R+u7e7A6qaOW9wa89+4Bh
+ GtQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUcWny3Cn1EGeM0+sPu01Ne+cuv3oGmCNAf80xZ98s2buUFQC0VILCE2t1ZnET/AS9R5XpvbW+PYDY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw//W5psUccMuT8UnoZHRfambJpZn+7Wkzun3NqV5YmDOZ8MXqe
+ NY3FNFA+hEne0gndxxN/pBWiE2q3NzlNVz2CR+JYse6VKhB/vkpN0LNhdNejcQE=
+X-Gm-Gg: ASbGncv92ukwdG5W5k4zUTv4D2Qp67gia4iwL86VpHi8nOjWBTixeQmUURx+8ufB89z
+ DszFi3lzcBs3efdAkespNcLywIbwmUBZaG87FbD2t69ihm9VBzlse0b5LV+o+DRIMhTnl1+Kagx
+ AmaPJE49DkgEr7vZw7QrDj2FPdV0661E7vw1x4m5hvX+JHHPBYFyXG0AS/Eyk0636EBDjjFd30m
+ uJr5TPbk02cQP0dGh6keRNQ8ZDzpuXF/elhY7h+wVD7/hG/OeXYYKbWSWm5jNM3kkma2Dzjwb51
+ i3xPGLwEaw97bcb4oA8I+u+wd7hGOyjc7KL4swDSPh/6ETqGnbQVIWSyVGfeIqCLkYM4H5g=
+X-Google-Smtp-Source: AGHT+IH1q3ZO9LNsyTVW4NPTdU//0Fx/rXlFPloiEN1WTFjn/TPZDusif7LVG5SOUF6QcwTmsZ4I/w==
+X-Received: by 2002:ac2:41d7:0:b0:542:6f2a:946a with SMTP id
+ 2adb3069b0e04-543e4be034cmr5391500e87.6.1738605537977; 
+ Mon, 03 Feb 2025 09:58:57 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543ebeb06d1sm1367606e87.121.2025.02.03.09.58.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Feb 2025 09:58:57 -0800 (PST)
+Date: Mon, 3 Feb 2025 19:58:55 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01]
+ bitfields and simplify saving
+Message-ID: <hhedgfdbqpbv7s6iegtoztmznqdqn7bdumik7dm5xtsfsj6uwp@3jz422fhchcn>
+References: <20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org>
+ <20250203-drm-msm-phy-pll-cfg-reg-v2-4-862b136c5d22@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 12/18] dt-bindings: gpu: Add support for T-HEAD
- TH1520 GPU
-To: Matt Coster <Matt.Coster@imgtec.com>, "mturquette@baylibre.com"
- <mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "drew@pdp7.com" <drew@pdp7.com>, "guoren@kernel.org" <guoren@kernel.org>,
- "wefu@redhat.com" <wefu@redhat.com>, "jassisinghbrar@gmail.com"
- <jassisinghbrar@gmail.com>, "paul.walmsley@sifive.com"
- <paul.walmsley@sifive.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, Frank Binns
- <Frank.Binns@imgtec.com>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
- <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch"
- <simona@ffwll.ch>, "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
- "jszhang@kernel.org" <jszhang@kernel.org>, "p.zabel@pengutronix.de"
- <p.zabel@pengutronix.de>, "m.szyprowski@samsung.com"
- <m.szyprowski@samsung.com>
-Cc: "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <2fe3d93f-62ac-4439-ac17-d81137f6410a@imgtec.com>
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Se1BUVRzHOffevXdZW7isOJygWlsayjQUZepkjeGMTjfDChtn7eFjzTsL
- 8bJdyKQEGoHBZaFdgxFXZQEdQYZH4bIPBHbakBXIHcJ4yGOhGWDkFW5g6CYQy7Xiv8/v9/ue
- 7+8xh4+LGshAfkxCEqtIkMVJSAFhbHnkeMWGl8i3GLsE6FZPKYbq/tZRqLLRgSF9s4OHnJ0G
- DP32YIZE1aMdFLrX+C2BussvUeh0Sw2JxnVOErnUTh66U3+RRLO5zQAZZzNIVNU8SKESVx2B
- rpjrAco6c5WHfm3bjQadtwg0fkeNoyydL1pqMFNosftHAl34w0ohw5SWh+xVUpRhzScinmVm
- ejMpZmp8nGB+zp6jmMa/ignGohukGLXlF8DUVpwhmYHuBpIpao1ihnLsGHP9ShqTUdWCMd8t
- bGFmmrpIJs9QAZjO0z3UB6KPBW8eY+NivmQVm3ccEUQvNY6Sx++Jv+oZrCHTwVyACvD5kA6H
- OWPhKuDNF9HlALYVbVcBwTLPAaianwRcMAvgYksrz6PyPLCprRhXKANw8GoeyQXTABpmb1Ae
- lZDeASuvuYCHCfoFOPy4n8fl/WDr+RHCw+toMRzqK1zRr6U/hN1l7hVXf9rEh3nXh1YKOJ2O
- w2xNKscBsG9Ej3mYpLfC4TL9iqn3cjOT2YVzGjE0TV/EPUaQvi2Avf3tODf3Lmi+PUdwvBZO
- 2A0Ux8/AJQtnCulEOFz35xP9N9Citj/hN+CAw016DobTG2BN/WYuvRP+lHOX4O7oA3un/bgR
- fOBZ4zmcSwthdpaIU4fAAnXuf00d5UZMAyS6VVfRrVpSt2oZ3f99iwFRAQLYZGW8nFVuS2BP
- hCpl8crkBHnoZ4nxtWD5g7cv2h+YQfmEK9QGMD6wAcjHJf7CdlOxXCQ8JjuZwioSDyuS41il
- DQTxCUmAsNSaKRfRclkSG8uyx1nFv1WM7x2YjvmaH56NMyURbMTGduppt+pFef3A0fbzXQVr
- Qr5+Var/pKT5ix/eXn/gbk16Ssqa6tLHG1yiSYnE7pY2fCSNmjz1vdJXGnjTOypy/cS+dYWp
- bz1K22VVl73v9Nf0BucdbD36Uv9zoe4bvwf0AK3p9ViX9PLO0uAi7d6N782bxMzh4HOjqQ+j
- ver8+nbfVGoPdGA+lWnzW+uN217bG85T1X5aZNgjaAqrHiugN22P3198sinfeW0kaKIktT/C
- ViTC7cITC1OHQoI6JL0tmlPPHxHff2e/RR3pUGVrw7wOjsV4zeWqLPrMGeVTbZ3vau4X7mla
- 8M2P7eiYij60L3LT5c9zSHGShFBGy8JexhVK2T+FywTjTwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIKsWRmVeSWpSXmKPExsVy+t/xe7oHmBemG9zZZGpx4voiJoutv2ex
- W6zZe47JYv6Rc6wW9y5tYbK48vU9m8W6pxfYLV7sbWSxuLZiLrtF87H1bBYvZ91js/jYc4/V
- 4vKuOWwWn3uPMFps+9zCZrH2yF12i4Uft7JYLNmxi9GirXMZq8XFU64Wd++dYLF4ebmH2aJt
- Fr/F/z072C3+XdvIYjH73X52iy1vJrJaHF8bbtGyfwqLg6zH+xut7B5vXr5k8Tjc8YXdY++3
- BSweO2fdZffo2XmG0WPTqk42jzvX9rB5zDsZ6HG/+ziTx+Yl9R4ta48xefT/NfB4v+8qm0ff
- llWMHpear7MHCEXp2RTll5akKmTkF5fYKkUbWhjpGVpa6BmZWOoZGpvHWhmZKunb2aSk5mSW
- pRbp2yXoZfzf+5St4IV8xfW769kaGL+IdzFyckgImEgc6tnP1MXIxSEksJRR4vDifjaIhIzE
- te6XLBC2sMSfa11sEEWvGSVOTZ3FBJLgFbCTWLPyIyOIzSKgIvHgz21WiLigxMmZT8CaRQXk
- Je7fmsEOYgsLBEtMnvGPEWSQiMBeDoldN36ygDjMAg3MEqtm32CGWPGPUeL6jTdgdzALiEvc
- ejIfbB2bgJHEg+XzwVZwAq3evuMjUAMHUI26xPp5QhDl8hLb385hnsAoNAvJIbOQTJqF0DEL
- SccCRpZVjCKppcW56bnFRnrFibnFpXnpesn5uZsYgWlr27GfW3Ywrnz1Ue8QIxMH4yFGCQ5m
- JRHe09sXpAvxpiRWVqUW5ccXleakFh9iNAUGxkRmKdHkfGDizCuJNzQzMDU0MbM0MLU0M1YS
- 52W7cj5NSCA9sSQ1OzW1ILUIpo+Jg1OqgWnBxjfK2euWe5yxcmi05vfcsNVE49rL/bM8vHlU
- Am7qM9zOX7RKMXndI5miDFHNp/ZhfBOEZQ33dj6RWHBkj+y5mmyXMjbjV6ma3s2fQ6yConcs
- f51c5nvbecs227Ovvyfzf7cWPCgS3GllomS1k5+lerWnWG/H+vkp12+WqN25sSzt9KbZD/bJ
- qHVN3rVAKnDl7IM9eeGq3LaZG75LTzoZ3Ml29nvn49Syi4/XNIeoXpsdXf/hfPBcxXZ5yW8/
- ZE5ekL7846m4z/XLM47xrGd2++kb7b5h/o29iyPaU+JVAtn6pp7SbTnSo9Ko8jmpeWfYytd8
- CetuK6m2SH9WCPWYK6byRn6nkJVSo1ffPCWW4oxEQy3mouJEAMgz11fkAwAA
-X-CMS-MailID: 20250203175824eucas1p183992086c6d11614686d9c3a5bd69141
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250128194841eucas1p29048dc05a26475d8323a7a318a8c7a25
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20250128194841eucas1p29048dc05a26475d8323a7a318a8c7a25
-References: <20250128194816.2185326-1-m.wilczynski@samsung.com>
- <CGME20250128194841eucas1p29048dc05a26475d8323a7a318a8c7a25@eucas1p2.samsung.com>
- <20250128194816.2185326-13-m.wilczynski@samsung.com>
- <2fe3d93f-62ac-4439-ac17-d81137f6410a@imgtec.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203-drm-msm-phy-pll-cfg-reg-v2-4-862b136c5d22@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,118 +95,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 03, 2025 at 06:29:21PM +0100, Krzysztof Kozlowski wrote:
+> Add bitfields for PHY_CMN_CLK_CFG0 and PHY_CMN_CLK_CFG1 registers to
+> avoid hard-coding bit masks and shifts and make the code a bit more
+> readable.  While touching the lines in dsi_7nm_pll_save_state()
+> resulting cached->pix_clk_div assignment would be too big, so just
+> combine pix_clk_div and bit_clk_div into one cached state to make
+> everything simpler.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Changes in v2:
+> 1. New patch
+> ---
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 31 ++++++++++++----------
+>  .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  | 12 +++++++--
+>  2 files changed, 27 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> index 926fd8e3330b2cdfc69d1e0e5d3930abae77b7d8..b61e75a01e1b69f33548ff0adefc5c92980a15d7 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+> @@ -67,8 +67,7 @@ struct dsi_pll_config {
+>  
+>  struct pll_7nm_cached_state {
+>  	unsigned long vco_rate;
+> -	u8 bit_clk_div;
+> -	u8 pix_clk_div;
+> +	u8 clk_div;
+>  	u8 pll_out_div;
+>  	u8 pll_mux;
+>  };
+> @@ -401,12 +400,12 @@ static void dsi_pll_cmn_clk_cfg1_update(struct dsi_pll_7nm *pll, u32 mask,
+>  
+>  static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
+>  {
+> -	dsi_pll_cmn_clk_cfg1_update(pll, BIT(5), 0);
+> +	dsi_pll_cmn_clk_cfg1_update(pll, DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN, 0);
+>  }
+>  
+>  static void dsi_pll_enable_global_clk(struct dsi_pll_7nm *pll)
+>  {
+> -	u32 cfg_1 = BIT(5) | BIT(4);
+> +	u32 cfg_1 = DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN | DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN_SEL;
+>  
+>  	writel(0x04, pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_3);
+>  	dsi_pll_cmn_clk_cfg1_update(pll, cfg_1, cfg_1);
+> @@ -572,15 +571,17 @@ static void dsi_7nm_pll_save_state(struct msm_dsi_phy *phy)
+>  	cached->pll_out_div &= 0x3;
+>  
+>  	cmn_clk_cfg0 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG0);
+> -	cached->bit_clk_div = cmn_clk_cfg0 & 0xf;
+> -	cached->pix_clk_div = (cmn_clk_cfg0 & 0xf0) >> 4;
+> +	cached->clk_div = cmn_clk_cfg0 & (DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK |
+> +					  DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__MASK);
 
+Could you rather store these two fields separately by using FIELD_GET?
 
-On 1/31/25 16:39, Matt Coster wrote:
-> On 28/01/2025 19:48, Michal Wilczynski wrote:
->> Add bindings for the PowerVR BXM-4-64 GPU integrated in the T-HEAD
->> TH1520 SoC.  This GPU requires two clocks.
-> 
-> None of the IMG Rogue GPUs use two clocks; they're all either one or
-> three. The TRM for the TH1520 I have shows the standard three (core,
-> cfg and mem). I mentioned this on P2 ("clk: thead: Add clock support for
-> VO subsystem in T-Head TH1520 SoC"); can you add the missing clock here
-> too?
-> 
->> Document the integration details including clock, reset, power domain
->> and interrupt assignments. Add a dt-bindings example showing the proper
->> usage of the compatible string "thead,th1520-gpu" along with
->> "img,img-bxm".
->>
->> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
->> ---
->>  .../bindings/gpu/img,powervr-rogue.yaml       | 39 +++++++++++++++++--
->>  1 file changed, 35 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> index bb607d4b1e07..b0d9635704d8 100644
->> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
->> @@ -12,10 +12,15 @@ maintainers:
->>  
->>  properties:
->>    compatible:
->> -    items:
->> -      - enum:
->> -          - ti,am62-gpu
->> -      - const: img,img-axe # IMG AXE GPU model/revision is fully discoverable
->> +    oneOf:
->> +      - items:
->> +          - enum:
->> +              - ti,am62-gpu
->> +          - const: img,img-axe # IMG AXE GPU model/revision is fully discoverable
->> +      - items:
->> +          - enum:
->> +              - thead,th1520-gpu
->> +          - const: img,img-bxm
-> 
-> This is going to be the main conflict between this series and the other
-> B-Series series I mentioned on the cover letter. One of the main changes
-> in that series is to rework how our compatible strings are structured;
-> that would make this "thead,th1520-gpu", "img,img-bxm-4-64",
-> "img,img-rogue". Would you mind holding this change back until the other
-> series lands so we can avoid carrying a second deprecated compatible
-> string?
+>  
+>  	cmn_clk_cfg1 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+> -	cached->pll_mux = cmn_clk_cfg1 & 0x3;
+> +	cached->pll_mux = cmn_clk_cfg1 & DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK;
 
-Sure that's completely fine !
+FIELD_GET
 
-> 
->>  
->>    reg:
->>      maxItems: 1
->> @@ -60,6 +65,17 @@ allOf:
->>          clocks:
->>            maxItems: 1
->>  
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: thead,th1520-gpu
->> +    then:
->> +      properties:
->> +        clocks:
->> +          minItems: 2
->> +          maxItems: 2
-> 
-> As mentioned before, this doesn't represent the hardware. Please bump to
-> 3 and add the missing clock.
-> 
->> +
->>  examples:
->>    - |
->>      #include <dt-bindings/interrupt-controller/irq.h>
->> @@ -74,3 +90,18 @@ examples:
->>          interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>;
->>          power-domains = <&k3_pds 187 TI_SCI_PD_EXCLUSIVE>;
->>      };
->> +
->> +    #include <dt-bindings/clock/thead,th1520-clk-ap.h>
->> +    #include <dt-bindings/power/thead,th1520-power.h>
->> +    #include <dt-bindings/reset/thead,th1520-reset.h>
->> +
->> +    gpu: gpu@fff0000 {
->> +        compatible = "thead,th1520-gpu", "img,img-bxm";
->> +        reg = <0xfff0000 0x1000>;
->> +        interrupt-parent = <&plic>;
->> +        interrupts = <102 IRQ_TYPE_LEVEL_HIGH>;
->> +        clocks = <&clk CLK_GPU_CORE>, <&clk CLK_GPU_CFG_ACLK>;
->> +        clock-names = "core", "mem";
-> 
-> You have CFG mapped to "mem" here. Out of curiosity, was that mismatch
-> required to make things work?
+>  
+>  	DBG("DSI PLL%d outdiv %x bit_clk_div %x pix_clk_div %x pll_mux %x",
+> -	    pll_7nm->phy->id, cached->pll_out_div, cached->bit_clk_div,
+> -	    cached->pix_clk_div, cached->pll_mux);
+> +	    pll_7nm->phy->id, cached->pll_out_div,
+> +	    cached->clk_div & DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK,
+> +	    cached->clk_div >> DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__SHIFT,
+> +	    cached->pll_mux);
+>  }
+>  
+>  static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
+> @@ -595,9 +596,9 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
+>  	val |= cached->pll_out_div;
+>  	writel(val, pll_7nm->phy->pll_base + REG_DSI_7nm_PHY_PLL_PLL_OUTDIV_RATE);
+>  
+> -	dsi_pll_cmn_clk_cfg0_write(pll_7nm,
+> -				   cached->bit_clk_div | (cached->pix_clk_div << 4));
+> -	dsi_pll_cmn_clk_cfg1_update(pll_7nm, 0x3, cached->pll_mux);
+> +	dsi_pll_cmn_clk_cfg0_write(pll_7nm, cached->clk_div);
+> +	dsi_pll_cmn_clk_cfg1_update(pll_7nm, DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
+> +				    cached->pll_mux);
+>  
+>  	ret = dsi_pll_7nm_vco_set_rate(phy->vco_hw,
+>  			pll_7nm->vco_current_rate,
+> @@ -634,7 +635,8 @@ static int dsi_7nm_set_usecase(struct msm_dsi_phy *phy)
+>  	}
+>  
+>  	/* set PLL src */
+> -	dsi_pll_cmn_clk_cfg1_update(pll_7nm, GENMASK(3, 2), data << 2);
+> +	dsi_pll_cmn_clk_cfg1_update(pll_7nm, DSI_7nm_PHY_CMN_CLK_CFG1_BITCLK_SEL__MASK,
+> +				    data << DSI_7nm_PHY_CMN_CLK_CFG1_BITCLK_SEL__SHIFT);
 
-Yeah exactly, I understand that from the GPU perspective there are three
-clocks, but only two are programmable from the SoC perspective.
+use accessor function from the header.
 
-So maybe a placeholder clock should be added in the devicetree then,
-since the clock exists, but is reserved.
+>  
+>  	return 0;
+>  }
+> @@ -737,7 +739,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
+>  		u32 data;
+>  
+>  		data = readl(pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+> -		writel(data | 3, pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+> +		writel(data | DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
+> +		       pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+>  
+>  		phy_pll_out_dsi_parent = pll_post_out_div;
+>  	} else {
+> diff --git a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
+> index d54b72f924493b4bf0925c287366f7b1e18eb46b..d2c8c46bb04159da6e539bfe80a4b5dc9ffdf367 100644
+> --- a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
+> +++ b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
+> @@ -9,8 +9,16 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
+>  	<reg32 offset="0x00004" name="REVISION_ID1"/>
+>  	<reg32 offset="0x00008" name="REVISION_ID2"/>
+>  	<reg32 offset="0x0000c" name="REVISION_ID3"/>
+> -	<reg32 offset="0x00010" name="CLK_CFG0"/>
+> -	<reg32 offset="0x00014" name="CLK_CFG1"/>
+> +	<reg32 offset="0x00010" name="CLK_CFG0">
+> +		<bitfield name="DIV_CTRL_3_0" low="0" high="3" type="uint"/>
+> +		<bitfield name="DIV_CTRL_7_4" low="4" high="7" type="uint"/>
 
+Are there any sensible names for these two regs? It looks ther are
+not...
+
+> +	</reg32>
+> +	<reg32 offset="0x00014" name="CLK_CFG1">
+> +		<bitfield name="CLK_EN" pos="5" type="boolean"/>
+> +		<bitfield name="CLK_EN_SEL" pos="4" type="boolean"/>
+> +		<bitfield name="BITCLK_SEL" low="2" high="3" type="uint"/>
+> +		<bitfield name="DSICLK_SEL" low="0" high="1" type="uint"/>
+> +	</reg32>
+>  	<reg32 offset="0x00018" name="GLBL_CTRL"/>
+>  	<reg32 offset="0x0001c" name="RBUF_CTRL"/>
+>  	<reg32 offset="0x00020" name="VREG_CTRL_0"/>
 > 
-> Cheers,
-> Matt
+> -- 
+> 2.43.0
 > 
->> +        power-domains = <&pd TH1520_GPU_PD>;
->> +        resets = <&rst TH1520_RESET_ID_GPU>;
->> +    };
-> 
+
+-- 
+With best wishes
+Dmitry
