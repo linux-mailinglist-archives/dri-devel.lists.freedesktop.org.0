@@ -2,62 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74066A25F48
-	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:55:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77434A25F4C
+	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:56:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85DDA10E4E7;
-	Mon,  3 Feb 2025 15:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E17E910E4ED;
+	Mon,  3 Feb 2025 15:56:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="tB1euvvQ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uUn3cZn2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7575A10E4E7
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:55:06 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 513FsXHW3043567
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 3 Feb 2025 09:54:33 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1738598073;
- bh=Dq1PoOo0p++A7ZJP/LcK53A+0MmTH8P0JsBail5lC0k=;
- h=From:To:CC:Subject:Date;
- b=tB1euvvQUNk1ywi7/+AgFc7bgBNKgyoinFrhYgTw/tnQsdTKZa1gBdUJNP3T7HGBe
- JNKKyJDioZkRjmPngr03vlqznABnWp6+FXpvTCnQcJVNtsiq7Tr6ii0QHn3RZVmT5L
- 8pzSRWpwQnEfNkFVJbtwxlt5AC58UNCuudjppTbg=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
- by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 513FsXLC080734;
- Mon, 3 Feb 2025 09:54:33 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 3
- Feb 2025 09:54:32 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 3 Feb 2025 09:54:32 -0600
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 513FsVe0035874;
- Mon, 3 Feb 2025 09:54:32 -0600
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
- <airlied@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>,
- <dri-devel@lists.freedesktop.org>, <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
-CC: <praneeth@ti.com>, <vigneshr@ti.com>, <aradhya.bhatia@linux.dev>,
- <s-jain1@ti.com>, <r-donadkar@ti.com>, <j-choudhary@ti.com>,
- <h-shenoy@ti.com>, <devarsht@ti.com>, <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2] dt-bindings: display: ti: Fix compatible for am62a7 dss
-Date: Mon, 3 Feb 2025 21:24:31 +0530
-Message-ID: <20250203155431.2174170-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69D3310E4ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:56:37 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-54024aa9febso4589592e87.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 07:56:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738598195; x=1739202995; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=+ufx9LndyQ+Q8Y+4pq9rBmtvxrTRSiMJivVKQTd2MhM=;
+ b=uUn3cZn2sgxIbtK248A5seLG5I64mnVXP9d/CFBAsGZ/U45WpglRGQQnQ+vRU0QPvO
+ 3uNSgzlCYyFOMSBqxoRgGVXlm0oOI4P07vGgrZk6CUJd7gICXl6/3lu50K4d5e7Vuza9
+ 03Fe9ib44Eh+oaC+nAUd/Hsxm4TSK8qxGmGILRl9f3BEizvJunB1NHfbLdI8CjX5HVjy
+ +egX6tqDyAnlpVw3EjutuwYyKWLSuh/77Fp4roA1Mj3TJGPWEtR1klZ0Zrp49mbrQ76P
+ sFGHzpUvAes0SXEA8p1ZXHq7aHYUpnrcQhJqYGdNZRIk2ISyot3czOaeB1U0f81RRSMW
+ czyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738598195; x=1739202995;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=+ufx9LndyQ+Q8Y+4pq9rBmtvxrTRSiMJivVKQTd2MhM=;
+ b=ZB5B85s3Du727yYD899G7WA4sqwhwV0Q6pD164s0DhcEPgL2tu07Pjud2sNw+Dqm2i
+ 1YmIOUYGAtInivr2NO57AeInUJpD/NgScNxYKjgBZeez/abgk8PASx4hwB3FFUf8KzqZ
+ hAitrrCuMz//QHza/MzFTivKU/A72IaPk7YSS5EsZzqWX3t6IQ6wIVolhDudkBE0r5Di
+ lL4LOkxMnVGuPBKErhgFJSYSPS7Www2PRMr7wAz0oh/IMjFgjeUrvLb3ve2AISeiQk81
+ JTKSCZKyJ5WyL8qH0uD/i4SI95qTqvHa9u1w9ViuVKFGbMy9up0aePZ2RcF/G6w22pUR
+ sM+A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUA0Lsa9NejfAI3PnHAvrzG+ZW0963VS1fnsM9GF2d2I85RKihXVUKySmGirxhSLIhRir+EMsMfTyw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEXGrIzZR7P26ORmgK8ryOxTcGAq8QIXb6SKOarTfjkEViv5LG
+ CtIhQOt9F7lTqpi8h2KMlbRtaYugkJ5ElexPbtZ3M4PJnQCqfY1/NhIL85fqzZY=
+X-Gm-Gg: ASbGncuTbI8JGLgC8wwLv0wz22h9l1sXXI6sfHOTApvK/rLCrzdmaYSey4Gb74oHNby
+ z+gihMnfNJNWHNErACT0tAvjW1f53O1f1usmeidEOHJoDgx9KL4uK9uuEPF0w/2Lmm/WIkq/X+d
+ omaesdaEjsPRNsO8zoR62z8nzRu+tIcrOU2pAhFy6okDaj5/dq70sQ4vGve+dmDvHb0ZLcJjoKA
+ 0LLG5VRso6DE3TPfEFaaFZ3g1v8BVO+VuK+oVBsQHmOozTZCtCIbKKW79H1qHbvT3gDIRmIn5nW
+ 98P/Cup2I4mnhcjvdKGICeSFYABwrE49FGyfwoZyBGcrNiapjFDSK+4xlTEvFiMuDv6AOeU=
+X-Google-Smtp-Source: AGHT+IFT9JYuit2k0e9HSaZLgvpA0Li63Lnd/rY7xCOAkHWEzZCyLSO/loAyRrahXsnWpzZ++/uVIQ==
+X-Received: by 2002:a05:6512:33c9:b0:542:29b6:9c27 with SMTP id
+ 2adb3069b0e04-543e4c3fd62mr7381291e87.51.1738598195122; 
+ Mon, 03 Feb 2025 07:56:35 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543ebeb071csm1327031e87.134.2025.02.03.07.56.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Feb 2025 07:56:34 -0800 (PST)
+Date: Mon, 3 Feb 2025 17:56:33 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 2/4] drm/atomic-helper: Introduce
+ drm_atomic_helper_reset_crtc()
+Message-ID: <76stqnzkm5itcoavv4vl7hbjiiujtenov3qaigdikxqjsuyif4@jhanrdhw5jly>
+References: <20250203145824.155869-1-herve.codina@bootlin.com>
+ <20250203145824.155869-3-herve.codina@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203145824.155869-3-herve.codina@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,33 +107,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix incorrect format of compatible string (comma instead of hyphen) for
-TI's AM62A7 SoC.
+On Mon, Feb 03, 2025 at 03:58:21PM +0100, Herve Codina wrote:
+> drm_atomic_helper_reset_crtc() allows to reset the CRTC active outputs.
+> 
+> This resets all active components available between the CRTC and
+> connectors.
+> 
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 41 +++++++++++++++++++++++++++++
+>  include/drm/drm_atomic_helper.h     |  2 ++
+>  2 files changed, 43 insertions(+)
+> 
 
-s/ti,am62a7,dss/ti,am62a7-dss
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Fixes: 7959ceb767e4 ("dt-bindings: display: ti: Add support for am62a7 dss")
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V2: Add Reviewed-by and update commit msg
----
- Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-index 55e3e490d0e6..31c4ffcb599c 100644
---- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-+++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-@@ -23,7 +23,7 @@ properties:
-   compatible:
-     enum:
-       - ti,am625-dss
--      - ti,am62a7,dss
-+      - ti,am62a7-dss
-       - ti,am65x-dss
- 
-   reg:
 -- 
-2.39.1
-
+With best wishes
+Dmitry
