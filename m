@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D2F7A25EB4
+	by mail.lfdr.de (Postfix) with ESMTPS id E96C3A25EB5
 	for <lists+dri-devel@lfdr.de>; Mon,  3 Feb 2025 16:30:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7193110E0DD;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7409610E4F1;
 	Mon,  3 Feb 2025 15:30:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="q67ZOSMl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="CUhmCBWe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E32210E4E0
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:30:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 231A110E0DD
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 15:30:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=8PwHc/paEzVcZwGPvm7i+3AMJTKywLcV113s8BKRR/c=; b=q67ZOSMlBP9Ffkbo2XtVbrkZVm
- XJRCW1nFXjsJ1lDaCovyDTHC/pvRzP5h9945g2GSx7pbvpMUvBsmNfsiBXL8gTF3Lhu4kyIgme2l+
- h0aa8/4as9i2F+pnArDPsTcIZ5+JCCQwKlSQNjYta80z1u2LvmmKzCIEFTES6g9NRI0DrXxHSF4JT
- qDGgWaolP+Nr/YdNIRx9WjsOipBcs5D+BbBoIVMRQAtvHbPXCsI94U44JRgAsP4a9fBLo7flSx6fh
- DMuz1iRoUE4OHF1btYrLCnhx/YPmhns3z1Rklts64sKGly3DwTqVly8kSaSuETJWuU9Fe2pa7P9j8
- K21LF9HA==;
+ bh=8PwHc/paEzVcZwGPvm7i+3AMJTKywLcV113s8BKRR/c=; b=CUhmCBWeJrM/NrTWZRXstpsK/M
+ wCip2IsMT21iL9CYCR4UZRSOiE34n5nwvW4RT7GNUPns4+qcxSFgB+tubiOEzppilysCuAST69T07
+ /lAETYMJWKzNS33JRtukkA9eHlae1ZuykkGzrEHY4oLaE1QeIXB9ZxAF2DKR0oUQo6uDPzsCBCHGA
+ Mxa0XeuWpIWUk0OxIg9pstjclu3WcVn4xLAMo+QxRetAotQv+9asAwuRoa5kX8tyMsGI7CCVwVevl
+ sYyIi393NOOrDG1pXLYfYJlnoAP6NNaSc5mJTD/1h2uvUldTOTbK7SKqQLur2ioRbYn1DqqpuckOp
+ 09DyBoWg==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1teyOo-0035rK-SO; Mon, 03 Feb 2025 16:30:16 +0100
+ id 1teyOp-0035rU-IB; Mon, 03 Feb 2025 16:30:17 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
@@ -39,10 +39,10 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Danilo Krummrich <dakr@kernel.org>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <phasta@kernel.org>
-Subject: [RFC 5/5] drm/scheduler: Add a basic test for modifying entities
+Subject: [PATCH 5/5] drm/scheduler: Add a basic test for modifyng entities
  scheduler list
-Date: Mon,  3 Feb 2025 15:30:06 +0000
-Message-ID: <20250203153007.63400-6-tvrtko.ursulin@igalia.com>
+Date: Mon,  3 Feb 2025 15:30:07 +0000
+Message-ID: <20250203153007.63400-7-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
 References: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
