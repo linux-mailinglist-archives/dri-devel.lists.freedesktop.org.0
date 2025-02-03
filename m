@@ -2,105 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80468A26D95
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B6CA26D94
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:48:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6B9D10E5C1;
-	Tue,  4 Feb 2025 08:48:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3961310E2C9;
+	Tue,  4 Feb 2025 08:48:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=beims.me header.i=@beims.me header.b="t1ocVs5A";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="t9d4HjEM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NWP/tj3V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-b5-smtp.messagingengine.com
- (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC0110E56F
- for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 21:06:07 +0000 (UTC)
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal
- [10.202.2.42])
- by mailfhigh.stl.internal (Postfix) with ESMTP id 053E8254018D;
- Mon,  3 Feb 2025 16:06:05 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-02.internal (MEProxy); Mon, 03 Feb 2025 16:06:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=beims.me; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1738616765;
- x=1738703165; bh=Ra9MI1InI9gP8+SgSwb7MAwqv6kU3tmMoSZj8CtIFVU=; b=
- t1ocVs5AALcA1N8uT+IIXOb8dTYgtfpNqUnbtJBit8RMtEiceAwUYPTcIvGSFGuI
- T6zKsOoYEmpoPFBnPYpCIq9+Z2cubxvKuUnJtQ5I/t8WQ1vtOQ8786QWdMXu9V0z
- PI/3e2kwObMbYQvgOnxX+DgILx87idcUarIIC24XSsihDGycQzsKWe/k2tyitFL7
- FllHw02LEwz7s2TkpKusYySmnCcabtGtrHJgL5h/wV/Xe6ETCOgzV/7csCjgmeIf
- 6sZGBjouHHI0SuosNEekahCU7nShK5WoW0rSRtnyLChSRJXjI/VdI0CMpN7ZXg//
- lp3yP3poPE+lbThNzkLA2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1738616765; x=
- 1738703165; bh=Ra9MI1InI9gP8+SgSwb7MAwqv6kU3tmMoSZj8CtIFVU=; b=t
- 9d4HjEMCeYndVx7oq3je+I4XOl0tfzfQI0Xxujm6CbB8+vyFlAmIUADneAXLddV2
- f12wLgiBzfIQE53qfrh6kFYs1JOoK2CGaJw27S2wKKd1PyVWBTgs+xlMRQvAnE8Y
- uPKhHnShWwKQ1F4qlqCJqDzhHzhzzWLoijBlGDUn+Vfo84P1HIP5g28UWzRibFg7
- BQv4yUdx6k5gJ/cYHoXTOJM/L2mG7Ikg6+WZUaGIuHnFd/GA4bFw1zNG2wkRxH4i
- Xag6DMcmVxaKnjjHKP5gm+rmcNVaiOZFVnciWvfuXi38FYwPZc9cCRLXOHSVElvk
- a9w3iWUwj8Rdlq9L+hi0Q==
-X-ME-Sender: <xms:vC-hZ1yKikS7F835uEnPgmRKIf7KE3EMTlfmzIaux8OGHezQ8KeVLw>
- <xme:vC-hZ1StEUQ0C0fjELXRmCGtQNBCMHRDm2tKI32_Nl_f6lcOIn2bk12pTzaqKCZvW
- p7st59wlRYltV_eu70>
-X-ME-Received: <xmr:vC-hZ_WcEHZVBamrqiqrufjr9oSJ0CSiw4gEjKVag3wSMpnZOwEq1ZJEIBGcXjJE8g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukeeihecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpefkffggfgfuhffvvehfjggtgfesthekredttddv
- jeenucfhrhhomheptfgrfhgrvghluceuvghimhhsuceorhgrfhgrvghlsegsvghimhhsrd
- hmvgeqnecuggftrfgrthhtvghrnhepffevveejiedvueegiedtkeetuddvtdduieefkeek
- ffffvdejkeeujeeuvdetieehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
- hmrghilhhfrhhomheprhgrfhgrvghlsegsvghimhhsrdhmvgdpnhgspghrtghpthhtohep
- vddtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrughrihgvnhdrghhrrghssh
- gvihhnsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurges
- ihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinh
- grrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghp
- thhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtg
- homhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgv
- rhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrth
- gvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthho
- pehmrhhiphgrrhgusehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:vC-hZ3he1p6YXRGhRWsolqFF6JiGhD9fqH7ZEU4o06cWK-ErH6f4Kg>
- <xmx:vC-hZ3DNCZ2x0KxEyMkFbi4VeG8OjZs0MfVGlEs4qRwjcH5zh_fDlQ>
- <xmx:vC-hZwK15a9hlwkpryxFnRs6VPI7bTtKRW_yWyd5VyyD-ImJnVoK4Q>
- <xmx:vC-hZ2Bv41Egr0oAuAIH5_2zaAG0vxPlS0xCVDWN-qI4qNrzjg0TpA>
- <xmx:vS-hZ2CUiBwoDZJ8Iv_Qn7A2he7PlmVBsGVJTdlkkbCLJdX-Qxz1-R9E>
-Feedback-ID: idc214666:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 3 Feb 2025 16:06:00 -0500 (EST)
-Message-ID: <6d3519c6-4bad-4d9f-aaea-576e152902ff@beims.me>
-Date: Mon, 3 Feb 2025 18:05:57 -0300
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED3EF10E167
+ for <dri-devel@lists.freedesktop.org>; Mon,  3 Feb 2025 21:19:34 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-2ee8aa26415so8446301a91.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 13:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1738617574; x=1739222374; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=E1RprFycDuHJldRn/ezrS+F5IM4jHFkaXUl211fTz08=;
+ b=NWP/tj3VTwycjk2C38NIpUQ2s9IP90Bs2YdtIoqn0Er/fBiSs4V27/jQ3llk/N/0m6
+ 4TuUT14gBlDqHIa5tzkDTFjXF28VWv6lTeVFPbULejBeWEs7jGVqia17OZac42RBAiUJ
+ 8gzfWddtWnaxzor0JldnwfNVJ0jp0WhIihzr1rjrD+yf+D9dr2FUGW4xI8K002l2EEWi
+ MWyL6WVWIPFkUdsUtz6CbFVOxFkjazJ6yO7bsIDmcCNZ8eLvifmEVPTRGl+Ar6S0akHy
+ LFyfQKyFHF0Ygdvn7VWH4oEZXt8/anZlO58gV7kaDshgcFrue4SQD5zRbj2nLnjDVPfL
+ Od1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738617574; x=1739222374;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=E1RprFycDuHJldRn/ezrS+F5IM4jHFkaXUl211fTz08=;
+ b=auw7h2As/D5JHbP1fm2UZJowxmU077dhohOboTf1b1alGZzT/wq4Y+j4v+BJkRrKIv
+ lZ5c4J07aeFvWejc7jME5h9Hc1rFN96qaG1snNn8BSeXDHPlQmgQgrwPYxMBBy5Hc+qW
+ qkPGor21SdrU4AbNfQfUrmkDTVXHDMnMto84S/lHDSn95112HbExvFKRSuz9wgDfamm5
+ mQVQzhiQvDnlWtM36X+ssix9sjOiixLRN3B+CCB/zTAkQLS1m8vH6692/4blb/5DrClG
+ kcBBJq0UOshkkbyWESFfBV6+2KOexpH+GUjWLhWoHZQYD3t5qz9Hm3pFjNW+31cxafzf
+ VKMg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWgbPDXqvQMcEn8ycXSSaQ1aNqsUvmiFh5QtIbqB2jBAcxPwY8oYsQ3Xc63qq1FqQCx+qUQTc+Llsc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzU4feV0zg8BmLQrG4UnGRnAgdkFT0RTf+my1zymuy09p+5yzb3
+ 3fCeIThwpErhn7mQf5Jg9OOGVEXjz/+dh9X0MNpc8ZupmGwGwzas0vaXwHZ2BABo09e2GqK29k0
+ 8urOMkzAd5ma9h3XfbHr9hIASG+A=
+X-Gm-Gg: ASbGnct+uSCalxTbgsoWCUVlt2L30pwpfq4Tpp2KX09h3iLwT9HPFWW9loUd+LGw6GX
+ fZqP+j65eXxMopIAbw1u6iMq73BcxQaMXDgOA4pHphsCwucFwoFWLq6e5ZpPiGUeNj11HGBE0
+X-Google-Smtp-Source: AGHT+IG/z3EJhnf9SR0K4H9KlI981FGgmyEgJkvQWHpkkih0UJEnWjGg3KJxlOWE94AU8gGejkz3MNO9Uh3+nXXaTBI=
+X-Received: by 2002:a17:90b:5146:b0:2ea:3f34:f18d with SMTP id
+ 98e67ed59e1d1-2f83abdebdfmr37965262a91.10.1738617574433; Mon, 03 Feb 2025
+ 13:19:34 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/bridge: lt8912b: Add support for audio
-Content-Language: pt-BR
-From: Rafael Beims <rafael@beims.me>
-To: Adrien Grassein <adrien.grassein@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Joao Paulo Goncalves <joao.goncalves@toradex.com>
-Cc: Rafael Beims <rafael.beims@toradex.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250203192401.244651-1-rafael@beims.me>
- <20250203192401.244651-3-rafael@beims.me>
-In-Reply-To: <20250203192401.244651-3-rafael@beims.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
+ <20250128-converge-secs-to-jiffies-part-two-v1-6-9a6ecf0b2308@linux.microsoft.com>
+ <dd0358b1-7c8a-4c9e-88c5-2e1db69a3a35@linux.microsoft.com>
+In-Reply-To: <dd0358b1-7c8a-4c9e-88c5-2e1db69a3a35@linux.microsoft.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Mon, 3 Feb 2025 22:19:23 +0100
+X-Gm-Features: AWEUYZmGyX5TH9PuhG1vFlJR4zNh-9wcNWLcslfb_ZiDi-fTNv4o-akZqj7ScMc
+Message-ID: <CAOi1vP_UTjuF5y5oEVquk45udBZ41WqxQpHufD5oK2wbQkobhA@mail.gmail.com>
+Subject: Re: [PATCH 06/16] rbd: convert timeouts to secs_to_jiffies()
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, 
+ Jens Axboe <axboe@kernel.dk>, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, 
+ Yaron Avizrat <yaron.avizrat@intel.com>, Oded Gabbay <ogabbay@kernel.org>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+ James Smart <james.smart@broadcom.com>,
+ Dick Kennedy <dick.kennedy@broadcom.com>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, 
+ David Sterba <dsterba@suse.com>, Xiubo Li <xiubli@redhat.com>, 
+ Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Carlos Maiolino <cem@kernel.org>, 
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, 
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Frank Li <Frank.Li@nxp.com>, 
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Selvin Xavier <selvin.xavier@broadcom.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, cocci@inria.fr, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-sound@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+ linux-ide@vger.kernel.org, linux-xfs@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-nvme@lists.infradead.org, 
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, linux-rdma@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Tue, 04 Feb 2025 08:48:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -117,201 +120,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/02/2025 16:23, rafael@beims.me wrote:
-> From: Rafael Beims <rafael.beims@toradex.com>
+On Wed, Jan 29, 2025 at 10:03=E2=80=AFPM Easwar Hariharan
+<eahariha@linux.microsoft.com> wrote:
 >
-> Add support for HDMI codec with audio coming from the I2S input.
-> Support 48kHz and 96kHz sample rate, with 16 bits word size.
+> On 1/28/2025 10:21 AM, Easwar Hariharan wrote:
+> > Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
+> > secs_to_jiffies().  As the value here is a multiple of 1000, use
+> > secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplicati=
+on.
+> >
+> > This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci w=
+ith
+> > the following Coccinelle rules:
+> >
+> > @depends on patch@
+> > expression E;
+> > @@
+> >
+> > -msecs_to_jiffies
+> > +secs_to_jiffies
+> > (E
+> > - * \( 1000 \| MSEC_PER_SEC \)
+> > )
+> >
+> > Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> > ---
+> >  drivers/block/rbd.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
 >
-> Co-developed-by: João Paulo Gonçalves <joao.goncalves@toradex.com>
-> Signed-off-by: João Paulo Gonçalves <joao.goncalves@toradex.com>
-> Signed-off-by: Rafael Beims <rafael.beims@toradex.com>
-> ---
->   drivers/gpu/drm/bridge/Kconfig           |   1 +
->   drivers/gpu/drm/bridge/lontium-lt8912b.c | 107 ++++++++++++++++++++++-
->   2 files changed, 107 insertions(+), 1 deletion(-)
+> <snip>
 >
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 6b4664d91faa..489ce1041203 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -117,6 +117,7 @@ config DRM_ITE_IT6505
->   
->   config DRM_LONTIUM_LT8912B
->   	tristate "Lontium LT8912B DSI/HDMI bridge"
-> +	select SND_SOC_HDMI_CODEC if SND_SOC
->   	depends on OF
->   	select DRM_PANEL_BRIDGE
->   	select DRM_KMS_HELPER
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> index 52da204f5740..2100b41e5f61 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-> @@ -8,6 +8,8 @@
->   #include <linux/gpio/consumer.h>
->   #include <linux/i2c.h>
->   #include <linux/media-bus-format.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/platform_device.h>
->   #include <linux/regmap.h>
->   
->   #include <drm/drm_probe_helper.h>
-> @@ -16,6 +18,8 @@
->   #include <drm/drm_mipi_dsi.h>
->   #include <drm/drm_of.h>
->   
-> +#include <sound/hdmi-codec.h>
-> +
->   #include <video/videomode.h>
->   
->   #define I2C_MAIN 0
-> @@ -24,7 +28,10 @@
->   #define I2C_CEC_DSI 1
->   #define I2C_ADDR_CEC_DSI 0x49
->   
-> -#define I2C_MAX_IDX 2
-> +#define I2C_AUDIO 2
-> +#define I2C_ADDR_AUDIO 0x4a
-> +
-> +#define I2C_MAX_IDX 3
->   
->   struct lt8912 {
->   	struct device *dev;
-> @@ -38,6 +45,7 @@ struct lt8912 {
->   	struct drm_bridge *hdmi_port;
->   
->   	struct mipi_dsi_device *dsi;
-> +	struct platform_device *audio_pdev;
->   
->   	struct gpio_desc *gp_reset;
->   
-> @@ -226,6 +234,7 @@ static int lt8912_init_i2c(struct lt8912 *lt, struct i2c_client *client)
->   	struct i2c_board_info info[] = {
->   		{ I2C_BOARD_INFO("lt8912p0", I2C_ADDR_MAIN), },
->   		{ I2C_BOARD_INFO("lt8912p1", I2C_ADDR_CEC_DSI), },
-> +		{ I2C_BOARD_INFO("lt8912p2", I2C_ADDR_AUDIO), },
->   	};
->   
->   	if (!lt)
-> @@ -754,6 +763,97 @@ static int lt8912_put_dt(struct lt8912 *lt)
->   	return 0;
->   }
->   
-> +static int lt8912_hdmi_hw_params(struct device *dev, void *data,
-> +				 struct hdmi_codec_daifmt *fmt,
-> +				 struct hdmi_codec_params *hparms)
-> +{
-> +	struct lt8912 *lt = data;
-> +	unsigned int audio_params = 0x08; /* 16 bit word size */
-> +
-> +	if (hparms->sample_width != 16)
-> +		return -EINVAL;
-> +
-> +	if (hparms->sample_rate == 48000)
-> +		audio_params |= 0x20;
-> +	else if (hparms->sample_rate == 96000)
-> +		audio_params |= 0xa0;
-> +	else
-> +		return -EINVAL;
-> +
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x0f, audio_params);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x35, 0x00);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x36, 0x18);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x37, 0x00);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt8912_audio_startup(struct device *dev, void *data)
-> +{
-> +	struct lt8912 *lt = data;
-> +
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x34, 0xe2);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x3c, 0x60);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x07, 0xf0);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x06, 0x08);
-> +
-> +	return 0;
-> +}
-> +
-> +static void lt8912_audio_shutdown(struct device *dev, void *data)
-> +{
-> +	struct lt8912 *lt = data;
-> +
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x06, 0x00);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x07, 0x00);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x34, 0x52);
-> +	regmap_write(lt->regmap[I2C_AUDIO], 0x3c, 0x40);
-> +}
-> +
-> +static int lt8912_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
-> +				      struct device_node *endpoint)
-> +{
-> +	struct of_endpoint of_ep;
-> +	int ret;
-> +
-> +	ret = of_graph_parse_endpoint(endpoint, &of_ep);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (of_ep.port != 2)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct hdmi_codec_ops lt8912_codec_ops = {
-> +	.hw_params = lt8912_hdmi_hw_params,
-> +	.audio_shutdown = lt8912_audio_shutdown,
-> +	.audio_startup = lt8912_audio_startup,
-> +	.get_dai_id = lt8912_hdmi_i2s_get_dai_id,
-> +};
-> +
-> +static int lt8912_audio_init(struct device *dev, struct lt8912 *lt)
-> +{
-> +	struct hdmi_codec_pdata codec_data = {
-> +		.ops = &lt8912_codec_ops,
-> +		.max_i2s_channels = 2,
-> +		.i2s = 1,
-> +		.data = lt,
-> +	};
-> +
-> +	lt->audio_pdev = platform_device_register_data(dev, HDMI_CODEC_DRV_NAME,
-> +						       PLATFORM_DEVID_AUTO,
-> +						       &codec_data, sizeof(codec_data));
-> +
-> +	return PTR_ERR_OR_ZERO(lt->audio_pdev);
-> +}
-> +
-> +static void lt8912_audio_exit(struct lt8912 *lt)
-> +{
-> +	platform_device_unregister(lt->audio_pdev);
-> +}
-> +
->   static int lt8912_probe(struct i2c_client *client)
->   {
->   	static struct lt8912 *lt;
-> @@ -788,6 +888,10 @@ static int lt8912_probe(struct i2c_client *client)
->   	if (ret)
->   		goto err_attach;
->   
-> +	ret = lt8912_audio_init(dev, lt);
-> +	if (ret)
-> +		goto err_attach;
-> +
->   	return 0;
->   
->   err_attach:
-> @@ -803,6 +907,7 @@ static void lt8912_remove(struct i2c_client *client)
->   {
->   	struct lt8912 *lt = i2c_get_clientdata(client);
->   
-> +	lt8912_audio_exit(lt);
->   	drm_bridge_remove(&lt->bridge);
->   	lt8912_free_i2c(lt);
->   	lt8912_put_dt(lt);
+> > @@ -6283,9 +6283,9 @@ static int rbd_parse_param(struct fs_parameter *p=
+aram,
+> >               break;
+> >       case Opt_lock_timeout:
+> >               /* 0 is "wait forever" (i.e. infinite timeout) */
+> > -             if (result.uint_32 > INT_MAX / 1000)
+> > +             if (result.uint_32 > INT_MAX)
+> >                       goto out_of_range;
+> > -             opt->lock_timeout =3D msecs_to_jiffies(result.uint_32 * 1=
+000);
+> > +             opt->lock_timeout =3D secs_to_jiffies(result.uint_32);
+> >               break;
+> >       case Opt_pool_ns:
+> >               kfree(pctx->spec->pool_ns);
+> >
+>
+> Hi Ilya, Dongsheng, Jens, others,
+>
+> Could you please review this hunk and confirm the correct range check
+> here? I figure this is here because of the multiplier to
+> msecs_to_jiffies() and therefore unneeded after the conversion. If so, I
 
-This patch contains an error, v2 with the fix will follow shortly.
+Hi Easwar,
 
-Rafael
+I'm not sure why INT_MAX / 1000 was used for an option which is defined
+as fsparam_u32 and accessed through result.uint_32, but yes, this check
+appears to be unneeded after the conversion to me.
 
+> noticed patch 07 has similar range checks that I neglected to fix and
+> can do in a v2.
+
+Go ahead but note that two of them also reject 0 -- that part needs to
+stay ;)
+
+Thanks,
+
+                Ilya
