@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EDCA2750F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43BEA27510
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA5510E67D;
-	Tue,  4 Feb 2025 14:59:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B281C10E67C;
+	Tue,  4 Feb 2025 14:59:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fiz0TsHf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ir1jBHSl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18FE910E67C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B31B110E67E
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 909D6A42820;
- Tue,  4 Feb 2025 14:57:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9911C4CEE2;
- Tue,  4 Feb 2025 14:59:14 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 52022A4282B;
+ Tue,  4 Feb 2025 14:57:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFF94C4CEDF;
+ Tue,  4 Feb 2025 14:59:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738681155;
- bh=CjbknWkLO9FJHKbmEf1EyUy4YFmhOLb2lsRfYnj48EY=;
+ s=k20201202; t=1738681158;
+ bh=GPycQhOuy0Ne8F+Ox0EmG/eWvlGSLqT1lGqrAsRW7Ac=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Fiz0TsHfzJ9rM8V7NcpHH/Vk8ZjH55jN/ykoi2n17nP55/m8Ab8BwqDeJ+PZESaxP
- adbEmOgE08CEo6YkOYfABCQOrn+m2B4jwz6ByscmOwdV6fyH0Qs5/33xxVPXKEqhIF
- x3d5ghBJkZsT264258tHl4LHlSnCNq4EQhNJa1xQrpzIWkX3pciKybpfT5vCg9A91y
- E6ZE9DjDbWjPpFjk6v8jhiUPeMkeZFruIgJEqjj9Z3JgJNbl2XACWUdmOmLpIT9L7j
- OeHQuSt2YkVw2YMjP0kFyaUnk2z5x55BtUEh/FL41aL2hyMfFamB5KIgAzfKnN20VF
- PE6ba0XS4PliQ==
+ b=Ir1jBHSlYV7veIytsPL1ZAXMHisigkLWg0o6SjO+86ClbJfyzFsB199LjRkPU5+DN
+ 6+6dGB5KfzmTnTHxJXoVvxe894GAF8yU11/PC+huK5pSLkUPZbnMtBMuDYEbKkUOmF
+ Uu8NM2d64fLw/iSzRU7UZ2Wh1uGZ7c7KcdK1pX10yNfkG0qPmf1W40rQxufjWnV5mb
+ H2E/o44+nVA2mrjQ+veEYahGAdc9Vct0JNrbNFHVs86O3qhjR9SbdIdisMLkZ6enik
+ L6lk593C/Dq9ET+V0/TiG7cvcWrmj3ejhbE71MienQJSO6BguZvKjk4eoOleBDc0u+
+ S+g8581omaOqw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Feb 2025 15:57:41 +0100
-Subject: [PATCH v2 13/35] drm/bridge: Change parameter name of
- drm_atomic_bridge_chain_post_disable()
+Date: Tue, 04 Feb 2025 15:57:42 +0100
+Subject: [PATCH v2 14/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_update_legacy_modeset_state()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-bridge-connector-v2-13-35dd6c834e08@kernel.org>
+Message-Id: <20250204-bridge-connector-v2-14-35dd6c834e08@kernel.org>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 In-Reply-To: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,12 +50,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2784; i=mripard@kernel.org;
- h=from:subject:message-id; bh=CjbknWkLO9FJHKbmEf1EyUy4YFmhOLb2lsRfYnj48EY=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtN7pctz97zBhr9BWny/lweGlGV31x/eJJN2qSbD6q
- mij9FmuYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAEykoZ2xYUV9/BoBBkevwgnH
- zH1eM+1Zw9aroFr03lPTP3bGvXZ3v0NfZ+W9WWr/5fejxgzWPUsFGRt2v1no+kX4iQ1rRcbnzQm
- +GsExr/UsdttHvDh6zeT5+xc/tganFOfJVXI9r3J8/X2Z1FYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3609; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=GPycQhOuy0Ne8F+Ox0EmG/eWvlGSLqT1lGqrAsRW7Ac=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtN4n8DlPaZ+Q3KXKZs6tZe7JVfRNbNa6sw8v/ekOk
+ eB+OX9ux1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIVUvGhk0uUc0K4hpnGPs9
+ LvLdTP3VJ8X0hs31Y8pL20y2uVJrQi9IulSLCW8w9Lp1913id7E7jHVm0SVlQt0a55h6CtbP7Sz
+ l/KAVEZ1gKxhX7vl81e7lV4/FSK7/+ae8ikexbsn3OTJvDwEA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,81 +73,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_bridge_chain_post_disable() disables all bridges affected by
-a new commit. It takes the drm_atomic_state being committed as a
-parameter.
+drm_atomic_helper_update_legacy_modeset_state() updates all the legacy
+modeset pointers a connector, encoder or CRTC might have with the ones
+being setup by a given commit. It takes the drm_atomic_state being
+committed as a parameter.
 
 However, that parameter name is called (and documented) as old_state,
 which is pretty confusing. Let's rename that variable as state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_bridge.c | 12 ++++++------
+ drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 0a8c7176959d13937124d2a3bf7e69309898b947..ab166972b1b0df239ca014296be49846a857df6e 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -577,23 +577,23 @@ void drm_atomic_bridge_chain_disable(struct drm_bridge *bridge,
- 	}
- }
- EXPORT_SYMBOL(drm_atomic_bridge_chain_disable);
- 
- static void drm_atomic_bridge_call_post_disable(struct drm_bridge *bridge,
--						struct drm_atomic_state *old_state)
-+						struct drm_atomic_state *state)
- {
- 	if (old_state && bridge->funcs->atomic_post_disable)
--		bridge->funcs->atomic_post_disable(bridge, old_state);
-+		bridge->funcs->atomic_post_disable(bridge, state);
- 	else if (bridge->funcs->post_disable)
- 		bridge->funcs->post_disable(bridge);
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 0d561b5c249a79a723e047f061d4103ef7742e87..50b3fdb033eaae8e852a4fd298d2e958be1201f3 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1265,11 +1265,11 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
  }
  
  /**
-  * drm_atomic_bridge_chain_post_disable - cleans up after disabling all bridges
-  *					  in the encoder chain
-  * @bridge: bridge control structure
-- * @old_state: old atomic state
-+ * @state: atomic state being committed
+  * drm_atomic_helper_update_legacy_modeset_state - update legacy modeset state
+  * @dev: DRM device
+- * @old_state: atomic state object with old state structures
++ * @state: atomic state object being committed
   *
-  * Calls &drm_bridge_funcs.atomic_post_disable (falls back on
-  * &drm_bridge_funcs.post_disable) op for all the bridges in the encoder chain,
-  * starting from the first bridge to the last. These are called after completing
-  * &drm_encoder_helper_funcs.atomic_disable
-@@ -610,11 +610,11 @@ static void drm_atomic_bridge_call_post_disable(struct drm_bridge *bridge,
-  * Bridge B, Bridge A, Bridge E, Bridge D, Bridge C.
+  * This function updates all the various legacy modeset state pointers in
+  * connectors, encoders and CRTCs.
   *
-  * Note: the bridge passed should be the one closest to the encoder
+  * Drivers can use this for building their own atomic commit if they don't have
+@@ -1281,20 +1281,20 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
+  * the legacy state pointers are only really useful for transitioning an
+  * existing driver to the atomic world.
   */
- void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
--					  struct drm_atomic_state *old_state)
-+					  struct drm_atomic_state *state)
+ void
+ drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+-					      struct drm_atomic_state *old_state)
++					      struct drm_atomic_state *state)
  {
- 	struct drm_encoder *encoder;
- 	struct drm_bridge *next, *limit;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *old_conn_state, *new_conn_state;
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *new_crtc_state;
+ 	int i;
  
- 	if (!bridge)
-@@ -657,16 +657,16 @@ void drm_atomic_bridge_chain_post_disable(struct drm_bridge *bridge,
- 								 chain_node) {
- 					if (next == bridge)
- 						break;
+ 	/* clear out existing links and update dpms */
+-	for_each_oldnew_connector_in_state(old_state, connector, old_conn_state, new_conn_state, i) {
++	for_each_oldnew_connector_in_state(state, connector, old_conn_state, new_conn_state, i) {
+ 		if (connector->encoder) {
+ 			WARN_ON(!connector->encoder->crtc);
  
- 					drm_atomic_bridge_call_post_disable(next,
--									    old_state);
-+									    state);
- 				}
- 			}
+ 			connector->encoder->crtc = NULL;
+ 			connector->encoder = NULL;
+@@ -1311,11 +1311,11 @@ drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+ 			connector->dpms = mode;
  		}
- 
--		drm_atomic_bridge_call_post_disable(bridge, old_state);
-+		drm_atomic_bridge_call_post_disable(bridge, state);
- 
- 		if (limit)
- 			/* Jump all bridges that we have already post_disabled */
- 			bridge = limit;
  	}
+ 
+ 	/* set new links */
+-	for_each_new_connector_in_state(old_state, connector, new_conn_state, i) {
++	for_each_new_connector_in_state(state, connector, new_conn_state, i) {
+ 		if (!new_conn_state->crtc)
+ 			continue;
+ 
+ 		if (WARN_ON(!new_conn_state->best_encoder))
+ 			continue;
+@@ -1323,19 +1323,19 @@ drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+ 		connector->encoder = new_conn_state->best_encoder;
+ 		connector->encoder->crtc = new_conn_state->crtc;
+ 	}
+ 
+ 	/* set legacy state in the crtc structure */
+-	for_each_new_crtc_in_state(old_state, crtc, new_crtc_state, i) {
++	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
+ 		struct drm_plane *primary = crtc->primary;
+ 		struct drm_plane_state *new_plane_state;
+ 
+ 		crtc->mode = new_crtc_state->mode;
+ 		crtc->enabled = new_crtc_state->enable;
+ 
+ 		new_plane_state =
+-			drm_atomic_get_new_plane_state(old_state, primary);
++			drm_atomic_get_new_plane_state(state, primary);
+ 
+ 		if (new_plane_state && new_plane_state->crtc == crtc) {
+ 			crtc->x = new_plane_state->src_x >> 16;
+ 			crtc->y = new_plane_state->src_y >> 16;
+ 		}
 
 -- 
 2.48.0
