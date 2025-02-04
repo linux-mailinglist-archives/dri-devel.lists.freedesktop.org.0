@@ -2,74 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48362A27649
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:44:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFCBA2765F
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:47:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F13810E6A9;
-	Tue,  4 Feb 2025 15:44:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D27A10E6B0;
+	Tue,  4 Feb 2025 15:47:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PXevnNNj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="maC3FUp+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1841F10E6A2
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:44:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 89CDD5C46F2;
- Tue,  4 Feb 2025 15:43:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D3C7C4CEDF;
- Tue,  4 Feb 2025 15:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738683848;
- bh=9LjR4PrthTacJS1PcN56bU3Mu47B6G3tqgbyXyXgOXA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PXevnNNj56Mn3/RrfsdBMkk+CSi8osqLayw4LQehsm8BZFM8KQ2Z1neHySuvgFTks
- c1qLsUIMt+LeuLlZm7zOpxwY1dGlcmeF9EM1S/1jLNdAJqGySskA5eRgMM5cgsDPCF
- BEruBGIUOWOoxEaqV13wQ6hXTQ/qRiOg06uNsGfTRG4/lIekHJCtlsThzC3ZbBxBMH
- zBbACCJXd3NWLPRysuhjQ/JiUGQUy8b8PlJVRVj04CFcClFvP70MxZG8ViPI7tTYOE
- uLF0bty3Bc4RA23bgkNUo9Rj8AknLNpO0TMZpQXRd1iIx0yFpfeG7lx0/7ZbGonvoJ
- lk+1VG5/SVIVQ==
-Date: Tue, 4 Feb 2025 16:44:05 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
- Paul Kocialkowski <contact@paulk.fr>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
- variable for out_bridge
-Message-ID: <20250204-aspiring-pumpkin-mastiff-5077be@houat>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
- <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
- <20250102130149.5784c09b@booty> <20250110115819.55bc887b@booty>
- <20250116113236.39ba876a@booty>
- <20250116-brave-feathered-dormouse-8ea4cf@houat>
- <20250121122729.41c8f2b1@booty>
- <ksxomce6vddld7vikzyjd55babho63vj6ej5vrsiwfp2tid6yu@xfpagqpata4v>
- <20250129125146.22981c9f@booty>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7922210E6A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:46:09 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-38c5ba0be37so320903f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 07:46:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738683968; x=1739288768; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=8VDsh+thrrBkA4ryOkMm1ux54Rb9IUk/Q1coP2a2u8M=;
+ b=maC3FUp+F6xhu9RUtAyKvQI6D3n+lAlXSA7cqUxWqy98fayYdmJHp9RDK9iLhuRBGO
+ S0yKVtw+RL+qujX4+aFZA81B7CSjEVYqAYT6KEDv2IZwc6AbGyzCVBygMz1gdDV3RJoR
+ 5ClgdCxHEKGdyKCJl7Ymp+lIF8nhFgR22MBkWs0Zbk4r/t/X/9ImIzZKttv9TzDKxc9c
+ sY7StFXvNlPqPTikJ4/s3APpzfyxzsDAsmPiiQM/q9hAj2cfb18/RHP1XHN1fcPurq5m
+ DhCYfKelIjGz/g0eC4aIURcXDizRYarAGXHKCHmb+KjQ3PDCspJVWTn4q6xd8xdoxN1a
+ mCfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738683968; x=1739288768;
+ h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+ :from:references:cc:to:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=8VDsh+thrrBkA4ryOkMm1ux54Rb9IUk/Q1coP2a2u8M=;
+ b=KRmJmJmFtt90vEg25IKBRCSGStxnudic1++HySK664fWyv2XPdR7G6krwnyAd/Xsij
+ 5NXpmhLqxIIZeT9/zDPK+8HlO0j0GFVHyels/ZOy4buqatC4aJkN20YC2qFNBkke+n8M
+ sTTPTkGso/tAlLRBq6at6S171zZSuqQOpic00RbXt7s264gmOQfJtx82PIF0mBhsZLzj
+ vfdx6yUq273CdEJBBy/q25VTeGH7Nuea3UCvx1ht+ce3ZeAZ+xzgtxeLvT1myLm6H9D2
+ 6Bo167X19BasgCuAYRpU/5tv9aPZni6RopWtS8Ed+gbr0ROcGMLsB+6yihaIHVcDWsJQ
+ xQ6w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWvQjOqkywmEqx7hj0sDmK17+Irwvrin74iKxZb17CL7il/pMJjux3I8lzIP6fB35mZNo3lKtP42ds=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwT9c83BPeSuMJr4bD5ZXK5CRu+0T8UPZt3exz4Z8RWt0kGTj+n
+ 2O/7EzOkyh9fXlm9ZdZVJN+jB3y2DumsKIIqcubmz2PKP1gJMXFJTvO0+rEgrtM=
+X-Gm-Gg: ASbGncvhPvk5GqIn9B3tiYEk/bncMlBjPsAIdfH2E4J2SrdVAPT4+K0nUDiffms1BBn
+ a57wuiLhWMoCvYO/uEQcX4OJnEvQt6f0lAXPHCIXfzsn2fl7LwvsPz9OBvFbeukB7X66lVS3vMI
+ nGx45lg4NyEeGppzS2QDdRsuhPqqBqKBjpSI/X9KsuKIeQBzi1MfPDZc4MPuob8I/Sfp+uQ6T9e
+ DXxUUkvMd/BN2dtNJZLq1WCSvIN3WK4CV0WcFB+Ba+YTCyAwh1o4RkTiHNI+UPL3rNcBhKLCTHa
+ UVl7jEdDzO21D+05vqEPcR4UN1/VQG0d7kM=
+X-Google-Smtp-Source: AGHT+IF/8Y4CiuuRVb7XUvn4YXoFmIVvEj0+wakfJm9mjoxXU19MUcLzDqSusKkvwT8fX8F3IUisuw==
+X-Received: by 2002:a05:6000:2c8:b0:385:e10a:4d9f with SMTP id
+ ffacd0b85a97d-38da4d75ce6mr1142148f8f.0.1738683967786; 
+ Tue, 04 Feb 2025 07:46:07 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.144])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38c5c0ec02bsm16388163f8f.13.2025.02.04.07.46.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Feb 2025 07:46:06 -0800 (PST)
+Message-ID: <2e96ae62-3114-4c7b-bea7-27f6e2009634@linaro.org>
+Date: Tue, 4 Feb 2025 16:46:04 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="5xavrfqrozjzhklo"
-Content-Disposition: inline
-In-Reply-To: <20250129125146.22981c9f@booty>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG1 against
+ clock driver
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org>
+ <20250203-drm-msm-phy-pll-cfg-reg-v2-2-862b136c5d22@linaro.org>
+ <u4qho7u2nu2x6qxkfxpeakotmbdgoha3e5csmsamaanlxziiif@22kzxupzibj7>
+ <12275e11-eadc-48be-b8c3-9463cdf92698@linaro.org>
+ <vfqfbpxc3zrerrb2hyis6h4kgk7aqfljwb7sxlduwlkqprmodg@rjjfsgwr5c6j>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <vfqfbpxc3zrerrb2hyis6h4kgk7aqfljwb7sxlduwlkqprmodg@rjjfsgwr5c6j>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,308 +144,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 04/02/2025 15:26, Dmitry Baryshkov wrote:
+> On Tue, Feb 04, 2025 at 10:21:25AM +0100, Krzysztof Kozlowski wrote:
+>> On 03/02/2025 18:41, Dmitry Baryshkov wrote:
+>>> On Mon, Feb 03, 2025 at 06:29:19PM +0100, Krzysztof Kozlowski wrote:
+>>>> PHY_CMN_CLK_CFG1 register is updated by the PHY driver and by a mux
+>>>> clock from Common Clock Framework:
+>>>> devm_clk_hw_register_mux_parent_hws().  There could be a path leading to
+>>>> concurrent and conflicting updates between PHY driver and clock
+>>>> framework, e.g. changing the mux and enabling PLL clocks.
+>>>>
+>>>> Add dedicated spinlock to be sure all PHY_CMN_CLK_CFG1 updates are
+>>>> synchronized.
+>>>>
+>>>> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
+>>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>>>
+>>>> ---
+>>>>
+>>>> Changes in v2:
+>>>> 1. Store BIT(4) and BIT(5) in local var in dsi_pll_enable_global_clk()
+>>>> ---
+>>>>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 35 +++++++++++++++++++------------
+>>>>  1 file changed, 22 insertions(+), 13 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+>>>> index c164f845653816291ad96c863257f75462ef58e7..e26f53f7cde8f0f6419a633f5d39784dc2e5bb98 100644
+>>>> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+>>>> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+>>>> @@ -83,6 +83,9 @@ struct dsi_pll_7nm {
+>>>>  	/* protects REG_DSI_7nm_PHY_CMN_CLK_CFG0 register */
+>>>>  	spinlock_t postdiv_lock;
+>>>>  
+>>>> +	/* protects REG_DSI_7nm_PHY_CMN_CLK_CFG1 register */
+>>>> +	spinlock_t pclk_mux_lock;
+>>>> +
+>>>>  	struct pll_7nm_cached_state cached_state;
+>>>>  
+>>>>  	struct dsi_pll_7nm *slave;
+>>>> @@ -381,22 +384,32 @@ static void dsi_pll_cmn_clk_cfg0_write(struct dsi_pll_7nm *pll, u32 val)
+>>>>  	spin_unlock_irqrestore(&pll->postdiv_lock, flags);
+>>>>  }
+>>>>  
+>>>> -static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
+>>>> +static void dsi_pll_cmn_clk_cfg1_update(struct dsi_pll_7nm *pll, u32 mask,
+>>>> +					u32 val)
+>>>>  {
+>>>> +	unsigned long flags;
+>>>>  	u32 data;
+>>>>  
+>>>> +	spin_lock_irqsave(&pll->pclk_mux_lock, flags);
+>>>>  	data = readl(pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+>>>> -	writel(data & ~BIT(5), pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+>>>> +	data &= ~mask;
+>>>> +	data |= val & mask;
+>>>> +
+>>>> +	writel(data, pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
+>>>> +	spin_unlock_irqrestore(&pll->pclk_mux_lock, flags);
+>>>> +}
+>>>> +
+>>>> +static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
+>>>> +{
+>>>> +	dsi_pll_cmn_clk_cfg1_update(pll, BIT(5), 0);
+>>>>  }
+>>>>  
+>>>>  static void dsi_pll_enable_global_clk(struct dsi_pll_7nm *pll)
+>>>>  {
+>>>> -	u32 data;
+>>>> +	u32 cfg_1 = BIT(5) | BIT(4);
+>>>
+>>> Please define these two bits too.
+>>
+>> Why? They were not defined before. This only moving existing code.
+> 
+> Previously it was just a bit magic. Currently you are adding them as
 
---5xavrfqrozjzhklo
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
- variable for out_bridge
-MIME-Version: 1.0
+No, previous code:
 
-Hi Luca,
+writel(data | BIT(5) | BIT(4), pll->phy->base +
+REG_DSI_7nm_PHY_CMN_CLK_CFG1);
 
-On Wed, Jan 29, 2025 at 12:51:46PM +0100, Luca Ceresoli wrote:
-> > > > > For hotplugging we cannot use drmm and devm and instead we use ge=
-t/put,
-> > > > > to let the "next bridge" disappear with the previous one still pr=
-esent.
-> > > > > So the trivial idea is to add a drm_of_get_bridge(), similar to
-> > > > > {drmm,devm_drm}_of_get_bridge() except it uses plain
-> > > > > drm_panel_bridge_add() instead of devm/drmm variants. But then the
-> > > > > caller (which is the panel consumer) will have to dispose of the =
-struct
-> > > > > drm_bridge pointer by calling:
-> > > > >=20
-> > > > >  - drm_bridge_put() in case a)
-> > > > >  - drm_panel_bridge_remove in case b)
-> > > > >=20
-> > > > > And that's the problem I need to solve.   =20
-> > > >=20
-> > > > I'm not sure the problem is limited to panel_bridge. Your question =
-is
-> > > > essentially: how do I make sure a driver-specific init is properly =
-freed
-> > > > at drm_bridge_put time. This was done so far mostly at bridge remove
-> > > > time, but we obviously can't do that anymore.
-> > > >=20
-> > > > But we'd have the same issue if, say, we needed to remove a workque=
-ue
-> > > > from a driver.
-> > > >=20
-> > > > I think we need a destroy() hook for bridges, just like we have for
-> > > > connectors for example that would deal with calling
-> > > > drm_panel_bridge_remove() if necessary, or any other driver-specific
-> > > > sequence. =20
-> > >=20
-> > > The .destroy hook looked appealing at first, however as I tried to
-> > > apply the idea to bridges I'm not sure it matches. Here's why.
-> > >=20
-> > > The normal (and sane) flow for a bridge is:
-> > >=20
-> > >  A) probe
-> > >     1. allocate private struct embedding struct drm_bridge
-> > >        (I have an _alloc() variant ready for v5 to improve this as yo=
-u proposed)
-> > >     2. get resources, initialize struct fields
-> > >     3. drm_bridge_add(): publish bridge into global bridge_list
-> > >=20
-> > > Now the bridge can be found and pointers taken and used. =20
-> >=20
-> > We agree so far.
->=20
-> Good :-)
->=20
-> > > And on hardware removal, in reverse order:
-> > > =20
-> > >  B) remove (hardware is hot-unplugged)
-> > >     3. unpublish bridge
-> > >     2. release resources, cleanup
-> > >     1. kfree private struct =20
-> >=20
-> > I think the sequence would rather be something like:
-> >=20
-> > B') remove
-> >   3. unpublish bridge
-> >   2. release device resources
-> >   1. release reference
-> >=20
-> > C') last put
-> >   2. release KMS resources
-> >   1. kfree private struct
->=20
-> Just to ensure we are on the same page: patch 3 is already implementing
-> this model except for C'2.
->=20
-> Well, in reality it even implements a .destroy callback at C'2, even
-> though it was not meant for the usage you have in mind and it's
-> scheduled for removal in v6 -- even though as I said I'm OK in
-> re-adding it if it is useful.
->=20
-> Mainly I'm not sure I understand for which ultimate goal you propose to
-> postpone releasing KMS resources to C'.
->=20
-> Is it (1) because we _want_ to postpone releasing KMS resources? In this
-> case I don't know the use case, so if you have a practical example it
-> would probably help a lot.
+This is a mask and update in the same time, because:
+	(data & (BIT(5) | BIT(4)) | BIT(5) | BIT(4)
+is just redudant.
 
-It's not that we want it, it's that it's already happening :)
+I did not do any logical change, I did not add any mask or field.
+Everything was already there.
 
-The main DRM device is only torn down not when its devices goes away,
-but when the last application closes its fd to the device file. Thus,
-there's a significant window (possibly infinitely long) between the
-device being removed and the DRM device being freed, during which the
-application will still be able to issue ioctl that might reach the
-driver.
 
-Thus, we have two kind of resources: the ones tied to the device
-(clocks, register mappings, etc.) that will go away when the device is
-removed, and the ones tied to the DRM device (connectors, bridges, etc.)
-that need to stick until the DRM device is free'd. It's the difference
-between devm and drmm actions.
+> masks. I want to know if BIT(4) and BIT(5) are parts of the same
+> bitfield (2 bits wide) or if they define two different bits.
 
-> Moreover, for the panel bridge specifically, it would mean postponing
-> the destruction of the struct panel_bridge, which however has a pointer
-> to the panel. But the panel is probably hot-unplugged at the same time
-> as the previous removable bridge(s), we'd have a time window between B'
-> and C' where there is a pointer to a freed struct panel. We'd need to
-> ensure that pointer is cleared at B'2, even though it is a "KMS
-> resource" and not a "device resource".
+While in general you are right, it does not matter for this fix. If this
+are separate bitfields - fix is correct. If this is one bitfield - fix
+is still correct. You could claim that if this was one bitfield, using
+2xBIT() is not logical, but this was there already, so again my fix is
+only fixing and keeping entire logic or inconsistencies intact.
 
-You're correct, but we have to start somewhere. Fixing the issue for
-bridges only will already fix it for all setups using only bridges, even
-if the ones using panels are still broken.
-
-I'm also mentoring someone at the moment to fix this for panels, so it's
-only temporary.
-
-> Or is it (2) because there are cases where we don't know how else we
-> could release the KMS resources? AFAIK all bridge drivers are able to
-> release everything in their remove function (B'2) with the exception of
-> the panel bridge, so this sounds like a workaround for just one user
-> that apparently we all agree should be improved on its own anyway.
->=20
-> Note I'm not strongly against (2), if it simplifies the path towards
-> dynamic bridge lifetime by postponing the panel bridge rework. I just
-> need to understand the plan.
->=20
-> Another question is what is a device resource and what is a KMS
-> resource. What's the boolean expression to classify a
-> resource in one or the other family? For example, in your example
-> quoted above ("But we'd have the same issue if, say, we needed to
-> remove a workqueue from a driver"), is the workqueue a KMS resource?
-
-It depends on what the workqueue is doing. If it's to handle atomic
-commits like the writeback code, then it's KMS facing. If it's to handle
-interrupts, it's device facing.
-
-It's hard to come up with a boolean classification, but it's basically
-"can any ioctl code path end up using that resource?".
-
-> I need to understand your idea if I want to implement it.
->=20
-> > > Some drivers do real stuff in B2, so it is important that B3 happens
-> > > before B2, isn't it? We don't want other drivers to find and use a
-> > > bridge that is being dismantled, or afterwards. =20
-> >=20
-> > Yeah, B3/B'3 should definitely happen first.
-> >=20
-> > > B3 should normally happen by removing the bridge from the global
-> > > bridge_list, or other bridges might find it. However setting the "gon=
-e"
-> > > bool and teaching of_drm_find_bridge() & Co to skip bridges with
-> > > gone=3D=3Dtrue would allow to postpone the actual removal, if needed.
-> > >=20
-> > > With that said, with hotplugging there will be two distinct events:
-> > >=20
-> > >  * hardware removal
-> > >  * last ref is put
-> > >=20
-> > > The second event could happen way later than the first one. During the
-> > > time frame between the two events we need the bridge to be unpublished
-> > > and the bridge resources to be already released, as the hardware is
-> > > gone. We cannot do this at the last put, it's too late.
-> > >=20
-> > > So I think the only sane sequence is:
-> > >=20
-> > >  * on hardware removal:
-> > >      B3) unpublish bridge (drm_bridge_remove() or just set gone flag)
-> > >      B2) free resources, deinit whatever needed
-> > >  * when last ref is put
-> > >      B1) kfree (likely via devm) =20
-> >=20
-> > No, devm will have destroyed it in B'2. We need to destroy it in the
-> > cleanup hook of kref_put
->=20
-> devm will have destroyed what? Sorry I'm not following.
->
-> If you mean "it" =3D=3D "the private struct", then no, this is not the
-> case. drm_bridge_init in patch 3 does not kfree the private struct but
-> instead registers a devm action to call drm_bridge_put. Then, at the
-> last put, drm_bridge_free() will actually kfree the private struct.
->=20
-> In this v5, kree()ing the private struct at the last put is done via
-> a callback. In my work towards v6 the principle is the same but I have
-> reworked it all, implementing a devm_drm_bridge_alloc() macro as you
-> suggested (BTW that was a great improvement, thanks) and removing the
-> .destroy callback as it was not needed.
->=20
-> In case it helps, here's a preview of my v6, with some added comments to
-> support this discussion:
->=20
-> /* Internal function (for refcounted bridges) */
-> void __drm_bridge_free(struct kref *kref)
-> {
->         struct drm_bridge *bridge =3D container_of(kref, struct drm_bridg=
-e, refcount);
->         void *container =3D ((void*)bridge) - bridge->container_offset;
->=20
->         DRM_DEBUG("bridge=3D%p, container=3D%p FREE\n", bridge, container=
-);
->=20
->         kfree(container);
-> }
-> EXPORT_SYMBOL(__drm_bridge_free);
->=20
-> static inline void drm_bridge_put(struct drm_bridge *bridge)
-> {
->         if (!drm_bridge_is_refcounted(bridge))
->                 return;
->=20
->         DRM_DEBUG("bridge=3D%p PUT\n", bridge);
->=20
->         kref_put(&bridge->refcount, __drm_bridge_free);
-> }
->=20
-> static void drm_bridge_put_void(void *data)
-> {
->         struct drm_bridge *bridge =3D (struct drm_bridge *)data;
->=20
->         drm_bridge_put(bridge);
-> }
->=20
-> // fold this into __devm_drm_bridge_alloc() or keep for consistency
-> // with drm_encoder.c?
-> static int __devm_drm_bridge_init(struct device *dev, struct drm_bridge *=
-bridge,
->                                   size_t offset, const struct drm_bridge_=
-funcs *funcs)
-> {
->         int err;
->=20
->         bridge->container_offset =3D offset;
->         kref_init(&bridge->refcount);
->         bridge->is_refcounted =3D 1;
->=20
->         err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, bridge=
-); // <=3D=3D devm just puts one ref, does not kfree
->         if (err)
->                 return err;
->=20
->         bridge->funcs =3D funcs;
->=20
->         return 0;
-> }
->=20
-> void *__devm_drm_bridge_alloc(struct device *dev, size_t size, size_t off=
-set,
->                               const struct drm_bridge_funcs *funcs)
-> {
->         void *container;
->         struct drm_bridge *bridge;
->         int ret;
->=20
->         if (!funcs) {
->                 dev_warn(dev, "Missing funcs pointer\n");
->                 return ERR_PTR(-EINVAL);
->         }
->=20
->         container =3D kzalloc(size, GFP_KERNEL);     // <=3D=3D NOT alloc=
-ating with devm
->         if (!container)
->                 return ERR_PTR(-ENOMEM);
->=20
->         bridge =3D container + offset;
->=20
->         ret =3D __devm_drm_bridge_init(dev, bridge, offset, funcs);
->         if (ret)
->                 return ERR_PTR(ret);
->=20
->         DRM_DEBUG("bridge=3D%p, container=3D%p, funcs=3D%ps ALLOC\n", bri=
-dge, container, funcs);
->=20
->         return container;
-> }
-> EXPORT_SYMBOL(__devm_drm_bridge_alloc);
-
-Awesome, I guess we were actually understanding each other the whole
-time then :)
-
-I'm still kind of sure we'll require a destroy callback to call in
-__drm_bridge_free, but if it works, I guess it's good enough for now.
-
-Maxime
-
---5xavrfqrozjzhklo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6I1xQAKCRAnX84Zoj2+
-din7AX4z+wlKG9YMZHp7rfMZ14/EeGu5xVI5ae27mPjjrzm7+YoB26/yCsz2Fjgc
-B9yCjsUBgMJBbRsTw/yYGmfshRFLspEG0zSCYqcLMrW0pD/OeUhgeD6YEOmq61WG
-CgTVZu0JkQ==
-=t+af
------END PGP SIGNATURE-----
-
---5xavrfqrozjzhklo--
+Best regards,
+Krzysztof
