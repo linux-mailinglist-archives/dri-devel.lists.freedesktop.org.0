@@ -2,187 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331FCA26813
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 00:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBABA26884
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 01:26:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8CBB10E04A;
-	Mon,  3 Feb 2025 23:51:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B783D10E0D3;
+	Tue,  4 Feb 2025 00:26:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j9rOsv8N";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="CxyTQiDn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B86D110E04A;
- Mon,  3 Feb 2025 23:51:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738626678; x=1770162678;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=XGhoOY+0RyxhRTJkVeO7DIKQe7nfWGh3OhNFcEdSzf4=;
- b=j9rOsv8NhHWUpoRujw7wr+4BwvGNIrDZBqzQhb3EPaaU8jKvMs/UwLHm
- B4CTRoM1+ttH/Htf4zLN/qtzaVw/nXz0IemBEW8MU6zJ74mnIM+mTa7+/
- RtfZimUX5i1Ofv/rwmPI/3mWZG0V1KJwTixZKpFBGqdSiVGLlmnCTfl32
- YrOt42Akcc/VaK8R1/FjT4RYfQlP73qd9IufLcZlGhqS/u+4AQ5obVyhL
- pCwmkZ1I0HRd5UvdKUH5lK3EFQgJ8EZN8Ehhq7gpAqG3j4mvIeJ7KoXlI
- x9CYDNQbGOfGOS5NpA52yBfTVgQGebfyPLlR1ft9QUPIC93pM1mCQB31i A==;
-X-CSE-ConnectionGUID: rLqNi9mrT7KvqE9BLgVK4g==
-X-CSE-MsgGUID: P6sQD39JS9uCYlWwLwHIdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="39018183"
-X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; d="scan'208";a="39018183"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Feb 2025 15:50:23 -0800
-X-CSE-ConnectionGUID: muTgDMRPQ6OnXhmm4ipI1g==
-X-CSE-MsgGUID: fH9j3rR6S32MAaJRApSFyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="115592221"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 03 Feb 2025 15:50:22 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 3 Feb 2025 15:50:21 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 3 Feb 2025 15:50:21 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.170)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 3 Feb 2025 15:50:21 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OFP0cxLOOjqGIM+cVwzB0N1qFHrFyFo1XFxSXercW940Oa6M7RcYGO+lcJNmSpxS+lV0axlXgyPZbAHn6gP1Zx6CXV7ES9a5TOp1xQEbg3RZM/Fj/KtTAvtD1bKze1DDttZ6NExwP0+Hm+fmFDdopBOPxl1OQ6Jy2iUkPi1nmgMjAUthwxYYPjeXyCKZOuJaL8QNvoOVLOgjey1d464TtvLRubucgrnD8Al7M9tGKh+cdXXDBcIW73Kipb98aMRhQvlxj5S8iZVGfz8kFiNkWuK5YA5q7yMIzAwKl2XDcYqxiXcKsawIP/9thnB4aQaU1cs8RBrGXQcFOPdDXbmK3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8AdykeCC68vqySqVorIOPy9kZIt0iFmMZt7fj8TuQXg=;
- b=GJNZx/TN4t3Z+aXn/z+KTR/SHkMTO+6brD2JXJ0KDfV+iItfe+vS9jPG5vzEwgJGDLa/xCvZikXys6vRlju4R6dH4l3v2aL3BkjkUDITMPKneUUiMZ7+77vTVzWG8T1s4Zd5T3VjZoHRZyeelVXU+IzkqYOKq9yLcObKEOUHgZEOuFvxBQoEIbnczdzcLdI1bH2Q5tLv6O7JWhFEd5OplYX0cVVpEAzmD8+z++pTryVe5a62MQYAN3q+tcNAz0Ci6w2X48/VvzI1FJ4rnW8qZMrw16/GfoCKXHHzHEdXqIrrKjw27nsQnPKOwnBRBuxNtY+B8lSd+GdHdWZs+iHcxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com (2603:10b6:208:454::6)
- by SJ0PR11MB5021.namprd11.prod.outlook.com (2603:10b6:a03:2dc::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Mon, 3 Feb
- 2025 23:50:19 +0000
-Received: from IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::b6d:5228:91bf:469e]) by IA1PR11MB8200.namprd11.prod.outlook.com
- ([fe80::b6d:5228:91bf:469e%4]) with mapi id 15.20.8398.025; Mon, 3 Feb 2025
- 23:50:19 +0000
-Message-ID: <0613d63c-d236-45e6-a610-97b6a36eee75@intel.com>
-Date: Mon, 3 Feb 2025 18:50:16 -0500
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A29A910E084;
+ Tue,  4 Feb 2025 00:26:19 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 513LcfpF028371;
+ Tue, 4 Feb 2025 00:26:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ x9+DAII2th4S4gel3FhdhbuDGPLOngTB7hsdsKAbEPs=; b=CxyTQiDnhinMF6wK
+ zPRouvTkHPHtNono+CFngkBDrfVsTzf5eb2hFTvgEAjoMKLlxuEnA/40kly7PJwO
+ SM+8Jt/SJI7FK6qKNJsJ0Ug9i0lFfIcx1M04Xo8CZRWwTd7TgCy6kxy6nFbq+ZfS
+ kFjmNcuKvLX0FtYEsiwZCJjNUzH2nVwkObBRsFBCNGwZVjfoXrKP+zFtk+QlM8Ev
+ AYwI91lHdu9EkAHqjUBkNoBVg02wCqDhsxI7vtgpkwNqyn3+r5Zx7c+vt6tlLDlM
+ 5KqFJclK4cwvxRKn1+XHbjbp78PCPcJ7XN4tPnRlTmQ4sIz4FuaNL5bffI3QS/2a
+ Yr3QpA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44k5w5r8ye-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Feb 2025 00:26:05 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5140Q5YF031918
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 4 Feb 2025 00:26:05 GMT
+Received: from [10.134.71.247] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Feb 2025
+ 16:26:00 -0800
+Message-ID: <c8022a2c-4ed2-494c-808e-eaff3eb5e2ba@quicinc.com>
+Date: Mon, 3 Feb 2025 16:25:59 -0800
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/i915/guc: Always disable interrupt ahead of
- synchronize_irq
-To: Andi Shyti <andi.shyti@linux.intel.com>
-CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-References: <20250123162351.1364395-1-zhanjun.dong@intel.com>
- <Z5ekXVihQSDjxqQK@ashyti-mobl2.lan>
- <41833264-348a-443e-ba89-f559cc9114cb@intel.com>
- <Z6DEtCX-XzJE8cwm@ashyti-mobl2.lan>
+Subject: Re: [PATCH v6 3/7] drm/msm/hdmi: make use of the drm_connector_hdmi
+ framework
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Simona Vetter <simona@ffwll.ch>, Simona
+ Vetter <simona.vetter@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250124-bridge-hdmi-connector-v6-0-1592632327f7@linaro.org>
+ <20250124-bridge-hdmi-connector-v6-3-1592632327f7@linaro.org>
 Content-Language: en-US
-From: "Dong, Zhanjun" <zhanjun.dong@intel.com>
-In-Reply-To: <Z6DEtCX-XzJE8cwm@ashyti-mobl2.lan>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250124-bridge-hdmi-connector-v6-3-1592632327f7@linaro.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0010.namprd03.prod.outlook.com
- (2603:10b6:303:8f::15) To IA1PR11MB8200.namprd11.prod.outlook.com
- (2603:10b6:208:454::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR11MB8200:EE_|SJ0PR11MB5021:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d83bf28-d841-4ae3-1cae-08dd44ad8425
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|1800799024|366016|13003099007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UTF5WjNaQW90S1ZiUnNzVG13cUpvOGNMMDd1VTJES3pNYUxMd2F5c1JnS2Fr?=
- =?utf-8?B?YzVWZ2NjOHUwV1lEd3hYenhXVVhiQXZnR01ySThGcUhFQ1NyMVhIOXhZTHA2?=
- =?utf-8?B?ZUFrcDhtZ25RQU4wTFFjdWtXWWFNd0h4am5qT0k5UWR4blJSb3FSdkRmU1dV?=
- =?utf-8?B?U3pSUC9RWHlSUGhMNk9IS1JIVlNzVDZyRmZwaWhoMW5NQ2l2YVE2Q2NEZWZ2?=
- =?utf-8?B?U1pBZlhtN1Q2T1h2cDkwZEtjRDJKSlVPdE5FOHhYNWR2ZEtYMWJoS2ZKSEVQ?=
- =?utf-8?B?OHMvWXhUaFFvZFlJYnlwdzZmVSthU3NyaTVQakMrM1cyb0F5c01FTzY1WDhG?=
- =?utf-8?B?SU1wUkxISnR2aE14QjNwOFNJYldWRWt4bUd5UHpqSXZ1RWI4ZGR6VlZnekZK?=
- =?utf-8?B?ZjVic25XNDc0eisxOXFvMHBVTTdKNDhzcFQ2VUxMS2NGeW4wZkc3cUNvOW1x?=
- =?utf-8?B?RFRxbXpKdkxxRzlsMXdEaXlIeEdXTlRML3U0Z2M0NEpOSHR3cm14K0txUklV?=
- =?utf-8?B?SGRnb2ZZcUdIc0VpQStNd0hEeW1nRFVOdzJCOUFDbkNDTklmdXZiSmpYS1hp?=
- =?utf-8?B?akZ4M2Z6OEd4azl3dWtBUllIdTNUKyt4bGdTZHJqV21FMzdzR0hnbnVibk9H?=
- =?utf-8?B?UWlIa0ZBYWlwcGdvS1dqaWE2UmduRndOODZXRGZWSSt2TlpQcXZnMnJzMFlV?=
- =?utf-8?B?emRtaFFUK0llanhkbEM2ZWZ4N0d6NXN5RHNGLzA3MTZ3NmtsenpFbzM5M0dC?=
- =?utf-8?B?dm1oZmhZbWJYQWx2bDhEcTBmdDdJc0NVUjBndDFXWmZ6WHdMc0VZWU1UR29Q?=
- =?utf-8?B?OUY2Ymp1Y1RNb3A5Si9Zb0trLzFRaFc0dkRZRXBNUkdiYlBzNVNBNG1SNjRu?=
- =?utf-8?B?WmxoNkFuS3JWMWtIZC9kbGw5dTJ0SmwwdnlxZEFpNytKZElzWnFZYVRpb2dO?=
- =?utf-8?B?VzBsQ0ZOVzM1VlRmUmMydjU5aTgwbFZ4NGZHbElNSU9qK3hLRHk5cWxFcXE1?=
- =?utf-8?B?aFF2NzVUd1YrZkt5OHIzVTlVWSttZ3FoQUgrSnhBVHQyRU1ZYktEaTNtVFFV?=
- =?utf-8?B?NHpqWWU4anRjRXpiYTV0Smg2dmNGaE15U2NIelBQNWFkbURkeEh5bWg4SVF0?=
- =?utf-8?B?a2p2K2puS0JUdkx0eG5lYUhQNTZzTnRRODdCeDk1NVJCb3FUaXpSdkNCOE5Y?=
- =?utf-8?B?N1UzbHcxUUF6bGNxbjBrL25NbzRuYzVFU3h5MUZXaDQxOHdvRXFOMitGZ1Z3?=
- =?utf-8?B?UVc2dzNUK1hTVDM3VnFoRzlmcUl0RzZzVFpBMTlxWCtydFVNSitEcHdvMkEz?=
- =?utf-8?B?OGdWYTYvWmdDWTRvZms2Y3dtYUprZGVnWURxV0RVeVJScnl0RHpxUEorN1Ex?=
- =?utf-8?B?bjBEdVpsU215UEJ2WllSMzdxTGNHWjVrME1HU3NidlZpZFRFdDlaTmc4c2tj?=
- =?utf-8?B?TWtGUWo4SlQvNnpUVDNXUUdtazJBTkVPVXUvZTluRzR1V0xWRzZLU2twdjN5?=
- =?utf-8?B?cUlUR1R5VVJxRHVobVo1dkJ5OEROK1l6WWRxbTAzR1JNeGk5Y1VZZ2Vwa3Ri?=
- =?utf-8?B?QlRvN1o5WDZ0UTVYZXZXNEFVWlB1MVl3alI4cWJESDJHRkw1ZnNIdlkzN1Vu?=
- =?utf-8?B?dUZCcUo0emtJUTdEYjRyT0hMaTJidmppaGc5cEovK2ErbXJ6bW9WeEZxTi9W?=
- =?utf-8?B?aUtLZVBqdG9GWmZPc09pU243Mmp4RnY5Q09VNnFlR210MTI5ejI3U3NVR2RS?=
- =?utf-8?B?aDdGMGdhSTl5ZWx5Q0p0RzFLeE5lZUF5djI2QlF4ZjBWMWI4N2hyai8xdEs4?=
- =?utf-8?B?TmsxVk9XMm5sbmlDZU1tdz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA1PR11MB8200.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(13003099007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUlXL0RCaGJZcTN5ZUxDSlkvUzIrOEFzSUcxWmxWQ1BuQi9tTVQ0UGN6Y0RU?=
- =?utf-8?B?UmJkdWpwY3pUUU10ZGVLSmpqVTlnTVJsd1ZscXI1Vk1FVkhVekFEaXhKWXpn?=
- =?utf-8?B?cldaNC9nM2FNYjZCeEdkSHBHSUtHU1ppUTNjb1F3YVJQQzV5L2N3bmRaUjd1?=
- =?utf-8?B?ZEltdVFrM3A4bW5rdFNUMlpaRTlQaU1qVkErZ295UlJWNVQ0UzlSSnU1cC9I?=
- =?utf-8?B?aEtjcXFCMzNOQkQ5TlRLRTFHMGsxL1I1STgwK3psMDUyZTlCMlRLMlRoQnND?=
- =?utf-8?B?S2M3ZmpQVndkOUVDQVZ1N1RTQVY4eEhZdWl6U2xiUDVUYzdUUnFYWTVza1lx?=
- =?utf-8?B?eURoZTZSaUVBUmJDT2VzMXRLVjJUMzEwNWNQZmdKdzI5QmZiK1dmOTFjMkxD?=
- =?utf-8?B?VHY1b25HUVF1cldVZU1qWi9pNTJOdzdkK0hVN2M4bm5NblEzdkttRXhCdHJl?=
- =?utf-8?B?R00yZ0dZcExqWXYxdEVldERUU1F3RWI0RG5qeis3NWczMlVUTE5Kd3B5Y3dX?=
- =?utf-8?B?dTNIaENocXpBd3kzMWFPNEU5TjJZRUF4YjNJWmgvWUdPS2gweDdKbFBsY3Jt?=
- =?utf-8?B?UDBGNGJGS3N3NXdCbStBdnlFL1dBV1UrQmROSUo5eC9ld0N1YVJnOGttdGRL?=
- =?utf-8?B?Qm41SE5zWUpVdjVMaVBtOTRURDcxUmlVeGZwOHJPWWxBMVF5Z0hnZDhzVWhV?=
- =?utf-8?B?YkdnNE1ZUEZvU3BqSDdIQVk1R0R3c1IwZFMrR3N4NkUvZUhsSHRlS1JkaTNv?=
- =?utf-8?B?SWNYVFlxeE5SNFc1U3NGdExaelVTNkR3QUQ2eHpkM29LVFY4T3B6NHRzR3VP?=
- =?utf-8?B?M1lTNnM0TE50ZkRLZXBFMC9TeGNYMDRZSy9RQndOM1BKL0NQNDd6SHNGY3R3?=
- =?utf-8?B?ZnlJRFZKV3V6cWhtWStDS3N2azN5WTdrR0I4cndjZHF6WXJ5TERqUDB3ZkIy?=
- =?utf-8?B?N04vS2U2cW9yRE51aklMdW9jY0ZwSUx2QjNrY0N5enR6R1M1ZU5wTytCSHVF?=
- =?utf-8?B?dDVtL0dldlJXZ2lIWmVUR1RPMk1JWWt5YUk3UDlNdkFUZk9WbmNacVF1UFF4?=
- =?utf-8?B?cHJaY0pza2lhd2tnK0E1ZjFLVE0xT0JTSFQzWHpOb09WSGRoREZXNnVGdjRn?=
- =?utf-8?B?NkpNRUt4aWJNSUJZeDlBTVgrWnF5dXRXSVlzNWI3OWlDRVhNbVZWWVBONTU0?=
- =?utf-8?B?V2hPcXhQNlNjb25qbG14V3hHT2wyOTZpMFhXNzI1SzVaUitHRlZEOHVaY3Q1?=
- =?utf-8?B?ZXppbWEvRE1rcnFZSktQVWNzTjRNd0tYY1Y5MDVUdUVmeHFNNWFxdnZrbVds?=
- =?utf-8?B?TjlLUm9zc3RFMi9HR0tnd1kweHNFYUV1Z0lLTHlSS3hod3JkcFYyTkJvQVhu?=
- =?utf-8?B?MG4xbzc0clFzZkFtaXFDb2Z2a0pOTHZqVGV0OVN0aEN3VmxFRUZnUEV3YVM0?=
- =?utf-8?B?Y0VKY0hTYlVoOC9Ua1g5SzBSTUZZbDlFNkhJRlIzdzRUbUs4aFdtWVg3QXZH?=
- =?utf-8?B?ZUlnOWJkRXhLUFBFODRKSlJ6WUNKd3I1NW91OGhQTzA3eVkvWlVDU3Y3eGhv?=
- =?utf-8?B?Vzc3TGUva3VuMVlmcmI2UXNxNTNZYjNkVzdxTERlWU14cUxWVHZvNnkyRzZC?=
- =?utf-8?B?MWJqM2MyUkZPMktQM0F1bStMSFFZbi90bkZrNTg3b24wbjk0b0RtNkJhNGFU?=
- =?utf-8?B?Z0lvSjBydzgyL3Uzb3RjRnBEbWVXOEwwTnR3cTg3YmRlVmNzSUptcVhSMS9U?=
- =?utf-8?B?aW9ZeWlHbDVjbU9CZHp3dkJGNHpRVEl1RWJUSWVIT3ZId01lYWR3dEQ1UytL?=
- =?utf-8?B?Z2VmWE1RL1JiQnpvSmI1azZnSmxuRG5Bb0hHaEdSKzRxblFPYmZ4d0hmTjl2?=
- =?utf-8?B?UHFIbm5VL0FOdHNLTTFKTzRyVmRjZ3ZBVlowMlBJZkM1U25ZNG40Rk1PZUQv?=
- =?utf-8?B?UGlzUXZhNEJsbUg5MnRzWHZJRktNaUhXTUdLSWUyaWNFdDRsSVJTUnN4NzFS?=
- =?utf-8?B?KzB3Z2tjUkMrK1JOWnhxcGcycW9pL09seWZObVA2M3NOWmc3Z0xxYlVTSVQ1?=
- =?utf-8?B?d3RKMjc5ZVh3bVlBWWRPaXBsTmVaSkpXdTFaSU40cUtQZFBHMWh3WFM1Nk90?=
- =?utf-8?B?TTdENGtiNUFKdjRkZWZoQ2hsOFhJelVJLzR0UGVRU0M4SmExN0xUbnlPMWsz?=
- =?utf-8?B?N0E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d83bf28-d841-4ae3-1cae-08dd44ad8425
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB8200.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 23:50:19.5189 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pvssrrBoWICYVCWAmMyJgrTcT68COOyUmyNQ+qhzIkZPbX9Hv6BJBA/KM8cKchkVWrTpUw8MgdzOgRMHyOL6YQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5021
-X-OriginatorOrg: intel.com
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: GLAm10hC6rPMag2MPNuRpQ3p_H4OcDbo
+X-Proofpoint-ORIG-GUID: GLAm10hC6rPMag2MPNuRpQ3p_H4OcDbo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-03_10,2025-01-31_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ mlxscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 mlxlogscore=999 spamscore=0 clxscore=1015
+ suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2501170000 definitions=main-2502040002
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,108 +103,660 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2025-02-03 8:29 a.m., Andi Shyti wrote:
-> Hi,
+On 1/24/2025 1:47 PM, Dmitry Baryshkov wrote:
+> Setup the HDMI connector on the MSM HDMI outputs. Make use of
+> atomic_check hook and of the provided Infoframe infrastructure.
 > 
-> Please, next time, do not remove the mailing and the other folks
-> you cc'ed.
-> 
-> I'm adding back the mailing list and Daniele who has commented
-> before.
 
-Thanks, I also found my previous response click on "reply", not the 
-"reply all".
+By atomic_check are you referring to the 
+msm_hdmi_bridge_tmds_char_rate_valid()?
 
-> 
-> ...
-> 
->>>> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454
->>>> Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
->>>> Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
->>>> Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
->>>> Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
->>>
->>> There is an issue here, each fixes is introduced in different
->>> kernel versions and they can't be mixed all together as it would
->>> be impossible to backport them to the stable brances.
->>>
->>> E.g.:
->>> Fixes: 3e7abf814193 ("drm/i915: Extract GT render power state management")
->>> Cc: <stable@vger.kernel.org> # v5.5+
->>>
->>> Fixes: 2ae096872a2c ("drm/i915/pxp: Implement PXP irq handler")
->>> Cc: <stable@vger.kernel.org> # v5.16+
->>>
->>> Fixes: 54c52a841250 ("drm/i915/guc: Correctly handle GuC interrupts on Gen11")
->>> Cc: <stable@vger.kernel.org> # v5.3+
->>>
->>> Fixes: 26705e20752a ("drm/i915: Support for GuC interrupts")
->>> Cc: <stable@vger.kernel.org> # v4.10+
->>>
->>> Could you please split this patch in the four different patches
->>> that address the four different fixes?
->> Sure, will split it in next rev.
-> 
-> First of all we need to understand if those Fixes are really
-> needed or not. Daniele in his review has pointed out that...
-I agree with Daniele, these fixes is not needed.
+Also please confirm if HDMI audio was re-tested with these changes.
 
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>   drivers/gpu/drm/msm/Kconfig            |   2 +
+>   drivers/gpu/drm/msm/hdmi/hdmi.c        |  45 ++-------
+>   drivers/gpu/drm/msm/hdmi/hdmi.h        |  16 +--
+>   drivers/gpu/drm/msm/hdmi/hdmi_audio.c  |  74 ++++----------
+>   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 180 +++++++++++++++++++++++----------
+>   5 files changed, 162 insertions(+), 155 deletions(-)
 > 
->>>>
->>>
->>> No blank lines in the tag section, please.
->>>
->>>> Signed-off-by: Zhanjun Dong <zhanjun.dong@intel.com>
->>>>
->>>> ---
->>>> Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
->>>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
->>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>>> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
->>>> Cc: Andi Shyti <andi.shyti@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/i915/gt/intel_rps.c      | 3 +--
->>>>    drivers/gpu/drm/i915/gt/uc/intel_guc.c   | 4 ++--
->>>>    drivers/gpu/drm/i915/pxp/intel_pxp_irq.c | 2 +-
->>>>    3 files changed, 4 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gt/intel_rps.c b/drivers/gpu/drm/i915/gt/intel_rps.c
->>>> index fa304ea088e4..0fe7a8d7f460 100644
->>>> --- a/drivers/gpu/drm/i915/gt/intel_rps.c
->>>> +++ b/drivers/gpu/drm/i915/gt/intel_rps.c
->>>> @@ -244,8 +244,8 @@ static void rps_disable_interrupts(struct intel_rps *rps)
->>>>    	gen6_gt_pm_disable_irq(gt, GEN6_PM_RPS_EVENTS);
->>>>    	spin_unlock_irq(gt->irq_lock);
->>>> +	rps_reset_interrupts(rps);
-> 
-> ... the interrupts here are already disabled (read a couple of
-> lines above).
-> 
-> What is the reproduction rate of the issue? And how have you
-> tested it?
-I run the issue igt test 
-(https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/13454) on ARL 
-for more than 3000 loops, but no reproduce at all. This issue seems 
-happens few month a time, and auto closed by Jira as no reproduce after 
-few weeks.
-Due to the issue is hard to reproduce, what I do now is by code analysis.
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index 7ec833b6d8292f8cb26cfe5582812f2754cd4d35..974bc7c0ea761147d3326bdce9039d6f26f290d0 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -170,6 +170,8 @@ config DRM_MSM_HDMI
+>   	bool "Enable HDMI support in MSM DRM driver"
+>   	depends on DRM_MSM
+>   	default y
+> +	select DRM_DISPLAY_HDMI_HELPER
+> +	select DRM_DISPLAY_HDMI_STATE_HELPER
+>   	help
+>   	  Compile in support for the HDMI output MSM DRM driver. It can
+>   	  be a primary or a secondary display on device. Note that this is used
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> index 37b3809c6bdd7c35aca6b475cb1f41c0ab4d3e6d..b14205cb9e977edd0d849e0eafe9b69c0da594bd 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
+> @@ -12,6 +12,7 @@
+>   
+>   #include <drm/drm_bridge_connector.h>
+>   #include <drm/drm_of.h>
+> +#include <drm/display/drm_hdmi_state_helper.h>
+>   
+>   #include <sound/hdmi-codec.h>
+>   #include "hdmi.h"
+> @@ -165,8 +166,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
+>   	hdmi->dev = dev;
+>   	hdmi->encoder = encoder;
+>   
+> -	hdmi_audio_infoframe_init(&hdmi->audio.infoframe);
+> -
+>   	ret = msm_hdmi_bridge_init(hdmi);
+>   	if (ret) {
+>   		DRM_DEV_ERROR(dev->dev, "failed to create HDMI bridge: %d\n", ret);
+> @@ -254,40 +253,12 @@ static int msm_hdmi_audio_hw_params(struct device *dev, void *data,
+>   				    struct hdmi_codec_params *params)
+>   {
+>   	struct hdmi *hdmi = dev_get_drvdata(dev);
+> -	unsigned int chan;
+> -	unsigned int channel_allocation = 0;
+>   	unsigned int rate;
+> -	unsigned int level_shift  = 0; /* 0dB */
+> -	bool down_mix = false;
+> +	int ret;
+>   
+>   	DRM_DEV_DEBUG(dev, "%u Hz, %d bit, %d channels\n", params->sample_rate,
+>   		 params->sample_width, params->cea.channels);
+>   
+> -	switch (params->cea.channels) {
+> -	case 2:
+> -		/* FR and FL speakers */
+> -		channel_allocation  = 0;
+> -		chan = MSM_HDMI_AUDIO_CHANNEL_2;
+> -		break;
+> -	case 4:
+> -		/* FC, LFE, FR and FL speakers */
+> -		channel_allocation  = 0x3;
+> -		chan = MSM_HDMI_AUDIO_CHANNEL_4;
+> -		break;
+> -	case 6:
+> -		/* RR, RL, FC, LFE, FR and FL speakers */
+> -		channel_allocation  = 0x0B;
+> -		chan = MSM_HDMI_AUDIO_CHANNEL_6;
+> -		break;
+> -	case 8:
+> -		/* FRC, FLC, RR, RL, FC, LFE, FR and FL speakers */
+> -		channel_allocation  = 0x1F;
+> -		chan = MSM_HDMI_AUDIO_CHANNEL_8;
+> -		break;
+> -	default:
+> -		return -EINVAL;
+> -	}
 
-Regards,
-Zhanjun Dong
+This mapping table was doing two things:
 
-> 
-> Thanks,
-> Andi
-> 
->>>>    	intel_synchronize_irq(gt->i915);
->>>> -
->>>
->>> Sebastian has already commented in his review, but please don't
->>> remove this blank line.
->>>
->>> Andi
->>>
->>>>    	/*
->>>>    	 * Now that we will not be generating any more work, flush any
->>>>    	 * outstanding tasks. As we are called on the RPS idle path,
+1) drop the conversion of channels to an index to nchannels[] and use 
+the channels directly. This part is fine but could have been a separate 
+change by itself to show the redundancy.
 
+2) drop the mapping table of channels to channel_allocation.
+I am not fully sure of this. Was this done because 
+hdmi_codec_channel_alloc[] table in hdmi-codec does this for us?
+hdmi_codec_get_ch_alloc_table_idx() uses channels and the flags to come 
+up with the idx into this table. But it seems like current MSM HDMI code 
+did not consider the flags. So for example, it seems like for 6 
+channels, we could return any of the below based on the flags but MSM 
+HDMI always used 0x0B so will the values match?
+
+202 	{ .ca_id = 0x0b, .n_ch = 6,
+203 	  .mask = FL | FR | LFE | FC | RL | RR},
+204 	/* surround40 */
+205 	{ .ca_id = 0x08, .n_ch = 6,
+206 	  .mask = FL | FR | RL | RR },
+207 	/* surround41 */
+208 	{ .ca_id = 0x09, .n_ch = 6,
+209 	  .mask = FL | FR | LFE | RL | RR },
+210 	/* surround50 */
+211 	{ .ca_id = 0x0a, .n_ch = 6,
+212 	  .mask = FL | FR | FC | RL | RR },
+213 	/* 6.1 */
+
+
+> -
+>   	switch (params->sample_rate) {
+>   	case 32000:
+>   		rate = HDMI_SAMPLE_RATE_32KHZ;
+> @@ -316,9 +287,12 @@ static int msm_hdmi_audio_hw_params(struct device *dev, void *data,
+>   		return -EINVAL;
+>   	}
+>   
+> -	msm_hdmi_audio_set_sample_rate(hdmi, rate);
+> -	msm_hdmi_audio_info_setup(hdmi, 1, chan, channel_allocation,
+> -			      level_shift, down_mix);
+> +	ret = drm_atomic_helper_connector_hdmi_update_audio_infoframe(hdmi->connector,
+> +								      &params->cea);
+> +	if (ret)
+> +		return ret;
+> +
+> +	msm_hdmi_audio_info_setup(hdmi, rate, params->cea.channels);
+>   
+>   	return 0;
+>   }
+> @@ -327,7 +301,8 @@ static void msm_hdmi_audio_shutdown(struct device *dev, void *data)
+>   {
+>   	struct hdmi *hdmi = dev_get_drvdata(dev);
+>   
+> -	msm_hdmi_audio_info_setup(hdmi, 0, 0, 0, 0, 0);
+> +	drm_atomic_helper_connector_hdmi_clear_audio_infoframe(hdmi->connector);
+> +	msm_hdmi_audio_disable(hdmi);
+>   }
+>   
+>   static const struct hdmi_codec_ops msm_hdmi_audio_codec_ops = {
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> index a62d2aedfbb7239d37c826c4f96762f100a2be4a..53b52351d0eddf4a5c87a5290016bb53ed4d29f7 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
+> @@ -24,8 +24,8 @@ struct hdmi_platform_config;
+>   
+>   struct hdmi_audio {
+>   	bool enabled;
+> -	struct hdmi_audio_infoframe infoframe;
+>   	int rate;
+> +	int channels;
+>   };
+>   
+>   struct hdmi_hdcp_ctrl;
+> @@ -207,12 +207,6 @@ static inline int msm_hdmi_pll_8998_init(struct platform_device *pdev)
+>   /*
+>    * audio:
+>    */
+> -/* Supported HDMI Audio channels and rates */
+> -#define	MSM_HDMI_AUDIO_CHANNEL_2	0
+> -#define	MSM_HDMI_AUDIO_CHANNEL_4	1
+> -#define	MSM_HDMI_AUDIO_CHANNEL_6	2
+> -#define	MSM_HDMI_AUDIO_CHANNEL_8	3
+> -
+>   #define	HDMI_SAMPLE_RATE_32KHZ		0
+>   #define	HDMI_SAMPLE_RATE_44_1KHZ	1
+>   #define	HDMI_SAMPLE_RATE_48KHZ		2
+> @@ -221,12 +215,8 @@ static inline int msm_hdmi_pll_8998_init(struct platform_device *pdev)
+>   #define	HDMI_SAMPLE_RATE_176_4KHZ	5
+>   #define	HDMI_SAMPLE_RATE_192KHZ		6
+>   
+> -int msm_hdmi_audio_update(struct hdmi *hdmi);
+> -int msm_hdmi_audio_info_setup(struct hdmi *hdmi, bool enabled,
+> -	uint32_t num_of_channels, uint32_t channel_allocation,
+> -	uint32_t level_shift, bool down_mix);
+> -void msm_hdmi_audio_set_sample_rate(struct hdmi *hdmi, int rate);
+> -
+> +int msm_hdmi_audio_info_setup(struct hdmi *hdmi, int rate, int channels);
+> +int msm_hdmi_audio_disable(struct hdmi *hdmi);
+>   
+>   /*
+>    * hdmi bridge:
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_audio.c b/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
+> index 4c2058c4adc1001a12e10f35e88a6d58f3bd2fdc..924654bfb48cf17feadea1c0661ee6ee4e1b4589 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
+> @@ -7,9 +7,6 @@
+>   #include <linux/hdmi.h>
+>   #include "hdmi.h"
+>   
+> -/* maps MSM_HDMI_AUDIO_CHANNEL_n consts used by audio driver to # of channels: */
+> -static int nchannels[] = { 2, 4, 6, 8 };
+> -
+>   /* Supported HDMI Audio sample rates */
+>   #define MSM_HDMI_SAMPLE_RATE_32KHZ		0
+>   #define MSM_HDMI_SAMPLE_RATE_44_1KHZ		1
+> @@ -71,19 +68,20 @@ static const struct hdmi_msm_audio_arcs *get_arcs(unsigned long int pixclock)
+>   	return NULL;
+>   }
+>   
+> -int msm_hdmi_audio_update(struct hdmi *hdmi)
+> +static int msm_hdmi_audio_update(struct hdmi *hdmi)
+>   {
+>   	struct hdmi_audio *audio = &hdmi->audio;
+> -	struct hdmi_audio_infoframe *info = &audio->infoframe;
+>   	const struct hdmi_msm_audio_arcs *arcs = NULL;
+>   	bool enabled = audio->enabled;
+>   	uint32_t acr_pkt_ctrl, vbi_pkt_ctrl, aud_pkt_ctrl;
+> -	uint32_t infofrm_ctrl, audio_config;
+> +	uint32_t audio_config;
+> +
+> +	if (!hdmi->connector->display_info.is_hdmi)
+> +		return -EINVAL;
+> +
+> +	DBG("audio: enabled=%d, channels=%d, rate=%d",
+> +	    audio->enabled, audio->channels, audio->rate);
+>   
+> -	DBG("audio: enabled=%d, channels=%d, channel_allocation=0x%x, "
+> -		"level_shift_value=%d, downmix_inhibit=%d, rate=%d",
+> -		audio->enabled, info->channels,  info->channel_allocation,
+> -		info->level_shift_value, info->downmix_inhibit, audio->rate);
+>   	DBG("video: power_on=%d, pixclock=%lu", hdmi->power_on, hdmi->pixclock);
+>   
+>   	if (enabled && !(hdmi->power_on && hdmi->pixclock)) {
+> @@ -104,7 +102,6 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
+>   	acr_pkt_ctrl = hdmi_read(hdmi, REG_HDMI_ACR_PKT_CTRL);
+>   	vbi_pkt_ctrl = hdmi_read(hdmi, REG_HDMI_VBI_PKT_CTRL);
+>   	aud_pkt_ctrl = hdmi_read(hdmi, REG_HDMI_AUDIO_PKT_CTRL1);
+> -	infofrm_ctrl = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL0);
+>   	audio_config = hdmi_read(hdmi, REG_HDMI_AUDIO_CFG);
+>   
+>   	/* Clear N/CTS selection bits */
+> @@ -113,7 +110,6 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
+>   	if (enabled) {
+>   		uint32_t n, cts, multiplier;
+>   		enum hdmi_acr_cts select;
+> -		uint8_t buf[14];
+>   
+>   		n   = arcs->lut[audio->rate].n;
+>   		cts = arcs->lut[audio->rate].cts;
+> @@ -155,20 +151,12 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
+>   				HDMI_ACR_1_N(n));
+>   
+>   		hdmi_write(hdmi, REG_HDMI_AUDIO_PKT_CTRL2,
+> -				COND(info->channels != 2, HDMI_AUDIO_PKT_CTRL2_LAYOUT) |
+> +				COND(audio->channels != 2, HDMI_AUDIO_PKT_CTRL2_LAYOUT) |
+>   				HDMI_AUDIO_PKT_CTRL2_OVERRIDE);
+>   
+>   		acr_pkt_ctrl |= HDMI_ACR_PKT_CTRL_CONT;
+>   		acr_pkt_ctrl |= HDMI_ACR_PKT_CTRL_SEND;
+>   
+> -		/* configure infoframe: */
+> -		hdmi_audio_infoframe_pack(info, buf, sizeof(buf));
+> -		hdmi_write(hdmi, REG_HDMI_AUDIO_INFO0,
+> -				(buf[3] <<  0) | (buf[4] <<  8) |
+> -				(buf[5] << 16) | (buf[6] << 24));
+> -		hdmi_write(hdmi, REG_HDMI_AUDIO_INFO1,
+> -				(buf[7] <<  0) | (buf[8] << 8));
+> -
+>   		hdmi_write(hdmi, REG_HDMI_GC, 0);
+>   
+>   		vbi_pkt_ctrl |= HDMI_VBI_PKT_CTRL_GC_ENABLE;
+> @@ -176,11 +164,6 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
+>   
+>   		aud_pkt_ctrl |= HDMI_AUDIO_PKT_CTRL1_AUDIO_SAMPLE_SEND;
+>   
+> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND;
+> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT;
+> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE;
+> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE;
+> -
+>   		audio_config &= ~HDMI_AUDIO_CFG_FIFO_WATERMARK__MASK;
+>   		audio_config |= HDMI_AUDIO_CFG_FIFO_WATERMARK(4);
+>   		audio_config |= HDMI_AUDIO_CFG_ENGINE_ENABLE;
+> @@ -190,17 +173,12 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
+>   		vbi_pkt_ctrl &= ~HDMI_VBI_PKT_CTRL_GC_ENABLE;
+>   		vbi_pkt_ctrl &= ~HDMI_VBI_PKT_CTRL_GC_EVERY_FRAME;
+>   		aud_pkt_ctrl &= ~HDMI_AUDIO_PKT_CTRL1_AUDIO_SAMPLE_SEND;
+> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND;
+> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT;
+> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE;
+> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE;
+>   		audio_config &= ~HDMI_AUDIO_CFG_ENGINE_ENABLE;
+>   	}
+>   
+>   	hdmi_write(hdmi, REG_HDMI_ACR_PKT_CTRL, acr_pkt_ctrl);
+>   	hdmi_write(hdmi, REG_HDMI_VBI_PKT_CTRL, vbi_pkt_ctrl);
+>   	hdmi_write(hdmi, REG_HDMI_AUDIO_PKT_CTRL1, aud_pkt_ctrl);
+> -	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, infofrm_ctrl);
+>   
+>   	hdmi_write(hdmi, REG_HDMI_AUD_INT,
+>   			COND(enabled, HDMI_AUD_INT_AUD_FIFO_URUN_INT) |
+> @@ -214,41 +192,29 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
+>   	return 0;
+>   }
+>   
+> -int msm_hdmi_audio_info_setup(struct hdmi *hdmi, bool enabled,
+> -	uint32_t num_of_channels, uint32_t channel_allocation,
+> -	uint32_t level_shift, bool down_mix)
+> +int msm_hdmi_audio_info_setup(struct hdmi *hdmi, int rate, int channels)
+>   {
+> -	struct hdmi_audio *audio;
+> -
+>   	if (!hdmi)
+>   		return -ENXIO;
+>   
+> -	audio = &hdmi->audio;
+> -
+> -	if (num_of_channels >= ARRAY_SIZE(nchannels))
+> +	if ((rate < 0) || (rate >= MSM_HDMI_SAMPLE_RATE_MAX))
+>   		return -EINVAL;
+>   
+> -	audio->enabled = enabled;
+> -	audio->infoframe.channels = nchannels[num_of_channels];
+> -	audio->infoframe.channel_allocation = channel_allocation;
+> -	audio->infoframe.level_shift_value = level_shift;
+> -	audio->infoframe.downmix_inhibit = down_mix;
+> +	hdmi->audio.rate = rate;
+> +	hdmi->audio.channels = channels;
+> +	hdmi->audio.enabled = true;
+>   
+>   	return msm_hdmi_audio_update(hdmi);
+>   }
+>   
+> -void msm_hdmi_audio_set_sample_rate(struct hdmi *hdmi, int rate)
+> +int msm_hdmi_audio_disable(struct hdmi *hdmi)
+>   {
+> -	struct hdmi_audio *audio;
+> -
+>   	if (!hdmi)
+> -		return;
+> -
+> -	audio = &hdmi->audio;
+> +		return -ENXIO;
+>   
+> -	if ((rate < 0) || (rate >= MSM_HDMI_SAMPLE_RATE_MAX))
+> -		return;
+> +	hdmi->audio.rate = 0;
+> +	hdmi->audio.channels = 2;
+> +	hdmi->audio.enabled = false;
+>   
+> -	audio->rate = rate;
+> -	msm_hdmi_audio_update(hdmi);
+> +	return msm_hdmi_audio_update(hdmi);
+>   }
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> index d5ab1f74c0e6f47dc59872c016104e9a84d85e9e..168b4104e705e8217f5d7ca5f902d7557c55ae24 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> @@ -7,6 +7,8 @@
+>   #include <linux/delay.h>
+>   #include <drm/drm_bridge_connector.h>
+>   #include <drm/drm_edid.h>
+> +#include <drm/display/drm_hdmi_helper.h>
+> +#include <drm/display/drm_hdmi_state_helper.h>
+>   
+>   #include "msm_kms.h"
+>   #include "hdmi.h"
+> @@ -68,23 +70,17 @@ static void power_off(struct drm_bridge *bridge)
+>   
+>   #define AVI_IFRAME_LINE_NUMBER 1
+>   
+> -static void msm_hdmi_config_avi_infoframe(struct hdmi *hdmi)
+> +static int msm_hdmi_config_avi_infoframe(struct hdmi *hdmi,
+> +					 const u8 *buffer, size_t len)
+>   {
+> -	struct drm_crtc *crtc = hdmi->encoder->crtc;
+> -	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
+> -	union hdmi_infoframe frame;
+> -	u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
+> +	u32 buf[4] = {};
+>   	u32 val;
+> -	int len;
+> +	int i;
+>   
+> -	drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
+> -						 hdmi->connector, mode);
+> -
+> -	len = hdmi_infoframe_pack(&frame, buffer, sizeof(buffer));
+> -	if (len < 0) {
+> +	if (len != HDMI_INFOFRAME_SIZE(AVI) || len - 3 > sizeof(buf)) {
+>   		DRM_DEV_ERROR(&hdmi->pdev->dev,
+>   			"failed to configure avi infoframe\n");
+> -		return;
+> +		return -EINVAL;
+>   	}
+>   
+>   	/*
+> @@ -93,37 +89,118 @@ static void msm_hdmi_config_avi_infoframe(struct hdmi *hdmi)
+>   	 * written to the LSB byte of AVI_INFO0 and the version is written to
+>   	 * the third byte from the LSB of AVI_INFO3
+>   	 */
+> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(0),
+> +	memcpy(buf, &buffer[3], len - 3);
+> +
+> +	buf[3] |= buffer[1] << 24;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(buf); i++)
+> +		hdmi_write(hdmi, REG_HDMI_AVI_INFO(i), buf[i]);
+> +
+> +	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
+> +	val |= HDMI_INFOFRAME_CTRL0_AVI_SEND |
+> +		HDMI_INFOFRAME_CTRL0_AVI_CONT;
+> +	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
+> +
+> +	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
+> +	val &= ~HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK;
+> +	val |= HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE(AVI_IFRAME_LINE_NUMBER);
+> +	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_hdmi_config_audio_infoframe(struct hdmi *hdmi,
+> +					   const u8 *buffer, size_t len)
+> +{
+> +	u32 val;
+> +
+> +	if (len != HDMI_INFOFRAME_SIZE(AUDIO)) {
+> +		DRM_DEV_ERROR(&hdmi->pdev->dev,
+> +			"failed to configure audio infoframe\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	hdmi_write(hdmi, REG_HDMI_AUDIO_INFO0,
+>   		   buffer[3] |
+>   		   buffer[4] << 8 |
+>   		   buffer[5] << 16 |
+>   		   buffer[6] << 24);
+>   
+> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(1),
+> +	hdmi_write(hdmi, REG_HDMI_AUDIO_INFO1,
+>   		   buffer[7] |
+>   		   buffer[8] << 8 |
+>   		   buffer[9] << 16 |
+>   		   buffer[10] << 24);
+>   
+> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(2),
+> -		   buffer[11] |
+> -		   buffer[12] << 8 |
+> -		   buffer[13] << 16 |
+> -		   buffer[14] << 24);
+> +	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
+> +	val |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND |
+> +		HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT |
+> +		HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE |
+> +		HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE;
+> +	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_hdmi_bridge_clear_infoframe(struct drm_bridge *bridge,
+> +					   enum hdmi_infoframe_type type)
+> +{
+> +	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> +	struct hdmi *hdmi = hdmi_bridge->hdmi;
+> +	u32 val;
+> +
+> +	switch (type) {
+> +	case HDMI_INFOFRAME_TYPE_AVI:
+> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL0);
+> +		val &= ~(HDMI_INFOFRAME_CTRL0_AVI_SEND |
+> +			 HDMI_INFOFRAME_CTRL0_AVI_CONT);
+> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
+>   
+> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(3),
+> -		   buffer[15] |
+> -		   buffer[16] << 8 |
+> -		   buffer[1] << 24);
+> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
+> +		val &= ~HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK;
+> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
+>   
+> -	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0,
+> -		   HDMI_INFOFRAME_CTRL0_AVI_SEND |
+> -		   HDMI_INFOFRAME_CTRL0_AVI_CONT);
+> +		break;
+>   
+> -	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
+> -	val &= ~HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK;
+> -	val |= HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE(AVI_IFRAME_LINE_NUMBER);
+> -	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
+> +	case HDMI_INFOFRAME_TYPE_AUDIO:
+> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL0);
+> +		val &= ~(HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND |
+> +			 HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT |
+> +			 HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE |
+> +			 HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE);
+> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
+> +
+> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
+> +		val &= ~HDMI_INFOFRAME_CTRL1_AUDIO_INFO_LINE__MASK;
+> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
+> +
+> +		break;
+> +
+> +	default:
+> +		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_hdmi_bridge_write_infoframe(struct drm_bridge *bridge,
+> +					   enum hdmi_infoframe_type type,
+> +					   const u8 *buffer, size_t len)
+> +{
+> +	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+> +	struct hdmi *hdmi = hdmi_bridge->hdmi;
+> +
+> +	msm_hdmi_bridge_clear_infoframe(bridge, type);
+> +
+> +	switch (type) {
+> +	case HDMI_INFOFRAME_TYPE_AVI:
+> +		return msm_hdmi_config_avi_infoframe(hdmi, buffer, len);
+> +	case HDMI_INFOFRAME_TYPE_AUDIO:
+> +		return msm_hdmi_config_audio_infoframe(hdmi, buffer, len);
+> +	default:
+> +		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
+> +		return 0;
+> +	}
+>   }
+>   
+>   static void msm_hdmi_bridge_atomic_set_timings(struct hdmi *hdmi,
+> @@ -146,16 +223,16 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+>   	conn_state = drm_atomic_get_new_connector_state(state, connector);
+>   	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+>   
+> +	hdmi->pixclock = conn_state->hdmi.tmds_char_rate;
+> +
+>   	if (!hdmi->power_on) {
+>   		msm_hdmi_phy_resource_enable(phy);
+>   		msm_hdmi_power_on(bridge);
+>   		hdmi->power_on = true;
+> -		if (hdmi->hdmi_mode) {
+> -			msm_hdmi_config_avi_infoframe(hdmi);
+> -			msm_hdmi_audio_update(hdmi);
+> -		}
+>   	}
+>   
+> +	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
+> +
+>   	msm_hdmi_phy_powerup(phy, hdmi->pixclock);
+>   
+>   	msm_hdmi_set_mode(hdmi, true);
+> @@ -184,8 +261,6 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
+>   	if (hdmi->power_on) {
+>   		power_off(bridge);
+>   		hdmi->power_on = false;
+> -		if (hdmi->hdmi_mode)
+> -			msm_hdmi_audio_update(hdmi);
+>   		msm_hdmi_phy_resource_disable(phy);
+>   	}
+>   }
+> @@ -196,8 +271,6 @@ static void msm_hdmi_bridge_atomic_set_timings(struct hdmi *hdmi,
+>   	int hstart, hend, vstart, vend;
+>   	uint32_t frame_ctrl;
+>   
+> -	hdmi->pixclock = mode->clock * 1000;
+> -
+>   	hstart = mode->htotal - mode->hsync_start;
+>   	hend   = mode->htotal - mode->hsync_start + mode->hdisplay;
+>   
+> @@ -241,9 +314,6 @@ static void msm_hdmi_bridge_atomic_set_timings(struct hdmi *hdmi,
+>   		frame_ctrl |= HDMI_FRAME_CTRL_INTERLACED_EN;
+>   	DBG("frame_ctrl=%08x", frame_ctrl);
+>   	hdmi_write(hdmi, REG_HDMI_FRAME_CTRL, frame_ctrl);
+> -
+> -	if (hdmi->hdmi_mode)
+> -		msm_hdmi_audio_update(hdmi);
+>   }
+>   
+>   static const struct drm_edid *msm_hdmi_bridge_edid_read(struct drm_bridge *bridge,
+> @@ -275,18 +345,16 @@ static const struct drm_edid *msm_hdmi_bridge_edid_read(struct drm_bridge *bridg
+>   	return drm_edid;
+>   }
+>   
+> -static enum drm_mode_status msm_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
+> -		const struct drm_display_info *info,
+> -		const struct drm_display_mode *mode)
+> +static enum drm_mode_status msm_hdmi_bridge_tmds_char_rate_valid(const struct drm_bridge *bridge,
+> +								 const struct drm_display_mode *mode,
+> +								 unsigned long long tmds_rate)
+>   {
+>   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
+>   	struct hdmi *hdmi = hdmi_bridge->hdmi;
+>   	const struct hdmi_platform_config *config = hdmi->config;
+>   	struct msm_drm_private *priv = bridge->dev->dev_private;
+>   	struct msm_kms *kms = priv->kms;
+> -	long actual, requested;
+> -
+> -	requested = 1000 * mode->clock;
+> +	long actual;
+>   
+>   	/* for mdp5/apq8074, we manage our own pixel clk (as opposed to
+>   	 * mdp4/dtv stuff where pixel clk is assigned to mdp/encoder
+> @@ -294,15 +362,16 @@ static enum drm_mode_status msm_hdmi_bridge_mode_valid(struct drm_bridge *bridge
+>   	 */
+>   	if (kms->funcs->round_pixclk)
+>   		actual = kms->funcs->round_pixclk(kms,
+> -			requested, hdmi_bridge->hdmi->encoder);
+> +						  tmds_rate,
+> +						  hdmi_bridge->hdmi->encoder);
+>   	else if (config->pwr_clk_cnt > 0)
+> -		actual = clk_round_rate(hdmi->pwr_clks[0], requested);
+> +		actual = clk_round_rate(hdmi->pwr_clks[0], tmds_rate);
+>   	else
+> -		actual = requested;
+> +		actual = tmds_rate;
+>   
+> -	DBG("requested=%ld, actual=%ld", requested, actual);
+> +	DBG("requested=%lld, actual=%ld", tmds_rate, actual);
+>   
+> -	if (actual != requested)
+> +	if (actual != tmds_rate)
+>   		return MODE_CLOCK_RANGE;
+>   
+>   	return 0;
+> @@ -314,9 +383,11 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
+>   	.atomic_reset = drm_atomic_helper_bridge_reset,
+>   	.atomic_pre_enable = msm_hdmi_bridge_atomic_pre_enable,
+>   	.atomic_post_disable = msm_hdmi_bridge_atomic_post_disable,
+> -	.mode_valid = msm_hdmi_bridge_mode_valid,
+>   	.edid_read = msm_hdmi_bridge_edid_read,
+>   	.detect = msm_hdmi_bridge_detect,
+> +	.hdmi_tmds_char_rate_valid = msm_hdmi_bridge_tmds_char_rate_valid,
+> +	.hdmi_clear_infoframe = msm_hdmi_bridge_clear_infoframe,
+> +	.hdmi_write_infoframe = msm_hdmi_bridge_write_infoframe,
+>   };
+>   
+>   static void
+> @@ -348,8 +419,11 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi)
+>   	bridge->funcs = &msm_hdmi_bridge_funcs;
+>   	bridge->ddc = hdmi->i2c;
+>   	bridge->type = DRM_MODE_CONNECTOR_HDMIA;
+> +	bridge->vendor = "Qualcomm";
+> +	bridge->product = "Snapdragon";
+>   	bridge->ops = DRM_BRIDGE_OP_HPD |
+>   		DRM_BRIDGE_OP_DETECT |
+> +		DRM_BRIDGE_OP_HDMI |
+>   		DRM_BRIDGE_OP_EDID;
+>   
+>   	ret = devm_drm_bridge_add(hdmi->dev->dev, bridge);
+> 
