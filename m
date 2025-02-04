@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6550A27512
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ADA9A27515
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBF910E67E;
-	Tue,  4 Feb 2025 14:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF9410E681;
+	Tue,  4 Feb 2025 14:59:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JoOETwGG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nX+1MVXm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B27AA10E67E
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:31 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92FB210E680
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2D45A5C6A78;
- Tue,  4 Feb 2025 14:58:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFFADC4CEDF;
- Tue,  4 Feb 2025 14:59:29 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E290EA41AE0;
+ Tue,  4 Feb 2025 14:57:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E16CC4CEDF;
+ Tue,  4 Feb 2025 14:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738681170;
- bh=IsLcaSzqUGcvKoh6I2/AcIjueeOnYRkY+MVrclZ/tE0=;
+ s=k20201202; t=1738681173;
+ bh=tFfKlGt5RgPkNRrTsf4WzrnPOiwCyYjT9iW7xh93qcc=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=JoOETwGGczUJTLL5o7Y5Sji4gaubqHM1a86jn5m0cXFl0PQGR8s+qeLmcrV7iiVCC
- lyW40uZpNIdiiBeYnfvuu8B/MfUMy5baKUYWdMAB1joSaFnW736VydCG+5r+5vct0u
- IAJVka+12kF90ORWrqj2Jw56b3gN7EsLlavcbdBLsakDiI6GXWFussWOqbdtxf5tvm
- SLqxiNT+sruPG6AQMEuFkAecs1vqIoILKcsFlaBmywk4SDkB0DYZLOFTCxGdS0kFud
- 746QwwuJee+ySSV3r7YqWU8IB5gx6FMQraidgWjDSWiS8hl7c5gCWgp9q3hM6+Wp9x
- ezrqK0rAb+J9Q==
+ b=nX+1MVXm+faCKMAvWUz3Tvqu8fcmR/WZUwfCfQT42XCPwcpFVPL84HHcS1VRCHeeC
+ V3yfpOPzK4XkloJ7nB/L+Wzj4n+pKCJZQzGYfr8ZGOYibZfLU5XJAQyxuUgYO+HOCV
+ pQQQ8Zf5Cqf3ivAcNiaJcozHGc+AvNn4iJVvhsyn06DPG2s+CL7R07Y+VqIBFlkhWr
+ 3pEkkqGSq305J7d86NM5ZJc/QBOUVpeKY83Rz3gbB4retR7NCmtNzCZkOu6uQ4fmdD
+ A2xl5nKRRY9vUAgojhkxicXv/eUy/MyME3w0DQ7AJy6b6VPW7KqpgRyXvGrh0rtF7i
+ CvwOeiIZa8AGQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Feb 2025 15:57:44 +0100
-Subject: [PATCH v2 16/35] drm/atomic-helper: Change parameter name of
- drm_atomic_helper_commit_planes()
+Date: Tue, 04 Feb 2025 15:57:45 +0100
+Subject: [PATCH v2 17/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_commit_modeset_enables()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-bridge-connector-v2-16-35dd6c834e08@kernel.org>
+Message-Id: <20250204-bridge-connector-v2-17-35dd6c834e08@kernel.org>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 In-Reply-To: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,12 +50,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4891; i=mripard@kernel.org;
- h=from:subject:message-id; bh=IsLcaSzqUGcvKoh6I2/AcIjueeOnYRkY+MVrclZ/tE0=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtD4k3mALfv/62Ldvxyy2pP1mU3ZP+mXx4N9JKTUDB
- 3ZhpYamjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRu/MZG5pWcMhw61ySTNmR
- t/VKxMb94rkLAnoenVkQKp3SdlXuZOKbgidN9Y2CZ7fsVBa2Tq14yVhnv7rl5e/ePNHf5w5v3pz
- k//HDGx2hzcmTvvwxYxW1ElgcuFbcZ0PduvtvvtjpzBLYcmMtAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4126; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=tFfKlGt5RgPkNRrTsf4WzrnPOiwCyYjT9iW7xh93qcc=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtD788A//MGfdwzD7vd9Pv3nAo7Pc7W5sz/RDev/3y
+ u8u9F+o0zGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmklfE2LDV2NavuOh3L59i
+ nHtwc+HzRz8mMtQEKbHMnrzjefiz3HOHn8psUm18yb+xyCswYqbFYsY6c7eSm5yX92yTyHP6rLq
+ epdXwJ2e+ZkoBy+1rd96emre9jdvymkvcqTuLDl69ukV/ldclAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,131 +73,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_commit_planes() updates all planes affected by a new
-commit. It takes the drm_atomic_state being committed as a parameter.
+drm_atomic_helper_commit_modeset_enables() enables all outputs affected
+by a new commit. It takes the drm_atomic_state being committed as a
+parameter.
 
 However, that parameter name is called (and documented) as old_state,
 which is pretty confusing. Let's rename that variable as state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 55c91f2821d550c8af52b71d8f452e0fdee997e4..9f3cf5df0dd810e3725bf44a02a9574f676f17de 100644
+index 9f3cf5df0dd810e3725bf44a02a9574f676f17de..b95e30dee1b4e2ba8991affd1e280a7a36171afd 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -2719,19 +2719,19 @@ static bool plane_crtc_active(const struct drm_plane_state *state)
+@@ -1474,11 +1474,11 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
  }
  
  /**
-  * drm_atomic_helper_commit_planes - commit plane state
+  * drm_atomic_helper_commit_modeset_enables - modeset commit to enable outputs
   * @dev: DRM device
 - * @old_state: atomic state object with old state structures
 + * @state: atomic state object being committed
-  * @flags: flags for committing plane state
   *
-  * This function commits the new plane state using the plane and atomic helper
-  * functions for planes and CRTCs. It assumes that the atomic state has already
-  * been pushed into the relevant object state pointers, since this step can no
-  * longer fail.
+  * This function enables all the outputs with the new configuration which had to
+  * be turned off for the update.
   *
-- * It still requires the global state object @old_state to know which planes and
-+ * It still requires the global state object @state to know which planes and
-  * crtcs need to be updated though.
-  *
-  * Note that this function does all plane updates across all CRTCs in one step.
-  * If the hardware can't support this approach look at
-  * drm_atomic_helper_commit_planes_on_crtc() instead.
-@@ -2758,36 +2758,36 @@ static bool plane_crtc_active(const struct drm_plane_state *state)
-  * The drm_atomic_helper_commit() default implementation doesn't set the
-  * ACTIVE_ONLY flag to most closely match the behaviour of the legacy helpers.
-  * This should not be copied blindly by drivers.
+  * For compatibility with legacy CRTC helpers this should be called after
+@@ -1486,20 +1486,20 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+  * does. But drivers with different needs can group the modeset commits together
+  * and do the plane commits at the end. This is useful for drivers doing runtime
+  * PM since planes updates then only happen when the CRTC is actually enabled.
   */
- void drm_atomic_helper_commit_planes(struct drm_device *dev,
--				     struct drm_atomic_state *old_state,
-+				     struct drm_atomic_state *state,
- 				     uint32_t flags)
+ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+-					      struct drm_atomic_state *old_state)
++					      struct drm_atomic_state *state)
  {
  	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_plane *plane;
- 	struct drm_plane_state *old_plane_state, *new_plane_state;
+ 	struct drm_crtc_state *old_crtc_state;
+ 	struct drm_crtc_state *new_crtc_state;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *new_conn_state;
  	int i;
- 	bool active_only = flags & DRM_PLANE_COMMIT_ACTIVE_ONLY;
- 	bool no_disable = flags & DRM_PLANE_COMMIT_NO_DISABLE_AFTER_MODESET;
  
 -	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
 +	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
  		const struct drm_crtc_helper_funcs *funcs;
  
- 		funcs = crtc->helper_private;
- 
- 		if (!funcs || !funcs->atomic_begin)
+ 		/* Need to filter out CRTCs where only planes change. */
+ 		if (!drm_atomic_crtc_needs_modeset(new_crtc_state))
  			continue;
+@@ -1511,17 +1511,17 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
  
- 		if (active_only && !new_crtc_state->active)
- 			continue;
- 
--		funcs->atomic_begin(crtc, old_state);
-+		funcs->atomic_begin(crtc, state);
- 	}
- 
--	for_each_oldnew_plane_in_state(old_state, plane, old_plane_state, new_plane_state, i) {
-+	for_each_oldnew_plane_in_state(state, plane, old_plane_state, new_plane_state, i) {
- 		const struct drm_plane_helper_funcs *funcs;
- 		bool disabling;
- 
- 		funcs = plane->helper_private;
- 
-@@ -2821,40 +2821,40 @@ void drm_atomic_helper_commit_planes(struct drm_device *dev,
- 
- 			if (drm_atomic_crtc_needs_modeset(crtc_state) &&
- 			    no_disable)
- 				continue;
- 
--			funcs->atomic_disable(plane, old_state);
-+			funcs->atomic_disable(plane, state);
- 		} else if (new_plane_state->crtc || disabling) {
--			funcs->atomic_update(plane, old_state);
-+			funcs->atomic_update(plane, state);
- 
- 			if (!disabling && funcs->atomic_enable) {
- 				if (drm_atomic_plane_enabling(old_plane_state, new_plane_state))
--					funcs->atomic_enable(plane, old_state);
-+					funcs->atomic_enable(plane, state);
- 			}
+ 		if (new_crtc_state->enable) {
+ 			drm_dbg_atomic(dev, "enabling [CRTC:%d:%s]\n",
+ 				       crtc->base.id, crtc->name);
+ 			if (funcs->atomic_enable)
+-				funcs->atomic_enable(crtc, old_state);
++				funcs->atomic_enable(crtc, state);
+ 			else if (funcs->commit)
+ 				funcs->commit(crtc);
  		}
  	}
  
--	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
-+	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
- 		const struct drm_crtc_helper_funcs *funcs;
+-	for_each_new_connector_in_state(old_state, connector, new_conn_state, i) {
++	for_each_new_connector_in_state(state, connector, new_conn_state, i) {
+ 		const struct drm_encoder_helper_funcs *funcs;
+ 		struct drm_encoder *encoder;
+ 		struct drm_bridge *bridge;
  
- 		funcs = crtc->helper_private;
+ 		if (!new_conn_state->best_encoder)
+@@ -1540,25 +1540,25 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+ 		/*
+ 		 * Each encoder has at most one connector (since we always steal
+ 		 * it away), so we won't call enable hooks twice.
+ 		 */
+ 		bridge = drm_bridge_chain_get_first_bridge(encoder);
+-		drm_atomic_bridge_chain_pre_enable(bridge, old_state);
++		drm_atomic_bridge_chain_pre_enable(bridge, state);
  
- 		if (!funcs || !funcs->atomic_flush)
- 			continue;
+ 		if (funcs) {
+ 			if (funcs->atomic_enable)
+-				funcs->atomic_enable(encoder, old_state);
++				funcs->atomic_enable(encoder, state);
+ 			else if (funcs->enable)
+ 				funcs->enable(encoder);
+ 			else if (funcs->commit)
+ 				funcs->commit(encoder);
+ 		}
  
- 		if (active_only && !new_crtc_state->active)
- 			continue;
- 
--		funcs->atomic_flush(crtc, old_state);
-+		funcs->atomic_flush(crtc, state);
+-		drm_atomic_bridge_chain_enable(bridge, old_state);
++		drm_atomic_bridge_chain_enable(bridge, state);
  	}
  
- 	/*
- 	 * Signal end of framebuffer access here before hw_done. After hw_done,
- 	 * a later commit might have already released the plane state.
- 	 */
--	for_each_old_plane_in_state(old_state, plane, old_plane_state, i) {
-+	for_each_old_plane_in_state(state, plane, old_plane_state, i) {
- 		const struct drm_plane_helper_funcs *funcs = plane->helper_private;
+-	drm_atomic_helper_commit_writebacks(dev, old_state);
++	drm_atomic_helper_commit_writebacks(dev, state);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
  
- 		if (funcs->end_fb_access)
- 			funcs->end_fb_access(plane, old_plane_state);
- 	}
+ /*
+  * For atomic updates which touch just a single CRTC, calculate the time of the
 
 -- 
 2.48.0
