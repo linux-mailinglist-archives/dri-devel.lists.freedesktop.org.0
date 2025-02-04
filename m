@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F60DA2751C
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342F4A2751F
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:00:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 918F510E684;
-	Tue,  4 Feb 2025 14:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18C3110E685;
+	Tue,  4 Feb 2025 15:00:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Yhex3XTs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tfMlLjlX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A79010E684
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7CFE10E685
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:00:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2CEF35C68A3;
- Tue,  4 Feb 2025 14:59:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5847EC4CEDF;
- Tue,  4 Feb 2025 14:59:51 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5932F5C69C4;
+ Tue,  4 Feb 2025 14:59:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF70AC4CEDF;
+ Tue,  4 Feb 2025 14:59:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738681191;
- bh=81LDedNj3nQakln3lCAqCLzPw6wbO6U1S1Y/G78LC7Q=;
+ s=k20201202; t=1738681200;
+ bh=8/3ml+p+1WrqM0TycJc4SK99Pq4EdRuxnM+KSVtJATM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Yhex3XTszdQHhFejyvMRVj0udCAQSxM0b7AiB2aVaRhPiOPTXCHtgfHaE5ilOjArO
- U4LoRnU8XWScOUCEs6/7vx1CnRoYtlghkOovW0s/YA/p8ZHjkRaOnCxfSAFXdiqhsT
- kFRcq7PCrHAggI6QoXVOg92HZN40LuZtSDAdQtbnwKIswg1Kh073S3reUl0xhFagDz
- Av4z0X595kkWQsGEIsB7mHG8IVor6tzn7M5X90d7Es+mg8tCx0JSYqNTrCYl6GVusp
- 1DdSyatNS3pDV47CsVq0PcrdTdyuRm4c4WNW6TkWW9Do8HGhyM4PA2l0mm8Bh/qd3r
- DFs/QM53sF54Q==
+ b=tfMlLjlXleuWiQU909SO9dC/H9KY+PYn2EcfOBGLyROqDxhm1U43Y6vh9uKivd+88
+ lXFbLT8vmfBISlkKFUqX3um+QW2FDGTZbhMqaZWSl6jhOP+d8CPVx5EQY6G+87wUMe
+ 5/fmjJa8i3Tg8xGWVx7UlEhHIV1mtWUdLJPnboy2R2Mvq/gvJKsVSeR92rl/b6a9oJ
+ BFqtOq6uXKBpUiLSvDd3PtKPjlMvI7JOY1XcwljMjUwy6WBoeNiyItRMRZ5aQ6bqZ+
+ dvHH9t7yjqmjkM0OswAXXJg0SCH7fNqp7D26I46NobyxldSkzPk83WcY0dDccPhjZp
+ O3EXMlTsxfrOQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Feb 2025 15:57:50 +0100
-Subject: [PATCH v2 22/35] drm/atomic-helper: Change parameter name of
- drm_atomic_helper_commit_hw_done()
+Date: Tue, 04 Feb 2025 15:57:51 +0100
+Subject: [PATCH v2 23/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_wait_for_vblanks()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-bridge-connector-v2-22-35dd6c834e08@kernel.org>
+Message-Id: <20250204-bridge-connector-v2-23-35dd6c834e08@kernel.org>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 In-Reply-To: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,12 +50,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2711; i=mripard@kernel.org;
- h=from:subject:message-id; bh=81LDedNj3nQakln3lCAqCLzPw6wbO6U1S1Y/G78LC7Q=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtD5dVE1Z6rFyltpUpZ8Wj+qPbvQR8FIv+qgm9Pkkm
- 7rsxV6FjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRKeyMdQonQv4ou/kq6y9v
- mvh64sS3N1Nm3WAvNE34L7rmlrSJQ/ihB5E7TAVPJSxkCpIM+m7Mythw9p+ZVt7jvY2LTn5snVg
- kGFe4YFX+udbfvCXqUf/0tmiaOj7hvR6cw9m26XU0t/yC5MsA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3197; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=8/3ml+p+1WrqM0TycJc4SK99Pq4EdRuxnM+KSVtJATM=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtD4HNyZsTct5eaxMTur/d8WtL7O6TjGvePqTf9a7+
+ d0MMc3nO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEkmsZ68wDTm8UsKq0nla2
+ xd29eJWAq4OQxUHBsPMSsRVHO76tLKiew+i7e5eYNMt7u08z3zb8Yqzh5Y06e5ixnWlS3Y39r3M
+ ex3rF3guckh9oebBuEuuavXF7ew6Yuu7R1+fc/z54l6UqtwoA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,73 +73,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_commit_hw_done() signals hardware completion of a
-given commit. It takes the drm_atomic_state being committed as a
-parameter.
+drm_atomic_helper_wait_for_vblanks() waits for vblank events on all the
+CRTCs affected by a commit. It takes the drm_atomic_state being
+committed as a parameter.
 
 However, that parameter name is called (and documented) as old_state,
 which is pretty confusing. Let's rename that variable as state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 78bc540158b7c64129eb728d8f8d67a6797bd0b3..8541faf6a86c51074cd5d36996814e899382ae11 100644
+index 8541faf6a86c51074cd5d36996814e899382ae11..54df4f792dca8006a855ccc5fd4e279d111480d0 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -2501,11 +2501,11 @@ void drm_atomic_helper_fake_vblank(struct drm_atomic_state *state)
- }
- EXPORT_SYMBOL(drm_atomic_helper_fake_vblank);
+@@ -1656,11 +1656,11 @@ int drm_atomic_helper_wait_for_fences(struct drm_device *dev,
+ EXPORT_SYMBOL(drm_atomic_helper_wait_for_fences);
  
  /**
-  * drm_atomic_helper_commit_hw_done - setup possible nonblocking commit
+  * drm_atomic_helper_wait_for_vblanks - wait for vblank on CRTCs
+  * @dev: DRM device
 - * @old_state: atomic state object with old state structures
 + * @state: atomic state object being committed
   *
-  * This function is used to signal completion of the hardware commit step. After
-  * this step the driver is not allowed to read or change any permanent software
-  * or hardware modeset state. The only exception is state protected by other
-  * means than &drm_modeset_lock locks.
-@@ -2514,18 +2514,18 @@ EXPORT_SYMBOL(drm_atomic_helper_fake_vblank);
-  * this function is called.
-  *
-  * This is part of the atomic helper support for nonblocking commits, see
-  * drm_atomic_helper_setup_commit() for an overview.
+  * Helper to, after atomic commit, wait for vblanks on all affected
+  * CRTCs (ie. before cleaning up old framebuffers using
+  * drm_atomic_helper_cleanup_planes()). It will only wait on CRTCs where the
+  * framebuffers have actually changed to optimize for the legacy cursor and
+@@ -1670,44 +1670,44 @@ EXPORT_SYMBOL(drm_atomic_helper_wait_for_fences);
+  * drm_atomic_helper_setup_commit() should look at
+  * drm_atomic_helper_wait_for_flip_done() as an alternative.
   */
--void drm_atomic_helper_commit_hw_done(struct drm_atomic_state *old_state)
-+void drm_atomic_helper_commit_hw_done(struct drm_atomic_state *state)
+ void
+ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+-		struct drm_atomic_state *old_state)
++				   struct drm_atomic_state *state)
  {
  	struct drm_crtc *crtc;
  	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
- 	struct drm_crtc_commit *commit;
- 	int i;
+ 	int i, ret;
+ 	unsigned int crtc_mask = 0;
+ 
+ 	 /*
+ 	  * Legacy cursor ioctls are completely unsynced, and userspace
+ 	  * relies on that (by doing tons of cursor updates).
+ 	  */
+-	if (old_state->legacy_cursor_update)
++	if (state->legacy_cursor_update)
+ 		return;
  
 -	for_each_oldnew_crtc_in_state(old_state, crtc, old_crtc_state, new_crtc_state, i) {
 +	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
- 		commit = new_crtc_state->commit;
- 		if (!commit)
+ 		if (!new_crtc_state->active)
  			continue;
  
- 		/*
-@@ -2541,13 +2541,13 @@ void drm_atomic_helper_commit_hw_done(struct drm_atomic_state *old_state)
- 		/* backend must have consumed any event by now */
- 		WARN_ON(new_crtc_state->event);
- 		complete_all(&commit->hw_done);
+ 		ret = drm_crtc_vblank_get(crtc);
+ 		if (ret != 0)
+ 			continue;
+ 
+ 		crtc_mask |= drm_crtc_mask(crtc);
+-		old_state->crtcs[i].last_vblank_count = drm_crtc_vblank_count(crtc);
++		state->crtcs[i].last_vblank_count = drm_crtc_vblank_count(crtc);
  	}
  
--	if (old_state->fake_commit) {
--		complete_all(&old_state->fake_commit->hw_done);
--		complete_all(&old_state->fake_commit->flip_done);
-+	if (state->fake_commit) {
-+		complete_all(&state->fake_commit->hw_done);
-+		complete_all(&state->fake_commit->flip_done);
- 	}
- }
- EXPORT_SYMBOL(drm_atomic_helper_commit_hw_done);
+-	for_each_old_crtc_in_state(old_state, crtc, old_crtc_state, i) {
++	for_each_old_crtc_in_state(state, crtc, old_crtc_state, i) {
+ 		if (!(crtc_mask & drm_crtc_mask(crtc)))
+ 			continue;
  
- /**
+ 		ret = wait_event_timeout(dev->vblank[i].queue,
+-				old_state->crtcs[i].last_vblank_count !=
+-					drm_crtc_vblank_count(crtc),
+-				msecs_to_jiffies(100));
++					 state->crtcs[i].last_vblank_count !=
++						drm_crtc_vblank_count(crtc),
++					 msecs_to_jiffies(100));
+ 
+ 		WARN(!ret, "[CRTC:%d:%s] vblank wait timed out\n",
+ 		     crtc->base.id, crtc->name);
+ 
+ 		drm_crtc_vblank_put(crtc);
 
 -- 
 2.48.0
