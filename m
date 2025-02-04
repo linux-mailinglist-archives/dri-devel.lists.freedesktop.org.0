@@ -2,67 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270D7A2780B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 18:12:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C0BFA27824
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 18:19:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4981810E042;
-	Tue,  4 Feb 2025 17:12:23 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hu44rliW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 41D1A10E6BA;
+	Tue,  4 Feb 2025 17:19:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8F710E042
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 17:11:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 4364E5C1A47;
- Tue,  4 Feb 2025 17:10:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4386EC4CEDF;
- Tue,  4 Feb 2025 17:11:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738689063;
- bh=j8nBnBK0YzkTPxOef8vbqJrD7jMe/NJ3VIVEj3v4b8U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hu44rliWuJH5FbirzaMmHDxAeJALj9fTEVYUjjaJtUyIdNssqVpPKHVmfNL6y+pRs
- QLsQEpVKSsXy05ZidoKtcW9DA6Rj3e0ynuNobIft6yOk7bu1FrHg9nIzt6wyrYfYMh
- 7shV1GyHhw7ihtxemy8FaDrGZw64qI6kh2OmTZ1UKKD6lKiuWKOVG3pSiGy7aHbk3y
- l+PnaP76I6sRLWoXdv6m1TXk+eOEFc3MmMdyiyReT34AAFe+9ILLBGX/RxZowOC58c
- N5gc2dHJSyMzg55jml+17yoogn1lWY9LtF6WpYZmBXYeat4FFZ6WcyeVtCb/MInVzr
- tr9+KrTVtRQqQ==
-Date: Tue, 4 Feb 2025 18:11:01 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Herve Codina <herve.codina@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Marek Vasut <marex@denx.de>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Message-ID: <20250204-crouching-alligator-of-success-ab52f8@houat>
-References: <20250108101907.410456-1-herve.codina@bootlin.com>
- <20250108101907.410456-4-herve.codina@bootlin.com>
- <20250114-juicy-authentic-mushroom-cfcdfb@houat>
- <20250114135456.5366eb2a@bootlin.com>
- <20250116-archetypal-bulldog-of-expression-fcc937@houat>
- <20250117091213.647bf0e6@bootlin.com>
- <20250204-chocolate-lionfish-of-luck-10ebb8@houat>
- <20250204163404.0a6b6526@bootlin.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99E1D10E6C7
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 17:19:05 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1tfMZF-0005M0-My; Tue, 04 Feb 2025 18:18:33 +0100
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1tfMZC-003VAT-0S;
+ Tue, 04 Feb 2025 18:18:30 +0100
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1tfMZC-000B3w-05;
+ Tue, 04 Feb 2025 18:18:30 +0100
+Message-ID: <48261cdfab6e0bc16e5327664b06728e1894422a.camel@pengutronix.de>
+Subject: Re: [PATCH v4 09/18] reset: thead: Add TH1520 reset controller driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Michal Wilczynski <m.wilczynski@samsung.com>, Matt Coster
+ <Matt.Coster@imgtec.com>, "mturquette@baylibre.com"
+ <mturquette@baylibre.com>,  "sboyd@kernel.org" <sboyd@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
+ "drew@pdp7.com" <drew@pdp7.com>, "guoren@kernel.org" <guoren@kernel.org>,
+ "wefu@redhat.com" <wefu@redhat.com>, "jassisinghbrar@gmail.com"
+ <jassisinghbrar@gmail.com>,  "paul.walmsley@sifive.com"
+ <paul.walmsley@sifive.com>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, Frank Binns
+ <Frank.Binns@imgtec.com>,  "maarten.lankhorst@linux.intel.com"
+ <maarten.lankhorst@linux.intel.com>, "mripard@kernel.org"
+ <mripard@kernel.org>,  "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "airlied@gmail.com" <airlied@gmail.com>,  "simona@ffwll.ch"
+ <simona@ffwll.ch>, "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>, 
+ "jszhang@kernel.org" <jszhang@kernel.org>, "m.szyprowski@samsung.com"
+ <m.szyprowski@samsung.com>
+Cc: "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+ "devicetree@vger.kernel.org"
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-riscv@lists.infradead.org"
+ <linux-riscv@lists.infradead.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-pm@vger.kernel.org"
+ <linux-pm@vger.kernel.org>
+Date: Tue, 04 Feb 2025 18:18:29 +0100
+In-Reply-To: <e83ea320-23f0-41ed-934c-2f1687b55ec1@samsung.com>
+References: <20250128194816.2185326-1-m.wilczynski@samsung.com>
+ <CGME20250128194836eucas1p151c4fc83a17173fd1b79bfc959976301@eucas1p1.samsung.com>
+ <20250128194816.2185326-10-m.wilczynski@samsung.com>
+ <816db99d-7088-4c1a-af03-b9a825ac09dc@imgtec.com>
+ <e83ea320-23f0-41ed-934c-2f1687b55ec1@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="47yeuap5jfflsyvy"
-Content-Disposition: inline
-In-Reply-To: <20250204163404.0a6b6526@bootlin.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,199 +85,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---47yeuap5jfflsyvy
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-MIME-Version: 1.0
-
-On Tue, Feb 04, 2025 at 04:34:04PM +0100, Herve Codina wrote:
-> On Tue, 4 Feb 2025 16:17:10 +0100
-> Maxime Ripard <mripard@kernel.org> wrote:
+On Mo, 2025-02-03 at 19:15 +0100, Michal Wilczynski wrote:
 >=20
-> > Hi,
-> >=20
-> > On Fri, Jan 17, 2025 at 09:12:13AM +0100, Herve Codina wrote:
-> > > Hi Maxime,
+> On 1/31/25 16:39, Matt Coster wrote:
+> > On 28/01/2025 19:48, Michal Wilczynski wrote:
+> > > Add reset controller driver for the T-HEAD TH1520 SoC that manages
+> > > hardware reset lines for various subsystems. The driver currently
+> > > implements support for GPU reset control, with infrastructure in plac=
+e
+> > > to extend support for NPU and Watchdog Timer resets in future updates=
+.
 > > >=20
-> > > On Thu, 16 Jan 2025 09:38:45 +0100
-> > > Maxime Ripard <mripard@kernel.org> wrote:
-> > >  =20
-> > > > On Tue, Jan 14, 2025 at 01:54:56PM +0100, Herve Codina wrote: =20
-> > > > > Hi Maxime,
-> > > > >=20
-> > > > > On Tue, 14 Jan 2025 08:40:51 +0100
-> > > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > > >=20
-> > > > > ...
-> > > > >    =20
-> > > > > > > =20
-> > > > > > > +static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
-> > > > > > > +{
-> > > > > > > +	struct drm_atomic_state *state =3D ERR_PTR(-EINVAL);
-> > > > > > > +	struct drm_device *dev =3D sn65dsi83->bridge.dev;
-> > > > > > > +	struct drm_connector_state *connector_state;
-> > > > > > > +	struct drm_modeset_acquire_ctx ctx;
-> > > > > > > +	struct drm_connector *connector;
-> > > > > > > +	int err;
-> > > > > > > +
-> > > > > > > +	/*
-> > > > > > > +	 * Reset active outputs of the related CRTC.
-> > > > > > > +	 *
-> > > > > > > +	 * This way, drm core will reconfigure each components in t=
-he CRTC
-> > > > > > > +	 * outputs path. In our case, this will force the previous =
-component to
-> > > > > > > +	 * go back in LP11 mode and so allow the reconfiguration of=
- SN64DSI83
-> > > > > > > +	 * bridge.
-> > > > > > > +	 *
-> > > > > > > +	 * Keep the lock during the whole operation to be atomic.
-> > > > > > > +	 */
-> > > > > > > +
-> > > > > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
-> > > > > > > +
-> > > > > > > +	state =3D drm_atomic_helper_duplicate_state(dev, &ctx);
-> > > > > > > +	if (IS_ERR(state)) {
-> > > > > > > +		err =3D PTR_ERR(state);
-> > > > > > > +		goto unlock;
-> > > > > > > +	}     =20
-> > > > > >=20
-> > > > > > No, you must not allocate a new state for this, you need to reu=
-se the
-> > > > > > existing state. You'll find it in bridge->base.state->state.   =
+> > > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> > > ---
+> > >  MAINTAINERS                  |   1 +
+> > >  drivers/reset/Kconfig        |  10 ++
+> > >  drivers/reset/Makefile       |   1 +
+> > >  drivers/reset/reset-th1520.c | 178 +++++++++++++++++++++++++++++++++=
+++
+> > >  4 files changed, 190 insertions(+)
+> > >  create mode 100644 drivers/reset/reset-th1520.c
+> > >=20
+[...]
+> > > diff --git a/drivers/reset/reset-th1520.c b/drivers/reset/reset-th152=
+0.c
+> > > new file mode 100644
+> > > index 000000000000..48afbc9f1cdd
+> > > --- /dev/null
+> > > +++ b/drivers/reset/reset-th1520.c
+> > > @@ -0,0 +1,178 @@
+[...]
+> > > +static void th1520_rst_gpu_enable(struct regmap *reg,
+> > > +				  struct mutex *gpu_seq_lock)
+> > > +{
+> > > +	int val;
+> > > +
+> > > +	mutex_lock(gpu_seq_lock);
+> > > +
+> > > +	/* if the GPU is not in a reset state it, put it into one */
+> > > +	regmap_read(reg, TH1520_GPU_RST_CFG, &val);
+> > > +	if (val)
+> > > +		regmap_update_bits(reg, TH1520_GPU_RST_CFG,
+> > > +				   TH1520_GPU_RST_CFG_MASK, 0x0);
+
+BIT(2) is not documented, but cleared here.
+
+> > > +
+> > > +	/* rst gpu clkgen */
+> > > +	regmap_set_bits(reg, TH1520_GPU_RST_CFG, TH1520_GPU_SW_CLKGEN_RST);
+> >=20
+> > Do you know what this resets? From our side, the GPU only has a single
+> > reset line (which I assume to be GPU_RESET).
+>=20
+> This is clock generator reset, as described in the manual 5.4.2.6.1
+> GPU_RST_CFG. It does reside in the same register as the GPU reset line.
+>=20
+> I think this is required because the MEM clock gate is somehow broken
+> and marked as 'reserved' in manual, so instead as a workaround, since we
+> can't reliably enable the 'mem' clock it's a good idea to reset the
+> whole CLKGEN of the GPU.
+
+If this is a workaround for broken gating of the "mem" clock, would it
+be possible (and reasonable) to make this a separate reset control that
+is handled by the clock driver? ...
+
+> > > +
+> > > +	/*
+> > > +	 * According to the hardware manual, a delay of at least 32 clock
+> > > +	 * cycles is required between de-asserting the clkgen reset and
+> > > +	 * de-asserting the GPU reset. Assuming a worst-case scenario with
+> > > +	 * a very high GPU clock frequency, a delay of 1 microsecond is
+> > > +	 * sufficient to ensure this requirement is met across all
+> > > +	 * feasible GPU clock speeds.
+> > > +	 */
+> > > +	udelay(1);
+> >=20
+> > I don't love that this procedure appears in the platform reset driver.
+> > I appreciate it may not be clear from the SoC TRM, but this is the
+> > standard reset procedure for all IMG Rogue GPUs. The currently
+> > supported TI SoC handles this in silicon, when power up/down requests
+> > are sent so we never needed to encode it in the driver before.
+> >=20
+> > Strictly speaking, the 32 cycle delay is required between power and
+> > clocks being enabled and the reset line being deasserted. If nothing
+> > here touches power or clocks (which I don't think it should), the delay
+> > could potentially be lifted to the GPU driver.
+
+... This could be expressed as a delay between clk_prepare_enable() and
+reset_control_deassert() in the GPU driver then.
+
+> Yeah you're making excellent points here, I think it would be a good   =
 =20
-> > > > >=20
-> > > > > Thanks for pointing that. I didn't know about bridge->base.state-=
->state.
-> > > > >=20
-> > > > > I will use that if using the state is still relevant (see next co=
-mment).
-> > > > >    =20
-> > > > > >    =20
-> > > > > > > +	state->acquire_ctx =3D &ctx;
-> > > > > > > +
-> > > > > > > +	connector =3D drm_atomic_get_old_connector_for_encoder(stat=
-e,
-> > > > > > > +							     sn65dsi83->bridge.encoder);
-> > > > > > > +	if (!connector) {
-> > > > > > > +		err =3D -EINVAL;
-> > > > > > > +		goto unlock;
-> > > > > > > +	}
-> > > > > > > +
-> > > > > > > +	connector_state =3D drm_atomic_get_connector_state(state, c=
-onnector);
-> > > > > > > +	if (IS_ERR(connector_state)) {
-> > > > > > > +		err =3D PTR_ERR(connector_state);
-> > > > > > > +		goto unlock;
-> > > > > > > +	}
-> > > > > > > +
-> > > > > > > +	err =3D drm_atomic_helper_reset_pipe(connector_state->crtc,=
- &ctx);
-> > > > > > > +	if (err < 0)
-> > > > > > > +		goto unlock;     =20
-> > > > > >=20
-> > > > > > And you'll find the crtc in bridge->encoder->crtc.   =20
-> > > > >=20
-> > > > > I am a bit confused. I looked at the drm_encoder structure [1] an=
-d the crtc
-> > > > > field available in this structure should not be used by atomic dr=
-ivers. They
-> > > > > should rely on &drm_connector_state.crtc.   =20
-> > > >=20
-> > > > You're right, it's deprecated but used by most bridges anyway.
-> > > >=20
-> > > > I made a series of changes after reviewing your series to address s=
-ome
-> > > > issues with the current bridge API, most notably
-> > > >=20
-> > > > https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9=
-a2fecd886a6@kernel.org/ =20
-> > >=20
-> > > Thanks for pointing that, indeed, it clarify many things!
-> > >  =20
-> > > >  =20
-> > > > > In my case, I have the feeling that I should get the ctrc from th=
-e current
-> > > > > state (i.e. bridge->base.state->state) using the sequence provide=
-d in this
-> > > > > current patch:
-> > > > >   Retrieve the connector with drm_atomic_get_old_connector_for_en=
-coder()   =20
-> > > >=20
-> > > > Retrieving the old connector makes no sense though. It's the connec=
-tor
-> > > > that was formerly associated with your encoder. It might work, it m=
-ight
-> > > > not, it's not what you're looking for.
-> > > >  =20
-> > > > >   Retrieve the connector state with drm_atomic_get_connector_stat=
-e()   =20
-> > > >=20
-> > > > drm_atomic_get_connector_state will allocate and pull the connector
-> > > > state into the drm_atomic_state, even if it wasn't part of it befor=
-e, so
-> > > > it's not great. And you don't need it in the first place, you only =
-need
-> > > > the current active CRTC. =20
-> > >=20
-> > > Yes, I agree with that, I only need the active CRTC.
-> > >=20
-> > > I tried to get the current atomic_state from:
-> > >   1) bridge->base.state->state
-> > >   2) drm_bridge_state->base.state
-> > >=20
-> > > In both cases, it is NULL. Looking at Sima's reply in your series
-> > > explained that:
-> > >   https://lore.kernel.org/dri-devel/Z4juJy7kKPbI2BDb@phenom.ffwll.loc=
-al/
-> > >=20
-> > > If I understood correctly those pointers are explicitly cleared.
-> > >=20
-> > > So, with all of that, either:
-> > >   a) I wait for your series to be applied in order to use your the cr=
-tc field from
-> > >      drm_bridge_state added by:
-> > >        https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1=
--25-9a2fecd886a6@kernel.org/#t
-> > >   b) I use the old school bridge->encoder->crtc for the moment
-> > >=20
-> > > Do you mind if I use the bridge->encoder->crtc way for the next itera=
-tion of
-> > > my series? =20
-> >=20
-> > Yeah, it makes sense.
->=20
-> I already send a wrong v4 (sorry) and a correct v5 with modifications in
-> this way :)
->=20
-> >=20
-> > Still, it would be great if you could test my series on your setup and =
-see if it helps :)
->=20
-> Of course, I can test updated version of your series.
->=20
-> I already try to get the current atomic_state exactly the same way as you=
- do
-> in your series and the pointer is NULL in my case.
+> idea to place the delay in the GPU driver, since this is specific to the
+> whole family of the GPU's not the SoC itself.
+>
+> > Is it expected that if a device exposes a reset in devicetree that it
+> > can be cleanly reset without interaction with the device driver itself?
+> > I.E. in this case, is it required that the reset driver alone can clean=
+ly
+> > reset the GPU?
 
-I sent a second version today, let me know if it works.
+No, the "resets" property should just describe the physical
+connection(s) between reset controller and the device.
 
-Maxime
+It is fine for the device driver to manually assert the reset, enable
+clocks and power, delay, and then deassert the reset, if that is the
+device specific reset procedure.
 
---47yeuap5jfflsyvy
-Content-Type: application/pgp-signature; name="signature.asc"
+> I'm not sure what the community as a whole thinks about that, so maybe
+> someone else can answer this, but I would code SoC specific stuff in the
+> reset driver for the SoC, and the GPU specific stuff (like the delay) in
+> the GPU driver code. I wasn't sure whether the delay was specific to the
+> SoC or the GPU so I've put it here.
 
------BEGIN PGP SIGNATURE-----
+I agree.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6JKJAAKCRAnX84Zoj2+
-dlduAYDGdElqziyGD1EYwKUBbyUiUwak4pS//61mf1+oH5R5d1/vM2nxCH3Qeq4t
-oXh81xIBfi+mPBGMBa70pE9wG5O3JBEnts9Fll49h0ii0CMGPfAx8LNJ/y4yGIK0
-LM+uvDmuQQ==
-=w+tk
------END PGP SIGNATURE-----
-
---47yeuap5jfflsyvy--
+regards
+Philipp
