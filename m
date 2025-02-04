@@ -2,65 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB658A2727F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:12:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02006A27299
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:21:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD42310E61C;
-	Tue,  4 Feb 2025 13:12:28 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="X67EUT3y";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92D8910E22E;
+	Tue,  4 Feb 2025 13:21:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
- [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FC2E10E61C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 13:12:11 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CE3FD442EF;
- Tue,  4 Feb 2025 13:12:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738674729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KaFv2tN02EO//W/KYhr5syZIZ2CdJNLTZ/Qhdjy6z+k=;
- b=X67EUT3yj7Zn/TpSMV04LSsWxrD1EdzGyRGsNWIr2sjph/K5nAOmQMXTvjVP7Ze7D+9TjL
- 9zlD9AWkEdTGb/O3aiyaqovCbWN2/3VOnYvMyoVC+ZS1D7mIS+QGapbfzPyGBbB8Tjmjaf
- UvTjS+ADTGbMNjdVYrl/zbUIcEPJXgEOz9CwzqK/2GsYejVWNfAUWntVVRWVwAQXNO5KEY
- +2fajdlQ5agr0yi8dqiFYfXu6sP0/klnK8zi08gRBCL7NU3IiOmxCwGJHk7CJ6+k4VcpUx
- JNQDsFXe0XPVz2p6k4EKe1PfvDKLd0ZO7Fz5fgcedzrUuEZjhD7WJLukyx9cXQ==
-Date: Tue, 4 Feb 2025 14:12:07 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/2] DRM: small improvements
-Message-ID: <Z6ISJ_zWeFK9LoQJ@louis-chauvet-laptop>
-Mail-Followup-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250204-drm-small-improvements-v4-0-d6bbc92f12f1@bootlin.com>
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5796F10E10D;
+ Tue,  4 Feb 2025 13:21:46 +0000 (UTC)
+From: Maarten Lankhorst <dev@lankhorst.se>
+To: intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <dev@lankhorst.se>, Ingo Molnar <mingo@kernel.org>,
+ David Lechner <dlechner@baylibre.com>,
+ Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: [PATCH-resent-to-correct-ml 0/8] drm/xe: Convert xe_force_wake calls
+ to guard helpers.
+Date: Tue,  4 Feb 2025 14:22:29 +0100
+Message-ID: <20250204132238.162608-1-dev@lankhorst.se>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250204-drm-small-improvements-v4-0-d6bbc92f12f1@bootlin.com>
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefggeegieduuddvvddtueeiffeiffdtiefhvdfggfetheduveejudfgtdffkefhvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduuddprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsu
- hhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlihhnrghrohdrohhrghdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehlihhnuhigrdhinhhtvghlrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,45 +41,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/02/25 - 09:51, Luca Ceresoli wrote:
-> This series brings small improvements to the DRM documentation and logging.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Ignore my previous series please, it should have been sent to intel-xe, was sent to intel-gfx.
 
-Applied on drm-misc-next, thanks.
+Instead of all this repetition of
 
-Louis Chauvet
+{
+	unsigned fw_ref;
 
-> ---
-> Changes in v4:
-> - Removed pathches 3 and 4 because the added warning has false positives
->   when cleaning up a connector in the init error path
-> - Updated acked-by tags
-> - Link to v3: https://lore.kernel.org/r/20241111-drm-small-improvements-v3-0-a9f576111b41@bootlin.com
-> 
-> Changes in v3:
-> - patch 3: various fixes suggested by Jani Nikula and kernel test robot
-> - Updated reviewed-by tags
-> - Link to v2: https://lore.kernel.org/r/20241106-drm-small-improvements-v2-0-f6e2aef86719@bootlin.com
-> 
-> Changes in v2:
-> - Added patches 3 and 4
-> - Updated reviewed-by tags
-> - Link to v1: https://lore.kernel.org/r/20241018-drm-small-improvements-v1-0-cc316e1a98c9@bootlin.com
-> 
-> ---
-> Luca Ceresoli (2):
->       drm/drm_mode_object: fix typo in kerneldoc
->       drm/atomic-helper: improve CRTC enabled/connectors mismatch logging message
-> 
->  drivers/gpu/drm/drm_atomic_helper.c | 5 +++--
->  include/drm/drm_mode_object.h       | 2 +-
->  2 files changed, 4 insertions(+), 3 deletions(-)
-> ---
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
-> change-id: 20241018-drm-small-improvements-1d104cc10280
-> 
-> Best regards,
-> -- 
-> Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
+	fw_ref = xe_force_wake_get(fw, domain);
+	if (!xe_force_wake_ref_has_domain(..))
+		return -ETIMEDOUT;
+
+	...
+
+out:
+	xe_force_wake_put(fw_ref);
+	return ret;
+}
+
+I thought I would look at how to replace it with the guard helpers.
+It is easy, but it required some minor fixes to make DEFINE_LOCK_GUARD_1
+work with extra init arguments.
+
+So I changed the function signature slightly to make the first optional argument
+a struct member (current behavior), and any additional argument goes to the init
+call.
+
+This replaces the previous code with
+{
+	scoped_cond_guard(xe_force_wake_get, return -ETIMEDOUT, fw, domain) {
+		....
+
+		return ret;
+	}
+}
+
+I' ve thought also of playing with this:
+{
+	CLASS(xe_force_wake_get, fw_ref)(fw, domain);
+	if (!fw_ref.lock))
+		return -ETIMEDOUT;
+
+	...
+	return ret;
+}
+
+I'm just fearing that the scoped_cond_guard makes it imposssible to get this
+wrong, while in the second example it's not clear that it can fail, and that
+you have to check.
+
+Let me know what you think!
+Feedback welcome for the header change as well, should probably go into the locking tree..
+
+Cc: Ingo Molnar <mingo@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Will Deacon <will@kernel.org>
+Cc: Waiman Long <longman@redhat.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+
+Maarten Lankhorst (8):
+  header/cleanup.h: Add _init_args to DEFINE_LOCK_GUARD_1(_COND)
+  drm/xe/gt: Unify xe_hw_fence_irq_finish() calls.
+  drm/xe: Add scoped guards for xe_force_wake
+  drm/xe: Add xe_force_wake_get_all
+  drm/xe/coredump: Use guard helpers for xe_force_wake.
+  drm/xe/gsc: Use guard helper for xe_gsc_print_info.
+  drm/xe/vram: Use xe_force_wake guard helper
+  drm/xe/gt: Convert to xe_force_wake guard helpers
+
+ drivers/gpu/drm/xe/xe_devcoredump.c |  36 ++---
+ drivers/gpu/drm/xe/xe_force_wake.c  | 161 ++++++++++++++----
+ drivers/gpu/drm/xe/xe_force_wake.h  |  17 ++
+ drivers/gpu/drm/xe/xe_gsc.c         |  22 +--
+ drivers/gpu/drm/xe/xe_gt.c          | 243 ++++++++++------------------
+ drivers/gpu/drm/xe/xe_vram.c        |  45 +++---
+ include/linux/cleanup.h             |  30 ++--
+ 7 files changed, 293 insertions(+), 261 deletions(-)
+
+-- 
+2.47.1
+
