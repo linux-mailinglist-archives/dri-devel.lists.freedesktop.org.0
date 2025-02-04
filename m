@@ -2,82 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8051EA277DA
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 18:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270D7A2780B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 18:12:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A49B10E37F;
-	Tue,  4 Feb 2025 17:06:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4981810E042;
+	Tue,  4 Feb 2025 17:12:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VmTBBXKU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hu44rliW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EC7910E37F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 17:06:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E8981204B7;
- Tue,  4 Feb 2025 17:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738688801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xEKfLiMa4LQvObfDXDJHazbN8jNm0C/l0epdXaXnwAo=;
- b=VmTBBXKUIb8nTMEYepM3HEhRCn6LOOXV4Kq6t/Cble7157foKvbVWjc+qgU3akKATMJVDs
- YRCIz0ssWjmu0irYpkzSdXTV19SCXTuTaCc7lcmlA9i354m2qD6q4yWB9LB7EFSP/pOJZj
- kXAGIR7mLIGEYJuK0H8Q33ZvUTdjeaKy4KarlyZJBWVTkHeU3vpi0S/AzIkxzOT5j6OztH
- r6yu2KOOG6jz5AL5Q/I8QAsvLjOOi2bMrxi1sxP9DzfCjnojqGvQ1DrNyHMERtCM00+O3W
- lEOKNWTLbc/74MJdOxfE0/k7T9LG5iDhdOleaN5+nOXH+HqFSXUtGrPbkm5Tiw==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Tue, 04 Feb 2025 18:06:18 +0100
-Subject: [PATCH v17 7/7] drm/vkms: Add support for DRM_FORMAT_R*
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-yuv-v17-7-9c623880d0ac@bootlin.com>
-References: <20250204-yuv-v17-0-9c623880d0ac@bootlin.com>
-In-Reply-To: <20250204-yuv-v17-0-9c623880d0ac@bootlin.com>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D8F710E042
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 17:11:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 4364E5C1A47;
+ Tue,  4 Feb 2025 17:10:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4386EC4CEDF;
+ Tue,  4 Feb 2025 17:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738689063;
+ bh=j8nBnBK0YzkTPxOef8vbqJrD7jMe/NJ3VIVEj3v4b8U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Hu44rliWuJH5FbirzaMmHDxAeJALj9fTEVYUjjaJtUyIdNssqVpPKHVmfNL6y+pRs
+ QLsQEpVKSsXy05ZidoKtcW9DA6Rj3e0ynuNobIft6yOk7bu1FrHg9nIzt6wyrYfYMh
+ 7shV1GyHhw7ihtxemy8FaDrGZw64qI6kh2OmTZ1UKKD6lKiuWKOVG3pSiGy7aHbk3y
+ l+PnaP76I6sRLWoXdv6m1TXk+eOEFc3MmMdyiyReT34AAFe+9ILLBGX/RxZowOC58c
+ N5gc2dHJSyMzg55jml+17yoogn1lWY9LtF6WpYZmBXYeat4FFZ6WcyeVtCb/MInVzr
+ tr9+KrTVtRQqQ==
+Date: Tue, 4 Feb 2025 18:11:01 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
- arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, 
- pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
- nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Pekka Paalanen <pekka.paalanen@collabora.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6494;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=PNS6jE8+jTWry2DjZN6o63/wHFqvUOxYr4mRZNl69fs=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnokkVmhLUAbH64CAWYo+cBTKCeeAT/8lN9wz27
- dprIZiPcD+JAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ6JJFQAKCRAgrS7GWxAs
- 4nzND/9AnddKyZecL67kwIDFFOi9SQaWe7A/fM5UGwZDT4q1ALeWT8zs7ztpvjO7RL447Z0Vvd+
- BIpzCK1liYBETU8AeGu3+3lt8mE76gq0zbMaQAhbOfyp1j3CezOisXK/kDUHVDLlf6MaabExDpB
- 351sa7V22QNZOROlP2VDkTdvUUrU2lZmODgYn3jJBUTUjT12rk0KXeh1n1QF9bjeIRymtwVp7ce
- RQcBAlyoOwjpO9iyZHKkh/IwBaZ7vI2QDxmUMkRr3jouDaOEEbFDh3gj/BwaXTPVY2ZMeCNFU4d
- PYDLAelv6DXXq+9wE447qNo6kwNhOd/bNUO2punRmSOT8SJa+MY/Ym/F1FImuJHVHVx2k1+C62D
- E/OcMgQ5kWwBqw+e17oiJGwvtkrOyWrylGj6obBXI/I4tE4t7lDoW1P+M+aJgQ5HBa0xm8PUgAc
- YDE9yuuKxpAxv12Z4Z5YJCuKp7/8axnpPLYbJthx/KPudrlXYPFNCP3GXTgDiymCyMwKgdmURC4
- 3biSv9jaGYicPfgxft6iSTw77J+o89+JsVMmVHwvSpfKJKUOK5zZ8ABQaB9mD6YzqJVvmHxb5V5
- n/gjxNJxRdNjwTcwCdLWRgn8al1j1zQfc7Pa/wct7qirRhPc+AgboSYhP8M6sxB0ZCF5LkfrAhB
- RnmHzzhY4OlaqGA==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvuddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvdfgfefgheetgffhffetfffgheefteeltddvudeuieefvddtledtueehjeelfedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtoheprhhoughrihhgohhsihhquhgvihhrrghmvghlohesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepnhhitgholhgvjhgruggvhigvvgesghhoohhglhgvrdgtohhmpdhrtghpt
- hhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepphgvkhhkrgdrphgrrghlrghnvghnsegtohhllhgrsghorhgrrdgtohhm
-X-GND-Sasl: louis.chauvet@bootlin.com
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Marek Vasut <marex@denx.de>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <20250204-crouching-alligator-of-success-ab52f8@houat>
+References: <20250108101907.410456-1-herve.codina@bootlin.com>
+ <20250108101907.410456-4-herve.codina@bootlin.com>
+ <20250114-juicy-authentic-mushroom-cfcdfb@houat>
+ <20250114135456.5366eb2a@bootlin.com>
+ <20250116-archetypal-bulldog-of-expression-fcc937@houat>
+ <20250117091213.647bf0e6@bootlin.com>
+ <20250204-chocolate-lionfish-of-luck-10ebb8@houat>
+ <20250204163404.0a6b6526@bootlin.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="47yeuap5jfflsyvy"
+Content-Disposition: inline
+In-Reply-To: <20250204163404.0a6b6526@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,179 +78,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This add the support for:
-- R1/R2/R4/R8
 
-R1 format was tested with [1] and [2].
+--47yeuap5jfflsyvy
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+MIME-Version: 1.0
 
-[1]: https://lore.kernel.org/r/20240313-new_rotation-v2-0-6230fd5cae59@bootlin.com
-[2]: https://lore.kernel.org/igt-dev/20240306-b4-kms_tests-v1-0-8fe451efd2ac@bootlin.com/
+On Tue, Feb 04, 2025 at 04:34:04PM +0100, Herve Codina wrote:
+> On Tue, 4 Feb 2025 16:17:10 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > Hi,
+> >=20
+> > On Fri, Jan 17, 2025 at 09:12:13AM +0100, Herve Codina wrote:
+> > > Hi Maxime,
+> > >=20
+> > > On Thu, 16 Jan 2025 09:38:45 +0100
+> > > Maxime Ripard <mripard@kernel.org> wrote:
+> > >  =20
+> > > > On Tue, Jan 14, 2025 at 01:54:56PM +0100, Herve Codina wrote: =20
+> > > > > Hi Maxime,
+> > > > >=20
+> > > > > On Tue, 14 Jan 2025 08:40:51 +0100
+> > > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > > >=20
+> > > > > ...
+> > > > >    =20
+> > > > > > > =20
+> > > > > > > +static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
+> > > > > > > +{
+> > > > > > > +	struct drm_atomic_state *state =3D ERR_PTR(-EINVAL);
+> > > > > > > +	struct drm_device *dev =3D sn65dsi83->bridge.dev;
+> > > > > > > +	struct drm_connector_state *connector_state;
+> > > > > > > +	struct drm_modeset_acquire_ctx ctx;
+> > > > > > > +	struct drm_connector *connector;
+> > > > > > > +	int err;
+> > > > > > > +
+> > > > > > > +	/*
+> > > > > > > +	 * Reset active outputs of the related CRTC.
+> > > > > > > +	 *
+> > > > > > > +	 * This way, drm core will reconfigure each components in t=
+he CRTC
+> > > > > > > +	 * outputs path. In our case, this will force the previous =
+component to
+> > > > > > > +	 * go back in LP11 mode and so allow the reconfiguration of=
+ SN64DSI83
+> > > > > > > +	 * bridge.
+> > > > > > > +	 *
+> > > > > > > +	 * Keep the lock during the whole operation to be atomic.
+> > > > > > > +	 */
+> > > > > > > +
+> > > > > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+> > > > > > > +
+> > > > > > > +	state =3D drm_atomic_helper_duplicate_state(dev, &ctx);
+> > > > > > > +	if (IS_ERR(state)) {
+> > > > > > > +		err =3D PTR_ERR(state);
+> > > > > > > +		goto unlock;
+> > > > > > > +	}     =20
+> > > > > >=20
+> > > > > > No, you must not allocate a new state for this, you need to reu=
+se the
+> > > > > > existing state. You'll find it in bridge->base.state->state.   =
+=20
+> > > > >=20
+> > > > > Thanks for pointing that. I didn't know about bridge->base.state-=
+>state.
+> > > > >=20
+> > > > > I will use that if using the state is still relevant (see next co=
+mment).
+> > > > >    =20
+> > > > > >    =20
+> > > > > > > +	state->acquire_ctx =3D &ctx;
+> > > > > > > +
+> > > > > > > +	connector =3D drm_atomic_get_old_connector_for_encoder(stat=
+e,
+> > > > > > > +							     sn65dsi83->bridge.encoder);
+> > > > > > > +	if (!connector) {
+> > > > > > > +		err =3D -EINVAL;
+> > > > > > > +		goto unlock;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +	connector_state =3D drm_atomic_get_connector_state(state, c=
+onnector);
+> > > > > > > +	if (IS_ERR(connector_state)) {
+> > > > > > > +		err =3D PTR_ERR(connector_state);
+> > > > > > > +		goto unlock;
+> > > > > > > +	}
+> > > > > > > +
+> > > > > > > +	err =3D drm_atomic_helper_reset_pipe(connector_state->crtc,=
+ &ctx);
+> > > > > > > +	if (err < 0)
+> > > > > > > +		goto unlock;     =20
+> > > > > >=20
+> > > > > > And you'll find the crtc in bridge->encoder->crtc.   =20
+> > > > >=20
+> > > > > I am a bit confused. I looked at the drm_encoder structure [1] an=
+d the crtc
+> > > > > field available in this structure should not be used by atomic dr=
+ivers. They
+> > > > > should rely on &drm_connector_state.crtc.   =20
+> > > >=20
+> > > > You're right, it's deprecated but used by most bridges anyway.
+> > > >=20
+> > > > I made a series of changes after reviewing your series to address s=
+ome
+> > > > issues with the current bridge API, most notably
+> > > >=20
+> > > > https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9=
+a2fecd886a6@kernel.org/ =20
+> > >=20
+> > > Thanks for pointing that, indeed, it clarify many things!
+> > >  =20
+> > > >  =20
+> > > > > In my case, I have the feeling that I should get the ctrc from th=
+e current
+> > > > > state (i.e. bridge->base.state->state) using the sequence provide=
+d in this
+> > > > > current patch:
+> > > > >   Retrieve the connector with drm_atomic_get_old_connector_for_en=
+coder()   =20
+> > > >=20
+> > > > Retrieving the old connector makes no sense though. It's the connec=
+tor
+> > > > that was formerly associated with your encoder. It might work, it m=
+ight
+> > > > not, it's not what you're looking for.
+> > > >  =20
+> > > > >   Retrieve the connector state with drm_atomic_get_connector_stat=
+e()   =20
+> > > >=20
+> > > > drm_atomic_get_connector_state will allocate and pull the connector
+> > > > state into the drm_atomic_state, even if it wasn't part of it befor=
+e, so
+> > > > it's not great. And you don't need it in the first place, you only =
+need
+> > > > the current active CRTC. =20
+> > >=20
+> > > Yes, I agree with that, I only need the active CRTC.
+> > >=20
+> > > I tried to get the current atomic_state from:
+> > >   1) bridge->base.state->state
+> > >   2) drm_bridge_state->base.state
+> > >=20
+> > > In both cases, it is NULL. Looking at Sima's reply in your series
+> > > explained that:
+> > >   https://lore.kernel.org/dri-devel/Z4juJy7kKPbI2BDb@phenom.ffwll.loc=
+al/
+> > >=20
+> > > If I understood correctly those pointers are explicitly cleared.
+> > >=20
+> > > So, with all of that, either:
+> > >   a) I wait for your series to be applied in order to use your the cr=
+tc field from
+> > >      drm_bridge_state added by:
+> > >        https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1=
+-25-9a2fecd886a6@kernel.org/#t
+> > >   b) I use the old school bridge->encoder->crtc for the moment
+> > >=20
+> > > Do you mind if I use the bridge->encoder->crtc way for the next itera=
+tion of
+> > > my series? =20
+> >=20
+> > Yeah, it makes sense.
+>=20
+> I already send a wrong v4 (sorry) and a correct v5 with modifications in
+> this way :)
+>=20
+> >=20
+> > Still, it would be great if you could test my series on your setup and =
+see if it helps :)
+>=20
+> Of course, I can test updated version of your series.
+>=20
+> I already try to get the current atomic_state exactly the same way as you=
+ do
+> in your series and the pointer is NULL in my case.
 
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 110 +++++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   |   4 ++
- 2 files changed, 113 insertions(+), 1 deletion(-)
+I sent a second version today, let me know if it works.
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 9972780f3fa975ad8f5bcb71fa5c616071a8cf08..6d0227c6635adbedf28301672fb4b0a411c9e6df 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -249,6 +249,16 @@ static struct pixel_argb_u16 argb_u16_from_RGB565(const __le16 *pixel)
- 	return out_pixel;
- }
- 
-+static struct pixel_argb_u16 argb_u16_from_gray8(u8 gray)
-+{
-+	return argb_u16_from_u8888(255, gray, gray, gray);
-+}
-+
-+static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
-+{
-+	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
-+}
-+
- VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
- 							    const struct conversion_matrix *matrix)
- {
-@@ -286,7 +296,7 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * The following functions are read_line function for each pixel format supported by VKMS.
-  *
-  * They read a line starting at the point @x_start,@y_start following the @direction. The result
-- * is stored in @out_pixel and in the format ARGB16161616.
-+ * is stored in @out_pixel and in a 64 bits format, see struct pixel_argb_u16.
-  *
-  * These functions are very repetitive, but the innermost pixel loops must be kept inside these
-  * functions for performance reasons. Some benchmarking was done in [1] where having the innermost
-@@ -295,6 +305,96 @@ EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
-  * [1]: https://lore.kernel.org/dri-devel/d258c8dc-78e9-4509-9037-a98f7f33b3a3@riseup.net/
-  */
- 
-+static void Rx_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	int bits_per_pixel = drm_format_info_bpp(plane->frame_info->fb->format, 0);
-+	u8 *src_pixels;
-+	int rem_x, rem_y;
-+
-+	WARN_ONCE(drm_format_info_block_height(plane->frame_info->fb->format, 0) != 1,
-+		  "%s() only support formats with block_h == 1", __func__);
-+
-+	packed_pixels_addr(plane->frame_info, x_start, y_start, 0, &src_pixels, &rem_x, &rem_y);
-+	int bit_offset = (8 - bits_per_pixel) - rem_x * bits_per_pixel;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+	int mask = (0x1 << bits_per_pixel) - 1;
-+	int lum_per_level = 0xFFFF / mask;
-+
-+	if (direction == READ_LEFT_TO_RIGHT || direction == READ_RIGHT_TO_LEFT) {
-+		int restart_bit_offset;
-+		int step_bit_offset;
-+
-+		if (direction == READ_LEFT_TO_RIGHT) {
-+			restart_bit_offset = 8 - bits_per_pixel;
-+			step_bit_offset = -bits_per_pixel;
-+		} else {
-+			restart_bit_offset = 0;
-+			step_bit_offset = bits_per_pixel;
-+		}
-+
-+		while (out_pixel < end) {
-+			u8 val = ((*src_pixels) >> bit_offset) & mask;
-+
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+
-+			bit_offset += step_bit_offset;
-+			if (bit_offset < 0 || 8 <= bit_offset) {
-+				bit_offset = restart_bit_offset;
-+				src_pixels += step;
-+			}
-+			out_pixel += 1;
-+		}
-+	} else if (direction == READ_TOP_TO_BOTTOM || direction == READ_BOTTOM_TO_TOP) {
-+		while (out_pixel < end) {
-+			u8 val = (*src_pixels >> bit_offset) & mask;
-+			*out_pixel = argb_u16_from_grayu16((int)val * lum_per_level);
-+			src_pixels += step;
-+			out_pixel += 1;
-+		}
-+	}
-+}
-+
-+static void R1_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R2_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	Rx_read_line(plane, x_start, y_start, direction, count, out_pixel);
-+}
-+
-+static void R8_read_line(const struct vkms_plane_state *plane, int x_start,
-+			 int y_start, enum pixel_read_direction direction, int count,
-+			 struct pixel_argb_u16 out_pixel[])
-+{
-+	struct pixel_argb_u16 *end = out_pixel + count;
-+	u8 *src_pixels;
-+	int step = get_block_step_bytes(plane->frame_info->fb, direction, 0);
-+
-+	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0, &src_pixels);
-+
-+	while (out_pixel < end) {
-+		*out_pixel = argb_u16_from_gray8(*src_pixels);
-+		src_pixels += step;
-+		out_pixel += 1;
-+	}
-+}
-+
- static void ARGB8888_read_line(const struct vkms_plane_state *plane, int x_start, int y_start,
- 			       enum pixel_read_direction direction, int count,
- 			       struct pixel_argb_u16 out_pixel[])
-@@ -636,6 +736,14 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_YVU422:
- 	case DRM_FORMAT_YVU444:
- 		return &planar_yuv_read_line;
-+	case DRM_FORMAT_R1:
-+		return &R1_read_line;
-+	case DRM_FORMAT_R2:
-+		return &R2_read_line;
-+	case DRM_FORMAT_R4:
-+		return &R4_read_line;
-+	case DRM_FORMAT_R8:
-+		return &R8_read_line;
- 	default:
- 		/*
- 		 * This is a bug in vkms_plane_atomic_check(). All the supported
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index fbfbe424e558d781759c25a46e3b2b4ab082558c..e3fdd161d0f0a1d20c14a79dbe51c08c8486d12f 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -31,6 +31,10 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_R1,
-+	DRM_FORMAT_R2,
-+	DRM_FORMAT_R4,
-+	DRM_FORMAT_R8,
- };
- 
- static struct drm_plane_state *
+Maxime
 
--- 
-2.48.1
+--47yeuap5jfflsyvy
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6JKJAAKCRAnX84Zoj2+
+dlduAYDGdElqziyGD1EYwKUBbyUiUwak4pS//61mf1+oH5R5d1/vM2nxCH3Qeq4t
+oXh81xIBfi+mPBGMBa70pE9wG5O3JBEnts9Fll49h0ii0CMGPfAx8LNJ/y4yGIK0
+LM+uvDmuQQ==
+=w+tk
+-----END PGP SIGNATURE-----
+
+--47yeuap5jfflsyvy--
