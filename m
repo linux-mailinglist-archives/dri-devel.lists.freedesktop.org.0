@@ -2,53 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7025A27307
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:41:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9230A27381
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27B9610E32D;
-	Tue,  4 Feb 2025 13:41:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 417F310E33B;
+	Tue,  4 Feb 2025 13:55:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pEWGw+23";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BxQz//+0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE01D10E32D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 13:41:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3DF310E33B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 13:55:52 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA0CBCDB;
- Tue,  4 Feb 2025 14:40:14 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9324CDB;
+ Tue,  4 Feb 2025 14:54:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1738676415;
- bh=NGJQZl5LiBLwWWaAalzJ6rCZFMyv79XQSdV5ByM2sPs=;
+ s=mail; t=1738677279;
+ bh=EQUSXlFr3njl5PP9Kzw658twDaEAGGl3qA9IHHP+oso=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pEWGw+23yZRN1osjhQSzfqx6uH+1X5V5eNzZPy4EmxJbD5gf1TwIob7EdvM3mnt8C
- j0P2m/3KOr68jcX+XTcG1cVzFKRusSrUDhRRQdscuSXVVHaBBzHInfdDAUTD2ljzH9
- m0mBQh5ouXqedp0JlRzY8eT/v0P27SAZUVzYTi08=
-Message-ID: <06853f74-b44b-419f-8795-88eaae9ac304@ideasonboard.com>
-Date: Tue, 4 Feb 2025 15:41:24 +0200
+ b=BxQz//+0Y76vAOQxeOg7tY6S3bD1oRK6+Lx/j/6HLXP8V2FlwKsRykcZzHiEaGjLx
+ raSBFCKI2PCgcEa68I1Y6fx3ZQ/EJ6TWgjeeJJeCkjjUPibTshQAVY6rTdGbtZm9W3
+ ncNd3wt4Aw1KlaPAOUXHRWxAc6qfGNmqnZG6oxNw=
+Message-ID: <eb8883f2-fc34-44f5-90a9-f4b14f0c45f2@ideasonboard.com>
+Date: Tue, 4 Feb 2025 15:55:47 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 12/13] drm/atomic-helper: Re-order bridge chain
- pre-enable and post-disable
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
- Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
- Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250126191551.741957-1-aradhya.bhatia@linux.dev>
- <20250126191551.741957-13-aradhya.bhatia@linux.dev>
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: ti,am65x-dss: Add support
+ for AM62L DSS
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
+ s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
+ jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+References: <20250204061552.3720261-1-devarsht@ti.com>
+ <20250204061552.3720261-2-devarsht@ti.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -94,7 +87,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250126191551.741957-13-aradhya.bhatia@linux.dev>
+In-Reply-To: <20250204061552.3720261-2-devarsht@ti.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,81 +107,102 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 26/01/2025 21:15, Aradhya Bhatia wrote:
-> Move the bridge pre_enable call before crtc enable, and the bridge
-> post_disable call after the crtc disable.
+On 04/02/2025 08:15, Devarsh Thakkar wrote:
+> The DSS controller on TI's AM62L SoC is an update from that on TI's
+> AM625/AM65x/AM62A7 SoC. The AM62L DSS [1] only supports a single display
+> pipeline using a single overlay manager, single video port and a single
+> video lite pipeline which does not support scaling.
 > 
-> The sequence of enable after this patch will look like:
+> The output of video port is routed to SoC boundary via DPI interface and
+> the DPI signals from the video port are also routed to DSI Tx controller
+> present within the SoC.
 > 
-> 	bridge[n]_pre_enable
-> 	...
-> 	bridge[1]_pre_enable
+> [1]: Section 11.7 (Display Subsystem and Peripherals)
+> Link : https://www.ti.com/lit/pdf/sprujb4
 > 
-> 	crtc_enable
-> 	encoder_enable
-> 
-> 	bridge[1]_enable
-> 	...
-> 	bridge[n]_enable
-> 
-> And, the disable sequence for the display pipeline will look like:
-> 
-> 	bridge[n]_disable
-> 	...
-> 	bridge[1]_disable
-> 
-> 	encoder_disable
-> 	crtc_disable
-> 
-> 	bridge[1]_post_disable
-> 	...
-> 	bridge[n]_post_disable
-> 
-> The definition of bridge pre_enable hook says that,
-> "The display pipe (i.e. clocks and timing signals) feeding this bridge
-> will not yet be running when this callback is called".
-> 
-> Since CRTC is also a source feeding the bridge, it should not be enabled
-> before the bridges in the pipeline are pre_enabled. Fix that by
-> re-ordering the sequence of bridge pre_enable and bridge post_disable.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
 > ---
->   drivers/gpu/drm/drm_atomic_helper.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+> - Add Reviewed-by
+> - s/ti,am62l,dss/ti,am62l-dss
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index f5532e3646e1..d2f19df9f418 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1298,9 +1298,9 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
->   {
->   	encoder_bridge_disable(dev, old_state);
+> NOTE: This patch needs to be applied on top of AM62A dt-binding fix:
+> https://lore.kernel.org/all/20250203155431.2174170-1-devarsht@ti.com/
+> 
+>   .../bindings/display/ti/ti,am65x-dss.yaml     | 25 ++++++++++++++++++-
+>   1 file changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 31c4ffcb599c..f82e9a84e8a8 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -12,18 +12,29 @@ maintainers:
+>     - Tomi Valkeinen <tomi.valkeinen@ti.com>
 >   
-> -	encoder_bridge_post_disable(dev, old_state);
-> -
->   	crtc_disable(dev, old_state);
-> +
-> +	encoder_bridge_post_disable(dev, old_state);
->   }
->   
->   /**
-> @@ -1635,10 +1635,10 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *old_state
->   void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->   					      struct drm_atomic_state *old_state)
->   {
-> -	crtc_enable(dev, old_state);
-> -
->   	encoder_bridge_pre_enable(dev, old_state);
->   
-> +	crtc_enable(dev, old_state);
-> +
->   	encoder_bridge_enable(dev, old_state);
->   
->   	drm_atomic_helper_commit_writebacks(dev, old_state);
+>   description: |
+> -  The AM625 and AM65x TI Keystone Display SubSystem with two output
+> +  The AM625 and AM65x TI Keystone Display SubSystem has two output
+>     ports and two video planes. In AM65x DSS, the first video port
+>     supports 1 OLDI TX and in AM625 DSS, the first video port output is
+>     internally routed to 2 OLDI TXes. The second video port supports DPI
+>     format. The first plane is full video plane with all features and the
+>     second is a "lite plane" without scaling support.
+> +  The AM62A7 display subsystem has a single output port supporting DPI format
+> +  although similar to AM625 and AM65x Socs, it has two video planes where first
+> +  is full video plane with all features and second is a video "lite" plane which
+> +  does not support scaling.
+
+The part above doesn't belong into "add AM62L" patch. It's also quite 
+confusing. "although similar to..."? Maybe drop the text "although 
+similar to AM625 and AM65x Socs, ", and start a new sentence from "it"?
+
+For the AM62L parts:
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
+
+> +  The AM62L display subsystem also has a single output port which supports DPI
+> +  format but it only supports single video "lite plane" which does not support
+> +  scaling. The output port is routed to SoC boundary via DPI interface and same
+> +  DPI signals are also routed internally to DSI Tx controller present within the
+> +  SoC. Due to clocking limitations only one of the interface i.e. either DSI or
+> +  DPI can be used at once.
+>   
+>   properties:
+>     compatible:
+>       enum:
+>         - ti,am625-dss
+>         - ti,am62a7-dss
+> +      - ti,am62l-dss
+>         - ti,am65x-dss
+>   
+>     reg:
+> @@ -91,6 +102,8 @@ properties:
+>             For AM625 DSS, the internal DPI output port node from video
+>             port 1.
+>             For AM62A7 DSS, the port is tied off inside the SoC.
+> +          For AM62L DSS, the DSS DPI output port node from video port 1
+> +          or DSI Tx controller node connected to video port 1.
+>   
+>         port@1:
+>           $ref: /schemas/graph.yaml#/properties/port
+> @@ -123,6 +136,16 @@ allOf:
+>           ports:
+>             properties:
+>               port@0: false
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,am62l-dss
+> +    then:
+> +      properties:
+> +        ports:
+> +          properties:
+> +            port@1: false
+>   
+>   required:
+>     - compatible
 
