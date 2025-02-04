@@ -2,63 +2,136 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456C3A27969
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 19:11:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26029A278ED
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 18:46:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ADF4A10E370;
-	Tue,  4 Feb 2025 18:11:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94D4010E6D5;
+	Tue,  4 Feb 2025 17:46:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="ZIcFteER";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jMCSX4/E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1516 seconds by postgrey-1.36 at gabe;
- Tue, 04 Feb 2025 18:11:47 UTC
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4F2810E370
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 18:11:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=YTF+w0WkN8/brmYU7JARPGRsoEigeKQVOQIogVMPd9c=; b=ZIcFteERixfmdRSY5Z4iDkGbg2
- KtzSuoJglZUpDIdX9WUr+OzYgHzCDHvfzWmD5B2wbaZdQLL4hjxDiE2tZ0KiT/jVXeXMTxANKn3/x
- d0Nx/pTfJ7ZrqlGTc+TxdYdfm+Nei9804mQ1esonpDXGRzTOVnZ082KASKqTdwP6LgKg=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:38586
- helo=pettiford.lan) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1tfN04-0007MX-Go; Tue, 04 Feb 2025 12:46:17 -0500
-Date: Tue, 4 Feb 2025 12:46:15 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: neil.armstrong@linaro.org
-Cc: Jagan Teki <jagan@edgeble.ai>, Jessica Zhang
- <quic_jesszhan@quicinc.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Linus Walleij <linus.walleij@linaro.org>,
- Hugo Villeneuve <hvilleneuve@dimonoff.com>, stable@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Message-Id: <20250204124615.4d7a308633a15fc17b2215cb@hugovil.com>
-In-Reply-To: <16bd6bc2-8f10-4b99-9903-6e9f0f8778d8@linaro.org>
-References: <20240927135306.857617-1-hugo@hugovil.com>
- <f9b0cc53-00ae-4390-9ff9-1dac0c0804ba@linaro.org>
- <20240930110537.dbbd51824c2bb68506e2f678@hugovil.com>
- <16bd6bc2-8f10-4b99-9903-6e9f0f8778d8@linaro.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2049.outbound.protection.outlook.com [40.107.220.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9564510E6D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 17:46:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NNNzk3Fdq0oCEcOLgUHoxG+RQtsIju7bVZlE0aYiVviOX3ssGJCE6dFqzFQPRKTdyCJqxBb1wlacbFK7zjyG3sASltXW20Nlh5SGuvuznn0pv9f9ejCM6JnLbkIToiOchGB+VHTmiNupdH74T+j8ZrCRkVw6jcFLLEG7O7zwaN8nqX8I7niJ85Oai4tARD6DzR1/qyfoT75/6gixMjLrdZa26YEgw0UBOP3g54V1YqTndx6L2OUnAnby37fjHmiBIouW50/iNgRhZpwpWu4zHB7ssUnSa54tKotfYcLkPYqTpD1N6i7N2q9WU8miKyH6TOAmrnTpU/BJ7FIzeVZ3eQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8ZyeUl322VlsQXbZjpXAk0k3j13/bW3w4hxrNBgqylY=;
+ b=EmMKJK3pjlsEHW+HH9AIzRPSuGOZ6i2dwwET9zbc8PvcMRp82pNx9nbFu/iRJ0lq4WQjLdNwQC9hizC/92hTmFc2NLCLV23cQHJsQs7fJSA9uPSUVu5fvusbbWRPR34tlvtKCcUfckFbUQ7uC6Iq/0O0l5gJY+lZXMVjm2MfouQwLDEUsi1X2GNq7lEVFImWUOerXGNX+DidAJTyc/WjkSJu1N2UuHXVOrQKcXFiukXSK7F5hemHOt0yBsSS/fgIU/TQiWi2d1X0R6zNMewE++87nCXAbQ35ajZMoyJGxoeoxvQJEBS9UGph6Hj3L+yHXdHirNNq1leHzNNQZTGbnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8ZyeUl322VlsQXbZjpXAk0k3j13/bW3w4hxrNBgqylY=;
+ b=jMCSX4/EZv4a/V1lB8W26SHUCJ8Gl4SmULGe9+6q0A7405+3RpH2JAxi1etCi1nk5+xoVTN9O0gIjpFmk5mI6i/KLES4K2z5/Hoi7HKtJVnp33zQJmwxwbh5k2HurOAY9/gTeyIcg2Nd244RbIx3W4jNgHr2gQGCpkbg32AH5A0=
+Received: from CH5P221CA0011.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:1f2::21)
+ by SA0PR12MB4415.namprd12.prod.outlook.com (2603:10b6:806:70::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Tue, 4 Feb
+ 2025 17:46:28 +0000
+Received: from CH1PEPF0000A347.namprd04.prod.outlook.com
+ (2603:10b6:610:1f2:cafe::e1) by CH5P221CA0011.outlook.office365.com
+ (2603:10b6:610:1f2::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.27 via Frontend Transport; Tue,
+ 4 Feb 2025 17:46:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CH1PEPF0000A347.mail.protection.outlook.com (10.167.244.7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8398.14 via Frontend Transport; Tue, 4 Feb 2025 17:46:28 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 4 Feb
+ 2025 11:46:27 -0600
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Tue, 4 Feb 2025 11:46:26 -0600
+Message-ID: <f26de849-0805-75fd-7234-3c2116be14f8@amd.com>
+Date: Tue, 4 Feb 2025 09:46:21 -0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] accel/amdxdna: Add MODULE_FIRMWARE() declarations
+Content-Language: en-US
+To: Mario Limonciello <superm1@kernel.org>, <mario.limonciello@amd.com>,
+ <min.ma@amd.com>, <ogabbay@kernel.org>
+CC: Renjith Pananchikkal <Renjith.Pananchikkal@amd.com>, Alexander Deucher
+ <Alexander.Deucher@amd.com>, <dri-devel@lists.freedesktop.org>
+References: <20250204174031.3425762-1-superm1@kernel.org>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20250204174031.3425762-1-superm1@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -1.9 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH] drm: panel: jd9365da-h3: fix reset signal polarity
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Received-SPF: None (SATLEXMB03.amd.com: lizhi.hou@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000A347:EE_|SA0PR12MB4415:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2a645f2-2b9f-41b2-89c9-08dd4543da1e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|376014|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c2V0dUJUc1JHT2JJdmQ1ZjZQREpZa2Q4NmZzSHpjN01vU0FVY0dvVk0wMllp?=
+ =?utf-8?B?dm4rRllFREZtcDZEcmt3YVZjTzVzbFN0NVZUWHJOdUFSV2FLR3lqS05qcjl1?=
+ =?utf-8?B?VmZBNGIzVTM0clhRY3NzR1hPNmdscUZXZmV6M283Z1BjSnp4V28yUG5DWXFD?=
+ =?utf-8?B?T3ppWjN5OE4xdlpYM0x5YkZEV1ZpcUZJQzhwbEUrVFduQ29nMlhVeGVlNWUw?=
+ =?utf-8?B?eGIrMnYveDA0RVJpR2plQk5JeVBHaFViVzZPSnZpOXR0cXpRQXZjTi9CKys2?=
+ =?utf-8?B?bjIrcmh3WE1KTldRZUphbkhEUExvNmxwWjFqK0xhVXN6VW5Kbm0wd3pzUUh2?=
+ =?utf-8?B?VnJtNDNDeXptS0pCMXRaeGNuNUdMcGhjQkhyenhQMk9uQ1dlMitmb2FReFJX?=
+ =?utf-8?B?Q1M5MVhydHE3TlZkUjZ1a3VDU0RoUFRTL1drNjdjRlZDK2dWSmtVeHlaY2Rs?=
+ =?utf-8?B?ejVQRTMwZ21XWlpUT2FNVGJFWWlSaGcxbGpVYWU5cXFQaUVuL1AvdStobUh2?=
+ =?utf-8?B?SXNFdHJoYk16ZEV0cTR4MzB2TmZQaWI0M09zcDZGRVBqT3B2SW9DQk5EcUhw?=
+ =?utf-8?B?Si8wU1hCc1dzZzVFQXJwK1Z3MkJkVUJuYmZRV0xLdjZ2T3hiUXdiRHF4SUR6?=
+ =?utf-8?B?R0F3S0dpb2swaWY3R2g0dTFOc1BpM2VyY1FSQkE2L0FDWjVONVhxZ1JKSFk4?=
+ =?utf-8?B?SUJEQ1NLQnRMMVF1L0JtM3lsRHNPbjFDaEdZcTk3MVJ1dXRoMExMNVBHY1Rw?=
+ =?utf-8?B?eGxYRE9pMks4QTlhNWliTEZ2N2JaRFllcmVCNzcyemZDVGRZMHpFQ1BKb0tI?=
+ =?utf-8?B?VlAzZjRiVHUxN0hkbjdkajcyYkpTNkRtL242SnNaNFhhclc1bm5mR0FKeW9y?=
+ =?utf-8?B?Rm1ob3dNVjZ0b0YrS0l4QUN1VHBNb3V3Um4ybndlVGp5cytYK01SR3VoY1Jt?=
+ =?utf-8?B?ekpzbFMvZnFTMzVHYS9aamNxd0NmeGJsRnU2NWl5TWNWckFXa0VKaHdOVXVL?=
+ =?utf-8?B?THNSY2YxSXNlb2NaeVNIalEvdDVHV2p4SVNHM1Zqc0JOTDFiQ0E0MFN0NVdP?=
+ =?utf-8?B?RC9wQy81Q0cvL01vRU5UMFRHMzNiRlc5clVaUjM4ZjZTMGdFdDdmSVlJWUlp?=
+ =?utf-8?B?YUpZdFRmYStkeHR4WklGYldHNnpoV2ZMMHZ1RlMvZ3FBRDBwVXJoTFpqR3Jq?=
+ =?utf-8?B?c2o2bUNPRFRwRHQzNVZseEgvYVM5UzN5dnZ5NTE4bWt4eWRQU0lkNnpoQlRH?=
+ =?utf-8?B?eHFHTG8yaXpkNnpkMmxCTml6TXp3aWN4VUJBTUtUakJ1RDhyNC9ycnJsb2RK?=
+ =?utf-8?B?b3NYQnhzTUJ0T0F0NkJ6UUZsQ2owUlJZTDg5QXgvSE9xTU5Oc3JLd01zNUs5?=
+ =?utf-8?B?K3BwSXNmWm1MWndjaC8zOUdkR3BwMGFLdFhkamNURW40UFJDVTNTNkU2TGx6?=
+ =?utf-8?B?UUsyUHJSR0pDT20wbGhaV0ZZM2NsdGI0bEN6bVdwdjc1dnMyQWRuVFdLTzE0?=
+ =?utf-8?B?WERLZlU0YTQxN29xMms4YUxMM3pxQVdScTdESHBVM2JZZnhsNTliYUlvNnF3?=
+ =?utf-8?B?TEZtMmtvaE1CWURSaWVodnMveXBPU05HS29yaHdybVJVMHRabWZUMmErMDBT?=
+ =?utf-8?B?elZGOGZvZElMclJNMzlqeTNhNVJKVCt3S1c2S1JjWklxc0ZpaEpySUNqdDEy?=
+ =?utf-8?B?TTJWS0hXalA4WkRUL1MvcEcyZVpDTnFXd2F4WERvckNQV0FoWE56bThveDR2?=
+ =?utf-8?B?eUc3TVFoZWJ6cnBtaDRuN3ZadG9sTmRJV3VrODNxeHU0TW1XR2wzc2xuMU5Y?=
+ =?utf-8?B?ak1TZ3dxVVkxa1p2UVlMenZMVllYOUdoajlTZGYrZUxYQXZzTFlGNlg1b0Zs?=
+ =?utf-8?B?RC9FK1hSUEZ4WVB1RjNTK0NlbWI2cTNkQmMrdkNWVU05cFJydU1KeDA4azdM?=
+ =?utf-8?B?RytsZzJYdXRKdnBmSkhwQVJQVGswR1NqejRxU0VTN1dUdkFsd3FQclFFOUY3?=
+ =?utf-8?Q?JJPzqmjGcPnfhD64cz19wh4EDkKnwE=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2025 17:46:28.0100 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2a645f2-2b9f-41b2-89c9-08dd4543da1e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH1PEPF0000A347.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4415
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,111 +147,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 30 Sep 2024 18:24:44 +0200
-neil.armstrong@linaro.org wrote:
 
-> On 30/09/2024 17:05, Hugo Villeneuve wrote:
-> > On Mon, 30 Sep 2024 16:38:14 +0200
-> > Neil Armstrong <neil.armstrong@linaro.org> wrote:
-> > 
-> >> Hi,
-> >>
-> >> On 27/09/2024 15:53, Hugo Villeneuve wrote:
-> >>> From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> >>>
-> >>> In jadard_prepare() a reset pulse is generated with the following
-> >>> statements (delays ommited for clarity):
-> >>>
-> >>>       gpiod_set_value(jadard->reset, 1); --> Deassert reset
-> >>>       gpiod_set_value(jadard->reset, 0); --> Assert reset for 10ms
-> >>>       gpiod_set_value(jadard->reset, 1); --> Deassert reset
-> >>>
-> >>> However, specifying second argument of "0" to gpiod_set_value() means to
-> >>> deassert the GPIO, and "1" means to assert it. If the reset signal is
-> >>> defined as GPIO_ACTIVE_LOW in the DTS, the above statements will
-> >>> incorrectly generate the reset pulse (inverted) and leave it asserted
-> >>> (LOW) at the end of jadard_prepare().
-> >>
-> >> Did you check the polarity in DTS of _all_ users of this driver ?
-> > 
-> > Hi Neil,
-> > I confirmed that no in-tree DTS is referencing this driver. I did a
-> > search of all the compatible strings defined in the
-> > "jadard,jd9365da-h3.yaml" file. I also did the same on Debian code
-> > search.
-> 
-> 
-> OK then:
-> Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-
-Hi Neil,
-it seems this patch was never applied/picked-up?
-
-Hugo.
-
-
-> 
-> > 
-> > Hugo.
-> > 
-> > 
-> >>
-> >> Neil
-> >>
-> >>>
-> >>> Fix reset behavior by inverting gpiod_set_value() second argument
-> >>> in jadard_prepare(). Also modify second argument to devm_gpiod_get()
-> >>> in jadard_dsi_probe() to assert the reset when probing.
-> >>>
-> >>> Do not modify it in jadard_unprepare() as it is already properly
-> >>> asserted with "1", which seems to be the intended behavior.
-> >>>
-> >>> Fixes: 6b818c533dd8 ("drm: panel: Add Jadard JD9365DA-H3 DSI panel")
-> >>> Cc: <stable@vger.kernel.org>
-> >>> Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-> >>> ---
-> >>>    drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c | 8 ++++----
-> >>>    1 file changed, 4 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> >>> index 44897e5218a69..6fec99cf4d935 100644
-> >>> --- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> >>> +++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-> >>> @@ -110,13 +110,13 @@ static int jadard_prepare(struct drm_panel *panel)
-> >>>    	if (jadard->desc->lp11_to_reset_delay_ms)
-> >>>    		msleep(jadard->desc->lp11_to_reset_delay_ms);
-> >>>    
-> >>> -	gpiod_set_value(jadard->reset, 1);
-> >>> +	gpiod_set_value(jadard->reset, 0);
-> >>>    	msleep(5);
-> >>>    
-> >>> -	gpiod_set_value(jadard->reset, 0);
-> >>> +	gpiod_set_value(jadard->reset, 1);
-> >>>    	msleep(10);
-> >>>    
-> >>> -	gpiod_set_value(jadard->reset, 1);
-> >>> +	gpiod_set_value(jadard->reset, 0);
-> >>>    	msleep(130);
-> >>>    
-> >>>    	ret = jadard->desc->init(jadard);
-> >>> @@ -1131,7 +1131,7 @@ static int jadard_dsi_probe(struct mipi_dsi_device *dsi)
-> >>>    	dsi->format = desc->format;
-> >>>    	dsi->lanes = desc->lanes;
-> >>>    
-> >>> -	jadard->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> >>> +	jadard->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> >>>    	if (IS_ERR(jadard->reset)) {
-> >>>    		DRM_DEV_ERROR(&dsi->dev, "failed to get our reset GPIO\n");
-> >>>    		return PTR_ERR(jadard->reset);
-> >>>
-> >>> base-commit: 18ba6034468e7949a9e2c2cf28e2e123b4fe7a50
-> >>
-> >>
-> > 
-> > 
-> 
-> 
-
-
--- 
-Hugo Villeneuve
+On 2/4/25 09:40, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+>
+> Initramfs building tools such as dracut will look for a MODULE_FIRMWARE()
+> declaration to determine which firmware to include in the initramfs
+> when a driver is included in the initramfs.
+>
+> As amdxdna doesn't declare any firmware this causes the driver to fail
+> to load with -ENOENT when in the initramfs.  Add the missing declaration
+> for possible firmware.
+>
+> Reported-by: Renjith Pananchikkal <Renjith.Pananchikkal@amd.com>
+> Suggested-by: Alexander Deucher <Alexander.Deucher@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>   drivers/accel/amdxdna/amdxdna_pci_drv.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.c b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> index 97d4a032171f1..f5b8497cf5ad6 100644
+> --- a/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> +++ b/drivers/accel/amdxdna/amdxdna_pci_drv.c
+> @@ -21,6 +21,11 @@
+>   
+>   #define AMDXDNA_AUTOSUSPEND_DELAY	5000 /* milliseconds */
+>   
+> +MODULE_FIRMWARE("amdnpu/1502_00/npu.sbin");
+> +MODULE_FIRMWARE("amdnpu/17f0_10/npu.sbin");
+> +MODULE_FIRMWARE("amdnpu/17f0_11/npu.sbin");
+> +MODULE_FIRMWARE("amdnpu/17f0_20/npu.sbin");
+> +
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>   /*
+>    * Bind the driver base on (vendor_id, device_id) pair and later use the
+>    * (device_id, rev_id) pair as a key to select the devices. The devices with
