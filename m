@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B605EA27300
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:40:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7025A27307
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:41:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24FCA10E056;
-	Tue,  4 Feb 2025 13:40:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27B9610E32D;
+	Tue,  4 Feb 2025 13:41:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A3HMiMKf";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pEWGw+23";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67EB610E056
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 13:40:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE01D10E32D
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 13:41:28 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67535CDB;
- Tue,  4 Feb 2025 14:39:30 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA0CBCDB;
+ Tue,  4 Feb 2025 14:40:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1738676371;
- bh=2g45caf19R559opr5zfeuZzgBir3rNVRdz0p4IMU934=;
+ s=mail; t=1738676415;
+ bh=NGJQZl5LiBLwWWaAalzJ6rCZFMyv79XQSdV5ByM2sPs=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=A3HMiMKfZZPDUTETBSCOVJZRTqxj7RWfCy3eNe87K9I7mqHdGakdx5eBpiVPOjkaa
- Bd4KZsZaGBVyZTNwBYvMRR7VmnAffhUVYCQgqWARHnL7lghBHpknNnYLD/Lhk6Niwa
- 2dtA+07OHdBMk/jglEH4EeNglBRnjKKkiy8633uk=
-Message-ID: <7ed45555-6005-4ec9-b4cb-08ff109e8246@ideasonboard.com>
-Date: Tue, 4 Feb 2025 15:40:40 +0200
+ b=pEWGw+23yZRN1osjhQSzfqx6uH+1X5V5eNzZPy4EmxJbD5gf1TwIob7EdvM3mnt8C
+ j0P2m/3KOr68jcX+XTcG1cVzFKRusSrUDhRRQdscuSXVVHaBBzHInfdDAUTD2ljzH9
+ m0mBQh5ouXqedp0JlRzY8eT/v0P27SAZUVzYTi08=
+Message-ID: <06853f74-b44b-419f-8795-88eaae9ac304@ideasonboard.com>
+Date: Tue, 4 Feb 2025 15:41:24 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 11/13] drm/atomic-helper: Separate out bridge
- pre_enable/post_disable from enable/disable
+Subject: Re: [PATCH v8 12/13] drm/atomic-helper: Re-order bridge chain
+ pre-enable and post-disable
 To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  Devarsh Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>,
@@ -48,7 +48,7 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 References: <20250126191551.741957-1-aradhya.bhatia@linux.dev>
- <20250126191551.741957-12-aradhya.bhatia@linux.dev>
+ <20250126191551.741957-13-aradhya.bhatia@linux.dev>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -94,7 +94,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250126191551.741957-12-aradhya.bhatia@linux.dev>
+In-Reply-To: <20250126191551.741957-13-aradhya.bhatia@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,35 +115,78 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 On 26/01/2025 21:15, Aradhya Bhatia wrote:
-> The encoder-bridge ops occur by looping over the new connector states of
-> the display pipelines. The enable sequence runs as follows -
+> Move the bridge pre_enable call before crtc enable, and the bridge
+> post_disable call after the crtc disable.
 > 
-> 	- pre_enable(bridge),
-> 	- enable(encoder),
-> 	- enable(bridge),
+> The sequence of enable after this patch will look like:
 > 
-> while the disable sequnce runs as follows -
+> 	bridge[n]_pre_enable
+> 	...
+> 	bridge[1]_pre_enable
 > 
-> 	- disable(bridge),
-> 	- disable(encoder),
-> 	- post_disable(bridge).
+> 	crtc_enable
+> 	encoder_enable
 > 
-> Separate out the pre_enable(bridge), and the post_disable(bridge)
-> operations into separate functions each.
+> 	bridge[1]_enable
+> 	...
+> 	bridge[n]_enable
 > 
-> This patch keeps the sequence same for any singular disaplay pipe, but
-> changes the sequence across multiple display pipelines.
+> And, the disable sequence for the display pipeline will look like:
 > 
-> This patch is meant to be an interim patch, to cleanly pave the way for
-> the sequence re-ordering patch, and maintain bisectability in the
-> process.
+> 	bridge[n]_disable
+> 	...
+> 	bridge[1]_disable
 > 
+> 	encoder_disable
+> 	crtc_disable
+> 
+> 	bridge[1]_post_disable
+> 	...
+> 	bridge[n]_post_disable
+> 
+> The definition of bridge pre_enable hook says that,
+> "The display pipe (i.e. clocks and timing signals) feeding this bridge
+> will not yet be running when this callback is called".
+> 
+> Since CRTC is also a source feeding the bridge, it should not be enabled
+> before the bridges in the pipeline are pre_enabled. Fix that by
+> re-ordering the sequence of bridge pre_enable and bridge post_disable.
+> 
+> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 > Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 > ---
->   drivers/gpu/drm/drm_atomic_helper.c | 92 +++++++++++++++++++++++++++--
->   1 file changed, 88 insertions(+), 4 deletions(-)
-
-With the issue Jayesh pointed out fixed:
+>   drivers/gpu/drm/drm_atomic_helper.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index f5532e3646e1..d2f19df9f418 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1298,9 +1298,9 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
+>   {
+>   	encoder_bridge_disable(dev, old_state);
+>   
+> -	encoder_bridge_post_disable(dev, old_state);
+> -
+>   	crtc_disable(dev, old_state);
+> +
+> +	encoder_bridge_post_disable(dev, old_state);
+>   }
+>   
+>   /**
+> @@ -1635,10 +1635,10 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *old_state
+>   void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+>   					      struct drm_atomic_state *old_state)
+>   {
+> -	crtc_enable(dev, old_state);
+> -
+>   	encoder_bridge_pre_enable(dev, old_state);
+>   
+> +	crtc_enable(dev, old_state);
+> +
+>   	encoder_bridge_enable(dev, old_state);
+>   
+>   	drm_atomic_helper_commit_writebacks(dev, old_state);
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
