@@ -2,88 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E30A2793B
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 19:02:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3267A27975
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 19:12:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CFCE10E06B;
-	Tue,  4 Feb 2025 18:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 207C810E6D8;
+	Tue,  4 Feb 2025 18:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="L/Ihnf+d";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="YXy/HSnh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8412010E06B
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 18:02:14 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-38da88e6db0so540354f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 10:02:14 -0800 (PST)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
+ [209.85.219.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB5EC10E37B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 18:12:47 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id
+ 6a1803df08f44-6dcdf23b4edso50779866d6.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 10:12:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738692133; x=1739296933; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=T4z5wAQZzKrG8mW8jnRw2NXQidvYvNXR1bP88Txg4ik=;
- b=L/Ihnf+dCRZ1q13LyDEb33aOcSXRhXqwyvGbTs+cEEzPAh5fCnI977rYyfIe76HGdv
- FCEmiVnsoQwqAmnLW1xeSruUOYN2Qkl1q7+YZMM2DCAVMz//DTAnkqUzoxu3Hng9/Rky
- 4mZ2xtk96Iuis6LuBKsTN5o0p4L9qH3Fr78d8hEqsr1MmItt6qyrnNfDOEzelBlqCv8e
- lHyUQw230HOUdNdb33EN59d/i4MJm9Z1NNP4YpEUul/XnMQ0kggJbL+jJvatBOqxwMn5
- HI3tbNrmjPF0weJk/OJfDD01tmFtf7rPsYMEtPXcydmDmI+gXbX8JNaih3jDJOzeL9pu
- So6w==
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738692767; x=1739297567;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=7FLDKP+B1KLmToqN0+wbXjgRxetp1/agS67Xma08wWo=;
+ b=YXy/HSnhufHCHxCpIXLGIinpeozZSycZB9c6WuGQu82d5zN3YrVFDZfZ4/jzpcklVf
+ 55xtPv/BCYGel1BPa8+S2/J6zHMBuAjds+AYfjn06tE12BQ7EJ+rzMAtfFf6m3TdNmPw
+ a9rkkzrOIFRQhaNO7I4C3Sn4QzmG0gWytlyIbrfkTfhgVn7kbSLij+9ZfOqxVWr+PIiV
+ QDsA/IG6yOM0XDHe4IwN41vR6FK9xNJ3RJ9W0Xn0qNXKChaDDaGIAp1wqKo1haICPZFd
+ pmT0T4gEsMvCwY80LubMuPG3bu3BShXisb5pNc+k2uGOLWnGAqiUb4nW882VxaHfZfzx
+ AW2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738692133; x=1739296933;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T4z5wAQZzKrG8mW8jnRw2NXQidvYvNXR1bP88Txg4ik=;
- b=J0PSeBTpPVzkZeXUR2AcIBTKjoYXBhXzP4Ys+AzxgMjGXH2q3R7Nri65Pqe4wQP85b
- mgrChLsWYn32z4O/apQ1EY/Z7REknE3g/B4nRntEccM33CL0FRIUL+mtCjjwB8D5IgPZ
- PAs5pnBRXPMX6bvvhKBL2ASbu0OtRe1eK8IiO8GIGmeQcyrBC0lHqyLqTfJcD947+iWV
- hT3xpHpgETGo7lix2mW9nf3diFa18ANy819elvp41GcUQuuWD0uGGu379Ri97Yq9TZwp
- ESGW+2VI7m4NCamGcbwMv0pEwZva7b39/F7Dx/Fr3XCncbXJqd+BXQPgtj9KAPNXY1lP
- i58A==
+ d=1e100.net; s=20230601; t=1738692767; x=1739297567;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7FLDKP+B1KLmToqN0+wbXjgRxetp1/agS67Xma08wWo=;
+ b=JDRk7xqu9iLgc4ziztx9IE6GQallHImjYacLNR/l4XJSSuKW3zG9TqKQ+Xsrt16Cs/
+ nMVAM+gAIbWZj2CygH0UYGPBc7GbIbY7p5giCdpt5Sb7ebP73PmziFaxo2oALy1wjGk4
+ OIbkG7BEuhvPYGuPuAWZf62UQ3QH5ykqS+MUizM5mKocNVGWm6usHFS9b3JEGih1/kmL
+ A8OneQbDwjFCg+vZw4KTq7s3XDEpuCyMi0uUeYvhFNCBILsLOBDoTnxj7eO9KaHzdmWw
+ 0wwITtGQyPVFOqNizOVqMTecKJS5vH8D3VGgzRoPqUpPyhF9LhjM0yaEkmzUIlkd/5hT
+ 7vCQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV1SD/fSSY2yihukBSN6uZxBbVBGkLay5EjQby4RGYmOm/+IRFsrM9vfRBE6elXa9McetkxXzRfKSs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxH2RDVdviwo2LAKRLNRvXA9zzx+m3bD/wgme7Nq7FT4dd6fySW
- F7eSPz56/HMyrwmqWAvQ3WbjVELz23HOCxzmEjVJkXnR3fB5ga9v
-X-Gm-Gg: ASbGncsQ/kfTHTkknpJiYEDCWZ9ld9oRDYRLvjaLqohhkLvDaaUFzdKY2FQLsJkAgU2
- +cx27T7SZ4KTd1qvqFuX8lP9aabOF0fJai10oNCrrk2QvJLbQwVBsxE2TyqSRnKZqUtivdfUdY1
- vLm59pwMlW3BKblGUfM4zZ50N75yialTtuDnlJt6fGCWDrmag5um/Ppkc7FnV6/yiQZiiaOyqtS
- jvdznnkaL2h/oe8DqnjeAzkyJ0+XqSoJu6XUuRi2Khnozq5wG+DTuZW2z1K/zqkU1OtAw83Gi+S
- yYJGS+HAXc7RQKWbnyrNEMvZ0iEn0Iq+7GV41niuAUkTMRodxzBxL7XXSJ+Fevskvk217mLsJD+
- f8Q==
-X-Google-Smtp-Source: AGHT+IHi9W+AQaPHkr1CjugG/NXnUKiYfyTQwQx2Wg4bwuqIWZM2eYaLtkut4n/MAS1Igy54G/nAnA==
-X-Received: by 2002:a05:6000:4010:b0:385:f398:3e2 with SMTP id
- ffacd0b85a97d-38c52096217mr23296233f8f.37.1738692132463; 
- Tue, 04 Feb 2025 10:02:12 -0800 (PST)
-Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de.
- [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
+ AJvYcCVbSF+BuLA31lXDF9EBRXmq6Cd9lT2YNzz/w+Hk1YdNHTDPyRwDjmGuSNWm1rn+Kj8C7KhJ1R3yKcI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy60bxVNt12dNmyfkxDQfD+09AwPCw3RDB5S9yadHmXiNJUhhP7
+ r08TyE9qOiC81Grs9nEBhoxsw8fGdIcRZpsp/JGba2hb5mLWeU/4DQnDSOygWVc=
+X-Gm-Gg: ASbGncuKqRh5ScGDAGqaaljBoDGO1rrUSqX0Z6xqqI93RfVDe3r86jxB8RI52bnb1dt
+ mPrWiw8AzBbMiU8o5/UIn8qZMk3sDWGdpJJJjL6+ZbecP3W7p0boEspXk52bSvBL2wDOnt+AomH
+ cc8ouliJ5JLu1eCIZ7q0C0xvtayc1x467qF7gkhrtSaGkKlq3PC7n8oeeKux3G/I9LA6re6SGUE
+ 4RJo3cEnDbqlqiHCosghtjx5H4pCDUn4tQc1lOk/iqRbOiybGHcO2y+60x81l4cmXQX9OBnauPM
+ 7B/f58SAgngKCMJ8
+X-Google-Smtp-Source: AGHT+IEUFtl7TqQiYVbLC5fRURyW+Ho5rjSwqMbAkbu0qwIuaYAMXRJbz+FDijkjOelVbHDYm/RAhg==
+X-Received: by 2002:a05:6214:3291:b0:6e1:a4d6:185f with SMTP id
+ 6a1803df08f44-6e243c9b8c2mr427636956d6.34.1738692766625; 
+ Tue, 04 Feb 2025 10:12:46 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c5c11fadbsm16194196f8f.44.2025.02.04.10.02.10
+ 6a1803df08f44-6e2548143c4sm64370106d6.35.2025.02.04.10.12.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2025 10:02:11 -0800 (PST)
-Date: Tue, 4 Feb 2025 19:02:09 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- "biju.das.au" <biju.das.au@gmail.com>
-Subject: Re: [PATCH] drm/tegra: rgb: Simplify tegra_dc_rgb_probe()
-Message-ID: <wdxol4ua2zjzepvbdqrsybizl6ocpppjb2dmql62rbcmjjyqeb@5z4i2g7hf5vn>
-References: <20250201105658.37043-1-biju.das.jz@bp.renesas.com>
- <CAMuHMdVrry1ZV=C0vuEO+7GcF5Tqwtecxu4UPOnrtzXv6RUm4Q@mail.gmail.com>
- <TY3PR01MB11346E195D7B44DA6EA30E25986F42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <2spuar4m4kcv62r7d6ovtpttpooodwrvsjk6tyxhlnuynw2aru@aj6s4xcgwfjf>
- <TY3PR01MB11346FD535BB442955F43050C86F42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ Tue, 04 Feb 2025 10:12:46 -0800 (PST)
+Message-ID: <b02711c901e8acf2bc47926919de7673a0cb0b98.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 1/5] dt-bindings: dma: Add CMA Heap bindings
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Florent Tomasin <florent.tomasin@arm.com>, Maxime Ripard
+ <mripard@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Boris
+ Brezillon	 <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>,  Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
+ Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey	
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
+ Mercier"	 <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
+ Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, nd@arm.com, Akash Goel
+ <akash.goel@arm.com>
+Date: Tue, 04 Feb 2025 13:12:44 -0500
+In-Reply-To: <be8e6b9f-c3c6-41d1-af9c-3dcd102f0fe3@arm.com>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <771534be8dfa2a3bdc3876502752f518224b9298.1738228114.git.florent.tomasin@arm.com>
+ <ats2unrml5a7vbpdrqrzowodrsfj44bnubpbujg2igk3imeklx@nrpmg5oeq3gz>
+ <be8e6b9f-c3c6-41d1-af9c-3dcd102f0fe3@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3p7xeptfzcupllfn"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB11346FD535BB442955F43050C86F42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,129 +110,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Florent,
 
---3p7xeptfzcupllfn
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/tegra: rgb: Simplify tegra_dc_rgb_probe()
-MIME-Version: 1.0
-
-On Tue, Feb 04, 2025 at 03:33:53PM +0000, Biju Das wrote:
-> Hi Thierry Reding,
+Le lundi 03 f=C3=A9vrier 2025 =C3=A0 13:36 +0000, Florent Tomasin a =C3=A9c=
+rit=C2=A0:
 >=20
-> > -----Original Message-----
-> > From: Thierry Reding <thierry.reding@gmail.com>
-> > Sent: 04 February 2025 15:25
-> > Subject: Re: [PATCH] drm/tegra: rgb: Simplify tegra_dc_rgb_probe()
+> On 30/01/2025 13:28, Maxime Ripard wrote:
+> > Hi,
 > >=20
-> > On Tue, Feb 04, 2025 at 09:07:05AM +0000, Biju Das wrote:
-> > > Hi Geert,
-> > >
-> > > Thanks for the feedback.
-> > >
-> > > > -----Original Message-----
-> > > > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
-> > > > Of Geert Uytterhoeven
-> > > > Sent: 03 February 2025 11:06
-> > > > Subject: Re: [PATCH] drm/tegra: rgb: Simplify tegra_dc_rgb_probe()
-> > > >
-> > > > Hi Biju,
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > On Sat, 1 Feb 2025 at 11:57, Biju Das <biju.das.jz@bp.renesas.com> =
-wrote:
-> > > > > Simplify tegra_dc_rgb_probe() by using of_get_available_child_by_=
-name().
-> > > >
-> > > > That's not the only thing this patch does...
-> > > >
-> > > > >
-> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > >
-> > > > > --- a/drivers/gpu/drm/tegra/rgb.c
-> > > > > +++ b/drivers/gpu/drm/tegra/rgb.c
-> > > > > @@ -202,12 +202,12 @@ static const struct drm_encoder_helper_funcs
-> > > > > tegra_rgb_encoder_helper_funcs =3D {
-> > > > >
-> > > > >  int tegra_dc_rgb_probe(struct tegra_dc *dc)  {
-> > > > > -       struct device_node *np;
-> > > > > +       struct device_node *np _free(device_node) =3D
-> > > >
-> > > > Adding the _free()...
-> > >
-> > > Yes it fixes a memory leak aswell.
-> > >
-> > > >
-> > > > > +               of_get_available_child_by_name(dc->dev->of_node,
-> > > > > + "rgb");
-> > > > >         struct tegra_rgb *rgb;
-> > > > >         int err;
-> > > > >
-> > > > > -       np =3D of_get_child_by_name(dc->dev->of_node, "rgb");
-> > > > > -       if (!np || !of_device_is_available(np))
-> > > > > +       if (!np)
-> > > > >                 return -ENODEV;
-> > > >
-> > > > ... fixes the reference count in case of an unavailable node...
-> > > >
-> > > > >
-> > > > >         rgb =3D devm_kzalloc(dc->dev, sizeof(*rgb), GFP_KERNEL);
-> > > >
-> > > > ... but as np is stored below, it must not be freed when it goes ou=
-t of context?
-> > >
-> > > OK, But it is used in tegra_output_probe() and never freed.
-> > > Maybe remove should free it??
+> > On Thu, Jan 30, 2025 at 01:08:57PM +0000, Florent Tomasin wrote:
+> > > Introduce a CMA Heap dt-binding allowing custom
+> > > CMA heap registrations.
+> > >=20
+> > > * Note to the reviewers:
+> > > The patch was used for the development of the protected mode
+
+Just to avoid divergence in nomenclature, and because this is not a new sub=
+ject,
+perhaps you should also adhere to the name "restricted". Both Linaro and
+Mediatek have moved from "secure" to that name in their proposal. As you ar=
+e the
+third proposing this (at least for the proposal that are CCed on linux-medi=
+a), I
+would have expected in your cover letter a summary of how the other require=
+ment
+have been blended in your proposal.
+
+regards,
+Nicolas
+
+> > > feature in Panthor CSF kernel driver and is not initially thought
+> > > to land in the Linux kernel. It is mostly relevant if someone
+> > > wants to reproduce the environment of testing. Please, raise
+> > > interest if you think the patch has value in the Linux kernel.
+> > >=20
+> > > Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> > > ---
+> > >  .../devicetree/bindings/dma/linux,cma.yml     | 43 +++++++++++++++++=
+++
+> > >  1 file changed, 43 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/dma/linux,cma.y=
+ml
+> > >=20
+> > > diff --git a/Documentation/devicetree/bindings/dma/linux,cma.yml b/Do=
+cumentation/devicetree/bindings/dma/linux,cma.yml
+> > > new file mode 100644
+> > > index 000000000000..c532e016bbe5
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/dma/linux,cma.yml
+> > > @@ -0,0 +1,43 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/dma/linux-cma.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Custom Linux CMA heap
+> > > +
+> > > +description:
+> > > +  The custom Linux CMA heap device tree node allows registering
+> > > +  of multiple CMA heaps.
+> > > +
+> > > +  The CMA heap name will match the node name of the "memory-region".
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - linux,cma
+> > > +
+> > > +  memory-region:
+> > > +    maxItems: 1
+> > > +    description: |
+> > > +      Phandle to the reserved memory node associated with the CMA He=
+ap.
+> > > +      The reserved memory node must follow this binding convention:
+> > > +       - Documentation/devicetree/bindings/reserved-memory/reserved-=
+memory.txt
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    reserved-memory {
+> > > +      #address-cells =3D <2>;
+> > > +      #size-cells =3D <2>;
+> > > +
+> > > +      custom_cma_heap: custom-cma-heap {
+> > > +        compatible =3D "shared-dma-pool";
+> > > +        reg =3D <0x0 0x90600000 0x0 0x1000000>;
+> > > +        reusable;
+> > > +      };
+> > > +    };
+> > > +
+> > > +    device_cma_heap: device-cma-heap {
+> > > +      compatible =3D "linux,cma";
+> > > +      memory-region =3D <&custom_cma_heap>;
+> > > +    };
 > >=20
-> > It's not quite as simple as that. tegra_output_probe() can also store
-> > output->dev->of_node in output->of_node, so we'd also need to track a
-> > flag of some sort to denote that this needs to be freed.
->=20
-> OK.
->=20
+> > Isn't it redundant with the linux,cma-default shared-dma-pool property
+> > already?
 > >=20
-> > Ultimately I'm not sure if it's really worth it. Do we really expect th=
-ese nodes to ever be freed (in
-> > which case this might leak memory)?
-> > These are built-in devices and there's no code anywhere to remove any s=
-uch nodes.
+> > Maxime
 >=20
-> If there is no use case for bind/rebind for the built-in device then no i=
-ssue.
-> Or in .remove() free the node or use dev_action_reset()??
+> Hi Maxime,
+>=20
+> Please correct me if my understanding is wrong,
+>=20
+> The existing properties: linux,cma-default and shared-dma-pool, do not
+> allow the creations of multiple standalone CMA heaps, those will create
+> a single CMA heap: `dma_contiguous_default_area`? Other CMA heaps will
+> be bound to a driver.
+>=20
+> I introduced the "linux,cma" to allow creating multiple standalone CMA
+> heaps, with the intention of validating the protected mode support on
+> Mali CSG GPUs. It was included in the RFC in there are interests in
+> this approach.
+>=20
+> Since the Panthor CSF kernel driver does not own or manage a heap,
+> I needed a way to create a standalone heap. The idea here is for the
+> kernel driver to be an importer. I relied on a patch series to retrieve
+> the heap and allocate a DMA buffer from it:
+> - dma_heap_find()
+> - dma_heap_buffer_alloc()
+> - dma_heap_put()
+>=20
+> Ref:
+> https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.com/=
+#t
+>=20
+>=20
+> Since the protected/secure memory management is integration specific,
+> I needed a generic way for Panthor to allocate from such heap.
+>=20
+> In some scenarios it might be a carved-out memory, in others a FW will
+> reside in the system (TEE) and require a secure heap driver to allocate
+> memory (e.g: a similar approach is followd by MTK). Such driver would
+> implement the allocation and free logic.
+>=20
+> Florent
+>=20
+>=20
+>=20
 
-Bind/rebind is possible, but that's not even a problem. Worst case the
-reference count on the device node will keep increasing, so we'll just
-keep leaking the same node over and over again. I guess potentially
-there's a problem when we rebind for the 2^32-th time, but I'm not sure
-that's something we need to consider.
-
-That said, devm_add_action_or_reset() sounds like a good solution if we
-really want to make sure that this doesn't leak, so yeah, I'm in favour
-of that.
-
-Thierry
-
---3p7xeptfzcupllfn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmeiViEACgkQ3SOs138+
-s6Gomg//axDIv8lDZQI+Tb6vo+p5J65aHkZXr5gCcDDWdWuJHHm6RFxVv640fN73
-P+7oaTvquB52OBtcaJT4hGppK4Ai2meTIL0Dhe0EPT0Yz7WaD1GHR4IDa8ptNbDQ
-81kjhAwVpRPjdP3QdnFPD0hjCBjuyFYBjlGqqI+sXP3RCDtXx3oe7F1+Qzg/8X91
-PZ3jC2CeITJgnN/HTJG5qRMGBvvyjl4zr0+k2bS5dGPofpwE2Bx0dmbuv38vJQeo
-QTHCFMA61P9o63hVm/QS3542WWFAIU8SyJmfniA1QiPdzeHZzOz39N9YIRl0qIS8
-PEeonLhXLx+zgd3WHb4HzZJvFvvUIXxIaI0uwHFIpmbfOpf0DPGRV3nnKemgBPeK
-u7p1jIdgzdeR+JjmFqTS3fEgDxsGzhuJLA2e1Sufyj8ofmrwiBj/T8ePvel+R6kb
-tk5hN0Bdko08ahXeZRp9lLbaK/7ToRabZTuTEMosDc75fe/fQZG2V7SQ9zDbaCIQ
-l/JnRrntXMtYrgA8ClidDTIEHOknCYRjtRhAnwO19za5QbLrQyG8o2X41ReW2sZS
-xQMkZS2aABVkgnl/X/6fNqrW20YKHzur/GhHc78QsUBdUDJS7EvF9DdSB9yMPVon
-/1Z7AZRCjCT+Bl7h12KdogdHEowyVcIgGTJiXExeRDDV9+n1GdI=
-=CA70
------END PGP SIGNATURE-----
-
---3p7xeptfzcupllfn--
