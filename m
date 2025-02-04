@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF512A27517
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B45A27519
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 315A010E683;
-	Tue,  4 Feb 2025 14:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD15F10E67F;
+	Tue,  4 Feb 2025 14:59:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GoMWP7z/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="soE0zf+7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FCA010E684
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED0B10E67F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id B63245C69F0;
- Tue,  4 Feb 2025 14:59:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D692EC4CEE2;
- Tue,  4 Feb 2025 14:59:41 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E73045C69F0;
+ Tue,  4 Feb 2025 14:59:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DB24C4CEE2;
+ Tue,  4 Feb 2025 14:59:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738681183;
- bh=PdXpNhj44CIUPFVqmBPj/ISp1CrBH+MDwFRdwZ5zWoE=;
+ s=k20201202; t=1738681186;
+ bh=2xkSeODDPTO3IomK7BQyA5QO/6PFVWsZ+gQV8yCEt3I=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=GoMWP7z/+P8qZXrYQTv8I+8GthhsYf/v1M6qS7G9fR5qCdNTaDkome8oTojnMRA4X
- hOthzO2rHD60ulxKXme1QPeMG7F83jxSTqDvTh/PZfeqNat0QHqWbeiEcb8j432KjX
- hpr5fWFh94BciERBzOgHx1mKi5CJ6zhamrx3uKHfnbbQfQFwXibP4AymC+X2UE1oPX
- nN3czxVvpe+0OUww36E2CV4+02/lWYl5GPpFCsf0FTENtEy+CHD/Q+pBjL4dwUmnum
- cUgv/RBN5s8SzCzMuD6bJ4S5WqQVn5BCmTzOV8BCpDA7PwnFSa219jjKVk8goH/LH4
- utrnbrj6jcDWw==
+ b=soE0zf+7iajLNhwdklG5HGx4l8RvGjf7yS+hiWDEPl9w5whOgRLhBXN/pv1iUn8pg
+ 2DI8+hP7MJRju+kHO3LjsYHl3aVjQgxQlKvO4c6UjcKIOYs8z1ga/l3tqdAerSHWwb
+ 3pA+B1BN4z+3pBSxI1MtewxujBrB4w7dVpUBQfaWTce2YoAo/ggEf5t+FP7BdU9EP5
+ BQUNfjveCf+cf/3Bvc7jFsyzpow7capYU+8iAFkA9G0xlXdX/jg1xGrGy3zt3bYAiW
+ nQzklbffAaGcMPbvGwfrK9054vOc6Angnh1OrJYl3WHULyPNqng3X2SV0wz1QPD+OJ
+ JHhlYTqoV/CTQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Feb 2025 15:57:47 +0100
-Subject: [PATCH v2 19/35] drm/bridge: Change parameter name of
- drm_atomic_bridge_chain_enable()
+Date: Tue, 04 Feb 2025 15:57:48 +0100
+Subject: [PATCH v2 20/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_commit_writebacks()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-bridge-connector-v2-19-35dd6c834e08@kernel.org>
+Message-Id: <20250204-bridge-connector-v2-20-35dd6c834e08@kernel.org>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 In-Reply-To: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,12 +50,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1947; i=mripard@kernel.org;
- h=from:subject:message-id; bh=PdXpNhj44CIUPFVqmBPj/ISp1CrBH+MDwFRdwZ5zWoE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtD4uc1+QcmmztsuUs01Nwb4P5a5f+bTiy1Vl1yTx6
- n2OyfNyOqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEtn5mbPjuc/i59JMU/565
- izb+dWMqtvGNqWN6dzJ7o819jyVlYkxMstMX31dNeNvJaSt8UT4jgbHhaW7G9ZbFO9VXTWkvbe+
- wkxR1DPhX+Pu7iWJI6ivuR1k9LpYLc9bseeSn1Hiiq72r/z8A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1760; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=2xkSeODDPTO3IomK7BQyA5QO/6PFVWsZ+gQV8yCEt3I=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtD7OuM3hNInZIH3BJbOvlpydqtZ8uzbWe7BOWLvr0
+ qMHAvMOdkxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJVHMz1ke7/n3+0Ujz89HF
+ e/06i4p+3fwqYayZs+VR2Ax1PvtrBvWuieobJ1+IC968zTlY4oGXBWN97N7PIfIfdthF9R9QrHp
+ 7stbLNL/moO48y7U8VrsVOEV/Fa2w+8g0T+D1hSKjSfzmgW0A
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,56 +73,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_bridge_chain_enable() enables all bridges affected by a new
-commit. It takes the drm_atomic_state being committed as a parameter.
+drm_atomic_helper_commit_writebacks() updates all writeback connectors
+affected by a new commit. It takes the drm_atomic_state being committed
+as a parameter.
 
 However, that parameter name is called (and documented) as old_state,
 which is pretty confusing. Let's rename that variable as state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_bridge.c | 6 +++---
+ drivers/gpu/drm/drm_atomic_helper.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 02ddfe962b99bed4316b2a7b0c72112e127afa8b..567400074d25aecd3174b24bae2f70ebea347071 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -762,31 +762,31 @@ void drm_atomic_bridge_chain_pre_enable(struct drm_bridge *bridge,
- EXPORT_SYMBOL(drm_atomic_bridge_chain_pre_enable);
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index b95e30dee1b4e2ba8991affd1e280a7a36171afd..cf859fa0110ad1154021e970dc262387cf3eb0c8 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1451,26 +1451,26 @@ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
+ 	crtc_set_mode(dev, state);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_disables);
  
- /**
-  * drm_atomic_bridge_chain_enable - enables all bridges in the encoder chain
-  * @bridge: bridge control structure
-- * @old_state: old atomic state
-+ * @state: atomic state being committed
-  *
-  * Calls &drm_bridge_funcs.atomic_enable (falls back on
-  * &drm_bridge_funcs.enable) op for all the bridges in the encoder chain,
-  * starting from the first bridge to the last. These are called after completing
-  * &drm_encoder_helper_funcs.atomic_enable
-  *
-  * Note: the bridge passed should be the one closest to the encoder
-  */
- void drm_atomic_bridge_chain_enable(struct drm_bridge *bridge,
--				    struct drm_atomic_state *old_state)
-+				    struct drm_atomic_state *state)
+ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+-						struct drm_atomic_state *old_state)
++						struct drm_atomic_state *state)
  {
- 	struct drm_encoder *encoder;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *new_conn_state;
+ 	int i;
  
- 	if (!bridge)
- 		return;
+-	for_each_new_connector_in_state(old_state, connector, new_conn_state, i) {
++	for_each_new_connector_in_state(state, connector, new_conn_state, i) {
+ 		const struct drm_connector_helper_funcs *funcs;
  
- 	encoder = bridge->encoder;
- 	list_for_each_entry_from(bridge, &encoder->bridge_chain, chain_node) {
- 		if (bridge->funcs->atomic_enable) {
--			bridge->funcs->atomic_enable(bridge, old_state);
-+			bridge->funcs->atomic_enable(bridge, state);
- 		} else if (bridge->funcs->enable) {
- 			bridge->funcs->enable(bridge);
+ 		funcs = connector->helper_private;
+ 		if (!funcs->atomic_commit)
+ 			continue;
+ 
+ 		if (new_conn_state->writeback_job && new_conn_state->writeback_job->fb) {
+ 			WARN_ON(connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK);
+-			funcs->atomic_commit(connector, old_state);
++			funcs->atomic_commit(connector, state);
  		}
  	}
  }
+ 
+ /**
 
 -- 
 2.48.0
