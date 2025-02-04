@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A6AA2752F
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0D5A27530
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:01:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE9DE10E691;
-	Tue,  4 Feb 2025 15:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E55C610E694;
+	Tue,  4 Feb 2025 15:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W5IzrFDq";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vt3avH7j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0A810E691
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:01:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE07410E692
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:01:15 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 934A45C6AB7;
- Tue,  4 Feb 2025 15:00:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E0CC4CEE4;
- Tue,  4 Feb 2025 15:01:11 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3F2E65C69DE;
+ Tue,  4 Feb 2025 15:00:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E94C4CEDF;
+ Tue,  4 Feb 2025 15:01:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738681272;
- bh=GCv/2JmRe5GDE3+8f4+/zLcZeqXTw0FcTdudDdF3K5o=;
+ s=k20201202; t=1738681274;
+ bh=nMPrnko8NIXHxK0qBKf1FnCloSLkqwlYjmZ4ZeLx4vM=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=W5IzrFDqrPQ3HmfsKpwLnE83bBI337BY9apuLRd/tjn87W8vXHvy0qdziRV7584L1
- 7w8SDr4dopvCxlBH2cCWv6KFSu8X4sLByBNzumUvKb5Op5SM2zdeQlCBVraxiRaQGG
- 7KMFa/aRQvGEty3O0e32p35PZdTR2tkwNci64H4tRizX6NbFxxz7C1C/7mV181wTDL
- bjIqpi8vyfF/JLWRnXABYqmleQCtqCcl8gN+51m0SVrOYXGa2G38dTrf/9whdImvnr
- 0Q6CSkFK129uPQ/26eyInjsOG1Skc+/ikiSRJ4B8FJ70lq5Oe886nJHuP2cp+dQmI0
- OU+JZLKeTF2Ow==
+ b=Vt3avH7jXTydpf51MzfbLCcuoIbwhQ14eLF0Eh3PnprJ4MMrbTQ6XfSVNWSKTeg/5
+ w37tJRaUHlpKAm5cUU3lvX5EjTBUzL0YSC36/Hc0oU2a5oMV6DzrV6p3/tksPKa0JA
+ udAmqDr8AV+BJNh4TVFYwYz9nEkxkPuS+kPFYOO/s1HYKZocyvU67zPuAtBe1uBZA0
+ 1IMSd/rr94XcQp42PBTOreSYXwSjf5avuCUk58cTNTs5vLuycx+Vs2kaMoZ33dOXJY
+ iHChbiarf1xqdZ1agcqiOcie3Sd996PWqkIEuU7JUxyXjWYddKRYBVgHA7iq/+e7ha
+ 6wFRGGdlKuIng==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Feb 2025 15:58:02 +0100
-Subject: [PATCH v2 34/35] drm/bridge: tc358768: Convert to atomic helpers
+Date: Tue, 04 Feb 2025 15:58:03 +0100
+Subject: [PATCH v2 35/35] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
+ pointer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-bridge-connector-v2-34-35dd6c834e08@kernel.org>
+Message-Id: <20250204-bridge-connector-v2-35-35dd6c834e08@kernel.org>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 In-Reply-To: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -49,12 +50,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4373; i=mripard@kernel.org;
- h=from:subject:message-id; bh=GCv/2JmRe5GDE3+8f4+/zLcZeqXTw0FcTdudDdF3K5o=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtH7Y+T/T25hc2rRmqljj3YqToXprP0w3+NBW4jnrZ
- J9Ywu3MjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRTCfG+sKNSzfYJFlFrbPw
- +O+z+dq2uSX/nq4095xou2/NQ97Tb6QF3znz/RFuehNR5nPTxr9+AWPDrG1m8+x7DQL1LA9rbZ8
- 6X8rCcpLmVKtfxYeOJMuvcug7ViSmyNv++s3WqmTt/Q7b89kB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9273; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=nMPrnko8NIXHxK0qBKf1FnCloSLkqwlYjmZ4ZeLx4vM=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtH7MELh96p9x8K0T1tevXNh/7r39B91FcktEQrP23
+ Al1zhEI75jKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATmXmDsVa2XTzHKLLH/txC
+ x6Wnly9Vzylz7f0WWa684JDC5aqFS5mToiRW3Ysq3923+vwKu0kX4hkb/kbXKU6/fFrwq9pXVZ3
+ LHH8vzfxi+1TpaexEccn1nz++lrhcF3tr9t9IgVO7Z3vJRHDkAAA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,7 +73,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tc358768 driver follows the drm_encoder->crtc pointer that is
+The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
 deprecated and shouldn't be used by atomic drivers.
 
 This was due to the fact that we did't have any other alternative to
@@ -82,111 +83,235 @@ deprecated pointer usage.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/bridge/tc358768.c | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c | 50 ++++++++++++++++++++++-------------
+ 1 file changed, 32 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index 6db18d1e8824dd7d387211d6d1e668645cf88bbe..6ff6b29e8075d7c6fa0b74b4fec83c5230512d96 100644
---- a/drivers/gpu/drm/bridge/tc358768.c
-+++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -601,17 +601,29 @@ static void tc358768_bridge_disable(struct drm_bridge *bridge)
- 	ret = tc358768_clear_error(priv);
- 	if (ret)
- 		dev_warn(priv->dev, "Software disable failed: %d\n", ret);
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+index 497e7212d7719a03045d055b7069f9a10c7f3877..590504bd2746fd1f9b78a8203e762d154dfb0bb2 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
+@@ -242,15 +242,16 @@ static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
+ 	u8 buf[2] = { val & 0xff, val >> 8 };
+ 
+ 	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
  }
  
-+static void tc358768_bridge_atomic_disable(struct drm_bridge *bridge,
-+					   struct drm_atomic_state *state)
-+{
-+	tc358768_bridge_disable(bridge);
-+}
-+
- static void tc358768_bridge_post_disable(struct drm_bridge *bridge)
+-static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
++static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata,
++				     struct drm_bridge_state *bridge_state)
  {
- 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+ 	u32 bit_rate_khz, clk_freq_khz;
+ 	struct drm_display_mode *mode =
+-		&pdata->bridge.encoder->crtc->state->adjusted_mode;
++		&bridge_state->crtc->state->adjusted_mode;
  
- 	tc358768_hw_disable(priv);
+ 	bit_rate_khz = mode->clock *
+ 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
+ 	clk_freq_khz = bit_rate_khz / (pdata->dsi->lanes * 2);
+ 
+@@ -273,11 +274,12 @@ static const u32 ti_sn_bridge_dsiclk_lut[] = {
+ 	416000000,
+ 	486000000,
+ 	460800000,
+ };
+ 
+-static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
++static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata,
++					 struct drm_bridge_state *bridge_state)
+ {
+ 	int i;
+ 	u32 refclk_rate;
+ 	const u32 *refclk_lut;
+ 	size_t refclk_lut_size;
+@@ -286,11 +288,11 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
+ 		refclk_rate = clk_get_rate(pdata->refclk);
+ 		refclk_lut = ti_sn_bridge_refclk_lut;
+ 		refclk_lut_size = ARRAY_SIZE(ti_sn_bridge_refclk_lut);
+ 		clk_prepare_enable(pdata->refclk);
+ 	} else {
+-		refclk_rate = ti_sn_bridge_get_dsi_freq(pdata) * 1000;
++		refclk_rate = ti_sn_bridge_get_dsi_freq(pdata, bridge_state) * 1000;
+ 		refclk_lut = ti_sn_bridge_dsiclk_lut;
+ 		refclk_lut_size = ARRAY_SIZE(ti_sn_bridge_dsiclk_lut);
+ 	}
+ 
+ 	/* for i equals to refclk_lut_size means default frequency */
+@@ -310,16 +312,17 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
+ 	 * regardless of its actual sourcing.
+ 	 */
+ 	pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
  }
  
-+static void tc358768_bridge_atomic_post_disable(struct drm_bridge *bridge,
-+						struct drm_atomic_state *state)
-+{
-+	tc358768_bridge_post_disable(bridge);
-+}
-+
- static int tc358768_setup_pll(struct tc358768_priv *priv,
- 			      const struct drm_display_mode *mode)
+-static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
++static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
++				      struct drm_bridge_state *bridge_state)
  {
- 	u32 fbd, prd, frs;
- 	int ret;
-@@ -681,17 +693,19 @@ static u32 tc358768_dsi_bytes_to_ns(struct tc358768_priv *priv, u32 val)
- 	u64 n = priv->dsiclk / 4 * priv->dsi_lanes;
+ 	mutex_lock(&pdata->comms_mutex);
  
- 	return (u32)div_u64(m, n);
+ 	/* configure bridge ref_clk */
+-	ti_sn_bridge_set_refclk_freq(pdata);
++	ti_sn_bridge_set_refclk_freq(pdata, bridge_state);
+ 
+ 	/*
+ 	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
+ 	 * so the HPD is an internal signal that's only there to signal that
+ 	 * the panel is done powering up.  ...but the bridge chip debounces
+@@ -374,12 +377,15 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
+ 	 * panel (including the aux channel) w/out any need for an input clock
+ 	 * so we can do it in resume which lets us read the EDID before
+ 	 * pre_enable(). Without a reference clock we need the MIPI reference
+ 	 * clock so reading early doesn't work.
+ 	 */
+-	if (pdata->refclk)
+-		ti_sn65dsi86_enable_comms(pdata);
++	if (pdata->refclk) {
++		drm_modeset_lock(&pdata->bridge.base.lock, NULL);
++		ti_sn65dsi86_enable_comms(pdata, drm_bridge_get_current_state(&pdata->bridge));
++		drm_modeset_unlock(&pdata->bridge.base.lock);
++	}
+ 
+ 	return ret;
  }
  
--static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
-+static void tc358768_bridge_atomic_pre_enable(struct drm_bridge *bridge,
-+					      struct drm_atomic_state *state)
+ static int __maybe_unused ti_sn65dsi86_suspend(struct device *dev)
+@@ -821,16 +827,17 @@ static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
+ 
+ 	/* disable video stream */
+ 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
+ }
+ 
+-static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
++static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata,
++				      struct drm_bridge_state *bridge_state)
  {
- 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
- 	struct mipi_dsi_device *dsi_dev = priv->output.dev;
- 	unsigned long mode_flags = dsi_dev->mode_flags;
- 	u32 val, val2, lptxcnt, hact, data_type;
- 	s32 raw_val;
+ 	unsigned int bit_rate_mhz, clk_freq_mhz;
+ 	unsigned int val;
+ 	struct drm_display_mode *mode =
+-		&pdata->bridge.encoder->crtc->state->adjusted_mode;
++		&bridge_state->crtc->state->adjusted_mode;
+ 
+ 	/* set DSIA clk frequency */
+ 	bit_rate_mhz = (mode->clock / 1000) *
+ 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
+ 	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
+@@ -856,16 +863,18 @@ static unsigned int ti_sn_bridge_get_bpp(struct drm_connector *connector)
+  */
+ static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
+ 	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
+ };
+ 
+-static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata, unsigned int bpp)
++static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata,
++					     struct drm_bridge_state *bridge_state,
++					     unsigned int bpp)
+ {
+ 	unsigned int bit_rate_khz, dp_rate_mhz;
+ 	unsigned int i;
+ 	struct drm_display_mode *mode =
+-		&pdata->bridge.encoder->crtc->state->adjusted_mode;
++		&bridge_state->crtc->state->adjusted_mode;
+ 
+ 	/* Calculate minimum bit rate based on our pixel clock. */
+ 	bit_rate_khz = mode->clock * bpp;
+ 
+ 	/* Calculate minimum DP data rate, taking 80% as per DP spec */
+@@ -960,14 +969,15 @@ static unsigned int ti_sn_bridge_read_valid_rates(struct ti_sn65dsi86 *pdata)
+ 	}
+ 
+ 	return valid_rates;
+ }
+ 
+-static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
++static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata,
++					   struct drm_bridge_state *bridge_state)
+ {
+ 	struct drm_display_mode *mode =
+-		&pdata->bridge.encoder->crtc->state->adjusted_mode;
++		&bridge_state->crtc->state->adjusted_mode;
+ 	u8 hsync_polarity = 0, vsync_polarity = 0;
+ 
+ 	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+ 		hsync_polarity = CHA_HSYNC_POLARITY;
+ 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+@@ -1076,19 +1086,21 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
+ 
+ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+ 				       struct drm_atomic_state *state)
+ {
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
 +	struct drm_bridge_state *bridge_state;
- 	const struct drm_display_mode *mode;
- 	u32 hsbyteclk_ps, dsiclk_ps, ui_ps;
- 	u32 dsiclk, hsbyteclk;
- 	int ret, i;
- 	struct videomode vm;
-@@ -718,11 +732,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 		dev_err(dev, "Software reset failed: %d\n", ret);
- 		tc358768_hw_disable(priv);
+ 	struct drm_connector *connector;
+ 	const char *last_err_str = "No supported DP rate";
+ 	unsigned int valid_rates;
+ 	int dp_rate_idx;
+ 	unsigned int val;
+ 	int ret = -EINVAL;
+ 	int max_dp_lanes;
+ 	unsigned int bpp;
+ 
++	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
+ 	connector = drm_atomic_get_new_connector_for_encoder(state,
+ 							     bridge->encoder);
+ 	if (!connector) {
+ 		dev_err_ratelimited(pdata->dev, "Could not get the connector\n");
+ 		return;
+@@ -1105,11 +1117,11 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+ 	regmap_write(pdata->regmap, SN_LN_ASSIGN_REG, pdata->ln_assign);
+ 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, LN_POLRS_MASK,
+ 			   pdata->ln_polrs << LN_POLRS_OFFSET);
+ 
+ 	/* set dsi clk frequency value */
+-	ti_sn_bridge_set_dsi_rate(pdata);
++	ti_sn_bridge_set_dsi_rate(pdata, bridge_state);
+ 
+ 	/*
+ 	 * The SN65DSI86 only supports ASSR Display Authentication method and
+ 	 * this method is enabled for eDP panels. An eDP panel must support this
+ 	 * authentication method. We need to enable this method in the eDP panel
+@@ -1140,11 +1152,11 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+ 			   val);
+ 
+ 	valid_rates = ti_sn_bridge_read_valid_rates(pdata);
+ 
+ 	/* Train until we run out of rates */
+-	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, bpp);
++	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, bridge_state, bpp);
+ 	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
+ 	     dp_rate_idx++) {
+ 		if (!(valid_rates & BIT(dp_rate_idx)))
+ 			continue;
+ 
+@@ -1156,26 +1168,28 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
+ 		DRM_DEV_ERROR(pdata->dev, "%s (%d)\n", last_err_str, ret);
  		return;
  	}
  
--	mode = &bridge->encoder->crtc->state->adjusted_mode;
-+	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
-+	mode = &bridge_state->crtc->state->adjusted_mode;
- 	ret = tc358768_setup_pll(priv, mode);
- 	if (ret) {
- 		dev_err(dev, "PLL setup failed: %d\n", ret);
- 		tc358768_hw_disable(priv);
- 		return;
-@@ -1082,11 +1097,12 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 		tc358768_bridge_disable(bridge);
- 		tc358768_bridge_post_disable(bridge);
- 	}
+ 	/* config video parameters */
+-	ti_sn_bridge_set_video_timings(pdata);
++	ti_sn_bridge_set_video_timings(pdata, bridge_state);
+ 
+ 	/* enable video stream */
+ 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE,
+ 			   VSTREAM_ENABLE);
  }
  
--static void tc358768_bridge_enable(struct drm_bridge *bridge)
-+static void tc358768_bridge_atomic_enable(struct drm_bridge *bridge,
-+					  struct drm_atomic_state *state)
+ static void ti_sn_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+ 					   struct drm_atomic_state *state)
  {
- 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
- 	int ret;
+ 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
++	struct drm_bridge_state *bridge_state =
++		drm_atomic_get_new_bridge_state(state, bridge);
  
- 	if (!priv->enabled) {
-@@ -1165,14 +1181,14 @@ static bool tc358768_mode_fixup(struct drm_bridge *bridge,
+ 	pm_runtime_get_sync(pdata->dev);
  
- static const struct drm_bridge_funcs tc358768_bridge_funcs = {
- 	.attach = tc358768_bridge_attach,
- 	.mode_valid = tc358768_bridge_mode_valid,
- 	.mode_fixup = tc358768_mode_fixup,
--	.pre_enable = tc358768_bridge_pre_enable,
--	.enable = tc358768_bridge_enable,
--	.disable = tc358768_bridge_disable,
--	.post_disable = tc358768_bridge_post_disable,
-+	.atomic_pre_enable = tc358768_bridge_atomic_pre_enable,
-+	.atomic_enable = tc358768_bridge_atomic_enable,
-+	.atomic_disable = tc358768_bridge_atomic_disable,
-+	.atomic_post_disable = tc358768_bridge_atomic_post_disable,
+ 	if (!pdata->refclk)
+-		ti_sn65dsi86_enable_comms(pdata);
++		ti_sn65dsi86_enable_comms(pdata, bridge_state);
  
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
- 	.atomic_get_input_bus_fmts = tc358768_atomic_get_input_bus_fmts,
+ 	/* td7: min 100 us after enable before DSI data */
+ 	usleep_range(100, 110);
+ }
+ 
 
 -- 
 2.48.0
