@@ -2,94 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9230A27381
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A59A27396
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:58:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 417F310E33B;
-	Tue,  4 Feb 2025 13:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F1CF10E649;
+	Tue,  4 Feb 2025 13:58:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BxQz//+0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Kyl6BPwO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3DF310E33B
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 13:55:52 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9324CDB;
- Tue,  4 Feb 2025 14:54:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1738677279;
- bh=EQUSXlFr3njl5PP9Kzw658twDaEAGGl3qA9IHHP+oso=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BxQz//+0Y76vAOQxeOg7tY6S3bD1oRK6+Lx/j/6HLXP8V2FlwKsRykcZzHiEaGjLx
- raSBFCKI2PCgcEa68I1Y6fx3ZQ/EJ6TWgjeeJJeCkjjUPibTshQAVY6rTdGbtZm9W3
- ncNd3wt4Aw1KlaPAOUXHRWxAc6qfGNmqnZG6oxNw=
-Message-ID: <eb8883f2-fc34-44f5-90a9-f4b14f0c45f2@ideasonboard.com>
-Date: Tue, 4 Feb 2025 15:55:47 +0200
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD6110E341;
+ Tue,  4 Feb 2025 13:58:45 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id
+ 98e67ed59e1d1-2f45526dea0so1202929a91.1; 
+ Tue, 04 Feb 2025 05:58:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1738677525; x=1739282325; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XsrXZFWKImkICBLcHp0bqX7Zekt5NjRR8pvJPzJAhJs=;
+ b=Kyl6BPwO7U6ysP4KyFf/NXt/FP40gHdDX13pASkJAXEGSscChBjgJwxD7y0dVu4DaX
+ Jr1m+hjrMisUrh6v3JHGXlJ0BuKus8V+yhwkPTFVfk1ahxctZGQjbH5Y0t0RztU2aWOS
+ I2M+8dbfR3IFxhofeMUwGLcBs+3DMVwmr8TOn4bH/I0EhVSfdY5wNQjbAWGzueK2NyAE
+ 59wEZ+YMECKwnJzvnnqoEfTdxxFdckXSumx9rmG5zOVLxlTKR/qhF1Dj/h4NcXIcG4tN
+ CkBrPD7z61VyaPoRFZrKuq07O1tU7OvdFoXkBkdD/UiQuRB8IFjVnhQucAzICu6PpfhS
+ FhNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738677525; x=1739282325;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XsrXZFWKImkICBLcHp0bqX7Zekt5NjRR8pvJPzJAhJs=;
+ b=eP3CcSR2rU5wLaksEfV/6GqDPXO+G9jo6aNnKVa4ImYo1S+uhD2cE983HBOza0Kmmf
+ 6A40SjqW6jp4vCE1v/mGHsW41aRgQH7O8894mNzTAx5R17m/Lbf7cRcxHb3+IvCg6W/G
+ ovE2tU+Q5mUx9wkqnu3zNECi0prVwLijUG6AtntROT0xY6smSvEkps3aBiYY5oczwLh6
+ vThRXChZO/9UZQtQnFg1gt/CXerenHhbPJ5QribE1uMiSFRoz/2WRXMAo5Z7g71U5sb1
+ SxIX5EzOmrCdSFhQZIkZDSTEg25prDpyVOgPF4+H33G+e5T9dpv8Ov6GFfoTAVHuJhJl
+ xShQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU7Fn10hQuSxXx/0TJT3tdKv+nU4kwYNTz/cmDtGQ0pO9cg+fComcc0VqF9xjmsfquxi3dDenQSdpD/@lists.freedesktop.org,
+ AJvYcCXJgTUXRjrQiZzHIm6KgyoUQVnlGeUpPNHGbm2SwUeCoK6jicuvNddsRK+aiYU4Sn5xbTSyIBVI@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyE7Krq2S1iX0BvBmgFBNEP02uyqlov/k4uAyS1eDxO6z9CY5Pp
+ /QkDeR0kLeOnZdw0bEwdZsHt3tXBkDMoEzun4YP8rPbQroz2ADDU4siR9LJJyUepXUgdnSgzfcs
+ oSye+0UciLsO7IecntwwcEXro8oo=
+X-Gm-Gg: ASbGnctDPfu8Rk8Piz0CFw+3+ZfD5sH3LL48QjAzHNfYv3dK7JrmkrQ3mrOvNXsOGGR
+ DH0tt8fexjngp1jmEi12H2HmxcB+cnkM27RnHzznJkDKemeCPOKTp5U6A/sh8K5+n3hOpVf79
+X-Google-Smtp-Source: AGHT+IGL5zK++NHUFXZ370F4xSJDePMYmNGPkxXP4JSICyd0y5kyjG7oa19EZ3ruoEAtHrKdzcn715cPE9xaXFpvAvE=
+X-Received: by 2002:a17:90b:50cd:b0:2ee:b665:12ce with SMTP id
+ 98e67ed59e1d1-2f9b8c23b0emr2173926a91.1.1738677524881; Tue, 04 Feb 2025
+ 05:58:44 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: ti,am65x-dss: Add support
- for AM62L DSS
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: praneeth@ti.com, vigneshr@ti.com, aradhya.bhatia@linux.dev,
- s-jain1@ti.com, r-donadkar@ti.com, j-choudhary@ti.com, h-shenoy@ti.com,
- jyri.sarha@iki.fi, airlied@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- simona@ffwll.ch, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-References: <20250204061552.3720261-1-devarsht@ti.com>
- <20250204061552.3720261-2-devarsht@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250204061552.3720261-2-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240819072110.108715-1-friedrich.vock@gmx.de>
+ <8488e172-4d50-4cd6-8d2b-fd86d6126425@amd.com>
+ <e6330f10-a736-4ccd-8a0e-95e1899648d6@gmx.de>
+ <2217a9b5-894a-4f1c-95f8-dbd6f18fc8b4@amd.com>
+In-Reply-To: <2217a9b5-894a-4f1c-95f8-dbd6f18fc8b4@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 4 Feb 2025 08:58:32 -0500
+X-Gm-Features: AWEUYZlYiXFeHArFRI_z43OrClNmPRAgU_CHJW_tnNvmUW7_Oa3XiNLiqJ9BC60
+Message-ID: <CADnq5_NC1ZxjCS8-cHsLTB_2DAeiMr_+LeRXwMtUQQ7MrrX_bg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] drm/amdgpu: Explicit sync for GEM VA operations
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Friedrich Vock <friedrich.vock@gmx.de>, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, "Sharma, Shashank" <Shashank.Sharma@amd.com>, 
+ Alex Deucher <Alexander.Deucher@amd.com>,
+ Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>, 
+ Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,104 +89,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Tue, Feb 4, 2025 at 8:37=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> Hi Friedrich,
+>
+> adding Alex.
+>
+> Am 04.02.25 um 13:32 schrieb Friedrich Vock:
+> > Hi,
+> >
+> > On 19.08.24 13:21, Christian K=C3=B6nig wrote:
+> >> Am 19.08.24 um 09:21 schrieb Friedrich Vock:
+> >>> In Vulkan, it is the application's responsibility to perform adequate
+> >>> synchronization before a sparse unmap, replace or BO destroy operatio=
+n.
+> >>> This adds an option to AMDGPU_VA_OPs to disable redundant implicit sy=
+nc
+> >>> that happens on sparse unmap or replace operations.
+> >>>
+> >>> This has seen a significant improvement in stutter in Forza Horizon 5
+> >>> and Forza Horizon 4. (As games that had significant issues in sparse
+> >>> binding related stutter).
+> >>
+> >> Looks pretty good, I have Shashank and his team working on the similar
+> >> patches ever since Bas initially came up with it since we need it for
+> >> user queues as well.
+> >>
+> >> Shashank can you take a look at the UAPI? Of hand looks pretty similar
+> >> to what we have done as well, doesn't it?
+> >>
+> >> For the internal implementation in the VM I'm currently working on a b=
+ug
+> >> fix for the KFD team, so this is subject to change anyway. Going to ke=
+ep
+> >> this requirement here in mind while doing that, whatever implementatio=
+n
+> >> we end up with we probably need to re-base it anyway.
+> >
+> > Bumping this again - it's been quite a while, what became of that KFD
+> > bugfix and the userqueue stuff? It'd be nice to finally make progress
+> > here, whether it's using the user queue interface you worked on or a
+> > re-spin of this. Maybe it's possible to split this off from the rest of
+> > the userqueue stuff and merge it beforehand if you're reasonably certai=
+n
+> > about how the uapi should look? Let me know.
+>
+> That is merged into amd-staging-drm-next for quite a while now, but we
+> only defined the interface and dropped all optimizations to initially
+> get it upstream.
+>
+> @Alex IIRC we pushed the KFD part upstream already, but the userqueue
+> part is still waiting for the final firmware release, right?
 
-On 04/02/2025 08:15, Devarsh Thakkar wrote:
-> The DSS controller on TI's AM62L SoC is an update from that on TI's
-> AM625/AM65x/AM62A7 SoC. The AM62L DSS [1] only supports a single display
-> pipeline using a single overlay manager, single video port and a single
-> video lite pipeline which does not support scaling.
-> 
-> The output of video port is routed to SoC boundary via DPI interface and
-> the DPI signals from the video port are also routed to DSI Tx controller
-> present within the SoC.
-> 
-> [1]: Section 11.7 (Display Subsystem and Peripherals)
-> Link : https://www.ti.com/lit/pdf/sprujb4
-> 
-> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Reviewed-by: Jayesh Choudhary <j-choudhary@ti.com>
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> - Add Reviewed-by
-> - s/ti,am62l,dss/ti,am62l-dss
-> 
-> NOTE: This patch needs to be applied on top of AM62A dt-binding fix:
-> https://lore.kernel.org/all/20250203155431.2174170-1-devarsht@ti.com/
-> 
->   .../bindings/display/ti/ti,am65x-dss.yaml     | 25 ++++++++++++++++++-
->   1 file changed, 24 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 31c4ffcb599c..f82e9a84e8a8 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -12,18 +12,29 @@ maintainers:
->     - Tomi Valkeinen <tomi.valkeinen@ti.com>
->   
->   description: |
-> -  The AM625 and AM65x TI Keystone Display SubSystem with two output
-> +  The AM625 and AM65x TI Keystone Display SubSystem has two output
->     ports and two video planes. In AM65x DSS, the first video port
->     supports 1 OLDI TX and in AM625 DSS, the first video port output is
->     internally routed to 2 OLDI TXes. The second video port supports DPI
->     format. The first plane is full video plane with all features and the
->     second is a "lite plane" without scaling support.
-> +  The AM62A7 display subsystem has a single output port supporting DPI format
-> +  although similar to AM625 and AM65x Socs, it has two video planes where first
-> +  is full video plane with all features and second is a video "lite" plane which
-> +  does not support scaling.
+Correct.
 
-The part above doesn't belong into "add AM62L" patch. It's also quite 
-confusing. "although similar to..."? Maybe drop the text "although 
-similar to AM625 and AM65x Socs, ", and start a new sentence from "it"?
+Alex
 
-For the AM62L parts:
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-  Tomi
-
-> +  The AM62L display subsystem also has a single output port which supports DPI
-> +  format but it only supports single video "lite plane" which does not support
-> +  scaling. The output port is routed to SoC boundary via DPI interface and same
-> +  DPI signals are also routed internally to DSI Tx controller present within the
-> +  SoC. Due to clocking limitations only one of the interface i.e. either DSI or
-> +  DPI can be used at once.
->   
->   properties:
->     compatible:
->       enum:
->         - ti,am625-dss
->         - ti,am62a7-dss
-> +      - ti,am62l-dss
->         - ti,am65x-dss
->   
->     reg:
-> @@ -91,6 +102,8 @@ properties:
->             For AM625 DSS, the internal DPI output port node from video
->             port 1.
->             For AM62A7 DSS, the port is tied off inside the SoC.
-> +          For AM62L DSS, the DSS DPI output port node from video port 1
-> +          or DSI Tx controller node connected to video port 1.
->   
->         port@1:
->           $ref: /schemas/graph.yaml#/properties/port
-> @@ -123,6 +136,16 @@ allOf:
->           ports:
->             properties:
->               port@0: false
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am62l-dss
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@1: false
->   
->   required:
->     - compatible
-
+>
+> Regards,
+> Christian.
+>
+> >
+> > Thanks,
+> > Friedrich
+> >
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>> Userspace changes for this new version can be found at [1][2], and a
+> >>> kernel
+> >>> branch containing these patches can be found at [3].
+> >>>
+> >>> [1] https://gitlab.freedesktop.org/pixelcluster/drm/-/commits/vm-
+> >>> explicit-sync
+> >>> [2] https://gitlab.freedesktop.org/pixelcluster/mesa/-/commits/vm-
+> >>> explicit-sync
+> >>> [3] https://gitlab.freedesktop.org/pixelcluster/linux/-/commits/
+> >>> amdgpu-vm-explicit-sync
+> >>>
+> >>> v3 changes:
+> >>> - Rebased onto current amd-staging-drm-next
+> >>> - Added option to wait for drm_syncobjs instead of executing
+> >>> immediately
+> >>>
+> >>> Tatsuyuki Ishi (3):
+> >>>    drm/amdgpu: Don't implicit sync PRT maps.
+> >>>    drm/amdgpu: Add optional explicit sync fences for GEM operations.
+> >>>    drm/amdgpu: Bump amdgpu driver version.
+> >>>
+> >>>   .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c  |  2 +-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c       |  2 +-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  3 +-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       | 76
+> >>> ++++++++++++++++---
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.h    | 23 +++++-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  6 +-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c  |  2 +-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 68 +++++++++++-----=
+-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        | 30 ++++----
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c    | 12 ++-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c     |  2 +-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |  9 +++
+> >>>   drivers/gpu/drm/amd/amdkfd/kfd_svm.c          | 18 ++---
+> >>>   include/uapi/drm/amdgpu_drm.h                 |  7 ++
+> >>>   14 files changed, 194 insertions(+), 66 deletions(-)
+> >>>
+> >>> --
+> >>> 2.46.0
+> >>>
+> >
+>
