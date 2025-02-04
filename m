@@ -2,86 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C2EA275BE
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:24:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A1CA275C5
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:27:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D88210E695;
-	Tue,  4 Feb 2025 15:24:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA6810E69A;
+	Tue,  4 Feb 2025 15:27:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="ZG+2bKJa";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EsAOy7Pm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 939E710E695
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:23:01 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43624b2d453so67474135e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 07:23:01 -0800 (PST)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC16E10E69B
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:25:17 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4361f65ca01so58706235e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 07:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1738682580; x=1739287380;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uHPzkNUrpAio+U5bG1xs4+WPUC/pQ8D7HaWPlsKB46g=;
- b=ZG+2bKJaDEa8Kfcovk4eKgMII6iqX8e+G4pn8d65Xrp255d98UFRSNFifqtcrRW2Fd
- RPp5B2hA54+updB1Lm5lDDN0m3gl0K3TqzzHvdrIS8wAjnaxOs+CDwGQiA8GJ52U5fP5
- s9t5p16jMq54Aym/wtHOtTmTwc7dEgJPeVC9ItD032DFG7z9dwIwBk37R3cHi7RyrHur
- sxNX13tr37yNGgHE7lZ62QE4DfbQ/dobsg3XHCvR2q8c3eG2gMzjmTe80bI9mfCQEhRr
- eGWkQXWJ7dvMHkTMAWRg41uxxk4apbDx4vvTNS8F2UUtrSEv5+dUVEvjWzxVcj1Tzoch
- 4HMA==
+ d=gmail.com; s=20230601; t=1738682716; x=1739287516; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=N8Jw0XKdoFMM4j+EK9ZMp2LEZiM2wLK9PqI1gGCAqHg=;
+ b=EsAOy7PmcSZx/8z4Ayp6oTK7Is9YVT0Q1b9i9tSAVWrx+yzyexBtfSIl9QPtC6sPEa
+ usJi/lFb/ll7S1Za2RdoGT+/EBv2ilSTAggOttVqeVZDmJJNQVEiOk58xaPZFEZ1FMxr
+ ER9btyS5Uzy387Tif1QU7DW3xxv1+/qRm1aEpvo0/5jwoGHCvajO6Md003zONBytaNVO
+ yG6Ck5zZeD6Y0M9wP4dvh+OTkJsbCoI7F062ROGfmnTsGauhcxxNDkpnPterpZMLZqpW
+ F5gvlQQ9PFQojBoJ7EQXCH0W6Ri+Ql2qg2JvrcDThAl+ZCLhHNo5290Sz4cjt9mTSKAD
+ dSKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738682580; x=1739287380;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uHPzkNUrpAio+U5bG1xs4+WPUC/pQ8D7HaWPlsKB46g=;
- b=kASmsBKoKpmD/BcdN53aTOzXcskbSRh06R7gOuwivHtMcA6E5adHpN29j5WUcN14mG
- +Npdn4euNxlHdFxzzyJHlwn3Og9A8ftiF4+vu7keHonyc44dYgtLCqcmjzO6B/F8lpdc
- Ex9NDsJ13x42/HkhtibFNrfxHWegP+rhf30rC5/5SLp87Mecj1EHe5rQ3DRwS8e6YKOI
- zA1ukcWzpCpioMcJeCdQdSItzp79rzkRFqVmjftvSwKy7O9bNasWRTzdxzeLd0oSq2sg
- e01LMtjeyounYIRu9DD5dQgr+s/3yz0DiuMtwTAjNJqZkVlve79MTOSo+he1XTryOjBy
- wwjA==
-X-Gm-Message-State: AOJu0Yxx5GnCtXnpqzYm8veWtZBEBFXusFogaeQR0oygSdbnKWh8r/Gr
- tZneN1Yi2N82vmsgNCsLSPllcY2p6Ut+OctrIRnhr78N3ufa5JELLEQO6LVtOrw=
-X-Gm-Gg: ASbGncsiTgOwejIg40HhwMleTybCGs/37lIsF9C18RQ7eAZoJI6xjHnRRN/jRoeqn2Q
- GOI7MdBAqP+NybJnaCDKN6q72sUsB0gsdhdiTsaDnq4NTsxyIMJ/U9dD4yU1EnzLKpSpx9w4mIt
- BMOLMZb1TPnNbzeSOjTd31qqH5sofalquXHYHpyKrC/8PjLTtngPcx4wFLc7IbcX31aOHAXLu+a
- Y8rZ0SKPfZiZVt8LKygkcmrK7s/eQexkeXpa3uQmsGG6mCP2YGiyYerbeSysC+qEfw4ae6MoFzO
- yPgFqqE5kN0GO8lucDBwhUeSN3SpvhU=
-X-Google-Smtp-Source: AGHT+IEntKLHr8j1sa+aY2Ls+kNA4qbxjue7cUKL+PfzPTcK+ezljDd4qdj5+6d5zwUZ+43zkQB0bw==
-X-Received: by 2002:a05:600c:3c82:b0:430:57e8:3c7e with SMTP id
- 5b1f17b1804b1-438dc4251f2mr231551085e9.28.1738682578837; 
- Tue, 04 Feb 2025 07:22:58 -0800 (PST)
-Received: from [192.168.0.101] ([90.241.98.187])
+ d=1e100.net; s=20230601; t=1738682716; x=1739287516;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N8Jw0XKdoFMM4j+EK9ZMp2LEZiM2wLK9PqI1gGCAqHg=;
+ b=k82iv+WpKDS4I0e3q1a9In+2tR3lG7aPmylRwV22Cae02EObLoYarfR0HPcoxRC8Lp
+ z4SpscmqR3Nq2NdOJ4npCGcjibrLDc24TYMMjVI/2xL3Usq0zC3f6EShmVten76LaABI
+ dTRrv+9mRATiG1qjbUWyb9+dNZtGdycTSdxd7StArhcCsiWumhEOxTnWuRiLSCXs5mDh
+ CzPqOP4P8fqojtKb6kPgg5lgoIKqjcpYVmwV0V1DRmLVio6TeOntMJN3Ybx7Raa/F0V0
+ fAHUrGZckrnRJ+/ZZEdTLRa9A+sPCtBcoJdfr1dRxMzAq4qbcfGDcyGvNDEa9Q4M0PS2
+ 3iyw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXhPnm4rGtHDjzsu8zRRvWerg23ZQ16uNaDLWWkrF6LbomQwYluzjFyRSaCHYEoOoO11tyDsD7CZNU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlGjTLRfPLO7oy0fqbkddvTvd3EQgVLlkAqKT0ilXHwfNC9uCI
+ Rkmg0SVg0nmhEbRhPiPQWUOFDJJi4lbRK7omgBZMuEbIWC1m7/DH
+X-Gm-Gg: ASbGncvYDUoc+l2OogrtDYRSQoW2nzopbAJBjxA6HpKaw+x972fAB8PQrpuEOtiepBg
+ LHenBV0GUHYph2JKbwin/S7JkV8lweV3JSDmYbCbg5VxD0uDSzNnJ3ZmsxNkgl5KlgXz0D0KutN
+ XEp2oejai6uqX1hPeF6G686yVgpJdpc3HkrJxyQXbJd8Evp/4F5ELelLBh8ay4YCOnQmYjYA6mb
+ TzXJmY2RhMFMdDtiaiSX7g6xaPejS9Paz+UwhPcx7tZ7eWLcf46jLw6LlrzkhGd0MxIyogGK6gI
+ 7+Dgnr6+JAkJ2tesMfKKH8C/B4h35VhtPgasQbR7xOr10j778oQXLU3UHeh38MxtbIV7K86UKqL
+ lQw==
+X-Google-Smtp-Source: AGHT+IGKwGJ3nMNTbHEkAhz/DretuOIWOdyaN4yCsb0gxLe4J1MazpgEMBan8MQ216Fmr0ITEyKGOA==
+X-Received: by 2002:a05:600c:1e02:b0:434:ffd7:6fd2 with SMTP id
+ 5b1f17b1804b1-438dc3c22d4mr240554345e9.7.1738682715998; 
+ Tue, 04 Feb 2025 07:25:15 -0800 (PST)
+Received: from orome (p200300e41f281900f22f74fffe1f3a53.dip0.t-ipconnect.de.
+ [2003:e4:1f28:1900:f22f:74ff:fe1f:3a53])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c5c1b5492sm16239592f8f.73.2025.02.04.07.22.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Feb 2025 07:22:58 -0800 (PST)
-Message-ID: <cc3444d8-a354-4332-93e7-0b1a70d3c4ac@ursulin.net>
-Date: Tue, 4 Feb 2025 15:22:57 +0000
+ ffacd0b85a97d-38daf27bbf5sm1478204f8f.48.2025.02.04.07.25.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Feb 2025 07:25:14 -0800 (PST)
+Date: Tue, 4 Feb 2025 16:25:13 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "biju.das.au" <biju.das.au@gmail.com>
+Subject: Re: [PATCH] drm/tegra: rgb: Simplify tegra_dc_rgb_probe()
+Message-ID: <2spuar4m4kcv62r7d6ovtpttpooodwrvsjk6tyxhlnuynw2aru@aj6s4xcgwfjf>
+References: <20250201105658.37043-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdVrry1ZV=C0vuEO+7GcF5Tqwtecxu4UPOnrtzXv6RUm4Q@mail.gmail.com>
+ <TY3PR01MB11346E195D7B44DA6EA30E25986F42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/7] drm/sched: cleanup gpu_scheduler trace events
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Luben Tuikov <ltuikov89@gmail.com>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <pstanner@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250131110328.706695-1-pierre-eric.pelloux-prayer@amd.com>
- <20250131110328.706695-5-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250131110328.706695-5-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="hl5zizggcxgo3guk"
+Content-Disposition: inline
+In-Reply-To: <TY3PR01MB11346E195D7B44DA6EA30E25986F42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,129 +98,102 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 31/01/2025 11:03, Pierre-Eric Pelloux-Prayer wrote:
-> A fence uniquely identify a job, so this commits updates the places
-> where a kernel pointer was used as an identifier by:
-> 
->     "fence=%llu:%llu"
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> ---
->   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 41 +++++++++++--------
->   1 file changed, 23 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index c4ec28540656..3cdd8d8f8021 100644
-> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -36,28 +36,29 @@ DECLARE_EVENT_CLASS(drm_sched_job,
->   	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
->   	    TP_ARGS(sched_job, entity),
->   	    TP_STRUCT__entry(
-> -			     __field(struct drm_sched_entity *, entity)
-> -			     __field(struct dma_fence *, fence)
-> -			     __string(name, sched_job->sched->name)
->   			     __field(uint64_t, id)
-> +			     __string(name, sched_job->sched->name)
->   			     __field(u32, job_count)
->   			     __field(int, hw_job_count)
->   			     __string(dev, dev_name(sched_job->sched->dev))
-> +			     __field(uint64_t, fence_context)
-> +			     __field(uint64_t, fence_seqno)
->   			     ),
->   
->   	    TP_fast_assign(
-> -			   __entry->entity = entity;
->   			   __entry->id = sched_job->id;
-> -			   __entry->fence = &sched_job->s_fence->finished;
->   			   __assign_str(name);
->   			   __entry->job_count = spsc_queue_count(&entity->job_queue);
->   			   __entry->hw_job_count = atomic_read(
->   				   &sched_job->sched->credit_count);
->   			   __assign_str(dev);
-> +			   __entry->fence_context = sched_job->s_fence->finished.context;
-> +			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
-> +
->   			   ),
-> -	    TP_printk("dev=%s, entity=%p, id=%llu, fence=%p, ring=%s, job count:%u, hw job count:%d",
-> -		      __get_str(dev), __entry->entity, __entry->id,
-> -		      __entry->fence, __get_str(name),
-> +	    TP_printk("dev=%s, id=%llu, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d",
-> +		      __get_str(dev), __entry->id,
-> +		      __entry->fence_context, __entry->fence_seqno, __get_str(name),
->   		      __entry->job_count, __entry->hw_job_count)
->   );
->   
-> @@ -75,37 +76,41 @@ TRACE_EVENT(drm_sched_process_job,
->   	    TP_PROTO(struct drm_sched_fence *fence),
->   	    TP_ARGS(fence),
->   	    TP_STRUCT__entry(
-> -		    __field(struct dma_fence *, fence)
-> +		    __field(uint64_t, fence_context)
-> +		    __field(uint64_t, fence_seqno)
->   		    ),
->   
->   	    TP_fast_assign(
-> -		    __entry->fence = &fence->finished;
-> +		    __entry->fence_context = fence->finished.context;
-> +		    __entry->fence_seqno = fence->finished.seqno;
->   		    ),
-> -	    TP_printk("fence=%p signaled", __entry->fence)
-> +	    TP_printk("fence=%llu:%llu signaled",
-> +		      __entry->fence_context, __entry->fence_seqno)
+--hl5zizggcxgo3guk
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/tegra: rgb: Simplify tegra_dc_rgb_probe()
+MIME-Version: 1.0
 
-Any chance to rename this tracepoint while changing things around? For 
-me "process" is not intuitive to what stage it refers so maybe a set of 
-tracepoints like:
+On Tue, Feb 04, 2025 at 09:07:05AM +0000, Biju Das wrote:
+> Hi Geert,
+>=20
+> Thanks for the feedback.
+>=20
+> > -----Original Message-----
+> > From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of =
+Geert Uytterhoeven
+> > Sent: 03 February 2025 11:06
+> > Subject: Re: [PATCH] drm/tegra: rgb: Simplify tegra_dc_rgb_probe()
+> >=20
+> > Hi Biju,
+> >=20
+> > Thanks for your patch!
+> >=20
+> > On Sat, 1 Feb 2025 at 11:57, Biju Das <biju.das.jz@bp.renesas.com> wrot=
+e:
+> > > Simplify tegra_dc_rgb_probe() by using of_get_available_child_by_name=
+().
+> >=20
+> > That's not the only thing this patch does...
+> >=20
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >=20
+> > > --- a/drivers/gpu/drm/tegra/rgb.c
+> > > +++ b/drivers/gpu/drm/tegra/rgb.c
+> > > @@ -202,12 +202,12 @@ static const struct drm_encoder_helper_funcs
+> > > tegra_rgb_encoder_helper_funcs =3D {
+> > >
+> > >  int tegra_dc_rgb_probe(struct tegra_dc *dc)  {
+> > > -       struct device_node *np;
+> > > +       struct device_node *np _free(device_node) =3D
+> >=20
+> > Adding the _free()...
+>=20
+> Yes it fixes a memory leak aswell.
+>=20
+> >=20
+> > > +               of_get_available_child_by_name(dc->dev->of_node,
+> > > + "rgb");
+> > >         struct tegra_rgb *rgb;
+> > >         int err;
+> > >
+> > > -       np =3D of_get_child_by_name(dc->dev->of_node, "rgb");
+> > > -       if (!np || !of_device_is_available(np))
+> > > +       if (!np)
+> > >                 return -ENODEV;
+> >=20
+> > ... fixes the reference count in case of an unavailable node...
+> >=20
+> > >
+> > >         rgb =3D devm_kzalloc(dc->dev, sizeof(*rgb), GFP_KERNEL);
+> >=20
+> > ... but as np is stored below, it must not be freed when it goes out of=
+ context?
+>=20
+> OK, But it is used in tegra_output_probe() and never freed.
+> Maybe remove should free it??=20
 
-drm_sched_job_(wait_)dependenc(y|ies) - more on this in the next patch
-drm_sched_job_queue
-drm_sched_job_run
-drm_sched_job_done
+It's not quite as simple as that. tegra_output_probe() can also store
+output->dev->of_node in output->of_node, so we'd also need to track a
+flag of some sort to denote that this needs to be freed.
 
-So the naming is standardised.
+Ultimately I'm not sure if it's really worth it. Do we really expect
+these nodes to ever be freed (in which case this might leak memory)?
+These are built-in devices and there's no code anywhere to remove any
+such nodes.
 
->   );
->   
->   TRACE_EVENT(drm_sched_job_wait_dep,
->   	    TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
->   	    TP_ARGS(sched_job, fence),
->   	    TP_STRUCT__entry(
-> -			     __string(name, sched_job->sched->name)
-> +			     __field(uint64_t, fence_context)
-> +			     __field(uint64_t, fence_seqno)
->   			     __field(uint64_t, id)
->   			     __field(struct dma_fence *, fence)
->   			     __field(uint64_t, ctx)
-> -			     __field(unsigned, seqno)
-> +			     __field(uint64_t, seqno)
->   			     ),
->   
->   	    TP_fast_assign(
-> -			   __assign_str(name);
-> +			   __entry->fence_context = sched_job->s_fence->finished.context;
-> +			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
->   			   __entry->id = sched_job->id;
->   			   __entry->fence = fence;
->   			   __entry->ctx = fence->context;
->   			   __entry->seqno = fence->seqno;
->   			   ),
-> -	    TP_printk("job ring=%s, id=%llu, depends fence=%p, context=%llu, seq=%u",
-> -		      __get_str(name), __entry->id,
-> -		      __entry->fence, __entry->ctx,
-> -		      __entry->seqno)
-> +	    TP_printk("fence=%llu:%llu, id=%llu, dependencies:{fence=%llu:%llu}",
+Thierry
 
-Will dependencies ever become a list here? Just wondering if plural and 
-curlies bring anything of value, or if it would be more readable as 
-"fence=%llu:%llu, id=%llu, dependency=%llu:%llu".
+--hl5zizggcxgo3guk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Tvrtko
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmeiMVUACgkQ3SOs138+
+s6Ed5hAAm9Axms1NNOi6HyezxVvsAFWnJdOLIcS7jT2aYdsczNSLoj3bKgTP9rWf
+x7rV40RQ0RVTHl6vOL6L3RF9SK5W6Nxe1KlzbGkcJkOxv3///MizAdHoMPv6vkGA
+RTAwX/Uq+qGsypq+J3DM4hsc5790rdzF6OqHDEVZMxGTeh9v5AxyxaayNJf4n4zj
+iW/+lr6cPRAkBjqLD+Y3LToPiIwrlhoFjqrY89/XCRVxGndgegdQgtZTQH3BLtM3
+egbxZ5LHbMF/T4bzu0qYb1KIwDHzG1GAF41y2y1TZMl+yaXaMXYtNR9wUxSTiMzk
+/HBcT1RTznlLiUJawKVmf8yl64EwSX+SCGJ4ExmrDp8qDQLg+qI2ONgAg/qhKxKs
+n0QzodzFmSr3leng4/bbXMHFfUwDkUO4liml+N9OnE2kG9gTCIhQ5mecoTcjtOOe
+/V0h1DIMBirLUJEZpfKTHpHLwEknZRKRDszOG+wBLR09O5f020cIVxZe/ddP0cxe
+0W9+dHyQSApe5KzBenayV0KTepGsea6MmDbqrsoC1N6zVR6PcdQFFosxq/rRIRCh
+9L4vDXbLY5qYakaCyv0ewpxnHK1OvIKgup5dQULLURLI010OUVPX+GnG/YFYpoG5
+WhVK/fYKOWuL6/yX1Ujn1mdzKV3lwQcKUtyMYLMixvEZzLR8RqE=
+=noOW
+-----END PGP SIGNATURE-----
 
-> +		      __entry->fence_context, __entry->fence_seqno, __entry->id,
-> +		      __entry->ctx, __entry->seqno)
->   );
->   
->   #endif
+--hl5zizggcxgo3guk--
