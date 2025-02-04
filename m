@@ -2,80 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2397A26D97
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35198A26C6A
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 08:06:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDE5410E5C2;
-	Tue,  4 Feb 2025 08:48:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 073CF10E282;
+	Tue,  4 Feb 2025 07:06:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.b="RmJaw182";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jmgEj052";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 060E310E036
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 02:25:33 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-5d3d143376dso6356284a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 03 Feb 2025 18:25:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1738635932; x=1739240732;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=OiPbOYDqhvBvvULBy2CCyB9152DAmDtOBY7+Ez+rRl8=;
- b=RmJaw182zttc2ugQ1Sgqx0Wq1PQVrPuCHxHS02e4Cmhgp/8i3ALjCxcMzMGX6ApHBC
- 9NBlqMfhqspS9c2QLJyMQgKY6fyEJaLlDHOQUqt9eWQWq3TRcMiD6LHfTwO7s+GHmFUx
- PXcXxOCOpwVbzSnTGlgy7nI4eI3tl66X4l2efv0ow++t6WLHg7TpvzNp7w6g/dRAOKdI
- rfUoqWRueEhOh1RFpJ6q1LvSJJOCJzusr3czpU/2fKE/SLTPFQLBgvUituNgFOeq5IC5
- AS5LnpXCCC/EMfFoVtphkW40blSbuYBo7C0y9wce6yOnKbBfWLX7a1bA5vg0+91T+Up5
- ByRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738635932; x=1739240732;
- h=cc:to:subject:message-id:date:in-reply-to:references:mime-version
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OiPbOYDqhvBvvULBy2CCyB9152DAmDtOBY7+Ez+rRl8=;
- b=Sl3GjfYsUPGseW2+cBwuHhShwWGD8An4oMRZZPa8e4PuVQbDVmHY5DBUq22UrLnrHZ
- NYhA9/iwk3WfyMzmRu3dLjovs8H/z4n43WFz19Sm8thtWV9aBcdn0aEJpNejxEA3tri3
- cH3vA/Sm/IaQEWwbDPxe07/zusx4kXDtIP2OgiR6+5ZdrPK1wXN+1T9iuq8g3zTJZEgZ
- evXj9Ec91jjAFQBadjFLiBv1uai1meXUgOofSRXSxxL+YskZtWPfFeEvEExJbb6zAIep
- bivmOEuhjz7PddLQWA1rTRpIIKRgodREhOm3jN4U4wUu93UXsesiscV3kS+YsF5bYK33
- Yrtg==
-X-Gm-Message-State: AOJu0YyKQXFXrF1BzMi2atn4/8aLTrLFjVzKX7OsrA5O6yZC1q6FdBPT
- qXomaoYq8B815kp/DRGHKblpp/JsvIQcdlj2g5EvHNw3AamFqyXDUu79mmFd1/rI4ry/kKmnJdE
- pVKYIbVZEUke6kaAEbtUvn3vZ/b6adOeWqAiq6w==
-X-Gm-Gg: ASbGncuVnMuSD8e0I8/W+ARxyO0MkWm5YuZs37sjozRTO4ljxKIw4EjXFxk6tup0qUZ
- t13wXWYFvBvX8TJmXhBAFBMIvVuB/JTmIevMHLjlV0ymNx0iUAjtY8X1UYCDrFCndAkPXmjrtNC
- k=
-X-Google-Smtp-Source: AGHT+IEwgwNlCHxSHk2Dglzzw0yI4ElivAYqarA7L6KVPQGeMBpIAD4yQRZ06fh+g4Izp0cVnbx4iWWNgDNpcn7Zg4k=
-X-Received: by 2002:a05:6402:1d4a:b0:5d9:fbb5:9ee with SMTP id
- 4fb4d7f45d1cf-5dc5efc05f9mr26363187a12.13.1738635931464; Mon, 03 Feb 2025
- 18:25:31 -0800 (PST)
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Mon, 3 Feb 2025 18:25:30 -0800
-Received: from 44278815321 named unknown by gmailapi.google.com with HTTPREST; 
- Mon, 3 Feb 2025 18:25:30 -0800
-From: =?UTF-8?B?5YiY54Wn546J?= <liuzhaoyu.zackary@bytedance.com>
-Mime-Version: 1.0
-References: <20250126093256.GA688734@bytedance>
-In-Reply-To: <20250126093256.GA688734@bytedance>
-Date: Mon, 3 Feb 2025 18:25:30 -0800
-X-Gm-Features: AWEUYZlmHg7rMQvD9zvxcbG7EyiymR43uzRF4n1o9EjRJ8I8UDh7Rv2Q0Bdl1Yk
-Message-ID: <CACFO4hKx4wrd2AEAgV-AFi_CQW9VGw8jvkxC3HPorQYoRgzXrA@mail.gmail.com>
-Subject: Re: [PATCH] drm/ttm: use ttm_resource_unevictable() to replace
- pin_count and swapped
-To: "christian.koenig" <christian.koenig@amd.com>,
- "ray.huang" <ray.huang@amd.com>, 
- "maarten.lankhorst" <maarten.lankhorst@linux.intel.com>,
- mripard <mripard@kernel.org>, 
- tzimmermann <tzimmermann@suse.de>, airlied <airlied@gmail.com>,
- simona <simona@ffwll.ch>, 
- "thomas.hellstrom@linux.intel.com" <thomas.hellstrom@linux.intel.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: multipart/alternative; boundary="00000000000016cc69062d47b963"
-X-Mailman-Approved-At: Tue, 04 Feb 2025 08:48:22 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8E4710E013;
+ Tue,  4 Feb 2025 07:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738652767; x=1770188767;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=OCC8WR1aoShPnsgnkjsCWS0caR3ujjDfkysX06fn7nY=;
+ b=jmgEj052vBCl3gyoyMd4nva5l1vBwqjvmM1bcMC0MfjMDa1c5wa8NdbF
+ Ysm9rml6/O/6i3xQHdfuwWV5l+GbpBs8oL0JVZ0BWQU4e2EQ1YJY8j3EP
+ ctkJ5ynBMAQgGMvcZfujBW2wGDKqLubkrp3nVbxaOCXCyzLgFRelKjsSZ
+ 2w8TUoHIB+lnFVPSLgqOXbBBGgjdNy2JQDZ46ZDfzUm/MKyrmZrm8is7A
+ i5j+TJUj+/KkaxNKtO2ssLqsafDsgGl4wzFB2/0flm09+v8x2ObFH8q4z
+ kU7b1tU9+r5TpMANewh339QFhqeSEFCv9H4JN0lJ05RnmCM5lI7C3EAkC Q==;
+X-CSE-ConnectionGUID: avW9jQVuSV6rIGOXKozGpw==
+X-CSE-MsgGUID: 3yIfvyD+T0eLGqw6wV/Iaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="39196770"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; d="scan'208";a="39196770"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Feb 2025 23:06:06 -0800
+X-CSE-ConnectionGUID: dYklVg4ARKiITPqXoSrvbQ==
+X-CSE-MsgGUID: fBBuzd/cRGKo7vUMX90dsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="110974710"
+Received: from jraag-z790m-itx-wifi.iind.intel.com ([10.190.239.23])
+ by orviesa007.jf.intel.com with ESMTP; 03 Feb 2025 23:05:59 -0800
+From: Raag Jadav <raag.jadav@intel.com>
+To: airlied@gmail.com, simona@ffwll.ch, lucas.demarchi@intel.com,
+ rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
+ christian.koenig@amd.com, alexander.deucher@amd.com
+Cc: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ andriy.shevchenko@linux.intel.com, lina@asahilina.net,
+ michal.wajdeczko@intel.com, andrealmeid@igalia.com,
+ amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com, xaver.hugl@kde.org,
+ pekka.paalanen@haloniitty.fi, Raag Jadav <raag.jadav@intel.com>
+Subject: [PATCH v12 0/5] Introduce DRM device wedged event
+Date: Tue,  4 Feb 2025 12:35:23 +0530
+Message-Id: <20250204070528.1919158-1-raag.jadav@intel.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,178 +73,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000016cc69062d47b963
-Content-Type: text/plain; charset="UTF-8"
+This series introduces device wedged event in DRM subsystem and uses it
+in xe, i915 and amdgpu drivers. Detailed description in commit message.
 
-> From: "Zhaoyu Liu"<liuzhaoyu.zackary@bytedance.com> > Date:  Sun, Jan 26,
-2025, 17:33 > Subject:  [PATCH] drm/ttm: use ttm_resource_unevictable() to
-replace pin_count and swapped > To: <christian.koenig@amd.com>, <
-ray.huang@amd.com>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-<tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch> > Cc: <
-dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org> > TTM
-always uses pin_count and ttm_resource_is_swapped() together to > determine
-whether a BO is unevictable. > Now use ttm_resource_unevictable() to
-replace them. >  > Signed-off-by: Zhaoyu Liu <
-liuzhaoyu.zackary@bytedance.com> > --- >
- drivers/gpu/drm/ttm/ttm_resource.c | 15 ++++++++++----- >  1 file changed,
-10 insertions(+), 5 deletions(-) >  > diff --git
-a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c >
-index cc29bbf3eabb..a8f9f7ed6c6e 100644 > ---
-a/drivers/gpu/drm/ttm/ttm_resource.c > +++
-b/drivers/gpu/drm/ttm/ttm_resource.c > @@ -252,11 +252,16 @@ static bool
-ttm_resource_is_swapped(struct ttm_resource *res, struct ttm_buffer_ >
-     return ttm_tt_is_swapped(bo->ttm); >  } >   > +static bool
-ttm_resource_unevictable(struct ttm_resource *res, struct ttm_buffer_object
-*bo) > +{ > +        return bo->pin_count || ttm_resource_is_swapped(res,
-bo); > +} > + >  /* Add the resource to a bulk move if the BO is configured
-for it */ >  void ttm_resource_add_bulk_move(struct ttm_resource *res, >
-                               struct ttm_buffer_object *bo) >  { > -
- if (bo->bulk_move && !bo->pin_count && !ttm_resource_is_swapped(res, bo))
-> +        if (bo->bulk_move && !ttm_resource_unevictable(res, bo)) >
-           ttm_lru_bulk_move_add(bo->bulk_move, res); >  } >   > @@ -264,7
-+269,7 @@ void ttm_resource_add_bulk_move(struct ttm_resource *res, >  void
-ttm_resource_del_bulk_move(struct ttm_resource *res, >
-             struct ttm_buffer_object *bo) >  { > -        if
-(bo->bulk_move && !bo->pin_count && !ttm_resource_is_swapped(res, bo)) > +
-       if (bo->bulk_move && !ttm_resource_unevictable(res, bo)) >
-       ttm_lru_bulk_move_del(bo->bulk_move, res); >  } >   > @@ -276,10
-+281,10 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res) >
->          lockdep_assert_held(&bo->bdev->lru_lock); >   > -        if
-(bo->pin_count || ttm_resource_is_swapped(res, bo)) { > +        if
-(ttm_resource_unevictable(res, bo)) { >
- list_move_tail(&res->lru.link, &bdev->unevictable); >   > -        } else
-       if (bo->bulk_move) { > +        } else if (bo->bulk_move) { >
-           struct ttm_lru_bulk_move_pos *pos = >
- ttm_lru_bulk_move_pos(bo->bulk_move, res); >   > @@ -318,7 +323,7 @@ void
-ttm_resource_init(struct ttm_buffer_object *bo, >   >          man =
-ttm_manager_type(bo->bdev, place->mem_type); >
- spin_lock(&bo->bdev->lru_lock); > -        if (bo->pin_count ||
-ttm_resource_is_swapped(res, bo)) > +        if
-(ttm_resource_unevictable(res, bo)) >
- list_add_tail(&res->lru.link, &bo->bdev->unevictable); >          else >
-               list_add_tail(&res->lru.link, &man->lru[bo->priority]); >
---  > 2.25.1 >  Hi,   Could you help me to review it, thx.
+This was earlier attempted as xe specific uevent in v1 and v2 on [1].
+Similar work by André Almeida on [2].
+Wedged event support for amdgpu by André Almeida on [3].
+Consumer implementation by Xaver Hugl on [4].
 
---00000000000016cc69062d47b963
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ [1] https://patchwork.freedesktop.org/series/136909/
+ [2] https://lore.kernel.org/dri-devel/20221125175203.52481-1-andrealmeid@igalia.com/
+ [3] https://lore.kernel.org/dri-devel/20241216162104.58241-1-andrealmeid@igalia.com/
+ [4] https://invent.kde.org/plasma/kwin/-/merge_requests/7027
 
-<html><head></head><body><div style=3D"white-space:pre-wrap"><span>&gt; Fro=
-m: &quot;Zhaoyu Liu&quot;&lt;<a href=3D"mailto:liuzhaoyu.zackary@bytedance.=
-com" target=3D"_blank">liuzhaoyu.zackary@bytedance.com</a>&gt;
-&gt; Date:=C2=A0 Sun, Jan 26, 2025, 17:33
-&gt; Subject:=C2=A0 [PATCH] drm/ttm: use ttm_resource_unevictable() to repl=
-ace pin_count and swapped
-&gt; To: &lt;<a href=3D"mailto:christian.koenig@amd.com" target=3D"_blank">=
-christian.koenig@amd.com</a>&gt;, &lt;<a href=3D"mailto:ray.huang@amd.com" =
-target=3D"_blank">ray.huang@amd.com</a>&gt;, &lt;<a href=3D"mailto:maarten.=
-lankhorst@linux.intel.com" target=3D"_blank">maarten.lankhorst@linux.intel.=
-com</a>&gt;, &lt;<a href=3D"mailto:mripard@kernel.org" target=3D"_blank">mr=
-ipard@kernel.org</a>&gt;, &lt;<a href=3D"mailto:tzimmermann@suse.de" target=
-=3D"_blank">tzimmermann@suse.de</a>&gt;, &lt;<a href=3D"mailto:airlied@gmai=
-l.com" target=3D"_blank">airlied@gmail.com</a>&gt;, &lt;<a href=3D"mailto:s=
-imona@ffwll.ch" target=3D"_blank">simona@ffwll.ch</a>&gt;
-&gt; Cc: &lt;<a href=3D"mailto:dri-devel@lists.freedesktop.org" target=3D"_=
-blank">dri-devel@lists.freedesktop.org</a>&gt;, &lt;<a href=3D"mailto:linux=
--kernel@vger.kernel.org" target=3D"_blank">linux-kernel@vger.kernel.org</a>=
-&gt;
-&gt; TTM always uses pin_count and ttm_resource_is_swapped() together to
-&gt; determine whether a BO is unevictable.
-&gt; Now use ttm_resource_unevictable() to replace them.
-&gt;=C2=A0
-&gt; Signed-off-by: Zhaoyu Liu &lt;<a href=3D"mailto:liuzhaoyu.zackary@byte=
-dance.com" target=3D"_blank">liuzhaoyu.zackary@bytedance.com</a>&gt;
-&gt; ---
-&gt; =C2=A0drivers/gpu/drm/ttm/ttm_resource.c | 15 ++++++++++-----
-&gt; =C2=A01 file changed, 10 insertions(+), 5 deletions(-)
-&gt;=C2=A0
-&gt; diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/=
-ttm_resource.c
-&gt; index cc29bbf3eabb..a8f9f7ed6c6e 100644
-&gt; --- a/drivers/gpu/drm/ttm/ttm_resource.c
-&gt; +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-&gt; @@ -252,11 +252,16 @@ static bool ttm_resource_is_swapped(struct ttm_r=
-esource *res, struct ttm_buffer_
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ttm_tt_is_swapped(bo-&gt;ttm)=
-;
-&gt; =C2=A0}
-&gt; =C2=A0
-&gt; +static bool ttm_resource_unevictable(struct ttm_resource *res, struct=
- ttm_buffer_object *bo)
-&gt; +{
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0return bo-&gt;pin_count || ttm_resource_i=
-s_swapped(res, bo);
-&gt; +}
-&gt; +
-&gt; =C2=A0/* Add the resource to a bulk move if the BO is configured for i=
-t */
-&gt; =C2=A0void ttm_resource_add_bulk_move(struct ttm_resource *res,
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ttm_buffer_object *b=
-o)
-&gt; =C2=A0{
-&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bo-&gt;bulk_move &amp;&amp; !bo-&gt;p=
-in_count &amp;&amp; !ttm_resource_is_swapped(res, bo))
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bo-&gt;bulk_move &amp;&amp; !ttm_reso=
-urce_unevictable(res, bo))
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ttm_lru_=
-bulk_move_add(bo-&gt;bulk_move, res);
-&gt; =C2=A0}
-&gt; =C2=A0
-&gt; @@ -264,7 +269,7 @@ void ttm_resource_add_bulk_move(struct ttm_resourc=
-e *res,
-&gt; =C2=A0void ttm_resource_del_bulk_move(struct ttm_resource *res,
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct ttm_buffer_object *b=
-o)
-&gt; =C2=A0{
-&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bo-&gt;bulk_move &amp;&amp; !bo-&gt;p=
-in_count &amp;&amp; !ttm_resource_is_swapped(res, bo))
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bo-&gt;bulk_move &amp;&amp; !ttm_reso=
-urce_unevictable(res, bo))
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ttm_lru_=
-bulk_move_del(bo-&gt;bulk_move, res);
-&gt; =C2=A0}
-&gt; =C2=A0
-&gt; @@ -276,10 +281,10 @@ void ttm_resource_move_to_lru_tail(struct ttm_re=
-source *res)
-&gt; =C2=A0
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lockdep_assert_held(&amp;bo-&gt;bdev=
--&gt;lru_lock);
-&gt; =C2=A0
-&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bo-&gt;pin_count || ttm_resource_is_s=
-wapped(res, bo)) {
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ttm_resource_unevictable(res, bo)) {
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0list_mov=
-e_tail(&amp;res-&gt;lru.link, &amp;bdev-&gt;unevictable);
-&gt; =C2=A0
-&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0} else =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bo-=
-&gt;bulk_move) {
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (bo-&gt;bulk_move) {
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct t=
-tm_lru_bulk_move_pos *pos =3D
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0ttm_lru_bulk_move_pos(bo-&gt;bulk_move, res);
-&gt; =C2=A0
-&gt; @@ -318,7 +323,7 @@ void ttm_resource_init(struct ttm_buffer_object *b=
-o,
-&gt; =C2=A0
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0man =3D ttm_manager_type(bo-&gt;bdev=
-, place-&gt;mem_type);
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0spin_lock(&amp;bo-&gt;bdev-&gt;lru_l=
-ock);
-&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0if (bo-&gt;pin_count || ttm_resource_is_s=
-wapped(res, bo))
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ttm_resource_unevictable(res, bo))
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0list_add=
-_tail(&amp;res-&gt;lru.link, &amp;bo-&gt;bdev-&gt;unevictable);
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else
-&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0list_add=
-_tail(&amp;res-&gt;lru.link, &amp;man-&gt;lru[bo-&gt;priority]);
-&gt; --=C2=A0
-&gt; 2.25.1
-&gt;=C2=A0
-Hi,
-=C2=A0 Could you help me to review it, thx.</span></div></body></html>
+ v2: Change authorship to Himal (Aravind)
+     Add uevent for all device wedged cases (Aravind)
 
---00000000000016cc69062d47b963--
+ v3: Generic implementation in DRM subsystem (Lucas)
+
+ v4: s/drm_dev_wedged/drm_dev_wedged_event
+     Use drm_info() (Jani)
+     Kernel doc adjustment (Aravind)
+     Change authorship to Raag (Aravind)
+
+ v5: Send recovery method with uevent (Lina)
+     Expose supported recovery methods via sysfs (Lucas)
+
+ v6: Access wedge_recovery_opts[] using helper function (Jani)
+     Use snprintf() (Jani)
+
+ v7: Convert recovery helpers into regular functions (Andy, Jani)
+     Aesthetic adjustments (Andy)
+     Handle invalid recovery method
+     Add documentation to drm-uapi.rst (Sima)
+
+ v8: Drop sysfs and allow sending multiple methods with uevent (Lucas, Michal)
+     Improve documentation (Christian, Rodrigo)
+     static_assert() globally (Andy)
+
+ v9: Document prerequisites section (Christian)
+     Provide 'none' method for device reset (Christian)
+     Provide recovery opts using switch cases
+
+v10: Clarify mmap cleanup and consumer prerequisites (Christian, Aravind)
+
+v11: Log device reset (André)
+     Reference wedged event in device reset chapter (André)
+     Wedged event support for amdgpu (André)
+
+v12: Refine consumer expectations and terminologies (Xaver, Pekka)
+
+André Almeida (1):
+  drm/amdgpu: Use device wedged event
+
+Raag Jadav (4):
+  drm: Introduce device wedged event
+  drm/doc: Document device wedged event
+  drm/xe: Use device wedged event
+  drm/i915: Use device wedged event
+
+ Documentation/gpu/drm-uapi.rst             | 116 ++++++++++++++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |   4 +
+ drivers/gpu/drm/drm_drv.c                  |  68 ++++++++++++
+ drivers/gpu/drm/i915/gt/intel_reset.c      |   3 +
+ drivers/gpu/drm/xe/xe_device.c             |   7 +-
+ include/drm/drm_device.h                   |   8 ++
+ include/drm/drm_drv.h                      |   1 +
+ 7 files changed, 203 insertions(+), 4 deletions(-)
+
+-- 
+2.34.1
+
