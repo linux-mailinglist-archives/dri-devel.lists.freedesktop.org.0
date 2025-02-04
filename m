@@ -2,70 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CC5A275F6
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:34:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36A9A27617
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:38:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D98E10E69F;
-	Tue,  4 Feb 2025 15:34:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF50F10E05F;
+	Tue,  4 Feb 2025 15:37:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="T6MDTz4M";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LkuH/qjG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
- [217.70.183.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 808BB10E69F
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:34:08 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A96244419C;
- Tue,  4 Feb 2025 15:34:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738683246;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8/Em9LoxwWwGP0448VxgAWFBmtV9u0pV8rupxRXtPSE=;
- b=T6MDTz4MPGrdJ+ue3X6+YFfE9yra7WdG/e7UqeiS4aATqegni/6rka468bka1bpl3koatb
- t6gMYqSMts6r5/XmlGf63NKYRCqToM1+AyVlmSxOPG7rgJjE8/kDm6D06GlsRSqbU8pZY5
- jB+gXKHn4G0axdamk6uUb3oTzSUczQAoXSR2Gay+DtNJU646zBHQODG1yiAqsAdZFX+q6K
- Xo/kHyIajvdufJQbickn6Crm9wJNknmoi69KK3oDgNkRACqytVkoPrutegIZOJQXqMeDrv
- KLsH5+464ugBxTN5NbKI/9T/PesOlgi26EpNNodmxkm5VPk11i6Sezvx0f4AaA==
-Date: Tue, 4 Feb 2025 16:34:04 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Marek Vasut
- <marex@denx.de>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Louis Chauvet
- <louis.chauvet@bootlin.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Message-ID: <20250204163404.0a6b6526@bootlin.com>
-In-Reply-To: <20250204-chocolate-lionfish-of-luck-10ebb8@houat>
-References: <20250108101907.410456-1-herve.codina@bootlin.com>
- <20250108101907.410456-4-herve.codina@bootlin.com>
- <20250114-juicy-authentic-mushroom-cfcdfb@houat>
- <20250114135456.5366eb2a@bootlin.com>
- <20250116-archetypal-bulldog-of-expression-fcc937@houat>
- <20250117091213.647bf0e6@bootlin.com>
- <20250204-chocolate-lionfish-of-luck-10ebb8@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B18C210E05F
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:37:51 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-540201cfedbso5202072e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 07:37:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738683470; x=1739288270; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=IXRswmzs3E1pPYR4f55S4R+8P/qWlGpviWkaCfNXr1Q=;
+ b=LkuH/qjGAOzngyXSpkF7EXVK5MMAWW7xo58BBvwWa5+Qt3G78/+zOCHkbAPbrGkCpJ
+ 7xMGsSxzIom6B0btDpuIqi8jsBxEQaPZXXkv5hY3Ynnl5Bhmd3soNoo78FtgUUfZLQEU
+ LzOv17HQkMSpCb/+SqEOTRlq7EFP0u6TcL0ioGM8fdNJGZne8nr+gppIcTlBj9J2rieG
+ FcFbow2AVNaCWSRIPyZ404tS7OoM5SZXB84+K6wZCY9k5eqaEnhvGUMi+oHJQQ7y2v7c
+ IJq1WWyVSzLr3x+DQJE0D3ea9IGl0NNx1tCk/m6QPNDSfrZduFToh8F3gvv0yOg3gGw4
+ yzLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738683470; x=1739288270;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IXRswmzs3E1pPYR4f55S4R+8P/qWlGpviWkaCfNXr1Q=;
+ b=jl0LYDy/3QE09P31QuRPJOTFFBpxmhfldXeqGIDTaeuLuWPyCDZsiswcaOvyidtsxi
+ xrGMnjQEOjKVdAof7zDGmNJ79UVz/ra7srDuwGLrQNDKWkpFjNjquGuvXfmqdRl0gq2e
+ 3E3g603hNAwMWSnaHwymxWZKOh1ke1Uj6vOulc/vlyjam227oeUxdruRICCWQMgrize7
+ JkRWArHsvG1P5w+s5I5I96cpPSaEdRQuAEzIcfE+xMNEFdrzXQ8veZjAlCu/5dmGng7H
+ P1Qw62GM5NfQNtNl8bQ5sNerbJpH8pW0M/z79sjUrss3harw6mjoRb7WAVH1DmX1rwUX
+ gsmg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWndkJt1vwJQ3YnMX3FJcucAgZeHJdw6Pf4dtIZGBISNDdsC9ek8qwJTiIuCbZ1/S9eGKJF45xbm0E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxYDPVXViZotLLLM1PSRo2a7Py4WIkl/+ydwyUbrIz0yXJmG+Y
+ wz6SKPEBPJ/X8P8ndu09NYNia8HarbQbXe6O8K8ts1wRVn8vBv9o5LjTJmP/GmQ=
+X-Gm-Gg: ASbGnctBfu8BjxTMS9OtE9SXyVj3Yk0SfFYtVdxMlsSZLrXEml5vN3d/ID0K45opg3h
+ 8pCngL/KVxmmujj723dFK3eddXKMLjBE1A9M4Sgqr1tFZdmQHAJLO10x/RP78/MWxFpz7Iy8LzD
+ 5V1FhybL65uzxv+sY+6ZCudfes6gRT1pPWy3e9wyk6+nDT1f2/FVPkD4Fa3G3K3wM9jLp/K40Pi
+ vCzuBoEn0ZEu7lzQBDCvWEcAlkxGyH8KM87KLjWEbXeivuIAIgh2XMvWBqFXsVRdIEgFlCLuvna
+ fgXf4LmnyXMZX8kh35VWDwkCsYlEkzXFax8TO5XJR96leDiannGWES5bjqGviFdKty6cWOw=
+X-Google-Smtp-Source: AGHT+IHBfTNkAf+lmgLZuPgndyNDwP4gVMSK0kteVAMO6RgJ3GlDWCfLBab5sN+UwkPZ9Ed5iueJvw==
+X-Received: by 2002:a05:6512:3183:b0:542:8cb0:88a8 with SMTP id
+ 2adb3069b0e04-543e4c3fffamr8931689e87.52.1738683469609; 
+ Tue, 04 Feb 2025 07:37:49 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543ebdf1068sm1596844e87.27.2025.02.04.07.37.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Feb 2025 07:37:49 -0800 (PST)
+Date: Tue, 4 Feb 2025 17:37:46 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Pin-yen Lin <treapking@chromium.org>
+Cc: Hermes.Wu@ite.com.tw, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw
+Subject: Re: [PATCH v2] drm/bridge: it6505: support hdmi_codec_ops for audio
+ stream setup
+Message-ID: <2wkhsjxrlhrapu3jar4kdzddfav3epc45h4dlpq777i2bmnnqz@oel7prfwvtqm>
+References: <20250203-add-audio-codec-v2-1-5c8cd72ee5bb@ite.com.tw>
+ <btzdguakskos2gogmwjkz6zoquiut63kmirvdsh4yjoqqvzpin@um4hcrlnecxh>
+ <9742a55aa51a461a9d5b9352db0f3c39@ite.com.tw>
+ <CAEXTbpe891XQW6FsYs=uw-PanmVznp5ieeCbJWprZ-+=83KwJA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeklecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetieeutefffffffeevgefgudejvdeggfefudefueektdehjeegtefgtddvgfegtdenucffohhmrghinheptghrthgtrdihohhupdhkvghrnhgvlhdrohhrghenucfkphepvdgrtddumegvtdgrmedvgeeimeejjeeltdemvdeitgegmegvvddvmeeitdefugemheekrgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdegieemjeejledtmedviegtgeemvgdvvdemiedtfegumeehkegrpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddupdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhnghesl
- hhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
-X-GND-Sasl: herve.codina@bootlin.com
+In-Reply-To: <CAEXTbpe891XQW6FsYs=uw-PanmVznp5ieeCbJWprZ-+=83KwJA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,146 +98,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 4 Feb 2025 16:17:10 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
-
-> Hi,
+On Tue, Feb 04, 2025 at 04:10:37PM +0800, Pin-yen Lin wrote:
+> Hi Hermes,
 > 
-> On Fri, Jan 17, 2025 at 09:12:13AM +0100, Herve Codina wrote:
-> > Hi Maxime,
-> > 
-> > On Thu, 16 Jan 2025 09:38:45 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >   
-> > > On Tue, Jan 14, 2025 at 01:54:56PM +0100, Herve Codina wrote:  
-> > > > Hi Maxime,
-> > > > 
-> > > > On Tue, 14 Jan 2025 08:40:51 +0100
-> > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > > 
-> > > > ...
-> > > >     
-> > > > > >  
-> > > > > > +static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
-> > > > > > +{
-> > > > > > +	struct drm_atomic_state *state = ERR_PTR(-EINVAL);
-> > > > > > +	struct drm_device *dev = sn65dsi83->bridge.dev;
-> > > > > > +	struct drm_connector_state *connector_state;
-> > > > > > +	struct drm_modeset_acquire_ctx ctx;
-> > > > > > +	struct drm_connector *connector;
-> > > > > > +	int err;
-> > > > > > +
-> > > > > > +	/*
-> > > > > > +	 * Reset active outputs of the related CRTC.
-> > > > > > +	 *
-> > > > > > +	 * This way, drm core will reconfigure each components in the CRTC
-> > > > > > +	 * outputs path. In our case, this will force the previous component to
-> > > > > > +	 * go back in LP11 mode and so allow the reconfiguration of SN64DSI83
-> > > > > > +	 * bridge.
-> > > > > > +	 *
-> > > > > > +	 * Keep the lock during the whole operation to be atomic.
-> > > > > > +	 */
-> > > > > > +
-> > > > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
-> > > > > > +
-> > > > > > +	state = drm_atomic_helper_duplicate_state(dev, &ctx);
-> > > > > > +	if (IS_ERR(state)) {
-> > > > > > +		err = PTR_ERR(state);
-> > > > > > +		goto unlock;
-> > > > > > +	}      
-> > > > > 
-> > > > > No, you must not allocate a new state for this, you need to reuse the
-> > > > > existing state. You'll find it in bridge->base.state->state.    
-> > > > 
-> > > > Thanks for pointing that. I didn't know about bridge->base.state->state.
-> > > > 
-> > > > I will use that if using the state is still relevant (see next comment).
-> > > >     
-> > > > >     
-> > > > > > +	state->acquire_ctx = &ctx;
-> > > > > > +
-> > > > > > +	connector = drm_atomic_get_old_connector_for_encoder(state,
-> > > > > > +							     sn65dsi83->bridge.encoder);
-> > > > > > +	if (!connector) {
-> > > > > > +		err = -EINVAL;
-> > > > > > +		goto unlock;
-> > > > > > +	}
-> > > > > > +
-> > > > > > +	connector_state = drm_atomic_get_connector_state(state, connector);
-> > > > > > +	if (IS_ERR(connector_state)) {
-> > > > > > +		err = PTR_ERR(connector_state);
-> > > > > > +		goto unlock;
-> > > > > > +	}
-> > > > > > +
-> > > > > > +	err = drm_atomic_helper_reset_pipe(connector_state->crtc, &ctx);
-> > > > > > +	if (err < 0)
-> > > > > > +		goto unlock;      
-> > > > > 
-> > > > > And you'll find the crtc in bridge->encoder->crtc.    
-> > > > 
-> > > > I am a bit confused. I looked at the drm_encoder structure [1] and the crtc
-> > > > field available in this structure should not be used by atomic drivers. They
-> > > > should rely on &drm_connector_state.crtc.    
-> > > 
-> > > You're right, it's deprecated but used by most bridges anyway.
-> > > 
-> > > I made a series of changes after reviewing your series to address some
-> > > issues with the current bridge API, most notably
-> > > 
-> > > https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9a2fecd886a6@kernel.org/  
-> > 
-> > Thanks for pointing that, indeed, it clarify many things!
-> >   
-> > >   
-> > > > In my case, I have the feeling that I should get the ctrc from the current
-> > > > state (i.e. bridge->base.state->state) using the sequence provided in this
-> > > > current patch:
-> > > >   Retrieve the connector with drm_atomic_get_old_connector_for_encoder()    
-> > > 
-> > > Retrieving the old connector makes no sense though. It's the connector
-> > > that was formerly associated with your encoder. It might work, it might
-> > > not, it's not what you're looking for.
-> > >   
-> > > >   Retrieve the connector state with drm_atomic_get_connector_state()    
-> > > 
-> > > drm_atomic_get_connector_state will allocate and pull the connector
-> > > state into the drm_atomic_state, even if it wasn't part of it before, so
-> > > it's not great. And you don't need it in the first place, you only need
-> > > the current active CRTC.  
-> > 
-> > Yes, I agree with that, I only need the active CRTC.
-> > 
-> > I tried to get the current atomic_state from:
-> >   1) bridge->base.state->state
-> >   2) drm_bridge_state->base.state
-> > 
-> > In both cases, it is NULL. Looking at Sima's reply in your series
-> > explained that:
-> >   https://lore.kernel.org/dri-devel/Z4juJy7kKPbI2BDb@phenom.ffwll.local/
-> > 
-> > If I understood correctly those pointers are explicitly cleared.
-> > 
-> > So, with all of that, either:
-> >   a) I wait for your series to be applied in order to use your the crtc field from
-> >      drm_bridge_state added by:
-> >        https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9a2fecd886a6@kernel.org/#t
-> >   b) I use the old school bridge->encoder->crtc for the moment
-> > 
-> > Do you mind if I use the bridge->encoder->crtc way for the next iteration of
-> > my series?  
+> On Tue, Feb 4, 2025 at 11:49 AM <Hermes.Wu@ite.com.tw> wrote:
+> >
+> > Hi
+> > >
+> > >-----Original Message-----
+> > >From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > >Sent: Tuesday, February 4, 2025 1:28 AM
+> > >To: Hermes Wu (吳佳宏) <Hermes.Wu@ite.com.tw>
+> > >Cc: Andrzej Hajda <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; Laurent Pinchart <Laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; treapking@chromium.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; Pet Weng (翁玉芬) <Pet.Weng@ite.com.tw>; Kenneth Hung (洪家倫) <Kenneth.Hung@ite.com.tw>
+> > >Subject: Re: [PATCH v2] drm/bridge: it6505: support hdmi_codec_ops for audio stream setup
+> > >
+> > >On Mon, Feb 03, 2025 at 02:04:30PM +0800, Hermes Wu via B4 Relay wrote:
+> > >> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> > >>
+> > >> For supporting audio form I2S to DP audio data sub stream.
+> > >> Add hdmi_audio callbacks to drm_bridge_funcs for the HDMI codec
+> > >> framework. The DRM_BRIDGE_OP_HDMI flag in bridge.ops must be set, and
+> > >> hdmi_write_infoframe and hdmi_clear_infoframe are necessary for the
+> > >> drm_bridge_connector to enable the HDMI codec.
+> > >
+> > >Please split this into two commits: one adding OP_HDMI, second one adding audio support.
+> >
+> > This will need send patches with cover letter, should I keep patch version or reset it?
 > 
-> Yeah, it makes sense.
+> I would bump to v3 in this case.
 
-I already send a wrong v4 (sorry) and a correct v5 with modifications in
-this way :)
+Definitely.
 
-> 
-> Still, it would be great if you could test my series on your setup and see if it helps :)
-
-Of course, I can test updated version of your series.
-
-I already try to get the current atomic_state exactly the same way as you do
-in your series and the pointer is NULL in my case.
-
-Best regards,
-Hervé
+-- 
+With best wishes
+Dmitry
