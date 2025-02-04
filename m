@@ -2,75 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E6FA271CA
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 13:29:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31CB5A271D2
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 13:32:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E32AB10E602;
-	Tue,  4 Feb 2025 12:29:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 385BE10E5FD;
+	Tue,  4 Feb 2025 12:32:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="XlZE15Z9";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=friedrich.vock@gmx.de header.b="e/SLgLPo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E797710E602
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 12:29:42 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 514CTIdh3148591
- (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Feb 2025 06:29:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1738672158;
- bh=al89eAjfcgC0mICEc3UM6WE2OjKJISsb1YamCziOHeQ=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=XlZE15Z9krxY5Ye5IIHZ46qNmMNWMqr5G44/YqUMLjU9EHPVz0TxpCPVqsBttKwv3
- 9ipAANzwyS2pWH5/68gIZZ32kl8llK2YUzQlbvRbArS7jSkV0IvLW7DlqnVzPNsGSo
- nB6JLbQ2Z2AWPXfQPAACuooVQRia4X4HwX0SdTjI=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 514CTIJn084027
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 4 Feb 2025 06:29:18 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 4
- Feb 2025 06:29:18 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 4 Feb 2025 06:29:18 -0600
-Received: from [10.24.69.29] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [10.24.69.29])
- by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 514CTClr101550;
- Tue, 4 Feb 2025 06:29:12 -0600
-Message-ID: <1b9aae38-1097-4036-abe6-2490f5dc6a62@ti.com>
-Date: Tue, 4 Feb 2025 17:59:08 +0530
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423BB10E5FD;
+ Tue,  4 Feb 2025 12:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1738672328; x=1739277128; i=friedrich.vock@gmx.de;
+ bh=scxUiK1pLq2XxF7S36bqQRmonlgR7MyYhHKB4Vu4+IQ=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=e/SLgLPoyvjEDlqBD+CcYsHoVcohqXujS/A6FAXby3ynzLgoGFvFo9Of0dhy6AvV
+ l1wLbuqwD5el8Gax6CzWgXD+re/NHy5TiVFvEqq+XJDWYhoQ0NlbKL0Rx4FEEWlDo
+ t74H53v6qynvr7hNs3tht+Q3NKYOI0fw2hII840Vwcxg4odnOeTkrIvZE3xmHNPhr
+ tJvAD2uDh22K1E+NUzzsgmmEJavE9O0RMijWfWms0SqvjLaGiUvvQ2cpzEzxVqLhq
+ OVnG1prMCQldT/Hb1rsP64U/Y4aHNr7uD+aQsSHcbRrGKP3+3LTf6Xq5uSkeKvTAI
+ hXw2L2YQ3Mhs4b2PTg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.3] ([109.91.201.165]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MYNNy-1ts3w21pmE-00Wo0Y; Tue, 04
+ Feb 2025 13:32:08 +0100
+Message-ID: <e6330f10-a736-4ccd-8a0e-95e1899648d6@gmx.de>
+Date: Tue, 4 Feb 2025 13:32:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 11/13] drm/atomic-helper: Separate out bridge
- pre_enable/post_disable from enable/disable
-To: Aradhya Bhatia <aradhya.bhatia@linux.dev>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Devarsh
- Thakkar <devarsht@ti.com>, Praneeth Bajjuri <praneeth@ti.com>, Udit Kumar
- <u-kumar1@ti.com>, DRI Development List <dri-devel@lists.freedesktop.org>,
- Linux Kernel List <linux-kernel@vger.kernel.org>
-References: <20250126191551.741957-1-aradhya.bhatia@linux.dev>
- <20250126191551.741957-12-aradhya.bhatia@linux.dev>
+Subject: Re: [PATCH v3 0/3] drm/amdgpu: Explicit sync for GEM VA operations
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ "Sharma, Shashank" <Shashank.Sharma@amd.com>
+Cc: Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
+ Tatsuyuki Ishi <ishitatsuyuki@gmail.com>
+References: <20240819072110.108715-1-friedrich.vock@gmx.de>
+ <8488e172-4d50-4cd6-8d2b-fd86d6126425@amd.com>
 Content-Language: en-US
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <20250126191551.741957-12-aradhya.bhatia@linux.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+From: Friedrich Vock <friedrich.vock@gmx.de>
+Autocrypt: addr=friedrich.vock@gmx.de; keydata=
+ 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
+ f7+xmX0X3AMtWz/15Y+7cPO2
+In-Reply-To: <8488e172-4d50-4cd6-8d2b-fd86d6126425@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:QHb7TezfKUdQXNWC1MEzLjlC28jV33INO673W5EY0RM8X0dHsCB
+ lx3zloCn/fwp1K7/tKDPSECoXprm2m38Q5Zkc9Bype/OY6llGPRT0Ws0zts0z49ka9yenQn
+ LtdkzMsZ372Ec+ZR1sKrueYjlubKIeeXmJpdLIRvuywT7KeBJwgxg5U7edPlcOu6pYPVAva
+ M9XhmfxWPPPEmeFJTPDxQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:kpqZ/4QUTkQ=;jKSoKAC3ycIT6YNn/IlVeUsFxFr
+ qUyKCprzRrSLp41WQSWaJMG3qtXJ7tZINY0qvkYLUG1vaufaJlPRr/Y35YbsTKI22cirkQ7A/
+ jem8PPqbYT6qkByluKj+tl5FI6GUX3LcnVSppVH2str+svo3idGpm93lUWkVI69qiJ75cayjZ
+ AM45e9d2+z5j4L3jp1UQLGt9+GP+IVYBZZIaeF3Jkrm/A0rbJleuRC3YLqHF7Tv8fQdP/3DRK
+ xhRBMc6AHqzvip7e6IqvzSFYgGzmEG/nJ0zrMkvHhEda8pCTJu8FUsJsxVYX06FNg9c49k4hD
+ rCkmFIYLbIJzYUHz96P42TnY8INbftecis+ugfRZBA7fQSlQLu5d/OtamgOGzCRmJ2BRGJmMo
+ TpAoVEJhu1Fmek38ErBVnbSENcNBc/saDINWQVR8Yel2NUBmzXAP9k16/Rt4X33D+yG+aqYMI
+ GqH1q7/xGrT/EFUQU8sLZKvfMIAGMZFviogsrmr1Qrpf+ypR5fQI9R02M/xUxwv5bdVHhVeLb
+ iLVwABsgLeTQifjf1v4TseLELtX4Dy2E+z43kSspoaa6rOKGSuUVdiviJ7Cy2QffsHE6W5X53
+ XrIuANv3YpG8IGBmS/eEWjElBNVMBs/BfwQrWGO39IJn/rWZcpyHiEWIMl1UDD1Y/YBXPiZ3o
+ gRJvGmb3erLHu+gFjT6yeb5XlaBjd1Kib1gKzxhbrcYT4JZJHIViYN7y0DfjNYxaZs8oXXRWl
+ ZbHJ0hJinBp+2/SKOzK5Te3HXgvvfUk6ds30vYjR+r88uWGq7BLBEFFSEPZMekmllNdF+bnXL
+ XjWUQIGTN04e9/FGwdlRQKnaEC7pweHwqqRY0NS0WziPsQ0LhOCLUsjsGSACHR0Rya07JOHOK
+ ArJvn3C4pImILAtZI9JVWcm1O/bRfcpdNgoA0pLGcS5c23/lOII4bz9EacVdEU9e6TsfpXHB3
+ XWcGIINeD29U2urGD9MI2bAlAQz4dsUC5QWy9EKu1cwnaByK0fE98x+pAHbdsYZZrZgbdvG+p
+ X+fTHtdVwWUr2WNs0cFhgALoKoVPV0U3iiBZ1pnTVlI5CixPmRIvAuhCYKMEZGGgbdlXb48xG
+ zRlXCHbV6Rz9oupAD+meBvifwwypzHaAlTK7fxshCfSO8ninAk63WPz5GMrg9nUWHu6MuG4z4
+ t+c0079VtjVl5gYVEj5rhFH1xr8t24Aiterzng1SEtcuhkFZBbEDi31zFlFxfrJnEtPqdFoWy
+ gFgRY3eM8ifPrbH2X7G+zDBh8R115P2NcieeDOuVqT1GAErD1u2W6KGExgmsSgU8A4VHXqn69
+ XOVhhOVYLgjdYAU0TFRwPy5TogFq5KsUJJ4lnU+FLNWC3Q=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,206 +124,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Aradhya,
+Hi,
 
-On 27/01/25 00:45, Aradhya Bhatia wrote:
-> The encoder-bridge ops occur by looping over the new connector states of
-> the display pipelines. The enable sequence runs as follows -
-> 
-> 	- pre_enable(bridge),
-> 	- enable(encoder),
-> 	- enable(bridge),
-> 
-> while the disable sequnce runs as follows -
-> 
-> 	- disable(bridge),
-> 	- disable(encoder),
-> 	- post_disable(bridge).
-> 
-> Separate out the pre_enable(bridge), and the post_disable(bridge)
-> operations into separate functions each.
-> 
-> This patch keeps the sequence same for any singular disaplay pipe, but
-> changes the sequence across multiple display pipelines.
-> 
-> This patch is meant to be an interim patch, to cleanly pave the way for
-> the sequence re-ordering patch, and maintain bisectability in the
-> process.
-> 
-> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> ---
->   drivers/gpu/drm/drm_atomic_helper.c | 92 +++++++++++++++++++++++++++--
->   1 file changed, 88 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index e805fd0a54c5..f5532e3646e1 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1185,8 +1185,6 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *old_stat
->   			else if (funcs->dpms)
->   				funcs->dpms(encoder, DRM_MODE_DPMS_OFF);
->   		}
-> -
-> -		drm_atomic_bridge_chain_post_disable(bridge, old_state);
->   	}
->   }
->   
-> @@ -1243,11 +1241,65 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *old_state)
->   	}
->   }
->   
-> +static void
-> +encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *old_state)
-> +{
-> +	struct drm_connector *connector;
-> +	struct drm_connector_state *old_conn_state, *new_conn_state;
-> +	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-> +	int i;
-> +
-> +	for_each_oldnew_connector_in_state(old_state, connector, old_conn_state, new_conn_state, i) {
-> +		struct drm_encoder *encoder;
-> +		struct drm_bridge *bridge;
-> +
-> +		/*
-> +		 * Shut down everything that's in the changeset and currently
-> +		 * still on. So need to check the old, saved state.
-> +		 */
-> +		if (!old_conn_state->crtc)
-> +			continue;
-> +
-> +		old_crtc_state = drm_atomic_get_old_crtc_state(old_state, old_conn_state->crtc);
-> +
-> +		if (new_conn_state->crtc)
-> +			new_crtc_state = drm_atomic_get_new_crtc_state(
-> +						old_state,
-> +						new_conn_state->crtc);
-> +		else
-> +			new_crtc_state = NULL;
-> +
-> +		if (!crtc_needs_disable(old_crtc_state, new_crtc_state) ||
-> +		    !drm_atomic_crtc_needs_modeset(old_conn_state->crtc->state))
-> +			continue;
-> +
-> +		encoder = old_conn_state->best_encoder;
-> +
-> +		/* We shouldn't get this far if we didn't previously have
-> +		 * an encoder.. but WARN_ON() rather than explode.
-> +		 */
-> +		if (WARN_ON(!encoder))
-> +			continue;
-> +
-> +		drm_dbg_atomic(dev, "post-disabling bridges [ENCODER:%d:%s]\n",
-> +			       encoder->base.id, encoder->name);
-> +
-> +		/*
-> +		 * Each encoder has at most one connector (since we always steal
-> +		 * it away), so we won't call disable hooks twice.
-> +		 */
-> +		bridge = drm_bridge_chain_get_first_bridge(encoder);
-> +		drm_atomic_bridge_chain_post_disable(bridge, old_state);
-> +	}
-> +}
-> +
->   static void
->   disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
->   {
->   	encoder_bridge_disable(dev, old_state);
->   
-> +	encoder_bridge_post_disable(dev, old_state);
-> +
->   	crtc_disable(dev, old_state);
->   }
->   
-> @@ -1460,6 +1512,38 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
->   	}
->   }
->   
-> +static void
-> +encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *old_state)
-> +{
-> +	struct drm_connector *connector;
-> +	struct drm_connector_state *new_conn_state;
-> +	int i;
-> +
-> +	for_each_new_connector_in_state(old_state, connector, new_conn_state, i) {
-> +		struct drm_encoder *encoder;
-> +		struct drm_bridge *bridge;
-> +
-> +		if (!new_conn_state->best_encoder)
-> +			continue;
-> +
-> +		if (!new_conn_state->crtc->state->active ||
-> +		    !drm_atomic_crtc_needs_modeset(new_conn_state->crtc->state))
-> +			continue;
-> +
-> +		encoder = new_conn_state->best_encoder;
-> +
-> +		drm_dbg_atomic(dev, "pre-enabling bridges [ENCODER:%d:%s]\n",
-> +			       encoder->base.id, encoder->name);
-> +
-> +		/*
-> +		 * Each encoder has at most one connector (since we always steal
-> +		 * it away), so we won't call enable hooks twice.
-> +		 */
-> +		bridge = drm_bridge_chain_get_first_bridge(encoder);
-> +		drm_atomic_bridge_chain_pre_enable(bridge, old_state);
-> +	}
-> +}
-> +
->   static void
->   crtc_enable(struct drm_device *dev, struct drm_atomic_state *old_state)
->   {
-> @@ -1531,8 +1615,6 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *old_state
->   			else if (funcs->commit)
->   				funcs->commit(encoder);
->   		}
-> -
-> -		drm_atomic_bridge_chain_enable(bridge, old_state);
->   	}
->   }
->   
-> @@ -1555,6 +1637,8 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->   {
->   	crtc_enable(dev, old_state);
->   
-> +	encoder_bridge_pre_enable(dev, old_state);
-> +
->   	encoder_bridge_enable(dev, old_state);
->   
+On 19.08.24 13:21, Christian K=C3=B6nig wrote:
+> Am 19.08.24 um 09:21 schrieb Friedrich Vock:
+>> In Vulkan, it is the application's responsibility to perform adequate
+>> synchronization before a sparse unmap, replace or BO destroy operation.
+>> This adds an option to AMDGPU_VA_OPs to disable redundant implicit sync
+>> that happens on sparse unmap or replace operations.
+>>
+>> This has seen a significant improvement in stutter in Forza Horizon 5
+>> and Forza Horizon 4. (As games that had significant issues in sparse
+>> binding related stutter).
+>
+> Looks pretty good, I have Shashank and his team working on the similar
+> patches ever since Bas initially came up with it since we need it for
+> user queues as well.
+>
+> Shashank can you take a look at the UAPI? Of hand looks pretty similar
+> to what we have done as well, doesn't it?
+>
+> For the internal implementation in the VM I'm currently working on a bug
+> fix for the KFD team, so this is subject to change anyway. Going to keep
+> this requirement here in mind while doing that, whatever implementation
+> we end up with we probably need to re-base it anyway.
 
-After separating enable and pre_enable, bridge_chain_enable hook is not
-called. This breaks display.
+Bumping this again - it's been quite a while, what became of that KFD
+bugfix and the userqueue stuff? It'd be nice to finally make progress
+here, whether it's using the user queue interface you worked on or a
+re-spin of this. Maybe it's possible to split this off from the rest of
+the userqueue stuff and merge it beforehand if you're reasonably certain
+about how the uapi should look? Let me know.
 
-In encoder_bridge_enable call, you need to call
-bridge_chain_enable call instead of bridge_chain_pre_enable.
+Thanks,
+Friedrich
 
+>
+> Regards,
+> Christian.
+>
+>>
+>> Userspace changes for this new version can be found at [1][2], and a
+>> kernel
+>> branch containing these patches can be found at [3].
+>>
+>> [1] https://gitlab.freedesktop.org/pixelcluster/drm/-/commits/vm-
+>> explicit-sync
+>> [2] https://gitlab.freedesktop.org/pixelcluster/mesa/-/commits/vm-
+>> explicit-sync
+>> [3] https://gitlab.freedesktop.org/pixelcluster/linux/-/commits/
+>> amdgpu-vm-explicit-sync
+>>
+>> v3 changes:
+>> - Rebased onto current amd-staging-drm-next
+>> - Added option to wait for drm_syncobjs instead of executing immediatel=
+y
+>>
+>> Tatsuyuki Ishi (3):
+>> =C2=A0=C2=A0 drm/amdgpu: Don't implicit sync PRT maps.
+>> =C2=A0=C2=A0 drm/amdgpu: Add optional explicit sync fences for GEM oper=
+ations.
+>> =C2=A0=C2=A0 drm/amdgpu: Bump amdgpu driver version.
+>>
+>> =C2=A0 .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c=C2=A0 |=C2=A0 2 +-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 2 +-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 3 +-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 76 ++++++++++++++++---
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_object.h=C2=A0=C2=A0=C2=A0 | 2=
+3 +++++-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 6 +-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_umsch_mm.c=C2=A0 |=C2=A0 2 +-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 68 +++++++++++------
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 30 ++++----
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c=C2=A0=C2=A0=C2=A0 | 1=
+2 ++-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm_pt.c=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 2 +-
+>> =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c=C2=A0=C2=A0 |=C2=A0 =
+9 +++
+>> =C2=A0 drivers/gpu/drm/amd/amdkfd/kfd_svm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 18 ++---
+>> =C2=A0 include/uapi/drm/amdgpu_drm.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 =
+++
+>> =C2=A0 14 files changed, 194 insertions(+), 66 deletions(-)
+>>
+>> --
+>> 2.46.0
+>>
 
-
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c 
-b/drivers/gpu/drm/drm_atomic_helper.c
-index d2f19df9f418..1b580dc068bf 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1605,7 +1605,7 @@ encoder_bridge_enable(struct drm_device *dev, 
-struct drm_atomic_state *old_state
-                  * it away), so we won't call enable hooks twice.
-                  */
-                 bridge = drm_bridge_chain_get_first_bridge(encoder);
--               drm_atomic_bridge_chain_pre_enable(bridge, old_state);
-+               drm_atomic_bridge_chain_enable(bridge, old_state);
-
-                 if (funcs) {
-                         if (funcs->atomic_enable)
-
-I have tested display on J784S4-EVM for MHDP and DSI with this diff on
-top of your series.
-
-With the above change addressed,
-
-Reviewed-by: Jayesh Choudhary <j-choudhary@ti.com>
-
-
->   	drm_atomic_helper_commit_writebacks(dev, old_state);
-
-Warm Regards,
-Jayesh
