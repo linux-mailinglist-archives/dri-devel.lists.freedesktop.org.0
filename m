@@ -2,92 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E7DA26D14
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:16:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D493A26D2D
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:22:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8C110E2E2;
-	Tue,  4 Feb 2025 08:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A29E10E2A0;
+	Tue,  4 Feb 2025 08:22:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="pYetfeQq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oGVWwNFi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pYetfeQq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oGVWwNFi";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="GAhTKsst";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="92Wabo0H";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GAhTKsst";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="92Wabo0H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA70910E2E2
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 08:16:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8CE10E2A0
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 08:22:00 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 53FF0210FA;
- Tue,  4 Feb 2025 08:16:09 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 3782021102;
+ Tue,  4 Feb 2025 08:21:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738656969; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1738657316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8ZkulmqIop4CNSTrofnSmlIpBgxoMbhTny076YqK1Js=;
- b=pYetfeQqIw1bYtj/wwzUBc157TngUhDDP9/PTUb9iX0XmYtmwsjRd7csK3tZc+RGHRL7dn
- LGDHtOLXAnFU3tTYvm+e19KiN6FUet0QCvznvBOuiuBG4FHhRxxO4oyRLR38C+TjSCMpZp
- nkM3+gJ0aPTyEaHttp1+KpvGwYNbNgQ=
+ bh=hZMrLILD1GBUFP/QjeIiEwC8yowC0yvAkHoIC6AkTkk=;
+ b=GAhTKsst7OWgqD6NRAK9h4Ka6wjBMRAVuPk/fGwJw4aLGtKQwuvDpTcWIyi6OVpZK+umJD
+ sRh4luTDqmbGedWHKGvErMN/DyLX2O3wFj/QjOHYVxUQayLhh6vtXysybpvwYZXNf5CfLs
+ eA0PAoY6PsRjHbF3DRdZFxI+s0VsbWM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738656969;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ s=susede2_ed25519; t=1738657316;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8ZkulmqIop4CNSTrofnSmlIpBgxoMbhTny076YqK1Js=;
- b=oGVWwNFiqb97XsgPQWv8kCB+4ZUr366jrZ4CeTxkwcj704bAftaCXvmo+lzR4WEe6tkBTJ
- JvBTegIWPGDMQ5BQ==
+ bh=hZMrLILD1GBUFP/QjeIiEwC8yowC0yvAkHoIC6AkTkk=;
+ b=92Wabo0HMklRtEzpmbCNKve+Z7s+rTwgfVxKZTEbcR3fF9FQuF7dz2fwUrMTOtSxSyKvak
+ WJZ/qqoHzWeqBrCA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1738656969; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1738657316; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8ZkulmqIop4CNSTrofnSmlIpBgxoMbhTny076YqK1Js=;
- b=pYetfeQqIw1bYtj/wwzUBc157TngUhDDP9/PTUb9iX0XmYtmwsjRd7csK3tZc+RGHRL7dn
- LGDHtOLXAnFU3tTYvm+e19KiN6FUet0QCvznvBOuiuBG4FHhRxxO4oyRLR38C+TjSCMpZp
- nkM3+gJ0aPTyEaHttp1+KpvGwYNbNgQ=
+ bh=hZMrLILD1GBUFP/QjeIiEwC8yowC0yvAkHoIC6AkTkk=;
+ b=GAhTKsst7OWgqD6NRAK9h4Ka6wjBMRAVuPk/fGwJw4aLGtKQwuvDpTcWIyi6OVpZK+umJD
+ sRh4luTDqmbGedWHKGvErMN/DyLX2O3wFj/QjOHYVxUQayLhh6vtXysybpvwYZXNf5CfLs
+ eA0PAoY6PsRjHbF3DRdZFxI+s0VsbWM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1738656969;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ s=susede2_ed25519; t=1738657316;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=8ZkulmqIop4CNSTrofnSmlIpBgxoMbhTny076YqK1Js=;
- b=oGVWwNFiqb97XsgPQWv8kCB+4ZUr366jrZ4CeTxkwcj704bAftaCXvmo+lzR4WEe6tkBTJ
- JvBTegIWPGDMQ5BQ==
+ bh=hZMrLILD1GBUFP/QjeIiEwC8yowC0yvAkHoIC6AkTkk=;
+ b=92Wabo0HMklRtEzpmbCNKve+Z7s+rTwgfVxKZTEbcR3fF9FQuF7dz2fwUrMTOtSxSyKvak
+ WJZ/qqoHzWeqBrCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94B4F1393E;
- Tue,  4 Feb 2025 08:16:08 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D64CC13795;
+ Tue,  4 Feb 2025 08:21:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id hqYOI8jMoWepZwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 04 Feb 2025 08:16:08 +0000
-Message-ID: <b2b88242-e00c-4c6b-a6be-8d0dbb905569@suse.de>
-Date: Tue, 4 Feb 2025 09:16:08 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id q0/2MiPOoWeXaQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 04 Feb 2025 08:21:55 +0000
+Message-ID: <d800c5a5-b751-4f74-aee4-8dda1536dd85@suse.de>
+Date: Tue, 4 Feb 2025 09:21:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] mm: provide mapping_wrprotect_page() function
-To: Christoph Hellwig <hch@infradead.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jaya Kumar <jayakumar.lkml@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Subject: Re: [PATCH 3/3] fb_defio: do not use deprecated page->mapping, index
+ fields
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jaya Kumar <jayakumar.lkml@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>,
  David Hildenbrand <david@redhat.com>, Kajtar Zsolt <soci@c64.rulez.org>,
  Maira Canal <mcanal@igalia.com>
 References: <cover.1738347308.git.lorenzo.stoakes@oracle.com>
- <c802c17cdba59e3455f3d7db07659d5da0ed6dc1.1738347308.git.lorenzo.stoakes@oracle.com>
- <Z6DljlvHpjdFof42@phenom.ffwll.local> <Z6Gnat93skcoFZqn@infradead.org>
+ <3542c5bb74d2487cf45d1d02ee5e73a05c4d279a.1738347308.git.lorenzo.stoakes@oracle.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -114,26 +113,28 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z6Gnat93skcoFZqn@infradead.org>
+In-Reply-To: <3542c5bb74d2487cf45d1d02ee5e73a05c4d279a.1738347308.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
+X-Spam-Level: 
 X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[infradead.org,oracle.com,linux-foundation.org,gmail.com,ffwll.ch,gmx.de,vger.kernel.org,lists.freedesktop.org,kvack.org,redhat.com,c64.rulez.org,igalia.com];
- TAGGED_RCPT(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_TWELVE(0.00)[14]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[13];
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MID_RHS_MATCH_FROM(0.00)[];
  FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,gmx.de,vger.kernel.org,lists.freedesktop.org,kvack.org,infradead.org,redhat.com,c64.rulez.org,igalia.com];
+ TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
  RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email, imap1.dmz-prg2.suse.org:helo,
+ suse.de:mid]
+X-Spam-Score: -2.80
 X-Spam-Flag: NO
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,37 +153,152 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi
 
 
-Am 04.02.25 um 06:36 schrieb Christoph Hellwig:
-> Hi Simona,
+Am 31.01.25 um 19:28 schrieb Lorenzo Stoakes:
+> With the introduction of mapping_wrprotect_page() there is no need to use
+> folio_mkclean() in order to write-protect mappings of frame buffer pages,
+> and therefore no need to inappropriately set kernel-allocated page->index,
+> mapping fields to permit this operation.
 >
+> Instead, store the pointer to the page cache object for the mapped driver
+> in the fb_deferred_io object, and use the already stored page offset from
+> the pageref object to look up mappings in order to write-protect them.
 >
-> On Mon, Feb 03, 2025 at 04:49:34PM +0100, Simona Vetter wrote:
->> Could we go one step further and entirely drop the struct page? Similar to
->> unmap_mapping_range for VM_SPECIAL mappings, except it only updates the
->> write protection. The reason is that ideally we'd like fbdev defio to
->> entirely get rid of any struct page usage, because with some dma_alloc()
->> memory regions there's simply no struct page for them (it's a carveout).
-> Umm, for dma_alloc* where * is not _pages you never can get a page or
-> PFN form them.  They are block boxes and drivers must not attempt to
-> translated them into either a page or PFN or things will go wrong.
-> Only the kernel virtual address and dma_address may be used.
+> This is justified, as for the page objects to store a mapping pointer at
+> the point of assignment of pages, they must all reference the same
+> underlying address_space object. Since the life time of the pagerefs is
+> also the lifetime of the fb_deferred_io object, storing the pointer here
+> makes snese.
 >
->> See e.g.  Sa498d4d06d6 ("drm/fbdev-dma: Only install deferred I/O if
->> necessary") for some of the pain this has caused.
-> The commit hash is corrupted, I guess this is 5a498d4d06d6 as the
-> subject line matches.  And that commit (just like the code it is trying
-> to fix) is completely broken as it violates the above.
+> This eliminates the need for all of the logic around setting and
+> maintaining page->index,mapping which we remove.
+>
+> This eliminates the use of folio_mkclean() entirely but otherwise should
+> have no functional change.
+>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Tested-by: Kajtar Zsolt <soci@c64.rulez.org>
+> ---
+>   drivers/video/fbdev/core/fb_defio.c | 38 +++++++++--------------------
+>   include/linux/fb.h                  |  1 +
+>   2 files changed, 12 insertions(+), 27 deletions(-)
+>
+> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+> index 65363df8e81b..b9bab27a8c0f 100644
+> --- a/drivers/video/fbdev/core/fb_defio.c
+> +++ b/drivers/video/fbdev/core/fb_defio.c
+> @@ -69,14 +69,6 @@ static struct fb_deferred_io_pageref *fb_deferred_io_pageref_lookup(struct fb_in
+>   	return pageref;
+>   }
+>   
+> -static void fb_deferred_io_pageref_clear(struct fb_deferred_io_pageref *pageref)
+> -{
+> -	struct page *page = pageref->page;
+> -
+> -	if (page)
+> -		page->mapping = NULL;
+> -}
+> -
+>   static struct fb_deferred_io_pageref *fb_deferred_io_pageref_get(struct fb_info *info,
+>   								 unsigned long offset,
+>   								 struct page *page)
+> @@ -140,13 +132,10 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+>   	if (!page)
+>   		return VM_FAULT_SIGBUS;
+>   
+> -	if (vmf->vma->vm_file)
+> -		page->mapping = vmf->vma->vm_file->f_mapping;
+> -	else
+> +	if (!vmf->vma->vm_file)
+>   		printk(KERN_ERR "no mapping available\n");
 
-As the author of these commits, I have no doubt that the code would 
-break on some systems. It works in practice for the current use cases 
-though. Is it possible to create something that tracks framebuffer 
-writes without requiring pages?
+fb_err() here.
 
-Best regards
+>   
+> -	BUG_ON(!page->mapping);
+> -	page->index = vmf->pgoff; /* for folio_mkclean() */
+> +	BUG_ON(!info->fbdefio->mapping);
+>   
+>   	vmf->page = page;
+>   	return 0;
+> @@ -194,9 +183,9 @@ static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long
+>   
+>   	/*
+>   	 * We want the page to remain locked from ->page_mkwrite until
+> -	 * the PTE is marked dirty to avoid folio_mkclean() being called
+> -	 * before the PTE is updated, which would leave the page ignored
+> -	 * by defio.
+> +	 * the PTE is marked dirty to avoid mapping_wrprotect_page()
+> +	 * being called before the PTE is updated, which would leave
+> +	 * the page ignored by defio.
+>   	 * Do this by locking the page here and informing the caller
+>   	 * about it with VM_FAULT_LOCKED.
+>   	 */
+> @@ -274,14 +263,13 @@ static void fb_deferred_io_work(struct work_struct *work)
+>   	struct fb_deferred_io_pageref *pageref, *next;
+>   	struct fb_deferred_io *fbdefio = info->fbdefio;
+>   
+> -	/* here we mkclean the pages, then do all deferred IO */
+> +	/* here we wrprotect the page's mappings, then do all deferred IO. */
+>   	mutex_lock(&fbdefio->lock);
+>   	list_for_each_entry(pageref, &fbdefio->pagereflist, list) {
+> -		struct folio *folio = page_folio(pageref->page);
+> +		struct page *page = pageref->page;
+> +		pgoff_t pgoff = pageref->offset >> PAGE_SHIFT;
+>   
+> -		folio_lock(folio);
+> -		folio_mkclean(folio);
+> -		folio_unlock(folio);
+> +		mapping_wrprotect_page(fbdefio->mapping, pgoff, 1, page);
+>   	}
+>   
+>   	/* driver's callback with pagereflist */
+> @@ -337,6 +325,7 @@ void fb_deferred_io_open(struct fb_info *info,
+>   {
+>   	struct fb_deferred_io *fbdefio = info->fbdefio;
+>   
+> +	fbdefio->mapping = file->f_mapping;
+
+Does this still work if more than one program opens the file?
+
+Best regard
 Thomas
 
->
->
+>   	file->f_mapping->a_ops = &fb_deferred_io_aops;
+>   	fbdefio->open_count++;
+>   }
+> @@ -344,13 +333,7 @@ EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+>   
+>   static void fb_deferred_io_lastclose(struct fb_info *info)
+>   {
+> -	unsigned long i;
+> -
+>   	flush_delayed_work(&info->deferred_work);
+> -
+> -	/* clear out the mapping that we setup */
+> -	for (i = 0; i < info->npagerefs; ++i)
+> -		fb_deferred_io_pageref_clear(&info->pagerefs[i]);
+>   }
+>   
+>   void fb_deferred_io_release(struct fb_info *info)
+> @@ -370,5 +353,6 @@ void fb_deferred_io_cleanup(struct fb_info *info)
+>   
+>   	kvfree(info->pagerefs);
+>   	mutex_destroy(&fbdefio->lock);
+> +	fbdefio->mapping = NULL;
+>   }
+>   EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
+> diff --git a/include/linux/fb.h b/include/linux/fb.h
+> index 5ba187e08cf7..cd653862ab99 100644
+> --- a/include/linux/fb.h
+> +++ b/include/linux/fb.h
+> @@ -225,6 +225,7 @@ struct fb_deferred_io {
+>   	int open_count; /* number of opened files; protected by fb_info lock */
+>   	struct mutex lock; /* mutex that protects the pageref list */
+>   	struct list_head pagereflist; /* list of pagerefs for touched pages */
+> +	struct address_space *mapping; /* page cache object for fb device */
+>   	/* callback */
+>   	struct page *(*get_page)(struct fb_info *info, unsigned long offset);
+>   	void (*deferred_io)(struct fb_info *info, struct list_head *pagelist);
 
 -- 
 --
