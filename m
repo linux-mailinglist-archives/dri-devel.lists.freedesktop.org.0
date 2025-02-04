@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A4EA26DBC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:52:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFF63A26DBD
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 09:52:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E84E10E5CF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67CDB10E5D0;
 	Tue,  4 Feb 2025 08:52:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hM079YZc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CQhVTIUp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 128E710E5C9
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 08:52:11 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1670E442BF;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0608C10E5CE
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 08:52:12 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id F41EB442B3;
  Tue,  4 Feb 2025 08:52:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738659130;
+ t=1738659131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rIYnONccmsYuTPCzBma044LzMeDyb9enKMFQvDEAUTQ=;
- b=hM079YZcBLdiD/itdo8n6z0ucRuwww1NHPcqbd9FVgc2ovQzZ/AekzpnKQemZXyhxPH1B6
- DYiwgD3MtrRRhHf4jnvNLwESkHD6/0I/3U/R0XOzoK7FOLjbIDarraLrz3z4VfkvegFQfM
- X0JuiyYYCNtWiSd/dyWSuHWHVvrnd2KWwxysi+KMcVC9veuN2ISS+5tL7daUpYFZlkQRLn
- ziB0euJ0syAjB2HZa3MRvhvc2cqbVEQMYfkJYZGygez4VUq/aZoHOBbseHWaG/nrdVDc+9
- 4rfpQ39JgGen3D7imP0utr1873aiFv1Q252FYkM+zD+yG30zSKyMJ5vVMIRSIA==
+ bh=XCJgg4AxjCLLIhlCJHUT1wm3A4fyWpj7moZQ1vUBeKM=;
+ b=CQhVTIUpT1iD4slXEq8+F7TwwMIyssGYNCE6f4Xzgj1muc+NXXkYRs6PFHlIGfKSj7IJXb
+ TCNgXONLBq2QogEfeK9gxTuSI7iaWqHPoZcgF2c8zeMAIupHDH24UoNZDK+hc+YKtuUCkx
+ apwoFzNasnXE0+NWQ1vEZPFv1/Lw3+4FOOCeg0WgV//TgiRe8clOCVR6ZTMxlqq3fyn82L
+ +0eXx8sJhIiFsQvrAa4wpcdHYM53lgbk5lc843u8pdu3y4S3ym607iBVZ+Pyds/QuLJr2A
+ 9kKXJNTrrb0S9wcZgR/eVN9XQJFzEHifOYqYCvfgb09KXPoQ+6N14uR44LGpnQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 04 Feb 2025 09:51:58 +0100
-Subject: [PATCH v4 1/2] drm/drm_mode_object: fix typo in kerneldoc
+Date: Tue, 04 Feb 2025 09:51:59 +0100
+Subject: [PATCH v4 2/2] drm/atomic-helper: improve CRTC enabled/connectors
+ mismatch logging message
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-drm-small-improvements-v4-1-d6bbc92f12f1@bootlin.com>
+Message-Id: <20250204-drm-small-improvements-v4-2-d6bbc92f12f1@bootlin.com>
 References: <20250204-drm-small-improvements-v4-0-d6bbc92f12f1@bootlin.com>
 In-Reply-To: <20250204-drm-small-improvements-v4-0-d6bbc92f12f1@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -68,28 +69,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove unintended extra word.
+This message reports a mismatch between new_crtc_state->enable and
+has_connectors, which should be either both true or both false. However it
+does not mention which one is true and which is false, which can be useful
+for debugging. Add the value of both avriables to the log message.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Acked-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- include/drm/drm_mode_object.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
-index 08d7a7f0188fea79e2d8ad5ee6cc5044300f1a26..c68edbd126d04d51221f50aa2b4166475543b59f 100644
---- a/include/drm/drm_mode_object.h
-+++ b/include/drm/drm_mode_object.h
-@@ -35,7 +35,7 @@ struct drm_file;
-  * @id: userspace visible identifier
-  * @type: type of the object, one of DRM_MODE_OBJECT\_\*
-  * @properties: properties attached to this object, including values
-- * @refcount: reference count for objects which with dynamic lifetime
-+ * @refcount: reference count for objects with dynamic lifetime
-  * @free_cb: free function callback, only set for objects with dynamic lifetime
-  *
-  * Base structure for modeset objects visible to userspace. Objects can be
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index 5186d2114a503701e228e382cc45180b0c578d0c..8ed186ddaeafae8295696eb11ace58777a5d9e43 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -666,8 +666,9 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+ 		}
+ 
+ 		if (new_crtc_state->enable != has_connectors) {
+-			drm_dbg_atomic(dev, "[CRTC:%d:%s] enabled/connectors mismatch\n",
+-				       crtc->base.id, crtc->name);
++			drm_dbg_atomic(dev, "[CRTC:%d:%s] enabled/connectors mismatch (%d/%d)\n",
++				       crtc->base.id, crtc->name,
++				       new_crtc_state->enable, has_connectors);
+ 
+ 			return -EINVAL;
+ 		}
 
 -- 
 2.34.1
