@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0D5A27530
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:01:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FA7A2758B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 16:17:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E55C610E694;
-	Tue,  4 Feb 2025 15:01:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEFF10E159;
+	Tue,  4 Feb 2025 15:17:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vt3avH7j";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jrp2BY3T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE07410E692
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:01:15 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A31E10E159
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 15:17:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3F2E65C69DE;
- Tue,  4 Feb 2025 15:00:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E94C4CEDF;
- Tue,  4 Feb 2025 15:01:14 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id D7618A42892;
+ Tue,  4 Feb 2025 15:15:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A249C4CEE4;
+ Tue,  4 Feb 2025 15:17:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738681274;
- bh=nMPrnko8NIXHxK0qBKf1FnCloSLkqwlYjmZ4ZeLx4vM=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Vt3avH7jXTydpf51MzfbLCcuoIbwhQ14eLF0Eh3PnprJ4MMrbTQ6XfSVNWSKTeg/5
- w37tJRaUHlpKAm5cUU3lvX5EjTBUzL0YSC36/Hc0oU2a5oMV6DzrV6p3/tksPKa0JA
- udAmqDr8AV+BJNh4TVFYwYz9nEkxkPuS+kPFYOO/s1HYKZocyvU67zPuAtBe1uBZA0
- 1IMSd/rr94XcQp42PBTOreSYXwSjf5avuCUk58cTNTs5vLuycx+Vs2kaMoZ33dOXJY
- iHChbiarf1xqdZ1agcqiOcie3Sd996PWqkIEuU7JUxyXjWYddKRYBVgHA7iq/+e7ha
- 6wFRGGdlKuIng==
+ s=k20201202; t=1738682232;
+ bh=8dxSqhdGv1jObMZqZKWAH4y86KPxvtCDFwx+3u4Cv+I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Jrp2BY3TKgFArcO5hLjXV0PcmsjE9bxD2UUFM45laY+uE2rE7AB0+DNR2Za2xVlZ3
+ rwcuyuQvAGH9/jqGIVG/DuX5D0zLkQriSGV8A7sC0/VkIOBggBayWx/QoDGzqYplqL
+ Vb+Xs9cBgwp0PX00nCz9+sgWQGOAS7Eu/GTbsmVdywEprqfRneN52q/D2aCuUY3RbV
+ umYP+rU1XfrqAyvLA18q7LKsarzv0axEkrT40J0xInoBcyHzTVVYDDSDXXXZ8pDwfS
+ L6reO5OTbdSip/WHYi8UObJZ/n1ChaK+1QGTDvDBJVUt5I+Gq476a8LJppwt13rYwo
+ F0y/v94HTmQWQ==
+Date: Tue, 4 Feb 2025 16:17:10 +0100
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Feb 2025 15:58:03 +0100
-Subject: [PATCH v2 35/35] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
- pointer
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-bridge-connector-v2-35-35dd6c834e08@kernel.org>
-References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
-In-Reply-To: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+To: Herve Codina <herve.codina@bootlin.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Douglas Anderson <dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9273; i=mripard@kernel.org;
- h=from:subject:message-id; bh=nMPrnko8NIXHxK0qBKf1FnCloSLkqwlYjmZ4ZeLx4vM=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtH7MELh96p9x8K0T1tevXNh/7r39B91FcktEQrP23
- Al1zhEI75jKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATmXmDsVa2XTzHKLLH/txC
- x6Wnly9Vzylz7f0WWa684JDC5aqFS5mToiRW3Ysq3923+vwKu0kX4hkb/kbXKU6/fFrwq9pXVZ3
- LHH8vzfxi+1TpaexEccn1nz++lrhcF3tr9t9IgVO7Z3vJRHDkAAA=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Marek Vasut <marex@denx.de>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+Message-ID: <20250204-chocolate-lionfish-of-luck-10ebb8@houat>
+References: <20250108101907.410456-1-herve.codina@bootlin.com>
+ <20250108101907.410456-4-herve.codina@bootlin.com>
+ <20250114-juicy-authentic-mushroom-cfcdfb@houat>
+ <20250114135456.5366eb2a@bootlin.com>
+ <20250116-archetypal-bulldog-of-expression-fcc937@houat>
+ <20250117091213.647bf0e6@bootlin.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="5dgjstsqjg35osul"
+Content-Disposition: inline
+In-Reply-To: <20250117091213.647bf0e6@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,246 +76,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
-deprecated and shouldn't be used by atomic drivers.
 
-This was due to the fact that we did't have any other alternative to
-retrieve the CRTC pointer. Fortunately, the crtc pointer is now provided
-in the bridge state, so we can move to atomic callbacks and drop that
-deprecated pointer usage.
+--5dgjstsqjg35osul
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 3/3] drm: bridge: ti-sn65dsi83: Add error recovery
+ mechanism
+MIME-Version: 1.0
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 50 ++++++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 18 deletions(-)
+Hi,
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 497e7212d7719a03045d055b7069f9a10c7f3877..590504bd2746fd1f9b78a8203e762d154dfb0bb2 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -242,15 +242,16 @@ static void ti_sn65dsi86_write_u16(struct ti_sn65dsi86 *pdata,
- 	u8 buf[2] = { val & 0xff, val >> 8 };
- 
- 	regmap_bulk_write(pdata->regmap, reg, buf, ARRAY_SIZE(buf));
- }
- 
--static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata)
-+static u32 ti_sn_bridge_get_dsi_freq(struct ti_sn65dsi86 *pdata,
-+				     struct drm_bridge_state *bridge_state)
- {
- 	u32 bit_rate_khz, clk_freq_khz;
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		&bridge_state->crtc->state->adjusted_mode;
- 
- 	bit_rate_khz = mode->clock *
- 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
- 	clk_freq_khz = bit_rate_khz / (pdata->dsi->lanes * 2);
- 
-@@ -273,11 +274,12 @@ static const u32 ti_sn_bridge_dsiclk_lut[] = {
- 	416000000,
- 	486000000,
- 	460800000,
- };
- 
--static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
-+static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata,
-+					 struct drm_bridge_state *bridge_state)
- {
- 	int i;
- 	u32 refclk_rate;
- 	const u32 *refclk_lut;
- 	size_t refclk_lut_size;
-@@ -286,11 +288,11 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
- 		refclk_rate = clk_get_rate(pdata->refclk);
- 		refclk_lut = ti_sn_bridge_refclk_lut;
- 		refclk_lut_size = ARRAY_SIZE(ti_sn_bridge_refclk_lut);
- 		clk_prepare_enable(pdata->refclk);
- 	} else {
--		refclk_rate = ti_sn_bridge_get_dsi_freq(pdata) * 1000;
-+		refclk_rate = ti_sn_bridge_get_dsi_freq(pdata, bridge_state) * 1000;
- 		refclk_lut = ti_sn_bridge_dsiclk_lut;
- 		refclk_lut_size = ARRAY_SIZE(ti_sn_bridge_dsiclk_lut);
- 	}
- 
- 	/* for i equals to refclk_lut_size means default frequency */
-@@ -310,16 +312,17 @@ static void ti_sn_bridge_set_refclk_freq(struct ti_sn65dsi86 *pdata)
- 	 * regardless of its actual sourcing.
- 	 */
- 	pdata->pwm_refclk_freq = ti_sn_bridge_refclk_lut[i];
- }
- 
--static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata)
-+static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
-+				      struct drm_bridge_state *bridge_state)
- {
- 	mutex_lock(&pdata->comms_mutex);
- 
- 	/* configure bridge ref_clk */
--	ti_sn_bridge_set_refclk_freq(pdata);
-+	ti_sn_bridge_set_refclk_freq(pdata, bridge_state);
- 
- 	/*
- 	 * HPD on this bridge chip is a bit useless.  This is an eDP bridge
- 	 * so the HPD is an internal signal that's only there to signal that
- 	 * the panel is done powering up.  ...but the bridge chip debounces
-@@ -374,12 +377,15 @@ static int __maybe_unused ti_sn65dsi86_resume(struct device *dev)
- 	 * panel (including the aux channel) w/out any need for an input clock
- 	 * so we can do it in resume which lets us read the EDID before
- 	 * pre_enable(). Without a reference clock we need the MIPI reference
- 	 * clock so reading early doesn't work.
- 	 */
--	if (pdata->refclk)
--		ti_sn65dsi86_enable_comms(pdata);
-+	if (pdata->refclk) {
-+		drm_modeset_lock(&pdata->bridge.base.lock, NULL);
-+		ti_sn65dsi86_enable_comms(pdata, drm_bridge_get_current_state(&pdata->bridge));
-+		drm_modeset_unlock(&pdata->bridge.base.lock);
-+	}
- 
- 	return ret;
- }
- 
- static int __maybe_unused ti_sn65dsi86_suspend(struct device *dev)
-@@ -821,16 +827,17 @@ static void ti_sn_bridge_atomic_disable(struct drm_bridge *bridge,
- 
- 	/* disable video stream */
- 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE, 0);
- }
- 
--static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
-+static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata,
-+				      struct drm_bridge_state *bridge_state)
- {
- 	unsigned int bit_rate_mhz, clk_freq_mhz;
- 	unsigned int val;
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		&bridge_state->crtc->state->adjusted_mode;
- 
- 	/* set DSIA clk frequency */
- 	bit_rate_mhz = (mode->clock / 1000) *
- 			mipi_dsi_pixel_format_to_bpp(pdata->dsi->format);
- 	clk_freq_mhz = bit_rate_mhz / (pdata->dsi->lanes * 2);
-@@ -856,16 +863,18 @@ static unsigned int ti_sn_bridge_get_bpp(struct drm_connector *connector)
-  */
- static const unsigned int ti_sn_bridge_dp_rate_lut[] = {
- 	0, 1620, 2160, 2430, 2700, 3240, 4320, 5400
- };
- 
--static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata, unsigned int bpp)
-+static int ti_sn_bridge_calc_min_dp_rate_idx(struct ti_sn65dsi86 *pdata,
-+					     struct drm_bridge_state *bridge_state,
-+					     unsigned int bpp)
- {
- 	unsigned int bit_rate_khz, dp_rate_mhz;
- 	unsigned int i;
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		&bridge_state->crtc->state->adjusted_mode;
- 
- 	/* Calculate minimum bit rate based on our pixel clock. */
- 	bit_rate_khz = mode->clock * bpp;
- 
- 	/* Calculate minimum DP data rate, taking 80% as per DP spec */
-@@ -960,14 +969,15 @@ static unsigned int ti_sn_bridge_read_valid_rates(struct ti_sn65dsi86 *pdata)
- 	}
- 
- 	return valid_rates;
- }
- 
--static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata)
-+static void ti_sn_bridge_set_video_timings(struct ti_sn65dsi86 *pdata,
-+					   struct drm_bridge_state *bridge_state)
- {
- 	struct drm_display_mode *mode =
--		&pdata->bridge.encoder->crtc->state->adjusted_mode;
-+		&bridge_state->crtc->state->adjusted_mode;
- 	u8 hsync_polarity = 0, vsync_polarity = 0;
- 
- 	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
- 		hsync_polarity = CHA_HSYNC_POLARITY;
- 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
-@@ -1076,19 +1086,21 @@ static int ti_sn_link_training(struct ti_sn65dsi86 *pdata, int dp_rate_idx,
- 
- static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 				       struct drm_atomic_state *state)
- {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+	struct drm_bridge_state *bridge_state;
- 	struct drm_connector *connector;
- 	const char *last_err_str = "No supported DP rate";
- 	unsigned int valid_rates;
- 	int dp_rate_idx;
- 	unsigned int val;
- 	int ret = -EINVAL;
- 	int max_dp_lanes;
- 	unsigned int bpp;
- 
-+	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
- 	connector = drm_atomic_get_new_connector_for_encoder(state,
- 							     bridge->encoder);
- 	if (!connector) {
- 		dev_err_ratelimited(pdata->dev, "Could not get the connector\n");
- 		return;
-@@ -1105,11 +1117,11 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 	regmap_write(pdata->regmap, SN_LN_ASSIGN_REG, pdata->ln_assign);
- 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, LN_POLRS_MASK,
- 			   pdata->ln_polrs << LN_POLRS_OFFSET);
- 
- 	/* set dsi clk frequency value */
--	ti_sn_bridge_set_dsi_rate(pdata);
-+	ti_sn_bridge_set_dsi_rate(pdata, bridge_state);
- 
- 	/*
- 	 * The SN65DSI86 only supports ASSR Display Authentication method and
- 	 * this method is enabled for eDP panels. An eDP panel must support this
- 	 * authentication method. We need to enable this method in the eDP panel
-@@ -1140,11 +1152,11 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 			   val);
- 
- 	valid_rates = ti_sn_bridge_read_valid_rates(pdata);
- 
- 	/* Train until we run out of rates */
--	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, bpp);
-+	for (dp_rate_idx = ti_sn_bridge_calc_min_dp_rate_idx(pdata, bridge_state, bpp);
- 	     dp_rate_idx < ARRAY_SIZE(ti_sn_bridge_dp_rate_lut);
- 	     dp_rate_idx++) {
- 		if (!(valid_rates & BIT(dp_rate_idx)))
- 			continue;
- 
-@@ -1156,26 +1168,28 @@ static void ti_sn_bridge_atomic_enable(struct drm_bridge *bridge,
- 		DRM_DEV_ERROR(pdata->dev, "%s (%d)\n", last_err_str, ret);
- 		return;
- 	}
- 
- 	/* config video parameters */
--	ti_sn_bridge_set_video_timings(pdata);
-+	ti_sn_bridge_set_video_timings(pdata, bridge_state);
- 
- 	/* enable video stream */
- 	regmap_update_bits(pdata->regmap, SN_ENH_FRAME_REG, VSTREAM_ENABLE,
- 			   VSTREAM_ENABLE);
- }
- 
- static void ti_sn_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 					   struct drm_atomic_state *state)
- {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+	struct drm_bridge_state *bridge_state =
-+		drm_atomic_get_new_bridge_state(state, bridge);
- 
- 	pm_runtime_get_sync(pdata->dev);
- 
- 	if (!pdata->refclk)
--		ti_sn65dsi86_enable_comms(pdata);
-+		ti_sn65dsi86_enable_comms(pdata, bridge_state);
- 
- 	/* td7: min 100 us after enable before DSI data */
- 	usleep_range(100, 110);
- }
- 
+On Fri, Jan 17, 2025 at 09:12:13AM +0100, Herve Codina wrote:
+> Hi Maxime,
+>=20
+> On Thu, 16 Jan 2025 09:38:45 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > On Tue, Jan 14, 2025 at 01:54:56PM +0100, Herve Codina wrote:
+> > > Hi Maxime,
+> > >=20
+> > > On Tue, 14 Jan 2025 08:40:51 +0100
+> > > Maxime Ripard <mripard@kernel.org> wrote:
+> > >=20
+> > > ...
+> > >  =20
+> > > > > =20
+> > > > > +static int sn65dsi83_reset_pipe(struct sn65dsi83 *sn65dsi83)
+> > > > > +{
+> > > > > +	struct drm_atomic_state *state =3D ERR_PTR(-EINVAL);
+> > > > > +	struct drm_device *dev =3D sn65dsi83->bridge.dev;
+> > > > > +	struct drm_connector_state *connector_state;
+> > > > > +	struct drm_modeset_acquire_ctx ctx;
+> > > > > +	struct drm_connector *connector;
+> > > > > +	int err;
+> > > > > +
+> > > > > +	/*
+> > > > > +	 * Reset active outputs of the related CRTC.
+> > > > > +	 *
+> > > > > +	 * This way, drm core will reconfigure each components in the C=
+RTC
+> > > > > +	 * outputs path. In our case, this will force the previous comp=
+onent to
+> > > > > +	 * go back in LP11 mode and so allow the reconfiguration of SN6=
+4DSI83
+> > > > > +	 * bridge.
+> > > > > +	 *
+> > > > > +	 * Keep the lock during the whole operation to be atomic.
+> > > > > +	 */
+> > > > > +
+> > > > > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+> > > > > +
+> > > > > +	state =3D drm_atomic_helper_duplicate_state(dev, &ctx);
+> > > > > +	if (IS_ERR(state)) {
+> > > > > +		err =3D PTR_ERR(state);
+> > > > > +		goto unlock;
+> > > > > +	}   =20
+> > > >=20
+> > > > No, you must not allocate a new state for this, you need to reuse t=
+he
+> > > > existing state. You'll find it in bridge->base.state->state. =20
+> > >=20
+> > > Thanks for pointing that. I didn't know about bridge->base.state->sta=
+te.
+> > >=20
+> > > I will use that if using the state is still relevant (see next commen=
+t).
+> > >  =20
+> > > >  =20
+> > > > > +	state->acquire_ctx =3D &ctx;
+> > > > > +
+> > > > > +	connector =3D drm_atomic_get_old_connector_for_encoder(state,
+> > > > > +							     sn65dsi83->bridge.encoder);
+> > > > > +	if (!connector) {
+> > > > > +		err =3D -EINVAL;
+> > > > > +		goto unlock;
+> > > > > +	}
+> > > > > +
+> > > > > +	connector_state =3D drm_atomic_get_connector_state(state, conne=
+ctor);
+> > > > > +	if (IS_ERR(connector_state)) {
+> > > > > +		err =3D PTR_ERR(connector_state);
+> > > > > +		goto unlock;
+> > > > > +	}
+> > > > > +
+> > > > > +	err =3D drm_atomic_helper_reset_pipe(connector_state->crtc, &ct=
+x);
+> > > > > +	if (err < 0)
+> > > > > +		goto unlock;   =20
+> > > >=20
+> > > > And you'll find the crtc in bridge->encoder->crtc. =20
+> > >=20
+> > > I am a bit confused. I looked at the drm_encoder structure [1] and th=
+e crtc
+> > > field available in this structure should not be used by atomic driver=
+s. They
+> > > should rely on &drm_connector_state.crtc. =20
+> >=20
+> > You're right, it's deprecated but used by most bridges anyway.
+> >=20
+> > I made a series of changes after reviewing your series to address some
+> > issues with the current bridge API, most notably
+> >=20
+> > https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-9a2fe=
+cd886a6@kernel.org/
+>=20
+> Thanks for pointing that, indeed, it clarify many things!
+>=20
+> >=20
+> > > In my case, I have the feeling that I should get the ctrc from the cu=
+rrent
+> > > state (i.e. bridge->base.state->state) using the sequence provided in=
+ this
+> > > current patch:
+> > >   Retrieve the connector with drm_atomic_get_old_connector_for_encode=
+r() =20
+> >=20
+> > Retrieving the old connector makes no sense though. It's the connector
+> > that was formerly associated with your encoder. It might work, it might
+> > not, it's not what you're looking for.
+> >=20
+> > >   Retrieve the connector state with drm_atomic_get_connector_state() =
+=20
+> >=20
+> > drm_atomic_get_connector_state will allocate and pull the connector
+> > state into the drm_atomic_state, even if it wasn't part of it before, so
+> > it's not great. And you don't need it in the first place, you only need
+> > the current active CRTC.
+>=20
+> Yes, I agree with that, I only need the active CRTC.
+>=20
+> I tried to get the current atomic_state from:
+>   1) bridge->base.state->state
+>   2) drm_bridge_state->base.state
+>=20
+> In both cases, it is NULL. Looking at Sima's reply in your series
+> explained that:
+>   https://lore.kernel.org/dri-devel/Z4juJy7kKPbI2BDb@phenom.ffwll.local/
+>=20
+> If I understood correctly those pointers are explicitly cleared.
+>=20
+> So, with all of that, either:
+>   a) I wait for your series to be applied in order to use your the crtc f=
+ield from
+>      drm_bridge_state added by:
+>        https://lore.kernel.org/dri-devel/20250115-bridge-connector-v1-25-=
+9a2fecd886a6@kernel.org/#t
+>   b) I use the old school bridge->encoder->crtc for the moment
+>=20
+> Do you mind if I use the bridge->encoder->crtc way for the next iteration=
+ of
+> my series?
 
--- 
-2.48.0
+Yeah, it makes sense.
 
+Still, it would be great if you could test my series on your setup and see =
+if it helps :)
+
+Maxime
+
+--5dgjstsqjg35osul
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6IvdQAKCRAnX84Zoj2+
+dhSnAX49ruA8shYuYtyWizI8d6OWPbGVqN7EVpywtSHT76p7DCa5TJI8oaIOEcz7
+DNxOQPgBf1X+4gfZabxbdrPYmgIM/B74ee9rJtAd55RdX1jITrfwyFpUk5ca88vr
+wK9f74O2kw==
+=bmdb
+-----END PGP SIGNATURE-----
+
+--5dgjstsqjg35osul--
