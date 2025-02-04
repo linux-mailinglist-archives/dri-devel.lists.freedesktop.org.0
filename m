@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0468EA27AAB
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 19:56:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F2BA27AAF
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 19:57:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22FB410E0B4;
-	Tue,  4 Feb 2025 18:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB7C10E6ED;
+	Tue,  4 Feb 2025 18:57:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QgfucYnu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SC1coa+x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8B810E0B4;
- Tue,  4 Feb 2025 18:56:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF50A10E6EC;
+ Tue,  4 Feb 2025 18:56:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7582D5C65C1;
- Tue,  4 Feb 2025 18:55:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D2E6C4CEDF;
- Tue,  4 Feb 2025 18:56:30 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 440E35C65F7;
+ Tue,  4 Feb 2025 18:56:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68C39C4CEDF;
+ Tue,  4 Feb 2025 18:56:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738695395;
- bh=C4wZ8hF8BprpsK7/Y5Wrqtdlu2SuEdB+2cx2vBvEFwQ=;
+ s=k20201202; t=1738695417;
+ bh=+xlWDqA1nktIztC11TUlrCC7pQTndNouzw5baByuO/Q=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QgfucYnuFb0fLjONwAtA4Xnxw0cIZgKFItmkoKSCdbL7aVkUj6n3hzOviOvkDwMye
- 8fNywzhQrxGbEe0yZ/y3USnbR/TL+zkYMJ4CowzRNrVrak4n5pnCOo0PX+BzsCWDtB
- jogkXG/jzVcHBM/kTEW5ziDEv4HH2aVX+V12AQMsZd35CJk+4CXPwppqqzVfU/niW1
- 1wCOuTSuWnN9FO1nRRL1WAW7GlHNyHqJjq2ZnlftgpdsReW3Ea1AhnHr3OC1YfAi54
- Nmhr7bDi/5aKLCahcwdiyri89VOJm37lPP4vhPV8BqaSZKEgF0ZySaNrYqSPy4U4cH
- vXgkt1FE8T25Q==
-Date: Tue, 4 Feb 2025 19:56:27 +0100
+ b=SC1coa+xa1wViaQHjAzIsR7pvYfAcoh9lEYTOxbZ2oEoiR/uvXrmWQIP2rKTFXVkJ
+ 2hXeUFPLlWADm/MXPZLj4OUugt2CaBReKR5Mb/bEFRvF8tzsqrGA4bYOT+j3xyvVOs
+ c8y4+K9W50C4GWUu1rVVbjWcC0W/tS+Zsuh0Hb9eMc1QuUdruj16+URqkkoPrCp5kU
+ DwhhtH26xTW3T6Ui0W0KFncfC13rvzFqBHqY2tcqA/7hA02oT49MbG9g+C303moIVR
+ 3FLx3uwZ5k8gqFwJiMbjXHFIC52w0eaCT7+0NTHRYbq5tPCeVLvXORG6roCdzfZo/1
+ J7FtICqOV6eTg==
+Date: Tue, 4 Feb 2025 19:56:49 +0100
 From: Danilo Krummrich <dakr@kernel.org>
 To: Timur Tabi <ttabi@nvidia.com>
 Cc: "corbet@lwn.net" <corbet@lwn.net>,
@@ -58,15 +58,14 @@ Cc: "corbet@lwn.net" <corbet@lwn.net>,
  "ojeda@kernel.org" <ojeda@kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 2/2] gpu: nova-core: add initial documentation
-Message-ID: <Z6Ji2543iydfJwuh@cassiopeiae>
+Subject: Re: [PATCH 1/2] gpu: nova-core: add initial driver stub
+Message-ID: <Z6Ji8XrBtrXvdZZY@cassiopeiae>
 References: <20250131220432.17717-1-dakr@kernel.org>
- <20250131220432.17717-2-dakr@kernel.org>
- <168287b8cbb95f190a656f7f428e16b8ac93b41b.camel@nvidia.com>
+ <2d521b9d57338927a176118587dca545f5e4f170.camel@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <168287b8cbb95f190a656f7f428e16b8ac93b41b.camel@nvidia.com>
+In-Reply-To: <2d521b9d57338927a176118587dca545f5e4f170.camel@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,13 +81,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 06:40:41PM +0000, Timur Tabi wrote:
+On Tue, Feb 04, 2025 at 06:42:46PM +0000, Timur Tabi wrote:
 > On Fri, 2025-01-31 at 23:04 +0100, Danilo Krummrich wrote:
-> > +Rust abstraction for debugfs APIs.
-> > +
-> > +| Reference: Export GSP log buffers
-> > +| Complexity: Beginner
+> > +/// Structure encapsulating the firmware blobs required for the GPU to operate.
+> > +#[allow(dead_code)]
+> > +pub(crate) struct Firmware {
+> > +    booter_load: firmware::Firmware,
+> > +    booter_unload: firmware::Firmware,
+> > +    gsp: firmware::Firmware,
 > 
-> Seriously?
+> What about the bootloader?
 
-Well, that seems indeed a bit optimistic. :-)
+Gonna add it.
