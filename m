@@ -2,65 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A04A2772D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 17:30:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796C6A277D2
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 18:06:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49ADB10E358;
-	Tue,  4 Feb 2025 16:30:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A121D10E037;
+	Tue,  4 Feb 2025 17:06:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NK6hUm4r";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="dum4bEeD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE6810E042;
- Tue,  4 Feb 2025 16:30:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738686637; x=1770222637;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=PkwZmtUC3B140391/0DBQB0PbujszBKzTRZVGrCKXN4=;
- b=NK6hUm4rvXIIFBOX8Zf7dLPBNbIb++C8EqV5BmbOquznBwI6XWPNEyM0
- vugRTUcJxKFWNJFREBfpDQtxkjS21mzYxsAYSo0qJmrwTYuPv/XoVff0a
- POyIZGbicUV2airV0dRQDpPld84i0nZGDaqe3KHSZk8wCygJy/LUjMD3c
- iXUPrqx3UTrM4bfV1aiPd3Ls1RcRcsds6/L8vZHuHKsfum9z25+Ov1Ozq
- Zm+xwg7aYu0L+Cgr7t//kPv/9A8uxt3w+fJN9c4irvRrhOhh1J1V/ofPY
- 0mz9jjL1E7BaSRxeWSCgPca/G06f9WG39tIRlOANRbnXC5FVFJxeHvYnu g==;
-X-CSE-ConnectionGUID: FtHp0SI1RI6ACrzng+iPuA==
-X-CSE-MsgGUID: ewLirTLARKy7w9oEkIM0Pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="61696065"
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; d="scan'208";a="61696065"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2025 08:30:37 -0800
-X-CSE-ConnectionGUID: 5hE16gUPSIS5fAxF0O7Nlw==
-X-CSE-MsgGUID: jglkcohLRWKUEnKdW4aabg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; d="scan'208";a="110520737"
-Received: from irvmail002.ir.intel.com ([10.43.11.120])
- by fmviesa007.fm.intel.com with ESMTP; 04 Feb 2025 08:30:34 -0800
-Received: from [10.246.16.98] (mwajdecz-MOBL.ger.corp.intel.com [10.246.16.98])
- by irvmail002.ir.intel.com (Postfix) with ESMTP id 2AEAF32EA2;
- Tue,  4 Feb 2025 16:30:33 +0000 (GMT)
-Message-ID: <2ced99ce-fd3e-4966-b093-c193b6c8b400@intel.com>
-Date: Tue, 4 Feb 2025 17:30:32 +0100
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77FE410E037
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 17:06:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 990C3204A5;
+ Tue,  4 Feb 2025 17:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738688791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NbKWrUj5DH+ipE3128VhtvBM8i5MKd4ENodVzB9EN24=;
+ b=dum4bEeDpEMj4m3terDwTCx+AenVPo1F+TBThIxMUFSFsE7dSELNu4ktbs7cewXUAU/Z3v
+ nY3iMawBw+co19WbUMa0wbqHnMc88umRGzGOLk4VGYHBV9CSGz7pk4jnj65fZzTA63Vve5
+ mEPpt1zdfLqL6aSPk49FRKobJVPVm29umiTSbgPNul1kp3ubz50XSviOXHGAxdPH+ErT+V
+ N7W6Fi1s3GssZ+2UpweINnpmfch5rxlZOEzchA6LfdFk7kQv1prYLA6sxgSSZkIxYS84Is
+ fEqCB8WoxPFsHzbSYcRGEHiCzks4Fx9Uc1iIEf6/uOHOyAt6BPcsmku4YnvUnw==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v17 0/7] drm/vkms: Add support for YUV and DRM_FORMAT_R*
+Date: Tue, 04 Feb 2025 18:06:11 +0100
+Message-Id: <20250204-yuv-v17-0-9c623880d0ac@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-resent-to-correct-ml 3/8] drm/xe: Add scoped guards for
- xe_force_wake
-To: Maarten Lankhorst <dev@lankhorst.se>, intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, David Lechner <dlechner@baylibre.com>,
- Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-References: <20250204132238.162608-1-dev@lankhorst.se>
- <20250204132238.162608-4-dev@lankhorst.se>
-Content-Language: en-US
-From: Michal Wajdeczko <michal.wajdeczko@intel.com>
-In-Reply-To: <20250204132238.162608-4-dev@lankhorst.se>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAANJomcC/23T23KbMBAG4FfxcF3aXR1WUq76Hplc6FgzY0MKt
+ ieZTN49i8GFFO6MvB8r9Gs/qiH3TR6qp8NH1edbMzRdyw9ofhyqePTtn1w3iRcqAUKBAKzfr7c
+ apTTJQXLaUMWVwQ+5Dr1v45Fr2+vpxIuvfS7N2/3dzy/8fGyGS9e/31vdcFz9/tIb1lDL6KWhI
+ gxJ8Tt03eXUtD9jdx673Ks10lRtuToWm6hYUhLyt+qx302segg5KcHKewpZWGFCMFsl12ruJVm
+ VQiQKOKdS2Cq1KAlqUoqV4VY+2uyMk1ulVwrnHWpWmRBiSCCLFltFi1LgJkWsUsaojbAlGdgqs
+ yj96GXGE7eQXSk5atjp5RZlQUzKsQLrDRCRy0hbhbBm8xaRVY3eREMKicrO2ePqWjgJsxvvhQr
+ oBYVYotvrt0SNAGZ2Y9aAEX3yxN9nd9wSNiLa2Y1p+wgpKRRO7yWAauXEfCyo7slRsjIJmyDuu
+ CVwFPJx7e+J8x5DkCBs3vu+f5FrQPFwY+aesDjt+Vb+Ny8vn9MI9vnvlaf6Ms3hNKn8/7m5PB1
+ Sf67PzRB/PX7UbX67MP38AvJzkSoYBAAA
+X-Change-ID: 20240201-yuv-1337d90d9576
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, 
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2765;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=Uo9TYmOBakXgSrIjdDYnFgF/JoUanhVHs9m3aE5b49c=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnokkOHGUwUKXa03uhXBeHaYFH9DONYajB82mp9
+ MyMHfVKwbyJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ6JJDgAKCRAgrS7GWxAs
+ 4gluD/9PIcTe5DDO8UtoSpy2EsiyXYXON0qHT4cT8tEukVeLzIJDwzkErhpHwgDsXbzzdwF8tp2
+ NGku79iBcBFCaWRMqTAVx742IxZTLv+yiSg9cAmld4RxohnyXMc+D/sqNV1Rq2bvPiN4Ko+t4Qe
+ sA1c+NaX7HUdvRjjfWqzMtccywxa5O1Kuh7FHb8d05yk0cPPCdzUP03yVRIyk/LJHfgwGsYLbet
+ n4oeWJYCk8bsRt/HZZXUz3NBFYoX/8p7PkNjWr3R/ZFDIOGaipdKhM/bHroB5BMySGj9nKmhnip
+ 53W+wqhSs5e7PzYs2RYoU6POD+Ep7F+80IGxW+XqT6NKZA0chrHdN3XwqXDcdlRFRi7gg14GxaW
+ keF3g2b0HqMMsz+ppDNDiDnME72v4Kx1GEAGVok+uKXlJGga7eFyFKyOH7vEaTG7Ho9Thm4BLZB
+ D7KWmQ7H4jCA7S4XOU2sSJ9h3lcAcSZ5c0WVM79xZEm92nXS4LRk94VD5WdNlpvTzd84l3EqdMl
+ hUv/PkpYb3ghz2hq9OFDrrbt04oOb59JXPwDieQNJSUMpKRnnEBG4u6C+dT9RhyTPVNuqu+QHHp
+ 53/13MZBZQv3z/rZg74A7Fo/rfA9wrglLBCz4BgmMP6IoY76kUhup8icyuZzYW66HDBeyovV1gY
+ p/O/Lkh0grCPEyg==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvuddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeeludffieekfeekjedvjeffffeuveefieeghfeihfdugeekhfejjeevhfdvfeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtoheprhhoughrihhgohhsihhquhgvihhrrghmvghlohesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepnhhitgholhgvjhgruggvhigvvgesghhoohhglhgvrdgtohhmpdhrtghpthhto
+ hepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepphgvkhhkrgdrphgrrghlrghnvghnsegtohhllhgrsghorhgrrdgtohhm
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,126 +101,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maarten,
+This patchset is extracted from [1]. The goal is to introduce the YUV
+support, thanks to Arthur's work.
 
-On 04.02.2025 14:22, Maarten Lankhorst wrote:
-> Instead of finding bugs where we may or may not release force_wake, I've
-> decided to be inspired by the spinlock guards, and use the same ones to
-> do xe_force_wake handling.
+- PATCH 1: Add the support of YUV formats
+- PATCH 2: Add some drm properties to expose more YUV features
+- PATCH 3: Cleanup the todo
+- PATCH 4..6: Add some kunit tests
+- PATCH 7: Add the support of DRM_FORMAT_R1/2/4/8
 
-You may want to take a look at [1], which was based on [2], that
-introduce fw guard class (and it was already acked and reviewed).
-Merging was postponed only due to a request to prepare larger series
-that would convert all existing usages to the new model.
+[1]: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
 
-And similar guard approach for our RPM was proposed in [3]
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v17:
+- Rebased on drm-msic-next
+- Updated comment in kunit test
+- Updated test count in kunit test
+- Link to v16: https://lore.kernel.org/r/20250121-yuv-v16-0-a61f95a99432@bootlin.com
 
-Michal
+Changes in v16:
+- Rebased on drm-misc-next
+- Updated comment and changed fail thresholds. 
+- Link to v15: https://lore.kernel.org/r/20241231-yuv-v15-0-eda6bb3028e6@bootlin.com
 
-[1] https://patchwork.freedesktop.org/series/141516/
-[2] https://patchwork.freedesktop.org/series/134958/
-[3] https://patchwork.freedesktop.org/series/134955/
+Changes in v15:
+- Export drm_get_color_encoding_name only for kunit tests
+- Link to v14: https://lore.kernel.org/r/20241122-yuv-v14-0-e66d83d28d0c@bootlin.com
 
-> 
-> Examples are added as documentation in xe_force_wake.c
-> 
-> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
-> ---
->  drivers/gpu/drm/xe/xe_force_wake.c | 51 ++++++++++++++++++++++++++++++
->  drivers/gpu/drm/xe/xe_force_wake.h | 15 +++++++++
->  2 files changed, 66 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_force_wake.c b/drivers/gpu/drm/xe/xe_force_wake.c
-> index 4f6784e5abf88..805c19f6de9e7 100644
-> --- a/drivers/gpu/drm/xe/xe_force_wake.c
-> +++ b/drivers/gpu/drm/xe/xe_force_wake.c
-> @@ -16,6 +16,57 @@
->  
->  #define XE_FORCE_WAKE_ACK_TIMEOUT_MS	50
->  
-> +/**
-> + * DOC: Force wake handling
-> + *
-> + * Traditionally, the force wake handling has been done using the error prone
-> + * set of calls:
-> + *
-> + * int func(struct xe_force_wake *fw)
-> + * {
-> + * 	unsigned int fw_ref = xe_force_wake_get(fw, XE_FORCEWAKE_ALL);
-> + * 	if (!fw_ref)
-> + * 		return -ETIMEDOUT;
-> + *
-> + * 	err = do_something();
-> + *
-> + * 	xe_force_wake_put(fw, fw_ref);
-> + * 	return err;
-> + * }
-> + *
-> + * A new, failure-safe approach is by using the scoped helpers,
-> + * which changes the function to this:
-> + *
-> + * int func(struct xe_force_wake *fw)
-> + * {
-> + * 	scoped_cond_guard(xe_force_wake_get, return -ETIMEDOUT, fw, XE_FORCEWAKE_ALL) {
-> + * 		return do_something();
-> + * 	}
-> + * }
-> + *
-> + * For completeness, the following options also work:
-> + * void func(struct xe_force_wake *fw)
-> + * {
-> + * 	scoped_guard(xe_force_wake_get, fw, XE_FORCEWAKE_ALL) {
-> + * 		do_something_only_if_fw_acquired();
-> + * 	}
-> + * }
-> + *
-> + * You can use xe_force_wake instead of force_wake_get, if the code
-> + * must run but errors acquiring ignored:
-> + * void func(struct xe_force_wake *fw)
-> + * {
-> + * 	scoped_guard(xe_force_wake, fw, XE_FORCEWAKE_ALL) {
-> + * 		always_do_something_maybe_fw();
-> + * 	}
-> + *
-> + * 	do_something_no_fw();
-> + *
-> + * 	guard(xe_force_wake)(fw, XE_FORCEWAKE_ALL);
-> + * 	always_do_something_maybe_fw();
-> + * }
-> + */
-> +
->  static const char *str_wake_sleep(bool wake)
->  {
->  	return wake ? "wake" : "sleep";
-> diff --git a/drivers/gpu/drm/xe/xe_force_wake.h b/drivers/gpu/drm/xe/xe_force_wake.h
-> index 0e3e84bfa51c3..0fb1baae0a3a3 100644
-> --- a/drivers/gpu/drm/xe/xe_force_wake.h
-> +++ b/drivers/gpu/drm/xe/xe_force_wake.h
-> @@ -9,6 +9,8 @@
->  #include "xe_assert.h"
->  #include "xe_force_wake_types.h"
->  
-> +#include <linux/cleanup.h>
-> +
->  struct xe_gt;
->  
->  void xe_force_wake_init_gt(struct xe_gt *gt,
-> @@ -61,4 +63,17 @@ xe_force_wake_ref_has_domain(unsigned int fw_ref, enum xe_force_wake_domains dom
->  	return fw_ref & domain;
->  }
->  
-> +DEFINE_LOCK_GUARD_1(xe_force_wake, struct xe_force_wake,
-> +		    _T->fw_ref = xe_force_wake_get(_T->lock, domain),
-> +		    xe_force_wake_put(_T->lock, _T->fw_ref),
-> +		    unsigned int fw_ref, enum xe_force_wake_domains domain);
-> +
-> +DEFINE_LOCK_GUARD_1_COND(xe_force_wake, _get,
-> +			 _T->fw_ref = xe_force_wake_get_all(_T->lock, domain),
-> +			 enum xe_force_wake_domains domain);
-> +
-> +/* Only useful for guard xe_force_wake, guard xe_force_wake_get gets all or nothing */
-> +#define xe_force_wake_scope_has_domain(domain) \
-> +	(xe_force_wake_ref_has_domain(scope.fw_ref, domain))
-> +
->  #endif
+Changes in v14:
+- Rebased on drm-misc-next
+- Link to v13: https://lore.kernel.org/r/20241118-yuv-v13-0-ac0dd4129552@bootlin.com
+
+Changes since previous series:
+ - Fix build test as modules issue: https://lore.kernel.org/all/202410110407.EHvadSaF-lkp@intel.com/
+ - Export required symbols in DRM core to use them in kunit
+ - Update the kunit comments according to Maxime's feedback
+ - Link to original series: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+
+---
+Arthur Grillo (5):
+      drm/vkms: Add YUV support
+      drm/vkms: Add range and encoding properties to the plane
+      drm/vkms: Drop YUV formats TODO
+      drm/vkms: Create KUnit tests for YUV conversions
+      drm/vkms: Add how to run the Kunit tests
+
+Louis Chauvet (2):
+      drm: Export symbols to use in tests
+      drm/vkms: Add support for DRM_FORMAT_R*
+
+ Documentation/gpu/vkms.rst                    |  15 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   3 +
+ drivers/gpu/drm/vkms/Kconfig                  |  15 +
+ drivers/gpu/drm/vkms/Makefile                 |   1 +
+ drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+ drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 271 +++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.h               |  18 +
+ drivers/gpu/drm/vkms/vkms_formats.c           | 467 +++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
+ drivers/gpu/drm/vkms/vkms_plane.c             |  29 +-
+ 11 files changed, 831 insertions(+), 4 deletions(-)
+---
+base-commit: 8cca475b8085e551b3eebf4f2164e56c800402e0
+change-id: 20240201-yuv-1337d90d9576
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
