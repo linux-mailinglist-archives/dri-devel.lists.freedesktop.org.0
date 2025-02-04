@@ -2,15 +2,15 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D164A2729A
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3A1A2729B
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 14:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 782C710E637;
-	Tue,  4 Feb 2025 13:21:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3105210E63A;
+	Tue,  4 Feb 2025 13:21:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 023BB10E10D;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF72B10E32D;
  Tue,  4 Feb 2025 13:21:47 +0000 (UTC)
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: intel-xe@lists.freedesktop.org
@@ -19,10 +19,10 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  David Lechner <dlechner@baylibre.com>,
  Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
  Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: [PATCH-resent-to-correct-ml 1/8] header/cleanup.h: Add _init_args to
- DEFINE_LOCK_GUARD_1(_COND)
-Date: Tue,  4 Feb 2025 14:22:30 +0100
-Message-ID: <20250204132238.162608-2-dev@lankhorst.se>
+Subject: [PATCH-resent-to-correct-ml 2/8] drm/xe/gt: Unify
+ xe_hw_fence_irq_finish() calls.
+Date: Tue,  4 Feb 2025 14:22:31 +0100
+Message-ID: <20250204132238.162608-3-dev@lankhorst.se>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250204132238.162608-1-dev@lankhorst.se>
 References: <20250204132238.162608-1-dev@lankhorst.se>
@@ -43,115 +43,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This makes it possible to use the lock guards for guards that need
-extra arguments.
+Those calls should be from xe_gt_init, not the diverse amount of places
+they are called.
 
-I've been attempting to add a guard to xe_force_wake handling, but that
-required an extra argument specifying the domain. For nested spinlock
-handling, it could also be beneficial to be able to do something like
-this.
-
-For example:
-DEFINE_LOCK_GUARD_1_COND(spinlock_irqsave, _nested,
-			 spin_lock_irqsave_nested(_T->lock, _T->flags, nest),
-			 unsigned nest);
-
-guard(spinlock_irqsave_nested, &lock, SINGLE_DEPTH_NESTING);
-
-The first optional argument in DEFINE_LOCK_GUARD_1 is now used for the struct members,
-the remainder goes to init_args to allow the same usage in the base case..
-
-I'm abusing the preprocessor to add an extra meaning to the first optional
-argument is done by creating a __DO_DEFINE_LOCK_GUARD_1, and passing
-__VA_ARGS__ not ##__VA_ARGS__ to it to ensure _struct_members is empty
-when not passed explicitly.
-
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Waiman Long <longman@redhat.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>
+Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- include/linux/cleanup.h | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/xe/xe_gt.c | 31 ++++++++++++++-----------------
+ 1 file changed, 14 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/cleanup.h b/include/linux/cleanup.h
-index ec00e3f7af2b3..dbaf02447f206 100644
---- a/include/linux/cleanup.h
-+++ b/include/linux/cleanup.h
-@@ -349,19 +349,23 @@ _label:									\
-  * locks that don't have a native type (eg. RCU, preempt) or those that need a
-  * 'fat' pointer (eg. spin_lock_irqsave).
-  *
-- * DEFINE_LOCK_GUARD_0(name, lock, unlock, ...)
-- * DEFINE_LOCK_GUARD_1(name, type, lock, unlock, ...)
-- * DEFINE_LOCK_GUARD_1_COND(name, ext, condlock)
-+ * DEFINE_LOCK_GUARD_0(name, lock, unlock, _lock_members...)
-+ * DEFINE_LOCK_GUARD_1(name, type, lock, unlock, (opt)_lock_members, _init_args...)
-+ * DEFINE_LOCK_GUARD_1_COND(name, ext, condlock, _init_args...)
-  *
-  * will result in the following type:
-  *
-  *   typedef struct {
-  *	type *lock;		// 'type := void' for the _0 variant
-- *	__VA_ARGS__;
-+ *	_lock_members;		// use ; as separator to add multiple members
-  *   } class_##name##_t;
-  *
-  * As above, both _lock and _unlock are statements, except this time '_T' will
-  * be a pointer to the above struct.
-+ *
-+ * For DEFINE_LOCK_GUARD_1 and DEFINE_LOCK_GUARD_1_COND, it adds all
-+ * _init_args as local variables available to the lock statement.
-+ * They need to be passed to all guard() functions as extra argument.
-  */
+diff --git a/drivers/gpu/drm/xe/xe_gt.c b/drivers/gpu/drm/xe/xe_gt.c
+index 01a4a852b8f43..943bab94119fa 100644
+--- a/drivers/gpu/drm/xe/xe_gt.c
++++ b/drivers/gpu/drm/xe/xe_gt.c
+@@ -408,13 +408,11 @@ static void dump_pat_on_error(struct xe_gt *gt)
+ static int gt_fw_domain_init(struct xe_gt *gt)
+ {
+ 	unsigned int fw_ref;
+-	int err, i;
++	int err;
  
- #define __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, ...)		\
-@@ -381,8 +385,8 @@ static inline void *class_##_name##_lock_ptr(class_##_name##_t *_T)	\
+ 	fw_ref = xe_force_wake_get(gt_to_fw(gt), XE_FW_GT);
+-	if (!fw_ref) {
+-		err = -ETIMEDOUT;
+-		goto err_hw_fence_irq;
+-	}
++	if (!fw_ref)
++		return -ETIMEDOUT;
+ 
+ 	if (!xe_gt_is_media_type(gt)) {
+ 		err = xe_ggtt_init(gt_to_tile(gt)->mem.ggtt);
+@@ -455,9 +453,6 @@ static int gt_fw_domain_init(struct xe_gt *gt)
+ err_force_wake:
+ 	dump_pat_on_error(gt);
+ 	xe_force_wake_put(gt_to_fw(gt), fw_ref);
+-err_hw_fence_irq:
+-	for (i = 0; i < XE_ENGINE_CLASS_MAX; ++i)
+-		xe_hw_fence_irq_finish(&gt->fence_irq[i]);
+ 
+ 	return err;
+ }
+@@ -465,7 +460,7 @@ static int gt_fw_domain_init(struct xe_gt *gt)
+ static int all_fw_domain_init(struct xe_gt *gt)
+ {
+ 	unsigned int fw_ref;
+-	int err, i;
++	int err;
+ 
+ 	fw_ref = xe_force_wake_get(gt_to_fw(gt), XE_FORCEWAKE_ALL);
+ 	if (!xe_force_wake_ref_has_domain(fw_ref, XE_FORCEWAKE_ALL)) {
+@@ -543,8 +538,6 @@ static int all_fw_domain_init(struct xe_gt *gt)
+ 
+ err_force_wake:
+ 	xe_force_wake_put(gt_to_fw(gt), fw_ref);
+-	for (i = 0; i < XE_ENGINE_CLASS_MAX; ++i)
+-		xe_hw_fence_irq_finish(&gt->fence_irq[i]);
+ 
+ 	return err;
+ }
+@@ -596,35 +589,39 @@ int xe_gt_init(struct xe_gt *gt)
+ 
+ 	err = xe_gt_pagefault_init(gt);
+ 	if (err)
+-		return err;
++		goto err;
+ 
+ 	xe_mocs_init_early(gt);
+ 
+ 	err = xe_gt_sysfs_init(gt);
+ 	if (err)
+-		return err;
++		goto err;
+ 
+ 	err = gt_fw_domain_init(gt);
+ 	if (err)
+-		return err;
++		goto err;
+ 
+ 	err = xe_gt_idle_init(&gt->gtidle);
+ 	if (err)
+-		return err;
++		goto err;
+ 
+ 	err = xe_gt_freq_init(gt);
+ 	if (err)
+-		return err;
++		goto err;
+ 
+ 	xe_force_wake_init_engines(gt, gt_to_fw(gt));
+ 
+ 	err = all_fw_domain_init(gt);
+ 	if (err)
+-		return err;
++		goto err;
+ 
+ 	xe_gt_record_user_engines(gt);
+ 
+ 	return 0;
++err:
++	for (i = 0; i < XE_ENGINE_CLASS_MAX; ++i)
++		xe_hw_fence_irq_finish(&gt->fence_irq[i]);
++	return err;
  }
  
- 
--#define __DEFINE_LOCK_GUARD_1(_name, _type, _lock)			\
--static inline class_##_name##_t class_##_name##_constructor(_type *l)	\
-+#define __DEFINE_LOCK_GUARD_1(_name, _type, _lock, ...)			\
-+static inline class_##_name##_t class_##_name##_constructor(_type *l, ##__VA_ARGS__)	\
- {									\
- 	class_##_name##_t _t = { .lock = l }, *_T = &_t;		\
- 	_lock;								\
-@@ -398,23 +402,27 @@ static inline class_##_name##_t class_##_name##_constructor(void)	\
- 	return _t;							\
- }
- 
--#define DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, ...)		\
-+#define __DO_DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, _lock_members, _init_args...) \
- __DEFINE_CLASS_IS_CONDITIONAL(_name, false);				\
--__DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)		\
--__DEFINE_LOCK_GUARD_1(_name, _type, _lock)
-+__DEFINE_UNLOCK_GUARD(_name, _type, _unlock, _lock_members)		\
-+__DEFINE_LOCK_GUARD_1(_name, _type, _lock, ##_init_args)
-+
-+/* Call __DO_DEFINE_LOCK_GUARD_1 here because of the 2 optional arguments */
-+#define DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, ...)		\
-+	__DO_DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, __VA_ARGS__)
- 
- #define DEFINE_LOCK_GUARD_0(_name, _lock, _unlock, ...)			\
- __DEFINE_CLASS_IS_CONDITIONAL(_name, false);				\
- __DEFINE_UNLOCK_GUARD(_name, void, _unlock, __VA_ARGS__)		\
- __DEFINE_LOCK_GUARD_0(_name, _lock)
- 
--#define DEFINE_LOCK_GUARD_1_COND(_name, _ext, _condlock)		\
-+#define DEFINE_LOCK_GUARD_1_COND(_name, _ext, _condlock, ...)		\
- 	__DEFINE_CLASS_IS_CONDITIONAL(_name##_ext, true);		\
- 	EXTEND_CLASS(_name, _ext,					\
- 		     ({ class_##_name##_t _t = { .lock = l }, *_T = &_t;\
- 		        if (_T->lock && !(_condlock)) _T->lock = NULL;	\
- 			_t; }),						\
--		     typeof_member(class_##_name##_t, lock) l)		\
-+		     typeof_member(class_##_name##_t, lock) l, ##__VA_ARGS__)		\
- 	static inline void * class_##_name##_ext##_lock_ptr(class_##_name##_t *_T) \
- 	{ return class_##_name##_lock_ptr(_T); }
- 
+ /**
 -- 
 2.47.1
 
