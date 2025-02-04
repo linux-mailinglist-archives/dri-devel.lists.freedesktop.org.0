@@ -2,86 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DD0A2745D
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3810A27461
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D88C10E65D;
-	Tue,  4 Feb 2025 14:29:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FE7E10E65F;
+	Tue,  4 Feb 2025 14:29:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="tY0njjAk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ut5+L/bf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FBC810E65D
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:29:05 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-53e384e3481so602196e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 06:29:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738679343; x=1739284143; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=focBQCwxswdAVZ8Abbt2a80oqi/2vqTjInyZgccbIAA=;
- b=tY0njjAkc+GqIUMwgwWh31C5JChZOq7L0smXyXQ1WIwovIjG6yu/+8DGU5RgvCY2Fj
- SxoW2/WxHggsVu45oOTBiPLBEA5PU/jg/pZ83f4RowWfTzWXxBLD9/AaBXTrtGJr8Uvt
- fuqth0K7v/oKRX39JTgB6BFwgjZwpaTKQH9caEPKU2thRk6mgVNQeOGpULbamtUWLUby
- lmxE0XHDCvVbCQA2RXtoX775XVmJagBMCta4HXM+LrJJZxXu6+rCKNQBQCZ6YvEFnT6K
- 4FC/nrV1JEdlLYkMpqMjkVZDsBq/A7GAL5C25wD6xVRfZIwDlom8Okyv4+zLLZL1bQ9x
- HYLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738679343; x=1739284143;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=focBQCwxswdAVZ8Abbt2a80oqi/2vqTjInyZgccbIAA=;
- b=hj3bR927SDtmRjqzXWG7C6lmSDp7WJ0w34S0X7Xh5/tn/9i7OrcyqdwNO8o5hW5kxO
- rRZMCSDVHtouFYNW929yq3NLkTJjlISJlgP2sA3kPcnvlECg5GzDrh5i5go6Vro37oLn
- /DKe8NmrGzOLuXVCLCQS8booayLUSFnHkdMVesOwAhDlp6fObZxl01kQiRdMdox7kJk1
- mEcCBYhy9b5ddsPgAch4PZD5ujky8paD4VKCKLWGKvV6AsaqC0DDaZTMJ0QZhIxkGxtO
- 8ybDf7tSYO8Qw0y9nlQ8hQm55zUN3DzEAAqovU8HM0MqdbFfiEEWeKnFcWUWAiSJETyB
- d39g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU1wolYtb2aQbLhQ3PsjhvMLRFYbljqhWw03gKVAPcW15C4EGJNt9sxVB7Sx28/G38i4OW/lTRDXWo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+B/VHNtnPLwNclgYj9zfMVGEtKZEI2ogO/DPBQMAO8VPzSoLM
- KiTjCsFcdYhhaa62kbE3gEXS9Lxvsnwjr7LbXAcBWmSYJ5XK4xtyxKnNi6xmgZg=
-X-Gm-Gg: ASbGncvhXA0v1mjYK7NlSPHgceRHToGHfXbf9ivKdyYD1icgyfFsHq64y/aS37munm+
- jUP30xTYePwLlaJPXkgMBKCnBxlvx9VYACgRcsfxBx+Yr9DHsQPhCuKhNV7p9dRqg/EnhC4rLs4
- KUIBmC4ZuacrmWqYFQrIzy3kpCDHaxU2O0tcVr9HIFu9hMzMuk/Tx8vgTXgMf+6Fpsa2SlCeELJ
- c0c00EqjQrgYoDW3xQM9bnmTWoagCRhq907j3g1+CsSdRSRqlQAXg29njtxZnWrSKs4k6TmF67L
- lZFXo8hOAtQ5p1JKJjrA4zkMSdaVf5ZnThM0xN1QEb1cXklp0vXwzt+LpQUn37uEhmDEIFg=
-X-Google-Smtp-Source: AGHT+IEC1O4dAfwm2RAvRMNkQGlW/UA2o/sGSDuis3tbSpMY5FqwwE6f9ZDBY3h24zAeDqxXdOmmxQ==
-X-Received: by 2002:a05:6512:48c1:b0:53e:39e6:a1c5 with SMTP id
- 2adb3069b0e04-543e4c32c8emr7811652e87.41.1738679343360; 
- Tue, 04 Feb 2025 06:29:03 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543ebebeb92sm1597455e87.228.2025.02.04.06.29.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2025 06:29:02 -0800 (PST)
-Date: Tue, 4 Feb 2025 16:28:59 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01]
- bitfields and simplify saving
-Message-ID: <dtenajcyhcrejiiadcfmpz3h3cg3l2rkio55625umao6gl3q3k@asy2ecfz37ps>
-References: <20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org>
- <20250203-drm-msm-phy-pll-cfg-reg-v2-4-862b136c5d22@linaro.org>
- <hhedgfdbqpbv7s6iegtoztmznqdqn7bdumik7dm5xtsfsj6uwp@3jz422fhchcn>
- <ef1f91e4-aec4-41e8-b842-52d3f91e82bb@linaro.org>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C34B10E34F;
+ Tue,  4 Feb 2025 14:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738679395; x=1770215395;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=lAbL/0l6KMc7nqVP2DUrdeWeqlThU/+Tdw9u/t7yoPg=;
+ b=Ut5+L/bfBadwBA4fhQHMxlRUXuurRnewSL4yoa+vnO1UrbnywaFgGyGJ
+ //0KNylxPVqKd9ngmLmD+Fqz6D3AJl1J1BUu8kGjy29RZ4nwrYTn135Do
+ LmfT5MsW927xKdwYOtCiFvRN98KFvdWBnGqbHadIGHKr8w7luF0BRt2iL
+ Jtyhi09f9CWkBdGcFYP0TP5iQhQ8t5GvVD2LdwjGnjCHgzquR2ruk25b6
+ oAdEZFiiin5qoHsY6UfEqchUKQeUkk8VRRSHL12s4mOnvlwYwJQeqfb+P
+ E6HIfTsEBxeSdkpkHuLXXh9jCHUp/PF6ypzej1y2X6Wjzl4tN7MZJhib3 Q==;
+X-CSE-ConnectionGUID: hGvBkOEEQGa0r718HHw4Ng==
+X-CSE-MsgGUID: jCUzXPGMTl+GKqODL0asFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39238447"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; d="scan'208";a="39238447"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2025 06:29:55 -0800
+X-CSE-ConnectionGUID: RN6d+SumTOSsCLPg3AdQww==
+X-CSE-MsgGUID: kC63yfL0SO+G5fseY8Womg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="147807634"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.144])
+ ([10.245.246.144])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2025 06:29:51 -0800
+Message-ID: <3e96aef8009be69858a69d3e49a2bd7fc7d06f5f.camel@linux.intel.com>
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yonatan Maman <ymaman@nvidia.com>, kherbst@redhat.com, lyude@redhat.com,
+ dakr@redhat.com, airlied@gmail.com, simona@ffwll.ch, leon@kernel.org, 
+ jglisse@redhat.com, akpm@linux-foundation.org, GalShalom@nvidia.com, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, 	linux-tegra@vger.kernel.org
+Date: Tue, 04 Feb 2025 15:29:48 +0100
+In-Reply-To: <20250204132615.GI2296753@ziepe.ca>
+References: <20250128172123.GD1524382@ziepe.ca>
+ <Z5ovcnX2zVoqdomA@phenom.ffwll.local> <20250129134757.GA2120662@ziepe.ca>
+ <Z5tZc0OQukfZEr3H@phenom.ffwll.local> <20250130132317.GG2120662@ziepe.ca>
+ <Z5ukSNjvmQcXsZTm@phenom.ffwll.local> <20250130174217.GA2296753@ziepe.ca>
+ <Z50BbuUQWIaDPRzK@phenom.ffwll.local> <20250203150805.GC2296753@ziepe.ca>
+ <7b7a15fb1f59acc60393eb01cefddf4dc1f32c00.camel@linux.intel.com>
+ <20250204132615.GI2296753@ziepe.ca>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ef1f91e4-aec4-41e8-b842-52d3f91e82bb@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,157 +82,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 10:24:28AM +0100, Krzysztof Kozlowski wrote:
-> On 03/02/2025 18:58, Dmitry Baryshkov wrote:
-> > On Mon, Feb 03, 2025 at 06:29:21PM +0100, Krzysztof Kozlowski wrote:
-> >> Add bitfields for PHY_CMN_CLK_CFG0 and PHY_CMN_CLK_CFG1 registers to
-> >> avoid hard-coding bit masks and shifts and make the code a bit more
-> >> readable.  While touching the lines in dsi_7nm_pll_save_state()
-> >> resulting cached->pix_clk_div assignment would be too big, so just
-> >> combine pix_clk_div and bit_clk_div into one cached state to make
-> >> everything simpler.
-> >>
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> ---
-> >>
-> >> Changes in v2:
-> >> 1. New patch
-> >> ---
-> >>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 31 ++++++++++++----------
-> >>  .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  | 12 +++++++--
-> >>  2 files changed, 27 insertions(+), 16 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >> index 926fd8e3330b2cdfc69d1e0e5d3930abae77b7d8..b61e75a01e1b69f33548ff0adefc5c92980a15d7 100644
-> >> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >> @@ -67,8 +67,7 @@ struct dsi_pll_config {
-> >>  
-> >>  struct pll_7nm_cached_state {
-> >>  	unsigned long vco_rate;
-> >> -	u8 bit_clk_div;
-> >> -	u8 pix_clk_div;
-> >> +	u8 clk_div;
-> >>  	u8 pll_out_div;
-> >>  	u8 pll_mux;
-> >>  };
-> >> @@ -401,12 +400,12 @@ static void dsi_pll_cmn_clk_cfg1_update(struct dsi_pll_7nm *pll, u32 mask,
-> >>  
-> >>  static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
-> >>  {
-> >> -	dsi_pll_cmn_clk_cfg1_update(pll, BIT(5), 0);
-> >> +	dsi_pll_cmn_clk_cfg1_update(pll, DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN, 0);
-> >>  }
-> >>  
-> >>  static void dsi_pll_enable_global_clk(struct dsi_pll_7nm *pll)
-> >>  {
-> >> -	u32 cfg_1 = BIT(5) | BIT(4);
-> >> +	u32 cfg_1 = DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN | DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN_SEL;
-> >>  
-> >>  	writel(0x04, pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_3);
-> >>  	dsi_pll_cmn_clk_cfg1_update(pll, cfg_1, cfg_1);
-> >> @@ -572,15 +571,17 @@ static void dsi_7nm_pll_save_state(struct msm_dsi_phy *phy)
-> >>  	cached->pll_out_div &= 0x3;
-> >>  
-> >>  	cmn_clk_cfg0 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG0);
-> >> -	cached->bit_clk_div = cmn_clk_cfg0 & 0xf;
-> >> -	cached->pix_clk_div = (cmn_clk_cfg0 & 0xf0) >> 4;
-> >> +	cached->clk_div = cmn_clk_cfg0 & (DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK |
-> >> +					  DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__MASK);
-> > 
-> > Could you rather store these two fields separately by using FIELD_GET?
-> 
-> So make the code again more complicated? OK.
+On Tue, 2025-02-04 at 09:26 -0400, Jason Gunthorpe wrote:
+> On Tue, Feb 04, 2025 at 10:32:32AM +0100, Thomas Hellstr=C3=B6m wrote:
+> >=20
+>=20
+> > 1) Existing users would never use the callback. They can still rely
+> > on
+> > the owner check, only if that fails we check for callback
+> > existence.
+> > 2) By simply caching the result from the last checked dev_pagemap,
+> > most
+> > callback calls could typically be eliminated.
+>=20
+> But then you are not in the locked region so your cache is racy and
+> invalid.
 
-It was already there, bit_clk_div and pix_clk_div.
+I'm not sure I follow? If a device private pfn handed back to the
+caller is dependent on dev_pagemap A having a fast interconnect to the
+client, then subsequent pfns in the same hmm_range_fault() call must be
+able to make the same assumption (pagemap A having a fast
+interconnect), else the whole result is invalid?
 
-> 
-> > 
-> >>  
-> >>  	cmn_clk_cfg1 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> >> -	cached->pll_mux = cmn_clk_cfg1 & 0x3;
-> >> +	cached->pll_mux = cmn_clk_cfg1 & DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK;
-> > 
-> > FIELD_GET
-> > 
-> >>  
-> >>  	DBG("DSI PLL%d outdiv %x bit_clk_div %x pix_clk_div %x pll_mux %x",
-> >> -	    pll_7nm->phy->id, cached->pll_out_div, cached->bit_clk_div,
-> >> -	    cached->pix_clk_div, cached->pll_mux);
-> >> +	    pll_7nm->phy->id, cached->pll_out_div,
-> >> +	    cached->clk_div & DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK,
-> >> +	    cached->clk_div >> DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__SHIFT,
-> >> +	    cached->pll_mux);
-> >>  }
-> >>  
-> >>  static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
-> >> @@ -595,9 +596,9 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
-> >>  	val |= cached->pll_out_div;
-> >>  	writel(val, pll_7nm->phy->pll_base + REG_DSI_7nm_PHY_PLL_PLL_OUTDIV_RATE);
-> >>  
-> >> -	dsi_pll_cmn_clk_cfg0_write(pll_7nm,
-> >> -				   cached->bit_clk_div | (cached->pix_clk_div << 4));
-> >> -	dsi_pll_cmn_clk_cfg1_update(pll_7nm, 0x3, cached->pll_mux);
-> >> +	dsi_pll_cmn_clk_cfg0_write(pll_7nm, cached->clk_div);
-> >> +	dsi_pll_cmn_clk_cfg1_update(pll_7nm, DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
-> >> +				    cached->pll_mux);
-> >>  
-> >>  	ret = dsi_pll_7nm_vco_set_rate(phy->vco_hw,
-> >>  			pll_7nm->vco_current_rate,
-> >> @@ -634,7 +635,8 @@ static int dsi_7nm_set_usecase(struct msm_dsi_phy *phy)
-> >>  	}
-> >>  
-> >>  	/* set PLL src */
-> >> -	dsi_pll_cmn_clk_cfg1_update(pll_7nm, GENMASK(3, 2), data << 2);
-> >> +	dsi_pll_cmn_clk_cfg1_update(pll_7nm, DSI_7nm_PHY_CMN_CLK_CFG1_BITCLK_SEL__MASK,
-> >> +				    data << DSI_7nm_PHY_CMN_CLK_CFG1_BITCLK_SEL__SHIFT);
-> > 
-> > use accessor function from the header.
-> 
-> For which part? for last argument? It will be almost pointless, but sure.
-> 
-> 
-> > 
-> >>  
-> >>  	return 0;
-> >>  }
-> >> @@ -737,7 +739,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
-> >>  		u32 data;
-> >>  
-> >>  		data = readl(pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> >> -		writel(data | 3, pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> >> +		writel(data | DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
-> >> +		       pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> >>  
-> >>  		phy_pll_out_dsi_parent = pll_post_out_div;
-> >>  	} else {
-> >> diff --git a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-> >> index d54b72f924493b4bf0925c287366f7b1e18eb46b..d2c8c46bb04159da6e539bfe80a4b5dc9ffdf367 100644
-> >> --- a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-> >> +++ b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
-> >> @@ -9,8 +9,16 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
-> >>  	<reg32 offset="0x00004" name="REVISION_ID1"/>
-> >>  	<reg32 offset="0x00008" name="REVISION_ID2"/>
-> >>  	<reg32 offset="0x0000c" name="REVISION_ID3"/>
-> >> -	<reg32 offset="0x00010" name="CLK_CFG0"/>
-> >> -	<reg32 offset="0x00014" name="CLK_CFG1"/>
-> >> +	<reg32 offset="0x00010" name="CLK_CFG0">
-> >> +		<bitfield name="DIV_CTRL_3_0" low="0" high="3" type="uint"/>
-> >> +		<bitfield name="DIV_CTRL_7_4" low="4" high="7" type="uint"/>
-> > 
-> > Are there any sensible names for these two regs? It looks ther are
-> > not...
-> 
-> These are the sensible names. That's how they are called in datasheet.
+>=20
+> > 3) As mentioned before, a callback call would typically always be
+> > followed by either migration to ram or a page-table update.
+> > Compared to
+> > these, the callback overhead would IMO be unnoticeable.
+>=20
+> Why? Surely the normal case should be a callback saying the memory
+> can
+> be accessed?
 
-Yeah, that's what I had in the register file too. Then this part is
-okay.
+Sure, but at least on the xe driver, that means page-table repopulation
+since the hmm_range_fault() typically originated from a page-fault.
 
-> 
-> Best regards,
-> Krzysztof
 
--- 
-With best wishes
-Dmitry
+>=20
+> > 4) pcie_p2p is already planning a dev_pagemap callback?
+>=20
+> Yes, but it is not a racy validation callback, and it already is
+> creating a complicated lifecycle problem inside the exporting the
+> driver.
+
+Yeah, I bet there are various reasons against a callback. I just don't
+see the performance argument being a main concern.=20
+
+>=20
+> Jason
+
+/Thomas
+
+
