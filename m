@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C192A27223
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 13:50:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42608A27226
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 13:50:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFE0710E614;
-	Tue,  4 Feb 2025 12:50:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D80F10E624;
+	Tue,  4 Feb 2025 12:50:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jPjNthxb";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mb6jk1uU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA4F710E614;
- Tue,  4 Feb 2025 12:50:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12E9210E61D;
+ Tue,  4 Feb 2025 12:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738673425; x=1770209425;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=O70d/n8A7jSwkP9ydUPZ82gCpTvnBGZkV7gto2fDQAU=;
- b=jPjNthxbonxc3zSOP5i2KThMi5RhX851WTtc/iK4F3y/yssrhxHKcqK5
- 9J6ohbqHwF55SlWo1a3p8KwLhvfDosUaKs0a6s9pY/b9vGpbeDAa9WrdN
- tFLWKc5nWblYP88l+k4xSBj/1OxTG89exp2+X7z/g8ySYMo0vZFPe7LdP
- OPFzQxNeai0rTTGFwDYTsmYYU+sEMCf5rEzXs9GZ72SPggWstuIh+GCWx
- g0biLU+yzT7MjyvKLr0ey0D5Et+5oHd1suS8NXy2mPUpBNPwk1LFIHrxo
- gotQdNCiRpzabyXiJdDf5gbZAFUTKXMQoy3lNfj5oA0T5R0lZI3Qow6p8 g==;
-X-CSE-ConnectionGUID: oSsG/eNBSnOFEjQ9bCYtsg==
-X-CSE-MsgGUID: jXunjUfrQ2OFc4N4fBQMEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42853150"
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; d="scan'208,223";a="42853150"
+ t=1738673429; x=1770209429;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=Dw3H+PCjTstMENJ+I15n94rf80OW9E0XER+3C1hFJek=;
+ b=Mb6jk1uUUUUWnwqHUs+2cAVpCFDTQnVpI6s0tcXAIEClYEOKZI0v2SZf
+ EDvqOYK6ibl4ne8F/MLCi/krRnxbqzXmRzEjj07sWBLrsxh5uuhtVGFa0
+ ErKHWc7N1wjxhePBSl9z/891yh47hzMYtcb3kRjq5/9aSpWHbIpOI8JrZ
+ VDgBdycgZvRgpNtyV3qJ9T2aIsWl8KA8Sa9ABy+TTCrL+dRJ9Brwv0oqB
+ 0eqRHoD2fqQM6m4eRtIrG0RGXXRCDIMRE8a/UmaTs3ep8wMJC9PNX/idF
+ 5A+ArxuLAjwcAzcz3MzBlEl9MD4UcDucLa68Lo9C6n2rQ5AhlvM+QuQCq A==;
+X-CSE-ConnectionGUID: L4IfOPWjQK6v5vMEvG8fJQ==
+X-CSE-MsgGUID: 1NP+L8DmQ0mO1ehDgE9HAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42853162"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; d="scan'208";a="42853162"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Feb 2025 04:50:25 -0800
-X-CSE-ConnectionGUID: CK8l3EkSQDKYUsvgths7vQ==
-X-CSE-MsgGUID: jrf1AG9ZQmKvyZBld6j4ow==
+ 04 Feb 2025 04:50:28 -0800
+X-CSE-ConnectionGUID: /rDw7HBbSzK7gwCZNkD5XQ==
+X-CSE-MsgGUID: eoSkYDxTQ4+EhEvLiRkxlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
- d="scan'208,223";a="111441935"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="111441947"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by orviesa008.jf.intel.com with ESMTP; 04 Feb 2025 04:50:21 -0800
+ by orviesa008.jf.intel.com with ESMTP; 04 Feb 2025 04:50:25 -0800
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: uma.shankar@intel.com, jani.nikula@intel.com, arun.r.murthy@intel.com,
  ben.kao@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH 0/7] Enable Aux based Nits brightness control for eDP
-Date: Tue,  4 Feb 2025 18:20:02 +0530
-Message-Id: <20250204125009.2609726-1-suraj.kandpal@intel.com>
+Subject: [PATCH 1/7] drm/dp: Add eDP 1.5 bit definition
+Date: Tue,  4 Feb 2025 18:20:03 +0530
+Message-Id: <20250204125009.2609726-2-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250204125009.2609726-1-suraj.kandpal@intel.com>
+References: <20250204125009.2609726-1-suraj.kandpal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -67,31 +68,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From eDP 1.5 we are supposed to use the VESA pathways to control
-brightness. But still did not have the nits luminance control coded
-in. This series enables nits based luminance control over Aux using
-VESA pathways.
+Add the eDP revision bit value for 1.5.
 
---v2
--Prefer using Luminance for function name over nits [Jani]
-
-Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/3669
+Spec: eDPv1.5 Table 16-5
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
+Tested-by: Ben Kao <ben.kao@intel.com>
+---
+ include/drm/display/drm_dp.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Suraj Kandpal (7):
-  drm/dp: Add eDP 1.5 bit definition
-  drm/i915/backlight: Use proper interface based on eDP version
-  drm/i915/backlight: Check Luminance based brightness control for VESA
-  drm/i915/backlight: Modify function to get VESA brightness in Nits
-  drm/i915/backlight: Add function to change brightness in nits for VESA
-  drm/i915/backlight: Setup nits based luminance via VESA
-  drm/i915/backlight: Enable nits based luminance
-
- .../drm/i915/display/intel_display_types.h    |   1 +
- .../drm/i915/display/intel_dp_aux_backlight.c | 181 ++++++++++++++----
- include/drm/display/drm_dp.h                  |   1 +
- 3 files changed, 142 insertions(+), 41 deletions(-)
-
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index a6f8b098c56f..76162ad3b152 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -996,6 +996,7 @@
+ # define DP_EDP_14			    0x03
+ # define DP_EDP_14a                         0x04    /* eDP 1.4a */
+ # define DP_EDP_14b                         0x05    /* eDP 1.4b */
++# define DP_EDP_15			    0x06    /* eDP 1.5 */
+ 
+ #define DP_EDP_GENERAL_CAP_1		    0x701
+ # define DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP		(1 << 0)
 -- 
 2.34.1
 
