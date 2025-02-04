@@ -2,131 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5F7A26E36
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 10:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F185A26E8E
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 10:34:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFDB510E2C3;
-	Tue,  4 Feb 2025 09:24:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B689D10E28F;
+	Tue,  4 Feb 2025 09:34:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dQiA7Z5H";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Yv5iZsuQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BFF710E2C3
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 09:24:33 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3862c78536bso168580f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 01:24:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738661072; x=1739265872; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=kOdxREfmr3m4px8NFB1aHCxS9qChT2GU2XSMlmEQIQs=;
- b=dQiA7Z5HV6hxdB87jJV9STRCaEMYmlDxoED3K2LUuEey3Jfu5GKXWIljQxP4GcBmMS
- eaueUH0By3TE+i20Lk5L5KiO+cxtnO/rHHRzy3yJMi+qk59FUt45P196bNzCDXMgfPUt
- NAeoqh904DO6lEwV7cxjG56Uf2yf0ICfcBtaGEG9m8nJRGpu1d1PBm4nOwMk9DvKQb/j
- s+rDmckTTKU4+byphebslzKaIG7T2QN4qBOz12kJlEcRR0b9XcJHqGRmnHADvgktv1a8
- NJ3X0ON6KSxz3zi3npl0NBfTKMPiZ0ZeohkF98AiDU/X7uzzQ+YwbQvCrmaXA1J8bASG
- GaOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738661072; x=1739265872;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kOdxREfmr3m4px8NFB1aHCxS9qChT2GU2XSMlmEQIQs=;
- b=mDqa7KgSruJYqkGpP9+i3z6oKiLscqP6d61ntva5o375Adxh07sxzfFbyqrSirztvX
- cd7xWpsxDG4soImpsHYm2KnVZoCCAP7ERZedplsR6Z8rJyShPYu0drEQihHSUNDptH+C
- W5kxmA6y9JWbMfg+MgOnn20J0RvS28SG0m8z3jgSiewUkm6bdwDELj9WdxqCUg7FmjV9
- rG7ZliIjcCRFdw63vlCah6EOU+hXsfe04YBZx/gnsF3hgrcUbrT4ES8FwMZZdaZOabrd
- 8soXWmq0vz1Gke1mctnfS4Ge6kjbu9Y0MVZa9Pvh5gyk0GXmtqHrkmlnxZFV5fq34fue
- LVxA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXaUtupc6VmxRonZujiyrxxbD43Jqumr5Ru9nwhpx3U7Qku4AhzML8CGKJ6frv03Jlsd/2LTn8K8wY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzpewmElAwwaRmekX3yJUDj4p2MnafeMXONMgbe5m+UeUNODzYq
- ofhQxA4AdZGkViDMIRYqnXdXmRXzB+XYZf8vR2/eYA+jGxCwh8AlVfEdhG6TiM8=
-X-Gm-Gg: ASbGncsF7HP+stRgxiiY7sg56fCkj4nEq7u7h/c80338OnY3qFXTN83Kqd4qEbYGIjH
- InWO/QhdhQGpwuE680/mWgMB3PvCFzVPThLFvIP2AZ5Adk5lfD7oWqzsykoTofXbqOk4q+5Pc3v
- C4aGdF/6nG6gY21vluNNwQeGLbO44Cla//0xTAQn28dyCMS8KpA/1IOOT2W51aCXz7CTq+x8XHk
- kzOvSxvoGU9YJGv5jaj9b5g7ZXKhSZcD5hoJlwFq5s7h4y75MV0uAz3fv8wF/0skUANSu6iPAWv
- Xg0N9yHV5WWMOM/nH8QSHOzemp5uBorBwKc=
-X-Google-Smtp-Source: AGHT+IEUVGP4e8dVkERX7f/wfDQJCgJ3+T5h5terey2co8faI0jzq1j1NM8hMwbKcC2UFZ5F1JDeQQ==
-X-Received: by 2002:a05:6000:18a6:b0:385:dc3b:da71 with SMTP id
- ffacd0b85a97d-38da4e6386dmr747012f8f.8.1738661071681; 
- Tue, 04 Feb 2025 01:24:31 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.144])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c5c0ecc80sm15480656f8f.16.2025.02.04.01.24.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Feb 2025 01:24:30 -0800 (PST)
-Message-ID: <ef1f91e4-aec4-41e8-b842-52d3f91e82bb@linaro.org>
-Date: Tue, 4 Feb 2025 10:24:28 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6552810E2F1;
+ Tue,  4 Feb 2025 09:32:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738661559; x=1770197559;
+ h=message-id:subject:from:to:date:in-reply-to:references:
+ content-transfer-encoding:mime-version;
+ bh=afC03Ee5hYfBovzmOOaQQ63aQs98FWYrDWq0Cfbx4RI=;
+ b=Yv5iZsuQtP8f2Jd8/ObRPr5T7UAFqbZPHk5+jvLrywdO40r9yLyaKyCm
+ gma9Vu7BjjfrKlVRKpSjZXlBB/7DrP7LZ/UllFySAthTvsG2yOmjUQjuT
+ srw+gd2BEpfMHemWegUyM2Md0NLm8e9Ps4qufZwEML/c1+KdfCEhREi25
+ 7MdJNtKtLyTnKE5CZWM2DmNuU1pK3vnHxRbRr4dhjSDjwaf19RyTW/t3a
+ tIOMv35wFx8SJVrv37mCzf/eFNNLz9gRdys8lP8mIrwCJW3bucpNF076+
+ Y6HEY75YNfJdAJMJkFP2hE5uPptNUNb4NbL6n33/pFFTkd8If+BmR0Zcs w==;
+X-CSE-ConnectionGUID: 5kDmb69UQRKixF5/DGPBnA==
+X-CSE-MsgGUID: Ds6Xr/F5SA+BzweY/qEqcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="43100950"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; d="scan'208";a="43100950"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2025 01:32:39 -0800
+X-CSE-ConnectionGUID: zfYHGJSsSyC0q1C1d5OGAQ==
+X-CSE-MsgGUID: ByXkmf1TR56RDx03kwQdlA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="110998417"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.144])
+ ([10.245.246.144])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2025 01:32:35 -0800
+Message-ID: <7b7a15fb1f59acc60393eb01cefddf4dc1f32c00.camel@linux.intel.com>
+Subject: Re: [RFC 1/5] mm/hmm: HMM API to enable P2P DMA for device private
+ pages
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>, Yonatan Maman <ymaman@nvidia.com>, 
+ kherbst@redhat.com, lyude@redhat.com, dakr@redhat.com, airlied@gmail.com, 
+ simona@ffwll.ch, leon@kernel.org, jglisse@redhat.com,
+ akpm@linux-foundation.org, 	GalShalom@nvidia.com,
+ dri-devel@lists.freedesktop.org, 	nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 	linux-rdma@vger.kernel.org,
+ linux-mm@kvack.org, linux-tegra@vger.kernel.org
+Date: Tue, 04 Feb 2025 10:32:32 +0100
+In-Reply-To: <20250203150805.GC2296753@ziepe.ca>
+References: <20250128151610.GC1524382@ziepe.ca>
+ <b78d32e13811ef1fa57b0535749c811f2afb4dcd.camel@linux.intel.com>
+ <20250128172123.GD1524382@ziepe.ca> <Z5ovcnX2zVoqdomA@phenom.ffwll.local>
+ <20250129134757.GA2120662@ziepe.ca> <Z5tZc0OQukfZEr3H@phenom.ffwll.local>
+ <20250130132317.GG2120662@ziepe.ca> <Z5ukSNjvmQcXsZTm@phenom.ffwll.local>
+ <20250130174217.GA2296753@ziepe.ca> <Z50BbuUQWIaDPRzK@phenom.ffwll.local>
+ <20250203150805.GC2296753@ziepe.ca>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] drm/msm/dsi/phy: Define PHY_CMN_CLK_CFG[01]
- bitfields and simplify saving
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org>
- <20250203-drm-msm-phy-pll-cfg-reg-v2-4-862b136c5d22@linaro.org>
- <hhedgfdbqpbv7s6iegtoztmznqdqn7bdumik7dm5xtsfsj6uwp@3jz422fhchcn>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <hhedgfdbqpbv7s6iegtoztmznqdqn7bdumik7dm5xtsfsj6uwp@3jz422fhchcn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,145 +82,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/02/2025 18:58, Dmitry Baryshkov wrote:
-> On Mon, Feb 03, 2025 at 06:29:21PM +0100, Krzysztof Kozlowski wrote:
->> Add bitfields for PHY_CMN_CLK_CFG0 and PHY_CMN_CLK_CFG1 registers to
->> avoid hard-coding bit masks and shifts and make the code a bit more
->> readable.  While touching the lines in dsi_7nm_pll_save_state()
->> resulting cached->pix_clk_div assignment would be too big, so just
->> combine pix_clk_div and bit_clk_div into one cached state to make
->> everything simpler.
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>
->> ---
->>
->> Changes in v2:
->> 1. New patch
->> ---
->>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          | 31 ++++++++++++----------
->>  .../gpu/drm/msm/registers/display/dsi_phy_7nm.xml  | 12 +++++++--
->>  2 files changed, 27 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->> index 926fd8e3330b2cdfc69d1e0e5d3930abae77b7d8..b61e75a01e1b69f33548ff0adefc5c92980a15d7 100644
->> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
->> @@ -67,8 +67,7 @@ struct dsi_pll_config {
->>  
->>  struct pll_7nm_cached_state {
->>  	unsigned long vco_rate;
->> -	u8 bit_clk_div;
->> -	u8 pix_clk_div;
->> +	u8 clk_div;
->>  	u8 pll_out_div;
->>  	u8 pll_mux;
->>  };
->> @@ -401,12 +400,12 @@ static void dsi_pll_cmn_clk_cfg1_update(struct dsi_pll_7nm *pll, u32 mask,
->>  
->>  static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
->>  {
->> -	dsi_pll_cmn_clk_cfg1_update(pll, BIT(5), 0);
->> +	dsi_pll_cmn_clk_cfg1_update(pll, DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN, 0);
->>  }
->>  
->>  static void dsi_pll_enable_global_clk(struct dsi_pll_7nm *pll)
->>  {
->> -	u32 cfg_1 = BIT(5) | BIT(4);
->> +	u32 cfg_1 = DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN | DSI_7nm_PHY_CMN_CLK_CFG1_CLK_EN_SEL;
->>  
->>  	writel(0x04, pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_3);
->>  	dsi_pll_cmn_clk_cfg1_update(pll, cfg_1, cfg_1);
->> @@ -572,15 +571,17 @@ static void dsi_7nm_pll_save_state(struct msm_dsi_phy *phy)
->>  	cached->pll_out_div &= 0x3;
->>  
->>  	cmn_clk_cfg0 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG0);
->> -	cached->bit_clk_div = cmn_clk_cfg0 & 0xf;
->> -	cached->pix_clk_div = (cmn_clk_cfg0 & 0xf0) >> 4;
->> +	cached->clk_div = cmn_clk_cfg0 & (DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK |
->> +					  DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__MASK);
-> 
-> Could you rather store these two fields separately by using FIELD_GET?
+On Mon, 2025-02-03 at 11:08 -0400, Jason Gunthorpe wrote:
+> On Fri, Jan 31, 2025 at 05:59:26PM +0100, Simona Vetter wrote:
+>=20
+> > So one aspect where I don't like the pgmap->owner approach much is
+> > that
+> > it's a big thing to get right, and it feels a bit to me that we
+> > don't yet
+> > know the right questions.
+>=20
+> Well, I would say it isn't really complete yet. No driver has yet
+> attempted to use a private interconnect with these scheme. Probably
+> it
+> needs more work.
+>=20
+> > A bit related is that we'll have to do some driver-specific
+> > migration
+> > after hmm_range_fault anyway for allocation policies. With coherent
+> > interconnect that'd be up to numactl, but for driver private it's
+> > all up
+> > to the driver. And once we have that, we can also migrate memory
+> > around
+> > that's misplaced for functional and not just performance reasons.
+>=20
+> Are you sure? This doesn't seem to what any hmm_range_fault() user
+> should be doing. hmm_range_fault() is to help mirror the page table
+> to a secondary, that is all. Migration policy shouldn't be part of
+> it,
+> just mirroring doesn't necessarily mean any access was performed, for
+> instance.
+>=20
+> And mirroring doesn't track any access done by non-faulting cases
+> either.
+>=20
+> > The plan I discussed with Thomas a while back at least for gpus was
+> > to
+> > have that as a drm_devpagemap library,=20
+>=20
+> I would not be happy to see this. Please improve pagemap directly if
+> you think you need more things.
 
-So make the code again more complicated? OK.
+These are mainly helpers to migrate and populate a range of cpu memory
+space (struct mm_struct) with GPU device_private memory, migrate to
+system on gpu memory shortage and implement the migrate_to_vram pagemap
+op, tied to gpu device memory allocations, so I don't think there is
+anything we should be exposing at the dev_pagemap level at this point?
 
-> 
->>  
->>  	cmn_clk_cfg1 = readl(phy_base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
->> -	cached->pll_mux = cmn_clk_cfg1 & 0x3;
->> +	cached->pll_mux = cmn_clk_cfg1 & DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK;
-> 
-> FIELD_GET
-> 
->>  
->>  	DBG("DSI PLL%d outdiv %x bit_clk_div %x pix_clk_div %x pll_mux %x",
->> -	    pll_7nm->phy->id, cached->pll_out_div, cached->bit_clk_div,
->> -	    cached->pix_clk_div, cached->pll_mux);
->> +	    pll_7nm->phy->id, cached->pll_out_div,
->> +	    cached->clk_div & DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_3_0__MASK,
->> +	    cached->clk_div >> DSI_7nm_PHY_CMN_CLK_CFG0_DIV_CTRL_7_4__SHIFT,
->> +	    cached->pll_mux);
->>  }
->>  
->>  static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
->> @@ -595,9 +596,9 @@ static int dsi_7nm_pll_restore_state(struct msm_dsi_phy *phy)
->>  	val |= cached->pll_out_div;
->>  	writel(val, pll_7nm->phy->pll_base + REG_DSI_7nm_PHY_PLL_PLL_OUTDIV_RATE);
->>  
->> -	dsi_pll_cmn_clk_cfg0_write(pll_7nm,
->> -				   cached->bit_clk_div | (cached->pix_clk_div << 4));
->> -	dsi_pll_cmn_clk_cfg1_update(pll_7nm, 0x3, cached->pll_mux);
->> +	dsi_pll_cmn_clk_cfg0_write(pll_7nm, cached->clk_div);
->> +	dsi_pll_cmn_clk_cfg1_update(pll_7nm, DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
->> +				    cached->pll_mux);
->>  
->>  	ret = dsi_pll_7nm_vco_set_rate(phy->vco_hw,
->>  			pll_7nm->vco_current_rate,
->> @@ -634,7 +635,8 @@ static int dsi_7nm_set_usecase(struct msm_dsi_phy *phy)
->>  	}
->>  
->>  	/* set PLL src */
->> -	dsi_pll_cmn_clk_cfg1_update(pll_7nm, GENMASK(3, 2), data << 2);
->> +	dsi_pll_cmn_clk_cfg1_update(pll_7nm, DSI_7nm_PHY_CMN_CLK_CFG1_BITCLK_SEL__MASK,
->> +				    data << DSI_7nm_PHY_CMN_CLK_CFG1_BITCLK_SEL__SHIFT);
-> 
-> use accessor function from the header.
+>=20
+> > which would have a common owner (or
+> > maybe per driver or so as Thomas suggested).=20
+>=20
+> Neither really match the expected design here. The owner should be
+> entirely based on reachability. Devices that cannot reach each other
+> directly should have different owners.
 
-For which part? for last argument? It will be almost pointless, but sure.
+Actually what I'm putting together is a small helper to allocate and
+assign an "owner" based on devices that are previously registered to a
+"registry". The caller has to indicate using a callback function for
+each struct device pair whether there is a fast interconnect available,
+and this is expected to be done at pagemap creation time, so I think
+this aligns with the above. Initially a "registry" (which is a list of
+device-owner pairs) will be driver-local, but could easily have a wider
+scope.
 
+This means we handle access control, unplug checks and similar at
+migration time, typically before hmm_range_fault(), and the role of
+hmm_range_fault() will be to over pfns whose backing memory is directly
+accessible to the device, else migrate to system.
 
-> 
->>  
->>  	return 0;
->>  }
->> @@ -737,7 +739,8 @@ static int pll_7nm_register(struct dsi_pll_7nm *pll_7nm, struct clk_hw **provide
->>  		u32 data;
->>  
->>  		data = readl(pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
->> -		writel(data | 3, pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
->> +		writel(data | DSI_7nm_PHY_CMN_CLK_CFG1_DSICLK_SEL__MASK,
->> +		       pll_7nm->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
->>  
->>  		phy_pll_out_dsi_parent = pll_post_out_div;
->>  	} else {
->> diff --git a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
->> index d54b72f924493b4bf0925c287366f7b1e18eb46b..d2c8c46bb04159da6e539bfe80a4b5dc9ffdf367 100644
->> --- a/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
->> +++ b/drivers/gpu/drm/msm/registers/display/dsi_phy_7nm.xml
->> @@ -9,8 +9,16 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
->>  	<reg32 offset="0x00004" name="REVISION_ID1"/>
->>  	<reg32 offset="0x00008" name="REVISION_ID2"/>
->>  	<reg32 offset="0x0000c" name="REVISION_ID3"/>
->> -	<reg32 offset="0x00010" name="CLK_CFG0"/>
->> -	<reg32 offset="0x00014" name="CLK_CFG1"/>
->> +	<reg32 offset="0x00010" name="CLK_CFG0">
->> +		<bitfield name="DIV_CTRL_3_0" low="0" high="3" type="uint"/>
->> +		<bitfield name="DIV_CTRL_7_4" low="4" high="7" type="uint"/>
-> 
-> Are there any sensible names for these two regs? It looks ther are
-> not...
+Device unplug would then be handled by refusing migrations to the
+device (gpu drivers would probably use drm_dev_enter()), and then evict
+all device memory after a drm_dev_unplug(). This of course relies on
+that eviction is more or less failsafe.
 
-These are the sensible names. That's how they are called in datasheet.
+/Thomas
 
-Best regards,
-Krzysztof
+>=20
+> > But upfront speccing all this out doesn't seem like a good idea to,
+> > because I honestly don't know what we all need.
+>=20
+> This is why it is currently just void *owner=C2=A0 :)
+
+Again, with the above I think we are good for now, but having
+experimented a lot with the callback, I'm still not convinced by the
+performance argument, for the following reasons.
+
+1) Existing users would never use the callback. They can still rely on
+the owner check, only if that fails we check for callback existence.
+2) By simply caching the result from the last checked dev_pagemap, most
+callback calls could typically be eliminated.
+3) As mentioned before, a callback call would typically always be
+followed by either migration to ram or a page-table update. Compared to
+these, the callback overhead would IMO be unnoticeable.
+4) pcie_p2p is already planning a dev_pagemap callback?
+=20
+/Thomas
+
+>=20
+> Jason
+
