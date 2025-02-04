@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13D0A27509
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1122FA2750C
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 15:59:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E0B610E67A;
-	Tue,  4 Feb 2025 14:59:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7645E10E677;
+	Tue,  4 Feb 2025 14:59:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mA2oNx9R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TvGH7Je9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A45F10E67C
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 663B610E677
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 14:59:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DF2305C6A78;
- Tue,  4 Feb 2025 14:58:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BFF1C4CEDF;
- Tue,  4 Feb 2025 14:59:00 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E52F75C6A7E;
+ Tue,  4 Feb 2025 14:58:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BD2BC4CEE6;
+ Tue,  4 Feb 2025 14:59:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738681141;
- bh=Ycz8KszU5PhE6Y06PY1gRYTNUqmaJHlgy7DhraBLhtk=;
+ s=k20201202; t=1738681144;
+ bh=0bs8qf/laRg76YhWY0Fs2aPiQ4qdVBKMLc+T2D/sbXA=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=mA2oNx9RnZhykWrDK3Scgh0mBKlkWA7Wqc7o5e5ytvJdXmCmpV1NV14Xpf+WTO2Xd
- z/51t56tPXnAomZi4s2KKcfWBnOhAu1dT+j4aCtm+M2D9LIfCqQhFG7Y+VtmDX8/+9
- Pfum0xO4fZQLNMAIMdq6tpsIX9FvuWSvKP87EOlr9nP58AWcuGUHXf/Ym+fMozWxTF
- 9I9flEwjeW+O6B20thXRT/sajlBfqPOecpP5JZSZ8mxd74g8N40QpcppyHfgPrwibk
- aSXxIvR+6rDUN1YWh4jyCyAEWCAcZ8q2uuXfliZVxnOvwFY5Y8YoLPhqH1x0L49poY
- pUfesxXhcsH2g==
+ b=TvGH7Je9afU/AyW5V4DVCbgNcokDFeVmxy4pz0FuJ8niU2A9/xHouJJRR/Y4wZbWi
+ ifumOstjDpby8IddBBm8Qgp/d4OAGZt+7FCbCum1OJPImc0eo8HMQTdOMqPcXAxz8L
+ GxHECq5IVLXLOmJgkaUJB+zMEVGY/opFmXx6E83L/NFKgId9a7oEHh6GpRZ42E65VL
+ RZUg8woGiRD0qcip3rTXMoCdyvTrGNri9H3v9XZBYUpabebf8t0qvCsU8SyRFLkO0P
+ mG5L5jrpglLr8NQOi//5dQ/zBiG9OiekYGvvoZIvdY7IF4ZntAHw1T5wocn7UY2bJ5
+ qhwAQ1QqRFIyg==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 04 Feb 2025 15:57:37 +0100
-Subject: [PATCH v2 09/35] drm/atomic-helper: Change parameter name of
- drm_atomic_helper_commit_tail_rpm()
+Date: Tue, 04 Feb 2025 15:57:38 +0100
+Subject: [PATCH v2 10/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_modeset_disables()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250204-bridge-connector-v2-9-35dd6c834e08@kernel.org>
+Message-Id: <20250204-bridge-connector-v2-10-35dd6c834e08@kernel.org>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 In-Reply-To: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,12 +50,12 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2531; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Ycz8KszU5PhE6Y06PY1gRYTNUqmaJHlgy7DhraBLhtk=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtN5s3fGfY6fPoy/ss61PJ56K95tu5u4kHn6mIM0xu
- v5MUsmFjqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCR5qeM9d59MRe5uj5J6KhV
- WVcWrdHz5zjvl62hsO9pWm3l7Lbmgi/lcQmxVoe8i0/PU7He+FeQseHyv0nOzLsfcWmeXF9w4Zg
- OF3Nv23O7Q+anxbqFi4sfZFkbNXfkscydWXRZ4De/uJW6PgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2377; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=0bs8qf/laRg76YhWY0Fs2aPiQ4qdVBKMLc+T2D/sbXA=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDOmLtN5K3Z2avPrNNPum/y9u/vqhcellvr54ulHRxWciK
+ 3k09vcs7JjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQAT8TFnbHg+t6r5qeKCbdwN
+ IsZlP99r/D7NOmfSxmKtqb/D6jeJXMtw/jblUGB8zuYLCxj+TQ6T/MpYzfJHau6SC98vxr1k65T
+ 8xitZymdoceZn+Ca76j+zY55/ymGZ65/CNqX21XWv7ZP639xdAwA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,70 +73,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_atomic_helper_commit_tail_rpm() is the final part of an atomic
-commit, and is given the state being committed as a parameter.
+drm_atomic_helper_modeset_disables() disables all the outputs affected
+by a commit. It takes the drm_atomic_state being committed as a
+parameter.
 
-However, that parameter is named old_state, but documented as the "new
-modeset state" which is all super confusing.
-
-Let's rename that parameter to state.
+However, that parameter name is called (and documented) as old_state,
+which is pretty confusing. Let's rename that variable as state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index c80d2ee0247a5316dd103d6178c7fa96eb366c9a..cb08fda752c65d6d0c4388bb4bf7054e74a053a8 100644
+index cb08fda752c65d6d0c4388bb4bf7054e74a053a8..d5129de2278d5f62c136f8b6c831f903d9e53927 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1789,36 +1789,36 @@ void drm_atomic_helper_commit_tail(struct drm_atomic_state *state)
+@@ -1427,11 +1427,11 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *old_state)
  }
- EXPORT_SYMBOL(drm_atomic_helper_commit_tail);
  
  /**
-  * drm_atomic_helper_commit_tail_rpm - commit atomic update to hardware
-- * @old_state: new modeset state to be committed
-+ * @state: new modeset state to be committed
+  * drm_atomic_helper_commit_modeset_disables - modeset commit to disable outputs
+  * @dev: DRM device
+- * @old_state: atomic state object with old state structures
++ * @state: atomic state object being committed
   *
-  * This is an alternative implementation for the
-  * &drm_mode_config_helper_funcs.atomic_commit_tail hook, for drivers
-  * that support runtime_pm or need the CRTC to be enabled to perform a
-  * commit. Otherwise, one should use the default implementation
-  * drm_atomic_helper_commit_tail().
+  * This function shuts down all the outputs that need to be shut down and
+  * prepares them (if required) with the new mode.
+  *
+  * For compatibility with legacy CRTC helpers this should be called before
+@@ -1439,18 +1439,18 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *old_state)
+  * does. But drivers with different needs can group the modeset commits together
+  * and do the plane commits at the end. This is useful for drivers doing runtime
+  * PM since planes updates then only happen when the CRTC is actually enabled.
   */
--void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *old_state)
-+void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state)
+ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
+-					       struct drm_atomic_state *old_state)
++					       struct drm_atomic_state *state)
  {
--	struct drm_device *dev = old_state->dev;
-+	struct drm_device *dev = state->dev;
+-	disable_outputs(dev, old_state);
++	disable_outputs(dev, state);
  
--	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-+	drm_atomic_helper_commit_modeset_disables(dev, state);
+-	drm_atomic_helper_update_legacy_modeset_state(dev, old_state);
+-	drm_atomic_helper_calc_timestamping_constants(old_state);
++	drm_atomic_helper_update_legacy_modeset_state(dev, state);
++	drm_atomic_helper_calc_timestamping_constants(state);
  
--	drm_atomic_helper_commit_modeset_enables(dev, old_state);
-+	drm_atomic_helper_commit_modeset_enables(dev, state);
- 
--	drm_atomic_helper_commit_planes(dev, old_state,
-+	drm_atomic_helper_commit_planes(dev, state,
- 					DRM_PLANE_COMMIT_ACTIVE_ONLY);
- 
--	drm_atomic_helper_fake_vblank(old_state);
-+	drm_atomic_helper_fake_vblank(state);
- 
--	drm_atomic_helper_commit_hw_done(old_state);
-+	drm_atomic_helper_commit_hw_done(state);
- 
--	drm_atomic_helper_wait_for_vblanks(dev, old_state);
-+	drm_atomic_helper_wait_for_vblanks(dev, state);
- 
--	drm_atomic_helper_cleanup_planes(dev, old_state);
-+	drm_atomic_helper_cleanup_planes(dev, state);
+-	crtc_set_mode(dev, old_state);
++	crtc_set_mode(dev, state);
  }
- EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
+ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_disables);
  
- static void commit_tail(struct drm_atomic_state *state)
- {
+ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+ 						struct drm_atomic_state *old_state)
 
 -- 
 2.48.0
