@@ -2,81 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A119A26FBC
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 12:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC74A26FBD
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 12:02:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79DF410E5EA;
-	Tue,  4 Feb 2025 11:02:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1873510E5EB;
+	Tue,  4 Feb 2025 11:02:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OHDfhFf0";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="TL9I8/Pn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FD0610E5EA
- for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 11:00:38 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-388cae9eb9fso3132216f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 03:00:38 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B1EAA10E5EB
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 11:01:50 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-436202dd7f6so63060135e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 03:01:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1738666837; x=1739271637; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1738666909; x=1739271709; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=1qEq+ElMf3tzfmwe9V3JN7eeJb5z/31FY7C4V4/CChY=;
- b=OHDfhFf09TkE3xG2rgC+ZVusRk/Wk9nSjjydirS0DvxYUGAUKI1LYaescZSQmNRAgF
- S/nMB77icsSwh5yzZSdTcmyisXPt+0Wdelk5gwDC3VaIrpU6Qf9JSgfbujmujqCQXQNG
- rIWD4NMwUWPa+ltzOJwv9sRBn7rjom0sNZ8rY=
+ bh=4RRHdA8PEvlS1K4N8G9kevaoe1zJxa3+4zL3bWQzDDc=;
+ b=TL9I8/Pn9W+WP2QUU19bj3vQQLxx0UWgiooALQfc9us9ariC3GMJTJEFwd2acOJI/x
+ 8/KMZ23llRlZ1HRmQLXZSCO+LxZE5ru2hByp/K25KZTGS6ss/wqEeBx2m5f1jIEr6k5s
+ v7WPzEsnRCESGATxhrKepp8Sl+/ikmljPtDZc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738666837; x=1739271637;
+ d=1e100.net; s=20230601; t=1738666909; x=1739271709;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1qEq+ElMf3tzfmwe9V3JN7eeJb5z/31FY7C4V4/CChY=;
- b=bJ7ga4OsdMMkp9uAsSZ6GuGAed3hxC1ezlCXEZxvwcIGFY43ykzu49VKfYE8I41Mki
- GvihvCQVvHgLRrKmNuylceq5XI1n5Sg+/L7FQGjnwxEfGqpn2ddBcPFyyQ67N7Dro6vz
- 3dPjetOsufpbxCsKuTSV+DVP+P0LSNMMvYla0beLwhO+vT9TCap2YSvJrm5EYJspt54V
- 2f6ljz5xRLnZA9bkyvTNvp92fdClezQXFE0cu67YOm4CWtmklt0r0Z/Za5sTL8CUwbHj
- aDpg7E1nuVbTXeOzfa0qR/gWz+zjv062wFXOrcvYUbeFTu+uSB8ZjgQrTYt9ko0zDu/b
- EEPg==
+ bh=4RRHdA8PEvlS1K4N8G9kevaoe1zJxa3+4zL3bWQzDDc=;
+ b=eJNk5wB0nqYS/s/pSIW9qxR8BXyfoKtxpO04dV9OnA5LKAqR3ie+q7hHRv9+Ncutnu
+ nIMIJbFUfnj69OVEbzn4D5y6dtr0xYP20jN20w//1peDjbx6aGJaoTHtg8E3FYHslU5j
+ o242ky39CVQciG11VRTouwVdcMJVGvGuL42Nf/t6sCXu46UnmeC9VqgQslwH/Avk6A07
+ u2y7A8NwHW6gEpSfdKSrP/+DP2g//ChTU9oaoksCWDrSBORd3C3etth8PtY7n+GRDfsA
+ AqLsMr6meS2zetHhhJ3kxpxBq4K7xgg07PBsp6Q4XgRFwiZPr8py+1WlMlEVJTWDlz08
+ yTuw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWpWJTZyUp2YDKbvxMOxvdQo2gdr4LJJKnfCSlGScoqqNY14pTwC7Db5SDMBrCR93rzS8NE+e8Ily4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyQYnMXo/LrkcFZVA6X7b4+c/E8LzErUNGWKuOVXx5iiuDMcmub
- 92pPQ5Cc6OHI8CmtV/3ZIrtlnYy7184r0IrNSOGg+3C1F9PpuRKC+xDaJ027W0I=
-X-Gm-Gg: ASbGnctfsEZSaMU8HolpcZgMTHlZ86Ti+0B0bCc6qe4ZJEMEJ04Bi0L10RAB8g3wb7B
- T/gc1PoxO/agM8+MQlT5N1rCOx1NhGcbRzObPin0W9oR0+K+KQMpWGuj4hsgwGYYKptr5k3dqJZ
- JDUAW0FxrWoJMQmbzbgxcSGReQ/rV1cej9+tRSwU8NrLwJOKWLyhKHB6RzSOal7v7+DpNChknSG
- ZueOCFieV4zR74iuon7viuqupG8DtANfgXX3RhTeOd82GZywdvtKeOkY1QbpFgEJUQLYKTf68wi
- xnUdkKVWNutprih74gErzO4yzcw=
-X-Google-Smtp-Source: AGHT+IH8E/wHWTyhYFZ9PZjCo1HsdJQC/yHrtDwtnInnH1WvV9/UailC+a7uxbTK7laZAYXd3pK4hQ==
-X-Received: by 2002:a5d:59ad:0:b0:385:f560:7911 with SMTP id
- ffacd0b85a97d-38c5194c68dmr21045402f8f.10.1738666836603; 
- Tue, 04 Feb 2025 03:00:36 -0800 (PST)
+ AJvYcCUL6vtw5/BYqgsF6fE7F7iIVIjsaQfMKr7o8bMap7XtzeEuu4eFQ2uFC1TX4u9Mx1IHzMQAq+Nnp7E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YysYPHL6OJq23X8Lbe2+OcBqORa8AiVIdAZ7t1daW9cVUdpGH04
+ LdGMur13wTkgm7QHr0ECdVzrPUzjIGbTwi2E/s8CcWBzz3sO0x+dJbExJv8TgNCi/ybJ4WqE5Lp
+ j
+X-Gm-Gg: ASbGncsCxZVOSCy3koyJnCCsNrAlQm61Lhr8Yst7Yoi7dj4HDX5gYEZofc2ILY0dLig
+ kLoN+HOT2gsJ2S3knv6vLMX/1yjnw5HVHsYJsWs6FuGlG905DGv1pz3pXHOqjpOSJNYTJSeikHe
+ 3BXKxttbBGqKFoynNgB/aeJrfnVH6jJcTSe6iHjZrlc/S/tp5C6Xco6FSr4/jI39Kd2Zm+hvKXa
+ brnceWmmXlO6xKXSs27K/G2EzsdjzuUFE6ObEw2+g9Qzx1/cXzhpz1K2InMAaL5na2Z/E39+g3j
+ k5PMjd9YcNnFKRYNljj3ixMTAa8=
+X-Google-Smtp-Source: AGHT+IE4tbTEBtOtOWfRx+wMuOIFvnqto2qUCCNbXg7ebOju1AxB69qu9Dm54X12CZTRq0bm1g4AuQ==
+X-Received: by 2002:a05:600c:4594:b0:434:f9e1:5cf8 with SMTP id
+ 5b1f17b1804b1-438dc435389mr221006195e9.31.1738666909046; 
+ Tue, 04 Feb 2025 03:01:49 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38c5c1b4e99sm15513991f8f.74.2025.02.04.03.00.35
+ 5b1f17b1804b1-438e23de35csm185128975e9.10.2025.02.04.03.01.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2025 03:00:36 -0800 (PST)
-Date: Tue, 4 Feb 2025 12:00:34 +0100
+ Tue, 04 Feb 2025 03:01:48 -0800 (PST)
+Date: Tue, 4 Feb 2025 12:01:46 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] drm/tests: Fix locking issues (kind of)
-Message-ID: <Z6HzUidu_pOth2BS@phenom.ffwll.local>
+Subject: Re: [PATCH v2 1/4] drm/tests: hdmi: Fix WW_MUTEX_SLOWPATH failures
+Message-ID: <Z6HzmlUR1gdXJqXZ@phenom.ffwll.local>
 Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 References: <20250129-test-kunit-v2-0-fe59c43805d5@kernel.org>
+ <20250129-test-kunit-v2-1-fe59c43805d5@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250129-test-kunit-v2-0-fe59c43805d5@kernel.org>
+In-Reply-To: <20250129-test-kunit-v2-1-fe59c43805d5@kernel.org>
 X-Operating-System: Linux phenom 6.12.11-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,97 +95,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jan 29, 2025 at 03:21:52PM +0100, Maxime Ripard wrote:
-> Hi,
+On Wed, Jan 29, 2025 at 03:21:53PM +0100, Maxime Ripard wrote:
+> The light_up_connector helper function in the HDMI infrastructure unit
+> tests uses drm_atomic_set_crtc_for_connector(), but fails when it
+> returns an error.
 > 
-> Here's another attempt at fixing the current locking issues with the
-> HDMI kunit tests.
+> This function can return EDEADLK though if the sequence needs to be
+> restarted, and WW_MUTEX_SLOWPATH is meant to test that we handle it
+> properly.
 > 
-> The initial issue was reported by Dave here:
-> https://lore.kernel.org/all/CAPM=9tzJ4-ERDxvuwrCyUPY0=+P44orhp1kLWVGL7MCfpQjMEQ@mail.gmail.com/
+> Let's handle EDEADLK and restart the sequence in our tests as well.
 > 
-> After fixing it, there was still a lockdep warning for a circular
-> dependency. This series is also fixing the issue.
-
-So this looks like it's a kthread_exit, which yes is broken. You cannot
-acquire a lock in one thread and release it in another thread, that does
-not work for lockdep and therefore is forbidden for mutexes.
-
-It's kinda allowed for semaphore, but that's why semaphores cannot be
-automatically checked by lockdep. So yeah we cannot use such a deferred
-action, it would need to be a deferred action that's run synchronously.
--Sima
-
-> 
-> There's still an issue though. When running the tests, I get:
-> 
-> KTAP version 1
-> 1..1
->     KTAP version 1
->     # Subtest: drm_atomic_helper_connector_hdmi_check
->     # module: drm_hdmi_state_helper_test
->     1..1
-> 
-> ====================================
-> WARNING: kunit_try_catch/25 still has locks held!
-> 6.13.0-rc2-00410-gbd9d16533367 #18 Tainted: G                 N
-> ------------------------------------
-> 2 locks held by kunit_try_catch/25:
->  #0: fff00000021586f0 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_kunit_helper_acquire_ctx_alloc+0x5c/0xf0
->  #1: fff0000002158718 (crtc_ww_class_mutex){+.+.}-{0:0}, at: drm_kunit_helper_acquire_ctx_alloc+0x5c/0xf0
-> 
-> stack backtrace:
-> CPU: 0 UID: 0 PID: 25 Comm: kunit_try_catch Tainted: G                 N 6.13.0-rc2-00410-gbd9d16533367 #18
-> Tainted: [N]=TEST
-> Hardware name: linux,dummy-virt (DT)
-> Call trace:
->  show_stack+0x18/0x30 (C)
->  dump_stack_lvl+0x70/0x98
->  dump_stack+0x18/0x24
->  debug_check_no_locks_held+0x9c/0xa4
->  do_exit+0x52c/0x970
->  kthread_exit+0x28/0x30
->  kthread+0xdc/0xf0
->  ret_from_fork+0x10/0x20
->     ok 1 drm_test_check_hdmi_funcs_reject_rate
-> ok 1 drm_atomic_helper_connector_hdmi_check
-> 
-> I believe it's due to the fact that drm_kunit_helper_acquire_ctx_alloc()
-> will acquire the lock directly, but will release it as a deferred kunit
-> action. It's not unsafe, as the lock is eventually released, but I don't
-> really know what the best course of action is here:
-> 
->   * Forget about the idea of a context tied to the lifetime of a test
->   * Make lockdep know that it's ok, and we know what to do 
-> 
-> I've tried the latter, using lockdep_pin/unpin_lock, but that didn't fix
-> the issue so I must have done something wrong.
-> 
-> Let me know what you think,
-> Maxime
-> 
+> Fixes: eb66d34d793e ("drm/tests: Add output bpc tests")
+> Reported-by: Dave Airlie <airlied@gmail.com>
+> Closes: https://lore.kernel.org/r/CAPM=9tzJ4-ERDxvuwrCyUPY0=+P44orhp1kLWVGL7MCfpQjMEQ@mail.gmail.com/
+> Link: https://lore.kernel.org/r/20241031091558.2435850-1-mripard@kernel.org
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
-> Changes in v2:
-> - Fix circular dependency warning
-> - Link to v1: https://lore.kernel.org/r/20241031091558.2435850-1-mripard@kernel.org
+>  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> ---
-> Maxime Ripard (4):
->       drm/tests: hdmi: Fix WW_MUTEX_SLOWPATH failures
->       drm/tests: hdmi: Remove redundant assignments
->       drm/tests: hdmi: Reorder DRM entities variables assignment
->       drm/tests: hdmi: Fix recursive locking
+> diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> index c3b693bb966f1f8b04066d19f520bfa4bf11c23d..e814b538c46c4d342604436beca64ac0bdb31526 100644
+> --- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+> @@ -68,14 +68,21 @@ static int light_up_connector(struct kunit *test,
+>  	int ret;
+>  
+>  	state = drm_kunit_helper_atomic_state_alloc(test, drm, ctx);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
+>  
+> +retry:
+>  	conn_state = drm_atomic_get_connector_state(state, connector);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
+>  
+>  	ret = drm_atomic_set_crtc_for_connector(conn_state, crtc);
+> +	if (ret == -EDEADLK) {
+> +		drm_atomic_state_clear(state);
+> +		ret = drm_modeset_backoff(ctx);
+> +		if (!ret)
+> +			goto retry;
+> +	}
+
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+
+>  	KUNIT_EXPECT_EQ(test, ret, 0);
+>  
+>  	crtc_state = drm_atomic_get_crtc_state(state, crtc);
+>  	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
+>  
 > 
->  drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 200 +++++++++++----------
->  1 file changed, 103 insertions(+), 97 deletions(-)
-> ---
-> base-commit: e2a81c0cd7de6cb063058be304b18f200c64802b
-> change-id: 20250129-test-kunit-5ba3c03bffb0
-> 
-> Best regards,
 > -- 
-> Maxime Ripard <mripard@kernel.org>
+> 2.47.1
 > 
 
 -- 
