@@ -2,46 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D993FA27E44
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 23:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A89EA27E46
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 23:28:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5698210E0B8;
-	Tue,  4 Feb 2025 22:23:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qJoGrVLs";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2858510E6FE;
+	Tue,  4 Feb 2025 22:28:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 536FC10E060;
- Tue,  4 Feb 2025 22:21:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3F564A42EAA;
- Tue,  4 Feb 2025 22:20:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2392BC4CEDF;
- Tue,  4 Feb 2025 22:21:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738707715;
- bh=mj8gFVewXQahStzEsdmqJgjIqpJ4BPuc+w0ki86lYeA=;
- h=From:To:Cc:Subject:Date:From;
- b=qJoGrVLsRQjnIDE/l79reKMzAWRWAJNhqrQvfsTlkz2d/DzihHu9cUsMQxuo5Y5is
- vYdN0eQUGQR9DJnJ89OBPgFmWjsGD1XIFQ4lv9FbH6n+8IhDe1ECPmHZMYCpEsEg/s
- icOMdjwzRxJ1vho96ZbtH0kcV3+YxfPT35zJsk+3+WJ276yiyQ07hKfC+VwwPrI+HU
- e9bAIDsKVayf3YZcnZv5bglDSdfvnUxCUrmmWIthuMBvQB58jzmPidbMnHeAsnSnU9
- 2OIUPm/nZ+Xmef4931kzeX96acULAb77wHV6s4rYEc7MEoT99tRxTHdmRHscc+JxmM
- uyTJ/vp03zS2Q==
-From: Mario Limonciello <superm1@kernel.org>
-To: mario.limonciello@amd.com, Felix.Kuehling@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/amd: Refactor find_system_memory()
-Date: Tue,  4 Feb 2025 16:21:38 -0600
-Message-ID: <20250204222140.3883013-1-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9C410E6FE;
+ Tue,  4 Feb 2025 22:28:06 +0000 (UTC)
+Message-ID: <158e099d-6548-4de8-ba13-7de3277da82e@lankhorst.se>
+Date: Tue, 4 Feb 2025 23:28:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-resent-to-correct-ml 3/8] drm/xe: Add scoped guards for
+ xe_force_wake
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, David Lechner <dlechner@baylibre.com>,
+ Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+References: <20250204132238.162608-1-dev@lankhorst.se>
+ <20250204132238.162608-4-dev@lankhorst.se>
+ <2ced99ce-fd3e-4966-b093-c193b6c8b400@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <2ced99ce-fd3e-4966-b093-c193b6c8b400@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,100 +47,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+Hey,
 
-find_system_memory() pulls out two fields from an SMBIOS type 17
-device and sets them on KFD devices. This however is pulling from
-the middle of the field in the SMBIOS device and leads to an unaligned
-access.
 
-Instead use a struct representation to access the members and pull
-out the two specific fields.
+On 2025-02-04 17:30, Michal Wajdeczko wrote:
+> Hi Maarten,
+> 
+> On 04.02.2025 14:22, Maarten Lankhorst wrote:
+>> Instead of finding bugs where we may or may not release force_wake, I've
+>> decided to be inspired by the spinlock guards, and use the same ones to
+>> do xe_force_wake handling.
+> 
+> You may want to take a look at [1], which was based on [2], that
+> introduce fw guard class (and it was already acked and reviewed).
+> Merging was postponed only due to a request to prepare larger series
+> that would convert all existing usages to the new model.
+> 
+> And similar guard approach for our RPM was proposed in [3]
+> 
+> Michal
+> 
+> [1] https://patchwork.freedesktop.org/series/141516/
+> [2] https://patchwork.freedesktop.org/series/134958/
+> [3] https://patchwork.freedesktop.org/series/134955/
 
-Link: https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.8.0.pdf p99
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 27 +++++++++++------------
- drivers/gpu/drm/amd/amdkfd/kfd_topology.h | 17 ++++++++++++++
- 2 files changed, 30 insertions(+), 14 deletions(-)
+Excellent. I'm glad we're in agreement that doing forcewake handling in 
+guard handlers is a good thing. :-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-index ceb9fb475ef13..93d3924dfcba0 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-@@ -968,24 +968,23 @@ static void kfd_update_system_properties(void)
- 	up_read(&topology_lock);
- }
- 
--static void find_system_memory(const struct dmi_header *dm,
--	void *private)
-+static void find_system_memory(const struct dmi_header *dm, void *private)
- {
-+	struct dmi_mem_device *memdev = (struct dmi_mem_device *)(dm);
- 	struct kfd_mem_properties *mem;
--	u16 mem_width, mem_clock;
- 	struct kfd_topology_device *kdev =
- 		(struct kfd_topology_device *)private;
--	const u8 *dmi_data = (const u8 *)(dm + 1);
--
--	if (dm->type == DMI_ENTRY_MEM_DEVICE && dm->length >= 0x15) {
--		mem_width = (u16)(*(const u16 *)(dmi_data + 0x6));
--		mem_clock = (u16)(*(const u16 *)(dmi_data + 0x11));
--		list_for_each_entry(mem, &kdev->mem_props, list) {
--			if (mem_width != 0xFFFF && mem_width != 0)
--				mem->width = mem_width;
--			if (mem_clock != 0)
--				mem->mem_clk_max = mem_clock;
--		}
-+
-+	if (memdev->header.type != DMI_ENTRY_MEM_DEVICE)
-+		return;
-+	if (memdev->header.length < sizeof(struct dmi_mem_device))
-+		return;
-+
-+	list_for_each_entry(mem, &kdev->mem_props, list) {
-+		if (memdev->total_width != 0xFFFF && memdev->total_width != 0)
-+			mem->width = memdev->total_width;
-+		if (memdev->speed != 0)
-+			mem->mem_clk_max = memdev->speed;
- 	}
- }
- 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-index 155b5c410af16..f06c9db7ddde9 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-@@ -24,6 +24,7 @@
- #ifndef __KFD_TOPOLOGY_H__
- #define __KFD_TOPOLOGY_H__
- 
-+#include <linux/dmi.h>
- #include <linux/types.h>
- #include <linux/list.h>
- #include <linux/kfd_sysfs.h>
-@@ -179,6 +180,22 @@ struct kfd_system_properties {
- 	struct attribute	attr_props;
- };
- 
-+struct dmi_mem_device {
-+	struct dmi_header header;
-+	u16 physical_handle;
-+	u16 error_handle;
-+	u16 total_width;
-+	u16 data_width;
-+	u16 size;
-+	u8 form_factor;
-+	u8 device_set;
-+	u8 device_locator;
-+	u8 bank_locator;
-+	u8 memory_type;
-+	u16 type_detail;
-+	u16 speed;
-+} __packed;
-+
- struct kfd_topology_device *kfd_create_topology_device(
- 		struct list_head *device_list);
- void kfd_release_topology_device_list(struct list_head *device_list);
--- 
-2.43.0
+I have taken a look at the patch series. I think the approach I've taken 
+is a refinement of your series. Yours is already nearly there, but it 
+still keeps the rough edges of the original API.
+
+To smooth them, I have created 2 constructors, xe_force_wake, and 
+xe_force_wake_get. The former is used if you want to run code regardless 
+whether it succeeds, the latter is when you do.
+
+This allows code like:
+scoped_cond_guard(xe_force_wake_get, return -ETIMEDOUT, fw, 
+XE_FORCE_WAKE_ALL) {}
+to work flawlessly as intended, without having to check 
+xe_force_wake_ref_has_domain(XE_FORCE_WAKE_ALL);
+
+I think this cleanup removes a nasty source of errors.
+
+When you don't care about failure:
+scoped_guard(xe_force_wake, fw, XE_FORCE_WAKE_ALL) {
+	if (!xe_force_wake_scope_has_domain(XE_FORCE_WAKE_ALL))
+		printk("Oh noez, anyway..\n");
+
+	/* Continue and pretend nothing happened */
+}
+
+And for optional code, same as scoped_cond_guard, but as scoped_guard:
+
+scoped_guard(xe_force_wake_get, fw, XE_FORCE_WAKE_ALL) {
+	/* Only runs this block if acquire completely succeeded, otherwise use 
+xe_force_wake */
+}
+
+All in all, I'm open for bikesheds, but I think this has the potential 
+to improve xe_force_wake handling even further!
+
+I wasn't aware of your previous attempt when I wrote this and fought 
+linux/cleanup.h, otherwise I would have taken that as a base and credit 
+your work.
+
+Cheers,
+~Maarten
 
