@@ -2,36 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A89EA27E46
-	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 23:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5809BA27E62
+	for <lists+dri-devel@lfdr.de>; Tue,  4 Feb 2025 23:41:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2858510E6FE;
-	Tue,  4 Feb 2025 22:28:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B72D10E101;
+	Tue,  4 Feb 2025 22:41:41 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y1grtiCW";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A9C410E6FE;
- Tue,  4 Feb 2025 22:28:06 +0000 (UTC)
-Message-ID: <158e099d-6548-4de8-ba13-7de3277da82e@lankhorst.se>
-Date: Tue, 4 Feb 2025 23:28:03 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7708D10E101
+ for <dri-devel@lists.freedesktop.org>; Tue,  4 Feb 2025 22:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738708899; x=1770244899;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=F7dxtK7+1wsXWVpEakheOhZf9YINx2tRRNCmDD8GGl0=;
+ b=Y1grtiCWraM4JlXtFAg8SQB+QRSckMJPaUZnBpBymmRGmhe1xFS+ftdJ
+ 53jZdJJmxk3ARFj3ouARmUJEXk0MhwnJsKrEiBkNk/RsuQVBtuaYGWK2J
+ txtQt6t/6gKhh1W66XPsuzdV0jovGU1r+vgpN+4xCOrCsmDmJoVAScLY8
+ ZDDSUDfRDmACiArJTrHWVcIGmE03y9QHLVGIJkgxEXjdddMYCa/epOaq8
+ JfzY9I/yK229nS8O4zMD0kh86EvePzNKO4ubYILNQC5l/EAljQY+ahVkS
+ crsY3iQL7f5Hi9zqqM2Hxwhs77koLZO6L8od/OpEQVBgpln3bzoyJoEJg Q==;
+X-CSE-ConnectionGUID: 4ulWk2tORdKSOla1UE0jcw==
+X-CSE-MsgGUID: ahOVTUYuTGGmy+WLB7aQHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="56685998"
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; d="scan'208";a="56685998"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Feb 2025 14:41:39 -0800
+X-CSE-ConnectionGUID: lJjDoCy8RFaKlKkEo6Qfww==
+X-CSE-MsgGUID: Bvi1A7VfRTm7dTzLBHVLdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; d="scan'208";a="111272716"
+Received: from gkczarna.igk.intel.com ([10.211.131.163])
+ by fmviesa010.fm.intel.com with ESMTP; 04 Feb 2025 14:41:37 -0800
+From: Tomasz Lis <tomasz.lis@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Nirmoy Das <nirmoy.das@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ =?UTF-8?q?Micha=C5=82=20Wajdeczko?= <michal.wajdeczko@intel.com>,
+ =?UTF-8?q?Piotr=20Pi=C3=B3rkowski?= <piotr.piorkowski@intel.com>
+Subject: [RFC 0/1] drm/mm: Introduce address space shifting
+Date: Tue,  4 Feb 2025 23:41:35 +0100
+Message-Id: <20250204224136.3183710-1-tomasz.lis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-resent-to-correct-ml 3/8] drm/xe: Add scoped guards for
- xe_force_wake
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
- intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Ingo Molnar <mingo@kernel.org>, David Lechner <dlechner@baylibre.com>,
- Peter Zijlstra <peterz@infradead.org>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-References: <20250204132238.162608-1-dev@lankhorst.se>
- <20250204132238.162608-4-dev@lankhorst.se>
- <2ced99ce-fd3e-4966-b093-c193b6c8b400@intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <2ced99ce-fd3e-4966-b093-c193b6c8b400@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,71 +69,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey,
+This RFC asks for introduction of an interface which allows to shift
+a range managed by drm_mm instance without repeating the node list
+creation.
 
+The long explanation:
 
-On 2025-02-04 17:30, Michal Wajdeczko wrote:
-> Hi Maarten,
-> 
-> On 04.02.2025 14:22, Maarten Lankhorst wrote:
->> Instead of finding bugs where we may or may not release force_wake, I've
->> decided to be inspired by the spinlock guards, and use the same ones to
->> do xe_force_wake handling.
-> 
-> You may want to take a look at [1], which was based on [2], that
-> introduce fw guard class (and it was already acked and reviewed).
-> Merging was postponed only due to a request to prepare larger series
-> that would convert all existing usages to the new model.
-> 
-> And similar guard approach for our RPM was proposed in [3]
-> 
-> Michal
-> 
-> [1] https://patchwork.freedesktop.org/series/141516/
-> [2] https://patchwork.freedesktop.org/series/134958/
-> [3] https://patchwork.freedesktop.org/series/134955/
+Single Root I/O Virtualization is becoming a standard GFX feature
+in server environments. Virtual Machines provided with direct access
+to virtualized GFX hardware, in form of VFs, need to support the
+standard set of features expected by Virtual Machine Managers.
+These standard features include ability to save the VM state, and
+later restore the VM, possibly on another machine with different
+setup. For the restore to succeed, the GFX hardware model must match;
+but for its configuration, some differences are often allowed. Such
+alterations may include a different range of non-virtualized
+resources assigned to the VF, including global address spaces.
 
-Excellent. I'm glad we're in agreement that doing forcewake handling in 
-guard handlers is a good thing. :-)
+If any non-virtualized address space is saved, as part of VM state,
+on one machine and restored on another, it may happen that the target
+range differs from source range. To shift the address space,
+currently creating a new drm_mm object is required, and moving all
+nodes to the new object while adding the shift.
 
-I have taken a look at the patch series. I think the approach I've taken 
-is a refinement of your series. Yours is already nearly there, but it 
-still keeps the rough edges of the original API.
+GFX hardware handled by Xe driver contains Global Graphics
+Translation Table, which is an example of such non-virtualized
+resource. Should this interface change be accepted, a series which
+utilizes this interface in Xe driver will be prepared.
 
-To smooth them, I have created 2 constructors, xe_force_wake, and 
-xe_force_wake_get. The former is used if you want to run code regardless 
-whether it succeeds, the latter is when you do.
+Signed-off-by: Tomasz Lis <tomasz.lis@intel.com>
 
-This allows code like:
-scoped_cond_guard(xe_force_wake_get, return -ETIMEDOUT, fw, 
-XE_FORCE_WAKE_ALL) {}
-to work flawlessly as intended, without having to check 
-xe_force_wake_ref_has_domain(XE_FORCE_WAKE_ALL);
+Tomasz Lis (1):
+  drm_mm: Introduce address space shifting
 
-I think this cleanup removes a nasty source of errors.
+ drivers/gpu/drm/drm_mm.c | 24 ++++++++++++++++++++++++
+ include/drm/drm_mm.h     |  1 +
+ 2 files changed, 25 insertions(+)
 
-When you don't care about failure:
-scoped_guard(xe_force_wake, fw, XE_FORCE_WAKE_ALL) {
-	if (!xe_force_wake_scope_has_domain(XE_FORCE_WAKE_ALL))
-		printk("Oh noez, anyway..\n");
-
-	/* Continue and pretend nothing happened */
-}
-
-And for optional code, same as scoped_cond_guard, but as scoped_guard:
-
-scoped_guard(xe_force_wake_get, fw, XE_FORCE_WAKE_ALL) {
-	/* Only runs this block if acquire completely succeeded, otherwise use 
-xe_force_wake */
-}
-
-All in all, I'm open for bikesheds, but I think this has the potential 
-to improve xe_force_wake handling even further!
-
-I wasn't aware of your previous attempt when I wrote this and fought 
-linux/cleanup.h, otherwise I would have taken that as a base and credit 
-your work.
-
-Cheers,
-~Maarten
+-- 
+2.25.1
 
