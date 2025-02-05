@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33690A28E14
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48EB3A28E51
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:11:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D6210E7C3;
-	Wed,  5 Feb 2025 14:08:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D289410E7C5;
+	Wed,  5 Feb 2025 14:11:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=helen.koike@collabora.com header.b="JtXlN03T";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=helen.koike@collabora.com header.b="hWaRw8+a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A57EA10E7C3
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 14:08:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1738764519; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C582F10E7C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 14:11:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1738764683; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=MUVgO7yDZ0TPz+1FF/7QJnFsEw0Gxf1wbkmk8MzRP1URAUJBHHIQ7uWRJb/Z6J7TwZ28COd1N+pIdinpfmAqQiUpd1pdjOOt5nVF9/qeHgANWPp0aeVvhserWZDyNblvP7wN4xLKxySTrZ/LG3ZqXrcBmmTNB17MosCjsh4K7bQ=
+ b=H0yw1SIUJ1JolLxhI1QjGxb3JUVUYEceNThalOFEe0hVvDT8TwhKkygDeJKd1cbENuQ+vzrEwBBZMFvlaNj2wqHkls1WEqTFaYG7LTS6d9Q6VDwAlNL0V2gQk+yr4I/uYkBxTQdrsSa79T3yG1NIQt5CNZp8BE2/YGfhFuW/HDY=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1738764519;
+ s=zohoarc; t=1738764683;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=8QhVksKP31M/mhgIrezkDfGC+gnRXHKNBZuxcvDojTQ=; 
- b=Etkwqygbw2iuuXVTc9DLdGIxnpjbTmf05fBGhoUbpYJrcjo2IOq8Lgrzol1Ma7SttjDVN5uR+muiAkB8QzZmbD+pVnhYkF4+0DSeESC5xa+DP218gCi8oka0fI7NedSfeJYOoHpuGBIeEROyOlSPkBBcSC5c23azHl+FhcIDWTw=
+ bh=VgmSayAGKFLeF5c3BvsonNcZQluhGDauHCVTiCxbwlY=; 
+ b=gpvpGs3igfZydYHl/eqx6K9qtReZLSr9mXbOFK5QKcOl38SaUldmTHnCs54yE1v27/S7cm75Fn5MNykcqwBfPnZsZq+oKZGSH8ZM8MrHlnqcAAIPBHHEds4GtgiQUgi+aX5tbBrAcFqJJZ+Tg/tdZ1AXXeJO6wR62b/JWmZoJug=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=helen.koike@collabora.com;
  dmarc=pass header.from=<helen.koike@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738764519; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738764683; 
  s=zohomail; d=collabora.com; i=helen.koike@collabora.com;
  h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=8QhVksKP31M/mhgIrezkDfGC+gnRXHKNBZuxcvDojTQ=;
- b=JtXlN03TYCew8qivotfDzhSe61agm228G49/11GtUxBfwnlD4KT6Fa1Qix9BAZO1
- hMGsTo7xF+WBY/qI6n7bEjolzymlT2ow0EDp19YzPbturIxiXu+3xP3k/WEplS2I5G/
- c5HhDCr8lXGMGYLLl+L1kFYwUh5WZX8FeWrtGfds=
+ bh=VgmSayAGKFLeF5c3BvsonNcZQluhGDauHCVTiCxbwlY=;
+ b=hWaRw8+asSZy4mKITzaKzI3+0x+kGedwlR6oO/oNXYX0fHjBsVluAHv5sp/9fLoR
+ HeNFyne8mJrB92CDQqBItweRLkC14NifL618ByKFxsyHRRLh9kvjwTX9TJdLNgSO56o
+ 9+Sp1CZU7xxmyPK3py6AZY3mbxkyF2zzIz3/7eYk=
 Received: from mail.zoho.com by mx.zohomail.com
- with SMTP id 1738764517374344.8499195824269;
- Wed, 5 Feb 2025 06:08:37 -0800 (PST)
-Date: Wed, 05 Feb 2025 11:08:37 -0300
+ with SMTP id 1738764680669688.0736532108742;
+ Wed, 5 Feb 2025 06:11:20 -0800 (PST)
+Date: Wed, 05 Feb 2025 11:11:20 -0300
 From: Helen Mae Koike Fornazier <helen.koike@collabora.com>
 To: "Vignesh Raman" <vignesh.raman@collabora.com>
 Cc: "dri-devel" <dri-devel@lists.freedesktop.org>,
@@ -52,13 +52,13 @@ Cc: "dri-devel" <dri-devel@lists.freedesktop.org>,
  "dmitry.baryshkov" <dmitry.baryshkov@linaro.org>,
  "mripard" <mripard@kernel.org>,
  "linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <194d670ffb4.cfbdc70e672095.6844821701442540179@collabora.com>
-In-Reply-To: <20250205134811.2002718-1-vignesh.raman@collabora.com>
-References: <20250205134811.2002718-1-vignesh.raman@collabora.com>
-Subject: Re: [PATCH v1] MAINTAINERS: Update drm/ci maintainers
+Message-ID: <194d6737dc8.103ea99f8673408.2437691126328305495@collabora.com>
+In-Reply-To: <20250205081652.1928927-1-vignesh.raman@collabora.com>
+References: <20250205081652.1928927-1-vignesh.raman@collabora.com>
+Subject: Re: [PATCH v2 0/3] drm/ci: uprev mesa and modify gitlab rules
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 Importance: Medium
 User-Agent: Zoho Mail
 X-Mailer: Zoho Mail
@@ -81,37 +81,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
----- On Wed, 05 Feb 2025 10:47:47 -0300 Vignesh Raman  wrote ---
+---- On Wed, 05 Feb 2025 05:16:45 -0300 Vignesh Raman  wrote ---
 
- > Update drm/ci maintainer entries:=20
- > =20
- > * Add myself as drm/ci maintainer.=20
- > * Update Helen's email address.=20
- > =20
- > Signed-off-by: Vignesh Raman vignesh.raman@collabora.com>=20
- > ---=20
- >  MAINTAINERS | 3 ++-=20
- >  1 file changed, 2 insertions(+), 1 deletion(-)=20
- > =20
- > diff --git a/MAINTAINERS b/MAINTAINERS=20
- > index b256bb4f6d3f..2b4e08c7e119 100644=20
- > --- a/MAINTAINERS=20
- > +++ b/MAINTAINERS=20
- > @@ -7940,7 +7940,8 @@ F:=C2=A0=C2=A0=C2=A0=C2=A0drivers/gpu/drm/ttm/=20
- >  F:=C2=A0=C2=A0=C2=A0=C2=A0include/drm/ttm/=20
- > =20
- >  DRM AUTOMATED TESTING=20
- > -M:=C2=A0=C2=A0=C2=A0=C2=A0Helen Koike helen.koike@collabora.com>=20
- > +M:=C2=A0=C2=A0=C2=A0=C2=A0Helen Koike helen.fornazier@gmail.com>=20
- > +M:=C2=A0=C2=A0=C2=A0=C2=A0Vignesh Raman vignesh.raman@collabora.com>=20
- >  L:=C2=A0=C2=A0=C2=A0=C2=A0dri-devel@lists.freedesktop.org=20
- >  S:=C2=A0=C2=A0=C2=A0=C2=A0Maintained=20
- >  T:=C2=A0=C2=A0=C2=A0=C2=A0git https://gitlab.freedesktop.org/drm/misc/k=
-ernel.git=20
- > --=20
- > 2.43.0=20
- > =20
- >=20
+ > Uprev mesa to adapt to the latest changes in mesa-ci, 
+ > including new container jobs and stages. Update the 
+ > lava-submit script to align with recent mes-ci changes 
+ > for using LAVA rootfs overlays. Modify gitLab rules 
+ > to include scheduled pipelines. Also update the 
+ > expectation files. 
+ >  
+ > Pipeline link, 
+ > https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1358207 
+ >  
+ > Link to v1, 
+ > https://lore.kernel.org/all/20241128042025.611659-1-vignesh.raman@collabora.com/ 
+ >  
+ > Vignesh Raman (2): 
+ >  drm/ci: uprev mesa 
+ >  drm/ci: update gitlab rules 
+ >  drm/ci: update expectation files 
+ >  
+ >  drivers/gpu/drm/ci/build.sh                   |   2 +- 
+ >  drivers/gpu/drm/ci/build.yml                  | 104 +++++++++- 
+ >  drivers/gpu/drm/ci/container.yml              |  22 +- 
+ >  drivers/gpu/drm/ci/gitlab-ci.yml              | 195 ++++++++++-------- 
+ >  drivers/gpu/drm/ci/igt_runner.sh              |  13 +- 
+ >  drivers/gpu/drm/ci/image-tags.yml             |  11 +- 
+ >  drivers/gpu/drm/ci/lava-submit.sh             | 100 ++++++--- 
+ >  drivers/gpu/drm/ci/test.yml                   |  37 ++-- 
+ >  drivers/gpu/drm/ci/xfails/vkms-none-fails.txt |   2 + 
+ >  9 files changed, 325 insertions(+), 161 deletions(-) 
+ >  
+ > -- 
+ > 2.43.0 
+ >  
+ > 
 
+Applied to drm-misc-next
 
-Acked-by: Helen Koike <helen.fornazier@gmail.com>
+Thanks
+Helen
