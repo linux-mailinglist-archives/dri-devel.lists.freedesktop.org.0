@@ -2,125 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C52A29705
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 18:16:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FEA8A29862
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 19:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0AD210E1E7;
-	Wed,  5 Feb 2025 17:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3481A10E382;
+	Wed,  5 Feb 2025 18:07:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ejkGPFJi";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="nPNk3GIV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FB2810E1E7
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 17:16:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738775775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
- b=ejkGPFJiif/LRtUA5EKrAsnn8tsdPUmtc3eWWBda6Gcxe1FnBdSNXZ7AZjlnN4qp/i2JtP
- v4ZHuxVI2LSCBSfyXvy449GMm4cl27XbNGKx9vcAjm/JIumnuR3ssHBXtJb0c7Tka4WioN
- wm5lnmHYo+K9XNl2EwrHCIUz8l69IVA=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-35-ciE5oEnyOtiwkk3-qeNimA-1; Wed, 05 Feb 2025 12:16:14 -0500
-X-MC-Unique: ciE5oEnyOtiwkk3-qeNimA-1
-X-Mimecast-MFC-AGG-ID: ciE5oEnyOtiwkk3-qeNimA
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-6f46924f63eso14503527b3.0
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2025 09:16:13 -0800 (PST)
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+ [209.85.160.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B807810E382
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 18:07:28 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id
+ d75a77b69052e-467918c360aso1342981cf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2025 10:07:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738778848; x=1739383648;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=5a3g63YXuRyBGyCYvHoCZXHBrCt33UAX5/d9X21sMZ4=;
+ b=nPNk3GIVTF/f2ZiicBhP1z4WeN0DdA3Fi5eLe2aRmXQneUFF4jIb2IJ8A4uq/0Q54+
+ DQCn7bAeJvmwQbycT6Vepaqmm65BeBUQ+GUQlAycabzOakFkAAn533HHs7Vj/2QcQcor
+ koeS+rduYaZGmtGZeQYbw/ud8R/XCQ2B1SVbv9qhlNhPYbRG+gN9zBhaCCdSCNwyHVsl
+ I51RcVK3ehm7B/tAy2ZGUGZzWQwWATXQrL5TD9NAx2hWAC1k2Ba8HoAPozax1ayjOLMi
+ CUE86r0YviR1DSVnP6e/IFEFAGEBBT/uFM3vN7fht+muLVvSuJVlSrAmYj6J2hDHe8yB
+ 4rhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738775773; x=1739380573;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=zeSidYCdYJnARtwshAoVNn6AXIZ4ayw7DuR83E+9hlo=;
- b=ZZvGGYDsvfKp/jApYIOpmq8SHLBl2eXbTgt5X5+5gqmrUI864aL0IINtlH/GiD8mkO
- oz51eT/EfLzYpPHrbHBVJI29i3b5NkGI+YOTeHxHebcfOcr6+yCIUrgqXS7JE32L4VuV
- SelXx/pfYqo3atmsV56rZHfXSFyAUgG6YRJC/Ic2uQcZBN6isGLphJ8VXhbgtZ1GfEP3
- UxNh/Sa8ueCGq0KvjWpAjRfpm/E5fMc+zhnthxy1Iy6L/gRcQj1oPBD3+8SPdzvbxiZJ
- PBignSA8whGK0YMD5VoRlH73AARUaGEuuL0NEdVVNlU/Us0NE9sEvg/5wO/Lz8MztANS
- 1xQw==
+ d=1e100.net; s=20230601; t=1738778848; x=1739383648;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5a3g63YXuRyBGyCYvHoCZXHBrCt33UAX5/d9X21sMZ4=;
+ b=UOdXNCMJ7Q5PH+O/dW+lDpirEbPhVoElrMm7ogTLn+kpf36A4WnhmyiIVRo6mPqbn4
+ prbad5f57ADKZe/amOePWP5xpiZFBfuwj47YHPdYNX4ikpakvbWpSECP1/YHEIC99gAl
+ +6RcQpuGUagDIOOJYE/bZNzFhXNzJmoVoWvGoYY746ObuuwncSzlEJAYU+Nx4SQUJ1Ns
+ KXpojdKmlgsphquyBugZI8pUXMkX6JXhdTZBx3uZDsM+IlDy8uZyAPCt0Rt8fuErXVMY
+ DQ0rq4DsBWXm/wWv+UggqRvMWqSBv9+K91+Yau/Fupki8uOLo43MJt7GGLIyIxhL0cHP
+ vsJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXXtp2SHwhp85x64W5MHF13UPJdOHBV0kCU10bFNtGq9H+EHw44yPlrjIrz82DMXhlBYiyCZ+Q9lBU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUpCbI7hucU4eiDU+CrxXzHo3B3oqBpei20028fZJq028AosoR
- c+6IOpjoCN1EzQx152urJGuSOj385uLeRNEvsI2cZAx16vgpR+tKFXdAjprIgR3s9Es553Tnokx
- 6+4V1/mAIBC5dhLVF+sgMc46HWZwHE67HsZhyGRhcFABkpWMCuAj2tYwOh3uoHk2o6kpUbR8Biy
- smXelnkIfAmzMY05EGN2PZZOvIkGAchrUAxi6DOTzT
-X-Gm-Gg: ASbGncuPH6eGq48hfx4AQOTN+rXXZSKAPoZwHr2loZNUEPm96GYuXbKNYsKCBWrZtwv
- 9h+YEUs8j25UCQw+NZVZ1UN6kQ9IOKsTqUJDHJjPW0zAolCY/2ADxIOEkGbjG
-X-Received: by 2002:a05:690c:6c0c:b0:6f9:4195:8195 with SMTP id
- 00721157ae682-6f99a60b0cdmr1342127b3.15.1738775773236; 
- Wed, 05 Feb 2025 09:16:13 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEo2HkXE9/PB8TiTOCOmlpYI4+BLO/SI3ZFeKcGKfVuRa8aoXdOtxFKnY5ClyavR5vDRDWGBJn3fTqfR8+aXmM=
-X-Received: by 2002:a05:690c:6c0c:b0:6f9:4195:8195 with SMTP id
- 00721157ae682-6f99a60b0cdmr1341537b3.15.1738775772906; Wed, 05 Feb 2025
- 09:16:12 -0800 (PST)
+ AJvYcCXWSaQZzYcnhMTqehFtA3hfehy7KHqDdzRCEybU4SMZH8M1ODU7D3Pvw3qL3LrPYe8ADJwvwKU06o0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yym5wvMCqVX83JJcjTq7OoZU2RXPlMfW8zfbrzqS2dsU4e1BGWF
+ Kdb635iDnO3aVJYBFq1RsYvVMA13ensnDnIu3MNsuNE5cDvR1fqRqKmd+ew2yyg=
+X-Gm-Gg: ASbGncuz05VJSW2xF2/HD5miYuvHtEaxIrBe4wlipbqvIt6nyHrYgMyhiSeiEm3Rq+0
+ 6ffuQlDenxmaEUfnLyVwc0+aIeveT1FKhXbLu+BVK7TUUThY6AgxJy3i9XIEuf072Ypb/Ws6ruj
+ EUYdycjsOxmKHIXxWSxKcD7teibxkHRSc7RYR4oaoKpZFCURWOqpl23k6AboZ7FYIMNP78RyNZT
+ Yb1bAJhBsdPYD/qmdldHbv8lmEbNo5fdf8sFSQZhGs5BFyGRQR8g8XXy5Qt4YR1wGKvsILZRBtt
+ laziTWePyeueopyd
+X-Google-Smtp-Source: AGHT+IEo4hXzx1g4KENBMeo2s9vL7H7kP3tcfvoRUkgZj0tj3tMn7WAB4E53kizdrimAnj8XyGNu6g==
+X-Received: by 2002:ac8:7e93:0:b0:467:6833:e30c with SMTP id
+ d75a77b69052e-470281e8607mr53959051cf.30.1738778847693; 
+ Wed, 05 Feb 2025 10:07:27 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-4702c56c62bsm7919921cf.28.2025.02.05.10.07.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Feb 2025 10:07:27 -0800 (PST)
+Message-ID: <9b5104631f827fe44ad1030c971c72fba9a8ac90.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali
+ CSF GPUs
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Florent Tomasin <florent.tomasin@arm.com>, Vinod Koul
+ <vkoul@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Boris Brezillon
+ <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, Liviu
+ Dudau	 <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
+ Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
+ Mercier"	 <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
+ Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, nd@arm.com, Akash Goel
+ <akash.goel@arm.com>
+Date: Wed, 05 Feb 2025 13:07:25 -0500
+In-Reply-To: <20250205-robust-tall-parrot-69baf7@houat>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
+ <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
+ <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
+ <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
+ <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
+ <c856a7059171bcc6afd6d829c6c025882855778b.camel@ndufresne.ca>
+ <20250205-robust-tall-parrot-69baf7@houat>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
- <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
- <li2awsqmdoye3u7n3gi2mrhbfxs77e3edjmsg5zclnyjinsnul@2bjkc5agyu5u>
- <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
-In-Reply-To: <0ae17de1-c6dc-48eb-aed2-b099b2abbea5@suse.de>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 5 Feb 2025 12:16:02 -0500
-X-Gm-Features: AWEUYZllqvGkhQf1gMIyypHoBPrhgiNdZ-ww_BiUqVz8q-uL_n50cYGcicLCGMU
-Message-ID: <CAN9Xe3S3E_LzU7zF1UCE7fD9OE2bU7BcLy6xQOQk2s7=k+6v=A@mail.gmail.com>
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maxime Ripard <mripard@kernel.org>, Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>, 
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
- linux-doc@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: SIuGLzQXIA7sVuV-4vEqVUbTg3mrv-VloyBcn_QupPA_1738775773
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000049d89e062d68488b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,127 +115,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000049d89e062d68488b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Le mercredi 05 f=C3=A9vrier 2025 =C3=A0 15:53 +0100, Maxime Ripard a =C3=A9=
+crit=C2=A0:
+> On Tue, Feb 04, 2025 at 01:22:58PM -0500, Nicolas Dufresne wrote:
+> > Le lundi 03 f=C3=A9vrier 2025 =C3=A0 16:43 +0000, Florent Tomasin a =C3=
+=A9crit=C2=A0:
+> > > Hi Maxime, Nicolas
+> > >=20
+> > > On 30/01/2025 17:47, Nicolas Dufresne wrote:
+> > > > Le jeudi 30 janvier 2025 =C3=A0 17:38 +0100, Maxime Ripard a =C3=A9=
+crit=C2=A0:
+> > > > > Hi Nicolas,
+> > > > >=20
+> > > > > On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrote:
+> > > > > > Le jeudi 30 janvier 2025 =C3=A0 14:46 +0100, Maxime Ripard a =
+=C3=A9crit=C2=A0:
+> > > > > > > Hi,
+> > > > > > >=20
+> > > > > > > I started to review it, but it's probably best to discuss it =
+here.
+> > > > > > >=20
+> > > > > > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin wro=
+te:
+> > > > > > > > Hi,
+> > > > > > > >=20
+> > > > > > > > This is a patch series covering the support for protected m=
+ode execution in
+> > > > > > > > Mali Panthor CSF kernel driver.
+> > > > > > > >=20
+> > > > > > > > The Mali CSF GPUs come with the support for protected mode =
+execution at the
+> > > > > > > > HW level. This feature requires two main changes in the ker=
+nel driver:
+> > > > > > > >=20
+> > > > > > > > 1) Configure the GPU with a protected buffer. The system mu=
+st provide a DMA
+> > > > > > > >    heap from which the driver can allocate a protected buff=
+er.
+> > > > > > > >    It can be a carved-out memory or dynamically allocated p=
+rotected memory region.
+> > > > > > > >    Some system includes a trusted FW which is in charge of =
+the protected memory.
+> > > > > > > >    Since this problem is integration specific, the Mali Pan=
+thor CSF kernel
+> > > > > > > >    driver must import the protected memory from a device sp=
+ecific exporter.
+> > > > > > >=20
+> > > > > > > Why do you need a heap for it in the first place? My understa=
+nding of
+> > > > > > > your series is that you have a carved out memory region somew=
+here, and
+> > > > > > > you want to allocate from that carved out memory region your =
+buffers.
+> > > > > > >=20
+> > > > > > > How is that any different from using a reserved-memory region=
+, adding
+> > > > > > > the reserved-memory property to the GPU device and doing all =
+your
+> > > > > > > allocation through the usual dma_alloc_* API?
+> > > > > >=20
+> > > > > > How do you then multiplex this region so it can be shared betwe=
+en
+> > > > > > GPU/Camera/Display/Codec drivers and also userspace ?
+> > > > >=20
+> > > > > You could point all the devices to the same reserved memory regio=
+n, and
+> > > > > they would all allocate from there, including for their userspace=
+-facing
+> > > > > allocations.
+> > > >=20
+> > > > I get that using memory region is somewhat more of an HW descriptio=
+n, and
+> > > > aligned with what a DT is supposed to describe. One of the challeng=
+e is that
+> > > > Mediatek heap proposal endup calling into their TEE, meaning knowin=
+g the region
+> > > > is not that useful. You actually need the TEE APP guid and its IPC =
+protocol. If
+> > > > we can dell drivers to use a head instead, we can abstract that SoC=
+ specific
+> > > > complexity. I believe each allocated addressed has to be mapped to =
+a zone, and
+> > > > that can only be done in the secure application. I can imagine simi=
+lar needs
+> > > > when the protection is done using some sort of a VM / hypervisor.
+> > > >=20
+> > > > Nicolas
+> > > >=20
+> > >=20
+> > > The idea in this design is to abstract the heap management from the
+> > > Panthor kernel driver (which consumes a DMA buffer from it).
+> > >=20
+> > > In a system, an integrator would have implemented a secure heap drive=
+r,
+> > > and could be based on TEE or a carved-out memory with restricted acce=
+ss,
+> > > or else. This heap driver would be responsible of implementing the
+> > > logic to: allocate, free, refcount, etc.
+> > >=20
+> > > The heap would be retrieved by the Panthor kernel driver in order to
+> > > allocate protected memory to load the FW and allow the GPU to enter/e=
+xit
+> > > protected mode. This memory would not belong to a user space process.
+> > > The driver allocates it at the time of loading the FW and initializat=
+ion
+> > > of the GPU HW. This is a device globally owned protected memory.
+> >=20
+> > This use case also applies well for codec. The Mediatek SCP firmware ne=
+eds to be
+> > loaded with a restricted memory too, its a very similar scenario, plus =
+Mediatek
+> > chips often include a Mali. On top of that, V4L2 codecs (in general) do=
+ need to
+> > allocate internal scratch buffer for the IP to write to for things like=
+ motion
+> > vectors, reconstruction frames, entropy statistics, etc. The IP will on=
+ly be
+> > able to write if the memory is restricted.
+>=20
+> BTW, in such a case, do the scratch buffers need to be
+> protected/secure/whatever too, or would codecs be able to use any buffer
+> as a scratch buffer?
 
-On Fri, Jan 31, 2025 at 7:53=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
-.de>
-wrote:
+They need to be protected yes. Its not very fine grained on the platform I =
+work
+on. When that protection is enabled, the decoder can only read and write fr=
+om
+protected memory. I know there is platform were it can read from both, but
+generally all IOs regardless what they are used for endup with the same
+restriction.
 
-> Hi Maxime
->
->
-> Am 29.01.25 um 15:31 schrieb Maxime Ripard:
-> > Hi Thomas,
-> >
-> > On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:
-> >> Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
-> >>> Remove the TODO now that this series addresses
-> >>> the changes needed.
-> >> While your series is fine, this TODO item is unrelated. It's about
-> various
-> >> ancient fbdev drivers that do not reserve their memory regions
-> correctly. So
-> >> please drop patch 14 form the series.
-> > Is it? Could we rephrase the entry then? I'm the one that suggested
-> > Anusha to work on this, and it's still not clear to me what it means
-> > exactly if it's not what she worked on :)
->
-> I guess, we could make this more precise.
->
-> Some old graphics drivers don't request their memory ranges correctly.
-> It's usually a problem with hardware that has exclusive ranges, such as
-> the VGA. Vga16fb doesn't request the range as it should. Someone needs
-> to audit all those old drivers and fix them.
->
->
-This sounds like a good next approach. I will make the documentation more
-clear.
+Nicolas
 
-Thanks for feedback everyone!
+p.s. since Khronos seems to have adopted "protected", perhaps it will be ad=
+vised
+to go for that in the end.
 
-Anusha
-
-> Best regards
-> Thomas
->
->
-> >
-> > Maxime
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
->
-
---00000000000049d89e062d68488b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 31,=
- 2025 at 7:53=E2=80=AFAM Thomas Zimmermann &lt;<a href=3D"mailto:tzimmerman=
-n@suse.de">tzimmermann@suse.de</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">Hi Maxime<br>
-<br>
-<br>
-Am 29.01.25 um 15:31 schrieb Maxime Ripard:<br>
-&gt; Hi Thomas,<br>
-&gt;<br>
-&gt; On Wed, Jan 29, 2025 at 02:06:15PM +0100, Thomas Zimmermann wrote:<br>
-&gt;&gt; Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:<br>
-&gt;&gt;&gt; Remove the TODO now that this series addresses<br>
-&gt;&gt;&gt; the changes needed.<br>
-&gt;&gt; While your series is fine, this TODO item is unrelated. It&#39;s a=
-bout various<br>
-&gt;&gt; ancient fbdev drivers that do not reserve their memory regions cor=
-rectly. So<br>
-&gt;&gt; please drop patch 14 form the series.<br>
-&gt; Is it? Could we rephrase the entry then? I&#39;m the one that suggeste=
-d<br>
-&gt; Anusha to work on this, and it&#39;s still not clear to me what it mea=
-ns<br>
-&gt; exactly if it&#39;s not what she worked on :)<br>
-<br>
-I guess, we could make this more precise.<br>
-<br>
-Some old graphics drivers don&#39;t request their memory ranges correctly. =
-<br>
-It&#39;s usually a problem with hardware that has exclusive ranges, such as=
- <br>
-the VGA. Vga16fb doesn&#39;t request the range as it should. Someone needs =
-<br>
-to audit all those old drivers and fix them.<br>
-<br></blockquote><div><br></div><div>This sounds like a good next approach.=
- I will make the documentation more clear.</div><div><br></div><div>Thanks =
-for feedback everyone!</div><div><br></div><div>Anusha <br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">
-Best regards<br>
-Thomas<br>
-<br>
-<br>
-&gt;<br>
-&gt; Maxime<br>
-<br>
--- <br>
---<br>
-Thomas Zimmermann<br>
-Graphics Driver Developer<br>
-SUSE Software Solutions Germany GmbH<br>
-Frankenstrasse 146, 90461 Nuernberg, Germany<br>
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman<br>
-HRB 36809 (AG Nuernberg)<br>
-<br>
-</blockquote></div></div>
-
---00000000000049d89e062d68488b--
+>=20
+> Maxime
 
