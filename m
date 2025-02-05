@@ -2,60 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14879A28FCE
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:29:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ED17A290A0
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:38:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0B610E7C9;
-	Wed,  5 Feb 2025 14:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5827410E19D;
+	Wed,  5 Feb 2025 14:38:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qntclzv0";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Gjxyy+Ys";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEB3610E7C9
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 14:29:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B9F5EA4369C;
- Wed,  5 Feb 2025 14:27:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29396C4CEE2;
- Wed,  5 Feb 2025 14:29:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738765773;
- bh=eVeaTdpnOirbpMyaydQmbB7gizEyGhZBFyWrLI0D9Wg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=qntclzv0y3WGko+YSgK+ZC/ug+5vv+FnO2rAfqFRrTVSJz6ClfXYfVGlXEvPjj+Wu
- ywkPWwWfXHFbGwlAnURWoJFY+5FFm7L9sbYG2TovDCJLuCfdnRffFGPSsXywPNSmYh
- tSd08naH68xs3YnePxibSsqawvNGTHl8agiW9SlRVD7vYa01Z7G9kCIpjwZivLwuFx
- 8i4kfPMBSpwZzRmaeO1Aakyek0Vc8wzBZyMalfrNCwQbhn2LRsTfo5f9fiWSogfqTM
- ftTlT2PjASsahCF3eppzefqMx7tH4c3JBNGvNDHhRz4+rMm9Kbksd7Oj2lakc397nS
- 4EYVemdO6zX2w==
-Date: Wed, 5 Feb 2025 15:29:31 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 09/10] drm/bridge: allow limiting I2S formats
-Message-ID: <20250205-eager-laughing-nightingale-de5cab@houat>
-References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
- <20250126-drm-hdmi-connector-cec-v3-9-5b5b2d4956da@linaro.org>
- <bd2eou4qqxwqn3bypvpvkcrw56m555jwlnlni277phds7vfklh@aacywioenkkq>
- <7nawswhaddasa4a2sytwspq62s4a2di3ukemfqsc3ueh2lftzl@kjq42eoq3ram>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3098910E19D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 14:38:35 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-543d8badc30so7227084e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2025 06:38:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738766313; x=1739371113; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=/3s/LLOq0dPV7UNCIkOxXe+oy85qndr/lTrPV05GR6w=;
+ b=Gjxyy+YsJErUBaoSEV/TVg+cYFw81pEj+tFq4TjmnrdWqKLj498oqbwDUKHusbEKLZ
+ u0MR7rMrOguDMAr9gW/5NaMpIBx0NCeYcTfPXPCjIhTpfqVfdbuv3l1obrvCGh8v+Adc
+ r1n27AJoYFg3t9vejnJm4s9Awnyza5Z7MCUCuk3BGWJpuEKr8vs/L4/ucsH31arar17f
+ pi+phlgjtKv55Hk8+WY4QvTRPe0THCc20FtuvZWZ+D1rp4AmVscXfheWTXldQHu5RHv8
+ aVkATMTyEFpQu0i4Sh2KEVuDSRS4NTFPQ6/53aYZjt2PLaWehP1rq+o6p1BvCZKu2UBi
+ /raw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738766313; x=1739371113;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/3s/LLOq0dPV7UNCIkOxXe+oy85qndr/lTrPV05GR6w=;
+ b=ioKgSNiFjj7zx8oz4y8VX8HBaOhYTP0tI9xDMlrhP9yQdyi7GzjzAOkLZamM9RLj9T
+ rIWxMzRR0l+1FdZiKMAJm/F/6jk3oA6iIz5mmVR8ApKPFmf4V+7b9nCfx/peijm0+cfW
+ EtLrt6DedlH3r5U6LvxbKXEdhh3OYq1FRi4J351wljuFSkNmqmw2WZusKglbVw8C2rKv
+ g9GKZmDhtZuuDyg4GXbiHZH4nvfQyRGipR0h7o98ATmX3EV3g0e7LUt9vZxk3CtA7VlH
+ 4jHbesf/JCbQlMk0hi3V6h0dzrcv2tW4RPszjUGKzdukFK3N1G1N5nUb2mLbJgogtChs
+ ueeA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWkDzbgWIePcrJCnxxmylVzbB+Z5u7vdR97IIETCc828vnIzycGoLSUm4pn42xSjMN+fCh8NfAZ1jw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1b/5pwBi4ynso6E4j/ftMJtM9pJDHKLRmPfMpv0Lackr5Ya6K
+ Rq51mZw/2sK0v3CLhDCB1FeCHsQLcqjcXu4nuC98fcCGTC9Sm/vw98QJpVx78IQ=
+X-Gm-Gg: ASbGnctcRpJyrfZtgrXyTd7VmCnE1tXGJo3GfsmPr4FBvR5b4kPneVD1h90FfKr4gsz
+ ZerLHo4F9Os1oVrh6AWD7UJeXOkveqwVvfBOUXXAQYW13chT4dL0hFF7+XEtJNyYpl3T/2L61ZJ
+ eM+VPid2nm1rq8h1yce/2qY9Obdf4i0bBmb+83/hAD1dFV2Xm6kIwoSGjWlYYzTC3JBI4mhucBt
+ 9YClTgj+FTpillFAVAY9b68BCi+qcQCsAVRX1PxS38S6n++pdxxbs6hK+Zu+6ietM5jKreNk2ID
+ 0npAvAlTnuRTf0bWeGYjDQsgkfrrBpHxwYnykb8TAs9BipRc4Q9YclD1MtT4pjmNPFflUBI=
+X-Google-Smtp-Source: AGHT+IE6siSiYqoCqQTIpeksExMipCrLJz+JIWoi0AVtVuBjC0/DHoH67kNXH9JZjIrWHluYAMlZXw==
+X-Received: by 2002:a05:6512:3e15:b0:53e:38fd:7518 with SMTP id
+ 2adb3069b0e04-54405a0c4ccmr1152151e87.3.1738766313153; 
+ Wed, 05 Feb 2025 06:38:33 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-543ebe219e8sm1918090e87.106.2025.02.05.06.38.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Feb 2025 06:38:31 -0800 (PST)
+Date: Wed, 5 Feb 2025 16:38:29 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Hermes.wu@ite.com.tw
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ treapking@chromium.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw
+Subject: Re: [PATCH v3 1/2] drm/bridge: it6505: add support
+ DRM_BRIDGE_OP_HDMI to drm_bridge
+Message-ID: <t2nd3xjgb4nomasdlb5cmgxxystyo66si7gdqafzi56noknzvc@6i366tvzpfl7>
+References: <20250205-add-audio-codec-v3-0-26cfadb2d81f@ite.com.tw>
+ <20250205-add-audio-codec-v3-1-26cfadb2d81f@ite.com.tw>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="zl6wjwxauob5as6t"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7nawswhaddasa4a2sytwspq62s4a2di3ukemfqsc3ueh2lftzl@kjq42eoq3ram>
+In-Reply-To: <20250205-add-audio-codec-v3-1-26cfadb2d81f@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,51 +99,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Feb 05, 2025 at 02:41:03PM +0800, Hermes Wu via B4 Relay wrote:
+> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> 
+> Add DRM_BRIDGE_OP_HDMI to bridge.ops and implement necessary callback
+> functions.
 
---zl6wjwxauob5as6t
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 09/10] drm/bridge: allow limiting I2S formats
-MIME-Version: 1.0
+Wait.... Now I feel really sorry. I stumbled upon HDMI_related bits and
+then I thought that it's a HDMI bridge without actually checking the
+datasheet. When you have a hammer, everything looks like a nail...
+Except that IT6505 is neither a nail nor an HDMI bridge.
 
-On Wed, Jan 29, 2025 at 01:45:56AM +0200, Dmitry Baryshkov wrote:
-> On Tue, Jan 28, 2025 at 05:11:16PM +0100, Maxime Ripard wrote:
-> > On Sun, Jan 26, 2025 at 03:29:14PM +0200, Dmitry Baryshkov wrote:
-> > > diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> > > index b55e80a57758e8b652eac0cd01cb245a04e221f5..d16af5fe90cb48f6671e7=
-98d9dee61a359c9233f 100644
-> > > --- a/include/drm/drm_bridge.h
-> > > +++ b/include/drm/drm_bridge.h
-> > > @@ -920,6 +920,11 @@ struct drm_bridge {
-> > >  	 */
-> > >  	int hdmi_audio_max_i2s_playback_channels;
-> > > =20
-> > > +	/**
-> > > +	 * @hdmi_audio_i2s_formats: supported I2S formats, optional
-> > > +	 */
-> > > +	u64 hdmi_audio_i2s_formats;
-> > > +
-> >=20
-> > We should document what the default value is if it's optional.
->=20
-> "The default is to allow all formats supported by the corresponding
-> I2S bus driver." Does that sound fine from your POV?
+I'm really sorry for pushing you into the wrong way of OP_HDMI. However
+I still think that DisplayPort bridges should not implement codec
+callbacks directly. Let me play with that over the next few days. I
+think in the end we should be able to use .hdmi_audio_*() callbacks
+and drm_hdmi_audio_helper.c while not (over)using the OP_HDMI. I'll ping
+you in the next few days.
 
-Yep, sounds good.
-
-Maxime
-
---zl6wjwxauob5as6t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6N1ygAKCRAnX84Zoj2+
-dlrgAX9aDNuZXzFPiM/bM/7BcO7J8XzlRwFVr+i1N/QsnMdSLGZj87Zx/r639FZ2
-9xJiy4sBgJhgpOdA5fnB/hcAxS9dmow52Aqfbt7V+aCWL7aFCDnTWtgBAdQ7/Ook
-Ix+DjFHZKA==
-=pHPw
------END PGP SIGNATURE-----
-
---zl6wjwxauob5as6t--
+> The native AVI and AUDIO infoframe configuration API are removed.
+> 
+> In .atomic_enable use
+> drm_atomic_helper_connector_hdmi_update_infoframes().
+> for infoframe updates.
+> 
+> Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
+> ---
+>  drivers/gpu/drm/bridge/ite-it6505.c | 185 ++++++++++++++++++++++--------------
+>  1 file changed, 115 insertions(+), 70 deletions(-)
+> 
+-- 
+With best wishes
+Dmitry
