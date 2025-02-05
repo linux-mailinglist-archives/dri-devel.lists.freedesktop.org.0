@@ -2,69 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22276A2848F
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 07:40:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39223A284B5
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 07:57:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 296D910E73B;
-	Wed,  5 Feb 2025 06:40:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7B910E738;
+	Wed,  5 Feb 2025 06:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TIQSSz97";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BWbJPoFz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0921F10E73D
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 06:40:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 452025C118E;
- Wed,  5 Feb 2025 06:39:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7467CC4CEE6;
- Wed,  5 Feb 2025 06:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738737634;
- bh=h4uoZiDaDCnjp4xbn++cw3iPpGRIxoOC4t2uGuV8Lr8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=TIQSSz97U8yWHdkz4Ovgfc11YSHdnxE+u8jlcx/5Bygf3DqvyTsI/dT1k1OP+tvZv
- 7ybCmiFfkz/xgIEQu+YQY4dsSY8FutA9ExDuJcLtXRbO31gAJr1fZxHqIr+Cdb3x2T
- slPZ70SI06vxCP6nCqSAB/b+bWsuy0cmyNzW7pEjKwixws2U7njQ5I3urkmUj56bfS
- IvXUXIEYDNvO9e4Hp8IIz4jACe9Eis1m0zEqh4EFJeSKlgPWZ7AEpYz2ZdJi7O8208
- W0pE9d8RUIjGTpgN7lQSvcLe+yJ+VpOLxDWSO9TDXE4Vhjmuj7ajcBqrl+R9sz/kHi
- 6hXMZ4EtmLOng==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 61866C02199;
- Wed,  5 Feb 2025 06:40:34 +0000 (UTC)
-From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Wed, 05 Feb 2025 14:41:04 +0800
-Subject: [PATCH v3 2/2] drm/bridge: it6505: add audio support to
- drm_bridge_funcs
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F34B10E738
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 06:56:59 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E97B250;
+ Wed,  5 Feb 2025 07:55:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1738738545;
+ bh=wTAlPlOR+MYQRcwVVV1xfdmfe7enZp9ryKNE3mSZvbE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BWbJPoFzXk7PORbSH2mpiNQ9XwARTnOqJmUEjxTdQSQTugc2ai+hKCvD4AwvMvLNo
+ bSj4I3h0i+uk71hxojhKRET+LnKs3nNWQDccL0W8pQzCuPQ7wgwKxXKH0PASqTWYQO
+ Xpp7oY6iAc4bH+4gSniqQmWVslBC5vesdS+2WsHQ=
+Message-ID: <f6b20a29-1205-4f5e-87b6-fec58bd43545@ideasonboard.com>
+Date: Wed, 5 Feb 2025 08:56:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm/tidss: Add support for AM62L display subsystem
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: "Bajjuri, Praneeth" <praneeth@ti.com>,
+ "Raghavendra, Vignesh" <vigneshr@ti.com>, "Jain, Swamil" <s-jain1@ti.com>,
+ "Donadkar, Rishikesh" <r-donadkar@ti.com>,
+ "Choudhary, Jayesh" <j-choudhary@ti.com>,
+ "Shenoy, Harikrishna" <h-shenoy@ti.com>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ "jyri.sarha@iki.fi" <jyri.sarha@iki.fi>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "simona@ffwll.ch" <simona@ffwll.ch>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>
+References: <20241231090432.3649158-1-devarsht@ti.com>
+ <20241231090432.3649158-3-devarsht@ti.com>
+ <eab600f6-bfc2-489c-b384-5b620164a556@linux.dev>
+ <dea025e1-98d4-2dcf-e729-19c9d49bf3ae@ti.com>
+ <c6179f0b-c93f-483b-bfeb-322d800e5170@ideasonboard.com>
+ <5f122a31-771f-93c9-57fe-bc5766c1fccc@ti.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <5f122a31-771f-93c9-57fe-bc5766c1fccc@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250205-add-audio-codec-v3-2-26cfadb2d81f@ite.com.tw>
-References: <20250205-add-audio-codec-v3-0-26cfadb2d81f@ite.com.tw>
-In-Reply-To: <20250205-add-audio-codec-v3-0-26cfadb2d81f@ite.com.tw>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: treapking@chromium.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Pet.Weng@ite.com.tw, Kenneth.Hung@ite.com.tw, 
- Hermes Wu <Hermes.wu@ite.com.tw>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738737663; l=2998;
- i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
- bh=ALqN5ab0u4x0omcwFuCJ35/u/+RI1mf1aEJhjK4tFQs=;
- b=oSN8pAg0gEhe90kCJmKSJhBKKMKU0FbNorw4tsyh+YfjvjrGj/tgUFTW92DavYy8DbTeqw1+8
- VkjM8QF1HRtBtw4mXS+aLQPsRrC5C4F+7z2KDJw6LVunN7+TDl/C7SW
-X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
- pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
-X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
- auth_id=310
-X-Original-From: Hermes Wu <Hermes.wu@ite.com.tw>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,94 +116,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Hermes.wu@ite.com.tw
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Hermes Wu <Hermes.wu@ite.com.tw>
+Hi,
 
-For supporting audio form I2S to DP audio data sub stream.
-Add hdmi_audio callbacks to drm_bridge_funcs for the HDMI codec
-framework.
+On 05/02/2025 07:53, Devarsh Thakkar wrote:
+> Hi Tomi
+> 
+>>> Thanks for pointing out, I probably missed this since the use-case still
+>>> worked since VP interrupts were still enabled and those were sufficient to
+>>> drive the display
+>>> but the VID underflow interrupts and VID specific bits were probably not
+>>> enabled at-all due to above miss, so agreed
+>>> we should probably go ahead with a different reg space for AM62L due to
+>>> aforementioned differences.
+>>
+>> I think I disagree here. Afaiu, AM62L has plane at hw index 1 (VIDL1), but the
+>> plane at hw index 0 (VID1) is not instantiated in the hardware. But the
+>> registers are the same, i.e. AM62L's registers for VIDL1 match AM65x/AM62x
+>> registers, right?
+>>
+>> If so, we just need to tell the driver the hw index, instead of creating new
+>> register offsets as done in v2.
+>>
+>> Or am I missing something here? (I haven't looked at the HW manual yet).
+>>
+> 
+> No that's not the only difference. For AM62L, the VID_IRQENABLE/STATUS
+> registers start at +0x4 as compared to AM65x/AM62x/ :
+> 
+> AM62L:
+>          [DISPC_VID_IRQENABLE_OFF] =             0x48,
+> 
+>          [DISPC_VID_IRQSTATUS_OFF] =             0x5c,
+> 
+> AM62x/AM65x:
+> 
+>          [DISPC_VID_IRQENABLE_OFF] =             0x44,
+> 
+>          [DISPC_VID_IRQSTATUS_OFF] =             0x58,
 
-Signed-off-by: Hermes Wu <Hermes.wu@ite.com.tw>
----
- drivers/gpu/drm/bridge/ite-it6505.c | 46 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+But they actually don't start at different offsets.
 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index 4c766854de14093b80949bdb410488f504b24db8..832c4e3ff4ada31367788faed9583da676e36cf8 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -3342,6 +3342,46 @@ it6505_bridge_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
-+static int it6505_bridge_hdmi_audio_startup(struct drm_connector *connector,
-+					    struct drm_bridge *bridge)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+	struct device *dev = it6505->dev;
-+
-+	if (!it6505->powered || it6505->enable_drv_hold)
-+		return -EIO;
-+
-+	DRM_DEV_DEBUG_DRIVER(dev, "Audio enable");
-+	it6505_enable_audio(it6505);
-+
-+	return 0;
-+}
-+
-+static int it6505_bridge_hdmi_audio_prepare(struct drm_connector *connector,
-+					    struct drm_bridge *bridge,
-+					    struct hdmi_codec_daifmt *fmt,
-+					    struct hdmi_codec_params *hparms)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+	int err;
-+
-+	err = it6505_audio_setup_hw_params(it6505, hparms);
-+	if (err < 0)
-+		return err;
-+
-+	return drm_atomic_helper_connector_hdmi_update_audio_infoframe(connector,
-+								       &hparms->cea);
-+}
-+
-+static void it6505_bridge_hdmi_audio_shutdown(struct drm_connector *connector,
-+					      struct drm_bridge *bridge)
-+{
-+	struct it6505 *it6505 = bridge_to_it6505(bridge);
-+
-+	if (it6505->powered && !it6505->enable_drv_hold)
-+		it6505_disable_audio(it6505);
-+}
-+
- static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-@@ -3358,6 +3398,9 @@ static const struct drm_bridge_funcs it6505_bridge_funcs = {
- 	.hdmi_clear_infoframe = it6505_bridge_hdmi_clear_infoframe,
- 	.hdmi_write_infoframe = it6505_bridge_hdmi_write_infoframe,
- 	.hdmi_tmds_char_rate_valid = it6505_bridge_hdmi_tmds_char_rate_valid,
-+	.hdmi_audio_startup = it6505_bridge_hdmi_audio_startup,
-+	.hdmi_audio_prepare = it6505_bridge_hdmi_audio_prepare,
-+	.hdmi_audio_shutdown = it6505_bridge_hdmi_audio_shutdown,
- };
- 
- static __maybe_unused int it6505_bridge_resume(struct device *dev)
-@@ -3746,6 +3789,9 @@ static int it6505_i2c_probe(struct i2c_client *client)
- 			     DRM_BRIDGE_OP_HPD | DRM_BRIDGE_OP_HDMI;
- 	it6505->bridge.vendor = "iTE";
- 	it6505->bridge.product = "IT6505";
-+	it6505->bridge.hdmi_audio_dev = dev;
-+	it6505->bridge.hdmi_audio_max_i2s_playback_channels = 2;
-+	it6505->bridge.hdmi_audio_dai_port = 1;
- 	drm_bridge_add(&it6505->bridge);
- 
- 	return 0;
+AM62L TRM has:
 
--- 
-2.34.1
+DSS_COMMON_VID_IRQENABLE_1  3020 0048h
+DSS_COMMON_VID_IRQSTATUS_1  3020 005Ch
 
+AM65X TRM has:
+
+DSS0_COMMON_VID_IRQENABLE_1  04A0 0048h
+DSS0_COMMON_VID_IRQSTATUS_1  04A0 005Ch
+
+It's just that on AM62L the VID0 isn't instantiated in the hardware. 
+VID1 is at the same place.
+
+  Tomi
 
