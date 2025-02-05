@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A03A29ACB
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 21:11:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5AFA29ACF
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 21:11:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5D110E3D9;
-	Wed,  5 Feb 2025 20:11:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FC9910E3DA;
+	Wed,  5 Feb 2025 20:11:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QcqcuR97";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dqtq/xKx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A994E10E3D9
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 20:11:06 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4EC510E3DA
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 20:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738786265;
+ s=mimecast20190719; t=1738786280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WV3CUjfdiDqmiVITg/ki0rg01TIBSPaLDwHXu/1B6+E=;
- b=QcqcuR974GrOSuLXu1a8vPwaFlQxH8x8feAkyxBQEkja7sN0LddH6q7dAcSrNTgCdzhw1B
- 3m55jLDWU+lvWrPcHDxqPmw/PW9mZeiMaupptGFgLSWc4fdqkLft3DlddUcln1aSQyrUlj
- yFqeUpg5nIX7XpVz6J9PxBzYwx9mboo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ bh=SZeGtn73Y88CUfVnHvmhJXIyAiaLqqpqwADZqySX09U=;
+ b=dqtq/xKxn4+NLW9V6LGRVFT8vMVFGnbCJmK8ti9snTEtyfCNbQFJ9vqevGyqd2kc7C5L7N
+ +rSkgKZPSY8WLjELEH7iSy+Kcf6XfosKvzQgu1nUfrs8B8j4YrivKnfxRlOP1nq4xTfOxm
+ cB2ROjsGd3tKbtZUOyboyoKb45w4oKs=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-221-V8OTbI5dNI6szj-0skYMAQ-1; Wed,
- 05 Feb 2025 15:11:02 -0500
-X-MC-Unique: V8OTbI5dNI6szj-0skYMAQ-1
-X-Mimecast-MFC-AGG-ID: V8OTbI5dNI6szj-0skYMAQ
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-668-XrLRZbIRMpab2n-xkqm89A-1; Wed,
+ 05 Feb 2025 15:11:15 -0500
+X-MC-Unique: XrLRZbIRMpab2n-xkqm89A-1
+X-Mimecast-MFC-AGG-ID: XrLRZbIRMpab2n-xkqm89A
 Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 2D14319560AF; Wed,  5 Feb 2025 20:10:57 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id B45771800268; Wed,  5 Feb 2025 20:11:07 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
  by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A058B19560A3; Wed,  5 Feb 2025 20:10:46 +0000 (UTC)
+ id 7C50519560A3; Wed,  5 Feb 2025 20:10:57 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 05 Feb 2025 15:08:05 -0500
-Subject: [PATCH 09/12] drm/tegra: move to devm_platform_ioremap_resource()
- usage
+Date: Wed, 05 Feb 2025 15:08:06 -0500
+Subject: [PATCH 10/12] drm/tiny: move to devm_platform_ioremap_resource() usage
 MIME-Version: 1.0
-Message-Id: <20250205-mem-cocci-newapi-v1-9-aebf2b0e2300@redhat.com>
+Message-Id: <20250205-mem-cocci-newapi-v1-10-aebf2b0e2300@redhat.com>
 References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
 In-Reply-To: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
 To: Joel Stanley <joel@jms.id.au>, 
@@ -94,16 +93,16 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=1560;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=1744;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=66gfH4HaVcJzuzQX0NHIOkeT0eso2EOo8AHIoNrPiQ8=;
- b=M6WZh0GtYS5B4deJ9B3qzO3qNws7WyKrJNpqYJygKF9Hd54wmE5lZ9VrSBMuunB4vSfrq/v+B
- aoMAifGb953DS/z3pxTMJycEfckOvMXSVVatw6+5DoXKTwZ0HpUpzbU
+ bh=7+Q2lsuHInmFMU6F4dj3qB4yNCyOo0pZ9W9kufCkjVw=;
+ b=760bfuqeQwB2H7jkE4dYuBDK73EXGEZNFWeKXn1Of96MzG/gKvOtfpspbFSJECAZcDlGGB/p8
+ CY4DM7EBirEA1qRG0o0TqcMkXSTVS6lZYO5NB4/ZPvsibEJrpSbIKQu
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: oj_tAEc4TIoI0-nacJ0Mmq4mvROqRKlj8pH2p8dc9kg_1738786257
+X-Mimecast-MFC-PROC-ID: VU4qsBRufLrc6kkHgmk2zJ3BHQi6VlaBYESpJ5Adpno_1738786268
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -137,36 +136,37 @@ identifier pdev;
 -ioremap_res = devm_ioremap_resource(...);
 +ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Acked-by: Alexey Brodkin <abrodkin@synopsys.com>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/tegra/dsi.c | 4 +---
+ drivers/gpu/drm/tiny/arcpgu.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index 4a8cd9ed0a9414b2f40b716fa8c02aff038a53e0..51f1ed897f8e473f45f89ff3e2d99f66d2c80f21 100644
---- a/drivers/gpu/drm/tegra/dsi.c
-+++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -1564,7 +1564,6 @@ static int tegra_dsi_ganged_probe(struct tegra_dsi *dsi)
- static int tegra_dsi_probe(struct platform_device *pdev)
- {
- 	struct tegra_dsi *dsi;
--	struct resource *regs;
- 	int err;
+diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+index 2748d1f21d8697275047886865a5518792a4dd7c..7cf0f0ea1bfe4fa82234a120b52837e26a8ee5b0 100644
+--- a/drivers/gpu/drm/tiny/arcpgu.c
++++ b/drivers/gpu/drm/tiny/arcpgu.c
+@@ -253,7 +253,6 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
+ 	struct device_node *encoder_node = NULL, *endpoint_node = NULL;
+ 	struct drm_connector *connector = NULL;
+ 	struct drm_device *drm = &arcpgu->drm;
+-	struct resource *res;
+ 	int ret;
  
- 	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
-@@ -1636,8 +1635,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
- 		goto remove;
- 	}
+ 	arcpgu->clk = devm_clk_get(drm->dev, "pxlclk");
+@@ -270,8 +269,7 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
+ 	drm->mode_config.max_height = 1080;
+ 	drm->mode_config.funcs = &arcpgu_drm_modecfg_funcs;
  
--	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dsi->regs = devm_ioremap_resource(&pdev->dev, regs);
-+	dsi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dsi->regs)) {
- 		err = PTR_ERR(dsi->regs);
- 		goto remove;
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	arcpgu->regs = devm_ioremap_resource(&pdev->dev, res);
++	arcpgu->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(arcpgu->regs))
+ 		return PTR_ERR(arcpgu->regs);
+ 
 
 -- 
 2.47.0
