@@ -2,82 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC5DA294B2
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 16:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B264A294C4
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 16:32:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22F1710E1A7;
-	Wed,  5 Feb 2025 15:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6166010E3FB;
+	Wed,  5 Feb 2025 15:32:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="FLgt9jYK";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YFxgY+og";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7288A10E1A7
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 15:29:48 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-38dae70f5d9so1079327f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2025 07:29:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google; t=1738769387; x=1739374187;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=jC9QV0bJcgZgqHHH3SUMbf/vptPD4PQ0vRL1kkv5HIw=;
- b=FLgt9jYKPi2NfsN6CpP36+eamgxOj9iiepY2R2l/0hqZM7rFABB8bYN75PFeQXY1jB
- BEeIm3+2iML5MJMv5c7wbVvA3bZDtF6hyovXSKrQRnTx+QCDNx5tRTZ9CitQ39awA8LJ
- oMC2uoJF5hb25foYsh9NmENJCmGlOiDwIWh/M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738769387; x=1739374187;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jC9QV0bJcgZgqHHH3SUMbf/vptPD4PQ0vRL1kkv5HIw=;
- b=mx23X4f8Sn/qg31JJzVopmnPoLfuCTA7lW5Nq03msV93/8nuCDRf6BFdYWipWNL6Wv
- 2fplZ+8tAekCupZISBqEviBwZMCnNldDvTO3VtcZtETaI58DGIzCsiKz2q2Nonw/YsIS
- 4oDJ90oj5cUtTL0kGmF0iU9OGOByEeUlLvjuDEJ0NdQxrOnAZZwZOy4e2jSdIM9pmKzs
- rkDU+JVxqa20Cd+rgD/EgVTHEBQx7P4KNTUuGXSc75mJglXHPLRYmyZqP3N2FBcIDXwJ
- 0gjCdnPxxDiKQFO9ZhuKQKhD3nWx3InP2ueuGMN5uGt9Cf3OLdOJ0kI/u+Q0u0US5G4Q
- XBYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVOICAtiDuguOcN7LGlW4MfWAMPW7opohsQOWKcGrN8JJqW740FuhEdLYlqeYAG0/axJEQNgqePHMI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyD0SubbVVGWqBiOILVKIX/iP/8FZjs9Vj0BIn3wFscKSSrOYp3
- LL+ejxIauS9spDijIYeq0CbA8AW+F/ONuYF5lbWHsDJ68gt0hP/xmn3KgnBtuEo=
-X-Gm-Gg: ASbGncsasDwLqN3nknT37c0K641/ORviquT3CLSwvo4uaWkKajIpUgCj1n1Snnu03K8
- LM/7He9ciOik2BxNl//P06ZFhOpFT9l0X+7fo43eTt0dJcOqaDj/e8cxP3ahDUr9dkvocWGSgjn
- jnky2ejGzbmSKRWfg8ic9dKf+D7CNp0E5Nycq2gyu9baE+W9SNosQArjp/r9d+3bhKA/KWB0DGn
- f83wwooVLaaywm7cfpu6Q9L312QY8H2WIWwpV1ohrXKwnJFXDi4AFurN3WQxd8PCXf/xPM9DxOh
- 3aSzv5Jj/TzgoCrAuWxfNk/Tz9hPImMlcOpsCXVIsMdiilSZjK1Jte1X
-X-Google-Smtp-Source: AGHT+IHUegMKoF3Uu+JDrnonpKTLGgAqfUbpAC5vcQvzwsUpc+CNMtcSoxp8JpOvJyhpCCI3zm2NQA==
-X-Received: by 2002:a05:6000:1868:b0:38a:4184:151a with SMTP id
- ffacd0b85a97d-38db48fdf85mr2428469f8f.37.1738769386468; 
- Wed, 05 Feb 2025 07:29:46 -0800 (PST)
-Received: from dario-ThinkPad-T14s-Gen-2i.. ([2.196.42.151])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38daf999747sm4475386f8f.19.2025.02.05.07.29.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Feb 2025 07:29:46 -0800 (PST)
-From: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-amarula@amarulasolutions.com,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2752810E7DC
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 15:32:11 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 67F001F764;
+ Wed,  5 Feb 2025 15:32:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738769530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bXBU1vPryPoRK7OtPk6233LZHDNAPJC+VTW6t5S7CHw=;
+ b=YFxgY+ogzEwFf7iikNxyOCh/esYr2SxiBm2SuBCdURdGh+VfGNSwES4+l0fLapZblRi6DC
+ I+t4vJw6lJA4TCjipDWLTsQZL+hql+5wIgJ/SnYN8PONBWtXQeo+EDlPJX/O4Lr2e5UPew
+ hAQh/4Oe0OGKSrzQNwsHmhJ8zvaYbS2ZQE0YRuo++uQZvQqWEHh9Pv5JiymDUuZTt0Qigm
+ RBo2sza659Y2x98e4lcX3aZF/FgPZfPt+JhxHLoYIusOJuh/E6GEm4rzIvIYlCjhpgPyMl
+ raB21FYZ9bk6yElNcbSk01/Tkfv1O0Cql/dI1PuYwGEvGGL7Z5QNKu8/Qt2oKg==
+Date: Wed, 5 Feb 2025 16:32:07 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Vasut <marex@denx.de>, Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Stefan Agner <stefan@agner.ch>,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3] drm/mxsfb: Remove generic DRM drivers in probe function
-Date: Wed,  5 Feb 2025 16:29:36 +0100
-Message-ID: <20250205152942.954381-1-dario.binacchi@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com,
+ marcheu@google.com, nicolejadeyee@google.com, linux-doc@vger.kernel.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <Z6OEd329pDNRrL5v@louis-chauvet-laptop>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com,
+ marcheu@google.com, nicolejadeyee@google.com,
+ linux-doc@vger.kernel.org,
+ Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
+ <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
+ <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
+ <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
+ <20250205-pristine-perch-of-abundance-7abac1@houat>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250205-pristine-perch-of-abundance-7abac1@houat>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvfeekfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhfefhgffgfeelveekvdejfedufeegffdvkeeileeuhedthfegjeeikeehheeukeenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhouhhishdqtghhrghuvhgvthdqlhgrphhtohhppdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdegpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhoughrihhgohhsihhquhgvihhrrghmvghlohesghhmrghilhdrtghomhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghuphdrnhgvthdprhgtphhtthhopehhrghmohhhrghmmhgvugdrs
+ hgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,54 +95,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use aperture helpers to remove all generic graphics drivers before
-loading mxsfb. Makes mxsfb compatible with simpledrm.
+On 05/02/25 - 09:55, Maxime Ripard wrote:
+> On Mon, Jan 27, 2025 at 11:48:23AM +0100, Louis Chauvet wrote:
+> > On 26/01/25 - 18:06, Maxime Ripard wrote:
+> > > On Tue, Jan 21, 2025 at 11:48:06AM +0100, Louis Chauvet wrote:
+> > > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+> > > > +	/*
+> > > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > > > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > > > +	 *                     in_bits = 16,
+> > > > +	 *                     in_legal = False,
+> > > > +	 *                     in_int = True,
+> > > > +	 *                     out_bits = 8,
+> > > > +	 *                     out_legal = False,
+> > > > +	 *                     out_int = True)
+> > > > +	 *
+> > > > +	 * Test cases for conversion between YUV BT601 full range and RGB
+> > > > +	 * using the ITU-R BT.601 weights.
+> > > > +	 */
+> > > 
+> > > What are the input and output formats?
+> > > 
+> > > Ditto for all the other tests.
+> > 
+> > There is no really "input" and "output" format, they are reference values 
+> > for conversion, you should be able to use it in both direction. They are 
+> > generated by RGB_to_YCbCr (RGB input, YUV output) just because it was 
+> > easier to create the colors from RGB values.
+> 
+> RGB and YUV aren't formats, they are color models. XRGB8888 is a format.
+> NV12 is a format.
+>
+> > If you think we should specify what is was used as input and output to 
+> > generate those values, I can modify the comment to:
+> > 
+> > 	Tests cases for color conversion generated by converting RGB 
+> > 	values to YUV BT601 full range using the ITU-R BT.601 weights.
+> 
+> My point is that those comments should provide a way to reimplement the
+> test from scratch, and compare to the actual implementation. It's useful
+> when you have a test failure and start to wonder if the implementation
+> or the test is at fault.
+> 
+> By saying only RGB and YUV, you can't possibly do that.
 
-Co-developed-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
-Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+I understand your concern, but I believe there might be a slight 
+misunderstanding. The table in question stores reference values for 
+specific color models, not formats. Therefore, it doesn't specify any 
+particular format like XRGB8888 or NV12.
 
----
+To clarify this, I can rename the format_pair struct to value_pair. This 
+should make it clearer that we are dealing with color model values rather 
+than formats.
 
-Changes in v3:
-- Add 'Reviewed-by' of  Thomas Zimmermann
+If you want to test a specific format conversion, such as 
+YUV420_to_argbu16, you would need to follow a process like this:
 
-Changes in v2:
-- Use aperture_remove_all_conflicting_devices() instead of
-  drm_aperture_remove_framebuffers().
+	// Recreate a YUV420 data
+	plane_1[0] = test_case.yuv.y
+	plane_2[0] = test_case.yuv.u
+	plane_2[1] = test_case.yuv.v
 
- drivers/gpu/drm/mxsfb/mxsfb_drv.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+	// convertion to test from YUV420 format to argb_u16
+	rgb_u16 = convert_YUV420_to_argbu16(plane_1, plane_2)
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-index 59020862cf65..e5eb644b54ae 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
-@@ -8,6 +8,7 @@
-  * Copyright (C) 2008 Embedded Alley Solutions, Inc All Rights Reserved.
-  */
- 
-+#include <linux/aperture.h>
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
-@@ -361,6 +362,15 @@ static int mxsfb_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_free;
- 
-+	/*
-+	 * Remove early framebuffers (ie. simplefb). The framebuffer can be
-+	 * located anywhere in RAM
-+	 */
-+	ret = aperture_remove_all_conflicting_devices(mxsfb_driver.name);
-+	if (ret)
-+		return dev_err_probe(&pdev->dev, ret,
-+				     "can't kick out existing framebuffers\n");
-+
- 	ret = drm_dev_register(drm, 0);
- 	if (ret)
- 		goto err_unload;
--- 
-2.43.0
+	// ensure the conversion is valid
+	assert_eq(rgb_u16, test_case.rgb)
+
+The current test is not performing this kind of format conversion. 
+Instead, it verifies that for given (y, u, v) values, the correct (r, g, 
+b, a) values are obtained. In other words, it tests color model 
+conversion, not format conversion.
+
+Do you think I need to change something in this test? If so, can you 
+explain what kind of unit test you are expecting.
+
+Thanks,
+Louis Chauvet
+
+> > Beside that modification, did you notice anything else on the series that 
+> > require more work before adding your Ack-by/Reviewed-by on the other 
+> > patches?
+> 
+> The rest looked good to me the last time I looked.
+>
+> Maxime
+
 
