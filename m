@@ -2,108 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39223A284B5
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 07:57:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 291EEA28546
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 09:05:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A7B910E738;
-	Wed,  5 Feb 2025 06:57:01 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BWbJPoFz";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7B310E188;
+	Wed,  5 Feb 2025 08:05:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F34B10E738
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 06:56:59 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E97B250;
- Wed,  5 Feb 2025 07:55:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1738738545;
- bh=wTAlPlOR+MYQRcwVVV1xfdmfe7enZp9ryKNE3mSZvbE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=BWbJPoFzXk7PORbSH2mpiNQ9XwARTnOqJmUEjxTdQSQTugc2ai+hKCvD4AwvMvLNo
- bSj4I3h0i+uk71hxojhKRET+LnKs3nNWQDccL0W8pQzCuPQ7wgwKxXKH0PASqTWYQO
- Xpp7oY6iAc4bH+4gSniqQmWVslBC5vesdS+2WsHQ=
-Message-ID: <f6b20a29-1205-4f5e-87b6-fec58bd43545@ideasonboard.com>
-Date: Wed, 5 Feb 2025 08:56:53 +0200
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 414A010E188
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 08:04:59 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ynt3M3T1Nz1l0fQ;
+ Wed,  5 Feb 2025 16:01:19 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id 1C0E11400CF;
+ Wed,  5 Feb 2025 16:04:56 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Wed, 5 Feb 2025 16:04:54 +0800
+Message-ID: <67b7fa6a-ca27-407d-81a6-81bcea205080@huawei.com>
+Date: Wed, 5 Feb 2025 16:04:53 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/tidss: Add support for AM62L display subsystem
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: "Bajjuri, Praneeth" <praneeth@ti.com>,
- "Raghavendra, Vignesh" <vigneshr@ti.com>, "Jain, Swamil" <s-jain1@ti.com>,
- "Donadkar, Rishikesh" <r-donadkar@ti.com>,
- "Choudhary, Jayesh" <j-choudhary@ti.com>,
- "Shenoy, Harikrishna" <h-shenoy@ti.com>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- "jyri.sarha@iki.fi" <jyri.sarha@iki.fi>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "mripard@kernel.org" <mripard@kernel.org>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>
-References: <20241231090432.3649158-1-devarsht@ti.com>
- <20241231090432.3649158-3-devarsht@ti.com>
- <eab600f6-bfc2-489c-b384-5b620164a556@linux.dev>
- <dea025e1-98d4-2dcf-e729-19c9d49bf3ae@ti.com>
- <c6179f0b-c93f-483b-bfeb-322d800e5170@ideasonboard.com>
- <5f122a31-771f-93c9-57fe-bc5766c1fccc@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <5f122a31-771f-93c9-57fe-bc5766c1fccc@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v1 drm-dp 1/4] drm/hisilicon/hibmc: Add dp phy cfg to
+ adjust serdes rate, voltage and pre-emphasis
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250127032024.1542219-1-shiyongbang@huawei.com>
+ <20250127032024.1542219-2-shiyongbang@huawei.com>
+ <jtv3dfirk6nyj5rzbotx6ps24e6bm2aeylnuex5quq66cnmhka@b6zjaw3cmd6p>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <jtv3dfirk6nyj5rzbotx6ps24e6bm2aeylnuex5quq66cnmhka@b6zjaw3cmd6p>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,58 +62,358 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 05/02/2025 07:53, Devarsh Thakkar wrote:
-> Hi Tomi
-> 
->>> Thanks for pointing out, I probably missed this since the use-case still
->>> worked since VP interrupts were still enabled and those were sufficient to
->>> drive the display
->>> but the VID underflow interrupts and VID specific bits were probably not
->>> enabled at-all due to above miss, so agreed
->>> we should probably go ahead with a different reg space for AM62L due to
->>> aforementioned differences.
+> On Mon, Jan 27, 2025 at 11:20:21AM +0800, Yongbang Shi wrote:
+>> From: Baihan Li <libaihan@huawei.com>
 >>
->> I think I disagree here. Afaiu, AM62L has plane at hw index 1 (VIDL1), but the
->> plane at hw index 0 (VID1) is not instantiated in the hardware. But the
->> registers are the same, i.e. AM62L's registers for VIDL1 match AM65x/AM62x
->> registers, right?
+>> This phy is inited and configured for dp, and integrating them into dp init
+>> and dp link training process.
+> My feeling is that this patch has too many changes. They might seem
+> related to you, but not to the reviewers. Please try splittting the
+> patch _and_ explaining the changes in the commit message. E.g. you are
+> adding a PHY. We have a generic PHY framework, but it is unsuitable,
+> because .... The rates are changed because... etc. But first please
+> comsider splitting the patch.
+
+Hi Dmitry,
+
+Thanks for your advice, I will split this patch to 2 and add more
+detailed comments here.
+
+
+>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
+>> ---
+>>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |  2 +-
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  1 +
+>>   .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  1 +
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  9 ++-
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  | 33 +++++++--
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.c   | 72 +++++++++++++++++++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.h   | 38 ++++++++++
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  1 +
+>>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  8 +--
+>>   9 files changed, 153 insertions(+), 12 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.c
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.h
 >>
->> If so, we just need to tell the driver the hw index, instead of creating new
->> register offsets as done in v2.
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> index 95a4ed599d98..35a74cc10c80 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> @@ -1,5 +1,5 @@
+>>   # SPDX-License-Identifier: GPL-2.0-only
+>>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+>> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
+>> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_phy.o hibmc_drm_dp.o
+>>   
+>>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>> index 2c52a4476c4d..00b23301d26e 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>> @@ -38,6 +38,7 @@ struct hibmc_dp_dev {
+>>   	struct mutex lock; /* protects concurrent RW in hibmc_dp_reg_write_field() */
+>>   	struct hibmc_dp_link link;
+>>   	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+>> +	void __iomem *phy_base;
+>>   };
+>>   
+>>   #define dp_field_modify(reg_value, mask, val)				\
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+>> index 74dd9956144e..c5feef8dc27d 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_config.h
+>> @@ -15,5 +15,6 @@
+>>   #define HIBMC_DP_CLK_EN			0x7
+>>   #define HIBMC_DP_SYNC_EN_MASK		0x3
+>>   #define HIBMC_DP_LINK_RATE_CAL		27
+>> +#define HIBMC_DP_SYNC_DELAY(lanes)	((lanes) == 0x2 ? 86 : 46)
+>>   
+>>   #endif
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> index a8d543881c09..0dac4cfdde7c 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> @@ -7,6 +7,7 @@
+>>   #include "dp_comm.h"
+>>   #include "dp_reg.h"
+>>   #include "dp_hw.h"
+>> +#include "dp_phy.h"
+>>   
+>>   static void hibmc_dp_set_tu(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
+>>   {
+>> @@ -72,6 +73,9 @@ static void hibmc_dp_set_sst(struct hibmc_dp_dev *dp, struct drm_display_mode *m
+>>   				 HIBMC_DP_CFG_STREAM_HTOTAL_SIZE, htotal_size);
+>>   	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_HORIZONTAL_SIZE,
+>>   				 HIBMC_DP_CFG_STREAM_HBLANK_SIZE, hblank_size);
+>> +	hibmc_dp_reg_write_field(dp, HIBMC_DP_VIDEO_PACKET,
+>> +				 HIBMC_DP_CFG_STREAM_SYNC_CALIBRATION,
+>> +				 HIBMC_DP_SYNC_DELAY(dp->link.cap.lanes));
+>>   }
+>>   
+>>   static void hibmc_dp_link_cfg(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
+>> @@ -165,8 +169,11 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
+>>   
+>>   	hibmc_dp_aux_init(dp_dev);
+>>   
+>> +	if (hibmc_dp_phy_init(dp_dev))
+>> +		return -EAGAIN;
+>> +
+>>   	dp_dev->link.cap.lanes = 0x2;
+>> -	dp_dev->link.cap.link_rate = DP_LINK_BW_2_7;
+>> +	dp_dev->link.cap.link_rate = DP_LINK_BW_8_1;
+>>   
+>>   	/* hdcp data */
+>>   	writel(HIBMC_DP_HDCP, dp_dev->base + HIBMC_DP_HDCP_CFG);
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+>> index f6355c16cc0a..1124cd70c320 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+>> @@ -6,6 +6,7 @@
+>>   #include <drm/drm_print.h>
+>>   #include "dp_comm.h"
+>>   #include "dp_reg.h"
+>> +#include "dp_phy.h"
+>>   
+>>   #define HIBMC_EQ_MAX_RETRY 5
+>>   
+>> @@ -108,7 +109,11 @@ static int hibmc_dp_link_training_cr_pre(struct hibmc_dp_dev *dp)
+>>   		return ret;
+>>   
+>>   	for (i = 0; i < dp->link.cap.lanes; i++)
+>> -		train_set[i] = DP_TRAIN_VOLTAGE_SWING_LEVEL_2;
+>> +		train_set[i] = DP_TRAIN_VOLTAGE_SWING_LEVEL_0;
+>> +
+>> +	ret = hibmc_dp_serdes_set_tx_cfg(dp, dp->link.train_set);
+>> +	if (ret)
+>> +		return ret;
+>>   
+>>   	ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, train_set, dp->link.cap.lanes);
+>>   	if (ret != dp->link.cap.lanes) {
+>> @@ -137,21 +142,28 @@ static bool hibmc_dp_link_get_adjust_train(struct hibmc_dp_dev *dp,
+>>   	return false;
+>>   }
+>>   
+>> -static inline int hibmc_dp_link_reduce_rate(struct hibmc_dp_dev *dp)
+>> +static int hibmc_dp_link_reduce_rate(struct hibmc_dp_dev *dp)
+>>   {
+>> +	u8 rate = 0;
+>> +
+>>   	switch (dp->link.cap.link_rate) {
+>>   	case DP_LINK_BW_2_7:
+>>   		dp->link.cap.link_rate = DP_LINK_BW_1_62;
+>> -		return 0;
+>> +		rate = DP_PHY_BW_1_62;
+>> +		break;
+>>   	case DP_LINK_BW_5_4:
+>>   		dp->link.cap.link_rate = DP_LINK_BW_2_7;
+>> -		return 0;
+>> +		rate = DP_PHY_BW_2_7;
+>> +		break;
+>>   	case DP_LINK_BW_8_1:
+>>   		dp->link.cap.link_rate = DP_LINK_BW_5_4;
+>> -		return 0;
+>> +		rate = DP_PHY_BW_5_4;
+>> +		break;
+>>   	default:
+>>   		return -EINVAL;
+>>   	}
+>> +
+>> +	return hibmc_dp_serdes_rate_switch(rate, dp);
+>>   }
+>>   
+>>   static inline int hibmc_dp_link_reduce_lane(struct hibmc_dp_dev *dp)
+>> @@ -159,6 +171,7 @@ static inline int hibmc_dp_link_reduce_lane(struct hibmc_dp_dev *dp)
+>>   	switch (dp->link.cap.lanes) {
+>>   	case 0x2:
+>>   		dp->link.cap.lanes--;
+>> +		drm_warn(dp->dev, "dp link training reduce to 1 lane\n");
+>>   		break;
+>>   	case 0x1:
+>>   		drm_err(dp->dev, "dp link training reduce lane failed, already reach minimum\n");
+>> @@ -206,6 +219,11 @@ static int hibmc_dp_link_training_cr(struct hibmc_dp_dev *dp)
+>>   		}
+>>   
+>>   		level_changed = hibmc_dp_link_get_adjust_train(dp, lane_status);
+>> +
+>> +		ret = hibmc_dp_serdes_set_tx_cfg(dp, dp->link.train_set);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>>   		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET, dp->link.train_set,
+>>   					dp->link.cap.lanes);
+>>   		if (ret != dp->link.cap.lanes) {
+>> @@ -255,6 +273,11 @@ static int hibmc_dp_link_training_channel_eq(struct hibmc_dp_dev *dp)
+>>   		}
+>>   
+>>   		hibmc_dp_link_get_adjust_train(dp, lane_status);
+>> +
+>> +		ret = hibmc_dp_serdes_set_tx_cfg(dp, dp->link.train_set);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>>   		ret = drm_dp_dpcd_write(&dp->aux, DP_TRAINING_LANE0_SET,
+>>   					dp->link.train_set, dp->link.cap.lanes);
+>>   		if (ret != dp->link.cap.lanes) {
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.c
+>> new file mode 100644
+>> index 000000000000..07940b5baf29
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.c
+>> @@ -0,0 +1,72 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +// Copyright (c) 2024 Hisilicon Limited.
+>> +#include <linux/delay.h>
+>> +#include <drm/drm_device.h>
+>> +#include <drm/drm_print.h>
+>> +#include "dp_comm.h"
+>> +#include "dp_config.h"
+>> +#include "dp_reg.h"
+>> +#include "dp_phy.h"
+>> +
+>> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX])
+>> +{
+>> +	u32 serdes_tx_cfg[4][4] = { {DP_PHY_VOL0_PRE0, DP_PHY_VOL0_PRE1,
+>> +				     DP_PHY_VOL0_PRE2, DP_PHY_VOL0_PRE3},
+>> +				    {DP_PHY_VOL1_PRE0, DP_PHY_VOL1_PRE1, DP_PHY_VOL1_PRE2},
+>> +				    {DP_PHY_VOL2_PRE0, DP_PHY_VOL2_PRE1}, {DP_PHY_VOL3_PRE0}};
+>> +	int cfg[2];
+>> +	int i;
+>> +
+>> +	for (i = 0; i < HIBMC_DP_LANE_NUM_MAX; i++) {
+>> +		cfg[i] = serdes_tx_cfg[(train_set[i] & 0x3)]
+>> +			 [(train_set[i] << DP_TRAIN_PRE_EMPHASIS_SHIFT & 0x3)];
+>> +		if (!cfg[i]) {
+>> +			cfg[i] = DP_PHY_VOL3_PRE0;
+>> +			drm_warn(dp->dev, "dp serdes cfg beyonds the allowable range\n");
+>> +		}
+>> +
+>> +		/* lane1 offset is 4 */
+>> +		writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, cfg[i]),
+>> +		       dp->phy_base + HIBMC_DP_PMA_LANE0_OFFSET + i * 4);
+>> +	}
+>> +
+>> +	usleep_range(300, 500);
+>> +
+>> +	if (readl(dp->phy_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_PHY_DONE) {
+>> +		drm_err(dp->dev, "dp serdes cfg failed\n");
+>> +		return -EAGAIN;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp)
+>> +{
+>> +	writel(rate, dp->phy_base + HIBMC_DP_LANE0_RATE_OFFSET);
+>> +	writel(rate, dp->phy_base + HIBMC_DP_LANE1_RATE_OFFSET);
+>> +
+>> +	usleep_range(300, 500);
+>> +
+>> +	if (readl(dp->phy_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_PHY_DONE) {
+>> +		drm_err(dp->dev, "dp serdes rate switching failed\n");
+>> +		return -EAGAIN;
+>> +	}
+>> +
+>> +	if (rate < DP_PHY_BW_8_1)
+>> +		drm_warn(dp->dev, "reducing serdes rate to :%d\n",
+>> +			 rate ? rate * HIBMC_DP_LINK_RATE_CAL * 10 : 162);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +int hibmc_dp_phy_init(struct hibmc_dp_dev *dp)
+>> +{
+>> +	dp->phy_base = dp->base + HIBMC_DP_HOST_OFFSET;
+>> +
+>> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_PHY_VOL0_PRE0),
+>> +	       dp->phy_base + HIBMC_DP_PMA_LANE0_OFFSET);
+>> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_PHY_VOL0_PRE0),
+>> +	       dp->phy_base + HIBMC_DP_PMA_LANE1_OFFSET);
+>> +
+>> +	return hibmc_dp_serdes_rate_switch(DP_PHY_BW_8_1, dp);
+>> +}
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.h
+>> new file mode 100644
+>> index 000000000000..db9fddd24d0e
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_phy.h
+>> @@ -0,0 +1,38 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> +/* Copyright (c) 2025 Hisilicon Limited. */
+>> +
+>> +#ifndef DP_PHY_H
+>> +#define DP_PHY_H
+>> +
+>> +/* dp phy reg */
+>> +#define HIBMC_DP_HOST_OFFSET		0x10000
+>> +#define HIBMC_DP_LANE0_RATE_OFFSET	0x4
+>> +#define HIBMC_DP_LANE1_RATE_OFFSET	0xc
+>> +#define HIBMC_DP_LANE_STATUS_OFFSET	0x10
+>> +#define HIBMC_DP_PMA_LANE0_OFFSET	0x18
+>> +#define HIBMC_DP_PMA_LANE1_OFFSET	0x1c
+>> +#define HIBMC_DP_PMA_TXDEEMPH		GENMASK(18, 1)
+>> +
+>> +/* dp phy cfg parameter */
+>> +#define DP_PHY_VOL0_PRE0		0x280
+>> +#define DP_PHY_VOL0_PRE1		0x2300
+>> +#define DP_PHY_VOL0_PRE2		0x53c0
+>> +#define DP_PHY_VOL0_PRE3		0x8400
+>> +#define DP_PHY_VOL1_PRE0		0x380
+>> +#define DP_PHY_VOL1_PRE1		0x3440
+>> +#define DP_PHY_VOL1_PRE2		0x6480
+>> +#define DP_PHY_VOL2_PRE0		0x500
+>> +#define DP_PHY_VOL2_PRE1		0x4500
+>> +#define DP_PHY_VOL3_PRE0		0x600
+>> +#define DP_PHY_BW_8_1			0x3
+>> +#define DP_PHY_BW_5_4			0x2
+>> +#define DP_PHY_BW_2_7			0x1
+>> +#define DP_PHY_BW_1_62			0x0
+>> +
+>> +#define DP_PHY_DONE			0x3
+>> +
+>> +int hibmc_dp_phy_init(struct hibmc_dp_dev *dp);
+>> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp);
+>> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX]);
+>> +
+>> +#endif
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>> index 4a515c726d52..99ba9c951c41 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
+>> @@ -72,5 +72,6 @@
+>>   #define HIBMC_DP_CFG_STREAM_TU_SYMBOL_FRAC_SIZE	GENMASK(9, 6)
+>>   #define HIBMC_DP_CFG_STREAM_HTOTAL_SIZE		GENMASK(31, 16)
+>>   #define HIBMC_DP_CFG_STREAM_HBLANK_SIZE		GENMASK(15, 0)
+>> +#define HIBMC_DP_CFG_STREAM_SYNC_CALIBRATION GENMASK(31, 20)
+>>   
+>>   #endif
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>> index e6de6d5edf6b..bade693d9730 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+>> @@ -28,9 +28,7 @@
+>>   #include "hibmc_drm_drv.h"
+>>   #include "hibmc_drm_regs.h"
+>>   
+>> -#define HIBMC_DP_HOST_SERDES_CTRL		0x1f001c
+>> -#define HIBMC_DP_HOST_SERDES_CTRL_VAL		0x8a00
+>> -#define HIBMC_DP_HOST_SERDES_CTRL_MASK		0x7ffff
+>> +#define HIBMC_DP_HOST_SERDES_CTRL	0x1f001c
+>>   
+>>   DEFINE_DRM_GEM_FOPS(hibmc_fops);
+>>   
+>> @@ -122,8 +120,8 @@ static int hibmc_kms_init(struct hibmc_drm_private *priv)
+>>   	}
+>>   
+>>   	/* if DP existed, init DP */
+>> -	if ((readl(priv->mmio + HIBMC_DP_HOST_SERDES_CTRL) &
+>> -	     HIBMC_DP_HOST_SERDES_CTRL_MASK) == HIBMC_DP_HOST_SERDES_CTRL_VAL) {
+>> +	ret = readl(priv->mmio + HIBMC_DP_HOST_SERDES_CTRL);
+>> +	if (ret) {
+>>   		ret = hibmc_dp_init(priv);
+>>   		if (ret)
+>>   			drm_err(dev, "failed to init dp: %d\n", ret);
+>> -- 
+>> 2.33.0
 >>
->> Or am I missing something here? (I haven't looked at the HW manual yet).
->>
-> 
-> No that's not the only difference. For AM62L, the VID_IRQENABLE/STATUS
-> registers start at +0x4 as compared to AM65x/AM62x/ :
-> 
-> AM62L:
->          [DISPC_VID_IRQENABLE_OFF] =             0x48,
-> 
->          [DISPC_VID_IRQSTATUS_OFF] =             0x5c,
-> 
-> AM62x/AM65x:
-> 
->          [DISPC_VID_IRQENABLE_OFF] =             0x44,
-> 
->          [DISPC_VID_IRQSTATUS_OFF] =             0x58,
-
-But they actually don't start at different offsets.
-
-AM62L TRM has:
-
-DSS_COMMON_VID_IRQENABLE_1  3020 0048h
-DSS_COMMON_VID_IRQSTATUS_1  3020 005Ch
-
-AM65X TRM has:
-
-DSS0_COMMON_VID_IRQENABLE_1  04A0 0048h
-DSS0_COMMON_VID_IRQSTATUS_1  04A0 005Ch
-
-It's just that on AM62L the VID0 isn't instantiated in the hardware. 
-VID1 is at the same place.
-
-  Tomi
-
