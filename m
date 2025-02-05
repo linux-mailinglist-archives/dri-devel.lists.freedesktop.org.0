@@ -2,85 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41E90A282C3
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 04:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E36EA283EB
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 06:53:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2644A10E729;
-	Wed,  5 Feb 2025 03:19:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9EC210E73A;
+	Wed,  5 Feb 2025 05:53:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FE6ZffZD";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="MYaPiSsz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FFF710E729
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 03:19:48 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-5401be44b58so6729221e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 19:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738725586; x=1739330386; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=cbkbGS95q8+bWdGiDPErm44A724Ht0geUTiMi7tCq8w=;
- b=FE6ZffZDVACLKTfqMWV7g2w2QihyMW6v/GypGSfnbXiORfxYBSIVUQkSO0TaOqvcAT
- K9D8kTbiC0P0KAeGh2BRakXESrw3EVEphHP/0XiMY2Ehuq2tQ9/tIUKlQJt+LVaSa8OB
- 2ayv5RVw/YWPA2pj93Orih5o+pIT2IWD4PYJnwYUO865F9DLauE1hClu4WfAUtaNtfat
- JrltgPQa6VdpI07gmz6jQLZkjNYxLn64tvJbvO4m9/68xhe9VYClZDuSGdKQCy7aRU0p
- lpB1jA4lZ26o1VVNlt89pG6wuNwp0AaatiEn5KaVFfZeYLyJYpg4sVf7Ap0vXo3JDqUh
- Y3TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738725586; x=1739330386;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=cbkbGS95q8+bWdGiDPErm44A724Ht0geUTiMi7tCq8w=;
- b=bYvfQ7Ll7/FWDPuF3dAh+FdmQSBa4zSGw9SY3CYObp8xr0pLyOa3xiRGil+zdTLqoA
- oOAlVHP2P6KyF97sQL4Jh5YY8KVTwXj/rGsqQTTmC5h5gbZqe3vkoJk//y0NqpCOUIfy
- jMMC3YZeGmWZhms6pNYzib9shnGdl+REuMGwoimpwsgQtr+E9NZtB+P5bNlPCN7KuD5U
- WbvG3KM9fIKy+UUyX6d35k77ng3a5XwTSuYgg8wYc/QqkcgHKA8UELz6BMeSzB1Sp/pi
- n2STlQaDG3pQRDXQlo9Peusd3A031XPXQCAGuoGtW8N/J7+Ufwvd90rXTg9lORhissc4
- Q9pg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWVF+ATPASAUzLKO0QT/nm0CYMqZhll/wbogngMQi09bMX5czaYbklWhPfvCQ3lnWJjeAB9QUnLqvg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1aLbw0K41cBNM+Dz7QmVPc3JUmJktljyykqBuKpIGVBj1OYs2
- oOtMH37iC/3XaZLKCLxM1x7FtjswHx7h5NOfax3uvfAB1FS4u3jyrVCF7rJKC/c=
-X-Gm-Gg: ASbGncveF8PiBMEI0pLyafWdCwRlEziC/c0vC+b0wpSjSZFtZ/aA3fSY3Gxpu7a2QPq
- bWPmsO0R9N+du9kPLDfNmh7oQFfPxY8/qRZ2GenYb4/yv3xhGQdhQ2pCkZhooNNfNNbyamNpDWS
- xjVzAObcGREMIUeM+Fv1yxfWdmrKcWq9heHDpN0kghe/xqBcS65sZGJ0axd2qRBA4aWC9RBoa2G
- tfdhkJBdnGc+4B3ziavGPGTjqwb9tjBD63A35CtzZYOKIwURMOXg7D0E8jEo+BA0409bu4n1lDU
- 7mwJqKF3JnTsr2/Aega5FFE6CRm+Msra7csWv6+08OsdLRjHOmzzXnzWvq5rjSkJoR2MAr0=
-X-Google-Smtp-Source: AGHT+IFQaxEYR8WTMaL8TfzTtKZBrxzwSEhBdjR8KdYYZRdGHPczYQQAvfnIGP5de9L+IAXEp2+hOw==
-X-Received: by 2002:a2e:a551:0:b0:302:3ff6:c8c6 with SMTP id
- 38308e7fff4ca-307cf388cf4mr3014021fa.33.1738725586220; 
- Tue, 04 Feb 2025 19:19:46 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-307a306a325sm20306381fa.13.2025.02.04.19.19.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2025 19:19:44 -0800 (PST)
-Date: Wed, 5 Feb 2025 05:19:42 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 04/35] drm/bridge: Pass full state to atomic_disable
-Message-ID: <eaojxhsfvm6m4tz7px4dttmak3w5avn7kkuq4xrotfiftysjtl@dgso5zknraeh>
-References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
- <20250204-bridge-connector-v2-4-35dd6c834e08@kernel.org>
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B83B10E73A
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 05:53:51 +0000 (UTC)
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 5155rOGr2539826
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Feb 2025 23:53:24 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1738734804;
+ bh=L+Es0Z7ExR1BfvlZ8zpT2vGl+Yi893ljUGmHDmA3OqQ=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=MYaPiSszI6ZiIWmc2IWCuR5Mt7Et2a7+thy8BPTO4tFp26ehmwgmOUFu5ZvZNRFxV
+ tfNCjLvWgPEaCRTkYUhYi4KmnG87votnt9tBn8xBn6Qnzp1Jx5Zk97e/Sw8UulvsA+
+ 4YKLL+5wwD+4+0XWD4f+HWuMntOo4jKy1HzfDnfs=
+Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
+ by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 5155rOV2068555
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Tue, 4 Feb 2025 23:53:24 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 4
+ Feb 2025 23:53:23 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 4 Feb 2025 23:53:23 -0600
+Received: from [172.24.227.193] (devarsht.dhcp.ti.com [172.24.227.193] (may be
+ forged))
+ by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 5155rHMa048688;
+ Tue, 4 Feb 2025 23:53:17 -0600
+Message-ID: <5f122a31-771f-93c9-57fe-bc5766c1fccc@ti.com>
+Date: Wed, 5 Feb 2025 11:23:16 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250204-bridge-connector-v2-4-35dd6c834e08@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/2] drm/tidss: Add support for AM62L display subsystem
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, "jyri.sarha@iki.fi"
+ <jyri.sarha@iki.fi>, "airlied@gmail.com" <airlied@gmail.com>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>
+CC: "Bajjuri, Praneeth" <praneeth@ti.com>, "Raghavendra, Vignesh"
+ <vigneshr@ti.com>, "Jain, Swamil" <s-jain1@ti.com>, "Donadkar, Rishikesh"
+ <r-donadkar@ti.com>, "Choudhary, Jayesh" <j-choudhary@ti.com>, "Shenoy,
+ Harikrishna" <h-shenoy@ti.com>, Aradhya Bhatia <aradhya.bhatia@linux.dev>
+References: <20241231090432.3649158-1-devarsht@ti.com>
+ <20241231090432.3649158-3-devarsht@ti.com>
+ <eab600f6-bfc2-489c-b384-5b620164a556@linux.dev>
+ <dea025e1-98d4-2dcf-e729-19c9d49bf3ae@ti.com>
+ <c6179f0b-c93f-483b-bfeb-322d800e5170@ideasonboard.com>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <c6179f0b-c93f-483b-bfeb-322d800e5170@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,62 +89,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 03:57:32PM +0100, Maxime Ripard wrote:
-> It's pretty inconvenient to access the full atomic state from
-> drm_bridges, so let's change the atomic_disable hook prototype to pass
-> it directly.
+Hi Tomi
+
+>> Thanks for pointing out, I probably missed this since the use-case still
+>> worked since VP interrupts were still enabled and those were sufficient to
+>> drive the display
+>> but the VID underflow interrupts and VID specific bits were probably not
+>> enabled at-all due to above miss, so agreed
+>> we should probably go ahead with a different reg space for AM62L due to
+>> aforementioned differences.
 > 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |  6 ++----
->  drivers/gpu/drm/bridge/analogix/anx7625.c           |  2 +-
->  drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c |  2 +-
->  drivers/gpu/drm/bridge/fsl-ldb.c                    |  2 +-
->  drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c        |  2 +-
->  drivers/gpu/drm/bridge/imx/imx8qm-ldb.c             |  5 ++---
->  drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c            |  7 +++----
->  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c |  5 ++---
->  drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c     |  5 ++---
->  drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c        |  8 +++-----
->  drivers/gpu/drm/bridge/ite-it6263.c                 |  5 ++---
->  drivers/gpu/drm/bridge/ite-it6505.c                 |  2 +-
->  drivers/gpu/drm/bridge/ite-it66121.c                |  2 +-
->  drivers/gpu/drm/bridge/lontium-lt9211.c             |  2 +-
->  drivers/gpu/drm/bridge/lontium-lt9611.c             |  5 ++---
->  drivers/gpu/drm/bridge/nwl-dsi.c                    |  5 ++---
->  drivers/gpu/drm/bridge/panel.c                      |  3 +--
->  drivers/gpu/drm/bridge/samsung-dsim.c               |  2 +-
->  drivers/gpu/drm/bridge/sii902x.c                    |  2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c        |  2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           |  2 +-
->  drivers/gpu/drm/bridge/tc358767.c                   | 10 ++++------
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c               |  2 +-
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c               |  2 +-
->  drivers/gpu/drm/bridge/ti-tdp158.c                  |  3 ++-
->  drivers/gpu/drm/drm_bridge.c                        | 10 +---------
->  drivers/gpu/drm/ingenic/ingenic-drm-drv.c           |  2 +-
->  drivers/gpu/drm/mediatek/mtk_dp.c                   |  2 +-
->  drivers/gpu/drm/mediatek/mtk_dsi.c                  |  2 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi.c                 |  2 +-
->  drivers/gpu/drm/meson/meson_encoder_cvbs.c          |  2 +-
->  drivers/gpu/drm/meson/meson_encoder_dsi.c           |  2 +-
->  drivers/gpu/drm/meson/meson_encoder_hdmi.c          |  2 +-
->  drivers/gpu/drm/msm/dp/dp_display.c                 |  2 +-
->  drivers/gpu/drm/msm/dp/dp_drm.c                     |  5 ++---
->  drivers/gpu/drm/msm/dp/dp_drm.h                     |  2 +-
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c                 |  2 +-
->  drivers/gpu/drm/omapdrm/dss/hdmi5.c                 |  2 +-
->  drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c         |  2 +-
->  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c     |  2 +-
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c      |  2 +-
->  drivers/gpu/drm/stm/lvds.c                          |  2 +-
->  drivers/gpu/drm/vc4/vc4_dsi.c                       |  2 +-
->  drivers/gpu/drm/xlnx/zynqmp_dp.c                    |  4 +++-
->  include/drm/drm_bridge.h                            |  2 +-
->  45 files changed, 63 insertions(+), 83 deletions(-)
+> I think I disagree here. Afaiu, AM62L has plane at hw index 1 (VIDL1), but the
+> plane at hw index 0 (VID1) is not instantiated in the hardware. But the
+> registers are the same, i.e. AM62L's registers for VIDL1 match AM65x/AM62x
+> registers, right?
+> 
+> If so, we just need to tell the driver the hw index, instead of creating new
+> register offsets as done in v2.
+> 
+> Or am I missing something here? (I haven't looked at the HW manual yet).
+> 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+No that's not the only difference. For AM62L, the VID_IRQENABLE/STATUS
+registers start at +0x4 as compared to AM65x/AM62x/ :
 
--- 
-With best wishes
-Dmitry
+AM62L:
+        [DISPC_VID_IRQENABLE_OFF] =             0x48,
+
+        [DISPC_VID_IRQSTATUS_OFF] =             0x5c,
+
+AM62x/AM65x:
+
+        [DISPC_VID_IRQENABLE_OFF] =             0x44,
+
+        [DISPC_VID_IRQSTATUS_OFF] =             0x58,
+
+So it seems okay to me to have a separate reg offset struct.
+
+Regards
+Devarsh
