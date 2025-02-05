@@ -2,88 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C41A2822B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 03:51:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7C5A28233
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 03:54:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DE0B10E71E;
-	Wed,  5 Feb 2025 02:51:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDA810E71F;
+	Wed,  5 Feb 2025 02:54:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LMdw4aFT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="PHBuyi78";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83A6C10E71F
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 02:51:18 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-540215984f0so6988671e87.1
- for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 18:51:18 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A8BC10E71C
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 02:53:13 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-5401b7f7141so5838346e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 04 Feb 2025 18:53:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738723876; x=1739328676; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738723991; x=1739328791; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Sal9bpIT3EIK1E8XL8kL1lQntuyvQMLbh8ZI+Q+dMFE=;
- b=LMdw4aFTdSySsTJtQ+3GUjYa/1Q6bp71dl4Zfkus08TmOrAmlLr0RkxeDXAxuMrSSi
- rKOqdtCkja3cbWYWt/iC55406wKZCj2YSklyCw5/ZDyyLMVYkh40qjElgVPaFwIc44WS
- cUPlG4KqzMdLCMAP9aReaxTB4qpoSxQjeeFMReoxxnRPdMxo7fz6aq/1nnejhJOZwc5O
- 4af7nqauJf0y5sO1kPRrCD5PnVnqICfVZ9LbrEEZO4DPpyRLu++p01pzMMGI3iWIdmlG
- gOh8pRnQdGlJnqT/W0SEDksXrkpR6y2LW8wfJYaQBJiA3RAL4/qTKWYuepg/MOyMCc0f
- 1j5Q==
+ bh=CJCxeQf3VyCaGV3Y2vA9kcx9yqwJL3rmHKrDp4Nke4g=;
+ b=PHBuyi78HzQOQOwJEWjfVn7+KDDpgAfkWPjTUvOng7xj2hWAp3GUGyxPsDFsgSqz78
+ Nu0ZGlviaJ6uMNX4d1x/Cf9v1SWGJg0v7IwkfPoF0009W0Wl33O10Ifat1GwMf0U3QZ7
+ b1T3WvXF+chvOgHzHowvEXVONHSiykPWE3kSEkOmP4sSw7F7amunQqWOFyt8Yzhu1mYP
+ UNnSHrMsYKTfmhqPSPxq27DT1Hy2x0PClGHvV0qrsqJVXZvo0EL7ojsDK0KlwBgPS3jY
+ todLBkWYmOU2TrBao+HBCo9KSPliV1Sn7W8SOpWMtHbAqKqRV1tIzXGjFPfvO1u5SI/E
+ Z1Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738723876; x=1739328676;
+ d=1e100.net; s=20230601; t=1738723991; x=1739328791;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Sal9bpIT3EIK1E8XL8kL1lQntuyvQMLbh8ZI+Q+dMFE=;
- b=FY0cbFQ8t5DP/Mk5n4KZYzBsWWf+DmqeCxEKt02dRbcricmy1VjwSa4F42NG2Ldb2m
- TscV4VMvF0K+sKmnnon88GYCUiouAerVe9hcj+ez/7pVTur9rDUjEgiH34ODfMuBNf9H
- 8cBtQwgDjAgePSPqD1J3CEbA+DaCZBeIxe49WsKqEhKas8R+xkI3ww6Ql9o1xaclhtVe
- SzeHkNi81dVPlwDD0emt1UCVA00d4Vvv94dZMn+jJnRAmRWyXYP36u2Z5C0UtMK0CBVR
- Rx5IldlUOCgeEIDhopsdSM63HPbKCubjcRtId8rkL9+3Nnc0DLralyzPTwhH38EgZLWM
- Zu9w==
+ bh=CJCxeQf3VyCaGV3Y2vA9kcx9yqwJL3rmHKrDp4Nke4g=;
+ b=oBjst2lXRWhQQ+bIOQDe0Wafc9vJalRr/tQi9XuzU8aprRu3tF50xoY0LCzvXhN5VU
+ FFkZd12G0EwTpq8Bn558eFKGB/YkgCZWfhSsEPsxI95fvI4A5wRRBhCF/gpGy9Z44fsv
+ hhWrhUVbnq0/zdVTfYzjXW360ECYpW0DbUTnnPi08yFr/Buxr8oT+Il2JcqkSFs9Nkxn
+ JUUPPABRd/+Lib7hLh8N4n+iE5UYu1gqfHTWfdDLnLD42QVktY5j6HLkZzZs4vsjj2jZ
+ ho5DfEhsfr8oP3fCbo8PwMyQAoCduynB6gjqMZxXwtRZZJ6sFSv0vhQh30pxmurBTOKX
+ 0Xcg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVsB7CSFanosgh9Q+L2qmn0QxByU3OKsaXfUMZMLVpICtguQ9ShKUMEZgY3SU1JMlirmukIbO7mQKQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+OC3U3ouk3DnhAxF0dhzAiVwR87gv/H8M1jcnvCMAIbk1DOxT
- dAX9s8AeVB0Bhd8oRki2ttmXzOWpCeSl564WBfkRX/wPbwyDK7fMFoPMIFiADcM=
-X-Gm-Gg: ASbGnculD6z+vgbW4ViXqhOwsNHmghN+5t3fijoebrPvJE/jDlihlU3/BkcPpC8gJni
- 2D+GAkGPSDh3xCYsIi4UyB9d6I3KZb27cuV9gAg4kG47pJ/wcl3tqf+ogHP58iQV7m52vYdOW7g
- rCEZUvE5p57OYKxM4TLrCaomW1B14yL0+Z7eyL8XNnFilseFjuCs2yhn7G0p2qcD3hl/ygHh4h5
- F6qVRabxbJrAfUvK8lVS42i/wxRs6bWIhnp9167Yg+L4H7b8lu7gk9u4pcsBpmlkCeqsZcgY6cA
- db1b75EFb9SXyfXw5mdF2mrERPqu4VraG5Sc6+DRhQCLzR+vI4S6ivIVPqafd2MaDcC7Yqk=
-X-Google-Smtp-Source: AGHT+IEpdwrVVWgvPZBy3RjGtkhwHF0kUa5g2ZWpU4E+/3fmvwNCNdl0KYdTFTnKWGKykH6xnSeS9A==
-X-Received: by 2002:a05:6512:234c:b0:540:1b7e:7b3d with SMTP id
- 2adb3069b0e04-54405a682f8mr239139e87.36.1738723876503; 
- Tue, 04 Feb 2025 18:51:16 -0800 (PST)
+ AJvYcCV1/3T/QyDNhFo1s5BX7CbUirui/yaDMoCydKJFNH+v2tUhgwJQ/hJ01H8uM1IRoolqa3PqOOenufM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwBdul4XeQ00MOjQxx1mFEOHFMf4zSoss9ohiGaHS9dgkbq4bWH
+ Y3NJrD/nE4Mfw2RB7/BHwE4Dz2QWOxgUmFQ7ogTEX1CB/5MHSX6xiT9uuxs2dIM=
+X-Gm-Gg: ASbGncsVlcxr9MtDMwV8hJRSctPY3jPAzQj59IJEgrzz+anTwS0VTyXYFzdPQRdmPm8
+ z3b3dTUK/3JIxaSYvPmm3X+9tJ1QbIn5VymhU2UBlGrqjE9HFOF0GsyIzw0MqaMtVegvazfHmsE
+ Xpngz3pE6zQx7kH68+vq1fc3n5lnLiZg8T/6LbJxY2wATEpI841YuUrRV7phQy/2sz1nHVd+sBo
+ QFJJuTh0z2hVDrBGxTLq1Y67mzRMXUFQPZA84E7nMcLByONw5n/zP/QeYyl4S1Y9Sf3j5w0dBBS
+ RfIZIgoQ/pLOrMad4FmTKm+BEROFG4pe5el1OynR1gSHA/f0f+YzJNEY8R/ejk9OPH+BcyI=
+X-Google-Smtp-Source: AGHT+IHKbdkPoD4sLQRcYq98EifYY7LO/k/V7T3PEuc6tS1CgUEZ17hANIO0DvmUVzFJE0G3jLyJtA==
+X-Received: by 2002:a05:6512:3ca8:b0:543:e0c9:1d97 with SMTP id
+ 2adb3069b0e04-54405a1067emr296878e87.12.1738723991212; 
+ Tue, 04 Feb 2025 18:53:11 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-543ebeb782bsm1779544e87.182.2025.02.04.18.51.14
+ 2adb3069b0e04-543ebeb0a8asm1737939e87.151.2025.02.04.18.53.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Feb 2025 18:51:15 -0800 (PST)
-Date: Wed, 5 Feb 2025 04:51:12 +0200
+ Tue, 04 Feb 2025 18:53:09 -0800 (PST)
+Date: Wed, 5 Feb 2025 04:53:07 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG1 against
- clock driver
-Message-ID: <t4zn2gv3mbn3nqlh5h3l3ej5zxs4wa74ncgymonci7v45w47ai@qmmtxbelichw>
-References: <20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org>
- <20250203-drm-msm-phy-pll-cfg-reg-v2-2-862b136c5d22@linaro.org>
- <u4qho7u2nu2x6qxkfxpeakotmbdgoha3e5csmsamaanlxziiif@22kzxupzibj7>
- <12275e11-eadc-48be-b8c3-9463cdf92698@linaro.org>
- <vfqfbpxc3zrerrb2hyis6h4kgk7aqfljwb7sxlduwlkqprmodg@rjjfsgwr5c6j>
- <2e96ae62-3114-4c7b-bea7-27f6e2009634@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/35] drm/bridge: Pass full state to atomic_pre_enable
+Message-ID: <bedgtbsqog4euxdxfskwdqqimribehtge3khh7rvebh2o2j7jx@xpbt62sg5faa>
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-2-35dd6c834e08@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e96ae62-3114-4c7b-bea7-27f6e2009634@linaro.org>
+In-Reply-To: <20250204-bridge-connector-v2-2-35dd6c834e08@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,110 +96,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 04:46:04PM +0100, Krzysztof Kozlowski wrote:
-> On 04/02/2025 15:26, Dmitry Baryshkov wrote:
-> > On Tue, Feb 04, 2025 at 10:21:25AM +0100, Krzysztof Kozlowski wrote:
-> >> On 03/02/2025 18:41, Dmitry Baryshkov wrote:
-> >>> On Mon, Feb 03, 2025 at 06:29:19PM +0100, Krzysztof Kozlowski wrote:
-> >>>> PHY_CMN_CLK_CFG1 register is updated by the PHY driver and by a mux
-> >>>> clock from Common Clock Framework:
-> >>>> devm_clk_hw_register_mux_parent_hws().  There could be a path leading to
-> >>>> concurrent and conflicting updates between PHY driver and clock
-> >>>> framework, e.g. changing the mux and enabling PLL clocks.
-> >>>>
-> >>>> Add dedicated spinlock to be sure all PHY_CMN_CLK_CFG1 updates are
-> >>>> synchronized.
-> >>>>
-> >>>> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
-> >>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>>>
-> >>>> ---
-> >>>>
-> >>>> Changes in v2:
-> >>>> 1. Store BIT(4) and BIT(5) in local var in dsi_pll_enable_global_clk()
-> >>>> ---
-> >>>>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 35 +++++++++++++++++++------------
-> >>>>  1 file changed, 22 insertions(+), 13 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >>>> index c164f845653816291ad96c863257f75462ef58e7..e26f53f7cde8f0f6419a633f5d39784dc2e5bb98 100644
-> >>>> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >>>> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> >>>> @@ -83,6 +83,9 @@ struct dsi_pll_7nm {
-> >>>>  	/* protects REG_DSI_7nm_PHY_CMN_CLK_CFG0 register */
-> >>>>  	spinlock_t postdiv_lock;
-> >>>>  
-> >>>> +	/* protects REG_DSI_7nm_PHY_CMN_CLK_CFG1 register */
-> >>>> +	spinlock_t pclk_mux_lock;
-> >>>> +
-> >>>>  	struct pll_7nm_cached_state cached_state;
-> >>>>  
-> >>>>  	struct dsi_pll_7nm *slave;
-> >>>> @@ -381,22 +384,32 @@ static void dsi_pll_cmn_clk_cfg0_write(struct dsi_pll_7nm *pll, u32 val)
-> >>>>  	spin_unlock_irqrestore(&pll->postdiv_lock, flags);
-> >>>>  }
-> >>>>  
-> >>>> -static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
-> >>>> +static void dsi_pll_cmn_clk_cfg1_update(struct dsi_pll_7nm *pll, u32 mask,
-> >>>> +					u32 val)
-> >>>>  {
-> >>>> +	unsigned long flags;
-> >>>>  	u32 data;
-> >>>>  
-> >>>> +	spin_lock_irqsave(&pll->pclk_mux_lock, flags);
-> >>>>  	data = readl(pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> >>>> -	writel(data & ~BIT(5), pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> >>>> +	data &= ~mask;
-> >>>> +	data |= val & mask;
-> >>>> +
-> >>>> +	writel(data, pll->phy->base + REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> >>>> +	spin_unlock_irqrestore(&pll->pclk_mux_lock, flags);
-> >>>> +}
-> >>>> +
-> >>>> +static void dsi_pll_disable_global_clk(struct dsi_pll_7nm *pll)
-> >>>> +{
-> >>>> +	dsi_pll_cmn_clk_cfg1_update(pll, BIT(5), 0);
-> >>>>  }
-> >>>>  
-> >>>>  static void dsi_pll_enable_global_clk(struct dsi_pll_7nm *pll)
-> >>>>  {
-> >>>> -	u32 data;
-> >>>> +	u32 cfg_1 = BIT(5) | BIT(4);
-> >>>
-> >>> Please define these two bits too.
-> >>
-> >> Why? They were not defined before. This only moving existing code.
-> > 
-> > Previously it was just a bit magic. Currently you are adding them as
+On Tue, Feb 04, 2025 at 03:57:30PM +0100, Maxime Ripard wrote:
+> It's pretty inconvenient to access the full atomic state from
+> drm_bridges, so let's change the atomic_pre_enable hook prototype to
+> pass it directly.
 > 
-> No, previous code:
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  6 ++----
+>  drivers/gpu/drm/bridge/chipone-icn6211.c           |  2 +-
+>  drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |  7 +++----
+>  drivers/gpu/drm/bridge/ite-it6505.c                |  2 +-
+>  drivers/gpu/drm/bridge/lontium-lt9611.c            |  2 +-
+>  drivers/gpu/drm/bridge/panel.c                     |  3 +--
+>  drivers/gpu/drm/bridge/parade-ps8640.c             |  2 +-
+>  drivers/gpu/drm/bridge/samsung-dsim.c              |  2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |  2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c     |  2 +-
+>  drivers/gpu/drm/bridge/tc358762.c                  |  3 ++-
+>  drivers/gpu/drm/bridge/ti-dlpc3433.c               |  2 +-
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c              |  3 +--
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  2 +-
+>  drivers/gpu/drm/drm_bridge.c                       | 15 +++------------
+>  drivers/gpu/drm/mediatek/mtk_dsi.c                 |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c                |  2 +-
+>  drivers/gpu/drm/vc4/vc4_dsi.c                      |  3 +--
+>  include/drm/drm_bridge.h                           |  2 +-
+>  19 files changed, 25 insertions(+), 39 deletions(-)
 > 
-> writel(data | BIT(5) | BIT(4), pll->phy->base +
-> REG_DSI_7nm_PHY_CMN_CLK_CFG1);
-> 
-> This is a mask and update in the same time, because:
-> 	(data & (BIT(5) | BIT(4)) | BIT(5) | BIT(4)
-> is just redudant.
-> 
-> I did not do any logical change, I did not add any mask or field.
-> Everything was already there.
 
-Yes... and no. Previously it was just writel(foo | BIT(5) | BIT(4)). Now
-your code adds BIT(5) as a 'mask' parameter. Is it a correct mask for
-that field? That's why I'm asking you to define those - you have changed
-bitwrites to the masked bit writes. Masks should be defined.
-
-> 
-> 
-> > masks. I want to know if BIT(4) and BIT(5) are parts of the same
-> > bitfield (2 bits wide) or if they define two different bits.
-> 
-> While in general you are right, it does not matter for this fix. If this
-> are separate bitfields - fix is correct. If this is one bitfield - fix
-> is still correct. You could claim that if this was one bitfield, using
-> 2xBIT() is not logical, but this was there already, so again my fix is
-> only fixing and keeping entire logic or inconsistencies intact.
-
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 -- 
 With best wishes
 Dmitry
