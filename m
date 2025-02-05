@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5B3A29AAA
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 21:09:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D83A29AAF
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 21:09:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A8D810E082;
-	Wed,  5 Feb 2025 20:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7ABE710E3C2;
+	Wed,  5 Feb 2025 20:09:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="A+F1Gzkx";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="f14T7SDX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 228CD10E082
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 20:09:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DABC10E3C2
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 20:09:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738786165;
+ s=mimecast20190719; t=1738786178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FtyHp14quoZKfSwCwvs1IfBWioeKvvPDS6kPB6/O+SI=;
- b=A+F1GzkxYerLem2+8Ov9rw3ufNVf7m2PzDu/2RHX/ake8YY6KJ8EwSqpa264FXkkTly4i/
- GK+dAGlo6xMh0Avt+MqWA0Iui6cFrJhIfkgw14BFDAvlVgHEPmhPKsbrMagkSBQqXi6CEC
- ghNjgkatDi6SIBlf7T9LNXVptSXBUlw=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xMGlgFMnw8m0fqnHlMzqGgmx7iSobyGCc1e2rGwWxUo=;
+ b=f14T7SDXAkQjwEG0K1HXQp5Z3mNkdtCJVNWZmegtl+Eg+adhHm3ea1MEG8kn1AoJyAxZnD
+ zh4Pt9AqvTJi4GggaYlnSlnqoSVdf+dirLRa6gc5MHCKthuc8dyWAyLtxznTP7/Mkrnrfi
+ Wx2VL5xo3cytq++y29GzXMkL+z2lMPU=
 Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-225-CF1M26uSNJmCSR8ep_ZkTQ-1; Wed,
- 05 Feb 2025 15:09:22 -0500
-X-MC-Unique: CF1M26uSNJmCSR8ep_ZkTQ-1
-X-Mimecast-MFC-AGG-ID: CF1M26uSNJmCSR8ep_ZkTQ
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-691-iY7-9AexO_-TAQ-WEUaP4w-1; Wed,
+ 05 Feb 2025 15:09:35 -0500
+X-MC-Unique: iY7-9AexO_-TAQ-WEUaP4w-1
+X-Mimecast-MFC-AGG-ID: iY7-9AexO_-TAQ-WEUaP4w
 Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 409D419560B6; Wed,  5 Feb 2025 20:09:13 +0000 (UTC)
+ id A076E1956046; Wed,  5 Feb 2025 20:09:26 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
  by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 957B919560A3; Wed,  5 Feb 2025 20:08:57 +0000 (UTC)
+ id 6AED119560AB; Wed,  5 Feb 2025 20:09:13 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Subject: [PATCH 00/12] drm: Move to using devm_platform_ioremap_resource
-Date: Wed, 05 Feb 2025 15:07:56 -0500
-Message-Id: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
+Date: Wed, 05 Feb 2025 15:07:57 -0500
+Subject: [PATCH 01/12] drm/aspeed: move to devm_platform_ioremap_resource()
+ usage
 MIME-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIABzFo2cC/x3MQQqAIBBA0avErBtQSYmuEi1Sp5pFKgoVSHdPW
- r7F/xUKZaYCU1ch08WFY2iQfQfuWMNOyL4ZlFBaKKHxpBNddI4x0L0mRuPtYEcpjTcELUuZNn7
- +5by87we0aAeTYgAAAA==
-X-Change-ID: 20250205-mem-cocci-newapi-6db4b8116d6e
+Message-Id: <20250205-mem-cocci-newapi-v1-1-aebf2b0e2300@redhat.com>
+References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
+In-Reply-To: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
 To: Joel Stanley <joel@jms.id.au>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -93,18 +93,17 @@ Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
  linux-rockchip@lists.infradead.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
- linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=4887;
+ linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=1480;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=JBXfstQaIVwQ4CElA5zFAPJmVat5vbPS8gLTRdPLuUI=;
- b=kB2Ax15EIn2x59280nG+iYRJh3A8F3lI/vAFp/1S4keeM/8lC4ZnJc86pKPdqRuC7++JEqhWK
- fKEzwCmQXKIDNwrIxS+ebvDgJC/rzBnDe6p36Nc05otkT/OeNyXMGX2
+ bh=EiZLkZhOyAW9xsLWltUT3PNY16MrDfjY5hC7dVEFLOM=;
+ b=XsxAeoZCVozTJnK/kqDAMY/ckZluYOAy4E4MbTsDIaSx08ZZijKGTvdfXCM4/qCOdCyfsoNqm
+ r258ZdLMkhbABTbRgisKxCgmikN0I/EpdAk+57cA0jPzqzp7njZRhyL
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 98Xu03YO_E76kYcJZOnOxaxH0IlnR_Wunzz3A_YFSFk_1738786157
+X-Mimecast-MFC-PROC-ID: efSu8jJgt5mFUeG55MVnGZ6jTktK65oBEYQEjLx7kio_1738786169
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -123,31 +122,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Start replacing the below occurences with the newer API:
-- (devm_)platform_get_resource + devm_ioremap_resource
-- (devm_)platform_get_resource + (devm_)ioremap
-- platform_get_resource_byname + devm_ioremap
-Move all these occurences to uses devm_platform_ioremap_resource
-instead.
+Replace platform_get_resource + devm_ioremap_resource
+with just devm_platform_ioremap_resource()
 
-This is v2 of the series. Changes from v1 [1]:
-- Mostly fix the compilation errors :( What had passed locally
-happened to be the wrong config with most drivers not enabled.
-- Clarify the TODO item in the GPU section of Documentation
-for anyone who wants to do it in future.
-- Drop meson patch from discussion in v1
-- Drop rockchip patch as well. Offline discussion with
-Maxime led to the conclusion that using
-devm_platform_get_and_ioremap_resource() would be a better
-approach in that source file. Not adding that change as part of
-this series, can be addressed separately.
-
-[1] - https://patchwork.freedesktop.org/series/144073/
-
-Used Coccinelle to make the code changes.Semantic patch:
-
-//First Case
-//rule s/platform_get_resource + devm_ioremap_resource/devm_platform_ioremap_resource
+Used Coccinelle to do this change. SmPl patch:
 @rule_1@
 identifier res;
 expression ioremap_res;
@@ -159,95 +137,32 @@ identifier pdev;
 -ioremap_res = devm_ioremap_resource(...);
 +ioremap_res = devm_platform_ioremap_resource(pdev,0);
 
-//Second case
-//rule s/(devm_)platform_get_resource + (devm_)ioremap/devm_platform_ioremap_resource.
-@rule_2@
-identifier res;
-expression ioremap;
-identifier pdev;
-@@
--struct resource *res;
-...
--res = platform_get_resource(pdev,...);
-<...
--if (!res) {
--...
--}
-...>
--ioremap = devm_ioremap(...);
-+ioremap = devm_platform_ioremap_resource(pdev,0);
-
-//Third case
-//rule s/(devm_)platform_get_resource_byname + (devm_)ioremap/devm_platform_ioremap_resource_byname.
-@rule_3@
-identifier res;
-expression ioremap;
-identifier pdev;
-constant mem;
-expression name;
-@@
--struct resource *res;
-<+...
--res = platform_get_resource_byname(pdev,mem,name);
-<...
--if (!res) {
--...
--}
-...>
--ioremap = devm_ioremap(...);
-+ioremap = devm_platform_ioremap_resource_byname(pdev,name);
-...+>
-
+Cc: Joel Stanley <joel@jms.id.au>
+Acked-by: Andrew Jeffery <andrew@codeconstruct.com.au>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-Anusha Srivatsa (12):
-      drm/aspeed: move to devm_platform_ioremap_resource() usage
-      drm/fsl-dcu: move to devm_platform_ioremap_resource() usage
-      drm/hisilicon: move to devm_platform_ioremap_resource() usage
-      drm/mediatek: move to devm_platform_ioremap_resource() usage
-      drm/mxsfb: move to devm_platform_ioremap_resource() usage
-      drm/sprd: move to devm_platform_ioremap_resource() usage
-      drm/sti: move to devm_platform_ioremap_resource() usage
-      drm/stm: move to devm_platform_ioremap_resource() usage
-      drm/tegra: move to devm_platform_ioremap_resource() usage
-      drm/tiny: move to devm_platform_ioremap_resource() usage
-      drm/vc4: move to devm_platform_ioremap_resource() usage
-      Documentation: Update the todo
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
- Documentation/gpu/todo.rst                      | 12 +++---
- drivers/gpu/drm/aspeed/aspeed_gfx_drv.c         |  4 +-
- drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c       |  4 +-
- drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c    |  4 +-
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c |  4 +-
- drivers/gpu/drm/mediatek/mtk_disp_color.c       |  4 +-
- drivers/gpu/drm/mediatek/mtk_disp_gamma.c       |  4 +-
- drivers/gpu/drm/mediatek/mtk_disp_merge.c       |  4 +-
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c         |  4 +-
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c        |  4 +-
- drivers/gpu/drm/mediatek/mtk_dsi.c              |  4 +-
- drivers/gpu/drm/mediatek/mtk_hdmi.c             |  4 +-
- drivers/gpu/drm/mediatek/mtk_mdp_rdma.c         |  4 +-
- drivers/gpu/drm/mxsfb/lcdif_drv.c               |  4 +-
- drivers/gpu/drm/mxsfb/mxsfb_drv.c               |  4 +-
- drivers/gpu/drm/sprd/sprd_dpu.c                 |  9 +---
- drivers/gpu/drm/sprd/sprd_dsi.c                 |  9 +---
- drivers/gpu/drm/sti/sti_compositor.c            | 10 +----
- drivers/gpu/drm/sti/sti_dvo.c                   | 10 +----
- drivers/gpu/drm/sti/sti_hda.c                   |  9 +---
- drivers/gpu/drm/sti/sti_hdmi.c                  | 11 +----
- drivers/gpu/drm/sti/sti_hqvdp.c                 | 10 +----
- drivers/gpu/drm/sti/sti_tvout.c                 | 10 +----
- drivers/gpu/drm/sti/sti_vtg.c                   | 10 +----
- drivers/gpu/drm/stm/ltdc.c                      |  4 +-
- drivers/gpu/drm/tegra/dsi.c                     |  4 +-
- drivers/gpu/drm/tiny/arcpgu.c                   |  4 +-
- drivers/gpu/drm/vc4/vc4_hdmi.c                  | 55 +++++++------------------
- 28 files changed, 46 insertions(+), 177 deletions(-)
----
-base-commit: 92514ef226f511f2ca1fb1b8752966097518edc0
-change-id: 20250205-mem-cocci-newapi-6db4b8116d6e
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index 397e677a691c2c6d199063f44358196a4569b389..46094cca297479d1cf19f6db99538c5e7a0fec92 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -144,11 +144,9 @@ static int aspeed_gfx_load(struct drm_device *drm)
+ 	struct aspeed_gfx *priv = to_aspeed_gfx(drm);
+ 	struct device_node *np = pdev->dev.of_node;
+ 	const struct aspeed_gfx_config *config;
+-	struct resource *res;
+ 	int ret;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	priv->base = devm_ioremap_resource(drm->dev, res);
++	priv->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+ 
 
-Best regards,
 -- 
-Anusha Srivatsa <asrivats@redhat.com>
+2.47.0
 
