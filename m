@@ -2,59 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67DECA2A2E8
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 09:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82031A2A2E5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 09:05:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78F3B10E7E9;
-	Thu,  6 Feb 2025 08:05:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CBA110E7EE;
+	Thu,  6 Feb 2025 08:05:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=denx.de header.i=@denx.de header.b="cLgXJWLA";
+	dkim=pass (1024-bit key; unprotected) header.d=matrox.com header.i=@matrox.com header.b="wd2mq+2X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 560 seconds by postgrey-1.36 at gabe;
- Wed, 05 Feb 2025 14:50:14 UTC
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69EE910E1E4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 14:50:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 2FF991038193F; Wed,  5 Feb 2025 15:40:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
- t=1738766451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cEiBKmEICWctotPHCUAWGTwbH/Iy+hrCjjP5QKi/9Lo=;
- b=cLgXJWLAdAMZvNv+TCbu3Fl/9FxjBS8zH7YHTKts/CjAxxH5YGIV4eGxb6BU2yIjt7+yb+
- 8r/EGuxZtRCFA3dYOFw6yk1NU56YSKX6LfoV5/780QCG0fKpirmzFbkP8DbsZe6jBsySVU
- AJFeXmosGVZHKGIpRNa9CVZp0b4ibN8O6DoL7nV7+BCCs9gBRwXyoi5WLcYQ5JA84kmyJc
- A+3cCN08MaudaM2OTRcqq2aN1oP4Bqfr2dusv+piah0EYAPetkqzo2L8arhp0CL0a68szQ
- 8DIlW9B5/EY+xjYxFvBYC5IQPGrV6Ap58bCHAgvnnZgt0zXWui0SYxrKdhu1sQ==
-Date: Wed, 5 Feb 2025 15:40:44 +0100
-From: Lukasz Majewski <lukma@denx.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Stefan
- Wahren <wahrenst@gmx.net>
-Subject: Re: [RESEND PATCH v11 1/3] dt-bindings: display: Add
- powertip,{st7272|hx8238a} as DT Schema description
-Message-ID: <20250205154044.7b1fd2c5@wsk>
-In-Reply-To: <20250203132108.77f2123c@wsk>
-References: <20250109154149.1212631-1-lukma@denx.de>
- <20250203132108.77f2123c@wsk>
-Organization: denx.de
-X-Mailer: Claws Mail 3.19.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mtxmxout4.matrox.com (mtxmxout4.matrox.com [138.11.2.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22C210E196
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 22:28:18 +0000 (UTC)
+Received: from venus.matrox.com (unknown [192.168.1.36])
+ by mtxmxout4.matrox.com (Postfix) with ESMTP id 1158240116
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 17:28:18 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matrox.com; s=dkim;
+ t=1738794498; bh=txTTjwuvK0giS3YEUwi1YU03Trya3GIcenfPMpiBm/c=;
+ h=Date:From:To:Subject;
+ b=wd2mq+2XcVYDHU2wEbA8Vc4klF73RdZQBXNJs/srL4eMoi61HqlTv0rr50wA6p9t9
+ ++D0deEQxtkDYEcmW7QROPJUyl7V9/lQu/YrtnhciqQZnqiu1bn64er3G+pQrkbCAe
+ h4ZB4+TTUidCB8jM7G8eG3LNLT6NGmBlBG0Zh8bQ=
+Received: (from ssmsp@localhost)
+ by venus.matrox.com (8.14.6/8.13.2) id 515MSIux007920
+ for dri-devel@lists.freedesktop.org; Wed, 5 Feb 2025 17:28:18 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by venus.matrox.com (Postfix) with ESMTP id 01A015F765;
+ Wed,  5 Feb 2025 17:28:18 -0500 (EST)
+X-Virus-MTX-Scanned: by Matrox Virus scanner at venus.matrox.com
+Received: from venus.matrox.com ([127.0.0.1])
+ by localhost (venus.matrox.com [127.0.0.1]) (amavisd-new, port 10024)
+ with LMTP id Rdo_hJ194SAD; Wed,  5 Feb 2025 17:28:17 -0500 (EST)
+Received: from venus-in.matrox.com (localhost.localdomain [127.0.0.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by venus.matrox.com (Postfix) with ESMTPS id E1D815F760;
+ Wed,  5 Feb 2025 17:28:17 -0500 (EST)
+Received: from pluton.matrox.com (pluton.matrox.com [192.168.8.7])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by venus-in.matrox.com (Postfix) with ESMTPS id DD9E161F04;
+ Wed,  5 Feb 2025 17:28:17 -0500 (EST)
+Received: by pluton.matrox.com (Postfix, from userid 3820)
+ id D69203404BD; Wed,  5 Feb 2025 17:28:17 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+ by pluton.matrox.com (Postfix) with ESMTP id D3D46340282;
+ Wed,  5 Feb 2025 17:28:17 -0500 (EST)
+Date: Wed, 5 Feb 2025 17:28:17 -0500 (EST)
+From: Gwenael Georgeault <ggeorgea@matrox.com>
+To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/mgag200: Added support for the new device G200eH5
+Message-ID: <alpine.LFD.2.00.2502051724170.31360@pluton.matrox.com>
+User-Agent: Alpine 2.00 (LFD 1167 2008-08-23)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/NX.kk_nUKqVaGcqUC8c2=oO";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
 X-Mailman-Approved-At: Thu, 06 Feb 2025 08:05:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,164 +78,281 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/NX.kk_nUKqVaGcqUC8c2=oO
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+- Added the new device ID
+- Added new pll algorithm
 
-Dear Community,
+Co-authored-by: Mamadou Insa Diop <mdiop@matrox.com>
+---
+  drivers/gpu/drm/mgag200/Makefile          |   1 +
+  drivers/gpu/drm/mgag200/mgag200_drv.c     |   4 +
+  drivers/gpu/drm/mgag200/mgag200_drv.h     |   3 +
+  drivers/gpu/drm/mgag200/mgag200_g200eh5.c | 202 ++++++++++++++++++++++
+  4 files changed, 210 insertions(+)
+  create mode 100644 drivers/gpu/drm/mgag200/mgag200_g200eh5.c
 
-> Dear Community,
->=20
-> > This patch provides the DT Schema description of:
-> > - powertip,st7272  320 x 240 LCD display
-> > - powertip,hx8238a 320 x 240 LCD display
-> >=20
-> > Used with the different HW revisions of btt3 devices.
-> >  =20
->=20
-> Gentle ping on this window... I hope that it will make it into
+diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
+index 5a02203fad12..94f063c8722a 100644
+--- a/drivers/gpu/drm/mgag200/Makefile
++++ b/drivers/gpu/drm/mgag200/Makefile
+@@ -6,6 +6,7 @@ mgag200-y := \
+  	mgag200_g200.o \
+  	mgag200_g200eh.o \
+  	mgag200_g200eh3.o \
++	mgag200_g200eh5.o \
+  	mgag200_g200er.o \
+  	mgag200_g200ev.o \
+  	mgag200_g200ew3.o \
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
+index 069fdd2dc8f6..1c257f5b5136 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.c
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
+@@ -214,6 +214,7 @@ static const struct pci_device_id mgag200_pciidlist[] = {
+  	{ PCI_VENDOR_ID_MATROX, 0x534, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_ER },
+  	{ PCI_VENDOR_ID_MATROX, 0x536, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EW3 },
+  	{ PCI_VENDOR_ID_MATROX, 0x538, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EH3 },
++	{ PCI_VENDOR_ID_MATROX, 0x53A, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EH5 },
+  	{0,}
+  };
 
-Not "ping on this window" :-) but on this patch :-)
+@@ -256,6 +257,9 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+  	case G200_EH3:
+  		mdev = mgag200_g200eh3_device_create(pdev, &mgag200_driver);
+  		break;
++	case G200_EH5:
++		mdev = mgag200_g200eh5_device_create(pdev, &mgag200_driver);
++		break;
+  	case G200_ER:
+  		mdev = mgag200_g200er_device_create(pdev, &mgag200_driver);
+  		break;
+diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
+index 0608fc63e588..819a7e9381e3 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -196,6 +196,7 @@ enum mga_type {
+  	G200_EV,
+  	G200_EH,
+  	G200_EH3,
++	G200_EH5,
+  	G200_ER,
+  	G200_EW3,
+  };
+@@ -334,6 +335,8 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev,
+  						const struct drm_driver *drv);
+  struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
+  						 const struct drm_driver *drv);
++struct mga_device *mgag200_g200eh5_device_create(struct pci_dev *pdev,
++						 const struct drm_driver *drv);
+  struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev,
+  						const struct drm_driver *drv);
+  struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
+diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh5.c b/drivers/gpu/drm/mgag200/mgag200_g200eh5.c
+new file mode 100644
+index 000000000000..8cb01116ac33
+--- /dev/null
++++ b/drivers/gpu/drm/mgag200/mgag200_g200eh5.c
+@@ -0,0 +1,202 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include <linux/pci.h>
++#include <linux/units.h>
++
++#include <drm/drm_atomic.h>
++#include <drm/drm_atomic_helper.h>
++#include <drm/drm_drv.h>
++#include <drm/drm_gem_atomic_helper.h>
++#include <drm/drm_probe_helper.h>
++
++#include "mgag200_drv.h"
++
++/*
++ * PIXPLLC
++ */
++
++static int mgag200_g200eh5_pixpllc_atomic_check(struct drm_crtc *crtc,
++						struct drm_atomic_state *new_state)
++{
++	const unsigned long long VCO_MAX = 10 * GIGA; // Hz
++	const unsigned long long VCO_MIN = 2500 * MEGA; // Hz
++	const unsigned long long PLL_FREQ_REF = 25 * MEGA; // Hz
++
++	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
++	struct mgag200_crtc_state *new_mgag200_crtc_state = to_mgag200_crtc_state(new_crtc_state);
++	long clock = new_crtc_state->mode.clock;
++	struct mgag200_pll_values *pixpllc = &new_mgag200_crtc_state->pixpllc;
++
++	unsigned long long fdelta = 0xFFFFFFFFFFFFFFFFULL;
++
++	u16 mult_max = (u16)(VCO_MAX / PLL_FREQ_REF); // 400 (0x190)
++	u16 mult_min = (u16)(VCO_MIN / PLL_FREQ_REF); // 100 (0x64)
++
++	u64 ftmp_delta;
++	u64 computed_fo;
++
++	u16 test_m;
++	u8 test_div_a;
++	u8 test_div_b;
++	u64 fo_hz;
++
++	u8 uc_m = 0;
++	u8 uc_n = 0;
++	u8 uc_p = 0;
++
++	fo_hz = (u64)clock * HZ_PER_KHZ;
++
++	for (test_m = mult_min; test_m <= mult_max; test_m++) { // This gives 100 <= M <= 400
++		for (test_div_a = 8; test_div_a > 0; test_div_a--) { // This gives 1 <= A <= 8
++			for (test_div_b = 1; test_div_b <= test_div_a; test_div_b++) {
++				// This gives 1 <= B <= A
++				computed_fo = (PLL_FREQ_REF * test_m) /
++					(4 * test_div_a * test_div_b);
++
++				if (computed_fo > fo_hz)
++					ftmp_delta = computed_fo - fo_hz;
++				else
++					ftmp_delta = fo_hz - computed_fo;
++
++				if (ftmp_delta < fdelta) {
++					fdelta = ftmp_delta;
++					uc_m = (u8)(0xFF & test_m);
++					uc_n = (u8)((0x7 & (test_div_a - 1))
++						| (0x70 & (0x7 & (test_div_b - 1)) << 4));
++					uc_p = (u8)(1 & (test_m >> 8));
++				}
++				if (fdelta == 0)
++					break;
++			}
++			if (fdelta == 0)
++				break;
++		}
++		if (fdelta == 0)
++			break;
++	}
++
++	pixpllc->m = uc_m + 1;
++	pixpllc->n = uc_n + 1;
++	pixpllc->p = uc_p + 1;
++	pixpllc->s = 0;
++
++	return 0;
++	}
++
++/*
++ * Mode-setting pipeline
++ */
++
++static const struct drm_plane_helper_funcs mgag200_g200eh5_primary_plane_helper_funcs = {
++	MGAG200_PRIMARY_PLANE_HELPER_FUNCS,
++};
++
++static const struct drm_plane_funcs mgag200_g200eh5_primary_plane_funcs = {
++	MGAG200_PRIMARY_PLANE_FUNCS,
++};
++
++static const struct drm_crtc_helper_funcs mgag200_g200eh5_crtc_helper_funcs = {
++	MGAG200_CRTC_HELPER_FUNCS,
++};
++
++static const struct drm_crtc_funcs mgag200_g200eh5_crtc_funcs = {
++	MGAG200_CRTC_FUNCS,
++};
++
++static int mgag200_g200eh5_pipeline_init(struct mga_device *mdev)
++{
++	struct drm_device *dev = &mdev->base;
++	struct drm_plane *primary_plane = &mdev->primary_plane;
++	struct drm_crtc *crtc = &mdev->crtc;
++	int ret;
++
++	ret = drm_universal_plane_init(dev, primary_plane, 0,
++				       &mgag200_g200eh5_primary_plane_funcs,
++				       mgag200_primary_plane_formats,
++				       mgag200_primary_plane_formats_size,
++				       mgag200_primary_plane_fmtmods,
++				       DRM_PLANE_TYPE_PRIMARY, NULL);
++	if (ret) {
++		drm_err(dev, "drm_universal_plane_init() failed: %d\n", ret);
++		return ret;
++	}
++	drm_plane_helper_add(primary_plane, &mgag200_g200eh5_primary_plane_helper_funcs);
++	drm_plane_enable_fb_damage_clips(primary_plane);
++
++	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
++					&mgag200_g200eh5_crtc_funcs, NULL);
++	if (ret) {
++		drm_err(dev, "drm_crtc_init_with_planes() failed: %d\n", ret);
++		return ret;
++	}
++
++	drm_crtc_helper_add(crtc, &mgag200_g200eh5_crtc_helper_funcs);
++
++	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
++	drm_mode_crtc_set_gamma_size(crtc, MGAG200_LUT_SIZE);
++	drm_crtc_enable_color_mgmt(crtc, 0, false, MGAG200_LUT_SIZE);
++	ret = mgag200_vga_bmc_output_init(mdev);
++
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++/*
++ * DRM device
++ */
++
++static const struct mgag200_device_info mgag200_g200eh5_device_info =
++	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, false, 1, 0, false);
++
++static const struct mgag200_device_funcs mgag200_g200eh5_device_funcs = {
++	.pixpllc_atomic_check = mgag200_g200eh5_pixpllc_atomic_check,
++	.pixpllc_atomic_update = mgag200_g200eh_pixpllc_atomic_update, // same as G200EH
++};
++
++struct mga_device *mgag200_g200eh5_device_create(struct pci_dev *pdev,
++						 const struct drm_driver *drv)
++{
++	struct mga_device *mdev;
++	struct drm_device *dev;
++	resource_size_t vram_available;
++	int ret;
++
++	mdev = devm_drm_dev_alloc(&pdev->dev, drv, struct mga_device, base);
++
++	if (IS_ERR(mdev))
++		return mdev;
++	dev = &mdev->base;
++
++	pci_set_drvdata(pdev, dev);
++
++	ret = mgag200_init_pci_options(pdev, 0x00000120, 0x0000b000);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = mgag200_device_preinit(mdev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = mgag200_device_init(mdev, &mgag200_g200eh5_device_info,
++				  &mgag200_g200eh5_device_funcs);
++
++	if (ret)
++		return ERR_PTR(ret);
++
++	mgag200_g200eh_init_registers(mdev); // same as G200EH
++	vram_available = mgag200_device_probe_vram(mdev);
++
++	ret = mgag200_mode_config_init(mdev, vram_available);
++	if (ret)
++		return ERR_PTR(ret);
++
++	ret = mgag200_g200eh5_pipeline_init(mdev);
++	if (ret)
++		return ERR_PTR(ret);
++
++	drm_mode_config_reset(dev);
++	drm_kms_helper_poll_init(dev);
++
++	return mdev;
++}
+-- 
+2.34.1
 
-> upstream during this merge window.
->=20
-> Thanks in advance.
->=20
-> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> >=20
-> > Changes for v9:
-> > - New patch
-> >=20
-> > Changes for v10:
-> > - None
-> >=20
-> > Changes for v11:
-> > - Combine both separate dt-bindings patches for powertip,st7272 and
-> >   powertip,hx8238a into one
-> > - Drop the quotes for in "title" entry of powertip*.yaml files
-> > ---
-> >  .../display/panel/powertip,hx8238a.yaml       | 29
-> > +++++++++++++++++++ .../display/panel/powertip,st7272.yaml        |
-> > 29 +++++++++++++++++++ 2 files changed, 58 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/panel/powertip,hx8238a.yaml
-> > create mode 100644
-> > Documentation/devicetree/bindings/display/panel/powertip,st7272.yaml
-> >=20
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/panel/powertip,hx8238a.yaml
-> > b/Documentation/devicetree/bindings/display/panel/powertip,hx8238a.yaml
-> > new file mode 100644 index 000000000000..b7d74faeb5d5 --- /dev/null
-> > +++
-> > b/Documentation/devicetree/bindings/display/panel/powertip,hx8238a.yaml
-> > @@ -0,0 +1,29 @@ +# SPDX-License-Identifier: GPL-2.0-only OR
-> > BSD-2-Clause +%YAML 1.2
-> > +---
-> > +$id:
-> > http://devicetree.org/schemas/display/panel/powertip,hx8238a.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml# +
-> > +title: Powertip Electronic Technology Co. 320 x 240 LCD panel
-> > +
-> > +maintainers:
-> > +  - Lukasz Majewski <lukma@denx.de>
-> > +
-> > +allOf:
-> > +  - $ref: panel-dpi.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: powertip,hx8238a
-> > +      - {} # panel-dpi, but not listed here to avoid false select
-> > +
-> > +  height-mm: true
-> > +  panel-timing: true
-> > +  port: true
-> > +  power-supply: true
-> > +  width-mm: true
-> > +
-> > +additionalProperties: false
-> > +
-> > +...
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/panel/powertip,st7272.yaml
-> > b/Documentation/devicetree/bindings/display/panel/powertip,st7272.yaml
-> > new file mode 100644 index 000000000000..f3622800f13f --- /dev/null
-> > +++
-> > b/Documentation/devicetree/bindings/display/panel/powertip,st7272.yaml
-> > @@ -0,0 +1,29 @@ +# SPDX-License-Identifier: GPL-2.0-only OR
-> > BSD-2-Clause +%YAML 1.2
-> > +---
-> > +$id:
-> > http://devicetree.org/schemas/display/panel/powertip,st7272.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml# +
-> > +title: Powertip Electronic Technology Co. 320 x 240 LCD panel
-> > +
-> > +maintainers:
-> > +  - Lukasz Majewski <lukma@denx.de>
-> > +
-> > +allOf:
-> > +  - $ref: panel-dpi.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - const: powertip,st7272
-> > +      - {} # panel-dpi, but not listed here to avoid false select
-> > +
-> > +  height-mm: true
-> > +  panel-timing: true
-> > +  port: true
-> > +  power-supply: true
-> > +  width-mm: true
-> > +
-> > +additionalProperties: false
-> > +
-> > +... =20
->=20
->=20
->=20
->=20
-> Best regards,
->=20
-> Lukasz Majewski
->=20
-> --
->=20
-> DENX Software Engineering GmbH,      Managing Director: Erika Unter
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> lukma@denx.de
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Erika Unter
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/NX.kk_nUKqVaGcqUC8c2=oO
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAmejeGwACgkQAR8vZIA0
-zr26xggAneqSbPpy5mv8Ai9RLDSjNCc66Zdwn6xEQ1QHl2zwo2neclEt7RRCRXC1
-k8e5eu/5fagPSCCrZLJbMSYLENWkdYfx/RG5WMjaAeypsLKTpbHHfp3R1RWihe+f
-TppC0mjbvF+a3Yu1y80L2myhIaWFPZtgjW0cx50h5CRtSFeopgrpUB7aXNGanyGR
-JrL4/OiQ65yKiyewwjRVPSHsqfvq7RnhKFR9znVSiUgnhgv81QgGRybI8GtrwLST
-NvSbxfelBlFeBQ1G8cqhXbfX3efIo/wy/P1C/ILRU0fVgBiUIz1Y68s3CuySnA52
-3/EsVzfwOo3PpqQQpY0xecKeZtHlhg==
-=Z4og
------END PGP SIGNATURE-----
-
---Sig_/NX.kk_nUKqVaGcqUC8c2=oO--
