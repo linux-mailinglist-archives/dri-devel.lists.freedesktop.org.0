@@ -2,60 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75917A29614
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 17:21:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FCCCA29684
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 17:43:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9C5D10E376;
-	Wed,  5 Feb 2025 16:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBC4310E05D;
+	Wed,  5 Feb 2025 16:43:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lwpRGHY/";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FNw6AoV4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 931FF10E371;
- Wed,  5 Feb 2025 16:21:05 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A03D10E05D
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 16:43:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id EDEC25C5D20;
- Wed,  5 Feb 2025 16:20:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03B2FC4CED1;
- Wed,  5 Feb 2025 16:20:58 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 26F40A43861
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 16:41:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAFDC4CEDD
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 16:43:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738772464;
- bh=bVtZ6k6KxStzvlvxAK3RKCr3g7nXKZiR7ZfOq4UnMBg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lwpRGHY/u9bcHtadAkaxqmIPjDQ1jdQCblmVI3v8tFCDwKmhLX0ocA1peOqumPak1
- aV886zx9kRQLBJLfmqTM5VgwED+dJyOu10nCkn+QG2+n5bksKwpErLCEHC+CC8OY0I
- Sq2uv9K/8tUGYwQmMma9B0Mq0vqaI6jU+u+AumliirziND/d+p7K5q6E9ZIt3zaZSl
- 3ka+RVXQISaBJf+UZRcyqjSx1vax1aSJviEYOkHrRFSsRGqHPmsCJlb+n1rXVOSI0O
- NryprBUmaxsfxKlBmPz8UwdOH1mJ7BhQ+ex33EuuwWVQYAaNwGCzwPvdyrJ2Z19Rww
- Y39O0l+cCf6qA==
-Date: Wed, 5 Feb 2025 17:20:56 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Zhi Wang <zhiw@nvidia.com>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
- pstanner@redhat.com, cjia@nvidia.com, jhubbard@nvidia.com,
- bskeggs@nvidia.com, acurrid@nvidia.com, ojeda@kernel.org,
- alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, benno.lossin@proton.me,
- a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] gpu: nova-core: add initial documentation
-Message-ID: <Z6OP6KIIuM1gcDj9@cassiopeiae>
-References: <20250204190400.2550-1-dakr@kernel.org>
- <20250204190400.2550-2-dakr@kernel.org>
- <20250205155646.00003c2f@nvidia.com>
- <CANiq72mxKhCudmRaS=gwnC=gjkCLMhZcC2ZpfzKKaGX1Hivz9g@mail.gmail.com>
- <20250205165632.000016fa@nvidia.com>
+ s=k20201202; t=1738773795;
+ bh=LnxzeaNBBEUtj9BXIHK5+BlPkmKrMSnMNW9nlPGze8c=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=FNw6AoV4lbJnUZVo+6+M+z7DuNfCTyGgcMZgQl3xJB5YBxlKKRf8rWDxquB28SIP5
+ Vkn3psh0z9/sTwCh6A0bfGkUeuKp/KG85jvzjWvWs9YMT923yNgFNsP5zhiTUy1NDZ
+ DEm8S4bAjFGxo9CkeISIv0IvmkQ7rY7bNQmiWFTAzhwE2ekfs1pMsqNuW5P68muvAz
+ DE6krs0tkYzDd0W/bbIes0lsXQJgusPYHrhhDjNkleBECtOiV8hmztCeJfCgl05W0z
+ mTjDYZpQOrcazV9JqO5B+PbFw+WMlLbAWiksQdf1ol132XY6IGwES5k3185ejw4uQL
+ 81LUs21fiwugQ==
+Received: by mail-ej1-f49.google.com with SMTP id
+ a640c23a62f3a-ab7483b9bf7so115966b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2025 08:43:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVtdmc5Nz6zoNT0XgtTmFg9olV21uCCDKtyR8A6+F6yTPBwErHMVThEJuVTQoiocmUAiP2QXL4P1dQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy5GqWJBDJ2qO2R5x1KT5D8UqcVFpsZNDAuxHPunoqs1lK2fRy+
+ wCAEo9f1au3/XhvKf8d5vNAKNSheMhhTR8CMOvm4oeplz0aIPMwdJmm09/vdhjdAUx7EP5oe5Wq
+ Wo0kFf/5+MFoqCZWz4M+P8bpHrA==
+X-Google-Smtp-Source: AGHT+IE8RkOzCIGHeIN9KACrRk7cJI9RU88cBKMkL6N/N5/62aH9kSdjTJoESXLsiQ1IJyT2hlNFIjQJmrLmCD/FWkI=
+X-Received: by 2002:a17:907:944b:b0:ab3:83c2:755a with SMTP id
+ a640c23a62f3a-ab75e33da55mr373475866b.49.1738773794041; Wed, 05 Feb 2025
+ 08:43:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250205165632.000016fa@nvidia.com>
+References: <20250204232824.3819437-1-robh@kernel.org>
+ <a6ecdb6b0a50e1fe7b0293eaaed27880e99a5258.camel@collabora.com>
+ <3b8147f56eb0ea1c9815102edaa023d95b2d84f7.camel@collabora.com>
+In-Reply-To: <3b8147f56eb0ea1c9815102edaa023d95b2d84f7.camel@collabora.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 5 Feb 2025 10:43:02 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqK_6ttLT-u-BzgOrCg=GWtNi4OP_Zw8iivXqKQ=t_ZA3Q@mail.gmail.com>
+X-Gm-Features: AWEUYZnA8ntL0J0w-ctVS0DtgfypMmUxEJ-driJVUfwJfvXAvagxzVnH55NZ7jk
+Message-ID: <CAL_JsqK_6ttLT-u-BzgOrCg=GWtNi4OP_Zw8iivXqKQ=t_ZA3Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panthor: Convert IOCTL defines to an enum
+To: Erik Faye-Lund <erik.faye-lund@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Beata Michalska <beata.michalska@arm.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,55 +84,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 05, 2025 at 04:56:32PM +0200, Zhi Wang wrote:
-> On Wed, 5 Feb 2025 15:13:12 +0100
-> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
-> 
-> > On Wed, Feb 5, 2025 at 2:57 PM Zhi Wang <zhiw@nvidia.com> wrote:
+On Wed, Feb 5, 2025 at 8:17=E2=80=AFAM Erik Faye-Lund
+<erik.faye-lund@collabora.com> wrote:
+>
+> On Wed, 2025-02-05 at 11:53 +0100, Erik Faye-Lund wrote:
+> > On Tue, 2025-02-04 at 17:28 -0600, Rob Herring (Arm) wrote:
+> > > Use an enum instead of #defines for panthor IOCTLs. This allows the
+> > > header to be used with Rust code as bindgen can't handle complex
+> > > defines.
 > > >
-> > > It would be also helpful to make the process explicit. E.g. sharing your
-> > > command lines used to checking the patches. So folks can align with the
-> > > expected outcome, e.g. command line parameters.
-> > 
-> > These two guidelines (and generally the few others above) are intended
-> > to apply to all Rust code in the kernel (i.e. not just `rust/`) --
-> > their command lines are mentioned in `Documentation/rust/`. We could
-> > add a note to make that clearer if that helps. So I would suggest
-> > avoiding repetition here by referencing those.
+> >
+> >
+> > Unfortunately, this goes in the opposite direction than what I was
+> > asked to do here:
+> >
+> > https://lore.kernel.org/dri-devel/20241029140125.0607c26f@collabora.com=
+/
+> >
+> > ...I still intend to get around to doing that, because we have
+> > problems
+> > with C enum and large values. I don't know if we can solve that while
+> > making Rust happy without requiring C23 (which allows to specify the
+> > underlying type of an enum), unfortunately...
+> >
+>
+> Seems I misunderstood Boris, and he was referring to flags. The enums
+> are of course fine to make into real enums.
 
-Regarding the two, for me they read more like suggestions. The few others are
-indeed pretty clearly documented in "general-information".
+Maybe we're relying on compiler specific behavior, but that's nothing
+new in the kernel. This worked fine for me with both gcc and clang:
 
-Gonna add references instead.
+#include <stdio.h>
 
-> > 
-> > We also mention it in our "Subsystem Profile document" at
-> > https://rust-for-linux.com/contributing#submit-checklist-addendum.
-> 
-> I think we can refer the links so that we don't need to explain the
-> process in detail. I would prefer to have the exact command lines that
-> maintainer are using in the doce. E.g. I was experiencing that folks using
-> different params with checkpatch.pl, the outcome, .e.g. warnings are
-> different. different spell-checks backend gives different errors.
-> 
-> It could be nice that we put the command lines explicitly so that folks
-> would save some efforts on re-spin. It also saves maintainer's efforts.
+enum foo {
+        BAR =3D (1UL << 63),
+};
 
-Generally, I'm fine with adding the specific command that should be run before
-sending patches in a single place for convenience in this document.
+int main(void)
+{
+        printf("%lx\n", BAR);
+        return 0;
+}
 
-But maybe it makes sense to consider whether this could go into the generic Rust
-documentation too?
-
-> 
-> Z.
-> > 
-> > > > +The availability of proper documentation is essential in terms of scalability,
-> > > > +accessability for new contributors and maintainability of a project in general,
-> > 
-> > Typo: accessibility?
-> > 
-> > Cheers,
-> > Miguel
-> > 
-> 
+Rob
