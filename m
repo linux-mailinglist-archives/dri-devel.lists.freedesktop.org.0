@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EC5A288E6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 12:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC52A288FA
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 12:14:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FA210E1A3;
-	Wed,  5 Feb 2025 11:10:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BCB10E1C2;
+	Wed,  5 Feb 2025 11:14:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k0C/eHsE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MR2WgcBd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52C9810E1A3
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 11:09:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9F7EB5C67FF
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 11:09:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1DEA0C4CEE8
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 11:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738753797;
- bh=EldRButvIyKHFz3g8Eynadsn2tH+6tdvc4jFTaTFuJY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=k0C/eHsEwBInCQc0Su4xO1KQcod6/9Jr/2nPiIF4HqZSnFeIgmV55N/Nkvg6J0ViQ
- HK81rjm9o4CviZYpd3vrfyOPx06GO2ShSM/bngfHCZ6XpwBbT+JJDz5+iJC3HoQelU
- SwiGMEUVb4S/m1+ulVaqKPuRgDCL3YmnoWnp6zY9R9lZKa2TjeRXSXzbCHvZx/suXi
- /xXUoZsxsG/fyYo8iXta4F4BvHhOwLKCrmyY+dsdNQX5Erz/gezXJocYCAnwSqRofA
- s+vuf3rLIEmi+UpnjnpWpcCbCfLPVs43ADM4KxG0eOz02ORMYau8YFFVqJtHoMM10L
- L8aWzpmfm86Xg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 161B0C41606; Wed,  5 Feb 2025 11:09:57 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6077A10E1C2;
+ Wed,  5 Feb 2025 11:14:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=D45MwBPPIkhSvy7G5xpED6qYbmXxarNg3NB8E7npGg0=; b=MR2WgcBdxBaIe021kie7isTlfP
+ TTshKn1TtHCvOhGWc/KcfwsF046v8vj+wOblrdg3bLnxRnjtbtjsLwm6Y/iG2I2W3UgCltaX2musv
+ Cno03HwC1Ic6juts/d2UJxVXreKRSXM6S7Sju2tHT+h1B3WlMEU/tC/n1f11xqa31PpiM/G7uRMh5
+ 3lVNPb9kQRNpT6enARSmsBYer4AXmMaidNccBNTv9tV7HswpZmelgBBPgIT26uZ6D+EGl73VAQ9k1
+ 4VzHxuo374CmChmKB7/eRLMdmVz4UhDxPCSgxdUFVuIfP+jD0AOoRIeJC9RiYGc2EY96DVeeh+iFv
+ Xdzs8y/g==;
+Received: from [90.241.98.187] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1tfdMQ-003vSo-EO; Wed, 05 Feb 2025 12:14:32 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 200531] amdgpu: *ERROR* REG_WAIT timeout when a display is put
- to sleep
-Date: Wed, 05 Feb 2025 11:09:56 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ramses@well-founded.dev
-X-Bugzilla-Status: REOPENED
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-200531-2300-PcrbFxAEhz@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-200531-2300@https.bugzilla.kernel.org/>
-References: <bug-200531-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <pstanner@redhat.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org
+Subject: [RFC] drm/scheduler: Remove mention of TDR from scheduler API
+Date: Wed,  5 Feb 2025 11:14:27 +0000
+Message-ID: <20250205111427.8043-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,162 +64,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D200531
+Christian suggests scheduler should not use the term TDR because it only
+can do basic timeout detection on it's own, not the full blown timeout-
+detection-and-recovery (TDR) as the term is generally understood.
 
-Ramses VdP (ramses@well-founded.dev) changed:
+Attempt to rename it to a more basic drm_sched_trigger_timeout.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |ramses@well-founded.dev
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Suggested-by: Christian König <christian.koenig@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@redhat.com>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <pstanner@redhat.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: intel-xe@lists.freedesktop.org
+---
+While doing this I have however noticed the pre-existing drm_sched_fault
+API sitting right below drm_sched_tdr_queue_imm() added by
+3c6c7ca4508b ("drm/sched: Add a helper to queue TDR immediately").
 
---- Comment #13 from Ramses VdP (ramses@well-founded.dev) ---
-This still happens on 6.13.1:
+It does not appear to be documented in the kernel doc why is the
+newer API setting sched->timeout permanently to zero, or why are
+both needed and what are the considerations to use one versus the
+other. Perhaps Matt can clarify as the author of the newer API.
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 32 ++++++++++++++------------
+ drivers/gpu/drm/xe/xe_gpu_scheduler.h  |  4 ++--
+ drivers/gpu/drm/xe/xe_guc_submit.c     |  8 +++----
+ include/drm/gpu_scheduler.h            |  8 +++----
+ 4 files changed, 27 insertions(+), 25 deletions(-)
 
-f=C3=A9v 05 10:07:39 framework kernel: amdgpu 0000:c1:00.0: [drm] REG_WAIT =
-timeout
-1us * 100 tries - dcn31_program_compbuf_size line:142
-f=C3=A9v 05 10:07:39 framework kernel: ------------[ cut here ]------------
-f=C3=A9v 05 10:07:39 framework kernel: WARNING: CPU: 11 PID: 2133 at
-drivers/gpu/drm/amd/amdgpu/../display/dc/hubbub/dcn31/dcn31_hubbub.c:151
-dcn31_program_compbuf_size+0xd2/0x240 [amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel: Modules linked in: rfcomm snd_seq_du=
-mmy
-snd_hrtimer snd_seq ccm algif_aead crypto_null dummy wireguard des3_ede_x86=
-_64
-curve25519_x86_64 libchacha20poly1305 chacha_x86_64 poly>
-f=C3=A9v 05 10:07:39 framework kernel:  snd_hda_codec_generic
-snd_hda_scodec_component snd_compress snd_usb_audio snd_hda_codec_hdmi ac97=
-_bus
-igc snd_pcm_dmaengine snd_rpl_pci_acp6x snd_acp_pci snd_acp_legacy_commo>
-f=C3=A9v 05 10:07:39 framework kernel:  serio_raw tcp_bbr sch_fq uinput tun=
- tap
-macvlan bridge stp llc kvm_amd ccp kvm fuse efi_pstore configfs nfnetlink z=
-ram
-842_decompress 842_compress lz4hc_compress lz4_compress>
-f=C3=A9v 05 10:07:39 framework kernel: CPU: 11 UID: 1000 PID: 2133 Comm: ni=
-ri Not
-tainted 6.13.1 #1-NixOS
-f=C3=A9v 05 10:07:39 framework kernel: Hardware name: Framework Laptop 13 (=
-AMD Ryzen
-7040Series)/FRANMDCP07, BIOS 03.05 03/29/2024
-f=C3=A9v 05 10:07:39 framework kernel: RIP:
-0010:dcn31_program_compbuf_size+0xd2/0x240 [amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel: Code: 48 8b 43 28 8b 88 d8 01 00 00 =
-48 8b 43
-20 0f b6 50 76 48 8b 43 18 8b b0 14 01 00 00 e8 17 a1 0e 00 85 c0 0f 85 45 =
-01
-00 00 90 <0f> 0b 90 48 8b 44 24 08 65 48 2b 04 25 28>
-f=C3=A9v 05 10:07:39 framework kernel: RSP: 0018:ffffab7d061d7708 EFLAGS: 0=
-0010202
-f=C3=A9v 05 10:07:39 framework kernel: RAX: 0000000000000001 RBX: ffff951f4=
-35a3400
-RCX: 0000000000000000
-f=C3=A9v 05 10:07:39 framework kernel: RDX: 0000000000000000 RSI: 000000000=
-0000000
-RDI: 0000000000000000
-f=C3=A9v 05 10:07:39 framework kernel: RBP: 0000000000000004 R08: 000000000=
-0000000
-R09: 0000000000000000
-f=C3=A9v 05 10:07:39 framework kernel: R10: 0000000000000000 R11: 000000000=
-0000000
-R12: ffff952280200000
-f=C3=A9v 05 10:07:39 framework kernel: R13: ffff951f5b400000 R14: ffff951f4=
-35a3400
-R15: 0000000000000004
-f=C3=A9v 05 10:07:39 framework kernel: FS:  00007fe2f88c5d00(0000)
-GS:ffff952e1ff80000(0000) knlGS:0000000000000000
-f=C3=A9v 05 10:07:39 framework kernel: CS:  0010 DS: 0000 ES: 0000 CR0:
-0000000080050033
-f=C3=A9v 05 10:07:39 framework kernel: CR2: 0000556b362d7dc0 CR3: 000000043=
-19ec000
-CR4: 0000000000f50ef0
-f=C3=A9v 05 10:07:39 framework kernel: PKRU: 55555554
-f=C3=A9v 05 10:07:39 framework kernel: Call Trace:
-f=C3=A9v 05 10:07:39 framework kernel:  <TASK>
-f=C3=A9v 05 10:07:39 framework kernel:  ? dcn31_program_compbuf_size+0xd2/0=
-x240
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  ? __warn.cold+0x93/0xf6
-f=C3=A9v 05 10:07:39 framework kernel:  ? dcn31_program_compbuf_size+0xd2/0=
-x240
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  ? report_bug+0x10d/0x150
-f=C3=A9v 05 10:07:39 framework kernel:  ? handle_bug+0x61/0xb0
-f=C3=A9v 05 10:07:39 framework kernel:  ? exc_invalid_op+0x17/0x80
-f=C3=A9v 05 10:07:39 framework kernel:  ? asm_exc_invalid_op+0x1a/0x20
-f=C3=A9v 05 10:07:39 framework kernel:  ? dcn31_program_compbuf_size+0xd2/0=
-x240
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  ? dcn31_program_compbuf_size+0xc9/0=
-x240
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  dcn20_optimize_bandwidth+0xe4/0x240=
- [amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  dc_commit_state_no_check+0xc6c/0xeb0
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  dc_commit_streams+0x283/0x470 [amdg=
-pu]
-f=C3=A9v 05 10:07:39 framework kernel:  amdgpu_dm_atomic_commit_tail+0x67d/=
-0x3760
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  ? dcn314_validate_bandwidth+0x100/0=
-x2c0
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  ? srso_alias_return_thunk+0x5/0xfbe=
-f5
-f=C3=A9v 05 10:07:39 framework kernel:  ? amdgpu_dm_atomic_check+0x161f/0x1=
-800
-[amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  ? srso_alias_return_thunk+0x5/0xfbe=
-f5
-f=C3=A9v 05 10:07:39 framework kernel:  ? __wait_for_common+0x192/0x1d0
-f=C3=A9v 05 10:07:39 framework kernel:  ? __pfx_schedule_timeout+0x10/0x10
-f=C3=A9v 05 10:07:39 framework kernel:  commit_tail+0x91/0x130
-f=C3=A9v 05 10:07:39 framework kernel:  drm_atomic_helper_commit+0x126/0x150
-f=C3=A9v 05 10:07:39 framework kernel:  drm_atomic_commit+0xaf/0xf0
-f=C3=A9v 05 10:07:39 framework kernel:  ? __pfx___drm_printfn_info+0x10/0x10
-f=C3=A9v 05 10:07:39 framework kernel:  drm_mode_atomic_ioctl+0xada/0xd30
-f=C3=A9v 05 10:07:39 framework kernel:  ? __wake_up_sync_key+0x3b/0x60
-f=C3=A9v 05 10:07:39 framework kernel:  ? __pfx_drm_mode_atomic_ioctl+0x10/=
-0x10
-f=C3=A9v 05 10:07:39 framework kernel:  drm_ioctl_kernel+0xb5/0x110
-f=C3=A9v 05 10:07:39 framework kernel:  drm_ioctl+0x288/0x4e0
-f=C3=A9v 05 10:07:39 framework kernel:  ? __pfx_drm_mode_atomic_ioctl+0x10/=
-0x10
-f=C3=A9v 05 10:07:39 framework kernel:  amdgpu_drm_ioctl+0x4b/0x90 [amdgpu]
-f=C3=A9v 05 10:07:39 framework kernel:  __x64_sys_ioctl+0xa0/0xe0
-f=C3=A9v 05 10:07:39 framework kernel:  do_syscall_64+0xb7/0x210
-f=C3=A9v 05 10:07:39 framework kernel:  entry_SYSCALL_64_after_hwframe+0x77=
-/0x7f
-f=C3=A9v 05 10:07:39 framework kernel: RIP: 0033:0x556b36a97c4c
-f=C3=A9v 05 10:07:39 framework kernel: Code: 4c 89 6c 24 18 4c 89 64 24 20 =
-4c 89 74
-24 28 0f 57 c0 0f 11 44 24 30 89 c7 48 8d 54 24 08 b8 10 00 00 00 be bc 64 =
-38
-c0 0f 05 <49> 89 c7 48 83 3b 00 74 09 4c 89 c7 ff 15>
-f=C3=A9v 05 10:07:39 framework kernel: RSP: 002b:00007ffc5fd86420 EFLAGS: 0=
-0000213
-ORIG_RAX: 0000000000000010
-f=C3=A9v 05 10:07:39 framework kernel: RAX: ffffffffffffffda RBX: 00007ffc5=
-fd864c0
-RCX: 0000556b36a97c4c
-f=C3=A9v 05 10:07:39 framework kernel: RDX: 00007ffc5fd86428 RSI: 00000000c=
-03864bc
-RDI: 0000000000000028
-f=C3=A9v 05 10:07:39 framework kernel: RBP: 0000000000000000 R08: 0000556b6=
-3cc7fd0
-R09: 0000000000000001
-f=C3=A9v 05 10:07:39 framework kernel: R10: 0000000000000000 R11: 000000000=
-0000213
-R12: 0000556b63da5590
-f=C3=A9v 05 10:07:39 framework kernel: R13: 0000556b63cc7ff0 R14: 0000556b6=
-40923f0
-R15: 0000000000000000
-f=C3=A9v 05 10:07:39 framework kernel:  </TASK>
-f=C3=A9v 05 10:07:39 framework kernel: ---[ end trace 0000000000000000 ]---
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index a48be16ab84f..b01792fe6141 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -433,7 +433,8 @@ static void drm_sched_start_timeout(struct drm_gpu_scheduler *sched)
+ 
+ 	if (sched->timeout != MAX_SCHEDULE_TIMEOUT &&
+ 	    !list_empty(&sched->pending_list))
+-		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, sched->timeout);
++		mod_delayed_work(sched->timeout_wq, &sched->work_timeout,
++				 sched->timeout);
+ }
+ 
+ static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
+@@ -444,20 +445,20 @@ static void drm_sched_start_timeout_unlocked(struct drm_gpu_scheduler *sched)
+ }
+ 
+ /**
+- * drm_sched_tdr_queue_imm: - immediately start job timeout handler
++ * drm_sched_trigger_timeout: - immediately start job timeout handler
+  *
+  * @sched: scheduler for which the timeout handling should be started.
+  *
+  * Start timeout handling immediately for the named scheduler.
+  */
+-void drm_sched_tdr_queue_imm(struct drm_gpu_scheduler *sched)
++void drm_sched_trigger_timeout(struct drm_gpu_scheduler *sched)
+ {
+ 	spin_lock(&sched->job_list_lock);
+ 	sched->timeout = 0;
+ 	drm_sched_start_timeout(sched);
+ 	spin_unlock(&sched->job_list_lock);
+ }
+-EXPORT_SYMBOL(drm_sched_tdr_queue_imm);
++EXPORT_SYMBOL(drm_sched_trigger_timeout);
+ 
+ /**
+  * drm_sched_fault - immediately start timeout handler
+@@ -469,7 +470,7 @@ EXPORT_SYMBOL(drm_sched_tdr_queue_imm);
+ void drm_sched_fault(struct drm_gpu_scheduler *sched)
+ {
+ 	if (sched->timeout_wq)
+-		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, 0);
++		mod_delayed_work(sched->timeout_wq, &sched->work_timeout, 0);
+ }
+ EXPORT_SYMBOL(drm_sched_fault);
+ 
+@@ -489,14 +490,15 @@ unsigned long drm_sched_suspend_timeout(struct drm_gpu_scheduler *sched)
+ {
+ 	unsigned long sched_timeout, now = jiffies;
+ 
+-	sched_timeout = sched->work_tdr.timer.expires;
++	sched_timeout = sched->work_timeout.timer.expires;
+ 
+ 	/*
+ 	 * Modify the timeout to an arbitrarily large value. This also prevents
+ 	 * the timeout to be restarted when new submissions arrive
+ 	 */
+-	if (mod_delayed_work(sched->timeout_wq, &sched->work_tdr, MAX_SCHEDULE_TIMEOUT)
+-			&& time_after(sched_timeout, now))
++	if (mod_delayed_work(sched->timeout_wq, &sched->work_timeout,
++			     MAX_SCHEDULE_TIMEOUT) &&
++	    time_after(sched_timeout, now))
+ 		return sched_timeout - now;
+ 	else
+ 		return sched->timeout;
+@@ -517,9 +519,9 @@ void drm_sched_resume_timeout(struct drm_gpu_scheduler *sched,
+ 	spin_lock(&sched->job_list_lock);
+ 
+ 	if (list_empty(&sched->pending_list))
+-		cancel_delayed_work(&sched->work_tdr);
++		cancel_delayed_work(&sched->work_timeout);
+ 	else
+-		mod_delayed_work(sched->timeout_wq, &sched->work_tdr, remaining);
++		mod_delayed_work(sched->timeout_wq, &sched->work_timeout, remaining);
+ 
+ 	spin_unlock(&sched->job_list_lock);
+ }
+@@ -541,7 +543,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ 	struct drm_sched_job *job;
+ 	enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
+ 
+-	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
++	sched = container_of(work, struct drm_gpu_scheduler, work_timeout.work);
+ 
+ 	/* Protects against concurrent deletion in drm_sched_get_finished_job */
+ 	spin_lock(&sched->job_list_lock);
+@@ -659,7 +661,7 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+ 	 * this TDR finished and before the newly restarted jobs had a
+ 	 * chance to complete.
+ 	 */
+-	cancel_delayed_work(&sched->work_tdr);
++	cancel_delayed_work(&sched->work_timeout);
+ }
+ EXPORT_SYMBOL(drm_sched_stop);
+ 
+@@ -1107,7 +1109,7 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+ 		list_del_init(&job->list);
+ 
+ 		/* cancel this job's TO timer */
+-		cancel_delayed_work(&sched->work_tdr);
++		cancel_delayed_work(&sched->work_timeout);
+ 		/* make the scheduled timestamp more accurate */
+ 		next = list_first_entry_or_null(&sched->pending_list,
+ 						typeof(*next), list);
+@@ -1325,7 +1327,7 @@ int drm_sched_init(struct drm_gpu_scheduler *sched,
+ 	INIT_LIST_HEAD(&sched->pending_list);
+ 	spin_lock_init(&sched->job_list_lock);
+ 	atomic_set(&sched->credit_count, 0);
+-	INIT_DELAYED_WORK(&sched->work_tdr, drm_sched_job_timedout);
++	INIT_DELAYED_WORK(&sched->work_timeout, drm_sched_job_timedout);
+ 	INIT_WORK(&sched->work_run_job, drm_sched_run_job_work);
+ 	INIT_WORK(&sched->work_free_job, drm_sched_free_job_work);
+ 	atomic_set(&sched->_score, 0);
+@@ -1395,7 +1397,7 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ 	wake_up_all(&sched->job_scheduled);
+ 
+ 	/* Confirm no work left behind accessing device structures */
+-	cancel_delayed_work_sync(&sched->work_tdr);
++	cancel_delayed_work_sync(&sched->work_timeout);
+ 
+ 	if (sched->own_submit_wq)
+ 		destroy_workqueue(sched->submit_wq);
+diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.h b/drivers/gpu/drm/xe/xe_gpu_scheduler.h
+index c250ea773491..3fd728b1bfd6 100644
+--- a/drivers/gpu/drm/xe/xe_gpu_scheduler.h
++++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.h
+@@ -44,9 +44,9 @@ static inline void xe_sched_stop(struct xe_gpu_scheduler *sched)
+ 	drm_sched_stop(&sched->base, NULL);
+ }
+ 
+-static inline void xe_sched_tdr_queue_imm(struct xe_gpu_scheduler *sched)
++static inline void xe_sched_trigger_timeout(struct xe_gpu_scheduler *sched)
+ {
+-	drm_sched_tdr_queue_imm(&sched->base);
++	drm_sched_trigger_timeout(&sched->base);
+ }
+ 
+ static inline void xe_sched_resubmit_jobs(struct xe_gpu_scheduler *sched)
+diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+index 913c74d6e2ae..968709fd6db4 100644
+--- a/drivers/gpu/drm/xe/xe_guc_submit.c
++++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+@@ -778,7 +778,7 @@ static void disable_scheduling_deregister(struct xe_guc *guc,
+ 		xe_gt_warn(q->gt, "Pending enable/disable failed to respond\n");
+ 		xe_sched_submission_start(sched);
+ 		xe_gt_reset_async(q->gt);
+-		xe_sched_tdr_queue_imm(sched);
++		xe_sched_trigger_timeout(sched);
+ 		return;
+ 	}
+ 
+@@ -807,7 +807,7 @@ static void xe_guc_exec_queue_trigger_cleanup(struct xe_exec_queue *q)
+ 	if (xe_exec_queue_is_lr(q))
+ 		queue_work(guc_to_gt(guc)->ordered_wq, &q->guc->lr_tdr);
+ 	else
+-		xe_sched_tdr_queue_imm(&q->guc->sched);
++		xe_sched_trigger_timeout(&q->guc->sched);
+ }
+ 
+ /**
+@@ -986,7 +986,7 @@ static void enable_scheduling(struct xe_exec_queue *q)
+ 		xe_gt_warn(guc_to_gt(guc), "Schedule enable failed to respond");
+ 		set_exec_queue_banned(q);
+ 		xe_gt_reset_async(q->gt);
+-		xe_sched_tdr_queue_imm(&q->guc->sched);
++		xe_sched_trigger_timeout(&q->guc->sched);
+ 	}
+ }
+ 
+@@ -1144,7 +1144,7 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 			xe_exec_queue_get(q);	/* GT reset owns this */
+ 			set_exec_queue_banned(q);
+ 			xe_gt_reset_async(q->gt);
+-			xe_sched_tdr_queue_imm(sched);
++			xe_sched_trigger_timeout(sched);
+ 			goto rearm;
+ 		}
+ 	}
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index cf88f2bd020f..666968cf505d 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -494,10 +494,10 @@ struct drm_sched_backend_ops {
+  *                 finished.
+  * @job_id_count: used to assign unique id to the each job.
+  * @submit_wq: workqueue used to queue @work_run_job and @work_free_job
+- * @timeout_wq: workqueue used to queue @work_tdr
++ * @timeout_wq: workqueue used to queue @work_timeout
+  * @work_run_job: work which calls run_job op of each scheduler.
+  * @work_free_job: work which calls free_job op of each scheduler.
+- * @work_tdr: schedules a delayed call to @drm_sched_job_timedout after the
++ * @work_timeout: schedules a delayed call to @drm_sched_job_timedout after the
+  *            timeout interval is over.
+  * @pending_list: the list of jobs which are currently in the job queue.
+  * @job_list_lock: lock to protect the pending_list.
+@@ -527,7 +527,7 @@ struct drm_gpu_scheduler {
+ 	struct workqueue_struct		*timeout_wq;
+ 	struct work_struct		work_run_job;
+ 	struct work_struct		work_free_job;
+-	struct delayed_work		work_tdr;
++	struct delayed_work		work_timeout;
+ 	struct list_head		pending_list;
+ 	spinlock_t			job_list_lock;
+ 	int				hang_limit;
+@@ -571,7 +571,7 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+ 				    struct drm_gpu_scheduler **sched_list,
+                                    unsigned int num_sched_list);
+ 
+-void drm_sched_tdr_queue_imm(struct drm_gpu_scheduler *sched);
++void drm_sched_trigger_timeout(struct drm_gpu_scheduler *sched);
+ void drm_sched_job_cleanup(struct drm_sched_job *job);
+ void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+ bool drm_sched_wqueue_ready(struct drm_gpu_scheduler *sched);
+-- 
+2.48.0
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
