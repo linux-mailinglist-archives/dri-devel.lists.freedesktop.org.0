@@ -2,109 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98825A29AD6
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 21:11:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EDCEA29ADF
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 21:12:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1772910E3DB;
-	Wed,  5 Feb 2025 20:11:40 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bvR+jL3T";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 587B610E3DE;
+	Wed,  5 Feb 2025 20:11:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2B8110E3DB
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 20:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738786298;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZN6lOxdYMjUO49jm3bB80agqHnejl+uLnWAidVCm81Y=;
- b=bvR+jL3TD96NzqJmDt7WDWuZum9wumQiW6+NvP9T9MlmHqventyBpYwCFwcxkORnLKpBKz
- a704TGzExiWWEp+dPQeDCTlNCK37lfynyG61z6Fg1gR/CjulqUsDOITYUlcRYykhYF4p+L
- /pdw6ZGW4cF/jwO1W6dK3yKcmHR6l7Y=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-564-VivRk6b0MMGXZMwAVSQiaA-1; Wed,
- 05 Feb 2025 15:11:35 -0500
-X-MC-Unique: VivRk6b0MMGXZMwAVSQiaA-1
-X-Mimecast-MFC-AGG-ID: VivRk6b0MMGXZMwAVSQiaA
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id BA2681801A18; Wed,  5 Feb 2025 20:11:28 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
- by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 760DD19560AB; Wed,  5 Feb 2025 20:11:18 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 05 Feb 2025 15:08:08 -0500
-Subject: [PATCH 12/12] Documentation: Update the todo
+Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BDE10E3DE;
+ Wed,  5 Feb 2025 20:11:51 +0000 (UTC)
+Message-ID: <cd63aaf6-8c17-4e6f-9fa1-bf4d23410806@lankhorst.se>
+Date: Wed, 5 Feb 2025 21:11:47 +0100
 MIME-Version: 1.0
-Message-Id: <20250205-mem-cocci-newapi-v1-12-aebf2b0e2300@redhat.com>
-References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
-In-Reply-To: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
-To: Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Alexey Brodkin <abrodkin@synopsys.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
- linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
- linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=1470;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=8E/zDOS2y2jXYtpxt4v/XPpri1L2d3Hp1icGGz6XyLc=;
- b=kvdtINpTCFoOpfqXf/fVrI+PlDBH109lqvGOt8aqdxgPNRLHbndphfZbHS68h26FBvlE/Lev1
- rwTEVkvxYkZBkVPbSaO6vTBgPPPOtlnOVyP8CR4ue3yQ+gZM3xTUog2
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: TyVEPa4aD4cZZUB-QrPIWsgPL6h7_6AIdtg7LMtU7js_1738786288
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-resent-to-correct-ml 0/8] drm/xe: Convert xe_force_wake
+ calls to guard helpers.
+To: David Lechner <dlechner@baylibre.com>, intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+ Boqun Feng <boqun.feng@gmail.com>
+References: <20250204132238.162608-1-dev@lankhorst.se>
+ <e4befaab-9622-40d3-bd4c-e12111df45e7@baylibre.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <e4befaab-9622-40d3-bd4c-e12111df45e7@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -121,41 +45,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update the Documentation to be more precise.
+Hey,
 
-v2: Update for clarity
+Thanks for your feedback. I think in this case you are right, and it 
+will become unreadable.
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- Documentation/gpu/todo.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+I'll try to make sparse annotations work, and then see if we can enable 
+it in CI for all.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 256d0d1cb2164bd94f9b610a751b907834d96a21..03fcd086889acbd1294669b260292ffc79e97e2f 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -441,13 +441,13 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Intermediate
- 
--Request memory regions in all drivers
---------------------------------------
-+Request memory regions in all fbdev drivers
-+--------------------------------------------
- 
--Go through all drivers and add code to request the memory regions that the
--driver uses. This requires adding calls to request_mem_region(),
--pci_request_region() or similar functions. Use helpers for managed cleanup
--where possible.
-+Old/ancient fbdev drivers do not request their memory properly.
-+Go through these drivers and add code to request the memory regions that the
-+driver uses. Problematic areas include hardware that has exclusive ranges like
-+VGA. VGA16fb does not request the range as it is expected.
- 
- Drivers are pretty bad at doing this and there used to be conflicts among
- DRM and fbdev drivers. Still, it's the correct thing to do.
+Cheers,
+~Maarten
 
--- 
-2.47.0
+On 2025-02-04 18:40, David Lechner wrote:
+> On 2/4/25 7:22 AM, Maarten Lankhorst wrote:
+>> Ignore my previous series please, it should have been sent to intel-xe, was sent to intel-gfx.
+>>
+>> Instead of all this repetition of
+>>
+>> {
+>> 	unsigned fw_ref;
+>>
+>> 	fw_ref = xe_force_wake_get(fw, domain);
+>> 	if (!xe_force_wake_ref_has_domain(..))
+>> 		return -ETIMEDOUT;
+>>
+>> 	...
+>>
+>> out:
+>> 	xe_force_wake_put(fw_ref);
+>> 	return ret;
+>> }
+>>
+>> I thought I would look at how to replace it with the guard helpers.
+>> It is easy, but it required some minor fixes to make DEFINE_LOCK_GUARD_1
+>> work with extra init arguments.
+>>
+>> So I changed the function signature slightly to make the first optional argument
+>> a struct member (current behavior), and any additional argument goes to the init
+>> call.
+>>
+>> This replaces the previous code with
+>> {
+>> 	scoped_cond_guard(xe_force_wake_get, return -ETIMEDOUT, fw, domain) {
+>> 		....
+>>
+>> 		return ret;
+>> 	}
+>> }
+>>
+>> I' ve thought also of playing with this:
+>> {
+>> 	CLASS(xe_force_wake_get, fw_ref)(fw, domain);
+>> 	if (!fw_ref.lock))
+>> 		return -ETIMEDOUT;
+>>
+>> 	...
+>> 	return ret;
+>> }
+>>
+>> I'm just fearing that the scoped_cond_guard makes it imposssible to get this
+>> wrong, while in the second example it's not clear that it can fail, and that
+>> you have to check.
+>>
+>> Let me know what you think!
+>> Feedback welcome for the header change as well, should probably go into the locking tree..
+>>
+> When I tried to make a similar improvement, Linus said to please stop trying
+> with the conditional guard stuff [1]. So my advice is don't do it.
+> 
+> Just replace the:
+> 
+>> 	...
+>>
+>> out:
+> 
+> with a helper function if you want to get rid of the gotos.
+> 
+> That is what we are doing in the iio subsystem [2][3].
+> 
+> [1]: https://lore.kernel.org/all/CAHk-=whn07tnDosPfn+UcAtWHBcLg=KqA16SHVv0GV4t8P1fHw@mail.gmail.com/
+> [2]: https://lore.kernel.org/all/20250105172613.1204781-1-jic23@kernel.org/
+> [3]: https://lore.kernel.org/all/20250202210045.1a9e85d7@jic23-huawei/
 
