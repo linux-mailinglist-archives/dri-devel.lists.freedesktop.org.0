@@ -2,148 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF28A28D30
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 14:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB05A28D81
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:02:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D1810E7B6;
-	Wed,  5 Feb 2025 13:58:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66EA410E7DB;
+	Wed,  5 Feb 2025 14:02:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ti4XGWFw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BoMYz6MF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2055.outbound.protection.outlook.com [40.107.94.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A60110E1EA;
- Wed,  5 Feb 2025 13:57:19 +0000 (UTC)
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2042.outbound.protection.outlook.com [40.107.101.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7925010E7D9;
+ Wed,  5 Feb 2025 14:02:17 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VuOblGkJOeapPZ0wuOgUsZHr+JR+jtKHKCtW7RJrAv0kIxQC827lxcdeiZrf0v7gTdOTeK0wcGggJowBYxvkRVEDalfT6fgPbrMh03skxEJAPK29H6fc4ABQBkjvTNSXeo+SNDaXq19ObhQ6NlBA/NtO5cSHcDsgi5GTbRtg+Nlj+/2IjUO9qzu5j2tcsx68SNt3LkNRoFZZK6Q3LeewANrt+/CW86mGReEpwjUOgRnL4cgv1LSRVd1Uy1ddsznvdIboThahM3SmKFXAofRUChgpS1JleRyBF1Leowz9sEnrDB4zi1eFkqFZgfFT9q7NIrWnh0K06O47eKl9aa/yVA==
+ b=PkO4SRI1fQzOjyg+sB3hLK2HoeSbhF9saDBvtOd3NYwOq9TT1ceuMdjj92AGQFTkAU7JaJtU7FrIt4sRtsFBEmgAEF+rxrbN2I+5Gg3OefIoHrPrDSPSMyaYQS9hFmwKnis6WkDOqS8pYAkYesrtzsfcTwCUl6boKFS8vVuWXx9jMgQvwWAo5ElzbU8VuUwSy722ytevkquawg2dpxsCTm0aRkwiMPHW3OYCOh8fXLtxRNPMV+dMIH91+CT0PvNJc5iQ19dRoHKSDNuCTx2KVeTN+cjDzfeALc+VF/Qr3UB45nqhqK2mHirbJxLTzDbT+7qJJp/eUJ1+vw6yOdAhiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KG9Cz6cv5UJTe7nkxSACgZVZjH1AcRl43ztjDGbg32Y=;
- b=BXYP67GDe9D6AKN2EMb7akiEsA95iS56pyoRGPfdM5tTh1jYgUSpJREBQr58jpcrp1TnB8Yhi/jAFVJs0c/bG1jUKhVObWy0Hpji+ZlOQJvj4jRCM/42pddTDjf2BWtfQ48S7tpa1nHa0nsjpae52sYmrRjIBUMYZYG5CuKqwDFObRS+F/TaXHJFOFxi4sL2h/ijsqyBTlGgRjEk50q8FdbQOctdoC4SUI9Pa3nDxtrCzKvJLsEQtw3yJImg/MBwbLWlugWoednix1Yt/BJfLsNsXJWcd+tWhA/MUwbFLYScEZybINcj5QHHcqXu32dFqXgYfUdf28duny1MpzaCIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=cOAQVjLG5Xi9+gLthSEEIH0tIOqdqjy3yB6AQfF1m+Q=;
+ b=nIlEvXDVqfDkQf/XqV+ygQLVRuoh9UN4MI1dq5cPcpFEKx7+neA6Uoz71lXcNW3vatrnP1usL7rGXoNGB0bhKGokue/CpIif5kuD+3UB544Un930dWjv4AIw3q1sJnaiuYHitjDOq0Go2gU2GTCCqHFZE6d2z5E6PZY7lnqfNFmAi8VPDspkNfM8YHVgi8oQErVeZqCG8Ky2rCdP0TD4xv2p1Z4omHyvaIO63imRNpnZpo+qn+6EeSbtB7EhT1KBse38Ra7JNjPGZyHTgOrgo3ltcM9PsOXGKxxKzuVLPC+sDTjSxgzmB8NE10MN3LXmJmtt2q24HWoYL2uTlCHBoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KG9Cz6cv5UJTe7nkxSACgZVZjH1AcRl43ztjDGbg32Y=;
- b=ti4XGWFwe4i6KadOEkQ7+1bx/QcH0GBhyLZoJoEI14UovOERBZ1s+2pOn/hSSud0NR5TnPuTJ4m5i+cYSzfpnaOhaQ64ym3BdFt9DHBi7u264IuogOEA9BrUHsDt6PT1YzW4x7m1+4KfjKvKOgFuFfD2dIjvdposZi3nS8821nYesDu976CisPdPf0upB+eyNAflm0T438CRrDQnyjDDn98QqaUguFp8Rmq8XmeapNG6i8V7mdN0oukcCqoxF6SU/3Jv1FLkk3pxdBZ7kMAZDANqucQ8hPRCvQG7v36jhz9GrAhpmacAjL5oovIhA5GBApnClnIl7IGgu3Y99fDB6w==
-Received: from BN0PR04CA0080.namprd04.prod.outlook.com (2603:10b6:408:ea::25)
- by CH3PR12MB8660.namprd12.prod.outlook.com (2603:10b6:610:177::5)
+ bh=cOAQVjLG5Xi9+gLthSEEIH0tIOqdqjy3yB6AQfF1m+Q=;
+ b=BoMYz6MF8OSdNkoCQHfDbVF4Sf67vOG2+bUj1DgW6zd6Owy88a8diNCOhT3Czcs8FN/Y0PlQ+gz3LNCLbRUdqMaETHQhnBVehuvU9ygkZyqyZTZh0t1TclcyAT+QpSYMWw0rLl1pgloTz5wMpWlhJyGYzrOKLzxU7lsTorck1cI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB8540.namprd12.prod.outlook.com (2603:10b6:208:454::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Wed, 5 Feb
- 2025 13:57:12 +0000
-Received: from BL02EPF0001A0FB.namprd03.prod.outlook.com
- (2603:10b6:408:ea:cafe::68) by BN0PR04CA0080.outlook.office365.com
- (2603:10b6:408:ea::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.20 via Frontend Transport; Wed,
- 5 Feb 2025 13:57:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BL02EPF0001A0FB.mail.protection.outlook.com (10.167.242.102) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8398.14 via Frontend Transport; Wed, 5 Feb 2025 13:57:11 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 5 Feb 2025
- 05:56:53 -0800
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 5 Feb
- 2025 05:56:53 -0800
-Received: from localhost (10.127.8.14) by mail.nvidia.com (10.129.68.7) with
- Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Wed, 5 Feb 2025
- 05:56:46 -0800
-Date: Wed, 5 Feb 2025 15:56:46 +0200
-From: Zhi Wang <zhiw@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>
-CC: <airlied@gmail.com>, <simona@ffwll.ch>, <corbet@lwn.net>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <ajanulgu@redhat.com>, <lyude@redhat.com>,
- <pstanner@redhat.com>, <cjia@nvidia.com>, <jhubbard@nvidia.com>,
- <bskeggs@nvidia.com>, <acurrid@nvidia.com>, <ojeda@kernel.org>,
- <alex.gaynor@gmail.com>, <boqun.feng@gmail.com>, <gary@garyguo.net>,
- <bjorn3_gh@protonmail.com>, <benno.lossin@proton.me>,
- <a.hindborg@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
- <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] gpu: nova-core: add initial documentation
-Message-ID: <20250205155646.00003c2f@nvidia.com>
-In-Reply-To: <20250204190400.2550-2-dakr@kernel.org>
-References: <20250204190400.2550-1-dakr@kernel.org>
- <20250204190400.2550-2-dakr@kernel.org>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-w64-mingw32)
+ 2025 14:02:13 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8422.010; Wed, 5 Feb 2025
+ 14:02:13 +0000
+Message-ID: <57ec915f-f766-413e-9377-af37071f29d8@amd.com>
+Date: Wed, 5 Feb 2025 15:02:08 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v16 2/7] drm/ttm/pool, drm/ttm/tt: Provide a helper to
+ shrink pages
+To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
+References: <20250130101325.3068-1-thomas.hellstrom@linux.intel.com>
+ <20250130101325.3068-3-thomas.hellstrom@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250130101325.3068-3-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0175.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a0::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FB:EE_|CH3PR12MB8660:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9566676-b792-4bbb-7dc5-08dd45ecfd52
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB8540:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52e7f35c-adee-40fe-4884-08dd45edb098
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|7416014|1800799024|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SFkvQWtOMCtHNERzaGFlV2pUYmdKaVd1dUptMWVHN3BWWlZSM3NaZGZEVXZy?=
- =?utf-8?B?dXEvektJaC84RmNYdm9aaHl3VU1zSUkvUkRHOHRield5bnQ2MjVEVzBNR1lt?=
- =?utf-8?B?eUQ3TkJmWktKSmZQV0pGcUZkdkl5OElHT0cvMlJKUm5qY0NlUEIxUHAvSmg0?=
- =?utf-8?B?Q0FPaDhuRFN1NWxreDFraWU0ZVY4WG1LK3lzaXVJNE9BVkl4T1JOdHdjM0JE?=
- =?utf-8?B?SzhhdEVkaTc0cm9iRjI3VG9vLzMvQWtQZHUrOHErcGh0TnN2dzZzTzZDazJ2?=
- =?utf-8?B?VkVlak5Fbm81NXFKUWN4UTU5aFo1bEgrVlRBdkJnbm5JZ05WZzV3YUY4NDNU?=
- =?utf-8?B?TGZpbUd5VnhYcGxZUlc2d01Jeld6Sk1peHlKVmVCcEl5UVV0SUI1M0RjMFRx?=
- =?utf-8?B?U0NtMDNKMXJKYktwZVFQV0J2ZHRINVZYTnNPc0JPdE1zWmZiRm11K1FWQXF4?=
- =?utf-8?B?a3BzZjdIY0QvZTNoaHMzaDE5b3U0YkhjajNFYkhLVm1NVXdER0F2NVJFSlg0?=
- =?utf-8?B?VU1OZEFGMWQ2NndsL0EzVzlhZDdOdU1pYmNQRElXZlhoS1I0OUlyeWxpSFpQ?=
- =?utf-8?B?cDdNMkttbXk5OTBkc1FvVEhEcjJHVHBkaDNHQUZ4R3hVd2x4S2FqdUlDR002?=
- =?utf-8?B?eXJseEtSRDJZOHBxdVhEblVjTlFUTjJtV1IwRDJBVktSMTJWOG0vT1A2MHFE?=
- =?utf-8?B?akY3TDIzeCtkLyt2WS9XVnVFUnFxaDRLR3ZiUGp6T1J0UDQxNHd3RzBTZE1P?=
- =?utf-8?B?Vm1zQW5yWC8xRFRyYWtJcnBkSm8raTZ0WENqOURVc1FNVzNJcG1wMHM5T3k5?=
- =?utf-8?B?bmdwTDVGVG5zN3lyUXo2MFkyUGtOejhoRTZSd1VEYktoUXVHV3BodEFJSmpD?=
- =?utf-8?B?bzBuTXIvU1lBRGlpc1dkVHp2bm9uUzVXd0FEcTk5VXBMYnJETXYrUm1DY2VV?=
- =?utf-8?B?WTQ0WXJSbHpnUUhYa0VId1RrY1RZNmJpUFhndDdCMHlZQVppVi9mWHVlN1JQ?=
- =?utf-8?B?Q0tKVzJXYkxHNUhxK1h5aDhEbWVkaTE5OEIwQjRXTVRSenoySk9MTHB6cUpR?=
- =?utf-8?B?VXc0blhEczV6bGVCb0NUTEdhUittQmlBZlBTV2xzZ0JKMW9SeEx6bDVrWHdC?=
- =?utf-8?B?NExhOVgrekZ0Rm5FcnhDK1hvaHYwYkpTQ3ZGK3hCajJOZkk3NE1XMzN5a3A5?=
- =?utf-8?B?S01TSUc5VEFBWjJEQ2g3Q3haU2xTN0JPb0wvcVE0YXJ6aGp4ejlISDdOaVEx?=
- =?utf-8?B?cDFybXZhdjNTU0tiN0FhVTlpbFUwNmpOTW0wSlpwbEhva3BGcHVKT1pUbWR6?=
- =?utf-8?B?Y2hFMlJ5TmdkVWplYWYyaXJFS0F0MHBsb1lRc0RpQXNBY25ZSHBCT2hrYm0w?=
- =?utf-8?B?L3grS2dLNG5VRkswbmJBVDNZQVFyKzBlMTVOQmxTajd0bWZJNWdYYTNDVkd6?=
- =?utf-8?B?czZUN016Ukg2d0xJQ0plRmRBOUpPVm1HTjVNSjVraG04Wk01amVsY3hJeFJv?=
- =?utf-8?B?ci9zb05VVWcxbnVtcElrSmowdXRhaWMxVFovdUVLMVpVYTdpQlRrN2dzdVJz?=
- =?utf-8?B?TUNPcGw0OERXa0Z6WHZyZk5yVkc3TWJwQzlaZlc0dzZpT3FCaWdGZkVpY2s5?=
- =?utf-8?B?OWNIZktaT0hCSU5BZGhCUEVvaGh5bk9CcCtwUU9jNkhDdW9MVm1qM2xoanYx?=
- =?utf-8?B?c3Z5ZzF2MVA3dWhTd2FtZ25HbjZvWE9xaGY0LzZwU240YWpQRlQ0aXpjU3cw?=
- =?utf-8?B?anRiNUV4aXpjMWViSzJwTmpWOW5MVG5vcHR5K3Y1RVBXeUxzQUJGeXFsMWJj?=
- =?utf-8?B?dE1FcTRXaW1ieXhlYjZkNE1WUCtqTER0Z2R5Zi9SNFZjdFpaalU3bjhtRVlC?=
- =?utf-8?B?RjZlNGdhbHFYZ3AzdUdLY0ZwM3FHZTNSb3pJaERLQ0s5UTRKS0E2WXlDVHl4?=
- =?utf-8?B?SUg5eXJKT3YzdGovVjVVNzdDMC91d3NRUTNIVldWUFRqY1FtUmIvSUtqY2Zu?=
- =?utf-8?Q?RBr804fJ7GXJDzwAM+RISV5pDylzxI=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(7416014)(1800799024)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 13:57:11.9087 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9566676-b792-4bbb-7dc5-08dd45ecfd52
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FB.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8660
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WDZRUUFSTHNJN3dORktvRGFLZHdKTldYNktjRmhCM0Z3dXdsSEpVK3dpQWpV?=
+ =?utf-8?B?NmZpcHMrQ1E4M1dKTDVyYzI5VmxSRWJ2QTlhY0RpSVpsY0N6Y3NpOVp5cjFq?=
+ =?utf-8?B?V083bGNBbHRZdWo1NXRueGVPazFOc05aM241OCtWWm00QUlORXcyMnVuVTND?=
+ =?utf-8?B?bmVib3hUcFN4QXRMaDRhWm9DVG04dUExUHVzMmhENXBSa3hWRzlhNnhBUkxP?=
+ =?utf-8?B?RmJXTnFFdEUzdGJSOHhQN1JzOFlJVDVoVGk1R0xDQTg4aHhQeUtPdm10bm9G?=
+ =?utf-8?B?dE1KaTkrbTl0R1ZkaTVqWUorTndaYi9rT3pPeThNbnFFTEFyYktWRm00Uy9Q?=
+ =?utf-8?B?TlIzQXViT1dvZy9ydVVXbTdZR3lUOGhQcGtFdk9XSkRVeG9BTkcxUVVMaUgy?=
+ =?utf-8?B?Zkt5ajhrUGEremUxV1U3RDZ3ZU9qZWRrSFcxVDh4RjFHL1R0dENtZ0VtcDVy?=
+ =?utf-8?B?RWxNeVp2NldWSWg0S2xhbE1tVTl1QWJGOVUvUXo5OHlKQXVYaEFGc3o0OGVS?=
+ =?utf-8?B?YTUxVU1ZcFZSeC9xYWdlOGhyVkFFS3BGSnJyVUVROFYrMkdDTFVMTThsTDNQ?=
+ =?utf-8?B?ZGJ4TU1LRjY1YUhOYzlQVHlTUTBFc0tWTVdOSXRlSkREM1QrenVORWFHbkNh?=
+ =?utf-8?B?ODFlc2ZhbEQ3N0QwYkxqczBzUlQ1cjJhWDhZSHZXcUg3dTNpSFFLVzRiVzRl?=
+ =?utf-8?B?bmh0VTlLS3hNdmJUbnJZMzYzeit3NGJ4RlZzUTNXZXhPVlB0Ti9FMXoyQ2hn?=
+ =?utf-8?B?cHNMZWs1S2tQNVB4V3lCRnVXcVR3MVE0T0xRc2o0TFlpWDMxcXhGZldjRmo0?=
+ =?utf-8?B?YWFrdWNKT0U5Y1BEOGxHNVNFV2ljVlV1cjFvZUNsSzlFVVN2Nkh4Zmx2RWYy?=
+ =?utf-8?B?WjBvRkFGRmdRVG1jei8zbUFxRmZKSTJxc1hIS0FWVnM0MkJiLzAxVllVMDFT?=
+ =?utf-8?B?cncraEltSytiRzlGd1Ywb0xrWUhSL2pidWVtTTBTMUhaZlYycHNXajZraG5O?=
+ =?utf-8?B?QXlJL1ZQWDBtNndRTHlCT3BLTHd3Vk1QOUZSWWdVSk9rdW4wbDV6UDRvUE5n?=
+ =?utf-8?B?dDFQWGc2ODJVTzR5c2xLaUMyYS9xb0c5Uk5qZTNwcXNQV0tiekdhOS9TWXVx?=
+ =?utf-8?B?T0pJZlR2dTQ0aTc2M3QrMkE0VlpETE5iTE5nZElGSEQxc2dRUFkyQllXZGVX?=
+ =?utf-8?B?WUFXNTBHMlpwUjM3WVQwT21nSmVBMGYwZklSSnc1MXdxWnRuS0FGU1htRXNz?=
+ =?utf-8?B?aU5SR0c2QlBZTW9iVGQrdnB2ZHpNNEhzSHM2enQ5YkR1czJrL2VoQkRkQzBC?=
+ =?utf-8?B?YWh4WFhma0ZkWTdxdWxoUUNUN1dHQm93dTVVTkFWZWpuR0htNFIvRkRzTzI4?=
+ =?utf-8?B?ZXFlM2wwSWgybmI4WWhzVkF2Sjg1b05WYmVJQ0pwc2Q3cEtkVVhScjE5S0M5?=
+ =?utf-8?B?V1ZYbldoZUNhTkpjNndsWDErSmlKY29PSE1KdFJhVUZmN1dHMXl1Z3hDWEEz?=
+ =?utf-8?B?QXF5cVF0V1hJcGdmN2dpUFdIRUNzcjNKeFU5Y1cxOHpKSCs0djdvbTF2bnM2?=
+ =?utf-8?B?WVdQUXBZOUxyS1d1d1UyQmxkWUd4Tk5oRDdDK1VjQnMvOFFKdVJKVmVXNElN?=
+ =?utf-8?B?SGVUdnZZYXhTMVV6ci9KaWlMSnlWL3FEZ0JGVGl5QTJkZHRiV2VPbU9Iejlx?=
+ =?utf-8?B?NFp1VXhlZU44NnpPeVNmMVM0cGREdUNzVkNEOUc5YjJwWVl6OHVpUDJqeUJV?=
+ =?utf-8?B?UFRqYVFLa0Q2ZTIrallUdEt0V1FNMyt0dHRoNUUvaDkvdm8yZFl6cEFDR0kr?=
+ =?utf-8?B?alpxZVY5b1BHY1ZWQTg5RDRrb0dndkphMFY3REdwUmd0bUhBZlZIQmRyc0dK?=
+ =?utf-8?Q?EH9AHJ97rFcck?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RXFPb1pBY0JRYW5iMmxicFY4MjM1TjNYenh6WG9QV21vZjFjZmJ5OWhtbVBa?=
+ =?utf-8?B?djNqMThFcmJnMG40aE5mRm4waGFtcXphMXVVYW01akRKSTZsajV0aWU1bGJC?=
+ =?utf-8?B?Q1RhcW90VGFsNTQ4WWEwbkNvdGtGZUpPU2hvaHkxdDlaWDZxeUVDOEIvY2wv?=
+ =?utf-8?B?OHU2QzBDSkw1ODdtWkVjTVpMTGZUazl1bm1lZ2o1dHJVekM2NWl3NGllNzY3?=
+ =?utf-8?B?OUhlaWIxazlRYkZJR3pwUm1sZlljQzFmTC9JOTJwejlhTnlIREtLbXZJbmIw?=
+ =?utf-8?B?UFdWZXNkQ3RKZUtsdDMweXR6ZlNBVy9TbmQwUG94WU8yTUVPN1RhMzdwdUtB?=
+ =?utf-8?B?N201Rys2WEJXc2dleE9LWGZzeTMyUndmVllBejg0SzVQUnFHLzhTU1pGR1dX?=
+ =?utf-8?B?SDcxVVpueWJHeDV1QTAwdGsrQ2ZldnJmcUhlcHZtMzd6WGE2WGlBM09NODJr?=
+ =?utf-8?B?dG9sWk4xMzNLTUN4VlFyY0oxT2IzckZYUjRtM0xKUWZUK1pZYVY3ZTRscllV?=
+ =?utf-8?B?Slc3WE1kM21iMktNR0tWQzZEcDlzV2RpbmpVaC9UdTBkYmg3MFdKOXErRE9P?=
+ =?utf-8?B?UE9mRTcrUDdkVHphY2R4ZHh6Wnc2U1J6aVhTenl0Ui9DOTFpMGVxbG55V0li?=
+ =?utf-8?B?VEdrRThEQU5tVEdRUTVaSldCVUtKOXkxSDA4MVh1VW1PRFQrTng4bmxmeGU3?=
+ =?utf-8?B?Y0xaSkZ2NVp1eWQyY1ZQUTZpMmtpbE54a0pBNEx1dXZNSjBXYUo2YWVaaS9I?=
+ =?utf-8?B?Qi9jTlRZQnFGUEx5YytuNGk1ZVRvL3pPN0xUMG1FTkV6TnFjQVBjNFdoSkl5?=
+ =?utf-8?B?RXY1dXNvK1NHN3Z1QlNzUkFVRnk4OUYvdEt6QkpjVG84elFlTXdVV1JPdEFO?=
+ =?utf-8?B?WndLUEFaQkloU3FRR3pPMlJiRWRLejZCYVJ3cDhnNFlxbjJGZ3V1VXcrZU9w?=
+ =?utf-8?B?a3lSMzRocytxQUpyU2lCMWlQRmhKMURPNDlkVmdyMEUyaUZmbDJlT2t5SlRP?=
+ =?utf-8?B?ZGJHVHUvRnI5bHNuUExnZGlmbDVrNEhxcERwUE1xSXJId0xQdHdpME5ZWWlE?=
+ =?utf-8?B?ejVyVkxhZ1VkclJDM0d6a1JIRmRhNWQzZ0xwR25VdldCd3AvOHJkRzRLbVlZ?=
+ =?utf-8?B?RDdINWJjUHVHTUNxaE92RUw1RE1nam03U3d1M0h1UndyUGxOaVVQYVZRS2NS?=
+ =?utf-8?B?WHJnVE9nQ1hianVWK3RneHJpZlEvSzlZK0NMelcwdUNkbE1uUTdyVGdSSDVS?=
+ =?utf-8?B?dkZnbXpRYjBUZUxkL21odDBMR3JVVysrWlFCaHptK3YzbTJQVnFNM2l5UjM3?=
+ =?utf-8?B?UGFJOFAvaXhBM2pPaEc4SFYya3RDekdVa1JxWGt2MFRpdE1UWlpHTUx6SWIy?=
+ =?utf-8?B?WG5neWgyVFFUeWcrNU5YdGQrb1BubVpxU3NIU1A0N2oyL2ViQmFqRSszbHVT?=
+ =?utf-8?B?Q2p0d3VzVVZVbGY5NkFYMVZQWmZnRWJ2M1Y1MDB6WHUyUHNUOUExUXh5MjdD?=
+ =?utf-8?B?Nk0zcllzbDlFdmVYaXhZNUlIem02MHZzb0dxcFA0N3ExRCszbXEvTGFHUndX?=
+ =?utf-8?B?ZzMxMisxOUZXU1lUQWJtUzhyS3N3d0ZxVFAyVU5JWUkySWxSOVV3N0ZMVU14?=
+ =?utf-8?B?SVZiQUJxZEpuSWJXZ0pQUjExeFpwajIveDd5ZGY5VTZQUXRJT1Bva05pcEtW?=
+ =?utf-8?B?bklsb0VUcDl3YzdNRmhKbk1ZSnhkZ293OWpzYW1TR2N2NUZZc0xiT3ZITks3?=
+ =?utf-8?B?QWt0WTBYaXMwOVovY1o3Um83Qm4vRDNCM2xmMlg5TG5vZ0w4Nm55bkVUdlZU?=
+ =?utf-8?B?Ynh3NUZmMTY1bmZjQS9adzNFYjVlN3Y0YTE0cUhTTkpCSCt0T01RVm1WMGdI?=
+ =?utf-8?B?WE9sMmwyMUFwV2NkK3RpQlFNTzhXTlA2aEtTZlNqbkhHYTRiU3VZY1ZqSWcx?=
+ =?utf-8?B?SWNjeGw1QTNHeDBEWU5rYUZ0QXlOMFIzTGpkVHdKK0lya3V2REhLM3MrY3pP?=
+ =?utf-8?B?WDBERUJpZ1BtbmtJOVoxSFVkOGN0T0ZSWGNjUE1ZRURRQkM5OFZlMFpWMFhw?=
+ =?utf-8?B?YVh2MXdtWU40RTdxV2VQUUR6L0pjaTlYdjJ0eEIrUDlYdTZmVmxSbXNSMWVY?=
+ =?utf-8?Q?SRDea2hjTT2H9Xs1zE/nydRgp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52e7f35c-adee-40fe-4884-08dd45edb098
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 14:02:13.1816 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UVdIZhhzxNMPu/Luj6sCp0M9hcB4u6lVqAAguI5IgyMuTTeq/QaF8ADOAqXjP5vj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8540
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,469 +164,1001 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  4 Feb 2025 20:03:12 +0100
-Danilo Krummrich <dakr@kernel.org> wrote:
+Am 30.01.25 um 11:13 schrieb Thomas Hellström:
+> Provide a helper to shrink ttm_tt page-vectors on a per-page
+> basis. A ttm_backup backend could then in theory get away with
+> allocating a single temporary page for each struct ttm_tt.
+>
+> This is accomplished by splitting larger pages before trying to
+> back them up.
+>
+> In the future we could allow ttm_backup to handle backing up
+> large pages as well, but currently there's no benefit in
+> doing that, since the shmem backup backend would have to
+> split those anyway to avoid allocating too much temporary
+> memory, and if the backend instead inserts pages into the
+> swap-cache, those are split on reclaim by the core.
+>
+> Due to potential backup- and recover errors, allow partially swapped
+> out struct ttm_tt's, although mark them as swapped out stopping them
+> from being swapped out a second time. More details in the ttm_pool.c
+> DOC section.
+>
+> v2:
+> - A couple of cleanups and error fixes in ttm_pool_back_up_tt.
+> - s/back_up/backup/
+> - Add a writeback parameter to the exported interface.
+> v8:
+> - Use a struct for flags for readability (Matt Brost)
+> - Address misc other review comments (Matt Brost)
+> v9:
+> - Update the kerneldoc for the ttm_tt::backup field.
+> v10:
+> - Rebase.
+> v13:
+> - Rebase on ttm_backup interface change. Update kerneldoc.
+> - Rebase and adjust ttm_tt_is_swapped().
+> v15:
+> - Rebase on ttm_backup return value change.
+> - Rebase on previous restructuring of ttm_pool_alloc()
+> - Rework the ttm_pool backup interface (Christian König)
+> - Remove cond_resched() (Christian König)
+> - Get rid of the need to allocate an intermediate page array
+>    when restoring a multi-order page (Christian König)
+> - Update documentation.
+>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: <dri-devel@lists.freedesktop.org>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-> Add the initial documentation of the Nova project.
->=20
-> The initial project documentation consists out of a brief introduction
-> of the project, as well as project guidelines both general and nova-core
-> specific and a task list for nova-core specifically.
->=20
-> The task list is divided into tasks for general Rust infrastructure
-> required by the project, tasks regarding GSP enablement and firmware
-> abstraction, general GPU driver tasks as well as tasks related to
-> external API design and test infrastructure.
->=20
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+I've tried to wrap my head around all of this like twenty times in the 
+last three month, but was always interrupted at some point.
+
+Feel free to add Acked-by: Christian Koenig <christian.koenig@amd.com>.
+
+Sorry,
+Christian.
+
 > ---
->   - Add task "Generic register abstraction".
->   - Change complexity of "Debugfs abstractions".
-> ---
->  Documentation/gpu/drivers.rst              |   1 +
->  Documentation/gpu/nova/core/guidelines.rst |  24 ++
->  Documentation/gpu/nova/core/todo.rst       | 445 +++++++++++++++++++++
->  Documentation/gpu/nova/guidelines.rst      |  73 ++++
->  Documentation/gpu/nova/index.rst           |  30 ++
->  MAINTAINERS                                |   1 +
->  6 files changed, 574 insertions(+)
->  create mode 100644 Documentation/gpu/nova/core/guidelines.rst
->  create mode 100644 Documentation/gpu/nova/core/todo.rst
->  create mode 100644 Documentation/gpu/nova/guidelines.rst
->  create mode 100644 Documentation/gpu/nova/index.rst
->=20
-> diff --git a/Documentation/gpu/drivers.rst b/Documentation/gpu/drivers.rst
-> index 1f17ad0790d7..7c2c5dcb5fd4 100644
-> --- a/Documentation/gpu/drivers.rst
-> +++ b/Documentation/gpu/drivers.rst
-> @@ -24,6 +24,7 @@ GPU Driver Documentation
->     panfrost
->     panthor
->     zynqmp
-> +   nova/index
-> =20
->  .. only::  subproject and html
-> =20
-> diff --git a/Documentation/gpu/nova/core/guidelines.rst b/Documentation/g=
-pu/nova/core/guidelines.rst
-> new file mode 100644
-> index 000000000000..a389d65d7982
-> --- /dev/null
-> +++ b/Documentation/gpu/nova/core/guidelines.rst
-> @@ -0,0 +1,24 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>   drivers/gpu/drm/ttm/ttm_pool.c | 554 +++++++++++++++++++++++++++++----
+>   drivers/gpu/drm/ttm/ttm_tt.c   |  54 ++++
+>   include/drm/ttm/ttm_pool.h     |   8 +
+>   include/drm/ttm/ttm_tt.h       |  67 +++-
+>   4 files changed, 629 insertions(+), 54 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index c9eba76d5143..ffb7abf52bab 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -41,6 +41,7 @@
+>   #include <asm/set_memory.h>
+>   #endif
+>   
+> +#include <drm/ttm/ttm_backup.h>
+>   #include <drm/ttm/ttm_pool.h>
+>   #include <drm/ttm/ttm_tt.h>
+>   #include <drm/ttm/ttm_bo.h>
+> @@ -75,6 +76,35 @@ struct ttm_pool_alloc_state {
+>   	enum ttm_caching tt_caching;
+>   };
+>   
+> +/**
+> + * struct ttm_pool_tt_restore - State representing restore from backup
+> + * @pool: The pool used for page allocation while restoring.
+> + * @snapshot_alloc: A snapshot of the most recent struct ttm_pool_alloc_state.
+> + * @alloced_page: Pointer to the page most recently allocated from a pool or system.
+> + * @first_dma: The dma address corresponding to @alloced_page if dma_mapping
+> + * is requested.
+> + * @alloced_pages: The number of allocated pages present in the struct ttm_tt
+> + * page vector from this restore session.
+> + * @restored_pages: The number of 4K pages restored for @alloced_page (which
+> + * is typically a multi-order page).
+> + * @page_caching: The struct ttm_tt requested caching
+> + * @order: The order of @alloced_page.
+> + *
+> + * Recovery from backup might fail when we've recovered less than the
+> + * full ttm_tt. In order not to loose any data (yet), keep information
+> + * around that allows us to restart a failed ttm backup recovery.
+> + */
+> +struct ttm_pool_tt_restore {
+> +	struct ttm_pool *pool;
+> +	struct ttm_pool_alloc_state snapshot_alloc;
+> +	struct page *alloced_page;
+> +	dma_addr_t first_dma;
+> +	pgoff_t alloced_pages;
+> +	pgoff_t restored_pages;
+> +	enum ttm_caching page_caching;
+> +	unsigned int order;
+> +};
 > +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Guidelines
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>   static unsigned long page_pool_size;
+>   
+>   MODULE_PARM_DESC(page_pool_size, "Number of pages in the WC/UC/DMA pool");
+> @@ -199,12 +229,11 @@ static int ttm_pool_apply_caching(struct ttm_pool_alloc_state *alloc)
+>   	return 0;
+>   }
+>   
+> -/* Map pages of 1 << order size and fill the DMA address array  */
+> +/* DMA Map pages of 1 << order size and return the resulting dma_address. */
+>   static int ttm_pool_map(struct ttm_pool *pool, unsigned int order,
+> -			struct page *p, dma_addr_t **dma_addr)
+> +			struct page *p, dma_addr_t *dma_addr)
+>   {
+>   	dma_addr_t addr;
+> -	unsigned int i;
+>   
+>   	if (pool->use_dma_alloc) {
+>   		struct ttm_pool_dma *dma = (void *)p->private;
+> @@ -218,10 +247,7 @@ static int ttm_pool_map(struct ttm_pool *pool, unsigned int order,
+>   			return -EFAULT;
+>   	}
+>   
+> -	for (i = 1 << order; i ; --i) {
+> -		*(*dma_addr)++ = addr;
+> -		addr += PAGE_SIZE;
+> -	}
+> +	*dma_addr = addr;
+>   
+>   	return 0;
+>   }
+> @@ -371,6 +397,190 @@ static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+>   	return p->private;
+>   }
+>   
+> +/*
+> + * Split larger pages so that we can free each PAGE_SIZE page as soon
+> + * as it has been backed up, in order to avoid memory pressure during
+> + * reclaim.
+> + */
+> +static void ttm_pool_split_for_swap(struct ttm_pool *pool, struct page *p)
+> +{
+> +	unsigned int order = ttm_pool_page_order(pool, p);
+> +	pgoff_t nr;
 > +
-> +This documents contains the guidelines for nova-core. Additionally, all =
-common
-> +guidelines of the Nova project do apply.
+> +	if (!order)
+> +		return;
 > +
-> +Driver API
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	split_page(p, order);
+> +	nr = 1UL << order;
+> +	while (nr--)
+> +		(p++)->private = 0;
+> +}
 > +
-> +One main purpose of nova-core is to implement the abstraction around the
-> +firmware interface of GSP and provide a firmware (version) independent A=
-PI for
-> +2nd level drivers, such as nova-drm or the vGPU manager VFIO driver.
+> +/**
+> + * DOC: Partial backup and restoration of a struct ttm_tt.
+> + *
+> + * Swapout using ttm_backup_backup_page() and swapin using
+> + * ttm_backup_copy_page() may fail.
+> + * The former most likely due to lack of swap-space or memory, the latter due
+> + * to lack of memory or because of signal interruption during waits.
+> + *
+> + * Backup failure is easily handled by using a ttm_tt pages vector that holds
+> + * both backup handles and page pointers. This has to be taken into account when
+> + * restoring such a ttm_tt from backup, and when freeing it while backed up.
+> + * When restoring, for simplicity, new pages are actually allocated from the
+> + * pool and the contents of any old pages are copied in and then the old pages
+> + * are released.
+> + *
+> + * For restoration failures, the struct ttm_pool_tt_restore holds sufficient state
+> + * to be able to resume an interrupted restore, and that structure is freed once
+> + * the restoration is complete. If the struct ttm_tt is destroyed while there
+> + * is a valid struct ttm_pool_tt_restore attached, that is also properly taken
+> + * care of.
+> + */
 > +
-> +Therefore, it is not permitted to leak firmware (version) specifics, thr=
-ough the
-> +driver API, to 2nd level drivers.
+> +/* Is restore ongoing for the currently allocated page? */
+> +static bool ttm_pool_restore_valid(const struct ttm_pool_tt_restore *restore)
+> +{
+> +	return restore && restore->restored_pages < (1 << restore->order);
+> +}
 > +
-> +Acceptance Criteria
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +/* DMA unmap and free a multi-order page, either to the relevant pool or to system. */
+> +static pgoff_t ttm_pool_unmap_and_free(struct ttm_pool *pool, struct page *page,
+> +				       const dma_addr_t *dma_addr, enum ttm_caching caching)
+> +{
+> +	struct ttm_pool_type *pt = NULL;
+> +	unsigned int order;
+> +	pgoff_t nr;
 > +
-> +- To the extend possible, patches submitted to nova-core must be tested =
-for
-> +  regressions with all 2nd level drivers.
-> diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nov=
-a/core/todo.rst
-> new file mode 100644
-> index 000000000000..5e66ec35c5e3
-> --- /dev/null
-> +++ b/Documentation/gpu/nova/core/todo.rst
-> @@ -0,0 +1,445 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +	if (pool) {
+> +		order = ttm_pool_page_order(pool, page);
+> +		nr = (1UL << order);
+> +		if (dma_addr)
+> +			ttm_pool_unmap(pool, *dma_addr, nr);
 > +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Task List
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-
-...
-
-> +
-> +Generic register abstraction
-> +----------------------------
-> +
-> +Work out how register constants and structures can be automatically gene=
-rated
-> +through generalized macros.
-> +
-> +Example:
-> +
-> +.. code-block:: rust
-> +
-> +	register!(BOOT0, 0x0, u32, pci::Bar<SIZE>, Fields [
-> +	   MINOR_REVISION(3:0, RO),
-> +	   MAJOR_REVISION(7:4, RO),
-> +	   REVISION(7:0, RO), // Virtual register combining major and minor rev.
-> +	])
-> +
-
-I think it is better not to tie this to pci::Bar and its operations. It
-would be better to have a intermediate container as the macro param. The
-container holds the register region vaddr pointer, size, read/write traits.
-The macro expands it from there, thus, we can also use this on firmware
-memory structures, e.g. GSP WPR2 info.
-
-Probably we are looking for a even more generic solution/type for deferring
-a structure in the vaddr and generating the the accessing methods
-accordingly. It might also be useful later in GSP message queue
-manipulation, ELF header extraction, page table manipulation? (to avoid
-ambitious unsafe statements in the rust driver)
-
-> +This could expand to something like:
-> +
-> +.. code-block:: rust
-> +
-> +	const BOOT0_OFFSET: usize =3D 0x00000000;
-> +	const BOOT0_MINOR_REVISION_SHIFT: u8 =3D 0;
-> +	const BOOT0_MINOR_REVISION_MASK: u32 =3D 0x0000000f;
-> +	const BOOT0_MAJOR_REVISION_SHIFT: u8 =3D 4;
-> +	const BOOT0_MAJOR_REVISION_MASK: u32 =3D 0x000000f0;
-> +	const BOOT0_REVISION_SHIFT: u8 =3D BOOT0_MINOR_REVISION_SHIFT;
-> +	const BOOT0_REVISION_MASK: u32 =3D BOOT0_MINOR_REVISION_MASK | BOOT0_MA=
-JOR_REVISION_MASK;
-> +
-> +	struct Boot0(u32);
-> +
-> +	impl Boot0 {
-> +	   #[inline]
-> +	   fn read(bar: &RevocableGuard<'_, pci::Bar<SIZE>>) -> Self {
-> +	      Self(bar.readl(BOOT0_OFFSET))
-> +	   }
-> +
-> +	   #[inline]
-> +	   fn minor_revision(&self) -> u32 {
-> +	      (self.0 & BOOT0_MINOR_REVISION_MASK) >> BOOT0_MINOR_REVISION_SHIFT
-> +	   }
-> +
-> +	   #[inline]
-> +	   fn major_revision(&self) -> u32 {
-> +	      (self.0 & BOOT0_MAJOR_REVISION_MASK) >> BOOT0_MAJOR_REVISION_SHIFT
-> +	   }
-> +
-> +	   #[inline]
-> +	   fn revision(&self) -> u32 {
-> +	      (self.0 & BOOT0_REVISION_MASK) >> BOOT0_REVISION_SHIFT
-> +	   }
+> +		pt = ttm_pool_select_type(pool, caching, order);
+> +	} else {
+> +		order = page->private;
+> +		nr = (1UL << order);
 > +	}
 > +
-> +Usage:
+> +	if (pt)
+> +		ttm_pool_type_give(pt, page);
+> +	else
+> +		ttm_pool_free_page(pool, caching, order, page);
 > +
-> +.. code-block:: rust
+> +	return nr;
+> +}
 > +
-> +	let bar =3D bar.try_access().ok_or(ENXIO)?;
+> +/* Populate the page-array using the most recent allocated multi-order page. */
+> +static void ttm_pool_allocated_page_commit(struct page *allocated,
+> +					   dma_addr_t first_dma,
+> +					   struct ttm_pool_alloc_state *alloc,
+> +					   pgoff_t nr)
+> +{
+> +	pgoff_t i;
 > +
-> +	let boot0 =3D Boot0::read(&bar);
-> +	pr_info!("Revision: {}\n", boot0.revision());
+> +	for (i = 0; i < nr; ++i)
+> +		*alloc->pages++ = allocated++;
 > +
-> +| Complexity: Advanced
+> +	alloc->remaining_pages -= nr;
 > +
-> +Delay / Sleep abstractions
-> +--------------------------
-
-...
-
+> +	if (!alloc->dma_addr)
+> +		return;
 > +
-> +VRAM memory allocator
-> +---------------------
+> +	for (i = 0; i < nr; ++i) {
+> +		*alloc->dma_addr++ = first_dma;
+> +		first_dma += PAGE_SIZE;
+> +	}
+> +}
 > +
-> +Investigate options for a VRAM memory allocator.
+> +/*
+> + * When restoring, restore backed-up content to the newly allocated page and
+> + * if successful, populate the page-table and dma-address arrays.
+> + */
+> +static int ttm_pool_restore_commit(struct ttm_pool_tt_restore *restore,
+> +				   struct ttm_backup *backup,
+> +				   const struct ttm_operation_ctx *ctx,
+> +				   struct ttm_pool_alloc_state *alloc)
 > +
-> +Some possible options:
-> +  - Rust abstractions for
-> +    - RB tree (interval tree) / drm_mm
-> +    - maple_tree
-> +  - native Rust collections
+> +{
+> +	pgoff_t i, nr = 1UL << restore->order;
+> +	struct page **first_page = alloc->pages;
+> +	struct page *p;
+> +	int ret = 0;
 > +
-> +| Complexity: Advanced
+> +	for (i = restore->restored_pages; i < nr; ++i) {
+> +		p = first_page[i];
+> +		if (ttm_backup_page_ptr_is_handle(p)) {
+> +			unsigned long handle = ttm_backup_page_ptr_to_handle(p);
 > +
-
-I am leaning towards having the abstractions at a high level APIs, e.g.
-wrapping drm_mm and possibly the rust side can choose the backend type of
-drm_mm if it really needs a different type of data structure other
-than default supported by drm_mm. If we need more type of data structures,
-we can extend drm_mm in C side. That can save us some efforts.
-
-> +Instance Memory
-> +---------------
+> +			if (handle == 0) {
+> +				restore->restored_pages++;
+> +				continue;
+> +			}
 > +
-> +Implement support for instmem (bar2) used to store page tables.
+> +			ret = ttm_backup_copy_page(backup, restore->alloced_page + i,
+> +						   handle, ctx->interruptible);
+> +			if (ret)
+> +				break;
 > +
-> +| Complexity: Intermediate
-> +| Contact: Dave Airlie
+> +			ttm_backup_drop(backup, handle);
+> +		} else if (p) {
+> +			/*
+> +			 * We could probably avoid splitting the old page
+> +			 * using clever logic, but ATM we don't care, as
+> +			 * we prioritize releasing memory ASAP. Note that
+> +			 * here, the old retained page is always write-back
+> +			 * cached.
+> +			 */
+> +			ttm_pool_split_for_swap(restore->pool, p);
+> +			copy_highpage(restore->alloced_page + i, p);
+> +			__free_pages(p, 0);
+> +		}
 > +
-> +GPU System Processor (GSP)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-
-...
-
+> +		restore->restored_pages++;
+> +		first_page[i] = ttm_backup_handle_to_page_ptr(0);
+> +	}
 > +
-> +External APIs
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	if (ret) {
+> +		if (!restore->restored_pages) {
+> +			dma_addr_t *dma_addr = alloc->dma_addr ? &restore->first_dma : NULL;
 > +
-> +nova-core base API
-> +------------------
+> +			ttm_pool_unmap_and_free(restore->pool, restore->alloced_page,
+> +						dma_addr, restore->page_caching);
+> +			restore->restored_pages = nr;
+> +		}
+> +		return ret;
+> +	}
 > +
-> +Work out the common pieces of the API to connect 2nd level drivers, i.e.=
- vGPU
-> +manager and nova-drm.
+> +	ttm_pool_allocated_page_commit(restore->alloced_page, restore->first_dma,
+> +				       alloc, nr);
+> +	if (restore->page_caching == alloc->tt_caching || PageHighMem(restore->alloced_page))
+> +		alloc->caching_divide = alloc->pages;
+> +	restore->snapshot_alloc = *alloc;
+> +	restore->alloced_pages += nr;
 > +
-> +| Complexity: Advanced
+> +	return 0;
+> +}
 > +
-> +vGPU manager API
-> +----------------
+> +/* If restoring, save information needed for ttm_pool_restore_commit(). */
+> +static void
+> +ttm_pool_page_allocated_restore(struct ttm_pool *pool, unsigned int order,
+> +				struct page *p,
+> +				enum ttm_caching page_caching,
+> +				dma_addr_t first_dma,
+> +				struct ttm_pool_tt_restore *restore,
+> +				const struct ttm_pool_alloc_state *alloc)
+> +{
+> +	restore->pool = pool;
+> +	restore->order = order;
+> +	restore->restored_pages = 0;
+> +	restore->page_caching = page_caching;
+> +	restore->first_dma = first_dma;
+> +	restore->alloced_page = p;
+> +	restore->snapshot_alloc = *alloc;
+> +}
 > +
-> +Work out the API parts required by the vGPU manager, which are not cover=
-ed by
-> +the base API.
+>   /*
+>    * Called when we got a page, either from a pool or newly allocated.
+>    * if needed, dma map the page and populate the dma address array.
+> @@ -380,10 +590,11 @@ static unsigned int ttm_pool_page_order(struct ttm_pool *pool, struct page *p)
+>    */
+>   static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
+>   				   struct page *p, enum ttm_caching page_caching,
+> -				   struct ttm_pool_alloc_state *alloc)
+> +				   struct ttm_pool_alloc_state *alloc,
+> +				   struct ttm_pool_tt_restore *restore)
+>   {
+> -	pgoff_t i, nr = 1UL << order;
+>   	bool caching_consistent;
+> +	dma_addr_t first_dma;
+>   	int r = 0;
+>   
+>   	caching_consistent = (page_caching == alloc->tt_caching) || PageHighMem(p);
+> @@ -395,17 +606,20 @@ static int ttm_pool_page_allocated(struct ttm_pool *pool, unsigned int order,
+>   	}
+>   
+>   	if (alloc->dma_addr) {
+> -		r = ttm_pool_map(pool, order, p, &alloc->dma_addr);
+> +		r = ttm_pool_map(pool, order, p, &first_dma);
+>   		if (r)
+>   			return r;
+>   	}
+>   
+> -	alloc->remaining_pages -= nr;
+> -	for (i = 0; i < nr; ++i)
+> -		*alloc->pages++ = p++;
+> +	if (restore) {
+> +		ttm_pool_page_allocated_restore(pool, order, p, page_caching,
+> +						first_dma, restore, alloc);
+> +	} else {
+> +		ttm_pool_allocated_page_commit(p, first_dma, alloc, 1UL << order);
+>   
+> -	if (caching_consistent)
+> -		alloc->caching_divide = alloc->pages;
+> +		if (caching_consistent)
+> +			alloc->caching_divide = alloc->pages;
+> +	}
+>   
+>   	return 0;
+>   }
+> @@ -428,22 +642,24 @@ static void ttm_pool_free_range(struct ttm_pool *pool, struct ttm_tt *tt,
+>   				pgoff_t start_page, pgoff_t end_page)
+>   {
+>   	struct page **pages = &tt->pages[start_page];
+> -	unsigned int order;
+> +	struct ttm_backup *backup = tt->backup;
+>   	pgoff_t i, nr;
+>   
+>   	for (i = start_page; i < end_page; i += nr, pages += nr) {
+> -		struct ttm_pool_type *pt = NULL;
+> +		struct page *p = *pages;
+>   
+> -		order = ttm_pool_page_order(pool, *pages);
+> -		nr = (1UL << order);
+> -		if (tt->dma_address)
+> -			ttm_pool_unmap(pool, tt->dma_address[i], nr);
+> +		nr = 1;
+> +		if (ttm_backup_page_ptr_is_handle(p)) {
+> +			unsigned long handle = ttm_backup_page_ptr_to_handle(p);
+>   
+> -		pt = ttm_pool_select_type(pool, caching, order);
+> -		if (pt)
+> -			ttm_pool_type_give(pt, *pages);
+> -		else
+> -			ttm_pool_free_page(pool, caching, order, *pages);
+> +			if (handle != 0)
+> +				ttm_backup_drop(backup, handle);
+> +		} else if (p) {
+> +			dma_addr_t *dma_addr = tt->dma_address ?
+> +				tt->dma_address + i : NULL;
 > +
-> +| Complexity: Advanced
+> +			nr = ttm_pool_unmap_and_free(pool, p, dma_addr, caching);
+> +		}
+>   	}
+>   }
+>   
+> @@ -467,22 +683,11 @@ static unsigned int ttm_pool_alloc_find_order(unsigned int highest,
+>   	return min_t(unsigned int, highest, __fls(alloc->remaining_pages));
+>   }
+>   
+> -/**
+> - * ttm_pool_alloc - Fill a ttm_tt object
+> - *
+> - * @pool: ttm_pool to use
+> - * @tt: ttm_tt object to fill
+> - * @ctx: operation context
+> - *
+> - * Fill the ttm_tt object with pages and also make sure to DMA map them when
+> - * necessary.
+> - *
+> - * Returns: 0 on successe, negative error code otherwise.
+> - */
+> -int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> -		   struct ttm_operation_ctx *ctx)
+> +static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +			    const struct ttm_operation_ctx *ctx,
+> +			    struct ttm_pool_alloc_state *alloc,
+> +			    struct ttm_pool_tt_restore *restore)
+>   {
+> -	struct ttm_pool_alloc_state alloc;
+>   	enum ttm_caching page_caching;
+>   	gfp_t gfp_flags = GFP_USER;
+>   	pgoff_t caching_divide;
+> @@ -491,10 +696,8 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   	struct page *p;
+>   	int r;
+>   
+> -	ttm_pool_alloc_state_init(tt, &alloc);
+> -
+> -	WARN_ON(!alloc.remaining_pages || ttm_tt_is_populated(tt));
+> -	WARN_ON(alloc.dma_addr && !pool->dev);
+> +	WARN_ON(!alloc->remaining_pages || ttm_tt_is_populated(tt));
+> +	WARN_ON(alloc->dma_addr && !pool->dev);
+>   
+>   	if (tt->page_flags & TTM_TT_FLAG_ZERO_ALLOC)
+>   		gfp_flags |= __GFP_ZERO;
+> @@ -509,9 +712,9 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   
+>   	page_caching = tt->caching;
+>   	allow_pools = true;
+> -	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, &alloc);
+> -	     alloc.remaining_pages;
+> -	     order = ttm_pool_alloc_find_order(order, &alloc)) {
+> +	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
+> +	     alloc->remaining_pages;
+> +	     order = ttm_pool_alloc_find_order(order, alloc)) {
+>   		struct ttm_pool_type *pt;
+>   
+>   		/* First, try to allocate a page from a pool if one exists. */
+> @@ -541,30 +744,120 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>   			r = -ENOMEM;
+>   			goto error_free_all;
+>   		}
+> -		r = ttm_pool_page_allocated(pool, order, p, page_caching, &alloc);
+> +		r = ttm_pool_page_allocated(pool, order, p, page_caching, alloc,
+> +					    restore);
+>   		if (r)
+>   			goto error_free_page;
 > +
-> +nova-core C API
-> +---------------
+> +		if (ttm_pool_restore_valid(restore)) {
+> +			r = ttm_pool_restore_commit(restore, tt->backup, ctx, alloc);
+> +			if (r)
+> +				goto error_free_all;
+> +		}
+>   	}
+>   
+> -	r = ttm_pool_apply_caching(&alloc);
+> +	r = ttm_pool_apply_caching(alloc);
+>   	if (r)
+>   		goto error_free_all;
+>   
+> +	kfree(tt->restore);
+> +	tt->restore = NULL;
 > +
-> +Implement a C wrapper for the APIs required by the vGPU manager driver.
+>   	return 0;
+>   
+>   error_free_page:
+>   	ttm_pool_free_page(pool, page_caching, order, p);
+>   
+>   error_free_all:
+> -	caching_divide = alloc.caching_divide - tt->pages;
+> +	if (tt->restore)
+> +		return r;
 > +
-> +| Complexity: Intermediate
-
-Thanks for calling this out.
-
-I believe the "vGPU manager API" is not a standalone task, as many of the
-required APIs will intersect with other components in nova-core.
-
-As one of nova-core=E2=80=99s users, vGPU represents the simplest use case =
-to get
-started with, offering significant value to both nova-core and its users
-in the near term.
-
-I was thinking that if we could align with the folks on making vGPU +
-nova-core our initial short-term goal, it would be beneficial for
-nova-drm's development, since the APIs required for nova-drm are a
-superset of those needed for vGPU.
-
-It would be valuable for us to be involved in key areas related to vGPU,
-including:
-
-- Task review
-- Design discussions
-- Unit testing
-
-Additionally, we are working on a vGPU requirements document that will
-outline the complete API needs for vGPU beyond those already covered in
-the RFC patches. Hope that will be published soon.
-
+> +	caching_divide = alloc->caching_divide - tt->pages;
+>   	ttm_pool_free_range(pool, tt, tt->caching, 0, caching_divide);
+>   	ttm_pool_free_range(pool, tt, ttm_cached, caching_divide,
+> -			    tt->num_pages - alloc.remaining_pages);
+> +			    tt->num_pages - alloc->remaining_pages);
+>   
+>   	return r;
+>   }
 > +
-> +Testing
-> +=3D=3D=3D=3D=3D=3D=3D
+> +/**
+> + * ttm_pool_alloc - Fill a ttm_tt object
+> + *
+> + * @pool: ttm_pool to use
+> + * @tt: ttm_tt object to fill
+> + * @ctx: operation context
+> + *
+> + * Fill the ttm_tt object with pages and also make sure to DMA map them when
+> + * necessary.
+> + *
+> + * Returns: 0 on successe, negative error code otherwise.
+> + */
+> +int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +		   struct ttm_operation_ctx *ctx)
+> +{
+> +	struct ttm_pool_alloc_state alloc;
 > +
-> +CI pipeline
-> +-----------
+> +	if (WARN_ON(ttm_tt_is_backed_up(tt)))
+> +		return -EINVAL;
 > +
-> +Investigate option for continuous integration testing.
+> +	ttm_pool_alloc_state_init(tt, &alloc);
 > +
-> +This can go from as simple as running KUnit tests over running (graphics=
-) CTS to
-> +booting up (multiple) guest VMs to test VFIO use-cases.
+> +	return __ttm_pool_alloc(pool, tt, ctx, &alloc, NULL);
+> +}
+>   EXPORT_SYMBOL(ttm_pool_alloc);
+>   
+> +/**
+> + * ttm_pool_restore_and_alloc - Fill a ttm_tt, restoring previously backed-up
+> + * content.
+> + *
+> + * @pool: ttm_pool to use
+> + * @tt: ttm_tt object to fill
+> + * @ctx: operation context
+> + *
+> + * Fill the ttm_tt object with pages and also make sure to DMA map them when
+> + * necessary. Read in backed-up content.
+> + *
+> + * Returns: 0 on successe, negative error code otherwise.
+> + */
+> +int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +			       const struct ttm_operation_ctx *ctx)
+> +{
+> +	struct ttm_pool_alloc_state alloc;
 > +
-> +It might also be worth to consider the introduction of a new test suite =
-directly
-> +sitting on top of the uAPI for more targeted testing and debugging. Ther=
-e may be
-> +options for collaboration / shared code with the Mesa project.
+> +	if (WARN_ON(!ttm_tt_is_backed_up(tt)))
+> +		return -EINVAL;
 > +
-> +| Complexity: Advanced
-> diff --git a/Documentation/gpu/nova/guidelines.rst b/Documentation/gpu/no=
-va/guidelines.rst
-> new file mode 100644
-> index 000000000000..28a959f51c2c
-> --- /dev/null
-> +++ b/Documentation/gpu/nova/guidelines.rst
-> @@ -0,0 +1,73 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +	if (!tt->restore) {
+> +		gfp_t gfp = GFP_KERNEL | __GFP_NOWARN;
 > +
-
-I think this will develop into a maintainer handbook in the future which
-reflects maintainer's requirements, thoughts, tips...maybe we can make it
-explicit? I think it is rules of book that we agree to follow.
-
-A similar one can be found here.
-https://lore.kernel.org/kvm/20230411171651.1067966-1-seanjc@google.com/
-
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Guidelines
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +		ttm_pool_alloc_state_init(tt, &alloc);
+> +		if (ctx->gfp_retry_mayfail)
+> +			gfp |= __GFP_RETRY_MAYFAIL;
 > +
-> +This document describes the general project guidelines that apply to nov=
-a-core
-> +and nova-drm.
+> +		tt->restore = kzalloc(sizeof(*tt->restore), gfp);
+> +		if (!tt->restore)
+> +			return -ENOMEM;
 > +
-> +Language
-> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +		tt->restore->snapshot_alloc = alloc;
+> +		tt->restore->pool = pool;
+> +		tt->restore->restored_pages = 1;
+> +	} else {
+> +		struct ttm_pool_tt_restore *restore = tt->restore;
+> +		int ret;
 > +
-> +The Nova project uses the Rust programming language. In this context, the
-> +following rules apply.
+> +		alloc = restore->snapshot_alloc;
+> +		if (ttm_pool_restore_valid(tt->restore)) {
+> +			ret = ttm_pool_restore_commit(restore, tt->backup, ctx, &alloc);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +		if (!alloc.remaining_pages)
+> +			return 0;
+> +	}
 > +
-> +- Unless technically necessary otherwise (e.g. uAPI), any driver code is=
- written
-> +  in Rust.
+> +	return __ttm_pool_alloc(pool, tt, ctx, &alloc, tt->restore);
+> +}
 > +
-> +- Direct FFI calls to C kernel APIs must be avoided; instead C kernel AP=
-Is
-> +  should be accessed through shared Rust abstractions.
+>   /**
+>    * ttm_pool_free - Free the backing pages from a ttm_tt object
+>    *
+> @@ -582,6 +875,163 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
+>   }
+>   EXPORT_SYMBOL(ttm_pool_free);
+>   
+> +/**
+> + * ttm_pool_drop_backed_up() - Release content of a swapped-out struct ttm_tt
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Release handles with associated content or any remaining pages of
+> + * a backed-up struct ttm_tt.
+> + */
+> +void ttm_pool_drop_backed_up(struct ttm_tt *tt)
+> +{
+> +	struct ttm_pool_tt_restore *restore;
+> +	pgoff_t start_page = 0;
 > +
-> +- Unless technically necessary, unsafe Rust code must be avoided. In cas=
-e of
-> +  technical necessity, unsafe code should be isolated in a separate comp=
-onent
-> +  providing a safe API for other driver code to use.
-
-Also need to comment why the unsafe is the last possible approach to go.
-the last thing we want to see is "unsafe" flying here and there in a rust
-driver. :)
-
+> +	WARN_ON(!ttm_tt_is_backed_up(tt));
 > +
-> +Style
-> +-----
+> +	restore = tt->restore;
 > +
-> +All rules of the Rust for Linux project as documented in
-> +:doc:`../../rust/coding-guidelines` apply. Additionally, the following r=
-ules
-> +apply.
+> +	/*
+> +	 * Unmap and free any uncommitted restore page.
+> +	 * any tt page-array backup entries already read back has
+> +	 * been cleared already
+> +	 */
+> +	if (ttm_pool_restore_valid(restore)) {
+> +		dma_addr_t *dma_addr = tt->dma_address ? &restore->first_dma : NULL;
 > +
-> +- Code must be formatted with the ``rustfmt`` make target.
+> +		ttm_pool_unmap_and_free(restore->pool, restore->alloced_page,
+> +					dma_addr, restore->page_caching);
+> +		restore->restored_pages = 1UL << restore->order;
+> +	}
 > +
-> +- Code submitted for inclusion into the Nova driver project must pass th=
-e Rust
-> +  linter, which can be enabled with ``CLIPPY=3D1``.
+> +	/*
+> +	 * If a restore is ongoing, part of the tt pages may have a
+> +	 * caching different than writeback.
+> +	 */
+> +	if (restore) {
+> +		pgoff_t mid = restore->snapshot_alloc.caching_divide - tt->pages;
 > +
-
-It would be also helpful to make the process explicit. E.g. sharing your
-command lines used to checking the patches. So folks can align with the
-expected outcome, e.g. command line parameters.
-
-Z.
-
-> +Documentation
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +		start_page = restore->alloced_pages;
+> +		WARN_ON(mid > start_page);
+> +		/* Pages that might be dma-mapped and non-cached */
+> +		ttm_pool_free_range(restore->pool, tt, tt->caching,
+> +				    0, mid);
+> +		/* Pages that might be dma-mapped but cached */
+> +		ttm_pool_free_range(restore->pool, tt, ttm_cached,
+> +				    mid, restore->alloced_pages);
+> +		kfree(restore);
+> +		tt->restore = NULL;
+> +	}
 > +
-> +The availability of proper documentation is essential in terms of scalab=
-ility,
-> +accessability for new contributors and maintainability of a project in g=
-eneral,
-> +but especially for a driver running as complex hardware as Nova is targe=
-ting.
+> +	ttm_pool_free_range(NULL, tt, ttm_cached, start_page, tt->num_pages);
+> +}
 > +
-> +Hence, adding documentation of any kind is very much encouraged by the p=
-roject.
+> +/**
+> + * ttm_pool_backup() - Back up or purge a struct ttm_tt
+> + * @pool: The pool used when allocating the struct ttm_tt.
+> + * @tt: The struct ttm_tt.
+> + * @flags: Flags to govern the backup behaviour.
+> + *
+> + * Back up or purge a struct ttm_tt. If @purge is true, then
+> + * all pages will be freed directly to the system rather than to the pool
+> + * they were allocated from, making the function behave similarly to
+> + * ttm_pool_free(). If @purge is false the pages will be backed up instead,
+> + * exchanged for handles.
+> + * A subsequent call to ttm_pool_restore_and_alloc() will then read back the content and
+> + * a subsequent call to ttm_pool_drop_backed_up() will drop it.
+> + * If backup of a page fails for whatever reason, @ttm will still be
+> + * partially backed up, retaining those pages for which backup fails.
+> + * In that case, this function can be retried, possibly after freeing up
+> + * memory resources.
+> + *
+> + * Return: Number of pages actually backed up or freed, or negative
+> + * error code on error.
+> + */
+> +long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+> +		     const struct ttm_backup_flags *flags)
+> +{
+> +	struct ttm_backup *backup = tt->backup;
+> +	struct page *page;
+> +	unsigned long handle;
+> +	gfp_t alloc_gfp;
+> +	gfp_t gfp;
+> +	int ret = 0;
+> +	pgoff_t shrunken = 0;
+> +	pgoff_t i, num_pages;
 > +
-> +Besides that, there are some minimum requirements.
+> +	if (WARN_ON(ttm_tt_is_backed_up(tt)))
+> +		return -EINVAL;
 > +
-> +- Every non-private structure needs at least a brief doc comment explain=
-ing the
-> +  semantical sense of the structure, as well as potential locking and li=
-fetime
-> +  requirements. It is encouraged to have the same minimum documentation =
-for
-> +  non-trivial private structures.
+> +	if ((!ttm_backup_bytes_avail() && !flags->purge) ||
+> +	    pool->use_dma_alloc || ttm_tt_is_backed_up(tt))
+> +		return -EBUSY;
 > +
-> +- uAPIs must be fully documented with kernel-doc comments; additionally,=
- the
-> +  semantical behavior must be explained including potential special or c=
-orner
-> +  cases.
+> +#ifdef CONFIG_X86
+> +	/* Anything returned to the system needs to be cached. */
+> +	if (tt->caching != ttm_cached)
+> +		set_pages_array_wb(tt->pages, tt->num_pages);
+> +#endif
 > +
-> +- The APIs connecting the 1st level driver (nova-core) with 2nd level dr=
-ivers
-> +  must be fully documented. This includes doc comments, potential lockin=
-g and
-> +  lifetime requirements, as well as example code if applicable.
+> +	if (tt->dma_address || flags->purge) {
+> +		for (i = 0; i < tt->num_pages; i += num_pages) {
+> +			unsigned int order;
 > +
-> +- Abbreviations must be explained when introduced; terminology must be u=
-niquely
-> +  defined.
+> +			page = tt->pages[i];
+> +			if (unlikely(!page)) {
+> +				num_pages = 1;
+> +				continue;
+> +			}
 > +
-> +- Register addresses, layouts, shift values and masks must be defined pr=
-operly;
-> +  unless obvious, the semantical sense must be documented. This only app=
-lies if
-> +  the author is able to obtain the corresponding information.
+> +			order = ttm_pool_page_order(pool, page);
+> +			num_pages = 1UL << order;
+> +			if (tt->dma_address)
+> +				ttm_pool_unmap(pool, tt->dma_address[i],
+> +					       num_pages);
+> +			if (flags->purge) {
+> +				shrunken += num_pages;
+> +				page->private = 0;
+> +				__free_pages(page, order);
+> +				memset(tt->pages + i, 0,
+> +				       num_pages * sizeof(*tt->pages));
+> +			}
+> +		}
+> +	}
 > +
-> +Acceptance Criteria
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	if (flags->purge)
+> +		return shrunken;
 > +
-> +- Patches must only be applied if reviewed by at least one other person =
-on the
-> +  mailing list; this also applies for maintainers.
-> diff --git a/Documentation/gpu/nova/index.rst b/Documentation/gpu/nova/in=
-dex.rst
-> new file mode 100644
-> index 000000000000..2701b3f4af35
-> --- /dev/null
-> +++ b/Documentation/gpu/nova/index.rst
-> @@ -0,0 +1,30 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +	if (pool->use_dma32)
+> +		gfp = GFP_DMA32;
+> +	else
+> +		gfp = GFP_HIGHUSER;
 > +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +nova NVIDIA GPU drivers
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	alloc_gfp = GFP_KERNEL | __GFP_HIGH | __GFP_NOWARN | __GFP_RETRY_MAYFAIL;
 > +
-> +The nova driver project consists out of two separate drivers nova-core a=
-nd
-> +nova-drm and intends to supersede the nouveau driver for NVIDIA GPUs bas=
-ed on
-> +the GPU System Processor (GSP).
+> +	for (i = 0; i < tt->num_pages; ++i) {
+> +		s64 shandle;
 > +
-> +The following documents apply to both nova-core and nova-drm.
+> +		page = tt->pages[i];
+> +		if (unlikely(!page))
+> +			continue;
 > +
-> +.. toctree::
-> +   :titlesonly:
+> +		ttm_pool_split_for_swap(pool, page);
 > +
-> +   guidelines
+> +		shandle = ttm_backup_backup_page(backup, page, flags->writeback, i,
+> +						 gfp, alloc_gfp);
+> +		if (shandle < 0) {
+> +			/* We allow partially shrunken tts */
+> +			ret = shandle;
+> +			break;
+> +		}
+> +		handle = shandle;
+> +		tt->pages[i] = ttm_backup_handle_to_page_ptr(handle);
+> +		put_page(page);
+> +		shrunken++;
+> +	}
 > +
-> +nova-core
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	return shrunken ? shrunken : ret;
+> +}
 > +
-> +The nova-core driver is the core driver for NVIDIA GPUs based on GSP. no=
-va-core,
-> +as the 1st level driver, provides an abstraction around the GPUs hard- a=
-nd
-> +firmware interfaces providing a common base for 2nd level drivers, such =
-as the
-> +vGPU manager VFIO driver and the nova-drm driver.
+>   /**
+>    * ttm_pool_init - Initialize a pool
+>    *
+> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
+> index 3baf215eca23..00b7c28f2329 100644
+> --- a/drivers/gpu/drm/ttm/ttm_tt.c
+> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
+> @@ -40,6 +40,7 @@
+>   #include <drm/drm_cache.h>
+>   #include <drm/drm_device.h>
+>   #include <drm/drm_util.h>
+> +#include <drm/ttm/ttm_backup.h>
+>   #include <drm/ttm/ttm_bo.h>
+>   #include <drm/ttm/ttm_tt.h>
+>   
+> @@ -158,6 +159,8 @@ static void ttm_tt_init_fields(struct ttm_tt *ttm,
+>   	ttm->swap_storage = NULL;
+>   	ttm->sg = bo->sg;
+>   	ttm->caching = caching;
+> +	ttm->restore = NULL;
+> +	ttm->backup = NULL;
+>   }
+>   
+>   int ttm_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
+> @@ -182,6 +185,13 @@ void ttm_tt_fini(struct ttm_tt *ttm)
+>   		fput(ttm->swap_storage);
+>   	ttm->swap_storage = NULL;
+>   
+> +	if (ttm_tt_is_backed_up(ttm))
+> +		ttm_pool_drop_backed_up(ttm);
+> +	if (ttm->backup) {
+> +		ttm_backup_fini(ttm->backup);
+> +		ttm->backup = NULL;
+> +	}
 > +
-> +.. toctree::
-> +   :titlesonly:
+>   	if (ttm->pages)
+>   		kvfree(ttm->pages);
+>   	else
+> @@ -253,6 +263,49 @@ int ttm_tt_swapin(struct ttm_tt *ttm)
+>   }
+>   EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapin);
+>   
+> +/**
+> + * ttm_tt_backup() - Helper to back up a struct ttm_tt.
+> + * @bdev: The TTM device.
+> + * @tt: The struct ttm_tt.
+> + * @flags: Flags that govern the backup behaviour.
+> + *
+> + * Update the page accounting and call ttm_pool_shrink_tt to free pages
+> + * or back them up.
+> + *
+> + * Return: Number of pages freed or swapped out, or negative error code on
+> + * error.
+> + */
+> +long ttm_tt_backup(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_backup_flags flags)
+> +{
+> +	long ret;
 > +
-> +   core/guidelines
-> +   core/todo
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f7ddca7de0ef..07455c945834 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7454,6 +7454,7 @@ Q:	https://patchwork.freedesktop.org/project/nouvea=
-u/
->  B:	https://gitlab.freedesktop.org/drm/nova/-/issues
->  C:	irc://irc.oftc.net/nouveau
->  T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
-> +F:	Documentation/gpu/nova/
->  F:	drivers/gpu/nova-core/
-> =20
->  DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
+> +	if (WARN_ON(IS_ERR_OR_NULL(tt->backup)))
+> +		return 0;
+> +
+> +	ret = ttm_pool_backup(&bdev->pool, tt, &flags);
+> +	if (ret > 0) {
+> +		tt->page_flags &= ~TTM_TT_FLAG_PRIV_POPULATED;
+> +		tt->page_flags |= TTM_TT_FLAG_BACKED_UP;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +int ttm_tt_restore(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_operation_ctx *ctx)
+> +{
+> +	int ret = ttm_pool_restore_and_alloc(&bdev->pool, tt, ctx);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	tt->page_flags &= ~TTM_TT_FLAG_BACKED_UP;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(ttm_tt_restore);
+> +
+>   /**
+>    * ttm_tt_swapout - swap out tt object
+>    *
+> @@ -348,6 +401,7 @@ int ttm_tt_populate(struct ttm_device *bdev,
+>   		goto error;
+>   
+>   	ttm->page_flags |= TTM_TT_FLAG_PRIV_POPULATED;
+> +	ttm->page_flags &= ~TTM_TT_FLAG_BACKED_UP;
+>   	if (unlikely(ttm->page_flags & TTM_TT_FLAG_SWAPPED)) {
+>   		ret = ttm_tt_swapin(ttm);
+>   		if (unlikely(ret != 0)) {
+> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+> index 160d954a261e..54cd34a6e4c0 100644
+> --- a/include/drm/ttm/ttm_pool.h
+> +++ b/include/drm/ttm/ttm_pool.h
+> @@ -33,6 +33,7 @@
+>   
+>   struct device;
+>   struct seq_file;
+> +struct ttm_backup_flags;
+>   struct ttm_operation_ctx;
+>   struct ttm_pool;
+>   struct ttm_tt;
+> @@ -89,6 +90,13 @@ void ttm_pool_fini(struct ttm_pool *pool);
+>   
+>   int ttm_pool_debugfs(struct ttm_pool *pool, struct seq_file *m);
+>   
+> +void ttm_pool_drop_backed_up(struct ttm_tt *tt);
+> +
+> +long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *ttm,
+> +		     const struct ttm_backup_flags *flags);
+> +int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+> +			       const struct ttm_operation_ctx *ctx);
+> +
+>   int ttm_pool_mgr_init(unsigned long num_pages);
+>   void ttm_pool_mgr_fini(void);
+>   
+> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
+> index 991edafdb2dd..c736c01ac2ca 100644
+> --- a/include/drm/ttm/ttm_tt.h
+> +++ b/include/drm/ttm/ttm_tt.h
+> @@ -32,11 +32,13 @@
+>   #include <drm/ttm/ttm_caching.h>
+>   #include <drm/ttm/ttm_kmap_iter.h>
+>   
+> +struct ttm_backup;
+>   struct ttm_device;
+>   struct ttm_tt;
+>   struct ttm_resource;
+>   struct ttm_buffer_object;
+>   struct ttm_operation_ctx;
+> +struct ttm_pool_tt_restore;
+>   
+>   /**
+>    * struct ttm_tt - This is a structure holding the pages, caching- and aperture
+> @@ -85,17 +87,22 @@ struct ttm_tt {
+>   	 * fault handling abuses the DMA api a bit and dma_map_attrs can't be
+>   	 * used to assure pgprot always matches.
+>   	 *
+> +	 * TTM_TT_FLAG_BACKED_UP: TTM internal only. This is set if the
+> +	 * struct ttm_tt has been (possibly partially) backed up.
+> +	 *
+>   	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
+>   	 * set by TTM after ttm_tt_populate() has successfully returned, and is
+>   	 * then unset when TTM calls ttm_tt_unpopulate().
+> +	 *
+>   	 */
+>   #define TTM_TT_FLAG_SWAPPED		BIT(0)
+>   #define TTM_TT_FLAG_ZERO_ALLOC		BIT(1)
+>   #define TTM_TT_FLAG_EXTERNAL		BIT(2)
+>   #define TTM_TT_FLAG_EXTERNAL_MAPPABLE	BIT(3)
+>   #define TTM_TT_FLAG_DECRYPTED		BIT(4)
+> +#define TTM_TT_FLAG_BACKED_UP	        BIT(5)
+>   
+> -#define TTM_TT_FLAG_PRIV_POPULATED	BIT(5)
+> +#define TTM_TT_FLAG_PRIV_POPULATED	BIT(6)
+>   	uint32_t page_flags;
+>   	/** @num_pages: Number of pages in the page array. */
+>   	uint32_t num_pages;
+> @@ -105,11 +112,20 @@ struct ttm_tt {
+>   	dma_addr_t *dma_address;
+>   	/** @swap_storage: Pointer to shmem struct file for swap storage. */
+>   	struct file *swap_storage;
+> +	/**
+> +	 * @backup: Pointer to backup struct for backed up tts.
+> +	 * Could be unified with @swap_storage. Meanwhile, the driver's
+> +	 * ttm_tt_create() callback is responsible for assigning
+> +	 * this field.
+> +	 */
+> +	struct ttm_backup *backup;
+>   	/**
+>   	 * @caching: The current caching state of the pages, see enum
+>   	 * ttm_caching.
+>   	 */
+>   	enum ttm_caching caching;
+> +	/** @restore: Partial restoration from backup state. TTM private */
+> +	struct ttm_pool_tt_restore *restore;
+>   };
+>   
+>   /**
+> @@ -129,9 +145,38 @@ static inline bool ttm_tt_is_populated(struct ttm_tt *tt)
+>   	return tt->page_flags & TTM_TT_FLAG_PRIV_POPULATED;
+>   }
+>   
+> +/**
+> + * ttm_tt_is_swapped() - Whether the ttm_tt is swapped out or backed up
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Return: true if swapped or backed up, false otherwise.
+> + */
+>   static inline bool ttm_tt_is_swapped(const struct ttm_tt *tt)
+>   {
+> -	return tt->page_flags & TTM_TT_FLAG_SWAPPED;
+> +	return tt->page_flags & (TTM_TT_FLAG_SWAPPED | TTM_TT_FLAG_BACKED_UP);
+> +}
+> +
+> +/**
+> + * ttm_tt_is_backed_up() - Whether the ttm_tt backed up
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Return: true if swapped or backed up, false otherwise.
+> + */
+> +static inline bool ttm_tt_is_backed_up(const struct ttm_tt *tt)
+> +{
+> +	return tt->page_flags & TTM_TT_FLAG_BACKED_UP;
+> +}
+> +
+> +/**
+> + * ttm_tt_clear_backed_up() - Clear the ttm_tt backed-up status
+> + * @tt: The struct ttm_tt.
+> + *
+> + * Drivers can use this functionto clear the backed-up status,
+> + * for example before destroying or re-validating a purged tt.
+> + */
+> +static inline void ttm_tt_clear_backed_up(struct ttm_tt *tt)
+> +{
+> +	tt->page_flags &= ~TTM_TT_FLAG_BACKED_UP;
+>   }
+>   
+>   /**
+> @@ -235,6 +280,24 @@ void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages);
+>   struct ttm_kmap_iter *ttm_kmap_iter_tt_init(struct ttm_kmap_iter_tt *iter_tt,
+>   					    struct ttm_tt *tt);
+>   unsigned long ttm_tt_pages_limit(void);
+> +
+> +/**
+> + * struct ttm_backup_flags - Flags to govern backup behaviour.
+> + * @purge: Free pages without backing up. Bypass pools.
+> + * @writeback: Attempt to copy contents directly to swap space, even
+> + * if that means blocking on writes to external memory.
+> + */
+> +struct ttm_backup_flags {
+> +	u32 purge : 1;
+> +	u32 writeback : 1;
+> +};
+> +
+> +long ttm_tt_backup(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_backup_flags flags);
+> +
+> +int ttm_tt_restore(struct ttm_device *bdev, struct ttm_tt *tt,
+> +		   const struct ttm_operation_ctx *ctx);
+> +
+>   #if IS_ENABLED(CONFIG_AGP)
+>   #include <linux/agp_backend.h>
+>   
 
