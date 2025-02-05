@@ -2,66 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48EB3A28E51
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:11:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C178A28E77
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:13:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D289410E7C5;
-	Wed,  5 Feb 2025 14:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0423710E064;
+	Wed,  5 Feb 2025 14:13:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=helen.koike@collabora.com header.b="hWaRw8+a";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="M+tAoWu/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C582F10E7C5
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 14:11:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1738764683; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=H0yw1SIUJ1JolLxhI1QjGxb3JUVUYEceNThalOFEe0hVvDT8TwhKkygDeJKd1cbENuQ+vzrEwBBZMFvlaNj2wqHkls1WEqTFaYG7LTS6d9Q6VDwAlNL0V2gQk+yr4I/uYkBxTQdrsSa79T3yG1NIQt5CNZp8BE2/YGfhFuW/HDY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1738764683;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=VgmSayAGKFLeF5c3BvsonNcZQluhGDauHCVTiCxbwlY=; 
- b=gpvpGs3igfZydYHl/eqx6K9qtReZLSr9mXbOFK5QKcOl38SaUldmTHnCs54yE1v27/S7cm75Fn5MNykcqwBfPnZsZq+oKZGSH8ZM8MrHlnqcAAIPBHHEds4GtgiQUgi+aX5tbBrAcFqJJZ+Tg/tdZ1AXXeJO6wR62b/JWmZoJug=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=helen.koike@collabora.com;
- dmarc=pass header.from=<helen.koike@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738764683; 
- s=zohomail; d=collabora.com; i=helen.koike@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=VgmSayAGKFLeF5c3BvsonNcZQluhGDauHCVTiCxbwlY=;
- b=hWaRw8+asSZy4mKITzaKzI3+0x+kGedwlR6oO/oNXYX0fHjBsVluAHv5sp/9fLoR
- HeNFyne8mJrB92CDQqBItweRLkC14NifL618ByKFxsyHRRLh9kvjwTX9TJdLNgSO56o
- 9+Sp1CZU7xxmyPK3py6AZY3mbxkyF2zzIz3/7eYk=
-Received: from mail.zoho.com by mx.zohomail.com
- with SMTP id 1738764680669688.0736532108742;
- Wed, 5 Feb 2025 06:11:20 -0800 (PST)
-Date: Wed, 05 Feb 2025 11:11:20 -0300
-From: Helen Mae Koike Fornazier <helen.koike@collabora.com>
-To: "Vignesh Raman" <vignesh.raman@collabora.com>
-Cc: "dri-devel" <dri-devel@lists.freedesktop.org>,
- "daniels" <daniels@collabora.com>, "airlied" <airlied@gmail.com>,
- "simona.vetter" <simona.vetter@ffwll.ch>,
- "robdclark" <robdclark@gmail.com>,
- "guilherme.gallo" <guilherme.gallo@collabora.com>,
- "sergi.blanch.torne" <sergi.blanch.torne@collabora.com>,
- "valentine.burley" <valentine.burley@collabora.com>,
- "jani.nikula" <jani.nikula@linux.intel.com>,
- "dmitry.baryshkov" <dmitry.baryshkov@linaro.org>,
- "mripard" <mripard@kernel.org>,
- "linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <194d6737dc8.103ea99f8673408.2437691126328305495@collabora.com>
-In-Reply-To: <20250205081652.1928927-1-vignesh.raman@collabora.com>
-References: <20250205081652.1928927-1-vignesh.raman@collabora.com>
-Subject: Re: [PATCH v2 0/3] drm/ci: uprev mesa and modify gitlab rules
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+ [209.85.216.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F25D10E064;
+ Wed,  5 Feb 2025 14:13:26 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id
+ 98e67ed59e1d1-2f9cf019884so338890a91.0; 
+ Wed, 05 Feb 2025 06:13:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1738764806; x=1739369606; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y9bBxD6OlYG3QN3t6eEdPcfSBfOJrPnlO3VouFKzOcs=;
+ b=M+tAoWu/0wWllQIxDpWRZO8COJjz7xHvS9niJ7mzWqJRGgYusPYexyou5uusrxHoSg
+ dFApz41x8iBWQgCBtyBSiTUo9JPfgp+V0ZpZv9K+juG00HFqJdWXVfNGGi9rtml4NYaT
+ VHClEerB6EyluJsooFcMhjvz+FFYQ2FnmjAC2oGGF1ax0DWK8LHFHM3k6PV3A7Ug6Dlq
+ zmvEU+De87O13SkgP9sFD7qRAyv+k5DkniTf6a9TWaxUVtq2P2SET0PzAMfPowSSa2VK
+ tfjLxOOrkULvhCeaSd7TK9SVDEmoxI2dN4UwOSWMA4Ry8xKh5g0iM9CVDxwMJKPlASXd
+ M/sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738764806; x=1739369606;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=y9bBxD6OlYG3QN3t6eEdPcfSBfOJrPnlO3VouFKzOcs=;
+ b=Dlhy90a5KRl3ib6tBIZ4sUM+grSJ5as7hMOOKe4W8IcId/B/Z3NxBt2O0We7t1YEmK
+ g8n58kvi1EgKEYVab0GSuEmt386Jh9rZtV0EmOBMu9IrSOpjGZEyqaPhlxvUv3MRCfvk
+ mRl8X7gdNfUTpCrZxoLN1qRlRDON8gu8Z9LbqiJHASu2zqBVLnroNiDMa8LOsFqIzPZB
+ mZ5Vxq3U2Ev973muKL/x5dPCbdkwcTW06UdI5WAl0zweH3kl6KcHDP7aVKJut7nNJq1e
+ u45C7ZoF1URincroCUZPZ3KSzWoWb6HxmtGSsOLHXnbem4cjjrTcH9Ccx3iW672TXtOW
+ eCGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUMX6mugx4toGnmmx34glZIPukARWVXuu1JI6ouvH9DyXTqD/BAPeFAXYWuC1Pi14BaOVte/sEF+A==@lists.freedesktop.org,
+ AJvYcCVbkRfoTX+y/7usq4c14ddHn+04S9CntqWSSZcqBIhAh8Yr/+JAuKTRUX5VXJ908bAF9kPRS/mJzas=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGn51LWGzSAWqN6FySa0jhAuxTP0dRMBGYs8IaSgKM3rAiohdy
+ dIW3jprxTembFtXH/ul4oeoTmz4jtJnHj7GElZd9djs9y01yCjzM4SHkuQ0DfqXPf8tR51zTelw
+ ecQ8a+xIgiD0+D3pJBe6D0SZLEvo=
+X-Gm-Gg: ASbGncuodu7ODtqzMNLmzbqBDYNrNHT3S7t3o2lJpU4Rb+27UaUtk+blH2VayWaDN9I
+ mTvKNf+iJg52QEL7jJnlTMuyMtwW565AtgEeME5U44WMdzH0SFsh/2xio5o15DyLRWIZsSS/4
+X-Google-Smtp-Source: AGHT+IF4hKXRVLLC6unmAjENx+zZEHsy43XxaM92zW4ScuMwkiqk1/7Tpba6AbMwT3b4dDa6OhFd6Tj7HQNu4hPCPUs=
+X-Received: by 2002:a17:90b:4f4b:b0:2ee:f59a:94d3 with SMTP id
+ 98e67ed59e1d1-2f9e06b216cmr1912666a91.0.1738764805841; Wed, 05 Feb 2025
+ 06:13:25 -0800 (PST)
 MIME-Version: 1.0
+References: <20250204190400.2550-1-dakr@kernel.org>
+ <20250204190400.2550-2-dakr@kernel.org>
+ <20250205155646.00003c2f@nvidia.com>
+In-Reply-To: <20250205155646.00003c2f@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 5 Feb 2025 15:13:12 +0100
+X-Gm-Features: AWEUYZkGVXHP4hrFG-5_ihud3NGINPm5TNS2CNAPtoXmocfUh6RQ24GiptUl5w0
+Message-ID: <CANiq72mxKhCudmRaS=gwnC=gjkCLMhZcC2ZpfzKKaGX1Hivz9g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] gpu: nova-core: add initial documentation
+To: Zhi Wang <zhiw@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com, simona@ffwll.ch,
+ corbet@lwn.net, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ ajanulgu@redhat.com, lyude@redhat.com, pstanner@redhat.com, cjia@nvidia.com, 
+ jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com, ojeda@kernel.org, 
+ alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+ bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@kernel.org, 
+ aliceryhl@google.com, tmgross@umich.edu, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,47 +93,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Feb 5, 2025 at 2:57=E2=80=AFPM Zhi Wang <zhiw@nvidia.com> wrote:
+>
+> It would be also helpful to make the process explicit. E.g. sharing your
+> command lines used to checking the patches. So folks can align with the
+> expected outcome, e.g. command line parameters.
 
+These two guidelines (and generally the few others above) are intended
+to apply to all Rust code in the kernel (i.e. not just `rust/`) --
+their command lines are mentioned in `Documentation/rust/`. We could
+add a note to make that clearer if that helps. So I would suggest
+avoiding repetition here by referencing those.
 
+We also mention it in our "Subsystem Profile document" at
+https://rust-for-linux.com/contributing#submit-checklist-addendum.
 
+> > +The availability of proper documentation is essential in terms of scal=
+ability,
+> > +accessability for new contributors and maintainability of a project in=
+ general,
 
----- On Wed, 05 Feb 2025 05:16:45 -0300 Vignesh Raman  wrote ---
+Typo: accessibility?
 
- > Uprev mesa to adapt to the latest changes in mesa-ci, 
- > including new container jobs and stages. Update the 
- > lava-submit script to align with recent mes-ci changes 
- > for using LAVA rootfs overlays. Modify gitLab rules 
- > to include scheduled pipelines. Also update the 
- > expectation files. 
- >  
- > Pipeline link, 
- > https://gitlab.freedesktop.org/vigneshraman/linux/-/pipelines/1358207 
- >  
- > Link to v1, 
- > https://lore.kernel.org/all/20241128042025.611659-1-vignesh.raman@collabora.com/ 
- >  
- > Vignesh Raman (2): 
- >  drm/ci: uprev mesa 
- >  drm/ci: update gitlab rules 
- >  drm/ci: update expectation files 
- >  
- >  drivers/gpu/drm/ci/build.sh                   |   2 +- 
- >  drivers/gpu/drm/ci/build.yml                  | 104 +++++++++- 
- >  drivers/gpu/drm/ci/container.yml              |  22 +- 
- >  drivers/gpu/drm/ci/gitlab-ci.yml              | 195 ++++++++++-------- 
- >  drivers/gpu/drm/ci/igt_runner.sh              |  13 +- 
- >  drivers/gpu/drm/ci/image-tags.yml             |  11 +- 
- >  drivers/gpu/drm/ci/lava-submit.sh             | 100 ++++++--- 
- >  drivers/gpu/drm/ci/test.yml                   |  37 ++-- 
- >  drivers/gpu/drm/ci/xfails/vkms-none-fails.txt |   2 + 
- >  9 files changed, 325 insertions(+), 161 deletions(-) 
- >  
- > -- 
- > 2.43.0 
- >  
- > 
-
-Applied to drm-misc-next
-
-Thanks
-Helen
+Cheers,
+Miguel
