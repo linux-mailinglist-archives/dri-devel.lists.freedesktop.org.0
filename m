@@ -2,50 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981A0A2871B
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 10:55:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27CE1A2873E
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 11:01:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE08510E169;
-	Wed,  5 Feb 2025 09:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC2AF10E767;
+	Wed,  5 Feb 2025 10:01:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="NaFlcSIQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="qtW7iKuU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3277.qiye.163.com (mail-m3277.qiye.163.com
- [220.197.32.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13D1110E169
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 09:54:45 +0000 (UTC)
-Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id a3acc82b;
- Wed, 5 Feb 2025 17:54:40 +0800 (GMT+08:00)
-From: Damon Ding <damon.ding@rock-chips.com>
-To: neil.armstrong@linaro.org
-Cc: dianders@chromium.org, quic_jesszhan@quicinc.com,
- dmitry.baryshkov@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v7] drm/edp-panel: Add LG Display panel model LP079QX1-SP0V
-Date: Wed,  5 Feb 2025 17:47:34 +0800
-Message-Id: <20250205094734.562992-1-damon.ding@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F29C10E767
+ for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 10:01:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=m+9BjxCOqAsb8DoInGO6zb5GuWpbOqOB+4OYHmgKpKU=; b=qtW7iKuUyWLOd9rLmGuSsjcpmG
+ toBnF+sY7+lqEioGkx63A+uguvpRH6wNcEFnNfiZVwX35lohK504jQYt54lolttXTwDT0eBZDKZ3r
+ bj3NhMqF0RZ5A+a5MVjwrPPQGJVR9Jr1pMYbJgnMh2Ma4Pskrrk9vJbcQxR5NnQf08D6oeOFpRJLM
+ RXCgv0s4dgFWQYo3LnqnULnQjcgXvpu2ZLIL8Z6g8uRon90r7Nbi+W6TxvqeSIFGro3z91uglvtFw
+ IfntF5k8bD9rrWvtGerpC4d2fHw/howdPQrahp6YFJ744/4N47L2hT+3qc1Abg5qylZ/A780caRNi
+ FMksbaZA==;
+Received: from [90.241.98.187] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1tfcDf-003q2X-Js; Wed, 05 Feb 2025 11:01:25 +0100
+Message-ID: <5b2a08b8-77d7-469b-b73f-678a87050c87@igalia.com>
+Date: Wed, 5 Feb 2025 10:01:24 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 3/5] drm/scheduler: Add a simple TDR test
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
+ <20250203153007.63400-4-tvrtko.ursulin@igalia.com>
+ <d068fca1-2c08-42f0-adbf-cad5ab8d5e82@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <d068fca1-2c08-42f0-adbf-cad5ab8d5e82@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGRhPTVZMHxpJSUsYTB1IQ0hWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a94d588826c03a3kunma3acc82b
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mi46KQw4CDIUTwsKDVZDMTMt
- MhQaCQxVSlVKTEhDTE9CSUNJSkJJVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKQkJONwY+
-DKIM-Signature: a=rsa-sha256;
- b=NaFlcSIQEJ0KkmS2wQWLhCSRzngClarPNEkm8KraA20SbAJLJEfkg9z9b2x9zRZLApEEJRPPxazxYHmyhUoxSNw3nK2NkyFzcaAm4lOlBtzBBGvj+zSu2MKI1YMw/FnXtyXAsHTxdbBkQWFPGwsQdgdM2wMaFj51JHJxA7ucdpg=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=FE/n9p9jwS6e5OeM3nh7F9rfxlhPgUmCeDZRa1xz3oY=;
- h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +64,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The raw edid for LP079QX1-SP0V panel model is:
 
-00 ff ff ff ff ff ff 00 16 83 00 00 00 00 00 00
-04 17 01 00 a5 10 0c 78 06 ef 05 a3 54 4c 99 26
-0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 ea 4e 00 4c 60 00 14 80 0c 10
-84 00 78 a0 00 00 00 18 00 00 00 10 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 fe 00 4c
-50 30 37 39 51 58 31 2d 53 50 30 56 00 00 00 fc
-00 43 6f 6c 6f 72 20 4c 43 44 0a 20 20 20 00 3f
+On 04/02/2025 16:21, Christian König wrote:
+> Am 03.02.25 um 16:30 schrieb Tvrtko Ursulin:
+>> Add a very simple TDR test which submits a single job and verifies that
+>> the TDR handling will run if the backend failed to complete the job in
+>> time.
+> 
+> I think I said it before but I strongly suggest to not use TDR as name 
+> in the scheduler at all.
+> 
+> What the scheduler provides is a simple timeout while waiting for the HW 
+> fence to signal.
+> 
+> That is fundamentally different to the TDR functionality Windows provide 
+> and we already had people confusing this.
 
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
+I did a s/tdr/timeout/ locally.
 
----
+> Apart from that "yes, please". Those tests are desperately needed.
 
-Picked from:
-https://patchwork.kernel.org/project/linux-rockchip/list/?series=927765
+Cool. Lets see what other people will say and if someone can actually 
+review.
 
-changes in v7:
-- Add &panel_delay.disable and &panel_delay.powered_on_to_enable
-  according to the datasheet
----
- drivers/gpu/drm/panel/panel-edp.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Regards,
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index f8511fe5fb0d..d20ed89b66b7 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1808,6 +1808,14 @@ static const struct panel_delay delay_200_150_e50 = {
- 	.enable = 50,
- };
- 
-+static const struct panel_delay delay_50_500_e200_d200_po2e335 = {
-+	.hpd_absent = 50,
-+	.unprepare = 500,
-+	.enable = 200,
-+	.disable = 200,
-+	.powered_on_to_enable = 335,
-+};
-+
- #define EDP_PANEL_ENTRY(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _delay, _name) \
- { \
- 	.ident = { \
-@@ -1955,6 +1963,8 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1100, &delay_200_500_e80_d50, "MNB601LS1-1"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1104, &delay_200_500_e50, "MNB601LS1-4"),
- 
-+	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200_d200_po2e335, "LP079QX1-SP0V"),
-+
- 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d51, &delay_200_500_e200, "Unknown"),
- 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5b, &delay_200_500_e200, "MB116AN01"),
- 	EDP_PANEL_ENTRY('H', 'K', 'C', 0x2d5c, &delay_200_500_e200, "MB116AN01-2"),
--- 
-2.34.1
+Tvrtko
 
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> ---
+>>   .../drm/scheduler/tests/drm_mock_scheduler.c  | 12 +++-
+>>   .../gpu/drm/scheduler/tests/drm_sched_tests.h |  6 +-
+>>   .../scheduler/tests/drm_sched_tests_basic.c   | 64 ++++++++++++++++++-
+>>   3 files changed, 76 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c 
+>> b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+>> index f1985900a6ba..79b6193ce920 100644
+>> --- a/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+>> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+>> @@ -160,7 +160,11 @@ static struct dma_fence 
+>> *mock_sched_run_job(struct drm_sched_job *sched_job)
+>>   static enum drm_gpu_sched_stat
+>>   mock_sched_timedout_job(struct drm_sched_job *sched_job)
+>>   {
+>> -    return DRM_GPU_SCHED_STAT_ENODEV;
+>> +    struct drm_mock_sched_job *job = 
+>> drm_sched_job_to_mock_job(sched_job);
+>> +
+>> +    job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
+>> +
+>> +    return DRM_GPU_SCHED_STAT_NOMINAL;
+>>   }
+>>   static void mock_sched_free_job(struct drm_sched_job *sched_job)
+>> @@ -174,7 +178,9 @@ static const struct drm_sched_backend_ops 
+>> drm_mock_scheduler_ops = {
+>>       .free_job = mock_sched_free_job
+>>   };
+>> -struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit *test)
+>> +struct drm_mock_scheduler *
+>> +drm_mock_new_scheduler(struct kunit *test,
+>> +               long timeout)
+>>   {
+>>       struct drm_mock_scheduler *sched;
+>>       int ret;
+>> @@ -188,7 +194,7 @@ struct drm_mock_scheduler 
+>> *drm_mock_new_scheduler(struct kunit *test)
+>>                    DRM_SCHED_PRIORITY_COUNT,
+>>                    U32_MAX, /* max credits */
+>>                    UINT_MAX, /* hang limit */
+>> -                 MAX_SCHEDULE_TIMEOUT, /* timeout */
+>> +                 timeout,
+>>                    NULL, /* timeout wq */
+>>                    NULL, /* score */
+>>                    "drm-mock-scheduler",
+>> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h 
+>> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+>> index 421ee2712985..20695f55e453 100644
+>> --- a/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+>> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+>> @@ -35,6 +35,9 @@ struct drm_mock_sched_entity {
+>>   struct drm_mock_sched_job {
+>>       struct drm_sched_job    base;
+>> +#define DRM_MOCK_SCHED_JOB_TIMEDOUT 0x1
+>> +    unsigned long        flags;
+>> +
+>>       struct list_head    link;
+>>       struct hrtimer        timer;
+>> @@ -65,7 +68,8 @@ drm_sched_job_to_mock_job(struct drm_sched_job 
+>> *sched_job)
+>>       return container_of(sched_job, struct drm_mock_sched_job, base);
+>>   };
+>> -struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit *test);
+>> +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit *test,
+>> +                          long timeout);
+>>   void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched);
+>>   unsigned int drm_mock_sched_advance(struct drm_mock_scheduler *sched,
+>>                       unsigned int num);
+>> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c 
+>> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>> index 6fd39bea95b1..eb0d54d00f21 100644
+>> --- a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>> @@ -3,7 +3,7 @@
+>>   static int drm_sched_basic_init(struct kunit *test)
+>>   {
+>> -    test->priv = drm_mock_new_scheduler(test);
+>> +    test->priv = drm_mock_new_scheduler(test, MAX_SCHEDULE_TIMEOUT);
+>>       return 0;
+>>   }
+>> @@ -15,6 +15,13 @@ static void drm_sched_basic_exit(struct kunit *test)
+>>       drm_mock_scheduler_fini(sched);
+>>   }
+>> +static int drm_sched_tdr_init(struct kunit *test)
+>> +{
+>> +    test->priv = drm_mock_new_scheduler(test, HZ);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static void drm_sched_basic_submit(struct kunit *test)
+>>   {
+>>       struct drm_mock_scheduler *sched = test->priv;
+>> @@ -244,4 +251,57 @@ static struct kunit_suite drm_sched_basic = {
+>>       .test_cases = drm_sched_basic_tests,
+>>   };
+>> -kunit_test_suite(drm_sched_basic);
+>> +static void drm_sched_basic_tdr(struct kunit *test)
+>> +{
+>> +    struct drm_mock_scheduler *sched = test->priv;
+>> +    struct drm_mock_sched_entity *entity;
+>> +    struct drm_mock_sched_job *job;
+>> +    bool done;
+>> +
+>> +    /*
+>> +     * Submit a single job against a scheduler with the timeout 
+>> configured
+>> +     * and verify that the timeout handling will run if the backend 
+>> fails
+>> +     * to complete it in time.
+>> +     */
+>> +
+>> +    entity = drm_mock_new_sched_entity(test,
+>> +                       DRM_SCHED_PRIORITY_NORMAL,
+>> +                       sched);
+>> +    job = drm_mock_new_sched_job(test, entity);
+>> +
+>> +    drm_mock_sched_job_submit(job);
+>> +
+>> +    done = drm_mock_sched_job_wait_scheduled(job, HZ);
+>> +    KUNIT_ASSERT_EQ(test, done, true);
+>> +
+>> +    done = drm_mock_sched_job_wait_finished(job, HZ / 2);
+>> +    KUNIT_ASSERT_EQ(test, done, false);
+>> +
+>> +    KUNIT_ASSERT_EQ(test,
+>> +            job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>> +            0);
+>> +
+>> +    done = drm_mock_sched_job_wait_finished(job, HZ);
+>> +    KUNIT_ASSERT_EQ(test, done, false);
+>> +
+>> +    KUNIT_ASSERT_EQ(test,
+>> +            job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>> +            DRM_MOCK_SCHED_JOB_TIMEDOUT);
+>> +
+>> +    drm_mock_sched_entity_free(entity);
+>> +}
+>> +
+>> +static struct kunit_case drm_sched_tdr_tests[] = {
+>> +    KUNIT_CASE(drm_sched_basic_tdr),
+>> +    {}
+>> +};
+>> +
+>> +static struct kunit_suite drm_sched_tdr = {
+>> +    .name = "drm_sched_basic_tdr_tests",
+>> +    .init = drm_sched_tdr_init,
+>> +    .exit = drm_sched_basic_exit,
+>> +    .test_cases = drm_sched_tdr_tests,
+>> +};
+>> +
+>> +kunit_test_suites(&drm_sched_basic,
+>> +          &drm_sched_tdr);
+> 
