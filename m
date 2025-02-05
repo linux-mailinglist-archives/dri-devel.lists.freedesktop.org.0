@@ -2,72 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E943A291B1
-	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:54:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939F1A291F2
+	for <lists+dri-devel@lfdr.de>; Wed,  5 Feb 2025 15:57:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AEA610E7D6;
-	Wed,  5 Feb 2025 14:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96DC810E7D9;
+	Wed,  5 Feb 2025 14:57:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bnE4QYFL";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="KgKjQzQk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0C0710E1E4
- for <dri-devel@lists.freedesktop.org>; Wed,  5 Feb 2025 14:53:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A53E7A436D4;
- Wed,  5 Feb 2025 14:51:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDF1FC4CED1;
- Wed,  5 Feb 2025 14:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738767211;
- bh=ly4tyRLO/ehfMN/FLCIRG16hKWOkEGsQKwgjdbw72Qs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bnE4QYFLfLaYNfccMdfqWT+RYN9yf+Gjxza7rzCut/1l9oMaUuiijDdd/DhaRbESZ
- XgFg6X3q4ifc0Xq8xBrBd3RLOXS/4Y33jlkUTNozgo2VcesBo2wJwSkQaRsQqJZa0a
- T67JDf8W1XRZNMD5C9zAXRKf4SEEAxGwkW8xeIPTCdscEvhIh30okn0Sv7Z9Jvpu3E
- PHUledK8RTCFdrv8PmcgPFa163+tjJbY8mwv5asDoBKS5o2hovBwjFoJP+EmXlJDXt
- 0al3PgvxiEK16LH5cWdsPOTO8FTFJ0qmea/GqbeiLRwUna6jGtHUrHA0uLaWFwRXQg
- MrFxL1PvPIaEA==
-Date: Wed, 5 Feb 2025 15:53:29 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Florent Tomasin <florent.tomasin@arm.com>, 
- Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Yong Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- nd@arm.com, Akash Goel <akash.goel@arm.com>
-Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali CSF
- GPUs
-Message-ID: <20250205-robust-tall-parrot-69baf7@houat>
-References: <cover.1738228114.git.florent.tomasin@arm.com>
- <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
- <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
- <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
- <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
- <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
- <c856a7059171bcc6afd6d829c6c025882855778b.camel@ndufresne.ca>
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2040.outbound.protection.outlook.com [40.107.101.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B847910E7D5;
+ Wed,  5 Feb 2025 14:57:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v8+HxT4QCVPX5xGK0DJe9HV33Y9d9y7lpoOezg4tO0lZ+5XOUAwTxzmU9L4S5wNjQ+N+UZrb1aW2tzGgO1cSIVGy1MqFGS8DLU43DuMgywgRwcMXO6EoON55jA6c1xpRqxsNZ23Y0WafpjOD+KYegcj4KRdHSpW9fdeqt9t/sa/dimAPlLry0TWpsiE+CR8xw7oo87v8xy9Fak83MJc0oFgHB50FU3/+piV1PGV4EWD6Ktssg/3m8UiRjn5GJ/WTYAwCzaci0dcxdbl1W/WFaPiSiJlNFtHgbaedjzDg9V8q7Hp99eQgTlCrLOMlRXnmJcV7OpWiljpQ6eo5TdgvGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zgVmQKjynIWNxQJQVKVsQVomdkAZ1WzSBYDaGO3tdJI=;
+ b=AVMmkkzV3ToyhVfkJaGtB3p18fks6hs9t6UkfjlNoZVlwsOf+Id0ndjqYDxLU0tublbi/QwRtQUOVq4t0VrfY+KwX0oN57wCMBpq5l8qUkzLRRNLIR0qWzjAvb+u5V/LpB+S+gCUpcmoEdt5V28z/XzHcDhbinOH4AZZXgio8LquXOdGNca1kfCLTJQyOZRwTVxD/oEoFblJfHCRadQarGZiSTXnOUj1KFruDMqFMP8V727EuEGkbp7nXaiVTzWiq24fBq5ZFODw/vFYHacMg5RRfkBNnRdPg73ZcXN3e2jcA+707aiSafQMafr5WUtq2CZPIF5zu2kdZZugczhWLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zgVmQKjynIWNxQJQVKVsQVomdkAZ1WzSBYDaGO3tdJI=;
+ b=KgKjQzQkGGU55psZmRxVZnXc9bw1PLErPelyIrqdoz0OKpEykJ7G3iIKWeURvx1+wZy0hZdbD1eB2WQGyXwOz7RmK0JpO2CMsiTx2eKTI8qlivc5wsv8uoWjUklH+YhQ6LYP1qD4su4FKRhfqua/4pHDGe7kwnteAkc7GY6hQZmGj+DSneQIV0RjC9k5zCrKJnodoaViV193lX8/M24rSduz0fraCwj4LudAjVeIkprqD0YHoiAsCuTzsW2ceEVengJrcCn9lFjp7+gGOY41Ak6VnuJQS+1O2AOL2eXpsPxh6+foUV83k8tCg506DCkRfHarvSIy/cXUnTbAv1pieA==
+Received: from CYZPR11CA0005.namprd11.prod.outlook.com (2603:10b6:930:8d::13)
+ by DS0PR12MB8480.namprd12.prod.outlook.com (2603:10b6:8:159::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Wed, 5 Feb
+ 2025 14:56:57 +0000
+Received: from CY4PEPF0000E9DC.namprd05.prod.outlook.com
+ (2603:10b6:930:8d:cafe::72) by CYZPR11CA0005.outlook.office365.com
+ (2603:10b6:930:8d::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.28 via Frontend Transport; Wed,
+ 5 Feb 2025 14:56:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000E9DC.mail.protection.outlook.com (10.167.241.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8398.14 via Frontend Transport; Wed, 5 Feb 2025 14:56:57 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 5 Feb 2025
+ 06:56:39 -0800
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 5 Feb
+ 2025 06:56:38 -0800
+Received: from localhost (10.127.8.14) by mail.nvidia.com (10.129.68.8) with
+ Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Wed, 5 Feb 2025
+ 06:56:32 -0800
+Date: Wed, 5 Feb 2025 16:56:32 +0200
+From: Zhi Wang <zhiw@nvidia.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Danilo Krummrich <dakr@kernel.org>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <corbet@lwn.net>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <ajanulgu@redhat.com>,
+ <lyude@redhat.com>, <pstanner@redhat.com>, <cjia@nvidia.com>,
+ <jhubbard@nvidia.com>, <bskeggs@nvidia.com>, <acurrid@nvidia.com>,
+ <ojeda@kernel.org>, <alex.gaynor@gmail.com>, <boqun.feng@gmail.com>,
+ <gary@garyguo.net>, <bjorn3_gh@protonmail.com>, <benno.lossin@proton.me>,
+ <a.hindborg@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] gpu: nova-core: add initial documentation
+Message-ID: <20250205165632.000016fa@nvidia.com>
+In-Reply-To: <CANiq72mxKhCudmRaS=gwnC=gjkCLMhZcC2ZpfzKKaGX1Hivz9g@mail.gmail.com>
+References: <20250204190400.2550-1-dakr@kernel.org>
+ <20250204190400.2550-2-dakr@kernel.org>
+ <20250205155646.00003c2f@nvidia.com>
+ <CANiq72mxKhCudmRaS=gwnC=gjkCLMhZcC2ZpfzKKaGX1Hivz9g@mail.gmail.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="edrbb66pldmq62jz"
-Content-Disposition: inline
-In-Reply-To: <c856a7059171bcc6afd6d829c6c025882855778b.camel@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DC:EE_|DS0PR12MB8480:EE_
+X-MS-Office365-Filtering-Correlation-Id: 44ce732e-3448-40fc-cfdc-08dd45f55641
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|82310400026|36860700013|1800799024|13003099007|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YXBXRVVuWGFFcDZiaXBUdks2c0F5T3JVaGJGaW1uRU56dWlCMHFSQXVKN0dq?=
+ =?utf-8?B?UXJISGg0ZThyN3Avakg5NU0zcUh0WnRqd2plb0JSdUF2b0dkRnZqeTBWa2x5?=
+ =?utf-8?B?V08rOGZpZUJaYW9qQW5mWTZFYUNOYnVhSFUwVzROcTBsaGN3ZEEzMVFvbTFJ?=
+ =?utf-8?B?SkZCTWY2NGRpVitOVytDVmpMSVNSbDhOSGhRMklKcGtsaUoxMW8vWW85WUVE?=
+ =?utf-8?B?VmEzVU5VZHg5SHpJN0lUSkVObkVucitiZGVWOFVmL1oweTIzVHFqMTFaY2Mr?=
+ =?utf-8?B?WWF3enBtVk40eDJHVklzd0QxM1I1ZmJscjdlRGs4RitzbU5odTcrcmFtS3RK?=
+ =?utf-8?B?ckZhMTJHeG5zR1kyaUpKVWZEcW1yZ3VCeGI2b3R2N3ovb211RVhLQlRpL1Zp?=
+ =?utf-8?B?STJlSnB6R3BucDJEeTQxN1FYN0o1Vm9qckI4eXNIRFBHQkhaRHE1K0xiOXJO?=
+ =?utf-8?B?MUV3THZjajRrUUtLdXJOclFBblRvL3ljRFdDMGxSdlEyM001SG1PT0dPZmRh?=
+ =?utf-8?B?ZFZ5SDdvMzFYaXpmbC92OTcvVVRHOHg1SGZ4YldwZnFoOFFPTTIvOHN4dWwy?=
+ =?utf-8?B?SUcxMStPczIvZzBVUlYvcW0vdllIZ1BrNDJhbzFFUE84UlJ6SGQ1UU9XOGQ0?=
+ =?utf-8?B?dXBjRkthZ0kvOHNEM09yZk45VFRxMzZlSzhZK2ZZd3RkZDVwNnRFc0c1YkpK?=
+ =?utf-8?B?cGJlbGVXdXNSMkZqNnhYUHN5ZmNSTXV2cUloRC8vamZMUnZ2dTAzWSs5U3dW?=
+ =?utf-8?B?S0hyS3drMG5ZTG9yWHl5bVBKSUdjVTE5UHE2ZHptdWRTVGJjYVpXZTVGSTM1?=
+ =?utf-8?B?eS9idzZpNTI0aTduL2k3bUdOMUlpNHdvR3R4QjRXR1I0dDVtbTcvVDhDTVZ3?=
+ =?utf-8?B?c0hnOTg2YXFaRlR6Z24xN3pZUVZUSUNmcDBOM1c4cStnenRrREhGRTJVZ1BR?=
+ =?utf-8?B?Skl6TUJ0VU94YW1ydk9sM0ZXWThPU0V3bE5ONkZMdS9RTzYxeDlPV1E4YVpW?=
+ =?utf-8?B?ZU5FT1ZQdEkvNXA3YkM3Tk5sbkVPZG81VDNOWU9hUWRwWUFSekcwNllNSWJB?=
+ =?utf-8?B?Z2VFeFp1RVRWUFZ3LytPc2l0N205RlNJQ2dCdlJjUENVL0pneGhxOTJkbUpR?=
+ =?utf-8?B?L0F5QUJuQUlqQVBpTmd0RmZvTy83WGhhM1dMb294YzhGc2F1TVRBU3d3RGRj?=
+ =?utf-8?B?VFA1eEkwYzVGeXhTaUFJNFhQWXJBVGJnN1RhRWNrSTBPVlpqWkJzRTBaTVNm?=
+ =?utf-8?B?dHY3ZFhrbDVWV1BaU2syRW1MakNQNVhGbHk0c3MrZWY1Z2ZYM3Z0ZzduSVJ5?=
+ =?utf-8?B?c3lKYlBwMnZ1NCsrZzBZT1pXeTRpc3ZHVDZadmJwN3dXQi9QckJqL3I3MkxQ?=
+ =?utf-8?B?M0NqVU8yVE16RUNYcHNJbEl5ZCtUWWhrSEZjeTZjMTBHZEhRdVhwRDVrSFRT?=
+ =?utf-8?B?UmpPYjg2KzJPdXRBKzRoVXNjZ1ZFdE5OLzU0MG5Sa2NvRGNwOHdNMmViQjZW?=
+ =?utf-8?B?cDhic1RVUlViRCtLQzZTdXVVNGhBbUVtbGxhdjczVkh1UXc0c3BackVPU2JK?=
+ =?utf-8?B?SUNlaTVHQjI3ckR3dHR6MnpWWnhJTzdVU2NJa2IzVU92cDJURkdSME1tV0Yy?=
+ =?utf-8?B?Yzd5M3RvY1lIeGNNTDNVM0t1cUtWTjNUQjRjNmFKN0xsOEphd3FiMVNFdTVR?=
+ =?utf-8?B?TUZ0Zys4TDF5U0N6ZEw4T1JORGtNNkpEU1k4QThiZnYwUytKQU5rZC9xRUZH?=
+ =?utf-8?B?R0NPTmpTY1dRU1p0ZTdDWitBUW9XUlh0NUtweEpNQmxIaWt0bHloeVJjUEVO?=
+ =?utf-8?B?eGdXMFYrVUNYWnRpNlRyeXFZT2ZhRk5uTS9SdFZ4bEc2UTllQ2E0N3hlSTM5?=
+ =?utf-8?B?VVEvZjV6UFVHZU4xWnZNenRkdnd0RlNTRDJBSyttdmdGZ1RTY1UzWStYVUdz?=
+ =?utf-8?B?Ni9EeUdHblhjUXZiVXdXblI0eEpOQ0ZEN2ZHaExSLzlDZlNra09JL3ZneUtC?=
+ =?utf-8?Q?ehEWSTvnhNFY00mB84pWEWhYSmpS5o=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024)(13003099007)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2025 14:56:57.0592 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 44ce732e-3448-40fc-cfdc-08dd45f55641
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9DC.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8480
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,138 +161,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 5 Feb 2025 15:13:12 +0100
+Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
 
---edrbb66pldmq62jz
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali CSF
- GPUs
-MIME-Version: 1.0
-
-On Tue, Feb 04, 2025 at 01:22:58PM -0500, Nicolas Dufresne wrote:
-> Le lundi 03 f=E9vrier 2025 =E0 16:43 +0000, Florent Tomasin a =E9crit=A0:
-> > Hi Maxime, Nicolas
-> >=20
-> > On 30/01/2025 17:47, Nicolas Dufresne wrote:
-> > > Le jeudi 30 janvier 2025 =E0 17:38 +0100, Maxime Ripard a =E9crit=A0:
-> > > > Hi Nicolas,
-> > > >=20
-> > > > On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrote:
-> > > > > Le jeudi 30 janvier 2025 =E0 14:46 +0100, Maxime Ripard a =E9crit=
-=A0:
-> > > > > > Hi,
-> > > > > >=20
-> > > > > > I started to review it, but it's probably best to discuss it he=
-re.
-> > > > > >=20
-> > > > > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin wrote:
-> > > > > > > Hi,
-> > > > > > >=20
-> > > > > > > This is a patch series covering the support for protected mod=
-e execution in
-> > > > > > > Mali Panthor CSF kernel driver.
-> > > > > > >=20
-> > > > > > > The Mali CSF GPUs come with the support for protected mode ex=
-ecution at the
-> > > > > > > HW level. This feature requires two main changes in the kerne=
-l driver:
-> > > > > > >=20
-> > > > > > > 1) Configure the GPU with a protected buffer. The system must=
- provide a DMA
-> > > > > > >    heap from which the driver can allocate a protected buffer.
-> > > > > > >    It can be a carved-out memory or dynamically allocated pro=
-tected memory region.
-> > > > > > >    Some system includes a trusted FW which is in charge of th=
-e protected memory.
-> > > > > > >    Since this problem is integration specific, the Mali Panth=
-or CSF kernel
-> > > > > > >    driver must import the protected memory from a device spec=
-ific exporter.
-> > > > > >=20
-> > > > > > Why do you need a heap for it in the first place? My understand=
-ing of
-> > > > > > your series is that you have a carved out memory region somewhe=
-re, and
-> > > > > > you want to allocate from that carved out memory region your bu=
-ffers.
-> > > > > >=20
-> > > > > > How is that any different from using a reserved-memory region, =
-adding
-> > > > > > the reserved-memory property to the GPU device and doing all yo=
-ur
-> > > > > > allocation through the usual dma_alloc_* API?
-> > > > >=20
-> > > > > How do you then multiplex this region so it can be shared between
-> > > > > GPU/Camera/Display/Codec drivers and also userspace ?
-> > > >=20
-> > > > You could point all the devices to the same reserved memory region,=
- and
-> > > > they would all allocate from there, including for their userspace-f=
-acing
-> > > > allocations.
-> > >=20
-> > > I get that using memory region is somewhat more of an HW description,=
- and
-> > > aligned with what a DT is supposed to describe. One of the challenge =
-is that
-> > > Mediatek heap proposal endup calling into their TEE, meaning knowing =
-the region
-> > > is not that useful. You actually need the TEE APP guid and its IPC pr=
-otocol. If
-> > > we can dell drivers to use a head instead, we can abstract that SoC s=
-pecific
-> > > complexity. I believe each allocated addressed has to be mapped to a =
-zone, and
-> > > that can only be done in the secure application. I can imagine simila=
-r needs
-> > > when the protection is done using some sort of a VM / hypervisor.
-> > >=20
-> > > Nicolas
-> > >=20
-> >=20
-> > The idea in this design is to abstract the heap management from the
-> > Panthor kernel driver (which consumes a DMA buffer from it).
-> >=20
-> > In a system, an integrator would have implemented a secure heap driver,
-> > and could be based on TEE or a carved-out memory with restricted access,
-> > or else. This heap driver would be responsible of implementing the
-> > logic to: allocate, free, refcount, etc.
-> >=20
-> > The heap would be retrieved by the Panthor kernel driver in order to
-> > allocate protected memory to load the FW and allow the GPU to enter/exit
-> > protected mode. This memory would not belong to a user space process.
-> > The driver allocates it at the time of loading the FW and initialization
-> > of the GPU HW. This is a device globally owned protected memory.
+> On Wed, Feb 5, 2025 at 2:57=E2=80=AFPM Zhi Wang <zhiw@nvidia.com> wrote:
+> >
+> > It would be also helpful to make the process explicit. E.g. sharing your
+> > command lines used to checking the patches. So folks can align with the
+> > expected outcome, e.g. command line parameters.
 >=20
-> This use case also applies well for codec. The Mediatek SCP firmware need=
-s to be
-> loaded with a restricted memory too, its a very similar scenario, plus Me=
-diatek
-> chips often include a Mali. On top of that, V4L2 codecs (in general) do n=
-eed to
-> allocate internal scratch buffer for the IP to write to for things like m=
-otion
-> vectors, reconstruction frames, entropy statistics, etc. The IP will only=
- be
-> able to write if the memory is restricted.
+> These two guidelines (and generally the few others above) are intended
+> to apply to all Rust code in the kernel (i.e. not just `rust/`) --
+> their command lines are mentioned in `Documentation/rust/`. We could
+> add a note to make that clearer if that helps. So I would suggest
+> avoiding repetition here by referencing those.
+>=20
+> We also mention it in our "Subsystem Profile document" at
+> https://rust-for-linux.com/contributing#submit-checklist-addendum.
 
-BTW, in such a case, do the scratch buffers need to be
-protected/secure/whatever too, or would codecs be able to use any buffer
-as a scratch buffer?
+I think we can refer the links so that we don't need to explain the
+process in detail. I would prefer to have the exact command lines that
+maintainer are using in the doce. E.g. I was experiencing that folks using
+different params with checkpatch.pl, the outcome, .e.g. warnings are
+different. different spell-checks backend gives different errors.
 
-Maxime
+It could be nice that we put the command lines explicitly so that folks
+would save some efforts on re-spin. It also saves maintainer's efforts.
 
---edrbb66pldmq62jz
-Content-Type: application/pgp-signature; name="signature.asc"
+Z.
+>=20
+> > > +The availability of proper documentation is essential in terms of sc=
+alability,
+> > > +accessability for new contributors and maintainability of a project =
+in general,
+>=20
+> Typo: accessibility?
+>=20
+> Cheers,
+> Miguel
+>=20
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6N7aAAKCRAnX84Zoj2+
-doTZAYC3KraTKaHat9Tiq3AbNilzp/uyB6OJohhC6KgS8ip7Em2xWpjYSTaqcm0i
-XDstePQBf2GNysp5QIxHwmbP32dTXWpJP67ChoVOCgGc+5xAqzvPeAGxw97hlfZf
-HYSF4lENtQ==
-=HDp7
------END PGP SIGNATURE-----
-
---edrbb66pldmq62jz--
