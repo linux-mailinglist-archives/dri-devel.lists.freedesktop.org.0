@@ -2,54 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB3EA29F3B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 04:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D924A29F33
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 04:08:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4359C10E2DF;
-	Thu,  6 Feb 2025 03:11:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68A2710E407;
+	Thu,  6 Feb 2025 03:08:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="GENeDPoy";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="v9bXwh40";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49210.qiye.163.com (mail-m49210.qiye.163.com
- [45.254.49.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7173910E2DF
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 03:09:31 +0000 (UTC)
-Received: from zyb-HP-ProDesk-680-G2-MT.. (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id a47c7ae0;
- Thu, 6 Feb 2025 11:04:25 +0800 (GMT+08:00)
-From: Damon Ding <damon.ding@rock-chips.com>
-To: heiko@sntech.de
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andy.yan@rock-chips.com, hjc@rock-chips.com,
- sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Damon Ding <damon.ding@rock-chips.com>
-Subject: [PATCH v7 2/2] arm64: dts: rockchip: Fix label name of hdptxphy for
- RK3588
-Date: Thu,  6 Feb 2025 11:03:30 +0800
-Message-Id: <20250206030330.680424-3-damon.ding@rock-chips.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250206030330.680424-1-damon.ding@rock-chips.com>
-References: <20250206030330.680424-1-damon.ding@rock-chips.com>
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
+ [209.85.128.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A54D710E407
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 03:08:45 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id
+ 00721157ae682-6f678a27787so4556937b3.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 05 Feb 2025 19:08:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738811324; x=1739416124; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y0IrdqFJIK9pHEJeBBjQmGRdouO7wy9i+RTIEY9ibaQ=;
+ b=v9bXwh404tA/PdEkIBYWMvOsHItLnbwZQKzGBE121VVB+o9Ef2FblPmNTYVoyNRoqv
+ 8ySwRfK/ut/qr23VPgT8VdRXe5L0CtlDmhlU+Pk5vUR5tJNmrvXcGDk0dgkDz29QHHxX
+ atvmVHUFPufK/b5a0rCv4oRvF6YEA/jaKbpG2b+sOfFUDqqEr/SBAf5XEdqoSmlBHD6I
+ 8FXEozZuS90KCYg58Jk+kEVTJXVfgmrLswY3GPXVfddymZ7tVc0iJJODDce7RmFWn1T+
+ 1VU0ahmPFowPeoICDsJ8I4UoLbO6o/ufW11A0udnZGWXYKSJDEQk7v3y1dtj+JHWvme8
+ 81aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738811324; x=1739416124;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y0IrdqFJIK9pHEJeBBjQmGRdouO7wy9i+RTIEY9ibaQ=;
+ b=NcyJdh+Nw+Pq2i5kLrQp1iT1tERa1HAVMtsYPqsBZN7CzXR/xshF6e+kJpxzFIq859
+ 2g7xshpD24ZEnq1Zu2qvm4LrI247LgZlpI9YVQpO3KqE6gX+Az3sG470GNBrJuZuTZYJ
+ JY8gU5n6AzXylPhP5Svlq7+ZQ72C45LO135RhMAfnWu3MzpI3EoXqQe9liooqdbxmRUa
+ qrAZ885ddx5GlwNS4jUlIJngtUhR7P6fRRpi0wlk+xqoUnj22uYtkV9b87YH4+E1OelO
+ x2w4/7wtOvL8D2HUGA3FtAizMIesRDnv9eidEbQbaeoeRA3S403sx9rskePZk9OCWdmt
+ XmJA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWUE9BzCtfd0IgCY8w0HK0uWjwARZN4ZJmEqZNZpOaP3Vj50JXSEjApQI5N9jlZbHyMMAvBORx/BvQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxm0WM7Lt+T6CI+127w9+ERbK36jLYo7OBj0UtdSbxBBYUU5o+r
+ bzO/GARtvmM10eaYNQt9EmTrxmInseDlfkUoz7pyy23Ku9/aefhYqH1cqEe5eA7lQsb/E6TTjjb
+ UfV4ZIiuWftQgzDAcLnEABxNYThev1Ik6UrpuzQ==
+X-Gm-Gg: ASbGncuYHWKnSbOlbfwjHlp0vurjsHuKHYG+Vt2ePYHCZfvGclbhSdD0y3rrp7ZQ5ob
+ vrQMfaDkiDPiCaYBgCKQfTu1np1LOuLJuvxfOLjhPMxDE1/G+S0kCaaPohfzl17NEjw2a1oQ=
+X-Google-Smtp-Source: AGHT+IFEPX9hCQ37/v1Pk0bdptcnsa+EQY/WxVASIRCTOf/ifZHDhvU9xxe9pscbkAdV3OuowrmuPIF57zfJMGu9KWQ=
+X-Received: by 2002:a05:690c:7407:b0:6f9:82a8:e5dd with SMTP id
+ 00721157ae682-6f989f817d1mr51911407b3.29.1738811324572; Wed, 05 Feb 2025
+ 19:08:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU5IT1YeT0pISR5IGU1NGk1WFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a94d937469e03a3kunma47c7ae0
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Oio6LSo*LTIXDglRIyE4OSIx
- GC8KCgNVSlVKTEhDQ0pKS01MT05KVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFKS09PTDcG
-DKIM-Signature: a=rsa-sha256;
- b=GENeDPoyFO6pS8oONqgmVNflZ0awTgRfnBRZK3vHQWOuZ66JRIW32g7XRkzs3d0IC9UNUe93bWwe6R+na1/BWFOWlyLwuJnbsspjCwnjgV3ypYMa+55ew2hPpAYm2g/Z9NtboOPWoXcY/RohHV3EimpiAAi/mbdAzuGCAlV2HCY=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=ALjLr5LQJBg8oWtV2iSIYIw7m88sAth7bWlzA7dd5ic=;
- h=date:mime-version:subject:message-id:from;
+References: <20250126-drm-hdmi-connector-cec-v3-0-5b5b2d4956da@linaro.org>
+ <20250126-drm-hdmi-connector-cec-v3-1-5b5b2d4956da@linaro.org>
+ <wchzy3tnppv5ql7k2juhynqz7kwjjsod3taykw3znxrzoomqdw@fudbksambvat>
+ <mtzfnr53hug7ina7hf3s6ihzkdl7xswz6ibf46dgei73khj4ms@cfrxg32vdrbw>
+ <20250205-strong-azure-koel-f5b1f1@houat>
+In-Reply-To: <20250205-strong-azure-koel-f5b1f1@houat>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 6 Feb 2025 05:08:33 +0200
+X-Gm-Features: AWEUYZk_XPi6NCy5jyqMsGwvKZsHdQsYK-xH8hzJ8BsWLzkccfb-e2uy9WbcVj8
+Message-ID: <CAA8EJpoLcgYkKwyXNJtWi_Ym62rCRqnUPgztFXwdpdHv6k3yjQ@mail.gmail.com>
+Subject: Re: [PATCH v3 01/10] drm/connector: add CEC-related fields
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,303 +94,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hdptxphy is a combo transmit-PHY for HDMI2.1 TMDS Link, FRL Link, DP
-and eDP Link. Therefore, it is better to name it hdptxphy0 other than
-hdptxphy_hdmi0, which will be referenced by both hdmi0 and edp0 nodes.
+On Wed, 5 Feb 2025 at 16:28, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> On Tue, Jan 28, 2025 at 03:12:41PM +0200, Dmitry Baryshkov wrote:
+> > On Tue, Jan 28, 2025 at 11:33:05AM +0100, Maxime Ripard wrote:
+> > > On Sun, Jan 26, 2025 at 03:29:06PM +0200, Dmitry Baryshkov wrote:
+> > > > As a preparation to adding HDMI CEC helper code, add CEC-related fields
+> > > > to the struct drm_connector. Include both cec_adapter and cec_notifier,
+> > > > allowing drivers to select which one to use. The unregister callback
+> > > > is provided to let drivers unregister CEC-related data in a generic way
+> > > > without polluting drm_connector.c with dependencies on the CEC
+> > > > functions.
+> > > >
+> > > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > > ---
+> > > >  drivers/gpu/drm/drm_connector.c | 13 ++++++++++++
+> > > >  include/drm/drm_connector.h     | 44 +++++++++++++++++++++++++++++++++++++++++
+> > > >  2 files changed, 57 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> > > > index 1383fa9fff9bcf31488453e209a36c6fe97be2f1..fffb718b09eaaac200e6abc7524bbfe98c4741f4 100644
+> > > > --- a/drivers/gpu/drm/drm_connector.c
+> > > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > > @@ -279,6 +279,7 @@ static int drm_connector_init_only(struct drm_device *dev,
+> > > >   INIT_LIST_HEAD(&connector->probed_modes);
+> > > >   INIT_LIST_HEAD(&connector->modes);
+> > > >   mutex_init(&connector->mutex);
+> > > > + mutex_init(&connector->cec.mutex);
+> > > >   mutex_init(&connector->eld_mutex);
+> > > >   mutex_init(&connector->edid_override_mutex);
+> > > >   mutex_init(&connector->hdmi.infoframes.lock);
+> > > > @@ -698,6 +699,16 @@ static void drm_mode_remove(struct drm_connector *connector,
+> > > >   drm_mode_destroy(connector->dev, mode);
+> > > >  }
+> > > >
+> > > > +static void drm_connector_cec_unregister(struct drm_connector *connector)
+> > > > +{
+> > > > + mutex_lock(&connector->cec.mutex);
+> > > > +
+> > > > + if (connector->cec.funcs->unregister)
+> > > > +         connector->cec.funcs->unregister(connector);
+> > > > +
+> > > > + mutex_unlock(&connector->cec.mutex);
+> > > > +}
+> > > > +
+> > > >  /**
+> > > >   * drm_connector_cleanup - cleans up an initialised connector
+> > > >   * @connector: connector to cleanup
+> > > > @@ -718,6 +729,8 @@ void drm_connector_cleanup(struct drm_connector *connector)
+> > > >
+> > > >   platform_device_unregister(connector->hdmi_audio.codec_pdev);
+> > > >
+> > > > + drm_connector_cec_unregister(connector);
+> > > > +
+> > >
+> > > This should either be in a separate patch, or mentioned in the commit title/log
+> >
+> > I'll mention it in the commit message.
+> >
+> > >
+> > > >   if (connector->privacy_screen) {
+> > > >           drm_privacy_screen_put(connector->privacy_screen);
+> > > >           connector->privacy_screen = NULL;
+> > > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > > index f13d597370a30dc1b14c630ee00145256052ba56..6da840673b1209c84bbc396643c6033679a7ec74 100644
+> > > > --- a/include/drm/drm_connector.h
+> > > > +++ b/include/drm/drm_connector.h
+> > > > @@ -46,6 +46,7 @@ struct drm_property_blob;
+> > > >  struct drm_printer;
+> > > >  struct drm_privacy_screen;
+> > > >  struct drm_edid;
+> > > > +struct cec_adapter;
+> > > >  struct edid;
+> > > >  struct hdmi_codec_daifmt;
+> > > >  struct hdmi_codec_params;
+> > > > @@ -1191,6 +1192,19 @@ struct drm_connector_hdmi_audio_funcs {
+> > > >                      bool enable, int direction);
+> > > >  };
+> > > >
+> > > > +/**
+> > > > + * struct drm_connector_cec_funcs - drm_hdmi_connector control functions
+> > > > + */
+> > > > +struct drm_connector_cec_funcs {
+> > > > + /**
+> > > > +  * @adap_unregister: unregister CEC adapter / notifier.
+> > > > +  *
+> > > > +  * The callback to unregister CEC adapter or notifier, so that the core
+> > > > +  * DRM layer doesn't depend on the CEC_CORE.
+> > > > +  */
+> > > > + void (*unregister)(struct drm_connector *connector);
+> > > > +};
+> > > > +
+> > > >  /**
+> > > >   * struct drm_connector_hdmi_funcs - drm_hdmi_connector control functions
+> > > >   */
+> > > > @@ -1832,6 +1846,31 @@ struct drm_connector_hdmi {
+> > > >   } infoframes;
+> > > >  };
+> > > >
+> > > > +/**
+> > > > + * struct drm_connector_cec - DRM Connector CEC-related structure
+> > > > + */
+> > > > +struct drm_connector_cec {
+> > > > + /**
+> > > > +  * @mutex: protects all CEC-related fields
+> > > > +  */
+> > >
+> > > All fields? Which fields require to be protected by a specific mutex
+> > > here?
+> >
+> > Yes, all the fields. adapter, notifier and funcs are all protected by
+> > the mutex. See the drm_connector_cec_unregister() implementation (and
+> > corresponding unregister() callbacks implementations.
+>
+> That's still surprising to me. Like, what concurrency source / code path
+> will need to make sure funcs is updated properly? or the adapter and
+> notifier?
 
-Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
----
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi                 | 4 ++--
- arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dts        | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts    | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts              | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts     | 2 +-
- .../boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dts      | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts           | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts                | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi            | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dts        | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts       | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts               | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dts          | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts            | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts      | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi           | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dts            | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi          | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dts              | 2 +-
- arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dts              | 2 +-
- 20 files changed, 21 insertions(+), 21 deletions(-)
+I'll have to check, maybe we can lift that and really protect only the
+adapter and the notifier. I was using ->funcs != NULL as a way to
+check that CEC is registered at all (and thus unsetting it on CEC
+unregistration). But maybe that's not that necessary.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 8cfa30837ce7..ebdd7c0a76b2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1385,7 +1385,7 @@ hdmi0: hdmi@fde80000 {
- 			     <GIC_SPI 172 IRQ_TYPE_LEVEL_HIGH 0>,
- 			     <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH 0>;
- 		interrupt-names = "avp", "cec", "earc", "main", "hpd";
--		phys = <&hdptxphy_hdmi0>;
-+		phys = <&hdptxphy0>;
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&hdmim0_tx0_cec &hdmim0_tx0_hpd
- 			     &hdmim0_tx0_scl &hdmim0_tx0_sda>;
-@@ -2807,7 +2807,7 @@ dmac2: dma-controller@fed10000 {
- 		#dma-cells = <1>;
- 	};
- 
--	hdptxphy_hdmi0: phy@fed60000 {
-+	hdptxphy0: phy@fed60000 {
- 		compatible = "rockchip,rk3588-hdptx-phy";
- 		reg = <0x0 0xfed60000 0x0 0x2000>;
- 		clocks = <&cru CLK_USB2PHY_HDPTXRXPHY_REF>, <&cru PCLK_HDPTX0>;
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dts b/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dts
-index 9d525c8ff725..9eda69722665 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dts
-@@ -129,7 +129,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts b/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts
-index 92f0ed83c990..d1be72eb63a4 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dts
-@@ -166,7 +166,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts b/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
-index ba49f0bbaac6..3fd0665cde2c 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dts
-@@ -364,7 +364,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts b/arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts
-index 2be5251d3e3b..e086114c7634 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dts
-@@ -337,7 +337,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dts b/arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dts
-index b3a04ca370bb..8171fbfd819a 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dts
-@@ -335,7 +335,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts b/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts
-index 4791b77f3571..c8bc85b7d133 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dts
-@@ -207,7 +207,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts b/arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts
-index 90f823b2c219..ef56380530f9 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-jaguar.dts
-@@ -303,7 +303,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi
-index cb350727d116..0d9b5020acc0 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtsi
-@@ -360,7 +360,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dts b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dts
-index ce44549babf4..9baca7f9ce48 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dts
-@@ -39,7 +39,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts
-index 255e33c5dbdc..0f874b87b47e 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dts
-@@ -125,7 +125,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d597112f1d5b..86a9f2f35e66 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -220,7 +220,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dts b/arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dts
-index 3187b4918a30..795d8175e654 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dts
-@@ -189,7 +189,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts b/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-index 9c394f733bbf..f471baca6d31 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dts
-@@ -236,7 +236,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts b/arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts
-index 4a3aa80f2226..74a4f03e05e3 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dts
-@@ -278,7 +278,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi
-index d2eddea1840f..cd47969fadba 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6.dtsi
-@@ -251,7 +251,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dts b/arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dts
-index 8f034c6d494c..1463bd36b1b2 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dts
-@@ -264,7 +264,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi
-index d86aeacca238..9e16960b8705 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtsi
-@@ -197,7 +197,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dts b/arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dts
-index 70a43432bdc5..676cc4fec269 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dts
-@@ -334,7 +334,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dts b/arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dts
-index 9b14d5383cdc..bf74789e3f51 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dts
-@@ -278,7 +278,7 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
--&hdptxphy_hdmi0 {
-+&hdptxphy0 {
- 	status = "okay";
- };
- 
+>
+> Maxime
+
+
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
