@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A987A2AE5F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08442A2AE60
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:03:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4132C10E8E5;
-	Thu,  6 Feb 2025 17:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA20D10E8E4;
+	Thu,  6 Feb 2025 17:02:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HYp1iMqX";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jAvoMJxx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C93110E8E0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:02:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EB9474445D;
- Thu,  6 Feb 2025 17:02:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCBA310E8E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:02:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5E19344459;
+ Thu,  6 Feb 2025 17:02:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738861374;
+ t=1738861375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eOpXq/nOtCzOAKmh1AmSkyFUC+G0A7ag71ak6jMWu6M=;
- b=HYp1iMqXVmG92c015ba+UABvOQW5Qhn/2NIYhOc5mkwBltke3ZQ+me4DEBPr3Cfuz2V3PA
- QpVb9jTGp6M6MCIAkX4LcpNPCAmV7FknGvJze39gTRpwWefjmZOo9m0ysPwrOPN7hSU+TR
- gxPCnN7cqTGZeEJIMIJWFALtixWapMBX8NqsZSqknneMINjaan8Pkh4dcA36qf4c29tPtt
- aa2Bp/bHBcR/X2XPKCvsb51/NGLVMgDQqDAS5fpiOds2Pui4nsRYdJlS+hi/QmQKuc2CEz
- fSSdJxPfkew/bBgLBNR1V/6D7MRCc4aX5B2i5Svi7nuTcpKfEQRSV4ghvil4mw==
+ bh=7FIcGd3GDHyzq+N5s//K99JcqRi0SmMI2u/AOEuyIZY=;
+ b=jAvoMJxx6jaxQSfv6wqSTlbdiDA0hMlQHB2/QMeOZCDYEkZaIt1UTj3St3Ofu4RQq/GkRo
+ E/YZY+IU93i3BrK9ogCN5WRQ0IJxHi7iVvPvjiyMiayN0O6pspP8NgYvr+ZAsD4KfuMgVP
+ TVmJp/W/fRhuUdNw4vy2nclJcchZiNRuZXJuniDUdF7gAB7SbYfo3n90VAy20BCs+mdXuK
+ nWdHdp8SoJOnEweW4c7b3Pzyy6eKwCP0q+O0Wif6DrQrbuu3dPkR8wRq26F5U/G9pcJUGc
+ Fitspfg6jQdeyU7br0vu0Zm3zGVln+b/EZMdlzRkoSeTO3WyCbJKLU2S4xFF7A==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 18:02:35 +0100
-Subject: [PATCH 3/8] drm/bridge: parade-ps8622: remove unused drm_panel.h
+Date: Thu, 06 Feb 2025 18:02:36 +0100
+Subject: [PATCH 4/8] drm/bridge: parade-ps8640: remove unused drm_panel.h
  include
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-drm-cleanups-v1-3-93df60faa756@bootlin.com>
+Message-Id: <20250206-drm-cleanups-v1-4-93df60faa756@bootlin.com>
 References: <20250206-drm-cleanups-v1-0-93df60faa756@bootlin.com>
 In-Reply-To: <20250206-drm-cleanups-v1-0-93df60faa756@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -78,21 +78,21 @@ APIs from drm_panel.h.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/parade-ps8622.c | 1 -
+ drivers/gpu/drm/bridge/parade-ps8640.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/parade-ps8622.c b/drivers/gpu/drm/bridge/parade-ps8622.c
-index ae3ab9262ef1f184873929c7892d648a32c7cf37..13ada42a55142cd22696671e8fb363bee6d6aa68 100644
---- a/drivers/gpu/drm/bridge/parade-ps8622.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8622.c
-@@ -19,7 +19,6 @@
- #include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 14d4dcf239da835955f1d594579dd165288bd63f..b0e38177c1ecb803e5e61b223b2bd7568c36de25 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -20,7 +20,6 @@
+ #include <drm/drm_edid.h>
+ #include <drm/drm_mipi_dsi.h>
  #include <drm/drm_of.h>
 -#include <drm/drm_panel.h>
  #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
  
+ #define PAGE0_AUXCH_CFG3	0x76
 
 -- 
 2.34.1
