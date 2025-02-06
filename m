@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5D3A2A699
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 12:01:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023F2A2A6B5
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 12:03:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03DD010E27C;
-	Thu,  6 Feb 2025 11:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B09A10E199;
+	Thu,  6 Feb 2025 11:03:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="UD+fSb+q";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="P5jy5Gbf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1E8710E199
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 11:00:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 76E5810E199
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 11:00:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
  s=gloria202408;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:
@@ -22,38 +22,32 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7UpvLke4oioUrowQXl7t8t90tDzY44J9nUrhfLcSw3E=; b=UD+fSb+q/jJLuMvhCZJ9lQLlTz
- 9fTW9L9aye9GPqOGVlFXFniw014SVhHEZcUxlr0NyrA35vuklDcZYaUuTaAmabhOZZ6qGW3PhrPiy
- m8p4X0vYnIeFXzuNwBOXuATgfDbN7EW0izjuDNOFaKUL7lD2wmIhd2XnJW54bIyzRHKno1fW5LWiP
- KhZPpTkVDoEzOWtGLNexQ7Zzsz50GV2rh7WZSn1Z/oMyfr51+iUy2nd41HKImii24Gpt0Y8sZQcNh
- WX7cykD/tKIwr0EnRMayaahamxb4FATMF01o9kHvvUULWXMiMrbwL9W5t25AL+eSyRAuI+pTztcSb
- NuyC+suQ==;
+ bh=D3LmUU0Q2ZrkWgQMtaeBG5wHq/NIG8QQOgcqWRukFEE=; b=P5jy5GbfiFs3gAaSmJk3fFg8KL
+ BxVlQzSQJ3e8uKC0XlMNvpmTSlouMRpg/Pq6RvmyYut4KOm4J35NmJrclON0aIk93bTF7X6XQlt5C
+ W+pXfe3RGOLPfmul2IKSbuI3hgCrtK0LZThuJocj/Q1fUjhmzzdUg0SGITObA6gtMFsKGQUct6q0x
+ pXbZ7ZP7FTnV8vQ0JBZDbZ001dxmT2gt2IXs2cMH9bOIiiim2OJV6AGoX42veLXLoL6PLU8S8lSMT
+ yySLU/qsDmv0a2YlwBZVf0ZJ/Si78DRrtJw/QoRsJWPMZRqTPqunVrB8V1LUDK5u42iSWl2Ltk+h5
+ zvMpoImw==;
 Received: from i53875bc0.versanet.de ([83.135.91.192]
  helo=localhost.localdomain)
  by gloria.sntech.de with esmtpsa (TLS1.3) tls
  TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
  (envelope-from <heiko@sntech.de>)
- id 1tfzc6-0008Kl-IV; Thu, 06 Feb 2025 12:00:06 +0100
+ id 1tfzc7-0008Kl-4B; Thu, 06 Feb 2025 12:00:07 +0100
 From: Heiko Stuebner <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
+To: Damon Ding <damon.ding@rock-chips.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andy.yan@rock-chips.com, hjc@rock-chips.com,
+ sebastian.reichel@collabora.com, cristian.ciocaltea@collabora.com,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, FUKAUMI Naoki <naoki@radxa.com>
-Subject: Re: (subset) [PATCH v3 0/5] Improve Rockchip VOP2 display modes
- handling on RK3588 HDMI0
-Date: Thu,  6 Feb 2025 11:59:54 +0100
-Message-ID: <173883958378.672361.1217084677686580584.b4-ty@sntech.de>
+ linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH v7 0/2] Fix label name of hdptxphy for RK3588
+Date: Thu,  6 Feb 2025 11:59:55 +0100
+Message-ID: <173883958376.672361.2537697085076772562.b4-ty@sntech.de>
 X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250204-vop2-hdmi0-disp-modes-v3-0-d71c6a196e58@collabora.com>
-References: <20250204-vop2-hdmi0-disp-modes-v3-0-d71c6a196e58@collabora.com>
+In-Reply-To: <20250206030330.680424-1-damon.ding@rock-chips.com>
+References: <20250206030330.680424-1-damon.ding@rock-chips.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -73,28 +67,20 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Tue, 04 Feb 2025 14:40:03 +0200, Cristian Ciocaltea wrote:
-> VOP2 support for RK3588 SoC is currently not capable to handle the full
-> range of display modes advertised by the connected screens, e.g. it
-> doesn't cope well with non-integer refresh rates like 59.94, 29.97,
-> 23.98, etc.
+On Thu, 06 Feb 2025 11:03:28 +0800, Damon Ding wrote:
+> Picked from:
+> https://patchwork.kernel.org/project/linux-rockchip/list/?series=927102
 > 
-> There are two HDMI PHYs available on RK3588, each providing a PLL that
-> can be used by three out of the four VOP2 video ports as an alternative
-> and more accurate pixel clock source. They are able to handle display
-> modes up to 4K@60Hz, anything above that, e.g. the maximum supported
-> 8K@60Hz resolution, is supposed to be handled by the system CRU.
+> The hdptxphy is a combo transmit-PHY for HDMI2.1 TMDS Link, FRL Link, DP
+> and eDP Link. Therefore, it is better to name it hdptxphy0 other than
+> hdptxphy_hdmi0, which will be referenced by both hdmi0 and edp0 nodes.
 > 
 > [...]
 
 Applied, thanks!
 
-[1/5] dt-bindings: display: vop2: Add optional PLL clock properties
-      commit: 79982cbac896768c3860c241df2028c3e75f5a6b
-[2/5] drm/rockchip: vop2: Drop unnecessary if_pixclk_rate computation
-      commit: 9f40d7a94427a503e303b2a2d8db227d615e32c1
-[3/5] drm/rockchip: vop2: Improve display modes handling on RK3588 HDMI0
-      commit: 2c1268e7aad0819f38e56134bbc2095fd95fde1b
+[1/2] dt-bindings: display: rockchip: Fix label name of hdptxphy for RK3588 HDMI TX Controller
+      commit: 81dde32e7266e7132076b886337bd29b4648e542
 
 Best regards,
 -- 
