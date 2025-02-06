@@ -2,88 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 640A1A2B56F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 23:45:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D481AA2B577
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 23:46:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B080610E971;
-	Thu,  6 Feb 2025 22:45:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4292D10E982;
+	Thu,  6 Feb 2025 22:46:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Q9z2w8Ds";
+	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="HPQamRPm";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="IAeGkUHk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DC3810E971;
- Thu,  6 Feb 2025 22:45:30 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516EiRZY021405;
- Thu, 6 Feb 2025 22:45:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- zfgsPQw8s8ghTcllTkWKTRRAIy24vbp5oisCLthTWJo=; b=Q9z2w8DsVB/AIsFr
- E9QVNOhdM8sTpNLJi23j04wgj5MtVE2xSKB04i3wD39bJeFk/8jt7jiziYVlLE+Y
- EInU9r8ainarcoo9OTQqh8N3rTItm3+1PAD69kP7S+dpUAd82Y3iO4i+mbQCAe0X
- /1roD5j6SI5I9ledydgs3HqItGaGrXvEWzQqCYvVTnf44/H8CtxvpNTO2hW2sabS
- z5gG2QmRyoMdx5YosNoHiHvrzFbBsBatM9OBmeVpKAuvQYYiWELNTdIS6+x0h6Ba
- oycaMO4yZ7ATPi1nEKPvjks96RhDd/I+TW6Rd7njlylUqu8V5qisd0ZPJn+W8ASV
- R6Hiqw==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44my4114ne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Feb 2025 22:45:21 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 516MjKFh027963
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 6 Feb 2025 22:45:20 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 6 Feb 2025
- 14:45:20 -0800
-Message-ID: <cbf66ae4-9f52-4f8f-b569-6a71f8b55a4f@quicinc.com>
-Date: Thu, 6 Feb 2025 14:45:19 -0800
+Received: from fout-a8-smtp.messagingengine.com
+ (fout-a8-smtp.messagingengine.com [103.168.172.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACE210E97F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 22:46:37 +0000 (UTC)
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal
+ [10.202.2.51])
+ by mailfout.phl.internal (Postfix) with ESMTP id C710C1380217;
+ Thu,  6 Feb 2025 17:46:36 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-11.internal (MEProxy); Thu, 06 Feb 2025 17:46:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ invisiblethingslab.com; h=cc:cc:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1738881996;
+ x=1738968396; bh=3aUJSUxA/5Oys0lRe4RPNEASJchaynSRHC0bl4jRxyY=; b=
+ HPQamRPmcSxQF7y2mRTyQz26d8jzxZZJ8+OpVozlAPS5cz//AmODSznXxblJOH08
+ /akNhlHZLkvmf7mAGO6Ps4f+1mdnM/gdLIGTgicuvnSINbZYKkReuiCqid7DpPYs
+ L+OFhuKmVRRnwgUV4ix4N9a1eOxfv1FvqB47fNIRwaYAjfaF4iwQ/NAVGoZSQt3+
+ laWs7PSy/7pTzWyw38GhuHS06RC6X3OrHpSa8B+W5MgoW46i7YDUBrnw+R/D8+7u
+ kff65j4k3CQ+2eefJJ9izlUQK7RzJAfLSlVEzwFQMm/zOvL3WM4s4zHsi12Iodx+
+ EjlYvq6ObyDHkTNrjOoKPQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1738881996; x=1738968396; bh=3aUJSUxA/5Oys0lRe4RPNEASJchaynSRHC0
+ bl4jRxyY=; b=IAeGkUHkJEgOFjLX0PFXZtSbDR5t/g8xkMVi0tMajrDw1Nbb7io
+ /f0N0spxzNAwbE7WxTPcktMFvIJ+deZROhDQfpDcZUIm1LeZib6d7pS9Px/pNZPs
+ DjtTsrrZhMdO8F/kaZja7wnDF5o2WIH1e7YGsqfJkyXCl86WQhdZr9wDlyb3BN0F
+ GORCW9biuREu3shadtm79nul2BgGS/KW3/XH5To2n1t0El6Gi2jpv/46sdyFqrMr
+ xmpd6eBcaprCvAeJ84FmD2rZmBHCgLLQYxsc15rIO03a3FMSuU6Chn78HlPL9pGF
+ xX+0I/I+iJBNSF3aJd8qutu9k1kEbLt5Nfw==
+X-ME-Sender: <xms:zDulZ6DOqJk-Cle8AtYT6jjxGWkXtSshxo0NoCkHqjiSL8cpXpuQ2Q>
+ <xme:zDulZ0jW-ZlffGEIyJ35i_jTTiYsTvHi0l65MYYoKN9qCtx5K1z5lE9c5QMHsnJT3
+ F1MxzlgQTcDK5c>
+X-ME-Received: <xmr:zDulZ9lEpfegKNYew3RhBJufmVCuw5-9vDKoNLOR_1MsHP1yfn1e8gdujc4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjeeiudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+ uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+ hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdej
+ necuhfhrohhmpeffvghmihcuofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvh
+ hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpedvjeet
+ geekhfetudfhgfetffegfffguddvgffhffeifeeikeektdehgeetheffleenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeguvghmihesihhnvhhi
+ shhisghlvghthhhinhhgshhlrggsrdgtohhmpdhnsggprhgtphhtthhopeduiedpmhhoug
+ gvpehsmhhtphhouhhtpdhrtghpthhtoheprhhoghgvrhdrphgruhestghithhrihigrdgt
+ ohhmpdhrtghpthhtohephhhonhhglhgvihdurdhhuhgrnhhgsegrmhgurdgtohhmpdhrtg
+ hpthhtoheprhgrhidrhhhurghnghesrghmugdrtghomhdprhgtphhtthhopegumhhithhr
+ hidrohhsihhpvghnkhhosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepughrih
+ dquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthho
+ pegrihhrlhhivggusehrvgguhhgrthdrtghomhdprhgtphhtthhopehkrhgrgigvlhesrh
+ gvughhrghtrdgtohhmpdhrtghpthhtohepghhurhgthhgvthgrnhhsihhnghhhsegthhhr
+ ohhmihhumhdrohhrghdprhgtphhtthhopeholhhvrghffhgvsehgmhgrihhlrdgtohhm
+X-ME-Proxy: <xmx:zDulZ4yyKNgZxtwmi3Z0TyEO0HwA0LK0PrXQdqmPg4syAtHxPRIDGQ>
+ <xmx:zDulZ_SREde4ElLsh3WaiOvpXlf0mrS5WEAMTahPyIetmz7NfXhRoA>
+ <xmx:zDulZzb5cgGVFrTdlsPzYWX8lXtZI60A92rMW8nBSJLpAH1hRELS-A>
+ <xmx:zDulZ4QxQO7bqcSnH8oYbpCOtFOjbRyQsKAZpzJ4bYxLjtlUvgwsDw>
+ <xmx:zDulZwAzQJEa8zdpanVmKxFtp8M5yDUOLP6XXykSXLwTntJVYgSD_ea4>
+Feedback-ID: iac594737:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Feb 2025 17:46:35 -0500 (EST)
+Date: Thu, 6 Feb 2025 17:46:29 -0500
+From: Demi Marie Obenour <demi@invisiblethingslab.com>
+To: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
+Cc: "Huang, Honglei1" <Honglei1.Huang@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Lingshan Zhu <Lingshan.Zhu@amd.com>,
+ Xen developer discussion <xen-devel@lists.xenproject.org>,
+ Marek =?us-ascii?B?PT91dGYtOD9RP01hcmN6eWtvd3NraS1HPUMzPUIzcmVja2k/?=
+ =?us-ascii?Q?=3D?= <marmarek@invisiblethingslab.com>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>,
+ Stefano Stabellini <stefano.stabellini@amd.com>,
+ Andrew Cooper <andrew.cooper3@citrix.com>
+Subject: Re: Xen memory management primitives for GPU virtualization
+Message-ID: <Z6U7yOrMyLZWqPA4@itl-email>
+References: <Z5794ysNE4KDkFuT@itl-email>
+ <Z6T0t4DMJeY6K18w@macbook.local>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/14] drm/msm/dpu: Add Concurrent Writeback Support
- for DPU 10.x+
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
- <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
- Airlie" <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Simona Vetter <simona.vetter@ffwll.ch>, <quic_ebharadw@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-References: <20250128-concurrent-wb-v5-0-6464ca5360df@quicinc.com>
- <zoswzhubdq7ezxpecz72ki5kloyyedqo232toiol4r7hi244me@52rzudflyl52>
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <zoswzhubdq7ezxpecz72ki5kloyyedqo232toiol4r7hi244me@52rzudflyl52>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: maaWke4PvaBycpp9UB42ZiOih83EjHTJ
-X-Proofpoint-GUID: maaWke4PvaBycpp9UB42ZiOih83EjHTJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-06_07,2025-02-05_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- suspectscore=0 spamscore=0 phishscore=0 adultscore=0 bulkscore=0
- mlxlogscore=999 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502060178
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dDcC+PbFKfPResFL"
+Content-Disposition: inline
+In-Reply-To: <Z6T0t4DMJeY6K18w@macbook.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,230 +116,237 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--dDcC+PbFKfPResFL
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 6 Feb 2025 17:46:29 -0500
+From: Demi Marie Obenour <demi@invisiblethingslab.com>
+To: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
+Cc: "Huang, Honglei1" <Honglei1.Huang@amd.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	dri-devel@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Lingshan Zhu <Lingshan.Zhu@amd.com>,
+	Xen developer discussion <xen-devel@lists.xenproject.org>,
+	Marek =?us-ascii?B?PT91dGYtOD9RP01hcmN6eWtvd3NraS1HPUMzPUIzcmVja2k/?=
+	=?us-ascii?Q?=3D?= <marmarek@invisiblethingslab.com>,
+	Xenia Ragiadakou <burzalodowa@gmail.com>,
+	Stefano Stabellini <stefano.stabellini@amd.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>
+Subject: Re: Xen memory management primitives for GPU virtualization
 
-On 1/29/2025 9:51 AM, Dmitry Baryshkov wrote:
-> On Tue, Jan 28, 2025 at 07:20:32PM -0800, Jessica Zhang wrote:
->> DPU supports a single writeback session running concurrently with primary
->> display when the CWB mux is configured properly. This series enables
->> clone mode for DPU driver and adds support for programming the CWB mux
->> in cases where the hardware has dedicated CWB pingpong blocks. Currently,
->> the CWB hardware blocks have only been added to the SM8650
->> hardware catalog and only DSI has been exposed as a possible_clone of WB.
->>
->> This changes are split into two parts:
->>
->> The first part of the series will pull in Dmitry's patches to refactor
->> the DPU resource manager to be based off of CRTC instead of encoder.
->> This includes some changes (noted in the relevant commits) by me and
->> Abhinav to fix some issues with getting the global state and refactoring
->> the CDM allocation to work with Dmitry's changes.
->>
->> The second part of the series will add support for CWB by doing the
->> following:
->>
->> 1) Add the CWB mux to the hardware catalog and clarify the pingpong
->>     block index enum to specifiy which pingpong blocks are dedicated to
->>     CWB only and which ones are general use pingpong blocks
->> 2) Add support for configuring the CWB mux via dpu_hw_cwb ops
->> 3) Add pending flush support for CWB
->> 4) Add support for validating clone mode in the DPU CRTC and setting up
->>     CWB within the encoder
->> 5) Adjust the encoder trigger flush, trigger start, and kickoff order to
->>     accomodate clone mode
->> 6) Adjust when the frame done timer is started for clone mode
->> 7) Define the possible clones for DPU encoders so that WB encoders can
->>     be cloned by non-WB encoders
->>
->> The feature was tested on SM8650 using IGT's kms_writeback test with the
->> following change [1] and dumping the writeback framebuffer when in clone
->> mode. I haven't gotten the chance to test it on DP yet, but I've
->> validated both single and dual LM on DSI.
->>
->> To test CWB with IGT, you'll need to apply this series [1] and run the
->> following command to dump the writeback buffer:
->>
->> IGT_FRAME_DUMP_PATH=<dump path> FRAME_PNG_FILE_NAME=<file name> \
->> ./build/tests/kms_writeback -d [--run-subtest dump-valid-clones] \
->>
->> You can also do CRC validation by running this command:
->>
->> ./build/tests/kms_writeback [--run-subtest dump-valid-clones]
->>
->> NOTE: this series depends on Dmitry's modeset fixes [2]
->>
->> [1] https://patchwork.freedesktop.org/series/137933/
->> [2] https://patchwork.freedesktop.org/series/142905/
->>
->> ---
->> Changes in v5:
->> - Rebased onto MSM modeset fixes series (Dmitry)
->> - Reordered RM refactor patches to prevent breaking CI and to avoid
->>    breaking when partially applied (Dmitry)
->> - Switch CWB resource reservation to reserve CWB mux first (Dmitry)
->> - Reworded commit messages to be clearer (Dmitry)
->> - Change CDM check to fail only if both DP and WB outputs are
->>    requesting the CDM block simultaneously (Dmitry)
->> - Use helper to grab dsc config in dpu_encoder_update_topology
->> - Link to v4: https://lore.kernel.org/r/20241216-concurrent-wb-v4-0-fe220297a7f0@quicinc.com
->>
->> Changes in v4:
->> - Rebased onto latest msm-next
->> - Added kunit tests for framework changes
->> - Skip valid clone check for encoders that don't have any possible clones set
->>    (this is to avoid failing kunit tests, specifically the HDMI state helper tests)
->> - Link to v3: https://lore.kernel.org/r/20241016-concurrent-wb-v3-0-a33cf9b93835@quicinc.com
->>
->> Changes in v3:
->> - Dropped support for CWB on DP connectors for now
->> - Dropped unnecessary PINGPONG array in *_setup_cwb()
->> - Add a check to make sure CWB and CDM aren't supported simultaneously
->>    (Dmitry)
->> - Document cwb_enabled checks in dpu_crtc_get_topology() (Dmitry)
->> - Moved implementation of drm_crtc_in_clone_mode() to drm_crtc.c (Jani)
->> - Dropped duplicate error message for reserving CWB resources (Dmitry)
->> - Added notes in framework changes about posting a separate series to
->>    add proper KUnit tests (Maxime)
->> - Added commit message note addressing Sima's comment on handling
->>    mode_changed (Dmitry)
->> - Formatting fixes (Dmitry)
->> - Added proper kerneldocs (Dmitry)
->> - Renamed dpu_encoder_helper_get_cwb() -> *_get_cwb_mask() (Dmitry)
->> - Capitalize all instances of "pingpong" in comments (Dmitry)
->> - Link to v2: https://lore.kernel.org/r/20240924-concurrent-wb-v2-0-7849f900e863@quicinc.com
->>
->> Changes in v2:
->> - Moved CWB hardware programming to its own dpu_hw_cwb abstraction
->>    (Dmitry)
->> - Reserve and get assigned CWB muxes using RM API and KMS global state
->>    (Dmitry)
->> - Dropped requirement to have only one CWB session at a time
->> - Moved valid clone mode check to DRM framework (Dmitry and Ville)
->> - Switch to default CWB tap point to LM as the DSPP
->> - Dropped printing clone mode status in atomic state (Dmitry)
->> - Call dpu_vbif_clear_errors() before dpu_encoder_kickoff() (Dmitry)
->> - Squashed setup_input_ctrl() and setup_input_mode() into a single
->>    dpu_hw_cwb op (Dmitry)
->> - Moved function comment docs to correct place and fixed wording of
->>    comments/commit messages (Dmitry)
->> - Grabbed old CRTC state using proper drm_atomic_state API in
->>    dpu_crtc_atomic_check() (Dmitry)
->> - Split HW catalog changes of adding the CWB mux block and changing the
->>    dedicated CWB pingpong indices into 2 separate commits (Dmitry)
->> - Moved clearing the dpu_crtc_state.num_mixers to "drm/msm/dpu: fill
->>    CRTC resources in dpu_crtc.c" (Dmitry)
->> - Fixed alignment and other formatting issues (Dmitry)
->> - Link to v1: https://lore.kernel.org/r/20240829-concurrent-wb-v1-0-502b16ae2ebb@quicinc.com
->>
->> ---
->> Dmitry Baryshkov (3):
->>        drm/msm/dpu: fill CRTC resources in dpu_crtc.c
->>        drm/msm/dpu: move resource allocation to CRTC
->>        drm/msm/dpu: switch RM to use crtc_id rather than enc_id for allocation
->>
->> Jessica Zhang (11):
->>        drm/msm/dpu: Add CWB to msm_display_topology
->>        drm/msm/dpu: Require modeset if clone mode status changes
->>        drm/msm/dpu: Fail atomic_check if multiple outputs request CDM block
->>        drm/msm/dpu: Reserve resources for CWB
->>        drm/msm/dpu: Configure CWB in writeback encoder
->>        drm/msm/dpu: Support CWB in dpu_hw_ctl
->>        drm/msm/dpu: Adjust writeback phys encoder setup for CWB
->>        drm/msm/dpu: Start frame done timer after encoder kickoff
->>        drm/msm/dpu: Skip trigger flush and start for CWB
->>        drm/msm/dpu: Reorder encoder kickoff for CWB
->>        drm/msm/dpu: Set possible clones for all encoders
->>
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           | 229 +++++++++++-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h           |   3 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        | 416 ++++++++++++---------
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |  16 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |   7 +-
->>   .../gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c    |  16 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.c         |  30 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_ctl.h         |  15 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |   2 +
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |  27 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |  13 +-
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             | 293 ++++++++++-----
->>   drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h             |  14 +-
->>   13 files changed, 752 insertions(+), 329 deletions(-)
->> ---
->> base-commit: 86313a9cd152330c634b25d826a281c6a002eb77
->> change-id: 20240618-concurrent-wb-97d62387f952
->> prerequisite-change-id: 20241209-abhinavk-modeset-fix-74864f1de08d:v3
->> prerequisite-patch-id: a197a0cd4647cb189ea20a96583ea78d0c98b638
->> prerequisite-patch-id: 112c8f1795cbed989beb02b72561854c0ccd59dd
-> 
-> No, it's not a full list. Please use b4 prep --check-deps to check
-> dependencies. See the following errors:
+On Thu, Feb 06, 2025 at 06:43:19PM +0100, Roger Pau Monn=C3=A9 wrote:
+> On Sun, Feb 02, 2025 at 12:08:46AM -0500, Demi Marie Obenour wrote:
+> > Recently, AMD submitted patches to the dri-devel mailing list to support
+> > using application-provided buffers in virtio-GPU.  This feature is
+> > called Shared Virtual Memory (SVM) and it is implemented via an API
+> > called User Pointer (userptr).  This lead to some discussion on
+> > dri-devel@lists.freedesktop.org and dri-devel IRC, from which I
+> > concluded that Xen is missing critical primitives for GPU-accelerated
+> > graphics and compute.  The missing primitives for graphics are the ones
+> > discussed at Xen Project Summit 2024, but it turns out that additional
+> > primitives are needed for compute workloads.
+> >=20
+> > As discussed at Xen Project Summit 2024, GPU acceleration via virtio-GPU
+> > requires that an IOREQ server have access to the following primitives:
+> >=20
+> > 1. Map: Map a backend-provided buffer into the frontend.  The buffer
+> >    might point to system memory or to a PCIe BAR.  The frontend is _not_
+> >    allowed to use these buffers in hypercalls or grant them to other
+> >    domains.  Accessing the pages using hypercalls directed at the
+> >    frontend fails as if the frontend did not have the pages.
+>=20
+> Do you really need to strictly enforce failure of access when used as
+> hypercall buffers?
+>=20
+> Would it be fine to just get failures when the p2m entries are not
+> populated?  I assume the point is that accesses to those guest pages
+> from Xen should never go into the IOREQ?
 
-Hi Dmitry,
+These pages might point to PCIe BAR memory.  I'm not sure if that is
+allowed to be used in hypercalls, and what the security consequences are
+if it is allowed.  Also, allowing the guest to determine if the pages
+are mapped in the p2m violates encapsulation and risks pointers to the
+pages winding up in places they must not.
 
-Ah, I should've put my changes on drm-misc-next instead of trying to 
-pull in the merged drm changes on top of msm-next... The deps list is 
-fixed now.
+> >    The only
+> >    exception is that the frontend _may_ be allowed to use the buffer in
+> >    a Map operation, provided that Revoke (below) is transitive.
+>=20
+> The fact that the mapped memory can either be RAM or MMIO makes it a
+> bit harder to handle any possible reference counting, as MMIO regions
+> don't have backing page_info structs, and hence no reference counting.
+> I think that might be hidden by the p2m handling, but needs to be
+> checked to be correct.
 
-Thanks for the heads up,
+These pages must never have p2m type p2m_ram_rw, as that would allow
+them to be foreign-mapped or used in grant table operations.  I also
+believe this feature should be x86-only to begin with, as it is clear
+that parts of the code (like get_paged_frame()) are not ready for other
+architectures.  On x86, p2m_mmio_direct seems to be the appropriate type
+when the pages that are accessible via CPU instructions, and p2m_mmio_dm
+when they are not.  Will using p2m_mmio_direct for pages backed by
+system RAM cause problems?
 
-Jessica Zhang
+> Also when mapping MMIO pages, will those maps respect the domain
+> d->iomem_caps permission ranges, and then require modifications for
+> the mappings to succeed, or just ignore d->iomem_caps?
 
-> 
-> $ b4 shazam -H 20250128-concurrent-wb-v5-0-6464ca5360df@quicinc.com
-> Grabbing thread from lore.kernel.org/all/20250128-concurrent-wb-v5-0-6464ca5360df@quicinc.com/t.mbox.gz
-> Checking for newer revisions
-> Grabbing search results from lore.kernel.org
-> Analyzing 15 messages in the thread
-> Analyzing 174 code-review messages
-> Checking attestation on all messages, may take a moment...
-> ---
->    ✓ [PATCH v5 1/14] drm/msm/dpu: fill CRTC resources in dpu_crtc.c
->    ✓ [PATCH v5 2/14] drm/msm/dpu: move resource allocation to CRTC
->    ✓ [PATCH v5 3/14] drm/msm/dpu: switch RM to use crtc_id rather than enc_id for allocation
->    ✓ [PATCH v5 4/14] drm/msm/dpu: Add CWB to msm_display_topology
->    ✓ [PATCH v5 5/14] drm/msm/dpu: Require modeset if clone mode status changes
->    ✓ [PATCH v5 6/14] drm/msm/dpu: Fail atomic_check if multiple outputs request CDM block
->    ✓ [PATCH v5 7/14] drm/msm/dpu: Reserve resources for CWB
->    ✓ [PATCH v5 8/14] drm/msm/dpu: Configure CWB in writeback encoder
->    ✓ [PATCH v5 9/14] drm/msm/dpu: Support CWB in dpu_hw_ctl
->    ✓ [PATCH v5 10/14] drm/msm/dpu: Adjust writeback phys encoder setup for CWB
->    ✓ [PATCH v5 11/14] drm/msm/dpu: Start frame done timer after encoder kickoff
->    ✓ [PATCH v5 12/14] drm/msm/dpu: Skip trigger flush and start for CWB
->    ✓ [PATCH v5 13/14] drm/msm/dpu: Reorder encoder kickoff for CWB
->    ✓ [PATCH v5 14/14] drm/msm/dpu: Set possible clones for all encoders
->    ---
->    ✗ No key: ed25519/quic_jesszhan@quicinc.com
->    ✓ Signed: DKIM/quicinc.com
-> ---
-> Total patches: 14
-> ---
->   Base: using specified base-commit 86313a9cd152330c634b25d826a281c6a002eb77
->   Deps: looking for dependencies matching 2 patch-ids
->   Deps: Applying prerequisite patch: [PATCH v2 1/2] drm: allow encoder mode_set even when connectors change for crtc
->   Deps: Applying prerequisite patch: [PATCH v3 2/2] drm/tests: Add test for drm_atomic_helper_commit_modeset_disables()
-> Magic: Preparing a sparse worktree
-> Unable to cleanly apply series, see failure log below
-> ---
-> Applying: drm: allow encoder mode_set even when connectors change for crtc
-> Applying: drm/tests: Add test for drm_atomic_helper_commit_modeset_disables()
-> Applying: drm/msm/dpu: fill CRTC resources in dpu_crtc.c
-> Patch failed at 0003 drm/msm/dpu: fill CRTC resources in dpu_crtc.c
-> When you have resolved this problem, run "git am --continue".
-> If you prefer to skip this patch, run "git am --skip" instead.
-> To restore the original branch and stop patching, run "git am --abort".
-> error: patch failed: drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c:1230
-> error: drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c: patch does not apply
-> error: patch failed: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c:719
-> error: drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c: patch does not apply
-> hint: Use 'git am --show-current-patch=diff' to see the failed patch
-> 
-> 
->>
->> Best regards,
->> -- 
->> Jessica Zhang <quic_jesszhan@quicinc.com>
->>
-> 
-> -- 
-> With best wishes
-> Dmitry
+They should respect the backend's permissions and ignore those of the
+frontend.  This might require a global lock (or cleverness) to avoid
+lock order inversions.
 
+> > 2. Revoke: Revoke access to a buffer provided by the backend.  Once
+> >    access is revoked, no operation on or in the frontend domain can
+> >    access or modify the pages, and the backend can safely reuse the
+> >    backing memory for other purposes.
+>=20
+> It looks to me that revocation means removing the page from the p2m?
+
+This is one part.
+
+> (and additionally adjusting d->iomem_caps if required to revoke domain
+> permission to map the page)
+
+The frontend domain should never have permission to map the pages.
+
+> >    Furthermore, revocation is not
+> >    allowed to fail unless the backend or hypervisor is buggy, and if it
+> >    does fail for any reason, the backend will panic.  Once access is
+> >    revoked, further accesses by the frontend will cause a fault that the
+> >    backend can intercept.
+>=20
+> Such faults would translate into a new IOREQ type, maybe IOREQ_TYPE_FAULT.
+>=20
+> I think that just having a rangeset on the ioreq to signal the
+> accesses that should trigger a IOREQ_TYPE_FAULT instead of an
+> IOREQ_TYPE_COPY should be enough?
+
+I think so.  Better documentation would be very helpful.
+
+> The p2m type could be set as p2m_mmio_dm for those ranges.
+
+That seems correct.
+
+> > Map can be handled by userspace, but Revoke must be handled entirely
+> > in-kernel.  This is because Revoke happens from a Linux MMU notifier
+> > callback, and those are not allowed to block, fail, or involve userspace
+> > in any way.  Since MMU notifier callbacks are called before freeing
+> > memory, failure means that some other part of the system still has
+> > access to freed memory that might be reused for other purposes, which
+> > is a security vulnerability.
+>=20
+> This "revoke" action would just be an hypercall, I think that would
+> satisfy your requirements?
+
+It would, provided that (unless misused) it always succeeds promptly and
+is security-supported (including DoS) with partially trusted callers.  I
+don't care about DoS but AMD's automotive customers definitely do.
+
+> > It turns out that compute has additional requirements.  Graphics APIs
+> > use DMA buffers (dmabufs), which only support a subset of operations.
+> > In particular, direct I/O doesn't work.  Compute APIs allow users to
+> > make malloc'd memory accessible to the GPU.  This memory can be used
+> > in Linux kernel direct I/O and in other operations that do not work
+> > with dmabufs.  However, such memory starts out as frontend-owned pages,
+> > so it must be converted to backend pages before it can be used by the
+> > GPU.  Linux supports migration of userspace pages, but this is too
+> > unreliable to be used for this purpose.  Instead, it will need to be
+> > done by Xen and the backend.
+> >=20
+> > This requires two additional primitives:
+> >=20
+> > 3. Steal: Convert frontend-owned pages to backend-owned pages and
+> >    provide the backend with a mapping of the page.
+>=20
+> What does "owned" exactly mean in this context?
+>=20
+> What you describe above sound very much like a foreign map, but I'm
+> not sure I fully understand the constrains below.
+>=20
+> Does this "steal" operation make the pages inaccessible by the domain
+> running the frontend (so the orignal owner of the memory).
+
+It's a foreign map for which the backend can deny the frontend access to
+its own pages if it so chooses.  It was needed for a feature (Shared
+Virtual Memory) that Qubes OS doesn't need.
+
+> >    After a successful
+> >    Steal operation, the pages are in the same state as if they had been
+> >    provided via Map.  Steal fails if the pages are currently being used
+> >    in a hypercall, are MMIO (as opposed to system memory), were provided
+> >    by another domain via Map or grant tables, are currently foreign
+> >    mapped, are currently granted to another domain, or more generally
+> >    are accessible to any domain other than the target domain.
+>=20
+> I think the above means that "stealed" pages must have the
+> "p2m_ram_rw" type in the frontend domain p2m.   IOW: must be strictly
+> RAM and owned by the domain running the frontend.
+
+I'm not sure what this looks like from the Xen PoV, but I'm no longer
+interested in seeing page steal and return implemented.
+
+> >    The
+> >    frontend's quota is decreased by the number of pages stolen, and the
+> >    backend's quota is increased by the same amount.  A successful Steal
+> >    operation means that Revoke and Map can be used to operate on the
+> >    pages.
+>=20
+> Hm, why do you need this quota adjustment?  Aren't the "stolen" pages
+> still owned by the domain running the frontend (have
+> page_info->v.inuse._domain =3D=3D frontend domain)?
+
+Nope, they were meant to be owned by the backend, but I'm no longer
+interested in this feature.
+
+> > 4. Return: Convert a backend-owned page to a frontend-owned page.  After
+> >    a successful call to Return, the backend is no lonter able to use
+> >    Revoke or Map.  The returned page ceases to count against backend
+> >    quota and now counts against frontend quota.
+> >=20
+> > Are these operations ones that Xen is interested in providing?  There
+> > may be other primitives that are sufficient to implement the above four,
+> > but I believe that any solution that allows virtio-GPU to work must
+> > allow the above four operations to be implemented.  Without the first
+> > two, virtio-GPU will not be able to support Vulkan or native contexts,
+> > and without the second two also being present, shared virtual memory
+> > and compute APIs that require it will not work.
+>=20
+> I'm sure Xen can arrange for what's required, but the Xen primitives
+> should be as simple as possible, offloading all possible logic to the
+> backend.
+
+Makes sense, though I don't want to make the backend 10x more complex to
+make the Xen code slightly simpler, as the backend in Qubes OS will
+often be dom0.
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+Invisible Things Lab
+
+--dDcC+PbFKfPResFL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmelO8YACgkQszaHOrMp
+8lOV2Q//Y+vOJi5Z99Y1BVZPeJ/D0lNOo9FRlG8gqJg6BOq+FHYZ6MgsZdvas445
+2Au11p9eZfjsClCU0MVZIeteyUOYj/HQYC+IWhz9/Ysw/2c7+5V9CaNbHcu2X9Bx
+v+b4It6ujUxolu0r692deR/7rLcV4SqCOjP39gBGXPpLTA1MlAnyKrLoHPQdcUD0
+q8UvEusxKI11GNQBvgX8iJvF0jqxv4L6Q5NZFzke4JEbSpLGMIDZ7cw4unWs+Tgt
+NJVxAbSn46XHCSFWP3063JrsBVR5ghNzZ8h64WHRmyjxNUjZdmWgLe+HYcaaF6b/
+BsmFnxdgBQPHAwF3VrWinlF9M/1qfzK9eaVaDNf/50nuDWslvIJB7nY3SJVt/eHv
+j00ZjAKD6jnxH4B3zNPOj+zdRftLOJN3x7cNhmhyU0+oo4FHmP5GY3GZrdvU7ocN
+A1mmj7WathGZapGVIkDHAL218NRwStl2Kka88EppXi4lxpqsIl61VbhXRK8DCaen
+xC3Ry3GNwoPWmgdipWLcN/BVwn17TO9TBH3ZH311hfJ+lbRx5zrQsJGSsPSdvBZY
+oeqsFwg1igSlBI4WxdLJIQADNgyten4d0iTMrYNySMClxlk9PPDUKm5bJ7mMeWnc
+9tKLN6zNaHXeci1O6Ohj/FNYx+11hrOv2jIuix16VuRt0i7BsyQ=
+=RxIz
+-----END PGP SIGNATURE-----
+
+--dDcC+PbFKfPResFL--
