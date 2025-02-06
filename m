@@ -2,119 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04AFA2B401
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 22:17:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ACCA2B417
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 22:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 88E5210E970;
-	Thu,  6 Feb 2025 21:17:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD8E10E963;
+	Thu,  6 Feb 2025 21:21:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Na8bVlvY";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="qstvYdCC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0EF010E957
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 21:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738876582;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/LIRhzPa0ziB3G/ikzWEbtqiSuvX/5xBqL7wzBRiH8M=;
- b=Na8bVlvY1YKaLk0SSwZvzwxxT8XgWT+EfdZIxWlPTghr6JwFzKlxbjf9ci7oJlH9nVzmW4
- zuvfpSh3C0vQlkJ8I1sSoro+FueBDgN6dXVjNqIQPE+Gd42AFKcG2/i5xcFQ0JQTuDSGvN
- xnJ+w9n4EhEdyzPlIdZbeS3ta5RnSUQ=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-xfnqBMKSMjWgTB8eCJrtOg-1; Thu, 06 Feb 2025 16:16:19 -0500
-X-MC-Unique: xfnqBMKSMjWgTB8eCJrtOg-1
-X-Mimecast-MFC-AGG-ID: xfnqBMKSMjWgTB8eCJrtOg
-Received: by mail-yw1-f199.google.com with SMTP id
- 00721157ae682-6f68264a641so15582327b3.2
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 13:16:19 -0800 (PST)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13E8B10E963
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 21:21:15 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-467918c35easo23791881cf.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 13:21:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738876874; x=1739481674;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=6DxvZdZPg1+c/4MiY+1eFG+nW41sRJmolNY7AFhKpW0=;
+ b=qstvYdCCrXcwHQrWQ0DeH8HHb1PXwIk1EmBpD0jkS+7PNmAcQTnGiVFE/+e+yvLelk
+ eYtLrk84GbXany5vSNg0Vsjar+pGKA35mE4GtvD23crP/lilszH87ObC/23vfl6lB+P5
+ j/3TTqSNpi+p44TUvFU0S2c5X78sOxE+WYpwlHMVwJAZOZ3YewddFS4BY7Z5iAHVjPPK
+ c+gcnLXZ8wx6gAI661ypJ7Fg/Nh71yZCAZXJ7es8bqZ/j3KR0OPrsdVQsahnJL0lgsXv
+ odh77ogzRiWXHvcz46xOnNCHVI0KV/tJFDAhaQTrr8BhMEaGr+gYRgD25fs5Mg38UEdh
+ erxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738876579; x=1739481379;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/LIRhzPa0ziB3G/ikzWEbtqiSuvX/5xBqL7wzBRiH8M=;
- b=TezyPnKO8mOjjZjboGvGoZ7ZtNV5iK+SI1Sa/NbaXhrt1nTS2PTj0Oh5HTz3Lb6BSB
- DktfY70gj8/NVmr2YpIGnBCjg6YAbC/dcnALu4uPyJG8A/MGk0yteHT1rDcKvpITPqyA
- Sc3bPIPOoHZRqSN5zRtP5+Tut1UbREz5hWF1bKqvQ+nHL5lJgLH9aTSC95ruP45O1XOu
- hS4YkTMiEwUax7ik+Fy5khbi8vxXOjwRSlj9KEIEPIG84TWUH9nSlOtO5b8I3xu5LWbw
- oedHW7lfUOVL4SeuRhRdV0nN1YdouZKSS6NrxTQy3C/btdXZo7je1nvsmGWagPTiY5Hw
- 5CPA==
+ d=1e100.net; s=20230601; t=1738876874; x=1739481674;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6DxvZdZPg1+c/4MiY+1eFG+nW41sRJmolNY7AFhKpW0=;
+ b=Os3imvuwuIKs8v5N2HeFlZYShbh71UhE+Tbq5L96hx0aIATfjiPh9ncbObdEq2nYbm
+ z8a4EBxOl1an+RIX5sVf4VeNmXuJ3CGUNttDFKY7WEO6hkjHG2tqakoHeGxG3Bai4YvU
+ +bHU7livGnsR9qpHz88We3j99XoyQjJ6nWYicp40KXDCdEyYejUyYER6l2qlEAWilmyl
+ +MKgcyP0DOsuLk0Xv6KUK6x+8kTtQI/JYyRLDETiVJyZDal0zwPhtJuPw1dHeF9AAuFt
+ b1dSw823/ZOc1YdU7BVPAaJ3X43RPSfkTQ4IYujxODUlSYnz78KCsh5ON13+/dNInDSA
+ UO3A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWkoO141WpwAKWgqbn00pOxIwbqh1fe7R5xiFB8vcn6XzbC/htDMHnM5rZsQtPMu2jABJ6QqEXd32o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0yPjRG0KuDwasScDt3NZ90uZQ5hm4QZejNT4gXk69GL4RzYwE
- FuiNHdI+ApInbWEamZDkwxiJcLInmIaGdfX7KGi+eBhDzyJf4F/Dj0V6oU7Xa/yCK8Bb1f7SgTt
- NAMus/onq4+2gdtrH5wz5oqI3AZY24f1eY/jOeNH7TBicAtaRNlt4TkmW6pAahXG00erLuwvEKi
- vuECqS75WKUFp11oqxvYDum99gfNaT52WEKovRw4zU
-X-Gm-Gg: ASbGncspP5KkSxUjsbY0WhmhDuZP8waCJGX82wJsWAhsU07CojEDx9IZ0M6CgulVv7x
- rPb6A8eLZnTiK1DIM/DCxWgi9IU3hg2iKa03u0GNdUjq5swB2goYW+7lHHADS
-X-Received: by 2002:a05:690c:9989:b0:6ef:6fef:4cb6 with SMTP id
- 00721157ae682-6f9b233bf8fmr8830847b3.0.1738876579018; 
- Thu, 06 Feb 2025 13:16:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFjCqpwPwL+07jYSJFwomed71Bwu5IyhQrsp/e8kjJRvrAsFYgViw9/vssKy4znNo90IGP+LEAAzfLVoH6pYqM=
-X-Received: by 2002:a05:690c:9989:b0:6ef:6fef:4cb6 with SMTP id
- 00721157ae682-6f9b233bf8fmr8830137b3.0.1738876578666; Thu, 06 Feb 2025
- 13:16:18 -0800 (PST)
+ AJvYcCUwwvp7M7CvhjtZrKeMAkiNBfec3r5WD8kudkv7kGGt1v3A684Gf34ZZZTWnnJ7J5yA2Gq52IINf2Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxB55H224wMhUmglnVfRci3ScRAYb7BRcGmQHbz2PJrZC76JsII
+ 5zHEUvw7NdIN2ahbLU6BPfFS/XPGBk4jDzryZvwvzF65aDp/avXKdQcg26DUK5M=
+X-Gm-Gg: ASbGncuPtuRirsgKTl/WzWxssrvuRSExij2gzrMwrLm50Hf5Xr4ci6/b1vAbOPrITHD
+ ebk/+fUsj8hI0AUMXG7Y/yo51TubIUMiiDWutqOHhTW7N6H/SWDIeF7o+E8AIGyryf2TI+58/eN
+ 2VETDh2Qq7UnH7CR4cXxlrlD098gh1gFCoT3/5JrUnoHRrVa/NJrVhc2N4MUMVqaQH08LykrIH+
+ JLM4PpPcagr+u4VE1atrbubi+QVS2oMxTSLnBOgIoC+tvxcWjcXWY0X020DoOXweOm5L2l8A9kE
+ 84IRCdKu23QyoQ/M
+X-Google-Smtp-Source: AGHT+IHI8yMd/5aYfmfZcfbDFH3h4Fy2Z99LYvivEu182Bj0ddc/CD4GBHcML5OVdc/uP/LZDxsEvA==
+X-Received: by 2002:a05:622a:5a95:b0:466:a06f:ae0a with SMTP id
+ d75a77b69052e-47167ae29c0mr13578771cf.32.1738876873855; 
+ Thu, 06 Feb 2025 13:21:13 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
+ by smtp.gmail.com with ESMTPSA id
+ d75a77b69052e-47153bc741asm9168671cf.62.2025.02.06.13.21.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2025 13:21:12 -0800 (PST)
+Message-ID: <5e0e2fbb22c2ffb0c5281727cd95d70f5f5ba696.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 3/5] dt-bindings: gpu: Add protected heap name to
+ Mali Valhall CSF binding
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Florent Tomasin	
+ <florent.tomasin@arm.com>, Vinod Koul <vkoul@kernel.org>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst	 <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T . J . Mercier"	
+ <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
+ Wu <yong.wu@mediatek.com>
+Cc: dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ nd@arm.com, Akash Goel <akash.goel@arm.com>
+Date: Thu, 06 Feb 2025 16:21:10 -0500
+In-Reply-To: <c0aad911-ecc4-4b04-a453-6da226f76ed2@kernel.org>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <36b57dcf20860398ba83985e1c5b6f6958d08ba7.1738228114.git.florent.tomasin@arm.com>
+ <7234f25c-a2aa-4834-931b-aeeb7a49dfa7@kernel.org>
+ <4b9deab1-e330-4c93-8260-75276c2bc9ff@arm.com>
+ <c0aad911-ecc4-4b04-a453-6da226f76ed2@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
- <20250205-mem-cocci-newapi-v1-12-aebf2b0e2300@redhat.com>
- <73bad044-f5fc-40ea-9e32-571912573a5f@suse.de>
-In-Reply-To: <73bad044-f5fc-40ea-9e32-571912573a5f@suse.de>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 6 Feb 2025 16:16:07 -0500
-X-Gm-Features: AWEUYZk6prfZM1C9-Gul4JSYr8izxGkZAIuEujMIU0-RwOCWKJ-qTeyWBXWPDFc
-Message-ID: <CAN9Xe3R=PpKbM=QraFvPMTF+XvBujjxp3XCWtg3Y5+pd+OE1Dw@mail.gmail.com>
-Subject: Re: [PATCH 12/12] Documentation: Update the todo
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
- Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
- Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
- John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Marek Vasut <marex@denx.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>, 
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
- linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 4ZEfXxhvCxb0ZPKFzM1CBnpAiUXR53JhRdLrqs-nt8k_1738876579
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000c7abf9062d7fc054"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,169 +112,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000c7abf9062d7fc054
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Le mercredi 05 f=C3=A9vrier 2025 =C3=A0 10:13 +0100, Krzysztof Kozlowski a =
+=C3=A9crit=C2=A0:
+> On 03/02/2025 16:31, Florent Tomasin wrote:
+> > Hi Krzysztof
+> >=20
+> > On 30/01/2025 13:25, Krzysztof Kozlowski wrote:
+> > > On 30/01/2025 14:08, Florent Tomasin wrote:
+> > > > Allow mali-valhall-csf driver to retrieve a protected
+> > > > heap at probe time by passing the name of the heap
+> > > > as attribute to the device tree GPU node.
+> > >=20
+> > > Please wrap commit message according to Linux coding style / submissi=
+on
+> > > process (neither too early nor over the limit):
+> > > https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/proces=
+s/submitting-patches.rst#L597
+> > Apologies, I think I made quite few other mistakes in the style of the
+> > patches I sent. I will work on improving this aspect, appreciated
+> >=20
+> > > Why this cannot be passed by phandle, just like all reserved regions?
+> > >=20
+> > > From where do you take these protected heaps? Firmware? This would
+> > > explain why no relation is here (no probe ordering, no device links,
+> > > nothing connecting separate devices).
+> >=20
+> > The protected heap is generaly obtained from a firmware (TEE) and could
+> > sometimes be a carved-out memory with restricted access.
+>=20
+> Which is a reserved memory, isn't it?
+>=20
+> >=20
+> > The Panthor CSF kernel driver does not own or manage the protected heap
+> > and is instead a consumer of it (assuming the heap is made available by
+> > the system integrator).
+> >=20
+> > I initially used a phandle, but then I realised it would introduce a ne=
+w
+> > API to share the heap across kernel driver. In addition I found this
+> > patch series:
+> > -
+> > https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.co=
+m/#t
+> >=20
+> > which introduces a DMA Heap API to the rest of the kernel to find a
+> > heap by name:
+> > - dma_heap_find()
+> >=20
+> > I then decided to follow that approach to help isolate the heap
+> > management from the GPU driver code. In the Panthor driver, if the
+> > heap is not found at probe time, the driver will defer the probe until
+> > the exporter made it available.
+>=20
+>=20
+> I don't talk here really about the driver but even above mediatek
+> patchset uses reserved memory bindings.
+>=20
+> You explained some things about driver yet you did not answer the
+> question. This looks like reserved memory. If it does not, bring
+> arguments why this binding cannot be a reserved memory, why hardware is
+> not a carve out memory.
 
-On Thu, Feb 6, 2025 at 2:57=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
-de>
-wrote:
+I think the point is that from the Mali GPU view, the memory does not need =
+to be
+within the range the Linux Kernel actually see, even though current integra=
+tion
+have that. From Mali GPU driver stand point (or codec drivers and what's no=
+t),
+the memory range is not useful to allocate protected/restricted memory. On =
+top
+of which, its not reserved specifically for the Mali GPU.
 
-> Hi
->
->
-> Am 05.02.25 um 21:08 schrieb Anusha Srivatsa:
-> > Update the Documentation to be more precise.
-> >
-> > v2: Update for clarity
-> >
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> > ---
-> >   Documentation/gpu/todo.rst | 12 ++++++------
-> >   1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index
-> 256d0d1cb2164bd94f9b610a751b907834d96a21..03fcd086889acbd1294669b260292ff=
-c79e97e2f
-> 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -441,13 +441,13 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> >   Level: Intermediate
-> >
-> > -Request memory regions in all drivers
-> > --------------------------------------
-> > +Request memory regions in all fbdev drivers
-> > +--------------------------------------------
-> >
-> > -Go through all drivers and add code to request the memory regions that
-> the
-> > -driver uses. This requires adding calls to request_mem_region(),
-> > -pci_request_region() or similar functions. Use helpers for managed
-> cleanup
-> > -where possible.
-> > +Old/ancient fbdev drivers do not request their memory properly.
-> > +Go through these drivers and add code to request the memory regions
-> that the
-> > +driver uses. Problematic areas include hardware that has exclusive
-> ranges like
-> > +VGA. VGA16fb does not request the range as it is expected.
->
-> I'd keep both, old and new text, and turn them into a single paragraph.
-> The old text explains what to do and the new text gives examples.
->
->
-Sure. Waiting for one final patch to be reviewed(patch 11). With that, I
-will make the changes you suggested and re-roll the series.
+What's your practical suggestion here ? Introduce dma_heap_find_by_region()=
+ ?
 
-Thanks for the feedback!
+Nicolas
 
-Anusha
-
-> Best regards
-> Thomas
-> >
-> >   Drivers are pretty bad at doing this and there used to be conflicts
-> among
-> >   DRM and fbdev drivers. Still, it's the correct thing to do.
-> >
->
-> --
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
->
->
-
---000000000000c7abf9062d7fc054
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 6, =
-2025 at 2:57=E2=80=AFAM Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann=
-@suse.de">tzimmermann@suse.de</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Hi<br>
-<br>
-<br>
-Am 05.02.25 um 21:08 schrieb Anusha Srivatsa:<br>
-&gt; Update the Documentation to be more precise.<br>
-&gt;<br>
-&gt; v2: Update for clarity<br>
-&gt;<br>
-&gt; Cc: Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de" targe=
-t=3D"_blank">tzimmermann@suse.de</a>&gt;<br>
-&gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.c=
-om" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0Documentation/gpu/todo.rst | 12 ++++++------<br>
-&gt;=C2=A0 =C2=A01 file changed, 6 insertions(+), 6 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst<b=
-r>
-&gt; index 256d0d1cb2164bd94f9b610a751b907834d96a21..03fcd086889acbd1294669=
-b260292ffc79e97e2f 100644<br>
-&gt; --- a/Documentation/gpu/todo.rst<br>
-&gt; +++ b/Documentation/gpu/todo.rst<br>
-&gt; @@ -441,13 +441,13 @@ Contact: Thomas Zimmermann &lt;<a href=3D"mailto=
-:tzimmermann@suse.de" target=3D"_blank">tzimmermann@suse.de</a>&gt;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0Level: Intermediate<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -Request memory regions in all drivers<br>
-&gt; --------------------------------------<br>
-&gt; +Request memory regions in all fbdev drivers<br>
-&gt; +--------------------------------------------<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -Go through all drivers and add code to request the memory regions tha=
-t the<br>
-&gt; -driver uses. This requires adding calls to request_mem_region(),<br>
-&gt; -pci_request_region() or similar functions. Use helpers for managed cl=
-eanup<br>
-&gt; -where possible.<br>
-&gt; +Old/ancient fbdev drivers do not request their memory properly.<br>
-&gt; +Go through these drivers and add code to request the memory regions t=
-hat the<br>
-&gt; +driver uses. Problematic areas include hardware that has exclusive ra=
-nges like<br>
-&gt; +VGA. VGA16fb does not request the range as it is expected.<br>
-<br>
-I&#39;d keep both, old and new text, and turn them into a single paragraph.=
- <br>
-The old text explains what to do and the new text gives examples.<br>
-<br></blockquote><div><br></div><div>Sure. Waiting for one final patch to b=
-e reviewed(patch 11). With that, I will make the changes you suggested and =
-re-roll the series. <br></div><div><br></div><div>Thanks for the feedback!<=
-/div><div><br></div><div>Anusha<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-Best regards<br>
-Thomas<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0Drivers are pretty bad at doing this and there used to be =
-conflicts among<br>
-&gt;=C2=A0 =C2=A0DRM and fbdev drivers. Still, it&#39;s the correct thing t=
-o do.<br>
-&gt;<br>
-<br>
--- <br>
---<br>
-Thomas Zimmermann<br>
-Graphics Driver Developer<br>
-SUSE Software Solutions Germany GmbH<br>
-Frankenstrasse 146, 90461 Nuernberg, Germany<br>
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman<br>
-HRB 36809 (AG Nuernberg)<br>
-<br>
-</blockquote></div></div>
-
---000000000000c7abf9062d7fc054--
+>=20
+> Best regards,
+> Krzysztof
+>=20
 
