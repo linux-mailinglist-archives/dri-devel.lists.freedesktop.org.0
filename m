@@ -2,65 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8697EA2AFCF
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246BEA2AFE1
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:10:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 852DF10E309;
-	Thu,  6 Feb 2025 18:07:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1838D10E0C6;
+	Thu,  6 Feb 2025 18:10:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HwzzPJ6m";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ja+gsOXu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 937E510E309
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:07:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 50B1C5C6AFB
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:06:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C0DD6C4CEE3
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738865226;
- bh=4nm6yNGKIGJWHIrLqnYTtX/yanCPM1W/LjynjHtmkKQ=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=HwzzPJ6mEN/JkHcL42nouj3Iep3kmFFfQbwzj8CMFOa6X1kKbr/iL0QSHJFW8Tep3
- yKspqUe745g1O7X/bOf56g/hRHtsT2RVzfvtFw7ES7oWrXeas8e6571rXKZoycGKnp
- q+cxhbqPbRr7OpWdIGseLwdjkB/KQUe8FgL8lZ0ftIupQFAllxQa+Ajto2kMhKhujz
- XyipcRQDS9i7wiPywkumlN/PwL1iUIiOr9dRtkU4QrJfr7DbkX/lSuZYZS19V3AWSL
- syp5ag+GVVQTMKgENpOlo9ZfPCDk/DS5AIHezFRCqiT1dwfIaoZdXp8W37hJxtelJ1
- XG0YY8+Aoh6IA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id B2713C41615; Thu,  6 Feb 2025 18:07:06 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 219754] When screen blanks and resumes there will be an error:
- kernel: amdgpu 0000:0b:00.0: [drm] REG_WAIT timeout 1us * 100 tries -
- dcn32_program_compbuf_size line:138
-Date: Thu, 06 Feb 2025 18:07:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: ANSWERED
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-219754-2300-ySNuRe6yRl@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-219754-2300@https.bugzilla.kernel.org/>
-References: <bug-219754-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE4D10E0C6;
+ Thu,  6 Feb 2025 18:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738865405; x=1770401405;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=fQWxra/jdCshDpjB4xobaSRnCl4dQOzGwzO6m1AhH/Y=;
+ b=ja+gsOXu7dXQkNtTM+Srj0Y4MNaSIirBBCKlQ8l+4AfM+ge6V1XwxlwS
+ 1Xv6B83jQbWSoIGnQ2kaAFfdii8cGxMo5OLlFFj6Yz76g+YyitQOKIegO
+ A0WMqsjYCZ+9ontFG98oG1NgT2uFeVXOaaZKOoq26dYb/kV3Dn8DgRnHb
+ aPg796UZTZHkgVjJS1e2xB7TaexlsAEeczvB1Xa7I3JZ2HTTovOx4rIku
+ 2bAuzYKk83QHGVHZ3Ns1UqTWmS3egG8ppHGEpx9lS/WhZ9lAkEiACo3Rk
+ hXyhAxb8tV06eeCKyR7JT//nPlJ3uzP29BuHeVBt/s65Se2NhhwlZwN6F A==;
+X-CSE-ConnectionGUID: AWdfF+CgTESvtR5fnhDXYw==
+X-CSE-MsgGUID: zDsPmlcAR12U5wpjVLoaew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="61965286"
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="61965286"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2025 10:10:04 -0800
+X-CSE-ConnectionGUID: vO6ZCQLSQ9GJQvEp5MUfHA==
+X-CSE-MsgGUID: WPuwtlmFQnmV244TCS/5nQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="111889296"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.55])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2025 10:10:01 -0800
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH 0/3] drm/i915: Fix harmfull driver register/unregister
+ assymetry
+Date: Thu,  6 Feb 2025 19:07:38 +0100
+Message-ID: <20250206180927.2237256-5-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,20 +72,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D219754
+We return immediately from i915_driver_register() if drm_dev_register()
+fails, skipping remaining registration steps.  However, the _unregister()
+counterpart called at device remove knows nothing about that skip and
+executes reverts for all those steps.  For that to work correctly, those
+revert functions must be resistant to being called even on uninitialized
+objects, or we must not skip their initialization.
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Three cases have been identified and fixes proposed.  Call traces are
+taken from CI results of igt@i915_driver_load@reload-with-fault-injection
+execution, reported to several separate Gitlab issues (links provided).
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |ANSWERED
+Immediate return was introduced to i915_driver_register() by commit
+ec3e00b4ee27 ("drm/i915: stop registering if drm_dev_register() fails"),
+however, quite a few things have changed since then.  That's why I haven't
+mentioned it in a Fixes: tag to avoid it being picked up by stable, which
+I haven't tested.
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please repost here: https://gitlab.freedesktop.org/drm/amd/-/issues
+Janusz Krzysztofik (3):
+  drm/i915: Fix PM reference not released if device register fails
+  drm/i915: Fix GT sysfs unregister tried even if not registered
+  drm/i915: Fix device sysfs teardown tried even if not set up
 
---=20
-You may reply to this email to add a comment.
+ drivers/gpu/drm/i915/gt/intel_gt_sysfs.c | 3 +++
+ drivers/gpu/drm/i915/i915_driver.c       | 6 ++++--
+ drivers/gpu/drm/i915/i915_sysfs.c        | 3 +++
+ 3 files changed, 10 insertions(+), 2 deletions(-)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+2.47.1
+
