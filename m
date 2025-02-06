@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6190CA2BDF4
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C27A2BDF7
 	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 09:32:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79D2D10EA49;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F85710EA48;
 	Fri,  7 Feb 2025 08:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from c64.rulez.org (c64.rulez.org [79.139.58.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86BB110E935
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 19:49:43 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5821E10E938
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 19:50:41 +0000 (UTC)
 Received: by c64.rulez.org (Postfix, from userid 1000)
- id 53089100FA; Thu,  6 Feb 2025 20:49:42 +0100 (CET)
+ id 26D31100FA; Thu,  6 Feb 2025 20:50:40 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by c64.rulez.org (Postfix) with ESMTP id 5255B100F6;
- Thu,  6 Feb 2025 20:49:42 +0100 (CET)
-Date: Thu, 6 Feb 2025 20:49:42 +0100 (CET)
+ by c64.rulez.org (Postfix) with ESMTP id 26001100F6;
+ Thu,  6 Feb 2025 20:50:40 +0100 (CET)
+Date: Thu, 6 Feb 2025 20:50:40 +0100 (CET)
 From: Zsolt Kajtar <soci@c64.rulez.org>
 To: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 04/13] fbdev: core: Use generic copyarea for as
- sys_copyarea
-Message-ID: <e580c1cc-6d5b-c688-f7c-9687aabd3dd5@c64.rulez.org>
+Subject: [PATCH 05/13] fbdev: core: Copy cfbfillrect to fb_fillrect
+Message-ID: <8861a33-acd8-1ba4-ba94-893a5556a8b0@c64.rulez.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; format=flowed; charset=US-ASCII
 X-Mailman-Approved-At: Fri, 07 Feb 2025 08:32:02 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -41,387 +40,394 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fbdev: core: Use generic copyarea for as sys_copyarea
+fbdev: core: Copy cfbfillrect to fb_fillrect
 
 Signed-off-by: Zsolt Kajtar <soci@c64.rulez.org>
 ---
-  drivers/video/fbdev/core/syscopyarea.c | 357 +------------------------
-  1 file changed, 8 insertions(+), 349 deletions(-)
+  drivers/video/fbdev/core/fb_fillrect.h | 374 +++++++++++++++++++++++++
+  1 file changed, 374 insertions(+)
+  create mode 100644 drivers/video/fbdev/core/fb_fillrect.h
 
-diff --git a/drivers/video/fbdev/core/syscopyarea.c b/drivers/video/fbdev/core/syscopyarea.c
-index 75e7001e8..124831eed 100644
---- a/drivers/video/fbdev/core/syscopyarea.c
-+++ b/drivers/video/fbdev/core/syscopyarea.c
-@@ -13,361 +13,20 @@
-   *
-   */
-  #include <linux/module.h>
--#include <linux/kernel.h>
--#include <linux/string.h>
-  #include <linux/fb.h>
-  #include <asm/types.h>
--#include <asm/io.h>
--#include "fb_draw.h"
-
--    /*
--     *  Generic bitwise copy algorithm
--     */
--
--static void
--bitcpy(struct fb_info *p, unsigned long *dst, unsigned dst_idx,
--	const unsigned long *src, unsigned src_idx, int bits, unsigned n)
--{
--	unsigned long first, last;
--	int const shift = dst_idx-src_idx;
--	int left, right;
--
--	first = FB_SHIFT_HIGH(p, ~0UL, dst_idx);
--	last = ~(FB_SHIFT_HIGH(p, ~0UL, (dst_idx+n) % bits));
--
--	if (!shift) {
--		/* Same alignment for source and dest */
--		if (dst_idx+n <= bits) {
--			/* Single word */
--			if (last)
--				first &= last;
--			*dst = comp(*src, *dst, first);
--		} else {
--			/* Multiple destination words */
--			/* Leading bits */
-- 			if (first != ~0UL) {
--				*dst = comp(*src, *dst, first);
--				dst++;
--				src++;
--				n -= bits - dst_idx;
--			}
--
--			/* Main chunk */
--			n /= bits;
--			while (n >= 8) {
--				*dst++ = *src++;
--				*dst++ = *src++;
--				*dst++ = *src++;
--				*dst++ = *src++;
--				*dst++ = *src++;
--				*dst++ = *src++;
--				*dst++ = *src++;
--				*dst++ = *src++;
--				n -= 8;
--			}
--			while (n--)
--				*dst++ = *src++;
--
--			/* Trailing bits */
--			if (last)
--				*dst = comp(*src, *dst, last);
--		}
--	} else {
--		unsigned long d0, d1;
--		int m;
--
--		/* Different alignment for source and dest */
--		right = shift & (bits - 1);
--		left = -shift & (bits - 1);
--
--		if (dst_idx+n <= bits) {
--			/* Single destination word */
--			if (last)
--				first &= last;
--			if (shift > 0) {
--				/* Single source word */
--				*dst = comp(*src << left, *dst, first);
--			} else if (src_idx+n <= bits) {
--				/* Single source word */
--				*dst = comp(*src >> right, *dst, first);
--			} else {
--				/* 2 source words */
--				d0 = *src++;
--				d1 = *src;
--				*dst = comp(d0 >> right | d1 << left, *dst,
--					    first);
--			}
--		} else {
--			/* Multiple destination words */
--			/** We must always remember the last value read,
--			    because in case SRC and DST overlap bitwise (e.g.
--			    when moving just one pixel in 1bpp), we always
--			    collect one full long for DST and that might
--			    overlap with the current long from SRC. We store
--			    this value in 'd0'. */
--			d0 = *src++;
--			/* Leading bits */
--			if (shift > 0) {
--				/* Single source word */
--				*dst = comp(d0 << left, *dst, first);
--				dst++;
--				n -= bits - dst_idx;
--			} else {
--				/* 2 source words */
--				d1 = *src++;
--				*dst = comp(d0 >> right | d1 << left, *dst,
--					    first);
--				d0 = d1;
--				dst++;
--				n -= bits - dst_idx;
--			}
--
--			/* Main chunk */
--			m = n % bits;
--			n /= bits;
--			while (n >= 4) {
--				d1 = *src++;
--				*dst++ = d0 >> right | d1 << left;
--				d0 = d1;
--				d1 = *src++;
--				*dst++ = d0 >> right | d1 << left;
--				d0 = d1;
--				d1 = *src++;
--				*dst++ = d0 >> right | d1 << left;
--				d0 = d1;
--				d1 = *src++;
--				*dst++ = d0 >> right | d1 << left;
--				d0 = d1;
--				n -= 4;
--			}
--			while (n--) {
--				d1 = *src++;
--				*dst++ = d0 >> right | d1 << left;
--				d0 = d1;
--			}
--
--			/* Trailing bits */
--			if (m) {
--				if (m <= bits - right) {
--					/* Single source word */
--					d0 >>= right;
--				} else {
--					/* 2 source words */
-- 					d1 = *src;
--					d0 = d0 >> right | d1 << left;
--				}
--				*dst = comp(d0, *dst, last);
--			}
--		}
--	}
--}
--
--    /*
--     *  Generic bitwise copy algorithm, operating backward
--     */
--
--static void
--bitcpy_rev(struct fb_info *p, unsigned long *dst, unsigned dst_idx,
--	   const unsigned long *src, unsigned src_idx, unsigned bits,
--	   unsigned n)
--{
--	unsigned long first, last;
--	int shift;
--
--	dst += (dst_idx + n - 1) / bits;
--	src += (src_idx + n - 1) / bits;
--	dst_idx = (dst_idx + n - 1) % bits;
--	src_idx = (src_idx + n - 1) % bits;
--
--	shift = dst_idx-src_idx;
--
--	first = ~FB_SHIFT_HIGH(p, ~0UL, (dst_idx + 1) % bits);
--	last = FB_SHIFT_HIGH(p, ~0UL, (bits + dst_idx + 1 - n) % bits);
--
--	if (!shift) {
--		/* Same alignment for source and dest */
--		if ((unsigned long)dst_idx+1 >= n) {
--			/* Single word */
--			if (first)
--				last &= first;
--			*dst = comp(*src, *dst, last);
--		} else {
--			/* Multiple destination words */
--
--			/* Leading bits */
--			if (first) {
--				*dst = comp(*src, *dst, first);
--				dst--;
--				src--;
--				n -= dst_idx+1;
--			}
--
--			/* Main chunk */
--			n /= bits;
--			while (n >= 8) {
--				*dst-- = *src--;
--				*dst-- = *src--;
--				*dst-- = *src--;
--				*dst-- = *src--;
--				*dst-- = *src--;
--				*dst-- = *src--;
--				*dst-- = *src--;
--				*dst-- = *src--;
--				n -= 8;
--			}
--			while (n--)
--				*dst-- = *src--;
--			/* Trailing bits */
--			if (last != -1UL)
--				*dst = comp(*src, *dst, last);
--		}
--	} else {
--		/* Different alignment for source and dest */
--
--		int const left = shift & (bits-1);
--		int const right = -shift & (bits-1);
--
--		if ((unsigned long)dst_idx+1 >= n) {
--			/* Single destination word */
--			if (first)
--				last &= first;
--			if (shift < 0) {
--				/* Single source word */
--				*dst = comp(*src >> right, *dst, last);
--			} else if (1+(unsigned long)src_idx >= n) {
--				/* Single source word */
--				*dst = comp(*src << left, *dst, last);
--			} else {
--				/* 2 source words */
--				*dst = comp(*src << left | *(src-1) >> right,
--					    *dst, last);
--			}
--		} else {
--			/* Multiple destination words */
--			/** We must always remember the last value read,
--			    because in case SRC and DST overlap bitwise (e.g.
--			    when moving just one pixel in 1bpp), we always
--			    collect one full long for DST and that might
--			    overlap with the current long from SRC. We store
--			    this value in 'd0'. */
--			unsigned long d0, d1;
--			int m;
--
--			d0 = *src--;
--			/* Leading bits */
--			if (shift < 0) {
--				/* Single source word */
--				d1 = d0;
--				d0 >>= right;
--			} else {
--				/* 2 source words */
--				d1 = *src--;
--				d0 = d0 << left | d1 >> right;
--			}
--			if (!first)
--				*dst = d0;
--			else
--				*dst = comp(d0, *dst, first);
--			d0 = d1;
--			dst--;
--			n -= dst_idx+1;
--
--			/* Main chunk */
--			m = n % bits;
--			n /= bits;
--			while (n >= 4) {
--				d1 = *src--;
--				*dst-- = d0 << left | d1 >> right;
--				d0 = d1;
--				d1 = *src--;
--				*dst-- = d0 << left | d1 >> right;
--				d0 = d1;
--				d1 = *src--;
--				*dst-- = d0 << left | d1 >> right;
--				d0 = d1;
--				d1 = *src--;
--				*dst-- = d0 << left | d1 >> right;
--				d0 = d1;
--				n -= 4;
--			}
--			while (n--) {
--				d1 = *src--;
--				*dst-- = d0 << left | d1 >> right;
--				d0 = d1;
--			}
--
--			/* Trailing bits */
--			if (m) {
--				if (m <= bits - left) {
--					/* Single source word */
--					d0 <<= left;
--				} else {
--					/* 2 source words */
--					d1 = *src;
--					d0 = d0 << left | d1 >> right;
--				}
--				*dst = comp(d0, *dst, last);
--			}
--		}
--	}
--}
--
--void sys_copyarea(struct fb_info *p, const struct fb_copyarea *area)
--{
--	u32 dx = area->dx, dy = area->dy, sx = area->sx, sy = area->sy;
--	u32 height = area->height, width = area->width;
--	unsigned int const bits_per_line = p->fix.line_length * 8u;
--	unsigned long *base = NULL;
--	int bits = BITS_PER_LONG, bytes = bits >> 3;
--	unsigned dst_idx = 0, src_idx = 0, rev_copy = 0;
--
--	if (p->state != FBINFO_STATE_RUNNING)
--		return;
--
--	if (!(p->flags & FBINFO_VIRTFB))
--		fb_warn_once(p, "Framebuffer is not in virtual address space.");
--
--	/* if the beginning of the target area might overlap with the end of
--	the source area, be have to copy the area reverse. */
--	if ((dy == sy && dx > sx) || (dy > sy)) {
--		dy += height;
--		sy += height;
--		rev_copy = 1;
--	}
--
--	/* split the base of the framebuffer into a long-aligned address and
--	   the index of the first bit */
--	base = (unsigned long *)((unsigned long)p->screen_base & ~(bytes-1));
--	dst_idx = src_idx = 8*((unsigned long)p->screen_base & (bytes-1));
--	/* add offset of source and target area */
--	dst_idx += dy*bits_per_line + dx*p->var.bits_per_pixel;
--	src_idx += sy*bits_per_line + sx*p->var.bits_per_pixel;
--
--	if (p->fbops->fb_sync)
--		p->fbops->fb_sync(p);
--
--	if (rev_copy) {
--		while (height--) {
--			dst_idx -= bits_per_line;
--			src_idx -= bits_per_line;
--			bitcpy_rev(p, base + (dst_idx / bits), dst_idx % bits,
--				base + (src_idx / bits), src_idx % bits, bits,
--				width*p->var.bits_per_pixel);
--		}
--	} else {
--		while (height--) {
--			bitcpy(p, base + (dst_idx / bits), dst_idx % bits,
--				base + (src_idx / bits), src_idx % bits, bits,
--				width*p->var.bits_per_pixel);
--			dst_idx += bits_per_line;
--			src_idx += bits_per_line;
--		}
--	}
--}
-+#define FB_READL(a)       (*a)
-+#define FB_WRITEL(a,b)    do { *(b) = (a); } while (false)
-+#define FB_MEM            /* nothing */
-+#define FB_COPYAREA       sys_copyarea
-+#define FB_SPACE          FBINFO_VIRTFB
-+#define FB_SPACE_NAME     "virtual"
-+#define FB_SCREEN_BASE(a) ((a)->screen_buffer)
-+#include "fb_copyarea.h"
-
-  EXPORT_SYMBOL(sys_copyarea);
-
-  MODULE_AUTHOR("Antonino Daplas <adaplas@pol.net>");
-  MODULE_DESCRIPTION("Generic copyarea (sys-to-sys)");
-  MODULE_LICENSE("GPL");
--
+diff --git a/drivers/video/fbdev/core/fb_fillrect.h b/drivers/video/fbdev/core/fb_fillrect.h
+new file mode 100644
+index 000000000..a3bef06ce
+--- /dev/null
++++ b/drivers/video/fbdev/core/fb_fillrect.h
+@@ -0,0 +1,374 @@
++/*
++ *  Generic fillrect for frame buffers with packed pixels of any depth.
++ *
++ *      Copyright (C)  2000 James Simmons (jsimmons@linux-fbdev.org)
++ *
++ *  This file is subject to the terms and conditions of the GNU General Public
++ *  License.  See the file COPYING in the main directory of this archive for
++ *  more details.
++ *
++ * NOTES:
++ *
++ *  Also need to add code to deal with cards endians that are different than
++ *  the native cpu endians. I also need to deal with MSB position in the word.
++ *
++ */
++#include <linux/module.h>
++#include <linux/string.h>
++#include <linux/fb.h>
++#include <asm/types.h>
++#include "fb_draw.h"
++
++#if BITS_PER_LONG == 32
++#  define FB_WRITEL fb_writel
++#  define FB_READL  fb_readl
++#else
++#  define FB_WRITEL fb_writeq
++#  define FB_READL  fb_readq
++#endif
++
++    /*
++     *  Aligned pattern fill using 32/64-bit memory accesses
++     */
++
++static void
++bitfill_aligned(struct fb_info *p, unsigned long __iomem *dst, int dst_idx,
++                unsigned long pat, unsigned n, int bits, u32 bswapmask)
++{
++        unsigned long first, last;
++
++        if (!n)
++                return;
++
++        first = fb_shifted_pixels_mask_long(p, dst_idx, bswapmask);
++        last = ~fb_shifted_pixels_mask_long(p, (dst_idx+n) % bits, bswapmask);
++
++        if (dst_idx+n <= bits) {
++                // Single word
++                if (last)
++                        first &= last;
++                FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
++        } else {
++                // Multiple destination words
++
++                // Leading bits
++                if (first!= ~0UL) {
++                        FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
++                        dst++;
++                        n -= bits - dst_idx;
++                }
++
++                // Main chunk
++                n /= bits;
++                while (n >= 8) {
++                        FB_WRITEL(pat, dst++);
++                        FB_WRITEL(pat, dst++);
++                        FB_WRITEL(pat, dst++);
++                        FB_WRITEL(pat, dst++);
++                        FB_WRITEL(pat, dst++);
++                        FB_WRITEL(pat, dst++);
++                        FB_WRITEL(pat, dst++);
++                        FB_WRITEL(pat, dst++);
++                        n -= 8;
++                }
++                while (n--)
++                        FB_WRITEL(pat, dst++);
++
++                // Trailing bits
++                if (last)
++                        FB_WRITEL(comp(pat, FB_READL(dst), last), dst);
++        }
++}
++
++
++    /*
++     *  Unaligned generic pattern fill using 32/64-bit memory accesses
++     *  The pattern must have been expanded to a full 32/64-bit value
++     *  Left/right are the appropriate shifts to convert to the pattern to be
++     *  used for the next 32/64-bit word
++     */
++
++static void
++bitfill_unaligned(struct fb_info *p, unsigned long __iomem *dst, int dst_idx,
++                  unsigned long pat, int left, int right, unsigned n, int bits)
++{
++        unsigned long first, last;
++
++        if (!n)
++                return;
++
++        first = FB_SHIFT_HIGH(p, ~0UL, dst_idx);
++        last = ~(FB_SHIFT_HIGH(p, ~0UL, (dst_idx+n) % bits));
++
++        if (dst_idx+n <= bits) {
++                // Single word
++                if (last)
++                        first &= last;
++                FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
++        } else {
++                // Multiple destination words
++                // Leading bits
++                if (first) {
++                        FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
++                        dst++;
++                        pat = pat << left | pat >> right;
++                        n -= bits - dst_idx;
++                }
++
++                // Main chunk
++                n /= bits;
++                while (n >= 4) {
++                        FB_WRITEL(pat, dst++);
++                        pat = pat << left | pat >> right;
++                        FB_WRITEL(pat, dst++);
++                        pat = pat << left | pat >> right;
++                        FB_WRITEL(pat, dst++);
++                        pat = pat << left | pat >> right;
++                        FB_WRITEL(pat, dst++);
++                        pat = pat << left | pat >> right;
++                        n -= 4;
++                }
++                while (n--) {
++                        FB_WRITEL(pat, dst++);
++                        pat = pat << left | pat >> right;
++                }
++
++                // Trailing bits
++                if (last)
++                        FB_WRITEL(comp(pat, FB_READL(dst), last), dst);
++        }
++}
++
++    /*
++     *  Aligned pattern invert using 32/64-bit memory accesses
++     */
++static void
++bitfill_aligned_rev(struct fb_info *p, unsigned long __iomem *dst,
++                    int dst_idx, unsigned long pat, unsigned n, int bits,
++                    u32 bswapmask)
++{
++        unsigned long val = pat, dat;
++        unsigned long first, last;
++
++        if (!n)
++                return;
++
++        first = fb_shifted_pixels_mask_long(p, dst_idx, bswapmask);
++        last = ~fb_shifted_pixels_mask_long(p, (dst_idx+n) % bits, bswapmask);
++
++        if (dst_idx+n <= bits) {
++                // Single word
++                if (last)
++                        first &= last;
++                dat = FB_READL(dst);
++                FB_WRITEL(comp(dat ^ val, dat, first), dst);
++        } else {
++                // Multiple destination words
++                // Leading bits
++                if (first!=0UL) {
++                        dat = FB_READL(dst);
++                        FB_WRITEL(comp(dat ^ val, dat, first), dst);
++                        dst++;
++                        n -= bits - dst_idx;
++                }
++
++                // Main chunk
++                n /= bits;
++                while (n >= 8) {
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                        n -= 8;
++                }
++                while (n--) {
++                        FB_WRITEL(FB_READL(dst) ^ val, dst);
++                        dst++;
++                }
++                // Trailing bits
++                if (last) {
++                        dat = FB_READL(dst);
++                        FB_WRITEL(comp(dat ^ val, dat, last), dst);
++                }
++        }
++}
++
++
++    /*
++     *  Unaligned generic pattern invert using 32/64-bit memory accesses
++     *  The pattern must have been expanded to a full 32/64-bit value
++     *  Left/right are the appropriate shifts to convert to the pattern to be
++     *  used for the next 32/64-bit word
++     */
++
++static void
++bitfill_unaligned_rev(struct fb_info *p, unsigned long __iomem *dst,
++                      int dst_idx, unsigned long pat, int left, int right,
++                      unsigned n, int bits)
++{
++        unsigned long first, last, dat;
++
++        if (!n)
++                return;
++
++        first = FB_SHIFT_HIGH(p, ~0UL, dst_idx);
++        last = ~(FB_SHIFT_HIGH(p, ~0UL, (dst_idx+n) % bits));
++
++        if (dst_idx+n <= bits) {
++                // Single word
++                if (last)
++                        first &= last;
++                dat = FB_READL(dst);
++                FB_WRITEL(comp(dat ^ pat, dat, first), dst);
++        } else {
++                // Multiple destination words
++
++                // Leading bits
++                if (first != 0UL) {
++                        dat = FB_READL(dst);
++                        FB_WRITEL(comp(dat ^ pat, dat, first), dst);
++                        dst++;
++                        pat = pat << left | pat >> right;
++                        n -= bits - dst_idx;
++                }
++
++                // Main chunk
++                n /= bits;
++                while (n >= 4) {
++                        FB_WRITEL(FB_READL(dst) ^ pat, dst);
++                        dst++;
++                        pat = pat << left | pat >> right;
++                        FB_WRITEL(FB_READL(dst) ^ pat, dst);
++                        dst++;
++                        pat = pat << left | pat >> right;
++                        FB_WRITEL(FB_READL(dst) ^ pat, dst);
++                        dst++;
++                        pat = pat << left | pat >> right;
++                        FB_WRITEL(FB_READL(dst) ^ pat, dst);
++                        dst++;
++                        pat = pat << left | pat >> right;
++                        n -= 4;
++                }
++                while (n--) {
++                        FB_WRITEL(FB_READL(dst) ^ pat, dst);
++                        dst++;
++                        pat = pat << left | pat >> right;
++                }
++
++                // Trailing bits
++                if (last) {
++                        dat = FB_READL(dst);
++                        FB_WRITEL(comp(dat ^ pat, dat, last), dst);
++                }
++        }
++}
++
++void cfb_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
++{
++        unsigned long pat, pat2, fg;
++        unsigned long width = rect->width, height = rect->height;
++        int bits = BITS_PER_LONG, bytes = bits >> 3;
++        u32 bpp = p->var.bits_per_pixel;
++        unsigned long __iomem *dst;
++        int dst_idx, left;
++
++        if (p->state != FBINFO_STATE_RUNNING)
++                return;
++
++        if (p->flags & FBINFO_VIRTFB)
++                fb_warn_once(p, "Framebuffer is not in I/O address space.");
++
++        if (p->fix.visual == FB_VISUAL_TRUECOLOR ||
++            p->fix.visual == FB_VISUAL_DIRECTCOLOR )
++                fg = ((u32 *) (p->pseudo_palette))[rect->color];
++        else
++                fg = rect->color;
++
++        pat = pixel_to_pat(bpp, fg);
++
++        dst = (unsigned long __iomem *)((unsigned long)p->screen_base & ~(bytes-1));
++        dst_idx = ((unsigned long)p->screen_base & (bytes - 1))*8;
++        dst_idx += rect->dy*p->fix.line_length*8+rect->dx*bpp;
++        /* FIXME For now we support 1-32 bpp only */
++        left = bits % bpp;
++        if (p->fbops->fb_sync)
++                p->fbops->fb_sync(p);
++        if (!left) {
++                u32 bswapmask = fb_compute_bswapmask(p);
++                void (*fill_op32)(struct fb_info *p,
++                                  unsigned long __iomem *dst, int dst_idx,
++                                  unsigned long pat, unsigned n, int bits,
++                                  u32 bswapmask) = NULL;
++
++                switch (rect->rop) {
++                case ROP_XOR:
++                        fill_op32 = bitfill_aligned_rev;
++                        break;
++                case ROP_COPY:
++                        fill_op32 = bitfill_aligned;
++                        break;
++                default:
++                        printk( KERN_ERR "cfb_fillrect(): unknown rop, defaulting to ROP_COPY\n");
++                        fill_op32 = bitfill_aligned;
++                        break;
++                }
++                while (height--) {
++                        dst += dst_idx >> (ffs(bits) - 1);
++                        dst_idx &= (bits - 1);
++                        fill_op32(p, dst, dst_idx, pat, width*bpp, bits,
++                                  bswapmask);
++                        dst_idx += p->fix.line_length*8;
++                }
++        } else {
++                int right, r;
++                void (*fill_op)(struct fb_info *p, unsigned long __iomem *dst,
++                                int dst_idx, unsigned long pat, int left,
++                                int right, unsigned n, int bits) = NULL;
++#ifdef __LITTLE_ENDIAN
++                right = left;
++                left = bpp - right;
++#else
++                right = bpp - left;
++#endif
++                switch (rect->rop) {
++                case ROP_XOR:
++                        fill_op = bitfill_unaligned_rev;
++                        break;
++                case ROP_COPY:
++                        fill_op = bitfill_unaligned;
++                        break;
++                default:
++                        printk(KERN_ERR "cfb_fillrect(): unknown rop, defaulting to ROP_COPY\n");
++                        fill_op = bitfill_unaligned;
++                        break;
++                }
++                while (height--) {
++                        dst += dst_idx / bits;
++                        dst_idx &= (bits - 1);
++                        r = dst_idx % bpp;
++                        /* rotate pattern to the correct start position */
++                        pat2 = le_long_to_cpu(rolx(cpu_to_le_long(pat), r, bpp));
++                        fill_op(p, dst, dst_idx, pat2, left, right,
++                                width*bpp, bits);
++                        dst_idx += p->fix.line_length*8;
++                }
++        }
++}
++
++EXPORT_SYMBOL(cfb_fillrect);
++
++MODULE_AUTHOR("James Simmons <jsimmons@users.sf.net>");
++MODULE_DESCRIPTION("Generic software accelerated fill rectangle");
++MODULE_LICENSE("GPL");
 -- 
 2.30.2
 
