@@ -2,104 +2,150 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D481AA2B577
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 23:46:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA453A2B5F2
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 23:54:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4292D10E982;
-	Thu,  6 Feb 2025 22:46:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E5D0A10E98E;
+	Thu,  6 Feb 2025 22:54:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="HPQamRPm";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="IAeGkUHk";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NopkpfQC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-a8-smtp.messagingengine.com
- (fout-a8-smtp.messagingengine.com [103.168.172.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ACE210E97F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 22:46:37 +0000 (UTC)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal
- [10.202.2.51])
- by mailfout.phl.internal (Postfix) with ESMTP id C710C1380217;
- Thu,  6 Feb 2025 17:46:36 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-11.internal (MEProxy); Thu, 06 Feb 2025 17:46:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- invisiblethingslab.com; h=cc:cc:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1738881996;
- x=1738968396; bh=3aUJSUxA/5Oys0lRe4RPNEASJchaynSRHC0bl4jRxyY=; b=
- HPQamRPmcSxQF7y2mRTyQz26d8jzxZZJ8+OpVozlAPS5cz//AmODSznXxblJOH08
- /akNhlHZLkvmf7mAGO6Ps4f+1mdnM/gdLIGTgicuvnSINbZYKkReuiCqid7DpPYs
- L+OFhuKmVRRnwgUV4ix4N9a1eOxfv1FvqB47fNIRwaYAjfaF4iwQ/NAVGoZSQt3+
- laWs7PSy/7pTzWyw38GhuHS06RC6X3OrHpSa8B+W5MgoW46i7YDUBrnw+R/D8+7u
- kff65j4k3CQ+2eefJJ9izlUQK7RzJAfLSlVEzwFQMm/zOvL3WM4s4zHsi12Iodx+
- EjlYvq6ObyDHkTNrjOoKPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1738881996; x=1738968396; bh=3aUJSUxA/5Oys0lRe4RPNEASJchaynSRHC0
- bl4jRxyY=; b=IAeGkUHkJEgOFjLX0PFXZtSbDR5t/g8xkMVi0tMajrDw1Nbb7io
- /f0N0spxzNAwbE7WxTPcktMFvIJ+deZROhDQfpDcZUIm1LeZib6d7pS9Px/pNZPs
- DjtTsrrZhMdO8F/kaZja7wnDF5o2WIH1e7YGsqfJkyXCl86WQhdZr9wDlyb3BN0F
- GORCW9biuREu3shadtm79nul2BgGS/KW3/XH5To2n1t0El6Gi2jpv/46sdyFqrMr
- xmpd6eBcaprCvAeJ84FmD2rZmBHCgLLQYxsc15rIO03a3FMSuU6Chn78HlPL9pGF
- xX+0I/I+iJBNSF3aJd8qutu9k1kEbLt5Nfw==
-X-ME-Sender: <xms:zDulZ6DOqJk-Cle8AtYT6jjxGWkXtSshxo0NoCkHqjiSL8cpXpuQ2Q>
- <xme:zDulZ0jW-ZlffGEIyJ35i_jTTiYsTvHi0l65MYYoKN9qCtx5K1z5lE9c5QMHsnJT3
- F1MxzlgQTcDK5c>
-X-ME-Received: <xmr:zDulZ9lEpfegKNYew3RhBJufmVCuw5-9vDKoNLOR_1MsHP1yfn1e8gdujc4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjeeiudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
- uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
- hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdej
- necuhfhrohhmpeffvghmihcuofgrrhhivgcuqfgsvghnohhurhcuoeguvghmihesihhnvh
- hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpedvjeet
- geekhfetudfhgfetffegfffguddvgffhffeifeeikeektdehgeetheffleenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeguvghmihesihhnvhhi
- shhisghlvghthhhinhhgshhlrggsrdgtohhmpdhnsggprhgtphhtthhopeduiedpmhhoug
- gvpehsmhhtphhouhhtpdhrtghpthhtoheprhhoghgvrhdrphgruhestghithhrihigrdgt
- ohhmpdhrtghpthhtohephhhonhhglhgvihdurdhhuhgrnhhgsegrmhgurdgtohhmpdhrtg
- hpthhtoheprhgrhidrhhhurghnghesrghmugdrtghomhdprhgtphhtthhopegumhhithhr
- hidrohhsihhpvghnkhhosegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepughrih
- dquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthho
- pegrihhrlhhivggusehrvgguhhgrthdrtghomhdprhgtphhtthhopehkrhgrgigvlhesrh
- gvughhrghtrdgtohhmpdhrtghpthhtohepghhurhgthhgvthgrnhhsihhnghhhsegthhhr
- ohhmihhumhdrohhrghdprhgtphhtthhopeholhhvrghffhgvsehgmhgrihhlrdgtohhm
-X-ME-Proxy: <xmx:zDulZ4yyKNgZxtwmi3Z0TyEO0HwA0LK0PrXQdqmPg4syAtHxPRIDGQ>
- <xmx:zDulZ_SREde4ElLsh3WaiOvpXlf0mrS5WEAMTahPyIetmz7NfXhRoA>
- <xmx:zDulZzb5cgGVFrTdlsPzYWX8lXtZI60A92rMW8nBSJLpAH1hRELS-A>
- <xmx:zDulZ4QxQO7bqcSnH8oYbpCOtFOjbRyQsKAZpzJ4bYxLjtlUvgwsDw>
- <xmx:zDulZwAzQJEa8zdpanVmKxFtp8M5yDUOLP6XXykSXLwTntJVYgSD_ea4>
-Feedback-ID: iac594737:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 6 Feb 2025 17:46:35 -0500 (EST)
-Date: Thu, 6 Feb 2025 17:46:29 -0500
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-Cc: "Huang, Honglei1" <Honglei1.Huang@amd.com>, Huang Rui <ray.huang@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- dri-devel@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>, Akihiko Odaki <akihiko.odaki@daynix.com>,
- Lingshan Zhu <Lingshan.Zhu@amd.com>,
- Xen developer discussion <xen-devel@lists.xenproject.org>,
- Marek =?us-ascii?B?PT91dGYtOD9RP01hcmN6eWtvd3NraS1HPUMzPUIzcmVja2k/?=
- =?us-ascii?Q?=3D?= <marmarek@invisiblethingslab.com>,
- Xenia Ragiadakou <burzalodowa@gmail.com>,
- Stefano Stabellini <stefano.stabellini@amd.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>
-Subject: Re: Xen memory management primitives for GPU virtualization
-Message-ID: <Z6U7yOrMyLZWqPA4@itl-email>
-References: <Z5794ysNE4KDkFuT@itl-email>
- <Z6T0t4DMJeY6K18w@macbook.local>
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam02on2077.outbound.protection.outlook.com [40.107.212.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7B9210E97F;
+ Thu,  6 Feb 2025 22:53:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KjhGiH0r/uhdtqIJQRdak/Erj0Wvao1fvoBBXPyNkqCHdjq3dEi4SU1WJvrGcZe5h/+gRjq9RcI2SQqRgSrtN2v673BWU2yJSJNMXk3pzGXcQsI0QtBpWetieV4eLbbM0gnX2CvpaL4mBQPZ6HCOswtduAHRkw3OLSIMXfZSMOAGCSq8poARXzQ7Fv5u6F2WiEg1Ko8oFqE12l/X2JsZ6umvNTugAz1Tnk65gz+xt65Soy7x53iq40avPCgHlybRoeTYkkEkN8DwT7O85hLj8oKGJsu7VJtBVsHOimLdaXU+7LRRFfDySwKrD7kR/JwWr6TF0bVtsXebFn8cyDit1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AfmwKZH2U5n4XTnQioXNaIKQRGpP4mv5myUXh4a3Emg=;
+ b=ZudhAcAbsijISnv4zs+AEPKIvJ9dFy769C+VurwZoU6gH3tpnDRZ12I3FWBiFeVuugQ3TvZTxfZARZ/870VA64IsC4QrhwPvUW6H5pKdpt6RgSVjz9b2yR4UYL+9pZos7T9qgdTDX8O5CntzTqh4sB7f/XkO3cSmrPUNDFZtjUyUCDZWHX7SzExJ5JiAjiqaD4ywTw/9ZnF1wfCJFhbVRIRaQji20DkaZmX3zbvgiYUavg9zjgi3l/fIBH+8sis98zhPWNDRBmLojhalFI+xm7YEn/06/KE43PLv1G7ZFFyGkBzUsWo3BAW+RQPr8sE1oZUZpe7bGQ+dmVkpV9j3rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AfmwKZH2U5n4XTnQioXNaIKQRGpP4mv5myUXh4a3Emg=;
+ b=NopkpfQCIZYqLepuo53LLDBLc8SAmUS0mfrPJax8CU8PUE6HvnmbTsgiDKXQLSBvYcEJTlLjjDS23qyzjLCoB3iL/XUvEUR1Moa4ZKUNJEc6DJoZnua7Xw9abFUsOiq7JhPSJIWitqwkckMv+DcEfQmd5+lfRaOqX81Qdk6JMUA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by IA0PR12MB8352.namprd12.prod.outlook.com (2603:10b6:208:3dd::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Thu, 6 Feb
+ 2025 22:53:36 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81%7]) with mapi id 15.20.8422.012; Thu, 6 Feb 2025
+ 22:53:35 +0000
+Message-ID: <3755f3f6-f7d2-4385-b709-7974c815bb2e@amd.com>
+Date: Thu, 6 Feb 2025 17:53:33 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd: Refactor find_system_memory()
+To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+References: <20250206214847.3334595-1-superm1@kernel.org>
+Content-Language: en-US
+From: Felix Kuehling <felix.kuehling@amd.com>
+In-Reply-To: <20250206214847.3334595-1-superm1@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:1::25) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dDcC+PbFKfPResFL"
-Content-Disposition: inline
-In-Reply-To: <Z6T0t4DMJeY6K18w@macbook.local>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|IA0PR12MB8352:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e1fd69b-f8ec-40d1-13b8-08dd47011634
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K0h5MFFHeDdyM2M0MFI2dEtObWlBMGdSdVVJTGgxay80M2VCV25HVS85M1dM?=
+ =?utf-8?B?Q0lwNHdZRUp0THNTSVZWWW81bDdub2RSRFdQUDlMTmltbzBjUkVXV2dKVkcy?=
+ =?utf-8?B?VVhEUEh2VmpkYU5Ceit2V2FoZk1JSVdWTE9LUnBhSkp1TG43eFFPZmtSekZl?=
+ =?utf-8?B?UEtMUDlmQkxzMHJkTzIrZWtyNmlXWEd4RkR0ek1sa29ldlZEV1k1WElhb29u?=
+ =?utf-8?B?cTBFZk43M2ZnS3JPQS92MWVVUEM4SEJkWi9FSTZrTjhnbmVjUlpKSkhzRERZ?=
+ =?utf-8?B?dEI5RmRpNW81Y0xtUnh2NVRwbDFBT3BWeWx5RDlKcjJMZEtwR0ZWdVM4a1FB?=
+ =?utf-8?B?QmZGT3J0aGdFaDBpYTZlRy85MGFiTko5T1kzaVJRZlRmYlMrdWI0a3RhZ29i?=
+ =?utf-8?B?STI1Uzg0UFZBalltdGFBVHJHZG5wSTZnb3RWOTJuRVE0NHk3bjFwbFpid0R6?=
+ =?utf-8?B?aHhMWTY2QjdlVitwU2l6Zm1lM1hoazRXeG9GdWI4VThHbDlnYmRYSDFaeVdh?=
+ =?utf-8?B?NDRCOWFuYXU0YmNPYXJRd1d2aTJmRURPTkZ5aHdsSXYwK1J1Zmk4dmhlQWww?=
+ =?utf-8?B?U0duL1cyRHlBazRzUjBBVmkxamlVcUREbThPMlE5Q1ZIbzZTSkdGSklVZkZS?=
+ =?utf-8?B?UEZmSFk3RGNNZDYyNitYNGpRNFFLdURxd3J3ZStPdVFlOE45Yk1ZZ0tGRUZm?=
+ =?utf-8?B?L09ydEdpaUsrYmlNbFhzT1pjQkZ4QnlPZHZoeVk5a2cvTzdiejRzSThhZC9n?=
+ =?utf-8?B?Q2Joc3FWV3I3c0dZYVhjNDRkQVl1eHJRSGs3TlJVOTVEQ2hnT0l4VDV1Q2Ns?=
+ =?utf-8?B?ZVhRek1OMXFSekxGOGh3YWVURFpCemF2YjJwUWtOVzJqT1VBV3FmOU5YMERJ?=
+ =?utf-8?B?MjlBNG41ZnNMVFNDSDlHYVd3cksxdm1yV2ZuTXN4OVd5d3drWGUyRzBFL2l5?=
+ =?utf-8?B?d2t1L1lrZXhaMEZMMnpqcXZ4R3BKSGdqM1dQcklGbWNIRHpjdUY1NXgxeGdJ?=
+ =?utf-8?B?czlhTWhlMTljbVpOQlM2U3VpOVN0UWg2bGNzR0U5L1JmMGh3VGJ3OXdzeWs3?=
+ =?utf-8?B?MU5xSkVCNUpucXpLR1pyR2JIRmw0YWlmTjNlNmJPdnZXY1Ruc0M4TGkya3Zy?=
+ =?utf-8?B?cDAzb1JEYmxXNHBuY080ZlFieFh2OFQ0SDVYTFVkMHN0cm04TlJLYlFzbi9X?=
+ =?utf-8?B?Ly9ONytRaWQ0aDFnWUZsb1pUREM0N2VWWnAxRTcvdmlVbE9UWENaS0RTZXJz?=
+ =?utf-8?B?Ynl1TFFWVnQ4Ync0Z2xMMWlNRFVwUTk5NFRqdXRoQmk5QjFLODhucHJoL0Iy?=
+ =?utf-8?B?S24xd0Y0Z3ZLcmZiVkEza3RPbC9MTVZWbG5LSnJlejQvSlRranVidk9zckxx?=
+ =?utf-8?B?b082RC9XaENOb2p0YzJwREFnakFiZEhKSXk5NERYTWFVMzFMY0lYK2Q4ZEpn?=
+ =?utf-8?B?T3BHOVl1ZkRzamdVZHBFMCt2MEdScFEyaFhHTnJBSEd4ZlphSUtHcVlpak5v?=
+ =?utf-8?B?SDRkZkVLRXI5Wnh2MUwyUjlRYjU2dm1GM0lMcDd3K1B4TzA1eElSeHhOVkdP?=
+ =?utf-8?B?WGxGM2NLMCtoTDRLbnhwbGlTTUIrMC8xVXYxN3FOaFJmYnVnVmR1WDdsWFcr?=
+ =?utf-8?B?TWdEOE9Zc3JBVzVBQ05SNFQrSlRydmFEbVcwVmxsbThvVk5EYnhFQno5dHdL?=
+ =?utf-8?B?Sy90L3lENXQ1WWZkSzZmajdvU2crYkV2QVcyK0k2dDVsdk1BYVNVZGQ3SHRS?=
+ =?utf-8?B?bFVFU0oyazJrTHdralY5SktOT1UzK1BDOHF2ODdRNlA3VVNzMnJZdnZ4RHJB?=
+ =?utf-8?B?WHVUcVZCNDdmNjZXYjRlUT09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTdBSlpyUlBOK0lreTZIZEVlSThsZldhQWVJYkx2RWtvOTNVcTY4TFFQK3Y4?=
+ =?utf-8?B?YmVpbEE2VndZZ0hyWG0raU81VUlLOEtHN2gzVDZqeVkyemVBMEJueU1GWmVQ?=
+ =?utf-8?B?R1Q1cUE4aTNyb09UVE1UbWpZWWE0Wmd5SXFPQWc0Q25tVUUwdUxSa3E4b2tk?=
+ =?utf-8?B?bUpJdW5ieUhMSzBhaC8yb3NKNGVpNVlaUzdlMERRNS9qaklsMnlVNDRRTzA2?=
+ =?utf-8?B?NDVmR25yOUVQNzdUMGFYbkVZQ2c5ZnJTaXQzSG9kMmpLaGh1Rk12MXBaRlgv?=
+ =?utf-8?B?RThUU0NKajA0ZTZYU3FlajV5b3BTM3o1UVAyaXJGWUkzTnN0OXdhbm5jMmx2?=
+ =?utf-8?B?R3h3dkpITEdhVi95ejJ2eFZjNjBjRmZBRGk3WE1tL3p0dWkrekdMK0hUS1gv?=
+ =?utf-8?B?UytVaWE0aGtKRVd4T3gxWFpodytVYzhibDU2SHZpdWVNR0hBZE5EL21TOHd5?=
+ =?utf-8?B?a2JodFJ0a0dlRm9UN2x3UVp5V1M0NmZSSWNYMHJlSmNxbDhBTHJjbm9nYnNz?=
+ =?utf-8?B?T2JUS3FnSzN2alRrL1pubUprVkFnNHVNZU1IVlVvVWlONCtUSDNucHRxRUp0?=
+ =?utf-8?B?RVFkSlk0SzVHYThWekxJcldNNDJnK3ZKcVBlRjNXYXA3WkdLeFNtOHNFMXAw?=
+ =?utf-8?B?eFhWb2Z5U1pTTlJnRGZUS2dJbFg3eUFVZU9FUWZKQ1RuSnRuK0t5a3VBSkpT?=
+ =?utf-8?B?aFVGQnR5UVhkc2lBZ3FuS1BkOVY2U29sOFRSL0p4Rk90a1R2OGtMVjBqK08w?=
+ =?utf-8?B?bE5OTDV2SE01cEFPVzJPMHA0UFlRZjhuVXlZTlp1SlZJRmRhMXRHeUo4RXAr?=
+ =?utf-8?B?dm9SNXpPOG5hU1JqYVg1KzFhR0syTWhVdTdQQ1NqSFVSRC9GdWIvcEtMVHdJ?=
+ =?utf-8?B?UldLYzN0SWlETTNnb3VVZGVaTDRBblJFZkRJbzVGaGJrOFcrdnFlamI5c3c4?=
+ =?utf-8?B?dUlZS3BGKzhaTzlmNzJtK3VvWHBrT0YxcmdLMWVWMDZiS1FtZGtvL0xmNC96?=
+ =?utf-8?B?NEE4bzdIVDVjNVRTaGpTbS9DTmtQNyt2MEFoa2ZFM1liT1o2L29iQllBUFUy?=
+ =?utf-8?B?ZWlXTUN3WW04R1pxRkdkL0ppY1dpTjNGU29ESXFhVWZ6cmlWMnpEL29qY1pV?=
+ =?utf-8?B?cGg0SStNUm5zdjVLcFNNQlNuT1haM1kyaGkva1pDY3ZNTVNSY2N0TFZaRy9j?=
+ =?utf-8?B?dFFtSzlOZXhzM2dCRWVoWW0yK1orVXJtL2tGcWFMS3luQWt6S3Y2OGgrcGtG?=
+ =?utf-8?B?NnRScWk5R1VJaDN0MzZKVlpiNGozcVpLeHUzUnVMV25nYTZWMDgraEZ6cWNy?=
+ =?utf-8?B?S3ZYS0pEM0pZRktEMmNCYUZRbGhhVHg4b05jY2R2Vk9ObTRnNkpteitKcEgv?=
+ =?utf-8?B?U3pvZnN5ZEh3eFFhb0N3d0JEWTljOGdJWjMwNmJiR005TzJsWDJNQUNSYlI2?=
+ =?utf-8?B?TkM5d0QwZzhrMEo1VFFsaTVNU1lkaEtsSGJlbVVhN3FGbFNqNnAwSnFQYUdp?=
+ =?utf-8?B?Y083TkFEL2NzQzJyZTNHcGJzTFNxWlhJTmErVU5NR0wwRTBCTk9LbTlWV0N6?=
+ =?utf-8?B?T2dDS1NYd3d0blVJamdUN21CTDlZUUN6VVNGNmRlSGJKT3BEZlBjWGVwc1dk?=
+ =?utf-8?B?eUFuWDZIeE0wTDRBekpGNUNtY0JTWEtkamF2SE1rMWNZUC81Y1ZPWlJGOEdr?=
+ =?utf-8?B?L0ptOWc2T3ZJRmMvY0x1MjgzM1RmUWNWSGpOL0dDNnZIOEpiWjhpSFBra082?=
+ =?utf-8?B?WllZald5bmtaeDhSWEtWZ3E0SCtzRm9xRFlQSVVoeUVaTy9EUnR6b2ZKenNE?=
+ =?utf-8?B?ekFwdDF1TjJBYWtua3M2UjV2RFA1VGNYNmpwMldocFF3cStLcDI5ME83Ymhr?=
+ =?utf-8?B?M2RQZmt6eld1YjB4TlhQWG1aUldlNlF1RGNSRGpiV2hETnJINkJiRnNQcEM5?=
+ =?utf-8?B?M0dqREJGa1Z6c05EZzhBOUFlenNVdm12TnJPSWdrRE5QUzk5SUtETDdUNmVp?=
+ =?utf-8?B?dHh4TS9QQW5Yd3ZleW0rYjh6ZThobDFzZWRLbnhuUDdpQjFaQ1hEYTBGU2N1?=
+ =?utf-8?B?eUpNaHlqYlVacFR0YXVBVEtFTGV5UFFYSU5CSW0zcUsrSisxTFZSKzNMdWNz?=
+ =?utf-8?Q?5zzP5re6hH5aNu1lzjWSF+uxt?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e1fd69b-f8ec-40d1-13b8-08dd47011634
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 22:53:35.7963 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0hIyQ5bKHrekRrGdhjm8uwidNl8dcV5WpSdrRneuwdUMcXM+AFWCFkFMeLKdJVyeg+5AZhCYaAWeVK/xHqVQgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8352
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,237 +162,107 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---dDcC+PbFKfPResFL
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 6 Feb 2025 17:46:29 -0500
-From: Demi Marie Obenour <demi@invisiblethingslab.com>
-To: Roger Pau =?utf-8?B?TW9ubsOp?= <roger.pau@citrix.com>
-Cc: "Huang, Honglei1" <Honglei1.Huang@amd.com>,
-	Huang Rui <ray.huang@amd.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	dri-devel@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Gurchetan Singh <gurchetansingh@chromium.org>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Lingshan Zhu <Lingshan.Zhu@amd.com>,
-	Xen developer discussion <xen-devel@lists.xenproject.org>,
-	Marek =?us-ascii?B?PT91dGYtOD9RP01hcmN6eWtvd3NraS1HPUMzPUIzcmVja2k/?=
-	=?us-ascii?Q?=3D?= <marmarek@invisiblethingslab.com>,
-	Xenia Ragiadakou <burzalodowa@gmail.com>,
-	Stefano Stabellini <stefano.stabellini@amd.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>
-Subject: Re: Xen memory management primitives for GPU virtualization
+On 2025-02-06 16:48, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+> 
+> find_system_memory() pulls out two fields from an SMBIOS type 17
+> device and sets them on KFD devices. The data offsets are counted
+> to find interesting data.
+> 
+> Instead use a struct representation to access the members and pull
+> out the two specific fields.
+> 
+> No intended functional changes.
+> 
+> Link: https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.8.0.pdf p99
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-On Thu, Feb 06, 2025 at 06:43:19PM +0100, Roger Pau Monn=C3=A9 wrote:
-> On Sun, Feb 02, 2025 at 12:08:46AM -0500, Demi Marie Obenour wrote:
-> > Recently, AMD submitted patches to the dri-devel mailing list to support
-> > using application-provided buffers in virtio-GPU.  This feature is
-> > called Shared Virtual Memory (SVM) and it is implemented via an API
-> > called User Pointer (userptr).  This lead to some discussion on
-> > dri-devel@lists.freedesktop.org and dri-devel IRC, from which I
-> > concluded that Xen is missing critical primitives for GPU-accelerated
-> > graphics and compute.  The missing primitives for graphics are the ones
-> > discussed at Xen Project Summit 2024, but it turns out that additional
-> > primitives are needed for compute workloads.
-> >=20
-> > As discussed at Xen Project Summit 2024, GPU acceleration via virtio-GPU
-> > requires that an IOREQ server have access to the following primitives:
-> >=20
-> > 1. Map: Map a backend-provided buffer into the frontend.  The buffer
-> >    might point to system memory or to a PCIe BAR.  The frontend is _not_
-> >    allowed to use these buffers in hypercalls or grant them to other
-> >    domains.  Accessing the pages using hypercalls directed at the
-> >    frontend fails as if the frontend did not have the pages.
->=20
-> Do you really need to strictly enforce failure of access when used as
-> hypercall buffers?
->=20
-> Would it be fine to just get failures when the p2m entries are not
-> populated?  I assume the point is that accesses to those guest pages
-> from Xen should never go into the IOREQ?
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
 
-These pages might point to PCIe BAR memory.  I'm not sure if that is
-allowed to be used in hypercalls, and what the security consequences are
-if it is allowed.  Also, allowing the guest to determine if the pages
-are mapped in the p2m violates encapsulation and risks pointers to the
-pages winding up in places they must not.
+> ---
+> v2:
+>  * Update commit message
+>  * Use container_of()
+> ---
+>  drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 27 +++++++++++------------
+>  drivers/gpu/drm/amd/amdkfd/kfd_topology.h | 17 ++++++++++++++
+>  2 files changed, 30 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+> index ceb9fb475ef13..4c4846dbaa2d4 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
+> @@ -968,24 +968,23 @@ static void kfd_update_system_properties(void)
+>  	up_read(&topology_lock);
+>  }
+>  
+> -static void find_system_memory(const struct dmi_header *dm,
+> -	void *private)
+> +static void find_system_memory(const struct dmi_header *dm, void *private)
+>  {
+> +	struct dmi_mem_device *memdev = container_of(dm, struct dmi_mem_device, header);
+>  	struct kfd_mem_properties *mem;
+> -	u16 mem_width, mem_clock;
+>  	struct kfd_topology_device *kdev =
+>  		(struct kfd_topology_device *)private;
+> -	const u8 *dmi_data = (const u8 *)(dm + 1);
+> -
+> -	if (dm->type == DMI_ENTRY_MEM_DEVICE && dm->length >= 0x15) {
+> -		mem_width = (u16)(*(const u16 *)(dmi_data + 0x6));
+> -		mem_clock = (u16)(*(const u16 *)(dmi_data + 0x11));
+> -		list_for_each_entry(mem, &kdev->mem_props, list) {
+> -			if (mem_width != 0xFFFF && mem_width != 0)
+> -				mem->width = mem_width;
+> -			if (mem_clock != 0)
+> -				mem->mem_clk_max = mem_clock;
+> -		}
+> +
+> +	if (memdev->header.type != DMI_ENTRY_MEM_DEVICE)
+> +		return;
+> +	if (memdev->header.length < sizeof(struct dmi_mem_device))
+> +		return;
+> +
+> +	list_for_each_entry(mem, &kdev->mem_props, list) {
+> +		if (memdev->total_width != 0xFFFF && memdev->total_width != 0)
+> +			mem->width = memdev->total_width;
+> +		if (memdev->speed != 0)
+> +			mem->mem_clk_max = memdev->speed;
+>  	}
+>  }
+>  
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+> index 155b5c410af16..f06c9db7ddde9 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
+> @@ -24,6 +24,7 @@
+>  #ifndef __KFD_TOPOLOGY_H__
+>  #define __KFD_TOPOLOGY_H__
+>  
+> +#include <linux/dmi.h>
+>  #include <linux/types.h>
+>  #include <linux/list.h>
+>  #include <linux/kfd_sysfs.h>
+> @@ -179,6 +180,22 @@ struct kfd_system_properties {
+>  	struct attribute	attr_props;
+>  };
+>  
+> +struct dmi_mem_device {
+> +	struct dmi_header header;
+> +	u16 physical_handle;
+> +	u16 error_handle;
+> +	u16 total_width;
+> +	u16 data_width;
+> +	u16 size;
+> +	u8 form_factor;
+> +	u8 device_set;
+> +	u8 device_locator;
+> +	u8 bank_locator;
+> +	u8 memory_type;
+> +	u16 type_detail;
+> +	u16 speed;
+> +} __packed;
+> +
+>  struct kfd_topology_device *kfd_create_topology_device(
+>  		struct list_head *device_list);
+>  void kfd_release_topology_device_list(struct list_head *device_list);
 
-> >    The only
-> >    exception is that the frontend _may_ be allowed to use the buffer in
-> >    a Map operation, provided that Revoke (below) is transitive.
->=20
-> The fact that the mapped memory can either be RAM or MMIO makes it a
-> bit harder to handle any possible reference counting, as MMIO regions
-> don't have backing page_info structs, and hence no reference counting.
-> I think that might be hidden by the p2m handling, but needs to be
-> checked to be correct.
-
-These pages must never have p2m type p2m_ram_rw, as that would allow
-them to be foreign-mapped or used in grant table operations.  I also
-believe this feature should be x86-only to begin with, as it is clear
-that parts of the code (like get_paged_frame()) are not ready for other
-architectures.  On x86, p2m_mmio_direct seems to be the appropriate type
-when the pages that are accessible via CPU instructions, and p2m_mmio_dm
-when they are not.  Will using p2m_mmio_direct for pages backed by
-system RAM cause problems?
-
-> Also when mapping MMIO pages, will those maps respect the domain
-> d->iomem_caps permission ranges, and then require modifications for
-> the mappings to succeed, or just ignore d->iomem_caps?
-
-They should respect the backend's permissions and ignore those of the
-frontend.  This might require a global lock (or cleverness) to avoid
-lock order inversions.
-
-> > 2. Revoke: Revoke access to a buffer provided by the backend.  Once
-> >    access is revoked, no operation on or in the frontend domain can
-> >    access or modify the pages, and the backend can safely reuse the
-> >    backing memory for other purposes.
->=20
-> It looks to me that revocation means removing the page from the p2m?
-
-This is one part.
-
-> (and additionally adjusting d->iomem_caps if required to revoke domain
-> permission to map the page)
-
-The frontend domain should never have permission to map the pages.
-
-> >    Furthermore, revocation is not
-> >    allowed to fail unless the backend or hypervisor is buggy, and if it
-> >    does fail for any reason, the backend will panic.  Once access is
-> >    revoked, further accesses by the frontend will cause a fault that the
-> >    backend can intercept.
->=20
-> Such faults would translate into a new IOREQ type, maybe IOREQ_TYPE_FAULT.
->=20
-> I think that just having a rangeset on the ioreq to signal the
-> accesses that should trigger a IOREQ_TYPE_FAULT instead of an
-> IOREQ_TYPE_COPY should be enough?
-
-I think so.  Better documentation would be very helpful.
-
-> The p2m type could be set as p2m_mmio_dm for those ranges.
-
-That seems correct.
-
-> > Map can be handled by userspace, but Revoke must be handled entirely
-> > in-kernel.  This is because Revoke happens from a Linux MMU notifier
-> > callback, and those are not allowed to block, fail, or involve userspace
-> > in any way.  Since MMU notifier callbacks are called before freeing
-> > memory, failure means that some other part of the system still has
-> > access to freed memory that might be reused for other purposes, which
-> > is a security vulnerability.
->=20
-> This "revoke" action would just be an hypercall, I think that would
-> satisfy your requirements?
-
-It would, provided that (unless misused) it always succeeds promptly and
-is security-supported (including DoS) with partially trusted callers.  I
-don't care about DoS but AMD's automotive customers definitely do.
-
-> > It turns out that compute has additional requirements.  Graphics APIs
-> > use DMA buffers (dmabufs), which only support a subset of operations.
-> > In particular, direct I/O doesn't work.  Compute APIs allow users to
-> > make malloc'd memory accessible to the GPU.  This memory can be used
-> > in Linux kernel direct I/O and in other operations that do not work
-> > with dmabufs.  However, such memory starts out as frontend-owned pages,
-> > so it must be converted to backend pages before it can be used by the
-> > GPU.  Linux supports migration of userspace pages, but this is too
-> > unreliable to be used for this purpose.  Instead, it will need to be
-> > done by Xen and the backend.
-> >=20
-> > This requires two additional primitives:
-> >=20
-> > 3. Steal: Convert frontend-owned pages to backend-owned pages and
-> >    provide the backend with a mapping of the page.
->=20
-> What does "owned" exactly mean in this context?
->=20
-> What you describe above sound very much like a foreign map, but I'm
-> not sure I fully understand the constrains below.
->=20
-> Does this "steal" operation make the pages inaccessible by the domain
-> running the frontend (so the orignal owner of the memory).
-
-It's a foreign map for which the backend can deny the frontend access to
-its own pages if it so chooses.  It was needed for a feature (Shared
-Virtual Memory) that Qubes OS doesn't need.
-
-> >    After a successful
-> >    Steal operation, the pages are in the same state as if they had been
-> >    provided via Map.  Steal fails if the pages are currently being used
-> >    in a hypercall, are MMIO (as opposed to system memory), were provided
-> >    by another domain via Map or grant tables, are currently foreign
-> >    mapped, are currently granted to another domain, or more generally
-> >    are accessible to any domain other than the target domain.
->=20
-> I think the above means that "stealed" pages must have the
-> "p2m_ram_rw" type in the frontend domain p2m.   IOW: must be strictly
-> RAM and owned by the domain running the frontend.
-
-I'm not sure what this looks like from the Xen PoV, but I'm no longer
-interested in seeing page steal and return implemented.
-
-> >    The
-> >    frontend's quota is decreased by the number of pages stolen, and the
-> >    backend's quota is increased by the same amount.  A successful Steal
-> >    operation means that Revoke and Map can be used to operate on the
-> >    pages.
->=20
-> Hm, why do you need this quota adjustment?  Aren't the "stolen" pages
-> still owned by the domain running the frontend (have
-> page_info->v.inuse._domain =3D=3D frontend domain)?
-
-Nope, they were meant to be owned by the backend, but I'm no longer
-interested in this feature.
-
-> > 4. Return: Convert a backend-owned page to a frontend-owned page.  After
-> >    a successful call to Return, the backend is no lonter able to use
-> >    Revoke or Map.  The returned page ceases to count against backend
-> >    quota and now counts against frontend quota.
-> >=20
-> > Are these operations ones that Xen is interested in providing?  There
-> > may be other primitives that are sufficient to implement the above four,
-> > but I believe that any solution that allows virtio-GPU to work must
-> > allow the above four operations to be implemented.  Without the first
-> > two, virtio-GPU will not be able to support Vulkan or native contexts,
-> > and without the second two also being present, shared virtual memory
-> > and compute APIs that require it will not work.
->=20
-> I'm sure Xen can arrange for what's required, but the Xen primitives
-> should be as simple as possible, offloading all possible logic to the
-> backend.
-
-Makes sense, though I don't want to make the backend 10x more complex to
-make the Xen code slightly simpler, as the backend in Qubes OS will
-often be dom0.
---=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
-Invisible Things Lab
-
---dDcC+PbFKfPResFL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmelO8YACgkQszaHOrMp
-8lOV2Q//Y+vOJi5Z99Y1BVZPeJ/D0lNOo9FRlG8gqJg6BOq+FHYZ6MgsZdvas445
-2Au11p9eZfjsClCU0MVZIeteyUOYj/HQYC+IWhz9/Ysw/2c7+5V9CaNbHcu2X9Bx
-v+b4It6ujUxolu0r692deR/7rLcV4SqCOjP39gBGXPpLTA1MlAnyKrLoHPQdcUD0
-q8UvEusxKI11GNQBvgX8iJvF0jqxv4L6Q5NZFzke4JEbSpLGMIDZ7cw4unWs+Tgt
-NJVxAbSn46XHCSFWP3063JrsBVR5ghNzZ8h64WHRmyjxNUjZdmWgLe+HYcaaF6b/
-BsmFnxdgBQPHAwF3VrWinlF9M/1qfzK9eaVaDNf/50nuDWslvIJB7nY3SJVt/eHv
-j00ZjAKD6jnxH4B3zNPOj+zdRftLOJN3x7cNhmhyU0+oo4FHmP5GY3GZrdvU7ocN
-A1mmj7WathGZapGVIkDHAL218NRwStl2Kka88EppXi4lxpqsIl61VbhXRK8DCaen
-xC3Ry3GNwoPWmgdipWLcN/BVwn17TO9TBH3ZH311hfJ+lbRx5zrQsJGSsPSdvBZY
-oeqsFwg1igSlBI4WxdLJIQADNgyten4d0iTMrYNySMClxlk9PPDUKm5bJ7mMeWnc
-9tKLN6zNaHXeci1O6Ohj/FNYx+11hrOv2jIuix16VuRt0i7BsyQ=
-=RxIz
------END PGP SIGNATURE-----
-
---dDcC+PbFKfPResFL--
