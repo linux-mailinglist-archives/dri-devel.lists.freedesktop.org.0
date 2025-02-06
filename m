@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60E0A2AE61
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:03:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB25AA2AE63
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:03:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE4B510E8E7;
-	Thu,  6 Feb 2025 17:02:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD5E10E8E8;
+	Thu,  6 Feb 2025 17:03:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="aU9Y0/ZY";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UNGVIuNR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 497B210E8E4
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:02:58 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C968144458;
- Thu,  6 Feb 2025 17:02:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B819810E8E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:02:59 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3984444462;
+ Thu,  6 Feb 2025 17:02:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738861377;
+ t=1738861378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xxiLZWLDrfDjchLRCxzgM2Xw7p+m6H71208sVWO4lIw=;
- b=aU9Y0/ZYQ9ohDTjOJseySv35+R4PFxM5jsQQSqtmr1AH46grlIBjGfDmkx0AUIziXUfz9Y
- pZ9ZlJIKYDnRnI0tQUowXMSZI4yepqC4eZzKM+XgDNWmDA+cMEx/D+OnSYlzpTxzRvluTJ
- VKTka36XkU30URQrB7GFeYsDoP4T8BqEBirahiWCJzXTPja+FSqc2KLexwwaWEcU1twyqY
- sjMGqi+HTzErLpXD4eL8h92d+JAfx7JH6RB29WEz1bVmhF9heNqeNpEpa8WKkENOT2LtlA
- JBfiXLnFv8qtWfPkvREp7QXrh9pXNhDO09Yaj9bhC0R7a34uX7zsI+4sB4Y+kw==
+ bh=wjmN0Siir72J1DWp5KiHDNwbcU6lRJX/aB8iNer34IQ=;
+ b=UNGVIuNRp1w1zP7g2LZ3HYFP0Ye9AMeCp24uprDpI+Z9XVkzh4C6WtwwBbVvK5K+Hk3wpp
+ XikvGei9OPVoDlEET/vK8T3o81FoG1NGTdTXaSDGFxx1dwyxXy1CsTtAwbRvyVZ5oVbTwm
+ BqnnmkOW/DGUR4Dvw1iXAB8PDBIAyhK/X+6u/H1EtZd/k0PgcDF+u5H477t0VAJm6+iNYZ
+ sbzN7nvaj2NjPNWIH6HpZwZWjZXeJ2L8x1SOzY0g4ozGYt142CiEb6otC9L3JFzz71Z5qB
+ B55SKYiDo/wwpQroSb4SxR0WkeUMZ/8YiTs4ibh8DeNi/M+CEa27RA8t2PXmGA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 18:02:37 +0100
-Subject: [PATCH 5/8] drm/bridge: tc358762: remove unused drm_panel.h
- include, add drm_bridge.h
+Date: Thu, 06 Feb 2025 18:02:38 +0100
+Subject: [PATCH 6/8] drm/bridge: tc358775: remove unused drm_panel.h
+ include
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-drm-cleanups-v1-5-93df60faa756@bootlin.com>
+Message-Id: <20250206-drm-cleanups-v1-6-93df60faa756@bootlin.com>
 References: <20250206-drm-cleanups-v1-0-93df60faa756@bootlin.com>
 In-Reply-To: <20250206-drm-cleanups-v1-0-93df60faa756@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -73,30 +73,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The file uses the panel_bridge APIs from drm_bridge.h, which is included
-only indirectly, and uses no drm_panel APIs from drm_panel.h.
+The file uses the panel_bridge APIs from drm_bridge.h, but no drm_panel
+APIs from drm_panel.h.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/tc358762.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/tc358775.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/tc358762.c b/drivers/gpu/drm/bridge/tc358762.c
-index 46198af9eebbf8cced7b9b4ad628126f144c25dd..f92aff3d515a3354f7e447495adb3e18514b029a 100644
---- a/drivers/gpu/drm/bridge/tc358762.c
-+++ b/drivers/gpu/drm/bridge/tc358762.c
-@@ -20,10 +20,10 @@
- #include <video/mipi_display.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
- #include <drm/drm_crtc.h>
+diff --git a/drivers/gpu/drm/bridge/tc358775.c b/drivers/gpu/drm/bridge/tc358775.c
+index 0b4efaca6d682320b76ce09ed41824ae7f84ca2d..c89757bec4e6cc59ea0e84b1096ba71b077d408e 100644
+--- a/drivers/gpu/drm/bridge/tc358775.c
++++ b/drivers/gpu/drm/bridge/tc358775.c
+@@ -26,7 +26,6 @@
+ #include <drm/drm_bridge.h>
  #include <drm/drm_mipi_dsi.h>
  #include <drm/drm_of.h>
 -#include <drm/drm_panel.h>
- #include <drm/drm_print.h>
  #include <drm/drm_probe_helper.h>
  
+ #define FLD_VAL(val, start, end) FIELD_PREP(GENMASK(start, end), val)
 
 -- 
 2.34.1
