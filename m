@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE98A2B3DA
+	by mail.lfdr.de (Postfix) with ESMTPS id D7678A2B3DF
 	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 22:09:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C7910E95F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F23BD10E962;
 	Thu,  6 Feb 2025 21:08:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="T+ch4p64";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Ec5b+82w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1736910E958
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 21:06:46 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 333FE10E94F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 21:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738876005;
+ s=mimecast20190719; t=1738876007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uyXiRhLCxCJ7cDWiLdgm4uDG6RKwnonK4ZO/R1V2Btw=;
- b=T+ch4p64RiilalWr7xrxFurQqlOM85Uig1gTkVNHGwRQiWCrSjFC/HB9cXKgFxLjUS6jbD
- 2GJ5s2QiXxj4AN9OlJfdUph+gYD6l0ZrHeVn6D1TyhAelW8LxFhhl54oc7k/hvjV+Ourcu
- JWEP2yVDGZVlKBKAiTjHhFtM3vhy0yE=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ bh=hvc7nraXqLnlF2tjN41g2O2hVzEwhtL/gSMTSuMhe5s=;
+ b=Ec5b+82wHmB8f4MItsJsCdkmCG3KQa6Ttr8Uxm3qbLZ4NX54hNw7E2Y2s9ll/XVkYwhfKn
+ AwBZCf/oAPlWNERzS5jzC8/IejRwC8cYlsB3JuaYEOd1ubBwsP37FRTnAKRoTqN0YLFncS
+ 9Rki58IPBe+Dct8BvcPK2cEG2mPEsTg=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-390-cvqiUNRmNMuzKYGLCKRmaA-1; Thu,
- 06 Feb 2025 16:06:41 -0500
-X-MC-Unique: cvqiUNRmNMuzKYGLCKRmaA-1
-X-Mimecast-MFC-AGG-ID: cvqiUNRmNMuzKYGLCKRmaA
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-461-zX-neWLwOHqEWkTWGWrn7w-1; Thu,
+ 06 Feb 2025 16:06:43 -0500
+X-MC-Unique: zX-neWLwOHqEWkTWGWrn7w-1
+X-Mimecast-MFC-AGG-ID: zX-neWLwOHqEWkTWGWrn7w
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 83A8B1955D53; Thu,  6 Feb 2025 21:06:37 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 3672C195604F; Thu,  6 Feb 2025 21:06:41 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 1314B1800879; Thu,  6 Feb 2025 21:06:33 +0000 (UTC)
+ id D434A1800570; Thu,  6 Feb 2025 21:06:37 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 06 Feb 2025 16:06:01 -0500
-Subject: [PATCH 06/14] drm/panel/6e88a0-ams452ef01: Move to using
+Date: Thu, 06 Feb 2025 16:06:02 -0500
+Subject: [PATCH 07/14] drm/panel/samsung-sofef00: Move to using
  mipi_dsi_dcs_write_seq_multi()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-mipi-cocci-v1-6-4ff0c69e8897@redhat.com>
+Message-Id: <20250206-mipi-cocci-v1-7-4ff0c69e8897@redhat.com>
 References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
 In-Reply-To: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -64,11 +64,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738875969; l=3587;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738875969; l=2532;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=9CpnIlV7pjwK3l2a889dTo6xEZQ/5+5YEKIgGkmWaFE=;
- b=/fYjYzQjzYauYNdCdBVWNcVqUVOarIaNYxi0nI0neBfJX589v94GXX2WgchGfX0cvQx9aAb9P
- +uvEOZNw6yEBRTom6xMYagr9nd88PdeCEZXhUS8t1x5PoA8YnqX5Qk1
+ bh=zZTz4cnnKL1DVqdQgZMn6E9y9/MOglAh/pKGJ6UQ8ig=;
+ b=cFkHX7WtRST0CYgQ+gRuVPoe+3Yw+Km8yIpfIlAG4EyOkBK9NmD6/YM/Sk36Egn/a27Y/K9sK
+ Q2h+vIkfxCjCy07rtx+e1bpZuIMHnKH7rIdM4jHVfvuP+tXk5llBIZU
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -90,7 +90,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use mipi_dsi_dcs_write_seq_multi() instead of
 mipi_dsi_dcs_write_seq()
 
-Used Coccinelle to do this change. SmPl patch:
+Used Coccinelle patch to do this change:
 @rule_1@
 identifier dsi_var;
 expression dsi_device;
@@ -105,64 +105,50 @@ struct mipi_dsi_device *dsi_var = dsi_device;
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- .../drm/panel/panel-samsung-s6e88a0-ams452ef01.c   | 34 ++++++++++------------
- 1 file changed, 16 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-index d2df227abbea557acb849bfc76dd4b561158bf11..fde6852fe911477e4ddc333a779577fcf92bc21f 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e88a0-ams452ef01.c
-@@ -39,13 +39,14 @@ static void s6e88a0_ams452ef01_reset(struct s6e88a0_ams452ef01 *ctx)
- static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
+diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+index 04ce925b3d9dbd91841f4b4e4a12320eac8e03af..09663c53ec500ab66de3eaaea6e6deb09ccc0fe0 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
++++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
+@@ -44,6 +44,7 @@ static void sofef00_panel_reset(struct sofef00_panel *ctx)
+ static int sofef00_panel_on(struct sofef00_panel *ctx)
  {
  	struct mipi_dsi_device *dsi = ctx->dsi;
 +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  	struct device *dev = &dsi->dev;
  	int ret;
  
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+@@ -56,7 +57,7 @@ static int sofef00_panel_on(struct sofef00_panel *ctx)
+ 	}
+ 	usleep_range(10000, 11000);
  
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
--	mipi_dsi_dcs_write_seq(dsi, 0xcc, 0x4c); // set Pixel Clock Divider polarity
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a); // enable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcc, 0x4c); // set Pixel Clock Divider polarity
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
  
- 	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+ 	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
  	if (ret < 0) {
-@@ -55,23 +56,20 @@ static int s6e88a0_ams452ef01_on(struct s6e88a0_ams452ef01 *ctx)
- 	msleep(120);
+@@ -64,13 +65,15 @@ static int sofef00_panel_on(struct sofef00_panel *ctx)
+ 		return ret;
+ 	}
  
- 	// set default brightness/gama
--	mipi_dsi_dcs_write_seq(dsi, 0xca,
--			       0x01, 0x00, 0x01, 0x00, 0x01, 0x00,	// V255 RR,GG,BB
--			       0x80, 0x80, 0x80,			// V203 R,G,B
--			       0x80, 0x80, 0x80,			// V151 R,G,B
--			       0x80, 0x80, 0x80,			// V87  R,G,B
--			       0x80, 0x80, 0x80,			// V51  R,G,B
--			       0x80, 0x80, 0x80,			// V35  R,G,B
--			       0x80, 0x80, 0x80,			// V23  R,G,B
--			       0x80, 0x80, 0x80,			// V11  R,G,B
--			       0x6b, 0x68, 0x71,			// V3   R,G,B
--			       0x00, 0x00, 0x00);			// V1   R,G,B
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xca, 0x01, 0x00, 0x01, 0x00,
-+				     0x01, 0x00, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-+				     0x80, 0x80, 0x6b, 0x68, 0x71, 0x00, 0x00,
-+				     0x00);			// V1   R,G,B
- 	// set default Amoled Off Ratio
--	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x40, 0x0a, 0x17, 0x00, 0x0a);
--	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x2c, 0x0b); // set default elvss voltage
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0x5a, 0x5a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x07);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb6, 0x12);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x20);
 -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x03); // gamma/aor update
--	mipi_dsi_dcs_write_seq(dsi, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x40, 0x0a, 0x17, 0x00,
-+				     0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x2c, 0x0b); // set default elvss voltage
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0x5a, 0x5a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x07);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb6, 0x12);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_CONTROL_DISPLAY,
++				     0x20);
 +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,
 +				     0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x03); // gamma/aor update
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf0, 0xa5, 0xa5); // disable LEVEL2 commands
  
  	ret = mipi_dsi_dcs_set_display_on(dsi);
  	if (ret < 0) {
