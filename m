@@ -2,192 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDFDA2AD6E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 17:15:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E23BA2ADD3
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 17:32:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23EB910E8BC;
-	Thu,  6 Feb 2025 16:15:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E60210E8C6;
+	Thu,  6 Feb 2025 16:32:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="X7tSaVmz";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="q7VO3rWx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA9010E38D;
- Thu,  6 Feb 2025 16:15:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738858503; x=1770394503;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=VTJhxR/x7VdWYd2gfAqyusoJoBMzTgAcfDCfJOGNsY4=;
- b=X7tSaVmzmyw3mXpjWzmk0CZhz1KIBcZ6FbCAOHjBv+0N3gg3vJa6seKH
- A6/3Q2HbeFbKr7/R8vcOof1P/IiuUOSq7yl5o2w42F0KcMQFOxkXot2SR
- dphapKquJp/pzvnZy64Ck7+1o6EazU9UnWg8QAipgmzwO7ghnKiNR5Y8v
- 8l43ZPWT/9oyW2sQFe1nHMbREE2SvYN+BUQwF23OVt1k/H/bkSet4PudJ
- +Nl/juJNIIQO1+stzfyycypDpgIO3JjKHB0iM78nUtqsXRUT2Y+btJ1zO
- gU2X4h3dA/jzMT683Q7rzYGll/salZ7wLPDuos+HMQEbrPm21yrXLwYPT A==;
-X-CSE-ConnectionGUID: Rfd6jvTQQHG9p9A1SkqYiQ==
-X-CSE-MsgGUID: PtOvw59bTSuLF8tXTRK25w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39361776"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="39361776"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2025 08:14:10 -0800
-X-CSE-ConnectionGUID: +d6kMgxxQqeIVF7TR/WkaQ==
-X-CSE-MsgGUID: FA4oJrNzRumSjnb1c5ne+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="112142684"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 06 Feb 2025 08:14:08 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 6 Feb 2025 08:14:06 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Thu, 6 Feb 2025 08:14:06 -0800
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.49) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 6 Feb 2025 08:14:04 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ez3jhyn4pbLN3Uhh8MDZzJDTlE5P+BnFRA+JEn8yOsdlipnhQKGeIs5iP/AcLUl7UmillKRExOHa62vqjG3bSIt6+ojfa8Rz9O8AdMLDWxuvUK8L/444PrU9lfwAJU+dge9pjFic0S5FhY+GF1iE7hOvZAhGUBG/dhY7zwpPmPT1BVGoaxFoDO8LbwvR8IdD48ilm9T9sF6M9sNQ+9lytD5yMQBKJA+gHpcoEg5B60Iw5LViuHdPtMjikwewf1EIAopBIhrSMIBf19uCfKiYYlIHsuKR8Wgj3yWXqwpIdfkJgSniQBgCyX+Vpiglo/9Gx9ETNNXrZbPyLwcR44ov2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dHYF6+afrI/VgibuofeGJB3r1NBTO7cSizozLQMhaQo=;
- b=yfgmlRZG6SbLDqwNRzYFsG4OowChTcWQVKfu81TAJ/iObKPPewboQ8mdrXAVrG1OFFpuHnkAln+sMoyBoyrERijOKmhZPcEBEZWOjX9lfnk4cW7kLhruAbobQQOIoQpTPZwIfCFSIJlQNiF/VWz9gzg8ZuKKoe6rhBQXqzzgUPD6uVRefVAnh2IW6flyjWawaikIUMTUmTQeZoSGin/YvzX4H3SSevGJhIHMlfQ92GwHO50BkXGW29QuFwwS4y8q8G1MasI4SeLf+qQEK9C+2mkhg3szJ2CZVf4EYxnkzdvYFis2pktkuwjtcmUpPxO6HoaQWNsGrZLAjJEGDOi9QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com (2603:10b6:5:390::22)
- by SN7PR11MB8068.namprd11.prod.outlook.com (2603:10b6:806:2e9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Thu, 6 Feb
- 2025 16:14:02 +0000
-Received: from DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::397:7566:d626:e839]) by DM4PR11MB5341.namprd11.prod.outlook.com
- ([fe80::397:7566:d626:e839%7]) with mapi id 15.20.8422.010; Thu, 6 Feb 2025
- 16:14:02 +0000
-Message-ID: <01316a42-bcc0-4255-8750-3c5e8329161f@intel.com>
-Date: Thu, 6 Feb 2025 21:43:54 +0530
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IENvbXBpbGUgZXJyb3Igb24gImVycm9yOiBjYWxsIHRvIOKAmF9f?=
- =?UTF-8?Q?compiletime=5Fassert=5F581=E2=80=99_declared_with_attribute_error?=
- =?UTF-8?Q?=3A_clamp=28=29_low_limit_dsc=5Fmin=5Fbpc_*_3_greater_than_high_l?=
- =?UTF-8?Q?imit_dsc=5Fmax=5Fbpc_*_3=22?=
-To: "Zhuo, Qiuxu" <qiuxu.zhuo@intel.com>, "jani.nikula@linux.intel.com"
- <jani.nikula@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>, "airlied@gmail.com"
- <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>
-CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <CY8PR11MB7134D2D3BD641BE58310EF0189F62@CY8PR11MB7134.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>
-In-Reply-To: <CY8PR11MB7134D2D3BD641BE58310EF0189F62@CY8PR11MB7134.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MAXPR01CA0102.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:5d::20) To DM4PR11MB5341.namprd11.prod.outlook.com
- (2603:10b6:5:390::22)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C138710E8C4
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 16:32:44 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-43618283dedso11108065e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 08:32:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738859563; x=1739464363; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=LrX4aXgNAaqC2pLZXXSBxJoznD/P2IXrnuC12Tf7uZY=;
+ b=q7VO3rWx/iorSeK13EqMkBj3MHruk82HDSKl1OHpfOBHlKTMx3ZGFT7pAg33QkTRCj
+ DE4FVTiJZO1PrG6ZP9ywhcDRjIAKLiSyu2j+W/4OqzByLsBAdY9rokIE6qTUzyauy3s/
+ ol8MlZcz4iXA10oBLXBTXGkfQnkndFtC+QqzoOZoS9qU8QlhCVIN5WXBfnl1l/WVm5Ln
+ G3fvQKp2R5JSZY8glfeHPLykl3zRrh6uhBnoMO6oX9YgsNsUB5CPmmgnE5sdz0xrEP/S
+ D1O7ed6IbceDPyLMa0wDzaWEVbecgo1H2m/wqsJ8gKUiBaELWuqmFnFrTu+RIzQaeerG
+ unbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738859563; x=1739464363;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=LrX4aXgNAaqC2pLZXXSBxJoznD/P2IXrnuC12Tf7uZY=;
+ b=FQqKCQhwbJlDXPh7FIoaZrSbzPhS33ehWsNfYzKxTZa6nT1ppHyF5SzoWBQA5hcRem
+ 9Xyra0mW8+6/CcayhteHzRE+6NynNLgqEaDxBaUVep8Zx0wEsrfWTZjEQWd09g7x6MjF
+ xBX3QdtWw2vdSrEzTHaCQQSwUZYcLGJuibQlHIKOl7qw/ZJtlKOs2VVBuNPe5FTlDsOn
+ FcdXiWjN7SNJ8+uSV8LT/M/5s153JJ3uvAZBbIYyOLO1yAEiUUjOwvonM9kwtEypQClr
+ aCSX6IZ/vsMqoWuCz4DOIXmGYbZmZGVwThP4F6JtbWCSPJX19nxH642IsOe/kIyj60xf
+ ePag==
+X-Gm-Message-State: AOJu0YyxmmSGhY4d19qcP2oM/TaqPOfAlK/0FE8RHFKbgzxyB6L6RWgN
+ OvURI0cuR42hKrEKPawvq6SFdq43Vf3azI5Qs2/ZmNjS3aak37PvVixO65hSf2Y=
+X-Gm-Gg: ASbGncsFPu7IDUpjKVVvJJyYRBCyokpT1iqGXfZIYU6o3C8mm0o6q+p7uHlO2QU9W/R
+ iuXM73W1G3yoClFee8JFpy5gOpgEjuCHRCAD7hbNVUENezKFwAVgczMcuqgJ3lkuKQl0+LPzRNu
+ CtaGwPb7SxE3LKeCen8Qgy4LrwKkdgW3uq3z9hO8NmiSH+I1IPPAgf4ryBN3d9ph4dBHM45M/my
+ gyt5HJb4w9ASraGv3HEQImBN920LUKIrrNSO+Rz9jwxExt2Bau/tD1SCoNKevligkYh+ejn+Ihe
+ amlqUAJfqrc+kkAm7qcgKbzl/zef3C0b6kM1+19pU4KzUPy7bLOz3A+OYvGhPZBnE2IO
+X-Google-Smtp-Source: AGHT+IE9K/O1p4oeSMlme4SzJ9IMsECI9mFi2Gjm929bnlAW5rnGP22AK3SfaB6uqKRF7LO/NDawPg==
+X-Received: by 2002:a05:600c:3d0b:b0:431:44f6:566f with SMTP id
+ 5b1f17b1804b1-4392498fc5dmr630895e9.13.1738859562939; 
+ Thu, 06 Feb 2025 08:32:42 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:4972:46a2:e0cb:c0a6?
+ ([2a01:e0a:982:cbb0:4972:46a2:e0cb:c0a6])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4390d94d40csm59722365e9.9.2025.02.06.08.32.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Feb 2025 08:32:42 -0800 (PST)
+Message-ID: <eb01b1a6-426e-49d6-a16e-3673157243ac@linaro.org>
+Date: Thu, 6 Feb 2025 17:32:41 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5341:EE_|SN7PR11MB8068:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc9dd3c4-b4e7-4dfc-dbc1-08dd46c9455e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RmhOWE5aTDRNRVF2d1Z0cVFIZVRCWGRtTUNoVFprbGZaT1UzZGdaV1ZjNUpT?=
- =?utf-8?B?RmFPd2Y1NFZBcTRRRjBrdzE3djlVSzMwQWRDdG5IblNOaEc5b3ZPWTRvc1VV?=
- =?utf-8?B?NmNObGdNblFMQ0RhNE1xb3VvNTBjOUh5NjBNbzlJRzdqZGQ5NVpYUnV2ODdz?=
- =?utf-8?B?UjAzc1JGTTh3dlY3bElxa09LdFJ2eHZGR0dKUzZRWGxKSDhwaGZwVXd0Q0dh?=
- =?utf-8?B?ajgyVUMvbTRDeFdxdmxrZzJmVndQMG5Ec1k2WkxYZFpPYTd0VlI1ZGhPQkdM?=
- =?utf-8?B?UjRKenJObjBTUm11dHFVT2VGRE1hN09Ga2tWTllFY1JITlpDWVhNR2hhaTM1?=
- =?utf-8?B?NUZuSGlhbk5ZSW9wN3NkL25VbS8rYkRoUDNQRmhqTmN2NTR1NjNEcm1ENlFW?=
- =?utf-8?B?VEN5SXpQRlNFZ0lycVVEVHJhQ2VQdEw2bXZhSmU2NkdlSEJ0VE1JeGpjK3o4?=
- =?utf-8?B?UDl3MjBWNUVPSjhtMlNaNGVBdFAwWlh5Y0pEZnczK0JtR0ZTbHJEMmtrWnho?=
- =?utf-8?B?NWFQc3RZMFZqSVVqT1BiT1RlTE9rMXpsN2ZUZWNyS29pYklRSWdOVlBmRVNx?=
- =?utf-8?B?VmZ4YmdRbnZHMWVQL1FMYkdzMVllRWM1U3huS09FVldZYUxNMW1pT016NFpj?=
- =?utf-8?B?a0hYUTBvYkRVd2J0aW1OTURWaGNsNHpPYUNrZnlydDhQRXZjQ1l1Mm03QnFu?=
- =?utf-8?B?WmNtVmZlazJVR05ucERZY2VHUitZdDViMHhvbWtDdTh0QlFHdDAvUHk3RXQ1?=
- =?utf-8?B?WU1xaHVDWFJISlNHcXRLRlpNeUIvb3BxSHZjN29CUFZuNUhpeWhJTVNkd0Zj?=
- =?utf-8?B?OVJoQUN0cHRidEJtZFBsNFM0OXhNaEtZUEZJUGJtaUdYRzZFMFFEbWhUYTJm?=
- =?utf-8?B?Q1lIYjM4T3dYb2hERDY0MHZycFVBZ09Lb2dnbW16ejBKRHRrZmczbW9jTTJt?=
- =?utf-8?B?N2tINjR5V0pLMWxFeDR0ZTZiSk1CYmluZEt5MittYmdKSXJSNllnZDZMTzRR?=
- =?utf-8?B?VnBnN3lGTWI4SGNEeDNQUnNWVUJpenlnd1BhekFTbjA1MkdBNFVMWnQ5LzJq?=
- =?utf-8?B?NjdTNGdTMWtmcDFTenBwRFdtYjg4YzV2VUwxS1JtemVQSktPcHJrTFlQNHhL?=
- =?utf-8?B?QWx2UnRucWZJZnNpTnI2UE9BNHlTc0FSZExHQldHU3RPaW0wYWhQcUl5VUZK?=
- =?utf-8?B?aCtsRHBlZkZFTXVSSlA1WEE5WkhyMG1JL3lneXY2alBabVVJdHp0TUc2RW53?=
- =?utf-8?B?K2Q4RmJHRFZIZS9uZmpoN3pYUVhhZmgzWFdEekRJa3ZsMGF4R3ZkSElXNmEz?=
- =?utf-8?B?TXhpUXdjNGptUDZVa2pURjloSG8ranpXOElCRGNwbDNCcDVFc1hZU25uWHpU?=
- =?utf-8?B?NVR2WDA2elRlTjlHQytMNmtZM3VGeTBNb05TQWxieklQVkZiWFBKVkRKSjdC?=
- =?utf-8?B?LzMvc2JlVVhMTmdjV2pnaEN1RUVtaUFDK2VPUFJCQnBqLzJYVGNVdzdxK09p?=
- =?utf-8?B?b0JsUmxlT1E0S0VtbE9Nbkw5L3VYaEJtY24xdTJzbGpMMG9uNUw1Q2pCeGNx?=
- =?utf-8?B?NFlkREZoYmhvY1hWRVFwWWxzb0xCZ0ZWaWcvalZsL3hVTWFERzZwS1pwVE5L?=
- =?utf-8?B?VEc5ZnNmM2hXVXRMbVdvUk81REREalhnMkVhZ050ejZ5LzRTYnRtZG1JbmJ2?=
- =?utf-8?B?Sjd3V2grZit1NlRtVlVXcUVtN1crYkNhaVdUa2xvNlc1LzVKRU5sY0RweFN5?=
- =?utf-8?B?Znk1akkyUWhGSmJIdlE0cmRHdytLY3A5OXpJVGV3ZStobExTSjR0QUNIV3Fa?=
- =?utf-8?B?Y21lMnBWTHB0YkFMYVJZZz09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5341.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y2VXT2h5dkJkMWUrZERHQ3N4ekZxVlhKRHNCMWtPMjVNeFJCNHYrSzlaM1NY?=
- =?utf-8?B?aEg2NjZac2g5ZUFzSVBqS1lldmZnRkRxcDFRbzYvWkR5TEJlTFY2U0FzRVRo?=
- =?utf-8?B?WDU4bklJR3dSek96Um9OZ25RcVlsVytMYTRQNzF5dVFwQjQvc1ROd0JINXlh?=
- =?utf-8?B?YW8wRXQzU29iTWRKZUpNT2haUGhkWmR1eDJ1aEl5dGI3RkZMbVVXdFlHQXp3?=
- =?utf-8?B?TDZCQVE0bXd1VUkwdkJEVks5N0gxRnRTUk1vd3Q5RjVLVzdHSm5KbzRjNDd1?=
- =?utf-8?B?YVI2aWw3NTRjYzkwUGVncjg4dkZkS054TStBcVBPbzdqa0RnRlA1cmw2L2JP?=
- =?utf-8?B?OHVWamt2NTkybUtlUjYxTzQ2UnZOM3p2NHE4SytHNHJkdTNaZnhDL0g4Znpu?=
- =?utf-8?B?aDFLMUVGY2plYXQ0WVlabGR6djdMYXJDOHRhSDhrWXBoNnVDZzFKSGp0QkxF?=
- =?utf-8?B?WWNFbTM5QWlxWUIrWHMyZTdDYzkvS3MwWkFCWDQ1V1VMY092UmhNMVM3ajFq?=
- =?utf-8?B?bzBlbzF2S3dYV2tWVWZDUkZiejlVcjQwenVXTHBKSkZBUkIzY2VvL2tQQVdu?=
- =?utf-8?B?TjR5N1VJYVkyU1VXaVZwcWdWT1JhdzNYYWFWL1RnQURUeHVldmFxeHJuNXkx?=
- =?utf-8?B?ZERuS0Jub25ndzQ0Vmh5Ync5TGlSUmFJUFJtSUUraWRTWTltelV1UnljM1Fj?=
- =?utf-8?B?NlVObmNXM2lKMVpmZ01pSkVtdStJZW51QVZ0ZTA3Um54YmN4ZUlCVUpvODFz?=
- =?utf-8?B?Qk9xekZqenpiai9zUWpxbGc4dUR3dFA1RUVYZ3VyNXl4NnQ0ZStiVHdyaEF2?=
- =?utf-8?B?eWkzc3hUc3FZcUxKSnNMeVMrQnUzVEMyNHBZS1pRbnZ6bGFEMm1nTXlENzg0?=
- =?utf-8?B?V1ZzQ0VIVm96OFRma0JhR01kbEl2UmhPcit5anJVMTZTQ3FweFNMT0NUOVVH?=
- =?utf-8?B?NlMxK3pJWEpFQ3Q0V241M0g1U2poWEcxOVZGcGIvM1Q3L1QyZHFuc2hzQ3Z6?=
- =?utf-8?B?K1J5Z3g4eWczWm1Gd0FVc1ZxcFpJakhKS0xCTy9obnprN1FXNGMzRUlodjBt?=
- =?utf-8?B?dTdIbU96SWJYRkwrdi9YR1dIMGxUVitnaWdxbXNRWVEzeU9ybnQzZXNJQXNX?=
- =?utf-8?B?eDQ0VUtwSGJwYldPcTdPbEs0ZjRjZ2JzRVJkS1A3dWNBcUhSSmlSaWtXWUJL?=
- =?utf-8?B?M0ZsTnNpUFF4dGYxTnJKTHVIRFl4Z3IyWDhqeUxkNjd1V1FCSlZMUnUwenc2?=
- =?utf-8?B?cHdicFpMcit6bWVJR2JxUytQaVpvbCtTOXVZQVhqcFdzRVRxdFJWRW16VFBV?=
- =?utf-8?B?a2k3Nkh1dmNCQitHT2dLUHRTMUhPNnl0KzJDWjFuaWlBWTFTbFVLT2FJeHI0?=
- =?utf-8?B?UEpVREdHRkVvaWVuQUV2TmY3YVFQZkhRZWl1Um1kVytIVlZ2dWFxTGFNRStQ?=
- =?utf-8?B?UUllS3lQbURYd3NWbTVkV1lTckdsbkpkVkc5bW1xYUVFbVRLN29hR2tLbC9h?=
- =?utf-8?B?WTIwZHZwTTE1VUZQYm9UZGJUeUdYaEtDdDFpZXpEZ05TQTBnU3BVK3lqZEF1?=
- =?utf-8?B?K2hxcWRmMHJnaUlmNXIzYjR1a2ZrK1JwQlN4dTN5NC8xZUpPWEpzblVSb3JK?=
- =?utf-8?B?NWhsQTI4ZDZDdWpRTmlid1hMQTRuOHVDMjJuRUFCODNUV1UxekVyRGZzMmtm?=
- =?utf-8?B?aTZzSk80cnNxdUVTY2YvbGcrY1o5aExkVFZZMWRwVFYvUmx2OXV2K0FrWHpz?=
- =?utf-8?B?M2FWcEdFOXRYWWp3UEdERnJKME5xY1JtZDFxTVVVR1EwTEVGR3g5b0NXVm8x?=
- =?utf-8?B?MzNnQ1JzY2Y0TFNWLzVvZTZFVTdzVHJDY0MwU25GdmE5dUZEcG0veHFiMUU4?=
- =?utf-8?B?eU9hWlB4M01WcUV4QjBnRnZsaVlwenVwaXBiR1B5TUtYYUlMM0dVb3RvQ092?=
- =?utf-8?B?TzE5V01VZEozanNZeFdzclFlZTB5dHlxdUFQbU1QYXJtckxaS1F4RURzWVhU?=
- =?utf-8?B?VzZKcWcva2MzNjlqdHBQaE9Sb1d0clgvanQ2MDNKVWxIKzQ0ZE1oOXBqekls?=
- =?utf-8?B?SCtoMVNTdVVjdDA3YThHSitLbThpZlZTT3B0aThkdDZxYzVoK1Z6TjNaNTZi?=
- =?utf-8?B?VXZicHJwWlI5eGtIRVZCZ01zRFlFUjhUNjZhdTJRUHZZNjdvZnQxbHFuWnpw?=
- =?utf-8?B?Mmc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc9dd3c4-b4e7-4dfc-dbc1-08dd46c9455e
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5341.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 16:14:02.7168 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RgoUICoUTcTUmz7CMYvkjbtAs70bTP84HI4g0rLHDycOOet379Dj9uDtSrk6COgySjQsHLZ4WSNRnal65ZKl3wsN4LMGS5tJ9gx5YKgt3g8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB8068
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 3/3] drm/panel: panel-himax-hx83102: support for
+ csot-pna957qt1-1 MIPI-DSI panel
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
+ quic_jesszhan@quicinc.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250206131300.1295111-1-yelangyan@huaqin.corp-partner.google.com>
+ <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,59 +118,174 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 06/02/2025 14:13, Langyan Ye wrote:
+> The csot-pna957qt1-1 is a 10.95" TFT panel. The MIPI controller on this
+> panel is the same as the other panels here, so add this panel to this
+> driver.
+> 
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>   drivers/gpu/drm/panel/panel-himax-hx83102.c | 123 ++++++++++++++++++++
+>   1 file changed, 123 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> index 8b48bba18131..ba5e5b7df5fc 100644
+> --- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> +++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
+> @@ -43,6 +43,7 @@
+>   #define HX83102_SETGIP1		0xd5
+>   #define HX83102_SETGIP2		0xd6
+>   #define HX83102_SETGIP3		0xd8
+> +#define HX83102_UNKNOWN_D9	0xd9
+>   #define HX83102_SETGMA		0xe0
+>   #define HX83102_UNKNOWN_E1	0xe1
+>   #define HX83102_SETTP1		0xe7
+> @@ -291,6 +292,103 @@ static int boe_nv110wum_init(struct hx83102 *ctx)
+>   	return dsi_ctx.accum_err;
+>   };
+>   
+> +static int csot_pna957qt1_1_init(struct hx83102 *ctx)
+> +{
+> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+> +
+> +	msleep(60);
+> +
+> +	hx83102_enable_extended_cmds(&dsi_ctx, true);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc4);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D9, 0xd2);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x2c, 0xb3, 0xb3, 0x31, 0xf1, 0x33,
+> +				     0xe0, 0x54, 0x36, 0x36, 0x3a, 0x3a, 0x32, 0x8b, 0x11, 0xe5,
+> +				     0x98);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xd9);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x8b, 0x33);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x00, 0x47, 0xb0, 0x80, 0x00, 0x2c,
+> +				     0x80, 0x3c, 0x9f, 0x22, 0x20, 0x00, 0x00, 0x98, 0x51);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x41, 0x41, 0x41, 0x41, 0x64, 0x64,
+> +				     0x40, 0x84, 0x64, 0x84, 0x01, 0x9d, 0x01, 0x02, 0x01, 0x00,
+> +				     0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETVDC, 0x1b, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_BE, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPTBA, 0xfc, 0xc4, 0x80, 0x9c, 0x36, 0x00,
+> +				     0x0d, 0x04);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSTBA, 0x32, 0x32, 0x22, 0x11, 0x22, 0xa0,
+> +				     0x31, 0x08, 0xf5, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xcc);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTCON, 0x80);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETRAMDMY, 0x97);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPWM, 0x00, 0x1e, 0x13, 0x88, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x08, 0x13, 0x07, 0x00, 0x0f,
+> +				     0x36);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPANEL, 0x02, 0x03, 0x44);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPCTRL, 0x07, 0x06, 0x00, 0x02, 0x04, 0x2c,
+> +				     0xff);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x06, 0x00, 0x00, 0x00, 0x40, 0x04,
+> +				     0x08, 0x04, 0x08, 0x37, 0x07, 0x44, 0x37, 0x2b, 0x2b, 0x03,
+> +				     0x03, 0x32, 0x10, 0x22, 0x00, 0x25, 0x32, 0x10, 0x29, 0x00,
+> +				     0x29, 0x32, 0x10, 0x08, 0x00, 0x08, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP1, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+> +				     0x18, 0x18, 0x18, 0x18, 0x07, 0x06, 0x07, 0x06, 0x05, 0x04,
+> +				     0x05, 0x04, 0x03, 0x02, 0x03, 0x02, 0x01, 0x00, 0x01, 0x00,
+> +				     0x18, 0x18, 0x25, 0x24, 0x25, 0x24, 0x1f, 0x1f, 0x1f, 0x1f,
+> +				     0x1e, 0x1e, 0x1e, 0x1e, 0x20, 0x20, 0x20, 0x20);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0x0a, 0x2a, 0xaa, 0x8a, 0xaa, 0xa0,
+> +				     0x0a, 0x2a, 0xaa, 0x8a, 0xaa, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGMA, 0x0a, 0x0e, 0x1a, 0x21, 0x28, 0x46,
+> +				     0x5c, 0x61, 0x63, 0x5e, 0x78, 0x7d, 0x80, 0x8e, 0x89, 0x90,
+> +				     0x98, 0xaa, 0xa8, 0x52, 0x59, 0x60, 0x6f, 0x06, 0x0a, 0x16,
+> +				     0x1d, 0x24, 0x46, 0x5c, 0x61, 0x6b, 0x66, 0x7c, 0x7d, 0x80,
+> +				     0x8e, 0x89, 0x90, 0x98, 0xaa, 0xa8, 0x52, 0x59, 0x60, 0x6f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xe0, 0x10, 0x10, 0x0d, 0x1e, 0x9d,
+> +				     0x02, 0x52, 0x9d, 0x14, 0x14);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETPOWER, 0x01, 0x7f, 0x11, 0xfd);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc5);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETMIPI, 0x4f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x86);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_UNKNOWN_D2, 0x64);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc5);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP0, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0x0a, 0x2a, 0xaa, 0x8a, 0xaa, 0xa0,
+> +				     0x0a, 0x2a, 0xaa, 0x8a, 0xaa, 0xa0, 0x05, 0x15, 0x55, 0x45,
+> +				     0x55, 0x50, 0x05, 0x15, 0x55, 0x45, 0x55, 0x50);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0x02, 0x00, 0x24, 0x01, 0x7e, 0x0f,
+> +				     0x7c, 0x10, 0xa0, 0x00, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCLOCK, 0x03, 0x07, 0x00, 0x10, 0x7b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0x0f, 0x3f, 0xff, 0xcf, 0xff, 0xf0,
+> +				     0x0f, 0x3f, 0xff, 0xcf, 0xff, 0xf0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETTP1, 0xfe, 0x01, 0xfe, 0x01, 0xfe, 0x01,
+> +				     0x00, 0x00, 0x00, 0x23, 0x00, 0x23, 0x81, 0x02, 0x40, 0x00,
+> +				     0x20, 0x9d, 0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +				     0x01, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETDISP, 0x66, 0x81);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0xc6);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETCYC, 0x03, 0xff, 0xf8);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETSPCCMD, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETGIP3, 0x0a, 0x2a, 0xaa, 0x8a, 0xaa, 0xa0,
+> +				     0x0a, 0x2a, 0xaa, 0x8a, 0xaa, 0xa0, 0x0f, 0x2a, 0xaa, 0x8a,
+> +				     0xaa, 0xf0, 0x0f, 0x2a, 0xaa, 0x8a, 0xaa, 0xf0, 0x0a, 0x2a,
+> +				     0xaa, 0x8a, 0xaa, 0xa0, 0x0a, 0x2a, 0xaa, 0x8a, 0xaa, 0xa0);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83102_SETBANK, 0x00);
+> +	hx83102_enable_extended_cmds(&dsi_ctx, false);
+> +
+> +	mipi_dsi_msleep(&dsi_ctx, 60);
+> +
+> +	return dsi_ctx.accum_err;
+> +};
+> +
+>   static int ivo_t109nw41_init(struct hx83102 *ctx)
+>   {
+>   	struct mipi_dsi_multi_context dsi_ctx = { .dsi = ctx->dsi };
+> @@ -440,6 +538,28 @@ static const struct hx83102_panel_desc boe_nv110wum_desc = {
+>   	.init = boe_nv110wum_init,
+>   };
+>   
+> +static const struct drm_display_mode csot_pna957qt1_1_default_mode = {
+> +	.clock = 177958,
+> +	.hdisplay = 1200,
+> +	.hsync_start = 1200 + 124,
+> +	.hsync_end = 1200 + 124 + 80,
+> +	.htotal = 1200 + 124 + 80 + 40,
+> +	.vdisplay = 1920,
+> +	.vsync_start = 1920 + 88,
+> +	.vsync_end = 1920 + 88 + 8,
+> +	.vtotal = 1920 + 88 + 8 + 38,
+> +	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
+> +};
+> +
+> +static const struct hx83102_panel_desc csot_pna957qt1_1_desc = {
+> +	.modes = &csot_pna957qt1_1_default_mode,
+> +	.size = {
+> +		.width_mm = 147,
+> +		.height_mm = 235,
+> +	},
+> +	.init = csot_pna957qt1_1_init,
+> +};
+> +
+>   static const struct drm_display_mode ivo_t109nw41_default_mode = {
+>   	.clock = 167700,
+>   	.hdisplay = 1200,
+> @@ -681,6 +801,9 @@ static const struct of_device_id hx83102_of_match[] = {
+>   	{ .compatible = "boe,nv110wum-l60",
+>   	.data = &boe_nv110wum_desc
+>   	},
+> +	{ .compatible = "csot,pna957qt1-1",
+> +	  .data = &csot_pna957qt1_1_desc
+> +	},
+>   	{ .compatible = "ivo,t109nw41",
+>   	  .data = &ivo_t109nw41_desc
+>   	},
 
-On 2/6/2025 1:34 PM, Zhuo, Qiuxu wrote:
-> Hi,
->
-> I got the compile error as below.
-> My GCC is: gcc (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0
-> kernel: v6.14-rc1
-
-Hi Qiuxu,
-
-Thanks for the mail.
-
-Fix was sent and merged in drm-intel-next : 
-https://cgit.freedesktop.org/drm/drm-intel/commit/?h=drm-intel-next&id=a67221b5eb8d59fb7e1f0df3ef9945b6a0f32cca
-
-Regards,
-
-Ankit
-
-
->
-> --- compile error log ---
->
->    CC      drivers/gpu/drm/i915/display/intel_dp.o
-> In file included from <command-line>:0:0:
-> In function ‘intel_dp_dsc_compute_pipe_bpp_limits.isra.77’,
->      inlined from ‘intel_dp_compute_config_limits’ at drivers/gpu/drm/i915/display/intel_dp.c:2547:3:
-> ././include/linux/compiler_types.h:542:38: error: call to ‘__compiletime_assert_581’ declared with attribute error: clamp() low limit dsc_min_bpc * 3 greater than high limit dsc_max_bpc * 3
->    _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->                                        ^
-> ././include/linux/compiler_types.h:523:4: note: in definition of macro ‘__compiletime_assert’
->      prefix ## suffix();    \
->      ^~~~~~
-> ././include/linux/compiler_types.h:542:2: note: in expansion of macro ‘_compiletime_assert’
->    _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
->    ^~~~~~~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
->   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
->                                       ^~~~~~~~~~~~~~~~~~
-> ./include/linux/minmax.h:188:2: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
->    BUILD_BUG_ON_MSG(statically_true(ulo > uhi),    \
->    ^~~~~~~~~~~~~~~~
-> ./include/linux/minmax.h:195:2: note: in expansion of macro ‘__clamp_once’
->    __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
->    ^~~~~~~~~~~~
-> ./include/linux/minmax.h:206:28: note: in expansion of macro ‘__careful_clamp’
->   #define clamp(val, lo, hi) __careful_clamp(__auto_type, val, lo, hi)
->                              ^~~~~~~~~~~~~~~
-> drivers/gpu/drm/i915/display/intel_dp.c:2506:25: note: in expansion of macro ‘clamp’
->    limits->pipe.max_bpp = clamp(limits->pipe.max_bpp, dsc_min_bpc * 3, dsc_max_bpc * 3);
->                           ^~~~~
-> drivers/gpu/drm/xe/Makefile:165: recipe for target 'drivers/gpu/drm/xe/i915-display/intel_dp.o' failed
->
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
