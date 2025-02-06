@@ -2,57 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B4EA2B22B
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 20:23:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C951FA2B22D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 20:23:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C75110E926;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D37710E929;
 	Thu,  6 Feb 2025 19:23:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="D7zmGta/";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TaNeQ/Rp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 377F110E155
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 19:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738869685; x=1770405685;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=ycYpTL49hJrhopmTTMhsnFu8Qu6eZR8uaFzO8s4CwRc=;
- b=D7zmGta/xDxTvSRzhLEL+xNMWEz2OmWAcuqnInSPVCc2haItXBQFUkW6
- mVrx+hcuBvrCnNoHQ9JWMCuK9xCfjJNBlkO2wuY0e2++VHhLx6abw5Aiz
- h/cxo9zmLpmtAM32p6BjfGvEogOxB1/6X5PzDlXqokN2IxWyh5yt6HpP1
- nI24lbSKu85hNdgIzeJgVbiDvvVYOHwNX2rndkUvg2oxzm4H4+lufOPOQ
- 2GD1x0fzNX42ljml3T7cZLcrNkJY/KFhQQ2gEBJ3yB7YnlFLaJ1apkgx0
- uE2fiYrF5ED/Rz3jw28uZ8PWzN9xOXFfYF+hUzG4thY8poSmrcazMbM2Q A==;
-X-CSE-ConnectionGUID: IfVtrNu2Sryze9/zD8qvtg==
-X-CSE-MsgGUID: Ci7OdrSXTGCf02kOo+jbtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39398690"
-X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; d="scan'208";a="39398690"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2025 11:21:24 -0800
-X-CSE-ConnectionGUID: O3CxiniXRqCYbrAAuLainQ==
-X-CSE-MsgGUID: wGzIOP+0TvO0gnQ3bC0dKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,265,1732608000"; d="scan'208";a="111502419"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa008.fm.intel.com with ESMTP; 06 Feb 2025 11:21:24 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
- id D4CB3EE; Thu, 06 Feb 2025 21:21:22 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Ofir Bitton <obitton@habana.ai>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 1/1] accel/habanalabs: Switch to use %ptTs
-Date: Thu,  6 Feb 2025 21:20:43 +0200
-Message-ID: <20250206192109.1133364-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+ [209.85.208.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 042F410E931
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 19:21:53 +0000 (UTC)
+Received: by mail-lj1-f182.google.com with SMTP id
+ 38308e7fff4ca-30227ccf803so11183441fa.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 11:21:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1738869712; x=1739474512;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iejGLtNphddMwsWcL999rzVMsajm+EjwWDRl83wuIdw=;
+ b=TaNeQ/RpHK8A+LYv+ciZ4zEYCbvj31GLXhiotcLEcrn+9Ju1+r+4WUxW41eC+1OmY2
+ WrSKjOGoxCPpU6Ds9MBN/S0Aj0xYysz9CjR0Xwb7+njJVz2gR0K8DmnxB4fkfexNRqFQ
+ iY309qS9QRmHmKiLp9kI0OD+OJqcBm7sWHawA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738869712; x=1739474512;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iejGLtNphddMwsWcL999rzVMsajm+EjwWDRl83wuIdw=;
+ b=UqA2BkJTZB5Zdz5GqcEWjG50ysbFcDkRab02ia4G7X3Jjgn/eVWQIl2Q55W+HCSHa5
+ WiVsBJEUxBQiYja0TiqIbmQnO2YbJMnp2BQDgAjRBGqjwXl8PHunsrSUm/ea0XMcBq0p
+ fz4k1ENYDhLFxZWc+v52Y9/Tntl21gmiTu6oOQVWSdovJJQaTkJeJYWKJyZe9u20zMWi
+ Z5MmNUYTHJWA1WLtSWE5+XiTsG0BEk8MpQcZIIPvHAsTe2stRDx1M1RHPRH3LPgT4+5h
+ eOOD3dOieCTSjDE7CLRH1KU9oRlBP+i+Ux+3Etoon2i+Xqmt8pnlzSbLHYyeMg6bzBHg
+ BSdA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrJftwD84JGoD7YolKbrG+aA1cEMY/xPrGjGn6E7EZUnaZEBh8D3OpjRhMqDV6uDkrpKl7hrBK3J4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzves7zoQ1ArNlgN/wfPb7OVZwqjZbbdxbin7psmRQNDQBFWyVp
+ 0GM4p2jlFQXSJ2+jdIv6CI5nhR+Q7PIG/bGDdaIF1AmBV1wEXx0p7uygtdH740HA51BY7YSAACO
+ +/kMx
+X-Gm-Gg: ASbGnctNKfd1x/2qlsPI4WdCJT4t+gxpJNYHzSsGMweiq54ddHZyAuWH8FE4yhlxHiX
+ 451fubTIj9iemT6RPoNPJBaLmRfbdb/Jf53PlZLgwMifxx9/frdIzJvq8bl3LxZKQuwjTVcLWL4
+ 6jeaGrfHryqUcKzJzxLvFjB6qNSMJ/2uiA4Ivlx5T38WI6a1CePIomvLeJ9TVfa+r2jRgIS7ASh
+ vAnv78FTq+StCsLCsc7/gYNyUu5rWFOlnew5KnXE/4nveMStkKOR94gQ/INWmaoOhSHVKBMuNHU
+ Zuwl/ELiHAMnqEcdihLwFWnAG5Z1Ago/Nzh734OMXsimzSnq9qxa2DRGToU=
+X-Google-Smtp-Source: AGHT+IHpGh9RYIzjrQxReLOgTc5kucts3FmASYGDTD3qnKBHhlgtOsPe+92tDBncPQO3jhzI1MQ6jg==
+X-Received: by 2002:a2e:bd04:0:b0:306:124c:69d5 with SMTP id
+ 38308e7fff4ca-307e5a739f9mr613271fa.34.1738869712124; 
+ Thu, 06 Feb 2025 11:21:52 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com.
+ [209.85.208.180]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-307de18fbfcsm2064451fa.37.2025.02.06.11.21.52
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Feb 2025 11:21:52 -0800 (PST)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-30797730cbdso12657811fa.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 11:21:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVTdMJLIxPdN5bYi85skxFgoD10TDmUfEjBL+t9VsX9fmN86BpkiiCrbPFo3Sm5V+CXe44cFYp3gbc=@lists.freedesktop.org
+X-Received: by 2002:a2e:be8d:0:b0:302:1d24:8db7 with SMTP id
+ 38308e7fff4ca-307e57f026amr522881fa.19.1738869711621; Thu, 06 Feb 2025
+ 11:21:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250206131300.1295111-1-yelangyan@huaqin.corp-partner.google.com>
+ <20250206131300.1295111-2-yelangyan@huaqin.corp-partner.google.com>
+ <CAD=FV=UfWJoUsKzYMkyU3U4Yn1ufAs=NHMCDL+db887Uec9fww@mail.gmail.com>
+ <20250206-overlaid-eastward-610a0d6e34cd@spud>
+In-Reply-To: <20250206-overlaid-eastward-610a0d6e34cd@spud>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 6 Feb 2025 11:21:40 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=UqUkKXvEJr5JPHgjNnY_1ALv7TiRY1UQjVGD4_su8M_Q@mail.gmail.com>
+X-Gm-Features: AWEUYZmS9xcU_MiFvWfdau59tVoQMHbzAishOQlY882_MKeaoyXcwaaKzpaqmEY
+Message-ID: <CAD=FV=UqUkKXvEJr5JPHgjNnY_1ALv7TiRY1UQjVGD4_su8M_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: vendor: add csot
+To: Conor Dooley <conor@kernel.org>
+Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
+ neil.armstrong@linaro.org, 
+ quic_jesszhan@quicinc.com, airlied@gmail.com, simona@ffwll.ch, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,71 +106,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use %ptTs instead of open-coded variant to print contents of time64_t type
-in human readable form.
+Hi,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
+On Thu, Feb 6, 2025 at 10:13=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Thu, Feb 06, 2025 at 09:12:45AM -0800, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Thu, Feb 6, 2025 at 5:13=E2=80=AFAM Langyan Ye
+> > <yelangyan@huaqin.corp-partner.google.com> wrote:
+> > >
+> > > Add "csot" to the Devicetree Vendor Prefix Registry.
+> > >
+> > > Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b=
+/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > index 42d14899d584..375f1f7c79ef 100644
+> > > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > @@ -336,6 +336,8 @@ patternProperties:
+> > >      description: Crystalfontz America, Inc.
+> > >    "^csky,.*":
+> > >      description: Hangzhou C-SKY Microsystems Co., Ltd
+> > > +  "^csot,.*":
+> > > +    description: Guangzhou China Star Optoelectronics Technology Co.=
+, Ltd
+> >
+> > Doing a `git log` on
+> > `Documentation/devicetree/bindings/vendor-prefixes.yaml` shows that
+> > most patches use the subject prefix `dt-bindings: vendor-prefixes`,
+> > not `dt-bindings: vendor`. If device-tree folks care about this
+> > difference and they don't want to fix it when applying, they might
+> > request you to send a new version.
+> >
+> > In any case, that's fairly minor so I'm OK with:
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> >
+> > I would assume this will go through the DT tree, not drm-misc. If this
+> > is wrong then someone should shout.
+>
+> idk, probably the whole series should go together via drm-misc.
+> %subject can change if there's a resubmission, otherwise
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-v2: fixed the parameters to be the pointers
+Ah, I'm fine landing it with drm-misc. I'll land it tomorrow unless
+there are objections. I'll adjust the subject when landing.
 
- drivers/accel/habanalabs/common/device.c | 25 +++---------------------
- 1 file changed, 3 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/accel/habanalabs/common/device.c b/drivers/accel/habanalabs/common/device.c
-index 30277ae410d4..96897c12dfee 100644
---- a/drivers/accel/habanalabs/common/device.c
-+++ b/drivers/accel/habanalabs/common/device.c
-@@ -1066,28 +1066,11 @@ static bool is_pci_link_healthy(struct hl_device *hdev)
- 	return (device_id == hdev->pdev->device);
- }
- 
--static void stringify_time_of_last_heartbeat(struct hl_device *hdev, char *time_str, size_t size,
--						bool is_pq_hb)
--{
--	time64_t seconds = is_pq_hb ? hdev->heartbeat_debug_info.last_pq_heartbeat_ts
--					: hdev->heartbeat_debug_info.last_eq_heartbeat_ts;
--	struct tm tm;
--
--	if (!seconds)
--		return;
--
--	time64_to_tm(seconds, 0, &tm);
--
--	snprintf(time_str, size, "%ld-%02d-%02d %02d:%02d:%02d (UTC)",
--		tm.tm_year + 1900, tm.tm_mon, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
--}
--
- static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
- {
- 	struct eq_heartbeat_debug_info *heartbeat_debug_info = &hdev->heartbeat_debug_info;
- 	u32 cpu_q_id = heartbeat_debug_info->cpu_queue_id, pq_pi_mask = (HL_QUEUE_LENGTH << 1) - 1;
- 	struct asic_fixed_properties *prop = &hdev->asic_prop;
--	char pq_time_str[64] = "N/A", eq_time_str[64] = "N/A";
- 
- 	if (!prop->cpucp_info.eq_health_check_supported)
- 		return true;
-@@ -1095,17 +1078,15 @@ static bool hl_device_eq_heartbeat_received(struct hl_device *hdev)
- 	if (!hdev->eq_heartbeat_received) {
- 		dev_err(hdev->dev, "EQ heartbeat event was not received!\n");
- 
--		stringify_time_of_last_heartbeat(hdev, pq_time_str, sizeof(pq_time_str), true);
--		stringify_time_of_last_heartbeat(hdev, eq_time_str, sizeof(eq_time_str), false);
- 		dev_err(hdev->dev,
--			"EQ: {CI %u, HB counter %u, last HB time: %s}, PQ: {PI: %u, CI: %u (%u), last HB time: %s}\n",
-+			"EQ: {CI %u, HB counter %u, last HB time: %ptTs}, PQ: {PI: %u, CI: %u (%u), last HB time: %ptTs}\n",
- 			hdev->event_queue.ci,
- 			heartbeat_debug_info->heartbeat_event_counter,
--			eq_time_str,
-+			&hdev->heartbeat_debug_info.last_eq_heartbeat_ts,
- 			hdev->kernel_queues[cpu_q_id].pi,
- 			atomic_read(&hdev->kernel_queues[cpu_q_id].ci),
- 			atomic_read(&hdev->kernel_queues[cpu_q_id].ci) & pq_pi_mask,
--			pq_time_str);
-+			&hdev->heartbeat_debug_info.last_pq_heartbeat_ts);
- 
- 		hl_eq_dump(hdev, &hdev->event_queue);
- 
--- 
-2.43.0.rc1.1336.g36b5255a03ac
-
+-Doug
