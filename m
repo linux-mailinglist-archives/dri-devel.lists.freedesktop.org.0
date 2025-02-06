@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F639A2A8FE
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 14:05:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C560A2A90A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 14:06:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E853110E2A4;
-	Thu,  6 Feb 2025 13:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC7110E2EE;
+	Thu,  6 Feb 2025 13:06:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VNxLhGyH";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ApPAn2Lp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1CC010E2A4
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 13:05:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9257FA4423B;
- Thu,  6 Feb 2025 13:03:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA308C4CEDD;
- Thu,  6 Feb 2025 13:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738847107;
- bh=W5AM9RZgg67GctX9POakdPYKIrGtt44fCA6cr2QIVSs=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=VNxLhGyHzxicglO/D5ivZIdSr/a93Mw7FYISk0ur0L+3tzsAuN/rzAcAXyOOb8ZRo
- aObTLjrNmcAou3cDDtxAN1CWE/ZOtshMUERgMTwb2njUdvTUMOq3qO4O1ZHD0EY6Cp
- xkVmBmlx6p4kuaXzGeF26Ivx/BUP0PGr/MwXYtJtZm++1wAwBKKKug/lTHWVUXNHKa
- 3/mMDkGQDaXb1YItsZ9va2pNR5YfpzdKsyS6fP6Y0bpLJCkbK9P5NbaOogE5RZNUV6
- vOxXh39z9lzDCoy1a2lZbMdTI0Yt5qX8h4fxvWoYSf7Xqs+5ksyWzolVDE/+s+pfEo
- 9k6B+CyOAU9zA==
-Message-ID: <5ef3905745ce4cc4ad43135c1e6a666e@kernel.org>
-Date: Thu, 06 Feb 2025 13:05:04 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Herve Codina" <herve.codina@bootlin.com>
-Subject: Re: [PATCH v5 4/4] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-In-Reply-To: <20250203161607.223731-5-herve.codina@bootlin.com>
-References: <20250203161607.223731-5-herve.codina@bootlin.com>
-Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, "Alexander
- Stein" <alexander.stein@ew.tq-group.com>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>, "Conor
- Dooley" <conor+dt@kernel.org>,
- "Dave Stevenson" <dave.stevenson@raspberrypi.com>, "David
- Airlie" <airlied@gmail.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Jonas
- Karlman" <jonas@kwiboo.se>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>,
- "Louis Chauvet" <louis.chauvet@bootlin.com>, "Luca
- Ceresoli" <luca.ceresoli@bootlin.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Marek
- Vasut" <marex@denx.de>, "Maxime Ripard" <mripard@kernel.org>,
- =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Raspberry
- Pi Kernel Maintenance" <kernel-list@raspberrypi.com>,
- "Rob Herring" <robh@kernel.org>, "Robert
- Foss" <rfoss@kernel.org>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B76F010E2EE;
+ Thu,  6 Feb 2025 13:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738847198; x=1770383198;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=OZmGqMNbL8n4gDzlvdwSF3mBzpZ5AeQcngrVp9YIMv4=;
+ b=ApPAn2Lpe997VnDgqSyCfH4oVHcOVIoI7hiAI7unhHaic/ebvxJpCUcq
+ 1Eskaf1IYt8tc7BH7UYTazIHEA+uFwb0L93g3o3TeZd2HKf3YPlaxbKdm
+ gq9TiVf7aanYgrazceYlswCFufTGKcwtTQ+ZmS3Bj2tdt27/ZPnmc6jSI
+ 0D4/7wpd9I3tfeJNIRLI8jEQEaqclvNInigkm4IgERaMAIInBQ6sdNcRj
+ kz0xWB6dQDnqju6N8ZDQ6HKPj1lpMhcJLXGQ4oWWoG62jUmqh5JZ13ybA
+ z3K16TJuTsAObgvtLj/rprT/VcBBj4UcnxpoMoz9Zfb8hPvA3I7DW7dkz g==;
+X-CSE-ConnectionGUID: nVYJL/qERjqIEZzX+fCpHg==
+X-CSE-MsgGUID: IeZ99s9vTcq5o53LbB1tRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43202411"
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="43202411"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2025 05:06:38 -0800
+X-CSE-ConnectionGUID: dbJHs1gLQJ+Tc4MUPDFZjQ==
+X-CSE-MsgGUID: GNkOetnpTVmH8iT4ZSM3rg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="111736436"
+Received: from carterle-desk.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.42])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Feb 2025 05:06:35 -0800
+Date: Thu, 6 Feb 2025 14:06:31 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Mikolaj Wasiak <mikolaj.wasiak@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Subject: Re: [PATCH v3] drm/i915/selftests: avoid using uninitialized context
+Message-ID: <Z6Sz11meZQianUjS@ashyti-mobl2.lan>
+References: <iuaonpjc3rywmvhna6umjlvzilocn2uqsrxfxfob24e2taocbi@lkaivvfp4777>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <iuaonpjc3rywmvhna6umjlvzilocn2uqsrxfxfob24e2taocbi@lkaivvfp4777>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,16 +71,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 3 Feb 2025 17:16:06 +0100, Herve Codina wrote:
-> In some cases observed during ESD tests, the TI SN65DSI83 cannot recover
-> from errors by itself. A full restart of the bridge is needed in those
-> cases to have the bridge output LVDS signals again.
-> 
-> Also, during tests, cases were observed where reading the status of the
-> 
-> [ ... ]
+Hi Krzysztof,
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+On Thu, Jan 30, 2025 at 09:19:31AM +0000, Krzysztof Karas wrote:
+> There is an error path in igt_ppgtt_alloc(), which leads
+> to ww object being passed down to i915_gem_ww_ctx_fini() without
+> initialization. Correct that by only putting ppgtt->vm and
+> returning early.
+> 
+> Fixes: 480ae79537b2 ("drm/i915/selftests: Prepare gtt tests for obj->mm.lock removal")
+> Signed-off-by: Krzysztof Karas <krzysztof.karas@intel.com>
+> Reviewed-by: Mikolaj Wasiak <mikolaj.wasiak@intel.com>
 
-Thanks!
-Maxime
+reviewed and merged.
+
+Thanks,
+Andi
