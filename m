@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8BCA2B01F
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E699BA2B02A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:15:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F49B10E90E;
-	Thu,  6 Feb 2025 18:15:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 612CD10E911;
+	Thu,  6 Feb 2025 18:15:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IBixXvFR";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pR9z6iaM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 173DA10E90E
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:15:29 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4304344264;
- Thu,  6 Feb 2025 18:15:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3E6C10E911
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:15:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0594443297;
+ Thu,  6 Feb 2025 18:15:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738865728;
+ t=1738865731;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EBTI6/Bcswhpw8thl+NLYiq9PLKUDYQ9vhvmnSdscmM=;
- b=IBixXvFRbyY/P5+MTKGjMacyLR8bGcsqgmm3KY22v1Cdo5rb6K7WZ5F8RqhTqswlBLkos/
- zhyJFtk3xhdqU3oinvUwC1iBIIGjcv9cDVU0YfxcmNXBNNVMDGlCu5TzgeHCR3/Gc/8mpy
- yn17NVwxcEf09RzdlxcM7xZ/9LnoHtKoSw+GhgENWZhNG6E7dATtzsEAmNqt5N4ZZNYVe2
- o9lPiF/vWt1BkXJTDrWU/5veT4QYSoeVE4rxlek/bUdmFYppcYqtOI6Ym4KfICaRafaRW3
- f3/d2BABH6ZjtJoNFriDF2Ttdg8h89KgN+9/OpTEBuEdqf46Ts474RUtfPOHVg==
+ bh=W1dyvuSoKzEddJsfYldzEVfa/MmYSJUDzhZO1Mphdyc=;
+ b=pR9z6iaMA4MmRIYCSeFn2g3o4cAlKmx6c7dA5IoxSDVWChae97WHa4QMSqirikSPUb8jsy
+ IHkBsZEGkNMDMuQPANYstrdBMqlkQNH3I8Sd9bR49WLvrNlL26nGMKavjdRTdllvdjdPQq
+ mEkHV+FmwisCxQX0vVETwEP6roQxsxZxbz5YoNciVTLWa7hatSw9cIEoCgVbDxWrSwB2GI
+ Iv4su/iIbW72fctloDmbmuKXXInFumtxjj3aMJOSFpMjJaxFZDFRBl21jJ0kvbnIjHtvFo
+ kbXrg07BtFCC/MCY5Ba/vNjQVEtYxVnbrCtBagh77SaFDoT+UZEfQT1CvrjssA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 19:14:34 +0100
-Subject: [PATCH v6 19/26] drm/tests: bridge: add KUnit tests for DRM
- bridges (init and destroy)
+Date: Thu, 06 Feb 2025 19:14:35 +0100
+Subject: [PATCH v6 20/26] drm/debugfs: bridges_show: show refcount
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-hotplug-drm-bridge-v6-19-9d6f2c9c3058@bootlin.com>
+Message-Id: <20250206-hotplug-drm-bridge-v6-20-9d6f2c9c3058@bootlin.com>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 In-Reply-To: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -69,7 +68,7 @@ Cc: Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgeenucevlhhushhtvghrufhiiigvpeduheenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumeehrgegtdemvdgufheimegrudelvgemudgtjeegpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefkedprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghom
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgeenucevlhhushhtvghrufhiiigvpedukeenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumeehrgegtdemvdgufheimegrudelvgemudgtjeegpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefkedprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtoheprghlvgigrghnughrvgdrsggvlhhlohhnihessghoohhtlhhinhdrtghom
  hdprhgtphhtthhopegtlhgruhguihhurdgsvgiinhgvrgesthhugihonhdruggvvhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -87,115 +86,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic KUnit test for the newly introduced drm_bridge_alloc().
+Now that bridges are optionally refcounted, it is useful to know about that
+in debugfs.
 
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-Changed in v6:
- - update to new drm_bridge_alloc() API
- - remove drm_test_drm_bridge_put test, not straightforward to write with
-   the new API and the current notification mechanism
- - do not allocate a drm_device: a bridge is allocated without one
- - rename some identifiers for easier code reading
-
-This patch was added in v5.
+This patch was added in v6.
 ---
- drivers/gpu/drm/tests/Makefile          |  1 +
- drivers/gpu/drm/tests/drm_bridge_test.c | 72 +++++++++++++++++++++++++++++++++
- 2 files changed, 73 insertions(+)
+ drivers/gpu/drm/drm_debugfs.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-index 56dab563abd7a7ee7c147bd6b4927e2436b82e1d..909f98a132bb1d057b2666e8b891683ffb11cca4 100644
---- a/drivers/gpu/drm/tests/Makefile
-+++ b/drivers/gpu/drm/tests/Makefile
-@@ -4,6 +4,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST_HELPERS) += \
- 	drm_kunit_helpers.o
- 
- obj-$(CONFIG_DRM_KUNIT_TEST) += \
-+	drm_bridge_test.o \
- 	drm_buddy_test.o \
- 	drm_cmdline_parser_test.o \
- 	drm_connector_test.o \
-diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/tests/drm_bridge_test.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..dc5e9260cedaa29126fd6af25a6ba2f6eee05a87
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-@@ -0,0 +1,72 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Kunit test for DRM bridges
-+ */
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 7424d5237e7615d63de6bba572ee6050da6709d0..629074247ffec4fa18df7af2d9023255abed501c 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -743,6 +743,12 @@ void drm_debugfs_crtc_remove(struct drm_crtc *crtc)
+ static void bridge_print(struct drm_printer *p, struct drm_bridge *bridge, unsigned int idx)
+ {
+ 	drm_printf(p, "bridge[%u]: %ps\n", idx, bridge->funcs);
 +
-+#include <drm/drm_bridge.h>
++	if (drm_bridge_is_refcounted(bridge))
++		drm_printf(p, "\trefcount: %u\n", kref_read(&bridge->refcount));
++	else
++		drm_printf(p, "\trefcount: N/A\n");
 +
-+#include <kunit/device.h>
-+#include <kunit/test.h>
-+
-+struct drm_bridge_test_ctx {
-+	struct device *dev;
-+};
-+
-+/*
-+ * Mimick the typical struct defined by a bridge driver, which embeds a
-+ * bridge plus other fields.
-+ */
-+struct dummy_drm_bridge {
-+	int dummy; // ensure we test non-zero @bridge offset
-+	struct drm_bridge bridge;
-+};
-+
-+static const struct drm_bridge_funcs drm_bridge_dummy_funcs = {
-+};
-+
-+static int drm_test_bridge_init(struct kunit *test)
-+{
-+	struct drm_bridge_test_ctx *ctx;
-+
-+	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-+
-+	ctx->dev = kunit_device_register(test, "drm-bridge-dev");
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
-+
-+	test->priv = ctx;
-+	return 0;
-+}
-+
-+/*
-+ * Test that the allocation and initialization of a bridge works as
-+ * expected and doesn't report any error.
-+ */
-+static void drm_test_drm_bridge_alloc(struct kunit *test)
-+{
-+	struct drm_bridge_test_ctx *ctx = test->priv;
-+	struct dummy_drm_bridge *dummy;
-+
-+	dummy = devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_bridge, bridge,
-+				      &drm_bridge_dummy_funcs);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy);
-+}
-+
-+static struct kunit_case drm_bridge_alloc_tests[] = {
-+	KUNIT_CASE(drm_test_drm_bridge_alloc),
-+	{ }
-+};
-+
-+static struct kunit_suite drm_bridge_alloc_test_suite = {
-+	.name = "drm_bridge_alloc",
-+	.init = drm_test_bridge_init,
-+	.test_cases = drm_bridge_alloc_tests,
-+};
-+
-+kunit_test_suites(
-+	&drm_bridge_alloc_test_suite,
-+);
-+
-+MODULE_AUTHOR("Luca Ceresoli <luca.ceresoli@bootlin.com>");
-+MODULE_DESCRIPTION("Kunit test for drm_bridge functions");
-+MODULE_LICENSE("GPL");
+ 	drm_printf(p, "\ttype: [%d] %s\n",
+ 		   bridge->type,
+ 		   drm_get_connector_type_name(bridge->type));
 
 -- 
 2.34.1
