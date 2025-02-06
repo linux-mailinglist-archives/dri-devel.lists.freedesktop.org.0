@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E4FA2AFE4
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:10:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8EFA2B006
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:13:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B65F10E8F7;
-	Thu,  6 Feb 2025 18:10:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 231A610E8F9;
+	Thu,  6 Feb 2025 18:13:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hQjw32Tx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZuAfXx4Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E964110E8F6;
- Thu,  6 Feb 2025 18:10:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738865412; x=1770401412;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=7PMBIvNWvtgiLxcwJPkuicu6E83kkxxMIdHz14vqq9M=;
- b=hQjw32TxWqm1rGJgcvZbMjdRVlRzhtUyw3w2c34VoSWcchmONFo9lZoG
- VMRgHRQTB6EUYWfaP1X6Y8192dK7WJaHfAS4CJVFa8BFuq9WefSBKbeyx
- 05Cxox1vq0abvL/G0xCGoh7QOWadAkymIDqe8ECSyxFd0Y7osj+P8jENd
- cf8nI3HQ/sAtXnO7tj3rbUm+AUgdp4FZZSre9H0RbVBFg30lyvQH4C6+h
- O/G4LBiqLUpAdcwrsf7At0/BNYrpBvqqvFF16xL/jE0bJiY3LYKXL3FvE
- R9MtbkW/uOZM4dGRRXBPjfSgaeJzQou/bTZVqGmq9n3taN+SrkGqXUsBm g==;
-X-CSE-ConnectionGUID: CoLHZoaoTqaopQiuzX6V0w==
-X-CSE-MsgGUID: b1QHIkj2Qwmfv2zlnJV0RA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="61965301"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="61965301"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2025 10:10:12 -0800
-X-CSE-ConnectionGUID: NuRdCKfpR5+ak10Vei6Q+A==
-X-CSE-MsgGUID: ytkFN/KYQZ6SBN+XV98gmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="111889323"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.246.55])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2025 10:10:09 -0800
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Chris Wilson <chris.p.wilson@linux.intel.com>,
- Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH 3/3] drm/i915: Fix device sysfs teardown tried even if not set
- up
-Date: Thu,  6 Feb 2025 19:07:41 +0100
-Message-ID: <20250206180927.2237256-8-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250206180927.2237256-5-janusz.krzysztofik@linux.intel.com>
-References: <20250206180927.2237256-5-janusz.krzysztofik@linux.intel.com>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7DCE10E8F9
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:13:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 9E212A443EA;
+ Thu,  6 Feb 2025 18:12:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A66FC4CEDD;
+ Thu,  6 Feb 2025 18:13:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738865632;
+ bh=qpRlHeJcZ8Rg6GiEylH3nJ6t0qFUQU58DAXj2IT1v4s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZuAfXx4ZNiYZ3TZP7ZCllR1EQpRwKvsaMCxW7EeC61cyMdVUePlhC8egRPP7pOOjT
+ ybgmbOEqGeixDpRnUWEnwAgC/sjzJ57umRUGkIhKpHHZGKhyuRYjS+uTsar8qHREMP
+ XCyXzAQNqTISYzEaeJeRc6SqI9YAoExu6ZkjGraoFR7Z02QKUxbckRMAJ6829veUxI
+ i9irRJ3mbxm3gs5eyp9H3gh7zP3xK8IwYR43SmtPJWjyQG1LgZZ/+ZjHucmGxfo1Rp
+ AbaD2a6rE3ujFdrrs1d/0wUMRcJjaFlrLCEvw/vRrMGX+lR93t1BsxP64h97TAlntu
+ XscmKC2irtFNQ==
+Date: Thu, 6 Feb 2025 18:13:47 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
+ neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
+ airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: vendor: add csot
+Message-ID: <20250206-overlaid-eastward-610a0d6e34cd@spud>
+References: <20250206131300.1295111-1-yelangyan@huaqin.corp-partner.google.com>
+ <20250206131300.1295111-2-yelangyan@huaqin.corp-partner.google.com>
+ <CAD=FV=UfWJoUsKzYMkyU3U4Yn1ufAs=NHMCDL+db887Uec9fww@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BCdvD9ZIbZN+8WvF"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=UfWJoUsKzYMkyU3U4Yn1ufAs=NHMCDL+db887Uec9fww@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,63 +65,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We return immediately from i915_driver_register() if drm_dev_register()
-fails, skipping remaining registration steps.  However, the _unregister()
-counterpart called at device remove knows nothing about that skip and
-executes reverts for all those steps.  For that to work correctly, those
-revert functions must be resistant to being called even on uninitialized
-objects, or we must not skip their initialization.
 
-If device sysfs setup is skipped then its teardown counterpart,
-unconditionally called when unregistering the driver, fails and emits
-a warning that taints the kernel:
+--BCdvD9ZIbZN+8WvF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-<3> [525.823143] i915 0000:00:02.0: [drm] *ERROR* Failed to register driver for userspace access!
-...
-<4> [526.441186] ------------[ cut here ]------------
-<4> [526.441191] kernfs: can not remove 'error', no directory
-<4> [526.441211] WARNING: CPU: 1 PID: 3440 at fs/kernfs/dir.c:1684 kernfs_remove_by_name_ns+0xbc/0xc0
-...
-<4> [526.441536] RIP: 0010:kernfs_remove_by_name_ns+0xbc/0xc0
-...
-<4> [526.441578] Call Trace:
-<4> [526.441581]  <TASK>
-...
-<4> [526.441686]  sysfs_remove_bin_file+0x17/0x30
-<4> [526.441691]  i915_gpu_error_sysfs_teardown+0x1d/0x30 [i915]
-<4> [526.442226]  i915_teardown_sysfs+0x1c/0x60 [i915]
-<4> [526.442369]  i915_driver_remove+0x9d/0x140 [i915]
-<4> [526.442473]  i915_pci_remove+0x1e/0x40 [i915]
-...
+On Thu, Feb 06, 2025 at 09:12:45AM -0800, Doug Anderson wrote:
+> Hi,
+>=20
+> On Thu, Feb 6, 2025 at 5:13=E2=80=AFAM Langyan Ye
+> <yelangyan@huaqin.corp-partner.google.com> wrote:
+> >
+> > Add "csot" to the Devicetree Vendor Prefix Registry.
+> >
+> > Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> > ---
+> >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/D=
+ocumentation/devicetree/bindings/vendor-prefixes.yaml
+> > index 42d14899d584..375f1f7c79ef 100644
+> > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > @@ -336,6 +336,8 @@ patternProperties:
+> >      description: Crystalfontz America, Inc.
+> >    "^csky,.*":
+> >      description: Hangzhou C-SKY Microsystems Co., Ltd
+> > +  "^csot,.*":
+> > +    description: Guangzhou China Star Optoelectronics Technology Co., =
+Ltd
+>=20
+> Doing a `git log` on
+> `Documentation/devicetree/bindings/vendor-prefixes.yaml` shows that
+> most patches use the subject prefix `dt-bindings: vendor-prefixes`,
+> not `dt-bindings: vendor`. If device-tree folks care about this
+> difference and they don't want to fix it when applying, they might
+> request you to send a new version.
+>=20
+> In any case, that's fairly minor so I'm OK with:
+>=20
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>=20
+> I would assume this will go through the DT tree, not drm-misc. If this
+> is wrong then someone should shout.
 
-Since restoring symmetry by setting up the device sysfs even after a
-failure is not possible due to missing dependencies, teach the teardown
-counterpart to handle all components of the never set up device sysfs
-gently.
+idk, probably the whole series should go together via drm-misc.
+%subject can change if there's a resubmission, otherwise
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/9820
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10131
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/10887
-Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12817
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/gpu/drm/i915/i915_sysfs.c | 3 +++
- 1 file changed, 3 insertions(+)
+--BCdvD9ZIbZN+8WvF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/gpu/drm/i915/i915_sysfs.c b/drivers/gpu/drm/i915/i915_sysfs.c
-index 8775beab9cb84..9758a7ca27fd2 100644
---- a/drivers/gpu/drm/i915/i915_sysfs.c
-+++ b/drivers/gpu/drm/i915/i915_sysfs.c
-@@ -189,6 +189,9 @@ void i915_teardown_sysfs(struct drm_i915_private *dev_priv)
- {
- 	struct device *kdev = dev_priv->drm.primary->kdev;
- 
-+	if (!dev_priv->sysfs_gt)
-+		return;
-+
- 	i915_gpu_error_sysfs_teardown(dev_priv);
- 
- 	device_remove_bin_file(kdev, &dpf_attrs_1);
--- 
-2.47.1
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6T72wAKCRB4tDGHoIJi
+0j/SAPoC/C0pCB6Rfsu3yKehTDKPZcAfV2TvGOVKD5gwb5RWPgD+PFLgD3XA0PVE
+VHMkn6PRxKBvUAwsB1Vmq2uHw3SItQE=
+=gFPY
+-----END PGP SIGNATURE-----
+
+--BCdvD9ZIbZN+8WvF--
