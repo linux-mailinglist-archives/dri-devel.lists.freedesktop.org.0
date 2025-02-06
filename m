@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C93A2A8F2
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 14:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB19A2A8F7
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 14:04:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 599FC10E074;
-	Thu,  6 Feb 2025 13:04:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC51410E2D3;
+	Thu,  6 Feb 2025 13:04:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DleS3p4T";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pDZ2ygPJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7958F10E074
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 13:04:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA23B10E2D3
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 13:04:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id D3C1B5C4596;
- Thu,  6 Feb 2025 13:03:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0E98C4CEDD;
- Thu,  6 Feb 2025 13:04:04 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7F1C55C57E4;
+ Thu,  6 Feb 2025 13:03:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 773E5C4CEDD;
+ Thu,  6 Feb 2025 13:04:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738847045;
- bh=nEw9U9zKQZOmhf0lCPoaaFIM3irBFL5tnMAQWLaVNjg=;
+ s=k20201202; t=1738847068;
+ bh=HcPtGRcTHAOfFGOkTyn/W0r0zfnZmlWtrN18FEpXJh8=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=DleS3p4TanF27Og5zEN1U+io0qGAhkISDs+uE6LRtQtVavqlq0tg7w6P92gFWgK0K
- DSVi7y/jCQfimVOPs1gc1WDQrTf2FlNPxMLZX6r3X7/eiuhJmtyu2dYib+CJLQVnnX
- W9HrHSu1MYsbPvkMCeMQazI4maM9K/hKqcmiItpJfxCUdKPk5xGloL1iag+Wq0Ya9f
- 3i9BoKLbhsMmu7FDc8XQwiUKH4WtZ0ZmOqWtTSscdR2zYBmwezvASFzq4VOrcuXnaH
- Eyz8HLMGp43pD+fIh8NEtjr3gYGvABY/3RlUE9D+gahm+sk8qf/eljsAe2tHZwQVZb
- XU7+qewuWk50A==
-Message-ID: <85d06e9dd86691976049014aac756327@kernel.org>
-Date: Thu, 06 Feb 2025 13:04:02 +0000
+ b=pDZ2ygPJsmDFa8WwJ3UD3N5GE6qpleBBL5vG7ZH/EnrMA+YS+Euxx8GgnLzhwSC3e
+ Mk5a0IwDMiUW13tzHVnwrZqM8PqUTbEt5UeLzUSdxFjSfBjh4f5hsk24BkpzE5m6Yf
+ pJ8E2hhl4IYgr5mYL854fDdkqVJKP3nz5MsZA842RI+JCzvt65rFQtQL9dL+8Guvmo
+ N0msJyO/UuXWpzRfEa6Az05uyqbHFlBAQ6l3fgz13Ho0DD4gSALD5xQz9JtQ+0l6/x
+ i1W39I4VgyzT7A76IR5D+W2/rdNNy5jveHMG9NZmA2OeVjiSc/fTX+Q3byEdInWMXn
+ IDVqw/q55Aw0A==
+Message-ID: <cc915f4a4aa81e1a26e768c54c26c195@kernel.org>
+Date: Thu, 06 Feb 2025 13:04:25 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Herve Codina" <herve.codina@bootlin.com>
-Subject: Re: [PATCH v5 2/4] drm/atomic-helper: Introduce
- drm_atomic_helper_reset_crtc()
-In-Reply-To: <20250203161607.223731-3-herve.codina@bootlin.com>
-References: <20250203161607.223731-3-herve.codina@bootlin.com>
+Subject: Re: [PATCH v5 3/4] drm/vc4: hdmi: Use drm_atomic_helper_reset_crtc()
+In-Reply-To: <20250203161607.223731-4-herve.codina@bootlin.com>
+References: <20250203161607.223731-4-herve.codina@bootlin.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, "Alexander
  Stein" <alexander.stein@ew.tq-group.com>,
@@ -75,12 +74,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 3 Feb 2025 17:16:04 +0100, Herve Codina wrote:
-> drm_atomic_helper_reset_crtc() allows to reset the CRTC active outputs.
+On Mon, 3 Feb 2025 17:16:05 +0100, Herve Codina wrote:
+> The current code uses a the reset_pipe() local function to reset the
+> CRTC outputs.
 > 
-> This resets all active components available between the CRTC and
-> connectors.
-> 
+> drm_atomic_helper_reset_crtc() has been introduced recently and it
+> performs exact same operations.
 > 
 > [ ... ]
 
