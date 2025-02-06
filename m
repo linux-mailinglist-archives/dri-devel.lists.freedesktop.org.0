@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28234A2B02D
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:15:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6848A2B02E
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:15:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9902A10E916;
-	Thu,  6 Feb 2025 18:15:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43DB710E918;
+	Thu,  6 Feb 2025 18:15:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="JznA0qyI";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kGjz6Kxs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29D7810E916
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:15:38 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 648AC44264;
- Thu,  6 Feb 2025 18:15:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC1FC10E917
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:15:40 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 16A5143297;
+ Thu,  6 Feb 2025 18:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738865736;
+ t=1738865739;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jyt92zCCqkFkC7In83mYaBu4PIN5nSKfNfG/5T0DTUw=;
- b=JznA0qyIaTSfICk4caWACJbFbfNzXB1pg7S6uD3cgTrCOwAGOR2jl4hYbaD6qwNFYLQjN/
- GGCvKL2OKdNYgXo8ypms6t1EC1NNA6QPCklEjsnL19iJYH0AXm0WWTl8xNNiC85x2JJVcp
- 1x59+fg5iQbMzBtYLad904nKO9R1wxem87yt4xMpaVM/y8jD8ki2oCT4FzIBeRepdHWSZ2
- +hh+gRudoYHKq0zrujEIp6PXOlNDXDErASHdc8bbvJ47Tvnap9VPBO1UcRfqZj479G8BER
- uXcFAiFImmpFZ3ycDUn47hzc6H5utTKcEUj9jZUBZUnGq7PK/kz0Z9E/71WSHg==
+ bh=aGzraMmw+fA8wevuBLQcisstrYKOBwuJV7qXecxusco=;
+ b=kGjz6KxsyWT27vY60CZKrslgCFbs+dKlEkuHKWDcoVNbh0Gc7ociJPjPpnqlPIrM4ez4+w
+ gbgn7+t9jYJjDI0j6E05eqGO9e2Jf9P5t7mpaEvKsyax1U4/lJDnY44sV4PeuO52dYKcEg
+ FTPFvTP9NgedbG7Ln014Yqq8HhCGMgjwRH17I3xqEXk0jzNPgTgivit6ioysGy7ZFfBVAx
+ nDOA9MXl7n0rp5qxk4osl+iMPrRzvG+KR8VSd6QU1O3VJgeN3YsBZJtRFEB1OQia2iYCFP
+ J/ZBmJQI8dpDwMBm+iJY+ngg7UMSHXSfzkPP8eEgwUmXvoZeryT86IXSoCfwoQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 19:14:37 +0100
-Subject: [PATCH v6 22/26] drm/debugfs: show removed bridges
+Date: Thu, 06 Feb 2025 19:14:38 +0100
+Subject: [PATCH v6 23/26] drm/bridge: samsung-dsim: use refcounting for the
+ out_bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-hotplug-drm-bridge-v6-22-9d6f2c9c3058@bootlin.com>
+Message-Id: <20250206-hotplug-drm-bridge-v6-23-9d6f2c9c3058@bootlin.com>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 In-Reply-To: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -86,81 +87,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The usefulness of /sys/kernel/debug/dri/bridges is limited as it only shows
-bridges betweeb drm_bridge_add() and drm_bridge_remove(). However
-refcounted bridges can stay allocated for way longer, and a memory leak due
-to a missing drm_bridge_put() would not be visible in this debugfs file.
+In case the samsung-dsim is fixed and the following bridge is
+hot-unplugged, we need to handle the dynamic lifetime of the following
+bridge by putting the reference when disposing of it.
 
-Add removed bridges to the /sys/kernel/debug/dri/bridges output.
-
-Now however if a bridge is added and removed multiple times (as in
-hot-pluggable hardware) and not freed immediately, there would be multiple
-identical entries for the same bridge model/driver. To distinguish between
-each instance add the bridge pointer to the output.
+The devm functions used to get the next bridge reference will put it only
+when this device is removed. Do it explicitly on detach and in the error
+paths.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-This patch was added in v6.
----
- drivers/gpu/drm/drm_debugfs.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+Changed in v6:
+ - use new devm_drm_put[_and_clear]_bridge()
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 629074247ffec4fa18df7af2d9023255abed501c..b04e1fba8faf7320794277c2017c97216320f017 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -740,12 +740,16 @@ void drm_debugfs_crtc_remove(struct drm_crtc *crtc)
- 	crtc->debugfs_entry = NULL;
- }
+This patch was added in v5.
+---
+ drivers/gpu/drm/bridge/samsung-dsim.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+index bbd0a4f5a3f52b61bf48f10d6e8ca741bffa5e46..8e94f099d67bee93655129625b40d4c1af023fcc 100644
+--- a/drivers/gpu/drm/bridge/samsung-dsim.c
++++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+@@ -1732,13 +1732,13 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	if (!(device->mode_flags & MIPI_DSI_MODE_VIDEO)) {
+ 		ret = samsung_dsim_register_te_irq(dsi, &device->dev);
+ 		if (ret)
+-			return ret;
++			goto err_devm_put_bridge;
+ 	}
  
--static void bridge_print(struct drm_printer *p, struct drm_bridge *bridge, unsigned int idx)
-+static void bridge_print(struct drm_printer *p, struct drm_bridge *bridge, unsigned int idx,
-+			 bool removed)
- {
- 	drm_printf(p, "bridge[%u]: %ps\n", idx, bridge->funcs);
+ 	if (pdata->host_ops && pdata->host_ops->attach) {
+ 		ret = pdata->host_ops->attach(dsi, device);
+ 		if (ret)
+-			return ret;
++			goto err_devm_put_bridge;
+ 	}
  
-+	drm_printf(p, "\taddr: %p\n", bridge);
-+
- 	if (drm_bridge_is_refcounted(bridge))
--		drm_printf(p, "\trefcount: %u\n", kref_read(&bridge->refcount));
-+		drm_printf(p, "\trefcount: %u%s\n", kref_read(&bridge->refcount),
-+			   removed ? " [removed]" : "");
- 	else
- 		drm_printf(p, "\trefcount: N/A\n");
- 
-@@ -753,7 +757,8 @@ static void bridge_print(struct drm_printer *p, struct drm_bridge *bridge, unsig
- 		   bridge->type,
- 		   drm_get_connector_type_name(bridge->type));
- 
--	if (bridge->of_node)
-+	/* The OF node could be freed after drm_bridge_remove() */
-+	if (bridge->of_node && !removed)
- 		drm_printf(p, "\tOF: %pOFfc\n", bridge->of_node);
- 
- 	drm_printf(p, "\tops: [0x%x]", bridge->ops);
-@@ -778,7 +783,7 @@ static int bridges_show(struct seq_file *m, void *data)
- 	unsigned int idx = 0;
- 
- 	drm_for_each_bridge_in_chain(encoder, bridge)
--		bridge_print(&p, bridge, idx++);
-+		bridge_print(&p, bridge, idx++, false);
+ 	dsi->lanes = device->lanes;
+@@ -1748,6 +1748,10 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+ 	dsi->out_bridge = out_bridge;
  
  	return 0;
- }
-@@ -822,7 +827,10 @@ static int allbridges_show(struct seq_file *m, void *data)
- 	mutex_lock(&bridge_lock);
- 
- 	list_for_each_entry(bridge, &bridge_list, list)
--		bridge_print(&p, bridge, idx++);
-+		bridge_print(&p, bridge, idx++, false);
 +
-+	list_for_each_entry(bridge, &bridge_removed_list, list)
-+		bridge_print(&p, bridge, idx++, true);
++err_devm_put_bridge:
++	devm_drm_put_bridge(dev, out_bridge);
++	return ret;
+ }
  
- 	mutex_unlock(&bridge_lock);
+ static void samsung_dsim_unregister_te_irq(struct samsung_dsim *dsi)
+@@ -1764,7 +1768,7 @@ static int samsung_dsim_host_detach(struct mipi_dsi_host *host,
+ 	struct samsung_dsim *dsi = host_to_dsi(host);
+ 	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
  
+-	dsi->out_bridge = NULL;
++	devm_drm_put_and_clear_bridge(dsi->dev, &dsi->out_bridge);
+ 
+ 	if (pdata->host_ops && pdata->host_ops->detach)
+ 		pdata->host_ops->detach(dsi, device);
 
 -- 
 2.34.1
