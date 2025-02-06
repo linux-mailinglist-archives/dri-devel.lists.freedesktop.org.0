@@ -2,150 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA453A2B5F2
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 23:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F91FA2B6BA
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 00:50:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5D0A10E98E;
-	Thu,  6 Feb 2025 22:54:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8D3410E9B1;
+	Thu,  6 Feb 2025 23:50:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NopkpfQC";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="R8ltG564";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam02on2077.outbound.protection.outlook.com [40.107.212.77])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7B9210E97F;
- Thu,  6 Feb 2025 22:53:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KjhGiH0r/uhdtqIJQRdak/Erj0Wvao1fvoBBXPyNkqCHdjq3dEi4SU1WJvrGcZe5h/+gRjq9RcI2SQqRgSrtN2v673BWU2yJSJNMXk3pzGXcQsI0QtBpWetieV4eLbbM0gnX2CvpaL4mBQPZ6HCOswtduAHRkw3OLSIMXfZSMOAGCSq8poARXzQ7Fv5u6F2WiEg1Ko8oFqE12l/X2JsZ6umvNTugAz1Tnk65gz+xt65Soy7x53iq40avPCgHlybRoeTYkkEkN8DwT7O85hLj8oKGJsu7VJtBVsHOimLdaXU+7LRRFfDySwKrD7kR/JwWr6TF0bVtsXebFn8cyDit1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AfmwKZH2U5n4XTnQioXNaIKQRGpP4mv5myUXh4a3Emg=;
- b=ZudhAcAbsijISnv4zs+AEPKIvJ9dFy769C+VurwZoU6gH3tpnDRZ12I3FWBiFeVuugQ3TvZTxfZARZ/870VA64IsC4QrhwPvUW6H5pKdpt6RgSVjz9b2yR4UYL+9pZos7T9qgdTDX8O5CntzTqh4sB7f/XkO3cSmrPUNDFZtjUyUCDZWHX7SzExJ5JiAjiqaD4ywTw/9ZnF1wfCJFhbVRIRaQji20DkaZmX3zbvgiYUavg9zjgi3l/fIBH+8sis98zhPWNDRBmLojhalFI+xm7YEn/06/KE43PLv1G7ZFFyGkBzUsWo3BAW+RQPr8sE1oZUZpe7bGQ+dmVkpV9j3rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AfmwKZH2U5n4XTnQioXNaIKQRGpP4mv5myUXh4a3Emg=;
- b=NopkpfQCIZYqLepuo53LLDBLc8SAmUS0mfrPJax8CU8PUE6HvnmbTsgiDKXQLSBvYcEJTlLjjDS23qyzjLCoB3iL/XUvEUR1Moa4ZKUNJEc6DJoZnua7Xw9abFUsOiq7JhPSJIWitqwkckMv+DcEfQmd5+lfRaOqX81Qdk6JMUA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
- by IA0PR12MB8352.namprd12.prod.outlook.com (2603:10b6:208:3dd::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Thu, 6 Feb
- 2025 22:53:36 +0000
-Received: from BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
- ([fe80::9269:317f:e85:cf81%7]) with mapi id 15.20.8422.012; Thu, 6 Feb 2025
- 22:53:35 +0000
-Message-ID: <3755f3f6-f7d2-4385-b709-7974c815bb2e@amd.com>
-Date: Thu, 6 Feb 2025 17:53:33 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/amd: Refactor find_system_memory()
-To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20250206214847.3334595-1-superm1@kernel.org>
-Content-Language: en-US
-From: Felix Kuehling <felix.kuehling@amd.com>
-In-Reply-To: <20250206214847.3334595-1-superm1@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c00:1::25) To BN9PR12MB5115.namprd12.prod.outlook.com
- (2603:10b6:408:118::14)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7B1110E0B0;
+ Thu,  6 Feb 2025 23:50:03 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 516LpOeN016821;
+ Thu, 6 Feb 2025 23:49:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ NiordE/s0euCUZ6Ltf92B+aT43Ccp14BRhTbVyEftas=; b=R8ltG564Hmw/ZM3L
+ IxsqE+ta/4yhD2jIRApbxYN1jjJTsMQ5XBR8JHiqpSlROyOEoDXvGOmUcZ7ma2ri
+ cZ0+/4Yqtw+c7iHy//qlsPzB/e18g6izcDiGcqQzhO7D5BCSDpSAaP90ZdJoMJcP
+ jBk5JZI2e5u0aMjx+NMXN4qva/Boa7DGQciFwx9/lAYZgCL57aP75rrgU+ezaBY+
+ LybLyxnfNiSqUi+daORXX68MNFJHAKmQFW4uaLcm9mlDkAysnwnUSdwbc7zrG8Sy
+ tp0wUWdENkYmnccRJU9pczOhXYPUXRSuYgIqDlMd+nQvPSI5zrrUdBOfhpon6dDa
+ C+dFsw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44mtsa1x7m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Feb 2025 23:49:55 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 516NnsR2013498
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 6 Feb 2025 23:49:54 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 6 Feb 2025
+ 15:49:53 -0800
+Message-ID: <16986655-0c51-49ac-8088-6548317be7e6@quicinc.com>
+Date: Thu, 6 Feb 2025 15:49:53 -0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|IA0PR12MB8352:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e1fd69b-f8ec-40d1-13b8-08dd47011634
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?K0h5MFFHeDdyM2M0MFI2dEtObWlBMGdSdVVJTGgxay80M2VCV25HVS85M1dM?=
- =?utf-8?B?Q0lwNHdZRUp0THNTSVZWWW81bDdub2RSRFdQUDlMTmltbzBjUkVXV2dKVkcy?=
- =?utf-8?B?VVhEUEh2VmpkYU5Ceit2V2FoZk1JSVdWTE9LUnBhSkp1TG43eFFPZmtSekZl?=
- =?utf-8?B?UEtMUDlmQkxzMHJkTzIrZWtyNmlXWEd4RkR0ek1sa29ldlZEV1k1WElhb29u?=
- =?utf-8?B?cTBFZk43M2ZnS3JPQS92MWVVUEM4SEJkWi9FSTZrTjhnbmVjUlpKSkhzRERZ?=
- =?utf-8?B?dEI5RmRpNW81Y0xtUnh2NVRwbDFBT3BWeWx5RDlKcjJMZEtwR0ZWdVM4a1FB?=
- =?utf-8?B?QmZGT3J0aGdFaDBpYTZlRy85MGFiTko5T1kzaVJRZlRmYlMrdWI0a3RhZ29i?=
- =?utf-8?B?STI1Uzg0UFZBalltdGFBVHJHZG5wSTZnb3RWOTJuRVE0NHk3bjFwbFpid0R6?=
- =?utf-8?B?aHhMWTY2QjdlVitwU2l6Zm1lM1hoazRXeG9GdWI4VThHbDlnYmRYSDFaeVdh?=
- =?utf-8?B?NDRCOWFuYXU0YmNPYXJRd1d2aTJmRURPTkZ5aHdsSXYwK1J1Zmk4dmhlQWww?=
- =?utf-8?B?U0duL1cyRHlBazRzUjBBVmkxamlVcUREbThPMlE5Q1ZIbzZTSkdGSklVZkZS?=
- =?utf-8?B?UEZmSFk3RGNNZDYyNitYNGpRNFFLdURxd3J3ZStPdVFlOE45Yk1ZZ0tGRUZm?=
- =?utf-8?B?L09ydEdpaUsrYmlNbFhzT1pjQkZ4QnlPZHZoeVk5a2cvTzdiejRzSThhZC9n?=
- =?utf-8?B?Q2Joc3FWV3I3c0dZYVhjNDRkQVl1eHJRSGs3TlJVOTVEQ2hnT0l4VDV1Q2Ns?=
- =?utf-8?B?ZVhRek1OMXFSekxGOGh3YWVURFpCemF2YjJwUWtOVzJqT1VBV3FmOU5YMERJ?=
- =?utf-8?B?MjlBNG41ZnNMVFNDSDlHYVd3cksxdm1yV2ZuTXN4OVd5d3drWGUyRzBFL2l5?=
- =?utf-8?B?d2t1L1lrZXhaMEZMMnpqcXZ4R3BKSGdqM1dQcklGbWNIRHpjdUY1NXgxeGdJ?=
- =?utf-8?B?czlhTWhlMTljbVpOQlM2U3VpOVN0UWg2bGNzR0U5L1JmMGh3VGJ3OXdzeWs3?=
- =?utf-8?B?MU5xSkVCNUpucXpLR1pyR2JIRmw0YWlmTjNlNmJPdnZXY1Ruc0M4TGkya3Zy?=
- =?utf-8?B?cDAzb1JEYmxXNHBuY080ZlFieFh2OFQ0SDVYTFVkMHN0cm04TlJLYlFzbi9X?=
- =?utf-8?B?Ly9ONytRaWQ0aDFnWUZsb1pUREM0N2VWWnAxRTcvdmlVbE9UWENaS0RTZXJz?=
- =?utf-8?B?Ynl1TFFWVnQ4Ync0Z2xMMWlNRFVwUTk5NFRqdXRoQmk5QjFLODhucHJoL0Iy?=
- =?utf-8?B?S24xd0Y0Z3ZLcmZiVkEza3RPbC9MTVZWbG5LSnJlejQvSlRranVidk9zckxx?=
- =?utf-8?B?b082RC9XaENOb2p0YzJwREFnakFiZEhKSXk5NERYTWFVMzFMY0lYK2Q4ZEpn?=
- =?utf-8?B?T3BHOVl1ZkRzamdVZHBFMCt2MEdScFEyaFhHTnJBSEd4ZlphSUtHcVlpak5v?=
- =?utf-8?B?SDRkZkVLRXI5Wnh2MUwyUjlRYjU2dm1GM0lMcDd3K1B4TzA1eElSeHhOVkdP?=
- =?utf-8?B?WGxGM2NLMCtoTDRLbnhwbGlTTUIrMC8xVXYxN3FOaFJmYnVnVmR1WDdsWFcr?=
- =?utf-8?B?TWdEOE9Zc3JBVzVBQ05SNFQrSlRydmFEbVcwVmxsbThvVk5EYnhFQno5dHdL?=
- =?utf-8?B?Sy90L3lENXQ1WWZkSzZmajdvU2crYkV2QVcyK0k2dDVsdk1BYVNVZGQ3SHRS?=
- =?utf-8?B?bFVFU0oyazJrTHdralY5SktOT1UzK1BDOHF2ODdRNlA3VVNzMnJZdnZ4RHJB?=
- =?utf-8?B?WHVUcVZCNDdmNjZXYjRlUT09?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTdBSlpyUlBOK0lreTZIZEVlSThsZldhQWVJYkx2RWtvOTNVcTY4TFFQK3Y4?=
- =?utf-8?B?YmVpbEE2VndZZ0hyWG0raU81VUlLOEtHN2gzVDZqeVkyemVBMEJueU1GWmVQ?=
- =?utf-8?B?R1Q1cUE4aTNyb09UVE1UbWpZWWE0Wmd5SXFPQWc0Q25tVUUwdUxSa3E4b2tk?=
- =?utf-8?B?bUpJdW5ieUhMSzBhaC8yb3NKNGVpNVlaUzdlMERRNS9qaklsMnlVNDRRTzA2?=
- =?utf-8?B?NDVmR25yOUVQNzdUMGFYbkVZQ2c5ZnJTaXQzSG9kMmpLaGh1Rk12MXBaRlgv?=
- =?utf-8?B?RThUU0NKajA0ZTZYU3FlajV5b3BTM3o1UVAyaXJGWUkzTnN0OXdhbm5jMmx2?=
- =?utf-8?B?R3h3dkpITEdhVi95ejJ2eFZjNjBjRmZBRGk3WE1tL3p0dWkrekdMK0hUS1gv?=
- =?utf-8?B?UytVaWE0aGtKRVd4T3gxWFpodytVYzhibDU2SHZpdWVNR0hBZE5EL21TOHd5?=
- =?utf-8?B?a2JodFJ0a0dlRm9UN2x3UVp5V1M0NmZSSWNYMHJlSmNxbDhBTHJjbm9nYnNz?=
- =?utf-8?B?T2JUS3FnSzN2alRrL1pubUprVkFnNHVNZU1IVlVvVWlONCtUSDNucHRxRUp0?=
- =?utf-8?B?RVFkSlk0SzVHYThWekxJcldNNDJnK3ZKcVBlRjNXYXA3WkdLeFNtOHNFMXAw?=
- =?utf-8?B?eFhWb2Z5U1pTTlJnRGZUS2dJbFg3eUFVZU9FUWZKQ1RuSnRuK0t5a3VBSkpT?=
- =?utf-8?B?aFVGQnR5UVhkc2lBZ3FuS1BkOVY2U29sOFRSL0p4Rk90a1R2OGtMVjBqK08w?=
- =?utf-8?B?bE5OTDV2SE01cEFPVzJPMHA0UFlRZjhuVXlZTlp1SlZJRmRhMXRHeUo4RXAr?=
- =?utf-8?B?dm9SNXpPOG5hU1JqYVg1KzFhR0syTWhVdTdQQ1NqSFVSRC9GdWIvcEtMVHdJ?=
- =?utf-8?B?UldLYzN0SWlETTNnb3VVZGVaTDRBblJFZkRJbzVGaGJrOFcrdnFlamI5c3c4?=
- =?utf-8?B?dUlZS3BGKzhaTzlmNzJtK3VvWHBrT0YxcmdLMWVWMDZiS1FtZGtvL0xmNC96?=
- =?utf-8?B?NEE4bzdIVDVjNVRTaGpTbS9DTmtQNyt2MEFoa2ZFM1liT1o2L29iQllBUFUy?=
- =?utf-8?B?ZWlXTUN3WW04R1pxRkdkL0ppY1dpTjNGU29ESXFhVWZ6cmlWMnpEL29qY1pV?=
- =?utf-8?B?cGg0SStNUm5zdjVLcFNNQlNuT1haM1kyaGkva1pDY3ZNTVNSY2N0TFZaRy9j?=
- =?utf-8?B?dFFtSzlOZXhzM2dCRWVoWW0yK1orVXJtL2tGcWFMS3luQWt6S3Y2OGgrcGtG?=
- =?utf-8?B?NnRScWk5R1VJaDN0MzZKVlpiNGozcVpLeHUzUnVMV25nYTZWMDgraEZ6cWNy?=
- =?utf-8?B?S3ZYS0pEM0pZRktEMmNCYUZRbGhhVHg4b05jY2R2Vk9ObTRnNkpteitKcEgv?=
- =?utf-8?B?U3pvZnN5ZEh3eFFhb0N3d0JEWTljOGdJWjMwNmJiR005TzJsWDJNQUNSYlI2?=
- =?utf-8?B?TkM5d0QwZzhrMEo1VFFsaTVNU1lkaEtsSGJlbVVhN3FGbFNqNnAwSnFQYUdp?=
- =?utf-8?B?Y083TkFEL2NzQzJyZTNHcGJzTFNxWlhJTmErVU5NR0wwRTBCTk9LbTlWV0N6?=
- =?utf-8?B?T2dDS1NYd3d0blVJamdUN21CTDlZUUN6VVNGNmRlSGJKT3BEZlBjWGVwc1dk?=
- =?utf-8?B?eUFuWDZIeE0wTDRBekpGNUNtY0JTWEtkamF2SE1rMWNZUC81Y1ZPWlJGOEdr?=
- =?utf-8?B?L0ptOWc2T3ZJRmMvY0x1MjgzM1RmUWNWSGpOL0dDNnZIOEpiWjhpSFBra082?=
- =?utf-8?B?WllZald5bmtaeDhSWEtWZ3E0SCtzRm9xRFlQSVVoeUVaTy9EUnR6b2ZKenNE?=
- =?utf-8?B?ekFwdDF1TjJBYWtua3M2UjV2RFA1VGNYNmpwMldocFF3cStLcDI5ME83Ymhr?=
- =?utf-8?B?M2RQZmt6eld1YjB4TlhQWG1aUldlNlF1RGNSRGpiV2hETnJINkJiRnNQcEM5?=
- =?utf-8?B?M0dqREJGa1Z6c05EZzhBOUFlenNVdm12TnJPSWdrRE5QUzk5SUtETDdUNmVp?=
- =?utf-8?B?dHh4TS9QQW5Yd3ZleW0rYjh6ZThobDFzZWRLbnhuUDdpQjFaQ1hEYTBGU2N1?=
- =?utf-8?B?eUpNaHlqYlVacFR0YXVBVEtFTGV5UFFYSU5CSW0zcUsrSisxTFZSKzNMdWNz?=
- =?utf-8?Q?5zzP5re6hH5aNu1lzjWSF+uxt?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e1fd69b-f8ec-40d1-13b8-08dd47011634
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 22:53:35.7963 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0hIyQ5bKHrekRrGdhjm8uwidNl8dcV5WpSdrRneuwdUMcXM+AFWCFkFMeLKdJVyeg+5AZhCYaAWeVK/xHqVQgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8352
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 02/14] drm/msm/dpu: move resource allocation to CRTC
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Rob Clark <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>, Sean Paul
+ <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, "David
+ Airlie" <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>, <quic_ebharadw@quicinc.com>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ Rob Clark <robdclark@chromium.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>
+References: <20250128-concurrent-wb-v5-0-6464ca5360df@quicinc.com>
+ <20250128-concurrent-wb-v5-2-6464ca5360df@quicinc.com>
+ <34zk3jbcjlbux7737t2ve3xcwbt2uxsalbqih6os4ykqeklyfa@phy4izanhn3d>
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <34zk3jbcjlbux7737t2ve3xcwbt2uxsalbqih6os4ykqeklyfa@phy4izanhn3d>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: bKS3qhzkE6s_pjuKdb4ld8bcC3pMiXr9
+X-Proofpoint-ORIG-GUID: bKS3qhzkE6s_pjuKdb4ld8bcC3pMiXr9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-06_07,2025-02-05_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 priorityscore=1501
+ clxscore=1015 mlxscore=0 adultscore=0 bulkscore=0 mlxlogscore=971
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502060185
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,107 +100,229 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 2025-02-06 16:48, Mario Limonciello wrote:
-> From: Mario Limonciello <mario.limonciello@amd.com>
-> 
-> find_system_memory() pulls out two fields from an SMBIOS type 17
-> device and sets them on KFD devices. The data offsets are counted
-> to find interesting data.
-> 
-> Instead use a struct representation to access the members and pull
-> out the two specific fields.
-> 
-> No intended functional changes.
-> 
-> Link: https://www.dmtf.org/sites/default/files/standards/documents/DSP0134_3.8.0.pdf p99
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-
-> ---
-> v2:
->  * Update commit message
->  * Use container_of()
-> ---
->  drivers/gpu/drm/amd/amdkfd/kfd_topology.c | 27 +++++++++++------------
->  drivers/gpu/drm/amd/amdkfd/kfd_topology.h | 17 ++++++++++++++
->  2 files changed, 30 insertions(+), 14 deletions(-)
+On 1/29/2025 2:04 PM, Dmitry Baryshkov wrote:
+> On Tue, Jan 28, 2025 at 07:20:34PM -0800, Jessica Zhang wrote:
+>> From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>
+>> All resource allocation is centered around the LMs. Then other blocks
+>> (except DSCs) are allocated basing on the LMs that was selected, and LM
+>> powers up the CRTC rather than the encoder.
+>>
+>> Moreover if at some point the driver supports encoder cloning,
+>> allocating resources from the encoder will be incorrect, as all clones
+>> will have different encoder IDs, while LMs are to be shared by these
+>> encoders.
+>>
+>> In addition, move mode_changed() to dpu_crtc as encoder no longer has
+>> access to topology information
+>>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> [quic_abhinavk@quicinc.com: Refactored resource allocation for CDM]
+>> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>> [quic_jesszhan@quicinc.com: Changed to grabbing exising global state]
+>> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+>>
+>> ---
+>> Changes in v5:
+>> - Reordered to prevent breaking CI and upon partial applciation
+>> - Moved mode_changed() from dpu_encoder to dpu_crtc
+>> - Dropped dpu_encoder_needs_dsc_merge() refactor to clean up commit
+>> - In dpu_encoder_update_topology(), grab DSC config using dpu_encoder
+>>    helper as dpu_encoder->dsc hasn't been set yet
+>> ---
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    |  79 +++++++++++++
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h    |   2 +
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 174 +++++++++-------------------
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h |  11 +-
+>>   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |  19 +--
+>>   5 files changed, 144 insertions(+), 141 deletions(-)
+>>
 > 
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> index ceb9fb475ef13..4c4846dbaa2d4 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.c
-> @@ -968,24 +968,23 @@ static void kfd_update_system_properties(void)
->  	up_read(&topology_lock);
->  }
->  
-> -static void find_system_memory(const struct dmi_header *dm,
-> -	void *private)
-> +static void find_system_memory(const struct dmi_header *dm, void *private)
->  {
-> +	struct dmi_mem_device *memdev = container_of(dm, struct dmi_mem_device, header);
->  	struct kfd_mem_properties *mem;
-> -	u16 mem_width, mem_clock;
->  	struct kfd_topology_device *kdev =
->  		(struct kfd_topology_device *)private;
-> -	const u8 *dmi_data = (const u8 *)(dm + 1);
-> -
-> -	if (dm->type == DMI_ENTRY_MEM_DEVICE && dm->length >= 0x15) {
-> -		mem_width = (u16)(*(const u16 *)(dmi_data + 0x6));
-> -		mem_clock = (u16)(*(const u16 *)(dmi_data + 0x11));
-> -		list_for_each_entry(mem, &kdev->mem_props, list) {
-> -			if (mem_width != 0xFFFF && mem_width != 0)
-> -				mem->width = mem_width;
-> -			if (mem_clock != 0)
-> -				mem->mem_clk_max = mem_clock;
-> -		}
-> +
-> +	if (memdev->header.type != DMI_ENTRY_MEM_DEVICE)
-> +		return;
-> +	if (memdev->header.length < sizeof(struct dmi_mem_device))
-> +		return;
-> +
-> +	list_for_each_entry(mem, &kdev->mem_props, list) {
-> +		if (memdev->total_width != 0xFFFF && memdev->total_width != 0)
-> +			mem->width = memdev->total_width;
-> +		if (memdev->speed != 0)
-> +			mem->mem_clk_max = memdev->speed;
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-> index 155b5c410af16..f06c9db7ddde9 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_topology.h
-> @@ -24,6 +24,7 @@
->  #ifndef __KFD_TOPOLOGY_H__
->  #define __KFD_TOPOLOGY_H__
->  
-> +#include <linux/dmi.h>
->  #include <linux/types.h>
->  #include <linux/list.h>
->  #include <linux/kfd_sysfs.h>
-> @@ -179,6 +180,22 @@ struct kfd_system_properties {
->  	struct attribute	attr_props;
->  };
->  
-> +struct dmi_mem_device {
-> +	struct dmi_header header;
-> +	u16 physical_handle;
-> +	u16 error_handle;
-> +	u16 total_width;
-> +	u16 data_width;
-> +	u16 size;
-> +	u8 form_factor;
-> +	u8 device_set;
-> +	u8 device_locator;
-> +	u8 bank_locator;
-> +	u8 memory_type;
-> +	u16 type_detail;
-> +	u16 speed;
-> +} __packed;
-> +
->  struct kfd_topology_device *kfd_create_topology_device(
->  		struct list_head *device_list);
->  void kfd_release_topology_device_list(struct list_head *device_list);
+>> -/**
+>> - * dpu_encoder_virt_check_mode_changed: check if full modeset is required
+>> - * @drm_enc:    Pointer to drm encoder structure
+>> - * @crtc_state:	Corresponding CRTC state to be checked
+>> - * @conn_state: Corresponding Connector's state to be checked
+>> - *
+>> - * Check if the changes in the object properties demand full mode set.
+>> - */
+>> -int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
+>> -					struct drm_crtc_state *crtc_state,
+>> -					struct drm_connector_state *conn_state)
+>> +bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_state *state)
+>>   {
+>> +	struct drm_connector *connector;
+>> +	struct drm_connector_state *conn_state;
+>> +	struct drm_framebuffer *fb;
+>>   	struct dpu_encoder_virt *dpu_enc = to_dpu_encoder_virt(drm_enc);
+>> -	struct msm_display_topology topology;
+>> -
+>> -	DPU_DEBUG_ENC(dpu_enc, "\n");
+>> -
+>> -	/* Using mode instead of adjusted_mode as it wasn't computed yet */
+>> -	topology = dpu_encoder_get_topology(dpu_enc, &crtc_state->mode, crtc_state, conn_state);
+>> -
+>> -	if (topology.needs_cdm && !dpu_enc->cur_master->hw_cdm)
+>> -		crtc_state->mode_changed = true;
+>> -	else if (!topology.needs_cdm && dpu_enc->cur_master->hw_cdm)
+>> -		crtc_state->mode_changed = true;
+>> -
+>> -	return 0;
+>> -}
+>> -
+>> -static int dpu_encoder_virt_atomic_check(
+>> -		struct drm_encoder *drm_enc,
+>> -		struct drm_crtc_state *crtc_state,
+>> -		struct drm_connector_state *conn_state)
+>> -{
+>> -	struct dpu_encoder_virt *dpu_enc;
+>> -	struct msm_drm_private *priv;
+>> -	struct dpu_kms *dpu_kms;
+>> -	struct drm_display_mode *adj_mode;
+>> -	struct msm_display_topology topology;
+>> -	struct dpu_global_state *global_state;
+>> -	int ret = 0;
+>> -
+>> -	if (!drm_enc || !crtc_state || !conn_state) {
+>> -		DPU_ERROR("invalid arg(s), drm_enc %d, crtc/conn state %d/%d\n",
+>> -				drm_enc != NULL, crtc_state != NULL, conn_state != NULL);
+>> -		return -EINVAL;
+>> -	}
+>> -
+>> -	dpu_enc = to_dpu_encoder_virt(drm_enc);
+>> -	DPU_DEBUG_ENC(dpu_enc, "\n");
+>> -
+>> -	priv = drm_enc->dev->dev_private;
+>> -	dpu_kms = to_dpu_kms(priv->kms);
+>> -	adj_mode = &crtc_state->adjusted_mode;
+>> -	global_state = dpu_kms_get_global_state(crtc_state->state);
+>> -	if (IS_ERR(global_state))
+>> -		return PTR_ERR(global_state);
+>>   
+>> -	trace_dpu_enc_atomic_check(DRMID(drm_enc));
+>> +	if (!drm_enc || !state)
+>> +		return false;
+>>   
+>> -	topology = dpu_encoder_get_topology(dpu_enc, adj_mode, crtc_state, conn_state);
+>> +	connector = drm_atomic_get_new_connector_for_encoder(state, drm_enc);
+>> +	if (!connector)
+>> +		return false;
+>>   
+>> -	/*
+>> -	 * Release and Allocate resources on every modeset
+>> -	 */
+>> -	if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+>> -		dpu_rm_release(global_state, drm_enc);
+>> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
+>>   
+>> -		if (crtc_state->enable)
+>> -			ret = dpu_rm_reserve(&dpu_kms->rm, global_state,
+>> -					drm_enc, crtc_state, &topology);
+>> +	if (dpu_enc->disp_info.intf_type == INTF_WB && conn_state->writeback_job) {
+>> +		fb = conn_state->writeback_job->fb;
+>> +		if (fb && MSM_FORMAT_IS_YUV(msm_framebuffer_format(fb))) {
+>> +			if (!dpu_enc->cur_master->hw_cdm)
+>> +				return true;
+>> +		} else {
+>> +			if (dpu_enc->cur_master->hw_cdm)
+>> +				return true;
+>> +		}
+> 
+> Nit: this is duplicating a part of the dpu_encoder_update_topology(). It
+> would be nice to have a comment here. If there is no need for a new
+> versoion, I can probably write something when applying.
+
+Sure, I can add a note that we need to duplicate these checks in 
+*_needs_modeset() since topology info is not stored in the encoder or crtc
+
+Thanks,
+
+Jessica Zhang
+
+> 
+>>   	}
+>>   
+>> -	trace_dpu_enc_atomic_check_flags(DRMID(drm_enc), adj_mode->flags);
+>> -
+>> -	return ret;
+>> +	return false;
+>>   }
+>>   
+>>   static void _dpu_encoder_update_vsync_source(struct dpu_encoder_virt *dpu_enc,
+>> @@ -2612,7 +2545,6 @@ static const struct drm_encoder_helper_funcs dpu_encoder_helper_funcs = {
+>>   	.atomic_mode_set = dpu_encoder_virt_atomic_mode_set,
+>>   	.atomic_disable = dpu_encoder_virt_atomic_disable,
+>>   	.atomic_enable = dpu_encoder_virt_atomic_enable,
+>> -	.atomic_check = dpu_encoder_virt_atomic_check,
+>>   };
+>>   
+>>   static const struct drm_encoder_funcs dpu_encoder_funcs = {
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> index da133ee4701a329f566f6f9a7255f2f6d050f891..b0ac10ebd02c2b63e6f6f9010a22cdace931cf3b 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h
+>> @@ -80,6 +80,13 @@ int dpu_encoder_get_crc(const struct drm_encoder *drm_enc, u32 *crcs, int pos);
+>>   
+>>   bool dpu_encoder_use_dsc_merge(struct drm_encoder *drm_enc);
+>>   
+>> +void dpu_encoder_update_topology(struct drm_encoder *drm_enc,
+>> +				 struct msm_display_topology *topology,
+>> +				 struct drm_atomic_state *state,
+>> +				 const struct drm_display_mode *adj_mode);
+>> +
+>> +bool dpu_encoder_needs_modeset(struct drm_encoder *drm_enc, struct drm_atomic_state *state);
+>> +
+>>   void dpu_encoder_prepare_wb_job(struct drm_encoder *drm_enc,
+>>   		struct drm_writeback_job *job);
+>>   
+>> @@ -88,8 +95,4 @@ void dpu_encoder_cleanup_wb_job(struct drm_encoder *drm_enc,
+>>   
+>>   bool dpu_encoder_is_valid_for_commit(struct drm_encoder *drm_enc);
+>>   
+>> -int dpu_encoder_virt_check_mode_changed(struct drm_encoder *drm_enc,
+>> -					struct drm_crtc_state *crtc_state,
+>> -					struct drm_connector_state *conn_state);
+>> -
+>>   #endif /* __DPU_ENCODER_H__ */
+>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> index 5ce06e25990cb70284d3c3f04ac1e1e1bed6142a..c6b3b2e147b4c61ec93db4a9f01d5a288d2b9eb2 100644
+>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+>> @@ -449,24 +449,11 @@ static void dpu_kms_disable_commit(struct msm_kms *kms)
+>>   static int dpu_kms_check_mode_changed(struct msm_kms *kms, struct drm_atomic_state *state)
+>>   {
+>>   	struct drm_crtc_state *new_crtc_state;
+>> -	struct drm_connector *connector;
+>> -	struct drm_connector_state *new_conn_state;
+>> +	struct drm_crtc *crtc;
+>>   	int i;
+>>   
+>> -	for_each_new_connector_in_state(state, connector, new_conn_state, i) {
+>> -		struct drm_encoder *encoder;
+>> -
+>> -		WARN_ON(!!new_conn_state->best_encoder != !!new_conn_state->crtc);
+>> -
+>> -		if (!new_conn_state->crtc || !new_conn_state->best_encoder)
+>> -			continue;
+>> -
+>> -		new_crtc_state = drm_atomic_get_new_crtc_state(state, new_conn_state->crtc);
+>> -
+>> -		encoder = new_conn_state->best_encoder;
+>> -
+>> -		dpu_encoder_virt_check_mode_changed(encoder, new_crtc_state, new_conn_state);
+>> -	}
+>> +	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+>> +		dpu_crtc_check_mode_changed(new_crtc_state);
+>>   
+>>   	return 0;
+>>   }
+>>
+>> -- 
+>> 2.34.1
+>>
+> 
+> -- 
+> With best wishes
+> Dmitry
 
