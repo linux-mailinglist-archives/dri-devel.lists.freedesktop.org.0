@@ -2,51 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C97BA2A410
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:20:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3979BA2A406
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:19:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCB210E84E;
-	Thu,  6 Feb 2025 09:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D534910E809;
+	Thu,  6 Feb 2025 09:17:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mlMqEO9y";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 386E510E84A
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:15:20 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id
- ca18e2360f4ac-844e6476afeso50053739f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 01:15:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738833319; x=1739438119;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xYOBYj7aJAB6p76ECKhTSVve+8W7ayGSimHBE//XKLw=;
- b=RNxQJHSrwNh+0OsJ27hCVG2WjI7iyD2gqTxTqmMDzoDIi6CV41N7he1rB2yJ+brDN7
- s2/AG4/bT2OOE7D+lYZ3fS0xtC5/4hdGYk1PjWhkFpEVQWZTQNzMxhg0Qb+y7TdzpnJ0
- k2V8t9CzQatx7IWzRNBBaQWfPMmLtD2kQMDJEuP0fOZNl4kX1WLdxuJz9AK/7Zgv3307
- dEsOyLKbyTN7OMQBiXKjsj6aUITdWaOgX3Tz1W6m1+i0XiQCOkh+o0fMSnxqu+FkogwS
- Hxr2txkZ+g155+ZkY2RMLoIpnmtAUl2S9yTbJHf0DR0JqVzBKVjj82kmY9bY67LgYdf4
- mO7w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWRbg500nKgFEfNnhP/mKtBTYfynAGsV9K0ibRvf5nukIYg4qgBdeaXUvq4aI2GuUcW4m9vWHHGJ2I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzEqM/vRM7XZSVVdGi1EI45jPvgxa+OOcm4Negsw4mp0ChraR9A
- E5VCkjWvBTO5gDafx8/v+6x3QcB5ogaonMYoh/pFDRj4S2kcIkeyBN1Kh6v/6IhAZdXNGTQN3LG
- P1Sb1UC+U3ix8my0WjwhOYgKrYzO5XImfuo8+tdjUpFnVoLoln1dJtAk=
-X-Google-Smtp-Source: AGHT+IEAqn2vw/fSFk8xV6QOIyrYA4RUnDiruBcJFhNgf8a+1jZtTCFOWtpHjqNyI8XXA1cwYd00rCgCnpFDGVPthTAimqgwbmqr
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC05410E809
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:17:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 561705C4BE6;
+ Thu,  6 Feb 2025 09:16:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE27C4CEDD;
+ Thu,  6 Feb 2025 09:17:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738833453;
+ bh=OprUX3sf+GllvjoTCMMHPEd9To8pLBDgBAKjQLuN4bk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mlMqEO9yqjddagGvhpyIFTCCScBLoIgdQQqQMCaV3jJZ5roJ3Rafcskhyg91jS88z
+ xc9fT2zVeuM5WPf+6livRm1gQCXzW7oGbxdNYQ+/KVEUGbD1WvseO/ekE4tGTWcY70
+ GEQY5xeGHhTx7J7YCnhVjokZcMMV/BvL1/7awqvro9cQ8JbJ5amYNcG8pC86iSRMZY
+ bHFhuNo0O27tmaNs/EMKJTeS3TlYwayG0ddQng4Y3Qk4pb+qIV565y2Dzk08wYHNwC
+ MzreoZNOVi/InNqbtYb8gJRqJLiAJELAABvnWp43MQ4EFpu29Tzfm2glpZGhG7CDZK
+ xQXdLzaDPiX4w==
+Date: Thu, 6 Feb 2025 10:17:30 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: fnkl.kernel@gmail.com
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
+Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display
+ driver
+Message-ID: <20250206-caped-premium-squid-595ecd@houat>
+References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
+ <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1d88:b0:3cf:bc71:94ef with SMTP id
- e9e14a558f8ab-3d04f901a64mr49860765ab.17.1738833319407; Thu, 06 Feb 2025
- 01:15:19 -0800 (PST)
-Date: Thu, 06 Feb 2025 01:15:19 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67a47da7.050a0220.19061f.05fa.GAE@google.com>
-Subject: [syzbot] Monthly fbdev report (Feb 2025)
-From: syzbot <syzbot+list52071043e7dbf4b67ce6@syzkaller.appspotmail.com>
-To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="s5i444uyid5tefem"
+Content-Disposition: inline
+In-Reply-To: <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +69,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello fbdev maintainers/developers,
 
-This is a 31-day syzbot report for the fbdev subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fbdev
+--s5i444uyid5tefem
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display
+ driver
+MIME-Version: 1.0
 
-During the period, 1 new issues were detected and 0 were fixed.
-In total, 6 issues are still open and 25 have already been fixed.
+On Wed, Feb 05, 2025 at 11:10:54PM +0100, Sasha Finkelstein via B4 Relay wr=
+ote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+>=20
+> Add the MAINTAINERS entries for the driver
+>=20
+> Acked-by: Sven Peter <sven@svenpeter.dev>
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>  MAINTAINERS | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a87ddad78e26f28ffd0f3433560d6db1518f9f95..4ce0d3bcf67910d909ba41261=
+535dcb14a24a7b7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2189,6 +2189,9 @@ F:	Documentation/devicetree/bindings/arm/apple.yaml
+>  F:	Documentation/devicetree/bindings/arm/apple/*
+>  F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
+>  F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+> +F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.=
+yaml
+> +F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
+> +F:	Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+>  F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
+>  F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+>  F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
+> @@ -2208,6 +2211,8 @@ F:	drivers/bluetooth/hci_bcm4377.c
+>  F:	drivers/clk/clk-apple-nco.c
+>  F:	drivers/cpufreq/apple-soc-cpufreq.c
+>  F:	drivers/dma/apple-admac.c
+> +F:	drivers/gpu/drm/adp/
+> +F:	drivers/gpu/drm/panel/panel-summit.c
+>  F:	drivers/pmdomain/apple/
+>  F:	drivers/i2c/busses/i2c-pasemi-core.c
+>  F:	drivers/i2c/busses/i2c-pasemi-platform.c
 
-Some of the still happening issues:
+Sorry to figure it out that late, but how do you plan on maintaining it?
+Where will the patches go through, and who will you send PR to?
 
-Ref Crashes Repro Title
-<1> 527     Yes   KASAN: vmalloc-out-of-bounds Write in imageblit (4)
-                  https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
-<2> 6       No    BUG: unable to handle kernel paging request in bitfill_aligned (4)
-                  https://syzkaller.appspot.com/bug?extid=66bde8e1e4161d4b2cca
-<3> 3       No    UBSAN: array-index-out-of-bounds in fbcon_info_from_console
-                  https://syzkaller.appspot.com/bug?extid=a7d4444e7b6e743572f7
+Maxime
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+--s5i444uyid5tefem
+Content-Type: application/pgp-signature; name="signature.asc"
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+-----BEGIN PGP SIGNATURE-----
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6R+KQAKCRAnX84Zoj2+
+dpFcAX9vWLHvXu193dJYEBiwU4fhNxzryOdXkTE4drAdUIoskcpd7us4hCIDO00j
+dW3IY38BfRaxBKVSxfcDLKpB5L6e3vgphx4Fp+ODyheOilHTZ2A2Heqy+uVVhSmE
+jpTyN5zhyA==
+=D+sS
+-----END PGP SIGNATURE-----
 
-You may send multiple commands in a single email message.
+--s5i444uyid5tefem--
