@@ -2,58 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3979BA2A406
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:19:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBC3A2A43A
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:27:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D534910E809;
-	Thu,  6 Feb 2025 09:17:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C1F10E2C0;
+	Thu,  6 Feb 2025 09:27:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mlMqEO9y";
+	dkim=pass (2048-bit key; unprotected) header.d=marcan.st header.i=@marcan.st header.b="zOA0+CLt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC05410E809
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:17:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 561705C4BE6;
- Thu,  6 Feb 2025 09:16:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE27C4CEDD;
- Thu,  6 Feb 2025 09:17:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738833453;
- bh=OprUX3sf+GllvjoTCMMHPEd9To8pLBDgBAKjQLuN4bk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mlMqEO9yqjddagGvhpyIFTCCScBLoIgdQQqQMCaV3jJZ5roJ3Rafcskhyg91jS88z
- xc9fT2zVeuM5WPf+6livRm1gQCXzW7oGbxdNYQ+/KVEUGbD1WvseO/ekE4tGTWcY70
- GEQY5xeGHhTx7J7YCnhVjokZcMMV/BvL1/7awqvro9cQ8JbJ5amYNcG8pC86iSRMZY
- bHFhuNo0O27tmaNs/EMKJTeS3TlYwayG0ddQng4Y3Qk4pb+qIV565y2Dzk08wYHNwC
- MzreoZNOVi/InNqbtYb8gJRqJLiAJELAABvnWp43MQ4EFpu29Tzfm2glpZGhG7CDZK
- xQXdLzaDPiX4w==
-Date: Thu, 6 Feb 2025 10:17:30 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: fnkl.kernel@gmail.com
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
-Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display
- driver
-Message-ID: <20250206-caped-premium-squid-595ecd@houat>
-References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
- <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8885410E2C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:27:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: marcan@marcan.st)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id CF00243598;
+ Thu,  6 Feb 2025 09:19:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+ t=1738833585; bh=Ufb2eylb3+DnuZABfILPsWYDDimlj3OEATXOyCLWYkI=;
+ h=Date:Subject:To:References:From:In-Reply-To;
+ b=zOA0+CLtKNsbLq+FloF3HrT3spuPM67n3zW1PnjeqhurqVEghbvreCtJk3UUO/aDR
+ A5BswsLuMQ1zvz7S07JkFOGDqlLzi7eXZK2zSZGA2Yj3DDODssYzz/jKZUwuD1EX/m
+ vSOHmE4ZOQU63PQZ8eTDZ6R48nQVxP4GjQojjbmFpN1GadB/vEO1ce+G/8+dbs86fQ
+ BGrxg2G990/5xcNKQ1GKVr7zVvQU6xndun8rBOmX/gv9A4+YYqf0pVPVPxkPfflMUW
+ EgJT5f90yw9EPghXDmuajr8XaT8en616WmuK8sa9o/ngtnxfOmVs0qOhapy16ySZsQ
+ SxRklUSEz735w==
+Message-ID: <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
+Date: Thu, 6 Feb 2025 18:19:42 +0900
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="s5i444uyid5tefem"
-Content-Disposition: inline
-In-Reply-To: <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+To: Dave Airlie <airlied@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, phasta@kernel.org,
+ Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, daniel.almeida@collabora.com,
+ aliceryhl@google.com, robin.murphy@arm.com, rust-for-linux@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Valentin Obst <kernel@valentinobst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <Z4D5a5NYrAbNxUL6@pollux> <Z4kG5AcVeQKegLnb@pollux>
+ <20250128092334.GA28548@lst.de>
+ <293df3d54bad446e8fd527f204c6dc301354e340.camel@mailbox.org>
+ <20250130154646.GA2298732@nvidia.com> <2025013030-gummy-cosmic-7927@gregkh>
+ <20250130172437.GN5556@nvidia.com>
+ <2025013148-reversal-pessimism-1515@gregkh>
+ <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+From: Hector Martin <marcan@marcan.st>
+Content-Language: en-US
+In-Reply-To: <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,68 +84,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2025/02/06 5:36, Dave Airlie wrote:
+> On Thu, 6 Feb 2025 at 04:52, Simona Vetter <simona.vetter@ffwll.ch> wrote:
+>>
+>> On Tue, Feb 04, 2025 at 03:46:14AM +0900, Hector Martin wrote:
+>>> Adding Linus
+>>>
+>>> My 2c: If Linus doesn't pipe up with an authoritative answer to this
+>>> thread, Miguel and the other Rust folks should just merge this series
+>>> once it is reviewed and ready, ignoring Christoph's overt attempt at
+>>> sabotaging the project. If Linus pulls it, what Christoph says doesn't
+>>> matter. If Linus doesn't pull it, the R4L project is essentially dead
+>>> until either Linus or Christoph make a move. Everything else is beating
+>>> around the bush.
+>>>
+>>> Rust folks: Please don't waste your time and mental cycles on drama like
+>>> this. It's not worth your time. Either Linus likes it, or he doesn't.
+>>> Everything else is distractions orchestrated by a subset of saboteur
+>>> maintainers who are trying to demoralize you until you give up, because
+>>> they know they're going to be on the losing side of history sooner or
+>>> later. No amount of sabotage from old entrenched maintainers is going to
+>>> stop the world from moving forward towards memory-safe languages.
+>>>
+>>> FWIW, in my opinion, the "cancer" comment from Christoph would be enough
+>>> to qualify for Code-of-Conduct action, but I doubt anything of the sort
+>>> will happen.
+>>
+>> Yeah no.
+>>
+>> https://chaos.social/@sima/113942119012147959
+>>
+>> This was about you, because typing a proper answer takes a bit longer. It
+>> was also about your toots on fedi, like this:
+>>
+>> https://social.treehouse.systems/@marcan/113941468353031993
+>>
+>> And "haha it's only a joke" does not work with your public profile and following.
+>>
+>> I do understand the frustration and temptation to just burn it all to the
+>> ground, head the call of the sirens, or maybe for me more pick up goat
+>> farming in the Swiss Alps. But you can't have it both and expect to also
+>> be part of and contribute to the same community. And personally I don't
+>> appreciate getting drenched in gasoline while I'm trying to quench flames
+>> on the ground.
+>>
+>> And this isn't the first time or the second, by now it's a pretty clear
+>> pattern over some years. And with the first I could explain why you react
+>> like that and you had my full understanding, but eventually that runs a
+>> bit thin as an excuse.  Now I'm left with the unlikely explanation that
+>> you just like thundering in as the cavalry, fashionably late, maximally
+>> destructive, because it entertains the masses on fedi or reddit or
+>> wherever. I have no idea what you're trying to achieve here, I really
+>> don't get it, but I am for sure fed up dealing with the fallout.
+>>
+> 
+> To back up Sima here, we don't need grandstanding, brigading, playing
+> to the crowd, streamer drama creation or any of that in discussions
+> around this.
+> 
+> The r4l team and drm maintainer team have this sort of thing in hand,
+> it's not like we don't understand the community of the Linux kernel,
+> and having this first reaction to blow shit up and dramatise it just
+> isn't helpful.
+> 
+> Being toxic on the right side of an argument is still toxic, please
+> try and be better, and maybe take a step back and consider is what you
+> are posting going to help the discussion or just adding pointless
+> drama to it.
+> 
+> Dave.
 
---s5i444uyid5tefem
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display
- driver
-MIME-Version: 1.0
+I'm tired.
 
-On Wed, Feb 05, 2025 at 11:10:54PM +0100, Sasha Finkelstein via B4 Relay wr=
-ote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
->=20
-> Add the MAINTAINERS entries for the driver
->=20
-> Acked-by: Sven Peter <sven@svenpeter.dev>
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  MAINTAINERS | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a87ddad78e26f28ffd0f3433560d6db1518f9f95..4ce0d3bcf67910d909ba41261=
-535dcb14a24a7b7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2189,6 +2189,9 @@ F:	Documentation/devicetree/bindings/arm/apple.yaml
->  F:	Documentation/devicetree/bindings/arm/apple/*
->  F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
->  F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
-> +F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe-mipi.=
-yaml
-> +F:	Documentation/devicetree/bindings/display/apple,h7-display-pipe.yaml
-> +F:	Documentation/devicetree/bindings/display/panel/apple,summit.yaml
->  F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
->  F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
->  F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
-> @@ -2208,6 +2211,8 @@ F:	drivers/bluetooth/hci_bcm4377.c
->  F:	drivers/clk/clk-apple-nco.c
->  F:	drivers/cpufreq/apple-soc-cpufreq.c
->  F:	drivers/dma/apple-admac.c
-> +F:	drivers/gpu/drm/adp/
-> +F:	drivers/gpu/drm/panel/panel-summit.c
->  F:	drivers/pmdomain/apple/
->  F:	drivers/i2c/busses/i2c-pasemi-core.c
->  F:	drivers/i2c/busses/i2c-pasemi-platform.c
+I'm tired of seeing positive, technically impressive kernel projects
+blockaded delayed by maintainers with no technical justification, and at
+best end up moving along at a glacial pace.
 
-Sorry to figure it out that late, but how do you plan on maintaining it?
-Where will the patches go through, and who will you send PR to?
+I'm tired of seeing important contributors and maintainers give up and
+throw the towel after enduring repeated misbehavior and hostility
+towards their efforts from others.
 
-Maxime
+I'm tired of getting messages, privately and publicly, from all kinds of
+people, saying they won't touch the kernel with a 10-foot pole due to
+the hostility and the baroque, regressive process.
 
---s5i444uyid5tefem
-Content-Type: application/pgp-signature; name="signature.asc"
+I'm tired of seeing people get away with using words like "cancer" to
+describe others' work, with zero repercussion.
 
------BEGIN PGP SIGNATURE-----
+I'm tired of *politely and calmly* calling out hostile and unwelcoming
+behavior from maintainers and suggest ways to improve, only to be
+ignored and nothing change (note: this refers to other instances, not
+this instance).
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6R+KQAKCRAnX84Zoj2+
-dpFcAX9vWLHvXu193dJYEBiwU4fhNxzryOdXkTE4drAdUIoskcpd7us4hCIDO00j
-dW3IY38BfRaxBKVSxfcDLKpB5L6e3vgphx4Fp+ODyheOilHTZ2A2Heqy+uVVhSmE
-jpTyN5zhyA==
-=D+sS
------END PGP SIGNATURE-----
+I'm tired of having to spend hours or days of my time to upstream simple
+things, because even the simplest of changes en up in a bikeshed.
 
---s5i444uyid5tefem--
+I'm tired of having to manually format code instead of using clang-format.
+
+I'm tired of drive-by nitpickers who send useless review comments on
+code they don't take the time to understand.
+
+I'm tired of having to review patches in an email client, where I can't
+even tell which patches are for me to merge and not without writing
+complex filtering rules to correlate email bodies with kernel subsystem
+paths, which I don't have the time to write and maintain.
+
+I'm tired of having to type a half dozen `b4` commands just to send a
+change.
+
+And I'm tired of hearing things will get better if I just "trust the
+process" or let people work from within, while nothing seems to have
+actually changed in years despite endless discussion about these
+problems on the sidelines.
+
+If shaming on social media does not work, then tell me what does,
+because I'm out of ideas.
+
+- Hector
+
