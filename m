@@ -2,54 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5608BA2A3F3
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:16:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C97BA2A410
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:20:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22DA310E1EF;
-	Thu,  6 Feb 2025 09:13:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="SCzeB43C";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FCB210E84E;
+	Thu,  6 Feb 2025 09:15:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D29810E1EF
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:13:03 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4YpWbY60X8z9tL7;
- Thu,  6 Feb 2025 10:12:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1738833177; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iz7wM7dQzWFzzWJwm8k2G/ckVEiWvdStblOwnQTXL9M=;
- b=SCzeB43CQEwr8nbD+E8ksjfgb45krhLyK69lhL+iRQuST//ZH4PzjulQ6Arnrc6LLpmMm8
- u5jtk9QyW3WjstewBqaTNxht87PIsV+oMDE+5i4TyNo/uqe2+uwhnaP05S7Y0ldaOix0pJ
- fyIF1xFP+uf/JJuApu7TJxBByDBxDDnqyBAzwKRBOiWP3kIG/HN2KlfHMedBif7OwZ5t8l
- 3HnNfta8FlJqe1DJWr5oHxLFnTJvPLJaFxjCxYGLfZHVM/LEsBhhYFryp2sohwn2bGpSY2
- QQoh/O2qLuTLd+gOowcG4jquYDbfrMdiNH5xz5ZDtZVIgDFQ9m7i6yR9UeH1yw==
-Message-ID: <b0ac436fd214d6741490b17c4613765a8da5028f.camel@mailbox.org>
-Subject: Re: [RFC 0/5] DRM scheduler kunit tests
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-Date: Thu, 06 Feb 2025 10:12:54 +0100
-In-Reply-To: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
-References: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 386E510E84A
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:15:20 +0000 (UTC)
+Received: by mail-io1-f70.google.com with SMTP id
+ ca18e2360f4ac-844e6476afeso50053739f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 01:15:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738833319; x=1739438119;
+ h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xYOBYj7aJAB6p76ECKhTSVve+8W7ayGSimHBE//XKLw=;
+ b=RNxQJHSrwNh+0OsJ27hCVG2WjI7iyD2gqTxTqmMDzoDIi6CV41N7he1rB2yJ+brDN7
+ s2/AG4/bT2OOE7D+lYZ3fS0xtC5/4hdGYk1PjWhkFpEVQWZTQNzMxhg0Qb+y7TdzpnJ0
+ k2V8t9CzQatx7IWzRNBBaQWfPMmLtD2kQMDJEuP0fOZNl4kX1WLdxuJz9AK/7Zgv3307
+ dEsOyLKbyTN7OMQBiXKjsj6aUITdWaOgX3Tz1W6m1+i0XiQCOkh+o0fMSnxqu+FkogwS
+ Hxr2txkZ+g155+ZkY2RMLoIpnmtAUl2S9yTbJHf0DR0JqVzBKVjj82kmY9bY67LgYdf4
+ mO7w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWRbg500nKgFEfNnhP/mKtBTYfynAGsV9K0ibRvf5nukIYg4qgBdeaXUvq4aI2GuUcW4m9vWHHGJ2I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzEqM/vRM7XZSVVdGi1EI45jPvgxa+OOcm4Negsw4mp0ChraR9A
+ E5VCkjWvBTO5gDafx8/v+6x3QcB5ogaonMYoh/pFDRj4S2kcIkeyBN1Kh6v/6IhAZdXNGTQN3LG
+ P1Sb1UC+U3ix8my0WjwhOYgKrYzO5XImfuo8+tdjUpFnVoLoln1dJtAk=
+X-Google-Smtp-Source: AGHT+IEAqn2vw/fSFk8xV6QOIyrYA4RUnDiruBcJFhNgf8a+1jZtTCFOWtpHjqNyI8XXA1cwYd00rCgCnpFDGVPthTAimqgwbmqr
 MIME-Version: 1.0
-X-MBO-RS-ID: 586240edfabf1a4d266
-X-MBO-RS-META: jd4bc9pge9mtjj5wkxp81tfexze6gncw
+X-Received: by 2002:a05:6e02:1d88:b0:3cf:bc71:94ef with SMTP id
+ e9e14a558f8ab-3d04f901a64mr49860765ab.17.1738833319407; Thu, 06 Feb 2025
+ 01:15:19 -0800 (PST)
+Date: Thu, 06 Feb 2025 01:15:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67a47da7.050a0220.19061f.05fa.GAE@google.com>
+Subject: [syzbot] Monthly fbdev report (Feb 2025)
+From: syzbot <syzbot+list52071043e7dbf4b67ce6@syzkaller.appspotmail.com>
+To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,148 +59,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-02-03 at 15:30 +0000, Tvrtko Ursulin wrote:
-> There has repeatedly been quite a bit of apprehension when any change
-> to the DRM
-> scheduler is proposed, with two main reasons being code base is
-> considered
-> fragile, not well understood and not very well documented, and
-> secondly the lack
-> of systematic testing outside the vendor specific tests suites and/or
-> test
-> farms.
->=20
-> This RFC is an attempt to dislodge this status quo by adding some
-> unit tests
-> using the kunit framework.
->=20
-> General approach is that there is a mock "hardware" backend which can
-> be
-> controlled from tests, which in turn allows exercising various
-> scheduler code
-> paths.
->=20
-> I am sending this early as an RFC so we can get alignment on the
-> general idea
-> and high level approach. Once past that point we can polish and then
-> hopefully
-> people can go crazy and start adding more advanced tests, testing
-> corner cases
-> and what not.
->=20
-> Only some simple basic tests get added in the series and hopefully it
-> is easy to
-> understand what tests are doing.
->=20
-> My usage of the kunit framework may not be perfect though, since this
-> series is
-> my first attempt to use it.
->=20
-> An obligatory "screenshot" for reference:
->=20
-> [15:16:33] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D drm_sched_basic_tests (6 =
-subtests)
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:33] [PASSED] drm_sched_basic_submit
-> [15:16:33] [PASSED] drm_sched_basic_queue
-> [15:16:34] [PASSED] drm_sched_basic_chain
-> [15:16:34] [PASSED] drm_sched_basic_entities
-> [15:16:34] [PASSED] drm_sched_basic_entities_chain
-> [15:16:34] [PASSED] drm_sched_basic_entity_cleanup
-> [15:16:34] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [PASSED] drm_sched_=
-basic_tests
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:34] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D drm_sched_basic_tdr_tests (1 su=
-btest)
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:36] [PASSED] drm_sched_basic_tdr
-> [15:16:36] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [PASSED] drm_sched_basic_=
-tdr_tests
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:36] =3D=3D=3D=3D=3D=3D=3D drm_sched_basic_priority_tests (2 subtes=
-ts)
-> =3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:37] [PASSED] drm_sched_priorities
-> [15:16:37] [PASSED] drm_sched_change_priority
-> [15:16:37] =3D=3D=3D=3D=3D=3D=3D=3D=3D [PASSED] drm_sched_basic_priority_=
-tests
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:37] =3D=3D=3D=3D=3D=3D drm_sched_basic_modify_sched_tests (1 subte=
-st)
-> =3D=3D=3D=3D=3D=3D
-> [15:16:39] [PASSED] drm_sched_test_modify_sched
-> [15:16:39] =3D=3D=3D=3D=3D=3D=3D [PASSED] drm_sched_basic_modify_sched_te=
-sts
-> =3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:39]
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [15:16:39] Testing complete. Ran 10 tests: passed: 10
-> [15:16:39] Elapsed time: 13.442s total, 0.001s configuring, 4.117s
-> building, 9.248s running
+Hello fbdev maintainers/developers,
 
-Thanks for working on this =E2=80=93 as Christian said, this is really need=
-ed.
-I took a first look and don't see any big obstacles right now. I'll
-apply some comments at the places so you have some early feedback
-already
+This is a 31-day syzbot report for the fbdev subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/fbdev
 
+During the period, 1 new issues were detected and 0 were fixed.
+In total, 6 issues are still open and 25 have already been fixed.
 
-Thx,
-P.
+Some of the still happening issues:
 
+Ref Crashes Repro Title
+<1> 527     Yes   KASAN: vmalloc-out-of-bounds Write in imageblit (4)
+                  https://syzkaller.appspot.com/bug?extid=c4b7aa0513823e2ea880
+<2> 6       No    BUG: unable to handle kernel paging request in bitfill_aligned (4)
+                  https://syzkaller.appspot.com/bug?extid=66bde8e1e4161d4b2cca
+<3> 3       No    UBSAN: array-index-out-of-bounds in fbcon_info_from_console
+                  https://syzkaller.appspot.com/bug?extid=a7d4444e7b6e743572f7
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
->=20
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
->=20
-> Tvrtko Ursulin (5):
-> =C2=A0 drm: Move some options to separate new Kconfig.debug
-> =C2=A0 drm/scheduler: Add scheduler unit testing infrastructure and some
-> =C2=A0=C2=A0=C2=A0 basic tests
-> =C2=A0 drm/scheduler: Add a simple TDR test
-> =C2=A0 drm/scheduler: Add basic priority tests
-> =C2=A0 drm/scheduler: Add a basic test for modifying entities scheduler
-> list
->=20
-> =C2=A0drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 98 +---
-> =C2=A0drivers/gpu/drm/Kconfig.debug=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 104 ++++
-> =C2=A0drivers/gpu/drm/scheduler/.kunitconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 12 +
-> =C2=A0drivers/gpu/drm/scheduler/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0drivers/gpu/drm/scheduler/tests/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 4 +
-> =C2=A0.../gpu/drm/scheduler/tests/drm_mock_entity.c |=C2=A0 29 ++
-> =C2=A0.../gpu/drm/scheduler/tests/drm_mock_job.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0=C2=A0 3 +
-> =C2=A0.../drm/scheduler/tests/drm_mock_scheduler.c=C2=A0 | 260 ++++++++++
-> =C2=A0.../gpu/drm/scheduler/tests/drm_sched_tests.h | 128 +++++
-> =C2=A0.../scheduler/tests/drm_sched_tests_basic.c=C2=A0=C2=A0 | 464
-> ++++++++++++++++++
-> =C2=A010 files changed, 1010 insertions(+), 93 deletions(-)
-> =C2=A0create mode 100644 drivers/gpu/drm/Kconfig.debug
-> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
-> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
-> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_entity.=
-c
-> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_job.c
-> =C2=A0create mode 100644
-> drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
-> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_sched_tests.=
-h
-> =C2=A0create mode 100644
-> drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
->=20
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
