@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8EFA2B006
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98267A2B008
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:14:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 231A610E8F9;
-	Thu,  6 Feb 2025 18:13:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CC510E8FB;
+	Thu,  6 Feb 2025 18:14:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZuAfXx4Z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fzf4Oc6E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7DCE10E8F9
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:13:53 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D14FD10E8FB
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:14:10 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 9E212A443EA;
- Thu,  6 Feb 2025 18:12:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A66FC4CEDD;
- Thu,  6 Feb 2025 18:13:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8790A5C0CB4;
+ Thu,  6 Feb 2025 18:13:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B317C4CEDD;
+ Thu,  6 Feb 2025 18:14:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1738865632;
- bh=qpRlHeJcZ8Rg6GiEylH3nJ6t0qFUQU58DAXj2IT1v4s=;
+ s=k20201202; t=1738865650;
+ bh=dy+DMOoMSDp0jcd2rmqCEWg/B4n87lTgMHpZiZiqrEU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZuAfXx4ZNiYZ3TZP7ZCllR1EQpRwKvsaMCxW7EeC61cyMdVUePlhC8egRPP7pOOjT
- ybgmbOEqGeixDpRnUWEnwAgC/sjzJ57umRUGkIhKpHHZGKhyuRYjS+uTsar8qHREMP
- XCyXzAQNqTISYzEaeJeRc6SqI9YAoExu6ZkjGraoFR7Z02QKUxbckRMAJ6829veUxI
- i9irRJ3mbxm3gs5eyp9H3gh7zP3xK8IwYR43SmtPJWjyQG1LgZZ/+ZjHucmGxfo1Rp
- AbaD2a6rE3ujFdrrs1d/0wUMRcJjaFlrLCEvw/vRrMGX+lR93t1BsxP64h97TAlntu
- XscmKC2irtFNQ==
-Date: Thu, 6 Feb 2025 18:13:47 +0000
+ b=Fzf4Oc6E5RNr689O2kugtZAGZ6ttSzviLz94XRVlA8tVfLOojh8PCAZil0o57K0U+
+ wI46mvw3mDuOA6QABSys86j56ntUfeJo2WWZ/LU5Z/hE+5aM7S8VNWbfDcsv2E9V4T
+ 52JuW2v2xlIXSDdQ8BH2LlXzRAruzJOfVVoidv5sAoE7sLDBWKqy33k46C65aA+Mws
+ 7FlDXzlaTiyrJX2rwtySpfvHzz54SIhcNVIrGa0zd4U6vx1ZnXRVEm9DkTbvEEk2tO
+ S9rSfT5djBrxAzc6id2kUt8lZXDMp9EQXyPKIICfUEjogi0CooJNrnoyUsqY5D0PrA
+ FraEjYVOpLaHQ==
+Date: Thu, 6 Feb 2025 18:14:05 +0000
 From: Conor Dooley <conor@kernel.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
- neil.armstrong@linaro.org, quic_jesszhan@quicinc.com,
- airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: vendor: add csot
-Message-ID: <20250206-overlaid-eastward-610a0d6e34cd@spud>
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: Add compatible for
+ CSOT PNA957QT1-1
+Message-ID: <20250206-uselessly-riverbank-14c097e62ae2@spud>
 References: <20250206131300.1295111-1-yelangyan@huaqin.corp-partner.google.com>
- <20250206131300.1295111-2-yelangyan@huaqin.corp-partner.google.com>
- <CAD=FV=UfWJoUsKzYMkyU3U4Yn1ufAs=NHMCDL+db887Uec9fww@mail.gmail.com>
+ <20250206131300.1295111-3-yelangyan@huaqin.corp-partner.google.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BCdvD9ZIbZN+8WvF"
+ protocol="application/pgp-signature"; boundary="wll5mPIV/lTSeNrB"
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=UfWJoUsKzYMkyU3U4Yn1ufAs=NHMCDL+db887Uec9fww@mail.gmail.com>
+In-Reply-To: <20250206131300.1295111-3-yelangyan@huaqin.corp-partner.google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,64 +65,28 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---BCdvD9ZIbZN+8WvF
-Content-Type: text/plain; charset=utf-8
+--wll5mPIV/lTSeNrB
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 06, 2025 at 09:12:45AM -0800, Doug Anderson wrote:
-> Hi,
+On Thu, Feb 06, 2025 at 09:12:59PM +0800, Langyan Ye wrote:
+> Add a new compatible for the panel CSOT PNA957QT1-1. This panel uses
+> HX83102 IC, so add the compatible to the hx83102 binding files.
 >=20
-> On Thu, Feb 6, 2025 at 5:13=E2=80=AFAM Langyan Ye
-> <yelangyan@huaqin.corp-partner.google.com> wrote:
-> >
-> > Add "csot" to the Devicetree Vendor Prefix Registry.
-> >
-> > Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> > ---
-> >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/D=
-ocumentation/devicetree/bindings/vendor-prefixes.yaml
-> > index 42d14899d584..375f1f7c79ef 100644
-> > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > @@ -336,6 +336,8 @@ patternProperties:
-> >      description: Crystalfontz America, Inc.
-> >    "^csky,.*":
-> >      description: Hangzhou C-SKY Microsystems Co., Ltd
-> > +  "^csot,.*":
-> > +    description: Guangzhou China Star Optoelectronics Technology Co., =
-Ltd
->=20
-> Doing a `git log` on
-> `Documentation/devicetree/bindings/vendor-prefixes.yaml` shows that
-> most patches use the subject prefix `dt-bindings: vendor-prefixes`,
-> not `dt-bindings: vendor`. If device-tree folks care about this
-> difference and they don't want to fix it when applying, they might
-> request you to send a new version.
->=20
-> In any case, that's fairly minor so I'm OK with:
->=20
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->=20
-> I would assume this will go through the DT tree, not drm-misc. If this
-> is wrong then someone should shout.
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 
-idk, probably the whole series should go together via drm-misc.
-%subject can change if there's a resubmission, otherwise
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---BCdvD9ZIbZN+8WvF
+--wll5mPIV/lTSeNrB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6T72wAKCRB4tDGHoIJi
-0j/SAPoC/C0pCB6Rfsu3yKehTDKPZcAfV2TvGOVKD5gwb5RWPgD+PFLgD3XA0PVE
-VHMkn6PRxKBvUAwsB1Vmq2uHw3SItQE=
-=gFPY
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6T77QAKCRB4tDGHoIJi
+0mbmAP94P8Cn/5ZgmegabpD8SSqFNPWR6gjGdIJczaNNPxnN6QD+OIIWROfuaczB
+9MQ4ipOv15tNQ08WfOiR2XqD0jORpQ0=
+=tuM0
 -----END PGP SIGNATURE-----
 
---BCdvD9ZIbZN+8WvF--
+--wll5mPIV/lTSeNrB--
