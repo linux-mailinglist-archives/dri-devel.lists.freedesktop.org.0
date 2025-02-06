@@ -2,54 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB93A2A638
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 11:42:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B91EA2A640
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 11:43:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABCC310E369;
-	Thu,  6 Feb 2025 10:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E311A10E824;
+	Thu,  6 Feb 2025 10:43:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="sTDEXsol";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QR3cyfjZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4E3C10E81B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 10:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=AM5l45LkK2a8whA8Oak2cb2nhJXex0I9QwQfnLKtSo4=; b=sTDEXsolyRmivSbzPnc9xY0hmD
- 5PCUmSzg3Pep7gTO4kINWfK700AIDFNaQA+1C1qXGRlyq+cVyb8c3HNtjf/kAqp2CWeNq2MnjW28H
- YS81epcZobi1bAtFpU2gq/jXb6rP6LbL0wpBEyGn8Es4zik3qcuOTonV3kL4tkhZuOOfyIxR2KGdY
- QlFhzE3rsFnrDfxnNP1lLZTqlFi+TfVd+bfDv2E6wplK8McG0NwI4O0oup+Z2R1wPefUUDMqOsYAR
- qRzW94qALcOl/Va2X0Kln8a2ny1+picvo9Vai4ijrI2D3ZudTuqrLivD2Wp9Fenxv9Ep7aZkTxPaE
- RR+NRYrg==;
-Received: from [90.241.98.187] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tfzKV-004a6A-Co; Thu, 06 Feb 2025 11:42:01 +0100
-Message-ID: <9fde182e-d3d8-47fd-a761-6b75dd30ef68@igalia.com>
-Date: Thu, 6 Feb 2025 10:42:00 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD4C710E199
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 10:43:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1738838614;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3s0jePbRTpgxhCyH14hsrRDGitggHfzXm/84FSvA+hs=;
+ b=QR3cyfjZDngXVvJURLZUvtmpOtocGVUaeITvBX6xnyT7eDZ/ix8oSCGIBZMiTeVW2IpByL
+ e/ct1zcMX26Jz2CuzMf8pDCwNZZFdQiI1oD+mRbgII0z40Ds44rDeLGQgIV7uqiYLj2UIQ
+ GdYskiINI1C3VhUVJeXK5FXek80CO/s=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-577-bRirBkFqPrmIda9sQfKRyg-1; Thu, 06 Feb 2025 05:43:33 -0500
+X-MC-Unique: bRirBkFqPrmIda9sQfKRyg-1
+X-Mimecast-MFC-AGG-ID: bRirBkFqPrmIda9sQfKRyg
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-21a7cbe3b56so12689355ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 02:43:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738838612; x=1739443412;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3s0jePbRTpgxhCyH14hsrRDGitggHfzXm/84FSvA+hs=;
+ b=wKhG1BKA/5HmWdSpgYvhPdptlKoi9WZlwpLn8DilqHQl0ad+K5nvS3HweiHaMYjcu/
+ MA8sVENZg695SneZnQGKTBYy6FrGZ3sRm+4QFis6zbelhOUYxBPxpq8BPSqdi/KCaTSl
+ sLFRn4RSIzTOSdy8Ix9Q/6A+GXOFItUghkAPbkyVvt+fyUMgDPihL/0375qq30NIhcDC
+ 9psjTdDZ9xI4ZD0Abj5DXM3VAo/9DR0Z8SbOlilBP1i7bWsJWn3GFdZykJciO1EyvYQp
+ +ph0XhDcnfgYJ0xoUFsY1nf211Tshr/GxTvz+8GJrXmNPpk9A7uVmhq7s52aiL2Z1NDN
+ yW6g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWr2kZgOR6y+9pV0sQa82cKoUGRK1lvl0D9bg2AbYzuiMZEFIkC3sMRT55PLPFApE50zKUA4mSLdLk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwI7s8l5Zlk2sUuqJTKjy4KJEiy3gp8/WKgMzh4J+KFtaDzeTUB
+ A8SqPe8FT4zOPtN9Ac3VYJo3BxTux2+gNNcB/60/jVetJ58IsIEWeqJL6bwc5sTe1+CQrXGAEzk
+ hnaZ5H7jwGgYi7QaIL/oQCN0hsd9O5nnRAAo0tn3CkWyNkIydsCXetOsc+KbaHWDRyg==
+X-Gm-Gg: ASbGncsQSOBBzY947m3YUehAOfHdDEAUNJN0gdNG/yo/2DvNWV2YEujn3lhXJwvuIgR
+ wvrcZvs4eOanB29eyCFlP/mN3m755wqkLzGkoB1tT6I35dqUaNDvOQTMEcFiVV13ykcHblN/Rjn
+ MWcjAP4n1JgdAXIQdjj8/uR01u1gpUObKk3SUOFS620pS23YXizDtcLhQByYxaUm/G9BuxKkTHi
+ ruJRkv/tJR/PbSojCBQUB3KVHEVqcIaaOFXH1PEXTO1fXfe5D9AnbZ9vfjX4BcB/GcBA6ZqCbTG
+ ujVHPA==
+X-Received: by 2002:a05:6a20:3d96:b0:1ed:a4c7:9908 with SMTP id
+ adf61e73a8af0-1ede883a434mr10958710637.11.1738838612228; 
+ Thu, 06 Feb 2025 02:43:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGLcg6VkIL1fuOFq66GhqXyISlfA8NrjTzHzQ7OwLalQ2jttkdccMIk0Vr6RCFa3f1oJqREfw==
+X-Received: by 2002:a05:6a20:3d96:b0:1ed:a4c7:9908 with SMTP id
+ adf61e73a8af0-1ede883a434mr10958652637.11.1738838611846; 
+ Thu, 06 Feb 2025 02:43:31 -0800 (PST)
+Received: from zeus.elecom ([240b:10:83a2:bd00:6e35:f2f5:2e21:ae3a])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-ad51aecd2fbsm970717a12.19.2025.02.06.02.43.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2025 02:43:31 -0800 (PST)
+From: Ryosuke Yasuoka <ryasuoka@redhat.com>
+To: airlied@redhat.com, kraxel@redhat.com, gurchetansingh@chromium.org,
+ olvaffe@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, daniel@ffwll.ch, jfalempe@redhat.com,
+ dmitry.osipenko@collabora.com
+Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v7] drm/virtio: Add drm_panic support
+Date: Thu,  6 Feb 2025 19:42:59 +0900
+Message-ID: <20250206104300.416014-1-ryasuoka@redhat.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 2/5] drm/scheduler: Add scheduler unit testing
- infrastructure and some basic tests
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
- <20250203153007.63400-3-tvrtko.ursulin@igalia.com>
- <c1b51912d1171d328f35a3e947c66be59fe0b783.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <c1b51912d1171d328f35a3e947c66be59fe0b783.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: aTI7WiNLhiAZvUSA5CUdh_znptBMQACboLtWcK3NlDg_1738838612
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,959 +100,482 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Virtio gpu supports the drm_panic module, which displays a message to
+the screen when a kernel panic occurs. It is supported where it has
+vmapped shmem BO.
 
-On 06/02/2025 09:51, Philipp Stanner wrote:
-> On Mon, 2025-02-03 at 15:30 +0000, Tvrtko Ursulin wrote:
->> Implement a mock scheduler backend and add some basic test to
->> exercise the
->> core scheduler code paths.
->>
->> Mock backend (kind of like a very simple mock GPU) can either process
->> jobs
->> by tests manually advancing the "timeline" job at a time, or
->> alternatively
->> jobs can be configured with a time duration in which case they get
->> completed asynchronously from the unit test code.
->>
->> Core scheduler classes are subclassed to support this mock
->> implementation.
->>
->> The tests added are just a few simple submission patterns.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> 
-> Could add a Suggested-by: Philipp :)
+Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+---
+v7:
+- Reject no vmapped shmem BO. Also, insert comment and commit log about
+  it.
+- Restore MAX_INLINE_* and VBUFFER_SIZE definitions to the old place
 
-Will do.
+v6:
+https://lore.kernel.org/all/CAHpthZo=R=Csru2P8NVY8YKaasb2RTyrMYni-=8ri4K=xd8abA@mail.gmail.com/
 
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> ---
->>   drivers/gpu/drm/Kconfig.debug                 |  12 +
->>   drivers/gpu/drm/scheduler/.kunitconfig        |  12 +
->>   drivers/gpu/drm/scheduler/Makefile            |   1 +
->>   drivers/gpu/drm/scheduler/tests/Makefile      |   4 +
->>   .../gpu/drm/scheduler/tests/drm_mock_entity.c |  29 ++
->>   .../gpu/drm/scheduler/tests/drm_mock_job.c    |   3 +
->>   .../drm/scheduler/tests/drm_mock_scheduler.c  | 254
->> ++++++++++++++++++
->>   .../gpu/drm/scheduler/tests/drm_sched_tests.h | 124 +++++++++
->>   .../scheduler/tests/drm_sched_tests_basic.c   | 247
->> +++++++++++++++++
->>   9 files changed, 686 insertions(+)
->>   create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
->>   create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
->>   create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
->>   create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_job.c
->>   create mode 100644
->> drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
->>   create mode 100644 drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
->>   create mode 100644
->> drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
->>
->> diff --git a/drivers/gpu/drm/Kconfig.debug
->> b/drivers/gpu/drm/Kconfig.debug
->> index a35d74171b7b..89f777f21e95 100644
->> --- a/drivers/gpu/drm/Kconfig.debug
->> +++ b/drivers/gpu/drm/Kconfig.debug
->> @@ -88,5 +88,17 @@ config DRM_TTM_KUNIT_TEST
->>   
->>   	  If in doubt, say "N".
->>   
->> +config DRM_SCHED_KUNIT_TEST
->> +	tristate "KUnit tests for the DRM scheduler" if
->> !KUNIT_ALL_TESTS
->> +	select DRM_SCHED
->> +	depends on DRM && KUNIT
->> +	default KUNIT_ALL_TESTS
->> +	help
->> +	  Choose this option to build unit tests for the DRM
->> scheduler.
-> 
-> nit: Might say "DRM GPU scheduler" so readers not familiar with all
-> that get a better idea of what it's about
-> 
->> +
->> +	  Recommended for driver developers only.
-> 
-> nit: s/driver developers/DRM developers
-> ?
-> 
->> +
->> +	  If in doubt, say "N".
->> +
->>   config DRM_EXPORT_FOR_TESTS
->>   	bool
->> diff --git a/drivers/gpu/drm/scheduler/.kunitconfig
->> b/drivers/gpu/drm/scheduler/.kunitconfig
->> new file mode 100644
->> index 000000000000..cece53609fcf
->> --- /dev/null
->> +++ b/drivers/gpu/drm/scheduler/.kunitconfig
->> @@ -0,0 +1,12 @@
->> +CONFIG_KUNIT=y
->> +CONFIG_DRM=y
->> +CONFIG_DRM_SCHED_KUNIT_TEST=y
->> +CONFIG_EXPERT=y
->> +CONFIG_DEBUG_SPINLOCK=y
->> +CONFIG_DEBUG_MUTEXES=y
->> +CONFIG_DEBUG_ATOMIC_SLEEP=y
->> +CONFIG_LOCK_DEBUGGING_SUPPORT=y
->> +CONFIG_PROVE_LOCKING=y
->> +CONFIG_LOCKDEP=y
->> +CONFIG_DEBUG_LOCKDEP=y
->> +CONFIG_DEBUG_LIST=y
->> diff --git a/drivers/gpu/drm/scheduler/Makefile
->> b/drivers/gpu/drm/scheduler/Makefile
->> index 53863621829f..46dfdca0758a 100644
->> --- a/drivers/gpu/drm/scheduler/Makefile
->> +++ b/drivers/gpu/drm/scheduler/Makefile
->> @@ -23,3 +23,4 @@
->>   gpu-sched-y := sched_main.o sched_fence.o sched_entity.o
->>   
->>   obj-$(CONFIG_DRM_SCHED) += gpu-sched.o
->> +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) += tests/
->> diff --git a/drivers/gpu/drm/scheduler/tests/Makefile
->> b/drivers/gpu/drm/scheduler/tests/Makefile
->> new file mode 100644
->> index 000000000000..d69eab6a2e9b
->> --- /dev/null
->> +++ b/drivers/gpu/drm/scheduler/tests/Makefile
->> @@ -0,0 +1,4 @@
->> +
->> +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) += \
->> +        drm_mock_scheduler.o \
->> +        drm_sched_tests_basic.o
->> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
->> b/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
->> new file mode 100644
->> index 000000000000..c9205f9ff524
->> --- /dev/null
->> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
->> @@ -0,0 +1,29 @@
->> +
->> +#include "drm_sched_tests.h"
->> +
->> +struct drm_mock_sched_entity *
->> +drm_mock_sched_entity_new(struct kunit *test,
->> +			  enum drm_sched_priority priority,
->> +			  struct drm_mock_scheduler *sched)
-> 
-> 
-> I personally do like this function head style and
-> 
-> 
->> +{
->> +	struct drm_sched_mock_entity *entity;
->> +	int ret;
->> +
->> +	entity = kunit_kmalloc(test, sizeof(*entity), GFP_KERNEL);
->> +	KUNIT_ASSERT_NOT_NULL(test, entity);
->> +
->> +	ret = drm_sched_entity_init(&entity->base,
->> +				    priority,
->> +				    &sched->base, 1,
->> +				    NULL);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	entity->test = test;
->> +
->> +	return entity;
->> +}
->> +
->> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
->> *entity)
-> 
-> do believe it should then be used consistently everywhere, regardless
-> of length.
-> 
-> 
->> +{
->> +	drm_sched_entity_fini(&entity->base);
->> +}
->> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
->> b/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
->> new file mode 100644
->> index 000000000000..d94568cf3da9
->> --- /dev/null
->> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
->> @@ -0,0 +1,3 @@
->> +
->> +#include "drm_sched_tests.h"
->> +
->> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
->> b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
->> new file mode 100644
->> index 000000000000..f1985900a6ba
->> --- /dev/null
->> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
->> @@ -0,0 +1,254 @@
->> +
->> +#include "drm_sched_tests.h"
->> +
->> +struct drm_mock_sched_entity *
->> +drm_mock_new_sched_entity(struct kunit *test,
->> +			  enum drm_sched_priority priority,
->> +			  struct drm_mock_scheduler *sched)
->> +{
->> +	struct drm_mock_sched_entity *entity;
->> +	struct drm_gpu_scheduler *drm_sched;
->> +	int ret;
->> +
->> +	entity = kunit_kzalloc(test, sizeof(*entity), GFP_KERNEL);
->> +	KUNIT_ASSERT_NOT_NULL(test, entity);
->> +
->> +	drm_sched = &sched->base;
->> +	ret = drm_sched_entity_init(&entity->base,
->> +				    priority,
->> +				    &drm_sched, 1,
->> +				    NULL);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	entity->test = test;
->> +
->> +	return entity;
->> +}
->> +
->> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
->> *entity)
->> +{
->> +	drm_sched_entity_destroy(&entity->base);
->> +}
->> +
->> +static enum hrtimer_restart
->> +drm_sched_mock_job_signal_timer(struct hrtimer *hrtimer)
-> 
-> I think we should get up with a consistent naming convention. Some
-> things are called drm_mock_sched_, some others drm_sched_mock_.
-> As far as I saw, drm_mock_* does not yet exist.
-> So do you want to introduce drm_mock as something generic for drm? or
-> just for drm/sched?
+Based on Dmitry's comment, fix the followings
+- Reject external dmabufs backing the GEM object
+- Allocate vbuf with kmem_cache_zalloc(..., GFP_ATOMIC) instead of
+  drmm_kzalloc().
 
-This one is literally the only when where I tranposed the two. But it is 
-also local and I am not too bothered about naming conventions of a 
-local functions. If it were to me I would favour brevity and emit the 
-long drm_.. prefixes which IMO do not help readability. If anything, 
-seeing something with a long drm_.. prefix can only be confusing since 
-one can assume it is some sort of exported interface.
+v5:
+https://lore.kernel.org/all/CAHpthZrZ6DjsCQ4baQ80b2vOTdkR=vHDx=10W7DTS4ohxb6=pg@mail.gmail.com/
 
-I will change this instance.
+Based on Dmitry's comment, fix the followings
+- Rename virtio_panic_buffer to panic_vbuf
+- Remove some unnecessary dummy ret and return directly.
+- Reject if the bo is VRAM BO
+- Remove virtio_gpu_panic_put_vbuf() before notify
+- Add description for panic buffer allocation
+- Remove virtio_gpu_panic_object_array and use
+  virtio_gpu_panic_array_alloc() to allocate objs instead of static
+  allocation in stack.
 
->> +{
->> +	struct drm_mock_sched_job *upto =
->> +		container_of(hrtimer, typeof(*upto), timer);
->> +	struct drm_mock_scheduler *sched =
->> +		drm_sched_to_mock_sched(upto->base.sched);
->> +	struct drm_mock_sched_job *job, *next;
->> +	ktime_t now = ktime_get();
->> +	unsigned long flags;
->> +	LIST_HEAD(signal);
->> +
->> +	spin_lock_irqsave(&sched->lock, flags);
->> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
->> {
->> +		if (!job->duration_us)
->> +			break;
->> +
->> +		if (ktime_before(now, job->finish_at))
->> +			break;
->> +
->> +		list_move_tail(&job->link, &signal);
->> +		sched->seqno = job->hw_fence.seqno;
->> +	}
->> +	spin_unlock_irqrestore(&sched->lock, flags);
->> +
->> +	list_for_each_entry(job, &signal, link) {
->> +		dma_fence_signal(&job->hw_fence);
->> +		dma_fence_put(&job->hw_fence);
->> +	}
->> +
->> +	return HRTIMER_NORESTART;
->> +}
->> +
->> +struct drm_mock_sched_job *
->> +drm_mock_new_sched_job(struct kunit *test,
->> +		       struct drm_mock_sched_entity *entity)
->> +{
->> +	struct drm_mock_sched_job *job;
->> +	int ret;
->> +
->> +	job = kunit_kzalloc(test, sizeof(*job), GFP_KERNEL);
->> +	KUNIT_ASSERT_NOT_NULL(test, job);
->> +
->> +	ret = drm_sched_job_init(&job->base,
->> +				 &entity->base,
->> +				 1,
->> +				 NULL);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	job->test = test;
->> +
->> +	spin_lock_init(&job->lock);
->> +	INIT_LIST_HEAD(&job->link);
->> +	hrtimer_init(&job->timer, CLOCK_MONOTONIC,
->> HRTIMER_MODE_ABS);
->> +	job->timer.function = drm_sched_mock_job_signal_timer;
->> +
->> +	return job;
->> +}
->> +
->> +static const char *drm_mock_sched_hw_fence_driver_name(struct
->> dma_fence *fence)
->> +{
->> +	return "drm_mock_sched";
->> +}
->> +
->> +static const char *
->> +drm_mock_sched_hw_fence_timeline_name(struct dma_fence *fence)
->> +{
->> +	struct drm_mock_sched_job *job =
->> +		container_of(fence, typeof(*job), hw_fence);
->> +
->> +	return (const char *)job->base.sched->name;
->> +}
->> +static void drm_mock_sched_hw_fence_release(struct dma_fence *fence)
->> +{
->> +	struct drm_mock_sched_job *job =
->> +		container_of(fence, typeof(*job), hw_fence);
->> +
->> +	hrtimer_cancel(&job->timer);
->> +
->> +	/* Freed by the kunit framework */
->> +}
->> +
->> +static const struct dma_fence_ops drm_mock_sched_hw_fence_ops = {
->> +	.get_driver_name = drm_mock_sched_hw_fence_driver_name,
->> +	.get_timeline_name = drm_mock_sched_hw_fence_timeline_name,
->> +	.release = drm_mock_sched_hw_fence_release,
->> +};
->> +
->> +static struct dma_fence *mock_sched_run_job(struct drm_sched_job
->> *sched_job)
->> +{
->> +	struct drm_mock_scheduler *sched =
->> +		drm_sched_to_mock_sched(sched_job->sched);
->> +	struct drm_mock_sched_job *job =
->> drm_sched_job_to_mock_job(sched_job);
->> +
->> +	dma_fence_init(&job->hw_fence,
->> +		       &drm_mock_sched_hw_fence_ops,
->> +		       &job->lock,
->> +		       sched->hw_fence.context,
->> +		       atomic_inc_return(&sched->hw_fence.seqno));
->> +
->> +	dma_fence_get(&job->hw_fence); /* Reference for the job_list
->> */
->> +
->> +	spin_lock_irq(&sched->lock);
->> +	if (job->duration_us) {
->> +		ktime_t prev_finish_at = 0;
->> +
->> +		if (!list_empty(&sched->job_list)) {
->> +			struct drm_mock_sched_job *prev =
->> +				list_last_entry(&sched->job_list,
->> typeof(*prev),
->> +						link);
->> +
->> +			prev_finish_at = prev->finish_at;
->> +		}
->> +
->> +		if (!prev_finish_at)
->> +			prev_finish_at = ktime_get();
->> +
->> +		job->finish_at = ktime_add_us(prev_finish_at, job-
->>> duration_us);
->> +	}
->> +	list_add_tail(&job->link, &sched->job_list);
->> +	if (job->finish_at)
->> +		hrtimer_start(&job->timer, job->finish_at,
->> HRTIMER_MODE_ABS);
->> +	spin_unlock_irq(&sched->lock);
->> +
->> +	return &job->hw_fence;
->> +}
->> +
->> +static enum drm_gpu_sched_stat
->> +mock_sched_timedout_job(struct drm_sched_job *sched_job)
->> +{
->> +	return DRM_GPU_SCHED_STAT_ENODEV;
->> +}
->> +
->> +static void mock_sched_free_job(struct drm_sched_job *sched_job)
->> +{
->> +	drm_sched_job_cleanup(sched_job);
->> +}
->> +
->> +static const struct drm_sched_backend_ops drm_mock_scheduler_ops = {
->> +	.run_job = mock_sched_run_job,
->> +	.timedout_job = mock_sched_timedout_job,
->> +	.free_job = mock_sched_free_job
->> +};
->> +
->> +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
->> *test)
->> +{
->> +	struct drm_mock_scheduler *sched;
->> +	int ret;
->> +
->> +	sched = kunit_kzalloc(test, sizeof(*sched), GFP_KERNEL);
->> +	KUNIT_ASSERT_NOT_NULL(test, sched);
->> +
->> +	ret = drm_sched_init(&sched->base,
->> +			     &drm_mock_scheduler_ops,
->> +			     NULL, /* wq */
->> +			     DRM_SCHED_PRIORITY_COUNT,
->> +			     U32_MAX, /* max credits */
->> +			     UINT_MAX, /* hang limit */
->> +			     MAX_SCHEDULE_TIMEOUT, /* timeout */
->> +			     NULL, /* timeout wq */
->> +			     NULL, /* score */
->> +			     "drm-mock-scheduler",
->> +			     NULL /* dev */);
->> +	KUNIT_ASSERT_EQ(test, ret, 0);
->> +
->> +	sched->test = test;
->> +	sched->hw_fence.context = dma_fence_context_alloc(1);
->> +	atomic_set(&sched->hw_fence.seqno, 0);
->> +	INIT_LIST_HEAD(&sched->job_list);
->> +	spin_lock_init(&sched->lock);
->> +
->> +	return sched;
->> +}
->> +
->> +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched)
->> +{
->> +	struct drm_mock_sched_job *job, *next;
->> +	unsigned long flags;
->> +	LIST_HEAD(signal);
->> +
->> +	spin_lock_irqsave(&sched->lock, flags);
->> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
->> +		list_move_tail(&job->link, &signal);
->> +	spin_unlock_irqrestore(&sched->lock, flags);
-> 
-> So maybe you can help me get up to speed here a bit. What is the
-> purpose behind job->link? Is the general idea documented somewhere?
+v4:
+https://lore.kernel.org/all/ec721548-0d47-4c40-9e9d-59f58e2181ae@redhat.com/
 
-List versus link suffix convention I use to distinguish struct list_head 
-which is a list versus struct list_head which is used to put something 
-on the list.
+- As per Dmitry's comment, make virtio_panic_buffer private to
+  virtio_gpu_device.
 
-In this case job->link is for the mock GPU driver to keep track of jobs 
-which have been submitted to the "hardware" for "execution".
+v3:
+https://lore.kernel.org/all/09d9815c-9d5b-464b-9362-5b8232d36de1@collabora.com/
 
-I will of course document these things once the high level design is 
-settled.
+- As per Jocelyn's comment, add a finite timeout 500usec in
+  virtio_gpu_panic_put_vbuf() to avoid infinite loop
 
->> +
->> +	list_for_each_entry(job, &signal, link) {
->> +		hrtimer_cancel(&job->timer);
->> +		dma_fence_put(&job->hw_fence);
->> +	}
->> +
->> +	drm_sched_fini(&sched->base);
->> +}
->> +
->> +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
->> *sched,
->> +				    unsigned int num)
->> +{
->> +	struct drm_mock_sched_job *job, *next;
->> +	unsigned int found = 0;
->> +	unsigned long flags;
->> +	LIST_HEAD(signal);
->> +
->> +	spin_lock_irqsave(&sched->lock, flags);
->> +	if (WARN_ON_ONCE(sched->seqno + num < sched->seqno))
->> +		goto unlock;
->> +	sched->seqno += num;
->> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
->> {
->> +		if (sched->seqno < job->hw_fence.seqno)
->> +			break;
->> +
->> +		list_move_tail(&job->link, &signal);
->> +		found++;
->> +	}
->> +unlock:
->> +	spin_unlock_irqrestore(&sched->lock, flags);
->> +
->> +	list_for_each_entry(job, &signal, link) {
->> +		dma_fence_signal(&job->hw_fence);
->> +		dma_fence_put(&job->hw_fence);
->> +	}
->> +
->> +	return found;
->> +}
->> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
->> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
->> new file mode 100644
->> index 000000000000..421ee2712985
->> --- /dev/null
->> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
->> @@ -0,0 +1,124 @@
->> +
->> +#include <kunit/test.h>
->> +#include <linux/atomic.h>
->> +#include <linux/dma-fence.h>
->> +#include <linux/hrtimer.h>
->> +#include <linux/ktime.h>
->> +#include <linux/list.h>
->> +#include <linux/atomic.h>
->> +#include <linux/mutex.h>
->> +#include <linux/types.h>
->> +
->> +#include <drm/gpu_scheduler.h>
->> +
->> +struct drm_mock_scheduler {
->> +	struct drm_gpu_scheduler base;
->> +
->> +	struct kunit		*test;
->> +
->> +	struct {
->> +		u64		context;
->> +		atomic_t	seqno;
->> +	} hw_fence;
-> 
-> Hm, well, so this is confusing. drm_mock_sched_job below contains an
-> actual struct dma_fence that is also called hw_fence, whereas this here
-> seems to be some pseudo-hw_fence?
-> 
-> What is its purpose?
-> 
-> I believe we agreed that "Hardware fence" should always mean a fence
-> per job that is signaled by the hardware (driver interrupt) once the
-> job is done.
-> 
-> If this hw_fence here is the same, why is it per scheduler? That's
-> confusing.
+v2:
+https://lore.kernel.org/all/d885913e-e81c-488e-8db8-e3f7fae13b2c@redhat.com/
 
-Mock_job->hw_fence is what the mock GPU driver returns from the 
-sched->run_job().
+- Remove unnecessary virtio_gpu_vbuffer_inline
+- Remove reclaim_list and just call drm_gem_object_put() if there is an
+   obj
+- Don't wait for an event in virtio_gpu_panic_queue_ctrl_sgs and just
+   return -ENOMEM. Also add error handlers for this error.
+- Use virtio_gpu_panic_queue_fenced_ctrl_buffer() in
+virtio_gpu_panic_cmd_resource_flush
+- Remove fence and objs arguments because these are always NULL in panic
+   handler.
+- Rename virtio_gpu_panic_queue_fenced_ctrl_buffer to
+   ..._queue_ctrl_buffer
+- Rename virtio_gpu_panic_alloc_cmd to ..._panic_init_cmd
 
-Mock_sched->hw_fence is what the mock GPU driver uses to track execution 
-of jobs submitted to it for execution. If Irename this to hw_timeline 
-will it make it clearer?
+v1:
+https://lore.kernel.org/all/c7a4a4cd-ce84-4e87-924d-c1c001fc5d28@redhat.com/
 
->> +
->> +	spinlock_t		lock;
-> 
-> Maybe document the lock's purpose
-> 
-> 
->> +	unsigned int		seqno;
->> +	struct list_head	job_list;
->> +};
->> +
->> +struct drm_mock_sched_entity {
->> +	struct drm_sched_entity base;
->> +
->> +	struct kunit		*test;
->> +};
->> +
->> +struct drm_mock_sched_job {
->> +	struct drm_sched_job	base;
->> +
->> +	struct list_head	link;
->> +	struct hrtimer		timer;
->> +
->> +	unsigned int		duration_us;
->> +	ktime_t			finish_at;
->> +
->> +	spinlock_t		lock;
-> 
-> Same
-> 
->> +	struct dma_fence	hw_fence;
->> +
->> +	struct kunit		*test;
->> +};
->> +
->> +static inline struct drm_mock_scheduler *
->> +drm_sched_to_mock_sched(struct drm_gpu_scheduler *sched)
->> +{
->> +	return container_of(sched, struct drm_mock_scheduler, base);
->> +};
->> +
->> +static inline struct drm_mock_sched_entity *
->> +drm_sched_entity_to_mock_entity(struct drm_sched_entity
->> *sched_entity)
->> +{
->> +	return container_of(sched_entity, struct
->> drm_mock_sched_entity, base);
->> +};
->> +
->> +static inline struct drm_mock_sched_job *
->> +drm_sched_job_to_mock_job(struct drm_sched_job *sched_job)
->> +{
->> +	return container_of(sched_job, struct drm_mock_sched_job,
->> base);
->> +};
->> +
->> +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
->> *test);
->> +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched);
->> +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
->> *sched,
->> +				    unsigned int num);
->> +
->> +struct drm_mock_sched_entity *
->> +drm_mock_new_sched_entity(struct kunit *test,
->> +			  enum drm_sched_priority priority,
->> +			  struct drm_mock_scheduler *sched);
->> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
->> *entity);
->> +
->> +struct drm_mock_sched_job *
->> +drm_mock_new_sched_job(struct kunit *test,
->> +		       struct drm_mock_sched_entity *entity);
->> +
->> +static inline void drm_mock_sched_job_submit(struct
->> drm_mock_sched_job *job)
->> +{
->> +	drm_sched_job_arm(&job->base);
->> +	drm_sched_entity_push_job(&job->base);
->> +}
->> +
->> +static inline void
->> +drm_mock_sched_job_set_duration_us(struct drm_mock_sched_job *job,
->> +				   unsigned int duration_us)
->> +{
->> +	job->duration_us = duration_us;
->> +}
->> +
->> +static inline bool
->> +drm_mock_sched_job_is_finished(struct drm_mock_sched_job *job)
->> +{
->> +	return dma_fence_is_signaled(&job->base.s_fence->finished);
->> +}
->> +
->> +static inline bool
->> +drm_mock_sched_job_wait_finished(struct drm_mock_sched_job *job,
->> long timeout)
->> +{
->> +	long ret;
->> +
->> +	ret = dma_fence_wait_timeout(&job->base.s_fence->finished,
->> +				      false,
->> +				      timeout);
->> +
->> +	return ret != 0;
->> +}
->> +
->> +static inline long
->> +drm_mock_sched_job_wait_scheduled(struct drm_mock_sched_job *job,
->> long timeout)
->> +{
->> +	long ret;
->> +
->> +	ret = dma_fence_wait_timeout(&job->base.s_fence->scheduled,
->> +				      false,
->> +				      timeout);
->> +
->> +	return ret != 0;
->> +}
->> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
->> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
->> new file mode 100644
->> index 000000000000..6fd39bea95b1
->> --- /dev/null
->> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
->> @@ -0,0 +1,247 @@
->> +
->> +#include "drm_sched_tests.h"
->> +
->> +static int drm_sched_basic_init(struct kunit *test)
->> +{
->> +	test->priv = drm_mock_new_scheduler(test);
->> +
->> +	return 0;
->> +}
->> +
->> +static void drm_sched_basic_exit(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +
->> +	drm_mock_scheduler_fini(sched);
->> +}
->> +
->> +static void drm_sched_basic_submit(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_entity *entity;
->> +	struct drm_mock_sched_job *job;
->> +	unsigned int i;
->> +	bool done;
->> +
->> +	/*
->> +	 * Submit one job to the scheduler and verify that it gets
->> scheduled
->> +	 * and completed only when the mock hw backend processes it.
->> +	 */
->> +
->> +	entity = drm_mock_new_sched_entity(test,
->> +					
->> DRM_SCHED_PRIORITY_NORMAL,
->> +					   sched);
->> +	job = drm_mock_new_sched_job(test, entity);
->> +
->> +	drm_mock_sched_job_submit(job);
->> +
->> +	done = drm_mock_sched_job_wait_scheduled(job, HZ);
->> +	KUNIT_ASSERT_EQ(test, done, true);
->> +
->> +	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
->> +	KUNIT_ASSERT_EQ(test, done, false);
->> +
->> +	i = drm_mock_sched_advance(sched, 1);
->> +	KUNIT_ASSERT_EQ(test, i, 1);
->> +
->> +	done = drm_mock_sched_job_wait_finished(job, HZ);
->> +	KUNIT_ASSERT_EQ(test, done, true);
->> +
->> +	drm_mock_sched_entity_free(entity);
->> +}
->> +
->> +static void drm_sched_basic_queue(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_entity *entity;
->> +	struct drm_mock_sched_job *job;
->> +	const unsigned int qd = 100;
-> 
-> Not the best variable name – is this "queue depth"? Why is it 100? ->
-> global define & document
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  11 ++
+ drivers/gpu/drm/virtio/virtgpu_gem.c   |  14 +++
+ drivers/gpu/drm/virtio/virtgpu_plane.c |  96 ++++++++++++++++
+ drivers/gpu/drm/virtio/virtgpu_vq.c    | 151 +++++++++++++++++++++++++
+ 4 files changed, 272 insertions(+)
 
-I wouldn't promote this to global and TBH if you look how small this 
-test function is it feels pretty self documenting.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index f42ca9d8ed10..f17660a71a3e 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -310,6 +310,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
+ 				struct drm_device *dev,
+ 				struct drm_mode_create_dumb *args);
+ 
++struct virtio_gpu_object_array *virtio_gpu_panic_array_alloc(void);
+ struct virtio_gpu_object_array *virtio_gpu_array_alloc(u32 nents);
+ struct virtio_gpu_object_array*
+ virtio_gpu_array_from_handles(struct drm_file *drm_file, u32 *handles, u32 nents);
+@@ -334,12 +335,21 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
+ 				    struct virtio_gpu_fence *fence);
+ void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
+ 				   struct virtio_gpu_object *bo);
++int virtio_gpu_panic_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
++					     uint64_t offset,
++					     uint32_t width, uint32_t height,
++					     uint32_t x, uint32_t y,
++					     struct virtio_gpu_object_array *objs);
+ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 					uint64_t offset,
+ 					uint32_t width, uint32_t height,
+ 					uint32_t x, uint32_t y,
+ 					struct virtio_gpu_object_array *objs,
+ 					struct virtio_gpu_fence *fence);
++void virtio_gpu_panic_cmd_resource_flush(struct virtio_gpu_device *vgdev,
++					 uint32_t resource_id,
++					 uint32_t x, uint32_t y,
++					 uint32_t width, uint32_t height);
+ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
+ 				   uint32_t resource_id,
+ 				   uint32_t x, uint32_t y,
+@@ -408,6 +418,7 @@ void virtio_gpu_ctrl_ack(struct virtqueue *vq);
+ void virtio_gpu_cursor_ack(struct virtqueue *vq);
+ void virtio_gpu_dequeue_ctrl_func(struct work_struct *work);
+ void virtio_gpu_dequeue_cursor_func(struct work_struct *work);
++void virtio_gpu_panic_notify(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_notify(struct virtio_gpu_device *vgdev);
+ 
+ int
+diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
+index 5aab588fc400..dde8fc1a3689 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_gem.c
++++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
+@@ -148,6 +148,20 @@ void virtio_gpu_gem_object_close(struct drm_gem_object *obj,
+ 	virtio_gpu_notify(vgdev);
+ }
+ 
++/* For drm panic */
++struct virtio_gpu_object_array *virtio_gpu_panic_array_alloc(void)
++{
++	struct virtio_gpu_object_array *objs;
++
++	objs = kmalloc(sizeof(struct virtio_gpu_object_array), GFP_ATOMIC);
++	if (!objs)
++		return NULL;
++
++	objs->nents = 0;
++	objs->total = 1;
++	return objs;
++}
++
+ struct virtio_gpu_object_array *virtio_gpu_array_alloc(u32 nents)
+ {
+ 	struct virtio_gpu_object_array *objs;
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index 42aa554eca9f..a6f5a78f436a 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -28,6 +28,8 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_gem_atomic_helper.h>
+ #include <linux/virtio_dma_buf.h>
++#include <drm/drm_managed.h>
++#include <drm/drm_panic.h>
+ 
+ #include "virtgpu_drv.h"
+ 
+@@ -127,6 +129,30 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
+ 	return ret;
+ }
+ 
++/* For drm panic */
++static int virtio_gpu_panic_update_dumb_bo(struct virtio_gpu_device *vgdev,
++					   struct drm_plane_state *state,
++					   struct drm_rect *rect)
++{
++	struct virtio_gpu_object *bo =
++		gem_to_virtio_gpu_obj(state->fb->obj[0]);
++	struct virtio_gpu_object_array *objs;
++	uint32_t w = rect->x2 - rect->x1;
++	uint32_t h = rect->y2 - rect->y1;
++	uint32_t x = rect->x1;
++	uint32_t y = rect->y1;
++	uint32_t off = x * state->fb->format->cpp[0] +
++		y * state->fb->pitches[0];
++
++	objs = virtio_gpu_panic_array_alloc();
++	if (!objs)
++		return -ENOMEM;
++	virtio_gpu_array_add_obj(objs, &bo->base.base);
++
++	return virtio_gpu_panic_cmd_transfer_to_host_2d(vgdev, off, w, h, x, y,
++							objs);
++}
++
+ static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
+ 				      struct drm_plane_state *state,
+ 				      struct drm_rect *rect)
+@@ -150,6 +176,24 @@ static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
+ 					   objs, NULL);
+ }
+ 
++/* For drm_panic */
++static void virtio_gpu_panic_resource_flush(struct drm_plane *plane,
++					    uint32_t x, uint32_t y,
++					    uint32_t width, uint32_t height)
++{
++	struct drm_device *dev = plane->dev;
++	struct virtio_gpu_device *vgdev = dev->dev_private;
++	struct virtio_gpu_framebuffer *vgfb;
++	struct virtio_gpu_object *bo;
++
++	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
++	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
++
++	virtio_gpu_panic_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
++					    width, height);
++	virtio_gpu_panic_notify(vgdev);
++}
++
+ static void virtio_gpu_resource_flush(struct drm_plane *plane,
+ 				      uint32_t x, uint32_t y,
+ 				      uint32_t width, uint32_t height)
+@@ -446,11 +490,63 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
+ 	virtio_gpu_cursor_ping(vgdev, output);
+ }
+ 
++static int virtio_drm_get_scanout_buffer(struct drm_plane *plane,
++					 struct drm_scanout_buffer *sb)
++{
++	struct virtio_gpu_object *bo;
++
++	if (!plane->state || !plane->state->fb || !plane->state->visible)
++		return -ENODEV;
++
++	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
++
++	/* Only support mapped shmem bo */
++	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach || !bo->base.vaddr)
++		return -ENODEV;
++
++	iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
++
++	sb->format = plane->state->fb->format;
++	sb->height = plane->state->fb->height;
++	sb->width = plane->state->fb->width;
++	sb->pitch[0] = plane->state->fb->pitches[0];
++	return 0;
++}
++
++static void virtio_panic_flush(struct drm_plane *plane)
++{
++	struct virtio_gpu_object *bo;
++	struct drm_device *dev = plane->dev;
++	struct virtio_gpu_device *vgdev = dev->dev_private;
++	struct drm_rect rect;
++
++	rect.x1 = 0;
++	rect.y1 = 0;
++	rect.x2 = plane->state->fb->width;
++	rect.y2 = plane->state->fb->height;
++
++	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
++
++	if (bo->dumb) {
++		if (virtio_gpu_panic_update_dumb_bo(vgdev, plane->state,
++						    &rect))
++			return;
++	}
++
++	virtio_gpu_panic_resource_flush(plane,
++					plane->state->src_x >> 16,
++					plane->state->src_y >> 16,
++					plane->state->src_w >> 16,
++					plane->state->src_h >> 16);
++}
++
+ static const struct drm_plane_helper_funcs virtio_gpu_primary_helper_funcs = {
+ 	.prepare_fb		= virtio_gpu_plane_prepare_fb,
+ 	.cleanup_fb		= virtio_gpu_plane_cleanup_fb,
+ 	.atomic_check		= virtio_gpu_plane_atomic_check,
+ 	.atomic_update		= virtio_gpu_primary_plane_update,
++	.get_scanout_buffer	= virtio_drm_get_scanout_buffer,
++	.panic_flush		= virtio_panic_flush,
+ };
+ 
+ static const struct drm_plane_helper_funcs virtio_gpu_cursor_helper_funcs = {
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index ad91624df42d..efac4f244d85 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -86,6 +86,22 @@ void virtio_gpu_free_vbufs(struct virtio_gpu_device *vgdev)
+ 	vgdev->vbufs = NULL;
+ }
+ 
++/* For drm_panic */
++static struct virtio_gpu_vbuffer*
++virtio_gpu_panic_get_vbuf(struct virtio_gpu_device *vgdev, int size)
++{
++	struct virtio_gpu_vbuffer *vbuf;
++
++	vbuf = kmem_cache_zalloc(vgdev->vbufs, GFP_ATOMIC);
++
++	vbuf->buf = (void *)vbuf + sizeof(*vbuf);
++	vbuf->size = size;
++	vbuf->resp_cb = NULL;
++	vbuf->resp_size = sizeof(struct virtio_gpu_ctrl_hdr);
++	vbuf->resp_buf = (void *)vbuf->buf + size;
++	return vbuf;
++}
++
+ static struct virtio_gpu_vbuffer*
+ virtio_gpu_get_vbuf(struct virtio_gpu_device *vgdev,
+ 		    int size, int resp_size, void *resp_buf,
+@@ -137,6 +153,18 @@ virtio_gpu_alloc_cursor(struct virtio_gpu_device *vgdev,
+ 	return (struct virtio_gpu_update_cursor *)vbuf->buf;
+ }
+ 
++/* For drm_panic */
++static void *virtio_gpu_panic_alloc_cmd_resp(struct virtio_gpu_device *vgdev,
++					     struct virtio_gpu_vbuffer **vbuffer_p,
++					     int cmd_size)
++{
++	struct virtio_gpu_vbuffer *vbuf;
++
++	vbuf = virtio_gpu_panic_get_vbuf(vgdev, cmd_size);
++	*vbuffer_p = vbuf;
++	return (struct virtio_gpu_command *)vbuf->buf;
++}
++
+ static void *virtio_gpu_alloc_cmd_resp(struct virtio_gpu_device *vgdev,
+ 				       virtio_gpu_resp_cb cb,
+ 				       struct virtio_gpu_vbuffer **vbuffer_p,
+@@ -311,6 +339,34 @@ static struct sg_table *vmalloc_to_sgt(char *data, uint32_t size, int *sg_ents)
+ 	return sgt;
+ }
+ 
++/* For drm_panic */
++static int virtio_gpu_panic_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
++					   struct virtio_gpu_vbuffer *vbuf,
++					   int elemcnt,
++					   struct scatterlist **sgs,
++					   int outcnt,
++					   int incnt)
++{
++	struct virtqueue *vq = vgdev->ctrlq.vq;
++	int ret;
++
++	if (vgdev->has_indirect)
++		elemcnt = 1;
++
++	if (vq->num_free < elemcnt)
++		return -ENOMEM;
++
++	ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
++	WARN_ON(ret);
++
++	vbuf->seqno = ++vgdev->ctrlq.seqno;
++	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf), vbuf->seqno);
++
++	atomic_inc(&vgdev->pending_commands);
++
++	return 0;
++}
++
+ static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
+ 				     struct virtio_gpu_vbuffer *vbuf,
+ 				     struct virtio_gpu_fence *fence,
+@@ -368,6 +424,32 @@ static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
+ 	return 0;
+ }
+ 
++/* For drm_panic */
++static int virtio_gpu_panic_queue_ctrl_buffer(struct virtio_gpu_device *vgdev,
++					      struct virtio_gpu_vbuffer *vbuf)
++{
++	struct scatterlist *sgs[3], vcmd, vresp;
++	int elemcnt = 0, outcnt = 0, incnt = 0;
++
++	/* set up vcmd */
++	sg_init_one(&vcmd, vbuf->buf, vbuf->size);
++	elemcnt++;
++	sgs[outcnt] = &vcmd;
++	outcnt++;
++
++	/* set up vresp */
++	if (vbuf->resp_size) {
++		sg_init_one(&vresp, vbuf->resp_buf, vbuf->resp_size);
++		elemcnt++;
++		sgs[outcnt + incnt] = &vresp;
++		incnt++;
++	}
++
++	return virtio_gpu_panic_queue_ctrl_sgs(vgdev, vbuf,
++					       elemcnt, sgs,
++					       outcnt, incnt);
++}
++
+ static int virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
+ 					       struct virtio_gpu_vbuffer *vbuf,
+ 					       struct virtio_gpu_fence *fence)
+@@ -422,6 +504,21 @@ static int virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
+ 	return ret;
+ }
+ 
++/* For drm_panic */
++void virtio_gpu_panic_notify(struct virtio_gpu_device *vgdev)
++{
++	bool notify;
++
++	if (!atomic_read(&vgdev->pending_commands))
++		return;
++
++	atomic_set(&vgdev->pending_commands, 0);
++	notify = virtqueue_kick_prepare(vgdev->ctrlq.vq);
++
++	if (notify)
++		virtqueue_notify(vgdev->ctrlq.vq);
++}
++
+ void virtio_gpu_notify(struct virtio_gpu_device *vgdev)
+ {
+ 	bool notify;
+@@ -567,6 +664,29 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
+ }
+ 
++/* For drm_panic */
++void virtio_gpu_panic_cmd_resource_flush(struct virtio_gpu_device *vgdev,
++					  uint32_t resource_id,
++					  uint32_t x, uint32_t y,
++					  uint32_t width, uint32_t height)
++{
++	struct virtio_gpu_resource_flush *cmd_p;
++	struct virtio_gpu_vbuffer *vbuf;
++
++	cmd_p = virtio_gpu_panic_alloc_cmd_resp(vgdev, &vbuf, sizeof(*cmd_p));
++	memset(cmd_p, 0, sizeof(*cmd_p));
++	vbuf->objs = NULL;
++
++	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_FLUSH);
++	cmd_p->resource_id = cpu_to_le32(resource_id);
++	cmd_p->r.width = cpu_to_le32(width);
++	cmd_p->r.height = cpu_to_le32(height);
++	cmd_p->r.x = cpu_to_le32(x);
++	cmd_p->r.y = cpu_to_le32(y);
++
++	virtio_gpu_panic_queue_ctrl_buffer(vgdev, vbuf);
++}
++
+ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
+ 				   uint32_t resource_id,
+ 				   uint32_t x, uint32_t y,
+@@ -591,6 +711,37 @@ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
+ 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
+ }
+ 
++/* For drm_panic */
++int virtio_gpu_panic_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
++					     uint64_t offset,
++					     uint32_t width, uint32_t height,
++					     uint32_t x, uint32_t y,
++					     struct virtio_gpu_object_array *objs)
++{
++	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
++	struct virtio_gpu_transfer_to_host_2d *cmd_p;
++	struct virtio_gpu_vbuffer *vbuf;
++	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
++
++	if (virtio_gpu_is_shmem(bo) && use_dma_api)
++		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
++					    bo->base.sgt, DMA_TO_DEVICE);
++
++	cmd_p = virtio_gpu_panic_alloc_cmd_resp(vgdev, &vbuf, sizeof(*cmd_p));
++	memset(cmd_p, 0, sizeof(*cmd_p));
++	vbuf->objs = objs;
++
++	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_TRANSFER_TO_HOST_2D);
++	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
++	cmd_p->offset = cpu_to_le64(offset);
++	cmd_p->r.width = cpu_to_le32(width);
++	cmd_p->r.height = cpu_to_le32(height);
++	cmd_p->r.x = cpu_to_le32(x);
++	cmd_p->r.y = cpu_to_le32(y);
++
++	return virtio_gpu_panic_queue_ctrl_buffer(vgdev, vbuf);
++}
++
+ void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
+ 					uint64_t offset,
+ 					uint32_t width, uint32_t height,
 
-> 
-> 
->> +	unsigned int i;
->> +	bool done;
->> +
->> +	/*
->> +	 * Submit a queue of jobs on the same entity, let them be
->> completed by
->> +	 * the mock hw backend and check the status of the last job.
->> +	 */
->> +
->> +	entity = drm_mock_new_sched_entity(test,
->> +					
->> DRM_SCHED_PRIORITY_NORMAL,
->> +					   sched);
->> +
->> +	for (i = 0; i < qd; i++) {
->> +		job = drm_mock_new_sched_job(test, entity);
->> +		drm_mock_sched_job_set_duration_us(job, 1000);
->> +		drm_mock_sched_job_submit(job);
->> +	}
->> +
->> +	done = drm_mock_sched_job_wait_finished(job, HZ);
->> +	KUNIT_ASSERT_EQ(test, done, true);
->> +
->> +	drm_mock_sched_entity_free(entity);
->> +}
->> +
->> +static void drm_sched_basic_chain(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_job *job, *prev = NULL;
->> +	struct drm_mock_sched_entity *entity;
->> +	const unsigned int qd = 100;
->> +	unsigned int i;
->> +	bool done;
->> +
->> +	/*
->> +	 * Submit a queue of jobs on the same entity but with an
->> explicit
->> +	 * chain of dependencies between them. Let the jobs be
->> completed by
->> +	 * the mock hw backend and check the status of the last job.
->> +	 */
->> +
->> +	entity = drm_mock_new_sched_entity(test,
->> +					
->> DRM_SCHED_PRIORITY_NORMAL,
->> +					   sched);
->> +
->> +	for (i = 0; i < qd; i++) {
->> +		job = drm_mock_new_sched_job(test, entity);
->> +		drm_mock_sched_job_set_duration_us(job, 1000);
->> +		if (prev)
->> +			drm_sched_job_add_dependency(&job->base,
->> +						
->> dma_fence_get(&prev->base.s_fence->finished));
->> +		drm_mock_sched_job_submit(job);
->> +		prev = job;
->> +	}
->> +
->> +	done = drm_mock_sched_job_wait_finished(job, HZ);
->> +	KUNIT_ASSERT_EQ(test, done, true);
->> +
->> +	drm_mock_sched_entity_free(entity);
->> +}
->> +
->> +static void drm_sched_basic_entities(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_entity *entity[4];
->> +	struct drm_mock_sched_job *job;
->> +	const unsigned int qd = 100;
->> +	unsigned int i, cur_ent = 0;
->> +	bool done;
->> +
->> +	/*
->> +	 * Submit a queue of jobs across different entities, let
->> them be
->> +	 * completed by the mock hw backend and check the status of
->> the last
->> +	 * job.
->> +	 */
->> +
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		entity[i] = drm_mock_new_sched_entity(test,
->> +						
->> DRM_SCHED_PRIORITY_NORMAL,
->> +						      sched);
->> +
->> +	for (i = 0; i < qd; i++) {
->> +		job = drm_mock_new_sched_job(test,
->> entity[cur_ent++]);
->> +		cur_ent %= ARRAY_SIZE(entity);
->> +		drm_mock_sched_job_set_duration_us(job, 1000);
->> +		drm_mock_sched_job_submit(job);
->> +	}
->> +
->> +	done = drm_mock_sched_job_wait_finished(job, HZ);
->> +	KUNIT_ASSERT_EQ(test, done, true);
->> +
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		drm_mock_sched_entity_free(entity[i]);
->> +}
->> +
->> +static void drm_sched_basic_entities_chain(struct kunit *test)
->> +{
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_job *job, *prev = NULL;
->> +	struct drm_mock_sched_entity *entity[4];
->> +	const unsigned int qd = 100;
->> +	unsigned int i, cur_ent = 0;
->> +	bool done;
->> +
->> +	/*
->> +	 * Submit a queue of jobs across different entities with an
->> explicit
->> +	 * chain of dependencies between them. Let the jobs be
->> completed by
->> +	 * the mock hw backend and check the status of the last job.
->> +	 */
->> +
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		entity[i] = drm_mock_new_sched_entity(test,
->> +						
->> DRM_SCHED_PRIORITY_NORMAL,
->> +						      sched);
->> +
->> +	for (i = 0; i < qd; i++) {
->> +		job = drm_mock_new_sched_job(test,
->> entity[cur_ent++]);
->> +		cur_ent %= ARRAY_SIZE(entity);
->> +		drm_mock_sched_job_set_duration_us(job, 1000);
->> +		if (prev)
->> +			drm_sched_job_add_dependency(&job->base,
->> +						
->> dma_fence_get(&prev->base.s_fence->finished));
->> +		drm_mock_sched_job_submit(job);
->> +		prev = job;
->> +	}
->> +
->> +	done = drm_mock_sched_job_wait_finished(job, HZ);
->> +	KUNIT_ASSERT_EQ(test, done, true);
->> +
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		drm_mock_sched_entity_free(entity[i]);
->> +}
->> +
->> +static void drm_sched_basic_entity_cleanup(struct kunit *test)
->> +{
->> +	struct drm_mock_sched_job *job, *mid, *prev = NULL;
->> +	struct drm_mock_scheduler *sched = test->priv;
->> +	struct drm_mock_sched_entity *entity[4];
-> 
-> 4 is used in several places, so could be defined globally. In case
-> there's a special reason for why it's 4, that could be mentioned, too
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+-- 
+2.47.1
 
-It's completely arbitrary. In this test we just need a bunch of entities 
-to be active on the scheduler as we trigger a client exit in the middle 
-of it. IMO the comment few lines below should be good enough to explain 
-the idea. I fear that promoting this to a global define would just give 
-it more weight that what it has. Then some test would want a different 
-number etc.
-
-Regards,
-
-Tvrtko
-
->> +	const unsigned int qd = 100;
->> +	unsigned int i, cur_ent = 0;
->> +	bool done;
->> +
->> +	/*
->> +	 * Submit a queue of jobs across different entities with an
->> explicit
->> +	 * chain of dependencies between them and trigger entity
->> cleanup while
->> +	 * the queue is still being processed.
->> +	 */
->> +
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		entity[i] = drm_mock_new_sched_entity(test,
->> +						
->> DRM_SCHED_PRIORITY_NORMAL,
->> +						      sched);
->> +
->> +	for (i = 0; i < qd; i++) {
->> +		job = drm_mock_new_sched_job(test,
->> entity[cur_ent++]);
->> +		cur_ent %= ARRAY_SIZE(entity);
->> +		drm_mock_sched_job_set_duration_us(job, 1000);
->> +		if (prev)
->> +			drm_sched_job_add_dependency(&job->base,
->> +						
->> dma_fence_get(&prev->base.s_fence->finished));
->> +		drm_mock_sched_job_submit(job);
->> +		if (i == qd / 2)
->> +			mid = job;
->> +		prev = job;
->> +	}
->> +
->> +	done = drm_mock_sched_job_wait_finished(mid, HZ);
->> +	KUNIT_ASSERT_EQ(test, done, true);
->> +
->> +	/* Exit with half of the queue still pending to be executed.
->> */
->> +	for (i = 0; i < ARRAY_SIZE(entity); i++)
->> +		drm_mock_sched_entity_free(entity[i]);}
->> +
->> +static struct kunit_case drm_sched_basic_tests[] = {
->> +	KUNIT_CASE(drm_sched_basic_submit),
->> +	KUNIT_CASE(drm_sched_basic_queue),
->> +	KUNIT_CASE(drm_sched_basic_chain),
->> +	KUNIT_CASE(drm_sched_basic_entities),
->> +	KUNIT_CASE(drm_sched_basic_entities_chain),
->> +	KUNIT_CASE(drm_sched_basic_entity_cleanup),
->> +	{}
->> +};
->> +
->> +static struct kunit_suite drm_sched_basic = {
->> +	.name = "drm_sched_basic_tests",
->> +	.init = drm_sched_basic_init,
->> +	.exit = drm_sched_basic_exit,
->> +	.test_cases = drm_sched_basic_tests,
->> +};
->> +
->> +kunit_test_suite(drm_sched_basic);
-> 
