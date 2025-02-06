@@ -2,76 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFB9A2AEAE
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF88A2AEBB
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:21:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDE3310E8EB;
-	Thu,  6 Feb 2025 17:18:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68A0C10E8F3;
+	Thu,  6 Feb 2025 17:21:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="Xnnm+nO0";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="iqNB+R3V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FEEA10E8EB
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:18:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1738862280; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=PPCYLM87aFcVCAfMPQQ0yXcTyrsvnyTkKS+eEJWcy9cBCCuvU9Z/z8+pzbkYFtSX/1MtKPTSysfLFbXWsfEn4byj3fWbAOF50Y5tLH18AvdCZkKxLHaumA6PPi+w7cpbrzAW/zHZKRqAzxiN4l2puMicJGcIhAlDALNZ/b9YfU8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1738862280;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=HVIqXYzlOehlZiy0ALlRjz1XQBncBUDd5NT43WUTgZ8=; 
- b=lPCdyF7Zdv6I6M84wss5fyglm2/LO3RG4Et3v4lfGLGQtmGbCACYz2VhVdDLcJWcdkQycgDbkuk4ZGGxHhKk3iAeh8IIV+awP5nEJB6tY9fg6a7T5kzzIZdXZPuU8y+dOu74c75bQ/v04kDe4qTY+pxoFi38JCRIwNMDaaZrC74=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
- dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738862280; 
- s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=HVIqXYzlOehlZiy0ALlRjz1XQBncBUDd5NT43WUTgZ8=;
- b=Xnnm+nO0wx4RBQFTK/tSarsm6Bq5OMFkZ+7cIhAlPgfpa8rlnBCfdv+urPIUC2vV
- cVB821xhg1vXmN291QFqArQSM1Jav3BdpYYLbFovhHAs0as6IBcrW3FP/nqYb12ynyh
- Wy1JW0YmE72r82iNQ0hiaJt67LjAQrKfsPFHG18w=
-Received: by mx.zohomail.com with SMTPS id 173886227382959.44952550211565;
- Thu, 6 Feb 2025 09:17:53 -0800 (PST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org, Quentin Schulz <quentin.schulz@cherry.de>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Jianfeng Liu <liujianfeng1994@gmail.com>,
- Niklas Cassel <cassel@kernel.org>, FUKAUMI Naoki <naoki@radxa.com>,
- Kever Yang <kever.yang@rock-chips.com>, Johan Jonker <jbx6244@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Algea Cao <algea.cao@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>,
- Sugar Zhang <sugar.zhang@rock-chips.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v5 2/3] arm64: dts: rockchip: Add HDMI0 audio output for
- rk3588 SoC
-Date: Thu, 06 Feb 2025 12:17:51 -0500
-Message-ID: <2781606.mvXUDI8C0e@earth>
-In-Reply-To: <bfe9cb98-12ba-484c-95af-e5842edaab76@cherry.de>
-References: <20250203171925.126309-1-detlev.casanova@collabora.com>
- <20250203171925.126309-3-detlev.casanova@collabora.com>
- <bfe9cb98-12ba-484c-95af-e5842edaab76@cherry.de>
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43C1F10E1E6
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:21:12 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-5440efe97baso1245965e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 09:21:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1738862468; x=1739467268;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xmyQQLjc7ihSNeKK+vC8OeDD8oaLS3Nn6NTNSIO758Q=;
+ b=iqNB+R3VgBFmtdMlvvQ4UHJSW4R0Cq9RFuH55Gb3kZywdhg0d1QU4IKPyGZ0Bsj+Gx
+ rjQ4sMDpv7A9TRQrO0Xe5AS13eQ1NKHHbJNyPbZqin2E4EehJy9hIsWbi3S4vGXJpKpJ
+ wj5RV8kTMpfhYqP53OV+PwyUWvTWRMofQrzVk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738862468; x=1739467268;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xmyQQLjc7ihSNeKK+vC8OeDD8oaLS3Nn6NTNSIO758Q=;
+ b=F+/E6tfV7wXjM3/K95NRMvvL4cxWk8N7OZ68ko0XAQgGedVsORSbp5PqbPOqL2//xq
+ 04IUShxXzaCl+t9wpV8ay3Hi6dlqy5/v912APrGafBwzGi976b6zDVrkh1heCPl2KfvG
+ mDs+GnXRaIqpLOuAD9I5okqtDq6GdSbak4aAhZ9yowgWGZutqF05AhXcTCA3yjN22Xpa
+ ifnEBm/n8lXEqzpxg8TAPy4U+u/Y+c7wKJcjUN+d7EY/s7rWRyxZNKtoLTNFexO9pZ4f
+ pmcgo+KF3bv0AwHc/CGqBp6ip9+jHl8DlDeOVWyj85y/hnDkrc3UAhWTGkLnjEozL+ln
+ qzJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV6z4cN4HsYduVniQ/d9y3OUIU0hSD0PyHlyMDwq81trNHeOFlhmh9dgz+Mx+UY49R1heOaB4lcAdo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxd49oZUAfwnu8oV4h3P5BLgHDm4Ti0kWntD0+YPiJlBPugK01r
+ FBPSvzUNJ9fwh4l2nSki9FJ1ykbvW7XfL8mJVJ2Kr6e9fEDH+dKPKogWFZOKDSXHVFNEBwQYwnD
+ /uwkR
+X-Gm-Gg: ASbGncv6fThPPALBhp0W2Te+rWJH6C7vtDJUujEmvm4DTjq1l0oHNUOLqqX2Ajj4tXi
+ 0KQWH0aXPWV4bVCGHSFo6mRbc+S2ES7WI2qTIZ073CHv6PBhzZ+egpfc03OIwATTgCsU/j8Ekga
+ QJqaLl3qPdR/AATwmgsMZwtgDW4xdMyZsmvBkPaoJX59jsz0aX9lejRHrujI3GPpAv6dO5q5u8L
+ 7+7OBCCcPbGMRxSku2Bi/H7CURU6STKU7SEUHEEPZRot4+jmeSEYw/VmAgwVIBCqM/sUlAJkDSt
+ 1ZBYw+mqHdESRDYPAKcNUmTaovW/L6DlQm/wc1j7Gv+JlMVI05Voo6k=
+X-Google-Smtp-Source: AGHT+IHQ0s7e+Le3EcqNkHZl4MWRvEHZyueL+LzFgj5uZef8N9MmZMlsHtKaTIIfK50kNs0BkwbH2g==
+X-Received: by 2002:a05:6512:686:b0:53e:37e4:1457 with SMTP id
+ 2adb3069b0e04-54405a6c0c4mr3277949e87.33.1738862467664; 
+ Thu, 06 Feb 2025 09:21:07 -0800 (PST)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
+ [209.85.167.44]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5441053ebafsm181871e87.15.2025.02.06.09.21.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Feb 2025 09:21:06 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-5440efe97baso1245873e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 09:21:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXgxTB1DwxNgCW+YqrXT1u/1FwmJb4FuXeXt1JWKL/XInsVTfhJbLCRXvZbkxJkHW3DtybdE8AiwZk=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:220a:b0:542:8da7:242f with SMTP id
+ 2adb3069b0e04-54405a10653mr2730027e87.10.1738862465869; Thu, 06 Feb 2025
+ 09:21:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+References: <20250206131300.1295111-1-yelangyan@huaqin.corp-partner.google.com>
+ <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 6 Feb 2025 09:20:54 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=W8WR4rut47LA=PftG1bdDLkSa97syY8wt=rH4dJa-pLA@mail.gmail.com>
+X-Gm-Features: AWEUYZkQjg27CCS9VZJxZrYKj8mLCb6hWyh_QBl79_c9o4gHiKUmfZwJ_3PvYOU
+Message-ID: <CAD=FV=W8WR4rut47LA=PftG1bdDLkSa97syY8wt=rH4dJa-pLA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/panel: panel-himax-hx83102: support for
+ csot-pna957qt1-1 MIPI-DSI panel
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,70 +103,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 4 February 2025 05:14:37 EST Quentin Schulz wrote:
-> Hi Detlev,
-> 
-> On 2/3/25 6:16 PM, Detlev Casanova wrote:
-> > Use the simple-audio-card driver with the hdmi0 QP node as CODEC and
-> > the i2s5 device as CPU.
-> > 
-> > The simple-audio-card,mclk-fs value is set to 128 as it is done in
-> > the downstream driver.
-> > 
-> > The #sound-dai-cells value is set to 0 in the hdmi0 node so that it can be
-> > used as an audio codec node.
-> > 
-> > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> > ---
-> > 
-> >   arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 17 +++++++++++++++++
-> >   1 file changed, 17 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> > b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi index
-> > 8cfa30837ce72..767bdfc06b7ec 100644
-> > --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> > +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> > @@ -1369,6 +1369,22 @@ i2s9_8ch: i2s@fddfc000 {
-> > 
-> >   		status = "disabled";
-> >   	
-> >   	};
-> > 
-> > +	hdmi0_sound: hdmi0-sound {
-> > +		compatible = "simple-audio-card";
-> > +		simple-audio-card,format = "i2s";
-> > +		simple-audio-card,mclk-fs = <128>;
-> > +		simple-audio-card,name = "hdmi0";
-> > +		status = "disabled";
-> > +
-> > +		simple-audio-card,codec {
-> > +			sound-dai = <&hdmi0>;
-> > +		};
-> > +
-> > +		simple-audio-card,cpu {
-> > +			sound-dai = <&i2s5_8ch>;
-> > +		};
-> > +	};
-> > +
-> 
-> This is an address/bus-less device, so I believe it needs to be put
-> among other address/bus-less devices, which for Rockchip SoCs is at the
-> top of the DT? c.f.
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/dts-coding-style.
-> html
-> 
-> **I** would put it between the firmware and the pmu-a55 nodes.
+Hi,
 
-I wasn't sure about this. It makes sense to move it with address-less devices, 
-but the rk3399 device tree has it above the hdmi node, so I wanted to stay 
-consistent with that.
+On Thu, Feb 6, 2025 at 5:13=E2=80=AFAM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
+>
+> The csot-pna957qt1-1 is a 10.95" TFT panel. The MIPI controller on this
+> panel is the same as the other panels here, so add this panel to this
+> driver.
+>
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-himax-hx83102.c | 123 ++++++++++++++++++++
+>  1 file changed, 123 insertions(+)
 
-> Tested-by: Quentin Schulz <quentin.schulz@cherry.de> # RK3588 Tiger Haikou
-> 
-> Thanks!
-> Quentin
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-
-
-
+There's no rocket science here, so assuming that the bindings get DT
+acks I probably won't add any real delay before landing...
