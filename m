@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D150A2B029
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B465A2B023
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 19:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508FB10E903;
-	Thu,  6 Feb 2025 18:15:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2534810E905;
+	Thu,  6 Feb 2025 18:15:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="alWZYw5+";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lBoVSeHl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
  [217.70.183.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD50C10E90B
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:15:07 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 40FB8442D4;
- Thu,  6 Feb 2025 18:15:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8891810E90B
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 18:15:10 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C97AF442D7;
+ Thu,  6 Feb 2025 18:15:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738865706;
+ t=1738865709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vHGKRRwUFJ1hKE8GkVs2Ez/vUs0X0HmXOnbYhe5x4PU=;
- b=alWZYw5+dkL1Byea1MLItdJnR6sEkiLtF/qRlFzH1fH1o4wc/B4cVix0giMXpxuxotAKXa
- NUxXCTo2oIqOHWXSlduliLid5Crv24bFILYvn1IbnSK27Whtmcb/TBmea6vTn7FN2YQYXE
- mJra3HiBro5kWZ8s/BtEmjYo0TNah5iAwh/NBNB2dDz/+lIc2p+veWwuQ3AwsXn361k+oo
- yooIP1PA4lKDQRWoZF797UY8kLWybJI8TgpEQ1QVjmtKuxqkpQ7jk7QOrPlhyRwiXFN6pc
- pcJD+hz+3tEYSBdhayBdlJKDSXWdzIRwxeLILbi0VeHKoHLZzVp8olo3WUcW2Q==
+ bh=8iJmfJohMLskNWh1/d0vxg24JxdxKf1x+OOa7rjoPoQ=;
+ b=lBoVSeHlKoZKgObkr/7yH+eB6a28/qBL2c815XIuOrLvGMzwIO27CvahjbLLJROTvzCE5L
+ 3YotwQGDyNa6viU6GczZ7FATkIvf6fxX4rgB7bhbgZ8cHCmB3uCGKyLRPxFjHQ47iqZG1I
+ 94jMS/fhat15/+DcEg8+cFPfIR7V8/Pn9qJXL2Ry9LWrsDHyb+kZ1nYyOgWAz468z3mAh7
+ IPmWTzzP2wZVS/bJpqm7lgpZRA8eTtMJ5iPH3dfwvphiPTbt7y9pNdG3ZcVnlC3XtwybOh
+ UkkZX6nQW/s8PqE2cmf9S9xN42UgSc01janAnUjiCVEiOSz5fxKe92B+Ql/XVg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 19:14:26 +0100
-Subject: [PATCH v6 11/26] drm/bridge: samsung-dsim: use
- devm_drm_of_get_bridge[_by_node] to find the out_bridge
+Date: Thu, 06 Feb 2025 19:14:27 +0100
+Subject: [PATCH v6 12/26] drm/bridge: allow bridges to be informed about
+ added and removed bridges
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-hotplug-drm-bridge-v6-11-9d6f2c9c3058@bootlin.com>
+Message-Id: <20250206-hotplug-drm-bridge-v6-12-9d6f2c9c3058@bootlin.com>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 In-Reply-To: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -87,121 +87,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to support panels described either via graph links or via a
-subnode (e.g. "panel@0"), this driver uses low-level deprecated functions
-to find the next bridge. The resulting logic is complex and duplicates code
-already present in the DRM bridge core. Switch to the new APIs in DRM
-bridge core that allow to do the same in a much cleaner way.
+In preparation for allowing bridges to be added to and removed from a DRM
+card without destroying the whole card, add a new DRM bridge function
+called on addition and removal of bridges.
 
-Note there are two slight changes in the new logic intended to improve the
-final result:
-
- * the old code looks for a subnode with any name except "port" or "ports",
-   while the new code uses the node passed as a parameter
-
- * the old code looks for a subnode first and falls back to a graph link,
-   while the new code uses the reverse order because graph links are the
-   recommended device tree representation now
-
-The first change makes the code more robust by avoiding the risk of using
-an unrelated node which is not describing a panel and not names "port" or
-"ports".
-
-The second change is not expected to expose regressions because, in the
-cases where both a subnode and a graph link are used to describe a panel,
-the graph link should point to the subnode itself, such as in
-arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts
-
-As a further cleanup, use a temporary variable to assign dsi->out_bridge
-only on success. This avoids the risk of leaving a non-NULL value in
-dsi->out_bridge when samsung_dsim_host_attach() fails.
-
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 ---
 
-This patch was added in v6.
----
- drivers/gpu/drm/bridge/samsung-dsim.c | 55 ++++++-----------------------------
- 1 file changed, 9 insertions(+), 46 deletions(-)
+Changed in v6:
+ - rebased fixing conflicts
 
-diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index f8b4fb8357659018ec0db65374ee5d05330639ae..bbd0a4f5a3f52b61bf48f10d6e8ca741bffa5e46 100644
---- a/drivers/gpu/drm/bridge/samsung-dsim.c
-+++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -1704,55 +1704,16 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	const struct samsung_dsim_plat_data *pdata = dsi->plat_data;
- 	struct device *dev = dsi->dev;
- 	struct device_node *np = dev->of_node;
--	struct device_node *remote;
--	struct drm_panel *panel;
-+	struct drm_bridge *out_bridge;
- 	int ret;
- 
--	/*
--	 * Devices can also be child nodes when we also control that device
--	 * through the upstream device (ie, MIPI-DCS for a MIPI-DSI device).
--	 *
--	 * Lookup for a child node of the given parent that isn't either port
--	 * or ports.
--	 */
--	for_each_available_child_of_node(np, remote) {
--		if (of_node_name_eq(remote, "port") ||
--		    of_node_name_eq(remote, "ports"))
--			continue;
-+	out_bridge = devm_drm_of_get_bridge(dev, np, 1, 0);
-+	if (IS_ERR(out_bridge) && PTR_ERR(out_bridge) != -EPROBE_DEFER)
-+		out_bridge = devm_drm_of_get_bridge_by_node(dev, device->dev.of_node);
- 
--		goto of_find_panel_or_bridge;
--	}
--
--	/*
--	 * of_graph_get_remote_node() produces a noisy error message if port
--	 * node isn't found and the absence of the port is a legit case here,
--	 * so at first we silently check whether graph presents in the
--	 * device-tree node.
--	 */
--	if (!of_graph_is_present(np))
--		return -ENODEV;
--
--	remote = of_graph_get_remote_node(np, 1, 0);
--
--of_find_panel_or_bridge:
--	if (!remote)
--		return -ENODEV;
--
--	panel = of_drm_find_panel(remote);
--	if (!IS_ERR(panel)) {
--		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
--	} else {
--		dsi->out_bridge = of_drm_find_bridge(remote);
--		if (!dsi->out_bridge)
--			dsi->out_bridge = ERR_PTR(-EINVAL);
--	}
--
--	of_node_put(remote);
--
--	if (IS_ERR(dsi->out_bridge)) {
--		ret = PTR_ERR(dsi->out_bridge);
--		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
--		return ret;
-+	if (IS_ERR(out_bridge)) {
-+		DRM_DEV_ERROR(dev, "failed to find the bridge: %ld\n", PTR_ERR(out_bridge));
-+		return PTR_ERR(out_bridge);
- 	}
- 
- 	DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-flags:0x%lx)\n",
-@@ -1784,6 +1745,8 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
- 	dsi->format = device->format;
- 	dsi->mode_flags = device->mode_flags;
- 
-+	dsi->out_bridge = out_bridge;
+Changed in v5:
+ - fixed kerneldoc errors
+
+This patch was added in v4.
+---
+ drivers/gpu/drm/drm_bridge.c | 12 ++++++++++++
+ include/drm/drm_bridge.h     | 23 +++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index b0834b8644284e5f7751cec81724af849b4180e7..1955a231378050abf1071d74a145831b425c47c5 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -207,12 +207,18 @@ LIST_HEAD(bridge_list);
+  */
+ void drm_bridge_add(struct drm_bridge *bridge)
+ {
++	struct drm_bridge *br, *tmp;
 +
- 	return 0;
- }
+ 	mutex_init(&bridge->hpd_mutex);
  
+ 	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
+ 		bridge->ycbcr_420_allowed = !!(bridge->supported_formats &
+ 					       BIT(HDMI_COLORSPACE_YUV420));
+ 
++	list_for_each_entry_safe(br, tmp, &bridge_list, list)
++		if (br->funcs->bridge_event_notify)
++			br->funcs->bridge_event_notify(br, DRM_EVENT_BRIDGE_ADD, bridge);
++
+ 	mutex_lock(&bridge_lock);
+ 	list_add_tail(&bridge->list, &bridge_list);
+ 	mutex_unlock(&bridge_lock);
+@@ -249,10 +255,16 @@ EXPORT_SYMBOL(devm_drm_bridge_add);
+  */
+ void drm_bridge_remove(struct drm_bridge *bridge)
+ {
++	struct drm_bridge *br, *tmp;
++
+ 	mutex_lock(&bridge_lock);
+ 	list_del_init(&bridge->list);
+ 	mutex_unlock(&bridge_lock);
+ 
++	list_for_each_entry_safe(br, tmp, &bridge_list, list)
++		if (br->funcs->bridge_event_notify)
++			br->funcs->bridge_event_notify(br, DRM_EVENT_BRIDGE_REMOVE, bridge);
++
+ 	mutex_destroy(&bridge->hpd_mutex);
+ }
+ EXPORT_SYMBOL(drm_bridge_remove);
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 1561347c4991dac6022319774510f9560c9283c3..ad7ba444a13e5ecf16f996de3742e4ac67dc21f1 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -56,6 +56,11 @@ enum drm_bridge_attach_flags {
+ 	DRM_BRIDGE_ATTACH_NO_CONNECTOR = BIT(0),
+ };
+ 
++enum drm_bridge_event_type {
++	DRM_EVENT_BRIDGE_ADD,
++	DRM_EVENT_BRIDGE_REMOVE,
++};
++
+ /**
+  * struct drm_bridge_funcs - drm_bridge control functions
+  */
+@@ -729,6 +734,24 @@ struct drm_bridge_funcs {
+ 				      struct drm_bridge *bridge,
+ 				      bool enable, int direction);
+ 
++	/**
++	 * @bridge_event_notify:
++	 *
++	 * Notify that another bridge is being added or removed.
++	 *
++	 * This callback is optional. Bridges implementing it must always
++	 * check whether the event refers to a bridge they actually need to
++	 * interact with.
++	 *
++	 * @bridge: bridge being notified
++	 * @event: event happened (add/remove bridge)
++	 * @event_bridge: the bridge mentioned by the event (i.e. the
++	 * bridge being added or removed)
++	 */
++	void (*bridge_event_notify)(struct drm_bridge *bridge,
++				    enum drm_bridge_event_type event,
++				    struct drm_bridge *event_bridge);
++
+ 	/**
+ 	 * @debugfs_init:
+ 	 *
 
 -- 
 2.34.1
