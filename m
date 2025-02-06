@@ -2,60 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C560A2A90A
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 14:06:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52B9A2A923
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 14:10:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC7110E2EE;
-	Thu,  6 Feb 2025 13:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25F0010E219;
+	Thu,  6 Feb 2025 13:10:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ApPAn2Lp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FWZymsNy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B76F010E2EE;
- Thu,  6 Feb 2025 13:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738847198; x=1770383198;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=OZmGqMNbL8n4gDzlvdwSF3mBzpZ5AeQcngrVp9YIMv4=;
- b=ApPAn2Lpe997VnDgqSyCfH4oVHcOVIoI7hiAI7unhHaic/ebvxJpCUcq
- 1Eskaf1IYt8tc7BH7UYTazIHEA+uFwb0L93g3o3TeZd2HKf3YPlaxbKdm
- gq9TiVf7aanYgrazceYlswCFufTGKcwtTQ+ZmS3Bj2tdt27/ZPnmc6jSI
- 0D4/7wpd9I3tfeJNIRLI8jEQEaqclvNInigkm4IgERaMAIInBQ6sdNcRj
- kz0xWB6dQDnqju6N8ZDQ6HKPj1lpMhcJLXGQ4oWWoG62jUmqh5JZ13ybA
- z3K16TJuTsAObgvtLj/rprT/VcBBj4UcnxpoMoz9Zfb8hPvA3I7DW7dkz g==;
-X-CSE-ConnectionGUID: nVYJL/qERjqIEZzX+fCpHg==
-X-CSE-MsgGUID: IeZ99s9vTcq5o53LbB1tRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="43202411"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="43202411"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2025 05:06:38 -0800
-X-CSE-ConnectionGUID: dbJHs1gLQJ+Tc4MUPDFZjQ==
-X-CSE-MsgGUID: GNkOetnpTVmH8iT4ZSM3rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; d="scan'208";a="111736436"
-Received: from carterle-desk.ger.corp.intel.com (HELO intel.com)
- ([10.245.246.42])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Feb 2025 05:06:35 -0800
-Date: Thu, 6 Feb 2025 14:06:31 +0100
-From: Andi Shyti <andi.shyti@linux.intel.com>
-To: Krzysztof Karas <krzysztof.karas@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
- Mikolaj Wasiak <mikolaj.wasiak@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH v3] drm/i915/selftests: avoid using uninitialized context
-Message-ID: <Z6Sz11meZQianUjS@ashyti-mobl2.lan>
-References: <iuaonpjc3rywmvhna6umjlvzilocn2uqsrxfxfob24e2taocbi@lkaivvfp4777>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFB0810E219
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 13:10:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 630825C5822;
+ Thu,  6 Feb 2025 13:09:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86635C4CEDD;
+ Thu,  6 Feb 2025 13:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1738847415;
+ bh=Zhl4zGvXDdpzXQ7GWRQAco7c9y4WnWXKQfhtR8UZKj4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=FWZymsNyIvviUI84VwWutdAg2wlF31lzxAUnHilv7g9hVX3Ea3dG8Us+lqHJhGenZ
+ xBbzCL7+WuMcVNji42bcXPnKcwrW5E9D2UnNIPXZCSC5ypu9vlQA4DriVb9XDdSSxo
+ otndym1KbSaFxC2vyxHv8vTI7X++QlzB0+foaw/Wi4qR0trwzS3MIoBAcRMcp6itOE
+ g/VbHkyDmnt4Rs7utxkPb/96Fb4ySOALN8AeocolZjcIGkIO6jKGgCoXoen5jwrPtv
+ FhZew/13NodVBJiiW+xFma40/MeD+Xn3MPW1QJh6XZdMj2QHk4gz9IeJCdVCbrHYPw
+ /8Z9Ro74bovpQ==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] drm/tests: Fix locking issues (kind of)
+Date: Thu,  6 Feb 2025 14:10:11 +0100
+Message-ID: <173884739358.560732.9994156025100638634.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.48.0
+In-Reply-To: <20250129-test-kunit-v2-0-fe59c43805d5@kernel.org>
+References: <20250129-test-kunit-v2-0-fe59c43805d5@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <iuaonpjc3rywmvhna6umjlvzilocn2uqsrxfxfob24e2taocbi@lkaivvfp4777>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,19 +60,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
-
-On Thu, Jan 30, 2025 at 09:19:31AM +0000, Krzysztof Karas wrote:
-> There is an error path in igt_ppgtt_alloc(), which leads
-> to ww object being passed down to i915_gem_ww_ctx_fini() without
-> initialization. Correct that by only putting ppgtt->vm and
-> returning early.
+On Wed, 29 Jan 2025 15:21:52 +0100, Maxime Ripard wrote:
+> Here's another attempt at fixing the current locking issues with the
+> HDMI kunit tests.
 > 
-> Fixes: 480ae79537b2 ("drm/i915/selftests: Prepare gtt tests for obj->mm.lock removal")
-> Signed-off-by: Krzysztof Karas <krzysztof.karas@intel.com>
-> Reviewed-by: Mikolaj Wasiak <mikolaj.wasiak@intel.com>
+> The initial issue was reported by Dave here:
+> https://lore.kernel.org/all/CAPM=9tzJ4-ERDxvuwrCyUPY0=+P44orhp1kLWVGL7MCfpQjMEQ@mail.gmail.com/
+> 
+> After fixing it, there was still a lockdep warning for a circular
+> dependency. This series is also fixing the issue.
+> 
+> [...]
 
-reviewed and merged.
+Applied to misc/kernel.git (drm-misc-fixes).
 
-Thanks,
-Andi
+Thanks!
+Maxime
