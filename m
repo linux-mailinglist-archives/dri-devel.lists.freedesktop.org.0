@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21056A2AE5E
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FD3A2AE5D
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 18:02:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E47410E8E3;
-	Thu,  6 Feb 2025 17:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D830910E8E0;
+	Thu,  6 Feb 2025 17:02:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="pLRa1qvL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YfWtVW2K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC6B110E8E0
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:02:52 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3B5934445B;
- Thu,  6 Feb 2025 17:02:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AA8710E8E0
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 17:02:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 910C24445F;
+ Thu,  6 Feb 2025 17:02:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1738861371;
+ t=1738861372;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cAYYbsdxdSsCF/ogzTtcHwsh+QSUNty7sAMTDvffdEU=;
- b=pLRa1qvLvoDxoQaB3KDeLByoq8GLPfcJtxMC42cjBnygoPAPzWuWB1wGYopoQJRhqHWO7b
- 6DSpPWSzUVFj0s2ppjVVd/wNgGxfy7H9Kp7ojSiOQNcNbKKof1oHirFVdhUnjkl8LbfZyo
- 33DQTsnrDVizcYnBAM8gr5aHHweRfuqGfhWub7muiUybpPcJctSrbdqnm1WG69x0WUBlCD
- 1/Pig1VzjBZPSWmEUFtatgZ56JGD3iRa5xlTOOAtBIG389X6tPeYiiEyMMmPfgU5J0OdK/
- CbIDwjDllB+aS/X7S+dEYOxlXiqhyXfnAgboqYagtd13wJCoEFuLqiFSIuj5/Q==
+ bh=cCU3IZbBH5I6TruVQm3j3/6MlwpkYmCzb+vTXHkGhtI=;
+ b=YfWtVW2K4jMtWoqAXS0nd/T9GIMm9EmKU7ik8qWRIsKpwxwRXfwsGHniCDVdpKJrf7OwWd
+ 7+kXOVDzSpN/+eVBU+XTroLTDbDtwgw6NIogMDDC+hR5XvLb1ZiW5k99SWbCOcNSnoNXaK
+ Fdl76X5bs2kFaU4f9mcmC7fWcjLtHp3HWm9JQg3Rt08XDED92izAdRzIiztUomuvlQScr5
+ XKrDQlX7zJeL6Nq6CeNGuEPdntVMIA0i+AWvLjBQAgyGutxZEpwOfiW+Xa6dQzouc3ETcG
+ dptjyKpsVxogWMZYhZK5zhLIUWaZ336XHB5xV9RwuM2TaVNjxB8iiXFAa1OGIw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 18:02:33 +0100
-Subject: [PATCH 1/8] drm/panel: remove unnecessary forward declaration
+Date: Thu, 06 Feb 2025 18:02:34 +0100
+Subject: [PATCH 2/8] drm/bridge: nxp-ptn3460: remove unused drm_panel.h include
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-drm-cleanups-v1-1-93df60faa756@bootlin.com>
+Message-Id: <20250206-drm-cleanups-v1-2-93df60faa756@bootlin.com>
 References: <20250206-drm-cleanups-v1-0-93df60faa756@bootlin.com>
 In-Reply-To: <20250206-drm-cleanups-v1-0-93df60faa756@bootlin.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -72,26 +72,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'struct drm_device' is not used at all in this file since commit
-aa6c43644bc5 ("drm/panel: drop drm_device from drm_panel").
+The file uses the panel_bridge APIs from drm_bridge.h, but no drm_panel
+APIs from drm_panel.h.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- include/drm/drm_panel.h | 1 -
+ drivers/gpu/drm/bridge/nxp-ptn3460.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 10015891b056f816c7a992a2052b36fd26943c5b..a9c042c8dea1a82ef979c7a68204e0b55483fc28 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -33,7 +33,6 @@ struct backlight_device;
- struct dentry;
- struct device_node;
- struct drm_connector;
--struct drm_device;
- struct drm_panel_follower;
- struct drm_panel;
- struct display_timing;
+diff --git a/drivers/gpu/drm/bridge/nxp-ptn3460.c b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+index 44e36ae66db487c871712432eecfcb0d68a28da4..27261b2ac9c83c311201b20f02aef7afeb6475b2 100644
+--- a/drivers/gpu/drm/bridge/nxp-ptn3460.c
++++ b/drivers/gpu/drm/bridge/nxp-ptn3460.c
+@@ -15,7 +15,6 @@
+ #include <drm/drm_crtc.h>
+ #include <drm/drm_edid.h>
+ #include <drm/drm_of.h>
+-#include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ 
 
 -- 
 2.34.1
