@@ -2,83 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E77A2A426
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3196A2A528
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 10:52:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6958C10E11C;
-	Thu,  6 Feb 2025 09:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8068910E7F7;
+	Thu,  6 Feb 2025 09:51:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Q1nyIGzV";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Djrm+u1x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
- [209.85.219.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CCFA10E11C
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:24:55 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id
- 3f1490d57ef6-e58a7e02514so587989276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 01:24:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738833894; x=1739438694; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=R0Aj8VkeJ1ljtNruUSkipfngsktgaMJyC1xm5s9bvks=;
- b=Q1nyIGzVEusz2GAqOeibISopP1OWFezCW9rFZfLWmk/StJKIkAtlz9iMRQoyumpKmn
- Rkn4/6zZ0BeX41WBd/Sa3Tk5AkXlIDDf6qD2J6ooQSJ5VA6n9HpATYsCPEp2La+lRWcI
- Py9xBgynjANHgxbxO9MRoI9mKrGEH0Pa5BfIk4NMIrnTSdQPRLO6bwXjaoprX/LCduKg
- UcxvNN/pMOVbhNQ+1kJDdc6wqpdjnH77ANCPnwjlAFIKG/E79DIOKGB5SlmS2aNprZY3
- 7je14baoCcD2LG38MqVWKpG1Zj631c0st/xby3BuXYlhoTjvwxwKiyANiiSvgrSLIm+1
- h5yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738833894; x=1739438694;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=R0Aj8VkeJ1ljtNruUSkipfngsktgaMJyC1xm5s9bvks=;
- b=BvROZe5y/t7gTavkPXhNnE8MWjdlzc45slnmzDXt9zrLbg9dyoJuoBec+vm/bQXrrp
- OvDTC1G2yoN0BaJ0Kiz6BKKRyXbDULhaqtXC/HhWOINCxMbxsFKaery6oKUEe/T4vQW/
- RVIM9pjuRBl35mIsx/2lvRZ9dWFYfh08EdPKbFGXVkHex5gl6lm11/ka/fjCEfZ2Xooz
- GhL4/oMAZNrBC+m1lMCkeDr13QN12IBmwyc5k2BNN+6vqkcBcY/dL7OKOidqcpANZ0BF
- MF+JCJkwInq+bsGNgdgm3vg7qsAMq3SQaFq4R63V/gzGvZAhdNHSsVWw0fuFAFykXU23
- 4nog==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVXeFTYhiJg08HEQZJkh5pdCt/cCLy42SKYpBIdbABdRkzNfTwXPvRo64p2UH1yxZUktDSiQfWJ4YU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKdRRvW8n6c5y9crBWC+FNWdMJVeNLk1ykFPX2UIhkMPuru/RT
- yrVcGZSe6NQHVAxXfE1S2b2JeNzmBJCJFhTAcsfLXUfnxalrPQb4/ac0N3D5vZScIQbH72fgEsZ
- w9n5b0uef42OrtaKETgF2Q2SwhQI=
-X-Gm-Gg: ASbGncv/un5ijqcBed2drQdbxKPRT+b16ssCowdt8GT+UcGf6duSnTJDYeY7DqjLWf/
- ZDTnVgsBvL9U9/YLeEUudBnfyrmD8Eti9A5NcG/le1p3sFymPXPJ8T9xKAO7F5QLJyCvn6xAIoA
- ==
-X-Google-Smtp-Source: AGHT+IFbC6DM3fJVG17MrSGBXdIfeROMfW7VK5TSEM0p/SsdBlf6NEx0KbnND2bApOZ90AM+CmqzpnxiCUvcGg1/hdc=
-X-Received: by 2002:a05:6902:2843:b0:e5a:e604:78df with SMTP id
- 3f1490d57ef6-e5b25b95544mr4817982276.17.1738833894216; Thu, 06 Feb 2025
- 01:24:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20250205-adpdrm-v5-0-4e4ec979bbf2@gmail.com>
- <20250205-adpdrm-v5-5-4e4ec979bbf2@gmail.com>
- <20250206-caped-premium-squid-595ecd@houat>
-In-Reply-To: <20250206-caped-premium-squid-595ecd@houat>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Thu, 6 Feb 2025 10:24:43 +0100
-X-Gm-Features: AWEUYZn9JAn4vxk91DxbpJulbYrsp1RnWuViBY7aesXFIweT5vWahzqXS6ccsNo
-Message-ID: <CAMT+MTQBSuWCz0T13RkhyJLwV7tuk4_BmVH6vACFOYx=msc09Q@mail.gmail.com>
-Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add entries for touchbar display
- driver
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1452810E7F2
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 09:51:53 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4YpXSQ1m6Fz9sl9;
+ Thu,  6 Feb 2025 10:51:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1738835510; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+syFVe2JSwrmGhxTiQJhJLAYvYzsCtnUlontdbHLEdg=;
+ b=Djrm+u1x15Favw7EfW7NVkqdOad8i3BZNlI4LLcTHkGfvatVsIRYzGWc0TekJXiYof12BA
+ GahQtRUh3v901ML1M0BbVTx9QdkmtMQk+ANCXtLIe7mTCubolkYkt07Gp4RMk4/dDDUZhO
+ Ts3CtcufQmriIUnrpXYZuJ7BWVcHyNkWvbqtY/Hht3oRQSTOv6uRz1QuI6Xekv9MPPkgqg
+ /fVDmwUO+0I6lN+iPmCbzKkZGfTYI0XFqiXBAnhjL4mF+gqorSYV10L14TTrnB1D6TsnS2
+ xXc1n8b7CEFoN5qdDNYR/s9ZdymGFJ65a47hWOEI+nIBM7rcyyP4g4xYOpEIVQ==
+Message-ID: <c1b51912d1171d328f35a3e947c66be59fe0b783.camel@mailbox.org>
+Subject: Re: [RFC 2/5] drm/scheduler: Add scheduler unit testing
+ infrastructure and some basic tests
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+Date: Thu, 06 Feb 2025 10:51:46 +0100
+In-Reply-To: <20250203153007.63400-3-tvrtko.ursulin@igalia.com>
+References: <20250203153007.63400-1-tvrtko.ursulin@igalia.com>
+ <20250203153007.63400-3-tvrtko.ursulin@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-META: oucjhrp164gdasmx8nc9fr7j4md3pd1c
+X-MBO-RS-ID: b0c1b9f668476ce0405
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,13 +64,935 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 6 Feb 2025 at 10:17, Maxime Ripard <mripard@kernel.org> wrote:
-> Sorry to figure it out that late, but how do you plan on maintaining it?
-> Where will the patches go through, and who will you send PR to?
+On Mon, 2025-02-03 at 15:30 +0000, Tvrtko Ursulin wrote:
+> Implement a mock scheduler backend and add some basic test to
+> exercise the
+> core scheduler code paths.
+>=20
+> Mock backend (kind of like a very simple mock GPU) can either process
+> jobs
+> by tests manually advancing the "timeline" job at a time, or
+> alternatively
+> jobs can be configured with a time duration in which case they get
+> completed asynchronously from the unit test code.
+>=20
+> Core scheduler classes are subclassed to support this mock
+> implementation.
+>=20
+> The tests added are just a few simple submission patterns.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Downstream development is done via the https://github.com/AsahiLinux/linux/
-repo, then send patches to ml. Not sure if i want to send PR personally,
-it will probably go via one of the drm trees or via asahi-soc.
+Could add a Suggested-by: Philipp :)
+
+
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> ---
+> =C2=A0drivers/gpu/drm/Kconfig.debug=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 +
+> =C2=A0drivers/gpu/drm/scheduler/.kunitconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 12 +
+> =C2=A0drivers/gpu/drm/scheduler/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/gpu/drm/scheduler/tests/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 4 +
+> =C2=A0.../gpu/drm/scheduler/tests/drm_mock_entity.c |=C2=A0 29 ++
+> =C2=A0.../gpu/drm/scheduler/tests/drm_mock_job.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 3 +
+> =C2=A0.../drm/scheduler/tests/drm_mock_scheduler.c=C2=A0 | 254
+> ++++++++++++++++++
+> =C2=A0.../gpu/drm/scheduler/tests/drm_sched_tests.h | 124 +++++++++
+> =C2=A0.../scheduler/tests/drm_sched_tests_basic.c=C2=A0=C2=A0 | 247
+> +++++++++++++++++
+> =C2=A09 files changed, 686 insertions(+)
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_entity.=
+c
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> =C2=A0create mode 100644
+> drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_sched_tests.=
+h
+> =C2=A0create mode 100644
+> drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+>=20
+> diff --git a/drivers/gpu/drm/Kconfig.debug
+> b/drivers/gpu/drm/Kconfig.debug
+> index a35d74171b7b..89f777f21e95 100644
+> --- a/drivers/gpu/drm/Kconfig.debug
+> +++ b/drivers/gpu/drm/Kconfig.debug
+> @@ -88,5 +88,17 @@ config DRM_TTM_KUNIT_TEST
+> =C2=A0
+> =C2=A0	=C2=A0 If in doubt, say "N".
+> =C2=A0
+> +config DRM_SCHED_KUNIT_TEST
+> +	tristate "KUnit tests for the DRM scheduler" if
+> !KUNIT_ALL_TESTS
+> +	select DRM_SCHED
+> +	depends on DRM && KUNIT
+> +	default KUNIT_ALL_TESTS
+> +	help
+> +	=C2=A0 Choose this option to build unit tests for the DRM
+> scheduler.
+
+nit: Might say "DRM GPU scheduler" so readers not familiar with all
+that get a better idea of what it's about
+
+> +
+> +	=C2=A0 Recommended for driver developers only.
+
+nit: s/driver developers/DRM developers
+?
+
+> +
+> +	=C2=A0 If in doubt, say "N".
+> +
+> =C2=A0config DRM_EXPORT_FOR_TESTS
+> =C2=A0	bool
+> diff --git a/drivers/gpu/drm/scheduler/.kunitconfig
+> b/drivers/gpu/drm/scheduler/.kunitconfig
+> new file mode 100644
+> index 000000000000..cece53609fcf
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/.kunitconfig
+> @@ -0,0 +1,12 @@
+> +CONFIG_KUNIT=3Dy
+> +CONFIG_DRM=3Dy
+> +CONFIG_DRM_SCHED_KUNIT_TEST=3Dy
+> +CONFIG_EXPERT=3Dy
+> +CONFIG_DEBUG_SPINLOCK=3Dy
+> +CONFIG_DEBUG_MUTEXES=3Dy
+> +CONFIG_DEBUG_ATOMIC_SLEEP=3Dy
+> +CONFIG_LOCK_DEBUGGING_SUPPORT=3Dy
+> +CONFIG_PROVE_LOCKING=3Dy
+> +CONFIG_LOCKDEP=3Dy
+> +CONFIG_DEBUG_LOCKDEP=3Dy
+> +CONFIG_DEBUG_LIST=3Dy
+> diff --git a/drivers/gpu/drm/scheduler/Makefile
+> b/drivers/gpu/drm/scheduler/Makefile
+> index 53863621829f..46dfdca0758a 100644
+> --- a/drivers/gpu/drm/scheduler/Makefile
+> +++ b/drivers/gpu/drm/scheduler/Makefile
+> @@ -23,3 +23,4 @@
+> =C2=A0gpu-sched-y :=3D sched_main.o sched_fence.o sched_entity.o
+> =C2=A0
+> =C2=A0obj-$(CONFIG_DRM_SCHED) +=3D gpu-sched.o
+> +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) +=3D tests/
+> diff --git a/drivers/gpu/drm/scheduler/tests/Makefile
+> b/drivers/gpu/drm/scheduler/tests/Makefile
+> new file mode 100644
+> index 000000000000..d69eab6a2e9b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/Makefile
+> @@ -0,0 +1,4 @@
+> +
+> +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) +=3D \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_mock_scheduler.o \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_tests_basic.o
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
+> b/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
+> new file mode 100644
+> index 000000000000..c9205f9ff524
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
+> @@ -0,0 +1,29 @@
+> +
+> +#include "drm_sched_tests.h"
+> +
+> +struct drm_mock_sched_entity *
+> +drm_mock_sched_entity_new(struct kunit *test,
+> +			=C2=A0 enum drm_sched_priority priority,
+> +			=C2=A0 struct drm_mock_scheduler *sched)
+
+
+I personally do like this function head style and
+
+
+> +{
+> +	struct drm_sched_mock_entity *entity;
+> +	int ret;
+> +
+> +	entity =3D kunit_kmalloc(test, sizeof(*entity), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, entity);
+> +
+> +	ret =3D drm_sched_entity_init(&entity->base,
+> +				=C2=A0=C2=A0=C2=A0 priority,
+> +				=C2=A0=C2=A0=C2=A0 &sched->base, 1,
+> +				=C2=A0=C2=A0=C2=A0 NULL);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	entity->test =3D test;
+> +
+> +	return entity;
+> +}
+> +
+> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> *entity)
+
+do believe it should then be used consistently everywhere, regardless
+of length.
+
+
+> +{
+> +	drm_sched_entity_fini(&entity->base);
+> +}
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> b/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> new file mode 100644
+> index 000000000000..d94568cf3da9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> @@ -0,0 +1,3 @@
+> +
+> +#include "drm_sched_tests.h"
+> +
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> new file mode 100644
+> index 000000000000..f1985900a6ba
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> @@ -0,0 +1,254 @@
+> +
+> +#include "drm_sched_tests.h"
+> +
+> +struct drm_mock_sched_entity *
+> +drm_mock_new_sched_entity(struct kunit *test,
+> +			=C2=A0 enum drm_sched_priority priority,
+> +			=C2=A0 struct drm_mock_scheduler *sched)
+> +{
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_gpu_scheduler *drm_sched;
+> +	int ret;
+> +
+> +	entity =3D kunit_kzalloc(test, sizeof(*entity), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, entity);
+> +
+> +	drm_sched =3D &sched->base;
+> +	ret =3D drm_sched_entity_init(&entity->base,
+> +				=C2=A0=C2=A0=C2=A0 priority,
+> +				=C2=A0=C2=A0=C2=A0 &drm_sched, 1,
+> +				=C2=A0=C2=A0=C2=A0 NULL);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	entity->test =3D test;
+> +
+> +	return entity;
+> +}
+> +
+> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> *entity)
+> +{
+> +	drm_sched_entity_destroy(&entity->base);
+> +}
+> +
+> +static enum hrtimer_restart
+> +drm_sched_mock_job_signal_timer(struct hrtimer *hrtimer)
+
+I think we should get up with a consistent naming convention.=C2=A0Some
+things are called drm_mock_sched_, some others drm_sched_mock_.
+As far as=C2=A0I saw, drm_mock_* does not yet exist.
+So do you want to introduce drm_mock as something generic for drm? or
+just for drm/sched?
+
+
+> +{
+> +	struct drm_mock_sched_job *upto =3D
+> +		container_of(hrtimer, typeof(*upto), timer);
+> +	struct drm_mock_scheduler *sched =3D
+> +		drm_sched_to_mock_sched(upto->base.sched);
+> +	struct drm_mock_sched_job *job, *next;
+> +	ktime_t now =3D ktime_get();
+> +	unsigned long flags;
+> +	LIST_HEAD(signal);
+> +
+> +	spin_lock_irqsave(&sched->lock, flags);
+> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
+> {
+> +		if (!job->duration_us)
+> +			break;
+> +
+> +		if (ktime_before(now, job->finish_at))
+> +			break;
+> +
+> +		list_move_tail(&job->link, &signal);
+> +		sched->seqno =3D job->hw_fence.seqno;
+> +	}
+> +	spin_unlock_irqrestore(&sched->lock, flags);
+> +
+> +	list_for_each_entry(job, &signal, link) {
+> +		dma_fence_signal(&job->hw_fence);
+> +		dma_fence_put(&job->hw_fence);
+> +	}
+> +
+> +	return HRTIMER_NORESTART;
+> +}
+> +
+> +struct drm_mock_sched_job *
+> +drm_mock_new_sched_job(struct kunit *test,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity *ent=
+ity)
+> +{
+> +	struct drm_mock_sched_job *job;
+> +	int ret;
+> +
+> +	job =3D kunit_kzalloc(test, sizeof(*job), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, job);
+> +
+> +	ret =3D drm_sched_job_init(&job->base,
+> +				 &entity->base,
+> +				 1,
+> +				 NULL);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	job->test =3D test;
+> +
+> +	spin_lock_init(&job->lock);
+> +	INIT_LIST_HEAD(&job->link);
+> +	hrtimer_init(&job->timer, CLOCK_MONOTONIC,
+> HRTIMER_MODE_ABS);
+> +	job->timer.function =3D drm_sched_mock_job_signal_timer;
+> +
+> +	return job;
+> +}
+> +
+> +static const char *drm_mock_sched_hw_fence_driver_name(struct
+> dma_fence *fence)
+> +{
+> +	return "drm_mock_sched";
+> +}
+> +
+> +static const char *
+> +drm_mock_sched_hw_fence_timeline_name(struct dma_fence *fence)
+> +{
+> +	struct drm_mock_sched_job *job =3D
+> +		container_of(fence, typeof(*job), hw_fence);
+> +
+> +	return (const char *)job->base.sched->name;
+> +}
+> +static void drm_mock_sched_hw_fence_release(struct dma_fence *fence)
+> +{
+> +	struct drm_mock_sched_job *job =3D
+> +		container_of(fence, typeof(*job), hw_fence);
+> +
+> +	hrtimer_cancel(&job->timer);
+> +
+> +	/* Freed by the kunit framework */
+> +}
+> +
+> +static const struct dma_fence_ops drm_mock_sched_hw_fence_ops =3D {
+> +	.get_driver_name =3D drm_mock_sched_hw_fence_driver_name,
+> +	.get_timeline_name =3D drm_mock_sched_hw_fence_timeline_name,
+> +	.release =3D drm_mock_sched_hw_fence_release,
+> +};
+> +
+> +static struct dma_fence *mock_sched_run_job(struct drm_sched_job
+> *sched_job)
+> +{
+> +	struct drm_mock_scheduler *sched =3D
+> +		drm_sched_to_mock_sched(sched_job->sched);
+> +	struct drm_mock_sched_job *job =3D
+> drm_sched_job_to_mock_job(sched_job);
+> +
+> +	dma_fence_init(&job->hw_fence,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &drm_mock_sched_hw_fence_ops,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &job->lock,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched->hw_fence.context,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_inc_return(&sched->hw_fenc=
+e.seqno));
+> +
+> +	dma_fence_get(&job->hw_fence); /* Reference for the job_list
+> */
+> +
+> +	spin_lock_irq(&sched->lock);
+> +	if (job->duration_us) {
+> +		ktime_t prev_finish_at =3D 0;
+> +
+> +		if (!list_empty(&sched->job_list)) {
+> +			struct drm_mock_sched_job *prev =3D
+> +				list_last_entry(&sched->job_list,
+> typeof(*prev),
+> +						link);
+> +
+> +			prev_finish_at =3D prev->finish_at;
+> +		}
+> +
+> +		if (!prev_finish_at)
+> +			prev_finish_at =3D ktime_get();
+> +
+> +		job->finish_at =3D ktime_add_us(prev_finish_at, job-
+> >duration_us);
+> +	}
+> +	list_add_tail(&job->link, &sched->job_list);
+> +	if (job->finish_at)
+> +		hrtimer_start(&job->timer, job->finish_at,
+> HRTIMER_MODE_ABS);
+> +	spin_unlock_irq(&sched->lock);
+> +
+> +	return &job->hw_fence;
+> +}
+> +
+> +static enum drm_gpu_sched_stat
+> +mock_sched_timedout_job(struct drm_sched_job *sched_job)
+> +{
+> +	return DRM_GPU_SCHED_STAT_ENODEV;
+> +}
+> +
+> +static void mock_sched_free_job(struct drm_sched_job *sched_job)
+> +{
+> +	drm_sched_job_cleanup(sched_job);
+> +}
+> +
+> +static const struct drm_sched_backend_ops drm_mock_scheduler_ops =3D {
+> +	.run_job =3D mock_sched_run_job,
+> +	.timedout_job =3D mock_sched_timedout_job,
+> +	.free_job =3D mock_sched_free_job
+> +};
+> +
+> +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
+> *test)
+> +{
+> +	struct drm_mock_scheduler *sched;
+> +	int ret;
+> +
+> +	sched =3D kunit_kzalloc(test, sizeof(*sched), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, sched);
+> +
+> +	ret =3D drm_sched_init(&sched->base,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 &drm_mock_scheduler_ops,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL, /* wq */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 DRM_SCHED_PRIORITY_COUNT,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 U32_MAX, /* max credits */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 UINT_MAX, /* hang limit */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 MAX_SCHEDULE_TIMEOUT, /* timeout */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL, /* timeout wq */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL, /* score */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 "drm-mock-scheduler",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL /* dev */);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	sched->test =3D test;
+> +	sched->hw_fence.context =3D dma_fence_context_alloc(1);
+> +	atomic_set(&sched->hw_fence.seqno, 0);
+> +	INIT_LIST_HEAD(&sched->job_list);
+> +	spin_lock_init(&sched->lock);
+> +
+> +	return sched;
+> +}
+> +
+> +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched)
+> +{
+> +	struct drm_mock_sched_job *job, *next;
+> +	unsigned long flags;
+> +	LIST_HEAD(signal);
+> +
+> +	spin_lock_irqsave(&sched->lock, flags);
+> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
+> +		list_move_tail(&job->link, &signal);
+> +	spin_unlock_irqrestore(&sched->lock, flags);
+
+So maybe you can help me get up to speed here a bit. What is the
+purpose behind job->link? Is the general idea documented somewhere?
+
+
+> +
+> +	list_for_each_entry(job, &signal, link) {
+> +		hrtimer_cancel(&job->timer);
+> +		dma_fence_put(&job->hw_fence);
+> +	}
+> +
+> +	drm_sched_fini(&sched->base);
+> +}
+> +
+> +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
+> *sched,
+> +				=C2=A0=C2=A0=C2=A0 unsigned int num)
+> +{
+> +	struct drm_mock_sched_job *job, *next;
+> +	unsigned int found =3D 0;
+> +	unsigned long flags;
+> +	LIST_HEAD(signal);
+> +
+> +	spin_lock_irqsave(&sched->lock, flags);
+> +	if (WARN_ON_ONCE(sched->seqno + num < sched->seqno))
+> +		goto unlock;
+> +	sched->seqno +=3D num;
+> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
+> {
+> +		if (sched->seqno < job->hw_fence.seqno)
+> +			break;
+> +
+> +		list_move_tail(&job->link, &signal);
+> +		found++;
+> +	}
+> +unlock:
+> +	spin_unlock_irqrestore(&sched->lock, flags);
+> +
+> +	list_for_each_entry(job, &signal, link) {
+> +		dma_fence_signal(&job->hw_fence);
+> +		dma_fence_put(&job->hw_fence);
+> +	}
+> +
+> +	return found;
+> +}
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+> new file mode 100644
+> index 000000000000..421ee2712985
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+> @@ -0,0 +1,124 @@
+> +
+> +#include <kunit/test.h>
+> +#include <linux/atomic.h>
+> +#include <linux/dma-fence.h>
+> +#include <linux/hrtimer.h>
+> +#include <linux/ktime.h>
+> +#include <linux/list.h>
+> +#include <linux/atomic.h>
+> +#include <linux/mutex.h>
+> +#include <linux/types.h>
+> +
+> +#include <drm/gpu_scheduler.h>
+> +
+> +struct drm_mock_scheduler {
+> +	struct drm_gpu_scheduler base;
+> +
+> +	struct kunit		*test;
+> +
+> +	struct {
+> +		u64		context;
+> +		atomic_t	seqno;
+> +	} hw_fence;
+
+Hm, well, so this is confusing. drm_mock_sched_job below contains an
+actual struct dma_fence that is also called hw_fence, whereas this here
+seems to be some pseudo-hw_fence?
+
+What is its purpose?
+
+I believe we agreed that "Hardware fence" should always mean a fence
+per job that is signaled by the hardware (driver interrupt) once the
+job is done.
+
+If this hw_fence here is the same, why is it per scheduler? That's
+confusing.
+
+> +
+> +	spinlock_t		lock;
+
+Maybe document the lock's purpose
+
+
+> +	unsigned int		seqno;
+> +	struct list_head	job_list;
+> +};
+> +
+> +struct drm_mock_sched_entity {
+> +	struct drm_sched_entity base;
+> +
+> +	struct kunit		*test;
+> +};
+> +
+> +struct drm_mock_sched_job {
+> +	struct drm_sched_job	base;
+> +
+> +	struct list_head	link;
+> +	struct hrtimer		timer;
+> +
+> +	unsigned int		duration_us;
+> +	ktime_t			finish_at;
+> +
+> +	spinlock_t		lock;
+
+Same
+
+> +	struct dma_fence	hw_fence;
+> +
+> +	struct kunit		*test;
+> +};
+> +
+> +static inline struct drm_mock_scheduler *
+> +drm_sched_to_mock_sched(struct drm_gpu_scheduler *sched)
+> +{
+> +	return container_of(sched, struct drm_mock_scheduler, base);
+> +};
+> +
+> +static inline struct drm_mock_sched_entity *
+> +drm_sched_entity_to_mock_entity(struct drm_sched_entity
+> *sched_entity)
+> +{
+> +	return container_of(sched_entity, struct
+> drm_mock_sched_entity, base);
+> +};
+> +
+> +static inline struct drm_mock_sched_job *
+> +drm_sched_job_to_mock_job(struct drm_sched_job *sched_job)
+> +{
+> +	return container_of(sched_job, struct drm_mock_sched_job,
+> base);
+> +};
+> +
+> +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
+> *test);
+> +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched);
+> +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
+> *sched,
+> +				=C2=A0=C2=A0=C2=A0 unsigned int num);
+> +
+> +struct drm_mock_sched_entity *
+> +drm_mock_new_sched_entity(struct kunit *test,
+> +			=C2=A0 enum drm_sched_priority priority,
+> +			=C2=A0 struct drm_mock_scheduler *sched);
+> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> *entity);
+> +
+> +struct drm_mock_sched_job *
+> +drm_mock_new_sched_job(struct kunit *test,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity *ent=
+ity);
+> +
+> +static inline void drm_mock_sched_job_submit(struct
+> drm_mock_sched_job *job)
+> +{
+> +	drm_sched_job_arm(&job->base);
+> +	drm_sched_entity_push_job(&job->base);
+> +}
+> +
+> +static inline void
+> +drm_mock_sched_job_set_duration_us(struct drm_mock_sched_job *job,
+> +				=C2=A0=C2=A0 unsigned int duration_us)
+> +{
+> +	job->duration_us =3D duration_us;
+> +}
+> +
+> +static inline bool
+> +drm_mock_sched_job_is_finished(struct drm_mock_sched_job *job)
+> +{
+> +	return dma_fence_is_signaled(&job->base.s_fence->finished);
+> +}
+> +
+> +static inline bool
+> +drm_mock_sched_job_wait_finished(struct drm_mock_sched_job *job,
+> long timeout)
+> +{
+> +	long ret;
+> +
+> +	ret =3D dma_fence_wait_timeout(&job->base.s_fence->finished,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 false,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
+> +
+> +	return ret !=3D 0;
+> +}
+> +
+> +static inline long
+> +drm_mock_sched_job_wait_scheduled(struct drm_mock_sched_job *job,
+> long timeout)
+> +{
+> +	long ret;
+> +
+> +	ret =3D dma_fence_wait_timeout(&job->base.s_fence->scheduled,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 false,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
+> +
+> +	return ret !=3D 0;
+> +}
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+> new file mode 100644
+> index 000000000000..6fd39bea95b1
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+> @@ -0,0 +1,247 @@
+> +
+> +#include "drm_sched_tests.h"
+> +
+> +static int drm_sched_basic_init(struct kunit *test)
+> +{
+> +	test->priv =3D drm_mock_new_scheduler(test);
+> +
+> +	return 0;
+> +}
+> +
+> +static void drm_sched_basic_exit(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +
+> +	drm_mock_scheduler_fini(sched);
+> +}
+> +
+> +static void drm_sched_basic_submit(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_mock_sched_job *job;
+> +	unsigned int i;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit one job to the scheduler and verify that it gets
+> scheduled
+> +	 * and completed only when the mock hw backend processes it.
+> +	 */
+> +
+> +	entity =3D drm_mock_new_sched_entity(test,
+> +					=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +					=C2=A0=C2=A0 sched);
+> +	job =3D drm_mock_new_sched_job(test, entity);
+> +
+> +	drm_mock_sched_job_submit(job);
+> +
+> +	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ / 2);
+> +	KUNIT_ASSERT_EQ(test, done, false);
+> +
+> +	i =3D drm_mock_sched_advance(sched, 1);
+> +	KUNIT_ASSERT_EQ(test, i, 1);
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+> +static void drm_sched_basic_queue(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_mock_sched_job *job;
+> +	const unsigned int qd =3D 100;
+
+Not the best variable name =E2=80=93 is this "queue depth"? Why is it 100? =
+->
+global define & document
+
+
+> +	unsigned int i;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a queue of jobs on the same entity, let them be
+> completed by
+> +	 * the mock hw backend and check the status of the last job.
+> +	 */
+> +
+> +	entity =3D drm_mock_new_sched_entity(test,
+> +					=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +					=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < qd; i++) {
+> +		job =3D drm_mock_new_sched_job(test, entity);
+> +		drm_mock_sched_job_set_duration_us(job, 1000);
+> +		drm_mock_sched_job_submit(job);
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+> +static void drm_sched_basic_chain(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_job *job, *prev =3D NULL;
+> +	struct drm_mock_sched_entity *entity;
+> +	const unsigned int qd =3D 100;
+> +	unsigned int i;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a queue of jobs on the same entity but with an
+> explicit
+> +	 * chain of dependencies between them. Let the jobs be
+> completed by
+> +	 * the mock hw backend and check the status of the last job.
+> +	 */
+> +
+> +	entity =3D drm_mock_new_sched_entity(test,
+> +					=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +					=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < qd; i++) {
+> +		job =3D drm_mock_new_sched_job(test, entity);
+> +		drm_mock_sched_job_set_duration_us(job, 1000);
+> +		if (prev)
+> +			drm_sched_job_add_dependency(&job->base,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_fence_get(&prev->base.s_fence->finished));
+> +		drm_mock_sched_job_submit(job);
+> +		prev =3D job;
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+> +static void drm_sched_basic_entities(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity[4];
+> +	struct drm_mock_sched_job *job;
+> +	const unsigned int qd =3D 100;
+> +	unsigned int i, cur_ent =3D 0;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a queue of jobs across different entities, let
+> them be
+> +	 * completed by the mock hw backend and check the status of
+> the last
+> +	 * job.
+> +	 */
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		entity[i] =3D drm_mock_new_sched_entity(test,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < qd; i++) {
+> +		job =3D drm_mock_new_sched_job(test,
+> entity[cur_ent++]);
+> +		cur_ent %=3D ARRAY_SIZE(entity);
+> +		drm_mock_sched_job_set_duration_us(job, 1000);
+> +		drm_mock_sched_job_submit(job);
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		drm_mock_sched_entity_free(entity[i]);
+> +}
+> +
+> +static void drm_sched_basic_entities_chain(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_job *job, *prev =3D NULL;
+> +	struct drm_mock_sched_entity *entity[4];
+> +	const unsigned int qd =3D 100;
+> +	unsigned int i, cur_ent =3D 0;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a queue of jobs across different entities with an
+> explicit
+> +	 * chain of dependencies between them. Let the jobs be
+> completed by
+> +	 * the mock hw backend and check the status of the last job.
+> +	 */
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		entity[i] =3D drm_mock_new_sched_entity(test,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < qd; i++) {
+> +		job =3D drm_mock_new_sched_job(test,
+> entity[cur_ent++]);
+> +		cur_ent %=3D ARRAY_SIZE(entity);
+> +		drm_mock_sched_job_set_duration_us(job, 1000);
+> +		if (prev)
+> +			drm_sched_job_add_dependency(&job->base,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_fence_get(&prev->base.s_fence->finished));
+> +		drm_mock_sched_job_submit(job);
+> +		prev =3D job;
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		drm_mock_sched_entity_free(entity[i]);
+> +}
+> +
+> +static void drm_sched_basic_entity_cleanup(struct kunit *test)
+> +{
+> +	struct drm_mock_sched_job *job, *mid, *prev =3D NULL;
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity[4];
+
+4 is used in several places, so could be defined globally. In case
+there's a special reason for why it's 4, that could be mentioned, too
+
+
+P.
+
+> +	const unsigned int qd =3D 100;
+> +	unsigned int i, cur_ent =3D 0;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a queue of jobs across different entities with an
+> explicit
+> +	 * chain of dependencies between them and trigger entity
+> cleanup while
+> +	 * the queue is still being processed.
+> +	 */
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		entity[i] =3D drm_mock_new_sched_entity(test,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < qd; i++) {
+> +		job =3D drm_mock_new_sched_job(test,
+> entity[cur_ent++]);
+> +		cur_ent %=3D ARRAY_SIZE(entity);
+> +		drm_mock_sched_job_set_duration_us(job, 1000);
+> +		if (prev)
+> +			drm_sched_job_add_dependency(&job->base,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_fence_get(&prev->base.s_fence->finished));
+> +		drm_mock_sched_job_submit(job);
+> +		if (i =3D=3D qd / 2)
+> +			mid =3D job;
+> +		prev =3D job;
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(mid, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	/* Exit with half of the queue still pending to be executed.
+> */
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		drm_mock_sched_entity_free(entity[i]);}
+> +
+> +static struct kunit_case drm_sched_basic_tests[] =3D {
+> +	KUNIT_CASE(drm_sched_basic_submit),
+> +	KUNIT_CASE(drm_sched_basic_queue),
+> +	KUNIT_CASE(drm_sched_basic_chain),
+> +	KUNIT_CASE(drm_sched_basic_entities),
+> +	KUNIT_CASE(drm_sched_basic_entities_chain),
+> +	KUNIT_CASE(drm_sched_basic_entity_cleanup),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite drm_sched_basic =3D {
+> +	.name =3D "drm_sched_basic_tests",
+> +	.init =3D drm_sched_basic_init,
+> +	.exit =3D drm_sched_basic_exit,
+> +	.test_cases =3D drm_sched_basic_tests,
+> +};
+> +
+> +kunit_test_suite(drm_sched_basic);
+
