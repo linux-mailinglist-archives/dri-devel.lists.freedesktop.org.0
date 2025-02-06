@@ -2,89 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B91EA2A640
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 11:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5063FA2A653
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 11:54:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E311A10E824;
-	Thu,  6 Feb 2025 10:43:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D85910E2F5;
+	Thu,  6 Feb 2025 10:54:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QR3cyfjZ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="5bQdVR2a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD4C710E199
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 10:43:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738838614;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3s0jePbRTpgxhCyH14hsrRDGitggHfzXm/84FSvA+hs=;
- b=QR3cyfjZDngXVvJURLZUvtmpOtocGVUaeITvBX6xnyT7eDZ/ix8oSCGIBZMiTeVW2IpByL
- e/ct1zcMX26Jz2CuzMf8pDCwNZZFdQiI1oD+mRbgII0z40Ds44rDeLGQgIV7uqiYLj2UIQ
- GdYskiINI1C3VhUVJeXK5FXek80CO/s=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-577-bRirBkFqPrmIda9sQfKRyg-1; Thu, 06 Feb 2025 05:43:33 -0500
-X-MC-Unique: bRirBkFqPrmIda9sQfKRyg-1
-X-Mimecast-MFC-AGG-ID: bRirBkFqPrmIda9sQfKRyg
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-21a7cbe3b56so12689355ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 02:43:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738838612; x=1739443412;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=3s0jePbRTpgxhCyH14hsrRDGitggHfzXm/84FSvA+hs=;
- b=wKhG1BKA/5HmWdSpgYvhPdptlKoi9WZlwpLn8DilqHQl0ad+K5nvS3HweiHaMYjcu/
- MA8sVENZg695SneZnQGKTBYy6FrGZ3sRm+4QFis6zbelhOUYxBPxpq8BPSqdi/KCaTSl
- sLFRn4RSIzTOSdy8Ix9Q/6A+GXOFItUghkAPbkyVvt+fyUMgDPihL/0375qq30NIhcDC
- 9psjTdDZ9xI4ZD0Abj5DXM3VAo/9DR0Z8SbOlilBP1i7bWsJWn3GFdZykJciO1EyvYQp
- +ph0XhDcnfgYJ0xoUFsY1nf211Tshr/GxTvz+8GJrXmNPpk9A7uVmhq7s52aiL2Z1NDN
- yW6g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWr2kZgOR6y+9pV0sQa82cKoUGRK1lvl0D9bg2AbYzuiMZEFIkC3sMRT55PLPFApE50zKUA4mSLdLk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwI7s8l5Zlk2sUuqJTKjy4KJEiy3gp8/WKgMzh4J+KFtaDzeTUB
- A8SqPe8FT4zOPtN9Ac3VYJo3BxTux2+gNNcB/60/jVetJ58IsIEWeqJL6bwc5sTe1+CQrXGAEzk
- hnaZ5H7jwGgYi7QaIL/oQCN0hsd9O5nnRAAo0tn3CkWyNkIydsCXetOsc+KbaHWDRyg==
-X-Gm-Gg: ASbGncsQSOBBzY947m3YUehAOfHdDEAUNJN0gdNG/yo/2DvNWV2YEujn3lhXJwvuIgR
- wvrcZvs4eOanB29eyCFlP/mN3m755wqkLzGkoB1tT6I35dqUaNDvOQTMEcFiVV13ykcHblN/Rjn
- MWcjAP4n1JgdAXIQdjj8/uR01u1gpUObKk3SUOFS620pS23YXizDtcLhQByYxaUm/G9BuxKkTHi
- ruJRkv/tJR/PbSojCBQUB3KVHEVqcIaaOFXH1PEXTO1fXfe5D9AnbZ9vfjX4BcB/GcBA6ZqCbTG
- ujVHPA==
-X-Received: by 2002:a05:6a20:3d96:b0:1ed:a4c7:9908 with SMTP id
- adf61e73a8af0-1ede883a434mr10958710637.11.1738838612228; 
- Thu, 06 Feb 2025 02:43:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGLcg6VkIL1fuOFq66GhqXyISlfA8NrjTzHzQ7OwLalQ2jttkdccMIk0Vr6RCFa3f1oJqREfw==
-X-Received: by 2002:a05:6a20:3d96:b0:1ed:a4c7:9908 with SMTP id
- adf61e73a8af0-1ede883a434mr10958652637.11.1738838611846; 
- Thu, 06 Feb 2025 02:43:31 -0800 (PST)
-Received: from zeus.elecom ([240b:10:83a2:bd00:6e35:f2f5:2e21:ae3a])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-ad51aecd2fbsm970717a12.19.2025.02.06.02.43.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2025 02:43:31 -0800 (PST)
-From: Ryosuke Yasuoka <ryasuoka@redhat.com>
-To: airlied@redhat.com, kraxel@redhat.com, gurchetansingh@chromium.org,
- olvaffe@gmail.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, daniel@ffwll.ch, jfalempe@redhat.com,
- dmitry.osipenko@collabora.com
-Cc: Ryosuke Yasuoka <ryasuoka@redhat.com>, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v7] drm/virtio: Add drm_panic support
-Date: Thu,  6 Feb 2025 19:42:59 +0900
-Message-ID: <20250206104300.416014-1-ryasuoka@redhat.com>
-X-Mailer: git-send-email 2.47.1
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: aTI7WiNLhiAZvUSA5CUdh_znptBMQACboLtWcK3NlDg_1738838612
-X-Mimecast-Originator: redhat.com
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2044.outbound.protection.outlook.com [40.107.236.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB57D10E812
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 10:54:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nKmvNBkn+vZjOoLLjZxjEfbiL9XU3+RM7Uf2y+lzdSKhARxwnQgmtxxGQzYe+eugUqyz/koROmudcbWiaH9Wq94rtK6VtbZhITeISlhUevgkun1Md4elzAm9zvu+zAmxqLdSm9twlUO76U6B5KLRBfWQHtFGYOqfdigPe47SjOS5nHOY9mCl+04QZzUPjA87dZI9UFae/ftePgAIQbfS1sKptJRel8HofB8OZL7qWJlMH0akce+Sm+1V8Bc+/7Beun6ekygWqc+JRBuqdS2NNZQa5ULWoQthLVvoSdMbKahcs38BJ3GJx93V07Q6Kpp41qLmSgLPjFscxCz+KMRwHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qDmEize+iPjX0oe4Dl2kscfEcCTQCStWFk54mU3UMw0=;
+ b=cGrScOZvfz7Tng1vhzHw9saLJBNVLMomuj2tRdyafkLzT/4p9GCo90tm9R/qGehTU6qvL7da4/DTX1wlazUZuck2uQdMxHsdx/qPCUAEFJf5dduxlkgLGkyqeWG5y+EHCUYiClNWUCOu7dbHwnadnX3gUfbffDo8AbCC090zULZaj2DUhQaTxchrbH8/Hh9kqNdcVSG4PmkawpA1PDtdbT4hnu8Jqq4RCVH/dQDMiJ/dFAKWQ0OCs4oec82CXRD0hrOjzo6PUcPEhBRga0NHpoMsB+GihRgcWlyIAmXEQbMCBjkUJI3ng/82BGauYhl5jmymkopSOQdbIw0DwBnXXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qDmEize+iPjX0oe4Dl2kscfEcCTQCStWFk54mU3UMw0=;
+ b=5bQdVR2ahtVJ2VtsSgSuHBVSoRQV+mFicQzhHgRaT+3dPfamrfliC+kx26Du5qpoU5X0aY+WoJesW3Fl8rOSgokMo6vubHzzgiLP5GQhaOutnzC6/zRQccSdRCvmf5owUfVLn4Ce0RkXdAA5QNMmWQS6XQaRxu7G8Dmc5Fq2v4w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1PR12MB6435.namprd12.prod.outlook.com (2603:10b6:208:3ad::10)
+ by CH3PR12MB8332.namprd12.prod.outlook.com (2603:10b6:610:131::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.13; Thu, 6 Feb
+ 2025 10:54:08 +0000
+Received: from IA1PR12MB6435.namprd12.prod.outlook.com
+ ([fe80::273a:80c9:35fc:6941]) by IA1PR12MB6435.namprd12.prod.outlook.com
+ ([fe80::273a:80c9:35fc:6941%4]) with mapi id 15.20.8422.010; Thu, 6 Feb 2025
+ 10:54:07 +0000
+Message-ID: <7b0bf2d5-700a-4cc7-b410-a9b2e2083b5d@amd.com>
+Date: Thu, 6 Feb 2025 18:53:55 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/3] drm/virtio: implement blob userptr resource object
+To: Demi Marie Obenour <demi@invisiblethingslab.com>
+References: <20241220100409.4007346-1-honglei1.huang@amd.com>
+ <20241220100409.4007346-3-honglei1.huang@amd.com>
+ <Z2WO2udH2zAEr6ln@phenom.ffwll.local>
+ <2fb36b50-4de2-4060-a4b7-54d221db8647@gmail.com>
+ <de8ade34-eb67-4bff-a1c9-27cb51798843@amd.com>
+ <Z36wV07M8B_wgWPl@phenom.ffwll.local>
+ <c42ae4f7-f5f4-4906-85aa-b049ed44d7e9@gmail.com> <Z5waZsddenagCYtl@itl-email>
+Content-Language: en-US
+From: "Huang, Honglei1" <Honglei1.Huang@amd.com>
+Cc: Demi Marie Obenour <demiobenour@gmail.com>, Huang Rui
+ <ray.huang@amd.com>, Stefano Stabellini <stefano.stabellini@amd.com>,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
+ David Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Lingshan Zhu <Lingshan.Zhu@amd.com>,
+ Xen developer discussion <xen-devel@lists.xenproject.org>,
+ Kernel KVM virtualization development <kvm@vger.kernel.org>,
+ Xenia Ragiadakou <burzalodowa@gmail.com>,
+ =?UTF-8?Q?Marek_Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
+In-Reply-To: <Z5waZsddenagCYtl@itl-email>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-ClientProxiedBy: SG2PR02CA0071.apcprd02.prod.outlook.com
+ (2603:1096:4:54::35) To IA1PR12MB6435.namprd12.prod.outlook.com
+ (2603:10b6:208:3ad::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6435:EE_|CH3PR12MB8332:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1da46d50-dafb-468f-68cd-08dd469c9462
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RlhQdWJTRWVkNEZVUjFwcHRVbUxlY1ZOM0JlRVQyWTVWSmEvOFdtZ3FlTDRD?=
+ =?utf-8?B?L3l0cTVEcFZ3VWZsSzZyME9LRDhSRFF4WjNrSkN5WjZ3QnBKS01OeWUzY3Y5?=
+ =?utf-8?B?MXFhZEVZMlBlZ0JBM3g3WmYyb2VVQ1FNTE5PSHBPSDJFcnJlZWk1ZnQ0b05H?=
+ =?utf-8?B?S1ZYb1JrV1h1bDVEVVFUQTBpNUpWVjFzbVpXNjJ4TkVJYUZMdTJvSzVYSzVx?=
+ =?utf-8?B?YnplTUFFVk0zQzFoK2xCelByN25rbTVqZHRWUFlCR2gvNXEvVGZoNU1xR1ow?=
+ =?utf-8?B?YzRWSjQ5M3RBRVpxZmpMaStRYVhmRkhNSFlTOTN6dzNreVFMNW93UTdQQXVp?=
+ =?utf-8?B?Z2oydldkQXVFWWZOdlhaaFZLOWp2bWh4MkZ4TFlYOWRFblljOGxIVFBHWmxm?=
+ =?utf-8?B?Yy92b2VxZ2JIMnJHZ2tsR2RpYmgwRzFGbU52T0M5K280U2wxWEIyNXcrZldi?=
+ =?utf-8?B?ajdNZDk1aGhhbmFKYVFLZUl2b1cvNitSaEhNME5zRkRZRnlJZVRJQlRkeUhL?=
+ =?utf-8?B?VXpBc0ZiM25nZXBIZVlrK05iYUVDbWpkcGd2a2ZadnYzMk1SK2FvSzJxNWZ5?=
+ =?utf-8?B?U3YzYTRyRHh4WG93MFFWaHFkbUllRGNQS0xnZWY3eTNXVjNZV01aS2hPZW8x?=
+ =?utf-8?B?Q0RsekpuQi9mbGM2SkdDaXZ0YzlXZ2hqdTRuNStaaWY0MXBWTFBNYzhCWXhz?=
+ =?utf-8?B?NFBGenJzUmZ4VUhaNnRjaGsvNGsra0lPcVBoS3JBcHFLZEprRStvOGpjQmo4?=
+ =?utf-8?B?SXJzT3NML0VvTzNmdEtwekZQQTE0Z3VKamlwQ29ieDJVU2lWN2Y2bUxxZ0dn?=
+ =?utf-8?B?SUVkOHlPeUdOa0dNajArd0NjZEdBQnpSZTlMbjNRbWhsWXZMQUt6SEc1SDMz?=
+ =?utf-8?B?djA3ZGdvdGFSa1VyMFlCZmVBL3NmbkFieGJISDhMUkJqSG1sWkorZVNpdER3?=
+ =?utf-8?B?RTdIRlFtalJRWWdTM1MrRktJVFpVRk1udzI4bEIrYWFYdGpzT1NVdm9TMmFZ?=
+ =?utf-8?B?OHJGU2RuYms1M0tCcFIyWHNqcWxNQVFBb21rL2xLK1pPVnYxZUhFeElzZU9F?=
+ =?utf-8?B?YmFHTVZrZi9iSHRvNDlKY0xyWHBRQkpESTdDRW53S28xUzZWTUp2VzBMMVkx?=
+ =?utf-8?B?clRNeGUyLy96RkhwYWRUaDZLR0dLSmNQMERTc0N0NzYvbFl0TDlQVGJYN1Zn?=
+ =?utf-8?B?dElZYUpQQkhxQk5xdjI2czE5Rk4zbFMralc0ajNYcmcwUlZleWNmOElBcmRz?=
+ =?utf-8?B?aVlpVWd2aUNKT1ZUei85OEdXTXRRYUxJNVg3UFBsTmNOK1h4ZmNiUkJ6YWl3?=
+ =?utf-8?B?Zk9paDZmeldyellGL2dlSHM4TUxRL1JsaWFRNGtER1U4bGt3STc5cytrVnAx?=
+ =?utf-8?B?VFZ5U1pBTW1lVkJ0dVJtSWlFdnF6Z0dVcWJsVHFoVTdsRDgvanNZN3ljdllw?=
+ =?utf-8?B?SG9TaVV5UHpPV0gwbkdua1JCR2ZZZUZGNnR1R2o3S05CcldDb3dvYWNHVFFp?=
+ =?utf-8?B?ZkVMblI2azhPMnNaMk1zMVpHVkttZ1ZnVFNEYlFDOGIyQlR4ckFwQitkVERy?=
+ =?utf-8?B?NzJSOFBkNmlsRXErR0ZPYnJLbzFXKytBaVNETUJVUnhmNSs5dDNmd1ZzU2sv?=
+ =?utf-8?B?VlVSMTB0SkpFSUFGS1BFclE5ZGVzOFJEdTNaU1NDUFkxOTd4TkRqVmVjNlUx?=
+ =?utf-8?B?MlVtaTQ4bWY2Z29JUXpVaXd6cmNTQ0pTTFhlWTZjR0U0Nitta0JtK2x3TUxi?=
+ =?utf-8?B?TmI2S2EwRVpJWGM3V0pxbHlRVEFQUzRGTm9wUG8rNU1HeThJeDRRTytoaUZw?=
+ =?utf-8?B?c1p6V3czejZsNERiU3p0ZWFCajhFcmt0V0ZDRHhZWU5oSngrc2NZUHB5ejJZ?=
+ =?utf-8?Q?kUZPYAzqx77WJ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA1PR12MB6435.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3A0bFFLV2NROTF4dGVkazhtSDdBLzFaUHJRY1hiU1MzbW9vWGl4NGxZUDF2?=
+ =?utf-8?B?RWFGSGwwMWlYbm1PejVqa3pkQjJlSnZobGZqdEdsU1dLNkI2UGdiZ3hYNjVv?=
+ =?utf-8?B?bFpxeFRvQkkzTkZ5TGUxTVVhUEUvSHcvTVdmZVozRmU0SWQrYkxYcmZIUHcw?=
+ =?utf-8?B?cUQ3M2tjeTRSUExiL25pa3dwS3RZL2UwNFdsK0ZFWUdLYTBNT0h6VmErUmds?=
+ =?utf-8?B?YTM0c3M1UEJrZmhSZHVKUG1uNHh6eWc1R0JEQzE3WnErREZqNGVGbWVrZjA1?=
+ =?utf-8?B?dFdObWw0QUhhMmdOWXZ4SkFaQ1Eycm9MTHhKeGh0R0cxYk0vR2pFOEFYaUcx?=
+ =?utf-8?B?bkd6am1vek16VTZMYjJVbG5RQWNMMGpUS3czYXlnMk41WVZ4RHQ4dXRuZEly?=
+ =?utf-8?B?clVKVklYVXNLTDc2SGU3VDZTdUU4NTZMTWNpcjZaYjdZNTZRazZTc2lMVmJM?=
+ =?utf-8?B?U2pSWE93WmhrZksyVzh4TXpLcWNzMWRYaVVGem1ZRXZlUDdOMDYycERudDh5?=
+ =?utf-8?B?VGFzaUVLbE9mUzZ4K1BWVGMzQnpyWW50ekRkVXJ0L3RYd2g3VTF2VUpvbG5z?=
+ =?utf-8?B?MkR6QUgrdC9mcXRYTlpoRFA3cEFGajBzSEVXUGFDdW9ZdnB2QU5lQ0tKZ29P?=
+ =?utf-8?B?VnYvdUkveExrR2hoNFRscXlwdURXdkt5NlRlMmJRR0I1dmw1UFA1YWRDUEVO?=
+ =?utf-8?B?aEV2U0FXUVBKbkZVTGpLOHVidDdFK2k0aU9zREs3c2hwVnlDUEF3bTNpK3Y5?=
+ =?utf-8?B?cnRna2V3dVNIaHpjQWVYTG9mZ0ZFK01YcU5TeFl6U290akI0UTMxVmxQMmM5?=
+ =?utf-8?B?M1pLNFVpRUlSU0FYbUtIYVg1Y1F0OXQvaGVCSm9rRVpBaXd1WXliam1pTXFN?=
+ =?utf-8?B?ekFOWXZEQWplNkxRODhIQkQyK0FSaWlhaDBkZHlVcUQ4NEZYNXBWL2VYN1dj?=
+ =?utf-8?B?a2F4NDRyZFl6SkpRZUV4anNWcjc0MzVtdXVzRjVENTFqTklKbHJqd3Q1SHVx?=
+ =?utf-8?B?U0VRdERVK2Q1TTBRTUdhd3FmWkkvajdTTlR4TDZPSkJoak5yNWdNektoVW1M?=
+ =?utf-8?B?TUJkT1ZrN0pjVFF2WTBLQUxOMDYvYXJjemwvVFlITDBSeXdlOERGQUdvblVr?=
+ =?utf-8?B?bWRtY3NiNFhQNzFuQWFOM2h5S3lwVkhvVkw4bnlsb1FJZDBwQ29zaVVpWTZx?=
+ =?utf-8?B?VXBVRy9vc0FNZjY2azJGWUs2UFZkaVM1NUF4SG5nSndRZUlOTW5RV2N1NHVJ?=
+ =?utf-8?B?d2V4UzVtU3R4bWRhdEtKOTNiMXluREEveXFoOVNrUmdSdG1zMW4vYnlDUGdL?=
+ =?utf-8?B?YkttcWExUElzQUcyd2xFWWZ3MzgraG8rR2NCODVYUFlMbi9BSUVSYVRnNGNy?=
+ =?utf-8?B?ajlrTzRXSWhVK3ZmQWl6Mks0dmhPY1ZJazNmdG5YalNWK2cyaEpoa2x1ZEhB?=
+ =?utf-8?B?M2sxdCs1WWxIRVBGbi8xUnhiRWRTOFRrQUMxZnZpbk84b2hILzBRQmxzV21v?=
+ =?utf-8?B?VXBIdktkZCtIZ1BMNEtPOUNmRDEvVkpsTkMra2xQTXZwSEMxbU50Z2twVmYx?=
+ =?utf-8?B?TytOc3NDNVFyNWZDNVZmWmtiQ29Ca0ZWYzQ5d09xMmFkQ3MxSEVWWStOR0pt?=
+ =?utf-8?B?WDlDYVNxN1UvMDhDZ1dOYlhUNlg1eEhmY3ZtckJ2QTNyTmtSVldiOEVCeDd1?=
+ =?utf-8?B?ZkQ3RXgrTS81RldUSWJKang1STdVSVhFMUVJR3pZcDhROHVQTFdsZS9PeS81?=
+ =?utf-8?B?RXg2RTg5czRBMWxWajAxcjZFK0tlZU9ZdGcrNW13b2NIeXQ3bG1hUVBJWmFo?=
+ =?utf-8?B?eHZwNXh2VFNqRURSd0ZkczdJVFFZbFUrWnA1RTRvSHc0M1N3d2dmdHBjbG93?=
+ =?utf-8?B?TVZNZzNraDZBd3Y3MjhORUdQNmFvWWhzSVBXTlM4UkQ0bkNoVjJJbUZDcWU3?=
+ =?utf-8?B?NGUyMGZ5TkFxdVQ0K21IUTRadXVzdkJ2eXFTcmtmNDVRc2JWK3VNbVEzd2s1?=
+ =?utf-8?B?WnlRV1RIRGVSU1VkUzJRYUhmRzMxOWprS0I2ZHhTRXNPZ0VFVWtZU3YzUTl6?=
+ =?utf-8?B?c244WkR0ZktvUy9vTmE1cGs5RzNTaFhDd205TDhrcTJiSm5lNGNlTGRkeU5k?=
+ =?utf-8?Q?6DZAT7+EjbTXi/SkEqsUs9yyl?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1da46d50-dafb-468f-68cd-08dd469c9462
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6435.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 10:54:07.8921 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Zvce/j6+y4sf8kvv3mEx6CRxCqwtfeXLXlnzjyyd12WopDQwTlzukE7WKOehCnfsb4N3ghNv7Mq0nGUW+hyjyw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8332
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,482 +178,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Virtio gpu supports the drm_panic module, which displays a message to
-the screen when a kernel panic occurs. It is supported where it has
-vmapped shmem BO.
+On 2025/1/31 8:33, Demi Marie Obenour wrote:
+> On Wed, Jan 29, 2025 at 03:54:59PM -0500, Demi Marie Obenour wrote:
+>> On 1/8/25 12:05 PM, Simona Vetter wrote:
+>>> On Fri, Dec 27, 2024 at 10:24:29AM +0800, Huang, Honglei1 wrote:
+>>>>
+>>>> On 2024/12/22 9:59, Demi Marie Obenour wrote:
+>>>>> On 12/20/24 10:35 AM, Simona Vetter wrote:
+>>>>>> On Fri, Dec 20, 2024 at 06:04:09PM +0800, Honglei Huang wrote:
+>>>>>>> From: Honglei Huang <Honglei1.Huang@amd.com>
+>>>>>>>
+>>>>>>> A virtio-gpu userptr is based on HMM notifier.
+>>>>>>> Used for let host access guest userspace memory and
+>>>>>>> notice the change of userspace memory.
+>>>>>>> This series patches are in very beginning state,
+>>>>>>> User space are pinned currently to ensure the host
+>>>>>>> device memory operations are correct.
+>>>>>>> The free and unmap operations for userspace can be
+>>>>>>> handled by MMU notifier this is a simple and basice
+>>>>>>> SVM feature for this series patches.
+>>>>>>> The physical PFNS update operations is splited into
+>>>>>>> two OPs in here. The evicted memories won't be used
+>>>>>>> anymore but remap into host again to achieve same
+>>>>>>> effect with hmm_rang_fault.
+>>>>>>
+>>>>>> So in my opinion there are two ways to implement userptr that make sense:
+>>>>>>
+>>>>>> - pinned userptr with pin_user_pages(FOLL_LONGTERM). there is not mmu
+>>>>>>     notifier
+>>>>>>
+>>>>>> - unpinnned userptr where you entirely rely on userptr and do not hold any
+>>>>>>     page references or page pins at all, for full SVM integration. This
+>>>>>>     should use hmm_range_fault ideally, since that's the version that
+>>>>>>     doesn't ever grab any page reference pins.
+>>>>>>
+>>>>>> All the in-between variants are imo really bad hacks, whether they hold a
+>>>>>> page reference or a temporary page pin (which seems to be what you're
+>>>>>> doing here). In much older kernels there was some justification for them,
+>>>>>> because strange stuff happened over fork(), but with FOLL_LONGTERM this is
+>>>>>> now all sorted out. So there's really only fully pinned, or true svm left
+>>>>>> as clean design choices imo.
+>>>>>>
+>>>>>> With that background, why does pin_user_pages(FOLL_LONGTERM) not work for
+>>>>>> you?
+>>>>>
+>>>>> +1 on using FOLL_LONGTERM.  Fully dynamic memory management has a huge cost
+>>>>> in complexity that pinning everything avoids.  Furthermore, this avoids the
+>>>>> host having to take action in response to guest memory reclaim requests.
+>>>>> This avoids additional complexity (and thus attack surface) on the host side.
+>>>>> Furthermore, since this is for ROCm and not for graphics, I am less concerned
+>>>>> about supporting systems that require swappable GPU VRAM.
+>>>>
+>>>> Hi Sima and Demi,
+>>>>
+>>>> I totally agree the flag FOLL_LONGTERM is needed, I will add it in next
+>>>> version.
+>>>>
+>>>> And for the first pin variants implementation, the MMU notifier is also
+>>>> needed I think.Cause the userptr feature in UMD generally used like this:
+>>>> the registering of userptr always is explicitly invoked by user code like
+>>>> "registerMemoryToGPU(userptrAddr, ...)", but for the userptr release/free,
+>>>> there is no explicit API for it, at least in hsakmt/KFD stack. User just
+>>>> need call system call "free(userptrAddr)", then kernel driver will release
+>>>> the userptr by MMU notifier callback.Virtio-GPU has no other way to know if
+>>>> user has been free the userptr except for MMU notifior.And in UMD theres is
+>>>> no way to get the free() operation is invoked by user.The only way is use
+>>>> MMU notifier in virtio-GPU driver and free the corresponding data in host by
+>>>> some virtio CMDs as far as I can see.
+>>>>
+>>>> And for the second way that is use hmm_range_fault, there is a predictable
+>>>> issues as far as I can see, at least in hsakmt/KFD stack. That is the memory
+>>>> may migrate when GPU/device is working. In bare metal, when memory is
+>>>> migrating KFD driver will pause the compute work of the device in
+>>>> mmap_wirte_lock then use hmm_range_fault to remap the migrated/evicted
+>>>> memories to GPU then restore the compute work of device to ensure the
+>>>> correction of the data. But in virtio-GPU driver the migration happen in
+>>>> guest kernel, the evict mmu notifier callback happens in guest, a virtio CMD
+>>>> can be used for notify host but as lack of mmap_write_lock protection in
+>>>> host kernel, host will hold invalid data for a short period of time, this
+>>>> may lead to some issues. And it is hard to fix as far as I can see.
+>>>>
+>>>> I will extract some APIs into helper according to your request, and I will
+>>>> refactor the whole userptr implementation, use some callbacks in page
+>>>> getting path, let the pin method and hmm_range_fault can be choiced
+>>>> in this series patches.
+>>>
+>>> Ok, so if this is for svm, then you need full blast hmm, or the semantics
+>>> are buggy. You cannot fake svm with pin(FOLL_LONGTERM) userptr, this does
+>>> not work.
+>>>
+>>> The other option is that hsakmt/kfd api is completely busted, and that's
+>>> kinda not a kernel problem.
+>>> -Sima
+>>
+>> On further thought, I believe the driver needs to migrate the pages to
+>> device memory (really a virtio-GPU blob object) *and* take a FOLL_LONGTERM
+>> pin on them.  The reason is that it isn’t possible to migrate these pages
+>> back to "host" memory without unmapping them from the GPU.  For the reasons
+>> I mention in [1], I believe that temporarily revoking access to virtio-GPU
+>> blob objects is not feasible.  Instead, the pages must be treated as if
+>> they are permanently in device memory until guest userspace unmaps them
+>> from the GPU, after which they must be migrated back to host memory.
+> 
+> Discussion on IRC indicates that migration isn't reliable.  This is
+> because Linux core memory management is largely lock-free for
+> performance reasons, so there is no way to prevent temporary elevation
+> of a page's reference count.  A page with an elevated reference count
+> cannot be migrated.
+> 
+> The only alternative I can think of is for the hypervisor to perform the
+> migration.  The hypervisor can revoke the guest's access to the page
+> without the guest's consent or involvement.  The host can then replace
+> the page with one of its own pages, which might be on the CPU or GPU.
+> Further migration between the CPU and GPU is controlled by the host
+> kernel-mode driver (KMD) and host kernel memory management.  The guest
+> kernel driver must take a FOLL_LONGTERM pin before telling the host to
+> use the pages, but that is all.
+> 
+> On KVM, this should be essentially automatic, as guest memory really is
+> just host userspace memory.  On Xen, this requires that the backend
+> domain can revoke fronted access to _any_ frontend page, or at least
+> frontend pages that have been granted to the backend.  The backend will
+> then need to be able to handle page faults for the frontend pages, and
+> replace the frontend pages with its own pages at will.  Furthermore,
+> revoking pages that the backend has installed into the frontend must
+> never fail, because the backend will panic if it does fail.
+> 
+> Sima, is putting guest pages under host kernel control the only option?
+> I thought that this could be avoided by leaving the pages on the CPU if
+> migration fails, but that won't work because there will be no way to
+> migrate them to the GPU later, causing performance problems that would
+> be impossible to debug.  Is waiting (possibly forever) on migration to
+> finish an option?  Otherwise, this might mean extra complexity in the
+> Xen hypervisor, as I do not believe the primitives needed are currently
+> available.  Specifically, in addition to the primitives discussed at Xen
+> Project Summit 2024, the backend also needs to intercept access to, and
+> replace the contents of, arbitrary frontend-controlled pages.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
----
-v7:
-- Reject no vmapped shmem BO. Also, insert comment and commit log about
-  it.
-- Restore MAX_INLINE_* and VBUFFER_SIZE definitions to the old place
+Hi Demi,
 
-v6:
-https://lore.kernel.org/all/CAHpthZo=R=Csru2P8NVY8YKaasb2RTyrMYni-=8ri4K=xd8abA@mail.gmail.com/
+I agree that to achieve the complete SVM feature in virtio-GPU, it is 
+necessary to have the hypervisor deeply involved and add new features.
+It needs solid design, I saw the detailed reply in a another thread, it
+is very helpful,looking forward to the response from the Xen/hypervisor 
+experts.
 
-Based on Dmitry's comment, fix the followings
-- Reject external dmabufs backing the GEM object
-- Allocate vbuf with kmem_cache_zalloc(..., GFP_ATOMIC) instead of
-  drmm_kzalloc().
+So for the current virito-GPU userptr implementation, It can not support 
+the full SVM feature, it just can only let GPU access the user space 
+memory, maybe can be called by userptr feature. I think I will finish 
+this small part firstly and then to try to complete the whole SVM feature.
 
-v5:
-https://lore.kernel.org/all/CAHpthZrZ6DjsCQ4baQ80b2vOTdkR=vHDx=10W7DTS4ohxb6=pg@mail.gmail.com/
-
-Based on Dmitry's comment, fix the followings
-- Rename virtio_panic_buffer to panic_vbuf
-- Remove some unnecessary dummy ret and return directly.
-- Reject if the bo is VRAM BO
-- Remove virtio_gpu_panic_put_vbuf() before notify
-- Add description for panic buffer allocation
-- Remove virtio_gpu_panic_object_array and use
-  virtio_gpu_panic_array_alloc() to allocate objs instead of static
-  allocation in stack.
-
-v4:
-https://lore.kernel.org/all/ec721548-0d47-4c40-9e9d-59f58e2181ae@redhat.com/
-
-- As per Dmitry's comment, make virtio_panic_buffer private to
-  virtio_gpu_device.
-
-v3:
-https://lore.kernel.org/all/09d9815c-9d5b-464b-9362-5b8232d36de1@collabora.com/
-
-- As per Jocelyn's comment, add a finite timeout 500usec in
-  virtio_gpu_panic_put_vbuf() to avoid infinite loop
-
-v2:
-https://lore.kernel.org/all/d885913e-e81c-488e-8db8-e3f7fae13b2c@redhat.com/
-
-- Remove unnecessary virtio_gpu_vbuffer_inline
-- Remove reclaim_list and just call drm_gem_object_put() if there is an
-   obj
-- Don't wait for an event in virtio_gpu_panic_queue_ctrl_sgs and just
-   return -ENOMEM. Also add error handlers for this error.
-- Use virtio_gpu_panic_queue_fenced_ctrl_buffer() in
-virtio_gpu_panic_cmd_resource_flush
-- Remove fence and objs arguments because these are always NULL in panic
-   handler.
-- Rename virtio_gpu_panic_queue_fenced_ctrl_buffer to
-   ..._queue_ctrl_buffer
-- Rename virtio_gpu_panic_alloc_cmd to ..._panic_init_cmd
-
-v1:
-https://lore.kernel.org/all/c7a4a4cd-ce84-4e87-924d-c1c001fc5d28@redhat.com/
-
- drivers/gpu/drm/virtio/virtgpu_drv.h   |  11 ++
- drivers/gpu/drm/virtio/virtgpu_gem.c   |  14 +++
- drivers/gpu/drm/virtio/virtgpu_plane.c |  96 ++++++++++++++++
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 151 +++++++++++++++++++++++++
- 4 files changed, 272 insertions(+)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index f42ca9d8ed10..f17660a71a3e 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -310,6 +310,7 @@ int virtio_gpu_mode_dumb_create(struct drm_file *file_priv,
- 				struct drm_device *dev,
- 				struct drm_mode_create_dumb *args);
- 
-+struct virtio_gpu_object_array *virtio_gpu_panic_array_alloc(void);
- struct virtio_gpu_object_array *virtio_gpu_array_alloc(u32 nents);
- struct virtio_gpu_object_array*
- virtio_gpu_array_from_handles(struct drm_file *drm_file, u32 *handles, u32 nents);
-@@ -334,12 +335,21 @@ void virtio_gpu_cmd_create_resource(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_fence *fence);
- void virtio_gpu_cmd_unref_resource(struct virtio_gpu_device *vgdev,
- 				   struct virtio_gpu_object *bo);
-+int virtio_gpu_panic_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
-+					     uint64_t offset,
-+					     uint32_t width, uint32_t height,
-+					     uint32_t x, uint32_t y,
-+					     struct virtio_gpu_object_array *objs);
- void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 					uint64_t offset,
- 					uint32_t width, uint32_t height,
- 					uint32_t x, uint32_t y,
- 					struct virtio_gpu_object_array *objs,
- 					struct virtio_gpu_fence *fence);
-+void virtio_gpu_panic_cmd_resource_flush(struct virtio_gpu_device *vgdev,
-+					 uint32_t resource_id,
-+					 uint32_t x, uint32_t y,
-+					 uint32_t width, uint32_t height);
- void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
- 				   uint32_t resource_id,
- 				   uint32_t x, uint32_t y,
-@@ -408,6 +418,7 @@ void virtio_gpu_ctrl_ack(struct virtqueue *vq);
- void virtio_gpu_cursor_ack(struct virtqueue *vq);
- void virtio_gpu_dequeue_ctrl_func(struct work_struct *work);
- void virtio_gpu_dequeue_cursor_func(struct work_struct *work);
-+void virtio_gpu_panic_notify(struct virtio_gpu_device *vgdev);
- void virtio_gpu_notify(struct virtio_gpu_device *vgdev);
- 
- int
-diff --git a/drivers/gpu/drm/virtio/virtgpu_gem.c b/drivers/gpu/drm/virtio/virtgpu_gem.c
-index 5aab588fc400..dde8fc1a3689 100644
---- a/drivers/gpu/drm/virtio/virtgpu_gem.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_gem.c
-@@ -148,6 +148,20 @@ void virtio_gpu_gem_object_close(struct drm_gem_object *obj,
- 	virtio_gpu_notify(vgdev);
- }
- 
-+/* For drm panic */
-+struct virtio_gpu_object_array *virtio_gpu_panic_array_alloc(void)
-+{
-+	struct virtio_gpu_object_array *objs;
-+
-+	objs = kmalloc(sizeof(struct virtio_gpu_object_array), GFP_ATOMIC);
-+	if (!objs)
-+		return NULL;
-+
-+	objs->nents = 0;
-+	objs->total = 1;
-+	return objs;
-+}
-+
- struct virtio_gpu_object_array *virtio_gpu_array_alloc(u32 nents)
- {
- 	struct virtio_gpu_object_array *objs;
-diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
-index 42aa554eca9f..a6f5a78f436a 100644
---- a/drivers/gpu/drm/virtio/virtgpu_plane.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
-@@ -28,6 +28,8 @@
- #include <drm/drm_fourcc.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <linux/virtio_dma_buf.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_panic.h>
- 
- #include "virtgpu_drv.h"
- 
-@@ -127,6 +129,30 @@ static int virtio_gpu_plane_atomic_check(struct drm_plane *plane,
- 	return ret;
- }
- 
-+/* For drm panic */
-+static int virtio_gpu_panic_update_dumb_bo(struct virtio_gpu_device *vgdev,
-+					   struct drm_plane_state *state,
-+					   struct drm_rect *rect)
-+{
-+	struct virtio_gpu_object *bo =
-+		gem_to_virtio_gpu_obj(state->fb->obj[0]);
-+	struct virtio_gpu_object_array *objs;
-+	uint32_t w = rect->x2 - rect->x1;
-+	uint32_t h = rect->y2 - rect->y1;
-+	uint32_t x = rect->x1;
-+	uint32_t y = rect->y1;
-+	uint32_t off = x * state->fb->format->cpp[0] +
-+		y * state->fb->pitches[0];
-+
-+	objs = virtio_gpu_panic_array_alloc();
-+	if (!objs)
-+		return -ENOMEM;
-+	virtio_gpu_array_add_obj(objs, &bo->base.base);
-+
-+	return virtio_gpu_panic_cmd_transfer_to_host_2d(vgdev, off, w, h, x, y,
-+							objs);
-+}
-+
- static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
- 				      struct drm_plane_state *state,
- 				      struct drm_rect *rect)
-@@ -150,6 +176,24 @@ static void virtio_gpu_update_dumb_bo(struct virtio_gpu_device *vgdev,
- 					   objs, NULL);
- }
- 
-+/* For drm_panic */
-+static void virtio_gpu_panic_resource_flush(struct drm_plane *plane,
-+					    uint32_t x, uint32_t y,
-+					    uint32_t width, uint32_t height)
-+{
-+	struct drm_device *dev = plane->dev;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct virtio_gpu_framebuffer *vgfb;
-+	struct virtio_gpu_object *bo;
-+
-+	vgfb = to_virtio_gpu_framebuffer(plane->state->fb);
-+	bo = gem_to_virtio_gpu_obj(vgfb->base.obj[0]);
-+
-+	virtio_gpu_panic_cmd_resource_flush(vgdev, bo->hw_res_handle, x, y,
-+					    width, height);
-+	virtio_gpu_panic_notify(vgdev);
-+}
-+
- static void virtio_gpu_resource_flush(struct drm_plane *plane,
- 				      uint32_t x, uint32_t y,
- 				      uint32_t width, uint32_t height)
-@@ -446,11 +490,63 @@ static void virtio_gpu_cursor_plane_update(struct drm_plane *plane,
- 	virtio_gpu_cursor_ping(vgdev, output);
- }
- 
-+static int virtio_drm_get_scanout_buffer(struct drm_plane *plane,
-+					 struct drm_scanout_buffer *sb)
-+{
-+	struct virtio_gpu_object *bo;
-+
-+	if (!plane->state || !plane->state->fb || !plane->state->visible)
-+		return -ENODEV;
-+
-+	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
-+
-+	/* Only support mapped shmem bo */
-+	if (virtio_gpu_is_vram(bo) || bo->base.base.import_attach || !bo->base.vaddr)
-+		return -ENODEV;
-+
-+	iosys_map_set_vaddr(&sb->map[0], bo->base.vaddr);
-+
-+	sb->format = plane->state->fb->format;
-+	sb->height = plane->state->fb->height;
-+	sb->width = plane->state->fb->width;
-+	sb->pitch[0] = plane->state->fb->pitches[0];
-+	return 0;
-+}
-+
-+static void virtio_panic_flush(struct drm_plane *plane)
-+{
-+	struct virtio_gpu_object *bo;
-+	struct drm_device *dev = plane->dev;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct drm_rect rect;
-+
-+	rect.x1 = 0;
-+	rect.y1 = 0;
-+	rect.x2 = plane->state->fb->width;
-+	rect.y2 = plane->state->fb->height;
-+
-+	bo = gem_to_virtio_gpu_obj(plane->state->fb->obj[0]);
-+
-+	if (bo->dumb) {
-+		if (virtio_gpu_panic_update_dumb_bo(vgdev, plane->state,
-+						    &rect))
-+			return;
-+	}
-+
-+	virtio_gpu_panic_resource_flush(plane,
-+					plane->state->src_x >> 16,
-+					plane->state->src_y >> 16,
-+					plane->state->src_w >> 16,
-+					plane->state->src_h >> 16);
-+}
-+
- static const struct drm_plane_helper_funcs virtio_gpu_primary_helper_funcs = {
- 	.prepare_fb		= virtio_gpu_plane_prepare_fb,
- 	.cleanup_fb		= virtio_gpu_plane_cleanup_fb,
- 	.atomic_check		= virtio_gpu_plane_atomic_check,
- 	.atomic_update		= virtio_gpu_primary_plane_update,
-+	.get_scanout_buffer	= virtio_drm_get_scanout_buffer,
-+	.panic_flush		= virtio_panic_flush,
- };
- 
- static const struct drm_plane_helper_funcs virtio_gpu_cursor_helper_funcs = {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index ad91624df42d..efac4f244d85 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -86,6 +86,22 @@ void virtio_gpu_free_vbufs(struct virtio_gpu_device *vgdev)
- 	vgdev->vbufs = NULL;
- }
- 
-+/* For drm_panic */
-+static struct virtio_gpu_vbuffer*
-+virtio_gpu_panic_get_vbuf(struct virtio_gpu_device *vgdev, int size)
-+{
-+	struct virtio_gpu_vbuffer *vbuf;
-+
-+	vbuf = kmem_cache_zalloc(vgdev->vbufs, GFP_ATOMIC);
-+
-+	vbuf->buf = (void *)vbuf + sizeof(*vbuf);
-+	vbuf->size = size;
-+	vbuf->resp_cb = NULL;
-+	vbuf->resp_size = sizeof(struct virtio_gpu_ctrl_hdr);
-+	vbuf->resp_buf = (void *)vbuf->buf + size;
-+	return vbuf;
-+}
-+
- static struct virtio_gpu_vbuffer*
- virtio_gpu_get_vbuf(struct virtio_gpu_device *vgdev,
- 		    int size, int resp_size, void *resp_buf,
-@@ -137,6 +153,18 @@ virtio_gpu_alloc_cursor(struct virtio_gpu_device *vgdev,
- 	return (struct virtio_gpu_update_cursor *)vbuf->buf;
- }
- 
-+/* For drm_panic */
-+static void *virtio_gpu_panic_alloc_cmd_resp(struct virtio_gpu_device *vgdev,
-+					     struct virtio_gpu_vbuffer **vbuffer_p,
-+					     int cmd_size)
-+{
-+	struct virtio_gpu_vbuffer *vbuf;
-+
-+	vbuf = virtio_gpu_panic_get_vbuf(vgdev, cmd_size);
-+	*vbuffer_p = vbuf;
-+	return (struct virtio_gpu_command *)vbuf->buf;
-+}
-+
- static void *virtio_gpu_alloc_cmd_resp(struct virtio_gpu_device *vgdev,
- 				       virtio_gpu_resp_cb cb,
- 				       struct virtio_gpu_vbuffer **vbuffer_p,
-@@ -311,6 +339,34 @@ static struct sg_table *vmalloc_to_sgt(char *data, uint32_t size, int *sg_ents)
- 	return sgt;
- }
- 
-+/* For drm_panic */
-+static int virtio_gpu_panic_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
-+					   struct virtio_gpu_vbuffer *vbuf,
-+					   int elemcnt,
-+					   struct scatterlist **sgs,
-+					   int outcnt,
-+					   int incnt)
-+{
-+	struct virtqueue *vq = vgdev->ctrlq.vq;
-+	int ret;
-+
-+	if (vgdev->has_indirect)
-+		elemcnt = 1;
-+
-+	if (vq->num_free < elemcnt)
-+		return -ENOMEM;
-+
-+	ret = virtqueue_add_sgs(vq, sgs, outcnt, incnt, vbuf, GFP_ATOMIC);
-+	WARN_ON(ret);
-+
-+	vbuf->seqno = ++vgdev->ctrlq.seqno;
-+	trace_virtio_gpu_cmd_queue(vq, virtio_gpu_vbuf_ctrl_hdr(vbuf), vbuf->seqno);
-+
-+	atomic_inc(&vgdev->pending_commands);
-+
-+	return 0;
-+}
-+
- static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- 				     struct virtio_gpu_vbuffer *vbuf,
- 				     struct virtio_gpu_fence *fence,
-@@ -368,6 +424,32 @@ static int virtio_gpu_queue_ctrl_sgs(struct virtio_gpu_device *vgdev,
- 	return 0;
- }
- 
-+/* For drm_panic */
-+static int virtio_gpu_panic_queue_ctrl_buffer(struct virtio_gpu_device *vgdev,
-+					      struct virtio_gpu_vbuffer *vbuf)
-+{
-+	struct scatterlist *sgs[3], vcmd, vresp;
-+	int elemcnt = 0, outcnt = 0, incnt = 0;
-+
-+	/* set up vcmd */
-+	sg_init_one(&vcmd, vbuf->buf, vbuf->size);
-+	elemcnt++;
-+	sgs[outcnt] = &vcmd;
-+	outcnt++;
-+
-+	/* set up vresp */
-+	if (vbuf->resp_size) {
-+		sg_init_one(&vresp, vbuf->resp_buf, vbuf->resp_size);
-+		elemcnt++;
-+		sgs[outcnt + incnt] = &vresp;
-+		incnt++;
-+	}
-+
-+	return virtio_gpu_panic_queue_ctrl_sgs(vgdev, vbuf,
-+					       elemcnt, sgs,
-+					       outcnt, incnt);
-+}
-+
- static int virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
- 					       struct virtio_gpu_vbuffer *vbuf,
- 					       struct virtio_gpu_fence *fence)
-@@ -422,6 +504,21 @@ static int virtio_gpu_queue_fenced_ctrl_buffer(struct virtio_gpu_device *vgdev,
- 	return ret;
- }
- 
-+/* For drm_panic */
-+void virtio_gpu_panic_notify(struct virtio_gpu_device *vgdev)
-+{
-+	bool notify;
-+
-+	if (!atomic_read(&vgdev->pending_commands))
-+		return;
-+
-+	atomic_set(&vgdev->pending_commands, 0);
-+	notify = virtqueue_kick_prepare(vgdev->ctrlq.vq);
-+
-+	if (notify)
-+		virtqueue_notify(vgdev->ctrlq.vq);
-+}
-+
- void virtio_gpu_notify(struct virtio_gpu_device *vgdev)
- {
- 	bool notify;
-@@ -567,6 +664,29 @@ void virtio_gpu_cmd_set_scanout(struct virtio_gpu_device *vgdev,
- 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
- }
- 
-+/* For drm_panic */
-+void virtio_gpu_panic_cmd_resource_flush(struct virtio_gpu_device *vgdev,
-+					  uint32_t resource_id,
-+					  uint32_t x, uint32_t y,
-+					  uint32_t width, uint32_t height)
-+{
-+	struct virtio_gpu_resource_flush *cmd_p;
-+	struct virtio_gpu_vbuffer *vbuf;
-+
-+	cmd_p = virtio_gpu_panic_alloc_cmd_resp(vgdev, &vbuf, sizeof(*cmd_p));
-+	memset(cmd_p, 0, sizeof(*cmd_p));
-+	vbuf->objs = NULL;
-+
-+	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_FLUSH);
-+	cmd_p->resource_id = cpu_to_le32(resource_id);
-+	cmd_p->r.width = cpu_to_le32(width);
-+	cmd_p->r.height = cpu_to_le32(height);
-+	cmd_p->r.x = cpu_to_le32(x);
-+	cmd_p->r.y = cpu_to_le32(y);
-+
-+	virtio_gpu_panic_queue_ctrl_buffer(vgdev, vbuf);
-+}
-+
- void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
- 				   uint32_t resource_id,
- 				   uint32_t x, uint32_t y,
-@@ -591,6 +711,37 @@ void virtio_gpu_cmd_resource_flush(struct virtio_gpu_device *vgdev,
- 	virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, fence);
- }
- 
-+/* For drm_panic */
-+int virtio_gpu_panic_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
-+					     uint64_t offset,
-+					     uint32_t width, uint32_t height,
-+					     uint32_t x, uint32_t y,
-+					     struct virtio_gpu_object_array *objs)
-+{
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
-+	struct virtio_gpu_transfer_to_host_2d *cmd_p;
-+	struct virtio_gpu_vbuffer *vbuf;
-+	bool use_dma_api = !virtio_has_dma_quirk(vgdev->vdev);
-+
-+	if (virtio_gpu_is_shmem(bo) && use_dma_api)
-+		dma_sync_sgtable_for_device(vgdev->vdev->dev.parent,
-+					    bo->base.sgt, DMA_TO_DEVICE);
-+
-+	cmd_p = virtio_gpu_panic_alloc_cmd_resp(vgdev, &vbuf, sizeof(*cmd_p));
-+	memset(cmd_p, 0, sizeof(*cmd_p));
-+	vbuf->objs = objs;
-+
-+	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_TRANSFER_TO_HOST_2D);
-+	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
-+	cmd_p->offset = cpu_to_le64(offset);
-+	cmd_p->r.width = cpu_to_le32(width);
-+	cmd_p->r.height = cpu_to_le32(height);
-+	cmd_p->r.x = cpu_to_le32(x);
-+	cmd_p->r.y = cpu_to_le32(y);
-+
-+	return virtio_gpu_panic_queue_ctrl_buffer(vgdev, vbuf);
-+}
-+
- void virtio_gpu_cmd_transfer_to_host_2d(struct virtio_gpu_device *vgdev,
- 					uint64_t offset,
- 					uint32_t width, uint32_t height,
-
-base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
--- 
-2.47.1
+Regards,
+Honglei
 
