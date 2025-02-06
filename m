@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5A11A2B3D6
-	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 22:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF91A2B3DC
+	for <lists+dri-devel@lfdr.de>; Thu,  6 Feb 2025 22:09:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11BC010E959;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EFA610E95E;
 	Thu,  6 Feb 2025 21:08:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Qi0TWDew";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Qp11evf2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8402210E94F
- for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 21:06:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90D5210E94F
+ for <dri-devel@lists.freedesktop.org>; Thu,  6 Feb 2025 21:06:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1738876010;
+ s=mimecast20190719; t=1738876014;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EFhD3eSTFnJ14YBj8tyVuIsrsB7JO8KnWVmV1ttAyTw=;
- b=Qi0TWDew6eaiJeR+o+46VEFGMoYTLIsfrcvWGHKp+H6gELUDidg1HSqRVKjImjkJ7FoByp
- K+yDzqssnrbjbPv7FRk6+gnH986b0xbQVsFiqdO2RJPCuxJwnA4xQBWXMsdnFnNl61mLpg
- 02f2r45ZKKTIhcLBksjjvK0IieXR1Fs=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=vx6sn/q77QPVjpE9vGIzpS4F727qGTPlmw25nS011LI=;
+ b=Qp11evf2HwSUdX+xXAz3naz3dLgci0VmsYwH2sWF4sG8HxMRm2sKcQDRCGqg6Y2Xm+oyTF
+ kV5BFnXOPgL0ujJH4EXI1VBQRHiL+t7cSiZ3OqX0mGkSYXzJjrJBkdu5iDp0N+MPWmJOfV
+ tv1c1eXZh7/AF+3bzbEid4824efYzyI=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-286-5gEGa7b4MWaSyGoZZF3TTw-1; Thu,
- 06 Feb 2025 16:06:46 -0500
-X-MC-Unique: 5gEGa7b4MWaSyGoZZF3TTw-1
-X-Mimecast-MFC-AGG-ID: 5gEGa7b4MWaSyGoZZF3TTw
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-596-d6CpvG5dOO66Bu4FuQy-xw-1; Thu,
+ 06 Feb 2025 16:06:50 -0500
+X-MC-Unique: d6CpvG5dOO66Bu4FuQy-xw-1
+X-Mimecast-MFC-AGG-ID: d6CpvG5dOO66Bu4FuQy-xw
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id A20F71800374; Thu,  6 Feb 2025 21:06:44 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 2DC0819560B9; Thu,  6 Feb 2025 21:06:48 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
  by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 819381800265; Thu,  6 Feb 2025 21:06:41 +0000 (UTC)
+ id CEF1F1800265; Thu,  6 Feb 2025 21:06:44 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 06 Feb 2025 16:06:03 -0500
-Subject: [PATCH 08/14] drm/panel/ls060t1sx01: Move to using
+Date: Thu, 06 Feb 2025 16:06:04 -0500
+Subject: [PATCH 09/14] drm/panel/sony-td4353-jdi: Move to using
  mipi_dsi_dcs_write_seq_multi()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-mipi-cocci-v1-8-4ff0c69e8897@redhat.com>
+Message-Id: <20250206-mipi-cocci-v1-9-4ff0c69e8897@redhat.com>
 References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
 In-Reply-To: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -64,11 +64,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Jonathan Corbet <corbet@lwn.net>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738875969; l=1545;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1738875969; l=2215;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=kIF0ex5iL5a87AEuHz+aTTw4ykoICD+wkGV67J4m1mQ=;
- b=bd5aH9u2q8EGgcL16UItN5xQPxNWubJp7xhcwl6jEwcy0HIM0qSsMz24U1lYMjlj2UNoRfHkU
- isRfeHjQMsvDjwTrM4yx/9Us1gRMFeQ3aq51WH3NPfM/GMMDOtUY1uV
+ bh=xDrVLhPB3HGQ+SiEQjr6bWhAB9xRdzkzCPHAD4asAP0=;
+ b=eBuTE3zCCExK7yn7ZHTQWB8c6V4y9uGt00QhodkJQEsRe3axE5jH5oYKofjyM+kTxtCBVkMGh
+ EGQonB5Uu85B+Zar0DllBZCQGHYwSbKwajMl8iLB7Mj+FW7mO00ExPw
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
@@ -90,8 +90,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use mipi_dsi_dcs_write_seq_multi() instead of
 mipi_dsi_dcs_write_seq()
 
-Used Coccinelle to make the change. SmPl patch:
-
+Used Coccinelle to do this change. SmPl patch:
 @rule_1@
 identifier dsi_var;
 expression dsi_device;
@@ -106,29 +105,50 @@ struct mipi_dsi_device *dsi_var = dsi_device;
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-index 74c760ee0c2d1c4f1e857872e6ad38de08ab8b2a..387466460f554a9da80d184fc1f93c3b998f6351 100644
---- a/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-+++ b/drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c
-@@ -44,13 +44,14 @@ static void sharp_ls060_reset(struct sharp_ls060 *ctx)
- static int sharp_ls060_on(struct sharp_ls060 *ctx)
+diff --git a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
+index 472195d4bbbe43fe81037707888f0e87ddb9c615..51c5359f3087b71a74ceda0be243d7e934083038 100644
+--- a/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
++++ b/drivers/gpu/drm/panel/panel-sony-td4353-jdi.c
+@@ -47,6 +47,7 @@ static inline struct sony_td4353_jdi *to_sony_td4353_jdi(struct drm_panel *panel
+ static int sony_td4353_jdi_on(struct sony_td4353_jdi *ctx)
  {
  	struct mipi_dsi_device *dsi = ctx->dsi;
 +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
  	struct device *dev = &dsi->dev;
  	int ret;
  
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+@@ -76,7 +77,8 @@ static int sony_td4353_jdi_on(struct sony_td4353_jdi *ctx)
+ 		return ret;
+ 	}
  
--	mipi_dsi_dcs_write_seq(dsi, 0xbb, 0x13);
--	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xbb, 0x13);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_MEMORY_START);
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_ADDRESS_MODE,
++				     0x00);
+ 
+ 	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
+ 	if (ret < 0) {
+@@ -84,8 +86,8 @@ static int sony_td4353_jdi_on(struct sony_td4353_jdi *ctx)
+ 		return ret;
+ 	}
+ 
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS,
+-			  0x00, 0x00, 0x08, 0x6f);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_PARTIAL_ROWS,
++				     0x00, 0x00, 0x08, 0x6f);
  
  	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+ 	if (ret < 0) {
+@@ -94,7 +96,7 @@ static int sony_td4353_jdi_on(struct sony_td4353_jdi *ctx)
+ 	}
+ 	msleep(70);
+ 
+-	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_MEMORY_START);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_MEMORY_START);
+ 
+ 	ret = mipi_dsi_dcs_set_display_on(dsi);
  	if (ret < 0) {
 
 -- 
