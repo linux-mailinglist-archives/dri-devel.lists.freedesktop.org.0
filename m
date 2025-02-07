@@ -2,26 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB921A2BDFA
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 09:32:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62422A2BE0F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 09:32:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 661A210EA68;
-	Fri,  7 Feb 2025 08:32:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC4A10EA4F;
+	Fri,  7 Feb 2025 08:32:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from c64.rulez.org (c64.rulez.org [79.139.58.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD38C10EA1B
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 04:20:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7729810EA1B
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 04:20:18 +0000 (UTC)
 Received: by c64.rulez.org (Postfix, from userid 1000)
- id 38328105CD; Fri,  7 Feb 2025 05:19:52 +0100 (CET)
+ id 3C117105CE; Fri,  7 Feb 2025 05:19:52 +0100 (CET)
 From: Zsolt Kajtar <soci@c64.rulez.org>
 To: linux-fbdev@vger.kernel.org,
 	dri-devel@lists.freedesktop.org
 Cc: Zsolt Kajtar <soci@c64.rulez.org>
-Subject: [PATCH RESEND 08/13] fbdev: core: Use generic fillrect for as
- sys_fillrect
-Date: Fri,  7 Feb 2025 05:18:13 +0100
-Message-Id: <20250207041818.4031-9-soci@c64.rulez.org>
+Subject: [PATCH RESEND 09/13] fbdev: core: Copy cfbimgblt to fb_imageblit
+Date: Fri,  7 Feb 2025 05:18:14 +0100
+Message-Id: <20250207041818.4031-10-soci@c64.rulez.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20250207041818.4031-1-soci@c64.rulez.org>
 References: <20250207041818.4031-1-soci@c64.rulez.org>
@@ -45,337 +44,384 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Signed-off-by: Zsolt Kajtar <soci@c64.rulez.org>
 ---
- drivers/video/fbdev/core/sysfillrect.c | 314 +------------------------
- 1 file changed, 9 insertions(+), 305 deletions(-)
+ drivers/video/fbdev/core/fb_imageblit.h | 368 ++++++++++++++++++++++++
+ 1 file changed, 368 insertions(+)
+ create mode 100644 drivers/video/fbdev/core/fb_imageblit.h
 
-diff --git a/drivers/video/fbdev/core/sysfillrect.c b/drivers/video/fbdev/core/sysfillrect.c
-index e49221a88..48d0f0efb 100644
---- a/drivers/video/fbdev/core/sysfillrect.c
-+++ b/drivers/video/fbdev/core/sysfillrect.c
-@@ -12,314 +12,18 @@
-  *  more details.
-  */
- #include <linux/module.h>
--#include <linux/string.h>
- #include <linux/fb.h>
- #include <asm/types.h>
--#include "fb_draw.h"
- 
--    /*
--     *  Aligned pattern fill using 32/64-bit memory accesses
--     */
--
--static void
--bitfill_aligned(struct fb_info *p, unsigned long *dst, int dst_idx,
--		unsigned long pat, unsigned n, int bits)
--{
--	unsigned long first, last;
--
--	if (!n)
--		return;
--
--	first = FB_SHIFT_HIGH(p, ~0UL, dst_idx);
--	last = ~(FB_SHIFT_HIGH(p, ~0UL, (dst_idx+n) % bits));
--
--	if (dst_idx+n <= bits) {
--		/* Single word */
--		if (last)
--			first &= last;
--		*dst = comp(pat, *dst, first);
--	} else {
--		/* Multiple destination words */
--
--		/* Leading bits */
-- 		if (first!= ~0UL) {
--			*dst = comp(pat, *dst, first);
--			dst++;
--			n -= bits - dst_idx;
--		}
--
--		/* Main chunk */
--		n /= bits;
--		memset_l(dst, pat, n);
--		dst += n;
--
--		/* Trailing bits */
--		if (last)
--			*dst = comp(pat, *dst, last);
--	}
--}
--
--
--    /*
--     *  Unaligned generic pattern fill using 32/64-bit memory accesses
--     *  The pattern must have been expanded to a full 32/64-bit value
--     *  Left/right are the appropriate shifts to convert to the pattern to be
--     *  used for the next 32/64-bit word
--     */
--
--static void
--bitfill_unaligned(struct fb_info *p, unsigned long *dst, int dst_idx,
--		  unsigned long pat, int left, int right, unsigned n, int bits)
--{
--	unsigned long first, last;
--
--	if (!n)
--		return;
--
--	first = FB_SHIFT_HIGH(p, ~0UL, dst_idx);
--	last = ~(FB_SHIFT_HIGH(p, ~0UL, (dst_idx+n) % bits));
--
--	if (dst_idx+n <= bits) {
--		/* Single word */
--		if (last)
--			first &= last;
--		*dst = comp(pat, *dst, first);
--	} else {
--		/* Multiple destination words */
--		/* Leading bits */
--		if (first) {
--			*dst = comp(pat, *dst, first);
--			dst++;
--			pat = pat << left | pat >> right;
--			n -= bits - dst_idx;
--		}
--
--		/* Main chunk */
--		n /= bits;
--		while (n >= 4) {
--			*dst++ = pat;
--			pat = pat << left | pat >> right;
--			*dst++ = pat;
--			pat = pat << left | pat >> right;
--			*dst++ = pat;
--			pat = pat << left | pat >> right;
--			*dst++ = pat;
--			pat = pat << left | pat >> right;
--			n -= 4;
--		}
--		while (n--) {
--			*dst++ = pat;
--			pat = pat << left | pat >> right;
--		}
--
--		/* Trailing bits */
--		if (last)
--			*dst = comp(pat, *dst, last);
--	}
--}
--
--    /*
--     *  Aligned pattern invert using 32/64-bit memory accesses
--     */
--static void
--bitfill_aligned_rev(struct fb_info *p, unsigned long *dst, int dst_idx,
--		    unsigned long pat, unsigned n, int bits)
--{
--	unsigned long val = pat;
--	unsigned long first, last;
--
--	if (!n)
--		return;
--
--	first = FB_SHIFT_HIGH(p, ~0UL, dst_idx);
--	last = ~(FB_SHIFT_HIGH(p, ~0UL, (dst_idx+n) % bits));
--
--	if (dst_idx+n <= bits) {
--		/* Single word */
--		if (last)
--			first &= last;
--		*dst = comp(*dst ^ val, *dst, first);
--	} else {
--		/* Multiple destination words */
--		/* Leading bits */
--		if (first!=0UL) {
--			*dst = comp(*dst ^ val, *dst, first);
--			dst++;
--			n -= bits - dst_idx;
--		}
--
--		/* Main chunk */
--		n /= bits;
--		while (n >= 8) {
--			*dst++ ^= val;
--			*dst++ ^= val;
--			*dst++ ^= val;
--			*dst++ ^= val;
--			*dst++ ^= val;
--			*dst++ ^= val;
--			*dst++ ^= val;
--			*dst++ ^= val;
--			n -= 8;
--		}
--		while (n--)
--			*dst++ ^= val;
--		/* Trailing bits */
--		if (last)
--			*dst = comp(*dst ^ val, *dst, last);
--	}
--}
--
--
--    /*
--     *  Unaligned generic pattern invert using 32/64-bit memory accesses
--     *  The pattern must have been expanded to a full 32/64-bit value
--     *  Left/right are the appropriate shifts to convert to the pattern to be
--     *  used for the next 32/64-bit word
--     */
--
--static void
--bitfill_unaligned_rev(struct fb_info *p, unsigned long *dst, int dst_idx,
--		      unsigned long pat, int left, int right, unsigned n,
--		      int bits)
--{
--	unsigned long first, last;
--
--	if (!n)
--		return;
--
--	first = FB_SHIFT_HIGH(p, ~0UL, dst_idx);
--	last = ~(FB_SHIFT_HIGH(p, ~0UL, (dst_idx+n) % bits));
--
--	if (dst_idx+n <= bits) {
--		/* Single word */
--		if (last)
--			first &= last;
--		*dst = comp(*dst ^ pat, *dst, first);
--	} else {
--		/* Multiple destination words */
--
--		/* Leading bits */
--		if (first != 0UL) {
--			*dst = comp(*dst ^ pat, *dst, first);
--			dst++;
--			pat = pat << left | pat >> right;
--			n -= bits - dst_idx;
--		}
--
--		/* Main chunk */
--		n /= bits;
--		while (n >= 4) {
--			*dst++ ^= pat;
--			pat = pat << left | pat >> right;
--			*dst++ ^= pat;
--			pat = pat << left | pat >> right;
--			*dst++ ^= pat;
--			pat = pat << left | pat >> right;
--			*dst++ ^= pat;
--			pat = pat << left | pat >> right;
--			n -= 4;
--		}
--		while (n--) {
--			*dst ^= pat;
--			pat = pat << left | pat >> right;
--		}
--
--		/* Trailing bits */
--		if (last)
--			*dst = comp(*dst ^ pat, *dst, last);
--	}
--}
--
--void sys_fillrect(struct fb_info *p, const struct fb_fillrect *rect)
--{
--	unsigned long pat, pat2, fg;
--	unsigned long width = rect->width, height = rect->height;
--	int bits = BITS_PER_LONG, bytes = bits >> 3;
--	u32 bpp = p->var.bits_per_pixel;
--	unsigned long *dst;
--	int dst_idx, left;
--
--	if (p->state != FBINFO_STATE_RUNNING)
--		return;
--
--	if (!(p->flags & FBINFO_VIRTFB))
--		fb_warn_once(p, "Framebuffer is not in virtual address space.");
--
--	if (p->fix.visual == FB_VISUAL_TRUECOLOR ||
--	    p->fix.visual == FB_VISUAL_DIRECTCOLOR )
--		fg = ((u32 *) (p->pseudo_palette))[rect->color];
--	else
--		fg = rect->color;
--
--	pat = pixel_to_pat( bpp, fg);
--
--	dst = (unsigned long *)((unsigned long)p->screen_base & ~(bytes-1));
--	dst_idx = ((unsigned long)p->screen_base & (bytes - 1))*8;
--	dst_idx += rect->dy*p->fix.line_length*8+rect->dx*bpp;
--	/* FIXME For now we support 1-32 bpp only */
--	left = bits % bpp;
--	if (p->fbops->fb_sync)
--		p->fbops->fb_sync(p);
--	if (!left) {
--		void (*fill_op32)(struct fb_info *p, unsigned long *dst,
--				  int dst_idx, unsigned long pat, unsigned n,
--				  int bits) = NULL;
--
--		switch (rect->rop) {
--		case ROP_XOR:
--			fill_op32 = bitfill_aligned_rev;
--			break;
--		case ROP_COPY:
--			fill_op32 = bitfill_aligned;
--			break;
--		default:
--			printk( KERN_ERR "cfb_fillrect(): unknown rop, "
--				"defaulting to ROP_COPY\n");
--			fill_op32 = bitfill_aligned;
--			break;
--		}
--		while (height--) {
--			dst += dst_idx >> (ffs(bits) - 1);
--			dst_idx &= (bits - 1);
--			fill_op32(p, dst, dst_idx, pat, width*bpp, bits);
--			dst_idx += p->fix.line_length*8;
--		}
--	} else {
--		int right, r;
--		void (*fill_op)(struct fb_info *p, unsigned long *dst,
--				int dst_idx, unsigned long pat, int left,
--				int right, unsigned n, int bits) = NULL;
--#ifdef __LITTLE_ENDIAN
--		right = left;
--		left = bpp - right;
--#else
--		right = bpp - left;
--#endif
--		switch (rect->rop) {
--		case ROP_XOR:
--			fill_op = bitfill_unaligned_rev;
--			break;
--		case ROP_COPY:
--			fill_op = bitfill_unaligned;
--			break;
--		default:
--			printk(KERN_ERR "sys_fillrect(): unknown rop, "
--				"defaulting to ROP_COPY\n");
--			fill_op = bitfill_unaligned;
--			break;
--		}
--		while (height--) {
--			dst += dst_idx / bits;
--			dst_idx &= (bits - 1);
--			r = dst_idx % bpp;
--			/* rotate pattern to the correct start position */
--			pat2 = le_long_to_cpu(rolx(cpu_to_le_long(pat), r, bpp));
--			fill_op(p, dst, dst_idx, pat2, left, right,
--				width*bpp, bits);
--			dst_idx += p->fix.line_length*8;
--		}
--	}
--}
-+#define FB_READL(a)       (*a)
-+#define FB_WRITEL(a,b)    do { *(b) = (a); } while (false)
-+#define FB_MEM            /* nothing */
-+#define FB_FILLRECT       sys_fillrect
-+#define FB_FILLRECT_NAME  "sys_fillrect"
-+#define FB_SPACE          FBINFO_VIRTFB
-+#define FB_SPACE_NAME     "virtual"
-+#define FB_SCREEN_BASE(a) ((a)->screen_buffer)
-+#include "fb_fillrect.h"
- 
- EXPORT_SYMBOL(sys_fillrect);
- 
+diff --git a/drivers/video/fbdev/core/fb_imageblit.h b/drivers/video/fbdev/core/fb_imageblit.h
+new file mode 100644
+index 000000000..129822b6f
+--- /dev/null
++++ b/drivers/video/fbdev/core/fb_imageblit.h
+@@ -0,0 +1,368 @@
++/*
++ *  Generic BitBLT function for frame buffer with packed pixels of any depth.
++ *
++ *      Copyright (C)  June 1999 James Simmons
++ *
++ *  This file is subject to the terms and conditions of the GNU General Public
++ *  License.  See the file COPYING in the main directory of this archive for
++ *  more details.
++ *
++ * NOTES:
++ *
++ *    This function copys a image from system memory to video memory. The
++ *  image can be a bitmap where each 0 represents the background color and
++ *  each 1 represents the foreground color. Great for font handling. It can
++ *  also be a color image. This is determined by image_depth. The color image
++ *  must be laid out exactly in the same format as the framebuffer. Yes I know
++ *  their are cards with hardware that coverts images of various depths to the
++ *  framebuffer depth. But not every card has this. All images must be rounded
++ *  up to the nearest byte. For example a bitmap 12 bits wide must be two
++ *  bytes width.
++ *
++ *  Tony:
++ *  Incorporate mask tables similar to fbcon-cfb*.c in 2.4 API.  This speeds
++ *  up the code significantly.
++ *
++ *  Code for depths not multiples of BITS_PER_LONG is still kludgy, which is
++ *  still processed a bit at a time.
++ *
++ *  Also need to add code to deal with cards endians that are different than
++ *  the native cpu endians. I also need to deal with MSB position in the word.
++ */
++#include <linux/module.h>
++#include <linux/string.h>
++#include <linux/fb.h>
++#include <asm/types.h>
++#include "fb_draw.h"
++
++#define DEBUG
++
++#ifdef DEBUG
++#define DPRINTK(fmt, args...) printk(KERN_DEBUG "%s: " fmt,__func__,## args)
++#else
++#define DPRINTK(fmt, args...)
++#endif
++
++static const u32 cfb_tab8_be[] = {
++    0x00000000,0x000000ff,0x0000ff00,0x0000ffff,
++    0x00ff0000,0x00ff00ff,0x00ffff00,0x00ffffff,
++    0xff000000,0xff0000ff,0xff00ff00,0xff00ffff,
++    0xffff0000,0xffff00ff,0xffffff00,0xffffffff
++};
++
++static const u32 cfb_tab8_le[] = {
++    0x00000000,0xff000000,0x00ff0000,0xffff0000,
++    0x0000ff00,0xff00ff00,0x00ffff00,0xffffff00,
++    0x000000ff,0xff0000ff,0x00ff00ff,0xffff00ff,
++    0x0000ffff,0xff00ffff,0x00ffffff,0xffffffff
++};
++
++static const u32 cfb_tab16_be[] = {
++    0x00000000, 0x0000ffff, 0xffff0000, 0xffffffff
++};
++
++static const u32 cfb_tab16_le[] = {
++    0x00000000, 0xffff0000, 0x0000ffff, 0xffffffff
++};
++
++static const u32 cfb_tab32[] = {
++        0x00000000, 0xffffffff
++};
++
++#define FB_WRITEL fb_writel
++#define FB_READL  fb_readl
++
++static inline void color_imageblit(const struct fb_image *image,
++                                   struct fb_info *p, u8 __iomem *dst1,
++                                   u32 start_index,
++                                   u32 pitch_index)
++{
++        /* Draw the penguin */
++        u32 __iomem *dst, *dst2;
++        u32 color = 0, val, shift;
++        int i, n, bpp = p->var.bits_per_pixel;
++        u32 null_bits = 32 - bpp;
++        u32 *palette = (u32 *) p->pseudo_palette;
++        const u8 *src = image->data;
++        u32 bswapmask = fb_compute_bswapmask(p);
++
++        dst2 = (u32 __iomem *) dst1;
++        for (i = image->height; i--; ) {
++                n = image->width;
++                dst = (u32 __iomem *) dst1;
++                shift = 0;
++                val = 0;
++
++                if (start_index) {
++                        u32 start_mask = ~fb_shifted_pixels_mask_u32(p,
++                                                start_index, bswapmask);
++                        val = FB_READL(dst) & start_mask;
++                        shift = start_index;
++                }
++                while (n--) {
++                        if (p->fix.visual == FB_VISUAL_TRUECOLOR ||
++                            p->fix.visual == FB_VISUAL_DIRECTCOLOR )
++                                color = palette[*src];
++                        else
++                                color = *src;
++                        color <<= FB_LEFT_POS(p, bpp);
++                        val |= FB_SHIFT_HIGH(p, color, shift ^ bswapmask);
++                        if (shift >= null_bits) {
++                                FB_WRITEL(val, dst++);
++
++                                val = (shift == null_bits) ? 0 :
++                                        FB_SHIFT_LOW(p, color, 32 - shift);
++                        }
++                        shift += bpp;
++                        shift &= (32 - 1);
++                        src++;
++                }
++                if (shift) {
++                        u32 end_mask = fb_shifted_pixels_mask_u32(p, shift,
++                                                bswapmask);
++
++                        FB_WRITEL((FB_READL(dst) & end_mask) | val, dst);
++                }
++                dst1 += p->fix.line_length;
++                if (pitch_index) {
++                        dst2 += p->fix.line_length;
++                        dst1 = (u8 __iomem *)((long __force)dst2 & ~(sizeof(u32) - 1));
++
++                        start_index += pitch_index;
++                        start_index &= 32 - 1;
++                }
++        }
++}
++
++static inline void slow_imageblit(const struct fb_image *image, struct fb_info *p,
++                                  u8 __iomem *dst1, u32 fgcolor,
++                                  u32 bgcolor,
++                                  u32 start_index,
++                                  u32 pitch_index)
++{
++        u32 shift, color = 0, bpp = p->var.bits_per_pixel;
++        u32 __iomem *dst, *dst2;
++        u32 val, pitch = p->fix.line_length;
++        u32 null_bits = 32 - bpp;
++        u32 spitch = (image->width+7)/8;
++        const u8 *src = image->data, *s;
++        u32 i, j, l;
++        u32 bswapmask = fb_compute_bswapmask(p);
++
++        dst2 = (u32 __iomem *) dst1;
++        fgcolor <<= FB_LEFT_POS(p, bpp);
++        bgcolor <<= FB_LEFT_POS(p, bpp);
++
++        for (i = image->height; i--; ) {
++                shift = val = 0;
++                l = 8;
++                j = image->width;
++                dst = (u32 __iomem *) dst1;
++                s = src;
++
++                /* write leading bits */
++                if (start_index) {
++                        u32 start_mask = ~fb_shifted_pixels_mask_u32(p,
++                                                start_index, bswapmask);
++                        val = FB_READL(dst) & start_mask;
++                        shift = start_index;
++                }
++
++                while (j--) {
++                        l--;
++                        color = (*s & (1 << l)) ? fgcolor : bgcolor;
++                        val |= FB_SHIFT_HIGH(p, color, shift ^ bswapmask);
++
++                        /* Did the bitshift spill bits to the next long? */
++                        if (shift >= null_bits) {
++                                FB_WRITEL(val, dst++);
++                                val = (shift == null_bits) ? 0 :
++                                        FB_SHIFT_LOW(p, color, 32 - shift);
++                        }
++                        shift += bpp;
++                        shift &= (32 - 1);
++                        if (!l) { l = 8; s++; }
++                }
++
++                /* write trailing bits */
++                if (shift) {
++                        u32 end_mask = fb_shifted_pixels_mask_u32(p, shift,
++                                                bswapmask);
++
++                        FB_WRITEL((FB_READL(dst) & end_mask) | val, dst);
++                }
++
++                dst1 += pitch;
++                src += spitch;
++                if (pitch_index) {
++                        dst2 += pitch;
++                        dst1 = (u8 __iomem *)((long __force)dst2 & ~(sizeof(u32) - 1));
++                        start_index += pitch_index;
++                        start_index &= 32 - 1;
++                }
++
++        }
++}
++
++/*
++ * fast_imageblit - optimized monochrome color expansion
++ *
++ * Only if:  bits_per_pixel == 8, 16, or 32
++ *           image->width is divisible by pixel/dword (ppw);
++ *           fix->line_legth is divisible by 4;
++ *           beginning and end of a scanline is dword aligned
++ */
++static inline void fast_imageblit(const struct fb_image *image, struct fb_info *p,
++                                  u8 __iomem *dst1, u32 fgcolor,
++                                  u32 bgcolor)
++{
++        u32 fgx = fgcolor, bgx = bgcolor, bpp = p->var.bits_per_pixel;
++        u32 ppw = 32/bpp, spitch = (image->width + 7)/8;
++        u32 bit_mask, eorx, shift;
++        const char *s = image->data, *src;
++        u32 __iomem *dst;
++        const u32 *tab = NULL;
++        size_t tablen;
++        u32 colortab[16];
++        int i, j, k;
++
++        switch (bpp) {
++        case 8:
++                tab = fb_be_math(p) ? cfb_tab8_be : cfb_tab8_le;
++                tablen = 16;
++                break;
++        case 16:
++                tab = fb_be_math(p) ? cfb_tab16_be : cfb_tab16_le;
++                tablen = 4;
++                break;
++        case 32:
++                tab = cfb_tab32;
++                tablen = 2;
++                break;
++        default:
++                return;
++        }
++
++        for (i = ppw-1; i--; ) {
++                fgx <<= bpp;
++                bgx <<= bpp;
++                fgx |= fgcolor;
++                bgx |= bgcolor;
++        }
++
++        bit_mask = (1 << ppw) - 1;
++        eorx = fgx ^ bgx;
++        k = image->width/ppw;
++
++        for (i = 0; i < tablen; ++i)
++                colortab[i] = (tab[i] & eorx) ^ bgx;
++
++        for (i = image->height; i--; ) {
++                dst = (u32 __iomem *)dst1;
++                shift = 8;
++                src = s;
++
++                /*
++                 * Manually unroll the per-line copying loop for better
++                 * performance. This works until we processed the last
++                 * completely filled source byte (inclusive).
++                 */
++                switch (ppw) {
++                case 4: /* 8 bpp */
++                        for (j = k; j >= 2; j -= 2, ++src) {
++                                FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
++                        }
++                        break;
++                case 2: /* 16 bpp */
++                        for (j = k; j >= 4; j -= 4, ++src) {
++                                FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
++                        }
++                        break;
++                case 1: /* 32 bpp */
++                        for (j = k; j >= 8; j -= 8, ++src) {
++                                FB_WRITEL(colortab[(*src >> 7) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 5) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 3) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 1) & bit_mask], dst++);
++                                FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
++                        }
++                        break;
++                }
++
++                /*
++                 * For image widths that are not a multiple of 8, there
++                 * are trailing pixels left on the current line. Print
++                 * them as well.
++                 */
++                for (; j--; ) {
++                        shift -= ppw;
++                        FB_WRITEL(colortab[(*src >> shift) & bit_mask], dst++);
++                        if (!shift) {
++                                shift = 8;
++                                ++src;
++                        }
++                }
++
++                dst1 += p->fix.line_length;
++                s += spitch;
++        }
++}
++
++void cfb_imageblit(struct fb_info *p, const struct fb_image *image)
++{
++        u32 fgcolor, bgcolor, start_index, bitstart, pitch_index = 0;
++        u32 bpl = sizeof(u32), bpp = p->var.bits_per_pixel;
++        u32 width = image->width;
++        u32 dx = image->dx, dy = image->dy;
++        u8 __iomem *dst1;
++
++        if (p->state != FBINFO_STATE_RUNNING)
++                return;
++
++        if (p->flags & FBINFO_VIRTFB)
++                fb_warn_once(p, "Framebuffer is not in I/O address space.");
++
++        bitstart = (dy * p->fix.line_length * 8) + (dx * bpp);
++        start_index = bitstart & (32 - 1);
++        pitch_index = (p->fix.line_length & (bpl - 1)) * 8;
++
++        bitstart /= 8;
++        bitstart &= ~(bpl - 1);
++        dst1 = p->screen_base + bitstart;
++
++        if (p->fbops->fb_sync)
++                p->fbops->fb_sync(p);
++
++        if (image->depth == 1) {
++                if (p->fix.visual == FB_VISUAL_TRUECOLOR ||
++                    p->fix.visual == FB_VISUAL_DIRECTCOLOR) {
++                        fgcolor = ((u32*)(p->pseudo_palette))[image->fg_color];
++                        bgcolor = ((u32*)(p->pseudo_palette))[image->bg_color];
++                } else {
++                        fgcolor = image->fg_color;
++                        bgcolor = image->bg_color;
++                }
++
++                if (32 % bpp == 0 && !start_index && !pitch_index &&
++                    ((width & (32/bpp-1)) == 0) &&
++                    bpp >= 8 && bpp <= 32)
++                        fast_imageblit(image, p, dst1, fgcolor, bgcolor);
++                else
++                        slow_imageblit(image, p, dst1, fgcolor, bgcolor,
++                                        start_index, pitch_index);
++        } else
++                color_imageblit(image, p, dst1, start_index, pitch_index);
++}
++
++EXPORT_SYMBOL(cfb_imageblit);
++
++MODULE_AUTHOR("James Simmons <jsimmons@users.sf.net>");
++MODULE_DESCRIPTION("Generic software accelerated imaging drawing");
++MODULE_LICENSE("GPL");
 -- 
 2.30.2
 
