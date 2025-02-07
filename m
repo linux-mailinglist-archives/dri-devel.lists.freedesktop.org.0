@@ -2,50 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B546A2B6F4
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 01:12:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A28A2B764
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 01:58:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C9FF10E9BD;
-	Fri,  7 Feb 2025 00:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3684D10E012;
+	Fri,  7 Feb 2025 00:58:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="rWWg5DZx";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ff7B/Qkr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54B8D10E9BD;
- Fri,  7 Feb 2025 00:12:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1738887140;
- bh=Bacfc9g4mK2N5F8ADgamDK4z6BaKuislD2vRGNhIeVs=;
- h=Date:From:To:Cc:Subject:From;
- b=rWWg5DZxc/Ad2xR5t/K1x86gXsNRCKchPL2pcHDT8K/Aj3RRZOZ74fihi0SGbMszT
- BrpVFXrRoN7wyoet1J7oQg2pK/Spmth6xQCJABzA/U6JWmGX7uA/6IBLAH83b9pE29
- WeVmAOQN9gEYpTGD4rRZOlp/qe3j8kYBHziZ1CJffKDhKP4Pn+CItrQnndpX/qtJKO
- +5apEMUhkzjsjncuKjHOcDEJMlpEaefTXpiATQTyCE/u8UG4Jbr7mDPpNoP4CLayQI
- GAQeOMX7I17ev1+AVStGlRRkCbOYO/ZoBWxg+SPZVQ+n3MJrnGrg/fasLStV2DTid/
- 9u0j8UKKYKbmQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4YpvYG6zY7z4wbR;
- Fri,  7 Feb 2025 11:12:18 +1100 (AEDT)
-Date: Fri, 7 Feb 2025 11:12:27 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
- <dri-devel@lists.freedesktop.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Imre Deak <imre.deak@intel.com>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the drm-intel tree with the drm-misc tree
-Message-ID: <20250207111227.106a4468@canb.auug.org.au>
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32A1D10E012
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 00:57:59 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-54021daa6cbso1669567e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 16:57:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738889877; x=1739494677; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=ug1cHKYkHOI5SE4G5i310J6mOL4B8HpmJ/dr1AHs9PU=;
+ b=Ff7B/QkrFG9pNVWQ4RUOIR/qjvnt9dZ+duTHMZZJYe9ddXnkIY/MoXmEwPG9cxnq9H
+ 6Rc2MNPlD/7OTRGkqnwI9lNCHDCTXv98t5GhqBhvHvhyNK6Fms7qjBDt3BroGMf2XTc1
+ 5C+oK0IYmWcGFn5+s1mmLzDSKgBIeecenH+bibCuoOO2Qf72DHKxx08EpkHzfOVK5uEx
+ XDNifbl3j8NsomE+jA28/cZs8mvYeuzU3A7RrIkDF5omoBWcQP2JipYqug+vg95GdXk0
+ F0+w2XoXHmyFZiEh0eq93zfuOPKwi/E4WmnRF3ZajYw+HykxOlL1n7Njg0gOy17p8Q/G
+ grWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738889877; x=1739494677;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ug1cHKYkHOI5SE4G5i310J6mOL4B8HpmJ/dr1AHs9PU=;
+ b=X4UjaR6IJ+Y+mX9h2C3ywz6n0DGGHfvSS9wwBLkQYgHMd9deMYMC5Ma8ZxasJakQj2
+ Xgzn9sMRSMgZgap4Bz2RKUBqOTsxZvPkJUNjh4vzgegHImmdr2IKd+OzxVZrodPsuInL
+ iZd2jkwt+P8RAlIRAwQthjawKTBXxCKqszyeN8trwNw4r2SOB8fzou8j6x5qFja+kCzW
+ AtgRQApLOjYqnnNEKsP3wor81VHaP49tl1hqkC368WqHWCAHxKxYhz3ON2SPCr4ucoT5
+ MdE88WOyz1VP436jOEGEpjVQt5rDb136qcCUIYGRnSyDUAB0VOmYWo5rxcWXdW+tvfn+
+ Ue4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWGu4LEOZBJmY7zFfqm3D2d9TfXbCrc9iSkUwBO10eeAVvKg2PHrJoGXjVgc6Q1sUCEXKso3bFNgYE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwtokCf27Wtau88BGKt20Y9p+YawtIhWYh+sJ7tNmK5jdVYxJPM
+ e9DtQihh3cw4OmcPjHVbXrylvT/8O35rf/xxm2auYzQKi/KOs70f4Q8/0W8CAS8=
+X-Gm-Gg: ASbGncvDuRvQ827xdyQJ0Sva/i+Xnq/L46JZkmO6keYlRQi0KO4qVTbNivdyeykkWuN
+ qNpPz9NAN7xK3FqdHMWYVOyBM36NBxtVqGMc9KCOWzJTtn6fKM/cqkXO28FsVCDnW1FogUMQddr
+ BbIVJeItaPRUpy3ofvY6oGekfTJu5C3dt1qR29u4Ppm8rqqads/hGLfvASE4mM6kl+oFh77I79T
+ EG/zp5MJMA9zhyPk9SrYG9GUD7m2R790iQk53tKkOUGUvLxvTuGWZJJ61PanKr+ErtKYl+PQnP2
+ +UYs/KylidcMmJn40Rxkx6vK3NG8NHpiXWhzS/Hzqsc72nPyiaotoXggf+QbiyzLDAWeKl0=
+X-Google-Smtp-Source: AGHT+IGx2wRNt1b93pnywaXmYh85b7plMQz/H56Gv8K9JriphvzOJ7iTLmi1YOxkbvURlnH6S1mo4g==
+X-Received: by 2002:a05:6512:b8a:b0:540:1e7e:ca80 with SMTP id
+ 2adb3069b0e04-54414aa87f8mr253956e87.30.1738889877278; 
+ Thu, 06 Feb 2025 16:57:57 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54410555751sm279982e87.85.2025.02.06.16.57.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2025 16:57:56 -0800 (PST)
+Date: Fri, 7 Feb 2025 02:57:55 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
+ Stephen Boyd <swboyd@chromium.org>, Paloma Arellano <quic_parellan@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/msm/dp: account for widebus and yuv420 during
+ mode validation
+Message-ID: <yjpb5byscw7tfy2zz676j42uwavnn6rjszn7sag6mqietq3i3a@fdynfqqolvwe>
+References: <20250206-dp-widebus-fix-v2-1-cb89a0313286@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/n0Mfrb3zlQJGaS5NfzRtVUu";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250206-dp-widebus-fix-v2-1-cb89a0313286@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,69 +94,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/n0Mfrb3zlQJGaS5NfzRtVUu
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, Feb 06, 2025 at 11:46:36AM -0800, Abhinav Kumar wrote:
+> Widebus allows the DP controller to operate in 2 pixel per clock mode.
+> The mode validation logic validates the mode->clock against the max
+> DP pixel clock. However the max DP pixel clock limit assumes widebus
+> is already enabled. Adjust the mode validation logic to only compare
+> the adjusted pixel clock which accounts for widebus against the max DP
+> pixel clock. Also fix the mode validation logic for YUV420 modes as in
+> that case as well, only half the pixel clock is needed.
+> 
+> Fixes: 757a2f36ab09 ("drm/msm/dp: enable widebus feature for display port")
+> Fixes: 6db6e5606576 ("drm/msm/dp: change clock related programming for YUV420 over DP")
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> ---
+> Changes in v2:
+> - move msm_dp_wide_bus_available() to the next line
+> - Link to v1: https://lore.kernel.org/r/20250128-dp-widebus-fix-v1-1-b66d2265596b@quicinc.com
+> ---
+>  drivers/gpu/drm/msm/dp/dp_display.c | 11 ++++++-----
+>  drivers/gpu/drm/msm/dp/dp_drm.c     |  5 ++++-
+>  2 files changed, 10 insertions(+), 6 deletions(-)
+> 
 
-Hi all,
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Today's linux-next merge of the drm-intel tree got a conflict in:
-
-  drivers/gpu/drm/i915/display/intel_dp_mst.c
-
-between commit:
-
-  66df9debcb29 ("drm/connector: make mode_valid_ctx take a const struct drm=
-_display_mode")
-
-from the drm-misc tree and commit:
-
-  d49b485d1be3 ("drm/i915/dp_mst: Use intel_connector vs. drm_connector poi=
-nter in intel_dp_mst.c")
-
-from the drm-intel tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/i915/display/intel_dp_mst.c
-index aecaaf1d0fe2,2324ca8f6096..000000000000
---- a/drivers/gpu/drm/i915/display/intel_dp_mst.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_mst.c
-@@@ -1422,8 -1454,8 +1454,8 @@@ static int mst_connector_get_modes(stru
-  }
- =20
-  static int
-- mst_connector_mode_valid_ctx(struct drm_connector *connector,
-+ mst_connector_mode_valid_ctx(struct drm_connector *_connector,
- -			     struct drm_display_mode *mode,
- +			     const struct drm_display_mode *mode,
-  			     struct drm_modeset_acquire_ctx *ctx,
-  			     enum drm_mode_status *status)
-  {
-
---Sig_/n0Mfrb3zlQJGaS5NfzRtVUu
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmelT+sACgkQAVBC80lX
-0Gx0Ewf/UGAeioMhhe79R0ggXFXY6vOyVUjXDM/68BsBElZERgqFHQeVPuB140/V
-DXKJOeUVgHX+t2lxqoBdWirPB5JfS35pjZs0BqxVL/c3y03IbaCaE2UyouJAEXoB
-40BPD+VZYmNRENsi5aGL/S8PYdTAnri/D3dzLSkY87G/TuZtuOQOKEDxc9XHIMUs
-gLUF4llz6IsbR12E/Ldnfgz5z+Ghbs+tGVmCg7j1srcnWMcVwnDVPUDfQ/KFMUSP
-2CzJmYAF7/d7676+lzk7phuNUWejFlYxf9avbmRkGOv4zaPug0VCgT8rhTAFmJkl
-l6yANLEp9yd4nxpprdUrOoiuwbiVYw==
-=/0Ww
------END PGP SIGNATURE-----
-
---Sig_/n0Mfrb3zlQJGaS5NfzRtVUu--
+-- 
+With best wishes
+Dmitry
