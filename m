@@ -2,66 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408EAA2CC35
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 20:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15221A2CC7F
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 20:24:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C87310E26A;
-	Fri,  7 Feb 2025 19:04:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E162510E28E;
+	Fri,  7 Feb 2025 19:24:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=matrox.com header.i=@matrox.com header.b="R9OViW2S";
+	dkim=pass (2048-bit key; unprotected) header.d=marcan.st header.i=@marcan.st header.b="sHjNiqpm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mtxmxout2.matrox.com (mtxmxout2.matrox.com [138.11.2.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48A7F10E26A
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 19:04:30 +0000 (UTC)
-Received: from venus.matrox.com (unknown [192.168.1.36])
- by mtxmxout2.matrox.com (Postfix) with ESMTP id 91CA940141
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 14:04:29 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=matrox.com; s=dkim;
- t=1738955069; bh=k+iVUc3pLhP8HNxRDOZAlLL3wqCS1jqx1czy6FqDTPE=;
- h=Date:From:To:Subject;
- b=R9OViW2SGw9bpfGAkllGnqPYIrTN6nFy2WSVNUnokTMw/a88OrKoBr8EgnhGzyD0g
- IC4aDsRqY2GEv3drAgSO1aKZ2p3PX5c4FYqtLwztMgp9Qm/ga65J9/QvQy2v/dC6xt
- dP/zUb10BizUAI0IyQ+a/70PpTfeQtEQIzqKedDs=
-Received: (from ssmsp@localhost)
- by venus.matrox.com (8.14.6/8.13.2) id 517J4TNf030269
- for dri-devel@lists.freedesktop.org; Fri, 7 Feb 2025 14:04:29 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by venus.matrox.com (Postfix) with ESMTP id 839485F765;
- Fri,  7 Feb 2025 14:04:29 -0500 (EST)
-X-Virus-MTX-Scanned: by Matrox Virus scanner at venus.matrox.com
-Received: from venus.matrox.com ([127.0.0.1])
- by localhost (venus.matrox.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 8wYvtz4-uBBW; Fri,  7 Feb 2025 14:04:29 -0500 (EST)
-Received: from venus-in.matrox.com (localhost.localdomain [127.0.0.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D9D9810E126
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 19:18:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by venus.matrox.com (Postfix) with ESMTPS id 7071C5F760;
- Fri,  7 Feb 2025 14:04:29 -0500 (EST)
-Received: from pluton.matrox.com (pluton.matrox.com [192.168.8.7])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by venus-in.matrox.com (Postfix) with ESMTPS id 6E56261F04;
- Fri,  7 Feb 2025 14:04:29 -0500 (EST)
-Received: by pluton.matrox.com (Postfix, from userid 3820)
- id 6701434072D; Fri,  7 Feb 2025 14:04:29 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
- by pluton.matrox.com (Postfix) with ESMTP id 6483134072C;
- Fri,  7 Feb 2025 14:04:29 -0500 (EST)
-Date: Fri, 7 Feb 2025 14:04:29 -0500 (EST)
-From: Gwenael Georgeault <ggeorgea@matrox.com>
-To: Dave Airlie <airlied@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, mgi_lnx@matrox.com
-Subject: [PATCH] drm/mgag200: Added support for the new device G200eH5
-Message-ID: <alpine.LFD.2.00.2502071401180.14188@pluton.matrox.com>
-User-Agent: Alpine 2.00 (LFD 1167 2008-08-23)
+ (Authenticated sender: marcan@marcan.st)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id B39684203E;
+ Fri,  7 Feb 2025 19:18:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+ t=1738955928; bh=hzKbZ8fP/OSMSD/R0tqD9tsgwLS5wn2Ud2IztAjubuM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=sHjNiqpm+Nd9HwV76Weu9j8XnhP47P+uq7573nSGjE9eJAyMBGyfSz+yDqxX6/PbL
+ qGSrltV/BCfiDLNFTn81hhoQodk3U1539JLY+XxQxsYSYqNw5pmUFc1mBnVZftWSlu
+ xlcYlCzr/llfrxVde6Zuv+94X0XSE9sUPZTFGxNLXwKD6ciSyz2pWKO2yZz9Q6rXCS
+ L0fglNEajp8MokCOE25A31kFkq2rWrA5e+tWOksyAmdAJG3AC0U8m5vtM2BC02b0ck
+ hByJ4GYVkOtsVXJaITTvCU2bOyI/hIwth37+vWN3sNvsFpWOjkzlICkMkNrTaWi1/1
+ +DLBb/GdHKTjw==
+Message-ID: <ae11fa0f-7b3e-4dd7-8b4f-da0e9daa99bd@marcan.st>
+Date: Sat, 8 Feb 2025 04:18:44 +0900
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@gmail.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ phasta@kernel.org, Christoph Hellwig <hch@lst.de>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, daniel.almeida@collabora.com,
+ aliceryhl@google.com, robin.murphy@arm.com, rust-for-linux@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Valentin Obst <kernel@valentinobst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <2025013030-gummy-cosmic-7927@gregkh>
+ <20250130172437.GN5556@nvidia.com>
+ <2025013148-reversal-pessimism-1515@gregkh>
+ <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+ <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
+ <Z6UPXxEJYpanU9iU@cassiopeiae>
+ <4c0a7cf9-26e1-4a19-8a6e-7c30bc3aef86@marcan.st>
+ <20250207-mature-pastel-rottweiler-e6dbd9@lemur>
+ <1bbdf8b7-a70b-4994-865e-7fcb8d53ebef@marcan.st>
+ <CAHk-=wiQUya5_zTwLFNT2XkX-bf_H1vJiJ3zuADnO-3EwOOjVA@mail.gmail.com>
+From: Hector Martin <marcan@marcan.st>
+Content-Language: en-US
+In-Reply-To: <CAHk-=wiQUya5_zTwLFNT2XkX-bf_H1vJiJ3zuADnO-3EwOOjVA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,284 +88,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-- Added the new device ID
-- Added new pll algorithm
 
-Signed-off-by: Gwenael Georgeault <ggeorgea@matrox.com>
-Co-authored-by: Mamadou Insa Diop <mdiop@matrox.com>
----
-  drivers/gpu/drm/mgag200/Makefile          |   1 +
-  drivers/gpu/drm/mgag200/mgag200_drv.c     |   4 +
-  drivers/gpu/drm/mgag200/mgag200_drv.h     |   3 +
-  drivers/gpu/drm/mgag200/mgag200_g200eh5.c | 205 ++++++++++++++++++++++
-  4 files changed, 213 insertions(+)
-  create mode 100644 drivers/gpu/drm/mgag200/mgag200_g200eh5.c
 
-diff --git a/drivers/gpu/drm/mgag200/Makefile b/drivers/gpu/drm/mgag200/Makefile
-index 5a02203fad12..94f063c8722a 100644
---- a/drivers/gpu/drm/mgag200/Makefile
-+++ b/drivers/gpu/drm/mgag200/Makefile
-@@ -6,6 +6,7 @@ mgag200-y := \
-  	mgag200_g200.o \
-  	mgag200_g200eh.o \
-  	mgag200_g200eh3.o \
-+	mgag200_g200eh5.o \
-  	mgag200_g200er.o \
-  	mgag200_g200ev.o \
-  	mgag200_g200ew3.o \
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 069fdd2dc8f6..32cd8ac018c0 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -214,6 +214,7 @@ static const struct pci_device_id mgag200_pciidlist[] = {
-  	{ PCI_VENDOR_ID_MATROX, 0x534, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_ER },
-  	{ PCI_VENDOR_ID_MATROX, 0x536, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EW3 },
-  	{ PCI_VENDOR_ID_MATROX, 0x538, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EH3 },
-+	{ PCI_VENDOR_ID_MATROX, 0x53a, PCI_ANY_ID, PCI_ANY_ID, 0, 0, G200_EH5 },
-  	{0,}
-  };
+On 2025/02/08 3:33, Linus Torvalds wrote:
+> On Fri, 7 Feb 2025 at 10:02, Hector Martin <marcan@marcan.st> wrote:
+>>
+>> Meanwhile, for better or worse, much of Linux infra *is* centralized -
+>> for example, the mailing lists themselves, and a lot of the Git hosting.
+> 
+> The mailing lists are mostly on kernel.org, but the git hosting most
+> certainly is not centralized in any way.
+> 
+> The kernel.org git repositories used to be special in that I didn't
+> require signed tags for them, because I trusted the user maintenance.
+> But I was encouraging signed tags even back then, and once it got to
+> the point where most were signed anyway, I just made it a rule. So now
+> kernel.org isn't special even in that respect.
+> 
+> Now, kernel.org is very much _convenient_. And you see that in the
+> stats: of my pulls in the last year, 85% have been from kernel.org.
+> But that is very much because it is convenient, not because it's
+> centralized.
+> 
+> But that still leaves the 15% that aren't kernel.org.
 
-@@ -256,6 +257,9 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-  	case G200_EH3:
-  		mdev = mgag200_g200eh3_device_create(pdev, &mgag200_driver);
-  		break;
-+	case G200_EH5:
-+		mdev = mgag200_g200eh5_device_create(pdev, &mgag200_driver);
-+		break;
-  	case G200_ER:
-  		mdev = mgag200_g200er_device_create(pdev, &mgag200_driver);
-  		break;
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.h b/drivers/gpu/drm/mgag200/mgag200_drv.h
-index 0608fc63e588..819a7e9381e3 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -196,6 +196,7 @@ enum mga_type {
-  	G200_EV,
-  	G200_EH,
-  	G200_EH3,
-+	G200_EH5,
-  	G200_ER,
-  	G200_EW3,
-  };
-@@ -334,6 +335,8 @@ struct mga_device *mgag200_g200eh_device_create(struct pci_dev *pdev,
-  						const struct drm_driver *drv);
-  struct mga_device *mgag200_g200eh3_device_create(struct pci_dev *pdev,
-  						 const struct drm_driver *drv);
-+struct mga_device *mgag200_g200eh5_device_create(struct pci_dev *pdev,
-+						 const struct drm_driver *drv);
-  struct mga_device *mgag200_g200er_device_create(struct pci_dev *pdev,
-  						const struct drm_driver *drv);
-  struct mga_device *mgag200_g200ew3_device_create(struct pci_dev *pdev,
-diff --git a/drivers/gpu/drm/mgag200/mgag200_g200eh5.c b/drivers/gpu/drm/mgag200/mgag200_g200eh5.c
-new file mode 100644
-index 000000000000..2c4265293504
---- /dev/null
-+++ b/drivers/gpu/drm/mgag200/mgag200_g200eh5.c
-@@ -0,0 +1,204 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/limits.h>
-+#include <linux/pci.h>
-+#include <linux/units.h>
-+
-+#include <drm/drm_atomic.h>
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_probe_helper.h>
-+
-+#include "mgag200_drv.h"
-+
-+/*
-+ * PIXPLLC
-+ */
-+
-+static int mgag200_g200eh5_pixpllc_atomic_check(struct drm_crtc *crtc,
-+						struct drm_atomic_state *new_state)
-+{
-+	const unsigned long long VCO_MAX = 10 * GIGA; // Hz
-+	const unsigned long long VCO_MIN = 2500 * MEGA; // Hz
-+	const unsigned long long PLL_FREQ_REF = 25 * MEGA; // Hz
-+
-+	struct drm_crtc_state *new_crtc_state = drm_atomic_get_new_crtc_state(new_state, crtc);
-+	struct mgag200_crtc_state *new_mgag200_crtc_state = to_mgag200_crtc_state(new_crtc_state);
-+	long clock = new_crtc_state->mode.clock;
-+	struct mgag200_pll_values *pixpllc = &new_mgag200_crtc_state->pixpllc;
-+
-+	unsigned long long fdelta = ULLONG_MAX;
-+
-+	u16 mult_max = (u16)(VCO_MAX / PLL_FREQ_REF); // 400 (0x190)
-+	u16 mult_min = (u16)(VCO_MIN / PLL_FREQ_REF); // 100 (0x64)
-+
-+	u64 ftmp_delta;
-+	u64 computed_fo;
-+
-+	u16 test_m;
-+	u8 test_div_a;
-+	u8 test_div_b;
-+	u64 fo_hz;
-+
-+	u8 uc_m = 0;
-+	u8 uc_n = 0;
-+	u8 uc_p = 0;
-+
-+	fo_hz = (u64)clock * HZ_PER_KHZ;
-+
-+	for (test_m = mult_min; test_m <= mult_max; test_m++) { // This gives 100 <= M <= 400
-+		for (test_div_a = 8; test_div_a > 0; test_div_a--) { // This gives 1 <= A <= 8
-+			for (test_div_b = 1; test_div_b <= test_div_a; test_div_b++) {
-+				// This gives 1 <= B <= A
-+				computed_fo = (PLL_FREQ_REF * test_m) /
-+					(4 * test_div_a * test_div_b);
-+
-+				if (computed_fo > fo_hz)
-+					ftmp_delta = computed_fo - fo_hz;
-+				else
-+					ftmp_delta = fo_hz - computed_fo;
-+
-+				if (ftmp_delta < fdelta) {
-+					fdelta = ftmp_delta;
-+					uc_m = (u8)(0xFF & test_m);
-+					uc_n = (u8)((0x7 & (test_div_a - 1))
-+						| (0x70 & (0x7 & (test_div_b - 1)) << 4));
-+					uc_p = (u8)(1 & (test_m >> 8));
-+				}
-+				if (fdelta == 0)
-+					break;
-+			}
-+			if (fdelta == 0)
-+				break;
-+		}
-+		if (fdelta == 0)
-+			break;
-+	}
-+
-+	pixpllc->m = uc_m + 1;
-+	pixpllc->n = uc_n + 1;
-+	pixpllc->p = uc_p + 1;
-+	pixpllc->s = 0;
-+
-+	return 0;
-+	}
-+
-+/*
-+ * Mode-setting pipeline
-+ */
-+
-+static const struct drm_plane_helper_funcs mgag200_g200eh5_primary_plane_helper_funcs = {
-+	MGAG200_PRIMARY_PLANE_HELPER_FUNCS,
-+};
-+
-+static const struct drm_plane_funcs mgag200_g200eh5_primary_plane_funcs = {
-+	MGAG200_PRIMARY_PLANE_FUNCS,
-+};
-+
-+static const struct drm_crtc_helper_funcs mgag200_g200eh5_crtc_helper_funcs = {
-+	MGAG200_CRTC_HELPER_FUNCS,
-+};
-+
-+static const struct drm_crtc_funcs mgag200_g200eh5_crtc_funcs = {
-+	MGAG200_CRTC_FUNCS,
-+};
-+
-+static int mgag200_g200eh5_pipeline_init(struct mga_device *mdev)
-+{
-+	struct drm_device *dev = &mdev->base;
-+	struct drm_plane *primary_plane = &mdev->primary_plane;
-+	struct drm_crtc *crtc = &mdev->crtc;
-+	int ret;
-+
-+	ret = drm_universal_plane_init(dev, primary_plane, 0,
-+				       &mgag200_g200eh5_primary_plane_funcs,
-+				       mgag200_primary_plane_formats,
-+				       mgag200_primary_plane_formats_size,
-+				       mgag200_primary_plane_fmtmods,
-+				       DRM_PLANE_TYPE_PRIMARY, NULL);
-+	if (ret) {
-+		drm_err(dev, "drm_universal_plane_init() failed: %d\n", ret);
-+		return ret;
-+	}
-+	drm_plane_helper_add(primary_plane, &mgag200_g200eh5_primary_plane_helper_funcs);
-+	drm_plane_enable_fb_damage_clips(primary_plane);
-+
-+	ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
-+					&mgag200_g200eh5_crtc_funcs, NULL);
-+	if (ret) {
-+		drm_err(dev, "drm_crtc_init_with_planes() failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_crtc_helper_add(crtc, &mgag200_g200eh5_crtc_helper_funcs);
-+
-+	/* FIXME: legacy gamma tables, but atomic gamma doesn't work without */
-+	drm_mode_crtc_set_gamma_size(crtc, MGAG200_LUT_SIZE);
-+	drm_crtc_enable_color_mgmt(crtc, 0, false, MGAG200_LUT_SIZE);
-+	ret = mgag200_vga_bmc_output_init(mdev);
-+
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+/*
-+ * DRM device
-+ */
-+
-+static const struct mgag200_device_info mgag200_g200eh5_device_info =
-+	MGAG200_DEVICE_INFO_INIT(2048, 2048, 0, false, 1, 0, false);
-+
-+static const struct mgag200_device_funcs mgag200_g200eh5_device_funcs = {
-+	.pixpllc_atomic_check = mgag200_g200eh5_pixpllc_atomic_check,
-+	.pixpllc_atomic_update = mgag200_g200eh_pixpllc_atomic_update, // same as G200EH
-+};
-+
-+struct mga_device *mgag200_g200eh5_device_create(struct pci_dev *pdev,
-+						 const struct drm_driver *drv)
-+{
-+	struct mga_device *mdev;
-+	struct drm_device *dev;
-+	resource_size_t vram_available;
-+	int ret;
-+
-+	mdev = devm_drm_dev_alloc(&pdev->dev, drv, struct mga_device, base);
-+
-+	if (IS_ERR(mdev))
-+		return mdev;
-+	dev = &mdev->base;
-+
-+	pci_set_drvdata(pdev, dev);
-+
-+	ret = mgag200_init_pci_options(pdev, 0x00000120, 0x0000b000);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ret = mgag200_device_preinit(mdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ret = mgag200_device_init(mdev, &mgag200_g200eh5_device_info,
-+				  &mgag200_g200eh5_device_funcs);
-+
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	mgag200_g200eh_init_registers(mdev); // same as G200EH
-+	vram_available = mgag200_device_probe_vram(mdev);
-+
-+	ret = mgag200_mode_config_init(mdev, vram_available);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ret = mgag200_g200eh5_pipeline_init(mdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	drm_mode_config_reset(dev);
-+	drm_kms_helper_poll_init(dev);
-+
-+	return mdev;
-+}
--- 
-2.34.1
+For all intents and purposes, 85% centralized might as well be fully
+centralized. That is, any downtime on kernel.org will affect the
+community effectively the same as downtime on a true central SPOF would.
+
+> More importtantly, not being centralized was very much a basic tenet
+> of git, so *if* git.kernel.org were to become problematic, it's very
+> easy to move git repositories anywhere else. Very much by design.
+
+And this is why, over focus on *decentraliation*, I think we should be
+focusing on *recoverability* and *data availability*.
+
+There are two distinct scenarios. If kernel.org goes down for a while,
+that screws with people's workflow. They can find alternatives, but it
+will cause immediate, acute disruption, even while using "decentralized"
+git. You still need to tell people where the new repos are, reconfigure
+remotes, etc.. If the disruption is expected to be short-lived, a lot of
+people will choose to just ride it out, rather than find alternatives,
+or will only use alternatives in an ad-hoc manner where strictly
+necessary. Nobody does a "true" complete migration to another Git
+hosting when faced with a brief, temporary outage (heck, even just the
+time it takes to push a Linux Git tree from scratch to somewhere new is
+much longer than ideal, more so if your internet connection isn't the
+best or the routing to the server in question isn't great). At most you
+push whatever you're working on as needed somewhere else.
+
+If kernel.org goes down permanently or long term (or becomes
+problematic), that's when you start doing a full migration. And thanks
+to the Git design, this is possible - not because it's decentralized per
+se, but because everyone has local copies of almost everything, and they
+can easily be restored onto a new service.
+
+The same goes for a forge scenario. If it goes down briefly, you fix it,
+and you can still use email to communicate with people ad hoc and send
+git changes around through any other hosting. It's still Git at the end
+of the day. Emailed patches and Git trees aren't going to become
+unusable just because most or all of the regular development happens on
+a forge.
+
+And if it goes down permanently or long term, or becomes problematic,
+what really matters isn't that it's "decentralized" as in federation.
+It's that the data is available, in much the same way it is for
+lore.kernel.org, and that people are actively backing it up (and it
+isn't hard to arrange for a handful of folks/organizations to have up to
+date mirrors, you don't need a Git-like scenario where literally
+everyone has full repo dumps; heck, I have a big NAS at home, I'd
+volunteer myself). Then, the service can be restored elsewhere when
+needed. If the issue is with the specific forge software used, you can
+always develop a migration plan to a different software (which, if the
+risk is managed properly, shouldn't be a time-critical process anyway).
+
+- Hector
 
