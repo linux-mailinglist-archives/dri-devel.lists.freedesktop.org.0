@@ -2,118 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B09FA2C447
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 14:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F757A2C460
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 15:02:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E63910EB0D;
-	Fri,  7 Feb 2025 13:59:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB60C10EB11;
+	Fri,  7 Feb 2025 14:02:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xWauh5dD";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dKuooKBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E55610EB0E
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 13:59:31 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-38dc6d55ebaso626783f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 05:59:31 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD6AE10EB0E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 14:02:29 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-438a39e659cso14032805e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 06:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738936769; x=1739541569; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=hkR9wNKJuVrn2xXLtp0xWMIVzcU5W5qY2aQJeG+PYo0=;
- b=xWauh5dD+44K2rHJofM2NypMCc9CqIDEctqmt6ZgqJZ1xffISwzXTDqGRj5+i917Ey
- Gvi4CpV/EvkoJcSkVK5huyE1AdbxE/m56yUR3znUluGTYHprDrMXSddXVGnSqUR7T6GE
- eIM7/ivlw1VkmraP35tXgCHbLD2N5jvfBUUZn7D3duW6doUrQc0EbNzmRgq5kvvNtMom
- s9G+Kp+HhQyOTbQK+GJrPM3mX/1w4IpsmPMX3RolmyB8nY1+fj9+tN0YUo2MFEsrYCAK
- goWFXlg0e+pq5YOZhkZpc/d1x+MN9UA3ofsGEiZN0NZBTyeh1nXPxHKhx6U/ysiw8xdM
- CUkQ==
+ d=linaro.org; s=google; t=1738936948; x=1739541748; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=InbuS/CYzZdN7pnMEKIr+CtCUcWjZ9PfYIqG/HLZbPg=;
+ b=dKuooKBby/DMArNTV+q6ZbGNxNHyV5tCU0EeHn1MHYUf42JVnCk369icaEoWN9vpJl
+ VK1mwcfYGpWmRDfEPhoYKG/cjRwrNMxAPqlhO4kruVFvYo1sTSbdNto1bLShcfs8sgMy
+ 3XyWNOxPIoEQuzQEMNLr1HYTS/qeZD2/xFSX3kqapC6eIUfTWhPhsQxdPDc7KUFoqH1Y
+ /QVEYsLEGX2PfE1nEJM33qkk5irjulh4oc19WfJd0VLOsdD0QnQVKH1G75pX6gxT31zB
+ 5P0pY7RAFYLcHFGO440gC92+1xS2E6p/PgUf4MlfFsEkEQmMjOw5EWlYP9StstAgNiqA
+ 7zQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738936769; x=1739541569;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=hkR9wNKJuVrn2xXLtp0xWMIVzcU5W5qY2aQJeG+PYo0=;
- b=Hor2K9SjOBY47l2002LCVCQou7ldqRKMj4xVbLmyte0s5YPKFXPhQQ9Nf9E5U4hw9y
- uzhXmH1k/a1fmXjQG0GuOblC80IUcUkJ63v3oMl+pTse2BFVC9vjOZkNHx5sHS+3ofp9
- ny+r5dBBpOrhtc2QRZAW22jwl637Y+i8paky4FfWVOHggn+INP0F+Gjr85Krb1v1fxNl
- 4s1di9WSsSToQRdCGOL19ZzxypYwhUaWXkoOp1QgzwP/hBgLupoFnb9eSXoIyrXol18D
- WWykFD15XMbkk0bM3R3/y25Buv8AxLxJtk9gmZT0nDYbTadxLaoBzNkj28dpr327iYX8
- jP1g==
+ d=1e100.net; s=20230601; t=1738936948; x=1739541748;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=InbuS/CYzZdN7pnMEKIr+CtCUcWjZ9PfYIqG/HLZbPg=;
+ b=lAa+E8oKe8VCbs+dkgcnXCwEJv7T5ydCBPJOQvChrQWxM8O2yndQsUYoz6iYyuivpq
+ RoOEDMx2oOb+62mJ+vWk7/rkuFppHsYcfN07jA8NlfHNRvO0AJk3y51AZ0tCnJXOuXyg
+ /XqdxoP6/G4V0P5FkGGlJdOg4TDmB8kh8KldcsdvVgqEYcP+mVXDLyxit2pG82tg493b
+ gl3ZWiu01GCZTE/bsxgu/FbD9RxK9pDwx0F45EUEKFk2/mOYRkS7Lun4CnPTPhCKjn1V
+ uAWfL0RFK4cFWW0l2nC1mbuxtgK+wrHED74DVTHtG7CZzJUqOs015gS3F+zOZT1M2Wms
+ iyjQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzEybXaHA3mvy71u6ASCxyoEfbVsB7FT9xRi9u1fUKuvbNFIeAWuigIa2VOJdvFSxP7q5RgzTaQDI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyms+Pgue3T3kscRHACNo3mEepWpvEktDang2xduWNhgTNtyKzR
- huYTRPOgJa/s7cqOfwiWEGxGhhovc69XshOu8HoWekMg6x8f3/kTr9VMhJsybP8=
-X-Gm-Gg: ASbGncstv2LIunCNCbzwo77JYQwzg5oeCp0cmsfzOkqYCpJxwgy8oheujfrC1RLfskt
- DC1RSuXwtlbOr/eCMQ38Qhq1DLQgC/X23/pVjat+La3c0p+aU2z7kV7JvL1Etnek1JnSRu437d5
- /7Tgu5A7v2M81yci3XnSDmvw4ylTdxNJrqlq85GUzeczzNPsrHVEqhoMubidvp+P2xjK8Z/tnO1
- flzeKYahyl2eJP3tLKM4hsCRyblvLIqqTb0IPmu2keci2DJLt60ndChDvMau2zxLFmUXcENl3eB
- 9i4SEsGxhlsiUBso9JanLCNuYmj6rkPmWDyA4XCfgy+whBY+BzStNkhUE8Z1ddFnpsLm
-X-Google-Smtp-Source: AGHT+IFaHTGIHzKLUvnWz9+Y5u7+raJr/5Kf7pvr1qGvrp3QDa8oLg2Fjp7WNSzvc3RsTpW1NE2RGg==
-X-Received: by 2002:adf:e60b:0:b0:38d:b52d:e11c with SMTP id
- ffacd0b85a97d-38dc994edbfmr1754061f8f.15.1738936769612; 
- Fri, 07 Feb 2025 05:59:29 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:5b26:96be:712e:30cd?
- ([2a01:e0a:982:cbb0:5b26:96be:712e:30cd])
+ AJvYcCVTZG94HetOfz0QsCHGIeH/OxP1rhfminZrqqUAtlyRQs7iZnESA37CG+ERVmh0fXZydJyhwdlaBiU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDV+L+Bj87AI5AMO/AOQVOxUERX8DB2gjskDEbGODB8GtTzGUN
+ URqZKjnok2L+Rh3f62fSoMzQyumRpSMPt+xEez9oZR9zlCiP1bnzOoYoa/W5Ppo=
+X-Gm-Gg: ASbGncs7icSiUMbOj6rBIGingluHWXNUietbumGnPpar3DmmkfbWfQNgn9DwXgS6FXQ
+ 9wys9o56e3SJ7WYfuLv140dersFIr06KPjt79NLj9Uix5mTIOXbTODoA+t83R37XjQHMXQhjppX
+ zZgYJsY0OT+AoAH20M/WZTEf1qlsu+S3iC1z8+9stuYLKUPBZtDU37GJgFJv+PO2ma+Wvv4wU6m
+ wtX8Ut4BfWZrfZ6YmEQpVpFV9Dlz1WiJV/IzSoWoAmOiqcJt94HeH7/B0FgJsKoTuYihZho8uIU
+ 7jsXUkdhSEk+A4Llh1ku9NbJiT/+vYNvbYf5
+X-Google-Smtp-Source: AGHT+IGixxfp2vVnu0wNY2WrQxScXmsEJRpI+NlNtNPSw4o2xKrKS7GRX+gjA8je7436JMFa8YwqLg==
+X-Received: by 2002:a05:600c:35cb:b0:436:a3a3:a70c with SMTP id
+ 5b1f17b1804b1-439249b2cfbmr26167995e9.28.1738936948229; 
+ Fri, 07 Feb 2025 06:02:28 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38dbdd1af07sm4646491f8f.15.2025.02.07.05.59.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2025 05:59:29 -0800 (PST)
-Message-ID: <ec30d033-f53b-4d71-8c36-b6448879b691@linaro.org>
-Date: Fri, 7 Feb 2025 14:59:28 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ 5b1f17b1804b1-4391da9652bsm57384605e9.2.2025.02.07.06.02.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Feb 2025 06:02:27 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 1/2] dt-bindings: display: qcom, sm8550-mdss: only document
- the mdp0-mem interconnect path
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Maxime Ripard <mripard@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Sean Paul <sean@poorly.run>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-References: <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-0-852b1d6aee46@linaro.org>
- <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-1-852b1d6aee46@linaro.org>
- <173893208278.4072473.6097194764742914829.robh@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <173893208278.4072473.6097194764742914829.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH v2 0/2] dt-bindings: display: qcom,sm8[56]50-mdss: only
+ document the mdp0-mem interconnect path
+Date: Fri, 07 Feb 2025 15:02:24 +0100
+Message-Id: <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v2-0-f712b8df6020@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHASpmcC/52NQQ6CMBAAv0J6dk2pFtCT/zAcoF1gE92SbkMwh
+ L9beYLHmcPMpgQjoah7samICwkFzmBOhXJTxyMC+czKaGO10TWkMJMDeTer1fD2IkCcMLrAjC5
+ BT+yJR4GBVvD+VtvBmIvXVuXiHDHr4/ZsM08kKcTPMV/Kn/3vs5SgobGmL33VIV6rx4u4i+Ec4
+ qjafd+/kOYojOcAAAA=
+X-Change-ID: 20250207-topic-sm8x50-mdss-interconnect-bindings-fix-dd975f223d05
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1360;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=yHmpriYTThEulo6xT9RHvGEqSO7uKIIyE1xA3fKVsy8=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnphJx9MTyEErowqwBRaSGtJfWWc4eXnA12SCLXliH
+ XBvP4GqJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ6YScQAKCRB33NvayMhJ0SWjD/
+ 9nJtrSWVCNZt7y5dqdR0Pp4pdlGN62cvsLbDQWSdEqiWdpIB7X+az0j03zA9PESyf5A8z7+CuAaZ+l
+ tppmpfNoYnIGrvZsNphVxY7Zdah458L/B+ICXhMilgSpXwF/KoDHeGjYBa4lOFCEUQyyDID9WNqXCh
+ +W+YHPwCitfohGL6SyIK2JwxYWzCFSxryjK+dR4BHgl+lpR2mji2iYV0z4hvH/AuuqPnvo2xwKn5cB
+ 4Mh0+osbG8BOoefF9Tb1wCfDjq8SCd0lArr1xruGwVuu0W0teHygXaXl0Xq5MRCoWVjNFAe/spvwEX
+ dyWPE3Y0mEvROqrDVLvY1FGbqgDBeqwZS4etuoCpifaJXanako4XLpQRXpXJ35iUBceeYyzjJDy1K0
+ Fy7y+lY5B8aS4YTyDeC6BEPyr43i3MWKnI9V08Oh06oJXsMbb+cGo05GIzJ1dIl0X+tbhgEwvk0JXK
+ z1uPTbq1ExxCD3DQ/uWYo+OUWgKsiVCBVRmb0yKt7qECvNnyh62qysBjdxj7I5bfB6Bfa9ghfxX7Cl
+ n+keYwI1rafwusC0WCtHYvRTpKCAZgKWR0Eb/yYFgKA7S+UW+UWDcBL+KfEa9Gg1H0nB1RH5sYSlnE
+ wYimISrkGJEwa/A0ZUlwQvv2CkJFFPlYTi/L2Jk+EmwGfeXyGlB930r6HpVg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,51 +114,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 07/02/2025 13:41, Rob Herring (Arm) wrote:
-> 
-> On Fri, 07 Feb 2025 11:50:37 +0100, Neil Armstrong wrote:
->> The mdp1-mem is not supported on the SM8550 SoCs, so only support a single
->> mdp0-mem interconnect entry.
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.example.dtb: display-subsystem@ae00000: interconnects: [[4294967295, 3, 0, 4294967295, 13, 0], [4294967295, 0, 0, 4294967295, 1, 0]] is too long
-> 	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.example.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem', 'mdp1-mem'] is too long
-> 	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-1-852b1d6aee46@linaro.org
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit after running the above command yourself. Note
-> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-> your schema. However, it must be unset to test all examples with your schema.
-> 
+The mdp1-mem is not supported on the SM8550 & SM8650 SoCs, so only support a single
+mdp0-mem interconnect entry.
 
-Damn example, went too fast...
+This fixes the following errors:
+display-subsystem@ae00000: interconnects: [[200, 3, 7, 32, 1, 7]] is too short
+        from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
+        from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
 
-Thanks,
-Neil
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- fixed example in qcom,sm8550-mdss.yaml
+- Link to v1: https://lore.kernel.org/r/20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-0-852b1d6aee46@linaro.org
+
+---
+Neil Armstrong (2):
+      dt-bindings: display: qcom,sm8550-mdss: only document the mdp0-mem interconnect path
+      dt-bindings: display: qcom,sm8650-mdss: only document the mdp0-mem interconnect path
+
+ .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml        | 9 ++++-----
+ .../devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml        | 4 ++--
+ 2 files changed, 6 insertions(+), 7 deletions(-)
+---
+base-commit: 808eb958781e4ebb6e9c0962af2e856767e20f45
+change-id: 20250207-topic-sm8x50-mdss-interconnect-bindings-fix-dd975f223d05
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
+
