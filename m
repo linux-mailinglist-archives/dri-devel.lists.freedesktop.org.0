@@ -2,85 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D24A2DDDA
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 13:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEB5A2DE2F
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 14:55:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE7E310E3F8;
-	Sun,  9 Feb 2025 12:43:11 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JZ6lHdyU";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B6510E497;
+	Sun,  9 Feb 2025 13:55:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF7B910E31F
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 12:43:09 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-543e4bbcd86so4019094e87.1
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Feb 2025 04:43:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739104988; x=1739709788; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9gsXK1c1HmBF0r91iHeQ51YNAu0JZcecPSTcAdGkjgo=;
- b=JZ6lHdyUAv5h8a+UtwZldMDZrjvjfGt5RAm2BdlvPYjmoJT6kTnBQXBHEjiFVb+zZv
- wRJ22YBYzoevutgrXaRs7eS+6BfPSGhgXz7SCU+Yj5sHAcbfVXm5BSOUI+LsINzGA1gS
- 7Bp/p8mBnrv5wlO6QMRpkgYp9Z5MVDf1LCzvpXHwUDlZ5i+LOaTQWnpz8ED3aUJb/mNj
- YdYIZ8UhpwrLj2o+R+HDTWhzi1VGhYYmBEfsenmQs0PAkGcyRid5opAhaDQ8+Tp0jalD
- IQJsMnWzkHHbCHHBFzVXFDSQKqdBLa4trkUzgEsL4jZhn3EiuV9Jvo3RxWpcoC/RBlYV
- zPCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739104988; x=1739709788;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9gsXK1c1HmBF0r91iHeQ51YNAu0JZcecPSTcAdGkjgo=;
- b=pNsL/WQk86lwT1Za49oKMaXXVwu0ptg3gBz5hVxcIW1QW5y1O3EO3XKs5mBj8+kDRI
- 1PK8yPzRmPZleK6IVWOkLY0+JyY7JlqvA44NQkVdl3fUUDlGQJo9iQsxc/JpGx5pWp0V
- ROqkNcwGfGZjsv6WTHjtOQ8wVAePUDwNZGpDAwvgAIcui2iQ42zIAWTKxr/hUbxaX+TG
- d6GKAHRH9AowmMydx8wXRtkSLLw4822YUAjL2HOEPkel65XxSuUGAKKhKbHGI/ktjZYL
- iW/dpBOya2tUNa0+9ELQ6gY/Da3MdGuXL2Fni0brBvTUkaZVRunvDpPaHozCVAW/bdkn
- EciA==
-X-Gm-Message-State: AOJu0Yyx3e2qb9FlrMeeSbftyfmEVVwbexQDFF0XMF5bxDJf5MfqV7/z
- la9dbHBT1XZ4rpDUWcA/1C6Am2B7HjJD78VkQ7h+m3ddXAk14HAYKVHPqR6XUjg=
-X-Gm-Gg: ASbGnctsnDyblwg/Y/7Iy2b8sK63kC1X9nCfgSEbsgzEOY+ztDqYhz6+eKNylX2tYfa
- SbrqUK6iWZm2cUPGuxpmdB4kXp7ldjqnCFo7AiW8RKLsfWcdjyT14XuR5pkwSramvUffzJfJ8A9
- ItNWBw2UIkla+K9IHEZS69nYWOapg/Fh4lNJORdqb3rbbXaw57im/vVDBbO7BGZWXAfLPf1tg9x
- RED9164ycoCDuQI5a182/+2SM4W0zeOJqnhgseziWN9PSPqAktL0Prn/v6KAeCA+WdOWAqEMlJs
- v4hVaJbyzL6xXL6XCPK6/7xHWfHVoZNM5nHXj/y8Yix6BYbmOW1BfJJykvNIKD3tBVG+gZE=
-X-Google-Smtp-Source: AGHT+IGo53O+US6XScRqpOTQ1EFQWQ3fdSrf5MEgBBs2ShlxBiJl7TtgukYGj4l7WJRi3NjYq3C2SQ==
-X-Received: by 2002:a05:6512:a8b:b0:545:ba7:26f5 with SMTP id
- 2adb3069b0e04-5450ba727f9mr302724e87.46.1739104987991; 
- Sun, 09 Feb 2025 04:43:07 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5450a1fbfc6sm146222e87.92.2025.02.09.04.43.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Feb 2025 04:43:06 -0800 (PST)
-Date: Sun, 9 Feb 2025 14:43:04 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm/bridge-connector: handle subconnector types
-Message-ID: <k5ziaxb3jgqfxd3wadi4irk6kbtawudzkkatcmr635gidw6tf5@i62xyzbv2gyx>
-References: <20250117-subconnector-v3-1-1e241c13e576@linaro.org>
-MIME-Version: 1.0
+X-Greylist: delayed 1177 seconds by postgrey-1.36 at gabe;
+ Fri, 07 Feb 2025 12:36:48 UTC
+Received: from wind.enjellic.com (wind.enjellic.com [76.10.64.91])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CB50110E322
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 12:36:48 +0000 (UTC)
+Received: from wind.enjellic.com (localhost [127.0.0.1])
+ by wind.enjellic.com (8.15.2/8.15.2) with ESMTP id 517CGfoY007959;
+ Fri, 7 Feb 2025 06:16:41 -0600
+Received: (from greg@localhost)
+ by wind.enjellic.com (8.15.2/8.15.2/Submit) id 517CGcXR007958;
+ Fri, 7 Feb 2025 06:16:38 -0600
+Date: Fri, 7 Feb 2025 06:16:38 -0600
+From: "Dr. Greg" <greg@enjellic.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Hector Martin <marcan@marcan.st>, Dave Airlie <airlied@gmail.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ phasta@kernel.org, Christoph Hellwig <hch@lst.de>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ daniel.almeida@collabora.com, aliceryhl@google.com,
+ robin.murphy@arm.com, rust-for-linux@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bj??rn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Valentin Obst <kernel@valentinobst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+Message-ID: <20250207121638.GA7356@wind.enjellic.com>
+References: <20250130154646.GA2298732@nvidia.com>
+ <2025013030-gummy-cosmic-7927@gregkh> <20250130172437.GN5556@nvidia.com>
+ <2025013148-reversal-pessimism-1515@gregkh>
+ <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+ <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
+ <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
+Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250117-subconnector-v3-1-1e241c13e576@linaro.org>
+In-Reply-To: <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
+User-Agent: Mutt/1.4i
+X-Greylist: Sender passed SPF test, not delayed by milter-greylist-4.2.3
+ (wind.enjellic.com [127.0.0.1]); Fri, 07 Feb 2025 06:16:41 -0600 (CST)
+X-Mailman-Approved-At: Sun, 09 Feb 2025 13:55:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,47 +73,104 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: "Dr. Greg" <greg@enjellic.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 17, 2025 at 11:50:50AM +0200, Dmitry Baryshkov wrote:
-> If the created connector type supports subconnector type property,
-> create and attach corresponding it. The default subtype value is 0,
-> which maps to the DRM_MODE_SUBCONNECTOR_Unknown type. Also remove
-> subconnector creation from the msm_dp driver to prevent having duplicate
-> properties on the DP connectors.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
-> This is a leftover of my previous attempt to implement USB-C DisplayPort
-> uABI. The idea was dropped, but I consider this part still to be useful,
-> as it allows one to register corresponding subconnector properties and
-> also to export the subconnector type.
-> ---
-> Changes in v3:
-> - Rebased on top of linux-next
-> - Drop subconnector property from msm_dp driver
-> - Link to v2: https://lore.kernel.org/r/20230903214934.2877259-1-dmitry.baryshkov@linaro.org
-> 
-> Changes in v2:
-> - Dropped all DP and USB-related patches
-> - Dropped the patch adding default subtype to
->   drm_connector_attach_dp_subconnector_property()
-> - Replaced creation of TV subconnector property with the check that it
->   was created beforehand (Neil, Laurent)
-> - Link to v1: https://lore.kernel.org/r/20230729004913.215872-1-dmitry.baryshkov@linaro.org/
-> ---
->  drivers/gpu/drm/display/drm_bridge_connector.c | 28 +++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/dp/dp_drm.c                |  3 ---
->  include/drm/drm_bridge.h                       |  4 ++++
->  3 files changed, 31 insertions(+), 4 deletions(-)
+On Thu, Feb 06, 2025 at 09:58:36AM -0800, Linus Torvalds wrote:
 
-It seems this isn't getting any response. Also we don't have (and don't
-expect) DVI-I and TV bridges. Let me merge DP part to [1] and drop other
-parts.
+Good morning to everyone.
 
-https://lore.kernel.org/linux-arm-msm/20250206-dp-hdmi-audio-v1-0-8aa14a8c0d4d@linaro.org
+> On Thu, 6 Feb 2025 at 01:19, Hector Martin <marcan@marcan.st> wrote:
+> >
+> > If shaming on social media does not work, then tell me what does,
+> > because I'm out of ideas.
 
--- 
-With best wishes
-Dmitry
+> Because if we have issues in the kernel development model, then
+> social media sure as hell isn't the solution. The same way it sure
+> as hell wasn't the solution to politics.
+>
+> Technical patches and discussions matter. Social media brigading - no
+> thank you.
+
+I truely wish that technical patches and discussions were the currency
+that matter but I believe we are struggling with that, at least in
+some venues in the kernel development process.
+
+No one should construe that statement as an endorsement of berating
+people on social media as the 'fix'.
+
+I come at this from the perspective of having worked on Linux since
+around December of 1991.  I first met you and Tove in 1995 at the Free
+Software Conference at MIT that Stallman sponsored.  When we first
+met, I told you that cancer patients in North Dakota were enjoying
+more time with their families because of what we were able to do with
+Linux and optimizing medical processes at our Cancer Center.
+
+RedHat paid me to speak at a number of conferences in the 90's talking
+about how Linux was going to dominate enterprise computing, given that
+it was about technology people doing the 'right' technology thing.
+
+I'm seeing things that make me regret those words.
+
+Probably the last technical contribution of my career is leading an
+initiative to provide the Linux community a generic security modeling
+architecture.  Not to supplant or replace anything currently being
+done, but to provide a flexible alternative to the development of
+alternate and/or customized workload models, particularly in this era
+of machine learning and modeling.
+
+Four patch series over two years, as of yesterday, not a single line
+of code ever reviewed.
+
+For a contribution that touches nothing outside of its own directory
+and does nothing unless people choose to execute a workload under its
+control.
+
+We were meticulous in our submissions to avoid wasting maintainers
+time.  We even waited two months without hearing a word before we sent
+an inquiry as to the status of one of the submissions.  We were told,
+rather curtly, that anything we sent would likely be ignored if we
+ever inquired about them.
+
+We tried to engage, perhaps to excess, in technical discussions
+attempting to explain why and how we chose to implement what we were
+proposing.  Including input from advisors who are running production
+IT systems that feel that there needs to be better approaches to
+addressing their security needs.
+
+There were never any relevant technical exchanges.  The discussion
+consisted of, we have decided to do things a certain way, no
+discussion, if you don't like that you should really consider doing
+something other than submitting to upstream Linux.
+
+The all powerful sub-system maintainer model works well if the big
+technology companies can employ omniscient individuals in these roles,
+but those types are a bit hard to come by.  Lacking that, there is the
+tangible risk of stifling innovation and Linux is the only place that
+innovation can occur in the operating system space.
+
+Not sure what the fix is, from a project management perspective the
+technology industry has never faced a challenge like this.  The fork
+model, which was the classic protection in open-source, doesn't work
+at this scale.
+
+We have a Code Of Conduct that we can't scream or hurl four letter
+words and insults at one another.  Maybe it already exists but a Code
+Of Standards for maintainers would seem to be an imperative if we are
+going to move forward productively.  Jim are you listening?
+
+Obviously respect and open-mindedness to new ideas appears to be the
+grease that makes all of this run smoothly.  Unfortunately that seems
+to be about as rare a commodity as omniscience in our industry.
+
+>                  Linus
+
+Linus, best wishes to you and your family, it has been a fascinating
+ride and thing to watch.
+
+As always,
+Dr. Greg
+
+The Quixote Project - Flailing at the Travails of Cybersecurity
+              https://github.com/Quixote-Project
