@@ -2,69 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3B1A2C9E9
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 18:14:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542DDA2CA43
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 18:35:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5802510EB86;
-	Fri,  7 Feb 2025 17:14:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7963E10E0A5;
+	Fri,  7 Feb 2025 17:35:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EB4qZguv";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="hnHtEVv/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47BA010EB81
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 17:14:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2D4DD5C709B;
- Fri,  7 Feb 2025 17:14:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9F4C4CED1;
- Fri,  7 Feb 2025 17:14:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1738948481;
- bh=u/ED8JNnC1UQpHwKYWpyVLSbIfd3idX0j4jpEDRD/Po=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EB4qZguvpalT0C0z5a/gmU1Fx/oGkxoHt7O7oT5NG1M+IgG+gErAElJCoutxyOcyX
- A5ZLVUwf1kS+TT68/W3kyrxczesNU++Zz7xX8hX2jqAVzSKXaZrc4qpBW5aQgmXsep
- naRvC6qJ9IxhQQE4HYjYFv54gzi1+cJhRLxSN7nY=
-Date: Fri, 7 Feb 2025 12:14:36 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@gmail.com>, 
- Jason Gunthorpe <jgg@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>, 
- Linus Torvalds <torvalds@linux-foundation.org>, phasta@kernel.org,
- Christoph Hellwig <hch@lst.de>, 
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- daniel.almeida@collabora.com, aliceryhl@google.com, robin.murphy@arm.com, 
- rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- Valentin Obst <kernel@valentinobst.de>,
- open list <linux-kernel@vger.kernel.org>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com, 
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
- coherent allocator abstraction.)
-Message-ID: <20250207-mature-pastel-rottweiler-e6dbd9@lemur>
-References: <2025013030-gummy-cosmic-7927@gregkh>
- <20250130172437.GN5556@nvidia.com>
- <2025013148-reversal-pessimism-1515@gregkh>
- <20250131135421.GO5556@nvidia.com>
- <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
- <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
- <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
- <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
- <Z6UPXxEJYpanU9iU@cassiopeiae>
- <4c0a7cf9-26e1-4a19-8a6e-7c30bc3aef86@marcan.st>
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D05E610E0A5
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 17:35:33 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9EC09440D9;
+ Fri,  7 Feb 2025 17:35:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738949732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4ZUytWx1X90zILHzGvQK2F6yAceU2vb6VYDGKjKPPRs=;
+ b=hnHtEVv/UDBt3jbjcFlewBQru7TPTEOvfgKEho/fpfT+0YcLD8NxBaYSPR8RgUUB7sOCWD
+ xUZZriO0J65ey8PhHHWswIeWT2sjJqW5o1ChcY8RXS+bwaLQSMA1ih1rkONQostZdQLdVH
+ LW8CnA5lzULRutTXICWX+hP7nvOZBZDVlOo6wxOe1GNyXo4Lw9QqjzraDksKIyQ7R29Pkz
+ npXi1Iyfg3V8ENUTwiceVUT/rm+hCChdYtIzrE4WV/yJ07fPU03IQYP3xaXYFBv6gvyOEu
+ QZAB/hA/ftE8n3x2h5PrXpWTucgG5NUY3NlDy/A3yniktwpWJFr+XCZsvjWJ+w==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Date: Fri, 07 Feb 2025 18:35:22 +0100
+Subject: [PATCH] drm: writeback: Fix kernel doc name
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4c0a7cf9-26e1-4a19-8a6e-7c30bc3aef86@marcan.st>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250207-b4-fix-warning-v1-1-b4964beb60a3@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAFlEpmcC/zWMwQ6CMBBEf6XZsxtLRZvwK4ZDKSvuoUV3q5IQ/
+ t1G4m3eTOatoCRMCp1ZQejNynOu0BwMxHvIEyGPlcFZd7bOehxavPGCnyCZ84TtqSEbvL34QFB
+ PD6E6/4TXfmeh56t6y17CEJQwzilx6cwoCRNrPP4DZloK9Nv2BSd9kieaAAAA
+X-Change-ID: 20250207-b4-fix-warning-431e0a7067ae
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1542;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=ZSeFJ5s7h9H4h1vWKcrHDe486NE/gA0glP6kRILFSiY=;
+ b=kA0DAAgBIK0uxlsQLOIByyZiAGemRGKjbMj3X7Wannq+Fl7bfXN77fGzJAJVdWt0UaANvNaiU
+ 4kCMwQAAQgAHRYhBE+PuD++eDwxDFBZBCCtLsZbECziBQJnpkRiAAoJECCtLsZbECzi9gkP/RK6
+ wb9QjbIg6RWy4wiN7Azfp8hSE7F6Q85cNVHoX7HJ2QFRZkwFfwPco2wjOA89Yhp6fTDYSzjT/Bw
+ Bd/0QGTm/B4Sn8h+/Hhm9Y4lbQp72H6c8mV6CVelwYa5Mc7kpp+NeCh03DpkARcnYHaOJa28Ufg
+ AKOwHL/VS4V9HhWXDw3ZJbI4mjG4usIYLI2fxYGZT7ziDVbUE8f/A1JkBHQCKVsAAB/DLWEmvsR
+ gOwQMcmixXyasEh8BYluea7DteGesJBuvRPhh4mwKHxIhlV8Y46Ps6DrNr2iKpwRgX4gqIwbdci
+ bZ0XmAvvc2J3mvXIgBnLqFho68Z4L5w1h/SxS6fkVcTYipx0H1lUcaWKQ8G1G33vyHM4Aw832tk
+ +XjnhaScH4tJTcnJINtjNFkT86ga/tzx5HSUS5xx0MZTdOWVEskI6+IC2x/cvM6t3ZzIJ/zXD/a
+ REHd3LWHfmWoO0B++wgT1esJoSLsESjjJ/7hrb6G+KD/YM8CL7Ldj6vpoKeHhGONkZcCHun14Ua
+ AKOpDcPLLJ0xAX4L7OI6zoCYV6rOf5MPOe+3pmSbIoqHmSLVi8AVyeU85AeT0KzwWqlbKml5XDE
+ t8aRvZ6G8+87jqbK39NbPkNWdXEhjh35CfOknMY6zfbc9VIkG/gOs3lf2IySuT9R3pYj5t5Qy3W
+ BLjvO
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleeklecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfehtdejkefhtdetfeetgfeiffevleeuvdeujeelveefveegvdejveehheffhefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddtpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhfrhestggrnhgsrdgruhhughdrohhrghdrrghupdhrtghpthhtohepthhho
+ hhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,59 +84,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2025 at 05:16:28AM +0900, Hector Martin wrote:
-> And what I see, is very little effort to improve that status quo, or at
-> least very little that yields any actual change that isn't just
-> band-aids (e.g. tooling like b4, which is nice and appreciated, but
-> doesn't fix any underlying issues). And that's not going to change no
-> matter how many long technical arguments we have on the MLs (or even off
-> MLs, since MLs are also not particularly good for this, and I've seen
-> multiple arguments only reach a resolution after being redirected to IRC).
+During the creation of drmm_ variants for writeback connector, one
+function was renamed, but not the kernel doc.
 
-From my perspective, there are several camps clashing when it comes to the
-kernel development model. One is people who are (rightfully) pointing out that
-using the mailing lists was fine 20 years ago, but the world of software
-development has vastly moved on to forges.
+To remove the warning, use the proper name in kernel doc.
 
-The other camp is people who (also rightfully) point out that kernel
-development has always been decentralized and we should resist all attempts to
-get ourselves into a position where Linux is dependent on any single
-Benevolent Entity (Github, Gitlab, LF, kernel.org, etc), because this would
-give that entity too much political or commercial control or, at the very
-least, introduce SPoFs.
+Fixes: 135d8fc7af44 ("drm: writeback: Create an helper for drm_writeback_connector initialization")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/all/20250207142201.550ce870@canb.auug.org.au/
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Hi,
 
-At best, I can hope to make both camps grumpily agree to coexist.
+I don't know the process to merge fixes for commits in linux-next. If I
+should apply this patch, where should I it be? drm-misc-next-fixes and
+drm-fixes does not contains the problematic patch.
 
-I *am* very wary of Benevolent Entities, because we have too many very recent
-examples of companies "realigning priorities" when political winds shift.
-Programs and initiatives that have until recently been poster board examples
-of progress and benevolence are shuttered and defunded. I am concerned that
-we're only a couple of mood swings away from someone deciding that free
-software should not be allowed to exist because it benefits America's foes.
-Many of us remember all too well when large tech giants treated Linux as a
-"cancer" to be opposed, and I can certainly see that idea easily re-entering
-some Big Brain in Charge.
+Thanks,
+Louis Chauvet
+---
+ drivers/gpu/drm/drm_writeback.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-From my perspective, I would like to ensure that Linux development can
-continue without a hard dependency on a single centralized forge -- whether
-controlled by a large commercial entity, or even a standalone one that is
-operated by kernel.org. It's becoming shockingly difficult to operate a public
-resource on the web unless you're willing to put it behind a large commercial
-CDN that will protect you from hostile bots (and if you do that, you're back
-to depending on the whims of a Benevolent Entity).
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index 3628fbef77524a7390b3929896a20f1c0a82117d..b14dafe765a148bbde70fcfd1a49cfea9baa9fea 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -213,7 +213,7 @@ static void delete_writeback_properties(struct drm_device *dev)
+ }
+ 
+ /**
+- * drm_writeback_connector_init_with_encoder - Initialize a writeback connector with
++ * __drm_writeback_connector_init - Initialize a writeback connector with
+  * a custom encoder
+  *
+  * @dev: DRM device
 
-We're trying to get lore.kernel.org to the point where it's like a global
-messaging bus that is indexed and searchable. Currently, you mostly have to
-send things to a mailing list for them to end up on lore, but it's gradually
-becoming less and less the case. We're already bridging with bugzilla and we
-should be able to bridge with forges soon, too (currently delayed again
-because I'm scrambling to move kernel.org frontends away from Equinix). Who
-knows, we may be actually leapfrogging the forge era of software development
-straight into "AI" agents era -- but that remains to be seen.
+---
+base-commit: 2eca617f12586abff62038db1c14cb3aa60a15aa
+change-id: 20250207-b4-fix-warning-431e0a7067ae
 
-Anyway, all of this is to say that I'm happy that you've found b4 useful, but
-I wouldn't view it as a band-aid -- it's just a very small and email-centric
-way to interact with the kernel lore.
-
--K
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
 
