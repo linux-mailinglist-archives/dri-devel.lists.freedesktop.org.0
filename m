@@ -2,95 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7C5A2D082
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 23:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2F8BA2D151
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 00:11:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B10F510E333;
-	Fri,  7 Feb 2025 22:31:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7666C10E2BB;
+	Fri,  7 Feb 2025 23:10:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="TJb4ywXT";
+	dkim=pass (2048-bit key; secure) header.d=usp.br header.i=@usp.br header.b="BeyUOqin";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43EC410EBB5;
- Fri,  7 Feb 2025 22:27:56 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 517BOMtk002713;
- Fri, 7 Feb 2025 22:27:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5lPC13qXy/t9GVRtCeGJjNuvKJ0OLZfB85VhYQTRLQ4=; b=TJb4ywXTbDefUToZ
- ULj7IqmirWdKNrgusa2AiNCLldEEcLWRGLP9xKBjGTKS+emBuxpetqiM1GfMkhiX
- HZJDIHZryzVYKo+Z750n5HPmKIRXNP7FsbJU7dFAK8J7FT954v2miSNfLEtflJbK
- iwSUof/ZT63i59yoVTrDHRTu+IB7DSYLuUmZxXV3jhs1wxOiXC/TVk/6Okpn5kCC
- GOwmfS3glRvFJ8n90GnzZkqyjXijuSPpgEYZO2sMynlkSrsZP9kZQxEuzWCuY0Hx
- DUe5q5bblGqG4u38ETeIM/zNzUcADTCvLAn8ib37m7eacxNVZE4ZIfRw4WPlJObI
- 2Ilglg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44nh8ush7c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Feb 2025 22:27:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 517MRhtV027198
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 7 Feb 2025 22:27:43 GMT
-Received: from [10.110.94.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 7 Feb 2025
- 14:27:42 -0800
-Message-ID: <18be3d32-c643-42de-bb7d-165b409c8b24@quicinc.com>
-Date: Fri, 7 Feb 2025 14:27:41 -0800
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABE8A10E2BB
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 23:09:05 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-21f40f2bafdso30880385ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 15:09:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=usp.br; s=usp-google; t=1738969745; x=1739574545; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=7itLWNOOesTKf4Ww18TYb8sd6LtUmZCMFxKOUAFYSuE=;
+ b=BeyUOqin77Xs3Ria1t1JScOwgUze/FzGEh8/GWuyEzicUpf/6Kq0/W54pU3f9YxqiQ
+ QiCdFeQl6vEm6zei2IyJ1iOT6bfr9W0Vzkrs3OdkrodGRsXJ8xjcsSUeANwPEDj1Wzcp
+ JWldh7Ukg1tK8IYrVRJZNPaSfDMCGWlODQMC627YQenL+2gN1z+zm0TGGA+jHpzFOuUh
+ b6MPnlMT+qYwfrYoM6frYi2YXlX1bAgEoj5PKcuYXUya2ze51/L4FYPa6ppEhKXzjHvV
+ 7DKdbO7f2k9OIEGIdMss3axHS8JgLVZRqFQoEnNgZbG9MWs8TKbfRxRHBbqzkPvI09e8
+ qW6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738969745; x=1739574545;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7itLWNOOesTKf4Ww18TYb8sd6LtUmZCMFxKOUAFYSuE=;
+ b=auAc04N/FrWNvXzQc/kxQFZRdw8L3psknIbUTt2fbO2nexmlYhV+fzwKbIpQzsIllu
+ Tw3TI2ajl2NA5nX+7BiZInOdo2TYvVYGT2hZtG3ypAsHohruGMsYvitrpPO3+UfZyxsD
+ awI1sxHNai6+RyjML///8fo8gSe+d/uwB1BGPe6OP8KVKMfi9gxgGUixPxKR75x1mNJF
+ 3E51+DfNmNWgC0Z38m63XWNj3f1+38dAYrA/JEjh17h0IUlyl7sbAg91tdxG7pRBm0xj
+ wGkJYwvjlavBdNX2jrVbjaXiuK/U7sDsg20cufpXR5/25ado809PoaMFO1nZ1qSM6t38
+ 13Qw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUTIzziNdvinGVuRUuX/LMoOSihqHI05N3BMr4qF9NxA0GYILO8p5C5fAE8iQovYd5KzpiA7w1O87U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxe6M/K65ZQyPxh+vuyrnbyAXdyEm1odjsUSSh0ZloGREnonvza
+ oUzW11pfssKdMh30zdU/1haN81bOKPSqtkDmbTJkYvaHw/+yH2sIvQXKX4HlVBU=
+X-Gm-Gg: ASbGncvgRFPXHkDZyTWKomoFBjpN752jv1KUCT3YO/El/fakxxrpYhrHe20x/GPDEu2
+ oG9HEv2/7RPZveZe/fj5ENxGcdBpZvVbPhdAvD9DbplWkmx8ATGG1OEljPcs9Va1lwyoc+MIUPg
+ HNg13EsX9HrHaDm45ZFUtWRNXdja3WKVbhPupq3OPunVTw6lDutY9CuG6Ro2Y/m4pgs9MAHFwO+
+ jDauAerHhyvtw4OKSHfVAcGlBKf8L+4Nwk3oLI7Y2RKqMFAobmNG8ok2wjUtUO4l9IKfHUb1XpX
+ 8h49wVrBl/eyfSbvlLxxkZMZceoM
+X-Google-Smtp-Source: AGHT+IEXl22QzQMXB0nHmGdUS22+5l9ZoN72Ao1/+ldZDPRRwMGhgOnQtgKEpZGpe0zuavM7a+ZO3g==
+X-Received: by 2002:a05:6a21:3406:b0:1e2:5cf:c8d6 with SMTP id
+ adf61e73a8af0-1ee03b6f10amr9692798637.36.1738969744728; 
+ Fri, 07 Feb 2025 15:09:04 -0800 (PST)
+Received: from luan-B550M-AORUS-ELITE.. ([191.185.78.175])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-ad51af780ccsm3082758a12.71.2025.02.07.15.09.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Feb 2025 15:09:04 -0800 (PST)
+From: Luan Icaro Pinto Arcanjo <luanicaro@usp.br>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: Luan Arcanjo <luanicaro@usp.br>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v2] drm/amd/display/dc: Refactor remove duplications
+Date: Fri,  7 Feb 2025 20:08:50 -0300
+Message-ID: <20250207230852.10232-1-luanicaro@usp.br>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/7] drm/msm/hdmi: make use of the drm_connector_hdmi
- framework
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Simona Vetter <simona@ffwll.ch>, Simona
- Vetter <simona.vetter@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250124-bridge-hdmi-connector-v6-0-1592632327f7@linaro.org>
- <20250124-bridge-hdmi-connector-v6-3-1592632327f7@linaro.org>
- <c8022a2c-4ed2-494c-808e-eaff3eb5e2ba@quicinc.com>
- <e4ro5wjaormqvzp6l4wyw4wbpjujwdzyvyr2rvqboubhtskhnl@62ygkdvfiwk5>
- <472d8eae-10a6-4b3b-ba1c-f04419cbd202@quicinc.com>
- <6fzkeepidld3wogklg64xmjjqcp5t2u5v7calncvdiqbhusmr5@yw6nbjcelwwm>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <6fzkeepidld3wogklg64xmjjqcp5t2u5v7calncvdiqbhusmr5@yw6nbjcelwwm>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 358tGX785kf2WEoE9g5DdcNyJ_TsQ80K
-X-Proofpoint-ORIG-GUID: 358tGX785kf2WEoE9g5DdcNyJ_TsQ80K
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-07_10,2025-02-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0
- mlxscore=0 bulkscore=0 adultscore=0 clxscore=1015 phishscore=0
- lowpriorityscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502070169
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,649 +87,858 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Luan Arcanjo <luanicaro@usp.br>
 
+All dce command_table_helper's shares a copy-pasted collection
+of copy-pasted functions, which are: phy_id_to_atom,
+clock_source_id_to_atom_phy_clk_src_id, and engine_bp_to_atom.
 
-On 2/7/2025 2:03 PM, Dmitry Baryshkov wrote:
-> On Fri, Feb 07, 2025 at 01:34:35PM -0800, Abhinav Kumar wrote:
->>
->>
->> On 2/3/2025 5:30 PM, Dmitry Baryshkov wrote:
->>> On Mon, Feb 03, 2025 at 04:25:59PM -0800, Abhinav Kumar wrote:
->>>>
->>>>
->>>> On 1/24/2025 1:47 PM, Dmitry Baryshkov wrote:
->>>>> Setup the HDMI connector on the MSM HDMI outputs. Make use of
->>>>> atomic_check hook and of the provided Infoframe infrastructure.
->>>>>
->>>>
->>>> By atomic_check are you referring to the
->>>> msm_hdmi_bridge_tmds_char_rate_valid()?
->>>
->>> No, I mean drm_atomic_helper_connector_hdmi_check() being called from
->>> drm_bridge_connector (inthe previous versions it was called from this
->>> driver).
->>>
->>
->> Ack.
->>>>
->>>> Also please confirm if HDMI audio was re-tested with these changes.
->>>
->>> Yes, although not the channels allocation for the multi-channel audio. I
->>> don't have corresponding equipment. If you think that we should start
->>> testing that, I will check if I can get the 6.1 or 8.1 receiver and the
->>> speakers :-)
->>>
->>
->> We should but I am fine with basic audio validation for now.
->>
->>>>
->>>>> Acked-by: Maxime Ripard <mripard@kernel.org>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>     drivers/gpu/drm/msm/Kconfig            |   2 +
->>>>>     drivers/gpu/drm/msm/hdmi/hdmi.c        |  45 ++-------
->>>>>     drivers/gpu/drm/msm/hdmi/hdmi.h        |  16 +--
->>>>>     drivers/gpu/drm/msm/hdmi/hdmi_audio.c  |  74 ++++----------
->>>>>     drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 180 +++++++++++++++++++++++----------
->>>>>     5 files changed, 162 insertions(+), 155 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
->>>>> index 7ec833b6d8292f8cb26cfe5582812f2754cd4d35..974bc7c0ea761147d3326bdce9039d6f26f290d0 100644
->>>>> --- a/drivers/gpu/drm/msm/Kconfig
->>>>> +++ b/drivers/gpu/drm/msm/Kconfig
->>>>> @@ -170,6 +170,8 @@ config DRM_MSM_HDMI
->>>>>     	bool "Enable HDMI support in MSM DRM driver"
->>>>>     	depends on DRM_MSM
->>>>>     	default y
->>>>> +	select DRM_DISPLAY_HDMI_HELPER
->>>>> +	select DRM_DISPLAY_HDMI_STATE_HELPER
->>>>>     	help
->>>>>     	  Compile in support for the HDMI output MSM DRM driver. It can
->>>>>     	  be a primary or a secondary display on device. Note that this is used
->>>>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
->>>>> index 37b3809c6bdd7c35aca6b475cb1f41c0ab4d3e6d..b14205cb9e977edd0d849e0eafe9b69c0da594bd 100644
->>>>> --- a/drivers/gpu/drm/msm/hdmi/hdmi.c
->>>>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
->>>>> @@ -12,6 +12,7 @@
->>>>>     #include <drm/drm_bridge_connector.h>
->>>>>     #include <drm/drm_of.h>
->>>>> +#include <drm/display/drm_hdmi_state_helper.h>
->>>>>     #include <sound/hdmi-codec.h>
->>>>>     #include "hdmi.h"
->>>>> @@ -165,8 +166,6 @@ int msm_hdmi_modeset_init(struct hdmi *hdmi,
->>>>>     	hdmi->dev = dev;
->>>>>     	hdmi->encoder = encoder;
->>>>> -	hdmi_audio_infoframe_init(&hdmi->audio.infoframe);
->>>>> -
->>>>>     	ret = msm_hdmi_bridge_init(hdmi);
->>>>>     	if (ret) {
->>>>>     		DRM_DEV_ERROR(dev->dev, "failed to create HDMI bridge: %d\n", ret);
->>>>> @@ -254,40 +253,12 @@ static int msm_hdmi_audio_hw_params(struct device *dev, void *data,
->>>>>     				    struct hdmi_codec_params *params)
->>>>>     {
->>>>>     	struct hdmi *hdmi = dev_get_drvdata(dev);
->>>>> -	unsigned int chan;
->>>>> -	unsigned int channel_allocation = 0;
->>>>>     	unsigned int rate;
->>>>> -	unsigned int level_shift  = 0; /* 0dB */
->>>>> -	bool down_mix = false;
->>>>> +	int ret;
->>>>>     	DRM_DEV_DEBUG(dev, "%u Hz, %d bit, %d channels\n", params->sample_rate,
->>>>>     		 params->sample_width, params->cea.channels);
->>>>> -	switch (params->cea.channels) {
->>>>> -	case 2:
->>>>> -		/* FR and FL speakers */
->>>>> -		channel_allocation  = 0;
->>>>> -		chan = MSM_HDMI_AUDIO_CHANNEL_2;
->>>>> -		break;
->>>>> -	case 4:
->>>>> -		/* FC, LFE, FR and FL speakers */
->>>>> -		channel_allocation  = 0x3;
->>>>> -		chan = MSM_HDMI_AUDIO_CHANNEL_4;
->>>>> -		break;
->>>>> -	case 6:
->>>>> -		/* RR, RL, FC, LFE, FR and FL speakers */
->>>>> -		channel_allocation  = 0x0B;
->>>>> -		chan = MSM_HDMI_AUDIO_CHANNEL_6;
->>>>> -		break;
->>>>> -	case 8:
->>>>> -		/* FRC, FLC, RR, RL, FC, LFE, FR and FL speakers */
->>>>> -		channel_allocation  = 0x1F;
->>>>> -		chan = MSM_HDMI_AUDIO_CHANNEL_8;
->>>>> -		break;
->>>>> -	default:
->>>>> -		return -EINVAL;
->>>>> -	}
->>>>
->>>> This mapping table was doing two things:
->>>>
->>>> 1) drop the conversion of channels to an index to nchannels[] and use the
->>>> channels directly. This part is fine but could have been a separate change
->>>> by itself to show the redundancy.
->>>>
->>>> 2) drop the mapping table of channels to channel_allocation.
->>>> I am not fully sure of this. Was this done because
->>>> hdmi_codec_channel_alloc[] table in hdmi-codec does this for us?
->>>> hdmi_codec_get_ch_alloc_table_idx() uses channels and the flags to come up
->>>> with the idx into this table. But it seems like current MSM HDMI code did
->>>> not consider the flags. So for example, it seems like for 6 channels, we
->>>> could return any of the below based on the flags but MSM HDMI always used
->>>> 0x0B so will the values match?
->>>
->>> Do they have to match? The correct value is being calculated by the HDMI
->>> code in ASoC and then being written into the Audio InfoFrame. If the MSM
->>> HDMI code wasn't taking ELD data into account, then it's a bug. But... I
->>> don't think it's worth spending too much time on fixing it separately.
->>>
->>
->> Its a change in values which are passed to the audio infoframe but I dont
->> know if it will change the behavior of what has been working so far (I hope
->> not).
->>
->> I agree, that msm hdmi driver not considering the flags in the mask is a bug
->> so for that reason, we should use the channels and channel allocation
->> supplied to us by hdmi_codec.
->>
->> If it does result in an issue (due to it incorrectly working today), we will
->> atleast know where to look at.
->>
->> Some more questions below.
-> 
-> Ack
-> 
->>
->>> In the end, that is exactly the purpose of the frameworks - to make code
->>> error prone and to remove the need to reimplement same things over and
->>> over again, making differnt kinds of mistakes. For example, MSM HDMI
->>> code also doesn't implement plugged_cb support. It doesn't provide ELD
->>> to the HDMI codec code, etc. All of that is being fixed by using the
->>> framework. It's not worth implementing those functions in the MSM HDMI
->>> code first only to drop them in the next commit.
->>>
->>>>
->>>> 202 	{ .ca_id = 0x0b, .n_ch = 6,
->>>> 203 	  .mask = FL | FR | LFE | FC | RL | RR},
->>>> 204 	/* surround40 */
->>>> 205 	{ .ca_id = 0x08, .n_ch = 6,
->>>> 206 	  .mask = FL | FR | RL | RR },
->>>> 207 	/* surround41 */
->>>> 208 	{ .ca_id = 0x09, .n_ch = 6,
->>>> 209 	  .mask = FL | FR | LFE | RL | RR },
->>>> 210 	/* surround50 */
->>>> 211 	{ .ca_id = 0x0a, .n_ch = 6,
->>>> 212 	  .mask = FL | FR | FC | RL | RR },
->>>> 213 	/* 6.1 */
->>>>
->>>>
->>>>> -
->>>>>     	switch (params->sample_rate) {
->>>>>     	case 32000:
->>>>>     		rate = HDMI_SAMPLE_RATE_32KHZ;
->>>>> @@ -316,9 +287,12 @@ static int msm_hdmi_audio_hw_params(struct device *dev, void *data,
->>>>>     		return -EINVAL;
->>>>>     	}
->>>>> -	msm_hdmi_audio_set_sample_rate(hdmi, rate);
->>>>> -	msm_hdmi_audio_info_setup(hdmi, 1, chan, channel_allocation,
->>>>> -			      level_shift, down_mix);
->>>>> +	ret = drm_atomic_helper_connector_hdmi_update_audio_infoframe(hdmi->connector,
->>>>> +								      &params->cea);
->>>>> +	if (ret)
->>>>> +		return ret;
->>>>> +
->>>>> +	msm_hdmi_audio_info_setup(hdmi, rate, params->cea.channels);
->>>>>     	return 0;
->>>>>     }
->>>>> @@ -327,7 +301,8 @@ static void msm_hdmi_audio_shutdown(struct device *dev, void *data)
->>>>>     {
->>>>>     	struct hdmi *hdmi = dev_get_drvdata(dev);
->>>>> -	msm_hdmi_audio_info_setup(hdmi, 0, 0, 0, 0, 0);
->>>>> +	drm_atomic_helper_connector_hdmi_clear_audio_infoframe(hdmi->connector);
->>>>> +	msm_hdmi_audio_disable(hdmi);
->>>>>     }
->>>>>     static const struct hdmi_codec_ops msm_hdmi_audio_codec_ops = {
->>>>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
->>>>> index a62d2aedfbb7239d37c826c4f96762f100a2be4a..53b52351d0eddf4a5c87a5290016bb53ed4d29f7 100644
->>>>> --- a/drivers/gpu/drm/msm/hdmi/hdmi.h
->>>>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
->>>>> @@ -24,8 +24,8 @@ struct hdmi_platform_config;
->>>>>     struct hdmi_audio {
->>>>>     	bool enabled;
->>>>> -	struct hdmi_audio_infoframe infoframe;
->>>>>     	int rate;
->>>>> +	int channels;
->>>>>     };
->>>>>     struct hdmi_hdcp_ctrl;
->>>>> @@ -207,12 +207,6 @@ static inline int msm_hdmi_pll_8998_init(struct platform_device *pdev)
->>>>>     /*
->>>>>      * audio:
->>>>>      */
->>>>> -/* Supported HDMI Audio channels and rates */
->>>>> -#define	MSM_HDMI_AUDIO_CHANNEL_2	0
->>>>> -#define	MSM_HDMI_AUDIO_CHANNEL_4	1
->>>>> -#define	MSM_HDMI_AUDIO_CHANNEL_6	2
->>>>> -#define	MSM_HDMI_AUDIO_CHANNEL_8	3
->>>>> -
->>>>>     #define	HDMI_SAMPLE_RATE_32KHZ		0
->>>>>     #define	HDMI_SAMPLE_RATE_44_1KHZ	1
->>>>>     #define	HDMI_SAMPLE_RATE_48KHZ		2
->>>>> @@ -221,12 +215,8 @@ static inline int msm_hdmi_pll_8998_init(struct platform_device *pdev)
->>>>>     #define	HDMI_SAMPLE_RATE_176_4KHZ	5
->>>>>     #define	HDMI_SAMPLE_RATE_192KHZ		6
->>>>> -int msm_hdmi_audio_update(struct hdmi *hdmi);
->>>>> -int msm_hdmi_audio_info_setup(struct hdmi *hdmi, bool enabled,
->>>>> -	uint32_t num_of_channels, uint32_t channel_allocation,
->>>>> -	uint32_t level_shift, bool down_mix);
->>>>> -void msm_hdmi_audio_set_sample_rate(struct hdmi *hdmi, int rate);
->>>>> -
->>>>> +int msm_hdmi_audio_info_setup(struct hdmi *hdmi, int rate, int channels);
->>>>> +int msm_hdmi_audio_disable(struct hdmi *hdmi);
->>>>>     /*
->>>>>      * hdmi bridge:
->>>>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_audio.c b/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
->>>>> index 4c2058c4adc1001a12e10f35e88a6d58f3bd2fdc..924654bfb48cf17feadea1c0661ee6ee4e1b4589 100644
->>>>> --- a/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
->>>>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_audio.c
->>>>> @@ -7,9 +7,6 @@
->>>>>     #include <linux/hdmi.h>
->>>>>     #include "hdmi.h"
->>>>> -/* maps MSM_HDMI_AUDIO_CHANNEL_n consts used by audio driver to # of channels: */
->>>>> -static int nchannels[] = { 2, 4, 6, 8 };
->>>>> -
->>>>>     /* Supported HDMI Audio sample rates */
->>>>>     #define MSM_HDMI_SAMPLE_RATE_32KHZ		0
->>>>>     #define MSM_HDMI_SAMPLE_RATE_44_1KHZ		1
->>>>> @@ -71,19 +68,20 @@ static const struct hdmi_msm_audio_arcs *get_arcs(unsigned long int pixclock)
->>>>>     	return NULL;
->>>>>     }
->>>>> -int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>> +static int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>>     {
->>>>>     	struct hdmi_audio *audio = &hdmi->audio;
->>>>> -	struct hdmi_audio_infoframe *info = &audio->infoframe;
->>>>>     	const struct hdmi_msm_audio_arcs *arcs = NULL;
->>>>>     	bool enabled = audio->enabled;
->>>>>     	uint32_t acr_pkt_ctrl, vbi_pkt_ctrl, aud_pkt_ctrl;
->>>>> -	uint32_t infofrm_ctrl, audio_config;
->>>>> +	uint32_t audio_config;
->>>>> +
->>>>> +	if (!hdmi->connector->display_info.is_hdmi)
->>>>> +		return -EINVAL;
->>>>> +
->>>>> +	DBG("audio: enabled=%d, channels=%d, rate=%d",
->>>>> +	    audio->enabled, audio->channels, audio->rate);
->>>>> -	DBG("audio: enabled=%d, channels=%d, channel_allocation=0x%x, "
->>>>> -		"level_shift_value=%d, downmix_inhibit=%d, rate=%d",
->>>>> -		audio->enabled, info->channels,  info->channel_allocation,
->>>>> -		info->level_shift_value, info->downmix_inhibit, audio->rate);
->>>>>     	DBG("video: power_on=%d, pixclock=%lu", hdmi->power_on, hdmi->pixclock);
->>>>>     	if (enabled && !(hdmi->power_on && hdmi->pixclock)) {
->>>>> @@ -104,7 +102,6 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>>     	acr_pkt_ctrl = hdmi_read(hdmi, REG_HDMI_ACR_PKT_CTRL);
->>>>>     	vbi_pkt_ctrl = hdmi_read(hdmi, REG_HDMI_VBI_PKT_CTRL);
->>>>>     	aud_pkt_ctrl = hdmi_read(hdmi, REG_HDMI_AUDIO_PKT_CTRL1);
->>>>> -	infofrm_ctrl = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL0);
->>>>>     	audio_config = hdmi_read(hdmi, REG_HDMI_AUDIO_CFG);
->>>>>     	/* Clear N/CTS selection bits */
->>>>> @@ -113,7 +110,6 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>>     	if (enabled) {
->>>>>     		uint32_t n, cts, multiplier;
->>>>>     		enum hdmi_acr_cts select;
->>>>> -		uint8_t buf[14];
->>>>>     		n   = arcs->lut[audio->rate].n;
->>>>>     		cts = arcs->lut[audio->rate].cts;
->>>>> @@ -155,20 +151,12 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>>     				HDMI_ACR_1_N(n));
->>>>>     		hdmi_write(hdmi, REG_HDMI_AUDIO_PKT_CTRL2,
->>>>> -				COND(info->channels != 2, HDMI_AUDIO_PKT_CTRL2_LAYOUT) |
->>>>> +				COND(audio->channels != 2, HDMI_AUDIO_PKT_CTRL2_LAYOUT) |
->>>>>     				HDMI_AUDIO_PKT_CTRL2_OVERRIDE);
->>>>>     		acr_pkt_ctrl |= HDMI_ACR_PKT_CTRL_CONT;
->>>>>     		acr_pkt_ctrl |= HDMI_ACR_PKT_CTRL_SEND;
->>>>> -		/* configure infoframe: */
->>>>> -		hdmi_audio_infoframe_pack(info, buf, sizeof(buf));
->>>>> -		hdmi_write(hdmi, REG_HDMI_AUDIO_INFO0,
->>>>> -				(buf[3] <<  0) | (buf[4] <<  8) |
->>>>> -				(buf[5] << 16) | (buf[6] << 24));
->>>>> -		hdmi_write(hdmi, REG_HDMI_AUDIO_INFO1,
->>>>> -				(buf[7] <<  0) | (buf[8] << 8));
->>>>> -
->>>>>     		hdmi_write(hdmi, REG_HDMI_GC, 0);
->>>>>     		vbi_pkt_ctrl |= HDMI_VBI_PKT_CTRL_GC_ENABLE;
->>>>> @@ -176,11 +164,6 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>>     		aud_pkt_ctrl |= HDMI_AUDIO_PKT_CTRL1_AUDIO_SAMPLE_SEND;
->>>>> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND;
->>>>> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT;
->>>>> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE;
->>>>> -		infofrm_ctrl |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE;
->>>>> -
->>>>>     		audio_config &= ~HDMI_AUDIO_CFG_FIFO_WATERMARK__MASK;
->>>>>     		audio_config |= HDMI_AUDIO_CFG_FIFO_WATERMARK(4);
->>>>>     		audio_config |= HDMI_AUDIO_CFG_ENGINE_ENABLE;
->>>>> @@ -190,17 +173,12 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>>     		vbi_pkt_ctrl &= ~HDMI_VBI_PKT_CTRL_GC_ENABLE;
->>>>>     		vbi_pkt_ctrl &= ~HDMI_VBI_PKT_CTRL_GC_EVERY_FRAME;
->>>>>     		aud_pkt_ctrl &= ~HDMI_AUDIO_PKT_CTRL1_AUDIO_SAMPLE_SEND;
->>>>> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND;
->>>>> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT;
->>>>> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE;
->>>>> -		infofrm_ctrl &= ~HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE;
->>>>>     		audio_config &= ~HDMI_AUDIO_CFG_ENGINE_ENABLE;
->>>>>     	}
->>>>>     	hdmi_write(hdmi, REG_HDMI_ACR_PKT_CTRL, acr_pkt_ctrl);
->>>>>     	hdmi_write(hdmi, REG_HDMI_VBI_PKT_CTRL, vbi_pkt_ctrl);
->>>>>     	hdmi_write(hdmi, REG_HDMI_AUDIO_PKT_CTRL1, aud_pkt_ctrl);
->>>>> -	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, infofrm_ctrl);
->>>>>     	hdmi_write(hdmi, REG_HDMI_AUD_INT,
->>>>>     			COND(enabled, HDMI_AUD_INT_AUD_FIFO_URUN_INT) |
->>>>> @@ -214,41 +192,29 @@ int msm_hdmi_audio_update(struct hdmi *hdmi)
->>>>>     	return 0;
->>>>>     }
->>>>> -int msm_hdmi_audio_info_setup(struct hdmi *hdmi, bool enabled,
->>>>> -	uint32_t num_of_channels, uint32_t channel_allocation,
->>>>> -	uint32_t level_shift, bool down_mix)
->>>>> +int msm_hdmi_audio_info_setup(struct hdmi *hdmi, int rate, int channels)
->>>>>     {
->>>>> -	struct hdmi_audio *audio;
->>>>> -
->>>>>     	if (!hdmi)
->>>>>     		return -ENXIO;
->>>>> -	audio = &hdmi->audio;
->>>>> -
->>>>> -	if (num_of_channels >= ARRAY_SIZE(nchannels))
->>>>> +	if ((rate < 0) || (rate >= MSM_HDMI_SAMPLE_RATE_MAX))
->>>>>     		return -EINVAL;
->>>>> -	audio->enabled = enabled;
->>>>> -	audio->infoframe.channels = nchannels[num_of_channels];
->>>>> -	audio->infoframe.channel_allocation = channel_allocation;
->>>>> -	audio->infoframe.level_shift_value = level_shift;
->>>>> -	audio->infoframe.downmix_inhibit = down_mix;
->>>>> +	hdmi->audio.rate = rate;
->>>>> +	hdmi->audio.channels = channels;
->>>>> +	hdmi->audio.enabled = true;
->>>>>     	return msm_hdmi_audio_update(hdmi);
->>>>>     }
->>>>> -void msm_hdmi_audio_set_sample_rate(struct hdmi *hdmi, int rate)
->>>>> +int msm_hdmi_audio_disable(struct hdmi *hdmi)
->>>>>     {
->>>>> -	struct hdmi_audio *audio;
->>>>> -
->>>>>     	if (!hdmi)
->>>>> -		return;
->>>>> -
->>>>> -	audio = &hdmi->audio;
->>>>> +		return -ENXIO;
->>>>> -	if ((rate < 0) || (rate >= MSM_HDMI_SAMPLE_RATE_MAX))
->>>>> -		return;
->>>>> +	hdmi->audio.rate = 0;
->>>>> +	hdmi->audio.channels = 2;
->>>>> +	hdmi->audio.enabled = false;
->>>>> -	audio->rate = rate;
->>>>> -	msm_hdmi_audio_update(hdmi);
->>>>> +	return msm_hdmi_audio_update(hdmi);
->>>>>     }
->>>>> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
->>>>> index d5ab1f74c0e6f47dc59872c016104e9a84d85e9e..168b4104e705e8217f5d7ca5f902d7557c55ae24 100644
->>>>> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
->>>>> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
->>>>> @@ -7,6 +7,8 @@
->>>>>     #include <linux/delay.h>
->>>>>     #include <drm/drm_bridge_connector.h>
->>>>>     #include <drm/drm_edid.h>
->>>>> +#include <drm/display/drm_hdmi_helper.h>
->>>>> +#include <drm/display/drm_hdmi_state_helper.h>
->>>>>     #include "msm_kms.h"
->>>>>     #include "hdmi.h"
->>>>> @@ -68,23 +70,17 @@ static void power_off(struct drm_bridge *bridge)
->>>>>     #define AVI_IFRAME_LINE_NUMBER 1
->>>>> -static void msm_hdmi_config_avi_infoframe(struct hdmi *hdmi)
->>>>> +static int msm_hdmi_config_avi_infoframe(struct hdmi *hdmi,
->>>>> +					 const u8 *buffer, size_t len)
->>>>>     {
->>>>> -	struct drm_crtc *crtc = hdmi->encoder->crtc;
->>>>> -	const struct drm_display_mode *mode = &crtc->state->adjusted_mode;
->>>>> -	union hdmi_infoframe frame;
->>>>> -	u8 buffer[HDMI_INFOFRAME_SIZE(AVI)];
->>>>> +	u32 buf[4] = {};
->>>>>     	u32 val;
->>>>> -	int len;
->>>>> +	int i;
->>>>> -	drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
->>>>> -						 hdmi->connector, mode);
->>>>> -
->>>>> -	len = hdmi_infoframe_pack(&frame, buffer, sizeof(buffer));
->>>>> -	if (len < 0) {
->>>>> +	if (len != HDMI_INFOFRAME_SIZE(AVI) || len - 3 > sizeof(buf)) {
->>>>>     		DRM_DEV_ERROR(&hdmi->pdev->dev,
->>>>>     			"failed to configure avi infoframe\n");
->>>>> -		return;
->>>>> +		return -EINVAL;
->>>>>     	}
->>>>>     	/*
->>>>> @@ -93,37 +89,118 @@ static void msm_hdmi_config_avi_infoframe(struct hdmi *hdmi)
->>>>>     	 * written to the LSB byte of AVI_INFO0 and the version is written to
->>>>>     	 * the third byte from the LSB of AVI_INFO3
->>>>>     	 */
->>>>> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(0),
->>>>> +	memcpy(buf, &buffer[3], len - 3);
->>>>> +
->>>>> +	buf[3] |= buffer[1] << 24;
->>>>> +
->>>>> +	for (i = 0; i < ARRAY_SIZE(buf); i++)
->>>>> +		hdmi_write(hdmi, REG_HDMI_AVI_INFO(i), buf[i]);
->>>>> +
->>>>> +	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
->>>>> +	val |= HDMI_INFOFRAME_CTRL0_AVI_SEND |
->>>>> +		HDMI_INFOFRAME_CTRL0_AVI_CONT;
->>>>> +	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
->>>>> +
->>>>> +	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
->>>>> +	val &= ~HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK;
->>>>> +	val |= HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE(AVI_IFRAME_LINE_NUMBER);
->>>>> +	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +
->>>>> +static int msm_hdmi_config_audio_infoframe(struct hdmi *hdmi,
->>>>> +					   const u8 *buffer, size_t len)
->>>>> +{
->>>>> +	u32 val;
->>>>> +
->>>>> +	if (len != HDMI_INFOFRAME_SIZE(AUDIO)) {
->>>>> +		DRM_DEV_ERROR(&hdmi->pdev->dev,
->>>>> +			"failed to configure audio infoframe\n");
->>>>> +		return -EINVAL;
->>>>> +	}
->>>>> +
->>>>> +	hdmi_write(hdmi, REG_HDMI_AUDIO_INFO0,
->>>>>     		   buffer[3] |
->>>>>     		   buffer[4] << 8 |
->>>>>     		   buffer[5] << 16 |
->>>>>     		   buffer[6] << 24);
->>>>> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(1),
->>>>> +	hdmi_write(hdmi, REG_HDMI_AUDIO_INFO1,
->>>>>     		   buffer[7] |
->>>>>     		   buffer[8] << 8 |
->>>>>     		   buffer[9] << 16 |
->>>>>     		   buffer[10] << 24);
->>>>> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(2),
->>>>> -		   buffer[11] |
->>>>> -		   buffer[12] << 8 |
->>>>> -		   buffer[13] << 16 |
->>>>> -		   buffer[14] << 24);
->>>>> +	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
->>>>> +	val |= HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND |
->>>>> +		HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT |
->>>>> +		HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE |
->>>>> +		HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE;
->>>>> +	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +
->>>>> +static int msm_hdmi_bridge_clear_infoframe(struct drm_bridge *bridge,
->>>>> +					   enum hdmi_infoframe_type type)
->>>>> +{
->>>>> +	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
->>>>> +	struct hdmi *hdmi = hdmi_bridge->hdmi;
->>>>> +	u32 val;
->>>>> +
->>>>> +	switch (type) {
->>>>> +	case HDMI_INFOFRAME_TYPE_AVI:
->>>>> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL0);
->>>>> +		val &= ~(HDMI_INFOFRAME_CTRL0_AVI_SEND |
->>>>> +			 HDMI_INFOFRAME_CTRL0_AVI_CONT);
->>>>> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
->>>>> -	hdmi_write(hdmi, REG_HDMI_AVI_INFO(3),
->>>>> -		   buffer[15] |
->>>>> -		   buffer[16] << 8 |
->>>>> -		   buffer[1] << 24);
->>>>> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
->>>>> +		val &= ~HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK;
->>>>> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
->>>>> -	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0,
->>>>> -		   HDMI_INFOFRAME_CTRL0_AVI_SEND |
->>>>> -		   HDMI_INFOFRAME_CTRL0_AVI_CONT);
->>>>> +		break;
->>>>> -	val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
->>>>> -	val &= ~HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE__MASK;
->>>>> -	val |= HDMI_INFOFRAME_CTRL1_AVI_INFO_LINE(AVI_IFRAME_LINE_NUMBER);
->>>>> -	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
->>>>> +	case HDMI_INFOFRAME_TYPE_AUDIO:
->>>>> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL0);
->>>>> +		val &= ~(HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND |
->>>>> +			 HDMI_INFOFRAME_CTRL0_AUDIO_INFO_CONT |
->>>>> +			 HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SOURCE |
->>>>> +			 HDMI_INFOFRAME_CTRL0_AUDIO_INFO_UPDATE);
->>>>> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL0, val);
->>>>> +
->>>>> +		val = hdmi_read(hdmi, REG_HDMI_INFOFRAME_CTRL1);
->>>>> +		val &= ~HDMI_INFOFRAME_CTRL1_AUDIO_INFO_LINE__MASK;
->>>>> +		hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
->>>>> +
->>>>> +		break;
->>>>> +
->>>>> +	default:
->>>>> +		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
->>>>> +	}
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +
->>>>> +static int msm_hdmi_bridge_write_infoframe(struct drm_bridge *bridge,
->>>>> +					   enum hdmi_infoframe_type type,
->>>>> +					   const u8 *buffer, size_t len)
->>>>> +{
->>>>> +	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
->>>>> +	struct hdmi *hdmi = hdmi_bridge->hdmi;
->>>>> +
->>>>> +	msm_hdmi_bridge_clear_infoframe(bridge, type);
->>>>> +
->>>>> +	switch (type) {
->>>>> +	case HDMI_INFOFRAME_TYPE_AVI:
->>>>> +		return msm_hdmi_config_avi_infoframe(hdmi, buffer, len);
->>>>> +	case HDMI_INFOFRAME_TYPE_AUDIO:
->>>>> +		return msm_hdmi_config_audio_infoframe(hdmi, buffer, len);
->>>>> +	default:
->>>>> +		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
->>>>> +		return 0;
->>>>> +	}
->>>>>     }
->>>>>     static void msm_hdmi_bridge_atomic_set_timings(struct hdmi *hdmi,
->>>>> @@ -146,16 +223,16 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
->>>>>     	conn_state = drm_atomic_get_new_connector_state(state, connector);
->>>>>     	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
->>>>> +	hdmi->pixclock = conn_state->hdmi.tmds_char_rate;
->>>>> +
->>>>>     	if (!hdmi->power_on) {
->>>>>     		msm_hdmi_phy_resource_enable(phy);
->>>>>     		msm_hdmi_power_on(bridge);
->>>>>     		hdmi->power_on = true;
->>>>> -		if (hdmi->hdmi_mode) {
->>>>> -			msm_hdmi_config_avi_infoframe(hdmi);
->>>>> -			msm_hdmi_audio_update(hdmi);
->>>>> -		}
->>>>>     	}
->>>>> +	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
->>>>> +
->>>>>     	msm_hdmi_phy_powerup(phy, hdmi->pixclock);
->>>>>     	msm_hdmi_set_mode(hdmi, true);
->>>>> @@ -184,8 +261,6 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
->>>>>     	if (hdmi->power_on) {
->>>>>     		power_off(bridge);
->>>>>     		hdmi->power_on = false;
->>>>> -		if (hdmi->hdmi_mode)
->>>>> -			msm_hdmi_audio_update(hdmi);
->>>>>     		msm_hdmi_phy_resource_disable(phy);
->>>>>     	}
->>>>>     }
->>>>> @@ -196,8 +271,6 @@ static void msm_hdmi_bridge_atomic_set_timings(struct hdmi *hdmi,
->>>>>     	int hstart, hend, vstart, vend;
->>>>>     	uint32_t frame_ctrl;
->>>>> -	hdmi->pixclock = mode->clock * 1000;
->>>>> -
->>>>>     	hstart = mode->htotal - mode->hsync_start;
->>>>>     	hend   = mode->htotal - mode->hsync_start + mode->hdisplay;
->>>>> @@ -241,9 +314,6 @@ static void msm_hdmi_bridge_atomic_set_timings(struct hdmi *hdmi,
->>>>>     		frame_ctrl |= HDMI_FRAME_CTRL_INTERLACED_EN;
->>>>>     	DBG("frame_ctrl=%08x", frame_ctrl);
->>>>>     	hdmi_write(hdmi, REG_HDMI_FRAME_CTRL, frame_ctrl);
->>>>> -
->>>>> -	if (hdmi->hdmi_mode)
->>>>> -		msm_hdmi_audio_update(hdmi);
->>>>>     }
->>
->> Overall, I would like to know how the sequence was broken up:
->>
->> HDMI_INFOFRAME_CTRL0_AUDIO_INFO_SEND/CONT/UPDATE was moved from
->> msm_hdmi_audio_update() to msm_hdmi_config_audio_infoframe() which is
->> involed by drm_atomic_helper_connector_hdmi_update_infoframes() /
->> drm_atomic_helper_connector_hdmi_clear_audio_infoframe().
->>
->> But,HDMI_AUDIO_PKT_CTRL1_AUDIO_SAMPLE_SEND bit of REG_HDMI_AUDIO_PKT_CTRL1
->> remained in msm_hdmi_audio_update().
-> 
-> This is correct, this bit controls sending of audio data, not the Audio
-> InfoFrame.
-> 
-> The strategy is very simple: Audio InfoFames are controlled centrally
-> via the DRM HDMI framework. Correct InfoFrame data is programmed at the
-> atomic_pre_enable() time (if it was set before) or during
-> msm_hdmi_bridge_audio_prepare() when the new stream is started.
-> 
-> All audio data frame management is deferred to
-> msm_hdmi_bridge_audio_prepare().
-> 
+This patch removes the multiple copy-pasted by creating a
+common command table and make the command_table_helper's calls
+the functions implemented by the common instead.
 
-Thats in the last patch of the series not this one. But I understand the 
-split.
+The changes were not tested on actual hardware. I am only able
+to verify that the changes keep the code compileable and do my
+best to to look repeatedly if I am not actually changing any code.
 
->> If this is correct, are we not missing msm_hdmi_audio_update() in some
->> places like pre_enable() / post_disable()?
-> 
-> drm_atomic_helper_connector_hdmi_update_infoframes() takes care of
-> writing all InfoFrames, including the Audio one.
-> 
->>
->> Was this done because those calls were anyway bailing out audio->enabled was
->> not set by then?
->>
->> This seems to be another change which could have been done by itself to drop
->> those calls first and then make this change to make it more clear.
->>
->> OR atleast please explain these things better in the commit text.
-> 
-> If the above text is fine to you, I'll add it to the commit message.
-> 
+This is the version 2 of the PATCH, fixed comments about
+licence in the new files and the matches From email to
+Signed-off-by email.
 
-This is fine, but the dropping of msm_hdmi_audio_update() from 
-msm_hdmi_bridge_atomic_pre_enable() seems unrelated to the split OR 
-using the DRM HDMI framework. It seems more because that call by itself 
-without audio->enabled which is set in msm_hdmi_audio_info_setup() will 
-not do anything.
+Signed-off-by: Luan Icaro Pinto Arcanjo <luanicaro@usp.br>
+---
+ drivers/gpu/drm/amd/display/dc/bios/Makefile  |   6 +
+ .../bios/dce110/command_table_helper_dce110.c | 104 +----------------
+ .../dce112/command_table_helper2_dce112.c     | 104 +----------------
+ .../bios/dce112/command_table_helper_dce112.c | 104 +----------------
+ .../bios/dce60/command_table_helper_dce60.c   | 106 +----------------
+ .../bios/dce80/command_table_helper_dce80.c   | 106 +----------------
+ .../command_table_helper_dce_common.c         | 110 ++++++++++++++++++
+ .../command_table_helper_dce_common.h         |  14 +++
+ 8 files changed, 137 insertions(+), 517 deletions(-)
+ create mode 100644 drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.c
+ create mode 100644 drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.h
 
-So this is actually an independent fix and was just combined with this 
-change? Thats the part I am trying to be more explicit about.
-
-> 
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/Makefile b/drivers/gpu/drm/amd/display/dc/bios/Makefile
+index ed6b5e9763f6..0d2f7ca1d0c2 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/bios/Makefile
+@@ -27,6 +27,7 @@ BIOS = bios_parser.o bios_parser_interface.o  bios_parser_helper.o command_table
+ 
+ BIOS += command_table2.o command_table_helper2.o bios_parser2.o
+ 
++
+ AMD_DAL_BIOS = $(addprefix $(AMDDALPATH)/dc/bios/,$(BIOS))
+ 
+ AMD_DISPLAY_FILES += $(AMD_DAL_BIOS)
+@@ -55,3 +56,8 @@ AMD_DISPLAY_FILES += $(AMDDALPATH)/dc/bios/dce110/command_table_helper_dce110.o
+ AMD_DISPLAY_FILES += $(AMDDALPATH)/dc/bios/dce112/command_table_helper_dce112.o
+ 
+ AMD_DISPLAY_FILES += $(AMDDALPATH)/dc/bios/dce112/command_table_helper2_dce112.o
++
++###############################################################################
++# DCE COMMON
++###############################################################################
++AMD_DISPLAY_FILES += $(AMDDALPATH)/dc/bios/dce_common/command_table_helper_dce_common.o
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c b/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c
+index 11bf247bb180..6f8fec224b88 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce110/command_table_helper_dce110.c
+@@ -31,38 +31,7 @@
+ 
+ #include "../command_table_helper.h"
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
++#include "../dce_common/command_table_helper_dce_common.h"
+ 
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+@@ -94,32 +63,6 @@ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ 	return atom_dig_mode;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t hpd_sel_to_atom(enum hpd_source_id id)
+ {
+ 	uint8_t atom_hpd_sel = 0;
+@@ -207,51 +150,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c
+index 755b6e33140a..3392277ac3b6 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper2_dce112.c
+@@ -31,38 +31,7 @@
+ 
+ #include "../command_table_helper2.h"
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
++#include "../dce_common/command_table_helper_dce_common.h"
+ 
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+@@ -91,32 +60,6 @@ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ 	return atom_dig_mode;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t hpd_sel_to_atom(enum hpd_source_id id)
+ {
+ 	uint8_t atom_hpd_sel = 0;
+@@ -209,51 +152,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c
+index 06b4f7fa4a50..39b199b388e4 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce112/command_table_helper_dce112.c
+@@ -31,38 +31,7 @@
+ 
+ #include "../command_table_helper.h"
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
++#include "../dce_common/command_table_helper_dce_common.h"
+ 
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+@@ -91,32 +60,6 @@ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ 	return atom_dig_mode;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t hpd_sel_to_atom(enum hpd_source_id id)
+ {
+ 	uint8_t atom_hpd_sel = 0;
+@@ -209,51 +152,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c b/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c
+index 710221b4f5c5..49b3c6fd648d 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce60/command_table_helper_dce60.c
+@@ -33,6 +33,8 @@
+ 
+ #include "../command_table_helper.h"
+ 
++#include "../dce_common/command_table_helper_dce_common.h"
++
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+@@ -58,51 +60,6 @@ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ 	return atom_action;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static bool clock_source_id_to_atom(
+ 	enum clock_source_id id,
+ 	uint32_t *atom_pll_id)
+@@ -149,32 +106,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+ 	uint8_t atom_dig_mode = ATOM_TRANSMITTER_DIGMODE_V5_DP;
+@@ -270,39 +201,6 @@ static uint8_t dig_encoder_sel_to_atom(enum engine_id id)
+ 	return atom_dig_encoder_sel;
+ }
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
+-
+ static uint8_t disp_power_gating_action_to_atom(
+ 	enum bp_pipe_control_action action)
+ {
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c b/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c
+index 8b30b558cf1f..f8c66e3a8f08 100644
+--- a/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce80/command_table_helper_dce80.c
+@@ -33,6 +33,8 @@
+ 
+ #include "../command_table_helper.h"
+ 
++#include "../dce_common/command_table_helper_dce_common.h"
++
+ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ {
+ 	uint8_t atom_action = 0;
+@@ -58,51 +60,6 @@ static uint8_t encoder_action_to_atom(enum bp_encoder_control_action action)
+ 	return atom_action;
+ }
+ 
+-static bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
+-{
+-	bool result = false;
+-
+-	if (atom_engine_id != NULL)
+-		switch (id) {
+-		case ENGINE_ID_DIGA:
+-			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGB:
+-			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGC:
+-			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGD:
+-			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGE:
+-			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGF:
+-			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DIGG:
+-			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
+-			result = true;
+-			break;
+-		case ENGINE_ID_DACA:
+-			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
+-			result = true;
+-			break;
+-		default:
+-			break;
+-		}
+-
+-	return result;
+-}
+-
+ static bool clock_source_id_to_atom(
+ 	enum clock_source_id id,
+ 	uint32_t *atom_pll_id)
+@@ -149,32 +106,6 @@ static bool clock_source_id_to_atom(
+ 	return result;
+ }
+ 
+-static uint8_t clock_source_id_to_atom_phy_clk_src_id(
+-		enum clock_source_id id)
+-{
+-	uint8_t atom_phy_clk_src_id = 0;
+-
+-	switch (id) {
+-	case CLOCK_SOURCE_ID_PLL0:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL1:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_PLL2:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
+-		break;
+-	case CLOCK_SOURCE_ID_EXTERNAL:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
+-		break;
+-	default:
+-		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
+-		break;
+-	}
+-
+-	return atom_phy_clk_src_id >> 2;
+-}
+-
+ static uint8_t signal_type_to_atom_dig_mode(enum signal_type s)
+ {
+ 	uint8_t atom_dig_mode = ATOM_TRANSMITTER_DIGMODE_V5_DP;
+@@ -270,39 +201,6 @@ static uint8_t dig_encoder_sel_to_atom(enum engine_id id)
+ 	return atom_dig_encoder_sel;
+ }
+ 
+-static uint8_t phy_id_to_atom(enum transmitter t)
+-{
+-	uint8_t atom_phy_id;
+-
+-	switch (t) {
+-	case TRANSMITTER_UNIPHY_A:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	case TRANSMITTER_UNIPHY_B:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
+-		break;
+-	case TRANSMITTER_UNIPHY_C:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
+-		break;
+-	case TRANSMITTER_UNIPHY_D:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
+-		break;
+-	case TRANSMITTER_UNIPHY_E:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
+-		break;
+-	case TRANSMITTER_UNIPHY_F:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
+-		break;
+-	case TRANSMITTER_UNIPHY_G:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
+-		break;
+-	default:
+-		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
+-		break;
+-	}
+-	return atom_phy_id;
+-}
+-
+ static uint8_t disp_power_gating_action_to_atom(
+ 	enum bp_pipe_control_action action)
+ {
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.c b/drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.c
+new file mode 100644
+index 000000000000..d715a2bb7710
+--- /dev/null
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.c
+@@ -0,0 +1,110 @@
++// SPDX-License-Identifier: MIT
++
++#include "dm_services.h"
++#include "atom.h"
++
++#include "command_table_helper_dce_common.h"
++
++uint8_t phy_id_to_atom(enum transmitter t)
++{
++	uint8_t atom_phy_id;
++
++	switch (t) {
++	case TRANSMITTER_UNIPHY_A:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
++		break;
++	case TRANSMITTER_UNIPHY_B:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYB;
++		break;
++	case TRANSMITTER_UNIPHY_C:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYC;
++		break;
++	case TRANSMITTER_UNIPHY_D:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYD;
++		break;
++	case TRANSMITTER_UNIPHY_E:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYE;
++		break;
++	case TRANSMITTER_UNIPHY_F:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYF;
++		break;
++	case TRANSMITTER_UNIPHY_G:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYG;
++		break;
++	default:
++		atom_phy_id = ATOM_PHY_ID_UNIPHYA;
++		break;
++	}
++	return atom_phy_id;
++}
++
++uint8_t clock_source_id_to_atom_phy_clk_src_id(
++		enum clock_source_id id)
++{
++	uint8_t atom_phy_clk_src_id = 0;
++
++	switch (id) {
++	case CLOCK_SOURCE_ID_PLL0:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P0PLL;
++		break;
++	case CLOCK_SOURCE_ID_PLL1:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
++		break;
++	case CLOCK_SOURCE_ID_PLL2:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P2PLL;
++		break;
++	case CLOCK_SOURCE_ID_EXTERNAL:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_REFCLK_SRC_EXT;
++		break;
++	default:
++		atom_phy_clk_src_id = ATOM_TRANSMITTER_CONFIG_V5_P1PLL;
++		break;
++	}
++
++	return atom_phy_clk_src_id >> 2;
++}
++
++bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id)
++{
++	bool result = false;
++
++	if (atom_engine_id != NULL)
++		switch (id) {
++		case ENGINE_ID_DIGA:
++			*atom_engine_id = ASIC_INT_DIG1_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGB:
++			*atom_engine_id = ASIC_INT_DIG2_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGC:
++			*atom_engine_id = ASIC_INT_DIG3_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGD:
++			*atom_engine_id = ASIC_INT_DIG4_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGE:
++			*atom_engine_id = ASIC_INT_DIG5_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGF:
++			*atom_engine_id = ASIC_INT_DIG6_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DIGG:
++			*atom_engine_id = ASIC_INT_DIG7_ENCODER_ID;
++			result = true;
++			break;
++		case ENGINE_ID_DACA:
++			*atom_engine_id = ASIC_INT_DAC1_ENCODER_ID;
++			result = true;
++			break;
++		default:
++			break;
++		}
++
++	return result;
++}
+diff --git a/drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.h b/drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.h
+new file mode 100644
+index 000000000000..4e0ceb39b95f
+--- /dev/null
++++ b/drivers/gpu/drm/amd/display/dc/bios/dce_common/command_table_helper_dce_common.h
+@@ -0,0 +1,14 @@
++/* SPDX-License-Identifier: MIT */
++
++#ifndef __DAL_COMMAND_TABLE_HELPER_DCE_COMMON_H__
++#define __DAL_COMMAND_TABLE_HELPER_DCE_COMMON_H__
++
++
++uint8_t phy_id_to_atom(enum transmitter t);
++
++uint8_t clock_source_id_to_atom_phy_clk_src_id(
++		enum clock_source_id id);
++
++bool engine_bp_to_atom(enum engine_id id, uint32_t *atom_engine_id);
++
++#endif
+-- 
+2.43.0
 
