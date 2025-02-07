@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE839A2C58E
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 15:35:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 474A0A2C587
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 15:35:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74D4710EB24;
-	Fri,  7 Feb 2025 14:35:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE3D10EB18;
+	Fri,  7 Feb 2025 14:35:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kMGGY/NH";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nhoiy+qx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E20C510EB18
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 14:33:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9863710EB26
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 14:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=ZLg4TXmVVvJghXaAmX/CbOI92c/M/QnMy5KAN0/qAL4=; b=kMGGY/NH8bgtBQvTW4B6MTYUw+
- MaQa3M3+wSlZ4tpZB4RkBJTxsgMPd9r6AQIjCNHfaLTSTg0cQR0gd7Md7c2hYUzKsnS64H7ghpQNw
- Mt08+6aUMSsXAqtuZkZBlbda6eBQcOueYwi8a0bZRc4yuE9dkOfjgp6cCtNe23QIqvwBQAgM1BnGE
- hkbqrNIHSYyJMiyJzifPrdJrANwqjIxQsyRBxRy3Yzpq6lU7sIEBssJwe2IPBGUV52kSZOdzQUODr
- d9YVasfeqaze/9VR3Gz2JMiOTpIR8YgYxfj4MVeMlTvBVV/7hjbi+hKHXv3DsGBHDA5/IkMNk6N9v
- hHnim6Pw==;
+ bh=cIYCO4qVF9beuz5qiPeKxDwH4Ge3XALDYupZY0ggjic=; b=nhoiy+qxJrOdwBGbWgoZOK1OPv
+ x4ND50tGscTBrmgDrWjemIIwVu6UT84e2Crxp2RK1WXYexn9fuaWASKwMug0oyldYsq4QrdzZZCzF
+ biJPx3q0ggS22kiLNpSXZVXAt4qzZLfrdomlC9DfHSD/pzAqpdQNzV3ZBYw0zxnhxoWGiZH+NE5dz
+ QV/3KMpQBtjKuZkDCx0Py6hKin471XvMLUigF99VJUlJ0N8sOix6LqzoZiEdV9Nq+WO8h3fAojx07
+ f5xZo1bx9FFptG1ohWjixJkOfn+TfTEpLLGCrmGesjQaNK0JQd9jWrCz/R3y7a8Y2sPYsjRBzUCVF
+ F/z8tnqw==;
 Received: from [90.241.98.187] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tgPQK-005s7a-7z; Fri, 07 Feb 2025 15:33:46 +0100
+ id 1tgPQK-005s7g-Ur; Fri, 07 Feb 2025 15:33:46 +0100
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
@@ -39,9 +39,10 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Danilo Krummrich <dakr@kernel.org>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <phasta@kernel.org>
-Subject: [RFC 4/5] drm/scheduler: Add basic priority tests
-Date: Fri,  7 Feb 2025 14:33:36 +0000
-Message-ID: <20250207143337.60154-5-tvrtko.ursulin@igalia.com>
+Subject: [RFC 5/5] drm/scheduler: Add a basic test for modifying entities
+ scheduler list
+Date: Fri,  7 Feb 2025 14:33:37 +0000
+Message-ID: <20250207143337.60154-6-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250207143337.60154-1-tvrtko.ursulin@igalia.com>
 References: <20250207143337.60154-1-tvrtko.ursulin@igalia.com>
@@ -63,7 +64,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add some basic tests for exercising entity priority handling.
+Add a basic test for exercising modifying the entities scheduler list at
+runtime.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -71,81 +73,46 @@ Cc: Danilo Krummrich <dakr@kernel.org>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <phasta@kernel.org>
 ---
- .../scheduler/tests/drm_sched_tests_basic.c   | 99 ++++++++++++++++++-
- 1 file changed, 98 insertions(+), 1 deletion(-)
+ .../scheduler/tests/drm_sched_tests_basic.c   | 73 ++++++++++++++++++-
+ 1 file changed, 72 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-index 3adce5edea0b..9b6bb8b6b98e 100644
+index 9b6bb8b6b98e..af91e4ebd397 100644
 --- a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
 +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-@@ -1,4 +1,6 @@
- 
-+#include <linux/delay.h>
-+
- #include "drm_sched_tests.h"
- 
- static int drm_sched_basic_init(struct kunit *test)
-@@ -244,5 +246,100 @@ static struct kunit_suite drm_sched_timeout = {
- 	.test_cases = drm_sched_timeout_tests,
+@@ -340,6 +340,77 @@ static struct kunit_suite drm_sched_priority = {
+ 	.test_cases = drm_sched_priority_tests,
  };
  
-+static void drm_sched_priorities(struct kunit *test)
++static void drm_sched_test_modify_sched(struct kunit *test)
 +{
-+	struct drm_mock_sched_entity *entity[DRM_SCHED_PRIORITY_COUNT];
-+	struct drm_mock_scheduler *sched = test->priv;
-+	struct drm_mock_sched_job *job;
-+	const unsigned int qd = 100;
-+	unsigned int i, cur_ent = 0;
-+	enum drm_sched_priority p;
-+	bool done;
-+
-+	/*
-+	 * Submit a bunch of jobs against entities configured with different
-+	 * priorities.
-+	 */
-+
-+	BUILD_BUG_ON(DRM_SCHED_PRIORITY_KERNEL > DRM_SCHED_PRIORITY_LOW);
-+	BUILD_BUG_ON(DRM_SCHED_PRIORITY_COUNT != ARRAY_SIZE(entity));
-+
-+	for (p = DRM_SCHED_PRIORITY_KERNEL; p <= DRM_SCHED_PRIORITY_LOW; p++)
-+		entity[p] = drm_mock_new_sched_entity(test, p, sched);
-+
-+	for (i = 0; i < qd; i++) {
-+		job = drm_mock_new_sched_job(test, entity[cur_ent++]);
-+		cur_ent %= ARRAY_SIZE(entity);
-+		drm_mock_sched_job_set_duration_us(job, 1000);
-+		drm_mock_sched_job_submit(job);
-+	}
-+
-+	done = drm_mock_sched_job_wait_finished(job, HZ);
-+	KUNIT_ASSERT_EQ(test, done, true);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		drm_mock_sched_entity_free(entity[i]);
-+}
-+
-+static void drm_sched_change_priority(struct kunit *test)
-+{
-+	struct drm_mock_sched_entity *entity[DRM_SCHED_PRIORITY_COUNT];
-+	struct drm_mock_scheduler *sched = test->priv;
++	unsigned int i, cur_ent = 0, cur_sched = 0;
++	struct drm_mock_sched_entity *entity[13];
++	struct drm_mock_scheduler *sched[3];
 +	struct drm_mock_sched_job *job;
 +	const unsigned int qd = 1000;
-+	unsigned int i, cur_ent = 0;
-+	enum drm_sched_priority p;
 +	bool done;
 +
 +	/*
 +	 * Submit a bunch of jobs against entities configured with different
-+	 * priorities and while waiting for them to complete, periodically keep
-+	 * changing their priorities.
++	 * schedulers and while waiting for them to complete, periodically keep
++	 * changing schedulers associated with each entity.
 +	 *
-+	 * We set up the queue-depth (qd) and job duration so the priority
-+	 * changing loop has some time to interact with submissions to the
-+	 * backend and job completions as they progress.
++	 * We set up the queue-depth (qd) and job duration so the sched modify
++	 * loop has some time to interact with submissions to the backend and
++	 * job completions as they progress.
++	 *
++	 * For the number of schedulers and entities we use primes in order to
++	 * perturb the entity->sched assignments with less of a regular pattern.
 +	 */
 +
-+	for (p = DRM_SCHED_PRIORITY_KERNEL; p <= DRM_SCHED_PRIORITY_LOW; p++)
-+		entity[p] = drm_mock_new_sched_entity(test, p, sched);
++	for (i = 0; i < ARRAY_SIZE(sched); i++)
++		sched[i] = drm_mock_new_scheduler(test, MAX_SCHEDULE_TIMEOUT);
++
++	for (i = 0; i < ARRAY_SIZE(entity); i++)
++		entity[i] = drm_mock_new_sched_entity(test,
++						      DRM_SCHED_PRIORITY_NORMAL,
++						      sched[i % ARRAY_SIZE(sched)]);
 +
 +	for (i = 0; i < qd; i++) {
 +		job = drm_mock_new_sched_job(test, entity[cur_ent++]);
@@ -155,12 +122,16 @@ index 3adce5edea0b..9b6bb8b6b98e 100644
 +	}
 +
 +	do {
-+		drm_sched_entity_set_priority(&entity[cur_ent]->base,
-+					      (entity[cur_ent]->base.priority + 1) %
-+					      DRM_SCHED_PRIORITY_COUNT);
++		struct drm_gpu_scheduler *modify;
++
++		usleep_range(200, 500);
 +		cur_ent++;
 +		cur_ent %= ARRAY_SIZE(entity);
-+		usleep_range(200, 500);
++		cur_sched++;
++		cur_sched %= ARRAY_SIZE(sched);
++		modify = &sched[cur_sched]->base;
++		drm_sched_entity_modify_sched(&entity[cur_ent]->base, &modify,
++					      1);
 +	} while (!drm_mock_sched_job_is_finished(job));
 +
 +	done = drm_mock_sched_job_wait_finished(job, HZ);
@@ -168,25 +139,26 @@ index 3adce5edea0b..9b6bb8b6b98e 100644
 +
 +	for (i = 0; i < ARRAY_SIZE(entity); i++)
 +		drm_mock_sched_entity_free(entity[i]);
++
++	for (i = 0; i < ARRAY_SIZE(sched); i++)
++		drm_mock_scheduler_fini(sched[i]);
 +}
 +
-+static struct kunit_case drm_sched_priority_tests[] = {
-+	KUNIT_CASE(drm_sched_priorities),
-+	KUNIT_CASE(drm_sched_change_priority),
++static struct kunit_case drm_sched_modify_sched_tests[] = {
++	KUNIT_CASE(drm_sched_test_modify_sched),
 +	{}
 +};
 +
-+static struct kunit_suite drm_sched_priority = {
-+	.name = "drm_sched_basic_priority_tests",
-+	.init = drm_sched_basic_init,
-+	.exit = drm_sched_basic_exit,
-+	.test_cases = drm_sched_priority_tests,
++static struct kunit_suite drm_sched_modify_sched = {
++	.name = "drm_sched_basic_modify_sched_tests",
++	.test_cases = drm_sched_modify_sched_tests,
 +};
 +
  kunit_test_suites(&drm_sched_basic,
--		  &drm_sched_timeout);
-+		  &drm_sched_timeout,
-+		  &drm_sched_priority);
+ 		  &drm_sched_timeout,
+-		  &drm_sched_priority);
++		  &drm_sched_priority,
++		  &drm_sched_modify_sched);
 -- 
 2.48.0
 
