@@ -2,47 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC87A2B9A5
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 04:23:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0893A2B9A2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 04:23:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFB1210EA14;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70EBE10EA11;
 	Fri,  7 Feb 2025 03:23:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="smm/e1U5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="odCio4Tx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA23C10EA13;
- Fri,  7 Feb 2025 03:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1738898513;
- bh=XmN+jcCj+jUFOZ3QBM+zG9UgpSQDqQDhocEgZlDHscc=;
- h=Date:From:To:Cc:Subject:From;
- b=smm/e1U5MxpZJw7m92b57PXM9qlTYd79MnE7y7pKSk7Oqea/06ELnJaEpY4MTQu1J
- 2DAPN7rRYMqSokcFMSx7Pwu1Racx2IVgwmawQUGbuC7k2mLEKXFCFICoCEbf3bph5t
- 57HvGOD7otDpGCNtovgUfCSlH386YuXVZTTvdYaelEVCuurL1RyGd7Eydq8WqIO/4s
- 95SX4GSFcWjJWKW4NCALFg+Ir6PrXHs0+gcOG/U5zsLiHJTsoetSWfkv4IOgBFi/rK
- ZW+j7r1lB2DY3Dzf08YJMVUHYRcisv4k7fionoteCTLE3/N597TLZR63aTTQkcHLkQ
- lXYqQH/GHXpmQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Ypzm06XMLz4wc4;
- Fri,  7 Feb 2025 14:21:52 +1100 (AEDT)
-Date: Fri, 7 Feb 2025 14:22:01 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20250207142201.550ce870@canb.auug.org.au>
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8F6F10EA11
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 03:22:58 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-307e4e72ef3so5177611fa.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 19:22:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738898577; x=1739503377; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=uALpbCMvBFofduuPW6uWQl2C4OnvkNNaUMBLkiGkw4g=;
+ b=odCio4Tx85XRxZ7WXTu5YPSNEk4t6Ww2+RA8fkXdmRpvDJ6UqoCD3jI/2iFpftC4QV
+ tYxTUGiWJJQfgLok4inXHKOR0KH9BCeQo/1X0BrQJm7GtvIVSzhegepTkUUQFGa/q1mv
+ FW4mTpjpuWnBTuOVfA2z6bZhEC+psjEC8raTy6NpslJa6AGPLa2+8+vwHhpn01NjOTQF
+ +P9aOYq1NBPbhJydtJ/EuCpFgpzZGNzRW1dmlxgcSV3z6oUWFtIMrdwDrJnRDrn7qkyh
+ DTWSMZednGJxfu64l6fGwVZkVfIC4VSF4O1yK52DTabwbQSLhWy/gGwrRF2wNWzRKhhV
+ rAXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738898577; x=1739503377;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uALpbCMvBFofduuPW6uWQl2C4OnvkNNaUMBLkiGkw4g=;
+ b=KjBy/DfCr6BSlBiHTGAn3cAtzTE3zBIrrO3rjaXlVCLeD2ezkwvTNKVWg3cTRZmI7c
+ hZL1GpEXxZq+tt7k68eFKH+318dCWX1PcpM+ymjvHHyTdybTQHHEhVwL/BikjYCZNE63
+ eFbp+kdxRjC/VV7SDbPKBzdbP6RcOIeYyX+f1v0O9L8sXlcrgc4k14+NTPWSUfWA09Ny
+ vGHSsKRO9O3NZGbYxO5zIN7JOpx1Rw0NCFhXCUKwj1hq2U51qNTjgcHX/EppyPO1zeBn
+ W6AdHiFzfUELHks2IDgocah8BPPONBTOtKHvRCzx3C0wzzZN/msibvJzIIoecu+ZdIyN
+ tV+g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVo65P33M0pYig9I/oa+Yc9wE1jm31wb60KLei3iaitzZKGsrSw4xyn3JU82BEwikhM4EtN5/7dFPM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3e7wULZkxVgNMahAokUCqtgEjg3y0bLb2H964OulvJBAUna1A
+ v2s/7os7xgP/NiaqaNfb6PFGpEShc9VWQRy43F4ZTxRKCkfXhOnKQgMZ2l9aLBs=
+X-Gm-Gg: ASbGncs0eHCjhOf72D4+Q//4dD9tYmMkgt2APbuWme+wVi9AgrzxAHTAoDaeOHJ7DMB
+ snS1oNbi3+rrEOIdbInGp+avBn061f6uAjet0Yfv4yOy5OU2g/QkWiYivQed2YaW3vG4nnBaNxR
+ K+Mwl2SUKT2mMhKUczEyPqKjG0FU2S2AO5E2mFSZu58r6aI7AV8rn1GHo3iwxoP8buVNI8+VeBS
+ LceLIGg9y7PxtwXHlPFE+4BUcMBp+XANryJ1exS978yqP/WlhuhPAvZB2yLY1E6Cb9fDoS9FCkj
+ iaWcJTmnItkGe2bJJSfSMebw4xQ2h8s1tIg6XM9xWmbcIkKfDrPNtH9R2ZBT5+DlTjIyliA=
+X-Google-Smtp-Source: AGHT+IFC4Fpe+U5znUFqIBSXDmtc4T7rNKyLqsHSxrXcFTZCGMU3kjSm+u7NZQVRLX8PWNWDM/ixFw==
+X-Received: by 2002:a05:6512:3e1b:b0:544:1223:1a81 with SMTP id
+ 2adb3069b0e04-54414b08467mr306378e87.52.1738898577076; 
+ Thu, 06 Feb 2025 19:22:57 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-544105f3153sm305413e87.180.2025.02.06.19.22.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2025 19:22:55 -0800 (PST)
+Date: Fri, 7 Feb 2025 05:22:53 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/tests: Drop drm_kunit_helper_acquire_ctx_alloc()
+Message-ID: <6ag2gkxxewljgx72rea773pmtg7ppd7jjlwqyjk6d54fm5mdqm@p5utue3d4jnr>
+References: <20250206160548.683996-1-mripard@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/CO13eDYE2hSrQzooTNLi81+";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250206160548.683996-1-mripard@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,42 +89,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/CO13eDYE2hSrQzooTNLi81+
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Thu, Feb 06, 2025 at 05:05:48PM +0100, Maxime Ripard wrote:
+> lockdep complains when a lock is released in a separate function the
+> lock is taken in, and it's even worse in the kunit case since the kunit
+> actions run in a separate thread.
+> 
+> This means that drm_kunit_helper_acquire_ctx_alloc() just cannot work as
+> it's supposed to, so let's just get rid of it.
+> 
+> Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/tests/drm_atomic_state_test.c |  24 +-
+>  .../drm/tests/drm_hdmi_state_helper_test.c    | 242 +++++++++++-------
+>  drivers/gpu/drm/tests/drm_kunit_helpers.c     |  41 ---
+>  .../gpu/drm/vc4/tests/vc4_test_pv_muxing.c    |  46 ++--
+>  include/drm/drm_kunit_helpers.h               |   2 -
+>  5 files changed, 184 insertions(+), 171 deletions(-)
+> 
 
-Hi all,
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-After merging the drm-misc tree, today's linux-next build (htmldocs)
-produced this warning:
-
-/home/sfr/next/next/drivers/gpu/drm/drm_writeback.c:243: warning: expecting=
- prototype for drm_writeback_connector_init_with_encoder(). Prototype was f=
-or __drm_writeback_connector_init() instead
-
-Introduced by commit
-
-  135d8fc7af44 ("drm: writeback: Create an helper for drm_writeback_connect=
-or initialization")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/CO13eDYE2hSrQzooTNLi81+
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmelfFkACgkQAVBC80lX
-0GxOswf/Q0ZqJRSFGLds1Zw6WvqNfVNgDGFqUiCGDvQ+/uoLJgxlN1BrZ2srXEK8
-2hcTn6gWE8r7syqa8crjQlLfDQZyPx+l/KBFs+8Or20jsBpXQQTbd/Koy5IALnwm
-C7/n70kWcPHUoAaZY9l9KimnjROgaMRO9RdvKHZz2/3J1kTxm60aIUVMEVPaZRYl
-8RjtEcsnCEB/A14bR6L5Z8lCikNwBU/ghJvCUDpIp2y+/gpPCNyS5mRLEdIXruFd
-g3H1ggVluOM8TQUMZbB6GmjDDBsNxep2MgoU8oqODuXOWcXYfUAsIdGbWUlMd6jE
-zzAZdAOktfD1FqOPCPNw76LB6t+bKg==
-=J2Az
------END PGP SIGNATURE-----
-
---Sig_/CO13eDYE2hSrQzooTNLi81+--
+-- 
+With best wishes
+Dmitry
