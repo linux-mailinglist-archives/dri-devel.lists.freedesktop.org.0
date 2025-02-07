@@ -2,92 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7707EA2CAA9
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 18:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B89A2CACA
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 19:06:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF62810E1A6;
-	Fri,  7 Feb 2025 17:59:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F20510EBA2;
+	Fri,  7 Feb 2025 18:06:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TS+OQnGv";
+	dkim=pass (2048-bit key; unprotected) header.d=marcan.st header.i=@marcan.st header.b="C+tu+ElY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
- [209.85.208.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C328010EB98
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 17:59:48 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id
- 38308e7fff4ca-30613802a59so25533941fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 09:59:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1738951184; x=1739555984;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=7PwmuaIBJ/10qYXXlbzfefJdtGyrGJpw93xkGEeBXLI=;
- b=TS+OQnGvF4FcCQA0qYeeXrQ/bigkk+nhc7qX2/gjYwRBBPlbFwRFpHBoNNn+Wx2g3+
- iHKJbbzrAd8YE/Kze9p7X69TXUuvGlvdHWqA5PWf8dKAPwLmz+MIkMY10mBwXHng9qwi
- WUdY0lnJekjX/xxxkmAlstDNfEZatdQqskHYg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738951184; x=1739555984;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7PwmuaIBJ/10qYXXlbzfefJdtGyrGJpw93xkGEeBXLI=;
- b=hF7KunQANdGjVGKgP7pw5rPpiSsmdPHeaf2sTdAtM6lG916IT1IPfokBCtFO18ymKJ
- N0VCyinjuVs+hdZIQ4ffXNadOoQ3qfyxQY7RrgCdhwbyPxFaMfY1+9rQ8mnXTWxVW+MJ
- EVLOAKfcc7IExCruCbgZz/m0WPhiIf2FpedWA+KGzAAdlIKNz13E3S+RgGJAbDd1Dwp5
- EvAVkGxypAMpeS8ipfAiS09dbRQREfChONJI6PJ1aLR8h9YYK9xbQR2rxuegygNr5XH/
- e6f4g6/S2pP4ZjhD/BiPxdKVZhrXh3Tc6nZ4kShiqeoc45BivJrDAy73Uz5dZyvtxAza
- Fpfw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoZI4YSjwNFrdLjCsK/X1Zc6BGnu9uaKDK6Ac2545LjKGJATIJff0wLFsHt3ykiIVXBqjnwVase0k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwkjGPBkAW52CicEBQm8gL2bJULbY57uA1SRq6QrsSFXeY73wmM
- nsmrozfsmFIDeKwpi1SOQd4+Ktb9Uh7B0odwq4Cf81lBud+SkTYVaFNwhBo5w8zMFZ/ThfJ4vKJ
- pcuDL
-X-Gm-Gg: ASbGncsoK3rOAeEm/HWcjzqeIw/ItlAscVIo9F2qvSKix1nxPyI/FyQSk68yyjiLiJ/
- KJye8f0tTJA+sHkGCI5IGdbl6bM4aPJRsTbCHJzwXzAMPooBvL/2fnxorsSMuB1msvyN0nWt1Q9
- ph6AdeEi3g5kTNKWgc6I0h1AyXIGFMgE6azErJ9S8/7CPlbmUF7h6TsxP6AILLGmMU+JOgsEgyv
- zGvVl160JBJk0Y4fV3hcDTH5t1pMfeI/gprcmRPyI9V1Hg/zVDCAq77RetxyIaodFF9/36oHagC
- yKuC5ZND/Dt4zV2U5ceYO0Tbo7rl7VS+OqB4Owf0suPNTZ+uwnGCniw=
-X-Google-Smtp-Source: AGHT+IG9kYJpUK7lwamniW9r/sKKnBwtKuws1PO1YAFwmA88x1jWYQGuhVzjU0vOmQ9dO4EPkDU+qw==
-X-Received: by 2002:a2e:a545:0:b0:300:3a15:8f23 with SMTP id
- 38308e7fff4ca-307e57bc496mr12432161fa.7.1738951184236; 
- Fri, 07 Feb 2025 09:59:44 -0800 (PST)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
- [209.85.167.46]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-307de1c7a61sm5154901fa.64.2025.02.07.09.59.42
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2025 09:59:43 -0800 (PST)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54410d769f7so2272952e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 09:59:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUhYKqDUy4E8OYRtGu7hjzgIANbEpV7FDBTHluTDnGkMqCkw/pXamoPf4AK13s1zWt3xdpNAuncU50=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:b8a:b0:542:6105:bb72 with SMTP id
- 2adb3069b0e04-54414a9cbc3mr1362214e87.19.1738951182378; Fri, 07 Feb 2025
- 09:59:42 -0800 (PST)
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5205B10EB96
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 18:02:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: marcan@marcan.st)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id D092B41F7F;
+ Fri,  7 Feb 2025 18:02:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+ t=1738951335; bh=K63Fpm4Kxp5LTpQxJQ48pUAOYhYczonzA7LReojlAZI=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=C+tu+ElYntR8wBRcFKZxvP6WG3en/4yVXwKudMP9OdBRDAK929qu94F07Cd6XDOYi
+ 8lsSohR320RRmapyxLRcWS/BmrZbORe0ypjHrqir/5kN9qPjvzxc1rT00C0H5kM+KV
+ T2HZmN9pYNoxWIzQ3K8rdRKmZcLCoxuDbaswNyDVZWHt8NtD1I9oED8p7YZ8s3msh6
+ eA138FEJVwOTv98gWB/TULbOnWosb1oJa2hyOtT8NEsIXYUB6HywGOINGx88zU8DDG
+ qCip0FULgWnmfV8y3ssFjjrnGnJsbMefCagHqH+HvcvON/sQlGngiqLN2CmZd5tz2x
+ ZJo7jfDuxehOA==
+Message-ID: <1bbdf8b7-a70b-4994-865e-7fcb8d53ebef@marcan.st>
+Date: Sat, 8 Feb 2025 03:02:11 +0900
 MIME-Version: 1.0
-References: <20250206131300.1295111-1-yelangyan@huaqin.corp-partner.google.com>
- <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
-In-Reply-To: <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 7 Feb 2025 09:59:30 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Xe90b6x4JF716=O==U3US-vONovcvDm0yfOconkFRPcg@mail.gmail.com>
-X-Gm-Features: AWEUYZnN1bml-NA4ebUvH8W9aveGL3aSVmaC8yx15fMw7Kdh-ZCSTxHkG5ADkjk
-Message-ID: <CAD=FV=Xe90b6x4JF716=O==U3US-vONovcvDm0yfOconkFRPcg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/panel: panel-himax-hx83102: support for
- csot-pna957qt1-1 MIPI-DSI panel
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com, 
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@gmail.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, phasta@kernel.org,
+ Christoph Hellwig <hch@lst.de>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, daniel.almeida@collabora.com,
+ aliceryhl@google.com, robin.murphy@arm.com, rust-for-linux@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Valentin Obst <kernel@valentinobst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <2025013030-gummy-cosmic-7927@gregkh>
+ <20250130172437.GN5556@nvidia.com>
+ <2025013148-reversal-pessimism-1515@gregkh>
+ <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+ <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
+ <Z6UPXxEJYpanU9iU@cassiopeiae>
+ <4c0a7cf9-26e1-4a19-8a6e-7c30bc3aef86@marcan.st>
+ <20250207-mature-pastel-rottweiler-e6dbd9@lemur>
+From: Hector Martin <marcan@marcan.st>
+Content-Language: en-US
+In-Reply-To: <20250207-mature-pastel-rottweiler-e6dbd9@lemur>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,22 +86,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2025/02/08 2:14, Konstantin Ryabitsev wrote:
+> On Fri, Feb 07, 2025 at 05:16:28AM +0900, Hector Martin wrote:
+>> And what I see, is very little effort to improve that status quo, or at
+>> least very little that yields any actual change that isn't just
+>> band-aids (e.g. tooling like b4, which is nice and appreciated, but
+>> doesn't fix any underlying issues). And that's not going to change no
+>> matter how many long technical arguments we have on the MLs (or even off
+>> MLs, since MLs are also not particularly good for this, and I've seen
+>> multiple arguments only reach a resolution after being redirected to IRC).
+> 
+> From my perspective, there are several camps clashing when it comes to the
+> kernel development model. One is people who are (rightfully) pointing out that
+> using the mailing lists was fine 20 years ago, but the world of software
+> development has vastly moved on to forges.
+> 
+> The other camp is people who (also rightfully) point out that kernel
+> development has always been decentralized and we should resist all attempts to
+> get ourselves into a position where Linux is dependent on any single
+> Benevolent Entity (Github, Gitlab, LF, kernel.org, etc), because this would
+> give that entity too much political or commercial control or, at the very
+> least, introduce SPoFs.
+> 
+> At best, I can hope to make both camps grumpily agree to coexist.
+> 
+> I *am* very wary of Benevolent Entities, because we have too many very recent
+> examples of companies "realigning priorities" when political winds shift.
+> Programs and initiatives that have until recently been poster board examples
+> of progress and benevolence are shuttered and defunded. I am concerned that
+> we're only a couple of mood swings away from someone deciding that free
+> software should not be allowed to exist because it benefits America's foes.
+> Many of us remember all too well when large tech giants treated Linux as a
+> "cancer" to be opposed, and I can certainly see that idea easily re-entering
+> some Big Brain in Charge.
+> 
+> From my perspective, I would like to ensure that Linux development can
+> continue without a hard dependency on a single centralized forge -- whether
+> controlled by a large commercial entity, or even a standalone one that is
+> operated by kernel.org. It's becoming shockingly difficult to operate a public
+> resource on the web unless you're willing to put it behind a large commercial
+> CDN that will protect you from hostile bots (and if you do that, you're back
+> to depending on the whims of a Benevolent Entity).
+> 
+> We're trying to get lore.kernel.org to the point where it's like a global
+> messaging bus that is indexed and searchable. Currently, you mostly have to
+> send things to a mailing list for them to end up on lore, but it's gradually
+> becoming less and less the case. We're already bridging with bugzilla and we
+> should be able to bridge with forges soon, too (currently delayed again
+> because I'm scrambling to move kernel.org frontends away from Equinix). Who
+> knows, we may be actually leapfrogging the forge era of software development
+> straight into "AI" agents era -- but that remains to be seen.
+> 
+> Anyway, all of this is to say that I'm happy that you've found b4 useful, but
+> I wouldn't view it as a band-aid -- it's just a very small and email-centric
+> way to interact with the kernel lore.
+> 
 
-On Thu, Feb 6, 2025 at 5:13=E2=80=AFAM Langyan Ye
-<yelangyan@huaqin.corp-partner.google.com> wrote:
->
-> The csot-pna957qt1-1 is a 10.95" TFT panel. The MIPI controller on this
-> panel is the same as the other panels here, so add this panel to this
-> driver.
->
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-> ---
->  drivers/gpu/drm/panel/panel-himax-hx83102.c | 123 ++++++++++++++++++++
->  1 file changed, 123 insertions(+)
+The centralization concern is valid, but there are technical solutions
+to this, such as forge federation. It's possible to set up a forge
+environment to be less of a SPoF, such as by ensuring all data is open
+and archiveable to allow for migration and backup restore, even by third
+parties (you can make practically ~all forge data public except for
+login passwords, and we have email-based reset processes for those).
+It's also possible to simply shard, and let different subsystems choose
+their own forge infrastructure, so downtime has a more limited effect.
 
-Pushed to drm-misc-next:
+Meanwhile, for better or worse, much of Linux infra *is* centralized -
+for example, the mailing lists themselves, and a lot of the Git hosting.
 
-[3/3] drm/panel: panel-himax-hx83102: support for csot-pna957qt1-1
-MIPI-DSI panel
-      commit: 05345cea4ff5a857612df3f10144dec685c07e6d
+There's also the fact that there is enough support for Linux that
+finding a Benevolent Entity to provide stuff like DDoS protection is not
+particularly hard, and such services are easily replaceable should
+priorities change (and indeed are the kind of service that can only be
+provided by a large entity, whether paid or sponsored, by nature). Heck,
+even I have a Benevolent Entity sponsoring a CDN frontend for Asahi
+sites and installer images (bunny.net, they're nice, highly recommended).
+
+At the end of the day, I do not believe a theoretical breakdown of Linux
+infra would be a major long-term setback to Linux kernel development.
+The kernel already survived the great BitKeeper to Git migration, and
+this time there's no proprietary software to be yanked out from under
+the kernel (at least assuming the forge of choice is FOSS and
+self-hostable, which seems like a no-brainer given the concerns). As
+long as everyone has the Git trees, infrastructure can be rebuilt. As
+long as everyone has email and git, development can continue ad-hoc.
+Sure, it would cause a blip, but it's not like we would switch to a
+forge, the forge would go down for a few days, and it would not be the
+end of the world. Just ask the freedesktop folks (a good case study on
+how infra is hard, but not impossible, and even if imperfect, even if at
+times frustrating, it still functions, and well enough to still be
+wildly positive compared to not having that infra at all).
+
+But I'm afraid you'll find much if not most of the true opposition to
+forges is not technical, it is philosophical or preference-based (even
+though it may be presented as technical opposition, sometimes to
+intentionally mislead). This is, in fact, quite a mirror of the R4L
+situation, where technical arguments ("show me you can write a real
+driver") quickly lead to non-technical arguments when solutions are
+proposed ("it's cancer").
+
+I actually considered moving soc/apple development to a forge personally
+in the near future (obviously not my call to make any more), and I was
+fully expecting a pile of pushback, "because that's not how we do things
+here". Who knows, I might have gotten a "fuck you, either you accept
+email patches or I remove you from MAINTAINTERS" from Linus.
+
+All that said, thanks for b4. I might have given up much earlier, not
+due to flamewars but due to exhaustion with poor tooling, if it didn't
+exist.
+
+- Hector
+
