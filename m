@@ -2,62 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99625A2C049
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 11:15:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98144A2C073
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 11:20:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D705710EA93;
-	Fri,  7 Feb 2025 10:15:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E16BF10EAA2;
+	Fri,  7 Feb 2025 10:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cf88tJrM";
+	dkim=pass (2048-bit key; unprotected) header.d=marcan.st header.i=@marcan.st header.b="CB6gSxDi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79CD410EA93;
- Fri,  7 Feb 2025 10:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738923345; x=1770459345;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=Y5PlIehexw8c9uoDpoNQ0kDX4O4yzunv9aoov0CbdeQ=;
- b=cf88tJrMWDokl92L8LNuARpojMv0R3iYKObGyaXl1hSKlWQPB2W4Kmw1
- ++v0axxiHNRL1bb1GlZ5lC8PIyqUY3NTkaI5OfCHEXVvq4kLx5BTmVKYk
- 4MXnpLj1CSzpb1HbrK36/9QETy2ShcDgSoosmZjpybq7AeRg2qh/eYQ3Z
- aa4Mbf67g7r6QqyLOtY+fx/gXayYKHOSPePmdStnCoPIiO2bnP+5Oq/8c
- /tm57uR001n7LGHDE14Zg0QMr9Lb4PLvM1F7SASd6GwAn7f5YjGdcwOEQ
- kYWuJ0qOVlfEzqfSkvnYWxDpGqkr9UHutYBk5pU3mfVe9XiA0zHI4zuu0 A==;
-X-CSE-ConnectionGUID: DbdkHSCsRk23UvzfU1yaag==
-X-CSE-MsgGUID: PaMWcWHWROaAyWIOJGFdXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="27167017"
-X-IronPort-AV: E=Sophos;i="6.13,266,1732608000"; d="scan'208";a="27167017"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 02:15:44 -0800
-X-CSE-ConnectionGUID: 1mo+IbpTRqe8cP1t3nCOkQ==
-X-CSE-MsgGUID: Dcbh6G4RTdqEMQeS5ldnqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,266,1732608000"; d="scan'208";a="111685476"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.246.108])
- ([10.245.246.108])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 02:15:41 -0800
-Message-ID: <65ff860787898466ff56215962d118494358088d.camel@linux.intel.com>
-Subject: Re: [PATCH v4 11/33] drm/xe: Nuke VM's mapping upon close
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
- simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Date: Fri, 07 Feb 2025 11:15:38 +0100
-In-Reply-To: <20250129195212.745731-12-matthew.brost@intel.com>
-References: <20250129195212.745731-1-matthew.brost@intel.com>
- <20250129195212.745731-12-matthew.brost@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46F4C10EA9E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 10:20:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested)
+ (Authenticated sender: marcan@marcan.st)
+ by mail.marcansoft.com (Postfix) with ESMTPSA id 5350341D83;
+ Fri,  7 Feb 2025 10:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+ t=1738923606; bh=9+0b5N0nDXjlOdh4CZLsVjIW1hn3/KeNxflDFFbSabo=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To;
+ b=CB6gSxDiIaKLrF6ORcX3n4YTVmoGYcpplzsp8ALUPjgjfmF8V9lZ6eSFTUdxgRKAs
+ R47c0DGTD5KsSFCo44NlMxEfGNJ4guhu9gWJMdzY48tkvul7AOidp9LG8zfL7o2Di1
+ K3L/SiWGuk7sQ8nHMN1yEqXRqr3Edsd7OkxrWnM54IuIcEgCp86sugiR7XbmLJ7/Oc
+ 7Ea4KriPYNSYwOZeqO2Ad5eFNkx6BTgkIeSshCL1wyYJZ9jF3x/YAhaIe+EOMiQg9z
+ Aj7zjGVGXkSuKwd4OrW8BapKIyL7jvIMxfrY0hDUL7UXavjnbwt+P5U6lgCpRASHDO
+ D8tTitlLeaGvw==
+Message-ID: <c5a49bcb-45cf-4295-80e0-c4b07083df00@marcan.st>
+Date: Fri, 7 Feb 2025 19:20:03 +0900
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+From: Hector Martin <marcan@marcan.st>
+To: Simona Vetter <simona@ffwll.ch>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Greg KH <gregkh@linuxfoundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>, phasta@kernel.org,
+ Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, daniel.almeida@collabora.com,
+ aliceryhl@google.com, robin.murphy@arm.com, rust-for-linux@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Valentin Obst <kernel@valentinobst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+References: <Z4D5a5NYrAbNxUL6@pollux> <Z4kG5AcVeQKegLnb@pollux>
+ <20250128092334.GA28548@lst.de>
+ <293df3d54bad446e8fd527f204c6dc301354e340.camel@mailbox.org>
+ <20250130154646.GA2298732@nvidia.com> <2025013030-gummy-cosmic-7927@gregkh>
+ <20250130172437.GN5556@nvidia.com>
+ <2025013148-reversal-pessimism-1515@gregkh>
+ <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <4c143b85-063a-4413-a6ca-e9d80e26da96@marcan.st>
+Content-Language: en-US
+In-Reply-To: <4c143b85-063a-4413-a6ca-e9d80e26da96@marcan.st>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,192 +84,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-01-29 at 11:51 -0800, Matthew Brost wrote:
-> Clear root PT entry and invalidate entire VM's address space when
-> closing the VM. Will prevent the GPU from accessing any of the VM's
-> memory after closing.
->=20
-> v2:
-> =C2=A0- s/vma/vm in kernel doc (CI)
-> =C2=A0- Don't nuke migration VM as this occur at driver unload (CI)
-> v3:
-> =C2=A0- Rebase and pull into SVM series (Thomas)
-> =C2=A0- Wait for pending binds (Thomas)
->=20
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
-> =C2=A0drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c | 24
-> +++++++++++++++++++++
-> =C2=A0drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h |=C2=A0 2 ++
-> =C2=A0drivers/gpu/drm/xe/xe_pt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 ++++++=
-++++++
-> =C2=A0drivers/gpu/drm/xe/xe_pt.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +=
-++
-> =C2=A0drivers/gpu/drm/xe/xe_vm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 22 ++++++=
-+++++++++++++
-> =C2=A05 files changed, 65 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
-> b/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
-> index 0a93831c0a02..1ef21ed01d1b 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
-> +++ b/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c
-> @@ -410,6 +410,30 @@ int xe_gt_tlb_invalidation_range(struct xe_gt
-> *gt,
-> =C2=A0	return send_tlb_invalidation(&gt->uc.guc, fence, action,
-> len);
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * xe_gt_tlb_invalidation_vm - Issue a TLB invalidation on this GT
-> for a VM
-> + * @gt: graphics tile
-> + * @vm: VM to invalidate
-> + *
-> + * Invalidate entire VM's address space
-> + */
-> +void xe_gt_tlb_invalidation_vm(struct xe_gt *gt, struct xe_vm *vm)
-> +{
-> +	struct xe_gt_tlb_invalidation_fence fence;
-> +	u64 range =3D 1ull << vm->xe->info.va_bits;
-> +	int ret;
-> +
-> +	xe_gt_tlb_invalidation_fence_init(gt, &fence, true);
-> +
-> +	ret =3D xe_gt_tlb_invalidation_range(gt, &fence, 0, range, vm-
-> >usm.asid);
-> +	if (ret < 0) {
-> +		xe_gt_tlb_invalidation_fence_fini(&fence);
-> +		return;
-> +	}
-> +
-> +	xe_gt_tlb_invalidation_fence_wait(&fence);
-> +}
-> +
-> =C2=A0/**
-> =C2=A0 * xe_gt_tlb_invalidation_vma - Issue a TLB invalidation on this GT
-> for a VMA
-> =C2=A0 * @gt: GT structure
-> diff --git a/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h
-> b/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h
-> index 672acfcdf0d7..abe9b03d543e 100644
-> --- a/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h
-> +++ b/drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h
-> @@ -12,6 +12,7 @@
-> =C2=A0
-> =C2=A0struct xe_gt;
-> =C2=A0struct xe_guc;
-> +struct xe_vm;
-> =C2=A0struct xe_vma;
-> =C2=A0
-> =C2=A0int xe_gt_tlb_invalidation_init_early(struct xe_gt *gt);
-> @@ -21,6 +22,7 @@ int xe_gt_tlb_invalidation_ggtt(struct xe_gt *gt);
-> =C2=A0int xe_gt_tlb_invalidation_vma(struct xe_gt *gt,
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_gt_tlb_invalidati=
-on_fence
-> *fence,
-> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_vma *vma);
-> +void xe_gt_tlb_invalidation_vm(struct xe_gt *gt, struct xe_vm *vm);
-> =C2=A0int xe_gt_tlb_invalidation_range(struct xe_gt *gt,
-> =C2=A0				 struct xe_gt_tlb_invalidation_fence
-> *fence,
-> =C2=A0				 u64 start, u64 end, u32 asid);
-> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-> index 99b97bf37c05..c5060011ad43 100644
-> --- a/drivers/gpu/drm/xe/xe_pt.c
-> +++ b/drivers/gpu/drm/xe/xe_pt.c
-> @@ -214,6 +214,20 @@ void xe_pt_destroy(struct xe_pt *pt, u32 flags,
-> struct llist_head *deferred)
-> =C2=A0	xe_pt_free(pt);
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * xe_pt_clear() - Clear a page-table.
-> + * @xe: xe device.
-> + * @pt: The page-table.
-> + *
-> + * Clears page-table by setting to zero.
-> + */
-> +void xe_pt_clear(struct xe_device *xe, struct xe_pt *pt)
-> +{
-> +	struct iosys_map *map =3D &pt->bo->vmap;
-> +
-> +	xe_map_memset(xe, map, 0, 0, SZ_4K);
-> +}
-> +
-> =C2=A0/**
-> =C2=A0 * DOC: Pagetable building
-> =C2=A0 *
-> diff --git a/drivers/gpu/drm/xe/xe_pt.h b/drivers/gpu/drm/xe/xe_pt.h
-> index 9ab386431cad..8e43912ae8e9 100644
-> --- a/drivers/gpu/drm/xe/xe_pt.h
-> +++ b/drivers/gpu/drm/xe/xe_pt.h
-> @@ -13,6 +13,7 @@ struct dma_fence;
-> =C2=A0struct xe_bo;
-> =C2=A0struct xe_device;
-> =C2=A0struct xe_exec_queue;
-> +struct xe_svm_range;
-> =C2=A0struct xe_sync_entry;
-> =C2=A0struct xe_tile;
-> =C2=A0struct xe_vm;
-> @@ -35,6 +36,8 @@ void xe_pt_populate_empty(struct xe_tile *tile,
-> struct xe_vm *vm,
-> =C2=A0
-> =C2=A0void xe_pt_destroy(struct xe_pt *pt, u32 flags, struct llist_head
-> *deferred);
-> =C2=A0
-> +void xe_pt_clear(struct xe_device *xe, struct xe_pt *pt);
-> +
-> =C2=A0int xe_pt_update_ops_prepare(struct xe_tile *tile, struct xe_vma_op=
-s
-> *vops);
-> =C2=A0struct dma_fence *xe_pt_update_ops_run(struct xe_tile *tile,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_vma_ops *vops);
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index bc34e6738c8c..82026c5a154d 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -1537,8 +1537,30 @@ struct xe_vm *xe_vm_create(struct xe_device
-> *xe, u32 flags)
-> =C2=A0
-> =C2=A0static void xe_vm_close(struct xe_vm *vm)
-> =C2=A0{
-> +	bool migration =3D (vm->flags & XE_VM_FLAG_MIGRATION);
-
-Do we need a separate bool here? Only used in one place AFAICT.
-
-Otherwise,
-Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
 
-> +
-> =C2=A0	down_write(&vm->lock);
-> +
-> =C2=A0	vm->size =3D 0;
-> +
-> +	if (!migration) {
-> +		struct xe_tile *tile;
-> +		struct xe_gt *gt;
-> +		u8 id;
-> +
-> +		/* Wait for pending binds */
-> +		dma_resv_wait_timeout(xe_vm_resv(vm),
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMA_RESV_USAGE_BOOKKEEP,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 false, MAX_SCHEDULE_TIMEOUT);
-> +
-> +		for_each_tile(tile, vm->xe, id)
-> +			if (vm->pt_root[id])
-> +				xe_pt_clear(vm->xe, vm-
-> >pt_root[id]);
-> +
-> +		for_each_gt(gt, vm->xe, id)
-> +			xe_gt_tlb_invalidation_vm(gt, vm);
-> +	}
-> +
-> =C2=A0	up_write(&vm->lock);
-> =C2=A0}
-> =C2=A0
+On 2025/02/07 18:41, Hector Martin wrote:
+> On 2025/02/06 3:52, Simona Vetter wrote:
+>> On Tue, Feb 04, 2025 at 03:46:14AM +0900, Hector Martin wrote:
+>>> Adding Linus
+>>>
+>>> My 2c: If Linus doesn't pipe up with an authoritative answer to this
+>>> thread, Miguel and the other Rust folks should just merge this series
+>>> once it is reviewed and ready, ignoring Christoph's overt attempt at
+>>> sabotaging the project. If Linus pulls it, what Christoph says doesn't
+>>> matter. If Linus doesn't pull it, the R4L project is essentially dead
+>>> until either Linus or Christoph make a move. Everything else is beating
+>>> around the bush.
+>>>
+>>> Rust folks: Please don't waste your time and mental cycles on drama like
+>>> this. It's not worth your time. Either Linus likes it, or he doesn't.
+>>> Everything else is distractions orchestrated by a subset of saboteur
+>>> maintainers who are trying to demoralize you until you give up, because
+>>> they know they're going to be on the losing side of history sooner or
+>>> later. No amount of sabotage from old entrenched maintainers is going to
+>>> stop the world from moving forward towards memory-safe languages.
+>>>
+>>> FWIW, in my opinion, the "cancer" comment from Christoph would be enough
+>>> to qualify for Code-of-Conduct action, but I doubt anything of the sort
+>>> will happen.
+>>
+>> Yeah no.
+>>
+>> https://chaos.social/@sima/113942119012147959
+>>
+>> This was about you, because typing a proper answer takes a bit longer. It
+>> was also about your toots on fedi, like this:
+>>
+>> https://social.treehouse.systems/@marcan/113941468353031993
+>>
+>> And "haha it's only a joke" does not work with your public profile and following.
+>>
+>> I do understand the frustration and temptation to just burn it all to the
+>> ground, head the call of the sirens, or maybe for me more pick up goat
+>> farming in the Swiss Alps. But you can't have it both and expect to also
+>> be part of and contribute to the same community. And personally I don't
+>> appreciate getting drenched in gasoline while I'm trying to quench flames
+>> on the ground.
+>>
+>> And this isn't the first time or the second, by now it's a pretty clear
+>> pattern over some years. And with the first I could explain why you react
+>> like that and you had my full understanding, but eventually that runs a
+>> bit thin as an excuse.  Now I'm left with the unlikely explanation that
+>> you just like thundering in as the cavalry, fashionably late, maximally
+>> destructive, because it entertains the masses on fedi or reddit or
+>> wherever. I have no idea what you're trying to achieve here, I really
+>> don't get it, but I am for sure fed up dealing with the fallout.
+>>
+>> Cheers, Sima
+> 
+> Since we're into complaining about social media posts on the list now,
+> I'm going to link one of yours:
+> 
+> https://chaos.social/@sima/113961496955043901
+> 
+> An R4L maintainer quit after multiple rounds of hostility, including
+> some completely unacceptable public comments bordering on downright
+> harassment from tytso, a situation which was widely publicized.
+> 
+> If, according to you, that's "shockingly smooth" with "no outsized
+> drama" other than "what I stirred up" (I guess you also missed the whole
+> LWN post about this thread before I posted anything on Fedi? That's how
+> I even found out about this), then I'm glad I'm disengaging with this
+> community. The Stockholm syndrome and utter denial is palpable.
+> 
+> I thought I could work with you on these issues; I don't know what
+> happened over the past year since we last had a private conversation
+> about this, but clearly you've changed your mind.
+> 
+> Thus, as you kindly requested of me in social media,
+> 
+> https://chaos.social/@sima/113961283260455876
+> 
+> I will now proceed to fuck off. Good luck.
+
+Oh, and one last thing. I've heard that, in whatever backroom
+conversations you've been having about this situation, there has
+apparently been a belief, explicit or implicit, that I am in any way
+employed to work on the Linux kernel.
+
+Unlike most people in this thread, I don't enjoy the luxury of a cushy
+tech job that pays me to deal with this community. I am supported
+exclusively by donations, which incidentally, have been steadily
+*de*creasing since the start of the Asahi Linux project. The project has
+zero corporate sponsorship.
+
+And I do believe the fact that essentially all high-level Linux kernel
+maintainers and contributors are paid by corporations to do it is a
+major factor that has caused this community to become wildly out of
+touch with what it means to be a community FOSS project.
+
+- Hector
 
