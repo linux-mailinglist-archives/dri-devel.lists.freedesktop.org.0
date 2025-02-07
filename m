@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBB9A2CCF9
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 20:44:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD7FA2CD09
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 20:48:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDF9110E28A;
-	Fri,  7 Feb 2025 19:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85C2810E290;
+	Fri,  7 Feb 2025 19:48:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rsYw0T9D";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ukTA/0mF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD0E10E28A
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 19:43:32 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-543cc81ddebso2766973e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 11:43:32 -0800 (PST)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 404AA10E290
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 19:47:08 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5441db195a8so982484e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 11:47:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738957410; x=1739562210; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738957626; x=1739562426; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=sfeUloH1D5YQJ4zSbv3mA6ITAlWmazeuNMbmPCyKglE=;
- b=rsYw0T9DpaVf2taQkjYSRShPb1AM/3HBdtvDLYyzDPAb6UO3sPJs32CnVYrXm2qiMc
- kOChy36LMsYwGOFvJ5Lry51kWdBF/exrKxDed4PxHGX0R/BNKdg6dPolYMdNtK75gWi5
- L0a3fzFAYwCSafwmibiXt0M1DM4yeMowPAJabBLI86SHzSQBlhtJZDwc8uiaNLVXy5iB
- YmqtyEry5H+EZHfWVCNoqJxPOfSRMrPf2iMW73J3d8Xxu5JWfF3AEY7Qqzac7Lsaiojk
- QzN32lcCAJ1DQrzuEdXDU46T21KUcKIrwaOHXi3cXFpDxa8qY5SiTIaUkCdbYP/m2LJl
- Jz/A==
+ bh=4Nnc+VLoNy3XrMrlSAm4S+smEOzp9c+gb/eHhOZ1VIc=;
+ b=ukTA/0mF3m1UY2TNyFUb5YGXLkLi1Hr9+HcgO85QNGyQOLewLkeWeQZ3rd37OiyimA
+ dh0cSOHBR0D8fsfyO7Xd3aEP0t2ttJf1vCAfE8mubZY1LmX43Uhp+qYs89Q4d6BZRwwF
+ 7/cFxoOdvUhC9Wb9KvFEZUbCEsAVlh17tgPQxxoE+KvribWcNj2bWr0pk/CxIPhBQldz
+ mB75wMaBDPobSFDAqccfXy2clrFWSMEJQYJrxGqinKfadvbAG1ijUy46/H84X72UNVgZ
+ Mg93JXRI9P+c7MVJLXq00pLvEpz8N2CpPqGaesfpg07Kj9vcNLffZcQZwsE9Q/gU2uhr
+ wOmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738957410; x=1739562210;
+ d=1e100.net; s=20230601; t=1738957626; x=1739562426;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sfeUloH1D5YQJ4zSbv3mA6ITAlWmazeuNMbmPCyKglE=;
- b=TxpA7xjkkLjajUTz5vuaOzSI4ZwIEH8QK0mz7EfEuaRDqSlwWEk7p1CupXvU4Lncxr
- r+FjpSsAnoJA2bFC6/FaHZ8E1gVbCV0n9QhR8QnJkkGe35r3n/oHHk9kguL8658lMLr6
- 0BM4q0zL88AxISAnUG67VSIPdRKjHxN7wYVy6z4mErcSakP46C/yjxjDD2j89rM/B6tB
- uzI3pBigTW7BMPuCKCCV01l1tpIuwNFwhVlQ9V3xnn4IeLCnjDQ8jDV5IDarf1JBdKYA
- 0uvFBjeucFjO6AXOhojxVFB0UoWGaFfli+BfjGFs2HmNRzFbSv19qNNlb2aiVvMlWjus
- OESA==
+ bh=4Nnc+VLoNy3XrMrlSAm4S+smEOzp9c+gb/eHhOZ1VIc=;
+ b=WGo+pLkKtgEtc4OCpimJRb3Vs2XP5wpXq63fGwI83Eu00+wY2I3JWTvtmBJMS6ELCC
+ fQWb0rFyqDdrTwRY8BTBivpxud9PczmHyQxoJLuzRQKcpajwplPw9Zk29ihxzgI5NQ5L
+ Ci7LvLqD1A1SZh4rrxCyeOS5Jskp9F7NEG34FXt38XEHddeKyIKdwIwzQ0CQZY7Axaz0
+ nCkdE4/kw5m5zn85TE3wI1iA6X7PbyHWg/SFNyu8mmHIbYZ6vBy39BLKCGBBlZTrERGA
+ jObidMG0kda0MdeOK+Md18XoKxZhZfj1JFsJDuX4q6iXWkNkzelKjVXHlYQcY21brZbo
+ UyQg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVs0PRTPt2Esmr7jX00YrblHEqu9Xd8J8dVSLphEksGaSfEm+WyTc6ohjwcY6z1MqNIgWW7X9NiS/U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8187kN3DLV7ohxgfCK/RlC0k22bLFr1IDzns5aU89NBoCavoY
- 5kbYWHOFm1jsro2sG8j6v/xcJxKKIPstzOcWn/nKB0oJbW6ceGm+eGcNc396tcY=
-X-Gm-Gg: ASbGnct6BZCaD1/7Qw+RPxGsX8dLmNgjuWJDBiPYgO4Pdpz2DzTGfxODsZBLT/V1urJ
- Ph3oBE8vV+65tWkksv4yXG0QaxwBq7rLp3KqHnBN5hGTulFWaUPyiZ8qn8/9zUiBDsnhQU/MwTm
- uRjppjykN+ICuSdQwEjstMxyI9vCVSJ2PhDPzniTSwujYUA+QBhmrvtT3UPR44XkzgEkU2wHClD
- t9EefaGEqwTbUJWSJ6jTSxsF7kyaim3+bBBopdLRt+ZKI3ZTnawqJ2mC97T+P0eC6BZDuIUez1F
- Z7jTQRIY138+6RsliTcVIQMs3Afmz0ju3LLddHruCQYzd9GfMuBSYLm4aeU36S1lQ+os3Ac=
-X-Google-Smtp-Source: AGHT+IGPtAJCB3CGqF85jrgae3kZNpGKdBiQF5zyaTqCla9QfN39wSgkGoIzsR5MIcuzbaZGPE0Bzg==
-X-Received: by 2002:a05:6512:2316:b0:543:9a61:a2e5 with SMTP id
- 2adb3069b0e04-54414aa87c8mr1684308e87.23.1738957409927; 
- Fri, 07 Feb 2025 11:43:29 -0800 (PST)
+ AJvYcCXzQclgYMl3F8/tW2Ri00IwQ0o4A7fePe+j4V/w1az8EqGSr3wBbU1CSU1KTze1W41kL7Zfy3mi9lM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyquwik62c4kqUmzaY4+iWChe1KBdzB0LirwRXrEyyVvaU8XomS
+ p4rlAL7ZPCsyQMeiX9YP9/UUSW1dDoLtPFMfyK9TvQcUIfvbGEJJPVEPxV98TXU=
+X-Gm-Gg: ASbGncvpUKjKh/pehoSZixCmFeq3wHY/Ne87aOX2Y4cffwoQca+/dPkPGGygu6dQwam
+ gaB3tweRC3XtAAzF9Z3M2ATpJALtDOsxgRZJEeTH8+yYIE5gRZs/DM/6C8ay5u2tPb7vv1sEoqX
+ fj12k88ZuSugfiau1gCTWb2F3Xsce4CsRY9Sfzd1v42+ZFDo6oMJ8KxKGxDa8+j7rH5KDbRavyx
+ YupFncPLZlX+g69mPAN9ORkhrqb/6eph16H62/D86fqTCW97JsugOpJwk0jlJwVQIPW9HX/2err
+ uwJ3xHO5ykhIyedyp5X5EWDJwzCoDzD8w7kHOkmJ78Sq21JVDcitFLm//ywGpxd6nfqAYaQ=
+X-Google-Smtp-Source: AGHT+IEX/wE6vKWAFwICx9CtlReQSMFmjn6yOfdCDmiizKZeJHyRie3LA+6lJskicwM/rhyEQV3BlQ==
+X-Received: by 2002:a05:6512:34c2:b0:542:91ac:3f78 with SMTP id
+ 2adb3069b0e04-54414ab8364mr1217019e87.17.1738957626455; 
+ Fri, 07 Feb 2025 11:47:06 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54410604225sm542577e87.237.2025.02.07.11.43.27
+ 2adb3069b0e04-544105bfd35sm545378e87.115.2025.02.07.11.47.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2025 11:43:28 -0800 (PST)
-Date: Fri, 7 Feb 2025 21:43:26 +0200
+ Fri, 07 Feb 2025 11:47:05 -0800 (PST)
+Date: Fri, 7 Feb 2025 21:47:02 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -89,17 +89,17 @@ Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 08/26] drm/bridge: panel: add a panel_bridge to every
- panel
-Message-ID: <aoy4vtqfffq3chbfdqdcrtqmex3pqijlusem7pp37wwsg34lgl@mnaqbp6fijnc>
+Subject: Re: [PATCH v6 09/26] drm/bridge: move devm_drm_of_get_bridge and
+ drmm_of_get_bridge to drm_bridge.c
+Message-ID: <7tul5avfkrw7potqif4xbv57o2wp5suuiiqna2gzcd2z4wwyxg@c2qu7bigul67>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-8-9d6f2c9c3058@bootlin.com>
- <iucfx6tewwazxnonivajmdqqaexdfn6izwxwlv2l5t3256uwfy@sp4cm5eifdt3>
- <20250207095428.244f0f91@booty>
+ <20250206-hotplug-drm-bridge-v6-9-9d6f2c9c3058@bootlin.com>
+ <aayr7q6i3x34xw7ivvapnk6h6mgx67qhpv2rqk2gotejyjetwy@olb5lbwxd5e3>
+ <20250207095421.07ca853f@booty>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207095428.244f0f91@booty>
+In-Reply-To: <20250207095421.07ca853f@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,49 +115,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2025 at 09:54:28AM +0100, Luca Ceresoli wrote:
-> On Fri, 7 Feb 2025 04:49:21 +0200
+On Fri, Feb 07, 2025 at 09:54:21AM +0100, Luca Ceresoli wrote:
+> On Fri, 7 Feb 2025 04:52:20 +0200
 > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 > 
-> > On Thu, Feb 06, 2025 at 07:14:23PM +0100, Luca Ceresoli wrote:
-> > > Adding a panel does currently not add a panel_bridge wrapping it. Usually
-> > > the panel_bridge creation happens when some other driver (e.g. the previous
-> > > bridge or the encoder) calls *_of_get_bridge() and the following element in
-> > > the pipeline is a panel.
+> > On Thu, Feb 06, 2025 at 07:14:24PM +0100, Luca Ceresoli wrote:
+> > > devm_drm_of_get_bridge() and drmm_of_get_bridge() do not have anything to
+> > > do with struct drm_panel anymore, they just manage bridges. So move them
+> > > from bridge/panel.c to drm_bridge.c.
 > > > 
-> > > This has some drawbacks:
+> > > Move also of_drm_find_bridge_by_endpoint() which is used only by
+> > > devm_drm_of_get_bridge() and drmm_of_get_bridge().
 > > > 
-> > >  * the panel_bridge is not created in the context of the driver of the
-> > >    underlying physical device (the panel driver), but of some other driver
-> > >  * that "other driver" is not aware of whether the returned drm_bridge
-> > >    pointer is a panel_bridge created on the fly, a pre-existing
-> > >    panel_bridge or a non-panel bridge
-> > >  * removal of a panel_bridge requires calling drm_panel_bridge_remove(),
-> > >    but the "other driver" doesn't know whether this is needed because it
-> > >    doesn't know whether it has created a panel_bridge or not
-> > > 
-> > > So far this approach has been working because devm and drmm ensure the
-> > > panel bridge would be dealloacted at some later point. However with the
-> > > upcoming implementation of dynamic bridge lifetime this will get more
-> > > complicated.
-> > > 
-> > > Correct removal of a panel_bridge might possibly be obtained by adding more
-> > > devm/drmm technology to have it freed correctly at all times. However this
-> > > would add more complexity and not help making lifetime more understandable.
-> > > 
-> > > Use a different approach instead: always create a panel_bridge with a
-> > > drm_panel, thus matching the lifetime of the drm_panel and the panel_bridge
-> > > wrapping it. This makes lifetime much more straightforward to understand
-> > > and to further develop on.
-> > > 
-> > > With the panel_bridge always created, the functions to get a bridge
-> > > [devm_drm_of_get_bridge() and drmm_of_get_bridge()] become simpler because
-> > > the bridge they are looking for exists already (if it can exist at all). In
-> > > turn, this is implemented based on a variant of
-> > > drm_of_find_panel_or_bridge() that only looks for panels:
-> > > of_drm_find_bridge_by_endpoint(). In the future
-> > > drm_of_find_panel_or_bridge() can be progressively removed because there
-> > > will never be a panel not exposing a bridge.
+> > > No code changes, only move functions to a different file within the same
+> > > module and add an #include as needed.
 > > > 
 > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > > > 
@@ -165,41 +136,85 @@ On Fri, Feb 07, 2025 at 09:54:28AM +0100, Luca Ceresoli wrote:
 > > > 
 > > > This patch was added in v6.
 > > > ---
-> > >  drivers/gpu/drm/bridge/panel.c | 74 +++++++++++++++++++++++++++++++++---------
-> > >  include/drm/drm_panel.h        |  8 +++++
-> > >  2 files changed, 66 insertions(+), 16 deletions(-)
-> > >   
-> > 
-> > LGTM, minor issue below.
-> > 
-> > > @@ -1018,6 +1067,11 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
-> > >  {
-> > >  	struct drm_bridge **ptr, *bridge;
+> > >  drivers/gpu/drm/bridge/panel.c | 102 -----------------------------------------
+> > >  drivers/gpu/drm/drm_bridge.c   | 100 ++++++++++++++++++++++++++++++++++++++++
+> > >  2 files changed, 100 insertions(+), 102 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> > > index 6995de605e7317dd1eb153afd475746ced764712..1230ae50b2020e7a9306cac83009dd600dd61d26 100644
+> > > --- a/drivers/gpu/drm/bridge/panel.c
+> > > +++ b/drivers/gpu/drm/bridge/panel.c
+> > > @@ -418,49 +418,6 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
 > > >  
-> > > +	if (panel->bridge) {
-> > > +		DRM_DEBUG("panel %s: returning existing bridge=%p", dev_name(dev), panel->bridge);
-> > > +		return panel->bridge;
-> > > +	}  
+> > > -/**
+> > > - * of_drm_find_bridge_by_endpoint - return drm_bridge connected to an endpoint
+> > > - * @np: device tree node containing encoder output ports
+> > > - * @port: port in the device tree node
+> > > - * @endpoint: endpoint in the device tree node
+> > > - * @bridge: pointer to hold returned drm_bridge (must not be NULL)
+> > > - *
+> > > - * Given a DT node's port and endpoint number, find the connected node and
+> > > - * return the associated struct drm_bridge.
+> > > - *
+> > > - * Returns zero if successful, or one of the standard error codes if it fails.
+> > > - */
+> > > -static int of_drm_find_bridge_by_endpoint(const struct device_node *np,
+> > > -					  int port, int endpoint,
+> > > -					  struct drm_bridge **bridge)  
 > > 
-> > Shouldn't the rest of the function also be removed as you do in other
-> > cases?
+> > I'd say make this function the main API instead (and name it drm_of
+> > rather than of_drm, this can happen in the previous patch).
 > 
-> Indeed it should.
+> I agree there should be a small number of APIs for the foreseeable
+> future (and any number of, hopefully decreasing-at-some-point,
+> deprecated ones).
 > 
-> And even more, I now realize drm_panel_bridge_add_typed() should also
-> become a simple 'return panel->bridge', like its devm and drmm
-> variants, and its code, implementing the actual creation of a panel
-> bridge, move to an internal function. Otherwise this patch is a bug:
-> existing drivers which do call drm_panel_bridge_add_typed() would end
-> up in having two panel_bridges for the same panel.
+> And I agree this one ^ and the devm_drm_of_get_bridge() below are
+> equivalent, despite having different signatures, and so one should
+> disappear.
 > 
-> I must say the process of developing this patch together with the
-> hotplug work was "convoluted" to say the least, which probably explains
-> why this got unnoticed so far.
+> So, time to think about what APIs we want. Some thoughts of mine:
+> 
+>  * I prefer "get" over "find", looks more intuitive as these functions
+>    will drm_bridge_get()
+>  * Is there a logic between of_drm_ and drm_of_? Just "the former is
+>    old and deprecated"?
 
-That's why I suggested to post this series separately - it saves you
-from rebasing hotplug work on top.
+I don't know, it might be historical. Nevertheless, I think, having just
+drm_ prefix for all DRM-related symbols is a good idea.
 
+>  * Since getting bridges via the endpoint is the preferred way, I'd
+>    like this function to have a shorter name than its variants
+>  * Returning a struct drm_bridge err_ptr looks better to me than
+>    returning an error and the bridge via a ptr-to-ptr, especially as we
+>    don't have anymore the case of returning a panel or a bridge from
+>    the same function
+> 
+> So, bottom line, we'd have:
+> 
+>  - struct drm_bridge *drm_of_get_bridge(np, port, endpoint)
+>  - struct drm_bridge *drm_of_get_bridge_by_node(bridge_np)
+
+I think these two are fine, please go with them
+
+>  - devm_ and drmm_ variants of the above
+
+These two are only necessary for the refcounted bridges. I'd say, skip
+them as a part of the panel / bridge patchset. Please don't
+overcomplicate it too much.
+
+> 
+> or a subset of these, in case some is not needed.
+> 
+> What are your opinions?
+> 
+> > > -struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
+> > > -					  struct device_node *np,
+> > > -					  u32 port, u32 endpoint)
+> 
+> ^ kept for reference
 > 
 > Luca
 > 
