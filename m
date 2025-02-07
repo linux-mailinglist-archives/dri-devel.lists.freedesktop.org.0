@@ -2,57 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6124A2C8F1
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 17:33:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19622A2C8F2
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 17:33:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 984F510EB76;
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA10910EB79;
 	Fri,  7 Feb 2025 16:33:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="m+l0jBJc";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="kxyozEJl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC16810E047
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 16:29:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1738945783;
- bh=CTg/oPt7b8oDc+wpDgmpUzTTliBbDj+D/KiMzWPe6wg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=m+l0jBJc2+iprI6Pu9oAN8vZvFcertgTLFqvOC1P0Cf9VU8moZlNVRZxTS+ML6aBh
- G1pCo6/0HOXqFJxWmsDkvSkoTE03JlUCGl4Mb/oqTR1fEqyQTtvq23xAtTATRaDaO5
- MJEDmnG2FxgwQjEX2QUP0rH/r2ZLN6TJy/mv1snvQP5kK9TNdsMR6M6cF5Dd0sCFla
- EfOK4JfX3CzuSkoOnpwn/MhwtyrOPpWkat8fKqRZIoCiwJ+ZbLAdJ7MXmcgbvhtV0F
- LHLnW5Vh17bwySYzpWPGmFgTs3tfTj9hIiYzyYg4SJafUiyZqFJRpEZPjqoXDM6lhD
- P+7cCBNuAglyg==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CF71617E1507;
- Fri,  7 Feb 2025 17:29:42 +0100 (CET)
-Date: Fri, 7 Feb 2025 17:29:35 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, Steven Price <steven.price@arm.com>, Liviu Dudau
- <liviu.dudau@arm.com>, kernel@collabora.com, Tvrtko Ursulin
- <tursulin@ursulin.net>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v10 0/5] drm/panthor: Display size of internal kernel
- BOs through fdinfo
-Message-ID: <20250207172935.2fa23902@collabora.com>
-In-Reply-To: <20250130172851.941597-1-adrian.larumbe@collabora.com>
-References: <20250130172851.941597-1-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
+ [209.85.222.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42C4010E047
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 16:32:22 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id
+ af79cd13be357-7b6f0afda3fso269334285a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 08:32:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1738945941; x=1739550741;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=1eyHbVSPzPS2H7ccJkoRfXPoW37SSjWSYPml0H3RVrY=;
+ b=kxyozEJlaSDC8YY9HJlFVx9cK0F5ZfGRGG7SxECeOnOe5MUlVTT4342pVS8FjZDv03
+ REW0N1NyW88SVL/mb51N0ggmi8bkB86WjN/UJF/lnLDZ7Ascn0ycf1XVurT9b4625q/j
+ 6jTAAV79/boLtBazrOl48yGamwUaP3d5WiwRB1BwGIAZwOuBDHxVGQfRV9vwy09oVMmS
+ IMWCcVJVGCW7fQXw+QLIMkNoVnu/nEQn9nq9CgkUZ5hxXlPHfAVBdoPxC/OTnOCVU+2N
+ sCHFSxoPg+L2bAjeQFjFfpUC5LVF4NdmQQBy+yuv78WOx7EhzFU0RmorZHHeF3Aei2pv
+ NAig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738945941; x=1739550741;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=1eyHbVSPzPS2H7ccJkoRfXPoW37SSjWSYPml0H3RVrY=;
+ b=ON/PLjzi6l3rPWjEICYXeqNyCUdSaOEgbj8MyMFUQcBShWY6x7tI7h3rI8mLp6iB/F
+ KH2C5IClw095utznogNKWCxmmE70EH18J3aWYiCM0j2FSChpftc0rUJTCvUel0OwrSxz
+ TOzzcR4wPV4NQdTvAWw7316s5VYan5VoSPKX287GVsdVOWR7FJa8DBtRmc81e5toGaum
+ vvU5YXoWiYazr1V8V+r5sdFUHhS8FPoYyekS7F07t+KKj8wtsxvEsHBMi+G+sEw84jQb
+ oeKDbaPz40cmyKVLr9VXKI6b6M2iWqNpxsQKbf4j765ytlcjn7gYknQyaPl0FmEo68Dh
+ XPaA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV2fsULjA/L6+NLoVWoPa1xpdUfU6h0t+TifKGJ/ILBaiAhviEb4idYGkGhDsMa4ZpjRteUGomyT6g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyerpj9cbRXgaSIX0MXrqzLCDhdRrPn55q/RpaiKCDZ26T3xlWv
+ 2Ph9GChbsYyTCuDdx/eVOfbRcrSpd+PTo3/s8iY4XWJMghscHYAh7KszfiQ6lyI=
+X-Gm-Gg: ASbGncvZRSq4noc1i0hfcsAIbAhdXVm6ulI+a/tXwpR1mTXIhI8X1JoSrNyLNJdPazU
+ Bcgyralvs2SccJX4pad4WYRhBs5M8RQ0GB3NATS1wh0YUOOPTlyecJTQhnjZtSwZvuh2P/HUug8
+ Njbi7HPa7TWxCAGLpk4NepVHuaYffh1X/9htaDWmjWD7M6QjWhJSJayqk5en8hgTL9AojbqX7lb
+ 6e9whFIr5TXRFYn975mWshAYSrdtiFSGSrmYcK5PXRZdR2wF/XWLZGAm9fB3hzX0cuRMO2Jwd8w
+ g3qOtnoPtdhABcVC
+X-Google-Smtp-Source: AGHT+IHMskAJ2FFpcL+LoXxgmr/MIx5nX+eElBqeikyP+Zh17IpGj4yP1i1w+a51aWNGdndmORetGg==
+X-Received: by 2002:a05:620a:248e:b0:7b6:f17d:f5a7 with SMTP id
+ af79cd13be357-7c047c1f9d5mr701310685a.6.1738945941025; 
+ Fri, 07 Feb 2025 08:32:21 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:11:e976::7a9])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7c041eb7d12sm206602485a.106.2025.02.07.08.32.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Feb 2025 08:32:20 -0800 (PST)
+Message-ID: <2cef75795cf3eb1c224f3562134d2ed887dbff60.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 0/5] drm/panthor: Protected mode support for Mali
+ CSF GPUs
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Florent Tomasin	
+ <florent.tomasin@arm.com>, Vinod Koul <vkoul@kernel.org>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau	
+ <liviu.dudau@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Benjamin
+ Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T . J .
+ Mercier"	 <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong
+ Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, nd@arm.com, Akash Goel
+ <akash.goel@arm.com>
+Date: Fri, 07 Feb 2025 11:32:18 -0500
+In-Reply-To: <20250207160253.42551fb1@collabora.com>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <3ykaewmjjwkp3y2f3gf5jvqketicd4p2xqyajqtfnsxci36qlm@twidtyj2kgbw>
+ <1a73c3acee34a86010ecd25d76958bca4f16d164.camel@ndufresne.ca>
+ <ppznh3xnfuqrozhrc7juyi3enxc4v3meu4wadkwwzecj7oxex7@moln2fiibbxo>
+ <9d0e381758c0e83882b57102fb09c5d3a36fbf57.camel@ndufresne.ca>
+ <1f436caa-1c27-4bbd-9b43-a94dad0d89d0@arm.com>
+ <20250205-amorphous-nano-agouti-b5baba@houat>
+ <2085fb785095dc5abdac2352adfb3e1e1c8ae549.camel@ndufresne.ca>
+ <20250207160253.42551fb1@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,82 +116,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Jan 2025 17:28:08 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
-
-> This patch series enables display of the size of driver-owned shmem BO's =
-that aren't
-> exposed to userspace through a DRM handle. Also fixes a use-after-free bu=
-g in the
-> existing fdinfo implementation for Panthor.
+Le vendredi 07 f=C3=A9vrier 2025 =C3=A0 16:02 +0100, Boris Brezillon a =C3=
+=A9crit=C2=A0:
+> Sorry for joining the party late, a couple of comments to back Akash
+> and Nicolas' concerns.
 >=20
-> Discussion of previous revision can be found here [1].
+> On Wed, 05 Feb 2025 13:14:14 -0500
+> Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
 >=20
-> Changelog:
-> v10:
->  - Simplified locking scheme in panthor_vm_heaps_sizes
->  - Fixed kernel test robot warning about documentation
->  - Added some R-b tags to patches
-> v9:
->  - Added proper locking around group pool xarray to prevent UAF errors.
->  - Added proper locking around vms pool xarray loop for the same reason
->  - Added new patch that fixes UAF error because no locking when accessing=
+> > Le mercredi 05 f=C3=A9vrier 2025 =C3=A0 15:52 +0100, Maxime Ripard a =
+=C3=A9crit=C2=A0:
+> > > On Mon, Feb 03, 2025 at 04:43:23PM +0000, Florent Tomasin wrote: =20
+> > > > Hi Maxime, Nicolas
+> > > >=20
+> > > > On 30/01/2025 17:47, Nicolas Dufresne wrote: =20
+> > > > > Le jeudi 30 janvier 2025 =C3=A0 17:38 +0100, Maxime Ripard a =C3=
+=A9crit=C2=A0: =20
+> > > > > > Hi Nicolas,
+> > > > > >=20
+> > > > > > On Thu, Jan 30, 2025 at 10:59:56AM -0500, Nicolas Dufresne wrot=
+e: =20
+> > > > > > > Le jeudi 30 janvier 2025 =C3=A0 14:46 +0100, Maxime Ripard a =
+=C3=A9crit=C2=A0: =20
+> > > > > > > > Hi,
+> > > > > > > >=20
+> > > > > > > > I started to review it, but it's probably best to discuss i=
+t here.
+> > > > > > > >=20
+> > > > > > > > On Thu, Jan 30, 2025 at 01:08:56PM +0000, Florent Tomasin w=
+rote: =20
+> > > > > > > > > Hi,
+> > > > > > > > >=20
+> > > > > > > > > This is a patch series covering the support for protected=
+ mode execution in
+> > > > > > > > > Mali Panthor CSF kernel driver.
+> > > > > > > > >=20
+> > > > > > > > > The Mali CSF GPUs come with the support for protected mod=
+e execution at the
+> > > > > > > > > HW level. This feature requires two main changes in the k=
+ernel driver:
+> > > > > > > > >=20
+> > > > > > > > > 1) Configure the GPU with a protected buffer. The system =
+must provide a DMA
+> > > > > > > > >    heap from which the driver can allocate a protected bu=
+ffer.
+> > > > > > > > >    It can be a carved-out memory or dynamically allocated=
+ protected memory region.
+> > > > > > > > >    Some system includes a trusted FW which is in charge o=
+f the protected memory.
+> > > > > > > > >    Since this problem is integration specific, the Mali P=
+anthor CSF kernel
+> > > > > > > > >    driver must import the protected memory from a device =
+specific exporter. =20
+> > > > > > > >=20
+> > > > > > > > Why do you need a heap for it in the first place? My unders=
+tanding of
+> > > > > > > > your series is that you have a carved out memory region som=
+ewhere, and
+> > > > > > > > you want to allocate from that carved out memory region you=
+r buffers.
+> > > > > > > >=20
+> > > > > > > > How is that any different from using a reserved-memory regi=
+on, adding
+> > > > > > > > the reserved-memory property to the GPU device and doing al=
+l your
+> > > > > > > > allocation through the usual dma_alloc_* API? =20
+> > > > > > >=20
+> > > > > > > How do you then multiplex this region so it can be shared bet=
+ween
+> > > > > > > GPU/Camera/Display/Codec drivers and also userspace ? =20
+> > > > > >=20
+> > > > > > You could point all the devices to the same reserved memory reg=
+ion, and
+> > > > > > they would all allocate from there, including for their userspa=
+ce-facing
+> > > > > > allocations. =20
+> > > > >=20
+> > > > > I get that using memory region is somewhat more of an HW descript=
+ion, and
+> > > > > aligned with what a DT is supposed to describe. One of the challe=
+nge is that
+> > > > > Mediatek heap proposal endup calling into their TEE, meaning know=
+ing the region
+> > > > > is not that useful. You actually need the TEE APP guid and its IP=
+C protocol. If
+> > > > > we can dell drivers to use a head instead, we can abstract that S=
+oC specific
+> > > > > complexity. I believe each allocated addressed has to be mapped t=
+o a zone, and
+> > > > > that can only be done in the secure application. I can imagine si=
+milar needs
+> > > > > when the protection is done using some sort of a VM / hypervisor.
+> > > > >=20
+> > > > > Nicolas
+> > > > >  =20
+> > > >=20
+> > > > The idea in this design is to abstract the heap management from the
+> > > > Panthor kernel driver (which consumes a DMA buffer from it).
+> > > >=20
+> > > > In a system, an integrator would have implemented a secure heap dri=
+ver,
+> > > > and could be based on TEE or a carved-out memory with restricted ac=
+cess,
+> > > > or else. This heap driver would be responsible of implementing the
+> > > > logic to: allocate, free, refcount, etc.
+> > > >=20
+> > > > The heap would be retrieved by the Panthor kernel driver in order t=
+o
+> > > > allocate protected memory to load the FW and allow the GPU to enter=
+/exit
+> > > > protected mode. This memory would not belong to a user space proces=
+s.
+> > > > The driver allocates it at the time of loading the FW and initializ=
+ation
+> > > > of the GPU HW. This is a device globally owned protected memory. =
 =20
->    fdinfo group stats.
->  - Some minor cosmetic and naming changes.
-> v8:
->  - Made print_size public and added prefix argument for drm_print_memory_=
-stats
->  - Updated documentation commit to reflect new name tags
->  - Some minor polishing
-> v7:
->  - Added new commit: mentions the formation rules for driver-specific fdi=
-nfo keys
->  - Added new commit: adds a helper that lets driver print memory size key=
-:value
->    pairs with their driver name as a prefix.
->  - Modified later commits to make use of the previous ones.
->  - Deleted mentions of now unnecessary memory keys in the old revision.
-> v6:
->  - Replace up_write witnh up_read, which was left out in the previous ver=
-sion
->  - Fixed some minor comment and documentation issues reported by the kern=
-el test robot
-> v5:
->  - Replaced down_write semaphore with the read flavour
->  - Fixed typo and added explicit description for drm-shared-internal in
->  the fdinfo documentation file for Panthor.
-> v4:
->  - Remove unrelated formating fix
->  - Moved calculating overall size of a group's kernel BO's into
->  its own static helper.
->  - Renamed group kernel BO's size aggregation function to better
->  reflect its actual responsibility.
+> > >=20
+> > > The thing is, it's really not clear why you absolutely need to have t=
+he
+> > > Panthor driver involved there. It won't be transparent to userspace,
+> > > since you'd need an extra flag at allocation time, and the buffers
+> > > behave differently. If userspace has to be aware of it, what's the
+> > > advantage to your approach compared to just exposing a heap for those
+> > > secure buffers, and letting userspace allocate its buffers from there=
+? =20
+> >=20
+> > Unless I'm mistaken, the Panthor driver loads its own firmware. Since l=
+oading
+> > the firmware requires placing the data in a protected memory region, an=
+d that
+> > this aspect has no exposure to userspace, how can Panthor not be implic=
+ated ?
 >=20
-> [1] https://lore.kernel.org/dri-devel/20250123225325.3271764-1-adrian.lar=
-umbe@collabora.com/
+> Right, the very reason we need protected memory early is because some
+> FW sections need to be allocated from the protected pool, otherwise the
+> TEE will fault as soon at the FW enters the so-called 'protected mode'.
 >=20
-> Adri=C3=A1n Larumbe (5):
->   Documentation/gpu: Clarify format of driver-specific fidnfo keys
->   drm/file: Add fdinfo helper for printing regions with prefix
->   drm/panthor: Expose size of driver internal BO's over fdinfo
->   Documentation/gpu: Add fdinfo meanings of panthor-*-memory tags
->   drm/panthor: Fix race condition when gathering fdinfo group samples
+> Now, it's not impossible to work around this limitation. For instance,
+> we could load the FW without this protected section by default (what we
+> do right now), and then provide a DRM_PANTHOR_ENABLE_FW_PROT_MODE
+> ioctl that would take a GEM object imported from a dmabuf allocated
+> from the protected dma-heap by userspace. We can then reset the FW and
+> allow it to operate in protected mode after that point. This approach
+> has two downsides though:
+>=20
+> 1. We have no way of checking that the memory we're passed is actually
+> suitable for FW execution in a protected context. If we're passed
+> random memory, this will likely hang the platform as soon as we enter
+> protected mode.
+>=20
+> 2. If the driver already boot the FW and exposed a DRI node, we might
+> have GPU workloads running, and doing a FW reset might incur a slight
+> delay in GPU jobs execution.
+>=20
+> I think #1 is a more general issue that applies to suspend buffers
+> allocated for GPU contexts too. If we expose ioctls where we take
+> protected memory buffers that can possibly lead to crashes if they are
+> not real protected memory regions, and we have no way to ensure the
+> memory is protected, we probably want to restrict these ioctls/modes to
+> some high-privilege CAP_SYS_.
+>=20
+> For #2, that's probably something we can live with, since it's a
+> one-shot thing. If it becomes an issue, we can even make sure we enable
+> the FW protected-mode before the GPU starts being used for real.
+>=20
+> This being said, I think the problem applies outside Panthor, and it
+> might be that the video codec can't reset the FW/HW block to switch to
+> protected mode as easily as Panthor.
 
-Queued to drm-misc-next.
+Overall the reset and reboot method is pretty ugly in my opinion. But to st=
+ick
+with the pure rationale, rebooting the SCP on MTK is much harder, since its=
+ not
+specific to a single HW/driver.
+
+Other codecs like Samsung MFC, Venus/Iris, Chips&Media, etc. that approach =
+seams
+plausible, but we still can't trust the buffer, which to me is not acceptab=
+le.
 
 >=20
->  Documentation/gpu/drm-usage-stats.rst   |  5 ++-
->  Documentation/gpu/panthor.rst           | 10 +++++
->  drivers/gpu/drm/drm_file.c              | 27 ++++++++----
->  drivers/gpu/drm/panthor/panthor_drv.c   | 14 ++++++
->  drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++
->  drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
->  drivers/gpu/drm/panthor/panthor_mmu.c   | 33 ++++++++++++++
->  drivers/gpu/drm/panthor/panthor_mmu.h   |  3 ++
->  drivers/gpu/drm/panthor/panthor_sched.c | 58 ++++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_sched.h |  3 ++
->  include/drm/drm_file.h                  |  5 +++
->  11 files changed, 176 insertions(+), 10 deletions(-)
+> Note that there's also downsides to the reserved-memory node approach,
+> where some bootloader stage would ask the secure FW to reserve a
+> portion of mem and pass this through the DT. This sort of things tend to
+> be an integration mess, where you need all the pieces of the stack (TEE,
+> u-boot, MTK dma-heap driver, gbm, ...) to be at a certain version to
+> work properly. If we go the ioctl() way, we restrict the scope to the
+> TEE, gbm/mesa and the protected-dma-heap driver, which is still a lot,
+> but we've ripped the bootloader out of the equation at least.
 >=20
+> Regards,
+>=20
+> Boris
 
