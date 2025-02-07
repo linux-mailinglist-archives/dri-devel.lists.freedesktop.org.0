@@ -2,91 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F9DA2CAA7
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 18:59:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7707EA2CAA9
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 18:59:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBFE10EB90;
-	Fri,  7 Feb 2025 17:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF62810E1A6;
+	Fri,  7 Feb 2025 17:59:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="eK4N7al7";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TS+OQnGv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABEEC10EB90
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 17:59:32 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-30229d5b229so22623711fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 09:59:32 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C328010EB98
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 17:59:48 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-30613802a59so25533941fa.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 09:59:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1738951167; x=1739555967;
+ d=chromium.org; s=google; t=1738951184; x=1739555984;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=UAyA9k3gE8c5Mnrd0sbdTuF+3Mk11ZW10JEKEegQbhc=;
- b=eK4N7al7mLE9KyROSyZCfmmWc8nwGWy91PqJcUM7CmW/KNNx6r6cJeBv4OynDKcsxi
- MUPA0YNkRgcSXCcEpelqlcZdsxOIR3Bgnr1V3RlBunOVDRws8aaqmSpdgVThvqmKi23j
- QN4XPzN1JABVc74ZyaX/AuyweQnFGfBC5M0lA=
+ bh=7PwmuaIBJ/10qYXXlbzfefJdtGyrGJpw93xkGEeBXLI=;
+ b=TS+OQnGvF4FcCQA0qYeeXrQ/bigkk+nhc7qX2/gjYwRBBPlbFwRFpHBoNNn+Wx2g3+
+ iHKJbbzrAd8YE/Kze9p7X69TXUuvGlvdHWqA5PWf8dKAPwLmz+MIkMY10mBwXHng9qwi
+ WUdY0lnJekjX/xxxkmAlstDNfEZatdQqskHYg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738951167; x=1739555967;
+ d=1e100.net; s=20230601; t=1738951184; x=1739555984;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UAyA9k3gE8c5Mnrd0sbdTuF+3Mk11ZW10JEKEegQbhc=;
- b=UkEdIDVz3359NFbROri+/esYCEAQ409lqEXiY2wjF3zni5EklAFDlDn9xy47nymPoX
- jTZqLa+gl+SawDmBsJBsf3nfzu/TeGe84I8jxjYHrni21SSsoz1KfmxIKEUpCX4LArQp
- 3WOMoBb5FiOVHYLk1tmW5/fIj8XRW3kIyLpvjIPT2RKOsw4k/KoGeTtQ42Hi9NDt+4SZ
- AObuUrYb+DqG2aCd6mXf0tOy0iVgRxHMZI0nHD5GX59MurLEXxtHFUB37qA6AJduanL3
- EgiJj7Zd7pzFivy+ccau9c2TqMuhTr1ktzP3qjdZ3mLSwz77t3HvM8wbt699GAun4fGq
- JUTw==
+ bh=7PwmuaIBJ/10qYXXlbzfefJdtGyrGJpw93xkGEeBXLI=;
+ b=hF7KunQANdGjVGKgP7pw5rPpiSsmdPHeaf2sTdAtM6lG916IT1IPfokBCtFO18ymKJ
+ N0VCyinjuVs+hdZIQ4ffXNadOoQ3qfyxQY7RrgCdhwbyPxFaMfY1+9rQ8mnXTWxVW+MJ
+ EVLOAKfcc7IExCruCbgZz/m0WPhiIf2FpedWA+KGzAAdlIKNz13E3S+RgGJAbDd1Dwp5
+ EvAVkGxypAMpeS8ipfAiS09dbRQREfChONJI6PJ1aLR8h9YYK9xbQR2rxuegygNr5XH/
+ e6f4g6/S2pP4ZjhD/BiPxdKVZhrXh3Tc6nZ4kShiqeoc45BivJrDAy73Uz5dZyvtxAza
+ Fpfw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUQUSIXHwIdrqexWZ9UTMXqoOV+grHj4OmhPBvI8dATMVobGDMjg4H15e2cyu5BNZTM08InMTSSZjY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytTBbWVzU0WSrco+vxMxBvuKKJKbxzmayHr52uqyY+VaToZjsm
- jk0dHJI3/hk0KtF2iyVK3Fu0Db9fXk++TJlAACyEP35uKCdzwFXhHG3KaSCspjzueXlsi86pI9n
- VtsKL
-X-Gm-Gg: ASbGncs1tMc3W8Q8W15tSNeXhPegDca3JX0aJW4DInQG8Phydg9e1/YwllM/vfYbcHm
- WKMJUso5zfekC9HW0tcq+JkbeVYfAnSCexIFK+844Y5pd7biMxkfQEtYjTlaHTDryyEF+Qf4+WM
- aUIM+QTRNlmBXtRS19tgOVaOsYsprUE5clgbIhbYRp87pWblR2BkIZWyt9X4/woVekl9mVpTldK
- rgGuvqwtE+U9gY1T0/AHWUycsLq+urN24ON05pynN2inHNcD2WSY5JiXjRZJvu5xsJpYm+Oq3Kz
- D91A/8gJFuDBFj4wI+pD2g5wfDGQZFVa4sVlKszqEvotB+zXgXbSLHw=
-X-Google-Smtp-Source: AGHT+IGsKNPi3cBqbrLZQOlLlUvk3Bb951f3G5m/QPjijoezTjv/xYIgCmyQexOS9rz7CqcNk3K9uA==
-X-Received: by 2002:a05:651c:198e:b0:302:49ba:2550 with SMTP id
- 38308e7fff4ca-307e580015bmr13719761fa.21.1738951167106; 
- Fri, 07 Feb 2025 09:59:27 -0800 (PST)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com.
- [209.85.167.43]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-307de2f6aeesm5319911fa.110.2025.02.07.09.59.25
+ AJvYcCVoZI4YSjwNFrdLjCsK/X1Zc6BGnu9uaKDK6Ac2545LjKGJATIJff0wLFsHt3ykiIVXBqjnwVase0k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwkjGPBkAW52CicEBQm8gL2bJULbY57uA1SRq6QrsSFXeY73wmM
+ nsmrozfsmFIDeKwpi1SOQd4+Ktb9Uh7B0odwq4Cf81lBud+SkTYVaFNwhBo5w8zMFZ/ThfJ4vKJ
+ pcuDL
+X-Gm-Gg: ASbGncsoK3rOAeEm/HWcjzqeIw/ItlAscVIo9F2qvSKix1nxPyI/FyQSk68yyjiLiJ/
+ KJye8f0tTJA+sHkGCI5IGdbl6bM4aPJRsTbCHJzwXzAMPooBvL/2fnxorsSMuB1msvyN0nWt1Q9
+ ph6AdeEi3g5kTNKWgc6I0h1AyXIGFMgE6azErJ9S8/7CPlbmUF7h6TsxP6AILLGmMU+JOgsEgyv
+ zGvVl160JBJk0Y4fV3hcDTH5t1pMfeI/gprcmRPyI9V1Hg/zVDCAq77RetxyIaodFF9/36oHagC
+ yKuC5ZND/Dt4zV2U5ceYO0Tbo7rl7VS+OqB4Owf0suPNTZ+uwnGCniw=
+X-Google-Smtp-Source: AGHT+IG9kYJpUK7lwamniW9r/sKKnBwtKuws1PO1YAFwmA88x1jWYQGuhVzjU0vOmQ9dO4EPkDU+qw==
+X-Received: by 2002:a2e:a545:0:b0:300:3a15:8f23 with SMTP id
+ 38308e7fff4ca-307e57bc496mr12432161fa.7.1738951184236; 
+ Fri, 07 Feb 2025 09:59:44 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com.
+ [209.85.167.46]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-307de1c7a61sm5154901fa.64.2025.02.07.09.59.42
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2025 09:59:26 -0800 (PST)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-543e49a10f5so2606155e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 09:59:25 -0800 (PST)
+ Fri, 07 Feb 2025 09:59:43 -0800 (PST)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-54410d769f7so2272952e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 09:59:42 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWVGNgfMZyh9b9eJa40SygrXEL0AOoyA5oYQSZyIhXlc5jWKgkOZjFVq6Twyk6/gow6ltAHnocVrHY=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:4023:b0:542:98bb:5670 with SMTP id
- 2adb3069b0e04-54414aa709dmr1057707e87.25.1738951165202; Fri, 07 Feb 2025
- 09:59:25 -0800 (PST)
+ AJvYcCUhYKqDUy4E8OYRtGu7hjzgIANbEpV7FDBTHluTDnGkMqCkw/pXamoPf4AK13s1zWt3xdpNAuncU50=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:b8a:b0:542:6105:bb72 with SMTP id
+ 2adb3069b0e04-54414a9cbc3mr1362214e87.19.1738951182378; Fri, 07 Feb 2025
+ 09:59:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20250206131300.1295111-1-yelangyan@huaqin.corp-partner.google.com>
- <20250206131300.1295111-3-yelangyan@huaqin.corp-partner.google.com>
- <20250206-uselessly-riverbank-14c097e62ae2@spud>
-In-Reply-To: <20250206-uselessly-riverbank-14c097e62ae2@spud>
+ <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250206131300.1295111-4-yelangyan@huaqin.corp-partner.google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 7 Feb 2025 09:59:13 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UybUjCSqtk0-QvYc4GLY-J1=hLep9eCoPwB73psw4BeQ@mail.gmail.com>
-X-Gm-Features: AWEUYZk_zCmx3_FAd9S6oDwQX9ETkP9z4pnHHk7HPMygPYUX8J-m_i6ND9efCG0
-Message-ID: <CAD=FV=UybUjCSqtk0-QvYc4GLY-J1=hLep9eCoPwB73psw4BeQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] dt-bindings: display: panel: Add compatible for
- CSOT PNA957QT1-1
-To: Conor Dooley <conor@kernel.org>
-Cc: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>,
- neil.armstrong@linaro.org, 
- quic_jesszhan@quicinc.com, airlied@gmail.com, simona@ffwll.ch, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+Date: Fri, 7 Feb 2025 09:59:30 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Xe90b6x4JF716=O==U3US-vONovcvDm0yfOconkFRPcg@mail.gmail.com>
+X-Gm-Features: AWEUYZnN1bml-NA4ebUvH8W9aveGL3aSVmaC8yx15fMw7Kdh-ZCSTxHkG5ADkjk
+Message-ID: <CAD=FV=Xe90b6x4JF716=O==U3US-vONovcvDm0yfOconkFRPcg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/panel: panel-himax-hx83102: support for
+ csot-pna957qt1-1 MIPI-DSI panel
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, quic_jesszhan@quicinc.com, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -108,18 +105,20 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Feb 6, 2025 at 10:14=E2=80=AFAM Conor Dooley <conor@kernel.org> wro=
-te:
+On Thu, Feb 6, 2025 at 5:13=E2=80=AFAM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
 >
-> On Thu, Feb 06, 2025 at 09:12:59PM +0800, Langyan Ye wrote:
-> > Add a new compatible for the panel CSOT PNA957QT1-1. This panel uses
-> > HX83102 IC, so add the compatible to the hx83102 binding files.
-> >
-> > Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> The csot-pna957qt1-1 is a 10.95" TFT panel. The MIPI controller on this
+> panel is the same as the other panels here, so add this panel to this
+> driver.
 >
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-himax-hx83102.c | 123 ++++++++++++++++++++
+>  1 file changed, 123 insertions(+)
 
-Pushed to drm-misc-next with Conor's Ack:
+Pushed to drm-misc-next:
 
-[2/3] dt-bindings: display: panel: Add compatible for CSOT PNA957QT1-1
-      commit: 36947218ca90c1f560f43c88c438124f8df884d4
+[3/3] drm/panel: panel-himax-hx83102: support for csot-pna957qt1-1
+MIPI-DSI panel
+      commit: 05345cea4ff5a857612df3f10144dec685c07e6d
