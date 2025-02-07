@@ -2,163 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B53A2B983
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 04:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E826DA2B994
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 04:17:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9527910EA0D;
-	Fri,  7 Feb 2025 03:13:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6787010EA0E;
+	Fri,  7 Feb 2025 03:17:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="H9tilkeT";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jR8TdUtV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 974CD10EA0D
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 03:13:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UVcqRGZa6YMbq+GajNRSPNygd3CFj33JxGIWaANIjadxJH1r9bhrA4pTU27Yb0cd0WrmOoetPR611Z8eI4QYaEhe1mPi9gj1Zhp/bUnUSKkirwq1VITYgsXV0pGKtczsofhdA+7O2CsT5Cmqn64WdKdBCZGukBKjlI3KueGnu9t9bAB33R5rupOnxKBiNim9rKzLlmQwb8qpTiVPKXJQq4oX5dKVfl4kMeNPzpzZpFImT/HiYQtvCciuQSodnhe9qGENOBqiAPNjV3MlzqGcKC+c+d2gAB8CpEfTlaAABjdu26TlvDs/3V5acrI5sWcG35lV6d1xLW5BtfdfGO8pag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BiW+b47TYn730uS63dHX90kKH6Puvi5j6e+tjUPPFyg=;
- b=Smil6MFOg2pF9vIhecgdzjLvEMx7EozTi2rHkN/HwiZXwtuGasn5xdMAJpfpSswepYeY6FmjTefZ4Qh+eUg6pkUzUMuTw6YE9hHLP3wr5+ri+6aKQPpQv1Tta/61ARNFFtm/Kq6h7wCVl6u7MTTNpv2NpdlotHb3TG1mY8fsN6OcCNctfYQADi02PsVFUl0+1SWF2ic+5vJ3Txa3/o1ehA5s+5jRkalYpXuV5OpOKGCPnJsekTu1l1td0isYonxtYtx0VQ+ZPCecGdubpHwB/T7O85bgx7RZXqLn9witg4Lm4Wo6MREB3pILwLJaJkN4eqJyImhSlnZd34tO7F+CaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BiW+b47TYn730uS63dHX90kKH6Puvi5j6e+tjUPPFyg=;
- b=H9tilkeTsreML0wQeD4uIu96UTzTUYv//WMTg2600Pqv0Mt8vSM2Vr+kQ8XOrGkarMe+rMmLW5fFq0kFYBOzG4P+o5xty68zD6Z1J+j4hNDlcoVjMdzj5Ev+vY9BpXTU8yNhRrEvCtwLr+zk+wB0uGOfiiobQOaUhfKbPraJEdoIfAq/DUosbsPzEMYJCukRdeOlzjwfajPBiHMehUgTFjUJ0drNuEbK7Haa9Qx5LJaHE0ZE8UXmpE8yRZla6PbtWhiGOrPjYV0mMTpXcposf8dHS+j/AuaAokPhCDEVsKThP32qPw28/tnIxfW1pbKyF/XfIMNGP9thZM131InW3A==
-Received: from SJ0PR11MB6621.namprd11.prod.outlook.com (2603:10b6:a03:477::7)
- by DM4PR11MB8129.namprd11.prod.outlook.com (2603:10b6:8:183::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Fri, 7 Feb
- 2025 03:13:32 +0000
-Received: from SJ0PR11MB6621.namprd11.prod.outlook.com
- ([fe80::486:371f:9149:1211]) by SJ0PR11MB6621.namprd11.prod.outlook.com
- ([fe80::486:371f:9149:1211%4]) with mapi id 15.20.8422.011; Fri, 7 Feb 2025
- 03:13:32 +0000
-From: <Manikandan.M@microchip.com>
-To: <mripard@kernel.org>, <oushixiong1025@163.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <andrzej.hajda@intel.com>, <airlied@gmail.com>, <Dharma.B@microchip.com>,
- <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
- <Laurent.pinchart@ideasonboard.com>, <maarten.lankhorst@linux.intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>, <oushixiong@kylinos.cn>,
- <simona@ffwll.ch>, <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/bridge: convert to use
- devm_platform_ioremap_resource()
-Thread-Topic: [PATCH] drm/bridge: convert to use
- devm_platform_ioremap_resource()
-Thread-Index: AQHbeGdDx53ybEj09UaCDl120Ssm17M6WqcAgADRGgA=
-Date: Fri, 7 Feb 2025 03:13:32 +0000
-Message-ID: <01cd860f-4338-480a-b3f9-f57c42e0e023@microchip.com>
-References: <20250206071713.180471-1-oushixiong1025@163.com>
- <2310c2c4c9670a776090ebc81ea2aaff@kernel.org>
-In-Reply-To: <2310c2c4c9670a776090ebc81ea2aaff@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB6621:EE_|DM4PR11MB8129:EE_
-x-ms-office365-filtering-correlation-id: e732ba65-af51-4382-119a-08dd47256701
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR11MB6621.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|366016|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?L1JsWGZVV0dPRC9MYng5Um4wRHFqMW9kcWg4a2J2cTVZeUR0M2xidzRPV0N5?=
- =?utf-8?B?djBXU2Z4dFlmOWt5WC9RcDE1NzNSQUs2ZUFtWk9kc1RLTjBkNWtiejVVS1lL?=
- =?utf-8?B?OGJFUlRHUDBQZkJZMUhqTVJOSXo4UzI5VEltK0tHTXBjc3JEcktrVjkxNGox?=
- =?utf-8?B?VGFSc1M1aWI1cDA2ODJQSTNzbzNueTd4R3cvM0lnTEV6c2c1Y1RSYVJhSkNV?=
- =?utf-8?B?bXdOUWJZQmlsaXJ1QzZSYzlNQ1ZTeDhPOFBZWjJQYi9hMks4QW82RVpzclFn?=
- =?utf-8?B?TytodVNBVGw0aUQwQXdXdTF0OHlucVF0aXhkRnVtM2E3Wks3bjAzTEVobDhP?=
- =?utf-8?B?S0EyV3J0cVRpVHQ5N0lubTROelAwWE1iVm9sQXUxZnkwUVVsU2hWdzdaN3V0?=
- =?utf-8?B?K1hzeGxpeXFSVGtNU1NzUGpmNjlTTGJqSVVlMnRtYVBLN2QvSmxrblVqQmNy?=
- =?utf-8?B?OFhoR3U5U3JrKzBaRDZYZzBxRm5hRnc5WVlsOWNHS3h6QlIxZHNKSlpKVEpp?=
- =?utf-8?B?QzRGd1RBZWRQcURWcjBvSlZHemZvVkZOMXp0RlBDcyt1d1RyWmtWOWZLK1Yr?=
- =?utf-8?B?ZVpmbWozbmF3UFl2REk2OE5ZVkZhQnBHVUpQaklLc3pENHVwRUkvQW5LZm5Y?=
- =?utf-8?B?OHFYb1k3M0Z3K04yYVF1eG80V1h3aDFLRFdCQlN6UlZEcjNuZkk5NGVLMytp?=
- =?utf-8?B?dU9JL3FwTWhNd1R1Y3c0WTRpYmo5TkluTDFaei9kM2hlZDBpMDF6b3BXMzhU?=
- =?utf-8?B?Vm91UVU4bm5BWEFWbkcrL3JnVS9ha3VNWmMyZGZqQ1lpMkZ3YW9KTE5tUVJV?=
- =?utf-8?B?dkN5VzB1TG42SFJRME0yMjZ1eEFFeGc4ZWw4bUJuWXdzMHZIb1dtbGo1VDh4?=
- =?utf-8?B?NDB2ZUduUDB0dUpGT0QwRWZhc2lTektYV24vY2ljRlcxdzFyOUFLVyswUU03?=
- =?utf-8?B?RGNPTnliNXdFUDNJSVY4ZS8wVVhtY0ppcEY0S3BtNGtKUEwxY1V3M3hXWmpI?=
- =?utf-8?B?NlR2ZStkVjlXL0VnRktXNHlVMFI1SDVIZC8wYndCTlhrYXE3WkZIK3dvazF4?=
- =?utf-8?B?aEhqRXFjcVMxZGh4RWdVMEw5K000bG10TXlhTkovQjlFMEJkMWEvT2JVcFhJ?=
- =?utf-8?B?ajJDL2lHa1BoS1dlR08yZUlxV3FKZXp6Qi9ab3FvR1F2aDRNRFJoMjExekVU?=
- =?utf-8?B?RzJyWXlBM0dBNDRSUml4K05JazNCQk9IUEUzWCt3K3d2VkJPckRPdVJQdG1C?=
- =?utf-8?B?bk1HdXI4T0N0cHN0UVVWUm1QQlA2UGk3MHE2RW1IMjVHcytHWEVwbkE1WjNs?=
- =?utf-8?B?MUw3NWRsZVV2V0FBSGVQNDFEVnhJM0pURGJkU1E4cVhTdk5KM0VRb2orbHJk?=
- =?utf-8?B?WWFYV09pbE5vSk96K3h1NlpMVkdTK2w1TlFOdXRxMUdKekE0UG11ZURKc3Zi?=
- =?utf-8?B?dlY0NnhSWE1aQmxGNmlScEpPSjJFcmoyNVZXbnRyZzlNN2kwS3NzNkhWOFUv?=
- =?utf-8?B?eS9NTUtXY0JFSFZ3UmgwUU5YQmZqWHViUFFLRk50b29JZ0NIUnRKbm1tWDhD?=
- =?utf-8?B?K2JXMFJJTE03V1hObEVpZ3NuNlg3bDQ2bDdlMXJKVjByYnBaNFBnNEcxMHNj?=
- =?utf-8?B?aGFnaFc4Y1JBZ0JvWldXc0lVa2NuMFFFaUp1Mk12WjFITFBjbU9KOUxBTGk2?=
- =?utf-8?B?ZkpuZTJhU3RXVXI5MS9jUXlMSWN5QVAzSk1iLzRZSlhDTzFjMm8rSG90WFNQ?=
- =?utf-8?B?MUVtaFRLYkFKdDhxQ2tHdE8vVUZCRGdRTnhYNWg1dUdNTnU2ZEsxZ1BDb005?=
- =?utf-8?B?MlpMZ3ZQalJkY2lJaHJmcGpwM0orQjY2amViZnRzdGI2cElMSTkrVEdZeXVK?=
- =?utf-8?B?SEtVM0xuR1NKSjVDK1RBTDZFUzg3R1hYeWF6YjNPbVJMR0E3SDRBWVBHYVB6?=
- =?utf-8?Q?3nZERtZgDXDS2bsguOKN3OwU5Vh5NlAh?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?T283Q3ErVVlBUEU0WUFnY3lNN0NpUXNESG4rb0M1cHdVUmlqSzZpZFdrTC9R?=
- =?utf-8?B?eGErM0ZoRklQRU5naGdBaEZmMlZXY1JZS0k5OGlNVWpYemIzRVB2b1NxZ1Qx?=
- =?utf-8?B?VEJObEhKcElaenlndGpqTW5DSWNXRElFZko2eXQ2djErdDR4YXozekc3Q3pX?=
- =?utf-8?B?RFdtTzE5SUdJYlZHdWtvNlJZRkhDV1lYODJJUkNOdDJKYU1ZK3I4SGNWSkU5?=
- =?utf-8?B?MUJ3Nmw5RUpDNVhRa09pNmlHdG9BSmJBYUZORWpJVGg1T3I1OEZqMGo1N2o5?=
- =?utf-8?B?ZDUyek9tV3B1UVV2a2Ruamg5Z3Btc1RLejZCYnNBbUVZWHJ2UXluOXFRV3VM?=
- =?utf-8?B?QVR5WTlhRVE3QlROckxubUt2TTVUTjl2RjBPQUl1alZhenN1WkJ0MXBaVk5F?=
- =?utf-8?B?TDRsQXk1eWRtbHhjVmNVbTUxRVc1dk1zajZmOHhxZkRJMXA1RjF5QW9QampR?=
- =?utf-8?B?L1VPMjM3NzJWcXN0a1dGb2dnVkYwVU5wU0pic2hvdEl3RzNzc3BnMlAyLzF1?=
- =?utf-8?B?T2VMaWVjd1Y0U2RzYU5ReC8wWnU3cS9Gd2FFY3R0TzJsbEpQQlVUVEhoR0My?=
- =?utf-8?B?YTJ0SGN1WjRpMHhkWGlPNndDMGRGWnFrRktmM2dKVEgzM1FhVTRrVm55Q3l1?=
- =?utf-8?B?c3VXVC84TklVNnJBQXRrdWtjZGxMWWNGcWkrTjlSejY1dGRhK09EaVBvZnZS?=
- =?utf-8?B?OWJKWHBJT3l3dUFGTytlVHMyb1NlZkZBbnFhVHI0em10TGNoV2lzeENsRXZh?=
- =?utf-8?B?V3oxWVNUU1hleisvbGsyb3o5b1VtUXg3Um9RMkVIWjBIVjF3YWpRUG9DcDV2?=
- =?utf-8?B?aURNZzRVdnh5NEh4aDFGcTF1NXdJZ2NwNkVXYnFMMVg2SmVBTlFJWU5WZ1c4?=
- =?utf-8?B?eUNydFlqaEFwaFdYaFNzWHBVcll1Vnp0YkNXd3VKSG9odzJ4YlFnRjBuR1RT?=
- =?utf-8?B?MnFpcmdEWDJIWi9ycmVBTUdxMXZ0amo1d3U2Q21PeSs3SXlzQ1EwSE16UURt?=
- =?utf-8?B?NTZYdXhxU0pSL2NncEQ3ZjRkcUpjTFJ2dkNiZGJuSnAwei9qQ0NkRFVrUlBG?=
- =?utf-8?B?UFpXVCtTR0dGZWtJQ094bWY5cGtXa3ZPN2xqUVBHNmVsZUtqTzcyOHdqeXR4?=
- =?utf-8?B?NURtSDZlOUNCTFlzdm1OYXNHbzZuTVZ4cEhBVzAxakVwbEJZRnNhZlMybjQ1?=
- =?utf-8?B?cWpMVDlJR1NuSHA2N1NoR1d4L1RFc01PN2pvR2FMdDNHaWNjbWxydDZhV0VD?=
- =?utf-8?B?Mlg3NGM0UTF1MUVEclRMRWNvUytaRzVGdVcwVGNzWlF2WXdHazNlTjBpdkdt?=
- =?utf-8?B?ZTlLeFYycCsreW50YnVDZUxjTlJvbFExd25yL3I2Qm9PQ2dZWUwzYTJPZlpM?=
- =?utf-8?B?QnhUeGplR1kwdzRiWHZEMm1JM0ZFV3pVajR4RkVSUlN4aVRJci94QmJUaXp4?=
- =?utf-8?B?UHFVSDZkRCtrRTRZSGV6ZTEvY04zWU8xOHBpREZRVjlvUXRHdmtOSXMwRUxT?=
- =?utf-8?B?YlN1SzNlSjdsMmZISzUyajllWWxqVzE4VG56OTcvSDFhVkMwZ051Yktxek9B?=
- =?utf-8?B?VkFFWmlycStqWkZnL0RmQ21CUy9RSkRiV3JBaEVpYmRxWGJuUzk2YlltSjNC?=
- =?utf-8?B?bDlyU0g5eXZsVkszQnZtY2tNTUoxSjhHUk1aU2s0bmtOeHNxZDRsMlNJSDB4?=
- =?utf-8?B?WHNXQm1Ib21JalFPWjdabFlZZXpHSEVFNFJtd1RVeW1xMkxaQU1yTXpjMExQ?=
- =?utf-8?B?OVF6d1NlYmZ5V005OWJIakpnc1VQQzdvZ1VtdTRqcGNZV2ZQL2FTc0VrakV0?=
- =?utf-8?B?VDM5VVJVTVg4b2RBT3czTTNaUEtRenEwdW15OE1aTnRoRnRHVFpkNnJadHZU?=
- =?utf-8?B?SUNUQWNQdTcvbGRNZTRyeTJmcld5d0g4cFc4NGgwZ1BteHhDMW5EN0FpcFN3?=
- =?utf-8?B?UEtPOWNJWE5qOUlWQTIzNXdwclZIeDQrQllPd2tMMXJveWdyVW52UmZqeTNq?=
- =?utf-8?B?ajVnT2V3Zk9tSnhEYk0veXpUUkhyQmt2MEtobFpTckRWRXMxM0ZqaGN6UFNy?=
- =?utf-8?B?S21qR2h5ZjF1YjdTL0Y0dDdNc0tYbUpiUUVFUHpuMEd2eC9DeGRpa3BUUlNt?=
- =?utf-8?Q?3dC6wZtrD+lRzzj2RSQHod62q?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7D4D19F914641A48A327EE08BC8B7D15@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+ [209.85.167.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C33CA10EA0E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 03:17:47 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id
+ 2adb3069b0e04-5440d5aae5cso1752455e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 19:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738898266; x=1739503066; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=17pakd/Znr7AQ717iCmCdIgifIQxR3pgh2Z0bF8TxTs=;
+ b=jR8TdUtVMiYs2aqlzL2LcZmPyXtoHC7wtnYeA4XZ3ykzeTACJHaLBbrNhshpIu14cx
+ 6cWS2sNsyK0OKCuSp11ywXKvnsJ4BnPSuOmj2KgzlQYuGw2EvuzwUgkXloZpPz3oL0fx
+ MB+of9yanUvRJ9ZKm5F/LhR3hEudUx29ZQyJdR6s1tRVoxvZ5JJrDm/ZpPz0NXpYNSJE
+ P3CRrNwJ09+IBw0U/fvcB+cnCUWSgb6fq7CEF1qk4THAefBoDkThZpq3PFfT69H3d0Ly
+ 5JD8vk6NXeYJ7RSdD99b3E9aOydGqNmgzW/+JljJ8oqWP10vTagm6y9RWx1111iZ/CQU
+ /5oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738898266; x=1739503066;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=17pakd/Znr7AQ717iCmCdIgifIQxR3pgh2Z0bF8TxTs=;
+ b=MCJPkVupT+q6mg/cV4TFkZ0gRNeRVE0rJGx1B+sCDiMbxdHFZVm5JWpqc0vkpF8tE9
+ tP9KzPDeeNEWYqevJCD1o7ZXVpROtAPZfhZfLP+9tmjePYvdftAQnW3VuM1/lI6ZP3qW
+ DvmVYy+IFkUuaiklfBoHW4Y0lpgLoEIPiqQAwhYVfmbdP21shzyu+CyFdmJalUnvYcer
+ ULnsTxqmyTiRwRlgIhEZ2JVSFiAoxHueCsNn7FBfPe64vgtT7jKLzvTIb0EuEqP64Zr6
+ +Z0RCyGizL+QknQP6qfbNY+s3io7i/DeQxLb5E961W4akVBcHqBC5zRtuh7GXOMVMQU0
+ iWBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVjsA8DRndd3GNAdudZpy21yX61d6vSbS/WFiP2G27rgsAaXKmx4P/OITFvnFlSBr9oBw3AHsfp1p8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz111mrHjpukrDVQwx2N2i0IP4BHRAtvOghbwHJ9fEo6TOmKvXA
+ Z+qd93etVJUpodWjO6FBGkPHjjkL6wlMO1TohVUpxl8cYmGJdrhUYHB8Dc/xk3U=
+X-Gm-Gg: ASbGncuMdQ+b/ZyMZPK5Gqkmmnk0VFMfoJa4Q5VTypsrPox+u7pCL/3jbWodnHzDO6L
+ dzZfIKeglU4yaUv3BjoOCE0utO/Um+Nwv/4C9SYO1tbrVZTnO2BZxqHtVfQdUTW0ZfnzrizQIoV
+ 2Fu6pDMN+iKrrG/ZYwrpHq5ZisyKMGaXJLsgTIsJiZKOjpsbNhmEnvyrKJEu8n+Po/1LvtnAimP
+ n3LbAZOCukl4bX0VyL/paFbS5dtkkx6Itmttl95u3mao09OPkNxv+2leF6mB1zUStTU3ww9aR6v
+ /BczLCwTeT3Qqr4u0v8s2QH38u2d10n+X+TPQrBl3qwHaIU000ROSpd5NHKAm1qvYT38pes=
+X-Google-Smtp-Source: AGHT+IGFRWR3LZSENTzR1jrQjMzeY7hexf5uTv34xRfQ9DibP0IYIH3nm+4A52IVjL038EoBPPmYtg==
+X-Received: by 2002:a05:6512:2105:b0:53e:ca48:776e with SMTP id
+ 2adb3069b0e04-54414b043d3mr248350e87.36.1738898266070; 
+ Thu, 06 Feb 2025 19:17:46 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54410603876sm310371e87.211.2025.02.06.19.17.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Feb 2025 19:17:44 -0800 (PST)
+Date: Fri, 7 Feb 2025 05:17:43 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 15/26] drm/bridge: devm_drm_of_get_bridge and
+ drmm_of_get_bridge: automatically put the bridge
+Message-ID: <w3qufv73ldzdcfuz6n3prx4di2dhoq2wfqmmvxvxkea6uqxkge@pjwmugvicsbt>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-15-9d6f2c9c3058@bootlin.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB6621.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e732ba65-af51-4382-119a-08dd47256701
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2025 03:13:32.3618 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wj9AS3aI3KeuA85GvSvkl6W4qZslWlQy1kMVMs+EBjysGde9/15DmGO1PwGguj+4xfdzbkYQWBqm9b1OxIcBoGPK3sOBnX9QfH9gxqmDN6k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB8129
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250206-hotplug-drm-bridge-v6-15-9d6f2c9c3058@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,14 +113,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMDYvMDIvMjUgODoxNSBwbSwgTWF4aW1lIFJpcGFyZCB3cm90ZToNCj4gRVhURVJOQUwgRU1B
-SUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25v
-dyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPiBPbiBUaHUsIDYgRmViIDIwMjUgMTU6MTc6MTMg
-KzA4MDAsIG91c2hpeGlvbmcxMDI1QDE2My5jb20gd3JvdGU6DQo+PiBGcm9tOiBTaGl4aW9uZyBP
-dSA8b3VzaGl4aW9uZ0BreWxpbm9zLmNuPg0KPj4NCj4+IGNvbnZlcnQgdG8gdXNlIGRldm1fcGxh
-dGZvcm1faW9yZW1hcF9yZXNvdXJjZSgpLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFNoaXhpb25n
-IE91IDxvdXNoaXhpb25nQGt5bGlub3MuY24+DQo+Pg0KPj4gWyAuLi4gXQ0KPiANCj4gUmV2aWV3
-ZWQtYnk6IE1heGltZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4NCkFja2VkLWJ5OiBNYW5p
-a2FuZGFuIE11cmFsaWRoYXJhbiA8bWFuaWthbmRhbi5tQG1pY3JvY2hpcC5jb20+DQo+IA0KPiBU
-aGFua3MhDQo+IE1heGltZQ0KDQotLSANClRoYW5rcyBhbmQgUmVnYXJkcywNCk1hbmlrYW5kYW4g
-TS4NCg0K
+On Thu, Feb 06, 2025 at 07:14:30PM +0100, Luca Ceresoli wrote:
+> Add a devm/drmm action to these functions so the bridge reference is
+> dropped automatically when the caller is removed.
+
+I think the get() should go to the underlying of_drm_bridge_find() function.
+
+Also it really feels like it's an overkill to keep the wrappers. After
+getting bridge being handled by the panel code would it be possible to
+drop all of them? Then this patch might introduce one new devm_
+function? Or are drmm_ functions actually being used to store data in
+the drmm-managed memory?
+
+> 
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> ---
+> 
+> This patch was added in v6.
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 39 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 39 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index f694b32ca59cb91c32846bc00b43360df41cc1ad..497ec06dfcb05ab5dee8ea5e8f1eafb9c2807612 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -33,6 +33,7 @@
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_encoder.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_managed.h>
+>  #include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
+>  
+> @@ -1459,6 +1460,13 @@ static int of_drm_find_bridge_by_endpoint(const struct device_node *np,
+>  	return ret;
+>  }
+>  
+> +static void devm_drm_bridge_put_void(void *data)
+> +{
+> +	struct drm_bridge *bridge = (struct drm_bridge *)data;
+> +
+> +	drm_bridge_put(bridge);
+> +}
+> +
+>  /**
+>   * devm_drm_of_get_bridge - Return next bridge in the chain
+>   * @dev: device to tie the bridge lifetime to
+> @@ -1469,6 +1477,10 @@ static int of_drm_find_bridge_by_endpoint(const struct device_node *np,
+>   * Given a DT node's port and endpoint number, finds the connected node
+>   * and returns the associated bridge if any.
+>   *
+> + * The refcount of the returned bridge is incremented, but the caller does
+> + * not have to call drm_bridge_put() when done with the bridge. It will be
+> + * done by devres when @dev is removed.
+> + *
+>   * Returns a pointer to the bridge if successful, or an error pointer
+>   * otherwise.
+>   */
+> @@ -1483,6 +1495,10 @@ struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
+>  	if (ret)
+>  		return ERR_PTR(ret);
+>  
+> +	ret = devm_add_action_or_reset(dev, devm_drm_bridge_put_void, bridge);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+>  	return bridge;
+>  }
+>  EXPORT_SYMBOL(devm_drm_of_get_bridge);
+> @@ -1497,6 +1513,10 @@ EXPORT_SYMBOL(devm_drm_of_get_bridge);
+>   * graph link search is not enough, e.g. for drivers that need to support
+>   * panels described only as subnodes.
+>   *
+> + * The refcount of the returned bridge is incremented, but the caller does
+> + * not have to call drm_bridge_put() when done with the bridge. It will be
+> + * done by devres when @dev is removed.
+> + *
+>   * RETURNS:
+>   * A pointer to the bridge if successful, or an error pointer otherwise.
+>   */
+> @@ -1513,10 +1533,21 @@ struct drm_bridge *devm_drm_of_get_bridge_by_node(struct device *dev,
+>  	if (!bridge)
+>  		return ERR_PTR(-ENODEV);
+>  
+> +	ret = devm_add_action_or_reset(dev, devm_drm_bridge_put_void, bridge);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+>  	return bridge;
+>  }
+>  EXPORT_SYMBOL(devm_drm_of_get_bridge_by_node);
+>  
+> +static void drmm_bridge_put_void(struct drm_device *drm, void *ptr)
+> +{
+> +	struct drm_bridge *bridge = ptr;
+> +
+> +	drm_bridge_put(bridge);
+> +}
+> +
+>  /**
+>   * drmm_of_get_bridge - Return next bridge in the chain
+>   * @drm: device to tie the bridge lifetime to
+> @@ -1527,6 +1558,10 @@ EXPORT_SYMBOL(devm_drm_of_get_bridge_by_node);
+>   * Given a DT node's port and endpoint number, finds the connected node
+>   * and returns the associated bridge if any.
+>   *
+> + * The refcount of the returned bridge is incremented, but the caller does
+> + * not have to call drm_bridge_put() when done with the bridge. It will be
+> + * done by drmm when @dev is removed.
+> + *
+>   * Returns a drmm managed pointer to the bridge if successful, or an error
+>   * pointer otherwise.
+>   */
+> @@ -1541,6 +1576,10 @@ struct drm_bridge *drmm_of_get_bridge(struct drm_device *drm,
+>  	if (ret)
+>  		return ERR_PTR(ret);
+>  
+> +	ret = drmm_add_action_or_reset(drm, drmm_bridge_put_void, bridge);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+>  	return bridge;
+>  }
+>  EXPORT_SYMBOL(drmm_of_get_bridge);
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+With best wishes
+Dmitry
