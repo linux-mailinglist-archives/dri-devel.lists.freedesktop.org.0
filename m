@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AFFA2C337
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 14:05:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA8CA2C344
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 14:08:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C4AB10E164;
-	Fri,  7 Feb 2025 13:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 873C410E190;
+	Fri,  7 Feb 2025 13:08:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nQXF/HV5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B9/FhedQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B8CF10E164;
- Fri,  7 Feb 2025 13:04:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0B9210E25F;
+ Fri,  7 Feb 2025 13:07:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738933494; x=1770469494;
+ t=1738933655; x=1770469655;
  h=message-id:subject:from:to:cc:date:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=HFj0xRGj+BD/PoSLoh0LUJETDPALaiqjx7zeOTGx2U0=;
- b=nQXF/HV5Dg+Eg3nTAp/fnsS9qpTeeyP+lk7ozrsaO5YEozIrQx2vuoZx
- L9DT0Fl0zHTa7Wov/v3EWxcfa4j2MitBOdMrniX5qSmIDs4zag2Z9f9ys
- w3a80CoSnkXcRtid08NTji6VrEMkXQ0+dtNbrx41rKmbIB8kPAF7Y7nMq
- WoFpaCUKI/dgE6NkoMGQFBZgx8dKrEHG4o+UuEBY+ZIoKbSXxB1xvrxlr
- Q42ur9U1ws1K7rh4OX1zL0rZFRbSC9t7wVy2cV9VKCpuY6EsDS466UMRF
- fwxQua9STYSmUPIS61/UN62+KK1i7zPbiZ0C+2BUH34vSoJ+o/I7Xakth A==;
-X-CSE-ConnectionGUID: gaRcXkehSiymCX35GUsMiQ==
-X-CSE-MsgGUID: YYGzSixVQKm+zVyIxZUbCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="49814692"
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="49814692"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 05:04:53 -0800
-X-CSE-ConnectionGUID: kz8wYAALQvG2hkoZ+Bap+A==
-X-CSE-MsgGUID: baRWpM83TV+/2OQ6hj/MCg==
+ bh=oFj9uP98gMgAuTlRAd1gmVyl42n88oMP9RqV00H5o0g=;
+ b=B9/FhedQInVEe8m4bTW+X2QWARb/ekPDJFjZifF4gLyJcoE7EMXZfn+n
+ Alz9uRPHfJv0I84FRZe83ZYiUPAw4JkBxWKO6DSHYdUafAJKMc3lX21GY
+ GCIoGiuBYPYjFylQjdQAVQyhtySyclo7DV9dRfuTxAUandtSVScQhZdvV
+ AmCvyWQPV6qgcfkhtosxLH0f5XUsvC+QYJTiMnkv1CtJm++3gomEr+79a
+ K6pBUQiUnvASPD9oxcYFwBJvYvfSoX2aTLhRRjgrzV35b7BOdpudvxLni
+ 1i44CBgJtkHrdKS7+MOHJ2resDIfvbKHEPNP9yEpuG7Te2r6xbbCZQmto Q==;
+X-CSE-ConnectionGUID: 01mad80hQzqQJo4DT9SH6Q==
+X-CSE-MsgGUID: 40DkxX9SRQiV+gA41Fy37Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="64930317"
+X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="64930317"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2025 05:07:34 -0800
+X-CSE-ConnectionGUID: lP30IbwhS02OuxkY4yUgjQ==
+X-CSE-MsgGUID: klVQRnNySSWaM7fvSAFiBg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="111485174"
+X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="111729990"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.246.108])
  ([10.245.246.108])
- by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 05:04:50 -0800
-Message-ID: <59bb51deb61f3fbc54656b189fa2aef1de9806da.camel@linux.intel.com>
-Subject: Re: [PATCH v4 19/33] drm/xe/uapi: Add
- DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR
+ by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2025 05:07:32 -0800
+Message-ID: <014ae51eafa8ca5fbea2948ee823d9a6842fbb71.camel@linux.intel.com>
+Subject: Re: [PATCH v4 20/33] drm/xe: Add migrate layer functions for SVM
+ support
 From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
  simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Date: Fri, 07 Feb 2025 14:04:46 +0100
-In-Reply-To: <20250129195212.745731-20-matthew.brost@intel.com>
+Date: Fri, 07 Feb 2025 14:07:29 +0100
+In-Reply-To: <20250129195212.745731-21-matthew.brost@intel.com>
 References: <20250129195212.745731-1-matthew.brost@intel.com>
- <20250129195212.745731-20-matthew.brost@intel.com>
+ <20250129195212.745731-21-matthew.brost@intel.com>
 Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -75,74 +75,257 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 2025-01-29 at 11:51 -0800, Matthew Brost wrote:
-> Add the DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR device query
-> flag,
-> which indicates whether the device supports CPU address mirroring.
-> The
-> intent is for UMDs to use this query to determine if a VM can be set
-> up
-> with CPU address mirroring. This flag is implemented by checking if
-> the
-> device supports GPU faults.
+> Add functions which migrate to / from VRAM accepting a single DPA
+> argument (VRAM) and array of dma addresses (SRAM). Used for SVM
+> migrations.
 >=20
+> v2:
+> =C2=A0- Don't unlock job_mutex in error path of xe_migrate_vram
+> v3:
+> =C2=A0- Kernel doc (Thomas)
+> =C2=A0- Better commit message (Thomas)
+> =C2=A0- s/dword/num_dword (Thomas)
+> =C2=A0- Return error to large of migration (Thomas)
+>=20
+> Signed-off-by: Oak Zeng <oak.zeng@intel.com>
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
 Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
+
 > ---
-> =C2=A0drivers/gpu/drm/xe/xe_query.c | 5 ++++-
-> =C2=A0include/uapi/drm/xe_drm.h=C2=A0=C2=A0=C2=A0=C2=A0 | 3 +++
-> =C2=A02 files changed, 7 insertions(+), 1 deletion(-)
+> =C2=A0drivers/gpu/drm/xe/xe_migrate.c | 175
+> ++++++++++++++++++++++++++++++++
+> =C2=A0drivers/gpu/drm/xe/xe_migrate.h |=C2=A0 10 ++
+> =C2=A02 files changed, 185 insertions(+)
 >=20
-> diff --git a/drivers/gpu/drm/xe/xe_query.c
-> b/drivers/gpu/drm/xe/xe_query.c
-> index c059639613f7..40f56eaf98fa 100644
-> --- a/drivers/gpu/drm/xe/xe_query.c
-> +++ b/drivers/gpu/drm/xe/xe_query.c
-> @@ -333,8 +333,11 @@ static int query_config(struct xe_device *xe,
-> struct drm_xe_device_query *query)
-> =C2=A0	config->info[DRM_XE_QUERY_CONFIG_REV_AND_DEVICE_ID] =3D
-> =C2=A0		xe->info.devid | (xe->info.revid << 16);
-> =C2=A0	if (xe_device_get_root_tile(xe)->mem.vram.usable_size)
-> -		config->info[DRM_XE_QUERY_CONFIG_FLAGS] =3D
-> +		config->info[DRM_XE_QUERY_CONFIG_FLAGS] |=3D
-> =C2=A0			DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM;
-> +	if (xe->info.has_usm)
-> +		config->info[DRM_XE_QUERY_CONFIG_FLAGS] |=3D
-> +			DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR
-> ;
-> =C2=A0	config->info[DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT] =3D
-> =C2=A0		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K
-> : SZ_4K;
-> =C2=A0	config->info[DRM_XE_QUERY_CONFIG_VA_BITS] =3D xe-
-> >info.va_bits;
-> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> index b86dc1b4c2fe..37e54ca6ffe9 100644
-> --- a/include/uapi/drm/xe_drm.h
-> +++ b/include/uapi/drm/xe_drm.h
-> @@ -393,6 +393,8 @@ struct drm_xe_query_mem_regions {
-> =C2=A0 *
-> =C2=A0 *=C2=A0=C2=A0=C2=A0 - %DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM - Flag is=
- set if the
-> device
-> =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 has usable VRAM
-> + *=C2=A0=C2=A0=C2=A0 - %DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR - F=
-lag is set
-> if the
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device has CPU address mirroring suppor=
-t
-> =C2=A0 *=C2=A0 - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alig=
-nment
-> =C2=A0 *=C2=A0=C2=A0=C2=A0 required by this device, typically SZ_4K or SZ=
-_64K
-> =C2=A0 *=C2=A0 - %DRM_XE_QUERY_CONFIG_VA_BITS - Maximum bits of a virtual
+> diff --git a/drivers/gpu/drm/xe/xe_migrate.c
+> b/drivers/gpu/drm/xe/xe_migrate.c
+> index 278bc96cf593..df4282c71bf0 100644
+> --- a/drivers/gpu/drm/xe/xe_migrate.c
+> +++ b/drivers/gpu/drm/xe/xe_migrate.c
+> @@ -1544,6 +1544,181 @@ void xe_migrate_wait(struct xe_migrate *m)
+> =C2=A0		dma_fence_wait(m->fence, false);
+> =C2=A0}
+> =C2=A0
+> +static u32 pte_update_cmd_size(u64 size)
+> +{
+> +	u32 num_dword;
+> +	u64 entries =3D DIV_ROUND_UP(size, XE_PAGE_SIZE);
+> +
+> +	XE_WARN_ON(size > MAX_PREEMPTDISABLE_TRANSFER);
+> +	/*
+> +	 * MI_STORE_DATA_IMM command is used to update page table.
+> Each
+> +	 * instruction can update maximumly 0x1ff pte entries. To
+> update
+> +	 * n (n <=3D 0x1ff) pte entries, we need:
+> +	 * 1 dword for the MI_STORE_DATA_IMM command header (opcode
+> etc)
+> +	 * 2 dword for the page table's physical location
+> +	 * 2*n dword for value of pte to fill (each pte entry is 2
+> dwords)
+> +	 */
+> +	num_dword =3D (1 + 2) * DIV_ROUND_UP(entries, 0x1ff);
+> +	num_dword +=3D entries * 2;
+> +
+> +	return num_dword;
+> +}
+> +
+> +static void build_pt_update_batch_sram(struct xe_migrate *m,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_bb *bb, u32
+> pt_offset,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *sram_addr, u32
+> size)
+> +{
+> +	u16 pat_index =3D tile_to_xe(m->tile)->pat.idx[XE_CACHE_WB];
+> +	u32 ptes;
+> +	int i =3D 0;
+> +
+> +	ptes =3D DIV_ROUND_UP(size, XE_PAGE_SIZE);
+> +	while (ptes) {
+> +		u32 chunk =3D min(0x1ffU, ptes);
+> +
+> +		bb->cs[bb->len++] =3D MI_STORE_DATA_IMM |
+> MI_SDI_NUM_QW(chunk);
+> +		bb->cs[bb->len++] =3D pt_offset;
+> +		bb->cs[bb->len++] =3D 0;
+> +
+> +		pt_offset +=3D chunk * 8;
+> +		ptes -=3D chunk;
+> +
+> +		while (chunk--) {
+> +			u64 addr =3D sram_addr[i++] & PAGE_MASK;
+> +
+> +			xe_tile_assert(m->tile, addr);
+> +			addr =3D m->q->vm->pt_ops->pte_encode_addr(m-
+> >tile->xe,
+> +							=09
+> addr, pat_index,
+> +								 0,
+> false, 0);
+> +			bb->cs[bb->len++] =3D lower_32_bits(addr);
+> +			bb->cs[bb->len++] =3D upper_32_bits(addr);
+> +		}
+> +	}
+> +}
+> +
+> +enum xe_migrate_copy_dir {
+> +	XE_MIGRATE_COPY_TO_VRAM,
+> +	XE_MIGRATE_COPY_TO_SRAM,
+> +};
+> +
+> +static struct dma_fence *xe_migrate_vram(struct xe_migrate *m,
+> +					 unsigned long npages,
+> +					 dma_addr_t *sram_addr, u64
+> vram_addr,
+> +					 const enum
+> xe_migrate_copy_dir dir)
+> +{
+> +	struct xe_gt *gt =3D m->tile->primary_gt;
+> +	struct xe_device *xe =3D gt_to_xe(gt);
+> +	struct dma_fence *fence =3D NULL;
+> +	u32 batch_size =3D 2;
+> +	u64 src_L0_ofs, dst_L0_ofs;
+> +	u64 round_update_size;
+> +	struct xe_sched_job *job;
+> +	struct xe_bb *bb;
+> +	u32 update_idx, pt_slot =3D 0;
+> +	int err;
+> +
+> +	if (npages * PAGE_SIZE > MAX_PREEMPTDISABLE_TRANSFER)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	round_update_size =3D npages * PAGE_SIZE;
+> +	batch_size +=3D pte_update_cmd_size(round_update_size);
+> +	batch_size +=3D EMIT_COPY_DW;
+> +
+> +	bb =3D xe_bb_new(gt, batch_size, true);
+> +	if (IS_ERR(bb)) {
+> +		err =3D PTR_ERR(bb);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	build_pt_update_batch_sram(m, bb, pt_slot * XE_PAGE_SIZE,
+> +				=C2=A0=C2=A0 sram_addr, round_update_size);
+> +
+> +	if (dir =3D=3D XE_MIGRATE_COPY_TO_VRAM) {
+> +		src_L0_ofs =3D xe_migrate_vm_addr(pt_slot, 0);
+> +		dst_L0_ofs =3D xe_migrate_vram_ofs(xe, vram_addr,
+> false);
+> +
+> +	} else {
+> +		src_L0_ofs =3D xe_migrate_vram_ofs(xe, vram_addr,
+> false);
+> +		dst_L0_ofs =3D xe_migrate_vm_addr(pt_slot, 0);
+> +	}
+> +
+> +	bb->cs[bb->len++] =3D MI_BATCH_BUFFER_END;
+> +	update_idx =3D bb->len;
+> +
+> +	emit_copy(gt, bb, src_L0_ofs, dst_L0_ofs, round_update_size,
+> +		=C2=A0 XE_PAGE_SIZE);
+> +
+> +	job =3D xe_bb_create_migration_job(m->q, bb,
+> +					 xe_migrate_batch_base(m,
+> true),
+> +					 update_idx);
+> +	if (IS_ERR(job)) {
+> +		err =3D PTR_ERR(job);
+> +		goto err;
+> +	}
+> +
+> +	xe_sched_job_add_migrate_flush(job, 0);
+> +
+> +	mutex_lock(&m->job_mutex);
+> +	xe_sched_job_arm(job);
+> +	fence =3D dma_fence_get(&job->drm.s_fence->finished);
+> +	xe_sched_job_push(job);
+> +
+> +	dma_fence_put(m->fence);
+> +	m->fence =3D dma_fence_get(fence);
+> +	mutex_unlock(&m->job_mutex);
+> +
+> +	xe_bb_free(bb, fence);
+> +
+> +	return fence;
+> +
+> +err:
+> +	xe_bb_free(bb, NULL);
+> +
+> +	return ERR_PTR(err);
+> +}
+> +
+> +/**
+> + * xe_migrate_to_vram() - Migrate to VRAM
+> + * @m: The migration context.
+> + * @npages: Number of pages to migrate.
+> + * @src_addr: Array of dma addresses (source of migrate)
+> + * @dst_addr: Device physical address of VRAM (destination of
+> migrate)
+> + *
+> + * Copy from an array dma addresses to a VRAM device physical
 > address
-> @@ -409,6 +411,7 @@ struct drm_xe_query_config {
-> =C2=A0#define DRM_XE_QUERY_CONFIG_REV_AND_DEVICE_ID	0
-> =C2=A0#define DRM_XE_QUERY_CONFIG_FLAGS			1
-> =C2=A0	#define DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM	(1 << 0)
-> +	#define DRM_XE_QUERY_CONFIG_FLAG_HAS_CPU_ADDR_MIRROR	(1
-> << 1)
-> =C2=A0#define DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT		2
-> =C2=A0#define DRM_XE_QUERY_CONFIG_VA_BITS			3
-> =C2=A0#define DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY	4
+> + *
+> + * Return: dma fence for migrate to signal completion on succees,
+> ERR_PTR on
+> + * failure
+> + */
+> +struct dma_fence *xe_migrate_to_vram(struct xe_migrate *m,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *src_addr,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 u64 dst_addr)
+> +{
+> +	return xe_migrate_vram(m, npages, src_addr, dst_addr,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 XE_MIGRATE_COPY_TO_VRAM);
+> +}
+> +
+> +/**
+> + * xe_migrate_from_vram() - Migrate from VRAM
+> + * @m: The migration context.
+> + * @npages: Number of pages to migrate.
+> + * @src_addr: Device physical address of VRAM (source of migrate)
+> + * @dst_addr: Array of dma addresses (destination of migrate)
+> + *
+> + * Copy from a VRAM device physical address to an array dma
+> addresses
+> + *
+> + * Return: dma fence for migrate to signal completion on succees,
+> ERR_PTR on
+> + * failure
+> + */
+> +struct dma_fence *xe_migrate_from_vram(struct xe_migrate *m,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 src_addr,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *dst_addr)
+> +{
+> +	return xe_migrate_vram(m, npages, dst_addr, src_addr,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 XE_MIGRATE_COPY_TO_SRAM);
+> +}
+> +
+> =C2=A0#if IS_ENABLED(CONFIG_DRM_XE_KUNIT_TEST)
+> =C2=A0#include "tests/xe_migrate.c"
+> =C2=A0#endif
+> diff --git a/drivers/gpu/drm/xe/xe_migrate.h
+> b/drivers/gpu/drm/xe/xe_migrate.h
+> index 0109866e398a..6ff9a963425c 100644
+> --- a/drivers/gpu/drm/xe/xe_migrate.h
+> +++ b/drivers/gpu/drm/xe/xe_migrate.h
+> @@ -95,6 +95,16 @@ struct xe_migrate_pt_update {
+> =C2=A0
+> =C2=A0struct xe_migrate *xe_migrate_init(struct xe_tile *tile);
+> =C2=A0
+> +struct dma_fence *xe_migrate_to_vram(struct xe_migrate *m,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *src_addr,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 u64 dst_addr);
+> +
+> +struct dma_fence *xe_migrate_from_vram(struct xe_migrate *m,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long npages,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 src_addr,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr_t *dst_addr);
+> +
+> =C2=A0struct dma_fence *xe_migrate_copy(struct xe_migrate *m,
+> =C2=A0				=C2=A0 struct xe_bo *src_bo,
+> =C2=A0				=C2=A0 struct xe_bo *dst_bo,
 
