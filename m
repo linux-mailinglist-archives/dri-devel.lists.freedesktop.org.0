@@ -2,62 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1603AA2C439
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 14:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B09FA2C447
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 14:59:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C0BA10EB0B;
-	Fri,  7 Feb 2025 13:58:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E63910EB0D;
+	Fri,  7 Feb 2025 13:59:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wn57l22H";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xWauh5dD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF46810EB19;
- Fri,  7 Feb 2025 13:57:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738936632; x=1770472632;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=bmArl7UOzFZdwQdf+fiDL82hl/t+AwBoitHlgeTUe1I=;
- b=Wn57l22HzVf1TjlAXLlbZJfabmBDoMcxUjdf8CjaDaDXIMLVDkzf8Ara
- 9zDNmiVsdhHiN3pTbI2oji31Rm/eRZ7xFUx/d5r1Jw/mMdl3N5gtka7N4
- INDoIY4FN+cRhu9D6uXW98MzzRoLslNn/yuFB9ia2Y0b5khsYZXNMV1aT
- Fcdp/0ihXAuMbp7g9Mpve/RtMFqrjUhvqRO90rI+jRKoCb1V/r0R6ACgE
- MMf3bnWqN5YyU+v74FbjpEXnyXBc9VcQXMvi0wgqA8ASz2n4TMzFwsei3
- 9UD3IjFsH49/0SPsT8l7hKorS1fJ6b3/OHFCKj0Q3WiRbCQVIzYXPo5JT A==;
-X-CSE-ConnectionGUID: n1Qzk+yOS9i3VwXqMbe/cg==
-X-CSE-MsgGUID: GXCC9zCaQQSMA0psPkQ5Sg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="49819514"
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="49819514"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 05:57:12 -0800
-X-CSE-ConnectionGUID: ahQzji6wQ7iAT5KyjTpROQ==
-X-CSE-MsgGUID: OqoHqHdGSsmHSXeSPI46qQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="112159470"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.246.108])
- ([10.245.246.108])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 05:57:09 -0800
-Message-ID: <b1027f61bc382bf4e1cee9f5bc91ee7120f80f19.camel@linux.intel.com>
-Subject: Re: [PATCH v4 28/33] drm/xe: Add SVM VRAM migration
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
- simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Date: Fri, 07 Feb 2025 14:57:06 +0100
-In-Reply-To: <20250129195212.745731-29-matthew.brost@intel.com>
-References: <20250129195212.745731-1-matthew.brost@intel.com>
- <20250129195212.745731-29-matthew.brost@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E55610EB0E
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 13:59:31 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-38dc6d55ebaso626783f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 05:59:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1738936769; x=1739541569; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=hkR9wNKJuVrn2xXLtp0xWMIVzcU5W5qY2aQJeG+PYo0=;
+ b=xWauh5dD+44K2rHJofM2NypMCc9CqIDEctqmt6ZgqJZ1xffISwzXTDqGRj5+i917Ey
+ Gvi4CpV/EvkoJcSkVK5huyE1AdbxE/m56yUR3znUluGTYHprDrMXSddXVGnSqUR7T6GE
+ eIM7/ivlw1VkmraP35tXgCHbLD2N5jvfBUUZn7D3duW6doUrQc0EbNzmRgq5kvvNtMom
+ s9G+Kp+HhQyOTbQK+GJrPM3mX/1w4IpsmPMX3RolmyB8nY1+fj9+tN0YUo2MFEsrYCAK
+ goWFXlg0e+pq5YOZhkZpc/d1x+MN9UA3ofsGEiZN0NZBTyeh1nXPxHKhx6U/ysiw8xdM
+ CUkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738936769; x=1739541569;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=hkR9wNKJuVrn2xXLtp0xWMIVzcU5W5qY2aQJeG+PYo0=;
+ b=Hor2K9SjOBY47l2002LCVCQou7ldqRKMj4xVbLmyte0s5YPKFXPhQQ9Nf9E5U4hw9y
+ uzhXmH1k/a1fmXjQG0GuOblC80IUcUkJ63v3oMl+pTse2BFVC9vjOZkNHx5sHS+3ofp9
+ ny+r5dBBpOrhtc2QRZAW22jwl637Y+i8paky4FfWVOHggn+INP0F+Gjr85Krb1v1fxNl
+ 4s1di9WSsSToQRdCGOL19ZzxypYwhUaWXkoOp1QgzwP/hBgLupoFnb9eSXoIyrXol18D
+ WWykFD15XMbkk0bM3R3/y25Buv8AxLxJtk9gmZT0nDYbTadxLaoBzNkj28dpr327iYX8
+ jP1g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWzEybXaHA3mvy71u6ASCxyoEfbVsB7FT9xRi9u1fUKuvbNFIeAWuigIa2VOJdvFSxP7q5RgzTaQDI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyms+Pgue3T3kscRHACNo3mEepWpvEktDang2xduWNhgTNtyKzR
+ huYTRPOgJa/s7cqOfwiWEGxGhhovc69XshOu8HoWekMg6x8f3/kTr9VMhJsybP8=
+X-Gm-Gg: ASbGncstv2LIunCNCbzwo77JYQwzg5oeCp0cmsfzOkqYCpJxwgy8oheujfrC1RLfskt
+ DC1RSuXwtlbOr/eCMQ38Qhq1DLQgC/X23/pVjat+La3c0p+aU2z7kV7JvL1Etnek1JnSRu437d5
+ /7Tgu5A7v2M81yci3XnSDmvw4ylTdxNJrqlq85GUzeczzNPsrHVEqhoMubidvp+P2xjK8Z/tnO1
+ flzeKYahyl2eJP3tLKM4hsCRyblvLIqqTb0IPmu2keci2DJLt60ndChDvMau2zxLFmUXcENl3eB
+ 9i4SEsGxhlsiUBso9JanLCNuYmj6rkPmWDyA4XCfgy+whBY+BzStNkhUE8Z1ddFnpsLm
+X-Google-Smtp-Source: AGHT+IFaHTGIHzKLUvnWz9+Y5u7+raJr/5Kf7pvr1qGvrp3QDa8oLg2Fjp7WNSzvc3RsTpW1NE2RGg==
+X-Received: by 2002:adf:e60b:0:b0:38d:b52d:e11c with SMTP id
+ ffacd0b85a97d-38dc994edbfmr1754061f8f.15.1738936769612; 
+ Fri, 07 Feb 2025 05:59:29 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:5b26:96be:712e:30cd?
+ ([2a01:e0a:982:cbb0:5b26:96be:712e:30cd])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38dbdd1af07sm4646491f8f.15.2025.02.07.05.59.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Feb 2025 05:59:29 -0800 (PST)
+Message-ID: <ec30d033-f53b-4d71-8c36-b6448879b691@linaro.org>
+Date: Fri, 7 Feb 2025 14:59:28 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 1/2] dt-bindings: display: qcom, sm8550-mdss: only document
+ the mdp0-mem interconnect path
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Simona Vetter <simona@ffwll.ch>, Rob Clark <robdclark@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Maxime Ripard <mripard@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Sean Paul <sean@poorly.run>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>
+References: <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-0-852b1d6aee46@linaro.org>
+ <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-1-852b1d6aee46@linaro.org>
+ <173893208278.4072473.6097194764742914829.robh@kernel.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <173893208278.4072473.6097194764742914829.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,270 +126,51 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: neil.armstrong@linaro.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-01-29 at 11:52 -0800, Matthew Brost wrote:
-> Migration is implemented with range granularity, with VRAM backing
-> being
-> a VM private TTM BO (i.e., shares dma-resv with VM). The lifetime of
-> the
-> TTM BO is limited to when the SVM range is in VRAM (i.e., when a VRAM
-> SVM range is migrated to SRAM, the TTM BO is destroyed).
->=20
-> The design choice for using TTM BO for VRAM backing store, as opposed
-> to
-> direct buddy allocation, is as follows:
->=20
-> - DRM buddy allocations are not at page granularity, offering no
-> =C2=A0 advantage over a BO.
-> - Unified eviction is required (SVM VRAM and TTM BOs need to be able
-> to
-> =C2=A0 evict each other).
-> - For exhaustive eviction [1], SVM VRAM allocations will almost
-> certainly
-> =C2=A0 require a dma-resv.
-> - Likely allocation size is 2M which makes of size of BO (872)
-> =C2=A0 acceptable per allocation (872 / 2M =3D=3D .0004158).
->=20
-> With this, using TTM BO for VRAM backing store seems to be an obvious
-> choice as it allows leveraging of the TTM eviction code.
->=20
-> Current migration policy is migrate any SVM range greater than or
-> equal
-> to 64k once.
->=20
-> [1] https://patchwork.freedesktop.org/series/133643/
->=20
-> v2:
-> =C2=A0- Rebase on latest GPU SVM
-> =C2=A0- Retry page fault on get pages returning mixed allocation
-> =C2=A0- Use drm_gpusvm_devmem
-> v3:
-> =C2=A0- Use new BO flags
-> =C2=A0- New range structure (Thomas)
-> =C2=A0- Hide migration behind Kconfig
-> =C2=A0- Kernel doc (Thomas)
-> =C2=A0- Use check_pages_threshold
-> v4:
-> =C2=A0- Don't evict partial unmaps in garbage collector (Thomas)
-> =C2=A0- Use %pe to print errors (Thomas)
-> =C2=A0- Use %p to print pointers (Thomas)
->=20
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+On 07/02/2025 13:41, Rob Herring (Arm) wrote:
+> 
+> On Fri, 07 Feb 2025 11:50:37 +0100, Neil Armstrong wrote:
+>> The mdp1-mem is not supported on the SM8550 SoCs, so only support a single
+>> mdp0-mem interconnect entry.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.example.dtb: display-subsystem@ae00000: interconnects: [[4294967295, 3, 0, 4294967295, 13, 0], [4294967295, 0, 0, 4294967295, 1, 0]] is too long
+> 	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.example.dtb: display-subsystem@ae00000: interconnect-names: ['mdp0-mem', 'mdp1-mem'] is too long
+> 	from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8550-mdss.yaml#
+> 
+> doc reference errors (make refcheckdocs):
+> 
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-1-852b1d6aee46@linaro.org
+> 
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch.
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
+> 
 
-Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@lists.freedesktop.org>
+Damn example, went too fast...
 
-> ---
-> =C2=A0drivers/gpu/drm/xe/xe_svm.c | 99
-> +++++++++++++++++++++++++++++++++++--
-> =C2=A0drivers/gpu/drm/xe/xe_svm.h |=C2=A0 5 ++
-> =C2=A02 files changed, 100 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/xe/xe_svm.c
-> b/drivers/gpu/drm/xe/xe_svm.c
-> index ba1db030bf33..fc030855d078 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.c
-> +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -502,7 +502,6 @@ static int xe_svm_populate_devmem_pfn(struct
-> drm_gpusvm_devmem *devmem_allocatio
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> -__maybe_unused
-> =C2=A0static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops =3D {
-> =C2=A0	.devmem_release =3D xe_svm_devmem_release,
-> =C2=A0	.populate_devmem_pfn =3D xe_svm_populate_devmem_pfn,
-> @@ -582,6 +581,64 @@ static bool xe_svm_range_is_valid(struct
-> xe_svm_range *range,
-> =C2=A0	return (range->tile_present & ~range->tile_invalidated) &
-> BIT(tile->id);
-> =C2=A0}
-> =C2=A0
-> +static struct xe_mem_region *tile_to_mr(struct xe_tile *tile)
-> +{
-> +	return &tile->mem.vram;
-> +}
-> +
-> +static struct xe_bo *xe_svm_alloc_vram(struct xe_vm *vm, struct
-> xe_tile *tile,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct xe_svm_range *range,
-> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_gpusvm_ctx
-> *ctx)
-> +{
-> +	struct xe_mem_region *mr =3D tile_to_mr(tile);
-> +	struct drm_buddy_block *block;
-> +	struct list_head *blocks;
-> +	struct xe_bo *bo;
-> +	ktime_t end =3D 0;
-> +	int err;
-> +
-> +retry:
-> +	xe_vm_lock(vm, false);
-> +	bo =3D xe_bo_create(tile_to_xe(tile), tile, vm, range-
-> >base.itree.last + 1 -
-> +			=C2=A0 range->base.itree.start,
-> ttm_bo_type_device,
-> +			=C2=A0 XE_BO_FLAG_VRAM_IF_DGFX(tile) |
-> +			=C2=A0 XE_BO_FLAG_CPU_ADDR_MIRROR);
-> +	xe_vm_unlock(vm);
-> +	if (IS_ERR(bo)) {
-> +		err =3D PTR_ERR(bo);
-> +		if (xe_vm_validate_should_retry(NULL, err, &end))
-> +			goto retry;
-> +		return bo;
-> +	}
-> +
-> +	drm_gpusvm_devmem_init(&bo->devmem_allocation,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm->xe->drm.dev, vm->svm.gpusvm.=
-mm,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &gpusvm_devmem_ops,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &tile->mem.vram.dpagemap,
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 range->base.itree.last + 1 -
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 range->base.itree.start);
-> +
-> +	blocks =3D &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)-
-> >blocks;
-> +	list_for_each_entry(block, blocks, link)
-> +		block->private =3D mr;
-> +
-> +	/*
-> +	 * Take ref because as soon as drm_gpusvm_migrate_to_devmem
-> succeeds the
-> +	 * creation ref can be dropped upon CPU fault or unmap.
-> +	 */
-> +	xe_bo_get(bo);
-> +
-> +	err =3D drm_gpusvm_migrate_to_devmem(&vm->svm.gpusvm, &range-
-> >base,
-> +					=C2=A0=C2=A0 &bo->devmem_allocation,
-> ctx);
-> +	if (err) {
-> +		xe_bo_put(bo);	/* Local ref */
-> +		xe_bo_put(bo);	/* Creation ref */
-> +		return ERR_PTR(err);
-> +	}
-> +
-> +	return bo;
-> +}
-> +
-> =C2=A0/**
-> =C2=A0 * xe_svm_handle_pagefault() - SVM handle page fault
-> =C2=A0 * @vm: The VM.
-> @@ -590,7 +647,8 @@ static bool xe_svm_range_is_valid(struct
-> xe_svm_range *range,
-> =C2=A0 * @fault_addr: The GPU fault address.
-> =C2=A0 * @atomic: The fault atomic access bit.
-> =C2=A0 *
-> - * Create GPU bindings for a SVM page fault.
-> + * Create GPU bindings for a SVM page fault. Optionally migrate to
-> device
-> + * memory.
-> =C2=A0 *
-> =C2=A0 * Return: 0 on success, negative error code on error.
-> =C2=A0 */
-> @@ -598,11 +656,18 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
-> struct xe_vma *vma,
-> =C2=A0			=C2=A0=C2=A0=C2=A0 struct xe_tile *tile, u64 fault_addr,
-> =C2=A0			=C2=A0=C2=A0=C2=A0 bool atomic)
-> =C2=A0{
-> -	struct drm_gpusvm_ctx ctx =3D { .read_only =3D
-> xe_vma_read_only(vma), };
-> +	struct drm_gpusvm_ctx ctx =3D {
-> +		.read_only =3D xe_vma_read_only(vma),
-> +		.devmem_possible =3D IS_DGFX(vm->xe) &&
-> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR),
-> +		.check_pages_threshold =3D IS_DGFX(vm->xe) &&
-> +			IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR) ?
-> SZ_64K : 0,
-> +	};
-> =C2=A0	struct xe_svm_range *range;
-> =C2=A0	struct drm_gpusvm_range *r;
-> =C2=A0	struct drm_exec exec;
-> =C2=A0	struct dma_fence *fence;
-> +	struct xe_bo *bo =3D NULL;
-> =C2=A0	ktime_t end =3D 0;
-> =C2=A0	int err;
-> =C2=A0
-> @@ -610,6 +675,9 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
-> struct xe_vma *vma,
-> =C2=A0	xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(vma));
-> =C2=A0
-> =C2=A0retry:
-> +	xe_bo_put(bo);
-> +	bo =3D NULL;
-> +
-> =C2=A0	/* Always process UNMAPs first so view SVM ranges is current
-> */
-> =C2=A0	err =3D xe_svm_garbage_collector(vm);
-> =C2=A0	if (err)
-> @@ -625,9 +693,31 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
-> struct xe_vma *vma,
-> =C2=A0	if (xe_svm_range_is_valid(range, tile))
-> =C2=A0		return 0;
-> =C2=A0
-> +	/* XXX: Add migration policy, for now migrate range once */
-> +	if (!range->migrated && range->base.flags.migrate_devmem &&
-> +	=C2=A0=C2=A0=C2=A0 (range->base.itree.last + 1 - range->base.itree.star=
-t)
-> >=3D SZ_64K) {
-> +		range->migrated =3D true;
-> +
-> +		bo =3D xe_svm_alloc_vram(vm, tile, range, &ctx);
-> +		if (IS_ERR(bo)) {
-> +			drm_info(&vm->xe->drm,
-> +				 "VRAM allocation failed, falling
-> back to retrying, asid=3D%u, errno %pe\n",
-> +				 vm->usm.asid, bo);
-> +			bo =3D NULL;
-> +			goto retry;
-> +		}
-> +	}
-> +
-> =C2=A0	err =3D drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
-> -	if (err =3D=3D -EFAULT || err =3D=3D -EPERM)	/* Corner where CPU
-> mappings have changed */
-> +	/* Corner where CPU mappings have changed */
-> +	if (err =3D=3D -EOPNOTSUPP || err =3D=3D -EFAULT || err =3D=3D -EPERM) =
-{
-> +		if (err =3D=3D -EOPNOTSUPP)
-> +			drm_gpusvm_range_evict(&vm->svm.gpusvm,
-> &range->base);
-> +		drm_info(&vm->xe->drm,
-> +			 "Get pages failed, falling back to
-> retrying, asid=3D%u, gpusvm=3D%p, errno %pe\n",
-> +			 vm->usm.asid, &vm->svm.gpusvm,
-> ERR_PTR(err));
-> =C2=A0		goto retry;
-> +	}
-> =C2=A0	if (err)
-> =C2=A0		goto err_out;
-> =C2=A0
-> @@ -658,6 +748,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
-> struct xe_vma *vma,
-> =C2=A0	dma_fence_put(fence);
-> =C2=A0
-> =C2=A0err_out:
-> +	xe_bo_put(bo);
-> =C2=A0
-> =C2=A0	return err;
-> =C2=A0}
-> diff --git a/drivers/gpu/drm/xe/xe_svm.h
-> b/drivers/gpu/drm/xe/xe_svm.h
-> index 63daffdfdbf6..4c2576162c39 100644
-> --- a/drivers/gpu/drm/xe/xe_svm.h
-> +++ b/drivers/gpu/drm/xe/xe_svm.h
-> @@ -35,6 +35,11 @@ struct xe_svm_range {
-> =C2=A0	 * range. Protected by GPU SVM notifier lock.
-> =C2=A0	 */
-> =C2=A0	u8 tile_invalidated;
-> +	/**
-> +	 * @migrated: Range has been migrated to device memory,
-> protected by
-> +	 * GPU fault handler locking.
-> +	 */
-> +	u8 migrated	:1;
-> =C2=A0};
-> =C2=A0
-> =C2=A0int xe_devm_add(struct xe_tile *tile, struct xe_mem_region *mr);
-
+Thanks,
+Neil
