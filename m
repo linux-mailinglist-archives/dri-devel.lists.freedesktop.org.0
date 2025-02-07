@@ -2,87 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9058FA2B8A0
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 03:06:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDBB1A2B8A5
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 03:07:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58F5110E0BD;
-	Fri,  7 Feb 2025 02:06:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56EC410E9F0;
+	Fri,  7 Feb 2025 02:07:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="vnmZwymr";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ig7eqA/R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F112210E0BD
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 02:06:31 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5441040a325so1161185e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 18:06:31 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60C6310E9F0
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 02:07:04 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-54298ec925bso1896672e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 06 Feb 2025 18:07:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738893990; x=1739498790; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738894023; x=1739498823; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=6ujQXMd3f5rR8lvPCe761XT8r53CWwMCKlPO4+SHJsQ=;
- b=vnmZwymrprnH6TzYzWTW6KR3AEdhDIxi9Tzsh3VYUi6cFEoy0kjfzvs/7uNZx7gu5k
- g/g8AddxWup19lLZV9PrHva8cs3QpaTE8cxxfEHw6orYSFoajlCDBSwHJ+PBpyZQRQlL
- bgULZm/Xc7GWnK7/9ZOo1PR5IzFeNkT76hdRdGa/8MQ6f8b250bvG4S0DXbQbBTozTbn
- fJXzr7E0g65CVmFaJaei5tWIrQfZ7/qML+A14KGJpJwI6ghfIyPJvu86n7JGaeW8ZIir
- k3XwkWVUgPP5jAxiIgQyrhqLtlEDxUGTJvrtffUafc7/vWcMN9jSUvLg0GpKMfgUybfN
- zAzw==
+ bh=XyDyLt0s4sxED3YeKSYF1hhjE6HeGLhhhc5RXgEX8Q4=;
+ b=Ig7eqA/RY49dqCieOQ/lSG0nShgsVv/ChiBIKV82qF0HocwkoIlVX5JW3A/t3jMmkr
+ 3ylR4QdSUvlhKENyz613dz7KUhl5TFS9dHKH0LYPtsE/7AxnWWqlaf4tfdngygaEJXFx
+ tpztifKt0Rc2z0w4mo3stkwyZNosMJYJ71hemdAGYyykXakkYm2kmCbZVSuUViMAYY/0
+ DBzft3oOIvYq9KuVqLOw0gWv/vAMIogQ7QZbQtPTUSSOD2eDD16c/7XOAVz5UWhDNuLi
+ uAyM4zT2Vq5GGN4eSyeokv/19kifqL+hzrxDBIK+2wmIC3mnJq/a1iQKDeFsuaA4INUI
+ 3qfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738893990; x=1739498790;
+ d=1e100.net; s=20230601; t=1738894023; x=1739498823;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6ujQXMd3f5rR8lvPCe761XT8r53CWwMCKlPO4+SHJsQ=;
- b=abxgLm3cN6l+UOe/McuF4goqktkjnIi6qBpilPtwUQElCEPWLPs7vNvVh+h9uzd2Mu
- hG6uA4J/DzQJu73rfTPOIKk1VHzTkKpT16/qtbaaJksOFlpbqTgVJ2eWi9mVcZqjf3dv
- 6SyfZdlPodzVgaZTk+GUel9h8+JObuSuGlP0YsX+jbOFJZyZf++g8ew54C9RNoqAJlJv
- 049VPkFGJp/6Zhw/sNKiRD1I6UqWyznUkdoRB9/4nXIvUfvcZIoyF9zO6Z0AGjJ87K7B
- KTVAblHwgt6lTYy6NshontDDXqb9005F/tYQ2a7NJ+Y9gIKnvYAvtFc3WRyjy8MQTM6B
- mP6w==
+ bh=XyDyLt0s4sxED3YeKSYF1hhjE6HeGLhhhc5RXgEX8Q4=;
+ b=KJbxlsVxDJxAn4rSTAYSHWxvVUutoFLPzLHDQA6smf0hNEROaqNHRlLpn45tUcI3lk
+ rzB5ODIzGAOagnXCKm4+zRAJxBOLhXxZo7y7F9njOzbkBSQ1H1l//VS2BY4rPSTw7GIR
+ byWtJtYc0+cKvJSVyznz7sMCOPWeBi5hh640UN5HjzFB5nOXO5W0/e4aBXjDLdZwF/A2
+ gsWoQXTchW7x0VJ/rjSfqD4cWY5FSWXERHwLLT221A6JNQ1q8li6gTJpnuimNUdd2Qdr
+ H5Q3/T2qUNkZc525MvzZqKnjsCzuT1d4kzb7V5bdJUloWr0oEX+S8zPahATV7CkYPWFu
+ 4+yw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX1iTBdnZJ1xwi13LyrH14m71kvyD/ZyDRCe0djrSizlZXU1LimnCazGSPwDsD2nFn6Hhu7mFsPzoU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzIPlCuMZceZOcKC7+ILB1UyQvXF889ZzBdFf4GTtOpXO0If1SG
- R4lFU08iopUGANWFJcwcVcYa5Z/q5LGhR3m2seKjmLIRJMc3GWQnsdN5aCoKU2I=
-X-Gm-Gg: ASbGncvOk7mFOnSIMVowlVlKQvbbuLoqhYgXaSZGykbTizKv4yGcezXKzIp/B9xO0wG
- FFeP65kY6zQrRJ2J5HrdPwCAkLYvc6UV7zvAWxpAXAQYIhsHuyhCM6hIIdFt3VRseblmIbDSWfg
- PUIN9ejJXJQYwibrciMU0xraS2SbcJhtMR31QPEz/V5ik+6uXl9musgACt3YoqJX/UwgbpbRD2E
- pRBARAdunA91W2K4d5sPEOH6dyYhJXq/yupbApDfv+bt43cdKGbuaokFcJyxiZBVHcvbT8pEm3r
- StqfwVuTL0KKCMFJb7yHU5ibmD5nLObEgBPhB8R0HoN5YIxJ8nrMowijUFbNY2Q/lquASbk=
-X-Google-Smtp-Source: AGHT+IGSvbfbhwvFe2ZxA945w3FQ/WVD5eHjbkXKqsZNGZOOvNSGAyY3FitJEH9UmMivIMdxH8YSOA==
-X-Received: by 2002:a05:6512:ea6:b0:544:132b:603a with SMTP id
- 2adb3069b0e04-54414aa8905mr250920e87.29.1738893990018; 
- Thu, 06 Feb 2025 18:06:30 -0800 (PST)
+ AJvYcCWKkprsXxyR4buy13Z6JLGY/0m1BpXn6HxIEhLxwGyF7HoCXvKqwzZHcHnKujay8UnHD6Sp4NBGyxU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx0YBVw2Fmwg6TO469VoGLf4gXqy9101TzfEC8tEqkQE+SYoSUq
+ PFiCSRELedIEAl44+ITMridnXZzRA5LtXAehp0GSqzjx0mreLdXi5yELOSi528Y=
+X-Gm-Gg: ASbGncu3tcCKH8cRvO5TygNoPE3m3WASE4Z/v637wvSdvKO1QYVPuP7LAw8qPPJc8lx
+ jAVSIk+JisblnkrJ7kEq66rZWcEzkOz6bY0VvafDurQNRvGN0ZVVegnoQrhQZ0qaKBFFN68uCbT
+ 9l4b2mi3zMaX4YeZDqj4BaboCcnnWZe19a+BF1weS0fwl6Vr4Pc+vvB4KKjtsoTgj5wD8OFLlfS
+ w4yU2zDUR13DEOZNw6gV0C6/SNCfY35CoysLWvNLjdyPtevEcoRbrtwkEPvL5CbUVXnEh8G7kLc
+ QH54IOUO3oqnA5dfNcvyDXyCjvIvLhZZSPZaKHIi29977+QR48VHFAyQGWy9IUVhGbQBcPQ=
+X-Google-Smtp-Source: AGHT+IFwAZ+OzzbukVZoC+RyK7oCA6hsn6G2MyRAFDLm/u//Zdyj+Li+eJOThMosTwozpZa/I5Wr7g==
+X-Received: by 2002:a05:6512:2348:b0:542:28a9:dcb7 with SMTP id
+ 2adb3069b0e04-54414ab6999mr282681e87.21.1738894022599; 
+ Thu, 06 Feb 2025 18:07:02 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-544105557ddsm292039e87.75.2025.02.06.18.06.27
+ 2adb3069b0e04-5441053ec09sm291476e87.5.2025.02.06.18.07.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Feb 2025 18:06:28 -0800 (PST)
-Date: Fri, 7 Feb 2025 04:06:26 +0200
+ Thu, 06 Feb 2025 18:07:01 -0800 (PST)
+Date: Fri, 7 Feb 2025 04:06:58 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>,
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Joel Selvaraj <jo@jsfamily.in>, 
- Ondrej Jirman <megi@xff.cz>, Javier Martinez Canillas <javierm@redhat.com>, 
- Artur Weber <aweber.kernel@gmail.com>, Jianhua Lu <lujianhua000@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 01/14] drm/panel/boe-bf060y8m-aj0: Move to using
- mipi_dsi_dcs_write_seq_multi()
-Message-ID: <mz6usiheb2lx6wlk47z3btvf6t6kbo4ja4n6mli5hosrpcvdwp@wmvfvhaqhpkm>
-References: <20250206-mipi-cocci-v1-0-4ff0c69e8897@redhat.com>
- <20250206-mipi-cocci-v1-1-4ff0c69e8897@redhat.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 01/26] drm/debugfs: fix printk format for bridge index
+Message-ID: <mubhj23fer6btbssvo7yqrst5c45kgqetsnh3kcsrrgqnqkg2j@dx5plvv75e5e>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-1-9d6f2c9c3058@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250206-mipi-cocci-v1-1-4ff0c69e8897@redhat.com>
+In-Reply-To: <20250206-hotplug-drm-bridge-v6-1-9d6f2c9c3058@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,95 +112,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 06, 2025 at 04:05:56PM -0500, Anusha Srivatsa wrote:
-> Use mipi_dsi_dcs_write_seq_multi() instead of
-> mipi_dsi_dcs_write_seq()
+On Thu, Feb 06, 2025 at 07:14:16PM +0100, Luca Ceresoli wrote:
+> idx is an unsigned int, use %u for printk-style strings.
 > 
-> Used Coccinelle to do this change. SmPl patch:
-> @rule_1@
-> identifier dsi_var;
-> expression dsi_device;
-> expression list es;
-> @@
-> struct mipi_dsi_device *dsi_var = dsi_device;
-> +struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi_var };
-> <+...
-> -mipi_dsi_dcs_write_seq(dsi_var,es);
-> +mipi_dsi_dcs_write_seq_multi(&dsi_ctx,es);
-
-This is not enough. All the commands and sleeps inbetween should also be
-converted to _multi(), so that there is a single return at the end or
-even a return via the context. Most of foo_on() functions can take
-context as a param and return void, having error code in the context.
-
-> ...+>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 > ---
->  drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c | 36 ++++++++++++++------------
->  1 file changed, 19 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-> index 7e66db4a88bbed27920107458d01efd9cf4986df..640312096c1370c293c84431efa6fd17dc520f2e 100644
-> --- a/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-> +++ b/drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
-> @@ -55,15 +55,17 @@ static void boe_bf060y8m_aj0_reset(struct boe_bf060y8m_aj0 *boe)
->  static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
->  {
->  	struct mipi_dsi_device *dsi = boe->dsi;
-> +	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
->  	struct device *dev = &dsi->dev;
->  	int ret;
->  
-> -	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, 0xb2, 0x00, 0x4c);
-> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_3D_CONTROL, 0x10);
-> -	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, DCS_ALLOW_HBM_RANGE);
-> -	mipi_dsi_dcs_write_seq(dsi, 0xf8,
-> -			       0x00, 0x08, 0x10, 0x00, 0x22, 0x00, 0x00, 0x2d);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb2, 0x00, 0x4c);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_SET_3D_CONTROL, 0x10);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, MIPI_DCS_WRITE_POWER_SAVE,
-> +				     DCS_ALLOW_HBM_RANGE);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf8, 0x00, 0x08, 0x10, 0x00,
-> +				     0x22, 0x00, 0x00, 0x2d);
->  
->  	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
->  	if (ret < 0) {
-> @@ -72,17 +74,17 @@ static int boe_bf060y8m_aj0_on(struct boe_bf060y8m_aj0 *boe)
->  	}
->  	msleep(30);
->  
-> -	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0xa5, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, 0xc0,
-> -			       0x08, 0x48, 0x65, 0x33, 0x33, 0x33,
-> -			       0x2a, 0x31, 0x39, 0x20, 0x09);
-> -	mipi_dsi_dcs_write_seq(dsi, 0xc1, 0x00, 0x00, 0x00, 0x1f, 0x1f,
-> -			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-> -			       0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-> -	mipi_dsi_dcs_write_seq(dsi, 0xe2, 0x20, 0x04, 0x10, 0x12, 0x92,
-> -			       0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83, 0x83,
-> -			       0x5c, 0x5c, 0x5c);
-> -	mipi_dsi_dcs_write_seq(dsi, 0xde, 0x01, 0x2c, 0x00, 0x77, 0x3e);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0xa5, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc0, 0x08, 0x48, 0x65, 0x33,
-> +				     0x33, 0x33, 0x2a, 0x31, 0x39, 0x20, 0x09);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc1, 0x00, 0x00, 0x00, 0x1f,
-> +				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
-> +				     0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe2, 0x20, 0x04, 0x10, 0x12,
-> +				     0x92, 0x4f, 0x8f, 0x44, 0x84, 0x83, 0x83,
-> +				     0x83, 0x5c, 0x5c, 0x5c);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xde, 0x01, 0x2c, 0x00, 0x77,
-> +				     0x3e);
->  
->  	msleep(30);
->  
+> This patch was added in v6.
+> ---
+>  drivers/gpu/drm/drm_debugfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> -- 
-> 2.47.0
-> 
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
 With best wishes
