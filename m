@@ -2,53 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474A0A2C587
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 15:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A48FA2C5DF
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 15:46:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE3D10EB18;
-	Fri,  7 Feb 2025 14:35:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEC1B10EB29;
+	Fri,  7 Feb 2025 14:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nhoiy+qx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K0f1x8xn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9863710EB26
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 14:33:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=cIYCO4qVF9beuz5qiPeKxDwH4Ge3XALDYupZY0ggjic=; b=nhoiy+qxJrOdwBGbWgoZOK1OPv
- x4ND50tGscTBrmgDrWjemIIwVu6UT84e2Crxp2RK1WXYexn9fuaWASKwMug0oyldYsq4QrdzZZCzF
- biJPx3q0ggS22kiLNpSXZVXAt4qzZLfrdomlC9DfHSD/pzAqpdQNzV3ZBYw0zxnhxoWGiZH+NE5dz
- QV/3KMpQBtjKuZkDCx0Py6hKin471XvMLUigF99VJUlJ0N8sOix6LqzoZiEdV9Nq+WO8h3fAojx07
- f5xZo1bx9FFptG1ohWjixJkOfn+TfTEpLLGCrmGesjQaNK0JQd9jWrCz/R3y7a8Y2sPYsjRBzUCVF
- F/z8tnqw==;
-Received: from [90.241.98.187] (helo=localhost)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1tgPQK-005s7g-Ur; Fri, 07 Feb 2025 15:33:46 +0100
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Philipp Stanner <phasta@kernel.org>
-Subject: [RFC 5/5] drm/scheduler: Add a basic test for modifying entities
- scheduler list
-Date: Fri,  7 Feb 2025 14:33:37 +0000
-Message-ID: <20250207143337.60154-6-tvrtko.ursulin@igalia.com>
-X-Mailer: git-send-email 2.48.0
-In-Reply-To: <20250207143337.60154-1-tvrtko.ursulin@igalia.com>
-References: <20250207143337.60154-1-tvrtko.ursulin@igalia.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE1FD10EB28;
+ Fri,  7 Feb 2025 14:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738939557; x=1770475557;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=uRNpFUCTH2jC62GE/KroqcPqS0+AvdXhYoax0A6qehg=;
+ b=K0f1x8xn+TnQmnGtXFOHma/1E/9fy5lFze7sp2H3E3uOGc/GqqdiiaVk
+ l/DLpn0GhGt0hNv7xpQlG3NjKbzIb156g+8OAc/G72Z6v9occKg0/wRqG
+ sry2ZcCBOppTww0FsvNm3VPwoyOvqT8BlYtp3AaqJmECcxl7wmjtU3aQx
+ Bjtqn0wCeCs1/lv5Mv8SYC/2WoFsc2+bW7cHfDlX2iQZIIglgiE1UCukA
+ RYZWkgncLTxeBksQYCOdmrdmsdOPM0M3GPiYRm1VwOMY+FFrMbb1dF8u+
+ xuY3Rrl5pmvF76Azs6Qq9qzt1JIhV1RbKIpfvmdawkSKHi/JCTEfVpSLC w==;
+X-CSE-ConnectionGUID: efUnhetyT3u2k78/C/dH5w==
+X-CSE-MsgGUID: eXGn1twPQBKtLk+lbPzIYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="50201641"
+X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="50201641"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2025 06:45:57 -0800
+X-CSE-ConnectionGUID: mmAsFUINS8+NCbKprzWb6g==
+X-CSE-MsgGUID: ZrcKFDYITxOcAubTn2xC7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="112053060"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.246.108])
+ ([10.245.246.108])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2025 06:45:54 -0800
+Message-ID: <ec4bcb3b178a3de6e605216e588e2eba9cc3217a.camel@linux.intel.com>
+Subject: Re: [PATCH v4 29/33] drm/xe: Basic SVM BO eviction
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Fri, 07 Feb 2025 15:45:51 +0100
+In-Reply-To: <20250129195212.745731-30-matthew.brost@intel.com>
+References: <20250129195212.745731-1-matthew.brost@intel.com>
+ <20250129195212.745731-30-matthew.brost@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,101 +73,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a basic test for exercising modifying the entities scheduler list at
-runtime.
+On Wed, 2025-01-29 at 11:52 -0800, Matthew Brost wrote:
+> Wire xe_bo_move to GPU SVM migration via new helper xe_svm_bo_evict.
+>=20
+> v2:
+> =C2=A0- Use xe_svm_bo_evict
+> =C2=A0- Drop bo->range
+> v3:
+> =C2=A0- Kernel doc (Thomas)
+> v4:
+> =C2=A0- Add missing xe_bo.c code
+>=20
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>
----
- .../scheduler/tests/drm_sched_tests_basic.c   | 73 ++++++++++++++++++-
- 1 file changed, 72 insertions(+), 1 deletion(-)
+I think in the long run, we'd want to do the svm eviction / unbind in
+move_notify(), since that's where we're supposed to unbind other
+subsystems. And then just purge the bo using a NULL placement, but
+since this is equivalent let's postpone that to a more general
+xe_bo_move() cleanup. It's getting pretty hard to follow.
 
-diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-index 9b6bb8b6b98e..af91e4ebd397 100644
---- a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
-@@ -340,6 +340,77 @@ static struct kunit_suite drm_sched_priority = {
- 	.test_cases = drm_sched_priority_tests,
- };
- 
-+static void drm_sched_test_modify_sched(struct kunit *test)
-+{
-+	unsigned int i, cur_ent = 0, cur_sched = 0;
-+	struct drm_mock_sched_entity *entity[13];
-+	struct drm_mock_scheduler *sched[3];
-+	struct drm_mock_sched_job *job;
-+	const unsigned int qd = 1000;
-+	bool done;
-+
-+	/*
-+	 * Submit a bunch of jobs against entities configured with different
-+	 * schedulers and while waiting for them to complete, periodically keep
-+	 * changing schedulers associated with each entity.
-+	 *
-+	 * We set up the queue-depth (qd) and job duration so the sched modify
-+	 * loop has some time to interact with submissions to the backend and
-+	 * job completions as they progress.
-+	 *
-+	 * For the number of schedulers and entities we use primes in order to
-+	 * perturb the entity->sched assignments with less of a regular pattern.
-+	 */
-+
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		sched[i] = drm_mock_new_scheduler(test, MAX_SCHEDULE_TIMEOUT);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		entity[i] = drm_mock_new_sched_entity(test,
-+						      DRM_SCHED_PRIORITY_NORMAL,
-+						      sched[i % ARRAY_SIZE(sched)]);
-+
-+	for (i = 0; i < qd; i++) {
-+		job = drm_mock_new_sched_job(test, entity[cur_ent++]);
-+		cur_ent %= ARRAY_SIZE(entity);
-+		drm_mock_sched_job_set_duration_us(job, 1000);
-+		drm_mock_sched_job_submit(job);
-+	}
-+
-+	do {
-+		struct drm_gpu_scheduler *modify;
-+
-+		usleep_range(200, 500);
-+		cur_ent++;
-+		cur_ent %= ARRAY_SIZE(entity);
-+		cur_sched++;
-+		cur_sched %= ARRAY_SIZE(sched);
-+		modify = &sched[cur_sched]->base;
-+		drm_sched_entity_modify_sched(&entity[cur_ent]->base, &modify,
-+					      1);
-+	} while (!drm_mock_sched_job_is_finished(job));
-+
-+	done = drm_mock_sched_job_wait_finished(job, HZ);
-+	KUNIT_ASSERT_EQ(test, done, true);
-+
-+	for (i = 0; i < ARRAY_SIZE(entity); i++)
-+		drm_mock_sched_entity_free(entity[i]);
-+
-+	for (i = 0; i < ARRAY_SIZE(sched); i++)
-+		drm_mock_scheduler_fini(sched[i]);
-+}
-+
-+static struct kunit_case drm_sched_modify_sched_tests[] = {
-+	KUNIT_CASE(drm_sched_test_modify_sched),
-+	{}
-+};
-+
-+static struct kunit_suite drm_sched_modify_sched = {
-+	.name = "drm_sched_basic_modify_sched_tests",
-+	.test_cases = drm_sched_modify_sched_tests,
-+};
-+
- kunit_test_suites(&drm_sched_basic,
- 		  &drm_sched_timeout,
--		  &drm_sched_priority);
-+		  &drm_sched_priority,
-+		  &drm_sched_modify_sched);
--- 
-2.48.0
+Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+
+
+> ---
+> =C2=A0drivers/gpu/drm/xe/xe_bo.c=C2=A0 | 19 +++++++++++++++++++
+> =C2=A0drivers/gpu/drm/xe/xe_svm.c | 15 ++++++++++++++-
+> =C2=A0drivers/gpu/drm/xe/xe_svm.h |=C2=A0 3 +++
+> =C2=A03 files changed, 36 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index 20c96709e267..657687ee70d0 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -255,6 +255,8 @@ int xe_bo_placement_for_flags(struct xe_device
+> *xe, struct xe_bo *bo,
+> =C2=A0static void xe_evict_flags(struct ttm_buffer_object *tbo,
+> =C2=A0			=C2=A0=C2=A0 struct ttm_placement *placement)
+> =C2=A0{
+> +	struct xe_bo *bo;
+> +
+> =C2=A0	if (!xe_bo_is_xe_bo(tbo)) {
+> =C2=A0		/* Don't handle scatter gather BOs */
+> =C2=A0		if (tbo->type =3D=3D ttm_bo_type_sg) {
+> @@ -266,6 +268,12 @@ static void xe_evict_flags(struct
+> ttm_buffer_object *tbo,
+> =C2=A0		return;
+> =C2=A0	}
+> =C2=A0
+> +	bo =3D ttm_to_xe_bo(tbo);
+> +	if (bo->flags & XE_BO_FLAG_CPU_ADDR_MIRROR) {
+> +		*placement =3D sys_placement;
+> +		return;
+> +	}
+> +
+> =C2=A0	/*
+> =C2=A0	 * For xe, sg bos that are evicted to system just triggers a
+> =C2=A0	 * rebind of the sg list upon subsequent validation to
+> XE_PL_TT.
+> @@ -710,6 +718,17 @@ static int xe_bo_move(struct ttm_buffer_object
+> *ttm_bo, bool evict,
+> =C2=A0		goto out;
+> =C2=A0	}
+> =C2=A0
+> +	if (!move_lacks_source && (bo->flags &
+> XE_BO_FLAG_CPU_ADDR_MIRROR) &&
+> +	=C2=A0=C2=A0=C2=A0 new_mem->mem_type =3D=3D XE_PL_SYSTEM) {
+> +		ret =3D xe_svm_bo_evict(bo);
+> +		if (!ret) {
+> +			drm_dbg(&xe->drm, "Evict system allocator BO
+> success\n");
+> +			ttm_bo_move_null(ttm_bo, new_mem);
+> +		}
+> +
+> +		goto out;
+> +	}
+> +
+> =C2=A0	if (old_mem_type =3D=3D XE_PL_SYSTEM && new_mem->mem_type =3D=3D
+> XE_PL_TT && !handle_system_ccs) {
+> =C2=A0		ttm_bo_move_null(ttm_bo, new_mem);
+> =C2=A0		goto out;
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> b/drivers/gpu/drm/xe/xe_svm.c
+> index fc030855d078..dafc5061eb42 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -768,6 +768,20 @@ bool xe_svm_has_mapping(struct xe_vm *vm, u64
+> start, u64 end)
+> =C2=A0	return drm_gpusvm_has_mapping(&vm->svm.gpusvm, start, end);
+> =C2=A0}
+> =C2=A0
+> +/**
+> + * xe_svm_bo_evict() - SVM evict BO to system memory
+> + * @bo: BO to evict
+> + *
+> + * SVM evict BO to system memory. GPU SVM layer ensures all device
+> pages
+> + * are evicted before returning.
+> + *
+> + * Return: 0 on success standard error code otherwise
+> + */
+> +int xe_svm_bo_evict(struct xe_bo *bo)
+> +{
+> +	return drm_gpusvm_evict_to_ram(&bo->devmem_allocation);
+> +}
+> +
+> =C2=A0#if IS_ENABLED(CONFIG_DRM_XE_DEVMEM_MIRROR)
+> =C2=A0static struct drm_pagemap_dma_addr
+> =C2=A0xe_drm_pagemap_map_dma(struct drm_pagemap *dpagemap,
+> @@ -795,7 +809,6 @@ static const struct drm_pagemap_ops
+> xe_drm_pagemap_ops =3D {
+> =C2=A0	.map_dma =3D xe_drm_pagemap_map_dma,
+> =C2=A0};
+> =C2=A0
+> ->>>>>>> 133db8ade5f0 (drm/xe: Add drm_pagemap ops to SVM)
+> =C2=A0/**
+> =C2=A0 * xe_devm_add: Remap and provide memmap backing for device memory
+> =C2=A0 * @tile: tile that the memory region belongs to
+> diff --git a/drivers/gpu/drm/xe/xe_svm.h
+> b/drivers/gpu/drm/xe/xe_svm.h
+> index 4c2576162c39..77dec5aae0ee 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.h
+> +++ b/drivers/gpu/drm/xe/xe_svm.h
+> @@ -11,6 +11,7 @@
+> =C2=A0
+> =C2=A0#define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
+> =C2=A0
+> +struct xe_bo;
+> =C2=A0struct xe_mem_region;
+> =C2=A0struct xe_tile;
+> =C2=A0struct xe_vm;
+> @@ -56,6 +57,8 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> struct xe_vma *vma,
+> =C2=A0
+> =C2=A0bool xe_svm_has_mapping(struct xe_vm *vm, u64 start, u64 end);
+> =C2=A0
+> +int xe_svm_bo_evict(struct xe_bo *bo);
+> +
+> =C2=A0static inline bool xe_svm_range_pages_valid(struct xe_svm_range
+> *range)
+> =C2=A0{
+> =C2=A0	return drm_gpusvm_range_pages_valid(range->base.gpusvm,
+> &range->base);
 
