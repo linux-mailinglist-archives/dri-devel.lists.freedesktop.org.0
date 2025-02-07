@@ -2,80 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4720BA2C989
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 17:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC589A2C988
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 17:59:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE39110EB84;
-	Fri,  7 Feb 2025 16:59:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61D2B10EB80;
+	Fri,  7 Feb 2025 16:59:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="A4SfuGgk";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EIZgPFVw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8090510EB84
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 16:59:12 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-6f97a3a0b25so19613927b3.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 08:59:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738947551; x=1739552351; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JKMHSngceKWhs09nWrQfjUrr/IL4+HaHfvztvz8mcLo=;
- b=A4SfuGgk9EGptc0u9+DvzbZw/NoNy6JC93s6VdlSa0imWEEYKtobvEBJHr9/ozYa3C
- 9L7rbCLoKaEc/9MszSteTGVW6orB2kqNtYQDBVNJlwUxYW7tIPBeuy6Wp8JHce9uFJSb
- Mojasni8FMgozRjEMR+6t4QAc59yXzGMhy8YNhnOsISdAB1UvpeHENAPcN49nxSGxMjB
- rbpkz4iOF/MVAnT4wcAiwjZUNbgHjiNwXsACK1v+skp8QDRcaqij/X4MR10tF94Yo9/r
- KrWbD+aBn1kJ16mp+Rbize1+9+U3WyGKpTtBpOf4QBQdN2FnPZAvN+tTjAYABCV1n4My
- OiRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738947551; x=1739552351;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JKMHSngceKWhs09nWrQfjUrr/IL4+HaHfvztvz8mcLo=;
- b=IacwUb6Q+RNgq1zRCgJm/G0sGrHDPwDSU1UuLyvDSAMWi4q9WidBMi6HFElUxgANWq
- ZLHYnODKfSA8O8ANpXVGa0rSfEibg7ie8qEC+JRaKHzw6+Q5JiXGCrrvmaF0xuV+cB+C
- zoaBuLNDQoKIDzwduXWHH3F/EUBPJy0QclOilbycVIdWgJqpy+rdmdt2FXQP1IOyMe5j
- ubHR/LrjyrpLsskpYCeePpm/588kEAHUKYHz55pdfLkt/YXasSKwA02f3upVKmRXdPPb
- nyThnRoTyP7HOadAo3wvBBoEXz7EdsptfiDts7oTgL+p1Rhcn5dUK48NsKpJmrOgR4wU
- Pbwg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV+EO+JbCUUgW6hNOQsacJD7VrnRIHUb0O1DIoiJWkYqeroBvs1M1bQjVn9egT7xe0L/aLZm1aT3cM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwbWceXYn6AO23ejuAvVIsFdDjv5S4yRykzkuVmr7QcBUXxAVaE
- RBYS4UIhzzi1Qs01aJePBzm0tMz0U5YFm+Tz1p9NGoJ8OaIm+IfxUrF7fo3KQu0VePTRD+drB6z
- LdLwy5F0z28yIVviGDMNEfUrLm7MBTDEiolHWfA==
-X-Gm-Gg: ASbGncuhf7BtgYwbcMa1HquNCoNKcL1ZrEPMKsyAq8cURv/RXH3cDWkWjHeeM80d0Qg
- kSDn6I5wue2LdYTxsV3L9CoqJf/YMvWs2WYYktLTZALDXOEhT02hCB259SHuWBkYcj+awNiyikg
- ==
-X-Google-Smtp-Source: AGHT+IFbaQfX0T9itZHt97XrDniKr0h1sCRIXUebFUDmityl/mM6edqe+O7q6s7rU645tsgRdF1l7Tz+EiLmeIjEZ1c=
-X-Received: by 2002:a05:690c:7307:b0:6f0:237e:fc67 with SMTP id
- 00721157ae682-6f9b29e583dmr35319597b3.23.1738947551532; Fri, 07 Feb 2025
- 08:59:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v2-0-f712b8df6020@linaro.org>
- <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v2-1-f712b8df6020@linaro.org>
-In-Reply-To: <20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v2-1-f712b8df6020@linaro.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 7 Feb 2025 18:59:03 +0200
-X-Gm-Features: AWEUYZmNMwbk9eX4OjrXiHrM-Aq3WX39qLfKyYBqXNZ9vycYPBQwR8HodH7ba-8
-Message-ID: <CAA8EJpq5bLTfsEBPNzJ9z+KV-oXerr1y7g72A5eWbotSk_Nrzg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: qcom,sm8550-mdss: only
- document the mdp0-mem interconnect path
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9FBA10E295
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 16:59:10 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2DF55441DA;
+ Fri,  7 Feb 2025 16:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738947548;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/Vahkevl3F2lREJftLS6cdDcMfSleJSqHFUq+QmTQiU=;
+ b=EIZgPFVwykSWcWsy5rEycLE3/B7/sf4MUrf1slqX0ATxUFm38qPjPCuXAqKRbQuPb8eR6K
+ QFMAjFbzLzwYIdmrHdCReGMsoxXej+b2rEIMXQ+9U9Sn0OMnmwDXFq5NmztJ63kWf1OLEP
+ 6jSPV4ImPaT3K47J5PHaXXH5XUDajBtH9/oV8nSLaeZxXI4UNCgYjX38EBiIF5LBvzv/93
+ 0kLyRH/jKaOw21g20z37NOVZ+JRl3iWKZyxNvtIyKoOZrqef1JAKoeg1gCw7pYERkG0X+S
+ xZhv1kJhRZgGBGqU9EtU7j2Emso9fNhZdRvyww9hyUPV+SRd9RLzk0H2y2nwrg==
+Date: Fri, 7 Feb 2025 17:59:04 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+ Mark Brown <broonie@kernel.org>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Zijun Hu <quic_zijuhu@quicinc.com>, linux-usb@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 8/8] drm/vkms: convert to use faux_device
+Message-ID: <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
+Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+ Mark Brown <broonie@kernel.org>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Zijun Hu <quic_zijuhu@quicinc.com>, linux-usb@vger.kernel.org,
+ rust-for-linux@vger.kernel.org,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <2025020620-skedaddle-olympics-1735@gregkh>
+ <2025020625-unlaced-vagueness-ae34@gregkh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025020625-unlaced-vagueness-ae34@gregkh>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvleekvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefggffgtddtudegiedtgeeluddtleegjeehveegieffvefgfeehkeekiedvjeetveenucffohhmrghinhepsghoohhtlhhinhdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohhuihhsqdgthhgruhhvvghtqdhlrghpthhophdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedviedprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehrrghfrggvlheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrkhhrsehkv
+ ghrnhgvlhdrohhrghdprhgtphhtthhopehlhihuuggvsehrvgguhhgrthdrtghomhdprhgtphhtthhopegrlhgvkhhsrghnuggvrhdrlhhosggrkhhinhesihhnthgvlhdrtghomhdprhgtphhtthhopegrnhgurhhihidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepsghhvghlghgrrghssehgohhoghhlvgdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,54 +100,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 7 Feb 2025 at 16:02, Neil Armstrong <neil.armstrong@linaro.org> wrote:
->
-> The mdp1-mem is not supported on the SM8550 SoCs, so only support a single
-> mdp0-mem interconnect entry.
-
-v2 went too fast. Please add cpu-cfg instead.
-
->
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 06/02/25 - 18:38, Greg Kroah-Hartman wrote:
+> The vkms driver does not need to create a platform device, as there is
+> no real platform resources associated it,  it only did so because it was
+> simple to do that in order to get a device to use for resource
+> management of drm resources.  Change the driver to use the faux device
+> instead as this is NOT a real platform device.
+> 
+> Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+> Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Melissa Wen <melissa.srw@gmail.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
->  .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml        | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
-> index 1ea50a2c7c8e9f420125ad30a80b4ebd05c9367a..9631fe11c152449f3dfa0b8f8f53feeba721c950 100644
-> --- a/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
-> +++ b/Documentation/devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml
-> @@ -30,10 +30,10 @@ properties:
->      maxItems: 1
->
->    interconnects:
-> -    maxItems: 2
-> +    maxItems: 1
->
->    interconnect-names:
-> -    maxItems: 2
-> +    maxItems: 1
->
->  patternProperties:
->    "^display-controller@[0-9a-f]+$":
-> @@ -91,9 +91,8 @@ examples:
->          reg = <0x0ae00000 0x1000>;
->          reg-names = "mdss";
->
-> -        interconnects = <&mmss_noc MASTER_MDP 0 &gem_noc SLAVE_LLCC 0>,
-> -                        <&mc_virt MASTER_LLCC 0 &mc_virt SLAVE_EBI1 0>;
-> -        interconnect-names = "mdp0-mem", "mdp1-mem";
-> +        interconnects = <&mmss_noc MASTER_MDP 0 &mc_virt SLAVE_EBI1 0>;
-> +        interconnect-names = "mdp0-mem";
->
->          resets = <&dispcc DISP_CC_MDSS_CORE_BCR>;
->
->
-> --
-> 2.34.1
->
+>  v3: new patch in the series.  For an example of the api working, does
+>      not have to be merged at this time, but I can take it if the
+>      maintainers give an ack.
+
+Hi,
+
+This patch cannot be merged into drm-misc-next because we modified the 
+vkms_device structure in commit 49a167c393b0 ("drm/vkms: Switch to dynamic 
+allocation for CRTC"), which is present in linux-next.
+
+Once this conflict is resolved, I agree with changing from platform_device 
+to faux_device.
+
+Apart from this minor conflict, I believe your patch has revealed an issue 
+in VKMS:
+
+Without your patch:
+
+	bash-5.2# modprobe vkms
+	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+	bash-5.2#
+
+With your patch:
+
+	bash-5.2# modprobe vkms
+	faux vkms: Resources present before probing
+	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+	bash-5.2#
+
+After some investigation, I found that the issue is not caused by your 
+patch but by VKMS itself:
+
+During faux_device_create, the device core postpones the device probe to 
+run it later [0]. This probe checks if the devres list is empty [1] and 
+fails if it is not.
+
+[0]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/bus.c#L534
+[1]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/dd.c#L626
+
+With a platform driver, the order of execution was:
+
+	platform_device_register_simple();
+		device_add();
+	*async* device_probe(); /* no issue, the devres is untouched */
+	devres_open_group();
+
+But with faux-device, the order is:
+
+	faux_device_create();
+		device_add();
+	devres_open_group();
+	*async* device_probe(); /* issue here, because of the previous 
+				   devres_open_group */
+
+How do you think this should be solved? I would like to keep a simple 
+solution, given that:
+- we want to have multiple vkms devices (configfs [2])
+- we need to ensure that device_probe is called before devres_open_group 
+  and devm_drm_dev_alloc to avoid this error
+
+[2]:https://lore.kernel.org/all/20250121-google-config-fs-v3-0-8154a6945142@bootlin.com/
+
+I found two other drm driver that may be broken in the same way (very 
+similar code pattern):
+https://elixir.bootlin.com/linux/v6.13.1/source/drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c#L64
+https://elixir.bootlin.com/linux/v6.13.1/source/drivers/gpu/drm/vgem/vgem_drv.c#L138
+
+Thanks a lot,
+Louis Chauvet
+
+Change to hide the issue:
+
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 89ccf0d6419a..84777d6ba889 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -174,7 +174,7 @@ static int vkms_create(struct vkms_config *config)
+        fdev = faux_device_create(DRIVER_NAME, NULL);
+        if (!fdev)
+                return -ENODEV;
+-
++       pr_err("%s:%d\n", __FILE__, __LINE__);
+        if (!devres_open_group(&fdev->dev, NULL, GFP_KERNEL)) {
+                ret = -ENOMEM;
+                goto out_unregister;
 
 
--- 
-With best wishes
-Dmitry
+
+>  drivers/gpu/drm/vkms/vkms_drv.c | 28 ++++++++++++++--------------
+>  drivers/gpu/drm/vkms/vkms_drv.h |  4 ++--
+>  2 files changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index e0409aba9349..b1269f984886 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -10,7 +10,7 @@
+>   */
+>  
+>  #include <linux/module.h>
+> -#include <linux/platform_device.h>
+> +#include <linux/device/faux.h>
+>  #include <linux/dma-mapping.h>
+>  
+>  #include <drm/clients/drm_client_setup.h>
+> @@ -177,25 +177,25 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>  static int vkms_create(struct vkms_config *config)
+>  {
+>  	int ret;
+> -	struct platform_device *pdev;
+> +	struct faux_device *fdev;
+>  	struct vkms_device *vkms_device;
+>  
+> -	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+> -	if (IS_ERR(pdev))
+> -		return PTR_ERR(pdev);
+> +	fdev = faux_device_create(DRIVER_NAME, NULL);
+> +	if (!fdev)
+> +		return -ENODEV;
+>  
+> -	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+> +	if (!devres_open_group(&fdev->dev, NULL, GFP_KERNEL)) {
+>  		ret = -ENOMEM;
+>  		goto out_unregister;
+>  	}
+>  
+> -	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+> +	vkms_device = devm_drm_dev_alloc(&fdev->dev, &vkms_driver,
+>  					 struct vkms_device, drm);
+>  	if (IS_ERR(vkms_device)) {
+>  		ret = PTR_ERR(vkms_device);
+>  		goto out_devres;
+>  	}
+> -	vkms_device->platform = pdev;
+> +	vkms_device->faux_dev = fdev;
+>  	vkms_device->config = config;
+>  	config->dev = vkms_device;
+>  
+> @@ -229,9 +229,9 @@ static int vkms_create(struct vkms_config *config)
+>  	return 0;
+>  
+>  out_devres:
+> -	devres_release_group(&pdev->dev, NULL);
+> +	devres_release_group(&fdev->dev, NULL);
+>  out_unregister:
+> -	platform_device_unregister(pdev);
+> +	faux_device_destroy(fdev);
+>  	return ret;
+>  }
+>  
+> @@ -259,19 +259,19 @@ static int __init vkms_init(void)
+>  
+>  static void vkms_destroy(struct vkms_config *config)
+>  {
+> -	struct platform_device *pdev;
+> +	struct faux_device *fdev;
+>  
+>  	if (!config->dev) {
+>  		DRM_INFO("vkms_device is NULL.\n");
+>  		return;
+>  	}
+>  
+> -	pdev = config->dev->platform;
+> +	fdev = config->dev->faux_dev;
+>  
+>  	drm_dev_unregister(&config->dev->drm);
+>  	drm_atomic_helper_shutdown(&config->dev->drm);
+> -	devres_release_group(&pdev->dev, NULL);
+> -	platform_device_unregister(pdev);
+> +	devres_release_group(&fdev->dev, NULL);
+> +	faux_device_destroy(fdev);
+>  
+>  	config->dev = NULL;
+>  }
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 00541eff3d1b..4668b0e29a84 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -209,13 +209,13 @@ struct vkms_config {
+>   * struct vkms_device - Description of a VKMS device
+>   *
+>   * @drm - Base device in DRM
+> - * @platform - Associated platform device
+> + * @faux_dev- Associated faux device
+>   * @output - Configuration and sub-components of the VKMS device
+>   * @config: Configuration used in this VKMS device
+>   */
+>  struct vkms_device {
+>  	struct drm_device drm;
+> -	struct platform_device *platform;
+> +	struct faux_device *faux_dev;
+>  	struct vkms_output output;
+>  	const struct vkms_config *config;
+>  };
+> -- 
+> 2.48.1
+> 
