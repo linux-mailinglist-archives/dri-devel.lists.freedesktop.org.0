@@ -2,62 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452A9A2C0B2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 11:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3756A2C0D3
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 11:44:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B85310EAA8;
-	Fri,  7 Feb 2025 10:37:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E82D10EAAF;
+	Fri,  7 Feb 2025 10:44:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KXvtn0zJ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HaNH6WWF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0510210EA9E;
- Fri,  7 Feb 2025 10:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1738924622; x=1770460622;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=0I3afZAbatYGQAZDOAU3nrQPHfoBlMWH0a+5Xt59WFM=;
- b=KXvtn0zJ8QvTlna0J8Tvc54GBrChbMTKR1sOquJFO4YLh+4vCudSZAP+
- gyp2SNIEuaUnRM1asSuJfmkWBGLqcaC7WzUCBzDCsMXInIEg6ZVDoDU0H
- gVGN3l8v0Ke/BtHg2Ic0BaeoVjlVE3zT2x3BNMCQG4pm2/bt8Rz8bR54Y
- QfqHDHRYkHcweTZrA66je87JvkASgQxQnM6SDImTGeLlXm6Xw34EQecKR
- 8HGxrZWxb1g9BzosLwXHy+NeKjcRXe2NrLGX7WRDlGHZUiXAoM1carOmM
- jzd/GTTIROocW8Eaeuls1Vl61SbEMvCMw0jQzTbN/SIm9cwBpFHBvcIQz Q==;
-X-CSE-ConnectionGUID: U8FXgDFbRbyOgShaSoUmBA==
-X-CSE-MsgGUID: l7x87cX4QFmq7uYZwygthw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="57097825"
-X-IronPort-AV: E=Sophos;i="6.13,266,1732608000"; d="scan'208";a="57097825"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 02:37:00 -0800
-X-CSE-ConnectionGUID: Xcq3ceB6TdC9lvOrvZZXeA==
-X-CSE-MsgGUID: FgwAKu+QRIWqFXWGV4Yo0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,266,1732608000"; d="scan'208";a="111413219"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.246.108])
- ([10.245.246.108])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Feb 2025 02:36:57 -0800
-Message-ID: <b5f266dbc938ad38afa382a253d854ec213aee15.camel@linux.intel.com>
-Subject: Re: [PATCH v4 13/33] drm/gpuvm: Add DRM_GPUVA_OP_DRIVER
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
- simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
-Date: Fri, 07 Feb 2025 11:36:55 +0100
-In-Reply-To: <20250129195212.745731-14-matthew.brost@intel.com>
-References: <20250129195212.745731-1-matthew.brost@intel.com>
- <20250129195212.745731-14-matthew.brost@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA72010EAAF
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 10:44:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CA82E4341E;
+ Fri,  7 Feb 2025 10:44:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1738925046;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S2JN7acEOnnpYF6SorF298vSINNq+oWjlH4/5NBSfyY=;
+ b=HaNH6WWFViXuiG2j0REEdEA7Huzmr47PqsGfPagJxsHdJYbotxExCUATLn7KdciQ5z+OeE
+ SnVoCCuh7O0xu/LfCMmQJwrpdXU9wivbuYvqL3xNOv857o9Kt5lTkkd/BelPnyK0SK7oD/
+ eHx646DAA+sZUqiq3xhAMU2z4255Uq4y4P2sL2XLOKKoag0s8Ya0dVf5/s/GlGB2nSvmqr
+ xeP7XFChYhGVl+Fyfkg+QJUnP5VcHft/XlsrsoE4Ev0W+NRdxPZ0tXdKMHmDi53JWapH7P
+ gEIQuiMR/bsX0Qi+Z8oLFEQYHSjji99C06ryYEuNQMDD4P/dbggMiSEFEuBUOw==
+Date: Fri, 7 Feb 2025 11:44:01 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski
+ <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
+ =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
+ <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 15/26] drm/bridge: devm_drm_of_get_bridge and
+ drmm_of_get_bridge: automatically put the bridge
+Message-ID: <20250207114401.7869b422@booty>
+In-Reply-To: <w3qufv73ldzdcfuz6n3prx4di2dhoq2wfqmmvxvxkea6uqxkge@pjwmugvicsbt>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-15-9d6f2c9c3058@bootlin.com>
+ <w3qufv73ldzdcfuz6n3prx4di2dhoq2wfqmmvxvxkea6uqxkge@pjwmugvicsbt>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegtvgejvgemiegtgegvmeeitggtjeemleekgeejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrt
+ ghomhdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,37 +87,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-01-29 at 11:51 -0800, Matthew Brost wrote:
-> Add DRM_GPUVA_OP_DRIVER which allows driver to define their own gpuvm
-> ops. Useful for driver created ops which can be passed into the bind
-> software pipeline.
->=20
-> v3:
-> =C2=A0- s/DRM_GPUVA_OP_USER/DRM_GPUVA_OP_DRIVER (Thomas)
-> =C2=A0- Better commit message (Thomas)
->=20
-> Cc: Danilo Krummrich <dakr@redhat.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+On Fri, 7 Feb 2025 05:17:43 +0200
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 
-> ---
-> =C2=A0include/drm/drm_gpuvm.h | 5 +++++
-> =C2=A01 file changed, 5 insertions(+)
->=20
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index 00d4e43b76b6..2a9629377633 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -812,6 +812,11 @@ enum drm_gpuva_op_type {
-> =C2=A0	 * @DRM_GPUVA_OP_PREFETCH: the prefetch op type
-> =C2=A0	 */
-> =C2=A0	DRM_GPUVA_OP_PREFETCH,
-> +
-> +	/**
-> +	 * @DRM_GPUVA_OP_DRIVER: the driver defined op type
-> +	 */
-> +	DRM_GPUVA_OP_DRIVER,
-> =C2=A0};
-> =C2=A0
-> =C2=A0/**
+> On Thu, Feb 06, 2025 at 07:14:30PM +0100, Luca Ceresoli wrote:
+> > Add a devm/drmm action to these functions so the bridge reference is
+> > dropped automatically when the caller is removed.  
+> 
+> I think the get() should go to the underlying of_drm_bridge_find() function.
 
+It is done in the following patch.
+
+Indeed I could swap patches 15 and 16 for clarity. Or I could squash
+together patches 14+15+16, as they are various parts or the refcounted
+bridge implementation, but I felt like keeping them separated would
+help reviewing.
+
+> Also it really feels like it's an overkill to keep the wrappers. After
+> getting bridge being handled by the panel code would it be possible to
+> drop all of them?
+
+Do you mean having only drm_of_get_bridge_by_node(), without any devm
+or drmm variant? I'm not sure it is a good idea. Most DRM code (well,
+all of it, technically) is currently unable of working with refcounted
+bridges, but if they use the devm variant they will put the ref when
+they disappear.
+
+> Then this patch might introduce one new devm_
+> function? Or are drmm_ functions actually being used to store data in
+> the drmm-managed memory?
+
+Which devm function are you thinking about? Sorry, I'm not following
+here.
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
