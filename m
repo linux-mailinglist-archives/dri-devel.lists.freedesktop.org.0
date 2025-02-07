@@ -2,53 +2,200 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EDA0A2B9AF
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 04:25:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19908A2B9DB
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 04:43:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 089AA10EA16;
-	Fri,  7 Feb 2025 03:25:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BAA310E152;
+	Fri,  7 Feb 2025 03:43:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="NT+ljFv/";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="dq7sMQdd";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A37E10EA16
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 03:25:40 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.88.163])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Ypzm64pmnz1l0nQ;
- Fri,  7 Feb 2025 11:21:58 +0800 (CST)
-Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
- by mail.maildlp.com (Postfix) with ESMTPS id 8FE45180216;
- Fri,  7 Feb 2025 11:25:37 +0800 (CST)
-Received: from [10.159.166.136] (10.159.166.136) by
- kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D3FE510EA0C
+ for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 03:38:52 +0000 (UTC)
+X-UUID: 098485fce50511efb8f9918b5fc74e19-20250207
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-ID:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From;
+ bh=xFnyfAOhpo7rB5f546aV/RclnqOWSx2vbma+qvwm9Nk=; 
+ b=NT+ljFv/sQn5ODog1PV6rtyW4ean+5RCeoIUJ7C/OKSOusoyIwG6iCLhhXJ4dLNWsFWSFTP7GEY+sCQbsSN7PM5QCQ5oyapKf+Umj+A34xmqEON6u8wOCSXSVN35X0fT3mwbIh9YZN1BPnfqZpSjNzO0ry+Tu9hNPbjgxBnmlkw=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.46, REQID:7fb7a208-0cc8-4eb8-93fe-960a74440348, IP:0,
+ U
+ RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+ release,TS:0
+X-CID-META: VersionHash:60aa074, CLOUDID:287547ff-c190-4cfe-938d-595d7f10e0dc,
+ B
+ ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
+ EDM:-3,IP:nil,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+ ,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 098485fce50511efb8f9918b5fc74e19-20250207
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by
+ mailgw01.mediatek.com (envelope-from <ck.hu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 23542450; Fri, 07 Feb 2025 11:38:46 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.34; Fri, 7 Feb 2025 11:25:36 +0800
-Message-ID: <0c856c5b-56e1-413d-bb2b-55ba0a2c9258@huawei.com>
-Date: Fri, 7 Feb 2025 11:25:22 +0800
+ 15.2.1258.28; Fri, 7 Feb 2025 11:38:45 +0800
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP
+ Server id
+ 15.2.1258.28 via Frontend Transport; Fri, 7 Feb 2025 11:38:45 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sGt5FjjiWJ7hwwKzDj3FKj4SHl6SUWOlToxP/9ASwSyFMAXPcHr5q3D5CpWR3rTYSymzoc3AeMJ3/y/P/c4MZAVc8hMsaDnHJRCHrcjHVjshXE4VOgxfIEMjSN5hp2YgadBi+lV8CWGkc55vFJ33u312q4R5kjNS6C9P2ocEYE6uy4fRldDfKUkU61WX9JReTKMeBtgT4utwXSAHHKR1a/ucw76eGMem7iDPmXau9rdkEK8Ibu9Zrj76wvNcw8zjUJ0wxFNhrNrEifm1jqc/6Xe/FvX7E8rRZsYAH2V0aMNRaZlg86wbpj5X3N3AVVUGZ5+MgrPvWosRxKPGfA1iAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HF9Qfo8Jvu7o3figJQxcaa0Vn+VuyctHF+HBESIs79s=;
+ b=QGlpycIv2J1HkYFrcpUVt0f8Fb8Lap6/G6FXbFgYvfgxjiMGjvdjbDHbgvl3082fO0/uIcmhAZeH9pivdzrgTmlLO4vrajlQ6GkMgOAZqB2QcRJHf/maPDI/tWjbj7B/fFLr3Nft4dD/UajJgAI5FgvGfr0jefXEz91VgjPzLAMsQPnmUNkS0lDzH8oaXANWhpG9hX8Pm6WHOq6YaAgxOvvi0gjsPar0xBEvA5nE9O12lzPqx63SpBFhZv8VYCzejzOAyAph9e2wkhEEeD6BdgNz/YfeH43XbNPcaSyj1AYlkZ39w+W2xFb3Y6FplkA5f+gCwVMwuXoPzMwssifbPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HF9Qfo8Jvu7o3figJQxcaa0Vn+VuyctHF+HBESIs79s=;
+ b=dq7sMQddgV9lC2uIiY+qJhMhSg0uf2V4CM29prbKIxqxyOlQOp/HK8zJwR40nxxVeAS9w7B2ikLX59ewWyy1NN6goiClC0/nRiwmwfYSFHgJcC/Vf9jmtIjLRfsOyFpiXUELMDt4wVpwRwDh3I22U9/BiakyLJGgnRVlYl9Y1lI=
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com (2603:1096:400:1f4::13)
+ by SEYPR03MB8203.apcprd03.prod.outlook.com (2603:1096:101:1a2::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.12; Fri, 7 Feb
+ 2025 03:38:43 +0000
+Received: from TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54]) by TYZPR03MB6624.apcprd03.prod.outlook.com
+ ([fe80::9ce6:1e85:c4a7:2a54%4]) with mapi id 15.20.8398.021; Fri, 7 Feb 2025
+ 03:38:43 +0000
+From: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
+To: "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>, "dianders@chromium.org"
+ <dianders@chromium.org>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+CC: "simona@ffwll.ch" <simona@ffwll.ch>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, "airlied@gmail.com"
+ <airlied@gmail.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+ <matthias.bgg@gmail.com>, "linux-mediatek@lists.infradead.org"
+ <linux-mediatek@lists.infradead.org>, Alexandre Mergnat
+ <amergnat@baylibre.com>
+Subject: Re: [PATCH] drm/mediatek: dp: drm_err => dev_err in HPD path to avoid
+ NULL ptr
+Thread-Topic: [PATCH] drm/mediatek: dp: drm_err => dev_err in HPD path to
+ avoid NULL ptr
+Thread-Index: AQHbaD40GiIFQuGoy0KCDdwQn8sm7LM7UxQA
+Date: Fri, 7 Feb 2025 03:38:43 +0000
+Message-ID: <5f04e7bf5d9618f1a61eb77de63fc1c6731762f1.camel@mediatek.com>
+References: <20250116094249.1.I29b0b621abb613ddc70ab4996426a3909e1aa75f@changeid>
+In-Reply-To: <20250116094249.1.I29b0b621abb613ddc70ab4996426a3909e1aa75f@changeid>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYZPR03MB6624:EE_|SEYPR03MB8203:EE_
+x-ms-office365-filtering-correlation-id: e6c596da-ff9b-4e40-1d70-08dd4728eb7c
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?UHl1MHpCYXo4VXNWZTl5eFlBUXNBY29lV2FPL20rcTJPLzQrdWdvSkxHMlBK?=
+ =?utf-8?B?SW5XMERhM2krOTVCTithRlpPZEFRU0hqeUl2OE9mYUxkSzE1ZmhDRU4zZlFx?=
+ =?utf-8?B?QW9UUWdJVHJiSlBNNzlJS2UwRzBhZzVrSWFWQlVHV3VCcmJNUmwxQ2tzbGFB?=
+ =?utf-8?B?aHpYSWZZUHZtNzl0OFNTWUpLbFM3dzdabWlIeFpZWnlBNnM1bDFFNDc5Smk5?=
+ =?utf-8?B?bjNrV1FiQ01UVmpudG0rUWhsRDBOMlA2dUhTZ1ByRXFidWdZajUvQTFHZElq?=
+ =?utf-8?B?WmtVU0pCK0lyOHJJRkxlZ1NVbnRzUDRrVktGanZkajYwOVo5OGhJY0FiL3U4?=
+ =?utf-8?B?N1M5a0xBRnd0Y3RVa2lXZSt6VWZMUVphOWpBZEYxYWtUWGVadk9xaFlPZGV0?=
+ =?utf-8?B?M3lHM3dzUU1rUjBBM3dRT0t5dWVLZXZ5SnZRSVZ3ZTlzYzBlbDF3VmV6Y0Ex?=
+ =?utf-8?B?RzJzUmh2WlkzOGt0ckRJMHUwUzR5TzljWVBjMU95ZWFiRnFuY01NMStyeGF0?=
+ =?utf-8?B?VFpNZlc3T3A0SDQ4MDNlQkZRNE9ZaHFhSUhLZ3JUaVoxcGkyOENCclF2QXdT?=
+ =?utf-8?B?dDZkRldwREVQZU1NOHNXRnQybk92R1hoWTNETkt4NDNGOWkzSlA4Q0xXOGlq?=
+ =?utf-8?B?R3VRM0EyRHpmbVNtRHlYS2YxNjM2QkJOWURMNStIS1BOY2pOdDMydGg5Uzg5?=
+ =?utf-8?B?RUFwUFUzalBlN1NqN0dsUFhxbTMxdUthejVKdmdZTTNrU0crbVY3RStLREhB?=
+ =?utf-8?B?RHY2eUhFYWdhbHdOQ3RVU0g4Nm5QeG5nMEgzeU9aSTd1cDVBa0ZnNmtzK1N0?=
+ =?utf-8?B?VFRhMm1rRGlsVXhHSUdIUkNqSHYrNVRzblFkUENYakV4NDg1ZDFZZ0g5L21T?=
+ =?utf-8?B?OUxEMEIycnRhVlNnZUk0OEVRQ21IbHFKRFkyYS8vcjVOTGxQN0VwREJQOGUv?=
+ =?utf-8?B?dXF6QXpoK0UySUVZN1EyOTBVR3c5WkljNjJGcG1GSkpSWkhtLzcrUERyWjJr?=
+ =?utf-8?B?YkVOMjR4cjhGazN0RWFwUW5KUEM4M3dlSW9VMjFvR3k2alI3ZklSekozZzdM?=
+ =?utf-8?B?S1hJY1hiNHVQemNiZDF5MU1KSlpDYVNobHdlQzRoaW9LVC9oMFQyWTBGZGRP?=
+ =?utf-8?B?a3hDVVBhcVgvaVV1WVUvYyt5L3dhb1J2NTQ4MzFMTEpsZCtKNHRVV2xlM3FO?=
+ =?utf-8?B?OGtXTGRPemV0L2N0Nkx2enJPL3RtbXRxZ3RpdUUzR1pkZnpPN2pXZG9uTnB3?=
+ =?utf-8?B?d2FkMFFxa0FqZlp2YzNoT1c5R0ppcVc0T3kxYUFkbkIyRXJGUTFYRlFvVUEz?=
+ =?utf-8?B?UWkwZXJJTGNXSFVqUFB3TE1sVEpPVUhKd1lrbHQvMldnL0FXZEFzdVRRYzJy?=
+ =?utf-8?B?VnRXNHd0NGdaY3RXR1dLeEFHdkM5eGQ5TUZLUDNkYjc0VTRlK1NGWkVvbGFw?=
+ =?utf-8?B?aHI0Mjcvc3lQVDV1WjlnWW8wNXN6RU45VGhJRGVBVHV3bXZ0S3JpK0M2QmJt?=
+ =?utf-8?B?TXJGcElLTkZ4NnVmblhMMTJJdHBSbm0wcVRqTFltVGJXdTUwNUpueHVjK2pV?=
+ =?utf-8?B?UFQvaXZCWU0rQUwveFM3R3RSbFhrM1h6VUxFd1U3RGQzMm90OGpsRkoyQXY0?=
+ =?utf-8?B?ZkJGckhuUXNjTURpQktTYndsL0xxR2tJaHhmOTVnVWZ0TkpIRE1PM082WTN6?=
+ =?utf-8?B?bDZpRUEvR01NMjV4SG5aY2YxVFdtQUJ2L2Z3NFNIYlM2SGpGSit2Sm5UelNs?=
+ =?utf-8?B?elZHR2l6WG1YeWlvREVDSHVnc29tNHM4Q3d2MjlNTTRScGMxSGpDRUQ0SkJJ?=
+ =?utf-8?B?OSt3OGVmTlZ1YlN4MTBVT1RaN2JvUitldnhuYUh0SlZWa2QvOFBkdFlHWk5J?=
+ =?utf-8?Q?Me0eP4AvR7d09?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYZPR03MB6624.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RXpoRjlVUXgyaGxZQmtIMVYwd0lnMFNYTUlxQ3F5Sm9oaTVpQ2ZpeTRMTXZT?=
+ =?utf-8?B?aXFVZzVKTm1VMWxCZnRBaDBBcEMxNWhaSFpnbkViZ2ZvekdTRnk5QThRS3Jl?=
+ =?utf-8?B?U1BadUQvOVZBaGcvNWMzeTVldnlvWHJtc3JaMUlVdTE2b21vN3ozL25Wdk1P?=
+ =?utf-8?B?bTZXdXVWTU9PUGdjYWVlekxtbkRvbG41LytlUVJ1YXh5eDdJdDlTSmhzM2sv?=
+ =?utf-8?B?ZUNqbG5VbmZpVFhmNkl5VHRmSDloYU1VQjU2SmRWdUk0SzVjQ1hMdll1NGUy?=
+ =?utf-8?B?UDhWU2NIOVg4S3FPNXNTTWVEUDU4ajgyYm1JVTJyMVV6RExzeWQrWThvZ2Nn?=
+ =?utf-8?B?NUNkKzJPSGh0TzZ6c3FRdnFVUHVvZ2w3N1RTSXBmb3NBR2VMMTc5MXVxTlRy?=
+ =?utf-8?B?Nm5ZUy9EQWJ4YnJSeTc5aG5Kb0RBSS9MK3dCc0RCbVFMbFQvRmRreXZVWUM5?=
+ =?utf-8?B?SWV5bmZMdm1zdXhaOThmT2xsNnBwWVQzVmxOaVlWRjJZbHkrbTd3b3Q1MlVO?=
+ =?utf-8?B?TlRSMDhBSElnMWpXcjN6Mk9reXZuTFM3UnV1cXNUaTZma1ZiWnlMbStHMVQ1?=
+ =?utf-8?B?VERHZmlRRTdDS3JrSWYzWTZ5ZkxTQnBPRUJQOFhiRVRDV1dJZWk1dWtWTTZr?=
+ =?utf-8?B?Q2FVaEFiTEpIK2JWd0cvMFIwL0gwaVBTaWNDRC9pTjRmdDhxaC9OTUppWlJs?=
+ =?utf-8?B?b28vVmdlWnROMDNhT2pPMkZxMDB5NHB4Uy9XODZLdDFPK2V5OU5UWnVhaXIv?=
+ =?utf-8?B?ZHJld05EMkZvMkRPVjZDeWZoaGQ5Y29xOTdLRVdpaTdnRGhDUjJQWVRmK3dQ?=
+ =?utf-8?B?ZS9IZitlTVFzd081Vmc0WWFMNkIrY0Q2dmtQa0pHOVZhT1g1d0VBTVdVdVFN?=
+ =?utf-8?B?L09qSFc0Smo4clByMjVNaDRqcURsbVNQU3o4V2ZpdmJ0U3dxZERZbTNWSzBF?=
+ =?utf-8?B?QVpNUmZyMGVvb0U5WWZMTkF5Z2RLUlJEY3EvRy9lM3phSFUyVWpQRlgyY3h0?=
+ =?utf-8?B?Nm9pQ3dqUGNOQ0JZUWlUanM1TUQrd3lTNEtlMC8rb3lpVHppS0svNWtmUTVM?=
+ =?utf-8?B?TUFKaGhoMGJQbWZ6dW9meG4wLzhSQm9Gd25Xd01pK0tEQmFGeTFySnBIalA5?=
+ =?utf-8?B?WjlHWEc5Unl6TS8wVVZzU2pROTY2OElIVWpkN1dYTVJReWNRa0xROVVLRVo5?=
+ =?utf-8?B?aEhTYXVlNDkvNEN5ckZabmJqRTlNK1ZSK1o1dEFXeThJTXdWM0Fma0huWFVD?=
+ =?utf-8?B?LzZRZ1lSbWhnd2FFalRJNmFzUlFKR3VmR1Rna2lqbDl4amJxTFVnUTVKNzAv?=
+ =?utf-8?B?c0lSREV4czQwNHdNL2hIQlNCTzdvSENSRktodUI4R2ZHZWZCZE5JdFFNd3ZV?=
+ =?utf-8?B?eEw0QWxMNEdMbW11OTRZLzhHSFl2a0oyREZOeFViNGxSTWlQNURvUThYYlFP?=
+ =?utf-8?B?M0poYTRWSlUxenlRM25zN1FTcm5pM2FZQUxDSklaUERTUkZZZlcvTUE4Q0VH?=
+ =?utf-8?B?NmpiaDVwbkdWQ0I2S3JVNzU3eTZpL1g4WkdweEVJSnNUdU43eUYvcXBVcmpu?=
+ =?utf-8?B?b1ZPY3NURm5QV2xTajdlTElzU0FZdG5oRTkzVWZ1MnprNWg1Ulc4Z2JRN1lX?=
+ =?utf-8?B?SXFCUDQ5SmVBZEhBcndjU1VjRkZLRVc3ZHcxMExMdkZGcXdsS0tFTkovcDF1?=
+ =?utf-8?B?bklWRlhZZEcvNnVxR2FRd05FSUNKMGN6WkN1NnFTbWRXRTJ1ZCs3SFFZdWNs?=
+ =?utf-8?B?UWtuNVByS3NHR0EybysxZXVrc1Zyekl0d3FpN0xyaU14eUNxMkxINnFqTHFa?=
+ =?utf-8?B?Ky9YWElRSTFiWURJQjI0NkY3YzUvWGdYcmZPbnUrSDdCZ2dHelAvZ3BwY2Ux?=
+ =?utf-8?B?VTRJR3U3blNjc3ZQWDk2SGRMNWdycndVL0kxT1RXQ0FoN1BlbHdDTUIzaWZy?=
+ =?utf-8?B?YjVsU2wxR2xsVlJCWUxWL3lmRm43SjBTY0E5YnpyNjI2a0ZXdmo1RjF4QVpO?=
+ =?utf-8?B?QXB5OVpxS1NRQjNiWTBtazBsSlRrbTAvaS9nUk5LbVFrZnh4WnE1UXF2T05B?=
+ =?utf-8?B?QTVkUTlFcjIyZjJHTnVJN2RnalowelV6cTJOOUZGZEUzTnV6TVhWcDJRRVNt?=
+ =?utf-8?Q?A3jKEO8cITlksp7OrIEzzvrQZ?=
+Content-ID: <C3D821A61A6E604FBC5A9E49A2176337@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 drm-dp 3/4] drm/hisilicon/hibmc: Add debugfs interface
- to enable colorbar feature and get link status
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
- <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
- <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
- <shenjian15@huawei.com>, <shaojijie@huawei.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <shiyongbang@huawei.com>
-References: <20250127032024.1542219-1-shiyongbang@huawei.com>
- <20250127032024.1542219-4-shiyongbang@huawei.com>
- <wvulxrhuyzcsy5dwe7oaipjklqfgsurlkb74szungtq3vsvgs3@73v2lesfdvee>
- <4594feeb-abbd-4f73-b2e9-d375acf3d9c2@huawei.com>
- <AF758F07-1121-4A3F-8A51-85DA530A8B57@linaro.org>
-From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <AF758F07-1121-4A3F-8A51-85DA530A8B57@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.159.166.136]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemd500013.china.huawei.com (7.221.188.12)
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB6624.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6c596da-ff9b-4e40-1d70-08dd4728eb7c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Feb 2025 03:38:43.0951 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /QWajYT1GmC5i6IplpxvIC2S5bDnXcUgbHVYxMVLHnD9sEJl0qL7vyLB4zYJsvymA1F/Q5jLGFFc7mpTnQd4eA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB8203
+Content-Type: multipart/alternative;
+ boundary="__=_Part_Boundary_004_1106319331.273340599"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,578 +211,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> On 5 February 2025 10:18:00 EET, Yongbang Shi <shiyongbang@huawei.com> wrote:
->>> On Mon, Jan 27, 2025 at 11:20:23AM +0800, Yongbang Shi wrote:
->>>> From: Baihan Li <libaihan@huawei.com>
->>>>
->>>> Create 3 files in drm debugfs:
->>> This definitely needs to be split.
->> Hi Dmitry,
->>
->> Right, I got it. I will split any patch which has mutiple fileds changing blended together.
->>
->>
->>>> colorbar-cfg: Get/Set colorbar cfg
->>> What does that mean?
->>>
->> It's a dp's color bar output, and we have a configuration that
->> we can set color bar's color type and stripe movement.
-> What is a DP colour bar?
+--__=_Part_Boundary_004_1106319331.273340599
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Dmitry,
+SGksIERvdWdsYXM6DQoNCk9uIFRodSwgMjAyNS0wMS0xNiBhdCAwOTo0MiAtMDgwMCwgRG91Z2xh
+cyBBbmRlcnNvbiB3cm90ZToNCj4gRXh0ZXJuYWwgZW1haWwgOiBQbGVhc2UgZG8gbm90IGNsaWNr
+IGxpbmtzIG9yIG9wZW4gYXR0YWNobWVudHMgdW50aWwgeW91IGhhdmUgdmVyaWZpZWQgdGhlIHNl
+bmRlciBvciB0aGUgY29udGVudC4NCj4gDQo+IA0KPiBUaGUgZnVuY3Rpb24gbXRrX2RwX3dhaXRf
+aHBkX2Fzc2VydGVkKCkgbWF5IGJlIGNhbGxlZCBiZWZvcmUgdGhlDQo+IGBtdGtfZHAtPmRybV9k
+ZXZgIHBvaW50ZXIgaXMgYXNzaWduZWQgaW4gbXRrX2RwX2JyaWRnZV9hdHRhY2goKS4NCj4gU3Bl
+Y2lmaWNhbGx5IGl0IGNhbiBiZSBjYWxsZWQgdmlhIHRoaXMgY2FsbHBhdGg6DQo+ICAtIG10a19l
+ZHBfd2FpdF9ocGRfYXNzZXJ0ZWQNCj4gIC0gW3BhbmVsIHByb2JlXQ0KPiAgLSBkcF9hdXhfZXBf
+cHJvYmUNCj4gDQo+IFVzaW5nICJkcm0iIGxldmVsIHByaW50cyBhbnl3aGVyZSBpbiB0aGlzIGNh
+bGxwYXRoIGNhdXNlcyBhIE5VTEwNCj4gcG9pbnRlciBkZXJlZmVyZW5jZS4gQ2hhbmdlIHRoZSBl
+cnJvciBtZXNzYWdlIGRpcmVjdGx5IGluDQo+IG10a19kcF93YWl0X2hwZF9hc3NlcnRlZCgpIHRv
+IGRldl9lcnIoKSB0byBhdm9pZCB0aGlzLiBBbHNvIGNoYW5nZSB0aGUNCj4gZXJyb3IgbWVzc2Fn
+ZXMgaW4gbXRrX2RwX3BhcnNlX2NhcGFiaWxpdGllcygpLCB3aGljaCBpcyBjYWxsZWQgYnkNCj4g
+bXRrX2RwX3dhaXRfaHBkX2Fzc2VydGVkKCkuDQo+IA0KPiBXaGlsZSB0b3VjaGluZyB0aGVzZSBw
+cmludHMsIGFsc28gYWRkIHRoZSBlcnJvciBjb2RlIHRvIHRoZW0gdG8gbWFrZQ0KPiBmdXR1cmUg
+ZGVidWdnaW5nIGVhc2llci4NCg0KUmV2aWV3ZWQtYnk6IENLIEh1IDxjay5odUBtZWRpYXRlay5j
+b20+DQoNCj4gDQo+IEZpeGVzOiA3ZWFjYmE5YTA4M2IgKCJkcm0vbWVkaWF0ZWs6IGRwOiBBZGQg
+LndhaXRfaHBkX2Fzc2VydGVkKCkgZm9yIEFVWCBidXMiKQ0KPiBTaWduZWQtb2ZmLWJ5OiBEb3Vn
+bGFzIEFuZGVyc29uIDxkaWFuZGVyc0BjaHJvbWl1bS5vcmc+DQo+IC0tLQ0KPiBVbmZvcnR1bmF0
+ZWx5LCBJIGhhdmUgb25seSBiZWVuIGFibGUgdG8gY29tcGlsZS10aW1lIHRlc3QgdGhpcyBjb2Rl
+LiBJDQo+IGhpdCB0aGUgTlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlIG9uIGEgZGV2aWNlIHRoYXQn
+cyBub3doZXJlIG5lYXINCj4gdXBzdHJlYW0gYW5kIGl0IHdhcyBydW5uaW5nIChzaWdoKSBhIGhl
+YXZpbHkgbW9kaWZpZWQgY29weSBvZiB0aGlzDQo+IGNvZGUgd2hlcmUgdGhlIGVEUCBzdHVmZiBo
+YXMgYmVlbiBmb3JrZWQgb3V0IG9mIERQLiBTcGVjaWZpY2FsbHksIHlvdQ0KPiBjYW4gc2VlIDxo
+dHRwczovL3VybGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9jcnJldi5jb20vYy82MDczNzQ0X187
+ISFDVFJOS0E5d01nMEFSYnchamIxUVYxVjVoVUVFZG9idkZpaHpXODhxUElUV2N1bHpza2EzeTVH
+dEZCWHV4aWlPV2VhdmhxQzVHSXRQRHpiUTBKZGl6N2hFR3B2YU9kc0N4QSQgPi4gSXQncyBwcmV0
+dHkgZWFzeSB0byB1bmRlcnN0YW5kDQo+IHRoYXQgdGhlIHNhbWUgcHJvYmxlbSBhZmZlY3RzIGJv
+dGggY29kZWJhc2VzIHRob3VnaCwgc28gSSdtIHBvc3RpbmcNCj4gdGhpcyAiYmxpbmQiIGluIHRo
+ZSBob3BlcyB0byBhdCBsZWFzdCBmaXggdXBzdHJlYW0uDQo+IA0KPiBJJ2xsIGFsc28gbm90ZSB0
+aGF0IHRoZSBmYWN0IHRoYXQgbXRrX2VkcF93YWl0X2hwZF9hc3NlcnRlZCgpIGNhbGxzDQo+IG10
+a19kcF9wYXJzZV9jYXBhYmlsaXRpZXMoKSBmZWVscyB3ZWlyZC93cm9uZyB0byBtZSBiYXNlZCBv
+biBvdGhlciBlRFANCj4gY29kZSBJJ3ZlIHdvcmtlZCBvbiwgYnV0IEkndmUgb25seSBiYXJlbHkg
+bG9va2VkIGF0IHRoZSBNZWRpYXRlaw0KPiBkcml2ZXIgYW5kIHBlcmhhcHMgb3RoZXJzIGhhdmUg
+YWxyZWFkeSBkZWJhdGVkIHRoaXMuIEluIGFueSBjYXNlLA0KPiB0aGF0J3Mgbm90IGRpcmVjdGx5
+IHJlbGF0ZWQgdG8gdGhpcyBwYXRjaC4NCj4gDQo+ICBkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsv
+bXRrX2RwLmMgfCA2ICsrKy0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwg
+MyBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0
+ZWsvbXRrX2RwLmMgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMNCj4gaW5kZXgg
+MDY4NzY3MmYwZTUyLi5jY2QxMDRkODg1MWYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9tZWRpYXRlay9tdGtfZHAuYw0KPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRr
+X2RwLmMNCj4gQEAgLTE3NjMsNyArMTc2Myw3IEBAIHN0YXRpYyBpbnQgbXRrX2RwX3BhcnNlX2Nh
+cGFiaWxpdGllcyhzdHJ1Y3QgbXRrX2RwICptdGtfZHApDQo+IA0KPiAgICAgICAgIHJldCA9IGRy
+bV9kcF9kcGNkX3JlYWRiKCZtdGtfZHAtPmF1eCwgRFBfTVNUTV9DQVAsICZ2YWwpOw0KPiAgICAg
+ICAgIGlmIChyZXQgPCAxKSB7DQo+IC0gICAgICAgICAgICAgICBkcm1fZXJyKG10a19kcC0+ZHJt
+X2RldiwgIlJlYWQgbXN0bSBjYXAgZmFpbGVkXG4iKTsNCj4gKyAgICAgICAgICAgICAgIGRldl9l
+cnIobXRrX2RwLT5kZXYsICJSZWFkIG1zdG0gY2FwIGZhaWxlZDogJXpkXG4iLCByZXQpOw0KPiAg
+ICAgICAgICAgICAgICAgcmV0dXJuIHJldCA9PSAwID8gLUVJTyA6IHJldDsNCj4gICAgICAgICB9
+DQo+IA0KPiBAQCAtMTc3Myw3ICsxNzczLDcgQEAgc3RhdGljIGludCBtdGtfZHBfcGFyc2VfY2Fw
+YWJpbGl0aWVzKHN0cnVjdCBtdGtfZHAgKm10a19kcCkNCj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIERQX0RFVklDRV9TRVJWSUNFX0lSUV9WRUNUT1JfRVNJMCwNCj4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZ2YWwpOw0KPiAgICAgICAg
+ICAgICAgICAgaWYgKHJldCA8IDEpIHsNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgZHJtX2Vy
+cihtdGtfZHAtPmRybV9kZXYsICJSZWFkIGlycSB2ZWN0b3IgZmFpbGVkXG4iKTsNCj4gKyAgICAg
+ICAgICAgICAgICAgICAgICAgZGV2X2VycihtdGtfZHAtPmRldiwgIlJlYWQgaXJxIHZlY3RvciBm
+YWlsZWQ6ICV6ZFxuIiwgcmV0KTsNCj4gICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHJl
+dCA9PSAwID8gLUVJTyA6IHJldDsNCj4gICAgICAgICAgICAgICAgIH0NCj4gDQo+IEBAIC0yMDU2
+LDcgKzIwNTYsNyBAQCBzdGF0aWMgaW50IG10a19kcF93YWl0X2hwZF9hc3NlcnRlZChzdHJ1Y3Qg
+ZHJtX2RwX2F1eCAqbXRrX2F1eCwgdW5zaWduZWQgbG9uZyB3YQ0KPiANCj4gICAgICAgICByZXQg
+PSBtdGtfZHBfcGFyc2VfY2FwYWJpbGl0aWVzKG10a19kcCk7DQo+ICAgICAgICAgaWYgKHJldCkg
+ew0KPiAtICAgICAgICAgICAgICAgZHJtX2VycihtdGtfZHAtPmRybV9kZXYsICJDYW4ndCBwYXJz
+ZSBjYXBhYmlsaXRpZXNcbiIpOw0KPiArICAgICAgICAgICAgICAgZGV2X2VycihtdGtfZHAtPmRl
+diwgIkNhbid0IHBhcnNlIGNhcGFiaWxpdGllczogJWRcbiIsIHJldCk7DQo+ICAgICAgICAgICAg
+ICAgICByZXR1cm4gcmV0Ow0KPiAgICAgICAgIH0NCj4gDQo+IC0tDQo+IDIuNDguMC5yYzIuMjc5
+LmcxZGU0MGVkYWRlLWdvb2cNCj4gDQoNCg==
 
-Thanks for your asking. Color bar displaying is our DP IP controller's feature. It can be used as a debug method which can check DP controller is working good.
+--__=_Part_Boundary_004_1106319331.273340599
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The colorbar displaying doesn't rely on other IPs work in the chip, like: GPU or DDR (vram), becuase colorbar diplaying data generated inside DP controller self.
+PGh0bWw+PGJvZHk+PHA+DQo8cHJlPg0KSGksJiMzMjtEb3VnbGFzOg0KDQpPbiYjMzI7VGh1LCYj
+MzI7MjAyNS0wMS0xNiYjMzI7YXQmIzMyOzA5OjQyJiMzMjstMDgwMCwmIzMyO0RvdWdsYXMmIzMy
+O0FuZGVyc29uJiMzMjt3cm90ZToNCiZndDsmIzMyO0V4dGVybmFsJiMzMjtlbWFpbCYjMzI7OiYj
+MzI7UGxlYXNlJiMzMjtkbyYjMzI7bm90JiMzMjtjbGljayYjMzI7bGlua3MmIzMyO29yJiMzMjtv
+cGVuJiMzMjthdHRhY2htZW50cyYjMzI7dW50aWwmIzMyO3lvdSYjMzI7aGF2ZSYjMzI7dmVyaWZp
+ZWQmIzMyO3RoZSYjMzI7c2VuZGVyJiMzMjtvciYjMzI7dGhlJiMzMjtjb250ZW50Lg0KJmd0OyYj
+MzI7DQomZ3Q7JiMzMjsNCiZndDsmIzMyO1RoZSYjMzI7ZnVuY3Rpb24mIzMyO210a19kcF93YWl0
+X2hwZF9hc3NlcnRlZCgpJiMzMjttYXkmIzMyO2JlJiMzMjtjYWxsZWQmIzMyO2JlZm9yZSYjMzI7
+dGhlDQomZ3Q7JiMzMjsmIzk2O210a19kcC0mZ3Q7ZHJtX2RldiYjOTY7JiMzMjtwb2ludGVyJiMz
+MjtpcyYjMzI7YXNzaWduZWQmIzMyO2luJiMzMjttdGtfZHBfYnJpZGdlX2F0dGFjaCgpLg0KJmd0
+OyYjMzI7U3BlY2lmaWNhbGx5JiMzMjtpdCYjMzI7Y2FuJiMzMjtiZSYjMzI7Y2FsbGVkJiMzMjt2
+aWEmIzMyO3RoaXMmIzMyO2NhbGxwYXRoOg0KJmd0OyYjMzI7JiMzMjstJiMzMjttdGtfZWRwX3dh
+aXRfaHBkX2Fzc2VydGVkDQomZ3Q7JiMzMjsmIzMyOy0mIzMyO1twYW5lbCYjMzI7cHJvYmVdDQom
+Z3Q7JiMzMjsmIzMyOy0mIzMyO2RwX2F1eF9lcF9wcm9iZQ0KJmd0OyYjMzI7DQomZ3Q7JiMzMjtV
+c2luZyYjMzI7JnF1b3Q7ZHJtJnF1b3Q7JiMzMjtsZXZlbCYjMzI7cHJpbnRzJiMzMjthbnl3aGVy
+ZSYjMzI7aW4mIzMyO3RoaXMmIzMyO2NhbGxwYXRoJiMzMjtjYXVzZXMmIzMyO2EmIzMyO05VTEwN
+CiZndDsmIzMyO3BvaW50ZXImIzMyO2RlcmVmZXJlbmNlLiYjMzI7Q2hhbmdlJiMzMjt0aGUmIzMy
+O2Vycm9yJiMzMjttZXNzYWdlJiMzMjtkaXJlY3RseSYjMzI7aW4NCiZndDsmIzMyO210a19kcF93
+YWl0X2hwZF9hc3NlcnRlZCgpJiMzMjt0byYjMzI7ZGV2X2VycigpJiMzMjt0byYjMzI7YXZvaWQm
+IzMyO3RoaXMuJiMzMjtBbHNvJiMzMjtjaGFuZ2UmIzMyO3RoZQ0KJmd0OyYjMzI7ZXJyb3ImIzMy
+O21lc3NhZ2VzJiMzMjtpbiYjMzI7bXRrX2RwX3BhcnNlX2NhcGFiaWxpdGllcygpLCYjMzI7d2hp
+Y2gmIzMyO2lzJiMzMjtjYWxsZWQmIzMyO2J5DQomZ3Q7JiMzMjttdGtfZHBfd2FpdF9ocGRfYXNz
+ZXJ0ZWQoKS4NCiZndDsmIzMyOw0KJmd0OyYjMzI7V2hpbGUmIzMyO3RvdWNoaW5nJiMzMjt0aGVz
+ZSYjMzI7cHJpbnRzLCYjMzI7YWxzbyYjMzI7YWRkJiMzMjt0aGUmIzMyO2Vycm9yJiMzMjtjb2Rl
+JiMzMjt0byYjMzI7dGhlbSYjMzI7dG8mIzMyO21ha2UNCiZndDsmIzMyO2Z1dHVyZSYjMzI7ZGVi
+dWdnaW5nJiMzMjtlYXNpZXIuDQoNClJldmlld2VkLWJ5OiYjMzI7Q0smIzMyO0h1JiMzMjsmbHQ7
+Y2suaHVAbWVkaWF0ZWsuY29tJmd0Ow0KDQomZ3Q7JiMzMjsNCiZndDsmIzMyO0ZpeGVzOiYjMzI7
+N2VhY2JhOWEwODNiJiMzMjsoJnF1b3Q7ZHJtL21lZGlhdGVrOiYjMzI7ZHA6JiMzMjtBZGQmIzMy
+Oy53YWl0X2hwZF9hc3NlcnRlZCgpJiMzMjtmb3ImIzMyO0FVWCYjMzI7YnVzJnF1b3Q7KQ0KJmd0
+OyYjMzI7U2lnbmVkLW9mZi1ieTomIzMyO0RvdWdsYXMmIzMyO0FuZGVyc29uJiMzMjsmbHQ7ZGlh
+bmRlcnNAY2hyb21pdW0ub3JnJmd0Ow0KJmd0OyYjMzI7LS0tDQomZ3Q7JiMzMjtVbmZvcnR1bmF0
+ZWx5LCYjMzI7SSYjMzI7aGF2ZSYjMzI7b25seSYjMzI7YmVlbiYjMzI7YWJsZSYjMzI7dG8mIzMy
+O2NvbXBpbGUtdGltZSYjMzI7dGVzdCYjMzI7dGhpcyYjMzI7Y29kZS4mIzMyO0kNCiZndDsmIzMy
+O2hpdCYjMzI7dGhlJiMzMjtOVUxMJiMzMjtwb2ludGVyJiMzMjtkZXJlZmVyZW5jZSYjMzI7b24m
+IzMyO2EmIzMyO2RldmljZSYjMzI7dGhhdCYjMzk7cyYjMzI7bm93aGVyZSYjMzI7bmVhcg0KJmd0
+OyYjMzI7dXBzdHJlYW0mIzMyO2FuZCYjMzI7aXQmIzMyO3dhcyYjMzI7cnVubmluZyYjMzI7KHNp
+Z2gpJiMzMjthJiMzMjtoZWF2aWx5JiMzMjttb2RpZmllZCYjMzI7Y29weSYjMzI7b2YmIzMyO3Ro
+aXMNCiZndDsmIzMyO2NvZGUmIzMyO3doZXJlJiMzMjt0aGUmIzMyO2VEUCYjMzI7c3R1ZmYmIzMy
+O2hhcyYjMzI7YmVlbiYjMzI7Zm9ya2VkJiMzMjtvdXQmIzMyO29mJiMzMjtEUC4mIzMyO1NwZWNp
+ZmljYWxseSwmIzMyO3lvdQ0KJmd0OyYjMzI7Y2FuJiMzMjtzZWUmIzMyOyZsdDtodHRwczovL3Vy
+bGRlZmVuc2UuY29tL3YzL19faHR0cHM6Ly9jcnJldi5jb20vYy82MDczNzQ0X187ISFDVFJOS0E5
+d01nMEFSYnchamIxUVYxVjVoVUVFZG9idkZpaHpXODhxUElUV2N1bHpza2EzeTVHdEZCWHV4aWlP
+V2VhdmhxQzVHSXRQRHpiUTBKZGl6N2hFR3B2YU9kc0N4QSYjMzY7JiMzMjsmZ3Q7LiYjMzI7SXQm
+IzM5O3MmIzMyO3ByZXR0eSYjMzI7ZWFzeSYjMzI7dG8mIzMyO3VuZGVyc3RhbmQNCiZndDsmIzMy
+O3RoYXQmIzMyO3RoZSYjMzI7c2FtZSYjMzI7cHJvYmxlbSYjMzI7YWZmZWN0cyYjMzI7Ym90aCYj
+MzI7Y29kZWJhc2VzJiMzMjt0aG91Z2gsJiMzMjtzbyYjMzI7SSYjMzk7bSYjMzI7cG9zdGluZw0K
+Jmd0OyYjMzI7dGhpcyYjMzI7JnF1b3Q7YmxpbmQmcXVvdDsmIzMyO2luJiMzMjt0aGUmIzMyO2hv
+cGVzJiMzMjt0byYjMzI7YXQmIzMyO2xlYXN0JiMzMjtmaXgmIzMyO3Vwc3RyZWFtLg0KJmd0OyYj
+MzI7DQomZ3Q7JiMzMjtJJiMzOTtsbCYjMzI7YWxzbyYjMzI7bm90ZSYjMzI7dGhhdCYjMzI7dGhl
+JiMzMjtmYWN0JiMzMjt0aGF0JiMzMjttdGtfZWRwX3dhaXRfaHBkX2Fzc2VydGVkKCkmIzMyO2Nh
+bGxzDQomZ3Q7JiMzMjttdGtfZHBfcGFyc2VfY2FwYWJpbGl0aWVzKCkmIzMyO2ZlZWxzJiMzMjt3
+ZWlyZC93cm9uZyYjMzI7dG8mIzMyO21lJiMzMjtiYXNlZCYjMzI7b24mIzMyO290aGVyJiMzMjtl
+RFANCiZndDsmIzMyO2NvZGUmIzMyO0kmIzM5O3ZlJiMzMjt3b3JrZWQmIzMyO29uLCYjMzI7YnV0
+JiMzMjtJJiMzOTt2ZSYjMzI7b25seSYjMzI7YmFyZWx5JiMzMjtsb29rZWQmIzMyO2F0JiMzMjt0
+aGUmIzMyO01lZGlhdGVrDQomZ3Q7JiMzMjtkcml2ZXImIzMyO2FuZCYjMzI7cGVyaGFwcyYjMzI7
+b3RoZXJzJiMzMjtoYXZlJiMzMjthbHJlYWR5JiMzMjtkZWJhdGVkJiMzMjt0aGlzLiYjMzI7SW4m
+IzMyO2FueSYjMzI7Y2FzZSwNCiZndDsmIzMyO3RoYXQmIzM5O3MmIzMyO25vdCYjMzI7ZGlyZWN0
+bHkmIzMyO3JlbGF0ZWQmIzMyO3RvJiMzMjt0aGlzJiMzMjtwYXRjaC4NCiZndDsmIzMyOw0KJmd0
+OyYjMzI7JiMzMjtkcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RwLmMmIzMyO3wmIzMyOzYm
+IzMyOysrKy0tLQ0KJmd0OyYjMzI7JiMzMjsxJiMzMjtmaWxlJiMzMjtjaGFuZ2VkLCYjMzI7MyYj
+MzI7aW5zZXJ0aW9ucygrKSwmIzMyOzMmIzMyO2RlbGV0aW9ucygtKQ0KJmd0OyYjMzI7DQomZ3Q7
+JiMzMjtkaWZmJiMzMjstLWdpdCYjMzI7YS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2Rw
+LmMmIzMyO2IvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kcC5jDQomZ3Q7JiMzMjtpbmRl
+eCYjMzI7MDY4NzY3MmYwZTUyLi5jY2QxMDRkODg1MWYmIzMyOzEwMDY0NA0KJmd0OyYjMzI7LS0t
+JiMzMjthL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAuYw0KJmd0OyYjMzI7KysrJiMz
+MjtiL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHAuYw0KJmd0OyYjMzI7QEAmIzMyOy0x
+NzYzLDcmIzMyOysxNzYzLDcmIzMyO0BAJiMzMjtzdGF0aWMmIzMyO2ludCYjMzI7bXRrX2RwX3Bh
+cnNlX2NhcGFiaWxpdGllcyhzdHJ1Y3QmIzMyO210a19kcCYjMzI7Km10a19kcCkNCiZndDsmIzMy
+Ow0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldCYj
+MzI7PSYjMzI7ZHJtX2RwX2RwY2RfcmVhZGIoJmFtcDttdGtfZHAtJmd0O2F1eCwmIzMyO0RQX01T
+VE1fQ0FQLCYjMzI7JmFtcDt2YWwpOw0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyO2lmJiMzMjsocmV0JiMzMjsmbHQ7JiMzMjsxKSYjMzI7ew0KJmd0OyYj
+MzI7LSYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyO2RybV9lcnIobXRrX2RwLSZndDtkcm1fZGV2LCYjMzI7JnF1
+b3Q7UmVhZCYjMzI7bXN0bSYjMzI7Y2FwJiMzMjtmYWlsZWQmIzkyO24mcXVvdDspOw0KJmd0OyYj
+MzI7KyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyO2Rldl9lcnIobXRrX2RwLSZndDtkZXYsJiMzMjsmcXVvdDtS
+ZWFkJiMzMjttc3RtJiMzMjtjYXAmIzMyO2ZhaWxlZDomIzMyOyV6ZCYjOTI7biZxdW90OywmIzMy
+O3JldCk7DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO3JldHVybiYjMzI7cmV0JiMz
+Mjs9PSYjMzI7MCYjMzI7JiM2MzsmIzMyOy1FSU8mIzMyOzomIzMyO3JldDsNCiZndDsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjt9DQomZ3Q7JiMzMjsNCiZndDsm
+IzMyO0BAJiMzMjstMTc3Myw3JiMzMjsrMTc3Myw3JiMzMjtAQCYjMzI7c3RhdGljJiMzMjtpbnQm
+IzMyO210a19kcF9wYXJzZV9jYXBhYmlsaXRpZXMoc3RydWN0JiMzMjttdGtfZHAmIzMyOyptdGtf
+ZHApDQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyO0RQX0RFVklDRV9TRVJW
+SUNFX0lSUV9WRUNUT1JfRVNJMCwNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JmFtcDt2YWwpOw0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtpZiYjMzI7KHJl
+dCYjMzI7Jmx0OyYjMzI7MSkmIzMyO3sNCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7ZHJtX2VycihtdGtfZHAtJmd0O2Ry
+bV9kZXYsJiMzMjsmcXVvdDtSZWFkJiMzMjtpcnEmIzMyO3ZlY3RvciYjMzI7ZmFpbGVkJiM5Mjtu
+JnF1b3Q7KTsNCiZndDsmIzMyOysmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7ZGV2X2VycihtdGtfZHAtJmd0O2RldiwmIzMyOyZxdW90O1Jl
+YWQmIzMyO2lycSYjMzI7dmVjdG9yJiMzMjtmYWlsZWQ6JiMzMjslemQmIzkyO24mcXVvdDssJiMz
+MjtyZXQpOw0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7cmV0dXJuJiMzMjtyZXQmIzMyOz09JiMzMjswJiMzMjsm
+IzYzOyYjMzI7LUVJTyYjMzI7OiYjMzI7cmV0Ow0KJmd0OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
+MjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjt9DQomZ3Q7JiMzMjsNCiZndDsmIzMyO0BAJiMzMjstMjA1Niw3JiMzMjsrMjA1Niw3JiMz
+MjtAQCYjMzI7c3RhdGljJiMzMjtpbnQmIzMyO210a19kcF93YWl0X2hwZF9hc3NlcnRlZChzdHJ1
+Y3QmIzMyO2RybV9kcF9hdXgmIzMyOyptdGtfYXV4LCYjMzI7dW5zaWduZWQmIzMyO2xvbmcmIzMy
+O3dhDQomZ3Q7JiMzMjsNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjtyZXQmIzMyOz0mIzMyO210a19kcF9wYXJzZV9jYXBhYmlsaXRpZXMobXRrX2RwKTsN
+CiZndDsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtpZiYjMzI7
+KHJldCkmIzMyO3sNCiZndDsmIzMyOy0mIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtkcm1fZXJyKG10a19kcC0m
+Z3Q7ZHJtX2RldiwmIzMyOyZxdW90O0NhbiYjMzk7dCYjMzI7cGFyc2UmIzMyO2NhcGFiaWxpdGll
+cyYjOTI7biZxdW90Oyk7DQomZ3Q7JiMzMjsrJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7ZGV2X2VycihtdGtf
+ZHAtJmd0O2RldiwmIzMyOyZxdW90O0NhbiYjMzk7dCYjMzI7cGFyc2UmIzMyO2NhcGFiaWxpdGll
+czomIzMyOyVkJiM5MjtuJnF1b3Q7LCYjMzI7cmV0KTsNCiZndDsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
+IzMyOyYjMzI7cmV0dXJuJiMzMjtyZXQ7DQomZ3Q7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYj
+MzI7JiMzMjsmIzMyOyYjMzI7fQ0KJmd0OyYjMzI7DQomZ3Q7JiMzMjstLQ0KJmd0OyYjMzI7Mi40
+OC4wLnJjMi4yNzkuZzFkZTQwZWRhZGUtZ29vZw0KJmd0OyYjMzI7DQoNCg0KPC9wcmU+DQo8L3A+
+PC9ib2R5PjwvaHRtbD48IS0tdHlwZTp0ZXh0LS0+PCEtLXstLT48cHJlPioqKioqKioqKioqKiog
+TUVESUFURUsgQ29uZmlkZW50aWFsaXR5IE5vdGljZQ0KICoqKioqKioqKioqKioqKioqKioqDQpU
+aGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGlu
+ZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNvbmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHBy
+aXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBs
+aWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRvIGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUg
+ZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJp
+YnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9yIGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGlu
+Y2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMg
+c3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0KYmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90
+IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlzIGUtbWFpbCwgb3IgYmVsaWV2ZQ0KIA0KdGhh
+dCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0
+aGUgc2VuZGVyIA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVs
+ZXRlIGFueSBhbmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0
+dGFjaG1lbnRzKSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNjbG9zZSB0aGUgY29u
+dGVudCBvZiB0aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFuayB5b3UhDQo8L3By
+ZT48IS0tfS0tPg==
 
+--__=_Part_Boundary_004_1106319331.273340599--
 
->>
->>>> hibmc-dp: Get dp link status
->>>> hibmc-dp-edid: Print edid information
->>> edid-decode /sys/class/drm/card0-DP-1/edid ?
->> Yeah, we can directly use "cat" to print edid info by it. I will add comments and
->> example in next series git log.
-> What is the benefit in having a nonstandard EDID decoder in the kernel if you can use cat to get hexdump from sysfs and then use any of the tools available for EDID deciding?
-
-Alright, I will delete the edid decoder part.
-
-Thanks,
-Baihan.
-
-
->>
->>>> Signed-off-by: Baihan Li <libaihan@huawei.com>
->>>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
->>>> ---
->>>>    drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
->>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |   3 +
->>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  58 +++++
->>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  44 ++++
->>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c  |  40 +++-
->>>>    drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |   4 +-
->>>>    .../drm/hisilicon/hibmc/hibmc_drm_debugfs.c   | 214 ++++++++++++++++++
->>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    |   2 +
->>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |   3 +
->>>>    .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   2 +
->>>>    10 files changed, 363 insertions(+), 10 deletions(-)
->>>>    create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
->>>>
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->>>> index 35a74cc10c80..c14f5182c067 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
->>>> @@ -1,5 +1,6 @@
->>>>    # SPDX-License-Identifier: GPL-2.0-only
->>>>    hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
->>>> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_phy.o hibmc_drm_dp.o
->>>> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_phy.o hibmc_drm_dp.o \
->>>> +	       hibmc_drm_debugfs.o
->>>>      obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->>>> index 7edcecd5a5f0..67f6c81a35ed 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
->>>> @@ -26,6 +26,9 @@ struct hibmc_link_status {
->>>>    struct hibmc_link_cap {
->>>>    	u8 link_rate;
->>>>    	u8 lanes;
->>>> +	int rx_dpcd_revision;
->>>> +	bool is_tps3;
->>>> +	bool is_tps4;
->>>>    };
->>>>      struct hibmc_dp_link {
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->>>> index 50050908606f..9c8b91ff0e3b 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->>>> @@ -226,3 +226,61 @@ int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode)
->>>>      	return 0;
->>>>    }
->>>> +
->>>> +u8 hibmc_dp_get_link_rate(struct hibmc_dp *dp)
->>>> +{
->>>> +	return dp->dp_dev->link.cap.link_rate;
->>>> +}
->>>> +
->>>> +u8 hibmc_dp_get_lanes(struct hibmc_dp *dp)
->>>> +{
->>>> +	return dp->dp_dev->link.cap.lanes;
->>>> +}
->>>> +
->>>> +int hibmc_dp_get_dpcd(struct hibmc_dp *dp)
->>>> +{
->>>> +	return dp->dp_dev->link.cap.rx_dpcd_revision;
->>>> +}
->>>> +
->>>> +static const struct hibmc_dp_color_raw g_rgb_raw[] = {
->>>> +	{CBAR_COLOR_BAR, 0x000, 0x000, 0x000},
->>>> +	{CBAR_WHITE,     0xfff, 0xfff, 0xfff},
->>>> +	{CBAR_RED,       0xfff, 0x000, 0x000},
->>>> +	{CBAR_ORANGE,    0xfff, 0x800, 0x000},
->>>> +	{CBAR_YELLOW,    0xfff, 0xfff, 0x000},
->>>> +	{CBAR_GREEN,     0x000, 0xfff, 0x000},
->>>> +	{CBAR_CYAN,      0x000, 0x800, 0x800},
->>>> +	{CBAR_BLUE,      0x000, 0x000, 0xfff},
->>>> +	{CBAR_PURPLE,    0x800, 0x000, 0x800},
->>>> +	{CBAR_BLACK,     0x000, 0x000, 0x000},
->>>> +};
->>>> +
->>>> +void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg)
->>>> +{
->>>> +	struct hibmc_dp_dev *dp_dev = dp->dp_dev;
->>>> +	struct hibmc_dp_color_raw raw_data;
->>>> +
->>>> +	if (cfg->enable) {
->>>> +		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(9),
->>>> +					 cfg->self_timing);
->>>> +		hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, GENMASK(8, 1),
->>>> +					 cfg->dynamic_rate);
->>>> +		if (cfg->pattern == CBAR_COLOR_BAR) {
->>>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(10), 0);
->>>> +		} else {
->>>> +			raw_data = g_rgb_raw[cfg->pattern];
->>>> +			drm_dbg_dp(dp->drm_dev, "r:%x g:%x b:%x\n", raw_data.r_value,
->>>> +				   raw_data.g_value, raw_data.b_value);
->>>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(10), 1);
->>>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, GENMASK(23, 12),
->>>> +						 raw_data.r_value);
->>>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL1, GENMASK(23, 12),
->>>> +						 raw_data.g_value);
->>>> +			hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL1, GENMASK(11, 0),
->>>> +						 raw_data.b_value);
->>>> +		}
->>>> +	}
->>>> +
->>>> +	hibmc_dp_reg_write_field(dp_dev, HIBMC_DP_COLOR_BAR_CTRL, BIT(0), cfg->enable);
->>>> +	writel(HIBMC_DP_SYNC_EN_MASK, dp_dev->base + HIBMC_DP_TIMING_SYNC_CTRL);
->>>> +}
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->>>> index 53b6d0beecea..f2f59f2feb3c 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->>>> @@ -14,6 +14,44 @@
->>>>      struct hibmc_dp_dev;
->>>>    +enum hibmc_dp_cbar_pattern {
->>>> +	CBAR_COLOR_BAR,
->>>> +	CBAR_WHITE,
->>>> +	CBAR_RED,
->>>> +	CBAR_ORANGE,
->>>> +	CBAR_YELLOW,
->>>> +	CBAR_GREEN,
->>>> +	CBAR_CYAN,
->>>> +	CBAR_BLUE,
->>>> +	CBAR_PURPLE,
->>>> +	CBAR_BLACK,
->>>> +};
->>>> +
->>>> +struct hibmc_dp_color_raw {
->>>> +	enum hibmc_dp_cbar_pattern pattern;
->>>> +	u32 r_value;
->>>> +	u32 g_value;
->>>> +	u32 b_value;
->>>> +};
->>>> +
->>>> +struct hibmc_dp_cbar_cfg {
->>>> +	bool enable;
->>>> +	bool self_timing;
->>>> +	u8 dynamic_rate; /* 0:static, 1-255(frame):dynamic */
->>>> +	enum hibmc_dp_cbar_pattern pattern;
->>>> +};
->>>> +
->>>> +enum hibmc_dp_hpd_status {
->>>> +	HIBMC_DP_HPD_DETECTING,
->>>> +	HIBMC_DP_HPD_IN,
->>>> +	HIBMC_DP_HPD_OUT,
->>>> +	HIBMC_DP_HPD_SHORT, /* Short hpd (irq_hpd) */
->>>> +	HIBMC_DP_HPD_DET_FAIL,
->>>> +	HIBMC_DP_HPD_IN_SIMULATE,
->>>> +	HIBMC_DP_HPD_OUT_SIMULATE,
->>>> +	HIBMC_DP_HPD_SHORT_SIMULATE,
->>>> +};
->>>> +
->>>>    struct hibmc_dp {
->>>>    	struct hibmc_dp_dev *dp_dev;
->>>>    	struct drm_device *drm_dev;
->>>> @@ -21,10 +59,16 @@ struct hibmc_dp {
->>>>    	struct drm_connector connector;
->>>>    	void __iomem *mmio;
->>>>    	struct drm_dp_aux aux;
->>>> +	struct hibmc_dp_cbar_cfg cfg;
->>>> +	bool is_inited;
->>>>    };
->>>>      int hibmc_dp_hw_init(struct hibmc_dp *dp);
->>>>    int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode);
->>>>    void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable);
->>>> +int hibmc_dp_get_dpcd(struct hibmc_dp *dp);
->>>> +u8 hibmc_dp_get_link_rate(struct hibmc_dp *dp);
->>>> +u8 hibmc_dp_get_lanes(struct hibmc_dp *dp);
->>>> +void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg);
->>>>      #endif
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->>>> index 695cb9c0b643..20849f1ebd0c 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
->>>> @@ -4,9 +4,11 @@
->>>>    #include <linux/delay.h>
->>>>    #include <drm/drm_device.h>
->>>>    #include <drm/drm_print.h>
->>>> +
->>>>    #include "dp_comm.h"
->>>>    #include "dp_reg.h"
->>>>    #include "dp_phy.h"
->>>> +#include "dp_config.h"
->>>>      #define HIBMC_EQ_MAX_RETRY 5
->>>>    @@ -42,11 +44,7 @@ static int hibmc_dp_link_training_configure(struct hibmc_dp_dev *dp)
->>>>    		return ret >= 0 ? -EIO : ret;
->>>>    	}
->>>>    -	ret = drm_dp_read_dpcd_caps(dp->aux, dp->dpcd);
->>>> -	if (ret)
->>>> -		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
->>>> -
->>>> -	return ret;
->>>> +	return 0;
->>>>    }
->>>>      static int hibmc_dp_link_set_pattern(struct hibmc_dp_dev *dp, int pattern)
->>>> @@ -189,15 +187,17 @@ static int hibmc_dp_link_training_cr(struct hibmc_dp_dev *dp)
->>>>    	bool level_changed;
->>>>    	u32 voltage_tries;
->>>>    	u32 cr_tries;
->>>> +	u32 max_cr;
->>>>    	int ret;
->>>>      	/*
->>>>    	 * DP 1.4 spec define 10 for maxtries value, for pre DP 1.4 version set a limit of 80
->>>>    	 * (4 voltage levels x 4 preemphasis levels x 5 identical voltage retries)
->>>>    	 */
->>>> +	 max_cr = dp->link.cap.rx_dpcd_revision >= DP_DPCD_REV_14 ? 10 : 80;
->>>>      	voltage_tries = 1;
->>>> -	for (cr_tries = 0; cr_tries < 80; cr_tries++) {
->>>> +	for (cr_tries = 0; cr_tries < max_cr; cr_tries++) {
->>>>    		drm_dp_link_train_clock_recovery_delay(dp->aux, dp->dpcd);
->>>>      		ret = drm_dp_dpcd_read_link_status(dp->aux, lane_status);
->>>> @@ -234,7 +234,7 @@ static int hibmc_dp_link_training_cr(struct hibmc_dp_dev *dp)
->>>>    		voltage_tries = level_changed ? 1 : voltage_tries + 1;
->>>>    	}
->>>>    -	drm_err(dp->dev, "dp link training clock recovery 80 times failed\n");
->>>> +	drm_err(dp->dev, "dp link training clock recovery %u times failed\n", max_cr);
->>>>    	dp->link.status.clock_recovered = false;
->>>>      	return 0;
->>>> @@ -244,9 +244,17 @@ static int hibmc_dp_link_training_channel_eq(struct hibmc_dp_dev *dp)
->>>>    {
->>>>    	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
->>>>    	u8 eq_tries;
->>>> +	int tps;
->>>>    	int ret;
->>>>    -	ret = hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_2);
->>>> +	if (dp->link.cap.is_tps4)
->>>> +		tps = DP_TRAINING_PATTERN_4;
->>>> +	else if (dp->link.cap.is_tps3)
->>>> +		tps = DP_TRAINING_PATTERN_3;
->>>> +	else
->>>> +		tps = DP_TRAINING_PATTERN_2;
->>>> +
->>>> +	ret = hibmc_dp_link_set_pattern(dp, tps);
->>>>    	if (ret)
->>>>    		return ret;
->>>>    @@ -313,11 +321,27 @@ static int hibmc_dp_link_downgrade_training_eq(struct hibmc_dp_dev *dp)
->>>>    	return hibmc_dp_link_reduce_rate(dp);
->>>>    }
->>>>    +static void hibmc_dp_update_caps(struct hibmc_dp_dev *dp)
->>>> +{
->>>> +	dp->link.cap.rx_dpcd_revision = dp->dpcd[DP_DPCD_REV];
->>>> +
->>>> +	dp->link.cap.is_tps3 = (dp->dpcd[DP_DPCD_REV] >= DP_DPCD_REV_13) &&
->>>> +			       (dp->dpcd[DP_MAX_LANE_COUNT] & DP_TPS3_SUPPORTED);
->>>> +	dp->link.cap.is_tps4 = (dp->dpcd[DP_DPCD_REV] >= DP_DPCD_REV_14) &&
->>>> +			       (dp->dpcd[DP_MAX_DOWNSPREAD] & DP_TPS4_SUPPORTED);
->>>> +}
->>>> +
->>>>    int hibmc_dp_link_training(struct hibmc_dp_dev *dp)
->>>>    {
->>>>    	struct hibmc_dp_link *link = &dp->link;
->>>>    	int ret;
->>>>    +	ret = drm_dp_read_dpcd_caps(dp->aux, dp->dpcd);
->>>> +	if (ret)
->>>> +		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
->>>> +
->>>> +	hibmc_dp_update_caps(dp);
->>>> +
->>>>    	while (true) {
->>>>    		ret = hibmc_dp_link_training_cr_pre(dp);
->>>>    		if (ret)
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
->>>> index 99ba9c951c41..c43ad6b30c2c 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h
->>>> @@ -23,6 +23,8 @@
->>>>    #define HIBMC_DP_VIDEO_MSA1			0x11c
->>>>    #define HIBMC_DP_VIDEO_MSA2			0x120
->>>>    #define HIBMC_DP_VIDEO_HORIZONTAL_SIZE		0X124
->>>> +#define HIBMC_DP_COLOR_BAR_CTRL			0x260
->>>> +#define HIBMC_DP_COLOR_BAR_CTRL1		0x264
->>>>    #define HIBMC_DP_TIMING_GEN_CONFIG0		0x26c
->>>>    #define HIBMC_DP_TIMING_GEN_CONFIG2		0x274
->>>>    #define HIBMC_DP_TIMING_GEN_CONFIG3		0x278
->>>> @@ -72,6 +74,6 @@
->>>>    #define HIBMC_DP_CFG_STREAM_TU_SYMBOL_FRAC_SIZE	GENMASK(9, 6)
->>>>    #define HIBMC_DP_CFG_STREAM_HTOTAL_SIZE		GENMASK(31, 16)
->>>>    #define HIBMC_DP_CFG_STREAM_HBLANK_SIZE		GENMASK(15, 0)
->>>> -#define HIBMC_DP_CFG_STREAM_SYNC_CALIBRATION GENMASK(31, 20)
->>>> +#define HIBMC_DP_CFG_STREAM_SYNC_CALIBRATION	GENMASK(31, 20)
->>>>      #endif
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
->>>> new file mode 100644
->>>> index 000000000000..f6885399c2b3
->>>> --- /dev/null
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
->>>> @@ -0,0 +1,214 @@
->>>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>>> +// Copyright (c) 2024 Hisilicon Limited.
->>>> +
->>>> +#include <linux/debugfs.h>
->>>> +#include <linux/device.h>
->>>> +#include <linux/seq_file.h>
->>>> +#include <linux/pci.h>
->>>> +
->>>> +#include <drm/drm_drv.h>
->>>> +#include <drm/drm_file.h>
->>>> +#include <drm/drm_debugfs.h>
->>>> +#include <drm/drm_edid.h>
->>>> +
->>>> +#include "hibmc_drm_drv.h"
->>>> +
->>>> +static void hibmc_dump_edid(struct seq_file *m, const struct edid *edid)
->>>> +{
->>>> +	const struct detailed_pixel_timing *pixel_data;
->>>> +	int i;
->>>> +
->>>> +	seq_puts(m, "EDID:\n");
->>>> +	seq_printf(m, "\theader: 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x 0x%02x\n",
->>>> +		   edid->header[0], edid->header[1], edid->header[2], edid->header[3],
->>>> +		   edid->header[4], edid->header[5], edid->header[6], edid->header[7]);
->>>> +
->>>> +	seq_puts(m, "Vendor & product info:\n");
->>>> +	seq_printf(m, "\tmfg_id: 0x%02x 0x%02x\n", edid->mfg_id[0], edid->mfg_id[1]);
->>>> +	seq_printf(m, "\tprod_code: 0x%02x 0x%02x\n", edid->prod_code[0], edid->prod_code[1]);
->>>> +	seq_printf(m, "\tserial: 0x%08x\n", edid->serial);
->>>> +	seq_printf(m, "\tmfg_week/year: 0x%02x 0x%02x\n", edid->mfg_week, edid->mfg_year);
->>>> +
->>>> +	seq_puts(m, "EDID version:\n");
->>>> +	seq_printf(m, "\tversion: 0x%02x\n", edid->version);
->>>> +	seq_printf(m, "\trevision: 0x%02x\n", edid->revision);
->>>> +
->>>> +	seq_puts(m, "Display info:\n");
->>>> +	seq_printf(m, "\tinput: 0x%02x\n", edid->input);
->>>> +	seq_printf(m, "\twidth_cm: 0x%02x\n", edid->width_cm);
->>>> +	seq_printf(m, "\theight_cm: 0x%02x\n", edid->height_cm);
->>>> +	seq_printf(m, "\tgamma: 0x%02x\n", edid->gamma);
->>>> +	seq_printf(m, "\tfeatures: 0x%02x\n", edid->features);
->>>> +
->>>> +	seq_puts(m, "Color characteristics:\n");
->>>> +	seq_printf(m, "\tred_green_lo: 0x%02x\n", edid->red_green_lo);
->>>> +	seq_printf(m, "\tblue/black_white_lo: 0x%02x\n", *(&edid->red_green_lo) + 1);
->>>> +	seq_printf(m, "\tred_x/y: 0x%02x 0x%02x\n", edid->red_x, edid->red_y);
->>>> +	seq_printf(m, "\tgreen_x/y: 0x%02x 0x%02x\n", edid->green_x, edid->green_y);
->>>> +	seq_printf(m, "\tblue_x/y: 0x%02x 0x%02x\n", edid->blue_x, edid->blue_y);
->>>> +	seq_printf(m, "\twhite_x/y: 0x%02x 0x%02x\n", edid->white_x, edid->white_y);
->>>> +
->>>> +	seq_puts(m, "Est. timings and mfg rsvd timings:\n");
->>>> +	seq_printf(m, "\test_timings_t1/2: 0x%02x 0x%02x\n",
->>>> +		   edid->established_timings.t1, edid->established_timings.t2);
->>>> +
->>>> +	seq_puts(m, "Standard timings 1-8:\n");
->>>> +	for (i = 0; i < ARRAY_SIZE(edid->standard_timings); i++) {
->>>> +		seq_printf(m, "\tstandard_timings[%d] hsize/vfreq_aspect: 0x%02x 0x%02x\n",
->>>> +			   i, edid->standard_timings[i].hsize,
->>>> +			   edid->standard_timings[i].vfreq_aspect);
->>>> +	}
->>>> +
->>>> +	seq_puts(m, "Detailing timings 1-4:\n");
->>>> +	for (i = 0; i < ARRAY_SIZE(edid->detailed_timings); i++) {
->>>> +		pixel_data = &edid->detailed_timings[i].data.pixel_data;
->>>> +		seq_printf(m, "\tdetailed_timing[%d] pixel_clock: 0x%04x\n",
->>>> +			   i, edid->detailed_timings[i].pixel_clock);
->>>> +		seq_printf(m, "\tdetailed_timing[%d] hactive: %u\n", i,
->>>> +			   (pixel_data->hactive_hblank_hi & 0xf0) << 4 | pixel_data->hactive_lo);
->>>> +		seq_printf(m, "\tdetailed_timing[%d] vactive: %u\n", i,
->>>> +			   (pixel_data->vactive_vblank_hi & 0xf0) << 4 | pixel_data->vactive_lo);
->>>> +	}
->>>> +
->>>> +	seq_puts(m, "Others:\n");
->>>> +	seq_printf(m, "\textensions: 0x%02x\n", edid->extensions);
->>>> +	seq_printf(m, "\tchecksum: 0x%02x\n", edid->checksum);
->>>> +}
->>>> +
->>>> +static int hibmc_dp_edid_show(struct seq_file *m, void *arg)
->>>> +{
->>>> +	struct drm_info_node *node = m->private;
->>>> +	struct drm_device *dev = node->minor->dev;
->>>> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
->>>> +	struct edid *edid;
->>>> +	char name[20];
->>>> +	int idx;
->>>> +
->>>> +	if (!drm_dev_enter(dev, &idx))
->>>> +		return -ENODEV;
->>>> +
->>>> +	edid = drm_get_edid(&priv->dp.connector, &priv->dp.aux.ddc);
->>>> +	if (edid) {
->>>> +		drm_edid_get_monitor_name(edid, name, ARRAY_SIZE(name));
->>>> +		seq_printf(m, "Monitor name: %s\n", name);
->>>> +		hibmc_dump_edid(m, edid);
->>>> +		kfree(edid);
->>>> +	} else {
->>>> +		seq_puts(m, "No connector available!\n");
->>>> +	}
->>>> +
->>>> +	drm_dev_exit(idx);
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int hibmc_dp_show(struct seq_file *m, void *arg)
->>>> +{
->>>> +	struct drm_info_node *node = m->private;
->>>> +	struct drm_device *dev = node->minor->dev;
->>>> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
->>>> +	int idx;
->>>> +
->>>> +	if (!drm_dev_enter(dev, &idx))
->>>> +		return -ENODEV;
->>>> +
->>>> +	seq_printf(m, "enable lanes: %u\n", hibmc_dp_get_lanes(&priv->dp));
->>>> +	seq_printf(m, "link rate: %d\n", hibmc_dp_get_link_rate(&priv->dp) * 27);
->>>> +	seq_printf(m, "vfresh: %d\n", drm_mode_vrefresh(&priv->crtc.mode));
->>>> +	seq_printf(m, "dpcd version: 0x%x\n", hibmc_dp_get_dpcd(&priv->dp));
->>>> +
->>>> +	drm_dev_exit(idx);
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static ssize_t hibmc_control_write(struct file *file, const char __user *user_buf,
->>>> +				   size_t size, loff_t *ppos)
->>>> +{
->>>> +	struct hibmc_drm_private *priv = file_inode(file)->i_private;
->>>> +	struct hibmc_dp_cbar_cfg *cfg = &priv->dp.cfg;
->>>> +	u32 input = 0;
->>>> +	int ret, idx;
->>>> +	u8 val;
->>>> +
->>>> +	ret = kstrtou32_from_user(user_buf, size, 0, &input);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	val = FIELD_GET(GENMASK(13, 10), input);
->>>> +	if (val > 9)
->>>> +		return -EINVAL;
->>>> +	cfg->pattern = val;
->>>> +	cfg->enable = FIELD_GET(BIT(0), input);
->>>> +	cfg->self_timing = FIELD_GET(BIT(1), input);
->>>> +	cfg->dynamic_rate = FIELD_GET(GENMASK(9, 2), input);
->>>> +
->>>> +	ret = drm_dev_enter(&priv->dev, &idx);
->>>> +	if (!ret)
->>>> +		return -ENODEV;
->>>> +
->>>> +	hibmc_dp_set_cbar(&priv->dp, cfg);
->>>> +
->>>> +	drm_dev_exit(idx);
->>>> +
->>>> +	return size;
->>>> +}
->>>> +
->>>> +static int hibmc_dp_dbgfs_show(struct seq_file *m, void *arg)
->>>> +{
->>>> +	struct hibmc_drm_private *priv = m->private;
->>>> +	struct hibmc_dp_cbar_cfg *cfg = &priv->dp.cfg;
->>>> +	u32 output = 0;
->>>> +	int idx;
->>>> +
->>>> +	if (!drm_dev_enter(&priv->dev, &idx))
->>>> +		return -ENODEV;
->>>> +
->>>> +	/* bit[0]: 0: enable colorbar, 1: disable colorbar
->>>> +	 * bit[1]: 0: timing follows XDP, 1: internal self timing
->>>> +	 * bit[2,9]: 0: static colorbar image,
->>>> +	 *           1~255: right shifting a type of color per (1~255)frames
->>>> +	 * bit[10,13]: 0~9: color bar, white, red, orange,
->>>> +	 *             yellow, green, cyan, bule, pupper, black
->>>> +	 */
->>>> +	output = cfg->enable | (cfg->self_timing << 1) |
->>>> +		 (cfg->dynamic_rate << 2) | (cfg->pattern << 10);
->>>> +
->>>> +	drm_dev_exit(idx);
->>>> +
->>>> +	seq_printf(m, "hibmc dp colorbar cfg: %u\n", output);
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int hibmc_open(struct inode *inode, struct file *filp)
->>>> +{
->>>> +	return single_open(filp, hibmc_dp_dbgfs_show, inode->i_private);
->>>> +}
->>>> +
->>>> +static const struct file_operations hibmc_dbg_fops = {
->>>> +	.owner   = THIS_MODULE,
->>>> +	.write   = hibmc_control_write,
->>>> +	.read    = seq_read,
->>>> +	.open    = hibmc_open,
->>>> +	.llseek  = seq_lseek,
->>>> +	.release = single_release,
->>>> +};
->>>> +
->>>> +static struct drm_info_list hibmc_debugfs_list[] = {
->>>> +	{ "hibmc-dp", hibmc_dp_show },
->>>> +	{ "hibmc-dp-edid", hibmc_dp_edid_show },
->>>> +};
->>>> +
->>>> +void hibmc_debugfs_register(struct hibmc_drm_private *priv)
->>>> +{
->>>> +	struct drm_connector *dp_conn = &priv->dp.connector;
->>>> +	struct drm_minor *minor = priv->dev.primary;
->>>> +
->>>> +	/* create the file in drm directory, so we don't need to remove manually */
->>>> +	debugfs_create_file("colorbar-cfg", 0200,
->>>> +			    dp_conn->debugfs_entry, priv, &hibmc_dbg_fops);
->>>> +
->>>> +	drm_debugfs_create_files(hibmc_debugfs_list, ARRAY_SIZE(hibmc_debugfs_list),
->>>> +				 minor->debugfs_root, minor);
->>>> +}
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->>>> index fac8485a69d9..cc1f9ee0656f 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->>>> @@ -146,5 +146,7 @@ int hibmc_dp_init(struct hibmc_drm_private *priv)
->>>>      	drm_connector_attach_encoder(connector, encoder);
->>>>    +	dp->is_inited = true;
->>>> +
->>>>    	return 0;
->>>>    }
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->>>> index bade693d9730..3d4d5185c523 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
->>>> @@ -352,6 +352,9 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
->>>>    		goto err_unload;
->>>>    	}
->>>>    +	if (priv->dp.is_inited)
->>>> +		hibmc_debugfs_register(priv);
->>> Please use debugfs_init() callback for that
->>>
->>>
->>>> +
->>>>    	drm_client_setup(dev, NULL);
->>>>      	return 0;
->>>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->>>> index 3ddd71aada66..ff61efb8a2ab 100644
->>>> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->>>> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h
->>>> @@ -69,4 +69,6 @@ int hibmc_ddc_create(struct drm_device *drm_dev, struct hibmc_vdac *connector);
->>>>      int hibmc_dp_init(struct hibmc_drm_private *priv);
->>>>    +void hibmc_debugfs_register(struct hibmc_drm_private *priv);
->>>> +
->>>>    #endif
->>>> -- 
->>>> 2.33.0
->>>>
