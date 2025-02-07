@@ -2,93 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4984A2C5E2
-	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 15:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1149FA2C5EB
+	for <lists+dri-devel@lfdr.de>; Fri,  7 Feb 2025 15:47:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9CE710EB2A;
-	Fri,  7 Feb 2025 14:46:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A74310EB2D;
+	Fri,  7 Feb 2025 14:47:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="SKk9wMpt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Skz6NGaG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BBEE10EB28
- for <dri-devel@lists.freedesktop.org>; Fri,  7 Feb 2025 14:46:03 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-38dc8b5bb0bso505002f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 06:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738939562; x=1739544362;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Hv90/4Ii7oHU4TLhsDR0XOWXVnCVpBGLvijyzK1ZPiM=;
- b=SKk9wMpttm/lo0jl28jMzB9uBXxTYe60VvmwVX6yr7QaeOjsGLXrB7ERtJo4UKxz3m
- fmM66ryfPdgJeG4tLJJwtm9mFxHCgECeXwqzy/BZ4MXbOTuYbRpKjScAyJaMyAwRLKSo
- iynDdWu8MiyjjfYR/U28LFSybwnF9nZEtbzJzCcIF+6yD2xyv+AWxEJRWa3wAKYcz1Kp
- f6VkCtwxQujxgFlSVE9CSfMF3Lt0pW6uL+oIEr28I+gTFbH6cyDXFce9vhaPjExJIg9w
- kABpuJDyyq8wFwcSHISi+1F8VlKo/lIOHRYCZqIh/COugFNclU3GWgWpMIK1VC/6M4hy
- ndWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738939562; x=1739544362;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Hv90/4Ii7oHU4TLhsDR0XOWXVnCVpBGLvijyzK1ZPiM=;
- b=BmEjEJdcIOtYG/JOSu1VQ+Pj8nI5HmjT7PY2zdolvCxSKlpt1lb+pS3kT7+pbV3IR2
- skctmhXQhnOXfOblj+amvfTndGyspRGmO8GHVbFhAOR8lpTFCtoj0wqpNp7sASy4CLgU
- Z7z2WOY+c9VnkF2sFiOCSvIVj6TlQHuhazmcML//kdI9y/Ayuncc92NVVlnRjhS+jtc5
- SpMgxTB+/A0QEyIeF8cVf9ytktN1Zj1iiqIV8cvIxS2zjx+xefWuGhbj6emBQzYZ00nF
- H3tUr0bZ/dNhcHBdfZsuD4BF31SI34at0LhU+h3S9Paz4d8d222h8ELIFQXDIaWZnExQ
- VZAg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXS2ENaSneE4ljKrq8UZI60y1nnrgvNQLVPeT553lwfmVBxpuqDO3i4QPVFGqygdbkL0cCsbMU0Tds=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTEeNWi2stdzEjvEFlChSajQ1F1tSy+k6wTlc0vfRQC6+OpM97
- VUQbGX0ZCSojQT5vlutuLl1UbPenDsP+FGAJaxJHtulu4o7SC4n9lkSa4e0zuFk=
-X-Gm-Gg: ASbGncuUHlesWdQefmE0BnWHn8+iNwbuY+4ceVsk0cb3O31u3r1oLBkE9OhBCmm294N
- ysTJ/7BP/FjxsQoLeD2njQOnZQOFFRGaAoP9ySNZrq9G3EcZhLWS0EgzoGY2cbGSPhOGtOrDfnn
- +0QMo7vPz2YQAXiHMPd06nVwRUsRfitfszm8TmAvb3mQ85tuJXs3K3ATba89QgzjQThX+5iSQax
- PAyWGVB4tIRiAc9irUZTbM7W32tllns99BUzMjWUJnw9rH0dVqQV5E8hDtCai3f3BU7Fmdg72lu
- HtBAm7EDAhIJheakALpIjuTXnrPZwPbZGp1d8daCHLx/1JHJIMWenc+SukUfaH0=
-X-Google-Smtp-Source: AGHT+IHFc+CaRU85moSCDGrb/7WzOtXGy8Znz1lNZW2tGN9O7ngj6L2f+YkxFTgGpjCIR2UBQc+Nww==
-X-Received: by 2002:a05:6000:188b:b0:38d:c58f:4ceb with SMTP id
- ffacd0b85a97d-38dc9374960mr2633679f8f.43.1738939561733; 
- Fri, 07 Feb 2025 06:46:01 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:5ee:79d0:a437:fa6a:2619:f5d8?
- ([2a01:e0a:5ee:79d0:a437:fa6a:2619:f5d8])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38dc5839877sm3206265f8f.3.2025.02.07.06.46.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2025 06:46:01 -0800 (PST)
-Message-ID: <18fd9544-f9ef-4f58-9a8a-026737c26b94@baylibre.com>
-Date: Fri, 7 Feb 2025 15:45:59 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BC5E10EB2B;
+ Fri,  7 Feb 2025 14:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1738939631; x=1770475631;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=jBfNvWT2cXvfcELxgp/rf2fwwlfW9GoE47nzdAqnmFI=;
+ b=Skz6NGaGQkqkc3IKL5UA/oi2ymMbcJ6YEkmDiOkwGWyv7Vq7HCf2MFO/
+ c6Z3ZhCL9w6fsUEBPiB3s2FsofexFzC6fk2zQE/Lpdh8AII2+Dwn32q10
+ y878rqOjU7FcR+u082ZuY73lODwXilPAgUPYlzMI3Wj0OzY799BPW/sLy
+ a04plOokxOFLOmzwpLsylSb1zppUVudZ6W8QFVLgvmZBGwrsdmanfzKkn
+ d7OgOeIv5EredXXRMB8xySyDtLbMsp+XFhlhqu/TxZwdl1zBtF/NKbNnX
+ Px/KwMnPGO3aPk4lN6VMMVModPYANTGH52ungoIcHk7RTSQrbTJZc3O3i g==;
+X-CSE-ConnectionGUID: +sXbVjbWQa+E4iwxSg7aUQ==
+X-CSE-MsgGUID: CwkCZDe4RPm9zMnQsWR5zg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11338"; a="43240323"
+X-IronPort-AV: E=Sophos;i="6.13,267,1732608000"; d="scan'208";a="43240323"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2025 06:47:04 -0800
+X-CSE-ConnectionGUID: KVLcjfsIQtOzCdaUydWIxw==
+X-CSE-MsgGUID: nQ6hZ4PSSwuzcoUtKsyiEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="111984196"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.246.108])
+ ([10.245.246.108])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Feb 2025 06:46:58 -0800
+Message-ID: <87ff7fa2f55715e0f480dbf1241ed93033b41583.camel@linux.intel.com>
+Subject: Re: [PATCH v4 30/33] drm/xe: Add SVM debug
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Fri, 07 Feb 2025 15:46:55 +0100
+In-Reply-To: <20250129195212.745731-31-matthew.brost@intel.com>
+References: <20250129195212.745731-1-matthew.brost@intel.com>
+ <20250129195212.745731-31-matthew.brost@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 21/34] drm/mediatek: mtk_hdmi: Move CEC device parsing
- in new function
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com,
- jie.qiu@mediatek.com, junzhi.zhao@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
- dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
- jason-jh.lin@mediatek.com
-References: <20250113145232.227674-1-angelogioacchino.delregno@collabora.com>
- <20250113145232.227674-22-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <20250113145232.227674-22-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,163 +73,393 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 2025-01-29 at 11:52 -0800, Matthew Brost wrote:
+> Add some useful SVM debug logging fro SVM range which prints the
+> range's
+> state.
+>=20
+> v2:
+> =C2=A0- Upadte logging with latest structure layout
 
+NIT: Update
 
-On 13/01/2025 15:52, AngeloGioacchino Del Regno wrote:
-> Move the CEC device parsing logic to a new function called
-> mtk_hdmi_get_cec_dev(), and move the parsing action to the end
-> of mtk_hdmi_dt_parse_pdata(), allowing to remove gotos in this
-> function, reducing code size and improving readability.
-
-Why CEC device parsing logic isn't done mtk_cec.c driver ? Then add "mtk_cec_get_dev" function to 
-mtk_cec.c too. Finally, call this new function in mtk_hdmi_probe after mtk_hdmi_dt_parse_pdata().
-
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> v3:
+> =C2=A0- Better commit message (Thomas)
+> =C2=A0- New range structure (Thomas)
+> =C2=A0- s/COLLECTOT/s/COLLECTOR (Thomas)
+> v4:
+> =C2=A0- Drop partial evict message (Thomas)
+> =C2=A0- Use %p for pointers print (Thomas)
+>=20
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 > ---
->   drivers/gpu/drm/mediatek/mtk_hdmi.c | 84 ++++++++++++++---------------
->   1 file changed, 40 insertions(+), 44 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> index 48c37294dcbb..eb285ec394a3 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-> @@ -1367,24 +1367,16 @@ static const struct drm_bridge_funcs mtk_hdmi_bridge_funcs = {
->   	.edid_read = mtk_hdmi_bridge_edid_read,
->   };
->   
-> -static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
-> -				   struct platform_device *pdev)
-> +static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, struct device_node *np)
->   {
-> -	struct device *dev = &pdev->dev;
-> -	struct device_node *np = dev->of_node;
-> -	struct device_node *remote, *i2c_np;
->   	struct platform_device *cec_pdev;
-> -	struct regmap *regmap;
-> +	struct device_node *cec_np;
->   	int ret;
->   
-> -	ret = mtk_hdmi_get_all_clk(hdmi, np);
-> -	if (ret)
-> -		return dev_err_probe(dev, ret, "Failed to get clocks\n");
-> -
->   	/* The CEC module handles HDMI hotplug detection */
->   	cec_np = of_get_compatible_child(np->parent, "mediatek,mt8173-cec");
-
-If it's done in mtk_cec.c, the hardcoded compatible string method will be replaced by of_match_table 
-(mtk_cec_of_ids), which is scalable and consistent.
-
->   	if (!cec_np)
-> -		return dev_err_probe(dev, -EINVAL, "Failed to find CEC node\n");
-> +		return dev_err_probe(dev, -ENOTSUPP, "Failed to find CEC node\n");
->   
->   	cec_pdev = of_find_device_by_node(cec_np);
->   	if (!cec_pdev) {
-> @@ -1393,65 +1385,69 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
->   		return -EPROBE_DEFER;
->   	}
->   	of_node_put(cec_np);
-> -	hdmi->cec_dev = &cec_pdev->dev;
->   
->   	/*
->   	 * The mediatek,syscon-hdmi property contains a phandle link to the
->   	 * MMSYS_CONFIG device and the register offset of the HDMI_SYS_CFG
->   	 * registers it contains.
->   	 */
-> -	regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
-> -	ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1,
-> -					 &hdmi->sys_offset);
-> -	if (IS_ERR(regmap))
-> -		ret = PTR_ERR(regmap);
-> -	if (ret) {
-> -		dev_err_probe(dev, ret,
-> -			      "Failed to get system configuration registers\n");
-> -		goto put_device;
-> -	}
-> -	hdmi->sys_regmap = regmap;
-> +	hdmi->sys_regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
-> +	if (IS_ERR(hdmi->sys_regmap))
-> +		return PTR_ERR(hdmi->sys_regmap);
+> =C2=A0drivers/gpu/drm/xe/xe_pt.c=C2=A0 |=C2=A0 8 ++++
+> =C2=A0drivers/gpu/drm/xe/xe_svm.c | 91 +++++++++++++++++++++++++++++++++-=
+-
+> --
+> =C2=A0drivers/gpu/drm/xe/xe_svm.h |=C2=A0 2 +
+> =C2=A03 files changed, 93 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+> index f8d06c70f77d..29ade504e1c1 100644
+> --- a/drivers/gpu/drm/xe/xe_pt.c
+> +++ b/drivers/gpu/drm/xe/xe_pt.c
+> @@ -647,6 +647,7 @@ xe_pt_stage_bind(struct xe_tile *tile, struct
+> xe_vma *vma,
+> =C2=A0		/* Move this entire thing to xe_svm.c? */
+> =C2=A0		xe_svm_notifier_lock(xe_vma_vm(vma));
+> =C2=A0		if (!xe_svm_range_pages_valid(range)) {
+> +			xe_svm_range_debug(range, "BIND PREPARE -
+> RETRY");
+> =C2=A0			xe_svm_notifier_unlock(xe_vma_vm(vma));
+> =C2=A0			return -EAGAIN;
+> =C2=A0		}
+> @@ -655,6 +656,10 @@ xe_pt_stage_bind(struct xe_tile *tile, struct
+> xe_vma *vma,
+> =C2=A0					 range->base.itree.last + 1
+> - range->base.itree.start,
+> =C2=A0					 &curs);
+> =C2=A0			is_devmem =3D xe_res_is_vram(&curs);
+> +			if (is_devmem)
+> +				xe_svm_range_debug(range, "BIND
+> PREPARE - DMA VRAM");
+> +			else
+> +				xe_svm_range_debug(range, "BIND
+> PREPARE - DMA");
+> =C2=A0		} else {
+> =C2=A0			xe_assert(xe, false);
+> =C2=A0		}
+> @@ -1429,10 +1434,13 @@ static int xe_pt_svm_pre_commit(struct
+> xe_migrate_pt_update *pt_update)
+> =C2=A0		if (op->subop =3D=3D XE_VMA_SUBOP_UNMAP_RANGE)
+> =C2=A0			continue;
+> =C2=A0
+> +		xe_svm_range_debug(range, "PRE-COMMIT");
 > +
-> +	ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1, &hdmi->sys_offset);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to get system configuration registers\n");
-> +
-> +	hdmi->cec_dev = &cec_pdev->dev;
-> +	return 0;
+> =C2=A0		xe_assert(vm->xe, xe_vma_is_cpu_addr_mirror(op-
+> >map_range.vma));
+> =C2=A0		xe_assert(vm->xe, op->subop =3D=3D
+> XE_VMA_SUBOP_MAP_RANGE);
+> =C2=A0
+> =C2=A0		if (!xe_svm_range_pages_valid(range)) {
+> +			xe_svm_range_debug(range, "PRE-COMMIT -
+> RETRY");
+> =C2=A0			xe_svm_notifier_unlock(vm);
+> =C2=A0			return -EAGAIN;
+> =C2=A0		}
+> diff --git a/drivers/gpu/drm/xe/xe_svm.c
+> b/drivers/gpu/drm/xe/xe_svm.c
+> index dafc5061eb42..0df924ca8ed1 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.c
+> +++ b/drivers/gpu/drm/xe/xe_svm.c
+> @@ -12,6 +12,18 @@
+> =C2=A0#include "xe_vm.h"
+> =C2=A0#include "xe_vm_types.h"
+> =C2=A0
+> +static bool xe_svm_range_in_vram(struct xe_svm_range *range)
+> +{
+> +	/* Not reliable without notifier lock */
+> +	return range->base.flags.has_devmem_pages;
 > +}
 > +
-> +static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
-> +				   struct platform_device *pdev)
+> +static bool xe_svm_range_has_vram_binding(struct xe_svm_range
+> *range)
 > +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *np = dev->of_node;
-> +	struct device_node *remote, *i2c_np;
-> +	int ret;
+> +	/* Not reliable without notifier lock */
+> +	return xe_svm_range_in_vram(range) && range->tile_present;
+> +}
 > +
-> +	ret = mtk_hdmi_get_all_clk(hdmi, np);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to get clocks\n");
->   
->   	hdmi->regs = device_node_to_regmap(dev->of_node);
-> -	if (IS_ERR(hdmi->regs)) {
-> -		ret = PTR_ERR(hdmi->regs);
-> -		goto put_device;
-> -	}
-> +	if (IS_ERR(hdmi->regs))
-> +		return PTR_ERR(hdmi->regs);
->   
->   	remote = of_graph_get_remote_node(np, 1, 0);
-> -	if (!remote) {
-> -		ret = -EINVAL;
-> -		goto put_device;
-> -	}
-> +	if (!remote)
-> +		return -EINVAL;
->   
->   	if (!of_device_is_compatible(remote, "hdmi-connector")) {
->   		hdmi->next_bridge = of_drm_find_bridge(remote);
->   		if (!hdmi->next_bridge) {
->   			dev_err(dev, "Waiting for external bridge\n");
->   			of_node_put(remote);
-> -			ret = -EPROBE_DEFER;
-> -			goto put_device;
-> +			return -EPROBE_DEFER;
->   		}
->   	}
->   
->   	i2c_np = of_parse_phandle(remote, "ddc-i2c-bus", 0);
->   	of_node_put(remote);
-> -	if (!i2c_np) {
-> -		ret = dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
-> -		goto put_device;
-> -	}
-> +	if (!i2c_np)
-> +		return dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
->   
->   	hdmi->ddc_adpt = of_find_i2c_adapter_by_node(i2c_np);
->   	of_node_put(i2c_np);
-> -	if (!hdmi->ddc_adpt) {
-> -		ret = dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
-> -		goto put_device;
-> -	}
-> +	if (!hdmi->ddc_adpt)
-> +		return dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by node\n");
+> =C2=A0static struct xe_vm *gpusvm_to_vm(struct drm_gpusvm *gpusvm)
+> =C2=A0{
+> =C2=A0	return container_of(gpusvm, struct xe_vm, svm.gpusvm);
+> @@ -22,6 +34,23 @@ static struct xe_vm *range_to_vm(struct
+> drm_gpusvm_range *r)
+> =C2=A0	return gpusvm_to_vm(r->gpusvm);
+> =C2=A0}
+> =C2=A0
+> +#define range_debug(r__,
+> operaton__)					\
+> +	vm_dbg(&range_to_vm(&(r__)->base)->xe-
+> >drm,			\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%s: asid=3D%u, gpusvm=3D%p, vram=
+=3D%d,%d, seqno=3D%lu, " \
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "start=3D0x%014lx, end=3D0x%014lx,
+> size=3D%lu",		\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (operaton__), range_to_vm(&(r__)->=
+base)-
+> >usm.asid,	\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (r__)-
+> >base.gpusvm,					\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 xe_svm_range_in_vram((r__)) ? 1 :
+> 0,			\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 xe_svm_range_has_vram_binding((r__=
+)) ? 1 :
+> 0,		\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (r__)-
+> >base.notifier_seq,				\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (r__)->base.itree.start, (r__)->ba=
+se.itree.last +
+> 1,	\
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (r__)->base.itree.last + 1 - (r__)=
+->base.itree.start)
 > +
-> +	ret = mtk_hdmi_get_cec_dev(hdmi, dev, np);
-> +	if (ret)
-> +		return ret;
->   
->   	return 0;
-> -put_device:
-> -	put_device(hdmi->cec_dev);
-> -	return ret;
->   }
->   
->   /*
+> +void xe_svm_range_debug(struct xe_svm_range *range, const char
+> *operation)
+> +{
+> +	range_debug(range, operation);
+> +}
+> +
+> =C2=A0static void *xe_svm_devm_owner(struct xe_device *xe)
+> =C2=A0{
+> =C2=A0	return xe;
+> @@ -59,6 +88,8 @@ xe_svm_garbage_collector_add_range(struct xe_vm
+> *vm, struct xe_svm_range *range,
+> =C2=A0{
+> =C2=A0	struct xe_device *xe =3D vm->xe;
+> =C2=A0
+> +	range_debug(range, "GARBAGE COLLECTOR ADD");
+> +
+> =C2=A0	drm_gpusvm_range_set_unmapped(&range->base, mmu_range);
+> =C2=A0
+> =C2=A0	spin_lock(&vm->svm.garbage_collector.lock);
+> @@ -84,10 +115,14 @@ xe_svm_range_notifier_event_begin(struct xe_vm
+> *vm, struct drm_gpusvm_range *r,
+> =C2=A0
+> =C2=A0	xe_svm_assert_in_notifier(vm);
+> =C2=A0
+> +	range_debug(range, "NOTIFIER");
+> +
+> =C2=A0	/* Skip if already unmapped or if no binding exist */
+> =C2=A0	if (range->base.flags.unmapped || !range->tile_present)
+> =C2=A0		return 0;
+> =C2=A0
+> +	range_debug(range, "NOTIFIER - EXECUTE");
+> +
+> =C2=A0	/* Adjust invalidation to range boundaries */
+> =C2=A0	if (range->base.itree.start < mmu_range->start)
+> =C2=A0		*adj_start =3D range->base.itree.start;
+> @@ -140,6 +175,11 @@ static void xe_svm_invalidate(struct drm_gpusvm
+> *gpusvm,
+> =C2=A0
+> =C2=A0	xe_svm_assert_in_notifier(vm);
+> =C2=A0
+> +	vm_dbg(&gpusvm_to_vm(gpusvm)->xe->drm,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "INVALIDATE: asid=3D%u, gpusvm=3D%=
+p, seqno=3D%lu,
+> start=3D0x%016lx, end=3D0x%016lx, event=3D%d",
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm->usm.asid, gpusvm, notifier-
+> >notifier.invalidate_seq,
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mmu_range->start, mmu_range->end, =
+mmu_range->event);
+> +
+> =C2=A0	/* Adjust invalidation to notifier boundaries */
+> =C2=A0	if (adj_start < notifier->itree.start)
+> =C2=A0		adj_start =3D notifier->itree.start;
+> @@ -226,6 +266,8 @@ static int __xe_svm_garbage_collector(struct
+> xe_vm *vm,
+> =C2=A0{
+> =C2=A0	struct dma_fence *fence;
+> =C2=A0
+> +	range_debug(range, "GARBAGE COLLECTOR");
+> +
+> =C2=A0	xe_vm_lock(vm, false);
+> =C2=A0	fence =3D xe_vm_range_unbind(vm, range);
+> =C2=A0	xe_vm_unlock(vm);
+> @@ -385,16 +427,23 @@ static int xe_svm_copy(struct page **pages,
+> dma_addr_t *dma_addr,
+> =C2=A0			int incr =3D (match && last) ? 1 : 0;
+> =C2=A0
+> =C2=A0			if (vram_addr !=3D XE_VRAM_ADDR_INVALID) {
+> -				if (sram)
+> +				if (sram) {
+> +					vm_dbg(&tile->xe->drm,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "COPY TO SRAM -
+> 0x%016llx -> 0x%016llx, NPAGES=3D%ld",
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vram_addr,
+> dma_addr[pos], i - pos + incr);
+> =C2=A0					__fence =3D
+> xe_migrate_from_vram(tile->migrate,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 i - pos + incr,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 vram_addr,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 dma_addr + pos);
+> -				else
+> +				} else {
+> +					vm_dbg(&tile->xe->drm,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "COPY TO VRAM -
+> 0x%016llx -> 0x%016llx, NPAGES=3D%ld",
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr[pos],
+> vram_addr, i - pos + incr);
+> =C2=A0					__fence =3D
+> xe_migrate_to_vram(tile->migrate,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> i - pos + incr,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_addr + pos,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> vram_addr);
+> +				}
+> =C2=A0				if (IS_ERR(__fence)) {
+> =C2=A0					err =3D PTR_ERR(__fence);
+> =C2=A0					goto err_out;
+> @@ -414,14 +463,21 @@ static int xe_svm_copy(struct page **pages,
+> dma_addr_t *dma_addr,
+> =C2=A0
+> =C2=A0			/* Extra mismatched device page, copy it */
+> =C2=A0			if (!match && last && vram_addr !=3D
+> XE_VRAM_ADDR_INVALID) {
+> -				if (sram)
+> +				if (sram) {
+> +					vm_dbg(&tile->xe->drm,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "COPY TO SRAM -
+> 0x%016llx -> 0x%016llx, NPAGES=3D%d",
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vram_addr,
+> dma_addr[pos], 1);
+> =C2=A0					__fence =3D
+> xe_migrate_from_vram(tile->migrate, 1,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 vram_addr,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> =C2=A0=C2=A0 dma_addr + pos);
+> -				else
+> +				} else {
+> +					vm_dbg(&tile->xe->drm,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "COPY TO VRAM -
+> 0x%016llx -> 0x%016llx, NPAGES=3D%d",
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_addr[pos],
+> vram_addr, 1);
+> =C2=A0					__fence =3D
+> xe_migrate_to_vram(tile->migrate, 1,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_addr + pos,
+> =C2=A0								=C2=A0=C2=A0=C2=A0=C2=A0
+> vram_addr);
+> +				}
+> =C2=A0				if (IS_ERR(__fence)) {
+> =C2=A0					err =3D PTR_ERR(__fence);
+> =C2=A0					goto err_out;
+> @@ -591,12 +647,14 @@ static struct xe_bo *xe_svm_alloc_vram(struct
+> xe_vm *vm, struct xe_tile *tile,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct drm_gpusvm_ct=
+x
+> *ctx)
+> =C2=A0{
+> =C2=A0	struct xe_mem_region *mr =3D tile_to_mr(tile);
+> +	struct drm_buddy *buddy =3D tile_to_buddy(tile);
+> =C2=A0	struct drm_buddy_block *block;
+> =C2=A0	struct list_head *blocks;
+> =C2=A0	struct xe_bo *bo;
+> =C2=A0	ktime_t end =3D 0;
+> =C2=A0	int err;
+> =C2=A0
+> +	range_debug(range, "ALLOCATE VRAM");
+> =C2=A0retry:
+> =C2=A0	xe_vm_lock(vm, false);
+> =C2=A0	bo =3D xe_bo_create(tile_to_xe(tile), tile, vm, range-
+> >base.itree.last + 1 -
+> @@ -619,8 +677,13 @@ static struct xe_bo *xe_svm_alloc_vram(struct
+> xe_vm *vm, struct xe_tile *tile,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 range->base.itree.start);
+> =C2=A0
+> =C2=A0	blocks =3D &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)-
+> >blocks;
+> -	list_for_each_entry(block, blocks, link)
+> +	list_for_each_entry(block, blocks, link) {
+> +		vm_dbg(&vm->xe->drm, "ALLOC VRAM: asid=3D%u,
+> gpusvm=3D%p, pfn=3D%llu, npages=3D%llu",
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vm->usm.asid, &vm->svm.gpusvm,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 block_offset_to_pfn(mr,
+> drm_buddy_block_offset(block)),
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_buddy_block_size(buddy, block=
+) >>
+> PAGE_SHIFT);
+> =C2=A0		block->private =3D mr;
+> +	}
+> =C2=A0
+> =C2=A0	/*
+> =C2=A0	 * Take ref because as soon as drm_gpusvm_migrate_to_devmem
+> succeeds the
+> @@ -693,6 +756,8 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> struct xe_vma *vma,
+> =C2=A0	if (xe_svm_range_is_valid(range, tile))
+> =C2=A0		return 0;
+> =C2=A0
+> +	range_debug(range, "PAGE FAULT");
+> +
+> =C2=A0	/* XXX: Add migration policy, for now migrate range once */
+> =C2=A0	if (!range->migrated && range->base.flags.migrate_devmem &&
+> =C2=A0	=C2=A0=C2=A0=C2=A0 (range->base.itree.last + 1 - range->base.itree=
+.start)
+> >=3D SZ_64K) {
+> @@ -708,18 +773,26 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> struct xe_vma *vma,
+> =C2=A0		}
+> =C2=A0	}
+> =C2=A0
+> +	range_debug(range, "GET PAGES");
+> =C2=A0	err =3D drm_gpusvm_range_get_pages(&vm->svm.gpusvm, r, &ctx);
+> =C2=A0	/* Corner where CPU mappings have changed */
+> =C2=A0	if (err =3D=3D -EOPNOTSUPP || err =3D=3D -EFAULT || err =3D=3D -EP=
+ERM) {
+> -		if (err =3D=3D -EOPNOTSUPP)
+> +		if (err =3D=3D -EOPNOTSUPP) {
+> +			range_debug(range, "PAGE FAULT - EVICT
+> PAGES");
+> =C2=A0			drm_gpusvm_range_evict(&vm->svm.gpusvm,
+> &range->base);
+> +		}
+> =C2=A0		drm_info(&vm->xe->drm,
+> =C2=A0			 "Get pages failed, falling back to
+> retrying, asid=3D%u, gpusvm=3D%p, errno %pe\n",
+> =C2=A0			 vm->usm.asid, &vm->svm.gpusvm,
+> ERR_PTR(err));
+> +		range_debug(range, "PAGE FAULT - RETRY PAGES");
+> =C2=A0		goto retry;
+> =C2=A0	}
+> -	if (err)
+> +	if (err) {
+> +		range_debug(range, "PAGE FAULT - FAIL PAGE
+> COLLECT");
+> =C2=A0		goto err_out;
+> +	}
+> +
+> +	range_debug(range, "PAGE FAULT - BIND");
+> =C2=A0
+> =C2=A0retry_bind:
+> =C2=A0	drm_exec_init(&exec, 0, 0);
+> @@ -735,8 +808,10 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> struct xe_vma *vma,
+> =C2=A0		if (IS_ERR(fence)) {
+> =C2=A0			drm_exec_fini(&exec);
+> =C2=A0			err =3D PTR_ERR(fence);
+> -			if (err =3D=3D -EAGAIN)
+> +			if (err =3D=3D -EAGAIN) {
+> +				range_debug(range, "PAGE FAULT -
+> RETRY BIND");
+> =C2=A0				goto retry;
+> +			}
+> =C2=A0			if (xe_vm_validate_should_retry(&exec, err,
+> &end))
+> =C2=A0				goto retry_bind;
+> =C2=A0			goto err_out;
+> diff --git a/drivers/gpu/drm/xe/xe_svm.h
+> b/drivers/gpu/drm/xe/xe_svm.h
+> index 77dec5aae0ee..f16b76dcc55b 100644
+> --- a/drivers/gpu/drm/xe/xe_svm.h
+> +++ b/drivers/gpu/drm/xe/xe_svm.h
+> @@ -57,6 +57,8 @@ int xe_svm_handle_pagefault(struct xe_vm *vm,
+> struct xe_vma *vma,
+> =C2=A0
+> =C2=A0bool xe_svm_has_mapping(struct xe_vm *vm, u64 start, u64 end);
+> =C2=A0
+> +void xe_svm_range_debug(struct xe_svm_range *range, const char
+> *operation);
+> +
+> =C2=A0int xe_svm_bo_evict(struct xe_bo *bo);
+> =C2=A0
+> =C2=A0static inline bool xe_svm_range_pages_valid(struct xe_svm_range
+> *range)
 
--- 
-Regards,
-Alexandre
