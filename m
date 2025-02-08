@@ -2,90 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04EAA2D257
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 01:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53635A2D27F
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 02:12:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 521DF10E363;
-	Sat,  8 Feb 2025 00:43:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B81C10E17E;
+	Sat,  8 Feb 2025 01:12:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="OffX088E";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="dvlQV7d6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DCEA10E363;
- Sat,  8 Feb 2025 00:43:04 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 517FrckV002495;
- Sat, 8 Feb 2025 00:42:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- KCEiIoHCtst/NhjzeQGoVC0FR2YSA7BYdxQis/rSROM=; b=OffX088EVJC02fFn
- ZoEivQTAiOTd7WGjxECmfAPqYCqVE8ytKduJtGgmDUwNIUs0ho7iObz7/j5fvgxA
- Sp7jhTSTfIUaiD62QIjo8z1gGtSkmOjtJRtSoLc8dFl1Na6kzwclaFhq3MIaKy3T
- GvUTrj+xfpvsmcfnLwiE67sD4lPjxXcJ3yWAwimYtd8SF0QrDXNDGct3H/ZsVJBm
- tjeMqX69yio2oRfRaKMg+MlwIZlusUZE5xHJt+5VKWLsJkTfJw3uO7043T00yFAe
- LYy5x3YJKey0Lz43RhM9r8K8fVXb1hRezKsfmULWZHPQ8zYGYhe4O9yka19SWN5w
- 06a1mw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44nn7fs3pm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 08 Feb 2025 00:42:49 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5180gmHl008244
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 8 Feb 2025 00:42:48 GMT
-Received: from [10.110.94.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 7 Feb 2025
- 16:42:47 -0800
-Message-ID: <cdfa5cfd-6cdf-45cf-ac18-c2c217d4211a@quicinc.com>
-Date: Fri, 7 Feb 2025 16:42:46 -0800
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81C410E17E
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 01:08:27 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5401c52000dso2778463e87.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 17:08:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1738976904; x=1739581704;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0wVrbWDXXYM0CQX9h6yILLnqWA7VmPSj8PhYgMA/4GQ=;
+ b=dvlQV7d6OUNlzM7/GKIAEimYnRebRn31jRkYsb5idkT6+45dkH1gG5sA7QOpxLElev
+ xmY0w5ASd0Ggl4k1bLlOO7gHhY6O76C3g3/Qa4NZe+7IaR/WyBN4Tm5fv/R7O6MUgdr7
+ BF8PW5LsaZzskyawIr62vU57qd9n5gQBSdKz0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1738976904; x=1739581704;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0wVrbWDXXYM0CQX9h6yILLnqWA7VmPSj8PhYgMA/4GQ=;
+ b=pNdnMgu36M6mxPjPP7YsJjyKWNYENECgaGncCI/x8/lU/dqlMzMPkLWvnYfxk8yC8D
+ t2ebDPkR3961Yxm7geueS1Q3R1KQRH2t0C93sN6REwnexnqIo2ky/Fr3MC6yBFiAEAnX
+ e8GighsEmGj4tnjE8OrBamC/uATPWRxR8ojNTbSrBmMhUTSDvM4m0zErdMjKpY8bEQs1
+ 4hOfZ2weFALSaJ/FtjgFGoVoIP14eu69nQwX63WO5B/ty9iA1G+1Lt3Nznmfh8qoevld
+ 6WU8u0E4oGne1Zxp77e19ycQNOum/gcqTOO0ql08U7XsP//Z+d4WS9v+n8NOEXiwkkSm
+ LmzA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWzOhNjPurrlJIGTxPJybeAzRgB2G9jTQiWWTB6SVklGRrE7s1N3MBxAtUu8pd0jF8RJG4n5C/dd5c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwvLzsv6UY5ZFua74CXxwvTa2SjrwG1eA55pVdq1bDAbenVfcm6
+ gNxJPXbNOguIGX7whcYZbWQQiPKDGsWxGrWNwBtX+l1O4r/xNsydNKqPE8rhUncPq2qPI+/KAM2
+ QDmYU
+X-Gm-Gg: ASbGncvp5u0kN11wxi4gCNy46yVdaTWDEYfYaqmnUbTZ+WHQStWJTc9Tm8d1l0ZwnQb
+ hsUxSBOhU+218Z5QuDzH+buZa9KluTSMXhYuNxJ8YlJRTcEkr0g2SNGeO6+uVikBiAHjg0uzG4d
+ unUxBaScr2ILSH8QzL+JyEi5UhgHUmUN+bSe6R9EPk33VQ/rQHQfi5oQanXxKkPC2hHccnjzcfv
+ LgS4SfnnsgvkKzBS9VELmq7Im/IxYM3K6HsH6lttAcD4SRDq18nFW4QiIkHHat/uCr3eERP0JPE
+ 5uSeRMozKKq7i2D9XEeljbYuCkqDhvc1GHjHlImha6nEdiFHww4fmC0=
+X-Google-Smtp-Source: AGHT+IH7XDHDJZ4CY3XYVYMyUvkBjjUY4/zw7AvbnpgIvFgjIN4Y3DgWCcyP0W8FXhEHZZ+2jZme4A==
+X-Received: by 2002:ac2:568e:0:b0:540:3594:aa39 with SMTP id
+ 2adb3069b0e04-54414aae43dmr2010166e87.5.1738976903818; 
+ Fri, 07 Feb 2025 17:08:23 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com.
+ [209.85.167.49]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-544105e64c3sm590135e87.167.2025.02.07.17.08.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Feb 2025 17:08:22 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-5450475df18so262767e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 17:08:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVaizpU01ynV2dQsk5l+dhJ9uvQtdKn3DwS2AlCan8XnKkZ3Tbr8T77D9BUCpOQeECnOaxLzVSTcDs=@lists.freedesktop.org
+X-Received: by 2002:a05:6512:1247:b0:543:f1a0:9e88 with SMTP id
+ 2adb3069b0e04-54414b01b82mr2226286e87.32.1738976901540; Fri, 07 Feb 2025
+ 17:08:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/7] drm/msm/hdmi: program HDMI timings during
- atomic_pre_enable
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Simona Vetter <simona@ffwll.ch>, Simona
- Vetter <simona.vetter@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250208-bridge-hdmi-connector-v7-0-0c3837f00258@linaro.org>
- <20250208-bridge-hdmi-connector-v7-2-0c3837f00258@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250208-bridge-hdmi-connector-v7-2-0c3837f00258@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: RHTzmRBfGq36tSuCNDeI_LPDsup84izJ
-X-Proofpoint-ORIG-GUID: RHTzmRBfGq36tSuCNDeI_LPDsup84izJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-07_11,2025-02-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- spamscore=0 priorityscore=1501 bulkscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1015 phishscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
- definitions=main-2502080002
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-18-35dd6c834e08@kernel.org>
+In-Reply-To: <20250204-bridge-connector-v2-18-35dd6c834e08@kernel.org>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 7 Feb 2025 17:08:09 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=U0FVUTYbAHUu4+eAUMpdLjN4VugJfkz=w8nTFUWsCxdw@mail.gmail.com>
+X-Gm-Features: AWEUYZlKhL9EQkxrrPGn2Xxl9dRf0ql99TamMut4CnEufz_dZhA1D8oIf-xamMo
+Message-ID: <CAD=FV=U0FVUTYbAHUu4+eAUMpdLjN4VugJfkz=w8nTFUWsCxdw@mail.gmail.com>
+Subject: Re: [PATCH v2 18/35] drm/bridge: Change parameter name of
+ drm_atomic_bridge_chain_pre_enable()
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,90 +106,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 2/7/2025 4:27 PM, Dmitry Baryshkov wrote:
-> The mode_set callback is deprecated, it doesn't get the
-> drm_bridge_state, just mode-related argumetns. Also Abhinav pointed out
-> that HDMI timings should be programmed after setting up HDMI PHY and
-> PLL. Rework the code to program HDMI timings at the end of
-> atomic_pre_enable().
-> 
-
-I think now this needs to be changed that, program the HDMI timings at 
-the beginning of atomic_pre_enable() to match the location of mode_set()
-
-With that fixed,
-
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On Tue, Feb 4, 2025 at 6:59=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
+rote:
+>
+> drm_atomic_bridge_chain_pre_enable() enables all bridges affected by
+> a new commit. It takes the drm_atomic_state being committed as a
+> parameter.
+>
+> However, that parameter name is called (and documented) as old_state,
+> which is pretty confusing. Let's rename that variable as state.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 24 ++++++++++++++++--------
->   1 file changed, 16 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> index d839c71091dcdc3b020fcbba8d698d58ee7fc749..bd94b3a70f0e5e457a88f089b491103a8c09567b 100644
-> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-> @@ -126,15 +126,29 @@ static void msm_hdmi_config_avi_infoframe(struct hdmi *hdmi)
->   	hdmi_write(hdmi, REG_HDMI_INFOFRAME_CTRL1, val);
->   }
->   
-> +static void msm_hdmi_set_timings(struct hdmi *hdmi,
-> +				 const struct drm_display_mode *mode);
-> +
->   static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
->   					      struct drm_bridge_state *old_bridge_state)
->   {
-> +	struct drm_atomic_state *state = old_bridge_state->base.state;
->   	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
->   	struct hdmi *hdmi = hdmi_bridge->hdmi;
->   	struct hdmi_phy *phy = hdmi->phy;
-> +	struct drm_encoder *encoder = bridge->encoder;
-> +	struct drm_connector *connector;
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_crtc_state *crtc_state;
->   
->   	DBG("power up");
->   
-> +	connector = drm_atomic_get_new_connector_for_encoder(state, encoder);
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
-> +
-> +	msm_hdmi_set_timings(hdmi, &crtc_state->adjusted_mode);
-> +
->   	if (!hdmi->power_on) {
->   		msm_hdmi_phy_resource_enable(phy);
->   		msm_hdmi_power_on(bridge);
-> @@ -177,17 +191,12 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
->   	}
->   }
->   
-> -static void msm_hdmi_bridge_mode_set(struct drm_bridge *bridge,
-> -		 const struct drm_display_mode *mode,
-> -		 const struct drm_display_mode *adjusted_mode)
-> +static void msm_hdmi_set_timings(struct hdmi *hdmi,
-> +				 const struct drm_display_mode *mode)
->   {
-> -	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
-> -	struct hdmi *hdmi = hdmi_bridge->hdmi;
->   	int hstart, hend, vstart, vend;
->   	uint32_t frame_ctrl;
->   
-> -	mode = adjusted_mode;
-> -
->   	hdmi->pixclock = mode->clock * 1000;
->   
->   	hstart = mode->htotal - mode->hsync_start;
-> @@ -306,7 +315,6 @@ static const struct drm_bridge_funcs msm_hdmi_bridge_funcs = {
->   	.atomic_reset = drm_atomic_helper_bridge_reset,
->   	.atomic_pre_enable = msm_hdmi_bridge_atomic_pre_enable,
->   	.atomic_post_disable = msm_hdmi_bridge_atomic_post_disable,
-> -	.mode_set = msm_hdmi_bridge_mode_set,
->   	.mode_valid = msm_hdmi_bridge_mode_valid,
->   	.edid_read = msm_hdmi_bridge_edid_read,
->   	.detect = msm_hdmi_bridge_detect,
-> 
+>  drivers/gpu/drm/drm_bridge.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index ab166972b1b0df239ca014296be49846a857df6e..02ddfe962b99bed4316b2a7b0=
+c72112e127afa8b 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -672,23 +672,23 @@ void drm_atomic_bridge_chain_post_disable(struct dr=
+m_bridge *bridge,
+>         }
+>  }
+>  EXPORT_SYMBOL(drm_atomic_bridge_chain_post_disable);
+>
+>  static void drm_atomic_bridge_call_pre_enable(struct drm_bridge *bridge,
+> -                                             struct drm_atomic_state *ol=
+d_state)
+> +                                             struct drm_atomic_state *st=
+ate)
+>  {
+>         if (old_state && bridge->funcs->atomic_pre_enable)
 
+drivers/gpu/drm/drm_bridge.c:683:6: error: use of undeclared
+identifier 'old_state'; did you mean 'node_state'?
+  683 |         if (old_state && bridge->funcs->atomic_pre_enable)
+      |             ^~~~~~~~~
+      |             node_state
