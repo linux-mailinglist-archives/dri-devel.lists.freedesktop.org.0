@@ -2,60 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C14A2D469
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 08:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53ADBA2D4C1
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 09:06:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44A9010E2B1;
-	Sat,  8 Feb 2025 07:12:44 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZXOYrzh+";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 87C1610E03A;
+	Sat,  8 Feb 2025 08:06:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E22A210E0B6
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 07:12:41 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id DB9755C0013;
- Sat,  8 Feb 2025 07:12:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9678C4CED6;
- Sat,  8 Feb 2025 07:12:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1738998760;
- bh=Pyt2xpK/5RJwXZi+SVmuRDAyARjDEhYR26aol2nWBS8=;
- h=Date:From:To:Subject:References:In-Reply-To:From;
- b=ZXOYrzh+VNM1tRwpXkLWvaYfcOJh9g+a7jdHgOpCUA5K1oTcx+EZa5Hv8s0FLOa1q
- Q/I1NpnNl4Of85rja+7mGxZmpsaI80P7nKO9Vfo0XrRg88oO2W1Jxrpj2dH9MgxuVp
- 83v4VMcPVa+h4mpNq0thW/gPM2Q1Pvhm+spjszZM=
-Date: Sat, 8 Feb 2025 08:12:37 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
- Mark Brown <broonie@kernel.org>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Robin Murphy <robin.murphy@arm.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Zijun Hu <quic_zijuhu@quicinc.com>, linux-usb@vger.kernel.org,
- rust-for-linux@vger.kernel.org, Haneen Mohammed <hamohammed.sa@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 8/8] drm/vkms: convert to use faux_device
-Message-ID: <2025020855-ventricle-slang-b705@gregkh>
-References: <2025020620-skedaddle-olympics-1735@gregkh>
- <2025020625-unlaced-vagueness-ae34@gregkh>
- <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
+Received: from mail.nfschina.com (unknown [42.101.60.213])
+ by gabe.freedesktop.org (Postfix) with SMTP id E0B6110E03A
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 08:06:00 +0000 (UTC)
+Received: from localhost.localdomain (unknown [180.167.10.98])
+ by mail.nfschina.com (MailData Gateway V2.8.8) with ESMTPSA id 6926D6019A503; 
+ Sat,  8 Feb 2025 16:05:56 +0800 (CST)
+X-MD-Sfrom: suhui@nfschina.com
+X-MD-SrcIP: 180.167.10.98
+From: Su Hui <suhui@nfschina.com>
+To: min.ma@amd.com,
+	lizhi.hou@amd.com,
+	ogabbay@kernel.org
+Cc: Su Hui <suhui@nfschina.com>, quic_jhugo@quicinc.com, George.Yang@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH] accel/amdxdna: Add missing include linux/slab.h
+Date: Sat,  8 Feb 2025 16:05:49 +0800
+Message-Id: <20250208080548.1062441-1-suhui@nfschina.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,98 +46,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Feb 07, 2025 at 05:59:04PM +0100, Louis Chauvet wrote:
-> On 06/02/25 - 18:38, Greg Kroah-Hartman wrote:
-> > The vkms driver does not need to create a platform device, as there is
-> > no real platform resources associated it,  it only did so because it was
-> > simple to do that in order to get a device to use for resource
-> > management of drm resources.  Change the driver to use the faux device
-> > instead as this is NOT a real platform device.
-> > 
-> > Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-> > Cc: Simona Vetter <simona@ffwll.ch>
-> > Cc: Melissa Wen <melissa.srw@gmail.com>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: David Airlie <airlied@gmail.com>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  v3: new patch in the series.  For an example of the api working, does
-> >      not have to be merged at this time, but I can take it if the
-> >      maintainers give an ack.
-> 
-> Hi,
-> 
-> This patch cannot be merged into drm-misc-next because we modified the 
-> vkms_device structure in commit 49a167c393b0 ("drm/vkms: Switch to dynamic 
-> allocation for CRTC"), which is present in linux-next.
-> 
-> Once this conflict is resolved, I agree with changing from platform_device 
-> to faux_device.
-> 
-> Apart from this minor conflict, I believe your patch has revealed an issue 
-> in VKMS:
-> 
-> Without your patch:
-> 
-> 	bash-5.2# modprobe vkms
-> 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
-> 	bash-5.2#
-> 
-> With your patch:
-> 
-> 	bash-5.2# modprobe vkms
-> 	faux vkms: Resources present before probing
-> 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
-> 	bash-5.2#
-> 
-> After some investigation, I found that the issue is not caused by your 
-> patch but by VKMS itself:
-> 
-> During faux_device_create, the device core postpones the device probe to 
-> run it later [0]. This probe checks if the devres list is empty [1] and 
-> fails if it is not.
-> 
-> [0]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/bus.c#L534
-> [1]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/dd.c#L626
-> 
-> With a platform driver, the order of execution was:
-> 
-> 	platform_device_register_simple();
-> 		device_add();
-> 	*async* device_probe(); /* no issue, the devres is untouched */
-> 	devres_open_group();
-> 
-> But with faux-device, the order is:
-> 
-> 	faux_device_create();
-> 		device_add();
-> 	devres_open_group();
-> 	*async* device_probe(); /* issue here, because of the previous 
-> 				   devres_open_group */
+When compiling without CONFIG_IA32_EMULATION, there are some errors:
 
-Wait, what?  It shouuld be the exact same codepath, as faux_device() is
-not doing anything different from platform here.  You might just be
-hitting a race condition as the async probing is the same here.
+drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘mailbox_release_msg’:
+drivers/accel/amdxdna/amdxdna_mailbox.c:197:2: error: implicit declaration
+of function ‘kfree’.
+  197 |  kfree(mb_msg);
+      |  ^~~~~
+drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘xdna_mailbox_send_msg’:
+drivers/accel/amdxdna/amdxdna_mailbox.c:418:11: error:implicit declaration
+of function ‘kzalloc’.
+  418 |  mb_msg = kzalloc(sizeof(*mb_msg) + pkg_size, GFP_KERNEL);
+      |           ^~~~~~~
 
-> How do you think this should be solved? I would like to keep a simple 
-> solution, given that:
-> - we want to have multiple vkms devices (configfs [2])
-> - we need to ensure that device_probe is called before devres_open_group 
->   and devm_drm_dev_alloc to avoid this error
+Add the missing include.
 
-How about we take out the async probe?  You are getting lucky that it's
-not hit on the platform device code today.  Faux really doesn't need
-async, I was just trying to make the system work the same way that
-platform devices did.
+Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+Signed-off-by: Su Hui <suhui@nfschina.com>
+---
+ drivers/accel/amdxdna/amdxdna_mailbox.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-And as for the merge issue, not a problem, I just did this conversion
-for people to see how this works and ideally test it, as you did, to
-find issues!
+diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
+index 814b16bb1953..80b4b20addd6 100644
+--- a/drivers/accel/amdxdna/amdxdna_mailbox.c
++++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+@@ -12,6 +12,7 @@
+ 
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/amdxdna.h>
++#include <linux/slab.h>
+ 
+ #include "amdxdna_mailbox.h"
+ 
+-- 
+2.30.2
 
-thanks,
-
-greg k-h
