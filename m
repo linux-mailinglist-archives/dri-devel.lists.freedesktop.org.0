@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35090A2D70C
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 16:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B154CA2D70F
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 16:54:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEEE110E0D1;
-	Sat,  8 Feb 2025 15:54:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E294610E40E;
+	Sat,  8 Feb 2025 15:54:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="d183eTQ0";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Go3OYt/h";
+	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="SsoJGDp0";
+	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="CQp3Gz35";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
  [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5526010E0F4
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 15:53:54 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 518Fo2xM012750;
- Sat, 8 Feb 2025 15:53:29 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61EEE10E0D1
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 15:53:56 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 518BqPP2012898;
+ Sat, 8 Feb 2025 15:53:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
  :content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=
- corp-2023-11-20; bh=Qz2tJ6Y8g1ITAcPb+YReg9cPxjZeEzkUNtQR3zXbQ4s=; b=
- d183eTQ0vJHKuThkEPHkMQOTXXnnpb+QA0Ca5oWuYVwoftHmceslIO/DTps9nbNo
- KRVC0/XZhGEhsKbonE2ZN9E51dkZ1lTJquCOXI0mKWMFgHz6B6fLgLLHFDmnQFII
- xX21TYT7B3sovzIfVsE4f9BhbhaXQta3PVezXFIKXJj1K+V+sfV3fanzVwElEKjo
- nlnc7askfHnzMgQzny0aPXV6pAdMiyjVSNkGPJCd+1DKTv6hFinPBzNqMCki9TPX
- T8D259bY9zlrdY1VpmueSuzCUbPSS0NoMh48v3KZZ8aokcVbkYWA+S8FLQR9Xh3j
- e+xvkMZKFxM55jRWvwUlYQ==
+ corp-2023-11-20; bh=sV8SPtY26nGYpzk1aH3K9acBX4L9j9k99U0rgANCNSs=; b=
+ SsoJGDp07iaRoh//Z6WZXpQi4aDxvuKIvBtSdRwS1bZ2LLjSpuU6mLhvqcppF9h+
+ nfxxISyP4LTA01cS7Q1Qn6NvcGBIDOBqZW7xbbd/oGfJVuqHax1PtW3e6ctpuCaG
+ 4duvzn4Wqztk7BoC0rX1gSq7Ht75TZpKYZBtpfUzJfEccxZTBF5tbcmvgpO776oa
+ iqipTWwOlNEDo8yjtJTvp1HFeK+oUawQxGM4rzVEoOubZF+iDWObFyA0trest7rX
+ St+cesMcRrfyEXKhRfJaLwv7ZSx/v85iHMHiXaNWhGeG37VxZAg+hfl6Ms/uauXp
+ uSXSlrbAWuqGNv6poQn2wg==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44p0qa8b6v-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44p0qygb3h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Sat, 08 Feb 2025 15:53:29 +0000 (GMT)
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 518B4WXG037888; Sat, 8 Feb 2025 15:53:28 GMT
+ with ESMTP id 518B4WXH037888; Sat, 8 Feb 2025 15:53:29 GMT
 Received: from nam12-dm6-obe.outbound.protection.outlook.com
  (mail-dm6nam12lp2172.outbound.protection.outlook.com [104.47.59.172])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 44p62vc2dc-3
+ 44p62vc2dc-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Sat, 08 Feb 2025 15:53:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NrYmyWYCxohURJmR3VJADRtD9xh3iaz2sOyr8BB9vKCHoeQ3zlV8heMUYT7m9ssbm/xZUgwwIrvWY307mD8eDBlMFK9i8kaZBcq7bbZvVJ5KB6rfo/Sb+9lZBQ7x3CMn1lg3TJmouP4hR/w2aLE+n+D+6pODMRq/52sUEmfAIEanyH0bPLu7NC5s8eh3j97D+RsmzHMYaqpwn60MX1FwlxrdaeNVjyiYUrGWA2KTx/PaFq7hjXvmBU6EpIjFv4yXfv1lkmPhBEoFBwEJUMuh8aTw+V3cGNOJQk80nmxX7xID2EQLH7a/e5+ekgkAUcLWWfKyF8C9/Pd5xN1VAliunw==
+ b=pZdUDpK2IUZcNfReOlP4Qn3EDQZIZSFRRSw7fQNbdztit3Mk6I1npxEFOK71f6X7TDK5izc1uYYIEldCrvAXqfCA9ZD3dS3JAndShR1pBV++9v+Ar1C0NURHugikiukXOrsz96YZcJDn+doaNta8jatKmGPMPypUQLj6rgDYQ4jC7Gf/bBG/cxruBFx1TWSN9F2P45Msl9utPINnsjiJhhBUD4dM5wVJI+uT4Gd5sb2OxLnm3O67c4IfS3kKWcnIFgGwf86T7Azcso9d2OorPco8cHab3mrt4OO80ND+xfyJefbarxlYoZ2tTz32OtHqQISSvyWxTCU+l/Iwtw2RMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Qz2tJ6Y8g1ITAcPb+YReg9cPxjZeEzkUNtQR3zXbQ4s=;
- b=yehkVCE/CCcFB9r5YdDBsmgtFoeWSTtoNqzXYJyRZTOkfDs4jzSSq0x3DF67U47tN0+qZf4k8chO5g/n1Q2fgYLIPSuTcl24c+HeJsJDiRJW3WOB0LQffeCYQhfkhjcwBv44uxn/rNn2F+xHfJcY5Jp6sr1WvniUlLCj9A5P9Xq6qQE58PHN3x3Sx0e07+MRpfn66QAmCAPvzqZ2jXUgAO6jOY3k73g5/lyxLk3OUXjXdfzJnEXkXnlYVvCsCBDVaNZG3YcPshAV367/pkwJOvyVuQ55FldJqNZsJMtyi+Ee58wv72W1nfUvIghQx14h6pG4nDgT4L9xJep1YfNMAA==
+ bh=sV8SPtY26nGYpzk1aH3K9acBX4L9j9k99U0rgANCNSs=;
+ b=Yd0T1W9Z5B0FmlGFcFOHytVFW+K5PHOdrqG8zq1+hSCzL6y5+hxswXq8pwZDKY2ddi/L6Imk55JivBu9utnNED86FBUPQrscQN9HmMbHTh1QdpHCdVvQwGKwoI79K3s9iGtUiJ343NkkAatEdMBX2X+A29itE1N14vq+dykp3MQN7pRgmK8Jtmz7o7MxQLiiuI7NU7W83O1NYeXS56NAByeUreosjm7xrXI/l88+jCtyl0UcNRqfU0RhC8j/4sciC9ENcYyWpePm1vFk2naFk3+/F+4m1qLXk7cVYkwphrx6UUSq3fiTDKiap5p/i9rh3wcf3rWPx881cyG+ftqOWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qz2tJ6Y8g1ITAcPb+YReg9cPxjZeEzkUNtQR3zXbQ4s=;
- b=Go3OYt/hrM6raviJZnwBLrmITAQGnTffUZ+8fWEMXpVJCXhHS9UJwDhFkHtrPyeNVTugkSsb/Ga1LmbpuWdHdDFJUmjLhduNRC9tV7NzMFmZnW8qMCC9atlO67gXsjUYQZpOeJiOfH5gAPprWr9CnXWOoQLrNnaTh3nHsgFpYKk=
+ bh=sV8SPtY26nGYpzk1aH3K9acBX4L9j9k99U0rgANCNSs=;
+ b=CQp3Gz35NuEl7zDy4eERD4QRugUYKbf2B13Tkfh34ZPBtQ355onfAZOLqNhZBlt2SUqmgBt2KepiHz3j9APLCPECITzJoizgw/zL58qluzWYzoyPUWSRFY4puai1W87/pN9yVzZ7qhXy82rf0VBP618tSU7SflrTi08alewm+i0=
 Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
  by PH0PR10MB5817.namprd10.prod.outlook.com (2603:10b6:510:12a::5)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.10; Sat, 8 Feb
- 2025 15:53:14 +0000
+ 2025 15:53:17 +0000
 Received: from BYAPR10MB3366.namprd10.prod.outlook.com
  ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
  ([fe80::baf2:dff1:d471:1c9%4]) with mapi id 15.20.8398.025; Sat, 8 Feb 2025
- 15:53:14 +0000
+ 15:53:17 +0000
 From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Jaya Kumar <jayakumar.lkml@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -79,91 +79,92 @@ Cc: Jaya Kumar <jayakumar.lkml@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Kajtar Zsolt <soci@c64.rulez.org>, Maira Canal <mcanal@igalia.com>,
  Simona Vetter <simona.vetter@ffwll.ch>,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 2/3] mm: provide mapping_wrprotect_range() function
-Date: Sat,  8 Feb 2025 15:52:55 +0000
-Message-ID: <e5bf969d64e7f2f2ae944d42341fc8994b736a81.1739029358.git.lorenzo.stoakes@oracle.com>
+Subject: [PATCH v3 3/3] fb_defio: do not use deprecated page->mapping,
+ index fields
+Date: Sat,  8 Feb 2025 15:52:56 +0000
+Message-ID: <81171ab16c14e3df28f6de9d14982cee528d8519.1739029358.git.lorenzo.stoakes@oracle.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1739029358.git.lorenzo.stoakes@oracle.com>
 References: <cover.1739029358.git.lorenzo.stoakes@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO2P123CA0037.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600::25)
- To BYAPR10MB3366.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P302CA0045.GBRP302.PROD.OUTLOOK.COM
+ (2603:10a6:600:317::20) To BYAPR10MB3366.namprd10.prod.outlook.com
  (2603:10b6:a03:14f::25)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|PH0PR10MB5817:EE_
-X-MS-Office365-Filtering-Correlation-Id: 354f6022-4b73-42be-e447-08dd4858b27c
+X-MS-Office365-Filtering-Correlation-Id: 7ca2ace4-6e2b-4922-e34d-08dd4858b432
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ylJnym0YCQsyd7yA1WqI+q0OL0R55XY6NEQkblGsbbRf2YMBO1cS/sqJacSI?=
- =?us-ascii?Q?htfUT5ETLfa5DTyYKnprg4LKbI70XtWNSWz6GBX+3yQEV49reLysfFyDduxe?=
- =?us-ascii?Q?EjvQHzgl5Lc9MEt7WbXNdVGVyKhgfbRS4OSML+pn6PxkYILOK4NmzT2z0G7L?=
- =?us-ascii?Q?k2B2zyee1LV5DQu9uc/2Xl8SD43f8hBapgKKzIJcFusqbfJgrKAiX9fIG9PT?=
- =?us-ascii?Q?6k5IBNl//BTHLBy5nvt+IF+zwjBtYK3D7yYwu4WGRZWU3vN7n34dkwW7DDof?=
- =?us-ascii?Q?ef4l9nG8CzmsCQA40SUkRpooqQx6A52RHeuHGln+hNOSFGqdHdRO7QT5lrfj?=
- =?us-ascii?Q?YaEvwgyIIPekN5InebY5c3LhGApVLmMh0erlvVdwjaGCt5b9JJOYSwN+Z53P?=
- =?us-ascii?Q?d5nw0hK2ERWtMdEBi7mgh5LtcXY1NhkG4bQU25Cbbn3q0ALZKslfZvKDZXzf?=
- =?us-ascii?Q?JOXHJbdYgq9Kw6NUV8oDi0HvVkLLHm5ijtT2n9+zd+otcDHUDEcNsUWqkf3p?=
- =?us-ascii?Q?2bz+yOhYdWQUnWOFxsvCdb3LuzWI0zZ9/3eIh3KvA8w/ByBN5XIWyvEVz4PT?=
- =?us-ascii?Q?mQ2doyZ9gdF0FPw7Hf6tpZZGAdHEVCP4AXPegRPS1RuaS7pG2i6VHjT6PDjC?=
- =?us-ascii?Q?POhnocGBFzbBKkqxNf6As301hR5ESJiipTQzpU9SxRnt2HhW6gXPnC8IyQKE?=
- =?us-ascii?Q?LZoZ5bStlxtQcQ2noFQXm9m1EvbveP1cCsCNMoOrWTTSavYO6+lJxBh3i02v?=
- =?us-ascii?Q?ELJ96OKrbvnAcX3t88O5WZ26Ft0GUo/XJPaC6MX9oAkG45aVixm66MBmioJC?=
- =?us-ascii?Q?k6mo+jFEp4zvmrC7fT/D0pcQomChsJnKxzDPhG+wom3VZlxLyTarIvybH/z1?=
- =?us-ascii?Q?MufFlqHbaOYW0F7zzgmNSifxEHwg/2R6qxdeWyVUecMWA7u0hbKnFjeXd58w?=
- =?us-ascii?Q?q46UY3tSjExpHaALfS0wNtbwzlQYjWm0/niy6OQLsgrC++ZDVCK8ZFF0MSe2?=
- =?us-ascii?Q?mdS7jQG4KabfVvqnEE3haAz5sLk3tXRhImDfgeX1ZvsPqWCw5SJLyRcGYLp4?=
- =?us-ascii?Q?Pp1zYgUvQY4bnVEb6a4SdDuaVPl35EOIpTeM6g8tXi3ZqhEm3KwTTHUn3LRd?=
- =?us-ascii?Q?q0n2tHVpDPQPq/WTJLw8o5GIzhEirWYXaSCrwK0hBU0uMbUYaF/Z7IhLl2NN?=
- =?us-ascii?Q?sMrItQcjZFMY2xcSwDDYFdWzTvT8gWNp0VGXMS1fLrwoaR2tLEpYYWWaVPDp?=
- =?us-ascii?Q?fcS9Kdk7Sj8ee0YV+sbkfdMbgvokJV7zdyj9Ei/+TOSM+MmYp0Usepo3jskz?=
- =?us-ascii?Q?3lhrZ/NLqMpxk/F34CZETbY+QW6VmRqewUXMuub0Hujf2HY2lHJ2a3I3LCC/?=
- =?us-ascii?Q?lFYqpqgUczvxa5FbAeR9wUf9hu39?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?THkpuebtYLVYzwd7Veirwr/ldx694TQd9/ME7kvs1Y5HfjR2FvMPWluKLj8t?=
+ =?us-ascii?Q?BcIKK6nVmAANrTsai/3e8fEV8qqKQvS5pr1HSGjb6brRgaQw1lFhXwbg094l?=
+ =?us-ascii?Q?HqVbWDK0XlclwstCxGb0YcvWdqTXoM+M4+Xat8cIzFmtWpXny2Ao+9PXq0Cc?=
+ =?us-ascii?Q?cNsQ2qc50K+tAeN8QZutntKGt8QPg25vdM6YGo091nTUgOy03W1yHeljn6XW?=
+ =?us-ascii?Q?MOWdPEG7RwKF1BRz7N9XPcUg1CHAJQoywzkC+KRTdANx8nCh2uVn3/cZEnyD?=
+ =?us-ascii?Q?+NEajYTGjiuInGPwvkKAQzCXhUp0+QcLSTvdvJdZdvwx0aPg4f4mAa0tc4Oo?=
+ =?us-ascii?Q?+4vDxmW3EGIhV5HI2HDXPCylEqWLCOFevVltj4LN/yOYq+tKnwGmHbhX4Eyu?=
+ =?us-ascii?Q?8ov/mzcKx4Le1SK7yYk3oWKao2r/riCdu6jx7aCX7qzLPZ9Y4oFb7U3efUvg?=
+ =?us-ascii?Q?ZZBFlOSOlRuF/MBH/OSKAHn6HFsISUz01GEeo4vXTvIiONYWcB1Ph8cmzaFq?=
+ =?us-ascii?Q?GRf25STVarvkW/qVMCguSWAoa67j4sU3DutObQCHKTrjWiUmvCNflCb0HtyG?=
+ =?us-ascii?Q?qjXJIjW6UnyTL/8IMbbn8DAYsHQX+aJSwqtqreWBLv461PNdWXEsvnIwkL7G?=
+ =?us-ascii?Q?vmEN1KFLIF7HrYXIiEPn1x9oBUKYWpucjH8M16iLHivzRd9se32c1I43AjZv?=
+ =?us-ascii?Q?ivlk030LkbMuXoJ3P8GtEVYxyuIJl1+41v7GSLZhp8DPxbKsPQw/IIlPEfSb?=
+ =?us-ascii?Q?elNXbTuxfKu9wGl+PhVqMVKj/a/pBVoLCMacn+eiOwBO4xBMytGQB47QLwuT?=
+ =?us-ascii?Q?AAWPEJhWUOVnYqoLkVQrUO6ZO4xxljaFYOAn5IbtDHkv/x3sevMJjLJo/oRi?=
+ =?us-ascii?Q?D6v/PZimD56eA317tYgXPwp3dAtxRTXcfhy3NByUk0PXrLqjPufcJ0/6KlMA?=
+ =?us-ascii?Q?gLRLdjIYpo1qahxV8YA6UAwWjIrRY6Mc1I9QPMA7cclK/f68vsrhaySso9+v?=
+ =?us-ascii?Q?sHlfSYghwC1i/+XSwdZXFHi1GRzFlcs9EEX/Lqu5q8kijLwapZ/uuxwIjclR?=
+ =?us-ascii?Q?IqQIob/8ihzIWN8VHVrtHr17H5UGz6BQUyPe45ZMS3jxDBLmggPGtqH3Vq7L?=
+ =?us-ascii?Q?cp0P5okrKGRgdrheM8OeaYEc4jsyv6dwTXFuGPPOx6fsnhkIgKx0GxrnxY0i?=
+ =?us-ascii?Q?w2Vh8jM1kHi4/AOe2mY471RYoM45JcWr/sfNfAOqTD+qASLq06VC4gcUnd4+?=
+ =?us-ascii?Q?nzkfUiAwAPGfJweivc5/3keFyiFGSPRgQSOGmSSE0L5gT08zOqNqyZ/FLCc9?=
+ =?us-ascii?Q?8DLIZj7Ocia4g5+pB4TGHRiHm3BdfgYK3Y+iZbQKhBI/l3sR5tOabTu1TDjX?=
+ =?us-ascii?Q?aq4DrFokiYlynSNgwPPhMFNrvJnU?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3366.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8VbWZvDfem7I8QHNgdCQqUiTDMPFL1QadtLpXV/oxhH2YSmJeQrk4lTQPix4?=
- =?us-ascii?Q?cGwpVcVzErbVFFb78/BuNdUjStWc2qDSjacdnd/JfTmG8yUiADm1pLLdtV9y?=
- =?us-ascii?Q?uF8tOas6w60mpV0tn/mDTqTqBcx76ueW1LxgRYDpLr97RgZG8F4rc24BEHN1?=
- =?us-ascii?Q?sdxO/fuPvO4BiEaoeqb2POaWZs2gWBB+P6YqrYi9/JDaQ36FDPbKM1g1YP1F?=
- =?us-ascii?Q?+8KjojnBicHS1zn/pxf13wycIdAQe+egLJ5MthZTs/JIfslNWR62nWZjvwwa?=
- =?us-ascii?Q?YMKow5AQD281EITsjzPZbFbSl2vtVxAWDyljK3R8f3eUFUil4esKRn+574L0?=
- =?us-ascii?Q?e2qR5ZUHN5H/btxIeFl6eiuuLQXMEQTGRq1g9Axh3qkrjNtXMafTWIPXW0nD?=
- =?us-ascii?Q?bsWSOPWOrdLN6VJBZxpXtOrxU00fV8n7gUgIgmY1NrvPRm1ydFaXEad0BWYA?=
- =?us-ascii?Q?5pMFD+DiY3tScl+XLeqobNA+O++zOhw1L/ErEhofR3O0iYriYUGC3PxSTgw+?=
- =?us-ascii?Q?2jSfoe2gswn08Hh5zMIsI6V94H1SfOLB4G1uTUjfIneqw4mB3naKGOzR1lk/?=
- =?us-ascii?Q?M+1F4lSawsRLUBDEKpqN0Hui3DRp08KU8DlfjFg54c+ArRAubKUMY1APSmZg?=
- =?us-ascii?Q?9bgrPABg5PW5LMRGStkGp28VgknqnewMSYDycBgEXlEgcPKQ3D8/U2n+kLol?=
- =?us-ascii?Q?sXIkgsM4RFQVMeBfkkrPodma6hBlunPaDpmOAuNv118hj6D9kfu1XKv1Om+x?=
- =?us-ascii?Q?B21kwP2GzDNtrY0A38g4cFzESHeGRY/1GmHBBQKOz7XJmDwN9ZU7cY2Vo+Ty?=
- =?us-ascii?Q?Irc8uem1ss/O5NVVHIOdvIfBPiB3VfVIrlZZgA8YjNxhvRkP/fX/3KMYwpIT?=
- =?us-ascii?Q?dgdELO9QSVFRzm4xSiP6w4h30aXCFs4uGHqAG5c8LYTXcqMPdecKwELJS9es?=
- =?us-ascii?Q?eMIfvk3lAcy//+WPS4g0XuVx7hzGlNreD1dbjgv9UEIbWfMIOuCch/EZelHl?=
- =?us-ascii?Q?g87+Is2mriq2elKpy5bY09gFQ6+2+oOsy2Tt2z/E9wNvzA3mtVVaJnBvkas+?=
- =?us-ascii?Q?XkMFbkJ6PlBTOdy29Vunz93DlMsMBRBoPr/BpLBcAVDSDhG1CdYb/tlfcIv3?=
- =?us-ascii?Q?L00P6ywYPQCMXrqkvT8PpGxy99Tvld6R83j4ZZou1WQKZbRYQQgBBL0WjS1p?=
- =?us-ascii?Q?QzCtkS12QM72CFUr868iFpy3HR/zTB25Syzu6ZYhnKP9a4REIYeDsqePpvUr?=
- =?us-ascii?Q?GOtEIPK5TCmPVwYWgV0AsAYBPsZSPXCjQ8BFWP2nLXMwFldxhepvvgbkqcyj?=
- =?us-ascii?Q?G1sRKre77FC0ZUVQH4JAJOE8Yov9j1tNpHSTaLmI4p+od+BKICcX4ifdUk7v?=
- =?us-ascii?Q?kGu4XKzQpbyitkWLAhDI0AieWglIhz+wUJ8sXtCXgby85wi1R1o4uWaTxE0C?=
- =?us-ascii?Q?9o0KzuRJBAURb4WAvw0utnYlsXNgg3DkDJBQ7uIkpSdSvZcD02SlMfrgSrse?=
- =?us-ascii?Q?U3uj2bFET4w+pzMcf3mCDJN/ArJsmjtmPn8Kcfp9TR2TZJtljnWf5O2Hh/RA?=
- =?us-ascii?Q?3haDdATc0bI7o93ZiKkQG+trPt2AqJhVRvVzJLV5Qt5M41rGiylP8XiV/RGW?=
- =?us-ascii?Q?pw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3CXYU4cTZnJ5H/6fqDDs5CK5gl4h3CHlPM7x1lU59Nd1D/BEFUH4DN4Os9QI?=
+ =?us-ascii?Q?HSPTNe7W3ksvBTD98ZznqBG1PvMxDs2C0aWepWIxi+ENHj+plw66IVOFc+Tu?=
+ =?us-ascii?Q?23JBFALt/WLzUBuH4tXWrroeq9dTlxTfuxjEcjgs3x9TP+S8FIfPMZrB6Y3M?=
+ =?us-ascii?Q?meyiRLjI8G0lqZLBeTyDYrmJ+G6+gyqmq7KC4asTU0XgCAFCo7iP0zzVwLw9?=
+ =?us-ascii?Q?U+PdwnRilTp5h8WzWj+yHzuOHgziknFAUZ+LlLJt/JHfd5HgjpzJEVFv0f64?=
+ =?us-ascii?Q?uFu6Eyj8BBI4IrsG1UBprOLPOUtPdzgQA7SyqCwNInVdtdUmLEQ8JpysXnYS?=
+ =?us-ascii?Q?7RdtdK9bM3FJP9wHOLMUvuaqccvg/grxtYRxvMst2kna4ri8sDUCv+ZkeHva?=
+ =?us-ascii?Q?9O/VdmuBdkWVbUHwPTAb4vrEo/7OVlS97mWrhc2v/9wp2/0tY3YRHoUGuhIG?=
+ =?us-ascii?Q?njs99D4bn8D9ORsX6TFFFVpCq8Rxur8+rciaLm1MyVr2G55Tt7xNyggdkgCi?=
+ =?us-ascii?Q?DFR/HmvVzqol/WrlJ/1H9bxwwFxdkQJ+M7LTPnNDR+k+khUTs0YZOsO86h8+?=
+ =?us-ascii?Q?81x6FBU4KyJTb5OPQO1QdHYJkvkTJYVWFcfCauaMPXOK4D27UpT30JGQm6KR?=
+ =?us-ascii?Q?fASEpjRksxLjc/pf11GdjIsT7kCcL/SyopJ3Szjbfxw/z7r5rKq5+aHWvkfx?=
+ =?us-ascii?Q?8bRwN/lCdg6eqx49xocThdEISwZJAjqXxybsQqD6gB6IwQoAFCxJaIu0E+vm?=
+ =?us-ascii?Q?GAjNDft+5s4fAD+izmAtIAJfNxBBpboUMK6s/IPmQVU3pzFWVmcYE4nocFo/?=
+ =?us-ascii?Q?TRbYL3c2I5KK9SQrQ/dqjtMRmtcZ/Bv+i4Mc0kUrnDhzj61KFo6VXkMn4N8/?=
+ =?us-ascii?Q?O5fxMOwEL7FFLC2oACtnfx3vpWNTcC5qmkMdSRr5X5VB1ZCuhPCjrb46VTzJ?=
+ =?us-ascii?Q?Vk4unprz/mrESNKdHemtDGDxgF4iacWDun+WAG5C1d5PjMC84NTkLjPvIuKv?=
+ =?us-ascii?Q?l6mPEu/p5rRP2d5qn7qrmj1BuDHOb4VViycmoT2wpJY6nTR/jMmcYskY3DLL?=
+ =?us-ascii?Q?UIMZeLhl7vsytqDBITvsZ0MNvQShERlmoY5m9sAgjBAsVE2Q3Wz9RY2YCHGR?=
+ =?us-ascii?Q?Qtyw4AShkJL/OZctox+zdoadALbvpQDtuLo4afBSawcdwdr/QDs3AVwLegpY?=
+ =?us-ascii?Q?s7nS+hG00Pnp0evcQgazZ3xuKQ1bNA9vXzN6ix0onR5glL2su7gPFEdl0O4m?=
+ =?us-ascii?Q?fxQ7eo25gLwFxjAMllL/a319Tnmlr8optmPpxXIM9Py45rsB0L/fxeXjq/z1?=
+ =?us-ascii?Q?lxvaEW8IC/lBNJwyDAaQQn0HZgGtCxZ8SvKnxSRr4+qJclR1vPHrSf2f7JXq?=
+ =?us-ascii?Q?LVBaOnQrfG3HgvRGbKzH6OP/AqMGBntrUIUdUNh79AAfkO5hhLhhF4jf4f7C?=
+ =?us-ascii?Q?UGlU3Gmv66d0DYkeuwA0jTCY20SPACKkx+WjXgCElA1V3ufb+jXSDWinLKOy?=
+ =?us-ascii?Q?LPPdk7RWrMl8kCL86RTq2bD1FxVtN8rxr6iMN3tFcesDmUTG2ZJbJUsBy/Nj?=
+ =?us-ascii?Q?ABUIPUO2ZnA6Prc+24rzQjevd/I0QqKbkuZpHpL1tZt0OrpyNU/K3Vhb1UWH?=
+ =?us-ascii?Q?Mg=3D=3D?=
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: qY/C9zOcXJ83xo89a5MHyDDxh5vDtEnV269BJGZ2Ao1DatoQ+qF7OQFDmpS4phUYsZEUky11A3B6/os45ybo0Cg41wm+lspzdo8dfHBDgiOdAyVqOWJXrU3QjWPjpumw+09WVBK8ypOFEYA7vTwe7nCHDg6NHbUBSIGyULMQJQNnVRUnoBiOIMOHtTk25F7nUjmcW5oyT0z7J1COCZAjbIv18Q86GIgak/gRSCIMPvDIZY+nu/uNQZH3LQZ8l7t/ThvlFLeEAMT8zgKjIbZY1gA2U+to773lbUtHFLaIvQ78OXT/TPgjCFKq4pCgF4SyZXFBc0OR1w95rzSEkH0j+93Igxr8t8pJZYrO8TURmmzNkYWpQxuHqKN2qaZDTPquMJYUkQ6WnyAC+UmoIvgo+S+qkjtwB8CHo/zGU7JjjpzrNEenmJd9x8S5qr/xBxlRYqZuB1LVPeUCYhZs3AnudlHT5L5n2UaGYzu7osyeZBLmWhEFe4nrFm6vIa0Miv3xsPR6ev2vv/m0wBTKMWNwTZsEDnPjmO4+fv18iuQAsBeacT4tWB6DMM6fT4vH384qYRJCwqOjrfxDvXnERc2eLooEP2DcztE2A2dzcH1Yl0Y=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: ni0IcpLxe+MH8I5a2Qf2u2ff84g1LOOpQ2dfqfnIeRDCylkT7/e3SZsFdJYNPfZ0XtwvXG5klsupCX+g92e9R9toiZ+b9Wh8b1o2YvijTCEcsEhjItRQdFyGok2gvtAxWwrKTu5oI+5O9aTR0W9hxAxQMpHnuxwMBwD6u/gCq1peLEFRrAk+7lMPJCz3JVmp9LOE4lnBMJQoCZ8G+iw+KxjKoZqPDZTxMzmDL5pcZDqZCmzD4DgVjpuJuB0janVHOJBu9zdLt7wo/EAoO5KaJ161AGtUQ0NKeZcwYXanGr/W/1jL8YLrkD+DOUvhKuc0WXWNdaXSCLoLypTM1AK/HycBEzb//3uP01EtExamIClNCyGFFpSwGR1PbPXLlk+XWiGhj7/JJSkXDT6KB7bI2oLd9vVxdH0v6rej4P2DrXbLhc0pBSlGFxB7GHiHz+pOWQ2lduhODvKT+UyXuADDz9dox6DVTL+agAtlM9fZfOHH6nmkCQD4Nj9Rkm3YKnaL8tBTdbVQuYpwtTvNLc2pX0K+ow3aMmc76z2/opi6kRHj++yu5eOd1OiDZFVKVnwP4rAYu/ZThZoJn43pgvjLJkH3kd9T3wk7WQ4C63Ypcxc=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 354f6022-4b73-42be-e447-08dd4858b27c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ca2ace4-6e2b-4922-e34d-08dd4858b432
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2025 15:53:14.6557 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Feb 2025 15:53:17.4965 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XALPqy6exCq+ZE2w3rCSLxlgJtOW6gCaaJeY7+10jftAgE32wGlfCh+gT5/3VanuLQ23Un2EiaXVls3KNVK2gDtXlsa0XpWCVQUWYiUKlTs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ej+wZc5jZFbn0DbI68uEkODIOzN/BvWO6If8nfKpkqrAz3kVtnsI1CAgfKZodmF1ArrZHdmZ/YulrXweDjEy1g6m3P4jRy47PkE/2k7Zs4c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5817
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
@@ -173,8 +174,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  phishscore=0 spamscore=0 adultscore=0 suspectscore=0 malwarescore=0
  mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2501170000 definitions=main-2502080134
-X-Proofpoint-GUID: nCA9nG1NUE3Savxs5cP299wdpRzhO7ut
-X-Proofpoint-ORIG-GUID: nCA9nG1NUE3Savxs5cP299wdpRzhO7ut
+X-Proofpoint-ORIG-GUID: kooadM9Z001K76SLMor7u7cZ2wPVbteU
+X-Proofpoint-GUID: kooadM9Z001K76SLMor7u7cZ2wPVbteU
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,141 +191,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-in the fb_defio video driver, page dirty state is used to determine when
-frame buffer pages have been changed, allowing for batched, deferred I/O to
-be performed for efficiency.
+With the introduction of mapping_wrprotect_range() there is no need to use
+folio_mkclean() in order to write-protect mappings of frame buffer pages,
+and therefore no need to inappropriately set kernel-allocated page->index,
+mapping fields to permit this operation.
 
-This implementation had only one means of doing so effectively - the use of
-the folio_mkclean() function.
+Instead, store the pointer to the page cache object for the mapped driver
+in the fb_deferred_io object, and use the already stored page offset from
+the pageref object to look up mappings in order to write-protect them.
 
-However, this use of the function is inappropriate, as the fb_defio
-implementation allocates kernel memory to back the framebuffer, and then is
-forced to specified page->index, mapping fields in order to permit the
-folio_mkclean() rmap traversal to proceed correctly.
+This is justified, as for the page objects to store a mapping pointer at
+the point of assignment of pages, they must all reference the same
+underlying address_space object. Since the life time of the pagerefs is
+also the lifetime of the fb_deferred_io object, storing the pointer here
+makes sense.
 
-It is not correct to specify these fields on kernel-allocated memory, and
-moreover since these are not folios, page->index, mapping are deprecated
-fields, soon to be removed.
+This eliminates the need for all of the logic around setting and
+maintaining page->index,mapping which we remove.
 
-We therefore need to provide a means by which we can correctly traverse the
-reverse mapping and write-protect mappings for a page backing an
-address_space page cache object at a given offset.
-
-This patch provides this - mapping_wrprotect_range() - which allows for
-this operation to be performed for a specified address_space, offset, PFN
-and size, without requiring a folio nor, of course, an inappropriate use of
-page->index, mapping.
-
-With this provided, we can subsequently adjust the fb_defio implementation
-to make use of this function and avoid incorrect invocation of
-folio_mkclean() and more importantly, incorrect manipulation of
-page->index and mapping fields.
+This eliminates the use of folio_mkclean() entirely but otherwise should
+have no functional change.
 
 Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Tested-by: Kajtar Zsolt <soci@c64.rulez.org>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- include/linux/rmap.h |  3 ++
- mm/rmap.c            | 74 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 77 insertions(+)
+ drivers/video/fbdev/core/fb_defio.c | 43 ++++++++++-------------------
+ include/linux/fb.h                  |  1 +
+ 2 files changed, 16 insertions(+), 28 deletions(-)
 
-diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-index 4509a43fe59f..e28622ee4648 100644
---- a/include/linux/rmap.h
-+++ b/include/linux/rmap.h
-@@ -754,6 +754,9 @@ unsigned long page_address_in_vma(const struct folio *folio,
-  */
- int folio_mkclean(struct folio *);
- 
-+int mapping_wrprotect_range(struct address_space *mapping, pgoff_t pgoff,
-+		unsigned long pfn, unsigned long nr_pages);
-+
- int pfn_mkclean_range(unsigned long pfn, unsigned long nr_pages, pgoff_t pgoff,
- 		      struct vm_area_struct *vma);
- 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 52f98f6ccb56..66cc318925bc 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1129,6 +1129,80 @@ int folio_mkclean(struct folio *folio)
+diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
+index 65363df8e81b..acf7bc7ac45f 100644
+--- a/drivers/video/fbdev/core/fb_defio.c
++++ b/drivers/video/fbdev/core/fb_defio.c
+@@ -69,14 +69,6 @@ static struct fb_deferred_io_pageref *fb_deferred_io_pageref_lookup(struct fb_in
+ 	return pageref;
  }
- EXPORT_SYMBOL_GPL(folio_mkclean);
  
-+struct wrprotect_file_state {
-+	int cleaned;
-+	pgoff_t pgoff;
-+	unsigned long pfn;
-+	unsigned long nr_pages;
-+};
-+
-+static bool mapping_wrprotect_range_one(struct folio *folio,
-+		struct vm_area_struct *vma, unsigned long address, void *arg)
-+{
-+	struct wrprotect_file_state *state = (struct wrprotect_file_state *)arg;
-+	struct page_vma_mapped_walk pvmw = {
-+		.pfn		= state->pfn,
-+		.nr_pages	= state->nr_pages,
-+		.pgoff		= state->pgoff,
-+		.vma		= vma,
-+		.address	= address,
-+		.flags		= PVMW_SYNC,
-+	};
-+
-+	state->cleaned += page_vma_mkclean_one(&pvmw);
-+
-+	return true;
-+}
-+
-+static void __rmap_walk_file(struct folio *folio, struct address_space *mapping,
-+			     pgoff_t pgoff_start, unsigned long nr_pages,
-+			     struct rmap_walk_control *rwc, bool locked);
-+
-+/**
-+ * mapping_wrprotect_range() - Write-protect all mappings in a specified range.
-+ *
-+ * @mapping:	The mapping whose reverse mapping should be traversed.
-+ * @pgoff:	The page offset at which @pfn is mapped within @mapping.
-+ * @pfn:	The PFN of the page mapped in @mapping at @pgoff.
-+ * @nr_pages:	The number of physically contiguous base pages spanned.
-+ *
-+ * Traverses the reverse mapping, finding all VMAs which contain a shared
-+ * mapping of the pages in the specified range in @mapping, and write-protects
-+ * them (that is, updates the page tables to mark the mappings read-only such
-+ * that a write protection fault arises when the mappings are written to).
-+ *
-+ * The @pfn value need not refer to a folio, but rather can reference a kernel
-+ * allocation which is mapped into userland. We therefore do not require that
-+ * the page maps to a folio with a valid mapping or index field, rather the
-+ * caller specifies these in @mapping and @pgoff.
-+ *
-+ * Return: the number of write-protected PTEs, or an error.
-+ */
-+int mapping_wrprotect_range(struct address_space *mapping, pgoff_t pgoff,
-+		unsigned long pfn, unsigned long nr_pages)
-+{
-+	struct wrprotect_file_state state = {
-+		.cleaned = 0,
-+		.pgoff = pgoff,
-+		.pfn = pfn,
-+		.nr_pages = nr_pages,
-+	};
-+	struct rmap_walk_control rwc = {
-+		.arg = (void *)&state,
-+		.rmap_one = mapping_wrprotect_range_one,
-+		.invalid_vma = invalid_mkclean_vma,
-+	};
-+
-+	if (!mapping)
-+		return 0;
-+
-+	__rmap_walk_file(/* folio = */NULL, mapping, pgoff, nr_pages, &rwc,
-+			 /* locked = */false);
-+
-+	return state.cleaned;
-+}
-+EXPORT_SYMBOL_GPL(mapping_wrprotect_range);
-+
- /**
-  * pfn_mkclean_range - Cleans the PTEs (including PMDs) mapped with range of
-  *                     [@pfn, @pfn + @nr_pages) at the specific offset (@pgoff)
+-static void fb_deferred_io_pageref_clear(struct fb_deferred_io_pageref *pageref)
+-{
+-	struct page *page = pageref->page;
+-
+-	if (page)
+-		page->mapping = NULL;
+-}
+-
+ static struct fb_deferred_io_pageref *fb_deferred_io_pageref_get(struct fb_info *info,
+ 								 unsigned long offset,
+ 								 struct page *page)
+@@ -140,13 +132,10 @@ static vm_fault_t fb_deferred_io_fault(struct vm_fault *vmf)
+ 	if (!page)
+ 		return VM_FAULT_SIGBUS;
+ 
+-	if (vmf->vma->vm_file)
+-		page->mapping = vmf->vma->vm_file->f_mapping;
+-	else
+-		printk(KERN_ERR "no mapping available\n");
++	if (!vmf->vma->vm_file)
++		fb_err(info, "no mapping available\n");
+ 
+-	BUG_ON(!page->mapping);
+-	page->index = vmf->pgoff; /* for folio_mkclean() */
++	BUG_ON(!info->fbdefio->mapping);
+ 
+ 	vmf->page = page;
+ 	return 0;
+@@ -194,9 +183,9 @@ static vm_fault_t fb_deferred_io_track_page(struct fb_info *info, unsigned long
+ 
+ 	/*
+ 	 * We want the page to remain locked from ->page_mkwrite until
+-	 * the PTE is marked dirty to avoid folio_mkclean() being called
+-	 * before the PTE is updated, which would leave the page ignored
+-	 * by defio.
++	 * the PTE is marked dirty to avoid mapping_wrprotect_range()
++	 * being called before the PTE is updated, which would leave
++	 * the page ignored by defio.
+ 	 * Do this by locking the page here and informing the caller
+ 	 * about it with VM_FAULT_LOCKED.
+ 	 */
+@@ -274,14 +263,16 @@ static void fb_deferred_io_work(struct work_struct *work)
+ 	struct fb_deferred_io_pageref *pageref, *next;
+ 	struct fb_deferred_io *fbdefio = info->fbdefio;
+ 
+-	/* here we mkclean the pages, then do all deferred IO */
++	/* here we wrprotect the page's mappings, then do all deferred IO. */
+ 	mutex_lock(&fbdefio->lock);
+ 	list_for_each_entry(pageref, &fbdefio->pagereflist, list) {
+-		struct folio *folio = page_folio(pageref->page);
++		struct page *page = pageref->page;
++		pgoff_t pgoff = pageref->offset >> PAGE_SHIFT;
+ 
+-		folio_lock(folio);
+-		folio_mkclean(folio);
+-		folio_unlock(folio);
++#ifdef CONFIG_MMU
++		mapping_wrprotect_range(fbdefio->mapping, pgoff,
++					page_to_pfn(page), 1);
++#endif
+ 	}
+ 
+ 	/* driver's callback with pagereflist */
+@@ -337,6 +328,7 @@ void fb_deferred_io_open(struct fb_info *info,
+ {
+ 	struct fb_deferred_io *fbdefio = info->fbdefio;
+ 
++	fbdefio->mapping = file->f_mapping;
+ 	file->f_mapping->a_ops = &fb_deferred_io_aops;
+ 	fbdefio->open_count++;
+ }
+@@ -344,13 +336,7 @@ EXPORT_SYMBOL_GPL(fb_deferred_io_open);
+ 
+ static void fb_deferred_io_lastclose(struct fb_info *info)
+ {
+-	unsigned long i;
+-
+ 	flush_delayed_work(&info->deferred_work);
+-
+-	/* clear out the mapping that we setup */
+-	for (i = 0; i < info->npagerefs; ++i)
+-		fb_deferred_io_pageref_clear(&info->pagerefs[i]);
+ }
+ 
+ void fb_deferred_io_release(struct fb_info *info)
+@@ -370,5 +356,6 @@ void fb_deferred_io_cleanup(struct fb_info *info)
+ 
+ 	kvfree(info->pagerefs);
+ 	mutex_destroy(&fbdefio->lock);
++	fbdefio->mapping = NULL;
+ }
+ EXPORT_SYMBOL_GPL(fb_deferred_io_cleanup);
+diff --git a/include/linux/fb.h b/include/linux/fb.h
+index 5ba187e08cf7..cd653862ab99 100644
+--- a/include/linux/fb.h
++++ b/include/linux/fb.h
+@@ -225,6 +225,7 @@ struct fb_deferred_io {
+ 	int open_count; /* number of opened files; protected by fb_info lock */
+ 	struct mutex lock; /* mutex that protects the pageref list */
+ 	struct list_head pagereflist; /* list of pagerefs for touched pages */
++	struct address_space *mapping; /* page cache object for fb device */
+ 	/* callback */
+ 	struct page *(*get_page)(struct fb_info *info, unsigned long offset);
+ 	void (*deferred_io)(struct fb_info *info, struct list_head *pagelist);
 -- 
 2.48.1
 
