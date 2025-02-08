@@ -2,79 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FBBA2DE30
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 14:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697ECA2DE2C
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 14:55:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D49C10E49A;
-	Sun,  9 Feb 2025 13:55:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C942110E484;
+	Sun,  9 Feb 2025 13:55:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.b="iaVOtCIt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HSmJdhvF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
- [209.85.214.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5B1D10E2AE
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 09:16:06 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id
- d9443c01a7336-21f48ebaadfso41678975ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 01:16:06 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 806A910E087;
+ Sat,  8 Feb 2025 19:34:07 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-436ce2ab251so20818565e9.1; 
+ Sat, 08 Feb 2025 11:34:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance.com; s=google; t=1739006166; x=1739610966;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=nvJCWy4EMuDIOueWrbTN3LkRGm5dA+GTUOq10vklDNE=;
- b=iaVOtCItfbBNyVo2+0ovZf1ZikIu0BP9qyj5srcVENXkUj5KvoXVI6Biu0THox1mfU
- Hhsk8aB9H/psHlECmGR/+OfYjC1DsqoYW5dYS+vNRocr1GZS8H9kzgrWsX/nHXBdeD6f
- DNL6bewAX8Y7H/cNTW1di8I094bhlPqD9OIgcqq9JVw0kojXJyuhFBdN3e9HmBWxy/cB
- 3AwAxIJhPRxI5pQQj1JcJ096+BwVRngriArQr7GjalGYJIzD85jSvG5XzgWNVyAYuLNM
- P/7sgK5lupX7oGz/5SkUG2BofZnv7aSTkGM+6p0djR2rr4DoQ6EJYzufZP5PcbxZQ4Vq
- AwkQ==
+ d=gmail.com; s=20230601; t=1739043246; x=1739648046; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7zTCFimJ1vopwwf/s9XZ/VAGKYCECaIBDkzBMbYiPnc=;
+ b=HSmJdhvFBXdtPOydXbfXUUQdOHWylRtdifmE4mFZ311sTdJ43OXp5T87N3nYnNRWnH
+ e8NakDtIhNJeqCse+MSGzNdE3S/dFHE1gSINrtNzTTrrbdc0Iq0WqrcvKPYRUDDn48f7
+ kvwuih6iertEAZz/AdSPynDus9jKwH/tRDee8RRNJPLqmCzLod1W4PVJLlIMGEb2c7Kj
+ MQGUW+oyv1glA4j9DIlJP070h9Hl+e3dXqJupfHfvJbvrHFnP/WaZfrrBOpliS4kpeiA
+ gS9rMYdfh4fO9staCYoWBh4boAifMyNfdzwy018AMGNECVl78G3ek0Pd56NxIb7EqH14
+ riLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739006166; x=1739610966;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
+ d=1e100.net; s=20230601; t=1739043246; x=1739648046;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nvJCWy4EMuDIOueWrbTN3LkRGm5dA+GTUOq10vklDNE=;
- b=eYZMgz/sxlgu7eAryRY6L4vD4LXxLxyht10UBgAEk41/1Pp+kcXS0PZQfcF87dPiV5
- moXYuV5rVRGJzerwpnUukRsUPhcWwXRx2vZBG/BlZ7C0YetiQQNIM6JrSGhmKitjD0gX
- NvliIOeta7C9H080jd2jLBVCSYv/vekQEAmvX3sUvcHnVE6c9/VzzDi/+p6nFdvkkrLB
- wS0wHcBzlTILrbvlm3WSoMqYMAx1E7hmr/8iZQybaVpvMOsPW+VlmcCXyQM3wmJFdGen
- +sF8jE1As9hP+/Qwjnsf7KziI14Q9LB3H3LdjT3uExqqfLQhrF6lkBovIkn3D5OFlY2l
- feFw==
-X-Gm-Message-State: AOJu0YwG5g+CVRjzbbRYr8qY+pwOqjEs6KWqmy9gxMA6urfSOsML06t/
- fLY+atJXzsbmJdPInNQ9lfIchulYMa72mI2ENWvdqZq5anGEbIJ9RC+u4Yv51Ho=
-X-Gm-Gg: ASbGncsy1mFm1ov0FNj8o/0kzweklH5JyetjPWvkdh0YNTyku4a5ViSWKNXi9JMUa87
- BPBTY3O96ftaW9T88EJqtES3sVZS1bh4/S1v8jHE56gdeMDgx3cxO6sxdOQhNOzZ0AzxLDHs3/5
- 9ZiSwnB5/c0GIajrnDAecsGv5SXvR6/446BaEUvw/2IlMrj5Wk8oI1pgTZWMkJuueVSyPNhIuzH
- ifAXGpARxhawHRbrBu6n0V1gJgdhLLlrvu729Z21uyaFFrjX3AHF7yeP/MIbbIUkp0UsBy3N/Z5
- 1uO0cS3nSfLyeDkrQfJWxiKYxRY=
-X-Google-Smtp-Source: AGHT+IH9LMRe9AjHdNUfp2Yrb0ZiOIbt3KV7vcDcJeBZyl80We0ELLIq9YFH/aC5JlHj5VwpG1tojQ==
-X-Received: by 2002:a05:6a20:d706:b0:1e0:ca1c:8581 with SMTP id
- adf61e73a8af0-1ee03a8dbb8mr12087904637.21.1739006165903; 
- Sat, 08 Feb 2025 01:16:05 -0800 (PST)
-Received: from bytedance ([61.213.176.12]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7307bfc03efsm311772b3a.160.2025.02.08.01.16.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2025 01:16:05 -0800 (PST)
-Date: Sat, 8 Feb 2025 17:15:59 +0800
-From: Zhaoyu Liu <liuzhaoyu.zackary@bytedance.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- ray.huang@amd.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/ttm: use ttm_resource_unevictable() to replace
- pin_count and swapped
-Message-ID: <20250208091559.GA118571@bytedance>
-References: <20250126093256.GA688734@bytedance>
- <bea1a3a0-c6d4-4941-9dd9-73f0756ef17b@amd.com>
+ bh=7zTCFimJ1vopwwf/s9XZ/VAGKYCECaIBDkzBMbYiPnc=;
+ b=arUb/kgIXNjU5AmIEszUcye6hocnuJFxMI0HHHuKC90FlW6iRUOY/Ksu2h47FXFK3y
+ C9vfVDaku1PtARE+21Pe1tupqHTrhQR9cy81nJtYFbvWFpUwmcejQfaoFAj8a6lFHElX
+ 6JSyF7SNRP/3OAmIz0pBa4aWiU+xMSQl9LEIcUvspy4gVeaoXFpqDrFdSsbZwvSMKkl4
+ DCfwk+fwrVFIJylwjg/oX8ITGpHaX3D2TFQGPmAY6h4h7kyf9/j6kGXwOGWZtQG40JVU
+ k68diJ3LErttNTTf0wPKqwxtBXDq7Y/2KU52UtoBuhTVfUVGdqgACtHqC9hJ9JIzgzM3
+ bkqg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWfBo9xJVjMW1oVCM3OoazEb71CH99LH1U5zeFfx5LqzLwdI8vcEy1OSl0BPbkxAqbbnAR834eGqvbT@lists.freedesktop.org,
+ AJvYcCXqaMYUjsSaMHWqlcBVsnn1GboUHk/oJvRqaRMYbStmsmyqeWZv2RA4Y+JNodOY55m8LPdgjFCpSzY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxSThbN/XqmZ2u6rfIk2LM5srHcYgPnEb7wZirWG7OIdlxJB4SN
+ nCUD/wXZvGM8qshiHDH+zwK0oS4Jd5mUqo9DzTyjJPShc2wr0FHN
+X-Gm-Gg: ASbGnctcWP+DhC8frWqmoGJJIecysfT6AyFfQx7prJtJgBCoW3YWk/ePaH2tl7gdDGk
+ SjMWyUd7ZdQyP8bWzQslS+C+5Ixlc6/bXcvVK1G7+Sko/dn9TLTWEDa6H9Tvq/gNMR64ZisZsVc
+ DJelpL5l8l012YuwInFkLHrPWAG19UodoeTB4biYVCBK2ctuUs6r2GW7eg+KLYIJxNQoxfkkWC7
+ fJIQCAErGoKOt9xzbnPKxuxHiBaX/BPK0VHoX3zBmUYB6/uV10ldDevsOI7IHzU8iQcOduqxqbI
+ 0FpukYdGnOrgDlCN0d4Ll+OoOQ==
+X-Google-Smtp-Source: AGHT+IF6K1aGzMQrmgg2BtmlzUAKpwYvdiG4gcqs0vFrqKcS/fziiZZl1Tg4aL3qUHceV0U8RBg6Jw==
+X-Received: by 2002:a05:600c:a085:b0:434:e2ea:fc94 with SMTP id
+ 5b1f17b1804b1-439249843b8mr78920775e9.11.1739043245270; 
+ Sat, 08 Feb 2025 11:34:05 -0800 (PST)
+Received: from [192.168.1.117] ([90.248.169.16])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43936bcc04fsm19994775e9.20.2025.02.08.11.34.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Feb 2025 11:34:04 -0800 (PST)
+Message-ID: <7a370271-1372-4588-8be9-ea7ea93d7a79@gmail.com>
+Date: Sat, 8 Feb 2025 19:34:03 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bea1a3a0-c6d4-4941-9dd9-73f0756ef17b@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/msm/dp: account for widebus and yuv420 during mode
+ validation
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Stephen Boyd <swboyd@chromium.org>,
+ Paloma Arellano <quic_parellan@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250206-dp-widebus-fix-v2-1-cb89a0313286@quicinc.com>
+Content-Language: en-US
+From: Dale Whinham <daleyo@gmail.com>
+In-Reply-To: <20250206-dp-widebus-fix-v2-1-cb89a0313286@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Sun, 09 Feb 2025 13:55:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,73 +98,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 08:59:08AM +0100, Christian König wrote:
-> Am 26.01.25 um 10:32 schrieb Zhaoyu Liu:
-> > TTM always uses pin_count and ttm_resource_is_swapped() together to
-> > determine whether a BO is unevictable.
-> > Now use ttm_resource_unevictable() to replace them.
-> > 
-> > Signed-off-by: Zhaoyu Liu <liuzhaoyu.zackary@bytedance.com>
+On 06/02/2025 19:46, Abhinav Kumar wrote:
+> Widebus allows the DP controller to operate in 2 pixel per clock mode.
+> The mode validation logic validates the mode->clock against the max
+> DP pixel clock. However the max DP pixel clock limit assumes widebus
+> is already enabled. Adjust the mode validation logic to only compare
+> the adjusted pixel clock which accounts for widebus against the max DP
+> pixel clock. Also fix the mode validation logic for YUV420 modes as in
+> that case as well, only half the pixel clock is needed.
 > 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> 
-> I will pick this up for drm-misc-next.
-> 
+> Fixes: 757a2f36ab09 ("drm/msm/dp: enable widebus feature for display port")
+> Fixes: 6db6e5606576 ("drm/msm/dp: change clock related programming for YUV420 over DP")
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+> Changes in v2:
+> - move msm_dp_wide_bus_available() to the next line
+> - Link to v1: https://lore.kernel.org/r/20250128-dp-widebus-fix-v1-1-b66d2265596b@quicinc.com
+> ---
+>   drivers/gpu/drm/msm/dp/dp_display.c | 11 ++++++-----
+>   drivers/gpu/drm/msm/dp/dp_drm.c     |  5 ++++-
+>   2 files changed, 10 insertions(+), 6 deletions(-)
 
-Thanks,
-but I don't see it in drm-misc-next(https://cgit.freedesktop.org/drm/drm-misc/log),
-is it not merged yet?
+This patch fixes a CLOCK_HIGH mode rejection error on the Microsoft 
+Surface Pro 11 (OLED panel) which I had previously been working-around 
+by raising DP_MAX_PIXEL_CLK_KHZ.
 
----
-All The Best
+Tested-by: Dale Whinham <daleyo@gmail.com>
 
-> > ---
-> >   drivers/gpu/drm/ttm/ttm_resource.c | 15 ++++++++++-----
-> >   1 file changed, 10 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
-> > index cc29bbf3eabb..a8f9f7ed6c6e 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_resource.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
-> > @@ -252,11 +252,16 @@ static bool ttm_resource_is_swapped(struct ttm_resource *res, struct ttm_buffer_
-> >   	return ttm_tt_is_swapped(bo->ttm);
-> >   }
-> > +static bool ttm_resource_unevictable(struct ttm_resource *res, struct ttm_buffer_object *bo)
-> > +{
-> > +	return bo->pin_count || ttm_resource_is_swapped(res, bo);
-> > +}
-> > +
-> >   /* Add the resource to a bulk move if the BO is configured for it */
-> >   void ttm_resource_add_bulk_move(struct ttm_resource *res,
-> >   				struct ttm_buffer_object *bo)
-> >   {
-> > -	if (bo->bulk_move && !bo->pin_count && !ttm_resource_is_swapped(res, bo))
-> > +	if (bo->bulk_move && !ttm_resource_unevictable(res, bo))
-> >   		ttm_lru_bulk_move_add(bo->bulk_move, res);
-> >   }
-> > @@ -264,7 +269,7 @@ void ttm_resource_add_bulk_move(struct ttm_resource *res,
-> >   void ttm_resource_del_bulk_move(struct ttm_resource *res,
-> >   				struct ttm_buffer_object *bo)
-> >   {
-> > -	if (bo->bulk_move && !bo->pin_count && !ttm_resource_is_swapped(res, bo))
-> > +	if (bo->bulk_move && !ttm_resource_unevictable(res, bo))
-> >   		ttm_lru_bulk_move_del(bo->bulk_move, res);
-> >   }
-> > @@ -276,10 +281,10 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
-> >   	lockdep_assert_held(&bo->bdev->lru_lock);
-> > -	if (bo->pin_count || ttm_resource_is_swapped(res, bo)) {
-> > +	if (ttm_resource_unevictable(res, bo)) {
-> >   		list_move_tail(&res->lru.link, &bdev->unevictable);
-> > -	} else	if (bo->bulk_move) {
-> > +	} else if (bo->bulk_move) {
-> >   		struct ttm_lru_bulk_move_pos *pos =
-> >   			ttm_lru_bulk_move_pos(bo->bulk_move, res);
-> > @@ -318,7 +323,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
-> >   	man = ttm_manager_type(bo->bdev, place->mem_type);
-> >   	spin_lock(&bo->bdev->lru_lock);
-> > -	if (bo->pin_count || ttm_resource_is_swapped(res, bo))
-> > +	if (ttm_resource_unevictable(res, bo))
-> >   		list_add_tail(&res->lru.link, &bo->bdev->unevictable);
-> >   	else
-> >   		list_add_tail(&res->lru.link, &man->lru[bo->priority]);
-> 
+-- 
+Best regards,
+Dale
