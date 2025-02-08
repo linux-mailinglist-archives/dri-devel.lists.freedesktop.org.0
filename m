@@ -2,86 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDBF3A2D412
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 06:20:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C14A2D469
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 08:12:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4297A10E2AC;
-	Sat,  8 Feb 2025 05:20:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44A9010E2B1;
+	Sat,  8 Feb 2025 07:12:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wFu9PkYD";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZXOYrzh+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1E510E2AC
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 05:19:30 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-54505a75445so162676e87.1
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 21:19:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738991969; x=1739596769; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=XbmEch0kSfMOKC6/rJ1doWwYVcmMwQu5vCq8pLMJYLw=;
- b=wFu9PkYDh0bCq1OBefBc+GDVQOPIC8sk7eafd3/ZIGgs+CMJqfoTBMdV9h49GuGIyF
- 6W4bsaiJZ7AWOMxiUwI1fqme24tB5N84nsKIeUbrAb9sNFYunOD+02n8FlBuQS0la0gs
- tmAIZE8iVFL4Im7s75M3guyrodCMt2Pe3tBqKRR6pj6c+pHRsGyrgAMbbB6xaxSxZZvr
- RqKhRQPiFke035W/Jna2qN3ZytGhOSm/ffCG4jeT/uLhYPYQoHy+VBGu4Qwo8PBYgHYs
- rGTDx2YXjhpawSKYYwgv907ADoxJ5CqwnqQmGH6+p5Taa/gbdtFRiX+Z1XKCtKTwODeZ
- Io4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738991969; x=1739596769;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XbmEch0kSfMOKC6/rJ1doWwYVcmMwQu5vCq8pLMJYLw=;
- b=QIhd7hsvd0dczzp/m7/rKOW4qtmB2xFlJ0te3/0/fP9UMhCDWKPxBVVz4Xr0rLRydX
- 38YFWjJM/UTmOs0GbqjAgq9fD7IiDIh/ApVcOLOObWTTkhOB1FqMHeGCZo6qmHFdhdx3
- VdBWbFFBjtsLuX5uf2Hvn8xczjIPDYwZAOjiJOn0fJv3wQAk69KLm1Cg0jA23nh0zIrV
- oZxu8/NRqiyWnC0Q+uJopK1wpinrpXjotNX8Avd9qBojPZCcrN3j0ej5U7DKXXA031xj
- uKLNrHHsAB15m8gu24QEvx7ogdFWCQ61trZO7O8ZoXKI2O1WP5X+5CXfBxs7qFRaiOUZ
- Sftw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVvXw/+1qR9z7QlgTGL2gOD0u0lpHDGNlRzqmiVGNh4aYCYtiCzEKfgFZ7v06p6eRluLIJKpjXZYAo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXL2+CM00S7kRHZM7USrF3boLOCM93OE41hrtL/VzLFJ69fEhz
- dF8JtpRxfL6ox1kybU3j6+1W3KVUZcFJAC5a34DH2IEPp9D1HQ6jMihwQc3kV8I=
-X-Gm-Gg: ASbGnctc/EoPmMrjHmF30PWKGTT+/gno2cuy5vgE5sQ6h3VZMKYbiLJaATKcDy41uVn
- 7PfzxtERHBo7wS1AMLjIP+kVQqCpU6a4eEihaOaSvxPTiaAzHvfak7eq5griMjrJBcVEb4M2lW4
- d8CBrcGe/rWZDM6qAZEgkFg32nVmR1kZspaRdEzUbevxcrxu77dMbRfrbSBIL8VfHhA1otwZgZ0
- ra4SZz7PvNl8UxAXoZpnsxrqp08spp082kJYAGKz7OCfPXZVROE2Tku0v4O73BeGrp9tyfHOxgQ
- 1QMSD8vR+gUs4d7h+/AyISsIDDN8RIsXonhvnVwxoSr5oS5TykfiUYPF7W/pPxm9zrD6u2g=
-X-Google-Smtp-Source: AGHT+IEgvj0rP082XMOnWmPAOgxRus50LsWzxvsljRKd/lfLJp/HnL9/Ij+KWNkNuMgAahlz+FUAew==
-X-Received: by 2002:a05:6512:348e:b0:542:2a28:e30f with SMTP id
- 2adb3069b0e04-54414abba5bmr1913205e87.31.1738991968614; 
- Fri, 07 Feb 2025 21:19:28 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5441053ecccsm626483e87.21.2025.02.07.21.19.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2025 21:19:27 -0800 (PST)
-Date: Sat, 8 Feb 2025 07:19:24 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Douglas Anderson <dianders@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 05/35] drm/bridge: Pass full state to
- atomic_post_disable
-Message-ID: <thnyq2advlb6mumnokx55x4wcpqv63bttsd3numf47tpxermpd@e7buh4vhuq57>
-References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
- <20250204-bridge-connector-v2-5-35dd6c834e08@kernel.org>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22A210E0B6
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 07:12:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id DB9755C0013;
+ Sat,  8 Feb 2025 07:12:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9678C4CED6;
+ Sat,  8 Feb 2025 07:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1738998760;
+ bh=Pyt2xpK/5RJwXZi+SVmuRDAyARjDEhYR26aol2nWBS8=;
+ h=Date:From:To:Subject:References:In-Reply-To:From;
+ b=ZXOYrzh+VNM1tRwpXkLWvaYfcOJh9g+a7jdHgOpCUA5K1oTcx+EZa5Hv8s0FLOa1q
+ Q/I1NpnNl4Of85rja+7mGxZmpsaI80P7nKO9Vfo0XrRg88oO2W1Jxrpj2dH9MgxuVp
+ 83v4VMcPVa+h4mpNq0thW/gPM2Q1Pvhm+spjszZM=
+Date: Sat, 8 Feb 2025 08:12:37 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+ Mark Brown <broonie@kernel.org>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Zijun Hu <quic_zijuhu@quicinc.com>, linux-usb@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 8/8] drm/vkms: convert to use faux_device
+Message-ID: <2025020855-ventricle-slang-b705@gregkh>
+References: <2025020620-skedaddle-olympics-1735@gregkh>
+ <2025020625-unlaced-vagueness-ae34@gregkh>
+ <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250204-bridge-connector-v2-5-35dd6c834e08@kernel.org>
+In-Reply-To: <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,38 +71,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 03:57:33PM +0100, Maxime Ripard wrote:
-> It's pretty inconvenient to access the full atomic state from
-> drm_bridges, so let's change the atomic_post_disable hook prototype to
-> pass it directly.
+On Fri, Feb 07, 2025 at 05:59:04PM +0100, Louis Chauvet wrote:
+> On 06/02/25 - 18:38, Greg Kroah-Hartman wrote:
+> > The vkms driver does not need to create a platform device, as there is
+> > no real platform resources associated it,  it only did so because it was
+> > simple to do that in order to get a device to use for resource
+> > management of drm resources.  Change the driver to use the faux device
+> > instead as this is NOT a real platform device.
+> > 
+> > Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+> > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> >  v3: new patch in the series.  For an example of the api working, does
+> >      not have to be merged at this time, but I can take it if the
+> >      maintainers give an ack.
 > 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  6 ++----
->  drivers/gpu/drm/bridge/chipone-icn6211.c           |  2 +-
->  drivers/gpu/drm/bridge/ite-it6505.c                |  2 +-
->  drivers/gpu/drm/bridge/lontium-lt9611.c            |  5 ++---
->  drivers/gpu/drm/bridge/panel.c                     |  3 +--
->  drivers/gpu/drm/bridge/parade-ps8640.c             |  2 +-
->  drivers/gpu/drm/bridge/samsung-dsim.c              |  2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |  2 +-
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c     |  2 +-
->  drivers/gpu/drm/bridge/tc358762.c                  |  3 ++-
->  drivers/gpu/drm/bridge/ti-dlpc3433.c               |  2 +-
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  2 +-
->  drivers/gpu/drm/drm_bridge.c                       | 16 +++-------------
->  drivers/gpu/drm/mediatek/mtk_dsi.c                 |  2 +-
->  drivers/gpu/drm/mediatek/mtk_hdmi.c                |  2 +-
->  drivers/gpu/drm/msm/dp/dp_display.c                | 14 +++++++-------
->  drivers/gpu/drm/msm/dp/dp_drm.c                    |  5 ++---
->  drivers/gpu/drm/msm/dp/dp_drm.h                    |  2 +-
->  drivers/gpu/drm/vc4/vc4_dsi.c                      |  2 +-
->  include/drm/drm_bridge.h                           |  2 +-
->  20 files changed, 32 insertions(+), 46 deletions(-)
+> Hi,
 > 
+> This patch cannot be merged into drm-misc-next because we modified the 
+> vkms_device structure in commit 49a167c393b0 ("drm/vkms: Switch to dynamic 
+> allocation for CRTC"), which is present in linux-next.
+> 
+> Once this conflict is resolved, I agree with changing from platform_device 
+> to faux_device.
+> 
+> Apart from this minor conflict, I believe your patch has revealed an issue 
+> in VKMS:
+> 
+> Without your patch:
+> 
+> 	bash-5.2# modprobe vkms
+> 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+> 	bash-5.2#
+> 
+> With your patch:
+> 
+> 	bash-5.2# modprobe vkms
+> 	faux vkms: Resources present before probing
+> 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+> 	bash-5.2#
+> 
+> After some investigation, I found that the issue is not caused by your 
+> patch but by VKMS itself:
+> 
+> During faux_device_create, the device core postpones the device probe to 
+> run it later [0]. This probe checks if the devres list is empty [1] and 
+> fails if it is not.
+> 
+> [0]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/bus.c#L534
+> [1]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/dd.c#L626
+> 
+> With a platform driver, the order of execution was:
+> 
+> 	platform_device_register_simple();
+> 		device_add();
+> 	*async* device_probe(); /* no issue, the devres is untouched */
+> 	devres_open_group();
+> 
+> But with faux-device, the order is:
+> 
+> 	faux_device_create();
+> 		device_add();
+> 	devres_open_group();
+> 	*async* device_probe(); /* issue here, because of the previous 
+> 				   devres_open_group */
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Wait, what?  It shouuld be the exact same codepath, as faux_device() is
+not doing anything different from platform here.  You might just be
+hitting a race condition as the async probing is the same here.
 
--- 
-With best wishes
-Dmitry
+> How do you think this should be solved? I would like to keep a simple 
+> solution, given that:
+> - we want to have multiple vkms devices (configfs [2])
+> - we need to ensure that device_probe is called before devres_open_group 
+>   and devm_drm_dev_alloc to avoid this error
+
+How about we take out the async probe?  You are getting lucky that it's
+not hit on the platform device code today.  Faux really doesn't need
+async, I was just trying to make the system work the same way that
+platform devices did.
+
+And as for the merge issue, not a problem, I just did this conversion
+for people to see how this works and ideally test it, as you did, to
+find issues!
+
+thanks,
+
+greg k-h
