@@ -2,74 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B50A2D4DB
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 09:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C92CA2D4E0
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 09:39:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9769F10E06E;
-	Sat,  8 Feb 2025 08:31:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A20310E2AD;
+	Sat,  8 Feb 2025 08:39:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=marcan.st header.i=@marcan.st header.b="bgHr7qhZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="E9QFQKSL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BB410E06E
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 08:31:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: marcan@marcan.st)
- by mail.marcansoft.com (Postfix) with ESMTPSA id A1144427ED;
- Sat,  8 Feb 2025 08:31:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
- t=1739003468; bh=jmD7D9XcUagZ6PsaNTcK9z4/ha7zuHykclPHicgLzS0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=bgHr7qhZXl0G147DE6p2b5mUeL7LjemjbVzNhkEv82IActVuvakyui/C44c6MJ05L
- 3z+wqhhacacBBogX69nFHWE/erjMEUIKmJkFToHpqc3/+P/QS9LXtsszHdpxat02av
- N3rSmf8MoSJyqdqiw03A8qyNP9E5hwOzX+Bspaeyuj0UyL3SpeXDREyRyaG5m7ePVG
- Akw6ywLY06vS1uQ16+haxN+JR8K+F69eoph8SM5J09d7b0OHV57iQQri79SjGNgOwL
- nnCG0cfTcJkiNTC17V2AjmrUXHLRsIJXt5SMfYMsOVqXxik/+GPPvTzYTpCUbMYAFv
- ZAMZrqtLu2ZcA==
-Message-ID: <1e8452ab-613a-4c85-adc0-0c4a293dbf50@marcan.st>
-Date: Sat, 8 Feb 2025 17:31:04 +0900
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
+ [217.70.183.193])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F050A10E2AD
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 08:38:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id CD99F442F6;
+ Sat,  8 Feb 2025 08:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1739003880;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EvJxtdAqRk11pGBtTHjM48jcZaiwtjZUv5lMTaJZ+Fw=;
+ b=E9QFQKSLl27KxBvOwN8qvmMJZ6woA++CO2thLknO6yxIHxN/sUCGmrCvJCHNwAR+J6GBlf
+ vwUcAOCaRbfGHz0tWysyO61ol1CslVV4KbLgCCX0gfiEtKfEcH2rfHuq/Dl+F6fizexMe+
+ WzQ59VfZ2UxWKtvusrpdf43A90luk8SFQeZbsa72BmIiK1mfoYvx9aX3bGRuWbIzrWVyZl
+ /Hh629V+VGCKL/pao6xx959ZJCt4u8+TxxiUATVb/G5ygNm/XB1aTC5Hpdf6FKO7MWryDo
+ h07zp3dntJTvO4qcc/jo1tmNH3zX19OGN80ULTxLZLJE2Wzk7OfuEQxFehVWow==
+Date: Sat, 8 Feb 2025 09:37:56 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+ Mark Brown <broonie@kernel.org>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Zijun Hu <quic_zijuhu@quicinc.com>, linux-usb@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 8/8] drm/vkms: convert to use faux_device
+Message-ID: <Z6cX5MG3yM4XL9jR@Host-003>
+Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+ Mark Brown <broonie@kernel.org>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Zijun Hu <quic_zijuhu@quicinc.com>, linux-usb@vger.kernel.org,
+ rust-for-linux@vger.kernel.org,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+References: <2025020620-skedaddle-olympics-1735@gregkh>
+ <2025020625-unlaced-vagueness-ae34@gregkh>
+ <Z6Y72LK1UW86x8av@louis-chauvet-laptop>
+ <2025020855-ventricle-slang-b705@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
- coherent allocator abstraction.)
-To: Steven Rostedt <rostedt@goodmis.org>, "Dr. Greg" <greg@enjellic.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Greg KH <gregkh@linuxfoundation.org>, phasta@kernel.org,
- Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, daniel.almeida@collabora.com,
- aliceryhl@google.com, robin.murphy@arm.com, rust-for-linux@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bj??rn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- Valentin Obst <kernel@valentinobst.de>,
- open list <linux-kernel@vger.kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- DRI Development <dri-devel@lists.freedesktop.org>
-References: <2025013030-gummy-cosmic-7927@gregkh>
- <20250130172437.GN5556@nvidia.com>
- <2025013148-reversal-pessimism-1515@gregkh>
- <20250131135421.GO5556@nvidia.com>
- <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
- <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
- <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
- <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
- <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
- <20250207121638.GA7356@wind.enjellic.com> <Z6bdCrgGEq8Txd-s@home.goodmis.org>
-From: Hector Martin <marcan@marcan.st>
-Content-Language: en-US
-In-Reply-To: <Z6bdCrgGEq8Txd-s@home.goodmis.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025020855-ventricle-slang-b705@gregkh>
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeetfeetffekgfefheehteefffehiefhffeutefggeefleduudeujeekgfduheetffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvddttddumeekiedumeegudegtdemtgekiedtmeehugeiudemieeffeelmeeiiegrieemvgdtjeehpdhhvghlohepjfhoshhtqddttdefpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhgrfhgrv
+ ghlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhihuhguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtoheprghlvghkshgrnhguvghrrdhlohgsrghkihhnsehinhhtvghlrdgtohhmpdhrtghpthhtoheprghnughrihihrdhshhgvvhgthhgvnhhkoheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhm
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,53 +102,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2025/02/08 13:26, Steven Rostedt wrote:
-> On Fri, Feb 07, 2025 at 06:16:38AM -0600, Dr. Greg wrote:
->>
->> Not sure what the fix is, from a project management perspective the
->> technology industry has never faced a challenge like this.  The fork
->> model, which was the classic protection in open-source, doesn't work
->> at this scale.
+On 08/02/25 - 08:12, Greg Kroah-Hartman wrote:
+> On Fri, Feb 07, 2025 at 05:59:04PM +0100, Louis Chauvet wrote:
+> > On 06/02/25 - 18:38, Greg Kroah-Hartman wrote:
+> > > The vkms driver does not need to create a platform device, as there is
+> > > no real platform resources associated it,  it only did so because it was
+> > > simple to do that in order to get a device to use for resource
+> > > management of drm resources.  Change the driver to use the faux device
+> > > instead as this is NOT a real platform device.
+> > > 
+> > > Cc: Louis Chauvet <louis.chauvet@bootlin.com>
+> > > Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
+> > > Cc: Simona Vetter <simona@ffwll.ch>
+> > > Cc: Melissa Wen <melissa.srw@gmail.com>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: David Airlie <airlied@gmail.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > ---
+> > >  v3: new patch in the series.  For an example of the api working, does
+> > >      not have to be merged at this time, but I can take it if the
+> > >      maintainers give an ack.
+> > 
+> > Hi,
+> > 
+> > This patch cannot be merged into drm-misc-next because we modified the 
+> > vkms_device structure in commit 49a167c393b0 ("drm/vkms: Switch to dynamic 
+> > allocation for CRTC"), which is present in linux-next.
+> > 
+> > Once this conflict is resolved, I agree with changing from platform_device 
+> > to faux_device.
+> > 
+> > Apart from this minor conflict, I believe your patch has revealed an issue 
+> > in VKMS:
+> > 
+> > Without your patch:
+> > 
+> > 	bash-5.2# modprobe vkms
+> > 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+> > 	bash-5.2#
+> > 
+> > With your patch:
+> > 
+> > 	bash-5.2# modprobe vkms
+> > 	faux vkms: Resources present before probing
+> > 	[drm] Initialized vkms 1.0.0 for vkms on minor 0
+> > 	bash-5.2#
+> > 
+> > After some investigation, I found that the issue is not caused by your 
+> > patch but by VKMS itself:
+> > 
+> > During faux_device_create, the device core postpones the device probe to 
+> > run it later [0]. This probe checks if the devres list is empty [1] and 
+> > fails if it is not.
+> > 
+> > [0]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/bus.c#L534
+> > [1]:https://elixir.bootlin.com/linux/v6.13.1/source/drivers/base/dd.c#L626
+> > 
+> > With a platform driver, the order of execution was:
+> > 
+> > 	platform_device_register_simple();
+> > 		device_add();
+> > 	*async* device_probe(); /* no issue, the devres is untouched */
+> > 	devres_open_group();
+> > 
+> > But with faux-device, the order is:
+> > 
+> > 	faux_device_create();
+> > 		device_add();
+> > 	devres_open_group();
+> > 	*async* device_probe(); /* issue here, because of the previous 
+> > 				   devres_open_group */
 > 
-> Maybe not quite a fork, but I wonder if the Rust project did something similar
-> to what PREEMPT_RT did. That was to keep an out of tree patch. The full patch
-> was just merged last September after being out of tree for a good 20 years.
+> Wait, what?  It shouuld be the exact same codepath, as faux_device() is
+> not doing anything different from platform here.  You might just be
+> hitting a race condition as the async probing is the same here.
+
+Yes, this is the same codepath, and this is a race condition. VKMS was 
+just lucky it never happend before. 
+
+> > How do you think this should be solved? I would like to keep a simple 
+> > solution, given that:
+> > - we want to have multiple vkms devices (configfs [2])
+> > - we need to ensure that device_probe is called before devres_open_group 
+> >   and devm_drm_dev_alloc to avoid this error
 > 
-> In the beginning there was a few things in that patch that Christoph was
-> against, but over time he became accepting of it.
+> How about we take out the async probe?  You are getting lucky that it's
+> not hit on the platform device code today.  Faux really doesn't need
+> async, I was just trying to make the system work the same way that
+> platform devices did.
+
+I think this should be sufficient, and allows for a very simple interface: 
+once faux_device_create returns, you can use the device "as-is", no 
+need to wait for the probe.
+
+What change can I do to disable async probe and test?
+
+Thanks,
+Louis Chauvet
+
+> And as for the merge issue, not a problem, I just did this conversion
+> for people to see how this works and ideally test it, as you did, to
+> find issues!
 > 
-> Yes, being out of tree is very difficult because you have to constantly rebase
-> (we actually found quilt being a better tool than git in this case!). But it
-> also gives you full flexibility to try new approaches. Just because something
-> is out of tree doesn't mean it can't be published and used. Red Hat and SUSE,
-> as well as many others shipped PREEMPT_RT while it was out of tree.
-
-By kernel and mesa policy, while a drm/ kernel driver is not merged with
-a stable UAPI, the mesa side cannot be merged/enabled either. That means
-that every day the driver isn't upstream, our users suffer due to
-various container technologies not shipping the driver in userspace
-since they ship upstream mesa.
-
-The process is *designed* to encourage upstreaming early and *punish*
-downstream trees.
-
-It's not just distros shipping, or even typical container technologies
-like Flatpak (we have a workaround for that specific one). We'd need to
-get stuff like Android/AOSP to ship the patched userspace driver so it
-works in Waydroid, which some people want to use. It is an impossible task.
-
-Never mind that distros aren't, in fact, inclined to ship out-of-tree
-kernels. PREEMPT_RT was an exception due to its general usefulness, and
-even then was not available everywhere, and had a reasonable excuse for
-being out-of-tree so long due to its intrusiveness in core code. Rust
-and the Rust drivers aren't even remotely as intrusive, they just stay
-off to the side in their own directories. Nobody wants to ship
-downstream kernels just for random hardware support.
-
-Out of tree doesn't work. People, both in the kernel and out of the
-kernel, want things in tree.
-
-- Hector
-
+> thanks,
+> 
+> greg k-h
