@@ -2,84 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E796BA2D368
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 04:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91808A2D37D
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 04:26:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF2D610EBC6;
-	Sat,  8 Feb 2025 03:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61C5410E1AF;
+	Sat,  8 Feb 2025 03:26:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D54758/c";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="kNPCPoRw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EB7510EBC1
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 03:06:52 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-21f53ad05a0so21294315ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 19:06:52 -0800 (PST)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A290010E1AF
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 03:24:36 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id
+ 38308e7fff4ca-307bc125e2eso25192461fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 19:24:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738984012; x=1739588812; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738985075; x=1739589875; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DdgvWheqjT5pXT4I1T07lINQhy5JHRq7w0nHepie99s=;
- b=D54758/c1WDABKaV+E/Y9HURcOTkxCfRowX8VYfqdryVgObJIaCYUR2dDffsVHPKqk
- S++MuNbGK8tYwc2GCKdmN5O3Fn/rspv6kPmrjqyfnXv0pdrJ/Tssq/KIq4gVFWZ0Ganh
- c2f92z4ZhHLDMrwy+iAUQfNnIUHVdHoJObLF/+i1Xb6xwe/nMOeojDfgEmFO3wyYJT4h
- LZYRgIyZtxDt+47O1/rnwJIhsGQOru244wCGBJQZNxzmYfaFQrWf4t9Vg+wmizBaJK45
- o1pvCqw1qdIVb9ih+VXYxf/n0QTc7/eK+XsKjjzMr/hbPY56tjR7zBCBruuREEcWknhy
- 9/qg==
+ bh=Tc6hvH16HL02+LBdNm0oBeAynWr7uQ4sq+3344BeoFU=;
+ b=kNPCPoRw+YWWdGgf9tdy3uvxKrj2FoHOybPJbE5v8Hzxi+e4KE6rjs/u8aI76zeAk+
+ 0qsOat5AP4wNnMQ0jjzEpJJHPEvPSgHHzJ3UZJ1A2vTmp44kSJauo/qaYl93XKprqWPQ
+ jZFZ2jk6E+YwSiJ1mdwFZlS+kb6D46ExlOO5xVWfPibyV/QuspNIBpaaB55cH+WJMHvE
+ 5pNr35usvvcX396eSBf5RT83J65/uhPLHHhElC8am8jHrsD9Ci2EBc0mGzLC4EiNb/an
+ PLZHsFiCknUQvNZ9i0dCk7WeJLxy5lqD7yZkIZmix8Xlr/qDO5foXWdJSteMCggMTUrT
+ 36qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738984012; x=1739588812;
+ d=1e100.net; s=20230601; t=1738985075; x=1739589875;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DdgvWheqjT5pXT4I1T07lINQhy5JHRq7w0nHepie99s=;
- b=puoLUQnTToyJ54rsz3iv+37PR9sOkTxEtV3ygIYOiGWDmz9iwAdEwbiSg1riCg7z5j
- bqLSgkj5Rj3Hp7qty6AnBN/upw3RVlZPI5d9Mrk3V0D2aT4YbdEtiB+K6KQWBolsMuZD
- XaK0OMZt+uGl6GjA2Ya5jsvytmgLTAJPcllPPQS1keaWEQiqQuEkMrR4zutg82rMM4mp
- AAXFwsRCDQ5gC08bF+Lz3SJgpLkz6p46qUkIRbAkC5TJFA8lUtrJTccaEvyxpOLjlwpk
- RrjBRo2J6ryxWC93/DEpYVmMD65CoE37GTOI6/7KrKGHq+tK1fzT/VI0y9Tv/EtoB704
- IwAw==
+ bh=Tc6hvH16HL02+LBdNm0oBeAynWr7uQ4sq+3344BeoFU=;
+ b=o0ECD6EhWCPfmDQrkdW8ZYtJeo6TVrse6wTO/ixyb/AQ6kHHPvCkNLQLP70qm//vyj
+ +ZRnI737NS8SILMhEwmGg6l2fzVLkS1mWGhDiiQZuYzlbS1LU2extwWfFmtK8IWTa/NI
+ GkcJ/3YBgkvE22LAN6nCJFzZZb32Q+2LXDD9XzejipbzTrtV09lyUHNSJgYHCJgH3bzJ
+ MYMXulg9Od/UdJN5sRCu2ni6irdV+oHqg0mYw5QEIfB0fQZGhPMZJ5Qe8pe623FQA7iT
+ mbTeMItLI8XAiEORcVItXBytUAffe2araJHpBbbGhNOl1vAOzgxrxfclCqiZqgvD9UDe
+ oTbg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVezlJ6maId9eLdrFc6cWVOwXE4P/oD7i9IreQgZgGEtKN5kCPqdOhJEeHtzQTTLJ6Fu8HEuNi/eUs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxRFUJ1DEYDZMMRrk4XD/Br6GjV1VQ1h251eAlNDiIDVEQOa9Z2
- J1+va6l6snq8Oo8XmfN2qhXlxbq155MJdNaAsR+GcL6hh/EdIpCS
-X-Gm-Gg: ASbGncsrtALCNTK0uYhSVS9SwtlDx2fWHJQK2gQPBqqa5q8fF3FHZ58+l9KYa6l+vt3
- nUoT63kHP2YHbQ3D4dGpX8DY2uxOkk0RyQDRrlBoO3WvVlXgcoa7E1pa6BO2QGud1XuHH/7prIE
- sNHwgv46OIl5Qe2M517dcSxoVLWLlV8bkL1yxXKZW8VL062gqWE6L74mz+AkdDv9zgoJCmI9+Xz
- NLMv0gAx9T/6M4ALKTX1mk8owJsdb4OLTQGdcSnjBftF1ggQfowWWkXw4gQgBb5rITxavwHkYxv
- L44QrZ6m8zEcziQ=
-X-Google-Smtp-Source: AGHT+IFJLSCXQpLWVjygO2ryT8UBN9/TQaLw2cpmwi5QB34TSe8wHW0JRe80FNHslqUQ/LyOyYDIWg==
-X-Received: by 2002:a17:903:2f84:b0:212:63c0:d9e7 with SMTP id
- d9443c01a7336-21f4e110a0bmr88071015ad.0.1738984011623; 
- Fri, 07 Feb 2025 19:06:51 -0800 (PST)
-Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-21f3687dddasm38069655ad.203.2025.02.07.19.06.49
+ AJvYcCXmvuyBCF2POhl/XQKfaVf1bt2s92/1aZmErqx0zuEJlYgF9jug4E1dzOe7AwPzsygXetRwDVGDMDc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy2SqFeYGhbrSQ95gbCtFZ76shhaPodL59bGApBKjomLSfoasRZ
+ P/occH2V4SgoUP93h+YpBwGVAQrPWa+OrGWIxqShRKzs6Ril8lkXQZU0pa0Puqk=
+X-Gm-Gg: ASbGncsKjcscOt6PBJX/3PKpyhxMD2E3xLoyu+yncDTKVdhEIgdMSlmQY1wG7pX3VuS
+ /u6Ak/xUCQziqG4f64KcQjBX8Ow3q4Pr6q91YHwUx5bEu60BFEdhPlxA9exzBO8mkm3FdcdV+sn
+ vycaSlTrm9hMYCwE+A8U8RG/vG9Bz5MyYAVz5snL+HdLjbJR4qEVPN1vsyd704WmStcemEO5x0Q
+ E8WA5o/iNQQyE4zxnEc3DGPE/z7FzYF0lJ3YqLLdNE7tBMAuFK4kYKxIw68P07arfYM3cKc79Wn
+ 98IpqYz8913SXHMQbqJz11yJqo/VCbeRx3FEkn/KLZED86TM8+wzTLjcqTQCI4xVoI+ZBYM=
+X-Google-Smtp-Source: AGHT+IFydtUFynrK2gRpKzEKvd+/uEV8NSFd5so2WMhom1ky7+A67a+p0tJRz+0pk2ZePPqPbJ3Tsw==
+X-Received: by 2002:a2e:a550:0:b0:306:1524:4a65 with SMTP id
+ 38308e7fff4ca-307e57fed91mr19942481fa.20.1738985074455; 
+ Fri, 07 Feb 2025 19:24:34 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-307de1a67c9sm6260441fa.48.2025.02.07.19.24.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2025 19:06:50 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
- id D25224208F47; Sat, 08 Feb 2025 10:06:47 +0700 (WIB)
-Date: Sat, 8 Feb 2025 10:06:47 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
-Message-ID: <Z6bKR9K16-oYMLFl@archie.me>
-References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+ Fri, 07 Feb 2025 19:24:33 -0800 (PST)
+Date: Sat, 8 Feb 2025 05:24:29 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, Simona Vetter <simona@ffwll.ch>,
+ Simona Vetter <simona.vetter@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 6/7] drm/msm/hdmi: also send the SPD and HDMI Vendor
+ Specific InfoFrames
+Message-ID: <ry2jfdxhbogl42wbiajll5et5n2puvu46fn25v25qwpac7bbyu@wvhz3ijtfd56>
+References: <20250208-bridge-hdmi-connector-v7-0-0c3837f00258@linaro.org>
+ <20250208-bridge-hdmi-connector-v7-6-0c3837f00258@linaro.org>
+ <9c35f577-2124-4f80-a5d3-542b47ed6825@quicinc.com>
+ <7hpfx2whiyt5pjfcqnzmx5wllezlyttugmvqg2pg3be546m75p@5jfyw4z5wxsw>
+ <af3fa1fd-122b-44e9-8e3b-48918bad7bab@quicinc.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="Zw9znROb1LsOQG2j"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
+In-Reply-To: <af3fa1fd-122b-44e9-8e3b-48918bad7bab@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,81 +104,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Feb 07, 2025 at 07:05:14PM -0800, Abhinav Kumar wrote:
+> 
+> 
+> On 2/7/2025 6:04 PM, Dmitry Baryshkov wrote:
+> > On Fri, Feb 07, 2025 at 05:31:20PM -0800, Abhinav Kumar wrote:
+> > > 
+> > > 
+> > > On 2/7/2025 4:27 PM, Dmitry Baryshkov wrote:
+> > > > Extend the driver to send SPD and HDMI Vendor Specific InfoFrames.
+> > > > 
+> > > > While the HDMI block has special block to send HVS InfoFrame, use
+> > > > GENERIC0 block instead. VENSPEC_INFO registers pack frame data in a way
+> > > > that requires manual repacking in the driver, while GENERIC0 doesn't
+> > > > have such format requirements. The msm-4.4 kernel uses GENERIC0 to send
+> > > > HDR InfoFrame which we do not at this point anyway.
+> > > > 
+> > > 
+> > > True that GENERIC_0/1 packets can be used for any infoframe. But because we
+> > > have so many of them, thats why when there are dedicated registers for some
+> > > of them, we use them to save the GENERIC0 ones for others.
+> > 
+> > True
+> > 
+> > > Lets take a case where we want to send HVSIF, SPD and HDR together for the
+> > > same frame, then we run out as there are no HDR specific infoframe registers
+> > > we can use. Is the expectation that we will migrate to VENSPEC_INFO regs for
+> > > HVSIF when we add HDR support?
+> > 
+> > Most likely, yes. That would be a part of the HDR support. At the same
+> > time note, we can use GENERIC0 to send new HFVS InfoFrames defined in
+> > HDMI 2.x (once Linux gets support for that). At the same time we can not
+> > use VENSPEC_INFO to send those.
+> > 
+> > I can imagine that the driver will have to switch GENERIC1 between HDR
+> > (if required) and SPD (in all other cases).
+> > 
+> 
+> We dont have to use GENERIC0 for HFVS infoframes. We have dedicated
+> HFVS_INFO registers for those.
 
---Zw9znROb1LsOQG2j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ack, I have been checking the old (apq8064) chipset.
 
-On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
-> Corrects the following grammatical issues in the VGA Arbiter documentatio=
-n:
-> - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
-> - Corrects pluralization by changing "server" to "servers"
-> - Improves sentence structure for clarity
->=20
+> 
+> > > 
+> > > Also from a validation standpoint, I guess to really validate this change
+> > > you need an analyzer which decodes the HVSIF. So was this mostly sanity
+> > > tested at this pointed to make sure that the sink just comes up?
+> > 
+> > Vertex 2 dumps received HVS InfoFrame, so the InfoFrame contents has
+> > been validated (validated SPD, AUD, HVS and AVI frames).
+> > 
+> 
+> Yup, vertex2 validation is perfect for this!
+> 
+> Overall, I am fine with this,
+> 
+> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-+Cc: DRM folks.
-
-> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> ---
->  Documentation/gpu/vgaarbiter.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbi=
-ter.rst
-> index bde3c0afb059..d1e953712cc2 100644
-> --- a/Documentation/gpu/vgaarbiter.rst
-> +++ b/Documentation/gpu/vgaarbiter.rst
-> @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
-> =20
->  The Resource Access Control (RAC) module inside the X server [0] existed=
- for
->  the legacy VGA arbitration task (besides other bus management tasks) whe=
-n more
-> -than one legacy device co-exists on the same machine. But the problem ha=
-ppens
-> +than one legacy device co-exist on the same machine. But the problem hap=
-pens
->  when these devices are trying to be accessed by different userspace clie=
-nts
-> -(e.g. two server in parallel). Their address assignments conflict. Moreo=
-ver,
-> +(e.g. two servers in parallel). Their address assignments conflict. More=
-over,
->  ideally, being a userspace application, it is not the role of the X serv=
-er to
->  control bus resources. Therefore an arbitration scheme outside of the X =
-server
->  is needed to control the sharing of these resources. This document intro=
-duces
-> @@ -106,7 +106,7 @@ In-kernel interface
->  libpciaccess
->  ------------
-> =20
-> -To use the vga arbiter char device it was implemented an API inside the
-> +To use the vga arbiter char device, an API was implemented inside the
->  libpciaccess library. One field was added to struct pci_device (each dev=
-ice
->  on the system)::
-> =20
-
-The diff looks OK.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---Zw9znROb1LsOQG2j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6bKPwAKCRD2uYlJVVFO
-o2EnAP9KXpy/sNMRD07GgHf0CZ34bJcFE7NvYEFNIzeNQDcgiQEA3gktCvb0ofFa
-SL7vz+ybdAw6ceg4vF/hhZ8ZdbitVgA=
-=VhPf
------END PGP SIGNATURE-----
-
---Zw9znROb1LsOQG2j--
+-- 
+With best wishes
+Dmitry
