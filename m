@@ -2,90 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C290A2D3B2
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 05:15:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B21B3A2D3C7
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 05:27:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A5010E092;
-	Sat,  8 Feb 2025 04:15:45 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ljsJDmro";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25DEA10E0D2;
+	Sat,  8 Feb 2025 04:27:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6AE610E092;
- Sat,  8 Feb 2025 04:14:18 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5180JtnJ008130;
- Sat, 8 Feb 2025 04:14:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 5cXitFAI/kHsRG6Xi1pHTV60xLTZeyWRCamLyOpJqk4=; b=ljsJDmroB7wCtbEJ
- C8lj+LMptTeGo9yKiGrsiCxAhFcWzWE3XHIYhy39TalzkcLGzPwR8AzY7JRroZx2
- mYvnvHCE5J6TfvChUpqZQqdm4qrGrYp+vgXLDe5gZtfvo9knAxUnP0CKLNkFb537
- sHsI36zh9KCjqq8korEVcJWuwEsmutvTGaINi0S3Zbb1vi8DehkyuQGjryxaqk5Q
- rGT0YAo7SiW3quBmgGAIjidrGbiGy1Z2qE7n/wgYIlbpBd95EY4ScgRW9gpL7j1a
- 1Yu077SdGKBis1PpWWT0L18jHB1tR2kIXqCNmDowE87dnDOspXEQISm8wS2jq0dZ
- Y2Tn3g==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44nvmkgarg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 08 Feb 2025 04:14:05 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5184E4Y4026997
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sat, 8 Feb 2025 04:14:04 GMT
-Received: from [10.110.94.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 7 Feb 2025
- 20:14:03 -0800
-Message-ID: <4130c726-fb63-4ad8-8357-b9ebc78856f0@quicinc.com>
-Date: Fri, 7 Feb 2025 20:14:02 -0800
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C79510E0D2
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 04:27:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9FCC35C0BD4;
+ Sat,  8 Feb 2025 04:26:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D165EC4CED6;
+ Sat,  8 Feb 2025 04:26:57 +0000 (UTC)
+Date: Fri, 7 Feb 2025 23:26:50 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Dr. Greg" <greg@enjellic.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Hector Martin <marcan@marcan.st>, Dave Airlie <airlied@gmail.com>,
+ Jason Gunthorpe <jgg@nvidia.com>,
+ Greg KH <gregkh@linuxfoundation.org>, phasta@kernel.org,
+ Christoph Hellwig <hch@lst.de>, Danilo Krummrich <dakr@kernel.org>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+ daniel.almeida@collabora.com, aliceryhl@google.com,
+ robin.murphy@arm.com, rust-for-linux@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Bj??rn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Valentin Obst <kernel@valentinobst.de>,
+ open list <linux-kernel@vger.kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, airlied@redhat.com,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
+ coherent allocator abstraction.)
+Message-ID: <Z6bdCrgGEq8Txd-s@home.goodmis.org>
+References: <2025013030-gummy-cosmic-7927@gregkh>
+ <20250130172437.GN5556@nvidia.com>
+ <2025013148-reversal-pessimism-1515@gregkh>
+ <20250131135421.GO5556@nvidia.com>
+ <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
+ <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
+ <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
+ <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
+ <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
+ <20250207121638.GA7356@wind.enjellic.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/7] drm/msm/hdmi: make use of the drm_connector_hdmi
- framework
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Simona Vetter <simona@ffwll.ch>, Simona
- Vetter <simona.vetter@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250208-bridge-hdmi-connector-v7-0-0c3837f00258@linaro.org>
- <20250208-bridge-hdmi-connector-v7-3-0c3837f00258@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250208-bridge-hdmi-connector-v7-3-0c3837f00258@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: EjB0PO8S4snFNtg7weJu_Zaiq2gdOUlG
-X-Proofpoint-GUID: EjB0PO8S4snFNtg7weJu_Zaiq2gdOUlG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-08_01,2025-02-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 lowpriorityscore=0 clxscore=1015 suspectscore=0
- mlxlogscore=907 mlxscore=0 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502080030
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250207121638.GA7356@wind.enjellic.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,21 +71,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2/7/2025 4:27 PM, Dmitry Baryshkov wrote:
-> Setup the HDMI connector on the MSM HDMI outputs. Make use of
-> atomic_check hook and of the provided Infoframe infrastructure.
+On Fri, Feb 07, 2025 at 06:16:38AM -0600, Dr. Greg wrote:
 > 
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/msm/Kconfig            |   2 +
->   drivers/gpu/drm/msm/hdmi/hdmi.c        |  45 ++-------
->   drivers/gpu/drm/msm/hdmi/hdmi.h        |  15 +--
->   drivers/gpu/drm/msm/hdmi/hdmi_audio.c  |  72 ++++----------
->   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 175 ++++++++++++++++++++++++---------
->   5 files changed, 162 insertions(+), 147 deletions(-)
-> 
+> Not sure what the fix is, from a project management perspective the
+> technology industry has never faced a challenge like this.  The fork
+> model, which was the classic protection in open-source, doesn't work
+> at this scale.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Maybe not quite a fork, but I wonder if the Rust project did something similar
+to what PREEMPT_RT did. That was to keep an out of tree patch. The full patch
+was just merged last September after being out of tree for a good 20 years.
+
+In the beginning there was a few things in that patch that Christoph was
+against, but over time he became accepting of it.
+
+Yes, being out of tree is very difficult because you have to constantly rebase
+(we actually found quilt being a better tool than git in this case!). But it
+also gives you full flexibility to try new approaches. Just because something
+is out of tree doesn't mean it can't be published and used. Red Hat and SUSE,
+as well as many others shipped PREEMPT_RT while it was out of tree.
+
+Note, even though PREEMPT_RT started in 2004 and wasn't fully merged until
+2024, it slowly did creep in bit by bit. For example, here's a few things that
+came from the RT patch, and each was rewritten at least 3 times to become
+acceptable by the upstream maintainers:
+
+  - NOHZ
+  - High res timers
+  - threaded interrupts
+  - mutex code (yes, before RT everything used a semaphore)
+  - lockdep
+  - ftrace
+  - generic interrupt code
+  - generic timer code
+  - priority inheritance
+  - SCHED_DEADLINE
+  - RT push/pull scheduling
+
+and more.
+
+Point being, if you are having issues with getting code upstream, don't be
+afraid to make it out of tree. Just make it easy for others to use. And slowly
+move your code into mainline. This is also a way to prove beyond a doubt how
+useful your code is. The number of users is a technical argument. Linus does
+pull things in when there is a large user base, even over other maintainer's
+objections (see sched_ext).
+
+It worked for us, it can work for you ;-)
+
+-- Steve
+
