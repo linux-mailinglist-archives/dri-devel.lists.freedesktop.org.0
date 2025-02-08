@@ -2,95 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500BDA2D284
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 02:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E796A2D2A5
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 02:31:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A90F010E397;
-	Sat,  8 Feb 2025 01:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7C6F10E24D;
+	Sat,  8 Feb 2025 01:31:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="nuocuWI5";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZBCveahe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
- [209.85.218.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B27D10E397
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 01:13:38 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id
- a640c23a62f3a-aaeec07b705so445766666b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 17:13:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1738977216; x=1739582016;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tHszUqSCGBMCxsD58rJHaZBPKTZWyVcaex7WlbuvwjY=;
- b=nuocuWI54GD6/GxofMBv7exfBRsfkMKipeNAqczSlV3evF98AUQ0VKg4RvduUInh6r
- 2qURDrcYEWa9HI9yW5rmh2sx8zUtlhOt2m0RKeddBekDpQLRSFB27A1oWRsGatMfgMsA
- 0O/pGq2BpIRqCJTX3yUoE9iM+BWN1UJuO92dw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738977216; x=1739582016;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tHszUqSCGBMCxsD58rJHaZBPKTZWyVcaex7WlbuvwjY=;
- b=vSrfG8cchNKHoA14vA+ivN76N08X3j5Ni5vQgmYyOUkeF403TP2x+z/L3e71FODRex
- qCnXGZMuoWYj0Sj2E1SVgzqUxxJW7utlto90RqAu9ayLgYkg5sWNXEi1uAZ9Gs7aJqkY
- aobqVeEu+M2YHrWS7BnWUlXPa0DCUQS81J4NpwuYzKMMSxMvkCR8yvZIop8wGWpYoYaV
- 5I3CcfXN3QCyD4E8ws6kkpputx3hBTA2b3JV7bQObGFRgaeOjdoFWvb67+0S+RIT1ZB0
- TD5s+EO+BadwYggSqecH7gEL62Kcnh8KTEnysZ2kGPsvVb0bdVqUXT0QBDUHBsxkdE2b
- N9Ig==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXFoFrJBFOXhofVqwC2PB1CkfhgdZjQCkdgHQ5VtZ7BAJ9wO1Q3NNdyRS8XqOCL6rUD4MkTd2DAzTw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwttK71JAgFZcE1TVkD7ZYOizJ0NeOm3n3FQlXeHftVVsZPfJIJ
- 8UYmWjavc1hIPYaXoe2qLLA584+IxHaIH9WJEM+QdxCgkxySShgK695SMBf+lbESWodDCUuXnxY
- uzcEM
-X-Gm-Gg: ASbGncugiBaYEbhgmAQvZM08jRwRhCop047tBOmoQBkWAjCgZqY+LGrG+1v2HP9CtUJ
- l1Emb1CHny2a69ci7qgw66p0B+cu2HLmriJmKpUgJYAQ7t4ep+yclbQ+7B/8rvVVtt783Tmzyxw
- Sst1RmN+9Htci2rxlDH7+dayXjzZ5ThbrwD9a5RNHvuJDrw3EXyvKN+sVq8BIoYQ8xgz/SCwxKb
- 8+pqrOI3MG4mgWNidk2Y2PtC9iqxYANJlWIAujRnhLP99UhFidVOmYYXDZyxf2L/S9YM49J4yC7
- NuJyBugG0AZH58g1Yz6R4URpvRQfeQ5BvNkEhC9CpXNxLIxUWRNghaw=
-X-Google-Smtp-Source: AGHT+IFSmPc0gqk0SNV8Qk4+I96p2+AE1TH8BtdC+xpGFFemkTEEkqeAZdoMd6DPFLy51DWCKarxuQ==
-X-Received: by 2002:a17:907:c1c:b0:aa6:7220:f12f with SMTP id
- a640c23a62f3a-ab789abde22mr622827266b.18.1738977216322; 
- Fri, 07 Feb 2025 17:13:36 -0800 (PST)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
- [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ab78ee9e208sm179205466b.50.2025.02.07.17.13.35
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Feb 2025 17:13:35 -0800 (PST)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-43622267b2eso26170755e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 17:13:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0Imc9QG4LbTFea3fH4sev+Q/Jdf3U8jRND1wb8MlESFs3WrWwGRXE2iUr9O70ST7YQZD+OTN4sUU=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3ba8:b0:543:9b0f:7d39 with SMTP id
- 2adb3069b0e04-54414ae0de2mr2057368e87.32.1738976902442; Fri, 07 Feb 2025
- 17:08:22 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6A7610E24D;
+ Sat,  8 Feb 2025 01:31:34 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51811px7016565;
+ Sat, 8 Feb 2025 01:31:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ kOMW8RTIO3pAab3P0zq0c0WZFk8FEg7wDem0H2F5bMQ=; b=ZBCveaheBEIB1yx+
+ +e8siaQMZdqA0HK716C5buXUWQnYvfWaDITtHyFSlj5Q2xpPEyjuCY8wzKckEjT1
+ hLwdCttW7trcSmZWyfDo0gi6u0G3R0XXC+RSt9oR6ha0exv6CfOV3USqqZTmOWIv
+ 7qA6Q3JEtDO7ADIa1GwWEdJk2vUS5gOHu9FC4rgDNPqHSZvJQ67xVIZN1uD9wK2g
+ q3aScdYlb/6pBSOetR7TdQ9Io7A/uhMXfy64Ca/15CNU1dIP0XfbuW2JWZttcIH1
+ TM4i8ElqqdgjOwnMc8qRXRkTxU0tXgHQOKj1poBgfkSXoc3307OGjoqubjU3VV+0
+ V8ZgEA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44nw8cg1aj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 08 Feb 2025 01:31:23 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5181VMlE032072
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 8 Feb 2025 01:31:22 GMT
+Received: from [10.110.94.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 7 Feb 2025
+ 17:31:21 -0800
+Message-ID: <9c35f577-2124-4f80-a5d3-542b47ed6825@quicinc.com>
+Date: Fri, 7 Feb 2025 17:31:20 -0800
 MIME-Version: 1.0
-References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
- <20250204-bridge-connector-v2-13-35dd6c834e08@kernel.org>
-In-Reply-To: <20250204-bridge-connector-v2-13-35dd6c834e08@kernel.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 7 Feb 2025 17:08:11 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=Wu4cGQ9FsQteju78rE04v9O9rTUz0W3Punhr+BZM=66A@mail.gmail.com>
-X-Gm-Features: AWEUYZmDTTmxI72piEcHcrC-LMDJ3meTMFGoKV0AJrQqDxffv63GCAjRlxWZiEc
-Message-ID: <CAD=FV=Wu4cGQ9FsQteju78rE04v9O9rTUz0W3Punhr+BZM=66A@mail.gmail.com>
-Subject: Re: [PATCH v2 13/35] drm/bridge: Change parameter name of
- drm_atomic_bridge_chain_post_disable()
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 6/7] drm/msm/hdmi: also send the SPD and HDMI Vendor
+ Specific InfoFrames
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Simona Vetter <simona@ffwll.ch>, Simona
+ Vetter <simona.vetter@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+References: <20250208-bridge-hdmi-connector-v7-0-0c3837f00258@linaro.org>
+ <20250208-bridge-hdmi-connector-v7-6-0c3837f00258@linaro.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250208-bridge-hdmi-connector-v7-6-0c3837f00258@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: a0_OQfXAb4jRESBvnIWZvvBaHnDzGYTB
+X-Proofpoint-ORIG-GUID: a0_OQfXAb4jRESBvnIWZvvBaHnDzGYTB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-07_11,2025-02-07_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ adultscore=0 mlxscore=0 clxscore=1015 phishscore=0 malwarescore=0
+ impostorscore=0 mlxlogscore=999 suspectscore=0 priorityscore=1501
+ bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502080009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,45 +101,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Tue, Feb 4, 2025 at 6:59=E2=80=AFAM Maxime Ripard <mripard@kernel.org> w=
-rote:
->
-> drm_atomic_bridge_chain_post_disable() disables all bridges affected by
-> a new commit. It takes the drm_atomic_state being committed as a
-> parameter.
->
-> However, that parameter name is called (and documented) as old_state,
-> which is pretty confusing. Let's rename that variable as state.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+On 2/7/2025 4:27 PM, Dmitry Baryshkov wrote:
+> Extend the driver to send SPD and HDMI Vendor Specific InfoFrames.
+> 
+> While the HDMI block has special block to send HVS InfoFrame, use
+> GENERIC0 block instead. VENSPEC_INFO registers pack frame data in a way
+> that requires manual repacking in the driver, while GENERIC0 doesn't
+> have such format requirements. The msm-4.4 kernel uses GENERIC0 to send
+> HDR InfoFrame which we do not at this point anyway.
+> 
+
+True that GENERIC_0/1 packets can be used for any infoframe. But because 
+we have so many of them, thats why when there are dedicated registers 
+for some of them, we use them to save the GENERIC0 ones for others.
+
+Lets take a case where we want to send HVSIF, SPD and HDR together for 
+the same frame, then we run out as there are no HDR specific infoframe 
+registers we can use. Is the expectation that we will migrate to 
+VENSPEC_INFO regs for HVSIF when we add HDR support?
+
+Also from a validation standpoint, I guess to really validate this 
+change you need an analyzer which decodes the HVSIF. So was this mostly 
+sanity tested at this pointed to make sure that the sink just comes up?
+
+> Acked-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > ---
->  drivers/gpu/drm/drm_bridge.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 0a8c7176959d13937124d2a3bf7e69309898b947..ab166972b1b0df239ca014296=
-be49846a857df6e 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -577,23 +577,23 @@ void drm_atomic_bridge_chain_disable(struct drm_bri=
-dge *bridge,
->         }
->  }
->  EXPORT_SYMBOL(drm_atomic_bridge_chain_disable);
->
->  static void drm_atomic_bridge_call_post_disable(struct drm_bridge *bridg=
-e,
-> -                                               struct drm_atomic_state *=
-old_state)
-> +                                               struct drm_atomic_state *=
-state)
->  {
->         if (old_state && bridge->funcs->atomic_post_disable)
+>   drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 93 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 93 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> index 15ab0858105328c2f774ec1f79423614bbbaeb41..aee75eee3d4244cd95e44df46d65b8e3e53de735 100644
+> --- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> +++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+> @@ -69,6 +69,8 @@ static void power_off(struct drm_bridge *bridge)
+>   }
+>   
+>   #define AVI_IFRAME_LINE_NUMBER 1
+> +#define SPD_IFRAME_LINE_NUMBER 1
+> +#define VENSPEC_IFRAME_LINE_NUMBER 3
+>   
+>   static int msm_hdmi_config_avi_infoframe(struct hdmi *hdmi,
+>   					 const u8 *buffer, size_t len)
+> @@ -142,6 +144,74 @@ static int msm_hdmi_config_audio_infoframe(struct hdmi *hdmi,
+>   	return 0;
+>   }
+>   
+> +static int msm_hdmi_config_spd_infoframe(struct hdmi *hdmi,
+> +					 const u8 *buffer, size_t len)
+> +{
+> +	u32 buf[7] = {};
+> +	u32 val;
+> +	int i;
+> +
+> +	if (len != HDMI_INFOFRAME_SIZE(SPD) || len - 3 > sizeof(buf)) {
+> +		DRM_DEV_ERROR(&hdmi->pdev->dev,
+> +			"failed to configure SPD infoframe\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* checksum gets written together with the body of the frame */
+> +	hdmi_write(hdmi, REG_HDMI_GENERIC1_HDR,
+> +		   buffer[0] |
+> +		   buffer[1] << 8 |
+> +		   buffer[2] << 16);
+> +
+> +	memcpy(buf, &buffer[3], len - 3);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(buf); i++)
+> +		hdmi_write(hdmi, REG_HDMI_GENERIC1(i), buf[i]);
+> +
+> +	val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
+> +	val |= HDMI_GEN_PKT_CTRL_GENERIC1_SEND |
+> +		 HDMI_GEN_PKT_CTRL_GENERIC1_CONT |
+> +		 HDMI_GEN_PKT_CTRL_GENERIC1_LINE(SPD_IFRAME_LINE_NUMBER);
+> +	hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int msm_hdmi_config_hdmi_infoframe(struct hdmi *hdmi,
+> +					  const u8 *buffer, size_t len)
 
-drivers/gpu/drm/drm_bridge.c:588:6: error: use of undeclared
-identifier 'old_state'; did you mean 'node_state'?
-  588 |         if (old_state && bridge->funcs->atomic_post_disable)
-      |             ^~~~~~~~~
-      |             node_state
+msm_hdmi_config_hvsif_infoframe() to be more clear?
+
+> +{
+> +	u32 buf[7] = {};
+> +	u32 val;
+> +	int i;
+> +
+> +	if (len < HDMI_INFOFRAME_HEADER_SIZE + HDMI_VENDOR_INFOFRAME_SIZE ||
+> +	    len - 3 > sizeof(buf)) {
+> +		DRM_DEV_ERROR(&hdmi->pdev->dev,
+> +			"failed to configure HDMI infoframe\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* checksum gets written together with the body of the frame */
+> +	hdmi_write(hdmi, REG_HDMI_GENERIC0_HDR,
+> +		   buffer[0] |
+> +		   buffer[1] << 8 |
+> +		   buffer[2] << 16);
+> +
+> +	memcpy(buf, &buffer[3], len - 3);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(buf); i++)
+> +		hdmi_write(hdmi, REG_HDMI_GENERIC0(i), buf[i]);
+> +
+> +	val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
+> +	val |= HDMI_GEN_PKT_CTRL_GENERIC0_SEND |
+> +		 HDMI_GEN_PKT_CTRL_GENERIC0_CONT |
+> +		 HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE |
+> +		 HDMI_GEN_PKT_CTRL_GENERIC0_LINE(VENSPEC_IFRAME_LINE_NUMBER);
+> +	hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
+> +
+> +	return 0;
+> +}
+> +
+>   static int msm_hdmi_bridge_clear_infoframe(struct drm_bridge *bridge,
+>   					   enum hdmi_infoframe_type type)
+>   {
+> @@ -176,6 +246,25 @@ static int msm_hdmi_bridge_clear_infoframe(struct drm_bridge *bridge,
+>   
+>   		break;
+>   
+> +	case HDMI_INFOFRAME_TYPE_SPD:
+> +		val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
+> +		val &= ~(HDMI_GEN_PKT_CTRL_GENERIC1_SEND |
+> +			 HDMI_GEN_PKT_CTRL_GENERIC1_CONT |
+> +			 HDMI_GEN_PKT_CTRL_GENERIC1_LINE__MASK);
+> +		hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
+> +
+> +		break;
+> +
+> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+> +		val = hdmi_read(hdmi, REG_HDMI_GEN_PKT_CTRL);
+> +		val &= ~(HDMI_GEN_PKT_CTRL_GENERIC0_SEND |
+> +			 HDMI_GEN_PKT_CTRL_GENERIC0_CONT |
+> +			 HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE |
+> +			 HDMI_GEN_PKT_CTRL_GENERIC0_LINE__MASK);
+> +		hdmi_write(hdmi, REG_HDMI_GEN_PKT_CTRL, val);
+> +
+> +		break;
+> +
+>   	default:
+>   		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
+>   	}
+> @@ -197,6 +286,10 @@ static int msm_hdmi_bridge_write_infoframe(struct drm_bridge *bridge,
+>   		return msm_hdmi_config_avi_infoframe(hdmi, buffer, len);
+>   	case HDMI_INFOFRAME_TYPE_AUDIO:
+>   		return msm_hdmi_config_audio_infoframe(hdmi, buffer, len);
+> +	case HDMI_INFOFRAME_TYPE_SPD:
+> +		return msm_hdmi_config_spd_infoframe(hdmi, buffer, len);
+> +	case HDMI_INFOFRAME_TYPE_VENDOR:
+> +		return msm_hdmi_config_hdmi_infoframe(hdmi, buffer, len);
+>   	default:
+>   		drm_dbg_driver(hdmi_bridge->base.dev, "Unsupported infoframe type %x\n", type);
+>   		return 0;
+> 
+
