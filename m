@@ -2,36 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51B6A2DE2D
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 14:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69FBBA2DE30
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 14:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 79D8F10E496;
-	Sun,  9 Feb 2025 13:55:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D49C10E49A;
+	Sun,  9 Feb 2025 13:55:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bytedance.com header.i=@bytedance.com header.b="iaVOtCIt";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from c64.rulez.org (c64.rulez.org [79.139.58.36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0C2410E17E
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 00:51:36 +0000 (UTC)
-Received: from [192.168.0.115] (unknown [89.134.11.189])
- by c64.rulez.org (Postfix) with ESMTPSA id 4C69B100F6;
- Sat,  8 Feb 2025 01:51:31 +0100 (CET)
-Message-ID: <8c0aa1f0-27f8-befa-2b27-76e9faf7fc6d@c64.rulez.org>
-Date: Sat, 8 Feb 2025 01:51:30 +0100
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5B1D10E2AE
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 09:16:06 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-21f48ebaadfso41678975ad.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 01:16:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance.com; s=google; t=1739006166; x=1739610966;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=nvJCWy4EMuDIOueWrbTN3LkRGm5dA+GTUOq10vklDNE=;
+ b=iaVOtCItfbBNyVo2+0ovZf1ZikIu0BP9qyj5srcVENXkUj5KvoXVI6Biu0THox1mfU
+ Hhsk8aB9H/psHlECmGR/+OfYjC1DsqoYW5dYS+vNRocr1GZS8H9kzgrWsX/nHXBdeD6f
+ DNL6bewAX8Y7H/cNTW1di8I094bhlPqD9OIgcqq9JVw0kojXJyuhFBdN3e9HmBWxy/cB
+ 3AwAxIJhPRxI5pQQj1JcJ096+BwVRngriArQr7GjalGYJIzD85jSvG5XzgWNVyAYuLNM
+ P/7sgK5lupX7oGz/5SkUG2BofZnv7aSTkGM+6p0djR2rr4DoQ6EJYzufZP5PcbxZQ4Vq
+ AwkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739006166; x=1739610966;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nvJCWy4EMuDIOueWrbTN3LkRGm5dA+GTUOq10vklDNE=;
+ b=eYZMgz/sxlgu7eAryRY6L4vD4LXxLxyht10UBgAEk41/1Pp+kcXS0PZQfcF87dPiV5
+ moXYuV5rVRGJzerwpnUukRsUPhcWwXRx2vZBG/BlZ7C0YetiQQNIM6JrSGhmKitjD0gX
+ NvliIOeta7C9H080jd2jLBVCSYv/vekQEAmvX3sUvcHnVE6c9/VzzDi/+p6nFdvkkrLB
+ wS0wHcBzlTILrbvlm3WSoMqYMAx1E7hmr/8iZQybaVpvMOsPW+VlmcCXyQM3wmJFdGen
+ +sF8jE1As9hP+/Qwjnsf7KziI14Q9LB3H3LdjT3uExqqfLQhrF6lkBovIkn3D5OFlY2l
+ feFw==
+X-Gm-Message-State: AOJu0YwG5g+CVRjzbbRYr8qY+pwOqjEs6KWqmy9gxMA6urfSOsML06t/
+ fLY+atJXzsbmJdPInNQ9lfIchulYMa72mI2ENWvdqZq5anGEbIJ9RC+u4Yv51Ho=
+X-Gm-Gg: ASbGncsy1mFm1ov0FNj8o/0kzweklH5JyetjPWvkdh0YNTyku4a5ViSWKNXi9JMUa87
+ BPBTY3O96ftaW9T88EJqtES3sVZS1bh4/S1v8jHE56gdeMDgx3cxO6sxdOQhNOzZ0AzxLDHs3/5
+ 9ZiSwnB5/c0GIajrnDAecsGv5SXvR6/446BaEUvw/2IlMrj5Wk8oI1pgTZWMkJuueVSyPNhIuzH
+ ifAXGpARxhawHRbrBu6n0V1gJgdhLLlrvu729Z21uyaFFrjX3AHF7yeP/MIbbIUkp0UsBy3N/Z5
+ 1uO0cS3nSfLyeDkrQfJWxiKYxRY=
+X-Google-Smtp-Source: AGHT+IH9LMRe9AjHdNUfp2Yrb0ZiOIbt3KV7vcDcJeBZyl80We0ELLIq9YFH/aC5JlHj5VwpG1tojQ==
+X-Received: by 2002:a05:6a20:d706:b0:1e0:ca1c:8581 with SMTP id
+ adf61e73a8af0-1ee03a8dbb8mr12087904637.21.1739006165903; 
+ Sat, 08 Feb 2025 01:16:05 -0800 (PST)
+Received: from bytedance ([61.213.176.12]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7307bfc03efsm311772b3a.160.2025.02.08.01.16.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Feb 2025 01:16:05 -0800 (PST)
+Date: Sat, 8 Feb 2025 17:15:59 +0800
+From: Zhaoyu Liu <liuzhaoyu.zackary@bytedance.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ ray.huang@amd.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/ttm: use ttm_resource_unevictable() to replace
+ pin_count and swapped
+Message-ID: <20250208091559.GA118571@bytedance>
+References: <20250126093256.GA688734@bytedance>
+ <bea1a3a0-c6d4-4941-9dd9-73f0756ef17b@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-GB
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250207041818.4031-1-soci@c64.rulez.org>
- <c4db73a2-12a7-41f4-a175-332c44f51bc4@suse.de>
-From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
-Subject: Re: [PATCH RESEND 00/13] fbdev: core: Deduplicate cfb/sys drawing
- fbops
-In-Reply-To: <c4db73a2-12a7-41f4-a175-332c44f51bc4@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------zrCE9RTpZfdjfCQwIrX4E8p1"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bea1a3a0-c6d4-4941-9dd9-73f0756ef17b@amd.com>
 X-Mailman-Approved-At: Sun, 09 Feb 2025 13:55:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,84 +91,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------zrCE9RTpZfdjfCQwIrX4E8p1
-Content-Type: multipart/mixed; boundary="------------P5ZohRz3iLDhhg8Q65q191HU";
- protected-headers="v1"
-From: =?UTF-8?Q?Kajt=c3=a1r_Zsolt?= <soci@c64.rulez.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <8c0aa1f0-27f8-befa-2b27-76e9faf7fc6d@c64.rulez.org>
-Subject: Re: [PATCH RESEND 00/13] fbdev: core: Deduplicate cfb/sys drawing
- fbops
-References: <20250207041818.4031-1-soci@c64.rulez.org>
- <c4db73a2-12a7-41f4-a175-332c44f51bc4@suse.de>
-In-Reply-To: <c4db73a2-12a7-41f4-a175-332c44f51bc4@suse.de>
+On Tue, Feb 04, 2025 at 08:59:08AM +0100, Christian König wrote:
+> Am 26.01.25 um 10:32 schrieb Zhaoyu Liu:
+> > TTM always uses pin_count and ttm_resource_is_swapped() together to
+> > determine whether a BO is unevictable.
+> > Now use ttm_resource_unevictable() to replace them.
+> > 
+> > Signed-off-by: Zhaoyu Liu <liuzhaoyu.zackary@bytedance.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+> I will pick this up for drm-misc-next.
+> 
 
---------------P5ZohRz3iLDhhg8Q65q191HU
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Thanks,
+but I don't see it in drm-misc-next(https://cgit.freedesktop.org/drm/drm-misc/log),
+is it not merged yet?
 
-Hello Thomas!
+---
+All The Best
 
-> No it's not. Major code abstractions behind preprocessor tokens are=20
-> terrible to maintain.
-
-Hmm, don't get me wrong but I'm not sure if the changes were really
-checked in detail. At first sight it might look like I'm adding tons of
-new macro ridden code in those header files replacing cleaner code.
-
-While actually that's just how the I/O version currently is, copied and
-white space cleaned (as it was requested) plus comment style matched
-with sys.
-
-The only new thing which hides the mentioned abstraction a little more
-is FB_MEM, which replaced __iomem. But that's a tradeoff to be able to
-use the same source for system as well.
-
-Or the concern is that now system memory specific code might get mixed
-in there by mistake?
-
-It was not planned as the final version, the current maintainer asked
-for addressing some pre-existing quality issues with further patches but
-otherwise accepted the taken approach.
-
-> It's also technically not possible to switch between system and I/O=20
-> memory at will. These are very different things.
-
-Yes, there are architectures where these two don't mix at all, I'm aware
-of that. I need that on x86 only (for old hw), and there it seems
-doable. Depending on the resolution either the aperture or the defio
-memory is mapped. If the framebuffer is not remapped after a mode change
-that's an application bug. Otherwise it's harmless as both are always
-there and don't change.
-
-I'd better like to find out problems sooner than later, so if you or
-anyone else could share any concerns that'd be really helpful!
-
-> If you want that pixel-reversing feature in sys_ helpers, please=20
-> implement it there.
-
-Actually that's what I did first. Then did it once more by adapting the
-I/O version as that gave me more confidence that it'll work exactly the
-same and there's less room for error.
-
---------------P5ZohRz3iLDhhg8Q65q191HU--
-
---------------zrCE9RTpZfdjfCQwIrX4E8p1
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEE8WlaH4v4aHNT2Bn0WOeEu4KftGsFAmemqpIFAwAAAAAACgkQWOeEu4KftGth
-1wgAkeHUwzAtvRl+xA+zG/saL4inUubQsNEu3Kdn7YGaiZuNcP7TTNCEdHhk7XfDvbT/M4ZQyc0x
-jkmcoM2ABey1XQAl5LWnwL5lQMX5/ghDokLwTOnByiuxtWiptL6RfspDY79zr6tKoxE1LgSOOQKu
-Idb+Md+pifxPdArgVpcUwb7hoSJf+ohMQ9wJO3I3J3n7FvM0sP6bawloxX8A30AtN8zktCZkOIGy
-Sbipo+1iXQ1ls1rHEm6oYfS5TRikNrUxeI7U2aYjCs6k4+ukQw9byDBos0em5oXu1edcZRhjYnGV
-S1+m2KTGsJWLVzRjES9dygAMESQOAFFxPQ6rdH3f5Q==
-=Conf
------END PGP SIGNATURE-----
-
---------------zrCE9RTpZfdjfCQwIrX4E8p1--
+> > ---
+> >   drivers/gpu/drm/ttm/ttm_resource.c | 15 ++++++++++-----
+> >   1 file changed, 10 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+> > index cc29bbf3eabb..a8f9f7ed6c6e 100644
+> > --- a/drivers/gpu/drm/ttm/ttm_resource.c
+> > +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+> > @@ -252,11 +252,16 @@ static bool ttm_resource_is_swapped(struct ttm_resource *res, struct ttm_buffer_
+> >   	return ttm_tt_is_swapped(bo->ttm);
+> >   }
+> > +static bool ttm_resource_unevictable(struct ttm_resource *res, struct ttm_buffer_object *bo)
+> > +{
+> > +	return bo->pin_count || ttm_resource_is_swapped(res, bo);
+> > +}
+> > +
+> >   /* Add the resource to a bulk move if the BO is configured for it */
+> >   void ttm_resource_add_bulk_move(struct ttm_resource *res,
+> >   				struct ttm_buffer_object *bo)
+> >   {
+> > -	if (bo->bulk_move && !bo->pin_count && !ttm_resource_is_swapped(res, bo))
+> > +	if (bo->bulk_move && !ttm_resource_unevictable(res, bo))
+> >   		ttm_lru_bulk_move_add(bo->bulk_move, res);
+> >   }
+> > @@ -264,7 +269,7 @@ void ttm_resource_add_bulk_move(struct ttm_resource *res,
+> >   void ttm_resource_del_bulk_move(struct ttm_resource *res,
+> >   				struct ttm_buffer_object *bo)
+> >   {
+> > -	if (bo->bulk_move && !bo->pin_count && !ttm_resource_is_swapped(res, bo))
+> > +	if (bo->bulk_move && !ttm_resource_unevictable(res, bo))
+> >   		ttm_lru_bulk_move_del(bo->bulk_move, res);
+> >   }
+> > @@ -276,10 +281,10 @@ void ttm_resource_move_to_lru_tail(struct ttm_resource *res)
+> >   	lockdep_assert_held(&bo->bdev->lru_lock);
+> > -	if (bo->pin_count || ttm_resource_is_swapped(res, bo)) {
+> > +	if (ttm_resource_unevictable(res, bo)) {
+> >   		list_move_tail(&res->lru.link, &bdev->unevictable);
+> > -	} else	if (bo->bulk_move) {
+> > +	} else if (bo->bulk_move) {
+> >   		struct ttm_lru_bulk_move_pos *pos =
+> >   			ttm_lru_bulk_move_pos(bo->bulk_move, res);
+> > @@ -318,7 +323,7 @@ void ttm_resource_init(struct ttm_buffer_object *bo,
+> >   	man = ttm_manager_type(bo->bdev, place->mem_type);
+> >   	spin_lock(&bo->bdev->lru_lock);
+> > -	if (bo->pin_count || ttm_resource_is_swapped(res, bo))
+> > +	if (ttm_resource_unevictable(res, bo))
+> >   		list_add_tail(&res->lru.link, &bo->bdev->unevictable);
+> >   	else
+> >   		list_add_tail(&res->lru.link, &man->lru[bo->priority]);
+> 
