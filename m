@@ -2,77 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F4BA2D3F8
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 06:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBF3A2D412
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 06:20:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEFD110E2A1;
-	Sat,  8 Feb 2025 05:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4297A10E2AC;
+	Sat,  8 Feb 2025 05:20:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cps1lmM+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wFu9PkYD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43FE510E2A1
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 05:16:10 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-2fa0f222530so4820944a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 21:16:10 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E1E510E2AC
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 05:19:30 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-54505a75445so162676e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 21:19:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1738991770; x=1739596570; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XsXdVNzMronb2yUVKZu1ghjJ64uz8qffcCW+yBp7e6g=;
- b=cps1lmM+QejuR1e4MDqYwst0bzfgrTHqZOcX5JdtGpiA1Gp+Bh6zmIHPEnqOdA/AeS
- 5wqkHg3zyh7kgLUmPMd1+XyZQtd7S2RyLiOqrsSgKsyqOfpWu2H/oivyhnjbZ3jtBnAM
- 69ERoLU+dLgn7ReoVatHWGQ0uwdnxGH+dHboBXPhEdcbOqJc+dKJ3l2cxSwEp3qOjZGF
- +KPhTZwF39ofvhdjN4qHNLlXcFW4aMe/u/PtYavU2HXD6TQqTGuMfo+FGBle0mzq2xb+
- IdUZdDdo3HZiNC2l6r6FUF1QuumKofo3dmF1Db68rEM6hg5hl2n7+5zsfNdFVsUUMKPu
- keYw==
+ d=linaro.org; s=google; t=1738991969; x=1739596769; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=XbmEch0kSfMOKC6/rJ1doWwYVcmMwQu5vCq8pLMJYLw=;
+ b=wFu9PkYDh0bCq1OBefBc+GDVQOPIC8sk7eafd3/ZIGgs+CMJqfoTBMdV9h49GuGIyF
+ 6W4bsaiJZ7AWOMxiUwI1fqme24tB5N84nsKIeUbrAb9sNFYunOD+02n8FlBuQS0la0gs
+ tmAIZE8iVFL4Im7s75M3guyrodCMt2Pe3tBqKRR6pj6c+pHRsGyrgAMbbB6xaxSxZZvr
+ RqKhRQPiFke035W/Jna2qN3ZytGhOSm/ffCG4jeT/uLhYPYQoHy+VBGu4Qwo8PBYgHYs
+ rGTDx2YXjhpawSKYYwgv907ADoxJ5CqwnqQmGH6+p5Taa/gbdtFRiX+Z1XKCtKTwODeZ
+ Io4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738991770; x=1739596570;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XsXdVNzMronb2yUVKZu1ghjJ64uz8qffcCW+yBp7e6g=;
- b=j4WhKC34JdItDowyL+/E2M3tWRJuGhBaH0xKIYQJiP3Aac4gQFT2SvitB7/vVMafnD
- D2nGLT2vvQ1LlH67R/SgQh1jX2nhMuHCsz4x3eAX8hpTsvGtI5SvWv5sye0cJVFskQxa
- WtnplS2keu5982yUu9JsyM3miD9xiBdWQMpCKNw8llrVw7To2G3YLkeBXQgmyjFtMlBl
- obgjLl5qBSxahp1NIH3TLKx7NfwxcGaQMzp6ji74c67E1IvaXTeRyLdcRCt6YDL074yt
- nxascNvXcu2NBHh3gSgY5lwgJEoYBNs91T/1gvSr064NXRbYyFmYMCGmEOaR1YI0IsoQ
- 6DlQ==
+ d=1e100.net; s=20230601; t=1738991969; x=1739596769;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XbmEch0kSfMOKC6/rJ1doWwYVcmMwQu5vCq8pLMJYLw=;
+ b=QIhd7hsvd0dczzp/m7/rKOW4qtmB2xFlJ0te3/0/fP9UMhCDWKPxBVVz4Xr0rLRydX
+ 38YFWjJM/UTmOs0GbqjAgq9fD7IiDIh/ApVcOLOObWTTkhOB1FqMHeGCZo6qmHFdhdx3
+ VdBWbFFBjtsLuX5uf2Hvn8xczjIPDYwZAOjiJOn0fJv3wQAk69KLm1Cg0jA23nh0zIrV
+ oZxu8/NRqiyWnC0Q+uJopK1wpinrpXjotNX8Avd9qBojPZCcrN3j0ej5U7DKXXA031xj
+ uKLNrHHsAB15m8gu24QEvx7ogdFWCQ61trZO7O8ZoXKI2O1WP5X+5CXfBxs7qFRaiOUZ
+ Sftw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV2YwGWAL287aKmvtF0h8LV8xIKJxe4MOcrf/9MiurMjpzJ7MLFh0yneCha9lct00OjXbC1zbeDx9g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw1W3PHE0foOqRvpu2b0eoB/FGYFlj+x0oZlFvZnuZhVInfZIph
- epEWJvdZ+S2y8ldtvadaq3oArndseuoGh7ebHF6CEM5HbXxiW9UJ
-X-Gm-Gg: ASbGncuIoR+Dhkuf6SpGAWF2WX3rJVapOg3sppL4siugDDN9WRBsrpxXfmrlxgpSaVO
- QtCC+bzuFzQNGVaUDJSfq5907Fspl5JHMM+DHq4VrL3d+rxtGkeV348G8OlhOAZahNxdWfbYTf8
- zA55x5DVkcybdgo3FmkOU0lIq2Omeg+pXoLmaGiO2rxMzWsriusHU3bp4iU1kDrql8CKLsa2qjk
- YFeisERwusoD590Tx9maSYhkTWb0Lq6sw0BtK+HCHdCWeuHE/tLtw2E2LFkdYg3+av/xYq36dHi
- ivpYZ1fY27hKLV1GcnA6Dj4v7Oe0pAwViQ==
-X-Google-Smtp-Source: AGHT+IHeyXd1oxn7vL3HZr3tjnvx9Z4KKJpTYR1eaOG453ZqVGJwef/+ZJCtj+ujTNMOFPDU7EwVog==
-X-Received: by 2002:a17:90b:48ca:b0:2f9:9ddd:68b9 with SMTP id
- 98e67ed59e1d1-2fa243db8dcmr7753416a91.26.1738991769558; 
- Fri, 07 Feb 2025 21:16:09 -0800 (PST)
-Received: from distilledx.SRMIST.EDU.IN ([59.152.80.69])
+ AJvYcCVvXw/+1qR9z7QlgTGL2gOD0u0lpHDGNlRzqmiVGNh4aYCYtiCzEKfgFZ7v06p6eRluLIJKpjXZYAo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzXL2+CM00S7kRHZM7USrF3boLOCM93OE41hrtL/VzLFJ69fEhz
+ dF8JtpRxfL6ox1kybU3j6+1W3KVUZcFJAC5a34DH2IEPp9D1HQ6jMihwQc3kV8I=
+X-Gm-Gg: ASbGnctc/EoPmMrjHmF30PWKGTT+/gno2cuy5vgE5sQ6h3VZMKYbiLJaATKcDy41uVn
+ 7PfzxtERHBo7wS1AMLjIP+kVQqCpU6a4eEihaOaSvxPTiaAzHvfak7eq5griMjrJBcVEb4M2lW4
+ d8CBrcGe/rWZDM6qAZEgkFg32nVmR1kZspaRdEzUbevxcrxu77dMbRfrbSBIL8VfHhA1otwZgZ0
+ ra4SZz7PvNl8UxAXoZpnsxrqp08spp082kJYAGKz7OCfPXZVROE2Tku0v4O73BeGrp9tyfHOxgQ
+ 1QMSD8vR+gUs4d7h+/AyISsIDDN8RIsXonhvnVwxoSr5oS5TykfiUYPF7W/pPxm9zrD6u2g=
+X-Google-Smtp-Source: AGHT+IEgvj0rP082XMOnWmPAOgxRus50LsWzxvsljRKd/lfLJp/HnL9/Ij+KWNkNuMgAahlz+FUAew==
+X-Received: by 2002:a05:6512:348e:b0:542:2a28:e30f with SMTP id
+ 2adb3069b0e04-54414abba5bmr1913205e87.31.1738991968614; 
+ Fri, 07 Feb 2025 21:19:28 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-2fa099f4d81sm4330134a91.4.2025.02.07.21.16.05
+ 2adb3069b0e04-5441053ecccsm626483e87.21.2025.02.07.21.19.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2025 21:16:09 -0800 (PST)
-From: Tejas Vipin <tejasvipin76@gmail.com>
-To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tejas Vipin <tejasvipin76@gmail.com>
-Subject: [PATCH] drm/panel: visionox-r66451: transition to mipi_dsi wrapped
- functions
-Date: Sat,  8 Feb 2025 10:45:41 +0530
-Message-ID: <20250208051541.176667-1-tejasvipin76@gmail.com>
-X-Mailer: git-send-email 2.48.1
+ Fri, 07 Feb 2025 21:19:27 -0800 (PST)
+Date: Sat, 8 Feb 2025 07:19:24 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 05/35] drm/bridge: Pass full state to
+ atomic_post_disable
+Message-ID: <thnyq2advlb6mumnokx55x4wcpqv63bttsd3numf47tpxermpd@e7buh4vhuq57>
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-5-35dd6c834e08@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250204-bridge-connector-v2-5-35dd6c834e08@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,260 +97,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Change the visionox-r66451 panel to use multi style functions for 
-improved error handling.
+On Tue, Feb 04, 2025 at 03:57:33PM +0100, Maxime Ripard wrote:
+> It's pretty inconvenient to access the full atomic state from
+> drm_bridges, so let's change the atomic_post_disable hook prototype to
+> pass it directly.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  6 ++----
+>  drivers/gpu/drm/bridge/chipone-icn6211.c           |  2 +-
+>  drivers/gpu/drm/bridge/ite-it6505.c                |  2 +-
+>  drivers/gpu/drm/bridge/lontium-lt9611.c            |  5 ++---
+>  drivers/gpu/drm/bridge/panel.c                     |  3 +--
+>  drivers/gpu/drm/bridge/parade-ps8640.c             |  2 +-
+>  drivers/gpu/drm/bridge/samsung-dsim.c              |  2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |  2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c     |  2 +-
+>  drivers/gpu/drm/bridge/tc358762.c                  |  3 ++-
+>  drivers/gpu/drm/bridge/ti-dlpc3433.c               |  2 +-
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  2 +-
+>  drivers/gpu/drm/drm_bridge.c                       | 16 +++-------------
+>  drivers/gpu/drm/mediatek/mtk_dsi.c                 |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_hdmi.c                |  2 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c                | 14 +++++++-------
+>  drivers/gpu/drm/msm/dp/dp_drm.c                    |  5 ++---
+>  drivers/gpu/drm/msm/dp/dp_drm.h                    |  2 +-
+>  drivers/gpu/drm/vc4/vc4_dsi.c                      |  2 +-
+>  include/drm/drm_bridge.h                           |  2 +-
+>  20 files changed, 32 insertions(+), 46 deletions(-)
+> 
 
-Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
----
- drivers/gpu/drm/panel/panel-visionox-r66451.c | 179 ++++++++----------
- 1 file changed, 76 insertions(+), 103 deletions(-)
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-diff --git a/drivers/gpu/drm/panel/panel-visionox-r66451.c b/drivers/gpu/drm/panel/panel-visionox-r66451.c
-index 493f2a6076f8..81d615e1937a 100644
---- a/drivers/gpu/drm/panel/panel-visionox-r66451.c
-+++ b/drivers/gpu/drm/panel/panel-visionox-r66451.c
-@@ -42,85 +42,84 @@ static void visionox_r66451_reset(struct visionox_r66451 *ctx)
- static int visionox_r66451_on(struct visionox_r66451 *ctx)
- {
- 	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
- 
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xc2,
--			       0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
--			       0x09, 0x3c);
--	mipi_dsi_dcs_write_seq(dsi, 0xd7,
--			       0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
--			       0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
--			       0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
--	mipi_dsi_dcs_write_seq(dsi, 0xde,
--			       0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18,
--			       0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02, 0x00, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
--	mipi_dsi_dcs_write_seq(dsi, 0xe8, 0x00, 0x02);
--	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x00, 0x08);
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xc4,
--			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--			       0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
--	mipi_dsi_dcs_write_seq(dsi, 0xcf,
--			       0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
--			       0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
--			       0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
--	mipi_dsi_dcs_write_seq(dsi, 0xd3,
--			       0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 0x07,
--			       0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 0xa0,
--			       0x3c, 0x9c);
--	mipi_dsi_dcs_write_seq(dsi, 0xd7,
--			       0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
--			       0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
--			       0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
--	mipi_dsi_dcs_write_seq(dsi, 0xd8,
--			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--			       0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a,
--			       0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--			       0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00,
--			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a,
--			       0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
--	mipi_dsi_dcs_write_seq(dsi, 0xdf,
--			       0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 0x00,
--			       0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
--			       0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 0x00,
--			       0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 0x00,
--			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x01);
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
--	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00, 0x39, 0x04, 0x09, 0x34);
--	mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
--	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x40);
--	mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
--	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x11);
--	mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
--	mipi_dsi_dcs_write_seq(dsi, 0xf4, 0x00, 0x02);
--	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x19);
--	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x42);
--	mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	mipi_dsi_dcs_set_column_address(dsi, 0, 1080 - 1);
--	mipi_dsi_dcs_set_page_address(dsi, 0, 2340 - 1);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2,
-+				     0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
-+				     0x09, 0x3c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd7,
-+				     0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
-+				     0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
-+				     0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x80);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xde,
-+				     0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18,
-+				     0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe8, 0x00, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe4, 0x00, 0x08);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcf,
-+				     0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
-+				     0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-+				     0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd3,
-+				     0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 0x07,
-+				     0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 0xa0,
-+				     0x3c, 0x9c);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd7,
-+				     0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
-+				     0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
-+				     0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd8,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a,
-+				     0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a,
-+				     0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf,
-+				     0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-+				     0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 0x00,
-+				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x80);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00, 0x39,
-+				     0x04, 0x09, 0x34);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x40);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x11);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf4, 0x00, 0x02);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x19);
-+	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x42);
-+	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0, 1080 - 1);
-+	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, 2340 - 1);
- 
- 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
--static int visionox_r66451_off(struct visionox_r66451 *ctx)
-+static void visionox_r66451_off(struct visionox_r66451 *ctx)
- {
- 	ctx->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
--	return 0;
- }
- 
- static int visionox_r66451_prepare(struct drm_panel *panel)
- {
- 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
--	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
- 	int ret;
- 
- 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
-@@ -132,7 +131,6 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
- 
- 	ret = visionox_r66451_on(ctx);
- 	if (ret < 0) {
--		dev_err(dev, "Failed to initialize panel: %d\n", ret);
- 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
- 		return ret;
-@@ -146,12 +144,8 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
- static int visionox_r66451_unprepare(struct drm_panel *panel)
- {
- 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
--	struct device *dev = &ctx->dsi->dev;
--	int ret;
- 
--	ret = visionox_r66451_off(ctx);
--	if (ret < 0)
--		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+	visionox_r66451_off(ctx);
- 
- 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
- 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-@@ -179,7 +173,7 @@ static int visionox_r66451_enable(struct drm_panel *panel)
- 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
- 	struct mipi_dsi_device *dsi = ctx->dsi;
- 	struct drm_dsc_picture_parameter_set pps;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
- 	if (!dsi->dsc) {
- 		dev_err(&dsi->dev, "DSC not attached to DSI\n");
-@@ -187,25 +181,13 @@ static int visionox_r66451_enable(struct drm_panel *panel)
- 	}
- 
- 	drm_dsc_pps_payload_pack(&pps, dsi->dsc);
--	ret = mipi_dsi_picture_parameter_set(dsi, &pps);
--	if (ret) {
--		dev_err(&dsi->dev, "Failed to set PPS\n");
--		return ret;
--	}
-+	mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
- 
--	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(&dsi->dev, "Failed to exit sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
-+	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	ret = mipi_dsi_dcs_set_display_on(dsi);
--	if (ret < 0) {
--		dev_err(&dsi->dev, "Failed on set display on: %d\n", ret);
--		return ret;
--	}
--	msleep(20);
-+	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
- 
- 	return 0;
- }
-@@ -214,24 +196,15 @@ static int visionox_r66451_disable(struct drm_panel *panel)
- {
- 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
- 	struct mipi_dsi_device *dsi = ctx->dsi;
--	struct device *dev = &dsi->dev;
--	int ret;
-+	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
--	ret = mipi_dsi_dcs_set_display_off(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to set display off: %d\n", ret);
--		return ret;
--	}
--	msleep(20);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 20);
- 
--	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
--	if (ret < 0) {
--		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
--		return ret;
--	}
--	msleep(120);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-+	mipi_dsi_msleep(&dsi_ctx, 120);
- 
--	return 0;
-+	return dsi_ctx.accum_err;
- }
- 
- static int visionox_r66451_get_modes(struct drm_panel *panel,
 -- 
-2.48.1
-
+With best wishes
+Dmitry
