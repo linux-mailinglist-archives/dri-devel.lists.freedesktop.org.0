@@ -2,81 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57F77A2D5DB
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 12:51:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEEA8A2D695
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 15:21:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12D5B10E04D;
-	Sat,  8 Feb 2025 11:51:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FE910E3D3;
+	Sat,  8 Feb 2025 14:21:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IsnbsrIv";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ENXDSNgV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 216C210E04D
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 11:51:41 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-5450475df18so532797e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 03:51:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739015499; x=1739620299; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=/KWkTtSxyAD0TycOxsbaDEty+yUoozFaWimwQpzkH/0=;
- b=IsnbsrIvefGtkNtmTGMRzeKqwz0VVI/0VukhV2vOStddB7EVfPkersd3B1ScuYS/+t
- 364Mgx+XUGpyvIcDbIO0MOFrMwMtGcLc56oqqzADQRW08VhPloTgaKxDKlW1qqiRiCoT
- huVIY7bgObKOZxUnkIl7DgnbCT6BvN42d8oFyGBtI4YKEL7mfYgupgbLPl/1QDsuTQAW
- 2foO6GoYU7r7/oL5uhntdXR2PliCYFK0pnPDO5n1b09wv2suugFblvzY+tRBiBd1hkhC
- o5RsatM4BOhQGWNvUsV+IsAkbpGfPtI8xEvaNPUUkdqgP7Tf2heCL/rMHoCfinP6D8cg
- Xmow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739015499; x=1739620299;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/KWkTtSxyAD0TycOxsbaDEty+yUoozFaWimwQpzkH/0=;
- b=UwxjHic8vCVtYMKRhl7NNP8VCPbT0X5qsvyo5eVnlt2/sOZvrTptfh+m//dmWMxmJM
- no+ypzHhoQIhH0KYNpDa34sHiZip8ud2urBcUvMfilwhebu821RikK8AO70rWjx601np
- 8UmWS7kMSMds2Fj/Ju3LnGH9nf+yA47xXOGY7lH5fQ1+u20DjC2S8Oclyfj5gETaTtAB
- vt0lOY7WUlukCPqE1Heb0W3YvlsM0LL24vsThZd3KKdIAFujrgqjvedwCKcsXPNx4PGT
- R3Ci6g0G5dYPQZPpz24tLHYhPAR78dkDaMWSKbiKV9sV2PCNIHnsTIseaQ18axYkH+EE
- sL7A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPs7PDWCPeDBrTFrmSXaLuTLfk4Mx80snqU0Z0TbszNVZFX3leJ9qKP3SpfnhfEwnSRC4yz4UZo38=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRnydrFkVssTo5ZVEodT9jhOjH1UQoWW7xiY+FaowltsgiK5RF
- 0Q9JsCA7Y4mdKFrTF6E/ftkbjggAs7fj769AIUJrUDwJs6QmS97mfBdbiooiKQ5FY24RNLDDFFD
- X8tg=
-X-Gm-Gg: ASbGncsdIPJkwwfXWuwFva9gSSF9ENXH427AtmY3dYHNSAY+qv/CLl1+n1E5LvkEohc
- sdxo9+jRhGW/95lnsfFIgAezyXiQYpCU2BQHUTjaXc/UZWyvWXPYKfTGpisrCXweBbYtZvAwzaN
- s3qwqOBLsBk2KybE0SSFPsrz3ujy+w1OJY//t6uhzf8dRDjyEDfSgdxSYCSNEC8stFuNA6yNtKz
- lSTOefafod9n8wISsVfUcPJO68DTAh1/BVvoCQKvOiJ6wkaB0t56XAkQt3MNXff7dndRZSMq896
- T/S9tnTthD6OycLtQoa4cz37rrjL+f3y+5mmN74Pfd9thPWLtOid/y81iai7gPWvIeEIul4=
-X-Google-Smtp-Source: AGHT+IFVANwHEGEIiKS7ESzLOzalgWZ88CbKZgKjivaqeSCA8Ol31KRlZDcLcS/X0/BdWQjJ+9RDDA==
-X-Received: by 2002:ac2:5eca:0:b0:545:40f:575c with SMTP id
- 2adb3069b0e04-545040f58bcmr699914e87.0.1739015499109; 
- Sat, 08 Feb 2025 03:51:39 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54412885e19sm628967e87.152.2025.02.08.03.51.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2025 03:51:38 -0800 (PST)
-Date: Sat, 8 Feb 2025 13:51:37 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- quic_jesszhan@quicinc.com, dianders@chromium.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: visionox-r66451: transition to mipi_dsi
- wrapped functions
-Message-ID: <2yesnamgb6haoy3xxxvlb4d26a44incl2k6cpyl3x4nnf7qhok@b66pfkcxqh7p>
-References: <20250208051541.176667-1-tejasvipin76@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 547B810E3D3
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 14:21:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A183E82A;
+ Sat,  8 Feb 2025 15:20:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1739024418;
+ bh=WU+sOOHT6k3K6YZ/b2hxBHd5CiMb8fuXeIQVlDyaYqo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ENXDSNgV2OV6z8Bh46vXfQTGd1/4d0TTteGN95QOS4Lisju1Ypra8p+rdujk3Qq6O
+ 9IPuwEzFjfx9Dh6f7Z32a504X0Q3Z6PATh+To2SqdD+X1yCidysPhxMe+Qj/0FULVH
+ xoEfMavuBYbegzpFwXLVwF0qFGERRa7UcD8OnM28=
+Date: Sat, 8 Feb 2025 16:21:25 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Charles Han <hanchunchao@inspur.com>
+Cc: tomi.valkeinen@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, michal.simek@amd.com, vishal.sagar@amd.com,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dpsub: Add NULL check in
+ zynqmp_audio_init
+Message-ID: <20250208142125.GC21843@pendragon.ideasonboard.com>
+References: <20250208100323.11625-1-hanchunchao@inspur.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250208051541.176667-1-tejasvipin76@gmail.com>
+In-Reply-To: <20250208100323.11625-1-hanchunchao@inspur.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,50 +58,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Feb 08, 2025 at 10:45:41AM +0530, Tejas Vipin wrote:
-> Change the visionox-r66451 panel to use multi style functions for 
-> improved error handling.
+Hi Charles,
+
+Thank you for the patch.
+
+On Sat, Feb 08, 2025 at 06:03:22PM +0800, Charles Han wrote:
+> devm_kasprintf() can return a NULL pointer on failure,but this
+
+s/but/ but/
+
+> returned value in zynqmp_audio_init() is not checked.
+> Add NULL check in zynqmp_audio_init(), to handle kernel NULL
+> pointer dereference error.
 > 
-> Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+> Fixes: 3ec5c1579305 ("drm: xlnx: zynqmp_dpsub: Add DP audio support")
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  drivers/gpu/drm/panel/panel-visionox-r66451.c | 179 ++++++++----------
->  1 file changed, 76 insertions(+), 103 deletions(-)
+>  drivers/gpu/drm/xlnx/zynqmp_dp_audio.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> @@ -187,25 +181,13 @@ static int visionox_r66451_enable(struct drm_panel *panel)
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
+> index fa5f0ace6084..f07ff4eb3a6d 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
+> @@ -323,12 +323,16 @@ int zynqmp_audio_init(struct zynqmp_dpsub *dpsub)
+>  
+>  	audio->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+>  					 "%s-dai", dev_name(dev));
+> +	if (!audio->dai_name)
+> +		return -ENOMEM;
+>  
+>  	for (unsigned int i = 0; i < ZYNQMP_NUM_PCMS; ++i) {
+>  		audio->link_names[i] = devm_kasprintf(dev, GFP_KERNEL,
+>  						      "%s-dp-%u", dev_name(dev), i);
+>  		audio->pcm_names[i] = devm_kasprintf(dev, GFP_KERNEL,
+>  						     "%s-pcm-%u", dev_name(dev), i);
+> +		if (!audio->link_names[i] || !audio->pcm_names[i])
+> +			return -ENOMEM;
 >  	}
 >  
->  	drm_dsc_pps_payload_pack(&pps, dsi->dsc);
-> -	ret = mipi_dsi_picture_parameter_set(dsi, &pps);
-> -	if (ret) {
-> -		dev_err(&dsi->dev, "Failed to set PPS\n");
-> -		return ret;
-> -	}
-> +	mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
->  
-> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -	if (ret < 0) {
-> -		dev_err(&dsi->dev, "Failed to exit sleep mode: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(120);
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 120);
->  
-> -	ret = mipi_dsi_dcs_set_display_on(dsi);
-> -	if (ret < 0) {
-> -		dev_err(&dsi->dev, "Failed on set display on: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(20);
-> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 20);
->  
->  	return 0;
-
-return dsi_ctx.accum_err;
-
->  }
+>  	audio->base = devm_platform_ioremap_resource_byname(pdev, "aud");
 
 -- 
-With best wishes
-Dmitry
+Regards,
+
+Laurent Pinchart
