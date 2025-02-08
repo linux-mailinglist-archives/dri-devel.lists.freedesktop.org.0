@@ -2,52 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D836A2D579
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 11:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 975A6A2D576
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 11:24:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AABB310E3AB;
-	Sat,  8 Feb 2025 10:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F80610E034;
+	Sat,  8 Feb 2025 10:24:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ZoMhS++v";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 913 seconds by postgrey-1.36 at gabe;
- Sat, 08 Feb 2025 10:25:23 UTC
-Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
- [162.243.126.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03D2610E3D2
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 10:25:22 +0000 (UTC)
-Received: from ssh247.corpemail.net
- by ssh247.corpemail.net ((D)) with ASMTP (SSL) id GEM00027;
- Sat, 08 Feb 2025 18:03:27 +0800
-Received: from jtjnmail201607.home.langchao.com (10.100.2.7) by
- jtjnmail201621.home.langchao.com (10.100.2.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sat, 8 Feb 2025 18:03:26 +0800
-Received: from locahost.localdomain (10.94.15.112) by
- jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sat, 8 Feb 2025 18:03:26 +0800
-From: Charles Han <hanchunchao@inspur.com>
-To: <laurent.pinchart@ideasonboard.com>, <tomi.valkeinen@ideasonboard.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <michal.simek@amd.com>, <vishal.sagar@amd.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, Charles Han <hanchunchao@inspur.com>
-Subject: [PATCH] drm: xlnx: zynqmp_dpsub: Add NULL check in zynqmp_audio_init
-Date: Sat, 8 Feb 2025 18:03:22 +0800
-Message-ID: <20250208100323.11625-1-hanchunchao@inspur.com>
-X-Mailer: git-send-email 2.43.0
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AA30F10E034
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 10:24:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=FJHFR
+ zNnEifHYNKmIB7Y5o2gTuLBBAspQuUOtDbOveo=; b=ZoMhS++vRlud5Xteoz1Jr
+ E6b/AdX87wumrtvySKDrXZX6lBwR9cgiKFsOAcKFn+nhZfURWx7KSLp+fUgoobZn
+ w9eOGbgBopWt1YWDyK+THd7upBIYiIlbTNsLsrOxCA9XZ0tSMH1lTV3Uvq9maSV6
+ kjs4Fkj7YH+fHjs5QxACFQ=
+Received: from localhost.localdomain (unknown [])
+ by gzsmtp4 (Coremail) with SMTP id PygvCgB3tQ_EMKdnfA5VBw--.59282S2;
+ Sat, 08 Feb 2025 18:24:06 +0800 (CST)
+From: oushixiong1025@163.com
+To: Timur Tabi <timur@kernel.org>
+Cc: Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+Subject: [PATCH] fbdev: fsl-diu-fb: add missing device_remove_file()
+Date: Sat,  8 Feb 2025 18:23:59 +0800
+Message-Id: <20250208102359.279333-1-oushixiong1025@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.94.15.112]
-X-ClientProxiedBy: Jtjnmail201618.home.langchao.com (10.100.2.18) To
- jtjnmail201607.home.langchao.com (10.100.2.7)
-tUid: 202520818032700b0aa2241bd3ab51cd75d7331f83a16
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+X-CM-TRANSID: PygvCgB3tQ_EMKdnfA5VBw--.59282S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZFWDGFWxWw47GrWkCFWruFg_yoWDGFc_uF
+ 15ZrWvgr1UGr1vgr1kKF4SyryrKF1qgay3XFs2gFyrt3s7u3yYg3yUZr4jgrZrWw4IkF90
+ yw1DWrZxZF1rCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU1nqXJUUUUU==
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXQTtD2enL0MPhwAAsf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,38 +57,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-devm_kasprintf() can return a NULL pointer on failure,but this
-returned value in zynqmp_audio_init() is not checked.
-Add NULL check in zynqmp_audio_init(), to handle kernel NULL
-pointer dereference error.
+From: Shixiong Ou <oushixiong@kylinos.cn>
 
-Fixes: 3ec5c1579305 ("drm: xlnx: zynqmp_dpsub: Add DP audio support")
-Signed-off-by: Charles Han <hanchunchao@inspur.com>
+Call device_remove_file() when driver remove.
+
+Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp_audio.c | 4 ++++
+ drivers/video/fbdev/fsl-diu-fb.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
-index fa5f0ace6084..f07ff4eb3a6d 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
-@@ -323,12 +323,16 @@ int zynqmp_audio_init(struct zynqmp_dpsub *dpsub)
- 
- 	audio->dai_name = devm_kasprintf(dev, GFP_KERNEL,
- 					 "%s-dai", dev_name(dev));
-+	if (!audio->dai_name)
-+		return -ENOMEM;
- 
- 	for (unsigned int i = 0; i < ZYNQMP_NUM_PCMS; ++i) {
- 		audio->link_names[i] = devm_kasprintf(dev, GFP_KERNEL,
- 						      "%s-dp-%u", dev_name(dev), i);
- 		audio->pcm_names[i] = devm_kasprintf(dev, GFP_KERNEL,
- 						     "%s-pcm-%u", dev_name(dev), i);
-+		if (!audio->link_names[i] || !audio->pcm_names[i])
-+			return -ENOMEM;
+diff --git a/drivers/video/fbdev/fsl-diu-fb.c b/drivers/video/fbdev/fsl-diu-fb.c
+index 5ac8201c3533..8c91af9a9156 100644
+--- a/drivers/video/fbdev/fsl-diu-fb.c
++++ b/drivers/video/fbdev/fsl-diu-fb.c
+@@ -1807,6 +1807,7 @@ static int fsl_diu_probe(struct platform_device *pdev)
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "could not create sysfs file %s\n",
+ 			data->dev_attr.attr.name);
++		goto error;
  	}
  
- 	audio->base = devm_platform_ioremap_resource_byname(pdev, "aud");
+ 	dev_set_drvdata(&pdev->dev, data);
+@@ -1827,6 +1828,9 @@ static void fsl_diu_remove(struct platform_device *pdev)
+ 	int i;
+ 
+ 	data = dev_get_drvdata(&pdev->dev);
++
++	device_remove_file(&pdev->dev, &data->dev_attr);
++
+ 	disable_lcdc(&data->fsl_diu_info[0]);
+ 
+ 	free_irq(data->irq, data->diu_reg);
 -- 
-2.43.0
+2.17.1
 
