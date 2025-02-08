@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D3FA2D541
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 10:30:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D836A2D579
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 11:25:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3663B10E093;
-	Sat,  8 Feb 2025 09:29:53 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ed6A45wM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id AABB310E3AB;
+	Sat,  8 Feb 2025 10:25:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id AF8D210E093
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 09:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=bYMGG
- j4F/JZvudIDaRtW1ZtWpqeyPToJB8Uq/ovG1Fk=; b=ed6A45wMvBi8XX+8dtWC3
- 2SbnX19nikA5ExWLPV/aZbZtwAh4o+JyW2FApF/mzmcQT4cbBLCIKJsr3NsnIuqW
- yI2V/Vd/iuTxW2chXiDyQllQM7v37+Z6WGcHY7NfboUIbGD78ERbPvrHtTBKf+LM
- Y2nie+60wy87W+pNbLOFvQ=
-Received: from localhost.localdomain (unknown [])
- by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id
- _____wB35gTwI6dnE0MiKg--.12901S2; 
- Sat, 08 Feb 2025 17:29:21 +0800 (CST)
-From: oushixiong1025@163.com
-To: Helge Deller <deller@gmx.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Lee Jones <lee@kernel.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH v2] fbdev: lcdcfb: add missing device_remove_file()
-Date: Sat,  8 Feb 2025 17:29:18 +0800
-Message-Id: <20250208092918.251733-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+X-Greylist: delayed 913 seconds by postgrey-1.36 at gabe;
+ Sat, 08 Feb 2025 10:25:23 UTC
+Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
+ [162.243.126.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03D2610E3D2
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 10:25:22 +0000 (UTC)
+Received: from ssh247.corpemail.net
+ by ssh247.corpemail.net ((D)) with ASMTP (SSL) id GEM00027;
+ Sat, 08 Feb 2025 18:03:27 +0800
+Received: from jtjnmail201607.home.langchao.com (10.100.2.7) by
+ jtjnmail201621.home.langchao.com (10.100.2.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sat, 8 Feb 2025 18:03:26 +0800
+Received: from locahost.localdomain (10.94.15.112) by
+ jtjnmail201607.home.langchao.com (10.100.2.7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sat, 8 Feb 2025 18:03:26 +0800
+From: Charles Han <hanchunchao@inspur.com>
+To: <laurent.pinchart@ideasonboard.com>, <tomi.valkeinen@ideasonboard.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <michal.simek@amd.com>, <vishal.sagar@amd.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>, Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH] drm: xlnx: zynqmp_dpsub: Add NULL check in zynqmp_audio_init
+Date: Sat, 8 Feb 2025 18:03:22 +0800
+Message-ID: <20250208100323.11625-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wB35gTwI6dnE0MiKg--.12901S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WFy8WFWDWF4Dtw1fWr13XFb_yoW8Zry5pF
- 4UGas0grWrZrnrWr4fAF4UuF45u3s7tas3Zr1xJ345u3s3ArsYg343Ja93XrWfJa93GF1a
- vrWrt345uF4UuaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UQVy3UUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/xtbBYwXtD2enFw6wdwAAsa
+Content-Type: text/plain
+X-Originating-IP: [10.94.15.112]
+X-ClientProxiedBy: Jtjnmail201618.home.langchao.com (10.100.2.18) To
+ jtjnmail201607.home.langchao.com (10.100.2.7)
+tUid: 202520818032700b0aa2241bd3ab51cd75d7331f83a16
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,68 +63,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+devm_kasprintf() can return a NULL pointer on failure,but this
+returned value in zynqmp_audio_init() is not checked.
+Add NULL check in zynqmp_audio_init(), to handle kernel NULL
+pointer dereference error.
 
-1. The device_remove_file() need to be called when driver is removing.
-2. The device_remove_file() need to be called if the call to
-   device_create_file() fails.
-
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+Fixes: 3ec5c1579305 ("drm: xlnx: zynqmp_dpsub: Add DP audio support")
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
 ---
-v1->v2:
-	add missing 'return error'.
-	call device_remove_file() in sh_mobile_lcdc_overlay_fb_unregister().
+ drivers/gpu/drm/xlnx/zynqmp_dp_audio.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index 4715dcb59811..c52661d5491a 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -1504,10 +1504,14 @@ static void
- sh_mobile_lcdc_overlay_fb_unregister(struct sh_mobile_lcdc_overlay *ovl)
- {
- 	struct fb_info *info = ovl->info;
-+	unsigned int i;
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
+index fa5f0ace6084..f07ff4eb3a6d 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
++++ b/drivers/gpu/drm/xlnx/zynqmp_dp_audio.c
+@@ -323,12 +323,16 @@ int zynqmp_audio_init(struct zynqmp_dpsub *dpsub)
  
- 	if (info == NULL || info->dev == NULL)
- 		return;
+ 	audio->dai_name = devm_kasprintf(dev, GFP_KERNEL,
+ 					 "%s-dai", dev_name(dev));
++	if (!audio->dai_name)
++		return -ENOMEM;
  
-+	for (i = 0; i < ARRAY_SIZE(overlay_sysfs_attrs); ++i)
-+		device_remove_file(info->dev, &overlay_sysfs_attrs[i]);
-+
- 	unregister_framebuffer(ovl->info);
- }
- 
-@@ -1516,7 +1520,7 @@ sh_mobile_lcdc_overlay_fb_register(struct sh_mobile_lcdc_overlay *ovl)
- {
- 	struct sh_mobile_lcdc_priv *lcdc = ovl->channel->lcdc;
- 	struct fb_info *info = ovl->info;
--	unsigned int i;
-+	unsigned int i, error = 0;
- 	int ret;
- 
- 	if (info == NULL)
-@@ -1531,9 +1535,15 @@ sh_mobile_lcdc_overlay_fb_register(struct sh_mobile_lcdc_overlay *ovl)
- 		 info->var.yres, info->var.bits_per_pixel);
- 
- 	for (i = 0; i < ARRAY_SIZE(overlay_sysfs_attrs); ++i) {
--		ret = device_create_file(info->dev, &overlay_sysfs_attrs[i]);
--		if (ret < 0)
--			return ret;
-+		error = device_create_file(info->dev, &overlay_sysfs_attrs[i]);
-+		if (error)
-+			break;
-+	}
-+
-+	if (error) {
-+		while (--i >= 0)
-+			device_remove_file(info->dev, &overlay_sysfs_attrs[i]);
-+		return error;
+ 	for (unsigned int i = 0; i < ZYNQMP_NUM_PCMS; ++i) {
+ 		audio->link_names[i] = devm_kasprintf(dev, GFP_KERNEL,
+ 						      "%s-dp-%u", dev_name(dev), i);
+ 		audio->pcm_names[i] = devm_kasprintf(dev, GFP_KERNEL,
+ 						     "%s-pcm-%u", dev_name(dev), i);
++		if (!audio->link_names[i] || !audio->pcm_names[i])
++			return -ENOMEM;
  	}
  
- 	return 0;
+ 	audio->base = devm_platform_ioremap_resource_byname(pdev, "aud");
 -- 
-2.17.1
+2.43.0
 
