@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2983A2D210
-	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 01:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF685A2D213
+	for <lists+dri-devel@lfdr.de>; Sat,  8 Feb 2025 01:28:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5310510E11F;
-	Sat,  8 Feb 2025 00:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D04410E346;
+	Sat,  8 Feb 2025 00:28:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wb24BX+x";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="RTknOCI0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E27CB10E11F
- for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 00:27:16 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-54504a6955aso147456e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 16:27:16 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE4010E039
+ for <dri-devel@lists.freedesktop.org>; Sat,  8 Feb 2025 00:27:19 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5450408455dso342364e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 07 Feb 2025 16:27:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1738974435; x=1739579235; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1738974438; x=1739579238; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=cQ4eiEd6P4+c5hYs9d14pRxOxpaCXWHbXbrnXxZW1Kg=;
- b=wb24BX+xZxewmT3d1SCRRAe8Au0d3WEQwDDfZyNOmpE6Xfd6ODNJLK5q9D1ht0PFmI
- IpOy860FGtz6rWPIeNvsSSRDYeGB3CnioYfMgJY48Uss/htQOuWqdRqeLYTEOvB2Ii7L
- m19eUKPEpsGVmJB6q86IrFyj3nPlnlEC85Yh00zD9lXhetd3i6OoeH6UrL54CZMddjJL
- zzyQTq9ZdXQcMHrG488QFcvrbL1t1KPhlzyVEy4VnKyoPJB14qxrgKWADYZTDKdyBRjU
- HvjD2Gav61w04BctYclDyp/vtv3PEAD4AVmsw0pkV4u16z0hjzISFjOn50QtEbMBlmhK
- P66Q==
+ :reply-to; bh=CHcNOzm1hcrclCZti3P3V9XcVq0n02C20x1XRNCo8a4=;
+ b=RTknOCI0jdXN/A8857RXkRN/vAsxotmrvkhTi+J4oCFQshilY7CSiU02hccL92YFfd
+ u37X9RcRaXakXdqxkPiaoqus81dprbe405SJ3Ss8KIJX/pe03yka1L5XNLU6ardbqgtP
+ MoapbwBDiS5EMIApGtFtq0PLGmfED0P06zQk5JQ/wEelxJ2OhwhXB/heJG/BCUdIAtaQ
+ ZsYu6VmPx6NVbelmcDHspxBy01sHwuSaHji3wJ9hYTx1IRZGXlyyZpG0fNRC2lrCxvyg
+ dfm6eVahVUxNAqrf1weiszd7Ke8xDZA/9ixtZlnbJkk1/MB78XhL1w7tbP97nhTqajUz
+ aF7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1738974435; x=1739579235;
+ d=1e100.net; s=20230601; t=1738974438; x=1739579238;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cQ4eiEd6P4+c5hYs9d14pRxOxpaCXWHbXbrnXxZW1Kg=;
- b=HxDPrwAt2hgxPxdFI+arDf5VSzikJZvc0WdQvk/lZ87QZHcaPpcqFOlKzMmPuadn3K
- CMKwx1MIPTgTJifh63/UcmDSg7lHpCik5KzdADY8Q5Z12ZmvxlhGEiS5lcG8ENtQNvY3
- f6JSV+i1vYNPLNT6G8r+8tGkabB9hW5DOAucRbw1pOnyephiqpoqI0HpAYqA9e+ncq2z
- E7rNjlEGqeVUEvXDNdMBEINO7bwF1XtdDdhZubIbThful6uvnZ2FW6XgNxzYrcj0cKoj
- Sal8/NzwloDtklE6jmxC5Qsflzo7fnPNv15Bh2PEXlrP6Mvx/K37LGf3/+1Zl2DsnVah
- 7BLA==
-X-Gm-Message-State: AOJu0Yy9kwuvnhHUcG594gD0sJpmEuTDWzC/uMpHEi9QUlPLa1YACX10
- 3+3znPV6FJiQkTY2FnrE/rQt0oPO6ynZZ1JmHDsPmCf4vP11tCannbStWED1ey8=
-X-Gm-Gg: ASbGncvK+vyDh07zthHb2lEwX64J54ZGB0nawUn6OqiTLg6wiX+dYsFP69xHeJye58h
- KffMXm/6GO3Np/rPTjpPdx90Z6T8mZizKUYWGneo12G1KtYXedJK+h5iKeG1HYz8WK+GUJtA8gs
- gm6Pm9hpWfxg49gSpykXfxx0sDcveVM92EI5trCBQVHv6cYtlBZ25RccTvqylgK0OuqhcC8ZPY1
- POWZ7AWa5bZemiIo82kqpy8rEnlMczEMdgCkeyP75cana+aLaX8k+PJfr3gYp0oGbla3fHQ/zbT
- sKdvoPD/5JgO4DcWkhbYLc8=
-X-Google-Smtp-Source: AGHT+IE0HRYadLgRlFKRYvwewdKyRJrqdIwef+bzOoB0eCBwvioFcB13g7Pms7VdBytcIFx7GOh01w==
-X-Received: by 2002:a05:6512:36c2:b0:543:baa3:87a9 with SMTP id
- 2adb3069b0e04-54414ae62a8mr1280181e87.49.1738974435149; 
- Fri, 07 Feb 2025 16:27:15 -0800 (PST)
+ bh=CHcNOzm1hcrclCZti3P3V9XcVq0n02C20x1XRNCo8a4=;
+ b=XnRhOHjPXTHPmgw3XZP3CoXESq9A28CEIVVvTcGUHa+cj3Kmvqz/vocWZkr6fLmQFj
+ 44AUkArAquRQY7eQMMXKQPg1eWSx/tiUAlItQxnifiZNXXw1q3z8MsP/2NT5m5bBxjwl
+ V/dhUQflXK3nFCm2zTtbV2LgJEe+NHloCpRL7Sq1uKKHOgu4IzrNXxeH2nY+6hTjq73r
+ JWXnW9ccG+XZiIAu6EtAjb+9AHV1BR13lsZ/pcAwlTihChPPD9tCFEe0/sxtbYAhDAVK
+ 3u4m5Om0bmtQ6PIF9ls1wTf7kSczQSY7ryFAOhMybQJHr637cfo5pwK2zip7+rgYyjy0
+ FGaA==
+X-Gm-Message-State: AOJu0YxBhhGjxkF32LdyN7dcAiYt2PYR3v4r5pwxNP8jW6RscSvtM2ML
+ Zp8XDWsOjRq0QI27s4XBdieRLfg2CS0m4nV6zio4e3HMDnKS9Wy56+h9f4/T41k=
+X-Gm-Gg: ASbGnctpBjfmfIxEuFCFMM04GyNY40skk+cDi9mN4VPGD9waW9Is1qxPzris2FDQp+t
+ tU3tLR1ajQj2Ah9SHKWLxReoFhHG1t1EsAXuNamlZyfWMKXghCpVtdgjKbeSVDQXdYz52yWWvMI
+ Huux5D5z1Wl7Pw+LzVqh85C1Cbxd3o+qmgUzvVmKbJ+IsVuPeeg9upI+QqlWaKtHYtGUgdZxc/O
+ 2H46j+qtyV6CTjYQFqQGT7QEnyV01A4rKnA0sNby2Dm5gwft1y2vFdLTifgUWfB/7HH5/ZDA/83
+ DO58RvxassRFNG1TwWmmYTI=
+X-Google-Smtp-Source: AGHT+IH3Y1P8IibRE8PimX3QdIBB+8KzPyv/64NtH7atJbAfIgaIwZ/7O+qYGCTF7buvXpdwnAV/hQ==
+X-Received: by 2002:ac2:5ec4:0:b0:545:17b:3cf5 with SMTP id
+ 2adb3069b0e04-545017b3dc4mr708605e87.47.1738974437603; 
+ Fri, 07 Feb 2025 16:27:17 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5441060413asm588785e87.222.2025.02.07.16.27.12
+ 2adb3069b0e04-5441060413asm588785e87.222.2025.02.07.16.27.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Feb 2025 16:27:13 -0800 (PST)
+ Fri, 07 Feb 2025 16:27:16 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sat, 08 Feb 2025 02:27:03 +0200
-Subject: [PATCH v7 4/7] drm/msm/hdmi: get rid of hdmi_mode
+Date: Sat, 08 Feb 2025 02:27:04 +0200
+Subject: [PATCH v7 5/7] drm/msm/hdmi: update
+ HDMI_GEN_PKT_CTRL_GENERIC0_UPDATE definition
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250208-bridge-hdmi-connector-v7-4-0c3837f00258@linaro.org>
+Message-Id: <20250208-bridge-hdmi-connector-v7-5-0c3837f00258@linaro.org>
 References: <20250208-bridge-hdmi-connector-v7-0-0c3837f00258@linaro.org>
 In-Reply-To: <20250208-bridge-hdmi-connector-v7-0-0c3837f00258@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -79,16 +80,16 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3269;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1225;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=kwW90yaGXjA8kr6gl2QdxUU01rGJmaVy/t2QVZCPXNM=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnpqTVhekXNgRhbLo/MXTHBp+Ns1DBrCTeoHx8m
- 2qQDmR13leJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ6ak1QAKCRCLPIo+Aiko
- 1WDCCACfkXHtGNmUhx68GPVqzQoQbhU68C4O524tof04eeulXgnYHBmCdk5Vi4r5ynnRCpdLuge
- kCIECZgv5ymAymrGv8LjSUSNWI0RjujMmltE9uANd4IhKtseKx7rhd5F+/bxDRH8ZgDhqSa7zSV
- QM6VNcw9csfYsqDu2dVfUc9uIIDAb7Pv4ILiWv5txe/G0AsB18djO2MD4zsQrYSgsM4Kops3ZZq
- 2Oz+MvRFEMirCLf3/uhgsrqAz/hMh88zbi9yZUUty0OQ4rQx+nOHMwYX83xjjWgH8kr+u1nNDxZ
- 2oDOdbC6xcILj3Vp9d0p9uTRarqCMygGrzhfA9j8csBcUHzs
+ bh=KlCjBmWN3HQI30P1/iEnVtV7zXNb45CFcF9NRTzfcWY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnpqTWrQWEFDbf9CVC9qgdBlK0jVKQGg3SKi/ON
+ gTwwoScGaKJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ6ak1gAKCRCLPIo+Aiko
+ 1cVsB/0UtRNEVP2jHnQ9VOIFCpqTRWZujCjk3DakRH8sGwjX3o8Ui0S08wOopARizocxJmZ1zYZ
+ ScxEmA6sj7kqrqFTXVxj73vdIywI5NsBL7yzMuTIUJKGXxgD4T9jkryGkJ3j1PGOioXSHBsN/AB
+ +INyVwx7b3sd28sfgNwbvD2UpXCu5p4aHJVpe8LQoK1Ax7uYY2Pr85JyyqNsPfEWgr59jALGcKV
+ hj2oVjaGpYIB5BO3CCCpXOouh7oW1fOah/V9XstBTV4QYNPAeplmL+jBwZ24nzhDECikLHvicyU
+ z4T02turhxBUomrV4Lw7j2gE1nnyBCsTkr79X5EzFNAyd8ik
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,93 +107,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use connector->display_info.is_hdmi instead of manually using
-drm_detect_hdmi_monitor().
+The GENERIC0_UPDATE field is a single bit. Redefine it as boolean to
+simplify its usage in the driver.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/msm/hdmi/hdmi.c        |  2 +-
- drivers/gpu/drm/msm/hdmi/hdmi.h        |  2 --
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c | 17 +++--------------
- 3 files changed, 4 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/msm/registers/display/hdmi.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index b14205cb9e977edd0d849e0eafe9b69c0da594bd..6b77e0fb8d5ec218dfbf58215e2e12ad1dfb1b85 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -25,7 +25,7 @@ void msm_hdmi_set_mode(struct hdmi *hdmi, bool power_on)
- 	spin_lock_irqsave(&hdmi->reg_lock, flags);
- 	if (power_on) {
- 		ctrl |= HDMI_CTRL_ENABLE;
--		if (!hdmi->hdmi_mode) {
-+		if (!hdmi->connector->display_info.is_hdmi) {
- 			ctrl |= HDMI_CTRL_HDMI;
- 			hdmi_write(hdmi, REG_HDMI_CTRL, ctrl);
- 			ctrl &= ~HDMI_CTRL_HDMI;
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index 8faad8440cf70f792da353978b990861b0677ed8..cdd3bd4f37831f9a606a4c3627a48364f5d4025f 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -67,8 +67,6 @@ struct hdmi {
- 	/* the encoder we are hooked to (outside of hdmi block) */
- 	struct drm_encoder *encoder;
- 
--	bool hdmi_mode;               /* are we in hdmi mode? */
--
- 	int irq;
- 	struct workqueue_struct *workq;
- 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 4f8e4ffdb2e058ecf243bb319c12c444cb2e5200..15ab0858105328c2f774ec1f79423614bbbaeb41 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -232,7 +232,7 @@ static void msm_hdmi_bridge_atomic_pre_enable(struct drm_bridge *bridge,
- 		msm_hdmi_phy_resource_enable(phy);
- 		msm_hdmi_power_on(bridge);
- 		hdmi->power_on = true;
--		if (hdmi->hdmi_mode)
-+		if (connector->display_info.is_hdmi)
- 			msm_hdmi_audio_update(hdmi);
- 	}
- 
-@@ -264,7 +264,7 @@ static void msm_hdmi_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 	if (hdmi->power_on) {
- 		power_off(bridge);
- 		hdmi->power_on = false;
--		if (hdmi->hdmi_mode)
-+		if (hdmi->connector->display_info.is_hdmi)
- 			msm_hdmi_audio_update(hdmi);
- 		msm_hdmi_phy_resource_disable(phy);
- 	}
-@@ -320,7 +320,7 @@ static void msm_hdmi_set_timings(struct hdmi *hdmi,
- 	DBG("frame_ctrl=%08x", frame_ctrl);
- 	hdmi_write(hdmi, REG_HDMI_FRAME_CTRL, frame_ctrl);
- 
--	if (hdmi->hdmi_mode)
-+	if (hdmi->connector->display_info.is_hdmi)
- 		msm_hdmi_audio_update(hdmi);
- }
- 
-@@ -339,17 +339,6 @@ static const struct drm_edid *msm_hdmi_bridge_edid_read(struct drm_bridge *bridg
- 
- 	hdmi_write(hdmi, REG_HDMI_CTRL, hdmi_ctrl);
- 
--	if (drm_edid) {
--		/*
--		 * FIXME: This should use connector->display_info.is_hdmi from a
--		 * path that has read the EDID and called
--		 * drm_edid_connector_update().
--		 */
--		const struct edid *edid = drm_edid_raw(drm_edid);
--
--		hdmi->hdmi_mode = drm_detect_hdmi_monitor(edid);
--	}
--
- 	return drm_edid;
- }
- 
+diff --git a/drivers/gpu/drm/msm/registers/display/hdmi.xml b/drivers/gpu/drm/msm/registers/display/hdmi.xml
+index 1cf1b14fbd919e041fd7ac8a0731d554d4468f4f..0ebb96297dae80940dc8a918d26cd58ff2e6f81a 100644
+--- a/drivers/gpu/drm/msm/registers/display/hdmi.xml
++++ b/drivers/gpu/drm/msm/registers/display/hdmi.xml
+@@ -131,7 +131,7 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
+ 		 -->
+ 		<bitfield name="GENERIC0_SEND" pos="0" type="boolean"/>
+ 		<bitfield name="GENERIC0_CONT" pos="1" type="boolean"/>
+-		<bitfield name="GENERIC0_UPDATE" low="2" high="3" type="uint"/> <!-- ??? -->
++		<bitfield name="GENERIC0_UPDATE" pos="2" type="boolean"/>
+ 		<bitfield name="GENERIC1_SEND" pos="4" type="boolean"/>
+ 		<bitfield name="GENERIC1_CONT" pos="5" type="boolean"/>
+ 		<bitfield name="GENERIC0_LINE" low="16" high="21" type="uint"/>
 
 -- 
 2.39.5
