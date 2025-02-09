@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6970BA2DA50
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 03:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B859A2DA52
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 03:03:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF26B10E1CA;
-	Sun,  9 Feb 2025 02:01:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D60E10E1D5;
+	Sun,  9 Feb 2025 02:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lMyBY4Nq";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LKemN/fp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 514E110E1CA
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 02:01:44 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-5450622b325so680933e87.1
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 18:01:44 -0800 (PST)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 159B110E1D5
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 02:03:17 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-30227c56b11so34894061fa.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 18:03:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739066502; x=1739671302; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739066595; x=1739671395; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=2PGp1XgnxteHu9RdPhVH5sY4q1WTjnO00NTGkJChuoM=;
- b=lMyBY4Nq75L7PQ6kx8wHffzpkE8SWXAShBnPVYhQTR1QgFvWwYNgmjpMACV1Y/Ei83
- PFFyIwWJgy5j4YhnAqDdD3tbu7DqHXLZQXEXYJD0drXbVt5ZOZMh6o1MxS+LdPrG7Lky
- qxXilwpdTEj7TGZpcRaiSQ6fgJbyV/oIPc1V670glp5Fgv6U4pflj1oFRWCIQrk7Y+x9
- 0QRXaRtJKPBZgnelhwh/zZJMtUNq542qXIP4rd35SUcb47uBAmcazyrhagLSbLAkuv5l
- /JP6ySP159rjlmBzljpooHA6Zqlyt72e9pzWyv5AS/WtN1CfoIUrJqMxS4qM5GelL1+0
- Q2yQ==
+ bh=EeeZzWVf5/vhmXv9AEOt/1s5u145QYyGEt7ZWKzhLQM=;
+ b=LKemN/fp3/NyMb2XHokWsK9kTnttLFbRUeAKAqo4QGAwBg6N4SjNzpmrqGMPzzahYe
+ 5JROvfoSyRDnUfFC3FRMIs0PhIRVGxfWRBauHzcCFPJv3h8hDctrdJLmN4niWdZ9cf7X
+ BoONe/TIZzRXd5kG8mfENbBx8K9bDHSojdbo7NxglPVlUvK/RADtEMGYs4z/ugEQMFxj
+ ZbjAuyFLaBf0+oX/Ya6r9BSeNq12kY1TWOxdX/z0L/M1ELA/LX1F1hA3gYiptNOTppET
+ LjbWQxyb/rDtJNMCcQ31AZv4ZcvMM1lKW7vWBy48c1dvvQYon/HBikGYgWN4+ejZRc/d
+ fwmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739066502; x=1739671302;
+ d=1e100.net; s=20230601; t=1739066595; x=1739671395;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2PGp1XgnxteHu9RdPhVH5sY4q1WTjnO00NTGkJChuoM=;
- b=TrHek4nxLjolxM8UcldrMTQRpsuuwYG1OExh9XTBm163P6+iJoTIW+T31uJZGb3O05
- ke4F6yRL5qiGpUdLABr8I+2DR9tKHx8FTI/kvcXOc4/WNQLBoqM6pCEY9oalJnoUQiPy
- 5vC9/Wgb1K2R8LZcat1cNPnSi8AsOsXEAcFr/1bvPuzBCanAEvmbsM+hrGFxH+0Kcc87
- BSVsIvj01pLAK3YmcuCJn7ADJH8lyZjR8zQZg4xXkmSeomcPg10SjgTDC9YwE7Rxpreq
- nEmkTzOLfR7Yfjg40c3aYZ9HDybngaaAhIw+FxNP538VDWKVTov5BcCjUcVXfB0WQcJj
- lvKw==
+ bh=EeeZzWVf5/vhmXv9AEOt/1s5u145QYyGEt7ZWKzhLQM=;
+ b=P9KqKxek+hSjLsaoQPEsPXwOn1y4UbmN1AzwzmB+U9dDI9Oht9GtUranBb5P9sI8m2
+ Buv5Ay779CB6SEuMiEaL5duyaQgj+gFctzwrPwdKpzAUw+ckgRLSPR1tTMblX6DmNCmG
+ bh2Mg49JdOYNkn663c51XNsghxtnxu0Pgs1+2+gkwTrJS9VGs0gD/VKGEJ0YdEn31PAH
+ XtqCPiQapcfX0GRL7UAS9pU+aCMafXh1catxAVp8fqB37s6IE6LHaHkNBL1ujFBqyhLw
+ XD3+SsVz9mCqik802fYA4/2KA8ZICM6p0FLEwyLW4n9ETVkZWbGmTR9fxO7046TzaWec
+ 3w/Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvvdJjQ4+8paeklwELfesOJ6oEPn/UG2n8oOE8IczBghQ1Brflf3jAnItmbP5RuJijiQJxL51WW34=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxefV/FTqQlq1+vhphC8cw1otQjyI5WDkaRMBdjcs3FTDZKzu4Y
- BSamTYvprYrb3tdMQsO0KWMw2xoscJK21HYaKTfBrXKoKQU6GtjtNuG4/gM9+Dc=
-X-Gm-Gg: ASbGnctuY+WFwNcJ1zta0DwOYRDrz/+fhLoMOwKaNRJPJQUoTOWX4FfMIGCGUmzCTBu
- E0IiDYAlg+2leTGrweAhB0u0vmLXoS1U6sQDxL0DbvrSSnvRLqHyttdP5UAl0dB5f18/2x3oX0W
- LNzxxku8EVYEZHLfqzn6N6DXMpjt4OdHuyX6+tkVl3oyC46/fpc8SJxWf2+vBHi5G9WE67h8ylX
- AwwXtSe2ziWxlodTTZPNQhWvsvh+VYRsnyoYboGb7ifZBdEsYc3kvBfKzAhsOwlsttRHlKyHvD2
- 28B+Y0dZ77pUkTyaqq+tl44i7aCDtHym08XTPS1b1S1DHTO0gvHzKUc77YEUxMXq9vWCBfI=
-X-Google-Smtp-Source: AGHT+IGJS1+g4puxkPbuLs8WIzLmSKlUfwG5DYlgVtVpvbpfwu+I92SkzuZNAQBNdSTJnZpCoPa0/A==
-X-Received: by 2002:a05:6512:159e:b0:540:1c18:4e38 with SMTP id
- 2adb3069b0e04-54414aa88bemr2594802e87.28.1739066502582; 
- Sat, 08 Feb 2025 18:01:42 -0800 (PST)
+ AJvYcCXtuN5v782wn+uTCHd9p3OfkhBWpov5i6Zt85DNlfobLGrfWmF3puTENDHZ+DY55gVG0EHosMbUsWk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+5XymATIyo9i+hwdv6VeCuQh2tuHbVEwdLBEz/wU4HivdZqw4
+ zZrJf7XUEAYTNum3Lxi4kN0/lcMMxU/6FSdtrDrjaV4xpR7O0WkcDoC1PJqOrhU=
+X-Gm-Gg: ASbGncvZ54LjmQairCr1adAH39lJPp/5VjIy5WJ5xi+zevdHnGn6Aq9JAv+GpK/o1Fu
+ k3mDvczrQLwXo7R2ZGiUxTkZKbsUS+AL/gEZEdz7RL6p0cVW1G3Av5DhTy9DANJIBDPPdZI/k4B
+ jhNpI8al2aTOdubCUqilGiziPACHCHBiMAJLRcxryld8Dub9Oiq7KBDRSsUsBHpHyGOe42SIhWw
+ d987Gqo82I6h8CafebZPw1WNlz9y3Y5b1LWrDBMsMZhBYukaKZcVryJBort4YJJfGJ16YrhR/S+
+ UxmdTlyg04vdOMJ1yzaFA1fjEvSZYLRzWcY6U2eltMBGvCcsRVMAPrkUN08tyrgTbI+76Bg=
+X-Google-Smtp-Source: AGHT+IHY5xrwx7bXOZb5Z6RthMsSdn9sw/6mONLcYjPXUl5AfcW7b5fwlydWpYhPXPuU1dPWf8dH0Q==
+X-Received: by 2002:a05:651c:1603:b0:302:210d:3b44 with SMTP id
+ 38308e7fff4ca-307e5a8de19mr26127411fa.35.1739066595390; 
+ Sat, 08 Feb 2025 18:03:15 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5450a36fa4asm28876e87.167.2025.02.08.18.01.40
+ 38308e7fff4ca-307de2f8193sm8451191fa.111.2025.02.08.18.03.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2025 18:01:41 -0800 (PST)
-Date: Sun, 9 Feb 2025 04:01:39 +0200
+ Sat, 08 Feb 2025 18:03:14 -0800 (PST)
+Date: Sun, 9 Feb 2025 04:03:11 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,15 +73,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Douglas Anderson <dianders@chromium.org>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 07/35] drm/atomic-helper: Change parameter name of
- drm_atomic_helper_wait_for_dependencies()
-Message-ID: <ttjrs6vggvbwc7rprctmkigjusd6gog4pxysicxdxtweeojflp@zm7nh7zvfq5q>
+Subject: Re: [PATCH v2 08/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_commit_tail()
+Message-ID: <jmakx5twoivqyx2c5mkcwazgiuwi4csefsozmomussn7ppi2lu@pux4uen74old>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
- <20250204-bridge-connector-v2-7-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-8-35dd6c834e08@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250204-bridge-connector-v2-7-35dd6c834e08@kernel.org>
+In-Reply-To: <20250204-bridge-connector-v2-8-35dd6c834e08@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,18 +97,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 03:57:35PM +0100, Maxime Ripard wrote:
-> drm_atomic_helper_wait_for_dependencies() waits for all the dependencies
-> a commit has before going forward with it. It takes the drm_atomic_state
-> being committed as a parameter.
+On Tue, Feb 04, 2025 at 03:57:36PM +0100, Maxime Ripard wrote:
+> drm_atomic_helper_commit_tail() is the final part of an atomic commit,
+> and is given a parameter with the drm_atomic_state being committed.
 > 
 > However, that parameter name is called (and documented) as old_state,
 > which is pretty confusing. Let's rename that variable as state.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/drm_atomic_helper.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
