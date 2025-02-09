@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939E3A2DAE0
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 06:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FF4A2DAE4
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 06:06:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65EE110E467;
-	Sun,  9 Feb 2025 05:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B9110E46E;
+	Sun,  9 Feb 2025 05:06:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HlQvXhYU";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="W3wFhrwE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A59310E467
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 05:06:50 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-543e47e93a3so3687855e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 21:06:50 -0800 (PST)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 107B910E46D
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 05:06:51 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-5450b91da41so31584e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 21:06:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739077609; x=1739682409; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739077610; x=1739682410; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=yj0BuWh1hjkMiCnQtqM7MPhpgvXgx80zo8kYUYLklb8=;
- b=HlQvXhYUzAStafQFUNWSUkrjh87S4d2THip++N/m6VpYncv9QCYBg3BaVXzqjCuTWR
- HhekkDI3fAA3c4igO59vGuZDwrQERP9+m65lZZi9g0/9012rbT6QWypL8anyJNO6K+Mr
- Sy0TBaklU6UnYT4IGLelLnY0fxWpkv6oW7RRkmad0XjUIPjBfRU7NBd4ggjjKZe0BJNX
- 7fm8kEd4zY3NdygHhNXl/nJW0QBmIMlSU1cQLfhpXt8DkamhHeMJT77P8iT7PLX2F/nb
- MWExI8WJmmFbXCpAemTdh8NJti5RV9mZGnPCgz55s6XWzOJTQOO6XI8Aqd6NDnz2bMZS
- oVuQ==
+ :reply-to; bh=nTcdagHfVvJWdpzLDW5hzkEO6YN/7LPqkZiqmOtMZH8=;
+ b=W3wFhrwEeufCSZ2P2Y09hf816WzfP+5+sa+DAP0UlZ6QjUrRpafBdQAclpIjUGrxGn
+ 2j+fO97L4/SjQMGKX4RLZHsDtuhMGtV9jY9e+ztZS9IsJJKwP3d9jIb935B4my+ISABL
+ fJerfW53tnZwvXbhFnMuNfrqCeysLOkpogTndtj9hR2GVSxIBrD33cg17g0hXSL0cfC2
+ /OlVVOIVReaeTDAgdVLL2O0qfkfcTerPDM9HOr2VPUja/jqhl2r13lM9mqb+x4fYwxR+
+ 253at679itidA8/01GE+mpigug6lT0szgQqhAbVHO2HI/BzLkh+FwAXR7WMRKKbFv+j6
+ rQ1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739077609; x=1739682409;
+ d=1e100.net; s=20230601; t=1739077610; x=1739682410;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yj0BuWh1hjkMiCnQtqM7MPhpgvXgx80zo8kYUYLklb8=;
- b=uGNBWA3rc3n75PY/bRzm6BKVoAmknup46Vy3zo21FGJolTJM6v+5r02laPVAyBlxYy
- xQBaQxcD0TbHMrLQM/CFBkcqzrI7BV520K+8V5SDyA2zeCg1UcXTZj5CqlewRbW5pSQT
- SShTu4L0d6ShXx6IEHGMwZyf5U1tgIu637Tgd/LVvrUJ7Phq7DX6AthFjJKJkWTSh0jD
- MLd87g731mjzEGC8dTzvl43AAxEWy7mzHmNZ8Uz6ny9Aiyz4TGJGlH6TkrFgK70OG5dM
- /ICYN99BA7WUrya8WHZticAGa46X41yAk2X3bkJDf7WsYi5nXp81bl5SCPdL7T3S5K8d
- eePQ==
+ bh=nTcdagHfVvJWdpzLDW5hzkEO6YN/7LPqkZiqmOtMZH8=;
+ b=VfrcH9u4L+iL61cLcNUv1115sIdIcBXtOUEI8pqn5NMR/j4XbVY481FEMmgGIt/rQ7
+ 9VIE6F8GWC61r3Kt8Ck2sbB4Ta2x99nYQYUwHcfVJ3YeCZqmd+r7Pikb577NWrlR0OyF
+ dbo/Mm/+vi/3dnLTSvieF/hG530fl3kkXtUk0IJtiVFoifCN71FVNt+XGZRSqTdgno82
+ uJlP3EcVCU9udqQOwNEf3v0y8exIVkIdNNiWdgPAxhkKX3yv9vuhwxZMOODxVRUA/4AX
+ ujCSGaCzn1Re1bmmjpVwG5ORLeAl9HMfHJcglKsKXgQBM6c74mGrQqwApXbEZa1ojT06
+ c57g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCURdNSU2UEHYOBunLQYADG9seqoN3rZrMZWkS0x3CJ97ARv7UT3bBcbX2ABPbBpIPB4dg6eqjMAaeQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyTrJLF8cYP6ZaGtcEahJTbDFHSvg6/jSAOz9Ja6Zk4NHa3T5nL
- jUEDwvFZaKCphhh1NFgvbsSyepoaH6EFjPSDj7M4xbkrxNIEVYZAGhkB/dpPk1U=
-X-Gm-Gg: ASbGnctJg02O/OYu2UAk9NP6QFqDT19gyy5Km2Zyey5zWDrxOOpqiUAjMQQcsg3XluT
- LywGewrvYHPW8f5+slOUyTKsMPUXypmlz7uMDITNSXl7MnqO/h5geefqT9NTsv+kybK/tEPRe6A
- 5aO36uDWWAXGOCumcaQrXAj8yyvZw7od1oWYLbC3V9R3UJJog+YNVd/5jHqEhwZcihhvGcf/dbS
- RpdrDPSHss1Iw5/kL7n20jswGXzd0iU/igKW9BKHF7xQ2BMUGfcNwEPu6EUzG9UBgTJURjx7d/M
- di4TqGy4qoyi0DFJNTDN4a4=
-X-Google-Smtp-Source: AGHT+IHlnIFRUHNy4Pv8cos18vLNYdATiWlvlgAGSIQwUUTZUpNqTfhFg+S88Fft5a+ZKQPZyT7Z3g==
-X-Received: by 2002:a05:6512:2384:b0:53e:23ec:b2e7 with SMTP id
- 2adb3069b0e04-54414adfaebmr3141413e87.34.1739077608720; 
- Sat, 08 Feb 2025 21:06:48 -0800 (PST)
+ AJvYcCWSUW/XrV67K+ydqt8PbIBVYB7DLLxjkZ0mA9jIqWZVyDOOc2uRZ9BJ2+WW/eZ3SieqpFjIhIeKNt4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxB89402Z5IRmWVnS7mK40wOc/upOjImz9vG5ZcHpgu6bzbL4dM
+ CarlfxPf8a8W9gNumXpDdm5Yv82/ZZ6NF/b5VY8K2pD/0jvgOyIguiOxo+I1IIw=
+X-Gm-Gg: ASbGncvms3z94/9z058vX9rwTuCpbpIW423El15wriBvIctH+5e53MF3B0Lv2h5FDpw
+ 1a/yzEwn0NERDU4jZizGG4RMTPk8BAhpbn1790kRtzq2fB/l7hEeQqO04vZfbzPKZdGyUaNtD90
+ L4QX8ni/D8txb1PvboTgVXMSIkRRFSCb3Yqh9MgSQyiWR3yyjUTZ2lSpSl+Arvv1oe1KF7xrCwa
+ gvi26aUEN0eP+kKj0qGRjo+JhEL4qEaRTKFxcUORmLL5JekQ9qnbVxwl/t54p1f/SjId9pyZ5As
+ VAnlBXfi7Tw+Z8S+rXkw2bU=
+X-Google-Smtp-Source: AGHT+IEFXe5K8k+ix/TTKVKq9EFeSW9km/qit2DCh/DLsirowioK0KDRuuwtMc/zx6EiGq/Gs8hrxA==
+X-Received: by 2002:a05:6512:2205:b0:545:576:cbd2 with SMTP id
+ 2adb3069b0e04-54507bfa112mr584003e87.10.1739077610224; 
+ Sat, 08 Feb 2025 21:06:50 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54506ef1733sm245576e87.1.2025.02.08.21.06.46
+ 2adb3069b0e04-54506ef1733sm245576e87.1.2025.02.08.21.06.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2025 21:06:47 -0800 (PST)
+ Sat, 08 Feb 2025 21:06:49 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 09 Feb 2025 07:04:45 +0200
-Subject: [PATCH v4 01/16] dt-bindings: display/msm/hdmi: drop obsolete
- GPIOs from schema
+Date: Sun, 09 Feb 2025 07:04:46 +0200
+Subject: [PATCH v4 02/16] dt-bindings: display/msm: hdmi: drop hpd-gpios
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250209-fd-hdmi-hpd-v4-1-6224568ed87f@linaro.org>
+Message-Id: <20250209-fd-hdmi-hpd-v4-2-6224568ed87f@linaro.org>
 References: <20250209-fd-hdmi-hpd-v4-0-6224568ed87f@linaro.org>
 In-Reply-To: <20250209-fd-hdmi-hpd-v4-0-6224568ed87f@linaro.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -83,16 +82,16 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1225;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1438;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=BXA7Q9IpU3LJo5o0YQp3oC/xe/tm2VyAy8ivKO92PBQ=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnqDfhD1AdF8cdaEFbZcUVUS48D8BueW7S4NJjP
- m99fsTsa8mJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ6g34QAKCRCLPIo+Aiko
- 1UjqB/9FEXBtULbRjjbPI2zjBtvnostnj5+h5M5uFG+qcq1zFtALCl0x1N5gtOoekLyqo4wWRO8
- pm+HZ10170lI47GVEPlWbenUymsUQLGvEXx62AaHWZOLQ+peYt3EPJyrGaCRAk+ck635Ewh6olI
- erz99ab2bo/ggk2quQvQ4jzbw2cCWnm+HxsPjvxw38guV+w1YmqU8jGXfOmn7PgnM235jR/PiEs
- AydsPxkkK6SYICEpdFWJl2RcHmBqxCAtETjF6I+U3SPBT5NvEm8HeZeXNr2DeLp4fQlYlWSlAii
- rC2DEgtxa7xXBPhqjINBQTnuKu9LthaXvCgHcbl7D5+CBhzE
+ bh=NLSCP5E6ORI9H0QuM74oVHUl+a0F/vNbAQWYghqkTiw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnqDfhYclpOw8R2du6T24MrpOm7QjiPhE/g7GXP
+ i/M4vlXimmJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ6g34QAKCRCLPIo+Aiko
+ 1bNlCACw8jnIu5ritWEfsFqRqlft4maCais+D8f7xJZLStAU3zaKpA81oDi+4en7jDRNdsZKwTR
+ gggCP29ILVZoZGLRsfYrFUbdVnSjGejPVwCyXS/x4+tby9pkAeheeDOhHxx3F1+XL4FWqUv2sdR
+ RS/kMmNkTQI//eK08wp5ld2x+RDs66f/J21yrExwXeahWL9KacJuD1P1PRPUTIQCzsNw834YPny
+ exHq0VzE1nH4db6YwrCrf4+h1hoz2IIXXh2LAIjesZE1cT2n426Kv5wR96kCUi0Ovzz++zkiiGR
+ uwA7gar7slMJunZwgXtK5+AflEVpxjcM8yBfnXpM4OSqNowq
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -110,41 +109,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The commit 68e674b13b17 ("drm/msm/hdmi: drop unused GPIO support")
-dropped support for obsolete qcom,hdmi-tx-mux-* gpios. They were not
-used by any of the upstream platforms. Drop them from the bindings too.
+Supporting simultaneous check of native HPD and the external GPIO proved
+to be less stable than just native HPD. Drop the hpd-gpios from the
+bindings. This is not a breaking change, since the HDMI block has been
+using both GPIO _and_ internal HPD anyway. In case the native HPD
+doesn't work users are urged to switch to specifying the hpd-gpios
+property to the hdmi-connector device.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- Documentation/devicetree/bindings/display/msm/hdmi.yaml | 15 ---------------
- 1 file changed, 15 deletions(-)
+ Documentation/devicetree/bindings/display/msm/hdmi.yaml | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/msm/hdmi.yaml b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
-index d4a2033afea8d4e4f83c9859f8840d30ae9d53f8..7e6f776a047a00851e3e1e27fec3dabeed5242fd 100644
+index 7e6f776a047a00851e3e1e27fec3dabeed5242fd..a5ff7045a14be3b8106b3edf0033a8028a684529 100644
 --- a/Documentation/devicetree/bindings/display/msm/hdmi.yaml
 +++ b/Documentation/devicetree/bindings/display/msm/hdmi.yaml
-@@ -66,21 +66,6 @@ properties:
-     maxItems: 1
-     description: hpd pin
+@@ -62,10 +62,6 @@ properties:
+   core-vcc-supply:
+     description: phandle to VCC supply regulator
  
--  qcom,hdmi-tx-mux-en-gpios:
+-  hpd-gpios:
 -    maxItems: 1
--    deprecated: true
--    description: HDMI mux enable pin
--
--  qcom,hdmi-tx-mux-sel-gpios:
--    maxItems: 1
--    deprecated: true
--    description: HDMI mux select pin
--
--  qcom,hdmi-tx-mux-lpm-gpios:
--    maxItems: 1
--    deprecated: true
--    description: HDMI mux lpm pin
+-    description: hpd pin
 -
    '#sound-dai-cells':
      const: 1
  
+@@ -178,7 +174,6 @@ examples:
+       clocks = <&clk 61>,
+                <&clk 72>,
+                <&clk 98>;
+-      hpd-gpios = <&msmgpio 72 GPIO_ACTIVE_HIGH>;
+       core-vdda-supply = <&pm8921_hdmi_mvs>;
+       hdmi-mux-supply = <&ext_3p3v>;
+       pinctrl-names = "default", "sleep";
 
 -- 
 2.39.5
