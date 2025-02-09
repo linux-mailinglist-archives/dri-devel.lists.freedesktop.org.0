@@ -2,98 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3F7A2DB07
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 06:07:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B62A2DB15
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 06:08:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B90310E48A;
-	Sun,  9 Feb 2025 05:07:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF4310E479;
+	Sun,  9 Feb 2025 05:08:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OsW2xdBj";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="uEUNJbJe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B1FE10E48B
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 05:07:25 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-54505191cdcso894892e87.2
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 21:07:25 -0800 (PST)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9996910E479
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 05:08:29 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-5450622b325so739536e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 21:08:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739077644; x=1739682444; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=EfNMfzUAvdO5axXrtOPa21BH0I19Ed6M3V+EZ2kcNQY=;
- b=OsW2xdBjovdxHxONOAd23GzlJkgVW7yesgzz55X6S6SV2+4X/wHbD8Mx7tLxUQ0JCi
- FzuwKQ9LjhZbo3lNcbBBW1mx/avzf/hVNBd4KgmAbb+nqs6hXcEB33fFbInUsSWPWpaQ
- Ba8PZ1EEa+VUPe+MUCf8slRc05/6pQoj0JeR6N5pP97v9k5a3Horll6uV70OOtqURQdU
- i/os9JG9/XwkFP5WbXF1Yn6F57fBkaSpDboNYcmPutPvNUF7JeR/xvmNWVGK1psKLFNB
- w4tkvIpJNBiBp4hWc9+C5qvhR4O3sr2OLxqELijpJdw7w0TKbTM9Ut2PzyzBA7KwgshQ
- smpQ==
+ d=linaro.org; s=google; t=1739077708; x=1739682508; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Xxe6b3I5l+DMAomwokzE2boxLKYMF2Wz1rXmU/foweY=;
+ b=uEUNJbJeGW8sAiKRVb0XpIScAUkk8QhbXY6NDvAIwcD+nNt1G+fnILt6J+ViOpJ1Jh
+ SUVuA5svOS2gpPyBtMkdTRMdRXaGe08Y/P3ERuQSUPBEgfJy8oPNHlhETdu9qSvqml4Q
+ uN+QseKT0A/+BbQiDWI5Jx88CNQVmICaqOpw+kPe4p2p4I93tIRTZMf+D20fyOfEN504
+ KqPxXh0bH9/uTp01w8AvOJ5DtOC943/QQn8Ul46RAUbHHKN4xDGz89eZV1WiHwcI3dJB
+ MyhvM0nb7zdZQOi602Q2BHBQrmUX/SWsLdc+k4J0Pn0DTOW4ZDTi0JfuG91SKZe4jYck
+ MZyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739077644; x=1739682444;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EfNMfzUAvdO5axXrtOPa21BH0I19Ed6M3V+EZ2kcNQY=;
- b=MKjrlDAa8noLLih83bmApNZj6TwdbnXkSTvRyE1G9xiW3s/w+shs5uEpEgSwLd7Po6
- YuvEW5thb6DTEwecCdkNMOGCaYLxiRZB5H4TqNwhta+5cl7NkisGYYG3RYZUrCWVgWUM
- AeWc9vBZY1y6iHn0yOE8dQHO1Uthgu4tRq2mvqqHs2PzdhOyv+uxfOTEXJ+PZRtx74gO
- pVSXY2dC0/QyiuUGxNGOpTGZF3T6h2CPpvMGYYM7LdvZjtJd4UXQFli3xrULhGfOGrHF
- D+C+Zp9PVzXI8Fiyyo53K64GtZg0DM+9LqsL4211pH4Yh/sWxnH5DADhukaIrBmgiSJ0
- UlRg==
+ d=1e100.net; s=20230601; t=1739077708; x=1739682508;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Xxe6b3I5l+DMAomwokzE2boxLKYMF2Wz1rXmU/foweY=;
+ b=Xg2U1iaq5CALCsC5F58H8ZLeH4xF3gWk8ktu0q6n1gX1OnNgiroYcs4x/Dyl/m+1K2
+ eS20QBxXGDCLE85px/8UbSSUM6TclhiZayaRmOva9cWScywT41TKoo5TKf3r51jV//8B
+ XcJqjab1125lJEBTIO7oKPeNPkT9FsJJMIcf8MPyA8V4D77T/vNRc6uAl+kxLND8R1nz
+ WOjv0pycFK4zWidTWoV5s2FS3VFVJYtU9llXRpVEmtnce+mAejIh9dcOyN0v3Y4WScQV
+ hZGJC+2lrNDw6FEOdPR8+zBUBSZXy5Eez3GcrD95EXgt8jjtfskRrdR0xbJVcxZV8wPZ
+ eC6Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVAk/s9znbjyzIRxAghPwZ5zzqlXDaBXgV2bq3h3D3Sjb8bTm5YEu4h/8hRSGoQgQmwrAvJhD9y15E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywxj7xo5GEpmaVDHzOuaZMAguQHN5UXH1hhQa0cs36xIwzbnzjP
- F4hFcrO7LoYHU9RTYhF88hzNp20356GEuUkfpbVN4Ad2qpAmOv9BYWRPWKs9jQE=
-X-Gm-Gg: ASbGnctKr1Sl/A2gcz1w4RsbmQJZd90IlRbzVkSksPJar/2NWDGwkwZ0Vjj167ADnCb
- 98X7siQUhsnXS0tT0dlKvJSP513YZPMMipaL94Hgyu8iPwJ8KOBfqItRVr9kHvX9ZcYpPTBnkh0
- pxd2YtbbniT7pmP+IGtf08fk088NaPUi5X7lbPG4hbKEnhdybaxqMpSEh7wHAh+Pt7vJDVIq7Rj
- xGW2WXdDblf5G6hwAKCHyprHcaPICZGA7nkLnRJJhloyFKtlFDqJRKuZmNwoZEMDfCghMMbUxUk
- 7LGELvqQAhqaSDxdniccHfE=
-X-Google-Smtp-Source: AGHT+IEAJIpGx/KtWJ3FoMRxqCJZCMQixEialyC+rYX1C/PQUXahOHBcURaFNniiUGHQYiTxLHEVSg==
-X-Received: by 2002:ac2:568e:0:b0:543:e4a3:7c3d with SMTP id
- 2adb3069b0e04-54414aa8782mr2874988e87.29.1739077643911; 
- Sat, 08 Feb 2025 21:07:23 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54506ef1733sm245576e87.1.2025.02.08.21.07.21
+ AJvYcCVykEZays7mR+rRZwti4jEkW5n+wBzflK+n5i3NfDpPl+mk+ITEpLzaf/TXe2uOUj6qGuB68gFHOfQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwEQhfJqNEooQCYSd8U0shsF+zrP4+MFJ/Jzw4bJA+tJX/tzA7M
+ vYEKQpfOBbb1nB+gu4gEnKOX+hIkFPzOjmSVMK2cRsP347sidklyulCV7HhGMhY=
+X-Gm-Gg: ASbGncs+u5ZgQD3fEz8gZ4FNr/W/q75q1WP5u2n/6vE8IzupDd/B9B/mqXlwGy22w0o
+ i8+EpE4+vt87JU1Dusz2fNQ9ghftI6a2JPMksNV3XfHrTmoJjAcllI9OGenYhYk5AQ7kYw9Cif5
+ fGAggXPAT3JUCt3vH38jkGik/pt+wUZMJjZCL/fENk5wpK5kqXfco4Ln+5Bh9wmsUlZtGqEbhka
+ haiFzwc6tVg85phHru64aENlcIwSDFbBcmk1uirT8yQGPrAls6N+M9wFTnP7OKtruqAK7ucT21M
+ hmI2jAI1pcVIpMWCW8E+6yQJm/O5r5L1ovmueBhPDv7isqsLBRG7GSwayj1U7G7x7C2jGbg=
+X-Google-Smtp-Source: AGHT+IEXroy9c9pG6Ok2Lw1EWFli5Ioo0Vjplntbo9wbjLdEIs0OWoeOfoRcX2MaSHiH8TCvuS+kSA==
+X-Received: by 2002:a05:6512:1192:b0:545:4f1:5bc6 with SMTP id
+ 2adb3069b0e04-54504f15dafmr1309852e87.16.1739077707960; 
+ Sat, 08 Feb 2025 21:08:27 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-544ffbc5827sm490054e87.227.2025.02.08.21.08.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2025 21:07:22 -0800 (PST)
+ Sat, 08 Feb 2025 21:08:26 -0800 (PST)
+Date: Sun, 9 Feb 2025 07:08:24 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 09 Feb 2025 07:05:00 +0200
-Subject: [PATCH v4 16/16] ARM: dts: qcom: apq8064-ifc6410: drop HDMI HPD GPIO
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 14/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_update_legacy_modeset_state()
+Message-ID: <zrw62skvprwygmcde7d3sdjpwzgm72jjvr7njkyidtnwosviop@p63cqie2hdj3>
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-14-35dd6c834e08@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250209-fd-hdmi-hpd-v4-16-6224568ed87f@linaro.org>
-References: <20250209-fd-hdmi-hpd-v4-0-6224568ed87f@linaro.org>
-In-Reply-To: <20250209-fd-hdmi-hpd-v4-0-6224568ed87f@linaro.org>
-To: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=806;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=rBkvGR/qHrfxPlnsg0QzXfiNTIC9RTO2ROzJ5dKz7zg=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnqDfkPKZGcgzKdMYQrmr8xg29SeVv5ZTbQNhMP
- Xm71FFkyTSJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ6g35AAKCRCLPIo+Aiko
- 1UN1B/9p99p14mAy2cJWH8bo5AHu/xitIDMYADBNYVdsUQXslx1MuCaXPHSz/9EQQ9j45ItPAmv
- EzCEf17MZ//D1/qHLqCjloL9Ltx37KTjBGPz1FUsmmbU8crIut7dokT0vvrXN6tGLdefXI/Hxuc
- awkE7CsVIlujLKcvm1MIvFQt1sbsJ9STP7ppIKasGV7yZiTxpCfT5SglZtHAbrupQBqNjuOhnWd
- 3K8IniuWpKDQQBT71UqooHwEvF5Y9+OSbX8IlfDHj0Wp18urN40IFGX3Er+qj4JGg0EX+RWVWF7
- 5mfvkADq0u6kX/boHk9kXmppgY4vT3pNzviaOXQ+R8XuVeKu
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250204-bridge-connector-v2-14-35dd6c834e08@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,27 +97,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no need to specify separate HPD gpio for the HDMI block. Use
-built-in HPD in order to detect if the monitor is plugged or not.
+On Tue, Feb 04, 2025 at 03:57:42PM +0100, Maxime Ripard wrote:
+> drm_atomic_helper_update_legacy_modeset_state() updates all the legacy
+> modeset pointers a connector, encoder or CRTC might have with the ones
+> being setup by a given commit. It takes the drm_atomic_state being
+> committed as a parameter.
+> 
+> However, that parameter name is called (and documented) as old_state,
+> which is pretty confusing. Let's rename that variable as state.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dts | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dts b/arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dts
-index b3ff8010b14985c55c580e0083a5c8ea23c03962..717bfd74edb75b278eaf5ab37954fcede1f7ffb0 100644
---- a/arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dts
-+++ b/arch/arm/boot/dts/qcom/qcom-apq8064-ifc6410.dts
-@@ -138,7 +138,6 @@ &gsbi7_serial {
- 
- &hdmi {
- 	core-vdda-supply = <&pm8921_hdmi_switch>;
--	hpd-gpios = <&tlmm_pinmux 72 GPIO_ACTIVE_HIGH>;
- 	status = "okay";
- };
- 
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 -- 
-2.39.5
-
+With best wishes
+Dmitry
