@@ -2,86 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC438A2DA4E
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 03:00:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6970BA2DA50
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 03:01:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B5D310E011;
-	Sun,  9 Feb 2025 02:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF26B10E1CA;
+	Sun,  9 Feb 2025 02:01:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="La3zZAP5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="lMyBY4Nq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8657710E011
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 02:00:19 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54298ec925bso4096865e87.3
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 18:00:19 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514E110E1CA
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 02:01:44 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-5450622b325so680933e87.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 18:01:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739066417; x=1739671217; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RiSJBpwJ06y13Y4m32+RLR4LRqNBHBlyjKc73IF8wvA=;
- b=La3zZAP5MIiCfqQpG3gzKGM0pBlYMpCoJC9Zcpd9tChKAIFO/RebUlaC7+AUJbUs4i
- vYxwGM3aLdQKX5ta6V9EX4yjM2qHWacNTVD+n6Sy0qwQCPXbIp6DINk2B/v1Ul2G18Ao
- aWt4tyYhomuGSV+jSgOuS53mxP7Y3x/bW44fiQ6VuRCRLNvUyVH+UECH0FYK+7kBupQH
- I6K5AH4zvjdWeHMm7tuGzQyuRqUzVgQQollp+F3CwgSz4T237XmQCKx9623EZpwYOolp
- TkYJYTn7lSd6wbC7aGXzTB6hARhtrjlxgxoF7pkSb5Gw/gK8wB0HONOZYGLQcSGgCDIS
- H0zg==
+ d=linaro.org; s=google; t=1739066502; x=1739671302; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=2PGp1XgnxteHu9RdPhVH5sY4q1WTjnO00NTGkJChuoM=;
+ b=lMyBY4Nq75L7PQ6kx8wHffzpkE8SWXAShBnPVYhQTR1QgFvWwYNgmjpMACV1Y/Ei83
+ PFFyIwWJgy5j4YhnAqDdD3tbu7DqHXLZQXEXYJD0drXbVt5ZOZMh6o1MxS+LdPrG7Lky
+ qxXilwpdTEj7TGZpcRaiSQ6fgJbyV/oIPc1V670glp5Fgv6U4pflj1oFRWCIQrk7Y+x9
+ 0QRXaRtJKPBZgnelhwh/zZJMtUNq542qXIP4rd35SUcb47uBAmcazyrhagLSbLAkuv5l
+ /JP6ySP159rjlmBzljpooHA6Zqlyt72e9pzWyv5AS/WtN1CfoIUrJqMxS4qM5GelL1+0
+ Q2yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739066417; x=1739671217;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=RiSJBpwJ06y13Y4m32+RLR4LRqNBHBlyjKc73IF8wvA=;
- b=BbNYkBgKXod7SgjdrXHN9ut9IzMLLK0od0O0jrdd2xTfgYNNXr3vXqyQYW2tjd2y7W
- ExOfFmzH03QHvUr3eeCNRIE09BoIB+koad8MdzgCCzbyznhfXE5dSXQp2SOVjkXYdRq+
- DYd4waQkQCRe4adTi8nd4k62IIRy8MuvgfDlELYL6CCP2XIhJQjPF0dmOxKtY0JuNAnR
- 8Aiq9hSLsT9ysceW6PZNY4GmnvapBmxl6gLF2tnS2OnjT7jInzrCXNrXIdES6U4904sx
- H5yJON4s3tVZWNB0Y29QMcG7aD40f4NGefoAFKNBA33vnV/FcP1Ra6w7vd/mdfjHL6Cj
- GHRg==
+ d=1e100.net; s=20230601; t=1739066502; x=1739671302;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2PGp1XgnxteHu9RdPhVH5sY4q1WTjnO00NTGkJChuoM=;
+ b=TrHek4nxLjolxM8UcldrMTQRpsuuwYG1OExh9XTBm163P6+iJoTIW+T31uJZGb3O05
+ ke4F6yRL5qiGpUdLABr8I+2DR9tKHx8FTI/kvcXOc4/WNQLBoqM6pCEY9oalJnoUQiPy
+ 5vC9/Wgb1K2R8LZcat1cNPnSi8AsOsXEAcFr/1bvPuzBCanAEvmbsM+hrGFxH+0Kcc87
+ BSVsIvj01pLAK3YmcuCJn7ADJH8lyZjR8zQZg4xXkmSeomcPg10SjgTDC9YwE7Rxpreq
+ nEmkTzOLfR7Yfjg40c3aYZ9HDybngaaAhIw+FxNP538VDWKVTov5BcCjUcVXfB0WQcJj
+ lvKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUOmptqcMsoUbBpe+TTnVi/DOgYZv/8BbbTi2LsPwqzROF+UiZaGdpKIVjv+xctG7Mqd32WGGQo5P4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyCxaxE7c2UfyQX1kvhdUS4O3UTGWfV2MIDl9Qv10QJcd6Tua99
- s0/W+TQKhvObC/cQwt296/kh6MCsQm2dEdH3MNSQh8RAorK4AiaDCg8ZH2hioSU=
-X-Gm-Gg: ASbGncshgLv2htGbZlEYAueDoCqSVVCjI+AZ/oiYa/rEtXXou6Tvv8sYRwJQS0RvhKg
- idpBtf7aXdW0ozxryMR2HUXJxWqZldgDo9I/7qrPOJPJSzAv4L2tq9aMWrmmDE2CBy45soDi4Ah
- CFrbh/1TiYY7f6CFzzo4cZCcrg9aDOGVmc4lb1LUQ6688AGnq5t9/zbYgP6uScwMmMROHk7Jw4A
- Mfwu9LxeDJjLjwPt9q7zJ+SqSWTg9Maejaeeyl5/IeABrnvl7q616s3AcpHAihb3f5J3Cp9JVqw
- GKjEb0OjoMktmvr1/0v/I2vQSbrUt9jgioD2bYhsxnO7XJOVz6jA2nJV2FM=
-X-Google-Smtp-Source: AGHT+IE1RFuoba21V8k71iKwxN4QDWJF/N6Im8G5mQFzaucJ5Tcf1TVvg4WXdL+j+R121vWZVBKCRQ==
-X-Received: by 2002:ac2:5f06:0:b0:545:9ce:7606 with SMTP id
- 2adb3069b0e04-54509ce9eb7mr130030e87.34.1739066417472; 
- Sat, 08 Feb 2025 18:00:17 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54508f570b0sm82299e87.126.2025.02.08.18.00.15
+ AJvYcCUvvdJjQ4+8paeklwELfesOJ6oEPn/UG2n8oOE8IczBghQ1Brflf3jAnItmbP5RuJijiQJxL51WW34=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxefV/FTqQlq1+vhphC8cw1otQjyI5WDkaRMBdjcs3FTDZKzu4Y
+ BSamTYvprYrb3tdMQsO0KWMw2xoscJK21HYaKTfBrXKoKQU6GtjtNuG4/gM9+Dc=
+X-Gm-Gg: ASbGnctuY+WFwNcJ1zta0DwOYRDrz/+fhLoMOwKaNRJPJQUoTOWX4FfMIGCGUmzCTBu
+ E0IiDYAlg+2leTGrweAhB0u0vmLXoS1U6sQDxL0DbvrSSnvRLqHyttdP5UAl0dB5f18/2x3oX0W
+ LNzxxku8EVYEZHLfqzn6N6DXMpjt4OdHuyX6+tkVl3oyC46/fpc8SJxWf2+vBHi5G9WE67h8ylX
+ AwwXtSe2ziWxlodTTZPNQhWvsvh+VYRsnyoYboGb7ifZBdEsYc3kvBfKzAhsOwlsttRHlKyHvD2
+ 28B+Y0dZ77pUkTyaqq+tl44i7aCDtHym08XTPS1b1S1DHTO0gvHzKUc77YEUxMXq9vWCBfI=
+X-Google-Smtp-Source: AGHT+IGJS1+g4puxkPbuLs8WIzLmSKlUfwG5DYlgVtVpvbpfwu+I92SkzuZNAQBNdSTJnZpCoPa0/A==
+X-Received: by 2002:a05:6512:159e:b0:540:1c18:4e38 with SMTP id
+ 2adb3069b0e04-54414aa88bemr2594802e87.28.1739066502582; 
+ Sat, 08 Feb 2025 18:01:42 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5450a36fa4asm28876e87.167.2025.02.08.18.01.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2025 18:00:16 -0800 (PST)
+ Sat, 08 Feb 2025 18:01:41 -0800 (PST)
+Date: Sun, 9 Feb 2025 04:01:39 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>,
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Javier Martinez Canillas <javierm@redhat.com>,
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/hisilicon/hibmc: select CONFIG_DRM_DISPLAY_DP_HELPER
-Date: Sun,  9 Feb 2025 04:00:07 +0200
-Message-ID: <173906639943.8625.1474098563019119282.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250127071059.617567-1-arnd@kernel.org>
-References: <20250127071059.617567-1-arnd@kernel.org>
+Subject: Re: [PATCH v2 07/35] drm/atomic-helper: Change parameter name of
+ drm_atomic_helper_wait_for_dependencies()
+Message-ID: <ttjrs6vggvbwc7rprctmkigjusd6gog4pxysicxdxtweeojflp@zm7nh7zvfq5q>
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-7-35dd6c834e08@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250204-bridge-connector-v2-7-35dd6c834e08@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,30 +97,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Jan 2025 08:10:02 +0100, Arnd Bergmann wrote:
-> Without the DP helper code, the newly added displayport support
-> causes a link failure:
+On Tue, Feb 04, 2025 at 03:57:35PM +0100, Maxime Ripard wrote:
+> drm_atomic_helper_wait_for_dependencies() waits for all the dependencies
+> a commit has before going forward with it. It takes the drm_atomic_state
+> being committed as a parameter.
 > 
-> x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.o: in function `hibmc_dp_aux_init':
-> dp_aux.c:(.text+0x37e): undefined reference to `drm_dp_aux_init'
-> x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.o: in function `hibmc_dp_link_set_pattern':
-> dp_link.c:(.text+0xae): undefined reference to `drm_dp_dpcd_write'
-> x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.o: in function `hibmc_dp_link_get_adjust_train':
-> dp_link.c:(.text+0x121): undefined reference to `drm_dp_get_adjust_request_voltage'
-> x86_64-linux-ld: dp_link.c:(.text+0x12e): undefined reference to `drm_dp_get_adjust_request_pre_emphasis'
-> x86_64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.o: in function `hibmc_dp_link_training':
-> dp_link.c:(.text+0x2b0): undefined reference to `drm_dp_dpcd_write'
-> x86_64-linux-ld: dp_link.c:(.text+0x2e3): undefined reference to `drm_dp_dpcd_write'
+> However, that parameter name is called (and documented) as old_state,
+> which is pretty confusing. Let's rename that variable as state.
 > 
-> [...]
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
 
-Applied to drm-misc-fixes, thanks!
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-[1/1] drm/hisilicon/hibmc: select CONFIG_DRM_DISPLAY_DP_HELPER
-      commit: 9ab127a18018fb06bd42a54ed38bb7b8c449d686
-
-Best regards,
 -- 
 With best wishes
 Dmitry
-
