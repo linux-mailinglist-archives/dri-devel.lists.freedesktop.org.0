@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB356A2DD71
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 13:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D6EA2DD73
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 13:11:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D19210E2E2;
-	Sun,  9 Feb 2025 12:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F2EE10E2F6;
+	Sun,  9 Feb 2025 12:11:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Y6mI7YWn";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Hi09YZIz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com
- [95.215.58.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BC1D10E2D2
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 12:11:03 +0000 (UTC)
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com
+ [95.215.58.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD97210E2F1
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 12:11:07 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1739103062;
+ t=1739103066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=11IXDptkPGvzTKpFjpDLmk0tAYn1bCOMj6vCsJrT+8s=;
- b=Y6mI7YWnbEe6KAVActgyda15Gb4A+u1O4sUZKY6aQUMWukGqkgQJ0xEyNsoJUgjZqL3foI
- zIs3OUCAlr9OanKaX7EkKpQm2/glzkUkE3vRnTattRZb8ApNHuWcqKYVKDFGfcyZ5OwgxP
- Kh+S+/fYjHNlU83SB3m4SCOAjllYaoc=
+ bh=AN7JB7Cg+gBv3L+erE+eeh7+gQ4NZV9djINY+4ELNbw=;
+ b=Hi09YZIz4sdxyMoDSaC9Z4vW3AMD3+a+8xHWHdaTE+do4q6wu2+7P+UGbYH5A2pnbRxwtF
+ nyNYde4Pej9TV7/qzNhbOaVWItjh/KTx0MoQQ9RkQRtAtL751TaYLcmB2C5sx0q5kNqHNQ
+ N/kI2L4u108FI0lnrhXUycwYQxJT6po=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -44,12 +44,11 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  Udit Kumar <u-kumar1@ti.com>, Jayesh Choudhary <j-choudhary@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>, stable@vger.kernel.org,
- Dominik Haller <d.haller@phytec.de>
-Subject: [PATCH v9 05/13] drm/bridge: cdns-dsi: Wait for Clk and Data Lanes to
- be ready
-Date: Sun,  9 Feb 2025 17:40:24 +0530
-Message-Id: <20250209121032.32655-6-aradhya.bhatia@linux.dev>
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Subject: [PATCH v9 06/13] drm/bridge: cdns-dsi: Move to
+ devm_drm_of_get_bridge()
+Date: Sun,  9 Feb 2025 17:40:25 +0530
+Message-Id: <20250209121032.32655-7-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250209121032.32655-1-aradhya.bhatia@linux.dev>
 References: <20250209121032.32655-1-aradhya.bhatia@linux.dev>
 MIME-Version: 1.0
@@ -72,65 +71,105 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Aradhya Bhatia <a-bhatia1@ti.com>
 
-Once the DSI Link and DSI Phy are initialized, the code needs to wait
-for Clk and Data Lanes to be ready, before continuing configuration.
-This is in accordance with the DSI Start-up procedure, found in the
-Technical Reference Manual of Texas Instrument's J721E SoC[0] which
-houses this DSI TX controller.
+Instead of manually finding the next bridge/panel, and maintaining the
+panel-bridge (in-case the next entity is a panel), switch to using the
+automatically managing devm_drm_of_get_bridge() API.
 
-If the previous bridge (or crtc/encoder) are configured pre-maturely,
-the input signal FIFO gets corrupt. This introduces a color-shift on the
-display.
+Drop the drm_panel support completely from the driver while at it.
 
-Allow the driver to wait for the clk and data lanes to get ready during
-DSI enable.
-
-[0]: See section 12.6.5.7.3 "Start-up Procedure" in J721E SoC TRM
-     TRM Link: http://www.ti.com/lit/pdf/spruil1
-
-Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-Cc: stable@vger.kernel.org
-Tested-by: Dominik Haller <d.haller@phytec.de>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.c    | 28 ++-----------------
+ .../gpu/drm/bridge/cadence/cdns-dsi-core.h    |  2 --
+ 2 files changed, 3 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 87921a748cdb..6a77ca36cb9d 100644
+index 6a77ca36cb9d..c2512342139c 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -769,7 +769,7 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
- 	struct phy_configure_opts_mipi_dphy *phy_cfg = &output->phy_opts.mipi_dphy;
- 	unsigned long tx_byte_period;
- 	struct cdns_dsi_cfg dsi_cfg;
--	u32 tmp, reg_wakeup, div;
-+	u32 tmp, reg_wakeup, div, status;
- 	int nlanes;
+@@ -941,8 +941,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+ 	struct cdns_dsi_output *output = &dsi->output;
+ 	struct cdns_dsi_input *input = &dsi->input;
+ 	struct drm_bridge *bridge;
+-	struct drm_panel *panel;
+-	struct device_node *np;
+ 	int ret;
  
- 	if (WARN_ON(pm_runtime_get_sync(dsi->base.dev) < 0))
-@@ -786,6 +786,19 @@ static void cdns_dsi_bridge_enable(struct drm_bridge *bridge)
- 	cdns_dsi_hs_init(dsi);
- 	cdns_dsi_init_link(dsi);
+ 	/*
+@@ -960,26 +958,10 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+ 	/*
+ 	 * The host <-> device link might be described using an OF-graph
+ 	 * representation, in this case we extract the device of_node from
+-	 * this representation, otherwise we use dsidev->dev.of_node which
+-	 * should have been filled by the core.
++	 * this representation.
+ 	 */
+-	np = of_graph_get_remote_node(dsi->base.dev->of_node, DSI_OUTPUT_PORT,
+-				      dev->channel);
+-	if (!np)
+-		np = of_node_get(dev->dev.of_node);
+-
+-	panel = of_drm_find_panel(np);
+-	if (!IS_ERR(panel)) {
+-		bridge = drm_panel_bridge_add_typed(panel,
+-						    DRM_MODE_CONNECTOR_DSI);
+-	} else {
+-		bridge = of_drm_find_bridge(np);
+-		if (!bridge)
+-			bridge = ERR_PTR(-EINVAL);
+-	}
+-
+-	of_node_put(np);
+-
++	bridge = devm_drm_of_get_bridge(dsi->base.dev, dsi->base.dev->of_node,
++					DSI_OUTPUT_PORT, dev->channel);
+ 	if (IS_ERR(bridge)) {
+ 		ret = PTR_ERR(bridge);
+ 		dev_err(host->dev, "failed to add DSI device %s (err = %d)",
+@@ -989,7 +971,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
  
-+	/*
-+	 * Now that the DSI Link and DSI Phy are initialized,
-+	 * wait for the CLK and Data Lanes to be ready.
-+	 */
-+	tmp = CLK_LANE_RDY;
-+	for (int i = 0; i < nlanes; i++)
-+		tmp |= DATA_LANE_RDY(i);
-+
-+	if (readl_poll_timeout(dsi->regs + MCTL_MAIN_STS, status,
-+			       (tmp == (status & tmp)), 100, 500000))
-+		dev_err(dsi->base.dev,
-+			"Timed Out: DSI-DPhy Clock and Data Lanes not ready.\n");
-+
- 	writel(HBP_LEN(dsi_cfg.hbp) | HSA_LEN(dsi_cfg.hsa),
- 	       dsi->regs + VID_HSIZE1);
- 	writel(HFP_LEN(dsi_cfg.hfp) | HACT_LEN(dsi_cfg.hact),
+ 	output->dev = dev;
+ 	output->bridge = bridge;
+-	output->panel = panel;
+ 
+ 	/*
+ 	 * The DSI output has been properly configured, we can now safely
+@@ -1005,12 +986,9 @@ static int cdns_dsi_detach(struct mipi_dsi_host *host,
+ 			   struct mipi_dsi_device *dev)
+ {
+ 	struct cdns_dsi *dsi = to_cdns_dsi(host);
+-	struct cdns_dsi_output *output = &dsi->output;
+ 	struct cdns_dsi_input *input = &dsi->input;
+ 
+ 	drm_bridge_remove(&input->bridge);
+-	if (output->panel)
+-		drm_panel_bridge_remove(output->bridge);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+index ca7ea2da635c..5db5dbbbcaad 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.h
+@@ -10,7 +10,6 @@
+ 
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_mipi_dsi.h>
+-#include <drm/drm_panel.h>
+ 
+ #include <linux/bits.h>
+ #include <linux/completion.h>
+@@ -21,7 +20,6 @@ struct reset_control;
+ 
+ struct cdns_dsi_output {
+ 	struct mipi_dsi_device *dev;
+-	struct drm_panel *panel;
+ 	struct drm_bridge *bridge;
+ 	union phy_configure_opts phy_opts;
+ };
 -- 
 2.34.1
 
