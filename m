@@ -2,89 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369ECA2E169
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 00:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 141F2A2E175
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 00:29:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9622A10E0E1;
-	Sun,  9 Feb 2025 23:13:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A08010E0F2;
+	Sun,  9 Feb 2025 23:28:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Qv083Tv5";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="V4CzUkq1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 226BA10E0E1
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 23:13:49 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-545074b88aaso1011849e87.3
- for <dri-devel@lists.freedesktop.org>; Sun, 09 Feb 2025 15:13:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739142827; x=1739747627; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MoxKvhqaqOUsSE3IycBsIlrhzz+TLrVA2orrTjTeuoQ=;
- b=Qv083Tv5zfEeJGyJ7Uo2QmBUTFnuNauUGlPp7KyrVYYxeElF9YUoa2pP39q+auMCmi
- rWrVRi4C/MddMNw/Y+h9RFRZ7YnO0DrsFL//c/6gtZ17sQg72TLSU7Pg18Slm0h3vEw9
- 6nx+lOclvLqFIF5swzoprZou4aZsCXbe/FJoCHMOg7yD0QoHMk5blMb+BvPTY5rOsfQQ
- 2vaApmcu3lmtsVtmYdeqVjF13e5oHVi6vohTKW234XLXd7cl8jq507AvX/z2yvXq8sOR
- EEfqK8nH09bQb5rhyJtWk03J7uWNraUKVy95U2Og32PcJwXkYt/FD6eAMED5FFNHI6Mh
- DTYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739142827; x=1739747627;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MoxKvhqaqOUsSE3IycBsIlrhzz+TLrVA2orrTjTeuoQ=;
- b=o2K63rIpHNwE/Caq5Sj2sw9dg8X8fQMIF6R/8NS1MKOyk0weOsyQn29BQfa4qD91rg
- wPMU2deO1sg+98NhqU65OOr+1E0BtD/5lyU2I4uAej1mh9OIgqkxZqpRb4H8oRCys6a1
- fwX2BuXXdqsW2QBz0/AX4i/J+nRYcl/jTBAY1WCKNXSzH1FDftuQeqY6SXkUHX9qgpdQ
- ZF77TM05af5z8yKHiMLwHjIM8cF/g9uv7X+sBl+VxxjADCzkqK2MA8cBsNsGSFdsYjLs
- lgXI26UXyazh/LjbvxUX+KeOJCmYYg6U8r/41qAcZs31i/nswBIKETtek4TTmtObQ2K2
- qqPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUyEicmYxMgMPcwO7B6VM93OC9lU8eZVzKknL1JgBDoMKpJLmQ443ttDXW3i+olznVJ/OqFRjeDfpo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/m3Rrc68OhRUrSVohzC57sZnJiGGuQdeg4g5jO5+oK2x0H48P
- DrrE1kex1YCKULtTSAKKFtSxW/7CIQUyMJsZEWdjBbTn12sqh9QqpVCTd/kOyz4=
-X-Gm-Gg: ASbGncuUOOoGMbOvEeNaU1PZTz6tFm/dEL9HPZUjRN5zNSV6X3TnK8dTAR1Tn9qt2r3
- V3z4hSVJUXghbwRw7xS7zbxNU1ePb12ruH5WekUud4BpeTci4nDizS2nUn55/FwoXl/Sb0T0PAr
- 7We9CD/awYw6nwfF/tqV8p0i1be0hDoGzv3Ae3YBDsNoT6fBbJQHQKwwIHuLZAbKRyyrEUirQiO
- hIcZ5YXVjqO4Yb8w56nA4JIGjGaSaStW9vlLSGESvs2MBJVQwNE2ST67XNtDdNdJJdvpdDjFdIx
- eyiK7DPn6x7/8UcjcaQDnBZ4FKpPfq0MdiksX9xlDuMbRO5wv3/7iW0PPlvf0uzeAIEI7mA=
-X-Google-Smtp-Source: AGHT+IG6pHxWcPGhnjwnxMZahzJXmycpngbz65UUqKb/X5omPdkl2r/lGWWjV9vy7q55qIJ9j0uJ6A==
-X-Received: by 2002:ac2:5f66:0:b0:545:b9a:b4b4 with SMTP id
- 2adb3069b0e04-5450b9ab564mr600700e87.52.1739142827370; 
- Sun, 09 Feb 2025 15:13:47 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5450e3e4e72sm25386e87.199.2025.02.09.15.13.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Feb 2025 15:13:46 -0800 (PST)
-Date: Mon, 10 Feb 2025 01:13:43 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Vinod Koul <vkoul@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- Jordan Crouse <jordan@cosmicpenguin.net>, ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Martin Botka <martin.botka@somainline.org>, 
- Jami Kettunen <jami.kettunen@somainline.org>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 3/3] drm/msm/dpu: Remove arbitrary limit of 1
- interface in DSC topology
-Message-ID: <agibhaftgy26tvlxgvhqmiortwaycblsxs42bebj3n54trozj7@46bqaqlrfn6n>
-References: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-0-9a60184fdc36@somainline.org>
- <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-3-9a60184fdc36@somainline.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39EC910E060;
+ Sun,  9 Feb 2025 23:28:55 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 519NOUOD004308;
+ Sun, 9 Feb 2025 23:28:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ rC6DWwz6HFbX3hsyb/20HB2JgJmP5Fu60Lr1b1bITlo=; b=V4CzUkq1WYi7G5vo
+ Wvwuy4j0eBRLmZ8ZXnz3/RfpOcnPlVgd6x/fOGEZLUSBC9oMILsv5ygo95grCGTR
+ M8/aI2OGC5cHns9MkyZWXxmbKLwjYkQG+pfUmdaXVN4WGd8YFBlutVzdRCCx2hKi
+ bE1JXyLludKeoYlwoDN5P1uWv1PD3I6kG5NkT+6C36nzWQDO0ysdabGbhP87oj2T
+ emgXlfJJ4Qm0GOAZuieakcFCVON7F0zM7CYave53IFjzdamhjrl4KYrJC4Ew+FTU
+ Y1BkjMV3u7wKxwJ2TahOl33ADSin6MMPAZ6ui2D3QAg+vqwkyip4kWNJV4gvx3al
+ VImfLQ==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44p0dyjjh4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 09 Feb 2025 23:28:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 519NSlFf016355
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 9 Feb 2025 23:28:47 GMT
+Received: from [10.110.94.204] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 9 Feb 2025
+ 15:28:46 -0800
+Message-ID: <0636a261-f4db-4a62-b6f0-bee4f28c3a02@quicinc.com>
+Date: Sun, 9 Feb 2025 15:28:45 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-3-9a60184fdc36@somainline.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] drm/msm/dsi: Set PHY usescase (and mode) before
+ registering DSI host
+To: Marijn Suijten <marijn.suijten@somainline.org>, Rob Clark
+ <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ "Sean Paul" <sean@poorly.run>, David Airlie <airlied@gmail.com>, Vinod Koul
+ <vkoul@kernel.org>, Simona Vetter <simona@ffwll.ch>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Jordan
+ Crouse" <jordan@cosmicpenguin.net>,
+ <~postmarketos/upstreaming@lists.sr.ht>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ "Martin Botka" <martin.botka@somainline.org>, Jami Kettunen
+ <jami.kettunen@somainline.org>, Konrad Dybcio
+ <konrad.dybcio@oss.qualcomm.com>
+References: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-0-9a60184fdc36@somainline.org>
+ <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-2-9a60184fdc36@somainline.org>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-2-9a60184fdc36@somainline.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 3Xy3RhDdrsw9yxHr7KT1tiLrtkPA01_e
+X-Proofpoint-GUID: 3Xy3RhDdrsw9yxHr7KT1tiLrtkPA01_e
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-09_10,2025-02-07_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ clxscore=1011 lowpriorityscore=0 impostorscore=0 mlxlogscore=927
+ mlxscore=0 priorityscore=1501 spamscore=0 adultscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502090209
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,25 +100,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 09, 2025 at 10:42:54PM +0100, Marijn Suijten wrote:
-> When DSC is enabled the number of interfaces is forced to be 1, and
-> documented that it is a "power-optimal" layout to use two DSC encoders
-> together with two Layer Mixers.  However, the same layout (two DSC
-> hard-slice encoders with two LMs) is also used when the display is
-> fed with data over two instead of one interface (common on 4k@120Hz
-> smartphone panels with Dual-DSI).  Solve this by simply removing the
-> num_intf = 1 assignment as the count is already calculated by computing
-> the number of physical encoders within the virtual encoder.
+
+
+On 2/9/2025 1:42 PM, Marijn Suijten wrote:
+> Ordering issues here cause an uninitialized (default STANDALONE)
+> usecase to be programmed (which appears to be a MUX) in some cases
+> when msm_dsi_host_register() is called, leading to the slave PLL in
+> bonded-DSI mode to source from a clock parent (dsi1vco) that is off.
 > 
-> Fixes: 7e9cc175b159 ("drm/msm/disp/dpu1: Add support for DSC in topology")
+> This should seemingly not be a problem as the actual dispcc clocks from
+> DSI1 that are muxed in the clock tree of DSI0 are way further down, this
+> bit still seems to have an effect on them somehow and causes the right
+> side of the panel controlled by DSI1 to not function.
+> 
+> In an ideal world this code is refactored to no longer have such
+> error-prone calls "across subsystems", and instead model the "PLL src"
+> register field as a regular mux so that changing the clock parents
+> programmatically or in DTS via `assigned-clock-parents` has the
+> desired effect.
+> But for the avid reader, the clocks that we *are* muxing into DSI0's
+> tree are way further down, so if this bit turns out to be a simple mux
+> between dsiXvco and out_div, that shouldn't have any effect as this
+> whole tree is off anyway.
+> 
 > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/msm/dsi/dsi_manager.c | 30 +++++++++++++++++++-----------
+>   1 file changed, 19 insertions(+), 11 deletions(-)
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
