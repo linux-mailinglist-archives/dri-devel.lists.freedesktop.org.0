@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EE7A2E0EE
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 22:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F258FA2E0EF
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 22:43:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8EA4610E0A6;
-	Sun,  9 Feb 2025 21:43:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BE0610E366;
+	Sun,  9 Feb 2025 21:43:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5DE910E366
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E083010E03B
  for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 21:43:06 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-211-6-86.cable.dynamic.v4.ziggo.nl [94.211.6.86])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id B31F22018B;
- Sun,  9 Feb 2025 22:42:59 +0100 (CET)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 89E572018C;
+ Sun,  9 Feb 2025 22:43:00 +0100 (CET)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-Date: Sun, 09 Feb 2025 22:42:52 +0100
-Subject: [PATCH v2 1/3] drm/msm/dsi: Use existing per-interface slice count
- in DSC timing
+Date: Sun, 09 Feb 2025 22:42:53 +0100
+Subject: [PATCH v2 2/3] drm/msm/dsi: Set PHY usescase (and mode) before
+ registering DSI host
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-1-9a60184fdc36@somainline.org>
+Message-Id: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-2-9a60184fdc36@somainline.org>
 References: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-0-9a60184fdc36@somainline.org>
 In-Reply-To: <20250209-drm-msm-initial-dualpipe-dsc-fixes-v2-0-9a60184fdc36@somainline.org>
 To: Rob Clark <robdclark@gmail.com>, 
@@ -44,21 +44,21 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  Marijn Suijten <marijn.suijten@somainline.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4089;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3553;
  i=marijn.suijten@somainline.org; h=from:subject:message-id;
- bh=VTdlerQNNpTUPZqatGVO2EiSPGoOtfou395t+Amfm6I=;
- b=owEBbQKS/ZANAwAIAfFi0jHH5IZ2AcsmYgBnqSFirjkmyMVkeLXZR2FsC8zxQlShfIeyj03b5
- gwOfvsoSNeJAjMEAAEIAB0WIQROiwG5pb6la1/WZxbxYtIxx+SGdgUCZ6khYgAKCRDxYtIxx+SG
- dkLHEAC0RQTGeY7iXQI1Y4Fw1YYmWHrM/TlO2OrUyRh5Zk7f6ruxTjkg2dxk159lHTjf30J+Eqq
- KYNGnQPX+ScWSs1vYOrY1NGAD1TuahxyiOsvhZtAPmCx7onHnpT16QYK8OqJv/cPs4Ksu8aqGYt
- 8ravYv8r2rW2dYwIrNZt7r81oKNyc4VMb3jNGcR0ops6v17pxL1WXE1VV962noTltS9uCCQOUMj
- 0ts8+1DshNDFrET5ZKNdnRS6+sza0hzM3H94Kgv/+/709QM2RtDNJ3EotGSCtB3w3tF1wFzU0n5
- k2dR5TA6Bz4xFnsYt7jVEKHKAwO7weZ8Bs4pAoWuOA7TfXPJTfrYR4q+OcwV3NG6R0s2vOIw5OO
- 1XF0+fzq5UrQngQfMoAn9zPFfVW3odGlr5H5CHBMo8/UpV8v9nEUptseuyzKo/MUNKiwAZulw5p
- YodKAyFpmNt86zmqdwPqOtPDI51LqY5kexm0bOero0M6P03OTK90awksWiaK/tI0tw/P4oubyWr
- 9Hn0zIdaLNRvUM9H5tGVoVSppMtH3DuFM0vqoCIUCc9S8rIE9TOhIcMqn+0Jx5wEkOefPndz2ei
- hDRk9r4bTgqngLhYQAg8HW3TUkr6pwV5+qcD+o37+2n7EWV8U6DAQrx78TOvCTSeo0X2eDFnMmz
- m0NV0TiBiY0Nw8w==
+ bh=Tfsl+1a40BScE8ikvZaM3H+qVdmMOmXUCGzcdcW2ync=;
+ b=owEBbQKS/ZANAwAIAfFi0jHH5IZ2AcsmYgBnqSFiT34CP+ZJaA+rzArxEFLoN1LWvZjH/Bies
+ mr2e4ZztEmJAjMEAAEIAB0WIQROiwG5pb6la1/WZxbxYtIxx+SGdgUCZ6khYgAKCRDxYtIxx+SG
+ dvTGEACxAnMNqxkekAmzf0r7lozEJOigflfa9+ZcLs+RUG7X/3DZ3zzzlLauHO0tzU/HWB+OWEm
+ 3JJ1xU8ckjnH8J0J6shnG2dL3xS4VlHq5Ix55Z3ZkyJIF6pxnBuBqthHZGF3imuXex9fnHHVNp3
+ h8lTfYj42YJRUGDlEYDyWUHFSo5tD76Y8guTlcvyQ12vLXlPKudvCoVz8yqmK5JFlwdzywazPhf
+ KlgFyWlyzBbHHG+XLel5Z0kqbTMI/b1PizeFvyPUuADCQ1zBwIur2M88v3scfDbA5TxUyQuUAnM
+ 2+KlC2LVjgrG/h6VCK21Bg8ndojIowYAiDdsWMu/2HmAyH/X8L3/BBIudDLoo7Ya+xCeI7mBPvk
+ oHzGMC60CVTp9Z4Xgd9Cq9xzO//SekabwP/RTMlkVk59eujBHGRDRs5i1p7IaawUVnF0QkON3EO
+ 5eBNrhsvYFURfpiodTLrfg1gn9sNQkfhslulY/dr0nNtx8F82FIUBGu8qsJS40ZCWYeDfi+/Uof
+ JWPwVLWsEtXBTys3nDGhMmG5jCb+mr1zhtHzbpOUQBS0qHAfxdVORnIZ5TYVzYrc/pnreo7J2mi
+ SYMOmVIz8ZwP+dlyeAFY3WUHeRUFhmaYbvZvh2/k+ffO6lkSR8y4GTbEAMQBrR0NbwE+/k/kTQo
+ 71QhOLH1+c0sUgA==
 X-Developer-Key: i=marijn.suijten@somainline.org; a=openpgp;
  fpr=4E8B01B9A5BEA56B5FD66716F162D231C7E48676
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,95 +76,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When configuring the timing of DSI hosts (interfaces) in
-dsi_timing_setup() all values written to registers are taking
-bonded-mode into account by dividing the original mode width by 2
-(half the data is sent over each of the two DSI hosts), but the full
-width instead of the interface width is passed as hdisplay parameter to
-dsi_update_dsc_timing().
+Ordering issues here cause an uninitialized (default STANDALONE)
+usecase to be programmed (which appears to be a MUX) in some cases
+when msm_dsi_host_register() is called, leading to the slave PLL in
+bonded-DSI mode to source from a clock parent (dsi1vco) that is off.
 
-Currently only msm_dsc_get_slices_per_intf() is called within
-dsi_update_dsc_timing() with the `hdisplay` argument which clearly
-documents that it wants the width of a single interface (which, again,
-in bonded DSI mode is half the total width of the mode) resulting in all
-subsequent values to be completely off.
+This should seemingly not be a problem as the actual dispcc clocks from
+DSI1 that are muxed in the clock tree of DSI0 are way further down, this
+bit still seems to have an effect on them somehow and causes the right
+side of the panel controlled by DSI1 to not function.
 
-However, as soon as we start to pass the halved hdisplay
-into dsi_update_dsc_timing() we might as well discard
-msm_dsc_get_slices_per_intf() since the value it calculates is already
-available in dsc->slice_count which is per-interface by the current
-design of MSM DPU/DSI implementations and their use of the DRM DSC
-helpers.
+In an ideal world this code is refactored to no longer have such
+error-prone calls "across subsystems", and instead model the "PLL src"
+register field as a regular mux so that changing the clock parents
+programmatically or in DTS via `assigned-clock-parents` has the
+desired effect.
+But for the avid reader, the clocks that we *are* muxing into DSI0's
+tree are way further down, so if this bit turns out to be a simple mux
+between dsiXvco and out_div, that shouldn't have any effect as this
+whole tree is off anyway.
 
-Fixes: 08802f515c3c ("drm/msm/dsi: Add support for DSC configuration")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c   |  8 ++++----
- drivers/gpu/drm/msm/msm_dsc_helper.h | 11 -----------
- 2 files changed, 4 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_manager.c | 30 +++++++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 007311c21fdaa0462b05d53cd8a2aad0269b1727..42e100a8adca09d7b55afce0e2553e76d898744f 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -846,7 +846,7 @@ static void dsi_ctrl_enable(struct msm_dsi_host *msm_host,
- 		dsi_write(msm_host, REG_DSI_CPHY_MODE_CTRL, BIT(0));
- }
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+index a210b7c9e5ca281a46fbdb226e25832719a684ea..b93205c034e4acc73d536deeddce6ebd694b4a80 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+@@ -74,17 +74,33 @@ static int dsi_mgr_setup_components(int id)
+ 	int ret;
  
--static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mode, u32 hdisplay)
-+static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mode)
- {
- 	struct drm_dsc_config *dsc = msm_host->dsc;
- 	u32 reg, reg_ctrl, reg_ctrl2;
-@@ -858,7 +858,7 @@ static void dsi_update_dsc_timing(struct msm_dsi_host *msm_host, bool is_cmd_mod
- 	/* first calculate dsc parameters and then program
- 	 * compress mode registers
- 	 */
--	slice_per_intf = msm_dsc_get_slices_per_intf(dsc, hdisplay);
-+	slice_per_intf = dsc->slice_count;
- 
- 	total_bytes_per_intf = dsc->slice_chunk_size * slice_per_intf;
- 	bytes_per_pkt = dsc->slice_chunk_size; /* * slice_per_pkt; */
-@@ -991,7 +991,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- 
- 	if (msm_host->mode_flags & MIPI_DSI_MODE_VIDEO) {
- 		if (msm_host->dsc)
--			dsi_update_dsc_timing(msm_host, false, mode->hdisplay);
-+			dsi_update_dsc_timing(msm_host, false);
- 
- 		dsi_write(msm_host, REG_DSI_ACTIVE_H,
- 			DSI_ACTIVE_H_START(ha_start) |
-@@ -1012,7 +1012,7 @@ static void dsi_timing_setup(struct msm_dsi_host *msm_host, bool is_bonded_dsi)
- 			DSI_ACTIVE_VSYNC_VPOS_END(vs_end));
- 	} else {		/* command mode */
- 		if (msm_host->dsc)
--			dsi_update_dsc_timing(msm_host, true, mode->hdisplay);
-+			dsi_update_dsc_timing(msm_host, true);
- 
- 		/* image data and 1 byte write_memory_start cmd */
- 		if (!msm_host->dsc)
-diff --git a/drivers/gpu/drm/msm/msm_dsc_helper.h b/drivers/gpu/drm/msm/msm_dsc_helper.h
-index b9049fe1e2790703a6f42dd7e6cd3fa5eea29389..63f95523b2cbb48f822210ac47cdd3526f231a89 100644
---- a/drivers/gpu/drm/msm/msm_dsc_helper.h
-+++ b/drivers/gpu/drm/msm/msm_dsc_helper.h
-@@ -12,17 +12,6 @@
- #include <linux/math.h>
- #include <drm/display/drm_dsc_helper.h>
- 
--/**
-- * msm_dsc_get_slices_per_intf() - calculate number of slices per interface
-- * @dsc: Pointer to drm dsc config struct
-- * @intf_width: interface width in pixels
-- * Returns: Integer representing the number of slices for the given interface
-- */
--static inline u32 msm_dsc_get_slices_per_intf(const struct drm_dsc_config *dsc, u32 intf_width)
--{
--	return DIV_ROUND_UP(intf_width, dsc->slice_width);
--}
+ 	if (!IS_BONDED_DSI()) {
++		/* Set the usecase before calling msm_dsi_host_register(), which would
++		 * already program the PLL source mux based on a default usecase.
++		 */
++		msm_dsi_phy_set_usecase(msm_dsi->phy, MSM_DSI_PHY_STANDALONE);
++		msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
++
+ 		ret = msm_dsi_host_register(msm_dsi->host);
+ 		if (ret)
+ 			return ret;
 -
- /**
-  * msm_dsc_get_bytes_per_line() - calculate bytes per line
-  * @dsc: Pointer to drm dsc config struct
+-		msm_dsi_phy_set_usecase(msm_dsi->phy, MSM_DSI_PHY_STANDALONE);
+-		msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
+ 	} else if (other_dsi) {
+ 		struct msm_dsi *master_link_dsi = IS_MASTER_DSI_LINK(id) ?
+ 							msm_dsi : other_dsi;
+ 		struct msm_dsi *slave_link_dsi = IS_MASTER_DSI_LINK(id) ?
+ 							other_dsi : msm_dsi;
++
++		/* PLL0 is to drive both DSI link clocks in bonded DSI mode.
++		 *
++		/* Set the usecase before calling msm_dsi_host_register(), which would
++		 * already program the PLL source mux based on a default usecase.
++		 */
++		msm_dsi_phy_set_usecase(clk_master_dsi->phy,
++					MSM_DSI_PHY_MASTER);
++		msm_dsi_phy_set_usecase(clk_slave_dsi->phy,
++					MSM_DSI_PHY_SLAVE);
++		msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
++		msm_dsi_host_set_phy_mode(other_dsi->host, other_dsi->phy);
++
+ 		/* Register slave host first, so that slave DSI device
+ 		 * has a chance to probe, and do not block the master
+ 		 * DSI device's probe.
+@@ -98,14 +114,6 @@ static int dsi_mgr_setup_components(int id)
+ 		ret = msm_dsi_host_register(master_link_dsi->host);
+ 		if (ret)
+ 			return ret;
+-
+-		/* PLL0 is to drive both 2 DSI link clocks in bonded DSI mode. */
+-		msm_dsi_phy_set_usecase(clk_master_dsi->phy,
+-					MSM_DSI_PHY_MASTER);
+-		msm_dsi_phy_set_usecase(clk_slave_dsi->phy,
+-					MSM_DSI_PHY_SLAVE);
+-		msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
+-		msm_dsi_host_set_phy_mode(other_dsi->host, other_dsi->phy);
+ 	}
+ 
+ 	return 0;
 
 -- 
 2.48.1
