@@ -2,32 +2,32 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 195FAA2DD8D
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 13:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F00A2DD8E
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 13:16:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8031B10E31C;
-	Sun,  9 Feb 2025 12:16:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 991DF10E313;
+	Sun,  9 Feb 2025 12:16:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="VGJwzcZA";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="Uxp1I5eE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com
- [95.215.58.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC9FF10E492
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 12:16:42 +0000 (UTC)
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com
+ [95.215.58.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C195110E313
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 12:16:46 +0000 (UTC)
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1739103401;
+ t=1739103405;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eiA69S57neLqPcjY1aULPjpHWkYs6ec9/LxCurdqrds=;
- b=VGJwzcZAtkC/OOCj5mj3twtchJCtkF3yXHihPAyDhPQAEHeYYwJY3yX+8qhGziFwcxfc80
- Ke9viytZlTZ32clMubiOnjKHx0+wMq2QfxGaq/46CBeljSCeqf4fNynOGmSsuYOL4u6pIY
- w3l+dxLYyWYJN1Ooj9XGwLJ9MkF4bU8=
+ bh=wDd9H+cpVECWFj/tV+zCYRPGelCzXuXhyaQoRRLjdZM=;
+ b=Uxp1I5eEWVeCardaIf4k2BdQX+mZrkZe+w6AlWtbehK+ZaowWz1GbzDkLPitYdUPeg+SJ5
+ dzCGgOuIuIjD2Lh8t6EVp1qfnK1SBr7WY6ndXBoGez2UiipzGk7jtQqPSGJzO84Rc5gg+W
+ PhIr2bA17nMHPABzKNYw3rjKdjwW8/8=
 From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
@@ -45,10 +45,10 @@ Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
  DRI Development List <dri-devel@lists.freedesktop.org>,
  Linux Kernel List <linux-kernel@vger.kernel.org>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Subject: [PATCH v9 11/13] drm/atomic-helper: Separate out bridge
- pre_enable/post_disable from enable/disable
-Date: Sun,  9 Feb 2025 17:46:19 +0530
-Message-Id: <20250209121621.34677-4-aradhya.bhatia@linux.dev>
+Subject: [PATCH v9 12/13] drm/atomic-helper: Re-order bridge chain pre-enable
+ and post-disable
+Date: Sun,  9 Feb 2025 17:46:20 +0530
+Message-Id: <20250209121621.34677-5-aradhya.bhatia@linux.dev>
 In-Reply-To: <20250209121621.34677-1-aradhya.bhatia@linux.dev>
 References: <20250209121032.32655-1-aradhya.bhatia@linux.dev>
  <20250209121621.34677-1-aradhya.bhatia@linux.dev>
@@ -70,185 +70,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The encoder-bridge ops occur by looping over the new connector states of
-the display pipelines. The enable sequence runs as follows -
+Move the bridge pre_enable call before crtc enable, and the bridge
+post_disable call after the crtc disable.
 
-	- pre_enable(bridge),
-	- enable(encoder),
-	- enable(bridge),
+The sequence of enable after this patch will look like:
 
-while the disable sequnce runs as follows -
+	bridge[n]_pre_enable
+	...
+	bridge[1]_pre_enable
 
-	- disable(bridge),
-	- disable(encoder),
-	- post_disable(bridge).
+	crtc_enable
+	encoder_enable
 
-Separate out the pre_enable(bridge), and the post_disable(bridge)
-operations into separate functions each.
+	bridge[1]_enable
+	...
+	bridge[n]_enable
 
-This patch keeps the sequence same for any singular disaplay pipe, but
-changes the sequence across multiple display pipelines.
+And, the disable sequence for the display pipeline will look like:
 
-This patch is meant to be an interim patch, to cleanly pave the way for
-the sequence re-ordering patch, and maintain bisectability in the
-process.
+	bridge[n]_disable
+	...
+	bridge[1]_disable
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Reviewed-by: Jayesh Choudhary <j-choudhary@ti.com>
+	encoder_disable
+	crtc_disable
+
+	bridge[1]_post_disable
+	...
+	bridge[n]_post_disable
+
+The definition of bridge pre_enable hook says that,
+"The display pipe (i.e. clocks and timing signals) feeding this bridge
+will not yet be running when this callback is called".
+
+Since CRTC is also a source feeding the bridge, it should not be enabled
+before the bridges in the pipeline are pre_enabled. Fix that by
+re-ordering the sequence of bridge pre_enable and bridge post_disable.
+
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
 Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 ---
-Note on checkpatch warnings:
-This patch caueses the checkpatch to flare up for 1 warning, and 1 check -
-
-WARNING: line length of 101 exceeds 100 columns
-#63: FILE: drivers/gpu/drm/drm_atomic_helper.c:1252:
-
-CHECK: Lines should not end with a '('
-#77: FILE: drivers/gpu/drm/drm_atomic_helper.c:1266:
-
-This patch is largely duplicating the original code, with minor changes to
-perform different bridge operations. Both these lines of code pre-exist in the
-file and have simply been duplicated. I have decided to keep them as is to
-maintain the uniformity and the originaly intended readability. Should perhaps a
-fix be required, this patch/series is not the right place, and another patch can
-be created to fix this across the whole file.
-
----
- drivers/gpu/drm/drm_atomic_helper.c | 91 ++++++++++++++++++++++++++++-
- 1 file changed, 88 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index e805fd0a54c5..c9ffca796f32 100644
+index c9ffca796f32..348ef0c12949 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1185,8 +1185,6 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *old_stat
- 			else if (funcs->dpms)
- 				funcs->dpms(encoder, DRM_MODE_DPMS_OFF);
- 		}
--
--		drm_atomic_bridge_chain_post_disable(bridge, old_state);
- 	}
- }
- 
-@@ -1243,11 +1241,65 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *old_state)
- 	}
- }
- 
-+static void
-+encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *old_state)
-+{
-+	struct drm_connector *connector;
-+	struct drm_connector_state *old_conn_state, *new_conn_state;
-+	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-+	int i;
-+
-+	for_each_oldnew_connector_in_state(old_state, connector, old_conn_state, new_conn_state, i) {
-+		struct drm_encoder *encoder;
-+		struct drm_bridge *bridge;
-+
-+		/*
-+		 * Shut down everything that's in the changeset and currently
-+		 * still on. So need to check the old, saved state.
-+		 */
-+		if (!old_conn_state->crtc)
-+			continue;
-+
-+		old_crtc_state = drm_atomic_get_old_crtc_state(old_state, old_conn_state->crtc);
-+
-+		if (new_conn_state->crtc)
-+			new_crtc_state = drm_atomic_get_new_crtc_state(
-+						old_state,
-+						new_conn_state->crtc);
-+		else
-+			new_crtc_state = NULL;
-+
-+		if (!crtc_needs_disable(old_crtc_state, new_crtc_state) ||
-+		    !drm_atomic_crtc_needs_modeset(old_conn_state->crtc->state))
-+			continue;
-+
-+		encoder = old_conn_state->best_encoder;
-+
-+		/* We shouldn't get this far if we didn't previously have
-+		 * an encoder.. but WARN_ON() rather than explode.
-+		 */
-+		if (WARN_ON(!encoder))
-+			continue;
-+
-+		drm_dbg_atomic(dev, "post-disabling bridges [ENCODER:%d:%s]\n",
-+			       encoder->base.id, encoder->name);
-+
-+		/*
-+		 * Each encoder has at most one connector (since we always steal
-+		 * it away), so we won't call disable hooks twice.
-+		 */
-+		bridge = drm_bridge_chain_get_first_bridge(encoder);
-+		drm_atomic_bridge_chain_post_disable(bridge, old_state);
-+	}
-+}
-+
- static void
- disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
+@@ -1298,9 +1298,9 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *old_state)
  {
  	encoder_bridge_disable(dev, old_state);
  
-+	encoder_bridge_post_disable(dev, old_state);
-+
+-	encoder_bridge_post_disable(dev, old_state);
+-
  	crtc_disable(dev, old_state);
++
++	encoder_bridge_post_disable(dev, old_state);
  }
  
-@@ -1460,6 +1512,38 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
- 	}
- }
- 
-+static void
-+encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *old_state)
-+{
-+	struct drm_connector *connector;
-+	struct drm_connector_state *new_conn_state;
-+	int i;
-+
-+	for_each_new_connector_in_state(old_state, connector, new_conn_state, i) {
-+		struct drm_encoder *encoder;
-+		struct drm_bridge *bridge;
-+
-+		if (!new_conn_state->best_encoder)
-+			continue;
-+
-+		if (!new_conn_state->crtc->state->active ||
-+		    !drm_atomic_crtc_needs_modeset(new_conn_state->crtc->state))
-+			continue;
-+
-+		encoder = new_conn_state->best_encoder;
-+
-+		drm_dbg_atomic(dev, "pre-enabling bridges [ENCODER:%d:%s]\n",
-+			       encoder->base.id, encoder->name);
-+
-+		/*
-+		 * Each encoder has at most one connector (since we always steal
-+		 * it away), so we won't call enable hooks twice.
-+		 */
-+		bridge = drm_bridge_chain_get_first_bridge(encoder);
-+		drm_atomic_bridge_chain_pre_enable(bridge, old_state);
-+	}
-+}
-+
- static void
- crtc_enable(struct drm_device *dev, struct drm_atomic_state *old_state)
+ /**
+@@ -1636,10 +1636,10 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *old_state
+ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+ 					      struct drm_atomic_state *old_state)
  {
-@@ -1521,7 +1605,6 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *old_state
- 		 * it away), so we won't call enable hooks twice.
- 		 */
- 		bridge = drm_bridge_chain_get_first_bridge(encoder);
--		drm_atomic_bridge_chain_pre_enable(bridge, old_state);
+-	crtc_enable(dev, old_state);
+-
+ 	encoder_bridge_pre_enable(dev, old_state);
  
- 		if (funcs) {
- 			if (funcs->atomic_enable)
-@@ -1555,6 +1638,8 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
- {
- 	crtc_enable(dev, old_state);
- 
-+	encoder_bridge_pre_enable(dev, old_state);
++	crtc_enable(dev, old_state);
 +
  	encoder_bridge_enable(dev, old_state);
  
