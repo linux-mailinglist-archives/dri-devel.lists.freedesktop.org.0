@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0334FA2DB41
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 07:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1C8A2DB4A
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 07:18:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1CC510E036;
-	Sun,  9 Feb 2025 06:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0297710E054;
+	Sun,  9 Feb 2025 06:18:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dwLr1054";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="GmmbV+I0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1821C10E036
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 06:12:56 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-30795988ebeso32502551fa.3
- for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 22:12:56 -0800 (PST)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+ [209.85.208.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 095A810E054
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 06:18:16 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id
+ 38308e7fff4ca-307d1ab59c6so31622111fa.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 22:18:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739081575; x=1739686375; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739081894; x=1739686694; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=4Fe0VF3HeXgNvgWt109zmaR5H6W57xLfEvBY6YhhqTM=;
- b=dwLr1054EIcdmv5Yq6OR1Zun1c5bEelQBP958dh9d1OveHH07fCOvgXHL33Eevex51
- PQZXTyA13BydXxZUzs5+qFZiEKCrkWoEGP6JCQRWxb50uEAQ6Mirrvp4dpyBETWOG8Zr
- dtgnH/ebUMr21w+F3MyXAlmmIkMzE2ifKSOzofAjal5dIPe4vkW0h5bw4STJkglsCFvV
- YvZw6wxyNyPa4qymfufT/zVIIFkoG7teWrox/TUcOsMw1JAKwE8zshe7DSO419KfG/WW
- LmCp5pD8HZlyCypNZbHEV+4TMVlzMa/IwG8EyvT/Mp9e++LZLZXQyZRHPYxZRazOc/Ya
- kG/Q==
+ bh=lE2oPH+NznWU+A7rTznQcQge7zD1TQE7PnYcq5zX9eI=;
+ b=GmmbV+I0GUmDXVzPNsvvTHpnxAuxSlRPX/AbiqANmzPqkiwt4wbstIUH4ERpKVie7I
+ XifqpIXATHeFKF+VkaFjehHrqeAlu9zAHDpjYOZHptoC04qdRxLVYnVdw3FWDxub99Lm
+ NRnVB9uUu2Wr9WH+8xLjmpTXTVaHHJwUg/33Cg52wfc6ndfwfUL13BqYIB6cDExmASWy
+ aPH17A5nIftx2UO0fOU4SJtd9vsisF4y+9bW9qj54VXn2P1S9s7eZht0hELxwH7ri7qi
+ vhxY3+lZ2bE6qlCpacEyISU7xyITKT1EajcMY8mT+v9+4yyNm1mPTTlI2V8S/qsEX6Fo
+ b3pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739081575; x=1739686375;
+ d=1e100.net; s=20230601; t=1739081894; x=1739686694;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4Fe0VF3HeXgNvgWt109zmaR5H6W57xLfEvBY6YhhqTM=;
- b=hwedunQUBlRpqOfFSZUvpJXIKY0wEDLjIiSSnWZ4xiPFnvDqHaacbbeGjoahTyL9ND
- dQKtKgxMf7DFZlAEUbzJvm39p2DQ4DRnccYZyBzoYrJG+kKVUvI3JDK2NviKi/aCMTWp
- 4N5WEEPQfWalGR4ONVDrlV3QzgK32iegV3Hazvz2ywVCjd6ZIVDPFWKRbvP0eVZbhwok
- MX6FcaGbOIimwZOg/T934XqeAlA+3wVGEeHsh2E85NFLmsFGBxvGaHvvYi6iMGMafydn
- BgR1WkTuKzVn5BFdf9Hwi8uNU34jSgwe5pHYQxvYuLJNb9xz7zAQUJTzwGZfV+WtNSvl
- Dj9w==
+ bh=lE2oPH+NznWU+A7rTznQcQge7zD1TQE7PnYcq5zX9eI=;
+ b=dWzBA/AAqCfHn+sxgOZ8ZVkcIbaLJgMgfkMvtDwto1rZvUPiLS08Yo3ntGq6qVPaI8
+ JHQhgZU4oYrJAllJq42xqK9JtA6iKTls8ThEDj2+mU/6/cQuObRMO+R14JhADgLOMt+e
+ 23rE+S64mhUt7vOw7TkjLbTBALRd7iEEE+zndvQjWG1A9K1bX2GVEw0Ud07nRIobX4VX
+ 3L4uL3eVmVXgE42opYhfwL5iNKBwOciyehr1jk7z6zQJ9l1ESvjQ1FSKXeUVpuHKbHLp
+ STKHSiWpgE3IxszbSmWUMaxDiBLvHILYedKhPVami/AMQF0BTRz+1VlB1kbStNZBp/9J
+ /FBw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJfuSnMYRiiKlDc8wK+Qw/zkQdX84Y3MCmm1fDgzQZkHPHXsC4pq1wGd59zldkZ2h+usQa9zvC4tQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFdxXAwo5852PfTdeWkCnDTi+9qrSXdJiBPpe/1C7JTVzobr4M
- SE9yxcmJA9APiN6BUgxb2rRZPFxFEe0ktaRhkORvoEQgrbVw3Ypob2TtMPqmTuw=
-X-Gm-Gg: ASbGncvOEBd70g4Ho7x7IcuDnQFmTxfWKdE/NJvnkQxHQACFNic9+/VxiU/I55aCTME
- cdfGYyZUlAiNtA5uMmSQXuZtvlrjs8iqJRRqHBnX/EBbo80sD4Z6LoxBRxHTacLu9C+RM/nik+W
- 0Lyni76Imx2foOyCHSlcRpzEVjFVl4M0DBUpMPQHtWK3fQ4nyB8rBOH9NsrcyIHj0hTC5FgIfcG
- nkn7n8FCLRt8JTpyIrIkER8/MGt1E73a5nHOXWwCa9MIIp6DNK+xgSKV/IaBY+gVxX9McZ9Dd+R
- JK4FEiAFLIS7iLTvF3hrasbSb6zqHIkLZ0Gv0D560Ndixz9UYyfzJmGvEFzXPkJbXGk2glE=
-X-Google-Smtp-Source: AGHT+IG0zA2FKGk15ye6q/mCoGATdsQEyiqMtLOacPVHzVEYQoHiMNvdIJk/YGglXVnIXqv4CG72qA==
-X-Received: by 2002:a2e:9a84:0:b0:308:e54d:618a with SMTP id
- 38308e7fff4ca-308e54d637cmr6866631fa.29.1739081574778; 
- Sat, 08 Feb 2025 22:12:54 -0800 (PST)
+ AJvYcCV2Eag8ZVxnJBdi9wxqU0zxC7dveeAYw7cKbWj5IK79Iq1qDHdROO6te9wb+M+OWc5o1L5OZyklSEk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YztQFOxbx9QjHBpau93hNkNzJzi7ROP/jrdrarsaCAstVoWfus8
+ dFid6kpgmfhfI2RsI1Qcoj4lzX4ZkD0kQQ90mIv4BY1l0YwBgehGNlqS2qm/dXw=
+X-Gm-Gg: ASbGnctvFIJ1n9MZFuBmUEKhv8Kt/llz9uVdhXD273TesJ9xdRY0muzfzw4clClaxpO
+ +3FtV/+ttw5X0YxJqLEiF1mRrU9iRnU1lDUGh2eB2G24wkapt4cbfbRHObVvne2LXKxacItief6
+ nQfUMoQ/sJtj46FKJcM5V9tw4FIry33bdDUJTI8ALQV31jLzG/Ypysv1JHBdFqKfrc4VKF24b40
+ gbjUrbJyurN2QxNQbZ19hWOJZqp4zXhJgsdpV9xrkcsGn5pKQ8KzJDSwZrgUxdKTKRl/6ysIiUf
+ 8CytD/jNok5gEtLnyC39uF7MYiQb8OiT87KNQhVKPJYFcBJjFBedCWk00UkGH+scSChYtt4=
+X-Google-Smtp-Source: AGHT+IHgotXqPVdJ6aQX/zwyOsyj2WFgiPHoaaDkjyauV80cVRyVG+Oohw1MRE4f5iPbev+BKf+rdg==
+X-Received: by 2002:a05:651c:555:b0:307:9555:dc5e with SMTP id
+ 38308e7fff4ca-307e57cb001mr26580311fa.3.1739081894132; 
+ Sat, 08 Feb 2025 22:18:14 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-308e80067fdsm1789901fa.25.2025.02.08.22.12.52
+ 38308e7fff4ca-307de2f511esm8864481fa.104.2025.02.08.22.18.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 08 Feb 2025 22:12:53 -0800 (PST)
-Date: Sun, 9 Feb 2025 08:12:51 +0200
+ Sat, 08 Feb 2025 22:18:12 -0800 (PST)
+Date: Sun, 9 Feb 2025 08:18:10 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,15 +73,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Douglas Anderson <dianders@chromium.org>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 28/35] drm/bridge: Provide a helper to retrieve
- current bridge state
-Message-ID: <ogbqg2nchpyctndxvsox7zfnvmarlztxvjtxf74xftvaswz73y@54smvncbpkbe>
+Subject: Re: [PATCH v2 29/35] drm/bridge: Assume that a bridge is atomic if
+ it has atomic_reset
+Message-ID: <stisurekwcm2jmh7qb5rm3nvh4us2oy2c26mhdvqf2nivoa4en@xs5m6rygbxkp>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
- <20250204-bridge-connector-v2-28-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-29-35dd6c834e08@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250204-bridge-connector-v2-28-35dd6c834e08@kernel.org>
+In-Reply-To: <20250204-bridge-connector-v2-29-35dd6c834e08@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,56 +97,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 04, 2025 at 03:57:56PM +0100, Maxime Ripard wrote:
-> The current bridge state is accessible from the drm_bridge structure,
-> but since it's fairly indirect it's not easy to figure out.
+On Tue, Feb 04, 2025 at 03:57:57PM +0100, Maxime Ripard wrote:
+> A bridge is considered atomic-enabled if it has an atomic_check
+
+I think this part of the explanation is a bit misleading. This code just
+checks if there is a need to atomic_check() it.
+
+> implementation. However, atomic_check is optional and thus a driver
+> might very well not provide an implementation, and yet still be atomic.
+
+I think the change is correct, but I'd rather suggest implementing
+separate drm_bridge_has_atomic_state() helper and using it here and in
+two other cases.
+
 > 
-> Provide a helper to retrieve it.
+> Switch to atomic_reset, which allocates the initial bridge state and is
+> thus a better candidate.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  include/drm/drm_bridge.h | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+>  drivers/gpu/drm/drm_bridge.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index cf7ab89e652a982510ae9df1f5972b9c6eb13cf2..7a3664770c3ab8634a69e953b37a30ac467139b3 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -955,10 +955,31 @@ static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  {
->  	return NULL;
->  }
->  #endif
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index d7c17a26e86fd9a3e5a39f335edff4ffce30dd79..ad91a0ac375a9c8cf82834354ec7f654a59a7292 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -794,23 +794,25 @@ EXPORT_SYMBOL(drm_atomic_bridge_chain_enable);
 >  
-> +/**
-> + * @drm_bridge_get_current_state() - Get the current bridge state
-> + * @bridge: bridge object
-> + *
-> + * This function must be called with the modeset lock held.
-> + *
-> + * RETURNS:
-> + *
-> + * The current bridge state, or NULL if there is none.
-> + */
-> +static inline struct drm_bridge_state *
-> +drm_bridge_get_current_state(struct drm_bridge *bridge)
-> +{
-> +	lockdep_assert_held(&bridge->base.lock.mutex.base);
-
-Please use drm_modeset_lock_assert_held() instead.
-
-> +
-> +	if (!bridge)
-> +		return NULL;
-> +
-> +	return drm_priv_to_bridge_state(bridge->base.state);
-> +}
-> +
->  /**
->   * drm_bridge_get_next_bridge() - Get the next bridge in the chain
->   * @bridge: bridge object
->   *
->   * RETURNS:
+>  static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+>  				   struct drm_crtc_state *crtc_state,
+>  				   struct drm_connector_state *conn_state)
+>  {
+> -	if (bridge->funcs->atomic_check) {
+> +	if (bridge->funcs->atomic_reset) {
+>  		struct drm_bridge_state *bridge_state;
+>  		int ret;
+>  
+>  		bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+>  							       bridge);
+>  		if (WARN_ON(!bridge_state))
+>  			return -EINVAL;
+>  
+> -		ret = bridge->funcs->atomic_check(bridge, bridge_state,
+> -						  crtc_state, conn_state);
+> -		if (ret)
+> -			return ret;
+> +		if (bridge->funcs->atomic_check) {
+> +			ret = bridge->funcs->atomic_check(bridge, bridge_state,
+> +							  crtc_state, conn_state);
+> +			if (ret)
+> +				return ret;
+> +		}
+>  	} else if (bridge->funcs->mode_fixup) {
+>  		if (!bridge->funcs->mode_fixup(bridge, &crtc_state->mode,
+>  					       &crtc_state->adjusted_mode))
+>  			return -EINVAL;
+>  	}
 > 
 > -- 
 > 2.48.0
