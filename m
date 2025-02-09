@@ -2,179 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C2CA2DB59
-	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 07:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCE6A2DB6C
+	for <lists+dri-devel@lfdr.de>; Sun,  9 Feb 2025 08:00:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC7510E200;
-	Sun,  9 Feb 2025 06:36:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCC7410E249;
+	Sun,  9 Feb 2025 07:00:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oracle.com header.i=@oracle.com header.b="dk+2VGG6";
-	dkim=pass (1024-bit key; unprotected) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="p0bwrv0H";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="h0jmspDY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4D8C10E200
- for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 06:36:37 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5193MlYu020744;
- Sun, 9 Feb 2025 06:36:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
- :content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=corp-2023-11-20; bh=+lvZZuaT+Oy7Chacdy
- /Uv5rPNYu2lPojMKKqhYXdW4I=; b=dk+2VGG6EnntO3L29dxtL7m2Qv3slreH7e
- o3EZjq76OJI5NdRAhoHqTjRPMfntVLemaMrEgzTGJHIbqOwrHrJx14ESTmCqT+OE
- /5bpDD3u44P8lGHTCL3zWo/OUec+ZU6np6K9gTWs/X50j4LtLYbMnpdEMsKtmH6P
- imdxSYCOlskBXgsm8n8A1NClUqQLxf9AYERdjJMz23GAaUl5tgnl5hCGjpSnXD3M
- 8BwH5F7DRt+QEQw7uQSOqyeltEZJX2tUFRLI+ZiKziX6p7Lj2TgaarpuVMj3Z+FH
- X43117iVK7MvA87KLcSe3E90C28UwwtOlAs79JKRpb/dN8h3wKAw==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44p0tn12bg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 09 Feb 2025 06:36:10 +0000 (GMT)
-Received: from pps.filterd
- (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2)
- with ESMTP id 51935bG1038659; Sun, 9 Feb 2025 06:36:09 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2177.outbound.protection.outlook.com [104.47.55.177])
- by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 44p62vrp72-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 09 Feb 2025 06:36:09 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RjXXUJEFGl5x/WZT9N8gRt3Ky5PAcpfgATORNwk789Ei4TdqsDAJRk+HRvIauOVvUCa3ZECalpude5QJ18vQ9rVPdHk8hs9Y4/g90ywW/HCKHikoVQDJjmUHb7In3algpj/DjFk5c+utRYPbYJyKZQbi0XNNM0R1skDFSmul2zXOJNdsSluse/OD+haM4YCuCmiYlgzq27arclPTggBrSs5E7kun79rfRFTQofjf6LVkaO43iVyadH8Bz5IqcYqD5Mmo28nVDM+KNolF3sLJrcmG3WhtyTYnc83EKRp/rbPuBqEsNp6orbg5fKnk1NEmjegftGBEOWlDLk2eOijTxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+lvZZuaT+Oy7Chacdy/Uv5rPNYu2lPojMKKqhYXdW4I=;
- b=PtrTOEEMljkmZpQ2NVSdgvo9+ZAAk5y1r/4hmXUE+5/P2o1k9KEoi++UgZdYSVJh1f6bJPWyvSMicclpYUk+aFX3HKRHwtVijqMYvIqU5euTuLc7zHqilYIlogUMLExA/b9t46HuZdZHqeE/c4mo1ZOzjxWqHjjcPcBJMZCdUr6HnOKh29cDiZxciCSZIXmmZAHc6lWg4ESbiUjN0mGV2lNIl46+pwma83C0bMomTi7ifr2WFIpmpE+pfolhSNRjdGpzGWpRz+SsMKoL0NlWU8Xg92QCnTGyg7aRFiit7SLTmXQsSH1uSF7Yg7k+YX3usCcfRzbO2D2XHojeqpRZ7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE2AB10E249
+ for <dri-devel@lists.freedesktop.org>; Sun,  9 Feb 2025 07:00:49 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-54298ec925bso4215567e87.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 08 Feb 2025 23:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+lvZZuaT+Oy7Chacdy/Uv5rPNYu2lPojMKKqhYXdW4I=;
- b=p0bwrv0HkaL+xIxTmsEtdVdzhEa+Y9qXVnj7BY5r/u1Bap84+E1C2/Zk/wIlHyYENQBPpWz5b2OWdhYOYsT0u0YZUMXLos+RG0Ae/KZ78nZvZ6u236J2gP9hH5kJ+URQfZb2klvx01UZ2j8HdJaHjDzzQv1sceAJCzSumBxT1yg=
-Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
- by SJ0PR10MB5741.namprd10.prod.outlook.com (2603:10b6:a03:3ec::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Sun, 9 Feb
- 2025 06:36:05 +0000
-Received: from BYAPR10MB3366.namprd10.prod.outlook.com
- ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
- ([fe80::baf2:dff1:d471:1c9%4]) with mapi id 15.20.8398.025; Sun, 9 Feb 2025
- 06:36:05 +0000
-Date: Sun, 9 Feb 2025 06:36:02 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jaya Kumar <jayakumar.lkml@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>,
- David Hildenbrand <david@redhat.com>,
- Kajtar Zsolt <soci@c64.rulez.org>, Maira Canal <mcanal@igalia.com>,
- Simona Vetter <simona.vetter@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v3 3/3] fb_defio: do not use deprecated page->mapping,
- index fields
-Message-ID: <d4018405-2762-4385-a816-e54cc23839ac@lucifer.local>
-References: <cover.1739029358.git.lorenzo.stoakes@oracle.com>
- <81171ab16c14e3df28f6de9d14982cee528d8519.1739029358.git.lorenzo.stoakes@oracle.com>
+ d=linaro.org; s=google; t=1739084448; x=1739689248; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ke/v0zcSbRhluMj5/me33mYIoYLzSRKf+I/pzTCjOhE=;
+ b=h0jmspDYhbVA2mHuSbLoPCpdVmgdvvfarP4KcBaafgLxYR8AmT+ZEcPCd1V/V77ZnU
+ J7y3K30+dJaBOuRhzn8m/2j3PWyas35O7hqWOioOpKcltqgH6vqOyOzIWdKMg6J45gLy
+ lZcrtDG7UaD6JKIQbGs01J7PwnRMB9vBbOyCXSiFxneZMHgYiGfvC4ejozkonn161qml
+ /g7/CptTFyI5ZhWvEONOx7EAXNDIuaeD3kQpOdydWSeXqolFtRPOTXDBK816Du7dohXm
+ Z1JpfmKUxA2nPhs8aiF+ge7jUDd2A2JLxrfSPmMdE4yWpgwl//+iM+hBZanDSvAVXIfB
+ SkCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739084448; x=1739689248;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ke/v0zcSbRhluMj5/me33mYIoYLzSRKf+I/pzTCjOhE=;
+ b=Unz6lNc4YdiWI1l50xI0Om+t1NRalbMRFWIxes6U+qHzR/W2i1HvFXRkgWAWpkAlW9
+ pjNgBCdWWgTGjhdrWYllAlmkWg1sNn+GYkhQ9V4hy9UrsOPIlilScZGz9ZdS+H5Tj8QK
+ LrxN/x+LEMXrv0tlOUkoGLSx4lIMv9tIQYBuTE+q+jpBvZPJuAlglWZ9la2qZtinnG21
+ FXimKb7MRRi223E5BnCrSqa3TZ7qI+POEFu9FUmtU14DuLvSE7SYO5VfUurWz4GoMhI5
+ s5WUhXAdxhgRqHf4BN3VbOZezEWY1yFnu7O0o9E375HWE/uoeCFYrQ6+N/QcUXAqWT4G
+ A8cQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV9HfxDutPjU5A9qxiHLscn9l5xzbfx0bLnFuaDtVwAfUnKZZwiiKGldI3qsmSZXmGFpFsPPlAYxq4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwPg46yS51VWFOFxbHnQD1XQMt+Slbyruj11Iiriq9PRdO4B2Oe
+ FnEhIc0kmMV1bVqq63g0AeaBnY2GL4AYzY3C/3Y9/8XoEfPdTNQprHthjThpUW8=
+X-Gm-Gg: ASbGncvC/RmHIT+aR/6KfNyfLio9PT8PQz6cHzWmEGR4t4PJpO4YrYhUcKeHs6Rf2yW
+ 45HQ+fZcyq2opJBA7/JPXA8TMBzC/r84qi2dybhdZ6DmDgnfzIK+DgeM0JbP24/cCxyoloaU8HU
+ FZ29LGa1GBDb9vws7KloSqcnmrn0gh8YXm5z1Xyu9lyrmc7laScMHevYN4syywjCZwWHJUc/yVp
+ /UJ84QAYArp3Dcmh2bVmKn10EhR5f4YW4xqSzwKQdrkAozFbIQAbsi4cMstpvjRLf+HWwXAZzQJ
+ P6sDtnm27Zpyt/NQ7tKUFFCV9/qnKiI9COMpgY/X3YigQt/8QVuys3/d3e37KLzJ0wHVIs4=
+X-Google-Smtp-Source: AGHT+IEWGCtofmuEwEkuJxpqGHPNiiv0ZSPga34PIfnpTkm+HFVLF7PR6GYzqouNn/0GIyXy1u930w==
+X-Received: by 2002:a05:6512:114e:b0:544:1187:26fa with SMTP id
+ 2adb3069b0e04-54414ab68bbmr3087873e87.14.1739084447927; 
+ Sat, 08 Feb 2025 23:00:47 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-545043e99e4sm385822e87.225.2025.02.08.23.00.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Feb 2025 23:00:46 -0800 (PST)
+Date: Sun, 9 Feb 2025 09:00:44 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 30/35] drm/bridge: Provide pointers to the connector
+ and crtc in bridge state
+Message-ID: <nclqj5lovum5cv7xhznv3hcuhxivl2vtky3caiduo3izbc4bcn@lmgyev4soj4q>
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-30-35dd6c834e08@kernel.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <81171ab16c14e3df28f6de9d14982cee528d8519.1739029358.git.lorenzo.stoakes@oracle.com>
-X-ClientProxiedBy: LO2P265CA0181.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a::25) To BYAPR10MB3366.namprd10.prod.outlook.com
- (2603:10b6:a03:14f::25)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|SJ0PR10MB5741:EE_
-X-MS-Office365-Filtering-Correlation-Id: 698fc7c4-3985-4ba9-cb3c-08dd48d40780
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?nJBR+9ZSNPbz7pVahdYFgQQGJg0z3c8VrQ3FhF1RNv4iLbBs//ntB9CptJJr?=
- =?us-ascii?Q?WlSGHcIOzUOm+bF8Wfsx6qWUrGPwVyofveKLlnY/yR7LPaSp6NJclak8KkLL?=
- =?us-ascii?Q?NfO64MXqBVF8Uef01CgIGgxVJ1hq+Kk9BQfymtySZAZxbcdUItQfsqbBvplo?=
- =?us-ascii?Q?yGBN4V4eDg/YkbGhTgo7bqdyh6FjQNEHXFqnnTusY4DazkJqVMVJmYDfdS58?=
- =?us-ascii?Q?5mwU/nKL65g7+ycfi9n9HRSHCeIvB43ILVxoVXsdXgWHV8jV4VWXrsm96apg?=
- =?us-ascii?Q?MpWzowLDjLf/jcc39GpYZaq5ij7xpNo/Vhx3ej9cADXx/eGFuT+qh+8KSVtp?=
- =?us-ascii?Q?aZvwAwChWM0ZQAWRTFSOEyFF4gTPdZlCewHXPIRUpL9iyxSRseJ4sd2uqnfm?=
- =?us-ascii?Q?muky+YOVj1muGv0ZbIf2HFH5dLq8B1Kx5/jWbavxbhpY9E+soTuBBg2rjNoI?=
- =?us-ascii?Q?gALr3wQeOalgFriHbYelhBIeDSn0nwHhacGrO4GzdusTl4r9cwXv3Nf/g/0n?=
- =?us-ascii?Q?GwIUKoXEnFwGQTx8edlArLyj0RFOvo5w+RbHEG0Rrf87h0IboCYHtddyqehy?=
- =?us-ascii?Q?51c34bWosPzf0WbJKhakPet8P0bIjmwoZ/L+UFIm6PsO86WjtvHEPYVNpVSh?=
- =?us-ascii?Q?ofNTwfitKVCeoZZiSm+2GU/bRUEKs5jhZ17EvB8iwM6ljHkbO5kI+ONec7MA?=
- =?us-ascii?Q?fjLqupTFh6YCcVkOMwAtPVemjFrLkHFT00X9urGBOuVj6MXGIlvkU1NVwgCo?=
- =?us-ascii?Q?H8odNcgWyx3r/qnHnIe04McyLDTL6uVAoj+gYBjLdAFcGPFzXBwQag9zPOys?=
- =?us-ascii?Q?dVcIwkurlpS3wjaPSxgQBgt3jJqJdgwVq+aUgz61fNMwAnE31AlslNl5vi3k?=
- =?us-ascii?Q?/lR5Bw0oTcIh7sobEmREbDBdnBrWCXxP05bKgOn40OK+pV04ayzk/ENk3nEV?=
- =?us-ascii?Q?D6hXlazstjJFyipYmIxKE+lt+i3G8TVld3WGHfEj4g3slqyJQOqoe8rD9Vjz?=
- =?us-ascii?Q?j9NtUKs8kSHSEvZDpisUrZ9TFSqQdwGAJf1RQqyWP0mvjznn6Xwu0IpvidJe?=
- =?us-ascii?Q?2PAIZgnQHzTaYG+X3tHH4MmEWAIRfYKEZ2kbgPs+1gkE9CzPifnkug84cqb8?=
- =?us-ascii?Q?A1UjzMXNMkbsAKd+NZG7mvSqKH18mH7YR0TBoIQEaT9MZehtvqjh316OX80Y?=
- =?us-ascii?Q?KmW8HXKF+DB3QsipuYmzd05ucD3h76LAwCAx9y6PDpOUHqXBZyW6YcZLHQZQ?=
- =?us-ascii?Q?c07zhiODjjyZGfbi7LEWqj9POEAp4tyKskgtJsEibfFwzbSh7I1OX03Hes1u?=
- =?us-ascii?Q?TA69z68oN7z0TuikKMt/w5e6s5l5FDGI21jXq2lDQF+UmTzc2xUh9QC5ulAF?=
- =?us-ascii?Q?73QziIGo+O+beYFGoh0e2WfuytIu?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3366.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DIB4OTq8aDXSvDphOazqY3zwxJsF3K5Ue8M4oQk2/zHpjEXewXxix2vB6SoR?=
- =?us-ascii?Q?svXnDdk8CNVHGjtJCX+s6eP1fSo6/5utOK2SD6AKIo0+jmvNDbl1HS1pBMUM?=
- =?us-ascii?Q?kHPcoaRGft5ZAgk7w0BNu+CnpKqBgqzVahDxW7eKj+X6vqTD3ufZdnd7YjBZ?=
- =?us-ascii?Q?usDzaIo8UODFQI5jQso9CQr5JJJUz9KPqV19VgoasesSMsewnP+JMqyxqqNI?=
- =?us-ascii?Q?ZYxlnfrScYZ5iJnswhdrFzjfj+hM7aSmNY6inXDXID/vLuM9Wk4CV7QbYK5K?=
- =?us-ascii?Q?gdiV9g/O+XJp07qzdXmAIfTiFSdUcUXkPqyHsc8WGkIYvy+GYDgBwMQmvE+h?=
- =?us-ascii?Q?gCtUEV9BcTt7OYs4cGggae3L2sNbBFTWJC4h2zj/e6Wo7G6GYNu9Z7mouBc5?=
- =?us-ascii?Q?wE+gqLv3WHzxt7lFDc+JRQQyDM06c+9VIs1poeOkxYZQPzDE2caVeFW3YbFi?=
- =?us-ascii?Q?Nfe8mMSQofrMjTvhTDft+F5lKLSMupVhiljHlsRWC+GaI+JTseEnFe0oNWj1?=
- =?us-ascii?Q?J5BDbb9QPXnRIWvaAo6IAMV3c/5tIvVa7KqKsNzyhiEBp3f2I7wUuFJpjmpn?=
- =?us-ascii?Q?/V/yeCYE7yGu8AKAjFDDSqQgJdfYJB4I8aJTQN2XtdHgjFg2WnKlLbyIKf2/?=
- =?us-ascii?Q?63mK9wq46Hn59CGPvuVIbjbbVv9sPo8fjm0hQGYqkGeEHoeH16Ue7T+s0KmY?=
- =?us-ascii?Q?Vz9mZaIdEPyIFOhFjX9AbgscJJcLIHrf8MzJD3VIEbwwzjCL5svSHkOr7bTp?=
- =?us-ascii?Q?Us3QMXxdaK3FI2xLWYg0SA7WDzJPzpPgMglgl4xx1PqzpZ4RHBsdEZY/ArsI?=
- =?us-ascii?Q?y8NoxMEKrQWhhgmW0uXQQ06ihiieCSNe3lNXb9fsT/cTvfIH9ctF/2jOnSe5?=
- =?us-ascii?Q?aocYp4SOeBHobvLKlNV0BxkbC1A8QaEvJdzsz8oDhVQARMddsgPrBrqTw/IZ?=
- =?us-ascii?Q?3eu2McuxmZclBJ/bSRw4Mu5N5b3DeeDy3jSTZlRVqToBoZHs048ATEs2akyk?=
- =?us-ascii?Q?yRqBeGLMoaEFxQHKAoDiDBHEV5EN/X2UqSsvE6xHH+arbmVKbTduuZaPJV5Q?=
- =?us-ascii?Q?OADQu8bA/kd1tZtOo7XvxJRDE3ywVzI/+BADQmehAzkD73KBM81FKqijt2L1?=
- =?us-ascii?Q?omE+8VrpWdEtTWiPuid/tn6mi4nJm3arhamVF4TR1VSGHnI2F1hyq+cBHn9K?=
- =?us-ascii?Q?mA+NyL5otpMAZMwpkw3ro+DEALsDS5ZqMMwmx03NMrw4EKyfh/xafQRuVG9B?=
- =?us-ascii?Q?inqP11UvA8SGtN5Y2br6UXTq/EiHnDL1jofaHlLBQI5QBnt0uBQssVoMXrtK?=
- =?us-ascii?Q?ELN++oWZnok8WHu2vwacHY7vnGe7nSts7o+zbcTMwW/I74WNRgLggBEVItEB?=
- =?us-ascii?Q?Zamn9kvobKP6alEqlDfMVpzucEuyR+4LQ2RvB4GTrpw473NBYQVsrr2jgebJ?=
- =?us-ascii?Q?fF5ABcL5ppgMfokFJZ5zIFU/uFq1zqJRTDbcIQ5FNHOin0CiwYfu975VHe7c?=
- =?us-ascii?Q?Itu7gRAXJgI43jL8MQEfqlOqrk4LtuN89NnlN595VJEcfSWU9kwA5/Eaeyiu?=
- =?us-ascii?Q?iXnOZEkXgFikvztw7jYQFjRT9AJMiI69Ruko3ZdoFS6goc2M3+mu6UKMjiJv?=
- =?us-ascii?Q?+g=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: rp8R91AAWcrIXCAH5t1Ed8n6XbuPxk4AQfkaW4D2g88VnTXyJRQYzwDzX58jnDJ4/gvtP4YAXCi4OpK8KGjIqO3iT/hNt7hA7fxfW5qqMoPJrI9c9GNY1u2Ph9bz/LnrSvMzWQRJ4fa7fiZ67byu6PCXqqNcx16B4Hh6eBEU4c+OMegTYKUW7JpnKq92338PgK+1IJJpYmW4xvLsF2owRtgnploEwqGYp/uePSDD8kTDpZkgfpk8ItOubiIopZ2M/+KqC0u9EcQfmmsw0RpJJnmEwrRK9dYbYWhqX89WrNGHo8oyW0agoZtu8GZaRsD2kxIe+GtZY4ZXZ/ZGnja9xCdaFWDGYfQQdTL9+7FGcwDgH8PjM9iEsd8WkjgbIvaP5M/HCJgSoRyo/BX2IbHPsJEY1nPuYN2iaKKUbzdvU18kEJsta5VtwP0BOtPovCAgHM1We+BjpQiJWSEMCCJS6aLSWtx/iSGHJ6ilk1xwGHkucejGOfT7NLs2zwYFJ1CenA5UBlBMmLg8ApDV8Uimhw2YJAOpf/LJ9YJAACAn3LOA758TLWd0xAKPm6VrDJ6bBvwC1womblb3nRODJjITD4+BWSjPmpwu/BoTSLyVIl4=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 698fc7c4-3985-4ba9-cb3c-08dd48d40780
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2025 06:36:05.4023 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: anq5YaxJdFhyxD5aEYMVBVM+xDAOCwMyAL/nUHNkDEDpv+8GMzsoiaSfWps6kbCJxMAZvqmhWukEVrAfzAoqvHoXy78tS64phTErPflyfcI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5741
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-09_02,2025-02-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- bulkscore=0
- phishscore=0 spamscore=0 adultscore=0 suspectscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2501170000 definitions=main-2502090056
-X-Proofpoint-GUID: PLHVsN8lo-mPom2BuaEl4gM1l5o5vk0-
-X-Proofpoint-ORIG-GUID: PLHVsN8lo-mPom2BuaEl4gM1l5o5vk0-
+In-Reply-To: <20250204-bridge-connector-v2-30-35dd6c834e08@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -190,53 +97,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Andrew - apologies for this, I managed to miss some unusued variable warnings in
-this nommu workaround, once you take the v3 could you apply this trivial
-fix-patch on top to resolve that?
+On Tue, Feb 04, 2025 at 03:57:58PM +0100, Maxime Ripard wrote:
+> Now that connectors are no longer necessarily created by the bridges
+> drivers themselves but might be created by drm_bridge_connector, it's
+> pretty hard for bridge drivers to retrieve pointers to the connector and
+> CRTC they are attached to.
+> 
+> Indeed, the only way to retrieve the CRTC is to follow the drm_bridge
+> encoder field, and then the drm_encoder crtc field, both of them being
+> deprecated.
+> 
+> And for the connector, since we can have multiple connectors attached to
+> a CRTC, we don't really have a reliable way to get it.
 
-I tested this locally to confirm it resolves the problem. Thanks!
+It's not very precise, there is usually only a single connector attached
+to that encoder:
 
-----8<----
-From f428a950a5a932c0e4404a89f2a34b0683728016 Mon Sep 17 00:00:00 2001
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Date: Sun, 9 Feb 2025 06:29:25 +0000
-Subject: [PATCH] mm: fixup unused variable warnings
+ connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
 
-Unfortunately fb_defio being enabled by nommu devices seems enormously
-ingrained in the kernel to the point that it's not feasible to address that
-in this series, so we use an ifdef to workaround.
+Most likely I understand what you mean, but the commit message might
+require some polishing.
 
-However this workaround unfortunately missed some unused variables -
-correct this.
+> 
+> Let's provide both pointers in the drm_bridge_state structure so we
+> don't have to follow deprecated, non-atomic, pointers, and be more
+> consistent with the other KMS entities.
 
-This has been tested locally with W=1 and confirmed to resolve the issue.
+Well... Currently we mostly have variable data inside the state. Adding
+drm_connector to the drm_bridge_state means that it also becomes
+dynamic, however it usually isn't. Another option might be to pass
+drm_connector as an argument to various atomic_foo() callbacks, but it
+is also suboptimal.
 
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
----
- drivers/video/fbdev/core/fb_defio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_state_helper.c |  5 +++++
+>  drivers/gpu/drm/drm_bridge.c              |  5 +++++
+>  include/drm/drm_atomic.h                  | 14 ++++++++++++++
+>  3 files changed, 24 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 519228eb109533d2596e899a57b571fa0995824f..66661dca077215b78dffca7bc1712f56d35e3918 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -777,10 +777,15 @@ EXPORT_SYMBOL(drm_atomic_helper_bridge_duplicate_state);
+>   * that don't subclass the bridge state.
+>   */
+>  void drm_atomic_helper_bridge_destroy_state(struct drm_bridge *bridge,
+>  					    struct drm_bridge_state *state)
+>  {
+> +	if (state->connector) {
+> +		drm_connector_put(state->connector);
+> +		state->connector = NULL;
+> +	}
+> +
+>  	kfree(state);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_bridge_destroy_state);
+>  
+>  /**
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index ad91a0ac375a9c8cf82834354ec7f654a59a7292..fcff08c7d609477b7cadabc109f0b543a6b9b506 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -803,10 +803,15 @@ static int drm_atomic_bridge_check(struct drm_bridge *bridge,
+>  		bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+>  							       bridge);
+>  		if (WARN_ON(!bridge_state))
+>  			return -EINVAL;
+>  
+> +		bridge_state->crtc = crtc_state->crtc;
+> +
+> +		drm_connector_get(conn_state->connector);
+> +		bridge_state->connector = conn_state->connector;
+> +
+>  		if (bridge->funcs->atomic_check) {
+>  			ret = bridge->funcs->atomic_check(bridge, bridge_state,
+>  							  crtc_state, conn_state);
+>  			if (ret)
+>  				return ret;
+> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+> index 7af43062e5ca8c30b3fd600a34543e79137ab3ea..12f3676b85454e81de74c6b5eec700a355d42836 100644
+> --- a/include/drm/drm_atomic.h
+> +++ b/include/drm/drm_atomic.h
+> @@ -1197,10 +1197,24 @@ struct drm_bridge_state {
+>  	/**
+>  	 * @bridge: the bridge this state refers to
+>  	 */
+>  	struct drm_bridge *bridge;
+>  
+> +	/**
+> +	 * @crtc: CRTC the bridge is connected to, NULL if disabled.
+> +	 *
+> +	 * Do not change this directly.
+> +	 */
+> +	struct drm_crtc *crtc;
+> +
+> +	/**
+> +	 * @connector: The connector the bridge is connected to, NULL if disabled.
+> +	 *
+> +	 * Do not change this directly.
+> +	 */
+> +	struct drm_connector *connector;
+> +
+>  	/**
+>  	 * @input_bus_cfg: input bus configuration
+>  	 */
+>  	struct drm_bus_cfg input_bus_cfg;
+>  
+> 
+> -- 
+> 2.48.0
+> 
 
-diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-index acf7bc7ac45f..4fc93f253e06 100644
---- a/drivers/video/fbdev/core/fb_defio.c
-+++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -265,15 +265,15 @@ static void fb_deferred_io_work(struct work_struct *work)
-
- 	/* here we wrprotect the page's mappings, then do all deferred IO. */
- 	mutex_lock(&fbdefio->lock);
-+#ifdef CONFIG_MMU
- 	list_for_each_entry(pageref, &fbdefio->pagereflist, list) {
- 		struct page *page = pageref->page;
- 		pgoff_t pgoff = pageref->offset >> PAGE_SHIFT;
-
--#ifdef CONFIG_MMU
- 		mapping_wrprotect_range(fbdefio->mapping, pgoff,
- 					page_to_pfn(page), 1);
--#endif
- 	}
-+#endif
-
- 	/* driver's callback with pagereflist */
- 	fbdefio->deferred_io(info, &fbdefio->pagereflist);
---
-2.48.1
+-- 
+With best wishes
+Dmitry
