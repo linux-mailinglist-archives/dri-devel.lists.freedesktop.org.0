@@ -2,59 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773A7A2EF79
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 15:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4243A2EF9D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 15:24:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B413F10E161;
-	Mon, 10 Feb 2025 14:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 146DE10E1C8;
+	Mon, 10 Feb 2025 14:23:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="YD8DFmU5";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="dxhYG+up";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9FF10E161
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 14:15:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739196913;
- bh=Cx5YhTcE+YerAakYfU57yJvmi/8wcu5a0Fj80oUEpnI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=YD8DFmU5INtPw65n1U8GZvXvwbDE5aXSYJ8L3IL3gPA4L0oL/nE2ldcBGfMeu3lg1
- 6CTmHMoqdyAw7efYeTXlPpGJgP0THDK21vwr5NODToew1KwdVJgfb7SXmX67cOCJhj
- oBHQGFAIr/EUrGC3JyeCko39QceE2/p1jJ+Nqv9bekZ/SIt4hUir2qjy21Z7FD7WRF
- EFmGJcvR64F9YTme0qHb6ggnUJEFpz4o4ZEn3844K08BkXREtQs25Tfl59PHSbzyJo
- TooweS7cfYVsSbFD/ZJOTlC2gLENI7blUy4f8xGs9+37bhBcCRBW5iHG3EpCSCwL4a
- V9GXfAogaNi7w==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C307517E02BE;
- Mon, 10 Feb 2025 15:15:12 +0100 (CET)
-Date: Mon, 10 Feb 2025 15:15:06 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>, Steven
- Price <steven.price@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Mihail Atanassov
- <mihail.atanassov@arm.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] drm/panthor: Avoid sleep locking in the internal BO
- size path
-Message-ID: <20250210151506.65067134@collabora.com>
-In-Reply-To: <Z6oCdebq2ftGaZdq@e110455-lin.cambridge.arm.com>
-References: <20250210124203.124191-1-adrian.larumbe@collabora.com>
- <20250210124203.124191-2-adrian.larumbe@collabora.com>
- <20250210141807.064ccacf@collabora.com>
- <Z6oCdebq2ftGaZdq@e110455-lin.cambridge.arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B079610E1C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 14:23:57 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-6f77b9e0a34so32162407b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 06:23:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739197436; x=1739802236; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Ae3lwIG1bNMfgLcb9UOChi6PzxvbhnZHhBNXR+QOsdw=;
+ b=dxhYG+upNPQqWdIGMGndw6IpJBp12i7D2Fxq9JYxOp1Q2C55UtaxC44b5HnEBqvJwq
+ Nl5434NWrOoSNojeD2EjNKG098XaOvJl+ZpRWyLUGk7savHhUvEGbqVMdrYbAd30WVwQ
+ KCAYelOjRXh98A/yhOq2v/q1M4VIhIGoJpFqwsRJP36nncHHajhwFJa8fy1RorkvZn4Q
+ bNz0p3ZAuJfwHRqDF/rdSLf8EOgyyr4rL7CI6PWKHp6stUtfbyz/MvHPQkwBkXeM/1Gz
+ ntX3ltat2Hhjn6e2ti5If3A2+AiIfJhHztM+wI3oVjlBbuHSbh7bl6KawoC6R3l3021I
+ bf6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739197436; x=1739802236;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Ae3lwIG1bNMfgLcb9UOChi6PzxvbhnZHhBNXR+QOsdw=;
+ b=QVcWczlXz1hsa1AFIUoYdHlqsHW2PW17mMLSDD7VJ25ROrhw23k04xkuU2XinXysGE
+ ybmTe3BoAQaVCn90UeqQJK+6hGe4rZrH7UUOMWaqWLH4l32fQfAadhX3Ej///rIRnVG4
+ YUqwMRLCMjMNG5hxgIwB4EnQGahuHrD0Ck2VLRKTSR+1rNkR9eKxRb+0f/E6ylSX9aOq
+ yaAO7w5Z6tKBCqe2mXL0mKpuYBiZA0M5s1I+j+jy0wm627LQEc2MDR6wjtb4c4I12vcA
+ qYZ4hCtTkObJ1ml2+u+31JIRpv3Mzn7D2FjwD4x5XdPPIAUkbJOPdvGtzhKsqSfDUHdD
+ jGgw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoLpPG7SgPak8PNNfZvLYYDWVfeozp497fbJdzpP+GpO7lAZ8iEautLmslV9w9UStYzeRkgTIT8Es=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywo6VYb4uixrPvsR6Pkhb2Ta+V13fAz4obEDqTOxk9/U0xIKz3Z
+ 5UWj2Mu7108CSn0rPoZ8PFlZAzTKwZ67TToqHU/iMUqvFgoARVbWYYoxYaZHHkEMIx9jyyL0jGc
+ kzpgTyuHTcupxd4NzzxXGQTbQC6lRg2vTiG7UVg==
+X-Gm-Gg: ASbGncuV7RW1cgQ+r/YPXpe9V0phoCgyiK9cVdYFiR6pRTxWKLJuT/YDC6KKzOVQkRp
+ rweD/CtTYBjyIbi7Jk5y6CmOBtj0X5TfaGSUvPA5Wkw9tt6KhVHqji6DxN0rvneAKcm6Igvm9Ct
+ rgdVjxYxKQJJo=
+X-Google-Smtp-Source: AGHT+IE0g27FEGOeRAZwGb7S3MgR4LXpDdhrkSZoSOq5U1jJjfFXRfvfAEBsqb9Cm3IID24zNyOYw0dpb/wBuLQLVBA=
+X-Received: by 2002:a05:690c:4513:b0:6f7:598d:34a3 with SMTP id
+ 00721157ae682-6f9b2349b17mr123277977b3.0.1739197436560; Mon, 10 Feb 2025
+ 06:23:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
+ <20250207-ingenious-daffodil-dugong-51be57@houat>
+ <ucttjaf3trkgtpvhnsj7xfsybhnoi4qqow5ucwghlggivbagy7@gngjhbtu73lb>
+ <20250210-bold-steel-collie-cecbad@houat>
+In-Reply-To: <20250210-bold-steel-collie-cecbad@houat>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 10 Feb 2025 16:23:44 +0200
+X-Gm-Features: AWEUYZl00UgPkDK5peSLElXsBxEbhr7D2kNasc0K5iG6VfIY6yez4cOHp2_9LzA
+Message-ID: <CAA8EJppyDiAeH8bm-rdCUsGoyVOrp=4AvrYLJ-=5BTLtmnP11g@mail.gmail.com>
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, Simona Vetter <simona@ffwll.ch>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski <contact@paulk.fr>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ =?UTF-8?Q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,216 +109,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Feb 2025 13:43:17 +0000
-Liviu Dudau <liviu.dudau@arm.com> wrote:
+On Mon, 10 Feb 2025 at 14:31, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> On Fri, Feb 07, 2025 at 09:54:06PM +0200, Dmitry Baryshkov wrote:
+> > On Fri, Feb 07, 2025 at 12:47:51PM +0100, Maxime Ripard wrote:
+> > > Hi,
+> > >
+> > > On Thu, Feb 06, 2025 at 07:14:29PM +0100, Luca Ceresoli wrote:
+> > > > DRM bridges are currently considered as a fixed element of a DRM card, and
+> > > > thus their lifetime is assumed to extend for as long as the card
+> > > > exists. New use cases, such as hot-pluggable hardware with video bridges,
+> > > > require DRM bridges to be added and removed to a DRM card without tearing
+> > > > the card down. This is possible for connectors already (used by DP MST), so
+> > > > add this possibility to DRM bridges as well.
+> > > >
+> > > > Implementation is based on drm_connector_init() as far as it makes sense,
+> > > > and differs when it doesn't. A difference is that bridges are not exposed
+> > > > to userspace, hence struct drm_bridge does not embed a struct
+> > > > drm_mode_object which would provide the refcount. Instead we add to struct
+> > > > drm_bridge a refcount field (we don't need other struct drm_mode_object
+> > > > fields here) and instead of using the drm_mode_object_*() functions we
+> > > > reimplement from those functions the few lines that drm_bridge needs for
+> > > > refcounting.
+> > > >
+> > > > Also add a new devm_drm_bridge_alloc() macro to allocate a new refcounted
+> > > > bridge.
+> > > >
+> > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > >
+> > > So, a couple of general comments:
+> > >
+> > > - I've said it a couple of times already, but I really think you're
+> > >   making it harder than necessary for you here. This (and only this!)
+> > >   should be the very first series you should be pushing. The rest can
+> > >   only ever work if that work goes through, and it's already hard enough
+> > >   as it is. So, split that patch into a series of its own, get that
+> > >   merged, and then we will be able to deal with panels conversion and
+> > >   whatever. That's even more true with panels since there's ongoing work
+> > >   that will make it easier for you too. So the best thing here is
+> > >   probably to wait.
+> >
+> > Luca and I had a quick chat on this during FOSDEM. I really think that
+> > panel (part of the) series can go in first as it fixes a very well known
+> > bug _and_ allows a pretty good cleanup to a whole set of drivers.
+>
+> I don't necessarily disagree on principle, but if you state that it can
+> get first, and fixes a known problem (which one?), then it should be a
+> separate, standalone, series.
 
-> On Mon, Feb 10, 2025 at 02:18:07PM +0100, Boris Brezillon wrote:
-> > On Mon, 10 Feb 2025 12:42:00 +0000
-> > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
-> >  =20
-> > > A previous commit dealt with a similar situation, whereby upon enabli=
-ng
-> > > some mutex debug features, a warning about sleep muteces being used i=
-n a =20
-> >=20
-> >                                                    ^ mutexes
-> >   =20
-> > > /proc file read atomic context was being triggered.
-> > >=20
-> > > Because in this case replacing the heap mutex with a spinlock isn't
-> > > feasible, the fdinfo handler no longer traverses the list of heaps for
-> > > every single VM associated with an open DRM file. Instad, when a new =
-heap
-> > > chunk is allocated, its size is accumulated into a VM-wide tally, whi=
-ch
-> > > also makes the atomic context code path somewhat faster.
-> > >=20
-> > > Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> > > Fixes: 3e2c8c718567 ("drm/panthor: Expose size of driver internal BO'=
-s over fdinfo")
-> > > ---
-> > >  drivers/gpu/drm/panthor/panthor_heap.c | 38 ++++++++----------------=
---
-> > >  drivers/gpu/drm/panthor/panthor_heap.h |  2 --
-> > >  drivers/gpu/drm/panthor/panthor_mmu.c  | 18 +++++++-----
-> > >  drivers/gpu/drm/panthor/panthor_mmu.h  |  1 +
-> > >  4 files changed, 23 insertions(+), 36 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm=
-/panthor/panthor_heap.c
-> > > index db0285ce5812..686f209f5b09 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> > > @@ -127,6 +127,8 @@ static void panthor_free_heap_chunk(struct pantho=
-r_vm *vm,
-> > >  	heap->chunk_count--;
-> > >  	mutex_unlock(&heap->lock);
-> > > =20
-> > > +	panthor_vm_heaps_accumulate(vm, -heap->chunk_size);
-> > > +
-> > >  	panthor_kernel_bo_destroy(chunk->bo);
-> > >  	kfree(chunk);
-> > >  }
-> > > @@ -180,6 +182,8 @@ static int panthor_alloc_heap_chunk(struct pantho=
-r_device *ptdev,
-> > >  	heap->chunk_count++;
-> > >  	mutex_unlock(&heap->lock);
-> > > =20
-> > > +	panthor_vm_heaps_accumulate(vm, heap->chunk_size);
-> > > +
-> > >  	return 0;
-> > > =20
-> > >  err_destroy_bo:
-> > > @@ -389,6 +393,7 @@ int panthor_heap_return_chunk(struct panthor_heap=
-_pool *pool,
-> > >  			removed =3D chunk;
-> > >  			list_del(&chunk->node);
-> > >  			heap->chunk_count--;
-> > > +			panthor_vm_heaps_accumulate(chunk->bo->vm, -heap->chunk_size);
-> > >  			break;
-> > >  		}
-> > >  	}
-> > > @@ -560,6 +565,8 @@ panthor_heap_pool_create(struct panthor_device *p=
-tdev, struct panthor_vm *vm)
-> > >  	if (ret)
-> > >  		goto err_destroy_pool;
-> > > =20
-> > > +	panthor_vm_heaps_accumulate(vm, pool->gpu_contexts->obj->size);
-> > > +
-> > >  	return pool;
-> > > =20
-> > >  err_destroy_pool:
-> > > @@ -594,8 +601,11 @@ void panthor_heap_pool_destroy(struct panthor_he=
-ap_pool *pool)
-> > >  	xa_for_each(&pool->xa, i, heap)
-> > >  		drm_WARN_ON(&pool->ptdev->base, panthor_heap_destroy_locked(pool, =
-i));
-> > > =20
-> > > -	if (!IS_ERR_OR_NULL(pool->gpu_contexts))
-> > > +	if (!IS_ERR_OR_NULL(pool->gpu_contexts)) {
-> > > +		panthor_vm_heaps_accumulate(pool->gpu_contexts->vm,
-> > > +					    -pool->gpu_contexts->obj->size);
-> > >  		panthor_kernel_bo_destroy(pool->gpu_contexts);
-> > > +	}
-> > > =20
-> > >  	/* Reflects the fact the pool has been destroyed. */
-> > >  	pool->vm =3D NULL;
-> > > @@ -603,29 +613,3 @@ void panthor_heap_pool_destroy(struct panthor_he=
-ap_pool *pool)
-> > > =20
-> > >  	panthor_heap_pool_put(pool);
-> > >  }
-> > > -
-> > > -/**
-> > > - * panthor_heap_pool_size() - Calculate size of all chunks across al=
-l heaps in a pool
-> > > - * @pool: Pool whose total chunk size to calculate.
-> > > - *
-> > > - * This function adds the size of all heap chunks across all heaps i=
-n the
-> > > - * argument pool. It also adds the size of the gpu contexts kernel b=
-o.
-> > > - * It is meant to be used by fdinfo for displaying the size of inter=
-nal
-> > > - * driver BO's that aren't exposed to userspace through a GEM handle.
-> > > - *
-> > > - */
-> > > -size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
-> > > -{
-> > > -	struct panthor_heap *heap;
-> > > -	unsigned long i;
-> > > -	size_t size =3D 0;
-> > > -
-> > > -	down_read(&pool->lock);
-> > > -	xa_for_each(&pool->xa, i, heap)
-> > > -		size +=3D heap->chunk_size * heap->chunk_count;
-> > > -	up_read(&pool->lock);
-> > > -
-> > > -	size +=3D pool->gpu_contexts->obj->size;
-> > > -
-> > > -	return size;
-> > > -}
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm=
-/panthor/panthor_heap.h
-> > > index e3358d4e8edb..25a5f2bba445 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_heap.h
-> > > +++ b/drivers/gpu/drm/panthor/panthor_heap.h
-> > > @@ -27,8 +27,6 @@ struct panthor_heap_pool *
-> > >  panthor_heap_pool_get(struct panthor_heap_pool *pool);
-> > >  void panthor_heap_pool_put(struct panthor_heap_pool *pool);
-> > > =20
-> > > -size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
-> > > -
-> > >  int panthor_heap_grow(struct panthor_heap_pool *pool,
-> > >  		      u64 heap_gpu_va,
-> > >  		      u32 renderpasses_in_flight,
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/=
-panthor/panthor_mmu.c
-> > > index 0a4e352b5505..aaad1a560805 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > @@ -345,6 +345,10 @@ struct panthor_vm {
-> > > =20
-> > >  		/** @heaps.lock: Lock used to protect access to @pool. */
-> > >  		struct mutex lock;
-> > > +
-> > > +		/** @heaps.size: Size of all chunks across all heaps in the pool. =
-*/
-> > > +		ssize_t size; =20
-> >=20
-> > Let's put that into an fdinfo struct.
-> >  =20
-> > > + =20
-> >=20
-> > Drop the extra blank-line.
-> >  =20
-> > >  	} heaps;
-> > > =20
-> > >  	/** @node: Used to insert the VM in the panthor_mmu::vm::list. */
-> > > @@ -1539,6 +1543,7 @@ static void panthor_vm_destroy(struct panthor_v=
-m *vm)
-> > >  	mutex_lock(&vm->heaps.lock);
-> > >  	panthor_heap_pool_destroy(vm->heaps.pool);
-> > >  	vm->heaps.pool =3D NULL;
-> > > +	vm->heaps.size =3D 0;
-> > >  	mutex_unlock(&vm->heaps.lock);
-> > > =20
-> > >  	drm_WARN_ON(&vm->ptdev->base,
-> > > @@ -1963,13 +1968,7 @@ void panthor_vm_heaps_sizes(struct panthor_fil=
-e *pfile, struct drm_memory_stats
-> > > =20
-> > >  	xa_lock(&pfile->vms->xa);
-> > >  	xa_for_each(&pfile->vms->xa, i, vm) {
-> > > -		size_t size =3D 0;
-> > > -
-> > > -		mutex_lock(&vm->heaps.lock);
-> > > -		if (vm->heaps.pool)
-> > > -			size =3D panthor_heap_pool_size(vm->heaps.pool);
-> > > -		mutex_unlock(&vm->heaps.lock);
-> > > -
-> > > +		size_t size =3D vm->heaps.size;
-> > >  		stats->resident +=3D size;
-> > >  		if (vm->as.id >=3D 0)
-> > >  			stats->active +=3D size;
-> > > @@ -1977,6 +1976,11 @@ void panthor_vm_heaps_sizes(struct panthor_fil=
-e *pfile, struct drm_memory_stats
-> > >  	xa_unlock(&pfile->vms->xa);
-> > >  }
-> > > =20
-> > > +void panthor_vm_heaps_accumulate(struct panthor_vm *vm, ssize_t acc)
-> > > +{ =20
-> >=20
-> > Either there's some lock protecting this operation and we want a
-> > lockdep_assert_held(), or we need to make it an atomic operation (and
-> > make the size an atomic_t) to avoid races. =20
->=20
-> If Adri=C3=A1n moves the call site in panthor_{alloc,free}_heap_chunk() b=
-efore he drops the heap->lock,
-> would that be sufficient? Pool create and destroy are hopefully race-free=
- and
-> panthor_heap_return_chunk() should be also safe.
+A problem of panel bridges having the wrong lifetime because of devm_
+attachment to a wrong device and so either being kept for too long or
+being destroyed too early.
 
-I'm not sure that's enough. The tiler_oom_work is per-group, and you
-can have multiple groups sharing the same VM. The workqueue we schedule
-these works on is also not single-threaded, so you can potentially have
-multiple threads updating the total VM tiler heap size at the same time.
+>
+> Ever-expanding features are bad for both the reviewers and the
+> contributors, even more so when the discussion happens off-list.
+>
+> > With all those panel / bridge wrappers gone we should be able to see a
+> > clearer picture of what individual drivers are doing. In other words,
+> > which memory and which code actually hosts and uses internal
+> > 'next_bridge' reference.
+> >
+> > > - This patch really needs to be split into several patches, something
+> > >   along the lines of:
+> > >
+> > >   + Creating devm_drm_bridge_alloc()
+> > >   + Adding refcounting
+> > >   + Taking the references in all the needed places
+> > >   + Converting a bunch of drivers
+> >
+> > The last two parts seem troublematic to me, but, I must admit, I didn't
+> > spend so much time reviewing all drm_bridge usage patterns.
+>
+> Why? the third one is already done by that patch, the fourth can
+> relatively easily be done using coccinelle.
+
+I have doubts about cocci. It doesn't have a way to know, what is the
+lifetime of the references to the reference-holding memory. Maybe I'm
+missing a point there.
+
+-- 
+With best wishes
+Dmitry
