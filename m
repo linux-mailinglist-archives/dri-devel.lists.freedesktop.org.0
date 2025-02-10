@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4078DA2EDA2
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:24:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 258B5A2EDA8
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:25:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA0C10E0FF;
-	Mon, 10 Feb 2025 13:24:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E5B010E52E;
+	Mon, 10 Feb 2025 13:25:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zSe/mRRb";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="muHw1xTL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D531410E0FF
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:24:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B84CE10E52E
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:25:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6607BA413F3;
- Mon, 10 Feb 2025 13:23:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 471CBC4CED1;
- Mon, 10 Feb 2025 13:24:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 927695C5669;
+ Mon, 10 Feb 2025 13:25:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3907AC4CED1;
+ Mon, 10 Feb 2025 13:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739193889;
- bh=ysNRc04MChtqpgrjUAACpku1oel9lq6wGP+wfmpNuSc=;
+ s=korg; t=1739193951;
+ bh=vn1t/CyYrX1NyHyAfHpxYwQgkMEhrTfOYuf7I3RoBbc=;
  h=Subject:To:Cc:From:Date:From;
- b=zSe/mRRbGNhULcGNobXE+KDxwFy0+fiyVKk08s1VoREEYaIvAGgDh80WlkkJhgC71
- GTkIIkzvO7cCAb37ZEj+S9xSa2BvrLGWuQpog+B9eOevFJe2/jGjNzzrf95PokTkrR
- 3m0Hrb+cKBP7kkGaVeZpSa875Bj2SQ5m/O7pr2tM=
-Subject: Patch "m68k: vga: Fix I/O defines" has been added to the 5.15-stable
+ b=muHw1xTLIDXUusbw5hz6BwL+1YPsJD/Bar/y4S+eHDYphqZJEJZxI48PyWbDBKPV8
+ AyXaqSHrKIa9pkyzlpwGM12amQUWO7LzXdwZFSj2HAcw1hPYlF4JsrfycIdsmwDiOI
+ pqQeC85GjLlqpspmrBsy8LaiI6E+U0tU3ZRSnNqM=
+Subject: Patch "m68k: vga: Fix I/O defines" has been added to the 6.1-stable
  tree
 To: deller@gmx.de, dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
  gregkh@linuxfoundation.org, lkp@intel.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 10 Feb 2025 14:23:20 +0100
-Message-ID: <2025021020-thirsty-overbuilt-266a@gregkh>
+Date: Mon, 10 Feb 2025 14:23:32 +0100
+Message-ID: <2025021032-alias-varsity-f25d@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -60,12 +60,12 @@ This is a note to let you know that I've just added the patch titled
 
     m68k: vga: Fix I/O defines
 
-to the 5.15-stable tree which can be found at:
+to the 6.1-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      m68k-vga-fix-i-o-defines.patch
-and it can be found in the queue-5.15 subdirectory.
+and it can be found in the queue-6.1 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -158,6 +158,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.15/efi-sysfb_efi-fix-w-1-warnings-when-efi-is-not-set.patch
-queue-5.15/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
-queue-5.15/m68k-vga-fix-i-o-defines.patch
+queue-6.1/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
+queue-6.1/efi-sysfb_efi-fix-w-1-warnings-when-efi-is-not-set.patch
+queue-6.1/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
+queue-6.1/m68k-vga-fix-i-o-defines.patch
