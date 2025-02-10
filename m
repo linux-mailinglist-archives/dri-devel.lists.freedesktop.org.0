@@ -2,85 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC2EA2F3A3
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908DBA2F3CB
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:41:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A698910E36C;
-	Mon, 10 Feb 2025 16:33:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 145F710E374;
+	Mon, 10 Feb 2025 16:41:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Kd+u8eyQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hzs/7cli";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68F4610E36C
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:33:32 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-543d8badc30so4973182e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 08:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739205210; x=1739810010; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=pe/8G8o+M5FZSgjrZo2plu0mkbz1sg3BqYR0IsKFs8E=;
- b=Kd+u8eyQTfLfGRaKXv/ZXuwNJR7eyl9kQY9VUY1bfFzo37R5P+DDiebZOZtf0cehRc
- dpK9ayP95QLUsnjQQgi+rhtmKf2IZqOCuEqxeITFMBm1FOofNz1OvIOB3sSj24XJLy15
- GYe0B3eKy6uGACHWJJPjsIE45+GFMkFST+t9FLE0bIVEHezzCPLEpeKb16ZoIZPLTxDr
- oZWTktui/Cly7LGeDcdPGE/MdnctX8JivisjUMAszoQ/TcvxzFRdrQMCXYD0fhZBrV31
- dzSS5/aQBR2Ct4KL3RTkCRpM9dXLTeaznVzKESIn076YNH06BGxkBx4QAwqd2llaDU/g
- rfeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739205210; x=1739810010;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pe/8G8o+M5FZSgjrZo2plu0mkbz1sg3BqYR0IsKFs8E=;
- b=d3z/9GoHwFkFh4mW04G+NnFtl+4sALGZ8PUnSFcYHrlnpdx+uekTERyPKQt7qE/eDr
- BOnvt2wbWu7woWDDBs34ZhuZxTMmksq7oHYwJeNsC7GIWPyKjR/XikUNkA7HY7z32ta5
- O+f8IBjfEzWSMJphqCCZujEtMFKzjTZ5IO1+3/bCX3sliol/NbfdNgFilDdirBw9S+PJ
- C1SPe99PEkN5FppQdYlfql29iu/VlGQY/VICE80RSts+h4PLIe1dhky5SKHCicX9/kqG
- lQIq/dSB4G/bqj3ijbuSCdLFXLW8EwxBYEid0xH3odt21jajW6pH8gUr+Ld2K3Gu8P5X
- 75dQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVzUklS0AeBnBexDfp9uq/cuEnMMsiANcXjBS38KBPug2FyK20vKkWbVOZBfEagUcUGZjg/AIFs7Qs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqxlWVA5WgVYxBzcz5eIa9fgvq8ApQnNirUpdVmoSlgPW3O1Cj
- X7nLKO/F2K/rZcNs78ids6i4rcObLb+mLoCTTwYt3LM2vyfLHz+4D2I6qRFbWA4+NuMkvn4XUQg
- zttM=
-X-Gm-Gg: ASbGncshx7c0xYw2JXPZdHZqA60Jye0jpuJHKdZzXJm5wdeU4PSYMpYuF6HSiRjs5ui
- yiUsiwmjCoNyNRGHIU9L+64WBv+tTRVZ19NXUlWi6fNPev5tvD2V5PxvkWhisaQuhF6AoWdIJpk
- AiybGRhB5gQZVL7+qPpRm4VACK51mw/Sm4dJQupw1A/p/aQLizWFV6RMlpGaFR3vGWY4IJ/QQwc
- 8/IrfwV7fNmTXQJYQymoEFkyTwkDrJX/8GK+6cEMpwX8jHc3fdSZyAzumHauUGDYheLrqUCz82a
- x7ofnzcgBRSMtTNJtyCn8m+xrviygJVngHERTgPnZjO28wC/FEzB6gaxUnn3cH51ngg03Xs=
-X-Google-Smtp-Source: AGHT+IF05hjnakzwKRMNzAORQhT+bWDxrwRXpn3TfkAben5IGr+ferileSAupXWycBYUMqKX0KPRqA==
-X-Received: by 2002:a05:6512:2254:b0:545:5de:f46e with SMTP id
- 2adb3069b0e04-54505def563mr2412041e87.39.1739205210432; 
- Mon, 10 Feb 2025 08:33:30 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5450654e778sm696499e87.60.2025.02.10.08.33.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Feb 2025 08:33:30 -0800 (PST)
-Date: Mon, 10 Feb 2025 18:33:28 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Yongbang Shi <shiyongbang@huawei.com>
-Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, 
- daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
- chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
- shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 drm-dp 1/7] drm/hisilicon/hibmc: Add dp phy cfg to
- adjust serdes rate, voltage and pre-emphasis
-Message-ID: <63t7lgayor3rpsdbeluwjt6ccohmsz4facj6illae6wn5nhbu4@kek3iggrioq4>
-References: <20250210144959.100551-1-shiyongbang@huawei.com>
- <20250210144959.100551-2-shiyongbang@huawei.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A789A10E374
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:40:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739205658;
+ bh=r4Zl1Il+gtt1dA7St3DHw+gh1dkHbNQGgMehLLYT3qU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=hzs/7cliPJwuqFeWIC9LzOcF+4J7NHbs8elAwwQ3+jEpQjCIsRGcj8xlroObpRAiy
+ 0Z/94dDtoG75jVop2vvJ0VX8Ea4gqOj2KIAGwp7kjl8tSW7rBaYzbB60MyFq1jUZSP
+ P+mZYNiPNxnALC41pxnU/3L3eT5xhKfbx7BAxQcYdkziJlcNvBOr6/U1jSfulu02+4
+ 5iAyt021HBwPBTtNAZrYfdof/Dx3c1rvcqWqet63s9SpvTU5wGmBdTQdw/CBnvIPns
+ 2463/QrH7thrjYXPd8zcOQKlnzTOLyfXrWqz3Ia4sIOICgIkUaZw/SLVL52uRVWVSb
+ oRDVxLkVp2gqg==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 15E0F17E10C2;
+ Mon, 10 Feb 2025 17:40:57 +0100 (CET)
+Message-ID: <4a741f4a-8480-4d5a-bdf2-b81025587937@collabora.com>
+Date: Mon, 10 Feb 2025 17:40:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250210144959.100551-2-shiyongbang@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 09/34] drm/mediatek: mtk_cec: Switch to register as
+ module_platform_driver
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "robh@kernel.org" <robh@kernel.org>,
+ "jie.qiu@mediatek.com" <jie.qiu@mediatek.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>, =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
+ <jitao.shi@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ =?UTF-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?UTF-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?= <TommyYL.Chen@mediatek.com>,
+ =?UTF-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?= <Ives.Chenjh@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "junzhi.zhao@mediatek.com" <junzhi.zhao@mediatek.com>
+References: <20250113145232.227674-1-angelogioacchino.delregno@collabora.com>
+ <20250113145232.227674-10-angelogioacchino.delregno@collabora.com>
+ <38a949ea89ed322579d9cc1aa820c374c33adcfa.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <38a949ea89ed322579d9cc1aa820c374c33adcfa.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,229 +89,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2025 at 10:49:53PM +0800, Yongbang Shi wrote:
-> From: Baihan Li <libaihan@huawei.com>
+Il 10/02/25 07:58, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
 > 
-> This serdes is inited and configured for dp, and integrating them into dp
-> init and dp link training process.
-> For rate changing, we can change from 1.62-8.2Gpbs by cfg reg.
-> For voltage and pre-emphasis levels changing, we can cfg different
-> serdes ffe value.
+> On Mon, 2025-01-13 at 15:52 +0100, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>
+>>
+>> In preparation for splitting out the common bits from the HDMI
+>> driver, change the mtk_cec driver from being registered from the
+>> HDMI driver itself to be a module_platform_driver of its own.
 > 
-> Signed-off-by: Baihan Li <libaihan@huawei.com>
-> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
-> ---
-> ChangeLog:
-> v1 -> v2:
->   - splittting the patch and add more detailed the changes in the commit message, suggested by Dmitry Baryshkov.
->   - changing all names of dp phy to dp serdes.
-
-Nit: subject still mentions phy.
-
-Nit #2: The s/phy/serdes/ doesn't change the fact that you are still
-doing PHY-like programming. As such, please mention in the commit
-message that using PHY subsystem is impossible for you.
-
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/Makefile      |  2 +-
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  1 +
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  4 +
->  .../gpu/drm/hisilicon/hibmc/dp/dp_serdes.c    | 74 +++++++++++++++++++
->  .../gpu/drm/hisilicon/hibmc/dp/dp_serdes.h    | 36 +++++++++
->  5 files changed, 116 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
->  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
-> 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> index 95a4ed599d98..43de077d6769 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
-> @@ -1,5 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
-> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
-> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_serdes.o hibmc_drm_dp.o
->  
->  obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-> index 2c52a4476c4d..e7746bc4b592 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-> @@ -38,6 +38,7 @@ struct hibmc_dp_dev {
->  	struct mutex lock; /* protects concurrent RW in hibmc_dp_reg_write_field() */
->  	struct hibmc_dp_link link;
->  	u8 dpcd[DP_RECEIVER_CAP_SIZE];
-> +	void __iomem *serdes_base;
->  };
->  
->  #define dp_field_modify(reg_value, mask, val)				\
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> index a8d543881c09..39fd3687efca 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> @@ -7,6 +7,7 @@
->  #include "dp_comm.h"
->  #include "dp_reg.h"
->  #include "dp_hw.h"
-> +#include "dp_serdes.h"
->  
->  static void hibmc_dp_set_tu(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
->  {
-> @@ -165,6 +166,9 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
->  
->  	hibmc_dp_aux_init(dp_dev);
->  
-> +	if (hibmc_dp_serdes_init(dp_dev))
-> +		return -EAGAIN;
-
-Can you simply propagate the return value here?
-
-> +
->  	dp_dev->link.cap.lanes = 0x2;
->  	dp_dev->link.cap.link_rate = DP_LINK_BW_2_7;
->  
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
-> new file mode 100644
-> index 000000000000..66586db2268a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +// Copyright (c) 2024 Hisilicon Limited.
-> +
-> +#include <linux/delay.h>
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_print.h>
-> +#include "dp_comm.h"
-> +#include "dp_config.h"
-> +#include "dp_reg.h"
-> +#include "dp_serdes.h"
-> +
-> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX])
-> +{
-> +	u32 serdes_tx_cfg[4][4] = { {DP_SERDES_VOL0_PRE0, DP_SERDES_VOL0_PRE1,
-
-static const
-
-> +				     DP_SERDES_VOL0_PRE2, DP_SERDES_VOL0_PRE3},
-> +				    {DP_SERDES_VOL1_PRE0, DP_SERDES_VOL1_PRE1,
-> +				     DP_SERDES_VOL1_PRE2}, {DP_SERDES_VOL2_PRE0,
-> +				     DP_SERDES_VOL2_PRE1}, {DP_SERDES_VOL3_PRE0}};
-> +	int cfg[2];
-> +	int i;
-> +
-> +	for (i = 0; i < HIBMC_DP_LANE_NUM_MAX; i++) {
-> +		cfg[i] = serdes_tx_cfg[(train_set[i] & 0x3)]
-> +			 [(train_set[i] << DP_TRAIN_PRE_EMPHASIS_SHIFT & 0x3)];
-> +		if (!cfg[i]) {
-> +			cfg[i] = DP_SERDES_VOL3_PRE0;
-> +			drm_warn(dp->dev, "dp serdes cfg beyonds the allowable range\n");
-
-Is it something that you should be mitigating? Can you return -EINVAL
-instead?
-
-> +		}
-> +
-> +		/* lane1 offset is 4 */
-> +		writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, cfg[i]),
-> +		       dp->serdes_base + HIBMC_DP_PMA_LANE0_OFFSET + i * 4);
-> +	}
-> +
-> +	usleep_range(300, 500);
-> +
-> +	if (readl(dp->serdes_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_SERDES_DONE) {
-> +		drm_err(dp->dev, "dp serdes cfg failed\n");
-
-drm_dbg?
-
-> +		return -EAGAIN;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp)
-> +{
-> +	writel(rate, dp->serdes_base + HIBMC_DP_LANE0_RATE_OFFSET);
-> +	writel(rate, dp->serdes_base + HIBMC_DP_LANE1_RATE_OFFSET);
-> +
-> +	usleep_range(300, 500);
-> +
-> +	if (readl(dp->serdes_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_SERDES_DONE) {
-> +		drm_err(dp->dev, "dp serdes rate switching failed\n");
-> +		return -EAGAIN;
-> +	}
-> +
-> +	if (rate < DP_SERDES_BW_8_1)
-> +		drm_warn(dp->dev, "reducing serdes rate to :%d\n",
-> +			 rate ? rate * HIBMC_DP_LINK_RATE_CAL * 10 : 162);
-
-drm_dbg
-
-> +
-> +	return 0;
-> +}
-> +
-> +int hibmc_dp_serdes_init(struct hibmc_dp_dev *dp)
-> +{
-> +	dp->serdes_base = dp->base + HIBMC_DP_HOST_OFFSET;
-> +
-> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_SERDES_VOL0_PRE0),
-> +	       dp->serdes_base + HIBMC_DP_PMA_LANE0_OFFSET);
-> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_SERDES_VOL0_PRE0),
-> +	       dp->serdes_base + HIBMC_DP_PMA_LANE1_OFFSET);
-> +
-> +	return hibmc_dp_serdes_rate_switch(DP_SERDES_BW_8_1, dp);
-> +}
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
-> new file mode 100644
-> index 000000000000..57f7f054f2b7
-> --- /dev/null
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
-> @@ -0,0 +1,36 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/* Copyright (c) 2025 Hisilicon Limited. */
-> +
-> +#ifndef DP_SERDES_H
-> +#define DP_SERDES_H
-> +
-> +#define HIBMC_DP_HOST_OFFSET		0x10000
-> +#define HIBMC_DP_LANE0_RATE_OFFSET	0x4
-> +#define HIBMC_DP_LANE1_RATE_OFFSET	0xc
-> +#define HIBMC_DP_LANE_STATUS_OFFSET	0x10
-> +#define HIBMC_DP_PMA_LANE0_OFFSET	0x18
-> +#define HIBMC_DP_PMA_LANE1_OFFSET	0x1c
-> +#define HIBMC_DP_PMA_TXDEEMPH		GENMASK(18, 1)
-> +
-> +#define DP_SERDES_VOL0_PRE0		0x280
-> +#define DP_SERDES_VOL0_PRE1		0x2300
-> +#define DP_SERDES_VOL0_PRE2		0x53c0
-> +#define DP_SERDES_VOL0_PRE3		0x8400
-> +#define DP_SERDES_VOL1_PRE0		0x380
-> +#define DP_SERDES_VOL1_PRE1		0x3440
-> +#define DP_SERDES_VOL1_PRE2		0x6480
-> +#define DP_SERDES_VOL2_PRE0		0x500
-> +#define DP_SERDES_VOL2_PRE1		0x4500
-> +#define DP_SERDES_VOL3_PRE0		0x600
-
-These need some explanation.
-
-> +#define DP_SERDES_BW_8_1		0x3
-> +#define DP_SERDES_BW_5_4		0x2
-> +#define DP_SERDES_BW_2_7		0x1
-> +#define DP_SERDES_BW_1_62		0x0
-> +
-> +#define DP_SERDES_DONE			0x3
-> +
-> +int hibmc_dp_serdes_init(struct hibmc_dp_dev *dp);
-> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp);
-> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX]);
-> +
-> +#endif
-> -- 
-> 2.33.0
+> CEC is not the common part, so the reason is not related to splitting out the common bits.
+> I think the reason is HDMI v2 driver does not use CEC driver, so you want not to build CEC driver when HDMI v2.
 > 
 
--- 
-With best wishes
-Dmitry
+Yeah, that's right, I'll change the commit description to clarify that, thanks!
+
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+>> ---
+>>   drivers/gpu/drm/mediatek/Makefile   | 4 ++--
+>>   drivers/gpu/drm/mediatek/mtk_cec.c  | 7 ++++++-
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 2 +-
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.h | 1 -
+>>   4 files changed, 9 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
+>> index 32a2ed6c0cfe..bdd3a062f797 100644
+>> --- a/drivers/gpu/drm/mediatek/Makefile
+>> +++ b/drivers/gpu/drm/mediatek/Makefile
+>> @@ -21,10 +21,10 @@ mediatek-drm-y := mtk_crtc.o \
+>>
+>>   obj-$(CONFIG_DRM_MEDIATEK) += mediatek-drm.o
+>>
+>> -mediatek-drm-hdmi-objs := mtk_cec.o \
+>> -                         mtk_hdmi.o \
+>> +mediatek-drm-hdmi-objs := mtk_hdmi.o \
+>>                            mtk_hdmi_ddc.o
+> 
+> You don't need to separate mtk_cec to a independent module.
+
+Yes, I do need to do that. You cannot compile two platform drivers in one obj.
+
+Try to compile your suggestion and see how spectacularly it fails ;-)
+
+Cheers,
+Angelo
+
+> You could include it in v1 and exclude it in v2.
+> 
+> Regards,
+> CK
+> 
+>>
+>> +obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mtk_cec.o
+>>   obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mediatek-drm-hdmi.o
+>>
+>>   obj-$(CONFIG_DRM_MEDIATEK_DP) += mtk_dp.o
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_cec.c b/drivers/gpu/drm/mediatek/mtk_cec.c
+>> index b42c0d87eba3..c7be530ca041 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_cec.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_cec.c
+>> @@ -12,7 +12,6 @@
+>>   #include <linux/platform_device.h>
+>>
+>>   #include "mtk_cec.h"
+>> -#include "mtk_hdmi.h"
+>>   #include "mtk_drm_drv.h"
+>>
+>>   #define TR_CONFIG              0x00
+>> @@ -102,6 +101,7 @@ void mtk_cec_set_hpd_event(struct device *dev,
+>>          cec->hpd_event = hpd_event;
+>>          spin_unlock_irqrestore(&cec->lock, flags);
+>>   }
+>> +EXPORT_SYMBOL_NS_GPL(mtk_cec_set_hpd_event, "DRM_MTK_HDMI_V1");
+>>
+>>   bool mtk_cec_hpd_high(struct device *dev)
+>>   {
+>> @@ -112,6 +112,7 @@ bool mtk_cec_hpd_high(struct device *dev)
+>>
+>>          return (status & (HDMI_PORD | HDMI_HTPLG)) == (HDMI_PORD | HDMI_HTPLG);
+>>   }
+>> +EXPORT_SYMBOL_NS_GPL(mtk_cec_hpd_high, "DRM_MTK_HDMI_V1");
+>>
+>>   static void mtk_cec_htplg_irq_init(struct mtk_cec *cec)
+>>   {
+>> @@ -247,3 +248,7 @@ struct platform_driver mtk_cec_driver = {
+>>                  .of_match_table = mtk_cec_of_ids,
+>>          },
+>>   };
+>> +module_platform_driver(mtk_cec_driver);
+>> +
+>> +MODULE_DESCRIPTION("MediaTek HDMI CEC Driver");
+>> +MODULE_LICENSE("GPL");
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> index ca82bc829cb9..da725182f0db 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> @@ -1805,7 +1805,6 @@ static struct platform_driver mtk_hdmi_driver = {
+>>
+>>   static struct platform_driver * const mtk_hdmi_drivers[] = {
+>>          &mtk_hdmi_ddc_driver,
+>> -       &mtk_cec_driver,
+>>          &mtk_hdmi_driver,
+>>   };
+>>
+>> @@ -1827,3 +1826,4 @@ module_exit(mtk_hdmitx_exit);
+>>   MODULE_AUTHOR("Jie Qiu <jie.qiu@mediatek.com>");
+>>   MODULE_DESCRIPTION("MediaTek HDMI Driver");
+>>   MODULE_LICENSE("GPL v2");
+>> +MODULE_IMPORT_NS("DRM_MTK_HDMI_V1");
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.h b/drivers/gpu/drm/mediatek/mtk_hdmi.h
+>> index 472bf141c92b..e40bc4651995 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.h
+>> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.h
+>> @@ -8,7 +8,6 @@
+>>
+>>   struct platform_driver;
+>>
+>> -extern struct platform_driver mtk_cec_driver;
+>>   extern struct platform_driver mtk_hdmi_ddc_driver;
+>>
+>>   #endif /* _MTK_HDMI_CTRL_H */
+>> --
+>> 2.47.0
+>>
+> 
+
+
