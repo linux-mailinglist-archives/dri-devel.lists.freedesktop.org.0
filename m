@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A062BA2EE33
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E662A2EE72
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:38:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4C810E542;
-	Mon, 10 Feb 2025 13:35:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9A3610E086;
+	Mon, 10 Feb 2025 13:38:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QRrxgkgG";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D4aG5tn8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8096810E542
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:35:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9249F10E086
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:38:56 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2346FA41483;
- Mon, 10 Feb 2025 13:33:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5341C4CED1;
- Mon, 10 Feb 2025 13:35:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 255905C47AE;
+ Mon, 10 Feb 2025 13:38:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 099F6C4CED1;
+ Mon, 10 Feb 2025 13:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739194523;
- bh=I4j5W/pnsr09AuIq4++PkJ3F54KwWK1ZjO4ElKOyTac=;
+ s=korg; t=1739194735;
+ bh=iGBBT7vCWFuCFiwwJZtwaDq6RhcZKCgnlQPmXhmSpbc=;
  h=Subject:To:Cc:From:Date:From;
- b=QRrxgkgG5lx0xWLMTXmue3dlpe2jKigIxUAKPaJ30vz3ZFqdTqU+yIelds6lk3qov
- 8igTxzX87SKRYLOkgzGmcCv8i6MMeE341Y9wXtKvzDlpHH5CRFWSV27ecD7BsNM3/D
- 5U3zzhABTnalkLrirmpZ6d0ipQ2pSD9a7/BvuDkc=
-Subject: Patch "m68k: vga: Fix I/O defines" has been added to the 6.13-stable
- tree
-To: deller@gmx.de, dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
- gregkh@linuxfoundation.org, lkp@intel.com, tzimmermann@suse.de
+ b=D4aG5tn8Gj6XbQmxeHfXi5MBGOqR+Pa5tVcIrXGayOWkbP7nSzp2mGUghmqdHYuqy
+ grHEZhwjoJwlyZoWTRkY+xmoxD83pCqz7bFkhZf4e4ZK4PRmJ6VMk2jIXIKoUyH+/n
+ 1OVnaloXj1qh0Ay69/Mq+nlFtiNl8oPRCv6ci1sY=
+Subject: Patch "drm/rockchip: cdn-dp: Use
+ drm_connector_helper_hpd_irq_event()" has been added to the 6.12-stable tree
+To: andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, groeck@chromium.org, heiko@sntech.de,
+ hjc@rock-chips.com, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, tzimmermann@suse.de, zyw@rock-chips.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 10 Feb 2025 14:31:49 +0100
-Message-ID: <2025021049-paprika-roman-040d@gregkh>
+Date: Mon, 10 Feb 2025 14:32:50 +0100
+Message-ID: <2025021050-deviancy-skylight-35aa@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -58,108 +60,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    m68k: vga: Fix I/O defines
+    drm/rockchip: cdn-dp: Use drm_connector_helper_hpd_irq_event()
 
-to the 6.13-stable tree which can be found at:
+to the 6.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     m68k-vga-fix-i-o-defines.patch
-and it can be found in the queue-6.13 subdirectory.
+     drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
+and it can be found in the queue-6.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From 53036937a101b5faeaf98e7438555fa854a1a844 Mon Sep 17 00:00:00 2001
+From 666e1960464140cc4bc9203c203097e70b54c95a Mon Sep 17 00:00:00 2001
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 7 Jan 2025 10:58:56 +0100
-Subject: m68k: vga: Fix I/O defines
+Date: Tue, 5 Nov 2024 14:38:16 +0100
+Subject: drm/rockchip: cdn-dp: Use drm_connector_helper_hpd_irq_event()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit 53036937a101b5faeaf98e7438555fa854a1a844 upstream.
+commit 666e1960464140cc4bc9203c203097e70b54c95a upstream.
 
-Including m68k's <asm/raw_io.h> in vga.h on nommu platforms results
-in conflicting defines with io_no.h for various I/O macros from the
-__raw_read and __raw_write families. An example error is
+The code for detecting and updating the connector status in
+cdn_dp_pd_event_work() has a number of problems.
 
-   In file included from arch/m68k/include/asm/vga.h:12,
-                 from include/video/vga.h:22,
-                 from include/linux/vgaarb.h:34,
-		 from drivers/video/aperture.c:12:
->> arch/m68k/include/asm/raw_io.h:39: warning: "__raw_readb" redefined
-      39 | #define __raw_readb in_8
-	 |
-   In file included from arch/m68k/include/asm/io.h:6,
-		    from include/linux/io.h:13,
-		    from include/linux/irq.h:20,
-		    from include/asm-generic/hardirq.h:17,
-		    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-		    from include/linux/hardirq.h:11,
-		    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-		    from include/linux/ftrace.h:10,
-		    from include/linux/kprobes.h:28,
-		    from include/linux/kgdb.h:19,
-		    from include/linux/fb.h:6,
-		    from drivers/video/aperture.c:5:
-   arch/m68k/include/asm/io_no.h:16: note: this is the location of the previous definition
-      16 | #define __raw_readb(addr) \
-	 |
+- It does not aquire the locks to call the detect helper and update
+the connector status. These are struct drm_mode_config.connection_mutex
+and struct drm_mode_config.mutex.
 
-Include <asm/io.h>, which avoids raw_io.h on nommu platforms.
-Also change the defined values of some of the read/write symbols in
-vga.h to __raw_read/__raw_write as the raw_in/raw_out symbols are not
-generally available.
+- It does not use drm_helper_probe_detect(), which helps with the
+details of locking and detection.
+
+- It uses the connector's status field to determine a change to
+the connector status. The epoch_counter field is the correct one. The
+field signals a change even if the connector status' value did not
+change.
+
+Replace the code with a call to drm_connector_helper_hpd_irq_event(),
+which fixes all these problems.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501071629.DNEswlm8-lkp@intel.com/
-Fixes: 5c3f968712ce ("m68k/video: Create <asm/vga.h>")
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org
+Fixes: 81632df69772 ("drm/rockchip: cdn-dp: do not use drm_helper_hpd_irq_event")
+Cc: Chris Zhong <zyw@rock-chips.com>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: Andy Yan <andy.yan@rock-chips.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: Helge Deller <deller@gmx.de>
-Cc: stable@vger.kernel.org # v3.5+
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Link: https://lore.kernel.org/20250107095912.130530-1-tzimmermann@suse.de
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: <stable@vger.kernel.org> # v4.11+
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241105133848.480407-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- arch/m68k/include/asm/vga.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/rockchip/cdn-dp-core.c |    9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
---- a/arch/m68k/include/asm/vga.h
-+++ b/arch/m68k/include/asm/vga.h
-@@ -9,7 +9,7 @@
-  */
- #ifndef CONFIG_PCI
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -947,9 +947,6 @@ static void cdn_dp_pd_event_work(struct
+ {
+ 	struct cdn_dp_device *dp = container_of(work, struct cdn_dp_device,
+ 						event_work);
+-	struct drm_connector *connector = &dp->connector;
+-	enum drm_connector_status old_status;
+-
+ 	int ret;
  
--#include <asm/raw_io.h>
-+#include <asm/io.h>
- #include <asm/kmap.h>
+ 	mutex_lock(&dp->lock);
+@@ -1009,11 +1006,7 @@ static void cdn_dp_pd_event_work(struct
  
- /*
-@@ -29,9 +29,9 @@
- #define inw_p(port)		0
- #define outb_p(port, val)	do { } while (0)
- #define outw(port, val)		do { } while (0)
--#define readb			raw_inb
--#define writeb			raw_outb
--#define writew			raw_outw
-+#define readb			__raw_readb
-+#define writeb			__raw_writeb
-+#define writew			__raw_writew
+ out:
+ 	mutex_unlock(&dp->lock);
+-
+-	old_status = connector->status;
+-	connector->status = connector->funcs->detect(connector, false);
+-	if (old_status != connector->status)
+-		drm_kms_helper_hotplug_event(dp->drm_dev);
++	drm_connector_helper_hpd_irq_event(&dp->connector);
+ }
  
- #endif /* CONFIG_PCI */
- #endif /* _ASM_M68K_VGA_H */
+ static int cdn_dp_pd_event(struct notifier_block *nb,
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.13/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
-queue-6.13/drm-client-handle-tiled-displays-better.patch
-queue-6.13/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
-queue-6.13/drm-ast-astdp-fix-timeout-for-enabling-video-signal.patch
-queue-6.13/m68k-vga-fix-i-o-defines.patch
+queue-6.12/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
+queue-6.12/drm-client-handle-tiled-displays-better.patch
+queue-6.12/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
+queue-6.12/m68k-vga-fix-i-o-defines.patch
