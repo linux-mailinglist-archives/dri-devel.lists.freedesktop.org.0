@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C751FA2EE7E
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:40:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11635A2EE5A
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:37:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44B8310E546;
-	Mon, 10 Feb 2025 13:40:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xP6TxKgk";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E9DC10E545;
+	Mon, 10 Feb 2025 13:37:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB7410E546
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:39:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C957F5C1014;
- Mon, 10 Feb 2025 13:39:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4BFAC4CEDF;
- Mon, 10 Feb 2025 13:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739194798;
- bh=0aQauI/CmO0f098Zrr3/9aNHNEHpHB9jDmUp0VZqdSs=;
- h=Subject:To:Cc:From:Date:From;
- b=xP6TxKgkG3rjzWKImci0cKt7uTHvlqxhV9Vinx6NCwH449NIQS8KnUwDBZxEf5riL
- YX/9kAH8O2qr/Mc4AEhyL/+doe51PCdDwebaAwxcwA4cRzVTB79rg54tV8tDezViY1
- TtrR21yNQEE3acvMuwbP/+1dseQsrM7VOVrqmymw=
-Subject: Patch "m68k: vga: Fix I/O defines" has been added to the 6.12-stable
- tree
-To: deller@gmx.de, dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
- gregkh@linuxfoundation.org, lkp@intel.com, tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 10 Feb 2025 14:32:52 +0100
-Message-ID: <2025021051-huff-devotee-e329@gregkh>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 499D110E545
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:37:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 59CC01BC0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 05:37:37 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5426B3F58B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 05:37:15 -0800 (PST)
+Date: Mon, 10 Feb 2025 13:37:00 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/panthor: Replace sleep locks with spinlocks in
+ fdinfo path
+Message-ID: <Z6oA_JXmfXpm1h_d@e110455-lin.cambridge.arm.com>
+References: <20250210124203.124191-1-adrian.larumbe@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+In-Reply-To: <20250210124203.124191-1-adrian.larumbe@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,110 +54,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Feb 10, 2025 at 12:41:59PM +0000, Adrián Larumbe wrote:
+> Panthor's fdinfo handler is routed through the /proc file system, which
+> executes in an atomic context. That means we cannot use mutexes because
+> they might sleep.
+> 
+> This bug was uncovered by enabling some of the kernel's mutex-debugging
+> features:
+> 
+> CONFIG_DEBUG_RT_MUTEXES=y
+> CONFIG_DEBUG_MUTEXES=y
+> 
+> Replace Panthor's group fdinfo data mutex with a guarded spinlock.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Fixes: e16635d88fa0 ("drm/panthor: add DRM fdinfo support")
 
-This is a note to let you know that I've just added the patch titled
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-    m68k: vga: Fix I/O defines
+Best regards,
+Liviu
 
-to the 6.12-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 26 ++++++++++++-------------
+>  1 file changed, 12 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 0b93bf83a9b2..7a267d1efeb6 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -9,6 +9,7 @@
+>  #include <drm/panthor_drm.h>
+>  
+>  #include <linux/build_bug.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/dma-mapping.h>
+> @@ -631,10 +632,10 @@ struct panthor_group {
+>  		struct panthor_gpu_usage data;
+>  
+>  		/**
+> -		 * @lock: Mutex to govern concurrent access from drm file's fdinfo callback
+> -		 * and job post-completion processing function
+> +		 * @fdinfo.lock: Spinlock to govern concurrent access from drm file's fdinfo
+> +		 * callback and job post-completion processing function
+>  		 */
+> -		struct mutex lock;
+> +		spinlock_t lock;
+>  
+>  		/** @fdinfo.kbo_sizes: Aggregate size of private kernel BO's held by the group. */
+>  		size_t kbo_sizes;
+> @@ -910,8 +911,6 @@ static void group_release_work(struct work_struct *work)
+>  						   release_work);
+>  	u32 i;
+>  
+> -	mutex_destroy(&group->fdinfo.lock);
+> -
+>  	for (i = 0; i < group->queue_count; i++)
+>  		group_free_queue(group, group->queues[i]);
+>  
+> @@ -2861,12 +2860,12 @@ static void update_fdinfo_stats(struct panthor_job *job)
+>  	struct panthor_job_profiling_data *slots = queue->profiling.slots->kmap;
+>  	struct panthor_job_profiling_data *data = &slots[job->profiling.slot];
+>  
+> -	mutex_lock(&group->fdinfo.lock);
+> -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+> -		fdinfo->cycles += data->cycles.after - data->cycles.before;
+> -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+> -		fdinfo->time += data->time.after - data->time.before;
+> -	mutex_unlock(&group->fdinfo.lock);
+> +	scoped_guard(spinlock, &group->fdinfo.lock) {
+> +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+> +			fdinfo->cycles += data->cycles.after - data->cycles.before;
+> +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+> +			fdinfo->time += data->time.after - data->time.before;
+> +	}
+>  }
+>  
+>  void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+> @@ -2880,12 +2879,11 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+>  
+>  	xa_lock(&gpool->xa);
+>  	xa_for_each(&gpool->xa, i, group) {
+> -		mutex_lock(&group->fdinfo.lock);
+> +		guard(spinlock)(&group->fdinfo.lock);
+>  		pfile->stats.cycles += group->fdinfo.data.cycles;
+>  		pfile->stats.time += group->fdinfo.data.time;
+>  		group->fdinfo.data.cycles = 0;
+>  		group->fdinfo.data.time = 0;
+> -		mutex_unlock(&group->fdinfo.lock);
+>  	}
+>  	xa_unlock(&gpool->xa);
+>  }
+> @@ -3531,7 +3529,7 @@ int panthor_group_create(struct panthor_file *pfile,
+>  	mutex_unlock(&sched->reset.lock);
+>  
+>  	add_group_kbo_sizes(group->ptdev, group);
+> -	mutex_init(&group->fdinfo.lock);
+> +	spin_lock_init(&group->fdinfo.lock);
+>  
+>  	return gid;
+>  
+> 
+> base-commit: 2eca617f12586abff62038db1c14cb3aa60a15aa
+> prerequisite-patch-id: 7e787ce5973b5fc7e9f69f26aa4d7e5ec03d5caa
+> prerequisite-patch-id: 03a619b8c741444b28435850e23d9ec463171c13
+> prerequisite-patch-id: 290e1053f8bf4a8b80fb037a87cae7e096b5aa96
+> prerequisite-patch-id: bc49bb8c29905650fb4788acc528bb44013c0240
+> prerequisite-patch-id: 46cab4c980824c03e5164afc43085fec23e1cba5
+> -- 
+> 2.47.1
+> 
 
-The filename of the patch is:
-     m68k-vga-fix-i-o-defines.patch
-and it can be found in the queue-6.12 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 53036937a101b5faeaf98e7438555fa854a1a844 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 7 Jan 2025 10:58:56 +0100
-Subject: m68k: vga: Fix I/O defines
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit 53036937a101b5faeaf98e7438555fa854a1a844 upstream.
-
-Including m68k's <asm/raw_io.h> in vga.h on nommu platforms results
-in conflicting defines with io_no.h for various I/O macros from the
-__raw_read and __raw_write families. An example error is
-
-   In file included from arch/m68k/include/asm/vga.h:12,
-                 from include/video/vga.h:22,
-                 from include/linux/vgaarb.h:34,
-		 from drivers/video/aperture.c:12:
->> arch/m68k/include/asm/raw_io.h:39: warning: "__raw_readb" redefined
-      39 | #define __raw_readb in_8
-	 |
-   In file included from arch/m68k/include/asm/io.h:6,
-		    from include/linux/io.h:13,
-		    from include/linux/irq.h:20,
-		    from include/asm-generic/hardirq.h:17,
-		    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-		    from include/linux/hardirq.h:11,
-		    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-		    from include/linux/ftrace.h:10,
-		    from include/linux/kprobes.h:28,
-		    from include/linux/kgdb.h:19,
-		    from include/linux/fb.h:6,
-		    from drivers/video/aperture.c:5:
-   arch/m68k/include/asm/io_no.h:16: note: this is the location of the previous definition
-      16 | #define __raw_readb(addr) \
-	 |
-
-Include <asm/io.h>, which avoids raw_io.h on nommu platforms.
-Also change the defined values of some of the read/write symbols in
-vga.h to __raw_read/__raw_write as the raw_in/raw_out symbols are not
-generally available.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501071629.DNEswlm8-lkp@intel.com/
-Fixes: 5c3f968712ce ("m68k/video: Create <asm/vga.h>")
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Helge Deller <deller@gmx.de>
-Cc: stable@vger.kernel.org # v3.5+
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Link: https://lore.kernel.org/20250107095912.130530-1-tzimmermann@suse.de
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- arch/m68k/include/asm/vga.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
---- a/arch/m68k/include/asm/vga.h
-+++ b/arch/m68k/include/asm/vga.h
-@@ -9,7 +9,7 @@
-  */
- #ifndef CONFIG_PCI
- 
--#include <asm/raw_io.h>
-+#include <asm/io.h>
- #include <asm/kmap.h>
- 
- /*
-@@ -29,9 +29,9 @@
- #define inw_p(port)		0
- #define outb_p(port, val)	do { } while (0)
- #define outw(port, val)		do { } while (0)
--#define readb			raw_inb
--#define writeb			raw_outb
--#define writew			raw_outw
-+#define readb			__raw_readb
-+#define writeb			__raw_writeb
-+#define writew			__raw_writew
- 
- #endif /* CONFIG_PCI */
- #endif /* _ASM_M68K_VGA_H */
-
-
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
-
-queue-6.12/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
-queue-6.12/drm-client-handle-tiled-displays-better.patch
-queue-6.12/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
-queue-6.12/m68k-vga-fix-i-o-defines.patch
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
