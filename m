@@ -2,59 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA83EA2EC66
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 13:23:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36CF9A2EC68
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 13:23:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E186F10E191;
-	Mon, 10 Feb 2025 12:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8409510E4FE;
+	Mon, 10 Feb 2025 12:23:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KxX0wiXI";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="J7PsWrE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDA8C10E191
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 12:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739190165; x=1770726165;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=D5szCVESMN9ourmiO6CU01qZfUnW6l4QuLPfuu1uUuc=;
- b=KxX0wiXIcCBaKdfQyyi4cmEovmwFCtO95sMvebOBsJ69KYLFg80ZuMf+
- AMeEtmrDtR0T6P7kKVuNI4IKFJWklfIjDdZlpyBHRXCUfwebWA71NY/Jd
- tq+fzYJJX/hYDUF/ZR5dzu8+z/nhyExflG7qm3svX1SwofmFwZ5jdDpI1
- d1vFKWOqxKQQyEbgtc9trAp5bKyD25B3T+du/UloTxGQjK6UG0us3Bgw9
- DE00YiqN8fN+IIu4g58QPAPayzrkQuXFWlFo9p3vW8ugAC7c0Ap3a5Zbl
- LwgiJTcP+BOseBlitQSQFf3at65zXJwqKkoPh3jXqFrqONC/cgiqV4dFu A==;
-X-CSE-ConnectionGUID: 0AYnDBYrQI+F+yBOyjw0dg==
-X-CSE-MsgGUID: ogQl4aH+Qj2fkuwA1zMFCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50752331"
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; d="scan'208";a="50752331"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2025 04:22:44 -0800
-X-CSE-ConnectionGUID: pliT4yuvRAG2cNeKqxyD/g==
-X-CSE-MsgGUID: VpMN6canQqaD3B0ni3pGCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="112616824"
-Received: from iklimasz-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.244])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2025 04:22:41 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alex Lanzano <lanzano.alex@gmail.com>, airlied@gmail.com,
- simona@ffwll.ch, tzimmermann@suse.de, noralf@tronnes.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: lanzano.alex@gmail.com
-Subject: Re: Maintaining Repaper and MI0283QT
-In-Reply-To: <mubhrsqwsixflh5iagrtwsbup7nrnxkhwhn3nmqvmfhibwxauo@g3jvqxpo2fb7>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <mubhrsqwsixflh5iagrtwsbup7nrnxkhwhn3nmqvmfhibwxauo@g3jvqxpo2fb7>
-Date: Mon, 10 Feb 2025 14:22:37 +0200
-Message-ID: <87bjva3s6q.fsf@intel.com>
+Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24BCD10E516
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 12:23:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=+NiY+ixs91EHQR2WgaoD/CErzRjNV8cXWlDAVc4ZbpI=; b=J7PsWrE802VaedbFVuoCz+vCH+
+ xsjxV8uPaY9/ovKx2kwvF1vFylLTGpSDKUTmYbDgpZ7WBDIAA6B5gp1BJopCvUAS3JsNs1js+VJxY
+ aSCuLmou2HjdgNjDt7dK3jq9J/e79G5r5k7h6tMSbp24L9txErLhGtRYsWCF4tDZl8CsPyK0CqsHu
+ cPBJvIDqCu5vK4tR8vIV+g2z8ozfEj0rewlyq+9tTiMP9PNs8jVVO9LkkH7Gcb9a6bWgqJlHd/LTV
+ K62CbQzJp/bnGWAkeB0CEQZjGBPHFu8t3x7nOYHU8okxTfN1dTzCzmMXoIjB8t6CaTPeUxTM8VGsh
+ SRbjcHzw==;
+Received: from [187.36.213.55] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1thSor-007F0J-SK; Mon, 10 Feb 2025 13:23:28 +0100
+Message-ID: <e1bd620c-a5d7-47f8-bc07-c41418c0c34c@igalia.com>
+Date: Mon, 10 Feb 2025 09:23:21 -0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/v3d: Add clock handling
+To: Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
+References: <20250201125046.33030-1-wahrenst@gmx.net>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250201125046.33030-1-wahrenst@gmx.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,18 +63,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 07 Feb 2025, Alex Lanzano <lanzano.alex@gmail.com> wrote:
-> I saw that Noralf has to unfortunately step down from maintaining the
-> repaper and mi0283qt drivers. I would be more than happy to maintain
-> these two if need be. The repaper device is very similar to the
-> sharp-memory display I currently maintain and I've worked with mi0283qt
-> displays before.
+Hi Stefan,
 
-I think please just send a MAINTAINERS patch!
+Thanks for your patch!
 
-BR,
-Jani.
+On 01/02/25 09:50, Stefan Wahren wrote:
+> Since the initial commit 57692c94dcbe ("drm/v3d: Introduce a new DRM driver
+> for Broadcom V3D V3.x+") the struct v3d_dev reserved a pointer for
+> an optional V3D clock. But there wasn't any code, which fetched it.
+> So add the missing clock handling before accessing any V3D registers.
 
+Actually, I believe we should remove `v3d->clk`. In the past, we used
+`v3d->clk` for PM management, but we removed PM management a while ago
+(it was somewhat broken).
 
--- 
-Jani Nikula, Intel
+I believe the best move would be to remove `v3d->clk`. If we decide to
+use the clock at some point, we can reintroduce the variable to the
+struct. Right now, it doesn't make sense to add clock handling if we
+don't use it.
+
+Let me know if you have any use case for this variable. If you have,
+then we can add clock handling.
+
+Best Regards,
+- Maíra
+
+> 
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+> ---
+>   drivers/gpu/drm/v3d/v3d_drv.c | 25 ++++++++++++++++++++-----
+>   1 file changed, 20 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
+> index 930737a9347b..852015214e97 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -295,11 +295,21 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+>   	if (ret)
+>   		return ret;
+> 
+> +	v3d->clk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(v3d->clk))
+> +		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
+> +
+> +	ret = clk_prepare_enable(v3d->clk);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
+> +		return ret;
+> +	}
+> +
+>   	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
+>   	mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
+>   	ret = dma_set_mask_and_coherent(dev, mask);
+>   	if (ret)
+> -		return ret;
+> +		goto clk_disable;
+> 
+>   	v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
+> 
+> @@ -319,28 +329,29 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+>   		ret = PTR_ERR(v3d->reset);
+> 
+>   		if (ret == -EPROBE_DEFER)
+> -			return ret;
+> +			goto clk_disable;
+> 
+>   		v3d->reset = NULL;
+>   		ret = map_regs(v3d, &v3d->bridge_regs, "bridge");
+>   		if (ret) {
+>   			dev_err(dev,
+>   				"Failed to get reset control or bridge regs\n");
+> -			return ret;
+> +			goto clk_disable;
+>   		}
+>   	}
+> 
+>   	if (v3d->ver < 41) {
+>   		ret = map_regs(v3d, &v3d->gca_regs, "gca");
+>   		if (ret)
+> -			return ret;
+> +			goto clk_disable;
+>   	}
+> 
+>   	v3d->mmu_scratch = dma_alloc_wc(dev, 4096, &v3d->mmu_scratch_paddr,
+>   					GFP_KERNEL | __GFP_NOWARN | __GFP_ZERO);
+>   	if (!v3d->mmu_scratch) {
+>   		dev_err(dev, "Failed to allocate MMU scratch page\n");
+> -		return -ENOMEM;
+> +		ret = -ENOMEM;
+> +		goto clk_disable;
+>   	}
+> 
+>   	ret = v3d_gem_init(drm);
+> @@ -369,6 +380,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
+>   	v3d_gem_destroy(drm);
+>   dma_free:
+>   	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
+> +clk_disable:
+> +	clk_disable_unprepare(v3d->clk);
+>   	return ret;
+>   }
+> 
+> @@ -386,6 +399,8 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
+> 
+>   	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
+>   		    v3d->mmu_scratch_paddr);
+> +
+> +	clk_disable_unprepare(v3d->clk);
+>   }
+> 
+>   static struct platform_driver v3d_platform_driver = {
+> --
+> 2.34.1
+> 
+
