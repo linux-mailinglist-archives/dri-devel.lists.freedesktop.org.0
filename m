@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B307A2ED94
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE82FA2ED9D
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:24:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFE3910E52A;
-	Mon, 10 Feb 2025 13:23:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C7CE10E52B;
+	Mon, 10 Feb 2025 13:24:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="o3TYqUyh";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wR6FvIzg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FBA410E52A
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:23:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D082D10E52B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:24:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 0DBBBA401D5;
- Mon, 10 Feb 2025 13:21:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D39F3C4CED1;
- Mon, 10 Feb 2025 13:23:18 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 72EE1A413F3;
+ Mon, 10 Feb 2025 13:22:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8BFC4CED1;
+ Mon, 10 Feb 2025 13:24:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739193799;
- bh=1jFlFd+WGNixkhF/T2myB7B7LnIwi/0GCNTD5H02Oyc=;
+ s=korg; t=1739193841;
+ bh=sNY4gXSvxctpFhWFtb9XWpJ3WJjcmdFADOWGbTj3clg=;
  h=Subject:To:Cc:From:Date:From;
- b=o3TYqUyhSfiXRWPiwlI7cb/ajJUrKD04CTTounimK15SAWiGjBia/hm0d5rQPNApV
- Uyh4usaYRvyTE8OWbxtHztebZWM8Ks0Z5fMkTAp7abw9Crg9ghgx9e4ZCo0H05mI/z
- OcxtAfd3x+Vfo6sDfsooHBHNn2zoZWyI4oTmBEFU=
-Subject: Patch "m68k: vga: Fix I/O defines" has been added to the 5.4-stable
+ b=wR6FvIzgub1iHqRF/iqALE6NpPCa6/9gvj1TjaIDemkCYkHXocul1DWmm6uf6XC4s
+ 3YkfzRpPLow01Lzr8CRGU0BNGl38KVEDgjzvATKAWO4pmnVegxWTyWcURSgpmD4v8d
+ wBN9akXnAxU3psFTJU2yMHv0z1ZYHJ6DVPa3yad4=
+Subject: Patch "m68k: vga: Fix I/O defines" has been added to the 5.10-stable
  tree
 To: deller@gmx.de, dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
  gregkh@linuxfoundation.org, lkp@intel.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 10 Feb 2025 14:22:46 +0100
-Message-ID: <2025021046-wobbly-winner-320d@gregkh>
+Date: Mon, 10 Feb 2025 14:23:09 +0100
+Message-ID: <2025021009-capsize-unshaken-879e@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -60,12 +60,12 @@ This is a note to let you know that I've just added the patch titled
 
     m68k: vga: Fix I/O defines
 
-to the 5.4-stable tree which can be found at:
+to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      m68k-vga-fix-i-o-defines.patch
-and it can be found in the queue-5.4 subdirectory.
+and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -158,5 +158,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.4/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
-queue-5.4/m68k-vga-fix-i-o-defines.patch
+queue-5.10/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
+queue-5.10/m68k-vga-fix-i-o-defines.patch
