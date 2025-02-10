@@ -2,85 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C921A2E72A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 10:06:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F3BA2E795
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 10:24:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA06110E070;
-	Mon, 10 Feb 2025 09:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 578AB10E1BB;
+	Mon, 10 Feb 2025 09:24:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NDBKaEm1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZjMRPgDA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F318110E070
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 09:05:58 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 519MT7D8028239;
- Mon, 10 Feb 2025 09:05:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 4w9NfthMBwEcRekiAvRsUrp4oCMwhq6AuwL24E80vlQ=; b=NDBKaEm1lXMQDp4b
- 7XqSHn35ANnA4KLZz5J0y6TbmP19WJW6X4wXd5E+qguR2RyKNtkdWFxnom9j/npO
- rzrPFL4DY74UykyfEbH0AGibTeAwiUwM64gfyI0jDcxc0oyLoPY9EIapCVm0Qngm
- sUK51OikUBQMsQWSFi+LxXzlCwUWyi7Wqq1mGQvX9Zutc0cKCAK1D9Io7nKQhZ71
- m0bYxwrsfPZbv6uMBkpN72SqieCvu2U6CSWKDudQ/5TN0BCdzqJLuYp8RqFYNks1
- w+w2IIgwKu7NH3gn7/xMZWHm1qGH8y07bV9ofMOCZGENOluboanVb9Z5wS1ohr/m
- 03Niag==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44p0dxkt0m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Feb 2025 09:05:54 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51A95rIF017711
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 10 Feb 2025 09:05:53 GMT
-Received: from [10.204.65.49] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Feb
- 2025 01:05:50 -0800
-Message-ID: <053dd6d6-9ca2-4723-8c21-da4093f00e03@quicinc.com>
-Date: Mon, 10 Feb 2025 14:35:47 +0530
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 602A510E1BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 09:24:21 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-21f7f03d856so21787455ad.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 01:24:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739179461; x=1739784261; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OcbX5q6WEaM/IJQGvi4DRQAGMaIPCuY/QQej/3KoUgs=;
+ b=ZjMRPgDAvI7+vdsETpXFyjO9kIsQfZPZDpqf8mJXQBiKJ0G+733PZoAv9FLOlilbKY
+ wJxuxQeCvn40pwgKKLIy90DgRpRCkngnBSDTKETCmY7PEo2GE80rd/3DjOsMQukgnSEC
+ btbyG1Nnt+3YxGXd+l6rGL1gGClI/FHV4Z84g63JCj3Uo/cg7hmW3y5gk/qzLobU7c3S
+ Ew5TE54BUKq645rcb68Bo1tjcEnUlP/CN4ZNJKym9hiQBihp16lVUYKnR7ng7JJfoqTM
+ vLknaDjmJFu33TclonZCoFrDEjB2i3cG4Nby78mczcZWx8dibrMHBur11IqIrEjbBinS
+ BATA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739179461; x=1739784261;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OcbX5q6WEaM/IJQGvi4DRQAGMaIPCuY/QQej/3KoUgs=;
+ b=WMibuubOVwbxDdSFTFbQYVj2m9yKHGV5p4hrVijAwquW+VL5dS8msxlZs1zbEc2SRb
+ DTIQaIqBiblX4ozpauNjZEiwzsLmbs2wQ6tNoyBd7zf4cc9ZilNey93wH2ThlUwLg0qd
+ IWj7TqLgFcfuYW7ghLKB6Rf4jFDhUTyY4rhkaF/26LWqW1I7d/C0mZRYDQev3OI6hY5G
+ OUMtVcml0oH3WqkmgRVY3oPk8wIn6WodZHgTE6YB0rQ5u1pWo0n0xhfleq2Pan0iWGd0
+ tKV9Hwh4Y1/dmoOX3EtR39f9o//jz6guyoONBlej6Zf7ZuFsIeZyOWqYOBXvIEJUc3mz
+ f5pQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXEUtgNBMVUPPLJaZ/xql9QWBVxdDyU4pJSHth5PLyniLKYElVSr3CK0eThv6cvBGncJeDDCieZifk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+6j6i5DZOmekZgHFCR4mlMUWunEEcRMFIvcrvUH1kc25eboe+
+ V90lQS61i4skQv21IyRfuNbHChszinwVV+bCqLGf6WpE2NX1JIbk
+X-Gm-Gg: ASbGnctoZxwctRhMUDfRWl3YXbB0gcIUpsuzlMVAqOQapjPYHGuFtnQAJtdcfKDK9Rp
+ hleZXMUZqT6RHJleFT5Ju2Su2wPks8JCxfCLg5UmWlFFXRWHU5zMnF9rVtkSWb+Z4A9b+RIQomt
+ PD9EMVUwosJ1cV1slYdlhdzMDs7h3f8rzHCawJhpYWx7x1yGmHc9GW1NNAAxchpS/owb3q7eeWA
+ Oex9SDJX6WHokZnt8BLsgR91P0Ld/WvjnGUfYMzzlDiriRXWL3cOPS/o6iWk/L6Jckd+kVtOSaI
+ pJzJrCw5VXMm//HLpNflqoeDpZvbNA8LBZw=
+X-Google-Smtp-Source: AGHT+IFdyewoI8rEicwhAhAqUJTpI+RCgM5//6FuLkxEOonCeovqvT9ZsLosUdLI414ugbByGf/LXQ==
+X-Received: by 2002:a05:6a20:6f8b:b0:1e0:de01:4407 with SMTP id
+ adf61e73a8af0-1ee03b70c02mr23182363637.37.1739179460776; 
+ Mon, 10 Feb 2025 01:24:20 -0800 (PST)
+Received: from distilledx.SRMIST.EDU.IN ([14.139.187.71])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-730880ec313sm2142993b3a.140.2025.02.10.01.24.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2025 01:24:20 -0800 (PST)
+From: Tejas Vipin <tejasvipin76@gmail.com>
+To: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, dianders@chromium.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tejas Vipin <tejasvipin76@gmail.com>
+Subject: [PATCH v2] drm/panel: visionox-r66451: transition to mipi_dsi wrapped
+ functions
+Date: Mon, 10 Feb 2025 14:53:42 +0530
+Message-ID: <20250210092342.287324-1-tejasvipin76@gmail.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] misc: fastrpc: Modify context id mask to support
- polling mode
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <linux-arm-msm@vger.kernel.org>,
- <gregkh@linuxfoundation.org>, <quic_bkumar@quicinc.com>,
- <linux-kernel@vger.kernel.org>, <quic_chennak@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <arnd@arndb.de>
-References: <20250127044239.578540-1-quic_ekangupt@quicinc.com>
- <20250127044239.578540-6-quic_ekangupt@quicinc.com>
- <im7gi5ib7wnihu3ff4a2erqctne2pm2zf3wl4qmuejz4dfhf7e@z5au6vnm5por>
- <08b469b8-2339-4fde-9472-fcaadbb4ed87@quicinc.com>
- <jeixk4dmk53ubnujop3sp2lc6jffugjmzndmmqmyuft7uquibt@s2h2dgj7yj7h>
-Content-Language: en-US
-From: Ekansh Gupta <quic_ekangupt@quicinc.com>
-In-Reply-To: <jeixk4dmk53ubnujop3sp2lc6jffugjmzndmmqmyuft7uquibt@s2h2dgj7yj7h>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: 6WC4wc8GZpK5xRxVYR34dXDyx3cdaxJk
-X-Proofpoint-ORIG-GUID: 6WC4wc8GZpK5xRxVYR34dXDyx3cdaxJk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-10_04,2025-02-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 bulkscore=0 clxscore=1015 adultscore=0
- lowpriorityscore=0 impostorscore=0 malwarescore=0 mlxscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502100076
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,114 +88,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Change the visionox-r66451 panel to use multi style functions for 
+improved error handling. Additionally, always drop LPM flag after
+sending init sequence.
 
+Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
+---
+Changes in v2:
+    - Fixed visionox_r66451_enable to return dsi_ctx.accum_err
+    - Mentioned changed handling of LPM flag in commit message
 
+Link to v1: https://lore.kernel.org/all/20250208051541.176667-1-tejasvipin76@gmail.com/
+---
+ drivers/gpu/drm/panel/panel-visionox-r66451.c | 181 ++++++++----------
+ 1 file changed, 77 insertions(+), 104 deletions(-)
 
-On 1/29/2025 4:53 PM, Dmitry Baryshkov wrote:
-> On Wed, Jan 29, 2025 at 11:13:05AM +0530, Ekansh Gupta wrote:
->>
->>
->> On 1/29/2025 5:00 AM, Dmitry Baryshkov wrote:
->>> On Mon, Jan 27, 2025 at 10:12:39AM +0530, Ekansh Gupta wrote:
->>>> DSP needs last 4 bits of context id to be 0 for polling mode to be
->>>> supported as setting of last 8 is intended for async mode(not yet
->>>> supported on upstream driver) and setting these bits restrics
->>>> writing to poll memory from DSP. Modify context id mask to ensure
->>>> polling mode is supported.
->>> Shouldn't this commit come before the previous one?
->> Yes, I'll change the order in next series.
->>
->> Thanks for reviewing the changes.
-> Please consider asking somebody for the internal review before sending
-> patches. This should help you to catch such mistakes.
->
-> Next, I keep on asking for a sensible userspace and testing suite. No,
-> existing fastrpc doesn't pass that criteria. We have discussed that, but
-> I see no changes in the development. The PR that you've linked in the
-> cover letter contains a single commit, covering documentation, new
-> IOCTL, CRC support, poll mode support, etc. What if the discussion ends
-> up accepting the CRC support but declining the polling mode? Or vice
-> versa, accepting poll mode but declining the CRC support? There is no
-> easy way for us to review userspace impact, corresponding changes, etc.
-
-We are working with our Legal team to push HexagonSDK publicly , that  will
-have sample apps for all features supported by upstream driver and can be used
-for testing.
-
-I'll break down the PR to multiple meaningful commits based on the features
-that are getting added.
-
->
-> Last, but not least: I want to bring up Sima's response in one of the
-> earlier discussions ([1]): "Yeah, if fastrpc just keeps growing the
-> story will completely different."
->
-> You are adding new IOCTL and new ivocation API. That totally sounds
-> like "keeps growing", which returns us back to the uAPI question,
-> drm_accel.h and the rest of the questions on the userspace, compiler,
-> etc.
->
-> [1] https://lore.kernel.org/dri-devel/Znk87-xCx8f3fIUL@phenom.ffwll.local/
-
-Currently, we are upstreaming the features supported on DSP for publicly
-available platforms. No features for future platforms are planned for FastRPC
-driver.
-
-We are also looking in having the driver under drivers/accel for any new features
-that are planned in future platforms.
-
---ekansh
-
->
->
->> --ekansh
->>
->>>> Signed-off-by: Ekansh Gupta <quic_ekangupt@quicinc.com>
->>>> ---
->>>>  drivers/misc/fastrpc.c | 8 ++++----
->>>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>> index 257a741af115..ef56c793c564 100644
->>>> --- a/drivers/misc/fastrpc.c
->>>> +++ b/drivers/misc/fastrpc.c
->>>> @@ -40,7 +40,7 @@
->>>>  #define FASTRPC_INIT_HANDLE	1
->>>>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
->>>>  #define FASTRPC_MAX_STATIC_HANDLE (20)
->>>> -#define FASTRPC_CTXID_MASK (0xFF0)
->>>> +#define FASTRPC_CTXID_MASK (0xFF0000)
->>>>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
->>>>  #define INIT_FILE_NAMELEN_MAX (128)
->>>>  #define FASTRPC_DEVICE_NAME	"fastrpc"
->>>> @@ -524,7 +524,7 @@ static void fastrpc_context_free(struct kref *ref)
->>>>  		fastrpc_buf_free(ctx->buf);
->>>>  
->>>>  	spin_lock_irqsave(&cctx->lock, flags);
->>>> -	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 4);
->>>> +	idr_remove(&cctx->ctx_idr, ctx->ctxid >> 16);
->>>>  	spin_unlock_irqrestore(&cctx->lock, flags);
->>>>  
->>>>  	kfree(ctx->maps);
->>>> @@ -664,7 +664,7 @@ static struct fastrpc_invoke_ctx *fastrpc_context_alloc(
->>>>  		spin_unlock_irqrestore(&cctx->lock, flags);
->>>>  		goto err_idr;
->>>>  	}
->>>> -	ctx->ctxid = ret << 4;
->>>> +	ctx->ctxid = ret << 16;
->>>>  	spin_unlock_irqrestore(&cctx->lock, flags);
->>>>  
->>>>  	kref_init(&ctx->refcount);
->>>> @@ -2675,7 +2675,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
->>>>  	if (len < sizeof(*rsp))
->>>>  		return -EINVAL;
->>>>  
->>>> -	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 4);
->>>> +	ctxid = ((rsp->ctx & FASTRPC_CTXID_MASK) >> 16);
->>>>  
->>>>  	spin_lock_irqsave(&cctx->lock, flags);
->>>>  	ctx = idr_find(&cctx->ctx_idr, ctxid);
->>>> -- 
->>>> 2.34.1
->>>>
+diff --git a/drivers/gpu/drm/panel/panel-visionox-r66451.c b/drivers/gpu/drm/panel/panel-visionox-r66451.c
+index 493f2a6076f8..3ea0a86f6e69 100644
+--- a/drivers/gpu/drm/panel/panel-visionox-r66451.c
++++ b/drivers/gpu/drm/panel/panel-visionox-r66451.c
+@@ -42,85 +42,84 @@ static void visionox_r66451_reset(struct visionox_r66451 *ctx)
+ static int visionox_r66451_on(struct visionox_r66451 *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+ 
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xc2,
+-			       0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
+-			       0x09, 0x3c);
+-	mipi_dsi_dcs_write_seq(dsi, 0xd7,
+-			       0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
+-			       0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
+-			       0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0xde,
+-			       0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18,
+-			       0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0xe8, 0x00, 0x02);
+-	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x00, 0x08);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xc4,
+-			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-			       0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
+-	mipi_dsi_dcs_write_seq(dsi, 0xcf,
+-			       0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
+-			       0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+-			       0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
+-	mipi_dsi_dcs_write_seq(dsi, 0xd3,
+-			       0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 0x07,
+-			       0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 0xa0,
+-			       0x3c, 0x9c);
+-	mipi_dsi_dcs_write_seq(dsi, 0xd7,
+-			       0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
+-			       0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
+-			       0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
+-	mipi_dsi_dcs_write_seq(dsi, 0xd8,
+-			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-			       0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a,
+-			       0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-			       0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00,
+-			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a,
+-			       0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
+-	mipi_dsi_dcs_write_seq(dsi, 0xdf,
+-			       0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 0x00,
+-			       0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+-			       0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 0x00,
+-			       0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 0x00,
+-			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf7, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x80);
+-	mipi_dsi_dcs_write_seq(dsi, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00, 0x39, 0x04, 0x09, 0x34);
+-	mipi_dsi_dcs_write_seq(dsi, 0xe6, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x04);
+-	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x40);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x11);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf4, 0x00, 0x02);
+-	mipi_dsi_dcs_write_seq(dsi, 0xf2, 0x19);
+-	mipi_dsi_dcs_write_seq(dsi, 0xdf, 0x50, 0x42);
+-	mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+-	mipi_dsi_dcs_set_column_address(dsi, 0, 1080 - 1);
+-	mipi_dsi_dcs_set_page_address(dsi, 0, 2340 - 1);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc2,
++				     0x09, 0x24, 0x0c, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00,
++				     0x09, 0x3c);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd7,
++				     0x00, 0xb9, 0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
++				     0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
++				     0x3c, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xde,
++				     0x40, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18,
++				     0x10, 0x00, 0x18, 0x00, 0x18, 0x00, 0x18, 0x02, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe8, 0x00, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe4, 0x00, 0x08);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xc4,
++				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				     0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x32);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xcf,
++				     0x64, 0x0b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08,
++				     0x00, 0x0b, 0x77, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
++				     0x02, 0x02, 0x02, 0x02, 0x02, 0x03);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd3,
++				     0x45, 0x00, 0x00, 0x01, 0x13, 0x15, 0x00, 0x15, 0x07,
++				     0x0f, 0x77, 0x77, 0x77, 0x37, 0xb2, 0x11, 0x00, 0xa0,
++				     0x3c, 0x9c);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd7,
++				     0x00, 0xb9, 0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a,
++				     0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x19,
++				     0x34, 0x00, 0x40, 0x04, 0x00, 0xa0, 0x0a);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xd8,
++				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				     0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a, 0x00, 0x3a,
++				     0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				     0x00, 0x0a, 0x00, 0x0a, 0x00, 0x00, 0x00, 0x00, 0x00,
++				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0a,
++				     0x00, 0x32, 0x00, 0x0a, 0x00, 0x22);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf,
++				     0x50, 0x42, 0x58, 0x81, 0x2d, 0x00, 0x00, 0x00, 0x00,
++				     0x00, 0x00, 0x6b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++				     0x00, 0x00, 0x01, 0x0f, 0xff, 0xd4, 0x0e, 0x00, 0x00,
++				     0x00, 0x00, 0x00, 0x00, 0x0f, 0x53, 0xf1, 0x00, 0x00,
++				     0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf7, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x80);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe4, 0x34, 0xb4, 0x00, 0x00, 0x00, 0x39,
++				     0x04, 0x09, 0x34);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xe6, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xb0, 0x04);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x40);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x50, 0x00, 0x00, 0x00, 0x00);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x11);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf3, 0x01, 0x00, 0x00, 0x00, 0x01);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf4, 0x00, 0x02);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xf2, 0x19);
++	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, 0xdf, 0x50, 0x42);
++	mipi_dsi_dcs_set_tear_on_multi(&dsi_ctx, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
++	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0, 1080 - 1);
++	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, 2340 - 1);
+ 
+ 	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+-static int visionox_r66451_off(struct visionox_r66451 *ctx)
++static void visionox_r66451_off(struct visionox_r66451 *ctx)
+ {
+ 	ctx->dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+-	return 0;
+ }
+ 
+ static int visionox_r66451_prepare(struct drm_panel *panel)
+ {
+ 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+-	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
+ 	int ret;
+ 
+ 	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies),
+@@ -132,7 +131,6 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
+ 
+ 	ret = visionox_r66451_on(ctx);
+ 	if (ret < 0) {
+-		dev_err(dev, "Failed to initialize panel: %d\n", ret);
+ 		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 		regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+ 		return ret;
+@@ -146,12 +144,8 @@ static int visionox_r66451_prepare(struct drm_panel *panel)
+ static int visionox_r66451_unprepare(struct drm_panel *panel)
+ {
+ 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+-	struct device *dev = &ctx->dsi->dev;
+-	int ret;
+ 
+-	ret = visionox_r66451_off(ctx);
+-	if (ret < 0)
+-		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
++	visionox_r66451_off(ctx);
+ 
+ 	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
+ 	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+@@ -179,7 +173,7 @@ static int visionox_r66451_enable(struct drm_panel *panel)
+ 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+ 	struct drm_dsc_picture_parameter_set pps;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	if (!dsi->dsc) {
+ 		dev_err(&dsi->dev, "DSC not attached to DSI\n");
+@@ -187,51 +181,30 @@ static int visionox_r66451_enable(struct drm_panel *panel)
+ 	}
+ 
+ 	drm_dsc_pps_payload_pack(&pps, dsi->dsc);
+-	ret = mipi_dsi_picture_parameter_set(dsi, &pps);
+-	if (ret) {
+-		dev_err(&dsi->dev, "Failed to set PPS\n");
+-		return ret;
+-	}
++	mipi_dsi_picture_parameter_set_multi(&dsi_ctx, &pps);
+ 
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(&dsi->dev, "Failed to exit sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(120);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret < 0) {
+-		dev_err(&dsi->dev, "Failed on set display on: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(20);
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 20);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int visionox_r66451_disable(struct drm_panel *panel)
+ {
+ 	struct visionox_r66451 *ctx = to_visionox_r66451(panel);
+ 	struct mipi_dsi_device *dsi = ctx->dsi;
+-	struct device *dev = &dsi->dev;
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to set display off: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(20);
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 20);
+ 
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret < 0) {
+-		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+-		return ret;
+-	}
+-	msleep(120);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int visionox_r66451_get_modes(struct drm_panel *panel,
+-- 
+2.48.1
 
