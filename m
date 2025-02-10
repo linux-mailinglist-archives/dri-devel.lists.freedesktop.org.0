@@ -2,61 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716BDA2EA08
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 11:52:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E596A2EA38
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 11:57:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C22D10E4F6;
-	Mon, 10 Feb 2025 10:52:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C60A10E0E0;
+	Mon, 10 Feb 2025 10:57:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Rx3cquvw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M6IHCOwB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24CC610E4F8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:52:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739184754;
- bh=KBC0SN9ZNkKsUcI/8ctTgW1gIXMompB/BTtCm6ni5hQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Rx3cquvwsmRw0UkoLMz0QCGKNYa1T5ZkCy6cujfIsa7/XGn/VihPwuoG/XI5uRMvJ
- GiZ4Exc644jgL1QF8/fwMdZ6bZK/3qfg7fg95mrGe7uvUMkGYojF2pI4bvurKoplXq
- Zd8rgOe7f8HqnkrhnOOu2xjNoth5VtZ0DMlUKcP9aFJ2vbSlMidUj3QmH1Le9tPngW
- Unrm4UJxU6yW8H2u8QMOlWjNbc2vWtex4uUCluEc1vygJM38JwunYAMaGzFFJSFUch
- hAixoBznnKha1lY8wlTqmZ998e9M+V21tbXlcXqQ52fJqq9fHSoJHFBvgJrr4G+dgp
- ajPU7f6DORL/w==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
- [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id EDD9817E121B;
- Mon, 10 Feb 2025 11:52:33 +0100 (CET)
-Message-ID: <b7ed1848-2e66-42af-a266-34689fd1c93b@collabora.com>
-Date: Mon, 10 Feb 2025 11:52:32 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A75F10E0E0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:57:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1E832A410DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:55:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 884CFC4CEE8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739185028;
+ bh=MA+5GdIrBSMLheXDRe72EB1kfVzw5RshqjnX8/RRBsg=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=M6IHCOwBEz4fchj4I/8DwiO3l2AQbCWI+oC3Lk6JEK2bx4ZEFHXSp3RiN7PmzDSNH
+ wikT5JkovhE2vx+LYVtb2a/IydM9RjGmD7orz3VN9vLulvNx4NllEjJVipl0FNdb1t
+ 59G5x46x5A2b0Wc9AuslYQkdAnmjCFpUek1HO+wQPvs9cHdDkwtLzh5F3G8m3wqKXr
+ AzL6S1O2hA6zlIVZa57XmIKX05bQDUES61wVmBDmq+u0jqPaZ9jdl0NtpwqnhHIaoC
+ 3nbsUAm908ZwKpb/jlGp6DZYjnTlbxgZrHDbFSUoh5d1pvHQZJKoLgUWV5YLj7x5VD
+ xbBmai3F9kyiA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id 8291CC41614; Mon, 10 Feb 2025 10:57:08 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
+ Waiting for fences timed out!"
+Date: Mon, 10 Feb 2025 10:57:07 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: OBSOLETE
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-213145-2300-aYFCuHqTjh@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
+References: <bug-213145-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: gpu: mali-bifrost: Add compatible for
- MT8370 SoC
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-References: <20250207-mt8370-enable-gpu-v3-0-75e9b902f9c1@collabora.com>
- <20250207-mt8370-enable-gpu-v3-1-75e9b902f9c1@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20250207-mt8370-enable-gpu-v3-1-75e9b902f9c1@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,46 +75,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 07/02/25 16:18, Louis-Alexis Eyraud ha scritto:
-> Add a compatible for the MediaTek MT8370 SoC, with an
-> integrated ARM Mali G57 MC2 GPU (Valhall-JM, dual core).
-> This new compatible is needed for this SoC support, as the other
-> existing compatibles for the same GPU architecture (MT8188, MT8192) do
-> not match the required power domain number.
-> The other compatibles (especially MT8186) cannot be reused because of
-> GPU architecture difference.
-> 
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Artem S. Tashkinov (aros@gmx.com) changed:
 
-> ---
->   Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> index 735c7f06c24e632ab738d062f15378f754c8adaf..6f6211950bb495fa6bfcdfe8d1e27e5ce7aeeae0 100644
-> --- a/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> +++ b/Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml
-> @@ -37,6 +37,7 @@ properties:
->             - enum:
->                 - mediatek,mt8188-mali
->                 - mediatek,mt8192-mali
-> +              - mediatek,mt8370-mali
->             - const: arm,mali-valhall-jm # Mali Valhall GPU model/revision is fully discoverable
->   
->     reg:
-> @@ -217,7 +218,9 @@ allOf:
->         properties:
->           compatible:
->             contains:
-> -            const: mediatek,mt8186-mali
-> +            enum:
-> +              - mediatek,mt8186-mali
-> +              - mediatek,mt8370-mali
->       then:
->         properties:
->           power-domains:
-> 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |OBSOLETE
 
+--- Comment #35 from Artem S. Tashkinov (aros@gmx.com) ---
+If this is still reproducible in 6.12.13 or 6.13.2 please open a new bug re=
+port
+here:
 
+https://gitlab.freedesktop.org/drm/amd/-/issues
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
