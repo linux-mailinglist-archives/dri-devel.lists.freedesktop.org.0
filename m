@@ -2,69 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A08A2EDC5
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 163D2A2EE10
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:33:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7A3610E18F;
-	Mon, 10 Feb 2025 13:29:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8251510E53B;
+	Mon, 10 Feb 2025 13:33:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="nO5FdiJ+";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WyVteI7B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49FA310E18F
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:29:50 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9215F4444B;
- Mon, 10 Feb 2025 13:29:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739194188;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1GF2t3R1YAxOaP/I6N9EoSBBP5RdZCf7+8UhwSbU9Uo=;
- b=nO5FdiJ+j7KQHbJp1aky5COAJFt7gP2C+Qedw+ueIULuhDoIYq1CA8FNaLOmzbZyEVZW7y
- oAYmY/yHyZ0BHimFRhSlqfDK2NCS/0lxEVQaZqNI5Y7k/FwiqTsVUOxuKs77lW1WCgBT/a
- WFW2vqbZdEag8zfI6t1dstqschrKBVSyMgTtG1phsGEGsNsiIVRpf6kc7Y6LUv6aleDXqh
- ZbaYfOU0lHjQiEnDQcKs6H4hX41J0bzgKEvWJjZIOQqOWFZCJYA3czVdkvML95Ozz6Wa8x
- 1B7hR1msLRWYufscJicTWBbPOrK5ixCZN5Ezt6aa/FGli1bnOcnFl7Eh3MKGMw==
-Date: Mon, 10 Feb 2025 14:29:43 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel
- Maintenance <kernel-list@raspberrypi.com>, Marek Vasut <marex@denx.de>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 4/4] drm: bridge: ti-sn65dsi83: Add error recovery
- mechanism
-Message-ID: <20250210142943.478c3066@bootlin.com>
-In-Reply-To: <6136272.lOV4Wx5bFT@steina-w>
-References: <20250203161607.223731-1-herve.codina@bootlin.com>
- <8756830.T7Z3S40VBb@steina-w> <20250207190816.2002d313@bootlin.com>
- <6136272.lOV4Wx5bFT@steina-w>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7115F10E53B
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:33:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id AF040A414D0;
+ Mon, 10 Feb 2025 13:31:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1BCC4CEDF;
+ Mon, 10 Feb 2025 13:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1739194425;
+ bh=jEE2rRzbQWsQ5WNql+oIYrLVRlbtbYIC//jkwbzbJ0w=;
+ h=Subject:To:Cc:From:Date:From;
+ b=WyVteI7BhnuDU8Rv29TJXA3TZyPdo8iYfdbUuu2J4q5uO81dTjaGLMNSbcq7sFGV+
+ BMlla/BMQ2v3JBnuGuX1bdguWmPXAePkLj2Ndk1IBYIVEsa9xSdsWIBZj9morzj+gZ
+ Qqz8SNNVFg2aknU1wlVNkHF0q+ovfIedH3NKULvg=
+Subject: Patch "drm/ast: astdp: Fix timeout for enabling video signal" has
+ been added to the 6.13-stable tree
+To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, jfalempe@redhat.com, tzimmermann@suse.de
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Mon, 10 Feb 2025 14:31:45 +0100
+Message-ID: <2025021045-bakery-bolt-34f8@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefkedukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedvhfeljedtfedtjeevffegtddutdeghfettdduhfeuhfdttdffieeuiefgvdfhvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehlohgtrghlhhhoshhtpdhmrghilhhfrhhomhephhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopegrlhgvgigrnhguvghrrdhsthgvihhnsegvfidrthhqqdhgrhhouhhprdgtohhmpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhto
- hepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgvpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
-X-GND-Sasl: herve.codina@bootlin.com
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,76 +55,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexander,
 
-On Mon, 10 Feb 2025 11:42:09 +0100
-Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
+This is a note to let you know that I've just added the patch titled
 
-> Hi Herve,
-> 
-> Am Freitag, 7. Februar 2025, 19:08:16 CET schrieb Herve Codina:
-> > Hi Alexander,
-> > 
-> > On Thu, 06 Feb 2025 16:39:09 +0100
-> > Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-> >   
-> > > Hi Herve,
-> > > 
-> > > Am Donnerstag, 6. Februar 2025, 16:20:48 CET schrieb Herve Codina:  
-> > > > Hi Alexander,
-> > > > 
-> > > > On Thu, 06 Feb 2025 15:38:42 +0100
-> > > > Alexander Stein <alexander.stein@ew.tq-group.com> wrote:
-> > > > 
-> > > > ...    
-> > > > > With interrupt configured I got the following stack trace upon
-> > > > > reboot/poweroff:
-> > > > > 
-> > > > > [   91.317264] sn65dsi83 2-002d: reset the pipe
-> > > > > [   91.344093] Unable to handle ke
-> > > > > ** replaying previous printk message **
-> > > > > [   91.344093] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000    
-> > > > ...
-> > > > 
-> > > > Ouch :(
-> > > > 
-> > > > One question to help me investigating:
-> > > > Do you have the issue at init/probe or when you start to display graphics?    
-> > > 
-> > > This is during shutdown/poweroff. I assume that regmap_reg() in
-> > > sn65dsi83_handle_errors() fails and because of that reset_work is scheduled.
-> > >   
-> > 
-> > Found the issue.
-> > 
-> > Can you give me following information so that I can validate what I
-> > understood:
-> >   - Is your interrupt line connected directly to the SoC?  
-> 
-> No, unfortunately not. It's connected to a GPIO expander, which in turn
-> delivers an IRQ to the SoC. In between the bridge and the expander is a
-> buffer for voltage switch (1V8 -> 3V3).
-> 
-> >   - Is there any pullup/pulldown on your interrupt line?  
-> 
-> As far a I can tell, there is no pullup/pulldown on the IRQ line to
-> the buffer.
-> 
-> >   - In your devicetree what is the configuration used for this interrupt in
-> >     terms of level or edge.  
-> 
-> As this line is connected to an expander (pca9555) only edge triggered
-> interrupts are supported.
-> 
-> > Anyway, I will send a fix in the next iteration.  
-> 
+    drm/ast: astdp: Fix timeout for enabling video signal
 
-Thanks for all those details.
+to the 6.13-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-I've just sent a new iteration:
-  https://lore.kernel.org/all/20250210132620.42263-1-herve.codina@bootlin.com/
+The filename of the patch is:
+     drm-ast-astdp-fix-timeout-for-enabling-video-signal.patch
+and it can be found in the queue-6.13 subdirectory.
 
-Can you test it on your side?
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
-Best regards,
-Hervé
+
+From fd39c41bcd82d5ebaaebadb944eab5598c668a90 Mon Sep 17 00:00:00 2001
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Mon, 27 Jan 2025 14:44:14 +0100
+Subject: drm/ast: astdp: Fix timeout for enabling video signal
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit fd39c41bcd82d5ebaaebadb944eab5598c668a90 upstream.
+
+The ASTDP transmitter sometimes takes up to 1 second for enabling the
+video signal, while the timeout is only 200 msec. This results in a
+kernel error message. Increase the timeout to 1 second. An example
+of the error message is shown below.
+
+[  697.084433] ------------[ cut here ]------------
+[  697.091115] ast 0000:02:00.0: [drm] drm_WARN_ON(!__ast_dp_wait_enable(ast, enabled))
+[  697.091233] WARNING: CPU: 1 PID: 160 at drivers/gpu/drm/ast/ast_dp.c:232 ast_dp_set_enable+0x123/0x140 [ast]
+[...]
+[  697.272469] RIP: 0010:ast_dp_set_enable+0x123/0x140 [ast]
+[...]
+[  697.415283] Call Trace:
+[  697.420727]  <TASK>
+[  697.425908]  ? show_trace_log_lvl+0x196/0x2c0
+[  697.433304]  ? show_trace_log_lvl+0x196/0x2c0
+[  697.440693]  ? drm_atomic_helper_commit_modeset_enables+0x30a/0x470
+[  697.450115]  ? ast_dp_set_enable+0x123/0x140 [ast]
+[  697.458059]  ? __warn.cold+0xaf/0xca
+[  697.464713]  ? ast_dp_set_enable+0x123/0x140 [ast]
+[  697.472633]  ? report_bug+0x134/0x1d0
+[  697.479544]  ? handle_bug+0x58/0x90
+[  697.486127]  ? exc_invalid_op+0x13/0x40
+[  697.492975]  ? asm_exc_invalid_op+0x16/0x20
+[  697.500224]  ? preempt_count_sub+0x14/0xc0
+[  697.507473]  ? ast_dp_set_enable+0x123/0x140 [ast]
+[  697.515377]  ? ast_dp_set_enable+0x123/0x140 [ast]
+[  697.523227]  drm_atomic_helper_commit_modeset_enables+0x30a/0x470
+[  697.532388]  drm_atomic_helper_commit_tail+0x58/0x90
+[  697.540400]  ast_mode_config_helper_atomic_commit_tail+0x30/0x40 [ast]
+[  697.550009]  commit_tail+0xfe/0x1d0
+[  697.556547]  drm_atomic_helper_commit+0x198/0x1c0
+
+This is a cosmetical problem. Enabling the video signal still works
+even with the error message. The problem has always been present, but
+only recent versions of the ast driver warn about missing the timeout.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 4e29cc7c5c67 ("drm/ast: astdp: Replace ast_dp_set_on_off()")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v6.13+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250127134423.84266-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/ast/ast_dp.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/ast/ast_dp.c
++++ b/drivers/gpu/drm/ast/ast_dp.c
+@@ -195,7 +195,7 @@ static bool __ast_dp_wait_enable(struct
+ 	if (enabled)
+ 		vgacrdf_test |= AST_IO_VGACRDF_DP_VIDEO_ENABLE;
+ 
+-	for (i = 0; i < 200; ++i) {
++	for (i = 0; i < 1000; ++i) {
+ 		if (i)
+ 			mdelay(1);
+ 		vgacrdf = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xdf,
+
+
+Patches currently in stable-queue which might be from tzimmermann@suse.de are
+
+queue-6.13/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
+queue-6.13/drm-client-handle-tiled-displays-better.patch
+queue-6.13/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
+queue-6.13/drm-ast-astdp-fix-timeout-for-enabling-video-signal.patch
+queue-6.13/m68k-vga-fix-i-o-defines.patch
