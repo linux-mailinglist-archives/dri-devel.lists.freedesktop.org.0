@@ -2,51 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F6EA2F080
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 15:58:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071AEA2F139
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 16:17:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87F3610E57F;
-	Mon, 10 Feb 2025 14:58:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0684D10E099;
+	Mon, 10 Feb 2025 15:17:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ISIdDpFe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RKPNDebW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9491C10E57F
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 14:58:25 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
- id 4E8892107A88; Mon, 10 Feb 2025 06:58:25 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4E8892107A88
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1739199505;
- bh=U3Bmpl4+PMzafapmUj7vG4ZjJLgdaMDjiPMhN512elQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ISIdDpFejyApoXMpssaLlTBsymleMq1Nqx1yt3JM590fPxAcN0mnfUHvg3yH4JGCz
- MPITGCk8IkpyTF0ZJm7gU5NrTNiK20dWp8isJA5eyqrmfCMivOq5SJ9nv8X2QKUO/I
- YR/gn124pZGkCoaZ/mvgR51iES3GStwhWaayMOv8=
-Date: Mon, 10 Feb 2025 06:58:25 -0800
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "haiyangz@microsoft.com" <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>,
- "decui@microsoft.com" <decui@microsoft.com>,
- "deller@gmx.de" <deller@gmx.de>, "weh@microsoft.com" <weh@microsoft.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: Re: [PATCH 1/1] fbdev: hyperv_fb: iounmap() the correct memory when
- removing a device
-Message-ID: <20250210145825.GA12377@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20250209235252.2987-1-mhklinux@outlook.com>
- <20250210124043.GA17819@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
- <SN6PR02MB4157B0F36D7B99A5BF01471CD4F22@SN6PR02MB4157.namprd02.prod.outlook.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73A8610E099
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 15:17:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BBC4E5C58EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 15:16:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8BDC4CEE8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 15:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739200624;
+ bh=npeySrQDIdbjEdWZVestUdgkXFxlJePjegTD/zD7+4o=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=RKPNDebWhhpwvKqjqW0ZGYy2i9RFGbmOiJxfDtYaeFkAZhCdmYg4IfVHBPM3PYq2A
+ Pv8XhLTurgzqwzqS8XuuyX0Ud63vM8qkbGB+NOfa1R6rbto4KSr3hvcHQ4ulGmZU/b
+ 9VpBP9YLJhH1cUj+GsIVq07/hnAUiBN8Pxpn0Y5u0LXZ8HvG6R9ln7wMOjtlihTrgz
+ EVVw7wo/b2j7wpVcTYd7V8vyf/Z6+6ZXsJp+04PxeRxXsSqMgAhFEXad9D4TLdWd9f
+ pWvQi9qPjagGtNXq+jnbaopIdlMo9xapllwlInZVjut2DZznR3H3MHQpODZtmx1clW
+ PqQfVZe3uJCrw==
+Received: by mail-yw1-f169.google.com with SMTP id
+ 00721157ae682-6f77b9e0a34so32825797b3.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 07:17:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUD0KEfKbMKstcusqfpnbpAh3cF1mFVxQkqd2PDgLkC+UtgDS+LBCRBWoJ+waz66Ban5e87ItpSiC8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwC9V7+ah19Rzch/v0qBGGWMB6DrBPJV/+rmBSYIarwU9D8KJCA
+ kGD/ou/ftVBtCFdFh3CUE1a7r//eOYJIRkabYxP8QSj4tQyLUQiA8k6CjpxRXFnkTdbhUTPtE+O
+ sN+MXYYWhDQFi6WaQ8c5O0YYywcrIEPcwBTZbag==
+X-Google-Smtp-Source: AGHT+IEuxtsc0xzO9mi3+kRlVNXktUIEV7jpqquejdLvRYC7jrhyqriJbq41PImEwZesVxGBItLG1KHJKThIAsdcER4=
+X-Received: by 2002:a05:690c:4513:b0:6f7:598d:34a3 with SMTP id
+ 00721157ae682-6f9b2349b17mr126196697b3.0.1739200624069; Mon, 10 Feb 2025
+ 07:17:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SN6PR02MB4157B0F36D7B99A5BF01471CD4F22@SN6PR02MB4157.namprd02.prod.outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+References: <20250128065645.27140-1-oushixiong1025@163.com>
+In-Reply-To: <20250128065645.27140-1-oushixiong1025@163.com>
+From: Robert Foss <rfoss@kernel.org>
+Date: Mon, 10 Feb 2025 16:16:53 +0100
+X-Gmail-Original-Message-ID: <CAN6tsi4xwkfZgmJimDvoWUNY0qXJDAhzfXsKG5zcdGN_yv7pZg@mail.gmail.com>
+X-Gm-Features: AWEUYZmoZttsZcq5UnGDn813LzZbaiRa_k-lQdQRVeYMxL2zrCT83V22t3LHnhc
+Message-ID: <CAN6tsi4xwkfZgmJimDvoWUNY0qXJDAhzfXsKG5zcdGN_yv7pZg@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Use
+ devm_platform_ioremap_resource()
+To: oushixiong1025@163.com
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Shixiong Ou <oushixiong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,102 +81,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2025 at 02:28:35PM +0000, Michael Kelley wrote:
-> From: Saurabh Singh Sengar <ssengar@linux.microsoft.com> Sent: Monday, February 10, 2025 4:41 AM
-> > 
-> > On Sun, Feb 09, 2025 at 03:52:52PM -0800, mhkelley58@gmail.com wrote:
-> > > From: Michael Kelley <mhklinux@outlook.com>
-> > >
-> > > When a Hyper-V framebuffer device is removed, or the driver is unbound
-> > > from a device, any allocated and/or mapped memory must be released. In
-> > > particular, MMIO address space that was mapped to the framebuffer must
-> > > be unmapped. Current code unmaps the wrong address, resulting in an
-> > > error like:
-> > >
-> > > [ 4093.980597] iounmap: bad address 00000000c936c05c
-> > >
-> > > followed by a stack dump.
-> > >
-> > > Commit d21987d709e8 ("video: hyperv: hyperv_fb: Support deferred IO for
-> > > Hyper-V frame buffer driver") changed the kind of address stored in
-> > > info->screen_base, and the iounmap() call in hvfb_putmem() was not
-> > > updated accordingly.
-> > >
-> > > Fix this by updating hvfb_putmem() to unmap the correct address.
-> > >
-> > > Fixes: d21987d709e8 ("video: hyperv: hyperv_fb: Support deferred IO for Hyper-V frame buffer driver")
-> > > Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> > > ---
-> > >  drivers/video/fbdev/hyperv_fb.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-> > > index 7fdb5edd7e2e..363e4ccfcdb7 100644
-> > > --- a/drivers/video/fbdev/hyperv_fb.c
-> > > +++ b/drivers/video/fbdev/hyperv_fb.c
-> > > @@ -1080,7 +1080,7 @@ static void hvfb_putmem(struct hv_device *hdev, struct fb_info *info)
-> > >
-> > >  	if (par->need_docopy) {
-> > >  		vfree(par->dio_vp);
-> > > -		iounmap(info->screen_base);
-> > > +		iounmap(par->mmio_vp);
-> > >  		vmbus_free_mmio(par->mem->start, screen_fb_size);
-> > >  	} else {
-> > >  		hvfb_release_phymem(hdev, info->fix.smem_start,
-> > > --
-> > > 2.25.1
-> > >
-> > 
-> > Thanks for fixing this:
-> > Reviewed-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-> > 
-> > 
-> > While we are at it, I want to mention that I also observed below WARN
-> > while removing the hyperv_fb, but that needs a separate fix.
-> > 
-> > 
-> > [   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
-> > < snip >
-> > [   44.111289] Call Trace:
-> > [   44.111290]  <TASK>
-> > [   44.111291]  ? show_regs+0x6c/0x80
-> > [   44.111295]  ? __warn+0x8d/0x150
-> > [   44.111298]  ? framebuffer_release+0x2c/0x40
-> > [   44.111300]  ? report_bug+0x182/0x1b0
-> > [   44.111303]  ? handle_bug+0x6e/0xb0
-> > [   44.111306]  ? exc_invalid_op+0x18/0x80
-> > [   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
-> > [   44.111311]  ? framebuffer_release+0x2c/0x40
-> > [   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
-> > [   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
-> > [   44.111323]  device_remove+0x40/0x80
-> > [   44.111325]  device_release_driver_internal+0x20b/0x270
-> > [   44.111327]  ? bus_find_device+0xb3/0xf0
-> > 
-> 
-> Thanks for pointing this out. Interestingly, I'm not seeing this WARN
-> in my experiments. What base kernel are you testing with? Are you
-> testing on a local VM or in Azure? What exactly are you doing
-> to create the problem? I've been doing unbind of the driver,
-> but maybe you are doing something different.
-> 
-> FWIW, there is yet another issue where after doing two unbind/bind
-> cycles of the hyperv_fb driver, there's an error about freeing a
-> non-existent resource. I know what that problem is, and it's in
-> vmbus_drv.c. I'll be submitting a patch for that as soon as I figure out
-> a clean fix.
-> 
-> Michael
+On Tue, Jan 28, 2025 at 7:57=E2=80=AFAM <oushixiong1025@163.com> wrote:
+>
+> From: Shixiong Ou <oushixiong@kylinos.cn>
+>
+> Convert platform_get_resource(), devm_ioremap_resource() to a single
+> call to devm_platform_ioremap_resource().
+>
+> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+> ---
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers=
+/gpu/drm/bridge/analogix/analogix_dp_core.c
+> index bfa88409a7ff..f6e4bdc05ba0 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> @@ -1553,7 +1553,6 @@ analogix_dp_probe(struct device *dev, struct analog=
+ix_dp_plat_data *plat_data)
+>  {
+>         struct platform_device *pdev =3D to_platform_device(dev);
+>         struct analogix_dp_device *dp;
+> -       struct resource *res;
+>         unsigned int irq_flags;
+>         int ret;
+>
+> @@ -1605,9 +1604,7 @@ analogix_dp_probe(struct device *dev, struct analog=
+ix_dp_plat_data *plat_data)
+>                 return ERR_CAST(dp->clock);
+>         }
+>
+> -       res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -
+> -       dp->reg_base =3D devm_ioremap_resource(&pdev->dev, res);
+> +       dp->reg_base =3D devm_platform_ioremap_resource(pdev, 0);
+>         if (IS_ERR(dp->reg_base)) {
+>                 ret =3D PTR_ERR(dp->reg_base);
+>                 goto err_disable_clk;
+> --
+> 2.43.0
+>
 
-This is on local Hyper-V. Kernel: 6.14.0-rc1-next-20250205+
-I run below command to reproduce the above error:
-echo "5620e0c7-8062-4dce-aeb7-520c7ef76171" > /sys/bus/vmbus/devices/5620e0c7-8062-4dce-aeb7-520c7ef76171/driver/unbind
-
-When hvfb_remove is called I can see the refcount for framebuffer is 2 when ,
-I expect it to be 1. After unregistering this framebuffer there is still 1 refcount
-remains, which is the reason for this WARN at the time of framebuffer_release.
-
-I wonder who is registering/using this extra framebuffer. Its not hyperv_drm or
-hyperv_fb IIUC.
-
-- Saurabh
+Reviewed-by: Robert Foss <rfoss@kernel.org>
