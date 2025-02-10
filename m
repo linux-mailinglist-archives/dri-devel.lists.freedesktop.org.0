@@ -2,44 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0878AA2EDBB
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25836A2EDAB
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:26:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6785F10E536;
-	Mon, 10 Feb 2025 13:27:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8715E10E530;
+	Mon, 10 Feb 2025 13:26:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j1Z/xFYL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="dmik5K9W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 359FC10E536
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:27:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0FE3D5C56B5;
- Mon, 10 Feb 2025 13:26:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E144BC4CEE6;
- Mon, 10 Feb 2025 13:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739194032;
- bh=EE3dNkaD5/waVj7QISSpofyEw0hS9uzOsr6COSDD5TI=;
- h=Subject:To:Cc:From:Date:From;
- b=j1Z/xFYL+QifVF94ftRBce7kSqxeL17lqBKz3BWP/DQsoiY+Les8LvjQxKayXNxAf
- GeqFO3sei6iQ8593aUIwRNlQRNigcBnpoaAXX2PGeExJ69crKdMMo8GORVvkuSchk+
- hqhwqVHyIbKSbJnWKBe1CquXir1mG2no7hl16Gzs=
-Subject: Patch "m68k: vga: Fix I/O defines" has been added to the 6.6-stable
- tree
-To: deller@gmx.de, dri-devel@lists.freedesktop.org, geert@linux-m68k.org,
- gregkh@linuxfoundation.org, lkp@intel.com, tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 10 Feb 2025 14:23:45 +0100
-Message-ID: <2025021045-rental-mushiness-4706@gregkh>
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC92710E530
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:26:26 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPA id 8DC88204DB;
+ Mon, 10 Feb 2025 13:26:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1739193985;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NRhOS8sOlpVsUYb5XVfm/t0X9liLh/hHnaqEK22vnb4=;
+ b=dmik5K9W7cSqp13sEv8rfY2LLmZwenKo+xjmCW3HdNL6ft0M4erCgl+EcamI7VuuUPEVva
+ R3TDL3cJRmqOtQ5ldViLX0hhSnaeFp3tC8JKZkXpIVmgbnx1L3YQF836EHo/YObPjcmE4G
+ j/mix2j8dErKpGkIS10ZD+srj2ayLpuf5NloCmjkFZMWEuVOoUEPLvYMDalJvI+G4KAEQN
+ R8LvhfKLnoNJyB3rrPx6hjc+HJ19ewhcV85Udunfg26qcIqys7oLyPzC9Ilj6JkKSDfDse
+ keku70rc9aQLjdVCcs9j3TetRsVkbm0AzKFjCnoZWgbbQX48Gn03JS7sQEyLeQ==
+From: Herve Codina <herve.codina@bootlin.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Marek Vasut <marex@denx.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Louis Chauvet <louis.chauvet@bootlin.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Herve Codina <herve.codina@bootlin.com>
+Subject: [PATCH v6 0/4] Add support for errors recovery in the TI SN65DSI83
+ bridge driver
+Date: Mon, 10 Feb 2025 14:26:15 +0100
+Message-ID: <20250210132620.42263-1-herve.codina@bootlin.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefkedukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefjvghrvhgvucevohguihhnrgcuoehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepleetudffledtvddtffegudfgjeffgeegkeehjeeigffgieevhfekffehheehieeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplhhotggrlhhhohhsthdrlhhotggrlhguohhmrghinhdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtoheprghlvgigrghnuggvrhdrshhtvghinhesvgifrdhtqhdqghhrohhuphdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdro
+ hhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
+X-GND-Sasl: herve.codina@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,109 +78,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-This is a note to let you know that I've just added the patch titled
+Usually the TI SN65DSI83 recovers from error by itself but during ESD
+tests, we have some cases where the TI SN65DSI83 didn't recover.
 
-    m68k: vga: Fix I/O defines
+In order to handle those cases, this series adds support for a recovery
+mechanism.
 
-to the 6.6-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Compare to the previous iteration, this v6 series fixes a NULL
+pointer dereference.
 
-The filename of the patch is:
-     m68k-vga-fix-i-o-defines.patch
-and it can be found in the queue-6.6 subdirectory.
+Best regards,
+Hervé Codina
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+Changes v5 -> v6
+  v5: https://lore.kernel.org/lkml/20250203161607.223731-1-herve.codina@bootlin.com/
 
+  - Patch 1:
+    No change
 
-From 53036937a101b5faeaf98e7438555fa854a1a844 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Tue, 7 Jan 2025 10:58:56 +0100
-Subject: m68k: vga: Fix I/O defines
+  - Patch 2
+    Add 'Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>'
+    Add 'Reviewed-by: Maxime Ripard <mripard@kernel.org>'
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+  - Patch 3
+    Add 'Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>'
+    Add 'Reviewed-by: Maxime Ripard <mripard@kernel.org>'
 
-commit 53036937a101b5faeaf98e7438555fa854a1a844 upstream.
+  - Patch 4
+    Add 'Reviewed-by: Maxime Ripard <mripard@kernel.org>'
+    Fix a NULL pointer dereference reported by Alexander Stein in v5.
+    Mode the dev_warn() signaling the pipe reset closer to the pipe
+    reset operation itfelf.
 
-Including m68k's <asm/raw_io.h> in vga.h on nommu platforms results
-in conflicting defines with io_no.h for various I/O macros from the
-__raw_read and __raw_write families. An example error is
+Changes v4 -> v5
+  v4: https://lore.kernel.org/lkml/20250203145824.155869-1-herve.codina@bootlin.com/
 
-   In file included from arch/m68k/include/asm/vga.h:12,
-                 from include/video/vga.h:22,
-                 from include/linux/vgaarb.h:34,
-		 from drivers/video/aperture.c:12:
->> arch/m68k/include/asm/raw_io.h:39: warning: "__raw_readb" redefined
-      39 | #define __raw_readb in_8
-	 |
-   In file included from arch/m68k/include/asm/io.h:6,
-		    from include/linux/io.h:13,
-		    from include/linux/irq.h:20,
-		    from include/asm-generic/hardirq.h:17,
-		    from ./arch/m68k/include/generated/asm/hardirq.h:1,
-		    from include/linux/hardirq.h:11,
-		    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-		    from include/linux/ftrace.h:10,
-		    from include/linux/kprobes.h:28,
-		    from include/linux/kgdb.h:19,
-		    from include/linux/fb.h:6,
-		    from drivers/video/aperture.c:5:
-   arch/m68k/include/asm/io_no.h:16: note: this is the location of the previous definition
-      16 | #define __raw_readb(addr) \
-	 |
+  Exact same changes as the v4. The v4 series doesn't apply on top of
+  v6.14-rc1 and should be simply ignore.
+  This v5 series is the v4 fixed to apply on top of v6.14-rc1.
 
-Include <asm/io.h>, which avoids raw_io.h on nommu platforms.
-Also change the defined values of some of the read/write symbols in
-vga.h to __raw_read/__raw_write as the raw_in/raw_out symbols are not
-generally available.
+Changes v3 -> v4
+  v3: https://lore.kernel.org/lkml/20250108101907.410456-1-herve.codina@bootlin.com/
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501071629.DNEswlm8-lkp@intel.com/
-Fixes: 5c3f968712ce ("m68k/video: Create <asm/vga.h>")
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fbdev@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: Helge Deller <deller@gmx.de>
-Cc: stable@vger.kernel.org # v3.5+
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Link: https://lore.kernel.org/20250107095912.130530-1-tzimmermann@suse.de
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- arch/m68k/include/asm/vga.h |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+  - Patch 1:
+    No changes
 
---- a/arch/m68k/include/asm/vga.h
-+++ b/arch/m68k/include/asm/vga.h
-@@ -9,7 +9,7 @@
-  */
- #ifndef CONFIG_PCI
- 
--#include <asm/raw_io.h>
-+#include <asm/io.h>
- #include <asm/kmap.h>
- 
- /*
-@@ -29,9 +29,9 @@
- #define inw_p(port)		0
- #define outb_p(port, val)	do { } while (0)
- #define outw(port, val)		do { } while (0)
--#define readb			raw_inb
--#define writeb			raw_outb
--#define writew			raw_outw
-+#define readb			__raw_readb
-+#define writeb			__raw_writeb
-+#define writew			__raw_writew
- 
- #endif /* CONFIG_PCI */
- #endif /* _ASM_M68K_VGA_H */
+  - Patch 2 and 3 (patch 2 in v3):
+    Rename the helper to drm_atomic_helper_reset_crtc()
+    Split the patch available in v3 in two patches.
 
+  - Patch 4 (patch 3 in v3):
+    Take into account commit d2b8c6d549570 ("drm/bridge: ti-sn65dsi83:
+    Add ti,lvds-vod-swing optional properties"), available in v6.14-rc1.
+    Disable irq when a fault is detected and re-enable it after the pipe
+    reset.
+    Remove state duplication and use bridge.encoder->crtc directly
 
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
+Changes v2 -> v3
+  v2: https://lore.kernel.org/lkml/20241217143216.658461-1-herve.codina@bootlin.com/
 
-queue-6.6/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
-queue-6.6/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
-queue-6.6/m68k-vga-fix-i-o-defines.patch
+  - Patch 1:
+    No changes
+
+  - Patch 2 (new in v3)
+    Move reset_pipe() from VC4 HDMI driver to a new atomic helper
+
+  - Patch 3
+    Use the new drm_atomic_helper_reset_pipe()
+
+  Patch removed in v3
+    - Patch 2 in v2
+      No more needed
+
+Changes v1 -> v2
+  v1: https://lore.kernel.org/lkml/20241024095539.1637280-1-herve.codina@bootlin.com/
+
+  - Patch 1:
+    Add 'Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>'
+    Add 'Acked-by: Conor Dooley <conor.dooley@microchip.com>'
+
+  - Patch 2 (new patch in v2)
+    Introduce drm_atomic_helper_disable_connector()
+
+  - Patch 3 (patch 2 in v1)
+    Reset the output path instead of the full pipeline.
+    Update and add more information related to the bridge in commit log.
+
+Herve Codina (4):
+  dt-bindings: display: bridge: sn65dsi83: Add interrupt
+  drm/atomic-helper: Introduce drm_atomic_helper_reset_crtc()
+  drm/vc4: hdmi: Use drm_atomic_helper_reset_crtc()
+  drm: bridge: ti-sn65dsi83: Add error recovery mechanism
+
+ .../bindings/display/bridge/ti,sn65dsi83.yaml |   3 +
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c         | 142 ++++++++++++++++++
+ drivers/gpu/drm/drm_atomic_helper.c           |  41 +++++
+ drivers/gpu/drm/vc4/vc4_hdmi.c                |  30 +---
+ include/drm/drm_atomic_helper.h               |   2 +
+ 5 files changed, 189 insertions(+), 29 deletions(-)
+
+-- 
+2.48.1
+
