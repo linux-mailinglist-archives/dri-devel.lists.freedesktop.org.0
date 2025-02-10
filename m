@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E732CA2ECBE
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 13:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CCDA2ECC4
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 13:42:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D47F10E50A;
-	Mon, 10 Feb 2025 12:40:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D57810E1CE;
+	Mon, 10 Feb 2025 12:42:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="OxRUHTXd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ct/bFj+E";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3464210E50A
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 12:40:44 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
- id 0152B2107A86; Mon, 10 Feb 2025 04:40:43 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0152B2107A86
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1739191244;
- bh=hLZx6MVYBXXvnjTCLMRlelDAcLfnwQnhJR4gDFyvKdI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OxRUHTXdo4hKBQsXPqPNf/06aYINajw8CyomamMP2+qSvkuTZ1axpoHZejUQpqp0Y
- wOgyP8rvQFOPLNo6A/bbElQSh99T4nxkzV3xkdt7lxTp+/v/+Lxld35Qj8p937mb9z
- sqwAkGnnLb3VTphK6DGC1rWuespF43GI8DRJQEuU=
-Date: Mon, 10 Feb 2025 04:40:43 -0800
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: mhklinux@outlook.com
-Cc: haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
- deller@gmx.de, weh@microsoft.com, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH 1/1] fbdev: hyperv_fb: iounmap() the correct memory when
- removing a device
-Message-ID: <20250210124043.GA17819@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20250209235252.2987-1-mhklinux@outlook.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03FC010E1CE
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 12:42:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1739191341; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=JOHYl2wnY8YOmNPIwyF3HL6wRiLmx6xcDWtT9oxNu6ht4c4nbbeoPr7cDQZxmglNDPuNXngjWQyb8RpE8Jccx8APnPnyQzHwpadHlHADUXjzb5rFiXP74/RLSlAp/GnWFSl4uMA9EAiO9tbvv7HzECN47bgsEOWY9hPiX9Kn9Ks=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1739191341;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=EEk9G+Ux1ply8jWO7j616jY5pUhVWV7F4NM9VKJqnxw=; 
+ b=hCajw5erq3RA8BBGeCdb33XT+q7rHwUh/ymKhH7smwrUQms2kNvqgTUoQ+9YqB4bgFEny3iEwDudC91RCUJuiQvRX5MtXqp97jYqqZ+MUVDdvwAdUZwa5hYhBWS4To3A2/HFOEkcvdliy4plAVu+Y+M+CYqmGlBtNcBk+fA9dKM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+ dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739191341; 
+ s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=EEk9G+Ux1ply8jWO7j616jY5pUhVWV7F4NM9VKJqnxw=;
+ b=ct/bFj+EAJNSN7udS/JNb4eb/UTPMFLyxe+l1nRsE/R+Lt2MHQeN8CPBzT9+lSRZ
+ uTJ18DC0BQUQBXZHuVvJLXUBAp+P07wZzVnanhRurD8cGHot7hz0Cgde6lb8Y+8L2ca
+ OVJUrHf7IJ6ODPcUMIV0RMIGEed7ZGIN+W/HPoVk=
+Received: by mx.zohomail.com with SMTPS id 173919133701111.912604503558896;
+ Mon, 10 Feb 2025 04:42:17 -0800 (PST)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] drm/panthor: Replace sleep locks with spinlocks in fdinfo
+ path
+Date: Mon, 10 Feb 2025 12:41:59 +0000
+Message-ID: <20250210124203.124191-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250209235252.2987-1-mhklinux@outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,74 +70,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Feb 09, 2025 at 03:52:52PM -0800, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
-> 
-> When a Hyper-V framebuffer device is removed, or the driver is unbound
-> from a device, any allocated and/or mapped memory must be released. In
-> particular, MMIO address space that was mapped to the framebuffer must
-> be unmapped. Current code unmaps the wrong address, resulting in an
-> error like:
-> 
-> [ 4093.980597] iounmap: bad address 00000000c936c05c
-> 
-> followed by a stack dump.
-> 
-> Commit d21987d709e8 ("video: hyperv: hyperv_fb: Support deferred IO for
-> Hyper-V frame buffer driver") changed the kind of address stored in
-> info->screen_base, and the iounmap() call in hvfb_putmem() was not
-> updated accordingly.
-> 
-> Fix this by updating hvfb_putmem() to unmap the correct address.
-> 
-> Fixes: d21987d709e8 ("video: hyperv: hyperv_fb: Support deferred IO for Hyper-V frame buffer driver")
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> ---
->  drivers/video/fbdev/hyperv_fb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/video/fbdev/hyperv_fb.c b/drivers/video/fbdev/hyperv_fb.c
-> index 7fdb5edd7e2e..363e4ccfcdb7 100644
-> --- a/drivers/video/fbdev/hyperv_fb.c
-> +++ b/drivers/video/fbdev/hyperv_fb.c
-> @@ -1080,7 +1080,7 @@ static void hvfb_putmem(struct hv_device *hdev, struct fb_info *info)
->  
->  	if (par->need_docopy) {
->  		vfree(par->dio_vp);
-> -		iounmap(info->screen_base);
-> +		iounmap(par->mmio_vp);
->  		vmbus_free_mmio(par->mem->start, screen_fb_size);
->  	} else {
->  		hvfb_release_phymem(hdev, info->fix.smem_start,
-> -- 
-> 2.25.1
-> 
+Panthor's fdinfo handler is routed through the /proc file system, which
+executes in an atomic context. That means we cannot use mutexes because
+they might sleep.
 
-Thanks for fixing this:
-Reviewed-by: Saurabh Sengar <ssengar@linux.microsoft.com>
+This bug was uncovered by enabling some of the kernel's mutex-debugging
+features:
 
+CONFIG_DEBUG_RT_MUTEXES=y
+CONFIG_DEBUG_MUTEXES=y
 
-While we are at it, I want to mention that I also observed below WARN
-while removing the hyperv_fb, but that needs a separate fix.
+Replace Panthor's group fdinfo data mutex with a guarded spinlock.
 
+Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Fixes: e16635d88fa0 ("drm/panthor: add DRM fdinfo support")
+---
+ drivers/gpu/drm/panthor/panthor_sched.c | 26 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-[   44.111220] WARNING: CPU: 35 PID: 1882 at drivers/video/fbdev/core/fb_info.c:70 framebuffer_release+0x2c/0x40
-< snip >
-[   44.111289] Call Trace:
-[   44.111290]  <TASK>
-[   44.111291]  ? show_regs+0x6c/0x80
-[   44.111295]  ? __warn+0x8d/0x150
-[   44.111298]  ? framebuffer_release+0x2c/0x40
-[   44.111300]  ? report_bug+0x182/0x1b0
-[   44.111303]  ? handle_bug+0x6e/0xb0
-[   44.111306]  ? exc_invalid_op+0x18/0x80
-[   44.111308]  ? asm_exc_invalid_op+0x1b/0x20
-[   44.111311]  ? framebuffer_release+0x2c/0x40
-[   44.111313]  ? hvfb_remove+0x86/0xa0 [hyperv_fb]
-[   44.111315]  vmbus_remove+0x24/0x40 [hv_vmbus]
-[   44.111323]  device_remove+0x40/0x80
-[   44.111325]  device_release_driver_internal+0x20b/0x270
-[   44.111327]  ? bus_find_device+0xb3/0xf0
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 0b93bf83a9b2..7a267d1efeb6 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -9,6 +9,7 @@
+ #include <drm/panthor_drm.h>
+ 
+ #include <linux/build_bug.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+@@ -631,10 +632,10 @@ struct panthor_group {
+ 		struct panthor_gpu_usage data;
+ 
+ 		/**
+-		 * @lock: Mutex to govern concurrent access from drm file's fdinfo callback
+-		 * and job post-completion processing function
++		 * @fdinfo.lock: Spinlock to govern concurrent access from drm file's fdinfo
++		 * callback and job post-completion processing function
+ 		 */
+-		struct mutex lock;
++		spinlock_t lock;
+ 
+ 		/** @fdinfo.kbo_sizes: Aggregate size of private kernel BO's held by the group. */
+ 		size_t kbo_sizes;
+@@ -910,8 +911,6 @@ static void group_release_work(struct work_struct *work)
+ 						   release_work);
+ 	u32 i;
+ 
+-	mutex_destroy(&group->fdinfo.lock);
+-
+ 	for (i = 0; i < group->queue_count; i++)
+ 		group_free_queue(group, group->queues[i]);
+ 
+@@ -2861,12 +2860,12 @@ static void update_fdinfo_stats(struct panthor_job *job)
+ 	struct panthor_job_profiling_data *slots = queue->profiling.slots->kmap;
+ 	struct panthor_job_profiling_data *data = &slots[job->profiling.slot];
+ 
+-	mutex_lock(&group->fdinfo.lock);
+-	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
+-		fdinfo->cycles += data->cycles.after - data->cycles.before;
+-	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
+-		fdinfo->time += data->time.after - data->time.before;
+-	mutex_unlock(&group->fdinfo.lock);
++	scoped_guard(spinlock, &group->fdinfo.lock) {
++		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
++			fdinfo->cycles += data->cycles.after - data->cycles.before;
++		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
++			fdinfo->time += data->time.after - data->time.before;
++	}
+ }
+ 
+ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+@@ -2880,12 +2879,11 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+ 
+ 	xa_lock(&gpool->xa);
+ 	xa_for_each(&gpool->xa, i, group) {
+-		mutex_lock(&group->fdinfo.lock);
++		guard(spinlock)(&group->fdinfo.lock);
+ 		pfile->stats.cycles += group->fdinfo.data.cycles;
+ 		pfile->stats.time += group->fdinfo.data.time;
+ 		group->fdinfo.data.cycles = 0;
+ 		group->fdinfo.data.time = 0;
+-		mutex_unlock(&group->fdinfo.lock);
+ 	}
+ 	xa_unlock(&gpool->xa);
+ }
+@@ -3531,7 +3529,7 @@ int panthor_group_create(struct panthor_file *pfile,
+ 	mutex_unlock(&sched->reset.lock);
+ 
+ 	add_group_kbo_sizes(group->ptdev, group);
+-	mutex_init(&group->fdinfo.lock);
++	spin_lock_init(&group->fdinfo.lock);
+ 
+ 	return gid;
+ 
 
-- Saurabh
+base-commit: 2eca617f12586abff62038db1c14cb3aa60a15aa
+prerequisite-patch-id: 7e787ce5973b5fc7e9f69f26aa4d7e5ec03d5caa
+prerequisite-patch-id: 03a619b8c741444b28435850e23d9ec463171c13
+prerequisite-patch-id: 290e1053f8bf4a8b80fb037a87cae7e096b5aa96
+prerequisite-patch-id: bc49bb8c29905650fb4788acc528bb44013c0240
+prerequisite-patch-id: 46cab4c980824c03e5164afc43085fec23e1cba5
+-- 
+2.47.1
 
