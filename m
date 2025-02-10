@@ -2,87 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75D8A2E808
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 10:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11AE5A2E811
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 10:43:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E59E10E4D8;
-	Mon, 10 Feb 2025 09:41:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF38510E4DD;
+	Mon, 10 Feb 2025 09:43:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="L9CyqPwW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sa87ltDx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D631A10E4E0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 09:41:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739180505; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=IfHW7GFSUcnRcnjhWuX8VdC/+6QgIk+O1MALlIIYMzbmQmTTaHpbRbOF4a3uLTIWaSDn0bo5yx16kIGK6v+kxxH7TimnRnReKsIHQLb09GDMSbVlcS6j/+XM/ngIALNhB677N7kyyJrBRZOCXCdMOlnDE+aQNf4zGGMwk1FwxkQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739180505;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=qBBDYZU7g9PDMRClvZSe7s7VQGUjY5ZJRuGo2wh0uUg=; 
- b=hGmBetWBHuk0+d1qX8x9ZCDJHRR4U2wRa36efra3TA/6ApvbzB2ty81ni8vbebPgi+Jk9i9P4RTzNZNVuB0/rJJvbCBnnbyJJJRYQPMRiXZhRusr/AEVEGo66Nd6L5Zb1DaYi/KgXCYp1zZ5OEryWyqjVZNyfLm7oA5KBQmaws0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739180505; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=qBBDYZU7g9PDMRClvZSe7s7VQGUjY5ZJRuGo2wh0uUg=;
- b=L9CyqPwWuH/dRvDgQQmY5y3YYDn7FxyFX/jzjg/z7d3yuEBumKn/t1WqKqQyri+c
- +PKIIuEa4oQmxS5Opo7gjRFALhFYegk5thuHdNREW5LMnNSfMjvI9hNZfKWniaXgBYZ
- zCQXaKwHUo1a6xlQZOWgV0gXL2nxfl9GPXvi/lADVaJ1pMszP624B+bbfNYtFMIETOL
- xX+qAcYAGTQODu7leHTMo8H/sj7wXmdoeEwol/DL8P3CGG/cCPw2PEObYKaVHhT43rC
- vVC/ZHTZ/GD7xol4ldQDAF4Ie+tYycuSsmdp90iSLOjDNgHIwOEqnLao29s8OkvuwkN
- VctmgfoeqA==
-Received: by mx.zohomail.com with SMTPS id 1739180501879330.0271224021237;
- Mon, 10 Feb 2025 01:41:41 -0800 (PST)
-Message-ID: <07c447b77bdac1f8ade1f93456f853f89d4842ee.camel@icenowy.me>
-Subject: Re: On community influencing (was Re: [PATCH v8 2/2] rust: add dma
- coherent allocator abstraction.)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Hector Martin <marcan@marcan.st>, Steven Rostedt <rostedt@goodmis.org>, 
- "Dr. Greg" <greg@enjellic.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Dave Airlie
- <airlied@gmail.com>, Jason Gunthorpe <jgg@nvidia.com>, Greg KH
- <gregkh@linuxfoundation.org>, phasta@kernel.org, Christoph Hellwig
- <hch@lst.de>,  Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda
- <miguel.ojeda.sandonis@gmail.com>, Abdiel Janulgue
- <abdiel.janulgue@gmail.com>, daniel.almeida@collabora.com,
- aliceryhl@google.com,  robin.murphy@arm.com,
- rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Alex
- Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, Bj??rn Roy Baron <bjorn3_gh@protonmail.com>, Benno
- Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Valentin Obst <kernel@valentinobst.de>,
- open list <linux-kernel@vger.kernel.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>, airlied@redhat.com, "open list:DMA MAPPING
- HELPERS" <iommu@lists.linux.dev>, DRI Development
- <dri-devel@lists.freedesktop.org>
-Date: Mon, 10 Feb 2025 17:41:30 +0800
-In-Reply-To: <1e8452ab-613a-4c85-adc0-0c4a293dbf50@marcan.st>
-References: <2025013030-gummy-cosmic-7927@gregkh>
- <20250130172437.GN5556@nvidia.com>
- <2025013148-reversal-pessimism-1515@gregkh>
- <20250131135421.GO5556@nvidia.com>
- <2b9b75d1-eb8e-494a-b05f-59f75c92e6ae@marcan.st>
- <Z6OzgBYZNJPr_ZD1@phenom.ffwll.local>
- <CAPM=9tzPR9wd=3Wbjnp-T0W8-dDfGah-H3Ny52G85B+2Ev9ksA@mail.gmail.com>
- <208e1fc3-cfc3-4a26-98c3-a48ab35bb9db@marcan.st>
- <CAHk-=wi=ZmP2=TmHsFSUGq8vUZAOWWSK1vrJarMaOhReDRQRYQ@mail.gmail.com>
- <20250207121638.GA7356@wind.enjellic.com>
- <Z6bdCrgGEq8Txd-s@home.goodmis.org>
- <1e8452ab-613a-4c85-adc0-0c4a293dbf50@marcan.st>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6209210E4DD
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 09:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739180614; x=1770716614;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=0pUNFOEBOA/bUdc92ju0BJmYOTZUzllU9khd7afAmBk=;
+ b=Sa87ltDxS8HYG0otW5hWUsqW5srPJLFDAG4+CiTIkrLaapVZbbxr/HDe
+ KPzmGyvAiTmzTqce/3bhR0oBSTZSxtQw2FnogyT0h1w/jPONsaYK45E2A
+ 4BJlTDGxymkMmsJiY5wDmSqYgzdAio5VsyFE/JyJ/dcU/wS4z5P1bjC92
+ 4+RwYoMSYCOlPV2DuYZYphClqVP1FU5+zLHlIIr5NJ25VL7yP84i5+4kM
+ jJ38Xr+nrfim4JvRpSJdiqIPOcUtuL1rGDLVKktRJrtVIt2nQxQnPX9ac
+ HvredeICGntXEBYCR40M1gooDLvXx7HModRhFBpULm5siSQumY1xXKc5v w==;
+X-CSE-ConnectionGUID: aRLP84L5TVS4R+FBSrZCVA==
+X-CSE-MsgGUID: u/Eo8MQlQtyP9Kgmvq8B5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11340"; a="50737154"
+X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; d="scan'208";a="50737154"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2025 01:43:33 -0800
+X-CSE-ConnectionGUID: O7W/l4usSU6qZYIIoAae/Q==
+X-CSE-MsgGUID: pcTRZCcsSBeLLVNUDYD+7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="116208180"
+Received: from mgorski-mobl1.ger.corp.intel.com (HELO [10.245.84.116])
+ ([10.245.84.116])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Feb 2025 01:43:29 -0800
+Message-ID: <43eb87f7-0d47-43a7-b34a-9180f50de3b2@linux.intel.com>
+Date: Mon, 10 Feb 2025 10:43:25 +0100
 MIME-Version: 1.0
-X-ZohoMailClient: External
-X-ZohoMail-Owner: <07c447b77bdac1f8ade1f93456f853f89d4842ee.camel@icenowy.me>+zmo_0_
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] accel/amdxdna: Add missing include linux/slab.h
+To: Su Hui <suhui@nfschina.com>, min.ma@amd.com, lizhi.hou@amd.com,
+ ogabbay@kernel.org
+Cc: quic_jhugo@quicinc.com, George.Yang@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <20250208080548.1062441-1-suhui@nfschina.com>
+Content-Language: en-US
+From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20250208080548.1062441-1-suhui@nfschina.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,35 +75,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2025-02-08=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 17:31 +0900=EF=BC=
-=8CHector Martin=E5=86=99=E9=81=93=EF=BC=9A
->=20
-> By kernel and mesa policy, while a drm/ kernel driver is not merged
-> with
-> a stable UAPI, the mesa side cannot be merged/enabled either. That
-> means
-> that every day the driver isn't upstream, our users suffer due to
-> various container technologies not shipping the driver in userspace
-> since they ship upstream mesa.
->=20
-> The process is *designed* to encourage upstreaming early and *punish*
-> downstream trees.
+Hi,
 
-Well, at least some Mesa drivers are developed against some "vendor"
-(even not community downstream) kernel drivers, e.g. powervr one;
-although in the Asahi case there's no such vendor thing (because the HW
-vendor is Darwin-only). In addition, I think at least some early
-etnaviv development is based on drm/etnaviv drivers w/ in-kernel
-version code earlier than the first in-kernel-tree version code (Well
-drm version code rarely changes, but I think in the case of etnaviv it
-really represents the UAPI).
+please move the header to the include block above an keep it sorted:
+#include <linux/iopoll.h>
+-->#include <linux/slab.h><--
+#include <linux/xarray.h>
 
-Furtherly, the monorepo nature of Linux kernel means to refactor an
-interface, it's usually the person changing the callee that need to
-change all callers to satify the interface change; having Rust code in
-tree calling the interface effectively means adding the responsibility
-of fixing the Rust code when the interface changes, which could be not
-acceptable by the C-only maintainers. In regards of adding a
-maintainer, having more maintainers means more communication. The
-situation of the current problem really shows how difficult
-communication is, right?
+
+On 2/8/2025 9:05 AM, Su Hui wrote:
+> When compiling without CONFIG_IA32_EMULATION, there are some errors:
+> 
+> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘mailbox_release_msg’:
+> drivers/accel/amdxdna/amdxdna_mailbox.c:197:2: error: implicit declaration
+> of function ‘kfree’.
+>   197 |  kfree(mb_msg);
+>       |  ^~~~~
+> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘xdna_mailbox_send_msg’:
+> drivers/accel/amdxdna/amdxdna_mailbox.c:418:11: error:implicit declaration
+> of function ‘kzalloc’.
+>   418 |  mb_msg = kzalloc(sizeof(*mb_msg) + pkg_size, GFP_KERNEL);
+>       |           ^~~~~~~
+> 
+> Add the missing include.
+> 
+> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
+> ---
+>  drivers/accel/amdxdna/amdxdna_mailbox.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> index 814b16bb1953..80b4b20addd6 100644
+> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> @@ -12,6 +12,7 @@
+>  
+>  #define CREATE_TRACE_POINTS
+>  #include <trace/events/amdxdna.h>
+> +#include <linux/slab.h>
+>  
+>  #include "amdxdna_mailbox.h"
+>  
+
