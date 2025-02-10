@@ -2,51 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CF9A2EC68
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 13:23:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F79A2EC7C
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 13:31:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8409510E4FE;
-	Mon, 10 Feb 2025 12:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE3F810E500;
+	Mon, 10 Feb 2025 12:31:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="J7PsWrE8";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zSnP4GIN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24BCD10E516
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 12:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=+NiY+ixs91EHQR2WgaoD/CErzRjNV8cXWlDAVc4ZbpI=; b=J7PsWrE802VaedbFVuoCz+vCH+
- xsjxV8uPaY9/ovKx2kwvF1vFylLTGpSDKUTmYbDgpZ7WBDIAA6B5gp1BJopCvUAS3JsNs1js+VJxY
- aSCuLmou2HjdgNjDt7dK3jq9J/e79G5r5k7h6tMSbp24L9txErLhGtRYsWCF4tDZl8CsPyK0CqsHu
- cPBJvIDqCu5vK4tR8vIV+g2z8ozfEj0rewlyq+9tTiMP9PNs8jVVO9LkkH7Gcb9a6bWgqJlHd/LTV
- K62CbQzJp/bnGWAkeB0CEQZjGBPHFu8t3x7nOYHU8okxTfN1dTzCzmMXoIjB8t6CaTPeUxTM8VGsh
- SRbjcHzw==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1thSor-007F0J-SK; Mon, 10 Feb 2025 13:23:28 +0100
-Message-ID: <e1bd620c-a5d7-47f8-bc07-c41418c0c34c@igalia.com>
-Date: Mon, 10 Feb 2025 09:23:21 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Add clock handling
-To: Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC87810E500
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 12:31:08 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 1C801A412BC;
+ Mon, 10 Feb 2025 12:29:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF608C4CED1;
+ Mon, 10 Feb 2025 12:31:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1739190667;
+ bh=pWRLjocutdCFxXvJFQEsMLSPARjs8b4om3edNKnxS1E=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=zSnP4GINNaV6lNBT3WlBj3SHZhTpfp37dSy4K6R+XLFpnNifv1mjj/h0Pfr2rtTlv
+ G6EU/KoI5GL4KhgMP3ZU00V5mS1RKVvrySK+Ktlr8OPGX9Gfvl88VhxY5tKeHrP0Fb
+ cXndboc6J4BU3gWIkeZuwjQ+Z+B0rl42EwfmRXUg=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+ Mark Brown <broonie@kernel.org>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Zijun Hu <quic_zijuhu@quicinc.com>,
+ linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
-References: <20250201125046.33030-1-wahrenst@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250201125046.33030-1-wahrenst@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 8/9] drm/vgem/vgem_drv convert to use faux_device
+Date: Mon, 10 Feb 2025 13:30:32 +0100
+Message-ID: <2025021028-brigade-create-37de@gregkh>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <2025021023-sandstorm-precise-9f5d@gregkh>
+References: <2025021023-sandstorm-precise-9f5d@gregkh>
+MIME-Version: 1.0
+Lines: 108
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3504;
+ i=gregkh@linuxfoundation.org; h=from:subject:message-id;
+ bh=pWRLjocutdCFxXvJFQEsMLSPARjs8b4om3edNKnxS1E=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDOkrP6bsFpE7+LnzzakdWn95NRNu6BzSTOuu2fOv+USIm
+ fiW6pXvO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiG2QY5mc7+HPe9tGRYrLS
+ aj+trF8W+eXrf4YFV5f53NFha9x6a3fa1eiuf72hj+r6AQ==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,117 +77,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+The vgem driver does not need to create a platform device, as there is
+no real platform resources associated it,  it only did so because it was
+simple to do that in order to get a device to use for resource
+management of drm resources.  Change the driver to use the faux device
+instead as this is NOT a real platform device.
 
-Thanks for your patch!
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+v4: - api tweaked due to parent pointer added to faux_device create
+      function.
+ v3: new patch in the series.  For an example of the api working, does
+     not have to be merged at this time, but I can take it if the
+     maintainers give an ack.
+ drivers/gpu/drm/vgem/vgem_drv.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-On 01/02/25 09:50, Stefan Wahren wrote:
-> Since the initial commit 57692c94dcbe ("drm/v3d: Introduce a new DRM driver
-> for Broadcom V3D V3.x+") the struct v3d_dev reserved a pointer for
-> an optional V3D clock. But there wasn't any code, which fetched it.
-> So add the missing clock handling before accessing any V3D registers.
-
-Actually, I believe we should remove `v3d->clk`. In the past, we used
-`v3d->clk` for PM management, but we removed PM management a while ago
-(it was somewhat broken).
-
-I believe the best move would be to remove `v3d->clk`. If we decide to
-use the clock at some point, we can reintroduce the variable to the
-struct. Right now, it doesn't make sense to add clock handling if we
-don't use it.
-
-Let me know if you have any use case for this variable. If you have,
-then we can add clock handling.
-
-Best Regards,
-- Maíra
-
-> 
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->   drivers/gpu/drm/v3d/v3d_drv.c | 25 ++++++++++++++++++++-----
->   1 file changed, 20 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_drv.c
-> index 930737a9347b..852015214e97 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> @@ -295,11 +295,21 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->   	if (ret)
->   		return ret;
-> 
-> +	v3d->clk = devm_clk_get_optional(dev, NULL);
-> +	if (IS_ERR(v3d->clk))
-> +		return dev_err_probe(dev, PTR_ERR(v3d->clk), "Failed to get V3D clock\n");
-> +
-> +	ret = clk_prepare_enable(v3d->clk);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Couldn't enable the V3D clock\n");
-> +		return ret;
-> +	}
-> +
->   	mmu_debug = V3D_READ(V3D_MMU_DEBUG_INFO);
->   	mask = DMA_BIT_MASK(30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_PA_WIDTH));
->   	ret = dma_set_mask_and_coherent(dev, mask);
->   	if (ret)
-> -		return ret;
-> +		goto clk_disable;
-> 
->   	v3d->va_width = 30 + V3D_GET_FIELD(mmu_debug, V3D_MMU_VA_WIDTH);
-> 
-> @@ -319,28 +329,29 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->   		ret = PTR_ERR(v3d->reset);
-> 
->   		if (ret == -EPROBE_DEFER)
-> -			return ret;
-> +			goto clk_disable;
-> 
->   		v3d->reset = NULL;
->   		ret = map_regs(v3d, &v3d->bridge_regs, "bridge");
->   		if (ret) {
->   			dev_err(dev,
->   				"Failed to get reset control or bridge regs\n");
-> -			return ret;
-> +			goto clk_disable;
->   		}
->   	}
-> 
->   	if (v3d->ver < 41) {
->   		ret = map_regs(v3d, &v3d->gca_regs, "gca");
->   		if (ret)
-> -			return ret;
-> +			goto clk_disable;
->   	}
-> 
->   	v3d->mmu_scratch = dma_alloc_wc(dev, 4096, &v3d->mmu_scratch_paddr,
->   					GFP_KERNEL | __GFP_NOWARN | __GFP_ZERO);
->   	if (!v3d->mmu_scratch) {
->   		dev_err(dev, "Failed to allocate MMU scratch page\n");
-> -		return -ENOMEM;
-> +		ret = -ENOMEM;
-> +		goto clk_disable;
->   	}
-> 
->   	ret = v3d_gem_init(drm);
-> @@ -369,6 +380,8 @@ static int v3d_platform_drm_probe(struct platform_device *pdev)
->   	v3d_gem_destroy(drm);
->   dma_free:
->   	dma_free_wc(dev, 4096, v3d->mmu_scratch, v3d->mmu_scratch_paddr);
-> +clk_disable:
-> +	clk_disable_unprepare(v3d->clk);
->   	return ret;
->   }
-> 
-> @@ -386,6 +399,8 @@ static void v3d_platform_drm_remove(struct platform_device *pdev)
-> 
->   	dma_free_wc(v3d->drm.dev, 4096, v3d->mmu_scratch,
->   		    v3d->mmu_scratch_paddr);
-> +
-> +	clk_disable_unprepare(v3d->clk);
->   }
-> 
->   static struct platform_driver v3d_platform_driver = {
-> --
-> 2.34.1
-> 
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+index 2752ab4f1c97..260c64733972 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -32,7 +32,7 @@
+ 
+ #include <linux/dma-buf.h>
+ #include <linux/module.h>
+-#include <linux/platform_device.h>
++#include <linux/device/faux.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/vmalloc.h>
+ 
+@@ -52,7 +52,7 @@
+ 
+ static struct vgem_device {
+ 	struct drm_device drm;
+-	struct platform_device *platform;
++	struct faux_device *faux_dev;
+ } *vgem_device;
+ 
+ static int vgem_open(struct drm_device *dev, struct drm_file *file)
+@@ -127,27 +127,27 @@ static const struct drm_driver vgem_driver = {
+ static int __init vgem_init(void)
+ {
+ 	int ret;
+-	struct platform_device *pdev;
++	struct faux_device *fdev;
+ 
+-	pdev = platform_device_register_simple("vgem", -1, NULL, 0);
+-	if (IS_ERR(pdev))
+-		return PTR_ERR(pdev);
++	fdev = faux_device_create("vgem", NULL, NULL);
++	if (!fdev)
++		return -ENODEV;
+ 
+-	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
++	if (!devres_open_group(&fdev->dev, NULL, GFP_KERNEL)) {
+ 		ret = -ENOMEM;
+ 		goto out_unregister;
+ 	}
+ 
+-	dma_coerce_mask_and_coherent(&pdev->dev,
++	dma_coerce_mask_and_coherent(&fdev->dev,
+ 				     DMA_BIT_MASK(64));
+ 
+-	vgem_device = devm_drm_dev_alloc(&pdev->dev, &vgem_driver,
++	vgem_device = devm_drm_dev_alloc(&fdev->dev, &vgem_driver,
+ 					 struct vgem_device, drm);
+ 	if (IS_ERR(vgem_device)) {
+ 		ret = PTR_ERR(vgem_device);
+ 		goto out_devres;
+ 	}
+-	vgem_device->platform = pdev;
++	vgem_device->faux_dev = fdev;
+ 
+ 	/* Final step: expose the device/driver to userspace */
+ 	ret = drm_dev_register(&vgem_device->drm, 0);
+@@ -157,19 +157,19 @@ static int __init vgem_init(void)
+ 	return 0;
+ 
+ out_devres:
+-	devres_release_group(&pdev->dev, NULL);
++	devres_release_group(&fdev->dev, NULL);
+ out_unregister:
+-	platform_device_unregister(pdev);
++	faux_device_destroy(fdev);
+ 	return ret;
+ }
+ 
+ static void __exit vgem_exit(void)
+ {
+-	struct platform_device *pdev = vgem_device->platform;
++	struct faux_device *fdev = vgem_device->faux_dev;
+ 
+ 	drm_dev_unregister(&vgem_device->drm);
+-	devres_release_group(&pdev->dev, NULL);
+-	platform_device_unregister(pdev);
++	devres_release_group(&fdev->dev, NULL);
++	faux_device_destroy(fdev);
+ }
+ 
+ module_init(vgem_init);
+-- 
+2.48.1
 
