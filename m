@@ -2,54 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 193EFA2ED3B
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD0EA2ED43
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:10:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC3E10E523;
-	Mon, 10 Feb 2025 13:08:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1125010E521;
+	Mon, 10 Feb 2025 13:10:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="nZ3bRND1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ioi04qgm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4773810E523
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739192935;
- bh=MfQty2qrQTi8a54QC8J/NxJbBWw8bzpg0pVBDnJN5eM=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=nZ3bRND1I4+3/opv27tOoYFzJ/VoXv8B+J1p3TITK51fcAdH3IconFNtyHIbpE7jG
- mgoiMD5oV1ElaudEze7939XauKfbkvDMEJNiJ1zgTY1s6czlu8Pdkl+38mBI7PT+V/
- 7nsiPn+dUKKDpaYsWeOGS5IacK1RyUr60a9hwvVNPOLLvUNxUL8fWnkjdORKswFa1U
- JoAe+PmTIEjCwAZCVud2TFMnmu7cipdqL337Do0lTl9pq65itzjZgcXB5lPutn4ikW
- ZoOQ3csYPCMthYcg1Uy4ALv8z8t8U9GOfrvkjyaqhvuu9LW+xeezLcI6/0gLy6tVvh
- 5k6WGzoZnRvVA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7873917E014F;
- Mon, 10 Feb 2025 14:08:54 +0100 (CET)
-Date: Mon, 10 Feb 2025 14:08:49 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/panthor: Replace sleep locks with spinlocks in
- fdinfo path
-Message-ID: <20250210140849.77232318@collabora.com>
-In-Reply-To: <20250210124203.124191-1-adrian.larumbe@collabora.com>
-References: <20250210124203.124191-1-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89E0D10E521
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:10:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1739193049;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ynZxZdFzJG19mzr6L9OQPCSKo3D7vE1M9zL9O1ubTkE=;
+ b=ioi04qgmw+jAbEgMs3Z0Ng8cV+Vv7BovhLc2IqvR7hqVmCTjZKPyvgg1GlSffb974Qdgb4
+ 5UQtxjporX/+5+BeTB6kL9ZYVp52OqiZUyanmYuLjPu65rZOkOCX1fT4YyPG8Ml/deCFn2
+ KxTtuVQFJf9QcdFQcsQXkIo6+sbOcnE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-646-RiPs9ycFPJGtF3ST406g8g-1; Mon, 10 Feb 2025 08:10:48 -0500
+X-MC-Unique: RiPs9ycFPJGtF3ST406g8g-1
+X-Mimecast-MFC-AGG-ID: RiPs9ycFPJGtF3ST406g8g
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-43619b135bcso22873685e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 05:10:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739193047; x=1739797847;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ynZxZdFzJG19mzr6L9OQPCSKo3D7vE1M9zL9O1ubTkE=;
+ b=S2Iyi9dSCILxNQ9DEkG8plyGXnnGLHPD+XAj+dyNFgw24VKlr1kSkvaBqA5AQTX7MA
+ K64YYLSQvpRGODzGA6+Y0wWL/xkliX6jF5SCaDgVE7KIxIZERXAzOzzDFt72zmcHh8RE
+ 67Cl0X4D3BhtoB1rKoiDZPP+DS65pFC9kKoV/LzvsRocgdBPMXE7mAs+071q5v29E4T/
+ 0Jjhk/EdRnHPgkioyzajs5WBLllyI4Xu5N8hG0SXnafThePdYKulqVH49OLWMBCxwEIQ
+ zhaJydC6VY4CfalZZUUWbfF522ytwH17bKfHukH0B75nXjqZxCEe+Nu5YEhtzp9TugdC
+ cPFQ==
+X-Gm-Message-State: AOJu0Yy79aO6TXkM3/edyPYEucOmVGytBreqE2UeYlVpesn4xlefpa1y
+ Y5gAPJIomqsBj2JD54Q3aCS8RsDjEAjHJhsb+ObKY+dOkNtPR8z6VILxsglcdYdycmSDOVVxGjd
+ 5nw15gXQWE2Zoj8GQOwa7ecJ+BdrZnxCuGlVXVqVfRXhKZzPWPPjm4nhnwyqRFgCRkQ==
+X-Gm-Gg: ASbGnctNYYOF2PH0g7uu/QsmH8xyYiBBPqftnEuzt69I7mJqrgYySKHFMp3gkP6n/S2
+ Q3aDbRNwLHBViYYP2dE85bAKoRog39qFzev4xnSgNj/s56IHQJPjVw2lXC9BW+uiRKY9vdEAp+I
+ gkRqYXbfBlzHsDDRagtW5Q78+cbJf3go1dcEamROkNCQKBVgmZO7EgnQGopq+dToKGjszxC70Ug
+ C0pDtOmVH7NwNdsN9zNmtj0gmUM9b752Wu9n/hZ1vKkyjFPqO7HZgHX076f4R/p+tL0Bo4inCY8
+ 5gZKayCpF+1IcQR2FcwKpAdryI0pSSchq67065ZhCtcQ
+X-Received: by 2002:a05:600c:4455:b0:434:9934:575 with SMTP id
+ 5b1f17b1804b1-43924990c58mr129928095e9.16.1739193046657; 
+ Mon, 10 Feb 2025 05:10:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGYxa7SN38UxGQWV9HehIARussNJmTqRuWN9VFic88RSCfUG4P8n5iRWJlYDS8Bm5Gbz0Nc1g==
+X-Received: by 2002:a05:600c:4455:b0:434:9934:575 with SMTP id
+ 5b1f17b1804b1-43924990c58mr129927765e9.16.1739193046251; 
+ Mon, 10 Feb 2025 05:10:46 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4391dcae5c7sm144916145e9.18.2025.02.10.05.10.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Feb 2025 05:10:45 -0800 (PST)
+Message-ID: <dac4ded8-f53f-466c-86cc-76ff47fb22c5@redhat.com>
+Date: Mon, 10 Feb 2025 14:10:43 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] drm/ast: astdp: Add connector state
+To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com
+Cc: dri-devel@lists.freedesktop.org
+References: <20250204133209.403327-1-tzimmermann@suse.de>
+ <20250204133209.403327-2-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250204133209.403327-2-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: rSoBE97LEFMVny_Kt1q-JMR8Le-Z4meHNwKoYNZ5pNg_1739193047
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,120 +100,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Feb 2025 12:41:59 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+On 04/02/2025 14:26, Thomas Zimmermann wrote:
+> Add dedicated connector state for ASTDP connectors. The state will
+> store values for programming the transmitter chip.
 
-> Panthor's fdinfo handler is routed through the /proc file system, which
-> executes in an atomic context. That means we cannot use mutexes because
-> they might sleep.
->=20
-> This bug was uncovered by enabling some of the kernel's mutex-debugging
-> features:
->=20
-> CONFIG_DEBUG_RT_MUTEXES=3Dy
-> CONFIG_DEBUG_MUTEXES=3Dy
->=20
-> Replace Panthor's group fdinfo data mutex with a guarded spinlock.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> Fixes: e16635d88fa0 ("drm/panthor: add DRM fdinfo support")
+Thanks, it looks good to me.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
 
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 26 ++++++++++++-------------
->  1 file changed, 12 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
-nthor/panthor_sched.c
-> index 0b93bf83a9b2..7a267d1efeb6 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -9,6 +9,7 @@
->  #include <drm/panthor_drm.h>
-> =20
->  #include <linux/build_bug.h>
-> +#include <linux/cleanup.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
->  #include <linux/dma-mapping.h>
-> @@ -631,10 +632,10 @@ struct panthor_group {
->  		struct panthor_gpu_usage data;
-> =20
->  		/**
-> -		 * @lock: Mutex to govern concurrent access from drm file's fdinfo cal=
-lback
-> -		 * and job post-completion processing function
-> +		 * @fdinfo.lock: Spinlock to govern concurrent access from drm file's =
-fdinfo
-> +		 * callback and job post-completion processing function
->  		 */
-> -		struct mutex lock;
-> +		spinlock_t lock;
-> =20
->  		/** @fdinfo.kbo_sizes: Aggregate size of private kernel BO's held by t=
-he group. */
->  		size_t kbo_sizes;
-> @@ -910,8 +911,6 @@ static void group_release_work(struct work_struct *wo=
-rk)
->  						   release_work);
->  	u32 i;
-> =20
-> -	mutex_destroy(&group->fdinfo.lock);
-> -
->  	for (i =3D 0; i < group->queue_count; i++)
->  		group_free_queue(group, group->queues[i]);
-> =20
-> @@ -2861,12 +2860,12 @@ static void update_fdinfo_stats(struct panthor_jo=
-b *job)
->  	struct panthor_job_profiling_data *slots =3D queue->profiling.slots->km=
-ap;
->  	struct panthor_job_profiling_data *data =3D &slots[job->profiling.slot];
-> =20
-> -	mutex_lock(&group->fdinfo.lock);
-> -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
-> -		fdinfo->cycles +=3D data->cycles.after - data->cycles.before;
-> -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
-> -		fdinfo->time +=3D data->time.after - data->time.before;
-> -	mutex_unlock(&group->fdinfo.lock);
-> +	scoped_guard(spinlock, &group->fdinfo.lock) {
-> +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
-> +			fdinfo->cycles +=3D data->cycles.after - data->cycles.before;
-> +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
-> +			fdinfo->time +=3D data->time.after - data->time.before;
-> +	}
->  }
-> =20
->  void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
-> @@ -2880,12 +2879,11 @@ void panthor_fdinfo_gather_group_samples(struct p=
-anthor_file *pfile)
-> =20
->  	xa_lock(&gpool->xa);
->  	xa_for_each(&gpool->xa, i, group) {
-> -		mutex_lock(&group->fdinfo.lock);
-> +		guard(spinlock)(&group->fdinfo.lock);
->  		pfile->stats.cycles +=3D group->fdinfo.data.cycles;
->  		pfile->stats.time +=3D group->fdinfo.data.time;
->  		group->fdinfo.data.cycles =3D 0;
->  		group->fdinfo.data.time =3D 0;
-> -		mutex_unlock(&group->fdinfo.lock);
->  	}
->  	xa_unlock(&gpool->xa);
->  }
-> @@ -3531,7 +3529,7 @@ int panthor_group_create(struct panthor_file *pfile,
->  	mutex_unlock(&sched->reset.lock);
-> =20
->  	add_group_kbo_sizes(group->ptdev, group);
-> -	mutex_init(&group->fdinfo.lock);
-> +	spin_lock_init(&group->fdinfo.lock);
-> =20
->  	return gid;
-> =20
->=20
-> base-commit: 2eca617f12586abff62038db1c14cb3aa60a15aa
-> prerequisite-patch-id: 7e787ce5973b5fc7e9f69f26aa4d7e5ec03d5caa
-> prerequisite-patch-id: 03a619b8c741444b28435850e23d9ec463171c13
-> prerequisite-patch-id: 290e1053f8bf4a8b80fb037a87cae7e096b5aa96
-> prerequisite-patch-id: bc49bb8c29905650fb4788acc528bb44013c0240
-> prerequisite-patch-id: 46cab4c980824c03e5164afc43085fec23e1cba5
+>   drivers/gpu/drm/ast/ast_dp.c | 62 ++++++++++++++++++++++++++++++++----
+>   1 file changed, 56 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ast/ast_dp.c b/drivers/gpu/drm/ast/ast_dp.c
+> index db3eb9ce1498..9c49b507a0d2 100644
+> --- a/drivers/gpu/drm/ast/ast_dp.c
+> +++ b/drivers/gpu/drm/ast/ast_dp.c
+> @@ -42,6 +42,16 @@ static const struct ast_astdp_mode_index_table_entry ast_astdp_mode_index_table[
+>   	{ 0 }
+>   };
+>   
+> +struct ast_astdp_connector_state {
+> +	struct drm_connector_state base;
+> +};
+> +
+> +static struct ast_astdp_connector_state *
+> +to_ast_astdp_connector_state(const struct drm_connector_state *state)
+> +{
+> +	return container_of(state, struct ast_astdp_connector_state, base);
+> +}
+> +
+>   static int __ast_astdp_get_mode_index(unsigned int hdisplay, unsigned int vdisplay)
+>   {
+>   	const struct ast_astdp_mode_index_table_entry *entry = ast_astdp_mode_index_table;
+> @@ -442,18 +452,58 @@ static const struct drm_connector_helper_funcs ast_astdp_connector_helper_funcs
+>   	.detect_ctx = ast_astdp_connector_helper_detect_ctx,
+>   };
+>   
+> -/*
+> - * Output
+> - */
+> +static void ast_astdp_connector_reset(struct drm_connector *connector)
+> +{
+> +	struct ast_astdp_connector_state *astdp_state =
+> +		kzalloc(sizeof(*astdp_state), GFP_KERNEL);
+> +
+> +	if (connector->state)
+> +		connector->funcs->atomic_destroy_state(connector, connector->state);
+> +
+> +	if (astdp_state)
+> +		__drm_atomic_helper_connector_reset(connector, &astdp_state->base);
+> +	else
+> +		__drm_atomic_helper_connector_reset(connector, NULL);
+> +}
+> +
+> +static struct drm_connector_state *
+> +ast_astdp_connector_atomic_duplicate_state(struct drm_connector *connector)
+> +{
+> +	struct ast_astdp_connector_state *new_astdp_state;
+> +	struct drm_device *dev = connector->dev;
+> +
+> +	if (drm_WARN_ON(dev, !connector->state))
+> +		return NULL;
+> +
+> +	new_astdp_state = kmalloc(sizeof(*new_astdp_state), GFP_KERNEL);
+> +	if (!new_astdp_state)
+> +		return NULL;
+> +	__drm_atomic_helper_connector_duplicate_state(connector, &new_astdp_state->base);
+> +
+> +	return &new_astdp_state->base;
+> +}
+> +
+> +static void ast_astdp_connector_atomic_destroy_state(struct drm_connector *connector,
+> +						     struct drm_connector_state *state)
+> +{
+> +	struct ast_astdp_connector_state *astdp_state = to_ast_astdp_connector_state(state);
+> +
+> +	__drm_atomic_helper_connector_destroy_state(&astdp_state->base);
+> +	kfree(astdp_state);
+> +}
+>   
+>   static const struct drm_connector_funcs ast_astdp_connector_funcs = {
+> -	.reset = drm_atomic_helper_connector_reset,
+> +	.reset = ast_astdp_connector_reset,
+>   	.fill_modes = drm_helper_probe_single_connector_modes,
+>   	.destroy = drm_connector_cleanup,
+> -	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+> -	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +	.atomic_duplicate_state = ast_astdp_connector_atomic_duplicate_state,
+> +	.atomic_destroy_state = ast_astdp_connector_atomic_destroy_state,
+>   };
+>   
+> +/*
+> + * Output
+> + */
+> +
+>   int ast_astdp_output_init(struct ast_device *ast)
+>   {
+>   	struct drm_device *dev = &ast->base;
 
