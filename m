@@ -2,61 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E09EA2F29A
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:10:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EF0A2F377
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:28:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA6E710E3FB;
-	Mon, 10 Feb 2025 16:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9253510E0C7;
+	Mon, 10 Feb 2025 16:28:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="SW1X40h6";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MnJf4a9q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E200E10E1D2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:10:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1739203827; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Hf/RLdlUNYREiBQJ8fiX4v8SdnSWhAVgMGa8VKGwfHf6C2aWOE5A/OrmoXnD4OWveukgUGKnG9Mv066D8XED3yh3ckXW13Pe1jUKUxggRkXNVx8ca7FDtbn5k1sOLTPnPRmncnl9u8uVf9pzfuVpaAtGhYxCaMoO5sIOUw48qk4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1739203827;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=zEeMspH9+O8rSxQqjspXXQMp9KLZr6bhowachpeWPeM=; 
- b=kw0Kxs/LJ3pcBpak1SIWuFt6r4BA/Xu8IESaaGPjlsO88h5licXtgPL3/ursh+yGF2kBI0BJ8M4lpDaMTyDK0Y2LZrvwRDqmvSYOhPJ+xP0IdxdvawD7uEkZSFo/GaIJeAb7rin56rR1vMdDV9J0ZR4Smpg9VzS1y40J9Fzq3hg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739203827; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=zEeMspH9+O8rSxQqjspXXQMp9KLZr6bhowachpeWPeM=;
- b=SW1X40h63+2I5ZjQ1v5SqWSre31q7EfZzfoKU+UmNtMdJY32Cw+RG7yuLaw8r/6T
- /b7UrnjqTOg0tDoCB8XJfWuNUB6lE11GxtTHAP+sB+Ts5Sjp5Bju4M/tWOr+O+xyUSg
- tJBZ7i7Z0/IFDHFv65AQA0fomAXuaNTLw71Du5As=
-Received: by mx.zohomail.com with SMTPS id 1739203825785373.87392798918313;
- Mon, 10 Feb 2025 08:10:25 -0800 (PST)
-Date: Mon, 10 Feb 2025 16:10:23 +0000
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] drm/panthor: Replace sleep locks with spinlocks in
- fdinfo path
-Message-ID: <aryumfhxzg2hqszlgwfjtnvf5lgu6a6rvfbhv6jmvabonghxpm@iowcjhketo2q>
-References: <20250210124203.124191-1-adrian.larumbe@collabora.com>
- <2ec2a848-90f4-49bc-aaaf-8eb256f271db@ursulin.net>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4E110E0C7
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:28:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r4tBYnRdoe9SkWcYQMPmieT1/Yi8fNsE28QwyVgBQpWr3TjpLby+xGRmblzes8xU7buZAU/FSfhkjrpLmBM5+cXeKmuGIfubpg0jzgC50nAq77RsSXqhnrVOC16pmLiCdb/mfi/cSKhrJD1zoqRJCWZmdUrylLsFf+Uj+M1FvhHHYjuzMga34jj/+ypyecmNED60jGsDhxzIWtX5dC8Kr77I49QuzHR5ACK6l4d8mxDU22swhwwCz7u28UuxfAsjUd5c56+Th1XNWHFXEjIp2BQd3nXNN3sYIuNS8juxbS9ZjGNYUzmWgOi1wX7uwbaVPnCYnmQJun74gTLZ0Augow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j3LByvb98fsUobWrB3PGXb6hpWBsaplH5Rylt5+IdJk=;
+ b=uGG+zXfIim0FUB03FasX2q+lxsKdE95Ew25W8UGdcag3o+Ls9xHDSL+wWLK8nzfsjxqzFLxZ2ekURsegfHI0qhG0noIfLU2ZfjtL/K81vaACAJsNlRnR8I4x7ld6vbxC2Pn34/bPqAK6bsOkGOhUff6v1VTg+qVNSzKfwhvYv6UUL8uqdRW5dUQfB3arYlscRMHsBK0sLDpuV8WYAWzSci+VbUSkJJ6+ZoQy/v6TLvWsRUv54Iz67IGkTFHgH53/HaKveLAoMvX8M5sx2a5xpibJ6UsXRgfcUANOqLw7hDTGBzeVN+h1iPvV3S2dVVwMge0DBPZpHbon//0X0G/NgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nfschina.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j3LByvb98fsUobWrB3PGXb6hpWBsaplH5Rylt5+IdJk=;
+ b=MnJf4a9qu93M31r0bxScphJhJyX1UYfF3fRQT7eWGP3Le/CRxxG8KTr4ST9WDd1GGM6CtAtdXe9zalwcImbbRG2TQE6K7NGa7zyjJu8G6hljH2eYjs+dKe8Wh28I7mGYZQZcx2sGBjQ8UhXe96NuzeWIGXreI2QcaELOnkOsHUA=
+Received: from PH7P221CA0054.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:33c::34)
+ by DM4PR12MB6011.namprd12.prod.outlook.com (2603:10b6:8:6b::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Mon, 10 Feb
+ 2025 16:28:43 +0000
+Received: from CO1PEPF000044FB.namprd21.prod.outlook.com
+ (2603:10b6:510:33c:cafe::4c) by PH7P221CA0054.outlook.office365.com
+ (2603:10b6:510:33c::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.31 via Frontend Transport; Mon,
+ 10 Feb 2025 16:28:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1PEPF000044FB.mail.protection.outlook.com (10.167.241.201) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8466.0 via Frontend Transport; Mon, 10 Feb 2025 16:28:41 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 10 Feb
+ 2025 10:28:39 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 10 Feb
+ 2025 10:28:39 -0600
+Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 10 Feb 2025 10:28:39 -0600
+Message-ID: <0db60138-2e9b-1ccb-9c0e-1b781f19ebd6@amd.com>
+Date: Mon, 10 Feb 2025 08:28:38 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] accel/amdxdna: Add missing include linux/slab.h
+Content-Language: en-US
+To: Su Hui <suhui@nfschina.com>, <min.ma@amd.com>, <ogabbay@kernel.org>
+CC: <quic_jhugo@quicinc.com>, <George.Yang@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <kernel-janitors@vger.kernel.org>
+References: <20250208080548.1062441-1-suhui@nfschina.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <20250208080548.1062441-1-suhui@nfschina.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2ec2a848-90f4-49bc-aaaf-8eb256f271db@ursulin.net>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044FB:EE_|DM4PR12MB6011:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81fd1023-8b68-4fc3-6f5c-08dd49effb53
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|36860700013|82310400026|1800799024|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aCtUNXBXUDdFcWJ6eC8wK1IrcDgwaDBQN2JQWExvTElCN1RCUzZSblFFMlEy?=
+ =?utf-8?B?a3JZaEdVZndHbjVOdzVhQkJhbUlSNThmM053NElaTEhnWnNDR3VBSTU1L3ho?=
+ =?utf-8?B?SWZEZnRlL2FlL1Y1czZRa0JQMzlIdUw5THkwRW1Xd2NxbjNrbEt0elYxZysz?=
+ =?utf-8?B?dDV2R0ZxcllKWHJYWnU2ZW1raUsxaXdwK21nZE1NcEU1eUtCdzZOakJaMGp5?=
+ =?utf-8?B?OXFBMFUrWmUzaFBTQmg1S08vL3NDM1prOGg5UlpzN0pZTG0wdGtMbkNMcUNB?=
+ =?utf-8?B?NHJwRDNJbkl0TUlRVjBpQXhVMURtV21XdXk1OFRNc0xTQTBSZnJ1b01qYWs5?=
+ =?utf-8?B?TGRSNW90Ky9VTWsxKzU4NmVuanhsMzVvUUdjUlIwK2xpdmdqWEFQNlZUcU5E?=
+ =?utf-8?B?U2w0RVllQVR0NG5XaW9zcmY3UzY3QVZ6SWMvQUF2N0wzeEFvK3ZReDBWUm1l?=
+ =?utf-8?B?UmRITUd0V2hVNVZpZFpIeG1yTlJ5b0c1d05ET25xWTFVeklqRjhmd0Y1aWZR?=
+ =?utf-8?B?dTUvVDhkTUlSNkZ2UzhBZm1tOCtaejRPQzJ5NDF5bks4VVdVdHNZMm1CMThE?=
+ =?utf-8?B?MTFNbnNTcEpQK1pBdGNjMmVZV0NXRmh0TUNFd1QyQWRVTytFUWkwaE8wbEdQ?=
+ =?utf-8?B?WGs1L0l1U1FUMldmSHJlS3RSbkM0QzhIQmtEUDZ2cktwWGdETTd6Y3g2d2o0?=
+ =?utf-8?B?N21OTkxscUdFemVCRCsvRUhZbU9GZGJucXBvMDBhTTBKRTkyL3JLMTdheUJk?=
+ =?utf-8?B?dnNDSzVrODA4Nk9KQ3I2MWdZbHNpOHFsRmhqUzUwZm9uc0hrS1N1N1Y1RGlt?=
+ =?utf-8?B?cjNoRWxxRWFoZFVaa080c1c1M0J5VVdodE9vR0RmSDFYSnAwaGlKTUtEeFB3?=
+ =?utf-8?B?ckhZSU9KSTJCSGRJTTU2U0RCRjRTL1lzTUJFdzRQTlNPc2QxbU1pSDZJSUd1?=
+ =?utf-8?B?aTVWd0FpdVRMRDdCbUwzekN1NitOMGFwbTFFaWhTd2x0Y2lzYnExNFRRNUZK?=
+ =?utf-8?B?bkZFTXVUT3R5Zk9FT2V4QnhuRkFraGFSeEcvQXloV1ROU3M3RzhjYlFmTEpk?=
+ =?utf-8?B?NWJGaUswdmZacmlnaThsY0hOS0xSTjFldWw4c1ZlOW1hMkhkYnluRU1zL2FW?=
+ =?utf-8?B?R3JMWTdlaVBXV2MwL2hRZzhnRFltN0dtOEpyQ2VCRTBxMWU3U2dYa3lvaVYr?=
+ =?utf-8?B?djdQSlEzdUhZcnJqdmZKYTFTbSsxMXR1NVVYYTJQb1dCVVdqdE5Oc0Jac2to?=
+ =?utf-8?B?em9qREc5VXNzSXNBdENsaE1DK0haYTAwaThlVFN3ekRjbExsdFBZaXNaeUI0?=
+ =?utf-8?B?dmFKc3FjTGlvTEZ0Z0hnSkVBVHpuWnJheGNFRlc3MkFxWGhqREVMd3JJN0VV?=
+ =?utf-8?B?VGVEd0pSc2JQUkpmdUVSM1Q5UWJMa3Iyc1dPRVZQekxhcjBFaWZGdG9OVUlR?=
+ =?utf-8?B?K2svcFFmYVBUSVFTR3AvZm1wbksyN3JDWEZBYUdTQjZkZXpyZ3BWZE1MTG11?=
+ =?utf-8?B?OVlWZktDMW0xdHpEMHhmVjlaZUI0aWxNeE1xVEpCdUlIS2JWRk5SVjY2UU9O?=
+ =?utf-8?B?S2t1a1h3QTJyb3RIcG1YVE9WaytKcDBIMmVJaEJUWE5Sam1ZSkh3dnFScGRB?=
+ =?utf-8?B?WVN4UnBDelYvQlI1cWM1YTl3MVVrWEVDc29aVTV4TnppWXJEL1o0U2lnSGdy?=
+ =?utf-8?B?SnhzYjMzQm1DRVpSNThHOWdObzdWRUR1dzlhdDg3OEJjUUNjN2tJWjRrYUlG?=
+ =?utf-8?B?ZU5CTzFOUUFIQlJBaTRaMnp3cmRuaGxLS1l2T3ExN2l2V28wZFE1ZG9SMjBF?=
+ =?utf-8?B?djdxWWtFb04xRW1hV09XM3czUDZ1eXk2N0grek80MWUyWTdGQlZBOWwvOTc2?=
+ =?utf-8?B?dU1oeE51N1BtVUZXNEdtbCtoempVNVJaNGpwL1BLeXBqeTNsOHlSMVlWY2NJ?=
+ =?utf-8?B?eXcvOE9HZTgzU1N1OWFKeWFaaWhvTHFkeEg0WG1Tam5kUWxYaGpXYmxvWHdz?=
+ =?utf-8?Q?PGvwL7ye/qIUwKhLkc89gznIr7fTFI=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2025 16:28:41.7320 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81fd1023-8b68-4fc3-6f5c-08dd49effb53
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044FB.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6011
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,138 +149,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is the debug log for the second patch in the series:
 
-[18325.029172] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:562
-[18325.029947] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 203483, name: cat
-[18325.030646] preempt_count: 1, expected: 0
-[18325.031012] RCU nest depth: 0, expected: 0
-[18325.031387] INFO: lockdep is turned off.
-[18325.031754] CPU: 4 UID: 0 PID: 203483 Comm: cat Tainted: G        W          6.14.0-rc1-panthor-next-rk3588-fdinfo+ #1
-[18325.031763] Tainted: [W]=WARN
-[18325.031767] Hardware name: Radxa ROCK 5B (DT)
-[18325.031772] Call trace:
-[18325.031777]  show_stack+0x24/0x38 (C)
-[18325.031813]  dump_stack_lvl+0x3c/0x98
-[18325.031827]  dump_stack+0x18/0x24
-[18325.031833]  __might_resched+0x298/0x2b0
-[18325.031844]  __might_sleep+0x6c/0xb0
-[18325.031850]  __mutex_lock_common+0x7c/0x1950
-[18325.031875]  mutex_lock_nested+0x38/0x50
-[18325.031889]  panthor_vm_heaps_sizes+0xa8/0x158 [panthor]
-[18325.031973]  panthor_show_fdinfo+0x1a0/0x228 [panthor]
-[18325.032040]  drm_show_fdinfo+0x1a4/0x1e0 [drm]
-[18325.032328]  seq_show+0x274/0x358
-[18325.032343]  seq_read_iter+0x1d4/0x630
-[18325.032358]  seq_read+0x148/0x1a0
-[18325.032364]  vfs_read+0x114/0x3e0
-[18325.032377]  ksys_read+0x90/0x110
-[18325.032383]  __arm64_sys_read+0x50/0x70
-[18325.032389]  invoke_syscall+0x60/0x178
-[18325.032400]  el0_svc_common+0x104/0x148
-[18325.032406]  do_el0_svc+0x3c/0x58
-[18325.032413]  el0_svc+0x50/0xa8
-[18325.032422]  el0t_64_sync_handler+0x78/0x108
-[18325.032427]  el0t_64_sync+0x198/0x1a0
-
-On 10.02.2025 15:52, Tvrtko Ursulin wrote:
-> 
-> On 10/02/2025 12:41, Adrián Larumbe wrote:
-> > Panthor's fdinfo handler is routed through the /proc file system, which
-> > executes in an atomic context. That means we cannot use mutexes because
-> > they might sleep.
-> 
-> Have the debug splat at hand? I am thinking it is not because of fdinfo reads,
-> which are allowed to sleep, but has to be something else.
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> > This bug was uncovered by enabling some of the kernel's mutex-debugging
-> > features:
-> > 
-> > CONFIG_DEBUG_RT_MUTEXES=y
-> > CONFIG_DEBUG_MUTEXES=y
-> > 
-> > Replace Panthor's group fdinfo data mutex with a guarded spinlock.
-> > 
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > Fixes: e16635d88fa0 ("drm/panthor: add DRM fdinfo support")
-> > ---
-> >   drivers/gpu/drm/panthor/panthor_sched.c | 26 ++++++++++++-------------
-> >   1 file changed, 12 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> > index 0b93bf83a9b2..7a267d1efeb6 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> > @@ -9,6 +9,7 @@
-> >   #include <drm/panthor_drm.h>
-> >   #include <linux/build_bug.h>
-> > +#include <linux/cleanup.h>
-> >   #include <linux/clk.h>
-> >   #include <linux/delay.h>
-> >   #include <linux/dma-mapping.h>
-> > @@ -631,10 +632,10 @@ struct panthor_group {
-> >   		struct panthor_gpu_usage data;
-> >   		/**
-> > -		 * @lock: Mutex to govern concurrent access from drm file's fdinfo callback
-> > -		 * and job post-completion processing function
-> > +		 * @fdinfo.lock: Spinlock to govern concurrent access from drm file's fdinfo
-> > +		 * callback and job post-completion processing function
-> >   		 */
-> > -		struct mutex lock;
-> > +		spinlock_t lock;
-> >   		/** @fdinfo.kbo_sizes: Aggregate size of private kernel BO's held by the group. */
-> >   		size_t kbo_sizes;
-> > @@ -910,8 +911,6 @@ static void group_release_work(struct work_struct *work)
-> >   						   release_work);
-> >   	u32 i;
-> > -	mutex_destroy(&group->fdinfo.lock);
-> > -
-> >   	for (i = 0; i < group->queue_count; i++)
-> >   		group_free_queue(group, group->queues[i]);
-> > @@ -2861,12 +2860,12 @@ static void update_fdinfo_stats(struct panthor_job *job)
-> >   	struct panthor_job_profiling_data *slots = queue->profiling.slots->kmap;
-> >   	struct panthor_job_profiling_data *data = &slots[job->profiling.slot];
-> > -	mutex_lock(&group->fdinfo.lock);
-> > -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
-> > -		fdinfo->cycles += data->cycles.after - data->cycles.before;
-> > -	if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
-> > -		fdinfo->time += data->time.after - data->time.before;
-> > -	mutex_unlock(&group->fdinfo.lock);
-> > +	scoped_guard(spinlock, &group->fdinfo.lock) {
-> > +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_CYCLES)
-> > +			fdinfo->cycles += data->cycles.after - data->cycles.before;
-> > +		if (job->profiling.mask & PANTHOR_DEVICE_PROFILING_TIMESTAMP)
-> > +			fdinfo->time += data->time.after - data->time.before;
-> > +	}
-> >   }
-> >   void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
-> > @@ -2880,12 +2879,11 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
-> >   	xa_lock(&gpool->xa);
-> >   	xa_for_each(&gpool->xa, i, group) {
-> > -		mutex_lock(&group->fdinfo.lock);
-> > +		guard(spinlock)(&group->fdinfo.lock);
-> >   		pfile->stats.cycles += group->fdinfo.data.cycles;
-> >   		pfile->stats.time += group->fdinfo.data.time;
-> >   		group->fdinfo.data.cycles = 0;
-> >   		group->fdinfo.data.time = 0;
-> > -		mutex_unlock(&group->fdinfo.lock);
-> >   	}
-> >   	xa_unlock(&gpool->xa);
-> >   }
-> > @@ -3531,7 +3529,7 @@ int panthor_group_create(struct panthor_file *pfile,
-> >   	mutex_unlock(&sched->reset.lock);
-> >   	add_group_kbo_sizes(group->ptdev, group);
-> > -	mutex_init(&group->fdinfo.lock);
-> > +	spin_lock_init(&group->fdinfo.lock);
-> >   	return gid;
-> > 
-> > base-commit: 2eca617f12586abff62038db1c14cb3aa60a15aa
-> > prerequisite-patch-id: 7e787ce5973b5fc7e9f69f26aa4d7e5ec03d5caa
-> > prerequisite-patch-id: 03a619b8c741444b28435850e23d9ec463171c13
-> > prerequisite-patch-id: 290e1053f8bf4a8b80fb037a87cae7e096b5aa96
-> > prerequisite-patch-id: bc49bb8c29905650fb4788acc528bb44013c0240
-> > prerequisite-patch-id: 46cab4c980824c03e5164afc43085fec23e1cba5
+On 2/8/25 00:05, Su Hui wrote:
+> When compiling without CONFIG_IA32_EMULATION, there are some errors:
+>
+> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘mailbox_release_msg’:
+> drivers/accel/amdxdna/amdxdna_mailbox.c:197:2: error: implicit declaration
+> of function ‘kfree’.
+>    197 |  kfree(mb_msg);
+>        |  ^~~~~
+> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘xdna_mailbox_send_msg’:
+> drivers/accel/amdxdna/amdxdna_mailbox.c:418:11: error:implicit declaration
+> of function ‘kzalloc’.
+>    418 |  mb_msg = kzalloc(sizeof(*mb_msg) + pkg_size, GFP_KERNEL);
+>        |           ^~~~~~~
+>
+> Add the missing include.
+>
+> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
+> ---
+>   drivers/accel/amdxdna/amdxdna_mailbox.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> index 814b16bb1953..80b4b20addd6 100644
+> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> @@ -12,6 +12,7 @@
+>   
+>   #define CREATE_TRACE_POINTS
+>   #include <trace/events/amdxdna.h>
+> +#include <linux/slab.h>
+Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
+>   
+>   #include "amdxdna_mailbox.h"
+>   
