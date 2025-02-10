@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9064BA2EDA7
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D635CA2EDB7
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:27:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F7F710E52D;
-	Mon, 10 Feb 2025 13:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B925810E533;
+	Mon, 10 Feb 2025 13:26:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VnNJKkS6";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qsRiVLIr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91A6510E52D
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:25:33 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C065E10E533
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:26:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 185EAA4142C;
- Mon, 10 Feb 2025 13:23:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4BA2C4CEDF;
- Mon, 10 Feb 2025 13:25:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9AB635C5638;
+ Mon, 10 Feb 2025 13:26:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756A3C4CED1;
+ Mon, 10 Feb 2025 13:26:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739193932;
- bh=jnjZonpT7qi8X2dC34i7YsDs72OBFJbfNvodus+VhUs=;
+ s=korg; t=1739194008;
+ bh=1m1QDaEHyG6q7m90WPJRUqaj2pryIUO496o4eAVFo74=;
  h=Subject:To:Cc:From:Date:From;
- b=VnNJKkS6DA3hAl8ed2F0FOnbvVag3dCZutcWTFKQ60J7VrOs5Lx6iaK0IaFFBCzVv
- 7cgrH0TaVMjoQMYS3Erfp9grUrgLqm+k5BJ1Zqy2c7t9k+PQHKoS3F387Xfltc3ZtS
- qyN0C5npSCBK9667k8qlFrno7Si2MdDM570Wy1dM=
+ b=qsRiVLIrfmrZ5XcLHpZ/ZbyB1g9iD0uHYdhytSpFMMJg2jhDDYHd7/6oUn4hfwDHR
+ xNsMTln2M0yqk13mKNETcFh946YfbmpAuPi80gpVlhceq9dDOicVQjgxtG8qtnh7MR
+ vkr+KkncrProa8lgVQJpU9pXCbedYdo6FIpR+EKU=
 Subject: Patch "drm/rockchip: cdn-dp: Use
- drm_connector_helper_hpd_irq_event()" has been added to the 6.1-stable tree
+ drm_connector_helper_hpd_irq_event()" has been added to the 6.6-stable tree
 To: andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, groeck@chromium.org, heiko@sntech.de,
  hjc@rock-chips.com, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, tzimmermann@suse.de, zyw@rock-chips.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 10 Feb 2025 14:23:32 +0100
-Message-ID: <2025021032-canister-stained-b1fd@gregkh>
+Date: Mon, 10 Feb 2025 14:23:44 +0100
+Message-ID: <2025021044-relock-outlast-1e94@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/rockchip: cdn-dp: Use drm_connector_helper_hpd_irq_event()
 
-to the 6.1-stable tree which can be found at:
+to the 6.6-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
-and it can be found in the queue-6.1 subdirectory.
+and it can be found in the queue-6.6 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -123,7 +123,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
 +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -948,9 +948,6 @@ static void cdn_dp_pd_event_work(struct
+@@ -946,9 +946,6 @@ static void cdn_dp_pd_event_work(struct
  {
  	struct cdn_dp_device *dp = container_of(work, struct cdn_dp_device,
  						event_work);
@@ -133,7 +133,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	int ret;
  
  	mutex_lock(&dp->lock);
-@@ -1012,11 +1009,7 @@ static void cdn_dp_pd_event_work(struct
+@@ -1010,11 +1007,7 @@ static void cdn_dp_pd_event_work(struct
  
  out:
  	mutex_unlock(&dp->lock);
@@ -150,7 +150,6 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.1/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
-queue-6.1/efi-sysfb_efi-fix-w-1-warnings-when-efi-is-not-set.patch
-queue-6.1/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
-queue-6.1/m68k-vga-fix-i-o-defines.patch
+queue-6.6/drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
+queue-6.6/drm-modeset-handle-tiled-displays-in-pan_display_atomic.patch
+queue-6.6/m68k-vga-fix-i-o-defines.patch
