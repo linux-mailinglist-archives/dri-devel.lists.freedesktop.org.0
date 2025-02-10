@@ -2,76 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68890A2EB91
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 12:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30036A2EB95
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 12:44:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 608A610E1A3;
-	Mon, 10 Feb 2025 11:43:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 475BA10E4F9;
+	Mon, 10 Feb 2025 11:44:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oJpamBIH";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ddRQ6ASL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5480E10E1A3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:43:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2100A10E4FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:44:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739187810;
- bh=tycYPKLg38RvdhS16xCjIBsLq91Al6Z9Y/oCR8632u8=;
+ s=mail; t=1739187868;
+ bh=Uxj3j902irE5mB9g0HpLqhRIezxhsErLRfVa7qx/A3o=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=oJpamBIHuqr2lATsB2etB4kCzp90Y+I5bwWiqGPCEEWBmKStjWRpJ+UjXYo5pb/78
- UcqmscYvy0CTTo526+PavoEmea5E5a5mhdPzxBQkKDnh4ZLaWVHipRTYXqPETTfk90
- aWAq3dmeNuQxn8as3m/h1eQcFF4yz/8ArwY4IGAhsXoaT29EGca39sSooGuPc2cB+f
- Uy2nTS9Jllxxm3tG3QaGkMbDcmjanyV8mX+aTpDP9tcsBQMd6bLWnrMxBi/jZtld8S
- CuFPSwlA5Nxtl2oYj9/l+czapoAY9TA4WLEgcRCT/S910IdnW6tmQEXlL60iRLpEcb
- n4Fchmar65ODA==
+ b=ddRQ6ASLVKzePQskZvnHHKet3LeoRiI2+q2NjrE8c6D6+nzRQB0x2uIVfqxhUM/J2
+ hE0hVlY9PPJKqUK8ya8V4kuFX+LOR6TCTOUtK5n9+0IVFyJ3fjbFaT/tnnjCMZmznO
+ gFi2OvQLC5NrOVzqbAS8d2VlQ0lpk5OkqWyy9cxnfT0QTYAY46tlloVVcBtdP8C9F5
+ pPYF9roVpg4d5z1Qlf3jUz6ilDpHDgwvYJuoESaIgW0T4lDA2VahEDl0HAzKDfPGGM
+ XrKkEiK7TfHH1396pTvSKspQUtomvny/JobjSjrIDS+YpW5tU+FPR8oE5lC0lsCg4R
+ Lxj3l8YBJz+mw==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4023F17E0B59;
- Mon, 10 Feb 2025 12:43:29 +0100 (CET)
-Message-ID: <dabbf4a7-1856-458a-b88d-2a16bc80bff0@collabora.com>
-Date: Mon, 10 Feb 2025 12:43:28 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1A35617E0CA2;
+ Mon, 10 Feb 2025 12:44:27 +0100 (CET)
+Message-ID: <59f611c5-1dcf-4667-bb34-c7f57b341f49@collabora.com>
+Date: Mon, 10 Feb 2025 12:44:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 25/34] drm/mediatek: mtk_hdmi: Remove ifdef for
- CONFIG_PM_SLEEP
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
-Cc: "robh@kernel.org" <robh@kernel.org>,
- "jie.qiu@mediatek.com" <jie.qiu@mediatek.com>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
- <mripard@kernel.org>, =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
- <jitao.shi@mediatek.com>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "kernel@collabora.com" <kernel@collabora.com>,
- "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- =?UTF-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
- "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- =?UTF-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?= <TommyYL.Chen@mediatek.com>,
- =?UTF-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?= <Ives.Chenjh@mediatek.com>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "junzhi.zhao@mediatek.com" <junzhi.zhao@mediatek.com>
+Subject: Re: [PATCH v5 21/34] drm/mediatek: mtk_hdmi: Move CEC device parsing
+ in new function
+To: Alexandre Mergnat <amergnat@baylibre.com>, chunkuang.hu@kernel.org
+Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com,
+ jie.qiu@mediatek.com, junzhi.zhao@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+ dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
+ ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
+ jason-jh.lin@mediatek.com
 References: <20250113145232.227674-1-angelogioacchino.delregno@collabora.com>
- <20250113145232.227674-26-angelogioacchino.delregno@collabora.com>
- <a9c0027b1d02365389624c5cb9b42b5bf39dac85.camel@mediatek.com>
+ <20250113145232.227674-22-angelogioacchino.delregno@collabora.com>
+ <18fd9544-f9ef-4f58-9a8a-026737c26b94@baylibre.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <a9c0027b1d02365389624c5cb9b42b5bf39dac85.camel@mediatek.com>
+In-Reply-To: <18fd9544-f9ef-4f58-9a8a-026737c26b94@baylibre.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,86 +74,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 07/02/25 07:10, CK Hu (胡俊光) ha scritto:
-> Hi, Angelo:
+Il 07/02/25 15:45, Alexandre Mergnat ha scritto:
 > 
-> On Mon, 2025-01-13 at 15:52 +0100, AngeloGioacchino Del Regno wrote:
->> External email : Please do not click links or open attachments until you have verified the sender or the content.
->>
->>
->> Since the SIMPLE_DEV_PM_OPS macro and the pm pointer are anyway
->> defined when CONFIG_PM_SLEEP is not set, remove the ifdef for it
->> and indicate that the mtk_hdmi_{remove,suspend} functions may be
->> unused (as they are, in case PM support is not built-in).
->>
->> While at it, to improve readability, also compress the
->> SIMPLE_DEV_PM_OPS declaration as it even fits in less
->> than 80 columns.
+> 
+> On 13/01/2025 15:52, AngeloGioacchino Del Regno wrote:
+>> Move the CEC device parsing logic to a new function called
+>> mtk_hdmi_get_cec_dev(), and move the parsing action to the end
+>> of mtk_hdmi_dt_parse_pdata(), allowing to remove gotos in this
+>> function, reducing code size and improving readability.
+> 
+> Why CEC device parsing logic isn't done mtk_cec.c driver ? Then add 
+> "mtk_cec_get_dev" function to mtk_cec.c too. Finally, call this new function in 
+> mtk_hdmi_probe after mtk_hdmi_dt_parse_pdata().
+> 
 >>
 >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 >> ---
->>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 10 ++++------
->>   1 file changed, 4 insertions(+), 6 deletions(-)
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 84 ++++++++++++++---------------
+>>   1 file changed, 40 insertions(+), 44 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> index 0ec3bfe528f8..f6b463aaba47 100644
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/ 
+>> mtk_hdmi.c
+>> index 48c37294dcbb..eb285ec394a3 100644
 >> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 >> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> @@ -1692,8 +1692,7 @@ static void mtk_hdmi_remove(struct platform_device *pdev)
->>          mtk_hdmi_clk_disable_audio(hdmi);
->>   }
->>
->> -#ifdef CONFIG_PM_SLEEP
->> -static int mtk_hdmi_suspend(struct device *dev)
->> +static __maybe_unused int mtk_hdmi_suspend(struct device *dev)
+>> @@ -1367,24 +1367,16 @@ static const struct drm_bridge_funcs 
+>> mtk_hdmi_bridge_funcs = {
+>>       .edid_read = mtk_hdmi_bridge_edid_read,
+>>   };
+>> -static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+>> -                   struct platform_device *pdev)
+>> +static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, 
+>> struct device_node *np)
+>>   {
+>> -    struct device *dev = &pdev->dev;
+>> -    struct device_node *np = dev->of_node;
+>> -    struct device_node *remote, *i2c_np;
+>>       struct platform_device *cec_pdev;
+>> -    struct regmap *regmap;
+>> +    struct device_node *cec_np;
+>>       int ret;
+>> -    ret = mtk_hdmi_get_all_clk(hdmi, np);
+>> -    if (ret)
+>> -        return dev_err_probe(dev, ret, "Failed to get clocks\n");
+>> -
+>>       /* The CEC module handles HDMI hotplug detection */
+>>       cec_np = of_get_compatible_child(np->parent, "mediatek,mt8173-cec");
 > 
-> I see many driver use CONFIG_PM_SLEEP,
-> and SIMPLE_DEV_PM_OPS() is defined to support suspend/resume function is not exist when CONFIG_PM_SLEEP is not defined,
-> so there is no strong purpose to apply this patch.
+> If it's done in mtk_cec.c, the hardcoded compatible string method will be replaced 
+> by of_match_table (mtk_cec_of_ids), which is scalable and consistent.
 > 
 
-This allows to improve the compile time coverage and at the same, this will not
-increase the binary size of this driver, because the compiler (or, all of the
-linkers associated to the compilers that can be used to build the kernel, anyway!)
-will drop the two functions when CONFIG_PM_SLEEP is *not* defined.
+That's true, yes, but the CEC driver is not supposed to be in drivers/drm/mediatek
+in the first place - that should be partially refactored and moved to where the CEC
+drivers belong: drivers/media/cec/platform/mediatek/
 
-Also:
-  * This ifdef is redundant, as it's already handled by SIMPLE_DEV_PM_OPS
-  * Removing ugly ifdeffery increases human readability while also slightly
-    reducing the number of lines
+This is something that is currently in the process of making here, as the CEC v2
+driver will be added there, and the CECv1 driver will be moved along side of the
+new one, making things finally correct.
 
-Regards,
+Of course, this code will be retained to keep retrocompatibility with older device
+trees, and if I move it to mtk_cec, I will have to move it back here after the
+CEC driver is moved to the correct location.
+
+For the reasons explained above, I disagree about moving this code to the CEC
+driver.
+
+Cheers,
 Angelo
 
-> Regards,
-> CK
-> 
->>   {
->>          struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
->>
->> @@ -1702,7 +1701,7 @@ static int mtk_hdmi_suspend(struct device *dev)
->>          return 0;
->>   }
->>
->> -static int mtk_hdmi_resume(struct device *dev)
->> +static __maybe_unused int mtk_hdmi_resume(struct device *dev)
->>   {
->>          struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
->>          int ret = 0;
->> @@ -1715,9 +1714,8 @@ static int mtk_hdmi_resume(struct device *dev)
->>
->>          return 0;
->>   }
->> -#endif
->> -static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops,
->> -                        mtk_hdmi_suspend, mtk_hdmi_resume);
+>>       if (!cec_np)
+>> -        return dev_err_probe(dev, -EINVAL, "Failed to find CEC node\n");
+>> +        return dev_err_probe(dev, -ENOTSUPP, "Failed to find CEC node\n");
+>>       cec_pdev = of_find_device_by_node(cec_np);
+>>       if (!cec_pdev) {
+>> @@ -1393,65 +1385,69 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+>>           return -EPROBE_DEFER;
+>>       }
+>>       of_node_put(cec_np);
+>> -    hdmi->cec_dev = &cec_pdev->dev;
+>>       /*
+>>        * The mediatek,syscon-hdmi property contains a phandle link to the
+>>        * MMSYS_CONFIG device and the register offset of the HDMI_SYS_CFG
+>>        * registers it contains.
+>>        */
+>> -    regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
+>> -    ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1,
+>> -                     &hdmi->sys_offset);
+>> -    if (IS_ERR(regmap))
+>> -        ret = PTR_ERR(regmap);
+>> -    if (ret) {
+>> -        dev_err_probe(dev, ret,
+>> -                  "Failed to get system configuration registers\n");
+>> -        goto put_device;
+>> -    }
+>> -    hdmi->sys_regmap = regmap;
+>> +    hdmi->sys_regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
+>> +    if (IS_ERR(hdmi->sys_regmap))
+>> +        return PTR_ERR(hdmi->sys_regmap);
 >> +
->> +static SIMPLE_DEV_PM_OPS(mtk_hdmi_pm_ops, mtk_hdmi_suspend, mtk_hdmi_resume);
->>
->>   static const struct mtk_hdmi_conf mtk_hdmi_conf_mt2701 = {
->>          .tz_disabled = true,
->> --
->> 2.47.0
->>
+>> +    ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1, &hdmi- 
+>> >sys_offset);
+>> +    if (ret)
+>> +        return dev_err_probe(dev, ret,
+>> +                     "Failed to get system configuration registers\n");
+>> +
+>> +    hdmi->cec_dev = &cec_pdev->dev;
+>> +    return 0;
+>> +}
+>> +
+>> +static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
+>> +                   struct platform_device *pdev)
+>> +{
+>> +    struct device *dev = &pdev->dev;
+>> +    struct device_node *np = dev->of_node;
+>> +    struct device_node *remote, *i2c_np;
+>> +    int ret;
+>> +
+>> +    ret = mtk_hdmi_get_all_clk(hdmi, np);
+>> +    if (ret)
+>> +        return dev_err_probe(dev, ret, "Failed to get clocks\n");
+>>       hdmi->regs = device_node_to_regmap(dev->of_node);
+>> -    if (IS_ERR(hdmi->regs)) {
+>> -        ret = PTR_ERR(hdmi->regs);
+>> -        goto put_device;
+>> -    }
+>> +    if (IS_ERR(hdmi->regs))
+>> +        return PTR_ERR(hdmi->regs);
+>>       remote = of_graph_get_remote_node(np, 1, 0);
+>> -    if (!remote) {
+>> -        ret = -EINVAL;
+>> -        goto put_device;
+>> -    }
+>> +    if (!remote)
+>> +        return -EINVAL;
+>>       if (!of_device_is_compatible(remote, "hdmi-connector")) {
+>>           hdmi->next_bridge = of_drm_find_bridge(remote);
+>>           if (!hdmi->next_bridge) {
+>>               dev_err(dev, "Waiting for external bridge\n");
+>>               of_node_put(remote);
+>> -            ret = -EPROBE_DEFER;
+>> -            goto put_device;
+>> +            return -EPROBE_DEFER;
+>>           }
+>>       }
+>>       i2c_np = of_parse_phandle(remote, "ddc-i2c-bus", 0);
+>>       of_node_put(remote);
+>> -    if (!i2c_np) {
+>> -        ret = dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
+>> -        goto put_device;
+>> -    }
+>> +    if (!i2c_np)
+>> +        return dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
+>>       hdmi->ddc_adpt = of_find_i2c_adapter_by_node(i2c_np);
+>>       of_node_put(i2c_np);
+>> -    if (!hdmi->ddc_adpt) {
+>> -        ret = dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by 
+>> node\n");
+>> -        goto put_device;
+>> -    }
+>> +    if (!hdmi->ddc_adpt)
+>> +        return dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by 
+>> node\n");
+>> +
+>> +    ret = mtk_hdmi_get_cec_dev(hdmi, dev, np);
+>> +    if (ret)
+>> +        return ret;
+>>       return 0;
+>> -put_device:
+>> -    put_device(hdmi->cec_dev);
+>> -    return ret;
+>>   }
+>>   /*
 > 
 
