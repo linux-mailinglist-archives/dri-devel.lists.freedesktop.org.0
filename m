@@ -2,61 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30036A2EB95
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 12:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55BCA2EBDC
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 12:50:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 475BA10E4F9;
-	Mon, 10 Feb 2025 11:44:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79C4E10E4FB;
+	Mon, 10 Feb 2025 11:50:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ddRQ6ASL";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HEz9H+6Q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2100A10E4FB
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:44:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E8B410E4FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:50:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739187868;
- bh=Uxj3j902irE5mB9g0HpLqhRIezxhsErLRfVa7qx/A3o=;
+ s=mail; t=1739188250;
+ bh=+WeROGh0IxRi9ENLiNY69RRv2egDN0g2bYDLctyHo44=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ddRQ6ASLVKzePQskZvnHHKet3LeoRiI2+q2NjrE8c6D6+nzRQB0x2uIVfqxhUM/J2
- hE0hVlY9PPJKqUK8ya8V4kuFX+LOR6TCTOUtK5n9+0IVFyJ3fjbFaT/tnnjCMZmznO
- gFi2OvQLC5NrOVzqbAS8d2VlQ0lpk5OkqWyy9cxnfT0QTYAY46tlloVVcBtdP8C9F5
- pPYF9roVpg4d5z1Qlf3jUz6ilDpHDgwvYJuoESaIgW0T4lDA2VahEDl0HAzKDfPGGM
- XrKkEiK7TfHH1396pTvSKspQUtomvny/JobjSjrIDS+YpW5tU+FPR8oE5lC0lsCg4R
- Lxj3l8YBJz+mw==
+ b=HEz9H+6QOsA296TDuoufEDidTU7hVQ6bZYMICdFoHQ/oorkC4Tv0eaj0Ukyn4tHVO
+ 8vnoitsAR4mJmDb1TNiBo51HH8eevn+Jq5Rz6Vs5iXCKrC4j+jIhyrOjrbtVsfzEXw
+ ZArZ/75YuNonfRn3AZyxa/pNCregDZHtgDI5UZ7Yaw37odh+wZbVEbS7VqEX0iOYeh
+ fDkXjbc2lwrjBnM/ErdRjwcXF4u6OpNIl9EXqWaxrmSIyHtlWL3pTEEF4RT2nrY38W
+ LbWutO0VmtLnvJfyqmCkNEYdhqg3Gm5JPQOAhbo5qt+dWt/LeMewFSGJYOqv0L9MOw
+ WhBU6GAdaW0Lw==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1A35617E0CA2;
- Mon, 10 Feb 2025 12:44:27 +0100 (CET)
-Message-ID: <59f611c5-1dcf-4667-bb34-c7f57b341f49@collabora.com>
-Date: Mon, 10 Feb 2025 12:44:26 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 74CA117E0239;
+ Mon, 10 Feb 2025 12:50:49 +0100 (CET)
+Message-ID: <b85aeb50-1cfc-4f26-a488-f01564108d61@collabora.com>
+Date: Mon, 10 Feb 2025 12:50:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 21/34] drm/mediatek: mtk_hdmi: Move CEC device parsing
- in new function
-To: Alexandre Mergnat <amergnat@baylibre.com>, chunkuang.hu@kernel.org
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- matthias.bgg@gmail.com, ck.hu@mediatek.com, jitao.shi@mediatek.com,
- jie.qiu@mediatek.com, junzhi.zhao@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
- dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
- ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
- jason-jh.lin@mediatek.com
+Subject: Re: [PATCH v5 10/34] drm/mediatek: mtk_hdmi_ddc: Switch to register
+ as module_platform_driver
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "robh@kernel.org" <robh@kernel.org>,
+ "jie.qiu@mediatek.com" <jie.qiu@mediatek.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>, =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
+ <jitao.shi@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ =?UTF-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?UTF-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?= <TommyYL.Chen@mediatek.com>,
+ =?UTF-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?= <Ives.Chenjh@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "junzhi.zhao@mediatek.com" <junzhi.zhao@mediatek.com>
 References: <20250113145232.227674-1-angelogioacchino.delregno@collabora.com>
- <20250113145232.227674-22-angelogioacchino.delregno@collabora.com>
- <18fd9544-f9ef-4f58-9a8a-026737c26b94@baylibre.com>
+ <20250113145232.227674-11-angelogioacchino.delregno@collabora.com>
+ <424656ad6c9fbd1c32a62d7ed7b35eb322e94720.camel@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <18fd9544-f9ef-4f58-9a8a-026737c26b94@baylibre.com>
+In-Reply-To: <424656ad6c9fbd1c32a62d7ed7b35eb322e94720.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,177 +89,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 07/02/25 15:45, Alexandre Mergnat ha scritto:
+Il 10/02/25 08:01, CK Hu (胡俊光) ha scritto:
+> On Mon, 2025-01-13 at 15:52 +0100, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until you have verified the sender or the content.
+>>
+>>
+>> In preparation for splitting out the common bits from the HDMI
+>> driver, change the mtk_cec driver from being registered from the
+>> HDMI driver itself to be a module_platform_driver of its own.
 > 
+> "change the mtk_hdmi_ddc driver"
 > 
-> On 13/01/2025 15:52, AngeloGioacchino Del Regno wrote:
->> Move the CEC device parsing logic to a new function called
->> mtk_hdmi_get_cec_dev(), and move the parsing action to the end
->> of mtk_hdmi_dt_parse_pdata(), allowing to remove gotos in this
->> function, reducing code size and improving readability.
+> I think ddc is not the common part, so the reason is not splitting out the common bits.
 > 
-> Why CEC device parsing logic isn't done mtk_cec.c driver ? Then add 
-> "mtk_cec_get_dev" function to mtk_cec.c too. Finally, call this new function in 
-> mtk_hdmi_probe after mtk_hdmi_dt_parse_pdata().
-> 
+
+Thanks, I didn't notice this typo!
+
+Regards,
+Angelo
+
+>>
+>> With this change, there are no more users of the mtk_hdmi.h header
+>> so, while at it, also remove it.
 >>
 >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 >> ---
->>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 84 ++++++++++++++---------------
->>   1 file changed, 40 insertions(+), 44 deletions(-)
+>>   drivers/gpu/drm/mediatek/Makefile       |  6 ++----
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.c     |  2 --
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.h     | 13 -------------
+>>   drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c |  2 +-
+>>   4 files changed, 3 insertions(+), 20 deletions(-)
+>>   delete mode 100644 drivers/gpu/drm/mediatek/mtk_hdmi.h
 >>
->> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/ 
->> mtk_hdmi.c
->> index 48c37294dcbb..eb285ec394a3 100644
+>> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek/Makefile
+>> index bdd3a062f797..43afd0a26d14 100644
+>> --- a/drivers/gpu/drm/mediatek/Makefile
+>> +++ b/drivers/gpu/drm/mediatek/Makefile
+>> @@ -21,10 +21,8 @@ mediatek-drm-y := mtk_crtc.o \
+>>
+>>   obj-$(CONFIG_DRM_MEDIATEK) += mediatek-drm.o
+>>
+>> -mediatek-drm-hdmi-objs := mtk_hdmi.o \
+>> -                         mtk_hdmi_ddc.o
+>> -
+>>   obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mtk_cec.o
+>> -obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mediatek-drm-hdmi.o
+>> +obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mtk_hdmi.o
+>> +obj-$(CONFIG_DRM_MEDIATEK_HDMI) += mtk_hdmi_ddc.o
+> 
+> It's not necessary to separate ddc to an independent module.
+> 
+> Regards,
+> CK
+> 
+>>
+>>   obj-$(CONFIG_DRM_MEDIATEK_DP) += mtk_dp.o
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> index da725182f0db..e648fb5714e7 100644
 >> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
 >> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
->> @@ -1367,24 +1367,16 @@ static const struct drm_bridge_funcs 
->> mtk_hdmi_bridge_funcs = {
->>       .edid_read = mtk_hdmi_bridge_edid_read,
->>   };
->> -static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
->> -                   struct platform_device *pdev)
->> +static int mtk_hdmi_get_cec_dev(struct mtk_hdmi *hdmi, struct device *dev, 
->> struct device_node *np)
->>   {
->> -    struct device *dev = &pdev->dev;
->> -    struct device_node *np = dev->of_node;
->> -    struct device_node *remote, *i2c_np;
->>       struct platform_device *cec_pdev;
->> -    struct regmap *regmap;
->> +    struct device_node *cec_np;
->>       int ret;
->> -    ret = mtk_hdmi_get_all_clk(hdmi, np);
->> -    if (ret)
->> -        return dev_err_probe(dev, ret, "Failed to get clocks\n");
+>> @@ -31,7 +31,6 @@
+>>   #include <drm/drm_probe_helper.h>
+>>
+>>   #include "mtk_cec.h"
+>> -#include "mtk_hdmi.h"
+>>   #include "mtk_hdmi_regs.h"
+>>
+>>   #define NCTS_BYTES     7
+>> @@ -1804,7 +1803,6 @@ static struct platform_driver mtk_hdmi_driver = {
+>>   };
+>>
+>>   static struct platform_driver * const mtk_hdmi_drivers[] = {
+>> -       &mtk_hdmi_ddc_driver,
+>>          &mtk_hdmi_driver,
+>>   };
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.h b/drivers/gpu/drm/mediatek/mtk_hdmi.h
+>> deleted file mode 100644
+>> index e40bc4651995..000000000000
+>> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.h
+>> +++ /dev/null
+>> @@ -1,13 +0,0 @@
+>> -/* SPDX-License-Identifier: GPL-2.0-only */
+>> -/*
+>> - * Copyright (c) 2014 MediaTek Inc.
+>> - * Author: Jie Qiu <jie.qiu@mediatek.com>
+>> - */
+>> -#ifndef _MTK_HDMI_CTRL_H
+>> -#define _MTK_HDMI_CTRL_H
 >> -
->>       /* The CEC module handles HDMI hotplug detection */
->>       cec_np = of_get_compatible_child(np->parent, "mediatek,mt8173-cec");
+>> -struct platform_driver;
+>> -
+>> -extern struct platform_driver mtk_hdmi_ddc_driver;
+>> -
+>> -#endif /* _MTK_HDMI_CTRL_H */
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
+>> index 07db68067844..6358e1af69b4 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
+>> @@ -20,7 +20,6 @@
+>>   #include <linux/of_platform.h>
+>>
+>>   #include "mtk_drm_drv.h"
+>> -#include "mtk_hdmi.h"
+>>
+>>   #define SIF1_CLOK              (288)
+>>   #define DDC_DDCMCTL0           (0x0)
+>> @@ -337,6 +336,7 @@ struct platform_driver mtk_hdmi_ddc_driver = {
+>>                  .of_match_table = mtk_hdmi_ddc_match,
+>>          },
+>>   };
+>> +module_platform_driver(mtk_hdmi_ddc_driver);
+>>
+>>   MODULE_AUTHOR("Jie Qiu <jie.qiu@mediatek.com>");
+>>   MODULE_DESCRIPTION("MediaTek HDMI DDC Driver");
+>> --
+>> 2.47.0
+>>
 > 
-> If it's done in mtk_cec.c, the hardcoded compatible string method will be replaced 
-> by of_match_table (mtk_cec_of_ids), which is scalable and consistent.
-> 
 
-That's true, yes, but the CEC driver is not supposed to be in drivers/drm/mediatek
-in the first place - that should be partially refactored and moved to where the CEC
-drivers belong: drivers/media/cec/platform/mediatek/
-
-This is something that is currently in the process of making here, as the CEC v2
-driver will be added there, and the CECv1 driver will be moved along side of the
-new one, making things finally correct.
-
-Of course, this code will be retained to keep retrocompatibility with older device
-trees, and if I move it to mtk_cec, I will have to move it back here after the
-CEC driver is moved to the correct location.
-
-For the reasons explained above, I disagree about moving this code to the CEC
-driver.
-
-Cheers,
-Angelo
-
->>       if (!cec_np)
->> -        return dev_err_probe(dev, -EINVAL, "Failed to find CEC node\n");
->> +        return dev_err_probe(dev, -ENOTSUPP, "Failed to find CEC node\n");
->>       cec_pdev = of_find_device_by_node(cec_np);
->>       if (!cec_pdev) {
->> @@ -1393,65 +1385,69 @@ static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
->>           return -EPROBE_DEFER;
->>       }
->>       of_node_put(cec_np);
->> -    hdmi->cec_dev = &cec_pdev->dev;
->>       /*
->>        * The mediatek,syscon-hdmi property contains a phandle link to the
->>        * MMSYS_CONFIG device and the register offset of the HDMI_SYS_CFG
->>        * registers it contains.
->>        */
->> -    regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
->> -    ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1,
->> -                     &hdmi->sys_offset);
->> -    if (IS_ERR(regmap))
->> -        ret = PTR_ERR(regmap);
->> -    if (ret) {
->> -        dev_err_probe(dev, ret,
->> -                  "Failed to get system configuration registers\n");
->> -        goto put_device;
->> -    }
->> -    hdmi->sys_regmap = regmap;
->> +    hdmi->sys_regmap = syscon_regmap_lookup_by_phandle(np, "mediatek,syscon-hdmi");
->> +    if (IS_ERR(hdmi->sys_regmap))
->> +        return PTR_ERR(hdmi->sys_regmap);
->> +
->> +    ret = of_property_read_u32_index(np, "mediatek,syscon-hdmi", 1, &hdmi- 
->> >sys_offset);
->> +    if (ret)
->> +        return dev_err_probe(dev, ret,
->> +                     "Failed to get system configuration registers\n");
->> +
->> +    hdmi->cec_dev = &cec_pdev->dev;
->> +    return 0;
->> +}
->> +
->> +static int mtk_hdmi_dt_parse_pdata(struct mtk_hdmi *hdmi,
->> +                   struct platform_device *pdev)
->> +{
->> +    struct device *dev = &pdev->dev;
->> +    struct device_node *np = dev->of_node;
->> +    struct device_node *remote, *i2c_np;
->> +    int ret;
->> +
->> +    ret = mtk_hdmi_get_all_clk(hdmi, np);
->> +    if (ret)
->> +        return dev_err_probe(dev, ret, "Failed to get clocks\n");
->>       hdmi->regs = device_node_to_regmap(dev->of_node);
->> -    if (IS_ERR(hdmi->regs)) {
->> -        ret = PTR_ERR(hdmi->regs);
->> -        goto put_device;
->> -    }
->> +    if (IS_ERR(hdmi->regs))
->> +        return PTR_ERR(hdmi->regs);
->>       remote = of_graph_get_remote_node(np, 1, 0);
->> -    if (!remote) {
->> -        ret = -EINVAL;
->> -        goto put_device;
->> -    }
->> +    if (!remote)
->> +        return -EINVAL;
->>       if (!of_device_is_compatible(remote, "hdmi-connector")) {
->>           hdmi->next_bridge = of_drm_find_bridge(remote);
->>           if (!hdmi->next_bridge) {
->>               dev_err(dev, "Waiting for external bridge\n");
->>               of_node_put(remote);
->> -            ret = -EPROBE_DEFER;
->> -            goto put_device;
->> +            return -EPROBE_DEFER;
->>           }
->>       }
->>       i2c_np = of_parse_phandle(remote, "ddc-i2c-bus", 0);
->>       of_node_put(remote);
->> -    if (!i2c_np) {
->> -        ret = dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
->> -        goto put_device;
->> -    }
->> +    if (!i2c_np)
->> +        return dev_err_probe(dev, -EINVAL, "No ddc-i2c-bus in connector\n");
->>       hdmi->ddc_adpt = of_find_i2c_adapter_by_node(i2c_np);
->>       of_node_put(i2c_np);
->> -    if (!hdmi->ddc_adpt) {
->> -        ret = dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by 
->> node\n");
->> -        goto put_device;
->> -    }
->> +    if (!hdmi->ddc_adpt)
->> +        return dev_err_probe(dev, -EINVAL, "Failed to get ddc i2c adapter by 
->> node\n");
->> +
->> +    ret = mtk_hdmi_get_cec_dev(hdmi, dev, np);
->> +    if (ret)
->> +        return ret;
->>       return 0;
->> -put_device:
->> -    put_device(hdmi->cec_dev);
->> -    return ret;
->>   }
->>   /*
-> 
 
