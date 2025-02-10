@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F664A2F8E7
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 20:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143F2A2F8E8
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 20:39:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B38610E60A;
-	Mon, 10 Feb 2025 19:38:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79BDA10E606;
+	Mon, 10 Feb 2025 19:38:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Nrelez0O";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="CZkQNQrR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D32110E60B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 19:38:53 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F343910E60D
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 19:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739216332;
+ s=mimecast20190719; t=1739216336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LTEWxPe8B8Wum8eXVDX5hUwjNBhNNdMWJNli9ItwISM=;
- b=Nrelez0Okav55ARJLkfm+qqrceoMnlR7IrL0XVbPou2/EbswXQLfATuakvOZhSx0VRfZRh
- 61Wr6On1w9CqbWFhpEZdULEGO5HiRmKCbFAulzP7wCLkjOXCDPSLOmnD9s5Kg1RIYvrW3j
- brP2zX3puxzBFXtp96g+hIv4hRpxcz0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=mwHnciP+OvnJG9alUSG9/jEypyVF3ZPTXQLV9dVcfyg=;
+ b=CZkQNQrRfqD+5YnQBoBIPYgyEVsYSEbck7n4/ustTgOVVyqS59yTP5+qY5RuvKkbRJz06x
+ 0crT+MLBWzzvyfQtc8kP29e8XMwUVKgdEOXde93lQEoeXHyCWmTNuw7FZ4R5RWskTIH8N1
+ z2hRcLYthURePD6/jWXU2l7NXBd6FsQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-637-0hIS53pPM9i3ltFKNvvSyg-1; Mon, 10 Feb 2025 14:38:51 -0500
-X-MC-Unique: 0hIS53pPM9i3ltFKNvvSyg-1
-X-Mimecast-MFC-AGG-ID: 0hIS53pPM9i3ltFKNvvSyg
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-43933eb7f7eso13411615e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:38:50 -0800 (PST)
+ us-mta-212-rJL80PNYP9eDAU1cWKl3mw-1; Mon, 10 Feb 2025 14:38:55 -0500
+X-MC-Unique: rJL80PNYP9eDAU1cWKl3mw-1
+X-Mimecast-MFC-AGG-ID: rJL80PNYP9eDAU1cWKl3mw
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-38dc6aad9f8so1835253f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:38:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739216330; x=1739821130;
+ d=1e100.net; s=20230601; t=1739216334; x=1739821134;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LTEWxPe8B8Wum8eXVDX5hUwjNBhNNdMWJNli9ItwISM=;
- b=BvlHCW18Vb2+VoRxSpFWNDUt4jZB5GfRc0B+XtoM07ItPpcUvAiCWgwfeFWL04YPeT
- 4xvINzATmwqLSgIi9QQmE76FpeyRuuGkGIL4P2ghKoPkWHol1AChCJwcsWTI8GJnIC9g
- chXS7mZLk5wgfFbO3xshCeGooZJWVwKWfESX0yWaWwKzcfDBtqOvmXhwv4M9yMxER7Rx
- L/MdEp2Ac8IACNyQAA4Ddt0lorDw3J8Wv0DpzMArtUPMFnAPfnVnnF5UBLej1u3nH67X
- 9wPZXk9//FV4AT2ODhP8MeOnSZ3VOWysSRoWDyseTId9mNgb39GiXBJ1zCGH9jbU3LnB
- I6Tg==
+ bh=mwHnciP+OvnJG9alUSG9/jEypyVF3ZPTXQLV9dVcfyg=;
+ b=BPUDODngu3TqyjRwLGw9iRRhm/KPQvIZy4+Rqe/U4PFv1IIYDmwoh4e3LB6fxmRMq2
+ /RR07AAFUDX8SXg2n1cupZi1M2noN5H7JXo3U38ajntu0FAx4eEN/AH1OhqZSLDp2mJH
+ EEc4DcZKuIl07YCMt7kLgyMq1bGlSL7MsOTB+oMB8dNx/mT6MuVsPih1b3YMPtF8imfi
+ x3x7ZSbi33YtpHWqe5N74xKcDHv5HtoPXlbqBNTd1FHL+VCG9Q3RiNq5esYKRenWb5+s
+ yIImcYjQEPoNpmxkg8Bp49hX+G3Cf+7WILjN1G0DCySjuQ7iZY5mdCEIeLdFtUDgAq/1
+ jo/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzXMPQKHw7eV2rzh5yM9e3n/CIIPa5R41ckxy4hl1F/CKsTKJOzLTcjkQ1Kp6QrVfhTeIHfA2v7KM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzkXq6CM+SF6PhyBDFNdTpwvY7olcw8XAjj6Cg8GJbvIqzwUyMd
- EaOtz9C3pg6UgRsxaO+jcIoYOlUGvCNJ8q49+sYbhtQJfli0aHFmMJQvE2caa/gO0GZrFGtSOwq
- NfrKMpebM97hC+61zy0d6bOfwPD2s61UnKFHOfwCi+WA+U8LmetngKejIK9++tFbdDw==
-X-Gm-Gg: ASbGncubl6EGt8qruH2CmWQHQIkMO5JMtSFRnj+k4xaa7D8nhfB/ZvIFlavPOAb1j4L
- r6C9ziHe7Ublc+9SILl8zQsXZgiOvcz2TgM2VIfSzYwOAfmuz4KmXQozu8mg/fKGx5bUVE9ahEz
- r0p+hRhwryJdhMfquswTuOH3QBUK+EN0cIuvSTU8XFH3NK9dUAlBc9MgMDtPRFGHRdE+FO0QKyq
- Pc3uAJfhiSpvR3QOrq7Q2we74/qJaHRRkB0B8q/gjC6tSgSxJIPSdKa9YP+sN1hjcIotLMOK0OW
- ACtnlcE06L972+AHXgeSHGpPjqVjoQbUQbBdp8tLVbtP5vS/Hd92PybhbIdHO9U2bQ==
-X-Received: by 2002:a05:600c:4f89:b0:439:4bb0:aba0 with SMTP id
- 5b1f17b1804b1-4394bb0adb6mr17902715e9.8.1739216329958; 
- Mon, 10 Feb 2025 11:38:49 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH0Un4mhmMUf8CyrAHOSxNb3M+hrifrlRxr2GMjHtCC/u6kqhVG2aMU260gZj/4uoW1cKICNg==
-X-Received: by 2002:a05:600c:4f89:b0:439:4bb0:aba0 with SMTP id
- 5b1f17b1804b1-4394bb0adb6mr17902495e9.8.1739216329619; 
- Mon, 10 Feb 2025 11:38:49 -0800 (PST)
+ AJvYcCXGkZTW7mFKYznfxBa14muDuz1hai0ocI2mGC7sDj+osPKx0YhAmJE3F8MQ7a1pmAJj1kuYYa05VB4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcUb4eyCLz9RryG1YxmfIPxABX6gy0GUISOaPbskSXyhbgg1lF
+ 4+sk88uWI+WdcZJGb7c6+miSIUTX1AHB43xjOQjUAaI7JKyKrVulmGozEeRPKKr9YfiwSQS7tPT
+ IOM515ZL5MWoyOJDDHQJ7zJ40eICO1kAZVDsskMIoV8KyQKP56DFLHbtcPYHuwxOa8A==
+X-Gm-Gg: ASbGncurx4m34vmq2mnhaTs3oOEjWu6NzTPsue9tNvdiCb/wBxrVPS+9HfHidSJIQa+
+ B5XfLICUzvhkyzTIt2hC1uDE/OjJ15scXOopJPmW5s8O1SfjW+AR9Fwq9dLQM9B3UyCd1Ww8e/1
+ lA8sf12q/KzDze3wqrgKDoCrf1KD+sXFKQpQrwsd4lv/NJqAPI1J4xuxkHHQUQBGDhIe+3Jbjxz
+ Egy05+CN3VfSI3uJ9hkTURAPc1D2jOUiUYPdXq29bv1YY3Lyimm8o4rCX/waOnMYWx2hAxBiPjc
+ K1sps7rGuR1wQFVMhzG04S0fONmPfsBSXyQyawQU3cAnxFcNsHeXFySa5WINA96w4A==
+X-Received: by 2002:a5d:5f42:0:b0:38d:df15:2770 with SMTP id
+ ffacd0b85a97d-38de432d90fmr568613f8f.0.1739216333902; 
+ Mon, 10 Feb 2025 11:38:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEQ8jI3Pr0PhgIrX5XFi88nBpwoaMc1TLFqexlyUt/iDFsCN9k6Hzlrlovdfu0/+3mYproMTQ==
+X-Received: by 2002:a5d:5f42:0:b0:38d:df15:2770 with SMTP id
+ ffacd0b85a97d-38de432d90fmr568579f8f.0.1739216333460; 
+ Mon, 10 Feb 2025 11:38:53 -0800 (PST)
 Received: from localhost
  (p200300cbc734b80012c465cd348aaee6.dip0.t-ipconnect.de.
  [2003:cb:c734:b800:12c4:65cd:348a:aee6])
  by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-43947bdc5c4sm26951255e9.23.2025.02.10.11.38.46
+ 5b1f17b1804b1-4390db11200sm187831345e9.38.2025.02.10.11.38.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2025 11:38:48 -0800 (PST)
+ Mon, 10 Feb 2025 11:38:52 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -90,16 +90,16 @@ Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
  Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v2 12/17] mm/rmap: handle device-exclusive entries correctly
- in page_vma_mkclean_one()
-Date: Mon, 10 Feb 2025 20:37:54 +0100
-Message-ID: <20250210193801.781278-13-david@redhat.com>
+Subject: [PATCH v2 13/17] mm/page_idle: handle device-exclusive entries
+ correctly in page_idle_clear_pte_refs_one()
+Date: Mon, 10 Feb 2025 20:37:55 +0100
+Message-ID: <20250210193801.781278-14-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250210193801.781278-1-david@redhat.com>
 References: <20250210193801.781278-1-david@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: NTAbYp7EB75K465zCprlgPgPGvryNKWpfWpmRSy1qWY_1739216330
+X-Mimecast-MFC-PROC-ID: 4Hx-dz81knxEPL-T54C6BCxzkXQ_Xn5zVzjZ64yycCk_1739216334
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -121,10 +121,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
 we can return with a device-exclusive entry from page_vma_mapped_walk().
 
-page_vma_mkclean_one() is not prepared for that, so teach it about these
-PFN swap PTEs. Note that device-private entries are so far not applicable
-on that path, as we expect ZONE_DEVICE pages so far only in migration code
-when it comes to the RMAP.
+page_idle_clear_pte_refs_one() is not prepared for that, so let's
+teach it what to do with these PFN swap PTEs. Note that device-private
+entries are so far not applicable on that path, as page_idle_get_folio()
+filters out non-lru folios.
+
+Should we just skip PFN swap PTEs completely? Possible, but it seems
+straight forward to just handle them correctly.
 
 Note that we could currently only run into this case with
 device-exclusive entries on THPs. We still adjust the mapcount on
@@ -137,28 +140,30 @@ handle device-exclusive entries.
 Fixes: b756a3b5e7ea ("mm: device exclusive memory access")
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/rmap.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ mm/page_idle.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 7c471c3ea64c4..7b737f0f68fb5 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -1044,6 +1044,14 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
- 			pte_t *pte = pvmw->pte;
- 			pte_t entry = ptep_get(pte);
- 
-+			/*
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 947c7c7a37289..408aaf29a3ea6 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -62,9 +62,14 @@ static bool page_idle_clear_pte_refs_one(struct folio *folio,
+ 			/*
+ 			 * For PTE-mapped THP, one sub page is referenced,
+ 			 * the whole THP is referenced.
++			 *
 +			 * PFN swap PTEs, such as device-exclusive ones, that
-+			 * actually map pages are clean and not writable from a
-+			 * CPU perspective. The MMU notifier takes care of any
-+			 * device aspects.
-+			 */
-+			if (!pte_present(entry))
-+				continue;
- 			if (!pte_dirty(entry) && !pte_write(entry))
- 				continue;
- 
++			 * actually map pages are "old" from a CPU perspective.
++			 * The MMU notifier takes care of any device aspects.
+ 			 */
+-			if (ptep_clear_young_notify(vma, addr, pvmw.pte))
+-				referenced = true;
++			if (likely(pte_present(ptep_get(pvmw.pte))))
++				referenced |= ptep_test_and_clear_young(vma, addr, pvmw.pte);
++			referenced |= mmu_notifier_clear_young(vma->vm_mm, addr, addr + PAGE_SIZE);
+ 		} else if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+ 			if (pmdp_clear_young_notify(vma, addr, pvmw.pmd))
+ 				referenced = true;
 -- 
 2.48.1
 
