@@ -2,115 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57748A2F397
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:32:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC2EA2F3A3
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:33:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2E6310E5B4;
-	Mon, 10 Feb 2025 16:32:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A698910E36C;
+	Mon, 10 Feb 2025 16:33:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Cn0JoMwZ";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Kd+u8eyQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5317210E5B8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:32:25 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51ABg7Ek031872
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:32:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- PllHdGFA8xSW0690rPMUrAEqzelfEIRuIJxgSYa+UlQ=; b=Cn0JoMwZEOyoPkef
- 61kkoxfOO8ACryC6Dz0YVUUIuK/gbvwFhhTs6OuNOwazixlUJJCm+GW+Sgz4Bdev
- NI4OlSvfNmM0ilNyUagm/sBmSUnPrAb2ze7+t2hxVxFxsFLWp67rrppA5TtYa+aD
- 5PwSa/SmbQLC67e45REnAoXtBBJnbXEXdLOMDqG2xYNI3I9pxn/ERV9iHyhF33yf
- qba+zQ/kZxr0L9AGSZw+SE8XImfJZ9wqxIHz0+dgB/B191xN9/fUGG/3dTC+9tVF
- zTjQcFrEL0y7wmafcq9tspH64NgPEzOok3vR9QuYI1kla+ullsQK0Hb1f3Ro0tYN
- uOaC9A==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qgtk0qwf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:32:24 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4719ed0f8easo645681cf.2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 08:32:24 -0800 (PST)
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+ [209.85.167.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68F4610E36C
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:33:32 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id
+ 2adb3069b0e04-543d8badc30so4973182e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 08:33:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739205210; x=1739810010; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pe/8G8o+M5FZSgjrZo2plu0mkbz1sg3BqYR0IsKFs8E=;
+ b=Kd+u8eyQTfLfGRaKXv/ZXuwNJR7eyl9kQY9VUY1bfFzo37R5P+DDiebZOZtf0cehRc
+ dpK9ayP95QLUsnjQQgi+rhtmKf2IZqOCuEqxeITFMBm1FOofNz1OvIOB3sSj24XJLy15
+ GYe0B3eKy6uGACHWJJPjsIE45+GFMkFST+t9FLE0bIVEHezzCPLEpeKb16ZoIZPLTxDr
+ oZWTktui/Cly7LGeDcdPGE/MdnctX8JivisjUMAszoQ/TcvxzFRdrQMCXYD0fhZBrV31
+ dzSS5/aQBR2Ct4KL3RTkCRpM9dXLTeaznVzKESIn076YNH06BGxkBx4QAwqd2llaDU/g
+ rfeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739205143; x=1739809943;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PllHdGFA8xSW0690rPMUrAEqzelfEIRuIJxgSYa+UlQ=;
- b=RRBnaADZ+YmUW21+uT5xCD32j1WvjJXd9BZDjp4YZZ0S0i52yqAem7447jl/LMIyr+
- CnIeGOmjhpDmRFZ7zMvMahduTRaZ3HvxbbQjtsnYi8ZMYWVXTa4xa49KKpWiQ+5T6GwN
- k9jELPl+CIUwC2roTNzPJ3LOpOLukzBwgfAAn4bS0JC0sRfXqdwqcSEYAbvAel35YEYK
- lKsV+W5+2cJjHok8GkTJMShwBogIzsu9ALVqhc4ZLsGS54ysUxkCgv3tD6ycmgzJLZTt
- qGC7GOmDTTJ7fZlyx2zntTKbyZ9dbp57aKj0To3kzMQA6ehzKGQgwKVK3nroGgWmOv6Z
- dHJw==
+ d=1e100.net; s=20230601; t=1739205210; x=1739810010;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pe/8G8o+M5FZSgjrZo2plu0mkbz1sg3BqYR0IsKFs8E=;
+ b=d3z/9GoHwFkFh4mW04G+NnFtl+4sALGZ8PUnSFcYHrlnpdx+uekTERyPKQt7qE/eDr
+ BOnvt2wbWu7woWDDBs34ZhuZxTMmksq7oHYwJeNsC7GIWPyKjR/XikUNkA7HY7z32ta5
+ O+f8IBjfEzWSMJphqCCZujEtMFKzjTZ5IO1+3/bCX3sliol/NbfdNgFilDdirBw9S+PJ
+ C1SPe99PEkN5FppQdYlfql29iu/VlGQY/VICE80RSts+h4PLIe1dhky5SKHCicX9/kqG
+ lQIq/dSB4G/bqj3ijbuSCdLFXLW8EwxBYEid0xH3odt21jajW6pH8gUr+Ld2K3Gu8P5X
+ 75dQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXiLnbmjv1znJF9H/yTKzcIozVZ9wlAKLgmW6KhoD5qAi0Lfe1G72F6Nv0qxPoFCMPFJ3fabyUPKpQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxvtgUQ71EClqwZYXZxWY3kJBDuAfxuARkAGD3OjG/vtNW3f66X
- YV0E4Qh3PgLFVCpmn/FuLX6R/pFRQXfD661WLNkaFL0LkNQbGZ3z17E5z5GRSunuPUg2jVBzQt+
- 9epFIwCho15ucovK6uPXfqRPjinoROBoc+FBbPqadjuCnCWqnANNtGF/gYkc+1kmxHrE=
-X-Gm-Gg: ASbGncuyjZA1w/2NMms8BuVQgEQsNxpPuKoIanqerFy9d46nlZKbWC1GmWDoUFLwWRK
- kZCgCHX2hTxZ341vfNLjAj0EQa5tHgU72NO918TLXu3g6LHnxUHcL9vFlGe9KHGZHQF74R7qdpl
- tGQqLn4Yy5dj9aG81pD14QXQmR5NeibkSSfpkBLtr+P6pK9emOArfhk7KLDImQBL+os9UipXBqy
- PsauUt/bEt1RVdIvTcNXLTIRgWVrtZ7+TtK7NWw0DEe0Pq1vyuhkKkEb1BfMZDYrgBnoNEWPZci
- sTJPLzW+kThnhzYx7bQwpEwC6tVB9rHnqDvhvGoRyyOSoK2FSbog7iHJXa4=
-X-Received: by 2002:ac8:7fc3:0:b0:471:9a28:9cd9 with SMTP id
- d75a77b69052e-4719a289dbfmr10935551cf.12.1739205143338; 
- Mon, 10 Feb 2025 08:32:23 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF5IbZNKFe36TXsRdBve9RfSnI6zfiiQRD265XZv9cUtcHZVy3F19fELt4eG6KVJYmaMFNtpQ==
-X-Received: by 2002:ac8:7fc3:0:b0:471:9a28:9cd9 with SMTP id
- d75a77b69052e-4719a289dbfmr10935441cf.12.1739205142905; 
- Mon, 10 Feb 2025 08:32:22 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dcf9f6fa21sm8114981a12.68.2025.02.10.08.32.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2025 08:32:22 -0800 (PST)
-Message-ID: <1ffe8c68-3668-413a-a289-51a0b6bbc8ca@oss.qualcomm.com>
-Date: Mon, 10 Feb 2025 17:32:19 +0100
+ AJvYcCVzUklS0AeBnBexDfp9uq/cuEnMMsiANcXjBS38KBPug2FyK20vKkWbVOZBfEagUcUGZjg/AIFs7Qs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqxlWVA5WgVYxBzcz5eIa9fgvq8ApQnNirUpdVmoSlgPW3O1Cj
+ X7nLKO/F2K/rZcNs78ids6i4rcObLb+mLoCTTwYt3LM2vyfLHz+4D2I6qRFbWA4+NuMkvn4XUQg
+ zttM=
+X-Gm-Gg: ASbGncshx7c0xYw2JXPZdHZqA60Jye0jpuJHKdZzXJm5wdeU4PSYMpYuF6HSiRjs5ui
+ yiUsiwmjCoNyNRGHIU9L+64WBv+tTRVZ19NXUlWi6fNPev5tvD2V5PxvkWhisaQuhF6AoWdIJpk
+ AiybGRhB5gQZVL7+qPpRm4VACK51mw/Sm4dJQupw1A/p/aQLizWFV6RMlpGaFR3vGWY4IJ/QQwc
+ 8/IrfwV7fNmTXQJYQymoEFkyTwkDrJX/8GK+6cEMpwX8jHc3fdSZyAzumHauUGDYheLrqUCz82a
+ x7ofnzcgBRSMtTNJtyCn8m+xrviygJVngHERTgPnZjO28wC/FEzB6gaxUnn3cH51ngg03Xs=
+X-Google-Smtp-Source: AGHT+IF05hjnakzwKRMNzAORQhT+bWDxrwRXpn3TfkAben5IGr+ferileSAupXWycBYUMqKX0KPRqA==
+X-Received: by 2002:a05:6512:2254:b0:545:5de:f46e with SMTP id
+ 2adb3069b0e04-54505def563mr2412041e87.39.1739205210432; 
+ Mon, 10 Feb 2025 08:33:30 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5450654e778sm696499e87.60.2025.02.10.08.33.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2025 08:33:30 -0800 (PST)
+Date: Mon, 10 Feb 2025 18:33:28 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Yongbang Shi <shiyongbang@huawei.com>
+Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, 
+ daniel@ffwll.ch, kong.kongxinwei@hisilicon.com, liangjian010@huawei.com, 
+ chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
+ shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 drm-dp 1/7] drm/hisilicon/hibmc: Add dp phy cfg to
+ adjust serdes rate, voltage and pre-emphasis
+Message-ID: <63t7lgayor3rpsdbeluwjt6ccohmsz4facj6illae6wn5nhbu4@kek3iggrioq4>
+References: <20250210144959.100551-1-shiyongbang@huawei.com>
+ <20250210144959.100551-2-shiyongbang@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] arm64: dts: qcom: sm8650: add missing cpu-cfg
- interconnect path in the mdss node
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-0-54c96a9d2b7f@linaro.org>
- <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-4-54c96a9d2b7f@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-4-54c96a9d2b7f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: KCDSjnn8GXyfN3lJyO2tN7HPLZnw0HYM
-X-Proofpoint-ORIG-GUID: KCDSjnn8GXyfN3lJyO2tN7HPLZnw0HYM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-10_09,2025-02-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0
- priorityscore=1501 suspectscore=0 phishscore=0 impostorscore=0
- adultscore=0 clxscore=1015 mlxscore=0 malwarescore=0 bulkscore=0
- lowpriorityscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502100136
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250210144959.100551-2-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,14 +96,229 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10.02.2025 10:32 AM, Neil Armstrong wrote:
-> The bindings requires the mdp0-mem and the cpu-cfg interconnect path,
-> add the missing cpu-cfg path to fix the dtbs check error.
+On Mon, Feb 10, 2025 at 10:49:53PM +0800, Yongbang Shi wrote:
+> From: Baihan Li <libaihan@huawei.com>
 > 
-> Fixes: 9fa33cbca3d2 ("arm64: dts: qcom: sm8650: correct MDSS interconnects")
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> This serdes is inited and configured for dp, and integrating them into dp
+> init and dp link training process.
+> For rate changing, we can change from 1.62-8.2Gpbs by cfg reg.
+> For voltage and pre-emphasis levels changing, we can cfg different
+> serdes ffe value.
+> 
+> Signed-off-by: Baihan Li <libaihan@huawei.com>
+> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 > ---
+> ChangeLog:
+> v1 -> v2:
+>   - splittting the patch and add more detailed the changes in the commit message, suggested by Dmitry Baryshkov.
+>   - changing all names of dp phy to dp serdes.
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Nit: subject still mentions phy.
 
-Konrad
+Nit #2: The s/phy/serdes/ doesn't change the fact that you are still
+doing PHY-like programming. As such, please mention in the commit
+message that using PHY subsystem is impossible for you.
+
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/Makefile      |  2 +-
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  1 +
+>  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  4 +
+>  .../gpu/drm/hisilicon/hibmc/dp/dp_serdes.c    | 74 +++++++++++++++++++
+>  .../gpu/drm/hisilicon/hibmc/dp/dp_serdes.h    | 36 +++++++++
+>  5 files changed, 116 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
+> 
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> index 95a4ed599d98..43de077d6769 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> @@ -1,5 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
+> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_serdes.o hibmc_drm_dp.o
+>  
+>  obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+> index 2c52a4476c4d..e7746bc4b592 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+> @@ -38,6 +38,7 @@ struct hibmc_dp_dev {
+>  	struct mutex lock; /* protects concurrent RW in hibmc_dp_reg_write_field() */
+>  	struct hibmc_dp_link link;
+>  	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+> +	void __iomem *serdes_base;
+>  };
+>  
+>  #define dp_field_modify(reg_value, mask, val)				\
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> index a8d543881c09..39fd3687efca 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+> @@ -7,6 +7,7 @@
+>  #include "dp_comm.h"
+>  #include "dp_reg.h"
+>  #include "dp_hw.h"
+> +#include "dp_serdes.h"
+>  
+>  static void hibmc_dp_set_tu(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
+>  {
+> @@ -165,6 +166,9 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
+>  
+>  	hibmc_dp_aux_init(dp_dev);
+>  
+> +	if (hibmc_dp_serdes_init(dp_dev))
+> +		return -EAGAIN;
+
+Can you simply propagate the return value here?
+
+> +
+>  	dp_dev->link.cap.lanes = 0x2;
+>  	dp_dev->link.cap.link_rate = DP_LINK_BW_2_7;
+>  
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
+> new file mode 100644
+> index 000000000000..66586db2268a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright (c) 2024 Hisilicon Limited.
+> +
+> +#include <linux/delay.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_print.h>
+> +#include "dp_comm.h"
+> +#include "dp_config.h"
+> +#include "dp_reg.h"
+> +#include "dp_serdes.h"
+> +
+> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX])
+> +{
+> +	u32 serdes_tx_cfg[4][4] = { {DP_SERDES_VOL0_PRE0, DP_SERDES_VOL0_PRE1,
+
+static const
+
+> +				     DP_SERDES_VOL0_PRE2, DP_SERDES_VOL0_PRE3},
+> +				    {DP_SERDES_VOL1_PRE0, DP_SERDES_VOL1_PRE1,
+> +				     DP_SERDES_VOL1_PRE2}, {DP_SERDES_VOL2_PRE0,
+> +				     DP_SERDES_VOL2_PRE1}, {DP_SERDES_VOL3_PRE0}};
+> +	int cfg[2];
+> +	int i;
+> +
+> +	for (i = 0; i < HIBMC_DP_LANE_NUM_MAX; i++) {
+> +		cfg[i] = serdes_tx_cfg[(train_set[i] & 0x3)]
+> +			 [(train_set[i] << DP_TRAIN_PRE_EMPHASIS_SHIFT & 0x3)];
+> +		if (!cfg[i]) {
+> +			cfg[i] = DP_SERDES_VOL3_PRE0;
+> +			drm_warn(dp->dev, "dp serdes cfg beyonds the allowable range\n");
+
+Is it something that you should be mitigating? Can you return -EINVAL
+instead?
+
+> +		}
+> +
+> +		/* lane1 offset is 4 */
+> +		writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, cfg[i]),
+> +		       dp->serdes_base + HIBMC_DP_PMA_LANE0_OFFSET + i * 4);
+> +	}
+> +
+> +	usleep_range(300, 500);
+> +
+> +	if (readl(dp->serdes_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_SERDES_DONE) {
+> +		drm_err(dp->dev, "dp serdes cfg failed\n");
+
+drm_dbg?
+
+> +		return -EAGAIN;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp)
+> +{
+> +	writel(rate, dp->serdes_base + HIBMC_DP_LANE0_RATE_OFFSET);
+> +	writel(rate, dp->serdes_base + HIBMC_DP_LANE1_RATE_OFFSET);
+> +
+> +	usleep_range(300, 500);
+> +
+> +	if (readl(dp->serdes_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_SERDES_DONE) {
+> +		drm_err(dp->dev, "dp serdes rate switching failed\n");
+> +		return -EAGAIN;
+> +	}
+> +
+> +	if (rate < DP_SERDES_BW_8_1)
+> +		drm_warn(dp->dev, "reducing serdes rate to :%d\n",
+> +			 rate ? rate * HIBMC_DP_LINK_RATE_CAL * 10 : 162);
+
+drm_dbg
+
+> +
+> +	return 0;
+> +}
+> +
+> +int hibmc_dp_serdes_init(struct hibmc_dp_dev *dp)
+> +{
+> +	dp->serdes_base = dp->base + HIBMC_DP_HOST_OFFSET;
+> +
+> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_SERDES_VOL0_PRE0),
+> +	       dp->serdes_base + HIBMC_DP_PMA_LANE0_OFFSET);
+> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_SERDES_VOL0_PRE0),
+> +	       dp->serdes_base + HIBMC_DP_PMA_LANE1_OFFSET);
+> +
+> +	return hibmc_dp_serdes_rate_switch(DP_SERDES_BW_8_1, dp);
+> +}
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
+> new file mode 100644
+> index 000000000000..57f7f054f2b7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
+> @@ -0,0 +1,36 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/* Copyright (c) 2025 Hisilicon Limited. */
+> +
+> +#ifndef DP_SERDES_H
+> +#define DP_SERDES_H
+> +
+> +#define HIBMC_DP_HOST_OFFSET		0x10000
+> +#define HIBMC_DP_LANE0_RATE_OFFSET	0x4
+> +#define HIBMC_DP_LANE1_RATE_OFFSET	0xc
+> +#define HIBMC_DP_LANE_STATUS_OFFSET	0x10
+> +#define HIBMC_DP_PMA_LANE0_OFFSET	0x18
+> +#define HIBMC_DP_PMA_LANE1_OFFSET	0x1c
+> +#define HIBMC_DP_PMA_TXDEEMPH		GENMASK(18, 1)
+> +
+> +#define DP_SERDES_VOL0_PRE0		0x280
+> +#define DP_SERDES_VOL0_PRE1		0x2300
+> +#define DP_SERDES_VOL0_PRE2		0x53c0
+> +#define DP_SERDES_VOL0_PRE3		0x8400
+> +#define DP_SERDES_VOL1_PRE0		0x380
+> +#define DP_SERDES_VOL1_PRE1		0x3440
+> +#define DP_SERDES_VOL1_PRE2		0x6480
+> +#define DP_SERDES_VOL2_PRE0		0x500
+> +#define DP_SERDES_VOL2_PRE1		0x4500
+> +#define DP_SERDES_VOL3_PRE0		0x600
+
+These need some explanation.
+
+> +#define DP_SERDES_BW_8_1		0x3
+> +#define DP_SERDES_BW_5_4		0x2
+> +#define DP_SERDES_BW_2_7		0x1
+> +#define DP_SERDES_BW_1_62		0x0
+> +
+> +#define DP_SERDES_DONE			0x3
+> +
+> +int hibmc_dp_serdes_init(struct hibmc_dp_dev *dp);
+> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp);
+> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX]);
+> +
+> +#endif
+> -- 
+> 2.33.0
+> 
+
+-- 
+With best wishes
+Dmitry
