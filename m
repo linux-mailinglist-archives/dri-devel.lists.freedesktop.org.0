@@ -2,41 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163D2A2EE10
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A418BA2EE1B
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 14:34:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8251510E53B;
-	Mon, 10 Feb 2025 13:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FF6410E540;
+	Mon, 10 Feb 2025 13:34:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WyVteI7B";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hkqM0yZC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7115F10E53B
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:33:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8572210E540
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 13:34:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id AF040A414D0;
- Mon, 10 Feb 2025 13:31:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1BCC4CEDF;
- Mon, 10 Feb 2025 13:33:44 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 166F2A41520;
+ Mon, 10 Feb 2025 13:32:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D57F3C4CEDF;
+ Mon, 10 Feb 2025 13:34:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1739194425;
- bh=jEE2rRzbQWsQ5WNql+oIYrLVRlbtbYIC//jkwbzbJ0w=;
+ s=korg; t=1739194452;
+ bh=4DlgjSFn0QMI0/1fBAnmN1oPlM4e+NJXY8IGyYSczYg=;
  h=Subject:To:Cc:From:Date:From;
- b=WyVteI7BhnuDU8Rv29TJXA3TZyPdo8iYfdbUuu2J4q5uO81dTjaGLMNSbcq7sFGV+
- BMlla/BMQ2v3JBnuGuX1bdguWmPXAePkLj2Ndk1IBYIVEsa9xSdsWIBZj9morzj+gZ
- Qqz8SNNVFg2aknU1wlVNkHF0q+ovfIedH3NKULvg=
-Subject: Patch "drm/ast: astdp: Fix timeout for enabling video signal" has
- been added to the 6.13-stable tree
-To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, jfalempe@redhat.com, tzimmermann@suse.de
+ b=hkqM0yZCcGvDRgZm0ohqlfG9AUa7eo59gb8+yadmRgZVRT5iED/tr074szp6NrWYO
+ wtR6v97EOFghQuzFFG174UgVkatNWrYUMzm3eqFbt6KLPljqGKNVRmYCV7luCoUnBV
+ aHEtkJFH6w76nZ81TA6PH9htajFvW1kcvEnR+tI0=
+Subject: Patch "drm/rockchip: cdn-dp: Use
+ drm_connector_helper_hpd_irq_event()" has been added to the 6.13-stable tree
+To: andy.yan@rock-chips.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, groeck@chromium.org, heiko@sntech.de,
+ hjc@rock-chips.com, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, tzimmermann@suse.de, zyw@rock-chips.com
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 10 Feb 2025 14:31:45 +0100
-Message-ID: <2025021045-bakery-bolt-34f8@gregkh>
+Date: Mon, 10 Feb 2025 14:31:47 +0100
+Message-ID: <2025021047-brick-cupid-ef03@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-stable: commit
 X-Patchwork-Hint: ignore 
@@ -58,89 +60,92 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/ast: astdp: Fix timeout for enabling video signal
+    drm/rockchip: cdn-dp: Use drm_connector_helper_hpd_irq_event()
 
 to the 6.13-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-ast-astdp-fix-timeout-for-enabling-video-signal.patch
+     drm-rockchip-cdn-dp-use-drm_connector_helper_hpd_irq_event.patch
 and it can be found in the queue-6.13 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From fd39c41bcd82d5ebaaebadb944eab5598c668a90 Mon Sep 17 00:00:00 2001
+From 666e1960464140cc4bc9203c203097e70b54c95a Mon Sep 17 00:00:00 2001
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 27 Jan 2025 14:44:14 +0100
-Subject: drm/ast: astdp: Fix timeout for enabling video signal
+Date: Tue, 5 Nov 2024 14:38:16 +0100
+Subject: drm/rockchip: cdn-dp: Use drm_connector_helper_hpd_irq_event()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit fd39c41bcd82d5ebaaebadb944eab5598c668a90 upstream.
+commit 666e1960464140cc4bc9203c203097e70b54c95a upstream.
 
-The ASTDP transmitter sometimes takes up to 1 second for enabling the
-video signal, while the timeout is only 200 msec. This results in a
-kernel error message. Increase the timeout to 1 second. An example
-of the error message is shown below.
+The code for detecting and updating the connector status in
+cdn_dp_pd_event_work() has a number of problems.
 
-[  697.084433] ------------[ cut here ]------------
-[  697.091115] ast 0000:02:00.0: [drm] drm_WARN_ON(!__ast_dp_wait_enable(ast, enabled))
-[  697.091233] WARNING: CPU: 1 PID: 160 at drivers/gpu/drm/ast/ast_dp.c:232 ast_dp_set_enable+0x123/0x140 [ast]
-[...]
-[  697.272469] RIP: 0010:ast_dp_set_enable+0x123/0x140 [ast]
-[...]
-[  697.415283] Call Trace:
-[  697.420727]  <TASK>
-[  697.425908]  ? show_trace_log_lvl+0x196/0x2c0
-[  697.433304]  ? show_trace_log_lvl+0x196/0x2c0
-[  697.440693]  ? drm_atomic_helper_commit_modeset_enables+0x30a/0x470
-[  697.450115]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.458059]  ? __warn.cold+0xaf/0xca
-[  697.464713]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.472633]  ? report_bug+0x134/0x1d0
-[  697.479544]  ? handle_bug+0x58/0x90
-[  697.486127]  ? exc_invalid_op+0x13/0x40
-[  697.492975]  ? asm_exc_invalid_op+0x16/0x20
-[  697.500224]  ? preempt_count_sub+0x14/0xc0
-[  697.507473]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.515377]  ? ast_dp_set_enable+0x123/0x140 [ast]
-[  697.523227]  drm_atomic_helper_commit_modeset_enables+0x30a/0x470
-[  697.532388]  drm_atomic_helper_commit_tail+0x58/0x90
-[  697.540400]  ast_mode_config_helper_atomic_commit_tail+0x30/0x40 [ast]
-[  697.550009]  commit_tail+0xfe/0x1d0
-[  697.556547]  drm_atomic_helper_commit+0x198/0x1c0
+- It does not aquire the locks to call the detect helper and update
+the connector status. These are struct drm_mode_config.connection_mutex
+and struct drm_mode_config.mutex.
 
-This is a cosmetical problem. Enabling the video signal still works
-even with the error message. The problem has always been present, but
-only recent versions of the ast driver warn about missing the timeout.
+- It does not use drm_helper_probe_detect(), which helps with the
+details of locking and detection.
+
+- It uses the connector's status field to determine a change to
+the connector status. The epoch_counter field is the correct one. The
+field signals a change even if the connector status' value did not
+change.
+
+Replace the code with a call to drm_connector_helper_hpd_irq_event(),
+which fixes all these problems.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 4e29cc7c5c67 ("drm/ast: astdp: Replace ast_dp_set_on_off()")
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Dave Airlie <airlied@redhat.com>
+Fixes: 81632df69772 ("drm/rockchip: cdn-dp: do not use drm_helper_hpd_irq_event")
+Cc: Chris Zhong <zyw@rock-chips.com>
+Cc: Guenter Roeck <groeck@chromium.org>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: Andy Yan <andy.yan@rock-chips.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.13+
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250127134423.84266-1-tzimmermann@suse.de
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: <stable@vger.kernel.org> # v4.11+
+Signed-off-by: Heiko Stuebner <heiko@sntech.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20241105133848.480407-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/ast/ast_dp.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/cdn-dp-core.c |    9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
---- a/drivers/gpu/drm/ast/ast_dp.c
-+++ b/drivers/gpu/drm/ast/ast_dp.c
-@@ -195,7 +195,7 @@ static bool __ast_dp_wait_enable(struct
- 	if (enabled)
- 		vgacrdf_test |= AST_IO_VGACRDF_DP_VIDEO_ENABLE;
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -947,9 +947,6 @@ static void cdn_dp_pd_event_work(struct
+ {
+ 	struct cdn_dp_device *dp = container_of(work, struct cdn_dp_device,
+ 						event_work);
+-	struct drm_connector *connector = &dp->connector;
+-	enum drm_connector_status old_status;
+-
+ 	int ret;
  
--	for (i = 0; i < 200; ++i) {
-+	for (i = 0; i < 1000; ++i) {
- 		if (i)
- 			mdelay(1);
- 		vgacrdf = ast_get_index_reg_mask(ast, AST_IO_VGACRI, 0xdf,
+ 	mutex_lock(&dp->lock);
+@@ -1009,11 +1006,7 @@ static void cdn_dp_pd_event_work(struct
+ 
+ out:
+ 	mutex_unlock(&dp->lock);
+-
+-	old_status = connector->status;
+-	connector->status = connector->funcs->detect(connector, false);
+-	if (old_status != connector->status)
+-		drm_kms_helper_hotplug_event(dp->drm_dev);
++	drm_connector_helper_hpd_irq_event(&dp->connector);
+ }
+ 
+ static int cdn_dp_pd_event(struct notifier_block *nb,
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
