@@ -2,138 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27EF0A2F377
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:28:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A15A2F394
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 17:32:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9253510E0C7;
-	Mon, 10 Feb 2025 16:28:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C663710E391;
+	Mon, 10 Feb 2025 16:32:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="MnJf4a9q";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="gH+hBbsr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2046.outbound.protection.outlook.com [40.107.243.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4E110E0C7
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:28:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r4tBYnRdoe9SkWcYQMPmieT1/Yi8fNsE28QwyVgBQpWr3TjpLby+xGRmblzes8xU7buZAU/FSfhkjrpLmBM5+cXeKmuGIfubpg0jzgC50nAq77RsSXqhnrVOC16pmLiCdb/mfi/cSKhrJD1zoqRJCWZmdUrylLsFf+Uj+M1FvhHHYjuzMga34jj/+ypyecmNED60jGsDhxzIWtX5dC8Kr77I49QuzHR5ACK6l4d8mxDU22swhwwCz7u28UuxfAsjUd5c56+Th1XNWHFXEjIp2BQd3nXNN3sYIuNS8juxbS9ZjGNYUzmWgOi1wX7uwbaVPnCYnmQJun74gTLZ0Augow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j3LByvb98fsUobWrB3PGXb6hpWBsaplH5Rylt5+IdJk=;
- b=uGG+zXfIim0FUB03FasX2q+lxsKdE95Ew25W8UGdcag3o+Ls9xHDSL+wWLK8nzfsjxqzFLxZ2ekURsegfHI0qhG0noIfLU2ZfjtL/K81vaACAJsNlRnR8I4x7ld6vbxC2Pn34/bPqAK6bsOkGOhUff6v1VTg+qVNSzKfwhvYv6UUL8uqdRW5dUQfB3arYlscRMHsBK0sLDpuV8WYAWzSci+VbUSkJJ6+ZoQy/v6TLvWsRUv54Iz67IGkTFHgH53/HaKveLAoMvX8M5sx2a5xpibJ6UsXRgfcUANOqLw7hDTGBzeVN+h1iPvV3S2dVVwMge0DBPZpHbon//0X0G/NgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nfschina.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j3LByvb98fsUobWrB3PGXb6hpWBsaplH5Rylt5+IdJk=;
- b=MnJf4a9qu93M31r0bxScphJhJyX1UYfF3fRQT7eWGP3Le/CRxxG8KTr4ST9WDd1GGM6CtAtdXe9zalwcImbbRG2TQE6K7NGa7zyjJu8G6hljH2eYjs+dKe8Wh28I7mGYZQZcx2sGBjQ8UhXe96NuzeWIGXreI2QcaELOnkOsHUA=
-Received: from PH7P221CA0054.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:33c::34)
- by DM4PR12MB6011.namprd12.prod.outlook.com (2603:10b6:8:6b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.18; Mon, 10 Feb
- 2025 16:28:43 +0000
-Received: from CO1PEPF000044FB.namprd21.prod.outlook.com
- (2603:10b6:510:33c:cafe::4c) by PH7P221CA0054.outlook.office365.com
- (2603:10b6:510:33c::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.31 via Frontend Transport; Mon,
- 10 Feb 2025 16:28:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1PEPF000044FB.mail.protection.outlook.com (10.167.241.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8466.0 via Frontend Transport; Mon, 10 Feb 2025 16:28:41 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 10 Feb
- 2025 10:28:39 -0600
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 10 Feb
- 2025 10:28:39 -0600
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 10 Feb 2025 10:28:39 -0600
-Message-ID: <0db60138-2e9b-1ccb-9c0e-1b781f19ebd6@amd.com>
-Date: Mon, 10 Feb 2025 08:28:38 -0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42FF210E391
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:32:16 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51AApVc7011636
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:32:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ jCHUXPT5Jmbjgw9rgNlW8gb3OHlH09svIQMyIII50QM=; b=gH+hBbsrMoJ0EZtr
+ 8i2tmGkDg5i78VFBr5c7s4xS0HArBGmQZ5On0j7eb55KczTFAI0rXFIu1h8jEy7D
+ eu61Omh9hv+m2juT994GxYFqaNRblpSa1k1vbWFxm0cH2QbpkHbO19U0e5r67RCW
+ a2vp8t1nr3uABuHc9TVwQszgo11vfz/9UcFND7sJAExK8Brv7Yq3dSvH9Fzn0j7N
+ +Pe100+3an7fT3omg76JyVROf9UVs15e9vPfMySrF4PZmQDYh/u2qutk50Ylg4SD
+ 3optfukyB7cOoZKqGasLI5Qm2sy86HDFiigktd16ijFO1KOiS8/XWpJcu4HFlUCn
+ wLzEKg==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44q8kya4af-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 16:32:15 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6e448963aafso9486626d6.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 08:32:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739205134; x=1739809934;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jCHUXPT5Jmbjgw9rgNlW8gb3OHlH09svIQMyIII50QM=;
+ b=ugVtfMbwV4xFrowCyOm76NsovCErzl4lXHVbl0B/cnnLuyZT+5nZWJ/eXNML6/OSI2
+ CQTcugtiQs2NhbgBynfSHuZ84FsdnjHDcFsKtpQRYAZSN9jS+mPKThfnwPr049BF7ICk
+ FRhaJtORvNT1yYtNBVLI6tPbMkuWRQeIxNaHly3kQWQQW29LrBBMKpsfLHrAULF0qVAk
+ nFaqLV+P+AE4BjaSNTvdvWHqUvLLP+Ojj44ntQmdB342Kn8K9jj6YPwLegUY+qJy1goT
+ VmL9r0aVhoLBFnIOPle6PvvGutVbBzUFqcDltg3ctI7S2ehmSCYNXJmD8IJLt+A5XgW2
+ cpGw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWT8q6TVWsqFNgHuwu7B45gSpwBvGyaZsGKW0AoxbNOiB2oahb/xeSOQQqYIz5Z16AUY36gX8Z2ilY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6LvvhFp/NNDl2ikNLJt9qOkk/UfYuqH7A1e1l1KaIll9aUxkb
+ GH4+r8HL6fWWE4KOhFCKc6RLt1V/97H5sNwTjIuno2YpBhqSK+PQU5nLZXee8S5g+B9fwbNE7X1
+ /tfcIxraHJp8Rdf9ezpKtTKE0VlBJD/Xa/4QMQnQYp2vlhuJ8q7QxtbJJj9omm9yqSJQ=
+X-Gm-Gg: ASbGncvMcA9onlSzGL2uHNkremtzlwx2jYqlJLCN5ur8zw4b9qDL6KCZLJLja7IEcyz
+ HVCeVd/3PG3bdQfkjgSRcjeQHAgZzes/JtuBQJzqDkY0gyq3eqXJhHBUx1nzWLQgajuzak4O9F7
+ hMM0jdCoh5tnu/6ei4se+vr/9A/bO0HNfMN26pGVmYX7qKNQEvD77EKJO8wmmNGO/AynECFrSra
+ k54yyBPO/i+/Yp8fHKXW+4cOC/Zf4LBTNtCYING22+jyyr1no1O33VycjL5C2pWkj5aGOPK/CFM
+ GyRCPN9N+yzrLl/VyasfsEKTlAPwDdX9hgixwFGgX519C/+jd58q5yeMMsk=
+X-Received: by 2002:ac8:5852:0:b0:471:9ad0:9cc2 with SMTP id
+ d75a77b69052e-4719ad09d04mr9899401cf.10.1739205134098; 
+ Mon, 10 Feb 2025 08:32:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IECQbeD0Elon8YIvNJ6FOZ4xgWrOhjbb6XFnJ6XLJ3Ft6s4VlucVZP20dQP1lS3ytB3OAZAtQ==
+X-Received: by 2002:ac8:5852:0:b0:471:9ad0:9cc2 with SMTP id
+ d75a77b69052e-4719ad09d04mr9899271cf.10.1739205133726; 
+ Mon, 10 Feb 2025 08:32:13 -0800 (PST)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ab7b5d8d4a0sm353484466b.159.2025.02.10.08.32.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Feb 2025 08:32:13 -0800 (PST)
+Message-ID: <a3f7bef6-bfc8-4a2e-b979-4aac7908306f@oss.qualcomm.com>
+Date: Mon, 10 Feb 2025 17:32:10 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] accel/amdxdna: Add missing include linux/slab.h
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] arm64: dts: qcom: sm8550: add missing cpu-cfg
+ interconnect path in the mdss node
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-0-54c96a9d2b7f@linaro.org>
+ <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-3-54c96a9d2b7f@linaro.org>
 Content-Language: en-US
-To: Su Hui <suhui@nfschina.com>, <min.ma@amd.com>, <ogabbay@kernel.org>
-CC: <quic_jhugo@quicinc.com>, <George.Yang@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <kernel-janitors@vger.kernel.org>
-References: <20250208080548.1062441-1-suhui@nfschina.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <20250208080548.1062441-1-suhui@nfschina.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FB:EE_|DM4PR12MB6011:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81fd1023-8b68-4fc3-6f5c-08dd49effb53
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|36860700013|82310400026|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aCtUNXBXUDdFcWJ6eC8wK1IrcDgwaDBQN2JQWExvTElCN1RCUzZSblFFMlEy?=
- =?utf-8?B?a3JZaEdVZndHbjVOdzVhQkJhbUlSNThmM053NElaTEhnWnNDR3VBSTU1L3ho?=
- =?utf-8?B?SWZEZnRlL2FlL1Y1czZRa0JQMzlIdUw5THkwRW1Xd2NxbjNrbEt0elYxZysz?=
- =?utf-8?B?dDV2R0ZxcllKWHJYWnU2ZW1raUsxaXdwK21nZE1NcEU1eUtCdzZOakJaMGp5?=
- =?utf-8?B?OXFBMFUrWmUzaFBTQmg1S08vL3NDM1prOGg5UlpzN0pZTG0wdGtMbkNMcUNB?=
- =?utf-8?B?NHJwRDNJbkl0TUlRVjBpQXhVMURtV21XdXk1OFRNc0xTQTBSZnJ1b01qYWs5?=
- =?utf-8?B?TGRSNW90Ky9VTWsxKzU4NmVuanhsMzVvUUdjUlIwK2xpdmdqWEFQNlZUcU5E?=
- =?utf-8?B?U2w0RVllQVR0NG5XaW9zcmY3UzY3QVZ6SWMvQUF2N0wzeEFvK3ZReDBWUm1l?=
- =?utf-8?B?UmRITUd0V2hVNVZpZFpIeG1yTlJ5b0c1d05ET25xWTFVeklqRjhmd0Y1aWZR?=
- =?utf-8?B?dTUvVDhkTUlSNkZ2UzhBZm1tOCtaejRPQzJ5NDF5bks4VVdVdHNZMm1CMThE?=
- =?utf-8?B?MTFNbnNTcEpQK1pBdGNjMmVZV0NXRmh0TUNFd1QyQWRVTytFUWkwaE8wbEdQ?=
- =?utf-8?B?WGs1L0l1U1FUMldmSHJlS3RSbkM0QzhIQmtEUDZ2cktwWGdETTd6Y3g2d2o0?=
- =?utf-8?B?N21OTkxscUdFemVCRCsvRUhZbU9GZGJucXBvMDBhTTBKRTkyL3JLMTdheUJk?=
- =?utf-8?B?dnNDSzVrODA4Nk9KQ3I2MWdZbHNpOHFsRmhqUzUwZm9uc0hrS1N1N1Y1RGlt?=
- =?utf-8?B?cjNoRWxxRWFoZFVaa080c1c1M0J5VVdodE9vR0RmSDFYSnAwaGlKTUtEeFB3?=
- =?utf-8?B?ckhZSU9KSTJCSGRJTTU2U0RCRjRTL1lzTUJFdzRQTlNPc2QxbU1pSDZJSUd1?=
- =?utf-8?B?aTVWd0FpdVRMRDdCbUwzekN1NitOMGFwbTFFaWhTd2x0Y2lzYnExNFRRNUZK?=
- =?utf-8?B?bkZFTXVUT3R5Zk9FT2V4QnhuRkFraGFSeEcvQXloV1ROU3M3RzhjYlFmTEpk?=
- =?utf-8?B?NWJGaUswdmZacmlnaThsY0hOS0xSTjFldWw4c1ZlOW1hMkhkYnluRU1zL2FW?=
- =?utf-8?B?R3JMWTdlaVBXV2MwL2hRZzhnRFltN0dtOEpyQ2VCRTBxMWU3U2dYa3lvaVYr?=
- =?utf-8?B?djdQSlEzdUhZcnJqdmZKYTFTbSsxMXR1NVVYYTJQb1dCVVdqdE5Oc0Jac2to?=
- =?utf-8?B?em9qREc5VXNzSXNBdENsaE1DK0haYTAwaThlVFN3ekRjbExsdFBZaXNaeUI0?=
- =?utf-8?B?dmFKc3FjTGlvTEZ0Z0hnSkVBVHpuWnJheGNFRlc3MkFxWGhqREVMd3JJN0VV?=
- =?utf-8?B?VGVEd0pSc2JQUkpmdUVSM1Q5UWJMa3Iyc1dPRVZQekxhcjBFaWZGdG9OVUlR?=
- =?utf-8?B?K2svcFFmYVBUSVFTR3AvZm1wbksyN3JDWEZBYUdTQjZkZXpyZ3BWZE1MTG11?=
- =?utf-8?B?OVlWZktDMW0xdHpEMHhmVjlaZUI0aWxNeE1xVEpCdUlIS2JWRk5SVjY2UU9O?=
- =?utf-8?B?S2t1a1h3QTJyb3RIcG1YVE9WaytKcDBIMmVJaEJUWE5Sam1ZSkh3dnFScGRB?=
- =?utf-8?B?WVN4UnBDelYvQlI1cWM1YTl3MVVrWEVDc29aVTV4TnppWXJEL1o0U2lnSGdy?=
- =?utf-8?B?SnhzYjMzQm1DRVpSNThHOWdObzdWRUR1dzlhdDg3OEJjUUNjN2tJWjRrYUlG?=
- =?utf-8?B?ZU5CTzFOUUFIQlJBaTRaMnp3cmRuaGxLS1l2T3ExN2l2V28wZFE1ZG9SMjBF?=
- =?utf-8?B?djdxWWtFb04xRW1hV09XM3czUDZ1eXk2N0grek80MWUyWTdGQlZBOWwvOTc2?=
- =?utf-8?B?dU1oeE51N1BtVUZXNEdtbCtoempVNVJaNGpwL1BLeXBqeTNsOHlSMVlWY2NJ?=
- =?utf-8?B?eXcvOE9HZTgzU1N1OWFKeWFaaWhvTHFkeEg0WG1Tam5kUWxYaGpXYmxvWHdz?=
- =?utf-8?Q?PGvwL7ye/qIUwKhLkc89gznIr7fTFI=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2025 16:28:41.7320 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81fd1023-8b68-4fc3-6f5c-08dd49effb53
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044FB.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6011
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-3-54c96a9d2b7f@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: WHXj9TBRzF5pS2Zz6MnHSClpwH-eTDWx
+X-Proofpoint-ORIG-GUID: WHXj9TBRzF5pS2Zz6MnHSClpwH-eTDWx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-10_09,2025-02-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 impostorscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502100136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,39 +126,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 2/8/25 00:05, Su Hui wrote:
-> When compiling without CONFIG_IA32_EMULATION, there are some errors:
->
-> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘mailbox_release_msg’:
-> drivers/accel/amdxdna/amdxdna_mailbox.c:197:2: error: implicit declaration
-> of function ‘kfree’.
->    197 |  kfree(mb_msg);
->        |  ^~~~~
-> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘xdna_mailbox_send_msg’:
-> drivers/accel/amdxdna/amdxdna_mailbox.c:418:11: error:implicit declaration
-> of function ‘kzalloc’.
->    418 |  mb_msg = kzalloc(sizeof(*mb_msg) + pkg_size, GFP_KERNEL);
->        |           ^~~~~~~
->
-> Add the missing include.
->
-> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
-> Signed-off-by: Su Hui <suhui@nfschina.com>
+On 10.02.2025 10:32 AM, Neil Armstrong wrote:
+> The bindings requires the mdp0-mem and the cpu-cfg interconnect path,
+> add the missing cpu-cfg path to fix the dtbs check error.
+> 
+> Fixes: b8591df49cde ("arm64: dts: qcom: sm8550: correct MDSS interconnects")
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->   drivers/accel/amdxdna/amdxdna_mailbox.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> index 814b16bb1953..80b4b20addd6 100644
-> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> @@ -12,6 +12,7 @@
->   
->   #define CREATE_TRACE_POINTS
->   #include <trace/events/amdxdna.h>
-> +#include <linux/slab.h>
-Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
->   
->   #include "amdxdna_mailbox.h"
->   
+>  arch/arm64/boot/dts/qcom/sm8550.dtsi | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+> index eac8de4005d82f246bc50f64f09515631d895c99..702b55296b18ff2f8ea62a3391b7de2804aa9f65 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
+> @@ -3020,8 +3020,9 @@ mdss: display-subsystem@ae00000 {
+>  
+>  			power-domains = <&dispcc MDSS_GDSC>;
+>  
+> -			interconnects = <&mmss_noc MASTER_MDP 0 &mc_virt SLAVE_EBI1 0>;
+> -			interconnect-names = "mdp0-mem";
+> +			interconnects = <&mmss_noc MASTER_MDP 0 &mc_virt SLAVE_EBI1 0>,
+
+QCOM_ICC_TAG_ALWAYS
+
+> +					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY_CFG 0>;
+
+QCOM_ICC_TAG_ACTIVE_ONLY
+
+w that
+
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
+Konrad
