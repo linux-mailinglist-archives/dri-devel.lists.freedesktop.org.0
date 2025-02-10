@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7290A2F8EA
+	by mail.lfdr.de (Postfix) with ESMTPS id EA95AA2F8EB
 	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 20:39:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB7010E60D;
-	Mon, 10 Feb 2025 19:39:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15B7410E610;
+	Mon, 10 Feb 2025 19:39:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HENOEqYW";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VmY90EVe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6108E10E610
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 19:39:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6554B10E60F
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 19:39:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739216340;
+ s=mimecast20190719; t=1739216344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oE9Ja/aC61CHup4qeT96Odiagg40Q7TPEFXRUvHwXRo=;
- b=HENOEqYW23FVkl2qDgOt1R9Yb2YQsPWKLOM7RE3Lz48FdX4WK6IjmMjQ3pPwnpSTyXYDuf
- w7jBnPIHOaeceoQaNQSfuxT7dsFlYfyy3jzEx0zmDHeAk5kH6M+hYBFq0RurpIBcTjw23V
- EHg3DsgrXoTX+ZQ2e/tGel8oyacktDM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=oNpxFEEEyxoH6lwF3K+DQE9+aA/s7jzY02gjXCRiBPg=;
+ b=VmY90EVeuasymwo09mvaugZJVMt9XXNThXA2SNv5uzXii4d/djlwCwTyODIE6ja4L8CGzV
+ B+D9OxHu7vyGm82L0J4kvuIfpk0aytE67PZsfz52BD5QVE9H8hZr65iLSgf756ORxVDG7E
+ rFsd+L6rOqyNZa96f8zY/JRVVADuOhM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-470-WYViKUnSNkK86YWc6w1tgA-1; Mon, 10 Feb 2025 14:38:59 -0500
-X-MC-Unique: WYViKUnSNkK86YWc6w1tgA-1
-X-Mimecast-MFC-AGG-ID: WYViKUnSNkK86YWc6w1tgA
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-38dc709f938so1785952f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:38:59 -0800 (PST)
+ us-mta-350-j_cJ3bUaNw6Pw3kDVQRNCg-1; Mon, 10 Feb 2025 14:39:03 -0500
+X-MC-Unique: j_cJ3bUaNw6Pw3kDVQRNCg-1
+X-Mimecast-MFC-AGG-ID: j_cJ3bUaNw6Pw3kDVQRNCg
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-38de0201875so611359f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:39:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739216338; x=1739821138;
+ d=1e100.net; s=20230601; t=1739216342; x=1739821142;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oE9Ja/aC61CHup4qeT96Odiagg40Q7TPEFXRUvHwXRo=;
- b=TUZtvaM8iK9j0xxd+c6GbYe6tVIezltn9DpytuvLtShQ69NXIWH/RgwjA0Ni0DvGKT
- 12+A9FUtz/tLxFmakOlU5hiqhGt0y2bduqTla/JdQUQAO61mGkleZNTx/5hOezi5v+td
- xRZ2zHeME7S13sadrBsCZQndFd+BCiBCITplBDVEXeL/ik3jmRaGGE5UQLDP+GGjZVB+
- Y7MfXytsf3V3DLOFJ/Zdks3UvxNkAJTX1JC2b4CGIJGXpjArOChJJlbTA9Sab4UsByS6
- eSoMJGUx9vC7uM61hhsVDTzNTqWelcwhMcPNFuOpLGLsUuq/5tpOTsYTsiBBBSY2lyyN
- zNzw==
+ bh=oNpxFEEEyxoH6lwF3K+DQE9+aA/s7jzY02gjXCRiBPg=;
+ b=aWEE4zfS4gkNE5Q1fYDnXz2O0ZGcpyXWKVWJI+FSGaMVhzDh9FDel8U3hM7m7FxyCh
+ 5i661T8sMS3/U6ZZTq+Rz2r6yCgVe7V9+3KbgozS8ZaRgIvS1px2Xca2eAUl+UuUsdEx
+ 4Oqy+RkaBuiwuNbfy3U/gakFuH4qjQrfCuLAjTSigmtGe3sflOdGE/kpYnV9OE9I2L1D
+ K5PnVrPzh0Ye4ZIIzcPL4Mpypkp2Etv+8mkQo5MbHazvJ8i/kkvjoZQuac95hak8FNfU
+ N88geki5+W41r/Z83BumCL3a0m32n7RByamoQs+LP3M27s4NGCpfID1pVH6de8wsgKrU
+ 6szA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWG/TdZqgv+XQU0f+6+zukSn1ciAO4KZALxMh/JdgWmKiah6ogsLYoA+iM41YbOYhssE0UMaX/S1Oc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YykXF+jgZ74jVh1kM7vT3R8DfR4mXCXcO86eypqaZxoB7Qu2rcm
- WV4rPpeF9SxsXHSLQGxOYU2JgsRHTUlRSnhdLKchR2ukOPbTA5ipPTfmj88wn6zfD0Ox2uEGWli
- s658hTa8z8N8beeAqGgRUW5OYrFjTUgLVKP1syUEDszs0qrVFWMWIfGgmx+6tHE8vQA==
-X-Gm-Gg: ASbGncuCAxWaGncbsQKjAaNN8IrP6DJZXdVMPfIT8/ABFsQmWMkTrXDNl/JS20vHkR1
- wqq01m74PYV4GV44x+O2ManTTJi60OtL/i7KqJMLGhW31ZlOojvBeXBwbhcv7xbv9h2iJ6PzJZW
- Fs8uU1rOPlSlj9pAHLenyW/0ImHZfdy7niJvXmF2o9flzlE//iwJPOgvpfizPEao17Cp/9NkwIG
- BUyVDDhRe83JCeSD/bSUbxz9wFZJlIwZtEz7C8mkJPbiHDXGdMH+FmDCE/Cg4yGSSy5PsTbgFW1
- UKgjPr+6taJFJ6lBFErLtYoy8vW63/ewXj8LpLcCJuSFRiZCNd5MRXdZs3vp4cZzXQ==
-X-Received: by 2002:a05:6000:1887:b0:38b:f4e6:21aa with SMTP id
- ffacd0b85a97d-38de439b7e5mr512526f8f.5.1739216337869; 
- Mon, 10 Feb 2025 11:38:57 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF/uzgNmJSm7r4vj5m1RC+0Hk4d4M8qsuHzJI2p/6gaMOev6b/snbfbww+U3ctbsFbws8/HTA==
-X-Received: by 2002:a05:6000:1887:b0:38b:f4e6:21aa with SMTP id
- ffacd0b85a97d-38de439b7e5mr512516f8f.5.1739216337518; 
- Mon, 10 Feb 2025 11:38:57 -0800 (PST)
+ AJvYcCWyQYhi0t2VerOxtEDjdzX26y/wYYrDTxchBmEo2pZzR3cE3ui3lvRAMkqDubayZ3GSSHQe+3CPTEU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzxsEWJAoNzaBCDpfPmXaLbPMxqZxdgfb3eX/CCgXc56Gb8jH+V
+ 4f2dJi50UH1l3q4pV4Ib/Kl4YmAjmR/MZloy8QhHQTxKZ0HrSN9lDoWe0cSQaPe5jXgCIauO/ek
+ MT8OrNvljJMTHd/OAZleDpOLYwDEW4q0pN7Qiz+Nf29/Hfk7cEa5v4EiqwoPEqd5kxg==
+X-Gm-Gg: ASbGncttUd9xWJLPf0JjAavPJv5HjUgy00PT3ut8rYsgUrTP7ZTazhIlF00+AQhnDkW
+ ibVGHIL8yOICWgu96S/Je7jBPoHS7q6mTlJwqkzEOOdc+Qy6ugohpcbxWGs2527QgFNLMPPRJFn
+ yNW3baOGNxwz3wvnDBivRwyB9x6wYYLCyyOKjTSr2U9c8sE9iH0wBVAPa1N60OLgr1AmXqqA5xZ
+ y989yKH5Y8TKSAC2j7lDPuKjnKRpdaiZXs3zvK/anu+zLdjvhnUfMumaWSpviIhoyK60kO/Z7WA
+ oI9hdN/y8rw9x6c11BmdEgt/zUMWR3g7F6ynjn77yGVbqn0G12Ihlwlb6Wk1IPo3AA==
+X-Received: by 2002:a05:6000:1813:b0:38a:418e:21c7 with SMTP id
+ ffacd0b85a97d-38dc935246fmr8277016f8f.53.1739216342060; 
+ Mon, 10 Feb 2025 11:39:02 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHTiiTPkwAyfuLx0qL+LO6PapdaXuVNjUwBeGg/Z0ah/0RffyIckymQJ3LkKa1NUzxInLX6yQ==
+X-Received: by 2002:a05:6000:1813:b0:38a:418e:21c7 with SMTP id
+ ffacd0b85a97d-38dc935246fmr8276996f8f.53.1739216341643; 
+ Mon, 10 Feb 2025 11:39:01 -0800 (PST)
 Received: from localhost
  (p200300cbc734b80012c465cd348aaee6.dip0.t-ipconnect.de.
  [2003:cb:c734:b800:12c4:65cd:348a:aee6])
  by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-38dcc9bd251sm9816921f8f.9.2025.02.10.11.38.54
+ ffacd0b85a97d-38dc4d00645sm11916376f8f.66.2025.02.10.11.38.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2025 11:38:56 -0800 (PST)
+ Mon, 10 Feb 2025 11:39:00 -0800 (PST)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -90,16 +90,16 @@ Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
  Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: [PATCH v2 14/17] mm/damon: handle device-exclusive entries correctly
- in damon_folio_young_one()
-Date: Mon, 10 Feb 2025 20:37:56 +0100
-Message-ID: <20250210193801.781278-15-david@redhat.com>
+Subject: [PATCH v2 15/17] mm/damon: handle device-exclusive entries correctly
+ in damon_folio_mkold_one()
+Date: Mon, 10 Feb 2025 20:37:57 +0100
+Message-ID: <20250210193801.781278-16-david@redhat.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250210193801.781278-1-david@redhat.com>
 References: <20250210193801.781278-1-david@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 8w7xEDJxAUqwdnEzZynqfJhvvpNkAe1D7p1bYVK9sak_1739216338
+X-Mimecast-MFC-PROC-ID: -cMXjYWL6dlpxVmyIpOs4FPYbqnsOwB_moIA1_txc-4_1739216342
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -121,13 +121,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
 we can return with a device-exclusive entry from page_vma_mapped_walk().
 
-damon_folio_young_one() is not prepared for that, so teach it about these
-PFN swap PTEs. Note that device-private entries are so far not applicable
-on that path, as we expect ZONE_DEVICE pages so far only in migration code
-when it comes to the RMAP.
+damon_folio_mkold_one() is not prepared for that and calls
+damon_ptep_mkold() with PFN swap PTEs. Teach damon_ptep_mkold() to deal
+with these PFN swap PTEs. Note that device-private entries are so far not
+applicable on that path, as damon_get_folio() filters out non-lru
+folios.
 
-The impact is rather small: we'd be calling pte_young() on a
-non-present PTE, which is not really defined to have semantic.
+Should we just skip PFN swap PTEs completely? Possible, but it seems
+straight forward to just handle it correctly.
 
 Note that we could currently only run into this case with
 device-exclusive entries on THPs. We still adjust the mapcount on
@@ -137,38 +138,56 @@ abort early for small folios, because we'll always have
 mapcount logic once all page_vma_mapped_walk() users can properly
 handle device-exclusive entries.
 
-Fixes: b756a3b5e7ea ("mm: device exclusive memory access")
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- mm/damon/paddr.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ mm/damon/ops-common.c | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/mm/damon/paddr.c b/mm/damon/paddr.c
-index 0f9ae14f884dd..10d75f9ceeafb 100644
---- a/mm/damon/paddr.c
-+++ b/mm/damon/paddr.c
-@@ -92,12 +92,20 @@ static bool damon_folio_young_one(struct folio *folio,
- {
- 	bool *accessed = arg;
- 	DEFINE_FOLIO_VMA_WALK(pvmw, folio, vma, addr, 0);
-+	pte_t pte;
+diff --git a/mm/damon/ops-common.c b/mm/damon/ops-common.c
+index d25d99cb5f2bb..86a50e8fbc806 100644
+--- a/mm/damon/ops-common.c
++++ b/mm/damon/ops-common.c
+@@ -9,6 +9,8 @@
+ #include <linux/page_idle.h>
+ #include <linux/pagemap.h>
+ #include <linux/rmap.h>
++#include <linux/swap.h>
++#include <linux/swapops.h>
  
- 	*accessed = false;
- 	while (page_vma_mapped_walk(&pvmw)) {
- 		addr = pvmw.address;
- 		if (pvmw.pte) {
--			*accessed = pte_young(ptep_get(pvmw.pte)) ||
-+			pte = ptep_get(pvmw.pte);
+ #include "ops-common.h"
+ 
+@@ -39,12 +41,29 @@ struct folio *damon_get_folio(unsigned long pfn)
+ 
+ void damon_ptep_mkold(pte_t *pte, struct vm_area_struct *vma, unsigned long addr)
+ {
+-	struct folio *folio = damon_get_folio(pte_pfn(ptep_get(pte)));
++	pte_t pteval = ptep_get(pte);
++	struct folio *folio;
++	bool young = false;
++	unsigned long pfn;
 +
-+			/*
-+			 * PFN swap PTEs, such as device-exclusive ones, that
-+			 * actually map pages are "old" from a CPU perspective.
-+			 * The MMU notifier takes care of any device aspects.
-+			 */
-+			*accessed = (pte_present(pte) && pte_young(pte)) ||
- 				!folio_test_idle(folio) ||
- 				mmu_notifier_test_young(vma->vm_mm, addr);
- 		} else {
++	if (likely(pte_present(pteval)))
++		pfn = pte_pfn(pteval);
++	else
++		pfn = swp_offset_pfn(pte_to_swp_entry(pteval));
+ 
++	folio = damon_get_folio(pfn);
+ 	if (!folio)
+ 		return;
+ 
+-	if (ptep_clear_young_notify(vma, addr, pte))
++	/*
++	 * PFN swap PTEs, such as device-exclusive ones, that actually map pages
++	 * are "old" from a CPU perspective. The MMU notifier takes care of any
++	 * device aspects.
++	 */
++	if (likely(pte_present(pteval)))
++		young |= ptep_test_and_clear_young(vma, addr, pte);
++	young |= mmu_notifier_clear_young(vma->vm_mm, addr, addr + PAGE_SIZE);
++	if (young)
+ 		folio_set_young(folio);
+ 
+ 	folio_set_idle(folio);
 -- 
 2.48.1
 
