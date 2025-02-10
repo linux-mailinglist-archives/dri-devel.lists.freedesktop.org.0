@@ -2,64 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E596A2EA38
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 11:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A519A2EAD1
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 12:14:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C60A10E0E0;
-	Mon, 10 Feb 2025 10:57:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE96010E4FA;
+	Mon, 10 Feb 2025 11:14:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M6IHCOwB";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U+fF5Mrc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A75F10E0E0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:57:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1E832A410DC
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:55:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 884CFC4CEE8
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:57:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739185028;
- bh=MA+5GdIrBSMLheXDRe72EB1kfVzw5RshqjnX8/RRBsg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=M6IHCOwBEz4fchj4I/8DwiO3l2AQbCWI+oC3Lk6JEK2bx4ZEFHXSp3RiN7PmzDSNH
- wikT5JkovhE2vx+LYVtb2a/IydM9RjGmD7orz3VN9vLulvNx4NllEjJVipl0FNdb1t
- 59G5x46x5A2b0Wc9AuslYQkdAnmjCFpUek1HO+wQPvs9cHdDkwtLzh5F3G8m3wqKXr
- AzL6S1O2hA6zlIVZa57XmIKX05bQDUES61wVmBDmq+u0jqPaZ9jdl0NtpwqnhHIaoC
- 3nbsUAm908ZwKpb/jlGp6DZYjnTlbxgZrHDbFSUoh5d1pvHQZJKoLgUWV5YLj7x5VD
- xbBmai3F9kyiA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 8291CC41614; Mon, 10 Feb 2025 10:57:08 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 213145] AMDGPU resets, timesout and crashes after "*ERROR*
- Waiting for fences timed out!"
-Date: Mon, 10 Feb 2025 10:57:07 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: OBSOLETE
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-213145-2300-aYFCuHqTjh@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-213145-2300@https.bugzilla.kernel.org/>
-References: <bug-213145-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D346410E1A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:14:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1739186078;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=G/KMdZICnl582Io+/HgvG4CL9bgg3ycPLDrs0NWni5g=;
+ b=U+fF5MrcD9/057KOFhdSRTZnIGHDSIY0VWTXMLYgKAruD4qnU2GBJMpAGVK8qm62GKA6IK
+ pYIKoj4FuiPV76CyOB7LO3n+b1mHuWvF/qoElWRPjSXkH18TTKS1mS/QSTVZ7ZxrLTK3TW
+ Pvp0JaoMSYQkictpT8j1oLoXKNfq6/w=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-459-fsclYMXkN2-G7VpQzUvVjw-1; Mon, 10 Feb 2025 06:14:37 -0500
+X-MC-Unique: fsclYMXkN2-G7VpQzUvVjw-1
+X-Mimecast-MFC-AGG-ID: fsclYMXkN2-G7VpQzUvVjw
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-38dc88ed7caso1776577f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 03:14:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739186076; x=1739790876;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=G/KMdZICnl582Io+/HgvG4CL9bgg3ycPLDrs0NWni5g=;
+ b=J8KN9/FBIzkbLI9jtxrvAjk1xysppLneTN9P9KbNPZIM3wHFVEGGZVgVDD9NdLz/w8
+ BEDiw/mo60a8Q507H/g1/49JHa0Pe0rOYniLcJLqMrTREweh3MiYDT06vUOwmV1dnojY
+ 8nuBqu0Snu/yhA/DBWXrJW30LMZbGxDp7N1j1Lv5xiExHSF26ADFIiiN6O/CXBqYSFta
+ JplEJ5fcEaYI0j5UB6u3kMeEjOlbaihdMFrRxmy2w2rGEdoNLvOGlsTjynro8ZXGPe8o
+ frm7IPL/QrpBIzmCIi4NfuB7kiSVYmiEOoy3oaRZnURY0G69ajcU/GnBl+qAJxYgV2y6
+ 8C1g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVs8lhxDOR6r2+0JW2ADxMPUe0NCxxFLKNYPWfrbkfnjtG6hVzrOUOKFbZpD0O+RMY+F6WXFRYuvhM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwnWXYArJgkyM+Q07I3mWCDi2I+TftdHOZGEcB1/D4zy1UBfNtD
+ h38bh4XNzDXtaVxEhXDQP7yukXfvzXbfglfAW2cOpdHt0oGPRD/qFqw7yVl6XP7fcBi5n9YXKUt
+ nJsyhKsg5sAotw+ELzXdAB0EHw+A54OWFnKorrMgGwXeZUHDuwGk69McfDpt1AKfYDA==
+X-Gm-Gg: ASbGncsmWaDnCnH5w9/mAswmkW1McVTCii1JXiluADBsMGwJxQoMFbXTYqbn+FXaJVG
+ gqukHvPLd2EkJb0VMNWVGHT8wmnVDziAPfE2sl4uuGWJLIuHBZ1mjQv7O42lQMgWb6rHwJV5ZSS
+ tKqmRB9gUOPK5tel0dJU7SWaDAWNA9NB6KK3wx9i38gpAlf/x/9xa6bfdOaWba08MzZq3l9CJvA
+ PdsiNGf2t7EBFQzdFT9isBT4wyJLGxuroGsFfpuDOKTn4NJKnGgnVabys8Zspf4RyOhNH2Ojzgz
+ 4FudDzJbYlsZnlh7qD2nlj2ZO6kFbPAUCEZAtoQtwJrf
+X-Received: by 2002:a05:6000:1448:b0:38d:af2e:d5c3 with SMTP id
+ ffacd0b85a97d-38dc8dd1864mr9217939f8f.17.1739186076218; 
+ Mon, 10 Feb 2025 03:14:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGo6CfURy22Wovwne0UJ4k3nKGVnkr/wgeTUUI2em35sZPS2GM9P0+LoW8IoS7CA0xajZHCog==
+X-Received: by 2002:a05:6000:1448:b0:38d:af2e:d5c3 with SMTP id
+ ffacd0b85a97d-38dc8dd1864mr9217915f8f.17.1739186075845; 
+ Mon, 10 Feb 2025 03:14:35 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-43935c4f4aasm70175115e9.22.2025.02.10.03.14.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Feb 2025 03:14:35 -0800 (PST)
+Message-ID: <3c0e06d4-b5b7-45cf-bc42-8f12b293b7da@redhat.com>
+Date: Mon, 10 Feb 2025 12:14:33 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7] drm/virtio: Add drm_panic support
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
+ kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ daniel@ffwll.ch
+Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250206104300.416014-1-ryasuoka@redhat.com>
+ <d8a453e9-c8ce-4a7d-8fb9-08a13c44d7f3@collabora.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <d8a453e9-c8ce-4a7d-8fb9-08a13c44d7f3@collabora.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: QpOV2nvFhpbBiwys2MURZZxZNFhScpsJXN55xROfkYg_1739186076
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,24 +107,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D213145
+On 09/02/2025 18:45, Dmitry Osipenko wrote:
+> On 2/6/25 13:42, Ryosuke Yasuoka wrote:
+>> Virtio gpu supports the drm_panic module, which displays a message to
+>> the screen when a kernel panic occurs. It is supported where it has
+>> vmapped shmem BO.
+>>
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+>> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+>> ---
+> 
+> Applied to misc-next, thanks!
+> 
+> I've tested v7 with a different capsets, works well. For a non-VT FB the
+> vmap indeed will be needed. Looking forward to the atomic vmap support.
+> The rough idea of the atomic vmap helper is to make vmap code paths fail
+> whenever hitting path that needs to sleep. Likely will be easy to implement.
+> 
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+Thanks for your support.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |OBSOLETE
+I will see if we can do something for atomic vmap support for shmem.
 
---- Comment #35 from Artem S. Tashkinov (aros@gmx.com) ---
-If this is still reproducible in 6.12.13 or 6.13.2 please open a new bug re=
-port
-here:
+Best regards,
 
-https://gitlab.freedesktop.org/drm/amd/-/issues
+-- 
 
---=20
-You may reply to this email to add a comment.
+Jocelyn
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
