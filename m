@@ -2,96 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A519A2EAD1
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 12:14:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 001FEA2EAD6
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 12:15:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE96010E4FA;
-	Mon, 10 Feb 2025 11:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D67110E059;
+	Mon, 10 Feb 2025 11:15:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="U+fF5Mrc";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ESmPJunG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D346410E1A2
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:14:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739186078;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G/KMdZICnl582Io+/HgvG4CL9bgg3ycPLDrs0NWni5g=;
- b=U+fF5MrcD9/057KOFhdSRTZnIGHDSIY0VWTXMLYgKAruD4qnU2GBJMpAGVK8qm62GKA6IK
- pYIKoj4FuiPV76CyOB7LO3n+b1mHuWvF/qoElWRPjSXkH18TTKS1mS/QSTVZ7ZxrLTK3TW
- Pvp0JaoMSYQkictpT8j1oLoXKNfq6/w=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-459-fsclYMXkN2-G7VpQzUvVjw-1; Mon, 10 Feb 2025 06:14:37 -0500
-X-MC-Unique: fsclYMXkN2-G7VpQzUvVjw-1
-X-Mimecast-MFC-AGG-ID: fsclYMXkN2-G7VpQzUvVjw
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-38dc88ed7caso1776577f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 03:14:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739186076; x=1739790876;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G/KMdZICnl582Io+/HgvG4CL9bgg3ycPLDrs0NWni5g=;
- b=J8KN9/FBIzkbLI9jtxrvAjk1xysppLneTN9P9KbNPZIM3wHFVEGGZVgVDD9NdLz/w8
- BEDiw/mo60a8Q507H/g1/49JHa0Pe0rOYniLcJLqMrTREweh3MiYDT06vUOwmV1dnojY
- 8nuBqu0Snu/yhA/DBWXrJW30LMZbGxDp7N1j1Lv5xiExHSF26ADFIiiN6O/CXBqYSFta
- JplEJ5fcEaYI0j5UB6u3kMeEjOlbaihdMFrRxmy2w2rGEdoNLvOGlsTjynro8ZXGPe8o
- frm7IPL/QrpBIzmCIi4NfuB7kiSVYmiEOoy3oaRZnURY0G69ajcU/GnBl+qAJxYgV2y6
- 8C1g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVs8lhxDOR6r2+0JW2ADxMPUe0NCxxFLKNYPWfrbkfnjtG6hVzrOUOKFbZpD0O+RMY+F6WXFRYuvhM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwnWXYArJgkyM+Q07I3mWCDi2I+TftdHOZGEcB1/D4zy1UBfNtD
- h38bh4XNzDXtaVxEhXDQP7yukXfvzXbfglfAW2cOpdHt0oGPRD/qFqw7yVl6XP7fcBi5n9YXKUt
- nJsyhKsg5sAotw+ELzXdAB0EHw+A54OWFnKorrMgGwXeZUHDuwGk69McfDpt1AKfYDA==
-X-Gm-Gg: ASbGncsmWaDnCnH5w9/mAswmkW1McVTCii1JXiluADBsMGwJxQoMFbXTYqbn+FXaJVG
- gqukHvPLd2EkJb0VMNWVGHT8wmnVDziAPfE2sl4uuGWJLIuHBZ1mjQv7O42lQMgWb6rHwJV5ZSS
- tKqmRB9gUOPK5tel0dJU7SWaDAWNA9NB6KK3wx9i38gpAlf/x/9xa6bfdOaWba08MzZq3l9CJvA
- PdsiNGf2t7EBFQzdFT9isBT4wyJLGxuroGsFfpuDOKTn4NJKnGgnVabys8Zspf4RyOhNH2Ojzgz
- 4FudDzJbYlsZnlh7qD2nlj2ZO6kFbPAUCEZAtoQtwJrf
-X-Received: by 2002:a05:6000:1448:b0:38d:af2e:d5c3 with SMTP id
- ffacd0b85a97d-38dc8dd1864mr9217939f8f.17.1739186076218; 
- Mon, 10 Feb 2025 03:14:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGo6CfURy22Wovwne0UJ4k3nKGVnkr/wgeTUUI2em35sZPS2GM9P0+LoW8IoS7CA0xajZHCog==
-X-Received: by 2002:a05:6000:1448:b0:38d:af2e:d5c3 with SMTP id
- ffacd0b85a97d-38dc8dd1864mr9217915f8f.17.1739186075845; 
- Mon, 10 Feb 2025 03:14:35 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
- ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-43935c4f4aasm70175115e9.22.2025.02.10.03.14.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 10 Feb 2025 03:14:35 -0800 (PST)
-Message-ID: <3c0e06d4-b5b7-45cf-bc42-8f12b293b7da@redhat.com>
-Date: Mon, 10 Feb 2025 12:14:33 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4482210E059
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 11:15:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739186129;
+ bh=yghw6cquksN8zPqbgLipZY4BM8xR8DkXkhGUySC4WRA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ESmPJunGKo+yuyT+lTgsSKQkXws5Oh5vtwZRmhalZJPGz9I7fqqA1b5qZVgeScorm
+ 7fiHrJE9BW5p5by+M6fn++6G8oZZp16w+p+0puAsBVg0drC36ANH0wqBpmez62KFz7
+ U/2nXk7Bg7CokDrDbVCEGM9y1xZsPTIrn4rGMvVKsyY/RN5V/eRJjdoO4sF5ybqdzg
+ vV9FGtZz+Co5iGC1twH5yDOfNG3gsXGQbIwjW0UUAnQOjQfGR/7Mg/JdUhfQSZT6zq
+ P5kFUrMn3pteKxxx7JLw0nZPSPCdNyBhww+p+UUE0vQaNSi76MZXeSP7LDMP0778/m
+ gn1No4pdI4JfQ==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9548817E014F;
+ Mon, 10 Feb 2025 12:15:28 +0100 (CET)
+Message-ID: <98caee8a-b78e-4dcb-96d9-37fd4f279e68@collabora.com>
+Date: Mon, 10 Feb 2025 12:15:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7] drm/virtio: Add drm_panic support
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Ryosuke Yasuoka <ryasuoka@redhat.com>, airlied@redhat.com,
- kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- daniel@ffwll.ch
-Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250206104300.416014-1-ryasuoka@redhat.com>
- <d8a453e9-c8ce-4a7d-8fb9-08a13c44d7f3@collabora.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <d8a453e9-c8ce-4a7d-8fb9-08a13c44d7f3@collabora.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QpOV2nvFhpbBiwys2MURZZxZNFhScpsJXN55xROfkYg_1739186076
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
+Subject: Re: [PATCH v5 23/34] drm/mediatek: mtk_hdmi: Move output init to
+ mtk_hdmi_register_audio_driver()
+To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+ "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>
+Cc: "robh@kernel.org" <robh@kernel.org>,
+ "jie.qiu@mediatek.com" <jie.qiu@mediatek.com>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>,
+ "simona@ffwll.ch" <simona@ffwll.ch>, "mripard@kernel.org"
+ <mripard@kernel.org>, =?UTF-8?B?Sml0YW8gU2hpICjnn7PorrDmtpsp?=
+ <jitao.shi@mediatek.com>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ =?UTF-8?B?TGV3aXMgTGlhbyAo5buW5p+P6YieKQ==?= <Lewis.Liao@mediatek.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ =?UTF-8?B?VG9tbXlZTCBDaGVuICjpmbPlvaXoia8p?= <TommyYL.Chen@mediatek.com>,
+ =?UTF-8?B?SXZlcyBDaGVuamggKOmZs+S/iuW8mCk=?= <Ives.Chenjh@mediatek.com>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
+ "junzhi.zhao@mediatek.com" <junzhi.zhao@mediatek.com>
+References: <20250113145232.227674-1-angelogioacchino.delregno@collabora.com>
+ <20250113145232.227674-24-angelogioacchino.delregno@collabora.com>
+ <1d5a94f3b974d4617a58f2d9dfc54d5dc889f18a.camel@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <1d5a94f3b974d4617a58f2d9dfc54d5dc889f18a.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,31 +89,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/02/2025 18:45, Dmitry Osipenko wrote:
-> On 2/6/25 13:42, Ryosuke Yasuoka wrote:
->> Virtio gpu supports the drm_panic module, which displays a message to
->> the screen when a kernel panic occurs. It is supported where it has
->> vmapped shmem BO.
+Il 07/02/25 06:46, CK Hu (胡俊光) ha scritto:
+> Hi, Angelo:
+> 
+> On Mon, 2025-01-13 at 15:52 +0100, AngeloGioacchino Del Regno wrote:
+>> External email : Please do not click links or open attachments until you have verified the sender or the content.
 >>
->> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
->> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+>>
+>> In preparation for moving the common bits of this driver, merge the
+>> contents of mtk_hdmi_output_init in mtk_hdmi_register_audio_driver
+>> function to aggregate all of the initial audio setup together in
+>> the same function and to make it clear that all of the setup that
+>> is performed in mtk_hdmi_output_init is specifically related only
+>> to audio and not video.
+>>
+>> While at it, also remove the "%s driver bound to HDMI" debugging
+>> print disguised as informative.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 >> ---
+>>   drivers/gpu/drm/mediatek/mtk_hdmi.c | 28 ++++++++--------------------
+>>   1 file changed, 8 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> index e2393f7558f9..4345c91e92e7 100644
+>> --- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+>> @@ -1025,20 +1025,6 @@ static int mtk_hdmi_setup_vendor_specific_infoframe(struct mtk_hdmi *hdmi,
+>>          return 0;
+>>   }
+>>
+>> -static int mtk_hdmi_output_init(struct mtk_hdmi *hdmi)
+>> -{
+>> -       struct hdmi_audio_param *aud_param = &hdmi->aud_param;
+>> -
+>> -       aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+>> -       aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+>> -       aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
+>> -       aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
+>> -       aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
+>> -       aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
+>> -
+>> -       return 0;
+>> -}
+>> -
+>>   static void mtk_hdmi_audio_enable(struct mtk_hdmi *hdmi)
+>>   {
+>>          mtk_hdmi_hw_send_aud_packet(hdmi, true);
+>> @@ -1616,6 +1602,7 @@ static void mtk_hdmi_unregister_audio_driver(void *data)
+>>   static int mtk_hdmi_register_audio_driver(struct device *dev)
+>>   {
+>>          struct mtk_hdmi *hdmi = dev_get_drvdata(dev);
+>> +       struct hdmi_audio_param *aud_param = &hdmi->aud_param;
+>>          struct hdmi_codec_pdata codec_data = {
+>>                  .ops = &mtk_hdmi_audio_codec_ops,
+>>                  .max_i2s_channels = 2,
+>> @@ -1625,6 +1612,13 @@ static int mtk_hdmi_register_audio_driver(struct device *dev)
+>>          };
+>>          int ret;
+>>
+>> +       aud_param->aud_codec = HDMI_AUDIO_CODING_TYPE_PCM;
+>> +       aud_param->aud_sample_size = HDMI_AUDIO_SAMPLE_SIZE_16;
+>> +       aud_param->aud_input_type = HDMI_AUD_INPUT_I2S;
+>> +       aud_param->aud_i2s_fmt = HDMI_I2S_MODE_I2S_24BIT;
+>> +       aud_param->aud_mclk = HDMI_AUD_MCLK_128FS;
+>> +       aud_param->aud_input_chan_type = HDMI_AUD_CHAN_TYPE_2_0;
+>> +
+>>          hdmi->audio_pdev = platform_device_register_data(dev,
+>>                                                           HDMI_CODEC_DRV_NAME,
+>>                                                           PLATFORM_DEVID_AUTO,
+>> @@ -1638,7 +1632,6 @@ static int mtk_hdmi_register_audio_driver(struct device *dev)
+>>          if (ret)
+>>                  return ret;
+>>
+>> -       DRM_INFO("%s driver bound to HDMI\n", HDMI_CODEC_DRV_NAME);
 > 
-> Applied to misc-next, thanks!
-> 
-> I've tested v7 with a different capsets, works well. For a non-VT FB the
-> vmap indeed will be needed. Looking forward to the atomic vmap support.
-> The rough idea of the atomic vmap helper is to make vmap code paths fail
-> whenever hitting path that needs to sleep. Likely will be easy to implement.
+> This modification is not related to the title. If necessary, separate this to another patch.
+> But I don't know why remove this. Could you explain more?
 > 
 
-Thanks for your support.
+It's a cleanup... if every driver in the kernel said "bound to" or "registered",
+the kernel log would be extremely long and unreadable... so that's why this print
+was removed.
 
-I will see if we can do something for atomic vmap support for shmem.
+I can separate this to a different patch if you want, even though that'd be
+overkill, imo.
 
-Best regards,
+Cheers,
+Angelo
 
--- 
-
-Jocelyn
+> Regards,
+> CK
+> 
+>>          return 0;
+>>   }
+>>
+>> @@ -1667,11 +1660,6 @@ static int mtk_hdmi_probe(struct platform_device *pdev)
+>>          mutex_init(&hdmi->update_plugged_status_lock);
+>>          platform_set_drvdata(pdev, hdmi);
+>>
+>> -       ret = mtk_hdmi_output_init(hdmi);
+>> -       if (ret)
+>> -               return dev_err_probe(dev, ret,
+>> -                                    "Failed to initialize hdmi output\n");
+>> -
+>>          ret = mtk_hdmi_register_audio_driver(dev);
+>>          if (ret)
+>>                  return dev_err_probe(dev, ret,
+>> --
+>> 2.47.0
+>>
+> 
 
