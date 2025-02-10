@@ -2,78 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2240DA2F63F
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 19:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CDBA2F667
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 19:06:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEB8E10E381;
-	Mon, 10 Feb 2025 18:00:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 650F610E5DF;
+	Mon, 10 Feb 2025 18:06:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fwbAeiNw";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IZ8VZDR0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18C3C10E381
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 18:00:57 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 19B2E4438D;
- Mon, 10 Feb 2025 18:00:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739210456;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DLvilWAr6/r4XQUyGykRRYSHZD3CpFx0ya/iAbnhKO4=;
- b=fwbAeiNwkIBpRQwsQ4TQbxuKwoxM+IU6ebX2SzkjnGXhrUmgv3ZlQqTKedGhHXgZpdR31s
- OZPSJVQNo2xvimu9leek3AF5+YxploGEuGNGDzrL+iJsWrlCtVA1A/aYzkpHysMOtEPUf7
- dhBJiGnfzA3pObM3ubJgCJ9QvhQjanscl4XACSz5eARYJXe6KsZ6sfB7DQrSvDVF2xmXvv
- YpNrdcxCUNjT8//gUFDB1zjxCl50MhpvO//cE/8Eqf4nZ0TEw/kDybWL5LvNxulFOVWOHw
- kUrKfA9Kh9SXMewM7kuYDDA2m8OuGpucozBr0d6W3iU/JK1T9xFsst/xIRwkWw==
-Date: Mon, 10 Feb 2025 19:00:50 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Paul Kocialkowski
- <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?B?SGVy?=
- =?UTF-8?B?dsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Paul Kocialkowski
- <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v6 15/26] drm/bridge: devm_drm_of_get_bridge and
- drmm_of_get_bridge: automatically put the bridge
-Message-ID: <20250210190050.784a2236@booty>
-In-Reply-To: <k6endeznshwoftdmhyezuavg6vlemujukfybtqeil66cmjnhtv@yh6knwpabpno>
-References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
- <20250206-hotplug-drm-bridge-v6-15-9d6f2c9c3058@bootlin.com>
- <w3qufv73ldzdcfuz6n3prx4di2dhoq2wfqmmvxvxkea6uqxkge@pjwmugvicsbt>
- <20250207114401.7869b422@booty>
- <k6endeznshwoftdmhyezuavg6vlemujukfybtqeil66cmjnhtv@yh6knwpabpno>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83EC810E5DE
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 18:06:20 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51AANcKM013667
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 18:06:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ vsjL/2KQY+Tev80gGOdQzFfbqYML6F7kNzyKYY9Wvfw=; b=IZ8VZDR0CIuH+dBG
+ IW5QDMs0sSSLlyg3ckN1hgm5l19f7ipfAdDgFGD34EfKqyleqLXH7dGl3bZSXw0U
+ Ll/CbvSVZQEPJq1ALTj4ylk58ww3uIikws0fxnubaZb982CIdJmipo5HEMXYkH3Z
+ h2aUOoH/kMBQ8hpFhB/XdqPDVDd9hm//2P6qrISnyRHGyzk3G2tp2FAuwDsmV5mA
+ cF4C/1JE5phAS8Iyle+c/HIOGb0GRd1SM0God3vmH3nOE2MBhvmDfVCWXAo4pPzw
+ v2UHe701mDGamnq5vVYNDCdQkBFVGytBOSP9Smi0ryares2PWKd1+qSaAuBtVqej
+ vG/QXg==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44p0dyn690-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 18:06:19 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6e45cd4145bso3909996d6.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 10:06:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739210776; x=1739815576;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vsjL/2KQY+Tev80gGOdQzFfbqYML6F7kNzyKYY9Wvfw=;
+ b=KFakZPXCZ+X7xfj8NZDj/JzMy/ICpuZbrOheIa28u/urilnEXNd4OfalmnMBxHnUKX
+ WGFKlWsouXmOEAll05BOfZZkZuVnxaX6Z/Xcil83HcsmIMBkGHeQyHgHo73QrpFmd1LJ
+ Zl4lR3YKMoGlZU93t8KwUy0wX7Tw4qnBw1JxdDYiWsjrpEBswlem++j7oPCS0wqkm+vV
+ VUypxXtI69kokBjJB30ybTKwS01pmoXEwEM2/zKIFLB5JsrW/b1CicXQfSBv7A9AG841
+ 1nIJbgddM16xOIxLFWPJmh19aQVznBLeQbIfCqdYKCtkYkCXVFjwbhEgYmWklcXuuUxi
+ mCZA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUP0IfdsXlH5vdSRZqiG8sYr0T3koUBwXhjL5hjtpicTR5dxSJwkQR8Cnc8eSDF6MPxh5uvZ+/NZIM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxz8p5DDkWMb3ze75APiU9IOmJLMvD6t7g3ojXb2/nRAML04npL
+ 3oCxlfrWLSgJa7lz0is+ATUDQUQig7gdDX+M/cmjRhGYHNUXXz6lqy8/RsF/MncJD2wsa0thyYk
+ d7ykkKrkFIkMNmIfn91ZGqUsrp0sPoWk1vmaxASPfyVhsGvOSAlq1RSGS+/WVlYL2G28=
+X-Gm-Gg: ASbGncsFzjG+O63GSM1Tsub7gwhF3OZWBLVOR97/Tne8H+fdnJmwKjKVi6BnO2345bp
+ HB8skrk69JsTqax81T4XFVDU66lqkso5XpK5+z0JlFc5eVDE8YepcBf2A8CH/vjqYBJzovt7Kya
+ iax+lPl4EolAdrGxyDbhjoCwTld1Fze3So4Fhv/KV2novDCG3mWtCm6j42MrY9b/rwcF5vMKA0R
+ P7Bis1Wu+mI3xRAzqZBQ+f/Tzdh6sSHaortEq0lTu0ByqDcJKw9w5qCbq0jukdxv3ceKtBU5dhm
+ +FcKqiaQMXvoNoF28xAApo22vtmBckTSI6HwdfqcKnx14y+5YaghotQ0EuE=
+X-Received: by 2002:a05:622a:58cd:b0:471:8bb2:ed1c with SMTP id
+ d75a77b69052e-4718bb2ee8dmr38878591cf.1.1739210776178; 
+ Mon, 10 Feb 2025 10:06:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEQImmhmYCSQ+3nx9vW9Eev/sQYH6OwLcUExc6r6y7vYhFCtuQNRA2EBYx0mjRH4bAXUukGjA==
+X-Received: by 2002:a05:622a:58cd:b0:471:8bb2:ed1c with SMTP id
+ d75a77b69052e-4718bb2ee8dmr38878371cf.1.1739210775838; 
+ Mon, 10 Feb 2025 10:06:15 -0800 (PST)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ab7d7f0a47dsm35109166b.31.2025.02.10.10.06.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 10 Feb 2025 10:06:15 -0800 (PST)
+Message-ID: <c21d1ea2-9116-4e7d-a1d6-2717d0e772bf@oss.qualcomm.com>
+Date: Mon, 10 Feb 2025 19:06:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 16/16] ARM: dts: qcom: apq8064-ifc6410: drop HDMI HPD
+ GPIO
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250209-fd-hdmi-hpd-v4-0-6224568ed87f@linaro.org>
+ <20250209-fd-hdmi-hpd-v4-16-6224568ed87f@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250209-fd-hdmi-hpd-v4-16-6224568ed87f@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefkeejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeefjedprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovheslhhinhgrrhhordhorhhgpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehinhhkihdruggrvgesshgrmhhsuhhnghdrtghom
- hdprhgtphhtthhopehjrghgrghnsegrmhgrrhhulhgrshholhhuthhiohhnshdrtghomhdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepfihilhhlsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-Proofpoint-ORIG-GUID: uNl3Psm2lI5hlLbSPy-7XPZmA07-sPiZ
+X-Proofpoint-GUID: uNl3Psm2lI5hlLbSPy-7XPZmA07-sPiZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-10_10,2025-02-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ clxscore=1015 lowpriorityscore=0 impostorscore=0 mlxlogscore=754
+ mlxscore=0 priorityscore=1501 spamscore=0 adultscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502100147
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,64 +125,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dmitry,
-
-On Fri, 7 Feb 2025 21:57:30 +0200
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-
-> On Fri, Feb 07, 2025 at 11:44:01AM +0100, Luca Ceresoli wrote:
-> > On Fri, 7 Feb 2025 05:17:43 +0200
-> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> >   
-> > > On Thu, Feb 06, 2025 at 07:14:30PM +0100, Luca Ceresoli wrote:  
-> > > > Add a devm/drmm action to these functions so the bridge reference is
-> > > > dropped automatically when the caller is removed.    
-> > > 
-> > > I think the get() should go to the underlying of_drm_bridge_find() function.  
-> > 
-> > It is done in the following patch.
-> > 
-> > Indeed I could swap patches 15 and 16 for clarity. Or I could squash
-> > together patches 14+15+16, as they are various parts or the refcounted
-> > bridge implementation, but I felt like keeping them separated would
-> > help reviewing.  
+On 9.02.2025 6:05 AM, Dmitry Baryshkov wrote:
+> There is no need to specify separate HPD gpio for the HDMI block. Use
+> built-in HPD in order to detect if the monitor is plugged or not.
 > 
-> I think most of refcounting should be introduced as a single patch,
-> otherwise you risk having memory leaks or disappearing bridges.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-In principle there is no need to add all of this atomically in a single
-commit, provided that all patches adding refcounting in the
-infrastructure code is applied before patches to drivers using
-refcounting.
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-> > > Also it really feels like it's an overkill to keep the wrappers. After
-> > > getting bridge being handled by the panel code would it be possible to
-> > > drop all of them?  
-> > 
-> > Do you mean having only drm_of_get_bridge_by_node(), without any devm
-> > or drmm variant? I'm not sure it is a good idea. Most DRM code (well,
-> > all of it, technically) is currently unable of working with refcounted
-> > bridges, but if they use the devm variant they will put the ref when
-> > they disappear.
-> >   
-> > > Then this patch might introduce one new devm_
-> > > function? Or are drmm_ functions actually being used to store data in
-> > > the drmm-managed memory?  
-> > 
-> > Which devm function are you thinking about? Sorry, I'm not following
-> > here.  
-> 
-> drmm_of_get_bridge() / devm_of_get_bridge(). I have a feeling (which of
-> course might be wrong), that they were used somewhat randomly in some
-> cases.
-
-Again not sure I get you, sorry. What's wrong in
-devm_drm_of_get_bridge(), and what would the new function you proposed
-be doing? I think a couple lines of pseudocode would clarify this.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Konrad
