@@ -2,130 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCB2A2E797
-	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 10:24:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD52CA2E7B9
+	for <lists+dri-devel@lfdr.de>; Mon, 10 Feb 2025 10:32:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3409710E4CD;
-	Mon, 10 Feb 2025 09:24:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D1B210E4C8;
+	Mon, 10 Feb 2025 09:32:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ZAkt0eos";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4viZoKU7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZI1ci0Mc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4eMq+nmF";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OHATsgBf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E61810E4CD
- for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 09:24:35 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 74E511F38F;
- Mon, 10 Feb 2025 09:24:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739179473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6GMnFZTed3LWi7FrjeawM5AnnfqGpHZ6w0QkYc1dZhc=;
- b=ZAkt0eosVvcuvZ2JldSb7M7rUqgeJHxnxUXrr+21Xv5VgU40bliDb/rDQZmFWj9fRVFzCQ
- jSJzVFUqUXXxmnuQcVmJZFBumvPgYsPJ3pT1aD8ZwR188vMYnrGf87K7/VxdY/IuzpV9qA
- +vTz0Ya8jptZnRX3wD1XOdSSCUSTa20=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739179473;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6GMnFZTed3LWi7FrjeawM5AnnfqGpHZ6w0QkYc1dZhc=;
- b=4viZoKU7qLfLPNG7oIwq5NwIPSq8FhKdmVtxFO38eLhVvRAB7Rsecvcu6TPZpIwXspcXw3
- yRitJKqc5QsNUkAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739179472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6GMnFZTed3LWi7FrjeawM5AnnfqGpHZ6w0QkYc1dZhc=;
- b=ZI1ci0McmOXN/BO5ejMRgEoXFBiZPDyJ4hQ7HlOHjASNUIZmFygsR//BnTa7/1g8NF45py
- MOuytZGR7M/bRHFAbvkAx+2We+cOqxvp6u25WBaIiqShoJxi5ZqnHTIBphCmGJWGg6FlKf
- 6XWfC8UxFTgug8JmTXQ0SV4f4HZzQiY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739179472;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=6GMnFZTed3LWi7FrjeawM5AnnfqGpHZ6w0QkYc1dZhc=;
- b=4eMq+nmFTvY6tVSp5DkVOfTZ/LhRlZK95ZVRyQ7RLsaL5/PXUqq3YI0ZrpCfsJPEJNg78L
- I2zhplI28dieZSCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4408A13A62;
- Mon, 10 Feb 2025 09:24:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Uj4dD9DFqWe9NQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 10 Feb 2025 09:24:32 +0000
-Message-ID: <e07fbd60-e362-482d-8233-409a366c9b2f@suse.de>
-Date: Mon, 10 Feb 2025 10:24:31 +0100
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2FF810E4C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 09:32:48 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-436345cc17bso27692225e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 01:32:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739179967; x=1739784767; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=VzZ4qnyDjt3/FJ2e8uCPnYFFvXSGSVm1CHMdsRPG1Pg=;
+ b=OHATsgBfoic+2GwKK2U8/MNh3b3EXItjOorx4SlEOL+ATP8/XJ7QcijoCBdiUGsYAM
+ FZ5GamN4sfMbyKXvQEgBjmc/1p4c49J6NSv/5nFv336kxlUlJtoZXLd5+G1JF5YVBwTb
+ bdYP7IvcEYe0rPGr2VsG2shvgXln0uwUevVUAc4OwauxnqoMJV0dNfQbqlSFv3CG2WaI
+ M/Wdy0iYilXYOKIR+MpTuWD4+bFH1et/chIleFgMHojFKPRjM+7HgaewPVrzfi3UFZjV
+ FvuGqZZ0W9+bvYdySqU+w+qpH9in8zJFC+puOMnhi02wSJ0PV/6PF6CBL3sr/7LyclfU
+ p3Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739179967; x=1739784767;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VzZ4qnyDjt3/FJ2e8uCPnYFFvXSGSVm1CHMdsRPG1Pg=;
+ b=MCRsbVeey7i7EMrl2Zsk96DmfT2L5//MgBPZ5hdaoOCz4WfVpp+LuWUJyn3Ye8N6p+
+ +YOjhASulqlQzLpFkuU1KwDfb0IfzDD5fZkvmpu1dLgeoIF76qZunpiodK/OtdrhkSNH
+ jWgEUEaSEuCN06IzvSl4bMgR6/0MbnLTa8YYLEndaqx8uMXKBPktASpIa0yIGsAh2l4I
+ ihGuJRx/swQMc/j/VbTnfrEulOw9Yie4//u1vwq8aLwgyd6MaXk+7w89HTa2rb/AVkyc
+ S95hYjbqs2u+mxlNpk7Dw3adxaUoQmx1P7JJ6jtIEFGFWoBH2AGzCVX3/GJ0t/qbvSWX
+ b8Lw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVb9KfoNXLV+uojWG5zJ3YZHMfcRs0/X1RCjGHJ3O45SvvMgGHtxX3z+gttwc+Yy6RtN1QEeH6W9pM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLjYvu0jJeyqWaEmWKq6YPVrq/WjBl/eaaOwdf5PKyQ5wP0RfU
+ X0rTgH+3ugvVBq6eMfyeuTuxAprM/SuHIb7O3/hc1sCTR2Lv+B/oNfK1Rnm69O4=
+X-Gm-Gg: ASbGncuUuV9BW2NzsQ9KhX5xZ9KsnIk+XA130PvIeZey+O7hucucVNWPbj/BNUmhSTL
+ gcYJthoniQM9sEeXQKNq0KqHWt2VGMq1GXzvPTWOI62tPfOs1s7nTNBE/qLVtJsfwo8QKWoGhm5
+ mn+AAexveMidgIy/4oU7L9K1SEFraQZvVG5FjKx4jX/HcJ8WO2sTODQoXlXI598nsUGDY1pmM4t
+ B4d/62XzywWOILc8plu523rjMSFTOeBCQ4CYX9WBOGkZfh/IBorAqLKwiYxeUMR5VvTCtJn39B+
+ kvwRozSoEDQETCyxkTGzgrb3cZrPmVXuiyxe
+X-Google-Smtp-Source: AGHT+IGNDPBJFJRV2pnpEXOymShd+51OHk+y0ckKkGyIoLDZ3cbt+pXP/FQMMjjsEzIh0bn9twywjQ==
+X-Received: by 2002:a05:600c:4f47:b0:434:a367:2bd9 with SMTP id
+ 5b1f17b1804b1-4392499090cmr104561845e9.14.1739179967075; 
+ Mon, 10 Feb 2025 01:32:47 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4391da964e2sm141340895e9.4.2025.02.10.01.32.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2025 01:32:46 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v3 0/4] dt-bindings: display: qcom,sm8[56]50-mdss: properly
+ document the interconnect paths
+Date: Mon, 10 Feb 2025 10:32:38 +0100
+Message-Id: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-0-54c96a9d2b7f@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 00/13] fbdev: core: Deduplicate cfb/sys drawing
- fbops
-To: =?UTF-8?Q?Kajt=C3=A1r_Zsolt?= <soci@c64.rulez.org>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250207041818.4031-1-soci@c64.rulez.org>
- <c4db73a2-12a7-41f4-a175-332c44f51bc4@suse.de>
- <8c0aa1f0-27f8-befa-2b27-76e9faf7fc6d@c64.rulez.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <8c0aa1f0-27f8-befa-2b27-76e9faf7fc6d@c64.rulez.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.998]; MIME_GOOD(-0.10)[text/plain];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[3]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
- bootlin.com:url]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALbHqWcC/6WNQQ6CMBBFr0K6dkwZLKAr72FcAJ3CJNKStiEYw
+ t0t7Nzq8v3kv7eKQJ4piFu2Ck8zB3Y2QXHKRDc0tidgnVigRCVRVhDdxB2EsV6UhFGHAGwj+c5
+ ZS12Elq1m2wcwvIDW10oZxEJLJZJx8pTmo/Z4Jh44ROffR3zO9/W3zpyDhFphm+uyIbqU9xfbx
+ ruz873YQzP+IcckN1WOba1Nme5f8m3bPpm/5dFEAQAA
+X-Change-ID: 20250207-topic-sm8x50-mdss-interconnect-bindings-fix-dd975f223d05
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1982;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=V0pnai3sG2FUHiUUgHCPEL9XqGih2gi3fiou37xJXjA=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnqce7qdjWC+8P/KsuKPrL8cabCUEntHyRqm8B1enU
+ NRMB9pCJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ6nHuwAKCRB33NvayMhJ0fGGEA
+ C0r9MZn5sVQ28nvrKPf5shEIsxNoLOdCxbfktrO0LwKE2O/uoA9mrOfbpaJCkho3ey4zrlR6XFNepd
+ 3uQFLaLMDOdbm7UBGJnoar2pIWXhAwPCEwxF5PG4kyZ8la7OVzUQ8aX7OQOQgRfPZieGV3s/ZLrKQU
+ RIo4a8UcTjgMrSMShHWmOCHua61d7o/i5Qokg5xMAIrHGMC0VKsVh5lG6tB4n9zxghrjoipVbFfzfz
+ LntwRNOdj5u0jodvvpVX2LMnwFnLCIazTJ8wpbr5bMYmAyxcd/hy/63VD6t1LYquYox38LSmql9L2w
+ 4tt8Cg2A4kdDPXxNR/BDutUHqSD8GWwD5s0TWJACxaJPqlZde3/+rLcoqsBkiNNCLr/wvgnkrtjLTi
+ uOXiiknsfJQ5lREtRagYonl//UAGRT7gftmKKtxWuTeNsp6ufUP/6bnwHeaoeZTi2K8xaKc3YCyMRJ
+ 4QJwynbAlGDAcK4MJSrvmDFCY668ep2bx/z0scGvsHaV7xxbZIcNDeogQnj27SeLQp66dpbHo5u2zN
+ tJbCY+tdjU9wsR7l8MpInQHS/mEAPlMKUiNnB8IxG5dGRSK/lfgiN8Eq/pIr/oBfbL7w0o4fHbuc1O
+ 0Bv4X1yzetydPzeVALJNNzwAxH/9Kud6NbVvzew4Eqwh87+YLox5h9UKiZYQ==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,118 +120,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+The mdp1-mem is not supported on the SM8550 & SM8650 SoCs, so properly document
+the mdp0-mem and cpu-cfg interconnect entries.
 
-Am 08.02.25 um 01:51 schrieb Kajtár Zsolt:
-> Hello Thomas!
->
->> No it's not. Major code abstractions behind preprocessor tokens are
->> terrible to maintain.
-> Hmm, don't get me wrong but I'm not sure if the changes were really
-> checked in detail. At first sight it might look like I'm adding tons of
-> new macro ridden code in those header files replacing cleaner code.
->
-> While actually that's just how the I/O version currently is, copied and
-> white space cleaned (as it was requested) plus comment style matched
-> with sys.
->
-> The only new thing which hides the mentioned abstraction a little more
-> is FB_MEM, which replaced __iomem. But that's a tradeoff to be able to
-> use the same source for system as well.
->
-> Or the concern is that now system memory specific code might get mixed
-> in there by mistake?
->
-> It was not planned as the final version, the current maintainer asked
-> for addressing some pre-existing quality issues with further patches but
-> otherwise accepted the taken approach.
->
->> It's also technically not possible to switch between system and I/O
->> memory at will. These are very different things.
-> Yes, there are architectures where these two don't mix at all, I'm aware
-> of that. I need that on x86 only (for old hw), and there it seems
-> doable. Depending on the resolution either the aperture or the defio
-> memory is mapped. If the framebuffer is not remapped after a mode change
-> that's an application bug. Otherwise it's harmless as both are always
-> there and don't change.
->
-> I'd better like to find out problems sooner than later, so if you or
-> anyone else could share any concerns that'd be really helpful!
+This fixes the following errors:
+display-subsystem@ae00000: interconnects: [[200, 3, 7, 32, 1, 7]] is too short
+        from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
+display-subsystem@ae00000: interconnect-names: ['mdp0-mem'] is too short
+        from schema $id: http://devicetree.org/schemas/display/msm/qcom,sm8650-mdss.yaml#
 
-First of all, commit 779121e9f175 ("fbdev: Support for byte-reversed 
-framebuffer formats") isn't super complicated AFAICT. I can be 
-implemented in the sys_ helpers as well. It seems like you initially did 
-that.
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v3:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v2: https://lore.kernel.org/r/20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v2-0-f712b8df6020@linaro.org
 
-About the series at hand: generating code by macro expansion is good for 
-simple cases. I've done that in several places within fbdev myself, such 
-as [1]. But if the generated code requires Turing-completeness, it 
-becomes much harder to see through the macros and understand what is 
-going on. This makes code undiscoverable; and discoverability is a 
-requirement for maintenance.
+Changes in v2:
+- fixed example in qcom,sm8550-mdss.yaml
+- Link to v1: https://lore.kernel.org/r/20250207-topic-sm8x50-mdss-interconnect-bindings-fix-v1-0-852b1d6aee46@linaro.org
 
-[1] https://elixir.bootlin.com/linux/v6.13.1/source/include/linux/fb.h#L700
+---
+Neil Armstrong (4):
+      dt-bindings: display: qcom,sm8550-mdss: explicitly document mdp0-mem and cpu-cfg interconnect paths
+      dt-bindings: display: qcom,sm8650-mdss: explicitly document mdp0-mem and cpu-cfg interconnect paths
+      arm64: dts: qcom: sm8550: add missing cpu-cfg interconnect path in the mdss node
+      arm64: dts: qcom: sm8650: add missing cpu-cfg interconnect path in the mdss node
 
-Then there's type-safety and type-casting. The current series defeats it 
-by casting various pointers to whatever the macros define. For example, 
-looking at the copyarea patches, they use screen_base [2] from struct 
-fb_info. The thing is, using screen_base is wrong for sys_copyarea(). 
-The function should use 'screen_buffer' instead. It works because both 
-fields share the same bits of a union. Using screen_base is a bug in the 
-current implementation that should be fixed, while this patch series 
-would set it in stone.
+ .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml  | 14 +++++++++-----
+ .../devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml  | 13 +++++++++++--
+ arch/arm64/boot/dts/qcom/sm8550.dtsi                       |  5 +++--
+ arch/arm64/boot/dts/qcom/sm8650.dtsi                       |  7 +++++--
+ 4 files changed, 28 insertions(+), 11 deletions(-)
+---
+base-commit: 808eb958781e4ebb6e9c0962af2e856767e20f45
+change-id: 20250207-topic-sm8x50-mdss-interconnect-bindings-fix-dd975f223d05
 
-[2] 
-https://elixir.bootlin.com/linux/v6.13.1/source/drivers/video/fbdev/core/syscopyarea.c#L340
-
-Next, if you look through the commit history, you'll find that there are 
-several commits with performance improvements. Memory access in the sys 
-variants is not guaranteed to be 32-bit aligned by default. The compiler 
-has to assume unaligned access, which results in slower code. Hence, 
-some manual intervention has to be done. It's too easy to accidentally 
-mess this up by using nontransparent macros for access.
-
-
-If you want to do meaningful work here, please do actual refactoring 
-instead of throwing unrelated code together. First of all, never use 
-macros, but functions. You can supply callback functions to access the 
-framebuffer. Each callback should know whether it operates on 
-screen_base or screen_buffer.
-
-But using callbacks for individual reads and writes can have runtime 
-overhead. It's better to operate on complete scanlines. The current 
-helpers are already organized that way. Again, from the copyarea helper:
-
-sys_copyarea()
-{
-     // first prepare
-
-     // then go through the scanlines
-     while (height) {
-         do_something_for_the_current_scanline().
-     }
-}
-
-The inner helper do_something_...() has to be written for various cfb 
-and sys cases and can be given as function pointer to a generic helper.
-
-Best regards
-Thomas
-
-
->
->> If you want that pixel-reversing feature in sys_ helpers, please
->> implement it there.
-> Actually that's what I did first. Then did it once more by adapting the
-> I/O version as that gave me more confidence that it'll work exactly the
-> same and there's less room for error.
-
+Best regards,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Neil Armstrong <neil.armstrong@linaro.org>
 
