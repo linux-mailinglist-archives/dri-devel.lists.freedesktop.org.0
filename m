@@ -2,93 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE77DA30C89
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 14:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC52EA30C9C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 14:14:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DFA810E6BD;
-	Tue, 11 Feb 2025 13:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49D8B10E6B8;
+	Tue, 11 Feb 2025 13:14:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MbvFltSY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HVHLJUsY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D7A710E6B8;
- Tue, 11 Feb 2025 13:11:56 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51BBHiaZ025705;
- Tue, 11 Feb 2025 13:11:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- lVfdPTi5nRQrjao5/LJHP9xj6vjgUkDKr7iUSnXniTw=; b=MbvFltSYav3ESbcQ
- vCIrklwr7yndHppcL3ex6xY1sw2XYGCLqYwGDRW3fMoX3kMMpRwXOWgELsHVhwrf
- Bxyd2b33TX6bGTHKPa2lauJC8/W4cO+/RoSLac8+LMgo4jt/uRRmVP/XXzs1dQQd
- ynZKOZNw6AUdDpLMAqZkGvEvVBE9VVRMqL47+uI4SImPRAnyhbMzQQoqFYVDZ5W6
- /q83sXS1Ifjne7AZkgn7F/ktojccwvgJUTLedH3p1F5SKrRUN+UO3vSIwP0P4NEk
- TskuWfs2ukylSgV5lvzBAQ1vzw1b3VOFvQzL0JOW/qjK+K6kgYZOCKCe0ZSUkBhX
- H73gpg==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44r5j58c6q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Feb 2025 13:11:50 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51BDBn3k009230
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Feb 2025 13:11:49 GMT
-Received: from [10.216.36.40] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Feb
- 2025 05:11:42 -0800
-Message-ID: <271e7b4f-454c-426e-a3f6-dcb55389374e@quicinc.com>
-Date: Tue, 11 Feb 2025 18:41:39 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F41910E6B8
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 13:14:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 721AA5C177A;
+ Tue, 11 Feb 2025 13:13:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B3EC4CEE7;
+ Tue, 11 Feb 2025 13:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739279656;
+ bh=0hGPY9Dn0mrozIEXDRSipNjISoFsEXm4sVDJ+i7qbzs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HVHLJUsYRb3Lt5DFRUvVPiT/b2uP6D5RhvKpXEbtj/cvF/V+VIXf0x59vF2Z0pugx
+ BuTWCVoZfbMERnSQ8R+vFZqyIlUL7nRvbuG9YQbJHcQClltDtObsGNNCGPbA4ary7C
+ sdl3g9AkKzqAnvk+n50YToWiNLgrYhxhDPbsYKrhUfqjz6WYgAlELA7qW3ZPiYfpbF
+ AaeJhV4QFn/3oYAY9++NmpfWL/gYmhKshoGiWzCZxNSI0jvpEZk1lyGhkPgy8ZSauu
+ +OrxRy3iGzXfOo5X+EpVccEIX5DaVVx4UNhUJjWdaiIbhd4hD3R/tz03PelnmkGEX3
+ miaeAMUzyAj/Q==
+Date: Tue, 11 Feb 2025 14:14:14 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>
+Subject: Re: [PATCH v2 35/35] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
+ pointer
+Message-ID: <20250211-taupe-moth-of-awe-0722e1@houat>
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <20250204-bridge-connector-v2-35-35dd6c834e08@kernel.org>
+ <CAD=FV=X0axD+QMfdp_VLBB9AkGcnNSrYVY4-B=ydqAe_6wY9vw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] arm64: dts: qcom: sa8775p-ride: Enable Adreno 663
- GPU
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-References: <20241030-a663-gpu-support-v3-0-bdf1d9ce6021@quicinc.com>
- <20241030-a663-gpu-support-v3-2-bdf1d9ce6021@quicinc.com>
- <4cfd1ebc-1a95-43d4-b36a-8b183c6dfd16@quicinc.com>
- <ah6nusoouth7ziu3iscxmafm6cxuwwebxt44ixsjmesp5adwc4@e5lnbztds2xd>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <ah6nusoouth7ziu3iscxmafm6cxuwwebxt44ixsjmesp5adwc4@e5lnbztds2xd>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: pcXLBtDW7afzte1pcPYanHTRHxKleuwW
-X-Proofpoint-GUID: pcXLBtDW7afzte1pcPYanHTRHxKleuwW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-11_05,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- phishscore=0 adultscore=0 spamscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=957 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502110087
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="lz7iy5sqnzxzc2f6"
+Content-Disposition: inline
+In-Reply-To: <CAD=FV=X0axD+QMfdp_VLBB9AkGcnNSrYVY4-B=ydqAe_6wY9vw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,56 +67,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/9/2025 9:59 PM, Dmitry Baryshkov wrote:
-> On Wed, Nov 13, 2024 at 02:18:43AM +0530, Akhil P Oommen wrote:
->> On 10/30/2024 12:32 PM, Akhil P Oommen wrote:
->>> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
->>>
->>> Enable GPU for sa8775p-ride platform and provide path for zap
->>> shader.
->>>
->>> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
->>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>> ---
->>>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 8 ++++++++
->>>  1 file changed, 8 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>> index 0c1b21def4b6..4901163df8f3 100644
->>> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>> @@ -407,6 +407,14 @@ queue3 {
->>>  	};
->>>  };
->>>  
->>> +&gpu {
->>> +	status = "okay";
->>> +};
->>> +
->>> +&gpu_zap_shader {
->>> +	firmware-name = "qcom/sa8775p/a663_zap.mbn";
->>> +};
->>> +
->>>  &i2c11 {
->>>  	clock-frequency = <400000>;
->>>  	pinctrl-0 = <&qup_i2c11_default>;
->>>
->>
->> Bjorn,
->>
->> Please ignore this patch for now. This is probably not the right
->> platform dtsi file where gpu should be enabled. I am discussing about
->> this internally. Will send a revision or a new patch based on the
->> conclusion.
-> 
-> Akhil, any updates on this?
-> 
 
-I am still waiting for the discussion about QCS9075 board dts files [1]
-to conclude.
+--lz7iy5sqnzxzc2f6
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 35/35] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
+ pointer
+MIME-Version: 1.0
 
-[1]
-https://lore.kernel.org/lkml/Z3eMxl1Af8TOAQW%2F@hu-wasimn-hyd.qualcomm.com/T/
+On Fri, Feb 07, 2025 at 05:44:38PM -0800, Doug Anderson wrote:
+> On Tue, Feb 4, 2025 at 7:01=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
+ wrote:
+> >
+> > The TI sn65dsi86 driver follows the drm_encoder->crtc pointer that is
+> > deprecated and shouldn't be used by atomic drivers.
+> >
+> > This was due to the fact that we did't have any other alternative to
+> > retrieve the CRTC pointer. Fortunately, the crtc pointer is now provided
+> > in the bridge state, so we can move to atomic callbacks and drop that
+> > deprecated pointer usage.
+> >
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 50 ++++++++++++++++++++++-----=
+--------
+> >  1 file changed, 32 insertions(+), 18 deletions(-)
+>=20
+> I'm about out of time for now, but I finally managed to at least test
+> this and can confirm it _doesn't_ work. If I take the rest of the
+> series without this patch then things seem OK. When I add this patch
+> then the splash screen on my Chromebook comes up but the browser never
+> boots. :(
 
--Akhil
+Thanks for testing still :)
+
+Could you add your tested-by on the previous patches if you found that
+they were working?
+
+> > @@ -374,12 +377,15 @@ static int __maybe_unused ti_sn65dsi86_resume(str=
+uct device *dev)
+> >          * panel (including the aux channel) w/out any need for an inpu=
+t clock
+> >          * so we can do it in resume which lets us read the EDID before
+> >          * pre_enable(). Without a reference clock we need the MIPI ref=
+erence
+> >          * clock so reading early doesn't work.
+> >          */
+> > -       if (pdata->refclk)
+> > -               ti_sn65dsi86_enable_comms(pdata);
+> > +       if (pdata->refclk) {
+> > +               drm_modeset_lock(&pdata->bridge.base.lock, NULL);
+> > +               ti_sn65dsi86_enable_comms(pdata, drm_bridge_get_current=
+_state(&pdata->bridge));
+> > +               drm_modeset_unlock(&pdata->bridge.base.lock);
+> > +       }
+>=20
+> I believe grabbing the locks here is the problem. Sure enough,
+> commenting that out fixes things. Also, if I wait long enough:
+>=20
+> [  247.151951] INFO: task DrmThread:1838 blocked for more than 122 second=
+s.
+> [  247.158862]       Tainted: G        W
+> 6.14.0-rc1-00226-g4144859f9421 #1
+> [  247.166474] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+> disables this message.
+> [  247.174541] task:DrmThread       state:D stack:0     pid:1838
+> tgid:1756  ppid:1      task_flags:0x400040 flags:0x00000a0d
+> [  247.185904] Call trace:
+> [  247.188450]  __switch_to+0x12c/0x1e0 (T)
+> [  247.192520]  __schedule+0x2d0/0x4a0
+> [  247.196132]  schedule_preempt_disabled+0x50/0x88
+> [  247.200904]  __ww_mutex_lock+0x3d8/0xa68
+> [  247.204970]  __ww_mutex_lock_slowpath+0x24/0x38
+> [  247.209653]  ww_mutex_lock+0x7c/0x140
+> [  247.213441]  drm_modeset_lock+0xd4/0x110
+> [  247.217493]  ti_sn65dsi86_resume+0x78/0xe0
+> [  247.221730]  __rpm_callback+0x84/0x148
+> [  247.225619]  rpm_callback+0x34/0x98
+> [  247.229232]  rpm_resume+0x320/0x488
+> [  247.232842]  __pm_runtime_resume+0x54/0xa8
+> [  247.237073]  ti_sn_bridge_gpio_get+0x48/0xb8
+> [  247.241486]  gpiod_get_raw_value_commit+0x70/0x178
+> [  247.246436]  gpiod_get_value_cansleep+0x34/0x88
+> [  247.251122]  panel_edp_resume+0xf0/0x270
+> [  247.255187]  __rpm_callback+0x84/0x148
+> [  247.259072]  rpm_callback+0x34/0x98
+> [  247.262685]  rpm_resume+0x320/0x488
+> [  247.266293]  __pm_runtime_resume+0x54/0xa8
+> [  247.270536]  panel_edp_prepare+0x2c/0x68
+> [  247.274591]  drm_panel_prepare+0x54/0x118
+> [  247.278743]  panel_bridge_atomic_pre_enable+0x60/0x78
+> [  247.283965]  drm_atomic_bridge_chain_pre_enable+0x110/0x168
+> [  247.289723]  drm_atomic_helper_commit_modeset_enables+0x204/0x288
+> [  247.296005]  msm_atomic_commit_tail+0x1b4/0x510
+> [  247.300690]  commit_tail+0xa8/0x178
+> [  247.304298]  drm_atomic_helper_commit+0xec/0x180
+> [  247.309066]  drm_atomic_commit+0xa8/0xf8
+> [  247.313125]  drm_mode_atomic_ioctl+0x718/0xcd8
+> [  247.317717]  drm_ioctl+0x1ec/0x450
+> [  247.321248]  __arm64_sys_ioctl+0x3e4/0x4d8
+> [  247.325494]  invoke_syscall+0x4c/0xf0
+> [  247.329284]  do_el0_svc+0x70/0xf8
+> [  247.332717]  el0_svc+0x38/0x68
+> [  247.335886]  el0t_64_sync_handler+0x20/0x128
+> [  247.340296]  el0t_64_sync+0x1b0/0x1b8
+>=20
+> I guess the problem is that the HPD gpio (which is given to the panel)
+> is implemented by ti-sn65dsi86. It's been a long time, but probably we
+> don't need to "enable comms" just to access a GPIO, but there's only
+> one level of runtime PM. Maybe the fix would be to separately enable
+> pm_runtime for the various sub-devices and the GPIO? ...and then the
+> "aux" channel enables comms and the bridge one also grabs a PM runtime
+> reference to the aux sub-device? Not sure I have time to dig into that
+> myself now.
+
+I don't know the hardware, so I can't really comment, unfortunately.
+I'll drop it if it's broken.
+
+Maxime
+
+--lz7iy5sqnzxzc2f6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6tNJQAKCRAnX84Zoj2+
+dg6CAYDW8yt4QDaTu8JLclJZLl53YrJy7TLuSLPfzq3rS4S2WnyCTYh0R+NtBANw
+0071AwEBf3cCZttqdv9+Fpk2XPYPSG2nKDexD08eJYQz58tViHbN4WPVAtt+29gM
+VRj5A4Yazg==
+=Puve
+-----END PGP SIGNATURE-----
+
+--lz7iy5sqnzxzc2f6--
