@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5523A31168
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 17:31:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FE0A3116A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 17:31:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACB1E10E285;
-	Tue, 11 Feb 2025 16:31:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C6210E70F;
+	Tue, 11 Feb 2025 16:31:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B8Mx8MDV";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WHW1SrOU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1424E10E285
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E78DE10E285
  for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 16:31:14 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-5de63846e56so6311828a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 08:31:13 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-5de5a853090so7394789a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 08:31:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739291472; x=1739896272; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=ieNG5550teoOm9evurNGAIt7IDUR7q2jLsMj9bSrcqg=;
- b=B8Mx8MDVyYfnz361hdEiqh9M0NN0lFAxCJxZXMzuQLHYIHfy+UhsAOabYOBDPl3Kn9
- p2oV3ibM/HWQsQbdsIW3rtccKDmb7jRljSSomYnGAgyPVAZRf1iiqEydHOAL1oK8tlE6
- AusO5D0SVUHlTriEG4UIzgHjFO1zTx4kFqbDnbUut3dHMj5wWKZD5CJxvBnvP2xBdSzX
- wMexoQMZ2iU95yi3hJyxOTDRkiYjqmqX19Dzthan/lcGDbddZ9D+BytwwJ27DJDchuga
- vrJuV8exStbWj1E9OzJnYUC3UaymkZTSqH1e97fQIO/p/afHQZoLRdPWmaVjRMQ2WdT3
- fkeg==
+ d=gmail.com; s=20230601; t=1739291473; x=1739896273; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=cB9GGK9j287qQwW682FU+FnOXGITaIfNkLXZoLCeIRg=;
+ b=WHW1SrOUf9ApKWejso/qaBezeUMeXynTMfHyLQ3e84nRnQo67TlnTT9459+GGsa/JK
+ YZOswQanZ7Yn6MSIRhUK3eESB6kZ+gTw4IeAZnZhWlhxkHY7gxn27g9YYMpxUHMt0Pqy
+ zYsIQnU9whU1/6Ip3E5Xf4nr/D9nHqUrvD2JJWSuT+cKV+PcbTvAtEzfwC3rfCPnoWh2
+ 351qPSwycNkkq4L6BK5HEAkGax5OYhkTbZqVXXnWc/D8hSqByBDxktLPSYmObnLp5HkD
+ MLMFrbiNW6c1W1sRsNLwNd+9ikx7eokPy4GXSS1t+/du4Dl4rZte2txpSHq4lUdGs/fW
+ YSjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739291472; x=1739896272;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ieNG5550teoOm9evurNGAIt7IDUR7q2jLsMj9bSrcqg=;
- b=bG8GDvzcs+QdsDofGULP1SBtIvDBLyspVZO5n6VPhVmEVqpV1eWr8xoMTAYBsdDYSu
- GJV37PHkbmR6KrFQcqMklY8gzv43BnhFSDf2QWo0Qau5xfSqKveBPViVtDkpZ79z1z0i
- 2oiD6JPtvDzC79PqOXakkvK8/BjGhanG058fDzYqzUGbalY2jD/EFeaTRei1RKlrMq5R
- pnyqELcsuzGbVyBMZ7vKPzMxSby/zl6kv+nbMd2FC82AdQIXo/NjrEtqdY67WmMD+7vB
- m9E4tkJcCKrB2bAVqcpACmRkBcFndDnANC+ByJUM68ZxakDWt/RvoZjW19w83fPn0l8s
- l+Bg==
+ d=1e100.net; s=20230601; t=1739291473; x=1739896273;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=cB9GGK9j287qQwW682FU+FnOXGITaIfNkLXZoLCeIRg=;
+ b=WOzZrY/8rXJ2bJjsS3K6J22WR7YrWptNTJzFYMwmGbd5q4KEV1X1LO0yXvnn882MgD
+ bp900Yuz/ivvRyd/3CAcft/Y3/3jupaNinJKc79PNCyhCnGVdlzRP61vbUIgUyjqpJoP
+ WRtGk33gROpqVFk9D1Ry/GCsInWKXwrGKEL9xIjEtbdUHuBe1XGRowz1qS6rfrUTL/2f
+ dWpnfTxciXdpsZDE/dmC5FsACN0UdAer4ZuTQ71v/7lbIphmSlywqhu8DTNbJPSjnTOL
+ BDDcRsbSJyRYS2xWSXJIv+8ypwhvdUv/1dsAKYEJaz5xT35INnctEYnk+aS84ZLIgPvO
+ JBJQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUFuYSLaUQxUFn8ElOIzHYq2KidnXEdClVGM40Y1HEJFnrxiS9v1pJfcUlLgQn8py2hwmh4QM7ncQw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhI/LCMqNIW9/LwFJFuop0tiLBiiYOKvh6Ys4K5/iA2OgGqLDG
- 8Qd15VvKIfN/DPRnPAbk5zQU6PHbGIo52bOdusjgAZp0Nxsd1Xg1
-X-Gm-Gg: ASbGnct+AoC0LUuuHSXYOGK9njKarc+5t6FPdSMRzG4ADAnMYRwSx3IdZc3WlW/Buol
- tQnTjGyripWR9Ri+AE7f4u8XjnS0nU0jjK0CPlJ3S4SoUspMpFKxU7CoeMaN1Ywug2SVK4E52Tw
- ipVFYwBTdHp4aglnib0GMw0dTZ8bvj3f/P5i/uM17nXAChagAQ4T0FX1dJrMCcQipjK8iMZztqg
- FwAPIKIYv+iUB6VdwXxM2fU4+LyfzcWUsHyH8rBRlgzY+p+Z75b5Q63YUht9P/FE+8Li0qA/0X3
- OMII/+y3BwYJyy22CSUbVc+7EwEV
-X-Google-Smtp-Source: AGHT+IF9zaAspOwQiSxv/7z5dzkqUR9J5A7ZqS/A+KKeBOQJtea2s4MufoRyeVuFVl7aKnQW5m4ZTQ==
-X-Received: by 2002:a05:6402:2381:b0:5dc:1273:63fd with SMTP id
- 4fb4d7f45d1cf-5de9a4646eamr3656406a12.20.1739291472100; 
- Tue, 11 Feb 2025 08:31:12 -0800 (PST)
+ AJvYcCV2n6i6hYbKqEcBXWNdGNe6b8OJ+2D//+aZRcG+6KmSWYCe9liuB/ot9t/79+b5rw283GCrkEOKw2c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQE+uZAuJ+EkDK+bnXDfNAqDBU6Y8ahSrYyAI7z5X+mdOnLUwa
+ VuMl3A1b4nNPhcZyQ2xDDQQcYGBuQ76WvqFmZHJOmVWhf8PK2KOK
+X-Gm-Gg: ASbGnctW4a6MtU50l1WgTkvxYzJXUTcvEOF3jRUMn8WpMbBBwgaQvd6Ys2PIt3qj720
+ bP3PLHcJFK8FFuq0EZEnB1oM1sF1/Ub3PgjwU1g68Ls1QcDQL+j+ZN9IpN2t667ITxjnEv81ov0
+ jFH2af7BmBlQg5woSSRareDZOzZivC2Ik5RBHnr46LVSuv1tmswjIisPfLGkB6E5gUIu3PjXKB7
+ mGjlLhf2FG4HgPY25tW5XD/ffwJhJILh0jjPTFBO1yv7tgNi+ASYX47piT5gnw/J/aELKOLGTvG
+ X9megkMVLdXRufWreE3VVt2YYvUB
+X-Google-Smtp-Source: AGHT+IEe/kXp42nTvgE04i7M8NJuzTiQ6kmVxfRkZm7tSxkcMoG7qhTNznS24oTUjaEHCExq/khNgg==
+X-Received: by 2002:a05:6402:1ed6:b0:5de:525c:53cb with SMTP id
+ 4fb4d7f45d1cf-5de525c544amr17964157a12.6.1739291473181; 
+ Tue, 11 Feb 2025 08:31:13 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:154a:1300:5b91:7670:e404:c65a])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-5dcf1b7ade9sm9838748a12.25.2025.02.11.08.31.11
+ 4fb4d7f45d1cf-5dcf1b7ade9sm9838748a12.25.2025.02.11.08.31.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2025 08:31:11 -0800 (PST)
+ Tue, 11 Feb 2025 08:31:12 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -66,10 +67,12 @@ To: sumit.semwal@linaro.org, tzimmermann@suse.de, simona@ffwll.ch,
  dmitry.osipenko@collabora.com, tvrtko.ursulin@igalia.com,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: Bunch of DMA-buf cleanup patches
-Date: Tue, 11 Feb 2025 17:31:05 +0100
-Message-Id: <20250211163109.12200-1-christian.koenig@amd.com>
+Subject: [PATCH 1/4] dma-buf: fix incorrect dma-fence documentation
+Date: Tue, 11 Feb 2025 17:31:06 +0100
+Message-Id: <20250211163109.12200-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250211163109.12200-1-christian.koenig@amd.com>
+References: <20250211163109.12200-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -88,18 +91,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello everyone,
+There isn't much worse than documentation giving an incorrect advise.
+Grabbing a spinlock while interrupts are disabled usually means that you
+must also disable interrupts for all other uses of this spinlock.
 
-just a few DMA-buf cleanup patches. The first one is fixing an incorrect
-documentation which has annoyed me for quite a while.
+Otherwise really hard to debug issues can occur. So fix that invalid
+documentation.
 
-The rest basically just removes stuff we no longer need or which was
-just added as abstraction which was never used.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ include/linux/dma-fence.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Please review and/or voice objection if some of that is till needed for
-something.
-
-Regards,
-Christian.
-
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index e7ad819962e3..e230af0d123f 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -169,8 +169,8 @@ struct dma_fence_ops {
+ 	 * implementation know that there is another driver waiting on the
+ 	 * signal (ie. hw->sw case).
+ 	 *
+-	 * This function can be called from atomic context, but not
+-	 * from irq context, so normal spinlocks can be used.
++	 * This is called with irq's disabled, so only spinlocks which also
++	 * disable irq's can be used.
+ 	 *
+ 	 * A return value of false indicates the fence already passed,
+ 	 * or some failure occurred that made it impossible to enable
+-- 
+2.34.1
 
