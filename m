@@ -2,62 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EB4A3122F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 17:57:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CB9A310E2
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 17:14:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C747410E70E;
-	Tue, 11 Feb 2025 16:57:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14A010E766;
+	Tue, 11 Feb 2025 16:14:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yandex-team.com header.i=@yandex-team.com header.b="doARputU";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="LsPOHtxD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zqQ5h6Se";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LsPOHtxD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zqQ5h6Se";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 427 seconds by postgrey-1.36 at gabe;
- Tue, 11 Feb 2025 11:53:11 UTC
-Received: from forwardcorp1a.mail.yandex.net (forwardcorp1a.mail.yandex.net
- [178.154.239.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8185D10E69A;
- Tue, 11 Feb 2025 11:53:11 +0000 (UTC)
-Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
- [IPv6:2a02:6b8:c0f:1286:0:640:6f2b:0])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTPS id BB47F60CBC;
- Tue, 11 Feb 2025 14:46:02 +0300 (MSK)
-Received: from dellarbn.yandex.net (unknown [10.214.35.248])
- by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id njMaW61IYa60-f300HgHw; Tue, 11 Feb 2025 14:46:02 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.com;
- s=default; t=1739274362;
- bh=N/f4M/1YdrDaXLy1gcP2Kg22i5sVeuoh7Qx0Xv+wu0U=;
- h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=doARputUw27HsyLKkbE04O5ibJYLITuopDPsmuZ9aczHNvBTKndE0yZghx202ewCN
- R0AlGAPmGGvsezMwhUJQ/uepQErBEbYbxzVqcsT+vv5AwhPpqZC4vKmvEML7VbEde/
- eXAmQ0zBtCojSSOabGstArsm3ER7ferxhDM5F2Bk=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
- dkim=pass header.i=@yandex-team.com
-From: Andrey Ryabinin <arbn@yandex-team.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Cc: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
- Yi Liu <yi.l.liu@intel.com>, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- Andrey Ryabinin <arbn@yandex-team.com>, stable@vger.kernel.org
-Subject: [PATCH 2/2] vfio: Release KVM pointer after the first device open.
-Date: Tue, 11 Feb 2025 12:45:44 +0100
-Message-ID: <20250211114544.17845-2-arbn@yandex-team.com>
-X-Mailer: git-send-email 2.45.3
-In-Reply-To: <20250211114544.17845-1-arbn@yandex-team.com>
-References: <20250211114544.17845-1-arbn@yandex-team.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73B3610E704
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 16:13:59 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 18882340B9;
+ Tue, 11 Feb 2025 14:33:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739284436; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wP4TiwjPCAJH4FpvrSugoXVfViPrtoVII+IT/shhIyA=;
+ b=LsPOHtxDyXmjO7R5FP4U3CHNFHEuIJ8z5Rav6kW8+hmDdu4vu94LHQF7p4qp78e+nrcna3
+ CC77R91ptd6o0H+00HdAfapC2/L9ngL1Y6ujuwPW33mvnF3E46rj54MyO51LHYB0/bJbTy
+ /NX/fO6/w3+6CI3JPBPhtKgVVZyw9Pk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739284436;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wP4TiwjPCAJH4FpvrSugoXVfViPrtoVII+IT/shhIyA=;
+ b=zqQ5h6SeLM3p46dSgh7OSMqmCIhwpsQSPOrMs8N4DHLTVcANt70307YKiESEnLgz7NSvET
+ Q01DIafhRuSrqsDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739284436; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wP4TiwjPCAJH4FpvrSugoXVfViPrtoVII+IT/shhIyA=;
+ b=LsPOHtxDyXmjO7R5FP4U3CHNFHEuIJ8z5Rav6kW8+hmDdu4vu94LHQF7p4qp78e+nrcna3
+ CC77R91ptd6o0H+00HdAfapC2/L9ngL1Y6ujuwPW33mvnF3E46rj54MyO51LHYB0/bJbTy
+ /NX/fO6/w3+6CI3JPBPhtKgVVZyw9Pk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739284436;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=wP4TiwjPCAJH4FpvrSugoXVfViPrtoVII+IT/shhIyA=;
+ b=zqQ5h6SeLM3p46dSgh7OSMqmCIhwpsQSPOrMs8N4DHLTVcANt70307YKiESEnLgz7NSvET
+ Q01DIafhRuSrqsDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA1D213782;
+ Tue, 11 Feb 2025 14:33:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id CnwFLNNfq2cLUQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 11 Feb 2025 14:33:55 +0000
+Message-ID: <428f88f2-1f30-4018-8113-1c4716288789@suse.de>
+Date: Tue, 11 Feb 2025 15:33:55 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/15] drm/vkms: Fix use after free and double free on
+ init error
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ louis.chauvet@bootlin.com
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250211110912.15409-1-jose.exposito89@gmail.com>
+ <20250211110912.15409-2-jose.exposito89@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250211110912.15409-2-jose.exposito89@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 11 Feb 2025 16:57:31 +0000
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TAGGED_RCPT(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[gmail.com,bootlin.com];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,lists.freedesktop.org,vger.kernel.org];
+ RCPT_COUNT_SEVEN(0.00)[10]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,129 +146,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 2b48f52f2bff ("vfio: fix deadlock between group lock and kvm lock")
-made vfio_device to hold KVM struct up until device's close() call.
+Hi
 
-This lead to a unrleased KVM struct which holds KVM kthreads and related
-cgroups after VM with VFIO device migrates to from one KVM instance to
-another on the same host.
+Am 11.02.25 um 12:08 schrieb José Expósito:
+> If the driver initialization fails, the vkms_exit() function might
+> access an uninitialized or freed default_config pointer and it might
+> double free it.
+>
+> Fix both possible errors by initializing default_config only when the
+> driver initialization succeeded.
 
-Since all drivers, that require 'kvm' (vfio-ap/intel_vgp/vfio-pci zdev)
-already handle 'kvm' pointer by themselves we can just drop 'kvm' reference
-right after first vfio_df_open() call. This will release 'kvm' struct
-and dependent resources for drivers that don't require it after KVM
-detached from a device (KVM_DEV_VFIO_FILE_DEL).
+Could you send this patch separately, so that it can go into 
+drm-misc-fixes quickly?
 
-Fixes: 2b48f52f2bff ("vfio: fix deadlock between group lock and kvm lock")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
----
- drivers/vfio/device_cdev.c | 11 ++++++-----
- drivers/vfio/group.c       | 31 ++++++++++++++-----------------
- 2 files changed, 20 insertions(+), 22 deletions(-)
+Best regards
+Thomas
 
-diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
-index bb1817bd4ff3..339b69c43300 100644
---- a/drivers/vfio/device_cdev.c
-+++ b/drivers/vfio/device_cdev.c
-@@ -103,14 +103,16 @@ long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
- 	/*
- 	 * Before the device open, get the KVM pointer currently
- 	 * associated with the device file (if there is) and obtain
--	 * a reference.  This reference is held until device closed.
-+	 * a reference and release it right after vfio_df_open() bellow.
-+	 * The device driver wishes to use KVM must obtain a reference and
-+	 * release it on close.
- 	 * Save the pointer in the device for use by drivers.
- 	 */
- 	vfio_df_get_kvm_safe(df);
--
- 	ret = vfio_df_open(df);
-+	vfio_device_put_kvm(device);
- 	if (ret)
--		goto out_put_kvm;
-+		goto out_put_iommufd;
- 
- 	ret = copy_to_user(&arg->out_devid, &df->devid,
- 			   sizeof(df->devid)) ? -EFAULT : 0;
-@@ -128,8 +130,7 @@ long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
- 
- out_close_device:
- 	vfio_df_close(df);
--out_put_kvm:
--	vfio_device_put_kvm(device);
-+out_put_iommufd:
- 	iommufd_ctx_put(df->iommufd);
- 	df->iommufd = NULL;
- out_unlock:
-diff --git a/drivers/vfio/group.c b/drivers/vfio/group.c
-index 49559605177e..872cfd795f99 100644
---- a/drivers/vfio/group.c
-+++ b/drivers/vfio/group.c
-@@ -175,15 +175,6 @@ static int vfio_df_group_open(struct vfio_device_file *df)
- 
- 	mutex_lock(&device->dev_set->lock);
- 
--	/*
--	 * Before the first device open, get the KVM pointer currently
--	 * associated with the group (if there is one) and obtain a reference
--	 * now that will be held until the open_count reaches 0 again.  Save
--	 * the pointer in the device for use by drivers.
--	 */
--	if (device->open_count == 0)
--		vfio_device_group_get_kvm_safe(device);
--
- 	df->iommufd = device->group->iommufd;
- 	if (df->iommufd && vfio_device_is_noiommu(device) && device->open_count == 0) {
- 		/*
-@@ -196,12 +187,23 @@ static int vfio_df_group_open(struct vfio_device_file *df)
- 			ret = -EPERM;
- 		else
- 			ret = 0;
--		goto out_put_kvm;
-+		goto out_iommufd;
- 	}
- 
-+	/*
-+	 * Before the first device open, get the KVM pointer currently
-+	 * associated with the group (if there is one) and obtain a reference
-+	 * now that will be released right after vfio_df_open() bellow.
-+	 * The device driver wishes to use KVM must obtain a reference and
-+	 * release it on close.
-+	 */
-+	if (device->open_count == 0)
-+		vfio_device_group_get_kvm_safe(device);
-+
- 	ret = vfio_df_open(df);
-+	vfio_device_put_kvm(device);
- 	if (ret)
--		goto out_put_kvm;
-+		goto out_iommufd;
- 
- 	if (df->iommufd && device->open_count == 1) {
- 		ret = vfio_iommufd_compat_attach_ioas(device, df->iommufd);
-@@ -221,10 +223,8 @@ static int vfio_df_group_open(struct vfio_device_file *df)
- 
- out_close_device:
- 	vfio_df_close(df);
--out_put_kvm:
-+out_iommufd:
- 	df->iommufd = NULL;
--	if (device->open_count == 0)
--		vfio_device_put_kvm(device);
- 	mutex_unlock(&device->dev_set->lock);
- out_unlock:
- 	mutex_unlock(&device->group->group_lock);
-@@ -241,9 +241,6 @@ void vfio_df_group_close(struct vfio_device_file *df)
- 	vfio_df_close(df);
- 	df->iommufd = NULL;
- 
--	if (device->open_count == 0)
--		vfio_device_put_kvm(device);
--
- 	mutex_unlock(&device->dev_set->lock);
- 	mutex_unlock(&device->group->group_lock);
- }
+>
+> Reported-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Link: https://lore.kernel.org/all/Z5uDHcCmAwiTsGte@louis-chauvet-laptop/
+> Fixes: 2df7af93fdad ("drm/vkms: Add vkms_config type")
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> ---
+>   drivers/gpu/drm/vkms/vkms_drv.c | 15 +++++++++------
+>   1 file changed, 9 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 7c142bfc3bd9..b6de91134a22 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -235,17 +235,19 @@ static int __init vkms_init(void)
+>   	if (!config)
+>   		return -ENOMEM;
+>   
+> -	default_config = config;
+> -
+>   	config->cursor = enable_cursor;
+>   	config->writeback = enable_writeback;
+>   	config->overlay = enable_overlay;
+>   
+>   	ret = vkms_create(config);
+> -	if (ret)
+> +	if (ret) {
+>   		kfree(config);
+> +		return ret;
+> +	}
+>   
+> -	return ret;
+> +	default_config = config;
+> +
+> +	return 0;
+>   }
+>   
+>   static void vkms_destroy(struct vkms_config *config)
+> @@ -269,9 +271,10 @@ static void vkms_destroy(struct vkms_config *config)
+>   
+>   static void __exit vkms_exit(void)
+>   {
+> -	if (default_config->dev)
+> -		vkms_destroy(default_config);
+> +	if (!default_config)
+> +		return;
+>   
+> +	vkms_destroy(default_config);
+>   	kfree(default_config);
+>   }
+>   
+
 -- 
-2.45.3
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
