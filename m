@@ -2,63 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B51A30633
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 09:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DCFCA3063F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 09:48:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CD3010E441;
-	Tue, 11 Feb 2025 08:47:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF13F10E1D4;
+	Tue, 11 Feb 2025 08:48:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HnkdF70W";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TU/TSiTj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279C910E441
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 08:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739263640; x=1770799640;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=O2n4k7Gt1NVYYJ2SAPrLTlEttn/2uOimh2XBrjHMAOk=;
- b=HnkdF70WaaGV1HXgCLS37oEusDHUDpQUptkzFu96pNO5/qz5U3SU4s5v
- 6q1PZya4GNZMpUch390yWdOFr8fJdiBvN6GY/OxXe0Heq6BRuKIC8WPod
- qd/lYK80fu8/wuMFZyjXan629MJQn/8x+a+jUEpJBd4lMr1m+z+w0d9gR
- Qm3JuW76qsLCLSLfNFwPcesO5xVmAtGgL98RcvhQiifrd627ds0I7lBXJ
- c4J7v1fFNvfUdm3A9X/cKIGgy+YAdD6FvNP4hOCikjvTHf2ZaAe5aAwtq
- jQUBRmc6AuSsQHCXheX4XbpTmAt420TVz8xE5g1aK2qgb7uYACxcPxwA0 Q==;
-X-CSE-ConnectionGUID: 5Ai2T5ZERhi7Dr4Yrd2Isg==
-X-CSE-MsgGUID: eaUWtHm1Q9ClnZ5fcBFp6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="50099553"
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; d="scan'208";a="50099553"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2025 00:47:20 -0800
-X-CSE-ConnectionGUID: fc5CPoz5SYuvotnO9i1Nuw==
-X-CSE-MsgGUID: 3e5LvWukQHyPSy2STXvTRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,277,1732608000"; d="scan'208";a="112662467"
-Received: from unknown (HELO [10.217.160.151]) ([10.217.160.151])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Feb 2025 00:47:18 -0800
-Message-ID: <d459faf0-a180-496a-a809-db5b5a247e94@linux.intel.com>
-Date: Tue, 11 Feb 2025 09:47:11 +0100
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20FDE10E1D4
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 08:48:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id C2D74A40129;
+ Tue, 11 Feb 2025 08:46:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 761D9C4CEDD;
+ Tue, 11 Feb 2025 08:48:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739263714;
+ bh=RaoR38MAfgncLsExh3zxNSsVfIrOsKI21zd8P7jRzvY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TU/TSiTjqCksvH33oti3xGiyB1AAaelkA14GCMUz1ViJyhuNCs0rZ2lGiQvhYEzBF
+ xwxHqqGp0sAbaVg5J9QS8SjnWvqSVYlFNYL3o9gNz3rHaCaWZuw8LO+YJ+9ozcyBRY
+ sHcps1c2+APyovdL2aSaQikD1nTcJp8F5ic7bGSiwgB6US+vd3+246yEC84lpU6sf0
+ LJaLwTn4VC325ONrYA0WOdOGr8c0Ed7W+ZirlI3BlL5r3mtcIHDeqbuDX6z+2eZzTm
+ 4OguIw00rzH+A7srN3KXdRo9y9P+mAud410Fyhe8ShsdrrbP9yF2C4Vz2TRZH72BuX
+ hbFgnF5LZVeOw==
+Date: Tue, 11 Feb 2025 09:48:31 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Sam Ravnborg <sam@ravnborg.org>, Boris Brezillon <bbrezillon@kernel.org>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Paul Kocialkowski <contact@paulk.fr>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+Message-ID: <20250211-venomous-dragon-of-competition-d76bf9@houat>
+References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
+ <20250206-hotplug-drm-bridge-v6-14-9d6f2c9c3058@bootlin.com>
+ <20250207-ingenious-daffodil-dugong-51be57@houat>
+ <ucttjaf3trkgtpvhnsj7xfsybhnoi4qqow5ucwghlggivbagy7@gngjhbtu73lb>
+ <20250210181244.0e3e9189@booty>
+ <qnuskv4mln32nqgbgvwi2qcdwfma6tqfbq7e6sqb3za6pmms2j@ir7pt5634dsh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] accel/amdxdna: Add missing include linux/slab.h
-To: Su Hui <suhui@nfschina.com>, min.ma@amd.com, lizhi.hou@amd.com,
- ogabbay@kernel.org
-Cc: quic_jhugo@quicinc.com, George.Yang@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-References: <20250211015354.3388171-1-suhui@nfschina.com>
-Content-Language: en-US
-From: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
- Gdansk - KRS 101882 - NIP 957-07-52-316
-In-Reply-To: <20250211015354.3388171-1-suhui@nfschina.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="imifw34cjfchn5qq"
+Content-Disposition: inline
+In-Reply-To: <qnuskv4mln32nqgbgvwi2qcdwfma6tqfbq7e6sqb3za6pmms2j@ir7pt5634dsh>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,44 +88,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
 
-On 2/11/2025 2:53 AM, Su Hui wrote:
-> When compiling without CONFIG_IA32_EMULATION, there can be some errors:
-> 
-> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘mailbox_release_msg’:
-> drivers/accel/amdxdna/amdxdna_mailbox.c:197:2: error: implicit declaration
-> of function ‘kfree’.
->   197 |  kfree(mb_msg);
->       |  ^~~~~
-> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘xdna_mailbox_send_msg’:
-> drivers/accel/amdxdna/amdxdna_mailbox.c:418:11: error:implicit declaration
-> of function ‘kzalloc’.
->   418 |  mb_msg = kzalloc(sizeof(*mb_msg) + pkg_size, GFP_KERNEL);
->       |           ^~~~~~~
-> 
-> Add the missing include.
-> 
-> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
-> Signed-off-by: Su Hui <suhui@nfschina.com>
-> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
-> ---
-> v2:
->  - move the header to the include block above and keep it sorted(Jacek Lawrynowicz).
-> 
->  drivers/accel/amdxdna/amdxdna_mailbox.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> index 814b16bb1953..e5301fac1397 100644
-> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
-> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
-> @@ -8,6 +8,7 @@
->  #include <linux/bitfield.h>
->  #include <linux/interrupt.h>
->  #include <linux/iopoll.h>
-> +#include <linux/slab.h>
->  #include <linux/xarray.h>
->  
->  #define CREATE_TRACE_POINTS
+--imifw34cjfchn5qq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 14/26] drm/bridge: add support for refcounted DRM
+ bridges
+MIME-Version: 1.0
 
+On Tue, Feb 11, 2025 at 01:14:28AM +0200, Dmitry Baryshkov wrote:
+> On Mon, Feb 10, 2025 at 06:12:44PM +0100, Luca Ceresoli wrote:
+> > Hi Maxime, Dmitry
+> >=20
+> > On Fri, 7 Feb 2025 21:54:06 +0200
+> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> >=20
+> > > > > +/* Internal function (for refcounted bridges) */
+> > > > > +void __drm_bridge_free(struct kref *kref)
+> > > > > +{
+> > > > > +	struct drm_bridge *bridge =3D container_of(kref, struct drm_bri=
+dge, refcount);
+> > > > > +	void *container =3D ((void *)bridge) - bridge->container_offset;
+> > > > > +
+> > > > > +	DRM_DEBUG("bridge=3D%p, container=3D%p FREE\n", bridge, contain=
+er); =20
+> > > >=20
+> > > > Pointers are not really useful to track here, since they are obfusc=
+ated
+> > > > most of the time. Using the bridge device name would probably be be=
+tter
+> > > > (or removing the SHOUTING DEBUG entirely :)) =20
+> > >=20
+> > > bridge device name or bridge funcs (I opted for the latter for the
+> > > debugfs file)
+> >=20
+> > These DRM_DEBUG()s proved extremely useful exactly because of the
+> > pointer. This is because when using hotplug one normally has the same
+> > device added and removed multiple times, and so the device name or
+> > bridge funcs is always the same, preventing from understanding which
+> > instance is leaking, or being freed, get, put, etc.
+> >=20
+> > Do you think this is a sufficient motivation to keep it?
+>=20
+> Then it should be something like %px. I found that %p is mangled.
+> What about having both device name _and_ a pointer?
+
+No, %px must not be used there. %p is mangled but should be consistent
+across calls. But yeah, it's kind of the reason I suggested to use the
+bridge device name instead.
+
+Maxime
+
+--imifw34cjfchn5qq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6sO0wAKCRAnX84Zoj2+
+dpsfAX0XKk9jgzP+l4NaW5Vkc5IAqgJ0NPSMpGi70iR+EJy/2ca7vtNGaoaDTjQQ
+YBBFvAQBfj5XOszrteaDSLvVerz2c7UtT6xwxq1cOmlS8TLC8qdnzjM7+/de1HH+
+J+GkLTm69A==
+=LMtT
+-----END PGP SIGNATURE-----
+
+--imifw34cjfchn5qq--
