@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4027AA30BAB
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 13:24:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412C9A30BB5
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 13:25:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 027DA10E6A9;
-	Tue, 11 Feb 2025 12:24:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C2B010E0BA;
+	Tue, 11 Feb 2025 12:25:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A2tm53U6";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PlfB6mFU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B62A210E0BA
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 12:24:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EA9910E0BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 12:25:44 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 427246DF;
- Tue, 11 Feb 2025 13:23:16 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3190F6DF;
+ Tue, 11 Feb 2025 13:24:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1739276597;
- bh=aGGqaZpPT+rSRVg/YC1WMx6qAqamenr0rL8vhcsCp9Y=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=A2tm53U6uEztHjfcUA4HiRR4P2uUPvC4T2Zko9Msc4gE7wb2dcXiRraf8D5STe6jd
- qYiznSDMAGB5j2o85dWdGdMFHlTWTccFOGL3NLBIzSRM/p5vl5NmvbnMUaePKpH+dy
- vyISVN12AktnT6N9Z2RittVg0RJqUHkE5yWk24WE=
-Message-ID: <16db8f3d-04a2-408a-964f-4cf9478229b4@ideasonboard.com>
-Date: Tue, 11 Feb 2025 14:24:29 +0200
+ s=mail; t=1739276666;
+ bh=QPUSy2HfKvRaYnxfkBD7hZ/t2NsS+R/LifemC3H1Mkg=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=PlfB6mFU8+Da5Rd12SvsAw5GVINVMViC78DSRBi6EPI6jB1nxZW3cMIhkNkw0/H7v
+ gIv4wDpCW4weoY/58NBBrzY0ahG9xTbMzMMac1o8tzas5TP0uM/I8jDCASumUfnXR/
+ 1yY5RgMEVHTUh8hh/waIM0bm3miPBJ3zEI8XqnVs=
+Message-ID: <4911f05b-ecef-4883-b88c-f01dbe136acf@ideasonboard.com>
+Date: Tue, 11 Feb 2025 14:25:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] dt-bindings: display: ti: Add schema for AM625
- OLDI Transmitter
+Subject: Re: [PATCH v5 3/3] drm/tidss: Add OLDI bridge support
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 To: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
@@ -49,9 +49,9 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>
 References: <20250209160925.380348-1-aradhya.bhatia@linux.dev>
- <20250209160925.380348-3-aradhya.bhatia@linux.dev>
+ <20250209160925.380348-4-aradhya.bhatia@linux.dev>
+ <09e0616d-e135-41d7-bf5d-3f5c8535a0d5@ideasonboard.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
  wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
@@ -95,9 +95,9 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250209160925.380348-3-aradhya.bhatia@linux.dev>
+In-Reply-To: <09e0616d-e135-41d7-bf5d-3f5c8535a0d5@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,393 +115,544 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 09/02/2025 18:09, Aradhya Bhatia wrote:
-> From: Aradhya Bhatia <a-bhatia1@ti.com>
+On 11/02/2025 12:57, Tomi Valkeinen wrote:
+> Hi,
 > 
-> The OLDI transmitters (TXes) do not have registers of their own, and are
-> dependent on the source video-ports (VPs) from the DSS to provide
-> configuration data. This hardware doesn't directly sit on the internal
-> bus of the SoC, but does so via the DSS. Hence, the OLDI TXes are
-> supposed to be child nodes under the DSS, and not independent devices.
+> On 09/02/2025 18:09, Aradhya Bhatia wrote:
+>> From: Aradhya Bhatia <a-bhatia1@ti.com>
+>>
+>> The AM62x and AM62Px SoCs feature 2 OLDI TXes each, which makes it
+>> possible to connect them in dual-link or cloned single-link OLDI display
+>> modes. The current OLDI support in tidss_dispc.c can only support for
+>> a single OLDI TX, connected to a VP and doesn't really support
+>> configuration of OLDIs in the other modes. The current OLDI support in
+>> tidss_dispc.c also works on the principle that the OLDI output can only
+>> be served by one, and only one, DSS video-port. This isn't the case in
+>> the AM62Px SoC, where there are 2 DSS controllers present that share the
+>> OLDI TXes.
+>>
+>> Having their own devicetree and their own bridge entity will help
+>> support the various display modes and sharing possiblilities of the OLDI
+>> hardware.
+>>
+>> For all these reasons, add support for the OLDI TXes as DRM bridges.
+>>
+>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+>> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+>> ---
+>>   drivers/gpu/drm/tidss/Makefile           |   3 +-
+>>   drivers/gpu/drm/tidss/tidss_dispc.c      |  20 +-
+>>   drivers/gpu/drm/tidss/tidss_dispc.h      |   4 +
+>>   drivers/gpu/drm/tidss/tidss_dispc_regs.h |  14 +
+>>   drivers/gpu/drm/tidss/tidss_drv.c        |   9 +
+>>   drivers/gpu/drm/tidss/tidss_drv.h        |   5 +
+>>   drivers/gpu/drm/tidss/tidss_oldi.c       | 558 +++++++++++++++++++++++
+>>   drivers/gpu/drm/tidss/tidss_oldi.h       |  51 +++
+>>   8 files changed, 662 insertions(+), 2 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.c
+>>   create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.h
+>>
+>> diff --git a/drivers/gpu/drm/tidss/Makefile b/drivers/gpu/drm/tidss/ 
+>> Makefile
+>> index 312645271014..b6d6becf1683 100644
+>> --- a/drivers/gpu/drm/tidss/Makefile
+>> +++ b/drivers/gpu/drm/tidss/Makefile
+>> @@ -7,6 +7,7 @@ tidss-y := tidss_crtc.o \
+>>       tidss_irq.o \
+>>       tidss_plane.o \
+>>       tidss_scale_coefs.o \
+>> -    tidss_dispc.o
+>> +    tidss_dispc.o \
+>> +    tidss_oldi.o
+>>   obj-$(CONFIG_DRM_TIDSS) += tidss.o
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/ 
+>> tidss/tidss_dispc.c
+>> index 1ad711f8d2a8..8631a89e6155 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> @@ -466,6 +466,25 @@ static u32 dispc_vp_read(struct dispc_device 
+>> *dispc, u32 hw_videoport, u16 reg)
+>>       return ioread32(base + reg);
+>>   }
+>> +void tidss_configure_oldi(struct tidss_device *tidss, u32 hw_videoport,
+>> +              u32 oldi_cfg)
+>> +{
+>> +    u32 count = 0;
+>> +    u32 oldi_reset_bit = BIT(5 + hw_videoport);
+>> +
+>> +    dispc_vp_write(tidss->dispc, hw_videoport, DISPC_VP_DSS_OLDI_CFG, 
+>> oldi_cfg);
+>> +
+>> +    if (oldi_cfg != 0) {
+>> +        while (!(oldi_reset_bit & dispc_read(tidss->dispc, 
+>> DSS_SYSSTATUS)) &&
+>> +               count < 10000)
+>> +            count++;
+>> +
+>> +        if (!(oldi_reset_bit & dispc_read(tidss->dispc, DSS_SYSSTATUS)))
+>> +            dev_warn(tidss->dispc->dev, "%s: timeout waiting OLDI 
+>> reset done\n",
+>> +                 __func__);
+>> +    }
+>> +}
 > 
-> Two of the OLDI TXes can function in tandem to output dual-link OLDI
-> output, or cloned single-link outputs. In these cases, one OLDI will be
-> the primary OLDI, and the other one, a companion. The following diagram
-> represents such a configuration.
+> The timeout sounds like an error. Better to return an error value, and 
+> handle it in tidss_oldi_config()?
 > 
-> +-----+-----+         +-------+
-> |     |     |         |       |
-> |     | VP1 +----+--->+ OLDI0 |  (Primary - may need companion)
-> |     |     |    |    |       |
-> | DSS +-----+    |    +-------+
-> |     |     |    |
-> |     | VP2 |    |    +-------+
-> |     |     |    |    |       |
-> +-----+-----+    +--->+ OLDI1 |  (Companion OLDI)
->                        |       |
->                        +-------+
+> You could also
 > 
-> The DSS in AM625 SoC has a configuration like the one above. The AM625
-> DSS VP1 (port@0) can connect and control 2 OLDI TXes, to use them in
-> dual-link or cloned single-link OLDI modes. It is only the VP1 that can
-> connect to either OLDI TXes for the AM625 DSS, and not the VP2.
+> if (!oldi_cfg)
+>      return 0;
 > 
-> Alternatively, on some future TI SoCs, along with the above
-> configuration, the OLDI TX can _also_ connect to separate video sources,
-> making them work entirely independent of each other. In this case,
-> neither of the OLDIs are "companion" or "secondary" OLDIs, and nor do
-> they require one. They both are independent and primary OLDIs. The
-> following diagram represents such a configuration.
+> But would it actually be nicer to have a separate void function for 
+> disabling?
 > 
-> +-----+-----+               +-------+
-> |     |     |               |       |
-> |     | VP1 +--+----------->+ OLDI0 |  (Primary - may need companion)
-> |     |     |  |            |       |
-> |     +-----+  |            +-------+
-> |     |     |  |
-> |     | VP2 |  |
-> |     |     |  |
-> | DSS +-----+  |   +---+    +-------+
-> |     |     |  +-->+ M |    |       |
-> |     | VP3 +----->+ U +--->+ OLDI1 |  (Companion or Primary)
-> |     |     |      | X |    |       |
-> |     +-----+      +---+    +-------+
-> |     |     |
-> |     | VP4 |
-> |     |     |
-> +-----+-----+
+>> +
+>>   /*
+>>    * TRM gives bitfields as start:end, where start is the higher bit
+>>    * number. For example 7:0
+>> @@ -1310,7 +1329,6 @@ void dispc_vp_disable_clk(struct dispc_device 
+>> *dispc, u32 hw_videoport)
+>>    * Calculate the percentage difference between the requested pixel 
+>> clock rate
+>>    * and the effective rate resulting from calculating the clock 
+>> divider value.
+>>    */
+>> -static
+>>   unsigned int dispc_pclk_diff(unsigned long rate, unsigned long 
+>> real_rate)
+>>   {
+>>       int r = rate / 100, rr = real_rate / 100;
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/ 
+>> tidss/tidss_dispc.h
+>> index 086327d51a90..fab248f2055a 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+>> @@ -94,6 +94,10 @@ extern const struct dispc_features dispc_am62a7_feats;
+>>   extern const struct dispc_features dispc_am65x_feats;
+>>   extern const struct dispc_features dispc_j721e_feats;
+>> +void tidss_configure_oldi(struct tidss_device *tidss, u32 hw_videoport,
+>> +              u32 oldi_cfg);
+>> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long 
+>> real_rate);
+>> +
+>>   void dispc_set_irqenable(struct dispc_device *dispc, dispc_irq_t mask);
+>>   dispc_irq_t dispc_read_and_clear_irqstatus(struct dispc_device *dispc);
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc_regs.h b/drivers/gpu/ 
+>> drm/tidss/tidss_dispc_regs.h
+>> index 13feedfe5d6d..03f7098029e6 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc_regs.h
+>> @@ -226,6 +226,20 @@ enum dispc_common_regs {
+>>   #define DISPC_VP_DSS_DMA_THREADSIZE        0x170 /* J721E */
+>>   #define DISPC_VP_DSS_DMA_THREADSIZE_STATUS    0x174 /* J721E */
+>> +/* OLDI Config Bits (DISPC_VP_DSS_OLDI_CFG) */
+>> +#define OLDI_ENABLE        BIT(0)
+>> +#define OLDI_MAP        (BIT(1) | BIT(2) | BIT(3))
+>> +#define OLDI_SRC        BIT(4)
+>> +#define OLDI_CLONE_MODE        BIT(5)
+>> +#define OLDI_MASTERSLAVE    BIT(6)
+>> +#define OLDI_DEPOL        BIT(7)
+>> +#define OLDI_MSB        BIT(8)
+>> +#define OLDI_LBEN        BIT(9)
+>> +#define OLDI_LBDATA        BIT(10)
+>> +#define OLDI_DUALMODESYNC    BIT(11)
+>> +#define OLDI_SOFTRST        BIT(12)
+>> +#define OLDI_TPATCFG        BIT(13)
+>> +
+>>   /*
+>>    * OLDI IO_CTRL register offsets. On AM654 the registers are found
+>>    * from CTRL_MMR0, there the syscon regmap should map 0x14 bytes from
+>> diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/ 
+>> tidss/tidss_drv.c
+>> index 7c8fd6407d82..27b9f86f1eb2 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_drv.c
+>> +++ b/drivers/gpu/drm/tidss/tidss_drv.c
+>> @@ -24,6 +24,7 @@
+>>   #include "tidss_drv.h"
+>>   #include "tidss_kms.h"
+>>   #include "tidss_irq.h"
+>> +#include "tidss_oldi.h"
+>>   /* Power management */
+>> @@ -148,6 +149,10 @@ static int tidss_probe(struct platform_device *pdev)
+>>           return ret;
+>>       }
+>> +    ret = tidss_oldi_init(tidss);
+>> +    if (ret)
+>> +        return dev_err_probe(dev, ret, "failed to init OLDI\n");
+>> +
+>>       pm_runtime_enable(dev);
+>>       pm_runtime_set_autosuspend_delay(dev, 1000);
+>> @@ -204,6 +209,8 @@ static int tidss_probe(struct platform_device *pdev)
+>>       pm_runtime_dont_use_autosuspend(dev);
+>>       pm_runtime_disable(dev);
+>> +    tidss_oldi_deinit(tidss);
+>> +
+>>       return ret;
+>>   }
+>> @@ -228,6 +235,8 @@ static void tidss_remove(struct platform_device 
+>> *pdev)
+>>       pm_runtime_dont_use_autosuspend(dev);
+>>       pm_runtime_disable(dev);
+>> +    tidss_oldi_deinit(tidss);
+>> +
+>>       /* devm allocated dispc goes away with the dev so mark it NULL */
+>>       dispc_remove(tidss);
+>> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/ 
+>> tidss/tidss_drv.h
+>> index d7f27b0b0315..6c0fe1d989ee 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+>> @@ -11,8 +11,10 @@
+>>   #define TIDSS_MAX_PORTS 4
+>>   #define TIDSS_MAX_PLANES 4
+>> +#define TIDSS_MAX_OLDI_TXES 2
+>>   typedef u32 dispc_irq_t;
+>> +struct tidss_oldi;
+>>   struct tidss_device {
+>>       struct drm_device ddev;        /* DRM device for DSS */
+>> @@ -27,6 +29,9 @@ struct tidss_device {
+>>       unsigned int num_planes;
+>>       struct drm_plane *planes[TIDSS_MAX_PLANES];
+>> +    unsigned int num_oldis;
+>> +    struct tidss_oldi *oldis[TIDSS_MAX_OLDI_TXES];
+>> +
+>>       unsigned int irq;
+>>       spinlock_t wait_lock;    /* protects the irq masks */
+>> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/ 
+>> tidss/tidss_oldi.c
+>> new file mode 100644
+>> index 000000000000..4af13a01f546
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+>> @@ -0,0 +1,558 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +/*
+>> + * Copyright (C) 2024 - Texas Instruments Incorporated
+>> + *
+>> + * Aradhya Bhatia <a-bhatia1@ti.com>
+>> + */
+>> +
+>> +#include <linux/clk.h>
+>> +#include <linux/of.h>
+>> +#include <linux/of_graph.h>
+>> +#include <linux/mfd/syscon.h>
+>> +#include <linux/media-bus-format.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +#include <drm/drm_atomic_helper.h>
+>> +#include <drm/drm_bridge.h>
+>> +#include <drm/drm_of.h>
+>> +
+>> +#include "tidss_dispc.h"
+>> +#include "tidss_dispc_regs.h"
+>> +#include "tidss_oldi.h"
+>> +
+>> +struct tidss_oldi {
+>> +    struct tidss_device    *tidss;
+>> +    struct device        *dev;
+>> +
+>> +    struct drm_bridge    bridge;
+>> +    struct drm_bridge    *next_bridge;
+>> +
+>> +    enum tidss_oldi_link_type link_type;
+>> +    const struct oldi_bus_format *bus_format;
+>> +    u32 oldi_instance;
+>> +    u32 companion_instance;
+>> +    u32 parent_vp;
+>> +
+>> +    struct clk *serial;
+>> +    struct regmap *io_ctrl;
+>> +};
+>> +
+>> +static const struct oldi_bus_format oldi_bus_formats[] = {
+>> +    { MEDIA_BUS_FMT_RGB666_1X7X3_SPWG,    18, SPWG_18,    
+>> MEDIA_BUS_FMT_RGB666_1X18 },
+>> +    { MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,    24, SPWG_24,    
+>> MEDIA_BUS_FMT_RGB888_1X24 },
+>> +    { MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,    24, JEIDA_24,    
+>> MEDIA_BUS_FMT_RGB888_1X24 },
+>> +};
+>> +
+>> +#define OLDI_IDLE_CLK_HZ    25000000 /*25 MHz */
+>> +
+>> +static inline struct tidss_oldi *
+>> +drm_bridge_to_tidss_oldi(struct drm_bridge *bridge)
+>> +{
+>> +    return container_of(bridge, struct tidss_oldi, bridge);
+>> +}
+>> +
+>> +static int tidss_oldi_bridge_attach(struct drm_bridge *bridge,
+>> +                    enum drm_bridge_attach_flags flags)
+>> +{
+>> +    struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
+>> +
+>> +    if (!oldi->next_bridge) {
+>> +        dev_err(oldi->dev,
+>> +            "%s: OLDI%u Failure attach next bridge\n",
+>> +            __func__, oldi->oldi_instance);
+>> +        return -ENODEV;
+>> +    }
+>> +
+>> +    if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
+>> +        dev_err(oldi->dev,
+>> +            "%s: OLDI%u DRM_BRIDGE_ATTACH_NO_CONNECTOR is mandatory.\n",
+>> +            __func__, oldi->oldi_instance);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    return drm_bridge_attach(bridge->encoder, oldi->next_bridge,
+>> +                 bridge, flags);
+>> +}
+>> +
+>> +static int
+>> +tidss_oldi_set_serial_clk(struct tidss_oldi *oldi, unsigned long rate)
+>> +{
+>> +    unsigned long new_rate;
+>> +    int ret;
+>> +
+>> +    ret = clk_set_rate(oldi->serial, rate);
+>> +    if (ret) {
+>> +        dev_err(oldi->dev,
+>> +            "OLDI%u: failed to set serial clk rate to %lu Hz\n",
+>> +             oldi->oldi_instance, rate);
+>> +        return ret;
+>> +    }
+>> +
+>> +    new_rate = clk_get_rate(oldi->serial);
+>> +
+>> +    if (dispc_pclk_diff(rate, new_rate) > 5)
+>> +        dev_warn(oldi->dev,
+>> +             "OLDI%u Clock rate %lu differs over 5%% from requested 
+>> %lu\n",
+>> +             oldi->oldi_instance, new_rate, rate);
+>> +
+>> +    dev_dbg(oldi->dev, "OLDI%u: new rate %lu Hz (requested %lu Hz)\n",
+>> +        oldi->oldi_instance, clk_get_rate(oldi->serial), rate);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static void tidss_oldi_tx_power(struct tidss_oldi *oldi, bool enable)
+>> +{
+>> +    u32 mask;
+>> +
+>> +    /*
+>> +     * The power control bits are Active Low, and remain powered off by
+>> +     * default. That is, the bits are set to 1. To power on the OLDI 
+>> TXes,
+>> +     * the bits must be cleared to 0. Since there are cases where not 
+>> all
+>> +     * OLDI TXes are being used, the power logic selectively powers them
+>> +     * on.
+>> +     * Setting the variable 'val' to particular bit masks, makes sure 
+>> that
+>> +     * the unrequired OLDI TXes remain powered off.
+>> +     */
+>> +
+>> +    if (enable) {
+>> +        switch (oldi->link_type) {
+>> +        case OLDI_MODE_SINGLE_LINK:
+>> +            /* Power-on only the required OLDI TX's IO*/
+>> +            mask = OLDI_PWRDOWN_TX(oldi->oldi_instance) | OLDI_PWRDN_BG;
+>> +            break;
+>> +        case OLDI_MODE_CLONE_SINGLE_LINK:
+>> +        case OLDI_MODE_DUAL_LINK:
+>> +            /* Power-on both the OLDI TXes' IOs */
+>> +            mask = OLDI_PWRDOWN_TX(oldi->oldi_instance) |
+>> +                   OLDI_PWRDOWN_TX(oldi->companion_instance) |
+>> +                   OLDI_PWRDN_BG;
+>> +            break;
+>> +        default:
+>> +            /*
+>> +             * This code execution should never reach here as any
+>> +             * OLDI with an unsupported OLDI mode would never get
+>> +             * registered in the first place.
+>> +             * However, power-off the OLDI in concern just in case.
+>> +             */
+>> +            mask = OLDI_PWRDOWN_TX(oldi->oldi_instance);
+>> +            enable = false;
+>> +            break;
+>> +        }
+>> +    } else {
+>> +        switch (oldi->link_type) {
+>> +        case OLDI_MODE_CLONE_SINGLE_LINK:
+>> +        case OLDI_MODE_DUAL_LINK:
+>> +            mask = OLDI_PWRDOWN_TX(oldi->oldi_instance) |
+>> +                   OLDI_PWRDOWN_TX(oldi->companion_instance) |
+>> +                   OLDI_PWRDN_BG;
+>> +            break;
+>> +        case OLDI_MODE_SINGLE_LINK:
+>> +        default:
+>> +            mask = OLDI_PWRDOWN_TX(oldi->oldi_instance);
+>> +            break;
+>> +        }
+>> +    }
+>> +
+>> +    regmap_update_bits(oldi->io_ctrl, OLDI_PD_CTRL, mask, enable ? 
+>> 0 : mask);
+>> +}
+>> +
+>> +static int tidss_oldi_config(struct tidss_oldi *oldi)
+>> +{
+>> +    const struct oldi_bus_format *bus_fmt = NULL;
+>> +    u32 oldi_cfg = 0;
+>> +
+>> +    bus_fmt = oldi->bus_format;
+>> +
+>> +    /*
+>> +     * MASTERSLAVE and SRC bits of OLDI Config are always set to 0.
+>> +     */
+>> +
+>> +    if (bus_fmt->data_width == 24)
+>> +        oldi_cfg |= OLDI_MSB;
+>> +    else if (bus_fmt->data_width != 18)
+>> +        dev_warn(oldi->dev,
+>> +             "OLDI%u: DSS port width %d not supported\n",
+>> +             oldi->oldi_instance, bus_fmt->data_width);
+>> +
+>> +    oldi_cfg |= OLDI_DEPOL;
+>> +
+>> +    oldi_cfg = (oldi_cfg & (~OLDI_MAP)) | (bus_fmt->oldi_mode_reg_val 
+>> << 1);
+>> +
+>> +    oldi_cfg |= OLDI_SOFTRST;
+>> +
+>> +    oldi_cfg |= OLDI_ENABLE;
+>> +
+>> +    switch (oldi->link_type) {
+>> +    case OLDI_MODE_SINGLE_LINK:
+>> +        /* All configuration is done for this mode.  */
+>> +        break;
+>> +
+>> +    case OLDI_MODE_CLONE_SINGLE_LINK:
+>> +        oldi_cfg |= OLDI_CLONE_MODE;
+>> +        break;
+>> +
+>> +    case OLDI_MODE_DUAL_LINK:
+>> +        /* data-mapping field also indicates dual-link mode */
+>> +        oldi_cfg |= BIT(3);
+>> +        oldi_cfg |= OLDI_DUALMODESYNC;
+>> +        break;
+>> +
+>> +    default:
+>> +        dev_err(oldi->dev, "OLDI%u: Unsupported mode.\n",
+>> +            oldi->oldi_instance);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    tidss_configure_oldi(oldi->tidss, oldi->parent_vp, oldi_cfg);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static void tidss_oldi_atomic_pre_enable(struct drm_bridge *bridge,
+>> +                     struct drm_bridge_state *old_bridge_state)
+>> +{
+>> +    struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
+>> +    struct drm_atomic_state *state = old_bridge_state->base.state;
+>> +    struct drm_connector *connector;
+>> +    struct drm_connector_state *conn_state;
+>> +    struct drm_crtc_state *crtc_state;
+>> +    struct drm_display_mode *mode;
+>> +
+>> +    connector = drm_atomic_get_new_connector_for_encoder(state,
+>> +                                 bridge->encoder);
+>> +    if (WARN_ON(!connector))
+>> +        return;
+>> +
+>> +    conn_state = drm_atomic_get_new_connector_state(state, connector);
+>> +    if (WARN_ON(!conn_state))
+>> +        return;
+>> +
+>> +    crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+>> +    if (WARN_ON(!crtc_state))
+>> +        return;
+>> +
+>> +    mode = &crtc_state->adjusted_mode;
+>> +
+>> +    /* Configure the OLDI params*/
+>> +    tidss_oldi_config(oldi);
+>> +
+>> +    /* Set the OLDI serial clock (7 times the pixel clock) */
+>> +    tidss_oldi_set_serial_clk(oldi, mode->clock * 7 * 1000);
+>> +
+>> +    /* Enable OLDI IO power */
+>> +    tidss_oldi_tx_power(oldi, true);
+>> +}
+>> +
+>> +static void tidss_oldi_atomic_post_disable(struct drm_bridge *bridge,
+>> +                       struct drm_bridge_state *old_bridge_state)
+>> +{
+>> +    struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
+>> +
+>> +    /* Disable OLDI IO power */
+>> +    tidss_oldi_tx_power(oldi, false);
+>> +
+>> +    /* Set the OLDI serial clock to IDLE Frequency */
+>> +    tidss_oldi_set_serial_clk(oldi, OLDI_IDLE_CLK_HZ);
+>> +
+>> +    /* Clear OLDI Config */
+>> +    tidss_configure_oldi(oldi->tidss, oldi->parent_vp, 0);
+>> +}
+>> +
+>> +#define MAX_INPUT_SEL_FORMATS    1
+>> +
+>> +static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge 
+>> *bridge,
+>> +                         struct drm_bridge_state *bridge_state,
+>> +                         struct drm_crtc_state *crtc_state,
+>> +                         struct drm_connector_state *conn_state,
+>> +                         u32 output_fmt,
+>> +                         unsigned int *num_input_fmts)
+>> +{
+>> +    struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
+>> +    u32 *input_fmts;
+>> +    int i;
+>> +
+>> +    *num_input_fmts = 0;
+>> +
+>> +    for (i = 0; i < ARRAY_SIZE(oldi_bus_formats); i++)
+>> +        if (oldi_bus_formats[i].bus_fmt == output_fmt)
+>> +            break;
+>> +
+>> +    if (i == ARRAY_SIZE(oldi_bus_formats))
+>> +        return NULL;
+>> +
+>> +    input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+>> +                 GFP_KERNEL);
+>> +    if (!input_fmts)
+>> +        return NULL;
+>> +
+>> +    *num_input_fmts = 1;
+>> +    input_fmts[0] = oldi_bus_formats[i].input_bus_fmt;
+>> +    oldi->bus_format = &oldi_bus_formats[i];
+>> +
+>> +    return input_fmts;
+>> +}
+>> +
+>> +static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
+>> +    .attach        = tidss_oldi_bridge_attach,
 > 
-> Note that depending on the mux configuration, the OLDIs can either be
-> working together in tandem - sourced by VP1, OR, they could be working
-> independently sourced by VP1 and VP3 respectively.
-> The idea is to support all the configurations with this OLDI TX schema.
+> Looks like an extra tab there?
 > 
-> The OLDI functionality is further supported by a system-control module,
-> which contains a few registers to control OLDI IO power and other
-> electrical characteristics of the IO lanes.
-> 
-> Add devicetree binding schema for the OLDI TXes to support various
-> configurations, and extend their support to the AM625 DSS.
-> 
-> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
-> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> ---
->   .../bindings/display/ti/ti,am625-oldi.yaml    |  88 ++++++++++
->   .../bindings/display/ti/ti,am65x-dss.yaml     | 154 ++++++++++++++++++
->   MAINTAINERS                                   |   1 +
->   3 files changed, 243 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-> new file mode 100644
-> index 000000000000..42a80a512660
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
-> @@ -0,0 +1,88 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/ti/ti,am625-oldi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments AM625 OLDI Transmitter
-> +
-> +maintainers:
-> +  - Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> +  - Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> +
-> +description:
-> +  The AM625 TI Keystone OpenLDI transmitter (OLDI TX) supports serialized RGB
-> +  pixel data transmission between host and flat panel display over LVDS (Low
-> +  Voltage Differential Sampling) interface. The OLDI TX consists of 7-to-1 data
-> +  serializers, and 4-data and 1-clock LVDS outputs. It supports the LVDS output
-> +  formats "jeida-18", "jeida-24" and "vesa-18", and can accept 24-bit RGB or
-> +  padded and un-padded 18-bit RGB bus formats as input.
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: serial clock input for the OLDI transmitters
-> +
-> +  clock-names:
-> +    const: serial
-> +
-> +  ti,companion-oldi:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to companion OLDI transmitter. This property is mandatory for the
-> +      primarty OLDI TX if the OLDI TXes are expected to work either in dual-lvds
-> +      mode or in clone mode. This property should point to the secondary OLDI
-> +      TX.
-> +
-> +  ti,secondary-oldi:
-> +    type: boolean
-> +    description:
-> +      Boolean property to mark the OLDI transmitter as the secondary one, when the
-> +      OLDI hardware is expected to run as a companion HW, in cases of dual-lvds
-> +      mode or clone mode. The primary OLDI hardware is responsible for all the
-> +      hardware configuration.
+> Other than those two cosmetic issues, I think this looks fine. I also 
+> tested on AM62-SK.
 
-I think these work, but I'm wondering if we would ever need to check 
-something from the main oldi from the secondary oldi. In that case 
-"crossed phandles" would be better, i.e. something like:
-
-(in the first oldi:)
-ti,slave-oldi = <phandle-to-second-oldi>
-
-(in the second oldi:)
-ti,master-oldi = <phandle-to-first-oldi>
-
-Then again, if we ever need that, even with these bindings the driver 
-could find the first oldi, but needs to go via the dss's node.
-
-So, just a thought.
+Also, feel free to add:
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
 
-> +  ti,oldi-io-ctrl:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      phandle to syscon device node mapping OLDI IO_CTRL registers found in the
-> +      control MMR region. These registers are required to toggle the I/O lane
-> +      power, and control its electrical characteristics.
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Parallel RGB input port
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: LVDS output port
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +allOf:
-> +  - if:
-> +      required:
-> +        - ti,secondary-oldi
-> +    then:
-> +      properties:
-> +        ti,companion-oldi: false
-> +
-> +required:
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - ti,oldi-io-ctrl
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> index 399d68986326..a82c525631ea 100644
-> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
-> @@ -91,6 +91,24 @@ properties:
->             For AM625 DSS, the internal DPI output port node from video
->             port 1.
->             For AM62A7 DSS, the port is tied off inside the SoC.
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description:
-> +              For AM625 DSS, VP Connection to OLDI0.
-> +              For AM65X DSS, OLDI output from the SoC.
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description:
-> +              For AM625 DSS, VP Connection to OLDI1.
-> +
-> +        anyOf:
-> +          - required:
-> +              - endpoint
-> +          - required:
-> +              - endpoint@0
-> +              - endpoint@1
->   
->         port@1:
->           $ref: /schemas/graph.yaml#/properties/port
-> @@ -112,6 +130,25 @@ properties:
->         Input memory (from main memory to dispc) bandwidth limit in
->         bytes per second
->   
-> +  oldi-transmitters:
-> +    description:
-> +      Child node under the DSS, to describe all the OLDI transmitters connected
-> +      to the DSS videoports.
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      '^oldi@[0-1]$':
-> +        $ref: ti,am625-oldi.yaml#
-> +        description: OLDI transmitters connected to the DSS VPs
-> +
->   allOf:
->     - if:
->         properties:
-> @@ -120,10 +157,25 @@ allOf:
->               const: ti,am62a7-dss
->       then:
->         properties:
-> +        oldi-transmitters: false
->           ports:
->             properties:
->               port@0: false
->   
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: ti,am65x-dss
-> +    then:
-> +      properties:
-> +        oldi-transmitters: false
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              properties:
-> +                endpoint@1: false
-> +
->   required:
->     - compatible
->     - reg
-> @@ -171,3 +223,105 @@ examples:
->               };
->           };
->       };
-> +
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/soc/ti,sci_pm_domain.h>
-> +
-> +    bus {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +        dss1: dss@30200000 {
-> +            compatible = "ti,am625-dss";
-> +            reg = <0x00 0x30200000 0x00 0x1000>, /* common */
-> +                  <0x00 0x30202000 0x00 0x1000>, /* vidl1 */
-> +                  <0x00 0x30206000 0x00 0x1000>, /* vid */
-> +                  <0x00 0x30207000 0x00 0x1000>, /* ovr1 */
-> +                  <0x00 0x30208000 0x00 0x1000>, /* ovr2 */
-> +                  <0x00 0x3020a000 0x00 0x1000>, /* vp1 */
-> +                  <0x00 0x3020b000 0x00 0x1000>, /* vp2 */
-> +                  <0x00 0x30201000 0x00 0x1000>; /* common1 */
-> +            reg-names = "common", "vidl1", "vid",
-> +                        "ovr1", "ovr2", "vp1", "vp2", "common1";
-> +            power-domains = <&k3_pds 186 TI_SCI_PD_EXCLUSIVE>;
-> +            clocks =        <&k3_clks 186 6>,
-> +                            <&vp1_clock>,
-> +                            <&k3_clks 186 2>;
-> +            clock-names = "fck", "vp1", "vp2";
-> +            interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>;
-> +            oldi-transmitters {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                oldi0: oldi@0 {
-> +                    reg = <0>;
-> +                    clocks = <&k3_clks 186 0>;
-> +                    clock-names = "serial";
-> +                    ti,companion-oldi = <&oldi1>;
-> +                    ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-> +                    ports {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +                        port@0 {
-> +                            reg = <0>;
-> +                            oldi0_in: endpoint {
-> +                                remote-endpoint = <&dpi0_out0>;
-> +                            };
-> +                        };
-> +                        port@1 {
-> +                            reg = <1>;
-> +                            oldi0_out: endpoint {
-> +                                remote-endpoint = <&panel_in0>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +                oldi1: oldi@1 {
-> +                    reg = <1>;
-> +                    clocks = <&k3_clks 186 0>;
-> +                    clock-names = "serial";
-> +                    ti,secondary-oldi;
-> +                    ti,oldi-io-ctrl = <&dss_oldi_io_ctrl>;
-> +                    ports {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +                        port@0 {
-> +                            reg = <0>;
-> +                            oldi1_in: endpoint {
-> +                                remote-endpoint = <&dpi0_out1>;
-> +                            };
-> +                        };
-> +                        port@1 {
-> +                            reg = <1>;
-> +                            oldi1_out: endpoint {
-> +                                remote-endpoint = <&panel_in1>;
-> +                            };
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                port@0 {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +                    reg = <0>;
-> +                    dpi0_out0: endpoint@0 {
-> +                        reg = <0>;
-> +                        remote-endpoint = <&oldi0_in>;
-> +                    };
-> +                    dpi0_out1: endpoint@1 {
-> +                        reg = <1>;
-> +                        remote-endpoint = <&oldi1_in>;
-> +                    };
-> +                };
-> +                port@1 {
-> +                    reg = <1>;
-> +                    dpi1_out: endpoint {
-> +                        remote-endpoint = <&hdmi_bridge>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0fa7c5728f1e..88fa2d9435b8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7816,6 +7816,7 @@ M:	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->   L:	dri-devel@lists.freedesktop.org
->   S:	Maintained
->   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-> +F:	Documentation/devicetree/bindings/display/ti/ti,am625-oldi.yaml
->   F:	Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
->   F:	Documentation/devicetree/bindings/display/ti/ti,j721e-dss.yaml
->   F:	Documentation/devicetree/bindings/display/ti/ti,k2g-dss.yaml
+> However, one more thing. We'll have a separate OLDI bridge, but we still 
+> will have the old OLDI code for AM65x in the tidss_dispc.c. And to mix 
+> things up, we will have some new OLDI code there too 
+> (tidss_configure_oldi). Could you check the AM65x specific code and 
+> perhaps rename the functions to am65x or such, to make this clearer. 
+> Perhaps also the DISPC_VP_OLDI should be DISPC_VP_OLDI_AM65X, as that VP 
+> type shouldn't be used for anything else.
+> 
+>   Tomi
+> 
 
