@@ -2,120 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F67A31273
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 18:09:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB3FA312F0
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 18:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CAFA10E723;
-	Tue, 11 Feb 2025 17:09:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD80010E72B;
+	Tue, 11 Feb 2025 17:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gsC42Ios";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Dx6wSGbm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05BB510E723
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 17:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739293753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6KqtiPP9cAbKw9pLfJEtjIYHOv1qD2Gmu69RxwYEKDs=;
- b=gsC42IosRwLW6MYbNT8rrgLP5obBC7Dw5O+8Ds2oWyp681u43H8XXP1MwOdPN4KmPfc+Jz
- 0A0mchDl+IQgwETwL0Ar8Ab4VRYQ6w7/fp3CrJ5MitRYKsJlt8xN7FxxnEqQ6XoJfYpS8q
- J5p+aW6QFQeqY4iy1qpGfHFsJ/Uymps=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-407-o1H_9NS3OQeWXF426tCxdg-1; Tue, 11 Feb 2025 12:09:12 -0500
-X-MC-Unique: o1H_9NS3OQeWXF426tCxdg-1
-X-Mimecast-MFC-AGG-ID: o1H_9NS3OQeWXF426tCxdg
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-6f6d40a61e7so70006157b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 09:09:12 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32B5410E72B
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 17:28:26 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-38dd0dc2226so3286903f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 09:28:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1739294904; x=1739899704;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XGuymloIkb07DBUsJm0q376VtiZsOgNoZNsnmfiTCVw=;
+ b=Dx6wSGbmKXATRkjUuMbPOl3F8D67waUgiTbD6sAdzHvLNExucvldrMNtLh1E9Xm89Q
+ 47OJbC0LWtmxC1SyXqQwE7LSGZ2K4UaLtnMe4vMVQY0JWnIdsIyX5khDofqrCZU8tFN2
+ LCDwFTwZvkj45Y0GnrPefBqyE15BaBtil4ZdpXbu1V9ehKm8tmT5mjZAnvNbZ/PLFNAd
+ OfRW2xWLdTEcBKc8yT+4Xdi6jYwdR60MhMFQEe6zGjU3JvmAkZEhx1N6sIlU7TMro6yL
+ T7olZslXJ4GpkumHvEAvXfg0esWU3Lhf/kUTeI9q4yR52FpGnzZR2nXi3/BgnICaur3Q
+ mshA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739293751; x=1739898551;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1739294904; x=1739899704;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=6KqtiPP9cAbKw9pLfJEtjIYHOv1qD2Gmu69RxwYEKDs=;
- b=tiPLCCj7KaEckPQLRnbfonww/wKjgW+EPHY15U7AvsZM7Ygn07B7NIU8/GTja+HMJs
- 34F7At/FU6N4MYDqACnmK7I8V7d8AxipPiSdEFnhJklujqkEk1nSJd3nciHaDoEQ7XA5
- AAlof5Z7m6qjugETNBQ9lYjVSa8Ph00aU7FXRQTvkCWPAaFOPWYkITW/Bmy+8QhEJypW
- VIQmKcmJO6JlGyXQWKSYiq9T02QvRcx7jM7Km3hEKcStGe+2uNyxng2H3HMFlLtU1PzQ
- XsFpJW/YvTi4KER81jKs3MsTcvpAtYzATf+Zelv77OCAeedTvtUj21rcwtrmS2Nz++jr
- JpVw==
+ bh=XGuymloIkb07DBUsJm0q376VtiZsOgNoZNsnmfiTCVw=;
+ b=BSQwngGrjH9UMbIb1YrKbNOw/jatvUZdTK1lQEzrIhzBumYHkYSr1wsmw54kMwgXyU
+ zRwCqE2uWIdJ35hRm3jpkcvdGqd5spQP9umv8DjmJJwY5ogazSaHXmpSqPq+DDzFTqpF
+ zsaevYoCwUN8TtWyC8L3on7kzFt9SCWb80TPnScz7CCluthemfl5YLoxzAfW/IGKT0UH
+ /C50U6gjmD3JGVRDM+Tmdj/0ceRxpElvflX3kw2/x7IkGeixL16Vhsoez+svgsbweo+J
+ 4p5CQv1ddiRcc9LHHbrY1yWMFJToutdus53Xxtj8MyqJhy5sGLuIX6vyUZKNgh7ch1ZO
+ 5xhw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXIT1RE4cNr9sU6TqPBcuLsp1WndQ1KefQh4O+5HSwFyL6BDC9LUFXKYpaOjuYB4Og++A/PIWVUaXA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZZ2nHXwmUSDmTSy0PQEOXii6XJ0H9Ui3OFqDFr08AzsVOfTl3
- jP7BLw8K7TLBQqd6nAF3B3Xb54kNK+ECrgt0C6SnvQI+pcW4c1R5mcIjwidXtheMOZOl8qdxv5o
- ETlGz0EiCBpY2WnI70OYdFq/8zbCA1RDFcCaRJXkjoCZCuEBBi/8ngfKoLepp5Wg7ci5S8P5lR2
- NWJcqj9wBKYybgequwrnFDfyTZRX6BWldRmqmO9AiM
-X-Gm-Gg: ASbGncu5S1mAWFrSibuVefSVRxwLQmnb7MhR6JE9/V/DuYEux7MXhNbQKW9wW+pik2z
- hGt5t0pp60SVPXlwe2bhwfu3wl8SUpMOkLQEN4UsYfKvInVbC1W5FYNMpYVNY
-X-Received: by 2002:a05:690c:620b:b0:6f7:598d:34c2 with SMTP id
- 00721157ae682-6fb1f68334dmr2317517b3.24.1739293749955; 
- Tue, 11 Feb 2025 09:09:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFfKa1KCPRXDPfQeav0M9USwT61j5FjOY5ty4cMA/v4gmNerkCy0F091v6rJjoChnCBHioJN5La+YrVT3vOwcs=
-X-Received: by 2002:a05:690c:620b:b0:6f7:598d:34c2 with SMTP id
- 00721157ae682-6fb1f68334dmr2315547b3.24.1739293748119; Tue, 11 Feb 2025
- 09:09:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
- <20250205-mem-cocci-newapi-v1-11-aebf2b0e2300@redhat.com>
- <20250206-hallowed-ultra-tiger-cfec8e@houat>
-In-Reply-To: <20250206-hallowed-ultra-tiger-cfec8e@houat>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 11 Feb 2025 12:08:57 -0500
-X-Gm-Features: AWEUYZnpF-xtMX2zoqL1SmW6M0UxWIfNDoln_2D_Wz78SFwXrsyRItY4Zv4vDPk
-Message-ID: <CAN9Xe3SpTG7r2UkN7_pH0uMXhU5u+dkWhaM9+w5VyOQZp9byNg@mail.gmail.com>
-Subject: Re: [PATCH 11/12] drm/vc4: move to devm_platform_ioremap_resource()
- usage
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
- Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
- Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
- John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ AJvYcCV6acRnZqNPte/bHot5Qw/VvrusFPFhd6P977c3LrghS5XMecIta0AjJyBKMayeCVJyhZ3R85P9LFI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxcmy3H348rMTSWjnQMEAJPwZoR/YKQqoVidCAFOwncqqI09zxj
+ QGadvaaoPTvV1HoZj1DQ0dLpCZ2ed3NNv3Q6o11nB//3LRURY2ahKYvNdWxQjGo=
+X-Gm-Gg: ASbGncsU60Ye/ksjtwqVfQ6zUvWOHIC5pDK7L+xbPA6p2mMrr14wKUZNxptq1+akln1
+ VUjvDSBlstl8kQw2F4oCe9P+xb9NDYStur7A2+p0HYtvJQTkX4DqtWmGeKgs+S6WsjPQdMcOeiu
+ A8V8DNohDVqmLpZnjW27K/Fly1dcabfwRFo70NbIOuuXuoFZfM2SyqA0d4GxLUtLLj6rzwV6pHI
+ oiaLyCMf95q2c2DLpWHh6HxjrfVuOwoEVpl9IJ/WStMl+l70IhV4S8THoiz/oS9XoFffDlmcJ84
+ UGCj2R6+orAnFSYWVA==
+X-Google-Smtp-Source: AGHT+IEnLhYUowYHE0yKYJiPhnWPf3ZeYK7gEVcdnt/kejC8y5qrfPO/D7z6hU8xWCz/RTS9lenTeg==
+X-Received: by 2002:a5d:6d8d:0:b0:38d:dac3:482f with SMTP id
+ ffacd0b85a97d-38ddac34a13mr9552027f8f.20.1739294904276; 
+ Tue, 11 Feb 2025 09:28:24 -0800 (PST)
+Received: from toaster.lan ([2a01:e0a:3c5:5fb1:fc0c:6c04:7ae0:c5c2])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-38dc6c80df2sm13691082f8f.18.2025.02.11.09.28.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 11 Feb 2025 09:28:23 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Danilo Krummrich <dakr@kernel.org>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
  Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Marek Vasut <marex@denx.de>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+ Gregory CLEMENT <gregory.clement@bootlin.com>,
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>, 
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
- linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: SvR_pRvJ4ZIehrETJi_834WJhnKZUNeo3_gb_pZ29mI_1739293751
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000004607d062de0e274"
+ Fabio Estevam <festevam@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-clk@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org
+Subject: [PATCH v3 0/7] driver core: auxiliary bus: add device creation helper
+Date: Tue, 11 Feb 2025 18:27:56 +0100
+Message-ID: <20250211-aux-device-create-helper-v3-0-7edb50524909@baylibre.com>
+X-Mailer: git-send-email 2.45.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20241210-aux-device-create-helper-93141524e523
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2783; i=jbrunet@baylibre.com; 
+ h=from:subject:message-id;
+ bh=a5cIVDB/XqIyZLdjQfX2dKjmeJTuroJeXtpvtv2BIfo=; 
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBnq4g1Pe4IH0OZxqD2nUyrcAQNxBIXu0/k/eK1P
+ eeZU0tDtUuJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCZ6uINQAKCRDm/A8cN/La
+ hTwuEAC0yRgoF5+sh3729QlMMArb49bUXPCcRfPXuGX9LfhICUU4rDzmeyhZ73ixiud2HTj/cU+
+ CD1JkxcQMgGt91XivcxSZaa/O8J0yiPY7XsyumB7lZztf3UOMsCyUYTcKtXq5nqIs4XCbEhpJBv
+ wWROK3l7aHwYaq86foxHXPKLBnOdGvO9tG4Cd9dFUqvfkunsU8f1EiHoxbmp+8AixeZ8JpI2h4m
+ RjfqKlyTgw1YwDSy8gvB5ZPIPfJVWyTKmC1Scwl9vPX/7HwArcDqpjHRlq9wCWsX1X+dYHwP114
+ skbcxvzytfFkqEWc/m9N/YUNN2dmQQm9p2R1+J86uloEWI4o5KzhTYOpepjT2AkP1fIujSUKYHZ
+ /rh/PrI+zpIhqvRdlvWTgCLIc/16EpKDNCBjZm6Uvr97KnbucwB0DCt3VCIVrzNe0IS/YeK6OhJ
+ lildtlGnvUpl2dz96XT3fC5LwwQchqy+/WWifjqotaNI+P2EF+piohEbV+BE1YCqkl75qvhErq5
+ jYQ83+S4Fv3kZTw+9RDwCRDGX4prBwuMRTKuurwvRjXy3rrJdHr0VSfiRqXP+ZsEqCTGpkiLz/9
+ aR1gap1Zu3kcgRpqyt4RTF3xD8Ji6TpRGWpayTg2eFIl/D+xovgQKgGFBvkXIlBF5K3AjkP5YO/
+ 5n/HysQTp88OoaA==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,221 +135,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000004607d062de0e274
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The suggestion for this change was initially discussed here: [1]
 
-On Thu, Feb 6, 2025 at 11:13=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
+This patchset adds and use a helper to create a simple auxiliary device.
+The goal is to remove boilerplate code that tends to get repeated for
+simple cases.
 
-> On Wed, Feb 05, 2025 at 03:08:07PM -0500, Anusha Srivatsa wrote:
-> > Replace platform_get_resource_byname + devm_ioremap_resource
-> > with just devm_platform_ioremap_resource()
-> >
-> > Used Coccinelle to do this change. SmPl patch:
-> > //rule s/(devm_)platform_get_resource_byname +
-> > //(devm_)ioremap/devm_platform_ioremap_resource.
-> > @rule_3@
-> > identifier res;
-> > expression ioremap;
-> > identifier pdev;
-> > constant mem;
-> > expression name;
-> > @@
-> > -struct resource *res;
-> > <+...
-> > -res =3D platform_get_resource_byname(pdev,mem,name);
-> > <...
-> > -if (!res) {
-> > -...
-> > -}
-> > ...>
-> > -ioremap =3D devm_ioremap(...);
-> > +ioremap =3D devm_platform_ioremap_resource_byname(pdev,name);
-> > ...+>
-> >
-> > v2: Change the SmPl patch to work on multiple occurences of
-> > the pattern. This also fixes the compilation error.
-> >
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Cc: Ma=C3=ADra Canal <mcanal@igalia.com>
-> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> > ---
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 55
-> +++++++++++-------------------------------
-> >  1 file changed, 14 insertions(+), 41 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > index
-> 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..066f1246dab420ee889845b0c573d80=
-ce7c88595
-> 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -2951,71 +2951,44 @@ static int vc5_hdmi_init_resources(struct
-> drm_device *drm,
-> >  {
-> >       struct platform_device *pdev =3D vc4_hdmi->pdev;
-> >       struct device *dev =3D &pdev->dev;
-> > -     struct resource *res;
-> >       int ret;
-> >
-> > -     res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi"=
-);
-> > -     if (!res)
-> > -             return -ENODEV;
-> > -
-> > -     vc4_hdmi->hdmicore_regs =3D devm_ioremap(dev, res->start,
-> > -                                            resource_size(res));
-> > +     vc4_hdmi->hdmicore_regs =3D
-> devm_platform_ioremap_resource_byname(pdev,
-> > +
->  "hdmi");
-> >       if (!vc4_hdmi->hdmicore_regs)
-> >               return -ENOMEM;
-> >
-> > -     res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hd");
-> > -     if (!res)
-> > -             return -ENODEV;
-> > -
-> > -     vc4_hdmi->hd_regs =3D devm_ioremap(dev, res->start,
-> resource_size(res));
-> > +     vc4_hdmi->hd_regs =3D devm_platform_ioremap_resource_byname(pdev,
-> "hd");
-> >       if (!vc4_hdmi->hd_regs)
-> >               return -ENOMEM;
->
-> I *think* that one is shared between both HDMI controllers on the
-> RaspberryPi4, so we can't claim them from both instances. We should add
-> a comment there to document that it's on purpose.
->
-> How about vc4_hdmi->hdmicore_regs? It also has another instance
-vc4_hdmi_init_resources(). Looks like that also doesnt need any converting
-and shold be left as is.
+Only the last change was tested on actual HW. The other usage of the helper
+have only been compile tested with x64_64 allmodconfig. There are many other
+simple cases of auxiliary device creation but those tend to use the
+'container_of' trick to allocate the auxiliary device. It is possible to
+convert these drivers to use the provided helper but the conversion is
+slightly more complex.
 
-Anusha
+[1]: https://lore.kernel.org/linux-clk/df0a53ee859e450d84e81547099f5f36.sboyd@kernel.org
 
-> The rest looks good.
->
-> Maxime
->
+Changes in v3:
+- Implement Ira's suggestion to use KBUILD_MODNAME by default, same as
+  auxiliary_driver_register()
+- Link to v2: https://lore.kernel.org/r/20250206-aux-device-create-helper-v2-0-fa6a0f326527@baylibre.com
 
---00000000000004607d062de0e274
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changes in v2:
+- Add usage examples, as requested.
+- Add 'id' as function parameter:  Adding the example usage showed that
+  handling IDA allocation was not appropriate and making the usage more
+  complex for simple use case.
+- Also add 'modname' as parameter: Most driver have been using
+  KBUILD_MODNAME and this actually rarely align with the driver name.
+- Link to v1: https://lore.kernel.org/r/20241210-aux-device-create-helper-v1-1-5887f4d89308@baylibre.com
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 6, =
-2025 at 11:13=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel=
-.org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">On Wed, Feb 05, 2025 at 03:08:07PM -0500, Anusha Sr=
-ivatsa wrote:<br>
-&gt; Replace platform_get_resource_byname + devm_ioremap_resource<br>
-&gt; with just devm_platform_ioremap_resource()<br>
-&gt; <br>
-&gt; Used Coccinelle to do this change. SmPl patch:<br>
-&gt; //rule s/(devm_)platform_get_resource_byname +<br>
-&gt; //(devm_)ioremap/devm_platform_ioremap_resource.<br>
-&gt; @rule_3@<br>
-&gt; identifier res;<br>
-&gt; expression ioremap;<br>
-&gt; identifier pdev;<br>
-&gt; constant mem;<br>
-&gt; expression name;<br>
-&gt; @@<br>
-&gt; -struct resource *res;<br>
-&gt; &lt;+...<br>
-&gt; -res =3D platform_get_resource_byname(pdev,mem,name);<br>
-&gt; &lt;...<br>
-&gt; -if (!res) {<br>
-&gt; -...<br>
-&gt; -}<br>
-&gt; ...&gt;<br>
-&gt; -ioremap =3D devm_ioremap(...);<br>
-&gt; +ioremap =3D devm_platform_ioremap_resource_byname(pdev,name);<br>
-&gt; ...+&gt;<br>
-&gt; <br>
-&gt; v2: Change the SmPl patch to work on multiple occurences of<br>
-&gt; the pattern. This also fixes the compilation error.<br>
-&gt; <br>
-&gt; Cc: Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel.org" target=3D"=
-_blank">mripard@kernel.org</a>&gt;<br>
-&gt; Cc: Dave Stevenson &lt;<a href=3D"mailto:dave.stevenson@raspberrypi.co=
-m" target=3D"_blank">dave.stevenson@raspberrypi.com</a>&gt;<br>
-&gt; Cc: Ma=C3=ADra Canal &lt;<a href=3D"mailto:mcanal@igalia.com" target=
-=3D"_blank">mcanal@igalia.com</a>&gt;<br>
-&gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.c=
-om" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 drivers/gpu/drm/vc4/vc4_hdmi.c | 55 +++++++++++-----------------=
---------------<br>
-&gt;=C2=A0 1 file changed, 14 insertions(+), 41 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_=
-hdmi.c<br>
-&gt; index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..066f1246dab420ee889845=
-b0c573d80ce7c88595 100644<br>
-&gt; --- a/drivers/gpu/drm/vc4/vc4_hdmi.c<br>
-&gt; +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c<br>
-&gt; @@ -2951,71 +2951,44 @@ static int vc5_hdmi_init_resources(struct drm_=
-device *drm,<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct platform_device *pdev =3D vc4_hdmi-&g=
-t;pdev;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct device *dev =3D &amp;pdev-&gt;dev;<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0struct resource *res;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int ret;<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0res =3D platform_get_resource_byname(pdev, IORESO=
-URCE_MEM, &quot;hdmi&quot;);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (!res)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENODEV;<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0vc4_hdmi-&gt;hdmicore_regs =3D devm_ioremap(dev, =
-res-&gt;start,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 resource_size(res));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0vc4_hdmi-&gt;hdmicore_regs =3D devm_platform_iore=
-map_resource_byname(pdev,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;hdmi&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!vc4_hdmi-&gt;hdmicore_regs)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<=
-br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0res =3D platform_get_resource_byname(pdev, IORESO=
-URCE_MEM, &quot;hd&quot;);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (!res)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENODEV;<br>
-&gt; -<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0vc4_hdmi-&gt;hd_regs =3D devm_ioremap(dev, res-&g=
-t;start, resource_size(res));<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0vc4_hdmi-&gt;hd_regs =3D devm_platform_ioremap_re=
-source_byname(pdev, &quot;hd&quot;);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!vc4_hdmi-&gt;hd_regs)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -ENOMEM;<=
-br>
-<br>
-I *think* that one is shared between both HDMI controllers on the<br>
-RaspberryPi4, so we can&#39;t claim them from both instances. We should add=
-<br>
-a comment there to document that it&#39;s on purpose.<br>
-<br></blockquote><div>How about vc4_hdmi-&gt;hdmicore_regs? It also has ano=
-ther instance vc4_hdmi_init_resources(). Looks like that also doesnt need a=
-ny converting and shold be left as is.</div><div><br></div><div>Anusha<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">
-The rest looks good.<br>
-<br>
-Maxime<br>
-</blockquote></div></div>
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+Jerome Brunet (7):
+      driver core: auxiliary bus: add device creation helpers
+      reset: mpfs: use the auxiliary device creation helper
+      drm/bridge: ti-sn65dsi86: use the auxiliary device creation helper
+      platform: arm64: lenovo-yoga-c630: use the auxiliary device creation helper
+      clk: eyeq: use the auxiliary device creation helper
+      clk: clk-imx8mp-audiomix: use the auxiliary device creation helper
+      clk: amlogic: axg-audio: use the auxiliary reset driver - take 2
 
---00000000000004607d062de0e274--
+ drivers/base/auxiliary.c                  |  88 +++++++++++++++++++++++
+ drivers/clk/clk-eyeq.c                    |  57 ++++-----------
+ drivers/clk/imx/clk-imx8mp-audiomix.c     |  56 ++-------------
+ drivers/clk/meson/Kconfig                 |   2 +-
+ drivers/clk/meson/axg-audio.c             | 114 ++++--------------------------
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c     |  84 ++++++----------------
+ drivers/platform/arm64/lenovo-yoga-c630.c |  42 ++---------
+ drivers/reset/reset-mpfs.c                |  52 +-------------
+ include/linux/auxiliary_bus.h             |  10 +++
+ 9 files changed, 157 insertions(+), 348 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20241210-aux-device-create-helper-93141524e523
+
+Best regards,
+-- 
+Jerome
 
