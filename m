@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F61CA3096F
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 12:09:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2548DA30971
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 12:09:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A15810E661;
-	Tue, 11 Feb 2025 11:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8BA910E664;
+	Tue, 11 Feb 2025 11:09:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="luoCf+8Q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S+oThHo+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ACAA10E661
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 11:09:18 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-43690d4605dso36806375e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 03:09:17 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A2E610E661
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 11:09:19 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-4394820123dso11076365e9.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 03:09:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739272156; x=1739876956; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=L7gqXwFpCNctPSEOM96giwgtciAwtvgEJKRMz2rTR+E=;
- b=luoCf+8QW9YarVH3c7IdEa+UoH26KKLHdSoiy1pgj/2fG4FbRvMa0Obiaqjx5AgQU6
- 92La9J7S1Y7JEVzR7PqCxg8sgpL6ga4BnQa7FukM0lcoEnLg+CtEBRMjAFJYzr8Fifbs
- ZTWPXhJdX6rV23pEl2OlWEgG+VpFbek35k0I119Fsd7P5KKIlY2qw9CsBfVn+LIsLGHu
- ETbGXk52e0hXXxEL2LI7RCcFB5hJ7Su5l6GU/lm9qRLdRzllmeCylqL36L6wwDHeRQTJ
- jOECSMKyZBP2OIt7zGRJ2CqtH95RSxSPS2oLZtF0EeP/QnZJMvvBcTG6Ap4sLwioV462
- N33g==
+ d=gmail.com; s=20230601; t=1739272157; x=1739876957; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wqPjNzN3hIOUqf1ihOkU/QGEBU1cO5gaJEuNeFStEvY=;
+ b=S+oThHo+kXK9OBEb2knkqkLKVxDf/f+bANdTgf5HPdJh6iznipnHuehE3qliKLWqMl
+ aAFUOif53zPuKZTiav1EIjcKztGAY8ykydk7NpenkZvvWePqoKAmAMULasfRE81+hI5k
+ bA4y9+z9uSjlLyaCEp+YntU+DjiwTduepmr2QAqauLTzrDMeGpfMJwz0TNUlbeQc4WUy
+ lKaL08kzTgTuDg3YufTFIPj4xEAgQyOQglm0h6J/rtTdRz51cZxIbwNitkPYMqLemSIt
+ 3q3VKZ6MON2E0ae6BG2QUBEMR0iwVqX9jk05veDVdg5XdyCowEQiUhHMQeYToL0xRCQh
+ GDiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739272156; x=1739876956;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=L7gqXwFpCNctPSEOM96giwgtciAwtvgEJKRMz2rTR+E=;
- b=q6SeZEi/R6c6g3F3su1kCt6s3ZzVZBZxZayMeHaaKGBHO4vu7UvVpeRecS56vZvj3P
- uXfz/MVJpwOCUU85BsQ70JJOpXWsPl8OqMHqip6xfE8Ul1Be/M7T9Fb4Osf5Y9NNJx5w
- LRw7/LvEMY6+S2j3MrSARejurG+ZOcoKnYRByTutYznC42OSoXo4M6ZwJLzQowUMJhV5
- EudFgbl102SlBRh3aHt401ZK2DCEUX+HzVOmNZCd3nzkpiFKYUukvM6itciKvA+ZnsAK
- 8CSirU6qCVhkV6VNgPQVtdCbIZ6/3AlnC2WzgOTSoZtGV5NIwdU8q73Zo14mSwwNfrRl
- Pobg==
+ d=1e100.net; s=20230601; t=1739272157; x=1739876957;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wqPjNzN3hIOUqf1ihOkU/QGEBU1cO5gaJEuNeFStEvY=;
+ b=lh7cAlxweJJ7Qzun7dqRt9EgjTYJpHL++2xGtllgHt/iICuzIgWX8GvbMdgNORwPu8
+ Fwiv31N/5vC+6iXqAg1usYb8q5NpoG9HwRqBsTxdTiBY1VyAjPhOsOKs6//RBUI5MZYl
+ bXZE5h9jNbjqPSHK/8SL2LaJUyG/HbgYhD+FUYuzTJLxfTeqDQglihZhVV+ovm55tIdD
+ Pp2WmZlZDuMl9jlFqq8vH3N+HohZ8o2IBSMUPhkPfEaSpXEEaxulD9tEO+uRi8zpDa0l
+ hT+ODaCA+o8RY8KkahMjECbAXhMzXQtzsj2/GlbEkWyqn//g20is1djaUigCxngyJvMP
+ A3Cw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXqQomOvFACuvKLbdIFZ2GtJKK+yFKCig16HDyk2Th7Bswn0HnBAeFeh5fRzOn06y45WvmbRWRb4ks=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzoHQHBybI/nccFQvO/SMpcoc53kDMiuhH0l8ZVbn6RnSkImBYw
- zlM6+002a7nuu8ENBoOS0H6vAu6HIfUQOAE80iTR94kJov+8xV4G
-X-Gm-Gg: ASbGncvwWsHNyiyhNI+28+om7NvX+vd+RhJ0auGv4f0ciEkdcvzsAnhhcVHn6QDN7ll
- dEZ3Mmlg8CtSwDGW6wf6kleNIyibFpiKge/CzniT99p4v9avLmlqtlXJOuFnuVBIK8EVlw0B4zG
- PmeCzaeJ9ZaDwsjnugJRty1FHpHg9kG+pWofhvsjl+Nmuv4iaUnQPCouhIAebB1ikII0kZs0YtX
- Y4B8qeSRn/BRp4YtUw1p5SCR3rrjFz3/uB6erwtFADMZMuQiQ5etDCFL6ztCjAL+OWXV9xFVTZZ
- RuLwDya0POyE3/b7
-X-Google-Smtp-Source: AGHT+IGxj+LY906+b+jBD9ED1pIzZ4XZPBrIxsZ3vcLaKH41Lg/0iLIs28BLCjkeSbAulKYs+0wHfQ==
-X-Received: by 2002:a05:600c:458e:b0:434:9f81:76d5 with SMTP id
- 5b1f17b1804b1-439249abc43mr133180365e9.22.1739272156190; 
- Tue, 11 Feb 2025 03:09:16 -0800 (PST)
+ AJvYcCXUDwDsCKju9QeL6QBXXpnh0ZFO/2qyz+X1/hTRy7t9tE30GOEIKd0ohTbvOf8gbcNEaYR/G9ckWAs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw85dgvGJcMvxRqLjgxPTWBX0aSFzgUmPBDXNGBw2LuakzLau55
+ qnCOsggsS3nw3Ktg9yNlYbt2aZjxjXF+di8VvBXuGcrtldj3dLz/
+X-Gm-Gg: ASbGncuhxawBeJ1fJPEk+ktm29DF74gK5ZESbr1sP4TGcA3Hy3Xq+Gr8FY29uN+C6rk
+ guVCiTPusKtbcEKMKggGkbeoAYi4tfCp5fcsu5/9A/uCt6r6ELdESNptDygU1q1m4FV1yGNp96X
+ eFWZXEFgKfKb3D+DgA9KRJBWRPSCx0YqlsmAGspANnGobKho1Cr0FHFOqxsPxywucngBHapqNq5
+ YmlASOaHY+FA3s6hH7Dwqds1fVhHqi1eGsFBW0QjRHADnjmaHjalYzxqFOdJIwENSN/If4i01Vr
+ uumX7HkQhDigC7XX
+X-Google-Smtp-Source: AGHT+IFlaMdG5xYT8daUity03Cn/YyaHakX4RFbJ81EYHMnPhENehZWM/3i2t+R5N2A4WjM1CP0j9w==
+X-Received: by 2002:a05:600c:3c8f:b0:439:3e90:c535 with SMTP id
+ 5b1f17b1804b1-4393e90c71cmr91082515e9.0.1739272157348; 
+ Tue, 11 Feb 2025 03:09:17 -0800 (PST)
 Received: from fedora.. ([94.73.37.161]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38dcb55b7a5sm11814417f8f.14.2025.02.11.03.09.15
+ ffacd0b85a97d-38dcb55b7a5sm11814417f8f.14.2025.02.11.03.09.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2025 03:09:15 -0800 (PST)
+ Tue, 11 Feb 2025 03:09:16 -0800 (PST)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: louis.chauvet@bootlin.com
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
@@ -66,10 +67,13 @@ Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org,
  =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v2 00/15] drm/vkms: Allow to configure device
-Date: Tue, 11 Feb 2025 12:08:57 +0100
-Message-ID: <20250211110912.15409-1-jose.exposito89@gmail.com>
+Subject: [PATCH v2 01/15] drm/vkms: Fix use after free and double free on init
+ error
+Date: Tue, 11 Feb 2025 12:08:58 +0100
+Message-ID: <20250211110912.15409-2-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250211110912.15409-1-jose.exposito89@gmail.com>
+References: <20250211110912.15409-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -88,83 +92,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi everyone,
+If the driver initialization fails, the vkms_exit() function might
+access an uninitialized or freed default_config pointer and it might
+double free it.
 
-In preparation for ConfigFS support, a flexible way to configure VKMS device(s)
-is required.
-This series adds the required APIs to create a configuration, the code changes
-required to apply it and KUnit test validating the changes.
+Fix both possible errors by initializing default_config only when the
+driver initialization succeeded.
 
-Louis Chauvet and I are working on ConfigFS support. In this series I tried to
-merge his changes [1] with mine [2].
-I kept his Signed-off-by to reflect that, even if I show up as the author of
-some/most of the patches, this was a joint effort.
+Reported-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Link: https://lore.kernel.org/all/Z5uDHcCmAwiTsGte@louis-chauvet-laptop/
+Fixes: 2df7af93fdad ("drm/vkms: Add vkms_config type")
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/gpu/drm/vkms/vkms_drv.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-I'll send the the ConfigFS code [3] and its IGT tests [4] code this or next week.
-Meanwhile, the IGT tests also exercise this series and can be used for additional
-test coverage.
-
-Best wishes,
-José Expósito
-
-[1] https://patchwork.kernel.org/project/dri-devel/cover/20250121-google-remove-crtc-index-from-parameter-v3-0-cac00a3c3544@bootlin.com/
-[2] https://patchwork.kernel.org/project/dri-devel/cover/20240813105134.17439-1-jose.exposito89@gmail.com/
-[3] https://github.com/JoseExposito/linux/commits/patch-vkms-configfs/
-[4] https://gitlab.freedesktop.org/jexposit/igt-gpu-tools/-/commits/vkms-configfs
-
-Changes in v2:
-
-  - Applied review comments by Louis Chauvet (thanks!!):
-    - Added Co-developped-by tags where required
-    - Split the first patch in 2: vkms_connector.h/c creation and struct
-      vkms_connector creation
-    - Fixes a user after free/double free bug. The bug is already present
-      in drm-misc-next and the fix could be merged independently
-    - Implemented for_each macros for the config
-    - Other naming fixes
-  - Link to v1: https://lore.kernel.org/all/20250129110059.12199-1-jose.exposito89@gmail.com/
-
-José Expósito (14):
-  drm/vkms: Fix use after free and double free on init error
-  drm/vkms: Extract vkms_connector header
-  drm/vkms: Create vkms_connector struct
-  drm/vkms: Add KUnit test scaffolding
-  drm/vkms: Extract vkms_config header
-  drm/vkms: Move default_config creation to its own function
-  drm/vkms: Set device name from vkms_config
-  drm/vkms: Allow to configure multiple planes
-  drm/vkms: Allow to configure multiple CRTCs
-  drm/vkms: Allow to attach planes and CRTCs
-  drm/vkms: Allow to configure multiple encoders
-  drm/vkms: Allow to attach encoders and CRTCs
-  drm/vkms: Allow to configure multiple connectors
-  drm/vkms: Allow to attach connectors and encoders
-
-Louis Chauvet (1):
-  drm/vkms: Add a validation function for VKMS configuration
-
- .clang-format                                 |   7 +
- drivers/gpu/drm/vkms/Kconfig                  |  15 +
- drivers/gpu/drm/vkms/Makefile                 |   5 +-
- drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
- drivers/gpu/drm/vkms/tests/Makefile           |   3 +
- drivers/gpu/drm/vkms/tests/vkms_config_test.c | 826 ++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_config.c            | 606 +++++++++++++
- drivers/gpu/drm/vkms/vkms_config.h            | 429 +++++++++
- drivers/gpu/drm/vkms/vkms_connector.c         |  61 ++
- drivers/gpu/drm/vkms/vkms_connector.h         |  26 +
- drivers/gpu/drm/vkms/vkms_drv.c               |  60 +-
- drivers/gpu/drm/vkms/vkms_drv.h               |  19 +-
- drivers/gpu/drm/vkms/vkms_output.c            | 176 ++--
- 13 files changed, 2089 insertions(+), 148 deletions(-)
- create mode 100644 drivers/gpu/drm/vkms/tests/.kunitconfig
- create mode 100644 drivers/gpu/drm/vkms/tests/Makefile
- create mode 100644 drivers/gpu/drm/vkms/tests/vkms_config_test.c
- create mode 100644 drivers/gpu/drm/vkms/vkms_config.c
- create mode 100644 drivers/gpu/drm/vkms/vkms_config.h
- create mode 100644 drivers/gpu/drm/vkms/vkms_connector.c
- create mode 100644 drivers/gpu/drm/vkms/vkms_connector.h
-
+diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+index 7c142bfc3bd9..b6de91134a22 100644
+--- a/drivers/gpu/drm/vkms/vkms_drv.c
++++ b/drivers/gpu/drm/vkms/vkms_drv.c
+@@ -235,17 +235,19 @@ static int __init vkms_init(void)
+ 	if (!config)
+ 		return -ENOMEM;
+ 
+-	default_config = config;
+-
+ 	config->cursor = enable_cursor;
+ 	config->writeback = enable_writeback;
+ 	config->overlay = enable_overlay;
+ 
+ 	ret = vkms_create(config);
+-	if (ret)
++	if (ret) {
+ 		kfree(config);
++		return ret;
++	}
+ 
+-	return ret;
++	default_config = config;
++
++	return 0;
+ }
+ 
+ static void vkms_destroy(struct vkms_config *config)
+@@ -269,9 +271,10 @@ static void vkms_destroy(struct vkms_config *config)
+ 
+ static void __exit vkms_exit(void)
+ {
+-	if (default_config->dev)
+-		vkms_destroy(default_config);
++	if (!default_config)
++		return;
+ 
++	vkms_destroy(default_config);
+ 	kfree(default_config);
+ }
+ 
 -- 
 2.48.1
 
