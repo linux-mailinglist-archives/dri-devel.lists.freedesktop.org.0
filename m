@@ -2,58 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2E5A31519
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 20:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7262A31580
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 20:37:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35BE710E306;
-	Tue, 11 Feb 2025 19:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20D3510E321;
+	Tue, 11 Feb 2025 19:37:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="SBzCIS7C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gcWtOMgx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 552 seconds by postgrey-1.36 at gabe;
- Tue, 11 Feb 2025 19:25:36 UTC
-Received: from smtp.smtpout.orange.fr (smtp-69.smtpout.orange.fr
- [80.12.242.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CA7810E306
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 19:25:36 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44]) by smtp.orange.fr with ESMTPA
- id hvjztIygzQ2A9hvk3tEnUB; Tue, 11 Feb 2025 20:16:22 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
- s=t20230301; t=1739301382;
- bh=cH43ckbxkmqeH4mk5wN+BIlfdEqOZW8FE1jnkTs7Pj8=;
- h=Message-ID:Date:MIME-Version:Subject:From:To;
- b=SBzCIS7Cos8YlytVW/viykz62E5IEiqEIQHah3CFWrLE7vfN7KIPkmdyH8iGKEq+S
- jKaPNTIndh7Egp0zTnKuhTlqSIPFBvBEwqvnSX5l86uGtVS2/2o4J9JMgeX77eFVUH
- 8NYAdyjfUr6tpxyYg8+5FrMNGeSPPWxyGIK0YZ5w1g2gjjHcac5+RIcRLEOglF7Faw
- aBVRjhTxWVTNRCSKEVVVJOkGXwfku/PK4My3DSuzz2STZTth4F3007Ii4RfVpKgSE2
- Co1xWlvL3kHGkY9Y5+iINwhlwl84yPJrZ7/zUE760uusLcphPCdE8mSzXlnduWMETA
- t0dY3YxJkl8PQ==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 11 Feb 2025 20:16:22 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <a72cb224-2cae-44a6-90d5-87d9f4f80044@wanadoo.fr>
-Date: Tue, 11 Feb 2025 20:16:15 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F4CC10E096;
+ Tue, 11 Feb 2025 19:36:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739302619; x=1770838619;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=Z0ZgWoW+bzcsneCgcq0aY9uTLfzVkM8KekN5DnSvTP8=;
+ b=gcWtOMgxAv4ym9pNnuQA22WO1D9V6TWBBsXcOffe0yhHHglAsdn1PM1Q
+ kBMlvvylvCFnUZo8+0XRPOk//GyE2VwOFmDgORp82uAr1JhRjhcK01y9N
+ fooo5ytnYmDne3uhYMBWFtzsEaQN84Au+HsNL+T+NCHHRPTH/jcHgiGQx
+ /ak5nw+RTeKd7RrX9XSsLnvL2G495rsy/MNKifsTVSqWMxZ54U9pSS6a+
+ gAzF4lj/ruDFWqnb6C31rSrWhvISwG4GvrR//cAKtw0TX+SExfJa3CO9i
+ JzMs8uxbUe9CPI3ycDUuJbaSZL+SgLwd+ZtnfoeoHBMhykr1a3N8ZmoB1 w==;
+X-CSE-ConnectionGUID: zAPBITm3RHyJnU8r1RJ7Mg==
+X-CSE-MsgGUID: NbNUGBxQQi6+UuocRAK1Pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39854085"
+X-IronPort-AV: E=Sophos;i="6.13,278,1732608000"; d="scan'208";a="39854085"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2025 11:36:58 -0800
+X-CSE-ConnectionGUID: 2JcYP/RDRB6oYEmsTpYkrw==
+X-CSE-MsgGUID: uaEsXdLySTKQyezew/y1Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="143517824"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO [10.245.246.71])
+ ([10.245.246.71])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2025 11:36:55 -0800
+Message-ID: <b23aa68efa7d7abb8d2945a3231fc087cd0dac9c.camel@linux.intel.com>
+Subject: Re: [PATCH v4 27/33] drm/xe: Add BO flags required for SVM
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com, 
+ simona.vetter@ffwll.ch, felix.kuehling@amd.com, dakr@kernel.org
+Date: Tue, 11 Feb 2025 20:36:52 +0100
+In-Reply-To: <Z6ui2e6TYJ44aw1T@lstrano-desk.jf.intel.com>
+References: <20250129195212.745731-1-matthew.brost@intel.com>
+ <20250129195212.745731-28-matthew.brost@intel.com>
+ <d61011585df26476a5dba725ec1044e5d74bd928.camel@linux.intel.com>
+ <Z6ui2e6TYJ44aw1T@lstrano-desk.jf.intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] drm: panel: Add driver for Himax HX8279 and
- Startek KD070FHFID078
-References: <20250211114429.1519148-1-angelogioacchino.delregno@collabora.com>
- <20250211114429.1519148-3-angelogioacchino.delregno@collabora.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: airlied@gmail.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, kernel@collabora.com, krzk+dt@kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, neil.armstrong@linaro.org, pablo.sun@mediatek.com,
- quic_jesszhan@quicinc.com, robh@kernel.org, simona@ffwll.ch,
- tzimmermann@suse.de
-In-Reply-To: <20250211114429.1519148-3-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,139 +75,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Le 11/02/2025 à 12:44, AngeloGioacchino Del Regno a écrit :
-> Add a driver for the Himax HX8279-D MIPI-DSI DriverIC with support
-> for the Startek KX070FHFID078 7.0" 1200x1920 IPS panel, found on
-> various MediaTek Genio Evaluation Kit boards.
+On Tue, 2025-02-11 at 11:19 -0800, Matthew Brost wrote:
+> On Fri, Feb 07, 2025 at 02:54:45PM +0100, Thomas Hellstr=C3=B6m wrote:
+> > On Wed, 2025-01-29 at 11:52 -0800, Matthew Brost wrote:
+> > > Add XE_BO_FLAG_CPU_ADDR_MIRROR to indicate BO is tied to SVM
+> > > range.
+> > > While these BO's are kernel allocations, we need a VM reference
+> > > in
+> > > this
+> > > case which this flag indicates. In addition, we do not support
+> > > CCS on
+> > > these BO's either. The later can be revisited later.
+> > >=20
+> > > v2:
+> > > =C2=A0- Take VM ref for system allocator BOs
+> > > v3:
+> > > =C2=A0- s/XE_BO_FLAG_SYSTEM_ALLOC/XE_BO_FLAG_CPU_ADDR_MIRROR (Thomas)
+> > > =C2=A0- Better commit message (Thomas)
+> > > =C2=A0- Drop XE_BO_FLAG_SKIP_CLEAR for now
+> > > =C2=A0- Add comment about possibly supporting CCS (Thomas)
+> > > v4:
+> > > =C2=A0- Fix alignment issue (Checkpatch)
+> > >=20
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> >=20
+> > I was wondering, since the bo might as well be an external bo and
+> > benefit from finer resv granularity on eviction, (multi-device
+> > actually
+> > uses this), can't we drop the bo->vm reference? And, assuming tile
+> > is
+> > not needed either (is it)? Can we skip the flag altogether?
+> >=20
+>=20
+> If we make these external BO's, then this patch could just be
+> dropped.
+>=20
+> I feel like I tried external BO's a while a back and for some reason
+> it
+> did not work but falling recall why. If external BO's work, then sure
+> we
+> can make that change drop or revert this patch.
 
-...
+I noticed then the flag is used in later patches.
 
-> +	if (!hx->skip_goa_config) {
-> +		if ((desc->goa_stv_lead_time_ck > HX8279_P3_GOA_STV_LEAD) ||
-> +		    (desc->goa_ckv_lead_time_ck > HX8279_P3_GOA_CKV_LEAD) ||
-> +		    (desc->goa_ckv_dummy_vblank_num > HX8279_P3_GOA_CKV_DUMMY))
-> +			return dev_err_probe(dev, -EINVAL,
-> +					     "Invalid lead timings in GOA config\n");
-> +		/*
-> +		 * Don't perform zero check for polarity and start position, as
-> +		 * both pol=0 and start=0 are valid configuration values.
-> +		 */
-> +		num_clr = 0;
-> +		for (i = 0; i < ARRAY_SIZE(desc->goa_clr_start_pos); i++) {
-> +			if (desc->goa_clr_start_pos[i] < 0)
-> +				continue;
-> +			else if (desc->goa_clr_start_pos[i] > HX8279_P3_GOA_CLR_CFG_STARTPOS)
-> +				return dev_err_probe(dev, -EINVAL,
-> +						     "Invalid start position for CLR%d\n", i + 1);
-> +			else
-> +				num_clr++;
-> +		}
-> +		if (!num_clr)
-> +			return -EINVAL;
-> +
-> +		for (i = 0; i < ARRAY_SIZE(desc->goa_clr_polarity); i++) {
-> +			if (num_clr < 0)
-> +				return -EINVAL;
-> +
-> +			if (desc->goa_clr_polarity[i] < 0)
-> +				continue;
-> +			else if (desc->goa_clr_polarity[i] > 1)
-> +				return dev_err_probe(dev, -EINVAL,
-> +						     "Invalid polarity for CLR%d\n", i + 1);
-> +			else if (desc->goa_clr_polarity[i] >= 0)
+But external bos work as far as I can tell from multidevice.
 
-The if () looks superfluous.
+/Thomas
 
-> +				num_clr--;
-> +		}
-> +	}
-> +
-> +	/* MIPI Configuration validation */
-> +	if (!desc->bta_tlpx && !desc->lhs_settle_time_by_osc25 &&
-> +	    !desc->ths_settle_time && !desc->timing_unk_b8 &&
-> +	    !desc->timing_unk_bc && !desc->timing_unk_d6)
-> +		hx->skip_mipi_timing = true;
-> +
-> +	/* Gamma Configuration validation */
-> +	if (desc->gamma_ctl > (HX8279_P6_GAMMA_POCGM_CTL | HX8279_P6_GAMMA_POGCMD_CTL))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static int hx8279_probe(struct mipi_dsi_device *dsi)
-> +{
 
-...
+>=20
+> Matt
+>=20
+> > /Thomas
+> >=20
+> > > ---
+> > > =C2=A0drivers/gpu/drm/xe/xe_bo.c | 12 ++++++++----
+> > > =C2=A0drivers/gpu/drm/xe/xe_bo.h |=C2=A0 1 +
+> > > =C2=A02 files changed, 9 insertions(+), 4 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/xe/xe_bo.c
+> > > b/drivers/gpu/drm/xe/xe_bo.c
+> > > index e914a60b8afc..20c96709e267 100644
+> > > --- a/drivers/gpu/drm/xe/xe_bo.c
+> > > +++ b/drivers/gpu/drm/xe/xe_bo.c
+> > > @@ -1239,7 +1239,7 @@ static void xe_ttm_bo_destroy(struct
+> > > ttm_buffer_object *ttm_bo)
+> > > =C2=A0		xe_drm_client_remove_bo(bo);
+> > > =C2=A0#endif
+> > > =C2=A0
+> > > -	if (bo->vm && xe_bo_is_user(bo))
+> > > +	if (bo->vm && (xe_bo_is_user(bo) || bo->flags &
+> > > XE_BO_FLAG_CPU_ADDR_MIRROR))
+> > > =C2=A0		xe_vm_put(bo->vm);
+> > > =C2=A0
+> > > =C2=A0	mutex_lock(&xe->mem_access.vram_userfault.lock);
+> > > @@ -1435,7 +1435,8 @@ struct xe_bo *___xe_bo_create_locked(struct
+> > > xe_device *xe, struct xe_bo *bo,
+> > > =C2=A0	int err;
+> > > =C2=A0
+> > > =C2=A0	/* Only kernel objects should set GT */
+> > > -	xe_assert(xe, !tile || type =3D=3D ttm_bo_type_kernel);
+> > > +	xe_assert(xe, !tile || type =3D=3D ttm_bo_type_kernel ||
+> > > +		=C2=A0 flags & XE_BO_FLAG_CPU_ADDR_MIRROR);
+> > > =C2=A0
+> > > =C2=A0	if (XE_WARN_ON(!size)) {
+> > > =C2=A0		xe_bo_free(bo);
+> > > @@ -1631,7 +1632,7 @@ __xe_bo_create_locked(struct xe_device *xe,
+> > > =C2=A0	 * by having all the vm's bo refereferences released at
+> > > vm
+> > > close
+> > > =C2=A0	 * time.
+> > > =C2=A0	 */
+> > > -	if (vm && xe_bo_is_user(bo))
+> > > +	if (vm && (xe_bo_is_user(bo) || bo->flags &
+> > > XE_BO_FLAG_CPU_ADDR_MIRROR))
+> > > =C2=A0		xe_vm_get(vm);
+> > > =C2=A0	bo->vm =3D vm;
+> > > =C2=A0
+> > > @@ -2503,8 +2504,11 @@ bool xe_bo_needs_ccs_pages(struct xe_bo
+> > > *bo)
+> > > =C2=A0	 * system memory (i.e., it allows XE_PL_TT placement),
+> > > FlatCCS
+> > > =C2=A0	 * can't be used since there's no CCS storage associated
+> > > with
+> > > =C2=A0	 * non-VRAM addresses.
+> > > +	 *
+> > > +	 * XXX: Can we support CCS with CPU address mirroring?
+> > > =C2=A0	 */
+> > > -	if (IS_DGFX(xe) && (bo->flags & XE_BO_FLAG_SYSTEM))
+> > > +	if (IS_DGFX(xe) && ((bo->flags & XE_BO_FLAG_SYSTEM) ||
+> > > +			=C2=A0=C2=A0=C2=A0 (bo->flags &
+> > > XE_BO_FLAG_CPU_ADDR_MIRROR)))
+> > > =C2=A0		return false;
+> > > =C2=A0
+> > > =C2=A0	return true;
+> > > diff --git a/drivers/gpu/drm/xe/xe_bo.h
+> > > b/drivers/gpu/drm/xe/xe_bo.h
+> > > index ce55a2bb13f6..c01ed535a8c3 100644
+> > > --- a/drivers/gpu/drm/xe/xe_bo.h
+> > > +++ b/drivers/gpu/drm/xe/xe_bo.h
+> > > @@ -47,6 +47,7 @@
+> > > =C2=A0					 XE_BO_FLAG_GGTT1 | \
+> > > =C2=A0					 XE_BO_FLAG_GGTT2 | \
+> > > =C2=A0					 XE_BO_FLAG_GGTT3)
+> > > +#define XE_BO_FLAG_CPU_ADDR_MIRROR	BIT(22)
+> > > =C2=A0
+> > > =C2=A0/* this one is trigger internally only */
+> > > =C2=A0#define XE_BO_FLAG_INTERNAL_TEST	BIT(30)
+> >=20
 
-> +	/* If the panel is connected on two DSIs then DSI0 left, DSI1 right */
-> +	if (hx->desc->is_dual_dsi) {
-> +		const struct mipi_dsi_device_info *info = &hx->desc->dsi_info;
-> +		struct mipi_dsi_host *dsi_r_host;
-> +		struct device_node *dsi_r;
-> +
-> +		dsi_r = of_graph_get_remote_node(dsi->dev.of_node, 1, -1);
-> +		if (!dsi_r)
-> +			return dev_err_probe(dev, -ENODEV, "Cannot get secondary DSI node.\n");
-> +
-> +		dsi_r_host = of_find_mipi_dsi_host_by_node(dsi_r);
-> +		of_node_put(dsi_r);
-> +		if (!dsi_r_host)
-> +			return dev_err_probe(dev, -EPROBE_DEFER,
-> +					     "Cannot get secondary DSI host\n");
-> +
-> +		hx->dsi[1] = devm_mipi_dsi_device_register_full(dev, dsi_r_host, info);
-> +		if (IS_ERR(hx->dsi[1]))
-> +			return dev_err_probe(dev, PTR_ERR(hx->dsi[1]),
-> +					     "Cannot get secondary DSI node\n");
-> +		num_dsis++;
-> +		mipi_dsi_set_drvdata(hx->dsi[1], hx);
-> +	}
-> +
-> +	hx->dsi[0] = dsi;
-> +	mipi_dsi_set_drvdata(dsi, hx);
-> +
-> +	drm_panel_init(&hx->panel, dev, &hx8279_panel_funcs, DRM_MODE_CONNECTOR_DSI);
-> +
-> +	ret = drm_panel_of_backlight(&hx->panel);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-> +
-> +	drm_panel_add(&hx->panel);
-> +
-> +	for (i = 0; i < num_dsis; i++) {
-> +		hx->dsi[i]->lanes = hx->desc->num_lanes;
-> +		hx->dsi[i]->format = MIPI_DSI_FMT_RGB888;
-> +
-> +		hx->dsi[i]->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS |
-> +					 MIPI_DSI_MODE_LPM;
-> +
-> +		if (hx->desc->mode_data[0].is_video_mode)
-> +			hx->dsi[i]->mode_flags |= MIPI_DSI_MODE_VIDEO |
-> +						  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
-> +
-> +		ret = devm_mipi_dsi_attach(dev, hx->dsi[i]);
-> +		if (ret < 0) {
-> +			/* If we fail to attach to either host, we're done */
-> +			if (num_dsis == 2)
-> +				mipi_dsi_device_unregister(hx->dsi[1]);
-
-Is it needed?
-(devm_mipi_dsi_device_register_full() was used)
-
-> +
-> +			return dev_err_probe(dev, ret,
-> +					     "Cannot attach to DSI%d host.\n", i);
-> +		}
-> +	}
-> +
-> +	/* Make sure we start in a known state: panel off */
-> +	gpiod_set_value_cansleep(hx->reset_gpio, 0);
-> +	gpiod_set_value_cansleep(hx->enable_gpio, 0);
-> +
-> +	return 0;
-> +}
-
-...
-
-CJ
