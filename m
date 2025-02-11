@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D227A30FC5
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 16:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B62CA30FC7
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 16:29:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A17B710E6E8;
-	Tue, 11 Feb 2025 15:28:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEBFD10E6E9;
+	Tue, 11 Feb 2025 15:29:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qvVjYOhd";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="o6C6vDFY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 335E210E6E8
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 15:28:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD3E110E6E9
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 15:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739287736;
- bh=FGxvbmvqcSbfYQGlzQKmPflKpORilopb70ajJozd624=;
+ s=mail; t=1739287742;
+ bh=JxJOgeH5lrs9rqunMzcYFJ4r5nO2TqFV4iC06MZ2stY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qvVjYOhdwxmntOcNPGX6Wx1mLflJvXB+PR/zLjEMVEMlu+sg7gEuPvZ4PQv2huJRD
- gNjTdiIIjj4y0WnVzVt2ufaakKRRETzTpiirTvrARLN/+dtvv2ln4/JrORLvlDJ3q8
- V0XcqWLrCj0mbwkvkB1rATMYPVkFKG+b0ITwwbOHCvSKAlhMmO5GgTIqVPKXJW0jKv
- ckByjQ7AP8N/Ll8nP3hqCemr341SBoVNbFRhiEYpFRbZRenlis4weopE9cnmgJlSVI
- p5sv0+OP68C5YUra4e2uQZ8h0gVtqipbFXApXteplxoe6JjD/vlzUb8P20sMmfTYKL
- fjwCTt8xsSRDQ==
+ b=o6C6vDFY3PZOcuO1rn3Vg25lfQ/9CbKUdCx6Z/2PE1Nly6WaiUeok09WjNRy7eA54
+ yu/MGaR6Wj2r6cv/0SZR2s4lSFkQrtctAkBKOLCYfTsDGxwU5Bhm/ejkBZdT53E88/
+ YFTEm27Lxhswz439kDzfaIMPq3C5OoOiuUuDxDapMhxm6HNOcNPYEYWwO5ZUOGeBgT
+ MkwHjqys/oSHIydrjRmp3tkqcNLiVV7DEvgBRHDZSPU3SasA/SB5EFym2mwctmAKZq
+ yqMONFAo/PTCl5njgk9UzI1GHPhjLSNDcBZFRHbdMy0G+JS+7WbsPpPLroXnsmWPpR
+ Xwi8VKRv6SDFQ==
 Received: from localhost.localdomain (unknown [171.76.80.66])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 0BFD517E0CA2;
- Tue, 11 Feb 2025 16:28:51 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 90CFE17E014F;
+ Tue, 11 Feb 2025 16:28:57 +0100 (CET)
 From: Vignesh Raman <vignesh.raman@collabora.com>
 To: dri-devel@lists.freedesktop.org
 Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
@@ -39,9 +39,9 @@ Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
  sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
  jani.nikula@linux.intel.com, dmitry.baryshkov@linaro.org,
  mripard@kernel.org, boqun.feng@gmail.com, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] drm/ci: refactor software-driver stage jobs
-Date: Tue, 11 Feb 2025 20:58:04 +0530
-Message-ID: <20250211152812.54018-2-vignesh.raman@collabora.com>
+Subject: [PATCH v2 2/3] drm/ci: enable CONFIG_DEBUG_WW_MUTEX_SLOWPATH
+Date: Tue, 11 Feb 2025 20:58:05 +0530
+Message-ID: <20250211152812.54018-3-vignesh.raman@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250211152812.54018-1-vignesh.raman@collabora.com>
 References: <20250211152812.54018-1-vignesh.raman@collabora.com>
@@ -62,8 +62,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move common job configuration for software-driver
-stage jobs to separate job.
+Enable CONFIG_DEBUG_WW_MUTEX_SLOWPATH for mutex
+slowpath debugging.
 
 Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
 ---
@@ -72,92 +72,40 @@ v2:
   - New patch in the series.
 
 ---
- drivers/gpu/drm/ci/test.yml | 59 +++++++++++++++----------------------
- 1 file changed, 24 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/ci/build.yml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 6a1e059858e5..0eab020a33b9 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -89,6 +89,26 @@
-   tags:
-     - $RUNNER_TAG
+diff --git a/drivers/gpu/drm/ci/build.yml b/drivers/gpu/drm/ci/build.yml
+index 274f118533a7..6c0dc10b547c 100644
+--- a/drivers/gpu/drm/ci/build.yml
++++ b/drivers/gpu/drm/ci/build.yml
+@@ -67,7 +67,7 @@ testing:arm32:
+     #
+     # db410c and db820c don't boot with KASAN_INLINE, probably due to the kernel
+     # becoming too big for their bootloaders.
+-    ENABLE_KCONFIGS: "PROVE_LOCKING DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT"
++    ENABLE_KCONFIGS: "PROVE_LOCKING DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT DEBUG_WW_MUTEX_SLOWPATH"
+     UPLOAD_TO_MINIO: 1
+     MERGE_FRAGMENT: arm.config
  
-+.software-driver:
-+  stage: software-driver
-+  timeout: "1h30m"
-+  rules:
-+    - !reference [.scheduled_pipeline-rules, rules]
-+    - when: on_success
-+  extends:
-+    - .test-gl
-+  tags:
-+    - kvm
-+  script:
-+    - ln -sf $CI_PROJECT_DIR/install /install
-+    - mv install/bzImage /lava-files/bzImage
-+    - mkdir -p /lib/modules
-+    - install/crosvm-runner.sh install/igt_runner.sh
-+  needs:
-+    - debian/x86_64_test-gl
-+    - testing:x86_64
-+    - igt:x86_64
-+
- .msm-sc7180:
-   extends:
-     - .lava-igt:arm64
-@@ -440,47 +460,16 @@ panfrost:g12b:
-     - .panfrost-gpu
+@@ -79,7 +79,7 @@ testing:arm64:
+     #
+     # db410c and db820c don't boot with KASAN_INLINE, probably due to the kernel
+     # becoming too big for their bootloaders.
+-    ENABLE_KCONFIGS: "PROVE_LOCKING DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT"
++    ENABLE_KCONFIGS: "PROVE_LOCKING DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT DEBUG_WW_MUTEX_SLOWPATH"
+     UPLOAD_TO_MINIO: 1
+     MERGE_FRAGMENT: arm64.config
  
- virtio_gpu:none:
--  stage: software-driver
--  timeout: "1h30m"
--  rules:
--    - !reference [.scheduled_pipeline-rules, rules]
--    - when: on_success
-+  extends:
-+    - .software-driver
-   variables:
-     CROSVM_GALLIUM_DRIVER: llvmpipe
-     DRIVER_NAME: virtio_gpu
-     GPU_VERSION: none
--  extends:
--    - .test-gl
--  tags:
--    - kvm
--  script:
--    - ln -sf $CI_PROJECT_DIR/install /install
--    - mv install/bzImage /lava-files/bzImage
--    - install/crosvm-runner.sh install/igt_runner.sh
--  needs:
--    - debian/x86_64_test-gl
--    - testing:x86_64
--    - igt:x86_64
+@@ -91,7 +91,7 @@ testing:x86_64:
+     #
+     # db410c and db820c don't boot with KASAN_INLINE, probably due to the kernel
+     # becoming too big for their bootloaders.
+-    ENABLE_KCONFIGS: "PROVE_LOCKING DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT"
++    ENABLE_KCONFIGS: "PROVE_LOCKING DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT DEBUG_WW_MUTEX_SLOWPATH"
+     UPLOAD_TO_MINIO: 1
+     MERGE_FRAGMENT: x86_64.config
  
- vkms:none:
--  stage: software-driver
--  timeout: "1h30m"
--  rules:
--    - !reference [.scheduled_pipeline-rules, rules]
--    - when: on_success
-+  extends:
-+    - .software-driver
-   variables:
-     DRIVER_NAME: vkms
-     GPU_VERSION: none
--  extends:
--    - .test-gl
--  tags:
--    - kvm
--  script:
--    - ln -sf $CI_PROJECT_DIR/install /install
--    - mv install/bzImage /lava-files/bzImage
--    - mkdir -p /lib/modules
--    - ./install/crosvm-runner.sh ./install/igt_runner.sh
--  needs:
--    - debian/x86_64_test-gl
--    - testing:x86_64
--    - igt:x86_64
 -- 
 2.43.0
 
