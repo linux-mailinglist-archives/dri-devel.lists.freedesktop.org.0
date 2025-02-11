@@ -2,46 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052DBA30234
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 04:33:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52172A3023C
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 04:41:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4DA610E2D5;
-	Tue, 11 Feb 2025 03:33:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DFFA10E410;
+	Tue, 11 Feb 2025 03:40:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="PIdjPFq+";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qNFgSWP+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6AAB010E2D5
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 03:33:26 +0000 (UTC)
-Received: by linux.microsoft.com (Postfix, from userid 1127)
- id 0C0AD2107A95; Mon, 10 Feb 2025 19:33:26 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0C0AD2107A95
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1739244806;
- bh=fYmFPt08g7qIRdQl9Ec+nj2WGXi6+K9OaWfn1ft+sPk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PIdjPFq+YuFtU6QY0NiTugcEB+UE+PvEwaFXsOTcuFRsot15F+tSSeEztLO/rp+pE
- 86ogmfontfdrJ7nwSogcFQOZ/T8DEoToy0MIeFolDYEBEXlgOTFJ13w5I/bZBP4Ren
- kFgWbEs4ccM1IxxMJZfMOOwXxsR+YyRP+1RgXSws=
-Date: Mon, 10 Feb 2025 19:33:26 -0800
-From: Saurabh Singh Sengar <ssengar@linux.microsoft.com>
-To: mhklinux@outlook.com
-Cc: drawat.floss@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, christophe.jaillet@wanadoo.fr, wei.liu@kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH 1/1] drm/hyperv: Fix address space leak when Hyper-V DRM
- device is removed
-Message-ID: <20250211033326.GA17799@linuxonhyperv3.guj3yctzbm1etfxqx2vob5hsef.xx.internal.cloudapp.net>
-References: <20250210193441.2414-1-mhklinux@outlook.com>
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64DE910E410
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 03:40:57 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-5450681b606so2441823e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 10 Feb 2025 19:40:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739245255; x=1739850055; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=5vAtkbKujewPgE+URJArLsNmDebMF+/Ud9vX6A3NATY=;
+ b=qNFgSWP+Km7RbLW2NF+4ioGvvftLYTor6XXMO6shRqIf+7F4bG79EjNweHl2nVMN9E
+ G4J/VMAt0F09eEWQ53j21UJ13WfhLxFfG9LZZFUNQHvGY6R0cAXQ9SzLUPuVU6e1Axfn
+ cux0OFMnWsdXEdVoGoX0/urCOZy2EHQ0BBhSL/ByxoxxEH+S5B3GNaqvL8l2HcQgOhlE
+ n3C9m7x2K2Sm0P6hPN4ZbHZMIAZPvm67CH8NSJh9IXraA2DJEYH23BXNSbKKvTY3GW19
+ Pd8RJMdbWB7oPTdcS1kEyIJSqZ0c553UYfCV5VW2q6lPlScabHCqp6auDwli3joT5fyV
+ kHFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739245255; x=1739850055;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5vAtkbKujewPgE+URJArLsNmDebMF+/Ud9vX6A3NATY=;
+ b=HrXFlTUH9EWaO6JnE95S06EULuUHMiVxot5ohftP144a2UBH5PJ9VSEwq+uPA3d+xT
+ 06qdQK8G42ita/icLDmSiPkDVp19+OgzIPhgsfc09kezjNJrGtLuLTBhf9njxU9FL7Z5
+ 8sLhv7+Z0/0i09fhCb98V/sE++oNF3w3fr8YspCBjzWmQ9EX9fcj8Dfs+M11LxFAGzvl
+ nRkBy+/olXfD6Bp0KQP4VP9nnkcLRmUydhxD38oJnqAxXmkixLTzfFSKbhxD3hD3fEkw
+ vLD3Rdrp+Osz6NvqFk3qLt28vGzP6J1VPYmGVV6WAo6TZ4LESLHP3VMuAoSHyYt/e/Fs
+ sA7A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRE5LXOT3XGdNsNZL/OkDbPs+RxkDfZcnNhuytbvjy27u2x3RcRA5mPLPlH1N7tmCw+VFIF5SK+0A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXORHewr/WwjIzm2Meqg/rI9jcVOO5UWEvAlIVmt3q20kycEb9
+ P579rp8Ha4yevEEeE6vZApQtvG09I9Cek0UQh/xUH8TlL56OleAdCDY0Phz0Q6A=
+X-Gm-Gg: ASbGnctZw4G87uv2eJ2Fl9fVGkPwWRUpUh42OzDS1DqtEOcjERcC6wF1zXjbU9Z7bFZ
+ ThLFnTuJARLuFQQvx5JDFj6wlxmuWBUp8pBSZiYLdDK3i/0cCjxvAmnnCuFpH+d9zH2wnAnt3VI
+ GCSS6lcelEfmBUStWMCotAUMEg6xW4tB/fgd0QQ8J6Z9pq+VKW12+ggT7bZIZh0GoQ8ikaaSOGQ
+ Go/uVLJ8hR5QoI65E1h0LafFiYI3QjjGGNFPSjJjHLqazCxfA5TOGCdjc3BFIF0nYvKqIxazfRm
+ Oolh7LKMXLAzxaAw+XOeSJ/lPMFFIu/+xPK2tbsg+IdmRyvCidYmPQigMc5drFpjhc2BHlI=
+X-Google-Smtp-Source: AGHT+IESIZIApI82KNped+F8rDYKVVEqRChUa6PLhZuvZfiXsjK12HtxB4DBhx1h10YT3mchL9bAYA==
+X-Received: by 2002:a05:6512:a96:b0:545:10cf:3468 with SMTP id
+ 2adb3069b0e04-54510cf366emr965052e87.37.1739245255377; 
+ Mon, 10 Feb 2025 19:40:55 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-54501e3fa93sm957117e87.17.2025.02.10.19.40.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 10 Feb 2025 19:40:54 -0800 (PST)
+Date: Tue, 11 Feb 2025 05:40:51 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Vinod Koul <vkoul@kernel.org>, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/dpu: Don't leak bits_per_component into random
+ DSC_ENC fields
+Message-ID: <x6e3j2fbf7hjos7uel6b4kk5h5q7lwtqkacqxj43sntheguysg@k5weigzww6ac>
+References: <20250211-dsc-10-bit-v1-1-1c85a9430d9a@somainline.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210193441.2414-1-mhklinux@outlook.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20250211-dsc-10-bit-v1-1-1c85a9430d9a@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,52 +98,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2025 at 11:34:41AM -0800, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
+On Tue, Feb 11, 2025 at 12:19:32AM +0100, Marijn Suijten wrote:
+> What used to be the input_10_bits boolean - feeding into the lowest
+> bit of DSC_ENC - on MSM downstream turned into an accidental OR with
+> the full bits_per_component number when it was ported to the upstream
+> kernel.
 > 
-> When a Hyper-V DRM device is probed, the driver allocates MMIO space for
-> the vram, and maps it cacheable. If the device removed, or in the error
-> path for device probing, the MMIO space is released but no unmap is done.
-> Consequently the kernel address space for the mapping is leaked.
+> On typical bpc=8 setups we don't notice this because line_buf_depth is
+> always an odd value (it contains bpc+1) and will also set the 4th bit
+> after left-shifting by 3 (hence this |= bits_per_component is a no-op).
 > 
-> Fix this by adding iounmap() calls in the device removal path, and in the
-> error path during device probing.
+> Now that guards are being removed to allow more bits_per_component
+> values besides 8 (possible since commit 49fd30a7153b ("drm/msm/dsi: use
+> DRM DSC helpers for DSC setup")), a bpc of 10 will instead clash with
+> the 5th bit which is convert_rgb.  This is "fortunately" also always set
+> to true by MSM's dsi_populate_dsc_params() already, but once a bpc of 12
+> starts being used it'll write into simple_422 which is normally false.
 > 
-> Fixes: f1f63cbb705d ("drm/hyperv: Fix an error handling path in hyperv_vmbus_probe()")
-> Fixes: a0ab5abced55 ("drm/hyperv : Removing the restruction of VRAM allocation with PCI bar size")
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> To solve all these overlaps, simply replicate downstream code and only
+> set this lowest bit if bits_per_component is equal to 10.  It is unclear
+> why DSC requires this only for bpc=10 but not bpc=12, and also notice
+> that this lowest bit wasn't set previously despite having a panel and
+> patch on the list using it without any mentioned issues.
+> 
+> Fixes: c110cfd1753e ("drm/msm/disp/dpu1: Add support for DSC")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->  drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index e0953777a206..b491827941f1 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -156,6 +156,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
->  	return 0;
->  
->  err_free_mmio:
-> +	iounmap(hv->vram);
->  	vmbus_free_mmio(hv->mem->start, hv->fb_size);
->  err_vmbus_close:
->  	vmbus_close(hdev->channel);
-> @@ -174,6 +175,7 @@ static void hyperv_vmbus_remove(struct hv_device *hdev)
->  	vmbus_close(hdev->channel);
->  	hv_set_drvdata(hdev, NULL);
->  
-> +	iounmap(hv->vram);
->  	vmbus_free_mmio(hv->mem->start, hv->fb_size);
->  }
->  
-> -- 
-> 2.25.1
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 
-Thanks for the fix. May I know how do you find such issues ?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Reviewed-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-Tested-by: Saurabh Sengar <ssengar@linux.microsoft.com>
-
-- Saurabh
-
+-- 
+With best wishes
+Dmitry
