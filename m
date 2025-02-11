@@ -2,83 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B37CA2FF0E
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 01:26:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E83A30012
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 02:30:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA24E10E22D;
-	Tue, 11 Feb 2025 00:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F94E10E40C;
+	Tue, 11 Feb 2025 01:30:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Ls10v3uy";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ed+gBxjF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3658410E40C;
- Tue, 11 Feb 2025 00:26:12 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51AI3ceE006115;
- Tue, 11 Feb 2025 00:26:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- fykXzZ7ZNKsI71mE5Dgav629B7mqYSKgM2IeldXiYSg=; b=Ls10v3uyko+xs6Mr
- ARcQuVmqaRga+rr2ycPq7iNUveiSiMwRLZf920AUxsVl6+iPgPQyomrMfsy1gt3H
- Af9t+KJiARJFhTv0Z/A6PWPeEPN115ET1pzoefUHDVl/67v8BwIySyaOKSwDd0H1
- t+wwovahK+LcjEEv60T31VNtxXikK01Nqy/iOibUi8SFbco+AyIGoFHKMPaDJyWU
- EoQ5hjW6DOg/pSjgaG1Q1j7JJLSKBMQ5QpzUN7TrdQFWc033G4m0oqBC2MVJZTQd
- 6Qx6nOXHGXeZNmz1GvC3JEO/NQBR4faH3KVun7r1rV5SBxDN5S7jnUfNQqNitRNq
- 7QyiHA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qe5mtar1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Feb 2025 00:26:09 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51B0Q8h4029026
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 11 Feb 2025 00:26:08 GMT
-Received: from [10.71.110.136] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 10 Feb
- 2025 16:26:07 -0800
-Message-ID: <ef6b4d5c-df4c-478f-8544-7dacd90b88bf@quicinc.com>
-Date: Mon, 10 Feb 2025 16:26:06 -0800
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9510610E257;
+ Tue, 11 Feb 2025 01:30:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id EA248A4207B;
+ Tue, 11 Feb 2025 01:28:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADBD4C4CED1;
+ Tue, 11 Feb 2025 01:30:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739237421;
+ bh=1KofNWvSYP0u22TOGnpNH15I1UvmrmjOJ3kozomzyt4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ed+gBxjFk/AdU0k3YdEQejbU3/BchnUpjL18L4COCFfYVSeUnC/FjLNCxZz1DeWg/
+ NQ29+nP6aS0YEbr000+y0K4M339n+I+CWj7wwaTlAvwRBhuBpjsx4u0pQiLlHj0gIo
+ VMmMbMtzOKpGfnBaGmh8jrd012Xe2EIjs9myjzZ0LiBhuWZjPJBirVHj4bxvSX5wM9
+ xlDvstVELGjUh232n6R+r6Qi5gQwBawZV6d7ew//8jM7Vvm0UgUcOzJEha07hMRp1/
+ UfCPmPfsDvl2994063P0RvOVhYTae0lFNO9ZoDGeSh1fk895baQiUBIM/QHUAmn2Bn
+ Ef91lKy6NFKKQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Alex Hung <alex.hung@amd.com>, Austin Zheng <Austin.Zheng@amd.com>,
+ Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ chaitanya.dhere@amd.com, jun.lei@amd.com, harry.wentland@amd.com,
+ sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ dillon.varone@amd.com, Alvin.Lee2@amd.com, Samson.Tam@amd.com,
+ aurabindo.pillai@amd.com, rostrows@amd.com, joshua.aberback@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 6.13 11/21] drm/amd/display: Fix out-of-bound accesses
+Date: Mon, 10 Feb 2025 20:29:44 -0500
+Message-Id: <20250211012954.4096433-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250211012954.4096433-1-sashal@kernel.org>
+References: <20250211012954.4096433-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] drm/msm/dsi/phy: Protect PHY_CMN_CLK_CFG0 updated
- from driver side
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean
- Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-References: <20250203-drm-msm-phy-pll-cfg-reg-v2-0-862b136c5d22@linaro.org>
- <20250203-drm-msm-phy-pll-cfg-reg-v2-1-862b136c5d22@linaro.org>
-Content-Language: en-US
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-In-Reply-To: <20250203-drm-msm-phy-pll-cfg-reg-v2-1-862b136c5d22@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: Ux8XyDGsldKWABFEwHyztXvO7Qac-Ged
-X-Proofpoint-ORIG-GUID: Ux8XyDGsldKWABFEwHyztXvO7Qac-Ged
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-10_12,2025-02-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 malwarescore=0 spamscore=0
- mlxlogscore=985 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502100180
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.13.2
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,33 +69,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Alex Hung <alex.hung@amd.com>
 
+[ Upstream commit 8adbb2a98b00926315fd513b5fe2596b5716b82d ]
 
-On 2/3/2025 9:29 AM, Krzysztof Kozlowski wrote:
-> PHY_CMN_CLK_CFG0 register is updated by the PHY driver and by two
-> divider clocks from Common Clock Framework:
-> devm_clk_hw_register_divider_parent_hw().  Concurrent access by the
-> clocks side is protected with spinlock, however driver's side in
-> restoring state is not.  Restoring state is called from
-> msm_dsi_phy_enable(), so there could be a path leading to concurrent and
-> conflicting updates with clock framework.
-> 
-> Add missing lock usage on the PHY driver side, encapsulated in its own
-> function so the code will be still readable.
-> 
-> Fixes: 1ef7c99d145c ("drm/msm/dsi: add support for 7nm DSI PHY/PLL")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->   drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c | 13 +++++++++++--
->   1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> index 031446c87daec0af3f81df324158311f5a80014e..c164f845653816291ad96c863257f75462ef58e7 100644
-> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
-> @@ -372,6 +372,15 @@ static void dsi_pll_enable_pll_bias(struct dsi_pll_7nm *pll)
->   	ndelay(250);
->   }
->   
+[WHAT & HOW]
+hpo_stream_to_link_encoder_mapping has size MAX_HPO_DP2_ENCODERS(=4),
+but location can have size up to 6. As a result, it is necessary to
+check location against MAX_HPO_DP2_ENCODERS.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+Similiarly, disp_cfg_stream_location can be used as an array index which
+should be 0..5, so the ASSERT's conditions should be less without equal.
+
+Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3904
+Reviewed-by: Austin Zheng <Austin.Zheng@amd.com>
+Reviewed-by: Rodrigo Siqueira <rodrigo.siqueira@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../amd/display/dc/dml2/dml21/dml21_translation_helper.c    | 4 ++--
+ .../gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c   | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
+index c6a5a86146797..de2b6e954fbd2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml21/dml21_translation_helper.c
+@@ -1010,7 +1010,7 @@ bool dml21_map_dc_state_into_dml_display_cfg(const struct dc *in_dc, struct dc_s
+ 		if (disp_cfg_stream_location < 0)
+ 			disp_cfg_stream_location = dml_dispcfg->num_streams++;
+ 
+-		ASSERT(disp_cfg_stream_location >= 0 && disp_cfg_stream_location <= __DML2_WRAPPER_MAX_STREAMS_PLANES__);
++		ASSERT(disp_cfg_stream_location >= 0 && disp_cfg_stream_location < __DML2_WRAPPER_MAX_STREAMS_PLANES__);
+ 		populate_dml21_timing_config_from_stream_state(&dml_dispcfg->stream_descriptors[disp_cfg_stream_location].timing, context->streams[stream_index], dml_ctx);
+ 		adjust_dml21_hblank_timing_config_from_pipe_ctx(&dml_dispcfg->stream_descriptors[disp_cfg_stream_location].timing, &context->res_ctx.pipe_ctx[stream_index]);
+ 		populate_dml21_output_config_from_stream_state(&dml_dispcfg->stream_descriptors[disp_cfg_stream_location].output, context->streams[stream_index], &context->res_ctx.pipe_ctx[stream_index]);
+@@ -1035,7 +1035,7 @@ bool dml21_map_dc_state_into_dml_display_cfg(const struct dc *in_dc, struct dc_s
+ 				if (disp_cfg_plane_location < 0)
+ 					disp_cfg_plane_location = dml_dispcfg->num_planes++;
+ 
+-				ASSERT(disp_cfg_plane_location >= 0 && disp_cfg_plane_location <= __DML2_WRAPPER_MAX_STREAMS_PLANES__);
++				ASSERT(disp_cfg_plane_location >= 0 && disp_cfg_plane_location < __DML2_WRAPPER_MAX_STREAMS_PLANES__);
+ 
+ 				populate_dml21_surface_config_from_plane_state(in_dc, &dml_dispcfg->plane_descriptors[disp_cfg_plane_location].surface, context->stream_status[stream_index].plane_states[plane_index]);
+ 				populate_dml21_plane_config_from_plane_state(dml_ctx, &dml_dispcfg->plane_descriptors[disp_cfg_plane_location], context->stream_status[stream_index].plane_states[plane_index], context, stream_index);
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
+index bde4250853b10..81ba8809a3b4c 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
++++ b/drivers/gpu/drm/amd/display/dc/dml2/dml2_translation_helper.c
+@@ -746,7 +746,7 @@ static void populate_dml_output_cfg_from_stream_state(struct dml_output_cfg_st *
+ 	case SIGNAL_TYPE_DISPLAY_PORT_MST:
+ 	case SIGNAL_TYPE_DISPLAY_PORT:
+ 		out->OutputEncoder[location] = dml_dp;
+-		if (dml2->v20.scratch.hpo_stream_to_link_encoder_mapping[location] != -1)
++		if (location < MAX_HPO_DP2_ENCODERS && dml2->v20.scratch.hpo_stream_to_link_encoder_mapping[location] != -1)
+ 			out->OutputEncoder[dml2->v20.scratch.hpo_stream_to_link_encoder_mapping[location]] = dml_dp2p0;
+ 		break;
+ 	case SIGNAL_TYPE_EDP:
+@@ -1303,7 +1303,7 @@ void map_dc_state_into_dml_display_cfg(struct dml2_context *dml2, struct dc_stat
+ 		if (disp_cfg_stream_location < 0)
+ 			disp_cfg_stream_location = dml_dispcfg->num_timings++;
+ 
+-		ASSERT(disp_cfg_stream_location >= 0 && disp_cfg_stream_location <= __DML2_WRAPPER_MAX_STREAMS_PLANES__);
++		ASSERT(disp_cfg_stream_location >= 0 && disp_cfg_stream_location < __DML2_WRAPPER_MAX_STREAMS_PLANES__);
+ 
+ 		populate_dml_timing_cfg_from_stream_state(&dml_dispcfg->timing, disp_cfg_stream_location, context->streams[i]);
+ 		populate_dml_output_cfg_from_stream_state(&dml_dispcfg->output, disp_cfg_stream_location, context->streams[i], current_pipe_context, dml2);
+@@ -1343,7 +1343,7 @@ void map_dc_state_into_dml_display_cfg(struct dml2_context *dml2, struct dc_stat
+ 				if (disp_cfg_plane_location < 0)
+ 					disp_cfg_plane_location = dml_dispcfg->num_surfaces++;
+ 
+-				ASSERT(disp_cfg_plane_location >= 0 && disp_cfg_plane_location <= __DML2_WRAPPER_MAX_STREAMS_PLANES__);
++				ASSERT(disp_cfg_plane_location >= 0 && disp_cfg_plane_location < __DML2_WRAPPER_MAX_STREAMS_PLANES__);
+ 
+ 				populate_dml_surface_cfg_from_plane_state(dml2->v20.dml_core_ctx.project, &dml_dispcfg->surface, disp_cfg_plane_location, context->stream_status[i].plane_states[j]);
+ 				populate_dml_plane_cfg_from_plane_state(
+-- 
+2.39.5
+
