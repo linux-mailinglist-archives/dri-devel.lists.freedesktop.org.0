@@ -2,51 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC73BA30FC8
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 16:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454C9A30FEC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 16:36:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BCF8E10E6EA;
-	Tue, 11 Feb 2025 15:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3BE6B10E6EC;
+	Tue, 11 Feb 2025 15:36:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="j6wLSaG2";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NXwELLWW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 490E010E6EA
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 15:29:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739287748;
- bh=9ImZhNZMfj/n/lXvGitqWNX++l9PGN6TFqRxw2UCdpY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=j6wLSaG2EGmIPnktg7E1dS+Li0krKcy/H13jZbbuUN3pjPc/LS4cNUCJSLBxvYkRS
- fbIRuJVM6TKu24Fvq8wjC1vrph76Vlg2hce8rPf4nqzhXvz+iI2t2ni+PU1MWXDhSG
- QHEyDbGYcbV63xKTLwLgXw0M4ouh9cN1sOmWMzcQO6phYoWAqp8xcm9UPdruPVSz6i
- EU+yOlH79AmKI8ZwFyWekGAsRhnOa7jkCxHb8Us4CT2QP1bkK7w78oCP4d0QSuxDuO
- 3BqlTILGZxQbCvlGKSVzIclydUkICdA1DwnhtM7VWYajzn66qZFzibRNLd4BSfQS3S
- rZ4wg6tZUVgbg==
-Received: from localhost.localdomain (unknown [171.76.80.66])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4593117E0CA2;
- Tue, 11 Feb 2025 16:29:03 +0100 (CET)
-From: Vignesh Raman <vignesh.raman@collabora.com>
-To: dri-devel@lists.freedesktop.org
-Cc: daniels@collabora.com, helen.fornazier@gmail.com, airlied@gmail.com,
- simona.vetter@ffwll.ch, robdclark@gmail.com, guilherme.gallo@collabora.com,
- sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
- jani.nikula@linux.intel.com, dmitry.baryshkov@linaro.org,
- mripard@kernel.org, boqun.feng@gmail.com, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] drm/ci: enable lockdep detection
-Date: Tue, 11 Feb 2025 20:58:06 +0530
-Message-ID: <20250211152812.54018-4-vignesh.raman@collabora.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250211152812.54018-1-vignesh.raman@collabora.com>
-References: <20250211152812.54018-1-vignesh.raman@collabora.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA17110E6EC
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 15:36:35 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51B9su75023961;
+ Tue, 11 Feb 2025 15:36:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ geASupeKeQGhVuQ+0D/XwXT7FpJw/7mdwC9f2X/fIHg=; b=NXwELLWW6USbfcIj
+ 3MWQ5yNjQM8mhTgbnqlxhNVnlD6BdgtWcyWIzpaH8URALzgwFz+mP+tjt18dC5RV
+ 7gBEZm8MAhivN9EIdwHJOESFbghkqOtCOQlQOC72MFDSEIr450ERmTgJMkKZz/NF
+ sLjUkxVrSETUph/YN8kH33lLEV6Ktrwqj+Tooii35vRRJFgw8nClARbbJS8ECrrJ
+ V5dlK5MfKjybgsd9+bO7425B2lLj/vkylEcC0RIR8r+c8nCX9sdxpHYo0pBeSlnL
+ NkL3z+LiJb4UF9RHbXeeRIzCwcpfqDxeJUvjfW7wp8q2U7vvzcLymxzBRvvSC96Q
+ E/qL+w==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44r4b5s105-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Feb 2025 15:36:28 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51BFaSPF023065
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 11 Feb 2025 15:36:28 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Feb
+ 2025 07:36:27 -0800
+Message-ID: <60700ca3-8d9a-d284-d2d8-343d770ca384@quicinc.com>
+Date: Tue, 11 Feb 2025 08:36:26 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v2] accel/amdxdna: Add missing include linux/slab.h
+Content-Language: en-US
+To: Su Hui <suhui@nfschina.com>, <jacek.lawrynowicz@linux.intel.com>,
+ <min.ma@amd.com>, <lizhi.hou@amd.com>, <ogabbay@kernel.org>
+CC: <George.Yang@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+References: <20250211015354.3388171-1-suhui@nfschina.com>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <20250211015354.3388171-1-suhui@nfschina.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: N42MYBqoEO8bAG9DJgkixlcC7HJREoO4
+X-Proofpoint-GUID: N42MYBqoEO8bAG9DJgkixlcC7HJREoO4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-11_07,2025-02-11_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=988 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 clxscore=1011 mlxscore=0 bulkscore=0
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502110104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,145 +91,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We have enabled PROVE_LOCKING (which enables LOCKDEP) in drm-ci.
-This will output warnings when kernel locking errors are encountered
-and will continue executing tests. To detect if lockdep has been
-triggered, check the debug_locks value in /proc/lockdep_stats after
-the tests have run. When debug_locks is 0, it indicates that lockdep
-has detected issues and turned itself off. Check this value, and if
-lockdep is detected, exit with an error and configure it as a warning
-in GitLab CI.
+On 2/10/2025 6:53 PM, Su Hui wrote:
+> When compiling without CONFIG_IA32_EMULATION, there can be some errors:
+> 
+> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘mailbox_release_msg’:
+> drivers/accel/amdxdna/amdxdna_mailbox.c:197:2: error: implicit declaration
+> of function ‘kfree’.
+>    197 |  kfree(mb_msg);
+>        |  ^~~~~
+> drivers/accel/amdxdna/amdxdna_mailbox.c: In function ‘xdna_mailbox_send_msg’:
+> drivers/accel/amdxdna/amdxdna_mailbox.c:418:11: error:implicit declaration
+> of function ‘kzalloc’.
+>    418 |  mb_msg = kzalloc(sizeof(*mb_msg) + pkg_size, GFP_KERNEL);
+>        |           ^~~~~~~
+> 
+> Add the missing include.
+> 
+> Fixes: b87f920b9344 ("accel/amdxdna: Support hardware mailbox")
+> Signed-off-by: Su Hui <suhui@nfschina.com>
+> Reviewed-by: Lizhi Hou <lizhi.hou@amd.com>
 
-GitLab CI ignores exit codes other than 1 by default. Pass the correct
-exit code with variable FF_USE_NEW_BASH_EVAL_STRATEGY set to true or
-exit on failure.
-
-Also update the documentation.
-
-Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
----
-
-v2:
-  - Lockdep failures are reported as pipeline warnings,
-    and the documentation is updated.
-
----
- Documentation/gpu/automated_testing.rst |  4 ++++
- drivers/gpu/drm/ci/igt_runner.sh        | 11 +++++++++++
- drivers/gpu/drm/ci/test.yml             | 19 ++++++++++++++++---
- 3 files changed, 31 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/gpu/automated_testing.rst b/Documentation/gpu/automated_testing.rst
-index 6d7c6086034d..62aa3ede02a5 100644
---- a/Documentation/gpu/automated_testing.rst
-+++ b/Documentation/gpu/automated_testing.rst
-@@ -115,6 +115,10 @@ created (eg. https://gitlab.freedesktop.org/janedoe/linux/-/pipelines)
- 5. The various jobs will be run and when the pipeline is finished, all jobs
- should be green unless a regression has been found.
- 
-+6. Warnings in the pipeline indicate that lockdep
-+(see Documentation/locking/lockdep-design.rst) issues have been detected
-+during the tests.
-+
- 
- How to update test expectations
- ===============================
-diff --git a/drivers/gpu/drm/ci/igt_runner.sh b/drivers/gpu/drm/ci/igt_runner.sh
-index 68b042e43b7f..2a0599f12c58 100755
---- a/drivers/gpu/drm/ci/igt_runner.sh
-+++ b/drivers/gpu/drm/ci/igt_runner.sh
-@@ -85,5 +85,16 @@ deqp-runner junit \
-    --limit 50 \
-    --template "See $ARTIFACTS_BASE_URL/results/{{testcase}}.xml"
- 
-+# Check if /proc/lockdep_stats exists
-+if [ -f /proc/lockdep_stats ]; then
-+    # If debug_locks is 0, it indicates lockdep is detected and it turns itself off.
-+    debug_locks=$(grep 'debug_locks:' /proc/lockdep_stats | awk '{print $2}')
-+    if [ "$debug_locks" -eq 0 ] && [ "$ret" -eq 0 ]; then
-+        echo "Warning: LOCKDEP issue detected. Please check dmesg logs for more information."
-+        cat /proc/lockdep_stats
-+        ret=101
-+    fi
-+fi
-+
- cd $oldpath
- exit $ret
-diff --git a/drivers/gpu/drm/ci/test.yml b/drivers/gpu/drm/ci/test.yml
-index 0eab020a33b9..3af735dbf6bd 100644
---- a/drivers/gpu/drm/ci/test.yml
-+++ b/drivers/gpu/drm/ci/test.yml
-@@ -1,6 +1,8 @@
- .lava-test:
-   extends:
-     - .container+build-rules
-+  variables:
-+    FF_USE_NEW_BASH_EVAL_STRATEGY: 'true'
-   timeout: "1h30m"
-   rules:
-     - !reference [.scheduled_pipeline-rules, rules]
-@@ -13,6 +15,9 @@
-     - mv -n install/* artifacts/.
-     # Override it with our lava-submit.sh script
-     - ./artifacts/lava-submit.sh
-+  allow_failure:
-+    exit_codes:
-+      - 101
- 
- .lava-igt:arm32:
-   extends:
-@@ -88,9 +93,14 @@
-     - igt:arm64
-   tags:
-     - $RUNNER_TAG
-+  allow_failure:
-+    exit_codes:
-+      - 101
- 
- .software-driver:
-   stage: software-driver
-+  variables:
-+    FF_USE_NEW_BASH_EVAL_STRATEGY: 'true'
-   timeout: "1h30m"
-   rules:
-     - !reference [.scheduled_pipeline-rules, rules]
-@@ -108,6 +118,9 @@
-     - debian/x86_64_test-gl
-     - testing:x86_64
-     - igt:x86_64
-+  allow_failure:
-+    exit_codes:
-+      - 101
- 
- .msm-sc7180:
-   extends:
-@@ -153,7 +166,7 @@ msm:apq8016:
-     BM_KERNEL_EXTRA_ARGS: clk_ignore_unused
-     RUNNER_TAG: google-freedreno-db410c
-   script:
--    - ./install/bare-metal/fastboot.sh
-+    - ./install/bare-metal/fastboot.sh || exit $?
- 
- msm:apq8096:
-   extends:
-@@ -167,7 +180,7 @@ msm:apq8096:
-     GPU_VERSION: apq8096
-     RUNNER_TAG: google-freedreno-db820c
-   script:
--    - ./install/bare-metal/fastboot.sh
-+    - ./install/bare-metal/fastboot.sh || exit $?
- 
- msm:sdm845:
-   extends:
-@@ -181,7 +194,7 @@ msm:sdm845:
-     GPU_VERSION: sdm845
-     RUNNER_TAG: google-freedreno-cheza
-   script:
--    - ./install/bare-metal/cros-servo.sh
-+    - ./install/bare-metal/cros-servo.sh || exit $?
- 
- msm:sm8350-hdk:
-   extends:
--- 
-2.43.0
-
+Reviewed-by: Jeffrey Hugo <quic_jhugo@quicinc.com>
