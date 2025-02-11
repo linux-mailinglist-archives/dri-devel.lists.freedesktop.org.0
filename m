@@ -2,81 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14839A308C2
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 11:39:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78342A308DE
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 11:41:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8887C10E21D;
-	Tue, 11 Feb 2025 10:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E302010E63F;
+	Tue, 11 Feb 2025 10:41:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NdnWyrge";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=louisalexis.eyraud@collabora.com header.b="kdfpqRdk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
- [209.85.221.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 232D510E21D
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 10:39:29 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id
- ffacd0b85a97d-38dcb7122c1so3390853f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 02:39:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739270368; x=1739875168; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=kyX5GliCGkS9GXhUP/lDAmt14UlfBAJ4be7edHjNLVk=;
- b=NdnWyrgeJyOELzqeHIGXq29Cosk6iTaGhEDxMFf6T7ARFcVlA4ORwnknuWw5tp7Mk3
- GHD1Ig8KCWbOgRJkcgy0rA4Kc9dLeNd2Z0lU4bY70LFd7eYyVtr7g/I+ZRe1w1OSDrbC
- 7xkMQdu9d7E4906Mcb/2idjOCcr5aOyJhGhggb65f82BEZHqYZh5GuFyOHXfUsMkxrfR
- T4UQMzNg6qf/Ku1h47gDa2iZ+CrDb5gsk7MJMpJ0OvmsmzZZlZMSX3aQYx8bRrXUL6fk
- iNHAQdQVDBDCqgA+bZqOXjvueJuHiEw56m08/XT131mXPRWbpefDrna3jkeSTJ0t3869
- prmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739270368; x=1739875168;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kyX5GliCGkS9GXhUP/lDAmt14UlfBAJ4be7edHjNLVk=;
- b=VyRsBGBkyu+oWaVjdWZmx++PJ8zu73f/dwl7QF6v9q41veSdZD3Mob03bw2QPQ7QBj
- b1wO8bUWvMg5EQ4NhvZgCRp2d9oGzJHuoo2zC1Dcb+KAzrO6FNXg/tpgpWkw+W+avjC4
- 5OlcJjWXmqt/AgjEhtsXIBekbwzkz2/vHiAx5qS41whMFD+nFcYlDL1PMy0DWGe+5Z+C
- MRp5cxnd32wZF4cGBTQIKPbTbssdTu5SeOsHTvfzzPx/94Zo/v2N15H0rwsd7kjLkFY2
- m6mPG6uNeWa25yRGLlVkKCpXtyzO8JYaHXAkb4pnWvfeB+PuKVpK+xwM6n7oNB3Db3f9
- BnCA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUQN25Ma5rvSkl5q31tL8hDBNxj40MOmnquf+Ax78M82F1UOOULX3UJdD4Na3mavOQCGvo5NzwBU+4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWvFUIA1uhywbq1be7GJdcoG/hkgVugF1FUULJFYAUPsAQzNCb
- GtDJizLnugBJ7e39Ngw5+89xlAAqDXqP4F2PuCmvyn+q9niLv8t9
-X-Gm-Gg: ASbGncueB26prkBwuP0Xg61e7HeHykBx9mL8reKT9AsEKNq0DyP3Je34dElGtYNX6ox
- Im4UGE9gGIaRnBEn7otTm2eiaNAfUeS0mqm+rYlwTyCtSpYxIl0Ivxs+adXZsn09czX9pwU7LoJ
- 9TS8DFQ8MmecpyKBLhYmVpnO1TWIAzNanwzsYMnNNy9KhAsxsVbRimOYlXxDn4U3ulj4TsVbJIU
- E9QHxNnUfS5AYo+tkaENpJccfQpC/LZlUIumU7nnxmjUGKRbbidKC4x0STNx9b7JYnWmBjyPBQP
- X2BW3udeWqk+pg==
-X-Google-Smtp-Source: AGHT+IH46PQbD0D61i3GoKYMxvqIWjEWYfzUm3CKBKsXv98Ie3+SgFLpZGdUw6lQZaDZWnKOz8er0Q==
-X-Received: by 2002:a5d:59a5:0:b0:38d:e15e:17e1 with SMTP id
- ffacd0b85a97d-38de15e1bd0mr5476380f8f.10.1739270367263; 
- Tue, 11 Feb 2025 02:39:27 -0800 (PST)
-Received: from fedora ([94.73.37.161]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38dbf2ed900sm14354832f8f.53.2025.02.11.02.39.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2025 02:39:26 -0800 (PST)
-Date: Tue, 11 Feb 2025 11:39:25 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/13] drm/vkms: Extract vkms_config header
-Message-ID: <Z6so3Xpd-z5zQJEK@fedora>
-References: <20250129110059.12199-1-jose.exposito89@gmail.com>
- <20250129110059.12199-4-jose.exposito89@gmail.com>
- <Z5uDHcCmAwiTsGte@louis-chauvet-laptop>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3481110E63F
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 10:41:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1739270477; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mwi82a1VC0WX0mnkqDaeehyMyVFVEj4t2oX7L/TCjiHtiYB7UuceU1o9V2Ch+9o4zltsPlBcFb4fdv8+rxktaJqW1Q8KlkTen/Pl17gSNMmtpT3i5htGY8dXAf2WkG4GGKwdDWWeVOjh+pE52ItcHz34mNoIxmLMbpGojBEc8Z0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1739270477;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=ubGyYqooXI2P+wuwvYT/UUhmQ3sN+skqfbeQAf8g68Y=; 
+ b=hvrvbf2+7wqF6YKXbMOoA/8Fm226wP6CKc6c07oHoi3h1cFXfFFfUlfdpJKJngVl9fWOTWP3KrxISu6OnsJyunORWMiMXnH22HKa8b0CDmCNSKP1eJYnqF2j/gTJ+zkOIuXa+neWu9/k+JQn+BRGxrGrkNYvOC07GBHsY/heGbU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=louisalexis.eyraud@collabora.com;
+ dmarc=pass header.from=<louisalexis.eyraud@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739270476; 
+ s=zohomail; d=collabora.com; i=louisalexis.eyraud@collabora.com;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=ubGyYqooXI2P+wuwvYT/UUhmQ3sN+skqfbeQAf8g68Y=;
+ b=kdfpqRdkVKeQAH/5Y/EIwAFtun58/BS9O8u/eV3wKOEEf1FlqYJra//v0lxwoJH5
+ 20h03YlS242c/15r/A9nSKaKwa/NLDqqRIYbiAjPanT6Le+XYjPs8Zbtnq8dPOlgiry
+ IavDHj9UzJSxa7CtNcyEmGo4eYBjg9rp5zxBgpuA=
+Received: by mx.zohomail.com with SMTPS id 1739270473078530.12461900681;
+ Tue, 11 Feb 2025 02:41:13 -0800 (PST)
+Message-ID: <0ea21f4f22a4814278f9fb68c1417594c7817c06.camel@collabora.com>
+Subject: Re: [PATCH v3 3/3] arm64: dts: mediatek: mt8370: Enable gpu support
+From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard	
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring	
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Boris
+ Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org
+Date: Tue, 11 Feb 2025 11:41:08 +0100
+In-Reply-To: <9cbd03f7-c3e4-433b-96ee-3b9683fccdd2@collabora.com>
+References: <20250207-mt8370-enable-gpu-v3-0-75e9b902f9c1@collabora.com>
+ <20250207-mt8370-enable-gpu-v3-3-75e9b902f9c1@collabora.com>
+ <20250211-nice-boar-of-abracadabra-f696ec@krzk-bin>
+ <9cbd03f7-c3e4-433b-96ee-3b9683fccdd2@collabora.com>
+Organization: Collabora Ltd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z5uDHcCmAwiTsGte@louis-chauvet-laptop>
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,91 +79,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 30, 2025 at 02:48:13PM +0100, Louis Chauvet wrote:
-> On 29/01/25 - 12:00, José Expósito wrote:
-> > Creating a new vkms_config structure will be more complex once we
-> > start adding more options.
-> > 
-> > Extract the vkms_config structure to its own header and source files
-> > and add functions to create and delete a vkms_config and to initialize
-> > debugfs.
-> > 
-> > Refactor, no functional changes.
-> > 
-> > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> Co-developped-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> 
-> [...]
-> 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> > @@ -208,8 +189,7 @@ static int vkms_create(struct vkms_config *config)
-> >  	if (ret)
-> >  		goto out_devres;
-> >  
-> > -	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
-> > -			      ARRAY_SIZE(vkms_config_debugfs_list));
-> > +	vkms_config_register_debugfs(vkms_device);
-> >  
-> >  	ret = drm_dev_register(&vkms_device->drm, 0);
-> >  	if (ret)
-> > @@ -231,9 +211,9 @@ static int __init vkms_init(void)
-> >  	int ret;
-> >  	struct vkms_config *config;
-> >  
-> > -	config = kmalloc(sizeof(*config), GFP_KERNEL);
-> > -	if (!config)
-> > -		return -ENOMEM;
-> > +	config = vkms_config_create();
-> > +	if (IS_ERR(config))
-> > +		return PTR_ERR(config);
-> >  
-> >  	default_config = config;
-> >  
-> > @@ -243,7 +223,7 @@ static int __init vkms_init(void)
-> >  
-> >  	ret = vkms_create(config);
-> >  	if (ret)
-> > -		kfree(config);
-> > +		vkms_config_destroy(config);
-> 
-> I just have a question here: is it not a problem to kfree config (and 
-> default_config) here? There is not risk to have a 
-> use-after-free/double-free in vkms_exit?
-> 
-> >	return ret;
-> >  }
-> > @@ -272,7 +252,7 @@ static void __exit vkms_exit(void)
-> >	if (default_config->dev)
-> 
-> The use-after-free may be here?
-> 
-> >		vkms_destroy(default_config);
-> >  
-> > -	kfree(default_config);
-> > +	vkms_config_destroy(default_config);
-> 
-> And maybe double-free?
-> 
-> >  }
-> 
-> If this is not an issue (ie we have a garantee that vkms_exit is never
-> called if vkms_init fails), you can add my
+On Tue, 2025-02-11 at 10:28 +0100, AngeloGioacchino Del Regno wrote:
+> Il 11/02/25 09:31, Krzysztof Kozlowski ha scritto:
+> > On Fri, Feb 07, 2025 at 04:18:32PM +0100, Louis-Alexis Eyraud
+> > wrote:
+> > > Add a new gpu node in mt8370.dtsi to enable support for the
+> > > ARM Mali G57 MC2 GPU (Valhall-JM) found on the MT8370 SoC, using
+> > > the
+> > > Panfrost driver.
+> > >=20
+> > > On a Mediatek Genio 510 EVK board, the panfrost driver probed
+> > > with the
+> > > following message:
+> > > ```
+> > > panfrost 13000000.gpu: clock rate =3D 390000000
+> > > panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0
+> > > status 0x0
+> > > panfrost 13000000.gpu: features: 00000000,000019f7, issues:
+> > > 00000003,
+> > > =C2=A0=C2=A0=C2=A0 80000400
+> > > panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
+> > > =C2=A0=C2=A0=C2=A0 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS=
+:0x7
+> > > panfrost 13000000.gpu: shader_present=3D0x5 l2_present=3D0x1
+> > > [drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
+> > > ```
+> > >=20
+> > > Signed-off-by: Louis-Alexis Eyraud
+> > > <louisalexis.eyraud@collabora.com>
+> > > ---
+> > > =C2=A0 arch/arm64/boot/dts/mediatek/mt8370.dtsi | 9 +++++++++
+> > > =C2=A0 1 file changed, 9 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+> > > b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+> > > index
+> > > cf1a3759451ff899ce9e63e5a00f192fb483f6e5..2f27f7e7ab813b97f869297
+> > > ae360f69854e966e1 100644
+> > > --- a/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+> > > +++ b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+> > > @@ -59,6 +59,15 @@ &cpu_little3_cooling_map0 {
+> > > =C2=A0=C2=A0				<&cpu3 THERMAL_NO_LIMIT
+> > > THERMAL_NO_LIMIT>;
+> > > =C2=A0 };
+> > > =C2=A0=20
+> > > +&gpu {
+> > > +	compatible =3D "mediatek,mt8370-mali", "arm,mali-valhall-
+> > > jm";
+> >=20
+> > It's up to platform maintainers, but IMHO this is discouraged
+> > practice.
+> > If you ever need to override compatible, this means the node is not
+> > really shared between this and base SoC (base DTSI).
+> >=20
+>=20
+> That's true, indeed, but this is a special case, where the GPU
+> actually is really
+> architecturally and generationally the same, difference being that
+> one core is
+> lasered off from the lower binned silicon.
+>=20
+> I appreciate you pointing that out, and effectively we shall not
+> create any
+> misunderstanding on this practice, which shall remain discouraged.
+>=20
+> Speaking of which!
+>=20
+> Louis, since you anyway have to send a v4, please add a comment
+> before that
+> gpu node override saying:
+>=20
+> /*
+> =C2=A0 * Please note that overriding compatibles is a discouraged practic=
+e
+> and is a
+> =C2=A0 * clear indication of nodes not being, well, compatible!
+> =C2=A0 *
+> =C2=A0 * This is a special case, where the GPU is the same as MT8188, but
+> with one
+> =C2=A0 * of the cores fused out in this lower-binned SoC.
+> =C2=A0 */
+> &gpu {
+> =C2=A0 ....etc
+>=20
+>=20
+> Thanks,
+> Angelo
 
-Good catch! This is a potential use after free/double free or, even worst,
-on "if (default_config->dev)" default_config could be NULL.
+Hi,
 
-Even though the bug is unrelated to this series (it was already there) I'll
-include a fix in v2.
-It'll be the first patch of the series and it could be merged independently.
+I understand your concerns and I agree with you.
 
-Thanks,
-Jose
+Adding this warning comment in mt8370.dtsi file seems appropriate to
+explain why it was done this way, and make more cautious those who
+might read this override code and inspire from it.
 
-> 
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> 
-> [...]
+I'll amend this commit with it in the v4 patchset.
+
+Regards,
+Louis-Alexis
+
