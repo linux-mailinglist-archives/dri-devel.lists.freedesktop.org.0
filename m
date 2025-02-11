@@ -2,120 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DDCA30F19
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 16:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CAEA30FD7
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 16:32:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10B4610E6E4;
-	Tue, 11 Feb 2025 15:03:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAA8E10E6EB;
+	Tue, 11 Feb 2025 15:32:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LdP39Oew";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Ra4fURoG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Yy0eZub";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ra4fURoG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Yy0eZub";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4AE110E6E4
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 15:03:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739286224;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6K127Xqp01kwOLTDIHQix5w2cmmFKXaOgArwWedRCAs=;
- b=LdP39OewQX2dbcrl5y6LkJewV3/aajN0QNL1OtF5nIi0KqOfFW9ma/3u+hsJJ7P/EuRFnL
- egV4wkCn1bA2Rhf/pWjn4WbHGyd+EXFGIT4V7lRJxS8xAvRucL2uH+FQ+luKFnQfy6bPBD
- 7XxougeBtDEuHtMBurcbrE8HdqyGpvQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-627-dJ5_FRrXO_C7HL9QZlntDA-1; Tue, 11 Feb 2025 10:03:41 -0500
-X-MC-Unique: dJ5_FRrXO_C7HL9QZlntDA-1
-X-Mimecast-MFC-AGG-ID: dJ5_FRrXO_C7HL9QZlntDA
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-43935bcec74so16084985e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 07:03:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739286220; x=1739891020;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6K127Xqp01kwOLTDIHQix5w2cmmFKXaOgArwWedRCAs=;
- b=gNLUUV+0fMcTE1rR3jLZBleDCwBgfcKbF062WmxiiO07BkkQo0AR8ZsNbFkXJohx0h
- OsfCYYkB19KTkZJlY17BNqBshKbel8DO9/kobDKkSrXRMy/gJ1kEG56NnJtwqcsLELrs
- toUc42PbCdPZekBGJmE/LSHL79F+aEzsiYLc3bssma6fmZgyQ9zdr9ABfIUX0aeq3vjj
- 2wgrEDFlEXVCmsayYRcdkrjokMvm0z90hWcpAWeq54siEyIDghxGX1xF4qha+O62aGZ3
- 3Wat/t0G3sarEtajQHNeUvKNzAPQKU5PVVx5NJtvwjkfVLEpfJXorJpYJaphAPVYQhUd
- PZWA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUVHYlkro5PywLKdWsvQYBK17d+pgXQvzr5pG1prs8gagG9QtivqUUkapCeM6bDiMMeYuluKC4XXWg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWdrugqhYMkP+xpFPPFE1OqZz0FoKVNK7wX9pWwGBaXAAGGDIP
- 10QF/PT4lCLhYNgfttFlt5UBys+/s6fJudOY9oyEOUDGMN8UM76/CCrb/g0ybCNN3cGht6qwLp5
- Xjy217XKek2ZyQlasRc1BUTWee9f5Y+BZ6GQdb3HOvCwL8DrtWqSK7VejpRC88RDq0g==
-X-Gm-Gg: ASbGncuIVSYl7zrKFNEE7kxe1o6MsFWOzw50MB5D9ECARxBIqMx1hlB+KJ9YIBdxdEf
- Po+VM0FctOINYs2OrQgBM3Gssn3lm91HJunRqAKEbOG/ZqZBBgJSfAaRVo54jdgd7VrCDpA/uAZ
- HE26Vsz3p2TYeERYzqtoIdfv2D27S4uuBVVb7IYI7c+U8j/wmsa0QWyf34KlnjzcXcG3M6qu7Yg
- Hz1vkfAcAxaMjGAsAZmFIOorzY50dqdVKpYBZ/Amkcqifveb4qSRaqAYXhA0/+Jov/6Xw==
-X-Received: by 2002:a05:600c:4448:b0:439:4740:20a2 with SMTP id
- 5b1f17b1804b1-4394c853a2dmr42857955e9.29.1739286220059; 
- Tue, 11 Feb 2025 07:03:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEN7+RaFI8Q1DlET/AqPOd5Q7ETC0Cm6eLK5eh5/vnngjAmjHCWD7Z20lqQzfUQw3dEBz+m0g==
-X-Received: by 2002:a05:600c:4448:b0:439:4740:20a2 with SMTP id
- 5b1f17b1804b1-4394c853a2dmr42856745e9.29.1739286219388; 
- Tue, 11 Feb 2025 07:03:39 -0800 (PST)
-Received: from pollux ([2a00:79c0:65c:c300:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38dc5c8c37esm13267156f8f.2.2025.02.11.07.03.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2025 07:03:38 -0800 (PST)
-Date: Tue, 11 Feb 2025 16:03:36 +0100
-From: Danilo Krummrich <dakr@redhat.com>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Min Ma <min.ma@amd.com>, Lizhi Hou <lizhi.hou@amd.com>,
- Oded Gabbay <ogabbay@kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Matthew Brost <matthew.brost@intel.com>,
- Melissa Wen <mwen@igalia.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sunil Khatri <sunil.khatri@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Ma Jun <Jun.Ma2@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Subject: Re: [PATCH v4] drm/sched: Use struct for drm_sched_init() params
-Message-ID: <Z6tmyHpqnpkP2gKq@pollux>
-References: <20250211111422.21235-2-phasta@kernel.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D03FD10E6EB;
+ Tue, 11 Feb 2025 15:32:00 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B70565C44A;
+ Tue, 11 Feb 2025 10:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739268530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
+ b=Ra4fURoGuAhKdETVrmii++K+5Hi7vd+oSsoT5AV5Np3oTbE0gFHG0sj+aiw9YzvPjmR02M
+ 3l9tk48JAqieulwGZifx+AbKQ+JpVSLH8a4nx5mzkC+RTwydgxwIa2ork4ZORuDpqI1BqH
+ Q88xkD6M24Ev+q3mDuXjRlICGxzhfi8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739268530;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
+ b=9Yy0eZubkbeKyqzMoLK0UVTSRYlVO97UMmoNvJs8fZV0STNwTn5agvDlHzb9RoFM9XKscF
+ oTfV5GbvBNPjPRBg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ra4fURoG;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9Yy0eZub
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739268530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
+ b=Ra4fURoGuAhKdETVrmii++K+5Hi7vd+oSsoT5AV5Np3oTbE0gFHG0sj+aiw9YzvPjmR02M
+ 3l9tk48JAqieulwGZifx+AbKQ+JpVSLH8a4nx5mzkC+RTwydgxwIa2ork4ZORuDpqI1BqH
+ Q88xkD6M24Ev+q3mDuXjRlICGxzhfi8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739268530;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
+ b=9Yy0eZubkbeKyqzMoLK0UVTSRYlVO97UMmoNvJs8fZV0STNwTn5agvDlHzb9RoFM9XKscF
+ oTfV5GbvBNPjPRBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 71C6713715;
+ Tue, 11 Feb 2025 10:08:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id F1eQGrIhq2fHcgAAD6G6ig
+ (envelope-from <tiwai@suse.de>); Tue, 11 Feb 2025 10:08:50 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui Pan <Xinhui.Pan@amd.com>
+Subject: [PATCH] drm/amd/display: Add sanity checks for drm_edid_raw()
+Date: Tue, 11 Feb 2025 11:08:46 +0100
+Message-ID: <20250211100847.12937-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-In-Reply-To: <20250211111422.21235-2-phasta@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: nw7wlSaAYKcuBsiUX15YDKTWVS9dppM-GuguaLo7V0o_1739286220
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: B70565C44A
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns, suse.com:url]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,26 +115,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2025 at 12:14:23PM +0100, Philipp Stanner wrote:
-> drm_sched_init() has a great many parameters and upcoming new
-> functionality for the scheduler might add even more. Generally, the
-> great number of parameters reduces readability and has already caused
-> one missnaming, addressed in:
-> 
-> commit 6f1cacf4eba7 ("drm/nouveau: Improve variable name in
-> nouveau_sched_init()").
-> 
-> Introduce a new struct for the scheduler init parameters and port all
-> users.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> Acked-by: Matthew Brost <matthew.brost@intel.com> # for Xe
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com> # for Panfrost and Panthor
-> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com> # for Etnaviv
-> Reviewed-by: Frank Binns <frank.binns@imgtec.com> # for Imagination
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com> # for Sched
-> Reviewed-by: Maíra Canal <mcanal@igalia.com> # for v3d
+When EDID is retrieved via drm_edid_raw(), it doesn't guarantee to
+return proper EDID bytes the caller wants: it may be either NULL (that
+leads to an Oops) or with too long bytes over the fixed size raw_edid
+array (that may lead to memory corruption).  The latter was reported
+actually when connected with a bad adapter.
 
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+Add sanity checks for drm_edid_raw() to address the above corner
+cases, and return EDID_BAD_INPUT accordingly.
+
+Fixes: 48edb2a4256e ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1236415
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+
+BTW, I'm not sure why memmove() is used instead of memcpy().
+I left as is for now.
+
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index fbd80d8545a8..a92bc12a095e 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -980,6 +980,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
+ 	enum dc_edid_status edid_status;
+ 	const struct drm_edid *drm_edid;
+ 	const struct edid *edid;
++	size_t edid_len;
+ 
+ 	if (link->aux_mode)
+ 		ddc = &aconnector->dm_dp_aux.aux.ddc;
+@@ -1010,8 +1011,13 @@ enum dc_edid_status dm_helpers_read_local_edid(
+ 			return EDID_NO_RESPONSE;
+ 
+ 		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
+-		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
+-		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
++		if (!edid)
++			return EDID_BAD_INPUT;
++		edid_len = EDID_LENGTH * (edid->extensions + 1);
++		if (edid_len > sizeof(sink->dc_edid.raw_edid))
++			return EDID_BAD_INPUT;
++		sink->dc_edid.length = edid_len;
++		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, edid_len);
+ 
+ 		/* We don't need the original edid anymore */
+ 		drm_edid_free(drm_edid);
+-- 
+2.43.0
 
