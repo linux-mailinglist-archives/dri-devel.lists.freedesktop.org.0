@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB67A30A0A
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 12:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40296A30A0F
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 12:34:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7ACC10E678;
-	Tue, 11 Feb 2025 11:34:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69B3710E686;
+	Tue, 11 Feb 2025 11:34:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iR1ly+WG";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="QsKJ2AuQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9010E10E678
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 11:34:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3AA10E682
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 11:34:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739273675;
- bh=GR4JgfKdms8BHj/qOa5CGx5NpAK9n4ncT+0l8gLtOgA=;
+ s=mail; t=1739273676;
+ bh=SmzQjHSz8xFcC9epDhGXNLF77W+4aksKW5fg4/SNhG0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iR1ly+WGsbvue8COtzMGjnWfQVfTeoWHWYCvtshh68ZhLbk35Y6IB2q5ww7HtCjSE
- 5CEJgXqfsC/jJYx8bQzNLv5aOEFg1tFOL5APcr7tBiXtswBlVl6+GV5k0cyKY/B0ph
- shlCUCNiiR+vKWhaoRCANRRD2PjSzxkXSecQRdjpKUm+sBnPn6CMtxMsNMxF8raZ4K
- UjQWrJKAwJ8EIW5Gp2Yueb6KCFG5sbhnxTYHzpPWZcKw+5N9J7gc7DRgWHvCgapctj
- P/JK37vi7fqQAwKqRDPp2rCtOjE34e0W27KNXTZf4G+PZ/+ynzdF3SeA2a2EV8g6Sj
- cTxqP4NdQwP/w==
+ b=QsKJ2AuQt88vXumQ55Snl+AvT5SEAUGbF8TE6kGbGUQ934+rn9P+F7KRgjE+CTH5R
+ 2P+Vygk2L9V2X4eJOmpcCYcYHv4zeIk2f9qdE+LnZbWjc2fwKe2oLU6NPRANEAiZzh
+ 8Ebh48euHeqxLr3xrxa7wH2E096frl3KMQqCK4yG/8ABZgcFaNqiXRdJD19v6KdVdM
+ P/n3BmlcOPhUz4xPmYH63NtETE2i+lC1vpMs4qAjmZx0NR34+y3on+gUCwXCJe9/cR
+ LdROboxIlFwpIdeIU3EIGpZfablkZ+09eoAbfPCubJkkUCD6KctarAqvDhRGK25pc1
+ GAuH7Va0jjwbw==
 Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it
  [2.237.20.237])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: kholk11)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 147A017E1556;
- Tue, 11 Feb 2025 12:34:34 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 85BBD17E1558;
+ Tue, 11 Feb 2025 12:34:35 +0100 (CET)
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: chunkuang.hu@kernel.org
 Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
@@ -46,10 +46,10 @@ Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
  kernel@collabora.com, dmitry.baryshkov@linaro.org, lewis.liao@mediatek.com,
  ives.chenjh@mediatek.com, tommyyl.chen@mediatek.com,
  jason-jh.lin@mediatek.com
-Subject: [PATCH v6 10/42] drm/mediatek: Add support for MT8195 Digital
- Parallel Interface
-Date: Tue, 11 Feb 2025 12:33:37 +0100
-Message-ID: <20250211113409.1517534-11-angelogioacchino.delregno@collabora.com>
+Subject: [PATCH v6 11/42] dt-bindings: display: mediatek: Add binding for
+ HDMIv2 DDC
+Date: Tue, 11 Feb 2025 12:33:38 +0100
+Message-ID: <20250211113409.1517534-12-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250211113409.1517534-1-angelogioacchino.delregno@collabora.com>
 References: <20250211113409.1517534-1-angelogioacchino.delregno@collabora.com>
@@ -70,95 +70,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the DPI block found in the MT8195 and MT8188 SoCs.
-Inside of the SoC, this block is directly connected to the HDMI IP.
+Add a binding for the Display Data Channel (DDC) IP in MediaTek
+SoCs with version 2 HDMI TX IP.
 
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: CK Hu <ck.hu@mediatek.com>
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- drivers/gpu/drm/mediatek/mtk_dpi.c      | 24 ++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_dpi_regs.h |  6 ++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c  |  2 ++
- 3 files changed, 32 insertions(+)
+ .../mediatek/mediatek,mt8195-hdmi-ddc.yaml    | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediatek/mtk_dpi.c
-index 67504eb874d2..e4b52ffc4414 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
-@@ -1049,6 +1049,8 @@ static const struct mtk_dpi_factor dpi_factor_mt8195_dp_intf[] = {
- 	{ 70000 - 1, 4 }, { 200000 - 1, 2 }, { U32_MAX, 1 }
- };
- 
-+static const struct mtk_dpi_factor dpi_factor_mt8195_dpi = { U32_MAX, 1 };
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+new file mode 100644
+index 000000000000..bde4dc556d4f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- static const struct mtk_dpi_conf mt8173_conf = {
- 	.dpi_factor = dpi_factor_mt8173,
- 	.num_dpi_factor = ARRAY_SIZE(dpi_factor_mt8173),
-@@ -1141,6 +1143,27 @@ static const struct mtk_dpi_conf mt8192_conf = {
- 	.csc_enable_bit = CSC_ENABLE,
- };
- 
-+static const struct mtk_dpi_conf mt8195_conf = {
-+	.dpi_factor = &dpi_factor_mt8195_dpi,
-+	.num_dpi_factor = 1,
-+	.max_clock_khz = 594000,
-+	.output_fmts = mt8183_output_fmts,
-+	.num_output_fmts = ARRAY_SIZE(mt8183_output_fmts),
-+	.pixels_per_iter = 1,
-+	.is_ck_de_pol = true,
-+	.swap_input_support = true,
-+	.support_direct_pin = true,
-+	.dimension_mask = HPW_MASK,
-+	.hvsize_mask = HSIZE_MASK,
-+	.channel_swap_shift = CH_SWAP,
-+	.yuv422_en_bit = YUV422_EN,
-+	.csc_enable_bit = CSC_ENABLE,
-+	.input_2p_en_bit = DPI_INPUT_2P_EN,
-+	.clocked_by_hdmi = true,
-+	.input_2pixel = true,
-+	.output_1pixel = true,
-+};
++title: MediaTek HDMI MT8195 series HDMI Display Data Channel (DDC)
 +
- static const struct mtk_dpi_conf mt8195_dpintf_conf = {
- 	.dpi_factor = dpi_factor_mt8195_dp_intf,
- 	.num_dpi_factor = ARRAY_SIZE(dpi_factor_mt8195_dp_intf),
-@@ -1245,6 +1268,7 @@ static const struct of_device_id mtk_dpi_of_ids[] = {
- 	{ .compatible = "mediatek,mt8188-dp-intf", .data = &mt8195_dpintf_conf },
- 	{ .compatible = "mediatek,mt8192-dpi", .data = &mt8192_conf },
- 	{ .compatible = "mediatek,mt8195-dp-intf", .data = &mt8195_dpintf_conf },
-+	{ .compatible = "mediatek,mt8195-dpi", .data = &mt8195_conf },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, mtk_dpi_of_ids);
-diff --git a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-index a0b1d18bbbf7..3c24d9e9f241 100644
---- a/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-+++ b/drivers/gpu/drm/mediatek/mtk_dpi_regs.h
-@@ -40,6 +40,12 @@
- #define FAKE_DE_LEVEN			BIT(21)
- #define FAKE_DE_RODD			BIT(22)
- #define FAKE_DE_REVEN			BIT(23)
++maintainers:
++  - AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
++  - CK Hu <ck.hu@mediatek.com>
 +
-+/* DPI_CON: DPI instances */
-+#define DPI_OUTPUT_1T1P_EN		BIT(24)
-+#define DPI_INPUT_2P_EN			BIT(25)
++properties:
++  compatible:
++    oneOf:
++      - const: mediatek,mt8195-hdmi-ddc
++      - items:
++          - const: mediatek,mt8188-hdmi-ddc
++          - const: mediatek,mt8195-hdmi-ddc
 +
-+/* DPI_CON: DPINTF instances */
- #define DPINTF_YUV422_EN		BIT(24)
- #define DPINTF_CSC_ENABLE		BIT(26)
- #define DPINTF_INPUT_2P_EN		BIT(29)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index f22ad2882697..772c3d0f5d14 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -810,6 +810,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt8195-dp-intf",
- 	  .data = (void *)MTK_DP_INTF },
-+	{ .compatible = "mediatek,mt8195-dpi",
-+	  .data = (void *)MTK_DPI },
- 	{ .compatible = "mediatek,mt2701-dsi",
- 	  .data = (void *)MTK_DSI },
- 	{ .compatible = "mediatek,mt8173-dsi",
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    hdmi {
++        hdmi_ddc: i2c {
++            compatible = "mediatek,mt8195-hdmi-ddc";
++            clocks = <&clk26m>;
++        };
++    };
++...
 -- 
 2.48.1
 
