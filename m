@@ -2,41 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 526B5A306DC
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 10:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0E4A30708
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 10:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E24D910E488;
-	Tue, 11 Feb 2025 09:23:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7CAC10E132;
+	Tue, 11 Feb 2025 09:28:30 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OAtSrdHC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73DFF10E46C;
- Tue, 11 Feb 2025 09:23:57 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id B596D20113;
- Tue, 11 Feb 2025 10:23:55 +0100 (CET)
-Date: Tue, 11 Feb 2025 10:23:54 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Ethan Carter Edwards <ethan@ethancedwards.com>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] drm/msm/dpu: Fix uninitialized variable
-Message-ID: <zj7sqsg3ruev4akl5paedsg65qyh53iddqvssrye2pjtfofs3q@u4g3kevpl2jn>
-References: <20250209-dpu-v2-1-114dfd4ebefd@ethancedwards.com>
- <8e40c1bf-6da7-46b1-925c-53d1fa25f3ce@quicinc.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCA4710E132
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 09:28:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1739266107;
+ bh=co1cSWx5jjebn1be3GgShvFIPNk5ZGYkgJ/NYGsS+K0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OAtSrdHCu2ucm3/qoKlfHhdLzbcY9eYa0S8LB/9+ydqOk4eKkVem/z2aQsOojjCtP
+ zTWtpglOAYoQdqUIwH21A3yn3k+mMqHtcG7ozrGKjRemj+Z7JquQpgOJkSgkN0s6a0
+ 1VrBNBOXSqCVASYcH1Z6jEIy2xmrYYspCA+qhQuujmPdV3KLUmdP7uNchNxZxk40S2
+ vuIFaZwRhU5YGwGH3YyXqbWTV6wKvEhusmo2vgMTr5EJY9Dp8xnE86QOi1moZs6qFf
+ 6eoQzryxc+dgYY+po2U9B3Cuj4+DRQhMd78XCPGTVpiikSwGFGDkqtLlO1LrYrKSa8
+ GGPXXiOXWqcEA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it
+ [2.237.20.237])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: kholk11)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 73FC917E0EAD;
+ Tue, 11 Feb 2025 10:28:26 +0100 (CET)
+Message-ID: <9cbd03f7-c3e4-433b-96ee-3b9683fccdd2@collabora.com>
+Date: Tue, 11 Feb 2025 10:28:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8e40c1bf-6da7-46b1-925c-53d1fa25f3ce@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] arm64: dts: mediatek: mt8370: Enable gpu support
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+References: <20250207-mt8370-enable-gpu-v3-0-75e9b902f9c1@collabora.com>
+ <20250207-mt8370-enable-gpu-v3-3-75e9b902f9c1@collabora.com>
+ <20250211-nice-boar-of-abracadabra-f696ec@krzk-bin>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250211-nice-boar-of-abracadabra-f696ec@krzk-bin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,78 +73,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-02-10 14:14:14, Abhinav Kumar wrote:
+Il 11/02/25 09:31, Krzysztof Kozlowski ha scritto:
+> On Fri, Feb 07, 2025 at 04:18:32PM +0100, Louis-Alexis Eyraud wrote:
+>> Add a new gpu node in mt8370.dtsi to enable support for the
+>> ARM Mali G57 MC2 GPU (Valhall-JM) found on the MT8370 SoC, using the
+>> Panfrost driver.
+>>
+>> On a Mediatek Genio 510 EVK board, the panfrost driver probed with the
+>> following message:
+>> ```
+>> panfrost 13000000.gpu: clock rate = 390000000
+>> panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0 status 0x0
+>> panfrost 13000000.gpu: features: 00000000,000019f7, issues: 00000003,
+>>     80000400
+>> panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
+>>     Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
+>> panfrost 13000000.gpu: shader_present=0x5 l2_present=0x1
+>> [drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
+>> ```
+>>
+>> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+>> ---
+>>   arch/arm64/boot/dts/mediatek/mt8370.dtsi | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/mediatek/mt8370.dtsi b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+>> index cf1a3759451ff899ce9e63e5a00f192fb483f6e5..2f27f7e7ab813b97f869297ae360f69854e966e1 100644
+>> --- a/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+>> +++ b/arch/arm64/boot/dts/mediatek/mt8370.dtsi
+>> @@ -59,6 +59,15 @@ &cpu_little3_cooling_map0 {
+>>   				<&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+>>   };
+>>   
+>> +&gpu {
+>> +	compatible = "mediatek,mt8370-mali", "arm,mali-valhall-jm";
 > 
+> It's up to platform maintainers, but IMHO this is discouraged practice.
+> If you ever need to override compatible, this means the node is not
+> really shared between this and base SoC (base DTSI).
 > 
-> On 2/9/2025 7:51 PM, Ethan Carter Edwards wrote:
-> > There is a possibility for an uninitialized *ret* variable to be
-> > returned in some code paths.
-> > 
-> > Fix this by initializing *ret* to 0.
-> > 
-> > Addresses-Coverity-ID: 1642546 ("Uninitialized scalar variable")
-> > Fixes: 774bcfb731765d ("drm/msm/dpu: add support for virtual planes")
-> > Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
-> > ---
-> > Changes in v2:
-> > - Return explicit 0 when no error occurs
-> > - Add hardening mailing lists
-> > - Link to v1: https://lore.kernel.org/r/20250209-dpu-v1-1-0db666884f70@ethancedwards.com
-> > ---
-> >   drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 7 +++----
-> >   1 file changed, 3 insertions(+), 4 deletions(-)
-> > 
-> 
-> Thanks for your patch, this was addressed with
-> 
-> https://patchwork.freedesktop.org/patch/631567/ but since this is better 
-> I am fine with this, will pick this one up
 
-The `return 0;` in this patch should certainly fix this issue entirely and we
-don't need to inline the `int ret` for that, which I think is against mixed
-declaration rules anyway?
+That's true, indeed, but this is a special case, where the GPU actually is really
+architecturally and generationally the same, difference being that one core is
+lasered off from the lower binned silicon.
 
-As far as I understand that's what Dmitry suggested in v1, but he r-b'd it in
-this form.  Dmitry, was that intended?
+I appreciate you pointing that out, and effectively we shall not create any
+misunderstanding on this practice, which shall remain discouraged.
 
-- Marijn
+Speaking of which!
 
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> 
-> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > index 098abc2c0003cde90ce6219c97ee18fa055a92a5..af3e541f60c303eb5212524e877129359b5ca98c 100644
-> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
-> > @@ -1164,7 +1164,6 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
-> >   			       unsigned int num_planes)
-> >   {
-> >   	unsigned int i;
-> > -	int ret;
-> >   
-> >   	for (i = 0; i < num_planes; i++) {
-> >   		struct drm_plane_state *plane_state = states[i];
-> > @@ -1173,13 +1172,13 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
-> >   		    !plane_state->visible)
-> >   			continue;
-> >   
-> > -		ret = dpu_plane_virtual_assign_resources(crtc, global_state,
-> > +		int ret = dpu_plane_virtual_assign_resources(crtc, global_state,
-> >   							 state, plane_state);
-> >   		if (ret)
-> > -			break;
-> > +			return ret;
-> >   	}
-> >   
-> > -	return ret;
-> > +	return 0;
-> >   }
-> >   
-> >   static void dpu_plane_flush_csc(struct dpu_plane *pdpu, struct dpu_sw_pipe *pipe)
-> > 
-> > ---
-> > base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
-> > change-id: 20250209-dpu-c3fac78fc617
-> > 
-> > Best regards,
-> 
+Louis, since you anyway have to send a v4, please add a comment before that
+gpu node override saying:
+
+/*
+  * Please note that overriding compatibles is a discouraged practice and is a
+  * clear indication of nodes not being, well, compatible!
+  *
+  * This is a special case, where the GPU is the same as MT8188, but with one
+  * of the cores fused out in this lower-binned SoC.
+  */
+&gpu {
+  ....etc
+
+
+Thanks,
+Angelo
