@@ -2,198 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F48A302ED
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 06:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9E7A30396
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 07:28:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C201E10E224;
-	Tue, 11 Feb 2025 05:32:46 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Y48TkjyU";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C96910E106;
+	Tue, 11 Feb 2025 06:28:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F31610E178;
- Tue, 11 Feb 2025 05:32:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739251965; x=1770787965;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=QIxR7p4WAsG8OFVlTLvYXrHn972Hnj4YcyQv7XaGf0s=;
- b=Y48TkjyUwURqsCp/vITAoFB318pypijTWGWz/0n4WfLcNay3DTXjklTM
- NR7xe6duDORfmTfrzmMB3L7R6x2MP8U2Ue5Ijdkhdebv89pc04gUe6ZWJ
- oCAaCnUOQkxRmnA0c6u+4Gd6cUdHPC77C9lsTFHQ6W1LyiawqGGXxLAaS
- ZodbSBfBFLWvCrpUYmxz3PXr+fRusbQr2peQDpsUnL3MMQPDxUIreRzLT
- oLxK2Be8xXXppmYi9cful3Ibmh7Aq1pc2l2ELrHxaCPVp77hXY10MM0bW
- 6x6/3sYEQ9LXLmoXTXzgAaXAs6ThHLkU9XRMI2nU+KoclARrO/lBNnfu8 g==;
-X-CSE-ConnectionGUID: 1zO5x95fSvyTG63vcyOpjQ==
-X-CSE-MsgGUID: +eoc6HfqSqOP66pnm6MT+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="39720562"
-X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; d="scan'208";a="39720562"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Feb 2025 21:32:45 -0800
-X-CSE-ConnectionGUID: 29PEf/MTS7+yNRHsgXF6bQ==
-X-CSE-MsgGUID: uW717T1aRa+wXK1p5Gt7sA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,276,1732608000"; d="scan'208";a="112377449"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
- 10 Feb 2025 21:32:45 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 10 Feb 2025 21:32:44 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 10 Feb 2025 21:32:44 -0800
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D8610E106
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 06:28:40 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4YsWdn383gzWfmB;
+ Tue, 11 Feb 2025 14:25:17 +0800 (CST)
+Received: from kwepemd500013.china.huawei.com (unknown [7.221.188.12])
+ by mail.maildlp.com (Postfix) with ESMTPS id 6B11214022E;
+ Tue, 11 Feb 2025 14:28:37 +0800 (CST)
+Received: from [10.159.166.136] (10.159.166.136) by
+ kwepemd500013.china.huawei.com (7.221.188.12) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 10 Feb 2025 21:32:43 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RLtIyVhNady0URLcxpbjMe8uVVWgLkKSQ7++GBOIJLYG/q7zPmgRqzHuqbPSawsmoDfwBIytofOWP8N4TAxZrWoEEBrPdflVJw1AeCNoIr7whwtBwkzEZFw6hLGkCxOI9/hi9p/m5UZDpmzXc4yTP68jqvGhboTfR2U0c/rcqb3MDycZIXXPd1phAUb3T6FpiKckbv65pGxnb+esC7GXhobvYFZufPX18W2Bm5aOEc7hlM3fGjwOkxetofKrR4NeCdLUOSOmhbVzb3yiOBpsz5RoIKAaBqHmI1Iw7O8pzYqek28ICLQhtmnXQAiJ7EjL6Np/bLLHDtgC8z/5iowsWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZoSs3aYtLbI+8UHaFMCMCJKoliayzUivnWpEIlWoDg4=;
- b=ApYdL9a/kyopjZipozn/1EPxuLI31nEQ8klSvCxK9ymsyeWo+NPSngPyPgwokHbehtshtOiGUEg3Nbr7bK9vaiVhqQEYW3V3L6uIo7ewyZ13HV0elUfybiJVSE9YvwS2beST3HUnl658ar9EUEs+7Gk0nWAaxYNBJuXkE+sbFFtgfxTxosNeAc3oRaXUF6MaCk8fRW/Ys/lGQSwXDsakDNVW7aj+vcUXaDU5A72hS77y0pOgwBnU9S7fqJpEjkdq2xPvp1gKuMvzCqRT3aJbgvO78E0qPMs2UNDzf/MnFvwsVyxWbHPTJGy3KhVTATM6sfzzZRN91keDQWaMeBoA1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM8PR11MB5703.namprd11.prod.outlook.com (2603:10b6:8:22::5) by
- CYYPR11MB8330.namprd11.prod.outlook.com (2603:10b6:930:b8::14) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8422.19; Tue, 11 Feb 2025 05:32:15 +0000
-Received: from DM8PR11MB5703.namprd11.prod.outlook.com
- ([fe80::f734:e507:3083:e454]) by DM8PR11MB5703.namprd11.prod.outlook.com
- ([fe80::f734:e507:3083:e454%6]) with mapi id 15.20.8445.008; Tue, 11 Feb 2025
- 05:32:15 +0000
-Message-ID: <bc54d970-6ea6-4ed4-b39b-c75a49a9b705@intel.com>
-Date: Tue, 11 Feb 2025 11:02:03 +0530
+ 15.2.1258.34; Tue, 11 Feb 2025 14:28:35 +0800
+Message-ID: <b368e760-339f-48ba-98ee-ae52645d3723@huawei.com>
+Date: Tue, 11 Feb 2025 14:28:34 +0800
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/11] mtd: intel-dg: wake card on operations
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>, Alexander Usyskin
- <alexander.usyskin@intel.com>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
- <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Reuven Abliyev <reuven.abliyev@intel.com>, Oren Weil
- <oren.jer.weil@intel.com>, <linux-mtd@lists.infradead.org>,
- <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250101153925.865703-1-alexander.usyskin@intel.com>
- <20250101153925.865703-8-alexander.usyskin@intel.com>
- <Z5qiyRzkdgwQ9kTP@intel.com>
-Content-Language: en-GB
-From: "Poosa, Karthik" <karthik.poosa@intel.com>
-In-Reply-To: <Z5qiyRzkdgwQ9kTP@intel.com>
+Subject: Re: [PATCH v2 drm-dp 1/7] drm/hisilicon/hibmc: Add dp phy cfg to
+ adjust serdes rate, voltage and pre-emphasis
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <liangjian010@huawei.com>,
+ <chenjianmin@huawei.com>, <lidongming5@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <shiyongbang@huawei.com>
+References: <20250210144959.100551-1-shiyongbang@huawei.com>
+ <20250210144959.100551-2-shiyongbang@huawei.com>
+ <63t7lgayor3rpsdbeluwjt6ccohmsz4facj6illae6wn5nhbu4@kek3iggrioq4>
+From: Yongbang Shi <shiyongbang@huawei.com>
+In-Reply-To: <63t7lgayor3rpsdbeluwjt6ccohmsz4facj6illae6wn5nhbu4@kek3iggrioq4>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0095.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:af::6) To DM8PR11MB5703.namprd11.prod.outlook.com
- (2603:10b6:8:22::5)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM8PR11MB5703:EE_|CYYPR11MB8330:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7858052-24c7-4cf1-c0f4-08dd4a5d7133
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ak9TcWVROE80aFhXdWFPSnRwb3QvVTdLaVB4YnlJeWZhemkrS2krUU5SNFFh?=
- =?utf-8?B?N21jbkE2em00UGdkVERlZGVZYUk0M2FENmwrWW9TQVluaWhsRGhWc3lMOFZy?=
- =?utf-8?B?SUp0QjlJcmVxSUt6WjNWNEErcHZhaE1hMGRpdStHL3BpVG41cHU3cGN3aHJo?=
- =?utf-8?B?blViWjdGNnlmTzFFRG5FL2tKYUVobU51NlREQStyMU9UdDVjUUl6NHdwYndn?=
- =?utf-8?B?eFREUW5tNjNIUlNJQ1B5bFpMNGh2MzlrS09CQTl4U0VseVRtemRUL3ljOElr?=
- =?utf-8?B?c1Fuck1XbkFwRkVDb0NrbUhnWEM3VWl1SUZPTGtmRkxocUVPWm5ZdkpRMjRF?=
- =?utf-8?B?RnA4eC9XTUhhUTNpWXRRQ09oaTVMeFRqQ3ZkczZwajZTR0xCRmNZcm1kb1F1?=
- =?utf-8?B?QzBtR3AxcHdxODB3WTByRkQxdXRHUjZUcEx6SWRlK0h1c1R3WE5sUjRrQUN0?=
- =?utf-8?B?OGNJaXMxMHhiZVBQaUsxUFJwbm5SbFJWNXB1U25KSmNOQXpXYkM0L1dYTUhV?=
- =?utf-8?B?RUZkd2FuYng2VkVSM3NBZ2VQbWdsT2lQbVdhQTlua2RzRTNuQ3k4dzhNUngz?=
- =?utf-8?B?NHRiRVVNWURjd1EwVHhpQ09RK3d0dnRHSDh2SzFtL2gyOVQ5NDJ4bDBlM1Rt?=
- =?utf-8?B?cHVWR1RuMEJjZjRHT3hLYWpKbTVzWnVSa2dIbGtVbWdrSmhoNU0rcm5seXFH?=
- =?utf-8?B?TU1MM1pEeWw3QXR0dUJZV1l4aFdEMEZoMSt5Z2tGa2E3YVFSNkJmQ1hKSWpz?=
- =?utf-8?B?bHc4aklzTk8vbE1veVh2QWRMOFJQNFVEWjFTU2Jmai95TllOc3JudzRqWGZy?=
- =?utf-8?B?Mmx6TWNwT2VmUUZSVHlaQW9PUmdvRDdRU1BPQ0Z5T1c3cmVGMk9hWnVtdkN0?=
- =?utf-8?B?MXB1K1BPczN3MWI2cW9ZRGludkI4Q1p5SDJHcWhVNHRNaUlEZmhQeFlPaTc1?=
- =?utf-8?B?MXMvNXpXeDJiZ2IxV0U5dTZGSm1PWVJLMGNLQ3I1K2xHejBjUW9xdjZxNmF2?=
- =?utf-8?B?OHRZZ3RJZ0VDMksrTWRnN3hYU3lBdlpEZlRtN0pTQTdmeHFueWZFS25ONXU4?=
- =?utf-8?B?WUV6cmFTcDk5Yk5YcDBDbUxSeGQ1anQrMTdoSkE2b2RwZHFnWVlRTTZNakZT?=
- =?utf-8?B?aTNyOW1IU0k1YWpJKzRuditCa3FmdzlheXZ3VEZkOGh2OVNNNDhueFRvSDRu?=
- =?utf-8?B?UEdZbm1QVFYyTEhNa1FWOTIzaG5EUVc1dEQ5RzRjQ1MzUWQrNDhIUVA3eWdH?=
- =?utf-8?B?clJQVEpEMjNnUGdqbnlhd0ZVZzcxTXovRGYxV1BrV1g3eWJQaldjZnE0Wk5E?=
- =?utf-8?B?QjNOYitIbm9Ub3FCcHVwMzJEZW9YWWw1RW1FaGdZSmZSWWs3Z1pBZ2c0VlJR?=
- =?utf-8?B?MWJDL1N5NDg4eGs4Q3IzcEtvbVhjckpwTDFoTEpLV1JLRjVoMWFmZlRtT01E?=
- =?utf-8?B?dGVPWEVkZnJqenhaNCs3Z0FqaGt4cnNBOTlTS0k0MDBtMWM2MmRJaVdhV3dV?=
- =?utf-8?B?UDNoOUlqOE5HclpUNmMyVE1QQkV5Nit3Z1RjWUw0djB4NlNIQlk5UytpeFNN?=
- =?utf-8?B?eUNXb28wT3duZU9hMTdLZ1BzSXVYV3M5bHFzc1JXeFJNMWNXclVCYjJSTG02?=
- =?utf-8?B?SjY4Tjl0bEYrR0RpL2NJWHdsSWRtTEprcXQ1UXJDdU1DRmIrM2JheG92Njlu?=
- =?utf-8?B?bjA2U3RJZmt0eE0rN2xKMkpNcG9lai9xOW5WT1lOTWMydjZKaGdPT01CMzc2?=
- =?utf-8?B?dHV6N0N3aElKSHE5c3RXZVhuREM5dm1naUZZM1F3YzZDR1poN2U5cGxjRlJs?=
- =?utf-8?B?bFBTQzBDY0N3aEFyNWk1QnlYWVRicGxmU3hwbHF0bit6NEorUnVqZ2t5UkxK?=
- =?utf-8?Q?x1IX9gdqHM0Xk?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM8PR11MB5703.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b0Rja0FySFVrTjBpMnVTWnFCdGVnZ1U1SzdHeGxJckROc3RFSUdsY2FPZ0Vl?=
- =?utf-8?B?L3JHMmxIMDgyQU4zQmxReDdEUHh0OW8ycXYwdXpkVFRsL3EycFRNL2NqNklu?=
- =?utf-8?B?RlRhVTR4TCswUDJGb1RFYytzWUVmWmN2dzdHQkRFYldGZ2ZDVHZQb1BLQ0Rt?=
- =?utf-8?B?REEzMkorVUoyR1ExNzg0K09ScFVwWG5zYW4yRVhYYmRlYURkUkRhdWVqVHJZ?=
- =?utf-8?B?bEhIZksxWjk1VUJhUHlaaDQrcUloVXY4U1JGMzVHOGttQXhTM3ZHempTa2dE?=
- =?utf-8?B?d1NxYm1lOVljeThjQUVod2xxSjhzbEdMbDIxWHJ5N0JmQUF3aWJ5bmZMV1pV?=
- =?utf-8?B?STU5dCtrSmtQM2IzcHhCTWRyU1RKU3pLcWZ3OVN3TG4vcitRd2NKUVBDYlVD?=
- =?utf-8?B?azN3RmRTOUdHeldMTk1QOVQvYWJ6L1ErVkJpREJ6bExZRnFxb2Mrblk0ZjdW?=
- =?utf-8?B?TWYrUGNmd09ZRHdYTlpQSEl0TmRiQlNJMG5HaXd6bDVKNG1PUTJPcXRMcElq?=
- =?utf-8?B?cjRCSGY1c3I3SVBGbzFMMzRoUmNvVkxVaCtKb1lhOExCK3BTMlRxQzJHTGVx?=
- =?utf-8?B?Uk9vaXZzbXhwUnUyd1pZbzRlMlVqbUx2SXN4MXhnZ1NsQmhwYmJ5SFZiTWs0?=
- =?utf-8?B?ZGY0UUNOOXhMRkkxd3pGVFlEVlhPRUt5Z3NHM29saFpOenozbXp0a21Fak5U?=
- =?utf-8?B?dUxyekt5d2FHT1B4d08rYjFSckk4Q3hiTnVyaWR2b1gzTHFqbjNHWlZZeWla?=
- =?utf-8?B?elZjR0hQcExBOTRlUHhybG1IdElBaHcwZHg4VnZSS1l6VVJZYmhaN2p6Tzlq?=
- =?utf-8?B?S2prVWlDL3l2Q0NwbVk5ZERsZVBDSm12dHJ5QXh3amdYNHJ4dW9xUGRNWGdO?=
- =?utf-8?B?NjV1VGhWbkxFTlFoTWdxZVpQTGN6c0lXcVJKMS9ibysyUzNSSGc0Z3E5VmFW?=
- =?utf-8?B?KzQ4Z2czcFMrQWpVTFVPMU9SZm9pdFRWR0NMWlN4aUVnd3oxdllLQ1BnZFJM?=
- =?utf-8?B?c21kZklKZXZydUI5MkZoOFU4dExteWNOa0tnT1lJM3BiWkV6MjNkenhwZEc0?=
- =?utf-8?B?ODVubzU2MElPcFR0eWR3RW14QUU3bWNRZ3RCL0RjZ2thdVhHWWtHUmZYdHBy?=
- =?utf-8?B?T3RCM0k5bklhbGFXVklyRkI5SGQ4VWc1U0tvdzdqZkp1ODNreGIzank3ZWd0?=
- =?utf-8?B?dzN0YU0yMkRmUFlNZldmc0IzaVljRnBDU2dDSTlSa2c5VUJxQWlsR1d3UmJR?=
- =?utf-8?B?ZmFidG4rbXJqQ3FEZHRLdzI1REhnMmxFN2N3SkpkS24zQ1lxSzh3YlU0SG5a?=
- =?utf-8?B?cUx6QzcvVE03QXQ2aU43UFJYN1pNV2hJYTBUU1o1Rk9lektQcDFkZXpiQXFX?=
- =?utf-8?B?N2JpbGpHc3RxTHovbWIrWTQxS1FXbzEzNDJkMk1kcklXVm1GWER4bnZzOENv?=
- =?utf-8?B?cTBVeE5jM1BUaDNzQVN3RUY1QkFlSjc4ZWwrRFd5M1MrUVNMNzdHNXA2V0ZR?=
- =?utf-8?B?NlQ1NGdDM1dNdVRQZVNwRmtBTTZidWdHSWI1NGFldUp2cUNqck4yVGdLc2dt?=
- =?utf-8?B?UXMwdFBjOGYzWkhPU3dBRytnYWRrMGZGSjFUaStidDl6Nk5YRE9SQTBYWEN4?=
- =?utf-8?B?Z1QzdkxMNFhFK0xra3RPZkVERWc0TUNkbUtyUUFaaHFZWXJ3dUY0L09kZDQx?=
- =?utf-8?B?WVlJZ0x3M1RJdHdqTGJYV1JIZUZIUEMwZXRjaDkvc1lBdWY4Mjd0eWFOeldj?=
- =?utf-8?B?QUtjTnZVVnBIRzcrRkY0NXVSdDl0SkhWaUptTVR1bVl2VDNlZk40L1ljZElY?=
- =?utf-8?B?M2pEQ3Q5RlhzWGxtOEJ3QlNmWHI4YVZ0S3kwdjIvenVuNmJub3ZCY3hKS20z?=
- =?utf-8?B?SGNFQTRXcHVjbjlXbEcrUFlFaVpiTGF5U21DWlkrSTdQeDdJMFVaU2IwZ1Ns?=
- =?utf-8?B?bVUxSGN1WFZMZmFwRHZvNW8reEVNYmdpcGVLWmZwTmduMVlLZ21WVXU1RHVs?=
- =?utf-8?B?Q3k5c3pvSW9qK2ZrWFR6RGNxazBMNFhVdmErUG91WEZSVjdZM0hXOWhleFFO?=
- =?utf-8?B?eGpGSVJhaFJJYkplaDMrVlBSbnFvT09VMnVCcm4yWlpMbmZQbWRoTDExUE1i?=
- =?utf-8?Q?U0UabgJmb6DZM3tzUqu5grKm/?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7858052-24c7-4cf1-c0f4-08dd4a5d7133
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5703.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Feb 2025 05:32:15.1941 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x3QvIsse9RXYB0NlI+prQKGjx6RO+A/3uQnMp9lxIuirc4XH0Isd1JGJsFex5rlAN0II3elqFWvs1Dwk8EfIfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8330
-X-OriginatorOrg: intel.com
+X-Originating-IP: [10.159.166.136]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemd500013.china.huawei.com (7.221.188.12)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -210,213 +63,237 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 30-01-2025 03:21, Rodrigo Vivi wrote:
-> On Wed, Jan 01, 2025 at 05:39:21PM +0200, Alexander Usyskin wrote:
->> Enable runtime PM in mtd driver to notify graphics driver that
->> whole card should be kept awake while nvm operations are
->> performed through this driver.
+> On Mon, Feb 10, 2025 at 10:49:53PM +0800, Yongbang Shi wrote:
+>> From: Baihan Li <libaihan@huawei.com>
 >>
->> CC: Lucas De Marchi <lucas.demarchi@intel.com>
->> Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
->> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+>> This serdes is inited and configured for dp, and integrating them into dp
+>> init and dp link training process.
+>> For rate changing, we can change from 1.62-8.2Gpbs by cfg reg.
+>> For voltage and pre-emphasis levels changing, we can cfg different
+>> serdes ffe value.
+>>
+>> Signed-off-by: Baihan Li <libaihan@huawei.com>
+>> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 >> ---
->>   drivers/mtd/devices/mtd-intel-dg.c | 79 +++++++++++++++++++++++++-----
->>   1 file changed, 67 insertions(+), 12 deletions(-)
+>> ChangeLog:
+>> v1 -> v2:
+>>    - splittting the patch and add more detailed the changes in the commit message, suggested by Dmitry Baryshkov.
+>>    - changing all names of dp phy to dp serdes.
+> Nit: subject still mentions phy.
+>
+> Nit #2: The s/phy/serdes/ doesn't change the fact that you are still
+> doing PHY-like programming. As such, please mention in the commit
+> message that using PHY subsystem is impossible for you.
+
+Hi Dmitry,
+
+Thanks for the review. Our phy cfg is relatively simple, just need two register configurations. Don't need too much
+
+functions, like: power on/off, Initialize, and some complex configurations, so I'm not going to use the phy framework.
+
+I will add in commit too.
+
+
+Sincerely,
+
+Baihan Li
+
+
+>> ---
+>>   drivers/gpu/drm/hisilicon/hibmc/Makefile      |  2 +-
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  1 +
+>>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    |  4 +
+>>   .../gpu/drm/hisilicon/hibmc/dp/dp_serdes.c    | 74 +++++++++++++++++++
+>>   .../gpu/drm/hisilicon/hibmc/dp/dp_serdes.h    | 36 +++++++++
+>>   5 files changed, 116 insertions(+), 1 deletion(-)
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
+>>   create mode 100644 drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
 >>
->> diff --git a/drivers/mtd/devices/mtd-intel-dg.c b/drivers/mtd/devices/mtd-intel-dg.c
->> index 230bf444b7fe..a84153812291 100644
->> --- a/drivers/mtd/devices/mtd-intel-dg.c
->> +++ b/drivers/mtd/devices/mtd-intel-dg.c
->> @@ -15,11 +15,14 @@
->>   #include <linux/module.h>
->>   #include <linux/mtd/mtd.h>
->>   #include <linux/mtd/partitions.h>
->> +#include <linux/pm_runtime.h>
->>   #include <linux/string.h>
->>   #include <linux/slab.h>
->>   #include <linux/sizes.h>
->>   #include <linux/types.h>
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> index 95a4ed599d98..43de077d6769 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+>> @@ -1,5 +1,5 @@
+>>   # SPDX-License-Identifier: GPL-2.0-only
+>>   hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+>> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o hibmc_drm_dp.o
+>> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_serdes.o hibmc_drm_dp.o
 >>   
->> +#define INTEL_DG_NVM_RPM_TIMEOUT 500
->> +
->>   struct intel_dg_nvm {
->>   	struct kref refcnt;
->>   	struct mtd_info mtd;
->> @@ -460,6 +463,7 @@ static int intel_dg_mtd_erase(struct mtd_info *mtd, struct erase_info *info)
->>   	loff_t from;
->>   	size_t len;
->>   	size_t total_len;
->> +	int ret = 0;
+>>   obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>> index 2c52a4476c4d..e7746bc4b592 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
+>> @@ -38,6 +38,7 @@ struct hibmc_dp_dev {
+>>   	struct mutex lock; /* protects concurrent RW in hibmc_dp_reg_write_field() */
+>>   	struct hibmc_dp_link link;
+>>   	u8 dpcd[DP_RECEIVER_CAP_SIZE];
+>> +	void __iomem *serdes_base;
+>>   };
 >>   
->>   	if (WARN_ON(!nvm))
->>   		return -EINVAL;
->> @@ -474,20 +478,28 @@ static int intel_dg_mtd_erase(struct mtd_info *mtd, struct erase_info *info)
->>   	total_len = info->len;
->>   	addr = info->addr;
+>>   #define dp_field_modify(reg_value, mask, val)				\
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> index a8d543881c09..39fd3687efca 100644
+>> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
+>> @@ -7,6 +7,7 @@
+>>   #include "dp_comm.h"
+>>   #include "dp_reg.h"
+>>   #include "dp_hw.h"
+>> +#include "dp_serdes.h"
 >>   
->> +	ret = pm_runtime_resume_and_get(&mtd->dev);
-> I'm glad we are not accessing the parent directly here anymore,
-> but to me it is still strange.
-> I feel that we should be using &aux_dev->dev; instead of mtd->dev.
+>>   static void hibmc_dp_set_tu(struct hibmc_dp_dev *dp, struct drm_display_mode *mode)
+>>   {
+>> @@ -165,6 +166,9 @@ int hibmc_dp_hw_init(struct hibmc_dp *dp)
+>>   
+>>   	hibmc_dp_aux_init(dp_dev);
+>>   
+>> +	if (hibmc_dp_serdes_init(dp_dev))
+>> +		return -EAGAIN;
+> Can you simply propagate the return value here?
 >
-> What am I missing?
+>> +
+>>   	dp_dev->link.cap.lanes = 0x2;
+>>   	dp_dev->link.cap.link_rate = DP_LINK_BW_2_7;
+>>   
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
+>> new file mode 100644
+>> index 000000000000..66586db2268a
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.c
+>> @@ -0,0 +1,74 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +// Copyright (c) 2024 Hisilicon Limited.
+>> +
+>> +#include <linux/delay.h>
+>> +#include <drm/drm_device.h>
+>> +#include <drm/drm_print.h>
+>> +#include "dp_comm.h"
+>> +#include "dp_config.h"
+>> +#include "dp_reg.h"
+>> +#include "dp_serdes.h"
+>> +
+>> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX])
+>> +{
+>> +	u32 serdes_tx_cfg[4][4] = { {DP_SERDES_VOL0_PRE0, DP_SERDES_VOL0_PRE1,
+> static const
 >
->> +	if (ret < 0) {
->> +		dev_err(&mtd->dev, "rpm: get failed %d\n", ret);
->> +		return ret;
+>> +				     DP_SERDES_VOL0_PRE2, DP_SERDES_VOL0_PRE3},
+>> +				    {DP_SERDES_VOL1_PRE0, DP_SERDES_VOL1_PRE1,
+>> +				     DP_SERDES_VOL1_PRE2}, {DP_SERDES_VOL2_PRE0,
+>> +				     DP_SERDES_VOL2_PRE1}, {DP_SERDES_VOL3_PRE0}};
+>> +	int cfg[2];
+>> +	int i;
+>> +
+>> +	for (i = 0; i < HIBMC_DP_LANE_NUM_MAX; i++) {
+>> +		cfg[i] = serdes_tx_cfg[(train_set[i] & 0x3)]
+>> +			 [(train_set[i] << DP_TRAIN_PRE_EMPHASIS_SHIFT & 0x3)];
+>> +		if (!cfg[i]) {
+>> +			cfg[i] = DP_SERDES_VOL3_PRE0;
+>> +			drm_warn(dp->dev, "dp serdes cfg beyonds the allowable range\n");
+> Is it something that you should be mitigating? Can you return -EINVAL
+> instead?
+
+Yeah, I just consider that if it happens we still have chances to try link training.
+
+Alright, I'll just return err.
+
+
+>> +		}
+>> +
+>> +		/* lane1 offset is 4 */
+>> +		writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, cfg[i]),
+>> +		       dp->serdes_base + HIBMC_DP_PMA_LANE0_OFFSET + i * 4);
 >> +	}
 >> +
->>   	guard(mutex)(&nvm->lock);
->>   
->>   	while (total_len > 0) {
->>   		if (!IS_ALIGNED(addr, SZ_4K) || !IS_ALIGNED(total_len, SZ_4K)) {
->>   			dev_err(&mtd->dev, "unaligned erase %llx %zx\n", addr, total_len);
->>   			info->fail_addr = addr;
->> -			return -ERANGE;
->> +			ret = -ERANGE;
->> +			goto out;
->>   		}
->>   
->>   		idx = idg_nvm_get_region(nvm, addr);
->>   		if (idx >= nvm->nregions) {
->>   			dev_err(&mtd->dev, "out of range");
->>   			info->fail_addr = MTD_FAIL_ADDR_UNKNOWN;
->> -			return -ERANGE;
->> +			ret = -ERANGE;
->> +			goto out;
->>   		}
->>   
->>   		from = addr - nvm->regions[idx].offset;
->> @@ -503,14 +515,18 @@ static int intel_dg_mtd_erase(struct mtd_info *mtd, struct erase_info *info)
->>   		if (bytes < 0) {
->>   			dev_dbg(&mtd->dev, "erase failed with %zd\n", bytes);
->>   			info->fail_addr += nvm->regions[idx].offset;
->> -			return bytes;
->> +			ret = bytes;
->> +			goto out;
->>   		}
->>   
->>   		addr += len;
->>   		total_len -= len;
->>   	}
->>   
->> -	return 0;
->> +out:
->> +	pm_runtime_mark_last_busy(&mtd->dev);
->> +	pm_runtime_put_autosuspend(&mtd->dev);
->> +	return ret;
->>   }
->>   
->>   static int intel_dg_mtd_read(struct mtd_info *mtd, loff_t from, size_t len,
->> @@ -539,17 +555,25 @@ static int intel_dg_mtd_read(struct mtd_info *mtd, loff_t from, size_t len,
->>   	if (len > nvm->regions[idx].size - from)
->>   		len = nvm->regions[idx].size - from;
->>   
->> +	ret = pm_runtime_resume_and_get(&mtd->dev);
->> +	if (ret < 0) {
->> +		dev_err(&mtd->dev, "rpm: get failed %zd\n", ret);
->> +		return ret;
+>> +	usleep_range(300, 500);
+>> +
+>> +	if (readl(dp->serdes_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_SERDES_DONE) {
+>> +		drm_err(dp->dev, "dp serdes cfg failed\n");
+> drm_dbg?
+>
+>> +		return -EAGAIN;
 >> +	}
 >> +
->>   	guard(mutex)(&nvm->lock);
->>   
->>   	ret = idg_read(nvm, region, from, len, buf);
->>   	if (ret < 0) {
->>   		dev_dbg(&mtd->dev, "read failed with %zd\n", ret);
->> -		return ret;
->> +	} else {
->> +		*retlen = ret;
->> +		ret = 0;
->>   	}
->>   
->> -	*retlen = ret;
->> -
->> -	return 0;
->> +	pm_runtime_mark_last_busy(&mtd->dev);
->> +	pm_runtime_put_autosuspend(&mtd->dev);
->> +	return ret;
->>   }
->>   
->>   static int intel_dg_mtd_write(struct mtd_info *mtd, loff_t to, size_t len,
->> @@ -578,17 +602,25 @@ static int intel_dg_mtd_write(struct mtd_info *mtd, loff_t to, size_t len,
->>   	if (len > nvm->regions[idx].size - to)
->>   		len = nvm->regions[idx].size - to;
->>   
->> +	ret = pm_runtime_resume_and_get(&mtd->dev);
->> +	if (ret < 0) {
->> +		dev_err(&mtd->dev, "rpm: get failed %zd\n", ret);
->> +		return ret;
+>> +	return 0;
+>> +}
+>> +
+>> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp)
+>> +{
+>> +	writel(rate, dp->serdes_base + HIBMC_DP_LANE0_RATE_OFFSET);
+>> +	writel(rate, dp->serdes_base + HIBMC_DP_LANE1_RATE_OFFSET);
+>> +
+>> +	usleep_range(300, 500);
+>> +
+>> +	if (readl(dp->serdes_base + HIBMC_DP_LANE_STATUS_OFFSET) != DP_SERDES_DONE) {
+>> +		drm_err(dp->dev, "dp serdes rate switching failed\n");
+>> +		return -EAGAIN;
 >> +	}
 >> +
->>   	guard(mutex)(&nvm->lock);
->>   
->>   	ret = idg_write(nvm, region, to, len, buf);
->>   	if (ret < 0) {
->>   		dev_dbg(&mtd->dev, "write failed with %zd\n", ret);
->> -		return ret;
->> +	} else {
->> +		*retlen = ret;
->> +		ret = 0;
->>   	}
->>   
->> -	*retlen = ret;
->> -
->> -	return 0;
->> +	pm_runtime_mark_last_busy(&mtd->dev);
->> +	pm_runtime_put_autosuspend(&mtd->dev);
->> +	return ret;
->>   }
->>   
->>   static void intel_dg_nvm_release(struct kref *kref)
->> @@ -670,6 +702,15 @@ static int intel_dg_nvm_init_mtd(struct intel_dg_nvm *nvm, struct device *device
->>   
->>   	kfree(parts);
->>   
->> +	if (ret)
->> +		goto out;
+>> +	if (rate < DP_SERDES_BW_8_1)
+>> +		drm_warn(dp->dev, "reducing serdes rate to :%d\n",
+>> +			 rate ? rate * HIBMC_DP_LINK_RATE_CAL * 10 : 162);
+> drm_dbg
+>
 >> +
->> +	devm_pm_runtime_enable(&nvm->mtd.dev);
+>> +	return 0;
+>> +}
 >> +
->> +	pm_runtime_set_autosuspend_delay(&nvm->mtd.dev, INTEL_DG_NVM_RPM_TIMEOUT);
->> +	pm_runtime_use_autosuspend(&nvm->mtd.dev);
+>> +int hibmc_dp_serdes_init(struct hibmc_dp_dev *dp)
+>> +{
+>> +	dp->serdes_base = dp->base + HIBMC_DP_HOST_OFFSET;
 >> +
->> +out:
->>   	return ret;
->>   }
->>   
->> @@ -720,6 +761,17 @@ static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
->>   		n++;
->>   	}
->>   
->> +	devm_pm_runtime_enable(device);
+>> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_SERDES_VOL0_PRE0),
+>> +	       dp->serdes_base + HIBMC_DP_PMA_LANE0_OFFSET);
+>> +	writel(FIELD_PREP(HIBMC_DP_PMA_TXDEEMPH, DP_SERDES_VOL0_PRE0),
+>> +	       dp->serdes_base + HIBMC_DP_PMA_LANE1_OFFSET);
 >> +
->> +	pm_runtime_set_autosuspend_delay(device, INTEL_DG_NVM_RPM_TIMEOUT);
->> +	pm_runtime_use_autosuspend(device);
+>> +	return hibmc_dp_serdes_rate_switch(DP_SERDES_BW_8_1, dp);
+>> +}
+>> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
+>> new file mode 100644
+>> index 000000000000..57f7f054f2b7
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_serdes.h
+>> @@ -0,0 +1,36 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>> +/* Copyright (c) 2025 Hisilicon Limited. */
 >> +
->> +	ret = pm_runtime_resume_and_get(device);
->> +	if (ret < 0) {
->> +		dev_err(device, "rpm: get failed %d\n", ret);
->> +		goto err_norpm;
->> +	}
+>> +#ifndef DP_SERDES_H
+>> +#define DP_SERDES_H
 >> +
->>   	nvm->base = devm_ioremap_resource(device, &invm->bar);
->>   	if (IS_ERR(nvm->base)) {
->>   		dev_err(device, "mmio not mapped\n");
->> @@ -742,9 +794,12 @@ static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
->>   
->>   	dev_set_drvdata(&aux_dev->dev, nvm);
->>   
->> +	pm_runtime_put(device);
->>   	return 0;
->>   
->>   err:
->> +	pm_runtime_put(device);
->> +err_norpm:
->>   	kref_put(&nvm->refcnt, intel_dg_nvm_release);
->>   	return ret;
->>   }
+>> +#define HIBMC_DP_HOST_OFFSET		0x10000
+>> +#define HIBMC_DP_LANE0_RATE_OFFSET	0x4
+>> +#define HIBMC_DP_LANE1_RATE_OFFSET	0xc
+>> +#define HIBMC_DP_LANE_STATUS_OFFSET	0x10
+>> +#define HIBMC_DP_PMA_LANE0_OFFSET	0x18
+>> +#define HIBMC_DP_PMA_LANE1_OFFSET	0x1c
+>> +#define HIBMC_DP_PMA_TXDEEMPH		GENMASK(18, 1)
+>> +
+>> +#define DP_SERDES_VOL0_PRE0		0x280
+>> +#define DP_SERDES_VOL0_PRE1		0x2300
+>> +#define DP_SERDES_VOL0_PRE2		0x53c0
+>> +#define DP_SERDES_VOL0_PRE3		0x8400
+>> +#define DP_SERDES_VOL1_PRE0		0x380
+>> +#define DP_SERDES_VOL1_PRE1		0x3440
+>> +#define DP_SERDES_VOL1_PRE2		0x6480
+>> +#define DP_SERDES_VOL2_PRE0		0x500
+>> +#define DP_SERDES_VOL2_PRE1		0x4500
+>> +#define DP_SERDES_VOL3_PRE0		0x600
+> These need some explanation.
+>
+>> +#define DP_SERDES_BW_8_1		0x3
+>> +#define DP_SERDES_BW_5_4		0x2
+>> +#define DP_SERDES_BW_2_7		0x1
+>> +#define DP_SERDES_BW_1_62		0x0
+>> +
+>> +#define DP_SERDES_DONE			0x3
+>> +
+>> +int hibmc_dp_serdes_init(struct hibmc_dp_dev *dp);
+>> +int hibmc_dp_serdes_rate_switch(u8 rate, struct hibmc_dp_dev *dp);
+>> +int hibmc_dp_serdes_set_tx_cfg(struct hibmc_dp_dev *dp, u8 train_set[HIBMC_DP_LANE_NUM_MAX]);
+>> +
+>> +#endif
 >> -- 
->> 2.43.0
-
-Acked-by: Karthik Poosa <karthik.poosa@intel.com>
-
+>> 2.33.0
+>>
