@@ -2,104 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7CAEA30FD7
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 16:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD69A31231
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 17:57:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAA8E10E6EB;
-	Tue, 11 Feb 2025 15:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF8E410E714;
+	Tue, 11 Feb 2025 16:57:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Ra4fURoG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Yy0eZub";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ra4fURoG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Yy0eZub";
+	dkim=pass (1024-bit key; unprotected) header.d=yandex-team.com header.i=@yandex-team.com header.b="LJ5WKFHm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D03FD10E6EB;
- Tue, 11 Feb 2025 15:32:00 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B70565C44A;
- Tue, 11 Feb 2025 10:08:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739268530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
- b=Ra4fURoGuAhKdETVrmii++K+5Hi7vd+oSsoT5AV5Np3oTbE0gFHG0sj+aiw9YzvPjmR02M
- 3l9tk48JAqieulwGZifx+AbKQ+JpVSLH8a4nx5mzkC+RTwydgxwIa2ork4ZORuDpqI1BqH
- Q88xkD6M24Ev+q3mDuXjRlICGxzhfi8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739268530;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
- b=9Yy0eZubkbeKyqzMoLK0UVTSRYlVO97UMmoNvJs8fZV0STNwTn5agvDlHzb9RoFM9XKscF
- oTfV5GbvBNPjPRBg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ra4fURoG;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9Yy0eZub
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739268530; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
- b=Ra4fURoGuAhKdETVrmii++K+5Hi7vd+oSsoT5AV5Np3oTbE0gFHG0sj+aiw9YzvPjmR02M
- 3l9tk48JAqieulwGZifx+AbKQ+JpVSLH8a4nx5mzkC+RTwydgxwIa2ork4ZORuDpqI1BqH
- Q88xkD6M24Ev+q3mDuXjRlICGxzhfi8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739268530;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=3s2MHc3chpf4YmzucLQAgde8O86lj1K8eKaB4Rm+fac=;
- b=9Yy0eZubkbeKyqzMoLK0UVTSRYlVO97UMmoNvJs8fZV0STNwTn5agvDlHzb9RoFM9XKscF
- oTfV5GbvBNPjPRBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 71C6713715;
- Tue, 11 Feb 2025 10:08:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id F1eQGrIhq2fHcgAAD6G6ig
- (envelope-from <tiwai@suse.de>); Tue, 11 Feb 2025 10:08:50 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>
-Subject: [PATCH] drm/amd/display: Add sanity checks for drm_edid_raw()
-Date: Tue, 11 Feb 2025 11:08:46 +0100
-Message-ID: <20250211100847.12937-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+Received: from forwardcorp1a.mail.yandex.net (forwardcorp1a.mail.yandex.net
+ [178.154.239.72])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8184210E2E8;
+ Tue, 11 Feb 2025 11:53:11 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net
+ [IPv6:2a02:6b8:c0f:1286:0:640:6f2b:0])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTPS id A65BE614BD;
+ Tue, 11 Feb 2025 14:46:00 +0300 (MSK)
+Received: from dellarbn.yandex.net (unknown [10.214.35.248])
+ by mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id njMaW61IYa60-0cIaOumc; Tue, 11 Feb 2025 14:45:59 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.com;
+ s=default; t=1739274360;
+ bh=y1+8TKaZyt8/6ij0O/nQoH47E1MV/9ZBI4/TT9VKt0Q=;
+ h=Message-ID:Date:Cc:Subject:To:From;
+ b=LJ5WKFHmyCrCn1KYL3qcylN81InuVfSerkMsn+VBoeKh8/wdxrbUdzZdQ+PpMKMyh
+ oGWt9zOHcNbRA3SiMQ2rM6FIaaD8FM4h8AwmMdD3qpAfcSUkrKnO1pBCwXvTw8TKGl
+ FAEAxOhG/j/IwM2mkQ+KPz4ubeN23snm5HpH+GaQ=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-83.vla.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.com
+From: Andrey Ryabinin <arbn@yandex-team.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Kevin Tian <kevin.tian@intel.com>,
+ Yi Liu <yi.l.liu@intel.com>, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ Andrey Ryabinin <arbn@yandex-team.com>, stable@vger.kernel.org
+Subject: [PATCH 1/2] drm/i915/gvt: Store ->kvm reference in intel_vgpu struct.
+Date: Tue, 11 Feb 2025 12:45:43 +0100
+Message-ID: <20250211114544.17845-1-arbn@yandex-team.com>
+X-Mailer: git-send-email 2.45.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: B70565C44A
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_SEVEN(0.00)[9];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:dkim, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns, suse.com:url]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
+X-Mailman-Approved-At: Tue, 11 Feb 2025 16:57:31 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,54 +69,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When EDID is retrieved via drm_edid_raw(), it doesn't guarantee to
-return proper EDID bytes the caller wants: it may be either NULL (that
-leads to an Oops) or with too long bytes over the fixed size raw_edid
-array (that may lead to memory corruption).  The latter was reported
-actually when connected with a bad adapter.
+'vfio_device' keeps the ->kvm pointer with elevated counter from the first
+open of the device up until the last close(). So the kvm struct and its
+dependencies (kvm kthreads, cgroups ...) kept alive even for VFIO device
+that don't need ->kvm.
 
-Add sanity checks for drm_edid_raw() to address the above corner
-cases, and return EDID_BAD_INPUT accordingly.
+Copy ->kvm pointer from the vfio_device struct and store it in the
+'intel_vgpu'. Note that kvm_page_track_[un]register_notifier() already
+does get/put calls, keeping the kvm struct alive.
 
-Fixes: 48edb2a4256e ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1236415
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+This will allow to release ->kvm from the vfio_device righ after the
+first open call, so that devices not using kvm not keeping it alive.
+
+Devices that are using kvm (like intel_vgpu) will be expected to mange
+the lifetime of the kvm struct by themselves.
+
+Fixes: 2b48f52f2bff ("vfio: fix deadlock between group lock and kvm lock")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Andrey Ryabinin <arbn@yandex-team.com>
 ---
+ drivers/gpu/drm/i915/gvt/gvt.h   |  1 +
+ drivers/gpu/drm/i915/gvt/kvmgt.c | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-BTW, I'm not sure why memmove() is used instead of memcpy().
-I left as is for now.
-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c  | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index fbd80d8545a8..a92bc12a095e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -980,6 +980,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 	enum dc_edid_status edid_status;
- 	const struct drm_edid *drm_edid;
- 	const struct edid *edid;
-+	size_t edid_len;
+diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+index 2c95aeef4e41..6c62467df22c 100644
+--- a/drivers/gpu/drm/i915/gvt/gvt.h
++++ b/drivers/gpu/drm/i915/gvt/gvt.h
+@@ -232,6 +232,7 @@ struct intel_vgpu {
+ 	unsigned long nr_cache_entries;
+ 	struct mutex cache_lock;
  
- 	if (link->aux_mode)
- 		ddc = &aconnector->dm_dp_aux.aux.ddc;
-@@ -1010,8 +1011,13 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 			return EDID_NO_RESPONSE;
++	struct kvm *kvm;
+ 	struct kvm_page_track_notifier_node track_node;
+ #define NR_BKT (1 << 18)
+ 	struct hlist_head ptable[NR_BKT];
+diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+index b27ff77bfb50..cf418e2c560d 100644
+--- a/drivers/gpu/drm/i915/gvt/kvmgt.c
++++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+@@ -36,6 +36,7 @@
+ #include <linux/init.h>
+ #include <linux/mm.h>
+ #include <linux/kthread.h>
++#include <linux/kvm_host.h>
+ #include <linux/sched/mm.h>
+ #include <linux/types.h>
+ #include <linux/list.h>
+@@ -649,7 +650,7 @@ static bool __kvmgt_vgpu_exist(struct intel_vgpu *vgpu)
+ 		if (!test_bit(INTEL_VGPU_STATUS_ATTACHED, itr->status))
+ 			continue;
  
- 		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
--		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
--		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
-+		if (!edid)
-+			return EDID_BAD_INPUT;
-+		edid_len = EDID_LENGTH * (edid->extensions + 1);
-+		if (edid_len > sizeof(sink->dc_edid.raw_edid))
-+			return EDID_BAD_INPUT;
-+		sink->dc_edid.length = edid_len;
-+		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, edid_len);
+-		if (vgpu->vfio_device.kvm == itr->vfio_device.kvm) {
++		if (vgpu->kvm == itr->kvm) {
+ 			ret = true;
+ 			goto out;
+ 		}
+@@ -664,13 +665,13 @@ static int intel_vgpu_open_device(struct vfio_device *vfio_dev)
+ 	struct intel_vgpu *vgpu = vfio_dev_to_vgpu(vfio_dev);
+ 	int ret;
  
- 		/* We don't need the original edid anymore */
- 		drm_edid_free(drm_edid);
++	vgpu->kvm = vgpu->vfio_device.kvm;
+ 	if (__kvmgt_vgpu_exist(vgpu))
+ 		return -EEXIST;
+ 
+ 	vgpu->track_node.track_write = kvmgt_page_track_write;
+ 	vgpu->track_node.track_remove_region = kvmgt_page_track_remove_region;
+-	ret = kvm_page_track_register_notifier(vgpu->vfio_device.kvm,
+-					       &vgpu->track_node);
++	ret = kvm_page_track_register_notifier(vgpu->kvm, &vgpu->track_node);
+ 	if (ret) {
+ 		gvt_vgpu_err("KVM is required to use Intel vGPU\n");
+ 		return ret;
+@@ -707,8 +708,7 @@ static void intel_vgpu_close_device(struct vfio_device *vfio_dev)
+ 
+ 	debugfs_lookup_and_remove(KVMGT_DEBUGFS_FILENAME, vgpu->debugfs);
+ 
+-	kvm_page_track_unregister_notifier(vgpu->vfio_device.kvm,
+-					   &vgpu->track_node);
++	kvm_page_track_unregister_notifier(vgpu->kvm, &vgpu->track_node);
+ 
+ 	kvmgt_protect_table_destroy(vgpu);
+ 	gvt_cache_destroy(vgpu);
+@@ -1560,7 +1560,7 @@ int intel_gvt_page_track_add(struct intel_vgpu *info, u64 gfn)
+ 	if (kvmgt_gfn_is_write_protected(info, gfn))
+ 		return 0;
+ 
+-	r = kvm_write_track_add_gfn(info->vfio_device.kvm, gfn);
++	r = kvm_write_track_add_gfn(info->kvm, gfn);
+ 	if (r)
+ 		return r;
+ 
+@@ -1578,7 +1578,7 @@ int intel_gvt_page_track_remove(struct intel_vgpu *info, u64 gfn)
+ 	if (!kvmgt_gfn_is_write_protected(info, gfn))
+ 		return 0;
+ 
+-	r = kvm_write_track_remove_gfn(info->vfio_device.kvm, gfn);
++	r = kvm_write_track_remove_gfn(info->kvm, gfn);
+ 	if (r)
+ 		return r;
+ 
 -- 
-2.43.0
+2.45.3
 
