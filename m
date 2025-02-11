@@ -2,134 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956F5A30EE4
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 15:58:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B580AA30CAC
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 14:17:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8419910E2F0;
-	Tue, 11 Feb 2025 14:58:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0EB710E6C5;
+	Tue, 11 Feb 2025 13:17:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RBwcfGYw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9SgXniEK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RBwcfGYw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9SgXniEK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HKjnUSYn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79B4B10E2F0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 14:58:13 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 881EB5BD0B;
- Tue, 11 Feb 2025 07:34:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739259278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XapZj8fn6hrk1id5K05g62Ja0OL4RYHu3GDtWlZPihY=;
- b=RBwcfGYw0yV15g9Y38dTYAOL0jreQqZFZcO75ovIfm3fpcjx9uMw68jBiSVACuUwxNOtx3
- hFlH0S9JZbRMJr/gWlNMpKOdlEmkbdqdVoXkC3sljfk5WMIYP+/+TXCojWgfiiCXaT1rzS
- K341cQ5mdUt5fLm85GGK72hsEiTQtck=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739259278;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XapZj8fn6hrk1id5K05g62Ja0OL4RYHu3GDtWlZPihY=;
- b=9SgXniEKHlA9c3nYPYJKLSsJghNvVShM29e9bprznAlP+ahGEqd7Bw8klBuOog1SUhjVfm
- JvNktnZe06ZbArBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739259278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XapZj8fn6hrk1id5K05g62Ja0OL4RYHu3GDtWlZPihY=;
- b=RBwcfGYw0yV15g9Y38dTYAOL0jreQqZFZcO75ovIfm3fpcjx9uMw68jBiSVACuUwxNOtx3
- hFlH0S9JZbRMJr/gWlNMpKOdlEmkbdqdVoXkC3sljfk5WMIYP+/+TXCojWgfiiCXaT1rzS
- K341cQ5mdUt5fLm85GGK72hsEiTQtck=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739259278;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=XapZj8fn6hrk1id5K05g62Ja0OL4RYHu3GDtWlZPihY=;
- b=9SgXniEKHlA9c3nYPYJKLSsJghNvVShM29e9bprznAlP+ahGEqd7Bw8klBuOog1SUhjVfm
- JvNktnZe06ZbArBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3ACBD13715;
- Tue, 11 Feb 2025 07:34:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id WjLoDI79qme/QAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 11 Feb 2025 07:34:38 +0000
-Message-ID: <445e33f1-280a-436d-8f9a-c94d16c17efd@suse.de>
-Date: Tue, 11 Feb 2025 08:34:37 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 83C8210E6C4
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 13:17:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 578725C10BB;
+ Tue, 11 Feb 2025 13:16:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24332C4CEDD;
+ Tue, 11 Feb 2025 13:17:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739279853;
+ bh=QW95HtSAyRWSgioqNcw892BFhWS6RVT2u9MZYi9Kl6U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=HKjnUSYnWyK4/IOzU7k7AtQp3oXjK2wwFAB5rJdK9V4L7STFUub7wIjG72IEmJo9/
+ /GWeXN6u8D3Qdq1n0qv78tpj49rIUXtWLUkOUdMzwBM0es26sk6v7bQCaiE1dPqtdt
+ y6bXJGiBSXZkEo98P1HVe7z9p+5gn8H4kkX1QrvceIlkWOWmiDPe91/Byy5pdlNkoy
+ 3GJlb9Vsu05VYFRL28xlvP4B/K0LunnDPV5EjoBaB5ng78fYF1px3Cn132uC8C+Bxs
+ FUR2C13CD8GM9hFSyfvT5yF0l/Ec+nd/qeIjjTlZ0BB8/edNV9pXQh+X+OuVu6uChK
+ VdNgQ6e2PSHfA==
+Date: Tue, 11 Feb 2025 14:17:30 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Douglas Anderson <dianders@chromium.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 00/35] drm/bridge: Various quality of life improvements
+Message-ID: <20250211-peculiar-misty-moose-639556@houat>
+References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
+ <yudkovtipwtnofr3o2qwqrmriwxlczrwploieh5i4ke3sx5zhk@5ktlrew7o6k2>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm/hyperv: Fix address space leak when Hyper-V DRM
- device is removed
-To: mhklinux@outlook.com, drawat.floss@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, christophe.jaillet@wanadoo.fr, ssengar@linux.microsoft.com,
- wei.liu@kernel.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org
-References: <20250210193441.2414-1-mhklinux@outlook.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250210193441.2414-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[outlook.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,wanadoo.fr,linux.microsoft.com];
- TAGGED_RCPT(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com,wanadoo.fr];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
- TO_DN_NONE(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="muzs5dl4zad52eyq"
+Content-Disposition: inline
+In-Reply-To: <yudkovtipwtnofr3o2qwqrmriwxlczrwploieh5i4ke3sx5zhk@5ktlrew7o6k2>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,60 +67,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 10.02.25 um 20:34 schrieb mhkelley58@gmail.com:
-> From: Michael Kelley <mhklinux@outlook.com>
->
-> When a Hyper-V DRM device is probed, the driver allocates MMIO space for
-> the vram, and maps it cacheable. If the device removed, or in the error
-> path for device probing, the MMIO space is released but no unmap is done.
-> Consequently the kernel address space for the mapping is leaked.
->
-> Fix this by adding iounmap() calls in the device removal path, and in the
-> error path during device probing.
+--muzs5dl4zad52eyq
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 00/35] drm/bridge: Various quality of life improvements
+MIME-Version: 1.0
 
-Could this driver use devm_ helpers for iomap operations? That should 
-fix the issue automatically.
+On Sun, Feb 09, 2025 at 05:27:01AM +0200, Dmitry Baryshkov wrote:
+> On Tue, Feb 04, 2025 at 03:57:28PM +0100, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > Here's a series of changes after to the KMS helpers and bridge API
+> > following a bunch of reviews I did.
+> >=20
+> > It's mostly centered across providing an easier time to deal with bridge
+> > states, and a somewhat consistent with the other entities API.
+> >=20
+> > It's build tested only, with arm64 allmodconfig.
+> >=20
+> > Maxime
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> > Changes in v2:
+> > - Pass the full atomic state to bridge atomic hooks
+> > - Make attach take the encoder as a parameter
+> > - Mark bridge->encoder as deprecated
+> > - Rework the logic to detect if a bridge uses a state or not at
+> >   atomic_check time
+> > - Add lockdep assertion to drm_bridge_get_current_state()
+> > - Link to v1: https://lore.kernel.org/r/20250115-bridge-connector-v1-0-=
+9a2fecd886a6@kernel.org
+> >=20
+> > ---
+> > Maxime Ripard (35):
+> >       drm/atomic: Document history of drm_atomic_state
+> >       drm/bridge: Pass full state to atomic_pre_enable
+> >       drm/bridge: Pass full state to atomic_enable
+> >       drm/bridge: Pass full state to atomic_disable
+> >       drm/bridge: Pass full state to atomic_post_disable
+> >       drm/atomic-helper: Fix commit_tail state variable name
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_wai=
+t_for_dependencies()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_com=
+mit_tail()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_com=
+mit_tail_rpm()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_mod=
+eset_disables()
+> >       drm/atomic-helper: Change parameter name of disable_outputs()
+> >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_disa=
+ble()
+> >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_post=
+_disable()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_upd=
+ate_legacy_modeset_state()
+> >       drm/atomic-helper: Change parameter name of crtc_set_mode()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_com=
+mit_planes()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_com=
+mit_modeset_enables()
+> >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_pre_=
+enable()
+> >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_enab=
+le()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_com=
+mit_writebacks()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_fak=
+e_vblank()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_com=
+mit_hw_done()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_wai=
+t_for_vblanks()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_cle=
+anup_planes()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_com=
+mit_cleanup_done()
+> >       drm/atomic-helper: Change parameter name of drm_atomic_helper_wai=
+t_for_flip_done()
+>=20
+> I agree that use of the old_state can be confusing (and it has been
+> confusing to me for some time). The main question is, do we loose useful
+> memo 'this is the state after swap'. Most likely it is useless now, just
+> wanted to give it a second thought.
 
-Best regards
-Thomas
+The drm_atomic_state doesn't change after a swap, only the
+plane/crtc/connector/private_obj (and their state) state pointer do. And
+if you meant that old_state mentions that the states have been swapped,
+it's still a terrible name and we should change it still :)
 
->
-> Fixes: f1f63cbb705d ("drm/hyperv: Fix an error handling path in hyperv_vmbus_probe()")
-> Fixes: a0ab5abced55 ("drm/hyperv : Removing the restruction of VRAM allocation with PCI bar size")
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> ---
->   drivers/gpu/drm/hyperv/hyperv_drm_drv.c | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> index e0953777a206..b491827941f1 100644
-> --- a/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> +++ b/drivers/gpu/drm/hyperv/hyperv_drm_drv.c
-> @@ -156,6 +156,7 @@ static int hyperv_vmbus_probe(struct hv_device *hdev,
->   	return 0;
->   
->   err_free_mmio:
-> +	iounmap(hv->vram);
->   	vmbus_free_mmio(hv->mem->start, hv->fb_size);
->   err_vmbus_close:
->   	vmbus_close(hdev->channel);
-> @@ -174,6 +175,7 @@ static void hyperv_vmbus_remove(struct hv_device *hdev)
->   	vmbus_close(hdev->channel);
->   	hv_set_drvdata(hdev, NULL);
->   
-> +	iounmap(hv->vram);
->   	vmbus_free_mmio(hv->mem->start, hv->fb_size);
->   }
->   
+Maxime
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+--muzs5dl4zad52eyq
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6tN6gAKCRAnX84Zoj2+
+dsHkAX9u62jj0+j/VHr3l9CZUKWK1k/Ets8OAJ6Az0Hs6T8ojUXszlx+9rnb3PIX
++Q/vaWkBfRSJLYVl9IDLrivCRYdC7XrdCNjdLW4gILcZDmVgavVXbgZoq6MQXV3x
+dtsdV+WWHA==
+=+jX8
+-----END PGP SIGNATURE-----
+
+--muzs5dl4zad52eyq--
