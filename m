@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC76FA30668
-	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 09:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58A4A3066A
+	for <lists+dri-devel@lfdr.de>; Tue, 11 Feb 2025 09:54:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43FCE10E44E;
-	Tue, 11 Feb 2025 08:54:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44BCA10E44A;
+	Tue, 11 Feb 2025 08:54:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gc320XyW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P5lFMvTe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 75BD510E44C;
- Tue, 11 Feb 2025 08:54:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCE8B10E44A;
+ Tue, 11 Feb 2025 08:54:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 2DA3DA4014E;
- Tue, 11 Feb 2025 08:52:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7398FC4CEDD;
- Tue, 11 Feb 2025 08:54:07 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8E189A4014E;
+ Tue, 11 Feb 2025 08:52:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF412C4CEDD;
+ Tue, 11 Feb 2025 08:54:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739264048;
- bh=+C6amrJDiC3M3krEsk9+H288OzeiweIZDJ5OeXrh2b0=;
+ s=k20201202; t=1739264060;
+ bh=/dRLsDYS1EDSH23L/y6b3V/T8AFWJp0V0qlJ6R6eBRg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gc320XyWw9k/uTNUhREzI2BFbx1rvPBJr/GylR3gGLm1XRHIY7QxuYt8nKH8wk9ud
- Ez/kz9kYY47tPXAnt4fdrlSR2CpK7x4PXE6KX5396nbXeV8Ay/kHa+3f6qVf9X05be
- zOw70qMIRoN2I4vdSDaOwFQJikYklGUovAMy61G4LjWD54vK70zCeC1IQFPuVZBH7q
- Y3SbBtW5KwXJef/qTlbCnuQzeDhpf8plFBDLghTwO5yRBAEJWWFnDDat+h/BgePdz1
- 72cD2Fa5KzTwGpEyPBrtd3QqIAuK8UHgZ1svZBM0X+GwIdajA8px8ya+Kg6Q35VgKd
- 0U2Tu0cXSujXA==
-Date: Tue, 11 Feb 2025 09:54:05 +0100
+ b=P5lFMvTeUJpX6TftMGJtnKy2l37/8p3+9fpmrkGifcV74pJklpnLVbLnNH1QO3WfQ
+ skP31RjAbWndfWgbUYbwh7XpnSwOBBaAixbbyaPyDYyveyUdojEhYYoOGHAhxErUER
+ cLUtFZZw3h4mJoAzVuzI0QMbqM1tnkYG8LMsUwhzHPizM43qlTdfHAYWXAV8TPWDUM
+ oiaqCg/DLgPFvtBemQgI7HzIWPw36HfKTLiX+fO8AiexdiBxP1IagAVNKszkKrQb9a
+ dZktFZtrzKCIjI926Jpq5e9ww4p+1eOITyimn0CjRtTxb5ruqx5ji5Z++PhKt/Lr0c
+ z2ddW6JZ/Cp5A==
+Date: Tue, 11 Feb 2025 09:54:17 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>
 Cc: Rob Clark <robdclark@gmail.com>, 
@@ -47,15 +47,15 @@ Cc: Rob Clark <robdclark@gmail.com>,
  freedreno@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: display: qcom,sm8550-mdss:
+Subject: Re: [PATCH v3 2/4] dt-bindings: display: qcom,sm8650-mdss:
  explicitly document mdp0-mem and cpu-cfg interconnect paths
-Message-ID: <20250211-fierce-prompt-heron-0bb46a@krzk-bin>
+Message-ID: <20250211-rainbow-dazzling-herring-2f08a0@krzk-bin>
 References: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-0-54c96a9d2b7f@linaro.org>
- <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-1-54c96a9d2b7f@linaro.org>
+ <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-2-54c96a9d2b7f@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-1-54c96a9d2b7f@linaro.org>
+In-Reply-To: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-2-54c96a9d2b7f@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,21 +71,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2025 at 10:32:39AM +0100, Neil Armstrong wrote:
+On Mon, Feb 10, 2025 at 10:32:40AM +0100, Neil Armstrong wrote:
 > The mdp1-mem is not supported on the SM8550 SoCs, and having maxItems=2
-> makes the bindings not clear if mdp0-mem/mdp1-mem or mdp0-mem/cpu-cfg is
-> required, so explicitly document the mdp0-mem/cpu-cfg interconnect and
-> add the cpu-cfg path in the example.
-
-Thanks, this also has the benefit of describing minItems explicitly.
-Old code was dependant on dtschema interpretation.
-
+> makes the bindings not clear if mdp0-mem/mdp1-mem or mdp0-mem/cpu-cfg
+> is required, so explicitly document the mdp0-mem/cpu-cfg interconnect
+> paths and complete the example with the missing interconnect paths.
 > 
 > Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  .../devicetree/bindings/display/msm/qcom,sm8550-mdss.yaml  | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
+>  .../devicetree/bindings/display/msm/qcom,sm8650-mdss.yaml   | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
