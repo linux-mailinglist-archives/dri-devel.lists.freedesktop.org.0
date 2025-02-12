@@ -2,92 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2A3A3247B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 12:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03267A32480
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 12:14:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91BAE10E85D;
-	Wed, 12 Feb 2025 11:13:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6C5D10E856;
+	Wed, 12 Feb 2025 11:14:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="o334xeJX";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RxnaPZ2H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7A9C10E856;
- Wed, 12 Feb 2025 11:13:48 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C8K99w008940;
- Wed, 12 Feb 2025 11:13:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 2sr6s2gCKtIpekK0r6SRYeaTUYoBWp2FBYiavwLigHM=; b=o334xeJXRA5HTmlB
- UVVzP1QZpkjnHNJiRAPRrAk1GEHqHW/hpmet++Obi3ryniiqI4m1bIlPASMLoWWZ
- xQlUI5SWjTtDjY0LeaOUFDe4107vgiu0CUs5tZPxxoaF00d3te4SAXfMhjeCFvc7
- nGEPE59ClPpfiH16/wLeu0xg8E4nJFVYaVeHDv7a3tuWqJY612CWIWuZOCGFCpOv
- QHVLI5y/hhnH2+mMGmNYAjPSoci6Dx7lQrjom/VBMAP+RK5NPAZomHha5vhYhL+s
- 4DXq9KuAajfb2Lo0hwZiCt9/PuxjsL+SEnqRTJZxtj1run9rAj85FX42wB5qZLUy
- TCxBKw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44rr1qreqd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 11:13:41 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
- [10.47.97.35])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51CBDeq2005789
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 11:13:40 GMT
-Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Feb
- 2025 03:13:34 -0800
-Message-ID: <10d83c88-9f72-4577-95ba-bb1fd1ef36d1@quicinc.com>
-Date: Wed, 12 Feb 2025 19:13:32 +0800
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 646A010E856
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 11:14:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1739358856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CdmEC7WTpRZKbkzzTKfU8sOnmJXvCIvbDDplNyC0I14=;
+ b=RxnaPZ2H8yCMpBL/EPsu3qVEjEm44p4UjYIcILTVC422QWywHByZhtV+cGZfOBDaD8GghE
+ cAh/Jnu2yQSNVh5/d++uvqtcQ9yfJDjwoW8xOnJRBGZfYDn0fjpfvzBCBVzuiIOl9aLbbb
+ gcAiMZmD3MSBvgdMujAbwvJLFNCArEc=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-626-1qpvoiCgN7u7EQQyGQVwBg-1; Wed, 12 Feb 2025 06:14:15 -0500
+X-MC-Unique: 1qpvoiCgN7u7EQQyGQVwBg-1
+X-Mimecast-MFC-AGG-ID: 1qpvoiCgN7u7EQQyGQVwBg
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-ab77e03f2c0so547309466b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 03:14:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739358854; x=1739963654;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CdmEC7WTpRZKbkzzTKfU8sOnmJXvCIvbDDplNyC0I14=;
+ b=ZKBa6i432E88CNi1MPwFWP9mSXPexMX54ICS9detroV7P7DGFIroJxdGdYmB4b4rFA
+ OVxmEZ2vnNA3DP14LSIazYjLCEJJqKLzjHhz2xPvwUqSPp4sQeabiKG0X0X33oaHNnP4
+ B1POS3NJIVbSAHDFfv9lS88YmgyvCPZQRCsuDjPrCMSqfR4FNbshFPwc1BhaLANJqWGK
+ WoD+yRXBd6BBnkcGshPZeUxhB9FkcPmCWkl1rCe4cfntRF/xK0nYaRPgzogeBLXdDr6q
+ hsob0TY8dPofPawuA2X/kMltSrh4/NfhPI/ZE2vMK+xBHL6Lq7wS/CScVumW/mCkuumU
+ 59cg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUKV6M0/+QlHf3WvVqHtSeRVZ/f9rl/l8FQ6nA/K8vjUseJxjGyl0hdW6WkFqzIR62Nfzgo72X2Ybc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx13ThsZO+qGKnT/65enl7tKP+oW4vZ9vltuhURCQxvLKQ8aQlg
+ XgCOZ8cABClhlXcZWRY+A9MwI6Bgmsoyg1i97bvD+Zcte9Z2jnRWpqzJR7jMkdRAArjGdgHR5gq
+ +HrI5isyw8SZ04x+mu9OBKJL8q8cOpJFYF0y2SRmqsmC5L8pEu5XykvbbgpkdKwZK9Q==
+X-Gm-Gg: ASbGncvUInwiqNtRPtjgF5AQrRJ1mtjLI8y8lGKGzmUV0KGqagd6LOVkYYkLGX62hnT
+ HP/7n8ROaCtl6S4UQEsKZCVBOrEx33kyWgnTjblgq4LkGiG22xLmFak9T8uvJ86InxzbL5C0qfJ
+ Q8hTOs9J/Cdm2diPYRyuFKrcJqGSJgEuzQnSdZ/LaPPWXkZpz6VH0m3aHd3X8Dog/d0op9vxnMi
+ ipyqsoEmRdKvRa8I1gzKQBM/L2xOS4XbK+pq8WTzAG/JwG0dgiREGhr2Qmm+qEFu9X1I3LlB7i5
+ UGESB48WscoKVMV/AjXxTuAYOqRlGY4aDSwmx8uvUmyUIL0/pz0P5VulmR16whsCNU2EaA3dkU5
+ Gxt5C7CvIMtRMYqfsIVVW4P9DjqsdTeefLbAb4qCKbsNHdeaX8G3tW5A=
+X-Received: by 2002:a17:906:c109:b0:ab7:5a5f:113 with SMTP id
+ a640c23a62f3a-ab7f33bdba1mr213790266b.23.1739358853998; 
+ Wed, 12 Feb 2025 03:14:13 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEMykeARXPTVdNGJOlHWMvQ5H96eJcBP9W/uhbsF+jMaq3D1UX4G2MfdgOaNU4it0Ck0kMAdQ==
+X-Received: by 2002:a17:906:c109:b0:ab7:5a5f:113 with SMTP id
+ a640c23a62f3a-ab7f33bdba1mr213787066b.23.1739358853506; 
+ Wed, 12 Feb 2025 03:14:13 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+ by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ab7f6064185sm106724966b.175.2025.02.12.03.14.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Feb 2025 03:14:12 -0800 (PST)
+Message-ID: <e64c6778-9698-4970-a3c3-af3aabc232be@redhat.com>
+Date: Wed, 12 Feb 2025 12:14:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: display/msm: Redocument the
- dp-controller for QCS8300
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
- <20250212-mst_qcs8300-v1-1-38a8aa08394b@quicinc.com>
- <531a23fe-940a-4e9a-b023-5f1789ac65a5@kernel.org>
-Content-Language: en-US
-From: Yongxing Mou <quic_yongmou@quicinc.com>
-In-Reply-To: <531a23fe-940a-4e9a-b023-5f1789ac65a5@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: yLSc_7G9DepFoiHNsNhDh7E7OMP31fEd
-X-Proofpoint-ORIG-GUID: yLSc_7G9DepFoiHNsNhDh7E7OMP31fEd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_03,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- mlxscore=0 impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0
- lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502120086
+Subject: Re: [PATCH v2 0/5] Handheld gaming PC panel orientation quirks
+To: Thomas Zimmermann <tzimmermann@suse.de>, John Edwards <uejji@uejji.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Andrew Wyatt <fewtarius@steamfork.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250124204648.56989-2-uejji@uejji.net>
+ <b3caa748-2dbd-4911-968f-878fcd118a9b@suse.de>
+ <6abc98bd-5ef9-491e-985b-7ed8a848c96e@redhat.com>
+ <f0185bb4-4f43-4ae1-8f81-ec4185160a5b@suse.de>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <f0185bb4-4f43-4ae1-8f81-ec4185160a5b@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Qu_Xm-xGBK8TE1ZxBL8JxWrM6FKaj6giM5yMfnWnlgk_1739358854
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,58 +110,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 2025/2/12 16:35, Krzysztof Kozlowski wrote:
-> On 12/02/2025 08:12, Yongxing Mou wrote:
->> We need to enable mst for qcs8300, dp0 controller will support 2 streams
->> output. So not reuse sm8650 dp controller driver and will add a new driver
->> patch for qcs8300 mst feature. Modify the corresponding dt-bingding file
->> to compatible with the qcs8300-dp.
+On 12-Feb-25 12:11 PM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 12.02.25 um 11:51 schrieb Hans de Goede:
+>> Hi Thomas,
 >>
->> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
-> NAK. You just said qcs8300 is compatible with sm8650. I did not ask
-> about drivers, I asked about hardware.
+>> On 11-Feb-25 2:55 PM, Thomas Zimmermann wrote:
+>>> Hi
+>>>
+>>> Am 24.01.25 um 21:46 schrieb John Edwards:
+>>>> Hello.
+>>>>
+>>>> I am submitting a small number of patches to add panel rotation quirks for
+>>>> a few handheld gaming PCs.  These patches were created by the SteamFork
+>>>> team and are in daily use by us and/or members of our community.
+>>>>
+>>>> The following devices are covered by these patches:
+>>>> 1: AYANEO 2S
+>>>> 2: AYANEO Flip DS, AYANEO Flip KB
+>>>> 3: AYANEO Slide, Antec Core HS
+>>>> 4: GPD Win 2 (with correct DMI strings)
+>>>> 5: OneXPlayer Mini (Intel)
+>>>>
+>>>> Thank you for your consideration and for taking the time to review these
+>>>> patches.
+>>> Did you ever receive any response to this series? If not, then
+>>>
+>>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> I had the following remark for 3 new entries added in patches 2/5 + 3/5:
+>>
+>> "Since this '}' is closing the .matches initializer it should be indented 2 tabs"
+>>
+>> With that fixed, you can add my:
+>>
+>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>>
+>> to the entire series.
+>>
+>>> for the series. Let me know if you need assistance for getting the patch files merged.
+>> Normally I pickup/merge these panel orientation quirks, but I've been swamped
+>> which is why these have just been sitting on the list.
+>>
+>> Thomas, I would appreciate it if you can merge the set into drm-misc-fixes, with
+>> the 3 minor indentation issues fixed.
 > 
-> This is messy approach. Describe properly the hardware first, instead of
-> sending two conflicting patchsets.
-> 
-> Best regards,
-> Krzysztof
+> Sure, no problem. I'll wait for John to provide an update. Otherwise, I'll fix it myself while merging the series.
 
-Hi, Krzysztof, thanks for reviewing, i want to explain why i submitted 
-this patch. Patch 
-https://lore.kernel.org/all/20250114-dts_qcs8300-v3-1-d114cc5e4af9@quicinc.com/ 
-and 
-https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-2-1687e7842125@quicinc.com/ 
-is the qcs8300 display enablement changes. It base on current linux base 
-code and it only support SST mode, so in the SST mode, qcs8300 dp 
-controller driver is quite same with sm8650, struct msm_dp_desc only 
-have 3 members(io_start, id and wide_bus_supported) and they are same 
-both in qcs8300 and sm8650, so we reuse it. BTW, for dp phy hardware 
-version, qcs8300 and sm8650 is different.
-For this patch series, 
-https://lore.kernel.org/all/20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com/ 
-, it is made on top of 
-https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/ 
-which is a new feature for msm platform and not fully reviewed all the 
-code. Currently patch series enable the MST feature for qcs8300, so the 
-dp controller need to support stream 1, and we need add max_streams and 
-intf_map in the struct msm_dp_desc to support MST. So we don't reuse the 
-sm8650 drivers in this patch series.
-For my understanding, qcs8300 SST changes should merge 
-first(https://lore.kernel.org/all/20250114-dts_qcs8300-v3-0-d114cc5e4af9@quicinc.com/ 
-and 
-https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com/), 
-and next is the MST base commits 
-(https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/), 
-and this patch series should merge at last. why i post qcs8300 
-enablement changes first and then post the MST changes instead of post 
-them together? Because our dependency, i mean this patch series 
-(https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/), 
-it has about 45 changes, so it might take lots of time to merge. we just 
-want to make sure that display can work on DP SST mode first.
-So I am just understand that the previous commit was not an incorrect 
-commit, but rather two functionalities were changed in the same place.
-Thanks,
-Yongxing
+Great thank you.
+
+Note in the review comments I said that we could likely fixup the indentation
+issues while merging. If you prefer a new version from John that is fine too,
+but we need to make clear to John what we want :)
+
+Regards,
+
+Hans
+
+
+
+
+>>>> v2:
+>>>> - Minor rewording of commit messages
+>>>> - Include Tested-by tag for Paco Avelar in AYANEO Flip DS/KB patch
+>>>> - Add OneXPlayer Mini (Intel) patch
+>>>>
+>>>> v1:
+>>>> https://lore.kernel.org/dri-devel/20250116155049.39647-2-uejji@uejji.net/
+>>>>
+>>>> Andrew Wyatt (5):
+>>>>     drm: panel-orientation-quirks: Add support for AYANEO 2S
+>>>>     drm: panel-orientation-quirks: Add quirks for AYA NEO Flip DS and KB
+>>>>     drm: panel-orientation-quirks: Add quirk for AYA NEO Slide
+>>>>     drm: panel-orientation-quirks: Add new quirk for GPD Win 2
+>>>>     drm: panel-orientation-quirks: Add quirk for OneXPlayer Mini (Intel)
+>>>>
+>>>>    .../gpu/drm/drm_panel_orientation_quirks.c    | 40 ++++++++++++++++++-
+>>>>    1 file changed, 38 insertions(+), 2 deletions(-)
+>>>>
+> 
+
