@@ -2,91 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C82A32C4E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 17:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4C2A32D17
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 18:12:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D645710E942;
-	Wed, 12 Feb 2025 16:48:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79D4510E940;
+	Wed, 12 Feb 2025 17:12:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VWBsakXL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KAPj7Eph";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDE2910E93D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 16:48:46 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-308f71d5efcso28433481fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 08:48:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1739378923; x=1739983723;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NyHRmSw+0ICK2sEynOaKxLDRuSl/oG4kVMvohYL0VYY=;
- b=VWBsakXLVPQHJ688DiHaO4xiiAfjQIvBk3R437c6M4LSacl+Vn5kGbTix7XUlhNyzm
- Q9E2eO4oSblm5EO5G+j9D1uJov3UfSvdwzeGBAUOxiBTg6ETDoz7J8MVEGZ8q09SJVRQ
- wxfWQCK/RupQuz6sA752RmU+fqjgqdgKsvbBQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739378923; x=1739983723;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NyHRmSw+0ICK2sEynOaKxLDRuSl/oG4kVMvohYL0VYY=;
- b=twJ+r8cgAcpHrmoXJuFUvpAkGTnThRb8jdN4BNkTx+AW7IhSLhAbJt0rWUXSWcvclM
- YpxmxFWkycb+BRUjfHTWkOsaRCSCh+y9FfBtkOcu1QwMyvfD/D/C61USsC+Zv/whmgGm
- eZD0DevnUb9ObzqJWkEcy0maNr6yfaKxcd15/4pae3VMgVtQ2Nd4QpNWHk9mK519sw1G
- +gkYErYbKLOrl1cwRR8AqKZV2HlLEWzJ40crIi8DQ1hMx7j9TYg5WJ6H0KzIuSwATWU+
- 3B9A64Rwqgafj9WVWQAubwECk74io96AEe3JwGPS21+4GoIo+3jKZLmjlyf+fKm/jmdP
- ATVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVV1hGHcLX7GqVa4beACYa2nQBrdI80JeQAsiiSqgY55OC9QSuf35AjuY/fyfwgYZUS0eF9yLCJeDw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yztv7AwOk4cs4pTqPnBBBTj0Fo24pKMSkRp6++zw6n5eNlGqPgW
- 2wl+DYQ/KT3MCpkqnmlcrbYSxWXjxyg6qJ3HY08x+nMY2AjKHl1RCL/B8tmJ1wZmeB7cSH+1VJc
- UvaUo
-X-Gm-Gg: ASbGncta9v2t7dd42+y0qLTExpw9Ao5F5kQVJt85O7l+i7qhgNKbJ8S530pF0C9q3Ab
- +no5/jVMBdyuAIkLu/bEm2fBl9hKhPwy9Ij/hCw3EI5WE1633NTwVY5ZylP2Cr6pQp9CNhRWsmV
- TNJAL0vB1cXKtqrLkYz74QanZIutTwpKHHsz3B4VROduU24s5uA41LhwLC/rSzB90I+GsYDvFPZ
- UI46CFN0zpmna1pVBT/+YPkNdQLzV5Nmkzgrt62/WHj/N0yq1K0cvY4pFA/KDbnf0GYft83ApXL
- eDKrbAB/jR6LeASe3J7MTG0qcO4CmIAaLskR9f/O6e2Yc7LgYDkuW4M0xAw=
-X-Google-Smtp-Source: AGHT+IFlFy6/dwrtCF1H4N4zpKrC4UHKaVDysTfwhjaAdWM5X1lIaSRN86rWj+aFCUBYlev6fsvTxw==
-X-Received: by 2002:a2e:bea0:0:b0:308:e803:118e with SMTP id
- 38308e7fff4ca-309036a5e2fmr15245921fa.0.1739378922049; 
- Wed, 12 Feb 2025 08:48:42 -0800 (PST)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com.
- [209.85.208.173]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-308e2d8c400sm14245691fa.76.2025.02.12.08.48.40
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Feb 2025 08:48:40 -0800 (PST)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-30613802a04so68371931fa.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 08:48:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnQgmI6CiLs7hZJT6QxtUWxzOcGkFT0K3rgFIWP3NftrixcxaI29sswtOCGGOBG6aW25cLZmBnZgY=@lists.freedesktop.org
-X-Received: by 2002:a2e:a805:0:b0:300:3a15:8f22 with SMTP id
- 38308e7fff4ca-309037d6f62mr16328151fa.21.1739378920063; Wed, 12 Feb 2025
- 08:48:40 -0800 (PST)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BAA110E93E;
+ Wed, 12 Feb 2025 17:12:44 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id B695A5C01C7;
+ Wed, 12 Feb 2025 17:12:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BEF3C4CEE7;
+ Wed, 12 Feb 2025 17:12:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739380363;
+ bh=NEROpmptD5XXqtltotIa/faA7aFztFJiZvv2mKC2DWA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KAPj7EphsmhdQtzSSus/RPCxjskeGJIW1G8qzSgfAJQtXeW0zO39HxSXnc8sTgmmM
+ aYo/kt//JWkhT8+wO9HSU/6a2IQHizeSWZ+tgE4bKDvUrOfBV+KmKt+G82j/6PVpNH
+ O+s0hkL+beff7nsdZFV3VIXVkg/oLHiImHzV1uMrKH4rXtD+x3U8re2/9/phGRzbSw
+ x4Hf/N/d+bO87orSUvkao7r1kNDMnzXATSrEkj9DBww8CTSifsW43t+cEwx7/R3Fzw
+ zwbbHbwHHST+NRIGnzMl7OILuQTZOGl5ApRmDeaiczbdgyc9mgM5pf9b6rLjt+xWXc
+ IIan1H4664iFg==
+Message-ID: <f9891a79-7ecb-4492-b526-d5d736d90698@kernel.org>
+Date: Wed, 12 Feb 2025 18:12:32 +0100
 MIME-Version: 1.0
-References: <20250210092342.287324-1-tejasvipin76@gmail.com>
- <CAD=FV=WwbNAhiMWN_4PRODByWScdnqAKk7yvGP2KJSoEzvo=vg@mail.gmail.com>
-In-Reply-To: <CAD=FV=WwbNAhiMWN_4PRODByWScdnqAKk7yvGP2KJSoEzvo=vg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 12 Feb 2025 08:48:28 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=VENY6b16hYP=E78KjAYPzvT+Bim40rcvYjhPdOAk24WA@mail.gmail.com>
-X-Gm-Features: AWEUYZnATny9gDH5jd4FFZMoQQDTKHRshaBDolOTR4ufydHKrJxGl6YS56Vgw9o
-Message-ID: <CAD=FV=VENY6b16hYP=E78KjAYPzvT+Bim40rcvYjhPdOAk24WA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: visionox-r66451: transition to mipi_dsi
- wrapped functions
-To: Tejas Vipin <tejasvipin76@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/4] dt-bindings: display/msm: Document MDSS on QCS8300
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org
+References: <20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com>
+ <20250120-mdssdt_qcs8300-v4-3-1687e7842125@quicinc.com>
+ <e620e80d-afeb-4ce1-9798-2f5cdd92b3b1@kernel.org>
+ <emfd4gqstixawba64mywtsitbek5srrekoute3hjudi6xhfjhl@7ndrv3ua7uei>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <emfd4gqstixawba64mywtsitbek5srrekoute3hjudi6xhfjhl@7ndrv3ua7uei>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,35 +118,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 12/02/2025 11:05, Dmitry Baryshkov wrote:
+> On Wed, Feb 12, 2025 at 09:38:07AM +0100, Krzysztof Kozlowski wrote:
+>> On 20/01/2025 04:49, Yongxing Mou wrote:
+>>> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
+>>> QCS8300 use the same DPU hardware version as SA8775P, so we reuse it's
+>>> driver. But QCS8300 only have one DP controller, and offset is same with
+>>> sm8650, so dp controller reuse the sm8650's driver.
+>>>
+>>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+>>> ---
+>>>  .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 244 +++++++++++++++++++++
+>>>  1 file changed, 244 insertions(+)
+>>
+>> Also wrong compatibles used.
+> 
+> Which compatibles are wrong here?
 
-On Mon, Feb 10, 2025 at 7:28=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Mon, Feb 10, 2025 at 1:24=E2=80=AFAM Tejas Vipin <tejasvipin76@gmail.c=
-om> wrote:
-> >
-> > Change the visionox-r66451 panel to use multi style functions for
-> > improved error handling. Additionally, always drop LPM flag after
-> > sending init sequence.
-> >
-> > Signed-off-by: Tejas Vipin <tejasvipin76@gmail.com>
-> > ---
-> > Changes in v2:
-> >     - Fixed visionox_r66451_enable to return dsi_ctx.accum_err
-> >     - Mentioned changed handling of LPM flag in commit message
-> >
-> > Link to v1: https://lore.kernel.org/all/20250208051541.176667-1-tejasvi=
-pin76@gmail.com/
-> > ---
-> >  drivers/gpu/drm/panel/panel-visionox-r66451.c | 181 ++++++++----------
-> >  1 file changed, 77 insertions(+), 104 deletions(-)
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+According to new patchset, the DP compatibles were different.
 
-Pushed to drm-misc-next:
-
-[1/1] drm/panel: visionox-r66451: transition to mipi_dsi wrapped functions
-      commit: f4dd4cb79f9ec3294e5100223ed90d8ae371f168
+Best regards,
+Krzysztof
