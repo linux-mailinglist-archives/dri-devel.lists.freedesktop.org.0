@@ -2,42 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E1B2A3293F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:56:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C616A32941
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:56:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B04010E8DD;
-	Wed, 12 Feb 2025 14:56:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F22810E8DE;
+	Wed, 12 Feb 2025 14:56:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VauEEstV";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IDloWwaP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F12010E8DD
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:56:48 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B965810E8DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:56:49 +0000 (UTC)
 Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34DD3778;
- Wed, 12 Feb 2025 15:55:27 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C37EA2F;
+ Wed, 12 Feb 2025 15:55:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1739372127;
- bh=IARuWv5q41i1jF/n5oRcxWGvOepjwqWn366nRpA9NGc=;
- h=From:Subject:Date:To:Cc:From;
- b=VauEEstVlYcHP7Q92P3kEmmYqkQI9l7BlPAIpd51or/Tm80bjYNLSC5ft8V1gykUV
- oIx2QlUKORFVlaGEcBHF1rzNHBfz0M/Y6I+xRZhUCf57ODwp19qiqAT4kcCTfS75u5
- RTkLmXhUoj8QXuM2Ktxo0NNvEWVBXcKkM6jgKw8w=
+ s=mail; t=1739372128;
+ bh=VjE9mbKl9OnWT0ySTs7fj/5Evv6uFyb956WbNi6bAL8=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=IDloWwaP/zRQ4wWJb5I8yauT0Jh+uJP244FniUmBEG48A0ZgggdSuyqlAN0v1TlIf
+ Yw63wthhy+2x4JHot9XqOVC139v8zyUODVgO9BHrptG5C+qhnb5g/mjnVvxamKtIER
+ EwkrU/W2FyaQoTjlCmINrqA+2Qf8PX7RVIHVSqO8=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v3 00/11] drm: Add new pixel formats for Xilinx Zynqmp
-Date: Wed, 12 Feb 2025 16:56:04 +0200
-Message-Id: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
+Date: Wed, 12 Feb 2025 16:56:05 +0200
+Subject: [PATCH v3 01/11] drm/fourcc: Add warning for bad bpp
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIW2rGcC/23MQQ6CMBCF4auQrq3pTCmoK+9hXJS2yCRCTUsaD
- OHuFowbdfm/5H0ziy6Qi+xUzCy4RJH8kEPuCmY6PdwcJ5ubocASAAWf6E7DxFsfej1G3tZwFFA
- hHKRk+fQIrqVpAy/X3B3F0Yfn5idY1zeFovymEnDBRdOiUVDWtoEzWaejHxqvg90b37NVTPhRl
- ABQPwpmBSohsTa6Uqj/KMuyvAAv0o3Y+QAAAA==
+Message-Id: <20250212-xilinx-formats-v3-1-90d0fe106995@ideasonboard.com>
+References: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
+In-Reply-To: <20250212-xilinx-formats-v3-0-90d0fe106995@ideasonboard.com>
 To: Vishal Sagar <vishal.sagar@amd.com>, 
  Anatoliy Klymenko <anatoliy.klymenko@amd.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -50,21 +48,21 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Geert Uytterhoeven <geert@linux-m68k.org>, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6161;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1442;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=IARuWv5q41i1jF/n5oRcxWGvOepjwqWn366nRpA9NGc=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnrLaije6yZUs92MxGzGxpJE/HKXYX1MER8neox
- 6GlUInFcZKJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ6y2ogAKCRD6PaqMvJYe
- 9b/iD/4h3m93HpFzPpZomvCMncvu6lbCfnKjdFy79Fano2vP0xkES2L9w0Efy5ETWj3m/0jmBbq
- kUfII4XduBb6npzaGG44Rq5diw69x/DywDy2+s/ugn0bnWZLtFxyMrUCDxXGsu5wsBwKhbJKpzA
- 1hoiloaahOzXVSIXn8xyGnv1yVvRXq3gkYRF36OtgOFGXCDzYqFzgk5w6wr7QXlh5e+rZZAE3+U
- M922iBlNCfGKmPo0OLZ+x2I5WXwo/dpCVij5UeWPvibElUc2rHusAbSo+42asfHULWm0gaNyC/8
- xrFYujraWjmE1qT1F9TiZWElUBnSlzaYgfkZ7CVbGD8tuVd/FEiK8EQJB6LgCb1Sadph6AUtYBp
- QsBcJOdniHo6U1C8IzDjMm70ehw+u4yBLWdpVlnZw46ypNLZNRQo4FUrkUrAK1U1tRlo9l/pRM5
- BSAJcC8RikZfsSDmH6Roknzz9quTR4TA/85bV/8ZkQK550QMVInchFSWPVGhqTyW9K5V7N5iMwV
- PrI53sp+E0i8ztsdryHlXRzIOeVHIWvZa9R2Rbr8AMKKrJMl6Aui0t9XLDIKXCUODJ6uvECoQyl
- cfpg03pJglMmTdvTQ6BoWul39Yg9EcL3zP5cnhbHr0XmxZgfu/BdeYR54uRPnQ5LBGw4yzwiUig
- VVRJ3DwGs25ZEqw==
+ bh=VjE9mbKl9OnWT0ySTs7fj/5Evv6uFyb956WbNi6bAL8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnrLaoLvPPLk/mVLX6uRBDJ4JdhqSsuASwrZP9b
+ mFFJPeq5JOJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ6y2qAAKCRD6PaqMvJYe
+ 9XIpD/4l+I20edPbx2nORFeqiEyG9CIgqm8A1uakiUKPVXy1Wh0X1XQ9+obe0VnoLA4NOTPawn3
+ 21OOOrbtaGYU3JXzR2eeOXV+erc7ZmzvolygdCPSXFqBAHE9rHm9At0ie+zhqZ+KYWqtDzjJWFJ
+ EFbj9L5B1F/IUAohADcaqfsIe8pMA2eIJVJ3c3rwOtlN4ftIQkKR6OvYkT54uZttk0iMstpC0pg
+ UqjzSTiv6rAuTdhmrx+8/KErEYCpr25TpV+atExvzEVlprdLT0l8DHWxwlZ5qBbVfhx1sKNGMkW
+ LMa02qqxlWbk63bQShmU4mteGt9lqkIfGS4AelU5PSjankHi3Qee7RZavScwP47oS+w18VFsuKR
+ xwne9mA18MM+AOKIn7vWGhxK4cvwfxBPwIf3DET2NXyr0ku3gu4ensddeulvXTOf4QTvoz88rQ+
+ dFe/83KaimkU82p7tb4HiRg86v3RcUz/yWH5sPl5SF4ckZIY38Fq9MEQJBMT/Yj9BTeN1ubJG7z
+ b6sBWxvSnwXdXdK6xgdMcVogy6ZVuankgvjCcqay37fn6UsMDUUxDxBu4Gn9x0JSJHWtcAmqFiD
+ XQn4Mhinc919wC1SiC1d/w5yUeHknHMuOzaZdqmrTAMMmWHivRWg435OFLHXOnulvyyRnvRL/6H
+ qpmoNg0Y6sWxeIg==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,158 +80,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add new DRM pixel formats and add support for those in the Xilinx zynqmp
-display driver.
+drm_format_info_bpp() cannot be used for formats which do not have an
+integer bits-per-pixel in a pixel block.
 
-All other formats except XVUY2101010 are already supported in upstream
-gstreamer, but gstreamer's kmssink does not have the support yet, as it
-obviously cannot support the formats without kernel having the formats.
+E.g. DRM_FORMAT_XV15's (not yet in upstream) plane 0 has three 10-bit
+pixels (Y components), and two padding bits, in a 4 byte block. That is
+10.666... bits per pixel when considering the whole 4 byte block, which
+is what drm_format_info_bpp() does. Thus a driver that supports such
+formats cannot use drm_format_info_bpp(),
 
-Xilinx has support for these formats in their BSP kernel, and Xilinx has
-a branch here, adding the support to gstreamer kmssink:
-
-https://github.com/Xilinx/gst-plugins-bad.git xlnx-rebase-v1.18.5
-
-New formats added:
-
-DRM_FORMAT_Y8
-- 8-bit Y-only
-- fourcc: "GREY"
-- gstreamer: GRAY8
-
-DRM_FORMAT_Y10_P32
-- 10-bit Y-only, three pixels packed into 32-bits
-- fourcc: "YPA4"
-- gstreamer: GRAY10_LE32
-
-DRM_FORMAT_XV15
-- Like NV12, but with 10-bit components
-- fourcc: "XV15"
-- gstreamer: NV12_10LE32
-
-DRM_FORMAT_XV20
-- Like NV16, but with 10-bit components
-- fourcc: "XV20"
-- gstreamer: NV16_10LE32
-
-DRM_FORMAT_X403
-- 10-bit planar 4:4:4, with three samples packed into 32-bits
-- fourcc: "X403"
-- gstreamer: Y444_10LE32
-
-XVUY2101010
-- 10-bit 4:4:4, one pixel in 32 bits
-- fourcc: "XY30"
-
-Some notes:
-
-I know the 8-bit greyscale format has been discussed before, and the
-guidance was to use DRM_FORMAT_R8. While I'm not totally against that, I
-would argue that adding DRM_FORMAT_Y8 makes sense, as:
-
-1) We can mark it as 'is_yuv' in the drm_format_info, and this can help
-   the drivers handle e.g. full/limited range. Probably some hardware
-   handles grayscale as a value used for all RGB components, in which case
-   R8 makes sense, but at least for Xilinx hardware it is YUV, just
-   Y-only, not RGB.
-
-2) We can have the same fourcc as in v4l2. While not strictly necessary,
-   it's a constant source of confusion when the fourccs differ.
-
-3) It (possibly) makes more sense for the user to use Y8/GREY format
-   instead of R8, as, in my experience, the documentation usually refers
-   to gray(scale) format or Y-only format.
-
-As we add new Y-only formats, it makes sense to have similar terms, so
-we need to adjust the Y10_P32 format name accordingly.
-
-I have made some adjustments to the formats compared to the Xilinx's
-branch. E.g. The DRM_FORMAT_Y10_P32 format in Xilinx's kmssink uses
-fourcc "Y10 ", and DRM_FORMAT_Y10. I didn't like those, as the format is
-a packed format, three 10-bit pixels in a 32-bit container, and I think
-Y10 means a 10-bit pixel in a 16-bit container.
-
-Generally speaking, if someone has good ideas for the format define
-names or fourccs, speak up, as it's not easy to invent good names =).
-That said, keeping them the same as in the Xilinx trees will, of course,
-be slightly easier for the users of Xilinx platforms.
-
-I made WIP additions to modetest to support most of these formats,
-partially based on Xilinx's code:
-
-https://github.com/tomba/libdrm.git xilinx
-
-A few thoughts about that:
-
-modetest uses bo_create_dumb(), and as highlighted in recent discussions
-in the kernel list [1], dumb buffers are only for RGB formats. They may
-work for non-RGB formats, but that's platform specific. None of the
-formats I add here are RGB formats. Do we want to go this way with
-modetest?
-
-I also feel that the current structure of modetest is not well suited to
-more complicated formats. Both the buffer allocation is a bit more
-difficult (see "Add virtual_width and pixels_per_container"), and the
-drawing is complicated (see, e.g., "Add support for DRM_FORMAT_XV15 &
-DRM_FORMAT_XV20").
-
-I have recently added support for these Xilinx formats to both kms++ [2] and
-pykms/pixutils [3][4] (WIP), and it's not been easy... But I have to say I
-think I like the template based version in kms++. That won't work in
-modetest, of course, but a non-templated version might be implementable,
-but probably much slower.
-
-In any case, I slighly feel it's not worth merging the modetest patches
-I have for these formats: they complicate the code quite a bit, break
-the RGB-only rule, and I'm not sure if there really are (m)any users. If
-we want to add support to modetest, I think a bigger rewrite of the test
-pattern code might be in order.
-
-[1] https://lore.kernel.org/all/20250109150310.219442-26-tzimmermann%40suse.de/
-[2] git@github.com:tomba/kmsxx.git xilinx
-[3] git@github.com:tomba/pykms.git xilinx
-[4] git@github.com:tomba/pixutils.git xilinx
+It is a driver bug if this happens, but so handle wrong calls by
+printing a warning and returning 0.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
-Changes in v3:
-- Drop "drm: xlnx: zynqmp: Fix max dma segment size". It is already
-  pushed.
-- Add XVUY2101010 format.
-- Rename DRM_FORMAT_Y10_LE32 to DRM_FORMAT_Y10_P32.
-- Link to v2: https://lore.kernel.org/r/20250115-xilinx-formats-v2-0-160327ca652a@ideasonboard.com
+ drivers/gpu/drm/drm_fourcc.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Changes in v2:
-- I noticed V4L2 already has fourcc Y10P, referring to MIPI-style packed
-  Y10 format. So I changed Y10_LE32 fourcc to YPA4. If logic has any
-  relevance here, P means packed, A means 10, 4 means "in 4 bytes".
-- Added tags to "Fix max dma segment size" patch
-- Updated description for "Add warning for bad bpp"
-- Link to v1: https://lore.kernel.org/r/20241204-xilinx-formats-v1-0-0bf2c5147db1@ideasonboard.com
+diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+index 3a94ca211f9c..1e9afbf6ef99 100644
+--- a/drivers/gpu/drm/drm_fourcc.c
++++ b/drivers/gpu/drm/drm_fourcc.c
+@@ -457,6 +457,13 @@ unsigned int drm_format_info_bpp(const struct drm_format_info *info, int plane)
+ 	if (!info || plane < 0 || plane >= info->num_planes)
+ 		return 0;
+ 
++	if (info->char_per_block[plane] * 8 %
++	    (drm_format_info_block_width(info, plane) *
++	     drm_format_info_block_height(info, plane))) {
++		pr_warn("unable to return an integer bpp\n");
++		return 0;
++	}
++
+ 	return info->char_per_block[plane] * 8 /
+ 	       (drm_format_info_block_width(info, plane) *
+ 		drm_format_info_block_height(info, plane));
 
----
-Tomi Valkeinen (11):
-      drm/fourcc: Add warning for bad bpp
-      drm/fourcc: Add DRM_FORMAT_XV15/XV20
-      drm/fourcc: Add DRM_FORMAT_Y8
-      drm/fourcc: Add DRM_FORMAT_Y10_P32
-      drm/fourcc: Add DRM_FORMAT_X403
-      drm/fourcc: Add DRM_FORMAT_XVUY2101010
-      drm: xlnx: zynqmp: Use drm helpers when calculating buffer sizes
-      drm: xlnx: zynqmp: Add support for XV15 & XV20
-      drm: xlnx: zynqmp: Add support for Y8 and Y10_LE32
-      drm: xlnx: zynqmp: Add support for X403
-      drm: xlnx: zynqmp: Add support for XVUY2101010
-
- drivers/gpu/drm/drm_fourcc.c       | 25 ++++++++++++++++++
- drivers/gpu/drm/xlnx/zynqmp_disp.c | 54 +++++++++++++++++++++++++++++++++++---
- include/uapi/drm/drm_fourcc.h      | 21 +++++++++++++++
- 3 files changed, 96 insertions(+), 4 deletions(-)
----
-base-commit: f7d07bcd0651b90dda8a6962057eb5fb1807a089
-change-id: 20241120-xilinx-formats-f71901621833
-
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.43.0
 
