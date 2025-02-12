@@ -2,58 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460EAA32C3C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 17:46:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA75EA32C43
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 17:47:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB0B10E939;
-	Wed, 12 Feb 2025 16:46:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C38510E935;
+	Wed, 12 Feb 2025 16:47:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aAMzhP/a";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="c+GisFkt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E951310E937;
- Wed, 12 Feb 2025 16:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739378806; x=1770914806;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=s8YUVWPojGVBQrybTJ6nlFjsjR/2htImSgmWhiUy0DM=;
- b=aAMzhP/a1eFoFxCD9XyP1j2cCcbKEBcRFzKysswVCLeHoBvjoKUFjBBI
- 8do9DMdEa+TmB0EXYvywGYqDz4JHn0TTQ5VbMeMmA//ong6tEe8OVG7zZ
- qgOLbGADUwvYROPKRGzuDY4M5Mr/j/OWxvuheuxkkVjoZ0EsinJKEyQbp
- s2hIyzDhw1TPOdi4u72DDwgXbVS3hRcdhA7niJIjF7YSRw0UkscO9jENA
- +gdw3JAKbE6iCl7cSwqq7mjWF1a/6Kiquu6P9nONrJsnjKoBrY4RC9R8W
- VSpadFhe3WMu7HFwLylsWfTV0XytIHROYLqTovaVl+oCb4hSP2Cr3NDCb A==;
-X-CSE-ConnectionGUID: 2cyWF9buTNW9LoclXZwqMQ==
-X-CSE-MsgGUID: LzjBx8uIScqnEqJChm7/wA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="43979678"
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="43979678"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2025 08:46:45 -0800
-X-CSE-ConnectionGUID: NoLCkyqdTdO7O/hCuV6t9w==
-X-CSE-MsgGUID: BNvHaralQ7Kd1lVNUkM93g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="112729955"
-Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.167])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2025 08:46:43 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-Subject: Re: [PATCH] drm: Fix DSC BPP increment decoding
-In-Reply-To: <20250212161851.4007005-1-imre.deak@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250212161851.4007005-1-imre.deak@intel.com>
-Date: Wed, 12 Feb 2025 18:46:40 +0200
-Message-ID: <87h64zyutr.fsf@intel.com>
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C3A10E935
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 16:47:34 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-439585a0544so6992945e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 08:47:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1739378853; x=1739983653;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Qa3lHlvYdLNFaksRYkAdLaRy9lcsKO0x9V6FGVIyLMI=;
+ b=c+GisFktjzg+hoOZcsBLyfOoLKsQlylmPOTm8ez7ltrisPaGiPaU0Th0v2UlOEiQjI
+ aS2VwVDoWJZaydjGrkGEjRuP9d0J9wlacvmEhrBV0S75JsnMqDemqEhB+TsptBVU1mir
+ rN1+Tb92/+T1i6auO3VuXc4gL1z8awFhjn5dU5oZdAMHOb0SUXY1XDhGgqdr7oeTVzX8
+ dx5+J5CL1NIK3b5mH/wCTNSgND7jd8nJcU3QNXe05JXt2vadbpCKgpB7McU3C8N31mEu
+ 2xB7zdE7gVEUXgiaoeh0+ALY3UmElzvHXYrQTNJU2exLzcV7f+5T4P+jPNkVoxkaY3tN
+ rjlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739378853; x=1739983653;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Qa3lHlvYdLNFaksRYkAdLaRy9lcsKO0x9V6FGVIyLMI=;
+ b=UGKGt5MOfTHfZqw2h4BMttGx4BCem/CGDNDaT1cKbvTa1/loFNLf99TktKYoPurGWH
+ LK+1PCexBdmHjNBcvVnY4DDpaD7hCUmWYlZyeVYfXkN88vfhCiptP8q5Ol9otyh6D0X6
+ +h0Kq8nVrSB8bHam8J1we6grkmDt6bVo3NdlAeRAFJEb42/MG6sVbEi4NYyymqH1l3GO
+ GnaJvgCeBmOHeGqkx2MIymkedAhUD1uSgjQf58VB/GM9QW2Hg3Fb5p7hid1K+h23JRGW
+ TbRWzrXyvsFO34/UekuGvi9M2f3xAB4VjHuvBdPQhBKUEVYc+nXjIlh8YwZKzDshUfTD
+ hbvA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUvhkwJQ/RL/gHp5Qgx0PvmAPj1rOXqJpPURew9La57q0eUcSS/UgLKa9ZlFLmvj+ey03NCjnSzWcY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxp62ckrGovMOwUrIBwlE2Zd+0Uez/Qr474JhVQKQzuC/ddaOqS
+ D0iiML3lLAE9Vq/XtDniPIWlX/FbAxD8cOFzx35XMy9eZyGvo2WRXZIzVcVnbqU=
+X-Gm-Gg: ASbGnct/7WncAXThmoDjVJ3HYOWyO4Med8FQdN6o/0vAT6kqLVZvbrBYnjkox8NP9pB
+ EipQpPonXOHGpkVbyLWnyCJN+08t/f+Z9+Hmj934kW01kuYTwLHDGHVitAd/1df3DR4sHjpi3l1
+ r6Egp0A4aFercgYaCguuETeoSNW/qr/JG0x7MWZ8nzPYlZsw8t50OtGERa+ZDRZgEetiSbwJyMY
+ EZ9wKJ6VfTVcfLPduNNj8HRE+yKra5IBOIIBVJb0PonIvV5vAWjdnUwJiHxhWkZf6kcsm7bJqyf
+ 82uu+qow+NtMXBw+b+MaCgyz6IOWnGw=
+X-Google-Smtp-Source: AGHT+IEwx8ygIaZZRDY7oazT3QtnE2fMAh2TiojaLr2hVucu7dTdzOo+MVxVHndyN6Fo+KGkJ8h68w==
+X-Received: by 2002:a05:600c:3505:b0:434:fdbc:5cf7 with SMTP id
+ 5b1f17b1804b1-43959a930b2mr29548845e9.27.1739378852618; 
+ Wed, 12 Feb 2025 08:47:32 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-38dc3a10fffsm17117045f8f.12.2025.02.12.08.47.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Feb 2025 08:47:32 -0800 (PST)
+Message-ID: <b0664a84-6bef-44b6-90bd-7c60e9875933@ursulin.net>
+Date: Wed, 12 Feb 2025 16:47:31 +0000
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/panthor: Replace sleep locks with spinlocks in
+ fdinfo path
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250210124203.124191-1-adrian.larumbe@collabora.com>
+ <2ec2a848-90f4-49bc-aaaf-8eb256f271db@ursulin.net>
+ <ddnsckbpr2fcxby4i2o5xyrt3pdhornzbrvlbivuvzlyhgg66q@ejhkiz33sewn>
+ <7ee0205a-6522-465b-8795-3d7b867e2d97@ursulin.net>
+ <20250212173356.10f47318@collabora.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250212173356.10f47318@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,64 +101,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Feb 2025, Imre Deak <imre.deak@intel.com> wrote:
-> Starting with DPCD version 2.0 bits 6:3 of the DP_DSC_BITS_PER_PIXEL_INC
-> DPCD register contains the NativeYCbCr422_MAX_bpp_DELTA field, which can
-> be non-zero as opposed to earlier DPCD versions, hence decoding the
-> bit_per_pixel increment value at bits 2:0 in the same register requires
-> applying a mask, do so.
->
-> Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-> Fixes: 0c2287c96521 ("drm/display/dp: Add helper function to get DSC bpp precision")
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+On 12/02/2025 16:33, Boris Brezillon wrote:
+> On Tue, 11 Feb 2025 11:39:49 +0000
+> Tvrtko Ursulin <tursulin@ursulin.net> wrote:
+> 
+>> On 10/02/2025 16:08, Adrián Larumbe wrote:
+>>> Hi Tvrtko,
+>>
+>> Thanks!
+>>
+>>> [18153.770244] BUG: sleeping function called from invalid context at kernel/locking/mutex.c:562
+>>> [18153.771059] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 203412, name: cat
+>>> [18153.771757] preempt_count: 1, expected: 0
+>>> [18153.772164] RCU nest depth: 0, expected: 0
+>>> [18153.772538] INFO: lockdep is turned off.
+>>> [18153.772898] CPU: 4 UID: 0 PID: 203412 Comm: cat Tainted: G        W          6.14.0-rc1-panthor-next-rk3588-fdinfo+ #1
+>>> [18153.772906] Tainted: [W]=WARN
+>>> [18153.772908] Hardware name: Radxa ROCK 5B (DT)
+>>> [18153.772911] Call trace:
+>>> [18153.772913]  show_stack+0x24/0x38 (C)
+>>> [18153.772927]  dump_stack_lvl+0x3c/0x98
+>>> [18153.772935]  dump_stack+0x18/0x24
+>>> [18153.772941]  __might_resched+0x298/0x2b0
+>>> [18153.772948]  __might_sleep+0x6c/0xb0
+>>> [18153.772953]  __mutex_lock_common+0x7c/0x1950
+>>> [18153.772962]  mutex_lock_nested+0x38/0x50
+>>> [18153.772969]  panthor_fdinfo_gather_group_samples+0x80/0x138 [panthor]
+>>> [18153.773042]  panthor_show_fdinfo+0x80/0x228 [panthor]
+>>> [18153.773109]  drm_show_fdinfo+0x1a4/0x1e0 [drm]
+>>> [18153.773397]  seq_show+0x274/0x358
+>>> [18153.773404]  seq_read_iter+0x1d4/0x630
+>>
+>> There is a mutex_lock literally in seq_read_iter.
+>>
+>> So colour me confused. What created the atomic context between then and
+>> Panthor code?! I just don't see it.
+> 
+> It's actually the xa_lock() we take when gathering fdinfo data that
+> puts us in this atomic context. In other words, the fix is correct, but
+> the explanation is wrong :-).
 
-But we should really clean up the macros:
+Huh I did not spot that when glancing over it yesterday or so, but 
+anyway, excellent you figured it out! Now the commit message can be 
+fixed and not mislead someone in the future to think mutexes cannot be 
+used in fdinfo. Thanks for taking time to check it!
 
-#define DP_DSC_BITS_PER_PIXEL_INC           0x06F
-# define DP_DSC_RGB_YCbCr444_MAX_BPP_DELTA_MASK 0x1f
-# define DP_DSC_RGB_YCbCr420_MAX_BPP_DELTA_MASK 0xe0
+Regards,
 
-These are both for DPCD 0x6e, not 0x6f. They're misleading here. And
-they should contain the /* DP 2.0 */ comment.
+Tvrtko
 
-And a similar macro for 0x6f bits 6:3 could be added.
-
-BR,
-Jani.
-
-
-> ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
->  include/drm/display/drm_dp.h            | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index c488d160a3c1f..f5c596234729d 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -2602,7 +2602,7 @@ u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
->  {
->  	u8 bpp_increment_dpcd = dsc_dpcd[DP_DSC_BITS_PER_PIXEL_INC - DP_DSC_SUPPORT];
->  
-> -	switch (bpp_increment_dpcd) {
-> +	switch (bpp_increment_dpcd & DP_DSC_BITS_PER_PIXEL_MASK) {
->  	case DP_DSC_BITS_PER_PIXEL_1_16:
->  		return 16;
->  	case DP_DSC_BITS_PER_PIXEL_1_8:
-> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
-> index 784a32bfbad8f..c413ef68f9a30 100644
-> --- a/include/drm/display/drm_dp.h
-> +++ b/include/drm/display/drm_dp.h
-> @@ -359,6 +359,7 @@
->  # define DP_DSC_BITS_PER_PIXEL_1_4          0x2
->  # define DP_DSC_BITS_PER_PIXEL_1_2          0x3
->  # define DP_DSC_BITS_PER_PIXEL_1_1          0x4
-> +# define DP_DSC_BITS_PER_PIXEL_MASK         0x7
->  
->  #define DP_PSR_SUPPORT                      0x070   /* XXX 1.2? */
->  # define DP_PSR_IS_SUPPORTED                1
-
--- 
-Jani Nikula, Intel
