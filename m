@@ -2,59 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11657A32BAB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 17:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2B7A32B56
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 17:17:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB2610E916;
-	Wed, 12 Feb 2025 16:33:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6DBD410E8FF;
+	Wed, 12 Feb 2025 16:17:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="a3ZeadJY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mItAcNv8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8045710E911;
- Wed, 12 Feb 2025 16:33:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 187EB89496;
+ Wed, 12 Feb 2025 16:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739377998; x=1770913998;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=bPb4HGtPc1jw3HZ2PILjHq8rNQ6CKsUqMy94wB2IVAE=;
- b=a3ZeadJYMUMVlBJ40WLLhgrcIyM2+DkAZXxYGm31XTvPuMGzHvZfGSni
- CLcgmUSoi6sYCDkHke5Q5fghTJIVlmWVFa8fI0oSkhmyLAYs3slitl1Xq
- 6RhHfo4EFXxGQZL+efxo19NZXXLqG6Pw7IC8HbG6dA8wYTcHiGqNHcA04
- Cq74ftWam5Dv3qtk9iAxxOmqGI4LsOuTgFjj82gg6j7IQfMi7gk716mju
- tPQVizxIX5Tu/Ey7kZETMymgPfewS0gihrmTGXixObU139OaamSWpRQ5Q
- pYS9KzTqDrBry1oH0mZmphXj6XgWZvkwrwTMifQpNnxv2+x8zBJMhNVM5 g==;
-X-CSE-ConnectionGUID: czN1DSufQdGibDpforgghA==
-X-CSE-MsgGUID: XK9jlCjQTRuVlG6lv8MLgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="39969133"
-X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="39969133"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2025 08:33:18 -0800
-X-CSE-ConnectionGUID: 4H8SIfHcR8qpEHO4OETAsQ==
-X-CSE-MsgGUID: QzFEoXf5QFSIc8uGMqRkeg==
+ t=1739377073; x=1770913073;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=XpJV35U97FhYK+AL8Yda+oOzRCN0Xjo9cKENv+kQkaA=;
+ b=mItAcNv8mb3XVnqF/ax5sTlzG38N6j6qc1dfvx3ZY9YpcnhdPGm8NUwA
+ P1nEkb/JIRdNHE1DxG599AA0wq9D50YIBAQOEJkt79yn8unyYPzwOl/sB
+ pFV4OEGYPH/+2ibU34NC7sNCeNus0alKvwlxOmghDouofHt8Yw2czYI0M
+ nYp07kBbaeUEnr0McgX1gbYAluTe++ur+N5JXwmZPuGEN1SB2flvXi8YK
+ PJ2vdJoVuLOiugKOj4VSUVmrJ2Wejc7Up3NTkMQCNe+gH8A+njfmX2muX
+ TYLfPMH/tB/KGLFKaGs72EtEHazoK6oh1OjDtEuuDFUxh7qptuuxWCiPK Q==;
+X-CSE-ConnectionGUID: qWsGiV6FTq23qmOfR2nzzg==
+X-CSE-MsgGUID: NuSsCd0OTFyis4O+onsxlg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="57447435"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="57447435"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 08:17:53 -0800
+X-CSE-ConnectionGUID: fL9VmUs1TwKdaDdQMd+ncw==
+X-CSE-MsgGUID: LzubKaaIS+aLtDS0Qa40/A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="116989312"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa003.fm.intel.com with ESMTP; 12 Feb 2025 08:33:16 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Wed, 12 Feb 2025 21:48:24 +0530
-Subject: [PATCH v5 3/3] drm/i915/display: Add i915 hook for
- format_mod_supported_async
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="143710438"
+Received: from ideak-desk.fi.intel.com ([10.237.72.78])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 08:17:51 -0800
+From: Imre Deak <imre.deak@intel.com>
+To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Subject: [PATCH] drm: Fix DSC BPP increment decoding
+Date: Wed, 12 Feb 2025 18:18:51 +0200
+Message-ID: <20250212161851.4007005-1-imre.deak@intel.com>
+X-Mailer: git-send-email 2.44.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250212-asyn-v5-3-dc182281dca3@intel.com>
-References: <20250212-asyn-v5-0-dc182281dca3@intel.com>
-In-Reply-To: <20250212-asyn-v5-0-dc182281dca3@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org
-Cc: chaitanya.kumar.borah@intel.com, ville.syrjala@intel.com, 
- Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,101 +66,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hook up the newly added plane function pointer
-format_mod_supported_async to populate the modifiers/formats supported
-by asynchronous flips.
+Starting with DPCD version 2.0 bits 6:3 of the DP_DSC_BITS_PER_PIXEL_INC
+DPCD register contains the NativeYCbCr422_MAX_bpp_DELTA field, which can
+be non-zero as opposed to earlier DPCD versions, hence decoding the
+bit_per_pixel increment value at bits 2:0 in the same register requires
+applying a mask, do so.
 
-v5: Correct the if condition for modifier support check (Chaitanya)
-
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+Cc: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+Fixes: 0c2287c96521 ("drm/display/dp: Add helper function to get DSC bpp precision")
+Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
- 1 file changed, 41 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
+ include/drm/display/drm_dp.h            | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-index ba5db553c374259f8f3246c1408b55d32c8794e5..2743b031d1092ccc74b4144bd06dba8790f722e7 100644
---- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
-+++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
-@@ -511,6 +511,33 @@ skl_plane_max_stride(struct intel_plane *plane,
- 				modifier, rotation,
- 				max_pixels, max_bytes);
- }
-+static bool intel_plane_async_formats(struct intel_plane *plane, uint32_t format)
-+{
-+	switch (format) {
-+	case DRM_FORMAT_RGB565:
-+	case DRM_FORMAT_XRGB8888:
-+	case DRM_FORMAT_XBGR8888:
-+	case DRM_FORMAT_ARGB8888:
-+	case DRM_FORMAT_ABGR8888:
-+	case DRM_FORMAT_XRGB2101010:
-+	case DRM_FORMAT_XBGR2101010:
-+	case DRM_FORMAT_XRGB16161616F:
-+	case DRM_FORMAT_XBGR16161616F:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static bool intel_plane_format_mod_supported_async(struct drm_plane *plane,
-+						   uint32_t format,
-+						   uint64_t modifier)
-+{
-+	if (!intel_plane_can_async_flip(to_intel_plane(plane), modifier))
-+		return false;
-+
-+	return intel_plane_async_formats(to_intel_plane(plane), format);
-+}
- 
- static bool tgl_plane_can_async_flip(u64 modifier)
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+index c488d160a3c1f..f5c596234729d 100644
+--- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -2602,7 +2602,7 @@ u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
  {
-@@ -2559,30 +2586,29 @@ static bool tgl_plane_format_mod_supported(struct drm_plane *_plane,
- 	}
- }
+ 	u8 bpp_increment_dpcd = dsc_dpcd[DP_DSC_BITS_PER_PIXEL_INC - DP_DSC_SUPPORT];
  
-+#define INTEL_PLANE_FUNCS \
-+	.update_plane = drm_atomic_helper_update_plane, \
-+	.disable_plane = drm_atomic_helper_disable_plane, \
-+	.destroy = intel_plane_destroy, \
-+	.atomic_duplicate_state = intel_plane_duplicate_state, \
-+	.atomic_destroy_state = intel_plane_destroy_state, \
-+	.format_mod_supported_async = intel_plane_format_mod_supported_async
-+
- static const struct drm_plane_funcs skl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = skl_plane_format_mod_supported,
- };
+-	switch (bpp_increment_dpcd) {
++	switch (bpp_increment_dpcd & DP_DSC_BITS_PER_PIXEL_MASK) {
+ 	case DP_DSC_BITS_PER_PIXEL_1_16:
+ 		return 16;
+ 	case DP_DSC_BITS_PER_PIXEL_1_8:
+diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+index 784a32bfbad8f..c413ef68f9a30 100644
+--- a/include/drm/display/drm_dp.h
++++ b/include/drm/display/drm_dp.h
+@@ -359,6 +359,7 @@
+ # define DP_DSC_BITS_PER_PIXEL_1_4          0x2
+ # define DP_DSC_BITS_PER_PIXEL_1_2          0x3
+ # define DP_DSC_BITS_PER_PIXEL_1_1          0x4
++# define DP_DSC_BITS_PER_PIXEL_MASK         0x7
  
- static const struct drm_plane_funcs icl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = icl_plane_format_mod_supported,
- };
- 
- static const struct drm_plane_funcs tgl_plane_funcs = {
--	.update_plane = drm_atomic_helper_update_plane,
--	.disable_plane = drm_atomic_helper_disable_plane,
--	.destroy = intel_plane_destroy,
--	.atomic_duplicate_state = intel_plane_duplicate_state,
--	.atomic_destroy_state = intel_plane_destroy_state,
-+	INTEL_PLANE_FUNCS,
-+
- 	.format_mod_supported = tgl_plane_format_mod_supported,
- };
- 
-
+ #define DP_PSR_SUPPORT                      0x070   /* XXX 1.2? */
+ # define DP_PSR_IS_SUPPORTED                1
 -- 
-2.25.1
+2.44.2
 
