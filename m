@@ -2,81 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7701BA3259B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 13:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265C4A325B2
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 13:11:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0026D10E872;
-	Wed, 12 Feb 2025 12:06:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F41B10E873;
+	Wed, 12 Feb 2025 12:11:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="Xojblhuk";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ngFvldEb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E56A10E872
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 12:06:16 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51CC0xgE010356;
- Wed, 12 Feb 2025 12:06:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=GWNjOhkWdZGepaF9ESB4Y+Ol
- +0K2QoBFZRz2dOlv4wY=; b=XojblhukwY5st6ZOQb00cyQf2ujwqMbNCrVv6CNp
- oEFyewO6hYQTwZbP6Xkh0cuPmP5/HrrAJtnL1oa+zzqWs1UXZj2cwXb7jtuThYF+
- 1S6kIbBZCxwMrkOhvTm+RZZzYro4GWLfbybMHF9dMSt1twnVmzXKPy+nyuOcGr5g
- KzB8RJ5LSYzPE0hQEJdFzlVuAG40yVKMULDhzIBr5XMdXcepf8M+PY/D6Jy4Nory
- 9xSk8MQ28zNPMBDTgeBhUxG2j/1lUAZUFZDu3GbCnlyBWNAEmNp+k2HTiDchRSJf
- zc9hm1wbM/9xmp+dgf6neHXucZ6f3mnqsqNdCVU2LvRivw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qcs5frm9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 12:06:09 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
- [10.46.141.250])
- by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51CC68vE030432
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 12:06:09 GMT
-Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 12 Feb 2025 04:06:04 -0800
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-To: Vinod Koul <vkoul@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
- <quic_vtanuku@quicinc.com>
-Subject: [PATCH v5 RESEND 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Date: Wed, 12 Feb 2025 17:35:36 +0530
-Message-ID: <20250212120536.28879-3-quic_jseerapu@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250212120536.28879-1-quic_jseerapu@quicinc.com>
-References: <20250212120536.28879-1-quic_jseerapu@quicinc.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EEDE10E08E;
+ Wed, 12 Feb 2025 12:11:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739362303; x=1770898303;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8xRczJ+6fuozmOIp68FujAD48HuqeNLP1OX5kCweabY=;
+ b=ngFvldEblZq8NHg/BWoShOoDtU8dhre/6drm/0QmRH9g/rOQxYTTSnMF
+ L/7lrfhaGKyMVVWj7K6lc8Zlyqm0+uHu0x2qfobUTtGcEpF4BwW0+F52n
+ LedUNWal+UA+lMjDHhrMj78SJhcyvSyyaSgdcTAtzdCBgDpLoCYyDEs90
+ 64Lwmv/4sDrcfuBJOPd2cS+4kAaLJLrXUzqjg4af4hzgwa+hpX3EOVNca
+ v/w2fqv62loom7xe8wjTfQ8Cfn5VkfnQr0di+1VtcXgOQS+Pws7stk96X
+ etTlZEUOdOnZQWVlNo9S+LCgW6C9SSX8xhHSCmciyz/ferh3akbUkJpYE g==;
+X-CSE-ConnectionGUID: SIUJ0juWQmOODVyWs+RqAA==
+X-CSE-MsgGUID: hWtl+110RpOUiMPc27WT8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="39899315"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="39899315"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 04:11:43 -0800
+X-CSE-ConnectionGUID: iOOkBSbiQB+QCJTd40GSbA==
+X-CSE-MsgGUID: aWUBImtFQdahoVBpSxcsJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="112571965"
+Received: from unknown (HELO tejas-super-server.iind.intel.com)
+ ([10.190.239.37])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 04:11:40 -0800
+From: Tejas Upadhyay <tejas.upadhyay@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, vinay.belgaumkar@intel.com,
+ Tejas Upadhyay <tejas.upadhyay@intel.com>
+Subject: [PATCH V9] drm/xe/uapi: Use hint for guc to set GT frequency
+Date: Wed, 12 Feb 2025 17:48:14 +0530
+Message-Id: <20250212121814.9947-1-tejas.upadhyay@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: gqZ_6GIoyIPsw3BtX1YVXURXb4iNgq-X
-X-Proofpoint-GUID: gqZ_6GIoyIPsw3BtX1YVXURXb4iNgq-X
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_04,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0
- mlxlogscore=999 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
- adultscore=0 clxscore=1015 mlxscore=0 priorityscore=1501 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
- definitions=main-2502120093
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,485 +67,319 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The I2C driver gets an interrupt upon transfer completion.
-When handling multiple messages in a single transfer, this
-results in N interrupts for N messages, leading to significant
-software interrupt latency.
+Allow user to provide a low latency hint. When set, KMD sends a hint
+to GuC which results in special handling for that process. SLPC will
+ramp the GT frequency aggressively every time it switches to this
+process.
 
-To mitigate this latency, utilize Block Event Interrupt (BEI)
-mechanism. Enabling BEI instructs the hardware to prevent interrupt
-generation and BEI is disabled when an interrupt is necessary.
+We need to enable the use of SLPC Compute strategy during init, but
+it will apply only to processes that set this bit during process
+creation.
 
-Large I2C transfer can be divided into chunks of 8 messages internally.
-Interrupts are not expected for the first 7 message completions, only
-the last message triggers an interrupt, indicating the completion of
-8 messages. This BEI mechanism enhances overall transfer efficiency.
+Improvement with this approach as below:
 
-This optimization reduces transfer time from 168 ms to 48 ms for a
-series of 200 I2C write messages in a single transfer, with a
-clock frequency support of 100 kHz.
+Before,
 
-BEI optimizations are currently implemented for I2C write transfers only,
-as there is no use case for multiple I2C read messages in a single transfer
-at this time.
+:~$ NEOReadDebugKeys=1 EnableDirectSubmission=0 clpeak --kernel-latency
+Platform: Intel(R) OpenCL Graphics
+  Device: Intel(R) Graphics [0xe20b]
+    Driver version  : 24.52.0 (Linux x64)
+    Compute units   : 160
+    Clock frequency : 2850 MHz
+    Kernel launch latency : 283.16 us
 
-Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+After,
+
+:~$ NEOReadDebugKeys=1 EnableDirectSubmission=0 clpeak --kernel-latency
+Platform: Intel(R) OpenCL Graphics
+  Device: Intel(R) Graphics [0xe20b]
+    Driver version  : 24.52.0 (Linux x64)
+    Compute units   : 160
+    Clock frequency : 2850 MHz
+
+    Kernel launch latency : 63.38 us
+
+UMD Compute PR : https://github.com/intel/compute-runtime/pull/794
+UMD Mesa PR :  https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33214
+
+v9(Vinay):
+  - remove extra line, align commit message
+v8(Vinay):
+  - Add separate example for using low latency hint
+v7(Jose):
+  - Update UMD PR
+  - applicable to all gpus
+V6:
+  - init flags, remove redundant flags check (MAuld)
+V5:
+  - Move uapi doc to documentation and GuC ABI specific change (Rodrigo)
+  - Modify logic to restrict exec queue flags (MAuld)
+V4:
+  - To make it clear, dont use exec queue word (Vinay)
+  - Correct typo in description of flag (Jose/Vinay)
+  - rename set_strategy api and replace ctx with exec queue(Vinay)
+  - Start with 0th bit to indentify user flags (Jose)
+V3:
+  - Conver user flag to kernel internal flag and use (Oak)
+  - Support query config for use to check kernel support (Jose)
+  - Dont need to take runtime pm (Vinay)
+V2:
+  - DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT 1 planned for other hint(Szymon)
+  - Add motivation to description (Lucas)
+
+Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
+Signed-off-by: Tejas Upadhyay <tejas.upadhyay@intel.com>
 ---
+ Documentation/gpu/drm-uapi.rst                | 18 +++++++++++++++++
+ drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h |  3 +++
+ drivers/gpu/drm/xe/xe_exec_queue.c            | 10 +++++++---
+ drivers/gpu/drm/xe/xe_exec_queue_types.h      |  2 ++
+ drivers/gpu/drm/xe/xe_guc_pc.c                | 16 +++++++++++++++
+ drivers/gpu/drm/xe/xe_guc_submit.c            |  8 ++++++++
+ drivers/gpu/drm/xe/xe_query.c                 |  2 ++
+ include/uapi/drm/xe_drm.h                     | 20 ++++++++++++++++++-
+ 8 files changed, 75 insertions(+), 4 deletions(-)
 
-v4 -> v5:
-   -  Block event interrupt flag naming changed from flags to bei_flag.
-   -  Documentation added for "struct geni_i2c_dev".
-
-v3 -> v4:
-  - API's added for Block event interrupt with multi descriptor support for
-    I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
-  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
-    I2C driver.
-  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
-    struct geni_i2c_dev.
-
-v2 -> v3:
-   - In i2c_gpi_cb_result function, moved the logic of
-    "!is_tx_multi_xfer" to else.
-   - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
-   - Updated commit description
-
-v1 -> v2:
-   - Moved gi2c_gpi_xfer->msg_idx_cnt to separate local variable.
-   - Updated goto labels for error scenarios in geni_i2c_gpi function
-   - memset tx_multi_xfer to 0.
-   - Removed passing current msg index to geni_i2c_gpi
-   - Fixed kernel test robot reported compilation issues.
-
- drivers/i2c/busses/i2c-qcom-geni.c | 304 ++++++++++++++++++++++++++---
- 1 file changed, 279 insertions(+), 25 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index 7a22e1f46e60..5b73673dd43a 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -78,6 +78,62 @@ enum geni_i2c_err_code {
- #define XFER_TIMEOUT		HZ
- #define RST_TIMEOUT		HZ
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index b75cc9a70d1f..7337d1be45ef 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -583,3 +583,21 @@ dma-buf interoperability
  
-+#define QCOM_I2C_GPI_MAX_NUM_MSGS		16
-+#define QCOM_I2C_GPI_NUM_MSGS_PER_IRQ		8
-+#define QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC	2
+ Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+ information on how dma-buf is integrated and exposed within DRM.
 +
-+/**
-+ * struct geni_i2c_gpi_multi_desc_xfer - Used for multi transfer support
-+ *
-+ * @msg_idx_cnt: message index for the transfer
-+ * @buf_idx: dma buffer index
-+ * @unmap_msg_cnt: unmapped transfer index
-+ * @freed_msg_cnt: freed transfer index
-+ * @irq_cnt: received interrupt count
-+ * @irq_msg_cnt: transfer message count for the received irqs
-+ * @dma_buf: virtual addresses of the buffers
-+ * @dma_addr: dma addresses of the buffers
-+ */
-+struct geni_i2c_gpi_multi_desc_xfer {
-+	u32 msg_idx_cnt;
-+	u32 buf_idx;
-+	u32 unmap_msg_cnt;
-+	u32 freed_msg_cnt;
-+	u32 irq_cnt;
-+	u32 irq_msg_cnt;
-+	void *dma_buf[QCOM_I2C_GPI_MAX_NUM_MSGS];
-+	dma_addr_t dma_addr[QCOM_I2C_GPI_MAX_NUM_MSGS];
-+};
++Low latency hint by user
++========================
 +
-+/**
-+ * struct geni_i2c_dev - I2C Geni device specific structure
-+ *
-+ * @se: geni serial engine
-+ * @tx_wm: Tx watermark level
-+ * @irq: i2c serial engine interrupt
-+ * @err: specifies error codes in i2c transfer failures
-+ * @adap: i2c geni adapter
-+ * @done: completion variable
-+ * @cur: pointer to the i2c_msg mentioning current i2c message in use
-+ * @cur_wr: variable used for i2c write opertions
-+ * @cur_rd: variable used for i2c read operations
-+ * @lock: spinlock variable used for synchronization
-+ * @core_clk: pointer to clk
-+ * @clk_freq_out: contains the i2c clock frequency
-+ * @clk_fld: pointer to geni_i2c_clk_fld
-+ * @suspended: flag used for system supend status
-+ * @dma_buf: virtual address of the buffer
-+ * @xfer_len: holds length for the dma operation
-+ * @dma_addr: dma address of the buffer
-+ * @tx_c: Tx dma channel
-+ * @rx_c: Rx dma channel
-+ * @gpi_mode: GPI DMA mode of operation
-+ * @abort_done: true for marking i2c abort transfer
-+ * @is_tx_multi_desc_xfer: true for i2c multi transfer support
-+ * @num_msgs: number of i2c messages in a transfer
-+ * @tx_irq_cnt: flag used for tx irq count in i2c multi transfer
-+ * @i2c_multi_desc_config: used for multi transfer support
-+ */
- struct geni_i2c_dev {
- 	struct geni_se se;
- 	u32 tx_wm;
-@@ -100,6 +156,10 @@ struct geni_i2c_dev {
- 	struct dma_chan *rx_c;
- 	bool gpi_mode;
- 	bool abort_done;
-+	bool is_tx_multi_desc_xfer;
-+	u32 num_msgs;
-+	u32 tx_irq_cnt;
-+	struct geni_i2c_gpi_multi_desc_xfer i2c_multi_desc_config;
- };
- 
- struct geni_i2c_desc {
-@@ -500,6 +560,7 @@ static int geni_i2c_tx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- {
- 	struct geni_i2c_dev *gi2c = cb;
-+	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
- 
- 	if (result->result != DMA_TRANS_NOERROR) {
- 		dev_err(gi2c->se.dev, "DMA txn failed:%d\n", result->result);
-@@ -508,7 +569,22 @@ static void i2c_gpi_cb_result(void *cb, const struct dmaengine_result *result)
- 		dev_dbg(gi2c->se.dev, "DMA xfer has pending: %d\n", result->residue);
- 	}
- 
--	complete(&gi2c->done);
-+	if (!gi2c->is_tx_multi_desc_xfer) {
-+		complete(&gi2c->done);
-+	} else {
-+		tx_multi_xfer = &gi2c->i2c_multi_desc_config;
++Allow users to provide a hint to kernel for cases demanding low latency
++profile. Please note it will have impact on power consumption. User can
++indicate low latency hint with flag while creating exec queue as
++mentioned below,
 +
-+		/*
-+		 * Send Completion for last message or multiple of
-+		 * QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
-+		 */
-+		if ((tx_multi_xfer->irq_msg_cnt == gi2c->num_msgs - 1) ||
-+		    (!((tx_multi_xfer->irq_msg_cnt + 1) % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ))) {
-+			tx_multi_xfer->irq_cnt++;
-+			complete(&gi2c->done);
-+		}
-+		tx_multi_xfer->irq_msg_cnt++;
-+	}
- }
++     struct drm_xe_exec_queue_create exec_queue_create = {
++          .flags = DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT,
++          .extensions = 0,
++          .vm_id = vm,
++          .num_bb_per_exec = 1,
++          .num_eng_per_bb = 1,
++          .instances = to_user_pointer(&instance),
++     };
++     ioctl(fd, DRM_IOCTL_XE_EXEC_QUEUE_CREATE, &exec_queue_create);
+diff --git a/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h b/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h
+index 85abe4f09ae2..b28c8fa061f7 100644
+--- a/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h
++++ b/drivers/gpu/drm/xe/abi/guc_actions_slpc_abi.h
+@@ -174,6 +174,9 @@ struct slpc_task_state_data {
+ 	};
+ } __packed;
  
- static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-@@ -526,7 +602,87 @@ static void geni_i2c_gpi_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	}
- }
- 
--static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
-+/**
-+ * geni_i2c_gpi_multi_desc_unmap() - unmaps the buffers post multi message TX transfers
-+ * @gi2c: i2c dev handle
-+ * @msgs: i2c messages array
-+ * @peripheral: pointer to gpi_i2c_config
-+ */
-+static void geni_i2c_gpi_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
-+					  struct gpi_i2c_config *peripheral)
-+{
-+	u32 msg_xfer_cnt, wr_idx = 0;
-+	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer = &gi2c->i2c_multi_desc_config;
++#define SLPC_CTX_FREQ_REQ_IS_COMPUTE		REG_BIT(28)
++#define SLPC_OPTIMIZED_STRATEGY_COMPUTE		REG_BIT(0)
 +
-+	/*
-+	 * In error case, need to unmap all messages based on the msg_idx_cnt.
-+	 * Non-error case unmap all the processed messages.
-+	 */
-+	if (gi2c->err)
-+		msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
-+	else
-+		msg_xfer_cnt = tx_multi_xfer->irq_cnt * QCOM_I2C_GPI_NUM_MSGS_PER_IRQ;
-+
-+	/* Unmap the processed DMA buffers based on the received interrupt count */
-+	for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
-+		if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
-+			break;
-+		wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_I2C_GPI_MAX_NUM_MSGS;
-+		geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
-+				   tx_multi_xfer->dma_buf[wr_idx],
-+				   tx_multi_xfer->dma_addr[wr_idx],
-+				   NULL, (dma_addr_t)NULL);
-+		tx_multi_xfer->freed_msg_cnt++;
-+	}
-+}
-+
-+/**
-+ * geni_i2c_gpi_multi_xfer_timeout_handler() - Handle multi message transfer timeout
-+ * @dev: pointer to the corresponding dev node
-+ * @multi_xfer: pointer to the geni_i2c_gpi_multi_desc_xfer
-+ * @num_xfers: total number of transfers
-+ * @transfer_timeout_msecs: transfer timeout value
-+ * @transfer_comp: completion object of the transfer
-+ *
-+ * This function is used to wait for the processed transfers based on
-+ * the interrupts generated upon transfer completion.
-+ * Return: On success returns 0, otherwise return error code (-ETIMEDOUT)
-+ */
-+static int geni_i2c_gpi_multi_xfer_timeout_handler(struct device *dev,
-+						   struct geni_i2c_gpi_multi_desc_xfer *multi_xfer,
-+						   u32 num_xfers, u32 transfer_timeout_msecs,
-+						   struct completion *transfer_comp)
-+{
-+	int i;
-+	u32 max_irq_cnt, time_left;
-+
-+	max_irq_cnt = num_xfers / QCOM_I2C_GPI_NUM_MSGS_PER_IRQ;
-+	if (num_xfers % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ)
-+		max_irq_cnt++;
-+
-+	/*
-+	 * Wait for the interrupts of the processed transfers in multiple
-+	 * of 8 and for the last transfer. If the hardware is fast and
-+	 * already processed all the transfers then no need to wait.
-+	 */
-+	for (i = 0; i < max_irq_cnt; i++) {
-+		reinit_completion(transfer_comp);
-+		if (max_irq_cnt != multi_xfer->irq_cnt) {
-+			time_left = wait_for_completion_timeout(transfer_comp,
-+								transfer_timeout_msecs);
-+			if (!time_left) {
-+				dev_err(dev, "%s: Transfer timeout\n", __func__);
-+				return -ETIMEDOUT;
-+			}
-+		}
-+		if (num_xfers > multi_xfer->msg_idx_cnt)
-+			return 0;
-+	}
-+	return 0;
-+}
-+
-+static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
- 			struct dma_slave_config *config, dma_addr_t *dma_addr_p,
- 			void **buf, unsigned int op, struct dma_chan *dma_chan)
- {
-@@ -538,26 +694,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	enum dma_transfer_direction dma_dirn;
- 	struct dma_async_tx_descriptor *desc;
- 	int ret;
-+	struct geni_i2c_gpi_multi_desc_xfer *gi2c_gpi_xfer;
-+	dma_cookie_t cookie;
-+	u32 msg_idx;
+ struct slpc_shared_data_header {
+ 	/* Total size in bytes of this shared buffer. */
+ 	u32 size;
+diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+index 6051db78d706..f68b597f5270 100644
+--- a/drivers/gpu/drm/xe/xe_exec_queue.c
++++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+@@ -605,11 +605,12 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 	struct xe_tile *tile;
+ 	struct xe_exec_queue *q = NULL;
+ 	u32 logical_mask;
++	u32 flags = 0;
+ 	u32 id;
+ 	u32 len;
+ 	int err;
  
- 	peripheral = config->peripheral_config;
--
--	dma_buf = i2c_get_dma_safe_msg_buf(msg, 1);
--	if (!dma_buf)
--		return -ENOMEM;
-+	gi2c_gpi_xfer = &gi2c->i2c_multi_desc_config;
-+	dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
-+	addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-+	msg_idx = gi2c_gpi_xfer->msg_idx_cnt;
+-	if (XE_IOCTL_DBG(xe, args->flags) ||
++	if (XE_IOCTL_DBG(xe, args->flags & ~DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT) ||
+ 	    XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1]))
+ 		return -EINVAL;
+ 
+@@ -626,6 +627,9 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 	if (XE_IOCTL_DBG(xe, eci[0].gt_id >= xe->info.gt_count))
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT)
++		flags |= EXEC_QUEUE_FLAG_LOW_LATENCY;
 +
-+	dma_buf = i2c_get_dma_safe_msg_buf(&msgs[msg_idx], 1);
-+	if (!dma_buf) {
-+		ret = -ENOMEM;
-+		goto out;
-+	}
+ 	if (eci[0].engine_class == DRM_XE_ENGINE_CLASS_VM_BIND) {
+ 		if (XE_IOCTL_DBG(xe, args->width != 1) ||
+ 		    XE_IOCTL_DBG(xe, args->num_placements != 1) ||
+@@ -634,8 +638,8 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
  
- 	if (op == I2C_WRITE)
- 		map_dirn = DMA_TO_DEVICE;
- 	else
- 		map_dirn = DMA_FROM_DEVICE;
+ 		for_each_tile(tile, xe, id) {
+ 			struct xe_exec_queue *new;
+-			u32 flags = EXEC_QUEUE_FLAG_VM;
  
--	addr = dma_map_single(gi2c->se.dev->parent, dma_buf, msg->len, map_dirn);
-+	addr = dma_map_single(gi2c->se.dev->parent, dma_buf,
-+			      msgs[msg_idx].len, map_dirn);
- 	if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
--		i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
--		return -ENOMEM;
-+		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	if (gi2c->is_tx_multi_desc_xfer) {
-+		if (((msg_idx + 1) % QCOM_I2C_GPI_NUM_MSGS_PER_IRQ))
-+			peripheral->bei_flag = true;
-+		else
-+			peripheral->bei_flag = false;
-+
-+		/* BEI bit to be cleared for last TRE */
-+		if (msg_idx == gi2c->num_msgs - 1)
-+			peripheral->bei_flag = false;
- 	}
++			flags |= EXEC_QUEUE_FLAG_VM;
+ 			if (id)
+ 				flags |= EXEC_QUEUE_FLAG_BIND_ENGINE_CHILD;
  
- 	/* set the length as message for rx txn */
--	peripheral->rx_len = msg->len;
-+	peripheral->rx_len = msgs[msg_idx].len;
- 	peripheral->op = op;
+@@ -682,7 +686,7 @@ int xe_exec_queue_create_ioctl(struct drm_device *dev, void *data,
+ 		}
  
- 	ret = dmaengine_slave_config(dma_chan, config);
-@@ -575,7 +753,8 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	else
- 		dma_dirn = DMA_DEV_TO_MEM;
+ 		q = xe_exec_queue_create(xe, vm, logical_mask,
+-					 args->width, hwe, 0,
++					 args->width, hwe, flags,
+ 					 args->extensions);
+ 		up_read(&vm->lock);
+ 		xe_vm_put(vm);
+diff --git a/drivers/gpu/drm/xe/xe_exec_queue_types.h b/drivers/gpu/drm/xe/xe_exec_queue_types.h
+index 6eb7ff091534..cc1cffb5c87f 100644
+--- a/drivers/gpu/drm/xe/xe_exec_queue_types.h
++++ b/drivers/gpu/drm/xe/xe_exec_queue_types.h
+@@ -85,6 +85,8 @@ struct xe_exec_queue {
+ #define EXEC_QUEUE_FLAG_BIND_ENGINE_CHILD	BIT(3)
+ /* kernel exec_queue only, set priority to highest level */
+ #define EXEC_QUEUE_FLAG_HIGH_PRIORITY		BIT(4)
++/* flag to indicate low latency hint to guc */
++#define EXEC_QUEUE_FLAG_LOW_LATENCY		BIT(5)
  
--	desc = dmaengine_prep_slave_single(dma_chan, addr, msg->len, dma_dirn, flags);
-+	desc = dmaengine_prep_slave_single(dma_chan, addr, msgs[msg_idx].len,
-+					   dma_dirn, flags);
- 	if (!desc) {
- 		dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
- 		ret = -EIO;
-@@ -585,15 +764,48 @@ static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 	desc->callback_result = i2c_gpi_cb_result;
- 	desc->callback_param = gi2c;
- 
--	dmaengine_submit(desc);
--	*buf = dma_buf;
--	*dma_addr_p = addr;
-+	if (!((msgs[msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
-+		gi2c_gpi_xfer->msg_idx_cnt++;
-+		gi2c_gpi_xfer->buf_idx = (msg_idx + 1) % QCOM_I2C_GPI_MAX_NUM_MSGS;
-+	}
-+	cookie = dmaengine_submit(desc);
-+	if (dma_submit_error(cookie)) {
-+		dev_err(gi2c->se.dev,
-+			"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-+		ret = -EINVAL;
-+		goto err_config;
-+	}
- 
-+	if (gi2c->is_tx_multi_desc_xfer) {
-+		dma_async_issue_pending(gi2c->tx_c);
-+		if ((msg_idx == (gi2c->num_msgs - 1)) ||
-+		    (gi2c_gpi_xfer->msg_idx_cnt >=
-+		     QCOM_I2C_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
-+			ret = geni_i2c_gpi_multi_xfer_timeout_handler(gi2c->se.dev, gi2c_gpi_xfer,
-+								      gi2c->num_msgs, XFER_TIMEOUT,
-+								      &gi2c->done);
-+			if (ret) {
-+				dev_err(gi2c->se.dev,
-+					"I2C multi write msg transfer timeout: %d\n",
-+					ret);
-+				gi2c->err = ret;
-+				goto err_config;
-+			}
-+		}
-+	} else {
-+		/* Non multi descriptor message transfer */
-+		*buf = dma_buf;
-+		*dma_addr_p = addr;
-+	}
- 	return 0;
- 
- err_config:
--	dma_unmap_single(gi2c->se.dev->parent, addr, msg->len, map_dirn);
--	i2c_put_dma_safe_msg_buf(dma_buf, msg, false);
-+	dma_unmap_single(gi2c->se.dev->parent, addr,
-+			 msgs[msg_idx].len, map_dirn);
-+	i2c_put_dma_safe_msg_buf(dma_buf, &msgs[msg_idx], false);
-+
-+out:
-+	gi2c->err = ret;
+ 	/**
+ 	 * @flags: flags for this exec queue, should statically setup aside from ban
+diff --git a/drivers/gpu/drm/xe/xe_guc_pc.c b/drivers/gpu/drm/xe/xe_guc_pc.c
+index 02409eedb914..25040efa043f 100644
+--- a/drivers/gpu/drm/xe/xe_guc_pc.c
++++ b/drivers/gpu/drm/xe/xe_guc_pc.c
+@@ -995,6 +995,17 @@ static int pc_init_freqs(struct xe_guc_pc *pc)
  	return ret;
  }
  
-@@ -605,6 +817,7 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	unsigned long time_left;
- 	dma_addr_t tx_addr, rx_addr;
- 	void *tx_buf = NULL, *rx_buf = NULL;
-+	struct geni_i2c_gpi_multi_desc_xfer *tx_multi_xfer;
- 	const struct geni_i2c_clk_fld *itr = gi2c->clk_fld;
- 
- 	config.peripheral_config = &peripheral;
-@@ -618,6 +831,33 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	peripheral.set_config = 1;
- 	peripheral.multi_msg = false;
- 
-+	gi2c->num_msgs = num;
-+	gi2c->is_tx_multi_desc_xfer = false;
-+	gi2c->tx_irq_cnt = 0;
++static int pc_action_set_strategy(struct xe_guc_pc *pc, u32 val)
++{
++	int ret = 0;
 +
-+	tx_multi_xfer = &gi2c->i2c_multi_desc_config;
-+	memset(tx_multi_xfer, 0, sizeof(struct geni_i2c_gpi_multi_desc_xfer));
++	ret = pc_action_set_param(pc,
++				  SLPC_PARAM_STRATEGIES,
++				  val);
 +
-+	/*
-+	 * If number of write messages are two and higher then
-+	 * configure hardware for multi descriptor transfers with BEI.
-+	 */
-+	if (num >= QCOM_I2C_MIN_NUM_OF_MSGS_MULTI_DESC) {
-+		gi2c->is_tx_multi_desc_xfer = true;
-+		for (i = 0; i < num; i++) {
-+			if (msgs[i].flags & I2C_M_RD) {
-+				/*
-+				 * Multi descriptor transfer with BEI
-+				 * support is enabled for write transfers.
-+				 * TODO: Add BEI optimization support for
-+				 * read transfers later.
-+				 */
-+				gi2c->is_tx_multi_desc_xfer = false;
-+				break;
-+			}
-+		}
-+	}
++	return ret;
++}
 +
- 	for (i = 0; i < num; i++) {
- 		gi2c->cur = &msgs[i];
- 		gi2c->err = 0;
-@@ -628,14 +868,16 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			peripheral.stretch = 1;
- 
- 		peripheral.addr = msgs[i].addr;
-+		if (i > 0 && (!(msgs[i].flags & I2C_M_RD)))
-+			peripheral.multi_msg = false;
- 
--		ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+		ret =  geni_i2c_gpi(gi2c, msgs, &config,
- 				    &tx_addr, &tx_buf, I2C_WRITE, gi2c->tx_c);
- 		if (ret)
- 			goto err;
- 
- 		if (msgs[i].flags & I2C_M_RD) {
--			ret =  geni_i2c_gpi(gi2c, &msgs[i], &config,
-+			ret =  geni_i2c_gpi(gi2c, msgs, &config,
- 					    &rx_addr, &rx_buf, I2C_READ, gi2c->rx_c);
- 			if (ret)
- 				goto err;
-@@ -643,18 +885,26 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 			dma_async_issue_pending(gi2c->rx_c);
- 		}
- 
--		dma_async_issue_pending(gi2c->tx_c);
--
--		time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
--		if (!time_left)
--			gi2c->err = -ETIMEDOUT;
-+		if (!gi2c->is_tx_multi_desc_xfer) {
-+			dma_async_issue_pending(gi2c->tx_c);
-+			time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
-+			if (!time_left) {
-+				dev_err(gi2c->se.dev, "%s:I2C timeout\n", __func__);
-+				gi2c->err = -ETIMEDOUT;
-+			}
-+		}
- 
- 		if (gi2c->err) {
- 			ret = gi2c->err;
- 			goto err;
- 		}
- 
--		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		if (!gi2c->is_tx_multi_desc_xfer) {
-+			geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+		} else if (gi2c->tx_irq_cnt != tx_multi_xfer->irq_cnt) {
-+			gi2c->tx_irq_cnt = tx_multi_xfer->irq_cnt;
-+			geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
-+		}
+ /**
+  * xe_guc_pc_start - Start GuC's Power Conservation component
+  * @pc: Xe_GuC_PC instance
+@@ -1054,6 +1065,11 @@ int xe_guc_pc_start(struct xe_guc_pc *pc)
  	}
  
- 	return num;
-@@ -663,7 +913,11 @@ static int geni_i2c_gpi_xfer(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], i
- 	dev_err(gi2c->se.dev, "GPI transfer failed: %d\n", ret);
- 	dmaengine_terminate_sync(gi2c->rx_c);
- 	dmaengine_terminate_sync(gi2c->tx_c);
--	geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
-+	if (gi2c->is_tx_multi_desc_xfer)
-+		geni_i2c_gpi_multi_desc_unmap(gi2c, msgs, &peripheral);
-+	else
-+		geni_i2c_gpi_unmap(gi2c, &msgs[i], tx_buf, tx_addr, rx_buf, rx_addr);
+ 	ret = pc_action_setup_gucrc(pc, GUCRC_FIRMWARE_CONTROL);
++	if (ret)
++		goto out;
 +
- 	return ret;
- }
++	/* Enable SLPC Optimized Strategy for compute */
++	ret = pc_action_set_strategy(pc, SLPC_OPTIMIZED_STRATEGY_COMPUTE);
  
+ out:
+ 	xe_force_wake_put(gt_to_fw(gt), fw_ref);
+diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+index 913c74d6e2ae..f2ce3086838c 100644
+--- a/drivers/gpu/drm/xe/xe_guc_submit.c
++++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+@@ -15,6 +15,7 @@
+ #include <drm/drm_managed.h>
+ 
+ #include "abi/guc_actions_abi.h"
++#include "abi/guc_actions_slpc_abi.h"
+ #include "abi/guc_klvs_abi.h"
+ #include "regs/xe_lrc_layout.h"
+ #include "xe_assert.h"
+@@ -400,6 +401,7 @@ static void __guc_exec_queue_policy_add_##func(struct exec_queue_policy *policy,
+ MAKE_EXEC_QUEUE_POLICY_ADD(execution_quantum, EXECUTION_QUANTUM)
+ MAKE_EXEC_QUEUE_POLICY_ADD(preemption_timeout, PREEMPTION_TIMEOUT)
+ MAKE_EXEC_QUEUE_POLICY_ADD(priority, SCHEDULING_PRIORITY)
++MAKE_EXEC_QUEUE_POLICY_ADD(slpc_exec_queue_freq_req, SLPM_GT_FREQUENCY)
+ #undef MAKE_EXEC_QUEUE_POLICY_ADD
+ 
+ static const int xe_exec_queue_prio_to_guc[] = {
+@@ -414,14 +416,20 @@ static void init_policies(struct xe_guc *guc, struct xe_exec_queue *q)
+ 	struct exec_queue_policy policy;
+ 	enum xe_exec_queue_priority prio = q->sched_props.priority;
+ 	u32 timeslice_us = q->sched_props.timeslice_us;
++	u32 slpc_exec_queue_freq_req = 0;
+ 	u32 preempt_timeout_us = q->sched_props.preempt_timeout_us;
+ 
+ 	xe_gt_assert(guc_to_gt(guc), exec_queue_registered(q));
+ 
++	if (q->flags & EXEC_QUEUE_FLAG_LOW_LATENCY)
++		slpc_exec_queue_freq_req |= SLPC_CTX_FREQ_REQ_IS_COMPUTE;
++
+ 	__guc_exec_queue_policy_start_klv(&policy, q->guc->id);
+ 	__guc_exec_queue_policy_add_priority(&policy, xe_exec_queue_prio_to_guc[prio]);
+ 	__guc_exec_queue_policy_add_execution_quantum(&policy, timeslice_us);
+ 	__guc_exec_queue_policy_add_preemption_timeout(&policy, preempt_timeout_us);
++	__guc_exec_queue_policy_add_slpc_exec_queue_freq_req(&policy,
++							     slpc_exec_queue_freq_req);
+ 
+ 	xe_guc_ct_send(&guc->ct, (u32 *)&policy.h2g,
+ 		       __guc_exec_queue_policy_action_size(&policy), 0, 0);
+diff --git a/drivers/gpu/drm/xe/xe_query.c b/drivers/gpu/drm/xe/xe_query.c
+index 042f87a688e7..102923d3dc74 100644
+--- a/drivers/gpu/drm/xe/xe_query.c
++++ b/drivers/gpu/drm/xe/xe_query.c
+@@ -336,6 +336,8 @@ static int query_config(struct xe_device *xe, struct drm_xe_device_query *query)
+ 	if (xe_device_get_root_tile(xe)->mem.vram.usable_size)
+ 		config->info[DRM_XE_QUERY_CONFIG_FLAGS] =
+ 			DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM;
++	config->info[DRM_XE_QUERY_CONFIG_FLAGS] |=
++			DRM_XE_QUERY_CONFIG_FLAG_HAS_LOW_LATENCY;
+ 	config->info[DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT] =
+ 		xe->info.vram_flags & XE_VRAM_FLAGS_NEED64K ? SZ_64K : SZ_4K;
+ 	config->info[DRM_XE_QUERY_CONFIG_VA_BITS] = xe->info.va_bits;
+diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
+index 892f54d3aa09..de2f3887d30b 100644
+--- a/include/uapi/drm/xe_drm.h
++++ b/include/uapi/drm/xe_drm.h
+@@ -393,6 +393,8 @@ struct drm_xe_query_mem_regions {
+  *
+  *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM - Flag is set if the device
+  *      has usable VRAM
++ *    - %DRM_XE_QUERY_CONFIG_FLAG_HAS_LOW_LATENCY - Flag is set if the device
++ *      has low latency hint support
+  *  - %DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT - Minimal memory alignment
+  *    required by this device, typically SZ_4K or SZ_64K
+  *  - %DRM_XE_QUERY_CONFIG_VA_BITS - Maximum bits of a virtual address
+@@ -409,6 +411,7 @@ struct drm_xe_query_config {
+ #define DRM_XE_QUERY_CONFIG_REV_AND_DEVICE_ID	0
+ #define DRM_XE_QUERY_CONFIG_FLAGS			1
+ 	#define DRM_XE_QUERY_CONFIG_FLAG_HAS_VRAM	(1 << 0)
++	#define DRM_XE_QUERY_CONFIG_FLAG_HAS_LOW_LATENCY	(1 << 1)
+ #define DRM_XE_QUERY_CONFIG_MIN_ALIGNMENT		2
+ #define DRM_XE_QUERY_CONFIG_VA_BITS			3
+ #define DRM_XE_QUERY_CONFIG_MAX_EXEC_QUEUE_PRIORITY	4
+@@ -1204,6 +1207,20 @@ struct drm_xe_vm_bind {
+  *     };
+  *     ioctl(fd, DRM_IOCTL_XE_EXEC_QUEUE_CREATE, &exec_queue_create);
+  *
++ *     Allow users to provide a hint to kernel for cases demanding low latency
++ *     profile. User can indicate low latency hint with flag while creating
++ *     exec queue as mentioned below,
++ *
++ *     struct drm_xe_exec_queue_create exec_queue_create = {
++ *          .flags = DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT,
++ *          .extensions = 0,
++ *          .vm_id = vm,
++ *          .num_bb_per_exec = 1,
++ *          .num_eng_per_bb = 1,
++ *          .instances = to_user_pointer(&instance),
++ *     };
++ *     ioctl(fd, DRM_IOCTL_XE_EXEC_QUEUE_CREATE, &exec_queue_create);
++ *
+  */
+ struct drm_xe_exec_queue_create {
+ #define DRM_XE_EXEC_QUEUE_EXTENSION_SET_PROPERTY		0
+@@ -1222,7 +1239,8 @@ struct drm_xe_exec_queue_create {
+ 	/** @vm_id: VM to use for this exec queue */
+ 	__u32 vm_id;
+ 
+-	/** @flags: MBZ */
++#define DRM_XE_EXEC_QUEUE_LOW_LATENCY_HINT	(1 << 0)
++	/** @flags: flags to use for this exec queue */
+ 	__u32 flags;
+ 
+ 	/** @exec_queue_id: Returned exec queue ID */
 -- 
-2.17.1
+2.34.1
 
