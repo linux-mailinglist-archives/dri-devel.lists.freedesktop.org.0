@@ -2,89 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD884A31A47
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 01:16:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB84A31A59
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 01:20:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 819A310E0B0;
-	Wed, 12 Feb 2025 00:16:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE87E10E777;
+	Wed, 12 Feb 2025 00:20:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="P5Kg5vL3";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="cr6Uz/k+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92ABA10E0B0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 00:16:12 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-54298ec925bso7833310e87.3
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 16:16:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739319371; x=1739924171; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xdffwztOvMIrK2jjolf4o8Wr6ci4Bs53P61Nbn3lItg=;
- b=P5Kg5vL3UL3eYK09KOUI5X3ORxmgY7WkQzHngdl4C1zTrTItI+4VyJPVcBoImROrrY
- 4TUkcL93TSyxcFRwtD8ZRpU6EJ32jHC+Pj8dcJi7n2f+aYLECwid5yj74zq27idFyDuX
- cTVpiqgEgHlZkYHIugxQxgqJ3DbVS9omzdViYfAJIcSkloR2e/PQA6f5K2sRK1WfNgqY
- rUG1dE2V1P/Teb2/ajZc9VqzYkpQvEHKg1FUZbC5IVQV0Kpem7cKBORDaNx7pRVCUFvx
- v0KC6w1NynZ+pG3Jjg+d6QzUGcYZkruRN/2vA9KxwsIJJIOeh05dF5EJ7vnBWT4rT2Ad
- qkOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739319371; x=1739924171;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xdffwztOvMIrK2jjolf4o8Wr6ci4Bs53P61Nbn3lItg=;
- b=eiB8MC7t47yy8mgIuZIf37NfliRUs1lDaGRAnin9hAtkzU71D7wiZCt7ieaR/PI91F
- vAGvWmzUdcGnRwuYN2NAZO0Pkj1LmmUPqFAYhBMKtSlafyBkVLL+NNySBmAJP+thqIfN
- h3+HSiOuSO0+V5i91p7DT40Kmoo8LMFIgCHhmXEhPk6SQdy+Np0zYCSjuCiaaP62KTP2
- 53zxnuDYl3iNO1RirkT1kTPWAG386MH/PoI70CxBR137K3ni9/UC8fvEdFZJ16CUjqgo
- rHT070bSudK+jlAU21Ce2RDLGIl5BNY/ygJjpX6zhqGv8sXIQEQA99IukzMT2IhLbmS0
- s2cw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+s+PZTkdWc0W/OJc3iOc0lbD+G79LlchX0qD7u+fhw0OBT/PDq14jatr4F14cU9On84x4rTZUyhQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyT0R4eBdp9FHx8wiXis4feKVw/gk6+xGYfEGAdMDgNFKor4XVP
- TEJsDLOnl5eRpoSSwQ4D1A0/Y06X75fphakHxOKXNwcLrxfVUgkQi4lmCqLFGj0=
-X-Gm-Gg: ASbGncuxH8Xj4SIfTQV2qdTcfayVt7yXXZWD7y5Nzy3IeLZ/aYKMyyI4a7yQ3vOwpDy
- +D9euF5Qvn4Jq1eZF5SkDYefwARjXgNWRU2egVoWKoQyjskIKZKD4phOjznH9cgBJ1v1lmr8/Lv
- 299MN0Ut2RRczT2E0jzVcWt42T5OU5Ok+d1D50msV9BEY1EkN+lCAKujJqNvrxxsWghYWGmGmvt
- XPVv4n4jPQV5cwyBnWH2e/Lf/flLBWYEN5TY5440BUNw9GGWsUHo/M+slWvYqyiWkMvzY5aV79E
- x6/ltgK/5x3A45jgYufZtH+hzgK11/lmzQmgPhWvDLipMM5JqY0GTjVYy5xek8glxiF5jO0=
-X-Google-Smtp-Source: AGHT+IHy0V/tdcXjGNazvy2Zt+CkmxrEZA7UjXkUXMZVFafXjdfWax/sQBr8F95GBvsvHUv1FZm7oQ==
-X-Received: by 2002:a05:6512:3e1e:b0:545:c89:2bc3 with SMTP id
- 2adb3069b0e04-54518178d4cmr243784e87.33.1739319370883; 
- Tue, 11 Feb 2025 16:16:10 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54506ef1733sm1053658e87.1.2025.02.11.16.16.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2025 16:16:09 -0800 (PST)
-Date: Wed, 12 Feb 2025 02:16:07 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 02/16] dt-bindings: display/msm: hdmi: drop hpd-gpios
-Message-ID: <ma7ur32qudbxaqt7fejgxiqf4vqvsd2o2oki6cz5enwchdli4n@xk5dptvjbkw2>
-References: <20250209-fd-hdmi-hpd-v4-0-6224568ed87f@linaro.org>
- <20250209-fd-hdmi-hpd-v4-2-6224568ed87f@linaro.org>
- <20250211-fuzzy-piculet-from-eldorado-6dce4e@krzk-bin>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1D2410E777;
+ Wed, 12 Feb 2025 00:20:03 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51BCFLqW030181;
+ Wed, 12 Feb 2025 00:19:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ wQPD/tKrNf/RHAhrEicL4v/5nkiDZnaTEbOUl3FUsmo=; b=cr6Uz/k+JWTHcTS3
+ LgqX7+ScnW7TbED9ir5sKVPOuj6H2CAskBxuTzut8fI9d1JMI2UDSGMdFXFEb8ge
+ LdKFPa6CnlCSLvqP9Fv2thPxn5tAGQMl/KLzEc4BETEFr0EeVYBKjlkdZocjLRcj
+ AA2ixq6k0P1RcJsbdP1/jRPRSlfa4jY6RUDhd82+l+7qqFetbgLLXmWFWrPuELJ7
+ mSzBf5eibqj3jVDcTYT25TumpsR4BB6nTWfWI4naWVS4gJorI+x0DFfht9TGFclr
+ QtjaXyol5uQdMnoxR+scTFhK+enYr59YOwAGV71UGmtSZBh2tzm8D3irisYzGR30
+ 3p7Yyw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qxg9k3tj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Feb 2025 00:19:50 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
+ [10.47.209.196])
+ by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51C0JnfV015787
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Feb 2025 00:19:49 GMT
+Received: from [10.71.110.136] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Feb
+ 2025 16:19:49 -0800
+Message-ID: <22c97d77-5983-429b-ba0b-ce821a717a0e@quicinc.com>
+Date: Tue, 11 Feb 2025 16:19:39 -0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211-fuzzy-piculet-from-eldorado-6dce4e@krzk-bin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/msm/dpu: Fix uninitialized variable
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>
+CC: Ethan Carter Edwards <ethan@ethancedwards.com>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-hardening@vger.kernel.org>
+References: <20250209-dpu-v2-1-114dfd4ebefd@ethancedwards.com>
+ <8e40c1bf-6da7-46b1-925c-53d1fa25f3ce@quicinc.com>
+ <zj7sqsg3ruev4akl5paedsg65qyh53iddqvssrye2pjtfofs3q@u4g3kevpl2jn>
+ <nllxmdfk4wwm2bbrg5jc4tt7la65rwqdtt4tqjp36j6dr4hgmx@ukszi5llldup>
+Content-Language: en-US
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <nllxmdfk4wwm2bbrg5jc4tt7la65rwqdtt4tqjp36j6dr4hgmx@ukszi5llldup>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: xJSFfhadew4fjGUkI5e_3eSgux2B9IeH
+X-Proofpoint-GUID: xJSFfhadew4fjGUkI5e_3eSgux2B9IeH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-11_10,2025-02-11_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ mlxscore=0 priorityscore=1501 malwarescore=0 spamscore=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502120001
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,25 +97,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2025 at 09:26:31AM +0100, Krzysztof Kozlowski wrote:
-> On Sun, Feb 09, 2025 at 07:04:46AM +0200, Dmitry Baryshkov wrote:
-> > Supporting simultaneous check of native HPD and the external GPIO proved
-> > to be less stable than just native HPD. Drop the hpd-gpios from the
-> > bindings. This is not a breaking change, since the HDMI block has been
-> > using both GPIO _and_ internal HPD anyway. In case the native HPD
-> > doesn't work users are urged to switch to specifying the hpd-gpios
-> > property to the hdmi-connector device.
-> 
-> In that case users would need to update their DTS/DTB, so that's an ABI
-> break.
-> 
-> Please deprecate the property here (deprecated: true) and keep support
-> in the driver.
 
-I will expand the explanation for the need of the ABI break. Yes, it's a
-bad idea. No, it doesn't prevent the board from working. Yes, it needs
-to be done.
 
--- 
-With best wishes
-Dmitry
+On 2/11/2025 4:13 PM, Dmitry Baryshkov wrote:
+> On Tue, Feb 11, 2025 at 10:23:54AM +0100, Marijn Suijten wrote:
+>> On 2025-02-10 14:14:14, Abhinav Kumar wrote:
+>>>
+>>>
+>>> On 2/9/2025 7:51 PM, Ethan Carter Edwards wrote:
+>>>> There is a possibility for an uninitialized *ret* variable to be
+>>>> returned in some code paths.
+>>>>
+>>>> Fix this by initializing *ret* to 0.
+>>>>
+>>>> Addresses-Coverity-ID: 1642546 ("Uninitialized scalar variable")
+>>>> Fixes: 774bcfb731765d ("drm/msm/dpu: add support for virtual planes")
+>>>> Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
+>>>> ---
+>>>> Changes in v2:
+>>>> - Return explicit 0 when no error occurs
+>>>> - Add hardening mailing lists
+>>>> - Link to v1: https://lore.kernel.org/r/20250209-dpu-v1-1-0db666884f70@ethancedwards.com
+>>>> ---
+>>>>    drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c | 7 +++----
+>>>>    1 file changed, 3 insertions(+), 4 deletions(-)
+>>>>
+>>>
+>>> Thanks for your patch, this was addressed with
+>>>
+>>> https://patchwork.freedesktop.org/patch/631567/ but since this is better
+>>> I am fine with this, will pick this one up
+>>
+>> The `return 0;` in this patch should certainly fix this issue entirely and we
+>> don't need to inline the `int ret` for that, which I think is against mixed
+>> declaration rules anyway?
+>>
+>> As far as I understand that's what Dmitry suggested in v1, but he r-b'd it in
+>> this form.  Dmitry, was that intended?
+> 
+> I think it should be fine, if the gcc doesn't warn against it.
+> 
+
+Let me test out the compilation while applying and see if it throws any 
+errors. If it does, will report here and we can go with the other patch.
+
+>>
+>> - Marijn
+>>
+>>> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+>>>
+>>>
+>>>> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>>>> index 098abc2c0003cde90ce6219c97ee18fa055a92a5..af3e541f60c303eb5212524e877129359b5ca98c 100644
+>>>> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>>>> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c
+>>>> @@ -1164,7 +1164,6 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
+>>>>    			       unsigned int num_planes)
+>>>>    {
+>>>>    	unsigned int i;
+>>>> -	int ret;
+>>>>    
+>>>>    	for (i = 0; i < num_planes; i++) {
+>>>>    		struct drm_plane_state *plane_state = states[i];
+>>>> @@ -1173,13 +1172,13 @@ int dpu_assign_plane_resources(struct dpu_global_state *global_state,
+>>>>    		    !plane_state->visible)
+>>>>    			continue;
+>>>>    
+>>>> -		ret = dpu_plane_virtual_assign_resources(crtc, global_state,
+>>>> +		int ret = dpu_plane_virtual_assign_resources(crtc, global_state,
+>>>>    							 state, plane_state);
+>>>>    		if (ret)
+>>>> -			break;
+>>>> +			return ret;
+>>>>    	}
+>>>>    
+>>>> -	return ret;
+>>>> +	return 0;
+>>>>    }
+>>>>    
+>>>>    static void dpu_plane_flush_csc(struct dpu_plane *pdpu, struct dpu_sw_pipe *pipe)
+>>>>
+>>>> ---
+>>>> base-commit: a64dcfb451e254085a7daee5fe51bf22959d52d3
+>>>> change-id: 20250209-dpu-c3fac78fc617
+>>>>
+>>>> Best regards,
+>>>
+> 
+
