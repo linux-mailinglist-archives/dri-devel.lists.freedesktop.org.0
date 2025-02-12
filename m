@@ -2,95 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA122A31FD7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 08:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27407A31FF9
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 08:28:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F3BB10E7C5;
-	Wed, 12 Feb 2025 07:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1166710E7C8;
+	Wed, 12 Feb 2025 07:28:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="LKnHOvWc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VIDJiHEf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C69DB10E7C4;
- Wed, 12 Feb 2025 07:18:18 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51BLLxC7025705;
- Wed, 12 Feb 2025 07:18:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- mwUlC2aKZRSlNQSNnZwqh13wOODDDXjJ7+xJpiK0pCs=; b=LKnHOvWcwLX0zHP5
- HeA0gKn+af0/wHtPubeyydNMuIQQTY/2C6+V4oWRtEgABMoSwxn54f+nxX7Sc7q1
- PxylMqcub0u/AJsIq0msEjjWFTMRjSbJrQPgpkB5upzzcypxo6NiF4lWuC7LFOHM
- T3MjZGVCH8A0y/2zTz3z4sL0o9a1dh0B4Cqq1fwYsrAdZJneDp/AUtOSqW3q4lnn
- 789SoCEFckTLWx2hTQa0CtvBk6aqBxKxLdQw7mKhkLfegqmelVxw5SfQPs7of86I
- Hq75h4pQQ637312y2q8MJOXmn3pAIzgGG3z/8mBjgxbtbS+UOjirA8f2uyVV+183
- Y5amrQ==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44r5j5avc3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 07:18:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51C7IBrb017512
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 07:18:11 GMT
-Received: from [10.216.10.188] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Feb
- 2025 23:18:04 -0800
-Message-ID: <c80ef960-7dc6-42bf-89a1-79e43be2bce0@quicinc.com>
-Date: Wed, 12 Feb 2025 12:48:01 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1846B10E7C6;
+ Wed, 12 Feb 2025 07:28:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739345315; x=1770881315;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=vHR2fkHr2dMEQm2+y+aEeuXq2JtCv+bMQq4mIUaZm/M=;
+ b=VIDJiHEfU1m66sWkIzJTv3iBnqBsA2xuCkjPVSc03jKC2GAG+DoitOS/
+ aklICxUjTFSEpboOg0DHzIxr70Kwv9WVoUam2Lld038ZF8+HoHSJ1tfEs
+ 5kqkB5JXOQZGKGp3VZzvLj/K/WD6eSe8GastYPLMTbtMzhHU2Kbq2FeJ9
+ eCUUada0vaTrePi1lTBvQ1XCnNRJ+FOQFYzX7ojU9rqdRWxx9P/WS+pmA
+ OjOkTz+DdA6qvPPbnlHrEIt+30V6pAHCd/F9OKMvaifw+9Vm2jH9JgW9H
+ dMOFloa8KHZzFukv+m0j9/wKy6tHCD+Myg8ee0hj+vVlxUL9d5ERJCw0D w==;
+X-CSE-ConnectionGUID: cq6uvzVZQS2cC53VS6YP6g==
+X-CSE-MsgGUID: 71OugrpLSj+/WcH1M4KFIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="40254313"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; d="scan'208";a="40254313"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2025 23:28:34 -0800
+X-CSE-ConnectionGUID: rr0J+1LuQF+plVqM7Q+/mw==
+X-CSE-MsgGUID: 28ttyhzcR1mKYUhloiM2TA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; d="scan'208";a="112496966"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.244.101])
+ ([10.245.244.101])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Feb 2025 23:28:31 -0800
+Message-ID: <7ca7be00-f6d9-43b7-b3d0-0984306ac302@linux.intel.com>
+Date: Wed, 12 Feb 2025 08:28:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] arm64: dts: qcom: sa8775p-ride: Enable Adreno 663
- GPU
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-CC: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, "Konrad
- Dybcio" <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Connor Abbott <cwabbott0@gmail.com>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
-References: <20241030-a663-gpu-support-v3-0-bdf1d9ce6021@quicinc.com>
- <20241030-a663-gpu-support-v3-2-bdf1d9ce6021@quicinc.com>
- <4cfd1ebc-1a95-43d4-b36a-8b183c6dfd16@quicinc.com>
- <ah6nusoouth7ziu3iscxmafm6cxuwwebxt44ixsjmesp5adwc4@e5lnbztds2xd>
- <271e7b4f-454c-426e-a3f6-dcb55389374e@quicinc.com>
- <iymxe2hmjobctdimupp656xeyhctwd4yswbp2wobaneuzgxedu@cyhjb5ibkqmj>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
+Subject: Re: [PATCH 00/12] drm/{i915,xe}: Convert to DRM client setup
+To: Thomas Zimmermann <tzimmermann@suse.de>, jani.nikula@linux.intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, lucas.demarchi@intel.com,
+ thomas.hellstrom@linux.intel.com, simona@ffwll.ch, airlied@gmail.com,
+ mripard@kernel.org, jfalempe@redhat.com, javierm@redhat.com
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20241212170913.185939-1-tzimmermann@suse.de>
+ <de8325a9-49b2-48ec-ba56-4349140564b1@suse.de>
 Content-Language: en-US
-In-Reply-To: <iymxe2hmjobctdimupp656xeyhctwd4yswbp2wobaneuzgxedu@cyhjb5ibkqmj>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: I2PG4Q58doEJGIEy3-24I5DTXcJ29dI8
-X-Proofpoint-GUID: I2PG4Q58doEJGIEy3-24I5DTXcJ29dI8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_02,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 mlxscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- phishscore=0 adultscore=0 spamscore=0 clxscore=1015 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502120055
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <de8325a9-49b2-48ec-ba56-4349140564b1@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,81 +76,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/12/2025 5:30 AM, Dmitry Baryshkov wrote:
-> On Tue, Feb 11, 2025 at 06:41:39PM +0530, Akhil P Oommen wrote:
->> On 2/9/2025 9:59 PM, Dmitry Baryshkov wrote:
->>> On Wed, Nov 13, 2024 at 02:18:43AM +0530, Akhil P Oommen wrote:
->>>> On 10/30/2024 12:32 PM, Akhil P Oommen wrote:
->>>>> From: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
->>>>>
->>>>> Enable GPU for sa8775p-ride platform and provide path for zap
->>>>> shader.
->>>>>
->>>>> Signed-off-by: Puranam V G Tejaswi <quic_pvgtejas@quicinc.com>
->>>>> Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
->>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->>>>> ---
->>>>>  arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi | 8 ++++++++
->>>>>  1 file changed, 8 insertions(+)
->>>>>
->>>>> diff --git a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>>>> index 0c1b21def4b6..4901163df8f3 100644
->>>>> --- a/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>>>> +++ b/arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi
->>>>> @@ -407,6 +407,14 @@ queue3 {
->>>>>  	};
->>>>>  };
->>>>>  
->>>>> +&gpu {
->>>>> +	status = "okay";
->>>>> +};
->>>>> +
->>>>> +&gpu_zap_shader {
->>>>> +	firmware-name = "qcom/sa8775p/a663_zap.mbn";
->>>>> +};
->>>>> +
->>>>>  &i2c11 {
->>>>>  	clock-frequency = <400000>;
->>>>>  	pinctrl-0 = <&qup_i2c11_default>;
->>>>>
->>>>
->>>> Bjorn,
->>>>
->>>> Please ignore this patch for now. This is probably not the right
->>>> platform dtsi file where gpu should be enabled. I am discussing about
->>>> this internally. Will send a revision or a new patch based on the
->>>> conclusion.
->>>
->>> Akhil, any updates on this?
->>>
->>
->> I am still waiting for the discussion about QCS9075 board dts files [1]
->> to conclude.
->>
->> [1]
->> https://lore.kernel.org/lkml/Z3eMxl1Af8TOAQW%2F@hu-wasimn-hyd.qualcomm.com/T/
+Hey,
+
+I'll give it a spin on xe today. It seems someone already tried on i915,
+so I expect no issues.
+
+The only question I have is do we still inherit the BIOS fb on boot
+for fbdev?
+
+The really active bit seems to be replacing the fbdev stuff with
+drm_client_setup_with_color_mode
+
+Patches themselves look good.
+
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
+On 2025-02-11 08:17, Thomas Zimmermann wrote:
+> ping for a review
 > 
-> Why? We currently have several boards supported. We can enable GPU on
-> those as your patches are pretty fine. Then we can land Wasim's patches.
-> Not to mention that the discussion seems to be dead, last message was
-> sent almost a month ago.
+> Am 12.12.24 um 18:08 schrieb Thomas Zimmermann:
+>> i915 and xe are the last remaining drivers that still implement their
+>> own fbdev client. All other clients have been mass converted to DRM's
+>> client setup in in the series at [1]. As Intel drivers require more
+>> effort than others, their changes have been moved into this separate
+>> series.
+>>
+>> With DRM's client setup, DRM picks the in-kernel client from the
+>> kernel's config and parameters. Besides fbdev there's also drm_log
+>> available. For fbdev support, the driver only has to implement struct
+>> drm_driver.fbdev_probe, a callback that allocates a compatible
+>> framebuffer.
+>>
+>> At first, some details of the Intel implementation have to be rebuild
+>> for the generic client and fbdev handling. Patches 1 to 6 do that.
+>> Hotplugging and suspend/resume are then hidden behind callbacks. Some
+>> Intel-specifics in the restore and suspend code get their own hooks.
+>>
+>> Patches 7 to 9 prepare Intel's fbdev implementation ot get things
+>> out of the way.
+>>
+>> Patch 10 converts i915 and xe to DRM's client setup. Patches 11 and
+>> 12 clean up the remaining code.
+>>
+>> Tested with i915 and xe hardware.
+>>
+>> [1] https://patchwork.freedesktop.org/series/137391/
+>>
+>> Thomas Zimmermann (12):
+>>    drm/{i915,xe}: Suspend/resume fbdev emulation via client interfaces
+>>    drm/client: Add client-hotplug helper
+>>    drm/client: Send pending hotplug events after resume
+>>    drm/i915/display: Remove fbdev suspend and hotplug tracking
+>>    drm/i915/display: fbdev: Move custom restore code to new callback
+>>    drm/i915/display: fbdev: Move custom suspend code to new callback
+>>    drm/i915/display: Remove preferred_bpp from struct intel_fbdev
+>>    drm/i915/display: Remove struct drm_fb_helper from struct intel_fbdev
+>>    drm/i915/display: Move fbdev code around
+>>    drm/{i915,xe}: Run DRM default client setup
+>>    drm/i915/display: Remove compile guard around fbdev debugfs output
+>>    drm/fb-helper: Remove struct drm_fb_helper.fb_probe
+>>
+>>   drivers/gpu/drm/drm_client_event.c            |  41 ++-
+>>   drivers/gpu/drm/drm_fb_helper.c               |  20 +-
+>>   .../gpu/drm/i915/display/intel_display_core.h |   1 -
+>>   .../drm/i915/display/intel_display_debugfs.c  |   2 -
+>>   drivers/gpu/drm/i915/display/intel_fbdev.c    | 338 ++++--------------
+>>   drivers/gpu/drm/i915/display/intel_fbdev.h    |  17 +-
+>>   drivers/gpu/drm/i915/i915_driver.c            |  10 +-
+>>   drivers/gpu/drm/xe/display/xe_display.c       |  12 +-
+>>   include/drm/drm_client.h                      |   8 +
+>>   include/drm/drm_fb_helper.h                   |  44 ++-
+>>   10 files changed, 176 insertions(+), 317 deletions(-)
+>>
+>>
+>> base-commit: 7bbcd7df9387f0d9004f997df33f7a9472d9c080
 > 
-
-sa8775p is an automotive-grade chipset which has a pretty different
-non-HLOS firmware. One of the major difference is that it has a SAFETY
-monitoring system (using SAIL IP block) which monitors different
-parameters like GPU frequency for eg and it takes control of the entire
-system when it detects an anomaly. That means we cannot use GPU DCVS,
-passive thermal mitigation etc there.
-
-QCS9075 uses the same SoC but has different NHLOS firmwares that has
-SAIL disabled to make it behave like our regular chipsets. I am aware of
-only QCS9075 boards' GPU spec at the moment. I don't know the complete
-details of the impact of SAIL/SAFE features on GPU and other specs yet,
-so I can't disturb sa8775p-ride/qcs9100-ride boards.
-
-I can see that Wazim is still discussing about board DTS internally.
-Hopefully he will send out another revision of his series soon.
-
--Akhil
 
