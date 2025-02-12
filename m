@@ -2,113 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A302EA32932
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:54:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB900A32936
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:54:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04CCC10E8D9;
-	Wed, 12 Feb 2025 14:54:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33E6110E8DB;
+	Wed, 12 Feb 2025 14:54:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ib0A6TlM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EAOQW0w4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A676410E8D8
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:54:21 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C9v2UE015814
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:54:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- +Zq/tfp5H3EdFiMQlHf/WblqjUgkRebGGbZEAJvFLCY=; b=Ib0A6TlMIAKfnw08
- WTdQtxbBGG2KYXMUpJVIyuwmWKHJ7SCX8XzZdqgsQKnBTeRhCSfuhxdL2W4XzfwS
- s5qe8ghzsagjji8kSbfQBkO4LLK4LN1lV/kT65svaqSzVV/eXnTe9F+GTjiVahkK
- vhTXox9S36EoOlYMxmXAa0wkL3y/NwPBnOn5Ye2+Q+wMOcOeJEjNF6sFqpIkpAg+
- 96NEe1wC9Mo7yJw1gfS8VZMURurUMaauefcKkGafU06tOLK3VnDwGA1DwedhpIGh
- XzJpzCPanDVgQA52Im6VpF0XaCDEjCw2zqbuAVS5LTGwtDxu4fA0OKIOKfVCCy49
- lWCqTA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44rgpgj5h0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:54:21 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-471a9b91e90so994251cf.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 06:54:20 -0800 (PST)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07B0E10E8DB;
+ Wed, 12 Feb 2025 14:54:41 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-2fa227edb68so1387383a91.0; 
+ Wed, 12 Feb 2025 06:54:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739372080; x=1739976880; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WAkQk0vCtyjUEvQeMQjvpik2mcmrdn/YbyfEFLALom4=;
+ b=EAOQW0w4nw12su1GJf+X1U7m5D0+aFb9Z4nnMj+UXKCZt86ossYYqy6eslMwsgwotG
+ rdu//J/I5qhj4BcEz2jshHzatYw5gTZdwnaSGwmKfftE8zJEm8BYO8kVz4RCaBRZd1n5
+ ebfjYnruHLq5MVE+/N8crY7UhzoA5WPUeQEnHEmPXqfNmUf3qxqL6XhiHwOlujBcnn9M
+ jO7AB015dO9oGhIZfwFNi2g8ywi6dT3VFXq+KIiHzZwKe+lFFYDEzQo1q8SMhqXApRcu
+ XupN1aIRnIQDZpTZXs7+jSl1H6487bq3dlN2YxRo2YPz/+NykICG63gHRRs/ZN7csCKq
+ TrTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739372060; x=1739976860;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+Zq/tfp5H3EdFiMQlHf/WblqjUgkRebGGbZEAJvFLCY=;
- b=A2upkKeMrve0Ai4AS7W4tBP851fwfluM1t/JA+n4eDaG21E8reopKM2mMfZApLXwzO
- 4wNtNSlXHROyP89tr+8gziMAaDHYa/rUc2xQRKisl5Bi71cK7RQZZ9VHcqX6FzpKlWAf
- 1n/57/rQPag3NSeWyVDmCB3U8gbA9jw4+Oxu++bvAJ2+oTqwDcw5PmU8sUJ1XYsVj9Mz
- zh4eVICYMbygLqa1pO13C9UVrBzHKNhe4yCm4JBIp9Y9Py6l9AWuRBjJWhxOUonIciV+
- A6ZOiJDDG9DIUuRIaDT2bTLT2gRb3JaBON02VmFYXKaweaGOchEG07yljnzCuVlTiwAL
- fZig==
+ d=1e100.net; s=20230601; t=1739372080; x=1739976880;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WAkQk0vCtyjUEvQeMQjvpik2mcmrdn/YbyfEFLALom4=;
+ b=cL6RTBP5zTcQs3QDj3NVH/WlsWqYbDlrGOKSi+e0j4/VuY1Al6RnzEn35wbg05pRXR
+ 45GfUJxza9/FMDCdJ5hxfgj5J3X9fEaAmeGlbBzU9Y0MXmvkUlqvmLafVeihprDsMu56
+ Rm2uSlb5IkS5vk5hf7JvEwEW08nFMY2/pZXmpv4IiQM7OeMukN0h/FWIXA6DqMUDY7g/
+ NnjLw9uk2J1JVj0j8XZVm7Tg+rTw5WNz8OVNQmVSVC9hTriTgWwuULfyD92IK2bCSBQ6
+ 3/Ww4y049VDKuV6qoWgEjVYt1elwGukfItWdu2JDX4decETN9/6R/Romq3xUg2RIAKNw
+ OXKA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWTDG+iDWgW48dVxFwShHT97u/QyDOKk5lDJJy5sHJk0wm0oTcQyZXdyklCSq9xxSVS15BhadjbNzI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyPwa/Svk6hIUhSCqZuMzSOzN+vsExHk/p/3pjnJuZw3TWZjMS3
- /DnIY7xs18/HzoF+lJOdD/OHAv97EQawu9So2ONi3rHRJGQe+uiDcZNsEsWdaaH4yhPj3gUFuE3
- CITMiCHVRtx8V6XJ/89CkAq0qJGA6PqzB9Sy9tPIk2dsGgCJNqASc8f16ESak3JdsQs0=
-X-Gm-Gg: ASbGncuMMDpLRcySEIWPckpvSn8YaTJjJBYodH/gIohF3K7oH6pJfOSnnrYQfSdYPTH
- YKKAELZBIpByvB7iywoCRqPH2iK6hf6aknhUZJgyqrox7s/u7J6H7+xFPTNzeyy9DYP+Rp4CDuD
- v7PjcW+cLigjHIdcBUHtGswgieHK81GgF2aHyK8nsg+8wMaQu22+1KVr0IhX6rKrzna4soTEpnG
- iQ1+SELzLbTNzlrfefZ60DzRKbXP22DRDo6ZCm34VTl5zz5oJq3SJVG0l3diqguzJ9l4Xtv4jKq
- zpMzLzNKP4NtCbWGIRANqGhAC20QnjU4JsZT+G1aEwIw7e/BVSc0KjPaU1c=
-X-Received: by 2002:ac8:7d47:0:b0:46d:e2b9:c4c with SMTP id
- d75a77b69052e-471afdfba94mr21144031cf.3.1739372059704; 
- Wed, 12 Feb 2025 06:54:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFI/emx5bCvpWu1atWPHKO94hlUzByGbh7NcHanN9a4vJkMSji//USCVkpBLMIpNqLoFtWHSw==
-X-Received: by 2002:ac8:7d47:0:b0:46d:e2b9:c4c with SMTP id
- d75a77b69052e-471afdfba94mr21143761cf.3.1739372059335; 
- Wed, 12 Feb 2025 06:54:19 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ab7bb57b2a1sm686247666b.105.2025.02.12.06.54.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Feb 2025 06:54:18 -0800 (PST)
-Message-ID: <f3c3dc92-77b5-4091-9f0d-3b70ce8852e4@oss.qualcomm.com>
-Date: Wed, 12 Feb 2025 15:54:15 +0100
+ AJvYcCX7vw1o/lIJ5Ub42Gp5CbZJxLn8AZB45Son/rRD9W8Ukr0UEcp1XSbzOYO9TpamKBUAulfyZyjs@lists.freedesktop.org,
+ AJvYcCXdGHf60tyXnMF7WflbzLvJ8eykKEuSDBTrn5Bk9aBwVOSmwETbQ1lUSi1PLMPXpuUKaU/4DxpGL2WD@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyhyy36VZDSLknyDZRqG7cKirub/znm6QZnvAaabzAHFTPziIwG
+ ZpGVrLyKNxm8KH45pGTw3uXSfzksKX9GbprNzXAwmyH48Aq7+x1rxbMHyQYb4R5Ozka2PjpjlxU
+ ak5R5vcldofI+eld3+in/0Jihe8A=
+X-Gm-Gg: ASbGncsk7qnIerHcZL1kbfOFcCMicGB0eFTQNoQ67CRJsQMNZoqIaWc5+16MdkKikkN
+ elPdKPTABKbR8jFZaS0jeIYE1atoNMfOqxpBzS5QF8oZfAILqi2rvDZ1OOukHfplsIXxwkMni
+X-Google-Smtp-Source: AGHT+IFo2yCN2xd13k7pkRlQ8E0+as8C6qrcJ2fIeXpquYmq/wvPsy3OR22XEyVWdi28mKIGajdVEmPqauE7rW3eqb4=
+X-Received: by 2002:a17:90b:1b50:b0:2fa:2011:c85d with SMTP id
+ 98e67ed59e1d1-2fbf5ca1356mr1899558a91.7.1739372080381; Wed, 12 Feb 2025
+ 06:54:40 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Add MST support for qcs8300 platform
-To: Rob Herring <robh@kernel.org>, Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+References: <20250127-tonyk-async_flip-v12-0-0f7f8a8610d3@igalia.com>
+ <20250127-tonyk-async_flip-v12-2-0f7f8a8610d3@igalia.com>
+ <3e6f5e44-403b-41bb-b819-c4479948731c@amd.com>
+In-Reply-To: <3e6f5e44-403b-41bb-b819-c4479948731c@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Wed, 12 Feb 2025 09:54:27 -0500
+X-Gm-Features: AWEUYZmBHahplTG5qlcLVLsio8I4kY1VcqYEW5X_o2UrI_3pX2OADkQg-56WzMU
+Message-ID: <CADnq5_N_SQHbx5zZGyWFJo8FcGbR+mT3aJr1C-uPRJ5Z9m27Vw@mail.gmail.com>
+Subject: Re: [PATCH v12 2/2] drm/amdgpu: Enable async flip on overlay planes
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
- <20250212143538.GA3554863-robh@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250212143538.GA3554863-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: oB6VG0XV7gxp-7IR5VITjFz3o3dvZLzX
-X-Proofpoint-GUID: oB6VG0XV7gxp-7IR5VITjFz3o3dvZLzX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_04,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999
- priorityscore=1501 mlxscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
- impostorscore=0 phishscore=0 malwarescore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
- definitions=main-2502120113
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Xinhui Pan <Xinhui.Pan@amd.com>, dmitry.baryshkov@linaro.org, 
+ Simon Ser <contact@emersion.fr>, joshua@froggi.es,
+ Xaver Hugl <xaver.hugl@gmail.com>, 
+ Daniel Stone <daniel@fooishbar.org>, ville.syrjala@linux.intel.com,
+ kernel-dev@igalia.com, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,43 +98,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.02.2025 3:35 PM, Rob Herring wrote:
-> On Wed, Feb 12, 2025 at 03:12:23PM +0800, Yongxing Mou wrote:
->> This series of patches introduces how to enable MST functionality on
->> the qcs8300 platform. The qcs8300 platform uses dpu_8_4 hardware, which
->> is the same as the sa8775p, but it only has one DPU. So it only has one
->> DP0 controller, supporting 4-stream MST. This patch only enables 
->> 2-stream MST, using intf0 and intf3. The first and second patches are
->> modifications to the correspond dt-bindings, third patch is the dp 
->> controller driver after not reuse sm8650, fourth patch is the qcs8300
->> dts modification which add the clk support for stream 1.
->>
->> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
->> ---
->> This patch depends on following series:
->> https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com/
->> https://lore.kernel.org/all/20250114-dts_qcs8300-v3-0-d114cc5e4af9@quicinc.com/
->> https://lore.kernel.org/all/20241202-dp_mst_bindings-v1-0-9a9a43b0624a@quicinc.com
->> https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/
->>
->> ---
->> Yongxing Mou (4):
->>       dt-bindings: display/msm: Redocument the dp-controller for QCS8300
->>       dt-bindings: display/msm: Add stream 1 pixel clock for QCS8300
->>       drm/msm/dp: Populate the max_streams for qcs8300 mst controller
->>       arm64: dts: qcom: qcs8300: Add support for stream 1 clk for DP MST
->>
->>  .../devicetree/bindings/display/msm/dp-controller.yaml     |  5 +----
->>  .../devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml | 14 ++++++++------
->>  arch/arm64/boot/dts/qcom/qcs8300.dtsi                      | 12 ++++++++----
->>  drivers/gpu/drm/msm/dp/dp_display.c                        |  8 ++++++++
->>  4 files changed, 25 insertions(+), 14 deletions(-)
->> ---
->> base-commit: 7ba9bcc5090556c007d9a718d7176e097fe54f19
-> 
-> Your series doesn't apply because this commit doesn't exist in any repo 
-> I have.
+Acked-by: Alex Deucher <alexander.deucher@amd.com> for the series.
 
-Please refrain from merging this revision, we found some issues
-
-Konrad
+On Thu, Feb 6, 2025 at 5:37=E2=80=AFPM Harry Wentland <harry.wentland@amd.c=
+om> wrote:
+>
+>
+>
+> On 2025-01-27 14:59, Andr=C3=A9 Almeida wrote:
+> > amdgpu can handle async flips on overlay planes, so allow it for atomic
+> > async checks.
+> >
+> > Signed-off-by: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+>
+> Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+>
+> Harry
+>
+> > ---
+> >  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 10 ++++++---=
+-
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/=
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > index 774cc3f4f3fd9a964fe48c66eb596d2f6dfee602..6bfed3d1530e6610eea025b=
+477f409ee505870da 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> > @@ -1258,21 +1258,23 @@ static int amdgpu_dm_plane_atomic_check(struct =
+drm_plane *plane,
+> >  }
+> >
+> >  static int amdgpu_dm_plane_atomic_async_check(struct drm_plane *plane,
+> > -                                           struct drm_atomic_state *st=
+ate)
+> > +                                           struct drm_atomic_state *st=
+ate, bool flip)
+> >  {
+> >       struct drm_crtc_state *new_crtc_state;
+> >       struct drm_plane_state *new_plane_state;
+> >       struct dm_crtc_state *dm_new_crtc_state;
+> >
+> > -     /* Only support async updates on cursor planes. */
+> > -     if (plane->type !=3D DRM_PLANE_TYPE_CURSOR)
+> > +     if (flip) {
+> > +             if (plane->type !=3D DRM_PLANE_TYPE_OVERLAY)
+> > +                     return -EINVAL;
+> > +     } else if (plane->type !=3D DRM_PLANE_TYPE_CURSOR)
+> >               return -EINVAL;
+> >
+> >       new_plane_state =3D drm_atomic_get_new_plane_state(state, plane);
+> >       new_crtc_state =3D drm_atomic_get_new_crtc_state(state, new_plane=
+_state->crtc);
+> >       dm_new_crtc_state =3D to_dm_crtc_state(new_crtc_state);
+> >       /* Reject overlay cursors for now*/
+> > -     if (dm_new_crtc_state->cursor_mode =3D=3D DM_CURSOR_OVERLAY_MODE)
+> > +     if (!flip && dm_new_crtc_state->cursor_mode =3D=3D DM_CURSOR_OVER=
+LAY_MODE)
+> >               return -EINVAL;
+> >
+> >       return 0;
+> >
+>
