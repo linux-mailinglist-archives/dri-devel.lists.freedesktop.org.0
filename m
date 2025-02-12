@@ -2,82 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A953A32418
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 11:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1E8A32420
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 11:59:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7613C89F41;
-	Wed, 12 Feb 2025 10:58:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6717A10E277;
+	Wed, 12 Feb 2025 10:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="N2p/a31+";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="zp/YQrkU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7638789F41
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 10:58:17 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5439a6179a7so702349e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 02:58:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739357896; x=1739962696; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=tFCRTI+uxekbKaB7VjoVJZp4kloQ9ULA619mLaD9fcs=;
- b=N2p/a31+/jAXo//0tcN2akcWyG7dqPkVBeDZt/hIfeXvRi1Ui4Q6VXIOKI8XtYpqYb
- BYzasXAyX0iEEON9NdrCersh+H1uG4tBj/HoIlWC+PdUzJaQIrhOmSA6VGCMJCkVQZDq
- hDD5C1iMj8MQQmsDYZjpzkrdyOxQENDSqXFxaFW+LUzKK7iMGhwiPdxH9scoEUu+PTXP
- tpnh7YAjLDPKSabcSvSC931pu3DgJK6croonwW61ns5iuKib7y2M7jCE9XiEoMhiyWz1
- xTsTiI4tM2GLBtpvrdCbvd0FQSBh1WwA3lLzJsfm6Idq1uwDw7rj909FFtH75V+fpzBK
- /RiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739357896; x=1739962696;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tFCRTI+uxekbKaB7VjoVJZp4kloQ9ULA619mLaD9fcs=;
- b=r5sJbWfTPD6VVQYHTK27BymYq2nPIdGqwQbjrLpZPtA4EmWtOwgw9gppZurxadXe/K
- DUfVzWSNK4hLmhv8GQIw/HpnUlIKoxmSQMUFRGtgzR/Hkf1WAMK3mEefzbRTo9mJgHXu
- oKWaqEOtL+HIrvs0TGLhLGvNDj3UdMXjnoiYQW/MTcV4zYuRA7ZnBaF350CRVVrxKbHg
- O2qDEzWonFP6RuRR9Lri8/ft2kq/xK9XI8n9PYnj5nR7gh+vwKATdu7zoIpl0ALzDLeQ
- CKvkjPobtDP26pFGbZXnl68QevhVm83MFl+BQyKwA/pdiVmBurFy8/W1OKYi/6BoXLWY
- tKIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUNxBCNLAmqMvIndwOkzN0zw3E90e1tqxxM4UxXR+kxnNAzYcIyaWIulRdpJpH/o9gbTnWxicjKu40=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx3CBwdw3a/glQybxTXP6Fsb2mWJrk6ra2O5SjNlZOaLXv9o69M
- hG9OJ3EfFJegDnduEkJABnEHv6zahKT2qppECAOVkI17VewnBIgUgJDXzyGWaW4=
-X-Gm-Gg: ASbGncu9wE101LWm2rorbNPl1etHj46eDrne9Ddnzp0W+IWZafnNm1tMKqX99JjssWb
- DZ+ujIOYMuVzRm4Gi8kcEStsvQQK48PPylnUgYfLou7AtjpsOM9TMrOWfGyCdPsZwmlE/gM/tDP
- zmBBz+XwUogpgKHbzSQXtwfm4jhpC76lRi8PC+fV4Aqs60QEzsQBBEeNr889PzPO0Z66zLJm1Dv
- zaEIbt8hXA0ogU3x8MM1ppRGESp9Gygw4ZxrYDYKHfk5gBbMY3jGyvDdGn4ATW1UUqzZJUXrgyi
- e+C6BcDmiHe4566Cnj52lgJ3pkrLXlzZoWRGbMlR8NhdeenWptn+TcxehsgQFZk9Ol8kdt8=
-X-Google-Smtp-Source: AGHT+IGUpJ0IHuG1bctt41bVvHPQ/W3w8vStlenWEjKpIntH94rgVWmcXj9gpbKua89+PLGTI1w42A==
-X-Received: by 2002:a05:6512:b08:b0:545:240:55ba with SMTP id
- 2adb3069b0e04-5451809a3bamr822239e87.26.1739357895751; 
- Wed, 12 Feb 2025 02:58:15 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5450cfff106sm894926e87.99.2025.02.12.02.58.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 02:58:15 -0800 (PST)
-Date: Wed, 12 Feb 2025 12:58:13 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, quic_abhinavk@quicinc.com,
- linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: Disable dither in phys encoder cleanup
-Message-ID: <hb42tamaguzgoxbsqxqyvhwvsegcbqxwtcmdwlnrx4hqcityfj@dqa2seg5bt2a>
-References: <20250211-dither-disable-v1-1-ac2cb455f6b9@quicinc.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6ED10E277
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 10:59:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=cMbXNzmQOH8F+1fl7QOJ8vHQpv6KHpW1bwAT7N9Q6cI=; b=zp/YQrkUlM3VKBJk7sx3RuhGte
+ ESyz5mnvx4yt+lVEggZQ2bVDJCW6SIJZ5FeYFX3r4TZ7LlGV6oz6k5sCGy9L19In/4Wjm3jEEfrgx
+ ej0uvffJTtniZjtVY35RINvOV0tLffeNuCvNdw/PNJb6S9SLszQs/bM4SIhcAvwJKeZqIj9LC6SP1
+ 5lPjf3g2n6XN2kAcuBgtfyn/WnpLJhb1Pakn4wXesAcI6PslxC6v5RxDNF3rc6vTXwqtjcAuPCc4Q
+ uv7P3vKr0mtLEpfTDpfV3MZ27eItr7qbSkFyOiqKpUCKbjaxmIizNDA7iC1OE1zgjxle/5Q6/jTtX
+ DWvRXEHg==;
+Received: from i53875bc0.versanet.de ([83.135.91.192] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1tiAT9-0003GU-5b; Wed, 12 Feb 2025 11:59:51 +0100
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Andy Yan <andyshrk@163.com>
+Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ derek.foreman@collabora.com, detlev.casanova@collabora.com,
+ daniel@fooishbar.org, robh@kernel.org, sebastian.reichel@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v14 02/13] drm/rockchip: vop2: Rename TRANSFORM_OFFSET to
+ TRANSFORM_OFFS
+Date: Wed, 12 Feb 2025 11:59:50 +0100
+Message-ID: <4064785.VqM8IeB0Os@diego>
+In-Reply-To: <20250212093530.52961-3-andyshrk@163.com>
+References: <20250212093530.52961-1-andyshrk@163.com>
+ <20250212093530.52961-3-andyshrk@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250211-dither-disable-v1-1-ac2cb455f6b9@quicinc.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,29 +66,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2025 at 07:59:19PM -0800, Jessica Zhang wrote:
-> Disable pingpong dither in dpu_encoder_helper_phys_cleanup().
+Hi Andy,
+
+Am Mittwoch, 12. Februar 2025, 10:34:57 MEZ schrieb Andy Yan:
+> From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> This avoids the issue where an encoder unknowingly uses dither after
-> reserving a pingpong block that was previously bound to an encoder that
-> had enabled dither.
+> This help avoid "exceeds 100 columns" warning from checkpatch
 > 
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Closes: https://lore.kernel.org/all/jr7zbj5w7iq4apg3gofuvcwf4r2swzqjk7sshwcdjll4mn6ctt@l2n3qfpujg3q/
-> Signed-off-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+
+I'm not much of a fan of "randomly" renaming individual constants
+(especially when one is now named OFFS, while the rest stay at OFFSET)
+
+- on rk3568 VOP2_CLUSTER_WIN0_TRANSFORMED_OFFSET = WIN0 transformed offset
+- on rk3588 VOP2_CLUSTER0_WIN0_TRANSFORMED_OFFSET = WIN0 transform offset
+- on rk3576 "someone" sadly decided to not provide the 2nd TRM part anymore
+  but I guess it'll be the same.
+
+So instead of just dropping parts from the end, you could also follow
+the TRM naming and drop the "_AFBC" from the register name instead?
+
+So going to VOP2_WIN_TRANSFORM_OFFSET, this would also reduce the line
+length accordingly, and moving the naming closer to the TRM too.
+
+Alternatively, just add a linebreak at the appropriate position instead.
+
+Heiko
+
+
 > ---
-> This was tested on SC7180 Trogdor by pulling in the concurrent writeback
-> series [1] and running the IGT kms_writeback@writeback_check_output
-> subtest.
 > 
-> [1] https://patchwork.freedesktop.org/series/144083/
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 +++
->  1 file changed, 3 insertions(+)
+> (no changes since v1)
+> 
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 8 ++++----
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h | 4 ++--
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> index ebc9cb93073c..8e1b742a7550 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> @@ -1524,7 +1524,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>  		transform_offset = vop2_afbc_transform_offset(pstate, half_block_en);
+>  		vop2_win_write(win, VOP2_WIN_AFBC_HDR_PTR, yrgb_mst);
+>  		vop2_win_write(win, VOP2_WIN_AFBC_PIC_SIZE, act_info);
+> -		vop2_win_write(win, VOP2_WIN_AFBC_TRANSFORM_OFFSET, transform_offset);
+> +		vop2_win_write(win, VOP2_WIN_AFBC_TRANSFORM_OFFS, transform_offset);
+>  		vop2_win_write(win, VOP2_WIN_AFBC_PIC_OFFSET, ((src->x1 >> 16) | src->y1));
+>  		vop2_win_write(win, VOP2_WIN_AFBC_DSP_OFFSET, (dest->x1 | (dest->y1 << 16)));
+>  		vop2_win_write(win, VOP2_WIN_AFBC_PIC_VIR_WIDTH, stride);
+> @@ -1535,7 +1535,7 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+>  	} else {
+>  		if (vop2_cluster_window(win)) {
+>  			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 0);
+> -			vop2_win_write(win, VOP2_WIN_AFBC_TRANSFORM_OFFSET, 0);
+> +			vop2_win_write(win, VOP2_WIN_AFBC_TRANSFORM_OFFS, 0);
+>  		}
+>  
+>  		vop2_win_write(win, VOP2_WIN_YRGB_VIR, DIV_ROUND_UP(fb->pitches[0], 4));
+> @@ -3448,7 +3448,7 @@ static const struct reg_field vop2_cluster_regs[VOP2_WIN_MAX_REG] = {
+>  	[VOP2_WIN_AFBC_TILE_NUM] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_VIR_WIDTH, 16, 31),
+>  	[VOP2_WIN_AFBC_PIC_OFFSET] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_PIC_OFFSET, 0, 31),
+>  	[VOP2_WIN_AFBC_DSP_OFFSET] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_DSP_OFFSET, 0, 31),
+> -	[VOP2_WIN_AFBC_TRANSFORM_OFFSET] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_TRANSFORM_OFFSET, 0, 31),
+> +	[VOP2_WIN_AFBC_TRANSFORM_OFFS] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_TRANSFORM_OFFS, 0, 31),
+>  	[VOP2_WIN_AFBC_ROTATE_90] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_ROTATE_MODE, 0, 0),
+>  	[VOP2_WIN_AFBC_ROTATE_270] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_ROTATE_MODE, 1, 1),
+>  	[VOP2_WIN_XMIRROR] = REG_FIELD(RK3568_CLUSTER_WIN_AFBCD_ROTATE_MODE, 2, 2),
+> @@ -3547,7 +3547,7 @@ static const struct reg_field vop2_esmart_regs[VOP2_WIN_MAX_REG] = {
+>  	[VOP2_WIN_AFBC_PIC_OFFSET] = { .reg = 0xffffffff },
+>  	[VOP2_WIN_AFBC_PIC_SIZE] = { .reg = 0xffffffff },
+>  	[VOP2_WIN_AFBC_DSP_OFFSET] = { .reg = 0xffffffff },
+> -	[VOP2_WIN_AFBC_TRANSFORM_OFFSET] = { .reg = 0xffffffff },
+> +	[VOP2_WIN_AFBC_TRANSFORM_OFFS] = { .reg = 0xffffffff },
+>  	[VOP2_WIN_AFBC_HDR_PTR] = { .reg = 0xffffffff },
+>  	[VOP2_WIN_AFBC_HALF_BLOCK_EN] = { .reg = 0xffffffff },
+>  	[VOP2_WIN_AFBC_ROTATE_270] = { .reg = 0xffffffff },
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> index 29cc7fb8f6d8..8510140b0869 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+> @@ -118,7 +118,7 @@ enum vop2_win_regs {
+>  	VOP2_WIN_AFBC_PIC_OFFSET,
+>  	VOP2_WIN_AFBC_PIC_SIZE,
+>  	VOP2_WIN_AFBC_DSP_OFFSET,
+> -	VOP2_WIN_AFBC_TRANSFORM_OFFSET,
+> +	VOP2_WIN_AFBC_TRANSFORM_OFFS,
+>  	VOP2_WIN_AFBC_HDR_PTR,
+>  	VOP2_WIN_AFBC_HALF_BLOCK_EN,
+>  	VOP2_WIN_AFBC_ROTATE_270,
+> @@ -335,7 +335,7 @@ enum dst_factor_mode {
+>  #define RK3568_CLUSTER_WIN_DSP_INFO		0x24
+>  #define RK3568_CLUSTER_WIN_DSP_ST		0x28
+>  #define RK3568_CLUSTER_WIN_SCL_FACTOR_YRGB	0x30
+> -#define RK3568_CLUSTER_WIN_AFBCD_TRANSFORM_OFFSET	0x3C
+> +#define RK3568_CLUSTER_WIN_AFBCD_TRANSFORM_OFFS	0x3C
+>  #define RK3568_CLUSTER_WIN_AFBCD_OUTPUT_CTRL	0x50
+>  #define RK3568_CLUSTER_WIN_AFBCD_ROTATE_MODE	0x54
+>  #define RK3568_CLUSTER_WIN_AFBCD_HDR_PTR	0x58
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
--- 
-With best wishes
-Dmitry
+
+
