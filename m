@@ -2,89 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F51A323B2
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 11:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E9CA323CF
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 11:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F02D10E845;
-	Wed, 12 Feb 2025 10:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04A6410E842;
+	Wed, 12 Feb 2025 10:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ag4FATBo";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QvAfAW0f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D76F10E845
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 10:42:32 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-30737db1ab1so61032061fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 02:42:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739356951; x=1739961751; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ld1TfC5Cdjw/PoVC0iP097r1SbIYfGgfFoLiWX4Zz3g=;
- b=ag4FATBoVcaoe4O2Bt2PZaaWP8IHhgH4ulV4RGtWlviFG87Afp6ExoG62C0JVAeLlg
- MqxvOHNkHyuqku3B+fjnt/wjYIOLg//hHkQiGBZCF17xqFjHQ0O4mpwSGs52XAxTu5TL
- eGkIPPC6vGDDJBlRypKBNhCVZhMMiR1mP/KkjRRjNILw5fIl0+IqiWCoSCbmSq/NE2NJ
- ZPur190Wgerkj7ABjtl2O4ImRwgDWS8PWORQLKFo7XFGHjetK8d0/odICCeaXFwq4kJs
- 9/BxdRnFpzrpM4nvITMVj3TPlvkgrx+VBogvmBHjz0kcq+slEjDaeW2JPzgiympPPYVv
- a5oQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5660510E842
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 10:47:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1739357270;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mjdUa3EI6jjPQESFxZ7QAmDE55PpxL5gJTNRXqkiL/U=;
+ b=QvAfAW0faU2m2rDi34rBDczaeZ5v+Q9ZINe/YCvgeoNRMV5BY0DsfyqgUQQGtc5Pl5xbDX
+ dkt6v9x/NBe/RFoJIFfJIbDL1fOJUFDjJo4ms48SXMNUWHZK+VxLEaFDGX4SKqjNTWwqes
+ ffczT8Pc4z/BKROFZDTqPeENN4Ojkw0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-161-24ZlU-vuNqCBF-HeB1Vpkg-1; Wed, 12 Feb 2025 05:47:49 -0500
+X-MC-Unique: 24ZlU-vuNqCBF-HeB1Vpkg-1
+X-Mimecast-MFC-AGG-ID: 24ZlU-vuNqCBF-HeB1Vpkg_1739357268
+Received: by mail-ed1-f70.google.com with SMTP id
+ 4fb4d7f45d1cf-5dc5b397109so5959392a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 02:47:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739356951; x=1739961751;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ld1TfC5Cdjw/PoVC0iP097r1SbIYfGgfFoLiWX4Zz3g=;
- b=ZAR+KqjZZ+gOhA+ZYLl9PS/DNUJZVyDs/i8ETjc9iUtjKol7/tm4L55sBIIyL8xq0R
- 3G6kE4W1saJzoxhi60ujeV3unAoNnTqTkA7rLeG6J3Q/y+CR7HdQGvW47LfoWYENiDFM
- j9F+ZrZ5HUdBev9fWe9W3zJZvvta/tLNUlLjsFQlWO+QbVWEPnmoy3g1DATrn6jxAbRL
- LUFjrvoI4zS9cLxZbcUSqC4S55zccX/Z8Rwz8NWs5I4SXOrDUwzMt20kwevvQLuoLmK3
- TINqh6yo9oDgbtSM738hWoCxRtjGt2ULrnSyBE896wy+msdikXHN/7SJ0JOJWRjFUC+C
- LOPg==
+ d=1e100.net; s=20230601; t=1739357268; x=1739962068;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mjdUa3EI6jjPQESFxZ7QAmDE55PpxL5gJTNRXqkiL/U=;
+ b=IOLVSIaF8XHoKTt7uQHVZzbtlxU4f34sKkbnrF/PVEZ7nohX69/Tp7qe2L2hc3xVmJ
+ ysUx6MzjgOMU5e1EcDUVVOC6mAON7kiuHLwacBN2iBcMfxdJkoZDRdRwQOmmm5lL/l20
+ FcH0oamNV9gOfJaIJiny8MVYdJqefnmvmY43xmz8EsSsClzWKhrAsSjR3lB6+5/YwYPC
+ EoEIMo5HCerL8RqSLpAr4uPJhAXqcG962kqYGkgm8iUbXKxfw+0jiwGOj0D5GX2ov1bF
+ d/F0fS/L3h6QTxX4LsRVO8N3gZEAu5uQ0q4Bf4yMN5m1eyKmDHW1sZH+iuK96idLbxjN
+ A/5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXcbMUUS6uoz7FnIppVQtrkJITkjGkKGd1gpvrTqVON0SHDnrL1KFdP437mCw3dXqVQqFEd26+iQx0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGzZxOUiC92ePzvt6J/zc5tHk9QjlqnUsG1Dt7+F37J5Kh+iZ2
- lFKULYZPtr9yHAamJXEVGTffS2Z2PkCJRhL2h6K1IIs6BExWK0PnPIQhc3Uxin0=
-X-Gm-Gg: ASbGncsQTY241A4OS7xnL1xzoL8BI843lojxmtTcKBbJGSJFX9QMsDPkk0FhYswZkgo
- OZR/KVHKj/Zj5jfqZkFt8cik3w996YMZ15i8ujAT/o+sL5Tx79SclMbRyk8Aomuor9sJW0KEXzA
- ngtp4usERgAYceHPOZaGFkVAl8jUJC0S0D+nfgcfvSI/OhX03m814kL3ecjjcUP/Zj002/f57t4
- 1a84RRtBuQtaoHAINmnYu93Hd7ThIPJE/wruV7KqwztWpp0lxQVjTL/6eoValI52uGeGIyYm69R
- vulIGbxAgs8KAKncdHanRldOi55xkVLHMnZYUENwd+Px8Bapm40RwEnoqY7cD1G07fs9fqQ=
-X-Google-Smtp-Source: AGHT+IF+1GUoRD9HhqBh1RL9sJOAG4t7Xk0SYLrZn9lbwf1SpooHUxeWe02/GIT06t3TK4EotARjyA==
-X-Received: by 2002:a05:6512:39cf:b0:545:17d:f96b with SMTP id
- 2adb3069b0e04-545180eb5f9mr737259e87.14.1739356950858; 
- Wed, 12 Feb 2025 02:42:30 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ AJvYcCVTrADTj44kETN29+rHGud4fjjmjz245t+wKJmIV7eo4d5bja2TcN31axDF0Cnm4WwXRZNuhyek6IY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzz85/R4wfw3JNOdwDqcM0R7yps1KsGn1funcWPOx1cf3wV4gey
+ 8XIWSCfBZvim1IDtCjzdMndm8dWTif6rzUHWP90G4FgfZM+H2WyBnH92YGFSDr9uUS9NRl0cbgn
+ 24Vce9RgHAwqQvGpE+y9WCm0n4IufGy2m+pHV9LiHo3k5A1AVwptsGwfQfNWw0YsHaQ==
+X-Gm-Gg: ASbGnct+AoLWxRkjmVhbuLhsy3XxGRO9CUVq6Pq51D6u1SpwRskeynJ+fYSFcLQPMVf
+ 2NbzEB8o9HmUu7tPgsyI3pJ82xcLuUvTD4qD7DmR2FZABDS+YAAdwu1RtxvPH1TkvfZaN8pn0y5
+ JQULUsHjW4eb9xJmp/vAyNZJ1pZuHpGtegB9OEoioWbRHDvo7u0Nyw20Tz5tpB0ZnV5WtB7VlqX
+ MVH6PE1h5Fwx/RI5Qgiyyyk7sfDno0RaigcQ1NuIh0gOEHpFxSdxn5tHXTqdFx9E2ah/NbtCYlz
+ zRNtBp27XzAtQ565V56hk5lEz+BU1dF5ZJN70rWUZupaqTZAWMiT1S/edELUurH+l4DKIsUI1AF
+ lUbMZEb/bhr/Cjlyu5W5FAIs/X74w9R9pBVV/qJWDGAb5mef+yFuLgTU=
+X-Received: by 2002:a05:6402:4024:b0:5d0:efaf:fb73 with SMTP id
+ 4fb4d7f45d1cf-5deaddc10acmr2533483a12.15.1739357268045; 
+ Wed, 12 Feb 2025 02:47:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF+cfN/r2H+5+T27gFwPIpiEUhEl9EoQtBpdey6qTwiUKTmPoUzMtEHwPD5XLyb0CzEKyhwIw==
+X-Received: by 2002:a05:6402:4024:b0:5d0:efaf:fb73 with SMTP id
+ 4fb4d7f45d1cf-5deaddc10acmr2533451a12.15.1739357267633; 
+ Wed, 12 Feb 2025 02:47:47 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
+ (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-54504e344a7sm1328754e87.5.2025.02.12.02.42.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 02:42:30 -0800 (PST)
-Date: Wed, 12 Feb 2025 12:42:28 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Rob Clark <robdclark@gmail.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: display/msm: Redocument the
- dp-controller for QCS8300
-Message-ID: <brm43v5kzsum6hc6ahs3lqzgww55kczjzwzxsmx5a6alw3xxvh@3mdqqjvo2b5k>
-References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
- <20250212-mst_qcs8300-v1-1-38a8aa08394b@quicinc.com>
+ 4fb4d7f45d1cf-5de4f4f4daesm9370661a12.21.2025.02.12.02.47.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 12 Feb 2025 02:47:46 -0800 (PST)
+Message-ID: <3572b4b0-5d32-4331-b241-567701c2cf7b@redhat.com>
+Date: Wed, 12 Feb 2025 11:47:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250212-mst_qcs8300-v1-1-38a8aa08394b@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] drm: panel-orientation-quirks: Add quirks for AYA
+ NEO Flip DS and KB
+To: John Edwards <uejji@uejji.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Andrew Wyatt <fewtarius@steamfork.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Paco Avelar <pacoavelar@hotmail.com>
+References: <20250124204648.56989-2-uejji@uejji.net>
+ <20250124204648.56989-6-uejji@uejji.net>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250124204648.56989-6-uejji@uejji.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: haaeOsr_HHmv546ccegmxQmt5pU8hoRAwScrIQC41d8_1739357268
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,23 +109,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Feb 12, 2025 at 03:12:24PM +0800, Yongxing Mou wrote:
-> We need to enable mst for qcs8300, dp0 controller will support 2 streams
-> output. So not reuse sm8650 dp controller driver and will add a new driver
-> patch for qcs8300 mst feature. Modify the corresponding dt-bingding file
-> to compatible with the qcs8300-dp.
+Hi,
 
-Forgot to mention that in the quick response: please fix usage of
-capital or lowercase letters in the commit message. If you are unusure,
-'git log' will help you.
+Thank you for your patches and sorry for being slow to respond.
 
+On 24-Jan-25 9:46 PM, John Edwards wrote:
+> From: Andrew Wyatt <fewtarius@steamfork.org>
 > 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> The AYA NEO Flip DS and KB both use a 1080x1920 portrait LCD panel.  The
+> Flip DS additionally uses a 640x960 portrait LCD panel as a second display.
+> 
+> Add DMI matches to correctly rotate these panels.
+> 
+> Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
+> Co-developed-by: John Edwards <uejji@uejji.net>
+> Signed-off-by: John Edwards <uejji@uejji.net>
+> Tested-by: Paco Avelar <pacoavelar@hotmail.com>
 > ---
->  Documentation/devicetree/bindings/display/msm/dp-controller.yaml | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> index f9c975338..c5acf2628 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -93,6 +93,12 @@ static const struct drm_dmi_panel_orientation_data onegx1_pro = {
+>  	.orientation = DRM_MODE_PANEL_ORIENTATION_RIGHT_UP,
+>  };
+>  
+> +static const struct drm_dmi_panel_orientation_data lcd640x960_leftside_up = {
+> +	.width = 640,
+> +	.height = 960,
+> +	.orientation = DRM_MODE_PANEL_ORIENTATION_LEFT_UP,
+> +};
+> +
+>  static const struct drm_dmi_panel_orientation_data lcd720x1280_rightside_up = {
+>  	.width = 720,
+>  	.height = 1280,
+> @@ -202,6 +208,18 @@ static const struct dmi_system_id orientation_data[] = {
+>  		  DMI_MATCH(DMI_PRODUCT_NAME, "AIR"),
+>  		},
+>  		.driver_data = (void *)&lcd1080x1920_leftside_up,
+> +	}, {    /* AYA NEO Flip DS Bottom Screen */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
+> +		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "FLIP DS"),
+> +	},
 
--- 
-With best wishes
-Dmitry
+Since this '}' is closing the .matches initializer it should be indented 2 tabs,
+note I think we can fix this up while merging things so no need for a v3
+(assuming Thomas agrees).
+
+> +		.driver_data = (void *)&lcd640x960_leftside_up,
+> +	}, {    /* AYA NEO Flip KB/DS Top Screen */
+> +		.matches = {
+> +		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
+> +		  DMI_MATCH(DMI_PRODUCT_NAME, "FLIP"),
+> +	},
+
+Since this '}' is closing the .matches initializer it should be indented 2 tabs
+
+> +		.driver_data = (void *)&lcd1080x1920_leftside_up,
+>  	}, {	/* AYA NEO Founder */
+>  		.matches = {
+>  		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYA NEO"),
+
+Regards,
+
+Hans
+
+
+
