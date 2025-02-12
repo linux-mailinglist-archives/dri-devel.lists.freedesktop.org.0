@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FF4A32132
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:34:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D04A32138
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:34:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE1CE10E7FB;
-	Wed, 12 Feb 2025 08:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A8110E7FD;
+	Wed, 12 Feb 2025 08:34:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HwR92lBC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bj5Voz4p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A2610E7FB;
- Wed, 12 Feb 2025 08:34:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0BBD10E7FC;
+ Wed, 12 Feb 2025 08:34:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 7E9D95C59B3;
- Wed, 12 Feb 2025 08:33:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4EB1C4CEDF;
- Wed, 12 Feb 2025 08:34:05 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 832855C4C0B;
+ Wed, 12 Feb 2025 08:33:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50021C4CEE2;
+ Wed, 12 Feb 2025 08:34:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739349252;
- bh=PEbY1hpoZAUMu77nswKwlCvM1KB4M7kPypmGaG3VT8E=;
+ s=k20201202; t=1739349278;
+ bh=OQgmC29BlKjOVitpjcCwuT0//319+pxz/RUyRxXp5ME=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=HwR92lBCZSGCArK8rhY9/iIh1acpnlsk/sEGmRhaoTvSVsFQkFD7cmXBQmpF0nNz9
- ysEDSQDHDqacQVgA4zICqBEN9sQ8AAlzJ+8WaDY1iYOHotxZc/0KD+qZ9n0fLT811s
- uLMx6pHhd4xIAZirq2yRvHUaueavGyNaDjcM9Qk76ZEl/ouUjOdaQMa51lFkGWodj5
- V+QVV2uPxmaIzc/Hvmq5yFY/ZKyO7vMLTA3TeSZZCMBGoqslrpMJsCrLGn6E35q77j
- CmKfH0SNmodGiO15ocbHKTDYUR9fdJzk0plo2kc+WUH+I+xuYO1KKtfQCesf2amv5u
- SH64k2x5psdbw==
-Message-ID: <6ff25e41-536c-4871-a047-8aec38f359c4@kernel.org>
-Date: Wed, 12 Feb 2025 09:34:03 +0100
+ b=bj5Voz4p9yEkB5oUsfyHXH/sUF2JOwUyN3spqjAeU464h5Y38wgJuYYKYsZQFHh0j
+ 6MrNVdnFMwzNo+A4ceb696vUuF65F/hypIkkdAOZRX/tRV7PVPxp8tu8FcLVhJ/dUl
+ cPUd9EVAjjQxfyV9fWx+xe1tUGjSHaBjHG7x7pJc4L/psBUD2FxfFlIQvvI9htToxs
+ jNexYSPERTSsdoRUdWcCsfyq7dWjunJ8DAU41re0xcojJJ824csO8znqOHPlr2+G0l
+ 9cYD7f8PO8ascGz9LNgzXodG+WXqPqbFaKlkpZzUqLy/mcC/6n9qeOiYGSP1U3AObg
+ DM547g1zpxHUA==
+Message-ID: <96a82d04-50c1-471d-90f4-9f1ae90f04a3@kernel.org>
+Date: Wed, 12 Feb 2025 09:34:28 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: display/msm: Add stream 1 pixel clock
- for QCS8300
+Subject: Re: [PATCH v3 1/4] dt-bindings: display/msm: Document the DPU for
+ QCS8300
 To: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
@@ -44,14 +44,17 @@ To: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
- <20250212-mst_qcs8300-v1-2-38a8aa08394b@quicinc.com>
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com>
+ <20250113-mdssdt_qcs8300-v3-1-6c8e93459600@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +100,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250212-mst_qcs8300-v1-2-38a8aa08394b@quicinc.com>
+In-Reply-To: <20250113-mdssdt_qcs8300-v3-1-6c8e93459600@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,18 +118,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/02/2025 08:12, Yongxing Mou wrote:
-> Support mst for qcs8300 and add the stream 1 clock support in the mdss
-> dt-bindings.
+On 13/01/2025 09:03, Yongxing Mou wrote:
+> Document the DPU for Qualcomm QCS8300 platform. It use the same DPU
+> hardware with SA8775P and reuse it's driver.
 > 
-> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Your patchset leads to warnings - it is non-bisectable.
-
-Fix original code, don't post buggy patches just to fix them immediately.
-
-> 
-
+This also might not be correct, based on emails sent recently. No clue
+what to do with this patchset.
 
 Best regards,
 Krzysztof
