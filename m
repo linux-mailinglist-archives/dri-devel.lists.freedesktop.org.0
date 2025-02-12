@@ -2,134 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07B83A32466
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 12:11:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2A3A3247B
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 12:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 704AA10E85E;
-	Wed, 12 Feb 2025 11:11:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91BAE10E85D;
+	Wed, 12 Feb 2025 11:13:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kQvekFsW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QqXY0IC6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kQvekFsW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QqXY0IC6";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="o334xeJX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E50710E85D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 11:11:55 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1CD691FD5B;
- Wed, 12 Feb 2025 11:11:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739358714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2qR2R0TZlQ5ib87gVbzwHvONn3HHqdEpwFEnSH3Hdw=;
- b=kQvekFsW/bARSPvVfeQV19/oYpvZBExZAeH5aQEf9B1XsuPVFrM++bMx9VdZeloMCTw3aW
- iJlW2CyvIE7bUyh7lk8UYUOy7GPtOa7amwXic1Ub3ZSRh9TF+oWd3HVlme1rRtvvSa2MTu
- 483zRp5u1wNUTi/WUZHD/BC9EBhQiLc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739358714;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2qR2R0TZlQ5ib87gVbzwHvONn3HHqdEpwFEnSH3Hdw=;
- b=QqXY0IC6CaKSad9y52l+hWgYQJVuSYCz6ZCNm+vsfL/6GFHTtGDdrIt/n7Dut6h2aJNNHd
- tuYZptyV2uWg08Ag==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1739358714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2qR2R0TZlQ5ib87gVbzwHvONn3HHqdEpwFEnSH3Hdw=;
- b=kQvekFsW/bARSPvVfeQV19/oYpvZBExZAeH5aQEf9B1XsuPVFrM++bMx9VdZeloMCTw3aW
- iJlW2CyvIE7bUyh7lk8UYUOy7GPtOa7amwXic1Ub3ZSRh9TF+oWd3HVlme1rRtvvSa2MTu
- 483zRp5u1wNUTi/WUZHD/BC9EBhQiLc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1739358714;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=V2qR2R0TZlQ5ib87gVbzwHvONn3HHqdEpwFEnSH3Hdw=;
- b=QqXY0IC6CaKSad9y52l+hWgYQJVuSYCz6ZCNm+vsfL/6GFHTtGDdrIt/n7Dut6h2aJNNHd
- tuYZptyV2uWg08Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3E1A13AEF;
- Wed, 12 Feb 2025 11:11:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id HzZJMvmBrGc+agAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 12 Feb 2025 11:11:53 +0000
-Message-ID: <f0185bb4-4f43-4ae1-8f81-ec4185160a5b@suse.de>
-Date: Wed, 12 Feb 2025 12:11:53 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A9C10E856;
+ Wed, 12 Feb 2025 11:13:48 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51C8K99w008940;
+ Wed, 12 Feb 2025 11:13:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 2sr6s2gCKtIpekK0r6SRYeaTUYoBWp2FBYiavwLigHM=; b=o334xeJXRA5HTmlB
+ UVVzP1QZpkjnHNJiRAPRrAk1GEHqHW/hpmet++Obi3ryniiqI4m1bIlPASMLoWWZ
+ xQlUI5SWjTtDjY0LeaOUFDe4107vgiu0CUs5tZPxxoaF00d3te4SAXfMhjeCFvc7
+ nGEPE59ClPpfiH16/wLeu0xg8E4nJFVYaVeHDv7a3tuWqJY612CWIWuZOCGFCpOv
+ QHVLI5y/hhnH2+mMGmNYAjPSoci6Dx7lQrjom/VBMAP+RK5NPAZomHha5vhYhL+s
+ 4DXq9KuAajfb2Lo0hwZiCt9/PuxjsL+SEnqRTJZxtj1run9rAj85FX42wB5qZLUy
+ TCxBKw==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44rr1qreqd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Feb 2025 11:13:41 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com
+ [10.47.97.35])
+ by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51CBDeq2005789
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 12 Feb 2025 11:13:40 GMT
+Received: from [10.64.68.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Feb
+ 2025 03:13:34 -0800
+Message-ID: <10d83c88-9f72-4577-95ba-bb1fd1ef36d1@quicinc.com>
+Date: Wed, 12 Feb 2025 19:13:32 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/5] Handheld gaming PC panel orientation quirks
-To: Hans de Goede <hdegoede@redhat.com>, John Edwards <uejji@uejji.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Andrew Wyatt <fewtarius@steamfork.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250124204648.56989-2-uejji@uejji.net>
- <b3caa748-2dbd-4911-968f-878fcd118a9b@suse.de>
- <6abc98bd-5ef9-491e-985b-7ed8a848c96e@redhat.com>
+Subject: Re: [PATCH 1/4] dt-bindings: display/msm: Redocument the
+ dp-controller for QCS8300
+To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
+ <20250212-mst_qcs8300-v1-1-38a8aa08394b@quicinc.com>
+ <531a23fe-940a-4e9a-b023-5f1789ac65a5@kernel.org>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <6abc98bd-5ef9-491e-985b-7ed8a848c96e@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[redhat.com,uejji.net,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[9];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
+From: Yongxing Mou <quic_yongmou@quicinc.com>
+In-Reply-To: <531a23fe-940a-4e9a-b023-5f1789ac65a5@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: yLSc_7G9DepFoiHNsNhDh7E7OMP31fEd
+X-Proofpoint-ORIG-GUID: yLSc_7G9DepFoiHNsNhDh7E7OMP31fEd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-12_03,2025-02-11_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ mlxscore=0 impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502120086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,89 +103,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 12.02.25 um 11:51 schrieb Hans de Goede:
-> Hi Thomas,
->
-> On 11-Feb-25 2:55 PM, Thomas Zimmermann wrote:
->> Hi
+
+On 2025/2/12 16:35, Krzysztof Kozlowski wrote:
+> On 12/02/2025 08:12, Yongxing Mou wrote:
+>> We need to enable mst for qcs8300, dp0 controller will support 2 streams
+>> output. So not reuse sm8650 dp controller driver and will add a new driver
+>> patch for qcs8300 mst feature. Modify the corresponding dt-bingding file
+>> to compatible with the qcs8300-dp.
 >>
->> Am 24.01.25 um 21:46 schrieb John Edwards:
->>> Hello.
->>>
->>> I am submitting a small number of patches to add panel rotation quirks for
->>> a few handheld gaming PCs.  These patches were created by the SteamFork
->>> team and are in daily use by us and/or members of our community.
->>>
->>> The following devices are covered by these patches:
->>> 1: AYANEO 2S
->>> 2: AYANEO Flip DS, AYANEO Flip KB
->>> 3: AYANEO Slide, Antec Core HS
->>> 4: GPD Win 2 (with correct DMI strings)
->>> 5: OneXPlayer Mini (Intel)
->>>
->>> Thank you for your consideration and for taking the time to review these
->>> patches.
->> Did you ever receive any response to this series? If not, then
->>
->> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> I had the following remark for 3 new entries added in patches 2/5 + 3/5:
->
-> "Since this '}' is closing the .matches initializer it should be indented 2 tabs"
->
-> With that fixed, you can add my:
->
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
->
-> to the entire series.
->
->> for the series. Let me know if you need assistance for getting the patch files merged.
-> Normally I pickup/merge these panel orientation quirks, but I've been swamped
-> which is why these have just been sitting on the list.
->
-> Thomas, I would appreciate it if you can merge the set into drm-misc-fixes, with
-> the 3 minor indentation issues fixed.
+>> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> NAK. You just said qcs8300 is compatible with sm8650. I did not ask
+> about drivers, I asked about hardware.
+> 
+> This is messy approach. Describe properly the hardware first, instead of
+> sending two conflicting patchsets.
+> 
+> Best regards,
+> Krzysztof
 
-Sure, no problem. I'll wait for John to provide an update. Otherwise, 
-I'll fix it myself while merging the series.
-
-Best regards
-Thomas
-
->
-> Regards,
->
-> Hans
->
->
->
->
->>> v2:
->>> - Minor rewording of commit messages
->>> - Include Tested-by tag for Paco Avelar in AYANEO Flip DS/KB patch
->>> - Add OneXPlayer Mini (Intel) patch
->>>
->>> v1:
->>> https://lore.kernel.org/dri-devel/20250116155049.39647-2-uejji@uejji.net/
->>>
->>> Andrew Wyatt (5):
->>>     drm: panel-orientation-quirks: Add support for AYANEO 2S
->>>     drm: panel-orientation-quirks: Add quirks for AYA NEO Flip DS and KB
->>>     drm: panel-orientation-quirks: Add quirk for AYA NEO Slide
->>>     drm: panel-orientation-quirks: Add new quirk for GPD Win 2
->>>     drm: panel-orientation-quirks: Add quirk for OneXPlayer Mini (Intel)
->>>
->>>    .../gpu/drm/drm_panel_orientation_quirks.c    | 40 ++++++++++++++++++-
->>>    1 file changed, 38 insertions(+), 2 deletions(-)
->>>
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Hi, Krzysztof, thanks for reviewing, i want to explain why i submitted 
+this patch. Patch 
+https://lore.kernel.org/all/20250114-dts_qcs8300-v3-1-d114cc5e4af9@quicinc.com/ 
+and 
+https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-2-1687e7842125@quicinc.com/ 
+is the qcs8300 display enablement changes. It base on current linux base 
+code and it only support SST mode, so in the SST mode, qcs8300 dp 
+controller driver is quite same with sm8650, struct msm_dp_desc only 
+have 3 members(io_start, id and wide_bus_supported) and they are same 
+both in qcs8300 and sm8650, so we reuse it. BTW, for dp phy hardware 
+version, qcs8300 and sm8650 is different.
+For this patch series, 
+https://lore.kernel.org/all/20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com/ 
+, it is made on top of 
+https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/ 
+which is a new feature for msm platform and not fully reviewed all the 
+code. Currently patch series enable the MST feature for qcs8300, so the 
+dp controller need to support stream 1, and we need add max_streams and 
+intf_map in the struct msm_dp_desc to support MST. So we don't reuse the 
+sm8650 drivers in this patch series.
+For my understanding, qcs8300 SST changes should merge 
+first(https://lore.kernel.org/all/20250114-dts_qcs8300-v3-0-d114cc5e4af9@quicinc.com/ 
+and 
+https://lore.kernel.org/all/20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com/), 
+and next is the MST base commits 
+(https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/), 
+and this patch series should merge at last. why i post qcs8300 
+enablement changes first and then post the MST changes instead of post 
+them together? Because our dependency, i mean this patch series 
+(https://lore.kernel.org/all/20241205-dp_mst-v1-0-f8618d42a99a@quicinc.com/), 
+it has about 45 changes, so it might take lots of time to merge. we just 
+want to make sure that display can work on DP SST mode first.
+So I am just understand that the previous commit was not an incorrect 
+commit, but rather two functionalities were changed in the same place.
+Thanks,
+Yongxing
