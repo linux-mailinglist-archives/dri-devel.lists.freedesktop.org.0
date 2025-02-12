@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BC1A31A94
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 01:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834FFA31AD5
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 01:51:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B67710E781;
-	Wed, 12 Feb 2025 00:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4D710E066;
+	Wed, 12 Feb 2025 00:51:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="x9WJ0dSa";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Vk7d1tBc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
- [209.85.167.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3D2810E77C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 00:38:57 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id
- 2adb3069b0e04-5450cf0cb07so2290929e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 16:38:57 -0800 (PST)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+ [209.85.208.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA16310E066
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 00:51:09 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id
+ 38308e7fff4ca-30762598511so60477091fa.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 16:51:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739320736; x=1739925536; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739321468; x=1739926268; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=czMy4XGzgzOziSIiMmQSPFWId2I629I8Sv1+VTv4Uos=;
- b=x9WJ0dSarfo4jm6X939+X8Qr4kdLGwsOL5BaAjy7UyW8CjmNsPBp2fK7W1iug/cW4i
- wIk/z1O1NPXTipLPvka0GCrT2zD7qQ1vNBMdfeU0BHgPQc1IPJ+t1QqiWFOBs0+L8GwM
- UrcSTScVL+DhPX58YIcpcCA/fVOenVJ0RhN3o98/xdS2AIP0zCYTVQeXw7GrqathhouZ
- g+32yPz4kvohHB1WfBtuPiBGkXKx7lhwSthkdv33cq1rqSJVwWClDQeBuPB8AiJYRPSu
- ZL4t7BIXY1Gx7xB9hLoQ1Ed8IfQN5eNLTeYSS0MOSzXFrw6Sz76b4tTfCXayncG5TpP/
- tvbw==
+ bh=+nLci9veCthHDubqv0cSUycI42m1FuOueczGHBi1MmQ=;
+ b=Vk7d1tBcyiZCZBheYuir3NFyzsXfe0sLGJ9WuOAaNOD6xwdCNaYRQYDroBkS8iwBwO
+ 7UDNK1Vwhp30mF6TNTU5tdYsbGiBplKJwgj5RC7c78uWU5iGLEFbfee+uiMrgEHA6ZGg
+ yFprJJ6eEznMZygk4s7KrIsebW6/0SGxFWvXL8sq/il4iHC2PXMuVAnJiTmrquFki9sX
+ LWAs+51+l7fMsSD2yTNPw/qsJAAQLvENJazAHR/N3qd+cCYqeAcJ8a4pTG/93Sm72NlT
+ jDr9Hbexrd+91V+76hzUPnVnbH/LZcys3fIbw5meo+GixkTD2B1kQdW5uqfrYCfXLZVU
+ 1KzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739320736; x=1739925536;
+ d=1e100.net; s=20230601; t=1739321468; x=1739926268;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=czMy4XGzgzOziSIiMmQSPFWId2I629I8Sv1+VTv4Uos=;
- b=k+FSho2QvgMLoRow2pZRya/76woxV2THW1fSongxr5yUHNceJE/9VWbIh61gLFKfFD
- Q8dTWlV9WRTbkT55aQBnr86pe9j0qu54LmcE8q4QnthwQgmmTkMa+fAIvmVjmRlWdfdM
- 0PdkgpwVihyGEXbSEulqgMB9SYSwVvV2KiHRR+PPvN0dq6iI69WbDW8xPwM9f2Az7UaB
- dm8gpNjpVNc+D7SoM69yNHeatKMrqp90nL6UHIakzyCp5W2fZfzpd3hRhFADZ4kw7x/2
- 3R+DudexNs0eViON1/7+Z1ns9ZIgYy+b5/PNpigyXSyzuOMiZVGca7yY78eyNPFCPFKf
- 1RKg==
+ bh=+nLci9veCthHDubqv0cSUycI42m1FuOueczGHBi1MmQ=;
+ b=Z0NvZc+bhNndHb07832vTlSs73yeBVeI5F5c0mdNu3gNWfxgMpcWYzuGfWVCOrq7cu
+ o4SmaN0VZIEQGw1l/LuGhJFOoIq6Krj7uf8paikRFkLOWnpFy0VyTst1C77CtYvaXO8D
+ 39AHDeSj+SjHXn9bHF56LugJOQPK1ocZhBoRm/r1Lmii4aFewDBcHclgRQBT+fB4lCOQ
+ UvAy6aDNrf8J+Ec6HOYFbvUsZmoxAC1lk/Jx5AXar1aCIwQWi2FX5xC7Km0/zp6FfQcW
+ oRsfvX2l/Zql1WLDNN0vMPrHgS+J6xUj+/B0mpZkTcPD802r3S3Ph+ol7FLbcTIVmRQL
+ IXVg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWlKBTtF5Hc6/rwXoS7y2HK5tv3sivYDXlubEmKkdqSJrDOoXq5xY1MxPYVq7NHhixzR+Jg1Gc16Qs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBIAB4cW/+KxTJn50RtuDZyuxJ6WvqaN4Btlr4lVWWtE+ZChCf
- J0gm7us2fr39zJUle99ADf3BuLjNNAs77vPSRywxfgkosBkGcuxafZlRGehaPns=
-X-Gm-Gg: ASbGnctBt69ypNXpMgMa2mSwGkjH/xyCkZ2eF9JR3pZZ6PsbjNhNTxyGU79/Td5Rw3V
- Ww4Q68J2w7TG8fUGPttHLabApEyPMqXTkTGtFNw2E7re/kOyyvaUHdbOwtYX+BokgEFUtDoMoBe
- HvCfA+GDfvMiHZ+WXGeXdTns882L8+1NIo8GLHh6ffIWpt49RUiLV4Xl2u5kODd9K+KwvR98WBc
- 2PMqU8m6BU+dBGkVNBh/eBsm15nvnv8Tl/T/UmgLHtsMPd7/x13joZ68JS2BrplPno6d7jlbNw2
- 0ypo54dPKWo1LvPmdsAy4E3hgNkx9noZyPaA1Nq9vt6cPu/hK849o4fLjGIet/QZPgpyiRY=
-X-Google-Smtp-Source: AGHT+IE0R9s5EbTp2hypzARdUk83hsK/GvBuTLYE+EmInEQl+LSG5FC1N0b213UOW2tBegrVy9Dl8Q==
-X-Received: by 2002:a05:6512:1288:b0:545:1104:617d with SMTP id
- 2adb3069b0e04-545180ea318mr257971e87.11.1739320735950; 
- Tue, 11 Feb 2025 16:38:55 -0800 (PST)
+ AJvYcCVgEgwaMbYLCWbNFdTBo9BlSvKodqR0qBsS8E18rws/6QAgeS+3bj41DMq978f/UPtzOGaxdMh/dEc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxZhYerGxcnRucmxq5NXpwu0ev+QnwD0YYTX74A56Aa4N56S7lv
+ rHjFtiGSrjEUb/CS7ITqaGbg7VVExaStl9I0j4/RbpkpILYWZqVM9DRkPpCXcvI=
+X-Gm-Gg: ASbGnctaVrfUac2kFr+uS+iktXyksgmjrya34vDsnmRoiwQrl6evhndjA4Kh5MbJAoH
+ eDLFPmvhntKJzGPNkr3fyUduoai56WeW6oRoQFaOMdNe7M1rq36T8DJNVfCa1LB4V1Ok9xAOtls
+ u7FiaH60cuEUG6YfsopYAGmfq77sRC91iEJAPLfGcNhfaudLlpBYT+uRWWZ30fTrM/08iyYFeOA
+ /QQhAd9VSUOPRA9TK7KdzQ2nIFQy33ZTcnNPX9HBHgzGQyJuHXT1YMXJtv6UAwu53sNjKKriKh5
+ SD5ENYnBjhdoGKTz1NRI0mGT3Qq5D1YF3yZnSWEyfJu2xuFm1QP+gMggbSJRLwng2ASr804=
+X-Google-Smtp-Source: AGHT+IHrEVCtROhIx+YyYA4QRU91GByT1IhN/KKKBcdE8BrWoX2fAT7zlZDzAxjgWmcLyL1wGBtxPg==
+X-Received: by 2002:a05:6512:33c9:b0:545:6fa:bf60 with SMTP id
+ 2adb3069b0e04-545180ef5famr301216e87.19.1739321468152; 
+ Tue, 11 Feb 2025 16:51:08 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5441053eb53sm1689954e87.36.2025.02.11.16.38.53
+ 2adb3069b0e04-545067a7576sm1079063e87.198.2025.02.11.16.51.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2025 16:38:54 -0800 (PST)
-Date: Wed, 12 Feb 2025 02:38:52 +0200
+ Tue, 11 Feb 2025 16:51:06 -0800 (PST)
+Date: Wed, 12 Feb 2025 02:51:04 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -72,17 +72,17 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Jonas Karlman <jonas@kwiboo.se>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Douglas Anderson <dianders@chromium.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 34/35] drm/bridge: tc358768: Convert to atomic helpers
-Message-ID: <btehhpvkv6iqd4pofumspqbxzr5gxwp6vs5oh7vflbcmzqj5wz@s6yem2ryw6vs>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 00/35] drm/bridge: Various quality of life improvements
+Message-ID: <b5og5jvjq4jnq5rogyro5rtahayvsbroq4z3yrplioyb4itbak@3cepdouqxyny>
 References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
- <20250204-bridge-connector-v2-34-35dd6c834e08@kernel.org>
- <nbghrrl74xsuzomp7d6qjfosxfiooezipppjhxkx2ibnlpi6rj@b6ovgosmpuhl>
- <20250211-solemn-meticulous-angelfish-85d1ce@houat>
+ <yudkovtipwtnofr3o2qwqrmriwxlczrwploieh5i4ke3sx5zhk@5ktlrew7o6k2>
+ <20250211-peculiar-misty-moose-639556@houat>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250211-solemn-meticulous-angelfish-85d1ce@houat>
+In-Reply-To: <20250211-peculiar-misty-moose-639556@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,58 +98,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2025 at 03:33:58PM +0100, Maxime Ripard wrote:
-> On Sun, Feb 09, 2025 at 09:13:36AM +0200, Dmitry Baryshkov wrote:
-> > On Tue, Feb 04, 2025 at 03:58:02PM +0100, Maxime Ripard wrote:
-> > > The tc358768 driver follows the drm_encoder->crtc pointer that is
-> > > deprecated and shouldn't be used by atomic drivers.
+On Tue, Feb 11, 2025 at 02:17:30PM +0100, Maxime Ripard wrote:
+> On Sun, Feb 09, 2025 at 05:27:01AM +0200, Dmitry Baryshkov wrote:
+> > On Tue, Feb 04, 2025 at 03:57:28PM +0100, Maxime Ripard wrote:
+> > > Hi,
 > > > 
-> > > This was due to the fact that we did't have any other alternative to
-> > > retrieve the CRTC pointer. Fortunately, the crtc pointer is now provided
-> > > in the bridge state, so we can move to atomic callbacks and drop that
-> > > deprecated pointer usage.
+> > > Here's a series of changes after to the KMS helpers and bridge API
+> > > following a bunch of reviews I did.
+> > > 
+> > > It's mostly centered across providing an easier time to deal with bridge
+> > > states, and a somewhat consistent with the other entities API.
+> > > 
+> > > It's build tested only, with arm64 allmodconfig.
+> > > 
+> > > Maxime
 > > > 
 > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > > > ---
-> > >  drivers/gpu/drm/bridge/tc358768.c | 30 +++++++++++++++++++++++-------
-> > >  1 file changed, 23 insertions(+), 7 deletions(-)
+> > > Changes in v2:
+> > > - Pass the full atomic state to bridge atomic hooks
+> > > - Make attach take the encoder as a parameter
+> > > - Mark bridge->encoder as deprecated
+> > > - Rework the logic to detect if a bridge uses a state or not at
+> > >   atomic_check time
+> > > - Add lockdep assertion to drm_bridge_get_current_state()
+> > > - Link to v1: https://lore.kernel.org/r/20250115-bridge-connector-v1-0-9a2fecd886a6@kernel.org
 > > > 
-> > > diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-> > > index 6db18d1e8824dd7d387211d6d1e668645cf88bbe..6ff6b29e8075d7c6fa0b74b4fec83c5230512d96 100644
-> > > --- a/drivers/gpu/drm/bridge/tc358768.c
-> > > +++ b/drivers/gpu/drm/bridge/tc358768.c
-> > > @@ -601,17 +601,29 @@ static void tc358768_bridge_disable(struct drm_bridge *bridge)
-> > >  	ret = tc358768_clear_error(priv);
-> > >  	if (ret)
-> > >  		dev_warn(priv->dev, "Software disable failed: %d\n", ret);
-> > >  }
-> > >  
-> > > +static void tc358768_bridge_atomic_disable(struct drm_bridge *bridge,
-> > > +					   struct drm_atomic_state *state)
-> > > +{
-> > > +	tc358768_bridge_disable(bridge);
-> > > +}
-> > > +
+> > > ---
+> > > Maxime Ripard (35):
+> > >       drm/atomic: Document history of drm_atomic_state
+> > >       drm/bridge: Pass full state to atomic_pre_enable
+> > >       drm/bridge: Pass full state to atomic_enable
+> > >       drm/bridge: Pass full state to atomic_disable
+> > >       drm/bridge: Pass full state to atomic_post_disable
+> > >       drm/atomic-helper: Fix commit_tail state variable name
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_wait_for_dependencies()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_tail()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_tail_rpm()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_modeset_disables()
+> > >       drm/atomic-helper: Change parameter name of disable_outputs()
+> > >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_disable()
+> > >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_post_disable()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_update_legacy_modeset_state()
+> > >       drm/atomic-helper: Change parameter name of crtc_set_mode()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_planes()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_modeset_enables()
+> > >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_pre_enable()
+> > >       drm/bridge: Change parameter name of drm_atomic_bridge_chain_enable()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_writebacks()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_fake_vblank()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_hw_done()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_wait_for_vblanks()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_cleanup_planes()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_commit_cleanup_done()
+> > >       drm/atomic-helper: Change parameter name of drm_atomic_helper_wait_for_flip_done()
 > > 
-> > Please change corresponding functions into atomic_disable() and
-> > atomic_post_disable(). Calling sites have access to the atomic state, so
-> > there is no need to have yet another wrapper.
+> > I agree that use of the old_state can be confusing (and it has been
+> > confusing to me for some time). The main question is, do we loose useful
+> > memo 'this is the state after swap'. Most likely it is useless now, just
+> > wanted to give it a second thought.
 > 
-> It's pretty hard to do (at least without the hardware), both
-> tc358768_bridge_disable() and tc358768_bridge_post_disable() have
-> multiple call sites in the driver, and passing a state enabling the
-> bridge doesn't make sense for those.
+> The drm_atomic_state doesn't change after a swap, only the
+> plane/crtc/connector/private_obj (and their state) state pointer do. And
+> if you meant that old_state mentions that the states have been swapped,
+> it's still a terrible name and we should change it still :)
 
-I think it makes sense. The function knows that the bridge needs to be
-disabled. The state is totally unused (or it can be used to get
-connectors / CRTC / etc).
-
-> 
-> I guess I can still drop that patch.
-> 
-> Maxime
-
-
+Ack, sounds good.
 
 -- 
 With best wishes
