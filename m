@@ -2,54 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F87A32258
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 10:36:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73BD2A32252
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 10:36:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE9710E820;
-	Wed, 12 Feb 2025 09:36:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CEDC10E821;
+	Wed, 12 Feb 2025 09:36:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="FiJTvakz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iSb3Z8PG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2A05A10E81C
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 09:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=Zg81E
- ugW+SQhF7AGfomh7BYRKj3sSMrCnBpJRgio1wY=; b=FiJTvakzKzORNU7dsV0p2
- uo9l2TgbODrV/COpbaiQ+mqVeDEcJR3pt39mPyYbEjFvaiLAboMuphHohl+kEHrc
- 2AeVmjyeELuUIuIiVDp76bOgiia17862/09bFrir/Lh3ZxAFC6i45m8/0oz5UPS2
- J1n0/O/BMQToiX5KaTJnwQ=
-Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id
- _____wBnG9Fja6xn14FuLQ--.33700S12; 
- Wed, 12 Feb 2025 17:35:45 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: heiko@sntech.de
-Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- derek.foreman@collabora.com, detlev.casanova@collabora.com,
- daniel@fooishbar.org, robh@kernel.org, sebastian.reichel@collabora.com,
- Andy Yan <andy.yan@rock-chips.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v14 10/13] dt-bindings: display: vop2: describe constraint SoC
- by SoC
-Date: Wed, 12 Feb 2025 17:35:05 +0800
-Message-ID: <20250212093530.52961-11-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250212093530.52961-1-andyshrk@163.com>
-References: <20250212093530.52961-1-andyshrk@163.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D93110E81A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 09:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739352961; x=1770888961;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=pgsH206nPEenEmQhZW+SG0liBtabwfb1Nu2RC806B+k=;
+ b=iSb3Z8PG4GwUIJIY5x8d3Kg7btdJlXJdKCAkQZwzvoVB2Sj/EuVsvgan
+ wp+bSnbyyovvNOsdXNn9+AMpKNjerBchg99gng/oUT2yMTk9ce7vpt1YF
+ ac0Qf9KdZu/OGB9b+Rd1vfaJj1HVtstAZl0SNMEkOfeLol98Ri+hpA7gk
+ CFZtNKdp4ySifClo2HtOukJindzTetGKOGCdVr+5jroTBp63siNdh6Acn
+ 8jR3IU3tHMZkSjzdaASxQWfFUfVfX0FKVzf4PUUyDbsVpJUUC+nqIvv9w
+ zrKfD8Lz4Le0do+2U24TNhQwC2UFs5no+99LGZD0meAfV5zAJn+sJJQb6 w==;
+X-CSE-ConnectionGUID: aG0/yiqCRVmxjP2SJiBiIw==
+X-CSE-MsgGUID: bCsAnMrBRHCcmvpJaw3mjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11342"; a="42842047"
+X-IronPort-AV: E=Sophos;i="6.13,279,1732608000"; d="scan'208";a="42842047"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 01:36:01 -0800
+X-CSE-ConnectionGUID: Oo0fouXhTxeRkDfuWT5sBw==
+X-CSE-MsgGUID: JsFMgzXiQZKCDAg/1zcBcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="117951478"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.167])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 01:35:57 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Egor Vorontsov <sdoregor@sdore.me>, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Egor Vorontsov <sdoregor@sdore.me>
+Subject: Re: [PATCH v2] drm/edid: Implement DisplayID Type IX & X timing
+ blocks parsing
+In-Reply-To: <7cab8349bc8bb6fa08d2a7127a724efea155f154.camel@sdore.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <7cab8349bc8bb6fa08d2a7127a724efea155f154.camel@sdore.me>
+Date: Wed, 12 Feb 2025 11:35:54 +0200
+Message-ID: <87zfirzerp.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBnG9Fja6xn14FuLQ--.33700S12
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZF4UWFyDtryDuw43JFyftFb_yoW5ur1Dpa
- 97Cas8X3ykGr1UWw4ktF1fCw4SqF9xJw4UJrn7t3W7Ga1DKF4UG3ySgwn8Ar9xWF42vaya
- 9a15Cr15Jw42vr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UZvttUUUUU=
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqArxXmesZw5UBAACs9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,146 +72,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+On Wed, 12 Feb 2025, Egor Vorontsov <sdoregor@sdore.me> wrote:
+> Some newer high refresh rate consumer monitors (including those by Samsun=
+g)
+> make use of DisplayID 2.1 timing blocks in their EDID data, notably for
+> their highest refresh rate modes. Such modes won't be available as of now.
+>
+> Implement partial support for such blocks in order to enable native
+> support of HRR modes of most such monitors for users without having to re=
+ly
+> on EDID patching/override (or need thereof).
+>
+> Closes: https://gitlab.freedesktop.org/drm/misc/kernel/-/issues/55
+> Suggested-by: Maximilian Bo=C3=9Fe <max@bosse.io>
+> Signed-off-by: Egor Vorontsov <sdoregor@sdore.me>
+> ---
+>  drivers/gpu/drm/drm_displayid_internal.h | 13 +++++
+>  drivers/gpu/drm/drm_edid.c               | 63 ++++++++++++++++++++++++
+>  2 files changed, 76 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/d=
+rm_displayid_internal.h
+> index aee1b86a73c1..88220c107822 100644
+> --- a/drivers/gpu/drm/drm_displayid_internal.h
+> +++ b/drivers/gpu/drm/drm_displayid_internal.h
+> @@ -66,6 +66,7 @@ struct drm_edid;
+>  #define DATA_BLOCK_2_STEREO_DISPLAY_INTERFACE	0x27
+>  #define DATA_BLOCK_2_TILED_DISPLAY_TOPOLOGY	0x28
+>  #define DATA_BLOCK_2_CONTAINER_ID		0x29
+> +#define DATA_BLOCK_2_TYPE_10_FORMULA_TIMING	0x2a
+>  #define DATA_BLOCK_2_VENDOR_SPECIFIC		0x7e
+>  #define DATA_BLOCK_2_CTA_DISPLAY_ID		0x81
+>=20=20
+> @@ -129,6 +130,18 @@ struct displayid_detailed_timing_block {
+>  	struct displayid_detailed_timings_1 timings[];
+>  };
+>=20=20
+> +struct displayid_formula_timings_9 {
+> +	u8 flags;
+> +	__be16 hactive;
+> +	__be16 vactive;
+> +	u8 vrefresh;
+> +} __packed;
+> +
+> +struct displayid_formula_timing_block {
+> +	struct displayid_block base;
+> +	struct displayid_formula_timings_9 timings[];
+> +} __packed;
+> +
+>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+>=20=20
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 13bc4c290b17..9c363df5af9a 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -6833,6 +6833,66 @@ static int add_displayid_detailed_1_modes(struct d=
+rm_connector *connector,
+>  	return num_modes;
+>  }
+>=20=20
+> +static struct drm_display_mode *drm_mode_displayid_formula(struct drm_de=
+vice *dev,
+> +							   const struct displayid_formula_timings_9 *timings,
+> +							   bool type_10)
+> +{
+> +	struct drm_display_mode *mode;
+> +	u16 hactive =3D be16_to_cpu(timings->hactive) + 1;
+> +	u16 vactive =3D be16_to_cpu(timings->vactive) + 1;
+> +	u8 timing_formula =3D timings->flags & 0x7;
+> +
+> +	/* TODO: support RB-v2 & RB-v3 */
+> +	if (timing_formula > 1)
+> +		return NULL;
+> +
+> +	/* TODO: support video-optimized refresh rate */
+> +	if (timings->flags & (1 << 4))
+> +		return NULL;
 
-As more SoCs variants are introduced, each SoC brings its own
-unique set of constraints, describe this constraints SoC by
-SoC will make things easier.
+Mmh. I'm not sure I'd go this far. The bit indicates *two* timings, one
+for which the below *is* correct, and another additional one with
+vrefresh * (1000/1001).
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+We could just add a drm_dbg_kms(dev, "<message>") here about missing
+fractional refresh rate, and proceed with the one non-fractional rate?
+Or just have the TODO comment with no checks.
 
----
+And I'm not asking you to just implement the fractional refresh rate
+here, because we can't simply do it on the vrefresh due to losing
+precision. Needs to be done on the clock. But it could be a follow-up,
+using the above bit to do something similar to what
+add_alternate_cea_modes() does.
 
-Changes in v14:
-- Set maxItems constraint of clocks for rk3588 to 9 as a recently
-  merged patch added two optional clocks[0]:
-  [0]https://patchwork.freedesktop.org/patch/msgid/20250204-vop2-hdmi0-disp-modes-v3-1-d71c6a196e58@collabora.com
+Either way,
 
-Changes in v13:
-- Add maxItems constraint for clocks
-- Remove constraint for interrupts in allOf block, as the current
-  maxItems is already 1.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-Changes in v12:
-- Only change the description method for existing SoC.
 
-Changes in v11:
-- Remove redundant min/maxItems constraint
+Are you up for the follow-ups too? And since you've got the hang of it,
+maybe fix struct displayid_formula_timings_9 hactive/vactive to __be16
+as well?
 
-Changes in v10:
-- Move interrupt-names back to top level
-- Add constraint of interrupts for all platform
-- Add constraint for all grf phandles
-- Reorder some properties
+BR,
+Jani.
 
-Changes in v9:
-- Drop 'vop-' prefix of interrupt-names.
-- Add blank line between DT properties
-- Remove list interrupt-names in top level
+> +
+> +	mode =3D drm_cvt_mode(dev, hactive, vactive, timings->vrefresh + 1, tim=
+ing_formula =3D=3D 1, false, false);
+> +	if (!mode)
+> +		return NULL;
+> +
+> +	/* TODO: interpret S3D flags */
+> +
+> +	mode->type =3D DRM_MODE_TYPE_DRIVER;
+> +	drm_mode_set_name(mode);
+> +
+> +	return mode;
+> +}
+> +
+> +static int add_displayid_formula_modes(struct drm_connector *connector,
+> +				       const struct displayid_block *block)
+> +{
+> +	const struct displayid_formula_timing_block *formula_block =3D (struct =
+displayid_formula_timing_block *)block;
+> +	int num_timings;
+> +	struct drm_display_mode *newmode;
+> +	int num_modes =3D 0;
+> +	bool type_10 =3D block->tag =3D=3D DATA_BLOCK_2_TYPE_10_FORMULA_TIMING;
+> +	int timing_size =3D 6 + ((formula_block->base.rev & 0x70) >> 4);
+> +
+> +	/* extended blocks are not supported yet */
+> +	if (timing_size !=3D 6)
+> +		return 0;
+> +
+> +	if (block->num_bytes % timing_size)
+> +		return 0;
+> +
+> +	num_timings =3D block->num_bytes / timing_size;
+> +	for (int i =3D 0; i < num_timings; i++) {
+> +		const struct displayid_formula_timings_9 *timings =3D &formula_block->=
+timings[i];
+> +
+> +		newmode =3D drm_mode_displayid_formula(connector->dev, timings, type_1=
+0);
+> +		if (!newmode)
+> +			continue;
+> +
+> +		drm_mode_probed_add(connector, newmode);
+> +		num_modes++;
+> +	}
+> +	return num_modes;
+> +}
+> +
+>  static int add_displayid_detailed_modes(struct drm_connector *connector,
+>  					const struct drm_edid *drm_edid)
+>  {
+> @@ -6845,6 +6905,9 @@ static int add_displayid_detailed_modes(struct drm_=
+connector *connector,
+>  		if (block->tag =3D=3D DATA_BLOCK_TYPE_1_DETAILED_TIMING ||
+>  		    block->tag =3D=3D DATA_BLOCK_2_TYPE_7_DETAILED_TIMING)
+>  			num_modes +=3D add_displayid_detailed_1_modes(connector, block);
+> +		else if (block->tag =3D=3D DATA_BLOCK_2_TYPE_9_FORMULA_TIMING ||
+> +			 block->tag =3D=3D DATA_BLOCK_2_TYPE_10_FORMULA_TIMING)
+> +			num_modes +=3D add_displayid_formula_modes(connector, block);
+>  	}
+>  	displayid_iter_end(&iter);
 
-Changes in v8:
-- Fix dt_binding_check errors
-- ordered by soc name
-- Link to the previous version:
-  https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
-
-Changes in v4:
-- describe constraint SOC by SOC, as interrupts of rk3576 is very
-  different from others
-- Drop Krzysztof's Reviewed-by, as this version changed a lot.
-
-Changes in v3:
-- ordered by soc name
-- Add description for newly added interrupt
-
-Changes in v2:
-- Add dt bindings
-
- .../display/rockchip/rockchip-vop2.yaml       | 40 ++++++++++++-------
- 1 file changed, 26 insertions(+), 14 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-index 46d956e63338..a5771edd83b5 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-@@ -14,6 +14,7 @@ description:
- maintainers:
-   - Sandy Huang <hjc@rock-chips.com>
-   - Heiko Stuebner <heiko@sntech.de>
-+  - Andy Yan <andyshrk@163.com>
- 
- properties:
-   compatible:
-@@ -124,43 +125,54 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: rockchip,rk3588-vop
-+            enum:
-+              - rockchip,rk3566-vop
-+              - rockchip,rk3568-vop
-     then:
-       properties:
-         clocks:
--          minItems: 7
-+          maxItems: 5
-+
-         clock-names:
--          minItems: 7
-+          maxItems: 5
- 
-         ports:
-           required:
-             - port@0
-             - port@1
-             - port@2
--            - port@3
- 
--      required:
--        - rockchip,grf
--        - rockchip,vo1-grf
--        - rockchip,vop-grf
--        - rockchip,pmu
--
--    else:
--      properties:
-         rockchip,vo1-grf: false
-         rockchip,vop-grf: false
-         rockchip,pmu: false
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: rockchip,rk3588-vop
-+    then:
-+      properties:
-         clocks:
--          maxItems: 5
-+          minItems: 7
-+          maxItems: 9
-+
-         clock-names:
--          maxItems: 5
-+          minItems: 7
-+          maxItems: 9
- 
-         ports:
-           required:
-             - port@0
-             - port@1
-             - port@2
-+            - port@3
-+
-+      required:
-+        - rockchip,grf
-+        - rockchip,vo1-grf
-+        - rockchip,vop-grf
-+        - rockchip,pmu
- 
- additionalProperties: false
- 
--- 
-2.34.1
-
+--=20
+Jani Nikula, Intel
