@@ -2,72 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E15A333B1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 00:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30332A333BA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 00:58:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6728B10E333;
-	Wed, 12 Feb 2025 23:56:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE0810E00D;
+	Wed, 12 Feb 2025 23:58:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SCUcDoYs";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sE8BRhNp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDCAB10E333;
- Wed, 12 Feb 2025 23:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1739404582; x=1770940582;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=gF8WUDA/YTJ+dykENAH//Nob6ceU5xpiAlV5FGXbhA0=;
- b=SCUcDoYsE4Ch17B5lAOEBpJGcBfbEY4GKHAkZ7COj9DS0Pbc8mLlP3HE
- VxILxqbLNfd8tKYuscAkgmJNCn83JM3CY0duuWB7CqcGJhu7DMBEKhlQ5
- Nd7Qx7uuoOyd8+lU6nya2u2UfU3BzbgoS8cjJuEVB3dgwwjh21qVStuXM
- jG8NkkLzwo89cO/GmIEe2ep+BlMW1oHHz2+DbpqdZdW78FxfGBQ0foQ+H
- Craka0y/5rQ9Jjs4tBYxcuvXaVV08ivE9yRfMjpbbMV1iMtSSpeWEBpnS
- oPzrh0MG8hHtKw191fsBGbBEv3aRqzLQ5xGgcc7HFzRkO4bHe0B5k6E7A g==;
-X-CSE-ConnectionGUID: 9EEy9zflT6eh79d4DlcVAA==
-X-CSE-MsgGUID: ahwJtRaST++JIz35wt3ggw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="39951907"
-X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="39951907"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Feb 2025 15:56:18 -0800
-X-CSE-ConnectionGUID: WR4Y8srsTAiq00aeunFnKQ==
-X-CSE-MsgGUID: DJiOdrRmT3K6jnGzy0pS/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="113172598"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
- by fmviesa008.fm.intel.com with SMTP; 12 Feb 2025 15:56:12 -0800
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 13 Feb 2025 01:56:12 +0200
-Date: Thu, 13 Feb 2025 01:56:12 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RFC 4/7] drm/display: dp-aux-dev: use new DCPD access
- helpers
-Message-ID: <Z601HHdh2Zn62skU@intel.com>
-References: <20250117-drm-rework-dpcd-access-v1-0-7fc020e04dbc@linaro.org>
- <20250117-drm-rework-dpcd-access-v1-4-7fc020e04dbc@linaro.org>
- <87tt9pn8uu.fsf@intel.com>
- <7unkxysvdn57fp6t7sjmgqsiacg5grbrk4lp3fbfdvaht3hq4o@gqshn45sa5ww>
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+ [209.85.167.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFE2310E9AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 23:58:11 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id
+ 2adb3069b0e04-54298ec925bso287230e87.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 15:58:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1739404690; x=1740009490; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=3BAFGjYw2QJwqRQ3fFZmP6lC2tUfHuW+BgEHuxf/+t0=;
+ b=sE8BRhNpOBytqi+I3sNS4+D9O7cY9RLdfI404Mdnwa/d2LO+BqIbJONt+NaATgigue
+ h+N6SKbTlsUYSQdi77Ew3p6wYo0t7jt/dO74prULnl/Q7z4LR48MRFXHvpQxPceRfi6v
+ BL9jewouO7zexe6E93uk6GNXxlBIIuX2D/zPIf16JchxB++oaOZz4pjRG7B/SueAuumf
+ 73jhp6vUos+nOVSuOieDNUUkYDVk8/QbewVZpC/+CtId96rPspAL7qTBAuP8nUIo22vu
+ FWP2fTLz88jrT3RqftmRnyPKHtJQGFiR1cBd6FqlTvlXvLdfE0/+vUT6ee8zxQiPSARi
+ hCMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739404690; x=1740009490;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=3BAFGjYw2QJwqRQ3fFZmP6lC2tUfHuW+BgEHuxf/+t0=;
+ b=d4gSgruTaf0jkhvZunJeCkS1VxN3OAqV3T+0NKYhjxpjFlLVSScRftUjlgX11XEfMF
+ bnS5yNyVEg+TmXpDe1Z5f5BUbAf20I9fRD8a2bfDavApnXvvpHn4l9aP296aHRtJM9MD
+ GGWklePTr9w/ndlkxHYJpcNdB0TRuSAuKtX7KUDeqhVj4XsRX9YwcKA4z7E9u1wRAVvV
+ PBoLcTLs3s8wvWAQbmLgTz6tD4kT3oo4O7yXhjfycaKKvl0vZ/GBDgNPrD4oIPv2jzMO
+ YaXeRulMK00PPIBaZM4vdpGKrHSY82vjV6DvvhJPDne48i05cu5Kn7hF8gtAaRRvl/v+
+ 01hw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVpO0TkOifm/TbihKbYiWnlRn4bZXtz61aiO2XmhjFILJ1cAnFtUm0R8KxgFF+RRAoMrEtFZqat+7I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDYrc+qsrjcpbnWjEelepY5MX4prG4g/qv+JaQyuS5J3SbfYOJ
+ aZlqiywJte5UcXcNAJRwOWN98P6RFPhKQe8HP8HVnAdAqmRB6L7XqF25B10k1Pg=
+X-Gm-Gg: ASbGnct4ERclIVvm1vxgdX6AT9XC1zHB3IwxBTbAXTnRkJ9WAo5GVGyL4XMviMtwq6T
+ 1y6CwzduxabEC1H/d7lkJS9eaGqOt4D7ZICfFNX3Oo04Qv9ky16gaAvfzodAS3IEMm0llz2onge
+ UVjiCOaVzEIoPgzcBnYBuXb+a+Nv1BtJJv/mf2OyC+VWPNcZtu+aMzFbeRrthNgEQ2U7U73wVIS
+ 9yN4WD326sZNj6x/IWhpUvSQBWH3FLkY2fM0IQs0ayNrIDIjji5F7DDwQO7xCs5N4v4babKX/Lq
+ /ifC82eybgIfQvtJ8R6fI7TEbcrIHxTpSC72FZyotOfghcIc6w+FdE6JK2heXQeADD3VXyE=
+X-Google-Smtp-Source: AGHT+IFOzevMzwSqrsW5SI2f6zfmPKiGi7Ag3hljzjdY6B6YmBgvHDwMJG1evRLjw+6YvkchrmUSAA==
+X-Received: by 2002:ac2:465b:0:b0:545:1d25:460d with SMTP id
+ 2adb3069b0e04-5451d255120mr480534e87.12.1739404689779; 
+ Wed, 12 Feb 2025 15:58:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru
+ (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5451f09ab70sm13305e87.78.2025.02.12.15.58.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2025 15:58:08 -0800 (PST)
+Date: Thu, 13 Feb 2025 01:58:06 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: "James A. MacInnes" <james.a.macinnes@gmail.com>, 
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Chandan Uddaraju <chandanu@codeaurora.org>, 
+ Stephen Boyd <swboyd@chromium.org>, Vara Reddy <quic_varar@quicinc.com>, 
+ Tanmay Shah <tanmay@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Guenter Roeck <groeck@chromium.org>, Rob Clark <robdclark@chromium.org>
+Subject: Re: [PATCH v2 1/2] drm/msm/dp: Disable wide bus support for SDM845
+Message-ID: <dk7udmgj3mexlvxxoxvgwut6p3cv4faxhtcbqrikvfp6h6odi3@myp4sxi7nh5c>
+References: <20250212-sdm845_dp-v2-0-4954e51458f4@gmail.com>
+ <20250212-sdm845_dp-v2-1-4954e51458f4@gmail.com>
+ <voecekzdacvrxedltgkiq5vwnaomchv2dryi6ukvk2xynw72wp@5nre7uesyvkk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7unkxysvdn57fp6t7sjmgqsiacg5grbrk4lp3fbfdvaht3hq4o@gqshn45sa5ww>
-X-Patchwork-Hint: comment
+In-Reply-To: <voecekzdacvrxedltgkiq5vwnaomchv2dryi6ukvk2xynw72wp@5nre7uesyvkk>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,44 +97,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jan 23, 2025 at 01:05:47PM +0200, Dmitry Baryshkov wrote:
-> On Thu, Jan 23, 2025 at 12:05:29PM +0200, Jani Nikula wrote:
-> > On Fri, 17 Jan 2025, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> > > Switch drm_dp_aux_dev.c to use new set of DPCD read / write helpers.
+On Thu, Feb 13, 2025 at 12:41:02AM +0100, Marijn Suijten wrote:
+> On 2025-02-12 15:03:46, James A. MacInnes wrote:
+> > SDM845 DPU hardware is rev 4.0.0 per hardware documents.
+> > Original patch to enable wide_bus operation did not take into account
+> > the SDM845 and it got carried over by accident.
 > > 
-> > This might be one of the few places where the old functions and the old
-> > return value was used in a sensible manner.
+> > - Incorrect setting caused inoperable DisplayPort.
+> > - Corrected by separating SDM845 into its own descriptor.
 > 
-> Well... Yes and no. What does it mean if we return less bytes? Is that
-> still a protocol error?
+> If anything I'd have appreciated to see our conversation in v1 pasted here
+> verbatim which is of the right verbosity to explain this.  I can't do much with
+> a list of two items.
+> 
+> I don't have a clearer way of explaining what all I find confusing about this
+> description, so let me propose what I would have written if this was my patch
+> instead:
+> 
+> 	When widebus was enabled for DisplayPort in commit c7c412202623 ("drm/msm/dp:
+> 	enable widebus on all relevant chipsets") it was clarified that it is only
+> 	supported on DPU 5.0.0 onwards which includes SC7180 on DPU revision 6.2.
+> 	However, this patch missed that the description structure for SC7180 is also
+> 	reused for SDM845 (because of identical io_start address) which is only DPU
+> 	4.0.0, leading to a wrongly enbled widebus feature and corruption on that
+> 	platform.
+> 
+> 	Create a separate msm_dp_desc_sdm845 structure for this SoC compatible,
+> 	with the wide_bus_supported flag turned off.
+> 
+> 	Note that no other DisplayPort compatibles currently exist for SoCs older
+> 	than DPU 4.0.0 besides SDM845.
 
-AFAIK short AUX replies are perfectly legal accoding to the DP
-spec, but we've not really seen them happening in any real
-use cases I suppose (although I'm not sure we have sufficient
-logging to tell whether something failed completely or only
-partially), hence why we've never really handled them
-correctly.
+With more or less similar commit message:
 
-For aux_dev it might matter more because the common use
-case is to just dump the entire DPCD, and some displays
-violate the spec by having black holes inside the DPCD.
-What I don't rembmer is whether those black holes actually
-result in short replies, or whether the entire AUX transfer
-gets rejected when it hits one even partially.
 
-The other concern with not handling short replies correctly
-is that writes (and even some reads) can have side effects.
-So when a short reply arrives we may have already triggered 
-some side effects while still claiming that the access
-completely failed.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-I suppose if someone was sufficiently motivated they could
-try to handle short replies more correctly and keep retrying
-the remaining bytes (assuming that is the correct way to
-handle them). Although with those black holes I guess
-you'd eventually have to give up anyway before having
-transferred all the bytes.
+
+> 
+> Hope I'm not considered being too picky.  I first sketch **how** the original
+> patch created a problem, then explain how this patch is intending to fix it,
+> and finally describe that we went a step further and ensured no other SoCs
+> are suffering from a similar problem.
+> 
+> - Marijn
+> 
+> > 
+> > Fixes: c7c412202623 ("drm/msm/dp: enable widebus on all relevant chipsets")
+> > Signed-off-by: James A. MacInnes <james.a.macinnes@gmail.com>
+> > ---
+> >  drivers/gpu/drm/msm/dp/dp_display.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index aff51bb973eb..e30cccd63910 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -126,6 +126,11 @@ static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
+> >  	{}
+> >  };
+> >  
+> > +static const struct msm_dp_desc msm_dp_desc_sdm845[] = {
+> > +	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
+> > +	{}
+> > +};
+> > +
+> >  static const struct msm_dp_desc msm_dp_desc_sc7180[] = {
+> >  	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+> >  	{}
+> > @@ -178,7 +183,7 @@ static const struct of_device_id msm_dp_dt_match[] = {
+> >  	{ .compatible = "qcom,sc8180x-edp", .data = &msm_dp_desc_sc8180x },
+> >  	{ .compatible = "qcom,sc8280xp-dp", .data = &msm_dp_desc_sc8280xp },
+> >  	{ .compatible = "qcom,sc8280xp-edp", .data = &msm_dp_desc_sc8280xp },
+> > -	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sc7180 },
+> > +	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sdm845 },
+> >  	{ .compatible = "qcom,sm8350-dp", .data = &msm_dp_desc_sc7180 },
+> >  	{ .compatible = "qcom,sm8650-dp", .data = &msm_dp_desc_sm8650 },
+> >  	{ .compatible = "qcom,x1e80100-dp", .data = &msm_dp_desc_x1e80100 },
+> > 
+> > -- 
+> > 2.43.0
+> > 
 
 -- 
-Ville Syrjälä
-Intel
+With best wishes
+Dmitry
