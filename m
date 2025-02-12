@@ -2,97 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2420FA329A8
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 16:15:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7C1A329D4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 16:23:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0ECCC10E27D;
-	Wed, 12 Feb 2025 15:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE04510E8E7;
+	Wed, 12 Feb 2025 15:23:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="eU4oun02";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="DD9mph2b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB9A910E27D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 15:15:10 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-54505191cdcso4616190e87.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 07:15:10 -0800 (PST)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FE8B10E8E7
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 15:23:53 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-ab7e3d0921bso324428666b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 07:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1739373309; x=1739978109;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XbeFhgjlAz4HP0qajS/kFL0VJiSyjCShat9G6ecggLw=;
- b=eU4oun02JSh+hUgQhMHN+MCcoO9EEljciQIWO4XMIKJayaVSse998bxNkx3AB02dSr
- tERrzSSiIZsQo8j+8LXMmT2lUXkslBuZKk5eya1ARb/K9vF52wr/8LeppmtOs6NbmDAF
- PhMzQ3T+B9XskKHwJh04ZgijmjldM3JvGF7kM=
+ d=linaro.org; s=google; t=1739373831; x=1739978631; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fiMAJYYbGqQGrN9mqZ/PjIuMsY86kljhaikfZKAgMZU=;
+ b=DD9mph2b1YTVHRIwnNyNSYIZx9Z3z/+NZcnlXduJXnNWVf60LJDJMEE3ktNKEUn8ve
+ u873fA4FmtAynn6399nJl93HE/4f/43RI04T8rNFrNlj5NcKSyFkTxtXhYJQ4m3zhIT0
+ bMmWiMla7vdj1ePDDf5i+EV5paSvznvtRazDhJdCSkSdIYLgbvgs3dSV5OegsMZvb+7u
+ QGCGTxAF6Q4twcjEKQSPh3TaKZHrbl0gXPq+gHluMD7bsd7MRwl8/JH/xPCMyEMtYBHI
+ eQefoZNn05iVnKjr3cFjulZcY7YhHFNq+rMmTgYoZmmfB+X5MP0TFgg5AJZzH/RwXJM+
+ KBGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739373309; x=1739978109;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XbeFhgjlAz4HP0qajS/kFL0VJiSyjCShat9G6ecggLw=;
- b=Cw19/gIG1HdvSgLAFzBmKgVBCzsJuTslKRjsQbbhwZkZzYnp7dyLpYMPzMMriUHlTW
- MqnF4V/bT9ATypSdG6F8+tIKTXSvCfKnb723MGnl6qmDv5MEb17I7LhmXbtXFzNsvP0b
- /YD4pHjT+wwk7t7EgbDL8jqUksvo0T3maL0pgvSHFF3+zM1CLc2YO/9zItgcm3mj5xJD
- /Q1iBlt470a53VlvEYS+vkph1XLtVQOSf+pyJXSKCbLmGxsqOJAa9S5AnTAXL95VmYSQ
- 5VvN9v2OJKgb5ekVmqH7iHsKdMkqlj1Gk/6SmkpUjyGf7N/EpM6oq/eKu9GPfzVoNclB
- 69Pg==
+ d=1e100.net; s=20230601; t=1739373831; x=1739978631;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fiMAJYYbGqQGrN9mqZ/PjIuMsY86kljhaikfZKAgMZU=;
+ b=dieJICCF0NUnruI0HrbY7CLJkaz4RpFWRU7JSkRhf83syE+Q+3jpipO6YzmiTsTPm5
+ YTs7O5e2sgZ6lelwIOfpz4505+yIlc9EmY4R9nXFQCRl6zopEzBwi3qSzcQoYTF+U9GH
+ IR9lC8ELcr/QBEpZqUciIoQo/ZWskL6HcHulZbxwiFS00Nix++UDupWApGLny5FkNx/Z
+ ilTAmitF5PqhLonPPor17a4793aCcl8Id9DtrnrPRoBxw/SdOU60ui9sIWu8+7ImWJ2c
+ 9yL+hnf4AbomHFfP2aqLu6zJndoBj6cVvjqHt0yS0+Q1GS9ZfTWoUOUBeD9P9OJS8b2t
+ 7/zg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUzbtKU23NDkGH4exqk51sELZA0gnCfuxiNMfwBLKfLMf6gCk7kgvr4gIPMsXEz0I3z9eih/P1qzCs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YywfNYuNx4Ta2HMvixTy5L+GyNYJkUY5I9zhYw5EcmXievJujrC
- xY9d00+0okLBHxdVHxeLICUtJ2g/EjT3YFLHGWeozt1Kp0nhR+ZYKXepKdIho6iYCBvOTDuzyjy
- t/F8Z
-X-Gm-Gg: ASbGncsrzU4Ofl5fy0dghPO5t0lCED9XTAC+u+9IU4daejuUHBiXv3JmFJxMn9P/W0D
- ID5mrB5mY6zGPqUETVfRj99QJMR8ARTABgCoghXq9GosO+RuGlivGHYuItQG6sGzUX0YJ8jnBWr
- M04pCPaZKc5/803fH2Fc6RxVnbTzZIES1QBDSiF3q0yiv+MKKumUbttIkhMWLvHwDPgMyJMFmjJ
- dJ/zcar77KgAJ0+OQWlElY20eMqPGzol9ic2N9MBCm8Birm6788mpjEFQRbLn0GnmE0XkOUil2b
- BUVUvcg7gs35n9w+rtCcDeGZMTO9EG3/RPcjdfOJK6KADND5ORzstlA=
-X-Google-Smtp-Source: AGHT+IHvBlod1pkJw10aQHQrG86Fi2EEBp6YSNzxpf9e12mSMr5JonSFKJnSWwwtonYNgmz9E9B6Zw==
-X-Received: by 2002:a05:6512:238e:b0:544:10c7:2458 with SMTP id
- 2adb3069b0e04-54518168e47mr1269966e87.44.1739373308593; 
- Wed, 12 Feb 2025 07:15:08 -0800 (PST)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com.
- [209.85.167.42]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5450c721612sm1037578e87.216.2025.02.12.07.15.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Feb 2025 07:15:04 -0800 (PST)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-545064389d3so4493439e87.0
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 07:15:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWp+phF56TiIFz3eAO+4bjCmsQ6lTo237TNqMAV66FDfPDQ4FCWG5KL3N9Ksj6uL2bo0bSy7KIN6ao=@lists.freedesktop.org
-X-Received: by 2002:a05:6512:3a82:b0:545:191:81db with SMTP id
- 2adb3069b0e04-5451816b6f5mr1124828e87.50.1739373303596; Wed, 12 Feb 2025
- 07:15:03 -0800 (PST)
+ AJvYcCXQGfjnuhG00irnoEjBM8JLlTTN134CeRyvB2nN0ipwhT9OoG/9kQjj88bUmEk1WG5yTqynwkfXyGA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzdWjYKt7zkxl5egFV5GHKQMZ6iyFJI5y7v1uYJuUzsomeLWIKj
+ Ne8jbS5d7rM8uYMYIbPgU8bc6IjPV+9l+FN0ChNLfSomPCJy0x6k/BIqgcieVdM=
+X-Gm-Gg: ASbGnctIlK6cHOxQKbIJWW0NjMWrTVHNxpgQQ8o27Z7ApHfdTyp/pKsuxLc32i/xUYa
+ 0Lll4WpHOwV2m1XAXtXzL5z23nN6wJldd8jJEcHGHzj0GRyAWkbTHnD4OaSVEjl+CdLHMmUYnp+
+ 1S1BFJ7RZPESoXsFbv/mTHbPQtu9dqLi+eqSAfnFdz41IlleuTeCC7s1Wx0+lItYzjVPbb4JpGI
+ 6rrUMYl4NEhwMlkqjEJE9cGN1hv+djPCuhXmFrICjdzmdxb11K7Om6q5JnSy47w5RynejvjwJuX
+ kfE+dAJUuRvxZUJ4jJ5p
+X-Google-Smtp-Source: AGHT+IFd6/CTFsxOYTPNP3SwAZh6B2Q1L2fFN/auo0EoMrFbeVu/aPClhmCGWE7ZbkOLcltvypHlJg==
+X-Received: by 2002:a17:907:6e8c:b0:ab6:53fb:9683 with SMTP id
+ a640c23a62f3a-ab7f34ad061mr329677866b.54.1739373831457; 
+ Wed, 12 Feb 2025 07:23:51 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ a640c23a62f3a-ab7a98974aasm866825966b.47.2025.02.12.07.23.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2025 07:23:51 -0800 (PST)
+Date: Wed, 12 Feb 2025 18:23:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH next] drm: writeback: Fix use after free in
+ drm_writeback_connector_cleanup()
+Message-ID: <78abd541-71e9-4b3b-a05d-2c7caf8d5b2f@stanley.mountain>
 MIME-Version: 1.0
-References: <20250204-bridge-connector-v2-0-35dd6c834e08@kernel.org>
- <20250204-bridge-connector-v2-35-35dd6c834e08@kernel.org>
- <CAD=FV=WXkqfWoAiqbsfWiJo259oQxMV0UrQsX=qD5nVH=Dmaqg@mail.gmail.com>
-In-Reply-To: <CAD=FV=WXkqfWoAiqbsfWiJo259oQxMV0UrQsX=qD5nVH=Dmaqg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 12 Feb 2025 07:14:51 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UpiZxbeu9kF=bRfC=+YZmDj3qM+kSo5c7oRxaXTPDi6A@mail.gmail.com>
-X-Gm-Features: AWEUYZmCbXkwQXYOuxiuptXgxJouhwsR1MuVeaed67REZjmWnZsAiLDy0PQkoNY
-Message-ID: <CAD=FV=UpiZxbeu9kF=bRfC=+YZmDj3qM+kSo5c7oRxaXTPDi6A@mail.gmail.com>
-Subject: Re: [PATCH v2 35/35] drm/bridge: ti-sn65dsi86: Use bridge_state crtc
- pointer
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Stephen Boyd <swboyd@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,48 +90,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+The drm_writeback_cleanup_job() function frees "pos" so call
+list_del(&pos->list_entry) first to avoid a use after free.
 
-On Tue, Feb 11, 2025 at 2:16=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Tue, Feb 4, 2025 at 7:01=E2=80=AFAM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> >
-> > @@ -374,12 +377,15 @@ static int __maybe_unused ti_sn65dsi86_resume(str=
-uct device *dev)
-> >          * panel (including the aux channel) w/out any need for an inpu=
-t clock
-> >          * so we can do it in resume which lets us read the EDID before
-> >          * pre_enable(). Without a reference clock we need the MIPI ref=
-erence
-> >          * clock so reading early doesn't work.
-> >          */
-> > -       if (pdata->refclk)
-> > -               ti_sn65dsi86_enable_comms(pdata);
-> > +       if (pdata->refclk) {
-> > +               drm_modeset_lock(&pdata->bridge.base.lock, NULL);
-> > +               ti_sn65dsi86_enable_comms(pdata, drm_bridge_get_current=
-_state(&pdata->bridge));
-> > +               drm_modeset_unlock(&pdata->bridge.base.lock);
->
-> Oh. I haven't tested yet (my device is at home, but I think there is
-> an easy solution to my deadlock problems. Drop the modeset locks here
-> and just pass NULL for the state. We only end up here if
-> "pdata->refclk" is not NULL. Then we only use the passed state if
-> "pdata->refclk" _is_ NULL.
+Fixes: 1914ba2b91ea ("drm: writeback: Create drmm variants for drm_writeback_connector initialization")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/gpu/drm/drm_writeback.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I can confirm this works. At the very least I was able to boot up both
-with a hardcoded panel and with "edp-panel" and both worked. Seems
-like a good solution for your patch.
+diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
+index 3628fbef7752..f139b49af4c9 100644
+--- a/drivers/gpu/drm/drm_writeback.c
++++ b/drivers/gpu/drm/drm_writeback.c
+@@ -360,8 +360,8 @@ static void drm_writeback_connector_cleanup(struct drm_device *dev,
+ 
+ 	spin_lock_irqsave(&wb_connector->job_lock, flags);
+ 	list_for_each_entry_safe(pos, n, &wb_connector->job_queue, list_entry) {
+-		drm_writeback_cleanup_job(pos);
+ 		list_del(&pos->list_entry);
++		drm_writeback_cleanup_job(pos);
+ 	}
+ 	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
+ }
+-- 
+2.47.2
 
-Long term we should probably get rid of the support for working
-without a "refclk". It's theoretically possible to use the hardware
-that way and some super early prototypes I worked on used that. ...but
-it's a bad idea and I'm fairly certain nobody is _actually_ using it.
-That means that the code for handling it is likely not tested and may
-have bugs.
-
--Doug
