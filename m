@@ -2,82 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44B4A33143
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 22:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C99EA33268
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 23:24:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F14BA10E0E4;
-	Wed, 12 Feb 2025 21:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92EEA10E02A;
+	Wed, 12 Feb 2025 22:24:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GaVmb1Qm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="POx3VTri";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
- [209.85.166.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A07F110E0E4
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 21:07:22 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id
- e9e14a558f8ab-3cf880d90bdso339395ab.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 13:07:22 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA6B10E02A
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 22:24:19 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-308e3bd8286so2365281fa.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:24:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739394442; x=1739999242; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
+ d=linaro.org; s=google; t=1739399058; x=1740003858; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7m2BC0PlpLZ3PvBNk1lJNnbfheS8gB4DKKdxAHYzcP4=;
- b=GaVmb1Qmn3IQ6i0xAQG7GIgqSBc6pGadZeG4ZnOrH/758txBLPspPlFSmInu1AvuVv
- NminF8BSLYgZXOEDrRG44lT61Fg0IN3ilS0bAgFlPXxQw9HvhSFGbjqt5+W7E2NGueTk
- GMLeOo/ZwxakPavbfxUsdYJdr65rDV6PGWbrJXoBVoU4TT4HW8nep432WdtvANBVFKPS
- s/oIi2KlrSitQOAYF+GNMg+Z5Gbh1QK4UqTeqSad1JuhrrrM5xCtzSSL6J8NtrTCm7pC
- Gi3+ogCxqr4GX2fZe2OO/33+ton1LvP0h9AyEKhbClVqe4fh5YIm3Rczq8UQBGdyAgDi
- KjXw==
+ bh=mu/vYpK5EdDCessSAfsc81pUNCu3XRPo/EhuZMObYC8=;
+ b=POx3VTriRMyPmOVo8ldO1sSWlJfV1zRhmPB3T1w5qOIqdsuaqwmjDY/HRUMdqOxEcU
+ 4eEmtES10wbcsfwnoVChdYFeczCXcwenc8OpgZo+qe0mQPC3D4rcs69FF5pebrHSxxTr
+ 8Sx7B7sYpIKsRbx66dpj4JMy4pvaP7xGoR5HjgHrf+LBH8AAoGyZgXIdRZQ5TJbvz4DR
+ I01o9dJsBuovwiZg5GD4duFtGOllrAG8/nCYaEpoEmtQfDdnMm2RH0ENdqZXJzg8JvE6
+ fLlczNuswj/6L5B7IebqpqYEDoq4viDEuy6eXGFSG8HX4G4QM9B4TsyNP+pgqueDC22I
+ crUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739394442; x=1739999242;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1739399058; x=1740003858;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7m2BC0PlpLZ3PvBNk1lJNnbfheS8gB4DKKdxAHYzcP4=;
- b=RU+UL4m0KuC0t+bnKRnsHD0zL+Vk19WcjtoxuNsIyCS1RO6bHYcEQKyuOsfjn4A04b
- /SwVqkJyRFAByLN87YZPdZsrHzKeDcG7KeBFnglaUPSBGT2Ja6zbqOcG3Pbj/y5jokgY
- CDEpkh8cnfLbrCf5lS9uCgkBIiKMlzXF54c3LqwFlyJY3psB3izi3j9VF8IcOLiPrZa8
- AmYvbq2AJ5R57jaxu6YvpTnTwjuG0r0poKxuqQ3zvt45S/NcauVjEvKFcotkN6GdPVj4
- Y9Akw5AJST3cVaiJXmQAZSpFwBp4/qz/VFPK8ongOpo5LL528u7RPaDeJOnGFekgsw6f
- 6xyA==
+ bh=mu/vYpK5EdDCessSAfsc81pUNCu3XRPo/EhuZMObYC8=;
+ b=RgbG4ZUQr8V64PemApKXMgQI4rhNlcxNF4K7TEdB9XUYChwqn58WlqQ3K3u3AiZbq9
+ 3Hik/0oYiyvD2Vhcl1z9zXiatBJS7CAlIlEzUT3gl6kG8SSylZiLGi2uEZihz4DVVAJ+
+ rs5fF9JpoQYk06hDKXkFagluiDY9uAMSqTiVo1Z+Xn3864q18sMqRkgqCu2CjaQ3wVoC
+ AkCgX2XsQt++X2CBfA7luvquf0rEosahlUWuy+x9jSCCb0Iv0BnfPARci80sdY87Glzr
+ ki5OQyPPm69VGXOCHxJYZdnc7Gb+QMZwwpvSDTNxXkDRSAGM685phTCcpk47onmZlNWC
+ BBYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXWHFqCKi9YdLfKTXOCb8JHs+dSkuZMImIU1UZ5rmKGwiu8+O4O72X0EhIP+jtfjJucait+wlriR4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywq0QWx3yjanO/7bDR4BQdiiZEABHq1qbO+O+DZdBA6TQUjn4oj
- seJ/hl6MWYgb3JmRlY1TVun5y8jTm7cwmxxkfDjjTTbLv8NCm7FENhpHeJStU+n9JCzI3wjQtvj
- kDiN/Qo5UQ6tg56mQEpfMNMhVq0M=
-X-Gm-Gg: ASbGncvr8RNe225FYZ4fqRE41zBL/nnc+mhwsl/j5PJGP7RukVW3duM8pvti54xbU04
- T3bTaPi+94qUaphKVcG0XJ63YUZsns87jHhotFbg575nSGNn3PP0CgHuA/pGS079bkwkUw/WNh7
- dn6eDyVb8jLMPsgXJz0Y1FvV/QnHE=
-X-Google-Smtp-Source: AGHT+IEto3QwYzrpOOb39TT9wusT7oiYBviqDLiw7Xnxk0Go+s385w1whVmNsbgrd9myoMThLMp+uZwQjNnH/c18b1A=
-X-Received: by 2002:a05:6e02:338a:b0:3d0:4a82:3f40 with SMTP id
- e9e14a558f8ab-3d17be2216fmr45576995ab.7.1739394441825; Wed, 12 Feb 2025
- 13:07:21 -0800 (PST)
+ AJvYcCWlVe9QAHomxatF5l4oFdSqVNaEfRcMK0hUHZlTbPiyE7tGSLjVwinKabVhKifRXmunlJbb1YzVXLE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx8TGCTtkJqNYVjf/ZWAMVf6T259M0WN2mDI91LffJU3dwSIXfj
+ yaNZ7tt4CWYBfPHU656ShOGArPoBxNpu6+k9JkH57ej1pgWOgnRxiUSxhYOv1WA=
+X-Gm-Gg: ASbGncvRWWlUVt3fZBd3zPSPoPEr/SvnU9Sg0LvKyuj1LfVh1BU5+2ZB7CRs73owCyC
+ s6Oz0GsbfeLT0tr62MK2QYzXvcSfqAJg4sEWWtFeiifQxMFkNi+rsn1uvD8xmwqePtCfulmfddA
+ b8TkFLGJ4//B1+KAgi/5ctKMnzThBK2hBOGgQ9+fI1flK5YrWKkfbHkv4ZtPMNDcY6MYTf6f3PD
+ nYDISmbjUNXS5v9+cxhe1wTG5GjeiyW/QEPk7FnjxkGGMNAwdsYJUbHcrKQcfOTzFFhrI3Y6ZX4
+ sdZOLo1PfcBD0bhphG1H0WIrZ/xg8+TBbJQ1/PdZsg3SKF6+uy9WEd4QgzY=
+X-Google-Smtp-Source: AGHT+IEllG8xsPecNgr5L5f8FoBGVvz0RiYrsFEd203BKL9JYmw0NxRW3Sco6Y7CdnjBxXidfEeaWA==
+X-Received: by 2002:a2e:bc83:0:b0:2fb:8c9a:fe3f with SMTP id
+ 38308e7fff4ca-3090dd56bd0mr4718971fa.22.1739399057615; 
+ Wed, 12 Feb 2025 14:24:17 -0800 (PST)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-309100c6415sm150411fa.6.2025.02.12.14.24.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2025 14:24:16 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 0/3] drm/i2c: tda998x: move under drivers/gpu/drm/bridge
+Date: Thu, 13 Feb 2025 00:24:13 +0200
+Message-ID: <173939904858.578381.4749501592256297365.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250113-drm-move-tda998x-v3-0-214e0682a5e4@linaro.org>
+References: <20250113-drm-move-tda998x-v3-0-214e0682a5e4@linaro.org>
 MIME-Version: 1.0
-References: <20250124-virtgpu-mixed-page-size-v1-1-480403790bac@gmail.com>
- <a55eecdc-76cc-432e-a4b3-90e8753088ac@collabora.com>
-In-Reply-To: <a55eecdc-76cc-432e-a4b3-90e8753088ac@collabora.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Wed, 12 Feb 2025 13:07:10 -0800
-X-Gm-Features: AWEUYZlK-LtIBTV8i2bVwjobA09sMmKqOYCs2aSwHvvwvdiGzeqpfq-QqFvpdEU
-Message-ID: <CAF6AEGuGWNj7dcC4DouWckaP9fOKgLyqw8iPBwKxrnr9GYXpPg@mail.gmail.com>
-Subject: Re: [PATCH RESEND] drm/virtio: Align host mapping request to maximum
- platform page size
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: fnkl.kernel@gmail.com, David Airlie <airlied@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Simona Vetter <simona@ffwll.ch>, Sergio Lopez <slp@redhat.com>,
- dri-devel@lists.freedesktop.org, 
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Rob Clark <robdclark@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,98 +100,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jan 24, 2025 at 2:52=E2=80=AFPM Dmitry Osipenko
-<dmitry.osipenko@collabora.com> wrote:
->
-> On 1/25/25 01:01, Sasha Finkelstein via B4 Relay wrote:
-> > From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> >
-> > This allows running different page sizes between host and guest on
-> > platforms that support mixed page sizes.
-> >
-> > Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> > ---
-> >  drivers/gpu/drm/virtio/virtgpu_vram.c | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/virtio/virtgpu_vram.c b/drivers/gpu/drm/vi=
-rtio/virtgpu_vram.c
-> > index 25df81c027837c248a746e41856b5aa7e216b8d5..8a0577c2170ec9c12cad12b=
-e57f9a41c14f04660 100644
-> > --- a/drivers/gpu/drm/virtio/virtgpu_vram.c
-> > +++ b/drivers/gpu/drm/virtio/virtgpu_vram.c
-> > @@ -138,6 +138,12 @@ bool virtio_gpu_is_vram(struct virtio_gpu_object *=
-bo)
-> >       return bo->base.base.funcs =3D=3D &virtio_gpu_vram_funcs;
-> >  }
-> >
-> > +#if defined(__powerpc64__) || defined(__aarch64__) || defined(__mips__=
-) || defined(__loongarch__)
-> > +#define MAX_PAGE_SIZE 65536
->
-> #define MAX_PAGE_SIZE SZ_64K
->
-> for improved readability
->
-> > +#else
-> > +#define MAX_PAGE_SIZE PAGE_SIZE
-> > +#endif
-> > +
-> >  static int virtio_gpu_vram_map(struct virtio_gpu_object *bo)
-> >  {
-> >       int ret;
-> > @@ -150,8 +156,8 @@ static int virtio_gpu_vram_map(struct virtio_gpu_ob=
-ject *bo)
-> >               return -EINVAL;
-> >
-> >       spin_lock(&vgdev->host_visible_lock);
-> > -     ret =3D drm_mm_insert_node(&vgdev->host_visible_mm, &vram->vram_n=
-ode,
-> > -                              bo->base.base.size);
-> > +     ret =3D drm_mm_insert_node_generic(&vgdev->host_visible_mm, &vram=
-->vram_node,
-> > +                                      bo->base.base.size, MAX_PAGE_SIZ=
-E, 0, 0);
->
-> This change only reserves extra space in the memory allocator, but
-> doesn't change actual size of allocated BO. Instead, you likely need to
-> replace all ALIGN(size, PAGE_SIZE) occurrences in the driver code with
-> ALIGN(args->size, MAX_PAGE_SIZE)
->
-> >       spin_unlock(&vgdev->host_visible_lock);
-> >
-> >       if (ret)
->
-> Note, previously a new virtio-gpu parameter was proposed to expose
-> host's page size to guest [1], if you haven't seen it.
->
-> [1] https://lore.kernel.org/dri-devel/20240723114914.53677-1-slp@redhat.c=
-om/
->
-> Aligning GEM's size to 64K indeed could be a good enough immediate
-> solution. Don't see any obvious problems with that, other than the
-> potential size overhead for a small BOs.
->
-> We have been running into cases where a DXVK game allocates enormous
-> amounts of small BOs to the point that amount reaches max number of
-> mappings on QEMU with amdgpu native context. On the other hand, it
-> showed that adding internal sub-allocator to RADV might be a worthwhile
-> effort. We won't change alignment on x86 with this patch and on non-x86
-> likely the increased size won't be noticeable, hence the proposed change
-> might be acceptable.
->
-> Curious what Rob Clark thinks about it. Rob, WDYT?
+On Mon, 13 Jan 2025 11:53:43 +0200, Dmitry Baryshkov wrote:
+> TDA998x is the HDMI bridge driver, incorporating drm_connector and
+> optional drm_encoder (created via the component bind API by the TICLDC
+> and HDLCD drivers). TDA9950 is an I2C-CEC translator, being present
+> on-die on the TDA9989 and TDA19989 chips.
+> 
+> Move TDA9950 driver to drivers/media/cec/i2c and TDA998x driver to
+> drivers/gpu/drm/bridge/.
+> 
+> [...]
 
-I think userspace needs to know the minimum "gpu" page size (ie. the
-host page size) for other reasons, such as sparse binding.  As Sergio
-proposes, we should add this to the virtgpu protocol
+Applied to drm-misc-next, thanks!
 
-BR,
--R
+[1/3] drm/i2c: tda998x: drop support for platform_data
+      commit: b7c5169ab9ddc3432161412bc2de28111306fbb3
+[2/3] media: cec: move driver for TDA9950 from drm/i2c
+      commit: caa6f4a75e9f8eaebd814a9c2d1602e0926f473d
+[3/3] drm/i2c: move TDA998x driver under drivers/gpu/drm/bridge
+      commit: 325ba852d148434c5bcb06d513af1933a7f77b70
 
+Best regards,
+-- 
+With best wishes
+Dmitry
 
->
-> --
-> Best regards,
-> Dmitry
->
