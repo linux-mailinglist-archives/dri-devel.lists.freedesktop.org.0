@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED57A32D72
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 18:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9F9A32D80
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 18:31:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C9E010E93B;
-	Wed, 12 Feb 2025 17:27:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AF9910E0AB;
+	Wed, 12 Feb 2025 17:31:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jX3AqitE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S+oY/VAS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FD2210E949
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 17:27:30 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- 46e09a7af769-726cdcec232so2067887a34.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 09:27:30 -0800 (PST)
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com
+ [209.85.161.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 440DC10E0AB
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 17:31:08 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id
+ 006d021491bc7-5fca38e7be6so1189eaf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 09:31:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739381250; x=1739986050; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1739381467; x=1739986267; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:subject:cc
  :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=beLRCGOxxX9cpZ21JwnULP9EhaY8G7Htxn7RQieYr0k=;
- b=jX3AqitEERTZuTbz11bcrHakQwI3rZWKgeglb1tKGhG+bydAjbcVZVEyxeXHSMtZEN
- 4qHVTQfXCAXF5V/SACHoj5oIpJfkkwdF5AEni2fLobIFAXh80/lFa2RUVmwrfgIdNdOr
- ARq+SF7oy2upbq7G43dJVUFaZ+0S6+x9GNK9+0eONED2VnW0rb1hIln26T+iThfDXI3b
- nvuFpov5GkVJ2ZZ2jud6OEqCYVOj/y4p+3rJRLVnnY1OpG1T2enVivwma4C3el1EfdEs
- 9eliZ2S6vJkeQBhxMimVDfAaVHHpBTW5JnDc7FrYVgK80Jh3Gy/x9VdO5C5hnGD14sPg
- ZF1g==
+ bh=Jbx6FcfP3bq2n5NRhn4rgJREW3IAUmWBAJQw6Shyrdg=;
+ b=S+oY/VASO6URR0n+Xo3SWxOWTmEFrfzcqiv3h1PmdFNGU5IustyRaqaV6yrtYnrdKx
+ No0NgreyggMQAzjUZfZsT/ToTglqVYYLR7YIrNhb09gpOs2SjNOYC8sPyJPQNG2URtiZ
+ PWDe+hg3X6gMR0qUWfpnKm2hM+5ein1vWZ+P5Z6miYcZO8uDq/gDvqxWRR43LZPA+e9r
+ oRHRL4nKe2uVapxtRxwlzku2rwfSR6hd7lf9HxRN7Ta/Az3ep1h1gWIR7yuMnN/m2Np9
+ fIloSGfGrwZ8hrzaCJEC842T5/uWx2XftgDgbXv8RXWBOh4XSIiSssx41V+cazfyr40A
+ b6uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739381250; x=1739986050;
+ d=1e100.net; s=20230601; t=1739381467; x=1739986267;
  h=in-reply-to:content-disposition:mime-version:references:subject:cc
  :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=beLRCGOxxX9cpZ21JwnULP9EhaY8G7Htxn7RQieYr0k=;
- b=l2C4V1rw6dxvTM0BJar7YwI0++9iSi8J6xm7E0D/QKNcsNSjsgTwTmMqewvDhvgSLG
- ry+edaZg1ha1K+iiKBGE4zopcyrp9K7T/3twpyUnj99BHOGNF8lWmX9O53h57u1adyOL
- T8BEisKLTjbhKEkBKyRGgFg4j+eefAnU0Qys4lrn0djqQJ6nfOhCXVbUO62P/xHtg/E1
- ohd5KoK4WzroMx9jYwXsOm5O5zfVvv5Kcf3vYIxA7HZRx1C9aJTQWGsMxd0sXex4pjzH
- czCoqrnfXk3f5TI//Kvg1UQ8YEDzmbiXjJkjUUC7pb6LeiO6vBjxkf/uHZ8g4wts7LiH
- rv/A==
+ bh=Jbx6FcfP3bq2n5NRhn4rgJREW3IAUmWBAJQw6Shyrdg=;
+ b=BAJBukHcDCoCXb1xmlbgiOydVW2amgqv/8LwJ+xXLL+rprE8iNV5FUY+Sh0A/+odhv
+ UjmFXxlYBnlH3yM/WTo0UQuCzQqKOfNvyH7ygcvlzPCQpKkKq9I1QXsrrfQjnjoXLlAy
+ /ZF3huwILy8aQv/5wJDSkKZoBxjY/a/LWCUJkxl5ikJF/uMK3ucirS+0OD2Mkki2SGfk
+ iG0zHAsU/SHNQJlHFKBHTbmP4AdA8mC6iltUbdjlTgVU6ZvX8eL5yKU3ugRUvYMJXnDV
+ PJi5xTOEw1UtE0UwbFs9QViKr1kxFP0FlwzrilidOzTeuHpqnBw28og6vFkwM+kgn3Dt
+ nQWQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCViINa65mvuLSVkyb48LUmUvmHBnmtsOS8So61fT9g68JYYFCVkI78ey0b4LK5XfHPyY7GJdGb+P5I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLeZY3IpT7WTpuwqaV5ts28yb3HGVYeo5Q4dRSpxkIuUdpKFHr
- CPthKYc8gPje6p0h9t2cvt2q/DjQbt6WJdpzepNUEJjSB6hSpIw7
-X-Gm-Gg: ASbGncu1RWwTnpulr8zw8glTnvCIAapZdjeprFxejvTkSygd3jyB2sOKvhIMa9yaDSD
- VREeEEYdBy7++v8fB3VAcVwgNRb0fhFBU0rSIPGRm5O5LrVWYIP4tlx1wh8RWMq6iWoDp8yZBOP
- SkWEkkL+Xye7uFpBiGlQIjw3KXY4kkxr5kbLeewp3P3RzPmGbhfAvRfG/UBw4jZoFCjiIqOMwRC
- qm8mdex0uQ38N4CcZfxDp4BkWjORHtn45b41ixK3tpX5nZBNfxgwbGCnZC88xhYOM1X7hpPwz4G
- XjDTuXEoMR4VqvsDfuc7yw==
-X-Google-Smtp-Source: AGHT+IHQ+r/B4g2h4U+MDj6Kx5Km7Y0OHx/D1NpwgCExrt743LdxVlv3VXUZQzCcXj0qf+dKJIpoeg==
-X-Received: by 2002:a05:6830:4107:b0:726:eff2:9b57 with SMTP id
- 46e09a7af769-726f1ca8939mr2600982a34.13.1739381249618; 
- Wed, 12 Feb 2025 09:27:29 -0800 (PST)
+ AJvYcCXTh6DMWzObCUo8yWDVqEIMlhhehPQAifJ0pr4jEj364Cwm+5eF2+jwUwnEXlr6lfrj/pgliAjRwiY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzr7EUzjlQ1QFEkvH86Mh/8kacUoAy4QMw9adTAw6bHgbWDPnud
+ fc7mRlWMJ4orDA2nsh4KXVGouuCF2fkajwgCk0crS+z2FO6EaD16
+X-Gm-Gg: ASbGncthu447uj8kznnw7gBTonuw0HWvTBGwGBomkNuDgxwGMfDKBO5OdvkQMa/s58N
+ XWfDU24aCK9mgc50/FgY2F9Te0jtWhvGnHJEX2QWpO+e4oPsOd4apaF1cewRrMGNRRrgvLdS75V
+ gpp6fp++5853HmMjJvS16pTg9A9zvQYwH3rXAIbhNDLuX6wueqdrzN8ioomhiz/FOif0EUpAXNN
+ rptAgUrZ0bF5hi62yj/+8KA9hxhXwrnfjvmjcj6JDmQdkQ0fSjbZQaCHI21RDn/xos6BhNyrbZ0
+ UmKRNSryDQn435B9RCJM2A==
+X-Google-Smtp-Source: AGHT+IEfXVxl7VC/O2TXG5AUw40jRF/jqb2tNJhJqtHmv0DAX3h4yayluWuzrQzPBPHKrw7ZeZKhgw==
+X-Received: by 2002:a05:6820:54b:b0:5fa:61b9:3e7e with SMTP id
+ 006d021491bc7-5fca183ea60mr2464323eaf.3.1739381467421; 
+ Wed, 12 Feb 2025 09:31:07 -0800 (PST)
 Received: from neuromancer. ([2600:1700:fb0:1bcf:511b:97aa:dc6:7ad4])
  by smtp.gmail.com with ESMTPSA id
- 46e09a7af769-726af932f78sm4722036a34.18.2025.02.12.09.27.28
+ 006d021491bc7-5fc8fdcbc21sm2233640eaf.37.2025.02.12.09.31.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 09:27:29 -0800 (PST)
-Message-ID: <67acda01.9d0a0220.22ffaa.f02a@mx.google.com>
-X-Google-Original-Message-ID: <Z6zZ_2u-MrZUZnKF@neuromancer.>
-Date: Wed, 12 Feb 2025 11:27:27 -0600
+ Wed, 12 Feb 2025 09:31:07 -0800 (PST)
+Message-ID: <67acdadb.050a0220.28f58d.f522@mx.google.com>
+X-Google-Original-Message-ID: <Z6za2bhKAmHvUMFR@neuromancer.>
+Date: Wed, 12 Feb 2025 11:31:05 -0600
 From: Chris Morgan <macroalpha82@gmail.com>
 To: Ryan Walklin <ryan@testtoast.com>
 Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -79,13 +79,14 @@ Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
  Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v5 19/26] dt-bindings: allwinner: add H616 DE33 bus binding
+Subject: Re: [PATCH v5 21/26] dt-bindings: allwinner: add H616 DE33 mixer
+ binding
 References: <20240929091107.838023-1-ryan@testtoast.com>
- <20240929091107.838023-20-ryan@testtoast.com>
+ <20240929091107.838023-22-ryan@testtoast.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240929091107.838023-20-ryan@testtoast.com>
+In-Reply-To: <20240929091107.838023-22-ryan@testtoast.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,53 +102,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 29, 2024 at 10:04:51PM +1300, Ryan Walklin wrote:
+On Sun, Sep 29, 2024 at 10:04:53PM +1300, Ryan Walklin wrote:
 > The Allwinner H616 and variants have a new display engine revision
 > (DE33).
 > 
-> Add a display engine bus binding for the DE33.
+> The mixer configuration registers are significantly different to the DE3
+> and DE2 revisions, being split into separate top and display blocks,
+> therefore a fallback for the mixer compatible is not provided.
+> 
+> Add a display engine mixer binding for the DE33.
 > 
 > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 > Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 > 
 > ---
-> Changelog v1..v2:
-> - Correct DE2 bus enum to reflect fallback devices accurately.
-> 
 > Changelog v2..v3:
 > - Separate content into three patches for three separate subsystems
 > ---
->  .../devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml     | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  .../bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml         | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-> index 9845a187bdf65..ea7ee89158c61 100644
-> --- a/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-> +++ b/Documentation/devicetree/bindings/bus/allwinner,sun50i-a64-de2.yaml
-> @@ -24,7 +24,9 @@ properties:
->      oneOf:
->        - const: allwinner,sun50i-a64-de2
->        - items:
-> -          - const: allwinner,sun50i-h6-de3
-> +          - enum:
-> +              - allwinner,sun50i-h6-de3
-> +              - allwinner,sun50i-h616-de33
->            - const: allwinner,sun50i-a64-de2
+> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+> index b75c1ec686ad2..c37eb8ae1b8ee 100644
+> --- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+> +++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
+> @@ -24,6 +24,7 @@ properties:
+>        - allwinner,sun50i-a64-de2-mixer-0
+>        - allwinner,sun50i-a64-de2-mixer-1
+>        - allwinner,sun50i-h6-de3-mixer-0
+> +      - allwinner,sun50i-h616-de33-mixer-0
 >  
 >    reg:
+>      maxItems: 1
+
+-    maxItems: 1
++    minItems: 1
++    maxItems: 3
+
 > -- 
 > 2.46.1
 > 
 
-Because the h616 uses additional reg values, we need to change
-      reg:
-         maxItems: 1
+Also need to add constraints to set maxItems to 3 only for the h616-de33
 
-To
-      reg:
-        minItems: 1
-        maxItems: 3
++allOf:
++  - if:
++      properties:
++        compatible:
++          enum:
++            - allwinner,sun50i-h616-de33-mixer-0
++
++    then:
++      properties:
++        reg:
++          maxItems: 3
++
++    else:
++      properties:
++        reg:
++          maxItems: 1
++
 
 Thank you,
 Chris
