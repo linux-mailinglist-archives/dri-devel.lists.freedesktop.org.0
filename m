@@ -2,53 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EF8A32691
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 14:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8AEA326BB
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 14:14:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 158F110E25D;
-	Wed, 12 Feb 2025 13:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A88410E889;
+	Wed, 12 Feb 2025 13:14:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E7+/qYMV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U/LRl2v6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4710510E25D
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 13:08:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=KEpE0FMHR9s83tqOyaTmRK/SOVT0BOcNNCrqDLe9+RY=; b=E7+/qYMVmY33UCToNXTd4qgMKw
- TWGVJHXwtNcbqH4v61Z1OUR7Pzid25PTbP7P2HRvcGscoD107OW4RfcX7p2RWacnlANB7VgHlHjHV
- 4Rt9M5N944/ZM8soC3yCvd3ZSMGocsRlRemsRbHPgySs8TCt/7eWqbdjXa167kH18gmtqWwN5eiGS
- ilnKzkyT8MMLdWajCOUtoQhDjKJD9YvCZHz5B4s0o/051nDyj6qUvoMEmR+BYQB/3VRJDit75dcu2
- ngPThVUTVr/1lmtRTGx+p4RtJyALdwbckJ5DUBU5/zbHIDD1dnVrr7kdlL6ZWdAl6pm5dFM655H+O
- SJ9f1MEQ==;
-Received: from [187.36.213.55] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1tiCSs-008H5v-Qv; Wed, 12 Feb 2025 14:07:48 +0100
-Message-ID: <6d9e1af2-912b-460c-a278-b142c8bd2d79@igalia.com>
-Date: Wed, 12 Feb 2025 10:07:40 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D58710E887;
+ Wed, 12 Feb 2025 13:14:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739366083; x=1770902083;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=czqMcmyfD4P8y1MDZPBdqfE+X27sS3HLWdNCGoTj9ho=;
+ b=U/LRl2v62MMuKeinbJOKQaJEywFUQg37gnDpj3x50BnZimwuW6lMP1fG
+ JAMJUNg2IjDQxFCQ1rX97T2HaLYWCZWM6X+vrjJjEMCCGf6rF9yQzzb3/
+ B86zTH1AN/0sxuWbZCDlGJwTWztcXWNgmUbxxrZBISHSSTbzqJ1Mf05a7
+ 8sOiZGvL0C8iafe2uLz7Fm5Us7dedL7+yJ/nFb3gXIGq656rbkk79OERl
+ 8dteeuQ0xUUmc00W+0SAF55Ig3RBIJbTSVqdbnK2XhqyqdJR8D6KK0m+1
+ cKdLYWcC2tt07PhVMWK0Q6xVWy4xJZC9F16n6KjlgNaz7TmNtF2SrCx7Q g==;
+X-CSE-ConnectionGUID: 2PUzTbx/Q1emP1pPNyvhqg==
+X-CSE-MsgGUID: QkaNK6wOTtG9APdxdGgXSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="51451512"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; d="scan'208";a="51451512"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 05:14:42 -0800
+X-CSE-ConnectionGUID: UIy2zp/uQ66k4r7Sely29g==
+X-CSE-MsgGUID: mvR0PC8/Rw6QbCo7IzalBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="112767736"
+Received: from carterle-desk.ger.corp.intel.com (HELO
+ vgovind2-mobl3.intel.com) ([10.245.246.178])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 05:14:39 -0800
+From: Vinod Govindapillai <vinod.govindapillai@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, vinod.govindapillai@intel.com,
+ ville.syrjala@intel.com, santhosh.reddy.guddati@intel.com,
+ jani.saarinen@intel.com
+Subject: [PATCH v7 0/7] drm/i915/fbc: FBC Dirty rect feature support
+Date: Wed, 12 Feb 2025 15:14:13 +0200
+Message-ID: <20250212131420.60026-1-vinod.govindapillai@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/v3d: Add clock handling
-To: Stefan Wahren <wahrenst@gmx.net>, Melissa Wen <mwen@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kernel-list@raspberrypi.com
-References: <20250201125046.33030-1-wahrenst@gmx.net>
- <e1bd620c-a5d7-47f8-bc07-c41418c0c34c@igalia.com>
- <29a5d5a4-7671-41c3-8317-07eb9589c16e@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <29a5d5a4-7671-41c3-8317-07eb9589c16e@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,54 +70,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Stefan,
+Dirty rect support for FBC in xe3 onwards based on the comments after the
+initial RFC series.
 
-On 10/02/25 10:27, Stefan Wahren wrote:
-> Hi Maíra,
-> 
-> Am 10.02.25 um 13:23 schrieb Maíra Canal:
->> Hi Stefan,
->>
->> Thanks for your patch!
->>
->> On 01/02/25 09:50, Stefan Wahren wrote:
->>> Since the initial commit 57692c94dcbe ("drm/v3d: Introduce a new DRM
->>> driver
->>> for Broadcom V3D V3.x+") the struct v3d_dev reserved a pointer for
->>> an optional V3D clock. But there wasn't any code, which fetched it.
->>> So add the missing clock handling before accessing any V3D registers.
->>
->> Actually, I believe we should remove `v3d->clk`. In the past, we used
->> `v3d->clk` for PM management, but we removed PM management a while ago
->> (it was somewhat broken).
-> I disagree. Clock handling and power management are not the same things.
-> Btw the brokeness partly based on the missing clock handling, but this
-> not my point here. The DT binding of the Broadcom V3D GPU describe an
-> optional clock, so the Linux kernel should ensure that before accessing
-> any V3D registers, the relevant clock must be enabled. Please compare
-> with VC4, which does the same thing.
-> 
-> At the end we had just luck because the GPU firmware enabled the clock
-> at boot?
+v2: Dirty rect related compute and storage moved to fbc state (Ville)
 
-I see your point now, thanks for taking your time to send this patch!
+V3: Dont call fbc activate if FBC is already active
 
-Applied to misc/kernel.git (drm-misc-next) [1]
+v4: Dirty rect compute and programming moved within DSB scope
+    New changes are added as separate patches to make it easy for review
+    But could be squashed if the reviews as ok.
 
-[1] 
-https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/4dd40b5f9c3d89b67af0dbe059cf4a51aac6bf06
+v5: add HAS_FBC_DIRTY_RECT()
+    FBC Damage area updates in 3 steps. 
+    1. As part of plane_atomic_check() get, adjust coordinates and store
+       the merged damage area in plane_state
+    2. Atomic_commit, update merged damage are to fbc_state and prepare the
+       damage area satifying all conditions
+    3  update the FBC dirty rect registers as part of DSB commit.
 
-Best Regards,
-- Maíra
+v6: Use dmage_merged helper earlier to handle bigjoiner cases (Ville)
+    Place the damage_merged handling code under HAS_FBC_DIRTY_RECT()
+    Added a variable to check if the damage_merged received from
+    the helper is valid. And if it is not valid, the FBC dirty rect
+    is updated with full plane reqion.
 
->>
->> I believe the best move would be to remove `v3d->clk`. If we decide to
->> use the clock at some point, we can reintroduce the variable to the
->> struct. Right now, it doesn't make sense to add clock handling if we
->> don't use it.
-> clk_prepare_enable() / clk_disable_unprepare() is actually using the
-> clock. There is no need to set some kind of rate, in case you expecting
-> this.
-> 
-> Best regards
+v7: Reordering of the patches
+    Updates to storage of damage to plane state as per comments from Ville
+    Updates to dirty rect handling in FBC as per comments from Ville
+
+
+Vinod Govindapillai (7):
+  drm/damage-helper: add const qualifier in
+    drm_atomic_helper_damage_merged()
+  drm/i915/xe3: update and store the plane damage clips
+  drm/i915/xe3: add register definitions for fbc dirty rect support
+  drm/i915/xe3: introduce HAS_FBC_DIRTY_RECT() for FBC dirty rect
+    support
+  drm/i915/xe3: avoid calling fbc activate if fbc is active
+  drm/i915/xe3: dirty rect support for FBC
+  drm/i915/xe3: disable FBC if PSR2 selective fetch is enabled
+
+ drivers/gpu/drm/drm_damage_helper.c           |   2 +-
+ .../gpu/drm/i915/display/intel_atomic_plane.c |  34 ++++++
+ drivers/gpu/drm/i915/display/intel_display.c  |   3 +
+ .../drm/i915/display/intel_display_device.h   |   1 +
+ .../drm/i915/display/intel_display_types.h    |   2 +
+ drivers/gpu/drm/i915/display/intel_fbc.c      | 109 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_fbc.h      |   5 +
+ drivers/gpu/drm/i915/display/intel_fbc_regs.h |   9 ++
+ .../drm/i915/display/skl_universal_plane.c    |  46 +++++++-
+ include/drm/drm_damage_helper.h               |   2 +-
+ 10 files changed, 208 insertions(+), 5 deletions(-)
+
+-- 
+2.43.0
 
