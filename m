@@ -2,89 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C99EA33268
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 23:24:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDEBA3329C
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 23:30:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92EEA10E02A;
-	Wed, 12 Feb 2025 22:24:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC68510E047;
+	Wed, 12 Feb 2025 22:30:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="POx3VTri";
+	dkim=pass (1024-bit key; unprotected) header.d=sdore.me header.i=@sdore.me header.b="gZbJzqzz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CA6B10E02A
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 22:24:19 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-308e3bd8286so2365281fa.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:24:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739399058; x=1740003858; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mu/vYpK5EdDCessSAfsc81pUNCu3XRPo/EhuZMObYC8=;
- b=POx3VTriRMyPmOVo8ldO1sSWlJfV1zRhmPB3T1w5qOIqdsuaqwmjDY/HRUMdqOxEcU
- 4eEmtES10wbcsfwnoVChdYFeczCXcwenc8OpgZo+qe0mQPC3D4rcs69FF5pebrHSxxTr
- 8Sx7B7sYpIKsRbx66dpj4JMy4pvaP7xGoR5HjgHrf+LBH8AAoGyZgXIdRZQ5TJbvz4DR
- I01o9dJsBuovwiZg5GD4duFtGOllrAG8/nCYaEpoEmtQfDdnMm2RH0ENdqZXJzg8JvE6
- fLlczNuswj/6L5B7IebqpqYEDoq4viDEuy6eXGFSG8HX4G4QM9B4TsyNP+pgqueDC22I
- crUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739399058; x=1740003858;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mu/vYpK5EdDCessSAfsc81pUNCu3XRPo/EhuZMObYC8=;
- b=RgbG4ZUQr8V64PemApKXMgQI4rhNlcxNF4K7TEdB9XUYChwqn58WlqQ3K3u3AiZbq9
- 3Hik/0oYiyvD2Vhcl1z9zXiatBJS7CAlIlEzUT3gl6kG8SSylZiLGi2uEZihz4DVVAJ+
- rs5fF9JpoQYk06hDKXkFagluiDY9uAMSqTiVo1Z+Xn3864q18sMqRkgqCu2CjaQ3wVoC
- AkCgX2XsQt++X2CBfA7luvquf0rEosahlUWuy+x9jSCCb0Iv0BnfPARci80sdY87Glzr
- ki5OQyPPm69VGXOCHxJYZdnc7Gb+QMZwwpvSDTNxXkDRSAGM685phTCcpk47onmZlNWC
- BBYw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWlVe9QAHomxatF5l4oFdSqVNaEfRcMK0hUHZlTbPiyE7tGSLjVwinKabVhKifRXmunlJbb1YzVXLE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8TGCTtkJqNYVjf/ZWAMVf6T259M0WN2mDI91LffJU3dwSIXfj
- yaNZ7tt4CWYBfPHU656ShOGArPoBxNpu6+k9JkH57ej1pgWOgnRxiUSxhYOv1WA=
-X-Gm-Gg: ASbGncvRWWlUVt3fZBd3zPSPoPEr/SvnU9Sg0LvKyuj1LfVh1BU5+2ZB7CRs73owCyC
- s6Oz0GsbfeLT0tr62MK2QYzXvcSfqAJg4sEWWtFeiifQxMFkNi+rsn1uvD8xmwqePtCfulmfddA
- b8TkFLGJ4//B1+KAgi/5ctKMnzThBK2hBOGgQ9+fI1flK5YrWKkfbHkv4ZtPMNDcY6MYTf6f3PD
- nYDISmbjUNXS5v9+cxhe1wTG5GjeiyW/QEPk7FnjxkGGMNAwdsYJUbHcrKQcfOTzFFhrI3Y6ZX4
- sdZOLo1PfcBD0bhphG1H0WIrZ/xg8+TBbJQ1/PdZsg3SKF6+uy9WEd4QgzY=
-X-Google-Smtp-Source: AGHT+IEllG8xsPecNgr5L5f8FoBGVvz0RiYrsFEd203BKL9JYmw0NxRW3Sco6Y7CdnjBxXidfEeaWA==
-X-Received: by 2002:a2e:bc83:0:b0:2fb:8c9a:fe3f with SMTP id
- 38308e7fff4ca-3090dd56bd0mr4718971fa.22.1739399057615; 
- Wed, 12 Feb 2025 14:24:17 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00::7a1]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-309100c6415sm150411fa.6.2025.02.12.14.24.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 14:24:16 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Liviu Dudau <liviu.dudau@arm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Hans Verkuil <hverkuil@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 0/3] drm/i2c: tda998x: move under drivers/gpu/drm/bridge
-Date: Thu, 13 Feb 2025 00:24:13 +0200
-Message-ID: <173939904858.578381.4749501592256297365.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250113-drm-move-tda998x-v3-0-214e0682a5e4@linaro.org>
-References: <20250113-drm-move-tda998x-v3-0-214e0682a5e4@linaro.org>
+Received: from sdore.me (unknown [95.165.1.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACAE610E047
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 22:30:16 +0000 (UTC)
+Received: from [192.168.1.2] (beast.lan [192.168.1.2])
+ by sdore.me (Postfix) with ESMTPSA id 9F09CEE7BBA38;
+ Thu, 13 Feb 2025 01:30:12 +0300 (MSK)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sdore.me; s=SERV;
+ t=1739399412; bh=WNonWBF4udDjpPlXnE3uoU9A0SFZBdAVCaeatr2Pkp8=;
+ h=Subject:From:Reply-To:To:Cc:Date:In-Reply-To:References;
+ b=gZbJzqzzCk0aTRzEy7iYphVtTMN1EtCpl4X8rR8TN8rUaYLO8Nk9KMeNt5lq9Uj24
+ PN3VyiBSftdwXVc3nOIX364aWx2Jrns85L8vKPxHDwFq2aWPZ0XLISttf+WUV5A2Ps
+ 87WpnKj/SZ2vfmoSGoqqMaoUOb9Uy5rXb0hseWvg=
+Message-ID: <f0e0d4e7f5d552cb82cf3c9243f15772268fa311.camel@sdore.me>
+Subject: Re: [PATCH v2] drm/edid: Implement DisplayID Type IX & X timing
+ blocks parsing
+From: Egor Vorontsov <sdoregor@sdore.me>
+To: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Egor Vorontsov <sdoregor@sdore.me>
+Date: Thu, 13 Feb 2025 01:30:12 +0300
+In-Reply-To: <87zfirzerp.fsf@intel.com>
+References: <7cab8349bc8bb6fa08d2a7127a724efea155f154.camel@sdore.me>
+ <87zfirzerp.fsf@intel.com>
+Autocrypt: addr=sdoregor@sdore.me; prefer-encrypt=mutual;
+ keydata=mQINBGDSFnMBEADfvtLiuRL6CHdMzETKrux7sNHWG+eJ2+pgRZ3Nc9pH/YWqjoed8OpFx
+ OLeUxr9YSQ3uMD//JEe3+Sgte29Z3PAAHVkCwKBIucCnhHpXbcQZgC9xYMCd6GWR5+DpXN9szOIyb
+ kvnEtuqTddz6Q7fYsaFDs0pH3jUUWmSAyCn2JCIRfT22XgO44B/yoqnM3JXHAayeHbEAQOzMe81q3
+ deauI9W7SC9ScRT6VkgLuc+SxqH99el/OkiKTe/QpO6I6cVS8leesqnOGffkRPos/o2eRonqgDu0e
+ Mw4YTu0x5iNr8Lbr4TefU2W1l6M3MNwOsLmI+58+3fK1vh0QqZ70NC4eyD9UEXk3mJyV7epfNU6fY
+ 0mFJbAhGV1TXomcy2MlOD1rDixw85zdK5uUwp0tfEkpxqKtihJmrTdApOTTVed303CLzgDsMokTIe
+ aUOPqVZoWFDkvOzq6IppBkApJHBf1lcLlgwEn3cLQlGpYRSSi5NY3+UYtcOEZLDbF3TO6ncY8W2h3
+ yQH/sAcSllfKKvkhdqEz4/Mha3GbZQXWgjrLy9BcISsQFj+DBN54I6a6kLm2n5wXH99sOp7s3jMeN
+ zSU6PtuxZq4Gkt2K5JGT8yrIdfJfOH7yRUVm+8JqKNKqd6oczlDKV+lzRk9M/kjb8VQivaNSNwTo9
+ 3NxEuft0+tZgwARAQABtCJFZ29yIFZvcm9udHNvdiA8c2RvcmVnb3JAc2RvcmUubWU+iQJOBBMBCA
+ A4FiEEXlTCjXwaPBiJP3U33a9iH2xv60MFAmDSFnMCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4A
+ ACgkQ3a9iH2xv60OquRAAgbgenXi+Ud0tYoAz6giuFKYqzuEYuoSVkjxYvZq90ODrzbu7EdvMVuKA
+ qNqYjs3VRBPBMHXhJKEftKbX4bZwCoC2o2wB5oV5O13jVN083r49FTLCxmOoufCkaqscBBxi/X2T6
+ +i0n5Nqx5NLBL0kE4NMTk1jxEEyuEjv7bBMs196G/d3EpNJT3YGkLXBUibpaSaVjE6zBr3UygieLD
+ 2QXNkRJubx2d0FoD8TezSt5hsHWg9FOElsW6ZImRI+5q+ptL39K3cpjxHMKyhmo7xypD5XNWdmsmV
+ 1+STnK7R+id18xs7JUDxHBtG7Z/3K6txgF5CPbPvtaEi9fB3K/uS03BnIzsY2/cY3r9UHHrHa/sP6
+ DhDwj9dr2xIFG5w6ZNh4mUTHEJoWKEEsYKwXy2eJCB3XvP7GURAm8fXdIapONbHDYj7XX49Mj+LBr
+ s4PNBuKaZTFgGQ6RSc7LpAR56xaEDR93m7zNy84mQtpab/owaox1A+BEujzKK/vEDvj9f8EWlWZRa
+ DH2auNNAxdr2ACR8RzkojcFDCErAgc5sFQrgVUlvNmMdn3VL0CWmndzEQxsOdgVk9SwoHHYpHf4Cg
+ gtchq3pTQ5XSRaP/wxOtQpzqJWq5uFERBTLU8WRXYv3mM3KMdvtTJadF8+P+KSSnn+/yHahR0HKVx
+ PtHSH7Px/vI=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,31 +74,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: sdoregor@sdore.me
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 13 Jan 2025 11:53:43 +0200, Dmitry Baryshkov wrote:
-> TDA998x is the HDMI bridge driver, incorporating drm_connector and
-> optional drm_encoder (created via the component bind API by the TICLDC
-> and HDLCD drivers). TDA9950 is an I2C-CEC translator, being present
-> on-die on the TDA9989 and TDA19989 chips.
-> 
-> Move TDA9950 driver to drivers/media/cec/i2c and TDA998x driver to
-> drivers/gpu/drm/bridge/.
-> 
-> [...]
+On Wed, 2025-02-12 at 11:35 +0200, Jani Nikula wrote:
+> > +	/* TODO: support video-optimized refresh rate */
+> > +	if (timings->flags & (1 << 4))
+> > +		return NULL;
+>=20
+> Mmh. I'm not sure I'd go this far. The bit indicates *two* timings, one
+> for which the below *is* correct, and another additional one with
+> vrefresh * (1000/1001).
+>=20
+> We could just add a drm_dbg_kms(dev, "<message>") here about missing
+> fractional refresh rate, and proceed with the one non-fractional rate?
+> Or just have the TODO comment with no checks.
+I'll go with the former, for now.
 
-Applied to drm-misc-next, thanks!
+> Either way,
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Thank you. ... But!
 
-[1/3] drm/i2c: tda998x: drop support for platform_data
-      commit: b7c5169ab9ddc3432161412bc2de28111306fbb3
-[2/3] media: cec: move driver for TDA9950 from drm/i2c
-      commit: caa6f4a75e9f8eaebd814a9c2d1602e0926f473d
-[3/3] drm/i2c: move TDA998x driver under drivers/gpu/drm/bridge
-      commit: 325ba852d148434c5bcb06d513af1933a7f77b70
+> Are you up for the follow-ups too? And since you've got the hang of it,
+> maybe fix struct displayid_formula_timings_9 hactive/vactive to __be16
+> as well?
+... at this moment I realised that both the specs and the legacy code
+actually indicate it's indeed *little*-endian shorts!
+I.e. `x[0] | x[1] << 8' -- that's LSB-first.
 
-Best regards,
--- 
-With best wishes
-Dmitry
+Also, virtually no code in `drm_edid.c' uses big-endian.
+
+Thus, I'm fixing both my code and `displayid_detailed_timings_1' (I
+suppose you meant this struct instead) to use __le16.
+
+Egor
 
