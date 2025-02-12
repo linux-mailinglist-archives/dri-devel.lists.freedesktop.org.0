@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8669FA327F7
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:06:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71C6BA32814
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:10:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7557910E276;
-	Wed, 12 Feb 2025 14:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E521410E8B3;
+	Wed, 12 Feb 2025 14:10:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jJtfr9W/";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="a5vAHc5T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC77F10E276
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:06:03 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4CE72433F8;
- Wed, 12 Feb 2025 14:06:01 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0E4210E8B1
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:10:21 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 57D0A433E8;
+ Wed, 12 Feb 2025 14:10:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739369162;
+ t=1739369420;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=T0oZ4U3i2Ktbma0WqLPLlTo8xiK3HMJWEuoP9wFDVhY=;
- b=jJtfr9W/UfcR94yivde2LcDhJiR+uIffaP09IIyVAl4k8JDJC6q1B2Dqa/g3bqT+G7BIha
- g+8hX6izZObY/ZwKXqfwp3cvExFVgnhMgPCGD4sSGeWe28AMg6vLTROM9S+ez5vZr3cCAb
- xb6Y22HZbckk8cWKUGbBOM2iTRYWJhn0GbxGgrRzqZvPXwO9Py8iDMqzofjRHr1tleGDDJ
- 4vKPiFDe4bRf6zmwjW2uQwS6A/VO9C/zWH3BYBBGKOYZiQj2vRRs+ZiRFwHapeHqLsIrny
- J0yq/4MaAZG+AnMHKqDmfgSLt901AE16UlUJFnPFMf+yj+j0h4/Yb/JAcxxVSA==
-Message-ID: <3af06a6e-adb9-4e72-ab4d-23dbf37258b4@bootlin.com>
-Date: Wed, 12 Feb 2025 15:06:00 +0100
+ bh=DUw0XWN1GMPB5g/z9XibVq5IQF5Xco6sVutovHTbMUM=;
+ b=a5vAHc5TR/WLydS8wJmzveL/SLVR0zlH+uGlL2LjzSuPAbWlsEKuJRiT53UW+azu5uWsAp
+ P+Mjm0q0d0yhco5MFBRO5vGYhd0jT9BWa8FhoSUF0hKvf7DQWFT4/NP389Bfpm/Bl3mWaZ
+ Wvicb3LnSWs1F5Baq2/9kibSSgGjVt2BxjqXv6MkoIu4YSiySd2O9yVSdWbU/gZtpZ6BBn
+ Q7YPRzo6QHboWP5tEvNhfokIHzMUO8Mz/Q6WP9dBYK+ueVBBMTR0lR6z1kl2TmtWVB7ft5
+ zONA6avCMeOBkhFMIq9sQq/IzskSt0CWs4M0Rj3N6mcF2iLHpKOWEOhA4fm/Ug==
+Message-ID: <9685aaeb-a131-4cea-bdba-fbd2d4a396d8@bootlin.com>
+Date: Wed, 12 Feb 2025 15:10:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/vkms: Fix use after free and double free on init error
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH 07/13] drm/vkms: Allow to configure multiple planes
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- sylphrenadin@gmail.com, dri-devel@lists.freedesktop.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-References: <20250212084912.3196-1-jose.exposito89@gmail.com>
- <bfc71d72-2f23-4c8c-b278-7e9aad3bf72d@suse.de>
+References: <20250129110059.12199-1-jose.exposito89@gmail.com>
+ <20250129110059.12199-8-jose.exposito89@gmail.com>
+ <Z5uDI0QiP2UWGzI8@louis-chauvet-laptop> <Z6spy81Xa-Aoz-HZ@fedora>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -99,13 +99,13 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <bfc71d72-2f23-4c8c-b278-7e9aad3bf72d@suse.de>
+In-Reply-To: <Z6spy81Xa-Aoz-HZ@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeggedtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeegjeeguddtkefhfffggeduuedttefgueevgeetfedttdefveeufffgvefgveeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddupdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhp
- dhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeggedtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmr
+ ggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -124,85 +124,299 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le 12/02/2025 à 09:53, Thomas Zimmermann a écrit :
-> 
-> 
-> Am 12.02.25 um 09:49 schrieb José Expósito:
->> If the driver initialization fails, the vkms_exit() function might
->> access an uninitialized or freed default_config pointer and it might
->> double free it.
+Le 11/02/2025 à 11:43, José Expósito a écrit :
+> On Thu, Jan 30, 2025 at 02:48:19PM +0100, Louis Chauvet wrote:
+>> On 29/01/25 - 12:00, José Expósito wrote:
+>>> Add a list of planes to vkms_config and create as many planes as
+>>> configured during output initialization.
+>>>
+>>> For backwards compatibility, add one primary plane and, if configured,
+>>> one cursor plane and NUM_OVERLAY_PLANES planes to the default
+>>> configuration.
+>>>
+>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 >>
->> Fix both possible errors by initializing default_config only when the
->> driver initialization succeeded.
->>
->> Reported-by: Louis Chauvet <louis.chauvet@bootlin.com>
->> Link: https://lore.kernel.org/all/Z5uDHcCmAwiTsGte@louis-chauvet-laptop/
->> Fixes: 2df7af93fdad ("drm/vkms: Add vkms_config type")
+>> Co-developped-by: Louis Chauvet <louis.chauvet@bootlin.com>
+>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 >> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+>>
+>> [...]
+>>
+>>> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
+>>
+>> [...]
+>>
+>>> +static void vkms_config_test_get_planes(struct kunit *test)
+>>> +{
+>>> +	struct vkms_config *config;
+>>> +	struct vkms_config_plane *plane_cfg1, *plane_cfg2;
+>>> +	struct vkms_config_plane **array;
+>>> +	size_t length;
+>>> +
+>>> +	config = vkms_config_create("test");
+>>> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+>>> +
+>>> +	array = vkms_config_get_planes(config, &length);
+>>> +	KUNIT_ASSERT_EQ(test, length, 0);
+>>> +	KUNIT_ASSERT_NULL(test, array);
+>>> +
+>>> +	plane_cfg1 = vkms_config_add_plane(config);
+>>> +	array = vkms_config_get_planes(config, &length);
+>>> +	KUNIT_ASSERT_EQ(test, length, 1);
+>>> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg1);
+>>> +	kfree(array);
+>>> +
+>>> +	plane_cfg2 = vkms_config_add_plane(config);
+>>> +	array = vkms_config_get_planes(config, &length);
+>>> +	KUNIT_ASSERT_EQ(test, length, 2);
+>>> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg1);
+>>> +	KUNIT_ASSERT_PTR_EQ(test, array[1], plane_cfg2);
+>>> +	kfree(array);
+>>> +
+>>> +	vkms_config_destroy_plane(plane_cfg1);
+>>> +	array = vkms_config_get_planes(config, &length);
+>>> +	KUNIT_ASSERT_EQ(test, length, 1);
+>>> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg2);
+>>> +	kfree(array);
+>>> +
+>>> +	vkms_config_destroy(config);
+>>> +}
+>>
+>> In this test I have the feeling that vkms_config_get_planes always returns
+>> a predictable order. It is maybe trivial here, but I would prefer to shows
+>> that the order is not stable, for example:
+>>
+>> 	bool plane_cfg1_found = false;
+>> 	bool plane_cfg2_found = false;
+>>
+>> 	vkms_config_for_each_plane(config, plane_cfg) {
+>> 		if (plane_cfg == plane_cfg1)
+>> 			plane_cfg1_found = true;
+>> 		else if (plane_cfg == plane_cfg2)
+>> 			plane_cfg2_found = true;
+>> 		else
+>> 			KUNIT_FAILS("Unexpected plane");
+>> 	}
+>>
+>> 	KUNIT_ASSERT(test, plane_cfg1_found);
+>> 	KUNIT_ASSERT(test, plane_cfg2_found);
+>>
+>> [...]
+>>
+>>> +static void vkms_config_test_valid_plane_number(struct kunit *test)
+>>> +{
+>>> +	struct vkms_config *config;
+>>> +	struct vkms_config_plane *plane_cfg;
+>>> +	int n;
+>>> +
+>>> +	config = vkms_config_default_create(false, false, false);
+>>> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
+>>> +
+>>> +	/* Invalid: No planes */
+>>> +	plane_cfg = list_first_entry(&config->planes, typeof(*plane_cfg), link);
+>>> +	vkms_config_destroy_plane(plane_cfg);
+>>> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+>>> +
+>>> +	/* Invalid: Too many planes */
+>>> +	for (n = 0; n <= 32; n++)
+>>> +		vkms_config_add_plane(config);
+>>> +
+>>> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
+>>> +
+>>> +	vkms_config_destroy(config);
+>>> +}
+>>
+>> For this function, the naming is a bit strange, it says
+>> "valid_plane_number", but you test only invalid plane number.
 > 
-> Reviewed-by: Thomas Zimmermann <tzimmremann@suse.de>
+> The reason for this naming is that it tests the valid_plane_number()
+> function called by vkms_config_is_valid(). The applies for the other
+> valid_* tests.
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Hoo, I see, okk!
 
-lore.kernel.org is broken currently, to avoid doing mistakes, I will 
-wait for it to be working again so I can apply your patch using dim+b4.
+> However, I don't mind changing its name to so it reflects the test
+> rather than the tested function.
 
-(I removed danvet.vetter@ffwl.ch from CC, the mail server rejected the mail)
+I prefer an "implementation independent" name, as the content of 
+vkms_config_is_valid may change over time.
+
+> Changed in v2.
+
+Perfect!
+
+>>
+>> Can you rename it to vkms_config_test_invalid_plane_number?
+>>
+>> [...]
+>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
+>>
+>> [...]
+>>
+>>> +struct vkms_config_plane **vkms_config_get_planes(const struct vkms_config *config,
+>>> +						  size_t *out_length)
+>>> +{
+>>> +	struct vkms_config_plane **array;
+>>> +	struct vkms_config_plane *plane_cfg;
+>>> +	size_t length;
+>>> +	int n = 0;
+>>> +
+>>> +	length = list_count_nodes((struct list_head *)&config->planes);
+>>> +	if (length == 0) {
+>>> +		*out_length = length;
+>>> +		return NULL;
+>>> +	}
+>>> +
+>>> +	array = kmalloc_array(length, sizeof(*array), GFP_KERNEL);
+>>> +	if (!array)
+>>> +		return ERR_PTR(-ENOMEM);
+>>> +
+>>> +	list_for_each_entry(plane_cfg, &config->planes, link) {
+>>> +		array[n] = plane_cfg;
+>>> +		n++;
+>>> +	}
+>>> +
+>>> +	*out_length = length;
+>>> +	return array;
+>>> +}
+>>
+>> To join the comment on the test, I am not a big fan of creating a new list
+>> to return to the caller, for three reasons:
+>> - the caller needs to manage an other pointer;
+>> - the caller needs to understand that the content of the array is only
+>>    valid if: the config is not freed, nobody else removed anything from the
+>>    planes;
+>> - the caller may think this list always have the same order if he looks at
+>>    the tests.
+>>
+>> I would prefer a simple macro to do an iteration over the config->planes
+>> list: (I did not test this macro, but you have this idea)
+>>
+>> 	#define vkms_config_iter_plane(config, plane_cfg) \
+>> 		list_for_each_entry((plane_cfg), &(config).planes, link)
+>>
+>> This way:
+>> - no new pointer to manage;
+>> - if one day we have concurency issue, we just have to protect config, not
+>>    config+all the planes;
+>> - there is no expected order.
+>>
+>> [...]
+>>
+>>>   bool vkms_config_is_valid(struct vkms_config *config)
+>>>   {
+>>> +	if (!valid_plane_number(config))
+>>> +		return false;
+>>> +
+>>> +	if (!valid_plane_type(config))
+>>> +		return false;
+>>> +
+>>>   	return true;
+>>>   }
+>>
+>> I really like the idea to split the validation function, way simpler!
+>>
+>> [...]
+>>
+>>> +void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg)
+>>> +{
+>>> +	list_del(&plane_cfg->link);
+>>> +	kfree(plane_cfg);
+>>> +}
+>>
+>> I would prefer a "standard" function pair, i.e.: add/remove or
+>> create/destroy, not add/destroy.
+>>
+>> For me it should be create/destroy, you create the plane by using a
+>> config, so it is clear it will be attached to it.
+>>
+>> If you choose add/remove, you should explains in the documentation that
+>> remove is also doing kfree.
+>>
+>> [...]
+>>
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+>>
+>> [...]
+>>
+>>> @@ -11,61 +11,63 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>>>   	struct vkms_connector *connector;
+>>>   	struct drm_encoder *encoder;
+>>>   	struct vkms_output *output;
+>>> -	struct vkms_plane *primary, *overlay, *cursor = NULL;
+>>> -	int ret;
+>>> +	struct vkms_plane *primary = NULL, *cursor = NULL;
+>>> +	struct vkms_config_plane **plane_cfgs = NULL;
+>>> +	size_t n_planes;
+>>> +	int ret = 0;
+>>>   	int writeback;
+>>>   	unsigned int n;
+>>
+>> I think it could be interesting to have a vkms_config_is_valid call here.
+>> It will avoid raising DRM errors or create unexpected devices.
+>>
+>> It will also garantee in a later patch that
+>> vkms_config_crtc_get_primary_plane is a valid pointer.
+>>
+>>> -	/*
+>>> -	 * Initialize used plane. One primary plane is required to perform the composition.
+>>> -	 *
+>>> -	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
+>>> -	 * composition.
+>>> -	 */
+>>> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
+>>> -	if (IS_ERR(primary))
+>>> -		return PTR_ERR(primary);
+>>> +	plane_cfgs = vkms_config_get_planes(vkmsdev->config, &n_planes);
+>>> +	if (IS_ERR(plane_cfgs))
+>>> +		return PTR_ERR(plane_cfgs);
+>>
+>> If you agree on the iterator implementation, this code could be simplified
+>> a lot.
+>>
+>>> -	if (vkmsdev->config->cursor) {
+>>> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
+>>> -		if (IS_ERR(cursor))
+>>> -			return PTR_ERR(cursor);
+>>> +	for (n = 0; n < n_planes; n++) {
+>>> +		struct vkms_config_plane *plane_cfg;
+>>> +		enum drm_plane_type type;
+>>> +
+>>> +		plane_cfg = plane_cfgs[n];
+>>> +		type = vkms_config_plane_get_type(plane_cfg);
+>>> +
+>>> +		plane_cfg->plane = vkms_plane_init(vkmsdev, type);
+>>
+>> Can we pass plane_cfg in vkms_plane_init? This way we don't have to
+>> touch vkms_output_init when adding new vkms_config_plane members.
+> 
+> While it'll be required once we allow to configure more parameters, I don't
+> think we need it right now. To keep things as simple as possible, I'd prefer to
+> delay it until required.
+
+I understand your point, especially since your patch don't add new 
+parameters to vkms_plane_init.
 
 Thanks!
-Louis Chauvet
 
-> Thanks for posting this patch separately.
+> Thanks,
+> Jose
 > 
-> Best regards
-> Thomas
-> 
->> ---
->>    drivers/gpu/drm/vkms/vkms_drv.c | 15 +++++++++------
->>    1 file changed, 9 insertions(+), 6 deletions(-)
+>>> +		if (IS_ERR(plane_cfg->plane)) {
+>>> +			DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
+>>> +			ret = PTR_ERR(plane_cfg->plane);
+>>> +			goto err_free;
+>>> +		}
+>>> +
+>>> +		if (type == DRM_PLANE_TYPE_PRIMARY)
+>>> +			primary = plane_cfg->plane;
+>>> +		else if (type == DRM_PLANE_TYPE_CURSOR)
+>>> +			cursor = plane_cfg->plane;
+>>>   	}
 >>
->> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
->> index 7c142bfc3bd9..b6de91134a22 100644
->> --- a/drivers/gpu/drm/vkms/vkms_drv.c
->> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
->> @@ -235,17 +235,19 @@ static int __init vkms_init(void)
->>    	if (!config)
->>    		return -ENOMEM;
->>    
->> -	default_config = config;
->> -
->>    	config->cursor = enable_cursor;
->>    	config->writeback = enable_writeback;
->>    	config->overlay = enable_overlay;
->>    
->>    	ret = vkms_create(config);
->> -	if (ret)
->> +	if (ret) {
->>    		kfree(config);
->> +		return ret;
->> +	}
->>    
->> -	return ret;
->> +	default_config = config;
->> +
->> +	return 0;
->>    }
->>    
->>    static void vkms_destroy(struct vkms_config *config)
->> @@ -269,9 +271,10 @@ static void vkms_destroy(struct vkms_config *config)
->>    
->>    static void __exit vkms_exit(void)
->>    {
->> -	if (default_config->dev)
->> -		vkms_destroy(default_config);
->> +	if (!default_config)
->> +		return;
->>    
->> +	vkms_destroy(default_config);
->>    	kfree(default_config);
->>    }
->>    
-> 
+>> [...]
 
 -- 
 Louis Chauvet, Bootlin
