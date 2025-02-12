@@ -2,91 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B5FA31A1A
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 01:01:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4858A31A23
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 01:07:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1313D10E1FA;
-	Wed, 12 Feb 2025 00:01:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83D910E778;
+	Wed, 12 Feb 2025 00:07:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Co0H3+37";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="iOEzFF/m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA6E510E1FA
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 00:01:13 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-308e92c3779so2819651fa.0
- for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 16:01:13 -0800 (PST)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+ [209.85.167.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2689810E778
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 00:07:29 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-5450b91da41so2618422e87.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 11 Feb 2025 16:07:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739318472; x=1739923272; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739318847; x=1739923647; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=95tLd2a65K3uyAvTy76sH7lTP+WAFAT2AWBj4Cp36Os=;
- b=Co0H3+37LLLV1TZqcugIaGCcr0kNMVPUzjxcHFEn5unna2iKJBLmtSHtoz8LWnxc9S
- BB+3r3ZviT9CcXqCuJMWLwXV3vnDahGh2oEX6PLxIY4/l6EC5ocWFqpXSzFu3qVoG397
- u5X+qLVsBTp/FoqVu3pUSq37JxVUm6/FWRiOp8LHh/z4n1NeG4EDweG6vRg+7AcbDKiF
- naGAUG9Sr3dt/zG/NMrS/WRFlXeH8zGE+oJtc+vJxLUa0jDHMMMCoAkhh6YjIlnADciK
- xZuBjCD7hKVdcSG8/pGm/52aP1EQWppOqPPMrpsWi7bw9JiU9eyW+0SMKsdfaIrXsAtN
- zgtQ==
+ bh=rSvVq0Q4byuw3K4FZfEe4v2n2HhjFTVAI/WWeumGLwM=;
+ b=iOEzFF/mJB4BwkngYlkUsvi8dfdYbZsr8TLjB3o5u0PKK0KL0Q/rBjFT4cdbUIAmlY
+ yWQEUCuSNOsmfVXkkAaDjbCTUd35XF/L8zoHU6DoGMmegX3bQLdkW11k0May9yc+y8TJ
+ r/Yt6EXVJtge/0rOZ1V2ajP5u9R7k8p9SBoEbcAHakdJt9eZRRowdbVshY+Yrhb+0xzU
+ YoHLBoWIyd/yAzxa3pgHmvrwktm57qnF9p5/m/iAoA3nMgToO8YwOP8gUbzvnLm+ZCz9
+ F69IhS/3dIx0lybuOndnvnDii3If5fG+iczQhnNqtyPz1G5qoGuuhwzdQVT/HhMiGPE8
+ hCtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739318472; x=1739923272;
+ d=1e100.net; s=20230601; t=1739318847; x=1739923647;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=95tLd2a65K3uyAvTy76sH7lTP+WAFAT2AWBj4Cp36Os=;
- b=DTxiL+sKaXA+zqDCUtsXvRVsvGregU6uRi8JPgNKY7SZ2Jjjty6yYp4d4ZZkGlAKiQ
- Uv8wiv07Q1doQfFnYbfX6waIUuvaNkJhO26zq4Cs/4vwPsLeycrjVO/x3ondvEDTi2pL
- +eK82aIitK7OV+utDEScm0fV/xSej3x9vnPsyTPVqLfBDtoFT+gN5Ion/ZsTgyjwNOPu
- PPXdubhCIrKCYWo1jcO5uE1ZzdPaRPb1asx0aJFjkX43R7zQzNgErizqtbQdeO8kvUKP
- 7bgksucibn3R5PuwR5SNXOxBitFf6mu7gY4qGliLO1I6NbkE5NyZMp2mkrmK6IhlCgB2
- X8Gw==
+ bh=rSvVq0Q4byuw3K4FZfEe4v2n2HhjFTVAI/WWeumGLwM=;
+ b=ne7NMDxdfH4+lRyla6uZoIi36gjnvDMJFI2fPIMehYstoYpSJKSk7JTaWf0Ds6CVK8
+ qkhHaXnB2d5LumgeXr6dx3wE5X8a/sNDJwMFz0F277Oz3SwZy2wN9oYdi/qyeGE8F6yc
+ 48KpSNg2k367WjBw5sUsI1EcuN0GSvn3Z5/bFMStGs6ApSRrDjB3PU8jhUej5hO/tk+W
+ oF9LbJCSCGGnmkk3XzEQRUlJDD3LG8s41p+jxQOlQvP3HqtX3mQ4RjlZvc5zvjTmc2gw
+ ODTICd5AaS9QMsYbGayRMIP3yLj0ab1mf45Ww7Rb2UaZK72Qf8hLQThLmkGRlwvmQvHZ
+ Jvuw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUUSxOyCDBrVoBQmOXDEhLzfVkPQcvA0sX1Sqj0ctK4Pdf9Er7cXXrpA9jSi+n+JBA4GsqS/we+dmQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxcNyE+t42QmTCOczOxG8J2RC15n6lB0oM6mbZ4ezHpv8j9FZ7
- yktjwdMulK37fTswWWHgOKp8VAZh7DgiSppuapVvZZ/HUGJ7lxFDM5majji2I0A=
-X-Gm-Gg: ASbGncvrvMjcYzvyqhRb0UWw98Qu74aDNK4V9aZemJ74MhJ0W34DzYbhIboOnN6lTzk
- sOLX6R+T/RQM4U91vzi3+5fbmV3oi2cOvj7GZvORjI04E05SLAxMTno4GK+ztFQT9baUZGX5o/U
- hoBrLYadsef77bAeHae+5PXrKKyU63ixfzy6ySg2RZIf41y9mfgunVeEv2ghUtKIXmDmCHxow+o
- kmXgxYGtkgFm2dxgMx9UFajCZscghDovzDWLIp1Wt48ZJPhrCpEc/AHdxyg0ofP2o4Ix7Qw7PQS
- T3hnXp+WBN0ogATQoxM6sSX2FlPlIOM8BU9TgCIfbJ9Rw+4YM56p/ya6zSfXzq9Rmgo9lvE=
-X-Google-Smtp-Source: AGHT+IH/ZusE/nmTKQwFY64ppd0MMt5jL1ccy9acwns9FM9u2M/3kJwIx3fnSmtuKJScor3EBvhJ1g==
-X-Received: by 2002:a2e:965a:0:b0:308:eb31:df9c with SMTP id
- 38308e7fff4ca-308f90eb27fmr16259151fa.1.1739318472098; 
- Tue, 11 Feb 2025 16:01:12 -0800 (PST)
+ AJvYcCVOcaHTtSCa4713GJcKYPJOwc0yH/DZ6RuBUpPFvEAcAFRWx/hJfg6KbWmjgA4DwjfZOUmhrcdOtYE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzvnn4Qp+LOsKrQB/GnQn+sgP0JR2f3zISe7opN7OtCpnjorfpo
+ hQl/U3x4RxdfragZMX4icPGY/JHp/8hwFEgbWDMzZ4+kzdEoL3JdwQjOdl4qTGE=
+X-Gm-Gg: ASbGncsU+Vkhd5bENhxCgdksP6f9GIzF33T63sYIPLlztrbqGwj85RCq3VF9Kly0MP0
+ b0GrOANQ2bLYoBdfCYfGfAiRCx2WJmzY4YqWa1NoNu+0x+Wf25CG/I4rBabgJkm+/GxsfLm14UY
+ DFVKlnSk14dRVls3YpU6clzFtVRCPXrzTJSTpOGEf/4kWDzcKZ89JtOL2whFdaYj5EA83KGchx/
+ 8DNZgQRwzpVGQ+PY/6D84Wef5y4SupQF6CK2yqSA+WCwEHHpLMs3LfMFvkdupP47mipdHMMdBhf
+ fQpXRqNXLiKTz6mvQLOkjRzy8fO+ZTGksYmZc3E3dTKOjt/rDsGxNhCWkOl/OR9Rab4jaeg=
+X-Google-Smtp-Source: AGHT+IEYSYjM6e26W3BebaqVj9AEp0qCBuSkwbasndm6u40vD94b8fZ5bLT2RmF5vB9zoS1z8G6pdw==
+X-Received: by 2002:a05:6512:745:b0:545:c08:e193 with SMTP id
+ 2adb3069b0e04-5451810fe44mr196032e87.27.1739318847359; 
+ Tue, 11 Feb 2025 16:07:27 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-308ed7e8621sm8024891fa.87.2025.02.11.16.01.09
+ 2adb3069b0e04-5450bb646a5sm808177e87.146.2025.02.11.16.07.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 Feb 2025 16:01:10 -0800 (PST)
-Date: Wed, 12 Feb 2025 02:01:08 +0200
+ Tue, 11 Feb 2025 16:07:26 -0800 (PST)
+Date: Wed, 12 Feb 2025 02:07:23 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] arm64: dts: qcom: sm8550: add missing cpu-cfg
- interconnect path in the mdss node
-Message-ID: <ysk2lewb6qjhmrznt7xc7i3u7kczqliph2dzfg566aoj5cowks@qlbyk6nqakp4>
-References: <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-0-54c96a9d2b7f@linaro.org>
- <20250210-topic-sm8x50-mdss-interconnect-bindings-fix-v3-3-54c96a9d2b7f@linaro.org>
- <a3f7bef6-bfc8-4a2e-b979-4aac7908306f@oss.qualcomm.com>
- <fcde9fab-b28a-4e09-b77b-f7c6c3840710@linaro.org>
+To: Yongxing Mou <quic_yongmou@quicinc.com>
+Cc: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm/dpu: Allocate the number of LMs based on
+ max_mixer_width to support 4 streams MST case
+Message-ID: <zri44j6baegrcxmnac3o7ujtrlm2ybhon4hq3ondvdbcqfhpa2@zjxcprel7zv7>
+References: <20250211-dp_lm-v1-1-deeca9ac9bd9@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fcde9fab-b28a-4e09-b77b-f7c6c3840710@linaro.org>
+In-Reply-To: <20250211-dp_lm-v1-1-deeca9ac9bd9@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,48 +94,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Feb 11, 2025 at 10:07:07AM +0100, Neil Armstrong wrote:
-> On 10/02/2025 17:32, Konrad Dybcio wrote:
-> > On 10.02.2025 10:32 AM, Neil Armstrong wrote:
-> > > The bindings requires the mdp0-mem and the cpu-cfg interconnect path,
-> > > add the missing cpu-cfg path to fix the dtbs check error.
-> > > 
-> > > Fixes: b8591df49cde ("arm64: dts: qcom: sm8550: correct MDSS interconnects")
-> > > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > > ---
-> > >   arch/arm64/boot/dts/qcom/sm8550.dtsi | 5 +++--
-> > >   1 file changed, 3 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/arch/arm64/boot/dts/qcom/sm8550.dtsi b/arch/arm64/boot/dts/qcom/sm8550.dtsi
-> > > index eac8de4005d82f246bc50f64f09515631d895c99..702b55296b18ff2f8ea62a3391b7de2804aa9f65 100644
-> > > --- a/arch/arm64/boot/dts/qcom/sm8550.dtsi
-> > > +++ b/arch/arm64/boot/dts/qcom/sm8550.dtsi
-> > > @@ -3020,8 +3020,9 @@ mdss: display-subsystem@ae00000 {
-> > >   			power-domains = <&dispcc MDSS_GDSC>;
-> > > -			interconnects = <&mmss_noc MASTER_MDP 0 &mc_virt SLAVE_EBI1 0>;
-> > > -			interconnect-names = "mdp0-mem";
-> > > +			interconnects = <&mmss_noc MASTER_MDP 0 &mc_virt SLAVE_EBI1 0>,
-> > 
-> > QCOM_ICC_TAG_ALWAYS
-> > 
-> > > +					<&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_DISPLAY_CFG 0>;
-> > 
-> > QCOM_ICC_TAG_ACTIVE_ONLY
-> > 
-> > w that
-> 
-> So it depends how it articulates with https://lore.kernel.org/all/20250115-topic-sm8x50-upstream-dt-icc-update-v1-0-eaa8b10e2af7@linaro.org/
-> 
-> I can rebase on top of it, it would be simpler, but then the Fixes tag won't work anymore.
+On Tue, Feb 11, 2025 at 06:37:43PM +0800, Yongxing Mou wrote:
+> In 2x2 mst case, each 2k monitor will use 2 lms, but dpu_8_4 only have
+> 6 lms, so let 2k only use one lm to support such case.
 
-It works, it's just that the backporter would need to be slightly more
-careful.
+DisplayPort MST is not supported. Please work with Abhinav to get it
+into his patch. Also it's LM and LMs.
 
 > 
-> > 
-> > Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> > 
-> > Konrad
+> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+
+This list of SoBs doesn't make sense.
+
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> index 5172ab4dea995a154cd88d05c3842d7425fc34ce..e8846bf8edc5f9b2b3b7f093e4d5aad75de53da1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> @@ -677,7 +677,8 @@ static struct msm_display_topology dpu_encoder_get_topology(
+>  	else if (!dpu_kms->catalog->caps->has_3d_merge)
+>  		topology.num_lm = 1;
+>  	else
+> -		topology.num_lm = (mode->hdisplay > MAX_HDISPLAY_SPLIT) ? 2 : 1;
+> +		topology.num_lm = (mode->hdisplay > dpu_kms->catalog->caps->max_mixer_width) ?
+> +				   2 : 1;
+
+Please extend commit message to describe how your change affects other
+platforms.
+
+>  
+>  	if (crtc_state->ctm)
+>  		topology.num_dspp = topology.num_lm;
+> 
+> ---
+> base-commit: df5d6180169ae06a2eac57e33b077ad6f6252440
+> change-id: 20250211-dp_lm-8f8ef15f5955
+> 
+> Best regards,
+> -- 
+> Yongxing Mou <quic_yongmou@quicinc.com>
 > 
 
 -- 
