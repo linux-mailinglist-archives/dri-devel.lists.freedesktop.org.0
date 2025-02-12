@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4D5A3214E
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:37:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647AAA32154
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:38:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A508410E7FE;
-	Wed, 12 Feb 2025 08:37:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6D1810E7FF;
+	Wed, 12 Feb 2025 08:38:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S86myunx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RjOFk1/n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C134010E352;
- Wed, 12 Feb 2025 08:37:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16DBB10E7FF;
+ Wed, 12 Feb 2025 08:38:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 938695C5B09;
- Wed, 12 Feb 2025 08:37:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82CCBC4CEE2;
- Wed, 12 Feb 2025 08:37:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id F3E355C274F;
+ Wed, 12 Feb 2025 08:37:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D546C4CEDF;
+ Wed, 12 Feb 2025 08:38:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739349472;
- bh=vSk1vLdngX9mcfOhOr0BrHcNNmv+3X4JGjHSGrHYxdo=;
+ s=k20201202; t=1739349497;
+ bh=Fc2sNvHMZglmp/mhVCAXjnNImKTEggsLVKReblTkS4c=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=S86myunxRhD6mumM3HXOHNgu6qAgxsLQx+qbNNh+Kr6akvtC37rJF1qySSfKPsPvg
- 1eq8kkhfuovd36EXsbWTsIpH4K5L840rUENgwA4PKFBiRcmT0R/nPS7Pv3NpiwfNqz
- 2BO3zplzJrkcJCqJFcv8Ki97CdyKiOV4XhpOVA1k5HqyViGD/oLm40Gfm3pHkbUDjI
- 3JtbLjjTFBcHCzetRzDpkKDnnxfHHJRmb/2Rji4prLuFbgn9NYPI2XxbOwYwJkSeOM
- HoIgJyFNs1jWKV4zl0ZPcyGsZdN9nxNv0HEFwK7vVvGzbottZ4eGuiiRD3joIZsa1j
- zTFEvifzynh3Q==
-Message-ID: <0b684d95-9461-4da3-8016-9c74c9dd03ce@kernel.org>
-Date: Wed, 12 Feb 2025 09:37:42 +0100
+ b=RjOFk1/nGfTvDhLgRxvoT7W70PRC9OWbO5krgL8sVBWJOEbebA3UGSZhH63J0MnTj
+ 0gXSH+3MNwQFVuxUlcdULbYpvBgQ4d/bwgufqcZECVlK2IKa6pw6H5WuTBnWGaV1nC
+ kLHMtAbdMIj+e+g7/+1aaJSeC5yDncouDDtBxME+WSZFhiN58BlkRW9hGqntdrB57U
+ UShnOjulqc/FBlay6gd+e4yiQqeu7AXGNyBA/V/X0aK4FyljtlVYF97Ai1+qMPrq4A
+ mwiXcdRI0cnzy0Ec+CjiD0d7iJrjXFs/2nNxRmeR0Ve95d4/Xw7FJ+IeNfuTRmWMj+
+ xQ8UWu3i4QmVw==
+Message-ID: <e620e80d-afeb-4ce1-9798-2f5cdd92b3b1@kernel.org>
+Date: Wed, 12 Feb 2025 09:38:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] dt-bindings: display/msm: Document the
- dp-controller for QCS8300
+Subject: Re: [PATCH v4 3/4] dt-bindings: display/msm: Document MDSS on QCS8300
 To: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
@@ -51,10 +50,9 @@ To: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
 References: <20250120-mdssdt_qcs8300-v4-0-1687e7842125@quicinc.com>
- <20250120-mdssdt_qcs8300-v4-2-1687e7842125@quicinc.com>
+ <20250120-mdssdt_qcs8300-v4-3-1687e7842125@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,7 +98,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250120-mdssdt_qcs8300-v4-2-1687e7842125@quicinc.com>
+In-Reply-To: <20250120-mdssdt_qcs8300-v4-3-1687e7842125@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,14 +117,17 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 20/01/2025 04:49, Yongxing Mou wrote:
-> Add compatible string for the DisplayPort controller found on the
-> Qualcomm QCS8300 platform.QCS8300 only support one DisplayPort
-> controller and have the same base offset with sm8650, so we reuse
-> the sm8650 DisplayPort driver.
+> Document the MDSS hardware found on the Qualcomm QCS8300 platform.
+> QCS8300 use the same DPU hardware version as SA8775P, so we reuse it's
+> driver. But QCS8300 only have one DP controller, and offset is same with
+> sm8650, so dp controller reuse the sm8650's driver.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-NAK, unreviewed. See all other emails about this mess.
+> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> ---
+>  .../bindings/display/msm/qcom,qcs8300-mdss.yaml    | 244 +++++++++++++++++++++
+>  1 file changed, 244 insertions(+)
 
+Also wrong compatibles used.
 
 Best regards,
 Krzysztof
