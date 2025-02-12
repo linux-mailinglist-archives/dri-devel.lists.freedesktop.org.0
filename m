@@ -2,98 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC072A323D1
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 11:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5EEA323D8
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 11:50:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68D9310E847;
-	Wed, 12 Feb 2025 10:48:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9038710E846;
+	Wed, 12 Feb 2025 10:49:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="V02AFA3z";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fsCk99ec";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 307E510E846
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 10:48:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1739357285;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4fsMpkvryDt2LzZ0h4OPEHC7XVpjdmg/PwbED44BwIQ=;
- b=V02AFA3zMsJrhAFwRteucEjdMdyeASW9HmwV6KwhE/8VBv6Ahc25Pn2aB5p1CJxk3ZlbSx
- E1HctArkouPHh+N/G7J1t2QQ0jQXDp2+fMIzoLhm+elmhuCSHprIsQmlxKTVNGGx8Nz2Gg
- eeijQDBuAyCXlnHnp4bSavc73FbGMmM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-677-zWLYNbscMaWf6RSOHU7YaQ-1; Wed, 12 Feb 2025 05:48:04 -0500
-X-MC-Unique: zWLYNbscMaWf6RSOHU7YaQ-1
-X-Mimecast-MFC-AGG-ID: zWLYNbscMaWf6RSOHU7YaQ
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-ab397fff5a3so74573866b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 02:48:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739357283; x=1739962083;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4fsMpkvryDt2LzZ0h4OPEHC7XVpjdmg/PwbED44BwIQ=;
- b=lwQKaIo5CYDRCLUmJ/I83w2CzUlPpXDfqIL4IPd/L6tfquywCi4WS0Bi4AxxjFNtug
- nE6xL2wnQ93x4jNwtJCM2O3uGHpStoDkmBwT1+mTHcoy63CMJfipUdWCuGZR6zWuMgjT
- FK8mJoQ75yRl3V5e8jynRDtixfOvotB4hrlVkZ0dmwxQp6DiVfXiwxPl1GAWxJzoDT5/
- xlL0nHXIze+64W3a6dingEhz/b91ZYqZgnn9kK0Z5qlEJibZI33KOBAsN1jtY2vEh5sC
- uFhYdE9tQbvl+KNB2aQo7c7gFe11QsGcTnWBTxVy2bo0T7XG6HenZr4n4RfwV4SEoAZr
- w/XA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWC2kDoNBisGxLPGtqj9FR6BHNsKWgknhuZMaCBNhflv5XXjYxqRuUVXvcuDkh2Ddk6S0kleNc5HUo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxgt+xxuFxuse65nTKOxicXIfLepPLEp1gVU0yA0iSM75md9fck
- Rn9ICl81omH+H9UriTjk7j66r9cvCMnWQCejDiaFSHeV5MVxoY1hDHWnQGg2B40vpzcufG3vcrl
- 2mlmm0vCwqyeDqkboZ2ioyCI/8XPNQrygNRj82dBD8t+P+hNpnbiO3EuC9QMN/xwN4w==
-X-Gm-Gg: ASbGncuiIrd6ib/hA6PTd9K7oiLngluZ5fD3P5Hj3nKtxToMZ64tclzGq5UoFjkwRNW
- d19cvWykE+mwcX81ruR9J7m52og+p2iHQKJFLT1Dc4F9rDPk0hXOAv1lsBtC1EdjlGZn7umBLdt
- ziGFXyaU4GBph1mJUvthxPQQqDNrIKlA0+S1gPSLqmlXQUdwPXx3mZYO5x91esldjWSmrpWCOJl
- HGcqWxB3o/FkMblGISWXfufEq60LzOlAzl3FDvq5EFPL5Y2o2YNC1wI6MWP9hxZBKXSlBgkZfwT
- 9rTzEXnIr1pOmMHpToaHIFT2GZYDubKhutBTyXptRtAMgI5cmvCcbHtRlQZKRIpUibDKG4c+MN5
- fUuI0Q6AWE1mQx3Db/q2AxOvnJVhRco+iDt4tA2SQ+77gyMXsK0TiReE=
-X-Received: by 2002:a17:907:1c29:b0:ab7:bd8c:3501 with SMTP id
- a640c23a62f3a-ab7db35bf15mr680650666b.18.1739357283035; 
- Wed, 12 Feb 2025 02:48:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFkdB7Pi0J1+nM7qlAaDy/GDdKVi9B1YckCYUNv866WaVvUJfQA1SBNJ+NyM9ozbis0yn7i6w==
-X-Received: by 2002:a17:907:1c29:b0:ab7:bd8c:3501 with SMTP id
- a640c23a62f3a-ab7db35bf15mr680648966b.18.1739357282577; 
- Wed, 12 Feb 2025 02:48:02 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ab7f6064185sm102447366b.175.2025.02.12.02.48.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 12 Feb 2025 02:48:02 -0800 (PST)
-Message-ID: <eec5bb5f-80ad-469e-b3bc-1e8bb2de36a2@redhat.com>
-Date: Wed, 12 Feb 2025 11:48:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] drm: panel-orientation-quirks: Add quirk for AYA
- NEO Slide
-To: John Edwards <uejji@uejji.net>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFB8710E846
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 10:49:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 70768A402E4;
+ Wed, 12 Feb 2025 10:47:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01860C4CEDF;
+ Wed, 12 Feb 2025 10:49:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1739357376;
+ bh=SrZ7q3UddXW1p49/GdRvgpUzejtlAUiY6e9x0tcKinE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fsCk99ecgG1X1H4oCmDUZgnbAUfRIvj8fWtdlwdoQ07gzWE7fmKGgOCFbXT8zxU8z
+ E17uZ/CKSWTiBSsXf6Z6vZWKYpqlNlcKGIyrhcObTMnI1Vs8SOuMqX9285cpyLhl3h
+ i4BACZrSu2IrhvuCBWekSlYRZzO3qid0P9Ajy4xYJi/PyBLZ+A2HVA8MjrFX049Kga
+ aC8profD5qguMrsDfEYi5k14CfG/ZS5ZwDrn1/hjq/RJX6KfdiM3+g5V+nuBxEflNE
+ BuOxNawNPtWooUTQhU4pS84J5mQd1EBbum7ylQPZiEkomLW6MNCo51OZTDyrBZ+Ri7
+ Mh4FqItv9flOg==
+Date: Wed, 12 Feb 2025 11:49:34 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Florent Tomasin <florent.tomasin@arm.com>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Vinod Koul <vkoul@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Andrew Wyatt <fewtarius@steamfork.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250124204648.56989-2-uejji@uejji.net>
- <20250124204648.56989-8-uejji@uejji.net>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250124204648.56989-8-uejji@uejji.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -jmmBAjNqpAFAAI84Hh_LkFPlRg_5im6XkHyTpiToUo_1739357283
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Yong Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ nd@arm.com, Akash Goel <akash.goel@arm.com>
+Subject: Re: [RFC PATCH 1/5] dt-bindings: dma: Add CMA Heap bindings
+Message-ID: <20250212-sweet-nano-penguin-e85e7d@houat>
+References: <cover.1738228114.git.florent.tomasin@arm.com>
+ <771534be8dfa2a3bdc3876502752f518224b9298.1738228114.git.florent.tomasin@arm.com>
+ <ats2unrml5a7vbpdrqrzowodrsfj44bnubpbujg2igk3imeklx@nrpmg5oeq3gz>
+ <be8e6b9f-c3c6-41d1-af9c-3dcd102f0fe3@arm.com>
+ <b02711c901e8acf2bc47926919de7673a0cb0b98.camel@ndufresne.ca>
+ <fae8df2a-3e47-4266-aace-392c5f37581f@arm.com>
+ <20250212-naughty-chipmunk-of-potency-7e0ced@houat>
+ <8ee8e684-0164-4e70-b42e-3827c7885685@arm.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="hofcel2epznouj7x"
+Content-Disposition: inline
+In-Reply-To: <8ee8e684-0164-4e70-b42e-3827c7885685@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,50 +84,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 24-Jan-25 9:46 PM, John Edwards wrote:
-> From: Andrew Wyatt <fewtarius@steamfork.org>
-> 
-> The AYANEO Slide uses a 1080x1920 portrait LCD panel.  This is the same
-> panel used on the AYANEO Air Plus, but the DMI data is too different to
-> match both with one entry.
-> 
-> Add a DMI match to correctly rotate the panel on the AYANEO Slide.
-> 
-> This also covers the Antec Core HS, which is a rebranded AYANEO Slide with
-> the exact same hardware and DMI strings.
-> 
-> Signed-off-by: Andrew Wyatt <fewtarius@steamfork.org>
-> Signed-off-by: John Edwards <uejji@uejji.net>
-> Tested-by: John Edwards <uejji@uejji.net>
-> ---
->  drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> index c5acf2628..9e6708cd1 100644
-> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
-> @@ -244,6 +244,12 @@ static const struct dmi_system_id orientation_data[] = {
->  		  DMI_MATCH(DMI_BOARD_NAME, "KUN"),
->  		},
->  		.driver_data = (void *)&lcd1600x2560_rightside_up,
-> +	}, {	/* AYA NEO SLIDE */
-> +		 .matches = {
-> +		   DMI_EXACT_MATCH(DMI_SYS_VENDOR, "AYANEO"),
-> +		   DMI_MATCH(DMI_PRODUCT_NAME, "SLIDE"),
-> +	},
+--hofcel2epznouj7x
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [RFC PATCH 1/5] dt-bindings: dma: Add CMA Heap bindings
+MIME-Version: 1.0
 
-Since this '}' is closing the .matches initializer it should be indented 2 tabs
+On Wed, Feb 12, 2025 at 10:29:32AM +0000, Florent Tomasin wrote:
+>=20
+>=20
+> On 12/02/2025 10:01, Maxime Ripard wrote:
+> > On Wed, Feb 12, 2025 at 09:49:56AM +0000, Florent Tomasin wrote:
+> >> Note that the CMA patches were initially shared to help reproduce my
+> >> environment of development, I can isolate them in a separate patch
+> >> series and include a reference or "base-commit:" tag to it in the
+> >> Panthor protected mode RFC, to help progress this review in another
+> >> thread. It will avoid overlapping these two topics:
+> >>
+> >> - Multiple standalone CMA heaps support
+> >> - Panthor protected mode handling
+> >=20
+> > You keep insisting on using CMA here, but it's really not clear to me
+> > why you would need CMA in the first place.
+> >=20
+> > By CMA, do you mean the CMA allocator, and thus would provide buffers
+> > through the usual dma_alloc_* API, or would any allocator providing
+> > physically contiguous memory work?
+>=20
+> You are correct only the CMA allocator is relevant. I needed a way to
+> sub-allocate from a carved-out memory.
 
-> +		.driver_data = (void *)&lcd1080x1920_leftside_up,
->  	}, {    /* AYN Loki Max */
->  		.matches = {
->  			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "ayn"),
+I'm still confused, sorry. You're saying that you require CMA but...
 
-Regards,
+> > In the latter case, would something like this work:
+> > https://lore.kernel.org/all/20240515-dma-buf-ecc-heap-v1-1-54cbbd049511=
+@kernel.org/
+>=20
+> Thanks for sharing this link, I was not aware previous work was done
+> on this aspect. The new carveout heap introduced in the series could
+> probably be a good alternative. I will play-around with it and share
+> some updates.
 
-Hans
+=2E.. you seem to be ok with a driver that doesn't use it?
 
+Maxime
 
+--hofcel2epznouj7x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6x8uQAKCRAnX84Zoj2+
+dhpNAX9dpZ7jCHWS9XEKQqdeu+k8bL1z43DeFaKsONHamJEssyPacY4cU20LNyHZ
+dE3EP2gBfigcyv0UGOHYi7iyKQFw7lfvXnKfZ2/xUjJoWzSqoXVjjOm3bVKTr4WT
+bTbtf2LYNw==
+=IIBH
+-----END PGP SIGNATURE-----
+
+--hofcel2epznouj7x--
