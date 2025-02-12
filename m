@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C6BA32814
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D9FA32818
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 15:10:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E521410E8B3;
-	Wed, 12 Feb 2025 14:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E637410E8AD;
+	Wed, 12 Feb 2025 14:10:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="a5vAHc5T";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="B1zSwnxC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0E4210E8B1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:10:21 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 57D0A433E8;
- Wed, 12 Feb 2025 14:10:19 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8946A10E8AD
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 14:10:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 594344429F;
+ Wed, 12 Feb 2025 14:10:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1739369420;
+ t=1739369451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=DUw0XWN1GMPB5g/z9XibVq5IQF5Xco6sVutovHTbMUM=;
- b=a5vAHc5TR/WLydS8wJmzveL/SLVR0zlH+uGlL2LjzSuPAbWlsEKuJRiT53UW+azu5uWsAp
- P+Mjm0q0d0yhco5MFBRO5vGYhd0jT9BWa8FhoSUF0hKvf7DQWFT4/NP389Bfpm/Bl3mWaZ
- Wvicb3LnSWs1F5Baq2/9kibSSgGjVt2BxjqXv6MkoIu4YSiySd2O9yVSdWbU/gZtpZ6BBn
- Q7YPRzo6QHboWP5tEvNhfokIHzMUO8Mz/Q6WP9dBYK+ueVBBMTR0lR6z1kl2TmtWVB7ft5
- zONA6avCMeOBkhFMIq9sQq/IzskSt0CWs4M0Rj3N6mcF2iLHpKOWEOhA4fm/Ug==
-Message-ID: <9685aaeb-a131-4cea-bdba-fbd2d4a396d8@bootlin.com>
-Date: Wed, 12 Feb 2025 15:10:18 +0100
+ bh=7KO9jUpYxi1t4t4/FEqpUIJN4ZPvH+UIm4Yv7jJ4s9c=;
+ b=B1zSwnxCW6zFBpa4erS1g/rR8UTgP/Kf1HLTA7hqIDUQbgO2/tRCFuYxcSrbxwlPPyO9MC
+ 9xSvbjhkNRtW+8Is9JiRVTVjc/RGB6oNdM/ZZ/TRQel8HDs/m/NQQrOeJeRMD3BLhzg3Vt
+ R6z5XkDHrwwLELRQGHlihMPmliqQMfb+Ln3QDo0f7BHKroNv6UzTXC6sYXuyt9GZTBTEdn
+ YbNjMy+ZbStaeoVfH8DMarTVXDqZl5F41lizxzxbx1fsJIJGpAeXCleckZ951ydtKVrTWa
+ n+tPVt3tU1MPQt/64wsaydXtQmCZr1cFeH0J+MbSP3kt4KZxa9XWW+uPhljx9w==
+Message-ID: <b05831de-c67b-4ba9-8808-f049d97b3654@bootlin.com>
+Date: Wed, 12 Feb 2025 15:10:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/13] drm/vkms: Allow to configure multiple planes
+Subject: Re: [PATCH 09/13] drm/vkms: Allow to attach planes and CRTCs
 To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
 Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@gmail.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20250129110059.12199-1-jose.exposito89@gmail.com>
- <20250129110059.12199-8-jose.exposito89@gmail.com>
- <Z5uDI0QiP2UWGzI8@louis-chauvet-laptop> <Z6spy81Xa-Aoz-HZ@fedora>
+ <20250129110059.12199-10-jose.exposito89@gmail.com>
+ <Z5uDJd4iV9Vnrp9e@louis-chauvet-laptop> <Z6sq0h0lKxjmBcxk@fedora>
 Content-Language: en-US
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
@@ -99,12 +99,12 @@ Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
  PdjUMWb5Ld21PSyCrtGc/hTKwxMoHsOZPy6UB8YJ5omZdsavcjKMrDpybguOfxUmGYs2H3MJ
  ghIUQMMOe0267uQcmMNDPRueGWTLXcuyz0Tpe62Whekc3gNMl0JrNz6Gty8OBb/ETijfSHPE
  qGHYuyAZJo9A/IazHuJ+4n+gm4kQl1WLfxoRMzYHCA==
-In-Reply-To: <Z6spy81Xa-Aoz-HZ@fedora>
+In-Reply-To: <Z6sq0h0lKxjmBcxk@fedora>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeggedtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmr
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeggedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeivedtfeegtdekheethedttddtfefhhfegjeeljeejleduvdfhudegvdekheevnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehmr
  ggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhm
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,15 +124,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Le 11/02/2025 à 11:43, José Expósito a écrit :
-> On Thu, Jan 30, 2025 at 02:48:19PM +0100, Louis Chauvet wrote:
+Le 11/02/2025 à 11:47, José Expósito a écrit :
+> On Thu, Jan 30, 2025 at 02:48:21PM +0100, Louis Chauvet wrote:
 >> On 29/01/25 - 12:00, José Expósito wrote:
->>> Add a list of planes to vkms_config and create as many planes as
->>> configured during output initialization.
+>>> Add a list of possible CRTCs to the plane configuration and helpers to
+>>> attach, detach and get the primary and cursor planes attached to a CRTC.
 >>>
->>> For backwards compatibility, add one primary plane and, if configured,
->>> one cursor plane and NUM_OVERLAY_PLANES planes to the default
->>> configuration.
+>>> Now that the default configuration has its planes and CRTC correctly
+>>> attached, configure the output following the configuration.
 >>>
 >>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 >>> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
@@ -143,127 +142,124 @@ Le 11/02/2025 à 11:43, José Expósito a écrit :
 >>
 >> [...]
 >>
->>> diff --git a/drivers/gpu/drm/vkms/tests/vkms_config_test.c b/drivers/gpu/drm/vkms/tests/vkms_config_test.c
->>
->> [...]
->>
->>> +static void vkms_config_test_get_planes(struct kunit *test)
->>> +{
->>> +	struct vkms_config *config;
->>> +	struct vkms_config_plane *plane_cfg1, *plane_cfg2;
->>> +	struct vkms_config_plane **array;
->>> +	size_t length;
->>> +
->>> +	config = vkms_config_create("test");
->>> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
->>> +
->>> +	array = vkms_config_get_planes(config, &length);
->>> +	KUNIT_ASSERT_EQ(test, length, 0);
->>> +	KUNIT_ASSERT_NULL(test, array);
->>> +
->>> +	plane_cfg1 = vkms_config_add_plane(config);
->>> +	array = vkms_config_get_planes(config, &length);
->>> +	KUNIT_ASSERT_EQ(test, length, 1);
->>> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg1);
->>> +	kfree(array);
->>> +
->>> +	plane_cfg2 = vkms_config_add_plane(config);
->>> +	array = vkms_config_get_planes(config, &length);
->>> +	KUNIT_ASSERT_EQ(test, length, 2);
->>> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg1);
->>> +	KUNIT_ASSERT_PTR_EQ(test, array[1], plane_cfg2);
->>> +	kfree(array);
->>> +
->>> +	vkms_config_destroy_plane(plane_cfg1);
->>> +	array = vkms_config_get_planes(config, &length);
->>> +	KUNIT_ASSERT_EQ(test, length, 1);
->>> +	KUNIT_ASSERT_PTR_EQ(test, array[0], plane_cfg2);
->>> +	kfree(array);
->>> +
->>> +	vkms_config_destroy(config);
->>> +}
->>
->> In this test I have the feeling that vkms_config_get_planes always returns
->> a predictable order. It is maybe trivial here, but I would prefer to shows
->> that the order is not stable, for example:
->>
->> 	bool plane_cfg1_found = false;
->> 	bool plane_cfg2_found = false;
->>
->> 	vkms_config_for_each_plane(config, plane_cfg) {
->> 		if (plane_cfg == plane_cfg1)
->> 			plane_cfg1_found = true;
->> 		else if (plane_cfg == plane_cfg2)
->> 			plane_cfg2_found = true;
->> 		else
->> 			KUNIT_FAILS("Unexpected plane");
->> 	}
->>
->> 	KUNIT_ASSERT(test, plane_cfg1_found);
->> 	KUNIT_ASSERT(test, plane_cfg2_found);
->>
->> [...]
->>
->>> +static void vkms_config_test_valid_plane_number(struct kunit *test)
->>> +{
->>> +	struct vkms_config *config;
->>> +	struct vkms_config_plane *plane_cfg;
->>> +	int n;
->>> +
->>> +	config = vkms_config_default_create(false, false, false);
->>> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, config);
->>> +
->>> +	/* Invalid: No planes */
->>> +	plane_cfg = list_first_entry(&config->planes, typeof(*plane_cfg), link);
->>> +	vkms_config_destroy_plane(plane_cfg);
->>> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
->>> +
->>> +	/* Invalid: Too many planes */
->>> +	for (n = 0; n <= 32; n++)
->>> +		vkms_config_add_plane(config);
->>> +
->>> +	KUNIT_EXPECT_FALSE(test, vkms_config_is_valid(config));
->>> +
->>> +	vkms_config_destroy(config);
->>> +}
->>
->> For this function, the naming is a bit strange, it says
->> "valid_plane_number", but you test only invalid plane number.
-> 
-> The reason for this naming is that it tests the valid_plane_number()
-> function called by vkms_config_is_valid(). The applies for the other
-> valid_* tests.
-
-Hoo, I see, okk!
-
-> However, I don't mind changing its name to so it reflects the test
-> rather than the tested function.
-
-I prefer an "implementation independent" name, as the content of 
-vkms_config_is_valid may change over time.
-
-> Changed in v2.
-
-Perfect!
-
->>
->> Can you rename it to vkms_config_test_invalid_plane_number?
->>
->> [...]
->>
 >>> diff --git a/drivers/gpu/drm/vkms/vkms_config.c b/drivers/gpu/drm/vkms/vkms_config.c
 >>
 >> [...]
 >>
->>> +struct vkms_config_plane **vkms_config_get_planes(const struct vkms_config *config,
->>> +						  size_t *out_length)
+>>> -static bool valid_plane_type(struct vkms_config *config)
+>>> +static bool valid_plane_type(struct vkms_config *config,
+>>> +			     struct vkms_config_crtc *crtc_cfg)
+>>
+>> What do you think about renaming it to "valid_planes_for_crtc" to reflect
+>> the fact you tests if a CRTC is attached to a valid combination of planes?
+>>
+>>>   {
+>>>   	struct vkms_config_plane *plane_cfg;
+>>>   	bool has_primary_plane = false;
+>>>   	bool has_cursor_plane = false;
+>>>   
+>>>   	list_for_each_entry(plane_cfg, &config->planes, link) {
+>>> +		struct vkms_config_crtc *possible_crtc;
+>>> +		unsigned long idx = 0;
+>>>   		enum drm_plane_type type;
+>>>   
+>>>   		type = vkms_config_plane_get_type(plane_cfg);
+>>>   
+>>> -		if (type == DRM_PLANE_TYPE_PRIMARY) {
+>>> -			if (has_primary_plane) {
+>>> -				pr_err("Multiple primary planes\n");
+>>> -				return false;
+>>> -			}
+>>> +		xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+>>> +			if (possible_crtc != crtc_cfg)
+>>> +				continue;
+>>>   
+>>> -			has_primary_plane = true;
+>>> -		} else if (type == DRM_PLANE_TYPE_CURSOR) {
+>>> -			if (has_cursor_plane) {
+>>> -				pr_err("Multiple cursor planes\n");
+>>> -				return false;
+>>> -			}
+>>> +			if (type == DRM_PLANE_TYPE_PRIMARY) {
+>>> +				if (has_primary_plane) {
+>>> +					pr_err("Multiple primary planes\n");
+>>> +					return false;
+>>> +				}
+>>>   
+>>> -			has_cursor_plane = true;
+>>> +				has_primary_plane = true;
+>>> +			} else if (type == DRM_PLANE_TYPE_CURSOR) {
+>>> +				if (has_cursor_plane) {
+>>> +					pr_err("Multiple cursor planes\n");
+>>> +					return false;
+>>> +				}
+>>> +
+>>> +				has_cursor_plane = true;
+>>> +			}
+>>>   		}
+>>>   	}
+>>
+>> [...]
+>>
+>>> +int __must_check vkms_config_plane_attach_crtc(struct vkms_config_plane *plane_cfg,
+>>> +					       struct vkms_config_crtc *crtc_cfg)
 >>> +{
->>> +	struct vkms_config_plane **array;
->>> +	struct vkms_config_plane *plane_cfg;
->>> +	size_t length;
+>>> +	struct vkms_config_crtc *possible_crtc;
+>>> +	unsigned long idx = 0;
+>>> +	u32 crtc_idx = 0;
+>>> +
+>>> +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+>>> +		if (possible_crtc == crtc_cfg)
+>>> +			return -EINVAL;
+>>
+>> Is it really an error? After this call, we expect plane and crtc to be
+>> attached, so if the plane is already attached, I don't see any issue.
+> 
+> In my opinion, this could be either handled as an error or not. I think that
+> there are arguments for both approaches but, for our use case, I think that it
+> is better to return an error.
+> 
+> Since the main (and for the moment only) user of this function will be configfs,
+> it is very convenient to return an error to avoid creating 2 links between
+> plane <-> crtc.
+> 
+> If we allow to create multiple links, and the user deletes one of them, the
+> items would be still linked, which is a bit unexpected.
+> 
+> The same applies to the other vkms_config_*_attach_* functions.
+
+I see your reasoning, I did not think about this issue.
+We can keep the error, but can we use `EEXIST` to reflect better the status?
+
+And I just think about it, maybe we can add here the check "is the crtc 
+part of the same config as the plane" (and return EINVAL if not)? It 
+will remove the need to do the check in configFS + avoid errors for 
+future users of vkms_config.
+
+> For these reasons, I didn't change it in v2, let me know your opinion.
+> Jose
+> 
+>>> +	}
+>>> +
+>>> +	return xa_alloc(&plane_cfg->possible_crtcs, &crtc_idx, crtc_cfg,
+>>> +			xa_limit_32b, GFP_KERNEL);
+>>> +}
+>>> +
+>>
+>> [...]
+>>
+>>> +struct vkms_config_crtc **vkms_config_plane_get_possible_crtcs(struct vkms_config_plane *plane_cfg,
+>>> +							       size_t *out_length)
+>>> +{
+>>> +	struct vkms_config_crtc **array;
+>>> +	struct vkms_config_crtc *possible_crtc;
+>>> +	unsigned long idx;
+>>> +	size_t length = 0;
 >>> +	int n = 0;
 >>> +
->>> +	length = list_count_nodes((struct list_head *)&config->planes);
+>>> +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc)
+>>> +		length++;
+>>> +
 >>> +	if (length == 0) {
 >>> +		*out_length = length;
 >>> +		return NULL;
@@ -273,8 +269,8 @@ Perfect!
 >>> +	if (!array)
 >>> +		return ERR_PTR(-ENOMEM);
 >>> +
->>> +	list_for_each_entry(plane_cfg, &config->planes, link) {
->>> +		array[n] = plane_cfg;
+>>> +	xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+>>> +		array[n] = possible_crtc;
 >>> +		n++;
 >>> +	}
 >>> +
@@ -282,58 +278,69 @@ Perfect!
 >>> +	return array;
 >>> +}
 >>
->> To join the comment on the test, I am not a big fan of creating a new list
->> to return to the caller, for three reasons:
->> - the caller needs to manage an other pointer;
->> - the caller needs to understand that the content of the array is only
->>    valid if: the config is not freed, nobody else removed anything from the
->>    planes;
->> - the caller may think this list always have the same order if he looks at
->>    the tests.
+>> Same as before, can we use an iterator?
 >>
->> I would prefer a simple macro to do an iteration over the config->planes
->> list: (I did not test this macro, but you have this idea)
+>>> +static struct vkms_config_plane *vkms_config_crtc_get_plane(const struct vkms_config *config,
+>>> +							    struct vkms_config_crtc *crtc_cfg,
+>>> +							    enum drm_plane_type type)
 >>
->> 	#define vkms_config_iter_plane(config, plane_cfg) \
->> 		list_for_each_entry((plane_cfg), &(config).planes, link)
+>> Even if this is a private function, can we add a comment explaning that
+>> the returned value is only one of the available planes of this type?
 >>
->> This way:
->> - no new pointer to manage;
->> - if one day we have concurency issue, we just have to protect config, not
->>    config+all the planes;
->> - there is no expected order.
+>> 	/**
+>> 	 * vkms_config_crtc_get_plane() - Get the first attached plane
+>>           * found of a specific type
+>> 	 * @config: configuration containing the crtc and the planes
+>> 	 * @crtc_cfg: Only find planes attached to this CRTC
+>> 	 * @type: Plane type to search
+>> 	 *
+>> 	 * Returns:
+>> 	 * The first plane found attached to @crtc_cfg with the type
+>> 	 * @type.
+>> 	 */
 >>
->> [...]
->>
->>>   bool vkms_config_is_valid(struct vkms_config *config)
->>>   {
->>> +	if (!valid_plane_number(config))
->>> +		return false;
->>> +
->>> +	if (!valid_plane_type(config))
->>> +		return false;
->>> +
->>>   	return true;
->>>   }
->>
->> I really like the idea to split the validation function, way simpler!
->>
->> [...]
->>
->>> +void vkms_config_destroy_plane(struct vkms_config_plane *plane_cfg)
 >>> +{
->>> +	list_del(&plane_cfg->link);
->>> +	kfree(plane_cfg);
+>>> +	struct vkms_config_plane *plane_cfg;
+>>> +	struct vkms_config_crtc *possible_crtc;
+>>> +	enum drm_plane_type current_type;
+>>> +	unsigned long idx;
+>>> +
+>>> +	list_for_each_entry(plane_cfg, &config->planes, link) {
+>>> +		current_type = vkms_config_plane_get_type(plane_cfg);
+>>> +
+>>> +		xa_for_each(&plane_cfg->possible_crtcs, idx, possible_crtc) {
+>>> +			if (possible_crtc == crtc_cfg && current_type == type)
+>>> +				return plane_cfg;
+>>> +		}
+>>> +	}
+>>> +
+>>> +	return NULL;
 >>> +}
 >>
->> I would prefer a "standard" function pair, i.e.: add/remove or
->> create/destroy, not add/destroy.
+>> [...]
 >>
->> For me it should be create/destroy, you create the plane by using a
->> config, so it is clear it will be attached to it.
+>>> diff --git a/drivers/gpu/drm/vkms/vkms_config.h b/drivers/gpu/drm/vkms/vkms_config.h
 >>
->> If you choose add/remove, you should explains in the documentation that
->> remove is also doing kfree.
+>> [...]
+>>
+>>> +/**
+>>> + * vkms_config_crtc_primary_plane() - Return the primary plane for a CRTC
+>>> + * @config: Configuration containing the CRTC
+>>> + * @crtc_config: Target CRTC
+>>> + *
+>>> + * Returns:
+>>> + * The primary plane or NULL if none is assigned yet.
+>>> + */
+>>
+>> Same as above, can you speficy that it is one of the primary plane?
+>>
+>>> +struct vkms_config_plane *vkms_config_crtc_primary_plane(const struct vkms_config *config,
+>>> +							 struct vkms_config_crtc *crtc_cfg);
+>>> +
+>>> +/**
+>>> + * vkms_config_crtc_cursor_plane() - Return the cursor plane for a CRTC
+>>
+>> Ditto
 >>
 >> [...]
 >>
@@ -341,80 +348,30 @@ Perfect!
 >>
 >> [...]
 >>
->>> @@ -11,61 +11,63 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->>>   	struct vkms_connector *connector;
->>>   	struct drm_encoder *encoder;
->>>   	struct vkms_output *output;
->>> -	struct vkms_plane *primary, *overlay, *cursor = NULL;
->>> -	int ret;
->>> +	struct vkms_plane *primary = NULL, *cursor = NULL;
->>> +	struct vkms_config_plane **plane_cfgs = NULL;
->>> +	size_t n_planes;
->>> +	int ret = 0;
->>>   	int writeback;
->>>   	unsigned int n;
->>
->> I think it could be interesting to have a vkms_config_is_valid call here.
->> It will avoid raising DRM errors or create unexpected devices.
->>
->> It will also garantee in a later patch that
->> vkms_config_crtc_get_primary_plane is a valid pointer.
->>
->>> -	/*
->>> -	 * Initialize used plane. One primary plane is required to perform the composition.
->>> -	 *
->>> -	 * The overlay and cursor planes are not mandatory, but can be used to perform complex
->>> -	 * composition.
->>> -	 */
->>> -	primary = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_PRIMARY);
->>> -	if (IS_ERR(primary))
->>> -		return PTR_ERR(primary);
->>> +	plane_cfgs = vkms_config_get_planes(vkmsdev->config, &n_planes);
->>> +	if (IS_ERR(plane_cfgs))
->>> +		return PTR_ERR(plane_cfgs);
->>
->> If you agree on the iterator implementation, this code could be simplified
->> a lot.
->>
->>> -	if (vkmsdev->config->cursor) {
->>> -		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR);
->>> -		if (IS_ERR(cursor))
->>> -			return PTR_ERR(cursor);
->>> +	for (n = 0; n < n_planes; n++) {
->>> +		struct vkms_config_plane *plane_cfg;
->>> +		enum drm_plane_type type;
+>>> @@ -35,19 +41,54 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>>>   			ret = PTR_ERR(plane_cfg->plane);
+>>>   			goto err_free;
+>>>   		}
+>>> +	}
 >>> +
->>> +		plane_cfg = plane_cfgs[n];
->>> +		type = vkms_config_plane_get_type(plane_cfg);
+>>> +	for (n = 0; n < n_crtcs; n++) {
+>>> +		struct vkms_config_crtc *crtc_cfg;
+>>> +		struct vkms_config_plane *primary, *cursor;
 >>> +
->>> +		plane_cfg->plane = vkms_plane_init(vkmsdev, type);
+>>> +		crtc_cfg = crtc_cfgs[n];
+>>> +		primary = vkms_config_crtc_primary_plane(vkmsdev->config, crtc_cfg);
+>>> +		cursor = vkms_config_crtc_cursor_plane(vkmsdev->config, crtc_cfg);
 >>
->> Can we pass plane_cfg in vkms_plane_init? This way we don't have to
->> touch vkms_output_init when adding new vkms_config_plane members.
-> 
-> While it'll be required once we allow to configure more parameters, I don't
-> think we need it right now. To keep things as simple as possible, I'd prefer to
-> delay it until required.
-
-I understand your point, especially since your patch don't add new 
-parameters to vkms_plane_init.
-
-Thanks!
-
-> Thanks,
-> Jose
-> 
->>> +		if (IS_ERR(plane_cfg->plane)) {
->>> +			DRM_DEV_ERROR(dev->dev, "Failed to init vkms plane\n");
->>> +			ret = PTR_ERR(plane_cfg->plane);
+>> Linked with a previous comment: here we have no garantee that primary is a
+>> valid pointer, can we check it or call vkms_config_is_valid to ensure it?
+>>
+>>> +		crtc_cfg->crtc = vkms_crtc_init(dev, &primary->plane->base,
+>>> +						cursor ? &cursor->plane->base : NULL);
+>>> +		if (IS_ERR(crtc_cfg->crtc)) {
+>>> +			DRM_ERROR("Failed to allocate CRTC\n");
+>>> +			ret = PTR_ERR(crtc_cfg->crtc);
 >>> +			goto err_free;
 >>> +		}
->>> +
->>> +		if (type == DRM_PLANE_TYPE_PRIMARY)
->>> +			primary = plane_cfg->plane;
->>> +		else if (type == DRM_PLANE_TYPE_CURSOR)
->>> +			cursor = plane_cfg->plane;
->>>   	}
 >>
 >> [...]
 
