@@ -2,80 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2A2A329D9
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 16:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2D5A32A1D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 16:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11D2E10E8F1;
-	Wed, 12 Feb 2025 15:24:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E6C810E15C;
+	Wed, 12 Feb 2025 15:32:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="S3yhmCxQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KssVxWi2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6009E10E8F1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 15:24:14 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-5de849a0b6cso6367241a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 07:24:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739373853; x=1739978653; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PPKru0l0aVU3WKEJ1///OpkRf3iWaCUXDAkjzEyzYT8=;
- b=S3yhmCxQZYhNJthFA8ngRRdAE+T5OZj7pAPiejqbYGnEDYMaP9kuVcgh+vQRbhCBbn
- lUkqq49mybdG9SUToeKMPD0TFzMYjoqB5kig7R73qNDyEGB7oISSYEWHxse9e6CWXn6m
- qE04t3QFIplsoUg/pf0QFspsW4lNgwOXthWVsDW9I8F6JbeQXab83O3DuNkkk/Zfysbz
- ZADOEPltyjbpbEqGcmm9Ln/1cFnwZdLje7kdKCWo8M4cMFQ54JXDsUv5vaDoJWLvsqUo
- mEWQVuGZPtcnDW1yn5v69amTdiuUJaCdJpTFodsSQmXCUY3AzaMERWkxL1JkYlrjJ1dc
- NTww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739373853; x=1739978653;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PPKru0l0aVU3WKEJ1///OpkRf3iWaCUXDAkjzEyzYT8=;
- b=pECEWgvVwrtetlEr8cRVWZLM8J3TRU9e5GsgHlC8OIxt6C+e4ekN17Q19AZbsBCPj4
- yE4TU3vnTwrAOZKy5T0lNP1W15HfKiPioapnHlsUw6g+n4pbMNm+lnzXXNXmS6MlwVIn
- mS4P0oHiq1j1OMu6yWXT22VU9Gd7+reyVMZSqIBIDpQ51tIP7bVzqsrqlboKgDYqLqyQ
- Vcz0VJwACoJKoyzZ33wfP3aaRwfMdwWZOjUD9p4PqwmD/ESOYL3U89eydrAlMWt11xi3
- FIGjgNt5O1ZMA2WLtzDa4iu2tT1vmt90EdTE78RbtzYo9dDYBegGcBf+A0KUSRMjFxeG
- cYXA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUSUYBtsf63euDKk66MFqFqQmTU2l1TEL16xgkroJZ1PtCQ9h8htfSPqgMyR3N6h1Cb/8z71FO7JV8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyp4193oe9WbC9+YNIsP91lBcRb3jPEfNzS4NJD+CGP5+rNtvGk
- a+ZYum/7xTt57r/7cD8elS5bGE0F5sdEu/1dquhbItiJQQDZXoH+Um26XLIqaLI=
-X-Gm-Gg: ASbGncs7+BcdLYAnV0d9wDN75HclNs+ZCbbcEYvZ+O6T388cD+kjOF/Wo62GwmJUWlw
- Q5JDU1HzORPbrHoet5lubVbCRqMytorntmTG6OccHgw5OApH86+E9CoeCAexvkZMaIzlom63vXN
- I9aqur7UQSYatue19kBEoRDAzUnJwmhdaJXCUYyagABaUp7QN/m0p40blJ0RD1ehjIqxESPUyFM
- y+PZwgnxk4tSouiqujhlc308uYuOAFzpc5bkyCivh7zQzpayaMIVweg55ObJcv3HJ5W0LJFHlDE
- cLpGLMdm6RRqd503Dj43
-X-Google-Smtp-Source: AGHT+IFjmw0Zgy4ifMz5CBDov7HZwLscmnRL30CFaXtX/9ilCY9ZxRB02Ln3oI9dpncAe8X2WxdR1Q==
-X-Received: by 2002:a17:907:9490:b0:ab6:9d92:6d6 with SMTP id
- a640c23a62f3a-ab7f33d1036mr294868366b.26.1739373852788; 
- Wed, 12 Feb 2025 07:24:12 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- a640c23a62f3a-ab7eaeb8596sm269915866b.138.2025.02.12.07.24.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 07:24:12 -0800 (PST)
-Date: Wed, 12 Feb 2025 18:24:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/tests: Fix a test in drm_test_check_valid_clones()
-Message-ID: <c50f11c7-932c-47dc-b40f-4ada8b9b6679@stanley.mountain>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA8C10E0E5;
+ Wed, 12 Feb 2025 15:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739374347; x=1770910347;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Zo9nrJFspdbBBfofYyJGi7b11uInHAMpm9QVdhcKQvs=;
+ b=KssVxWi2iL3Qx9rhzYTKxCLtb77OvttPWRc0kkBX73YRQpZ+t2YnXk0c
+ FHhsb19roNEjbdaxyaeXa8lQLCqYwLrz3zMVox6xUu8k7Mk9YQ5Z4d5lJ
+ 4+9zXwcwAqIfFCqA8m2aRuPFZsxMEj8WvBFjxw1BiZmLEzHA0e+YLAOfn
+ YFGIG0ocARFbcj6rtgwW8hhYeUkpzazrnLTJVpKuhgobOh+1M4CzBve3a
+ iIpVAqlTcQR5JnajY/FIDEPSCyaTUIrCu9lq7jouFO+42LUZYYGadfH0w
+ FqDxtRvLBhEnCfGKWZQLFR3LXUcPsNpHA8yhsXkl4UCUMrS5Iw0q6cusG A==;
+X-CSE-ConnectionGUID: sW3IsilmQWecVs8G9eFNRQ==
+X-CSE-MsgGUID: 5ItoderaSWuSvQ5J6kA/kg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="51431229"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="51431229"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 07:32:27 -0800
+X-CSE-ConnectionGUID: qv5n21chQr62dCF7FkFBCg==
+X-CSE-MsgGUID: ZXuwtN8LQ22uYUJ9omGTxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="116975121"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO intel.com)
+ ([10.245.246.176])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 07:32:22 -0800
+Date: Wed, 12 Feb 2025 16:32:18 +0100
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: Andi Shyti <andi.shyti@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>
+Subject: Re: [PATCH 0/3] drm/i915: Fix harmfull driver register/unregister
+ assymetry
+Message-ID: <Z6y_Ap7eLszsKCtz@ashyti-mobl2.lan>
+References: <20250206180927.2237256-5-janusz.krzysztofik@linux.intel.com>
+ <Z6n4nx7V2D1z0zWA@ashyti-mobl2.lan>
+ <13696895.uLZWGnKmhe@jkrzyszt-mobl2.ger.corp.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <13696895.uLZWGnKmhe@jkrzyszt-mobl2.ger.corp.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,28 +78,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_atomic_get_crtc_state() function returns error pointers and not
-NULL.  Update the check to check for error pointers as well as NULL.
+Hi Janusz,
 
-Fixes: 88849f24e2ab ("drm/tests: Add test for drm_atomic_helper_check_modeset()")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/tests/drm_atomic_state_test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Feb 11, 2025 at 01:12:37PM +0100, Janusz Krzysztofik wrote:
+> On Monday, 10 February 2025 14:01:19 CET Andi Shyti wrote:
+> > On Thu, Feb 06, 2025 at 07:07:38PM +0100, Janusz Krzysztofik wrote:
+> > > We return immediately from i915_driver_register() if drm_dev_register()
+> > > fails, skipping remaining registration steps.  However, the _unregister()
+> > > counterpart called at device remove knows nothing about that skip and
+> > > executes reverts for all those steps.  For that to work correctly, those
+> > > revert functions must be resistant to being called even on uninitialized
+> > > objects, or we must not skip their initialization.
+> > > 
+> > > Three cases have been identified and fixes proposed.  Call traces are
+> > > taken from CI results of igt@i915_driver_load@reload-with-fault-injection
+> > > execution, reported to several separate Gitlab issues (links provided).
+> > > 
+> > > Immediate return was introduced to i915_driver_register() by commit
+> > > ec3e00b4ee27 ("drm/i915: stop registering if drm_dev_register() fails"),
+> > > however, quite a few things have changed since then.  That's why I haven't
+> > > mentioned it in a Fixes: tag to avoid it being picked up by stable, which
+> > > I haven't tested.
+> > 
+> > I'm not fully convinced about this series as I think that you are
+> > fixing a subset of what needs to be handled properly. What about
+> > hwmon? What about gt? what about debugfs?
+> 
+> For all of those, their _unregister() functions seem to be designed to be safe 
+> to call even if not registered.  Like e.g. kfree() -- you can call it safely 
+> even with NULL argument, you don't need to check for NULL and call it 
+> conditionally.  However, ...
+> 
+> > 
+> > In my opinion we need to check in _unregister whether the
+> > drm_dev_register has succeded 
+> 
+> I agree with you that it would be more clear if we skipped not only 
+> _register() but also _unregister() steps symmetrically, based on result of 
+> drm_dev_register().
+> 
+> > and one way would be, e.g., to
+> > check for the drm minor value, or even set the drm device tu NULL
+> > (first things that come to my mind, maybe there are smarter ways
+> > of doing it). 
+> 
+> As long as drm doesn't provide explicit support for checking if registration 
+> succeeded other than examining the return value of drm_dev_register(), I would 
+> rather store that value somewhere in our drm_i915_private structure instead of 
+> depending on drm internals.  What do you think?
 
-diff --git a/drivers/gpu/drm/tests/drm_atomic_state_test.c b/drivers/gpu/drm/tests/drm_atomic_state_test.c
-index 0ab5d9ec4a75..5945c3298901 100644
---- a/drivers/gpu/drm/tests/drm_atomic_state_test.c
-+++ b/drivers/gpu/drm/tests/drm_atomic_state_test.c
-@@ -283,7 +283,7 @@ static void drm_test_check_valid_clones(struct kunit *test)
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
- 
- 	crtc_state = drm_atomic_get_crtc_state(state, priv->crtc);
--	KUNIT_ASSERT_NOT_NULL(test, crtc_state);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
- 
- 	crtc_state->encoder_mask = param->encoder_mask;
- 
--- 
-2.47.2
+yes, I think we could have a local flag.
 
+Andi
+
+> Thanks,
+> Janusz
+> 
+> 
+> > This way we could skip some of the _unregister()
+> > steps.
+> > 
+> > Andi
+> > 
+> 
+> 
+> 
