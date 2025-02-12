@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878CCA32260
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 10:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC8BA32262
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 10:36:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F062310E825;
-	Wed, 12 Feb 2025 09:36:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7AE410E827;
+	Wed, 12 Feb 2025 09:36:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="okQKh0iU";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="pYffVqzP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id C801210E825
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 09:36:41 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 16D6F10E827
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 09:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=x5wpq
- KJUmSg4bQV96jwM4c9cPSXvq7N01GUYeXUKlfk=; b=okQKh0iUdQ64yIaPM7a99
- ar3uuLYT3C/HzkwQg6KkU2k8fCAs6ZdJaVh0VU7ua7cQ5XwN6Ja/bxUTJSGyIQNN
- zm30Rq9gxGIU6p5kURX/GPghC5NO5Nxha0P/0RvORO0HPPqjAVF43d8NZqOmNu2Y
- xLB0t8dgwxlGX/3sSMFT04=
+ s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=iEV3o
+ ojg3U2eJSaxG1OETOyVCd9PZzwbh6RS1wsZRok=; b=pYffVqzPO7vxb43DrFOZ3
+ XkwSxFscVztob7o0EuU1YvVKZ4V27YVZhe6qr7BXmAS4Tmdl+mdCdzZU2EKCWEL2
+ Jf+wZxM+XvLhYS5l1oshjc6i3+wDNyg5o8LWSJ/nCU15CMK/2GW2+/bN8an/NGBG
+ 6eHtnPhF/yHELxxGYpO0Ks=
 Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
- _____wBn8FORa6xniPPgLA--.46093S2; 
- Wed, 12 Feb 2025 17:36:20 +0800 (CST)
+ by gzsmtp4 (Coremail) with SMTP id PygvCgDH3wCda6xn73YTCQ--.34396S2;
+ Wed, 12 Feb 2025 17:36:33 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: heiko@sntech.de
 Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
@@ -34,22 +33,21 @@ Cc: hjc@rock-chips.com, krzk+dt@kernel.org, devicetree@vger.kernel.org,
  daniel@fooishbar.org, robh@kernel.org, sebastian.reichel@collabora.com,
  Andy Yan <andy.yan@rock-chips.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v14 11/13] dt-bindings: display: vop2: Add missing rockchip,
- grf property for rk3566/8
-Date: Wed, 12 Feb 2025 17:36:13 +0800
-Message-ID: <20250212093615.53023-1-andyshrk@163.com>
+Subject: [PATCH v14 12/13] dt-bindings: display: vop2: Add rk3576 support
+Date: Wed, 12 Feb 2025 17:36:25 +0800
+Message-ID: <20250212093628.53052-1-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250212093530.52961-1-andyshrk@163.com>
 References: <20250212093530.52961-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBn8FORa6xniPPgLA--.46093S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7tF4fZw43KFWxury3JF43KFg_yoW8Gr43pa
- 93CFWDWay0gr12qw1DtFn5Cr4v9F97Ca1UJFs3G3WIywnIgFn8Ka4agrn8XF4UGF4xZFWf
- ua1Ygry5trs2vr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jnhL8UUUUU=
+X-CM-TRANSID: PygvCgDH3wCda6xn73YTCQ--.34396S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWr1kWFWUuF4UtFW5trWkZwb_yoW5tF4fpa
+ 93Cas8XrW8Gr1UWw1ktF1rCwnYq3Z3Aw1Ykrn7Ka13KrsxtF48Ww4agrn8Zr9xWFy2vayj
+ 9F4Fkw17G3sFvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UBMKtUUUUU=
 X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqRrxXmesZ5VM2gAAsz
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqBXxXmesZw5XnwAAs4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,49 +65,158 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-The clock polarity of RGB signal output is controlled by GRF, this
-property is already being used in the current device tree, but
-forgot to describe it as a required property in the binding file.
+Add vop found on rk3576, the main difference between rk3576 and the
+previous vop is that each VP has its own interrupt line.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 ---
 
 (no changes since v13)
 
 Changes in v13:
-- typo fix
-- Explain the function of this property.
+- Use maxItems constraint for clocks in allOf block
 
 Changes in v12:
 - Split from patch 10/13
 
- .../devicetree/bindings/display/rockchip/rockchip-vop2.yaml   | 4 ++++
- 1 file changed, 4 insertions(+)
+Changes in v11:
+- Remove redundant min/maxItems constraint
+
+Changes in v10:
+- Move interrupt-names back to top level
+- Add constraint of interrupts for all platform
+- Add constraint for all grf phandles
+- Reorder some properties
+
+Changes in v9:
+- Drop 'vop-' prefix of interrupt-names.
+- Add blank line between DT properties
+- Remove list interrupt-names in top level
+
+Changes in v8:
+- Fix dt_binding_check errors
+- ordered by soc name
+- Link to the previous version:
+  https://lore.kernel.org/linux-rockchip/6pn3qjxotdtpzucpul24yro7ppddezwuizneovqvmgdwyv2j7p@ztg4mqyiqmjf/T/#u
+
+Changes in v4:
+- describe constraint SOC by SOC, as interrupts of rk3576 is very
+  different from others
+- Drop Krzysztof's Reviewed-by, as this version changed a lot.
+
+Changes in v3:
+- ordered by soc name
+- Add description for newly added interrupt
+
+Changes in v2:
+- Add dt bindings
+
+ .../display/rockchip/rockchip-vop2.yaml       | 61 ++++++++++++++++++-
+ 1 file changed, 58 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-index a5771edd83b5..083eadcf0588 100644
+index 083eadcf0588..f546d481b7e5 100644
 --- a/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
 +++ b/Documentation/devicetree/bindings/display/rockchip/rockchip-vop2.yaml
-@@ -146,6 +146,9 @@ allOf:
-         rockchip,vop-grf: false
-         rockchip,pmu: false
+@@ -21,6 +21,7 @@ properties:
+     enum:
+       - rockchip,rk3566-vop
+       - rockchip,rk3568-vop
++      - rockchip,rk3576-vop
+       - rockchip,rk3588-vop
  
+   reg:
+@@ -38,10 +39,21 @@ properties:
+       - const: gamma-lut
+ 
+   interrupts:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 4
+     description:
+-      The VOP interrupt is shared by several interrupt sources, such as
+-      frame start (VSYNC), line flag and other status interrupts.
++      For VOP version under rk3576, the interrupt is shared by several interrupt
++      sources, such as frame start (VSYNC), line flag and other interrupt status.
++      For VOP version from rk3576 there is a system interrupt for bus error, and
++      every video port has it's independent interrupts for vsync and other video
++      port related error interrupts.
++
++  interrupt-names:
++    items:
++      - const: sys
++      - const: vp0
++      - const: vp1
++      - const: vp2
+ 
+   # See compatible-specific constraints below.
+   clocks:
+@@ -136,6 +148,11 @@ allOf:
+         clock-names:
+           maxItems: 5
+ 
++        interrupts:
++          maxItems: 1
++
++        interrupt-names: false
++
+         ports:
+           required:
+             - port@0
+@@ -149,6 +166,39 @@ allOf:
+       required:
+         - rockchip,grf
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - rockchip,rk3576-vop
++    then:
++      properties:
++        clocks:
++          maxItems: 5
++
++        clock-names:
++          maxItems: 5
++
++        interrupts:
++          minItems: 4
++
++        interrupt-names:
++          minItems: 4
++
++        ports:
++          required:
++            - port@0
++            - port@1
++            - port@2
++
++        rockchip,vo1-grf: false
++        rockchip,vop-grf: false
++
 +      required:
 +        - rockchip,grf
++        - rockchip,pmu
 +
    - if:
        properties:
          compatible:
-@@ -200,6 +203,7 @@ examples:
-                               "dclk_vp1",
-                               "dclk_vp2";
-                 power-domains = <&power RK3568_PD_VO>;
-+                rockchip,grf = <&grf>;
-                 iommus = <&vop_mmu>;
-                 vop_out: ports {
-                     #address-cells = <1>;
+@@ -164,6 +214,11 @@ allOf:
+           minItems: 7
+           maxItems: 9
+ 
++        interrupts:
++          maxItems: 1
++
++        interrupt-names: false
++
+         ports:
+           required:
+             - port@0
 -- 
 2.34.1
 
