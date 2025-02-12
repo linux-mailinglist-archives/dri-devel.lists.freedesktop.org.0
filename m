@@ -2,84 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C369CA32AAB
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 16:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B92A32BA4
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 17:33:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0FF710E8F6;
-	Wed, 12 Feb 2025 15:52:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3BE10E901;
+	Wed, 12 Feb 2025 16:33:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="cC12mg6p";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VZwp6Ziw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3F6410E8F6
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 15:52:19 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51CAV5Hp029665;
- Wed, 12 Feb 2025 15:52:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 9ZPSMlh3ri1/1GncZ+q7m9nEvXqme7/ap0VD9WG/7m0=; b=cC12mg6pQwBc/wFv
- 2sNTvkwlSdLDZnn2k59rRuIXAgEncm9sNmudbLen6y3zr0jUSvPmNzvvw+PBM4LP
- 4XzOen2wzMIvLxU15r+Zxyji3MAZvkYnXkNrHbL426M72ZYf1xu6Mzen9qAwQyIx
- s0K8/LWKCbj5TjgqZUT9RcfCI+pANNbiXU9a184JDULF74x/OQPltaGER5Mf0e9u
- iZg1VSKg+2JREnjvII8MaMy5KgxRh4qhaqLBRCQlBuqtKi0WlYP/ghjYaHFIc7Fa
- yfq38QXXtVz0QpFxvSslzkT2wXfQQrMu33kNgWwLwRA4yUcrVAVBmK8g0eNPDFwz
- Z1j36g==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44qe5n00p8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 15:52:12 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 51CFqB0U008364
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 12 Feb 2025 15:52:11 GMT
-Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Feb
- 2025 07:52:10 -0800
-Message-ID: <5553249d-b0a8-b3e7-b255-9709870f574f@quicinc.com>
-Date: Wed, 12 Feb 2025 08:52:10 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D2A610E911;
+ Wed, 12 Feb 2025 16:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1739377992; x=1770913992;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=y46kQ50ST/OUYZVBcUp+u+Zt0KU+XVnp8YPNlOuj3DY=;
+ b=VZwp6ZiwVnNfuUxQpmnTH9VYf+fECU3F8cAEkWue/h1YJOgeu0Gfwu94
+ msZdtKcdERWYW4tcrT0B4S94Zyzy6bWNx9BwpRoTj8qBpXlik7E9FcAJF
+ GwbaZ1ewkyJwdj/b1SaZiKAccZ5sOH95zpcB0ID0gPgJ2ujK0rTKJm3UF
+ Rl/ATHYKmrl79KHLbxDQDp34VCXMLdfa3lyo8Njw59UDPn0G8PB1Azbvd
+ fIf7v2QAnZdMGn04YRp+QKAqHHg082qNwHBn2WhgLjLkqVHr7v2gkf6Sq
+ m30Kv+dc2SkYSIKq0XYH03CHso4XNxNiiU+P6yAioZrGOo7eeh1wG6BO1 A==;
+X-CSE-ConnectionGUID: BQewvbKeRa2Rv1UKkktMyg==
+X-CSE-MsgGUID: oTm30idwQ5OKcmmPWrm03A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="39969121"
+X-IronPort-AV: E=Sophos;i="6.13,280,1732608000"; d="scan'208";a="39969121"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Feb 2025 08:33:12 -0800
+X-CSE-ConnectionGUID: 7cQA7FguQhGkNINcMZoZZw==
+X-CSE-MsgGUID: nTLJ3+NoR1WR7VP3Fzhxww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; d="scan'208";a="116989290"
+Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
+ by fmviesa003.fm.intel.com with ESMTP; 12 Feb 2025 08:33:09 -0800
+From: Arun R Murthy <arun.r.murthy@intel.com>
+Subject: [PATCH v5 0/3] Expose modifiers/formats supported by async flips
+Date: Wed, 12 Feb 2025 21:48:21 +0530
+Message-Id: <20250212-asyn-v5-0-dc182281dca3@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.0
-Subject: Re: [PATCH 0/6] accel/ivpu: Changes for 6.15 2025-02-04
-Content-Language: en-US
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>
-CC: <oded.gabbay@gmail.com>, <maciej.falkowski@linux.intel.com>, Simona Vetter
- <simona@ffwll.ch>, Dave Airlie <airlied@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, "maarten.lankhorst@linux.intel.com"
- <maarten.lankhorst@linux.intel.com>
-References: <20250204084622.2422544-1-jacek.lawrynowicz@linux.intel.com>
- <c6537153-d03b-4b9b-8fdf-ff437512404e@suse.de>
- <ef58703e-75c8-4b35-8acc-4bd79abbb150@linux.intel.com>
-From: Jeffrey Hugo <quic_jhugo@quicinc.com>
-In-Reply-To: <ef58703e-75c8-4b35-8acc-4bd79abbb150@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: c-rZXKjXdTq0zLO0Gy-HJ_Hdf0bzDsHF
-X-Proofpoint-ORIG-GUID: c-rZXKjXdTq0zLO0Gy-HJ_Hdf0bzDsHF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-12_05,2025-02-11_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 clxscore=1011 suspectscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 malwarescore=0 spamscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2501170000 definitions=main-2502120119
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM3JrGcC/02OzQqDMBAGX0Vy7spGE3966nsUDzGNTaDGslGpi
+ O/eqBR6nGW/YVYWDDkT2DVZGZnZBTf4CPKSMG2Vfxpwj8gsw0wixwxUWDy0XVmUOcaL1iy+vsl
+ 07nNo7k3kjoYeRktG/caCc15hKXMuU1EUiDVwUDT5lNJ+otEuN+dH80r10O9G68I40HJ0zWL3n
+ gkZyjNhFoBQK9kir0wu6/Zv32zb9gWsv/qA2gAAAA==
+X-Change-ID: 20250102-asyn-bf76730501cc
+To: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: chaitanya.kumar.borah@intel.com, ville.syrjala@intel.com, 
+ Arun R Murthy <arun.r.murthy@intel.com>
+X-Mailer: b4 0.15-dev
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,107 +72,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2/12/2025 6:27 AM, Jacek Lawrynowicz wrote:
-> Hi,
-> 
-> Thanks for your detailed feedback and constructive suggestions. I appreciate this as it is not easy to learn all process details otherwise.
+All of the formats/modifiers supported by the plane during synchronous
+flips are nor supported by asynchronous flips. The formats/modifiers
+exposed to user by IN_FORMATS exposes all formats/modifiers supported by
+plane and this list varies for async flips. If the async flip supported
+formats/modifiers are exposed to the user, user based on this list can
+take decision to proceed or not and avoid flip failures during async
+flips.
+Discussion around this can be located @
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29618#note_2487123
+Userspace implementation for IN_FORMARTS_ASYNC under review @
+https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/4063
 
-I echo this.  At times, accel feels a bit isolated from DRM.
+TODO: Upon merge of the patch related to async flip
+https://patchwork.freedesktop.org/patch/626849/?series=139807&rev=6
+the patch 5 in this series will have to make use of the new function
+pointer can_async_flip().
 
-> 
-> On 2/12/2025 11:20 AM, Thomas Zimmermann wrote:
->> Hi,
->>
->> here's a complaint about the lack of process and documentation in accel/, and ivpu specifically. I came across this series while preparing the weekly PR for drm-misc-next and found myself unable to extract much useful information to report. This is a problem for a development process that relies on transparency, accountability and collaboration. Other problematic examples are at [1] and [2]. IIRC I had similar issues in previous development cycles.
->>
->> I cannot assess the quality of the code itself, but the process and documentation involved does not meet the requirements.
->>
->> - 'Changes for <version>' is not an meaningful description for a patch series. It's not the submitter (or anyone else) deciding that this series gets merged into version so-and-so. The series gets merged when it is ready to be merged.
->>
->> - Apparently this series contains 3 different things (buffer imports, locking, debugging); so it should be 3 series with each addressing one of these topics.
->>
->> - The series' description just restates the patch descriptions briefly. It should rather give some indication of the problem being solved by the contained patches, and context on why this is worth solving. (I know that this is often complicated to state clearly to outsiders.)
-> 
-> We were sometimes using patchsets to bundle patches that were tested together. We apologize for any confusion this may have caused, as we were not aware that this approach was not preferred. Moving forward, we will ensure that patches are split into separate series, each addressing a specific topic. I hope this will help improve clarity and make it easier to understand and assess the changes.
-> 
->> - Review should be public. I understand that it's often only one dev team working on a specific driver, discussing issues internally. Still it makes sense to do the code reviews in public, so that others can follow what is going on in the driver. Public code reviews are also necessary to establish consent and institutional knowledge within the wider developer community. You miss that with internal reviews.
->>
->> - These patches come with R-b tags pre-applied. Even for trivial changes, R-b tags should given in public. If the R-bs have been given elsewhere, please include a reference to that location. The tags (R-b, A-b, T-b, etc) are not just for verifying the code itself. They also establish trust in the development process involving each patch; and in the developers involved in that process. This needs to happen in public to be effective.
-> 
-> We value all public comments and typically wait a week for public reviews before submitting patches, regardless of whether an R-b tag is pre-applied. I was not aware that pre-applying R-b tags was an issue. We we will ensure that all R-b tags are added publicly from now on.
+v3: Add new plane->funcs format_mod_supported_async (Ville)
+v4: reuse the existing can_async_flip in i915 (Ville)
+    pass format_mod_supported/async as parameter to create_in_formats
+    function & leave the modifiers/formats in drm_format_modifer_blob
+    untouched (Ville)
 
-I'll provide a counter point on the pre-applied RBs - Qualcomm has been 
-told many times in the past decade or so to do this (GregKH comes to 
-mind although I'm certain he is not the only one).  I don't particularly 
-like it, but we seem to have a reputation for poor quality in the 
-community, and it would appear that the first step to mitigating that is 
-to indicate that we have actually done internal reviews.  We've been 
-warned that the next step is requiring a "community approved" developer 
-to SOB everything.  I hope to avoid that.
+Arun R Murthy (3):
+  drm/plane: Add new plane property IN_FORMATS_ASYNC
+  drm/plane: Expose function to create format/modifier blob
+  drm/i915/display: Populate list of async supported formats/modifiers
 
-Personally, I value community given RBs for maillist patches over 
-internal ones and will typically wait/seek them unless the change is 
-very trivial.  I can't speak for The Intel/AMD/Habana folks although I 
-suspect they will concur with this but I lurk on IRC and of course you 
-have my email address.  Please feel free to reach out with any feedback. 
-  I would hope that we can learn and improve without annoying the 
-community to the point that the community feels frustrated and suggests 
-drastic action.
+ drivers/gpu/drm/drm_mode_config.c             |  7 +++
+ drivers/gpu/drm/drm_plane.c                   | 50 ++++++++++++------
+ .../drm/i915/display/skl_universal_plane.c    | 51 +++++++++++++++++++
+ include/drm/drm_mode_config.h                 |  6 +++
+ include/drm/drm_plane.h                       |  4 ++
+ 5 files changed, 103 insertions(+), 15 deletions(-)
 
-To Jacek, I'm hoping to be more responsive to reviewing your patches now 
-that we are out of the holidays and other things have settled down 
-again.  I'm sorry if you've felt ignored.
+--
+2.25.1
 
->> - The kernel's (or any FOSS') development is organized around individuals, not organizations. Having each developer send their changes individually would likely resolve most of the current problems.
-> OK, I'll talk to the team about this.
-> 
->> I understand that accel is not graphics and can feel somewhat detached from the rest of DRM. Yet it is part of the DRM subsystem. This development cycles' ivpu series' made me go to IRC and ask for accel/ to be removed from the drm-misc tree. Luckily the other maintainer were more charitable. So I make these remarks in good faith and hope that we can improve the processes within accel/.
-> 
-> I appreciate your feedback and would welcome more remarks. Please keep in mind that all accel drivers are new, and it takes time to learn all the upstream rules.
-> The kernel/DRM development process is quite unique, and not everything is fully documented. I find emails like this to be incredibly valuable and I am eager to comply with the guidelines.
-> I just need some patience and guidance as I navigate through this. Thank you for your understanding and support.
-> 
-> Regards,
-> Jacek
-> 
->> Best regards
->> Thomas
->>
->> [1] https://patchwork.freedesktop.org/series/143182/
->> [2] https://patchwork.freedesktop.org/series/144101/
->>
->>
->> Am 04.02.25 um 09:46 schrieb Jacek Lawrynowicz:
->>> Add possibility to import single buffer into multiple contexts,
->>> fix locking when aborting contexts and add some debug features.
->>>
->>> Andrzej Kacprowski (2):
->>>     accel/ivpu: Add missing locks around mmu queues
->>>     accel/ivpu: Prevent runtime suspend during context abort work
->>>
->>> Karol Wachowski (3):
->>>     ccel/ivpu: Add debugfs interface for setting HWS priority bands
->>>     accel/ivpu: Add test modes to toggle clock relinquish disable
->>>     accel/ivpu: Implement D0i2 disable test modea
->>>
->>> Tomasz Rusinowicz (1):
->>>     accel/ivpu: Allow to import single buffer into multiple contexts
->>>
->>>    drivers/accel/ivpu/ivpu_debugfs.c | 84 +++++++++++++++++++++++++++++++
->>>    drivers/accel/ivpu/ivpu_drv.c     |  2 +-
->>>    drivers/accel/ivpu/ivpu_drv.h     |  4 ++
->>>    drivers/accel/ivpu/ivpu_fw.c      |  4 ++
->>>    drivers/accel/ivpu/ivpu_gem.c     | 43 ++++++++++++++++
->>>    drivers/accel/ivpu/ivpu_gem.h     |  1 +
->>>    drivers/accel/ivpu/ivpu_hw.c      | 31 ++++++++++++
->>>    drivers/accel/ivpu/ivpu_hw.h      |  5 ++
->>>    drivers/accel/ivpu/ivpu_job.c     | 10 +++-
->>>    drivers/accel/ivpu/ivpu_jsm_msg.c | 29 ++++-------
->>>    drivers/accel/ivpu/ivpu_mmu.c     |  9 ++++
->>>    11 files changed, 202 insertions(+), 20 deletions(-)
->>>
->>> -- 
->>> 2.45.1
->>
-> 
+---
+Arun R Murthy (5):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: Expose function to create format/modifier blob
+      drm/plane: Function to check async supported modifier/format
+      drm/i915/display: Populate list of async supported formats/modifiers
+      drm/i915/display: Add function for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |   7 ++
+ drivers/gpu/drm/drm_plane.c                        |  72 +++++++++----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 113 ++++++++++++++++++---
+ include/drm/drm_mode_config.h                      |   6 ++
+ include/drm/drm_plane.h                            |  24 +++++
+ 5 files changed, 188 insertions(+), 34 deletions(-)
+---
+base-commit: 08bd590935a5258ffd79355c59adffd72fb2c642
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+--
+Arun R Murthy <arun.r.murthy@intel.com>
+
+---
+Changes in v5:
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v4: https://lore.kernel.org/r/20250205-asyn-v4-0-9a5b018e359b@intel.com
+
+---
+Arun R Murthy (3):
+      drm/plane: Add new plane property IN_FORMATS_ASYNC
+      drm/plane: modify create_in_formats to accommodate async
+      drm/i915/display: Add i915 hook for format_mod_supported_async
+
+ drivers/gpu/drm/drm_mode_config.c                  |  7 +++
+ drivers/gpu/drm/drm_plane.c                        | 51 +++++++++++++++-----
+ drivers/gpu/drm/i915/display/skl_universal_plane.c | 56 ++++++++++++++++------
+ include/drm/drm_mode_config.h                      |  6 +++
+ include/drm/drm_plane.h                            | 17 +++++++
+ 5 files changed, 110 insertions(+), 27 deletions(-)
+---
+base-commit: a19d8731db07e41101ed00b9d86ac8868df2a763
+change-id: 20250102-asyn-bf76730501cc
+
+Best regards,
+-- 
+Arun R Murthy <arun.r.murthy@intel.com>
 
