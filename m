@@ -2,66 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDEBA3329C
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 23:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33734A33339
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 00:13:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC68510E047;
-	Wed, 12 Feb 2025 22:30:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC00510E2A5;
+	Wed, 12 Feb 2025 23:13:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=sdore.me header.i=@sdore.me header.b="gZbJzqzz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GKK3SeJ5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sdore.me (unknown [95.165.1.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ACAE610E047
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 22:30:16 +0000 (UTC)
-Received: from [192.168.1.2] (beast.lan [192.168.1.2])
- by sdore.me (Postfix) with ESMTPSA id 9F09CEE7BBA38;
- Thu, 13 Feb 2025 01:30:12 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sdore.me; s=SERV;
- t=1739399412; bh=WNonWBF4udDjpPlXnE3uoU9A0SFZBdAVCaeatr2Pkp8=;
- h=Subject:From:Reply-To:To:Cc:Date:In-Reply-To:References;
- b=gZbJzqzzCk0aTRzEy7iYphVtTMN1EtCpl4X8rR8TN8rUaYLO8Nk9KMeNt5lq9Uj24
- PN3VyiBSftdwXVc3nOIX364aWx2Jrns85L8vKPxHDwFq2aWPZ0XLISttf+WUV5A2Ps
- 87WpnKj/SZ2vfmoSGoqqMaoUOb9Uy5rXb0hseWvg=
-Message-ID: <f0e0d4e7f5d552cb82cf3c9243f15772268fa311.camel@sdore.me>
-Subject: Re: [PATCH v2] drm/edid: Implement DisplayID Type IX & X timing
- blocks parsing
-From: Egor Vorontsov <sdoregor@sdore.me>
-To: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Egor Vorontsov <sdoregor@sdore.me>
-Date: Thu, 13 Feb 2025 01:30:12 +0300
-In-Reply-To: <87zfirzerp.fsf@intel.com>
-References: <7cab8349bc8bb6fa08d2a7127a724efea155f154.camel@sdore.me>
- <87zfirzerp.fsf@intel.com>
-Autocrypt: addr=sdoregor@sdore.me; prefer-encrypt=mutual;
- keydata=mQINBGDSFnMBEADfvtLiuRL6CHdMzETKrux7sNHWG+eJ2+pgRZ3Nc9pH/YWqjoed8OpFx
- OLeUxr9YSQ3uMD//JEe3+Sgte29Z3PAAHVkCwKBIucCnhHpXbcQZgC9xYMCd6GWR5+DpXN9szOIyb
- kvnEtuqTddz6Q7fYsaFDs0pH3jUUWmSAyCn2JCIRfT22XgO44B/yoqnM3JXHAayeHbEAQOzMe81q3
- deauI9W7SC9ScRT6VkgLuc+SxqH99el/OkiKTe/QpO6I6cVS8leesqnOGffkRPos/o2eRonqgDu0e
- Mw4YTu0x5iNr8Lbr4TefU2W1l6M3MNwOsLmI+58+3fK1vh0QqZ70NC4eyD9UEXk3mJyV7epfNU6fY
- 0mFJbAhGV1TXomcy2MlOD1rDixw85zdK5uUwp0tfEkpxqKtihJmrTdApOTTVed303CLzgDsMokTIe
- aUOPqVZoWFDkvOzq6IppBkApJHBf1lcLlgwEn3cLQlGpYRSSi5NY3+UYtcOEZLDbF3TO6ncY8W2h3
- yQH/sAcSllfKKvkhdqEz4/Mha3GbZQXWgjrLy9BcISsQFj+DBN54I6a6kLm2n5wXH99sOp7s3jMeN
- zSU6PtuxZq4Gkt2K5JGT8yrIdfJfOH7yRUVm+8JqKNKqd6oczlDKV+lzRk9M/kjb8VQivaNSNwTo9
- 3NxEuft0+tZgwARAQABtCJFZ29yIFZvcm9udHNvdiA8c2RvcmVnb3JAc2RvcmUubWU+iQJOBBMBCA
- A4FiEEXlTCjXwaPBiJP3U33a9iH2xv60MFAmDSFnMCGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4A
- ACgkQ3a9iH2xv60OquRAAgbgenXi+Ud0tYoAz6giuFKYqzuEYuoSVkjxYvZq90ODrzbu7EdvMVuKA
- qNqYjs3VRBPBMHXhJKEftKbX4bZwCoC2o2wB5oV5O13jVN083r49FTLCxmOoufCkaqscBBxi/X2T6
- +i0n5Nqx5NLBL0kE4NMTk1jxEEyuEjv7bBMs196G/d3EpNJT3YGkLXBUibpaSaVjE6zBr3UygieLD
- 2QXNkRJubx2d0FoD8TezSt5hsHWg9FOElsW6ZImRI+5q+ptL39K3cpjxHMKyhmo7xypD5XNWdmsmV
- 1+STnK7R+id18xs7JUDxHBtG7Z/3K6txgF5CPbPvtaEi9fB3K/uS03BnIzsY2/cY3r9UHHrHa/sP6
- DhDwj9dr2xIFG5w6ZNh4mUTHEJoWKEEsYKwXy2eJCB3XvP7GURAm8fXdIapONbHDYj7XX49Mj+LBr
- s4PNBuKaZTFgGQ6RSc7LpAR56xaEDR93m7zNy84mQtpab/owaox1A+BEujzKK/vEDvj9f8EWlWZRa
- DH2auNNAxdr2ACR8RzkojcFDCErAgc5sFQrgVUlvNmMdn3VL0CWmndzEQxsOdgVk9SwoHHYpHf4Cg
- gtchq3pTQ5XSRaP/wxOtQpzqJWq5uFERBTLU8WRXYv3mM3KMdvtTJadF8+P+KSSnn+/yHahR0HKVx
- PtHSH7Px/vI=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065D310E294;
+ Wed, 12 Feb 2025 23:04:42 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-220c8cf98bbso4023355ad.1; 
+ Wed, 12 Feb 2025 15:04:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1739401482; x=1740006282; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=izwOSozCDTiy2Nz+ObEcnYlYVvdl0bBlgB59WdBOADk=;
+ b=GKK3SeJ5ObBNPnVFbKuVOnQK8qygX3ALsZo4pvV/ATkb/jBOuvhjqcWvM8EltDyrr6
+ Csjaa6qGdkQuTeVfnK87pysq1yAO726e3iMCGdiVQgy7r0ZmpPfiVpT9hCz+bvHorctW
+ KQTFwyMSW6N4c8yQLUd9tZdOdzx8n1/EYkxuXtRDjmHGRiNgdNgj3jcJDQg5JB01qdLC
+ 0yQLNe8e0bFUKEjGQsJwFAo6e7KQT3Qu8vSXEKLYDG/wBi3gqwklh+xitHaWdcLJIJf4
+ TVkKSIZy6atKbcZ1T66j6n5gFW3y/99quhT2csHdEGe7bItyirKQ3wx1k/9wi+eR+tEO
+ qHTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739401482; x=1740006282;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=izwOSozCDTiy2Nz+ObEcnYlYVvdl0bBlgB59WdBOADk=;
+ b=DdsbSU0GBF6McgEaQQzRO4WQ3BWqctRv60h8Z+l8BiRaHZYZpbOlwRpFprCXl1P5gz
+ ieDLRh1rMURFVnzRVD0QUMDCcz084hDlYPFXm6sgEsisj927yjP4WCQDcCPyt4Z3VgJi
+ IqPR/mEgozZDyPcrkDXRwQ337Ws2Z5XcBeQHuTUiwgFiZYUeJmZJmMUQtJQtIKX+yvu4
+ XlVG4lFuaPNQ5YxiNVt/ZPLyl5y81T+52vLwSWm/lHWKP6wzIKkPMKXPzSaCi0NqnfHV
+ 6OV3LMSpQz/ZMewsCx2asFwQ1lzJWu/b0vC5fMc1NiPOHnA7SieUF+OTzOGgsydKPD8H
+ gCyw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWLe1dHYFbujtfQOiJ6fPe29+SyuzSJXOo+Fl8VCT3XYjcwAdPuGrJTxnuaTnfIxx4xBBdygoE4jGM=@lists.freedesktop.org,
+ AJvYcCWa90ICX1PCQ2Wk6iHuRgAhy5hgmKYNfYE1sDVvNw9n2lpcjo5fEv1/6bNe2b7+MdFqdrMSrNMn8ySS@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YybRGHtA7bVVZEEy6sACcPcyZHr2GFIwYuJPBflDLM+pvQOItxi
+ o5UPcepFC56xkbXI3xoPlGZ3cr5pkJDewGK8LZNDYJaSuRRt8sBQ
+X-Gm-Gg: ASbGncu/QkvasF1jKmVy3tQXnh5SBm//ZqXBpPx+k2oKG3kBofCUnjlQLBJw7QmQBKj
+ X/aN7F7m3kyZ/X9GkgJcMwWV64vw0hEbcdTM9I139C1HQ2CGWKLQZ/KUj5nilj1Cdo9AOywr2kl
+ naolvL3w3y9R/ZLmK/LHoRxV7gr7JJ5OtgnXmbhYPAIyoItFXQ0gK9EVTaN+yEC1oIj3ifq+0YV
+ krEZgJxIHfyExJ1EQQD74GTzySdjYFrRyLHpmGWTBzTWpwERPpL2c1qWrp/JmjJI1LaUeFKAmt5
+ /tPV9sdXSp9i2ngX49xbFe+b
+X-Google-Smtp-Source: AGHT+IHYVNpBJ+hs2SKF43WLDbYcsITXIHpe9AoNBckhGg8EsmihGHFjjFi/bOt0ArQ9OzpKlr29tQ==
+X-Received: by 2002:a17:902:f541:b0:220:c067:7be0 with SMTP id
+ d9443c01a7336-220c0677e32mr45783155ad.6.1739401482397; 
+ Wed, 12 Feb 2025 15:04:42 -0800 (PST)
+Received: from [127.0.1.1] ([66.119.214.127]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-220d556da47sm695655ad.187.2025.02.12.15.04.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2025 15:04:42 -0800 (PST)
+From: "James A. MacInnes" <james.a.macinnes@gmail.com>
+Subject: [PATCH v2 0/2] drm/msm/dp: Fix Type-C Timing
+Date: Wed, 12 Feb 2025 15:03:45 -0800
+Message-Id: <20250212-sdm845_dp-v2-0-4954e51458f4@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANEorWcC/x3N0QqDIBTG8VcJrye0Y+ba1d5jjNHyaEJlO7oyo
+ nefdPmDj/+3s4DkMLB7sTPCxQXnpwy4FKzr28kidzqbQQmyhCvwoMdbJd965jXqphGNUq0ULO9
+ nQuPS2Xq+sg35kceesD0LlYFVbR8wwixWRtFvJPLZ1H2tsW746Yq26GNaxkS1kqDg4XFak+xMP
+ cSBHccfhiwtAq0AAAA=
+To: Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Chandan Uddaraju <chandanu@codeaurora.org>, 
+ Stephen Boyd <swboyd@chromium.org>, Vara Reddy <quic_varar@quicinc.com>, 
+ Tanmay Shah <tanmay@codeaurora.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Guenter Roeck <groeck@chromium.org>, Rob Clark <robdclark@chromium.org>, 
+ "James A. MacInnes" <james.a.macinnes@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739401480; l=2022;
+ i=james.a.macinnes@gmail.com; h=from:subject:message-id;
+ bh=whc0meljq8d//xyWaoGWRpTBZvYd9FKdXjbcFve5bNw=;
+ b=/+dHVSi8w/zrS8YQiMpVK5J8B8OGqD9Fv40WhguqSpTjkv8yGf9TRXrA9AHGFEAiU5FDMMShT
+ z3G7HubmMjpDk5krBpgj3hlVsYK8Y85dMXvheX1MU6UZ+9wOGk5NWEL
+X-Developer-Key: i=james.a.macinnes@gmail.com; a=ed25519;
+ pk=3z+XoIMKkNT7N5GL2WOp/Lcz2ghtr7b8RBCa1usTz9U=
+X-Mailman-Approved-At: Wed, 12 Feb 2025 23:13:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,39 +104,61 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: sdoregor@sdore.me
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-02-12 at 11:35 +0200, Jani Nikula wrote:
-> > +	/* TODO: support video-optimized refresh rate */
-> > +	if (timings->flags & (1 << 4))
-> > +		return NULL;
->=20
-> Mmh. I'm not sure I'd go this far. The bit indicates *two* timings, one
-> for which the below *is* correct, and another additional one with
-> vrefresh * (1000/1001).
->=20
-> We could just add a drm_dbg_kms(dev, "<message>") here about missing
-> fractional refresh rate, and proceed with the one non-fractional rate?
-> Or just have the TODO comment with no checks.
-I'll go with the former, for now.
+SDM845 Type-C DisplayPort output inactive on DP Monitor and tears on HDMI.
 
-> Either way,
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-Thank you. ... But!
+During testing and research found that the dp and dpu drivers more
+closely match later incarnations of the Android driver.
+Compared against the 4.9 Android and found the porch timing and
+wide bus elements were disabled.
+Tested by commenting out code and the graphical glitches on
+HDMI improved.
+Fully turning off wide_bus resolved the single vertical line and
+vblank errors when using non-native resolutions.
+Removing the porch adjustment fixed HDMI and DisplayPort operated
+correctly (for the first time) for all monitor supported resolutions.
 
-> Are you up for the follow-ups too? And since you've got the hang of it,
-> maybe fix struct displayid_formula_timings_9 hactive/vactive to __be16
-> as well?
-... at this moment I realised that both the specs and the legacy code
-actually indicate it's indeed *little*-endian shorts!
-I.e. `x[0] | x[1] << 8' -- that's LSB-first.
+Changes v1:
+- Patch 1/2: Separated the descriptor from the sc7180 and turned off
+             wide_bus support.
+- Patch 2/2: Removed porch timing adjustment.
 
-Also, virtually no code in `drm_edid.c' uses big-endian.
+Changes v2:
+- Patch 1/2: Removed unneeded assignment.
+             Increased verbosity of commit message.
+- Patch 2/2: Added comments to explain use of wide_bus_en.
+             Increased verbosity of commit message.
 
-Thus, I'm fixing both my code and `displayid_detailed_timings_1' (I
-suppose you meant this struct instead) to use __le16.
+Verified functionality on SDM845 using Lantronix SOM.
+Tested with Type-C to DisplayPort and Dell Monitor.
+Tested with Type-C hub with HDMI to Samsung 4k TV.
 
-Egor
+James A. MacInnes (2):
+  drm/msm/dp: Disable wide bus support for SDM845
+  drm/msm/disp: Correct porch timing for SDM845
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 8 ++++----
+ drivers/gpu/drm/msm/dp/dp_display.c                  | 7 ++++++-
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+
+--
+2.43.0
+
+---
+James A. MacInnes (2):
+      drm/msm/dp: Disable wide bus support for SDM845
+      drm/msm/disp: Correct porch timing for SDM845
+
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 14 +++++++++-----
+ drivers/gpu/drm/msm/dp/dp_display.c                  |  7 ++++++-
+ 2 files changed, 15 insertions(+), 6 deletions(-)
+---
+base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+change-id: 20250212-sdm845_dp-6ed993977a53
+
+Best regards,
+-- 
+James A. MacInnes <james.a.macinnes@gmail.com>
 
