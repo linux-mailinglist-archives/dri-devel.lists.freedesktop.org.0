@@ -2,82 +2,147 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48D6A3217F
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE1CA32183
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:53:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 780F510E352;
-	Wed, 12 Feb 2025 08:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED7E10E805;
+	Wed, 12 Feb 2025 08:53:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YI2JsF7+";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="P/2gG2wj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+sFnjW3g";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aovcrHW0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1YTt52yd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07E6810E352
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 08:52:39 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-4394820123dso18321665e9.2
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 00:52:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739350357; x=1739955157; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=4Fr4WWGFaH9Ao2CehCps/KNMRPCf+PR+0CP2ZhgjC54=;
- b=YI2JsF7+jFOZpMEOHzkm5EABacPQsk6EHR6pvLbrdu6cgH121bpOj9iI0mUKWIKns3
- 1IYBrG6FXoMhyv3SV0hGhuxfFXeL0+k+/86/5zTCZ40Fe3ApgBz51dnyLNhbBEM/gAOS
- dsLZ/57gqQd5x7mnyRwi+lYti0jmYSnLoOGHUqO4mpV2Cbuov8L+GEHysm7OaplIXooo
- u+Ob0Hsvvy0lGqo2oRtn5wR2HNWUaMrw27TFdQRgBBquPsNzZSOEr5kjInH/E/xT442z
- C8LxlGUeSI0R+L80PmY1Gg/yJR5AOyt9FQvtjhhxawONahNyy6v03RzZM2CCCeZ6G3bG
- MZrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739350357; x=1739955157;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4Fr4WWGFaH9Ao2CehCps/KNMRPCf+PR+0CP2ZhgjC54=;
- b=Inz601SabQXAlF+E3uGjR3Ro82UFoBoqUoS2bAKTayLLU13Ye8TuuAic/FZojvheKA
- izHtTCEv/5n299nEbjR4PDGw6InTr8znLf1PWLTDXqnS4/uzGLM7GIOkjOzSE5oRjJJr
- 4Vdb9l22A346ay9CvznjTuYpuDQ183vW9NDv6Ic99u9ydan9d1OKYIKYEOgGj0QpYqHd
- 9JUNBMWvAMn1AQAta1Ufe6WIYjBNRbTaCT2bmvr+dOPNK+5uzddhGF89leyk80X0vD5R
- 9D+/3yy5sjNbq4WLmGCZRBMyxUOpuwfUcRqRe2zfr8rzroG6wG2mfg4daiqDl+RmCwCA
- zQoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVabfjR4pGv6ixMUH8FzJnHswrDFOXiPSIg0apiNZrvULIWtJGJ8yA1msrLiXIOmqNKUND7IpnUzV8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFg+ErL0i07FRHJfGPVfcjwNMFXKsjk7psbfDUAVtGHmWbgrz4
- oU/+8kA9IEfWMTZW5ZeozdQvi81/mirndEAj7pu567tgQ+rm4fzN
-X-Gm-Gg: ASbGncuUmw0gRAg+KcDlDyspB8I3hP9HRysFeSChONBY4OKO1wGt+ChxjgoFxMyMrMB
- i06/seMMOPZrlw+yeZhNAgSSZUMzp9bZr61L59r+1MQuITEPwQSyfbg1rmpgy15YYdF8tmX2nNy
- TNiOE9Ld1/3rm9gkp0ThNxWXjY21yBKhfs+g2F8v8LQK/ShpKnyTbQxJ5S+Q6RqkSo0XHrrOqwT
- 6SfJQUNMbkduWUp8xMgC7Is6TTBaM6xFnGDm6QBCuu0P3TdK/8NFNGB/Zi2jw9EgrJGRXzVDaQm
- uAXp9g1PIvbEvA==
-X-Google-Smtp-Source: AGHT+IEykSFyZijWB0AYHLFlfKFLHxSfMlUJsiileUyyDk2HhDRhvh/rLJzlnEP3Glj5NtvWiOYE/w==
-X-Received: by 2002:a05:600c:1d1b:b0:434:a468:4a57 with SMTP id
- 5b1f17b1804b1-439581bfdc2mr17243385e9.26.1739350357417; 
- Wed, 12 Feb 2025 00:52:37 -0800 (PST)
-Received: from fedora ([94.73.37.161]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-38dca0b4237sm14066442f8f.85.2025.02.12.00.52.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 00:52:37 -0800 (PST)
-Date: Wed, 12 Feb 2025 09:52:35 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: louis.chauvet@bootlin.com, hamohammed.sa@gmail.com, simona@ffwll.ch,
- melissa.srw@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 01/15] drm/vkms: Fix use after free and double free on
- init error
-Message-ID: <Z6xhU328loIH_5lQ@fedora>
-References: <20250211110912.15409-1-jose.exposito89@gmail.com>
- <20250211110912.15409-2-jose.exposito89@gmail.com>
- <428f88f2-1f30-4018-8113-1c4716288789@suse.de>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66D1A10E805
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 08:53:12 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id D99B81FE2B;
+ Wed, 12 Feb 2025 08:53:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739350391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+P4OjubboN7qN6bZM/3PlacoCf6VfEnR89jxrL/sEak=;
+ b=P/2gG2wjaemcV0mLg8HhUfyqKLafOoDb07RNDKZAKtps296wt7UxvSIMz6KP7TVEZBlbcU
+ EfAVO2EsZPnu+CcqhI2yupw+SUD6J3zH3AIiYa7rvKNHe6wg/4Rv7n1WmFjJJYBQoL8GoK
+ ScNcG4QREgrLpu988He+wzjmDyxTHWo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739350391;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+P4OjubboN7qN6bZM/3PlacoCf6VfEnR89jxrL/sEak=;
+ b=+sFnjW3g4pKq8ylrlMKV6ysTl4Eb4vxU+Zea0uMFMRx/7wL2kojG+Kz8tkMxDhHcVmeUhz
+ 2Ns50GX367Xcq8Dg==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aovcrHW0;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1YTt52yd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1739350390; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+P4OjubboN7qN6bZM/3PlacoCf6VfEnR89jxrL/sEak=;
+ b=aovcrHW0hqdew7zw8H5NK71AvGZYNg1Isz1Vr9PEPRf80ITU4IHoLftbD5+qX7zopbSTLd
+ wsje+dnp5JZ318Cdsk1fC88yghQyhTPPrgbyW3d5E3J8qyaOvouEoYgU/+H3XvGXXkkBdO
+ FQju5AeCFjaAbBSpwceLkJps5pTz0PQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1739350390;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=+P4OjubboN7qN6bZM/3PlacoCf6VfEnR89jxrL/sEak=;
+ b=1YTt52ydQ9pEy/YudpRIpdVKpAzn7XbTkhha7DI/uBC8NmYI/HLeruIXdZfaDw0ezqQtiU
+ 5SHV7PFJ+qaVm9CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8E1DB13874;
+ Wed, 12 Feb 2025 08:53:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id GVZ/IXZhrGfnNgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 12 Feb 2025 08:53:10 +0000
+Message-ID: <bfc71d72-2f23-4c8c-b278-7e9aad3bf72d@suse.de>
+Date: Wed, 12 Feb 2025 09:53:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/vkms: Fix use after free and double free on init error
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ louis.chauvet@bootlin.com
+Cc: hamohammed.sa@gmail.com, simona@ffwll.ch, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ danvet.vetter@ffwl.ch, sylphrenadin@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250212084912.3196-1-jose.exposito89@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250212084912.3196-1-jose.exposito89@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <428f88f2-1f30-4018-8113-1c4716288789@suse.de>
+X-Rspamd-Queue-Id: D99B81FE2B
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ FREEMAIL_TO(0.00)[gmail.com,bootlin.com]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[12];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FREEMAIL_CC(0.00)[gmail.com,ffwll.ch,linux.intel.com,kernel.org,ffwl.ch,lists.freedesktop.org,vger.kernel.org];
+ RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+];
+ ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,80 +158,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
 
-On Tue, Feb 11, 2025 at 03:33:55PM +0100, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 11.02.25 um 12:08 schrieb José Expósito:
-> > If the driver initialization fails, the vkms_exit() function might
-> > access an uninitialized or freed default_config pointer and it might
-> > double free it.
-> > 
-> > Fix both possible errors by initializing default_config only when the
-> > driver initialization succeeded.
-> 
-> Could you send this patch separately, so that it can go into drm-misc-fixes
-> quickly?
 
-Sure, I just sent it as a separate patch.
+Am 12.02.25 um 09:49 schrieb JosÃ© ExpÃ³sito:
+> If the driver initialization fails, the vkms_exit() function might
+> access an uninitialized or freed default_config pointer and it might
+> double free it.
+>
+> Fix both possible errors by initializing default_config only when the
+> driver initialization succeeded.
+>
+> Reported-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> Link: https://lore.kernel.org/all/Z5uDHcCmAwiTsGte@louis-chauvet-laptop/
+> Fixes: 2df7af93fdad ("drm/vkms: Add vkms_config type")
+> Signed-off-by: JosÃ© ExpÃ³sito <jose.exposito89@gmail.com>
 
-Thanks,
-Jose
- 
-> Best regards
-> Thomas
-> 
-> > 
-> > Reported-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > Link: https://lore.kernel.org/all/Z5uDHcCmAwiTsGte@louis-chauvet-laptop/
-> > Fixes: 2df7af93fdad ("drm/vkms: Add vkms_config type")
-> > Signed-off-by: José Expósito <jose.exposito89@gmail.com>
-> > ---
-> >   drivers/gpu/drm/vkms/vkms_drv.c | 15 +++++++++------
-> >   1 file changed, 9 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-> > index 7c142bfc3bd9..b6de91134a22 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_drv.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_drv.c
-> > @@ -235,17 +235,19 @@ static int __init vkms_init(void)
-> >   	if (!config)
-> >   		return -ENOMEM;
-> > -	default_config = config;
-> > -
-> >   	config->cursor = enable_cursor;
-> >   	config->writeback = enable_writeback;
-> >   	config->overlay = enable_overlay;
-> >   	ret = vkms_create(config);
-> > -	if (ret)
-> > +	if (ret) {
-> >   		kfree(config);
-> > +		return ret;
-> > +	}
-> > -	return ret;
-> > +	default_config = config;
-> > +
-> > +	return 0;
-> >   }
-> >   static void vkms_destroy(struct vkms_config *config)
-> > @@ -269,9 +271,10 @@ static void vkms_destroy(struct vkms_config *config)
-> >   static void __exit vkms_exit(void)
-> >   {
-> > -	if (default_config->dev)
-> > -		vkms_destroy(default_config);
-> > +	if (!default_config)
-> > +		return;
-> > +	vkms_destroy(default_config);
-> >   	kfree(default_config);
-> >   }
-> 
-> -- 
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Frankenstrasse 146, 90461 Nuernberg, Germany
-> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> HRB 36809 (AG Nuernberg)
-> 
+Reviewed-by: Thomas Zimmermann <tzimmremann@suse.de>
+
+Thanks for posting this patch separately.
+
+Best regards
+Thomas
+
+> ---
+>   drivers/gpu/drm/vkms/vkms_drv.c | 15 +++++++++------
+>   1 file changed, 9 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 7c142bfc3bd9..b6de91134a22 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -235,17 +235,19 @@ static int __init vkms_init(void)
+>   	if (!config)
+>   		return -ENOMEM;
+>   
+> -	default_config = config;
+> -
+>   	config->cursor = enable_cursor;
+>   	config->writeback = enable_writeback;
+>   	config->overlay = enable_overlay;
+>   
+>   	ret = vkms_create(config);
+> -	if (ret)
+> +	if (ret) {
+>   		kfree(config);
+> +		return ret;
+> +	}
+>   
+> -	return ret;
+> +	default_config = config;
+> +
+> +	return 0;
+>   }
+>   
+>   static void vkms_destroy(struct vkms_config *config)
+> @@ -269,9 +271,10 @@ static void vkms_destroy(struct vkms_config *config)
+>   
+>   static void __exit vkms_exit(void)
+>   {
+> -	if (default_config->dev)
+> -		vkms_destroy(default_config);
+> +	if (!default_config)
+> +		return;
+>   
+> +	vkms_destroy(default_config);
+>   	kfree(default_config);
+>   }
+>   
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
