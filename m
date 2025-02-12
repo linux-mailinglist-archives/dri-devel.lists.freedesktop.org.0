@@ -2,60 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EABA3302B
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 20:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CB68A331AD
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 22:38:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90BED10E298;
-	Wed, 12 Feb 2025 19:56:20 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B96uFBg0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFCAD10E99B;
+	Wed, 12 Feb 2025 21:38:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC87F10E298
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 19:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1739390178;
- bh=+sniyVR/B0Yb/z8XD0mdxMuslgA/Q7KL56k8Ile7nZw=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=B96uFBg0BHhPOJvShbkADmFq5biDN9hj5Rox1Fr1rFqsdvJ3kl4eDTGXrogGQsFNX
- t3fltvwSsY/s66iEaMaBKFBMWWDMKmbXGslowtM/eaB0OELNOphCO2QLH1cdCcUdWt
- 0GS8bs4kuAjQUTsZMBHwutDcZgq4LHED2RUrL7PhUNJNA8W/Py9+88KFCNDPiYxrch
- QftG37m17MTm2ZtlSRTTIO3QBUXrtqPI2dCyxQO3z3iWzKYeUB9NNmmrgV+qCJH1az
- eEohsKEBHzMlVlyuuXzRz4oNQSCpRbiWyr7Wq0FWa0U9kYQ1YN8nOy1UY5TyaMEIQi
- JGRsF58P2DDLw==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B46F117E0E9E;
- Wed, 12 Feb 2025 20:56:17 +0100 (CET)
-Date: Wed, 12 Feb 2025 20:56:13 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
- Olivier Masse <olivier.masse@nxp.com>, Thierry Reding
- <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Sumit Garg
- <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-Message-ID: <20250212205613.4400a888@collabora.com>
-In-Reply-To: <20241217100809.3962439-1-jens.wiklander@linaro.org>
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
+ [209.85.161.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C19B010E28B
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 20:00:57 +0000 (UTC)
+Received: by mail-oo1-f43.google.com with SMTP id
+ 006d021491bc7-5fcae429587so50241eaf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 12:00:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739390457; x=1739995257;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ty55KN5TBvbN+OmRm4Xf1XcryTkekgKbpKoNCFiEowc=;
+ b=BkjNcsXHTqW4mg9BFJrqXqYWS5V3UH85NNFRwhBb4wNsJqt+3l8BUEPsz4gJdtJ/uF
+ GkhHmz7Ck0sK+r1ESs1d6R3cwGKCavrCJC4SuWZ9z58mliw61/cCOtFMMEryAT0oNak4
+ qx9284HiNwdk6U3fO5UpiV+KZ8i5vrSw6bl/IRsIamTN4MSSRZ5HXjQuI/Wyhjv5wztF
+ jutndXfFauCcRGNTcd6+xBlhuPBLdiFrs7AdfSIpoGtyl8bYa+JUeu6pWpw2N4kEgZue
+ rsSmqWoqTY/FHN1sTsC66BmM44iLrD2V8z/cNiZxQk5MxChdc6pf9SuYcoMxY87/S0s2
+ EZGQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxp8vxB9duVkt2SjRQjHxwbJgmEMG+PPxOcCI3R7CUqVIxYwPo1OoJ1Bg/EWm5UauqrLGTxdiKSOc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzi5MH8+8N1Xa69WFdn9cFHSvfeqL2+gYmNXVuOyurtCU85xV6F
+ IvVQ8i2ocv7XFs7Zi5RqRbnpSaJUivY0KsM3z9YNRRqpedI2Pg/X
+X-Gm-Gg: ASbGncukK4dv3biKyYLG/oNslRzZg3MsXmAhatnUl1gEXmafTh0JK2m+Qcxn902+zgD
+ Ejunlb6ivXDvkS81cVusS7xxcFzUQXZDZ+nf1hWYvfVhditxt+ViHKKM+U1FZ0TkrZnAnZQ5mT9
+ IftWOsv8YAhHTZDfm1+oB8zY45tTssc4XVXfZo+arRwwQheEkb0+Uie3Ld2EG9uGh26SB8d/cN3
+ nrnHiRWESTeQ9S6PNlb8aMucbF98Bm+ODsp7oVlx+tKMiTy9GhXDKxZmF2HuPhFujG4OnlFXeOf
+ Q90rQ2wppwn2TyKx
+X-Google-Smtp-Source: AGHT+IGwBXZTwtaL7NNRt+QXA+SEREgwN9UnIGCuP6Ps5/KzjD/6y7JCL5eimEfX4dk7oukXCa/CZQ==
+X-Received: by 2002:a05:6870:ed94:b0:29e:43ce:a172 with SMTP id
+ 586e51a60fabf-2b8f8e10fa5mr328542fac.28.1739390456760; 
+ Wed, 12 Feb 2025 12:00:56 -0800 (PST)
+Received: from muster.uejji.net ([47.188.205.107])
+ by smtp.gmail.com with ESMTPSA id
+ 46e09a7af769-726afa4d12bsm4848401a34.59.2025.02.12.12.00.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 12 Feb 2025 12:00:56 -0800 (PST)
+From: John Edwards <uejji@uejji.net>
+To: Hans de Goede <hdegoede@redhat.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Cc: John Edwards <uejji@uejji.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrew Wyatt <fewtarius@steamfork.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] Handheld gaming PC panel orientation quirks
+Date: Wed, 12 Feb 2025 19:59:31 +0000
+Message-ID: <20250212195934.91669-2-uejji@uejji.net>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <e64c6778-9698-4970-a3c3-af3aabc232be@redhat.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 12 Feb 2025 21:38:44 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,43 +78,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Florent, who's working on protected-mode support in Panthor.
+Hello, Thomas and Hans.
 
-Hi Jens,
-
-On Tue, 17 Dec 2024 11:07:36 +0100
-Jens Wiklander <jens.wiklander@linaro.org> wrote:
-
+On Wed, Feb 12, 2025 at 5:14 AM Hans de Goede <hdegoede@redhat.com> wrote:
+>
 > Hi,
-> 
-> This patch set allocates the restricted DMA-bufs via the TEE subsystem.
+>
+> On 12-Feb-25 12:11 PM, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 12.02.25 um 11:51 schrieb Hans de Goede:
+>>> Hi Thomas,
+>>>
+>>> On 11-Feb-25 2:55 PM, Thomas Zimmermann wrote:
+>>>> Hi
+>>>>
+>>>> Am 24.01.25 um 21:46 schrieb John Edwards:
+>>>>> Hello.
+>>>>>
+>>>>> I am submitting a small number of patches to add panel rotation quirks for
+>>>>> a few handheld gaming PCs.  These patches were created by the SteamFork
+>>>>> team and are in daily use by us and/or members of our community.
+>>>>>
+>>>>> The following devices are covered by these patches:
+>>>>> 1: AYANEO 2S
+>>>>> 2: AYANEO Flip DS, AYANEO Flip KB
+>>>>> 3: AYANEO Slide, Antec Core HS
+>>>>> 4: GPD Win 2 (with correct DMI strings)
+>>>>> 5: OneXPlayer Mini (Intel)
+>>>>>
+>>>>> Thank you for your consideration and for taking the time to review these
+>>>>> patches.
+>>>> Did you ever receive any response to this series? If not, then
+>>>>
+>>>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>> I had the following remark for 3 new entries added in patches 2/5 + 3/5:
+>>>
+>>> "Since this '}' is closing the .matches initializer it should be indented 2 tabs"
+>>>
+>>> With that fixed, you can add my:
+>>>
+>>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>>>
+>>> to the entire series.
+>>>
+>>>> for the series. Let me know if you need assistance for getting the patch files merged.
+>>> Normally I pickup/merge these panel orientation quirks, but I've been swamped
+>>> which is why these have just been sitting on the list.
+>>>
+>>> Thomas, I would appreciate it if you can merge the set into drm-misc-fixes, with
+>>> the 3 minor indentation issues fixed.
+>>
+>> Sure, no problem. I'll wait for John to provide an update. Otherwise, I'll fix it myself while merging the series.
+>
+> Great thank you.
+>
+> Note in the review comments I said that we could likely fixup the indentation
+> issues while merging. If you prefer a new version from John that is fine too,
+> but we need to make clear to John what we want :)
 
-We're currently working on protected-mode support for Panthor [1] and it
-looks like your series (and the OP-TEE implementation that goes with
-it) would allow us to have a fully upstream/open solution for the
-protected content use case we're trying to support. I need a bit more
-time to play with the implementation but this looks very promising
-(especially the lend rstmem feature, which might help us allocate our
-FW sections that are supposed to execute code accessing protected
-content).
+Thank you both for your comments and feedback.  I am more than happy to
+provide a v3 with the noted changes if requested.
 
-> 
-> The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QCOMTEE) which sets up the
-> restrictions for the memory used for the DMA-bufs.
-> 
-> I've added a new IOCTL, TEE_IOC_RSTMEM_ALLOC, to allocate the restricted
-> DMA-bufs. This IOCTL reaches the backend TEE driver, allowing it to choose
-> how to allocate the restricted physical memory.
+We have no other planned changes for this patch series, so if you wish to
+implement the changes while merging that is also acceptable to us.
 
-I'll probably have more questions soon, but here's one to start: any
-particular reason you didn't go for a dma-heap to expose restricted
-buffer allocation to userspace? I see you already have a cdev you can
-take ioctl()s from, but my understanding was that dma-heap was the
-standard solution for these device-agnostic/central allocators.
+Thank you both again.
 
-Regards,
+John Edwards
 
-Boris
 
-[1]https://lwn.net/ml/all/cover.1738228114.git.florent.tomasin@arm.com/#t
+
+>>>>> v2:
+>>>>> - Minor rewording of commit messages
+>>>>> - Include Tested-by tag for Paco Avelar in AYANEO Flip DS/KB patch
+>>>>> - Add OneXPlayer Mini (Intel) patch
+>>>>>
+>>>>> v1:
+>>>>> https://lore.kernel.org/dri-devel/20250116155049.39647-2-uejji@uejji.net/
+>>>>>
+>>>>> Andrew Wyatt (5):
+>>>>>     drm: panel-orientation-quirks: Add support for AYANEO 2S
+>>>>>     drm: panel-orientation-quirks: Add quirks for AYA NEO Flip DS and KB
+>>>>>     drm: panel-orientation-quirks: Add quirk for AYA NEO Slide
+>>>>>     drm: panel-orientation-quirks: Add new quirk for GPD Win 2
+>>>>>     drm: panel-orientation-quirks: Add quirk for OneXPlayer Mini (Intel)
+>>>>>
+>>>>>    .../gpu/drm/drm_panel_orientation_quirks.c    | 40 ++++++++++++++++++-
+>>>>>    1 file changed, 38 insertions(+), 2 deletions(-)
+>>>>>
+>>
+>
