@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D04A32138
-	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0054A3213D
+	for <lists+dri-devel@lfdr.de>; Wed, 12 Feb 2025 09:35:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A8110E7FD;
-	Wed, 12 Feb 2025 08:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60C9D10E7FC;
+	Wed, 12 Feb 2025 08:35:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bj5Voz4p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cksa99iy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B0BBD10E7FC;
- Wed, 12 Feb 2025 08:34:39 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C46C10E7FC;
+ Wed, 12 Feb 2025 08:35:37 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 832855C4C0B;
- Wed, 12 Feb 2025 08:33:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50021C4CEE2;
- Wed, 12 Feb 2025 08:34:31 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id E7B1CA40F4B;
+ Wed, 12 Feb 2025 08:33:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94CF0C4CEDF;
+ Wed, 12 Feb 2025 08:35:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739349278;
- bh=OQgmC29BlKjOVitpjcCwuT0//319+pxz/RUyRxXp5ME=;
+ s=k20201202; t=1739349336;
+ bh=YJKV7QUn1ILuYA74bMS0FFIuZuGjnjVIszEPVINRk50=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bj5Voz4p9yEkB5oUsfyHXH/sUF2JOwUyN3spqjAeU464h5Y38wgJuYYKYsZQFHh0j
- 6MrNVdnFMwzNo+A4ceb696vUuF65F/hypIkkdAOZRX/tRV7PVPxp8tu8FcLVhJ/dUl
- cPUd9EVAjjQxfyV9fWx+xe1tUGjSHaBjHG7x7pJc4L/psBUD2FxfFlIQvvI9htToxs
- jNexYSPERTSsdoRUdWcCsfyq7dWjunJ8DAU41re0xcojJJ824csO8znqOHPlr2+G0l
- 9cYD7f8PO8ascGz9LNgzXodG+WXqPqbFaKlkpZzUqLy/mcC/6n9qeOiYGSP1U3AObg
- DM547g1zpxHUA==
-Message-ID: <96a82d04-50c1-471d-90f4-9f1ae90f04a3@kernel.org>
-Date: Wed, 12 Feb 2025 09:34:28 +0100
+ b=Cksa99iyF1kZUxlUatVTYdH/cxLoRp4XbVewWgt4FuEzWIHwzA+MFR0a6TG6Lpqkw
+ 0JAp69cm4K3vUfCO5NOI+p0X37YelOlly0QaykeeEfvjmaewieKKKDmD6N4Rmid73j
+ MLezPQv0zcugfoWSvaZA+O7qaWyOF/rB0rTCudzv9gFQjZs8e6jyO8hEc5Vg+TMES9
+ VyZ6l89BOxL8vw6U38QvbShDMcXcSPd0KLr7RFOx01UNE4IW9MNxbEtTiN0l1FeBMJ
+ 0H6RvmIq0BfMaSY7qu9/XGIWRFnxaEaAiKsevvAkgRNcHZklTfgKzrgOnBTGWHABif
+ Q4uzSBoaRxNdQ==
+Message-ID: <531a23fe-940a-4e9a-b023-5f1789ac65a5@kernel.org>
+Date: Wed, 12 Feb 2025 09:35:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: display/msm: Document the DPU for
- QCS8300
+Subject: Re: [PATCH 1/4] dt-bindings: display/msm: Redocument the
+ dp-controller for QCS8300
 To: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
@@ -44,17 +44,14 @@ To: Yongxing Mou <quic_yongmou@quicinc.com>, Rob Clark <robdclark@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>
+ Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-References: <20250113-mdssdt_qcs8300-v3-0-6c8e93459600@quicinc.com>
- <20250113-mdssdt_qcs8300-v3-1-6c8e93459600@quicinc.com>
+ linux-kernel@vger.kernel.org
+References: <20250212-mst_qcs8300-v1-0-38a8aa08394b@quicinc.com>
+ <20250212-mst_qcs8300-v1-1-38a8aa08394b@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -100,7 +97,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250113-mdssdt_qcs8300-v3-1-6c8e93459600@quicinc.com>
+In-Reply-To: <20250212-mst_qcs8300-v1-1-38a8aa08394b@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,14 +115,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/01/2025 09:03, Yongxing Mou wrote:
-> Document the DPU for Qualcomm QCS8300 platform. It use the same DPU
-> hardware with SA8775P and reuse it's driver.
+On 12/02/2025 08:12, Yongxing Mou wrote:
+> We need to enable mst for qcs8300, dp0 controller will support 2 streams
+> output. So not reuse sm8650 dp controller driver and will add a new driver
+> patch for qcs8300 mst feature. Modify the corresponding dt-bingding file
+> to compatible with the qcs8300-dp.
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+NAK. You just said qcs8300 is compatible with sm8650. I did not ask
+about drivers, I asked about hardware.
 
-This also might not be correct, based on emails sent recently. No clue
-what to do with this patchset.
+This is messy approach. Describe properly the hardware first, instead of
+sending two conflicting patchsets.
 
 Best regards,
 Krzysztof
