@@ -2,75 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33734A33339
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 00:13:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50576A33337
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 00:13:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC00510E2A5;
-	Wed, 12 Feb 2025 23:13:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D952D10E1A5;
+	Wed, 12 Feb 2025 23:13:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GKK3SeJ5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P32O/1CL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 065D310E294;
- Wed, 12 Feb 2025 23:04:42 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-220c8cf98bbso4023355ad.1; 
- Wed, 12 Feb 2025 15:04:42 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC68310E294;
+ Wed, 12 Feb 2025 23:04:44 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-21f92258aa6so4633405ad.3; 
+ Wed, 12 Feb 2025 15:04:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739401482; x=1740006282; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=izwOSozCDTiy2Nz+ObEcnYlYVvdl0bBlgB59WdBOADk=;
- b=GKK3SeJ5ObBNPnVFbKuVOnQK8qygX3ALsZo4pvV/ATkb/jBOuvhjqcWvM8EltDyrr6
- Csjaa6qGdkQuTeVfnK87pysq1yAO726e3iMCGdiVQgy7r0ZmpPfiVpT9hCz+bvHorctW
- KQTFwyMSW6N4c8yQLUd9tZdOdzx8n1/EYkxuXtRDjmHGRiNgdNgj3jcJDQg5JB01qdLC
- 0yQLNe8e0bFUKEjGQsJwFAo6e7KQT3Qu8vSXEKLYDG/wBi3gqwklh+xitHaWdcLJIJf4
- TVkKSIZy6atKbcZ1T66j6n5gFW3y/99quhT2csHdEGe7bItyirKQ3wx1k/9wi+eR+tEO
- qHTg==
+ d=gmail.com; s=20230601; t=1739401484; x=1740006284; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=iTjaCB1N1ydBQMqBry8fjIhD2HufxSwLUhUWeWGMn4w=;
+ b=P32O/1CLzG8GGo27dAisKWgEvsDc/ah7KZHqwY1pG/0lsSlBPbV30719pj+v3vHDzh
+ HBRfe9rdPSmoLe8EvUBhn1s+tL5ENNandtElEkFMcXMLOu8UI/lh8wa6NL5u++oDeuvh
+ vb5xp8uOj8DKkl46Ue6Sxk2Z0e0I9YEZO50eXUN1w/LYszg3d1Zl1BRvsONYwFQB8Wzq
+ 9C7JkyIUyBjnIghyjLmi8ZuiZ4gFV4nfKOdtHIHl1x772QRddbcF20k2q/x9g77GGXAK
+ 2BXLuLQbDOpDtVZQOiO2wuUFpKmCAoydknYE6oDWyD+BYVnsLJlGLqX/mLG5PUsQ/Lkr
+ y8Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739401482; x=1740006282;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=izwOSozCDTiy2Nz+ObEcnYlYVvdl0bBlgB59WdBOADk=;
- b=DdsbSU0GBF6McgEaQQzRO4WQ3BWqctRv60h8Z+l8BiRaHZYZpbOlwRpFprCXl1P5gz
- ieDLRh1rMURFVnzRVD0QUMDCcz084hDlYPFXm6sgEsisj927yjP4WCQDcCPyt4Z3VgJi
- IqPR/mEgozZDyPcrkDXRwQ337Ws2Z5XcBeQHuTUiwgFiZYUeJmZJmMUQtJQtIKX+yvu4
- XlVG4lFuaPNQ5YxiNVt/ZPLyl5y81T+52vLwSWm/lHWKP6wzIKkPMKXPzSaCi0NqnfHV
- 6OV3LMSpQz/ZMewsCx2asFwQ1lzJWu/b0vC5fMc1NiPOHnA7SieUF+OTzOGgsydKPD8H
- gCyw==
+ d=1e100.net; s=20230601; t=1739401484; x=1740006284;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iTjaCB1N1ydBQMqBry8fjIhD2HufxSwLUhUWeWGMn4w=;
+ b=Y4x25Xo3TABKJNj6ngHLtN2skVwnJc69/++QhW9YGfyhuaMRfv5tpyCTirX9KoT4OR
+ IjMkZu83E9Htqg77PzuL5MhoAivXqsdUa9TedCHHkHrSoUmzKQrflxUmdoeOXtAOCkXU
+ yXpcZ/BXp3z984lCSUwR9YPJNaiMhqbyjX65S1idSuZyH/1sI21hPnmwpQKWwYkJZce9
+ 4+eiCPiikUtkr+yUX9Vvk0RmN0JGAuKKEgURe6xuAqFHdCYx2Mx3FheBswn9iYo9DM1O
+ BzeNbuU7AnWfzKOKUJpnX8tbkYx3R79gCGM/qavS253phZ8KlNf7WgGT9968d2YCkunB
+ PsYw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWLe1dHYFbujtfQOiJ6fPe29+SyuzSJXOo+Fl8VCT3XYjcwAdPuGrJTxnuaTnfIxx4xBBdygoE4jGM=@lists.freedesktop.org,
- AJvYcCWa90ICX1PCQ2Wk6iHuRgAhy5hgmKYNfYE1sDVvNw9n2lpcjo5fEv1/6bNe2b7+MdFqdrMSrNMn8ySS@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybRGHtA7bVVZEEy6sACcPcyZHr2GFIwYuJPBflDLM+pvQOItxi
- o5UPcepFC56xkbXI3xoPlGZ3cr5pkJDewGK8LZNDYJaSuRRt8sBQ
-X-Gm-Gg: ASbGncu/QkvasF1jKmVy3tQXnh5SBm//ZqXBpPx+k2oKG3kBofCUnjlQLBJw7QmQBKj
- X/aN7F7m3kyZ/X9GkgJcMwWV64vw0hEbcdTM9I139C1HQ2CGWKLQZ/KUj5nilj1Cdo9AOywr2kl
- naolvL3w3y9R/ZLmK/LHoRxV7gr7JJ5OtgnXmbhYPAIyoItFXQ0gK9EVTaN+yEC1oIj3ifq+0YV
- krEZgJxIHfyExJ1EQQD74GTzySdjYFrRyLHpmGWTBzTWpwERPpL2c1qWrp/JmjJI1LaUeFKAmt5
- /tPV9sdXSp9i2ngX49xbFe+b
-X-Google-Smtp-Source: AGHT+IHYVNpBJ+hs2SKF43WLDbYcsITXIHpe9AoNBckhGg8EsmihGHFjjFi/bOt0ArQ9OzpKlr29tQ==
-X-Received: by 2002:a17:902:f541:b0:220:c067:7be0 with SMTP id
- d9443c01a7336-220c0677e32mr45783155ad.6.1739401482397; 
- Wed, 12 Feb 2025 15:04:42 -0800 (PST)
+ AJvYcCXGSEXg32VSa/UXgR0GvKPisey8U8Lf2RRjqWCOzWJww3Sxj5Oe6irXKk7CD6LtD6w93wG9DlW66+s=@lists.freedesktop.org,
+ AJvYcCXONIlERrLsxpkN1kfkelQWzn1H5j33kgCV70hrT7rtdrP99ngVMJcVtHI8z5hnfCdTiAi+vI6f8ENI@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+HUcQK4tJD7kVZWWPsJ2aDPE9a3ucbI2wiRdoo9+UPlfgC4xk
+ 4PP8oo1V4kgZqes5AL+fa1X5g9dlG/e76TSdtre2+q8Wu+o7MQ70
+X-Gm-Gg: ASbGnctDmyROlxjZW1DgvlH2bOvMZDE2w7Yb5ZVvO7hk56N40t0N1g6F2a7unbRYpRu
+ Ju3xqb7EnVc4Oy2WUXLtVRNbHZp7ncdCIU3u/lE8uc0nWgAU7YvjuhzpZFmSPxoG5SGgeK+8pNn
+ ajJ0uKLkQs26lYRrOwWuMMm4yN78v1b2rdrwiNO8hcX2lAYVtP9hvJ8bB332zWPJprUlqoUN37E
+ h6HyQA3t8O6GlOb1CdFbFzJygI3O+W270g2WuFSftn3bOtAzDIsEJGd/pc/7TkKoHs2vr/a2/a6
+ nt9eMWDlJCNBRGcX1QAuveEP
+X-Google-Smtp-Source: AGHT+IGCJuRiPBEnF028173kRiuvUsRuqyiYHzbcY80Rfwz3Vr7Pl2PC2LVpfE2p9OX/RX5jivzdRQ==
+X-Received: by 2002:a17:903:2b06:b0:21f:8099:72d9 with SMTP id
+ d9443c01a7336-220bbb0c43emr83000825ad.27.1739401484137; 
+ Wed, 12 Feb 2025 15:04:44 -0800 (PST)
 Received: from [127.0.1.1] ([66.119.214.127]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-220d556da47sm695655ad.187.2025.02.12.15.04.40
+ d9443c01a7336-220d556da47sm695655ad.187.2025.02.12.15.04.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 15:04:42 -0800 (PST)
+ Wed, 12 Feb 2025 15:04:43 -0800 (PST)
 From: "James A. MacInnes" <james.a.macinnes@gmail.com>
-Subject: [PATCH v2 0/2] drm/msm/dp: Fix Type-C Timing
-Date: Wed, 12 Feb 2025 15:03:45 -0800
-Message-Id: <20250212-sdm845_dp-v2-0-4954e51458f4@gmail.com>
+Date: Wed, 12 Feb 2025 15:03:46 -0800
+Subject: [PATCH v2 1/2] drm/msm/dp: Disable wide bus support for SDM845
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANEorWcC/x3N0QqDIBTG8VcJrye0Y+ba1d5jjNHyaEJlO7oyo
- nefdPmDj/+3s4DkMLB7sTPCxQXnpwy4FKzr28kidzqbQQmyhCvwoMdbJd965jXqphGNUq0ULO9
- nQuPS2Xq+sg35kceesD0LlYFVbR8wwixWRtFvJPLZ1H2tsW746Yq26GNaxkS1kqDg4XFak+xMP
- cSBHccfhiwtAq0AAAA=
+Message-Id: <20250212-sdm845_dp-v2-1-4954e51458f4@gmail.com>
+References: <20250212-sdm845_dp-v2-0-4954e51458f4@gmail.com>
+In-Reply-To: <20250212-sdm845_dp-v2-0-4954e51458f4@gmail.com>
 To: Rob Clark <robdclark@gmail.com>, 
  Abhinav Kumar <quic_abhinavk@quicinc.com>, 
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
@@ -84,11 +82,11 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Guenter Roeck <groeck@chromium.org>, Rob Clark <robdclark@chromium.org>, 
  "James A. MacInnes" <james.a.macinnes@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1739401480; l=2022;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1739401480; l=1781;
  i=james.a.macinnes@gmail.com; h=from:subject:message-id;
- bh=whc0meljq8d//xyWaoGWRpTBZvYd9FKdXjbcFve5bNw=;
- b=/+dHVSi8w/zrS8YQiMpVK5J8B8OGqD9Fv40WhguqSpTjkv8yGf9TRXrA9AHGFEAiU5FDMMShT
- z3G7HubmMjpDk5krBpgj3hlVsYK8Y85dMXvheX1MU6UZ+9wOGk5NWEL
+ bh=PoBx/4/qGynelh/uiB6nFH8WP+X7fpoOY2mipC9UhNY=;
+ b=gJ5JFDtuCFVR/JXUlm0GmVoAyZl6jPM3zN4afSUKnfdEn71BBX5Wx/qHtZs2pnXItrHlC/VTN
+ B5dhn5ObKt8B7jzkMlIM28f9raC4LFJm3yLOwZ8jW6sXVY0WcxR3NIn
 X-Developer-Key: i=james.a.macinnes@gmail.com; a=ed25519;
  pk=3z+XoIMKkNT7N5GL2WOp/Lcz2ghtr7b8RBCa1usTz9U=
 X-Mailman-Approved-At: Wed, 12 Feb 2025 23:13:20 +0000
@@ -107,58 +105,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SDM845 Type-C DisplayPort output inactive on DP Monitor and tears on HDMI.
+SDM845 DPU hardware is rev 4.0.0 per hardware documents.
+Original patch to enable wide_bus operation did not take into account
+the SDM845 and it got carried over by accident.
 
-During testing and research found that the dp and dpu drivers more
-closely match later incarnations of the Android driver.
-Compared against the 4.9 Android and found the porch timing and
-wide bus elements were disabled.
-Tested by commenting out code and the graphical glitches on
-HDMI improved.
-Fully turning off wide_bus resolved the single vertical line and
-vblank errors when using non-native resolutions.
-Removing the porch adjustment fixed HDMI and DisplayPort operated
-correctly (for the first time) for all monitor supported resolutions.
+- Incorrect setting caused inoperable DisplayPort.
+- Corrected by separating SDM845 into its own descriptor.
 
-Changes v1:
-- Patch 1/2: Separated the descriptor from the sc7180 and turned off
-             wide_bus support.
-- Patch 2/2: Removed porch timing adjustment.
-
-Changes v2:
-- Patch 1/2: Removed unneeded assignment.
-             Increased verbosity of commit message.
-- Patch 2/2: Added comments to explain use of wide_bus_en.
-             Increased verbosity of commit message.
-
-Verified functionality on SDM845 using Lantronix SOM.
-Tested with Type-C to DisplayPort and Dell Monitor.
-Tested with Type-C hub with HDMI to Samsung 4k TV.
-
-James A. MacInnes (2):
-  drm/msm/dp: Disable wide bus support for SDM845
-  drm/msm/disp: Correct porch timing for SDM845
-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 8 ++++----
- drivers/gpu/drm/msm/dp/dp_display.c                  | 7 ++++++-
- 2 files changed, 10 insertions(+), 5 deletions(-)
-
---
-2.43.0
-
+Fixes: c7c412202623 ("drm/msm/dp: enable widebus on all relevant chipsets")
+Signed-off-by: James A. MacInnes <james.a.macinnes@gmail.com>
 ---
-James A. MacInnes (2):
-      drm/msm/dp: Disable wide bus support for SDM845
-      drm/msm/disp: Correct porch timing for SDM845
+ drivers/gpu/drm/msm/dp/dp_display.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_vid.c | 14 +++++++++-----
- drivers/gpu/drm/msm/dp/dp_display.c                  |  7 ++++++-
- 2 files changed, 15 insertions(+), 6 deletions(-)
----
-base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
-change-id: 20250212-sdm845_dp-6ed993977a53
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index aff51bb973eb..e30cccd63910 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -126,6 +126,11 @@ static const struct msm_dp_desc msm_dp_desc_sa8775p[] = {
+ 	{}
+ };
+ 
++static const struct msm_dp_desc msm_dp_desc_sdm845[] = {
++	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0 },
++	{}
++};
++
+ static const struct msm_dp_desc msm_dp_desc_sc7180[] = {
+ 	{ .io_start = 0x0ae90000, .id = MSM_DP_CONTROLLER_0, .wide_bus_supported = true },
+ 	{}
+@@ -178,7 +183,7 @@ static const struct of_device_id msm_dp_dt_match[] = {
+ 	{ .compatible = "qcom,sc8180x-edp", .data = &msm_dp_desc_sc8180x },
+ 	{ .compatible = "qcom,sc8280xp-dp", .data = &msm_dp_desc_sc8280xp },
+ 	{ .compatible = "qcom,sc8280xp-edp", .data = &msm_dp_desc_sc8280xp },
+-	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sc7180 },
++	{ .compatible = "qcom,sdm845-dp", .data = &msm_dp_desc_sdm845 },
+ 	{ .compatible = "qcom,sm8350-dp", .data = &msm_dp_desc_sc7180 },
+ 	{ .compatible = "qcom,sm8650-dp", .data = &msm_dp_desc_sm8650 },
+ 	{ .compatible = "qcom,x1e80100-dp", .data = &msm_dp_desc_x1e80100 },
 
-Best regards,
 -- 
-James A. MacInnes <james.a.macinnes@gmail.com>
+2.43.0
 
