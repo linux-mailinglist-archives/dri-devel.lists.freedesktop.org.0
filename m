@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A0B4A33A5A
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 09:56:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C645AA33A5D
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 09:56:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C39E710EA2C;
-	Thu, 13 Feb 2025 08:56:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEE9910EA26;
+	Thu, 13 Feb 2025 08:56:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="biJit9VP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QHCVDPyt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E216D10EA2B
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:56:39 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D69DD10EA2D
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:56:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 5E2735C4E46;
- Thu, 13 Feb 2025 08:55:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F87CC4CED1;
- Thu, 13 Feb 2025 08:56:38 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 803B8A41F4D;
+ Thu, 13 Feb 2025 08:54:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32E17C4CED1;
+ Thu, 13 Feb 2025 08:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1739436998;
- bh=hih5Xq5n29taXspoRbFPy3YyVqsgUHNuM39mgdxlVLg=;
+ s=k20201202; t=1739437001;
+ bh=u0HLLklJOTFaRYEeDQYu/nDUkCt1ooDe7WmRZLU//hQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=biJit9VPtK/lzJuwXn0fR+gnxx4p8ETeD7fcXHEVBOnPrKRYkMVFIsSMILWuvFMSS
- +5ZbhHyZQJ8bVvZzjYVPXQHcuhElifdzPG1Y5tHmw7lr63HNORzduL4MvAyfT/9GgO
- RwPHj48xrfNPa32X99b69FNP3aV6c9EF/pvWKdA7znQ7j3V1eNjma61UOL2NHYcRJY
- J9G9eBjKxumdTxZ0lopeo6xqpYcwnNkUPs0w9EUcvIKzpuJcemA7rUQC63f2Xz3WFY
- UWCQcarJufGbF4anGr3bGnIno3J+d32ZB+sNOa0wAUmk+FHGBoQk4K+G61+zH2TLqV
- NsXcQEXMdzb3A==
+ b=QHCVDPyt+W4tprbg/BwpXDdvuglkaaSB65Q+Nd4Rvl5C/zhva/XYfp0ffTgdI0/xb
+ tx4uqxfB1rscXDF9FtdCLFKKGi8QRbc6Zp8SWrHIuUOXK8CHZ9vSCJ5kyq4STDUwfY
+ pCp43nE++vPlvGhHHmuOxf4g6nv66hNZbJqxPqeLo/LXM+4I72HxibP879CgIaBX5u
+ tW02cbYMiXK0SxqXJBogKac9F0KOgQpFf4yN1YSwOVo1V3TWqnhXGHy/JDQ0avyHbQ
+ dnn+DUtmWDBI8JtfKu3QEAHy+WzaN+bkpJUFAv8wqgASaZ48maAkd9bHlQl9SGf5dM
+ xt4Va2cllf17A==
 From: Maxime Ripard <mripard@kernel.org>
-To: Jessica Zhang <quic_jesszhan@quicinc.com>,
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
  Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Maxime Ripard <mripard@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/tests: Fix a test in
- drm_test_check_valid_clones()
-Date: Thu, 13 Feb 2025 09:56:32 +0100
-Message-ID: <173943698484.1868200.4955901862780721349.b4-ty@kernel.org>
+Subject: Re: [PATCH next] drm: writeback: Fix use after free in
+ drm_writeback_connector_cleanup()
+Date: Thu, 13 Feb 2025 09:56:33 +0100
+Message-ID: <173943698485.1868200.10958498043496540480.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.48.0
-In-Reply-To: <c50f11c7-932c-47dc-b40f-4ada8b9b6679@stanley.mountain>
-References: <c50f11c7-932c-47dc-b40f-4ada8b9b6679@stanley.mountain>
+In-Reply-To: <78abd541-71e9-4b3b-a05d-2c7caf8d5b2f@stanley.mountain>
+References: <78abd541-71e9-4b3b-a05d-2c7caf8d5b2f@stanley.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -65,9 +63,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 12 Feb 2025 18:24:09 +0300, Dan Carpenter wrote:
-> The drm_atomic_get_crtc_state() function returns error pointers and not
-> NULL.  Update the check to check for error pointers as well as NULL.
+On Wed, 12 Feb 2025 18:23:48 +0300, Dan Carpenter wrote:
+> The drm_writeback_cleanup_job() function frees "pos" so call
+> list_del(&pos->list_entry) first to avoid a use after free.
 > 
 > 
 
