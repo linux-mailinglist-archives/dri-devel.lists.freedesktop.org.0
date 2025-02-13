@@ -2,79 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E55EA352F7
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:33:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF60A34BD5
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:25:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B6FD10EBC6;
-	Fri, 14 Feb 2025 00:33:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C74310EB56;
+	Thu, 13 Feb 2025 17:25:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Tiht5Xx3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="frXdMR4k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B99E10EB56
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:24:35 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id
- 38308e7fff4ca-308edbc368cso11377111fa.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739467474; x=1740072274; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Gizi+IcPKz2ZL+32L5k48P/pQwZERtoVIZYWSlzPdoM=;
- b=Tiht5Xx3NAAmhrx40B7eZnUoX8IOKmlUAuvtr7oSfYYgrQlBrqMELaSyVArs9K7DQP
- ElDqO2Tq70UmgcQTCOpnoZnonuHj4ROfgLDh2h9lIE+ClJ1W+MQiFriEJ2NX2H8AUBdt
- RubUCk63g968/tLDXM2nZsAv56df+6wh2DMYFx1kvMOj7JQ1TzyDfEci82YcWbglAXWD
- cCNLhBsdCuCBMYcyUEaZt1hgyGJ2EL0bMBjxjGagVaHqNKXQzPlpMvqqrv1Ec8bjJ1hB
- OgkPwEW3d7pUAmc3vn22nzfa417jLxs81puA7aKqGSO/LP8ORFaeBRDaJqjlW6metFsb
- hV0A==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 459BB10EB56
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1739467530;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6CK2csrO5H6mC3WrzH5IFyM8cqNr3G9UFtb3V48/7ZM=;
+ b=frXdMR4k9oGO5f83Aj+85rAqTp2OR3UZsR9rAW6MPNt+tw3MHdsHcqdL2WI0HOlpB6PYhB
+ 03hKLl9b5FVGMoLrPgT1HpZgG5umKUs3mBPSbgIdspiDswGEUkGU7MuOVkpaedjhLDvQt1
+ BFQXr4cdfPphucn/5/oaEyA9MHMOiF0=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-15-UWJG-xtTP2aDXsTs1EMcuw-1; Thu, 13 Feb 2025 12:25:28 -0500
+X-MC-Unique: UWJG-xtTP2aDXsTs1EMcuw-1
+X-Mimecast-MFC-AGG-ID: UWJG-xtTP2aDXsTs1EMcuw_1739467528
+Received: by mail-ej1-f70.google.com with SMTP id
+ a640c23a62f3a-ab76f438dddso168234566b.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:25:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739467474; x=1740072274;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Gizi+IcPKz2ZL+32L5k48P/pQwZERtoVIZYWSlzPdoM=;
- b=viPwpF9voyxu15CqPRTVdRyLGEpeczuLn5BrJyzTL03f57xmtGf/MpRxVVNjT7xziK
- KORy8hRHqIwmNRniujnr4LbUz0fCqJuYKH9hgLy5/2ippKpKX347zgJiRzjenRH7zUH7
- bDWacS8qXFndnvGhL9Oq1S+yK2HYUNNYvTBs7ehg/B6V641fWKvXpTSCqTu5wta5XTx0
- Gnmn35meCZy4OJnx1hfpOcrNuJnacDlWwDIxw6heNp7vZmrklwa1ESl4MFtKx8ajYsVy
- CfG8pz/6oJyJXUOvgLitavLAJWCTAFhdJfX09ETf6E59rjnMP/WMWXlVSi6cQ2m6VzOi
- vXAQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUo5k4rF1YVJePdYxj6RmEgg1xKLd4kAGFZ6uGlvjrZdOzcv3T3DcN5qxc2bd3efZQiz8EW8m4tMNI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxq2eL0hctOLz7KZfxFfdvm5cplA74iXHcRzr2iKtd3Pb7Fouae
- ADuziyMU1xzM49uEF0V/k29JKhKRcPWbQ5+GzqwT00MdwJcXi0U4JdfTy5rpgK6o5X5Q4ASOUlQ
- M2gTDomWmLd8zGukPT5nwcWcfLqk=
-X-Gm-Gg: ASbGncv842M1b9xEXj3XVR9i8cBDCpJXjLd/TnSpZNDNohSxoteNg4/QzxNLD9NW4Te
- 1HJ5Mwup0cJgyxokfeNNma+mzUlA7r5EoA3Lo9MSlNyRmn/iv0LbvbwnBvHQ4Gx9ElCeKAw5NrG
- GKCPetQU4ypjU6t0WY7jzIqBGQ9k5dZw==
-X-Google-Smtp-Source: AGHT+IEHyli7Bfb7rpt4SBn7B0u1IClaxX45F7VfFV92eWPQkEJ/jQuG74PKPKJ7+E9zspzP9mB5SpDiYiepMSARBWY=
-X-Received: by 2002:a05:651c:504:b0:308:e18e:edb6 with SMTP id
- 38308e7fff4ca-309050915dfmr26898221fa.24.1739467473359; Thu, 13 Feb 2025
- 09:24:33 -0800 (PST)
+ d=1e100.net; s=20230601; t=1739467527; x=1740072327;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=6CK2csrO5H6mC3WrzH5IFyM8cqNr3G9UFtb3V48/7ZM=;
+ b=biyPpjjTYlQEufQn1NYwKDy17zJ53IRadh2qu4+DqHosjP2L2dDV9XH6bRbTrmnuT2
+ 19UvQ5RP0CYaOXxkIQwaZO5C1JCnfMrO/pFf4u7X9+52lKvzLMqNnnX6r3atTPTZ6dWU
+ vW0CpXVo6B23CnNDD4lCHka0zgvY3/CCA3ZnH7tZFuAGTwQV6aKYskbzqhscNBgdFDgg
+ 3+T63LormQPn5qYFAr04IWDJdJhpi6CGABQZhDN4My+mzSxjQOo+Zf5AQG1vFunolV4q
+ W3bJvbLKv9LOBCB0sJBtTA4O0sm7lsCTFgVZcpNeabfjNGuySTrxIBoX1ekVEQuyFe9h
+ htrg==
+X-Gm-Message-State: AOJu0YxNuU0Q26Ao1Y0AQZtIDVXmuqv9zmj/xj9tIRvuoiFz7HOPwqMv
+ 0Ox6VtQTcWY3yvxRAmyhIfK6e9hXt3StmX6snn0L5EtQDFTHHZPgFAbhcioZ061iRDDguD3eb8v
+ qYHz5xSgIXvBlhbKH+GcDxJtX6/yMGmHLl2A3vbGiWteG7nSNluqZsx7MYwdy5Bu6GbIuLNiB4w
+ ==
+X-Gm-Gg: ASbGncv4QhH/ll/Nm10Dm7Veyi6hLH4RPj4yqGc7okWR2xipC8OIRcuyHok0ydBlBy2
+ S6qZaO5dcdNZfovmzdp88e6xRZ3DKByC4vl/dXpRFtfZeBaWXnmFOxn5qG+RZdKwjNB8lePg/i9
+ A7nBN0qfM4rLNMv+u4Kv3oKXoqsKtBO6qno0a4LcOQI3hS2EXNPEiBBq0gqyGsUq6vY85kLmBL2
+ LeR1p3zbIPxqjyy2S/AcA7S882NpFpat2eqHOD25ikpnF97E1fSiJqcjTwIpurBKE+secbx71Vm
+ XKXn4SQfB8o8vUJmfI//uC+GWK/91OK2nmyMCwexy72k
+X-Received: by 2002:a17:906:478a:b0:ab7:e234:526b with SMTP id
+ a640c23a62f3a-ab7f334ac6cmr931457866b.3.1739467527254; 
+ Thu, 13 Feb 2025 09:25:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEUkchj4sicMxOpeKshB/bSA/fpqMST3phpX2JSgz9PiYGXPyoXW0PkMToLqwqUjdufm2ujHw==
+X-Received: by 2002:a05:600c:4e8d:b0:439:4a1f:cf85 with SMTP id
+ 5b1f17b1804b1-439580e532amr94391815e9.0.1739467516751; 
+ Thu, 13 Feb 2025 09:25:16 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:c:37e0:ced3:55bd:f454:e722?
+ ([2a01:e0a:c:37e0:ced3:55bd:f454:e722])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4395a056151sm54789315e9.16.2025.02.13.09.25.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Feb 2025 09:25:16 -0800 (PST)
+Message-ID: <44b8b1c1-4d1f-4ae7-b8c0-fba185164c83@redhat.com>
+Date: Thu, 13 Feb 2025 18:25:15 +0100
 MIME-Version: 1.0
-References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
- <Z6bKR9K16-oYMLFl@archie.me>
-In-Reply-To: <Z6bKR9K16-oYMLFl@archie.me>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 13 Feb 2025 22:54:22 +0530
-X-Gm-Features: AWEUYZnRjXRFR2L1SM1TbIEBn2qZq2W0F3sCHVm6aOmSUfozMuWMb-FNQn7VC8M
-Message-ID: <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
-Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>, 
- Linux DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-kernel-mentees@lists.linux.dev, 
- skhan@linuxfoundation.org, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
-Content-Type: multipart/alternative; boundary="000000000000d91866062e0954e4"
-X-Mailman-Approved-At: Fri, 14 Feb 2025 00:33:52 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: drm/ast regression, when upgrading from v6.3 to v6.6
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Jammy Huang <jammy_huang@aspeedtech.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+References: <17831399-4442-433d-a525-723871cbf15c@redhat.com>
+ <68c229b5-d435-4a8d-b301-cae913e544e4@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <68c229b5-d435-4a8d-b301-cae913e544e4@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: sWGAYyEVOs-UmxMhHaQTopxoxNCl7ST5e1WPkmjDJSw_1739467528
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,162 +102,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000d91866062e0954e4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 13/02/2025 15:01, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 13.02.25 um 14:33 schrieb Jocelyn Falempe:
+>> Hi Thomas and Jammy,
+>>
+>> I've got a regression report, and it's caused by https:// 
+>> patchwork.freedesktop.org/patch/540015/
+>> On this ast2600 server, the firmware says it has a DP output, but 
+>> physically, there is only one VGA output.
+>> Before this commit, "ast->tx_chip_types |= BIT(AST_TX_ASTDP)" means it 
+>> will have both VGA and DP configured, but after this changed to "ast- 
+>> >tx_chip_types = AST_TX_ASTDP_BIT" and the VGA connector disappear.
+> 
+> Having multiple outputs (besides the virtual BMC) was never really 
+> supported. DRM userspace also doesn't really support it. You likely 
+> remember that we had problems when the BMC was a separate output.
+> 
+>> The EDID of the VGA monitor is not read anymore, and a wrong 
+>> resolution is setup causing a blank screen.
+>>
+>> Of course fixing the firmware would be the best solution, it's not 
+>> always possible.
+>>
+>> I'm considering different options:
+>> - Add a kernel module parameter to override the tx_chip_types, 
+>> something like "ast.output=vga"
+> 
+> No parameters please. If we give people parameters, they will configure 
+> the hell out of them and then complain if it doesn't work. And we never 
+> get rid of parameters, because "there's users".
+> 
+>> - Add a DMI quirk, to force vga on this particular motherboard.
+> 
+> That could work.
+> 
+>>
+>> What do you think?
+> 
+> I think I saw another bit in the HW docs that hints towards a VGA 
+> output, but I cannot find it anymore. Still, I have VGA and DP on my 
+> test board. There's gotta be a way of switching between them.
+> 
+> Unless something else shows up, let's to the DMI quirk. It should also 
+> be easy to  backport.
 
-Hi,
+Ok, I will try to make something. DMI quirk is less flexible, but the 
+regression is a bit old, so I hope there won't be much other hardware 
+affected.
 
-Just a gentle follow-up on this patch. It has been reviewed by Bagas
-Sanjaya but hasn't been applied yet.
+Best regards,
 
-Regards,
+-- 
 
-Pranav Tyagi
+Jocelyn
 
-On Sat, Feb 8, 2025 at 8:36=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com>=
- wrote:
+> 
+> Best regards
+> Thomas
+> 
+>>
+>> Best regards,
+>>
+> 
 
-> On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
-> > Corrects the following grammatical issues in the VGA Arbiter
-> documentation:
-> > - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
-> > - Corrects pluralization by changing "server" to "servers"
-> > - Improves sentence structure for clarity
-> >
->
-> +Cc: DRM folks.
->
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
-> > ---
-> >  Documentation/gpu/vgaarbiter.rst | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/gpu/vgaarbiter.rst
-> b/Documentation/gpu/vgaarbiter.rst
-> > index bde3c0afb059..d1e953712cc2 100644
-> > --- a/Documentation/gpu/vgaarbiter.rst
-> > +++ b/Documentation/gpu/vgaarbiter.rst
-> > @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
-> >
-> >  The Resource Access Control (RAC) module inside the X server [0]
-> existed for
-> >  the legacy VGA arbitration task (besides other bus management tasks)
-> when more
-> > -than one legacy device co-exists on the same machine. But the problem
-> happens
-> > +than one legacy device co-exist on the same machine. But the problem
-> happens
-> >  when these devices are trying to be accessed by different userspace
-> clients
-> > -(e.g. two server in parallel). Their address assignments conflict.
-> Moreover,
-> > +(e.g. two servers in parallel). Their address assignments conflict.
-> Moreover,
-> >  ideally, being a userspace application, it is not the role of the X
-> server to
-> >  control bus resources. Therefore an arbitration scheme outside of the =
-X
-> server
-> >  is needed to control the sharing of these resources. This document
-> introduces
-> > @@ -106,7 +106,7 @@ In-kernel interface
-> >  libpciaccess
-> >  ------------
-> >
-> > -To use the vga arbiter char device it was implemented an API inside th=
-e
-> > +To use the vga arbiter char device, an API was implemented inside the
-> >  libpciaccess library. One field was added to struct pci_device (each
-> device
-> >  on the system)::
-> >
->
-> The diff looks OK.
->
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->
-> --
-> An old man doll... just what I always wanted! - Clara
->
-
---000000000000d91866062e0954e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><p>Hi,</p><p>Just a gentle follow-up on this patch. It has=
- been reviewed by Bagas Sanjaya but hasn&#39;t been applied yet.<br></p><p>=
-Regards,</p><p>Pranav Tyagi</p></div><br><div class=3D"gmail_quote gmail_qu=
-ote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Feb 8, 2025 at=
- 8:36=E2=80=AFAM Bagas Sanjaya &lt;<a href=3D"mailto:bagasdotme@gmail.com">=
-bagasdotme@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi =
-wrote:<br>
-&gt; Corrects the following grammatical issues in the VGA Arbiter documenta=
-tion:<br>
-&gt; - Fixes subject-verb agreement by changing &quot;co-exists&quot; to &q=
-uot;co-exist&quot;<br>
-&gt; - Corrects pluralization by changing &quot;server&quot; to &quot;serve=
-rs&quot;<br>
-&gt; - Improves sentence structure for clarity<br>
-&gt; <br>
-<br>
-+Cc: DRM folks.<br>
-<br>
-&gt; Signed-off-by: Pranav Tyagi &lt;<a href=3D"mailto:pranav.tyagi03@gmail=
-.com" target=3D"_blank">pranav.tyagi03@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 Documentation/gpu/vgaarbiter.rst | 6 +++---<br>
-&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaa=
-rbiter.rst<br>
-&gt; index bde3c0afb059..d1e953712cc2 100644<br>
-&gt; --- a/Documentation/gpu/vgaarbiter.rst<br>
-&gt; +++ b/Documentation/gpu/vgaarbiter.rst<br>
-&gt; @@ -11,9 +11,9 @@ Section 7, Legacy Devices.<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 The Resource Access Control (RAC) module inside the X server [0]=
- existed for<br>
-&gt;=C2=A0 the legacy VGA arbitration task (besides other bus management ta=
-sks) when more<br>
-&gt; -than one legacy device co-exists on the same machine. But the problem=
- happens<br>
-&gt; +than one legacy device co-exist on the same machine. But the problem =
-happens<br>
-&gt;=C2=A0 when these devices are trying to be accessed by different usersp=
-ace clients<br>
-&gt; -(e.g. two server in parallel). Their address assignments conflict. Mo=
-reover,<br>
-&gt; +(e.g. two servers in parallel). Their address assignments conflict. M=
-oreover,<br>
-&gt;=C2=A0 ideally, being a userspace application, it is not the role of th=
-e X server to<br>
-&gt;=C2=A0 control bus resources. Therefore an arbitration scheme outside o=
-f the X server<br>
-&gt;=C2=A0 is needed to control the sharing of these resources. This docume=
-nt introduces<br>
-&gt; @@ -106,7 +106,7 @@ In-kernel interface<br>
-&gt;=C2=A0 libpciaccess<br>
-&gt;=C2=A0 ------------<br>
-&gt;=C2=A0 <br>
-&gt; -To use the vga arbiter char device it was implemented an API inside t=
-he<br>
-&gt; +To use the vga arbiter char device, an API was implemented inside the=
-<br>
-&gt;=C2=A0 libpciaccess library. One field was added to struct pci_device (=
-each device<br>
-&gt;=C2=A0 on the system)::<br>
-&gt;=C2=A0 <br>
-<br>
-The diff looks OK.<br>
-<br>
-Reviewed-by: Bagas Sanjaya &lt;<a href=3D"mailto:bagasdotme@gmail.com" targ=
-et=3D"_blank">bagasdotme@gmail.com</a>&gt;<br>
-<br>
--- <br>
-An old man doll... just what I always wanted! - Clara<br>
-</blockquote></div>
-
---000000000000d91866062e0954e4--
