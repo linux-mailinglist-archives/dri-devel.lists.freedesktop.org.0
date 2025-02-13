@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65602A33546
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 03:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7D5A33547
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 03:10:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACC7510E9EF;
-	Thu, 13 Feb 2025 02:10:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83F0210E9F3;
+	Thu, 13 Feb 2025 02:10:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="P2PYR4fB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xzj0WUre";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2F010E9D6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3A7C10E9D8;
  Thu, 13 Feb 2025 02:10:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1739412620; x=1770948620;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=rNkNJYCzV+D20etdLJTHUwXk3JI7WBaLBpD5haKksA8=;
- b=P2PYR4fBD4MeAL0mlFKQmShOirhL64AYGX0u/ukgzUBDKIDJFveDlD06
- XKpV/DycmaVqmY/omeqJWzz8tArUaaQoGXOQkPV5/3LRb757FIvCpPhwA
- JR4P1WRGCKVRUGapRKZB5aMl80T1zj1koiKOFxhPlm2iWPbY+QxjtKd1x
- ltqpOwl70XOVUR/I5E0YG7C6Xs7N1/1WqvCR1bv+DPMffIWn7o2M98Qas
- OzkBzGeTV+ijTLbNgaq8CL8hoBXyvSz8Pm4mLN3JiNPSwGVCqGbxGUeab
- HxflC2C9TRrTOmVEmkaS7SwmIyPxek0q8nPYuDz9gUyG5mBEtzkIdmmaX A==;
-X-CSE-ConnectionGUID: Gi9T5fXOQfyTlqgG2Zu5Iw==
-X-CSE-MsgGUID: R0dMpoMFSnOtW4BBuZewXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65456046"
-X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="65456046"
+ bh=MJhiTmoe7zl3ie/WW8v1d78sLIyO7+NaPkb4AxcezCc=;
+ b=Xzj0WUreWZH07ssV+FFqObd5VtUDEZMgV0nbLA1A0JzoZBCLjf628GDS
+ qUjtjMB2yqj0XNFEPpxipHiztYZK3sqe+adstskI0VwiR8LlvV2Ni5VWv
+ j4nypUWKawt0B2YsLNyrwsIOPZ5wRz8VV6MDOED9rmN1b5c35uK+IzXuo
+ eG1OWVrXYQ+Jt2+DS/Zt3cyeKU87UagucONmtImw28vrie1gC8EgyuMp3
+ dEBEUsJDbq+4n5Zm7NG8AMgiAsLCNl35a9x4CDMnb85dF9/xofqSWB0FB
+ 27exReLffw+uc8tBD3RH2WJqx7io2joEDBStUxYZrhioCVHWyDDo62TGL g==;
+X-CSE-ConnectionGUID: wIOKAx23TNipJeRwiuTWBg==
+X-CSE-MsgGUID: oDVCA/+DSz2qx93/HvB3qg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11343"; a="65456053"
+X-IronPort-AV: E=Sophos;i="6.13,281,1732608000"; d="scan'208";a="65456053"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Feb 2025 18:10:17 -0800
-X-CSE-ConnectionGUID: pYUpo20tQDK8iNOH34qJnA==
-X-CSE-MsgGUID: 5DJEUiLPSqOdWDijXscW4g==
+X-CSE-ConnectionGUID: gFXJHc1RR3io9PhVOz76sQ==
+X-CSE-MsgGUID: z6ma9aTMR+SxW9lsNb1TUw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="117945105"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; d="scan'208";a="117945109"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  12 Feb 2025 18:10:16 -0800
@@ -47,9 +47,9 @@ To: intel-xe@lists.freedesktop.org,
 Cc: himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
  thomas.hellstrom@linux.intel.com, simona.vetter@ffwll.ch,
  felix.kuehling@amd.com, dakr@kernel.org
-Subject: [PATCH v5 24/32] drm/xe: Add GPUSVM device memory copy vfunc functions
-Date: Wed, 12 Feb 2025 18:11:04 -0800
-Message-Id: <20250213021112.1228481-25-matthew.brost@intel.com>
+Subject: [PATCH v5 25/32] drm/xe: Add Xe SVM populate_devmem_pfn GPU SVM vfunc
+Date: Wed, 12 Feb 2025 18:11:05 -0800
+Message-Id: <20250213021112.1228481-26-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250213021112.1228481-1-matthew.brost@intel.com>
 References: <20250213021112.1228481-1-matthew.brost@intel.com>
@@ -71,196 +71,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add GPUSVM device memory copy vfunc functions and connect to migration
-layer. Used for device memory migration.
+Get device pfns from BO's buddy blocks. Used in migrate_* core MM
+functions called in GPU SVM to migrate between device and system memory.
 
 v2:
- - Allow NULL device pages in xe_svm_copy
  - Use new drm_gpusvm_devmem_ops
 v3:
- - Prefix defines with XE_ (Thomas)
- - Change copy chunk size to 8M
- - Add a bunch of comments to xe_svm_copy to clarify behavior (Thomas)
  - Better commit message (Thomas)
 v5:
  - s/xe_mem_region/xe_vram_region (Rebase)
 
+Signed-off-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Signed-off-by: Oak Zeng <oak.zeng@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/xe/xe_svm.c | 152 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 152 insertions(+)
+ drivers/gpu/drm/xe/xe_svm.c | 40 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
 diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 5746f0342906..d3a4ed693508 100644
+index d3a4ed693508..974d69a39445 100644
 --- a/drivers/gpu/drm/xe/xe_svm.c
 +++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -4,6 +4,7 @@
-  */
- 
- #include "xe_gt_tlb_invalidation.h"
-+#include "xe_migrate.h"
+@@ -7,6 +7,7 @@
+ #include "xe_migrate.h"
  #include "xe_pt.h"
  #include "xe_svm.h"
++#include "xe_ttm_vram_mgr.h"
  #include "xe_vm.h"
-@@ -319,6 +320,157 @@ static u64 xe_vram_region_page_to_dpa(struct xe_vram_region *vr,
- 	return dpa;
+ #include "xe_vm_types.h"
+ 
+@@ -465,8 +466,47 @@ static int xe_svm_copy_to_ram(struct page **pages, dma_addr_t *dma_addr,
+ 	return xe_svm_copy(pages, dma_addr, npages, XE_SVM_COPY_TO_SRAM);
  }
  
-+enum xe_svm_copy_dir {
-+	XE_SVM_COPY_TO_VRAM,
-+	XE_SVM_COPY_TO_SRAM,
-+};
-+
-+static int xe_svm_copy(struct page **pages, dma_addr_t *dma_addr,
-+		       unsigned long npages, const enum xe_svm_copy_dir dir)
++static struct xe_bo *to_xe_bo(struct drm_gpusvm_devmem *devmem_allocation)
 +{
-+	struct xe_vram_region *vr = NULL;
-+	struct xe_tile *tile;
-+	struct dma_fence *fence = NULL;
-+	unsigned long i;
-+#define XE_VRAM_ADDR_INVALID	~0x0ull
-+	u64 vram_addr = XE_VRAM_ADDR_INVALID;
-+	int err = 0, pos = 0;
-+	bool sram = dir == XE_SVM_COPY_TO_SRAM;
++	return container_of(devmem_allocation, struct xe_bo, devmem_allocation);
++}
 +
-+	/*
-+	 * This flow is complex: it locates physically contiguous device pages,
-+	 * derives the starting physical address, and performs a single GPU copy
-+	 * to for every 8M chunk in a DMA address array. Both device pages and
-+	 * DMA addresses may be sparsely populated. If either is NULL, a copy is
-+	 * triggered based on the current search state. The last GPU copy is
-+	 * waited on to ensure all copies are complete.
-+	 */
++static u64 block_offset_to_pfn(struct xe_vram_region *vr, u64 offset)
++{
++	return PHYS_PFN(offset + vr->hpa_base);
++}
 +
-+	for (i = 0; i < npages; ++i) {
-+		struct page *spage = pages[i];
-+		struct dma_fence *__fence;
-+		u64 __vram_addr;
-+		bool match = false, chunk, last;
++static struct drm_buddy *tile_to_buddy(struct xe_tile *tile)
++{
++	return &tile->mem.vram.ttm.mm;
++}
 +
-+#define XE_MIGRATE_CHUNK_SIZE	SZ_8M
-+		chunk = (i - pos) == (XE_MIGRATE_CHUNK_SIZE / PAGE_SIZE);
-+		last = (i + 1) == npages;
++static int xe_svm_populate_devmem_pfn(struct drm_gpusvm_devmem *devmem_allocation,
++				      unsigned long npages, unsigned long *pfn)
++{
++	struct xe_bo *bo = to_xe_bo(devmem_allocation);
++	struct ttm_resource *res = bo->ttm.resource;
++	struct list_head *blocks = &to_xe_ttm_vram_mgr_resource(res)->blocks;
++	struct drm_buddy_block *block;
++	int j = 0;
 +
-+		/* No CPU page and no device pages queue'd to copy */
-+		if (!dma_addr[i] && vram_addr == XE_VRAM_ADDR_INVALID)
-+			continue;
++	list_for_each_entry(block, blocks, link) {
++		struct xe_vram_region *vr = block->private;
++		struct xe_tile *tile = vr_to_tile(vr);
++		struct drm_buddy *buddy = tile_to_buddy(tile);
++		u64 block_pfn = block_offset_to_pfn(vr, drm_buddy_block_offset(block));
++		int i;
 +
-+		if (!vr && spage) {
-+			vr = page_to_vr(spage);
-+			tile = vr_to_tile(vr);
-+		}
-+		XE_WARN_ON(spage && page_to_vr(spage) != vr);
-+
-+		/*
-+		 * CPU page and device page valid, capture physical address on
-+		 * first device page, check if physical contiguous on subsequent
-+		 * device pages.
-+		 */
-+		if (dma_addr[i] && spage) {
-+			__vram_addr = xe_vram_region_page_to_dpa(vr, spage);
-+			if (vram_addr == XE_VRAM_ADDR_INVALID) {
-+				vram_addr = __vram_addr;
-+				pos = i;
-+			}
-+
-+			match = vram_addr + PAGE_SIZE * (i - pos) == __vram_addr;
-+		}
-+
-+		/*
-+		 * Mismatched physical address, 8M copy chunk, or last page -
-+		 * trigger a copy.
-+		 */
-+		if (!match || chunk || last) {
-+			/*
-+			 * Extra page for first copy if last page and matching
-+			 * physical address.
-+			 */
-+			int incr = (match && last) ? 1 : 0;
-+
-+			if (vram_addr != XE_VRAM_ADDR_INVALID) {
-+				if (sram)
-+					__fence = xe_migrate_from_vram(tile->migrate,
-+								       i - pos + incr,
-+								       vram_addr,
-+								       dma_addr + pos);
-+				else
-+					__fence = xe_migrate_to_vram(tile->migrate,
-+								     i - pos + incr,
-+								     dma_addr + pos,
-+								     vram_addr);
-+				if (IS_ERR(__fence)) {
-+					err = PTR_ERR(__fence);
-+					goto err_out;
-+				}
-+
-+				dma_fence_put(fence);
-+				fence = __fence;
-+			}
-+
-+			/* Setup physical address of next device page */
-+			if (dma_addr[i] && spage) {
-+				vram_addr = __vram_addr;
-+				pos = i;
-+			} else {
-+				vram_addr = XE_VRAM_ADDR_INVALID;
-+			}
-+
-+			/* Extra mismatched device page, copy it */
-+			if (!match && last && vram_addr != XE_VRAM_ADDR_INVALID) {
-+				if (sram)
-+					__fence = xe_migrate_from_vram(tile->migrate, 1,
-+								       vram_addr,
-+								       dma_addr + pos);
-+				else
-+					__fence = xe_migrate_to_vram(tile->migrate, 1,
-+								     dma_addr + pos,
-+								     vram_addr);
-+				if (IS_ERR(__fence)) {
-+					err = PTR_ERR(__fence);
-+					goto err_out;
-+				}
-+
-+				dma_fence_put(fence);
-+				fence = __fence;
-+			}
-+		}
++		for (i = 0; i < drm_buddy_block_size(buddy, block) >> PAGE_SHIFT; ++i)
++			pfn[j++] = block_pfn + i;
 +	}
 +
-+err_out:
-+	/* Wait for all copies to complete */
-+	if (fence) {
-+		dma_fence_wait(fence, false);
-+		dma_fence_put(fence);
-+	}
-+
-+	return err;
-+#undef XE_MIGRATE_CHUNK_SIZE
-+#undef XE_VRAM_ADDR_INVALID
++	return 0;
 +}
 +
-+static int xe_svm_copy_to_devmem(struct page **pages, dma_addr_t *dma_addr,
-+				 unsigned long npages)
-+{
-+	return xe_svm_copy(pages, dma_addr, npages, XE_SVM_COPY_TO_VRAM);
-+}
-+
-+static int xe_svm_copy_to_ram(struct page **pages, dma_addr_t *dma_addr,
-+			      unsigned long npages)
-+{
-+	return xe_svm_copy(pages, dma_addr, npages, XE_SVM_COPY_TO_SRAM);
-+}
-+
-+__maybe_unused
-+static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops = {
-+	.copy_to_devmem = xe_svm_copy_to_devmem,
-+	.copy_to_ram = xe_svm_copy_to_ram,
-+};
-+
- static const struct drm_gpusvm_ops gpusvm_ops = {
- 	.range_alloc = xe_svm_range_alloc,
- 	.range_free = xe_svm_range_free,
+ __maybe_unused
+ static const struct drm_gpusvm_devmem_ops gpusvm_devmem_ops = {
++	.populate_devmem_pfn = xe_svm_populate_devmem_pfn,
+ 	.copy_to_devmem = xe_svm_copy_to_devmem,
+ 	.copy_to_ram = xe_svm_copy_to_ram,
+ };
 -- 
 2.34.1
 
