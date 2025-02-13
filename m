@@ -2,65 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5D4EA34AB6
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:51:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0D1A34A90
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 17:47:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3448D10EB38;
-	Thu, 13 Feb 2025 16:51:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0571A10E45E;
+	Thu, 13 Feb 2025 16:47:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="D4jdYieB";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PmR6xa6R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 359 seconds by postgrey-1.36 at gabe;
- Thu, 13 Feb 2025 16:51:16 UTC
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 397CA10EB38
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:51:16 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 28C78600022F;
- Thu, 13 Feb 2025 16:45:14 +0000 (WET)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id D_X-8oSLhMw0; Thu, 13 Feb 2025 16:45:11 +0000 (WET)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id CB87E60020DD;
- Thu, 13 Feb 2025 16:45:10 +0000 (WET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
- s=mail; t=1739465111;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=//D+0qXwv5Gm0YeDVVYXQrXCtiWyh/Qcg6tCR6GBt/s=;
- b=D4jdYieBlgGj0cdGpUzvaClL8gP/IjGHUNP1odAglnuYitwG8ZtYOd6oMKsnKxq6yXH+Xk
- VG7X9GbHmY3Z6SAkLpu9IZZzr3GPKZlgkG/vZo50cTCx3qZgFy1dsf1cW8iN1ylxwfFvQd
- Ut9Vvt19KWCaK1kuYlb9o+GzcxVWEis=
-Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown
- [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id A77A6360259;
- Thu, 13 Feb 2025 16:45:09 +0000 (WET)
-Message-ID: <a77768b7-b4f5-47b1-8134-ca7e2bf5660b@tecnico.ulisboa.pt>
-Date: Thu, 13 Feb 2025 16:45:09 +0000
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2B910E45E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:47:29 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51D832Q9008889
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:47:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ pdPqwdhySUYtLxO6ZXkv3AyokTUz8gph0Rz4I17smjk=; b=PmR6xa6RZSIyGQYa
+ 1ohpI/2W5xKQVxwfYPJ0awefbsNAr4lfM/CAAqFZteBUfN/Hk7lWv7DgZJ67Q5J4
+ c0rzp3k/0BDNkKkZbheK4pWx9AWAuimPWGQ2kl3MU6uY8pepcnELWRO2Utp+QssC
+ 3iJvGz1SVsAiFYPQZc2cFWZyG0Q1mQkeZU/+yhfEmsa/yNWF/2RnPo/YP4MLkElr
+ mb9Wc4i+X9gNSB1zhyDWEAYcEG6eYMdgP87W9Jo+OJ0ZKkeAu5n8kB0Qxk0geN4c
+ FBJ3kU3ek6CgDpgJv2DrnjUB3TCBNFMwvjiD6YLH3shOCg9/8l1ZfdjNV+Onap//
+ GLxRbA==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44rr1qvnh7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 16:47:28 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-6e1b2251f36so2779226d6.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 08:47:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1739465247; x=1740070047;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pdPqwdhySUYtLxO6ZXkv3AyokTUz8gph0Rz4I17smjk=;
+ b=wKuMU1i/AUD+q0eRHMwRoiv0AtB/IOy+BQKUn3U4eXqs0Pt8DyuIH/6IBtzOTJzIuh
+ dyIbllLSHh6MY5vjLbroyQa9wVqqUeItREXmfn/veQtxb65hSnxxJs10X/3wwXy3H44n
+ dXdCHitALijq6rZFVGhbaLaqHlm4WKojFPbfZTWzu5SK0XqWFEV02XyKa0VFF6da1vqt
+ CcHohiKS/XdsEf9AFZXqKKB18a4Rk79d6slf5iQWk6lNk600+VGAAfx/NjmvvS+HP87I
+ Do4Lz+h3veYw4Lgi4fMHeBW22R7/wbhItouuq9jOXDNKVCX3+MzbRv0WoPoXcuteAJO2
+ sCEA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWF81niEjhQw8rRJMqjb1zRCqGIQt6wozIRNmtmGPsGBbmQcSwJwvmS+HmNxXKz+oHAryVK44HHUO4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw25I81gR4Twptw/t6DWp0T5zzwiMeUdn0kuFQShoDiF5iE+bMS
+ lg80/GXiJNzrYTV7e+/09tJGaD6vjt/PHt8le4l2C9FyK55VjV7xmm7Qa8ggHdTWdBBtBIiqFYO
+ nt/yzSoKYeFC5ttbs8VBflQx3eAMuYhE+TaTwI2WI0C3l8JSrVI8SKn5rgYhAf1tiWsg=
+X-Gm-Gg: ASbGnctFulrggUincyNh0xBQN62sbrRS+SXg3D1q6Fg/2mazS+mhOdXBUDKRNVyHTb6
+ DdtdvwMzvGIlneYd5H0lLzHaC3W6eEkfA+u5julHpMGgUPkOJsCqcJeUnHAkeljELDon2yrlhCt
+ UpjnsYpNdZPpEKUs/mQ4yHc5u077FMEHXDoyXbiuQXEP6QHeEW8dYznZePah1qEoGXLHYgafavH
+ Erj+Z1PycQ4Pwf1LptJ+cWQMBnbr9Q1KFNF4q2YvRIYnmEli+x26zKJKOByy4i50SZpEhn+ijC9
+ 25GJVxtPcN66SFqbEV+a96C8p27gA8yB3OseXwwuj3hsX5Y40yScKMPJyVc=
+X-Received: by 2002:a05:6214:1d0e:b0:6d8:967a:1a60 with SMTP id
+ 6a1803df08f44-6e46ed93ca3mr48905566d6.2.1739465247477; 
+ Thu, 13 Feb 2025 08:47:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGEetTXePMyTND5uVB//0Cph5yyIkXDH1QnV5NVQnh4WczSnYALFJyWUjGFeD039hxpYavxng==
+X-Received: by 2002:a05:6214:1d0e:b0:6d8:967a:1a60 with SMTP id
+ 6a1803df08f44-6e46ed93ca3mr48905226d6.2.1739465247027; 
+ Thu, 13 Feb 2025 08:47:27 -0800 (PST)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-aba533bee4asm162967666b.170.2025.02.13.08.47.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 13 Feb 2025 08:47:26 -0800 (PST)
+Message-ID: <eb7ec79c-a9d1-4d8e-975e-30f12bf583e5@oss.qualcomm.com>
+Date: Thu, 13 Feb 2025 17:47:23 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH rc] gpu: host1x: Do not assume that a NULL domain means no
- DMA IOMMU
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- Mikko Perttunen <mperttunen@nvidia.com>, Simona Vetter <simona@ffwll.ch>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <jroedel@suse.de>,
- Jerry Snitselaar <jsnitsel@redhat.com>, patches@lists.linux.dev
-References: <0-v1-10dcc8ce3869+3a7-host1x_identity_jgg@nvidia.com>
+Subject: Re: [PATCH 2/2] drm/msm/a6xx: Print GMU core firmware version at boot
+To: Thomas Zimmermann <tzimmermann@suse.de>, Abel Vesa <abel.vesa@linaro.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Akhil P Oommen <quic_akhilpo@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20241219-topic-gmu_fw_ver-v1-0-d403a70052d8@oss.qualcomm.com>
+ <20241219-topic-gmu_fw_ver-v1-2-d403a70052d8@oss.qualcomm.com>
+ <Z64fUjIfFzs4R8Im@linaro.org> <b8004a16-6130-4232-91fd-85d62c2b84ec@suse.de>
 Content-Language: en-US
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-In-Reply-To: <0-v1-10dcc8ce3869+3a7-host1x_identity_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <b8004a16-6130-4232-91fd-85d62c2b84ec@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: d-chEwm5Fiy-wFM0uf4D11Xy5VDryeHF
+X-Proofpoint-ORIG-GUID: d-chEwm5Fiy-wFM0uf4D11Xy5VDryeHF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-13_07,2025-02-13_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0
+ mlxscore=0 impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0
+ lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502130120
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,61 +121,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+On 13.02.2025 5:41 PM, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 13.02.25 um 17:35 schrieb Abel Vesa:
+>> On 24-12-19 23:36:56, Konrad Dybcio wrote:
+>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>>
+>>> Log the version for informational purposes, such as for keeping track
+>>> of possible GMU fw-related failures in crash / CI logs.
+>>>
+>>> Intentionally not implemented on the if (gmu->legacy) codepath, as
+>>> these registers seem not to be used on there.
+>>>
+>>> Downstream additionally warns if the firmware version is too old for
+>>> a given GPU, but we already pair the binary to a given GPU, so let's
+>>> not go there at the moment.
+>>>
+>>> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>> ---
 
-On 2/4/25 7:18 PM, Jason Gunthorpe wrote:
-> Previously with tegra-smmu, even with CONFIG_IOMMU_DMA, the default domain
-> could have been left as NULL. The NULL domain is specially recognized by
-> host1x_iommu_attach() as meaning it is not the DMA domain and
-> should be replaced with the special shared domain.
-> 
-> This happened prior to the below commit because tegra-smmu was using the
-> NULL domain to mean IDENTITY.
-> 
-> Now that the domain is properly labled the test in DRM doesn't see NULL.
-> Check for IDENTITY as well to enable the special domains.
-> 
-> This is the same issue and basic fix as seen in
-> commit fae6e669cdc5 ("drm/tegra: Do not assume that a NULL domain means no
-> DMA IOMMU").
-> 
-> Fixes: c8cc2655cc6c ("iommu/tegra-smmu: Implement an IDENTITY domain")
-> Reported-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Closes: https://lore.kernel.org/all/c6a6f114-3acd-4d56-a13b-b88978e927dc@tecnico.ulisboa.pt/
-> Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->   drivers/gpu/host1x/dev.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-> index 7b1d091f3c090c..5d27662019d28b 100644
-> --- a/drivers/gpu/host1x/dev.c
-> +++ b/drivers/gpu/host1x/dev.c
-> @@ -361,6 +361,10 @@ static bool host1x_wants_iommu(struct host1x *host1x)
->   	return true;
->   }
->   
-> +/*
-> + * Returns ERR_PTR on failure, NULL if the translation is IDENTITY, otherwise a
-> + * valid paging domain.
-> + */
->   static struct iommu_domain *host1x_iommu_attach(struct host1x *host)
->   {
->   	struct iommu_domain *domain = iommu_get_domain_for_dev(host->dev);
-> @@ -385,6 +389,8 @@ static struct iommu_domain *host1x_iommu_attach(struct host1x *host)
->   	 * Similarly, if host1x is already attached to an IOMMU (via the DMA
->   	 * API), don't try to attach again.
->   	 */
-> +	if (domain && domain->type == IOMMU_DOMAIN_IDENTITY)
-> +		domain = NULL;
->   	if (!host1x_wants_iommu(host) || domain)
->   		return domain;
->   
-> 
-> base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+[...]
 
-Any updates on the status of this patch?
+>> So maybe DRM_INFO_ONCE instead ?
+> 
+> drm_dbg() seems appropriate. Most of the time, firmware versions are not interesting.
 
-Thanks,
-Diogo
+Unfortunately, in our case they are, given users source them from all
+kinds of places..
+
+Konrad
