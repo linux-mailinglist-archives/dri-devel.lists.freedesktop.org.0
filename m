@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822E0A333E9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 01:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB28A333FF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 01:32:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 056F410E337;
-	Thu, 13 Feb 2025 00:18:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB0410E0A9;
+	Thu, 13 Feb 2025 00:32:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="wDMJQN0P";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YhynjHT3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
- [209.85.208.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD2310E337
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 00:18:26 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id
- 38308e7fff4ca-3076262bfc6so3216881fa.3
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 16:18:26 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5122910E9B0
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 00:32:26 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-3072f8dc069so3295071fa.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 12 Feb 2025 16:32:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739405904; x=1740010704; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1739406744; x=1740011544; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=NYwMl8hYId1dHgVixRuFQX5UO/e6ftwN7SI4dVqr4nw=;
- b=wDMJQN0PbU2O4dKeIzRbl4v9ikNvw4SxXmfgZQUdoqqR2yg+go5WTs41c4C8c/OdSY
- Ff4lqA5vZDDXsVsU0nFy/G8GjJqCJYY7gjomA61b/jOjxUn4dHkuIjMe4Qe12thNMjUr
- FgscHXZun0Ey4G2ILgCDkVjAyVeJdIvH+IFjLYrDfkE2M7s1sUIBFpwhYeDot0K8Ipi5
- sMhjxRaYtK/IuBrZlRvu422oflifH+hB3EExiHPrGAdXp5Ih9h5MjbNS1NprKU1OKzBA
- WpgP8sWkLwdSFmTjNJjyxb4l2rtks/KStiMlwtk1NznX+e7YLL5tAR+TbgMOgpg74nAB
- 0XjA==
+ bh=1zHhZW0PtiVglVCQQ6HaP/ZxVchC1gguQ+ErerQXn0c=;
+ b=YhynjHT3dHOk/13Hja6fMPw4A8/hQZD0ScIcogKaG4kaY8qcZ/7nIJiugwnH0OhFLw
+ PlyMdSVkmJhwTjyoPdX0mVmWCY8lJR7pXOkgeJ8xP7Uwz/OyBOJXLjMh4RfZCzwFK4EA
+ XjEwUcSwDduTH2k1OOz7fCl82AumcMiOe4OHX42bU5ud6MOGRFJMOWL5BJ/SLdkFBZxw
+ trPkFDJxFnx5ks7WuuoqA2+EyPT9FuzGpyl5iFtJrJbhMGeUWtO0lnD3xwmFfbCt1KhR
+ NB0HE6Hbr/vCz1ANqqQYKfcoUdOmTtTabYy91mY4nzAWwmAgGtkWYOSrBlC+mueln8z3
+ cXqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739405904; x=1740010704;
+ d=1e100.net; s=20230601; t=1739406744; x=1740011544;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=NYwMl8hYId1dHgVixRuFQX5UO/e6ftwN7SI4dVqr4nw=;
- b=L5Bjkjm2bB6M5sqklV2Iw/3rZwHDrTiLguy8nb/R3sTTC8EyBoJfFryBp1IEwGlM6Y
- AfJcNe9WGBcWih3T2p//Z/IU1FmM6SCC+u4209b80LFc+IqjJxWZ5hK8Eh54vASuU0Xa
- acUpoPaNFYP8Et/94aMR+VKbeeOvs/5z4F376G7qSlnu0TEQKrjrPp1QagYWOUcCzToa
- gEItZFM/+DFvdHFFqyD/pYNDzuD7/kpxGpwNUwbEmBQyiza0hESgV6K/JtPUxn46G+QC
- bPtREBikLBwSMTtIUKSt7TSneIjJElJtJN2MEO7G0E3G0cHjo0hU//dsW+pnhgStkPp8
- 23Ew==
+ bh=1zHhZW0PtiVglVCQQ6HaP/ZxVchC1gguQ+ErerQXn0c=;
+ b=sSuBdN97yY0wjVDAUE+HuwZK9mmD8Fxkq37LSgdtG4rJLlM6p+J2saczAS92fJWyNW
+ 28J8/mkHs5vV/zyclLqnS+2VB3A844PSnbwSnkQZcUjB7PIEiv3MTodbH7oVQy5BOvu3
+ BlWq0GGea/dFq8oCLO/AekU3uDTTr/oGsJlSdu8PJgnIxUGYsRbJdvTQ7gc4bb+BF4Jr
+ dGjUezj2AuGZ0Gy0qZFPrV1yTN6TfEf9rZZyyuEx/K+7vi4KTbCzrDDEgM6XQW3u8MDX
+ 0YASy73d70PdophC8hjPA9guyqlWPtLAjbzMHeWPKKLyW++/USB8g8rYRYsZHBLS+BMY
+ xKmA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWr5GTEGulmbim0Gw4CeHN3tnw4uvECb46pXqgZRgGpDH4rKPwsXprxLreknkY3igxnTiPMdzygUcI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPz1v1DCy2s98yl7XOFo71YbC6yTcnZDTWllmQPiRveq7xdM6h
- CHPx3loVL43QqNlvK0O//66LAQoAUxNuzmNr2+hqVHP/5pZrO05JeKxkbSg10hM=
-X-Gm-Gg: ASbGncsyCXPLrkNpTrUIRJ96aTN5jEq4FNSEVU7ZTN23OznR4Z8EFUwnhHasJRHYl6U
- e85hq41PKJfGm1FYwmTeNahaAoY/L/gwkSNhF57Xv4RYDT3XfBvs5yQ+HYwKQoAeLmPzjMW/hVU
- 5GMfPIupl7o5Pfv/wlvEznN/wDVmu372PiXP6MGKcHUUt7XlXdhaCX6c1VbT8jaxIYHpXUmxWbi
- jNocJ6jy1SSgZ9ELe96xNFBbiP0DvjqMwSfha9Fxp/+L4iTDLBUv6gl3SmFbQBhocqRO2kuR4yj
- WpNlSTTPZ+XF3op+S/iapSH+ahbUx9Pjqc/1flIYsmIeqJpfUmg1mZgpCSMK4QeX4+DJaMo=
-X-Google-Smtp-Source: AGHT+IEGBtbida/nkyz2iSc/ztiC9h+P0x7PpqIb2FckqspMzJVGwE6/YlJrL2BX/gLygIxkY5XDvw==
-X-Received: by 2002:a2e:b8c8:0:b0:309:bc3:3a56 with SMTP id
- 38308e7fff4ca-3090db47b6bmr5792721fa.0.1739405904383; 
- Wed, 12 Feb 2025 16:18:24 -0800 (PST)
+ AJvYcCUR/hOxBApDcEJyZgN6FPT0IQr4b5+O4cpPRiNW5qDWIdxgP81dfjrVG126wrVVjKQwEJdxkJtvXww=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyqv/NdBrMzt6bqVH399/+c3KI3/1tU4/OnqRFwrETAP328PndV
+ Ok8Zdpc98732/6l6yCkbDiimppFOIcOi836mXzZMrznaZJ/zN8ElYSVHo4TsXb8=
+X-Gm-Gg: ASbGncvHcB7DpsYa5AgCazRM9ByipDlshskbPtXWO/t8gXLiyo+6O3K75/tfw8MIhhr
+ FyVFROUqGTZRqrGA/XWjheugIXE3ivCSbbQ9qr1106t8PF01p2E0ICKthRD6kJ7fOpi1MzJw4I+
+ y5bpDOH8uNnZNo/8uWusI8X6OjjNvTMtOtEkNRhVurTWi8SCvUxW195dAqnhr4UtxENaClej+21
+ fQ6nMQfT9ug1XQZZLZyu4Q0J49uQY4cZYXHYmdCIqAQtmfJoaPQV9mKfoij9wXFWyZMNM+9VdXW
+ 1/PEJAi1tCdJZwwc1W3Garb1CcAR9MgSR+pAYNoJrc3DP4ICYV0cXbcaGCK8DnePiIQ6DaI=
+X-Google-Smtp-Source: AGHT+IEArsUcvVPeYrZBwxnDDl7vuZk0nY8nJEpvr5fdwgUL8uWe2QI+7plrNZeEdVTvnOM7l92iSA==
+X-Received: by 2002:a05:651c:19a3:b0:302:2cdf:7fbb with SMTP id
+ 38308e7fff4ca-3090362f7e6mr18558401fa.6.1739406744269; 
+ Wed, 12 Feb 2025 16:32:24 -0800 (PST)
 Received: from eriador.lumag.spb.ru
  (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-309100c691fsm388161fa.5.2025.02.12.16.18.22
+ 38308e7fff4ca-3091029b34asm369751fa.97.2025.02.12.16.32.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 12 Feb 2025 16:18:23 -0800 (PST)
-Date: Thu, 13 Feb 2025 02:18:20 +0200
+ Wed, 12 Feb 2025 16:32:23 -0800 (PST)
+Date: Thu, 13 Feb 2025 02:32:20 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Yongbang Shi <shiyongbang@huawei.com>
 Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com, 
@@ -71,15 +71,15 @@ Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
  chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
  shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 drm-dp 5/7] drm/hisilicon/hibmc: Get link status and
- dpcd caps
-Message-ID: <yiaq5suivzbgjzc2q5pjxwmfmwaqdhg6of3nn44wirmer3g62w@ytvgyr4h773l>
+Subject: Re: [PATCH v2 drm-dp 6/7] drm/hisilicon/hibmc: Add drm debugfs
+ functions
+Message-ID: <afi5npgvnrp56oufhc7576auya26lbwgu377dprddode2kp3sb@u5ctx4o22w4v>
 References: <20250210144959.100551-1-shiyongbang@huawei.com>
- <20250210144959.100551-6-shiyongbang@huawei.com>
+ <20250210144959.100551-7-shiyongbang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210144959.100551-6-shiyongbang@huawei.com>
+In-Reply-To: <20250210144959.100551-7-shiyongbang@huawei.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,182 +95,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 10, 2025 at 10:49:57PM +0800, Yongbang Shi wrote:
+On Mon, Feb 10, 2025 at 10:49:58PM +0800, Yongbang Shi wrote:
 > From: Baihan Li <libaihan@huawei.com>
 > 
-> Prepare the hibmc_dp_get_foo() functions for debugfs using in
-> next patch. We also add dpcd's if statement in link training process,
-> because we have the dpcd.
+> We use the previous two patches as our debug functions and
+> generate two files. "hibmc-dp" and "color-bar".
+> hibmc-dp: read only, print the dp link status and dpcd version
 
-Unrelated, split to a separate patch.
+Please define a generic DP attribute for this, handle it in
+drm_dp_helper.c. Other drivers then can reuse this debugfs file.
+Also note drm_dp_downstream_debug(), it might also be helpful.
+Also see msm_dp_debug_show() for inspiration
+
+> color-bar: read/write
+>            write: cfg color bar and enable/disable it by your input
+>            read: print your current cfg info of color-bar
+
+This really should go into your color-bar patch.
 
 > 
 > Signed-off-by: Baihan Li <libaihan@huawei.com>
 > Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 > ---
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h |  3 ++
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c   | 15 ++++++++
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h   |  3 ++
->  drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c | 39 ++++++++++++++++----
->  4 files changed, 52 insertions(+), 8 deletions(-)
+> ChangeLog:
+> v1 -> v2:
+>   - deleting edid decoder and its debugfs, suggested by Dmitry Baryshkov.
+>   - using debugfs_init() callback, suggested by Dmitry Baryshkov.
+> ---
+>  drivers/gpu/drm/hisilicon/hibmc/Makefile      |   3 +-
+>  .../drm/hisilicon/hibmc/hibmc_drm_debugfs.c   | 124 ++++++++++++++++++
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    |   1 +
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.h   |   2 +
+>  4 files changed, 129 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
 > 
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-> index d613da8b544c..8eb1659c7685 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h
-> @@ -26,6 +26,9 @@ struct hibmc_link_status {
->  struct hibmc_link_cap {
->  	u8 link_rate;
->  	u8 lanes;
-> +	int rx_dpcd_revision;
-> +	bool is_tps3;
-> +	bool is_tps4;
->  };
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/Makefile b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> index 43de077d6769..1f65c683282f 100644
+> --- a/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/Makefile
+> @@ -1,5 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  hibmc-drm-y := hibmc_drm_drv.o hibmc_drm_de.o hibmc_drm_vdac.o hibmc_drm_i2c.o \
+> -	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_serdes.o hibmc_drm_dp.o
+> +	       dp/dp_aux.o dp/dp_link.o dp/dp_hw.o dp/dp_serdes.o hibmc_drm_dp.o \
+> +	       hibmc_drm_debugfs.o
 >  
->  struct hibmc_dp_link {
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> index 8adace0befde..5e889c377117 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
-> @@ -227,6 +227,21 @@ int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode)
->  	return 0;
->  }
->  
-> +u8 hibmc_dp_get_link_rate(struct hibmc_dp *dp)
-> +{
-> +	return dp->dp_dev->link.cap.link_rate;
-> +}
+>  obj-$(CONFIG_DRM_HISI_HIBMC) += hibmc-drm.o
+> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
+> new file mode 100644
+> index 000000000000..af2efb70d6ea
+> --- /dev/null
+> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_debugfs.c
+> @@ -0,0 +1,124 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +// Copyright (c) 2024 Hisilicon Limited.
 > +
-> +u8 hibmc_dp_get_lanes(struct hibmc_dp *dp)
-> +{
-> +	return dp->dp_dev->link.cap.lanes;
-> +}
+> +#include <linux/debugfs.h>
+> +#include <linux/device.h>
+> +#include <linux/seq_file.h>
+> +#include <linux/pci.h>
 > +
-> +int hibmc_dp_get_dpcd(struct hibmc_dp *dp)
-> +{
-> +	return dp->dp_dev->link.cap.rx_dpcd_revision;
-> +}
+> +#include <drm/drm_drv.h>
+> +#include <drm/drm_file.h>
+> +#include <drm/drm_debugfs.h>
+> +#include <drm/drm_edid.h>
 > +
->  static const struct hibmc_dp_color_raw g_rgb_raw[] = {
->  	{CBAR_COLOR_BAR, 0x000, 0x000, 0x000},
->  	{CBAR_WHITE,     0xfff, 0xfff, 0xfff},
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> index 621a0a1d7eb7..823544b8008b 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
-> @@ -54,6 +54,9 @@ struct hibmc_dp {
->  int hibmc_dp_hw_init(struct hibmc_dp *dp);
->  int hibmc_dp_mode_set(struct hibmc_dp *dp, struct drm_display_mode *mode);
->  void hibmc_dp_display_en(struct hibmc_dp *dp, bool enable);
-> +int hibmc_dp_get_dpcd(struct hibmc_dp *dp);
-> +u8 hibmc_dp_get_link_rate(struct hibmc_dp *dp);
-> +u8 hibmc_dp_get_lanes(struct hibmc_dp *dp);
->  void hibmc_dp_set_cbar(struct hibmc_dp *dp, const struct hibmc_dp_cbar_cfg *cfg);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-> index 4a99a9b7e3c4..39345fc78c06 100644
-> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
-> @@ -7,6 +7,7 @@
->  #include "dp_comm.h"
->  #include "dp_reg.h"
->  #include "dp_serdes.h"
-> +#include "dp_config.h"
->  
->  #define HIBMC_EQ_MAX_RETRY 5
->  
-> @@ -42,11 +43,7 @@ static int hibmc_dp_link_training_configure(struct hibmc_dp_dev *dp)
->  		return ret >= 0 ? -EIO : ret;
->  	}
->  
-> -	ret = drm_dp_read_dpcd_caps(dp->aux, dp->dpcd);
-> -	if (ret)
-> -		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
-> -
-> -	return ret;
+> +#include "hibmc_drm_drv.h"
+> +
+> +static int hibmc_dp_show(struct seq_file *m, void *arg)
+> +{
+> +	struct drm_info_node *node = m->private;
+> +	struct drm_device *dev = node->minor->dev;
+> +	struct hibmc_drm_private *priv = to_hibmc_drm_private(dev);
+> +	int idx;
+> +
+> +	if (!drm_dev_enter(dev, &idx))
+> +		return -ENODEV;
+> +
+> +	seq_printf(m, "enable lanes: %u\n", hibmc_dp_get_lanes(&priv->dp));
+> +	seq_printf(m, "link rate: %d\n", hibmc_dp_get_link_rate(&priv->dp) * 27);
+> +	seq_printf(m, "dpcd version: 0x%x\n", hibmc_dp_get_dpcd(&priv->dp));
+> +
+> +	drm_dev_exit(idx);
+> +
 > +	return 0;
->  }
->  
->  static int hibmc_dp_link_set_pattern(struct hibmc_dp_dev *dp, int pattern)
-> @@ -189,15 +186,17 @@ static int hibmc_dp_link_training_cr(struct hibmc_dp_dev *dp)
->  	bool level_changed;
->  	u32 voltage_tries;
->  	u32 cr_tries;
-> +	u32 max_cr;
->  	int ret;
->  
->  	/*
->  	 * DP 1.4 spec define 10 for maxtries value, for pre DP 1.4 version set a limit of 80
->  	 * (4 voltage levels x 4 preemphasis levels x 5 identical voltage retries)
->  	 */
-> +	max_cr = dp->link.cap.rx_dpcd_revision >= DP_DPCD_REV_14 ? 10 : 80;
->  
->  	voltage_tries = 1;
-> -	for (cr_tries = 0; cr_tries < 80; cr_tries++) {
-> +	for (cr_tries = 0; cr_tries < max_cr; cr_tries++) {
->  		drm_dp_link_train_clock_recovery_delay(dp->aux, dp->dpcd);
->  
->  		ret = drm_dp_dpcd_read_link_status(dp->aux, lane_status);
-> @@ -234,7 +233,7 @@ static int hibmc_dp_link_training_cr(struct hibmc_dp_dev *dp)
->  		voltage_tries = level_changed ? 1 : voltage_tries + 1;
->  	}
->  
-> -	drm_err(dp->dev, "dp link training clock recovery 80 times failed\n");
-> +	drm_err(dp->dev, "dp link training clock recovery %u times failed\n", max_cr);
->  	dp->link.status.clock_recovered = false;
->  
->  	return 0;
-> @@ -244,9 +243,17 @@ static int hibmc_dp_link_training_channel_eq(struct hibmc_dp_dev *dp)
->  {
->  	u8 lane_status[DP_LINK_STATUS_SIZE] = {0};
->  	u8 eq_tries;
-> +	int tps;
->  	int ret;
->  
-> -	ret = hibmc_dp_link_set_pattern(dp, DP_TRAINING_PATTERN_2);
-> +	if (dp->link.cap.is_tps4)
-> +		tps = DP_TRAINING_PATTERN_4;
-> +	else if (dp->link.cap.is_tps3)
-> +		tps = DP_TRAINING_PATTERN_3;
-> +	else
-> +		tps = DP_TRAINING_PATTERN_2;
-> +
-> +	ret = hibmc_dp_link_set_pattern(dp, tps);
->  	if (ret)
->  		return ret;
->  
-> @@ -313,11 +320,27 @@ static int hibmc_dp_link_downgrade_training_eq(struct hibmc_dp_dev *dp)
->  	return hibmc_dp_link_reduce_rate(dp);
->  }
->  
-> +static void hibmc_dp_update_caps(struct hibmc_dp_dev *dp)
-> +{
-> +	dp->link.cap.rx_dpcd_revision = dp->dpcd[DP_DPCD_REV];
-> +
-> +	dp->link.cap.is_tps3 = (dp->dpcd[DP_DPCD_REV] >= DP_DPCD_REV_13) &&
-> +			       (dp->dpcd[DP_MAX_LANE_COUNT] & DP_TPS3_SUPPORTED);
-> +	dp->link.cap.is_tps4 = (dp->dpcd[DP_DPCD_REV] >= DP_DPCD_REV_14) &&
-> +			       (dp->dpcd[DP_MAX_DOWNSPREAD] & DP_TPS4_SUPPORTED);
 > +}
 > +
->  int hibmc_dp_link_training(struct hibmc_dp_dev *dp)
->  {
->  	struct hibmc_dp_link *link = &dp->link;
->  	int ret;
->  
-> +	ret = drm_dp_read_dpcd_caps(dp->aux, dp->dpcd);
+> +static ssize_t hibmc_control_write(struct file *file, const char __user *user_buf,
+> +				   size_t size, loff_t *ppos)
+> +{
+> +	struct hibmc_drm_private *priv = file_inode(file)->i_private;
+> +	struct hibmc_dp_cbar_cfg *cfg = &priv->dp.cfg;
+> +	u32 input = 0;
+> +	int ret, idx;
+> +	u8 val;
+> +
+> +	ret = kstrtou32_from_user(user_buf, size, 0, &input);
 > +	if (ret)
-> +		drm_err(dp->dev, "dp aux read dpcd failed, ret: %d\n", ret);
+> +		return ret;
 > +
-> +	hibmc_dp_update_caps(dp);
+> +	val = FIELD_GET(GENMASK(13, 10), input);
+> +	if (val > 9)
+> +		return -EINVAL;
+> +	cfg->pattern = val;
+> +	cfg->enable = FIELD_GET(BIT(0), input);
+> +	cfg->self_timing = FIELD_GET(BIT(1), input);
+> +	cfg->dynamic_rate = FIELD_GET(GENMASK(9, 2), input);
+
+Having a binary file format is really a sad idea. Can it be a text file
+instead?
+
 > +
->  	while (true) {
->  		ret = hibmc_dp_link_training_cr_pre(dp);
->  		if (ret)
-> -- 
-> 2.33.0
-> 
+> +	ret = drm_dev_enter(&priv->dev, &idx);
+> +	if (!ret)
+> +		return -ENODEV;
+> +
+> +	hibmc_dp_set_cbar(&priv->dp, cfg);
+> +
+> +	drm_dev_exit(idx);
+> +
+> +	return size;
+> +}
+> +
 
 -- 
 With best wishes
