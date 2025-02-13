@@ -2,86 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16205A33FCD
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16C4A33FDA
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 14:05:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00A4A10E058;
-	Thu, 13 Feb 2025 13:04:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4149210EA89;
+	Thu, 13 Feb 2025 13:05:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="oqYO2Ck8";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="O1mR/FTU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE17010E058
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:04:10 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-3076262bfc6so9396311fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 05:04:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1739451849; x=1740056649; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9M0Mt5WJSxElcIuCWOIqXan7km/lbDqEzpkYN84/dJA=;
- b=oqYO2Ck8BM0bpnXzYYlmiiqZHYFYY86NcFOut6VyUdv9g6jTBBUxxMbD/5IJOM57Ax
- CGfh9NNChz9PfGOGXD/a2sHFSQtXrtXp1eBHOI19tRxRI0kISBAvjquktN+yATTjGpht
- 4gntAhovrLyEIWR5p3thGGTrg0p15nGHwMTHyR0kITfJ8NO+4YUWxoGO26MF0Rr++JcN
- d+EdqRmGoKKaDtRx/GTCqvpHDiZ0rSgycDvFDRd+xQJJFM3c7qk6T0Eejjqcup+KmxAb
- 8y10yjqqITcOmvuiBL+o6D6iXuovkzyKKNWVZtzmNbCUCz0eyZMvHgyN5xBlRqSlTPi+
- GZMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739451849; x=1740056649;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9M0Mt5WJSxElcIuCWOIqXan7km/lbDqEzpkYN84/dJA=;
- b=pTyjMggOe34PX8QSpx8kamoYvuvqhtjkfTRc+WNVeoairYN9VTFM3qsbqUop6Kv1QW
- /2J2186gyqYcmtXaQKTMT9btmp+g7Dr68vD0LcmBibFwpMLu2fTA25PlREzrODDRBO0Y
- kj/YK25dzZxsGebk1yV5Mtr4sgwpuPqxgxWM3bA+wEhIaXqzSh8ZfYy0ZqJlex3uWVLo
- F5gt49g+kjfR+1vE5yi7ewX0qLk4Jgh8wsJg6+fDB+XipQKBlaFq1+z09ROazqOa0hav
- Gdb0h+rIcV2fINGHamPzwRKeTwRD8dDN2cWh4h6GTuXKHcEJpZsTjReQCEFFP9GLinSW
- HgVw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUIWkJJZKP8pCji2QDNoJGISITaKWtnsMraYqJDotZKHwnjVjaVs8AoRnvK1i0kWCRdVWnv0wQltqM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzryA8/RlW3DDF4qpCAOq+MRM7einYhPLvyXMwxVCcRjz0wih7N
- DNIkw4rKVOszvxFea7PCM+jkCGFXPkDWCMQ0MAMHi8MxWJqqFhMITpy2rRhLkWU=
-X-Gm-Gg: ASbGncs8jT3EX++qLHlTB3jY9L/0f3ZBIxi7zPDu2BKduIolzSSGPQ02BeNaI4mBhTa
- XkUokEwBKzrXrDPV60+GsnxVnGRjhk+V0Ag1wMuGXKdG8ebyesdq7yPvg2q5GaQ9S+iniedsI+Q
- CdFcgBq5GW20SVq0jjPbYKMS9KTGE8ff7z1HtyFxbM4HfzHmywVNbNszK2AlGCrz5JqpKIIwxKb
- nnhm7BmDBbiu85OLoRLGrHDCVeJHLyB+G9RNjxK2wG79h6fx/7OxG6zOaIggqlL9lFTrOsqIRpa
- 9rHiHLfFhoqg4shdTfRKx86Kt81v20jg+oa6Pf4fcYE7CHYaWhRBm1iHRpm8kKzb1b7yX24=
-X-Google-Smtp-Source: AGHT+IEq/anpYLY9nEhE3VU25KR7Z1ZKd2FKBiwiGsolUNRY4mYoAnsSMu0kTE/IwrpYCut7+kAEZA==
-X-Received: by 2002:a2e:be84:0:b0:300:25f6:9b3d with SMTP id
- 38308e7fff4ca-3090dca0d0cmr12112541fa.10.1739451848323; 
- Thu, 13 Feb 2025 05:04:08 -0800 (PST)
-Received: from eriador.lumag.spb.ru
- (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-30910276f05sm1870911fa.86.2025.02.13.05.04.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Feb 2025 05:04:07 -0800 (PST)
-Date: Thu, 13 Feb 2025 15:04:04 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Xin Ji <xji@analogixsemi.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- bliang@analogixsemi.com, 
- qwen@analogixsemi.com, treapking@google.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge:anx7625: Enable DSC feature
-Message-ID: <oi3q3xvwcdwps6vhjxubipl7oci5h74ovp4mkhzgcu6gla3zjt@m6yndg7rmp2i>
-References: <20250213123331.3016824-1-xji@analogixsemi.com>
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4E1910EA89
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 13:05:46 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4YtwQv52lWz9skF;
+ Thu, 13 Feb 2025 14:05:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1739451943; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O5kqSvmNzwswbHip6SXUg28tvIe15CZto37LlfL7CFg=;
+ b=O1mR/FTUbFpMB+oc/uUjfNRiilaH9d1aiSdtGESpF4I+r1jBN+GvsPHlTyEpV+LSjA6JWR
+ OCgky89DWGV/GrRJts4TGUCwyKL26DR2FaE7/Ix2JmuaKi+5M/UCyydGwy8S+c42pbXPgX
+ EsJtvt+mCWL410VIZ6Wlv+PDIP+mQClmGnqFjAMLtSJu1AWaUcsAI+LU/EhEnOYGiCf57/
+ hoMKaq8Wn3QY1ywV3Ymkn19/MPYiJ/53+FM1dgHGqXkfDMBC2Nw48F9ixQ/g6fCGrNOy5+
+ 9+5YoTEHIby/gbMxrsjVZqvtcUZk3TzmnTSBte/y+EsanDuDK8PyguV6jFx3hA==
+Message-ID: <08870ee9960cc90106859104b8053c0c3f1d0fbe.camel@mailbox.org>
+Subject: Re: [RFC 2/5] drm/scheduler: Add scheduler unit testing
+ infrastructure and some basic tests
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Philipp Stanner <phasta@kernel.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo Krummrich
+ <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
+Date: Thu, 13 Feb 2025 14:05:39 +0100
+In-Reply-To: <20250207143337.60154-3-tvrtko.ursulin@igalia.com>
+References: <20250207143337.60154-1-tvrtko.ursulin@igalia.com>
+ <20250207143337.60154-3-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250213123331.3016824-1-xji@analogixsemi.com>
+X-MBO-RS-ID: 61b6717fe9cb4c45d2b
+X-MBO-RS-META: bd7nxk51mw1r1yt9uqmb9uz3auj5aj9a
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,538 +64,844 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Feb 13, 2025 at 08:33:30PM +0800, Xin Ji wrote:
-> As anx7625 MIPI RX bandwidth(maximum 1.5Gbps per lane) and internal
-> pixel clock(maximum 300M) limitation. Anx7625 must enable DSC feature
-> while MIPI source want to output 4K30 resolution.
+I'm in principle OK with this series. We'll have to discuss a few more
+things, but from my POV you could send the next revision as a v1.
 
-This commit message is pretty hard to read and understand for a
-non-native speaker. Please consider rewriting it so that it is easier to
-understand it.
+Some more input below..
 
-> 
-> Signed-off-by: Xin Ji <xji@analogixsemi.com>
+On Fri, 2025-02-07 at 14:33 +0000, Tvrtko Ursulin wrote:
+> Implement a mock scheduler backend and add some basic test to
+> exercise the
+> core scheduler code paths.
+>=20
+> Mock backend (kind of like a very simple mock GPU) can either process
+> jobs
+> by tests manually advancing the "timeline" job at a time, or
+> alternatively
+> jobs can be configured with a time duration in which case they get
+> completed asynchronously from the unit test code.
+>=20
+> Core scheduler classes are subclassed to support this mock
+> implementation.
+>=20
+> The tests added are just a few simple submission patterns.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Suggested-by: Philipp Stanner <phasta@kernel.org>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
 > ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 300 ++++++++++++++++++----
->  drivers/gpu/drm/bridge/analogix/anx7625.h |  32 +++
->  2 files changed, 284 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 4be34d5c7a3b..7d86ab02f71c 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -22,6 +22,7 @@
->  
->  #include <drm/display/drm_dp_aux_bus.h>
->  #include <drm/display/drm_dp_helper.h>
-> +#include <drm/display/drm_dsc_helper.h>
->  #include <drm/display/drm_hdcp_helper.h>
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
-> @@ -476,6 +477,138 @@ static int anx7625_set_k_value(struct anx7625_data *ctx)
->  				 MIPI_DIGITAL_ADJ_1, 0x3D);
->  }
->  
-> +static int anx7625_set_dsc_params(struct anx7625_data *ctx)
+> =C2=A0drivers/gpu/drm/Kconfig.debug=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 +
+> =C2=A0drivers/gpu/drm/scheduler/.kunitconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 12 +
+> =C2=A0drivers/gpu/drm/scheduler/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/gpu/drm/scheduler/tests/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 4 +
+> =C2=A0.../gpu/drm/scheduler/tests/drm_mock_entity.c |=C2=A0 29 ++
+> =C2=A0.../gpu/drm/scheduler/tests/drm_mock_job.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 3 +
+> =C2=A0.../drm/scheduler/tests/drm_mock_scheduler.c=C2=A0 | 255
+> ++++++++++++++++++
+> =C2=A0.../gpu/drm/scheduler/tests/drm_sched_tests.h | 128 +++++++++
+> =C2=A0.../scheduler/tests/drm_sched_tests_basic.c=C2=A0=C2=A0 | 188 +++++=
+++++++++
+> =C2=A09 files changed, 632 insertions(+)
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/.kunitconfig
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/Makefile
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_entity.=
+c
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> =C2=A0create mode 100644
+> drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> =C2=A0create mode 100644 drivers/gpu/drm/scheduler/tests/drm_sched_tests.=
+h
+> =C2=A0create mode 100644
+> drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+
+I'm still not that convinced about the naming convention of those
+files. They reside in drm/scheduler, but are called
+drm_mock_{something}.c, almost reading as if they are about DRM in
+general.
+
+I think we should keep it consistent with the files in drm/scheduler/
+and just call those drm/scheduler/tests/sched_mock_job.c etc.
+
+>=20
+> diff --git a/drivers/gpu/drm/Kconfig.debug
+> b/drivers/gpu/drm/Kconfig.debug
+> index a35d74171b7b..89f777f21e95 100644
+> --- a/drivers/gpu/drm/Kconfig.debug
+> +++ b/drivers/gpu/drm/Kconfig.debug
+> @@ -88,5 +88,17 @@ config DRM_TTM_KUNIT_TEST
+> =C2=A0
+> =C2=A0	=C2=A0 If in doubt, say "N".
+> =C2=A0
+> +config DRM_SCHED_KUNIT_TEST
+> +	tristate "KUnit tests for the DRM scheduler" if
+> !KUNIT_ALL_TESTS
+> +	select DRM_SCHED
+> +	depends on DRM && KUNIT
+> +	default KUNIT_ALL_TESTS
+> +	help
+> +	=C2=A0 Choose this option to build unit tests for the DRM
+> scheduler.
+> +
+> +	=C2=A0 Recommended for driver developers only.
+> +
+> +	=C2=A0 If in doubt, say "N".
+> +
+> =C2=A0config DRM_EXPORT_FOR_TESTS
+> =C2=A0	bool
+> diff --git a/drivers/gpu/drm/scheduler/.kunitconfig
+> b/drivers/gpu/drm/scheduler/.kunitconfig
+> new file mode 100644
+> index 000000000000..cece53609fcf
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/.kunitconfig
+> @@ -0,0 +1,12 @@
+> +CONFIG_KUNIT=3Dy
+> +CONFIG_DRM=3Dy
+> +CONFIG_DRM_SCHED_KUNIT_TEST=3Dy
+> +CONFIG_EXPERT=3Dy
+> +CONFIG_DEBUG_SPINLOCK=3Dy
+> +CONFIG_DEBUG_MUTEXES=3Dy
+> +CONFIG_DEBUG_ATOMIC_SLEEP=3Dy
+> +CONFIG_LOCK_DEBUGGING_SUPPORT=3Dy
+> +CONFIG_PROVE_LOCKING=3Dy
+> +CONFIG_LOCKDEP=3Dy
+> +CONFIG_DEBUG_LOCKDEP=3Dy
+> +CONFIG_DEBUG_LIST=3Dy
+> diff --git a/drivers/gpu/drm/scheduler/Makefile
+> b/drivers/gpu/drm/scheduler/Makefile
+> index 53863621829f..46dfdca0758a 100644
+> --- a/drivers/gpu/drm/scheduler/Makefile
+> +++ b/drivers/gpu/drm/scheduler/Makefile
+> @@ -23,3 +23,4 @@
+> =C2=A0gpu-sched-y :=3D sched_main.o sched_fence.o sched_entity.o
+> =C2=A0
+> =C2=A0obj-$(CONFIG_DRM_SCHED) +=3D gpu-sched.o
+> +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) +=3D tests/
+> diff --git a/drivers/gpu/drm/scheduler/tests/Makefile
+> b/drivers/gpu/drm/scheduler/tests/Makefile
+> new file mode 100644
+> index 000000000000..d69eab6a2e9b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/Makefile
+> @@ -0,0 +1,4 @@
+> +
+> +obj-$(CONFIG_DRM_SCHED_KUNIT_TEST) +=3D \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_mock_scheduler.o \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_tests_basic.o
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
+> b/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
+> new file mode 100644
+> index 000000000000..c9205f9ff524
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_entity.c
+> @@ -0,0 +1,29 @@
+> +
+> +#include "drm_sched_tests.h"
+> +
+> +struct drm_mock_sched_entity *
+> +drm_mock_sched_entity_new(struct kunit *test,
+> +			=C2=A0 enum drm_sched_priority priority,
+> +			=C2=A0 struct drm_mock_scheduler *sched)
 > +{
-> +	int ret, i;
-> +	u16 htotal, vtotal;
-> +
-> +	if (!ctx->dsc_en)
-> +		return 0;
-> +
-> +	/* Htotal */
-> +	htotal = ctx->dt.hactive.min + ctx->dt.hfront_porch.min +
-> +		ctx->dt.hback_porch.min + ctx->dt.hsync_len.min;
-> +	ret = anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				HORIZONTAL_TOTAL_PIXELS_L, htotal);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_TOTAL_PIXELS_H, htotal >> 8);
-> +	/* Hactive */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_ACTIVE_PIXELS_L,
-> +				 ctx->dt.hactive.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_ACTIVE_PIXELS_H,
-> +				 ctx->dt.hactive.min >> 8);
-> +	/* HFP */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_FRONT_PORCH_L,
-> +				 ctx->dt.hfront_porch.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_FRONT_PORCH_H,
-> +				 ctx->dt.hfront_porch.min >> 8);
-> +	/* HWS */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_SYNC_WIDTH_L,
-> +				 ctx->dt.hsync_len.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_SYNC_WIDTH_H,
-> +				 ctx->dt.hsync_len.min >> 8);
-> +	/* HBP */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_BACK_PORCH_L,
-> +				 ctx->dt.hback_porch.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 HORIZONTAL_BACK_PORCH_H,
-> +				 ctx->dt.hback_porch.min >> 8);
-> +	/* Vtotal */
-> +	vtotal = ctx->dt.vactive.min + ctx->dt.vfront_porch.min +
-> +		 ctx->dt.vback_porch.min + ctx->dt.vsync_len.min;
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client, TOTAL_LINES_L,
-> +				 vtotal);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client, TOTAL_LINES_H,
-> +				 vtotal >> 8);
-> +	/* Vactive */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client, ACTIVE_LINES_L,
-> +				 ctx->dt.vactive.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client, ACTIVE_LINES_H,
-> +				 ctx->dt.vactive.min >> 8);
-> +	/* VFP */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 VERTICAL_FRONT_PORCH, ctx->dt.vfront_porch.min);
-> +	/* VWS */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 VERTICAL_SYNC_WIDTH, ctx->dt.vsync_len.min);
-> +	/* VBP */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.tx_p2_client,
-> +				 VERTICAL_BACK_PORCH, ctx->dt.vback_porch.min);
-
-This code mostly duplicates anx7625_dsi_video_timing_config() with the
-I2C client being the only difference. Please consider extracting a
-common helper to write the timings.
-
-> +
-> +	/* Htotal */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, TOTAL_PIXEL_L_7E,
-> +				 htotal);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client, TOTAL_PIXEL_H_7E,
-> +				 htotal >> 8);
-> +	/* Hactive */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 ACTIVE_PIXEL_L_7E, ctx->dt.hactive.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 ACTIVE_PIXEL_H_7E, ctx->dt.hactive.min >> 8);
-> +	/* HFP */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 HORIZON_FRONT_PORCH_L_7E,
-> +				 ctx->dt.hfront_porch.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 HORIZON_FRONT_PORCH_H_7E,
-> +				 ctx->dt.hfront_porch.min >> 8);
-> +	/* HWS */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 HORIZON_SYNC_WIDTH_L_7E,
-> +				 ctx->dt.hsync_len.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 HORIZON_SYNC_WIDTH_H_7E,
-> +				 ctx->dt.hsync_len.min >> 8);
-> +	/* HBP */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 HORIZON_BACK_PORCH_L_7E,
-> +				 ctx->dt.hback_porch.min);
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p0_client,
-> +				 HORIZON_BACK_PORCH_H_7E,
-> +				 ctx->dt.hback_porch.min >> 8);
-> +
-> +	/* Config DSC decoder internal blank timing for decoder to start */
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
-> +				 H_BLANK_L,
-> +				 dsc_div(htotal - ctx->dt.hactive.min));
-> +	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p1_client,
-> +				 H_BLANK_H,
-> +				 dsc_div(htotal - ctx->dt.hactive.min) >> 8);
-> +
-> +	/* Compress ratio  RATIO bit[7:6] */
-> +	ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client, R_I2C_1, 0x3F);
-> +	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client, R_I2C_1,
-> +				(5 - DSC_COMPRESS_RATIO) << 6);
-> +	/*PPS table*/
-> +	for (i = 0; i < PPS_SIZE; i += PPS_BLOCK_SIZE)
-> +		ret |= anx7625_reg_block_write(ctx, ctx->i2c.rx_p2_client,
-> +					       R_PPS_REG_0 + i, PPS_BLOCK_SIZE,
-> +					       &ctx->pps_table[i]);
-> +
-> +	return ret;
-> +}
-> +
-> +static int anx7625_timing_write(struct anx7625_data *ctx,
-> +				struct i2c_client *client,
-> +				u8 reg_addr, u16 reg_val, bool high_byte)
-> +{
-> +	u8 reg_data;
-> +
-> +	if (ctx->dsc_en)
-> +		reg_val = dsc_div(reg_val);
-> +
-> +	reg_data = (high_byte ? (reg_val >> 8) : reg_val) & 0xFF;
-> +
-> +	return anx7625_reg_write(ctx, client, reg_addr, reg_data);
-> +}
-
-Ugh, no. Calculate htotal in the calling function and call
-anx7625_reg_write() as you were doing that before.
-
-> +
->  static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
->  {
->  	struct device *dev = ctx->dev;
-> @@ -506,34 +639,33 @@ static int anx7625_dsi_video_timing_config(struct anx7625_data *ctx)
->  	ret |= anx7625_write_or(ctx, ctx->i2c.rx_p1_client,
->  				MIPI_LANE_CTRL_0, ctx->pdata.mipi_lanes - 1);
->  
-> -	/* Htotal */
->  	htotal = ctx->dt.hactive.min + ctx->dt.hfront_porch.min +
-> -		ctx->dt.hback_porch.min + ctx->dt.hsync_len.min;
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_TOTAL_PIXELS_L, htotal & 0xFF);
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_TOTAL_PIXELS_H, htotal >> 8);
-> +			 ctx->dt.hback_porch.min + ctx->dt.hsync_len.min;
-> +	/* Htotal */
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_TOTAL_PIXELS_L, htotal, false);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_TOTAL_PIXELS_H, htotal, true);
->  	/* Hactive */
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_ACTIVE_PIXELS_L, ctx->dt.hactive.min & 0xFF);
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_ACTIVE_PIXELS_H, ctx->dt.hactive.min >> 8);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_ACTIVE_PIXELS_L, ctx->dt.hactive.min, false);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_ACTIVE_PIXELS_H, ctx->dt.hactive.min, true);
->  	/* HFP */
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_FRONT_PORCH_L, ctx->dt.hfront_porch.min);
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_FRONT_PORCH_H,
-> -			ctx->dt.hfront_porch.min >> 8);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_FRONT_PORCH_L, ctx->dt.hfront_porch.min, false);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_FRONT_PORCH_H, ctx->dt.hfront_porch.min, true);
-
-Are porches also compressed? I think blanking signal timings are
-transferred as is, without compression.
-
->  	/* HWS */
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_SYNC_WIDTH_L, ctx->dt.hsync_len.min);
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_SYNC_WIDTH_H, ctx->dt.hsync_len.min >> 8);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_SYNC_WIDTH_L, ctx->dt.hsync_len.min, false);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_SYNC_WIDTH_H, ctx->dt.hsync_len.min, true);
->  	/* HBP */
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_BACK_PORCH_L, ctx->dt.hback_porch.min);
-> -	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client,
-> -			HORIZONTAL_BACK_PORCH_H, ctx->dt.hback_porch.min >> 8);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_BACK_PORCH_L, ctx->dt.hback_porch.min, false);
-> +	ret |= anx7625_timing_write(ctx, ctx->i2c.rx_p2_client,
-> +			HORIZONTAL_BACK_PORCH_H, ctx->dt.hback_porch.min, true);
->  	/* Vactive */
->  	ret |= anx7625_reg_write(ctx, ctx->i2c.rx_p2_client, ACTIVE_LINES_L,
->  			ctx->dt.vactive.min);
-> @@ -663,9 +795,15 @@ static int anx7625_dsi_config(struct anx7625_data *ctx)
->  
->  	DRM_DEV_DEBUG_DRIVER(dev, "config dsi.\n");
->  
-> -	/* DSC disable */
-> -	ret = anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
-> -				R_DSC_CTRL_0, ~DSC_EN);
-> +	ret = anx7625_set_dsc_params(ctx);
-> +	if (ctx->dsc_en)
-> +		/* DSC enable */
-> +		ret |= anx7625_write_or(ctx, ctx->i2c.rx_p0_client,
-> +					R_DSC_CTRL_0, DSC_EN);
-> +	else
-> +		/* DSC disable */
-> +		ret |= anx7625_write_and(ctx, ctx->i2c.rx_p0_client,
-> +					 R_DSC_CTRL_0, ~DSC_EN);
->  
->  	ret |= anx7625_api_dsi_config(ctx);
->  
-> @@ -2083,6 +2221,7 @@ static int anx7625_setup_dsi_device(struct anx7625_data *ctx)
->  		MIPI_DSI_MODE_VIDEO_HSE	|
->  		MIPI_DSI_HS_PKT_END_ALIGNED;
->  
-> +	dsi->dsc = &ctx->dsc;
->  	ctx->dsi = dsi;
->  
->  	return 0;
-> @@ -2186,20 +2325,68 @@ anx7625_bridge_mode_valid(struct drm_bridge *bridge,
->  	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
->  	struct device *dev = ctx->dev;
->  
-> -	DRM_DEV_DEBUG_DRIVER(dev, "drm mode checking\n");
-> +	dev_dbg(dev, "drm mode checking\n");
-> +	if (mode->clock > SUPPORT_PIXEL_CLOCK)
-> +		return MODE_CLOCK_HIGH;
-> +
-> +	if (mode->clock < SUPPORT_MIN_PIXEL_CLOCK)
-> +		return MODE_CLOCK_LOW;
->  
-> -	/* Max 1200p at 5.4 Ghz, one lane, pixel clock 300M */
-> -	if (mode->clock > SUPPORT_PIXEL_CLOCK) {
-> -		DRM_DEV_DEBUG_DRIVER(dev,
-> -				     "drm mode invalid, pixelclock too high.\n");
-> +	if (mode->clock > DSC_PIXEL_CLOCK && (mode->hdisplay % 3 != 0))
-
-Magic number 3. Also is it actually required? I think DSC standard has
-no such requirement.
-
->  		return MODE_CLOCK_HIGH;
-> -	}
->  
-> -	DRM_DEV_DEBUG_DRIVER(dev, "drm mode valid.\n");
-> +	dev_dbg(dev, "drm mode valid.\n");
->  
->  	return MODE_OK;
->  }
->  
-> +static void anx7625_dsc_enable(struct anx7625_data *ctx, bool en)
-> +{
+> +	struct drm_sched_mock_entity *entity;
 > +	int ret;
-> +	struct device *dev = ctx->dev;
 > +
-> +	ctx->dsc_en = en;
+> +	entity =3D kunit_kmalloc(test, sizeof(*entity), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, entity);
 > +
-> +	if (en) {
-> +		ctx->dsc.dsc_version_major = 1;
-> +		ctx->dsc.dsc_version_minor = 1;
-> +		ctx->dsc.slice_height = 8;
-> +		ctx->dsc.slice_width = ctx->dt.hactive.min / DSC_SLICE_NUM;
-> +		ctx->dsc.slice_count = DSC_SLICE_NUM;
-> +		ctx->dsc.bits_per_component = 8;
-> +		ctx->dsc.bits_per_pixel = 8 << 4; /* 4 fractional bits */
-> +		ctx->dsc.block_pred_enable = true;
-> +		ctx->dsc.native_420 = false;
-> +		ctx->dsc.native_422 = false;
-> +		ctx->dsc.simple_422 = false;
-> +		ctx->dsc.vbr_enable = false;
-> +		ctx->dsc.rc_model_size = DSC_RC_MODEL_SIZE_CONST;
-> +		ctx->dsc.pic_width = ctx->dt.hactive.min;
-> +		ctx->dsc.pic_height = ctx->dt.vactive.min;
-> +		ctx->dsc.convert_rgb = 1;
-> +		ctx->dsc.vbr_enable = 0;
-
-A lot of this params should be coming from the sink device. You have to
-get them from the DPCD.
-
+> +	ret =3D drm_sched_entity_init(&entity->base,
+> +				=C2=A0=C2=A0=C2=A0 priority,
+> +				=C2=A0=C2=A0=C2=A0 &sched->base, 1,
+> +				=C2=A0=C2=A0=C2=A0 NULL);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
 > +
-> +		drm_dsc_set_rc_buf_thresh(&ctx->dsc);
-> +		drm_dsc_set_const_params(&ctx->dsc);
+> +	entity->test =3D test;
 > +
-> +		ctx->dsc.initial_scale_value = drm_dsc_initial_scale_value(&ctx->dsc);
-> +		ctx->dsc.line_buf_depth = ctx->dsc.bits_per_component + 1;
-> +		ret = drm_dsc_setup_rc_params(&ctx->dsc, DRM_DSC_1_2_444);
-> +		if (ret < 0)
-> +			dev_warn(dev, "drm_dsc_setup_rc_params ret %d\n", ret);
-> +
-> +		drm_dsc_compute_rc_parameters(&ctx->dsc);
-
-You have ignored return value. Please handle the function returning an
-error.
-
-> +
-> +		drm_dsc_pps_payload_pack((struct drm_dsc_picture_parameter_set *)&ctx->pps_table,
-> +					 &ctx->dsc);
-> +		dev_dbg(dev, "anx7625 enable dsc\n");
-> +	} else {
-> +		ctx->dsc.dsc_version_major = 0;
-> +		ctx->dsc.dsc_version_minor = 0;
-> +		dev_dbg(dev, "anx7625 disable dsc\n");
-> +	}
+> +	return entity;
 > +}
 > +
->  static void anx7625_bridge_mode_set(struct drm_bridge *bridge,
->  				    const struct drm_display_mode *old_mode,
->  				    const struct drm_display_mode *mode)
-> @@ -2244,6 +2431,11 @@ static void anx7625_bridge_mode_set(struct drm_bridge *bridge,
->  	DRM_DEV_DEBUG_DRIVER(dev, "vsync_end(%d),vtotal(%d).\n",
->  			     mode->vsync_end,
->  			     mode->vtotal);
+> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> *entity)
+> +{
+> +	drm_sched_entity_fini(&entity->base);
+> +}
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> b/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> new file mode 100644
+> index 000000000000..d94568cf3da9
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_job.c
+> @@ -0,0 +1,3 @@
 > +
-> +	if (mode->clock > DSC_PIXEL_CLOCK)
-
-What if the sink doesn't support DSC? The decision whether to enable DSC
-or not should be happening in the atomic_check(). Likewise mode_valid
-should be able to check if your bridge and the sink can agree on DSC
-params and reject modes if they can not.
-
-> +		anx7625_dsc_enable(ctx, true);
-> +	else
-> +		anx7625_dsc_enable(ctx, false);
->  }
->  
->  static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
-> @@ -2258,26 +2450,33 @@ static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
->  
->  	DRM_DEV_DEBUG_DRIVER(dev, "drm mode fixup set\n");
->  
-> -	/* No need fixup for external monitor */
-> -	if (!ctx->pdata.panel_bridge)
-> -		return true;
-> -
->  	hsync = mode->hsync_end - mode->hsync_start;
->  	hfp = mode->hsync_start - mode->hdisplay;
->  	hbp = mode->htotal - mode->hsync_end;
->  	hblanking = mode->htotal - mode->hdisplay;
->  
-> -	DRM_DEV_DEBUG_DRIVER(dev, "before mode fixup\n");
-> -	DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-> -			     hsync, hfp, hbp, adj->clock);
-> -	DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d), hsync_end(%d), htot(%d)\n",
-> -			     adj->hsync_start, adj->hsync_end, adj->htotal);
-> -
-> +	dev_dbg(dev, "before mode fixup\n");
-> +	dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-> +		hsync, hfp, hbp, adj->clock);
-> +	dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d)\n",
-> +		adj->hsync_start, adj->hsync_end, adj->htotal);
-
-No. Please use drm_dbg_driver(), but not dev_dbg(). And anyway, this
-should go to a separate commit.
-
->  	adj_hfp = hfp;
->  	adj_hsync = hsync;
->  	adj_hbp = hbp;
->  	adj_hblanking = hblanking;
->  
-> +	if (mode->clock > DSC_PIXEL_CLOCK) {
-> +		adj_hsync = DSC_HSYNC_LEN;
-> +		adj_hfp = DSC_HFP_LEN;
-> +		adj_hbp = DSC_HBP_LEN;
-> +		vref = (u64)adj->clock * 1000 * 1000 / (adj->htotal * adj->vtotal);
-> +		goto calculate_timing;
+> +#include "drm_sched_tests.h"
+> +
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> new file mode 100644
+> index 000000000000..f65f7c0cfaf7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_mock_scheduler.c
+> @@ -0,0 +1,255 @@
+> +
+> +#include "drm_sched_tests.h"
+> +
+> +struct drm_mock_sched_entity *
+> +drm_mock_new_sched_entity(struct kunit *test,
+> +			=C2=A0 enum drm_sched_priority priority,
+> +			=C2=A0 struct drm_mock_scheduler *sched)
+> +{
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_gpu_scheduler *drm_sched;
+> +	int ret;
+> +
+> +	entity =3D kunit_kzalloc(test, sizeof(*entity), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, entity);
+> +
+> +	drm_sched =3D &sched->base;
+> +	ret =3D drm_sched_entity_init(&entity->base,
+> +				=C2=A0=C2=A0=C2=A0 priority,
+> +				=C2=A0=C2=A0=C2=A0 &drm_sched, 1,
+> +				=C2=A0=C2=A0=C2=A0 NULL);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	entity->test =3D test;
+> +
+> +	return entity;
+> +}
+> +
+> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> *entity)
+> +{
+> +	drm_sched_entity_destroy(&entity->base);
+> +}
+> +
+> +static enum hrtimer_restart
+> +drm_mock_sched_job_signal_timer(struct hrtimer *hrtimer)
+> +{
+> +	struct drm_mock_sched_job *upto =3D
+> +		container_of(hrtimer, typeof(*upto), timer);
+> +	struct drm_mock_scheduler *sched =3D
+> +		drm_sched_to_mock_sched(upto->base.sched);
+> +	struct drm_mock_sched_job *job, *next;
+> +	ktime_t now =3D ktime_get();
+> +	unsigned long flags;
+> +	LIST_HEAD(signal);
+> +
+> +	spin_lock_irqsave(&sched->lock, flags);
+> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
+> {
+> +		if (!job->duration_us)
+> +			break;
+> +
+> +		if (ktime_before(now, job->finish_at))
+> +			break;
+> +
+> +		list_move_tail(&job->link, &signal);
+> +		sched->hw_timeline.cur_seqno =3D job->hw_fence.seqno;
+> +	}
+> +	spin_unlock_irqrestore(&sched->lock, flags);
+> +
+> +	list_for_each_entry(job, &signal, link) {
+> +		dma_fence_signal(&job->hw_fence);
+> +		dma_fence_put(&job->hw_fence);
 > +	}
 > +
-> +	/* No need fixup for external monitor */
-> +	if (!ctx->pdata.panel_bridge)
-> +		return true;
+> +	return HRTIMER_NORESTART;
+> +}
 > +
->  	/* HFP needs to be even */
->  	if (hfp & 0x1) {
->  		adj_hfp += 1;
-> @@ -2349,16 +2548,21 @@ static bool anx7625_bridge_mode_fixup(struct drm_bridge *bridge,
->  			adj_hfp -= delta_adj;
->  	}
->  
-> -	DRM_DEV_DEBUG_DRIVER(dev, "after mode fixup\n");
-> -	DRM_DEV_DEBUG_DRIVER(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-> -			     adj_hsync, adj_hfp, adj_hbp, adj->clock);
-> +calculate_timing:
+> +struct drm_mock_sched_job *
+> +drm_mock_new_sched_job(struct kunit *test,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity *ent=
+ity)
+> +{
+> +	struct drm_mock_sched_job *job;
+> +	int ret;
 > +
-> +	dev_dbg(dev, "after mode fixup\n");
-> +	dev_dbg(dev, "hsync(%d), hfp(%d), hbp(%d), clock(%d)\n",
-> +		adj_hsync, adj_hfp, adj_hbp, adj->clock);
->  
->  	/* Reconstruct timing */
->  	adj->hsync_start = adj->hdisplay + adj_hfp;
->  	adj->hsync_end = adj->hsync_start + adj_hsync;
->  	adj->htotal = adj->hsync_end + adj_hbp;
-> -	DRM_DEV_DEBUG_DRIVER(dev, "hsync_start(%d), hsync_end(%d), htot(%d)\n",
-> -			     adj->hsync_start, adj->hsync_end, adj->htotal);
-> +	if (mode->clock > DSC_PIXEL_CLOCK)
-> +		adj->clock = (u64)vref * adj->htotal * adj->vtotal / 1000 / 1000;
+> +	job =3D kunit_kzalloc(test, sizeof(*job), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, job);
 > +
-> +	dev_dbg(dev, "hsync_start(%d), hsync_end(%d), htot(%d), clock(%d)\n",
-> +		adj->hsync_start, adj->hsync_end, adj->htotal, adj->clock);
->  
->  	return true;
->  }
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.h b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> index eb5580f1ab2f..db931f5800b1 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.h
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.h
-> @@ -149,6 +149,8 @@
->  #define HFP_HBP_DEF		((HBLANKING_MIN - SYNC_LEN_DEF) / 2)
->  #define VIDEO_CONTROL_0	0x08
->  
-> +#define  TOTAL_LINES_L          0x12
-> +#define  TOTAL_LINES_H          0x13
->  #define  ACTIVE_LINES_L         0x14
->  #define  ACTIVE_LINES_H         0x15  /* Bit[7:6] are reserved */
->  #define  VERTICAL_FRONT_PORCH   0x16
-> @@ -166,6 +168,32 @@
->  #define  HORIZONTAL_BACK_PORCH_L      0x21
->  #define  HORIZONTAL_BACK_PORCH_H      0x22  /* Bit[7:4] are reserved */
->  
-> +#define  H_BLANK_L                    0x3E
-> +#define  H_BLANK_H                    0x3F
-> +#define  DSC_COMPRESS_RATIO           3
-> +#define  dsc_div(X)                   ((X) / DSC_COMPRESS_RATIO)
+> +	ret =3D drm_sched_job_init(&job->base,
+> +				 &entity->base,
+> +				 1,
+> +				 NULL);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	job->test =3D test;
+> +
+> +	spin_lock_init(&job->lock);
+> +	INIT_LIST_HEAD(&job->link);
+> +	hrtimer_init(&job->timer, CLOCK_MONOTONIC,
+> HRTIMER_MODE_ABS);
+> +	job->timer.function =3D drm_mock_sched_job_signal_timer;
+> +
+> +	return job;
+> +}
+> +
+> +static const char *drm_mock_sched_hw_fence_driver_name(struct
+> dma_fence *fence)
+> +{
+> +	return "drm_mock_sched";
+> +}
+> +
+> +static const char *
+> +drm_mock_sched_hw_fence_timeline_name(struct dma_fence *fence)
+> +{
+> +	struct drm_mock_sched_job *job =3D
+> +		container_of(fence, typeof(*job), hw_fence);
+> +
+> +	return (const char *)job->base.sched->name;
+> +}
+> +static void drm_mock_sched_hw_fence_release(struct dma_fence *fence)
 
-This assumes 1:3 ratio. Does anx7625 support only 8bpp / 8bpc mode? Or
-does 1:3 come from some other ratio?
+Regarding the function naming convention here everywhere,
+"drm_mock_sched_{something}" I guess that's alright as far as I'm
+concerned.
 
-> +#define  DSC_SLICE_NUM                2
-> +#define  DSC_PIXEL_CLOCK              250000
-> +#define  DSC_HSYNC_LEN                90
-> +#define  DSC_HFP_LEN                  177
-> +#define  DSC_HBP_LEN                  297
+But just for some context, have you looked how other unit tests in
+drivers/drm/ do their naming convention? Grep doesn't reveal any
+drm_mock_* lines.
+
+If there is a convention, would be great if drm/sched/ can be
+congruent.
+
+
+Thx,
+P.
+
+
+> +{
+> +	struct drm_mock_sched_job *job =3D
+> +		container_of(fence, typeof(*job), hw_fence);
 > +
-> +#define  TOTAL_PIXEL_L_7E             0x50
-> +#define  TOTAL_PIXEL_H_7E             0x51  /* bit[7:6] are reserved */
-> +#define  ACTIVE_PIXEL_L_7E            0x52
-> +#define  ACTIVE_PIXEL_H_7E            0x53  /* bit[7:6] are reserved */
-> +#define  HORIZON_FRONT_PORCH_L_7E     0x54
-> +#define  HORIZON_FRONT_PORCH_H_7E     0x55
-> +#define  HORIZON_SYNC_WIDTH_L_7E      0x56
-> +#define  HORIZON_SYNC_WIDTH_H_7E      0x57
-> +#define  HORIZON_BACK_PORCH_L_7E      0x58
-> +#define  HORIZON_BACK_PORCH_H_7E      0x59
+> +	hrtimer_cancel(&job->timer);
 > +
-> +#define  PPS_SIZE                     128
-> +#define  PPS_BLOCK_SIZE               32
-> +#define  R_PPS_REG_0                  0x80
-> +#define  R_I2C_1                      0x81
+> +	/* Freed by the kunit framework */
+> +}
 > +
->  /******** END of I2C Address 0x72 *********/
->  
->  /***************************************************************/
-> @@ -415,6 +443,7 @@ enum audio_wd_len {
->  #define MAX_EDID_BLOCK	3
->  #define EDID_TRY_CNT	3
->  #define SUPPORT_PIXEL_CLOCK	300000
-> +#define SUPPORT_MIN_PIXEL_CLOCK	50000
->  
->  /***************** Display End *****************/
->  
-> @@ -454,6 +483,7 @@ struct anx7625_data {
->  	int hpd_high_cnt;
->  	int dp_en;
->  	int hdcp_cp;
-> +	bool dsc_en;
->  	/* Lock for work queue */
->  	struct mutex lock;
->  	struct device *dev;
-> @@ -479,6 +509,8 @@ struct anx7625_data {
->  	struct drm_connector *connector;
->  	struct mipi_dsi_device *dsi;
->  	struct drm_dp_aux aux;
-> +	struct drm_dsc_config dsc;
-> +	char pps_table[PPS_SIZE];
+> +static const struct dma_fence_ops drm_mock_sched_hw_fence_ops =3D {
+> +	.get_driver_name =3D drm_mock_sched_hw_fence_driver_name,
+> +	.get_timeline_name =3D drm_mock_sched_hw_fence_timeline_name,
+> +	.release =3D drm_mock_sched_hw_fence_release,
+> +};
+> +
+> +static struct dma_fence *mock_sched_run_job(struct drm_sched_job
+> *sched_job)
+> +{
+> +	struct drm_mock_scheduler *sched =3D
+> +		drm_sched_to_mock_sched(sched_job->sched);
+> +	struct drm_mock_sched_job *job =3D
+> drm_sched_job_to_mock_job(sched_job);
+> +
+> +	dma_fence_init(&job->hw_fence,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &drm_mock_sched_hw_fence_ops,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &job->lock,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched->hw_timeline.context,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_inc_return(&sched-
+> >hw_timeline.next_seqno));
+> +
+> +	dma_fence_get(&job->hw_fence); /* Reference for the job_list
+> */
+> +
+> +	spin_lock_irq(&sched->lock);
+> +	if (job->duration_us) {
+> +		ktime_t prev_finish_at =3D 0;
+> +
+> +		if (!list_empty(&sched->job_list)) {
+> +			struct drm_mock_sched_job *prev =3D
+> +				list_last_entry(&sched->job_list,
+> typeof(*prev),
+> +						link);
+> +
+> +			prev_finish_at =3D prev->finish_at;
+> +		}
+> +
+> +		if (!prev_finish_at)
+> +			prev_finish_at =3D ktime_get();
+> +
+> +		job->finish_at =3D ktime_add_us(prev_finish_at, job-
+> >duration_us);
+> +	}
+> +	list_add_tail(&job->link, &sched->job_list);
+> +	if (job->finish_at)
+> +		hrtimer_start(&job->timer, job->finish_at,
+> HRTIMER_MODE_ABS);
+> +	spin_unlock_irq(&sched->lock);
+> +
+> +	return &job->hw_fence;
+> +}
+> +
+> +static enum drm_gpu_sched_stat
+> +mock_sched_timedout_job(struct drm_sched_job *sched_job)
+> +{
+> +	return DRM_GPU_SCHED_STAT_ENODEV;
+> +}
+> +
+> +static void mock_sched_free_job(struct drm_sched_job *sched_job)
+> +{
+> +	drm_sched_job_cleanup(sched_job);
+> +}
+> +
+> +static const struct drm_sched_backend_ops drm_mock_scheduler_ops =3D {
+> +	.run_job =3D mock_sched_run_job,
+> +	.timedout_job =3D mock_sched_timedout_job,
+> +	.free_job =3D mock_sched_free_job
+> +};
+> +
+> +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
+> *test)
+> +{
+> +	struct drm_mock_scheduler *sched;
+> +	int ret;
+> +
+> +	sched =3D kunit_kzalloc(test, sizeof(*sched), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, sched);
+> +
+> +	ret =3D drm_sched_init(&sched->base,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 &drm_mock_scheduler_ops,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL, /* wq */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 DRM_SCHED_PRIORITY_COUNT,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 U32_MAX, /* max credits */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 UINT_MAX, /* hang limit */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 MAX_SCHEDULE_TIMEOUT, /* timeout */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL, /* timeout wq */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL, /* score */
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 "drm-mock-scheduler",
+> +			=C2=A0=C2=A0=C2=A0=C2=A0 NULL /* dev */);
+> +	KUNIT_ASSERT_EQ(test, ret, 0);
+> +
+> +	sched->test =3D test;
+> +	sched->hw_timeline.context =3D dma_fence_context_alloc(1);
+> +	atomic_set(&sched->hw_timeline.next_seqno, 0);
+> +	INIT_LIST_HEAD(&sched->job_list);
+> +	spin_lock_init(&sched->lock);
+> +
+> +	return sched;
+> +}
+> +
+> +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched)
+> +{
+> +	struct drm_mock_sched_job *job, *next;
+> +	unsigned long flags;
+> +	LIST_HEAD(signal);
+> +
+> +	spin_lock_irqsave(&sched->lock, flags);
+> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
+> +		list_move_tail(&job->link, &signal);
+> +	spin_unlock_irqrestore(&sched->lock, flags);
+> +
+> +	list_for_each_entry(job, &signal, link) {
+> +		hrtimer_cancel(&job->timer);
+> +		dma_fence_put(&job->hw_fence);
+> +	}
+> +
+> +	drm_sched_fini(&sched->base);
+> +}
+> +
+> +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
+> *sched,
+> +				=C2=A0=C2=A0=C2=A0 unsigned int num)
+> +{
+> +	struct drm_mock_sched_job *job, *next;
+> +	unsigned int found =3D 0;
+> +	unsigned long flags;
+> +	LIST_HEAD(signal);
+> +
+> +	spin_lock_irqsave(&sched->lock, flags);
+> +	if (WARN_ON_ONCE(sched->hw_timeline.cur_seqno + num <
+> +			 sched->hw_timeline.cur_seqno))
+> +		goto unlock;
+> +	sched->hw_timeline.cur_seqno +=3D num;
+> +	list_for_each_entry_safe(job, next, &sched->job_list, link)
+> {
+> +		if (sched->hw_timeline.cur_seqno < job-
+> >hw_fence.seqno)
+> +			break;
+> +
+> +		list_move_tail(&job->link, &signal);
+> +		found++;
+> +	}
+> +unlock:
+> +	spin_unlock_irqrestore(&sched->lock, flags);
+> +
+> +	list_for_each_entry(job, &signal, link) {
+> +		dma_fence_signal(&job->hw_fence);
+> +		dma_fence_put(&job->hw_fence);
+> +	}
+> +
+> +	return found;
+> +}
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+> new file mode 100644
+> index 000000000000..e22f7ead6d4e
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests.h
+> @@ -0,0 +1,128 @@
+> +#ifndef _DRM_SCHED_TESTS_H_
+> +#define _DRM_SCHED_TESTS_H_
+> +
+> +#include <kunit/test.h>
+> +#include <linux/atomic.h>
+> +#include <linux/dma-fence.h>
+> +#include <linux/hrtimer.h>
+> +#include <linux/ktime.h>
+> +#include <linux/list.h>
+> +#include <linux/atomic.h>
+> +#include <linux/mutex.h>
+> +#include <linux/types.h>
+> +
+> +#include <drm/gpu_scheduler.h>
+> +
+> +struct drm_mock_scheduler {
+> +	struct drm_gpu_scheduler base;
+> +
+> +	struct kunit		*test;
+> +
+> +	spinlock_t		lock;
+> +	struct list_head	job_list; /* Protected by the lock
+> */
+> +
+> +	struct {
+> +		u64		context;
+> +		atomic_t	next_seqno;
+> +		unsigned int	cur_seqno; /* Protected by the lock
+> */
+> +	} hw_timeline;
+> +};
+> +
+> +struct drm_mock_sched_entity {
+> +	struct drm_sched_entity base;
+> +
+> +	struct kunit		*test;
+> +};
+> +
+> +struct drm_mock_sched_job {
+> +	struct drm_sched_job	base;
+> +
+> +	struct list_head	link;
+> +	struct hrtimer		timer;
+> +
+> +	unsigned int		duration_us;
+> +	ktime_t			finish_at;
+> +
+> +	spinlock_t		lock;
+> +	struct dma_fence	hw_fence;
+> +
+> +	struct kunit		*test;
+> +};
+> +
+> +static inline struct drm_mock_scheduler *
+> +drm_sched_to_mock_sched(struct drm_gpu_scheduler *sched)
+> +{
+> +	return container_of(sched, struct drm_mock_scheduler, base);
+> +};
+> +
+> +static inline struct drm_mock_sched_entity *
+> +drm_sched_entity_to_mock_entity(struct drm_sched_entity
+> *sched_entity)
+> +{
+> +	return container_of(sched_entity, struct
+> drm_mock_sched_entity, base);
+> +};
+> +
+> +static inline struct drm_mock_sched_job *
+> +drm_sched_job_to_mock_job(struct drm_sched_job *sched_job)
+> +{
+> +	return container_of(sched_job, struct drm_mock_sched_job,
+> base);
+> +};
+> +
+> +struct drm_mock_scheduler *drm_mock_new_scheduler(struct kunit
+> *test);
+> +void drm_mock_scheduler_fini(struct drm_mock_scheduler *sched);
+> +unsigned int drm_mock_sched_advance(struct drm_mock_scheduler
+> *sched,
+> +				=C2=A0=C2=A0=C2=A0 unsigned int num);
+> +
+> +struct drm_mock_sched_entity *
+> +drm_mock_new_sched_entity(struct kunit *test,
+> +			=C2=A0 enum drm_sched_priority priority,
+> +			=C2=A0 struct drm_mock_scheduler *sched);
+> +void drm_mock_sched_entity_free(struct drm_mock_sched_entity
+> *entity);
+> +
+> +struct drm_mock_sched_job *
+> +drm_mock_new_sched_job(struct kunit *test,
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_mock_sched_entity *ent=
+ity);
+> +
+> +static inline void drm_mock_sched_job_submit(struct
+> drm_mock_sched_job *job)
+> +{
+> +	drm_sched_job_arm(&job->base);
+> +	drm_sched_entity_push_job(&job->base);
+> +}
+> +
+> +static inline void
+> +drm_mock_sched_job_set_duration_us(struct drm_mock_sched_job *job,
+> +				=C2=A0=C2=A0 unsigned int duration_us)
+> +{
+> +	job->duration_us =3D duration_us;
+> +}
+> +
+> +static inline bool
+> +drm_mock_sched_job_is_finished(struct drm_mock_sched_job *job)
+> +{
+> +	return dma_fence_is_signaled(&job->base.s_fence->finished);
+> +}
+> +
+> +static inline bool
+> +drm_mock_sched_job_wait_finished(struct drm_mock_sched_job *job,
+> long timeout)
+> +{
+> +	long ret;
+> +
+> +	ret =3D dma_fence_wait_timeout(&job->base.s_fence->finished,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 false,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
+> +
+> +	return ret !=3D 0;
+> +}
+> +
+> +static inline long
+> +drm_mock_sched_job_wait_scheduled(struct drm_mock_sched_job *job,
+> long timeout)
+> +{
+> +	long ret;
+> +
+> +	ret =3D dma_fence_wait_timeout(&job->base.s_fence->scheduled,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 false,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 timeout);
+> +
+> +	return ret !=3D 0;
+> +}
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+> b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+> new file mode 100644
+> index 000000000000..030d7e6ea484
+> --- /dev/null
+> +++ b/drivers/gpu/drm/scheduler/tests/drm_sched_tests_basic.c
+> @@ -0,0 +1,188 @@
+> +
+> +#include "drm_sched_tests.h"
+> +
+> +static int drm_sched_basic_init(struct kunit *test)
+> +{
+> +	test->priv =3D drm_mock_new_scheduler(test);
+> +
+> +	return 0;
+> +}
+> +
+> +static void drm_sched_basic_exit(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +
+> +	drm_mock_scheduler_fini(sched);
+> +}
+> +
+> +static void drm_sched_basic_submit(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_mock_sched_job *job;
+> +	unsigned int i;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit one job to the scheduler and verify that it gets
+> scheduled
+> +	 * and completed only when the mock hw backend processes it.
+> +	 */
+> +
+> +	entity =3D drm_mock_new_sched_entity(test,
+> +					=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +					=C2=A0=C2=A0 sched);
+> +	job =3D drm_mock_new_sched_job(test, entity);
+> +
+> +	drm_mock_sched_job_submit(job);
+> +
+> +	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ / 2);
+> +	KUNIT_ASSERT_EQ(test, done, false);
+> +
+> +	i =3D drm_mock_sched_advance(sched, 1);
+> +	KUNIT_ASSERT_EQ(test, i, 1);
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+> +struct drm_sched_basic_params {
+> +	const char *description;
+> +	unsigned int queue_depth;
+> +	unsigned int num_entities;
+> +	unsigned int job_us;
+> +	bool dep_chain;
+> +};
+> +
+> +static const struct drm_sched_basic_params drm_sched_basic_cases[] =3D
+> {
+> +	{
+> +		.description =3D "A queue of jobs in a single entity",
+> +		.queue_depth =3D 100,
+> +		.job_us =3D 1000,
+> +		.num_entities =3D 1,
+> +	},
+> +	{
+> +		.description =3D "A chain of dependent jobs across
+> multiple entities",
+> +		.queue_depth =3D 100,
+> +		.job_us =3D 1000,
+> +		.num_entities =3D 1,
+> +		.dep_chain =3D true,
+> +	},
+> +	{
+> +		.description =3D "Multiple independent job queues",
+> +		.queue_depth =3D 100,
+> +		.job_us =3D 1000,
+> +		.num_entities =3D 4,
+> +	},
+> +	{
+> +		.description =3D "Multiple inter-dependent job
+> queues",
+> +		.queue_depth =3D 100,
+> +		.job_us =3D 1000,
+> +		.num_entities =3D 4,
+> +		.dep_chain =3D true,
+> +	},
+> +};
+> +
+> +static void
+> +drm_sched_basic_desc(const struct drm_sched_basic_params *params,
+> char *desc)
+> +{
+> +	strscpy(desc, params->description, KUNIT_PARAM_DESC_SIZE);
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(drm_sched_basic, drm_sched_basic_cases,
+> drm_sched_basic_desc);
+> +
+> +static void drm_sched_basic_test(struct kunit *test)
+> +{
+> +	const struct drm_sched_basic_params *params =3D test-
+> >param_value;
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_job *job, *prev =3D NULL;
+> +	struct drm_mock_sched_entity **entity;
+> +	unsigned int i, cur_ent =3D 0;
+> +	bool done;
+> +
+> +	entity =3D kunit_kcalloc(test, params->num_entities,
+> sizeof(*entity),
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_NULL(test, entity);
+> +
+> +	for (i =3D 0; i < params->num_entities; i++)
+> +		entity[i] =3D drm_mock_new_sched_entity(test,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < params->queue_depth; i++) {
+> +		job =3D drm_mock_new_sched_job(test,
+> entity[cur_ent++]);
+> +		cur_ent %=3D params->num_entities;
+> +		drm_mock_sched_job_set_duration_us(job, params-
+> >job_us);
+> +		if (params->dep_chain && prev)
+> +			drm_sched_job_add_dependency(&job->base,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_fence_get(&prev->base.s_fence->finished));
+> +		drm_mock_sched_job_submit(job);
+> +		prev =3D job;
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	for (i =3D 0; i < params->num_entities; i++)
+> +		drm_mock_sched_entity_free(entity[i]);
+> +}
+> +
+> +static void drm_sched_basic_entity_cleanup(struct kunit *test)
+> +{
+> +	struct drm_mock_sched_job *job, *mid, *prev =3D NULL;
+> +	struct drm_mock_scheduler *sched =3D test->priv;
+> +	struct drm_mock_sched_entity *entity[4];
+> +	const unsigned int qd =3D 100;
+> +	unsigned int i, cur_ent =3D 0;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a queue of jobs across different entities with an
+> explicit
+> +	 * chain of dependencies between them and trigger entity
+> cleanup while
+> +	 * the queue is still being processed.
+> +	 */
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		entity[i] =3D drm_mock_new_sched_entity(test,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sched);
+> +
+> +	for (i =3D 0; i < qd; i++) {
+> +		job =3D drm_mock_new_sched_job(test,
+> entity[cur_ent++]);
+> +		cur_ent %=3D ARRAY_SIZE(entity);
+> +		drm_mock_sched_job_set_duration_us(job, 1000);
+> +		if (prev)
+> +			drm_sched_job_add_dependency(&job->base,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0
+> dma_fence_get(&prev->base.s_fence->finished));
+> +		drm_mock_sched_job_submit(job);
+> +		if (i =3D=3D qd / 2)
+> +			mid =3D job;
+> +		prev =3D job;
+> +	}
+> +
+> +	done =3D drm_mock_sched_job_wait_finished(mid, HZ);
+> +	KUNIT_ASSERT_EQ(test, done, true);
+> +
+> +	/* Exit with half of the queue still pending to be executed.
+> */
+> +	for (i =3D 0; i < ARRAY_SIZE(entity); i++)
+> +		drm_mock_sched_entity_free(entity[i]);}
+> +
+> +static struct kunit_case drm_sched_basic_tests[] =3D {
+> +	KUNIT_CASE(drm_sched_basic_submit),
+> +	KUNIT_CASE_PARAM(drm_sched_basic_test,
+> drm_sched_basic_gen_params),
+> +	KUNIT_CASE(drm_sched_basic_entity_cleanup),
+> +	{}
+> +};
+> +
+> +static struct kunit_suite drm_sched_basic =3D {
+> +	.name =3D "drm_sched_basic_tests",
+> +	.init =3D drm_sched_basic_init,
+> +	.exit =3D drm_sched_basic_exit,
+> +	.test_cases =3D drm_sched_basic_tests,
+> +};
+> +
+> +kunit_test_suite(drm_sched_basic);
 
-pps_table and drm_dsc_config can vary depending on the mode and
-connected sink. THey should be a part of the atomic state rather than a
-long-living anx7625_data. So does dsc_en.
-
->  };
->  
->  #endif  /* __ANX7625_H__ */
-> -- 
-> 2.25.1
-> 
-
--- 
-With best wishes
-Dmitry
