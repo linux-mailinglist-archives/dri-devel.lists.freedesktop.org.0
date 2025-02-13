@@ -2,82 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7285BA352FB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Feb 2025 01:34:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821EDA34C22
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:39:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAD0F10EBC4;
-	Fri, 14 Feb 2025 00:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3613410EB5F;
+	Thu, 13 Feb 2025 17:39:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KhU/qJmq";
+	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="C0T/8UhE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
- [209.85.208.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC78510EB5F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:35:53 +0000 (UTC)
-Received: by mail-lj1-f180.google.com with SMTP id
- 38308e7fff4ca-309191eec90so2828821fa.2
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:35:53 -0800 (PST)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+ [209.85.160.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8876610EB5F
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:39:46 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id
+ d75a77b69052e-4717fe0735fso12029011cf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:39:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1739468152; x=1740072952; darn=lists.freedesktop.org;
+ d=fooishbar.org; s=google; t=1739468385; x=1740073185;
+ darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
- b=KhU/qJmqE7cyBTgFKWrh1bH94M9+pGuAL1p7/TjlL6fxJItWLKkt0TyE5d3OKY4AdQ
- oJQUTKFsSeQ6MzHlKjg95U6sTlSB3zabJmxtGPLCcdqLDz2TCMFK0YFL+iMjpZykRxDT
- OD8MqP/vOfJCQVdq3lHIzN39E40yxCgMe3cfRtUzImATPQ48dp0bXjiO6W9vfo8A2IG5
- gFkg6AqNgrjUv2HUs8WMNwMB9nZYMxZPmgCeYVt0sIpH63PQj766vKpMh0my0dwQQKfo
- Q6I1rr21/5e1vJNkMaMdwoYxmee3yoq5Ro0lEc06/9Q3WfmAnymXDGFTZfAp8B4gFPqP
- Kq/w==
+ bh=whhYbCC8Ye/92zXnbL6IJWDNwsx8j4boIogQLPts9MI=;
+ b=C0T/8UhEQ/XLAt40Yja04Gbz/8tpH2U/pcPDYfj+Ae8Ww6K0Ukk+6f6dh8YNzgiWcG
+ /fI9o/e5GlsecpF+aSg7sYev2jDVwV7rBRqqssJTZ1Jlpb/ZBMhhHxhmcsLdPx/ysZfP
+ rjUbezlt68f1avu32q78vLwQBY3gi4fKmX04t0KR+F2SM/KuuKWUN9CYNMJcrbPMJD4z
+ UddSH1mPFpNG7HWDkbsB9qNfPJHwHdEu8N5iG4JXfCev6llBTKZKV77dK31kTSj+P1bw
+ t3G3Y6Hhdx1tgo1goBkJAhLXHv+sFDOje5LIFI4eMTDFCOVum4ew8XTLk55Pmv2vYJ8a
+ 1kqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739468152; x=1740072952;
+ d=1e100.net; s=20230601; t=1739468385; x=1740073185;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=7qAMpVDOhtGjLWY8rXJglFjJtR265JZ5195CB8+cKFo=;
- b=i9zcruW+XLUED1c2Ge+Rh9VDyPvFiPjYG1yA/rKuXYYuPTHH9aBnHlY6Co4QQoeNa+
- 87rbTYCjxux5FR54dzR9Q917RPsqUaCRCQyWmqPkzJM1SANupllSp1j4jn2OeutfmOTu
- IXZygoocLPM7vrtuBJFf5EurcyDuysNmZcQXWaua1c+6Jvj7NPxO5K7/oMEVV8QSECMu
- hhxrNH60ygWukJd3lgn1wKX+ynbaTypaXqGy/g7Z14NnCD0OOdxVAUs1e+yBd9/7OJjq
- wyD+Bib7cGTD0wSfA1/kbCKpNQ8xWJ5sz8Hti7Y9zc6GqMG1hZ2uDFmfsUAtFH+4J4hR
- D/cg==
+ bh=whhYbCC8Ye/92zXnbL6IJWDNwsx8j4boIogQLPts9MI=;
+ b=NnPsrzfvU7UPqiJJ11unacVWEaxlQyeIksAD61bUwAqAHV82Qn2QHstiWhn7LpnO2f
+ ilrp6CiyfGLeDry+zpRIWHqo6jVugE9jgo7kAvqQPhULJ+r4e/NkEExbHDNXTQE3XAUz
+ XaXZiui3Ow8aR4n2S/dZAxZE0B1FvrSPxqkwY0Lfjopa2UCtfxhb+lO+HsuF9rjd0EEd
+ 4G6xlCi2ZePV4OoZ/jWbfrmq5toc9RlldYJ7tUn2vY+j67V+jJrYtlYHX4fpFbPxOVi3
+ MtKG52kLLvG2v4WU4YqxpsvaeSI13daDEOMKVUjKCvD1NbAA75CDs3Oe8VauhDvSuAw4
+ BBXQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXOEf8Q75Iekj4rxEYg3hSvEu5OwYJN+brUI9xT/gElKfz2p0BIcK+0sL32/P667nQG36U25EwH1pQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJtXL4XAkP3/znJ4LUso8h//2fbu/rOa1HTvTH38acLDhd/3Y0
- PQyfcfmgxY5cAt3JcpwtepbhREDukDOhd7kwqTiOeeuS/PmEY2KKGFLlzoMwgQuFxLFVVLWnsH3
- sp5qpG50cHdjB/UpGGGS9futEgNs=
-X-Gm-Gg: ASbGnctAURuSN0v7U87CNJvN5FPVeFUrlrcKvZuc5kcF1lIex35DSuDIqom/ZhS91rn
- 4mFPSB6L5MrnnKceIBjrYitVFKRzv5z9xk15566TuV0jSNPrSvcxcS100nJH2olOT4x0xL0n3Mq
- 84Ebfr3V+ZiPyxzqnF8R9+MKx3517/RQ==
-X-Google-Smtp-Source: AGHT+IGY0srE7wji4W9bLp26kLxH0QGCdWUi5EwnHnmRRB8roSRmEHIwTufI5RAZRQ0k86nA9jKtQdN81/gcY/A+yK8=
-X-Received: by 2002:a2e:a913:0:b0:308:f6cf:3611 with SMTP id
- 38308e7fff4ca-3090dd06b8cmr17279501fa.10.1739468151884; Thu, 13 Feb 2025
- 09:35:51 -0800 (PST)
+ AJvYcCXPC0fAjlkhyd4lJ1Yta8CTQ0tNBGNuW8MBpd223IGWEelmuXfQQb1/AVtyQR/vjwQaH0CzZr+fvII=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzaRD+Qn5kZHZ2qlMXJQUR78lpCTOTspfmcwBqMsdolB2jOxKTQ
+ T0mFrSdo/Oc7gcKfyz+mqrqg+rpFI5E01otNhqgtfwxKXws1vRcPS6YGzs7si2I40A8fI1hC6Bg
+ XFIaVDinrIeBzC4D72uFYOWQB0Kr/1UGJGH2DUg==
+X-Gm-Gg: ASbGncss0aOOzQrwIdFbKo3BYzniQaxvTOLFBSYqcRGvmEg5Mgv0GX6fdGf2aqZwr4C
+ ab9SQsD2caED5suTr90Y9PW+hLQ8jrQeDXkRtWMA+Gxsv56TQRG7v3iBDVhsNNAVlADNwe8g=
+X-Google-Smtp-Source: AGHT+IGE9qUAgteAk42h8NRzlwUiEVQLmyQkmiwetNHn7TWQ4JRreBJYCr8hrD0N2jIsyDYrKQ939hR7SXW12F654hE=
+X-Received: by 2002:a05:622a:418e:b0:471:bd5e:d5dd with SMTP id
+ d75a77b69052e-471bd5ed804mr90077321cf.16.1739468385599; Thu, 13 Feb 2025
+ 09:39:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20250207165325.3998-1-pranav.tyagi03@gmail.com>
- <Z6bKR9K16-oYMLFl@archie.me>
- <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
-In-Reply-To: <CAH4c4jKe7Q-E1LhA0KxOxEjK-gn=JY7e=2GN13X=yutaO8k3Pw@mail.gmail.com>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 13 Feb 2025 23:05:39 +0530
-X-Gm-Features: AWEUYZn6qEdgw-FWu9wGm9trUEcco7CIRDetR6lShyMK3GR9NJoIyLrnadYOLAI
-Message-ID: <CAH4c4j+kOYMfzO5QOBg+hGe2zt4kN4f7v+mrri-2GMLzYtCPrw@mail.gmail.com>
-Subject: Re: [PATCH] vgaarbiter: documentation grammar correction
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>, 
- Linux DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-kernel-mentees@lists.linux.dev, 
- skhan@linuxfoundation.org, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Corbet <corbet@lwn.net>
+References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
+ <20250212205613.4400a888@collabora.com>
+ <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
+ <20250213093557.278f5d19@collabora.com>
+ <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
+ <20250213134008.4cbef142@collabora.com>
+ <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
+ <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
+In-Reply-To: <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 13 Feb 2025 17:39:33 +0000
+X-Gm-Features: AWEUYZlDafBpFokqUpKbJAhQu7Ep0JLs4xPUNmdO9fz5XX0E98BWFTHCpoumcPo
+Message-ID: <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Sumit Garg <sumit.garg@linaro.org>, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, 
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailman-Approved-At: Fri, 14 Feb 2025 00:33:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,86 +105,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-Just a gentle follow-up on this patch. It has been reviewed but hasn't
-been applied yet.
+On Thu, 13 Feb 2025 at 15:57, Jens Wiklander <jens.wiklander@linaro.org> wr=
+ote:
+> On Thu, Feb 13, 2025 at 3:05=E2=80=AFPM Daniel Stone <daniel@fooishbar.or=
+g> wrote:
+> > But just because TEE is one good backend implementation, doesn't mean
+> > it should be the userspace ABI. Why should userspace care that TEE has
+> > mediated the allocation instead of it being a predefined range within
+> > DT?
+>
+> The TEE may very well use a predefined range that part is abstracted
+> with the interface.
 
-Regards
-Pranav Tyagi
+Of course. But you can also (and this has been shipped on real
+devices) handle this without any per-allocation TEE needs by simply
+allocating from a memory range which is predefined within DT.
 
+From the userspace point of view, why should there be one ABI to
+allocate memory from a predefined range which is delivered by DT to
+the kernel, and one ABI to allocate memory from a predefined range
+which is mediated by TEE?
 
-On Thu, Feb 13, 2025 at 10:54=E2=80=AFPM Pranav Tyagi <pranav.tyagi03@gmail=
-.com> wrote:
+> >  What advantage
+> > does userspace get from having to have a different codepath to get a
+> > different handle to memory? What about x86?
+> >
+> > I think this proposal is looking at it from the wrong direction.
+> > Instead of working upwards from the implementation to userspace, start
+> > with userspace and work downwards. The interesting property to focus
+> > on is allocating memory, not that EL1 is involved behind the scenes.
 >
-> Hi,
->
-> Just a gentle follow-up on this patch. It has been reviewed by Bagas Sanj=
-aya but hasn't been applied yet.
->
-> Regards,
->
-> Pranav Tyagi
->
->
-> On Sat, Feb 8, 2025 at 8:36=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
->>
->> On Fri, Feb 07, 2025 at 10:23:25PM +0530, Pranav Tyagi wrote:
->> > Corrects the following grammatical issues in the VGA Arbiter documenta=
-tion:
->> > - Fixes subject-verb agreement by changing "co-exists" to "co-exist"
->> > - Corrects pluralization by changing "server" to "servers"
->> > - Improves sentence structure for clarity
->> >
->>
->> +Cc: DRM folks.
->>
->> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
->> > ---
->> >  Documentation/gpu/vgaarbiter.rst | 6 +++---
->> >  1 file changed, 3 insertions(+), 3 deletions(-)
->> >
->> > diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaa=
-rbiter.rst
->> > index bde3c0afb059..d1e953712cc2 100644
->> > --- a/Documentation/gpu/vgaarbiter.rst
->> > +++ b/Documentation/gpu/vgaarbiter.rst
->> > @@ -11,9 +11,9 @@ Section 7, Legacy Devices.
->> >
->> >  The Resource Access Control (RAC) module inside the X server [0] exis=
-ted for
->> >  the legacy VGA arbitration task (besides other bus management tasks) =
-when more
->> > -than one legacy device co-exists on the same machine. But the problem=
- happens
->> > +than one legacy device co-exist on the same machine. But the problem =
-happens
->> >  when these devices are trying to be accessed by different userspace c=
-lients
->> > -(e.g. two server in parallel). Their address assignments conflict. Mo=
-reover,
->> > +(e.g. two servers in parallel). Their address assignments conflict. M=
-oreover,
->> >  ideally, being a userspace application, it is not the role of the X s=
-erver to
->> >  control bus resources. Therefore an arbitration scheme outside of the=
- X server
->> >  is needed to control the sharing of these resources. This document in=
-troduces
->> > @@ -106,7 +106,7 @@ In-kernel interface
->> >  libpciaccess
->> >  ------------
->> >
->> > -To use the vga arbiter char device it was implemented an API inside t=
-he
->> > +To use the vga arbiter char device, an API was implemented inside the
->> >  libpciaccess library. One field was added to struct pci_device (each =
-device
->> >  on the system)::
->> >
->>
->> The diff looks OK.
->>
->> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->>
->> --
->> An old man doll... just what I always wanted! - Clara
+> From what I've gathered from earlier discussions, it wasn't much of a
+> problem for userspace to handle this. If the kernel were to provide it
+> via a different ABI, how would it be easier to implement in the
+> kernel? I think we need an example to understand your suggestion.
+
+It is a problem for userspace, because we need to expose acceptable
+parameters for allocation through the entire stack. If you look at the
+dmabuf documentation in the kernel for how buffers should be allocated
+and exchanged, you can see the negotiation flow for modifiers. This
+permeates through KMS, EGL, Vulkan, Wayland, GStreamer, and more.
+
+Standardising on heaps allows us to add those in a similar way. If we
+have to add different allocation mechanisms, then the complexity
+increases, permeating not only into all the different userspace APIs,
+but also into the drivers which need to support every different
+allocation mechanism even if they have no opinion on it - e.g. Mali
+doesn't care in any way whether the allocation comes from a heap or
+TEE or ACPI or whatever, it cares only that the memory is protected.
+
+Does that help?
+
+Cheers,
+Daniel
