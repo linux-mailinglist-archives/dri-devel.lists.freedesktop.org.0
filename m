@@ -2,92 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821EDA34C22
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:39:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C12CA34C3E
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Feb 2025 18:45:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3613410EB5F;
-	Thu, 13 Feb 2025 17:39:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8643A10EB63;
+	Thu, 13 Feb 2025 17:45:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fooishbar.org header.i=@fooishbar.org header.b="C0T/8UhE";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="MqwOKrlM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8876610EB5F
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:39:46 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id
- d75a77b69052e-4717fe0735fso12029011cf.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 09:39:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1739468385; x=1740073185;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=whhYbCC8Ye/92zXnbL6IJWDNwsx8j4boIogQLPts9MI=;
- b=C0T/8UhEQ/XLAt40Yja04Gbz/8tpH2U/pcPDYfj+Ae8Ww6K0Ukk+6f6dh8YNzgiWcG
- /fI9o/e5GlsecpF+aSg7sYev2jDVwV7rBRqqssJTZ1Jlpb/ZBMhhHxhmcsLdPx/ysZfP
- rjUbezlt68f1avu32q78vLwQBY3gi4fKmX04t0KR+F2SM/KuuKWUN9CYNMJcrbPMJD4z
- UddSH1mPFpNG7HWDkbsB9qNfPJHwHdEu8N5iG4JXfCev6llBTKZKV77dK31kTSj+P1bw
- t3G3Y6Hhdx1tgo1goBkJAhLXHv+sFDOje5LIFI4eMTDFCOVum4ew8XTLk55Pmv2vYJ8a
- 1kqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1739468385; x=1740073185;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=whhYbCC8Ye/92zXnbL6IJWDNwsx8j4boIogQLPts9MI=;
- b=NnPsrzfvU7UPqiJJ11unacVWEaxlQyeIksAD61bUwAqAHV82Qn2QHstiWhn7LpnO2f
- ilrp6CiyfGLeDry+zpRIWHqo6jVugE9jgo7kAvqQPhULJ+r4e/NkEExbHDNXTQE3XAUz
- XaXZiui3Ow8aR4n2S/dZAxZE0B1FvrSPxqkwY0Lfjopa2UCtfxhb+lO+HsuF9rjd0EEd
- 4G6xlCi2ZePV4OoZ/jWbfrmq5toc9RlldYJ7tUn2vY+j67V+jJrYtlYHX4fpFbPxOVi3
- MtKG52kLLvG2v4WU4YqxpsvaeSI13daDEOMKVUjKCvD1NbAA75CDs3Oe8VauhDvSuAw4
- BBXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPC0fAjlkhyd4lJ1Yta8CTQ0tNBGNuW8MBpd223IGWEelmuXfQQb1/AVtyQR/vjwQaH0CzZr+fvII=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzaRD+Qn5kZHZ2qlMXJQUR78lpCTOTspfmcwBqMsdolB2jOxKTQ
- T0mFrSdo/Oc7gcKfyz+mqrqg+rpFI5E01otNhqgtfwxKXws1vRcPS6YGzs7si2I40A8fI1hC6Bg
- XFIaVDinrIeBzC4D72uFYOWQB0Kr/1UGJGH2DUg==
-X-Gm-Gg: ASbGncss0aOOzQrwIdFbKo3BYzniQaxvTOLFBSYqcRGvmEg5Mgv0GX6fdGf2aqZwr4C
- ab9SQsD2caED5suTr90Y9PW+hLQ8jrQeDXkRtWMA+Gxsv56TQRG7v3iBDVhsNNAVlADNwe8g=
-X-Google-Smtp-Source: AGHT+IGE9qUAgteAk42h8NRzlwUiEVQLmyQkmiwetNHn7TWQ4JRreBJYCr8hrD0N2jIsyDYrKQ939hR7SXW12F654hE=
-X-Received: by 2002:a05:622a:418e:b0:471:bd5e:d5dd with SMTP id
- d75a77b69052e-471bd5ed804mr90077321cf.16.1739468385599; Thu, 13 Feb 2025
- 09:39:45 -0800 (PST)
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7124410EB63
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Feb 2025 17:45:43 +0000 (UTC)
+Received: from [100.65.1.94] (unknown [20.236.11.69])
+ by linux.microsoft.com (Postfix) with ESMTPSA id D7186203D61D;
+ Thu, 13 Feb 2025 09:45:40 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D7186203D61D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1739468742;
+ bh=CjdDB9uvZBBF3c03e9VylpCG5WkQPsjk1qSKlO3MQtE=;
+ h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+ b=MqwOKrlM0wNKTlUgCtpn9gJKIpfGiwVh9dHGNNF4ycPmXa/idcQ30iiksOd4FJJaH
+ jrqNCD9r00CbzdjGOPFOZ+MnFU6woy29/+YEkOfP14iTKCcgK64o8pGQaLxlVNUpHe
+ bIb4sXQD9rr6g8CsvFcC34/zgx+kxX5/LItW+SLg=
+Message-ID: <8f80b65e-724c-439c-a094-4bfbb1e296f1@linux.microsoft.com>
+Date: Thu, 13 Feb 2025 09:45:41 -0800
 MIME-Version: 1.0
-References: <20241217100809.3962439-1-jens.wiklander@linaro.org>
- <20250212205613.4400a888@collabora.com>
- <CAFA6WYOaGEPj0xNEDBCoEmjJreEHChjQ2hyXRJ_CYoGhiBonfw@mail.gmail.com>
- <20250213093557.278f5d19@collabora.com>
- <CAFA6WYOJkSRsH-15QdqXNMd08Q=Dg4NkRd1Cr9LXA+5nozTF6g@mail.gmail.com>
- <20250213134008.4cbef142@collabora.com>
- <CAPj87rM5Y=-Jgf4mwukicF6Yb-vccn2fpG2X1jNq0upH2+cAEQ@mail.gmail.com>
- <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
-In-Reply-To: <CAHUa44G9hw-z6wzxg=HkVAxPKEW1yES5JTEqRWMvJUJAtcUDkQ@mail.gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Thu, 13 Feb 2025 17:39:33 +0000
-X-Gm-Features: AWEUYZlDafBpFokqUpKbJAhQu7Ep0JLs4xPUNmdO9fz5XX0E98BWFTHCpoumcPo
-Message-ID: <CAPj87rPHnME5Osgnf5-FSAu22mDpLj=dzvhi_NqEcOwr1ThgGw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] TEE subsystem for restricted dma-buf allocations
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Sumit Garg <sumit.garg@linaro.org>, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- azarrabi@qti.qualcomm.com, Florent Tomasin <florent.tomasin@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Cc: eahariha@linux.microsoft.com, Yaron Avizrat <yaron.avizrat@intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Nicolas Palix <nicolas.palix@imag.fr>, James Smart
+ <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+ David Sterba <dsterba@suse.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Dongsheng Yang <dongsheng.yang@easystack.cn>, Jens Axboe <axboe@kernel.dk>,
+ Xiubo Li <xiubli@redhat.com>, Damien Le Moal <dlemoal@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, Carlos Maiolino <cem@kernel.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Frank Li <Frank.Li@nxp.com>,
+ Mark Brown <broonie@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+ Selvin Xavier <selvin.xavier@broadcom.com>,
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ cocci@inria.fr, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-ide@vger.kernel.org,
+ linux-xfs@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-spi@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net,
+ linux-rdma@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 00/16] Converge on using secs_to_jiffies() part two
+To: Andrew Morton <akpm@linux-foundation.org>
+References: <20250128-converge-secs-to-jiffies-part-two-v1-0-9a6ecf0b2308@linux.microsoft.com>
+ <20250128161643.289d9fe705ef2fdba0b82a52@linux-foundation.org>
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Content-Language: en-US
+In-Reply-To: <20250128161643.289d9fe705ef2fdba0b82a52@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,58 +89,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 1/28/2025 4:16 PM, Andrew Morton wrote:
+> On Tue, 28 Jan 2025 18:21:45 +0000 Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
+> 
+>> This is the second series (part 1*) that converts users of msecs_to_jiffies() that
+>> either use the multiply pattern of either of:
+>> - msecs_to_jiffies(N*1000) or
+>> - msecs_to_jiffies(N*MSEC_PER_SEC)
+>>
+>> where N is a constant or an expression, to avoid the multiplication.
+>>
+>> The conversion is made with Coccinelle with the secs_to_jiffies() script
+>> in scripts/coccinelle/misc. Attention is paid to what the best change
+>> can be rather than restricting to what the tool provides.
+>>
+>> Andrew has kindly agreed to take the series through mm.git modulo the
+>> patches maintainers want to pick through their own trees.
+> 
+> I added patches 2-16 to mm.git.  If any of these later get merged into
+> a subsystem tree, Stephen will tell us and I'll drop the mm.git copy.
 
-On Thu, 13 Feb 2025 at 15:57, Jens Wiklander <jens.wiklander@linaro.org> wr=
-ote:
-> On Thu, Feb 13, 2025 at 3:05=E2=80=AFPM Daniel Stone <daniel@fooishbar.or=
-g> wrote:
-> > But just because TEE is one good backend implementation, doesn't mean
-> > it should be the userspace ABI. Why should userspace care that TEE has
-> > mediated the allocation instead of it being a predefined range within
-> > DT?
->
-> The TEE may very well use a predefined range that part is abstracted
-> with the interface.
+Hi Andrew, I don't see these in mm-nonmm-unstable. Did these get dropped in the confusion around
+casting secs_to_jiffies() to unsigned long[1]? That has since been merged in 6.14-rc2 via tglx' tree,
+and I have a v2 for just the ceph patches that needed some fixups at [2].
 
-Of course. But you can also (and this has been shipped on real
-devices) handle this without any per-allocation TEE needs by simply
-allocating from a memory range which is predefined within DT.
+[1] https://lore.kernel.org/all/20250130192701.99626-1-eahariha@linux.microsoft.com/
+[2] https://lore.kernel.org/all/20250203-converge-secs-to-jiffies-part-two-v2-0-d7058a01fd0e@linux.microsoft.com/
 
-From the userspace point of view, why should there be one ABI to
-allocate memory from a predefined range which is delivered by DT to
-the kernel, and one ABI to allocate memory from a predefined range
-which is mediated by TEE?
-
-> >  What advantage
-> > does userspace get from having to have a different codepath to get a
-> > different handle to memory? What about x86?
-> >
-> > I think this proposal is looking at it from the wrong direction.
-> > Instead of working upwards from the implementation to userspace, start
-> > with userspace and work downwards. The interesting property to focus
-> > on is allocating memory, not that EL1 is involved behind the scenes.
->
-> From what I've gathered from earlier discussions, it wasn't much of a
-> problem for userspace to handle this. If the kernel were to provide it
-> via a different ABI, how would it be easier to implement in the
-> kernel? I think we need an example to understand your suggestion.
-
-It is a problem for userspace, because we need to expose acceptable
-parameters for allocation through the entire stack. If you look at the
-dmabuf documentation in the kernel for how buffers should be allocated
-and exchanged, you can see the negotiation flow for modifiers. This
-permeates through KMS, EGL, Vulkan, Wayland, GStreamer, and more.
-
-Standardising on heaps allows us to add those in a similar way. If we
-have to add different allocation mechanisms, then the complexity
-increases, permeating not only into all the different userspace APIs,
-but also into the drivers which need to support every different
-allocation mechanism even if they have no opinion on it - e.g. Mali
-doesn't care in any way whether the allocation comes from a heap or
-TEE or ACPI or whatever, it cares only that the memory is protected.
-
-Does that help?
-
-Cheers,
-Daniel
+Thanks,
+Easwar (he/him)
